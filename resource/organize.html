@@ -12,13 +12,13 @@
 <p><a href="select?page=view">➕</a></p>
 <br>
 <!-- #BEGINZONE defaultresources -->
-<p>translate("Your administrator has already given you a list of default resources. If you have inadvertently deleted some of your resources, you can choose one of these options:")</p>
+<p>translate("Your administrator has already given you a selection of resources. Would you like to:")</p>
 <p>
-  <a href="?applydefaultresources">translate("Replace your current resource list with the admin's default list.")</a><span class="tooltip"></span>
-<span class="tooltip-text">translate("WARNING! This will erase your current list and give you the default list.")</span>
+  <a href="?applydefaultresources">translate("Replace your current resource selection with the admin's selection.")</a><span class="tooltip"></span>
+<span class="tooltip-text">translate("WARNING! This will erase your current selection and give you the default selection.")</span>
 </p>
 <p>
-  <a href="?adddefaultresources">translate("Add the administrators default list to the bottom of your current resources.")</a>
+  <a href="?adddefaultresources">translate("Add the admin's selection to the bottom of your current selection.")</a>
 </p>
 <br>
 <!-- #ENDZONE defaultresources -->
@@ -27,6 +27,9 @@
 <p>translate("Number of verses to display after the focused verse:") <a href="?after">##after##</a></p>
 <p><input type="checkbox" name="related" onchange="checkbox_v2(this)" ##related## />
 translate("Display related passages")</p>
+<!-- #BEGINZONE client -->
+<p><a href="?install">translate("Install all the above resources on the device.")</a></p>
+<!-- #ENDZONE client -->
 <br>
 <!-- #BEGINZONE defaultresourceorganizer -->
 <h3>translate("Default Resource Organizer")<span class="tooltip"></span>
@@ -41,9 +44,6 @@ translate("Display related passages")</p>
 <p><a href="select?page=view&type=def">➕</a></p>
 <br>
 <!-- #ENDZONE defaultresourceorganizer -->
-<!-- #BEGINZONE client -->
-<p><a href="?install">translate("Install all the above resources on the device.")</a></p>
-<!-- #ENDZONE client -->
 <script type="text/javascript" src="../assets/checkbox.js?##VERSION##"></script>
 <script type="text/javascript" src="../slip/slip.js"></script>
 <script type="text/javascript" src="organize.js"></script>

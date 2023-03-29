@@ -74,10 +74,7 @@ string resource_index (void * webserver_request)
   // default set from demo.
   if (resources.empty ()) {
     vector <string> default_resources = Database_Config_General::getDefaultActiveResources ();
-    if (default_resources.empty ()) {
-      resources = demo_logic_default_resources ();
-      Database_Config_General::setDefaultActiveResources (resources);
-    }
+    if (default_resources.empty ()) resources = demo_logic_default_resources ();
     else resources = default_resources;
     request->database_config_user()->setActiveResources (resources);
   }

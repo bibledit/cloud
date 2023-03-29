@@ -65,6 +65,7 @@ string resource_organize (void * webserver_request)
   int level = request->session_logic()->currentLevel ();
   bool is_def = false;
   if (request->query["type"] == "def" | request->post["type"] == "def") is_def = true;
+  vector <string> default_active_resources = Database_Config_General::getDefaultActiveResources ();
 
   
   // Deal with a new added resources.
@@ -77,9 +78,9 @@ string resource_organize (void * webserver_request)
       else redirect_browser (webserver_request, resource_divider_url ());
       return "";
     } else {
-      // Add the new resource to the existing list of resources for the current user.
+      // Add the new resource to the existing selection of resources for the current user.
       vector <string> resources = request->database_config_user()->getActiveResources ();
-      if (is_def) resources = Database_Config_General::getDefaultActiveResources ();
+      if (is_def) resources = default_active_resources;
       resources.push_back (add);
       if (is_def) Database_Config_General::setDefaultActiveResources (resources);
       else request->database_config_user()->setActiveResources (resources);
@@ -91,7 +92,7 @@ string resource_organize (void * webserver_request)
   if (request->query.count ("remove")) {
     int remove = convert_to_int (request->query["remove"]);
     vector <string> resources = request->database_config_user()->getActiveResources ();
-    if (is_def) resources = Database_Config_General::getDefaultActiveResources ();
+    if (is_def) resources = default_active_resources;
     if (remove < static_cast<int>(resources.size ())) {
       resources.erase (resources.begin () + remove);
     }
@@ -108,7 +109,7 @@ string resource_organize (void * webserver_request)
       size_t from = static_cast<size_t> (convert_to_int (movefrom));
       size_t to = static_cast<size_t>(convert_to_int (moveto));
       vector <string> resources = request->database_config_user()->getActiveResources ();
-      if (is_def) resources = Database_Config_General::getDefaultActiveResources ();
+      if (is_def) resources = default_active_resources;
       array_move_from_to (resources, from, to);
       if (is_def) Database_Config_General::setDefaultActiveResources (resources);
       else request->database_config_user()->setActiveResources (resources);
@@ -128,16 +129,13 @@ string resource_organize (void * webserver_request)
   // resources for the users with lower access levels.
   if (level == 6) view.enable_zone ("defaultresourceorganizer");
 
-
   // If the user is with less than an administrator access level and an
   // administrator has compiled a default selection of resources, the user can
   // apply that compiled selection of resources.
-  if (level < 6 && !Database_Config_General::getDefaultActiveResources ().empty ()) view.enable_zone ("defaultresources");
-
+  if (level < 6 && !default_active_resources.empty ()) view.enable_zone ("defaultresources");
 
   // Default active resources.
   if (level == 6) {
-    vector <string> default_active_resources = Database_Config_General::getDefaultActiveResources ();
     string defactivesblock;
     for (size_t i = 0; i < default_active_resources.size (); i++) {
       defactivesblock.append ("<p>&#183; ");
@@ -210,8 +208,8 @@ string resource_organize (void * webserver_request)
   // their resource list with the recommended resources list that has been set
   // by the administrator.
   if (request->query.count ("applydefaultresources")) {
-    request->database_config_user ()->setActiveResources (Database_Config_General::getDefaultActiveResources ());
-    view.set_variable ("success", translate ("Your resource list has been replaced by the default selection of resources. You may need to reload the page to see changes."));
+    request->database_config_user ()->setActiveResources (default_active_resources);
+    redirect_browser (webserver_request, resource_organize_url ());
   }
 
 
@@ -219,11 +217,10 @@ string resource_organize (void * webserver_request)
   // list instead of replacing it.
   if (request->query.count ("adddefaultresources")) {
     vector <string> joined_resources = request->database_config_user ()->getActiveResources ();
-    vector <string> default_resources = Database_Config_General::getDefaultActiveResources ();
-    joined_resources.insert(joined_resources.end(), default_resources.begin(), default_resources.end());
+    joined_resources.insert(joined_resources.end(), default_active_resources.begin(), default_active_resources.end());
 
     request->database_config_user ()->setActiveResources (joined_resources);
-    view.set_variable ("success", translate ("Default selection of resources has been added to your resource list. You may need to reload the page to see changes."));
+    redirect_browser (webserver_request, resource_organize_url ());
   }
 
   

@@ -166,19 +166,19 @@ string session_signup ([[maybe_unused]] void * webserver_request)
   verification.passage  = translate("The priest Joshua son of Jozadak.");
   verifications.push_back (verification);
 
-  verification.question = translate("Who's Nebuchadnezzar?");
-  verification.answer   = translate("The king of Babylonia");
+  verification.question = translate("Who's the king of Babylonia, that captures Israel?");
+  verification.answer   = translate("Nebuchadnezzar");
   verification.passage  = translate("We were told that their people had made God angry, and he let them be captured by Nebuchadnezzar, the king of Babylonia.");
   verifications.push_back (verification);
 
-  verification.question = translate("Who's Cyrus?");
-  verification.answer   = translate("King of Babylonia");
-  verification.passage  = translate("They also said that during the first year Cyrus was king of Babylonia.");
+  verification.question = translate("Who prospered in the reign of Darius, and in the reign of Cyrus the Persian?");
+  verification.answer   = translate("Daniel");
+  verification.passage  = translate("So this Daniel prospered in the reign of Darius, and in the reign of Cyrus the Persian.");
   verifications.push_back (verification);
 
-  verification.question = translate("For how many days does Jesus appeared to the disciples after he rose from the dead?");
-  verification.answer   = translate("40");
-  verification.passage  = translate("For 40 days after Jesus had suffered and died, he proved in many ways that he had been raised from death.");
+  verification.question = translate("Who's Abram's brother's son?");
+  verification.answer   = translate("Lot");
+  verification.passage  = translate("And they took Lot, Abram's brother's son, who dwelt in Sodom, and his goods, and departed.");
   verifications.push_back (verification);
 
   verification.question = translate("Who wrote Song of Songs?");

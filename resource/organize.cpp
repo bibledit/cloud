@@ -244,6 +244,11 @@ string resource_organize (void * webserver_request)
   view.enable_zone ("client");
 #endif
 
+
+#ifdef HAVE_CLOUD
+  view.enable_zone ("cloud");
+#endif
+
   
   page += view.render ("resource", "organize");
   page += assets_page::footer ();

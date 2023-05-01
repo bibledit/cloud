@@ -122,7 +122,7 @@ string admin_email ()
 }
 
 
-// Replacement function for missing "stoi" on platform like Android.
+// Replacement function for missing "stoi" on platforms like Android.
 int my_stoi (const string& str, void * idx, int base)
 {
 #ifdef HAVE_STOI
@@ -251,7 +251,7 @@ void swipe_enabled (void * webserver_request, string & script)
 {
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   
-  string true_false = "false";
+  string true_false {"false"};
   if (request->session_logic ()->touchEnabled ()) {
     if (request->database_config_user ()->getSwipeActionsAvailable ()) {
       true_false = "true";
@@ -262,27 +262,6 @@ void swipe_enabled (void * webserver_request, string & script)
   script.append ("var swipe_operations = ");
   script.append (true_false);
   script.append (";");
-}
-
-
-// Whether the free Indonesian Cloud is enabled. To be removed.
-bool indonesian_cloud_free ()
-{
-  return false;
-}
-
-
-// Whether the free Indonesian Cloud Free Simple is enabled. To be removed.
-bool indonesian_cloud_free_simple ()
-{
-  return false;
-}
-
-
-// Whether the free Indonesian Cloud Free Individual is enabled. To be removed.
-bool indonesian_cloud_free_individual ()
-{
-  return false;
 }
 
 

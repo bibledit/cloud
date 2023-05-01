@@ -442,7 +442,6 @@ libbibledit_a_SOURCES = \
   read/load.cpp \
   read/verse.cpp \
   resource/divider.cpp \
-  filter/indonesian.cpp \
   session/confirm.cpp \
   sources/abbott-smith.cpp \
   database/abbottsmith.cpp \

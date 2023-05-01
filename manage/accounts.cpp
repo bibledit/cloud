@@ -88,7 +88,6 @@ string manage_accounts (void * webserver_request)
       string message;
       user_logic_delete_account (objectUsername, role, email, message);
       user_updated = true;
-      tasks_logic_queue (DELETEINDONESIANFREEUSER, {objectUsername, email});
       message.append (" ");
       message.append ("See the Journal for progress");
       page += assets_page::success (message);

@@ -25,7 +25,6 @@
 #include <filter/string.h>
 #include <filter/css.h>
 #include <filter/url.h>
-#include <filter/indonesian.h>
 #include <webserver/request.h>
 #include <locale/translate.h>
 #include <locale/logic.h>

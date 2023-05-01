@@ -29,7 +29,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/roles.h>
 #include <filter/string.h>
 #include <filter/url.h>
-#include <filter/indonesian.h>
 #include <confirm/worker.h>
 #include <email/send.h>
 #pragma GCC diagnostic push
@@ -289,48 +288,17 @@ string session_signup ([[maybe_unused]] void * webserver_request)
 
       // Create the contents for the confirmation email
       // that will be sent after the account has been verified.
-      string subsequent_subject = translate("Account opened");
-      xml_document subsequent_document;
+      string subsequent_subject {translate("Account opened")};
+      xml_document subsequent_document {};
       node = subsequent_document.append_child ("h3");
       node.text ().set (subsequent_subject.c_str());
-      if (config::logic::default_bibledit_configuration ()) {
-        node = subsequent_document.append_child ("p");
-        information = translate("Welcome!");
-        node.text ().set (information.c_str());
-        node = subsequent_document.append_child ("p");
-        information = translate("Your account is now active and you have logged in.");
-        node.text ().set (information.c_str());
-      }
-      if (config::logic::indonesian_cloud_free ()) {
-        node = subsequent_document.append_child ("p");
-        information = "Shalom " + user + ",";
-        node.text ().set (information.c_str());
-        node = subsequent_document.append_child ("p");
-        information = "Puji TUHAN, Saudara sudah menjadi Tamu Bibledit!";
-        node.text ().set (information.c_str());
-        node = subsequent_document.append_child ("p");
-        information = "Kami mengajak Saudara supaya sesering mungkin mengunjungi situs alkitabkita.info untuk melihat pengumuman tentang kesempatan mengikuti pelatihan dan seminar zoom. Segeralah menonton semua video petunjuk yang terdapat pada halaman dasar.";
-        node.text ().set (information.c_str());
-        node = subsequent_document.append_child ("p");
-        information = "Di tingkat Bibledit Tamu, Saudara dapat menggunakan Antarmuka Sederhana. Kami sarankan menggunakan Antarmuka Sederhana selama kurang lebih sebulan. Saat Saudara ingin menggunakan Antarmuka Lengkap yang lebih canggih dan powerful, silakan mendaftar untuk tingkat Bibledit Anggota.";
-        node.text ().set (information.c_str());
-        node = subsequent_document.append_child ("p");
-        information = "Harga pendaftaran sebagai anggota adalah Rp 100.000,- setahun. Para anggota diberi izin menginstal program Bibledit dan sumber penelitiannya di komputer dan tablet. Dengan demikian Saudara dapat bekerja dengan Bibledit tanpa menggunakan pulsa data Internet. Lihat informasi lebih lanjut mengenai tingkat anggota di situs alkitabkita.info.";
-        node.text ().set (information.c_str());
-        node = subsequent_document.append_child ("p");
-        information = "Kami tim situs alkitabkita.info sangat berharap dengan menggunakan Bibledit ini Saudara akan dimampukan meneliti Firman Tuhan secara lebih mendalam. Mohon jangan menggunakan kemampuan itu untuk membanggakan dirimu sendiri, tetapi gunakanlah untuk memuliakan TUHAN, untuk mengajar, dan menerjemahkan Firman TUHAN dengan lebih wajar, jelas, dan tepat.";
-        node.text ().set (information.c_str());
-        node = subsequent_document.append_child ("p");
-        information = "Tuhan memberkati!";
-        node.text ().set (information.c_str());
-        node = subsequent_document.append_child ("p");
-        information = "Balazi Gulo";
-        node.text ().set (information.c_str());
-        node = subsequent_document.append_child ("p");
-        information = "Ketua Yayasan Albata";
-        node.text ().set (information.c_str());
-      }
-      string subsequent_body;
+      node = subsequent_document.append_child ("p");
+      information = translate("Welcome!");
+      node.text ().set (information.c_str());
+      node = subsequent_document.append_child ("p");
+      information = translate("Your account is now active and you have logged in.");
+      node.text ().set (information.c_str());
+      string subsequent_body {};
       {
         stringstream output;
         subsequent_document.print (output, "", format_raw);
@@ -338,11 +306,6 @@ string session_signup ([[maybe_unused]] void * webserver_request)
       }
       // Store the confirmation information in the database.
       confirm_worker.setup (mail, user, initial_subject, initial_body, query, subsequent_subject, subsequent_body);
-      if (config::logic::indonesian_cloud_free ()) {
-        // In the Indonesian free Cloud, create the Bible for the user.
-        string bible = filter::indonesian::mytranslation (user);
-        tasks_logic_queue (CREATEEMPTYBIBLE, {bible});
-      }
       // Done signup.
       signed_up = true;
     }

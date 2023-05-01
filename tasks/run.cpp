@@ -317,12 +317,6 @@ void tasks_run_one (string filename)
   else if (command == CREATEEMPTYBIBLE) {
     bible_logic::create_empty_bible (parameter1);
   }
-  else if (command == DELETEINDONESIANFREEUSER) {
-    system_logic_indonesian_free_deletion (parameter1, parameter2);
-  }
-  else if (command == EXPIREINDONESIANFREEUSERS) {
-    system_logic_indonesian_free_expiration ();
-  }
   else if (command == IMPORTBIBLEIMAGES) {
     images_logic_import_images (parameter1);
   }

@@ -98,7 +98,7 @@ string bible_manage (void * webserver_request)
       // Check / grant access.
       if (!access_bible::write (request, bible)) {
         string me = request->session_logic ()->currentUser ();
-        Database_Privileges::setBible (me, bible, true);
+        DatabasePrivileges::set_bible (me, bible, true);
       }
       success_message = translate("The Bible was created");
       // Creating a Bible removes any Sample Bible that might have been there.
@@ -139,7 +139,7 @@ string bible_manage (void * webserver_request)
           // Check / grant access to destination Bible.
           if (!access_bible::write (request, destination)) {
             string me = request->session_logic ()->currentUser ();
-            Database_Privileges::setBible (me, destination, true);
+            DatabasePrivileges::set_bible (me, destination, true);
           }
           // Creating a Bible removes any Sample Bible that might have been there.
           if (!config::logic::demo_enabled ()) {

@@ -315,7 +315,7 @@ void sendreceive_bibles ()
     // It does not record change Bible actions for this operation.
     for (string bible : bibles) {
       request.database_bibles()->deleteBible (bible);
-      Database_Privileges::removeBible (bible);
+      DatabasePrivileges::remove_bible (bible);
       Database_Config_Bible::remove (bible);
       Database_Logs::log (sendreceive_bibles_text () + translate("Deleting Bible because the server did not grant access to it") + ": " + bible, Filter_Roles::translator ());
     }

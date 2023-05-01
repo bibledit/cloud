@@ -32,13 +32,13 @@ using namespace std;
 
 
 // The name of the database.
-const char * Database_Privileges::database ()
+const char * DatabasePrivileges::database ()
 {
   return "privileges";
 }
 
 
-void Database_Privileges::create ()
+void DatabasePrivileges::create ()
 {
   SqliteDatabase sql (database ());
   
@@ -58,12 +58,12 @@ void Database_Privileges::create ()
 }
 
 
-void Database_Privileges::upgrade ()
+void DatabasePrivileges::upgrade ()
 {
 }
 
 
-void Database_Privileges::optimize ()
+void DatabasePrivileges::optimize ()
 {
   // Recreate damaged database.
   if (!healthy ()) {
@@ -81,19 +81,19 @@ void Database_Privileges::optimize ()
 }
 
 
-bool Database_Privileges::healthy ()
+bool DatabasePrivileges::healthy ()
 {
   return database_sqlite_healthy (database ());
 }
 
 
-string Database_Privileges::save (string username)
+string DatabasePrivileges::save (const string& username)
 {
   SqliteDatabase sql (database ());
   
-  vector <string> lines;
+  vector <string> lines {};
 
-  lines.push_back (bibles_start ());
+  lines.emplace_back (bibles_start ());
   sql.add ("SELECT bible, book, write FROM bibles WHERE username =");
   sql.add (username);
   sql.add (";");
@@ -102,36 +102,36 @@ string Database_Privileges::save (string username)
   vector <string> book =  result ["book"];
   vector <string> write = result ["write"];
   for (size_t i = 0; i < bible.size (); i++) {
-    lines.push_back (bible [i]);
-    lines.push_back (book [i]);
+    lines.emplace_back (bible [i]);
+    lines.emplace_back (book [i]);
     // It could have just stored 0 or 1 for the boolean values.
     // But if that were done, then there would be no change in the length of the file
     // when changing only boolean values.
     // And then the client would not re-download that file.
     // To use "on" and "off", that solves the issue.
-    bool b = convert_to_bool (write[i]);
-    if (b) lines.push_back (on ());
-    else lines.push_back (off ());
+    const bool b = convert_to_bool (write[i]);
+    if (b) lines.emplace_back (on ());
+    else lines.emplace_back (off ());
   }
-  lines.push_back (bibles_end ());
+  lines.emplace_back (bibles_end ());
   
-  lines.push_back (features_start ());
+  lines.emplace_back (features_start ());
   sql.clear ();
   sql.add ("SELECT feature FROM features WHERE username =");
   sql.add (username);
   sql.add (";");
   result = sql.query ();
-  vector <string> feature = result ["feature"];
+  const vector <string> feature = result ["feature"];
   for (size_t i = 0; i < feature.size (); i++) {
-    lines.push_back (feature [i]);
+    lines.emplace_back (feature [i]);
   }
-  lines.push_back (features_end ());
+  lines.emplace_back (features_end ());
   
   return filter_string_implode (lines, "\n");
 }
 
 
-void Database_Privileges::load (string username, const string & data)
+void DatabasePrivileges::load (const string& username, const string & data)
 {
   // Clear all data for the user.
   {
@@ -146,16 +146,16 @@ void Database_Privileges::load (string username, const string & data)
     sql.add (";");
     sql.execute ();
   }
+  
+  const vector <string> lines = filter_string_explode (data, '\n');
+  bool loading_bibles {false};
+  string bible_value {};
+  int book_value {0};
+  bool write_value {false};
+  bool loading_features {false};
+  int counter {0};
 
-  vector <string> lines = filter_string_explode (data, '\n');
-  bool loading_bibles = false;
-  string bible_value;
-  int book_value = 0;
-  bool write_value = false;
-  bool loading_features = false;
-  int counter = 0;
-
-  for (auto & line : lines) {
+  for (const auto & line : lines) {
 
     if (line == bibles_end ()) {
       loading_bibles = false;
@@ -171,13 +171,13 @@ void Database_Privileges::load (string username, const string & data)
       if (counter == 2) book_value = convert_to_int (line);
       if (counter == 3) {
         write_value = (line == on ());
-        setBibleBook (username, bible_value, book_value, write_value);
+        set_bible_book (username, bible_value, book_value, write_value);
         counter = 0;
       }
     }
     
     if (loading_features) {
-      setFeature (username, convert_to_int (line), true);
+      set_feature (username, convert_to_int (line), true);
     }
     
     if (line == bibles_start ()) {
@@ -194,10 +194,10 @@ void Database_Privileges::load (string username, const string & data)
 
 
 // Give a privilege to a $username to access $bible $book to read it, or also to $write it.
-void Database_Privileges::setBibleBook (string username, string bible, int book, bool write)
+void DatabasePrivileges::set_bible_book (const string& username, const string& bible, const int book, const bool write)
 {
   // First remove any entry.
-  removeBibleBook (username, bible, book);
+  remove_bible_book (username, bible, book);
   // Store the new entry.
   SqliteDatabase sql (database ());
   sql.add ("INSERT INTO bibles VALUES (");
@@ -214,10 +214,10 @@ void Database_Privileges::setBibleBook (string username, string bible, int book,
 
 
 // Give a privilege to a $username to access $bible to read it, or also to $write it.
-void Database_Privileges::setBible (string username, string bible, bool write)
+void DatabasePrivileges::set_bible (const string& username, const string& bible, const bool write)
 {
   // First remove any entry.
-  removeBibleBook (username, bible, 0);
+  remove_bible_book (username, bible, 0);
   // Store the new entry.
   SqliteDatabase sql (database ());
   sql.add ("INSERT INTO bibles VALUES (");
@@ -236,7 +236,7 @@ void Database_Privileges::setBible (string username, string bible, bool write)
 // Read the privilege from the database whether $username has access to $bible $book.
 // The privileges are stored in $read for read-only access,
 // and in $write for write access.
-void Database_Privileges::getBibleBook (string username, string bible, int book, bool & read, bool & write)
+void DatabasePrivileges::get_bible_book (const string& username, const string& bible, const int book, bool & read, bool & write)
 {
   SqliteDatabase sql (database ());
   sql.add ("SELECT write FROM bibles WHERE username =");
@@ -246,7 +246,7 @@ void Database_Privileges::getBibleBook (string username, string bible, int book,
   sql.add ("AND book =");
   sql.add (book);
   sql.add (";");
-  vector <string> result = sql.query () ["write"];
+  const vector <string> result = sql.query () ["write"];
   if (result.empty()) {
     // Not in database: No access.
     read = false;
@@ -261,7 +261,7 @@ void Database_Privileges::getBibleBook (string username, string bible, int book,
 
 
 // Returns a tuple with <read, write> whether the $username has access to the given $bible.
-tuple <bool, bool> Database_Privileges::getBible (string username, string bible)
+tuple <bool, bool> DatabasePrivileges::get_bible (const string& username, const string& bible)
 {
   SqliteDatabase sql (database ());
   sql.add ("SELECT write FROM bibles WHERE username =");
@@ -270,7 +270,7 @@ tuple <bool, bool> Database_Privileges::getBible (string username, string bible)
   sql.add (bible);
   sql.add (";");
   vector <string> result = sql.query () ["write"];
-  bool read = (!result.empty());
+  const bool read = (!result.empty());
   sql.clear ();
   sql.add ("SELECT write FROM bibles WHERE username =");
   sql.add (username);
@@ -278,16 +278,16 @@ tuple <bool, bool> Database_Privileges::getBible (string username, string bible)
   sql.add (bible);
   sql.add ("AND write;");
   result = sql.query () ["write"];
-  bool write = (!result.empty());
+  const bool write = (!result.empty());
   return make_tuple(read, write);
 }
 
 
-int Database_Privileges::getBibleBookCount ()
+int DatabasePrivileges::get_bible_book_count ()
 {
   SqliteDatabase sql (database ());
   sql.add ("SELECT count(*) FROM bibles;");
-  vector <string> result = sql.query () ["count(*)"];
+  const vector <string> result = sql.query () ["count(*)"];
   if (result.empty ()) return 0;
   return convert_to_int (result [0]);
 }
@@ -295,7 +295,7 @@ int Database_Privileges::getBibleBookCount ()
 
 // Returns true if a record for $username / $bible / $book exists in the database.
 // When the $book = 0, it takes any book.
-bool Database_Privileges::getBibleBookExists (string username, string bible, int book)
+bool DatabasePrivileges::get_bible_book_exists (const string& username, const string& bible, const int book)
 {
   SqliteDatabase sql (database ());
   sql.add ("SELECT rowid FROM bibles WHERE username =");
@@ -307,14 +307,14 @@ bool Database_Privileges::getBibleBookExists (string username, string bible, int
     sql.add (book);
   }
   sql.add (";");
-  vector <string> result = sql.query () ["rowid"];
+  const vector <string> result = sql.query () ["rowid"];
   return !result.empty();
 }
 
 
 // Remove the privilege of a $username to have access to $bible $book.
 // Removing the privilege for $book 0 removes them for all possible books.
-void Database_Privileges::removeBibleBook (string username, string bible, int book)
+void DatabasePrivileges::remove_bible_book (const string& username, const string& bible, const int book)
 {
   SqliteDatabase sql (database ());
   sql.add ("DELETE FROM bibles WHERE username =");
@@ -331,7 +331,7 @@ void Database_Privileges::removeBibleBook (string username, string bible, int bo
 
 
 // Remove data for $bible from the database.
-void Database_Privileges::removeBible (string bible)
+void DatabasePrivileges::remove_bible (const string& bible)
 {
   SqliteDatabase sql (database ());
   sql.add ("DELETE FROM bibles WHERE bible =");
@@ -341,7 +341,7 @@ void Database_Privileges::removeBible (string bible)
 }
 
 
-void Database_Privileges::setFeature (string username, int feature, bool enabled)
+void DatabasePrivileges::set_feature (const string& username, const int feature, const bool enabled)
 {
   SqliteDatabase sql (database ());
   sql.add ("DELETE FROM features WHERE username =");
@@ -362,7 +362,7 @@ void Database_Privileges::setFeature (string username, int feature, bool enabled
 }
 
 
-bool Database_Privileges::getFeature (string username, int feature)
+bool DatabasePrivileges::get_feature (const string& username, const int feature)
 {
   SqliteDatabase sql (database ());
   sql.add ("SELECT rowid FROM features WHERE username =");
@@ -370,14 +370,14 @@ bool Database_Privileges::getFeature (string username, int feature)
   sql.add ("AND feature =");
   sql.add (feature);
   sql.add (";");
-  vector <string> result = sql.query () ["rowid"];
+  const vector <string> result = sql.query () ["rowid"];
   if (result.empty()) return false;
   return true;
 }
 
 
 // Remove privileges for $username from the entire database.
-void Database_Privileges::removeUser (string username)
+void DatabasePrivileges::remove_user (const string& username)
 {
   SqliteDatabase sql (database ());
   sql.add ("DELETE FROM bibles WHERE username =");
@@ -392,37 +392,37 @@ void Database_Privileges::removeUser (string username)
 }
 
 
-const char * Database_Privileges::bibles_start ()
+const char * DatabasePrivileges::bibles_start ()
 {
   return "bibles_start";
 }
 
 
-const char * Database_Privileges::bibles_end ()
+const char * DatabasePrivileges::bibles_end ()
 {
   return "bibles_end";
 }
 
 
-const char * Database_Privileges::features_start ()
+const char * DatabasePrivileges::features_start ()
 {
   return "features_start";
 }
 
 
-const char * Database_Privileges::features_end ()
+const char * DatabasePrivileges::features_end ()
 {
   return "features_start";
 }
 
 
-const char * Database_Privileges::on ()
+const char * DatabasePrivileges::on ()
 {
   return "on";
 }
 
 
-const char * Database_Privileges::off ()
+const char * DatabasePrivileges::off ()
 {
   return "off";
 }
@@ -461,7 +461,7 @@ void database_privileges_client_create (const string & user, bool force)
   if (!file_or_dir_exists (folder)) filter_url_mkdir (folder);
   
   // The bits of privileges in human-readable form.
-  string privileges = Database_Privileges::save (user);
+  string privileges = DatabasePrivileges::save (user);
   
   // Write the privileges to disk.
   filter_url_file_put_contents (path, privileges);

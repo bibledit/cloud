@@ -538,7 +538,7 @@ void system_logic_indonesian_free_deletion ([[maybe_unused]] string username,
   // Delete the user's Bible and associated data.
   database_bibles.deleteBible(bible);
   search_logic_delete_bible (bible);
-  Database_Privileges::removeBible (bible);
+  DatabasePrivileges::remove_bible (bible);
   Database_Config_Bible::remove (bible);
   
   Database_Logs::log ("Ready handling user and associated data");
@@ -609,7 +609,7 @@ void system_logic_indonesian_free_expiration ()
     Database_Logs::log("Deleting Bible not associated with any account: " + bible);
     database_bibles.deleteBible(bible);
     search_logic_delete_bible (bible);
-    Database_Privileges::removeBible (bible);
+    DatabasePrivileges::remove_bible (bible);
     Database_Config_Bible::remove (bible);
   }
 #endif

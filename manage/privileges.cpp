@@ -79,10 +79,10 @@ string manage_privileges (void * webserver_request)
   
   // The privilege to view the Resources.
   if (checkbox == "viewresources") {
-    Database_Privileges::setFeature (user, PRIVILEGE_VIEW_RESOURCES, checked);
+    DatabasePrivileges::set_feature (user, PRIVILEGE_VIEW_RESOURCES, checked);
     privileges_updated = true;
   }
-  state = Database_Privileges::getFeature (user, PRIVILEGE_VIEW_RESOURCES);
+  state = DatabasePrivileges::get_feature (user, PRIVILEGE_VIEW_RESOURCES);
   if (level >= access_logic::view_resources_role () && defusers.find (user) == defusers.end ()) {
     state = true;
     view.set_variable ("viewresourcesdisabled", get_disabled (true));
@@ -92,10 +92,10 @@ string manage_privileges (void * webserver_request)
   
   // Privilege to view the Consultation Notes.
   if (checkbox == "viewnotes") {
-    Database_Privileges::setFeature (user, PRIVILEGE_VIEW_NOTES, checked);
+    DatabasePrivileges::set_feature (user, PRIVILEGE_VIEW_NOTES, checked);
     privileges_updated = true;
   }
-  state = Database_Privileges::getFeature (user, PRIVILEGE_VIEW_NOTES);
+  state = DatabasePrivileges::get_feature (user, PRIVILEGE_VIEW_NOTES);
   if (level >= access_logic::view_resources_role () && defusers.find (user) == defusers.end ()) {
     view.set_variable ("viewnotesdisabled", get_disabled (true));
   }
@@ -105,10 +105,10 @@ string manage_privileges (void * webserver_request)
   
   // Privilege to create and comment on Consultation Notes.
   if (checkbox == "createcommentnotes") {
-    Database_Privileges::setFeature (user, PRIVILEGE_CREATE_COMMENT_NOTES, checked);
+    DatabasePrivileges::set_feature (user, PRIVILEGE_CREATE_COMMENT_NOTES, checked);
     privileges_updated = true;
   }
-  state = Database_Privileges::getFeature (user, PRIVILEGE_CREATE_COMMENT_NOTES);
+  state = DatabasePrivileges::get_feature (user, PRIVILEGE_CREATE_COMMENT_NOTES);
   if (level >= access_logic::view_resources_role () && defusers.find (user) == defusers.end ()) {
     view.set_variable ("createcommentnotesdisabled", get_disabled (true));
   }
@@ -120,7 +120,7 @@ string manage_privileges (void * webserver_request)
   if (checkbox == "deletenotes") {
     request->database_config_user ()->setPrivilegeDeleteConsultationNotesForUser (user, checked);
   }
-  state = Database_Privileges::getFeature (user, PRIVILEGE_CREATE_COMMENT_NOTES);
+  state = DatabasePrivileges::get_feature (user, PRIVILEGE_CREATE_COMMENT_NOTES);
   if (level >= access_logic::delete_consultation_notes_role () && defusers.find (user) == defusers.end ()) {
     view.set_variable ("deletenotesdisabled", get_disabled (true));
   }

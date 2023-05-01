@@ -119,7 +119,7 @@ void user_logic_delete_account (string user, string role, string email, string &
   // then a situation where no user has any privileges to any Bible,
   // and thus all relevant users have all privileges,
   // can never be achieved again.
-  Database_Privileges::removeUser (user);
+  DatabasePrivileges::remove_user (user);
   // Remove any login tokens the user might have had: Just to clean things up.
   Database_Login::removeTokens (user);
   // Remove any settings for the user.

@@ -53,7 +53,7 @@ void convert_bible_to_resource (string bible)
     }
   }
   database_bibles.deleteBible (bible);
-  Database_Privileges::removeBible (bible);
+  DatabasePrivileges::remove_bible (bible);
   Database_Config_Bible::remove (bible);
   
   

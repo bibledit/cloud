@@ -77,7 +77,7 @@ string manage_write (void * webserver_request)
   bible = Database_Volatile::getValue (userid, "manage_write_bible");
   view.set_variable ("bible", bible);
 
-  auto [ bible_read_access, bible_write_access ] = Database_Privileges::getBible (user, bible);
+  auto [ bible_read_access, bible_write_access ] = DatabasePrivileges::get_bible (user, bible);
 
   // Toggle write access to Bible book.
   if (!request->post.empty ()) {
@@ -88,7 +88,7 @@ string manage_write (void * webserver_request)
     if (book) {
       if (bible_read_access) {
         bool checked = convert_to_bool (request->post ["checked"]);
-        Database_Privileges::setBibleBook (user, bible, book, checked);
+        DatabasePrivileges::set_bible_book (user, bible, book, checked);
         database_privileges_client_create (user, true);
       }
     }
@@ -105,7 +105,7 @@ string manage_write (void * webserver_request)
       string type = database::books::book_type_to_string (database::books::get_type (static_cast<book_id>(book)));
       if (type == testament) {
         bool read, write;
-        Database_Privileges::getBibleBook (user, bible, book, read, write);
+        DatabasePrivileges::get_bible_book (user, bible, book, read, write);
         if (write) majority++;
         else majority--;
       }
@@ -115,7 +115,7 @@ string manage_write (void * webserver_request)
     for (auto & book : books) {
       string type = database::books::book_type_to_string (database::books::get_type (static_cast<book_id>(book)));
       if (type == testament) {
-        Database_Privileges::setBibleBook (user, bible, book, (majority < 0));
+        DatabasePrivileges::set_bible_book (user, bible, book, (majority < 0));
       }
     }
     // Update privileges for the clients.
@@ -129,7 +129,7 @@ string manage_write (void * webserver_request)
     string bookname = database::books::get_english_from_id (static_cast<book_id>(book));
     string checkboxname = "book" + convert_to_string (book);
     bool read, write;
-    Database_Privileges::getBibleBook (user, bible, book, read, write);
+    DatabasePrivileges::get_bible_book (user, bible, book, read, write);
     string checked = get_checkbox_status (write);
     view.add_iteration ("write", { pair ("bookname", bookname), pair ("checkboxname", checkboxname), pair ("checked", checked) } );
   }

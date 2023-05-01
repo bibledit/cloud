@@ -193,7 +193,7 @@ void bible_logic::delete_bible (const string& bible)
   search_logic_delete_bible (bible);
   
   // Delete associated settings and privileges.
-  Database_Privileges::removeBible (bible);
+  DatabasePrivileges::remove_bible (bible);
   Database_Config_Bible::remove (bible);
 }
 

@@ -21,7 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <config/libraries.h>
 
-class Database_Privileges
+class DatabasePrivileges
 {
 public:
   static const char * database ();
@@ -29,19 +29,19 @@ public:
   static void upgrade ();
   static void optimize ();
   static bool healthy ();
-  static std::string save (std::string username);
-  static void load (std::string username, const std::string & data);
-  static void setBibleBook (std::string username, std::string bible, int book, bool write);
-  static void setBible (std::string username, std::string bible, bool write);
-  static void getBibleBook (std::string username, std::string bible, int book, bool & read, bool & write);
-  static std::tuple <bool, bool> getBible (std::string username, std::string bible);
-  static int getBibleBookCount ();
-  static bool getBibleBookExists (std::string username, std::string bible, int book);
-  static void removeBibleBook (std::string username, std::string bible, int book);
-  static void removeBible (std::string bible);
-  static void setFeature (std::string username, int feature, bool enabled);
-  static bool getFeature (std::string username, int feature);
-  static void removeUser (std::string username);
+  static std::string save (const std::string& username);
+  static void load (const std::string& username, const std::string & data);
+  static void set_bible_book (const std::string& username, const std::string& bible, const int book, const bool write);
+  static void set_bible (const std::string& username, const std::string& bible, const bool write);
+  static void get_bible_book (const std::string& username, const std::string& bible, const int book, bool & read, bool & write);
+  static std::tuple <bool, bool> get_bible (const std::string& username, const std::string& bible);
+  static int get_bible_book_count ();
+  static bool get_bible_book_exists (const std::string& username, const std::string& bible, const int book);
+  static void remove_bible_book (const std::string& username, const std::string& bible, const int book);
+  static void remove_bible (const std::string& bible);
+  static void set_feature (const std::string& username, const int feature, const bool enabled);
+  static bool get_feature (const std::string& username, const int feature);
+  static void remove_user (const std::string& username);
 private:
   static const char * bibles_start ();
   static const char * bibles_end ();

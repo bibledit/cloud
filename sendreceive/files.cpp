@@ -247,7 +247,7 @@ void sendreceive_files ()
       // When downloading privileges, load them in the database on the client.
       if (directory == database_privileges_directory (user)) {
         if (file == database_privileges_file ()) {
-          Database_Privileges::load (user, filter_url_file_get_contents (fullpath));
+          DatabasePrivileges::load (user, filter_url_file_get_contents (fullpath));
         }
       }
     }

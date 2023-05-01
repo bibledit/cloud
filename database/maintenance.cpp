@@ -129,7 +129,7 @@ void database_maintenance ()
   Database_Login::optimize ();
   
 
-  Database_Privileges::optimize ();
+  DatabasePrivileges::optimize ();
   
   
 #ifdef HAVE_CLOUD

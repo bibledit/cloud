@@ -119,8 +119,8 @@ string manage_users (void * webserver_request)
       vector <int> privileges = {PRIVILEGE_VIEW_RESOURCES, PRIVILEGE_VIEW_NOTES, PRIVILEGE_CREATE_COMMENT_NOTES};
       auto default_username = next(defusers.begin(), (unsigned)(long)(unsigned)role + 1);
       for (auto & privilege : privileges) {
-        bool state = Database_Privileges::getFeature (*default_username, privilege);
-        Database_Privileges::setFeature (user, privilege, state);
+        bool state = DatabasePrivileges::get_feature (*default_username, privilege);
+        DatabasePrivileges::set_feature (user, privilege, state);
       }
 
       bool deletenotes = request->database_config_user ()->getPrivilegeDeleteConsultationNotesForUser (*default_username);
@@ -229,7 +229,7 @@ string manage_users (void * webserver_request)
       assets_page::success (translate("The user has been granted access to this Bible"));
       // Write access depends on whether it's a translator role or higher.
       bool write = (objectUserLevel >= Filter_Roles::translator ());
-      Database_Privileges::setBible (objectUsername, addbible, write);
+      DatabasePrivileges::set_bible (objectUsername, addbible, write);
       user_updated = true;
       privileges_updated = true;
     }
@@ -239,7 +239,7 @@ string manage_users (void * webserver_request)
   // Remove Bible from user.
   if (request->query.count ("removebible")) {
     string removebible = request->query ["removebible"];
-    Database_Privileges::removeBibleBook (objectUsername, removebible, 0);
+    DatabasePrivileges::remove_bible_book (objectUsername, removebible, 0);
     user_updated = true;
     privileges_updated = true;
     assets_page::success (translate("The user no longer has access to this Bible"));
@@ -326,9 +326,9 @@ string manage_users (void * webserver_request)
     if (enabled) {
       if (objectUserLevel < Filter_Roles::manager ()) {
         for (auto & bible : allbibles) {
-          bool exists = Database_Privileges::getBibleBookExists (username, bible, 0);
+          bool exists = DatabasePrivileges::get_bible_book_exists (username, bible, 0);
           if (exists) {
-            auto [ read, write ] = Database_Privileges::getBible (username, bible);
+            auto [ read, write ] = DatabasePrivileges::get_bible (username, bible);
             if  (objectUserLevel >= Filter_Roles::translator ()) write = true;
             tbody << "<a href=" << quoted ("?user=" + username + "&removebible=" + bible) << ">" << emoji_wastebasket () << "</a>";
             tbody << "<a href=" << quoted("/bible/settings?bible=" + bible) << ">" << bible << "</a>";
@@ -336,7 +336,7 @@ string manage_users (void * webserver_request)
             int readwritebooks = 0;
             vector <int> books = request->database_bibles ()->getBooks (bible);
             for (auto book : books) {
-              Database_Privileges::getBibleBook (username, bible, book, read, write);
+              DatabasePrivileges::get_bible_book (username, bible, book, read, write);
               if (write) readwritebooks++;
             }
             tbody << "(" << readwritebooks << "/" << books.size () << ")";

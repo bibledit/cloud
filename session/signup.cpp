@@ -271,8 +271,8 @@ string session_signup ([[maybe_unused]] void * webserver_request)
       vector <int> privileges = {PRIVILEGE_VIEW_RESOURCES, PRIVILEGE_VIEW_NOTES, PRIVILEGE_CREATE_COMMENT_NOTES};
       auto default_username = next(defusers.begin(), (unsigned)(long)(unsigned)role + 1);
       for (auto & privilege : privileges) {
-        bool state = Database_Privileges::getFeature (*default_username, privilege);
-        Database_Privileges::setFeature (user, privilege, state);
+        bool state = DatabasePrivileges::get_feature (*default_username, privilege);
+        DatabasePrivileges::set_feature (user, privilege, state);
       }
 
       bool deletenotes = request->database_config_user ()->getPrivilegeDeleteConsultationNotesForUser (*default_username);

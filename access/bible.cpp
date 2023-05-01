@@ -61,14 +61,14 @@ bool read (void * webserver_request, const string & bible, string user)
   }
 
   // Read privileges for the user.
-  auto [ read, write ] = Database_Privileges::getBible (user, bible);
+  auto [ read, write ] = DatabasePrivileges::get_bible (user, bible);
   if (read) {
     return true;
   }
 
   // No Bibles assigned: Consultant can view any Bible.
   if (role_level >= Filter_Roles::consultant ()) {
-    if (int privileges_count = Database_Privileges::getBibleBookCount (); privileges_count == 0) {
+    if (int privileges_count = DatabasePrivileges::get_bible_book_count (); privileges_count == 0) {
       return true;
     }
   }
@@ -108,14 +108,14 @@ bool write (void * webserver_request, const string & bible, string user)
   }
   
   // Read the privileges for the user.
-  auto [ read, write ] = Database_Privileges::getBible (user, bible);
+  auto [ read, write ] = DatabasePrivileges::get_bible (user, bible);
   if (write) {
     return true;
   }
   
   // No Bibles assigned: Translator can write to any bible.
   if (level >= Filter_Roles::translator ()) {
-    if (int privileges_count = Database_Privileges::getBibleBookCount (); privileges_count == 0) {
+    if (int privileges_count = DatabasePrivileges::get_bible_book_count (); privileges_count == 0) {
       return true;
     }
   }
@@ -160,14 +160,14 @@ bool book_write (void * webserver_request, string user, const string & bible, in
   // Read the privileges for the user.
   bool read {false};
   bool write {false};
-  Database_Privileges::getBibleBook (user, bible, book, read, write);
+  DatabasePrivileges::get_bible_book (user, bible, book, read, write);
   if (write) {
     return true;
   }
 
   // No Bibles assigned: Translator can write to any bible.
   if (level >= Filter_Roles::translator ()) {
-    if (int privileges_count = Database_Privileges::getBibleBookCount (); privileges_count == 0) {
+    if (int privileges_count = DatabasePrivileges::get_bible_book_count (); privileges_count == 0) {
       return true;
     }
   }

@@ -209,10 +209,6 @@ void bibledit_start_library ()
   // Set running flag.
   config_globals_webserver_running = true;
   
-  // Whether the plain http server redirects to secure http.
-  config_globals_enforce_https_browser = config::logic::enforce_https_browser ();
-  config_globals_enforce_https_client = config::logic::enforce_https_client ();
-  
   // Run the plain web server in a thread.
   config_globals_http_worker = new thread (http_server);
   

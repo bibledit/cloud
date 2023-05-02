@@ -862,6 +862,14 @@ void https_server ()
     filter_url_display_mbed_tls_error (ret, nullptr, true);
     return;
   }
+  
+  // Whether the plain http server redirects to secure http.
+  // Possible automatic forwarding from http to https is postponed till here
+  // because only here it is known whether the https server runs at all.
+  // https://github.com/bibledit/cloud/issues/866
+  config_globals_enforce_https_browser = config::logic::enforce_https_browser ();
+  config_globals_enforce_https_client = config::logic::enforce_https_client ();
+
 
   cout << "Listening on https://localhost:" << network_port << endl;
   

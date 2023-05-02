@@ -48,8 +48,8 @@ using namespace std;
 
 
 // Internal function declarations.
-int get_line (int sock, char *buf, int size);
-void webserver_process_request (int connfd, string clientaddress);
+int get_line (const int sock, char *buf, const int size);
+void webserver_process_request (const int connfd, const string& clientaddress);
 void secure_webserver_process_request (mbedtls_ssl_config * conf, mbedtls_net_context client_fd);
 
 
@@ -64,11 +64,11 @@ void secure_webserver_process_request (mbedtls_ssl_config * conf, mbedtls_net_co
 //             the buffer to save the data to
 //             the size of the buffer
 // Returns: the number of bytes stored (excluding null).
-int get_line (int sock, char *buf, int size)
+int get_line (const int sock, char *buf, const int size)
 {
-  int i = 0;
-  char character = '\0';
-  int n = 0;
+  int i {0};
+  char character {'\0'};
+  int n {0};
   while ((i < size - 1) && (character != '\n')) {
     n = static_cast<int> (recv (sock, &character, 1, 0));
     if (n > 0) {
@@ -98,12 +98,12 @@ int get_line (int sock, char *buf, int size)
 
 
 // Processes a single request from a web client.
-void webserver_process_request (int connfd, string clientaddress)
+void webserver_process_request (const int connfd, const string& clientaddress)
 {
   // The environment for this request.
   // A pointer to it gets passed around from function to function during the entire request.
   // This provides thread-safety to the request.
-  Webserver_Request request;
+  Webserver_Request request {};
   
   // This is the plain http server.
   request.secure = false;
@@ -115,7 +115,7 @@ void webserver_process_request (int connfd, string clientaddress)
     if (config_globals_webserver_running) {
       
       // Connection health flag.
-      bool connection_healthy = true;
+      bool connection_healthy {true};
       
       // Read the client's request.
       // With the HTTP protocol it is not possible to read the request till EOF,
@@ -125,8 +125,8 @@ void webserver_process_request (int connfd, string clientaddress)
       // Read one line of data from the client.
       // An empty line marks the end of the headers.
 #define BUFFERSIZE 2048
-      int bytes_read;
-      bool header_parsed = true;
+      int bytes_read {};
+      bool header_parsed {true};
       char buffer [BUFFERSIZE];
       // Fix valgrind unitialized value message.
       memset (&buffer, 0, BUFFERSIZE);
@@ -142,10 +142,10 @@ void webserver_process_request (int connfd, string clientaddress)
         // In the case of a POST request, more data follows: The POST request itself.
         // The length of that data is indicated in the header's Content-Length line.
         // Read that data, and parse it.
-        string postdata;
+        string postdata {};
         if (request.is_post) {
-          bool done_reading = false;
-          int total_bytes_read = 0;
+          bool done_reading {false};
+          int total_bytes_read {0};
           do {
             bytes_read = static_cast<int> (recv(connfd, buffer, BUFFERSIZE, 0));
             for (int i = 0; i < bytes_read; i++) {
@@ -191,7 +191,7 @@ void webserver_process_request (int connfd, string clientaddress)
 #endif
             (request.stream_file.c_str(), O_RDONLY);
             unsigned char streambuffer [1024];
-            int bytecount;
+            int bytecount {};
             do {
               bytecount = static_cast<int> (
 #ifdef HAVE_WINDOWS
@@ -215,11 +215,11 @@ void webserver_process_request (int connfd, string clientaddress)
         }
       }
     }
-  } catch (exception & e) {
+  } catch (const exception & e) {
     string message ("Internal error: ");
     message.append (e.what ());
     Database_Logs::log (message);
-  } catch (exception * e) {
+  } catch (const exception * e) {
     string message ("Internal error: ");
     message.append (e->what ());
     Database_Logs::log (message);
@@ -242,18 +242,18 @@ void webserver_process_request (int connfd, string clientaddress)
 // This http server uses BSD sockets.
 void http_server ()
 {
-  bool listener_healthy = true;
+  bool listener_healthy {true};
 
   // Create a listening socket.
   // This represents an endpoint.
   // This prepares to accept incoming connections on.
 #ifdef HAVE_CLIENT
   // A client listens on IPv4, see also below.
-  int listenfd = socket (AF_INET, SOCK_STREAM, 0);
+  const int listenfd = socket (AF_INET, SOCK_STREAM, 0);
 #endif
 #ifdef HAVE_CLOUD
   // The Cloud listens on address family AF_INET6 for both IPv4 and IPv6.
-  int listenfd = socket (AF_INET6, SOCK_STREAM, 0);
+  const int listenfd = socket (AF_INET6, SOCK_STREAM, 0);
 #endif
   if (listenfd < 0) {
     string error = "Error opening socket: ";
@@ -266,7 +266,7 @@ void http_server ()
   // Eliminate "Address already in use" error from bind.
   // The function is used to allow the local address to  be reused
   // when the server is restarted before the required wait time expires.
-  int optval = 1;
+  int optval {1};
   int result = setsockopt (listenfd, SOL_SOCKET, SO_REUSEADDR, reinterpret_cast<const char *> ( &optval), sizeof (int));
   if (result != 0) {
     string error = "Error setting socket option: ";
@@ -331,10 +331,9 @@ void http_server ()
       
       // The client's remote IPv6 address in hexadecimal digits separated by colons.
       // IPv4 addresses are mapped to IPv6 addresses.
-      string clientaddress;
       char remote_address[256];
       inet_ntop (AF_INET6, &clientaddr6.sin6_addr, remote_address, sizeof (remote_address));
-      clientaddress = remote_address;
+      const string clientaddress = remote_address;
       
       // Handle this request in a thread, enabling parallel requests.
       thread request_thread = thread (webserver_process_request, connfd, clientaddress);
@@ -356,7 +355,7 @@ void http_server ()
 
 
 #ifdef HAVE_WINDOWS
-bool server_accepting_flag = false;
+bool server_accepting_flag {false};
 mutex server_accepting_mutex;
 
 
@@ -497,7 +496,7 @@ void secure_webserver_process_request (mbedtls_ssl_config * conf, mbedtls_net_co
   // The environment for this request.
   // It gets passed around from function to function during the entire request.
   // This provides thread-safety to the request.
-  Webserver_Request request;
+  Webserver_Request request {};
   
   // This is the secure http server.
   request.secure = true;
@@ -549,7 +548,7 @@ void secure_webserver_process_request (mbedtls_ssl_config * conf, mbedtls_net_co
       
       // Read the HTTP headers.
       bool header_parsed = true;
-      string header_line;
+      string header_line {};
       while (connection_healthy && header_parsed) {
         // Read the client's request.
         // With the HTTP protocol it is not possible to read the request till EOF,
@@ -716,11 +715,11 @@ void secure_webserver_process_request (mbedtls_ssl_config * conf, mbedtls_net_co
       }
       
     }
-  } catch (exception & e) {
+  } catch (const exception & e) {
     string message ("Internal error: ");
     message.append (e.what ());
     Database_Logs::log (message);
-  } catch (exception * e) {
+  } catch (const exception * e) {
     string message ("Internal error: ");
     message.append (e->what ());
     Database_Logs::log (message);
@@ -745,16 +744,16 @@ void https_server ()
 
   // The https network port to listen on.
   // Port 0..9 means this:: Don't run the secure web server.
-  string network_port = config::logic::https_network_port ();
+  const string network_port = config::logic::https_network_port ();
   if (network_port.length() <= 1) return;
   
   // Check whether all the certificates are there and can be read.
   // If not, log some feedback and don't run the secure web server.
-  string server_key_path {config::logic::server_key_path (false)};
-  string server_certificate_path {config::logic::server_certificate_path (false)};
-  string authorities_certificates_path {config::logic::authorities_certificates_path (false)};
+  const string server_key_path {config::logic::server_key_path (false)};
+  const string server_certificate_path {config::logic::server_certificate_path (false)};
+  const string authorities_certificates_path {config::logic::authorities_certificates_path (false)};
   if (!server_key_path.empty()) {
-    string contents {filter_url_file_get_contents (server_key_path)};
+    const string contents {filter_url_file_get_contents (server_key_path)};
     if (contents.empty()) {
       Database_Logs::log("Cannot read " + server_key_path + " so not running secure server");
       return;
@@ -764,7 +763,7 @@ void https_server ()
     return;
   }
   if (!server_certificate_path.empty()) {
-    string contents {filter_url_file_get_contents (server_certificate_path)};
+    const string contents {filter_url_file_get_contents (server_certificate_path)};
     if (contents.empty()) {
       Database_Logs::log("Cannot read " + server_certificate_path + " so not running secure server");
       return;
@@ -869,7 +868,6 @@ void https_server ()
   // https://github.com/bibledit/cloud/issues/866
   config_globals_enforce_https_browser = config::logic::enforce_https_browser ();
   config_globals_enforce_https_client = config::logic::enforce_https_client ();
-
 
   cout << "Listening on https://localhost:" << network_port << endl;
   

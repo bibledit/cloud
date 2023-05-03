@@ -113,13 +113,13 @@ string public_index (void * webserver_request)
 
   
   string clss = Filter_Css::getClass (bible);
-  string font = Fonts_Logic::get_text_font (bible);
+  string font = fonts::logic::get_text_font (bible);
   int direction = Database_Config_Bible::getTextDirection (bible);
   int lineheight = Database_Config_Bible::getLineHeight (bible);
   int letterspacing = Database_Config_Bible::getLetterSpacing (bible);
   view.set_variable ("custom_class", clss);
   view.set_variable ("custom_css", Filter_Css::get_css (clss,
-                                                       Fonts_Logic::get_font_path (font),
+                                                       fonts::logic::get_font_path (font),
                                                        direction,
                                                        lineheight,
                                                        letterspacing));

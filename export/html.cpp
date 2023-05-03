@@ -66,10 +66,10 @@ void export_html_book (string bible, int book, bool log)
   
   
   // Copy font to the output directory.
-  string font = Fonts_Logic::get_text_font (bible);
+  string font = fonts::logic::get_text_font (bible);
   if (!font.empty ()) {
-    if (Fonts_Logic::font_exists (font)) {
-      string fontpath = Fonts_Logic::get_font_path (font);
+    if (fonts::logic::font_exists (font)) {
+      string fontpath = fonts::logic::get_font_path (font);
       string contents = filter_url_file_get_contents (fontpath);
       fontpath = filter_url_create_path ({directory, font});
       filter_url_file_put_contents (fontpath, contents);

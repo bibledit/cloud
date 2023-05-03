@@ -282,11 +282,11 @@ string system_index (void * webserver_request)
     bool font_in_use = false;
     vector <string> bibles = request->database_bibles ()->getBibles ();
     for (auto & bible : bibles) {
-      if (font == Fonts_Logic::get_text_font (bible)) font_in_use = true;
+      if (font == fonts::logic::get_text_font (bible)) font_in_use = true;
     }
     if (!font_in_use) {
       // Only delete a font when it is not in use.
-      Fonts_Logic::erase (font);
+      fonts::logic::erase (font);
     } else {
       error = translate("The font could not be deleted because it is in use");
     }
@@ -304,7 +304,7 @@ string system_index (void * webserver_request)
   
   
   // Assemble the font block html.
-  vector <string> fonts = Fonts_Logic::getFonts ();
+  vector <string> fonts = fonts::logic::get_fonts ();
   stringstream fontsblock;
   for (auto & font : fonts) {
     fontsblock << "<p>";

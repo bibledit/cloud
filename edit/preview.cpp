@@ -78,13 +78,13 @@ string edit_preview (void * webserver_request)
   string bible = access_bible::clamp (request, request->database_config_user()->getBible ());
   
   string cls = Filter_Css::getClass (bible);
-  string font = Fonts_Logic::get_text_font (bible);
+  string font = fonts::logic::get_text_font (bible);
   int direction = Database_Config_Bible::getTextDirection (bible);
   int lineheight = Database_Config_Bible::getLineHeight (bible);
   int letterspacing = Database_Config_Bible::getLetterSpacing (bible);
   view.set_variable ("custom_class", cls);
   view.set_variable ("custom_css", Filter_Css::get_css (cls,
-                                                       Fonts_Logic::get_font_path (font),
+                                                       fonts::logic::get_font_path (font),
                                                        direction,
                                                        lineheight,
                                                        letterspacing));

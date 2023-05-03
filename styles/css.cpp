@@ -357,9 +357,9 @@ void Styles_Css::add_editor_styles ()
 void Styles_Css::customize (const string& bible)
 {
   string cls = Filter_Css::getClass (bible);
-  string font = Fonts_Logic::get_text_font (bible);
-  bool uploaded_font = Fonts_Logic::font_exists (font);
-  font = Fonts_Logic::get_font_path (font);
+  string font = fonts::logic::get_text_font (bible);
+  bool uploaded_font = fonts::logic::font_exists (font);
+  font = fonts::logic::get_font_path (font);
   int direction = Database_Config_Bible::getTextDirection (bible);
   string css = Filter_Css::get_css (cls, font, direction);
   if (uploaded_font) css = filter_string_str_replace ("../fonts/", "", css);

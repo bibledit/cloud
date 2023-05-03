@@ -21,15 +21,13 @@
 
 #include <config/libraries.h>
 
-class Fonts_Logic
-{
-public:
-  static std::vector <std::string> getFonts ();
-  static bool font_exists (std::string font);
-  static std::string get_font_path (std::string font);
-  static void erase (std::string font);
-  static std::string get_text_font (std::string bible);
-  static bool is_font (std::string suffix);
-private:
-  static std::string folder ();
-};
+namespace fonts::logic {
+
+std::vector <std::string> get_fonts ();
+bool font_exists (const std::string& font);
+std::string get_font_path (const std::string& font);
+void erase (const std::string& font);
+std::string get_text_font (const std::string& bible);
+bool is_font (const std::string& suffix);
+
+} // namespace

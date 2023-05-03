@@ -21,21 +21,23 @@
 #include <filter/url.h>
 #include <filter/string.h>
 #include <database/config/bible.h>
-using namespace std;
 
 
-string Fonts_Logic::folder ()
+namespace fonts::logic {
+
+
+static std::string folder ()
 {
   return filter_url_create_root_path ({"fonts"});
 }
 
 
-vector <string> Fonts_Logic::getFonts ()
+std::vector <std::string> get_fonts ()
 {
-  vector <string> files = filter_url_scandir (folder());
-  vector <string> fonts;
-  for (auto & file : files) {
-    string suffix = filter_url_get_extension (file);
+  const std::vector <std::string> files = filter_url_scandir (folder());
+  std::vector <std::string> fonts;
+  for (const auto& file : files) {
+    const std::string suffix = filter_url_get_extension (file);
     if (suffix == "txt") continue;
     if (suffix == "html") continue;
     if (suffix == "h") continue;
@@ -47,17 +49,17 @@ vector <string> Fonts_Logic::getFonts ()
 }
 
 
-bool Fonts_Logic::font_exists (string font)
+bool font_exists (const std::string& font)
 {
-  string path = filter_url_create_path ({folder (), font});
+  const std::string path = filter_url_create_path ({folder (), font});
   return file_or_dir_exists (path);
 }
 
 
-string Fonts_Logic::get_font_path (string font)
+std::string get_font_path (const std::string& font)
 {
   // Case of no font.
-  if (font == string()) return string();
+  if (font.empty()) return font;
   
   // Case when the font exists within Bibledit.
   if (font_exists (font)) {
@@ -74,21 +76,20 @@ string Fonts_Logic::get_font_path (string font)
 }
 
 
-void Fonts_Logic::erase (string font)
+void erase (const std::string& font)
 {
-  string path = filter_url_create_path ({folder (), font});
+  const std::string path = filter_url_create_path ({folder (), font});
   filter_url_unlink (path);
 }
 
 
-
 // When a font is set for a Bible in Bibledit Cloud, this becomes the default font for the clients.
 // Ahd when the client sets its own font, this font will be taken instead.
-string Fonts_Logic::get_text_font (string bible)
+std::string get_text_font (const std::string& bible)
 {
-  string font = Database_Config_Bible::getTextFont (bible);
+  std::string font = Database_Config_Bible::getTextFont (bible);
 #ifdef HAVE_CLIENT
-  string client_font = Database_Config_Bible::getTextFontClient (bible);
+  const std::string client_font = Database_Config_Bible::getTextFontClient (bible);
   if (!client_font.empty ()) {
     font = client_font;
   }
@@ -98,10 +99,13 @@ string Fonts_Logic::get_text_font (string bible)
 
 
 // Returns true if the $font path has a font suffix.
-bool Fonts_Logic::is_font (string suffix)
+bool is_font (const std::string& suffix)
 {
   return (suffix == "ttf")
-      || (suffix == "otf")
-      || (suffix == "otf")
-      || (suffix == "woff");
+  || (suffix == "otf")
+  || (suffix == "otf")
+  || (suffix == "woff");
 }
+
+
+} // namespace

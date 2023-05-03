@@ -852,8 +852,8 @@ void bible_logic::recent_save_email (const string & bible,
   for (unsigned int i = 0; i < new_verses.size(); i++) {
     Filter_Text filter_text_old = Filter_Text (bible);
     Filter_Text filter_text_new = Filter_Text (bible);
-    filter_text_old.html_text_standard = new Html_Text (translate("Bible"));
-    filter_text_new.html_text_standard = new Html_Text (translate("Bible"));
+    filter_text_old.html_text_standard = new HtmlText (translate("Bible"));
+    filter_text_new.html_text_standard = new HtmlText (translate("Bible"));
     filter_text_old.text_text = new Text_Text ();
     filter_text_new.text_text = new Text_Text ();
     filter_text_old.add_usfm_code (old_verses[i]);
@@ -952,9 +952,9 @@ void bible_logic::optional_merge_irregularity_email (const string & bible, int b
     Filter_Text filter_text_ancestor = Filter_Text (bible);
     Filter_Text filter_text_edited = Filter_Text (bible);
     Filter_Text filter_text_merged = Filter_Text (bible);
-    filter_text_ancestor.html_text_standard = new Html_Text (translate("Bible"));
-    filter_text_edited.html_text_standard = new Html_Text (translate("Bible"));
-    filter_text_merged.html_text_standard = new Html_Text (translate("Bible"));
+    filter_text_ancestor.html_text_standard = new HtmlText (translate("Bible"));
+    filter_text_edited.html_text_standard = new HtmlText (translate("Bible"));
+    filter_text_merged.html_text_standard = new HtmlText (translate("Bible"));
     filter_text_ancestor.text_text = new Text_Text ();
     filter_text_edited.text_text = new Text_Text ();
     filter_text_merged.text_text = new Text_Text ();

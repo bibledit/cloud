@@ -53,7 +53,7 @@ string public_chapter (void * webserver_request)
   string usfm = request->database_bibles()->getChapter (bible, book, chapter);
   
   Filter_Text filter_text = Filter_Text (bible);
-  filter_text.html_text_standard = new Html_Text (bible);
+  filter_text.html_text_standard = new HtmlText (bible);
   filter_text.html_text_standard->custom_class = Filter_Css::getClass (bible);
   filter_text.add_usfm_code (usfm);
   filter_text.run (stylesheet);

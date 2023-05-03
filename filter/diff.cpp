@@ -349,10 +349,10 @@ void filter_diff_produce_verse_level (string bible, string directory)
   vector <string> new_vs_usfm;
   
   Filter_Text filter_text_old = Filter_Text (bible);
-  filter_text_old.html_text_standard = new Html_Text (translate("Bible"));
+  filter_text_old.html_text_standard = new HtmlText (translate("Bible"));
   filter_text_old.text_text = new Text_Text ();
   Filter_Text filter_text_new = Filter_Text (bible);
-  filter_text_new.html_text_standard = new Html_Text (translate("Bible"));
+  filter_text_new.html_text_standard = new HtmlText (translate("Bible"));
   filter_text_new.text_text = new Text_Text ();
   
   vector <int> books = database_modifications.getTeamDiffBooks (bible);

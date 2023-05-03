@@ -60,7 +60,7 @@ void system_logic_produce_bibles_file (int jobid)
   
   // Generate the initial page.
   {
-    Html_Text html_text ("");
+    HtmlText html_text ("");
     html_text.new_paragraph ();
     html_text.add_text (translate ("Generating a file with the Bibles."));
     html_text.new_paragraph ();
@@ -108,7 +108,7 @@ void system_logic_produce_bibles_file (int jobid)
   
   // Ready, provide info about how to download the file, or about the error.
   {
-    Html_Text html_text ("");
+    HtmlText html_text ("");
     html_text.new_paragraph ();
     if (error.empty ()) {
       html_text.add_text (translate ("The file with Bibles is ready."));
@@ -203,7 +203,7 @@ void system_logic_produce_notes_file (int jobid)
   
   // Generate the initial page.
   {
-    Html_Text html_text ("");
+    HtmlText html_text ("");
     html_text.new_paragraph ();
     html_text.add_text (translate ("Generating a file with the Consultation Notes."));
     html_text.new_paragraph ();
@@ -234,7 +234,7 @@ void system_logic_produce_notes_file (int jobid)
   
   // Ready, provide info about how to download the file, or about the error.
   {
-    Html_Text html_text ("");
+    HtmlText html_text ("");
     html_text.new_paragraph ();
     if (error.empty ()) {
       html_text.add_text (translate ("The file with Consultation Notes is ready."));
@@ -295,7 +295,7 @@ void system_logic_produce_resources_file (int jobid)
   
   // Generate the initial page.
   {
-    Html_Text html_text ("");
+    HtmlText html_text ("");
     html_text.new_paragraph ();
     html_text.add_text (translate ("Generating a file with the resources."));
     html_text.new_paragraph ();
@@ -372,7 +372,7 @@ void system_logic_produce_resources_file (int jobid)
   
   // Ready, provide info about how to download the file or about the error.
   {
-    Html_Text html_text ("");
+    HtmlText html_text ("");
     html_text.new_paragraph ();
     if (!resources.empty ()) {
       if (error.empty ()) {

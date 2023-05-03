@@ -78,7 +78,7 @@ void export_html_book (string bible, int book, bool log)
   
   
   Filter_Text filter_text = Filter_Text (bible);
-  filter_text.html_text_standard = new Html_Text (translate("Bible"));
+  filter_text.html_text_standard = new HtmlText (translate("Bible"));
   filter_text.html_text_standard->custom_class = Filter_Css::getClass (bible);
   if (Database_Config_Bible::getExportHtmlNotesOnHover(bible)) {
     filter_text.html_text_standard->have_popup_notes();

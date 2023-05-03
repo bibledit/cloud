@@ -300,7 +300,7 @@ string resource_logic_get_verse (void * webserver_request, string resource, int 
     string verse_usfm = filter::usfm::get_verse_text (chapter_usfm, verse);
     string stylesheet = styles_logic_standard_sheet ();
     Filter_Text filter_text = Filter_Text (resource);
-    filter_text.html_text_standard = new Html_Text ("");
+    filter_text.html_text_standard = new HtmlText ("");
     filter_text.add_usfm_code (verse_usfm);
     filter_text.run (stylesheet);
     data = filter_text.html_text_standard->get_inner_html ();
@@ -484,7 +484,7 @@ string resource_logic_get_contents_for_client (string resource, int book, int ch
     string verse_usfm = filter::usfm::get_verse_text (chapter_usfm, verse);
     string stylesheet = styles_logic_standard_sheet ();
     Filter_Text filter_text = Filter_Text (resource);
-    filter_text.html_text_standard = new Html_Text ("");
+    filter_text.html_text_standard = new HtmlText ("");
     filter_text.add_usfm_code (verse_usfm);
     filter_text.run (stylesheet);
     return filter_text.html_text_standard->get_inner_html ();

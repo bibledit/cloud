@@ -160,9 +160,9 @@ private:
 
 public:
   // Object for creating standard web documents.
-  Html_Text * html_text_standard {nullptr};
+  HtmlText * html_text_standard {nullptr};
   // Object for creating interlinked web documents.
-  Html_Text * html_text_linked {nullptr};
+  HtmlText * html_text_linked {nullptr};
 
 public:
   // Object for creating the input file for the Online Bible compiler.

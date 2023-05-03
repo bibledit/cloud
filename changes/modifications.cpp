@@ -89,8 +89,8 @@ void changes_process_identifiers (Webserver_Request * request,
       if (old_verse_usfm != new_verse_usfm) {
         Filter_Text filter_text_old = Filter_Text (bible);
         Filter_Text filter_text_new = Filter_Text (bible);
-        filter_text_old.html_text_standard = new Html_Text (translate("Bible"));
-        filter_text_new.html_text_standard = new Html_Text (translate("Bible"));
+        filter_text_old.html_text_standard = new HtmlText (translate("Bible"));
+        filter_text_new.html_text_standard = new HtmlText (translate("Bible"));
         filter_text_old.text_text = new Text_Text ();
         filter_text_new.text_text = new Text_Text ();
         filter_text_old.add_usfm_code (old_verse_usfm);
@@ -367,8 +367,8 @@ void changes_modifications ()
             if (processedChangesCount < 800) {
               Filter_Text filter_text_old = Filter_Text (bible);
               Filter_Text filter_text_new = Filter_Text (bible);
-              filter_text_old.html_text_standard = new Html_Text ("");
-              filter_text_new.html_text_standard = new Html_Text ("");
+              filter_text_old.html_text_standard = new HtmlText ("");
+              filter_text_new.html_text_standard = new HtmlText ("");
               filter_text_old.text_text = new Text_Text ();
               filter_text_new.text_text = new Text_Text ();
               filter_text_old.add_usfm_code (old_verse_usfm);

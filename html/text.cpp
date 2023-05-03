@@ -22,13 +22,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 #include <filter/url.h>
 #include <database/books.h>
-using namespace std;
 
 
 // Class for creating Html text documents.
 
 
-Html_Text::Html_Text (string title)
+HtmlText::HtmlText (const std::string& title)
 {
   current_paragraph_style.clear();
   current_paragraph_content.clear();
@@ -69,11 +68,11 @@ Html_Text::Html_Text (string title)
 }
 
 
-void Html_Text::new_paragraph (string style)
+void HtmlText::new_paragraph (const std::string& style)
 {
   current_p_node = body_node.append_child ("p");
   if (!style.empty()) {
-    string clss = style;
+    std::string clss = style;
     if (!custom_class.empty()) {
       clss += " " + custom_class;
     }
@@ -87,9 +86,9 @@ void Html_Text::new_paragraph (string style)
 
 // This function adds text to the current paragraph.
 // $text: The text to add.
-void Html_Text::add_text (string text)
+void HtmlText::add_text (const std::string& text)
 {
-  if (text != "") {
+  if (!text.empty()) {
     if (!current_p_node_open) new_paragraph ();
     xml_node span = current_p_node.append_child ("span");
     span.text().set (text.c_str());
@@ -104,14 +103,14 @@ void Html_Text::add_text (string text)
 
 // This creates a <h1> heading with contents.
 // $text: Contents.
-void Html_Text::new_heading1 (string text, bool hide)
+void HtmlText::new_heading1 (const std::string& text, const bool hide)
 {
   new_named_heading ("h1", text, hide);
 }
 
 
 // This applies a page break.
-void Html_Text::new_page_break ()
+void HtmlText::new_page_break ()
 {
   // The style is already in the css.
   new_paragraph ("break");
@@ -130,9 +129,9 @@ void Html_Text::new_page_break ()
 // $embed: boolean: Whether to embed the new text style in an existing text style.
 //                  true: add the new style to the existing style.
 //                  false: close any existing text style, and open the new style.
-void Html_Text::open_text_style (Database_Styles_Item style, bool note, bool embed)
+void HtmlText::open_text_style (const Database_Styles_Item& style, const bool note, const bool embed)
 {
-  string marker = style.marker;
+  std::string marker = style.marker;
   if (note) {
     if (!embed) current_note_text_style.clear();
     current_note_text_style.push_back (marker);
@@ -148,7 +147,7 @@ void Html_Text::open_text_style (Database_Styles_Item style, bool note, bool emb
 // $embed: boolean: Whether to embed the new text style in an existing text style.
 //                  true: add the new style to the existing style.
 //                  false: close any existing text style, and open the new style.
-void Html_Text::close_text_style (bool note, bool embed)
+void HtmlText::close_text_style (const bool note, const bool embed)
 {
   if (note) {
     if (!current_note_text_style.empty()) current_note_text_style.pop_back ();
@@ -164,7 +163,7 @@ void Html_Text::close_text_style (bool note, bool embed)
 // $citation: The text of the note citation.
 // $style: Style name for the paragraph in the note body.
 // $endnote: Whether this is a footnote and cross reference (false), or an endnote (true).
-void Html_Text::add_note (string citation, string style, [[maybe_unused]] bool endnote)
+void HtmlText::add_note (const std::string& citation, const std::string& style, [[maybe_unused]] const bool endnote)
 {
   // Ensure that a paragraph is open, so that the note can be added to it.
   if (!current_p_node_open) new_paragraph ();
@@ -172,8 +171,8 @@ void Html_Text::add_note (string citation, string style, [[maybe_unused]] bool e
   note_count++;
   
   // Add the link with all relevant data for the note citation.
-  string reference = "#note" + convert_to_string (note_count);
-  string identifier = "citation" + convert_to_string (note_count);
+  std::string reference = "#note" + convert_to_string (note_count);
+  std::string identifier = "citation" + convert_to_string (note_count);
   add_link (current_p_node, reference, identifier, "", "superscript", citation, add_popup_notes);
   
   // Open a paragraph element for the note body.
@@ -195,7 +194,7 @@ void Html_Text::add_note (string citation, string style, [[maybe_unused]] bool e
 
 // This function adds text to the current footnote.
 // $text: The text to add.
-void Html_Text::add_note_text (string text)
+void HtmlText::add_note_text (const std::string& text)
 {
   if (text.empty()) return;
   if (!note_p_node_open) add_note ("?", "");
@@ -213,7 +212,7 @@ void Html_Text::add_note_text (string text)
 
 
 // This function closes the current footnote.
-void Html_Text::close_current_note ()
+void HtmlText::close_current_note ()
 {
   close_text_style (true, false);
   note_p_node_open = false;
@@ -227,10 +226,10 @@ void Html_Text::close_current_note ()
 // $title: The link's title, to make it accessible, e.g. for screenreaders.
 // $style: The link text's style.
 // $text: The link's text.
-void Html_Text::add_link (xml_node node,
-                         string reference, string identifier,
-                         string title, string style, string text,
-                         bool add_popup)
+void HtmlText::add_link (xml_node node,
+                         const std::string& reference, const std::string& identifier,
+                         const std::string& title, const std::string& style, const std::string& text,
+                         const bool add_popup)
 {
   xml_node a_node = node.append_child ("a");
   a_node.append_attribute ("href") = reference.c_str();
@@ -248,7 +247,7 @@ void Html_Text::add_link (xml_node node,
 
 
 // This gets and then returns the html text
-string Html_Text::get_html ()
+std::string HtmlText::get_html ()
 {
   // Move any notes into place: At the end of the body.
   // Or remove empty notes container.
@@ -260,9 +259,9 @@ string Html_Text::get_html ()
   note_count = 0;
 
   // Get the html.
-  stringstream output;
+  std::stringstream output;
   document.print (output, "", format_raw);
-  string html = output.str ();
+  std::string html = output.str ();
   
   // Add html5 doctype.
   html.insert (0, "<!DOCTYPE html>\n");
@@ -272,14 +271,14 @@ string Html_Text::get_html ()
 
 
 // Returns the html text within the <body> tags, that is, without the <head> stuff.
-string Html_Text::get_inner_html ()
+std::string HtmlText::get_inner_html ()
 {
-  string page = get_html ();
+  std::string page = get_html ();
   size_t pos = page.find ("<body>");
-  if (pos != string::npos) {
+  if (pos != std::string::npos) {
     page = page.substr (pos + 6);
     pos = page.find ("</body>");
-    if (pos != string::npos) {
+    if (pos != std::string::npos) {
       page = page.substr (0, pos);
     }
   }
@@ -289,16 +288,16 @@ string Html_Text::get_inner_html ()
 
 // This saves the web page to file
 // $name: the name of the file to save to.
-void Html_Text::save (string name)
+void HtmlText::save (std::string name)
 {
-  string html = get_html ();
+  const std::string html = get_html ();
   filter_url_file_put_contents (name, html);
 }
 
 
 // This adds a new table to the html DOM.
 // Returns: The new $tableElement
-xml_node Html_Text::new_table ()
+xml_node HtmlText::new_table ()
 {
   // Adding subsequent text should create a new paragraph.
   current_p_node_open = false;
@@ -313,7 +312,7 @@ xml_node Html_Text::new_table ()
 
 // This adds a new row to an existing $tableElement.
 // Returns: The new $tableRowElement.
-xml_node Html_Text::new_table_row (xml_node tableElement)
+xml_node HtmlText::new_table_row (xml_node tableElement)
 {
   xml_node tableRowElement = tableElement.append_child ("tr");
   return tableRowElement;
@@ -322,7 +321,7 @@ xml_node Html_Text::new_table_row (xml_node tableElement)
 
 // This adds a new data cell to an existing $tableRowElement.
 // Returns: The new $tableDataElement.
-xml_node Html_Text::new_table_data (xml_node tableRowElement, bool alignRight)
+xml_node HtmlText::new_table_data (xml_node tableRowElement, const bool alignRight)
 {
   xml_node tableDataElement = tableRowElement.append_child ("td");
   if (alignRight) tableDataElement.append_attribute ("align") = "right";
@@ -333,9 +332,8 @@ xml_node Html_Text::new_table_data (xml_node tableRowElement, bool alignRight)
 // This creates a heading with styled content.
 // $style: A style name.
 // $text: Content.
-void Html_Text::new_named_heading (string style, string text, bool hide)
+void HtmlText::new_named_heading (const std::string& style, const std::string& text, [[maybe_unused]] const bool hide)
 {
-  if (hide) {};
   xml_node textHDomElement = body_node.append_child (style.c_str());
   textHDomElement.text ().set (text.c_str());
   // Make paragraph null, so that adding subsequent text creates a new paragraph.
@@ -346,14 +344,14 @@ void Html_Text::new_named_heading (string style, string text, bool hide)
 
 
 // Whether to add pop-up notes as well.
-void Html_Text::have_popup_notes ()
+void HtmlText::have_popup_notes ()
 {
   add_popup_notes = true;
 }
 
 
 // Add an image to the html.
-void Html_Text::add_image (string style, string alt, string src, string caption)
+void HtmlText::add_image (const std::string& style, const std::string& alt, const std::string& src, const std::string& caption)
 {
   xml_node img_node = body_node.append_child ("img");
   img_node.append_attribute("alt") = alt.c_str();

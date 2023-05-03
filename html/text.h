@@ -35,28 +35,28 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 using namespace pugi;
 
-class Html_Text
+class HtmlText
 {
 public:
-  Html_Text (std::string title);
-  void new_paragraph (std::string style = std::string());
-  void add_text (std::string text);
+  HtmlText (const std::string& title);
+  void new_paragraph (const std::string& style = std::string());
+  void add_text (const std::string& text);
   std::string get_html ();
   std::string get_inner_html ();
-  void new_heading1 (std::string text, bool hide = false);
+  void new_heading1 (const std::string& text, const bool hide = false);
   void new_page_break ();
-  void open_text_style (Database_Styles_Item style, bool note, bool embed);
-  void close_text_style (bool note, bool embed);
-  void add_note (std::string citation, std::string style, bool endnote = false);
-  void add_note_text (std::string text);
+  void open_text_style (const Database_Styles_Item& style, const bool note, const bool embed);
+  void close_text_style (const bool note, const bool embed);
+  void add_note (const std::string& citation, const std::string& style, const bool endnote = false);
+  void add_note_text (const std::string& text);
   void close_current_note ();
   void add_link (xml_node node,
-                 std::string reference, std::string identifier,
-                 std::string title, std::string style, std::string text,
-                 bool add_popup = false);
+                 const std::string& reference, const std::string& identifier,
+                 const std::string& title, const std::string& style, const std::string& text,
+                 const bool add_popup = false);
   xml_node new_table ();
   xml_node new_table_row (xml_node tableElement);
-  xml_node new_table_data (xml_node tableRowElement, bool alignRight = false);
+  xml_node new_table_data (xml_node tableRowElement, const bool alignRight = false);
   void save (std::string name);
   xml_node current_p_node {}; // The current p element.
   std::string current_paragraph_style {};
@@ -65,7 +65,7 @@ public:
   // This class to be added to each paragraph. The class to be defined in the stylesheet.css.
   std::string custom_class {};
   void have_popup_notes ();
-  void add_image (std::string style, std::string alt, std::string src, std::string caption);
+  void add_image (const std::string& style, const std::string& alt, const std::string& src, const std::string& caption);
 private:
   xml_document document {};
   xml_node head_node {};
@@ -76,7 +76,7 @@ private:
   xml_node note_p_node {}; // The p element of the current footnote, if any.
   bool note_p_node_open {false};
   std::vector <std::string> current_note_text_style {};
-  void new_named_heading (std::string style, std::string text, bool hide = false);
+  void new_named_heading (const std::string& style, const std::string& text, const bool hide = false);
   bool add_popup_notes {false};
   xml_node popup_node {};
 };

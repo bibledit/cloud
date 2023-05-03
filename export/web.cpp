@@ -75,7 +75,7 @@ void export_web_book (string bible, int book, bool log)
   
   
   // Web index file for the book.
-  Html_Text html_text_rich_book_index (bibleBookText);
+  HtmlText html_text_rich_book_index (bibleBookText);
   Html_Header htmlHeader = Html_Header (&html_text_rich_book_index);
   htmlHeader.search_back_link (backLinkPath + filter_url_html_file_name_bible ("", book), translate("Go back to") + " " + bibleBookText);
   htmlHeader.create ({
@@ -104,7 +104,7 @@ void export_web_book (string bible, int book, bool log)
     filter_text_chapter.add_usfm_code (usfm);
     
     // Interlinked web data for one chapter.
-    filter_text_chapter.html_text_linked = new Html_Text (translate("Bible"));
+    filter_text_chapter.html_text_linked = new HtmlText (translate("Bible"));
     filter_text_chapter.html_text_linked->custom_class = Filter_Css::getClass (bible);
     
     // Create breadcrumbs and navigator for the chapter.
@@ -186,7 +186,7 @@ void export_web_index (string bible, bool log)
   
   
   // Main index file.
-  Html_Text html_text_rich_bible_index (bible);
+  HtmlText html_text_rich_bible_index (bible);
   // On top are the breadcrumbs, starting with a clickable Bible name.
   Html_Header htmlHeader = Html_Header (&html_text_rich_bible_index);
   htmlHeader.search_back_link (backLinkPath + filter_url_html_file_name_bible (), translate("Go back to Bible"));

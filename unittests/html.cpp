@@ -29,7 +29,7 @@ void test_html ()
 
   // Test paragraphs.
   {
-    Html_Text html_text ("TestOne");
+    HtmlText html_text ("TestOne");
     html_text.new_paragraph ();
     evaluate (__LINE__, __func__, "", html_text.current_paragraph_style);
     html_text.add_text ("Paragraph One");
@@ -53,7 +53,7 @@ void test_html ()
   
   // Test automatic paragraph.
   {
-    Html_Text html_text ("TestTwo");
+    HtmlText html_text ("TestTwo");
     html_text.add_text ("Should create new paragraph automatically");
     string html = html_text.get_inner_html ();
     string standard =
@@ -63,7 +63,7 @@ void test_html ()
   
   // Test a basic note.
   {
-    Html_Text html_text ({});
+    HtmlText html_text ({});
     html_text.new_paragraph ();
     html_text.add_text ("Text1");
     html_text.add_note ("†", "");
@@ -74,7 +74,7 @@ void test_html ()
     evaluate (__LINE__, __func__, standard, html);
   }
   {
-    Html_Text html_text ({});
+    HtmlText html_text ({});
     html_text.have_popup_notes();
     html_text.new_paragraph ();
     html_text.add_text ("Text1");
@@ -88,7 +88,7 @@ void test_html ()
   
   // Test getting the inner html.
   {
-    Html_Text html_text ("test");
+    HtmlText html_text ("test");
     html_text.new_paragraph ();
     html_text.add_text ("Paragraph One");
     html_text.new_paragraph ();
@@ -101,7 +101,7 @@ void test_html ()
   // Test basic formatted note.
   {
     Database_Styles_Item style;
-    Html_Text html_text ("");
+    HtmlText html_text ("");
     html_text.new_paragraph ();
     html_text.add_text ("Text");
     html_text.add_note ("𐌰", "f");
@@ -117,7 +117,7 @@ void test_html ()
   }
   {
     Database_Styles_Item style;
-    Html_Text html_text ("");
+    HtmlText html_text ("");
     html_text.have_popup_notes();
     html_text.new_paragraph ();
     html_text.add_text ("text");
@@ -136,7 +136,7 @@ void test_html ()
   // Test embedded formatted note.
   {
     Database_Styles_Item style;
-    Html_Text html_text ("");
+    HtmlText html_text ("");
     html_text.new_paragraph ();
     html_text.add_text ("text");
     html_text.add_note ("𐌰", "f");
@@ -155,7 +155,7 @@ void test_html ()
   }
   {
     Database_Styles_Item style;
-    Html_Text html_text ("");
+    HtmlText html_text ("");
     html_text.have_popup_notes();
     html_text.new_paragraph ();
     html_text.add_text ("text");

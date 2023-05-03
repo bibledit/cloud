@@ -144,7 +144,6 @@ int main ([[maybe_unused]] int argc, [[maybe_unused]] char **argv)
   
   refresh_sandbox (false);
   test_dev ();
-  test_md5 ();
   refresh_sandbox (false);
   exit (0);
   

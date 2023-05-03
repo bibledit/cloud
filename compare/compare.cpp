@@ -174,8 +174,8 @@ void compare_compare (string bible, string compare, int jobId)
         
         Filter_Text filter_text_bible = Filter_Text (bible);
         Filter_Text filter_text_compare = Filter_Text (compare);
-        filter_text_bible.html_text_standard = new Html_Text ("");
-        filter_text_compare.html_text_standard = new Html_Text ("");
+        filter_text_bible.html_text_standard = new HtmlText ("");
+        filter_text_compare.html_text_standard = new HtmlText ("");
         filter_text_bible.text_text = new Text_Text ();
         filter_text_compare.text_text = new Text_Text ();
         filter_text_bible.add_usfm_code (bible_verse_usfm);

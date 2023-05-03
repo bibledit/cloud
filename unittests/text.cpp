@@ -730,7 +730,7 @@ A Verse text.
     "\\p\n"
     "\\v 1 I will sing \\add to the \\+nd Lord\\+nd*\\add*.\n";
     Filter_Text filter_text = Filter_Text (bible);
-    filter_text.html_text_standard = new Html_Text (bible);
+    filter_text.html_text_standard = new HtmlText (bible);
     filter_text.add_usfm_code (usfm);
     filter_text.run (styles_logic_standard_sheet ());
     string html = filter_text.html_text_standard->get_inner_html ();
@@ -754,7 +754,7 @@ A Verse text.
     "\\p\n"
     "\\v 1 I will sing \\add to the \\+nd Lord\\+nd* God\\add*.\n";
     Filter_Text filter_text = Filter_Text (bible);
-    filter_text.html_text_standard = new Html_Text (bible);
+    filter_text.html_text_standard = new HtmlText (bible);
     filter_text.add_usfm_code (usfm);
     filter_text.run (styles_logic_standard_sheet ());
     string html = filter_text.html_text_standard->get_inner_html ();
@@ -780,7 +780,7 @@ A Verse text.
     "\\p\n"
     "\\v 1 I will sing \\add to the \\+nd Lord\\add*.\n";
     Filter_Text filter_text = Filter_Text (bible);
-    filter_text.html_text_standard = new Html_Text (bible);
+    filter_text.html_text_standard = new HtmlText (bible);
     filter_text.add_usfm_code (usfm);
     filter_text.run (styles_logic_standard_sheet ());
     string html = filter_text.html_text_standard->get_inner_html ();
@@ -1181,7 +1181,7 @@ A Jesus is King.  B Jesus is the son of God.
       string standard_html = R"(<p class="p"><span class="v">1</span><span> </span><span>Verse one. </span></p><img alt="" src="bibleimage2.png" width="100%"/><p class="fig"><span>caption</span></p><p><span class="v">2</span><span> </span><span>Verse two.</span></p>)";
       string html;
       Filter_Text filter_text = Filter_Text (bible);
-      filter_text.html_text_standard = new Html_Text (bible);
+      filter_text.html_text_standard = new HtmlText (bible);
       filter_text.add_usfm_code (usfm);
       filter_text.run (styles_logic_standard_sheet());
       html = filter_text.html_text_standard->get_inner_html();

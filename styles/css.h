@@ -30,7 +30,7 @@ public:
   void editor ();
   void exports ();
   void generate ();
-  std::string css (std::string path = "");
+  std::string css (std::string path = std::string());
   void customize (const std::string& bible);
 private:
   void * m_webserver_request {nullptr};

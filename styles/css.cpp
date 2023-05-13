@@ -27,10 +27,9 @@
 #include <database/config/bible.h>
 #include <fonts/logic.h>
 #include <quill/logic.h>
-using namespace std;
 
 
-Styles_Css::Styles_Css (void * webserver_request, const string & stylesheet)
+Styles_Css::Styles_Css (void* webserver_request, const std::string& stylesheet)
 {
   m_webserver_request = webserver_request;
   m_stylesheet = stylesheet;
@@ -62,8 +61,8 @@ void Styles_Css::generate ()
     add_editor_styles ();
   }
   Webserver_Request * request = static_cast<Webserver_Request *>(m_webserver_request);
-  vector <string> markers = request->database_styles ()->getMarkers (m_stylesheet);
-  for (auto & marker : markers) {
+  std::vector <std::string> markers = request->database_styles ()->getMarkers (m_stylesheet);
+  for (const auto& marker : markers) {
     Database_Styles_Item style = request->database_styles ()->getMarkerData (m_stylesheet, marker);
     evaluate (&style);
   }
@@ -73,7 +72,7 @@ void Styles_Css::generate ()
 // Evaluates the style so as to decide how it should look.
 void Styles_Css::evaluate (void * database_styles_item)
 {
-  Database_Styles_Item * style = static_cast<Database_Styles_Item *> (database_styles_item);
+  Database_Styles_Item* style = static_cast<Database_Styles_Item*> (database_styles_item);
   
   switch (style->type)
   {
@@ -173,21 +172,21 @@ void Styles_Css::evaluate (void * database_styles_item)
 // $keepwithnext: Keep text in this style together with the next paragraph.
 void Styles_Css::add (void * database_styles_item, bool paragraph, bool keepwithnext)
 {
-  Database_Styles_Item * style = static_cast<Database_Styles_Item *> (database_styles_item);
+  Database_Styles_Item* style = static_cast<Database_Styles_Item*> (database_styles_item);
 
-  string class_ {style->marker};
+  std::string class_name {style->marker};
 
   // The name of the class as used in a Quill-based editor.
-  string quill_class {", ."};
+  std::string quill_class {", ."};
   if (paragraph) {
     quill_class.append (quill_logic_class_prefix_block ());
   } else {
     quill_class.append (quill_logic_class_prefix_inline ());
   }
-  quill_class.append (class_);
+  quill_class.append (class_name);
   
   // Start with the class. Notice the dot.
-  m_code.push_back ("." + class_ + quill_class + " {");
+  m_code.push_back ("." + class_name + quill_class + " {");
   
   // Font size.
   // Since it is html and not pdf for paper, a font size of 12pt is considered to be equal to 100%.
@@ -242,14 +241,14 @@ void Styles_Css::add (void * database_styles_item, bool paragraph, bool keepwith
   
   // Paragraph layout properties
   if (paragraph) {
-    string spacebefore = convert_to_string (style->spacebefore);
-    string spaceafter = convert_to_string (style->spaceafter);
-    string leftmargin = convert_to_string (style->leftmargin);
-    string rightmargin = convert_to_string (style->rightmargin);
-    string firstlineindent = convert_to_string (style->firstlineindent);
+    std::string spacebefore = convert_to_string (style->spacebefore);
+    std::string spaceafter = convert_to_string (style->spaceafter);
+    std::string leftmargin = convert_to_string (style->leftmargin);
+    std::string rightmargin = convert_to_string (style->rightmargin);
+    std::string firstlineindent = convert_to_string (style->firstlineindent);
     
     // Text alignment options.
-    string alignment;
+    std::string alignment {};
     switch (style->justification) {
       case AlignmentLeft:    alignment = "";        break;
       case AlignmentCenter:  alignment = "center";  break;
@@ -300,12 +299,12 @@ void Styles_Css::add (void * database_styles_item, bool paragraph, bool keepwith
       m_code.push_back ("vertical-align: super;");
     }
     
-    string color = style->color;
+    std::string color = style->color;
     if (color != "#000000") {
       m_code.push_back ("color: " + color + ";");
     }
     
-    string backgroundcolor = style->backgroundcolor;
+    std::string backgroundcolor = style->backgroundcolor;
     if (backgroundcolor != "#FFFFFF") {
       m_code.push_back ("background-color: " + backgroundcolor + ";");
     }
@@ -320,10 +319,10 @@ void Styles_Css::add (void * database_styles_item, bool paragraph, bool keepwith
 // Deliver the created CSS.
 // $path: If given, it saves the CSS to $path.
 // The function returns the CSS as a string.
-string Styles_Css::css (string path)
+std::string Styles_Css::css (std::string path)
 {
-  string css = filter_string_implode (m_code, "\n");
-  if (path != "") {
+  std::string css = filter_string_implode (m_code, "\n");
+  if (!path.empty()) {
     filter_url_file_put_contents (path, css);
   }
   return css;
@@ -354,14 +353,14 @@ void Styles_Css::add_editor_styles ()
 }
 
 
-void Styles_Css::customize (const string& bible)
+void Styles_Css::customize (const std::string& bible)
 {
-  string cls = Filter_Css::getClass (bible);
-  string font = fonts::logic::get_text_font (bible);
+  std::string cls = Filter_Css::getClass (bible);
+  std::string font = fonts::logic::get_text_font (bible);
   bool uploaded_font = fonts::logic::font_exists (font);
   font = fonts::logic::get_font_path (font);
   int direction = Database_Config_Bible::getTextDirection (bible);
-  string css = Filter_Css::get_css (cls, font, direction);
+  std::string css = Filter_Css::get_css (cls, font, direction);
   if (uploaded_font) css = filter_string_str_replace ("../fonts/", "", css);
   m_code.push_back (css);
 }

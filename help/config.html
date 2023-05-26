@@ -38,7 +38,7 @@ If your situation is different,
 </p>
 <br>
 <p>
-Step 1: Stop and disable the Apache webserver.
+Step 1: Stop and disable the Apache web server.
 To do this, execute the following two commands as user root:
 </p>
 <pre>
@@ -59,8 +59,10 @@ Choose the option to spin up a temporary webserver (standalone).
 Follow the instructions on the screen to request the initial certificates.
 If successful, the certificates will be stored in folder "/etc/letsencrypt/live/yoursite.org".
 If not successful, you might have to open port 80 on your VPS for inbound connections.
-This could be done with command "ufw allow 80/tcp".
-</p>
+This could be done with this command:
+<pre>
+  $ ufw allow 80/tcp
+</pre>
 <br>
 <p>
 Step 3: Copy the certificates to Bibledit Cloud.
@@ -103,11 +105,13 @@ To restart Bibledit Cloud, run the following command as user root:
 </pre>
 <p>
 Step 6: Verify that https works.
-If your Bibledit Cloud is accessible at e.g. http://bibledit.org:8090,
+If, for instance, your Bibledit Cloud is accessible at e.g. http://bibledit.org:8090,
 then the secure version will be accessible at https://bibledit.org:8091.
 Notice that the port number is increased by one.
 Open your Bibledit Cloud in a browser and check that the secure connection works.
-Double check via command "systemctl status bibledit-cloud" that it listens on http://localhost:... and also on https://localhost... If it does not listen on https, then the secure web server does not run due to a problem in the certificates. The Journal within Bibledit Cloud will provide additional diagnostics in this case.
+Double check via command "systemctl status bibledit-cloud" that it listens on http://localhost:... and also on https://localhost...
+If it does not listen on https, then the secure web server does not run due to a problem in the certificates.
+The Journal within Bibledit Cloud will provide additional diagnostics in this case.
 </p>
 <br>
 <p>

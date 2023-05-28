@@ -125,8 +125,9 @@ string search_index (void * webserver_request)
   }
   view.set_variable ("bible", bible);
   
-  string script = "var searchBible = \"" + bible + "\";";
-  view.set_variable ("script", script);
+  stringstream script {};
+  script << "var searchBible = " << quoted(bible) << ";";
+  view.set_variable ("script", script.str());
   
   page += view.render ("search", "index");
   

@@ -124,18 +124,21 @@ string edit_index (void * webserver_request)
   view.set_variable ("navigationCode", Navigation_Passage::code (bible));
   
 
-  int verticalCaretPosition = request->database_config_user ()->getVerticalCaretPosition (); 
-  string script =
-  "var editorChapterLoaded = '" + locale_logic_text_loaded () + "';\n"
-  "var editorChapterUpdating = '" + locale_logic_text_updating () + "';\n"
-  "var editorChapterUpdated = '" + locale_logic_text_updated () + "';\n"
-  "var editorWillSave = '" + locale_logic_text_will_save () + "';\n"
-  "var editorChapterSaving = '" + locale_logic_text_saving () + "';\n"
-  "var editorChapterSaved = '" + locale_logic_text_saved () + "';\n"
-  "var editorChapterRetrying = '" + locale_logic_text_retrying () + "';\n"
-  "var editorChapterVerseUpdatedLoaded = '" + locale_logic_text_reload () + "';\n"
-  "var verticalCaretPosition = " + convert_to_string (verticalCaretPosition) + ";\n"
-  "var verseSeparator = '" + Database_Config_General::getNotesVerseSeparator () + "';\n";
+  // Create the script.
+  // Quote the text to be sure it's a legal Javascript string.
+  // https://github.com/bibledit/cloud/issues/900
+  stringstream script_stream {};
+  script_stream << "var editorChapterLoaded = " << quoted(locale_logic_text_loaded ()) << ";\n";
+  script_stream << "var editorChapterUpdating = " << quoted(locale_logic_text_updating ()) << ";\n";
+  script_stream << "var editorChapterUpdated = " << quoted(locale_logic_text_updated ()) << ";\n";
+  script_stream << "var editorWillSave = " << quoted(locale_logic_text_will_save ()) << ";\n";
+  script_stream << "var editorChapterSaving = " << quoted(locale_logic_text_saving ()) << ";\n";
+  script_stream << "var editorChapterSaved = " << quoted(locale_logic_text_saved ()) << ";\n";
+  script_stream << "var editorChapterRetrying = " << quoted(locale_logic_text_retrying ()) << ";\n";
+  script_stream << "var editorChapterVerseUpdatedLoaded = " << quoted(locale_logic_text_reload ()) << ";\n";
+  script_stream << "var verticalCaretPosition = " << request->database_config_user ()->getVerticalCaretPosition () << ";\n";
+  script_stream << "var verseSeparator = " << quoted(Database_Config_General::getNotesVerseSeparator ()) << ";\n";
+  string script = script_stream.str();
   config::logic::swipe_enabled (webserver_request, script);
   view.set_variable ("script", script);
   

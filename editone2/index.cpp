@@ -109,20 +109,22 @@ string editone2_index (void * webserver_request)
   // Store the active Bible in the page's javascript.
   view.set_variable ("navigationCode", Navigation_Passage::code (bible));
   
+  // Create the script, quote the strings to ensure it's legal Javascript.
+  stringstream script_stream {};
+  script_stream << "var oneverseEditorVerseLoaded = " << quoted(locale_logic_text_loaded ()) << ";\n";
+  script_stream << "var oneverseEditorVerseUpdating = " << quoted(locale_logic_text_updating ()) << ";\n";
+  script_stream << "var oneverseEditorVerseUpdated = " << quoted(locale_logic_text_updated ()) << ";\n";
+  script_stream << "var oneverseEditorWillSave = " << quoted(locale_logic_text_will_save ()) << ";\n";
+  script_stream << "var oneverseEditorVerseSaving = " << quoted(locale_logic_text_saving ()) << ";\n";
+  script_stream << "var oneverseEditorVerseSaved = " << quoted(locale_logic_text_saved ()) << ";\n";
+  script_stream << "var oneverseEditorVerseRetrying = " << quoted(locale_logic_text_retrying ()) << ";\n";
+  script_stream << "var oneverseEditorVerseUpdatedLoaded = " << quoted(locale_logic_text_reload ()) << ";\n";
   int verticalCaretPosition = request->database_config_user ()->getVerticalCaretPosition ();
-  string script =
-  "var oneverseEditorVerseLoaded = '" + locale_logic_text_loaded () + "';\n"
-  "var oneverseEditorVerseUpdating = '" + locale_logic_text_updating () + "';\n"
-  "var oneverseEditorVerseUpdated = '" + locale_logic_text_updated () + "';\n"
-  "var oneverseEditorWillSave = '" + locale_logic_text_will_save () + "';\n"
-  "var oneverseEditorVerseSaving = '" + locale_logic_text_saving () + "';\n"
-  "var oneverseEditorVerseSaved = '" + locale_logic_text_saved () + "';\n"
-  "var oneverseEditorVerseRetrying = '" + locale_logic_text_retrying () + "';\n"
-  "var oneverseEditorVerseUpdatedLoaded = '" + locale_logic_text_reload () + "';\n"
-  "var verticalCaretPosition = " + convert_to_string (verticalCaretPosition) + ";\n"
-  "var verseSeparator = '" + Database_Config_General::getNotesVerseSeparator () + "';\n";
+  script_stream << "var verticalCaretPosition = " << verticalCaretPosition << ";\n";
+  script_stream << "var verseSeparator = " << quoted(Database_Config_General::getNotesVerseSeparator ()) << ";\n";
+  string script {script_stream.str()};
   config::logic::swipe_enabled (webserver_request, script);
-  view.set_variable ("script", script);
+  view.set_variable ("script", script); 
 
   string custom_class = Filter_Css::getClass (bible);
   string font = fonts::logic::get_text_font (bible);

@@ -221,8 +221,8 @@ string changes_changes (void * webserver_request)
   
   
   stringstream loading {};
-  loading << quoted(translate("Loading ..."));
-  string script = "var loading = " + loading.str() + ";";
+  loading << "var loading = " << quoted(translate("Loading ...")) << ";";
+  string script = loading.str();
   config::logic::swipe_enabled (webserver_request, script);
   view.set_variable ("script", script);
 

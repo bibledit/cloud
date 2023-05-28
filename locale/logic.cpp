@@ -213,9 +213,7 @@ string locale_logic_text_no_privileges_modify_book ()
 
 string locale_logic_text_reload ()
 {
-  string message;
-  message.append (translate("Updated Bible text was loaded."));
-  return message;
+  return translate("Updated Bible text was loaded.");
 }
 
 

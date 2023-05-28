@@ -225,8 +225,9 @@ string search_search2 (void * webserver_request)
     view.set_variable ("bibleoptags", Options_To_Select::mark_selected (bible, bible_html));
   }
   view.set_variable ("bible", bible);
-  string script = "var searchBible = \"" + bible + "\";";
-  view.set_variable ("script", script);
+  stringstream script {};
+  script << "var searchBible = " << quoted(bible) << ";";
+  view.set_variable ("script", script.str());
   page += view.render ("search", "search2");
   page += assets_page::footer ();
   return page;

@@ -92,7 +92,7 @@
 #define PACKAGE_PREFIX_DIR "NONE"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "bibledit 5.0.996"
+#define PACKAGE_STRING "bibledit 5.0.997"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "bibledit"
@@ -101,7 +101,7 @@
 #define PACKAGE_URL ""
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "5.0.996"
+#define PACKAGE_VERSION "5.0.997"
 
 /* Define to 1 if all of the C90 standard headers exist (not just the ones
    required in a freestanding environment). This macro is provided for
@@ -109,7 +109,7 @@
 #define STDC_HEADERS 1
 
 /* Version number of package */
-#define VERSION "5.0.996"
+#define VERSION "5.0.997"
 
 /* Define whether to compile on Windows */
 /* #undef WIN32 */

@@ -24,4 +24,4 @@
 void ldap_logic_initialize ();
 void ldap_logic_clear ();
 bool ldap_logic_is_on (bool log = false);
-bool ldap_logic_fetch (std::string user, std::string password, bool & access, std::string & email, int & role, bool log);
+bool ldap_logic_fetch (const std::string& user, const std::string& password, bool& access, std::string& email, int& role, bool log);

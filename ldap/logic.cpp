@@ -52,29 +52,29 @@ using namespace std;
 
 // These global variables contain the settings for the OpenLDAP server
 // to query for user credentials.
-string ldap_logic_uri;
-string ldap_logic_binddn;
-string ldap_logic_basedn;
-string ldap_logic_scope;
-string ldap_logic_filter;
-string ldap_logic_role;
+string ldap_logic_uri {};
+string ldap_logic_binddn {};
+string ldap_logic_basedn {};
+string ldap_logic_scope {};
+string ldap_logic_filter {};
+string ldap_logic_role {};
 
 
 // Initialize the configuration for accessing an OpenLDAP server.
 void ldap_logic_initialize ()
 {
   // Check if the OpenLDAP configuration file exists.
-  string path = filter_url_create_root_path ({config::logic::config_folder (), "ldap.conf"});
+  const string path = filter_url_create_root_path ({config::logic::config_folder (), "ldap.conf"});
   if (file_or_dir_exists (path)) {
     // Parse the configuration file.
-    string contents = filter_url_file_get_contents (path);
-    vector <string> lines = filter_string_explode (contents, '\n');
+    const string contents = filter_url_file_get_contents (path);
+    const vector <string> lines = filter_string_explode (contents, '\n');
     for (auto line : lines) {
       line = filter_string_trim (line);
       if (line.empty ()) continue;
       if (line.substr (0, 1) == "#") continue;
       size_t pos = line.find ("=");
-      string key = filter_string_trim (line.substr (0, pos));
+      const string key = filter_string_trim (line.substr (0, pos));
       line.erase (0, ++pos);
       line = filter_string_trim (line);
       if (key == "uri"   ) ldap_logic_uri    = line;
@@ -140,7 +140,7 @@ bool ldap_logic_is_on (bool log)
 // Parameter $mail returns the email address.
 // Parameter $role returns the user's role.
 // If the query was done successfully, the function returns true.
-bool ldap_logic_fetch (string user, string password, bool & access, string & email, int & role, bool log)
+bool ldap_logic_fetch (const string& user, const string& password, bool& access, string& email, int& role, bool log)
 {
   // Initialize result values for the caller.
   access = false;
@@ -148,25 +148,24 @@ bool ldap_logic_fetch (string user, string password, bool & access, string & ema
   role = Filter_Roles::guest ();
   
   // Insert the user name where appropriate.
-  string binddn = filter_string_str_replace ("[user]", user, ldap_logic_binddn);
-  string filter = filter_string_str_replace ("[user]", user, ldap_logic_filter);
+  const string binddn = filter_string_str_replace ("[user]", user, ldap_logic_binddn);
+  const string filter = filter_string_str_replace ("[user]", user, ldap_logic_filter);
   
   // Query the LDAP server.
-  string output;
-  int result = filter_shell_vfork (output, "", "ldapsearch",
-                                   "-H", ldap_logic_uri.c_str (),
-                                   "-D", binddn.c_str (),
-                                   "-w", password.c_str (),
-                                   "-b", ldap_logic_basedn.c_str (),
-                                   "-s", ldap_logic_scope.c_str(),
-                                   filter.c_str());
+  string output {};
+  const int result = filter_shell_vfork (output, "", "ldapsearch",
+                                         "-H", ldap_logic_uri.c_str (),
+                                         "-D", binddn.c_str (),
+                                         "-w", password.c_str (),
+                                         "-b", ldap_logic_basedn.c_str (),
+                                         "-s", ldap_logic_scope.c_str(),
+                                         filter.c_str());
   
   // Logging.
   if (log) {
-    string command = "ldapsearch -H " + ldap_logic_uri + " -D " + binddn + " -w " + password + " -b " + ldap_logic_basedn + " -s " + ldap_logic_scope + " " + filter;
+    const string command = "ldapsearch -H " + ldap_logic_uri + " -D " + binddn + " -w " + password + " -b " + ldap_logic_basedn + " -s " + ldap_logic_scope + " " + filter;
     Database_Logs::log ("LDAP query\n" + command + "\n" + output, Filter_Roles::admin ());
   }
-  
   
   // Check on invalid credentials.
   if (result == 12544) {
@@ -176,13 +175,13 @@ bool ldap_logic_fetch (string user, string password, bool & access, string & ema
   // Parse server response.
   if (result == 0) {
     access = true;
-    vector <string> lines = filter_string_explode (output, '\n');
-    for (auto & line : lines) {
+    const vector <string> lines = filter_string_explode (output, '\n');
+    for (const auto& line : lines) {
       if (line.find ("mail:") == 0) {
         email = filter_string_trim (line.substr (5));
       }
       if (line.find (ldap_logic_role + ":") == 0) {
-        string fragment = unicode_string_casefold (filter_string_trim (line.substr (3)));
+        const string fragment = unicode_string_casefold (filter_string_trim (line.substr (3)));
         for (int r = Filter_Roles::lowest (); r <= Filter_Roles::highest (); r++) {
           if (fragment.find (unicode_string_casefold (Filter_Roles::english (r))) != string::npos) {
             role = r;

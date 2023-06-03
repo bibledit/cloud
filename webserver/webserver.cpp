@@ -283,7 +283,7 @@ void http_server ()
   memset (&serveraddr, 0, sizeof (serveraddr));
   serveraddr.sin_family = AF_INET;
   serveraddr.sin_addr.s_addr = htonl (INADDR_LOOPBACK);
-  serveraddr.sin_port = htons (convert_to_int (config::logic::http_network_port ()));
+  serveraddr.sin_port = htons (filter::strings::convert_to_int (config::logic::http_network_port ()));
 #endif
 #ifdef HAVE_CLOUD
   // When configured as a server it listens on any IPv6 address.
@@ -292,7 +292,7 @@ void http_server ()
   serveraddr.sin6_flowinfo = 0;
   serveraddr.sin6_family = AF_INET6;
   serveraddr.sin6_addr = in6addr_any;
-  serveraddr.sin6_port = htons (static_cast<uint16_t>(convert_to_int (config::logic::http_network_port ())));
+  serveraddr.sin6_port = htons (static_cast<uint16_t>(filter::strings::convert_to_int (config::logic::http_network_port ())));
 #endif
   result = mybind (listenfd, reinterpret_cast<sockaddr *>(&serveraddr), sizeof (serveraddr));
   if (result != 0) {
@@ -407,7 +407,7 @@ void http_server ()
   WSADATA wsa_data;
   result = WSAStartup(MAKEWORD(2, 2), &wsa_data);
   if (result != 0) {
-    string error = "Could not initialize Windows Sockets with error " + convert_to_string (result);
+    string error = "Could not initialize Windows Sockets with error " + filter::strings::convert_to_string (result);
     cerr << error << endl;
     Database_Logs::log (error);
     listener_healthy = false;
@@ -423,7 +423,7 @@ void http_server ()
   // Create a socket for listening for incoming connections.
   SOCKET listen_socket = socket(AF_INET, SOCK_STREAM, 0);
   if (listen_socket == INVALID_SOCKET) {
-    string error = "Socket failed with error " + convert_to_string (WSAGetLastError());
+    string error = "Socket failed with error " + filter::strings::convert_to_string (WSAGetLastError());
     cerr << error << endl;
     Database_Logs::log (error);
     listener_healthy = false;
@@ -436,7 +436,7 @@ void http_server ()
   memset(&serveraddr, 0, sizeof(serveraddr));
   serveraddr.sin_family = AF_INET;
   serveraddr.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
-  serveraddr.sin_port = htons(convert_to_int(config::logic::http_network_port()));
+  serveraddr.sin_port = htons(filter::strings::convert_to_int(config::logic::http_network_port()));
   result = mybind(listen_socket, (SA *)&serveraddr, sizeof(serveraddr));
   if (result == SOCKET_ERROR) {
 	  string error = "Error binding server to socket";
@@ -448,7 +448,7 @@ void http_server ()
   // Listen for multiple connections.
   result = listen(listen_socket, SOMAXCONN);
   if (result == SOCKET_ERROR) {
-    string error = "Listen failed with error " + convert_to_string (WSAGetLastError());
+    string error = "Listen failed with error " + filter::strings::convert_to_string (WSAGetLastError());
     cerr << error << endl;
     Database_Logs::log (error);
     listener_healthy = false;

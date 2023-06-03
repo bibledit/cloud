@@ -76,7 +76,7 @@ bool Sync_Logic::credentials_okay ()
   // Get the credentials the client POSTed to the us, the server.
   string username = hex2bin (request->post ["u"]);
   string password = request->post ["p"];
-  int level = convert_to_int (request->post ["l"]);
+  int level = filter::strings::convert_to_int (request->post ["l"]);
   
   // Check all credentials.
   bool user_ok = request->database_users ()->usernameExists (username);
@@ -109,7 +109,7 @@ string Sync_Logic::checksum (const vector <int> & identifiers)
   for (const auto & identifier : identifiers) {
     checksums.push_back (database_notes.get_checksum (identifier));
   }
-  string checksum = filter_string_implode (checksums, "");
+  string checksum = filter::strings::implode (checksums, "");
   checksum = md5 (checksum);
   return checksum;
 }
@@ -166,13 +166,13 @@ string Sync_Logic::settings_checksum (const vector <string> & bibles)
   checksum.append (request->database_config_user()->getWorkspaceWidths ());
   checksum.append (request->database_config_user()->getWorkspaceHeights ());
   vector <string> resources = request->database_config_user()->getActiveResources ();
-  checksum.append (filter_string_implode (resources, "\n"));
+  checksum.append (filter::strings::implode (resources, "\n"));
   for (auto & bible : bibles) {
     checksum.append (bible);
     // Download Bible text font name: It is the default name for the clients.
     checksum.append (Database_Config_Bible::getTextFont (bible));
   }
-  checksum.append (convert_to_string (request->database_config_user()->getPrivilegeDeleteConsultationNotes ()));
+  checksum.append (filter::strings::convert_to_string (request->database_config_user()->getPrivilegeDeleteConsultationNotes ()));
   return md5 (checksum);
 }
 
@@ -186,7 +186,7 @@ string Sync_Logic::usfm_resources_checksum ()
   for (auto & resource : resources) {
     vchecksum.push_back (usfm_resource_checksum (resource));
   }
-  string checksum = filter_string_implode (vchecksum, "");
+  string checksum = filter::strings::implode (vchecksum, "");
   checksum = md5 (checksum);
   return checksum;
 }
@@ -199,10 +199,10 @@ string Sync_Logic::usfm_resource_checksum (const string& name)
   Database_UsfmResources database_usfmresources = Database_UsfmResources ();
   vector <int> books = database_usfmresources.getBooks (name);
   for (auto & book : books) {
-    vchecksum.push_back (convert_to_string (book));
+    vchecksum.push_back (filter::strings::convert_to_string (book));
     vchecksum.push_back (usfm_resource_book_checksum (name, book));
   }
-  string checksum = filter_string_implode (vchecksum, "");
+  string checksum = filter::strings::implode (vchecksum, "");
   checksum = md5 (checksum);
   return checksum;
 }
@@ -215,10 +215,10 @@ string Sync_Logic::usfm_resource_book_checksum (const string& name, int book)
   Database_UsfmResources database_usfmresources = Database_UsfmResources ();
   vector <int> chapters = database_usfmresources.getChapters (name, book);
   for (auto & chapter : chapters) {
-    vchecksum.push_back (convert_to_string (chapter));
+    vchecksum.push_back (filter::strings::convert_to_string (chapter));
     vchecksum.push_back (usfm_resource_chapter_checksum (name, book, chapter));
   }
-  string checksum = filter_string_implode (vchecksum, "");
+  string checksum = filter::strings::implode (vchecksum, "");
   checksum = md5 (checksum);
   return checksum;
 }
@@ -229,7 +229,7 @@ string Sync_Logic::usfm_resource_chapter_checksum (const string& name, int book,
 {
   Database_UsfmResources database_usfmresources = Database_UsfmResources ();
   int checksum = database_usfmresources.getSize (name, book, chapter);
-  return convert_to_string (checksum);
+  return filter::strings::convert_to_string (checksum);
 }
 
 
@@ -241,7 +241,7 @@ string Sync_Logic::changes_checksum (const string & username)
   vector <int> ids = database_modifications.getNotificationIdentifiers (username, any_bible);
   string checksum;
   for (auto & id : ids) {
-    checksum.append (convert_to_string (id));
+    checksum.append (filter::strings::convert_to_string (id));
   }
   checksum = md5 (checksum);
   return checksum;

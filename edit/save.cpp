@@ -67,8 +67,8 @@ string edit_save (void * webserver_request)
   }
 
   string bible = request->post["bible"];
-  int book = convert_to_int (request->post["book"]);
-  int chapter = convert_to_int (request->post["chapter"]);
+  int book = filter::strings::convert_to_int (request->post["book"]);
+  int chapter = filter::strings::convert_to_int (request->post["chapter"]);
   string html = request->post["html"];
   string checksum = request->post["checksum"];
   string unique_id = request->post ["id"];
@@ -116,7 +116,7 @@ string edit_save (void * webserver_request)
   user_usfm = book_chapter_text[0].m_data;
   bool chapter_ok = (((book_number == book) || (book_number == 0)) && (chapter_number == chapter));
   if (!chapter_ok) {
-    return translate("Incorrect chapter") + " " + convert_to_string (chapter_number);
+    return translate("Incorrect chapter") + " " + filter::strings::convert_to_string (chapter_number);
   }
   
   // Collect some data about the changes for this user
@@ -191,13 +191,13 @@ string edit_save (void * webserver_request)
   // Remove spaces before comparing.
   // Goal: Entering a space in the editor does not cause a reload.
   html = html2xml (html);
-  html = filter_string_str_replace (" ", "", html);
-  html = filter_string_str_replace (unicode_non_breaking_space_entity (), "", html);
-  filter_string_replace_between (html, "<", ">", "");
+  html = filter::strings::replace (" ", "", html);
+  html = filter::strings::replace (unicode_non_breaking_space_entity (), "", html);
+  filter::strings::replace_between (html, "<", ">", "");
   converted_html = html2xml (converted_html);
-  converted_html = filter_string_str_replace (" ", "", converted_html);
-  converted_html = filter_string_str_replace (unicode_non_breaking_space_entity (), "", converted_html);
-  filter_string_replace_between (converted_html, "<", ">", "");
+  converted_html = filter::strings::replace (" ", "", converted_html);
+  converted_html = filter::strings::replace (unicode_non_breaking_space_entity (), "", converted_html);
+  filter::strings::replace_between (converted_html, "<", ">", "");
   // If round trip conversion differs, send a known string to the browser,
   // to signal the browser to reload the reformatted chapter.
   if (html != converted_html) return locale_logic_text_reformat ();

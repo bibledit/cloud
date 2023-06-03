@@ -98,7 +98,7 @@ string email_index (void * webserver_request)
       storage_success.append (" ");
       storage_success.append (translate ("Messages on server:"));
       storage_success.append (" ");
-      storage_success.append (convert_to_string (mailcount));
+      storage_success.append (filter::strings::convert_to_string (mailcount));
       storage_success.append (".");
     }
     view.set_variable ("storage_success", storage_success);

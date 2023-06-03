@@ -52,8 +52,8 @@ string edit_load (void * webserver_request)
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   
   string bible = request->query ["bible"];
-  int book = convert_to_int (request->query ["book"]);
-  int chapter = convert_to_int (request->query ["chapter"]);
+  int book = filter::strings::convert_to_int (request->query ["book"]);
+  int chapter = filter::strings::convert_to_int (request->query ["chapter"]);
   string unique_id = request->query ["id"];
 
   // Store a copy of the USFM loaded in the editor for later reference.
@@ -74,7 +74,7 @@ string edit_load (void * webserver_request)
   if (filter::usfm::contains_empty_verses (usfm)) {
     string search = "<span> </span>";
     string replace = "<span>" + unicode_non_breaking_space_entity () + "</span>";
-    html = filter_string_str_replace (search, replace, html);
+    html = filter::strings::replace (search, replace, html);
   }
   
   string user = request->session_logic ()->currentUser ();

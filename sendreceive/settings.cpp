@@ -84,7 +84,7 @@ void sendreceive_settings ()
   Sync_Logic sync_logic = Sync_Logic (&request);
 
   string response = client_logic_connection_setup ("", "");
-  int iresponse = convert_to_int (response);
+  int iresponse = filter::strings::convert_to_int (response);
   if (iresponse < Filter_Roles::guest () || iresponse > Filter_Roles::admin ()) {
     Database_Logs::log (translate("Failure sending and receiving Settings"), Filter_Roles::translator ());
     sendreceive_settings_done ();
@@ -115,12 +115,12 @@ void sendreceive_settings ()
   map <string, string> post;
   post ["u"] = bin2hex (user);
   post ["p"] = request.database_users ()->get_md5 (user);
-  post ["l"] = convert_to_string (request.database_users ()->get_level (user));
+  post ["l"] = filter::strings::convert_to_string (request.database_users ()->get_level (user));
 
   for (auto id : ids) {
 
     // What to request for.
-    post ["a"] = convert_to_string (id);
+    post ["a"] = filter::strings::convert_to_string (id);
 
     string value {};
     switch (id) {
@@ -136,7 +136,7 @@ void sendreceive_settings ()
       case Sync_Logic::settings_send_resources_organization:
       {
         vector <string> resources = request.database_config_user()->getActiveResources ();
-        value = filter_string_implode (resources, "\n");
+        value = filter::strings::implode (resources, "\n");
         break;
       }
       default: break;
@@ -158,10 +158,10 @@ void sendreceive_settings ()
 
   // Send the platform to the Cloud.
   {
-    post ["a"] = convert_to_string (Sync_Logic::settings_send_platform);
+    post ["a"] = filter::strings::convert_to_string (Sync_Logic::settings_send_platform);
     // No longer in use.
     int platform_id = 0;
-    post ["v"] = convert_to_string (platform_id);
+    post ["v"] = filter::strings::convert_to_string (platform_id);
     string error;
     sync_logic.post (post, url, error);
   }
@@ -175,8 +175,8 @@ void sendreceive_settings ()
   // The script is then ready.
   if (post.count ("v")) post.erase (post.find ("v"));
   vector <string> bibles = request.database_bibles ()->getBibles ();
-  post ["a"] = convert_to_string (Sync_Logic::settings_get_total_checksum);
-  post ["b"] = filter_string_implode (bibles, "\n");
+  post ["a"] = filter::strings::convert_to_string (Sync_Logic::settings_get_total_checksum);
+  post ["b"] = filter::strings::implode (bibles, "\n");
   string error;
   response = sync_logic.post (post, url, error);
   if (!error.empty ()) {
@@ -195,7 +195,7 @@ void sendreceive_settings ()
   // At this stage the total checksum of all relevant settings on the client differs from the same on the server.
   // Request all settings from the server.
 
-  post ["a"] = convert_to_string (Sync_Logic::settings_get_workspace_urls);
+  post ["a"] = filter::strings::convert_to_string (Sync_Logic::settings_get_workspace_urls);
   response = sync_logic.post (post, url, error);
   if (!error.empty ()) {
     Database_Logs::log ("Failure receiving workspace URLS", Filter_Roles::translator ());
@@ -204,7 +204,7 @@ void sendreceive_settings ()
   }
   request.database_config_user()->setWorkspaceURLs (response);
 
-  post ["a"] = convert_to_string (Sync_Logic::settings_get_workspace_widths);
+  post ["a"] = filter::strings::convert_to_string (Sync_Logic::settings_get_workspace_widths);
   response = sync_logic.post (post, url, error);
   if (!error.empty ()) {
     Database_Logs::log ("Failure receiving workspace widths", Filter_Roles::translator ());
@@ -213,7 +213,7 @@ void sendreceive_settings ()
   }
   request.database_config_user()->setWorkspaceWidths (response);
 
-  post ["a"] = convert_to_string (Sync_Logic::settings_get_workspace_heights);
+  post ["a"] = filter::strings::convert_to_string (Sync_Logic::settings_get_workspace_heights);
   response = sync_logic.post (post, url, error);
   if (!error.empty ()) {
     Database_Logs::log ("Failure receiving workspace heights", Filter_Roles::translator ());
@@ -222,14 +222,14 @@ void sendreceive_settings ()
   }
   request.database_config_user()->setWorkspaceHeights (response);
 
-  post ["a"] = convert_to_string (Sync_Logic::settings_get_resources_organization);
+  post ["a"] = filter::strings::convert_to_string (Sync_Logic::settings_get_resources_organization);
   response = sync_logic.post (post, url, error);
   if (!error.empty ()) {
     Database_Logs::log ("Failure receiving workspace heights", Filter_Roles::translator ());
     sendreceive_settings_done ();
     return;
   }
-  request.database_config_user()->setActiveResources (filter_string_explode (response, '\n'));
+  request.database_config_user()->setActiveResources (filter::strings::explode (response, '\n'));
   
   // Fetch values for the Bibles.
   for (auto & bible : bibles) {
@@ -239,7 +239,7 @@ void sendreceive_settings ()
     // Request the font for the Bible.
     // Note that it requests the font name from the Cloud.
     // When the font is set by the client, it will override the font setting from the Cloud.
-    post ["a"] = convert_to_string (Sync_Logic::settings_get_bible_font);
+    post ["a"] = filter::strings::convert_to_string (Sync_Logic::settings_get_bible_font);
     response = sync_logic.post (post, url, error);
     if (!error.empty ()) {
       Database_Logs::log ("Failure receiving Bible font", Filter_Roles::translator ());
@@ -249,14 +249,14 @@ void sendreceive_settings ()
     Database_Config_Bible::setTextFont (bible, response);
   }
 
-  post ["a"] = convert_to_string (Sync_Logic::settings_get_privilege_delete_consultation_notes);
+  post ["a"] = filter::strings::convert_to_string (Sync_Logic::settings_get_privilege_delete_consultation_notes);
   response = sync_logic.post (post, url, error);
   if (!error.empty ()) {
     Database_Logs::log ("Failure receiving privilege delete consultation notes", Filter_Roles::translator ());
     sendreceive_settings_done ();
     return;
   }
-  request.database_config_user()->setPrivilegeDeleteConsultationNotes (convert_to_bool (response));
+  request.database_config_user()->setPrivilegeDeleteConsultationNotes (filter::strings::convert_to_bool (response));
 
   // Done.
   Database_Logs::log ("Settings: Updated", Filter_Roles::translator ());

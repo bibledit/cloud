@@ -77,13 +77,13 @@ string notes_create (void * webserver_request)
   
   
   int book;
-  if (request->post.count ("book")) book = convert_to_int (request->post ["book"]);
+  if (request->post.count ("book")) book = filter::strings::convert_to_int (request->post ["book"]);
   else book = Ipc_Focus::getBook (webserver_request);
   int chapter;
-  if (request->post.count ("chapter")) chapter = convert_to_int (request->post ["chapter"]);
+  if (request->post.count ("chapter")) chapter = filter::strings::convert_to_int (request->post ["chapter"]);
   else chapter = Ipc_Focus::getChapter (webserver_request);
   int verse;
-  if (request->post.count ("verse")) verse = convert_to_int (request->post ["verse"]);
+  if (request->post.count ("verse")) verse = filter::strings::convert_to_int (request->post ["verse"]);
   else verse = Ipc_Focus::getVerse (webserver_request);
 
   
@@ -106,7 +106,7 @@ string notes_create (void * webserver_request)
   // This script can be called from a change notification.
   // It will then create a note based on that change notification.
   if (request->query.count ("fromchange")) {
-    int fromchange = convert_to_int (request->query ["fromchange"]);
+    int fromchange = filter::strings::convert_to_int (request->query ["fromchange"]);
     Database_Modifications database_modifications;
     //string bible = database_modifications.getNotificationBible (fromchange);
     string summary = translate("Query about a change in the text");
@@ -122,10 +122,10 @@ string notes_create (void * webserver_request)
 
   
   view.set_variable ("bible", bible);
-  view.set_variable ("book", convert_to_string (book));
-  view.set_variable ("chapter", convert_to_string (chapter));
-  view.set_variable ("verse", convert_to_string (verse));
-  string passage = filter_passage_display (book, chapter, convert_to_string (verse));
+  view.set_variable ("book", filter::strings::convert_to_string (book));
+  view.set_variable ("chapter", filter::strings::convert_to_string (chapter));
+  view.set_variable ("verse", filter::strings::convert_to_string (verse));
+  string passage = filter_passage_display (book, chapter, filter::strings::convert_to_string (verse));
   view.set_variable ("passage", passage);
   if (request->database_config_user ()->getShowVerseTextAtCreateNote ()) {
     string versetext;

@@ -81,8 +81,8 @@ string compare_index (void * webserver_request)
     Database_Jobs database_jobs = Database_Jobs ();
     int jobId = database_jobs.get_new_id ();
     database_jobs.set_level (jobId, Filter_Roles::consultant ());
-    tasks_logic_queue (COMPAREUSFM, {bible, compare, convert_to_string (jobId)});
-    redirect_browser (request, jobs_index_url () + "?id=" + convert_to_string (jobId));
+    tasks_logic_queue (COMPAREUSFM, {bible, compare, filter::strings::convert_to_string (jobId)});
+    redirect_browser (request, jobs_index_url () + "?id=" + filter::strings::convert_to_string (jobId));
     return "";
   }
 

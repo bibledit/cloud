@@ -72,40 +72,40 @@ void Database_Config_General::setValue (const char * key, string value)
 
 bool Database_Config_General::getBValue (const char * key, bool default_value)
 {
-  string value = getValue (key, convert_to_string (default_value).c_str());
-  return convert_to_bool (value);
+  string value = getValue (key, filter::strings::convert_to_string (default_value).c_str());
+  return filter::strings::convert_to_bool (value);
 }
 
 
 void Database_Config_General::setBValue (const char * key, bool value)
 {
-  setValue (key, convert_to_string (value).c_str());
+  setValue (key, filter::strings::convert_to_string (value).c_str());
 }
 
 
 int Database_Config_General::getIValue (const char * key, int default_value)
 {
-  string value = getValue (key, convert_to_string (default_value).c_str());
-  return convert_to_int (value);
+  string value = getValue (key, filter::strings::convert_to_string (default_value).c_str());
+  return filter::strings::convert_to_int (value);
 }
 
 
 void Database_Config_General::setIValue (const char * key, int value)
 {
-  setValue (key, convert_to_string (value).c_str());
+  setValue (key, filter::strings::convert_to_string (value).c_str());
 }
 
 
 vector <string> Database_Config_General::getList (const char * key)
 {
   string contents = getValue (key, "");
-  return filter_string_explode (contents, '\n');
+  return filter::strings::explode (contents, '\n');
 }
 
 
 void Database_Config_General::setList (const char * key, vector <string> values)
 {
-  string value = filter_string_implode (values, "\n");
+  string value = filter::strings::implode (values, "\n");
   setValue (key, value);
 }
 

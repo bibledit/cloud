@@ -67,15 +67,15 @@ string sync_changes (void * webserver_request)
 
   // Get the relevant parameters the client may have POSTed to us, the server.
   string user = hex2bin (request->post ["u"]);
-  int action = convert_to_int (request->post ["a"]);
-  int id = convert_to_int (request->post ["i"]);
+  int action = filter::strings::convert_to_int (request->post ["a"]);
+  int id = filter::strings::convert_to_int (request->post ["i"]);
 
   switch (action) {
     case Sync_Logic::changes_delete_modification:
     {
       // The server deletes the change notification.
       database_modifications.deleteNotification (id);
-      Database_Logs::log ("Client deletes change notification from server: " + convert_to_string (id), Filter_Roles::translator ());
+      Database_Logs::log ("Client deletes change notification from server: " + filter::strings::convert_to_string (id), Filter_Roles::translator ());
       request->database_config_user ()->setChangeNotificationsChecksum ("");
       return "";
     }
@@ -97,7 +97,7 @@ string sync_changes (void * webserver_request)
       string response;
       for (auto & notif_id : notification_ids) {
         if (!response.empty ()) response.append ("\n");
-        response.append (convert_to_string (notif_id));
+        response.append (filter::strings::convert_to_string (notif_id));
       }
       return response;
     }
@@ -113,23 +113,23 @@ string sync_changes (void * webserver_request)
       // chapter
       // verse
       Passage passage = database_modifications.getNotificationPassage (id);
-      lines.push_back (convert_to_string (passage.m_book));
-      lines.push_back (convert_to_string (passage.m_chapter));
+      lines.push_back (filter::strings::convert_to_string (passage.m_book));
+      lines.push_back (filter::strings::convert_to_string (passage.m_chapter));
       lines.push_back (passage.m_verse);
       // oldtext (ensure it's one line for correct transfer to client)
       string oldtext = database_modifications.getNotificationOldText (id);
-      oldtext = filter_string_str_replace ("\n", " ", oldtext);
+      oldtext = filter::strings::replace ("\n", " ", oldtext);
       lines.push_back (oldtext);
       // modification (ensure it's one line for correct transfer to client)
       string modification = database_modifications.getNotificationModification (id);
-      modification = filter_string_str_replace ("\n", " ", modification);
+      modification = filter::strings::replace ("\n", " ", modification);
       lines.push_back (modification);
       // newtext (ensure it's one line for correct transfer to client)
       string newtext = database_modifications.getNotificationNewText (id);
-      newtext = filter_string_str_replace ("\n", " ", newtext);
+      newtext = filter::strings::replace ("\n", " ", newtext);
       lines.push_back (newtext);
       // Result.
-      return filter_string_implode (lines, "\n");
+      return filter::strings::implode (lines, "\n");
     }
     default: {};
   }

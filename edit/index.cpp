@@ -66,10 +66,10 @@ string edit_index (void * webserver_request)
 
   
   if (request->query.count ("switchbook") && request->query.count ("switchchapter")) {
-    int switchbook = convert_to_int (request->query ["switchbook"]);
-    int switchchapter = convert_to_int (request->query ["switchchapter"]);
+    int switchbook = filter::strings::convert_to_int (request->query ["switchbook"]);
+    int switchchapter = filter::strings::convert_to_int (request->query ["switchchapter"]);
     int switchverse = 1;
-    if (request->query.count ("switchverse")) switchverse = convert_to_int (request->query ["switchverse"]);
+    if (request->query.count ("switchverse")) switchverse = filter::strings::convert_to_int (request->query ["switchverse"]);
     Ipc_Focus::set (request, switchbook, switchchapter, switchverse);
     Navigation_Passage::record_history (request, switchbook, switchchapter, switchverse);
   }

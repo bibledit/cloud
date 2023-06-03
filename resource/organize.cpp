@@ -58,7 +58,7 @@ string resource_organize (void * webserver_request)
 
   
   string checkbox = request->post ["checkbox"];
-  bool checked = convert_to_bool (request->post ["checked"]);
+  bool checked = filter::strings::convert_to_bool (request->post ["checked"]);
 
 
   // For administrator level default resource management purposes.
@@ -90,7 +90,7 @@ string resource_organize (void * webserver_request)
   
   
   if (request->query.count ("remove")) {
-    int remove = convert_to_int (request->query["remove"]);
+    int remove = filter::strings::convert_to_int (request->query["remove"]);
     vector <string> resources = request->database_config_user()->getActiveResources ();
     if (is_def) resources = default_active_resources;
     if (remove < static_cast<int>(resources.size ())) {
@@ -106,8 +106,8 @@ string resource_organize (void * webserver_request)
   if (!movefrom.empty ()) {
     string moveto =  request->post ["moveto"];
     if (!moveto.empty ()) {
-      size_t from = static_cast<size_t> (convert_to_int (movefrom));
-      size_t to = static_cast<size_t>(convert_to_int (moveto));
+      size_t from = static_cast<size_t> (filter::strings::convert_to_int (movefrom));
+      size_t to = static_cast<size_t>(filter::strings::convert_to_int (moveto));
       vector <string> resources = request->database_config_user()->getActiveResources ();
       if (is_def) resources = default_active_resources;
       array_move_from_to (resources, from, to);
@@ -139,7 +139,7 @@ string resource_organize (void * webserver_request)
     string defactivesblock;
     for (size_t i = 0; i < default_active_resources.size (); i++) {
       defactivesblock.append ("<p>&#183; ");
-      defactivesblock.append ("<a href=\"?remove=" + convert_to_string (i) + "&type=def\">");
+      defactivesblock.append ("<a href=\"?remove=" + filter::strings::convert_to_string (i) + "&type=def\">");
       defactivesblock.append (emoji_wastebasket ());
       defactivesblock.append ("</a>");
       defactivesblock.append (" ");
@@ -156,7 +156,7 @@ string resource_organize (void * webserver_request)
   string activesblock;
   for (size_t i = 0; i < active_resources.size (); i++) {
     activesblock.append ("<p>&#183; ");
-    activesblock.append ("<a href=\"?remove=" + convert_to_string (i) + "\">");
+    activesblock.append ("<a href=\"?remove=" + filter::strings::convert_to_string (i) + "\">");
     activesblock.append (emoji_wastebasket ());
     activesblock.append ("</a>");
     activesblock.append (" ");
@@ -169,32 +169,32 @@ string resource_organize (void * webserver_request)
   
   // Context before.
   if (request->query.count ("before")) {
-    Dialog_Entry dialog_entry = Dialog_Entry ("organize", translate("Please enter the number of verses"), convert_to_string (request->database_config_user ()->getResourceVersesBefore ()), "before", translate ("How many verses of context to display before the focused verse."));
+    Dialog_Entry dialog_entry = Dialog_Entry ("organize", translate("Please enter the number of verses"), filter::strings::convert_to_string (request->database_config_user ()->getResourceVersesBefore ()), "before", translate ("How many verses of context to display before the focused verse."));
     page += dialog_entry.run ();
     return page;
   }
   if (request->post.count ("before")) {
-    int value = convert_to_int (request->post["entry"]);
+    int value = filter::strings::convert_to_int (request->post["entry"]);
     if ((value >= 0) && (value <= 100)) {
       request->database_config_user ()->setResourceVersesBefore (value);
     }
   }
-  view.set_variable ("before", convert_to_string (request->database_config_user ()->getResourceVersesBefore ()));
+  view.set_variable ("before", filter::strings::convert_to_string (request->database_config_user ()->getResourceVersesBefore ()));
 
   
   // Context after.
   if (request->query.count ("after")) {
-    Dialog_Entry dialog_entry = Dialog_Entry ("organize", translate("Please enter the number of verses"), convert_to_string (request->database_config_user ()->getResourceVersesAfter ()), "after", translate ("How many verses of context to display after the focused verse."));
+    Dialog_Entry dialog_entry = Dialog_Entry ("organize", translate("Please enter the number of verses"), filter::strings::convert_to_string (request->database_config_user ()->getResourceVersesAfter ()), "after", translate ("How many verses of context to display after the focused verse."));
     page += dialog_entry.run ();
     return page;
   }
   if (request->post.count ("after")) {
-    int value = convert_to_int (request->post["entry"]);
+    int value = filter::strings::convert_to_int (request->post["entry"]);
     if ((value >= 0) && (value <= 100)) {
       request->database_config_user ()->setResourceVersesAfter (value);
     }
   }
-  view.set_variable ("after", convert_to_string (request->database_config_user ()->getResourceVersesAfter ()));
+  view.set_variable ("after", filter::strings::convert_to_string (request->database_config_user ()->getResourceVersesAfter ()));
 
   
   if (checkbox == "related") {

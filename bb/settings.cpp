@@ -109,7 +109,7 @@ string bible_settings (void * webserver_request)
   
   // The state of the checkbox.
   string checkbox = request->post ["checkbox"];
-  bool checked = convert_to_bool (request->post ["checked"]);
+  bool checked = filter::strings::convert_to_bool (request->post ["checked"]);
 
   
   // Versification.
@@ -143,7 +143,7 @@ string bible_settings (void * webserver_request)
       return page;
     } else {
       vector <string> feedback;
-      if (write_access) book_create (bible, static_cast<book_id>(convert_to_int (createbook)), -1, feedback);
+      if (write_access) book_create (bible, static_cast<book_id>(filter::strings::convert_to_int (createbook)), -1, feedback);
     }
     // User creates a book in this Bible: Set it as the default Bible.
     request->database_config_user()->setBible (bible);
@@ -155,7 +155,7 @@ string bible_settings (void * webserver_request)
   if (!deletebook.empty()) {
     string confirm = request->query["confirm"];
     if (confirm == "yes") {
-      if (write_access) bible_logic::delete_book (bible, convert_to_int (deletebook));
+      if (write_access) bible_logic::delete_book (bible, filter::strings::convert_to_int (deletebook));
     } else if (confirm == "cancel") {
     } else {
       Dialog_Yes dialog_yes = Dialog_Yes ("settings", translate("Would you like to delete this book?"));
@@ -211,7 +211,7 @@ string bible_settings (void * webserver_request)
     if (manager_level) {
       a_or_span_node = book_document.append_child("a");
       string href = filter_url_build_http_query ("book", "bible", bible);
-      href = filter_url_build_http_query (href, "book", convert_to_string (book));
+      href = filter_url_build_http_query (href, "book", filter::strings::convert_to_string (book));
       a_or_span_node.append_attribute("href") = href.c_str();
     } else {
       a_or_span_node = book_document.append_child("span");
@@ -223,7 +223,7 @@ string bible_settings (void * webserver_request)
   stringstream bookblock2 {};
   book_document.print (bookblock2, "", format_raw);
   view.set_variable ("bookblock", bookblock2.str());
-  view.set_variable ("book_count", convert_to_string (static_cast<int>(book_ids.size())));
+  view.set_variable ("book_count", filter::strings::convert_to_string (static_cast<int>(book_ids.size())));
 
 
   // Public feedback.

@@ -535,7 +535,7 @@ string styles_logic_note_numbering_text (int value)
   if (value == NoteNumbering123 ) return "1, 2, 3 ...";
   if (value == NoteNumberingAbc ) return "a, b, c ...";
   if (value == NoteNumberingUser) return translate ("User defined sequence");
-  return convert_to_string (value);
+  return filter::strings::convert_to_string (value);
 }
 
 
@@ -562,7 +562,7 @@ string styles_logic_note_restart_numbering_text (int value)
   if (value == NoteRestartNumberingNever       ) return translate ("Never");
   if (value == NoteRestartNumberingEveryBook   ) return translate ("Every book");
   if (value == NoteRestartNumberingEveryChapter) return translate ("Every chapter");
-  return convert_to_string (value);
+  return filter::strings::convert_to_string (value);
 }
 
 
@@ -572,7 +572,7 @@ string styles_logic_end_note_position_text (int value)
   if (value == EndNotePositionAfterBook) return translate ("After each book");
   if (value == EndNotePositionVeryEnd  ) return translate ("After everything else");
   if (value == EndNotePositionAtMarker ) return translate ("Upon encountering a certain marker");
-  return convert_to_string (value);
+  return filter::strings::convert_to_string (value);
 }
 
 

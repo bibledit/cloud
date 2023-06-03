@@ -93,7 +93,7 @@ string checks_settings (void * webserver_request)
   
   
   string checkbox = request->post ["checkbox"];
-  bool checked = convert_to_bool (request->post ["checked"]);
+  bool checked = filter::strings::convert_to_bool (request->post ["checked"]);
   
                         
   if (checkbox == "doublespacesusfm") {

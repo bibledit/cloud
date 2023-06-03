@@ -137,7 +137,7 @@ unsigned int Database_Confirm::search_id (string subject)
   for (string id : ids) {
     size_t pos = subject.find (id);
     if (pos != string::npos) {
-      return static_cast<unsigned>(convert_to_int (id));
+      return static_cast<unsigned>(filter::strings::convert_to_int (id));
     }
   }
   return 0;
@@ -150,7 +150,7 @@ vector <int> Database_Confirm::get_ids ()
   sql.add ("SELECT id FROM confirm;");
   vector <string> s_ids = sql.query () ["id"];
   vector <int> ids;
-  for (auto id : s_ids) ids.push_back(convert_to_int(id));
+  for (auto id : s_ids) ids.push_back(filter::strings::convert_to_int(id));
   return ids;
 }
 

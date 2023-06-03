@@ -246,7 +246,7 @@ void demo_create_sample_bible ()
     size_t pos = file.find(demo_sample_bible_name());
     if (pos == string::npos) {
       string filename = "Sample";
-      file = filter_string_str_replace(filename, demo_sample_bible_name(), file);
+      file = filter::strings::replace(filename, demo_sample_bible_name(), file);
     }
     // Proceed with the path.
     file = filter_url_create_root_path ({file});
@@ -338,7 +338,7 @@ void demo_create_sample_notes (void * webserver_request)
   vector <int> identifiers = database_notes.get_identifiers ();
   if (identifiers.size () < 10) {
     for (int i = 1; i <= 10; i++) {
-      database_notes.store_new_note (demo_sample_bible_name (), i, i, i, "Sample Note " + convert_to_string (i), "Sample Contents for note " + convert_to_string (i), false);
+      database_notes.store_new_note (demo_sample_bible_name (), i, i, i, "Sample Note " + filter::strings::convert_to_string (i), "Sample Contents for note " + filter::strings::convert_to_string (i), false);
     }
   }
 }

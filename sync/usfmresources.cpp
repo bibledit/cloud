@@ -58,10 +58,10 @@ string sync_usfmresources (void * webserver_request)
     return "";
   }
 
-  int action = convert_to_int (request->post ["a"]);
+  int action = filter::strings::convert_to_int (request->post ["a"]);
   string resource = request->post ["r"];
-  int book = convert_to_int (request->post ["b"]);
-  int chapter = convert_to_int (request->post ["c"]);
+  int book = filter::strings::convert_to_int (request->post ["b"]);
+  int chapter = filter::strings::convert_to_int (request->post ["c"]);
   
   if (action == Sync_Logic::usfmresources_get_total_checksum) {
     return Sync_Logic::usfm_resources_checksum ();
@@ -69,7 +69,7 @@ string sync_usfmresources (void * webserver_request)
   
   else if (action == Sync_Logic::usfmresources_get_resources) {
     vector <string> resources = database_usfmresources.getResources ();
-    return filter_string_implode (resources, "\n");
+    return filter::strings::implode (resources, "\n");
   }
   
   else if (action == Sync_Logic::usfmresources_get_resource_checksum) {
@@ -79,8 +79,8 @@ string sync_usfmresources (void * webserver_request)
   else if (action == Sync_Logic::usfmresources_get_books) {
     vector <int> resource_books = database_usfmresources.getBooks (resource);
     vector <string> sbooks;
-    for (auto & resource_book : resource_books) sbooks.push_back (convert_to_string (resource_book));
-    return filter_string_implode (sbooks, "\n");    
+    for (auto & resource_book : resource_books) sbooks.push_back (filter::strings::convert_to_string (resource_book));
+    return filter::strings::implode (sbooks, "\n");    
   }
   
   else if (action == Sync_Logic::usfmresources_get_book_checksum) {
@@ -90,8 +90,8 @@ string sync_usfmresources (void * webserver_request)
   else if (action == Sync_Logic::usfmresources_get_chapters) {
     vector <int> res_chapters = database_usfmresources.getChapters (resource, book);
     vector <string> s_chapters;
-    for (auto & res_chapter : res_chapters) s_chapters.push_back (convert_to_string (res_chapter));
-    return filter_string_implode (s_chapters, "\n");
+    for (auto & res_chapter : res_chapters) s_chapters.push_back (filter::strings::convert_to_string (res_chapter));
+    return filter::strings::implode (s_chapters, "\n");
   }
   
   else if (action == Sync_Logic::usfmresources_get_chapter_checksum) {

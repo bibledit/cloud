@@ -46,7 +46,7 @@ void sources_kjv_parse_loop (xml_node element, int & book, int & chapter, int & 
 void sources_kjv_store (int book, int chapter, int verse, string lemma, string english)
 {
   Database_Kjv database_kjv;
-  vector <string> lemmas = filter_string_explode (lemma, ' ');
+  vector <string> lemmas = filter::strings::explode (lemma, ' ');
   bool output_done = false;
   for (auto & strong : lemmas) {
     if (strong.find ("strong") == string::npos) continue;
@@ -54,7 +54,7 @@ void sources_kjv_store (int book, int chapter, int verse, string lemma, string e
       // Two separate two identical words.
       database_kjv.store (book, chapter, verse, "", " / ");
     }
-    strong = filter_string_str_replace ("strong:", "", strong);
+    strong = filter::strings::replace ("strong:", "", strong);
     database_kjv.store (book, chapter, verse, strong, english);
     output_done = true;
   }
@@ -134,7 +134,7 @@ void sources_kjv_parse_loop (xml_node element,
     if (within_verse) {
       xml_node textnode = element.first_child ();
       string english = textnode.text ().get ();
-      string location = filter_passage_display (book, chapter, convert_to_string (verse));
+      string location = filter_passage_display (book, chapter, filter::strings::convert_to_string (verse));
       Database_Logs::log (location + ": Failed to parse element " + element_name + " with value " + english);
     }
   }
@@ -160,7 +160,7 @@ void sources_kjv_parse ()
       for (xml_node divbook : osisText.children ()) {
         if (strcmp (divbook.name (), "div") == 0) {
           book++;
-          Database_Logs::log ("Book " + convert_to_string (book));
+          Database_Logs::log ("Book " + filter::strings::convert_to_string (book));
           chapter = 0;
           for (xml_node chapter_element : divbook.children ()) {
             if (strcmp (chapter_element.name (), "chapter") == 0) {

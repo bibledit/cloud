@@ -82,17 +82,17 @@ string manage_users (void * webserver_request)
 
   // Set the default new user role.
   if (request->post.count ("defaultacl")) {
-    int defaultacl = convert_to_int (request->post ["defaultacl"]);
+    int defaultacl = filter::strings::convert_to_int (request->post ["defaultacl"]);
     Database_Config_General::setDefaultNewUserAccessLevel(defaultacl);
     assets_page::success (translate("The default new user is changed."));
   }
 
 
   // Set the chosen default new user role on the option HTML tag.
-  string default_acl = convert_to_string (Database_Config_General::getDefaultNewUserAccessLevel ());
+  string default_acl = filter::strings::convert_to_string (Database_Config_General::getDefaultNewUserAccessLevel ());
   string default_acl_html;
-  default_acl_html = Options_To_Select::add_selection ("Guest", convert_to_string(Filter_Roles::guest()), default_acl_html);
-  default_acl_html = Options_To_Select::add_selection ("Member", convert_to_string(Filter_Roles::member()), default_acl_html);
+  default_acl_html = Options_To_Select::add_selection ("Guest", filter::strings::convert_to_string(Filter_Roles::guest()), default_acl_html);
+  default_acl_html = Options_To_Select::add_selection ("Member", filter::strings::convert_to_string(Filter_Roles::member()), default_acl_html);
   view.set_variable ("defaultacloptags", Options_To_Select::mark_selected (default_acl, default_acl_html));
   view.set_variable ("defaultacl", default_acl);
   
@@ -174,13 +174,13 @@ string manage_users (void * webserver_request)
       dialog_list.add_query ("user", objectUsername);
       for (int i = Filter_Roles::lowest (); i <= Filter_Roles::highest (); i++) {
         if (i <= myLevel) {
-          dialog_list.add_row (Filter_Roles::text (i), "level", convert_to_string (i));
+          dialog_list.add_row (Filter_Roles::text (i), "level", filter::strings::convert_to_string (i));
         }
       }
       page += dialog_list.run ();
       return page;
     } else {
-      request->database_users ()->set_level (objectUsername, convert_to_int (level));
+      request->database_users ()->set_level (objectUsername, filter::strings::convert_to_int (level));
       user_updated = true;
     }
   }

@@ -129,8 +129,8 @@ string notes_bulk (void * webserver_request)
                                               search_text,
                                               -1);
     vector <string> sids;
-    for (auto id : identifiers) sids.push_back (convert_to_string (id));
-    Database_Volatile::setValue (userid, "identifiers", filter_string_implode (sids, " "));
+    for (auto id : identifiers) sids.push_back (filter::strings::convert_to_string (id));
+    Database_Volatile::setValue (userid, "identifiers", filter::strings::implode (sids, " "));
   }
 
 
@@ -138,15 +138,15 @@ string notes_bulk (void * webserver_request)
   // Get the stored note identifiers from the database.
   vector <int> identifiers;
   {
-    vector <string> sids = filter_string_explode (Database_Volatile::getValue (userid, "identifiers"), ' ');
-    for (auto id : sids) identifiers.push_back (convert_to_int (id));
+    vector <string> sids = filter::strings::explode (Database_Volatile::getValue (userid, "identifiers"), ' ');
+    for (auto id : sids) identifiers.push_back (filter::strings::convert_to_int (id));
   }
   
   
   string identifierlist;
   for (auto identifier : identifiers) {
     identifierlist.append (" ");
-    identifierlist.append (convert_to_string (identifier));
+    identifierlist.append (filter::strings::convert_to_string (identifier));
   }
   
   
@@ -220,7 +220,7 @@ string notes_bulk (void * webserver_request)
   
   
   if (severity) {
-    int new_severity = convert_to_int (request->query["severity"]);
+    int new_severity = filter::strings::convert_to_int (request->query["severity"]);
     for (auto identifier : identifiers) {
       if (database_notes.get_raw_severity (identifier) != new_severity) {
         notes_logic.setRawSeverity (identifier, new_severity);
@@ -260,7 +260,7 @@ string notes_bulk (void * webserver_request)
   }
   
   
-  view.set_variable ("notescount", convert_to_string (identifiers.size()));
+  view.set_variable ("notescount", filter::strings::convert_to_string (identifiers.size()));
 
   
   bool manager = Filter_Roles::access_control (webserver_request, Filter_Roles::manager ());

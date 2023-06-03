@@ -193,9 +193,9 @@ void Styles_Css::add (void * database_styles_item, bool paragraph, bool keepwith
   if (paragraph) {
     float points {style->fontsize};
     float percents {points * 100 / 12};
-    int fontsize = convert_to_int (percents);
+    int fontsize = filter::strings::convert_to_int (percents);
     if (fontsize != 100) {
-      m_code.push_back ("font-size: " + convert_to_string (fontsize) + "%;");
+      m_code.push_back ("font-size: " + filter::strings::convert_to_string (fontsize) + "%;");
     }
   }
   
@@ -241,11 +241,11 @@ void Styles_Css::add (void * database_styles_item, bool paragraph, bool keepwith
   
   // Paragraph layout properties
   if (paragraph) {
-    std::string spacebefore = convert_to_string (style->spacebefore);
-    std::string spaceafter = convert_to_string (style->spaceafter);
-    std::string leftmargin = convert_to_string (style->leftmargin);
-    std::string rightmargin = convert_to_string (style->rightmargin);
-    std::string firstlineindent = convert_to_string (style->firstlineindent);
+    std::string spacebefore = filter::strings::convert_to_string (style->spacebefore);
+    std::string spaceafter = filter::strings::convert_to_string (style->spaceafter);
+    std::string leftmargin = filter::strings::convert_to_string (style->leftmargin);
+    std::string rightmargin = filter::strings::convert_to_string (style->rightmargin);
+    std::string firstlineindent = filter::strings::convert_to_string (style->firstlineindent);
     
     // Text alignment options.
     std::string alignment {};
@@ -321,7 +321,7 @@ void Styles_Css::add (void * database_styles_item, bool paragraph, bool keepwith
 // The function returns the CSS as a string.
 std::string Styles_Css::css (std::string path)
 {
-  std::string css = filter_string_implode (m_code, "\n");
+  std::string css = filter::strings::implode (m_code, "\n");
   if (!path.empty()) {
     filter_url_file_put_contents (path, css);
   }
@@ -361,7 +361,7 @@ void Styles_Css::customize (const std::string& bible)
   font = fonts::logic::get_font_path (font);
   int direction = Database_Config_Bible::getTextDirection (bible);
   std::string css = Filter_Css::get_css (cls, font, direction);
-  if (uploaded_font) css = filter_string_str_replace ("../fonts/", "", css);
+  if (uploaded_font) css = filter::strings::replace ("../fonts/", "", css);
   m_code.push_back (css);
 }
 

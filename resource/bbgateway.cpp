@@ -81,7 +81,7 @@ string resource_biblegateway (void * webserver_request)
   
   string path = resource_logic_bible_gateway_module_list_path ();
   string moduleblock = filter_url_file_get_contents (path);
-  vector <string> lines = filter_string_explode (moduleblock, '\n');
+  vector <string> lines = filter::strings::explode (moduleblock, '\n');
   moduleblock.clear ();
   for (auto line : lines) {
     moduleblock.append ("<p>");

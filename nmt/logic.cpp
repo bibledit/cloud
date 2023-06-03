@@ -74,7 +74,7 @@ void nmt_logic_export (string referencebible, string translatingbible)
         if ((reference_versification != translating_versification) && !translating_versification.empty ()) {
           translation_passages = database_mappings.translate (reference_versification, translating_versification, book, reference_chapter, reference_verse);
         } else {
-          translation_passages.push_back (Passage ("", book, reference_chapter, convert_to_string (reference_verse)));
+          translation_passages.push_back (Passage ("", book, reference_chapter, filter::strings::convert_to_string (reference_verse)));
         }
 
         // If the conversion from one versification system to another
@@ -85,13 +85,13 @@ void nmt_logic_export (string referencebible, string translatingbible)
         // So such versea are skipped for that reason.
         if (translation_passages.size() != 1) {
           string referencetext = filter_passage_display_inline (translation_passages);
-          string message = "Skipping reference Bible verse " + convert_to_string (reference_verse) + " and translated Bible " + referencetext;
+          string message = "Skipping reference Bible verse " + filter::strings::convert_to_string (reference_verse) + " and translated Bible " + referencetext;
           Database_Logs::log (message);
           continue;
         }
         
         int translation_chapter = translation_passages[0].m_chapter;
-        int translation_verse = convert_to_int (translation_passages[0].m_verse);
+        int translation_verse = filter::strings::convert_to_int (translation_passages[0].m_verse);
 
         // Convert the verse USFM of the reference Bible to plain verse text.
         string reference_text;
@@ -108,7 +108,7 @@ void nmt_logic_export (string referencebible, string translatingbible)
           // The text may contain new lines, so remove these,
           // because the NMT training files should not contain new lines mid-text,
           // as that would cause misalignments in the two text files used for training.
-          reference_text = filter_string_str_replace ("\n", " ", reference_text);
+          reference_text = filter::strings::replace ("\n", " ", reference_text);
         }
 
         // Convert the verse USFM of the Bible being translated to plain verse text.
@@ -126,7 +126,7 @@ void nmt_logic_export (string referencebible, string translatingbible)
           // The text may contain new lines, so remove these,
           // because the NMT training files should not contain new lines mid-text,
           // as that would cause misalignments in the two text files used for training.
-          translation_text = filter_string_str_replace ("\n", " ", translation_text);
+          translation_text = filter::strings::replace ("\n", " ", translation_text);
         }
 
         // If any of the two texts contains nothing, skip everything.
@@ -144,8 +144,8 @@ void nmt_logic_export (string referencebible, string translatingbible)
     }
   }
 
-  string reference_text = filter_string_implode (reference_lines, "\n");
-  string translation_text = filter_string_implode (translation_lines, "\n");
+  string reference_text = filter::strings::implode (reference_lines, "\n");
+  string translation_text = filter::strings::implode (translation_lines, "\n");
   string reference_path = filter_url_create_root_path ({filter_url_temp_dir (), "reference_bible_nmt_training_text.txt"});
   string translation_path = filter_url_create_root_path ({filter_url_temp_dir (), "translation_bible_nmt_training_text.txt"});
   filter_url_file_put_contents (reference_path, reference_text);
@@ -165,8 +165,8 @@ void nmt_logic_split (string reference_text, string translating_text,
   // The first set of punctuation that leads to equally split texts is taken.
   vector <string> punctuations = { ".!?:;", ".!?:", ".!?", ".!?:;,", ".!?:,", ".!?," };
   for (auto punctuation : punctuations) {
-    reference_bits = filter_string_explode (reference_text, punctuation);
-    translating_bits = filter_string_explode (translating_text, punctuation);
+    reference_bits = filter::strings::explode (reference_text, punctuation);
+    translating_bits = filter::strings::explode (translating_text, punctuation);
     if (reference_bits.size() > 1) {
       if (reference_bits.size() == translating_bits.size()) {
         for (auto & s : reference_bits) {

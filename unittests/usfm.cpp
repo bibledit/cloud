@@ -980,7 +980,7 @@ void test_usfm ()
     evaluate (__LINE__, __func__, { 0 }, chapters);
     
     // Test getting text for chapter that has a space after chapter number.
-    string modified_book_usfm = filter_string_str_replace ("\\c 10", "\\c 10 ", bookusfm);
+    string modified_book_usfm = filter::strings::replace ("\\c 10", "\\c 10 ", bookusfm);
     usfm = filter::usfm::get_chapter_text (modified_book_usfm, 10);
     standard = filter_url_file_get_contents (filter_url_create_path ({directory, "01GEN-10.SFM"}));
     evaluate (__LINE__, __func__, standard, usfm);
@@ -1008,7 +1008,7 @@ void test_usfm ()
     "\\v 9  If we confess our sins, he is faithful and just to forgive\n"
     "us \\add our\\add* sins, and to cleanse us from all unrighteousness.";
     string outputusfm = filter::usfm::one_string (inputusfm);
-    string standard = filter_string_str_replace ("\n", " ", inputusfm);
+    string standard = filter::strings::replace ("\n", " ", inputusfm);
     evaluate (__LINE__, __func__, standard, outputusfm);
   }
   

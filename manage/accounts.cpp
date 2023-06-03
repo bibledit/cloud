@@ -99,9 +99,9 @@ string manage_accounts (void * webserver_request)
   {
     vector <string> lines = Database_Config_General::getAccountCreationTimes ();
     for (auto line : lines) {
-      vector <string> bits = filter_string_explode(line, '|');
+      vector <string> bits = filter::strings::explode(line, '|');
       if (bits.size() != 2) continue;
-      int seconds = convert_to_int(bits[0]);
+      int seconds = filter::strings::convert_to_int(bits[0]);
       string user = bits[1];
       account_creation_times [user] = seconds;
     }
@@ -116,7 +116,7 @@ string manage_accounts (void * webserver_request)
     string role = Filter_Roles::text (user_level);
     string email = request->database_users ()->get_email (username);
     int seconds = filter::date::seconds_since_epoch() - account_creation_times[username];
-    string days = convert_to_string (seconds / (3600 * 24));
+    string days = filter::strings::convert_to_string (seconds / (3600 * 24));
     
     // Pass information about this user to the flate engine for display.
     view.add_iteration ("tbody", {

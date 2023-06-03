@@ -134,7 +134,7 @@ sqlite3 * database_sqlite_connect (string database)
 
 string database_sqlite_no_sql_injection (string sql)
 {
-  return filter_string_str_replace ("'", "''", sql);
+  return filter::strings::replace ("'", "''", sql);
 }
 
 
@@ -253,7 +253,7 @@ void SqliteSQL::add (const char * fragment)
 void SqliteSQL::add (int value)
 {
   sql.append (" ");
-  sql.append (convert_to_string (value));
+  sql.append (filter::strings::convert_to_string (value));
   sql.append (" ");
 }
 
@@ -318,7 +318,7 @@ void SqliteDatabase::add (const char * fragment)
 void SqliteDatabase::add (int value)
 {
   sql.append (" ");
-  sql.append (convert_to_string (value));
+  sql.append (filter::strings::convert_to_string (value));
   sql.append (" ");
 }
 

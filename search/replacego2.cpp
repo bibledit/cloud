@@ -70,7 +70,7 @@ string search_replacego2 (void * webserver_request)
   string bible = passage.m_bible;
   int book = passage.m_book;
   int chapter = passage.m_chapter;
-  int verse = convert_to_int (passage.m_verse);
+  int verse = filter::strings::convert_to_int (passage.m_verse);
   
   
   // Check whether the user has write access to the book.
@@ -90,11 +90,11 @@ string search_replacego2 (void * webserver_request)
   string standardPlainText = search_logic_plain_replace_verse_text (old_verse_usfm);
   if (searchplain) {
     if (casesensitive) {
-      standardPlainText = filter_string_str_replace (searchfor, replacewith, standardPlainText, &standardReplacementCount);
+      standardPlainText = filter::strings::replace (searchfor, replacewith, standardPlainText, &standardReplacementCount);
     } else {
       vector <string> needles = filter_string_search_needles (searchfor, standardPlainText);
       for (auto & needle : needles) {
-        standardPlainText = filter_string_str_replace (needle, replacewith, standardPlainText, &standardReplacementCount);
+        standardPlainText = filter::strings::replace (needle, replacewith, standardPlainText, &standardReplacementCount);
       }
     }
   }
@@ -104,11 +104,11 @@ string search_replacego2 (void * webserver_request)
   string new_verse_usfm (old_verse_usfm);
   int usfmReplacementCount = 0;
   if (casesensitive) {
-    new_verse_usfm = filter_string_str_replace (searchfor, replacewith, new_verse_usfm, &usfmReplacementCount);
+    new_verse_usfm = filter::strings::replace (searchfor, replacewith, new_verse_usfm, &usfmReplacementCount);
   } else {
     vector <string> needles = filter_string_search_needles (searchfor, new_verse_usfm);
     for (auto & needle : needles) {
-      new_verse_usfm = filter_string_str_replace (needle, replacewith, new_verse_usfm, &usfmReplacementCount);
+      new_verse_usfm = filter::strings::replace (needle, replacewith, new_verse_usfm, &usfmReplacementCount);
     }
   }
 
@@ -161,7 +161,7 @@ string search_replacego2 (void * webserver_request)
   
   
   // Clickable passage.
-  string link = filter_passage_link_for_opening_editor_at (book, chapter, convert_to_string (verse));
+  string link = filter_passage_link_for_opening_editor_at (book, chapter, filter::strings::convert_to_string (verse));
   
   
   // Success or failure message.

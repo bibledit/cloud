@@ -171,7 +171,7 @@ string styles_view (void * webserver_request)
   int type = marker_data.type;
   if (request->query.count ("type")) {
     const string s = request->query["type"];
-    type = convert_to_int (s);
+    type = filter::strings::convert_to_int (s);
     if (s.empty()) {
       Dialog_List dialog_list = Dialog_List ("view", translate("Would you like to change the type of this style?"), translate("Here are the various types:"), translate("Please pick one."));
       dialog_list.add_query ("sheet", sheet);
@@ -179,7 +179,7 @@ string styles_view (void * webserver_request)
       for (int i = 0; i < 99; i++) {
         const string text = styles_logic_type_text (i);
         if (text.length () > 2) {
-          dialog_list.add_row (text, "type", convert_to_string (i));
+          dialog_list.add_row (text, "type", filter::strings::convert_to_string (i));
         }
       }
       page += dialog_list.run ();
@@ -191,7 +191,7 @@ string styles_view (void * webserver_request)
       }
     }
   }
-  view.set_variable ("type", convert_to_string (type));
+  view.set_variable ("type", filter::strings::convert_to_string (type));
   view.set_variable ("type_text", styles_logic_type_text (type));
   
 
@@ -199,7 +199,7 @@ string styles_view (void * webserver_request)
   int subtype = marker_data.subtype;
   if (request->query.count ("subtype")) {
     const string s = request->query["subtype"];
-    subtype = convert_to_int (s);
+    subtype = filter::strings::convert_to_int (s);
     if (s.empty()) {
       Dialog_List dialog_list = Dialog_List ("view", translate("Would you like to change the sub type of this style?"), string(), string());
       dialog_list.add_query ("sheet", sheet);
@@ -209,7 +209,7 @@ string styles_view (void * webserver_request)
       for (int i = 0; i < 99; i++) {
         string text = styles_logic_subtype_text (type2, i);
         if (text.length () > 2) {
-          dialog_list.add_row (text, "subtype", convert_to_string (i));
+          dialog_list.add_row (text, "subtype", filter::strings::convert_to_string (i));
         }
       }
       page += dialog_list.run ();
@@ -221,7 +221,7 @@ string styles_view (void * webserver_request)
       }
     }
   }
-  view.set_variable ("subtype",convert_to_string (subtype));
+  view.set_variable ("subtype",filter::strings::convert_to_string (subtype));
   string subtype_text = styles_logic_subtype_text (type, subtype);
   view.set_variable ("subtype_text", subtype_text);
   if (subtype_text.length () > 2) view.enable_zone ("subtype_text");
@@ -231,14 +231,14 @@ string styles_view (void * webserver_request)
   if (styles_logic_fontsize_is_relevant (type, subtype)) view.enable_zone ("fontsize_relevant");
   float fontsize = marker_data.fontsize;
   if (request->query.count ("fontsize")) {
-    Dialog_Entry dialog_entry = Dialog_Entry ("view", translate("Please enter a fontsize between 5 and 60 points"), convert_to_string (fontsize), "fontsize", translate ("The value to enter is just a number, e.g. 12."));
+    Dialog_Entry dialog_entry = Dialog_Entry ("view", translate("Please enter a fontsize between 5 and 60 points"), filter::strings::convert_to_string (fontsize), "fontsize", translate ("The value to enter is just a number, e.g. 12."));
     dialog_entry.add_query ("sheet", sheet);
     dialog_entry.add_query ("style", style);
     page += dialog_entry.run ();
     return page;
   }
   if (request->post.count("fontsize")) {
-    const float fs = convert_to_float (request->post["entry"]);
+    const float fs = filter::strings::convert_to_float (request->post["entry"]);
     if ((fs >= 5) && (fs <= 60)) {
       fontsize = fs;
       if (write) {
@@ -247,7 +247,7 @@ string styles_view (void * webserver_request)
       }
     }
   }
-  view.set_variable ("fontsize", convert_to_string (fontsize));
+  view.set_variable ("fontsize", filter::strings::convert_to_string (fontsize));
 
 
   // Italics, bold, underline, small caps relevance.
@@ -269,12 +269,12 @@ string styles_view (void * webserver_request)
       if (styles_logic_italic_bold_underline_smallcaps_are_full (style_item.type, style_item.subtype))
         last_value = ooitToggle;
       for (int i = 0; i <= last_value; i++) {
-        dialog_list.add_row (styles_logic_off_on_inherit_toggle_text (i), "italic", convert_to_string (i));
+        dialog_list.add_row (styles_logic_off_on_inherit_toggle_text (i), "italic", filter::strings::convert_to_string (i));
       }
       page += dialog_list.run ();
       return page;
     } else {
-      italic = convert_to_int (s);
+      italic = filter::strings::convert_to_int (s);
       if (write) {
         database_styles.updateItalic (sheet, style, italic);
         style_is_edited = true;
@@ -297,12 +297,12 @@ string styles_view (void * webserver_request)
       if (styles_logic_italic_bold_underline_smallcaps_are_full (style_data.type, style_data.subtype))
         last_value = ooitToggle;
       for (int i = 0; i <= last_value; i++) {
-        dialog_list.add_row (styles_logic_off_on_inherit_toggle_text (i), "bold", convert_to_string (i));
+        dialog_list.add_row (styles_logic_off_on_inherit_toggle_text (i), "bold", filter::strings::convert_to_string (i));
       }
       page += dialog_list.run ();
       return page;
     } else {
-      bold = convert_to_int (s);
+      bold = filter::strings::convert_to_int (s);
       if (write) {
         database_styles.updateBold (sheet, style, bold);
         style_is_edited = true;
@@ -325,12 +325,12 @@ string styles_view (void * webserver_request)
       if (styles_logic_italic_bold_underline_smallcaps_are_full (type, subtype))
         last_value = ooitToggle;
       for (int i = 0; i <= last_value; i++) {
-        dialog_list.add_row (styles_logic_off_on_inherit_toggle_text (i), "underline", convert_to_string (i));
+        dialog_list.add_row (styles_logic_off_on_inherit_toggle_text (i), "underline", filter::strings::convert_to_string (i));
       }
       page += dialog_list.run ();
       return page;
     } else {
-      underline = convert_to_int (s);
+      underline = filter::strings::convert_to_int (s);
       if (write) {
         database_styles.updateUnderline (sheet, style, underline);
         style_is_edited = true;
@@ -353,12 +353,12 @@ string styles_view (void * webserver_request)
       if (styles_logic_italic_bold_underline_smallcaps_are_full (style_data.type, style_data.subtype))
         last_value = ooitToggle;
       for (int i = 0; i <= last_value; i++) {
-        dialog_list.add_row (styles_logic_off_on_inherit_toggle_text (i), "smallcaps", convert_to_string (i));
+        dialog_list.add_row (styles_logic_off_on_inherit_toggle_text (i), "smallcaps", filter::strings::convert_to_string (i));
       }
       page += dialog_list.run ();
       return page;
     } else {
-      smallcaps = convert_to_int (s);
+      smallcaps = filter::strings::convert_to_int (s);
       if (write) {
         database_styles.updateSmallcaps (sheet, style, smallcaps);
         style_is_edited = true;
@@ -372,14 +372,14 @@ string styles_view (void * webserver_request)
   if (styles_logic_superscript_is_relevant (type, subtype)) view.enable_zone ("superscript_relevant");
   int superscript = marker_data.superscript;
   if (request->query.count ("superscript")) {
-    superscript = convert_to_int (request->query["superscript"]);
+    superscript = filter::strings::convert_to_int (request->query["superscript"]);
     if (write) {
       database_styles.updateSuperscript (sheet, style, superscript);
       style_is_edited = true;
     }
   }
   view.set_variable ("superscript_value", styles_logic_off_on_inherit_toggle_text (superscript));
-  view.set_variable ("superscript_toggle", convert_to_string (!static_cast<bool> (superscript)));
+  view.set_variable ("superscript_toggle", filter::strings::convert_to_string (!static_cast<bool> (superscript)));
   
 
   // Whether a list of the following paragraph treats are relevant.
@@ -393,13 +393,13 @@ string styles_view (void * webserver_request)
     dialog_list.add_query ("sheet", sheet);
     dialog_list.add_query ("style", style);
     for (int i = AlignmentLeft; i <= AlignmentJustify; i++) {
-      dialog_list.add_row (styles_logic_alignment_text (i), "justification", convert_to_string (i));
+      dialog_list.add_row (styles_logic_alignment_text (i), "justification", filter::strings::convert_to_string (i));
     }
     page += dialog_list.run ();
     return page;
   }
   if (request->query.count ("justification")) {
-    justification = convert_to_int (request->query["justification"]);
+    justification = filter::strings::convert_to_int (request->query["justification"]);
     if (write) {
       database_styles.updateJustification (sheet, style, justification);
       style_is_edited = true;
@@ -411,14 +411,14 @@ string styles_view (void * webserver_request)
   // Space before paragraph.
   float spacebefore = marker_data.spacebefore;
   if (request->query.count ("spacebefore")) {
-    Dialog_Entry dialog_entry = Dialog_Entry ("view", translate("Please enter a space of between 0 and 100 mm before the paragraph"), convert_to_string (spacebefore), "spacebefore", translate ("This is the space before, or in other words, above the paragraph. The value to enter is just a number, e.g. 0."));
+    Dialog_Entry dialog_entry = Dialog_Entry ("view", translate("Please enter a space of between 0 and 100 mm before the paragraph"), filter::strings::convert_to_string (spacebefore), "spacebefore", translate ("This is the space before, or in other words, above the paragraph. The value to enter is just a number, e.g. 0."));
     dialog_entry.add_query ("sheet", sheet);
     dialog_entry.add_query ("style", style);
     page += dialog_entry.run ();
     return page;
   }
   if (request->post.count ("spacebefore")) {
-    spacebefore = convert_to_float (request->post["entry"]);
+    spacebefore = filter::strings::convert_to_float (request->post["entry"]);
     if (spacebefore < 0) spacebefore = 0;
     if (spacebefore > 100) spacebefore = 100;
     if (write) {
@@ -426,20 +426,20 @@ string styles_view (void * webserver_request)
       style_is_edited = true;
     }
   }
-  view.set_variable ("spacebefore", convert_to_string (spacebefore));
+  view.set_variable ("spacebefore", filter::strings::convert_to_string (spacebefore));
   
 
   // Space after paragraph.
   float spaceafter = marker_data.spaceafter;
   if (request->query.count ("spaceafter")) {
-    Dialog_Entry dialog_entry = Dialog_Entry ("view", translate("Please enter a space of between 0 and 100 mm after the paragraph"), convert_to_string (spaceafter), "spaceafter", translate ("This is the space after, or in other words, below the paragraph. The value to enter is just a number, e.g. 0."));
+    Dialog_Entry dialog_entry = Dialog_Entry ("view", translate("Please enter a space of between 0 and 100 mm after the paragraph"), filter::strings::convert_to_string (spaceafter), "spaceafter", translate ("This is the space after, or in other words, below the paragraph. The value to enter is just a number, e.g. 0."));
     dialog_entry.add_query ("sheet", sheet);
     dialog_entry.add_query ("style", style);
     page += dialog_entry.run ();
     return page;
   }
   if (request->post.count("spaceafter")) {
-    spaceafter = convert_to_float (request->post["entry"]);
+    spaceafter = filter::strings::convert_to_float (request->post["entry"]);
     if (spaceafter < 0) spaceafter = 0;
     if (spaceafter > 100) spaceafter = 100;
     if (write) {
@@ -447,20 +447,20 @@ string styles_view (void * webserver_request)
       style_is_edited = true;
     }
   }
-  view.set_variable ("spaceafter", convert_to_string (spaceafter));
+  view.set_variable ("spaceafter", filter::strings::convert_to_string (spaceafter));
   
 
   // Left margin.
   float leftmargin = marker_data.leftmargin;
   if (request->query.count ("leftmargin")) {
-    Dialog_Entry dialog_entry = Dialog_Entry ("view", translate("Please enter a left margin of between -100 and 100 mm"), convert_to_string (leftmargin), "leftmargin", translate ("This is the left margin of the paragraph. The value to enter is just a number, e.g. 0."));
+    Dialog_Entry dialog_entry = Dialog_Entry ("view", translate("Please enter a left margin of between -100 and 100 mm"), filter::strings::convert_to_string (leftmargin), "leftmargin", translate ("This is the left margin of the paragraph. The value to enter is just a number, e.g. 0."));
     dialog_entry.add_query ("sheet", sheet);
     dialog_entry.add_query ("style", style);
     page += dialog_entry.run ();
     return page;
   }
   if (request->post.count("leftmargin")) {
-    leftmargin = convert_to_float (request->post ["entry"]);
+    leftmargin = filter::strings::convert_to_float (request->post ["entry"]);
     if (leftmargin < 0) leftmargin = 0;
     if (leftmargin > 100) leftmargin = 100;
     if (write) {
@@ -468,20 +468,20 @@ string styles_view (void * webserver_request)
       style_is_edited = true;
     }
   }
-  view.set_variable ("leftmargin", convert_to_string (leftmargin));
+  view.set_variable ("leftmargin", filter::strings::convert_to_string (leftmargin));
 
   
   // Right margin.
   float rightmargin = marker_data.rightmargin;
   if (request->query.count ("rightmargin")) {
-    Dialog_Entry dialog_entry = Dialog_Entry ("view", translate("Please enter a right margin of between -100 and 100 mm"), convert_to_string (rightmargin), "rightmargin", translate ("This is the right margin of the paragraph. The value to enter is just a number, e.g. 0."));
+    Dialog_Entry dialog_entry = Dialog_Entry ("view", translate("Please enter a right margin of between -100 and 100 mm"), filter::strings::convert_to_string (rightmargin), "rightmargin", translate ("This is the right margin of the paragraph. The value to enter is just a number, e.g. 0."));
     dialog_entry.add_query ("sheet", sheet);
     dialog_entry.add_query ("style", style);
     page += dialog_entry.run ();
     return page;
   }
   if (request->post.count("rightmargin")) {
-    rightmargin = convert_to_float (request->post["entry"]);
+    rightmargin = filter::strings::convert_to_float (request->post["entry"]);
     if (rightmargin < -100) rightmargin = -100;
     if (rightmargin > 100) rightmargin = 100;
     if (write) {
@@ -489,20 +489,20 @@ string styles_view (void * webserver_request)
       style_is_edited = true;
     }
   }
-  view.set_variable ("rightmargin", convert_to_string (rightmargin));
+  view.set_variable ("rightmargin", filter::strings::convert_to_string (rightmargin));
   
   
   // First line indent.
   float firstlineindent = marker_data.firstlineindent;
   if (request->query.count ("firstlineindent")) {
-    Dialog_Entry dialog_entry = Dialog_Entry ("view", translate("Please enter a first line indent of between -100 and 100 mm"), convert_to_string (firstlineindent), "firstlineindent", translate ("This is the indent of the first line of the the paragraph. The value to enter is just a number, e.g. 0."));
+    Dialog_Entry dialog_entry = Dialog_Entry ("view", translate("Please enter a first line indent of between -100 and 100 mm"), filter::strings::convert_to_string (firstlineindent), "firstlineindent", translate ("This is the indent of the first line of the the paragraph. The value to enter is just a number, e.g. 0."));
     dialog_entry.add_query ("sheet", sheet);
     dialog_entry.add_query ("style", style);
     page += dialog_entry.run ();
     return page;
   }
   if (request->post.count ("firstlineindent")) {
-    firstlineindent = convert_to_float (request->post["entry"]);
+    firstlineindent = filter::strings::convert_to_float (request->post["entry"]);
     if (firstlineindent < -100) firstlineindent = -100;
     if (firstlineindent > 100) firstlineindent = 100;
     if (write) {
@@ -510,7 +510,7 @@ string styles_view (void * webserver_request)
       style_is_edited = true;
     }
   }
-  view.set_variable ("firstlineindent", convert_to_string (firstlineindent));
+  view.set_variable ("firstlineindent", filter::strings::convert_to_string (firstlineindent));
 
   
   // Columns spanning.
@@ -521,11 +521,11 @@ string styles_view (void * webserver_request)
   if (styles_logic_columns_are_relevant (type, subtype)) view.enable_zone ("columns_relevant");
   bool spancolumns = marker_data.spancolumns;
   if (request->query.count ("spancolumns")) {
-    spancolumns = convert_to_bool (request->query["spancolumns"]);
+    spancolumns = filter::strings::convert_to_bool (request->query["spancolumns"]);
     if (write) database_styles.updateSpanColumns (sheet, style, spancolumns);
   }
   view.set_variable ("spancolumns", styles_logic_off_on_inherit_toggle_text (spancolumns));
-  view.set_variable ("spancolumns_toggle", convert_to_string (!spancolumns));
+  view.set_variable ("spancolumns_toggle", filter::strings::convert_to_string (!spancolumns));
    */
 
   
@@ -565,14 +565,14 @@ string styles_view (void * webserver_request)
   if (styles_logic_print_is_relevant (type, subtype)) view.enable_zone ("print_relevant");
   bool print {marker_data.print};
   if (request->query.count ("print")) {
-    print = convert_to_bool (request->query["print"]);
+    print = filter::strings::convert_to_bool (request->query["print"]);
     if (write) {
       database_styles.updatePrint (sheet, style, print);
       style_is_edited = true;
     }
   }
   view.set_variable ("print", styles_logic_off_on_inherit_toggle_text (print));
-  view.set_variable ("print_toggle", convert_to_string (!print));
+  view.set_variable ("print_toggle", filter::strings::convert_to_string (!print));
   
 
   // Userbool1.
@@ -581,14 +581,14 @@ string styles_view (void * webserver_request)
   view.set_variable ("userbool1_function", userbool1_function);
   bool userbool1 {marker_data.userbool1};
   if (request->query.count ("userbool1")) {
-    userbool1 = convert_to_bool (request->query["userbool1"]);
+    userbool1 = filter::strings::convert_to_bool (request->query["userbool1"]);
     if (write) {
       database_styles.updateUserbool1 (sheet, style, userbool1);
       style_is_edited = true;
     }
   }
   view.set_variable ("userbool1_value", styles_logic_off_on_inherit_toggle_text (userbool1));
-  view.set_variable ("userbool1_toggle", convert_to_string (!userbool1));
+  view.set_variable ("userbool1_toggle", filter::strings::convert_to_string (!userbool1));
 
   
   // Userbool2.
@@ -597,14 +597,14 @@ string styles_view (void * webserver_request)
   view.set_variable ("userbool2_function", userbool2_function);
   bool userbool2 {marker_data.userbool2};
   if (request->query.count ("userbool2")) {
-    userbool2 = convert_to_bool (request->query["userbool2"]);
+    userbool2 = filter::strings::convert_to_bool (request->query["userbool2"]);
     if (write) {
       database_styles.updateUserbool2 (sheet, style, userbool2);
       style_is_edited = true;
     }
   }
   view.set_variable ("userbool2_value", styles_logic_off_on_inherit_toggle_text (userbool2));
-  view.set_variable ("userbool2_toggle", convert_to_string (!userbool2));
+  view.set_variable ("userbool2_toggle", filter::strings::convert_to_string (!userbool2));
 
   
   // Userbool3.
@@ -613,14 +613,14 @@ string styles_view (void * webserver_request)
   view.set_variable ("userbool3_function", userbool3_function);
   bool userbool3 {marker_data.userbool3};
   if (request->query.count ("userbool3")) {
-    userbool3 = convert_to_bool (request->query["userbool3"]);
+    userbool3 = filter::strings::convert_to_bool (request->query["userbool3"]);
     if (write) {
       database_styles.updateUserbool3 (sheet, style, userbool3);
       style_is_edited = true;
     }
   }
   view.set_variable ("userbool3_value", styles_logic_off_on_inherit_toggle_text (userbool3));
-  view.set_variable ("userbool3_toggle", convert_to_string (!userbool3));
+  view.set_variable ("userbool3_toggle", filter::strings::convert_to_string (!userbool3));
 
   
   // Userint1.
@@ -635,13 +635,13 @@ string styles_view (void * webserver_request)
         dialog_list.add_query ("sheet", sheet);
         dialog_list.add_query ("style", style);
         for (int i = NoteNumbering123; i <= NoteNumberingUser; i++) {
-          dialog_list.add_row (styles_logic_note_numbering_text (i), "userint1", convert_to_string (i));
+          dialog_list.add_row (styles_logic_note_numbering_text (i), "userint1", filter::strings::convert_to_string (i));
         }
         page += dialog_list.run ();
         return page;
       }
       if (request->query.count ("userint1")) {
-        userint1 = convert_to_int (request->query["userint1"]);
+        userint1 = filter::strings::convert_to_int (request->query["userint1"]);
         if (write) {
           database_styles.updateUserint1 (sheet, style, userint1);
           style_is_edited = true;
@@ -652,14 +652,14 @@ string styles_view (void * webserver_request)
     case UserInt1TableColumnNumber :
       view.enable_zone ("userint1_columnnumber");
       if (request->query.count ("userint1")) {
-        Dialog_Entry dialog_entry = Dialog_Entry ("view", translate("Please enter a column number between 1 and 4"), convert_to_string (userint1), "userint1", translate ("This is the column number for the style. The first columm is number 1."));
+        Dialog_Entry dialog_entry = Dialog_Entry ("view", translate("Please enter a column number between 1 and 4"), filter::strings::convert_to_string (userint1), "userint1", translate ("This is the column number for the style. The first columm is number 1."));
         dialog_entry.add_query ("sheet", sheet);
         dialog_entry.add_query ("style", style);
         page += dialog_entry.run ();
         return page;
       }
       if (request->post.count ("userint1")) {
-        int value = convert_to_int (request->post["entry"]);
+        int value = filter::strings::convert_to_int (request->post["entry"]);
         if ((value >= 1) && (value <= 4)) {
           userint1 = value;
           if (write) {
@@ -668,7 +668,7 @@ string styles_view (void * webserver_request)
           }
         }
       }
-      view.set_variable ("userint1", convert_to_string (userint1));
+      view.set_variable ("userint1", filter::strings::convert_to_string (userint1));
       break;
     default: break;
   }
@@ -686,13 +686,13 @@ string styles_view (void * webserver_request)
         dialog_list.add_query ("sheet", sheet);
         dialog_list.add_query ("style", style);
         for (int i = NoteRestartNumberingNever; i <= NoteRestartNumberingEveryChapter; i++) {
-          dialog_list.add_row (styles_logic_note_restart_numbering_text (i), "userint2", convert_to_string (i));
+          dialog_list.add_row (styles_logic_note_restart_numbering_text (i), "userint2", filter::strings::convert_to_string (i));
         }
         page += dialog_list.run ();
         return page;
       }
       if (request->query.count ("userint2")) {
-        userint2 = convert_to_int (request->query["userint2"]);
+        userint2 = filter::strings::convert_to_int (request->query["userint2"]);
         if (write) {
           database_styles.updateUserint2 (sheet, style, userint2);
           style_is_edited = true;
@@ -707,13 +707,13 @@ string styles_view (void * webserver_request)
         dialog_list.add_query ("sheet", sheet);
         dialog_list.add_query ("style", style);
         for (int i = EndNotePositionAfterBook; i <= EndNotePositionAtMarker; i++) {
-          dialog_list.add_row (styles_logic_end_note_position_text (i), "userint2", convert_to_string(i));
+          dialog_list.add_row (styles_logic_end_note_position_text (i), "userint2", filter::strings::convert_to_string(i));
         }
         page += dialog_list.run ();
         return page;
       }
       if (request->query.count ("userint2")) {
-        userint2 = convert_to_int (request->query["userint2"]);
+        userint2 = filter::strings::convert_to_int (request->query["userint2"]);
         if (write) {
           database_styles.updateUserint2 (sheet, style, userint2);
           style_is_edited = true;

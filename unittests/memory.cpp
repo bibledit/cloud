@@ -118,7 +118,7 @@ void test_memory ()
     for (int book = 1; book <= 1; book++) {
       for (int chapter = 1; chapter <= 1; chapter++) {
         string usfm = database_bibles.getChapter (bible, book, chapter);
-        usfm = filter_string_str_replace ("the", "THE", usfm);
+        usfm = filter::strings::replace ("the", "THE", usfm);
         database_modifications.storeTeamDiff (bible, book, chapter);
         database_bibles.storeChapter (bible, book, chapter, usfm);
       }

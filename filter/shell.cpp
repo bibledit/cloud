@@ -37,7 +37,7 @@ string filter_shell_escape_argument (string argument);
 
 string filter_shell_escape_argument (string argument)
 {
-  argument = filter_string_str_replace ("'", "\\'", argument);
+  argument = filter::strings::replace ("'", "\\'", argument);
   argument.insert (0, "'");
   argument.append ("'");
   return argument;
@@ -190,7 +190,7 @@ vector <string> filter_shell_active_processes ()
 
   string output;
   filter_shell_run ("ps ax", output);
-  processes = filter_string_explode (output, '\n');
+  processes = filter::strings::explode (output, '\n');
 
 #endif
   

@@ -73,7 +73,7 @@ string search_index (void * webserver_request)
     string verse = passage.m_verse;
     
     // Get the plain text.
-    string text = search_logic_get_bible_verse_text (bible2, book, chapter, convert_to_int (verse));
+    string text = search_logic_get_bible_verse_text (bible2, book, chapter, filter::strings::convert_to_int (verse));
     
     // Format it.
     string link = filter_passage_link_for_opening_editor_at (book, chapter, verse);

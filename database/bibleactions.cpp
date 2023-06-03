@@ -95,7 +95,7 @@ vector <int> Database_BibleActions::getBooks (string bible)
   sql.add ("ORDER BY book;");
   vector <string> result = sql.query ()["book"];
   vector <int> books;
-  for (auto book : result) books.push_back (convert_to_int (book));
+  for (auto book : result) books.push_back (filter::strings::convert_to_int (book));
   return books;
 }
 
@@ -110,7 +110,7 @@ vector <int> Database_BibleActions::getChapters (string bible, int book)
   sql.add ("ORDER BY chapter;");
   vector <string> result = sql.query ()["chapter"];
   vector <int> chapters;
-  for (auto chapter : result) chapters.push_back (convert_to_int (chapter));
+  for (auto chapter : result) chapters.push_back (filter::strings::convert_to_int (chapter));
   return chapters;
 }
 

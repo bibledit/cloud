@@ -143,7 +143,7 @@ vector <int> Database_Sprint::getTasks (const string& bible, int year, int month
   database_sqlite_disconnect (db);
   vector <int> ids;
   for (auto & id : rowids) {
-    ids.push_back (convert_to_int (id));
+    ids.push_back (filter::strings::convert_to_int (id));
   }
   return ids;
 }
@@ -186,7 +186,7 @@ int Database_Sprint::getComplete (int id)
   sqlite3 * db = connect ();
   vector <string> complete = database_sqlite_query (db, sql.sql) ["complete"];
   database_sqlite_disconnect (db);
-  if (!complete.empty ()) return convert_to_int (complete [0]);
+  if (!complete.empty ()) return filter::strings::convert_to_int (complete [0]);
   return 0;
 }
 
@@ -261,9 +261,9 @@ vector <Database_Sprint_Item> Database_Sprint::getHistory (const string& bible, 
   vector <string> completes = result ["complete"];
   for (unsigned int i = 0; i < days.size(); i++) {
     Database_Sprint_Item item = Database_Sprint_Item ();
-    item.day = convert_to_int (days [i]);
-    item.tasks = convert_to_int (tasks [i]);
-    item.complete = convert_to_int (completes [i]);
+    item.day = filter::strings::convert_to_int (days [i]);
+    item.tasks = filter::strings::convert_to_int (tasks [i]);
+    item.complete = filter::strings::convert_to_int (completes [i]);
     history.push_back (item);
   }
   return history;

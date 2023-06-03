@@ -152,8 +152,8 @@ Passage Database_Navigation::get_previous (const string& user)
   vector <string> verses = result ["verse"];
   if (!books.empty()) {
     Passage passage;
-    passage.m_book = convert_to_int (books [0]);
-    passage.m_chapter = convert_to_int (chapters [0]);
+    passage.m_book = filter::strings::convert_to_int (books [0]);
+    passage.m_chapter = filter::strings::convert_to_int (chapters [0]);
     passage.m_verse = verses [0];
     return passage;
   }
@@ -195,8 +195,8 @@ Passage Database_Navigation::get_next (const string& user)
   vector <string> verses = result ["verse"];
   if (!books.empty()) {
     Passage passage;
-    passage.m_book = convert_to_int (books [0]);
-    passage.m_chapter = convert_to_int (chapters [0]);
+    passage.m_book = filter::strings::convert_to_int (books [0]);
+    passage.m_chapter = filter::strings::convert_to_int (chapters [0]);
     passage.m_verse = verses [0];
     return passage;
   }
@@ -216,7 +216,7 @@ int Database_Navigation::get_previous_id (const string& user)
     sqlite3 * db = connect ();
     vector <string> ids = database_sqlite_query (db, sql.sql) ["rowid"];
     for (auto & s : ids) {
-      id = convert_to_int (s);
+      id = filter::strings::convert_to_int (s);
     }
     database_sqlite_disconnect (db);
   }
@@ -234,7 +234,7 @@ int Database_Navigation::get_previous_id (const string& user)
   vector <string> ids = database_sqlite_query (db, sql.sql) ["rowid"];
   database_sqlite_disconnect (db);
   if (!ids.empty()) {
-    return convert_to_int (ids[0]);
+    return filter::strings::convert_to_int (ids[0]);
   }
 
   // Nothing found.
@@ -254,7 +254,7 @@ int Database_Navigation::get_next_id (const string& user)
     sqlite3 * db = connect ();
     vector <string> ids = database_sqlite_query (db, sql.sql) ["rowid"];
     for (auto & s : ids) {
-      id = convert_to_int (s);
+      id = filter::strings::convert_to_int (s);
     }
     database_sqlite_disconnect (db);
   }
@@ -272,7 +272,7 @@ int Database_Navigation::get_next_id (const string& user)
   vector <string> ids = database_sqlite_query (db, sql.sql) ["rowid"];
   database_sqlite_disconnect (db);
   if (!ids.empty()) {
-    return convert_to_int (ids[0]);
+    return filter::strings::convert_to_int (ids[0]);
   }
 
   // Nothing found.
@@ -320,8 +320,8 @@ vector <Passage> Database_Navigation::get_history (const string& user, int direc
     vector <string> verses = result ["verse"];
     for (unsigned int i = 0; i < books.size(); i++) {
       Passage passage;
-      passage.m_book = convert_to_int (books [i]);
-      passage.m_chapter = convert_to_int (chapters [i]);
+      passage.m_book = filter::strings::convert_to_int (books [i]);
+      passage.m_chapter = filter::strings::convert_to_int (chapters [i]);
       passage.m_verse = verses [i];
       passages.push_back(passage);
     }

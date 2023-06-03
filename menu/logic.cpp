@@ -108,18 +108,18 @@ using namespace std;
 
 string menu_logic_href (string href)
 {
-  href = filter_string_str_replace ("?", "__q__", href);
-  href = filter_string_str_replace ("&", "__a__", href);
-  href = filter_string_str_replace ("=", "__i__", href);
+  href = filter::strings::replace ("?", "__q__", href);
+  href = filter::strings::replace ("&", "__a__", href);
+  href = filter::strings::replace ("=", "__i__", href);
   return href;
 }
 
 
 string menu_logic_click (string item)
 {
-  item = filter_string_str_replace ("__q__", "?", item);
-  item = filter_string_str_replace ("__a__", "&", item);
-  item = filter_string_str_replace ("__i__", "=", item);
+  item = filter::strings::replace ("__q__", "?", item);
+  item = filter::strings::replace ("__a__", "&", item);
+  item = filter::strings::replace ("__i__", "=", item);
   Database_Config_General::setLastMenuClick (item);
   return item;
 }
@@ -268,10 +268,10 @@ string menu_logic_main_categories (void * webserver_request, string & tooltip)
   }
 
   // Create one string of tool tips for this menu item, separated by a vertical bar.
-  tooltip = filter_string_implode (tooltipbits, " | ");
+  tooltip = filter::strings::implode (tooltipbits, " | ");
   
   // Create one string of html that is going to form the menu.
-  return filter_string_implode (html, "\n");
+  return filter::strings::implode (html, "\n");
 }
 
 
@@ -356,7 +356,7 @@ string menu_logic_basic_categories (void * webserver_request)
   }
 #endif
 
-  return filter_string_implode (html, "\n");
+  return filter::strings::implode (html, "\n");
 }
 
 
@@ -376,7 +376,7 @@ string menu_logic_workspace_category (void * webserver_request, string * tooltip
 
     vector <string> workspaces = workspace_get_names (webserver_request);
     for (size_t i = 0; i < workspaces.size(); i++) {
-      string item = menu_logic_create_item (workspace_index_url () + "?bench=" + convert_to_string (i), workspaces[i], true, "", "");
+      string item = menu_logic_create_item (workspace_index_url () + "?bench=" + filter::strings::convert_to_string (i), workspaces[i], true, "", "");
       // Adds an active class if it is the current workspace.
       if (workspaces[i] == activeWorkspace) {
         size_t startIndex = item.find(R"("><a)");
@@ -387,8 +387,8 @@ string menu_logic_workspace_category (void * webserver_request, string * tooltip
     }
   }
 
-  if (tooltip) tooltip->assign (filter_string_implode (labels, " | "));
-  return filter_string_implode (html, "\n");
+  if (tooltip) tooltip->assign (filter::strings::implode (labels, " | "));
+  return filter::strings::implode (html, "\n");
 }
 
 
@@ -462,8 +462,8 @@ string menu_logic_translate_category (void * webserver_request, string * tooltip
     html.insert (html.begin (), menu_logic_translate_text () + ": ");
   }
 
-  if (tooltip) tooltip->assign (filter_string_implode (labels, " | "));
-  return filter_string_implode (html, "\n");
+  if (tooltip) tooltip->assign (filter::strings::implode (labels, " | "));
+  return filter::strings::implode (html, "\n");
 }
 
 
@@ -530,8 +530,8 @@ string menu_logic_search_category (void * webserver_request, string * tooltip)
     html.insert (html.begin (), menu_logic_search_text () + ": ");
   }
   
-  if (tooltip) tooltip->assign (filter_string_implode (labels, " | "));
-  return filter_string_implode (html, "\n");
+  if (tooltip) tooltip->assign (filter::strings::implode (labels, " | "));
+  return filter::strings::implode (html, "\n");
 }
 
 
@@ -653,8 +653,8 @@ string menu_logic_tools_category (void * webserver_request, string * tooltip)
     html.insert (html.begin (), menu_logic_tools_text () + ": ");
   }
   
-  if (tooltip) tooltip->assign (filter_string_implode (tiplabels, " | "));
-  return filter_string_implode (html, "\n");
+  if (tooltip) tooltip->assign (filter::strings::implode (tiplabels, " | "));
+  return filter::strings::implode (html, "\n");
 }
 
 
@@ -884,7 +884,7 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
     
     if (label == basic_mode) {
       if (request->session_logic ()->currentLevel () > Filter_Roles::guest ()) {
-        html.push_back (menu_logic_create_item (index_index_url () + convert_to_string ("?mode=basic"), label, true, "", ""));
+        html.push_back (menu_logic_create_item (index_index_url () + filter::strings::convert_to_string ("?mode=basic"), label, true, "", ""));
         tiplabels.push_back (label);
       }
     }
@@ -910,8 +910,8 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
     html.insert (html.begin (), menu_logic_settings_text () + " (" + user + "): ");
   }
   
-  if (tooltip) tooltip->assign (filter_string_implode (tiplabels, " | "));
-  return filter_string_implode (html, "\n");
+  if (tooltip) tooltip->assign (filter::strings::implode (tiplabels, " | "));
+  return filter::strings::implode (html, "\n");
 }
 
 
@@ -977,7 +977,7 @@ string menu_logic_settings_resources_category ([[maybe_unused]] void * webserver
     html.insert (html.begin (), menu_logic_resources_text () + ": ");
   }
   
-  return filter_string_implode (html, "\n");
+  return filter::strings::implode (html, "\n");
 }
 
 
@@ -995,7 +995,7 @@ string menu_logic_help_category (void * webserver_request)
     html.insert (html.begin (), menu_logic_help_text () + ": ");
   }
   
-  return filter_string_implode (html, "\n");
+  return filter::strings::implode (html, "\n");
 }
 
 

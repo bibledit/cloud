@@ -34,9 +34,9 @@ void checks_verses::missing_punctuation_at_end (const string & bible, int book, 
                                                 const string & center_marks, const string & end_marks,
                                                 const string & disregards)
 {
-  const vector <string> centermarks = filter_string_explode (center_marks, ' ');
-  const vector <string> endmarks = filter_string_explode (end_marks, ' ');
-  const vector <string> ignores = filter_string_explode (disregards, ' ');
+  const vector <string> centermarks = filter::strings::explode (center_marks, ' ');
+  const vector <string> endmarks = filter::strings::explode (end_marks, ' ');
+  const vector <string> ignores = filter::strings::explode (disregards, ' ');
   Database_Check database_check {};
   for (const auto & element : verses) {
     int verse = element.first;
@@ -44,7 +44,7 @@ void checks_verses::missing_punctuation_at_end (const string & bible, int book, 
     if (verse == 0) continue;
     if (text.empty ()) continue;
     for (const auto & ignore_text : ignores) {
-      text = filter_string_str_replace (ignore_text, string(), text);
+      text = filter::strings::replace (ignore_text, string(), text);
     }
     const size_t text_length = unicode_string_length (text);
     const string lastCharacter = unicode_string_substr (text, text_length - 1, 1);

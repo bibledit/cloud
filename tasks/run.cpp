@@ -87,7 +87,7 @@ void tasks_run_one (string filename)
 
   // Read the task from disk and erase the file.
   string path = filter_url_create_path ({tasks_logic_folder (), filename});
-  vector <string> lines = filter_string_explode (filter_url_file_get_contents (path), '\n');
+  vector <string> lines = filter::strings::explode (filter_url_file_get_contents (path), '\n');
   filter_url_unlink (path);
   
   // Interpret the task's command and its parameters, if any.
@@ -137,7 +137,7 @@ void tasks_run_one (string filename)
     email_send ();
   }
   else if (command == REINDEXBIBLES) {
-    search_reindex_bibles (convert_to_bool (parameter1));
+    search_reindex_bibles (filter::strings::convert_to_bool (parameter1));
   }
   else if (command == REINDEXNOTES) {
     search_reindex_notes ();
@@ -146,13 +146,13 @@ void tasks_run_one (string filename)
     styles_sheets_create_all_run ();
   }
   else if (command == IMPORTBIBLE) {
-    bible_import_run (parameter1, parameter2, convert_to_int (parameter3), convert_to_int (parameter4));
+    bible_import_run (parameter1, parameter2, filter::strings::convert_to_int (parameter3), filter::strings::convert_to_int (parameter4));
   }
   else if (command == IMPORTRESOURCE) {
     bible_logic::import_resource (parameter1, parameter2);
   }
   else if (command == COMPAREUSFM) {
-    compare_compare (parameter1, parameter2, convert_to_int (parameter3));
+    compare_compare (parameter1, parameter2, filter::strings::convert_to_int (parameter3));
   }
   else if (command == MAINTAINDATABASE) {
     database_maintenance ();
@@ -161,7 +161,7 @@ void tasks_run_one (string filename)
     tmp_tmp ();
   }
   else if (command == LINKGITREPOSITORY) {
-    collaboration_link (parameter1, convert_to_int (parameter2), parameter3);
+    collaboration_link (parameter1, filter::strings::convert_to_int (parameter2), parameter3);
   }
   else if (command == SENDRECEIVEBIBLES) {
     sendreceive_sendreceive (parameter1);
@@ -212,31 +212,31 @@ void tasks_run_one (string filename)
     export_index ();
   }
   else if (command == EXPORTWEBMAIN) {
-    export_web_book (parameter1, convert_to_int (parameter2), convert_to_bool (parameter3));
+    export_web_book (parameter1, filter::strings::convert_to_int (parameter2), filter::strings::convert_to_bool (parameter3));
   }
   else if (command == EXPORTWEBINDEX) {
-    export_web_index (parameter1, convert_to_bool (parameter2));
+    export_web_index (parameter1, filter::strings::convert_to_bool (parameter2));
   }
   else if (command == EXPORTHTML) {
-    export_html_book (parameter1, convert_to_int (parameter2), convert_to_bool (parameter3));
+    export_html_book (parameter1, filter::strings::convert_to_int (parameter2), filter::strings::convert_to_bool (parameter3));
   }
   else if (command == EXPORTUSFM) {
-    export_usfm (parameter1, convert_to_bool (parameter2));
+    export_usfm (parameter1, filter::strings::convert_to_bool (parameter2));
   }
   else if (command == EXPORTTEXTUSFM) {
-    export_text_usfm_book (parameter1, convert_to_int (parameter2), convert_to_bool (parameter3));
+    export_text_usfm_book (parameter1, filter::strings::convert_to_int (parameter2), filter::strings::convert_to_bool (parameter3));
   }
   else if (command == EXPORTODT) {
-    export_odt_book (parameter1, convert_to_int (parameter2), convert_to_bool (parameter3));
+    export_odt_book (parameter1, filter::strings::convert_to_int (parameter2), filter::strings::convert_to_bool (parameter3));
   }
   else if (command == EXPORTINFO) {
-    export_info (parameter1, convert_to_bool (parameter2));
+    export_info (parameter1, filter::strings::convert_to_bool (parameter2));
   }
   else if (command == EXPORTESWORD) {
-    export_esword (parameter1, convert_to_bool (parameter2));
+    export_esword (parameter1, filter::strings::convert_to_bool (parameter2));
   }
   else if (command == EXPORTONLINEBIBLE) {
-    export_onlinebible (parameter1, convert_to_bool (parameter2));
+    export_onlinebible (parameter1, filter::strings::convert_to_bool (parameter2));
   }
   else if (command == HYPHENATE) {
     manage_hyphenate (parameter1, parameter2);
@@ -245,7 +245,7 @@ void tasks_run_one (string filename)
     Paratext_Logic::setup (parameter1, parameter2);
   }
   else if (command == SYNCPARATEXT) {
-    int imethod = convert_to_int(parameter1);
+    int imethod = filter::strings::convert_to_int(parameter1);
     auto method = static_cast<tasks::enums::paratext_sync>(imethod);
     Paratext_Logic::synchronize (method);
   }
@@ -279,24 +279,24 @@ void tasks_run_one (string filename)
   }
 #ifdef HAVE_CLOUD
   else if (command == RSSFEEDUPDATECHAPTER) {
-    rss_logic_execute_update (parameter1, parameter2, convert_to_int (parameter3), convert_to_int (parameter4), parameter5, parameter6);
+    rss_logic_execute_update (parameter1, parameter2, filter::strings::convert_to_int (parameter3), filter::strings::convert_to_int (parameter4), parameter5, parameter6);
   }
 #endif
 #ifdef HAVE_CLIENT
   else if (command == PRODUCEBIBLESTRANSFERFILE) {
-    system_logic_produce_bibles_file (convert_to_int (parameter1));
+    system_logic_produce_bibles_file (filter::strings::convert_to_int (parameter1));
   }
   else if (command == IMPORTBIBLESTRANSFERFILE) {
     system_logic_import_bibles_file (parameter1);
   }
   else if (command == PRODUCERENOTESTRANSFERFILE) {
-    system_logic_produce_notes_file (convert_to_int (parameter1));
+    system_logic_produce_notes_file (filter::strings::convert_to_int (parameter1));
   }
   else if (command == IMPORTNOTESTRANSFERFILE) {
     system_logic_import_notes_file (parameter1);
   }
   else if (command == PRODUCERESOURCESTRANSFERFILE) {
-    system_logic_produce_resources_file (convert_to_int (parameter1));
+    system_logic_produce_resources_file (filter::strings::convert_to_int (parameter1));
   }
   else if (command == IMPORTRESOURCESTRANSFERFILE) {
     system_logic_import_resources_file (parameter1);

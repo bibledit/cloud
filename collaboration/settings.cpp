@@ -74,8 +74,8 @@ string collaboration_settings (void * webserver_request)
       int jobId = database_jobs.get_new_id ();
       database_jobs.set_level (jobId, Filter_Roles::admin ());
       database_jobs.set_start (jobId, collaboration_link_header ());
-      tasks_logic_queue (LINKGITREPOSITORY, {object, convert_to_string (jobId), source});
-      redirect_browser (request, jobs_index_url () + "?id=" + convert_to_string (jobId));
+      tasks_logic_queue (LINKGITREPOSITORY, {object, filter::strings::convert_to_string (jobId), source});
+      redirect_browser (request, jobs_index_url () + "?id=" + filter::strings::convert_to_string (jobId));
       return "";
     }
   }

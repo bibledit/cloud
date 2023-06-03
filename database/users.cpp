@@ -144,7 +144,7 @@ string Database_Users::add_userQuery (string user, string password, int level, s
   user = database_sqlite_no_sql_injection (user);
   password = md5 (password);
   email = database_sqlite_no_sql_injection (email);
-  string query = "INSERT INTO users (username, password, level, email) VALUES ('" + user + "', '" + password + "', " + convert_to_string (level) + ", '" + email + "');";
+  string query = "INSERT INTO users (username, password, level, email) VALUES ('" + user + "', '" + password + "', " + filter::strings::convert_to_string (level) + ", '" + email + "');";
   return query;
 }
 
@@ -207,7 +207,7 @@ int Database_Users::get_level (string user)
   sql.add (user);
   sql.add (";");
   vector <string> result = sql.query () ["level"];
-  if (!result.empty()) return convert_to_int (result [0]);
+  if (!result.empty()) return filter::strings::convert_to_int (result [0]);
   return Filter_Roles::guest ();
 }
 
@@ -305,7 +305,7 @@ void Database_Users::set_ldap (string user, bool on)
 {
   SqliteDatabase sql (filename ());
   sql.add ("UPDATE users SET ldap =");
-  sql.add (convert_to_int (on));
+  sql.add (filter::strings::convert_to_int (on));
   sql.add ("WHERE username =");
   sql.add (user);
   sql.add (";");
@@ -322,7 +322,7 @@ bool Database_Users::get_ldap (string user)
   sql.add (";");
   vector <string> result = sql.query () ["ldap"];
   if (!result.empty()) {
-    bool ldap_is_on = convert_to_bool (result [0]);
+    bool ldap_is_on = filter::strings::convert_to_bool (result [0]);
     return ldap_is_on;
   }
   return false;
@@ -334,7 +334,7 @@ void Database_Users::set_enabled (string user, bool on)
 {
   SqliteDatabase sql (filename ());
   sql.add ("UPDATE users SET disabled =");
-  sql.add (convert_to_int (!on));
+  sql.add (filter::strings::convert_to_int (!on));
   sql.add ("WHERE username =");
   sql.add (user);
   sql.add (";");
@@ -350,7 +350,7 @@ bool Database_Users::get_enabled (string user)
   sql.add (user);
   sql.add (";");
   vector <string> result = sql.query () ["disabled"];
-  if (!result.empty()) return !convert_to_bool (result [0]);
+  if (!result.empty()) return !filter::strings::convert_to_bool (result [0]);
   return false;
 }
 

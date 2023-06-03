@@ -161,10 +161,10 @@ void redirect_browser (void * webserver_request, string path)
   // ensure the location contains https rather than plain http,
   // plus the correct secure port.
   if (request->secure || config_globals_enforce_https_browser) {
-    location = filter_string_str_replace ("http:", "https:", location);
+    location = filter::strings::replace ("http:", "https:", location);
     string plainport = config::logic::http_network_port ();
     string secureport = config::logic::https_network_port ();
-    location = filter_string_str_replace (":" + plainport, ":" + secureport, location);
+    location = filter::strings::replace (":" + plainport, ":" + secureport, location);
   }
   
   location.append (path);
@@ -872,7 +872,7 @@ const char * filter_url_temp_dir ()
 // Returns the name of a temporary file.
 string filter_url_tempfile (const char * directory)
 {
-  string filename = convert_to_string (filter::date::seconds_since_epoch ()) + convert_to_string (filter::date::numerical_microseconds ()) + convert_to_string (filter_string_rand (10000000, 99999999));
+  string filename = filter::strings::convert_to_string (filter::date::seconds_since_epoch ()) + filter::strings::convert_to_string (filter::date::numerical_microseconds ()) + filter::strings::convert_to_string (filter_string_rand (10000000, 99999999));
   if (directory) {
     filename = filter_url_create_path ({directory, filename});
   } else {
@@ -885,7 +885,7 @@ string filter_url_tempfile (const char * directory)
 // C++ equivalent for PHP's escapeshellarg function.
 string filter_url_escape_shell_argument (string argument)
 {
-  argument = filter_string_str_replace ("'", "\\'", argument);
+  argument = filter::strings::replace ("'", "\\'", argument);
   argument.insert (0, "'");
   argument.append ("'");
   return argument;
@@ -899,10 +899,10 @@ string filter_url_unique_path (string path)
 {
   if (!file_or_dir_exists (path)) return path;
   for (size_t i = 1; i < 100; i++) {
-    string uniquepath = path + "." + convert_to_string (i);
+    string uniquepath = path + "." + filter::strings::convert_to_string (i);
     if (!file_or_dir_exists (uniquepath)) return uniquepath;
   }
-  return path + "." + convert_to_string (filter_string_rand (100, 1000));
+  return path + "." + filter::strings::convert_to_string (filter_string_rand (100, 1000));
 }
 
 
@@ -911,7 +911,7 @@ bool filter_url_email_is_valid (string email)
 {
   const string valid_set ("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ._-");
   // The @ character should appear only once.
-  vector <string> atbits = filter_string_explode (email, '@');
+  vector <string> atbits = filter::strings::explode (email, '@');
   if (atbits.size() != 2) return false;
   // The characters on the left of @ should be from the valid set.
   string left = atbits [0];
@@ -926,7 +926,7 @@ bool filter_url_email_is_valid (string email)
     if (valid_set.find (c) == string::npos) return false;
   }
   // The character . should appear at least once to the right of @.
-  vector <string> dotbits = filter_string_explode (right, '.');
+  vector <string> dotbits = filter::strings::explode (right, '.');
   if (dotbits.size () < 2) return false;
   // The email address is valid.
   return true;
@@ -977,7 +977,7 @@ string filter_url_http_get (string url, string& error, [[maybe_unused]] bool che
       long http_code = 0;
       curl_easy_getinfo (curl, CURLINFO_RESPONSE_CODE, &http_code);
       if (http_code != 200) {
-        response.append ("http code " + convert_to_string (static_cast<int>(http_code)));
+        response.append ("http code " + filter::strings::convert_to_string (static_cast<int>(http_code)));
       }
     } else {
       response.clear ();
@@ -1211,7 +1211,7 @@ string filter_url_http_upload ([[maybe_unused]] string url,
 
 string filter_url_http_response_code_text (int code)
 {
-  string text = convert_to_string (code);
+  string text = filter::strings::convert_to_string (code);
   text.append (" ");
   switch (code) {
     case 100: text += "Continue"; break;
@@ -1287,7 +1287,7 @@ void filter_url_download_file (string url, string filename, string& error,
       long http_code = 0;
       curl_easy_getinfo (curl, CURLINFO_RESPONSE_CODE, &http_code);
       if (http_code != 200) {
-        error.append ("http code " + convert_to_string (static_cast<int>(http_code)));
+        error.append ("http code " + filter::strings::convert_to_string (static_cast<int>(http_code)));
       }
     } else {
       error = curl_easy_strerror (res);
@@ -1321,14 +1321,14 @@ string filter_url_html_file_name_bible (string path, int book, int chapter)
   }
   
   // Add the name for the book. No spaces.
-  filename += filter_string_fill (convert_to_string (book), 2, '0');
+  filename += filter_string_fill (filter::strings::convert_to_string (book), 2, '0');
   string sbook = database::books::get_english_from_id (static_cast<book_id>(book));
-  sbook = filter_string_str_replace (" ", "", sbook);
+  sbook = filter::strings::replace (" ", "", sbook);
   filename += '-' + sbook;
   
   // Chapter given: Provide name for the chaper.
   if (chapter >= 0) {
-    filename += '-' + filter_string_fill (convert_to_string (chapter), 3, '0');
+    filename += '-' + filter_string_fill (filter::strings::convert_to_string (chapter), 3, '0');
   }
   
   filename += ".html";
@@ -1394,7 +1394,7 @@ void filter_url_curl_set_timeout (void *curl_handle, bool burst)
 // Therefore first convert the + to a TAG before sending it off.
 string filter_url_plus_to_tag (string data)
 {
-  return filter_string_str_replace ("+", "PLUSSIGN", data);
+  return filter::strings::replace ("+", "PLUSSIGN", data);
 }
 
 
@@ -1404,7 +1404,7 @@ string filter_url_plus_to_tag (string data)
 // This function reverts the TAG to the original + sign.
 string filter_url_tag_to_plus (string data)
 {
-  return filter_string_str_replace ("PLUSSIGN", "+", data);
+  return filter::strings::replace ("PLUSSIGN", "+", data);
 }
 
 
@@ -1416,10 +1416,10 @@ string filter_url_remove_username_password (string url)
 
   // Consider the following URL for github:
   // https://username:password@github.com/username/repository.git
-  if (filter_string_replace_between (url, slashes, ":", "")) {
+  if (filter::strings::replace_between (url, slashes, ":", "")) {
     if (pos != string::npos) url.insert (pos, slashes);
   }
-  if (filter_string_replace_between (url, slashes, "@", "")) {
+  if (filter::strings::replace_between (url, slashes, "@", "")) {
     if (pos != string::npos) url.insert (pos, slashes);
   }
   
@@ -1469,7 +1469,7 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
     size_t pos2 = url.find ("/");
     if (pos2 == string::npos) pos2 = url.length () + 1;
     string p = url.substr (0, pos2);
-    port = convert_to_int (p);
+    port = filter::strings::convert_to_int (p);
     url.erase (0, p.length ());
   }
   
@@ -1511,7 +1511,7 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
     // Select protocol that matches with the socket type.
     hints.ai_protocol = 0;
     // The 'service' is actually the port number.
-    string service = convert_to_string (port);
+    string service = filter::strings::convert_to_string (port);
     // Get a list of address structures. There can be several of them.
     int res = getaddrinfo (hostname.c_str(), service.c_str (), &hints, &address_results);
     if (res != 0) {
@@ -1565,10 +1565,10 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
     // Secure connect to host.
     if (connection_healthy) {
       // It used to pass the "server_port" to the connect routine:
-      // const char * server_port = convert_to_string (port).c_str ();
+      // const char * server_port = filter::strings::convert_to_string (port).c_str ();
       // But MSVC optimized this variable away before it could be passed to that routine.
       // The code was updated to work around that.
-      int ret = mbedtls_net_connect (&fd, hostname.c_str(), convert_to_string (port).c_str (), MBEDTLS_NET_PROTO_TCP);
+      int ret = mbedtls_net_connect (&fd, hostname.c_str(), filter::strings::convert_to_string (port).c_str (), MBEDTLS_NET_PROTO_TCP);
       if (ret != 0) {
         filter_url_display_mbed_tls_error (ret, &error, false);
         connection_healthy = false;
@@ -1599,7 +1599,7 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
         int res = connect (sock, rp->ai_addr, rp->ai_addrlen);
         // Test and record error.
         if (res < 0) {
-          string err = hostname + ":" + convert_to_string (port) + ": ";
+          string err = hostname + ":" + filter::strings::convert_to_string (port) + ": ";
           err.append (strerror (errno));
           errors.push_back (err);
         }
@@ -1620,7 +1620,7 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
     // Check whether no address succeeded.
     if (connection_healthy) {
       if (rp == nullptr) {
-        error = filter_string_implode (errors, " | ");
+        error = filter::strings::implode (errors, " | ");
         connection_healthy = false;
       }
     }
@@ -1717,7 +1717,7 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
     if (!post.empty ()) {
       request.append ("Content-Type: application/x-www-form-urlencoded");
       request.append ("\r\n");
-      request.append ("Content-Length: " + convert_to_string (postdata.length()));
+      request.append ("Content-Length: " + filter::strings::convert_to_string (postdata.length()));
       request.append ("\r\n");
     }
     request.append ("\r\n");
@@ -1850,14 +1850,14 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
 
   
   // Check the response headers.
-  vector <string> lines = filter_string_explode (headers, '\n');
+  vector <string> lines = filter::strings::explode (headers, '\n');
   for (auto & line : lines) {
     if (line.empty ()) continue;
     if (line.find ("HTTP") != string::npos) {
       size_t pos2 = line.find (" ");
       if (pos2 != string::npos) {
         line.erase (0, pos2 + 1);
-        int response_code = convert_to_int (line);
+        int response_code = filter::strings::convert_to_int (line);
         if (response_code != 200) {
           error = "Response code: " + line;
           return string();
@@ -1935,7 +1935,7 @@ void filter_url_display_mbed_tls_error (int & ret, string * error, bool server)
   mbedtls_strerror (local_return, error_buf, 100);
   string msg = error_buf;
   msg.append (" (");
-  msg.append (convert_to_string (local_return));
+  msg.append (filter::strings::convert_to_string (local_return));
   msg.append (")");
   if (error) {
     error->assign (msg);
@@ -1971,15 +1971,15 @@ string filter_url_set_scheme (string url, bool secure)
 // Replace invalid characters in Windows filenames with valid abbreviations.
 string filter_url_clean_filename (string name)
 {
-  name = filter_string_str_replace ("\\", "b2", name);
-  name = filter_string_str_replace ("/",  "sl", name);
-  name = filter_string_str_replace (":",  "co", name);
-  name = filter_string_str_replace ("*",  "as", name);
-  name = filter_string_str_replace ("?",  "qu", name);
-  name = filter_string_str_replace ("\"", "ba", name);
-  name = filter_string_str_replace ("<",  "sm", name);
-  name = filter_string_str_replace (">",  "la", name);
-  name = filter_string_str_replace ("|",  "ve", name);
+  name = filter::strings::replace ("\\", "b2", name);
+  name = filter::strings::replace ("/",  "sl", name);
+  name = filter::strings::replace (":",  "co", name);
+  name = filter::strings::replace ("*",  "as", name);
+  name = filter::strings::replace ("?",  "qu", name);
+  name = filter::strings::replace ("\"", "ba", name);
+  name = filter::strings::replace ("<",  "sm", name);
+  name = filter::strings::replace (">",  "la", name);
+  name = filter::strings::replace ("|",  "ve", name);
   return name;
 }
 
@@ -1989,15 +1989,15 @@ string filter_url_clean_filename (string name)
 // The next function does the "unclean" operation, to get the original $name back.
 string filter_url_filename_clean (string name)
 {
-  name = filter_string_str_replace ("\\", "___b2___", name);
-  name = filter_string_str_replace ("/",  "___sl___", name);
-  name = filter_string_str_replace (":",  "___co___", name);
-  name = filter_string_str_replace ("*",  "___as___", name);
-  name = filter_string_str_replace ("?",  "___qu___", name);
-  name = filter_string_str_replace ("\"", "___ba___", name);
-  name = filter_string_str_replace ("<",  "___sm___", name);
-  name = filter_string_str_replace (">",  "___la___", name);
-  name = filter_string_str_replace ("|",  "___ve___", name);
+  name = filter::strings::replace ("\\", "___b2___", name);
+  name = filter::strings::replace ("/",  "___sl___", name);
+  name = filter::strings::replace (":",  "___co___", name);
+  name = filter::strings::replace ("*",  "___as___", name);
+  name = filter::strings::replace ("?",  "___qu___", name);
+  name = filter::strings::replace ("\"", "___ba___", name);
+  name = filter::strings::replace ("<",  "___sm___", name);
+  name = filter::strings::replace (">",  "___la___", name);
+  name = filter::strings::replace ("|",  "___ve___", name);
   return name;
 }
 
@@ -2005,15 +2005,15 @@ string filter_url_filename_clean (string name)
 // Take $name, and undo the "clean" function in the above.
 string filter_url_filename_unclean (string name)
 {
-  name = filter_string_str_replace ("___b2___", "\\", name);
-  name = filter_string_str_replace ("___sl___", "/",  name);
-  name = filter_string_str_replace ("___co___", ":",  name);
-  name = filter_string_str_replace ("___as___", "*",  name);
-  name = filter_string_str_replace ("___qu___", "?",  name);
-  name = filter_string_str_replace ("___ba___", "\"", name);
-  name = filter_string_str_replace ("___sm___", "<",  name);
-  name = filter_string_str_replace ("___la___", ">",  name);
-  name = filter_string_str_replace ("___ve___", "|",  name);
+  name = filter::strings::replace ("___b2___", "\\", name);
+  name = filter::strings::replace ("___sl___", "/",  name);
+  name = filter::strings::replace ("___co___", ":",  name);
+  name = filter::strings::replace ("___as___", "*",  name);
+  name = filter::strings::replace ("___qu___", "?",  name);
+  name = filter::strings::replace ("___ba___", "\"", name);
+  name = filter::strings::replace ("___sm___", "<",  name);
+  name = filter::strings::replace ("___la___", ">",  name);
+  name = filter::strings::replace ("___ve___", "|",  name);
   return name;
 }
 
@@ -2023,7 +2023,7 @@ string filter_url_filename_unclean (string name)
 string filter_url_update_directory_separator_if_windows (string filename)
 {
 #ifdef HAVE_WINDOWS
-  filename = filter_string_str_replace ("/", DIRECTORY_SEPARATOR, filename);
+  filename = filter::strings::replace ("/", DIRECTORY_SEPARATOR, filename);
 #endif
   return filename;
 }
@@ -2045,7 +2045,7 @@ bool filter_url_port_can_connect (string hostname, int port)
   // Select protocol that matches with the socket type.
   hints.ai_protocol = 0;
   // The 'service' is actually the port number.
-  string service = convert_to_string (port);
+  string service = filter::strings::convert_to_string (port);
   // Get a list of address structures. There can be several of them.
   int res = getaddrinfo (hostname.c_str(), service.c_str (), &hints, &address_results);
   if (res != 0) return false;
@@ -2170,7 +2170,7 @@ void filter_url_get_scheme_host_port (string url, string & scheme, string & host
     size_t pos2 = url.find ("/");
     if (pos2 == string::npos) pos2 = url.length () + 1;
     string p = url.substr (0, pos2);
-    port = convert_to_int (p);
+    port = filter::strings::convert_to_int (p);
     url.erase (0, p.length ());
   }
 }

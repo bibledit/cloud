@@ -149,8 +149,8 @@ string client_index (void * webserver_request)
     // Store the address.
     Database_Config_General::setServerAddress (address);
     
-    int port = convert_to_int (config::logic::http_network_port ());
-    if (proceed) port = convert_to_int (request->post ["port"]);
+    int port = filter::strings::convert_to_int (config::logic::http_network_port ());
+    if (proceed) port = filter::strings::convert_to_int (request->post ["port"]);
     if (demo) port = demo_port ();
     if (proceed) if (port == 0) {
       view.set_variable ("error", translate ("Supply a port number"));
@@ -176,7 +176,7 @@ string client_index (void * webserver_request)
 
     if (proceed) {
       string response = client_logic_connection_setup (user, md5 (pass));
-      int iresponse = convert_to_int (response);
+      int iresponse = filter::strings::convert_to_int (response);
       if ((iresponse >= Filter_Roles::guest ()) && (iresponse <= Filter_Roles::admin ())) {
         // Enable client mode upon a successful connection.
         client_index_enable_client (request, user, pass, iresponse);
@@ -195,7 +195,7 @@ string client_index (void * webserver_request)
   view.set_variable ("address", address);
   
   int port {Database_Config_General::getServerPort ()};
-  view.set_variable ("port", convert_to_string (port));
+  view.set_variable ("port", filter::strings::convert_to_string (port));
   
   view.set_variable ("url", client_logic_link_to_cloud ("", ""));
   

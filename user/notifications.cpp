@@ -72,7 +72,7 @@ string user_notifications (void * webserver_request)
   Assets_View view;
 
   string checkbox = request->post ["checkbox"];
-  bool checked = convert_to_bool (request->post ["checked"]);
+  bool checked = filter::strings::convert_to_bool (request->post ["checked"]);
 
   if (checkbox == "editednotessubscription") {
     database_config_user.setSubscribeToConsultationNotesEditedByMe (checked);

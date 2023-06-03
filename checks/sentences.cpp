@@ -26,39 +26,39 @@ using namespace std;
 
 void Checks_Sentences::enter_capitals (const string & capitals)
 {
-  m_capitals = filter_string_explode (capitals, ' ');
+  m_capitals = filter::strings::explode (capitals, ' ');
 }
 
 
 void Checks_Sentences::enter_small_letters (const string & small_letters)
 {
-  m_small_letters = filter_string_explode (small_letters, ' ');
+  m_small_letters = filter::strings::explode (small_letters, ' ');
 }
 
 
 void Checks_Sentences::enter_end_marks (const string & end_marks)
 {
-  m_end_marks = filter_string_explode (end_marks, ' ');
+  m_end_marks = filter::strings::explode (end_marks, ' ');
 }
 
 
 void Checks_Sentences::enter_center_marks (const string & center_marks)
 {
-  m_center_marks = filter_string_explode (center_marks, ' ');
+  m_center_marks = filter::strings::explode (center_marks, ' ');
 }
 
 
 void Checks_Sentences::enter_disregards (const string & disregards)
 {
-  m_disregards = filter_string_explode (disregards, ' ');
+  m_disregards = filter::strings::explode (disregards, ' ');
 }
 
 
 void Checks_Sentences::enter_names (string names)
 {
   m_names.clear ();
-  names = filter_string_str_replace ("\n", " ", names);
-  vector <string> names2 = filter_string_explode (names, ' ');
+  names = filter::strings::replace ("\n", " ", names);
+  vector <string> names2 = filter::strings::explode (names, ' ');
   for (auto name : names2) {
     if (!name.empty()) {
       // Limit the length to the left of the suffix in the test.

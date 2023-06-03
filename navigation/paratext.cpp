@@ -49,13 +49,13 @@ string navigation_paratext (void * webserver_request)
     // User should have set to receive references from Paratext.
     if (request->database_config_user ()->getReceiveFocusedReferenceFromParatext ()) {
       // Parse the reference from Paratext.
-      vector<string> book_rest = filter_string_explode (from, ' ');
+      vector<string> book_rest = filter::strings::explode (from, ' ');
       if (book_rest.size() == 2) {
         int book = static_cast<int>(database::books::get_id_from_usfm (book_rest[0]));
-        vector <string> chapter_verse = filter_string_explode(book_rest[1], ':');
+        vector <string> chapter_verse = filter::strings::explode(book_rest[1], ':');
         if (chapter_verse.size() == 2) {
-          int chapter = convert_to_int(chapter_verse[0]);
-          int verse = convert_to_int(chapter_verse[1]);
+          int chapter = filter::strings::convert_to_int(chapter_verse[0]);
+          int verse = filter::strings::convert_to_int(chapter_verse[1]);
           // Set the user name on this client device.
           string user = client_logic_get_username ();
           request->session_logic()->set_username(user);
@@ -74,11 +74,11 @@ string navigation_paratext (void * webserver_request)
           if ((versification != english()) && !versification.empty ()) {
             passages = database_mappings.translate (english (), versification, book, chapter, verse);
           } else {
-            passages.push_back (Passage ("", book, chapter, convert_to_string (verse)));
+            passages.push_back (Passage ("", book, chapter, filter::strings::convert_to_string (verse)));
           }
           if (passages.empty()) return "";
           chapter = passages[0].m_chapter;
-          verse = convert_to_int (passages[0].m_verse);
+          verse = filter::strings::convert_to_int (passages[0].m_verse);
           // Set the focused passage for Bibledit.
           Ipc_Focus::set (request, book, chapter, verse);
         }

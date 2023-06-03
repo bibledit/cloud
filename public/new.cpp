@@ -53,9 +53,9 @@ string public_new (void * webserver_request)
 
   if (!request->query.empty ()) {
     string bible = request->query ["bible"];
-    int book = convert_to_int (request->query ["book"]);
-    int chapter = convert_to_int (request->query ["chapter"]);
-    int verse = convert_to_int (request->query ["verse"]);
+    int book = filter::strings::convert_to_int (request->query ["book"]);
+    int chapter = filter::strings::convert_to_int (request->query ["chapter"]);
+    int verse = filter::strings::convert_to_int (request->query ["verse"]);
 
     string chapter_usfm = request->database_bibles()->getChapter (bible, book, chapter);
     string verse_usfm = filter::usfm::get_verse_text (chapter_usfm, verse);

@@ -56,8 +56,8 @@ bool manage_exports_acl (void * webserver_request)
 
 string space_href (string name)
 {
-  name = filter_string_str_replace ("-", "", name);
-  name = filter_string_str_replace (" ", "", name);
+  name = filter::strings::replace ("-", "", name);
+  name = filter::strings::replace (" ", "", name);
   return name;
 }
 
@@ -95,7 +95,7 @@ string manage_exports (void * webserver_request)
   
   
   string checkbox = request->post ["checkbox"];
-  bool checked = convert_to_bool (request->post ["checked"]);
+  bool checked = filter::strings::convert_to_bool (request->post ["checked"]);
   
   
   if (request->query.count ("remove")) {
@@ -217,10 +217,10 @@ string manage_exports (void * webserver_request)
     return page;
   }
   if (request->post.count ("pagewidth")) {
-    int value = convert_to_int (request->post["entry"]);
+    int value = filter::strings::convert_to_int (request->post["entry"]);
     if ((value >= 30) && (value <= 500)) {
       Database_State::setExport (bible, 0, export_logic::export_needed);
-      Database_Config_Bible::setPageWidth (bible, convert_to_string (value));
+      Database_Config_Bible::setPageWidth (bible, filter::strings::convert_to_string (value));
     }
   }
   view.set_variable ("pagewidth", Database_Config_Bible::getPageWidth (bible));
@@ -232,10 +232,10 @@ string manage_exports (void * webserver_request)
     return page;
   }
   if (request->post.count ("pageheight")) {
-    int value = convert_to_int (request->post["entry"]);
+    int value = filter::strings::convert_to_int (request->post["entry"]);
     if ((value >= 40) && (value <= 600)) {
       Database_State::setExport (bible, 0, export_logic::export_needed);
-      Database_Config_Bible::setPageHeight (bible, convert_to_string (value));
+      Database_Config_Bible::setPageHeight (bible, filter::strings::convert_to_string (value));
     }
   }
   view.set_variable ("pageheight", Database_Config_Bible::getPageHeight (bible));
@@ -247,10 +247,10 @@ string manage_exports (void * webserver_request)
     return page;
   }
   if (request->post.count ("innermargin")) {
-    int value = convert_to_int (request->post["entry"]);
+    int value = filter::strings::convert_to_int (request->post["entry"]);
     if ((value >= 0) && (value <= 100)) {
       Database_State::setExport (bible, 0, export_logic::export_needed);
-      Database_Config_Bible::setInnerMargin (bible, convert_to_string (value));
+      Database_Config_Bible::setInnerMargin (bible, filter::strings::convert_to_string (value));
     }
   }
   view.set_variable ("innermargin", Database_Config_Bible::getInnerMargin (bible));
@@ -262,10 +262,10 @@ string manage_exports (void * webserver_request)
     return page;
   }
   if (request->post.count ("outermargin")) {
-    int value = convert_to_int (request->post["entry"]);
+    int value = filter::strings::convert_to_int (request->post["entry"]);
     if ((value >= 0) && (value <= 100)) {
       Database_State::setExport (bible, 0, export_logic::export_needed);
-      Database_Config_Bible::setOuterMargin (bible, convert_to_string (value));
+      Database_Config_Bible::setOuterMargin (bible, filter::strings::convert_to_string (value));
     }
   }
   view.set_variable ("outermargin", Database_Config_Bible::getOuterMargin (bible));
@@ -277,10 +277,10 @@ string manage_exports (void * webserver_request)
     return page;
   }
   if (request->post.count ("topmargin")) {
-    int value = convert_to_int (request->post["entry"]);
+    int value = filter::strings::convert_to_int (request->post["entry"]);
     if ((value >= 0) && (value <= 100)) {
       Database_State::setExport (bible, 0, export_logic::export_needed);
-      Database_Config_Bible::setTopMargin (bible, convert_to_string (value));
+      Database_Config_Bible::setTopMargin (bible, filter::strings::convert_to_string (value));
     }
   }
   view.set_variable ("topmargin", Database_Config_Bible::getTopMargin (bible));
@@ -292,10 +292,10 @@ string manage_exports (void * webserver_request)
     return page;
   }
   if (request->post.count ("bottommargin")) {
-    int value = convert_to_int (request->post["entry"]);
+    int value = filter::strings::convert_to_int (request->post["entry"]);
     if ((value >= 0) && (value <= 100)) {
       Database_State::setExport (bible, 0, export_logic::export_needed);
-      Database_Config_Bible::setBottomMargin (bible, convert_to_string (value));
+      Database_Config_Bible::setBottomMargin (bible, filter::strings::convert_to_string (value));
     }
   }
   view.set_variable ("bottommargin", Database_Config_Bible::getBottomMargin (bible));
@@ -351,7 +351,7 @@ string manage_exports (void * webserver_request)
     for (auto & style : markers) {
       if (filter::usfm::is_standard_q_poetry (style)) poetry_styles.push_back(style);
     }
-    view.set_variable("poetrymarkers", filter_string_implode(poetry_styles, " "));
+    view.set_variable("poetrymarkers", filter::strings::implode(poetry_styles, " "));
   }
 
   

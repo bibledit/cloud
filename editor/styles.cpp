@@ -48,7 +48,7 @@ string Editor_Styles::getRecentlyUsed (void * webserver_request)
   
   // The recent styles.
   string s_styles = request->database_config_user()->getRecentlyAppliedStyles ();
-  vector <string> styles = filter_string_explode (s_styles, ' ');
+  vector <string> styles = filter::strings::explode (s_styles, ' ');
   string fragment = translate("Select style") + ": ";
   for (unsigned int i = 0; i < styles.size(); i++) {
     if (i) fragment += " | ";
@@ -113,7 +113,7 @@ string Editor_Styles::getAll (void * webserver_request)
   lines.push_back (" ");
   lines.push_back (R"(<a href="cancel">[)" + translate("cancel") + "]</a>");
   
-  string html = filter_string_implode (lines, "\n");
+  string html = filter::strings::implode (lines, "\n");
   
   return html;
 }
@@ -124,7 +124,7 @@ void Editor_Styles::recordUsage (void * webserver_request, string style)
   if (style == "") return;
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   string s_styles = request->database_config_user()->getRecentlyAppliedStyles ();
-  vector <string> styles = filter_string_explode (s_styles, ' ');
+  vector <string> styles = filter::strings::explode (s_styles, ' ');
   // Erase the style.
   styles.erase (remove (styles.begin(), styles.end(), style), styles.end());
   // Add the style to he front of the vector.
@@ -133,7 +133,7 @@ void Editor_Styles::recordUsage (void * webserver_request, string style)
   if (styles.size () > 8) {
     styles.pop_back ();
   }
-  s_styles = filter_string_implode (styles, " ");
+  s_styles = filter::strings::implode (styles, " ");
   request->database_config_user()->setRecentlyAppliedStyles (s_styles);
 }
 

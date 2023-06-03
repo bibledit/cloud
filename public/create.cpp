@@ -106,7 +106,7 @@ string public_create (void * webserver_request)
   }
   
   
-  string passage = filter_passage_display (book, chapter, convert_to_string (verse));
+  string passage = filter_passage_display (book, chapter, filter::strings::convert_to_string (verse));
   view.set_variable ("passage", passage);
                                                                                                       
   

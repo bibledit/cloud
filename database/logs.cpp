@@ -44,11 +44,11 @@ void Database_Logs::log (string description, int level)
   size_t length = description.length ();
   if (length > 50000) {
     description.erase (50000);
-    description.append ("... This entry was too large and has been truncated: " + convert_to_string (length) + " bytes");
+    description.append ("... This entry was too large and has been truncated: " + filter::strings::convert_to_string (length) + " bytes");
   }
   // Save this logbook entry to a filename with seconds and microseconds.
-  string seconds = convert_to_string (filter::date::seconds_since_epoch ());
-  string time = seconds + filter_string_fill (convert_to_string (filter::date::numerical_microseconds ()), 8, '0');
+  string seconds = filter::strings::convert_to_string (filter::date::seconds_since_epoch ());
+  string time = seconds + filter_string_fill (filter::strings::convert_to_string (filter::date::numerical_microseconds ()), 8, '0');
   string file = filter_url_create_path ({folder (), time});
   // The microseconds granularity depends on the platform.
   // On Windows it is lower than on Linux.
@@ -57,7 +57,7 @@ void Database_Logs::log (string description, int level)
   if (file_or_dir_exists (file)) {
     description.insert (0, " | ");
   } else {
-    description.insert (0, convert_to_string (level) + " ");
+    description.insert (0, filter::strings::convert_to_string (level) + " ");
   }
   filter_url_file_put_contents_append (file, description);
 #ifdef HAVE_WINDOWS
@@ -118,7 +118,7 @@ void Database_Logs::rotate ()
     }
     
     // Remove expired entries.
-    int timestamp = convert_to_int (files [i].substr (0, 10));
+    int timestamp = filter::strings::convert_to_int (files [i].substr (0, 10));
     if (timestamp < oldtimestamp) {
       filter_url_unlink (path);
       continue;

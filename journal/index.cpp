@@ -69,7 +69,7 @@ string render_journal_entry (string filename, [[maybe_unused]] int userlevel)
   string entry = filter_url_file_get_contents (path);
   
   // Deal with the user-level of the entry.
-  [[maybe_unused]] int entryLevel = convert_to_int (entry);
+  [[maybe_unused]] int entryLevel = filter::strings::convert_to_int (entry);
   // Cloud: Only render journal entries of a sufficiently high level.
   // Client: Render journal entries of any level.
 #ifndef HAVE_CLIENT
@@ -79,7 +79,7 @@ string render_journal_entry (string filename, [[maybe_unused]] int userlevel)
   entry.erase (0, 2);
   
   // Split entry into lines.
-  vector <string> lines = filter_string_explode (entry, '\n');
+  vector <string> lines = filter::strings::explode (entry, '\n');
   if (!lines.empty ()) entry = lines [0];
   
   // Sanitize HTML.
@@ -92,7 +92,7 @@ string render_journal_entry (string filename, [[maybe_unused]] int userlevel)
   }
     
   // Extract the seconds since the Unix epoch from the filename.
-  int seconds = convert_to_int (filename.substr (0, 10));
+  int seconds = filter::strings::convert_to_int (filename.substr (0, 10));
   // Localized date and time stamp.
   string timestamp = locale_logic_date_time (seconds);
 
@@ -147,7 +147,7 @@ string journal_index (void * webserver_request)
     // 1. Clean it up.
     expansion = escape_special_xml_characters (expansion);
     // 2. Convert \n to <br>
-    expansion = filter_string_str_replace ("\n", "<br>", expansion);
+    expansion = filter::strings::replace ("\n", "<br>", expansion);
     // Done.
     return expansion;
   }

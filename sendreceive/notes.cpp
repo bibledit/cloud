@@ -108,7 +108,7 @@ bool sendreceive_notes_upload ()
   
   
   string response = client_logic_connection_setup ("", "");
-  int iresponse = convert_to_int (response);
+  int iresponse = filter::strings::convert_to_int (response);
   if (iresponse < Filter_Roles::guest () || iresponse > Filter_Roles::admin ()) {
     Database_Logs::log (sendreceive_notes_text () + translate("Failure to initiate connection"), Filter_Roles::translator ());
     return false;
@@ -130,7 +130,7 @@ bool sendreceive_notes_upload ()
   map <string, string> post;
   post ["u"] = bin2hex (user);
   post ["p"] = request.database_users ()->get_md5 (user);
-  post ["l"] = convert_to_string (request.database_users ()->get_level (user));
+  post ["l"] = filter::strings::convert_to_string (request.database_users ()->get_level (user));
   
   
   // Error variable.
@@ -180,8 +180,8 @@ bool sendreceive_notes_upload ()
       
       
       // Generate a POST request.
-      post ["i"] = convert_to_string (identifier);
-      post ["a"] = convert_to_string (action);
+      post ["i"] = filter::strings::convert_to_string (identifier);
+      post ["a"] = filter::strings::convert_to_string (action);
       switch (action) {
         case Sync_Logic::notes_put_create_initiate: break;
         case Sync_Logic::notes_put_create_complete: break;
@@ -208,7 +208,7 @@ bool sendreceive_notes_upload ()
         }
         case Sync_Logic::notes_put_severity:
         {
-          content = convert_to_string (database_notes.get_raw_severity (identifier));
+          content = filter::strings::convert_to_string (database_notes.get_raw_severity (identifier));
           break;
         }
         case Sync_Logic::notes_put_bible:
@@ -286,8 +286,8 @@ bool sendreceive_notes_upload ()
     for (int action = Sync_Logic::notes_get_total; action <= Sync_Logic::notes_get_modified; action++) {
       map <string, string> post2;
       post2 ["u"] = bin2hex (user);
-      post2 ["i"] = convert_to_string (identifier);
-      post2 ["a"] = convert_to_string (action);
+      post2 ["i"] = filter::strings::convert_to_string (identifier);
+      post2 ["a"] = filter::strings::convert_to_string (action);
       sendreceive_notes_kick_watchdog ();
       response = sync_logic.post (post2, url, error);
       if (error.empty ()) {
@@ -297,15 +297,15 @@ bool sendreceive_notes_upload ()
           }
         }
         if (action == Sync_Logic::notes_get_subscribers) {
-          vector <string> subscribers = filter_string_explode (response, '\n');
+          vector <string> subscribers = filter::strings::explode (response, '\n');
           database_notes.set_subscribers (identifier, subscribers);
         }
         if (action == Sync_Logic::notes_get_assignees) {
-          vector <string> assignees = filter_string_explode (response, '\n');
+          vector <string> assignees = filter::strings::explode (response, '\n');
           database_notes.set_assignees (identifier, assignees);
         }
         if (action == Sync_Logic::notes_get_modified) {
-          database_notes.set_modified (identifier, convert_to_int (response));
+          database_notes.set_modified (identifier, filter::strings::convert_to_int (response));
         }
       }
     }
@@ -325,7 +325,7 @@ bool sendreceive_notes_download (int lowId, int highId)
   
   
   string response = client_logic_connection_setup ("", "");
-  int iresponse = convert_to_int (response);
+  int iresponse = filter::strings::convert_to_int (response);
   if (iresponse < Filter_Roles::guest () || iresponse > Filter_Roles::admin ()) {
     Database_Logs::log (sendreceive_notes_text () + translate("Failure to initiate connection"), Filter_Roles::translator ());
     return false;
@@ -367,8 +367,8 @@ bool sendreceive_notes_download (int lowId, int highId)
   // The basic request to be POSTed to the server.
   map <string, string> post;
   post ["u"] = bin2hex (user);
-  post ["l"] = convert_to_string (lowId);
-  post ["h"] = convert_to_string (highId);
+  post ["l"] = filter::strings::convert_to_string (lowId);
+  post ["h"] = filter::strings::convert_to_string (highId);
 
   
   // Error variable.
@@ -379,7 +379,7 @@ bool sendreceive_notes_download (int lowId, int highId)
   // It compares this with the local notes.
   // If it matches, that means that the local notes match the notes on the server.
   // The script is then ready.
-  post ["a"] = convert_to_string (Sync_Logic::notes_get_total);
+  post ["a"] = filter::strings::convert_to_string (Sync_Logic::notes_get_total);
   // Response comes after a relatively long delay: Enable burst mode timing.
   sendreceive_notes_kick_watchdog ();
   response = sync_logic.post (post, url, error, true);
@@ -387,9 +387,9 @@ bool sendreceive_notes_download (int lowId, int highId)
     Database_Logs::log (sendreceive_notes_text () + "Failure requesting totals: " + error, Filter_Roles::translator ());
     return false;
   }
-  vector <string> vresponse = filter_string_explode (response, '\n');
+  vector <string> vresponse = filter::strings::explode (response, '\n');
   int server_total = 0;
-  if (vresponse.size () >= 1) server_total = convert_to_int (vresponse [0]);
+  if (vresponse.size () >= 1) server_total = filter::strings::convert_to_int (vresponse [0]);
   string server_checksum;
   if (vresponse.size () >= 2) server_checksum = vresponse [1];
   vector <int> identifiers = database_notes.get_notes_in_range_for_bibles (lowId, highId, {}, true);
@@ -433,7 +433,7 @@ bool sendreceive_notes_download (int lowId, int highId)
   
   
   // Get note identifiers and checksums as on the server.
-  post ["a"] = convert_to_string (Sync_Logic::notes_get_identifiers);
+  post ["a"] = filter::strings::convert_to_string (Sync_Logic::notes_get_identifiers);
   sendreceive_notes_kick_watchdog ();
   response = sync_logic.post (post, url, error);
   if (!error.empty ()) {
@@ -442,10 +442,10 @@ bool sendreceive_notes_download (int lowId, int highId)
   }
   vector <int> server_identifiers;
   vector <string> server_checksums;
-  vresponse = filter_string_explode (response, '\n');
+  vresponse = filter::strings::explode (response, '\n');
   for (size_t i = 0; i < vresponse.size (); i++) {
     if (i % 2 == 0) {
-      int identifier = convert_to_int (vresponse [i]);
+      int identifier = filter::strings::convert_to_int (vresponse [i]);
       if (identifier > 0) server_identifiers.push_back (identifier);
     }
     else server_checksums.push_back (vresponse [i]);
@@ -492,19 +492,19 @@ bool sendreceive_notes_download (int lowId, int highId)
     if (client_checksum_note == server_checksum_note) continue;
     
     // Store the identifier to be downloaded as part of a bulk download.
-    identifiers_bulk_download.push_back (convert_to_string (identifier));
+    identifiers_bulk_download.push_back (filter::strings::convert_to_string (identifier));
   }
   
   // Download the notes in bulk from the Cloud, for faster transfer.
   if (!identifiers_bulk_download.empty ()) {
     sendreceive_notes_kick_watchdog ();
     if (identifiers_bulk_download.size () >= 3) {
-      Database_Logs::log (sendreceive_notes_text () + "Receiving multiple notes: " + convert_to_string (identifiers_bulk_download.size ()), Filter_Roles::manager ());
+      Database_Logs::log (sendreceive_notes_text () + "Receiving multiple notes: " + filter::strings::convert_to_string (identifiers_bulk_download.size ()), Filter_Roles::manager ());
     }
     // Request the JSON from the Cloud: It will contain the requested notes.
     post.clear ();
-    post ["a"] = convert_to_string (Sync_Logic::notes_get_bulk);
-    string bulk_identifiers = filter_string_implode (identifiers_bulk_download, "\n");
+    post ["a"] = filter::strings::convert_to_string (Sync_Logic::notes_get_bulk);
+    string bulk_identifiers = filter::strings::implode (identifiers_bulk_download, "\n");
     post ["b"] = bulk_identifiers;
     string json = sync_logic.post (post, url, error);
     if (!error.empty ()) {

@@ -59,9 +59,9 @@ string sync_files (void * webserver_request)
     request->post = request->query;
   }
   string user = hex2bin (request->post ["u"]);
-  int action = convert_to_int (request->post ["a"]);
-  int version = convert_to_int (request->post ["v"]);
-  size_t d = static_cast<size_t>(convert_to_int (request->post ["d"]));
+  int action = filter::strings::convert_to_int (request->post ["a"]);
+  int version = filter::strings::convert_to_int (request->post ["v"]);
+  size_t d = static_cast<size_t>(filter::strings::convert_to_int (request->post ["d"]));
   string file = request->post ["f"];
 
   // For security reasons a client does not specify the directory of the file to be downloaded.
@@ -74,22 +74,22 @@ string sync_files (void * webserver_request)
   string directory = directories [d];
   
   if (action == Sync_Logic::files_total_checksum) {
-    return convert_to_string (Sync_Logic::files_get_total_checksum (version, user));
+    return filter::strings::convert_to_string (Sync_Logic::files_get_total_checksum (version, user));
   }
   
   else if (action == Sync_Logic::files_directory_checksum) {
     int checksum = Sync_Logic::files_get_directory_checksum (directory);
-    return convert_to_string (checksum);
+    return filter::strings::convert_to_string (checksum);
   }
 
   else if (action == Sync_Logic::files_directory_files) {
     vector <string> paths = Sync_Logic::files_get_files (directory);
-    return filter_string_implode (paths, "\n");
+    return filter::strings::implode (paths, "\n");
   }
 
   else if (action == Sync_Logic::files_file_checksum) {
     int checksum = Sync_Logic::files_get_file_checksum (directory, file);
-    return convert_to_string (checksum);
+    return filter::strings::convert_to_string (checksum);
   }
   
   else if (action == Sync_Logic::files_file_download) {

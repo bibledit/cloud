@@ -216,7 +216,7 @@ void Filter_Text::pre_process_usfm ()
                   {
                     // Get book number.
                     string usfm_id = filter::usfm::get_book_identifier (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
-                    usfm_id = filter_string_str_replace (soft_hyphen_u00AD (), "", usfm_id); // Remove possible soft hyphen.
+                    usfm_id = filter::strings::replace (soft_hyphen_u00AD (), "", usfm_id); // Remove possible soft hyphen.
                     // Get Bibledit book number.
                     m_current_book_identifier = static_cast<int>(database::books::get_id_from_usfm (usfm_id));
                     // Reset chapter and verse numbers.
@@ -281,7 +281,7 @@ void Filter_Text::pre_process_usfm ()
               case StyleTypeChapterNumber:
               {
                 string number = filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
-                m_current_chapter_number = convert_to_int (number);
+                m_current_chapter_number = filter::strings::convert_to_int (number);
                 numberOfChaptersPerBook[m_current_book_identifier] = m_current_chapter_number;
                 currentVerseNumber = "0";
                 break;
@@ -289,8 +289,8 @@ void Filter_Text::pre_process_usfm ()
               case StyleTypeVerseNumber:
               {
                 string number = filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
-                int inumber = convert_to_int (number);
-                currentVerseNumber = convert_to_string (inumber);
+                int inumber = filter::strings::convert_to_int (number);
+                currentVerseNumber = filter::strings::convert_to_string (inumber);
                 break;
               }
               case StyleTypeFootEndNote:
@@ -376,7 +376,7 @@ void Filter_Text::process_usfm ()
                 {
                   // Get book number.
                   string usfm_id = filter::usfm::get_book_identifier (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
-                  usfm_id = filter_string_str_replace (soft_hyphen_u00AD (), "", usfm_id); // Remove possible soft hyphen.
+                  usfm_id = filter::strings::replace (soft_hyphen_u00AD (), "", usfm_id); // Remove possible soft hyphen.
                   m_current_book_identifier = static_cast<int>(database::books::get_id_from_usfm (usfm_id));
                   // Reset chapter and verse numbers.
                   m_current_chapter_number = 0;
@@ -543,7 +543,7 @@ void Filter_Text::process_usfm ()
                   if (headings_text_per_verse_active) {
                     // If a new paragraph starts within an existing verse,
                     // add a space to the text already in that verse.
-                    int iverse = convert_to_int (currentVerseNumber);
+                    int iverse = filter::strings::convert_to_int (currentVerseNumber);
                     if (verses_text.count (iverse) && !verses_text [iverse].empty ()) {
                       verses_text [iverse].append (" ");
                     }
@@ -588,7 +588,7 @@ void Filter_Text::process_usfm ()
 
               // Get the chapter number.
               string number = filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
-              int inumber = convert_to_int (number);
+              int inumber = filter::strings::convert_to_int (number);
 
               // Update this object.
               m_current_chapter_number = inumber;
@@ -599,7 +599,7 @@ void Filter_Text::process_usfm ()
                 if (publishedChapterMarker.m_book == m_current_book_identifier) {
                   if (publishedChapterMarker.m_chapter == m_current_chapter_number) {
                     number = publishedChapterMarker.m_value;
-                    inumber = convert_to_int (number);
+                    inumber = filter::strings::convert_to_int (number);
                   }
                 }
               }
@@ -860,10 +860,10 @@ void Filter_Text::process_usfm ()
               // This makes it ready for subsequent use.
               output_chapter_text_at_first_verse.clear();
               // Other export formats.
-              if (onlinebible_text) onlinebible_text->newVerse (m_current_book_identifier, m_current_chapter_number, convert_to_int (currentVerseNumber));
-              if (esword_text) esword_text->newVerse (convert_to_int (currentVerseNumber));
+              if (onlinebible_text) onlinebible_text->newVerse (m_current_book_identifier, m_current_chapter_number, filter::strings::convert_to_int (currentVerseNumber));
+              if (esword_text) esword_text->newVerse (filter::strings::convert_to_int (currentVerseNumber));
               if (tbsx_text) {
-                tbsx_text->open_verse(convert_to_int (currentVerseNumber));
+                tbsx_text->open_verse(filter::strings::convert_to_int (currentVerseNumber));
                 tbsx_text->add_text(" ");
               }
               // Done.
@@ -1092,18 +1092,18 @@ void Filter_Text::process_usfm ()
           if (text_text) text_text->addtext (currentItem);
           if (tbsx_text) tbsx_text->add_text(currentItem);
           if (headings_text_per_verse_active && heading_started) {
-            int iverse = convert_to_int (currentVerseNumber);
+            int iverse = filter::strings::convert_to_int (currentVerseNumber);
             verses_headings [iverse].append (currentItem);
           }
           if (headings_text_per_verse_active && text_started) {
-            int iverse = convert_to_int (currentVerseNumber);
+            int iverse = filter::strings::convert_to_int (currentVerseNumber);
             if (verses_text.count (iverse) && !verses_text [iverse].empty ()) {
               verses_text [iverse].append (currentItem);
               actual_verses_paragraph [iverse].append (currentItem);
             } else {
               // The verse text straight after the \v starts with certain space type.
               // Replace it with a normal space.
-              string item = filter_string_str_replace (space_type_after_verse, " ", currentItem);
+              string item = filter::strings::replace (space_type_after_verse, " ", currentItem);
               verses_text [iverse] = filter_string_ltrim (item);
               actual_verses_paragraph [iverse] = filter_string_ltrim (item);
             }
@@ -1383,7 +1383,7 @@ void Filter_Text::produceInfoDocument (string path)
   // Number of chapters per book.
   information.new_heading1 (translate("Number of chapters per book"));
   for (const auto & element : numberOfChaptersPerBook) {
-    string line = database::books::get_english_from_id (static_cast<book_id>(element.first)) + " => " + convert_to_string (element.second);
+    string line = database::books::get_english_from_id (static_cast<book_id>(element.first)) + " => " + filter::strings::convert_to_string (element.second);
     information.new_paragraph ();
     information.add_text (line);
   }
@@ -1591,7 +1591,7 @@ void Filter_Text::applyDropCapsToCurrentParagraph (int dropCapsLength)
   // To name a style according to the number of characters to put in drop caps,
   // e.g. a style name like p_c1 or p_c2 or p_c3.
   if (odf_text_standard) {
-    string combined_style = odf_text_standard->m_current_paragraph_style + "_" + chapterMarker + convert_to_string (dropCapsLength);
+    string combined_style = odf_text_standard->m_current_paragraph_style + "_" + chapterMarker + filter::strings::convert_to_string (dropCapsLength);
     if (find (createdStyles.begin(), createdStyles.end(), combined_style) == createdStyles.end()) {
       Database_Styles_Item style = styles[odf_text_standard->m_current_paragraph_style];
       string fontname = Database_Config_Bible::getExportFont (m_bible);
@@ -1726,7 +1726,7 @@ void Filter_Text::store_verses_paragraphs ()
 void Filter_Text::notes_plain_text_handler ()
 {
   int offset = 0;
-  int iverse = convert_to_int (currentVerseNumber);
+  int iverse = filter::strings::convert_to_int (currentVerseNumber);
   if (verses_text.count (iverse)) {
     offset = static_cast<int>(verses_text [iverse].size ());
   }

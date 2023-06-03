@@ -63,14 +63,14 @@ string notes_status_1 (void * webserver_request)
   string success, error;
   
   
-  int id = convert_to_int (request->query ["id"]);
-  view.set_variable ("id", convert_to_string (id));
+  int id = filter::strings::convert_to_int (request->query ["id"]);
+  view.set_variable ("id", filter::strings::convert_to_string (id));
   
   
   if (request->query.count ("status")) {
     string status = request->query["status"];
     notes_logic.setStatus (id, status);
-    redirect_browser (request, notes_actions_url () + "?id=" + convert_to_string (id));
+    redirect_browser (request, notes_actions_url () + "?id=" + filter::strings::convert_to_string (id));
     return "";
   }
   
@@ -78,7 +78,7 @@ string notes_status_1 (void * webserver_request)
   stringstream statusblock;
   vector <Database_Notes_Text> statuses = database_notes.get_possible_statuses ();
   for (auto & status : statuses) {
-    statusblock << "<li><a href=" << quoted ("status-1?id=" + convert_to_string (id) + "&status=" + status.raw) << ">" << status.localized + "</a></li>" << endl;
+    statusblock << "<li><a href=" << quoted ("status-1?id=" + filter::strings::convert_to_string (id) + "&status=" + status.raw) << ">" << status.localized + "</a></li>" << endl;
   }
   view.set_variable ("statusblock", statusblock.str());
   

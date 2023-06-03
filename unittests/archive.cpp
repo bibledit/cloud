@@ -51,11 +51,11 @@ void test_archive ()
   vector <string> files12 = { file1, file2 };
 
   for (int i = 0; i < 5; i++) {
-    string path = filter_url_create_path ({directory, "testdata" + convert_to_string (i)});
-    string data = convert_to_string (filter_string_rand (1000000, 2000000));
+    string path = filter_url_create_path ({directory, "testdata" + filter::strings::convert_to_string (i)});
+    string data = filter::strings::convert_to_string (filter_string_rand (1000000, 2000000));
     for (int i2 = 0; i2 <= i; i2++) data.append (data);
     filter_url_file_put_contents (path, data);
-    path = filter_url_create_path ({directory, convert_to_string (i), convert_to_string (i)});
+    path = filter_url_create_path ({directory, filter::strings::convert_to_string (i), filter::strings::convert_to_string (i)});
     filter_url_mkdir (path);
     path = filter_url_create_path ({path, "data"});
     filter_url_file_put_contents (path, data);
@@ -68,9 +68,9 @@ void test_archive ()
     evaluate (__LINE__, __func__, true, file_or_dir_exists (zipfile));
     int size = filter_url_filesize (zipfile);
     int min = 3328;
-    if (size < min) evaluate (__LINE__, __func__, "Should be at least " + convert_to_string (min) + " bytes", convert_to_string (size));
+    if (size < min) evaluate (__LINE__, __func__, "Should be at least " + filter::strings::convert_to_string (min) + " bytes", filter::strings::convert_to_string (size));
     int max = 3334;
-    if (size > max) evaluate (__LINE__, __func__, "Should be no larger than " + convert_to_string (max) + " bytes", convert_to_string (size));
+    if (size > max) evaluate (__LINE__, __func__, "Should be no larger than " + filter::strings::convert_to_string (max) + " bytes", filter::strings::convert_to_string (size));
 
     // Zip existing folder through the miniz library.
     zipfile = filter_archive_zip_folder_miniz_internal (directory);
@@ -132,7 +132,7 @@ void test_archive ()
     int size = filter_url_filesize (tarball);
     int min = 155;
     int max = 181;
-    if ((size < min) || (size > max)) evaluate (__LINE__, __func__, "between " + to_string (min) + " and " + to_string (max), convert_to_string (size));
+    if ((size < min) || (size > max)) evaluate (__LINE__, __func__, "between " + to_string (min) + " and " + to_string (max), filter::strings::convert_to_string (size));
     // Test that compressing a non-existing file returns NULL.
     tarball = filter_archive_tar_gzip_file ("xxxxx");
     evaluate (__LINE__, __func__, "", tarball);
@@ -146,7 +146,7 @@ void test_archive ()
     int size = filter_url_filesize (tarball);
     int min = 618;
     int max = 634;
-    if ((size < min) || (size > max)) evaluate (__LINE__, __func__, "between " + to_string (min) + " and " + to_string (max), convert_to_string (size));
+    if ((size < min) || (size > max)) evaluate (__LINE__, __func__, "between " + to_string (min) + " and " + to_string (max), filter::strings::convert_to_string (size));
     // Test that compressing a non-existing folder returns nothing.
     //tarball = filter_archive_tar_gzip_folder (directory + "/x");
     //evaluate (__LINE__, __func__, "", tarball);

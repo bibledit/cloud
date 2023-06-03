@@ -61,7 +61,7 @@ string notes_click (void * webserver_request)
   if (request->query.count ("open")) {
     string open = request->query ["open"];
     open = filter_url_basename_web (open);
-    int iopen = convert_to_int (open);
+    int iopen = filter::strings::convert_to_int (open);
     if (database_notes.identifier_exists (iopen)) {
       Ipc_Notes::open (request, iopen);
     }
@@ -71,7 +71,7 @@ string notes_click (void * webserver_request)
   if (request->query.count ("new")) {
     string snew = request->query ["new"];
     snew = filter_url_basename_web (snew);
-    int inew = convert_to_int (snew);
+    int inew = filter::strings::convert_to_int (snew);
     Database_Modifications database_modifications;
     string bible = database_modifications.getNotificationBible (inew);
     string summary = translate("Query about a change in the text");
@@ -82,7 +82,7 @@ string notes_click (void * webserver_request)
     contents += "<p>" + translate("New text:") + "</p>";
     contents += database_modifications.getNotificationNewText (inew);
     Passage passage = database_modifications.getNotificationPassage (inew);
-    int identifier = notes_logic.createNote (bible, passage.m_book, passage.m_chapter, convert_to_int (passage.m_verse), summary, contents, false);
+    int identifier = notes_logic.createNote (bible, passage.m_book, passage.m_chapter, filter::strings::convert_to_int (passage.m_verse), summary, contents, false);
     Ipc_Notes::open (request, identifier);
   }
   

@@ -52,7 +52,7 @@ void changes_statistics_add (Assets_View & view, const string & date, int count)
   if (count) {
     map <string, string> values;
     values ["date"] = date;
-    values ["count"] = convert_to_string (count);
+    values ["count"] = filter::strings::convert_to_string (count);
     view.add_iteration ("statistics", values);
   }
 }

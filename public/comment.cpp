@@ -60,20 +60,20 @@ string public_comment (void * webserver_request)
   Assets_View view;
   
   
-  int id = convert_to_int (request->query ["id"]);
-  view.set_variable ("id", convert_to_string (id));
+  int id = filter::strings::convert_to_int (request->query ["id"]);
+  view.set_variable ("id", filter::strings::convert_to_string (id));
   
   
   if (request->post.count ("submit")) {
     string comment = filter_string_trim (request->post ["comment"]);
     notes_logic.addComment (id, comment);
-    redirect_browser (request, public_note_url () + "?id=" + convert_to_string (id));
+    redirect_browser (request, public_note_url () + "?id=" + filter::strings::convert_to_string (id));
     return "";
   }
   
   
   if (request->post.count ("cancel")) {
-    redirect_browser (request, public_note_url () + "?id=" + convert_to_string (id));
+    redirect_browser (request, public_note_url () + "?id=" + filter::strings::convert_to_string (id));
     return "";
   }
   

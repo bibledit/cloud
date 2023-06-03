@@ -223,7 +223,7 @@ bool Database_Ipc::getNotesAlive ()
     }
   }
 
-  if (highestId) return convert_to_bool (hitMessage);
+  if (highestId) return filter::strings::convert_to_bool (hitMessage);
 
   return false;
 }
@@ -251,11 +251,11 @@ vector <Database_Ipc_Item> Database_Ipc::readData ()
   vector <Database_Ipc_Item> data;
   vector <string> files = filter_url_scandir (folder ());
   for (string file : files) {
-    vector <string> explosion = filter_string_explode (file, '_');
+    vector <string> explosion = filter::strings::explode (file, '_');
     if (explosion.size () == 7) {
       Database_Ipc_Item item = Database_Ipc_Item ();
       item.file = file;
-      item.rowid = convert_to_int (explosion [0]);
+      item.rowid = filter::strings::convert_to_int (explosion [0]);
       item.user = explosion [2];
       item.channel = explosion [4];
       item.command = explosion [6];
@@ -268,7 +268,7 @@ vector <Database_Ipc_Item> Database_Ipc::readData ()
 
 void Database_Ipc::writeRecord (int rowid, string user, string channel, string command, string message)
 {
-  string filename = convert_to_string (rowid) + "__" + user + "__" +  channel + "__" + command;
+  string filename = filter::strings::convert_to_string (rowid) + "__" + user + "__" +  channel + "__" + command;
   filename = file (filename);
   filter_url_file_put_contents (filename, message);
 }

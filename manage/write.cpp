@@ -84,10 +84,10 @@ string manage_write (void * webserver_request)
     string checkbox = request->post["checkbox"];
     string s_book (checkbox);
     s_book.erase (0, 4);
-    int book = convert_to_int (s_book);
+    int book = filter::strings::convert_to_int (s_book);
     if (book) {
       if (bible_read_access) {
-        bool checked = convert_to_bool (request->post ["checked"]);
+        bool checked = filter::strings::convert_to_bool (request->post ["checked"]);
         DatabasePrivileges::set_bible_book (user, bible, book, checked);
         database_privileges_client_create (user, true);
       }
@@ -127,7 +127,7 @@ string manage_write (void * webserver_request)
   for (size_t i = 0; i < books.size (); i++) {
     int book = books[i];
     string bookname = database::books::get_english_from_id (static_cast<book_id>(book));
-    string checkboxname = "book" + convert_to_string (book);
+    string checkboxname = "book" + filter::strings::convert_to_string (book);
     bool read, write;
     DatabasePrivileges::get_bible_book (user, bible, book, read, write);
     string checked = get_checkbox_status (write);

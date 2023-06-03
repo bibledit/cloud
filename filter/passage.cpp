@@ -77,9 +77,9 @@ string Passage::encode ()
   // Therefore it will be encoded such that any Bible name will be acceptable as an attribute in the DOM.
   text.append (bin2hex (m_bible));
   text.append ("_");
-  text.append (convert_to_string (m_book));
+  text.append (filter::strings::convert_to_string (m_book));
   text.append ("_");
-  text.append (convert_to_string (m_chapter));
+  text.append (filter::strings::convert_to_string (m_chapter));
   text.append ("_");
   text.append (m_verse);
   if (m_verse.empty()) text.append ("0");
@@ -92,7 +92,7 @@ string Passage::encode ()
 Passage Passage::decode (const string& encoded)
 {
   Passage passage;
-  vector <string> bits = filter_string_explode (encoded, '_');
+  vector <string> bits = filter::strings::explode (encoded, '_');
   if (!bits.empty ()) {
     string verse = bits.back ();
     if (!verse.empty ()) passage.m_verse = verse;
@@ -100,12 +100,12 @@ Passage Passage::decode (const string& encoded)
   }
   if (!bits.empty ()) {
     string chapter = bits.back ();
-    if (!chapter.empty()) passage.m_chapter = convert_to_int (chapter);
+    if (!chapter.empty()) passage.m_chapter = filter::strings::convert_to_int (chapter);
     bits.pop_back ();
   }
   if (!bits.empty ()) {
     string book = bits.back ();
-    if (!book.empty()) passage.m_book = convert_to_int (book);
+    if (!book.empty()) passage.m_book = filter::strings::convert_to_int (book);
     bits.pop_back ();
   }
   if (!bits.empty ()) {
@@ -121,7 +121,7 @@ string filter_passage_display (int book, int chapter, string verse)
   string display;
   display.append (translate (database::books::get_english_from_id (static_cast<book_id>(book)).c_str()));
   display.append (" ");
-  display.append (convert_to_string (chapter));
+  display.append (filter::strings::convert_to_string (chapter));
   if (!verse.empty ()) display.append (":" + verse);
   return display;
 }
@@ -155,7 +155,7 @@ string filter_passage_display_multiline (vector <Passage> passages)
 // This function converts $passage to an integer, so that passages can be compared or stored.
 int filter_passage_to_integer (Passage passage)
 {
-  return 1000000 * passage.m_book + 1000 * passage.m_chapter + convert_to_int (passage.m_verse);
+  return 1000000 * passage.m_book + 1000 * passage.m_chapter + filter::strings::convert_to_int (passage.m_verse);
 }
 
 
@@ -166,7 +166,7 @@ Passage filter_integer_to_passage (int integer)
   integer -= book * 1000000;
   int chapter = static_cast<int> (round (integer / 1000));
   integer -= chapter * 1000;
-  string verse = convert_to_string (integer);
+  string verse = filter::strings::convert_to_string (integer);
   return Passage ("", book, chapter, verse);
 }
 
@@ -203,15 +203,15 @@ book_id filter_passage_interpret_book_v2 (string book)
 
   // Recognize names like "I Peter", where the "I" can also be "II" or "III".
   // Do the longest ones first.
-  book = filter_string_str_replace ("III ", "3 ", book);
-  book = filter_string_str_replace ("II ", "2 ", book);
-  book = filter_string_str_replace ("I ", "1 ", book);
+  book = filter::strings::replace ("III ", "3 ", book);
+  book = filter::strings::replace ("II ", "2 ", book);
+  book = filter::strings::replace ("I ", "1 ", book);
   
   // Do case folding, i.e., work with lower case only.
   book = unicode_string_casefold (book);
   
   // Remove any spaces from the book name and try with that too.
-  string nospacebook = filter_string_str_replace (" ", "", book);
+  string nospacebook = filter::strings::replace (" ", "", book);
 
   // Store all of the available IDs locally.
   vector <book_id> bookids = database::books::get_ids ();
@@ -290,8 +290,8 @@ string filter_passage_clean_passage (string text)
   text = filter_string_trim (text);
   // As references could be, e.g.: Genesis 10.2, or Genesis 10:2,
   // it needs to convert a the full stop and the colon to a space.
-  text = filter_string_str_replace (".", " ", text);
-  text = filter_string_str_replace (":", " ", text);
+  text = filter::strings::replace (".", " ", text);
+  text = filter::strings::replace (":", " ", text);
   // Change double spaces into single ones.
   text = filter_string_collapse_whitespace (text);
   // Trim again.
@@ -308,7 +308,7 @@ Passage filter_passage_explode_passage (string text)
 {
   text = filter_passage_clean_passage (text);
   // Cut the text in its parts.
-  vector <string> bits = filter_string_explode (text, ' ');
+  vector <string> bits = filter::strings::explode (text, ' ');
   // Defaults to empty passage.
   Passage passage;
   // Take the bits.
@@ -319,10 +319,10 @@ Passage filter_passage_explode_passage (string text)
   }
   if (!bits.empty ()) {
     string chapter = bits.back ();    
-    if (!chapter.empty()) passage.m_chapter = convert_to_int (chapter);
+    if (!chapter.empty()) passage.m_chapter = filter::strings::convert_to_int (chapter);
     bits.pop_back ();
   }
-  string book = filter_string_implode (bits, " ");
+  string book = filter::strings::implode (bits, " ");
   if (!book.empty()) {
     book_id bk = filter_passage_interpret_book_v2 (book);
     passage.m_book = static_cast<int>(bk);
@@ -346,7 +346,7 @@ Passage filter_passage_interpret_passage (Passage currentPassage, string rawPass
   rawPassage = filter_passage_clean_passage (rawPassage);
 
   // Create an array with the bits of the raw input.
-  vector <string> input = filter_string_explode (rawPassage, ' ');
+  vector <string> input = filter::strings::explode (rawPassage, ' ');
 
   // Go through the array from verse to chapter to book.
   // Check how many numerals it has after the book part.
@@ -355,12 +355,12 @@ Passage filter_passage_interpret_passage (Passage currentPassage, string rawPass
   vector <string> invertedInput (input.begin(), input.end ());
   reverse (invertedInput.begin (), invertedInput.end());
   for (string & bit : invertedInput) {
-    int integer = convert_to_int (bit);
-    if (bit == convert_to_string (integer)) {
+    int integer = filter::strings::convert_to_int (bit);
+    if (bit == filter::strings::convert_to_string (integer)) {
       numerals.push_back (integer);
       input.pop_back ();
     } else {
-      book = filter_string_implode (input, " ");
+      book = filter::strings::implode (input, " ");
       break;
     }
   }
@@ -374,8 +374,8 @@ Passage filter_passage_interpret_passage (Passage currentPassage, string rawPass
   else if ((book == "") && (numerals.size () == 1)) {
     int bk = currentPassage.m_book;
     int chapter = currentPassage.m_chapter;
-    string verse = convert_to_string (numerals [0]);
-    Passage passage = filter_passage_explode_passage ("Unknown " + convert_to_string (chapter) + " " + verse);
+    string verse = filter::strings::convert_to_string (numerals [0]);
+    Passage passage = filter_passage_explode_passage ("Unknown " + filter::strings::convert_to_string (chapter) + " " + verse);
     passage.m_book = bk;
     return passage;
   }
@@ -384,8 +384,8 @@ Passage filter_passage_interpret_passage (Passage currentPassage, string rawPass
   else if ((book == "") && (numerals.size () == 2)) {
     int bk = currentPassage.m_book;
     int chapter = numerals [1];
-    string verse = convert_to_string (numerals [0]);
-    Passage passage = filter_passage_explode_passage ("Unknown " + convert_to_string (chapter) + " " + verse);
+    string verse = filter::strings::convert_to_string (numerals [0]);
+    Passage passage = filter_passage_explode_passage ("Unknown " + filter::strings::convert_to_string (chapter) + " " + verse);
     passage.m_book = bk;
     return passage;
   }
@@ -393,7 +393,7 @@ Passage filter_passage_interpret_passage (Passage currentPassage, string rawPass
   // Deal with: Book and one number given, e.g. "Exodus 10".
   else if ((book != "") && (numerals.size () == 1)) {
     int chapter = numerals [0];
-    return filter_passage_explode_passage (book + " " + convert_to_string (chapter) + " 1");
+    return filter_passage_explode_passage (book + " " + filter::strings::convert_to_string (chapter) + " 1");
   }
 
   // Deal with: Book and two numbers given, e.g. "Song of Solomon 2 3".
@@ -417,7 +417,7 @@ vector <string> filter_passage_handle_sequences_ranges (const string& passage)
   // 14-15
   // 27-28
   // It implies that the first sequence has book and chapter.
-  vector <string> sequences = filter_string_explode (passage, ',');
+  vector <string> sequences = filter::strings::explode (passage, ',');
   for (string & line : sequences) line = filter_string_trim (line);
 
 
@@ -427,7 +427,7 @@ vector <string> filter_passage_handle_sequences_ranges (const string& passage)
   // Cut the passages at the hyphen.
   for (unsigned int offset = 0; offset < sequences.size(); offset++) {
     string sequence = sequences [offset];
-    vector <string> range = filter_string_explode (sequence, '-');
+    vector <string> range = filter::strings::explode (sequence, '-');
     if (range.size () == 1) {
       output.push_back (filter_string_trim (range [0]));
     } else {
@@ -437,12 +437,12 @@ vector <string> filter_passage_handle_sequences_ranges (const string& passage)
         // Since the first bit contains book / chapter / verse,
         // extract the verse number.
         start = string (start.rbegin(), start.rend());
-        start = convert_to_string (convert_to_int (start));
+        start = filter::strings::convert_to_string (filter::strings::convert_to_int (start));
         start = string (start.rbegin(), start.rend());
       }
-      unsigned int end = static_cast <unsigned> (convert_to_int (filter_string_trim (range [1])));
-      for (size_t i = static_cast<size_t> (convert_to_int (start) + 1); i <= end; i++) {
-        output.push_back (convert_to_string (i));
+      unsigned int end = static_cast <unsigned> (filter::strings::convert_to_int (filter_string_trim (range [1])));
+      for (size_t i = static_cast<size_t> (filter::strings::convert_to_int (start) + 1); i <= end; i++) {
+        output.push_back (filter::strings::convert_to_string (i));
       }
     }
   }
@@ -456,7 +456,7 @@ string filter_passage_link_for_opening_editor_at (int book, int chapter, string 
 {
   string display = filter_passage_display (book, chapter, verse);
   Passage passage = Passage ("", book, chapter, verse);
-  string numeric = convert_to_string (filter_passage_to_integer (passage));
+  string numeric = filter::strings::convert_to_string (filter_passage_to_integer (passage));
   xml_document document;
   xml_node a_node = document.append_child ("a");
   a_node.append_attribute("class") = "starteditor";
@@ -483,12 +483,12 @@ vector <int> filter_passage_get_ordered_books (const string& bible)
 
   // The book order from the settings, if any.
   string s_orderedbooks = Database_Config_Bible::getBookOrder (bible);
-  vector <string> vs_orderedbooks = filter_string_explode (s_orderedbooks, ' ');
+  vector <string> vs_orderedbooks = filter::strings::explode (s_orderedbooks, ' ');
 
   // Keep books available in the Bible.
   vector <int> orderedbooks;
   for (string & book : vs_orderedbooks) {
-    int bk = convert_to_int (book);
+    int bk = filter::strings::convert_to_int (book);
     if (find (projectbooks.begin(), projectbooks.end(), bk) != projectbooks.end()) {
       orderedbooks.push_back (bk);
     }

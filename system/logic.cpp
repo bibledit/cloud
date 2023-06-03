@@ -94,7 +94,7 @@ void system_logic_produce_bibles_file (int jobid)
         book_usfm.append (filter_string_trim (usfm));
         book_usfm.append ("\n");
       }
-      string file = bible + "_" + convert_to_string (book) + ".usfm";
+      string file = bible + "_" + filter::strings::convert_to_string (book) + ".usfm";
       string path = filter_url_create_path ({directory, file});
       filter_url_file_put_contents (path, book_usfm);
       files.push_back (file);
@@ -168,7 +168,7 @@ void system_logic_import_bibles_file (string tarball)
         // so importing outdated Bibles would not affect the authoritative copy in the Cloud.
         database_bibles.storeChapter (bible, book_chapter_data.m_book, book_chapter_data.m_chapter, book_chapter_data.m_data);
         string bookname = database::books::get_english_from_id (static_cast<book_id>(book_chapter_data.m_book));
-        Database_Logs::log ("Imported " + bible + " " + bookname + " " + convert_to_string (book_chapter_data.m_chapter));
+        Database_Logs::log ("Imported " + bible + " " + bookname + " " + filter::strings::convert_to_string (book_chapter_data.m_chapter));
       } else {
         // Import error.
         Database_Logs::log ("Could not import this file: " + file);
@@ -380,7 +380,7 @@ void system_logic_produce_resources_file (int jobid)
         html_text.add_text (" ");
         html_text.add_text (translate ("Amount of resources:"));
         html_text.add_text (" ");
-        html_text.add_text (convert_to_string (single_resources.size()));
+        html_text.add_text (filter::strings::convert_to_string (single_resources.size()));
         html_text.add_text (".");
         html_text.new_paragraph ();
         html_text.add_link (html_text.current_p_node, "/" + system_logic_resources_file_name (), "", "", "", translate ("Download the archive with all installed resources."));

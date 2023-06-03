@@ -97,7 +97,7 @@ vector <int> Database_NoteActions::getNotes ()
   vector <string> result = database_sqlite_query (db, "SELECT DISTINCT note FROM noteactions ORDER BY rowid;") ["note"];
   database_sqlite_disconnect (db);
   for (auto & note : result) {
-    notes.push_back (convert_to_int (note));
+    notes.push_back (filter::strings::convert_to_int (note));
   }
   return notes;
 }
@@ -120,10 +120,10 @@ vector <Database_Note_Action> Database_NoteActions::getNoteData (int note)
   vector <string> contents = result ["content"];
   for (unsigned int i = 0; i < rowids.size (); i++) {
     Database_Note_Action action = Database_Note_Action ();
-    action.rowid = convert_to_int (rowids [i]);
+    action.rowid = filter::strings::convert_to_int (rowids [i]);
     action.username = usernames [i];
-    action.timestamp = convert_to_int (timestamps [i]);
-    action.action = convert_to_int (actions [i]);
+    action.timestamp = filter::strings::convert_to_int (timestamps [i]);
+    action.action = filter::strings::convert_to_int (actions [i]);
     action.content = contents [i];
     data.push_back (action);
   }

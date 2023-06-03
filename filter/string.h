@@ -22,26 +22,29 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/libraries.h>
 #include <filter/string.hpp>
 
-std::vector <std::string> filter_string_explode (std::string value, char delimiter);
-std::vector <std::string> filter_string_explode (std::string value, std::string delimiters);
-std::string filter_string_implode (std::vector <std::string>& values, std::string delimiter);
-std::string filter_string_str_replace (std::string search, std::string replace, std::string subject, int * count = nullptr);
-bool filter_string_replace_between (std::string& line, const std::string& start, const std::string& end, const std::string& replacement);
-std::string substr_replace (std::string original, std::string replacement, size_t start, size_t length);
-std::string convert_to_string (size_t i);
-std::string convert_to_string (int i);
-std::string convert_to_string (char * c);
+namespace filter::strings {
+
+std::vector <std::string> explode (std::string value, char delimiter);
+std::vector <std::string> explode (std::string value, std::string delimiters);
+std::string implode (std::vector <std::string>& values, std::string delimiter);
+std::string replace (const std::string& search, const std::string& replace, std::string subject, int * count = nullptr);
+bool replace_between (std::string& line, const std::string& start, const std::string& end, const std::string& replacement);
+std::string convert_to_string (const size_t i);
+std::string convert_to_string (const int i);
 std::string convert_to_string (const char * c);
-std::string convert_to_string (bool b);
-std::string convert_to_string (std::string s);
-std::string convert_to_string (float f);
-int convert_to_int (std::string s);
-int convert_to_int (float f);
-long long convert_to_long_long (std::string s);
-float convert_to_float (std::string s);
-bool convert_to_bool (std::string s);
-std::string convert_to_true_false (bool b);
-std::u16string convert_to_u16string (std::string s);
+std::string convert_to_string (const bool b);
+std::string convert_to_string (const std::string& s);
+std::string convert_to_string (const float f);
+int convert_to_int (const std::string& s);
+int convert_to_int (const float f);
+long long convert_to_long_long (const std::string& s);
+float convert_to_float (const std::string& s);
+bool convert_to_bool (const std::string& s);
+std::string convert_to_true_false (const bool b);
+std::u16string convert_to_u16string (const std::string& s);
+
+}
+
 std::vector <std::string> array_unique (std::vector <std::string> values);
 std::vector <int> array_unique (std::vector <int> values);
 std::vector <std::string> filter_string_array_diff (std::vector <std::string> from, std::vector <std::string> against);

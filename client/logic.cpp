@@ -58,7 +58,7 @@ void client_logic_enable_client (bool enable)
 // $path is the path after the website.
 string client_logic_url (const string & address, int port, const string & path)
 {
-  return address + ":" + convert_to_string (port) + "/" + path;
+  return address + ":" + filter::strings::convert_to_string (port) + "/" + path;
 }
 
 
@@ -86,7 +86,7 @@ string client_logic_connection_setup (string user, string hash)
   
   string error {};
   string response = filter_url_http_get (url, error, true);
-  int iresponse = convert_to_int (response);
+  int iresponse = filter::strings::convert_to_int (response);
   
   if ((iresponse >= Filter_Roles::guest ()) && (iresponse <= Filter_Roles::admin ())) {
     // Set user's role on the client to be the same as on the server.
@@ -123,13 +123,13 @@ string client_logic_create_note_encode (const string & bible, int book, int chap
 {
   vector <string> data {};
   data.push_back (bible);
-  data.push_back (convert_to_string (book));
-  data.push_back (convert_to_string (chapter));
-  data.push_back (convert_to_string (verse));
+  data.push_back (filter::strings::convert_to_string (book));
+  data.push_back (filter::strings::convert_to_string (chapter));
+  data.push_back (filter::strings::convert_to_string (verse));
   data.push_back (summary);
-  data.push_back (convert_to_string (raw));
+  data.push_back (filter::strings::convert_to_string (raw));
   data.push_back (contents);
-  return filter_string_implode (data, "\n");
+  return filter::strings::implode (data, "\n");
 }
 
 
@@ -137,21 +137,21 @@ void client_logic_create_note_decode (const string & data,
                                       string& bible, int& book, int& chapter, int& verse,
                                       string& summary, string& contents, bool& raw)
 {
-  vector <string> lines = filter_string_explode (data, '\n');
+  vector <string> lines = filter::strings::explode (data, '\n');
   if (!lines.empty ()) {
     bible = lines [0];
     lines.erase (lines.begin());
   }
   if (!lines.empty ()) {
-    book = convert_to_int (lines [0]);
+    book = filter::strings::convert_to_int (lines [0]);
     lines.erase (lines.begin());
   }
   if (!lines.empty ()) {
-    chapter = convert_to_int (lines [0]);
+    chapter = filter::strings::convert_to_int (lines [0]);
     lines.erase (lines.begin());
   }
   if (!lines.empty ()) {
-    verse = convert_to_int (lines [0]);
+    verse = filter::strings::convert_to_int (lines [0]);
     lines.erase (lines.begin());
   }
   if (!lines.empty ()) {
@@ -159,10 +159,10 @@ void client_logic_create_note_decode (const string & data,
     lines.erase (lines.begin());
   }
   if (!lines.empty ()) {
-    raw = convert_to_bool (lines [0]);
+    raw = filter::strings::convert_to_bool (lines [0]);
     lines.erase (lines.begin());
   }
-  contents = filter_string_implode (lines, "\n");
+  contents = filter::strings::implode (lines, "\n");
 }
 
 
@@ -175,7 +175,7 @@ string client_logic_link_to_cloud (string path, string linktext)
   if (client_logic_client_enabled ()) {
     string address = Database_Config_General::getServerAddress ();
     int port = Database_Config_General::getServerPort ();
-    url = address + ":" + convert_to_string (port);
+    url = address + ":" + filter::strings::convert_to_string (port);
     if (!path.empty ()) {
       url.append ("/");
       url.append (path);
@@ -216,14 +216,14 @@ void client_logic_usfm_resources_update ()
   string path = client_logic_usfm_resources_path ();
   Database_UsfmResources database_usfmresources {};
   vector <string> resources = database_usfmresources.getResources ();
-  filter_url_file_put_contents (path, filter_string_implode (resources, "\n"));
+  filter_url_file_put_contents (path, filter::strings::implode (resources, "\n"));
 }
 
 
 vector <string> client_logic_usfm_resources_get ()
 {
   string contents = filter_url_file_get_contents (client_logic_usfm_resources_path ());
-  return filter_string_explode (contents, '\n');
+  return filter::strings::explode (contents, '\n');
 }
 
 
@@ -248,7 +248,7 @@ string client_logic_no_cache_resources_path ()
 
 void client_logic_no_cache_resources_save (vector<string> resources)
 {
-  string contents = filter_string_implode(resources, "\n");
+  string contents = filter::strings::implode(resources, "\n");
   string path = client_logic_no_cache_resources_path ();
   filter_url_file_put_contents(path, contents);
 }
@@ -275,6 +275,6 @@ void client_logic_no_cache_resource_remove (string name)
 vector <string> client_logic_no_cache_resources_get ()
 {
   string contents = filter_url_file_get_contents (client_logic_no_cache_resources_path());
-  vector<string> resources = filter_string_explode(contents, "\n");
+  vector<string> resources = filter::strings::explode(contents, "\n");
   return resources;
 }

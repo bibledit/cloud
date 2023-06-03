@@ -57,7 +57,7 @@ string sync_settings (void * webserver_request)
   sync_logic.prioritized_ip_address_record ();
 
   // Get the relevant parameters the client POSTed to us, the server.
-  int action = convert_to_int (request->post ["a"]);
+  int action = filter::strings::convert_to_int (request->post ["a"]);
   string value = request->post ["v"];
   // The value can be all Bibles, or one Bible.
   string bible_s = request->post ["b"];
@@ -65,7 +65,7 @@ string sync_settings (void * webserver_request)
   switch (action) {
     case Sync_Logic::settings_get_total_checksum:
     {
-      return sync_logic.settings_checksum (filter_string_explode (bible_s, '\n'));
+      return sync_logic.settings_checksum (filter::strings::explode (bible_s, '\n'));
     }
     case Sync_Logic::settings_send_workspace_urls:
     {
@@ -96,14 +96,14 @@ string sync_settings (void * webserver_request)
     }
     case Sync_Logic::settings_send_resources_organization:
     {
-      vector <string> resources = filter_string_explode (value, '\n');
+      vector <string> resources = filter::strings::explode (value, '\n');
       request->database_config_user()->setActiveResources (resources);
       return string();
     }
     case Sync_Logic::settings_get_resources_organization:
     {
       vector <string> resources = request->database_config_user()->getActiveResources ();
-      return filter_string_implode (resources, "\n");
+      return filter::strings::implode (resources, "\n");
     }
     case Sync_Logic::settings_get_bible_id:
     {
@@ -121,7 +121,7 @@ string sync_settings (void * webserver_request)
     }
     case Sync_Logic::settings_get_privilege_delete_consultation_notes:
     {
-      return convert_to_string (request->database_config_user()->getPrivilegeDeleteConsultationNotes ());
+      return filter::strings::convert_to_string (request->database_config_user()->getPrivilegeDeleteConsultationNotes ());
     }
     default:
     {

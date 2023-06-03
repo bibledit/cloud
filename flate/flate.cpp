@@ -64,7 +64,7 @@ string Flate::render (string html)
     Database_Logs::log ("Failure to process template " + html);
   }
   // Remove empty lines.
-  vector <string> lines = filter_string_explode (rendering, '\n');
+  vector <string> lines = filter::strings::explode (rendering, '\n');
   rendering.clear ();
   for (auto & line : lines) {
     line = filter_string_trim (line);
@@ -113,7 +113,7 @@ void Flate::process_iterations (string & rendering)
         // Process one iteration.
         string fragment (iterating_fragment);
         for (auto & element : named_iteration) {
-          fragment = filter_string_str_replace ("##" + element.first + "##", element.second, fragment);
+          fragment = filter::strings::replace ("##" + element.first + "##", element.second, fragment);
         }
         // Add the processed fragment.
         iterated_fragment.append ("\n");
@@ -204,7 +204,7 @@ void Flate::process_variables (string& rendering)
 void Flate::process_translate (string& rendering)
 {
   // Clean up the "translate" (gettext) calls.
-  rendering = filter_string_str_replace ("translate (", "translate(", rendering);
+  rendering = filter::strings::replace ("translate (", "translate(", rendering);
   // Gettext markup.
   string gettextopen = R"(translate(")";
   string gettextclose = R"("))";

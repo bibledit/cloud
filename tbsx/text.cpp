@@ -43,7 +43,7 @@ void Tbsx_Text::set_book_name (string name)
 void Tbsx_Text::set_chapter (int chapter)
 {
   flush ();
-  output.push_back ("##" + convert_to_string (chapter));
+  output.push_back ("##" + filter::strings::convert_to_string (chapter));
 }
 
 
@@ -66,7 +66,7 @@ void Tbsx_Text::open_verse (int verse)
 {
   flush ();
   in_note = false;
-  add_text (convert_to_string (verse));
+  add_text (filter::strings::convert_to_string (verse));
 }
 
 
@@ -119,7 +119,7 @@ string Tbsx_Text::line ()
 string Tbsx_Text::get_document ()
 {
   flush ();
-  return filter_string_implode (output, "\n");
+  return filter::strings::implode (output, "\n");
 }
 
 

@@ -123,7 +123,7 @@ string Database_ImageResources::store (string name, string file)
   do {
     path = filter_url_create_path ({folder, image});
     exists = file_or_dir_exists (path);
-    if (exists) image = filter_string_str_replace (".", "0.", image);
+    if (exists) image = filter::strings::replace (".", "0.", image);
   } while (exists);
   filter_url_rename (file, path);
   return image;
@@ -147,9 +147,9 @@ void Database_ImageResources::assign (string name, string image,
   {
     SqliteSQL sql = SqliteSQL ();
     sql.add ("INSERT INTO passages VALUES (");
-    sql.add (filter_passage_to_integer (Passage ("", book1, chapter1, convert_to_string (verse1))));
+    sql.add (filter_passage_to_integer (Passage ("", book1, chapter1, filter::strings::convert_to_string (verse1))));
     sql.add (",");
-    sql.add (filter_passage_to_integer (Passage ("", book2, chapter2, convert_to_string (verse2))));
+    sql.add (filter_passage_to_integer (Passage ("", book2, chapter2, filter::strings::convert_to_string (verse2))));
     sql.add (",");
     sql.add (image);
     sql.add (");");
@@ -161,7 +161,7 @@ void Database_ImageResources::assign (string name, string image,
 
 vector <string> Database_ImageResources::get (string name, int book, int chapter, int verse)
 {
-  int passage = filter_passage_to_integer (Passage ("", book, chapter, convert_to_string (verse)));
+  int passage = filter_passage_to_integer (Passage ("", book, chapter, filter::strings::convert_to_string (verse)));
   SqliteSQL sql = SqliteSQL ();
   sql.add ("SELECT image FROM passages WHERE start <=");
   sql.add (passage);
@@ -223,17 +223,17 @@ void Database_ImageResources::get (string name, string image,
   vector <string> end   = results["end"];
 
   if (!start.empty ()) {
-    Passage passage = filter_integer_to_passage (convert_to_int (start [0]));
+    Passage passage = filter_integer_to_passage (filter::strings::convert_to_int (start [0]));
     book1 = passage.m_book;
     chapter1 = passage.m_chapter;
-    verse1 = convert_to_int (passage.m_verse);
+    verse1 = filter::strings::convert_to_int (passage.m_verse);
   }
   
   if (!end.empty ()) {
-    Passage passage = filter_integer_to_passage (convert_to_int (end [0]));
+    Passage passage = filter_integer_to_passage (filter::strings::convert_to_int (end [0]));
     book2 = passage.m_book;
     chapter2 = passage.m_chapter;
-    verse2 = convert_to_int (passage.m_verse);
+    verse2 = filter::strings::convert_to_int (passage.m_verse);
   }
 }
 

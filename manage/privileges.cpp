@@ -73,7 +73,7 @@ string manage_privileges (void * webserver_request)
   
   bool privileges_updated {false};
   string checkbox {request->post ["checkbox"]};
-  bool checked {convert_to_bool (request->post ["checked"])};
+  bool checked {filter::strings::convert_to_bool (request->post ["checked"])};
   bool state {false};
   
   

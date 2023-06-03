@@ -32,7 +32,7 @@ using namespace std;
 void Editor_Html2Usfm::load (string html)
 {
   // The web editor may insert non-breaking spaces. Convert them to normal spaces.
-  html = filter_string_str_replace (unicode_non_breaking_space_entity (), " ", html);
+  html = filter::strings::replace (unicode_non_breaking_space_entity (), " ", html);
   
   // The web editor produces <hr> and other elements following the HTML specs,
   // but the pugixml XML parser needs <hr/> and similar elements.
@@ -110,7 +110,7 @@ void Editor_Html2Usfm::process ()
 string Editor_Html2Usfm::get ()
 {
   // Generate the USFM as one string.
-  string usfm = filter_string_implode (output, "\n");
+  string usfm = filter::strings::implode (output, "\n");
   
   usfm = cleanUSFM (usfm);
   
@@ -240,7 +240,7 @@ void Editor_Html2Usfm::closeElementNode (xml_node node)
     if (suppressEndMarkers.find (className) != suppressEndMarkers.end()) return;
     // Add closing USFM, optionally closing embedded tags in reverse order.
     char separator = '0';
-    vector <string> classes = filter_string_explode (className, separator);
+    vector <string> classes = filter::strings::explode (className, separator);
     characterStyles = filter_string_array_diff (characterStyles, classes);
     reverse (classes.begin(), classes.end());
     for (unsigned int offset = 0; offset < classes.size(); offset++) {
@@ -265,7 +265,7 @@ void Editor_Html2Usfm::openInline (string className)
   //   <span class="nd">Lord God</span>
   // is calling</span> you</span><span>.</span>
   char separator = '0';
-  vector <string> classes = filter_string_explode (className, separator);
+  vector <string> classes = filter::strings::explode (className, separator);
   for (unsigned int offset = 0; offset < classes.size(); offset++) {
     bool embedded = (characterStyles.size () + offset) > 0;
     string marker = classes[offset];
@@ -305,7 +305,7 @@ void Editor_Html2Usfm::processNoteCitation (xml_node node)
   // Get more information about the note to retrieve.
   // <span class="i-notecall1" />
   string id = node.attribute ("class").value ();
-  id = filter_string_str_replace ("call", "body", id);
+  id = filter::strings::replace ("call", "body", id);
 
   // Sample footnote body.
   // <p class="b-f"><span class="i-notebody1">1</span> + <span class="i-ft">notetext</span></p>
@@ -363,7 +363,7 @@ string Editor_Html2Usfm::cleanUSFM (string usfm)
   // Replace a double space after a note opener.
   for (string noteOpener : noteOpeners) {
     string opener = filter::usfm::get_opening_usfm (noteOpener);
-    usfm = filter_string_str_replace (opener + " ", opener, usfm);
+    usfm = filter::strings::replace (opener + " ", opener, usfm);
   }
   
   // Unescape special XML characters.
@@ -473,8 +473,8 @@ xml_node Editor_Html2Usfm::get_note_pointer (xml_node body, string id)
 
 string Editor_Html2Usfm::update_quill_class (string classname)
 {
-  classname = filter_string_str_replace (quill_logic_class_prefix_block (), "", classname);
-  classname = filter_string_str_replace (quill_logic_class_prefix_inline (), "", classname);
+  classname = filter::strings::replace (quill_logic_class_prefix_block (), "", classname);
+  classname = filter::strings::replace (quill_logic_class_prefix_inline (), "", classname);
   return classname;
 }
 
@@ -500,7 +500,7 @@ string editor_export_verse_quill (string stylesheet, string html)
   string usfm = editor_export.get ();
   
   // Remove that recognizable style converted to USFM.
-  usfm = filter_string_str_replace (R"(\)" + style, string(), usfm);
+  usfm = filter::strings::replace (R"(\)" + style, string(), usfm);
   usfm = filter_string_trim (usfm);
 
   return usfm;

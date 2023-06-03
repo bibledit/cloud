@@ -46,8 +46,8 @@ void test_html2format ()
       evaluate (__LINE__, __func__, formats, editor_html2format.formats);
     }
     // The Quill library uses <span> only when needed, so remove them for testing.
-    html = filter_string_str_replace ("<span>", "", html);
-    html = filter_string_str_replace ("</span>", "", html);
+    html = filter::strings::replace ("<span>", "", html);
+    html = filter::strings::replace ("</span>", "", html);
     {
       Editor_Html2Format editor_html2format;
       editor_html2format.load (html);
@@ -70,8 +70,8 @@ void test_html2format ()
       evaluate (__LINE__, __func__, formats, editor_html2format.formats);
     }
     // Test Quill-based editor.
-    html = filter_string_str_replace ("<span>", "", html);
-    html = filter_string_str_replace ("</span>", "", html);
+    html = filter::strings::replace ("<span>", "", html);
+    html = filter::strings::replace ("</span>", "", html);
     {
       Editor_Html2Format editor_html2format;
       editor_html2format.load (html);
@@ -319,8 +319,8 @@ void test_html2format ()
       evaluate (__LINE__, __func__, formats, editor_html2format.formats);
     }
     // The Quill library uses <span> only when needed, so remove them for testing.
-    html = filter_string_str_replace ("<span>", "", html);
-    html = filter_string_str_replace ("</span>", "", html);
+    html = filter::strings::replace ("<span>", "", html);
+    html = filter::strings::replace ("</span>", "", html);
     {
       Editor_Html2Format editor_html2format;
       editor_html2format.load (html);

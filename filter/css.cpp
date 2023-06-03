@@ -219,19 +219,19 @@ string Filter_Css::get_css (string class_, string font, int directionvalue, int 
   }
   
   if (lineheight != 100) {
-    string line = "line-height: " + convert_to_string (lineheight) + "%;";
+    string line = "line-height: " + filter::strings::convert_to_string (lineheight) + "%;";
     css.push_back (line);
   }
   
   if (letterspacing != 0) {
     float value = static_cast <float> (letterspacing / 10);
-    string line = "letter-spacing: " + convert_to_string (value) + "px;";
+    string line = "letter-spacing: " + filter::strings::convert_to_string (value) + "px;";
     css.push_back (line);
   }
   
   css.push_back ("}");
   
-  return filter_string_implode (css, "\n");
+  return filter::strings::implode (css, "\n");
 }
 
 

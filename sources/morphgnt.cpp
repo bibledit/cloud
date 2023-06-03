@@ -47,9 +47,9 @@ void sources_morphgnt_parse ()
     file.insert (0, "sources/morphgnt/");
     Database_Logs::log (file);
     string contents = filter_url_file_get_contents (file);
-    vector <string> lines = filter_string_explode (contents, '\n');
+    vector <string> lines = filter::strings::explode (contents, '\n');
     for (auto line : lines) {
-      vector <string> bits = filter_string_explode (line, ' ');
+      vector <string> bits = filter::strings::explode (line, ' ');
       if (bits.size () != 7) {
         Database_Logs::log (line);
         Database_Logs::log ("Should be seven bits");
@@ -57,9 +57,9 @@ void sources_morphgnt_parse ()
       }
 
       string passage = bits [0];
-      int book = convert_to_int (passage.substr (0, 2)) + 39;
-      int chapter = convert_to_int (passage.substr (2, 2));
-      int verse = convert_to_int (passage.substr (4, 2));
+      int book = filter::strings::convert_to_int (passage.substr (0, 2)) + 39;
+      int chapter = filter::strings::convert_to_int (passage.substr (2, 2));
+      int verse = filter::strings::convert_to_int (passage.substr (4, 2));
       string pos = bits[1];
       string parsing = bits[2];
       parsings.insert (parsing.substr (7, 1)); // degree

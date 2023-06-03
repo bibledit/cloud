@@ -54,7 +54,7 @@ string workspace_index (void * webserver_request)
 
   // Set the requested workspace as the active one.
   if (request->query.count ("bench")) {
-    size_t bench = static_cast <size_t> (convert_to_int (request->query ["bench"]));
+    size_t bench = static_cast <size_t> (filter::strings::convert_to_int (request->query ["bench"]));
     if (bench < workspaces.size ()) {
       string workspace = workspaces [bench];
       request->database_config_user()->setActiveWorkspace (workspace);
@@ -85,13 +85,13 @@ string workspace_index (void * webserver_request)
   
   // In case the workspace is opened from a consultation note email,
   // read the note, and set the active passage to the passage the note refers to.
-  int noteid = convert_to_int (request->query ["note"]);
+  int noteid = filter::strings::convert_to_int (request->query ["note"]);
   if (noteid) {
     Database_Notes database_notes (webserver_request);
     vector <Passage> passages = database_notes.get_passages (noteid);
     if (!passages.empty ()) {
-      Ipc_Focus::set (webserver_request, passages[0].m_book, passages[0].m_chapter, convert_to_int (passages[0].m_verse));
-      Navigation_Passage::record_history (webserver_request, passages[0].m_book, passages[0].m_chapter, convert_to_int (passages[0].m_verse));
+      Ipc_Focus::set (webserver_request, passages[0].m_book, passages[0].m_chapter, filter::strings::convert_to_int (passages[0].m_verse));
+      Navigation_Passage::record_history (webserver_request, passages[0].m_book, passages[0].m_chapter, filter::strings::convert_to_int (passages[0].m_verse));
     }
   }
   
@@ -114,13 +114,13 @@ string workspace_index (void * webserver_request)
     int editor_number = editor_numbers [key];
     int row = static_cast<int> (round (key / 5)) + 1;
     int column = key % 5 + 1;
-    string variable = "url" + convert_to_string (row) + convert_to_string (column);
+    string variable = "url" + filter::strings::convert_to_string (row) + filter::strings::convert_to_string (column);
     view.set_variable (variable, url);
-    variable = "width" + convert_to_string (row) + convert_to_string (column);
+    variable = "width" + filter::strings::convert_to_string (row) + filter::strings::convert_to_string (column);
     view.set_variable (variable, width);
-    if (convert_to_int (width) > 0) view.enable_zone (variable);
-    variable = "editorno" + convert_to_string (row) + convert_to_string (column);
-    view.set_variable (variable, convert_to_string (editor_number));
+    if (filter::strings::convert_to_int (width) > 0) view.enable_zone (variable);
+    variable = "editorno" + filter::strings::convert_to_string (row) + filter::strings::convert_to_string (column);
+    view.set_variable (variable, filter::strings::convert_to_string (editor_number));
   }
   
   
@@ -128,9 +128,9 @@ string workspace_index (void * webserver_request)
   for (int key = 0; key < 3; key++) {
     string height = heights [key];
     int row = key + 1;
-    string variable = "height" + convert_to_string (row);
+    string variable = "height" + filter::strings::convert_to_string (row);
     view.set_variable (variable, height);
-    if (convert_to_int (height) > 0) view.enable_zone (variable);
+    if (filter::strings::convert_to_int (height) > 0) view.enable_zone (variable);
   }
   
   

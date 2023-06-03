@@ -118,8 +118,8 @@ string bible_order (void * webserver_request)
       book_id::_malachi,
     };
     vector <string> v_book_order {};
-    for (const auto book : interspersed) v_book_order.push_back (convert_to_string (static_cast<int>(book)));
-    string s_book_order = filter_string_implode (v_book_order, " ");
+    for (const auto book : interspersed) v_book_order.push_back (filter::strings::convert_to_string (static_cast<int>(book)));
+    string s_book_order = filter::strings::implode (v_book_order, " ");
     Database_Config_Bible::setBookOrder (bible, s_book_order);
   }
 
@@ -177,8 +177,8 @@ string bible_order (void * webserver_request)
       book_id::_baruch,
     };
     vector <string> v_book_order {};
-    for (const auto book : interspersed) v_book_order.push_back (convert_to_string (static_cast<int>(book)));
-    string s_book_order = filter_string_implode (v_book_order, " ");
+    for (const auto book : interspersed) v_book_order.push_back (filter::strings::convert_to_string (static_cast<int>(book)));
+    string s_book_order = filter::strings::implode (v_book_order, " ");
     Database_Config_Bible::setBookOrder (bible, s_book_order);
   }
 
@@ -192,12 +192,12 @@ string bible_order (void * webserver_request)
   string moveup = request->query ["moveup"];
   string movedown = request->query ["movedown"];
   if (!moveup.empty () || !movedown.empty ()) {
-    size_t move = static_cast<size_t>(convert_to_int (moveup + movedown));
+    size_t move = static_cast<size_t>(filter::strings::convert_to_int (moveup + movedown));
     vector <int> books = filter_passage_get_ordered_books (bible);
     vector <string> s_books;
-    for (auto & book : books) s_books.push_back (convert_to_string (book));
+    for (auto & book : books) s_books.push_back (filter::strings::convert_to_string (book));
     array_move_up_down (s_books, move, !moveup.empty ());
-    string s_order = filter_string_implode (s_books, " ");
+    string s_order = filter::strings::implode (s_books, " ");
     Database_Config_Bible::setBookOrder (bible, s_order);
   }
   
@@ -205,7 +205,7 @@ string bible_order (void * webserver_request)
   for (size_t i = 0; i < books.size (); i++) {
     string bookname = database::books::get_english_from_id (static_cast<book_id>(books[i]));
     bookname = translate (bookname);
-    view.add_iteration ("order", { pair ("offset", convert_to_string (i)), pair ("bookname", bookname) } );
+    view.add_iteration ("order", { pair ("offset", filter::strings::convert_to_string (i)), pair ("bookname", bookname) } );
   }
 
   view.set_variable ("uparrow", unicode_black_up_pointing_triangle ());

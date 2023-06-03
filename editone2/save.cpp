@@ -69,9 +69,9 @@ string editone2_save (void * webserver_request)
 
   
   string bible = request->post["bible"];
-  int book = convert_to_int (request->post["book"]);
-  int chapter = convert_to_int (request->post["chapter"]);
-  int verse = convert_to_int (request->post["verse"]);
+  int book = filter::strings::convert_to_int (request->post["book"]);
+  int chapter = filter::strings::convert_to_int (request->post["chapter"]);
+  int verse = filter::strings::convert_to_int (request->post["verse"]);
   string html = request->post["html"];
   string checksum = request->post["checksum"];
   string unique_id = request->post ["id"];

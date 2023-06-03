@@ -66,18 +66,18 @@ string personalize_index (void * webserver_request)
 
   
   string checkbox = request->post ["checkbox"];
-  bool checked = convert_to_bool (request->post ["checked"]);
+  bool checked = filter::strings::convert_to_bool (request->post ["checked"]);
 
 
   // Accept values for allowed relative changes for the four Bible text editors.
   if (request->post.count ("chapterpercentage")) {
-    int chapterpercentage = convert_to_int (request->post ["chapterpercentage"]);
+    int chapterpercentage = filter::strings::convert_to_int (request->post ["chapterpercentage"]);
     chapterpercentage = clip (chapterpercentage, 10, 100);
     request->database_config_user ()->setEditingAllowedDifferenceChapter (chapterpercentage);
     return "";
   }
   if (request->post.count ("versepercentage")) {
-    int versepercentage = convert_to_int (request->post ["versepercentage"]);
+    int versepercentage = filter::strings::convert_to_int (request->post ["versepercentage"]);
     versepercentage = clip (versepercentage, 10, 100);
     request->database_config_user ()->setEditingAllowedDifferenceVerse (versepercentage);
     return "";
@@ -86,7 +86,7 @@ string personalize_index (void * webserver_request)
 
   // Set the user chosen theme as the current theme.
   if (request->post.count ("themepicker")) {
-    int themepicker = convert_to_int (request->post ["themepicker"]);
+    int themepicker = filter::strings::convert_to_int (request->post ["themepicker"]);
     if (config::logic::default_bibledit_configuration ()) {
       request->database_config_user ()->setCurrentTheme (themepicker);
     }
@@ -101,7 +101,7 @@ string personalize_index (void * webserver_request)
   // Store new font sizes before displaying the header,
   // so that the page displays the new font sizes immediately.
   if (request->post.count ("fontsizegeneral")) {
-    int fontsizegeneral = convert_to_int (request->post["fontsizegeneral"]);
+    int fontsizegeneral = filter::strings::convert_to_int (request->post["fontsizegeneral"]);
     fontsizegeneral = clip (fontsizegeneral, 50, 300);
     if (config::logic::default_bibledit_configuration ()) {
       request->database_config_user ()->setGeneralFontSize (fontsizegeneral);
@@ -109,7 +109,7 @@ string personalize_index (void * webserver_request)
     return "";
   }
   if (request->post.count ("fontsizemenu")) {
-    int fontsizemenu = convert_to_int (request->post["fontsizemenu"]);
+    int fontsizemenu = filter::strings::convert_to_int (request->post["fontsizemenu"]);
     fontsizemenu = clip (fontsizemenu, 50, 300);
     if (config::logic::default_bibledit_configuration ()) {
       request->database_config_user ()->setMenuFontSize (fontsizemenu);
@@ -128,71 +128,71 @@ string personalize_index (void * webserver_request)
   
   // Font size for everything.
   if (config::logic::default_bibledit_configuration ()) {
-    view.set_variable ("fontsizegeneral", convert_to_string (request->database_config_user ()->getGeneralFontSize ()));
+    view.set_variable ("fontsizegeneral", filter::strings::convert_to_string (request->database_config_user ()->getGeneralFontSize ()));
   }
 
   
   // Font size for the menu.
   if (config::logic::default_bibledit_configuration ()) {
-    view.set_variable ("fontsizemenu", convert_to_string (request->database_config_user ()->getMenuFontSize ()));
+    view.set_variable ("fontsizemenu", filter::strings::convert_to_string (request->database_config_user ()->getMenuFontSize ()));
   }
   
   
   // Font size for the Bible editors.
   if (request->post.count ("fontsizeeditors")) {
-    int fontsizeeditors = convert_to_int (request->post["fontsizeeditors"]);
+    int fontsizeeditors = filter::strings::convert_to_int (request->post["fontsizeeditors"]);
     fontsizeeditors = clip (fontsizeeditors, 50, 300);
     request->database_config_user ()->setBibleEditorsFontSize (fontsizeeditors);
     styles_sheets_create_all ();
     return "";
   }
-  view.set_variable ("fontsizeeditors", convert_to_string (request->database_config_user ()->getBibleEditorsFontSize ()));
+  view.set_variable ("fontsizeeditors", filter::strings::convert_to_string (request->database_config_user ()->getBibleEditorsFontSize ()));
   
   
   // Font size for the resources.
   if (request->post.count ("fontsizeresources")) {
-    int fontsizeresources = convert_to_int (request->post["fontsizeresources"]);
+    int fontsizeresources = filter::strings::convert_to_int (request->post["fontsizeresources"]);
     fontsizeresources = clip (fontsizeresources, 50, 300);
     if (config::logic::default_bibledit_configuration ()) {
       request->database_config_user ()->setResourcesFontSize (fontsizeresources);
     }
     return "";
   }
-  view.set_variable ("fontsizeresources", convert_to_string (request->database_config_user ()->getResourcesFontSize ()));
+  view.set_variable ("fontsizeresources", filter::strings::convert_to_string (request->database_config_user ()->getResourcesFontSize ()));
   
   
   // Font size for Hebrew resources.
   if (request->post.count ("fontsizehebrew")) {
-    int fontsizehebrew = convert_to_int (request->post["fontsizehebrew"]);
+    int fontsizehebrew = filter::strings::convert_to_int (request->post["fontsizehebrew"]);
     fontsizehebrew = clip (fontsizehebrew, 50, 300);
     if (config::logic::default_bibledit_configuration ()) {
       request->database_config_user ()->setHebrewFontSize (fontsizehebrew);
     }
     return "";
   }
-  view.set_variable ("fontsizehebrew", convert_to_string (request->database_config_user ()->getHebrewFontSize ()));
+  view.set_variable ("fontsizehebrew", filter::strings::convert_to_string (request->database_config_user ()->getHebrewFontSize ()));
   
   
   // Font size for Greek resources.
   if (request->post.count ("fontsizegreek")) {
-    int fontsizegreek = convert_to_int (request->post["fontsizegreek"]);
+    int fontsizegreek = filter::strings::convert_to_int (request->post["fontsizegreek"]);
     fontsizegreek = clip (fontsizegreek, 50, 300);
     if (config::logic::default_bibledit_configuration ()) {
       request->database_config_user ()->setGreekFontSize (fontsizegreek);
     }
     return "";
   }
-  view.set_variable ("fontsizegreek", convert_to_string (request->database_config_user ()->getGreekFontSize ()));
+  view.set_variable ("fontsizegreek", filter::strings::convert_to_string (request->database_config_user ()->getGreekFontSize ()));
   
   
   // Vertical caret position in chapter editors.
   if (request->post.count ("caretposition")) {
-    int caretposition = convert_to_int (request->post["caretposition"]);
+    int caretposition = filter::strings::convert_to_int (request->post["caretposition"]);
     caretposition = clip (caretposition, 20, 80);
     request->database_config_user ()->setVerticalCaretPosition (caretposition);
     return "";
   }
-  view.set_variable ("caretposition", convert_to_string (request->database_config_user ()->getVerticalCaretPosition ()));
+  view.set_variable ("caretposition", filter::strings::convert_to_string (request->database_config_user ()->getVerticalCaretPosition ()));
   
 
   // Whether to display bread crumbs.
@@ -204,7 +204,7 @@ string personalize_index (void * webserver_request)
 
   
   // Set the chosen theme on the option HTML tag.
-  string theme_key = convert_to_string (request->database_config_user ()->getCurrentTheme ());
+  string theme_key = filter::strings::convert_to_string (request->database_config_user ()->getCurrentTheme ());
   string filename = current_theme_filebased_cache_filename (request->session_identifier);
   string theme_html;
   theme_html = Options_To_Select::add_selection ("Basic", "0", theme_html);
@@ -218,17 +218,17 @@ string personalize_index (void * webserver_request)
   
   // Workspace menu fade-out delay.
   if (request->post.count ("workspacefadeoutdelay")) {
-    int workspacefadeoutdelay = convert_to_int (request->post["workspacefadeoutdelay"]);
+    int workspacefadeoutdelay = filter::strings::convert_to_int (request->post["workspacefadeoutdelay"]);
     workspacefadeoutdelay = clip (workspacefadeoutdelay, 0, 100);
     request->database_config_user ()->setWorkspaceMenuFadeoutDelay (workspacefadeoutdelay);
     return "";
   }
-  view.set_variable ("workspacefadeoutdelay", convert_to_string (request->database_config_user ()->getWorkspaceMenuFadeoutDelay ()));
+  view.set_variable ("workspacefadeoutdelay", filter::strings::convert_to_string (request->database_config_user ()->getWorkspaceMenuFadeoutDelay ()));
 
   
   // Permissable relative changes in the two to four Bible editors.
-  view.set_variable ("chapterpercentage", convert_to_string (request->database_config_user ()->getEditingAllowedDifferenceChapter ()));
-  view.set_variable ("versepercentage", convert_to_string (request->database_config_user ()->getEditingAllowedDifferenceVerse ()));
+  view.set_variable ("chapterpercentage", filter::strings::convert_to_string (request->database_config_user ()->getEditingAllowedDifferenceChapter ()));
+  view.set_variable ("versepercentage", filter::strings::convert_to_string (request->database_config_user ()->getEditingAllowedDifferenceVerse ()));
   
   
   // Whether to keep the main menu always visible.
@@ -259,14 +259,14 @@ string personalize_index (void * webserver_request)
   const char * fastswitchvisualeditors = "fastswitchvisualeditors";
   string visual_editors_html;
   for (int i = 0; i < 3; i++) {
-    visual_editors_html = Options_To_Select::add_selection (menu_logic_editor_settings_text (true, i), convert_to_string (i), visual_editors_html);
+    visual_editors_html = Options_To_Select::add_selection (menu_logic_editor_settings_text (true, i), filter::strings::convert_to_string (i), visual_editors_html);
   }
   if (request->post.count (fastswitchvisualeditors)) {
-    int visual_editor_key = convert_to_int (request->post [fastswitchvisualeditors]);
+    int visual_editor_key = filter::strings::convert_to_int (request->post [fastswitchvisualeditors]);
     request->database_config_user ()->setFastSwitchVisualEditors (visual_editor_key);
     return "";
   }
-  string editor_key = convert_to_string (request->database_config_user ()->getFastSwitchVisualEditors ());
+  string editor_key = filter::strings::convert_to_string (request->database_config_user ()->getFastSwitchVisualEditors ());
   view.set_variable ("fastswitchvisualeditorsoptags", Options_To_Select::mark_selected (editor_key, visual_editors_html));
   view.set_variable (fastswitchvisualeditors, editor_key);
 
@@ -275,14 +275,14 @@ string personalize_index (void * webserver_request)
   const char * fastswitchusfmeditors = "fastswitchusfmeditors";
   string usfm_editors_html;
   for (int i = 0; i < 2; i++) {
-    usfm_editors_html = Options_To_Select::add_selection (menu_logic_editor_settings_text (false, i), convert_to_string (i), usfm_editors_html);
+    usfm_editors_html = Options_To_Select::add_selection (menu_logic_editor_settings_text (false, i), filter::strings::convert_to_string (i), usfm_editors_html);
   }
   if (request->post.count (fastswitchusfmeditors)) {
-    int usfm_editor_key = convert_to_int (request->post [fastswitchusfmeditors]);
+    int usfm_editor_key = filter::strings::convert_to_int (request->post [fastswitchusfmeditors]);
     request->database_config_user ()->setFastSwitchUsfmEditors (usfm_editor_key);
     return "";
   }
-  editor_key = convert_to_string(request->database_config_user ()->getFastSwitchUsfmEditors ());
+  editor_key = filter::strings::convert_to_string(request->database_config_user ()->getFastSwitchUsfmEditors ());
   view.set_variable ("fastswitchusfmeditorsoptags", Options_To_Select::mark_selected (editor_key, usfm_editors_html));
   view.set_variable (fastswitchusfmeditors, editor_key);
 
@@ -434,16 +434,16 @@ string personalize_index (void * webserver_request)
   // The date format to be used in the Consultation Notes.
   const char * dateformat = "dateformat";
   if (request->post.count (dateformat)) {
-    int date_format_key = convert_to_int (request->post [dateformat]);
+    int date_format_key = filter::strings::convert_to_int (request->post [dateformat]);
     request->database_config_user ()->setNotesDateFormat(date_format_key);
     return string();
   }
-  string date_format_key = convert_to_string (request->database_config_user ()->getNotesDateFormat());
+  string date_format_key = filter::strings::convert_to_string (request->database_config_user ()->getNotesDateFormat());
   string date_format_html;
   for (filter::date::date_format df = filter::date::dd_mm_yyyy;
        df <= filter::date::yyyy_mn_dd;
        df = static_cast<filter::date::date_format>(df + 1)) {
-    date_format_html = Options_To_Select::add_selection (filter::date::date_format_to_text (df), convert_to_string(df), date_format_html);
+    date_format_html = Options_To_Select::add_selection (filter::date::date_format_to_text (df), filter::strings::convert_to_string(df), date_format_html);
   }
   view.set_variable ("dateformatoptags", Options_To_Select::mark_selected (date_format_key, date_format_html));
   view.set_variable (dateformat, date_format_key);

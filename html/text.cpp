@@ -94,7 +94,7 @@ void HtmlText::add_text (const std::string& text)
     span.text().set (text.c_str());
     if (!current_text_style.empty ()) {
       // Take character style(s) as specified in the object.
-      span.append_attribute ("class") = filter_string_implode (current_text_style, " ").c_str();
+      span.append_attribute ("class") = filter::strings::implode (current_text_style, " ").c_str();
     }
     current_paragraph_content += text;
   }
@@ -171,8 +171,8 @@ void HtmlText::add_note (const std::string& citation, const std::string& style, 
   note_count++;
   
   // Add the link with all relevant data for the note citation.
-  std::string reference = "#note" + convert_to_string (note_count);
-  std::string identifier = "citation" + convert_to_string (note_count);
+  std::string reference = "#note" + filter::strings::convert_to_string (note_count);
+  std::string identifier = "citation" + filter::strings::convert_to_string (note_count);
   add_link (current_p_node, reference, identifier, "", "superscript", citation, add_popup_notes);
   
   // Open a paragraph element for the note body.
@@ -183,8 +183,8 @@ void HtmlText::add_note (const std::string& citation, const std::string& style, 
   close_text_style (true, false);
   
   // Add the link with all relevant data for the note body.
-  reference = "#citation" + convert_to_string (note_count);
-  identifier = "note" + convert_to_string (note_count);
+  reference = "#citation" + filter::strings::convert_to_string (note_count);
+  identifier = "note" + filter::strings::convert_to_string (note_count);
   add_link (note_p_node, reference, identifier, "", "", citation);
   
   // Add a space.
@@ -202,7 +202,7 @@ void HtmlText::add_note_text (const std::string& text)
   span_node.text().set (text.c_str());
   if (!current_note_text_style.empty ()) {
     // Take character style as specified in this object.
-    span_node.append_attribute ("class") = filter_string_implode (current_note_text_style, " ").c_str();
+    span_node.append_attribute ("class") = filter::strings::implode (current_note_text_style, " ").c_str();
   }
   if (popup_node) {
     xml_node span_node_2 = popup_node.append_child ("span");

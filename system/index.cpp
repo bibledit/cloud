@@ -97,7 +97,7 @@ string system_index (void * webserver_request)
 
   // Get values for setting checkboxes.
   string checkbox = request->post ["checkbox"];
-  [[maybe_unused]] bool checked = convert_to_bool (request->post ["checked"]);
+  [[maybe_unused]] bool checked = filter::strings::convert_to_bool (request->post ["checked"]);
 
 
   // The available localizations.
@@ -120,14 +120,14 @@ string system_index (void * webserver_request)
   // Entry of time zone offset in hours.
   if (request->post.count ("timezone")) {
     string input = request->post ["timezone"];
-    input = filter_string_str_replace ("UTC", string(), input);
-    int input_timezone = convert_to_int (input);
+    input = filter::strings::replace ("UTC", string(), input);
+    int input_timezone = filter::strings::convert_to_int (input);
     input_timezone = clip (input_timezone, MINIMUM_TIMEZONE, MAXIMUM_TIMEZONE);
     Database_Config_General::setTimezone (input_timezone);
   }
   // Set the time zone offset in the GUI.
   int timezone_setting = Database_Config_General::getTimezone();
-  view.set_variable ("timezone", convert_to_string (timezone_setting));
+  view.set_variable ("timezone", filter::strings::convert_to_string (timezone_setting));
   // Display the section to set the site's timezone only
   // in case the calling program has not yet set this zone in the library.
   // So for example the app for iOS can set the timezone from the device,
@@ -178,8 +178,8 @@ string system_index (void * webserver_request)
     if (producebibles) task = PRODUCEBIBLESTRANSFERFILE;
     if (producenotes) task = PRODUCERENOTESTRANSFERFILE;
     if (produceresources) task = PRODUCERESOURCESTRANSFERFILE;
-    tasks_logic_queue (task, { convert_to_string (jobId) });
-    redirect_browser (request, jobs_index_url () + "?id=" + convert_to_string (jobId));
+    tasks_logic_queue (task, { filter::strings::convert_to_string (jobId) });
+    redirect_browser (request, jobs_index_url () + "?id=" + filter::strings::convert_to_string (jobId));
     return "";
   }
 #endif
@@ -345,7 +345,7 @@ string system_index (void * webserver_request)
     }
   }
   vector <int> mails = database_mail.getAllMails ();
-  string mailcount = convert_to_string (mails.size());
+  string mailcount = filter::strings::convert_to_string (mails.size());
   view.set_variable ("emailscount", mailcount);
 #endif
 

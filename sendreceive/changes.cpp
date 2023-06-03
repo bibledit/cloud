@@ -94,7 +94,7 @@ void sendreceive_changes ()
   
   
   string response = client_logic_connection_setup ("", "");
-  int iresponse = convert_to_int (response);
+  int iresponse = filter::strings::convert_to_int (response);
   if (iresponse < Filter_Roles::guest () || iresponse > Filter_Roles::admin ()) {
     Database_Logs::log (sendreceive_changes_text () + translate("Failure to initiate connection"), Filter_Roles::translator ());
     send_receive_changes_done ();
@@ -119,7 +119,7 @@ void sendreceive_changes ()
   map <string, string> post;
   post ["u"] = bin2hex (user);
   post ["p"] = password;
-  post ["l"] = convert_to_string (request.database_users ()->get_level (user));
+  post ["l"] = filter::strings::convert_to_string (request.database_users ()->get_level (user));
   
   
   // Error variables.
@@ -135,10 +135,10 @@ void sendreceive_changes ()
   
   // Send the removed change notifications to the server.
   vector <int> ids = request.database_config_user ()->getRemovedChanges ();
-  if (!ids.empty ()) Database_Logs::log (sendreceive_changes_text () + "Sending removed notifications: " + convert_to_string (ids.size()), Filter_Roles::translator ());
+  if (!ids.empty ()) Database_Logs::log (sendreceive_changes_text () + "Sending removed notifications: " + filter::strings::convert_to_string (ids.size()), Filter_Roles::translator ());
   for (auto & id : ids) {
-    post ["a"] = convert_to_string (Sync_Logic::changes_delete_modification);
-    post ["i"] = convert_to_string (id);
+    post ["a"] = filter::strings::convert_to_string (Sync_Logic::changes_delete_modification);
+    post ["i"] = filter::strings::convert_to_string (id);
     response = sync_logic.post (post, url, error);
     if (!error.empty ()) {
       communication_errors = true;
@@ -166,7 +166,7 @@ void sendreceive_changes ()
     request.database_config_user ()->setChangeNotificationsChecksum (client_checksum);
   }
   string server_checksum;
-  post ["a"] = convert_to_string (Sync_Logic::changes_get_checksum);
+  post ["a"] = filter::strings::convert_to_string (Sync_Logic::changes_get_checksum);
   response = sync_logic.post (post, url, error);
   if (!error.empty ()) {
     Database_Logs::log (sendreceive_changes_text () + "Failure receiving checksum: " + error, Filter_Roles::translator ());
@@ -186,7 +186,7 @@ void sendreceive_changes ()
   string any_bible = "";
   vector <int> client_identifiers = database_modifications.getNotificationIdentifiers (user, any_bible);
   vector <int> server_identifiers;
-  post ["a"] = convert_to_string (Sync_Logic::changes_get_identifiers);
+  post ["a"] = filter::strings::convert_to_string (Sync_Logic::changes_get_identifiers);
   response = sync_logic.post (post, url, error);
   if (!error.empty ()) {
     Database_Logs::log (sendreceive_changes_text () + "Failure receiving identifiers: " + error, Filter_Roles::translator ());
@@ -194,8 +194,8 @@ void sendreceive_changes ()
     return;
   }
   {
-    vector <string> ids2 = filter_string_explode (response, '\n');
-    for (auto & id : ids2) server_identifiers.push_back (convert_to_int (id));
+    vector <string> ids2 = filter::strings::explode (response, '\n');
+    for (auto & id : ids2) server_identifiers.push_back (filter::strings::convert_to_int (id));
   }
 
   
@@ -204,7 +204,7 @@ void sendreceive_changes ()
   for (auto & id : remove_identifiers) {
     database_modifications.deleteNotification (id);
     request.database_config_user ()->setChangeNotificationsChecksum ("");
-    Database_Logs::log (sendreceive_changes_text () + "Removing notification: " + convert_to_string (id), Filter_Roles::translator ());
+    Database_Logs::log (sendreceive_changes_text () + "Removing notification: " + filter::strings::convert_to_string (id), Filter_Roles::translator ());
   }
 
   
@@ -212,16 +212,16 @@ void sendreceive_changes ()
   vector <int> download_identifiers = filter_string_array_diff (server_identifiers, client_identifiers);
   for (auto & id : download_identifiers) {
     sendreceive_changes_kick_watchdog ();
-    Database_Logs::log (sendreceive_changes_text () + "Downloading notification: " + convert_to_string (id), Filter_Roles::translator ());
-    post ["a"] = convert_to_string (Sync_Logic::changes_get_modification);
-    post ["i"] = convert_to_string (id);
+    Database_Logs::log (sendreceive_changes_text () + "Downloading notification: " + filter::strings::convert_to_string (id), Filter_Roles::translator ());
+    post ["a"] = filter::strings::convert_to_string (Sync_Logic::changes_get_modification);
+    post ["i"] = filter::strings::convert_to_string (id);
     response = sync_logic.post (post, url, error);
     if (!error.empty ()) {
       Database_Logs::log (sendreceive_changes_text () + "Failure downloading notification: " + error, Filter_Roles::translator ());
     }
     else {
       // The server has put all bits together, one bit per line.
-      vector <string> lines = filter_string_explode (response, '\n');
+      vector <string> lines = filter::strings::explode (response, '\n');
       string category;
       if (!lines.empty ()) {
         category = lines [0];
@@ -234,17 +234,17 @@ void sendreceive_changes ()
       }
       int book = 0;
       if (!lines.empty ()) {
-        book = convert_to_int (lines [0]);
+        book = filter::strings::convert_to_int (lines [0]);
         lines.erase (lines.begin ());
       }
       int chapter = 0;
       if (!lines.empty ()) {
-        chapter = convert_to_int (lines [0]);
+        chapter = filter::strings::convert_to_int (lines [0]);
         lines.erase (lines.begin ());
       }
       int verse = 0;
       if (!lines.empty ()) {
-        verse = convert_to_int (lines [0]);
+        verse = filter::strings::convert_to_int (lines [0]);
         lines.erase (lines.begin ());
       }
       string oldtext;

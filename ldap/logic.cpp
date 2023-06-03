@@ -68,7 +68,7 @@ void ldap_logic_initialize ()
   if (file_or_dir_exists (path)) {
     // Parse the configuration file.
     const string contents = filter_url_file_get_contents (path);
-    const vector <string> lines = filter_string_explode (contents, '\n');
+    const vector <string> lines = filter::strings::explode (contents, '\n');
     for (auto line : lines) {
       line = filter_string_trim (line);
       if (line.empty ()) continue;
@@ -148,8 +148,8 @@ bool ldap_logic_fetch (const string& user, const string& password, bool& access,
   role = Filter_Roles::guest ();
   
   // Insert the user name where appropriate.
-  const string binddn = filter_string_str_replace ("[user]", user, ldap_logic_binddn);
-  const string filter = filter_string_str_replace ("[user]", user, ldap_logic_filter);
+  const string binddn = filter::strings::replace ("[user]", user, ldap_logic_binddn);
+  const string filter = filter::strings::replace ("[user]", user, ldap_logic_filter);
   
   // Query the LDAP server.
   string output {};
@@ -175,7 +175,7 @@ bool ldap_logic_fetch (const string& user, const string& password, bool& access,
   // Parse server response.
   if (result == 0) {
     access = true;
-    const vector <string> lines = filter_string_explode (output, '\n');
+    const vector <string> lines = filter::strings::explode (output, '\n');
     for (const auto& line : lines) {
       if (line.find ("mail:") == 0) {
         email = filter_string_trim (line.substr (5));

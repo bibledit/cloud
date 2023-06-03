@@ -50,7 +50,7 @@ string read_verse (void * webserver_request)
     
     // Only update navigation in case the verse changed.
     // This avoids unnecessary focus operations in the clients.
-    int iverse = convert_to_int (sverse);
+    int iverse = filter::strings::convert_to_int (sverse);
     if (iverse != Ipc_Focus::getVerse (request)) {
       int book = Ipc_Focus::getBook (request);
       int chapter = Ipc_Focus::getChapter (request);

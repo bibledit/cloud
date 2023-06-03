@@ -68,8 +68,8 @@ string bible_chapter (void * webserver_request)
   view.set_variable ("bible", escape_special_xml_characters (bible));
   
   // The book.
-  int book = convert_to_int (request->query ["book"]);
-  view.set_variable ("book", convert_to_string (book));
+  int book = filter::strings::convert_to_int (request->query ["book"]);
+  view.set_variable ("book", filter::strings::convert_to_string (book));
   string book_name = database::books::get_english_from_id (static_cast<book_id>(book));
   view.set_variable ("book_name", escape_special_xml_characters (book_name));
   

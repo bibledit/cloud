@@ -46,8 +46,8 @@ string editusfm_load (void * webserver_request)
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
 
   string bible = request->query ["bible"];
-  int book = convert_to_int (request->query ["book"]);
-  int chapter = convert_to_int (request->query ["chapter"]);
+  int book = filter::strings::convert_to_int (request->query ["book"]);
+  int chapter = filter::strings::convert_to_int (request->query ["chapter"]);
   string unique_id = request->query ["id"];
 
   // Store a copy of the USFM loaded in the editor for later reference.

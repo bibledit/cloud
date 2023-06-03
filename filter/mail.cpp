@@ -56,14 +56,14 @@ string filter_mail_remove_headers_internal (string contents)
 {
   bool empty_line_encountered = false;
   vector <string> cleaned;
-  vector <string> inputlines = filter_string_explode (contents, '\n');
+  vector <string> inputlines = filter::strings::explode (contents, '\n');
   for (auto line : inputlines) {
     if (line.find ("Content-Type") != string::npos) continue;
     if (line.find ("Content-Transfer-Encoding") != string::npos) continue;
     if (empty_line_encountered) cleaned.push_back (line);
     if (filter_string_trim (line).empty ()) empty_line_encountered = true;
   }
-  contents = filter_string_implode (cleaned, "\n");
+  contents = filter::strings::implode (cleaned, "\n");
   contents = filter_string_trim (contents);
   return contents;
 }
@@ -168,7 +168,7 @@ void filter_mail_dissect (string message, string & from, string & subject, strin
 
   // Clean the text body up.
   vector <string> cleaned;
-  vector <string> inputlines = filter_string_explode (plaintext, '\n');
+  vector <string> inputlines = filter::strings::explode (plaintext, '\n');
   for (auto line : inputlines) {
     // Remove whitespace and empty lines.
     line = filter_string_trim (line);
@@ -178,7 +178,7 @@ void filter_mail_dissect (string message, string & from, string & subject, strin
     // Store this line.
     cleaned.push_back (line);
   }
-  plaintext = filter_string_implode (cleaned, "\n");
+  plaintext = filter::strings::implode (cleaned, "\n");
 }
 
 

@@ -60,7 +60,7 @@ bool http_parse_header (string header, void * webserver_request)
   }
   if (is_get_request) {
     string query_data;
-    vector <string> get = filter_string_explode (header, ' ');
+    vector <string> get = filter::strings::explode (header, ' ');
     if (get.size () >= 2) {
       request->get = get [1];
       // The GET or POST value may be, for example: stylesheet.css?1.0.1.
@@ -118,7 +118,7 @@ bool http_parse_header (string header, void * webserver_request)
 
   // Extract the Content-Length from a header.
   if (header.substr (0, 14) == "Content-Length") {
-    request->content_length = convert_to_int (header.substr (16));
+    request->content_length = filter::strings::convert_to_int (header.substr (16));
   }
   
   // Extract the ETag from a header.
@@ -169,7 +169,7 @@ void http_parse_post (string content, void * webserver_request)
       // Special case: Extract the filename in case of a file upload.
       if (content.length () > 1000) content.resize (1000);
       if (content.find ("filename=") != string::npos) {
-        vector <string> lines = filter_string_explode (content, '\n');
+        vector <string> lines = filter::strings::explode (content, '\n');
         for (auto & line : lines) {
           if (line.find ("Content-Disposition") == string::npos) continue;
           size_t pos = line.find ("filename=");
@@ -311,7 +311,7 @@ void http_stream_file (void * webserver_request, bool enable_cache)
   // File size for browser caching.
   if (enable_cache) {
     int size = filter_url_filesize (filename);
-    request->etag = "\"" + convert_to_string (size) + "\"";
+    request->etag = "\"" + filter::strings::convert_to_string (size) + "\"";
   }
   
   // Deal with situation that the file in the browser's cache is up to date.

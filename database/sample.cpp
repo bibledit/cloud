@@ -57,7 +57,7 @@ vector <int> Database_Sample::get ()
   sql.add ("SELECT rowid FROM sample;");
   vector <string> rowids = sql.query () ["rowid"];
   vector <int> ids;
-  for (auto rowid : rowids) ids.push_back (convert_to_int (rowid));
+  for (auto rowid : rowids) ids.push_back (filter::strings::convert_to_int (rowid));
   return ids;
 }
 

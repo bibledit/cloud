@@ -61,12 +61,12 @@ string notes_verses (void * webserver_request)
   string success, error;
   
   
-  int id = convert_to_int (request->query ["id"]);
-  view.set_variable ("id", convert_to_string (id));
+  int id = filter::strings::convert_to_int (request->query ["id"]);
+  view.set_variable ("id", filter::strings::convert_to_string (id));
 
 
   if (request->post.count ("submit")) {
-    vector <string> verses = filter_string_explode (request->post["verses"], '\n');
+    vector <string> verses = filter::strings::explode (request->post["verses"], '\n');
     vector <Passage> passages;
     Passage previousPassage = Passage ("", 1, 1, "1");
     for (auto & line : verses) {
@@ -83,7 +83,7 @@ string notes_verses (void * webserver_request)
       error = translate ("The note should have one or more passages assigned.");
     } else {
       notes_logic.setPassages (id, passages);
-      redirect_browser (request, notes_actions_url () + "?id=" + convert_to_string (id));
+      redirect_browser (request, notes_actions_url () + "?id=" + filter::strings::convert_to_string (id));
       return "";
     }
   }

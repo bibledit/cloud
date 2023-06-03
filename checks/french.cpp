@@ -133,9 +133,9 @@ void checks_french::citation_style (const string & bible, int book, int chapter,
       last_verse = element.first;
     }
     int opener_count {0};
-    filter_string_str_replace (left_guillemet (), "", paragraph, &opener_count);
+    filter::strings::replace (left_guillemet (), "", paragraph, &opener_count);
     int closer_count {0};
-    filter_string_str_replace (right_guillemet (), "", paragraph, &closer_count);
+    filter::strings::replace (right_guillemet (), "", paragraph, &closer_count);
 
     // Determine whether the current paragraph opens a citation and does not close it.
     previous_paragraph_open_citation = (opener_count > closer_count);

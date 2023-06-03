@@ -45,7 +45,7 @@ string filter_git_directory (string object)
 
 void filter_git_check_error (string data)
 {
-  vector <string> lines = filter_string_explode (data, '\n');
+  vector <string> lines = filter::strings::explode (data, '\n');
   for (auto & line : lines) Database_Logs::log (line);
 }
 
@@ -69,7 +69,7 @@ void filter_git_commit_modification_to_git (string repository, string user, int 
 {
   string bookname = database::books::get_english_from_id (static_cast<book_id>(book));
   string bookdir = filter_url_create_path ({repository, bookname});
-  string chapterdir = filter_url_create_path ({bookdir, convert_to_string (chapter)});
+  string chapterdir = filter_url_create_path ({bookdir, filter::strings::convert_to_string (chapter)});
   if (!file_or_dir_exists (chapterdir)) filter_url_mkdir (chapterdir);
   string datafile = filter_url_create_path ({chapterdir, "data"});
   string contents = filter_url_file_get_contents (datafile);
@@ -175,7 +175,7 @@ void filter_git_sync_bible_to_git (void * webserver_request, string bible, strin
             string chapter_path = filter_url_create_path ({repository, bookname, chaptername});
             if (filter_url_is_dir (chapter_path)) {
               if (filter_string_is_numeric (chaptername)) {
-                int chapter = convert_to_int (chaptername);
+                int chapter = filter::strings::convert_to_int (chaptername);
                 string filename = filter_url_create_path ({repository, bookname, chaptername, "data"});
                 if (file_or_dir_exists (filename)) {
                   if (!in_array (chapter, chapters)) {
@@ -205,7 +205,7 @@ void filter_git_sync_bible_to_git (void * webserver_request, string bible, strin
     if (!file_or_dir_exists (bookdir)) filter_url_mkdir (bookdir);
     vector <int> chapters = request->database_bibles()->getChapters (bible, book);
     for (auto & chapter : chapters) {
-      string chapterdir = filter_url_create_path ({bookdir, convert_to_string (chapter)});
+      string chapterdir = filter_url_create_path ({bookdir, filter::strings::convert_to_string (chapter)});
       if (!file_or_dir_exists (chapterdir)) filter_url_mkdir (chapterdir);
       string datafile = filter_url_create_path ({chapterdir, "data"});
       string contents = filter_url_file_get_contents (datafile);
@@ -244,7 +244,7 @@ void filter_git_sync_git_to_bible (void * webserver_request, string repository, 
           string chapterpath = filter_url_create_path ({bookpath, chapterfile});
           if (filter_url_is_dir (chapterpath)) {
             if (filter_string_is_numeric (chapterfile)) {
-              int chapter = convert_to_int (chapterfile);
+              int chapter = filter::strings::convert_to_int (chapterfile);
               string filename = filter_url_create_path ({chapterpath, "data"});
               if (file_or_dir_exists (filename)) {
                 if (!in_array (chapter, chapters)) {
@@ -278,19 +278,19 @@ void filter_git_sync_git_to_bible (void * webserver_request, string repository, 
     if (file_or_dir_exists (bookdir)) {
       vector <int> chapters = request->database_bibles()->getChapters (bible, book);
       for (auto & chapter : chapters) {
-        string chapterdir = filter_url_create_path ({bookdir, convert_to_string (chapter)});
+        string chapterdir = filter_url_create_path ({bookdir, filter::strings::convert_to_string (chapter)});
         if (file_or_dir_exists (chapterdir)) {
           string datafile = filter_url_create_path ({chapterdir, "data"});
           string contents = filter_url_file_get_contents (datafile);
           string usfm = request->database_bibles()->getChapter (bible, book, chapter);
           if (contents != usfm) {
             bible_logic::store_chapter (bible, book, chapter, contents);
-            Database_Logs::log (translate("A translator updated chapter") + " " + bible + " " + bookname + " " + convert_to_string (chapter));
+            Database_Logs::log (translate("A translator updated chapter") + " " + bible + " " + bookname + " " + filter::strings::convert_to_string (chapter));
             rss_logic_schedule_update ("collaborator", bible, book, chapter, usfm, contents);
           }
         } else {
           bible_logic::delete_chapter (bible, book, chapter);
-          Database_Logs::log (translate("A translator deleted chapter") + " " + bible + " " + bookname + " " + convert_to_string (chapter));
+          Database_Logs::log (translate("A translator deleted chapter") + " " + bible + " " + bookname + " " + filter::strings::convert_to_string (chapter));
         }
       }
     } else {
@@ -314,7 +314,7 @@ void filter_git_sync_git_chapter_to_bible (string repository, string bible, int 
 {
   // Filename for the chapter.
   string bookname = database::books::get_english_from_id (static_cast<book_id>(book));
-  string filename = filter_url_create_path ({repository, bookname, convert_to_string (chapter), "data"});
+  string filename = filter_url_create_path ({repository, bookname, filter::strings::convert_to_string (chapter), "data"});
   
   if (file_or_dir_exists (filename)) {
     
@@ -330,7 +330,7 @@ void filter_git_sync_git_chapter_to_bible (string repository, string bible, int 
     
     // Delete chapter from database.
     bible_logic::delete_chapter (bible, book, chapter);
-    Database_Logs::log (translate("A collaborator deleted chapter") + " " + bible + " " + bookname + " " + convert_to_string (chapter));
+    Database_Logs::log (translate("A collaborator deleted chapter") + " " + bible + " " + bookname + " " + filter::strings::convert_to_string (chapter));
     
   }
 }
@@ -391,8 +391,8 @@ bool filter_git_commit (string repository, string user, string message,
   err = filter_string_trim (err);
   error = err;
   filter_git_check_error (error);
-  messages = filter_string_explode (out, '\n');
-  vector <string> lines = filter_string_explode (err, '\n');
+  messages = filter::strings::explode (out, '\n');
+  vector <string> lines = filter::strings::explode (err, '\n');
   messages.insert (messages.end(), lines.begin(), lines.end());
   
   // In case of Your branch is up-to-date with 'origin/master'. nothing to commit, working directory clean,
@@ -412,7 +412,7 @@ void filter_git_config_set_bool (string repository, string name, bool value)
 
 void filter_git_config_set_int (string repository, string name, int value)
 {
-  string svalue = convert_to_string (value);
+  string svalue = filter::strings::convert_to_string (value);
   filter_git_config_set_string (repository, name, svalue);
 }
 
@@ -452,7 +452,7 @@ Passage filter_git_get_passage (string line)
   // no changes added to commit (use "git add" and/or "git commit -a")
   
   Passage passage;
-  vector <string> bits = filter_string_explode (line, '/');
+  vector <string> bits = filter::strings::explode (line, '/');
   if (bits.size () == 3) {
     size_t pos = bits [0].find (":");
     if (pos != string::npos) bits [0].erase (0, pos + 1);
@@ -460,7 +460,7 @@ Passage filter_git_get_passage (string line)
     int book = static_cast<int>(database::books::get_id_from_english (bookname));
     if (book) {
       if (filter_string_is_numeric (bits [1])) {
-        int chapter = convert_to_int (bits [1]);
+        int chapter = filter::strings::convert_to_int (bits [1]);
         string data = bits [2];
         if (data.find ("data") != string::npos) {
           passage.m_book = book;
@@ -485,7 +485,7 @@ vector <string> filter_git_status (string repository, bool porcelain)
   if (porcelain) parameters.push_back("--porcelain");
   filter_shell_run (repository, "git", parameters, &output, &error);
   filter_git_check_error (error);
-  paths = filter_string_explode (output, '\n');
+  paths = filter::strings::explode (output, '\n');
   return paths;
 }
 
@@ -498,8 +498,8 @@ bool filter_git_pull (string repository, vector <string> & messages)
   int result = filter_shell_run (repository, "git", {"pull"}, &out, &err);
   out = filter_string_trim (out);
   err = filter_string_trim (err);
-  messages = filter_string_explode (out, '\n');
-  vector <string> lines = filter_string_explode (err, '\n');
+  messages = filter::strings::explode (out, '\n');
+  vector <string> lines = filter::strings::explode (err, '\n');
   messages.insert (messages.end(), lines.begin(), lines.end());
   return (result == 0);
 }
@@ -515,8 +515,8 @@ bool filter_git_push (string repository, vector <string> & messages, bool all)
   int result = filter_shell_run (repository, "git", parameters, &out, &err);
   out = filter_string_trim (out);
   err = filter_string_trim (err);
-  messages = filter_string_explode (out, '\n');
-  vector <string> lines = filter_string_explode (err, '\n');
+  messages = filter::strings::explode (out, '\n');
+  vector <string> lines = filter::strings::explode (err, '\n');
   messages.insert (messages.end(), lines.begin(), lines.end());
   return (result == 0);
 }

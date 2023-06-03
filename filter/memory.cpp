@@ -60,17 +60,17 @@ int filter_memory_percentage_available ()
     int memtotal = 0;
     pos = meminfo.find ("MemTotal");
     if (pos != string::npos) {
-      memtotal = convert_to_int (meminfo.substr (pos + 15));
+      memtotal = filter::strings::convert_to_int (meminfo.substr (pos + 15));
     }
     int memfree = 0;
     pos = meminfo.find ("MemFree");
     if (pos != string::npos) {
-      memfree = convert_to_int (meminfo.substr (pos + 15));
+      memfree = filter::strings::convert_to_int (meminfo.substr (pos + 15));
     }
     int cached = 0;
     pos = meminfo.find ("Cached");
     if (pos != string::npos) {
-      cached = convert_to_int (meminfo.substr (pos + 15));
+      cached = filter::strings::convert_to_int (meminfo.substr (pos + 15));
     }
     return (memfree + cached) * 100 / memtotal;
   }

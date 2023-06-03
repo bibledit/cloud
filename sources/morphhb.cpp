@@ -46,14 +46,14 @@ void sources_morphhb_parse_w_element (Database_OsHb * database_oshb, int book, i
 {
   string lemma = node.attribute ("lemma").value ();
   string word = node.child_value ();
-  word = filter_string_str_replace ("/", "", word);
+  word = filter::strings::replace ("/", "", word);
   database_oshb->store (book, chapter, verse, lemma, word, "");
 }
 
 
 void sources_morphhb_parse_unhandled_node (int book, int chapter, int verse, xml_node node)
 {
-  string passage = filter_passage_display (book, chapter, convert_to_string (verse));
+  string passage = filter_passage_display (book, chapter, filter::strings::convert_to_string (verse));
   string text = node.child_value ();
   cerr << "Unhandled " << node.name () << " at " << passage << ": " << text << endl;
 }
@@ -126,9 +126,9 @@ void sources_morphhb_parse ()
 
         // Get the passage.
         string osisID = verse_node.attribute ("osisID").value ();
-        vector <string> bits = filter_string_explode (osisID, '.');
-        int chapter = convert_to_int (bits[1]);
-        int verse = convert_to_int (bits[2]);
+        vector <string> bits = filter::strings::explode (osisID, '.');
+        int chapter = filter::strings::convert_to_int (bits[1]);
+        int verse = filter::strings::convert_to_int (bits[2]);
 
         bool word_stored = false;
         

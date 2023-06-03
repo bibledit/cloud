@@ -102,7 +102,7 @@ void Checks_Usfm::finalize ()
 {
   // Check on unclosed markers.
   if (open_matching_markers.size () > 0) {
-    add_result (translate ("Unclosed markers:") + " " + filter_string_implode (open_matching_markers, " "), display_nothing);
+    add_result (translate ("Unclosed markers:") + " " + filter::strings::implode (open_matching_markers, " "), display_nothing);
   }
 }
 
@@ -123,7 +123,7 @@ void Checks_Usfm::check (const string & usfm)
       // Get the current verse number.
       if (usfm_item == R"(\v )") {
         string verseCode = filter::usfm::peek_text_following_marker (usfm_markers_and_text, usfm_markers_and_text_pointer);
-        verse_number = convert_to_int (filter::usfm::peek_verse_number (verseCode));
+        verse_number = filter::strings::convert_to_int (filter::usfm::peek_verse_number (verseCode));
       }
       
       malformed_verse_number ();
@@ -155,7 +155,7 @@ void Checks_Usfm::malformed_verse_number ()
   if (usfm_item == "\\v ") {
     string code = filter::usfm::peek_text_following_marker (usfm_markers_and_text, usfm_markers_and_text_pointer);
     string cleanVerseNumber = filter::usfm::peek_verse_number (code);
-    vector <string> v_dirtyVerseNumber = filter_string_explode (code, ' ');
+    vector <string> v_dirtyVerseNumber = filter::strings::explode (code, ' ');
     string dirtyVerseNumber;
     if (!v_dirtyVerseNumber.empty ()) dirtyVerseNumber = v_dirtyVerseNumber [0];
     if (cleanVerseNumber != dirtyVerseNumber) {
@@ -179,7 +179,7 @@ void Checks_Usfm::new_line_in_usfm (const string & usfm)
   if (position != string::npos) {
     if (position == 0) position = 1;
     string bit = usfm.substr (position - 1, 10);
-    bit = filter_string_str_replace ("\n", " ", bit);
+    bit = filter::strings::replace ("\n", " ", bit);
     add_result (translate ("New line within USFM:") + " " + bit, display_nothing);
   }
 }
@@ -209,7 +209,7 @@ void Checks_Usfm::malformed_id ()
   if (item == R"(\id)") {
     string code = filter::usfm::peek_text_following_marker (usfm_markers_and_text, usfm_markers_and_text_pointer);
     string sid = code.substr (0, 3);
-    vector <string> vid = filter_string_explode (code, ' ');
+    vector <string> vid = filter::strings::explode (code, ' ');
     string id {};
     if (!vid.empty ()) id = vid [0];
     book_id book = database::books::get_id_from_usfm (id);
@@ -226,7 +226,7 @@ void Checks_Usfm::malformed_id ()
 
 void Checks_Usfm::forward_slash (const string & usfm)
 {
-  string code = filter_string_str_replace ("\n", " ", usfm);
+  string code = filter::strings::replace ("\n", " ", usfm);
   size_t pos = code.find ("/");
   string bit {};
   if (pos != string::npos) {
@@ -279,7 +279,7 @@ void Checks_Usfm::matching_endmarker ()
     if (in_array (marker, open_matching_markers)) {
       open_matching_markers = filter_string_array_diff (open_matching_markers, {marker});
     } else {
-      add_result (translate ("Closing marker does not match opening marker") + " " + filter_string_implode (open_matching_markers, " "), display_current);
+      add_result (translate ("Closing marker does not match opening marker") + " " + filter::strings::implode (open_matching_markers, " "), display_current);
     }
   }
 }

@@ -75,8 +75,8 @@ string bible_book (void * webserver_request)
   view.set_variable ("bible", escape_special_xml_characters (bible));
   
   // The book.
-  int book = convert_to_int (request->query ["book"]);
-  view.set_variable ("book", convert_to_string (book));
+  int book = filter::strings::convert_to_int (request->query ["book"]);
+  view.set_variable ("book", filter::strings::convert_to_string (book));
   string book_name = database::books::get_english_from_id (static_cast<book_id>(book));
   view.set_variable ("book_name", escape_special_xml_characters (book_name));
   
@@ -91,12 +91,12 @@ string bible_book (void * webserver_request)
     if (confirm.empty()) {
       Dialog_Yes dialog_yes = Dialog_Yes ("book", translate("Would you like to delete this chapter?"));
       dialog_yes.add_query ("bible", bible);
-      dialog_yes.add_query ("book", convert_to_string (book));
+      dialog_yes.add_query ("book", filter::strings::convert_to_string (book));
       dialog_yes.add_query ("deletechapter", deletechapter);
       page += dialog_yes.run ();
       return page;
     } if (confirm == "yes") {
-      if (write_access) bible_logic::delete_chapter (bible, book, convert_to_int (deletechapter));
+      if (write_access) bible_logic::delete_chapter (bible, book, filter::strings::convert_to_int (deletechapter));
     }
   }
   
@@ -104,19 +104,19 @@ string bible_book (void * webserver_request)
   if (request->query.count ("createchapter")) {
     Dialog_Entry dialog_entry = Dialog_Entry ("book", translate("Please enter the number for the new chapter"), "", "createchapter", "");
     dialog_entry.add_query ("bible", bible);
-    dialog_entry.add_query ("book", convert_to_string (book));
+    dialog_entry.add_query ("book", filter::strings::convert_to_string (book));
     page += dialog_entry.run ();
     return page;
   }
   if (request->post.count ("createchapter")) {
-    int createchapter = convert_to_int (request->post ["entry"]);
+    int createchapter = filter::strings::convert_to_int (request->post ["entry"]);
     vector <int> chapters = request->database_bibles ()->getChapters (bible, book);
     // Only create the chapters if it does not yet exist.
     if (find (chapters.begin(), chapters.end(), createchapter) == chapters.end()) {
       vector <string> feedback;
       bool result {true};
       if (write_access) result = book_create (bible, static_cast<book_id>(book), createchapter, feedback);
-      string message = filter_string_implode (feedback, " ");
+      string message = filter::strings::implode (feedback, " ");
       if (result) success_message = message;
       else error_message = message;
     } else {
@@ -131,11 +131,11 @@ string bible_book (void * webserver_request)
     chapterblock.append (R"(<a href="chapter?bible=)");
     chapterblock.append (bible);
     chapterblock.append ("&book=");
-    chapterblock.append (convert_to_string (book));
+    chapterblock.append (filter::strings::convert_to_string (book));
     chapterblock.append ("&chapter=");
-    chapterblock.append (convert_to_string (chapter));
+    chapterblock.append (filter::strings::convert_to_string (chapter));
     chapterblock.append (R"(">)");
-    chapterblock.append (convert_to_string (chapter));
+    chapterblock.append (filter::strings::convert_to_string (chapter));
     chapterblock.append ("</a>\n");
   }
   view.set_variable ("chapterblock", chapterblock);

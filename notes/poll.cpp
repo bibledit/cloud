@@ -53,7 +53,7 @@ string notes_poll (void * webserver_request)
     int identifier = Ipc_Notes::get (webserver_request);
     if (identifier) {
       Ipc_Notes::erase (webserver_request);
-      string url = "note?id=" + convert_to_string (identifier);
+      string url = "note?id=" + filter::strings::convert_to_string (identifier);
       return url;
     }
   } else if (action == "unload") {

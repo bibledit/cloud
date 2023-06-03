@@ -74,7 +74,7 @@ string checks_settingspairs (void * webserver_request)
   if (request->post.count ("pairs")) {
     string fragment = request->post["pairs"];
     vector <string> errors {};
-    vector <string> pairs = filter_string_explode (fragment, ' ');
+    vector <string> pairs = filter::strings::explode (fragment, ' ');
     bool okay {true};
     for (const auto & pair : pairs) {
       const size_t length = unicode_string_length (pair);
@@ -87,7 +87,7 @@ string checks_settingspairs (void * webserver_request)
       Database_Config_Bible::setMatchingPairs (bible, fragment);
       view.set_variable ("success", translate("The pairs were saved"));
     } else {
-      view.set_variable ("error", filter_string_implode (errors, " | "));
+      view.set_variable ("error", filter::strings::implode (errors, " | "));
     }
   }
   view.set_variable ("pairs", Database_Config_Bible::getMatchingPairs (bible));

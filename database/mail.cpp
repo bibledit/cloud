@@ -124,7 +124,7 @@ int Database_Mail::getMailCount ()
   vector <string> result = database_sqlite_query (db, sql.sql) ["count(*)"];
   database_sqlite_disconnect (db);
   if (!result.empty ()) {
-    return convert_to_int (result [0]);
+    return filter::strings::convert_to_int (result [0]);
   }
   return 0;
 }
@@ -148,8 +148,8 @@ vector <Database_Mail_User> Database_Mail::getMails ()
   vector <string> subjects = result ["subject"];
   for (unsigned int i = 0; i < rowids.size(); i++) {
     Database_Mail_User mail = Database_Mail_User ();
-    mail.rowid = convert_to_int (rowids [i]);
-    mail.timestamp = convert_to_int (timestamps [i]);
+    mail.rowid = filter::strings::convert_to_int (rowids [i]);
+    mail.timestamp = filter::strings::convert_to_int (timestamps [i]);
     mail.subject = subjects [i];
     mails.push_back (mail);
   }
@@ -203,7 +203,7 @@ vector <int> Database_Mail::getMailsToSend ()
   vector <string> result = database_sqlite_query (db, sql.sql) ["rowid"];
   database_sqlite_disconnect (db);
   for (auto & id : result) {
-    ids.push_back (convert_to_int (id));
+    ids.push_back (filter::strings::convert_to_int (id));
   }
   return ids;
 }
@@ -239,7 +239,7 @@ vector <int> Database_Mail::getAllMails ()
   vector <string> result = database_sqlite_query (db, sql.sql) ["rowid"];
   database_sqlite_disconnect (db);
   for (auto rowid : result) {
-    int id = convert_to_int (rowid);
+    int id = filter::strings::convert_to_int (rowid);
     rowids.push_back (id);
   }
   return rowids;

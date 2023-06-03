@@ -121,7 +121,7 @@ string notes_notes (void * webserver_request)
         // Distinct colors were generated through https://mokole.com/palette.html.
         raw_status = database_notes.get_raw_status (identifier);
         raw_status = unicode_string_casefold (raw_status);
-        raw_status = filter_string_str_replace (" ", "", raw_status);
+        raw_status = filter::strings::replace (" ", "", raw_status);
         string css_class;
         if (raw_status == "new") css_class = Filter_Css::distinction_set_notes (0);
         else if (raw_status == "pending") css_class = Filter_Css::distinction_set_notes (1);
@@ -147,7 +147,7 @@ string notes_notes (void * webserver_request)
       vector <Passage> include_passages = database_notes.get_passages (identifier);
       for (auto & passage : include_passages) {
         string usfm = request->database_bibles()->getChapter (bible, passage.m_book, passage.m_chapter);
-        string text = filter::usfm::get_verse_text (usfm, convert_to_int (passage.m_verse));
+        string text = filter::usfm::get_verse_text (usfm, filter::strings::convert_to_int (passage.m_verse));
         if (!verse_text.empty ()) verse_text.append ("<br>");
         verse_text.append (text);
       }
@@ -158,8 +158,8 @@ string notes_notes (void * webserver_request)
       content = database_notes.get_contents (identifier);
     }
 
-    notesblock << "<a name=" << quoted ("note" + convert_to_string (identifier)) << "></a>" << endl;
-    notesblock << "<p><a href=" << quoted ("note?id=" + convert_to_string (identifier)) << ">" << summary << "</a></p>" << endl;
+    notesblock << "<a name=" << quoted ("note" + filter::strings::convert_to_string (identifier)) << "></a>" << endl;
+    notesblock << "<p><a href=" << quoted ("note?id=" + filter::strings::convert_to_string (identifier)) << ">" << summary << "</a></p>" << endl;
     if (!verse_text.empty ()) notesblock << "<p>" << verse_text << "</p>" << endl;
     if (!content.empty ()) notesblock << "<p>" << content << "</p>" << endl;
   }

@@ -41,7 +41,7 @@ void Database_Volatile::setValue (int id, const string& key, const string& value
 
 string Database_Volatile::filename (int id, string key)
 {
-  string identifier = filter_url_clean_filename (convert_to_string (id));
+  string identifier = filter_url_clean_filename (filter::strings::convert_to_string (id));
   key = filter_url_clean_filename (key);
   string path = filter_url_create_root_path ({filter_url_temp_dir (), "volatile__" + identifier + "__" + key});
   return path;

@@ -191,7 +191,7 @@ void test_easy_english_bible ()
           text = filter_string_html2text (text);
           if (text.empty()) {
             empty_passage_counter++;
-            //cout << filter_passage_display (book, chapter, convert_to_string (verse)) << endl;
+            //cout << filter_passage_display (book, chapter, filter::strings::convert_to_string (verse)) << endl;
           }
         }
       }

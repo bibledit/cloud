@@ -52,10 +52,10 @@ string edit_position (void * webserver_request)
   string bible = request->query ["bible"];
   if (bible.empty ()) return "";
   // Get book: If no book is given: Bail out.
-  int book = convert_to_int (request->query ["book"]);
+  int book = filter::strings::convert_to_int (request->query ["book"]);
   if (!book) return "";
   // Get chapter.
-  int chapter = convert_to_int (request->query ["chapter"]);
+  int chapter = filter::strings::convert_to_int (request->query ["chapter"]);
   
   
   string stylesheet = Database_Config_Bible::getEditorStylesheet (bible);
@@ -82,7 +82,7 @@ string edit_position (void * webserver_request)
     }
   }
   if (verse) {
-    startingOffset += static_cast<int> (convert_to_string (verse).length () + 1);
+    startingOffset += static_cast<int> (filter::strings::convert_to_string (verse).length () + 1);
   }
   if (endingOffset) {
     endingOffset--;
@@ -90,9 +90,9 @@ string edit_position (void * webserver_request)
     endingOffset = static_cast<int>(editor_usfm2html.textLength);
   }
   
-  string data = convert_to_string (startingOffset);
+  string data = filter::strings::convert_to_string (startingOffset);
   data.append ("\n");
-  data.append (convert_to_string (endingOffset));
+  data.append (filter::strings::convert_to_string (endingOffset));
   
   return data;
 }

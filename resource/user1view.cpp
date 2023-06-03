@@ -73,11 +73,11 @@ string resource_user1view (void * webserver_request)
     book_type type = database::books::get_type (id);
     if ((type == book_type::old_testament) || (type == book_type::new_testament)) {
       string book = Database_UserResources::book (name, static_cast<int> (id));
-      if (book.empty ()) book = convert_to_string (static_cast<int>(id));
-      code.push_back ("userResourceBooks [" + convert_to_string (static_cast<int>(id)) + "] = \"" + book + "\";");
+      if (book.empty ()) book = filter::strings::convert_to_string (static_cast<int>(id));
+      code.push_back ("userResourceBooks [" + filter::strings::convert_to_string (static_cast<int>(id)) + "] = \"" + book + "\";");
     }
   }
-  string script = filter_string_implode (code, "\n");
+  string script = filter::strings::implode (code, "\n");
   config::logic::swipe_enabled (webserver_request, script);
   view.set_variable ("script", script);
   

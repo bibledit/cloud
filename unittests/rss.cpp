@@ -64,9 +64,9 @@ void test_rss_feed ()
   vector <string> authors;
   vector <string> descriptions;
   for (size_t i = 0; i < 300; i++) {
-    titles.push_back ("title " + convert_to_string (i));
-    authors.push_back ("author " + convert_to_string (i));
-    descriptions.push_back ("description " + convert_to_string (i));
+    titles.push_back ("title " + filter::strings::convert_to_string (i));
+    authors.push_back ("author " + filter::strings::convert_to_string (i));
+    descriptions.push_back ("description " + filter::strings::convert_to_string (i));
   }
   rss_logic_update_xml (titles, authors, descriptions);
   evaluate (__LINE__, __func__, 25693, filter_url_filesize (path));

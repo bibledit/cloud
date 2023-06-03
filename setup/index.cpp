@@ -85,7 +85,7 @@ const char * setup_initialization_notice ()
   // The user will understand that the device is still busy, and not think that it is not stuck.
   config_globals_setup_progress += 5;
   if (config_globals_setup_progress > 90) config_globals_setup_progress = 10;
-  notice.append ("<p><progress value=\"" + convert_to_string (config_globals_setup_progress) + "\" max=\"100\"></progress></p>");
+  notice.append ("<p><progress value=\"" + filter::strings::convert_to_string (config_globals_setup_progress) + "\" max=\"100\"></progress></p>");
   
   // Informative text for progress indication.
   notice.append ("<p>... " + config_globals_setup_message + " ...</p>");
@@ -132,7 +132,7 @@ string setup_index (void * webserver_request)
         redirect_browser (request, index_index_url ());
       } else {
         view.enable_zone ("errors");
-        view.set_variable ("error", filter_string_implode (errors, " "));
+        view.set_variable ("error", filter::strings::implode (errors, " "));
       }
     }
   }

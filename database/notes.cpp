@@ -262,7 +262,7 @@ void Database_Notes::sync ()
           vector <string> bits3 = filter_url_scandir (filter_url_create_path ({main_folder, bit1, bit2}));
           for (auto & bit3 : bits3) {
             if (bit3.length () == 3) {
-              int identifier = convert_to_int (bit1 + bit2 + bit3);
+              int identifier = filter::strings::convert_to_int (bit1 + bit2 + bit3);
               identifiers.push_back (identifier);
               update_search_fields (identifier);
             }
@@ -270,7 +270,7 @@ void Database_Notes::sync ()
         }
         // New JSON storage mechanism, e.g. file "894093.json".
         if ((bit2.length () == 11) && bit2.find (".json") != string::npos) {
-          int identifier = convert_to_int (bit1 + bit2.substr (0,6));
+          int identifier = filter::strings::convert_to_int (bit1 + bit2.substr (0,6));
           identifiers.push_back (identifier);
           update_database (identifier);
           update_search_fields (identifier);
@@ -285,7 +285,7 @@ void Database_Notes::sync ()
   vector <int> database_identifiers;
   vector <string> result = database_sqlite_query (db, "SELECT identifier FROM notes;") ["identifier"];
   for (auto & id : result) {
-    database_identifiers.push_back (convert_to_int (id));
+    database_identifiers.push_back (filter::strings::convert_to_int (id));
   }
   database_sqlite_disconnect (db);
 
@@ -302,7 +302,7 @@ void Database_Notes::sync ()
   database_identifiers.clear ();
   result = database_sqlite_query (db, "SELECT identifier FROM checksums;") ["identifier"];
   for (auto & id : result) {
-    database_identifiers.push_back (convert_to_int (id));
+    database_identifiers.push_back (filter::strings::convert_to_int (id));
   }
   database_sqlite_disconnect (db);
 
@@ -360,13 +360,13 @@ void Database_Notes::update_database_internal (int identifier, int modified, str
   vector <string> vcontents = result ["contents"];
   for (unsigned int i = 0; i < vmodified.size(); i++) {
     record_in_database = true;
-    if (modified != convert_to_int (vmodified[i])) database_in_sync = false;
+    if (modified != filter::strings::convert_to_int (vmodified[i])) database_in_sync = false;
     if (assigned != vassigned[i]) database_in_sync = false;
     if (subscriptions != vsubscriptions[i]) database_in_sync = false;
     if (bible != vbible [i]) database_in_sync = false;
     if (passage != vpassage [i]) database_in_sync = false;
     if (status != vstatus [i]) database_in_sync = false;
-    if (severity != convert_to_int (vseverity [i])) database_in_sync = false;
+    if (severity != filter::strings::convert_to_int (vseverity [i])) database_in_sync = false;
     if (summary != vsummary [i]) database_in_sync = false;
     if (contents != vcontents [i]) database_in_sync = false;
   }
@@ -419,7 +419,7 @@ string Database_Notes::note_file (int identifier)
 {
   // The maximum number of folders a folder may contain is constrained by the filesystem.
   // To overcome this, the notes will be stored in a folder structure.
-  string sidentifier = convert_to_string (identifier);
+  string sidentifier = filter::strings::convert_to_string (identifier);
   string folder = sidentifier.substr (0, 3);
   string file = sidentifier.substr (3, 6) + ".json";
   return filter_url_create_path ({main_folder_path (), folder, file});
@@ -497,7 +497,7 @@ vector <int> Database_Notes::get_identifiers ()
   vector <int> identifiers;
   vector <string> result = database_sqlite_query (db, "SELECT identifier FROM notes;") ["identifier"];
   for (auto & id : result) {
-    identifiers.push_back (convert_to_int (id));
+    identifiers.push_back (filter::strings::convert_to_int (id));
   }
   database_sqlite_disconnect (db);
   return identifiers;
@@ -524,7 +524,7 @@ string Database_Notes::assemble_contents (int identifier, string contents)
   new_contents.append ("):</b></p>\n");
   // Add the note body.
   if (contents == "<br>") contents.clear();
-  vector <string> lines = filter_string_explode (contents, '\n');
+  vector <string> lines = filter::strings::explode (contents, '\n');
   for (auto line : lines) {
     line = filter_string_trim (line);
     new_contents.append ("<p>");
@@ -556,8 +556,8 @@ int Database_Notes::store_new_note (const string& bible, int book, int chapter, 
   // If the summary is not given, take the first line of the contents as the summary.
   if (summary == "") {
     // The notes editor does not put new lines at each line, but instead <div>s. Handle these also.
-    summary = filter_string_str_replace ("<", "\n", contents);
-    vector <string> bits = filter_string_explode (summary, '\n');
+    summary = filter::strings::replace ("<", "\n", contents);
+    vector <string> bits = filter::strings::explode (summary, '\n');
     if (!bits.empty ()) summary = bits [0];
   }
   
@@ -573,7 +573,7 @@ int Database_Notes::store_new_note (const string& bible, int book, int chapter, 
   note << bible_key () << bible;
   note << passage_key () << passage;
   note << status_key () << status;
-  note << severity_key () << convert_to_string (severity);
+  note << severity_key () << filter::strings::convert_to_string (severity);
   note << summary_key () << summary;
   note << contents_key () << contents;
   string json = note.json ();
@@ -688,7 +688,7 @@ vector <int> Database_Notes::select_notes (vector <string> bibles, int book, int
   }
   if (time != 0) {
     query.append (" AND modified >= ");
-    query.append (convert_to_string (time));
+    query.append (filter::strings::convert_to_string (time));
     query.append (" ");
   }
   // Consider non-edit selector.
@@ -722,7 +722,7 @@ vector <int> Database_Notes::select_notes (vector <string> bibles, int book, int
   }
   if (nonedit != 0) {
     query.append (" AND modified <= ");
-    query.append (convert_to_string (nonedit));
+    query.append (filter::strings::convert_to_string (nonedit));
     query.append (" ");
   }
   // Consider status constraint.
@@ -768,7 +768,7 @@ vector <int> Database_Notes::select_notes (vector <string> bibles, int book, int
   // Consider the note severity.
   if (severity_selector != -1) {
     query.append (" AND severity = ");
-    query.append (convert_to_string (severity_selector));
+    query.append (filter::strings::convert_to_string (severity_selector));
     query.append (" ");
   }
   // Consider text contained in notes.
@@ -785,7 +785,7 @@ vector <int> Database_Notes::select_notes (vector <string> bibles, int book, int
   // Limit the selection if a limit is given.
   if (limit >= 0) {
     query.append (" LIMIT ");
-    query.append (convert_to_string (limit));
+    query.append (filter::strings::convert_to_string (limit));
     query.append (", 50 ");
   }
   query.append (";");
@@ -794,7 +794,7 @@ vector <int> Database_Notes::select_notes (vector <string> bibles, int book, int
   vector <string> result = database_sqlite_query (db, query) ["identifier"];
   database_sqlite_disconnect (db);
   for (auto & id : result) {
-    identifiers.push_back (convert_to_int (id));
+    identifiers.push_back (filter::strings::convert_to_int (id));
   }
   return identifiers;
 }
@@ -929,7 +929,7 @@ vector <string> Database_Notes::get_subscribers (int identifier)
 {
   string contents = get_raw_subscriptions (identifier);
   if (contents.empty()) return {};
-  vector <string> subscribers = filter_string_explode (contents, '\n');
+  vector <string> subscribers = filter::strings::explode (contents, '\n');
   for (auto & subscriber : subscribers) {
     subscriber = filter_string_trim (subscriber);
   }
@@ -968,7 +968,7 @@ void Database_Notes::set_subscribers (int identifier, vector <string> subscriber
     subscriber.insert (0, " ");
     subscriber.append (" ");
   }
-  string subscriberstring = filter_string_implode (subscribers, "\n");
+  string subscriberstring = filter::strings::implode (subscribers, "\n");
   
   // Store them to file and in the database.
   set_raw_subscriptions (identifier, subscriberstring);
@@ -1053,7 +1053,7 @@ vector <string> Database_Notes::get_all_assignees (const vector <string>& bibles
   vector <string> result = database_sqlite_query (db, sql.sql) ["assigned"];
   for (auto & item : result) {
     if (item.empty ()) continue;
-    vector <string> names = filter_string_explode (item, '\n');
+    vector <string> names = filter::strings::explode (item, '\n');
     for (auto & name : names) unique_assignees.insert (name);
   }
   database_sqlite_disconnect (db);
@@ -1078,7 +1078,7 @@ vector <string> Database_Notes::get_assignees (int identifier)
 vector <string> Database_Notes::get_assignees_internal (string assignees)
 {
   if (assignees.empty ()) return {};
-  vector <string> assignees_vector = filter_string_explode (assignees, '\n');
+  vector <string> assignees_vector = filter::strings::explode (assignees, '\n');
   // Remove the padding space at both sides of the assignee.
   for (auto & assignee : assignees_vector) {
     assignee = filter_string_trim (assignee);
@@ -1097,7 +1097,7 @@ void Database_Notes::set_assignees (int identifier, vector <string> assignees)
     assignee.insert (0, " ");
     assignee.append (" ");
   }
-  string assignees_string = filter_string_implode (assignees, "\n");
+  string assignees_string = filter::strings::implode (assignees, "\n");
   set_raw_assigned (identifier, assignees_string);
   note_modified_actions (identifier);
 }
@@ -1186,15 +1186,15 @@ string Database_Notes::encode_passage (int book, int chapter, int verse)
   // Special way of encoding, as done below, is to enable note selection on book / chapter / verse.
   string passage;
   passage.append (" ");
-  passage.append (convert_to_string (book));
+  passage.append (filter::strings::convert_to_string (book));
   passage.append (".");
   // Whether to include the chapter number.
   if (chapter >= 0) {
-    passage.append (convert_to_string (chapter));
+    passage.append (filter::strings::convert_to_string (chapter));
     passage.append (".");
     // Inclusion of verse, also depends on chapter inclusion.
     if (verse >= 0) {
-      passage.append (convert_to_string (verse));
+      passage.append (filter::strings::convert_to_string (verse));
       passage.append (" ");
     }
   }
@@ -1207,9 +1207,9 @@ Passage Database_Notes::decode_passage (string passage)
 {
   passage = filter_string_trim (passage);
   Passage decodedpassage = Passage ();
-  vector <string> lines = filter_string_explode (passage, '.');
-  if (lines.size() > 0) decodedpassage.m_book = convert_to_int (lines[0]);
-  if (lines.size() > 1) decodedpassage.m_chapter = convert_to_int (lines[1]);
+  vector <string> lines = filter::strings::explode (passage, '.');
+  if (lines.size() > 0) decodedpassage.m_book = filter::strings::convert_to_int (lines[0]);
+  if (lines.size() > 1) decodedpassage.m_chapter = filter::strings::convert_to_int (lines[1]);
   if (lines.size() > 2) decodedpassage.m_verse = lines[2];
   return decodedpassage;
 }
@@ -1235,7 +1235,7 @@ vector <Passage> Database_Notes::get_passages (int identifier)
 {
   string contents = get_raw_passage (identifier);
   if (contents.empty()) return {};
-  vector <string> lines = filter_string_explode (contents, '\n');
+  vector <string> lines = filter::strings::explode (contents, '\n');
   vector <Passage> passages;
   for (auto & line : lines) {
     if (line.empty()) continue;
@@ -1255,7 +1255,7 @@ void Database_Notes::set_passages (int identifier, const vector <Passage>& passa
   string line;
   for (auto & passage : passages) {
     if (!line.empty ()) line.append ("\n");
-    line.append (encode_passage (passage.m_book, passage.m_chapter, convert_to_int (passage.m_verse)));
+    line.append (encode_passage (passage.m_book, passage.m_chapter, filter::strings::convert_to_int (passage.m_verse)));
   }
   // Store it.
   set_raw_passage (identifier, line);
@@ -1383,7 +1383,7 @@ int Database_Notes::get_raw_severity (int identifier)
 {
   string severity = get_field (identifier, severity_key ());
   if (severity.empty ()) return 2;
-  return convert_to_int (severity);
+  return filter::strings::convert_to_int (severity);
 }
 
 
@@ -1405,7 +1405,7 @@ string Database_Notes::get_severity (int identifier)
 void Database_Notes::set_raw_severity (int identifier, int severity)
 {
   // Update the file system.
-  set_field (identifier, severity_key (), convert_to_string (severity));
+  set_field (identifier, severity_key (), filter::strings::convert_to_string (severity));
   
   note_modified_actions (identifier);
   
@@ -1429,7 +1429,7 @@ vector <Database_Notes_Text> Database_Notes::get_possible_severities ()
   vector <Database_Notes_Text> severities;
   for (size_t i = 0; i < standard.size(); i++) {
     Database_Notes_Text severity;
-    severity.raw = convert_to_string (i);
+    severity.raw = filter::strings::convert_to_string (i);
     severity.localized = translate (standard[i].c_str());
     severities.push_back (severity);
   }
@@ -1441,14 +1441,14 @@ int Database_Notes::get_modified (int identifier)
 {
   string modified = get_field (identifier, modified_key ());
   if (modified.empty ()) return 0;
-  return convert_to_int (modified);
+  return filter::strings::convert_to_int (modified);
 }
 
 
 void Database_Notes::set_modified (int identifier, int time)
 {
   // Update the filesystem.
-  set_field (identifier, modified_key (), convert_to_string (time));
+  set_field (identifier, modified_key (), filter::strings::convert_to_string (time));
   // Update the database.
   SqliteSQL sql;
   sql.add ("UPDATE notes SET modified =");
@@ -1467,13 +1467,13 @@ void Database_Notes::set_modified (int identifier, int time)
 bool Database_Notes::get_public (int identifier)
 {
   string value = get_field (identifier, public_key ());
-  return convert_to_bool (value);
+  return filter::strings::convert_to_bool (value);
 }
 
 
 void Database_Notes::set_public (int identifier, bool value)
 {
-  set_field (identifier, public_key (), convert_to_string (value));
+  set_field (identifier, public_key (), filter::strings::convert_to_string (value));
 }
 
 
@@ -1570,7 +1570,7 @@ vector <int> Database_Notes::search_notes (string search, const vector <string> 
   vector <string> result = database_sqlite_query (db, query) ["identifier"];
   database_sqlite_disconnect (db);
   for (auto & id : result) {
-    identifiers.push_back (convert_to_int (id));
+    identifiers.push_back (filter::strings::convert_to_int (id));
   }
 
   return identifiers;
@@ -1603,9 +1603,9 @@ void Database_Notes::touch_marked_for_deletion ()
   for (auto & identifier : identifiers) {
     if (is_marked_for_deletion (identifier)) {
       string expiry = get_field (identifier, expiry_key ());
-      int days = convert_to_int (expiry);
+      int days = filter::strings::convert_to_int (expiry);
       days--;
-      set_field (identifier, expiry_key (), convert_to_string (days));
+      set_field (identifier, expiry_key (), filter::strings::convert_to_string (days));
     }
   }
 }
@@ -1618,7 +1618,7 @@ vector <int> Database_Notes::get_due_for_deletion ()
   for (auto & identifier : identifiers) {
     if (is_marked_for_deletion (identifier)) {
       string sdays = get_field (identifier, expiry_key ());
-      int idays = convert_to_int (sdays);
+      int idays = filter::strings::convert_to_int (sdays);
       if ((sdays == "0") || (idays < 0)) {
         deletes.push_back (identifier);
       }
@@ -1741,9 +1741,9 @@ vector <int> Database_Notes::get_notes_in_range_for_bibles (int lowId, int highI
   vector <int> identifiers;
   
   string query = "SELECT identifier FROM notes WHERE identifier >= ";
-  query.append (convert_to_string (lowId));
+  query.append (filter::strings::convert_to_string (lowId));
   query.append (" AND identifier <= ");
-  query.append (convert_to_string (highId));
+  query.append (filter::strings::convert_to_string (highId));
   query.append (" ");
   if (!anybible) {
     bibles.push_back (""); // Select general note also
@@ -1764,7 +1764,7 @@ vector <int> Database_Notes::get_notes_in_range_for_bibles (int lowId, int highI
   vector <string> result = database_sqlite_query (db, query) ["identifier"];
   database_sqlite_disconnect (db);
   for (auto & row : result) {
-    identifiers.push_back (convert_to_int (row));
+    identifiers.push_back (filter::strings::convert_to_int (row));
   }
   
   return identifiers;
@@ -1804,7 +1804,7 @@ string Database_Notes::notes_select_identifier ()
 string Database_Notes::notes_optional_fulltext_search_relevance_statement (string search)
 {
   if (search == "") return "";
-  search = filter_string_str_replace (",", "", search);
+  search = filter::strings::replace (",", "", search);
   search = database_sqlite_no_sql_injection (search);
   string query = "";
   return query;
@@ -1820,7 +1820,7 @@ string Database_Notes::notes_from_where_statement ()
 string Database_Notes::notes_optional_fulltext_search_statement (string search)
 {
   if (search == "") return "";
-  search = filter_string_str_replace (",", "", search);
+  search = filter::strings::replace (",", "", search);
   search = database_sqlite_no_sql_injection (search);
   string query = " AND cleantext LIKE '%" + search + "%' ";
   return query;
@@ -1909,12 +1909,12 @@ vector <string> Database_Notes::set_bulk (string json)
     note2 << assigned_key () << assigned;
     note2 << bible_key () << bible;
     note2 << contents_key () << contents;
-    note2 << modified_key () << convert_to_string (modified);
+    note2 << modified_key () << filter::strings::convert_to_string (modified);
     note2 << passage_key () << passage;
     note2 << subscriptions_key () << subscriptions;
     note2 << summary_key () << summary;
     note2 << status_key () << status;
-    note2 << severity_key () << convert_to_string (severity);
+    note2 << severity_key () << filter::strings::convert_to_string (severity);
     string json2 = note2.json ();
     filter_url_file_put_contents (path, json2);
     

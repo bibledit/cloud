@@ -67,7 +67,7 @@ string public_login (void * webserver_request)
     // Research shows that most desktop users move with their mouse over the screen before they click,
     // so we can detect those mouse movements through javascript,
     // and store that information with the user and device.
-    bool touch_enabled = convert_to_bool (request->post["touch"]);
+    bool touch_enabled = filter::strings::convert_to_bool (request->post["touch"]);
     
     if (name.length () < 2) {
       form_is_valid = false;

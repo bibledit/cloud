@@ -57,10 +57,10 @@ string resource_get (void * webserver_request)
   if (!s_resource.empty () && !s_book.empty () && !s_chapter.empty () && !s_verse.empty ()) {
 
 
-    unsigned int resource = static_cast<unsigned>(convert_to_int (s_resource));
-    int book = convert_to_int (s_book);
-    int chapter = convert_to_int (s_chapter);
-    int verse = convert_to_int (s_verse);
+    unsigned int resource = static_cast<unsigned>(filter::strings::convert_to_int (s_resource));
+    int book = filter::strings::convert_to_int (s_book);
+    int chapter = filter::strings::convert_to_int (s_chapter);
+    int verse = filter::strings::convert_to_int (s_verse);
 
     
     // In JavaScript the resource identifier starts at 1.
@@ -154,6 +154,6 @@ string resource_get (void * webserver_request)
   }
   
   
-  string page = filter_string_implode (bits, ""); // <br>
+  string page = filter::strings::implode (bits, ""); // <br>
   return page;
 }

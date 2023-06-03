@@ -78,15 +78,15 @@ string Database_Config_User::getValue (const char * key, const char * default_va
 
 bool Database_Config_User::getBValue (const char * key, bool default_value)
 {
-  string value = getValue (key, convert_to_string (default_value).c_str());
-  return convert_to_bool (value);
+  string value = getValue (key, filter::strings::convert_to_string (default_value).c_str());
+  return filter::strings::convert_to_bool (value);
 }
 
 
 int Database_Config_User::getIValue (const char * key, int default_value)
 {
-  string value = getValue (key, convert_to_string (default_value).c_str());
-  return convert_to_int (value);
+  string value = getValue (key, filter::strings::convert_to_string (default_value).c_str());
+  return filter::strings::convert_to_int (value);
 }
 
 
@@ -111,15 +111,15 @@ string Database_Config_User::getValueForUser (string user, const char * key, con
 
 bool Database_Config_User::getBValueForUser (string user, const char * key, bool default_value)
 {
-  string value = getValueForUser (user, key, convert_to_string (default_value).c_str());
-  return convert_to_bool (value);
+  string value = getValueForUser (user, key, filter::strings::convert_to_string (default_value).c_str());
+  return filter::strings::convert_to_bool (value);
 }
 
 
 int Database_Config_User::getIValueForUser (string user, const char * key, int default_value)
 {
-  string value = getValueForUser (user, key, convert_to_string (default_value).c_str());
-  return convert_to_int (value);
+  string value = getValueForUser (user, key, filter::strings::convert_to_string (default_value).c_str());
+  return filter::strings::convert_to_int (value);
 }
 
 
@@ -133,13 +133,13 @@ void Database_Config_User::setValue (const char * key, string value)
 
 void Database_Config_User::setBValue (const char * key, bool value)
 {
-  setValue (key, convert_to_string (value));
+  setValue (key, filter::strings::convert_to_string (value));
 }
 
 
 void Database_Config_User::setIValue (const char * key, int value)
 {
-  setValue (key, convert_to_string (value));
+  setValue (key, filter::strings::convert_to_string (value));
 }
 
 
@@ -157,7 +157,7 @@ void Database_Config_User::setValueForUser (string user, const char * key, strin
 
 void Database_Config_User::setBValueForUser (string user, const char * key, bool value)
 {
-  setValueForUser (user, key, convert_to_string (value));
+  setValueForUser (user, key, filter::strings::convert_to_string (value));
 }
 
 
@@ -175,7 +175,7 @@ vector <string> Database_Config_User::getListForUser (string user, const char * 
   string cachekey = mapkey (user, key);
   if (database_config_user_cache.count (cachekey)) {
     string value = database_config_user_cache [cachekey];
-    return filter_string_explode (value, '\n');
+    return filter::strings::explode (value, '\n');
   }
   // Read setting from disk.
   string filename = file (user, key);
@@ -184,7 +184,7 @@ vector <string> Database_Config_User::getListForUser (string user, const char * 
     // Cache it in memory.
     database_config_user_cache [cachekey] = value;
     // Done.
-    return filter_string_explode (value, '\n');
+    return filter::strings::explode (value, '\n');
   }
   // Empty value.
   return {};
@@ -205,7 +205,7 @@ void Database_Config_User::setListForUser (string user, const char * key, vector
   string filename = file (user, key);
   string directory = filter_url_dirname (filename);
   if (!file_or_dir_exists (directory)) filter_url_mkdir (directory);
-  string value = filter_string_implode (values, "\n");
+  string value = filter::strings::implode (values, "\n");
   filter_url_file_put_contents (filename, value);
   // Put it in the memory cache.
   string cachekey = mapkey (user, key);
@@ -218,7 +218,7 @@ vector <int> Database_Config_User::getIList (const char * key)
   vector <string> lines = getList (key);
   vector <int> result;
   for (auto & line : lines) {
-    result.push_back (convert_to_int (line));
+    result.push_back (filter::strings::convert_to_int (line));
   }
   return result;
 }
@@ -228,7 +228,7 @@ void Database_Config_User::setIList (const char * key, vector <int> values)
 {
   vector <string> lines;
   for (auto & value : values) {
-    lines.push_back (convert_to_string (value));
+    lines.push_back (filter::strings::convert_to_string (value));
   }
   setList (key, lines);
 }
@@ -830,9 +830,9 @@ void Database_Config_User::setPrintResources (vector <string> values)
 
 Passage database_config_user_fix_passage (string value, const char * fallback)
 {
-  vector <string> values = filter_string_explode (value, '.');
-  if (values.size () != 3) values = filter_string_explode (fallback, '.');
-  Passage passage = Passage ("", convert_to_int (values[0]), convert_to_int (values[1]), values[2]);
+  vector <string> values = filter::strings::explode (value, '.');
+  if (values.size () != 3) values = filter::strings::explode (fallback, '.');
+  Passage passage = Passage ("", filter::strings::convert_to_int (values[0]), filter::strings::convert_to_int (values[1]), values[2]);
   return passage;
 }
 
@@ -847,7 +847,7 @@ Passage Database_Config_User::getPrintPassageFromForUser (string user)
 }
 void Database_Config_User::setPrintPassageFrom (Passage value)
 {
-  string s = convert_to_string (value.m_book) + "." + convert_to_string (value.m_chapter) + "." + value.m_verse;
+  string s = filter::strings::convert_to_string (value.m_book) + "." + filter::strings::convert_to_string (value.m_chapter) + "." + value.m_verse;
   setValue ("print-passage-from", s);
 }
 
@@ -862,7 +862,7 @@ Passage Database_Config_User::getPrintPassageToForUser (string user)
 }
 void Database_Config_User::setPrintPassageTo (Passage value)
 {
-  string s = convert_to_string (value.m_book) + "." + convert_to_string (value.m_chapter) + "." + value.m_verse;
+  string s = filter::strings::convert_to_string (value.m_book) + "." + filter::strings::convert_to_string (value.m_chapter) + "." + value.m_verse;
   setValue ("print-passage-to", s);
 }
 

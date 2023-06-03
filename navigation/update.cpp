@@ -47,9 +47,9 @@ string navigation_update (void * webserver_request)
   // the navigator would only show the NT books.
   // Now, by taking the Bible from the database, it will show the books of the last selected Bible.
   string bible = request->database_config_user()->getBible ();
-  int book = convert_to_int (request->query ["book"]);
-  int chapter = convert_to_int (request->query ["chapter"]);
-  int verse = convert_to_int (request->query ["verse"]);
+  int book = filter::strings::convert_to_int (request->query ["book"]);
+  int chapter = filter::strings::convert_to_int (request->query ["chapter"]);
+  int verse = filter::strings::convert_to_int (request->query ["verse"]);
   
   
   
@@ -83,7 +83,7 @@ string navigation_update (void * webserver_request)
   else if (request->query.count ("applybook")) {
     string msg = request->query ["applybook"];
     if (msg.find ("cancel") == string::npos) {
-      int apply_book = convert_to_int (msg);
+      int apply_book = filter::strings::convert_to_int (msg);
       if (apply_book) Navigation_Passage::set_book (request, apply_book);
     }
   }
@@ -105,7 +105,7 @@ string navigation_update (void * webserver_request)
     }
     else if (msg.find ("cancel") != string::npos) {
     } else {
-      int apply_chapter = convert_to_int (msg);
+      int apply_chapter = filter::strings::convert_to_int (msg);
       Navigation_Passage::set_chapter (request, apply_chapter);
     }
   }
@@ -127,7 +127,7 @@ string navigation_update (void * webserver_request)
     }
     else if (msg.find ("cancel") != string::npos) {
     } else {
-      int apply_verse = convert_to_int (msg);
+      int apply_verse = filter::strings::convert_to_int (msg);
       Navigation_Passage::set_verse (request, apply_verse);
     }
   }

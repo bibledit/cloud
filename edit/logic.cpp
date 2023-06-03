@@ -30,9 +30,9 @@ string edit2_logic_volatile_key (string bible, int book, int chapter, string edi
   string key;
   key.append (bible);
   key.append (" ");
-  key.append (filter_string_fill (convert_to_string (book), 2, '0'));
+  key.append (filter_string_fill (filter::strings::convert_to_string (book), 2, '0'));
   key.append (" ");
-  key.append (filter_string_fill (convert_to_string (chapter), 3, '0'));
+  key.append (filter_string_fill (filter::strings::convert_to_string (chapter), 3, '0'));
   key.append (" ");
   key.append (editor);
   return key;

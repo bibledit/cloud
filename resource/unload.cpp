@@ -42,7 +42,7 @@ string resource_unload (void * webserver_request)
 {
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   // The scroll position of the resource window.
-  int position = convert_to_int (request->post ["position"]);
+  int position = filter::strings::convert_to_int (request->post ["position"]);
   if (position < 0) position = 0;
   if (position > 5000) position = 5000;
   // Store the position in volatile memory so it gets retained while the app is on,

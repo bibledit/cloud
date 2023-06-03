@@ -132,7 +132,7 @@ void sprint_burndown ([[maybe_unused]] string bible,
       if (task_count) {
         // Only mail if the current sprint contains tasks.
         string scategories = Database_Config_Bible::getSprintTaskCompletionCategories (bible2);
-        vector <string> categories = filter_string_explode (scategories, '\n');
+        vector <string> categories = filter::strings::explode (scategories, '\n');
         int category_count = static_cast<int>(categories.size());
         int category_percentage = static_cast<int>(round (100 / category_count));
         vector <string> users = request.database_users ()->get_users ();
@@ -169,7 +169,7 @@ void sprint_burndown ([[maybe_unused]] string bible,
             body.push_back ("<p>" + burndownchart + "</p>");
             
             if (!body.empty ()) {
-              string mailbody = filter_string_implode (body, "\n");
+              string mailbody = filter::strings::implode (body, "\n");
               email_schedule (user, subject, mailbody);
             }
             
@@ -243,7 +243,7 @@ string sprint_create_burndown_chart ([[maybe_unused]] string bible,
   lines.push_back ("<tr>");
   for (auto element : data) {
     int day = element.first;
-    lines.push_back ("<td class='day'>" + convert_to_string (day) + "</td>");
+    lines.push_back ("<td class='day'>" + filter::strings::convert_to_string (day) + "</td>");
   }
   lines.push_back ("</tr>");
                                       
@@ -251,12 +251,12 @@ string sprint_create_burndown_chart ([[maybe_unused]] string bible,
   lines.push_back ("<tr>");
   int columncount = static_cast<int>(data.size ());
   string text = translate("days");
-  lines.push_back ("<td colspan=\"" + convert_to_string (columncount) + "\">" + text + "</td>");
+  lines.push_back ("<td colspan=\"" + filter::strings::convert_to_string (columncount) + "\">" + text + "</td>");
   lines.push_back ("</tr>");
                                     
   lines.push_back ("</table>");
                                                                       
-  string chart = filter_string_implode (lines, "\n");
+  string chart = filter::strings::implode (lines, "\n");
   return chart;
 #endif
 }

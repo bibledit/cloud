@@ -82,15 +82,15 @@ string resource_index (void * webserver_request)
   
   string resourceblock;
   for (size_t i = 1; i <= resources.size (); i++) {
-    resourceblock.append ("<div id=\"line" + convert_to_string (i) + "\" style=\"clear:both\">\n");
+    resourceblock.append ("<div id=\"line" + filter::strings::convert_to_string (i) + "\" style=\"clear:both\">\n");
     string resource = resources[i - 1];
     if (!sword_logic_get_remote_module (resource).empty ()) {
       if (!sword_logic_get_installed_module (resource).empty ()) {
         resource = sword_logic_get_name (resource);
       }
     }
-    resourceblock.append ("<span id=\"name" + convert_to_string (i) + "\" class=\"title\">" + resource + "</span>\n");
-    resourceblock.append ("<span id=\"content" + convert_to_string (i) + "\" class=\"resource\"></span>\n");
+    resourceblock.append ("<span id=\"name" + filter::strings::convert_to_string (i) + "\" class=\"title\">" + resource + "</span>\n");
+    resourceblock.append ("<span id=\"content" + filter::strings::convert_to_string (i) + "\" class=\"resource\"></span>\n");
     resourceblock.append ("<hr style=\"clear:both\">");
     resourceblock.append ("</div>\n");
   }
@@ -100,8 +100,8 @@ string resource_index (void * webserver_request)
   size_t resource_count = resources.size ();
   string username = request->session_logic()->currentUser ();
   int window_position = config_globals_resource_window_positions [username];
-  string script = "var resourceCount = " + convert_to_string (resource_count) + ";\n"
-                  "var resourceWindowPosition = " + convert_to_string (window_position) + ";";
+  string script = "var resourceCount = " + filter::strings::convert_to_string (resource_count) + ";\n"
+                  "var resourceWindowPosition = " + filter::strings::convert_to_string (window_position) + ";";
   config::logic::swipe_enabled (webserver_request, script);
   view.set_variable ("script", script);
   

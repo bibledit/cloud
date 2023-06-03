@@ -387,7 +387,7 @@ void test_usfm2html2usfm ()
     editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
     editor_html2usfm.run ();
     string usfm = editor_html2usfm.get ();
-    string standard_usfm2 = filter_string_str_replace ("\\tc1 \\", "\\", standard_usfm);
+    string standard_usfm2 = filter::strings::replace ("\\tc1 \\", "\\", standard_usfm);
     evaluate (__LINE__, __func__, standard_usfm2, usfm);
   }
 

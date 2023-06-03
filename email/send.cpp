@@ -122,7 +122,7 @@ void email_send ()
         for (auto id2 : ids) {
           database_mail.postpone (id2);
         }
-        Database_Logs::log ("Postponing sending " + convert_to_string (ids.size()) + " emails", Filter_Roles::manager ());
+        Database_Logs::log ("Postponing sending " + filter::strings::convert_to_string (ids.size()) + " emails", Filter_Roles::manager ());
         break;
       } else {
         database_mail.postpone (id);
@@ -180,7 +180,7 @@ string email_send ([[maybe_unused]] string to_mail,
   // Truncate huge emails because libcurl crashes on it.
   size_t length = body.length ();
   if (length > 100000) {
-    body = "This email was " + convert_to_string (length) + " bytes long. It was too long, and could not be sent.";
+    body = "This email was " + filter::strings::convert_to_string (length) + " bytes long. It was too long, and could not be sent.";
   }
   
   // Deal with empty subject.
@@ -228,7 +228,7 @@ string email_send ([[maybe_unused]] string to_mail,
   int seconds = filter::date::seconds_since_epoch ();
   payload_text.clear();
   string payload;
-  payload = "Date: " + convert_to_string (filter::date::numerical_year (seconds)) + "/" + convert_to_string (filter::date::numerical_month (seconds)) + "/" + convert_to_string (filter::date::numerical_month_day (seconds)) + " " + convert_to_string (filter::date::numerical_hour (seconds)) + ":" + convert_to_string (filter::date::numerical_minute (seconds)) + "\n";
+  payload = "Date: " + filter::strings::convert_to_string (filter::date::numerical_year (seconds)) + "/" + filter::strings::convert_to_string (filter::date::numerical_month (seconds)) + "/" + filter::strings::convert_to_string (filter::date::numerical_month_day (seconds)) + " " + filter::strings::convert_to_string (filter::date::numerical_hour (seconds)) + ":" + filter::strings::convert_to_string (filter::date::numerical_minute (seconds)) + "\n";
   payload_text.push_back (payload);
   payload = "To: <" + to_mail + "> " + to_name + "\n";
   payload_text.push_back (payload);
@@ -237,7 +237,7 @@ string email_send ([[maybe_unused]] string to_mail,
   string site = from_mail;
   size_t pos = site.find ("@");
   if (pos != string::npos) site = site.substr (pos);
-  payload = "Message-ID: <" + md5 (convert_to_string (filter_string_rand (0, 1000000))) + site + ">\n";
+  payload = "Message-ID: <" + md5 (filter::strings::convert_to_string (filter_string_rand (0, 1000000))) + site + ">\n";
   payload_text.push_back (payload);
   payload = "Subject: " + subject + "\n";
   payload_text.push_back (payload);
@@ -262,7 +262,7 @@ string email_send ([[maybe_unused]] string to_mail,
   payload_text.push_back ("<meta charset=\"utf-8\" />\n");
   payload_text.push_back ("</head>\n");
   payload_text.push_back ("<body>\n");
-  vector <string> bodylines = filter_string_explode (body, '\n');
+  vector <string> bodylines = filter::strings::explode (body, '\n');
   for (auto & line : bodylines) {
     if (filter_string_trim (line).empty ()) payload_text.push_back (" ");
     else payload_text.push_back (line);

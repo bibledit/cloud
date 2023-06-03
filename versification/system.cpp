@@ -80,11 +80,11 @@ string versification_system (void * webserver_request)
     string bookname = database::books::get_english_from_id (static_cast<book_id>(book));
     data.push_back ("<tr>");
     data.push_back ("<td>" + bookname + "</td>");
-    data.push_back ("<td>" + convert_to_string (chapter) + "</td>");
-    data.push_back ("<td>" + convert_to_string (verse) + "</td>");
+    data.push_back ("<td>" + filter::strings::convert_to_string (chapter) + "</td>");
+    data.push_back ("<td>" + filter::strings::convert_to_string (verse) + "</td>");
     data.push_back ("</tr>");
   }
-  view.set_variable ("data", filter_string_implode (data, "\n"));
+  view.set_variable ("data", filter::strings::implode (data, "\n"));
 
   string output = database_versifications.output (name);
   view.set_variable ("output", output);

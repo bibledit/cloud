@@ -65,21 +65,21 @@ string notes_select (void * webserver_request)
   
   
   if (request->query.count ("passageselector")) {
-    int passage_selector = convert_to_int (request->query["passageselector"]);
+    int passage_selector = filter::strings::convert_to_int (request->query["passageselector"]);
     if ((passage_selector < 0) || (passage_selector > 3)) passage_selector = 0;
     request->database_config_user()->setConsultationNotesPassageSelector (passage_selector);
   }
   
   
   if (request->query.count ("editselector")) {
-    int edit_selector = convert_to_int (request->query["editselector"]);
+    int edit_selector = filter::strings::convert_to_int (request->query["editselector"]);
     if ((edit_selector < 0) || (edit_selector > 4)) edit_selector = 0;
     request->database_config_user()->setConsultationNotesEditSelector (edit_selector);
   }
   
   
   if (request->query.count ("noneditselector")) {
-    int non_edit_selector = convert_to_int (request->query["noneditselector"]);
+    int non_edit_selector = filter::strings::convert_to_int (request->query["noneditselector"]);
     if ((non_edit_selector < 0) || (non_edit_selector > 5)) non_edit_selector = 0;
     request->database_config_user()->setConsultationNotesNonEditSelector (non_edit_selector);
   }
@@ -108,19 +108,19 @@ string notes_select (void * webserver_request)
   
   
   if (request->query.count ("subscriptionselector")) {
-    bool subscription_selector = convert_to_bool (request->query["subscriptionselector"]);
+    bool subscription_selector = filter::strings::convert_to_bool (request->query["subscriptionselector"]);
     request->database_config_user()->setConsultationNotesSubscriptionSelector (subscription_selector);
   }
   
   
   if (request->query.count ("severityselector")) {
-    int severity_selector = convert_to_int (request->query["severityselector"]);
+    int severity_selector = filter::strings::convert_to_int (request->query["severityselector"]);
     request->database_config_user()->setConsultationNotesSeveritySelector (severity_selector);
   }
   
   
   if (request->query.count ("textselector")) {
-    int text_selector = convert_to_int (request->query["textselector"]);
+    int text_selector = filter::strings::convert_to_int (request->query["textselector"]);
     request->database_config_user()->setConsultationNotesTextSelector (text_selector);
   }
   if (request->post.count ("text")) {
@@ -131,13 +131,13 @@ string notes_select (void * webserver_request)
   
   
   if (request->query.count ("passageinclusionselector")) {
-    int passage_inclusion_selector = convert_to_int (request->query["passageinclusionselector"]);
+    int passage_inclusion_selector = filter::strings::convert_to_int (request->query["passageinclusionselector"]);
     request->database_config_user()->setConsultationNotesPassageInclusionSelector (passage_inclusion_selector);
   }
   
   
   if (request->query.count ("textinclusionselector")) {
-    int text_inclusion_selector = convert_to_int (request->query["textinclusionselector"]);
+    int text_inclusion_selector = filter::strings::convert_to_int (request->query["textinclusionselector"]);
     request->database_config_user()->setConsultationNotesTextInclusionSelector (text_inclusion_selector);
   }
   
@@ -146,15 +146,15 @@ string notes_select (void * webserver_request)
   
   
   int passage_selector = request->database_config_user()->getConsultationNotesPassageSelector();
-  view.set_variable ("passageselector" + convert_to_string (passage_selector), active_class);
+  view.set_variable ("passageselector" + filter::strings::convert_to_string (passage_selector), active_class);
 
   
   int edit_selector = request->database_config_user()->getConsultationNotesEditSelector();
-  view.set_variable ("editselector" + convert_to_string (edit_selector), active_class);
+  view.set_variable ("editselector" + filter::strings::convert_to_string (edit_selector), active_class);
   
   
   int non_edit_selector = request->database_config_user()->getConsultationNotesNonEditSelector();
-  view.set_variable ("noneditselector" + convert_to_string (non_edit_selector), active_class);
+  view.set_variable ("noneditselector" + filter::strings::convert_to_string (non_edit_selector), active_class);
   
   
   string status_selector = request->database_config_user()->getConsultationNotesStatusSelector();
@@ -214,7 +214,7 @@ string notes_select (void * webserver_request)
   
   
   bool subscription_selector = request->database_config_user()->getConsultationNotesSubscriptionSelector();
-  view.set_variable ("subscriptionselector" + convert_to_string (subscription_selector), active_class);
+  view.set_variable ("subscriptionselector" + filter::strings::convert_to_string (subscription_selector), active_class);
 
 
   int severity_selector = request->database_config_user()->getConsultationNotesSeveritySelector ();
@@ -225,24 +225,24 @@ string notes_select (void * webserver_request)
     severityblock << " | ";
     severityblock << "<a ";
     if (severity_selector == static_cast<int>(i)) severityblock << active_class;
-    severityblock << "href=" << quoted ("select?severityselector=" + convert_to_string (i)) << ">" << severities[i].localized << "</a>";
+    severityblock << "href=" << quoted ("select?severityselector=" + filter::strings::convert_to_string (i)) << ">" << severities[i].localized << "</a>";
   }
   view.set_variable ("severityblock", severityblock.str());
 
   
   int text_selector = request->database_config_user()->getConsultationNotesTextSelector();
-  view.set_variable ("textselector" + convert_to_string (text_selector), active_class);
+  view.set_variable ("textselector" + filter::strings::convert_to_string (text_selector), active_class);
   if (text_selector == 1) view.enable_zone ("textselection");
   string search_text = request->database_config_user()->getConsultationNotesSearchText();
   view.set_variable ("searchtext", search_text);
 
 
   int passage_inclusion_selector = request->database_config_user()->getConsultationNotesPassageInclusionSelector();
-  view.set_variable ("passageinclusionselector" + convert_to_string (passage_inclusion_selector), active_class);
+  view.set_variable ("passageinclusionselector" + filter::strings::convert_to_string (passage_inclusion_selector), active_class);
                      
                      
   int text_inclusion_selector = request->database_config_user()->getConsultationNotesTextInclusionSelector();
-  view.set_variable ("textinclusionselector" + convert_to_string (text_inclusion_selector), active_class);
+  view.set_variable ("textinclusionselector" + filter::strings::convert_to_string (text_inclusion_selector), active_class);
                                         
 
   // The admin disables notes selection on Bibles, so the admin sees all notes, even notes referring to non-existing Bibles.
@@ -267,7 +267,7 @@ string notes_select (void * webserver_request)
                                                          text_selector,
                                                          search_text,
                                                          -1);
-  view.set_variable ("count", convert_to_string (identifiers.size()));
+  view.set_variable ("count", filter::strings::convert_to_string (identifiers.size()));
 
   
   view.set_variable ("success", success);

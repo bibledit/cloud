@@ -193,11 +193,11 @@ void test_database_ipc ()
     string message = "1";
     database_ipc.storeMessage (user, channel, command, message);
     alive = database_ipc.getNotesAlive ();
-    evaluate (__LINE__, __func__, convert_to_bool (message), alive);
+    evaluate (__LINE__, __func__, filter::strings::convert_to_bool (message), alive);
     
     message = "0";
     database_ipc.storeMessage (user, channel, command, message);
     alive = database_ipc.getNotesAlive ();
-    evaluate (__LINE__, __func__, convert_to_bool (message), alive);
+    evaluate (__LINE__, __func__, filter::strings::convert_to_bool (message), alive);
   }
 }

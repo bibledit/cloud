@@ -53,7 +53,7 @@ string Database_Cache::filename (string resource, int book)
   resource = filter_url_clean_filename (resource);
   string book_fragment;
   if (book) {
-    book_fragment = "_" + convert_to_string (book);
+    book_fragment = "_" + filter::strings::convert_to_string (book);
   }
   return fragment () + resource + book_fragment;
 }
@@ -121,7 +121,7 @@ bool Database_Cache::exists (string resource, int book, int chapter, int verse)
     sql.add (";");
     vector <string> result = sql.query () ["count(*)"];
     int count = 0;
-    if (!result.empty ()) count = convert_to_int (result [0]);
+    if (!result.empty ()) count = filter::strings::convert_to_int (result [0]);
     return (count > 0);
   }
   // Else if the previous cache layout exists, check that.
@@ -136,7 +136,7 @@ bool Database_Cache::exists (string resource, int book, int chapter, int verse)
     sql.add (";");
     vector <string> result = sql.query () ["count(*)"];
     int count = 0;
-    if (!result.empty ()) count = convert_to_int (result [0]);
+    if (!result.empty ()) count = filter::strings::convert_to_int (result [0]);
     return (count > 0);
   }
   // Nothing exists.
@@ -224,7 +224,7 @@ bool Database_Cache::ready (string resource, int book)
   vector <string> result = sql.query () ["ready"];
   if (!result.empty()) {
     auto ready = result[0];
-    return convert_to_bool (ready);
+    return filter::strings::convert_to_bool (ready);
   }
   return false;
 }
@@ -422,17 +422,17 @@ void database_cache_trim (bool clear)
   if (!error.empty ()) Database_Logs::log (error);
   int percentage_disk_in_use = 0;
   {
-    vector<string> bits = filter_string_explode(output, ' ');
+    vector<string> bits = filter::strings::explode(output, ' ');
     for (auto bit : bits) {
       if (bit.find ("%") != string::npos) {
-        percentage_disk_in_use = convert_to_int(bit);
+        percentage_disk_in_use = filter::strings::convert_to_int(bit);
         // If a real percentage was found, other than 0, then skip the remainder.
         // On macOS the first percentage found is %iused, so will be skipped.
         if (percentage_disk_in_use != 0) break;
       }
     }
   }
-  Database_Logs::log ("Disk space in use is " + convert_to_string(percentage_disk_in_use) + "%");
+  Database_Logs::log ("Disk space in use is " + filter::strings::convert_to_string(percentage_disk_in_use) + "%");
   
   // There have been instances that the cache takes up 4, 5, or 6 Gbytes in the Cloud.
   // If the cache is left untrimmed, the size can be even larger.

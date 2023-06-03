@@ -100,7 +100,7 @@ void user_logic_login_failure_clear ()
 void user_logic_store_account_creation (string username)
 {
   vector <string> account_creation_times = Database_Config_General::getAccountCreationTimes ();
-  string account_creation_time = convert_to_string(filter::date::seconds_since_epoch()) + "|" + username;
+  string account_creation_time = filter::strings::convert_to_string(filter::date::seconds_since_epoch()) + "|" + username;
   account_creation_times.push_back(account_creation_time);
   Database_Config_General::setAccountCreationTimes(account_creation_times);
 }
@@ -134,7 +134,7 @@ void user_logic_delete_account (string user, string role, string email, string &
   vector <string> updated;
   vector <string> existing = Database_Config_General::getAccountCreationTimes ();
   for (auto line : existing) {
-    vector <string> bits = filter_string_explode(line, '|');
+    vector <string> bits = filter::strings::explode(line, '|');
     if (bits.size() != 2) continue;
     if (bits[1] == user) continue;
     updated.push_back(line);

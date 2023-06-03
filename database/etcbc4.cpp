@@ -313,7 +313,7 @@ vector <int> Database_Etcbc4::books ()
   vector <string> result = database_sqlite_query (db, sql.sql) ["book"];
   database_sqlite_disconnect (db);
   vector <int> books;
-  for (auto b : result) books.push_back (convert_to_int (b));
+  for (auto b : result) books.push_back (filter::strings::convert_to_int (b));
   return books;
 }
 
@@ -328,7 +328,7 @@ vector <int> Database_Etcbc4::chapters (int book)
   vector <string> result = database_sqlite_query (db, sql.sql) ["chapter"];
   database_sqlite_disconnect (db);
   vector <int> chapters;
-  for (auto c : result) chapters.push_back (convert_to_int (c));
+  for (auto c : result) chapters.push_back (filter::strings::convert_to_int (c));
   return chapters;
 }
 
@@ -345,7 +345,7 @@ vector <int> Database_Etcbc4::verses (int book, int chapter)
   vector <string> result = database_sqlite_query (db, sql.sql) ["verse"];
   database_sqlite_disconnect (db);
   vector <int> verses;
-  for (auto v : result) verses.push_back (convert_to_int (v));
+  for (auto v : result) verses.push_back (filter::strings::convert_to_int (v));
   return verses;
 }
 
@@ -364,7 +364,7 @@ vector <int> Database_Etcbc4::rowids (int book, int chapter, int verse)
   vector <string> result = database_sqlite_query (db, sql.sql) ["rowid"];
   database_sqlite_disconnect (db);
   vector <int> rowids;
-  for (auto rowid : result) rowids.push_back (convert_to_int (rowid));
+  for (auto rowid : result) rowids.push_back (filter::strings::convert_to_int (rowid));
   return rowids;
 }
 
@@ -498,7 +498,7 @@ int Database_Etcbc4::get_id (sqlite3 * db, const char * table_row, string item)
       sql.add (item);
       sql.add (";");
       vector <string> result = database_sqlite_query (db, sql.sql) ["rowid"];
-      if (!result.empty ()) return convert_to_int (result [0]);
+      if (!result.empty ()) return filter::strings::convert_to_int (result [0]);
     }
     {
       // The rowid was not found: Insert the word into the table.
@@ -530,7 +530,7 @@ string Database_Etcbc4::get_item (const char * item, int rowid)
     sql.add (";");
     vector <string> result = database_sqlite_query (db, sql.sql) [item];
     rowid = 0;
-    if (!result.empty ()) rowid = convert_to_int (result [0]);
+    if (!result.empty ()) rowid = filter::strings::convert_to_int (result [0]);
   }
   // Retrieve the requested value from the sub table.
   string value;

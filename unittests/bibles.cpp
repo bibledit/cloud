@@ -192,7 +192,7 @@ void test_bibles ()
       evaluate (__LINE__, __func__, string(), stored);
       evaluate (__LINE__, __func__, string(), explanation);
       string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
-      string newusfm = filter_string_str_replace ("\\p\n\\v 1", "\\p xx\n\\v 1", usfm);
+      string newusfm = filter::strings::replace ("\\p\n\\v 1", "\\p xx\n\\v 1", usfm);
       evaluate (__LINE__, __func__, newusfm, result);
       refresh_sandbox (false);
     }
@@ -205,7 +205,7 @@ void test_bibles ()
       evaluate (__LINE__, __func__, string(), stored);
       evaluate (__LINE__, __func__, string(), explanation);
       string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
-      string newusfm = filter_string_str_replace ("c 1", "c 1x", usfm);
+      string newusfm = filter::strings::replace ("c 1", "c 1x", usfm);
       evaluate (__LINE__, __func__, newusfm, result);
       refresh_sandbox (false);
     }
@@ -221,7 +221,7 @@ void test_bibles ()
       evaluate (__LINE__, __func__, string(), stored);
       evaluate (__LINE__, __func__, string(), explanation);
       string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
-      string newusfm = filter_string_str_replace ("two two two two two two", "two two two two", usfm);
+      string newusfm = filter::strings::replace ("two two two two two two", "two two two two", usfm);
       evaluate (__LINE__, __func__, newusfm, result);
       refresh_sandbox (false);
     }
@@ -233,7 +233,7 @@ void test_bibles ()
       evaluate (__LINE__, __func__, string(), stored);
       evaluate (__LINE__, __func__, string(), explanation);
       string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
-      string newusfm = filter_string_str_replace ("two two two two two two", "two", usfm);
+      string newusfm = filter::strings::replace ("two two two two two two", "two", usfm);
       evaluate (__LINE__, __func__, newusfm, result);
       refresh_sandbox (false);
     }
@@ -249,7 +249,7 @@ void test_bibles ()
       evaluate (__LINE__, __func__, string(), stored);
       evaluate (__LINE__, __func__, string(), explanation);
       string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
-      string newusfm = filter_string_str_replace ("Verse 3", "Verse three", usfm);
+      string newusfm = filter::strings::replace ("Verse 3", "Verse three", usfm);
       evaluate (__LINE__, __func__, newusfm, result);
       refresh_sandbox (false);
     }
@@ -261,7 +261,7 @@ void test_bibles ()
       evaluate (__LINE__, __func__, string(), stored);
       evaluate (__LINE__, __func__, string(), explanation);
       string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
-      string newusfm = filter_string_str_replace ("Verse 3", "Verse three", usfm);
+      string newusfm = filter::strings::replace ("Verse 3", "Verse three", usfm);
       evaluate (__LINE__, __func__, newusfm, result);
       refresh_sandbox (false);
     }
@@ -307,7 +307,7 @@ void test_bibles ()
       evaluate (__LINE__, __func__, true, stored.empty());
       evaluate (__LINE__, __func__, true, explanation.empty());
       string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
-      string standard = filter_string_str_replace("two two two two two two", "two two two two two two two two two", usfm);
+      string standard = filter::strings::replace("two two two two two two", "two two two two two two two two two", usfm);
       evaluate (__LINE__, __func__, standard, result);
       refresh_sandbox (false);
     }
@@ -320,7 +320,7 @@ void test_bibles ()
       evaluate (__LINE__, __func__, true, stored.empty());
       evaluate (__LINE__, __func__, true, explanation.empty());
       string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
-      string standard = filter_string_str_replace("two two two two two two", "two two two two two two two two two", usfm);
+      string standard = filter::strings::replace("two two two two two two", "two two two two two two two two two", usfm);
       evaluate (__LINE__, __func__, standard, result);
       refresh_sandbox (false);
     }
@@ -477,7 +477,7 @@ void test_bibles ()
       evaluate (__LINE__, __func__, "", stored);
       evaluate (__LINE__, __func__, "", explanation);
       string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
-      string newusfm = filter_string_str_replace ("2 and 3", "2 andx 3", usfm);
+      string newusfm = filter::strings::replace ("2 and 3", "2 andx 3", usfm);
       evaluate (__LINE__, __func__, newusfm, result);
       refresh_sandbox (false);
     }
@@ -489,7 +489,7 @@ void test_bibles ()
       evaluate (__LINE__, __func__, "", stored);
       evaluate (__LINE__, __func__, "", explanation);
       string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
-      string newusfm = filter_string_str_replace ("2 and 3", "2 andx 3", usfm);
+      string newusfm = filter::strings::replace ("2 and 3", "2 andx 3", usfm);
       evaluate (__LINE__, __func__, newusfm, result);
       refresh_sandbox (false);
     }
@@ -505,7 +505,7 @@ void test_bibles ()
       evaluate (__LINE__, __func__, "", stored);
       evaluate (__LINE__, __func__, "", explanation);
       string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
-      string newusfm = filter_string_str_replace ("4 and 5", "4 andx 5", usfm);
+      string newusfm = filter::strings::replace ("4 and 5", "4 andx 5", usfm);
       evaluate (__LINE__, __func__, newusfm, result);
       refresh_sandbox (false);
     }
@@ -517,7 +517,7 @@ void test_bibles ()
       evaluate (__LINE__, __func__, "", stored);
       evaluate (__LINE__, __func__, "", explanation);
       string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
-      string newusfm = filter_string_str_replace ("4 and 5", "4 andx 5", usfm);
+      string newusfm = filter::strings::replace ("4 and 5", "4 andx 5", usfm);
       evaluate (__LINE__, __func__, newusfm, result);
       refresh_sandbox (false);
     }

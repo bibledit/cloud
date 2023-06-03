@@ -128,7 +128,7 @@ void compare_compare (string bible, string compare, int jobId)
       
       // Look for, report, and skip missing chapters in the source Bible.
       if (find (bibleChapters.begin(), bibleChapters.end(), chapter) == bibleChapters.end ()) {
-        absent.push_back (translate("Bible") + " '" + bible + "' " + translate ("does not contain") + " " + bookName + " " + convert_to_string (chapter) + ".");
+        absent.push_back (translate("Bible") + " '" + bible + "' " + translate ("does not contain") + " " + bookName + " " + filter::strings::convert_to_string (chapter) + ".");
         continue;
       }
 
@@ -136,7 +136,7 @@ void compare_compare (string bible, string compare, int jobId)
       // Look for, report, and skip missing chapters in the comparison USFM data.
       if (find (compareChapters.begin(), compareChapters.end(), chapter) == compareChapters.end()) {
         if (find (resourceChapters.begin(), resourceChapters.end(), chapter) == resourceChapters.end()) {
-          absent.push_back (translate("Bible/Resource") + " '" + compare + "' " + translate ("does not contain") + " " + bookName + " " + convert_to_string (chapter) + ".");
+          absent.push_back (translate("Bible/Resource") + " '" + compare + "' " + translate ("does not contain") + " " + bookName + " " + filter::strings::convert_to_string (chapter) + ".");
           continue;
         }
       }
@@ -188,11 +188,11 @@ void compare_compare (string bible, string compare, int jobId)
         string compare_text = filter_text_compare.text_text->get ();
         if (bible_text != compare_text) {
           string modification = filter_diff_diff (compare_text, bible_text);
-          result.push_back (filter_passage_display (book, chapter, convert_to_string (verse)) + " " + modification);
-          new_verses.push_back (filter_passage_display (book, chapter, convert_to_string (verse)) + " " + bible_text);
+          result.push_back (filter_passage_display (book, chapter, filter::strings::convert_to_string (verse)) + " " + modification);
+          new_verses.push_back (filter_passage_display (book, chapter, filter::strings::convert_to_string (verse)) + " " + bible_text);
         }
         string modification = filter_diff_diff (compare_verse_usfm, bible_verse_usfm);
-        raw.push_back (filter_passage_display (book, chapter, convert_to_string (verse)) + " " + modification);
+        raw.push_back (filter_passage_display (book, chapter, filter::strings::convert_to_string (verse)) + " " + modification);
       }
     }
   }
@@ -230,7 +230,7 @@ void compare_compare (string bible, string compare, int jobId)
       line.append ("</p>");
     }
   }
-  database_jobs.set_result (jobId, filter_string_implode (result, "\n"));
+  database_jobs.set_result (jobId, filter::strings::implode (result, "\n"));
   
   
   Database_Logs::log (translate("Comparison is ready"), Filter_Roles::consultant ());

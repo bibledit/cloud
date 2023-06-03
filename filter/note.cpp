@@ -40,7 +40,7 @@ void citation::set_sequence (int numbering, const string & usersequence)
     this->sequence = { "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"};
   }
   else if (numbering == NoteNumberingUser) {
-    if (!usersequence.empty()) this->sequence = filter_string_explode (usersequence, ' ');
+    if (!usersequence.empty()) this->sequence = filter::strings::explode (usersequence, ' ');
   }
   else {
     this->sequence = {"1", "2", "3", "4", "5", "6", "7", "8", "9"}; // Fallback sequence.

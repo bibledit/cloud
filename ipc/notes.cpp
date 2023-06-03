@@ -32,7 +32,7 @@ void Ipc_Notes::open (void * webserver_request, int identifier)
 {
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   string user = request->session_logic()->currentUser ();
-  request->database_ipc()->storeMessage (user, "", "opennote", convert_to_string (identifier));
+  request->database_ipc()->storeMessage (user, "", "opennote", filter::strings::convert_to_string (identifier));
 }
 
 
@@ -40,7 +40,7 @@ int Ipc_Notes::get (void * webserver_request)
 {
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   Database_Ipc_Message data = request->database_ipc()->getNote ();
-  return convert_to_int (data.message);
+  return filter::strings::convert_to_int (data.message);
 }
 
 
@@ -64,7 +64,7 @@ bool Ipc_Notes::alive (void * webserver_request, bool set, bool alive)
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   string user = request->session_logic()->currentUser ();
   if (set) {
-    request->database_ipc()->storeMessage (user, "", "notesalive", convert_to_string (alive));
+    request->database_ipc()->storeMessage (user, "", "notesalive", filter::strings::convert_to_string (alive));
   } else {
     return request->database_ipc()->getNotesAlive ();
   }

@@ -84,23 +84,23 @@ vector <string> filter_merge_merge (const vector <string>& base, const vector <s
 
 string filter_merge_lines2words (string data)
 {
-  data = filter_string_str_replace ("\n", " new__line ", data);
-  data = filter_string_str_replace (" ", "\n", data);
+  data = filter::strings::replace ("\n", " new__line ", data);
+  data = filter::strings::replace (" ", "\n", data);
   return data;
 }
 
 
 string filter_merge_words2lines (string data)
 {
-  data = filter_string_str_replace ("\n", " ", data);
-  data = filter_string_str_replace (" new__line ", "\n", data);
+  data = filter::strings::replace ("\n", " ", data);
+  data = filter::strings::replace (" new__line ", "\n", data);
   return data;
 }
 
 
 string filter_merge_lines2graphemes (string data)
 {
-  data = filter_string_str_replace ("\n", " new__line ", data);
+  data = filter::strings::replace ("\n", " new__line ", data);
   string data2;
   size_t count = unicode_string_length (data);
   for (size_t i = 0; i < count; i++) {
@@ -114,8 +114,8 @@ string filter_merge_lines2graphemes (string data)
 
 string filter_merge_graphemes2lines (string data)
 {
-  data = filter_string_str_replace ("\n", "", data);
-  data = filter_string_str_replace (" new__line ", "\n", data);
+  data = filter::strings::replace ("\n", "", data);
+  data = filter::strings::replace (" new__line ", "\n", data);
   return data;
 }
 
@@ -202,12 +202,12 @@ string filter_merge_run (string base, string change, string prioritized_change,
   prioritized_change = filter_string_trim (prioritized_change);
 
   // Try a standard line-based merge. Should be sufficient for most cases.
-  vector <string> baselines = filter_string_explode (base, '\n');
-  vector <string> userlines = filter_string_explode (change, '\n');
-  vector <string> serverlines = filter_string_explode (prioritized_change, '\n');
+  vector <string> baselines = filter::strings::explode (base, '\n');
+  vector <string> userlines = filter::strings::explode (change, '\n');
+  vector <string> serverlines = filter::strings::explode (prioritized_change, '\n');
   vector <string> results = filter_merge_merge (baselines, userlines, serverlines);
   if (!results.empty ()) {
-    string result = filter_string_implode (results, "\n");
+    string result = filter::strings::implode (results, "\n");
     filter_merge_detect_conflict (base, change, prioritized_change, result, conflicts);
     return result;
   }
@@ -216,12 +216,12 @@ string filter_merge_run (string base, string change, string prioritized_change,
   string baseWords = filter_merge_lines2words (base);
   string userWords = filter_merge_lines2words (change);
   string serverWords = filter_merge_lines2words (prioritized_change);
-  baselines = filter_string_explode (baseWords, '\n');
-  userlines = filter_string_explode (userWords, '\n');
-  serverlines = filter_string_explode (serverWords, '\n');
+  baselines = filter::strings::explode (baseWords, '\n');
+  userlines = filter::strings::explode (userWords, '\n');
+  serverlines = filter::strings::explode (serverWords, '\n');
   results = filter_merge_merge (baselines, userlines, serverlines);
   if (!results.empty ()) {
-    string mergedWords = filter_string_implode (results, "\n");
+    string mergedWords = filter::strings::implode (results, "\n");
     string result = filter_merge_words2lines (mergedWords);
     filter_merge_detect_conflict (base, change, prioritized_change, result, conflicts);
     return result;
@@ -231,12 +231,12 @@ string filter_merge_run (string base, string change, string prioritized_change,
   string baseGraphemes = filter_merge_lines2graphemes (base);
   string userGraphemes = filter_merge_lines2graphemes (change);
   string serverGraphemes = filter_merge_lines2graphemes (prioritized_change);
-  baselines = filter_string_explode (baseGraphemes, '\n');
-  userlines = filter_string_explode (userGraphemes, '\n');
-  serverlines = filter_string_explode (serverGraphemes, '\n');
+  baselines = filter::strings::explode (baseGraphemes, '\n');
+  userlines = filter::strings::explode (userGraphemes, '\n');
+  serverlines = filter::strings::explode (serverGraphemes, '\n');
   results = filter_merge_merge (baselines, userlines, serverlines);
   if (!results.empty ()) {
-    string mergedGraphemes = filter_string_implode (results, "\n");
+    string mergedGraphemes = filter::strings::implode (results, "\n");
     string result = filter_merge_graphemes2lines (mergedGraphemes);
     filter_merge_detect_conflict (base, change, prioritized_change, result, conflicts);
     return result;
@@ -287,7 +287,7 @@ string filter_merge_run_clever (string base, string change, string prioritized_c
     previous_change = change_text;
     
     // Check whether any of the three text fragments can be considered to be a verse without content.
-    size_t empty_length = 3 + convert_to_string (verse).length () + 1; // "\v n "
+    size_t empty_length = 3 + filter::strings::convert_to_string (verse).length () + 1; // "\v n "
     bool base_empty = base_text.length () <= empty_length;
     bool change_empty = change_text.length () <= empty_length;
     bool prioritized_change_empty = prioritized_change_text.length () <= empty_length;
@@ -310,7 +310,7 @@ string filter_merge_run_clever (string base, string change, string prioritized_c
   }
   
   // Done.
-  return filter_string_implode (results, "\n");
+  return filter::strings::implode (results, "\n");
 }
 
 

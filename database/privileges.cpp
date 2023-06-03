@@ -109,7 +109,7 @@ string DatabasePrivileges::save (const string& username)
     // when changing only boolean values.
     // And then the client would not re-download that file.
     // To use "on" and "off", that solves the issue.
-    const bool b = convert_to_bool (write[i]);
+    const bool b = filter::strings::convert_to_bool (write[i]);
     if (b) lines.emplace_back (on ());
     else lines.emplace_back (off ());
   }
@@ -127,7 +127,7 @@ string DatabasePrivileges::save (const string& username)
   }
   lines.emplace_back (features_end ());
   
-  return filter_string_implode (lines, "\n");
+  return filter::strings::implode (lines, "\n");
 }
 
 
@@ -147,7 +147,7 @@ void DatabasePrivileges::load (const string& username, const string & data)
     sql.execute ();
   }
   
-  const vector <string> lines = filter_string_explode (data, '\n');
+  const vector <string> lines = filter::strings::explode (data, '\n');
   bool loading_bibles {false};
   string bible_value {};
   int book_value {0};
@@ -168,7 +168,7 @@ void DatabasePrivileges::load (const string& username, const string & data)
     
     if (loading_bibles) {
       if (counter == 1) bible_value = line;
-      if (counter == 2) book_value = convert_to_int (line);
+      if (counter == 2) book_value = filter::strings::convert_to_int (line);
       if (counter == 3) {
         write_value = (line == on ());
         set_bible_book (username, bible_value, book_value, write_value);
@@ -177,7 +177,7 @@ void DatabasePrivileges::load (const string& username, const string & data)
     }
     
     if (loading_features) {
-      set_feature (username, convert_to_int (line), true);
+      set_feature (username, filter::strings::convert_to_int (line), true);
     }
     
     if (line == bibles_start ()) {
@@ -255,7 +255,7 @@ void DatabasePrivileges::get_bible_book (const string& username, const string& b
     // Occurs in database: Read access.
     read = true;
     // Take write access from the database field.
-    write = convert_to_bool (result [0]);
+    write = filter::strings::convert_to_bool (result [0]);
   }
 }
 
@@ -289,7 +289,7 @@ int DatabasePrivileges::get_bible_book_count ()
   sql.add ("SELECT count(*) FROM bibles;");
   const vector <string> result = sql.query () ["count(*)"];
   if (result.empty ()) return 0;
-  return convert_to_int (result [0]);
+  return filter::strings::convert_to_int (result [0]);
 }
 
 

@@ -78,7 +78,7 @@ string sync_notes (void * webserver_request)
 
   
   // What action does the client request from us?
-  int action = convert_to_int (request->post ["a"]);
+  int action = filter::strings::convert_to_int (request->post ["a"]);
 
   
   // Check on the credentials when the clients sends data to the server to be stored there.
@@ -99,11 +99,11 @@ string sync_notes (void * webserver_request)
   
   
   // Note lower and upper limits.
-  int lowId = convert_to_int (request->post ["l"]);
-  int highId = convert_to_int (request->post ["h"]);
+  int lowId = filter::strings::convert_to_int (request->post ["l"]);
+  int highId = filter::strings::convert_to_int (request->post ["h"]);
 
   
-  int identifier = convert_to_int (request->post ["i"]);
+  int identifier = filter::strings::convert_to_int (request->post ["i"]);
   string content = request->post ["c"];
   
   switch (action) {
@@ -118,7 +118,7 @@ string sync_notes (void * webserver_request)
         checksum = database_notes.get_multiple_checksum (identifiers);
         Database_State::putNotesChecksum (lowId, highId, checksum);
       }
-      string response = convert_to_string (identifiers.size ()) + "\n" + checksum;
+      string response = filter::strings::convert_to_string (identifiers.size ()) + "\n" + checksum;
       return response;
     }
     case Sync_Logic::notes_get_identifiers:
@@ -128,7 +128,7 @@ string sync_notes (void * webserver_request)
       string response;
       for (auto id : identifiers) {
         if (!response.empty ()) response.append ("\n");
-        response.append (convert_to_string (id));
+        response.append (filter::strings::convert_to_string (id));
         response.append ("\n");
         response.append (database_notes.get_checksum (id));
       }
@@ -152,12 +152,12 @@ string sync_notes (void * webserver_request)
     case Sync_Logic::notes_get_subscribers:
     {
       vector <string> subscribers = database_notes.get_subscribers (identifier);
-      return filter_string_implode (subscribers, "\n");
+      return filter::strings::implode (subscribers, "\n");
     }
     case Sync_Logic::notes_get_assignees:
     {
       vector <string> assignees = database_notes.get_assignees (identifier);
-      return filter_string_implode (assignees, "\n");
+      return filter::strings::implode (assignees, "\n");
     }
     case Sync_Logic::notes_get_status:
     {
@@ -170,7 +170,7 @@ string sync_notes (void * webserver_request)
     }
     case Sync_Logic::notes_get_severity:
     {
-      return convert_to_string (database_notes.get_raw_severity (identifier));
+      return filter::strings::convert_to_string (database_notes.get_raw_severity (identifier));
     }
     case Sync_Logic::notes_get_bible:
     {
@@ -178,7 +178,7 @@ string sync_notes (void * webserver_request)
     }
     case Sync_Logic::notes_get_modified:
     {
-      return convert_to_string (database_notes.get_modified (identifier));
+      return filter::strings::convert_to_string (database_notes.get_modified (identifier));
     }
     case Sync_Logic::notes_put_create_initiate:
     {
@@ -289,7 +289,7 @@ string sync_notes (void * webserver_request)
     case Sync_Logic::notes_put_severity:
     {
       // Set the severity for a note on the server.
-      notes_logic.setRawSeverity (identifier, convert_to_int (content));
+      notes_logic.setRawSeverity (identifier, filter::strings::convert_to_int (content));
       // Info
       Database_Logs::log ("Client set the severity for a note on server: " + database_notes.get_summary (identifier), Filter_Roles::manager ());
       // Done.
@@ -338,9 +338,9 @@ string sync_notes (void * webserver_request)
     case Sync_Logic::notes_get_bulk:
     {
       // Get the note identifiers the client requests.
-      vector <string> notes = filter_string_explode (request->post ["b"], '\n');
+      vector <string> notes = filter::strings::explode (request->post ["b"], '\n');
       vector <int> identifiers;
-      for (auto note : notes) identifiers.push_back (convert_to_int (note));
+      for (auto note : notes) identifiers.push_back (filter::strings::convert_to_int (note));
       // Return the JSON that contains all the requested notes.
       string json = database_notes.get_bulk (identifiers);
       return json;

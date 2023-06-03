@@ -55,11 +55,11 @@ string sync_resources (void * webserver_request)
     this_thread::sleep_for (chrono::seconds (5));
   }
 
-  int action = convert_to_int (request->query ["a"]);
+  int action = filter::strings::convert_to_int (request->query ["a"]);
   string resource = request->query ["r"];
-  int book = convert_to_int (request->query ["b"]);
-  int chapter = convert_to_int (request->query ["c"]);
-  int verse = convert_to_int (request->query ["v"]);
+  int book = filter::strings::convert_to_int (request->query ["b"]);
+  int chapter = filter::strings::convert_to_int (request->query ["c"]);
+  int verse = filter::strings::convert_to_int (request->query ["v"]);
   
   bool request_ok = true;
   if (book <= 0) request_ok = false;
@@ -81,12 +81,12 @@ string sync_resources (void * webserver_request)
         // If the cache is ready, return its file size.
         if (Database_Cache::exists (resource, book)) {
           if (Database_Cache::ready (resource, book)) {
-            return convert_to_string (Database_Cache::size (resource, book));
+            return filter::strings::convert_to_string (Database_Cache::size (resource, book));
           }
         }
         // Schedule this resource for caching if that's not yet the case.
         vector <string> signatures = Database_Config_General::getResourcesToCache ();
-        string signature = resource + " " + convert_to_string (book);
+        string signature = resource + " " + filter::strings::convert_to_string (book);
         if (!in_array (signature, signatures)) {
           signatures.push_back (signature);
           Database_Config_General::setResourcesToCache (signatures);

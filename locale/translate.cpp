@@ -46,7 +46,7 @@ string translate (string english)
     // Obfuscate: Search and replace text.
     // It replaces strings, not whole words as having certain boundaries.
     for (unsigned int i = 0; i < locale_translate_obfuscation_search.size(); i++) {
-      result = filter_string_str_replace (locale_translate_obfuscation_search [i], locale_translate_obfuscation_replace [i], result);
+      result = filter::strings::replace (locale_translate_obfuscation_search [i], locale_translate_obfuscation_replace [i], result);
     }
   }
   // Ready.

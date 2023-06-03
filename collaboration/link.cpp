@@ -271,7 +271,7 @@ void collaboration_link ([[maybe_unused]] string object,
   if (takerepo) view.enable_zone ("takerepo");
   if (result) view.enable_zone ("okay");
   else view.enable_zone ("error");
-  view.set_variable ("success", filter_string_implode (success, "<br>\n"));
+  view.set_variable ("success", filter::strings::implode (success, "<br>\n"));
   view.set_variable ("error", error);
   page += view.render ("collaboration", "link");
   page += assets_page::footer ();

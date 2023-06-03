@@ -73,7 +73,7 @@ string resource_comparative1edit (void * webserver_request)
 
   
   string checkbox = request->post ["checkbox"];
-  bool checked = convert_to_bool (request->post ["checked"]);
+  bool checked = filter::strings::convert_to_bool (request->post ["checked"]);
 
   
   bool resource_edited = false;
@@ -197,7 +197,7 @@ string resource_comparative1edit (void * webserver_request)
     // Store the list of comparative resources for download by the client devices.
     {
       string path = resource_logic_comparative_resources_list_path ();
-      filter_url_file_put_contents (path, filter_string_implode (resources, "\n"));
+      filter_url_file_put_contents (path, filter::strings::implode (resources, "\n"));
     }
   }
   

@@ -163,9 +163,9 @@ void sources_oshb_parse ()
     for (xml_node field_node : row_node.children ()) {
       string name = field_node.attribute ("name").value ();
       string value = field_node.child_value ();
-      if (name == "bookId") book = mapping [convert_to_int (value)];
-      if (name == "chapter") chapter = convert_to_int (value);
-      if (name == "verse") verse = convert_to_int (value);
+      if (name == "bookId") book = mapping [filter::strings::convert_to_int (value)];
+      if (name == "chapter") chapter = filter::strings::convert_to_int (value);
+      if (name == "verse") verse = filter::strings::convert_to_int (value);
       if (name == "word") word = value;
       if (name == "append") append = value;
       if (name == "lemma") lemma = value;
@@ -175,7 +175,7 @@ void sources_oshb_parse ()
       previous_book = book;
       cout << database::books::get_english_from_id (book) << endl;
     }
-    word = filter_string_str_replace ("/", "", word);
+    word = filter::strings::replace ("/", "", word);
     database_oshb.store (static_cast<int>(book), chapter, verse, lemma, word, morph);
     database_oshb.store (static_cast<int>(book), chapter, verse, "", append, "");
   }

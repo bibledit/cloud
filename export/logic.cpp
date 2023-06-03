@@ -44,7 +44,7 @@ void export_logic::schedule_text_and_basic_usfm (const string & bible, bool log)
   Database_Bibles database_bibles;
   vector <int> books = database_bibles.getBooks (bible);
   for (auto book : books) {
-    tasks_logic_queue (EXPORTTEXTUSFM, {bible, convert_to_string (book), convert_to_string (log)});
+    tasks_logic_queue (EXPORTTEXTUSFM, {bible, filter::strings::convert_to_string (book), filter::strings::convert_to_string (log)});
   }
 }
 
@@ -52,7 +52,7 @@ void export_logic::schedule_text_and_basic_usfm (const string & bible, bool log)
 // Schedule a Bible for export to USFM format.
 void export_logic::schedule_usfm (const string & bible, bool log)
 {
-  tasks_logic_queue (EXPORTUSFM, {bible, convert_to_string (log)});
+  tasks_logic_queue (EXPORTUSFM, {bible, filter::strings::convert_to_string (log)});
 }
 
 
@@ -65,10 +65,10 @@ void export_logic::schedule_open_document (const string & bible, bool log)
   vector <int> books = database_bibles.getBooks (bible);
   // Export the books, one OpenDocument file per book.
   for (auto book : books) {
-    tasks_logic_queue (EXPORTODT, {bible, convert_to_string (book), convert_to_string (log)});
+    tasks_logic_queue (EXPORTODT, {bible, filter::strings::convert_to_string (book), filter::strings::convert_to_string (log)});
   }
   // Export the whole Bible to one OpenDocument file.
-  tasks_logic_queue (EXPORTODT, {bible, "0", convert_to_string (log)});
+  tasks_logic_queue (EXPORTODT, {bible, "0", filter::strings::convert_to_string (log)});
 }
 
 
@@ -76,7 +76,7 @@ void export_logic::schedule_open_document (const string & bible, bool log)
 // $bible: Bible.
 void export_logic::schedule_info (const string & bible, bool log)
 {
-  tasks_logic_queue (EXPORTINFO, {bible, convert_to_string (log)});
+  tasks_logic_queue (EXPORTINFO, {bible, filter::strings::convert_to_string (log)});
 }
 
 
@@ -87,7 +87,7 @@ void export_logic::schedule_html (const string & bible, bool log)
   Database_Bibles database_bibles;
   vector <int> books = database_bibles.getBooks (bible);
   for (auto book : books) {
-    tasks_logic_queue (EXPORTHTML, {bible, convert_to_string (book), convert_to_string (log)});
+    tasks_logic_queue (EXPORTHTML, {bible, filter::strings::convert_to_string (book), filter::strings::convert_to_string (log)});
   }
 }
 
@@ -99,7 +99,7 @@ void export_logic::schedule_web (const string & bible, bool log)
   Database_Bibles database_bibles;
   vector <int> books = database_bibles.getBooks (bible);
   for (auto book : books) {
-    tasks_logic_queue (EXPORTWEBMAIN, {bible, convert_to_string (book), convert_to_string (log)});
+    tasks_logic_queue (EXPORTWEBMAIN, {bible, filter::strings::convert_to_string (book), filter::strings::convert_to_string (log)});
   }
 }
 
@@ -108,19 +108,19 @@ void export_logic::schedule_web (const string & bible, bool log)
 // $bible: Bible.
 void export_logic::schedule_web_index (const string & bible, bool log)
 {
-  tasks_logic_queue (EXPORTWEBINDEX, {bible, convert_to_string (log)});
+  tasks_logic_queue (EXPORTWEBINDEX, {bible, filter::strings::convert_to_string (log)});
 }
 
 
 void export_logic::schedule_online_bible (const string & bible, bool log)
 {
-  tasks_logic_queue (EXPORTONLINEBIBLE, {bible, convert_to_string (log)});
+  tasks_logic_queue (EXPORTONLINEBIBLE, {bible, filter::strings::convert_to_string (log)});
 }
 
 
 void export_logic::schedule_e_sword (const string & bible, bool log)
 {
-  tasks_logic_queue (EXPORTESWORD, {bible, convert_to_string (log)});
+  tasks_logic_queue (EXPORTESWORD, {bible, filter::strings::convert_to_string (log)});
 }
 
 

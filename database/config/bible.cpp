@@ -89,25 +89,25 @@ void Database_Config_Bible::setValue (string bible, const char * key, string val
 
 bool Database_Config_Bible::getBValue (string bible, const char * key, bool default_value)
 {
-  return convert_to_bool (getValue (bible, key, convert_to_string (default_value).c_str()));
+  return filter::strings::convert_to_bool (getValue (bible, key, filter::strings::convert_to_string (default_value).c_str()));
 }
 
 
 void Database_Config_Bible::setBValue (string bible, const char * key, bool value)
 {
-  setValue (bible, key, convert_to_string (value));
+  setValue (bible, key, filter::strings::convert_to_string (value));
 }
 
 
 int Database_Config_Bible::getIValue (string bible, const char * key, int default_value)
 {
-  return convert_to_int (getValue (bible, key, convert_to_string (default_value).c_str()));
+  return filter::strings::convert_to_int (getValue (bible, key, filter::strings::convert_to_string (default_value).c_str()));
 }
 
 
 void Database_Config_Bible::setIValue (string bible, const char * key, int value)
 {
-  setValue (bible, key, convert_to_string (value));
+  setValue (bible, key, filter::strings::convert_to_string (value));
 }
 
 

@@ -125,7 +125,7 @@ vector <int> Database_Git::get_rowids (string user, string bible)
   vector <string> values = sql.query () ["rowid"];
   vector <int> rowids;
   for (auto value : values) {
-    rowids.push_back (convert_to_int (value));
+    rowids.push_back (filter::strings::convert_to_int (value));
   }
   return rowids;
 }
@@ -149,8 +149,8 @@ bool Database_Git::get_chapter (int rowid,
   if (bibles.empty ()) return false;
   if (!users.empty ())    user    = users [0];
   if (!bibles.empty ())   bible   = bibles [0];
-  if (!books.empty ())    book    = convert_to_int (books [0]);
-  if (!chapters.empty ()) chapter = convert_to_int (chapters [0]);
+  if (!books.empty ())    book    = filter::strings::convert_to_int (books [0]);
+  if (!chapters.empty ()) chapter = filter::strings::convert_to_int (chapters [0]);
   if (oldusfm.empty ())   oldusfm = oldusfms [0];
   if (newusfm.empty ())   newusfm = newusfms [0];
   return true;

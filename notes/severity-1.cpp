@@ -61,14 +61,14 @@ string notes_severity_1 (void * webserver_request)
   string success, error;
   
   
-  int id = convert_to_int (request->query ["id"]);
-  view.set_variable ("id", convert_to_string (id));
+  int id = filter::strings::convert_to_int (request->query ["id"]);
+  view.set_variable ("id", filter::strings::convert_to_string (id));
   
   
   if (request->query.count ("severity")) {
-    int severity = convert_to_int (request->query["severity"]);
+    int severity = filter::strings::convert_to_int (request->query["severity"]);
     notes_logic.setRawSeverity (id, severity);
-    redirect_browser (request, notes_actions_url () + "?id=" + convert_to_string (id));
+    redirect_browser (request, notes_actions_url () + "?id=" + filter::strings::convert_to_string (id));
     return "";
   }
   
@@ -76,7 +76,7 @@ string notes_severity_1 (void * webserver_request)
   stringstream severityblock;
   vector <Database_Notes_Text> severities = database_notes.get_possible_severities ();
   for (auto & severity : severities) {
-    severityblock << "<li><a href=" << quoted ("severity-1?id=" + convert_to_string (id) + "&severity=" + severity.raw) << ">" << severity.localized << "</a></li>" << endl;
+    severityblock << "<li><a href=" << quoted ("severity-1?id=" + filter::strings::convert_to_string (id) + "&severity=" + severity.raw) << ">" << severity.localized << "</a></li>" << endl;
   }
   view.set_variable ("severityblock", severityblock.str());
   

@@ -109,22 +109,22 @@ void export_web_book (string bible, int book, bool log)
     
     // Create breadcrumbs and navigator for the chapter.
     Html_Header html_header = Html_Header (filter_text_chapter.html_text_linked);
-    html_header.search_back_link (backLinkPath + filter_url_html_file_name_bible ("", book, chapter), translate("Go back to") + " " + bibleBookText + " " + convert_to_string (chapter));
+    html_header.search_back_link (backLinkPath + filter_url_html_file_name_bible ("", book, chapter), translate("Go back to") + " " + bibleBookText + " " + filter::strings::convert_to_string (chapter));
     vector <pair <string, string> > breadcrumbs_navigator;
     breadcrumbs_navigator.push_back (pair (bible, filter_url_html_file_name_bible ()));
     breadcrumbs_navigator.push_back (pair (translate (database::books::get_english_from_id (static_cast<book_id>(book))), filter_url_html_file_name_bible ()));
     if (!is_first_chapter) {
       breadcrumbs_navigator.push_back (pair ("«", filter_url_html_file_name_bible ("", book, chapter - 1)));
     }
-    breadcrumbs_navigator.push_back (pair (convert_to_string (chapter), filter_url_html_file_name_bible ("", book)));
+    breadcrumbs_navigator.push_back (pair (filter::strings::convert_to_string (chapter), filter_url_html_file_name_bible ("", book)));
     if (!is_last_chapter) {
       breadcrumbs_navigator.push_back (pair ("»", filter_url_html_file_name_bible ("", book, chapter + 1)));
     }
     // Optionally add a link for giving feedback by email.
     if (!feedback_email.empty ()) {
       breadcrumbs_navigator.push_back (pair ("|", ""));
-      string subject = translate ("Comment on") + " " + bible + " " + database::books::get_english_from_id (static_cast<book_id>(book)) + " " + convert_to_string (chapter);
-      subject = filter_string_str_replace (" ", "%20", subject);
+      string subject = translate ("Comment on") + " " + bible + " " + database::books::get_english_from_id (static_cast<book_id>(book)) + " " + filter::strings::convert_to_string (chapter);
+      subject = filter::strings::replace (" ", "%20", subject);
       string link = "mailto:" + feedback_email + "?Subject=" + subject;
       breadcrumbs_navigator.push_back (pair (translate ("Feedback"), link));
     }
@@ -134,7 +134,7 @@ void export_web_book (string bible, int book, bool log)
     filter_text_chapter.run (stylesheet);
     filter_text_chapter.html_text_linked->save (filter_url_html_file_name_bible (directory, book, chapter));
     
-    html_text_rich_book_index.add_link (html_text_rich_book_index.current_p_node, filter_url_html_file_name_bible ("", book, chapter), "", convert_to_string (chapter), "", " " + convert_to_string (chapter) + " ");
+    html_text_rich_book_index.add_link (html_text_rich_book_index.current_p_node, filter_url_html_file_name_bible ("", book, chapter), "", filter::strings::convert_to_string (chapter), "", " " + filter::strings::convert_to_string (chapter) + " ");
     html_text_rich_book_index.add_text ("|");
     
     // Save any images that were included.

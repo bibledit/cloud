@@ -149,7 +149,7 @@ string gbs_basic_processor (string url, int verse)
   // * Starting from that line, add several more lines, enough to cover the whole verse.
   // * Load the resulting block of text into pugixml.
 
-  vector <string> lines = filter_string_explode(html, '\n');
+  vector <string> lines = filter::strings::explode(html, '\n');
   string html_fragment {};
   
   // Example verse container within the html:
@@ -161,7 +161,7 @@ string gbs_basic_processor (string url, int verse)
   string search2 {};
   if (verse != 0) {
     search1 = R"(class="verse )";
-    search2 = " verse-" + convert_to_string (verse) + " ";
+    search2 = " verse-" + filter::strings::convert_to_string (verse) + " ";
   }
   else {
     search1 = R"(class="summary")";
@@ -198,7 +198,7 @@ string gbs_basic_processor (string url, int verse)
   // Other verses:
   // <div class="verse verse-1 active size-change bold-change cursive-change align-change">...
   string selector;
-  if (verse != 0) selector = "//div[contains(@class,'verse-" + convert_to_string (verse) + " ')]";
+  if (verse != 0) selector = "//div[contains(@class,'verse-" + filter::strings::convert_to_string (verse) + " ')]";
   else selector = "//p[@class='summary']";
   xpath_node xpathnode = document.select_node(selector.c_str());
   xml_node div_node = xpathnode.node();
@@ -316,7 +316,7 @@ string gbs_plus_processor (string url, int book, [[maybe_unused]] int chapter, i
   // * Starting from that line, add several more lines, enough to cover the whole verse.
   // * Load the resulting block of text into pugixml.
   
-  vector <string> lines {filter_string_explode(html, '\n')};
+  vector <string> lines {filter::strings::explode(html, '\n')};
   string html_fragment {};
   
   // Example verse container within the html:
@@ -328,7 +328,7 @@ string gbs_plus_processor (string url, int book, [[maybe_unused]] int chapter, i
   string search2 {};
   if (verse != 0) {
     search1 = R"(class="verse )";
-    search2 = " verse-" + convert_to_string (verse) + " ";
+    search2 = " verse-" + filter::strings::convert_to_string (verse) + " ";
   }
   else {
     search1 = R"(class="summary")";
@@ -365,7 +365,7 @@ string gbs_plus_processor (string url, int book, [[maybe_unused]] int chapter, i
   // Other verses:
   // <div class="verse verse-1 active size-change bold-change cursive-change align-change">...
   string selector {};
-  if (verse != 0) selector = "//div[contains(@class,'verse-" + convert_to_string (verse) + " ')]";
+  if (verse != 0) selector = "//div[contains(@class,'verse-" + filter::strings::convert_to_string (verse) + " ')]";
   else selector = "//p[@class='summary']";
   xpath_node xpathnode = document.select_node(selector.c_str());
   xml_node div_node = xpathnode.node();
@@ -383,7 +383,7 @@ string gbs_plus_processor (string url, int book, [[maybe_unused]] int chapter, i
   
   // Get the raw annotations html.
   string annotation_info {div_node.attribute("onclick").value()};
-  vector <string> bits {filter_string_explode(annotation_info, '\'')};
+  vector <string> bits {filter::strings::explode(annotation_info, '\'')};
   if (bits.size() >= 13) {
     string annotation_url {"https://bijbel-statenvertaling.com/includes/ajax/kanttekening.php"};
     map <string, string> post {};
@@ -393,7 +393,7 @@ string gbs_plus_processor (string url, int book, [[maybe_unused]] int chapter, i
     post ["chapter"] = bits[7];
     post ["verse"] = bits[9];
     post ["slug_id"] = bits[11];
-    post ["book_id"] = convert_to_string(book);
+    post ["book_id"] = filter::strings::convert_to_string(book);
     string error {};
     string annotation_html {filter_url_http_post (annotation_url, string(), post, error, false, false, {})};
     if (error.empty()) {
@@ -427,12 +427,12 @@ string bibleserver_processor (string directory, int book, int chapter, int verse
 {
   string bookname = resource_external_convert_book_bibleserver (book);
   
-  string url = "http://www.bibleserver.com/text/" + directory + "/" + bookname + convert_to_string (chapter);
+  string url = "http://www.bibleserver.com/text/" + directory + "/" + bookname + filter::strings::convert_to_string (chapter);
   
   string error;
   string text = resource_logic_web_or_cache_get (url, error);
   string tidy = html_tidy (text);
-  vector <string> tidied = filter_string_explode (tidy, '\n');
+  vector <string> tidied = filter::strings::explode (tidy, '\n');
 
   text.clear ();
   bool relevant_line = false;
@@ -443,10 +443,10 @@ string bibleserver_processor (string directory, int book, int chapter, int verse
       if (!text.empty ()) text.append (" ");
       text.append (line);
     }
-    pos = line.find ("no=\"" + convert_to_string (verse) + "," + convert_to_string (verse) + "\"");
+    pos = line.find ("no=\"" + filter::strings::convert_to_string (verse) + "," + filter::strings::convert_to_string (verse) + "\"");
     if (pos != string::npos) relevant_line = true;
   }
-  filter_string_replace_between (text, "<", ">", "");
+  filter::strings::replace_between (text, "<", ">", "");
   text = filter_string_trim (text);
   
   text += "<p><a href=\"" + url + "\">" + url + "</a></p>\n";
@@ -609,7 +609,7 @@ string resource_external_convert_book_gbs_king_james_bible (int book)
 string resource_external_get_statenbijbel_gbs (int book, int chapter, int verse)
 {
   // Hebrews 11: https://bijbel-statenvertaling.com/statenvertaling/hebreeen/11/
-  string url = "http://bijbel-statenvertaling.com/statenvertaling/" + resource_external_convert_book_gbs_statenbijbel (book) + "/" + convert_to_string(chapter) + "/";
+  string url = "http://bijbel-statenvertaling.com/statenvertaling/" + resource_external_convert_book_gbs_statenbijbel (book) + "/" + filter::strings::convert_to_string(chapter) + "/";
   return gbs_basic_processor (url, verse);
 }
 
@@ -619,7 +619,7 @@ string resource_external_get_statenbijbel_gbs (int book, int chapter, int verse)
 string resource_external_get_statenbijbel_plus_gbs (int book, int chapter, int verse)
 {
   // Hebrews 11: https://bijbel-statenvertaling.com/statenvertaling/hebreeen/11/
-  string url = "http://bijbel-statenvertaling.com/statenvertaling/" + resource_external_convert_book_gbs_statenbijbel (book) + "/" + convert_to_string(chapter) + "/";
+  string url = "http://bijbel-statenvertaling.com/statenvertaling/" + resource_external_convert_book_gbs_statenbijbel (book) + "/" + filter::strings::convert_to_string(chapter) + "/";
   return gbs_plus_processor (url, book, chapter, verse);
 }
 
@@ -627,7 +627,7 @@ string resource_external_get_statenbijbel_plus_gbs (int book, int chapter, int v
 // This script displays the King James Bible published by the Dutch GBS.
 string resource_external_get_king_james_version_gbs (int book, int chapter, int verse)
 {
-  string url = "http://bijbel-statenvertaling.com/authorised-version/" + resource_external_convert_book_gbs_king_james_bible (book) + "/" + convert_to_string(chapter) + "/";
+  string url = "http://bijbel-statenvertaling.com/authorised-version/" + resource_external_convert_book_gbs_king_james_bible (book) + "/" + filter::strings::convert_to_string(chapter) + "/";
   return gbs_basic_processor (url, verse);
 }
 
@@ -636,7 +636,7 @@ string resource_external_get_king_james_version_gbs (int book, int chapter, int 
 // It also includes headers, introductions, and notes.
 string resource_external_get_king_james_version_plus_gbs (int book, int chapter, int verse)
 {
-  string url = "http://bijbel-statenvertaling.com/authorised-version/" + resource_external_convert_book_gbs_king_james_bible (book) + "/" + convert_to_string(chapter) + "/";
+  string url = "http://bijbel-statenvertaling.com/authorised-version/" + resource_external_convert_book_gbs_king_james_bible (book) + "/" + filter::strings::convert_to_string(chapter) + "/";
   return gbs_plus_processor (url, book, chapter, verse);
 }
 
@@ -649,13 +649,13 @@ string resource_external_get_biblehub_interlinear (int book, int chapter, int ve
  
   string bookname = resource_external_convert_book_biblehub (book);
   
-  string url = "http://biblehub.com/interlinear/" + bookname + "/" + convert_to_string (chapter) + "-" + convert_to_string (verse) + ".htm";
+  string url = "http://biblehub.com/interlinear/" + bookname + "/" + filter::strings::convert_to_string (chapter) + "-" + filter::strings::convert_to_string (verse) + ".htm";
   
   // Get the html from the server, and tidy it up.
   string error;
   string html = resource_logic_web_or_cache_get (url, error);
   string tidy = html_tidy (html);
-  vector <string> tidied = filter_string_explode (tidy, '\n');
+  vector <string> tidied = filter::strings::explode (tidy, '\n');
   
   vector <string> filtered_lines;
   
@@ -677,17 +677,17 @@ string resource_external_get_biblehub_interlinear (int book, int chapter, int ve
     }
   }
   
-  html = filter_string_implode (filtered_lines, "\n");
+  html = filter::strings::implode (filtered_lines, "\n");
   
-  html = filter_string_str_replace ("/abbrev.htm", "http://biblehub.com/abbrev.htm", html);
-  html = filter_string_str_replace ("/hebrew/", "http://biblehub.com/hebrew/", html);
-  html = filter_string_str_replace ("/hebrewparse.htm", "http://biblehub.com/hebrewparse.htm", html);
-  html = filter_string_str_replace ("/greek/", "http://biblehub.com/greek/", html);
-  html = filter_string_str_replace ("/grammar/", "http://biblehub.com/grammar/", html);
-  //html = filter_string_str_replace ("height=\"165\"", "", html);
-  html = filter_string_str_replace ("height=\"160\"", "", html);
-  html = filter_string_str_replace ("height=\"145\"", "", html);
-  html = filter_string_str_replace (unicode_non_breaking_space_entity () + unicode_non_breaking_space_entity (), unicode_non_breaking_space_entity (), html);
+  html = filter::strings::replace ("/abbrev.htm", "http://biblehub.com/abbrev.htm", html);
+  html = filter::strings::replace ("/hebrew/", "http://biblehub.com/hebrew/", html);
+  html = filter::strings::replace ("/hebrewparse.htm", "http://biblehub.com/hebrewparse.htm", html);
+  html = filter::strings::replace ("/greek/", "http://biblehub.com/greek/", html);
+  html = filter::strings::replace ("/grammar/", "http://biblehub.com/grammar/", html);
+  //html = filter::strings::replace ("height=\"165\"", "", html);
+  html = filter::strings::replace ("height=\"160\"", "", html);
+  html = filter::strings::replace ("height=\"145\"", "", html);
+  html = filter::strings::replace (unicode_non_breaking_space_entity () + unicode_non_breaking_space_entity (), unicode_non_breaking_space_entity (), html);
   
   // Stylesheet for using web fonts,
   // because installing fonts on some tablets is very hard.
@@ -712,13 +712,13 @@ string resource_external_get_biblehub_scrivener (int book, int chapter, int vers
 {
   string bookname = resource_external_convert_book_biblehub (book);
   
-  string url = "http://biblehub.com/text/" + bookname + "/" + convert_to_string (chapter) + "-" + convert_to_string (verse) + ".htm";
+  string url = "http://biblehub.com/text/" + bookname + "/" + filter::strings::convert_to_string (chapter) + "-" + filter::strings::convert_to_string (verse) + ".htm";
   
   // Get the html from the server, and tidy it up.
   string error;
   string html = resource_logic_web_or_cache_get (url, error);
   string tidy = html_tidy (html);
-  vector <string> tidied = filter_string_explode (tidy, '\n');
+  vector <string> tidied = filter::strings::explode (tidy, '\n');
 
   html.clear ();
   int hits = 0;
@@ -763,13 +763,13 @@ string resource_external_get_biblehub_westminster (int book, int chapter, int ve
   
   // Sample URL:
   // http://biblehub.com/text/genesis/1-1.htm
-  string url = "http://biblehub.com/text/" + bookname + "/" + convert_to_string (chapter) + "-" + convert_to_string (verse) + ".htm";
+  string url = "http://biblehub.com/text/" + bookname + "/" + filter::strings::convert_to_string (chapter) + "-" + filter::strings::convert_to_string (verse) + ".htm";
   
   // Get the html from the server, and tidy it up.
   string error;
   string html = resource_logic_web_or_cache_get (url, error);
   string tidy = html_tidy (html);
-  vector <string> tidied = filter_string_explode (tidy, '\n');
+  vector <string> tidied = filter::strings::explode (tidy, '\n');
   
   html.clear ();
   int hits = 0;
@@ -796,7 +796,7 @@ string resource_external_get_biblehub_westminster (int book, int chapter, int ve
   if (html.empty ()) return html;
   
   // Change class "heb" to "hebrew", because that is what Bibledit uses for all Hebrew text.
-  html = filter_string_str_replace ("heb", "hebrew", html);
+  html = filter::strings::replace ("heb", "hebrew", html);
   
   
   // Stylesheet for using web fonts,
@@ -825,7 +825,7 @@ string resource_external_get_net_bible (int book, int chapter, int verse)
 {
   string bookname = resource_external_convert_book_netbible (book);
   
-  string url = bookname + " " + convert_to_string (chapter) + ":" + convert_to_string (verse);
+  string url = bookname + " " + filter::strings::convert_to_string (chapter) + ":" + filter::strings::convert_to_string (verse);
   url = filter_url_urlencode (url);
   url.insert (0, "https://net.bible.org/resource/netTexts/");
   
@@ -839,7 +839,7 @@ string resource_external_get_net_bible (int book, int chapter, int verse)
   
   string output = text;
   
-  url = bookname + " " + convert_to_string (chapter) + ":" + convert_to_string (verse);
+  url = bookname + " " + filter::strings::convert_to_string (chapter) + ":" + filter::strings::convert_to_string (verse);
   url = filter_url_urlencode (url);
   url.insert (0, "https://net.bible.org/resource/netNotes/");
   
@@ -862,7 +862,7 @@ string resource_external_get_net_bible (int book, int chapter, int verse)
   // The "bibleref" class experiences interference from other resources,
   // so that the reference would become invisible.
   // Remove this class, and the references will remain visible.
-  notes = filter_string_str_replace ("class=\"bibleref\"", "", notes);
+  notes = filter::strings::replace ("class=\"bibleref\"", "", notes);
   
   output += notes;
   
@@ -879,19 +879,19 @@ string resource_external_get_blue_letter_bible (int book, int chapter, int verse
   
   string output;
   
-  string url = "http://www.blueletterbible.org/Bible.cfm?b=" + filter_url_urlencode (bookname) + "&c=$" + convert_to_string (chapter) + "&t=KJV&ss=1";
+  string url = "http://www.blueletterbible.org/Bible.cfm?b=" + filter_url_urlencode (bookname) + "&c=$" + filter::strings::convert_to_string (chapter) + "&t=KJV&ss=1";
   
   output += "<a href=\"" + url + "\">KJV</a>";
   
   output += " | ";
   
-  url = "http://www.blueletterbible.org/Bible.cfm?b=" + filter_url_urlencode (bookname) + "&c=" + convert_to_string (chapter) + "&t=WLC";
+  url = "http://www.blueletterbible.org/Bible.cfm?b=" + filter_url_urlencode (bookname) + "&c=" + filter::strings::convert_to_string (chapter) + "&t=WLC";
   
   output += "<a href=\"" + url + "\">WLC</a>";
   
   output += " | ";
   
-  url = "http://www.blueletterbible.org/Bible.cfm?b=" + filter_url_urlencode (bookname) + "&c=" + convert_to_string (chapter) + "&t=mGNT";
+  url = "http://www.blueletterbible.org/Bible.cfm?b=" + filter_url_urlencode (bookname) + "&c=" + filter::strings::convert_to_string (chapter) + "&t=mGNT";
   
   output += "<a href=\"" + url + "\">mGNT</a>";
 

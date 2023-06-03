@@ -137,20 +137,20 @@ void sendreceive_resources ()
     if (sendreceive_resources_interrupt) continue;
 
     // The URL fragment that contains the current book in its query.
-    string book_url = filter_url_build_http_query (resource_url, "b", convert_to_string (book));
+    string book_url = filter_url_build_http_query (resource_url, "b", filter::strings::convert_to_string (book));
     
     // The URL to request the resource database for this book from the Cloud.
-    string url = filter_url_build_http_query (book_url, "a", convert_to_string (Sync_Logic::resources_request_database));
+    string url = filter_url_build_http_query (book_url, "a", filter::strings::convert_to_string (Sync_Logic::resources_request_database));
     string error;
     string response = filter_url_http_get (url, error, false);
     if (error.empty ()) {
       // When the Cloud responds with a "0", it means that the database is not yet ready for distribution.
       // The Cloud will be working on preparing it.
-      int server_size = convert_to_int (response);
+      int server_size = filter::strings::convert_to_int (response);
       if (server_size > 0) {
         // The Cloud has now responded with the file size of the resource database, in bytes.
         // Now request the path to download it.
-        url = filter_url_build_http_query (book_url, "a", convert_to_string (Sync_Logic::resources_request_download));
+        url = filter_url_build_http_query (book_url, "a", filter::strings::convert_to_string (Sync_Logic::resources_request_download));
         error.clear ();
         string response2 = filter_url_http_get (url, error, false);
         if (error.empty ()) {
@@ -189,10 +189,10 @@ void sendreceive_resources ()
   
   // Done.
   if (error_count) {
-    string msg = "Error count while downloading resource: " + convert_to_string (error_count);
+    string msg = "Error count while downloading resource: " + filter::strings::convert_to_string (error_count);
     Database_Logs::log (msg, Filter_Roles::consultant ());
   } else if (wait_count) {
-    string msg = "Waiting for Cloud to prepare resource for download. Remaining books: " + convert_to_string (wait_count);
+    string msg = "Waiting for Cloud to prepare resource for download. Remaining books: " + filter::strings::convert_to_string (wait_count);
     Database_Logs::log (msg, Filter_Roles::consultant ());
   } else {
     Database_Logs::log ("Completed installing resource:" " " + resource, Filter_Roles::consultant ());

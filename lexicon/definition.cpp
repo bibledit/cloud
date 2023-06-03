@@ -62,7 +62,7 @@ string lexicon_definition (void * webserver_request)
     // King James Bible with Strong's numbers.
     else if (letter == KJV_LEXICON_PREFIX) {
       Database_Kjv database_kjv;
-      string strong = database_kjv.strong (convert_to_int (id.substr (1)));
+      string strong = database_kjv.strong (filter::strings::convert_to_int (id.substr (1)));
       string rendering = lexicon_logic_render_strongs_definition (strong);
       if (!rendering.empty ()) renderings.push_back (rendering);
       rendering = lexicon_logic_render_abbott_smiths_definition("", strong);
@@ -71,7 +71,7 @@ string lexicon_definition (void * webserver_request)
     
     // Open Scriptures Hebrew with Strong's numbers and morphology.
     else if (letter == OSHB_PREFIX) {
-      int rowid = convert_to_int (id.substr (1));
+      int rowid = filter::strings::convert_to_int (id.substr (1));
       Database_OsHb database_oshb;
       string morph = database_oshb.morph (rowid);
       renderings.push_back (lexicon_logic_hebrew_morphology_render (morph));
@@ -92,7 +92,7 @@ string lexicon_definition (void * webserver_request)
     else if (letter == SBLGNT_PREFIX) {
       Database_MorphGnt database_morphgnt;
       Database_Strong database_strong;
-      int rowid = convert_to_int (id.substr (1));
+      int rowid = filter::strings::convert_to_int (id.substr (1));
       // The part of speech.
       string pos = database_morphgnt.pos (rowid);
       string rendering = lexicon_logic_render_morphgnt_part_of_speech (pos);
@@ -137,5 +137,5 @@ string lexicon_definition (void * webserver_request)
     
   }
   
-  return filter_string_implode (renderings, "<br>");
+  return filter::strings::implode (renderings, "<br>");
 }

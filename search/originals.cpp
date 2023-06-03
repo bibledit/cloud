@@ -87,7 +87,7 @@ string search_originals (void * webserver_request)
       details = database_sblgnt.getVerse (static_cast<int>(book), chapter, verse);
       classs = "greek";
     }
-    searchtext = filter_string_implode (details, " ");
+    searchtext = filter::strings::implode (details, " ");
     searchtext = filter_string_trim (searchtext);
     
     return classs + "\n" + searchtext;
@@ -98,7 +98,7 @@ string search_originals (void * webserver_request)
     string words = request->query ["words"];
     
     words = filter_string_trim (words);
-    vector <string> v_words = filter_string_explode (words, ' ');
+    vector <string> v_words = filter::strings::explode (words, ' ');
     
     book_id book = static_cast<book_id>(Ipc_Focus::getBook (request));
     book_type type = database::books::get_type (book);
@@ -160,14 +160,14 @@ string search_originals (void * webserver_request)
     string output;
     for (auto & passage : v_passages) {
       if (!output.empty ()) output.append ("\n");
-      output.append (convert_to_string (passage));
+      output.append (filter::strings::convert_to_string (passage));
     }
     return output;
   }
   
   
   if (request->query.count ("id")) {
-    int id = convert_to_int (request->query ["id"]);
+    int id = filter::strings::convert_to_int (request->query ["id"]);
     
     // Get the and passage for this identifier.
     Passage passage = filter_integer_to_passage (id);
@@ -176,7 +176,7 @@ string search_originals (void * webserver_request)
     string verse = passage.m_verse;
     
     // Get the plain text.
-    string text = search_logic_get_bible_verse_text (bible, book, chapter, convert_to_int (verse));
+    string text = search_logic_get_bible_verse_text (bible, book, chapter, filter::strings::convert_to_int (verse));
     
     // Format it.
     string link = filter_passage_link_for_opening_editor_at (book, chapter, verse);

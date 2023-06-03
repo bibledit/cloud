@@ -58,13 +58,13 @@ string filter_diff_diff (string oldstring, string newstring,
 {
   // Save the new lines.
   string newline = " newline_newline_newline ";
-  oldstring = filter_string_str_replace ("\n", newline, oldstring);
-  newstring = filter_string_str_replace ("\n", newline, newstring);
+  oldstring = filter::strings::replace ("\n", newline, oldstring);
+  newstring = filter::strings::replace ("\n", newline, newstring);
   
   // Split the input up into words.
   // It compares with word granularity.
-  vector <string> old_sequence = filter_string_explode (oldstring, ' ');
-  vector <string> new_sequence = filter_string_explode (newstring, ' ');
+  vector <string> old_sequence = filter::strings::explode (oldstring, ' ');
+  vector <string> new_sequence = filter::strings::explode (newstring, ' ');
   
   // See issue https://github.com/bibledit/cloud/issues/419
   // It is unclear at this time whether the code below
@@ -83,7 +83,7 @@ string filter_diff_diff (string oldstring, string newstring,
   filter_diff_mutex.unlock();
   
   // Add html markup for bold and strikethrough.
-  vector <string> output = filter_string_explode (result.str (), '\n');
+  vector <string> output = filter::strings::explode (result.str (), '\n');
   for (auto & line : output) {
     if (line.empty ()) continue;
     char indicator = line.front ();
@@ -101,10 +101,10 @@ string filter_diff_diff (string oldstring, string newstring,
   }
   
   // Resulting html.
-  string html = filter_string_implode (output, " ");
+  string html = filter::strings::implode (output, " ");
   
   // Restore the new lines.
-  html = filter_string_str_replace (filter_string_trim (newline), "\n", html);
+  html = filter::strings::replace (filter_string_trim (newline), "\n", html);
   
   return html;
 }
@@ -158,10 +158,10 @@ void filter_diff_diff_utf16 (const vector<string> & oldinput, const vector<strin
   // Save the new lines.
   string newline = "_newline_";
   for (auto & s : old_sequence) {
-    s = filter_string_str_replace ("\n", newline, s);
+    s = filter::strings::replace ("\n", newline, s);
   }
   for (auto & s : new_sequence) {
-    s = filter_string_str_replace ("\n", newline, s);
+    s = filter::strings::replace ("\n", newline, s);
   }
 
   // Run the diff engine.
@@ -173,9 +173,9 @@ void filter_diff_diff_utf16 (const vector<string> & oldinput, const vector<strin
   diff.printSES (result);
 
   // Convert the new line place holder back to the original new line.
-  vector <string> differences = filter_string_explode (result.str (), '\n');
+  vector <string> differences = filter::strings::explode (result.str (), '\n');
   for (auto & s : differences) {
-    s = filter_string_str_replace (newline, "\n", s);
+    s = filter::strings::replace (newline, "\n", s);
   }
 
   // Convert the additions and deletions to a change set.
@@ -186,7 +186,7 @@ void filter_diff_diff_utf16 (const vector<string> & oldinput, const vector<strin
     line.erase (0, 1);
     // Get the size of the character in UTF-16, whether 1 or 2.
     string utf8 = unicode_string_substr (line, 0, 1);
-    u16string utf16 = convert_to_u16string (utf8);
+    u16string utf16 = filter::strings::convert_to_u16string (utf8);
     size_t size = utf16.length();
     if (indicator == '+') {
       // Something to be inserted into the old sequence to get at the new sequence.
@@ -262,7 +262,7 @@ int filter_diff_character_similarity (string oldstring, string newstring)
     // Calculate the total elements compared, and the total differences found.
     int element_count = 0;
     int similar_count = 0;
-    vector <string> output = filter_string_explode (result.str(), '\n');
+    vector <string> output = filter::strings::explode (result.str(), '\n');
     for (auto & line : output) {
       if (line.empty ()) continue;
       element_count++;
@@ -294,10 +294,10 @@ int filter_diff_word_similarity (string oldstring, string newstring)
   // Split the input up into words separated by spaces.
   vector <string> old_sequence;
   vector <string> new_sequence;
-  oldstring = filter_string_str_replace ("\n", " ", oldstring);
-  newstring = filter_string_str_replace ("\n", " ", newstring);
-  old_sequence = filter_string_explode (oldstring, ' ');
-  new_sequence = filter_string_explode (newstring, ' ');
+  oldstring = filter::strings::replace ("\n", " ", oldstring);
+  newstring = filter::strings::replace ("\n", " ", newstring);
+  old_sequence = filter::strings::explode (oldstring, ' ');
+  new_sequence = filter::strings::explode (newstring, ' ');
   
   // See issue https://github.com/bibledit/cloud/issues/419
   // It is unclear at this time whether the code below
@@ -318,7 +318,7 @@ int filter_diff_word_similarity (string oldstring, string newstring)
   // Calculate the total elements compared, and the total differences found.
   int element_count = 0;
   int similar_count = 0;
-  vector <string> output = filter_string_explode (result.str(), '\n');
+  vector <string> output = filter::strings::explode (result.str(), '\n');
   for (auto & line : output) {
     if (line.empty ()) continue;
     element_count++;
@@ -373,10 +373,10 @@ void filter_diff_produce_verse_level (string bible, string directory)
         string old_verse_text = filter::usfm::get_verse_text (old_chapter_usfm, verse);
         string new_verse_text = filter::usfm::get_verse_text (new_chapter_usfm, verse);
         if (old_verse_text != new_verse_text) {
-          string usfmCode = "\\p " + bookname + " " + convert_to_string (chapter) + "." + convert_to_string (verse) + ": " + old_verse_text;
+          string usfmCode = "\\p " + bookname + " " + filter::strings::convert_to_string (chapter) + "." + filter::strings::convert_to_string (verse) + ": " + old_verse_text;
           old_vs_usfm.push_back (usfmCode);
           filter_text_old.add_usfm_code (usfmCode);
-          usfmCode = "\\p " + bookname + " " + convert_to_string (chapter) + "." + convert_to_string (verse) + ": " + new_verse_text;
+          usfmCode = "\\p " + bookname + " " + filter::strings::convert_to_string (chapter) + "." + filter::strings::convert_to_string (verse) + ": " + new_verse_text;
           new_vs_usfm.push_back (usfmCode);
           filter_text_new.add_usfm_code (usfmCode);
         }
@@ -384,8 +384,8 @@ void filter_diff_produce_verse_level (string bible, string directory)
     }
   }
   
-  filter_url_file_put_contents (filter_url_create_path ({directory, "verses_old.usfm"}), filter_string_implode (old_vs_usfm, "\n"));
-  filter_url_file_put_contents (filter_url_create_path ({directory, "verses_new.usfm"}), filter_string_implode (new_vs_usfm, "\n"));
+  filter_url_file_put_contents (filter_url_create_path ({directory, "verses_old.usfm"}), filter::strings::implode (old_vs_usfm, "\n"));
+  filter_url_file_put_contents (filter_url_create_path ({directory, "verses_new.usfm"}), filter::strings::implode (new_vs_usfm, "\n"));
   filter_text_old.run (stylesheet);
   filter_text_new.run (stylesheet);
   filter_text_old.html_text_standard->save (filter_url_create_path ({directory, "verses_old.html"}));
@@ -408,11 +408,11 @@ void filter_diff_run_file (string oldfile, string newfile, string outputfile)
 
   string differences = filter_diff_diff (oldstring, newstring);
   
-  vector <string> lines = filter_string_explode (differences, '\n');
+  vector <string> lines = filter::strings::explode (differences, '\n');
   for (auto & line : lines) {
     line = "<p>" + line + "</p>";
   }
-  differences = filter_string_implode (lines, "\n");
+  differences = filter::strings::implode (lines, "\n");
   
   filter_url_file_put_contents (outputfile, differences);
 }

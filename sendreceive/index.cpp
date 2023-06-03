@@ -77,7 +77,7 @@ string sendreceive_index (void * webserver_request)
     if (config_globals_syncing_files)     bits.push_back (translate ("Files"));
     if (config_globals_syncing_resources) bits.push_back (translate ("Resources"));
     if (bits.empty ()) return "";
-    string status = translate ("Sending and receiving:") + " " + filter_string_implode (bits, ", ") + " ...";
+    string status = translate ("Sending and receiving:") + " " + filter::strings::implode (bits, ", ") + " ...";
     return status;
   }
   
@@ -128,7 +128,7 @@ string sendreceive_index (void * webserver_request)
   
   
   string checkbox = request->post ["checkbox"];
-  bool checked = convert_to_bool (request->post ["checked"]);
+  bool checked = filter::strings::convert_to_bool (request->post ["checked"]);
   if (checkbox == "repeatbible") {
     Database_Config_Bible::setRepeatSendReceive (bible, checked);
     return "";
@@ -188,7 +188,7 @@ string sendreceive_index (void * webserver_request)
 
   
   if (request->query.count ("repeatsync")) {
-    int repeatsync = convert_to_int (request->query["repeatsync"]);
+    int repeatsync = filter::strings::convert_to_int (request->query["repeatsync"]);
     // Clamp the values.
     if (repeatsync < 0) repeatsync = 0;
     if (repeatsync > 2) repeatsync = 2;
@@ -197,7 +197,7 @@ string sendreceive_index (void * webserver_request)
   int repeatsync = Database_Config_General::getRepeatSendReceive ();
   // After removing value 3, if the setting had "3", make it "2".
   if (repeatsync > 2) repeatsync = 2;
-  string repeatsynczone = "repeatsync" + convert_to_string (repeatsync);
+  string repeatsynczone = "repeatsync" + filter::strings::convert_to_string (repeatsync);
   view.enable_zone (repeatsynczone);
   
   
@@ -208,7 +208,7 @@ string sendreceive_index (void * webserver_request)
   vector <string> bibles = Paratext_Logic::enabledBibles ();
   if (!bibles.empty ()) {
     view.enable_zone ("paratexton");
-    view.set_variable ("paratextbibles", filter_string_implode (bibles, ", "));
+    view.set_variable ("paratextbibles", filter::strings::implode (bibles, ", "));
   } else {
     view.enable_zone ("paratextoff");
   }

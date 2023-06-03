@@ -78,7 +78,7 @@ void sources_styles_parse ()
     return;
   }
   contents.erase (pos);
-  vector <string> cpp_lines = filter_string_explode (contents, '\n');
+  vector <string> cpp_lines = filter::strings::explode (contents, '\n');
 
   // Parser signatures for the C++ source code.
   const char * marker_key = "marker";
@@ -218,7 +218,7 @@ void sources_styles_parse ()
   // Read the default stylesheet for Paratext projects.
   string path = filter_url_create_root_path ({"sources", "usfm.sty"});
   contents = filter_url_file_get_contents (path);
-  vector <string> paratext_lines = filter_string_explode (contents, '\n');
+  vector <string> paratext_lines = filter::strings::explode (contents, '\n');
   
   // Parse state variables.
   string paratext_marker;
@@ -277,9 +277,9 @@ void sources_styles_parse ()
     if (paratext_line.find (backslash_leftmargin) == 0) {
       paratext_line.erase (0, backslash_leftmargin.length());
       string inches = filter_string_trim (paratext_line);
-      int value = static_cast<int>(round (254 * convert_to_float (inches)));
+      int value = static_cast<int>(round (254 * filter::strings::convert_to_float (inches)));
       float millimeters = static_cast<float> (value) / 10;
-      style_definitions [paratext_marker] [leftmargin_key] = convert_to_string (millimeters);
+      style_definitions [paratext_marker] [leftmargin_key] = filter::strings::convert_to_string (millimeters);
       continue;
     }
 
@@ -287,9 +287,9 @@ void sources_styles_parse ()
     if (paratext_line.find (backslash_rightmargin) == 0) {
       paratext_line.erase (0, backslash_rightmargin.length());
       string inches = filter_string_trim (paratext_line);
-      int value = static_cast<int>(round (254 * convert_to_float (inches)));
+      int value = static_cast<int>(round (254 * filter::strings::convert_to_float (inches)));
       float millimeters = static_cast<float> (value) / 10;
-      style_definitions [paratext_marker] [rightmargin_key] = convert_to_string (millimeters);
+      style_definitions [paratext_marker] [rightmargin_key] = filter::strings::convert_to_string (millimeters);
       continue;
     }
 
@@ -297,9 +297,9 @@ void sources_styles_parse ()
     if (paratext_line.find (backslash_firstlineindent) == 0) {
       paratext_line.erase (0, backslash_firstlineindent.length());
       string inches = filter_string_trim (paratext_line);
-      int value = static_cast<int>(round (254 * convert_to_float (inches)));
+      int value = static_cast<int>(round (254 * filter::strings::convert_to_float (inches)));
       float millimeters = static_cast<float> (value) / 10;
-      style_definitions [paratext_marker] [firstlineindent_key] = convert_to_string (millimeters);
+      style_definitions [paratext_marker] [firstlineindent_key] = filter::strings::convert_to_string (millimeters);
       continue;
     }
 
@@ -399,7 +399,7 @@ void sources_styles_parse ()
   
   // Insert the C++ fragment into the source code.
   contents = filter_url_file_get_contents (cpp_path);
-  vector <string> source_lines = filter_string_explode (contents, '\n');
+  vector <string> source_lines = filter::strings::explode (contents, '\n');
   vector <string> updated_lines;
   bool updating = false;
   for (auto source_line : source_lines) {
@@ -418,7 +418,7 @@ void sources_styles_parse ()
   }
 
   // Save it to the C++ source file.
-  contents = filter_string_implode (updated_lines, "\n");
+  contents = filter::strings::implode (updated_lines, "\n");
   filter_url_file_put_contents (cpp_path, contents);
   
   cout << "Finished parsing style values from the usfm.sty file" << endl;

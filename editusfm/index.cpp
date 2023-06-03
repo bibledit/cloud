@@ -65,8 +65,8 @@ string editusfm_index (void * webserver_request)
   if (request->query.count ("switchbook") && request->query.count ("switchchapter")) {
     string switchbook = request->query ["switchbook"];
     string switchchapter = request->query ["switchchapter"];
-    int book = convert_to_int (switchbook);
-    int chapter = convert_to_int (switchchapter);
+    int book = filter::strings::convert_to_int (switchbook);
+    int chapter = filter::strings::convert_to_int (switchchapter);
     Ipc_Focus::set (request, book, chapter, 1);
     Navigation_Passage::record_history (request, book, chapter, 1);
   }

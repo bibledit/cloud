@@ -47,8 +47,8 @@ string public_notes (void * webserver_request)
 
   
   string bible = request->query ["bible"];
-  int book = convert_to_int (request->query ["book"]);
-  int chapter = convert_to_int (request->query ["chapter"]);
+  int book = filter::strings::convert_to_int (request->query ["book"]);
+  int chapter = filter::strings::convert_to_int (request->query ["chapter"]);
   
   
   vector <int> identifiers = database_notes.select_notes ({bible}, book, chapter, 0, 1, 0, 0, "", "", "", false, -1, 0, "", -1);
@@ -59,7 +59,7 @@ string public_notes (void * webserver_request)
     // Display only public notes.
     if (database_notes.get_public (identifier)) {
       notesblock << "<p class=" << quoted ("nowrap") << ">";
-      string url_to_note = "note?id=" + convert_to_string (identifier);
+      string url_to_note = "note?id=" + filter::strings::convert_to_string (identifier);
       notesblock << "<a href=" << quoted (url_to_note) << ">";
       vector <Passage> passages = database_notes.get_passages (identifier);
       string verses;

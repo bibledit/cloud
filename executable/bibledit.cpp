@@ -92,7 +92,7 @@ void my_invalid_parameter_handler(const wchar_t* expression, const wchar_t* func
   string sfunction(wfunction.begin(), wfunction.end());
   wstring wfile (file);
   string sfile(wfile.begin(), wfile.end());
-  Database_Logs::log ("Invalid parameter detected in function " + sfunction + " in file " + sfile + " line " + convert_to_string ((size_t)line) + " expression " + sexpression + ".");
+  Database_Logs::log ("Invalid parameter detected in function " + sfunction + " in file " + sfile + " line " + filter::strings::convert_to_string ((size_t)line) + " expression " + sexpression + ".");
 }
 #endif
 
@@ -204,7 +204,7 @@ int main ([[maybe_unused]] int argc, [[maybe_unused]] char **argv)
   filter_url_unlink (backtrace_path ());
   if (!backtrace.empty ()) {
     Database_Logs::log ("Backtrace of the last segmentation fault:");
-    vector <string> lines = filter_string_explode (backtrace, '\n');
+    vector <string> lines = filter::strings::explode (backtrace, '\n');
     for (auto & line : lines) {
       Database_Logs::log (line);
       // Set a flag if the backtrace appears to be caused while sending email.

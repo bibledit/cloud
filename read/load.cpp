@@ -52,9 +52,9 @@ string read_load (void * webserver_request)
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   
   string bible = request->query ["bible"];
-  int book = convert_to_int (request->query ["book"]);
-  int chapter = convert_to_int (request->query ["chapter"]);
-  int verse = convert_to_int (request->query ["verse"]);
+  int book = filter::strings::convert_to_int (request->query ["book"]);
+  int chapter = filter::strings::convert_to_int (request->query ["chapter"]);
+  int verse = filter::strings::convert_to_int (request->query ["verse"]);
   string unique_id = request->query ["id"];
   
   string stylesheet = Database_Config_Bible::getEditorStylesheet (bible);
@@ -99,12 +99,12 @@ string read_load (void * webserver_request)
   // for easier text entry in the verse.
   string plain_text = filter_string_html2text (focused_verse_html);
   plain_text = filter_string_trim (plain_text);
-  string vs = convert_to_string (verse);
+  string vs = filter::strings::convert_to_string (verse);
   bool editable_verse_is_empty = plain_text == vs;
   if (editable_verse_is_empty) {
     string search = "<span> </span></p>";
     string replace = "<span>" + unicode_non_breaking_space_entity () + "</span></p>";
-    focused_verse_html = filter_string_str_replace (search, replace, focused_verse_html);
+    focused_verse_html = filter::strings::replace (search, replace, focused_verse_html);
   }
 
   // Moves any notes from the prefix to the suffix.

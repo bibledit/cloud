@@ -373,7 +373,7 @@ void odf_text::initialize_styles_xml ()
   }
 
   // Update the tab-stops in the header style. The tab stops depend on page and margin dimensions.
-  int centerPosition = convert_to_int (Database_Config_Bible::getPageWidth (m_bible)) - convert_to_int (Database_Config_Bible::getInnerMargin (m_bible)) - convert_to_int (Database_Config_Bible::getOuterMargin (m_bible));
+  int centerPosition = filter::strings::convert_to_int (Database_Config_Bible::getPageWidth (m_bible)) - filter::strings::convert_to_int (Database_Config_Bible::getInnerMargin (m_bible)) - filter::strings::convert_to_int (Database_Config_Bible::getOuterMargin (m_bible));
 
   xml_node office_automatic_styles = rootnode.append_child ("office:automatic-styles");
   {
@@ -388,12 +388,12 @@ void odf_text::initialize_styles_xml ()
         centerPosition /= 2;
         {
           xml_node style_tab_stop = style_tab_stops.append_child ("style:tab-stop");
-          style_tab_stop.append_attribute ("style:position") = convert_to_string (convert_to_string (centerPosition) + "mm").c_str();
+          style_tab_stop.append_attribute ("style:position") = filter::strings::convert_to_string (filter::strings::convert_to_string (centerPosition) + "mm").c_str();
           style_tab_stop.append_attribute ("style:type") = "center";
         }
         {
           xml_node style_tab_stop = style_tab_stops.append_child ("style:tab-stop");
-          style_tab_stop.append_attribute ("style:position") = convert_to_string (convert_to_string (centerPosition * 2) + "mm").c_str();
+          style_tab_stop.append_attribute ("style:position") = filter::strings::convert_to_string (filter::strings::convert_to_string (centerPosition * 2) + "mm").c_str();
           style_tab_stop.append_attribute ("style:type") = "right";
         }
       }
@@ -410,12 +410,12 @@ void odf_text::initialize_styles_xml ()
         xml_node style_tab_stops = style_paragraph_properties.append_child ("style:tab-stops");
         {
           xml_node style_tab_stop = style_tab_stops.append_child ("style:tab-stop");
-          style_tab_stop.append_attribute ("style:position") = convert_to_string (convert_to_string (centerPosition) + "mm").c_str();
+          style_tab_stop.append_attribute ("style:position") = filter::strings::convert_to_string (filter::strings::convert_to_string (centerPosition) + "mm").c_str();
           style_tab_stop.append_attribute ("style:type") = "center";
         }
         {
           xml_node style_tab_stop = style_tab_stops.append_child ("style:tab-stop");
-          style_tab_stop.append_attribute ("style:position") = convert_to_string (convert_to_string (centerPosition * 2) + "mm").c_str();
+          style_tab_stop.append_attribute ("style:position") = filter::strings::convert_to_string (filter::strings::convert_to_string (centerPosition * 2) + "mm").c_str();
           style_tab_stop.append_attribute ("style:type") = "right";
         }
       }
@@ -428,14 +428,14 @@ void odf_text::initialize_styles_xml ()
     {
       xml_node style_page_layout_properties = style_page_layout.append_child ("style:page-layout-properties");
       // Take the page size and margins from the Bible's settings.
-      style_page_layout_properties.append_attribute ("fo:page-width") = convert_to_string (Database_Config_Bible::getPageWidth (m_bible) + "mm").c_str();
-      style_page_layout_properties.append_attribute ("fo:page-height") = convert_to_string (Database_Config_Bible::getPageHeight (m_bible) + "mm").c_str();
+      style_page_layout_properties.append_attribute ("fo:page-width") = filter::strings::convert_to_string (Database_Config_Bible::getPageWidth (m_bible) + "mm").c_str();
+      style_page_layout_properties.append_attribute ("fo:page-height") = filter::strings::convert_to_string (Database_Config_Bible::getPageHeight (m_bible) + "mm").c_str();
       style_page_layout_properties.append_attribute ("style:num-format") = "1";
       style_page_layout_properties.append_attribute ("style:print-orientation") = "portrait";
-      style_page_layout_properties.append_attribute ("fo:margin-top") = convert_to_string (Database_Config_Bible::getTopMargin (m_bible) + "mm").c_str();
-      style_page_layout_properties.append_attribute ("fo:margin-bottom") = convert_to_string (Database_Config_Bible::getBottomMargin (m_bible) + "mm").c_str();
-      style_page_layout_properties.append_attribute ("fo:margin-left") = convert_to_string (Database_Config_Bible::getInnerMargin (m_bible) + "mm").c_str();
-      style_page_layout_properties.append_attribute ("fo:margin-right") = convert_to_string (Database_Config_Bible::getOuterMargin (m_bible) + "mm").c_str();
+      style_page_layout_properties.append_attribute ("fo:margin-top") = filter::strings::convert_to_string (Database_Config_Bible::getTopMargin (m_bible) + "mm").c_str();
+      style_page_layout_properties.append_attribute ("fo:margin-bottom") = filter::strings::convert_to_string (Database_Config_Bible::getBottomMargin (m_bible) + "mm").c_str();
+      style_page_layout_properties.append_attribute ("fo:margin-left") = filter::strings::convert_to_string (Database_Config_Bible::getInnerMargin (m_bible) + "mm").c_str();
+      style_page_layout_properties.append_attribute ("fo:margin-right") = filter::strings::convert_to_string (Database_Config_Bible::getOuterMargin (m_bible) + "mm").c_str();
       style_page_layout_properties.append_attribute ("style:writing-mode") = "lr-tb";
       style_page_layout_properties.append_attribute ("style:footnote-max-height") = "0cm";
       {
@@ -695,7 +695,7 @@ void odf_text::create_paragraph_style (string name,
   fontname.append ("'");
   style_text_properties_node.append_attribute ("fo:font-family") = fontname.c_str();
 
-  string sfontsize = convert_to_string (fontsize) + "pt";
+  string sfontsize = filter::strings::convert_to_string (fontsize) + "pt";
   style_text_properties_node.append_attribute ("fo:font-size") = sfontsize.c_str();
   style_text_properties_node.append_attribute ("style:font-size-asian") = sfontsize.c_str();
   style_text_properties_node.append_attribute ("style:font-size-complex") = sfontsize.c_str();
@@ -735,13 +735,13 @@ void odf_text::create_paragraph_style (string name,
   // Deal with the paragraph dimensions.
   // The values are given in millimeters.
   // First the top and bottom margins.
-  string space_before_mm = convert_to_string (spacebefore) + "mm";
+  string space_before_mm = filter::strings::convert_to_string (spacebefore) + "mm";
   style_paragraph_properties_node.append_attribute ("fo:margin-top") = space_before_mm.c_str();
-  string space_after_mm = convert_to_string (spaceafter) + "mm";
+  string space_after_mm = filter::strings::convert_to_string (spaceafter) + "mm";
   style_paragraph_properties_node.append_attribute ("fo:margin-bottom") = space_after_mm.c_str();
-  string left_margin_mm = convert_to_string (leftmargin) + "mm";
+  string left_margin_mm = filter::strings::convert_to_string (leftmargin) + "mm";
   style_paragraph_properties_node.append_attribute ("fo:margin-left") = left_margin_mm.c_str();
-  string right_margin_mm = convert_to_string (rightmargin) + "mm";
+  string right_margin_mm = filter::strings::convert_to_string (rightmargin) + "mm";
   style_paragraph_properties_node.append_attribute ("fo:margin-right") = right_margin_mm.c_str();
   // In a normal paragraph the first line indent is as given in the stylesheet.
   // In a poetry paragraph the first line indent is the negative left margin.
@@ -750,7 +750,7 @@ void odf_text::create_paragraph_style (string name,
   // (And then a tab puts the text at the desired first line indent space.)
   int millimeters = static_cast<int>(firstlineindent);
   if (is_poetry_q_style) millimeters = static_cast <int> (0 - leftmargin);
-  string first_lineindent_mm = convert_to_string (millimeters) + "mm";
+  string first_lineindent_mm = filter::strings::convert_to_string (millimeters) + "mm";
   style_paragraph_properties_node.append_attribute ("fo:text-indent") = first_lineindent_mm.c_str();
 
   if (keep_with_next) {
@@ -760,7 +760,7 @@ void odf_text::create_paragraph_style (string name,
 
   if (dropcaps > 0) {
     // E.g.: <style:drop-cap style:lines="2" style:length="2" style:distance="0.15cm"/>
-    string length = convert_to_string (dropcaps);
+    string length = filter::strings::convert_to_string (dropcaps);
     xml_node style_drop_cap_node = style_paragraph_properties_node.append_child ("style:drop-cap");
     style_drop_cap_node.append_attribute ("style:lines") = "2";
     style_drop_cap_node.append_attribute ("style:length") = length.c_str();
@@ -780,7 +780,7 @@ void odf_text::create_paragraph_style (string name,
     int tab_indent = static_cast<int> (firstlineindent);
     for (int i = 0; i < 10; i++) {
       xml_node style_tab_stop = style_tab_stops.append_child("style:tab-stop");
-      string tab_stop = convert_to_string(tab_indent) + "mm";
+      string tab_stop = filter::strings::convert_to_string(tab_indent) + "mm";
       style_tab_stop.append_attribute("style:position") = tab_stop.c_str();
       tab_indent++;
     }
@@ -917,7 +917,7 @@ void odf_text::place_text_in_frame (string text, string style, float fontsize, i
   xml_node draw_frame_dom_element = current_text_p_node.append_child ("draw:frame");
   draw_frame_dom_element.append_attribute ("draw:style-name") = "chapterframe";
   m_frame_count++;
-  draw_frame_dom_element.append_attribute ("draw:name") = convert_to_string ("frame" + convert_to_string (m_frame_count)).c_str();
+  draw_frame_dom_element.append_attribute ("draw:name") = filter::strings::convert_to_string ("frame" + filter::strings::convert_to_string (m_frame_count)).c_str();
   draw_frame_dom_element.append_attribute ("text:anchor-type") = "paragraph";
   draw_frame_dom_element.append_attribute ("svg:y") = "0cm";
   draw_frame_dom_element.append_attribute ("fo:min-width") = "0.34cm";
@@ -950,7 +950,7 @@ void odf_text::place_text_in_frame (string text, string style, float fontsize, i
       style_paragraph_properties_dom_element.append_attribute ("style:justify-single-word") = "false";
   
       xml_node style_text_properties_dom_element = style_dom_element.append_child ("style:text-properties");
-      string sfontsize = convert_to_string (fontsize) + "pt";
+      string sfontsize = filter::strings::convert_to_string (fontsize) + "pt";
       style_text_properties_dom_element.append_attribute ("fo:font-size") = sfontsize.c_str();
       style_text_properties_dom_element.append_attribute ("style:font-size-asian") = sfontsize.c_str();
       style_text_properties_dom_element.append_attribute ("style:font-size-complex") = sfontsize.c_str();
@@ -1029,7 +1029,7 @@ void odf_text::add_note (string caller, string style, bool endnote)
   if (!m_current_text_p_node_opened) new_paragraph ();
 
   xml_node text_note_dom_element = current_text_p_node.append_child ("text:note");
-  text_note_dom_element.append_attribute ("text:id") = convert_to_string ("ftn" + convert_to_string (m_note_count)).c_str();
+  text_note_dom_element.append_attribute ("text:id") = filter::strings::convert_to_string ("ftn" + filter::strings::convert_to_string (m_note_count)).c_str();
   m_note_count++;
   m_note_text_p_opened = true;
   string noteclass;
@@ -1145,7 +1145,7 @@ void odf_text::new_named_heading (string style, string text, bool hide)
 // It returns the converted style name.
 string odf_text::convert_style_name (string style)
 {
-  style = filter_string_str_replace (" ", "_20_", style);
+  style = filter::strings::replace (" ", "_20_", style);
   return style;
 }
 
@@ -1206,7 +1206,7 @@ void odf_text::add_image (string style, [[maybe_unused]] string alt, string src,
   int available_width_mm {0};
   int available_height_mm {50};
   {
-    available_width_mm = convert_to_int (Database_Config_Bible::getPageWidth (m_bible)) - convert_to_int (Database_Config_Bible::getInnerMargin (m_bible)) - convert_to_int (Database_Config_Bible::getOuterMargin (m_bible));
+    available_width_mm = filter::strings::convert_to_int (Database_Config_Bible::getPageWidth (m_bible)) - filter::strings::convert_to_int (Database_Config_Bible::getInnerMargin (m_bible)) - filter::strings::convert_to_int (Database_Config_Bible::getOuterMargin (m_bible));
     if (image_width_pixels && image_height_pixels) {
       available_height_mm = available_width_mm * image_height_pixels / image_width_pixels;
     }
@@ -1216,11 +1216,11 @@ void odf_text::add_image (string style, [[maybe_unused]] string alt, string src,
     m_image_counter++;
     xml_node draw_frame_node = current_text_p_node.append_child("draw:frame");
     draw_frame_node.append_attribute("draw:style-name") = "fr1";
-    draw_frame_node.append_attribute("draw:name") = ("Image" + convert_to_string(m_image_counter)).c_str();
+    draw_frame_node.append_attribute("draw:name") = ("Image" + filter::strings::convert_to_string(m_image_counter)).c_str();
     draw_frame_node.append_attribute("text:anchor-type") = "char";
-    draw_frame_node.append_attribute("svg:width") = (convert_to_string (available_width_mm) + "mm").c_str();
+    draw_frame_node.append_attribute("svg:width") = (filter::strings::convert_to_string (available_width_mm) + "mm").c_str();
     // draw_frame_node.append_attribute("style:rel-width") = "100%";
-    draw_frame_node.append_attribute("svg:height") = (convert_to_string (available_height_mm) + "mm").c_str();
+    draw_frame_node.append_attribute("svg:height") = (filter::strings::convert_to_string (available_height_mm) + "mm").c_str();
     // draw_frame_node.append_attribute("style:rel-height") = "scale";
     draw_frame_node.append_attribute("draw:z-index") = "0";
     {

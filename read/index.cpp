@@ -68,8 +68,8 @@ string read_index (void * webserver_request)
   bool touch = request->session_logic ()->touchEnabled ();
   
   if (request->query.count ("switchbook") && request->query.count ("switchchapter")) {
-    int switchbook = convert_to_int (request->query ["switchbook"]);
-    int switchchapter = convert_to_int (request->query ["switchchapter"]);
+    int switchbook = filter::strings::convert_to_int (request->query ["switchbook"]);
+    int switchchapter = filter::strings::convert_to_int (request->query ["switchchapter"]);
     Ipc_Focus::set (request, switchbook, switchchapter, 1);
     Navigation_Passage::record_history (request, switchbook, switchchapter, 1);
   }

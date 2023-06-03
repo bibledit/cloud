@@ -42,7 +42,7 @@ string locale_logic_month (int month)
     case 10: return translate ("October");
     case 11: return translate ("November");
     case 12: return translate ("December");
-    default: translate ("Month") + " " + convert_to_string (month);
+    default: translate ("Month") + " " + filter::strings::convert_to_string (month);
   }
   return string();
 }
@@ -54,7 +54,7 @@ string locale_logic_date (int seconds)
   int day = filter::date::numerical_month_day (seconds);
   int month = filter::date::numerical_month (seconds);
   int year = filter::date::numerical_year (seconds);
-  return convert_to_string (day) + " " + locale_logic_month (month) + " " + convert_to_string (year);
+  return filter::strings::convert_to_string (day) + " " + locale_logic_month (month) + " " + filter::strings::convert_to_string (year);
 }
 
 
@@ -66,11 +66,11 @@ string locale_logic_date_time (int seconds)
   string timestamp;
   timestamp.append (locale_logic_date (seconds));
   timestamp.append (" ");
-  timestamp.append (filter_string_fill (convert_to_string (filter::date::numerical_hour (seconds)), 2, '0'));
+  timestamp.append (filter_string_fill (filter::strings::convert_to_string (filter::date::numerical_hour (seconds)), 2, '0'));
   timestamp.append (":");
-  timestamp.append (filter_string_fill (convert_to_string (filter::date::numerical_minute (seconds)), 2, '0'));
+  timestamp.append (filter_string_fill (filter::strings::convert_to_string (filter::date::numerical_minute (seconds)), 2, '0'));
   timestamp.append (":");
-  timestamp.append (filter_string_fill (convert_to_string (filter::date::numerical_second (seconds)), 2, '0'));
+  timestamp.append (filter_string_fill (filter::strings::convert_to_string (filter::date::numerical_second (seconds)), 2, '0'));
   // Done.
   return timestamp;
 }
@@ -85,11 +85,11 @@ map <string, string> locale_logic_localizations ()
   for (auto file : files) {
     string suffix = filter_url_get_extension (file);
     if (suffix == "po") {
-      string basename = filter_string_str_replace ("." + suffix, "", file);
+      string basename = filter::strings::replace ("." + suffix, "", file);
       string path = filter_url_create_path ({directory, file});
       string contents = filter_url_file_get_contents (path);
       string language = translate ("Unknown");
-      vector <string> lines = filter_string_explode (contents, '\n');
+      vector <string> lines = filter::strings::explode (contents, '\n');
       for (auto line : lines) {
         if (line.find ("translation for bibledit") != string::npos) {
           line.erase (0, 2);
@@ -108,7 +108,7 @@ unordered_map <string, string> locale_logic_read_msgid_msgstr (string file)
 {
   unordered_map <string, string> translations;
   string contents = filter_url_file_get_contents (file);
-  vector <string> lines = filter_string_explode (contents, '\n');
+  vector <string> lines = filter::strings::explode (contents, '\n');
   string msgid;
   string msgstr;
   int stage = 0;
@@ -249,16 +249,16 @@ string locale_logic_deobfuscate (string value)
   // Replace longest strings first.
   
   // Change "Bbe" to "Bibledit".
-  value = filter_string_str_replace ("Bbe", "Bibledit", value);
+  value = filter::strings::replace ("Bbe", "Bibledit", value);
 
   // Change "bbe" to "bibledit".
-  value = filter_string_str_replace ("bbe", "bibledit", value);
+  value = filter::strings::replace ("bbe", "bibledit", value);
   
   // Change "Bb" to "Bible".
-  value = filter_string_str_replace ("Bb", "Bible", value);
+  value = filter::strings::replace ("Bb", "Bible", value);
   
   // Change "bb" to "bible". This includes "bbe" to "Bibledit".
-  value = filter_string_str_replace ("bb", "bible", value);
+  value = filter::strings::replace ("bb", "bible", value);
   
   // Done.
   return value;
@@ -276,7 +276,7 @@ void locale_logic_obfuscate_initialize ()
   // Load the contents of the obfuscation configuration file
   string filename = filter_url_create_root_path ({"obfuscate", "texts.txt"});
   string contents = filter_url_file_get_contents (filename);
-  vector <string> lines = filter_string_explode (contents, '\n');
+  vector <string> lines = filter::strings::explode (contents, '\n');
   
   // Container to map the original string to the obfuscated version.
   map <string, string> original_to_obfuscated;
@@ -304,7 +304,7 @@ void locale_logic_obfuscate_initialize ()
     }
     
     // Lines require the equal sign = once.
-    vector <string> obfuscation_pair = filter_string_explode (line, '=');
+    vector <string> obfuscation_pair = filter::strings::explode (line, '=');
     if (obfuscation_pair.size () != 2) continue;
 
     // Deobfuscate recognized search terms.

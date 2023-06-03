@@ -86,7 +86,7 @@ string filter_archive_zip_folder_miniz_internal (string folder)
     // The file names in Windows will be backslashes (\) at this point.
     // But the mzip library, in its current configuration, works with forward slashes (/).
     // So the code below, in case of Windows, updates the type of slashes.
-    file = filter_string_str_replace (DIRECTORY_SEPARATOR, "/", file);
+    file = filter::strings::replace (DIRECTORY_SEPARATOR, "/", file);
 #endif
     mz_bool status;
     if (is_dir) {

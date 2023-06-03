@@ -68,7 +68,7 @@ void test_database_logs ()
     refresh_sandbox (true);
     Database_Logs::log ("description");
     int second = filter::date::seconds_since_epoch ();
-    string filename = convert_to_string (second) + "00000000";
+    string filename = filter::strings::convert_to_string (second) + "00000000";
     // First time: getNext gets the logged entry.
     string s;
     s = Database_Logs::next (filename);

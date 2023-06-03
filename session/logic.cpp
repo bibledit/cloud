@@ -132,7 +132,7 @@ bool Session_Logic::openAccess ()
 string Session_Logic::remoteAddress ()
 {
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  vector <string> blocks = filter_string_explode (request->remote_address, '.');
+  vector <string> blocks = filter::strings::explode (request->remote_address, '.');
   string address;
   size_t num_blocks = static_cast<size_t> (abs (check_ip_blocks));
   if (num_blocks > blocks.size ()) num_blocks = blocks.size ();

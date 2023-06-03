@@ -80,7 +80,7 @@ string session_login (void * webserver_request)
     // and store that information with the user and device.
     // There is also wurfl.io that detects a mobile device in javascript,
     // but this library is of no immediate use at the server side.
-    bool touch_enabled = convert_to_bool (request->post["touch"]);
+    bool touch_enabled = filter::strings::convert_to_bool (request->post["touch"]);
     if (user.length () < 2) {
       form_is_valid = false;
       view.set_variable ("username_invalid", translate ("Username should be at least two characters long"));

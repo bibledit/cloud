@@ -91,7 +91,7 @@ void bible_import_usfm (string data, string bible, int book, int chapter)
     if (book_number > 0) {
       bible_logic::store_chapter (bible, book_number, chapter_number, chapter_data);
       string book_name = database::books::get_usfm_from_id (static_cast<book_id>(book_number));
-      Database_Logs::log ("Imported " + book_name + " " + convert_to_string (chapter_number));
+      Database_Logs::log ("Imported " + book_name + " " + filter::strings::convert_to_string (chapter_number));
     } else {
       Database_Logs::log ("Could not import this data: " + chapter_data.substr (0, 1000));
     }
@@ -106,7 +106,7 @@ void bible_import_text (string text, string bible, int book, int chapter)
   bool discoveries_passed {true};
   
   // Split the input text into separate lines.
-  vector <string> lines = filter_string_explode (text, '\n');
+  vector <string> lines = filter::strings::explode (text, '\n');
   
   // Go through the lines.
   for (size_t i = 0; i < lines.size(); i++) {
@@ -132,7 +132,7 @@ void bible_import_text (string text, string bible, int book, int chapter)
     // that was set, it silently removes this line. But if it differs, an error comes up.
     if (discoveries_passed) {
       if (number_in_string(lines[i]) == lines[i]) {
-        int number = convert_to_int (number_in_string (lines[i]));
+        int number = filter::strings::convert_to_int (number_in_string (lines[i]));
         if (number == chapter) {
           lines[i].clear();
           continue;
@@ -218,18 +218,18 @@ void bible_import_text (string text, string bible, int book, int chapter)
     if (lines[i].empty())
       continue;
     lines[i] = filter_string_collapse_whitespace (lines[i]);
-    lines[i] = filter_string_str_replace (" \n", "\n", lines[i]);
+    lines[i] = filter::strings::replace (" \n", "\n", lines[i]);
     newtext.append(lines[i]);
     newtext.append("\n");
   }
   
   // If no chapter marker is found, insert it at the top.
   if (newtext.find("\\c") == string::npos) {
-    newtext.insert(0, "\\c " + convert_to_string(chapter) + "\n");
+    newtext.insert(0, "\\c " + filter::strings::convert_to_string(chapter) + "\n");
   }
 
   // Import the text as USFM.
   bible_logic::store_chapter (bible, book, chapter, newtext);
   string book_name = database::books::get_usfm_from_id (static_cast<book_id>(book));
-  Database_Logs::log ("Imported " + book_name + " " + convert_to_string (chapter) + ": " + text);
+  Database_Logs::log ("Imported " + book_name + " " + filter::strings::convert_to_string (chapter) + ": " + text);
 }

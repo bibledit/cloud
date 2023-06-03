@@ -43,13 +43,13 @@ string Database_UsfmResources::resourceFolder (const string& name)
 
 string Database_UsfmResources::bookFolder (const string& name, int book)
 {
-  return filter_url_create_path ({resourceFolder (name), convert_to_string (book)});
+  return filter_url_create_path ({resourceFolder (name), filter::strings::convert_to_string (book)});
 }
 
 
 string Database_UsfmResources::chapterFile (const string& name, int book, int chapter)
 {
-  return filter_url_create_path ({bookFolder (name, book), convert_to_string (chapter)});
+  return filter_url_create_path ({bookFolder (name, book), filter::strings::convert_to_string (chapter)});
 }
 
 
@@ -98,7 +98,7 @@ vector <int> Database_UsfmResources::getBooks (const string& name)
 {
   vector <int> books;
   vector <string> files = filter_url_scandir (resourceFolder (name));
-  for (auto & book : files) books.push_back (convert_to_int (book));
+  for (auto & book : files) books.push_back (filter::strings::convert_to_int (book));
   sort (books.begin (), books.end());
   return books;
 }
@@ -108,7 +108,7 @@ vector <int> Database_UsfmResources::getChapters (const string& name, int book)
 {
   vector <int> chapters;
   vector <string> folders = filter_url_scandir (bookFolder (name, book));
-  for (auto & chapter : folders) chapters.push_back (convert_to_int (chapter));
+  for (auto & chapter : folders) chapters.push_back (filter::strings::convert_to_int (chapter));
   sort (chapters.begin(), chapters.end());
   return chapters;
 }

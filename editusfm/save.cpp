@@ -59,8 +59,8 @@ string editusfm_save (void * webserver_request)
   
   
   string bible = request->post["bible"];
-  int book = convert_to_int (request->post["book"]);
-  int chapter = convert_to_int (request->post["chapter"]);
+  int book = filter::strings::convert_to_int (request->post["book"]);
+  int chapter = filter::strings::convert_to_int (request->post["chapter"]);
   string usfm = request->post["usfm"];
   string checksum = request->post["checksum"];
   string unique_id = request->post ["id"];

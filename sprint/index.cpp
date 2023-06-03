@@ -106,16 +106,16 @@ string sprint_index ([[maybe_unused]] void * webserver_request)
       // Remove "task".
       id.erase (0, 4);
       // Convert the fragment to an integer.
-      int identifier = convert_to_int (id);
+      int identifier = filter::strings::convert_to_int (id);
       // Find the fragment "box".
       size_t pos = id.find ("box");
       if (pos != string::npos) {
         // Remove the fragment "box".
         id.erase (0, pos + 3);
         // Convert the box to an integer.
-        int box = convert_to_int (id);
+        int box = filter::strings::convert_to_int (id);
         string categorytext = Database_Config_Bible::getSprintTaskCompletionCategories (bible);
-        vector <string> categories = filter_string_explode (categorytext, '\n');
+        vector <string> categories = filter::strings::explode (categorytext, '\n');
         size_t category_count = categories.size ();
         float category_percentage = 100.0f / static_cast<float>(category_count);
         int percentage {0};
@@ -165,7 +165,7 @@ string sprint_index ([[maybe_unused]] void * webserver_request)
   bible = access_bible::clamp (webserver_request, request->database_config_user()->getBible ());
   
   
-  int id = convert_to_int (request->query ["id"]);
+  int id = filter::strings::convert_to_int (request->query ["id"]);
   
   
   if (request->query.count ("remove")) {
@@ -196,23 +196,23 @@ string sprint_index ([[maybe_unused]] void * webserver_request)
     string categories = request->post ["categories"];
     vector <string> categories2;
     categories = filter_string_trim (categories);
-    vector <string> vcategories = filter_string_explode (categories, '\n');
+    vector <string> vcategories = filter::strings::explode (categories, '\n');
     for (auto category : vcategories) {
       category = filter_string_trim (category);
       if (category != "") categories2.push_back (category);
     }
-    categories = filter_string_implode (categories2, "\n");
+    categories = filter::strings::implode (categories2, "\n");
     Database_Config_Bible::setSprintTaskCompletionCategories (bible, categories);
   }
   
   
   view.set_variable ("bible", bible);
-  view.set_variable ("sprint", locale_logic_month (month) + " " + convert_to_string (year));
+  view.set_variable ("sprint", locale_logic_month (month) + " " + filter::strings::convert_to_string (year));
 
   
   string categorytext = Database_Config_Bible::getSprintTaskCompletionCategories (bible);
   view.set_variable ("categorytext", categorytext);
-  vector <string> vcategories = filter_string_explode (categorytext, '\n');
+  vector <string> vcategories = filter::strings::explode (categorytext, '\n');
   string categories;
   for (auto category : vcategories) {
     categories.append ("<td>" + category + "</td>\n");
@@ -225,10 +225,10 @@ string sprint_index ([[maybe_unused]] void * webserver_request)
   for (auto & task_id : v_tasks) {
     string title = escape_special_xml_characters (database_sprint.getTitle (task_id));
     int percentage = database_sprint.getComplete (task_id);
-    tasks.append ("<tr id=\"a" + convert_to_string (task_id) + "\">\n");
-    tasks.append ("<td><a href=\"?id=" + convert_to_string (task_id) + "&remove=\">" + emoji_wastebasket () + "</a></td>\n");
+    tasks.append ("<tr id=\"a" + filter::strings::convert_to_string (task_id) + "\">\n");
+    tasks.append ("<td><a href=\"?id=" + filter::strings::convert_to_string (task_id) + "&remove=\">" + emoji_wastebasket () + "</a></td>\n");
     tasks.append ("<td></td>\n");
-    tasks.append ("<td><a href=\"?id=" + convert_to_string (task_id) + "&moveback=\"> « </a></td>\n");
+    tasks.append ("<td><a href=\"?id=" + filter::strings::convert_to_string (task_id) + "&moveback=\"> « </a></td>\n");
     tasks.append ("<td>" + title + "</td>\n");
     size_t category_count = vcategories.size();
     float category_percentage = 100.0f / static_cast<float>(category_count);
@@ -236,9 +236,9 @@ string sprint_index ([[maybe_unused]] void * webserver_request)
       int high = static_cast <int> (round (static_cast<float>(i2 + 1) * category_percentage));
       tasks.append ("<td>\n");
       tasks.append ("<input type=\"checkbox\" id=\"task");
-      tasks.append (convert_to_string (task_id));
+      tasks.append (filter::strings::convert_to_string (task_id));
       tasks.append ("box");
-      tasks.append (convert_to_string (i2));
+      tasks.append (filter::strings::convert_to_string (i2));
       tasks.append ("\"");
       if (percentage >= high)
         tasks.append (" checked");
@@ -248,7 +248,7 @@ string sprint_index ([[maybe_unused]] void * webserver_request)
       
       tasks.append ("</td>\n");
     }
-    tasks.append ("<td><a href=\"?id=" + convert_to_string (task_id) + "&moveforward=\"> » </a></td>\n");
+    tasks.append ("<td><a href=\"?id=" + filter::strings::convert_to_string (task_id) + "&moveforward=\"> » </a></td>\n");
     tasks.append ("</tr>\n");
   }
   view.set_variable ("tasks", tasks);

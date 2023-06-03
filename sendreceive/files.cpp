@@ -120,7 +120,7 @@ void sendreceive_files ()
   post ["u"] = bin2hex (user);
 
   
-  post ["v"] = convert_to_string (version);
+  post ["v"] = filter::strings::convert_to_string (version);
   string error;
   string response;
   int iresponse { 0 };
@@ -129,14 +129,14 @@ void sendreceive_files ()
   // Request the checksum of all relevant files on the server.
   // Compare it with the local checksum for the same set of files.
   // If the two match: Ready.
-  post ["a"] = convert_to_string (Sync_Logic::files_total_checksum);
+  post ["a"] = filter::strings::convert_to_string (Sync_Logic::files_total_checksum);
   response = sync_logic.post (post, url, error);
   if (!error.empty ()) {
     Database_Logs::log (sendreceive_files_text () + "Failure requesting total checksum: " + error, Filter_Roles::translator ());
     sendreceive_files_done ();
     return;
   }
-  iresponse = convert_to_int (response);
+  iresponse = filter::strings::convert_to_int (response);
   int checksum = Sync_Logic::files_get_total_checksum (version, user);
   if (iresponse == checksum) {
     Database_Logs::log (sendreceive_files_up_to_date_text (), Filter_Roles::translator ());
@@ -153,21 +153,21 @@ void sendreceive_files ()
     // The directory name itself is not posted to the server,
     // but rather the index of the directory in the entire list.
     // This is for security reasons.
-    post ["d"] = convert_to_string (d);
+    post ["d"] = filter::strings::convert_to_string (d);
     string directory = directories [d];
     
 
     // Request the total checksum of a directory on the server.
     // Compare it with the local checksum for the directory on the client.
     // If the two match: This directory is ready.
-    post ["a"] = convert_to_string (Sync_Logic::files_directory_checksum);
+    post ["a"] = filter::strings::convert_to_string (Sync_Logic::files_directory_checksum);
     response = sync_logic.post (post, url, error);
     if (!error.empty ()) {
       Database_Logs::log (sendreceive_files_text () + "Failure requesting directory checksum: " + error, Filter_Roles::translator ());
       sendreceive_files_done ();
       return;
     }
-    iresponse = convert_to_int (response);
+    iresponse = filter::strings::convert_to_int (response);
     int checksum_d = Sync_Logic::files_get_directory_checksum (directory);
     if (iresponse == checksum_d) {
       continue;
@@ -175,14 +175,14 @@ void sendreceive_files ()
 
     
     // Retrieve the list of files in a directory on the server.
-    post ["a"] = convert_to_string (Sync_Logic::files_directory_files);
+    post ["a"] = filter::strings::convert_to_string (Sync_Logic::files_directory_files);
     response = sync_logic.post (post, url, error);
     if (!error.empty ()) {
       Database_Logs::log (sendreceive_files_text () + "Failure requesting directory files: " + error, Filter_Roles::translator ());
       sendreceive_files_done ();
       return;
     }
-    vector <string> server_files = filter_string_explode (response, '\n');
+    vector <string> server_files = filter::strings::explode (response, '\n');
     
     
     // Delete files that exist locally but not on the server.
@@ -205,7 +205,7 @@ void sendreceive_files ()
       // Request checksum of this file,
       // compare it with the local checksum,
       // and skip the file if the checksums match.
-      post ["a"] = convert_to_string (Sync_Logic::files_file_checksum);
+      post ["a"] = filter::strings::convert_to_string (Sync_Logic::files_file_checksum);
       post ["f"] = file;
       response = sync_logic.post (post, url, error);
       if (!error.empty ()) {
@@ -213,7 +213,7 @@ void sendreceive_files ()
         sendreceive_files_done ();
         return;
       }
-      int iresponse_file = convert_to_int (response);
+      int iresponse_file = filter::strings::convert_to_int (response);
       int checksum_file = Sync_Logic::files_get_file_checksum (directory, file);
       if (iresponse_file == checksum_file) {
         continue;
@@ -232,9 +232,9 @@ void sendreceive_files ()
       if (!file_or_dir_exists (dirpath)) {
         filter_url_mkdir (dirpath);
       }
-      string download_url = filter_url_build_http_query (url, "a", convert_to_string (Sync_Logic::files_file_download));
-      download_url = filter_url_build_http_query (download_url, "v", convert_to_string (version));
-      download_url = filter_url_build_http_query (download_url, "d", convert_to_string (d));
+      string download_url = filter_url_build_http_query (url, "a", filter::strings::convert_to_string (Sync_Logic::files_file_download));
+      download_url = filter_url_build_http_query (download_url, "v", filter::strings::convert_to_string (version));
+      download_url = filter_url_build_http_query (download_url, "d", filter::strings::convert_to_string (d));
       download_url = filter_url_build_http_query (download_url, "u", bin2hex (user));
       download_url = filter_url_build_http_query (download_url, "f", filter_url_urlencode (file));
       // Download and save file locally.

@@ -125,7 +125,7 @@ string user_account ([[maybe_unused]] void * webserver_request)
 
   view.set_variable ("username", escape_special_xml_characters (username));
   view.set_variable ("email", escape_special_xml_characters (email));
-  string success_message = filter_string_implode (success_messages, "\n");
+  string success_message = filter::strings::implode (success_messages, "\n");
   view.set_variable ("success_messages", success_message);
   if (!actions_taken) view.enable_zone ("no_actions_taken");
 

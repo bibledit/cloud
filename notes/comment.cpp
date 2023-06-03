@@ -63,28 +63,28 @@ string notes_comment (void * webserver_request)
   
   
   int id;
-  if (request->query.count ("id")) id = convert_to_int (request->query ["id"]);
-  else id = convert_to_int (request->post ["id"]);
+  if (request->query.count ("id")) id = filter::strings::convert_to_int (request->query ["id"]);
+  else id = filter::strings::convert_to_int (request->post ["id"]);
   
   
   if (request->post.count ("body")) {
     string comment = filter_string_trim (request->post ["body"]);
     comment = filter_url_tag_to_plus (comment);
     notes_logic.addComment (id, comment);
-    redirect_browser (request, notes_note_url () + "?id=" + convert_to_string (id) + "&temporal=");
+    redirect_browser (request, notes_note_url () + "?id=" + filter::strings::convert_to_string (id) + "&temporal=");
     return "";
   }
   
   
   if (request->post.count ("cancel")) {
-    redirect_browser (request, notes_note_url () + "?id=" + convert_to_string (id));
+    redirect_browser (request, notes_note_url () + "?id=" + filter::strings::convert_to_string (id));
     return "";
   }
   
   
-  view.set_variable ("id", convert_to_string (id));
+  view.set_variable ("id", filter::strings::convert_to_string (id));
   string script =
-  "var noteId = '" + convert_to_string (id) + "';\n";
+  "var noteId = '" + filter::strings::convert_to_string (id) + "';\n";
   view.set_variable ("script", script);
 
 

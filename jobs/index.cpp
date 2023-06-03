@@ -54,7 +54,7 @@ string jobs_index (void * webserver_request)
   
   Assets_View view;
 
-  int id = convert_to_int (request->query ["id"]);
+  int id = filter::strings::convert_to_int (request->query ["id"]);
 
   // Get information about this job.
   Database_Jobs database_jobs = Database_Jobs ();

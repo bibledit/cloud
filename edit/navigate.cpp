@@ -49,8 +49,8 @@ string edit_navigate (void * webserver_request)
 
   
   string bible = request->query ["bible"];
-  int book = convert_to_int (request->query ["book"]);
-  int chapter = convert_to_int (request->query ["chapter"]);
+  int book = filter::strings::convert_to_int (request->query ["book"]);
+  int chapter = filter::strings::convert_to_int (request->query ["chapter"]);
 
   
   // At first the browser used the rangy library to get the offset of the caret.
@@ -58,7 +58,7 @@ string edit_navigate (void * webserver_request)
   // not relative to the main editor element.
   // Therefore a pure Javascript implementation was Googled for and implemented.
   // This provides the offset of the caret relative to the <div id="editor">.
-  size_t offset = static_cast<size_t> (convert_to_int (request->query ["offset"]));
+  size_t offset = static_cast<size_t> (filter::strings::convert_to_int (request->query ["offset"]));
 
   
   string stylesheet = Database_Config_Bible::getEditorStylesheet (bible);
@@ -145,7 +145,7 @@ string edit_navigate (void * webserver_request)
     }
     // The editor should scroll the verse into view,
     // because the caret is in the Bible text.
-    return convert_to_string (verse);
+    return filter::strings::convert_to_string (verse);
     // If the caret were in the notes area,
     // then the editor should not scroll the verse into view.
   }

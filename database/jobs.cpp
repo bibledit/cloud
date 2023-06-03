@@ -138,7 +138,7 @@ int Database_Jobs::get_level (int id)
   vector <string> levels = database_sqlite_query (db, sql.sql) ["level"];
   database_sqlite_disconnect (db);
   if (!levels.empty()) {
-    return convert_to_int (levels[0]);
+    return filter::strings::convert_to_int (levels[0]);
   }
   return 0;
 }

@@ -84,15 +84,15 @@ void rss_logic_schedule_update (string user, string bible, int book, int chapter
   if (!Database_Config_Bible::getSendChangesToRSS (bible)) return;
   
   // Mould the USFM into one line.
-  oldusfm = filter_string_str_replace ("\n", rss_logic_new_line (), oldusfm);
-  newusfm = filter_string_str_replace ("\n", rss_logic_new_line (), newusfm);
+  oldusfm = filter::strings::replace ("\n", rss_logic_new_line (), oldusfm);
+  newusfm = filter::strings::replace ("\n", rss_logic_new_line (), newusfm);
   
   // Schedule it.
   vector <string> parameters;
   parameters.push_back (user);
   parameters.push_back (bible);
-  parameters.push_back (convert_to_string (book));
-  parameters.push_back (convert_to_string (chapter));
+  parameters.push_back (filter::strings::convert_to_string (book));
+  parameters.push_back (filter::strings::convert_to_string (chapter));
   parameters.push_back (oldusfm);
   parameters.push_back (newusfm);
   tasks_logic_queue (RSSFEEDUPDATECHAPTER, parameters);
@@ -106,8 +106,8 @@ void rss_logic_execute_update (string user, string bible, int book, int chapter,
   if (oldusfm == newusfm) return;
 
   // Mould the USFM back into its original format with new lines.
-  oldusfm = filter_string_str_replace (rss_logic_new_line (), "\n", oldusfm);
-  newusfm = filter_string_str_replace (rss_logic_new_line (), "\n", newusfm);
+  oldusfm = filter::strings::replace (rss_logic_new_line (), "\n", oldusfm);
+  newusfm = filter::strings::replace (rss_logic_new_line (), "\n", newusfm);
 
   // Whether to include the author in the RSS feed.
   // For security reasons this can be set off.
@@ -145,7 +145,7 @@ void rss_logic_execute_update (string user, string bible, int book, int chapter,
       string new_text = filter_text_new.text_text->get ();
       if (old_text != new_text) {
         string modification = filter_diff_diff (old_text, new_text);
-        titles.push_back (filter_passage_display (book, chapter, convert_to_string (verse)));
+        titles.push_back (filter_passage_display (book, chapter, filter::strings::convert_to_string (verse)));
         authors.push_back (user);
         descriptions.push_back ("<div>" + modification + "</div>");
       }
@@ -167,7 +167,7 @@ void rss_logic_update_xml (vector <string> titles, vector <string> authors, vect
 {
   int seconds = filter::date::seconds_since_epoch ();
   string rfc822time = filter::date::rfc822 (seconds);
-  string guid = convert_to_string (seconds);
+  string guid = filter::strings::convert_to_string (seconds);
   bool document_updated = false;
   xml_document document;
   string path = rss_logic_xml_path ();
@@ -200,7 +200,7 @@ void rss_logic_update_xml (vector <string> titles, vector <string> authors, vect
   xml_node channel = rss_node.child ("channel");
   for (size_t i = 0; i < titles.size(); i++) {
     xml_node item = channel.append_child ("item");
-    string guid2 = guid + convert_to_string (i);
+    string guid2 = guid + filter::strings::convert_to_string (i);
     xml_node guid_node = item.append_child ("guid");
     guid_node.append_attribute ("isPermaLink") = "false";
     guid_node.text () = guid2.c_str();

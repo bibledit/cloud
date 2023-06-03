@@ -65,7 +65,7 @@ string search_search2 (void * webserver_request)
   
   bool hit_is_set = request->query.count ("h");
   bool query_is_set = request->query.count ("q");
-  int identifier = convert_to_int (request->query ["i"]);
+  int identifier = filter::strings::convert_to_int (request->query ["i"]);
   string query = request->query ["q"];
   string hit = request->query ["h"];
 
@@ -76,8 +76,8 @@ string search_search2 (void * webserver_request)
     
     // Retrieve the search parameters from the volatile database.
     string query2 = Database_Volatile::getValue (identifier, "query");
-    //bool casesensitive = convert_to_bool (Database_Volatile::getValue (identifier, "casesensitive"));
-    bool plaintext = convert_to_bool (Database_Volatile::getValue (identifier, "plaintext"));
+    //bool casesensitive = filter::strings::convert_to_bool (Database_Volatile::getValue (identifier, "casesensitive"));
+    bool plaintext = filter::strings::convert_to_bool (Database_Volatile::getValue (identifier, "plaintext"));
     
     
     // Get the Bible and passage for this identifier.
@@ -91,9 +91,9 @@ string search_search2 (void * webserver_request)
     // Get the plain text or USFM.
     string text;
     if (plaintext) {
-      text = search_logic_get_bible_verse_text (bible2, book, chapter, convert_to_int (verse));
+      text = search_logic_get_bible_verse_text (bible2, book, chapter, filter::strings::convert_to_int (verse));
     } else {
-      text = search_logic_get_bible_verse_usfm (bible2, book, chapter, convert_to_int (verse));
+      text = search_logic_get_bible_verse_usfm (bible2, book, chapter, filter::strings::convert_to_int (verse));
     }
     
     
@@ -118,8 +118,8 @@ string search_search2 (void * webserver_request)
     string books = request->query ["b"];
     string sharing = request->query ["s"];
     Database_Volatile::setValue (identifier, "query", query);
-    Database_Volatile::setValue (identifier, "casesensitive", convert_to_string (casesensitive));
-    Database_Volatile::setValue (identifier, "plaintext", convert_to_string (plaintext));
+    Database_Volatile::setValue (identifier, "casesensitive", filter::strings::convert_to_string (casesensitive));
+    Database_Volatile::setValue (identifier, "plaintext", filter::strings::convert_to_string (plaintext));
     
     
     // Deal with case sensitivity.
@@ -175,7 +175,7 @@ string search_search2 (void * webserver_request)
       hits.push_back (passage.encode ());
     }
     if (sharing != "load") {
-      vector <string> loaded_hits = filter_string_explode (Database_Volatile::getValue (identifier, "hits"), '\n');
+      vector <string> loaded_hits = filter::strings::explode (Database_Volatile::getValue (identifier, "hits"), '\n');
       if (sharing == "add") {
         hits.insert (hits.end(), loaded_hits.begin(), loaded_hits.end());
       }
@@ -190,7 +190,7 @@ string search_search2 (void * webserver_request)
 
 
     // Generate one string from the hits.
-    string output = filter_string_implode (hits, "\n");
+    string output = filter::strings::implode (hits, "\n");
 
 
     // Store search hits in the volatile database.

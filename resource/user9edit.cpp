@@ -105,7 +105,7 @@ string resource_user9edit (void * webserver_request)
     resourceblock.push_back ("</a>");
     resourceblock.push_back ("</p>");
   }
-  view.set_variable ("resourceblock", filter_string_implode (resourceblock, "\n"));
+  view.set_variable ("resourceblock", filter::strings::implode (resourceblock, "\n"));
 
    
   view.set_variable ("success", success);

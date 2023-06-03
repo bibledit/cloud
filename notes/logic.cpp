@@ -53,7 +53,7 @@ Notes_Logic::Notes_Logic (void * webserver_request_in)
 // It returns the $identifier of this new note.
 int Notes_Logic::createNote (string bible, int book, int chapter, int verse, string summary, string contents, bool raw)
 {
-  summary = filter_string_str_replace ("\n", "", summary);
+  summary = filter::strings::replace ("\n", "", summary);
   Database_Notes database_notes (webserver_request);
   int note_id = database_notes.store_new_note (bible, book, chapter, verse, summary, contents, raw);
   if (client_logic_client_enabled ()) {
@@ -495,7 +495,7 @@ void Notes_Logic::emailUsers (int identifier, const string& label, string bible,
   contents << "<br>" << endl;
   contents << "<p>";
   contents << "<a href=";
-  string notelink = config::logic::site_url (webserver_request) + notes_note_url () + "?id=" + convert_to_string (identifier);
+  string notelink = config::logic::site_url (webserver_request) + notes_note_url () + "?id=" + filter::strings::convert_to_string (identifier);
   contents << quoted (notelink);
   contents << ">";
   contents << translate ("View or respond online");
@@ -503,14 +503,14 @@ void Notes_Logic::emailUsers (int identifier, const string& label, string bible,
   contents << " " << translate ("or") << " ";
 
   contents << "<a href=";
-  string workspacelink = config::logic::site_url (webserver_request) + workspace_index_url () + "?note=" + convert_to_string (identifier);
+  string workspacelink = config::logic::site_url (webserver_request) + workspace_index_url () + "?note=" + filter::strings::convert_to_string (identifier);
   contents << quoted (workspacelink);
   contents << ">";
   contents << translate ("open the workspace online");
   contents << "</a>";
 
   contents << "</p>" << endl;
-  string mailto = "mailto:" + Database_Config_General::getSiteMailAddress () + "?subject=(CNID" + convert_to_string (identifier) + ")";
+  string mailto = "mailto:" + Database_Config_General::getSiteMailAddress () + "?subject=(CNID" + filter::strings::convert_to_string (identifier) + ")";
   contents << "<p><a href=";
   contents << quoted (mailto);
   contents << ">Respond by email</a></p>" << endl;
@@ -539,7 +539,7 @@ void Notes_Logic::emailUsers (int identifier, const string& label, string bible,
       subject.append (" | ");
       subject.append (summary);
       subject.append (" | (CNID");
-      subject.append (convert_to_string (identifier));
+      subject.append (filter::strings::convert_to_string (identifier));
       subject.append (")");
       email_schedule (user, subject, contents.str(), timestamp);
     }
@@ -564,7 +564,7 @@ bool Notes_Logic::handleEmailComment (string from, string subject, string body)
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   // At this stage, the subject contains an identifier.
   // Check that the identifier is an existing Consultation Note.
-  int identifier = convert_to_int (subject);
+  int identifier = filter::strings::convert_to_int (subject);
   Database_Notes database_notes (webserver_request);
   if (!database_notes.identifier_exists (identifier)) return false;
   // Check that the from address of the email belongs to an existing user.
@@ -575,17 +575,17 @@ bool Notes_Logic::handleEmailComment (string from, string subject, string body)
     username = request->database_users()->getEmailToUser (from);
   } else {
     username = from;
-    username = filter_string_str_replace ("@", " ", username);
-    username = filter_string_str_replace (".", " ", username);
+    username = filter::strings::replace ("@", " ", username);
+    username = filter::strings::replace (".", " ", username);
   }
   // Clean the email's body.
-  string year = convert_to_string (filter::date::numerical_year (filter::date::seconds_since_epoch ()));
+  string year = filter::strings::convert_to_string (filter::date::numerical_year (filter::date::seconds_since_epoch ()));
   string sender = Database_Config_General::getSiteMailName();
   body = filter_string_extract_body (body, year, sender);
   // Remove any new lines from the body. This cleans up the email considerably,
   // because some emails that get posted would otherwise look untidy,
   // when the many new lines take up a lot of space.
-  body = filter_string_str_replace ("\n", " ", body);
+  body = filter::strings::replace ("\n", " ", body);
   // Make comment on the consultation note.
   string sessionuser = request->session_logic ()->currentUser ();
   request->session_logic ()->set_username (username);
@@ -595,7 +595,7 @@ bool Notes_Logic::handleEmailComment (string from, string subject, string body)
   if (request->database_config_user()->getUserNotifyMeOfMyPosts (username)) {
     string confirm_subject = translate("Your comment was posted");
     confirm_subject.append (" [CNID");
-    confirm_subject.append (convert_to_string (identifier));
+    confirm_subject.append (filter::strings::convert_to_string (identifier));
     confirm_subject.append ("]");
     email_schedule (username, confirm_subject, body);
   }
@@ -622,8 +622,8 @@ bool Notes_Logic::handleEmailNew (string from, string subject, string body)
   if (pos > 0) subject.erase (0, pos + 8);
   // Clean the subject line.
   subject = filter_string_trim (subject);
-  subject = filter_string_str_replace (".", " ", subject);
-  subject = filter_string_str_replace (":", " ", subject);
+  subject = filter::strings::replace (".", " ", subject);
+  subject = filter::strings::replace (":", " ", subject);
   subject = filter_string_collapse_whitespace (subject);
   // Check that the from address of the email belongs to an existing user.
   from = filter_string_extract_email (from);
@@ -634,20 +634,20 @@ bool Notes_Logic::handleEmailNew (string from, string subject, string body)
   int chapter {-1};
   int verse {-1};
   string summary {};
-  vector <string> subjectlines = filter_string_explode (subject, ' ');
+  vector <string> subjectlines = filter::strings::explode (subject, ' ');
   if (!subjectlines.empty()) {
     book = filter_passage_interpret_book_v2 (subjectlines[0]);
     subjectlines.erase (subjectlines.begin());
   }
   if (!subjectlines.empty()) {
-    chapter = convert_to_int (subjectlines[0]);
+    chapter = filter::strings::convert_to_int (subjectlines[0]);
     subjectlines.erase (subjectlines.begin());
   }
   if (!subjectlines.empty()) {
-    verse = convert_to_int (subjectlines[0]);
+    verse = filter::strings::convert_to_int (subjectlines[0]);
     subjectlines.erase (subjectlines.begin());
   }
-  summary = filter_string_implode (subjectlines, " ");
+  summary = filter::strings::implode (subjectlines, " ");
   // Check book, chapter, verse, and summary. Give feedback if there's anything wrong.
   string noteCheck;
   if (book == book_id::_unknown) noteCheck.append (translate("Unknown book"));

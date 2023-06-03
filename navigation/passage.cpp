@@ -143,7 +143,7 @@ string Navigation_Passage::get_mouse_navigator (void * webserver_request, string
     a_node.append_attribute("id") = "selectchapter";
     a_node.append_attribute("href") = "selectchapter";
     a_node.append_attribute("title") = translate("Select chapter").c_str();
-    a_node.text() = convert_to_string (chapter).c_str();
+    a_node.text() = filter::strings::convert_to_string (chapter).c_str();
   }
   
   int verse = Ipc_Focus::getVerse (request);
@@ -189,7 +189,7 @@ string Navigation_Passage::get_mouse_navigator (void * webserver_request, string
     a_node.append_attribute("id") = "selectverse";
     a_node.append_attribute("href") = "selectverse";
     a_node.append_attribute("title") = translate("Select verse").c_str();
-    a_node.text() = (" " + convert_to_string (verse) + " ").c_str();
+    a_node.text() = (" " + filter::strings::convert_to_string (verse) + " ").c_str();
   }
 
   if (next_verse_is_available) {
@@ -235,7 +235,7 @@ string Navigation_Passage::get_books_fragment (void * webserver_request, string 
     book_name = translate (book_name);
     bool selected = (book == active_book);
     string book_type = database::books::book_type_to_string (database::books::get_type (book));
-    add_selector_link (html, convert_to_string (static_cast<int>(book)), "applybook", book_name, selected, book_type);
+    add_selector_link (html, filter::strings::convert_to_string (static_cast<int>(book)), "applybook", book_name, selected, book_type);
   }
   add_selector_link (html, "cancel", "applybook", "[" + translate ("cancel") + "]", false, "");
   html.insert (0, "<span id='applybook'>" + translate ("Select book") + ": ");
@@ -258,7 +258,7 @@ string Navigation_Passage::get_chapters_fragment (void * webserver_request, stri
   html.append (" ");
   for (auto ch : chapters) {
     bool selected = (ch == chapter);
-    add_selector_link (html, convert_to_string (ch), "applychapter", convert_to_string (ch), selected, "");
+    add_selector_link (html, filter::strings::convert_to_string (ch), "applychapter", filter::strings::convert_to_string (ch), selected, "");
   }
   add_selector_link (html, "cancel", "applychapter", "[" + translate ("cancel") + "]", false, "");
 
@@ -283,7 +283,7 @@ string Navigation_Passage::get_verses_fragment (void * webserver_request, string
   html.append (" ");
   for (auto vs : verses) {
     bool selected = (verse == vs);
-    add_selector_link (html, convert_to_string (vs), "applyverse", convert_to_string (vs), selected, "");
+    add_selector_link (html, filter::strings::convert_to_string (vs), "applyverse", filter::strings::convert_to_string (vs), selected, "");
   }
   add_selector_link (html, "cancel", "applyverse", "[" + translate ("cancel") + "]", false, "");
 
@@ -341,12 +341,12 @@ void Navigation_Passage::set_passage (void * webserver_request, string bible, st
   } else if (passage == "-") {
     passage_to_set = Navigation_Passage::get_previous_verse (webserver_request, bible, currentBook, currentChapter, currentVerse);
   } else {
-    Passage inputpassage = Passage ("", currentBook, currentChapter, convert_to_string (currentVerse));
+    Passage inputpassage = Passage ("", currentBook, currentChapter, filter::strings::convert_to_string (currentVerse));
     passage_to_set = filter_passage_interpret_passage (inputpassage, passage);
   }
   if (passage_to_set.m_book != 0) {
-    Ipc_Focus::set (webserver_request, passage_to_set.m_book, passage_to_set.m_chapter, convert_to_int (passage_to_set.m_verse));
-    Navigation_Passage::record_history (webserver_request, passage_to_set.m_book, passage_to_set.m_chapter, convert_to_int (passage_to_set.m_verse));
+    Ipc_Focus::set (webserver_request, passage_to_set.m_book, passage_to_set.m_chapter, filter::strings::convert_to_int (passage_to_set.m_verse));
+    Navigation_Passage::record_history (webserver_request, passage_to_set.m_book, passage_to_set.m_chapter, filter::strings::convert_to_int (passage_to_set.m_verse));
   }
 }
 
@@ -387,8 +387,8 @@ void Navigation_Passage::goto_next_chapter (void * webserver_request, string bib
   int currentChapter = Ipc_Focus::getChapter (webserver_request);
   Passage passage = Navigation_Passage::get_next_chapter (webserver_request, bible, currentBook, currentChapter);
   if (passage.m_book != 0) {
-    Ipc_Focus::set (webserver_request, passage.m_book, passage.m_chapter, convert_to_int (passage.m_verse));
-    Navigation_Passage::record_history (webserver_request, passage.m_book, passage.m_chapter, convert_to_int (passage.m_verse));
+    Ipc_Focus::set (webserver_request, passage.m_book, passage.m_chapter, filter::strings::convert_to_int (passage.m_verse));
+    Navigation_Passage::record_history (webserver_request, passage.m_book, passage.m_chapter, filter::strings::convert_to_int (passage.m_verse));
   }
 }
 
@@ -399,8 +399,8 @@ void Navigation_Passage::goto_previous_chapter (void * webserver_request, string
   int currentChapter = Ipc_Focus::getChapter (webserver_request);
   Passage passage = Navigation_Passage::get_previous_chapter (webserver_request, bible, currentBook, currentChapter);
   if (passage.m_book != 0) {
-    Ipc_Focus::set (webserver_request, passage.m_book, passage.m_chapter, convert_to_int (passage.m_verse));
-    Navigation_Passage::record_history (webserver_request, passage.m_book, passage.m_chapter, convert_to_int (passage.m_verse));
+    Ipc_Focus::set (webserver_request, passage.m_book, passage.m_chapter, filter::strings::convert_to_int (passage.m_verse));
+    Navigation_Passage::record_history (webserver_request, passage.m_book, passage.m_chapter, filter::strings::convert_to_int (passage.m_verse));
   }
 }
 
@@ -415,7 +415,7 @@ Passage Navigation_Passage::get_next_verse (void * webserver_request, string bib
       if (!verses.empty()) verse = verses.back ();
     }
   }
-  Passage passage = Passage ("", book, chapter, convert_to_string (verse));
+  Passage passage = Passage ("", book, chapter, filter::strings::convert_to_string (verse));
   return passage;
 }
 
@@ -430,7 +430,7 @@ Passage Navigation_Passage::get_previous_verse (void * webserver_request, string
       if (!verses.empty ()) verse = verses [0];
     }
   }
-  Passage passage = Passage ("", book, chapter, convert_to_string (verse));
+  Passage passage = Passage ("", book, chapter, filter::strings::convert_to_string (verse));
   return passage;
 }
 
@@ -442,8 +442,8 @@ void Navigation_Passage::goto_next_verse (void * webserver_request, string bible
   int currentVerse = Ipc_Focus::getVerse (webserver_request);
   Passage passage = Navigation_Passage::get_next_verse (webserver_request, bible, currentBook, currentChapter, currentVerse);
   if (passage.m_book != 0) {
-    Ipc_Focus::set (webserver_request, passage.m_book, passage.m_chapter, convert_to_int (passage.m_verse));
-    Navigation_Passage::record_history (webserver_request, passage.m_book, passage.m_chapter, convert_to_int (passage.m_verse));
+    Ipc_Focus::set (webserver_request, passage.m_book, passage.m_chapter, filter::strings::convert_to_int (passage.m_verse));
+    Navigation_Passage::record_history (webserver_request, passage.m_book, passage.m_chapter, filter::strings::convert_to_int (passage.m_verse));
   }
 }
 
@@ -455,8 +455,8 @@ void Navigation_Passage::goto_previous_verse (void * webserver_request, string b
   int currentVerse = Ipc_Focus::getVerse (webserver_request);
   Passage passage = Navigation_Passage::get_previous_verse (webserver_request, bible, currentBook, currentChapter, currentVerse);
   if (passage.m_book != 0) {
-    Ipc_Focus::set (webserver_request, passage.m_book, passage.m_chapter, convert_to_int (passage.m_verse));
-    Navigation_Passage::record_history (webserver_request, passage.m_book, passage.m_chapter, convert_to_int (passage.m_verse));
+    Ipc_Focus::set (webserver_request, passage.m_book, passage.m_chapter, filter::strings::convert_to_int (passage.m_verse));
+    Navigation_Passage::record_history (webserver_request, passage.m_book, passage.m_chapter, filter::strings::convert_to_int (passage.m_verse));
   }
 }
 
@@ -477,7 +477,7 @@ void Navigation_Passage::go_back (void * webserver_request)
   string user = request->session_logic()->currentUser ();
   Passage passage = database_navigation.get_previous (user);
   if (passage.m_book) {
-    Ipc_Focus::set (webserver_request, passage.m_book, passage.m_chapter, convert_to_int (passage.m_verse));
+    Ipc_Focus::set (webserver_request, passage.m_book, passage.m_chapter, filter::strings::convert_to_int (passage.m_verse));
   }
 }
 
@@ -489,7 +489,7 @@ void Navigation_Passage::go_forward (void * webserver_request)
   string user = request->session_logic()->currentUser ();
   Passage passage = database_navigation.get_next (user);
   if (passage.m_book) {
-    Ipc_Focus::set (webserver_request, passage.m_book, passage.m_chapter, convert_to_int (passage.m_verse));
+    Ipc_Focus::set (webserver_request, passage.m_book, passage.m_chapter, filter::strings::convert_to_int (passage.m_verse));
   }
 }
 
@@ -570,7 +570,7 @@ string Navigation_Passage::get_keyboard_navigator (void * webserver_request, str
     }
   }
   
-  string current_passage = filter_passage_display (book, chapter, convert_to_string (verse));
+  string current_passage = filter_passage_display (book, chapter, filter::strings::convert_to_string (verse));
   fragment.append ("<span>");
   fragment.append (current_passage);
   fragment.append ("</span>");
@@ -635,12 +635,12 @@ void Navigation_Passage::interpret_keyboard_navigator (void * webserver_request,
   }
 
   // Determine the new passage based on the current one.
-  Passage current_passage (bible, book, chapter, convert_to_string (verse));
+  Passage current_passage (bible, book, chapter, filter::strings::convert_to_string (verse));
   Passage new_passage = filter_passage_interpret_passage (current_passage, passage);
   
   // Store book / chapter / verse.
-  Ipc_Focus::set (request, new_passage.m_book, new_passage.m_chapter, convert_to_int (new_passage.m_verse));
-  Navigation_Passage::record_history (request, new_passage.m_book, new_passage.m_chapter, convert_to_int (new_passage.m_verse));
+  Ipc_Focus::set (request, new_passage.m_book, new_passage.m_chapter, filter::strings::convert_to_int (new_passage.m_verse));
+  Navigation_Passage::record_history (request, new_passage.m_book, new_passage.m_chapter, filter::strings::convert_to_int (new_passage.m_verse));
 }
 
 
@@ -657,7 +657,7 @@ string Navigation_Passage::get_history_back (void * webserver_request)
     if (i >= 10) continue;
     string rendering = filter_passage_display(passages[i].m_book, passages[i].m_chapter, passages[i].m_verse);
     string book_type = database::books::book_type_to_string (database::books::get_type (static_cast <book_id> (passages[i].m_book)));
-    add_selector_link (html, "b" + convert_to_string (i), "applyhistory", rendering, false, book_type);
+    add_selector_link (html, "b" + filter::strings::convert_to_string (i), "applyhistory", rendering, false, book_type);
   }
   // Add a "cancel" link.
   add_selector_link (html, "cancel", "applyhistory", "[" + translate ("cancel") + "]", false, "");
@@ -682,7 +682,7 @@ string Navigation_Passage::get_history_forward (void * webserver_request)
     if (i >= 10) continue;
     string rendering = filter_passage_display(passages[i].m_book, passages[i].m_chapter, passages[i].m_verse);
     string book_type = database::books::book_type_to_string (database::books::get_type (static_cast<book_id>(passages[i].m_book)));
-    add_selector_link (html, "f" + convert_to_string (i), "applyhistory", rendering, false, book_type);
+    add_selector_link (html, "f" + filter::strings::convert_to_string (i), "applyhistory", rendering, false, book_type);
   }
   // Add a "cancel" link.
   add_selector_link (html, "cancel", "applyhistory", "[" + translate ("cancel") + "]", false, "");
@@ -718,7 +718,7 @@ void Navigation_Passage::go_history (void * webserver_request, string message)
   if (!direction) return;
   
   // Get the offset of the history item.
-  int offset = convert_to_int(message);
+  int offset = filter::strings::convert_to_int(message);
   
   // Go n times forward or backward.
   for (int i = 0; i <= offset; i++) {

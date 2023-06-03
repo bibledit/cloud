@@ -225,7 +225,7 @@ void Editor_Usfm2Html::process ()
             openTextStyle (style, false);
             string textFollowingMarker = filter::usfm::get_text_following_marker (markers_and_text, markers_and_text_pointer);
             string number = filter::usfm::peek_verse_number (textFollowingMarker);
-            verseStartOffsets [convert_to_int (number)] = static_cast<int>(textLength);
+            verseStartOffsets [filter::strings::convert_to_int (number)] = static_cast<int>(textLength);
             addText (number);
             closeTextStyle (false);
             addText (" ");
@@ -562,7 +562,7 @@ void Editor_Usfm2Html::addNoteText (string text)
   if (!currentNoteTextStyles.empty()) {
     // Take character style(s) as specified in this object.
     string classs;
-    classs = filter_string_implode (currentNoteTextStyles, "0");
+    classs = filter::strings::implode (currentNoteTextStyles, "0");
     classs.insert (0, quill_logic_class_prefix_inline ());
     spanDomElement.append_attribute ("class") = classs.c_str();
   }
@@ -588,7 +588,7 @@ void Editor_Usfm2Html::closeCurrentNote ()
 void Editor_Usfm2Html::addNotelLink (xml_node domNode, int identifier, string style, string text)
 {
   xml_node aDomElement = domNode.append_child ("span");
-  string cls = "i-note" + style + convert_to_string (identifier);
+  string cls = "i-note" + style + filter::strings::convert_to_string (identifier);
   aDomElement.append_attribute ("class") = cls.c_str();
   aDomElement.text ().set (text.c_str());
 }

@@ -70,12 +70,12 @@ bool book_create (const string & bible, const book_id book, const int chapter, v
   for (const auto & row : versification_data) {
     if (book == static_cast<book_id>(row.m_book)) {
       int ch = row.m_chapter;
-      int verse = convert_to_int (row.m_verse);
+      int verse = filter::strings::convert_to_int (row.m_verse);
       if ((chapter < 0) || (chapter == ch)) {
-        data  = "\\c " + convert_to_string (ch) + "\n";
+        data  = "\\c " + filter::strings::convert_to_string (ch) + "\n";
         data += "\\p\n";
         for (int i = 1; i <= verse; i++) {
-          data += "\\v " + convert_to_string (i) + "\n";
+          data += "\\v " + filter::strings::convert_to_string (i) + "\n";
         }
         bible_logic::store_chapter (bible, static_cast<int>(book), ch, data);
         chapters_created.push_back (ch);
@@ -91,7 +91,7 @@ bool book_create (const string & bible, const book_id book, const int chapter, v
   string created;
   for (auto & chapter_created : chapters_created) {
     if (!created.empty ()) created.append (" ");
-    created.append (convert_to_string (chapter_created));
+    created.append (filter::strings::convert_to_string (chapter_created));
   }
   feedback.push_back (translate("The following chapters have been created:") + " " + created);
   return true;

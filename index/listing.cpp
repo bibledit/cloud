@@ -74,7 +74,7 @@ string index_listing (void * webserver_request, string url)
   Assets_View view;
   url = filter_url_urldecode (url);
   url = filter_url_create_path ({string(), url});
-  url = filter_string_str_replace (R"(\)", "/", url);
+  url = filter::strings::replace (R"(\)", "/", url);
   view.set_variable ("url", url);
   string parent = filter_url_dirname_web (url);
   if (parent.length () > 1) {
@@ -115,7 +115,7 @@ string index_listing (void * webserver_request, string url)
         string path = filter_url_create_path ({directory, file});
         if (!filter_url_is_dir (path)) {
           td_node = tr_node.append_child("td");
-          td_node.text().set(convert_to_string (filter_url_filesize (path)).c_str());
+          td_node.text().set(filter::strings::convert_to_string (filter_url_filesize (path)).c_str());
         }
       }
     }

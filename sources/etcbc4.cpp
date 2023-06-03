@@ -101,7 +101,7 @@ void sources_etcbc4_download ()
         string data = database_etcbc4.raw (book, chapter, verse);
         if (!data.empty ()) continue;
         
-        string url = "https://shebanq.ancient-data.org/hebrew/verse?version=4b&book=" + bookname + "&chapter=" + convert_to_string (chapter) + "&verse=" + convert_to_string (verse);
+        string url = "https://shebanq.ancient-data.org/hebrew/verse?version=4b&book=" + bookname + "&chapter=" + filter::strings::convert_to_string (chapter) + "&verse=" + filter::strings::convert_to_string (verse);
 
         string error;
         string response = filter_url_http_get (url, error, false);
@@ -113,7 +113,7 @@ void sources_etcbc4_download ()
           if (verse == 1) book_done = true;
           break;
         }
-        Database_Logs::log (bookname + " " + convert_to_string (chapter) + "." + convert_to_string (verse));
+        Database_Logs::log (bookname + " " + filter::strings::convert_to_string (chapter) + "." + filter::strings::convert_to_string (verse));
         database_etcbc4.store (book, chapter, verse, response);
         // Wait a second: Be polite: Do not overload the website.
         this_thread::sleep_for (chrono::seconds (1));
@@ -127,10 +127,10 @@ void sources_etcbc4_download ()
 
 string sources_etcbc4_clean (string item)
 {
-  item = filter_string_str_replace ("/", "", item);
-  item = filter_string_str_replace ("]", "", item);
-  item = filter_string_str_replace ("[", "", item);
-  item = filter_string_str_replace ("=", "", item);
+  item = filter::strings::replace ("/", "", item);
+  item = filter::strings::replace ("]", "", item);
+  item = filter::strings::replace ("[", "", item);
+  item = filter::strings::replace ("=", "", item);
   item = filter_string_trim (item);
   return item;
 }
@@ -147,13 +147,13 @@ void sources_etcbc4_parse ()
   for (auto book : books) {
     vector <int> chapters = database_etcbc4.chapters (book);
     for (auto chapter : chapters) {
-      Database_Logs::log ("Parsing book " + convert_to_string (book) + " chapter " + convert_to_string (chapter));
+      Database_Logs::log ("Parsing book " + filter::strings::convert_to_string (book) + " chapter " + filter::strings::convert_to_string (chapter));
       vector <int> verses = database_etcbc4.verses (book, chapter);
       for (auto verse : verses) {
         // The raw data for the verse.
         string data = database_etcbc4.raw (book, chapter, verse);
         if (data.empty ()) continue;
-        data = filter_string_str_replace (unicode_non_breaking_space_entity (), "", data);
+        data = filter::strings::replace (unicode_non_breaking_space_entity (), "", data);
         // Parse the data.
         xml_document document;
         document.load_string (data.c_str());

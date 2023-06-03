@@ -50,12 +50,12 @@ string Consistency_Logic::response ()
   // The passages entered in the Consistency tool.
   string s_passages = Database_Volatile::getValue (id, "passages");
   s_passages = filter_string_trim (s_passages);
-  vector <string> passages = filter_string_explode (s_passages, '\n');
+  vector <string> passages = filter::strings::explode (s_passages, '\n');
   
   // The translations entered in the Consistency tool.
   string s_translations = Database_Volatile::getValue (id, "translations");
   s_translations = filter_string_trim (s_translations);
-  vector <string> translations = filter_string_explode (s_translations, '\n');
+  vector <string> translations = filter::strings::explode (s_translations, '\n');
   
   // Contains the response to display.
   vector <string> response;
@@ -87,11 +87,11 @@ string Consistency_Logic::response ()
         // If so, set a flag so the data can be re-assembled for this verse.
         // If there was no change, then the data can be fetched from the volatile database.
         bool redoPassage = false;
-        string passageKey = convert_to_string (book) + "." + convert_to_string (chapter) + "." + verse;
+        string passageKey = filter::strings::convert_to_string (book) + "." + filter::strings::convert_to_string (chapter) + "." + verse;
         int currentChapterId = request->database_bibles()->getChapterId (resources [0], book, chapter);
-        int storedChapterId = convert_to_int (Database_Volatile::getValue (id, passageKey + ".id"));
+        int storedChapterId = filter::strings::convert_to_int (Database_Volatile::getValue (id, passageKey + ".id"));
         if (currentChapterId != storedChapterId) {
-          Database_Volatile::setValue (id, passageKey + ".id", convert_to_string (currentChapterId));
+          Database_Volatile::setValue (id, passageKey + ".id", filter::strings::convert_to_string (currentChapterId));
           redoPassage = true;
         }
         
@@ -101,7 +101,7 @@ string Consistency_Logic::response ()
           // Produce new verse text if the passage is to be redone, or else fetch the existing text.
           string text;
           if (redoPassage) {
-            text = verseText (resource, book, chapter, convert_to_int (verse));
+            text = verseText (resource, book, chapter, filter::strings::convert_to_int (verse));
             size_t length1 = text.size ();
             if (!translations.empty ()) {
               text = filter_string_markup_words (translations, text);

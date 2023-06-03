@@ -99,7 +99,7 @@ void sword_logic_refresh_module_list ()
   }
 #else
   filter_shell_run ("installmgr --allow-internet-access-and-risk-tracing-and-jail-or-martyrdom --allow-unverified-tls-peer -sc", out_err);
-  filter_string_replace_between (out_err, "WARNING", "enable? [no]", "");
+  filter::strings::replace_between (out_err, "WARNING", "enable? [no]", "");
   sword_logic_log (out_err);
 #endif
   
@@ -110,7 +110,7 @@ void sword_logic_refresh_module_list ()
 #else
   filter_shell_run ("installmgr -s", out_err);
   sword_logic_log (out_err);
-  vector <string> lines = filter_string_explode (out_err, '\n');
+  vector <string> lines = filter::strings::explode (out_err, '\n');
   for (auto line : lines) {
     line = filter_string_trim (line);
     if (line.find ("[") != string::npos) {
@@ -134,7 +134,7 @@ void sword_logic_refresh_module_list ()
     }
 #else
     filter_shell_run ("installmgr --allow-internet-access-and-risk-tracing-and-jail-or-martyrdom --allow-unverified-tls-peer -r \"" + remote_source + "\"", out_err);
-    filter_string_replace_between (out_err, "WARNING", "type yes at the prompt", "");
+    filter::strings::replace_between (out_err, "WARNING", "type yes at the prompt", "");
     sword_logic_log (out_err);
 #endif
 
@@ -146,7 +146,7 @@ void sword_logic_refresh_module_list ()
     }
 #else
     filter_shell_run ("installmgr -rl \"" + remote_source + "\"", out_err);
-    lines = filter_string_explode (out_err, '\n');
+    lines = filter::strings::explode (out_err, '\n');
     for (auto line : lines) {
       line = filter_string_trim (line);
       if (line.empty ()) continue;
@@ -158,14 +158,14 @@ void sword_logic_refresh_module_list ()
       sword_modules.push_back (module);
     }
 #endif
-    Database_Logs::log (remote_source + ": " + convert_to_string (modules.size ()) + " modules");
+    Database_Logs::log (remote_source + ": " + filter::strings::convert_to_string (modules.size ()) + " modules");
   }
   
   // Store the list of remote sources and their modules.
   // It is stored in the client files area.
   // Clients can access it from there too.
   string path = sword_logic_module_list_path ();
-  filter_url_file_put_contents (path, filter_string_implode (sword_modules, "\n"));
+  filter_url_file_put_contents (path, filter::strings::implode (sword_modules, "\n"));
   
   Database_Logs::log ("Ready refreshing SWORD module list");
 }
@@ -243,11 +243,11 @@ string sword_logic_get_version (string line)
 // [CrossWire] *[Shona] (1.1) - Shona Bible
 string sword_logic_get_name (string line)
 {
-  vector <string> bits = filter_string_explode (line, '-');
+  vector <string> bits = filter::strings::explode (line, '-');
   if (bits.size () >= 2) {
     bits.erase (bits.begin ());
   }
-  line = filter_string_implode (bits, "-");
+  line = filter::strings::implode (bits, "-");
   line = filter_string_trim (line);
   return line;
 }
@@ -346,7 +346,7 @@ void sword_logic_uninstall_module (string module)
 vector <string> sword_logic_get_available ()
 {
   string contents = filter_url_file_get_contents (sword_logic_module_list_path ());
-  return filter_string_explode (contents, '\n');
+  return filter::strings::explode (contents, '\n');
 }
 
 
@@ -357,7 +357,7 @@ vector <string> sword_logic_get_installed ()
   string out_err;
   string sword_path = sword_logic_get_path ();
   filter_shell_run ("cd " + sword_path + "; installmgr -l", out_err);
-  vector <string> lines = filter_string_explode (out_err, '\n');
+  vector <string> lines = filter::strings::explode (out_err, '\n');
   for (auto line : lines) {
     line = filter_string_trim (line);
     if (line.empty ()) continue;
@@ -396,9 +396,9 @@ string sword_logic_get_text (string source, string module, int book, int chapter
   }
   string url = client_logic_url (address, port, sync_resources_url ());
   url = filter_url_build_http_query (url, "r", resource);
-  url = filter_url_build_http_query (url, "b", convert_to_string (book));
-  url = filter_url_build_http_query (url, "c", convert_to_string (chapter));
-  url = filter_url_build_http_query (url, "v", convert_to_string (verse));
+  url = filter_url_build_http_query (url, "b", filter::strings::convert_to_string (book));
+  url = filter_url_build_http_query (url, "c", filter::strings::convert_to_string (chapter));
+  url = filter_url_build_http_query (url, "v", filter::strings::convert_to_string (verse));
   string error;
   string html = filter_url_http_get (url, error, true);
   
@@ -421,7 +421,7 @@ string sword_logic_get_text (string source, string module, int book, int chapter
   bool module_available = false;
 
   string osis = database::books::get_osis_from_id (static_cast<book_id>(book));
-  string chapter_verse = convert_to_string (chapter) + ":" + convert_to_string (verse);
+  string chapter_verse = filter::strings::convert_to_string (chapter) + ":" + filter::strings::convert_to_string (verse);
 
   // See notes on function sword_logic_diatheke
   // for why it is not currently fetching content via a SWORD library call.
@@ -456,7 +456,7 @@ string sword_logic_get_text (string source, string module, int book, int chapter
     
     // Check whether the SWORD module exists.
     vector <string> modules = sword_logic_get_available ();
-    string smodules = filter_string_implode (modules, "");
+    string smodules = filter::strings::implode (modules, "");
     if (smodules.find ("[" + module + "]") != string::npos) {
       // Schedule SWORD module installation.
       // (It used to be the case that this function, to get the text,
@@ -508,7 +508,7 @@ map <int, string> sword_logic_get_bulk_text (const string & module, int book, in
   // diatheke -b AB -k Ezra
   string error;
   string bulk_text;
-  int result = filter_shell_run (sword_logic_get_path (), "diatheke", { "-b", module, "-k", osis, convert_to_string (chapter) }, &bulk_text, &error);
+  int result = filter_shell_run (sword_logic_get_path (), "diatheke", { "-b", module, "-k", osis, filter::strings::convert_to_string (chapter) }, &bulk_text, &error);
   bulk_text.append (error);
   if (result != 0) Database_Logs::log (error);
   // This is how the output would look.
@@ -525,7 +525,7 @@ map <int, string> sword_logic_get_bulk_text (const string & module, int book, in
   // In case of such verses, there's no content to extract from the chapter.
   // The cause in such verses is in the module builder.
   for (auto & verse : verses) {
-    string starter = " " + convert_to_string(chapter) + ":" + convert_to_string(verse) + ":";
+    string starter = " " + filter::strings::convert_to_string(chapter) + ":" + filter::strings::convert_to_string(verse) + ":";
     size_t pos1 = bulk_text.find (starter);
     if (pos1 == string::npos) {
       //Database_Logs::log("Cannot find starter: |" + starter + "|");
@@ -857,7 +857,7 @@ string sword_logic_diatheke ([[maybe_unused]] const string & module_name,
   sword::SWModule *module = manager.getModule (module_name.c_str ());
   available = module;
   if (module) {
-    string key = osis + " " + convert_to_string (chapter) + ":" + convert_to_string (verse);
+    string key = osis + " " + filter::strings::convert_to_string (chapter) + ":" + filter::strings::convert_to_string (verse);
     module->setKey (key.c_str ());
     rendering = module->renderText();
   }
@@ -871,11 +871,11 @@ string sword_logic_diatheke ([[maybe_unused]] const string & module_name,
 void sword_logic_log (string message)
 {
   // Remove less comely stuff, warnings, confusing information.
-  message = filter_string_str_replace ("-=+*", "", message);
-  message = filter_string_str_replace ("WARNING", "", message);
-  message = filter_string_str_replace ("*+=-", "", message);
-  message = filter_string_str_replace ("enable?", "", message);
-  message = filter_string_str_replace ("[no]", "", message);
+  message = filter::strings::replace ("-=+*", "", message);
+  message = filter::strings::replace ("WARNING", "", message);
+  message = filter::strings::replace ("*+=-", "", message);
+  message = filter::strings::replace ("enable?", "", message);
+  message = filter::strings::replace ("[no]", "", message);
   // Clean message up.
   message = filter_string_trim (message);
   // Record in the journal.
@@ -886,11 +886,11 @@ void sword_logic_log (string message)
 string sword_logic_clean_verse (const string & module, int chapter, int verse, string text)
 {
   // Remove any OSIS elements.
-  filter_string_replace_between (text, "<", ">", "");
+  filter::strings::replace_between (text, "<", ">", "");
   
   // Remove the passage name that diatheke adds.
   // A reliable signature for this is the chapter and verse plus subsequent colon.
-  string chapter_verse = convert_to_string (chapter) + ":" + convert_to_string (verse);
+  string chapter_verse = filter::strings::convert_to_string (chapter) + ":" + filter::strings::convert_to_string (verse);
   size_t pos = text.find (" " + chapter_verse + ":");
   if (pos != string::npos) {
     pos += 2;
@@ -899,7 +899,7 @@ string sword_logic_clean_verse (const string & module, int chapter, int verse, s
   }
   
   // Remove the module name that diatheke adds.
-  text = filter_string_str_replace ("(" + module + ")", "", text);
+  text = filter::strings::replace ("(" + module + ")", "", text);
   
   // Clean whitespace away.
   text = filter_string_trim (text);

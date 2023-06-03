@@ -48,8 +48,8 @@ string editusfm_focus (void * webserver_request)
 {
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   string bible = request->query ["bible"];
-  int book = convert_to_int (request->query ["book"]);
-  int chapter = convert_to_int (request->query ["chapter"]);
+  int book = filter::strings::convert_to_int (request->query ["book"]);
+  int chapter = filter::strings::convert_to_int (request->query ["chapter"]);
   string usfm = request->database_bibles()->getChapter (bible, book, chapter);
   int verse = Ipc_Focus::getVerse (request);
   int startingOffset = filter::usfm::versenumber_to_offset (usfm, verse);
@@ -61,7 +61,7 @@ string editusfm_focus (void * webserver_request)
       if (endingOffset > startingOffset) endingOffset--;
     }
   }
-  string data = convert_to_string (startingOffset) + " " + convert_to_string (endingOffset);
+  string data = filter::strings::convert_to_string (startingOffset) + " " + filter::strings::convert_to_string (endingOffset);
   return data;
 }
 

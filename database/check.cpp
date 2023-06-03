@@ -119,7 +119,7 @@ void Database_Check::recordOutput (string bible, int book, int chapter, int vers
   sql.add (";");
   vector <string> result = sql.query () ["count(*)"];
   if (!result.empty ()) {
-    count = convert_to_int (result [0]);
+    count = filter::strings::convert_to_int (result [0]);
   }
   if (count == 0) {
     // Check how often $data has been recorded already.
@@ -131,7 +131,7 @@ void Database_Check::recordOutput (string bible, int book, int chapter, int vers
     sql.add (";");
     vector <string> count_result = sql.query () ["count(*)"];
     if (!count_result.empty ()) {
-      count = convert_to_int (count_result [0]);
+      count = filter::strings::convert_to_int (count_result [0]);
     }
     // Record the data no more than so often.
     if (count < 10) {
@@ -188,11 +188,11 @@ vector <Database_Check_Hit> Database_Check::getHits ()
   vector <string> data = result ["data"];
   for (unsigned int i = 0; i < rowids.size(); i++) {
     Database_Check_Hit hit = Database_Check_Hit ();
-    hit.rowid = convert_to_int (rowids [i]);
+    hit.rowid = filter::strings::convert_to_int (rowids [i]);
     hit.bible = bibles [i];
-    hit.book = convert_to_int (books [i]);
-    hit.chapter = convert_to_int (chapters [i]);
-    hit.verse = convert_to_int (verses [i]);
+    hit.book = filter::strings::convert_to_int (books [i]);
+    hit.chapter = filter::strings::convert_to_int (chapters [i]);
+    hit.verse = filter::strings::convert_to_int (verses [i]);
     hit.data = data [i];
     hits.push_back (hit);
   }
@@ -237,7 +237,7 @@ Passage Database_Check::getPassage (int id)
   vector <string> chapters = result ["chapter"];
   vector <string> verses = result ["verse"];
   if (!books.empty()) {
-    Passage passage = Passage ("", convert_to_int (books[0]), convert_to_int (chapters[0]), verses[0]);
+    Passage passage = Passage ("", filter::strings::convert_to_int (books[0]), filter::strings::convert_to_int (chapters[0]), verses[0]);
     return passage;
   }
   return Passage ("", 0, 0, "");
@@ -258,11 +258,11 @@ vector <Database_Check_Hit> Database_Check::getSuppressions ()
   vector <string> data = result ["data"];
   for (unsigned int i = 0; i < rowids.size(); i++) {
     Database_Check_Hit hit = Database_Check_Hit ();
-    hit.rowid = convert_to_int (rowids [i]);
+    hit.rowid = filter::strings::convert_to_int (rowids [i]);
     hit.bible = bibles [i];
-    hit.book = convert_to_int (books [i]);
-    hit.chapter = convert_to_int (chapters [i]);
-    hit.verse = convert_to_int (verses [i]);
+    hit.book = filter::strings::convert_to_int (books [i]);
+    hit.chapter = filter::strings::convert_to_int (chapters [i]);
+    hit.verse = filter::strings::convert_to_int (verses [i]);
     hit.data = data [i];
     hits.push_back (hit);
   }

@@ -89,7 +89,7 @@ void Database_Mappings::defaults ()
     string extension = filter_url_get_extension (name);
     if (extension != "txt") continue;
     name = name.substr (0, strlen (name.c_str()) - 4);
-    name = filter_string_str_replace ("_", " ", name);
+    name = filter::strings::replace ("_", " ", name);
     string path = filter_url_create_path ({folder, file});
     string data = filter_url_file_get_contents (path);
     import (name, data);
@@ -115,7 +115,7 @@ void Database_Mappings::import (const string& name, const string& data)
   // Begin a transaction for better speed.
   database_sqlite_exec (db, "BEGIN;");
 
-  vector <string> lines = filter_string_explode (data, '\n');
+  vector <string> lines = filter::strings::explode (data, '\n');
   for (string line : lines) {
     
     // Each line looks like this: 
@@ -126,7 +126,7 @@ void Database_Mappings::import (const string& name, const string& data)
     if (line.empty ()) continue;
 
     // Cut the line into two: The two passages.
-    vector <string> entry = filter_string_explode (line, '=');
+    vector <string> entry = filter::strings::explode (line, '=');
     if (entry.size() != 2) continue;
     
     string passage_string = filter_string_trim (entry [0]);
@@ -136,29 +136,29 @@ void Database_Mappings::import (const string& name, const string& data)
     vector <string> bits;
     
     // Split the passage entry on the colon (:) to get the verse.
-    bits = filter_string_explode(passage_string, ':');
+    bits = filter::strings::explode(passage_string, ':');
     if (bits.size() != 2) continue;
-    int passage_verse = convert_to_int(bits[1]);
+    int passage_verse = filter::strings::convert_to_int(bits[1]);
     // Split the first bit on the spaces and get the last item as the chapter.
-    bits = filter_string_explode(bits[0], ' ');
+    bits = filter::strings::explode(bits[0], ' ');
     if (bits.size() < 2) continue;
-    int passage_chapter = convert_to_int(bits[bits.size()-1]);
+    int passage_chapter = filter::strings::convert_to_int(bits[bits.size()-1]);
     // Remove the last bit so it remains with the book, and get that book.
     bits.pop_back();
-    string passage_book_string = filter_string_implode(bits, " ");
+    string passage_book_string = filter::strings::implode(bits, " ");
     int passage_book = static_cast<int>(database::books::get_id_from_english(passage_book_string));
 
     // Split the original entry on the colon (:) to get the verse.
-    bits = filter_string_explode(original_string, ':');
+    bits = filter::strings::explode(original_string, ':');
     if (bits.size() != 2) continue;
-    int original_verse = convert_to_int(bits[1]);
+    int original_verse = filter::strings::convert_to_int(bits[1]);
     // Split the first bit on the spaces and get the last item as the chapter.
-    bits = filter_string_explode(bits[0], ' ');
+    bits = filter::strings::explode(bits[0], ' ');
     if (bits.size() < 2) continue;
-    int original_chapter = convert_to_int(bits[bits.size()-1]);
+    int original_chapter = filter::strings::convert_to_int(bits[bits.size()-1]);
     // Remove the last bit so it remains with the book, and get that book.
     bits.pop_back();
-    string original_book_string = filter_string_implode(bits, " ");
+    string original_book_string = filter::strings::implode(bits, " ");
     int original_book = static_cast<int>(database::books::get_id_from_english(original_book_string));
 
     // Store it in the database.
@@ -207,18 +207,18 @@ string Database_Mappings::output (const string& name)
   vector <string> origverses = result ["origverse"];
 
   for (unsigned int i = 0; i < books.size (); i++) {
-    int book = convert_to_int (books [i]);
+    int book = filter::strings::convert_to_int (books [i]);
     string bookname = database::books::get_english_from_id (static_cast<book_id>(book));
     string chapter = chapters [i];
     string verse = verses [i];
-    int origbook = convert_to_int (origbooks[i]);
+    int origbook = filter::strings::convert_to_int (origbooks[i]);
     string origbookname = database::books::get_english_from_id (static_cast<book_id>(origbook));
     string origchapter = origchapters[i];
     string origverse = origverses [i];
     string item = bookname + " " + chapter + ":" + verse + " = " + origbookname + " " + origchapter + ":" + origverse;
     data.push_back (item);
   }
-  return filter_string_implode (data, "\n");
+  return filter::strings::implode (data, "\n");
 }
 
 
@@ -281,7 +281,7 @@ vector <Passage> Database_Mappings::translate (const string& input, const string
 {
   // Care for situation that the input and output are the same.
   if (input == output) {
-    Passage passage = Passage ("", book, chapter, convert_to_string (verse));
+    Passage passage = Passage ("", book, chapter, filter::strings::convert_to_string (verse));
     return {passage};
   }
 
@@ -307,7 +307,7 @@ vector <Passage> Database_Mappings::translate (const string& input, const string
     vector <string> origchapters = result ["origchapter"];
     vector <string> origverses = result ["origverse"];
     for (unsigned int i = 0; i < origbooks.size (); i++) {
-      Passage passage = Passage ("", convert_to_int (origbooks [i]), convert_to_int (origchapters [i]), origverses [i]);
+      Passage passage = Passage ("", filter::strings::convert_to_int (origbooks [i]), filter::strings::convert_to_int (origchapters [i]), origverses [i]);
       origpassage.push_back (passage);
     }
   }
@@ -315,7 +315,7 @@ vector <Passage> Database_Mappings::translate (const string& input, const string
   // Check that the search yields a passage.
   // If there is none, it means that the $input passage is the same as in Hebrew/Greek.
   if (origpassage.empty ()) {
-    Passage passage = Passage ("", book, chapter, convert_to_string (verse));
+    Passage passage = Passage ("", book, chapter, filter::strings::convert_to_string (verse));
     origpassage.push_back (passage);
   }
 
@@ -330,7 +330,7 @@ vector <Passage> Database_Mappings::translate (const string& input, const string
   for (Passage & passage : origpassage) {
     int origbook = passage.m_book;
     int origchapter = passage.m_chapter;
-    int origverse = convert_to_int (passage.m_verse);
+    int origverse = filter::strings::convert_to_int (passage.m_verse);
     SqliteSQL sql = SqliteSQL ();
     sql.add ("SELECT book, chapter, verse FROM maps WHERE name =");
     sql.add (output);
@@ -348,7 +348,7 @@ vector <Passage> Database_Mappings::translate (const string& input, const string
     vector <string> chapters = result ["chapter"];
     vector <string> verses = result ["verse"];
     for (unsigned int i = 0; i < books.size (); i++) {
-      Passage passage2 = Passage (string(), convert_to_int (books [i]), convert_to_int (chapters [i]), verses [i]);
+      Passage passage2 = Passage (string(), filter::strings::convert_to_int (books [i]), filter::strings::convert_to_int (chapters [i]), verses [i]);
       bool passageExists = false;
       for (auto & existingpassage : targetpassage) {
         if (existingpassage.equal (passage2)) passageExists = true;

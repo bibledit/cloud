@@ -31,10 +31,10 @@ void test_string ()
   // Test string replacement filter.
   {
     // Shows that std::string handles UTF-8 well for simple operations.
-    evaluate (__LINE__, __func__, "⇊⇦", filter_string_str_replace ("⇖", "", "⇊⇖⇦"));
+    evaluate (__LINE__, __func__, "⇊⇦", filter::strings::replace ("⇖", "", "⇊⇖⇦"));
     // Exercise the replacement counter.
     int counter = 0;
-    evaluate (__LINE__, __func__, "a", filter_string_str_replace ("bc", "", "abc", &counter));
+    evaluate (__LINE__, __func__, "a", filter::strings::replace ("bc", "", "abc", &counter));
     evaluate (__LINE__, __func__, 1, counter);
     // Same test for the real Unicode replacer.
     evaluate (__LINE__, __func__, "⇊⇦", unicode_string_str_replace ("⇖", "", "⇊⇖⇦"));
@@ -198,10 +198,10 @@ void test_string ()
   
   // String conversion to int.
   {
-    evaluate (__LINE__, __func__, 0, convert_to_int (""));
-    evaluate (__LINE__, __func__, 123, convert_to_int ("123"));
-    evaluate (__LINE__, __func__, 123, convert_to_int ("123xx"));
-    evaluate (__LINE__, __func__, 0, convert_to_int ("xxx123xx"));
+    evaluate (__LINE__, __func__, 0, filter::strings::convert_to_int (""));
+    evaluate (__LINE__, __func__, 123, filter::strings::convert_to_int ("123"));
+    evaluate (__LINE__, __func__, 123, filter::strings::convert_to_int ("123xx"));
+    evaluate (__LINE__, __func__, 0, filter::strings::convert_to_int ("xxx123xx"));
   }
   
   // Unicode validity test.
@@ -230,10 +230,10 @@ void test_string ()
     int floor = 100'000;
     int ceiling = 999'999;
     int r1 = filter_string_rand (floor, ceiling);
-    if ((r1 < floor) || (r1 > ceiling)) evaluate (__LINE__, __func__, "Random generator out of bounds", convert_to_string (r1));
+    if ((r1 < floor) || (r1 > ceiling)) evaluate (__LINE__, __func__, "Random generator out of bounds", filter::strings::convert_to_string (r1));
     int r2 = filter_string_rand (floor, ceiling);
-    if ((r2 < floor) || (r2 > ceiling)) evaluate (__LINE__, __func__, "Random generator out of bounds", convert_to_string (r2));
-    if (r1 == r2) evaluate (__LINE__, __func__, "Random generator should generate different values", convert_to_string (r1) + " " + convert_to_string (r2));
+    if ((r2 < floor) || (r2 > ceiling)) evaluate (__LINE__, __func__, "Random generator out of bounds", filter::strings::convert_to_string (r2));
+    if (r1 == r2) evaluate (__LINE__, __func__, "Random generator should generate different values", filter::strings::convert_to_string (r1) + " " + filter::strings::convert_to_string (r2));
   }
 
   // Convert html to plain text.
@@ -322,13 +322,6 @@ void test_string ()
     evaluate (__LINE__, __func__, "test", filter_string_extract_body (body, "2011", "Bibledit"));
   }
   
-  // Substring replacement.
-  {
-    evaluate (__LINE__, __func__, "ABXEFG", substr_replace ("ABCDEFG", "X", 2, 2));
-    evaluate (__LINE__, __func__, "ABX", substr_replace ("ABCDEFG", "X", 2, 5));
-    evaluate (__LINE__, __func__, "ABXG", substr_replace ("ABCDEFG", "X", 2, 4));
-  }
-
   // Word markup.
   {
     string text =
@@ -362,19 +355,19 @@ void test_string ()
   {
     string folder = filter_url_create_root_path ({"unittests", "tests"});
     string html = filter_url_file_get_contents (filter_url_create_path ({folder, "biblehub-john-1-1.html"}));
-    vector <string> tidy = filter_string_explode (html_tidy (html), '\n');
+    vector <string> tidy = filter::strings::explode (html_tidy (html), '\n');
     evaluate (__LINE__, __func__, 747, static_cast<int>(tidy.size()));
   }
   
   {
     string input = "<span>Praise the LORD&#xB6;, all &amp; you nations</span>";
     string output = convert_xml_character_entities_to_characters (input);
-    string standard = filter_string_str_replace ("&#xB6;", "¶", input);
+    string standard = filter::strings::replace ("&#xB6;", "¶", input);
     evaluate (__LINE__, __func__, standard, output);
     
     input = "<span>Praise the LORD &#x5D0; all you nations</span>";
     output = convert_xml_character_entities_to_characters (input);
-    standard = filter_string_str_replace ("&#x5D0;", "א", input);
+    standard = filter::strings::replace ("&#x5D0;", "א", input);
     evaluate (__LINE__, __func__, standard, output);
     
     input = "Username";
@@ -470,12 +463,12 @@ void test_string ()
   }
   
   {
-    evaluate (__LINE__, __func__, false, convert_to_bool ("0"));
-    evaluate (__LINE__, __func__, false, convert_to_bool ("false"));
-    evaluate (__LINE__, __func__, false, convert_to_bool ("FALSE"));
-    evaluate (__LINE__, __func__, true, convert_to_bool ("1"));
-    evaluate (__LINE__, __func__, true, convert_to_bool ("true"));
-    evaluate (__LINE__, __func__, true, convert_to_bool ("TRUE"));
+    evaluate (__LINE__, __func__, false, filter::strings::convert_to_bool ("0"));
+    evaluate (__LINE__, __func__, false, filter::strings::convert_to_bool ("false"));
+    evaluate (__LINE__, __func__, false, filter::strings::convert_to_bool ("FALSE"));
+    evaluate (__LINE__, __func__, true, filter::strings::convert_to_bool ("1"));
+    evaluate (__LINE__, __func__, true, filter::strings::convert_to_bool ("true"));
+    evaluate (__LINE__, __func__, true, filter::strings::convert_to_bool ("TRUE"));
   }
   
   {
@@ -511,8 +504,8 @@ void test_string ()
   
   // Test conversion of boolean to true / false string.
   {
-    evaluate (__LINE__, __func__, "true", convert_to_true_false (true));
-    evaluate (__LINE__, __func__, "false", convert_to_true_false (false));
+    evaluate (__LINE__, __func__, "true", filter::strings::convert_to_true_false (true));
+    evaluate (__LINE__, __func__, "false", filter::strings::convert_to_true_false (false));
   }
   
   // Test two explode functions.
@@ -520,23 +513,23 @@ void test_string ()
     vector <string> result;
 
     // Explode on single delimiter.
-    result = filter_string_explode ("a b c", ' ');
+    result = filter::strings::explode ("a b c", ' ');
     evaluate (__LINE__, __func__, {"a", "b", "c"}, result);
 
     // Explode on a single space.
-    result = filter_string_explode ("a b c", " ");
+    result = filter::strings::explode ("a b c", " ");
     evaluate (__LINE__, __func__, {"a", "b", "c"}, result);
 
     // Explode on a set consisting of two spaces.
-    result = filter_string_explode ("a b c", "  ");
+    result = filter::strings::explode ("a b c", "  ");
     evaluate (__LINE__, __func__, {"a", "b", "c"}, result);
 
     // Explode on a semicolon, on a comma, and on a full stop.
-    result = filter_string_explode ("aa.bb,cc;", ";,.");
+    result = filter::strings::explode ("aa.bb,cc;", ";,.");
     evaluate (__LINE__, __func__, {"aa", "bb", "cc"}, result);
 
     // Explode on two punctuation marks, leaving one in the output.
-    result = filter_string_explode ("aa.bb,cc;", ";,");
+    result = filter::strings::explode ("aa.bb,cc;", ";,");
     evaluate (__LINE__, __func__, {"aa.bb", "cc"}, result);
   }
   
@@ -552,11 +545,11 @@ void test_string ()
   // Test UTF-16 number of bytes whether 1 or 2.
   {
     u16string u16;
-    u16 = convert_to_u16string ("a");
+    u16 = filter::strings::convert_to_u16string ("a");
     evaluate (__LINE__, __func__, 1, static_cast<int> (u16.length()));
-    u16 = convert_to_u16string ("ℵ");
+    u16 = filter::strings::convert_to_u16string ("ℵ");
     evaluate (__LINE__, __func__, 1, static_cast<int> (u16.length()));
-    u16 = convert_to_u16string ("😀");
+    u16 = filter::strings::convert_to_u16string ("😀");
     evaluate (__LINE__, __func__, 2, static_cast<int> (u16.length()));
   }
   

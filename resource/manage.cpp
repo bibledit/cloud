@@ -118,7 +118,7 @@ string resource_manage (void * webserver_request)
     resourceblock.push_back (resource);
     resourceblock.push_back ("</p>");
   }
-  view.set_variable ("resourceblock", filter_string_implode (resourceblock, "\n"));
+  view.set_variable ("resourceblock", filter::strings::implode (resourceblock, "\n"));
 
   
   page += view.render ("resource", "manage");

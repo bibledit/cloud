@@ -65,7 +65,7 @@ string Paratext_Logic::searchProjectsFolder ()
   for (auto file : files) {
     if (file.find ("Paratext") != string::npos) {
       string path = filter_url_create_path ({homedir, file});
-      path = filter_string_str_replace ("\\\\", "\\", path);
+      path = filter::strings::replace ("\\\\", "\\", path);
       return path;
     }
   }
@@ -264,7 +264,7 @@ string Paratext_Logic::ancestorPath (string bible, int book)
 {
   string path = filter_url_create_root_path ({"paratext", "ancestors", bible});
   if (!file_or_dir_exists (path)) filter_url_mkdir (path);
-  if (book) path = filter_url_create_path ({path, convert_to_string (book)});
+  if (book) path = filter_url_create_path ({path, filter::strings::convert_to_string (book)});
   return path;
 }
 
@@ -364,7 +364,7 @@ void Paratext_Logic::synchronize (tasks::enums::paratext_sync method)
         // Paratext on Linux has been seen adding empty lines right after \c (chapter).
         // It does that after syncing with Bibledit and editing the chapter in Paratext.
         // This looks like a bug in Paratext. Remove those empty lines.
-        book_usfm = filter_string_str_replace ("\n\n", "\n", book_usfm);
+        book_usfm = filter::strings::replace ("\n\n", "\n", book_usfm);
         vector <int> chapters = filter::usfm::get_chapter_numbers (book_usfm);
         for (auto chapter : chapters) {
           string chapter_usfm = filter::usfm::get_chapter_text (book_usfm, chapter);
@@ -574,7 +574,7 @@ string Paratext_Logic::journalTag (string bible, int book, int chapter)
   string bookname = database::books::get_english_from_id (static_cast<book_id>(book));
   string project = Database_Config_Bible::getParatextProject (bible);
   string fragment = bible + " <> " + project + " " + bookname;
-  if (chapter >= 0) fragment.append (" " + convert_to_string (chapter));
+  if (chapter >= 0) fragment.append (" " + filter::strings::convert_to_string (chapter));
   fragment.append (": ");
   return fragment;
 }

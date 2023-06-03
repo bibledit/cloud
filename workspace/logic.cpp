@@ -191,7 +191,7 @@ string workspace_get_active_name (void * webserver_request)
 string workspace_process_units (string length)
 {
   // If a size factor is found, great, otherwise default to 1
-  if (length == convert_to_string (convert_to_int (length))) {
+  if (length == filter::strings::convert_to_string (filter::strings::convert_to_int (length))) {
     return length;
   }
   return "1";
@@ -214,7 +214,7 @@ void workspace_set_values (void * webserver_request, int selector, const map <in
   if (selector == WIDTHS) rawvalue = request->database_config_user()->getWorkspaceWidths ();
   if (selector == HEIGHTS) rawvalue = request->database_config_user()->getWorkspaceHeights ();
   if (selector == ENTIREWIDTH) rawvalue = request->database_config_user()->getEntireWorkspaceWidths ();
-  vector <string> currentlines = filter_string_explode (rawvalue, '\n');
+  vector <string> currentlines = filter::strings::explode (rawvalue, '\n');
   vector <string> newlines;
   for (auto & line : currentlines) {
     if (line.find (workspace + "_") != 0) {
@@ -222,10 +222,10 @@ void workspace_set_values (void * webserver_request, int selector, const map <in
     }
   }
   for (auto & element : values) {
-    string line = workspace + "_" + convert_to_string (element.first) + "_" + element.second;
+    string line = workspace + "_" + filter::strings::convert_to_string (element.first) + "_" + element.second;
     newlines.push_back (line);
   }
-  rawvalue = filter_string_implode (newlines, "\n");
+  rawvalue = filter::strings::implode (newlines, "\n");
   if (selector == URLS) {
     request->database_config_user()->setWorkspaceURLs (rawvalue);
     workspace_cache_for_cloud (request, true, false, false);
@@ -288,12 +288,12 @@ map <int, string> workspace_get_values (void * webserver_request, int selector, 
   if (selector == WIDTHS) rawvalue = request->database_config_user()->getWorkspaceWidths ();
   if (selector == HEIGHTS) rawvalue = request->database_config_user()->getWorkspaceHeights ();
   if (selector == ENTIREWIDTH) rawvalue = request->database_config_user()->getEntireWorkspaceWidths ();
-  vector <string> lines = filter_string_explode (rawvalue, '\n');
+  vector <string> lines = filter::strings::explode (rawvalue, '\n');
   for (auto & line : lines) {
     if (line.find (workspace + "_") == 0) {
-      vector <string> bits = filter_string_explode (line, '_');
+      vector <string> bits = filter::strings::explode (line, '_');
       if (bits.size() == 3) {
-        int key = convert_to_int (bits [1]);
+        int key = filter::strings::convert_to_int (bits [1]);
         string value = bits [2];
         values [key] = value;
       }
@@ -317,13 +317,13 @@ map <int, string> workspace_get_values (void * webserver_request, int selector, 
       }
       
       // Transform the internal URLs to full ones.
-      vector <string> bits = filter_string_explode (element.second, '/');
+      vector <string> bits = filter::strings::explode (element.second, '/');
       if (bits.size() == 2) {
         element.second.insert (0, "/");
       }
       
       // Encode URL.
-      element.second = filter_string_str_replace (" ", "%20", element.second);
+      element.second = filter::strings::replace (" ", "%20", element.second);
     }
 
     if (selector == WIDTHS) {
@@ -379,9 +379,9 @@ vector <string> workspace_get_names (void * webserver_request, bool add_default)
   vector <string> workspaces;
   // The names and the order of the workspaces is taken from the URLs.
   string rawvalue = request->database_config_user()->getWorkspaceURLs ();
-  vector <string> lines = filter_string_explode (rawvalue, '\n');
+  vector <string> lines = filter::strings::explode (rawvalue, '\n');
   for (auto & line : lines) {
-    vector <string> bits = filter_string_explode (line, '_');
+    vector <string> bits = filter::strings::explode (line, '_');
     if (bits.size() == 3) {
       if (find (workspaces.begin(), workspaces.end(), bits[0]) == workspaces.end()) {
         workspaces.push_back (bits[0]);
@@ -404,30 +404,30 @@ void workspace_delete (void * webserver_request, string workspace)
   vector <string> newlines;
   
   rawvalue = request->database_config_user()->getWorkspaceURLs ();
-  currentlines = filter_string_explode (rawvalue, '\n');
+  currentlines = filter::strings::explode (rawvalue, '\n');
   newlines.clear ();
   for (auto & line : currentlines) {
     if (line.find (workspace + "_") != 0) newlines.push_back (line);
   }
-  rawvalue = filter_string_implode (newlines, "\n");
+  rawvalue = filter::strings::implode (newlines, "\n");
   request->database_config_user()->setWorkspaceURLs (rawvalue);
   
   rawvalue = request->database_config_user()->getWorkspaceWidths ();
-  currentlines = filter_string_explode (rawvalue, '\n');
+  currentlines = filter::strings::explode (rawvalue, '\n');
   newlines.clear ();
   for (auto & line : currentlines) {
     if (line.find (workspace + "_") != 0) newlines.push_back (line);
   }
-  rawvalue = filter_string_implode (newlines, "\n");
+  rawvalue = filter::strings::implode (newlines, "\n");
   request->database_config_user()->setWorkspaceWidths (rawvalue);
   
   rawvalue = request->database_config_user()->getWorkspaceHeights ();
-  currentlines = filter_string_explode (rawvalue, '\n');
+  currentlines = filter::strings::explode (rawvalue, '\n');
   newlines.clear ();
   for (auto & line : currentlines) {
     if (line.find (workspace + "_") != 0) newlines.push_back (line);
   }
-  rawvalue = filter_string_implode (newlines, "\n");
+  rawvalue = filter::strings::implode (newlines, "\n");
   request->database_config_user()->setWorkspaceHeights (rawvalue);
   
   request->database_config_user()->setActiveWorkspace ("");
@@ -448,7 +448,7 @@ void workspace_reorder (void * webserver_request, const vector <string> & worksp
 
   // Retrieve the old order of the workspaces, plus their details.
   string rawvalue = request->database_config_user()->getWorkspaceURLs ();
-  vector <string> oldlines = filter_string_explode (rawvalue, '\n');
+  vector <string> oldlines = filter::strings::explode (rawvalue, '\n');
   
   // Create vector with the sorted workspace definitions.
   vector <string> newlines;
@@ -469,7 +469,7 @@ void workspace_reorder (void * webserver_request, const vector <string> & worksp
   }
 
   // Save everything.
-  rawvalue = filter_string_implode (newlines, "\n");
+  rawvalue = filter::strings::implode (newlines, "\n");
   request->database_config_user()->setWorkspaceURLs (rawvalue);
 
   // Schedule for sending to Cloud.
@@ -589,7 +589,7 @@ map <int, int> workspace_add_bible_editor_number (map <int, string> & urls)
     if (is_bible_editor) {
       bible_editor_count++;
       if (bible_editor_count > 1) {
-        Database_Logs::log ("Setting Bible editor " + url + " as editor number " + convert_to_string (bible_editor_count));
+        Database_Logs::log ("Setting Bible editor " + url + " as editor number " + filter::strings::convert_to_string (bible_editor_count));
       }
       editor_numbers [element.first] = bible_editor_count;
     }

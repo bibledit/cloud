@@ -112,7 +112,7 @@ string hyphenate_at_transition (vector <string>& firstset, vector <string>& seco
   if (text.empty ()) return text;
   
   // Split the text up into lines and go through each one.
-  vector <string> lines = filter_string_explode (text, '\n');
+  vector <string> lines = filter::strings::explode (text, '\n');
   for (string & line : lines) {
     
     // Split the line up into an array of UTF8 Unicode characters.
@@ -158,12 +158,12 @@ string hyphenate_at_transition (vector <string>& firstset, vector <string>& seco
     }
     
     // Re-assemble the line from the separate (updated) characters.
-    line = filter_string_implode (characters, "");
+    line = filter::strings::implode (characters, "");
     
   }
   
   // Assemble the hyphenated text from the separate lines.
-  text = filter_string_implode (lines, "\n");
+  text = filter::strings::implode (lines, "\n");
   return text;
 }
 

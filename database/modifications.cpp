@@ -98,7 +98,7 @@ string Database_Modifications::teamFolder ()
 
 string Database_Modifications::teamFile (const string& bible, int book, int chapter)
 {
-  return filter_url_create_path ({teamFolder (), bible + "." + convert_to_string (book) + "." + convert_to_string (chapter)});
+  return filter_url_create_path ({teamFolder (), bible + "." + filter::strings::convert_to_string (book) + "." + filter::strings::convert_to_string (chapter)});
 }
 
 
@@ -181,13 +181,13 @@ void Database_Modifications::deleteTeamDiffChapter (const string& bible, int boo
 // Returns an array with the available chapters that have diff data in a book in a Bible.
 vector <int> Database_Modifications::getTeamDiffChapters (const string& bible, int book)
 {
-  string pattern = bible + "." + convert_to_string (book) + ".";
+  string pattern = bible + "." + filter::strings::convert_to_string (book) + ".";
   size_t length = pattern.length ();
   vector <int> chapters;
   vector <string> files = filter_url_scandir (teamFolder ());
   for (auto & file : files) {
     if (file.substr (0, length) != pattern) continue;
-    vector <string> bits = filter_string_explode (file, '.');
+    vector <string> bits = filter::strings::explode (file, '.');
     if (bits.size() != 3) continue;
     string path = filter_url_create_path ({teamFolder (), file});
     int time = filter_url_file_modification_time (path);
@@ -199,7 +199,7 @@ vector <int> Database_Modifications::getTeamDiffChapters (const string& bible, i
       // Therefore just remove this change, without processing it.
       filter_url_unlink (path);
     } else {
-      chapters.push_back (convert_to_int (bits [2]));
+      chapters.push_back (filter::strings::convert_to_int (bits [2]));
     }
   }
   sort (chapters.begin(), chapters.end());
@@ -233,9 +233,9 @@ vector <int> Database_Modifications::getTeamDiffBooks (const string& bible)
   vector <string> files = filter_url_scandir (teamFolder ());
   for (auto & file : files) {
     if (file.substr (0, length) != pattern) continue;
-    vector <string> bits = filter_string_explode (file, '.');
+    vector <string> bits = filter::strings::explode (file, '.');
     if (bits.size() != 3) continue;
-    books.push_back (convert_to_int (bits [1]));
+    books.push_back (filter::strings::convert_to_int (bits [1]));
   }
   set <int> bookset (books.begin (), books.end());
   books.assign (bookset.begin(), bookset.end());
@@ -250,7 +250,7 @@ vector <string> Database_Modifications::getTeamDiffBibles ()
   vector <string> bibles;
   vector <string> files = filter_url_scandir (teamFolder ());
   for (auto & file : files) {
-    vector <string> bits = filter_string_explode (file, '.');
+    vector <string> bits = filter::strings::explode (file, '.');
     if (bits.size() != 3) continue;
     bibles.push_back (bits [0]);
   }
@@ -294,19 +294,19 @@ string Database_Modifications::userBibleFolder (const string& username, const st
 
 string Database_Modifications::userBookFolder (const string& username, const string& bible, int book)
 {
-  return filter_url_create_path ({userBibleFolder (username, bible), convert_to_string (book)});
+  return filter_url_create_path ({userBibleFolder (username, bible), filter::strings::convert_to_string (book)});
 }
 
 
 string Database_Modifications::userChapterFolder (const string& username, const string& bible, int book, int chapter)
 {
-  return filter_url_create_path ({userBookFolder (username, bible, book), convert_to_string (chapter)});
+  return filter_url_create_path ({userBookFolder (username, bible, book), filter::strings::convert_to_string (chapter)});
 }
 
 
 string Database_Modifications::userNewIDFolder (const string& username, const string& bible, int book, int chapter, int newID)
 {
-  return filter_url_create_path ({userChapterFolder (username, bible, book, chapter), convert_to_string (newID)});
+  return filter_url_create_path ({userChapterFolder (username, bible, book, chapter), filter::strings::convert_to_string (newID)});
 }
 
 
@@ -341,9 +341,9 @@ void Database_Modifications::recordUserSave (const string& username, const strin
   if (!file_or_dir_exists (folder)) filter_url_mkdir (folder);
   // The other data is stored in separate files in the newID folder.
   string timeFile = userTimeFile (username, bible, book, chapter, newID);
-  filter_url_file_put_contents (timeFile, convert_to_string (filter::date::seconds_since_epoch ()));
+  filter_url_file_put_contents (timeFile, filter::strings::convert_to_string (filter::date::seconds_since_epoch ()));
   string oldIDFile = userOldIDFile (username, bible, book, chapter, newID);
-  filter_url_file_put_contents (oldIDFile, convert_to_string (oldID));
+  filter_url_file_put_contents (oldIDFile, filter::strings::convert_to_string (oldID));
   string oldTextFile = userOldTextFile (username, bible, book, chapter, newID);
   filter_url_file_put_contents (oldTextFile, oldText);
   string newTextFile = userNewTextFile (username, bible, book, chapter, newID);
@@ -379,7 +379,7 @@ vector <int> Database_Modifications::getUserBooks (const string& username, const
   vector <string> files = filter_url_scandir (folder);
   vector <int> books;
   for (auto & file : files) {
-    books.push_back (convert_to_int (file));
+    books.push_back (filter::strings::convert_to_int (file));
   }
   sort (books.begin(), books.end());
   return books;
@@ -402,7 +402,7 @@ vector <int> Database_Modifications::getUserChapters (const string& username, co
       // Therefore just remove this change, without processing it.
       filter_url_rmdir (path);
     } else {
-      chapters.push_back (convert_to_int (file));
+      chapters.push_back (filter::strings::convert_to_int (file));
     }
   }
   sort (chapters.begin(), chapters.end());
@@ -416,11 +416,11 @@ vector <Database_Modifications_Id> Database_Modifications::getUserIdentifiers (c
   vector <Database_Modifications_Id> ids;
   vector <string> newids = filter_url_scandir (folder);
   for (auto & newid : newids) {
-    string file = userOldIDFile (username, bible, book, chapter, convert_to_int (newid));
+    string file = userOldIDFile (username, bible, book, chapter, filter::strings::convert_to_int (newid));
     string oldid = filter_url_file_get_contents (file);
     Database_Modifications_Id id;
-    id.oldid = convert_to_int (oldid);
-    id.newid = convert_to_int (newid);
+    id.oldid = filter::strings::convert_to_int (oldid);
+    id.newid = filter::strings::convert_to_int (newid);
     ids.push_back (id);
   }
   return ids;
@@ -444,7 +444,7 @@ int Database_Modifications::getUserTimestamp (const string& username, const stri
 {
   string file = userTimeFile (username, bible, book, chapter, newID);
   string contents = filter_url_file_get_contents (file);
-  int time = convert_to_int (contents);
+  int time = filter::strings::convert_to_int (contents);
   if (time > 0) return time;
   return filter::date::seconds_since_epoch ();
 }
@@ -461,7 +461,7 @@ string Database_Modifications::notificationsMainFolder ()
 
 string Database_Modifications::notificationIdentifierDatabase (int identifier)
 {
-  return filter_url_create_path ({notificationsMainFolder (), convert_to_string (identifier)});
+  return filter_url_create_path ({notificationsMainFolder (), filter::strings::convert_to_string (identifier)});
 }
 
 
@@ -483,7 +483,7 @@ int Database_Modifications::getNextAvailableNotificationIdentifier ()
   // Sort from low to high.
   vector <int> identifiers;
   for (auto file : files) {
-    identifiers.push_back (convert_to_int (file));
+    identifiers.push_back (filter::strings::convert_to_int (file));
   }
   sort (identifiers.begin(), identifiers.end());
   // Fetch the last and highest identifier.
@@ -559,7 +559,7 @@ void Database_Modifications::indexTrimAllNotifications ()
   // Go through the notifications on disk.
   vector <int> identifiers;
   for (auto s : sidentifiers) {
-    identifiers.push_back (convert_to_int (s));
+    identifiers.push_back (filter::strings::convert_to_int (s));
   }
   sort (identifiers.begin(), identifiers.end());
   for (auto & identifier : identifiers) {
@@ -581,7 +581,7 @@ void Database_Modifications::indexTrimAllNotifications ()
     if (valid) {
       vector <string> timestamps = result ["timestamp"];
       if (timestamps.empty ()) valid = false;
-      else timestamp = convert_to_int (timestamps [0]);
+      else timestamp = filter::strings::convert_to_int (timestamps [0]);
     }
     if (timestamp < expiry_time) valid = false;
 
@@ -593,7 +593,7 @@ void Database_Modifications::indexTrimAllNotifications ()
       sql.add (";");
       vector <string> count_result = database_sqlite_query (db, sql.sql) ["count(*)"];
       if (!count_result.empty ()) {
-        int count = convert_to_int (count_result [0]);
+        int count = filter::strings::convert_to_int (count_result [0]);
         exists = (count > 0);
       }
     }
@@ -625,7 +625,7 @@ void Database_Modifications::indexTrimAllNotifications ()
     if (!exists && valid) {
       vector <string> books = result ["book"];
       if (books.empty ()) valid = false;
-      else book = convert_to_int (books [0]);
+      else book = filter::strings::convert_to_int (books [0]);
       if (book == 0) valid = false;
     }
 
@@ -633,7 +633,7 @@ void Database_Modifications::indexTrimAllNotifications ()
     if (!exists && valid) {
       vector <string> chapters = result ["chapter"];
       if (chapters.empty ()) valid = false;
-      else chapter = convert_to_int (chapters [0]);
+      else chapter = filter::strings::convert_to_int (chapters [0]);
       if (chapters [0].empty ()) valid = false;
     }
     
@@ -641,7 +641,7 @@ void Database_Modifications::indexTrimAllNotifications ()
     if (!exists && valid) {
       vector <string> verses = result ["verse"];
       if (verses.empty ()) valid = false;
-      else verse = convert_to_int (verses [0]);
+      else verse = filter::strings::convert_to_int (verses [0]);
       if (verses [0].empty ()) valid = false;
     }
 
@@ -713,7 +713,7 @@ vector <int> Database_Modifications::getNotificationIdentifiers (string username
   vector <string> sidentifiers = database_sqlite_query (db, sql.sql) ["identifier"];
   database_sqlite_disconnect (db);
   for (auto & identifier : sidentifiers) {
-    ids.push_back (convert_to_int (identifier));
+    ids.push_back (filter::strings::convert_to_int (identifier));
   }
 
   return ids;
@@ -738,7 +738,7 @@ vector <int> Database_Modifications::getNotificationTeamIdentifiers (const strin
   vector <string> sidentifiers = database_sqlite_query (db, sql.sql) ["identifier"];
   database_sqlite_disconnect (db);
   for (auto & sid : sidentifiers) {
-    ids.push_back (convert_to_int (sid));
+    ids.push_back (filter::strings::convert_to_int (sid));
   }
   return ids;
 }
@@ -793,7 +793,7 @@ int Database_Modifications::getNotificationTimeStamp (int id)
   database_sqlite_disconnect (db);
   int time = filter::date::seconds_since_epoch ();
   for (auto & stamp : timestamps) {
-    time = convert_to_int (stamp);
+    time = filter::strings::convert_to_int (stamp);
   }
   return time;
 }
@@ -847,8 +847,8 @@ Passage Database_Modifications::getNotificationPassage (int id)
   vector <string> chapters = result ["chapter"];
   vector <string> verses = result ["verse"];
   for (unsigned int i = 0; i < books.size (); i++) {
-    passage.m_book = convert_to_int (books [i]);
-    passage.m_chapter = convert_to_int (chapters [i]);
+    passage.m_book = filter::strings::convert_to_int (books [i]);
+    passage.m_chapter = filter::strings::convert_to_int (chapters [i]);
     passage.m_verse = verses [i];
   }
   return passage;
@@ -936,7 +936,7 @@ vector <int> Database_Modifications::clearNotificationMatches (string username, 
   vector <int> personals;
   vector <string> result = database_sqlite_query (db, sql.sql) ["identifier"];
   for (auto & item : result) {
-    personals.push_back (convert_to_int (item));
+    personals.push_back (filter::strings::convert_to_int (item));
   }
   
   // Matches to be deleted.
@@ -948,7 +948,7 @@ vector <int> Database_Modifications::clearNotificationMatches (string username, 
     Passage passage = getNotificationPassage (personalID);
     int book = passage.m_book;
     int chapter = passage.m_chapter;
-    int verse = convert_to_int (passage.m_verse);
+    int verse = filter::strings::convert_to_int (passage.m_verse);
     string modification = getNotificationModification (personalID);
     // Get all matching identifiers from the team's change notifications.
     SqliteSQL sql2 = SqliteSQL ();
@@ -970,7 +970,7 @@ vector <int> Database_Modifications::clearNotificationMatches (string username, 
     vector <int> teamMatches;
     vector <string> result2 = database_sqlite_query (db, sql2.sql) ["identifier"];
     for (auto & item : result2) {
-      teamMatches.push_back (convert_to_int (item));
+      teamMatches.push_back (filter::strings::convert_to_int (item));
     }
     // There should be exactly one candidate for the matches to be removed.
     // If there are none, it means that the personal change didn't make it to the team's text.
@@ -993,7 +993,7 @@ vector <int> Database_Modifications::clearNotificationMatches (string username, 
       sql3.add (";");
       vector <string> result3 = database_sqlite_query (db, sql3.sql) ["identifier"];
       for (auto & item : result3) {
-        passageMatches.push_back (convert_to_int (item));
+        passageMatches.push_back (filter::strings::convert_to_int (item));
       }
       if (passageMatches.size () == 2) {
         // Store the personal change to be deleted.

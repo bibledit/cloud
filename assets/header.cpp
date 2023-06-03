@@ -109,7 +109,7 @@ bool Assets_Header::display_topbar ()
 // Sets the page to refresh after "seconds".
 void Assets_Header::refresh (int seconds, string url)
 {
-  string content = convert_to_string (seconds);
+  string content = filter::strings::convert_to_string (seconds);
   if (!url.empty ()) content.append (";URL=" + url);
   stringstream ss;
   ss << "<META HTTP-EQUIV=" << quoted("refresh") << " CONTENT=" << quoted(content) << ">";
@@ -205,7 +205,7 @@ string Assets_Header::run ()
       if (request->database_config_user ()->getMainMenuAlwaysVisible ()) {
         main_menu_always_on = true;
         // Add the main menu status as a Javascript variable.
-        m_view->set_variable ("mainmenualwayson", convert_to_string (main_menu_always_on));
+        m_view->set_variable ("mainmenualwayson", filter::strings::convert_to_string (main_menu_always_on));
 			}
     if ((item == "main") || main_menu_always_on) {
       if (basic_mode) {
@@ -247,7 +247,7 @@ string Assets_Header::run ()
     if (!m_fading_menu.empty ()) {
       m_view->enable_zone ("fading_menu");
       m_view->set_variable ("fadingmenu", m_fading_menu);
-      string delay = convert_to_string (request->database_config_user ()->getWorkspaceMenuFadeoutDelay ()) + "000";
+      string delay = filter::strings::convert_to_string (request->database_config_user ()->getWorkspaceMenuFadeoutDelay ()) + "000";
       m_view->set_variable ("fadingmenudelay", delay);
       m_fading_menu.clear ();
     }
@@ -264,33 +264,33 @@ string Assets_Header::run ()
   vector <string> embedded_css;
   int fontsize = request->database_config_user ()->getGeneralFontSize ();
   if (fontsize != 100) {
-    embedded_css.push_back ("body { font-size: " + convert_to_string (fontsize) + "%; }");
+    embedded_css.push_back ("body { font-size: " + filter::strings::convert_to_string (fontsize) + "%; }");
   }
   fontsize = request->database_config_user ()->getMenuFontSize ();
   string filename = menu_font_size_filebased_cache_filename (request->session_identifier);
   if (fontsize != 100) {
-    embedded_css.push_back (".menu-advanced, .menu-basic { font-size: " + convert_to_string (fontsize) + "%; }");
+    embedded_css.push_back (".menu-advanced, .menu-basic { font-size: " + filter::strings::convert_to_string (fontsize) + "%; }");
   }
   fontsize = request->database_config_user ()->getBibleEditorsFontSize ();
   if (fontsize != 100) {
-    embedded_css.push_back (".bibleeditor { font-size: " + convert_to_string (fontsize) + "% !important; }");
+    embedded_css.push_back (".bibleeditor { font-size: " + filter::strings::convert_to_string (fontsize) + "% !important; }");
   }
   fontsize = request->database_config_user ()->getResourcesFontSize ();
   filename = resource_font_size_filebased_cache_filename (request->session_identifier);
   if (fontsize != 100) {
-    embedded_css.push_back (".resource { font-size: " + convert_to_string (fontsize) + "% !important; }");
+    embedded_css.push_back (".resource { font-size: " + filter::strings::convert_to_string (fontsize) + "% !important; }");
   }
   fontsize = request->database_config_user ()->getHebrewFontSize ();
   if (fontsize != 100) {
-    embedded_css.push_back (".hebrew { font-size: " + convert_to_string (fontsize) + "%!important; }");
+    embedded_css.push_back (".hebrew { font-size: " + filter::strings::convert_to_string (fontsize) + "%!important; }");
   }
   fontsize = request->database_config_user ()->getGreekFontSize ();
   filename = greek_font_size_filebased_cache_filename (request->session_identifier);
   if (fontsize != 100) {
-    embedded_css.push_back (".greek { font-size: " + convert_to_string (fontsize) + "%!important; }");
+    embedded_css.push_back (".greek { font-size: " + filter::strings::convert_to_string (fontsize) + "%!important; }");
   }
   if (!embedded_css.empty ()) {
-    m_view->set_variable ("embedded_css", filter_string_implode (embedded_css, "\n"));
+    m_view->set_variable ("embedded_css", filter::strings::implode (embedded_css, "\n"));
   }
 
   int current_theme_index = request->database_config_user ()->getCurrentTheme ();

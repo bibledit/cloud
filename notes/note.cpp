@@ -72,7 +72,7 @@ string notes_note (void * webserver_request)
   string success;
 
   
-  int id = convert_to_int (request->query ["id"]);
+  int id = filter::strings::convert_to_int (request->query ["id"]);
   
   
   // When a note is opened, then the passage navigator should go to the passage that belongs to that note.
@@ -81,7 +81,7 @@ string notes_note (void * webserver_request)
     Passage focused_passage;
     focused_passage.m_book = Ipc_Focus::getBook (webserver_request);
     focused_passage.m_chapter = Ipc_Focus::getChapter (webserver_request);
-    focused_passage.m_verse = convert_to_string (Ipc_Focus::getVerse (webserver_request));
+    focused_passage.m_verse = filter::strings::convert_to_string (Ipc_Focus::getVerse (webserver_request));
     // Only set passage and track history if the focused passage
     // differs from all of the passages of the note.
     // If the focused passage is already at any of the passages belonging to the note,
@@ -93,14 +93,14 @@ string notes_note (void * webserver_request)
     if (!passage_focused) {
       int desired_book = passages[0].m_book;
       int desired_chapter = passages[0].m_chapter;
-      int desired_verse = convert_to_int (passages[0].m_verse);
+      int desired_verse = filter::strings::convert_to_int (passages[0].m_verse);
       Ipc_Focus::set (webserver_request, desired_book, desired_chapter, desired_verse);
       Navigation_Passage::record_history (webserver_request, desired_book, desired_chapter, desired_verse);
     }
   }
   
   
-  view.set_variable ("id", convert_to_string (id));
+  view.set_variable ("id", filter::strings::convert_to_string (id));
 
 
   view.set_variable ("passage", filter_passage_display_inline (passages));

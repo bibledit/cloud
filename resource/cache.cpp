@@ -74,7 +74,7 @@ string resource_cache (void * webserver_request)
   vector <string> resources = Database_Config_General::getResourcesToCache ();
   if (!resources.empty ()) {
     view.enable_zone ("scheduled");
-    view.set_variable ("scheduled", filter_string_implode (resources, " | "));
+    view.set_variable ("scheduled", filter::strings::implode (resources, " | "));
   }
   
   

@@ -107,7 +107,7 @@ string Database_UserResources::load (const string & name, size_t offset)
 {
   string path = file (name);
   string contents = filter_url_file_get_contents (path);
-  vector <string> lines = filter_string_explode (contents, '\n');
+  vector <string> lines = filter::strings::explode (contents, '\n');
   if (offset >= lines.size ()) return string();
   return lines [offset];
 }
@@ -119,9 +119,9 @@ void Database_UserResources::save (const string & name, size_t offset, const str
 {
   string path = file (name);
   string contents = filter_url_file_get_contents (path);
-  vector <string> lines = filter_string_explode (contents, '\n');
+  vector <string> lines = filter::strings::explode (contents, '\n');
   while (lines.size () <= offset) lines.push_back ("");
   lines [offset] = value;
-  contents = filter_string_implode (lines, "\n");
+  contents = filter::strings::implode (lines, "\n");
   filter_url_file_put_contents (path, contents);
 }

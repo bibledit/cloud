@@ -90,7 +90,7 @@ string search_strongs (void * webserver_request)
     
     string s_words {request->query ["words"]};
     s_words = filter_string_trim (s_words);
-    const vector <string> words {filter_string_explode (s_words, ' ')};
+    const vector <string> words {filter::strings::explode (s_words, ' ')};
     
     // Include items if there are no more search hits than 30% of the total number of verses in the KJV.
     const size_t maxcount = static_cast<size_t> (round (0.3 * 31102));
@@ -137,14 +137,14 @@ string search_strongs (void * webserver_request)
     string output {};
     for (auto & i_passage : i_passages) {
       if (!output.empty ()) output.append ("\n");
-      output.append (convert_to_string (i_passage));
+      output.append (filter::strings::convert_to_string (i_passage));
     }
     return output;
   }
   
   
   if (request->query.count ("id")) {
-    const int id = convert_to_int (request->query ["id"]);
+    const int id = filter::strings::convert_to_int (request->query ["id"]);
     
     // Get the and passage for this identifier.
     const Passage passage = filter_integer_to_passage (id);
@@ -153,7 +153,7 @@ string search_strongs (void * webserver_request)
     const string verse = passage.m_verse;
     
     // Get the plain text.
-    const string text = search_logic_get_bible_verse_text (bible, book, chapter, convert_to_int (verse));
+    const string text = search_logic_get_bible_verse_text (bible, book, chapter, filter::strings::convert_to_int (verse));
     
     // Format it.
     const string link = filter_passage_link_for_opening_editor_at (book, chapter, verse);

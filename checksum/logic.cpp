@@ -36,7 +36,7 @@ string checksum_logic::send (const string & data, bool readwrite)
 {
   string checksum = get (data);
   checksum.append ("\n");
-  checksum.append (convert_to_string (readwrite));
+  checksum.append (filter::strings::convert_to_string (readwrite));
   checksum.append ("\n");
   checksum.append (data);
   return checksum;
@@ -47,7 +47,7 @@ string checksum_logic::send (const string & data, bool readwrite)
 // It calculates the length of 'data' in bytes.
 string checksum_logic::get (const string & data)
 {
-  return convert_to_string (data.length ());
+  return filter::strings::convert_to_string (data.length ());
 }
 
 
@@ -57,7 +57,7 @@ string checksum_logic::get (const vector <string>& data)
 {
   int length = 0;
   for (auto & bit : data) length += static_cast<int>(bit.length ());
-  return convert_to_string (length);
+  return filter::strings::convert_to_string (length);
 }
 
 
@@ -80,7 +80,7 @@ string checksum_logic::get_book (void * webserver_request, const string & bible,
   for (auto chapter : chapters) {
     checksums.push_back (get_chapter (webserver_request, bible, book, chapter));
   }
-  string checksum = filter_string_implode (checksums, string());
+  string checksum = filter::strings::implode (checksums, string());
   checksum = md5 (checksum);
   return checksum;
 }
@@ -95,7 +95,7 @@ string checksum_logic::get_bible (void * webserver_request, const string & bible
   for (auto book : books) {
     checksums.push_back (get_book (webserver_request, bible, book));
   }
-  string checksum = filter_string_implode (checksums, string());
+  string checksum = filter::strings::implode (checksums, string());
   checksum = md5 (checksum);
   return checksum;
 }
@@ -108,7 +108,7 @@ string checksum_logic::get_bibles (void * webserver_request, const vector <strin
   for (const auto & bible : bibles) {
     checksums.push_back (get_bible (webserver_request, bible));
   }
-  string checksum = filter_string_implode (checksums, string());
+  string checksum = filter::strings::implode (checksums, string());
   checksum = md5 (checksum);
   return checksum;
 }

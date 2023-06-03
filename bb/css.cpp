@@ -85,12 +85,12 @@ string bible_css (void * webserver_request)
     
     Database_Config_Bible::setTextDirection (bible, i_mode * 10 + i_direction);
     
-    int lineheight = convert_to_int (request->post["lineheight"]);
+    int lineheight = filter::strings::convert_to_int (request->post["lineheight"]);
     if (lineheight < 50) lineheight = 50;
     if (lineheight > 300) lineheight = 300;
     Database_Config_Bible::setLineHeight (bible, lineheight);
 
-    float letterspacing = convert_to_float (request->post["letterspacing"]);
+    float letterspacing = filter::strings::convert_to_float (request->post["letterspacing"]);
     if (letterspacing < -3) letterspacing = -3;
     if (letterspacing > 3) letterspacing = 3;
     Database_Config_Bible::setLetterSpacing (bible, static_cast<int>(10 * letterspacing));
@@ -119,11 +119,11 @@ string bible_css (void * webserver_request)
   view.set_variable ("mode_btrl", Filter_Css::writingModeBottomTopRightLeft (direction));
 
   int lineheight = Database_Config_Bible::getLineHeight (bible);
-  view.set_variable ("lineheight", convert_to_string (lineheight));
+  view.set_variable ("lineheight", filter::strings::convert_to_string (lineheight));
 
   float letterspacing = static_cast<float> (Database_Config_Bible::getLetterSpacing (bible));
   letterspacing /= 10;
-  view.set_variable ("letterspacing", convert_to_string (letterspacing));
+  view.set_variable ("letterspacing", filter::strings::convert_to_string (letterspacing));
 
   string custom_class = Filter_Css::getClass (bible);
   view.set_variable ("custom_class", custom_class);

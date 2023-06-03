@@ -44,9 +44,9 @@ string navigation_poll (void * webserver_request)
   int chapter = Ipc_Focus::getChapter (request);
   int verse = Ipc_Focus::getVerse (request);
   vector <string> passage;
-  passage.push_back (convert_to_string (book));
-  passage.push_back (convert_to_string (chapter));
-  passage.push_back (convert_to_string (verse));
-  return filter_string_implode (passage, "\n");
+  passage.push_back (filter::strings::convert_to_string (book));
+  passage.push_back (filter::strings::convert_to_string (chapter));
+  passage.push_back (filter::strings::convert_to_string (verse));
+  return filter::strings::implode (passage, "\n");
 }
 

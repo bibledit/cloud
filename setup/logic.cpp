@@ -143,7 +143,7 @@ void setup_copy_library (const char * package)
   // Read all directories and create them in the persistent webroot.
   string path = filter_url_create_path (package, "package_directories.txt");
   string contents = filter_url_file_get_contents (path);
-  vector <string> paths = filter_string_explode (contents, '\n');
+  vector <string> paths = filter::strings::explode (contents, '\n');
   for (auto path : paths) {
     path = config_globals_document_root + path.substr (package_length);
     if (path.empty ()) continue;
@@ -153,7 +153,7 @@ void setup_copy_library (const char * package)
   // Read all files and copy them from the package to the persistent webroot.
   path = filter_url_create_path (package, "package_files.txt");
   contents = filter_url_file_get_contents (path);
-  paths = filter_string_explode (contents, '\n');
+  paths = filter::strings::explode (contents, '\n');
   for (auto path : paths) {
     string package_path = package + path.substr (package_length);
     string destination_path = config_globals_document_root + path.substr (package_length);

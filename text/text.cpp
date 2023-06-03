@@ -31,7 +31,7 @@ void Text_Text::paragraph (string text)
   if (thisline != "") {
     // The filter that converts from USFM to clear texts inserts some stuff
     // that's being removed here again, as not desirable in clear text.
-    thisline = filter_string_str_replace (en_space_u2002(), " ", thisline);
+    thisline = filter::strings::replace (en_space_u2002(), " ", thisline);
     thisline = filter_string_collapse_whitespace (thisline);
     output.push_back (thisline);
     thisline = "";
@@ -55,7 +55,7 @@ void Text_Text::addtext (string text)
 string Text_Text::get ()
 {
   paragraph ();
-  return filter_string_implode (output, "\n");
+  return filter::strings::implode (output, "\n");
 }
 
 
@@ -85,7 +85,7 @@ void Text_Text::addnotetext (string text)
 string Text_Text::getnote ()
 {
   note ();
-  return filter_string_implode (notes, "\n");
+  return filter::strings::implode (notes, "\n");
 }
 
 

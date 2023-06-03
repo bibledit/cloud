@@ -191,7 +191,7 @@ void test_database_notes ()
     evaluate (__LINE__, __func__, 999'999'999, identifier);
     
     identifier = database_notes.get_new_unique_identifier ();
-    if ((identifier < 100'000'000) || (identifier > 999'999'999)) evaluate (__LINE__, __func__, "Out of bounds", convert_to_string (identifier));
+    if ((identifier < 100'000'000) || (identifier > 999'999'999)) evaluate (__LINE__, __func__, "Out of bounds", filter::strings::convert_to_string (identifier));
     evaluate (__LINE__, __func__, false, database_notes.identifier_exists (identifier));
     
     identifier = database_notes.store_new_note ("", 0, 0, 0, "", "", false);
@@ -228,7 +228,7 @@ void test_database_notes ()
     value = database_notes.get_summary (newidentifier);
     evaluate (__LINE__, __func__, summary, value);
     value = database_notes.get_contents (newidentifier);
-    values = filter_string_explode (value, '\n');
+    values = filter::strings::explode (value, '\n');
     if (values.size () > 1) value = values[1];
     evaluate (__LINE__, __func__, "<p>Contents</p>", value);
     
@@ -238,7 +238,7 @@ void test_database_notes ()
     value = database_notes.get_summary (newidentifier);
     evaluate (__LINE__, __func__, "This is a note.", value);
     value = database_notes.get_contents (newidentifier);
-    values = filter_string_explode (value, '\n');
+    values = filter::strings::explode (value, '\n');
     if (values.size () > 2) value = values[2];
     evaluate (__LINE__, __func__, "<p>Line two.</p>", value);
     
@@ -258,7 +258,7 @@ void test_database_notes ()
     database_notes.add_comment (newidentifier, "comment2");
     value = database_notes.get_contents (newidentifier);
     if (value.length () < (length + 30)) {
-      evaluate (__LINE__, __func__, "Should be larger than length + 30", convert_to_string (static_cast<int>(value.length())));
+      evaluate (__LINE__, __func__, "Should be larger than length + 30", filter::strings::convert_to_string (static_cast<int>(value.length())));
     }
     pos = value.find ("comment2");
     if (pos == string::npos) {
@@ -268,7 +268,7 @@ void test_database_notes ()
     database_notes.add_comment (newidentifier, "comment5");
     value = database_notes.get_contents (newidentifier);
     if (value.length () < (length + 30)) {
-      evaluate (__LINE__, __func__, "Should be larger than length + 30", convert_to_string (static_cast<int>(value.length())));
+      evaluate (__LINE__, __func__, "Should be larger than length + 30", filter::strings::convert_to_string (static_cast<int>(value.length())));
     }
     pos = value.find ("comment5");
     if (pos == string::npos) {
@@ -657,11 +657,11 @@ void test_database_notes ()
     // Contents of the note.
     string original_contents1 = database_notes.get_contents (identifier1);
     if (original_contents1.length () <= 20) {
-      evaluate (__LINE__, __func__, "Should be greater than 20", convert_to_string (static_cast<int>(original_contents1.length ())));
+      evaluate (__LINE__, __func__, "Should be greater than 20", filter::strings::convert_to_string (static_cast<int>(original_contents1.length ())));
     }
     string original_contents2 = database_notes.get_contents (identifier2);
     if (original_contents2.length () <= 20) {
-      evaluate (__LINE__, __func__, "Should be greater than 20", convert_to_string (static_cast<int>(original_contents2.length())));
+      evaluate (__LINE__, __func__, "Should be greater than 20", filter::strings::convert_to_string (static_cast<int>(original_contents2.length())));
     }
     
     // Checksum of the notes.
@@ -1404,7 +1404,7 @@ void test_database_notes ()
     // Create several notes.
     for (int i = 0; i < 5; i++) {
       // Basic fields for the note.
-      string offset = convert_to_string (i);
+      string offset = filter::strings::convert_to_string (i);
       string bible = "bible" + offset;
       int book = i;
       int chapter = i + 1;
@@ -1679,9 +1679,9 @@ void test_database_notes ()
     Passage passage2 = Passage ("", 4, 5, "6");
     
     // Create notes.
-    int oldidentifier1 = database_notes.store_new_note (bible1, passage1.m_book, passage1.m_chapter, convert_to_int (passage1.m_verse), "v1", "v1", false);
+    int oldidentifier1 = database_notes.store_new_note (bible1, passage1.m_book, passage1.m_chapter, filter::strings::convert_to_int (passage1.m_verse), "v1", "v1", false);
     int identifier1 = oldidentifier1 + 2;
-    int oldidentifier2 = database_notes.store_new_note (bible2, passage2.m_book, passage2.m_chapter, convert_to_int (passage2.m_verse), "v2", "v2", false);
+    int oldidentifier2 = database_notes.store_new_note (bible2, passage2.m_book, passage2.m_chapter, filter::strings::convert_to_int (passage2.m_verse), "v2", "v2", false);
     int identifier2 = oldidentifier2 + 4;
     
     // Call the method to set a new identifier.

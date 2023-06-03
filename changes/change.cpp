@@ -74,7 +74,7 @@ string changes_change (void * webserver_request)
   if (request->post.count ("unsubscribe")) {
     string unsubscribe = request->post["unsubscribe"];
     unsubscribe.erase (0, 11);
-    notes_logic.unsubscribe (convert_to_int (unsubscribe));
+    notes_logic.unsubscribe (filter::strings::convert_to_int (unsubscribe));
     return string();
   }
   
@@ -83,7 +83,7 @@ string changes_change (void * webserver_request)
   if (request->post.count ("unassign")) {
     string unassign = request->post["unassign"];
     unassign.erase (0, 8);
-    notes_logic.unassignUser (convert_to_int (unassign), request->session_logic()->currentUser ());
+    notes_logic.unassignUser (filter::strings::convert_to_int (unassign), request->session_logic()->currentUser ());
     return string();
   }
   
@@ -92,7 +92,7 @@ string changes_change (void * webserver_request)
   if (request->post.count("delete")) {
     string erase = request->post["delete"];
     erase.erase (0, 6);
-    int identifier = convert_to_int (erase);
+    int identifier = filter::strings::convert_to_int (erase);
     notes_logic.markForDeletion (identifier);
     return string();
   }
@@ -105,8 +105,8 @@ string changes_change (void * webserver_request)
   
                       
   // The identifier of the change notification.
-  int id = convert_to_int (request->query ["get"]);
-  view.set_variable ("id", convert_to_string (id));
+  int id = filter::strings::convert_to_int (request->query ["get"]);
+  view.set_variable ("id", filter::strings::convert_to_string (id));
                       
                       
   // Get old text, modification, new text, date.
@@ -127,7 +127,7 @@ string changes_change (void * webserver_request)
   
   // Get notes for the passage.
   vector <int> notes = database_notes.select_notes (bibles, // Bibles.
-                                                    passage.m_book, passage.m_chapter, convert_to_int (passage.m_verse),
+                                                    passage.m_book, passage.m_chapter, filter::strings::convert_to_int (passage.m_verse),
                                                     0,  // Passage selector.
                                                     0,  // Edit selector.
                                                     0,  // Non-edit selector.
@@ -178,28 +178,28 @@ string changes_change (void * webserver_request)
     string href {};
     if (live_notes_editor) {
       a_node.append_attribute("class") = "opennote";
-      href = convert_to_string (note);
+      href = filter::strings::convert_to_string (note);
     } else {
-      href = "/notes/note?id=" + convert_to_string (note);
+      href = "/notes/note?id=" + filter::strings::convert_to_string (note);
     }
     a_node.append_attribute("href") = href.c_str();
     a_node.text().set(summary.c_str());
     td_node = tr_node.append_child("td");
     if (subscription) {
       xml_node a_node2 = td_node.append_child("a");
-      a_node2.append_attribute("href") = ("unsubscribe" + convert_to_string (note)).c_str();
+      a_node2.append_attribute("href") = ("unsubscribe" + filter::strings::convert_to_string (note)).c_str();
       a_node2.text().set(("[" + translate("unsubscribe") + "]").c_str());
     }
     td_node = tr_node.append_child("td");
     if (assignment) {
       xml_node a_node2 = td_node.append_child("a");
-      a_node2.append_attribute("href") = ("unassign" + convert_to_string (note)).c_str();
+      a_node2.append_attribute("href") = ("unassign" + filter::strings::convert_to_string (note)).c_str();
       a_node2.text().set(("[" + translate("I have done my part on it") + "]").c_str());
     }
     td_node = tr_node.append_child("td");
     if (level >= Filter_Roles::manager ()) {
       xml_node a_node2 = td_node.append_child("a");
-      a_node2.append_attribute("href") = ("delete" + convert_to_string (note)).c_str();
+      a_node2.append_attribute("href") = ("delete" + filter::strings::convert_to_string (note)).c_str();
       a_node2.text().set(("[" + translate("mark for deletion") + "]").c_str());
     }
   }

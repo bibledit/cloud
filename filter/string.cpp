@@ -77,38 +77,36 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #endif
 #include <stdio.h>
 #include <errno.h>
-using namespace std;
-#ifdef HAVE_ICU
-using namespace icu;
-#endif
 
 
-// A C++ equivalent for PHP's explode function.
+namespace filter::strings {
+
+
 // Split a string on a delimiter.
 // Return a vector of strings.
-std::vector <string> filter_string_explode (string value, char delimiter)
+std::vector <std::string> explode (std::string value, char delimiter)
 {
-  std::vector <string> result;
-  istringstream iss (value);
-  for (string token; getline (iss, token, delimiter); )
+  std::vector <std::string> result;
+  std::istringstream iss (value);
+  for (std::string token; getline (iss, token, delimiter); )
   {
-    result.push_back (move (token));
+    result.push_back (std::move (token));
   }
   return result;
 }
 
 
 // Explodes an input string on multiple delimiters.
-vector <string> filter_string_explode (string value, string delimiters)
+std::vector <std::string> explode (std::string value, std::string delimiters)
 {
-  vector <string> result;
+  std::vector <std::string> result {};
   while (!value.empty ()) {
-    size_t pos = value.find_first_of (delimiters);
-    if (pos == string::npos) {
+    size_t pos {value.find_first_of (delimiters)};
+    if (pos == std::string::npos) {
       result.push_back (value);
       value.clear ();
     } else {
-      string s = value.substr (0, pos);
+      std::string s {value.substr (0, pos)};
       if (!s.empty()) result.push_back (s);
       pos++;
       value.erase (0, pos);
@@ -118,26 +116,25 @@ vector <string> filter_string_explode (string value, string delimiters)
 }
 
 
-// A C++ equivalent for PHP's implode function.
 // Join a vector of string, with delimiters, into a string.
 // Return this string.
-string filter_string_implode (vector <string>& values, string delimiter)
+std::string implode (std::vector <std::string>& values, std::string delimiter)
 {
-  string full;
-  for (vector<string>::iterator it = values.begin (); it != values.end (); ++it)
+  std::string full {};
+  for (std::vector<std::string>::iterator it = values.begin (); it != values.end (); ++it)
   {
     full += (*it);
     if (it != values.end ()-1) full += delimiter;
   }
-  return full;  
+  return full;
 }
 
 
-// A C++ rough equivalent for PHP's filter_string_str_replace function.
-string filter_string_str_replace (string search, string replace, string subject, int * count)
+// Replaces string contents.
+std::string replace (const std::string& search, const std::string& replace, std::string subject, int * count)
 {
-  size_t offposition = subject.find (search);
-  while (offposition != string::npos) {
+  size_t offposition {subject.find (search)};
+  while (offposition != std::string::npos) {
     subject.replace (offposition, search.length (), replace);
     if (count) (*count)++;
     offposition = subject.find (search, offposition + replace.length ());
@@ -148,12 +145,12 @@ string filter_string_str_replace (string search, string replace, string subject,
 
 // Replaces text that starts with "start" and ends with "end" with "replacement".
 // Returns true if replacement was done.
-bool filter_string_replace_between (string& line, const string& start, const string& end, const string& replacement)
+bool replace_between (std::string& line, const std::string& start, const std::string& end, const std::string& replacement)
 {
-  bool replacements_done = false;
-  size_t beginpos = line.find (start);
-  size_t endpos = line.find (end);
-  while ((beginpos != string::npos) && (endpos != string::npos) && (endpos > beginpos)) {
+  bool replacements_done {false};
+  size_t beginpos {line.find (start)};
+  size_t endpos {line.find (end)};
+  while ((beginpos != std::string::npos) && (endpos != std::string::npos) && (endpos > beginpos)) {
     line.replace (beginpos, endpos - beginpos + end.length (), replacement);
     beginpos = line.find (start, beginpos + replacement.length ());
     endpos = line.find (end, beginpos + replacement.length ());
@@ -163,132 +160,120 @@ bool filter_string_replace_between (string& line, const string& start, const str
 }
 
 
-// It replaces a copy of string delimited by the start and length parameters with the string given in replacement.
-// It is similar to PHP's function with the same name.
-string substr_replace (string original, string replacement, size_t start, size_t length)
-{
-  if (length) original.erase (start, length);
-  original.insert (start, replacement);
-  return original;
-}
-
-
-
 // On some platforms the sizeof (unsigned int) is equal to the sizeof (size_t).
 // Then compilation would fail if there were two functions "convert_to_string",
 // one taking the unsigned int, and the other taking the size_t.
 // Therefore there is now one function doing both.
 // This may lead to embiguity errors for the C++ compiler.
 // In such case the ambiguity can be removed by changing the type to be passed
-// to this function to "size_t".
-string convert_to_string (size_t i)
+// to this function to "size_t", possibly via a static_cast.
+std::string convert_to_string (const size_t i)
 {
-  ostringstream r;
+  std::ostringstream r;
   r << i;
   return r.str();
 }
 
 
-string convert_to_string (int i)
+std::string convert_to_string (const int i)
 {
-  ostringstream r;
+  std::ostringstream r;
   r << i;
   return r.str();
 }
 
 
-string convert_to_string (char * c)
+std::string convert_to_string (const char * c)
 {
-  string s = c;
+  std::string s {c};
   return s;
 }
 
 
-string convert_to_string (const char * c)
-{
-  string s = c;
-  return s;
-}
-
-
-string convert_to_string (bool b)
+std::string convert_to_string (const bool b)
 {
   if (b) return "1";
   return "0";
 }
 
 
-string convert_to_string (string s)
+std::string convert_to_string (const std::string& s)
 {
   return s;
 }
 
 
-string convert_to_string (float f)
+std::string convert_to_string (const float f)
 {
-  ostringstream r;
+  std::ostringstream r;
   r << f;
   return r.str();
 }
 
 
-int convert_to_int (string s)
+int convert_to_int (const std::string& s)
 {
-  int i = atoi (s.c_str());
+  int i {atoi (s.c_str())};
   return i;
 }
 
 
-int convert_to_int (float f)
+int convert_to_int (const float f)
 {
-  int i = static_cast<int> (round(f));
+  int i {static_cast<int> (round(f))};
   return i;
 }
 
 
-long long convert_to_long_long (string s)
+long long convert_to_long_long (const std::string& s)
 {
-  long long i = 0;
-  istringstream r (s);
+  long long i {0};
+  std::istringstream r (s);
   r >> i;
   return i;
 }
 
 
-float convert_to_float (string s)
+float convert_to_float (const std::string& s)
 {
-  float f = 0;
-  istringstream r (s);
+  float f {0};
+  std::istringstream r (s);
   r >> f;
   return f;
 }
 
 
-bool convert_to_bool (string s)
+bool convert_to_bool (const std::string& s)
 {
   if (s.empty()) return false;
   if (s == "true") return true;
   if (s == "TRUE") return true;
   bool b;
-  istringstream (s) >> b;
+  std::istringstream (s) >> b;
   return b;
 }
 
 
-string convert_to_true_false (bool b)
+std::string convert_to_true_false (const bool b)
 {
   if (b) return "true";
   return "false";
 }
 
 
-u16string convert_to_u16string (string s)
+std::u16string convert_to_u16string (const std::string& s)
 {
-  wstring_convert <codecvt_utf8_utf16 <char16_t>, char16_t> utf16conv;
-  u16string utf16 = utf16conv.from_bytes (s);
+  std::wstring_convert <std::codecvt_utf8_utf16 <char16_t>, char16_t> utf16conv;
+  std::u16string utf16 = utf16conv.from_bytes (s);
   // utf16.length()
   return utf16;
 }
+
+
+} // Namespace.
+
+
+using namespace std; // Todo working here moving the below into another namespace.
 
 
 // A C++ equivalent for PHP's array_unique function.
@@ -418,11 +403,11 @@ bool filter_string_is_numeric (string s)
 // ' : &apos;
 string escape_special_xml_characters (string s)
 {
-  s = filter_string_str_replace ("&", "&amp;", s);
-  s = filter_string_str_replace (R"(")", "&quot;", s);
-  s = filter_string_str_replace ("'", "&apos;", s);
-  s = filter_string_str_replace ("<", "&lt;", s);
-  s = filter_string_str_replace (">", "&gt;", s);
+  s = filter::strings::replace ("&", "&amp;", s);
+  s = filter::strings::replace (R"(")", "&quot;", s);
+  s = filter::strings::replace ("'", "&apos;", s);
+  s = filter::strings::replace ("<", "&lt;", s);
+  s = filter::strings::replace (">", "&gt;", s);
   return s;
 }
 
@@ -430,11 +415,11 @@ string escape_special_xml_characters (string s)
 // This unescapes the five special XML characters.
 string unescape_special_xml_characters (string s)
 {
-  s = filter_string_str_replace ("&quot;", R"(")", s);
-  s = filter_string_str_replace ("&amp;", "&", s);
-  s = filter_string_str_replace ("&apos;", "'", s);
-  s = filter_string_str_replace ("&lt;", "<", s);
-  s = filter_string_str_replace ("&gt;", ">", s);
+  s = filter::strings::replace ("&quot;", R"(")", s);
+  s = filter::strings::replace ("&amp;", "&", s);
+  s = filter::strings::replace ("&apos;", "'", s);
+  s = filter::strings::replace ("&lt;", "<", s);
+  s = filter::strings::replace ("&gt;", ">", s);
   return s;
 }
 
@@ -442,11 +427,11 @@ string unescape_special_xml_characters (string s)
 // Converts other types of spaces to standard spaces.
 string any_space_to_standard_space (string s)
 {
-  s = filter_string_str_replace (unicode_non_breaking_space_entity (), " ", s);
-  s = filter_string_str_replace (non_breaking_space_u00A0 (), " ", s);
-  s = filter_string_str_replace (en_space_u2002 (), " ", s);
-  s = filter_string_str_replace (figure_space_u2007 (), " ", s);
-  s = filter_string_str_replace (narrow_non_breaking_space_u202F (), " ", s);
+  s = filter::strings::replace (unicode_non_breaking_space_entity (), " ", s);
+  s = filter::strings::replace (non_breaking_space_u00A0 (), " ", s);
+  s = filter::strings::replace (en_space_u2002 (), " ", s);
+  s = filter::strings::replace (figure_space_u2007 (), " ", s);
+  s = filter::strings::replace (narrow_non_breaking_space_u202F (), " ", s);
   return s;
 }
 
@@ -824,7 +809,7 @@ string icu_string_normalize (string s, bool remove_diacritics, bool casefold)
   if (!remove_diacritics && !casefold) return s;
   
   // UTF-8 std::string -> UTF-16 UnicodeString
-  UnicodeString source = UnicodeString::fromUTF8 (StringPiece (s));
+  icu::UnicodeString source = icu::UnicodeString::fromUTF8 (icu::StringPiece (s));
 
   // The order of doing the normalization action may be of influence on the result.
   // Right now it seems more logical to remove diacritics first and then doing the case folding.
@@ -834,7 +819,7 @@ string icu_string_normalize (string s, bool remove_diacritics, bool casefold)
     // Transliterate UTF-16 UnicodeString following this rule:
     // decompose, remove diacritics, recompose
     UErrorCode status = U_ZERO_ERROR;
-    Transliterator *accents_converter = Transliterator::createInstance("NFD; [:M:] Remove; NFC", UTRANS_FORWARD, status);
+    icu::Transliterator *accents_converter = icu::Transliterator::createInstance("NFD; [:M:] Remove; NFC", UTRANS_FORWARD, status);
     accents_converter->transliterate(source);
   }
 
@@ -963,7 +948,7 @@ int filter_string_rand (int floor, int ceiling)
 string filter_string_html2text (string html)
 {
   // Clean the html up.
-  html = filter_string_str_replace ("\n", string(), html);
+  html = filter::strings::replace ("\n", string(), html);
 
   // The output text.
   string text {};
@@ -1007,7 +992,7 @@ string filter_string_html2text (string html)
   text = unescape_special_xml_characters (text);
 
   while (text.find ("\n\n") != string::npos) {
-    text = filter_string_str_replace ("\n\n", "\n", text);
+    text = filter::strings::replace ("\n\n", "\n", text);
   }
   text = filter_string_trim (text);
   return text;
@@ -1042,7 +1027,7 @@ string filter_string_extract_email (string input)
 // On Wed, 2011-03-02 at 08:26 +0100, Bibledit wrote:
 string filter_string_extract_body (string input, string year, string sender)
 {
-  vector <string> inputlines = filter_string_explode (input, '\n');
+  vector <string> inputlines = filter::strings::explode (input, '\n');
   if (inputlines.empty ()) return "";
   vector <string> body;
   for (string & line : inputlines) {
@@ -1058,7 +1043,7 @@ string filter_string_extract_body (string input, string year, string sender)
     }
     body.push_back (line);
   }
-  string bodystring = filter_string_implode (body, "\n");
+  string bodystring = filter::strings::implode (body, "\n");
   bodystring = filter_string_trim (bodystring);
   return bodystring;
 }
@@ -1417,7 +1402,7 @@ string filter_string_markup_words (const vector <string>& words, string text)
   // which will replace the $needles.
   for (auto & needle : needles) {
     string markup = "<mark>" + needle + "</mark>";
-    text = filter_string_str_replace (needle, markup, text);
+    text = filter::strings::replace (needle, markup, text);
   }
   
   // Result.
@@ -1488,7 +1473,7 @@ string hex2bin (string hex)
 // Tidies up html.
 string html_tidy (string html)
 {
-  html = filter_string_str_replace ("<", "\n<", html);
+  html = filter::strings::replace ("<", "\n<", html);
   return html;
 }
 
@@ -1497,10 +1482,10 @@ string html_tidy (string html)
 string html2xml (string html)
 {
   // HTML specification: <hr>, XML specification: <hr/>.
-  html = filter_string_str_replace ("<hr>", "<hr/>", html);
+  html = filter::strings::replace ("<hr>", "<hr/>", html);
 
   // HTML specification: <br>, XML specification: <br/>.
-  html = filter_string_str_replace ("<br>", "<br/>", html);
+  html = filter::strings::replace ("<br>", "<br/>", html);
 
   return html;
 }
@@ -1583,9 +1568,9 @@ string encrypt_decrypt (string key, string data)
 // Gets a new random string for sessions, encryption, you name it.
 string get_new_random_string ()
 {
-  string u = convert_to_string (filter::date::numerical_microseconds ());
-  string s = convert_to_string (filter::date::seconds_since_epoch ());
-  string r = convert_to_string (config_globals_int_distribution (config_globals_random_engine));
+  string u = filter::strings::convert_to_string (filter::date::numerical_microseconds ());
+  string s = filter::strings::convert_to_string (filter::date::seconds_since_epoch ());
+  string r = filter::strings::convert_to_string (config_globals_int_distribution (config_globals_random_engine));
   return md5 (u + s + r);
 }
 
@@ -1745,7 +1730,7 @@ string wstring2string(const wstring& wstr)
 // basically adding the appropriate carriage return characters.
 string lf2crlf (string str)
 {
-  return filter_string_str_replace ("\n", "\r\n", str);
+  return filter::strings::replace ("\n", "\r\n", str);
 }
 
 
@@ -1753,7 +1738,7 @@ string lf2crlf (string str)
 // essentially removing any carriage return characters.
 string crlf2lf (string str)
 {
-  return filter_string_str_replace ("\r\n", "\n", str);
+  return filter::strings::replace ("\r\n", "\n", str);
 }
 
 
@@ -1776,13 +1761,13 @@ string filter_text_html_get_element (string html, string element)
 string filter_string_tidy_invalid_html_leaking (string html)
 {
   // Everything in the <head> can be left out: It is not relevant.
-  filter_string_replace_between (html, "<head>", "</head>", "");
+  filter::strings::replace_between (html, "<head>", "</head>", "");
   
   // Every <script...</script> can be left out: They are irrelevant.
   int counter = 0;
   while (counter < 100) {
     counter++;
-    bool replaced = filter_string_replace_between (html, "<script", "</script>", "");
+    bool replaced = filter::strings::replace_between (html, "<script", "</script>", "");
     if (!replaced) break;
   }
   
@@ -1835,9 +1820,9 @@ static string substitute_xml_entities_into_text(const string &text)
 {
   string result {text};
   // Replacing & must come first.
-  result = filter_string_str_replace ("&", "&amp;", result);
-  result = filter_string_str_replace ("<", "&lt;", result);
-  result = filter_string_str_replace (">", "&gt;", result);
+  result = filter::strings::replace ("&", "&amp;", result);
+  result = filter::strings::replace ("<", "&lt;", result);
+  result = filter::strings::replace (">", "&gt;", result);
   // Done.
   return result;
 }
@@ -1847,10 +1832,10 @@ static string substitute_xml_entities_into_attributes(char quote, const string &
 {
   string result {substitute_xml_entities_into_text (text)};
   if (quote == '"') {
-    result = filter_string_str_replace("\"","&quot;", result);
+    result = filter::strings::replace("\"","&quot;", result);
   }
   else if (quote == '\'') {
-    result = filter_string_str_replace("'","&apos;", result);
+    result = filter::strings::replace("'","&apos;", result);
   }
   return result;
 }
@@ -2116,13 +2101,13 @@ static string pretty_print(GumboNode* node, int lvl, const string & indent_chars
 string filter_string_fix_invalid_html_gumbo (string html)
 {
   // Everything in the <head> can be left out: It is not relevant.
-  filter_string_replace_between (html, "<head>", "</head>", string());
+  filter::strings::replace_between (html, "<head>", "</head>", string());
   
   // Every <script...</script> can be left out: They are irrelevant.
   int counter {0};
   while (counter < 100) {
     counter++;
-    bool replaced = filter_string_replace_between (html, "<script", "</script>", string());
+    bool replaced = filter::strings::replace_between (html, "<script", "</script>", string());
     if (!replaced) break;
   }
   
@@ -2208,7 +2193,7 @@ string filter_string_collapse_whitespace (string s)
   int iterator {0};
   do {
     count = 0;
-    s = filter_string_str_replace ("  ", " ", s, &count);
+    s = filter::strings::replace ("  ", " ", s, &count);
     iterator++;
   } while ((count > 0) && iterator < 5);
   return s;
@@ -2222,7 +2207,7 @@ std::string convert_windows1252_to_utf8 (const std::string& input)
   utf8::utf16to8(input.begin(), input.end(), back_inserter(utf8));
 
   // Handle weird conversions.
-  utf8 = filter_string_str_replace ("￯﾿ﾽ", "'", utf8);
+  utf8 = filter::strings::replace ("￯﾿ﾽ", "'", utf8);
 
   // Pass it to the caller.
   return utf8;
@@ -2283,7 +2268,7 @@ std::string convert_windows1252_to_utf8 (const std::string& input)
   //utf8.assign ((char*)outbuf, outbuf_size - output_bytes_left);
   
   // Handle weird conversions.
-  //utf8 = filter_string_str_replace ("ï¿½", "'", utf8);
+  //utf8 = filter::strings::replace ("ï¿½", "'", utf8);
   
   // Pass it to the caller.
   //return utf8;

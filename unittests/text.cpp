@@ -155,7 +155,7 @@ void test_filter_text ()
     int ret = odf2txt (TextTestOdt, TextTestTxt);
     evaluate (__LINE__, __func__, 0, ret);
     string odt = filter_url_file_get_contents (TextTestTxt);
-    odt = filter_string_str_replace ("  ", "", odt);
+    odt = filter::strings::replace ("  ", "", odt);
     string standard = R"(
 Header4
 
@@ -200,7 +200,7 @@ This is the text of chapter 2, verse 2. This is the text of chapter 2, verse 2. 
     int ret = odf2txt (TextTestOdt, TextTestTxt);
     evaluate (__LINE__, __func__, 0, ret);
     string odt = filter_url_file_get_contents (TextTestTxt);
-    odt = filter_string_str_replace ("  ", "", odt);
+    odt = filter::strings::replace ("  ", "", odt);
     string standard = ""
     "Genesis\n"
     "\n"
@@ -245,7 +245,7 @@ This is the text of chapter 2, verse 2. This is the text of chapter 2, verse 2. 
     int ret = odf2txt (TextTestOdt, TextTestTxt);
     evaluate (__LINE__, __func__, 0, ret);
     string odt = filter_url_file_get_contents (TextTestTxt);
-    odt = filter_string_str_replace ("  ", "", odt);
+    odt = filter::strings::replace ("  ", "", odt);
     string standard = ""
     "Ruth\n"
     "\n"
@@ -289,7 +289,7 @@ This is the text of chapter 2, verse 2. This is the text of chapter 2, verse 2. 
     int ret = odf2txt (TextTestOdt, TextTestTxt);
     evaluate (__LINE__, __func__, 0, ret);
     string odt = filter_url_file_get_contents (TextTestTxt);
-    odt = filter_string_str_replace ("  ", "", odt);
+    odt = filter::strings::replace ("  ", "", odt);
     string standard = ""
     "Genesis\n"
     "\n"
@@ -314,7 +314,7 @@ This is the text of chapter 2, verse 2. This is the text of chapter 2, verse 2. 
     int ret = odf2txt (TextTestOdt, TextTestTxt);
     evaluate (__LINE__, __func__, 0, ret);
     string odt = filter_url_file_get_contents (TextTestTxt);
-    odt = filter_string_str_replace ("  ", "", odt);
+    odt = filter::strings::replace ("  ", "", odt);
     string standard = ""
     "Genesis\n"
     "\n"
@@ -363,7 +363,7 @@ This is the text of chapter 2, verse 2. This is the text of chapter 2, verse 2. 
     int ret = odf2txt (TextTestOdt, TextTestTxt);
     evaluate (__LINE__, __func__, 0, ret);
     string odt = filter_url_file_get_contents (TextTestTxt);
-    odt = filter_string_str_replace ("  ", "", odt);
+    odt = filter::strings::replace ("  ", "", odt);
     string standard = R"(
 Genesis
 
@@ -812,7 +812,7 @@ A Verse text.
     int ret = odf2txt (TextTestOdt, TextTestTxt);
     evaluate (__LINE__, __func__, 0, ret);
     string odt = filter_url_file_get_contents (TextTestTxt);
-    odt = filter_string_str_replace ("  ", "", odt);
+    odt = filter::strings::replace ("  ", "", odt);
     string standard = ""
     "Genesis\n"
     "\n"
@@ -858,7 +858,7 @@ A Verse text.
     int ret = odf2txt (TextTestOdt, TextTestTxt);
     evaluate (__LINE__, __func__, 0, ret);
     string odt = filter_url_file_get_contents (TextTestTxt);
-    odt = filter_string_str_replace ("  ", "", odt);
+    odt = filter::strings::replace ("  ", "", odt);
     string standard = ""
     "Genesis\n"
     "\n"
@@ -884,7 +884,7 @@ A Verse text.
     int ret = odf2txt (TextTestOdt, TextTestTxt);
     evaluate (__LINE__, __func__, 0, ret);
     string odt = filter_url_file_get_contents (TextTestTxt);
-    odt = filter_string_str_replace ("  ", "", odt);
+    odt = filter::strings::replace ("  ", "", odt);
     string standard = ""
     "Genesis\n"
     "\n"
@@ -935,7 +935,7 @@ A Verse text.
     int ret = odf2txt (TextTestOdt, TextTestTxt);
     evaluate (__LINE__, __func__, 0, ret);
     string odt = filter_url_file_get_contents (TextTestTxt);
-    odt = filter_string_str_replace ("  ", "", odt);
+    odt = filter::strings::replace ("  ", "", odt);
     string standard = R"(
 Genesis
 
@@ -1003,7 +1003,7 @@ Chapter 2
     int ret = odf2txt (TextTestOdt, TextTestTxt);
     evaluate (__LINE__, __func__, 0, ret);
     string odt = filter_url_file_get_contents (TextTestTxt);
-    odt = filter_string_str_replace ("  ", string(), odt);
+    odt = filter::strings::replace ("  ", string(), odt);
     string standard = R"(
 Genesis
 
@@ -1203,7 +1203,7 @@ A Jesus is King.  B Jesus is the son of God.
       int ret = odf2txt (TextTestOdt, TextTestTxt);
       evaluate (__LINE__, __func__, 0, ret);
       string odt = filter_url_file_get_contents (TextTestTxt);
-      odt = filter_string_str_replace ("  ", "", odt);
+      odt = filter::strings::replace ("  ", "", odt);
       string standard = R"(
 Unknown 1
 

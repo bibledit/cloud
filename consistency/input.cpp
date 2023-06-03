@@ -41,7 +41,7 @@ bool consistency_input_acl (void * webserver_request)
 string consistency_input (void * webserver_request)
 {
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  int id = convert_to_int (request->post ["id"]);
+  int id = filter::strings::convert_to_int (request->post ["id"]);
   string passages = request->post ["passages"];
   string translations = request->post ["translations"];
   Database_Volatile::setValue (id, "passages", passages);

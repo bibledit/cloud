@@ -173,10 +173,10 @@ string Database_Login::getUsername (string cookie, bool & daily)
   map <string, vector <string> > result = sql.query ();
   if (result.empty()) return "";
   string username = result ["username"][0];
-  int stamp = convert_to_int (result ["timestamp"] [0]);
+  int stamp = filter::strings::convert_to_int (result ["timestamp"] [0]);
   if (stamp != timestamp ()) {
     // Touch the timestamp. This occurs once a day.
-    int rowid = convert_to_int (result ["rowid"] [0]);
+    int rowid = filter::strings::convert_to_int (result ["rowid"] [0]);
     sql.clear ();
     sql.add ("UPDATE logins SET timestamp =");
     sql.add (timestamp ());
@@ -199,7 +199,7 @@ bool Database_Login::getTouchEnabled (string cookie)
   sql.add (cookie);
   sql.add (";");
   vector <string> result = sql.query () ["touch"];
-  if (!result.empty()) return convert_to_bool (result [0]);
+  if (!result.empty()) return filter::strings::convert_to_bool (result [0]);
   return false;
 }
 

@@ -66,8 +66,8 @@ string notes_assign_1 (void * webserver_request)
   string user = request->session_logic ()->currentUser ();
 
   
-  int id = convert_to_int (request->query ["id"]);
-  view.set_variable ("id", convert_to_string (id));
+  int id = filter::strings::convert_to_int (request->query ["id"]);
+  view.set_variable ("id", filter::strings::convert_to_string (id));
 
   
   if (request->query.count ("assign")) {
@@ -75,7 +75,7 @@ string notes_assign_1 (void * webserver_request)
     if (database_noteassignment.exists (user, assign)) {
       notes_logic.assignUser (id, assign);
     }
-    redirect_browser (request, notes_actions_url () + "?id=" + convert_to_string (id));
+    redirect_browser (request, notes_actions_url () + "?id=" + filter::strings::convert_to_string (id));
     return "";
   }
 
@@ -84,7 +84,7 @@ string notes_assign_1 (void * webserver_request)
   stringstream userblock;
   vector <string> assignees = database_noteassignment.assignees (user);
   for (auto & assignee : assignees) {
-    userblock << "<li><a href=" << quoted ("assign-1?id=" + convert_to_string (id) + "&assign=" + assignee) << ">" << assignee << "</a></li>" << endl;
+    userblock << "<li><a href=" << quoted ("assign-1?id=" + filter::strings::convert_to_string (id) + "&assign=" + assignee) << ">" << assignee << "</a></li>" << endl;
   }
   view.set_variable ("userblock", userblock.str());
   

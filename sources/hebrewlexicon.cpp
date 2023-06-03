@@ -53,7 +53,7 @@ void sources_hebrewlexicon_parse ()
           string element = (char *) xmlTextReaderName(reader);
           if (element == "w") {
             string xmlns = " xmlns=\"http://openscriptures.github.com/morphhb/namespace\"";
-            target = filter_string_str_replace (xmlns, "", target);
+            target = filter::strings::replace (xmlns, "", target);
             target = filter_string_trim (target);
             database_hebrewlexicon.setaug (aug, target);
             aug.clear ();
@@ -88,14 +88,14 @@ void sources_hebrewlexicon_parse ()
           string element = (char *) xmlTextReaderName(reader);
           if (element == "entry") {
             string xmlns = " xmlns=\"http://openscriptures.github.com/morphhb/namespace\"";
-            definition = filter_string_str_replace (xmlns, "", definition);
+            definition = filter::strings::replace (xmlns, "", definition);
             definition = convert_xml_character_entities_to_characters (definition);
-            vector <string> lines = filter_string_explode (definition, '\n');
+            vector <string> lines = filter::strings::explode (definition, '\n');
             for (auto & line : lines) {
               if (line.find ("</status>") != string::npos) line.clear ();
               line = filter_string_trim (line);
             }
-            definition = filter_string_implode (lines, "\n");
+            definition = filter::strings::implode (lines, "\n");
             definition = filter_string_trim (definition);
             database_hebrewlexicon.setbdb (id, definition);
             id.clear ();
@@ -134,7 +134,7 @@ void sources_hebrewlexicon_parse ()
           string element = (char *) xmlTextReaderName(reader);
           if (element == "entry") {
             string xmlns = " xmlns=\"http://openscriptures.github.com/morphhb/namespace\"";
-            bdb = filter_string_str_replace (xmlns, "", bdb);
+            bdb = filter::strings::replace (xmlns, "", bdb);
             bdb = filter_string_trim (bdb);
             database_hebrewlexicon.setmap (id, bdb);
             id.clear ();
@@ -169,9 +169,9 @@ void sources_hebrewlexicon_parse ()
           string element = (char *) xmlTextReaderName(reader);
           if (element == "entry") {
             string xmlns = " xmlns=\"http://openscriptures.github.com/morphhb/namespace\"";
-            definition = filter_string_str_replace (xmlns, "", definition);
+            definition = filter::strings::replace (xmlns, "", definition);
             definition = convert_xml_character_entities_to_characters (definition);
-            definition = filter_string_str_replace ("'", "''", definition);
+            definition = filter::strings::replace ("'", "''", definition);
             definition = filter_string_trim (definition);
             database_hebrewlexicon.setstrong (id, definition);
             id.clear ();

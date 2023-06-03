@@ -70,13 +70,13 @@ string search_similar (void * webserver_request)
     // Text of the focused verse in the active Bible.
     // Remove all punctuation from it.
     string versetext = search_logic_get_bible_verse_text (bible, book, chapter, verse);
-    vector <string> punctuation = filter_string_explode (Database_Config_Bible::getSentenceStructureEndPunctuation (bible), ' ');
+    vector <string> punctuation = filter::strings::explode (Database_Config_Bible::getSentenceStructureEndPunctuation (bible), ' ');
     for (auto & sign : punctuation) {
-      versetext = filter_string_str_replace (sign, "", versetext);
+      versetext = filter::strings::replace (sign, "", versetext);
     }
-    punctuation = filter_string_explode (Database_Config_Bible::getSentenceStructureMiddlePunctuation (bible), ' ');
+    punctuation = filter::strings::explode (Database_Config_Bible::getSentenceStructureMiddlePunctuation (bible), ' ');
     for (auto & sign : punctuation) {
-      versetext = filter_string_str_replace (sign, "", versetext);
+      versetext = filter::strings::replace (sign, "", versetext);
     }
     versetext = filter_string_trim (versetext);
     Database_Volatile::setValue (myIdentifier, "searchsimilar", versetext);
@@ -89,7 +89,7 @@ string search_similar (void * webserver_request)
     string words = request->query ["words"];
     words = filter_string_trim (words);
     Database_Volatile::setValue (myIdentifier, "searchsimilar", words);
-    vector <string> vwords = filter_string_explode (words, ' ');
+    vector <string> vwords = filter::strings::explode (words, ' ');
     
     // Include items if there are no more search hits than 30% of the total number of verses in the Bible.
     size_t maxcount = static_cast<size_t> (round (0.3 * search_logic_get_verse_count (bible)));
@@ -132,14 +132,14 @@ string search_similar (void * webserver_request)
     string output;
     for (auto & id : ids) {
       if (!output.empty ()) output.append ("\n");
-      output.append (convert_to_string (id));
+      output.append (filter::strings::convert_to_string (id));
     }
     return output;
   }
   
   
   if (request->query.count ("id")) {
-    int id = convert_to_int (request->query ["id"]);
+    int id = filter::strings::convert_to_int (request->query ["id"]);
     
     // Get the Bible and passage for this identifier.
     Passage passage = filter_integer_to_passage (id);
@@ -150,10 +150,10 @@ string search_similar (void * webserver_request)
     string verse = passage.m_verse;
     
     // Get the plain text.
-    string text = search_logic_get_bible_verse_text (bible2, book, chapter, convert_to_int (verse));
+    string text = search_logic_get_bible_verse_text (bible2, book, chapter, filter::strings::convert_to_int (verse));
     
     // Get search words.
-    vector <string> words = filter_string_explode (Database_Volatile::getValue (myIdentifier, "searchsimilar"), ' ');
+    vector <string> words = filter::strings::explode (Database_Volatile::getValue (myIdentifier, "searchsimilar"), ' ');
     
     // Format it.
     string link = filter_passage_link_for_opening_editor_at (book, chapter, verse);

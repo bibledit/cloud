@@ -50,7 +50,7 @@ void OnlineBible_Text::newVerse (int bookIdentifier, int chapterNumber, int vers
   if (!book.empty()) {
     if (chapterNumber > 0) {
       if (verseNumber > 0) {
-        output.push_back ("$$$ " + book + " " + convert_to_string (chapterNumber) + ":" + convert_to_string (verseNumber));
+        output.push_back ("$$$ " + book + " " + filter::strings::convert_to_string (chapterNumber) + ":" + filter::strings::convert_to_string (verseNumber));
         currentLine.clear ();
         lineLoaded = true;
       }
@@ -85,6 +85,6 @@ void OnlineBible_Text::closeCurrentNote ()
 void OnlineBible_Text::save (string name)
 {
   storeData ();
-  string data = filter_string_implode (output, "\n");
+  string data = filter::strings::implode (output, "\n");
   filter_url_file_put_contents (name, data);
 }

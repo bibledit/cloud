@@ -92,7 +92,7 @@ string search_replacego (void * webserver_request)
   if (casesensitive) {
     standardPlainText = filter::strings::replace (searchfor, replacewith, standardPlainText, &plain_replacement_count);
   } else {
-    vector <string> needles = filter_string_search_needles (searchfor, standardPlainText);
+    vector <string> needles = filter::strings::search_needles (searchfor, standardPlainText);
     for (auto & needle : needles) {
       standardPlainText = filter::strings::replace (needle, replacewith, standardPlainText, &plain_replacement_count);
     }
@@ -105,7 +105,7 @@ string search_replacego (void * webserver_request)
   if (casesensitive) {
     new_verse_usfm = filter::strings::replace (searchfor, replacewith, new_verse_usfm, &usfm_replacement_count);
   } else {
-    vector <string> needles = filter_string_search_needles (searchfor, old_verse_usfm);
+    vector <string> needles = filter::strings::search_needles (searchfor, old_verse_usfm);
     for (auto & needle : needles) {
       new_verse_usfm = filter::strings::replace (needle, replacewith, new_verse_usfm, &usfm_replacement_count);
     }
@@ -137,7 +137,7 @@ string search_replacego (void * webserver_request)
   if (replacementOkay && write) {
     icon = "<span class=\"success\">✔</span>";
   } else {
-    icon = "<span class=\"error\">" + emoji_wastebasket () + "</span>";
+    icon = "<span class=\"error\">" + filter::strings::emoji_wastebasket () + "</span>";
   }
   
   
@@ -148,7 +148,7 @@ string search_replacego (void * webserver_request)
   
   
   // Mark the new plain text.
-  if (replacewith != "") updatedPlainText = filter_string_markup_words ({replacewith}, updatedPlainText);
+  if (replacewith != "") updatedPlainText = filter::strings::markup_words ({replacewith}, updatedPlainText);
   
   
   // Clickable passage.

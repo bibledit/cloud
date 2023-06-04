@@ -110,7 +110,7 @@ string resource_organize (void * webserver_request)
       size_t to = static_cast<size_t>(filter::strings::convert_to_int (moveto));
       vector <string> resources = request->database_config_user()->getActiveResources ();
       if (is_def) resources = default_active_resources;
-      array_move_from_to (resources, from, to);
+      filter::strings::array_move_from_to (resources, from, to);
       if (is_def) Database_Config_General::setDefaultActiveResources (resources);
       else request->database_config_user()->setActiveResources (resources);
       if (!is_def) request->database_config_user()->addUpdatedSetting (Sync_Logic::settings_send_resources_organization);
@@ -140,7 +140,7 @@ string resource_organize (void * webserver_request)
     for (size_t i = 0; i < default_active_resources.size (); i++) {
       defactivesblock.append ("<p>&#183; ");
       defactivesblock.append ("<a href=\"?remove=" + filter::strings::convert_to_string (i) + "&type=def\">");
-      defactivesblock.append (emoji_wastebasket ());
+      defactivesblock.append (filter::strings::emoji_wastebasket ());
       defactivesblock.append ("</a>");
       defactivesblock.append (" ");
       defactivesblock.append (default_active_resources [i]);
@@ -157,7 +157,7 @@ string resource_organize (void * webserver_request)
   for (size_t i = 0; i < active_resources.size (); i++) {
     activesblock.append ("<p>&#183; ");
     activesblock.append ("<a href=\"?remove=" + filter::strings::convert_to_string (i) + "\">");
-    activesblock.append (emoji_wastebasket ());
+    activesblock.append (filter::strings::emoji_wastebasket ());
     activesblock.append ("</a>");
     activesblock.append (" ");
     activesblock.append (active_resources [i]);

@@ -309,7 +309,7 @@ string system_index (void * webserver_request)
   for (auto & font : fonts) {
     fontsblock << "<p>";
 #ifndef HAVE_CLIENT
-    fontsblock << "<a href=" << quoted ("?deletefont=" + font) << " title=" << quoted(translate("Delete font")) << ">" << emoji_wastebasket () << "</a>";
+    fontsblock << "<a href=" << quoted ("?deletefont=" + font) << " title=" << quoted(translate("Delete font")) << ">" << filter::strings::emoji_wastebasket () << "</a>";
 #endif
     fontsblock << font;
     fontsblock << "</p>";

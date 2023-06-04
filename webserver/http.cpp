@@ -265,7 +265,7 @@ void http_assemble_response (void * webserver_request)
     // This provides extra security.
 
     string identifier = request->session_identifier;
-    if (identifier.empty ()) identifier = get_new_random_string ();
+    if (identifier.empty ()) identifier = filter::strings::get_new_random_string ();
     string cookie = "Session=" + identifier + "; Path=/; Max-Age=2678400; HttpOnly";
     response.push_back ("Set-Cookie: " + cookie);
   }

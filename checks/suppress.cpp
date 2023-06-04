@@ -89,7 +89,7 @@ string checks_suppress (void * webserver_request)
       result.insert (0, bible + " " + passage + " ");
       block.append (R"(<p style="color:grey;">)");
       block.append (R"(<a href="suppress?release=)" + filter::strings::convert_to_string (id) + R"(">)");
-      block.append (emoji_wastebasket ());
+      block.append (filter::strings::emoji_wastebasket ());
       block.append ("</a>");
       block.append (result);
       block.append ("</p>\n");

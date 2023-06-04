@@ -196,13 +196,13 @@ string resource_logic_get_html (void * webserver_request,
   } else if (is_image) {
   } else if (is_lexicon) {
     resource_versification = database_mappings.original ();
-    if (resource == KJV_LEXICON_NAME) resource_versification = english ();
+    if (resource == KJV_LEXICON_NAME) resource_versification = filter::strings::english ();
   } else if (is_sword) {
-    resource_versification = english ();
+    resource_versification = filter::strings::english ();
   } else if (is_bible_gateway) {
-    resource_versification = english ();
+    resource_versification = filter::strings::english ();
   } else if (is_study_light) {
-    resource_versification = english ();
+    resource_versification = filter::strings::english ();
   } else {
   }
 
@@ -948,7 +948,7 @@ string resource_logic_bible_gateway_module_list_refresh ()
   string html = filter_url_http_get ("https://www.biblegateway.com/versions/", error, false);
   if (error.empty ()) {
     vector <string> resources;
-    html = filter_text_html_get_element (html, "select");
+    html =  filter::strings::html_get_element (html, "select");
     xml_document document;
     document.load_string (html.c_str());
     xml_node select_node = document.first_child ();
@@ -1256,9 +1256,9 @@ string resource_logic_bible_gateway_get (string resource, int book, int chapter,
       }
     }
   }
-  result = filter::strings::replace (unicode_non_breaking_space_entity (), " ", result);
+  result = filter::strings::replace (filter::strings::unicode_non_breaking_space_entity (), " ", result);
   result = filter::strings::replace (" ", " ", result); // Make special space visible.
-  result = filter_string_collapse_whitespace (result);
+  result = filter::strings::collapse_whitespace (result);
   result = filter::strings::trim (result);
 #endif
 #ifdef HAVE_CLIENT
@@ -1365,7 +1365,7 @@ string resource_logic_study_light_get (string resource, int book, int chapter, i
   // It appears that the html from this website is not well-formed.
   // It cannot be loaded as an XML document without errors and missing text.
   // Therefore the html is tidied first.
-  html = filter_string_fix_invalid_html_gumbo (html);
+  html = filter::strings::fix_invalid_html_gumbo (html);
   
   string start_key = R"(<div class="ptb10">)";
   vector <int> class_lightgrey_book {
@@ -1608,13 +1608,13 @@ string resource_logic_easy_english_bible_get (int book, int chapter, int verse)
     // It appears that the html from this website is not well-formed.
     // It cannot be loaded as an XML document without errors and missing text.
     // Therefore the html is tidied first.
-    html = filter_string_fix_invalid_html_gumbo (html);
+    html = filter::strings::fix_invalid_html_gumbo (html);
 
     // The html from this website requires further cleaning.
     // One issue is that instead of  class="Section1"  it has  class=Section1
     // Notice the missing quotes around the class name.
     // Call libtidy to further tidy this heml up.
-    html = filter_string_fix_invalid_html_tidy (html);
+    html = filter::strings::fix_invalid_html_tidy (html);
 
     // The document has one main div like this:
     // <div class="Section1">
@@ -1704,7 +1704,7 @@ string resource_logic_easy_english_bible_get (int book, int chapter, int verse)
         if (at_passage) {
           // The html from this website is encoded as charset=windows-1252.
           // Convert that to UTF0-8.
-          paragraph = convert_windows1252_to_utf8 (paragraph);
+          paragraph = filter::strings::convert_windows1252_to_utf8 (paragraph);
           // Add this paragraph to the resulting text.
           result.append ("<p>");
           result.append (paragraph);

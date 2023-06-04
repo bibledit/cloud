@@ -75,7 +75,7 @@ string Passage::encode ()
   string text;
   // The encoded passage can be used as an attribute in the HTML DOM.
   // Therefore it will be encoded such that any Bible name will be acceptable as an attribute in the DOM.
-  text.append (bin2hex (m_bible));
+  text.append (filter::strings::bin2hex (m_bible));
   text.append ("_");
   text.append (filter::strings::convert_to_string (m_book));
   text.append ("_");
@@ -109,7 +109,7 @@ Passage Passage::decode (const string& encoded)
     bits.pop_back ();
   }
   if (!bits.empty ()) {
-    passage.m_bible = hex2bin (bits.back ());
+    passage.m_bible = filter::strings::hex2bin (bits.back ());
     bits.pop_back ();
   }
   return passage;
@@ -293,7 +293,7 @@ string filter_passage_clean_passage (string text)
   text = filter::strings::replace (".", " ", text);
   text = filter::strings::replace (":", " ", text);
   // Change double spaces into single ones.
-  text = filter_string_collapse_whitespace (text);
+  text = filter::strings::collapse_whitespace (text);
   // Trim again.
   text = filter::strings::trim (text);
   // Result.

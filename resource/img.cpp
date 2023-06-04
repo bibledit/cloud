@@ -73,7 +73,7 @@ string resource_img (void * webserver_request)
   view.set_variable ("image", image);
 
   
-  int userid = filter_string_user_identifier (webserver_request);
+  int userid = filter::strings::user_identifier (webserver_request);
 
   
   if (request->post.count ("submit")) {

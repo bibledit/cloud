@@ -102,7 +102,7 @@ string checks_index (void * webserver_request)
       string information = filter::strings::escape_special_xml_characters (hit.data);
       resultblock << "<p>\n";
       resultblock << "<a href=" << quoted("index?approve=" + filter::strings::convert_to_string (id)) << "> ✔ </a>\n";
-      resultblock << "<a href=" << quoted ("index?delete=" + filter::strings::convert_to_string (id)) << ">" << emoji_wastebasket () << "</a>\n";
+      resultblock << "<a href=" << quoted ("index?delete=" + filter::strings::convert_to_string (id)) << ">" << filter::strings::emoji_wastebasket () << "</a>\n";
       resultblock << bible;
       resultblock << " ";
       resultblock << link;

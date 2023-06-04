@@ -182,7 +182,7 @@ void Paratext_Logic::copyBibledit2Paratext (string bible)
       string path = filter_url_create_path ({paratext_project_folder, paratext_book});
       Database_Logs::log (bookname + ": " "Saving to:" " " + path);
       // Paratext on Windows and on Linux store the line ending with carriage return and line feed.
-      filter_url_file_put_contents (path, lf2crlf (usfm));
+      filter_url_file_put_contents (path, filter::strings::lf2crlf (usfm));
       
       paratext_books [book].clear ();
     
@@ -234,7 +234,7 @@ void Paratext_Logic::copyParatext2Bibledit (string bible)
 
     // Ancestor data needed for future merge.
     // The Paratext files have cr+lf at the end, and the ancestor data should only have lf at the end of each line.
-    string usfm = crlf2lf (filter_url_file_get_contents (path));
+    string usfm = filter::strings::crlf2lf (filter_url_file_get_contents (path));
     ancestor (bible, book, usfm);
   }
 }
@@ -360,7 +360,7 @@ void Paratext_Logic::synchronize (tasks::enums::paratext_sync method)
       map <int, string> paratext_usfm;
       {
         string path = filter_url_create_path ({projectFolder (bible), paratext_book});
-        string book_usfm = crlf2lf (filter_url_file_get_contents (path));
+        string book_usfm = filter::strings::crlf2lf (filter_url_file_get_contents (path));
         // Paratext on Linux has been seen adding empty lines right after \c (chapter).
         // It does that after syncing with Bibledit and editing the chapter in Paratext.
         // This looks like a bug in Paratext. Remove those empty lines.
@@ -491,7 +491,7 @@ void Paratext_Logic::synchronize (tasks::enums::paratext_sync method)
           }
         }
         string path = filter_url_create_path ({projectFolder (bible), paratext_book});
-        filter_url_file_put_contents (path, lf2crlf (usfm));
+        filter_url_file_put_contents (path, filter::strings::lf2crlf (usfm));
       }
     }
   }

@@ -48,7 +48,7 @@ string sync_setup (void * webserver_request)
   string page;
   
   string username = request->query ["user"];
-  username = hex2bin (username);
+  username = filter::strings::hex2bin (username);
   string password = request->query ["pass"];
 
   // Check the credentials of the client.

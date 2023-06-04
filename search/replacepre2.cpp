@@ -80,19 +80,19 @@ string search_replacepre2 (void * webserver_request)
   string link = filter_passage_link_for_opening_editor_at (book, chapter, verse);
   
   
-  string oldtext = filter_string_markup_words ({searchfor}, text);
+  string oldtext = filter::strings::markup_words ({searchfor}, text);
   
 
   string newtext (text);
   if (casesensitive) {
     newtext = filter::strings::replace (searchfor, replacewith, newtext);
   } else {
-    vector <string> needles = filter_string_search_needles (searchfor, text);
+    vector <string> needles = filter::strings::search_needles (searchfor, text);
     for (auto & needle : needles) {
       newtext = filter::strings::replace (needle, replacewith, newtext);
     }
   }
-  if (replacewith != "") newtext = filter_string_markup_words ({replacewith}, newtext);
+  if (replacewith != "") newtext = filter::strings::markup_words ({replacewith}, newtext);
   
   
   // Check whether the user has write access to the book.
@@ -104,7 +104,7 @@ string search_replacepre2 (void * webserver_request)
   string output;
   output.append ("<div id=\"" + id + "\">\n");
   output.append ("<p>");
-  if (write) output.append ("<a href=\"replace\"> ✔ </a> <a href=\"delete\">" + emoji_wastebasket () + "</a> ");
+  if (write) output.append ("<a href=\"replace\"> ✔ </a> <a href=\"delete\">" + filter::strings::emoji_wastebasket () + "</a> ");
   output.append (link);
   output.append ("</p>\n");
   output.append ("<p>" + oldtext + "</p>\n");

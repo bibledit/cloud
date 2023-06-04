@@ -1359,51 +1359,40 @@ void quick_sort (std::vector<int>& one, std::vector<int>& two, unsigned int beg,
 }
 
 
-
-
-
-
-} // Namespace.
-
-
-using namespace std; // Todo working here moving the below into another namespace.
-
-
-#define MY_NUMBERS "0123456789"
-string number_in_string (const string & str)
+std::string number_in_string (const std::string& str)
 {
+  constexpr const char* numbers {"0123456789"};
   // Looks for and returns a positive number in a string.
-  string output = str;
-  output.erase (0, output.find_first_of (MY_NUMBERS));
-  size_t end_position = output.find_first_not_of (MY_NUMBERS);
-  if (end_position != string::npos) {
+  std::string output {str};
+  output.erase (0, output.find_first_of (numbers));
+  const size_t end_position = output.find_first_not_of (numbers);
+  if (end_position != std::string::npos) {
     output.erase (end_position, output.length());
   }
   return output;
 }
-#undef MY_NUMBERS
 
 
 
 // This function marks the array of $words in the string $text.
 // It uses the <mark> markup for display as html.
-string filter_string_markup_words (const vector <string>& words, string text)
+std::string markup_words (const std::vector<std::string>& words, std::string text)
 {
   // Array of needles to look for.
   // The needles contain the search $words as they occur in the $text
   // in upper case or lower case, or any mixed case.
-  vector <string> needles;
-  for (auto & word : words) {
-    if (word == "") continue;
-    vector <string> new_needles = filter_string_search_needles (word, text);
+  std::vector <std::string> needles {};
+  for (const auto& word : words) {
+    if (word.empty()) continue;
+    std::vector <std::string> new_needles {filter::strings::search_needles (word, text)};
     needles.insert (needles.end(), new_needles.begin(), new_needles.end());
   }
   needles = filter::strings::array_unique (needles);
   
   // All the $needles are converted to $markup,
   // which will replace the $needles.
-  for (auto & needle : needles) {
-    string markup = "<mark>" + needle + "</mark>";
+  for (const auto& needle : needles) {
+    const std::string markup = "<mark>" + needle + "</mark>";
     text = filter::strings::replace (needle, markup, text);
   }
   
@@ -1412,15 +1401,17 @@ string filter_string_markup_words (const vector <string>& words, string text)
 }
 
 
+// Todo constness and references.
+
 // This function returns an array of needles to look for.
 // The needles contain the $search word as it occurs in the $string
 // in upper case or lower case or any mixed case.
-vector <string> filter_string_search_needles (string search, string text)
+std::vector <std::string> search_needles (std::string search, std::string text)
 {
-  vector <string> needles;
+  std::vector <std::string> needles {};
   size_t position = filter::strings::unicode_string_strpos_case_insensitive (text, search, 0);
-  while (position != string::npos) {
-    string needle = filter::strings::unicode_string_substr (text, position, filter::strings::unicode_string_length (search));
+  while (position != std::string::npos) {
+    std::string needle = unicode_string_substr (text, position, filter::strings::unicode_string_length (search));
     needles.push_back (needle);
     position = filter::strings::unicode_string_strpos_case_insensitive (text, search, position + 1);
   }
@@ -1430,24 +1421,24 @@ vector <string> filter_string_search_needles (string search, string text)
 
 
 // Returns an integer identifier based on the name of the current user.
-int filter_string_user_identifier (void * webserver_request)
+int user_identifier (void * webserver_request)
 {
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  string username = request->session_logic()->currentUser ();
-  string hash = md5 (username).substr (0, 5);
-  int identifier = config::logic::my_stoi (hash, nullptr, 36);
+  std::string username = request->session_logic()->currentUser ();
+  std::string hash = md5 (username).substr (0, 5);
+  const int identifier = config::logic::my_stoi (hash, nullptr, 36);
   return identifier;
 }
 
 
-// C++ equivalent for PHP's bin2hex function.
-string bin2hex (string bin)
+// C++ equivalent for PHP's filter::strings::bin2hex function.
+std::string bin2hex (std::string bin)
 {
-  string res;
+  std::string res {};
   const char hex[] = "0123456789abcdef";
-  for (auto sc : bin)
+  for (const auto sc : bin)
   {
-    unsigned char c = static_cast<unsigned char>(sc);
+    const unsigned char c = static_cast<unsigned char>(sc);
     res += hex[c >> 4];
     res += hex[c & 0xf];
   }
@@ -1456,13 +1447,13 @@ string bin2hex (string bin)
 
 
 // C++ equivalent for PHP's hex2bin function.
-string hex2bin (string hex)
+std::string hex2bin (std::string hex)
 {
-  string out;
+  std::string out {};
   if (hex.length() % 2 == 0) {
     out.reserve (hex.length()/2);
-    string extract;
-    for (string::const_iterator pos = hex.begin(); pos < hex.end(); pos += 2)
+    std::string extract;
+    for (std::string::const_iterator pos = hex.begin(); pos < hex.end(); pos += 2)
     {
       extract.assign (pos, pos+2);
       out.push_back (static_cast<char> (config::logic::my_stoi (extract, nullptr, 16)));
@@ -1473,7 +1464,7 @@ string hex2bin (string hex)
 
 
 // Tidies up html.
-string html_tidy (string html)
+std::string html_tidy (std::string html)
 {
   html = filter::strings::replace ("<", "\n<", html);
   return html;
@@ -1481,20 +1472,20 @@ string html_tidy (string html)
 
 
 // Converts elements from the HTML specification to the XML spec.
-string html2xml (string html)
+std::string html2xml (std::string html)
 {
   // HTML specification: <hr>, XML specification: <hr/>.
   html = filter::strings::replace ("<hr>", "<hr/>", html);
-
+  
   // HTML specification: <br>, XML specification: <br/>.
   html = filter::strings::replace ("<br>", "<br/>", html);
-
+  
   return html;
 }
 
 
 // Converts XML character entities, like e.g. "&#xB6;" to normal UTF-8 character, like e.g. "¶".
-string convert_xml_character_entities_to_characters (string data)
+std::string convert_xml_character_entities_to_characters (std::string data)
 {
   bool keep_going = true;
   int iterations = 0;
@@ -1502,20 +1493,20 @@ string convert_xml_character_entities_to_characters (string data)
   do {
     iterations++;
     pos1 = data.find ("&#x", pos1 + 1);
-    if (pos1 == string::npos) {
+    if (pos1 == std::string::npos) {
       keep_going = false;
       continue;
     }
     size_t pos2 = data.find (";", pos1);
-    if (pos2 == string::npos) {
+    if (pos2 == std::string::npos) {
       keep_going = false;
       continue;
     }
-    string entity = data.substr (pos1 + 3, pos2 - pos1 - 3);
+    std::string entity = data.substr (pos1 + 3, pos2 - pos1 - 3);
     data.erase (pos1, pos2 - pos1 + 1);
     int codepoint;
-    stringstream ss;
-    ss << hex << entity;
+    std::stringstream ss {};
+    ss << std::hex << entity;
     ss >> codepoint;
     
     // The following is not available in GNU libstdc++.
@@ -1544,7 +1535,7 @@ string convert_xml_character_entities_to_characters (string data)
       c[2] = static_cast<char>(((cp>>6)&63)+128);
       c[3] = static_cast<char>((cp&63)+128);
     }
-    string u8str = string (c);
+    std::string u8str = std::string (c);
     
     data.insert (pos1, u8str);
   } while (keep_going & (iterations < 100000));
@@ -1554,7 +1545,7 @@ string convert_xml_character_entities_to_characters (string data)
 
 // Encrypts the $data if the data is unencrypted.
 // Decrypts the $data if the data is encrypted.
-string encrypt_decrypt (string key, string data)
+std::string encrypt_decrypt (std::string key, std::string data)
 {
   // Encrypt the key.
   key = md5 (key);
@@ -1568,96 +1559,96 @@ string encrypt_decrypt (string key, string data)
 
 
 // Gets a new random string for sessions, encryption, you name it.
-string get_new_random_string ()
+std::string get_new_random_string ()
 {
-  string u = filter::strings::convert_to_string (filter::date::numerical_microseconds ());
-  string s = filter::strings::convert_to_string (filter::date::seconds_since_epoch ());
-  string r = filter::strings::convert_to_string (config_globals_int_distribution (config_globals_random_engine));
+  const std::string u = filter::strings::convert_to_string (filter::date::numerical_microseconds ());
+  const std::string s = filter::strings::convert_to_string (filter::date::seconds_since_epoch ());
+  const std::string r = filter::strings::convert_to_string (config_globals_int_distribution (config_globals_random_engine));
   return md5 (u + s + r);
 }
 
 
-string unicode_non_breaking_space_entity ()
+std::string unicode_non_breaking_space_entity ()
 {
   return "&nbsp;";
 }
 
 
-string unicode_black_up_pointing_triangle ()
+std::string unicode_black_up_pointing_triangle ()
 {
   return "▲";
 }
 
 
-string unicode_black_right_pointing_triangle ()
+std::string unicode_black_right_pointing_triangle ()
 {
   return "▶";
 }
 
 
-string unicode_black_down_pointing_triangle ()
+std::string unicode_black_down_pointing_triangle ()
 {
   return "▼";
 }
 
 
-string unicode_black_left_pointing_triangle ()
+std::string unicode_black_left_pointing_triangle ()
 {
   return "◀";
 }
 
 
-string emoji_black_right_pointing_triangle ()
+std::string emoji_black_right_pointing_triangle ()
 {
   return "▶️";
 }
 
 
-string emoji_file_folder ()
+std::string emoji_file_folder ()
 {
   return "📁";
 }
 
 
-string emoji_open_book ()
+std::string emoji_open_book ()
 {
   return "📖";
 }
 
 
-string emoji_wastebasket ()
+std::string emoji_wastebasket ()
 {
   return "🗑";
 }
 
 
-string emoji_smiling_face_with_smiling_eyes ()
+std::string emoji_smiling_face_with_smiling_eyes ()
 {
   return "😊";
 }
 
 
-string emoji_heavy_plus_sign ()
+std::string emoji_heavy_plus_sign ()
 {
   return "➕";
 }
 
 
 // Move the $item $up (towards the beginning), or else down (towards the end).
-void array_move_up_down (vector <string> & container, size_t item, bool up)
+void array_move_up_down (std::vector<std::string>& container, size_t item, bool up)
 {
   if (container.empty ()) return;
   if (up) {
     if (item > 0) {
       if (item < container.size ()) {
-        string s = container [item - 1];
+        std::string s = container [item - 1];
         container [item - 1] = container [item];
         container [item] = s;
       }
     }
   } else {
     if (item < (container.size () - 1)) {
-      string s = container [item + 1];
+      std::string s = container [item + 1];
       container [item + 1] = container [item];
       container [item] = s;
     }
@@ -1666,7 +1657,7 @@ void array_move_up_down (vector <string> & container, size_t item, bool up)
 
 
 // Move the item in the $container from position $from to position $to.
-void array_move_from_to (vector <string> & container, size_t from, size_t to)
+void array_move_from_to (std::vector<std::string>& container, size_t from, size_t to)
 {
   // Check on validity of where moving from and where moving to.
   if (from == to) return;
@@ -1674,11 +1665,11 @@ void array_move_from_to (vector <string> & container, size_t from, size_t to)
   if (to >= container.size ()) return;
   
   // Put the data into a map where the keys are multiplied by two.
-  map <int, string> mapped_container;
+  std::map <int, std::string> mapped_container {};
   for (unsigned int i = 0; i < container.size(); i++) {
     mapped_container [static_cast<int>(i * 2)] = container [i];
   }
-
+  
   // Direction of moving.
   bool move_up = to > from;
   
@@ -1687,7 +1678,7 @@ void array_move_from_to (vector <string> & container, size_t from, size_t to)
   to *= 2;
   
   // Remove the item, and insert it by a key that puts it at the desired position.
-  string moving_item = mapped_container [static_cast<int> (from)];
+  std::string moving_item = mapped_container [static_cast<int> (from)];
   mapped_container.erase (static_cast<int> (from));
   if (move_up) to++;
   else to--;
@@ -1709,20 +1700,20 @@ const char * english ()
 
 
 #ifdef HAVE_WINDOWS
-wstring string2wstring(const string& str)
+std::wstring string2wstring(const std::string& str)
 {
-  using convert_typeX = codecvt_utf8<wchar_t>;
-  wstring_convert<convert_typeX, wchar_t> converterX;
+  using convert_typeX = std::codecvt_utf8<wchar_t>;
+  std::wstring_convert<convert_typeX, wchar_t> converterX;
   return converterX.from_bytes(str);
 }
 #endif
 
 
 #ifdef HAVE_WINDOWS
-string wstring2string(const wstring& wstr)
+std::string wstring2string(const std::wstring& wstr)
 {
-  using convert_typeX = codecvt_utf8<wchar_t>;
-  wstring_convert<convert_typeX, wchar_t> converterX;
+  using convert_typeX = std::codecvt_utf8<wchar_t>;
+  std::wstring_convert<convert_typeX, wchar_t> converterX;
   return converterX.to_bytes(wstr);
 }
 #endif
@@ -1730,28 +1721,28 @@ string wstring2string(const wstring& wstr)
 
 // Converts any line feed character in $str to carriage return + line feed characters,
 // basically adding the appropriate carriage return characters.
-string lf2crlf (string str)
+std::string lf2crlf (std::string str)
 {
-  return filter::strings::replace ("\n", "\r\n", str);
+  return replace ("\n", "\r\n", str);
 }
 
 
 // Converts any carriage return + line feed characters to a line feed character,
 // essentially removing any carriage return characters.
-string crlf2lf (string str)
+std::string crlf2lf (std::string str)
 {
-  return filter::strings::replace ("\r\n", "\n", str);
+  return replace ("\r\n", "\n", str);
 }
 
 
 // Gets the <element> ... </element> part of the input $html.
-string filter_text_html_get_element (string html, string element)
+std::string html_get_element (std::string html, std::string element)
 {
   size_t pos = html.find ("<" + element);
-  if (pos != string::npos) {
+  if (pos != std::string::npos) {
     html.erase (0, pos);
     pos = html.find ("</" + element + ">");
-    if (pos != string::npos) {
+    if (pos != std::string::npos) {
       html.erase (pos + 7);
     }
   }
@@ -1760,67 +1751,67 @@ string filter_text_html_get_element (string html, string element)
 
 
 /*
-string filter_string_tidy_invalid_html_leaking (string html)
+ string filter_string_tidy_invalid_html_leaking (string html)
+ {
+ // Everything in the <head> can be left out: It is not relevant.
+ filter::strings::replace_between (html, "<head>", "</head>", "");
+ 
+ // Every <script...</script> can be left out: They are irrelevant.
+ int counter = 0;
+ while (counter < 100) {
+ counter++;
+ bool replaced = filter::strings::replace_between (html, "<script", "</script>", "");
+ if (!replaced) break;
+ }
+ 
+ #ifdef HAVE_CLOUD
+ 
+ // This method works via libxml2 and there are many memory leaks each call to this.
+ // It cannot be used for production code.
+ // The leaks are fixable, see the laboratory/tiny code.
+ 
+ // Create a parser context.
+ htmlParserCtxtPtr parser = htmlCreatePushParserCtxt (nullptr, nullptr, nullptr, 0, nullptr, XML_CHAR_ENCODING_UTF8);
+ 
+ // Set relevant options on the parser context.
+ htmlCtxtUseOptions(parser, HTML_PARSE_NOBLANKS | HTML_PARSE_NOERROR | HTML_PARSE_NOWARNING | HTML_PARSE_NONET);
+ 
+ // Parse the (X)HTML text.
+ // char * data : buffer containing part of the web page
+ // int len : number of bytes in data
+ // Last argument is 0 if the web page isn't complete, and 1 for the final call.
+ htmlParseChunk(parser, html.c_str(), static_cast<int> (html.size()), 1);
+ 
+ // Extract the fixed html
+ if (parser->myDoc) {
+ xmlChar *s;
+ int size;
+ xmlDocDumpMemory(parser->myDoc, &s, &size);
+ html = reinterpret_cast<char *> (s);
+ xmlFree(s);
+ }
+ 
+ // Free memory.
+ if (parser) xmlFree (parser);
+ 
+ #endif
+ 
+ return html;
+ }
+ */
+
+
+const std::string nonbreaking_inline_tags {"|a|abbr|acronym|b|bdo|big|cite|code|dfn|em|font|i|img|kbd|nobr|s|small|span|strike|strong|sub|sup|tt|"};
+const std::string empty_tags {"|area|base|basefont|bgsound|br|command|col|embed|event-source|frame|hr|image|img|input|keygen|link|menuitem|meta|param|source|spacer|track|wbr|"};
+const std::string preserve_whitespace_tags {"|pre|textarea|script|style|"};
+const std::string special_handling_tags {"|html|body|"};
+const std::string no_entity_substitution_tags {"|script|style|"};
+const std::string treat_like_inline_tags {"|p|"};
+
+
+static std::string substitute_xml_entities_into_text(const std::string& text)
 {
-  // Everything in the <head> can be left out: It is not relevant.
-  filter::strings::replace_between (html, "<head>", "</head>", "");
-  
-  // Every <script...</script> can be left out: They are irrelevant.
-  int counter = 0;
-  while (counter < 100) {
-    counter++;
-    bool replaced = filter::strings::replace_between (html, "<script", "</script>", "");
-    if (!replaced) break;
-  }
-  
-#ifdef HAVE_CLOUD
-
-  // This method works via libxml2 and there are many memory leaks each call to this.
-  // It cannot be used for production code.
-  // The leaks are fixable, see the laboratory/tiny code.
-  
-  // Create a parser context.
-  htmlParserCtxtPtr parser = htmlCreatePushParserCtxt (nullptr, nullptr, nullptr, 0, nullptr, XML_CHAR_ENCODING_UTF8);
-  
-  // Set relevant options on the parser context.
-  htmlCtxtUseOptions(parser, HTML_PARSE_NOBLANKS | HTML_PARSE_NOERROR | HTML_PARSE_NOWARNING | HTML_PARSE_NONET);
-
-  // Parse the (X)HTML text.
-  // char * data : buffer containing part of the web page
-  // int len : number of bytes in data
-  // Last argument is 0 if the web page isn't complete, and 1 for the final call.
-  htmlParseChunk(parser, html.c_str(), static_cast<int> (html.size()), 1);
-
-  // Extract the fixed html
-  if (parser->myDoc) {
-    xmlChar *s;
-    int size;
-    xmlDocDumpMemory(parser->myDoc, &s, &size);
-    html = reinterpret_cast<char *> (s);
-    xmlFree(s);
-  }
-  
-  // Free memory.
-  if (parser) xmlFree (parser);
-
-#endif
-
-  return html;
-}
-*/
-
-
-string nonbreaking_inline_tags {"|a|abbr|acronym|b|bdo|big|cite|code|dfn|em|font|i|img|kbd|nobr|s|small|span|strike|strong|sub|sup|tt|"};
-string empty_tags {"|area|base|basefont|bgsound|br|command|col|embed|event-source|frame|hr|image|img|input|keygen|link|menuitem|meta|param|source|spacer|track|wbr|"};
-string preserve_whitespace_tags {"|pre|textarea|script|style|"};
-string special_handling_tags {"|html|body|"};
-string no_entity_substitution_tags {"|script|style|"};
-string treat_like_inline_tags {"|p|"};
-
-
-static string substitute_xml_entities_into_text(const string &text)
-{
-  string result {text};
+  std::string result {text};
   // Replacing & must come first.
   result = filter::strings::replace ("&", "&amp;", result);
   result = filter::strings::replace ("<", "&lt;", result);
@@ -1830,9 +1821,9 @@ static string substitute_xml_entities_into_text(const string &text)
 }
 
 
-static string substitute_xml_entities_into_attributes(char quote, const string &text)
+static std::string substitute_xml_entities_into_attributes(char quote, const std::string& text)
 {
-  string result {substitute_xml_entities_into_text (text)};
+  std::string result {substitute_xml_entities_into_text (text)};
   if (quote == '"') {
     result = filter::strings::replace("\"","&quot;", result);
   }
@@ -1844,9 +1835,9 @@ static string substitute_xml_entities_into_attributes(char quote, const string &
 
 
 #ifdef HAVE_CLOUD
-static string handle_unknown_tag(GumboStringPiece *text)
+static std::string handle_unknown_tag(GumboStringPiece *text)
 {
-  string tagname {};
+  std::string tagname {};
   if (text->data == NULL) {
     return tagname;
   }
@@ -1854,16 +1845,16 @@ static string handle_unknown_tag(GumboStringPiece *text)
   // if try to read same unknown tag name more than once
   GumboStringPiece gsp = *text;
   gumbo_tag_from_original_text(&gsp);
-  tagname = string(gsp.data, gsp.length);
+  tagname = std::string(gsp.data, gsp.length);
   return tagname;
 }
 #endif
 
 
 #ifdef HAVE_CLOUD
-static string get_tag_name(GumboNode *node)
+static std::string get_tag_name(GumboNode *node)
 {
-  string tagname;
+  std::string tagname {};
   // work around lack of proper name for document node
   if (node->type == GUMBO_NODE_DOCUMENT) {
     tagname = "document";
@@ -1879,13 +1870,13 @@ static string get_tag_name(GumboNode *node)
 
 
 #ifdef HAVE_CLOUD
-static string build_doctype(GumboNode *node)
+static std::string build_doctype(GumboNode *node)
 {
-  string results {};
+  std::string results {};
   if (node->v.document.has_doctype) {
     results.append("<!DOCTYPE ");
     results.append(node->v.document.name);
-    string pi(node->v.document.public_identifier);
+    std::string pi(node->v.document.public_identifier);
     if ((node->v.document.public_identifier != NULL) && !pi.empty() ) {
       results.append(" PUBLIC \"");
       results.append(node->v.document.public_identifier);
@@ -1901,24 +1892,24 @@ static string build_doctype(GumboNode *node)
 
 
 #ifdef HAVE_CLOUD
-static string build_attributes(GumboAttribute * at, bool no_entities)
+static std::string build_attributes(GumboAttribute * at, bool no_entities)
 {
-  string atts {};
+  std::string atts {};
   atts.append (" ");
   atts.append (at->name);
   
   // how do we want to handle attributes with empty values
   // <input type="checkbox" checked />  or <input type="checkbox" checked="" />
   
-  if ( (!string(at->value).empty())   ||
+  if ( (!std::string(at->value).empty())   ||
       (at->original_value.data[0] == '"') ||
       (at->original_value.data[0] == '\'') ) {
     
     // determine original quote character used if it exists
     char quote = at->original_value.data[0];
-    string qs = "";
-    if (quote == '\'') qs = string("'");
-    if (quote == '"') qs = string("\"");
+    std::string qs {};
+    if (quote == '\'') qs = "'";
+    if (quote == '"') qs = "\"";
     
     atts.append("=");
     
@@ -1927,7 +1918,7 @@ static string build_attributes(GumboAttribute * at, bool no_entities)
     if (no_entities) {
       atts.append(at->value);
     } else {
-      atts.append(substitute_xml_entities_into_attributes(quote, string(at->value)));
+      atts.append(substitute_xml_entities_into_attributes(quote, std::string(at->value)));
     }
     
     atts.append(qs);
@@ -1939,21 +1930,21 @@ static string build_attributes(GumboAttribute * at, bool no_entities)
 
 // Forward declaration
 #ifdef HAVE_CLOUD
-static string pretty_print (GumboNode*, int lvl, const string & indent_chars);
+static std::string pretty_print (GumboNode*, int lvl, const std::string& indent_chars);
 #endif
 
 
 // Pretty-print children of a node. May be invoked recursively.
 #ifdef HAVE_CLOUD
-static string pretty_print_contents (GumboNode* node, int lvl, const string & indent_chars)
+static std::string pretty_print_contents (GumboNode* node, int lvl, const std::string& indent_chars)
 {
-  string contents {};
-  string tagname {get_tag_name(node)};
-  string key {"|" + tagname + "|"};
-  bool no_entity_substitution {no_entity_substitution_tags.find(key) != string::npos};
-  bool keep_whitespace {preserve_whitespace_tags.find(key) != string::npos};
-  bool is_inline {nonbreaking_inline_tags.find(key) != string::npos};
-  bool pp_okay {!is_inline && !keep_whitespace};
+  std::string contents {};
+  std::string tagname {get_tag_name(node)};
+  std::string key {"|" + tagname + "|"};
+  const bool no_entity_substitution {no_entity_substitution_tags.find(key) != std::string::npos};
+  const bool keep_whitespace {preserve_whitespace_tags.find(key) != std::string::npos};
+  const bool is_inline {nonbreaking_inline_tags.find(key) != std::string::npos};
+  const bool pp_okay {!is_inline && !keep_whitespace};
   
   GumboVector* children {&node->v.element.children};
   
@@ -1962,12 +1953,12 @@ static string pretty_print_contents (GumboNode* node, int lvl, const string & in
     
     if (child->type == GUMBO_NODE_TEXT) {
       
-      string val {};
+      std::string val {};
       
       if (no_entity_substitution) {
-        val = string(child->v.text.text);
+        val = std::string(child->v.text.text);
       } else {
-        val = substitute_xml_entities_into_text(string(child->v.text.text));
+        val = substitute_xml_entities_into_text(std::string(child->v.text.text));
       }
       
       if (pp_okay) {
@@ -1978,7 +1969,7 @@ static string pretty_print_contents (GumboNode* node, int lvl, const string & in
         // Add the required indentation.
         char c {indent_chars.at(0)};
         size_t n {indent_chars.length()};
-        contents.append (string (static_cast<size_t>(lvl-1)*n,c));
+        contents.append (std::string (static_cast<size_t>(lvl-1)*n,c));
       }
       
       contents.append (val);
@@ -1986,12 +1977,12 @@ static string pretty_print_contents (GumboNode* node, int lvl, const string & in
       
     } else if ((child->type == GUMBO_NODE_ELEMENT) || (child->type == GUMBO_NODE_TEMPLATE)) {
       
-      string val = pretty_print(child, lvl, indent_chars);
+      std::string val = pretty_print(child, lvl, indent_chars);
       
       // Remove any indentation if this child is inline and not a first child.
-      string childname = get_tag_name(child);
-      string childkey = "|" + childname + "|";
-      if ((nonbreaking_inline_tags.find(childkey) != string::npos) && (contents.length() > 0)) {
+      const std::string childname = get_tag_name(child);
+      const std::string childkey = "|" + childname + "|";
+      if ((nonbreaking_inline_tags.find(childkey) != std::string::npos) && (contents.length() > 0)) {
         val = filter::strings::ltrim(val);
       }
       
@@ -2000,7 +1991,7 @@ static string pretty_print_contents (GumboNode* node, int lvl, const string & in
     } else if (child->type == GUMBO_NODE_WHITESPACE) {
       
       if (keep_whitespace || is_inline) {
-        contents.append(string(child->v.text.text));
+        contents.append(std::string(child->v.text.text));
       }
       
     } else if (child->type != GUMBO_NODE_COMMENT) {
@@ -2019,27 +2010,27 @@ static string pretty_print_contents (GumboNode* node, int lvl, const string & in
 
 // Pretty-print a GumboNode back to html/xhtml. May be invoked recursively
 #ifdef HAVE_CLOUD
-static string pretty_print(GumboNode* node, int lvl, const string & indent_chars)
+static std::string pretty_print(GumboNode* node, int lvl, const std::string& indent_chars)
 {
   // Special case: The document node.
   if (node->type == GUMBO_NODE_DOCUMENT) {
-    string results {build_doctype(node)};
+    std::string results {build_doctype(node)};
     results.append(pretty_print_contents (node, lvl + 1, indent_chars));
     return results;
   }
   
-  string close {};
-  string closeTag {};
-  string attributes {};
-  string tagname {get_tag_name(node)};
-  string key {"|" + tagname + "|"};
+  std::string close {};
+  std::string closeTag {};
+  std::string attributes {};
+  std::string tagname {get_tag_name(node)};
+  std::string key {"|" + tagname + "|"};
   //bool need_special_handling {special_handling.find(key) != string::npos};
-  bool is_empty_tag {empty_tags.find(key) != string::npos};
-  bool no_entity_substitution {no_entity_substitution_tags.find(key) != string::npos};
-  bool keep_whitespace {preserve_whitespace_tags.find(key) != string::npos};
-  bool is_inline {nonbreaking_inline_tags.find(key) != string::npos};
-  bool inline_like {treat_like_inline_tags.find(key) != string::npos};
-  bool pp_okay {!is_inline && !keep_whitespace};
+  const bool is_empty_tag {empty_tags.find(key) != std::string::npos};
+  const bool no_entity_substitution {no_entity_substitution_tags.find(key) != std::string::npos};
+  const bool keep_whitespace {preserve_whitespace_tags.find(key) != std::string::npos};
+  const bool is_inline {nonbreaking_inline_tags.find(key) != std::string::npos};
+  const bool inline_like {treat_like_inline_tags.find(key) != std::string::npos};
+  const bool pp_okay {!is_inline && !keep_whitespace};
   char c {indent_chars.at(0)};
   size_t n {indent_chars.length()};
   
@@ -2057,14 +2048,14 @@ static string pretty_print(GumboNode* node, int lvl, const string & indent_chars
     closeTag = "</" + tagname + ">";
   }
   
-  string indent_space {string (static_cast<size_t>(lvl-1)*n,c)};
+  const std::string indent_space {std::string (static_cast<size_t>(lvl-1)*n,c)};
   
   // Pretty print the contents.
-  string contents {pretty_print_contents(node, lvl+1, indent_chars)};
+  std::string contents {pretty_print_contents(node, lvl+1, indent_chars)};
   
-//  if (need_special_handling) {
-//    contents = filter::strings::rtrim(contents);
-//  }
+  //  if (need_special_handling) {
+  //    contents = filter::strings::rtrim(contents);
+  //  }
   
   char last_char = ' ';
   if (!contents.empty()) {
@@ -2072,7 +2063,7 @@ static string pretty_print(GumboNode* node, int lvl, const string & indent_chars
   }
   
   // Build the results.
-  string results;
+  std::string results;
   if (pp_okay) {
     results.append(indent_space);
   }
@@ -2080,9 +2071,9 @@ static string pretty_print(GumboNode* node, int lvl, const string & indent_chars
   if (pp_okay && !inline_like) {
     results.append("\n");
   }
-//  if (inline_like) {
-//    contents = filter::strings::ltrim(contents);
-//  }
+  //  if (inline_like) {
+  //    contents = filter::strings::ltrim(contents);
+  //  }
   results.append(contents);
   if (pp_okay && !contents.empty() && (last_char != '\n') && (!inline_like)) {
     results.append("\n");
@@ -2100,25 +2091,25 @@ static string pretty_print(GumboNode* node, int lvl, const string & indent_chars
 #endif
 
 
-string filter_string_fix_invalid_html_gumbo (string html)
+std::string fix_invalid_html_gumbo (std::string html)
 {
   // Everything in the <head> can be left out: It is not relevant.
-  filter::strings::replace_between (html, "<head>", "</head>", string());
+  filter::strings::replace_between (html, "<head>", "</head>", std::string());
   
   // Every <script...</script> can be left out: They are irrelevant.
   int counter {0};
   while (counter < 100) {
     counter++;
-    bool replaced = filter::strings::replace_between (html, "<script", "</script>", string());
+    const bool replaced = filter::strings::replace_between (html, "<script", "</script>", std::string());
     if (!replaced) break;
   }
   
 #ifdef HAVE_CLOUD
-
+  
   // https://github.com/google/gumbo-parser
   GumboOptions options {kGumboDefaultOptions};
   GumboOutput* output = gumbo_parse_with_options(&options, html.data(), html.length());
-  string indent_chars {" "};
+  const std::string indent_chars {" "};
   html = pretty_print (output->document, 0, indent_chars);
   gumbo_destroy_output (&options, output);
   
@@ -2128,10 +2119,10 @@ string filter_string_fix_invalid_html_gumbo (string html)
 }
 
 
-string filter_string_fix_invalid_html_tidy (string html)
+std::string fix_invalid_html_tidy (std::string html)
 {
 #ifdef HAVE_CLOUD
-
+  
   // The buffers.
   TidyBuffer output {};
   memset (&output, 0, sizeof(TidyBuffer));
@@ -2146,52 +2137,52 @@ string filter_string_fix_invalid_html_tidy (string html)
   tidyOptSetBool (tdoc, TidyHideComments, yes);
   tidyOptSetBool (tdoc, TidyJoinClasses, yes);
   tidyOptSetBool (tdoc, TidyBodyOnly, yes);
-
+  
   // Capture diagnostics.
   int rc = tidySetErrorBuffer (tdoc, &errbuf);
-
+  
   // Parse the input.
   if (rc >= 0) rc = tidyParseString (tdoc, html.c_str());
-
+  
   // Tidy it up.
   if (rc >= 0) rc = tidyCleanAndRepair (tdoc);
-
+  
   // Run the diagnostics.
   if (rc >= 0) rc = tidyRunDiagnostics (tdoc);
   // If error, force output.
   if (rc > 1) rc = (tidyOptSetBool (tdoc, TidyForceOutput, yes) ? rc : -1);
-
+  
   // Pretty print.
   if (rc >= 0) rc = tidySaveBuffer (tdoc, &output);
   
   if (rc >= 0) {
     if (rc > 0) {
-//      cerr << "Html tidy diagnostics:" << endl;
-//      cerr << errbuf.bp << endl;
+      //      cerr << "Html tidy diagnostics:" << endl;
+      //      cerr << errbuf.bp << endl;
     }
-//    cout << "Html tidy result:" << endl;
-//    cout << output.bp << endl;
-    html = string (reinterpret_cast<char const*>(output.bp));
+    //    cout << "Html tidy result:" << endl;
+    //    cout << output.bp << endl;
+    html = std::string (reinterpret_cast<char const*>(output.bp));
   }
   else {
-    Database_Logs::log("A severe error occurred while tidying html - code " + to_string(rc) + " - html: " + html);
+    Database_Logs::log("A severe error occurred while tidying html - code " + std::to_string(rc) + " - html: " + html);
   }
   
   // Release memory.
   tidyBufFree (&output);
   tidyBufFree (&errbuf);
   tidyRelease (tdoc);
-
+  
 #endif
-
+  
   // Done.
   return html;
 }
 
 
-string filter_string_collapse_whitespace (string s)
+std::string collapse_whitespace (std::string s)
 {
-  int count;
+  int count {};
   int iterator {0};
   do {
     count = 0;
@@ -2205,31 +2196,31 @@ string filter_string_collapse_whitespace (string s)
 std::string convert_windows1252_to_utf8 (const std::string& input)
 {
   // Convert the encoding.
-  string utf8 {};
+  std::string utf8 {};
   utf8::utf16to8(input.begin(), input.end(), back_inserter(utf8));
-
+  
   // Handle weird conversions.
   utf8 = filter::strings::replace ("￯﾿ﾽ", "'", utf8);
-
+  
   // Pass it to the caller.
   return utf8;
-
+  
   // It could be done through the iconv library.
   // in the way that the iconv binary does it.
   // 1, Remove the meta information from the html head.
   // 2. iconv -f CP1252 -t UTF-8 ./john-ma-lbw2.htm > john-ma-lbw3.htm
   // But libiconv-dev is not available as a Debian package.
   // So eventually libiconv was not used.
-
+  
   // The conversion descriptor for converting WINDOWS-1252 -> UTF-8.
   //iconv_t conversion_descriptor = iconv_open ("UTF-8", "CP1252");
   //if (conversion_descriptor == (iconv_t)(-1)) {
   //  throw std::runtime_error("Cannot open converter from Windows-1252 to UTF-8");
   //}
-    
+  
   // The pointer to the input buffer.
   //char* input_pointer = const_cast<char*>(input.c_str());
-    
+  
   // The output buffer.
   //constexpr int outbuf_size {10000}; // make it dynamic.
   //unsigned char outbuf[outbuf_size];
@@ -2239,27 +2230,27 @@ std::string convert_windows1252_to_utf8 (const std::string& input)
   // The number of bytes left in the input and output buffers.
   //size_t input_bytes_left {input.length()};
   //size_t output_bytes_left {outbuf_size};
-
+  
   // Repeat converting and handling unconvertible characters.
   //while (input_bytes_left > 0) {
-    // Do the conversion.
-    //size_t result = iconv(conversion_descriptor, &input_pointer, &input_bytes_left, &outptr, &output_bytes_left);
-    //if (result == (size_t)(-1)) {
-      // Handle situation that an invalid multibyte sequence is encountered in the input.
-      // In this case the input pointer is left pointing to
-      // the beginning of the invalid multibyte sequence.
-      //if (errno == EILSEQ) {
-      //  int one = 1;
-      //  iconvctl (conversion_descriptor, ICONV_SET_DISCARD_ILSEQ, &one);
-      //} else if (errno == EINVAL) {
-      //  int one = 1;
-      //  iconvctl (conversion_descriptor, ICONV_SET_DISCARD_ILSEQ, &one);
-      //} else if (errno == E2BIG) {
-      //  input_bytes_left = 0;
-      //} else {
-      //  input_bytes_left = 0;
-      //}
-    //}
+  // Do the conversion.
+  //size_t result = iconv(conversion_descriptor, &input_pointer, &input_bytes_left, &outptr, &output_bytes_left);
+  //if (result == (size_t)(-1)) {
+  // Handle situation that an invalid multibyte sequence is encountered in the input.
+  // In this case the input pointer is left pointing to
+  // the beginning of the invalid multibyte sequence.
+  //if (errno == EILSEQ) {
+  //  int one = 1;
+  //  iconvctl (conversion_descriptor, ICONV_SET_DISCARD_ILSEQ, &one);
+  //} else if (errno == EINVAL) {
+  //  int one = 1;
+  //  iconvctl (conversion_descriptor, ICONV_SET_DISCARD_ILSEQ, &one);
+  //} else if (errno == E2BIG) {
+  //  input_bytes_left = 0;
+  //} else {
+  //  input_bytes_left = 0;
+  //}
+  //}
   //}
   
   // Close the conversion descriptor.
@@ -2275,3 +2266,6 @@ std::string convert_windows1252_to_utf8 (const std::string& input)
   // Pass it to the caller.
   //return utf8;
 }
+
+
+} // Namespace.

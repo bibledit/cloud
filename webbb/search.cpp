@@ -116,7 +116,7 @@ string webbible_search (void * webserver_request)
     vector <string> v_text = filter::strings::explode (text, '\n');
     // Go through each line of text separately.
     for (auto line : v_text) {
-      string markedLine = filter_string_markup_words (queryWords, line);
+      string markedLine = filter::strings::markup_words (queryWords, line);
       if (markedLine != line) {
         // Store this bit of the excerpt.
         hitsblock << "<p style=" << quoted ("margin-top: 0em; margin-bottom: 0em") << ">" << markedLine << "</p>" << endl;

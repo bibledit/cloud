@@ -288,7 +288,7 @@ string manage_users (void * webserver_request)
     
     // Display emoji to delete this account.
     tbody << "<td>";
-    tbody << "<a href=" << quoted("?user=" + username + "&delete") << ">" << emoji_wastebasket () << "</a> " << username;
+    tbody << "<a href=" << quoted("?user=" + username + "&delete") << ">" << filter::strings::emoji_wastebasket () << "</a> " << username;
     tbody << "</td>";
 
     // Divider.
@@ -330,7 +330,7 @@ string manage_users (void * webserver_request)
           if (exists) {
             auto [ read, write ] = DatabasePrivileges::get_bible (username, bible);
             if  (objectUserLevel >= Filter_Roles::translator ()) write = true;
-            tbody << "<a href=" << quoted ("?user=" + username + "&removebible=" + bible) << ">" << emoji_wastebasket () << "</a>";
+            tbody << "<a href=" << quoted ("?user=" + username + "&removebible=" + bible) << ">" << filter::strings::emoji_wastebasket () << "</a>";
             tbody << "<a href=" << quoted("/bible/settings?bible=" + bible) << ">" << bible << "</a>";
             tbody << "<a href=" << quoted("write?user=" + username + "&bible=" + bible) << ">";
             int readwritebooks = 0;
@@ -349,7 +349,7 @@ string manage_users (void * webserver_request)
         // Managers and higher roles have access to all Bibles.
         tbody << "(" << translate ("all") << ")";
       } else {
-        tbody << "<a href=" << quoted("?user=" + username + "&addbible=") << ">" << emoji_heavy_plus_sign () << "</a>";
+        tbody << "<a href=" << quoted("?user=" + username + "&addbible=") << ">" << filter::strings::emoji_heavy_plus_sign () << "</a>";
       }
     }
     tbody << "</td>";

@@ -872,8 +872,8 @@ bool handle_verse_range (string verse, vector <int> & verses)
     start_range = verse.substr (0, position);
     verse.erase (0, ++position);
     end_range = verse;
-    int start_verse_i = filter::strings::convert_to_int(number_in_string(start_range));
-    int end_verse_i = filter::strings::convert_to_int(number_in_string(end_range));
+    int start_verse_i = filter::strings::convert_to_int(filter::strings::number_in_string(start_range));
+    int end_verse_i = filter::strings::convert_to_int(filter::strings::number_in_string(end_range));
     for (int i = start_verse_i; i <= end_verse_i; i++) {
       if (i == start_verse_i)
         verses.push_back (filter::strings::convert_to_int (start_range));

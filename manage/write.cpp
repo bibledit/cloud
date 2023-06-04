@@ -59,7 +59,7 @@ string manage_write (void * webserver_request)
 
   Assets_View view {};
 
-  int userid = filter_string_user_identifier (webserver_request);
+  int userid = filter::strings::user_identifier (webserver_request);
   
   string user {};
   if (request->query.count ("user")) {

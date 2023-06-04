@@ -307,7 +307,7 @@ string lexicon_logic_render_strongs_definition (string strong)
   vector <string> lines = filter::strings::explode (definition, '\n');
   for (auto & line : lines) {
     line = filter::strings::trim (line);
-    line = filter_string_collapse_whitespace (line);
+    line = filter::strings::collapse_whitespace (line);
     size_t position;
     // The first <w> element describes it.
     position = line.find ("<w");

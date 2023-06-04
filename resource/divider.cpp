@@ -71,7 +71,7 @@ string resource_divider (void * webserver_request)
   Assets_View view;
 
 
-  int userid = filter_string_user_identifier (webserver_request);
+  int userid = filter::strings::user_identifier (webserver_request);
   string key = "rich divider";
 
 

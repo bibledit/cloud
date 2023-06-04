@@ -73,7 +73,7 @@ string edit_load (void * webserver_request)
   // To make editing empty verses easier, convert spaces to non-breaking spaces, so they appear in the editor.
   if (filter::usfm::contains_empty_verses (usfm)) {
     string search = "<span> </span>";
-    string replace = "<span>" + unicode_non_breaking_space_entity () + "</span>";
+    string replace = "<span>" + filter::strings::unicode_non_breaking_space_entity () + "</span>";
     html = filter::strings::replace (search, replace, html);
   }
   

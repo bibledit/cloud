@@ -77,7 +77,7 @@ string search_index (void * webserver_request)
     
     // Format it.
     string link = filter_passage_link_for_opening_editor_at (book, chapter, verse);
-    text =  filter_string_markup_words ({q}, text);
+    text =  filter::strings::markup_words ({q}, text);
     string output = "<div>" + link + " " + text + "</div>";
     
     // Output to browser.

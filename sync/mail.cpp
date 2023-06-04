@@ -57,7 +57,7 @@ string sync_mail (void * webserver_request)
   }
   
   // Get the relevant parameters the client may have POSTed to us, the server.
-  string name = hex2bin (request->post ["n"]);
+  string name = filter::strings::hex2bin (request->post ["n"]);
   string subject = request->post ["s"];
   string body = request->post ["b"];
   

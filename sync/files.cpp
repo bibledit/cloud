@@ -58,7 +58,7 @@ string sync_files (void * webserver_request)
   if (request->post.empty ()) {
     request->post = request->query;
   }
-  string user = hex2bin (request->post ["u"]);
+  string user = filter::strings::hex2bin (request->post ["u"]);
   int action = filter::strings::convert_to_int (request->post ["a"]);
   int version = filter::strings::convert_to_int (request->post ["v"]);
   size_t d = static_cast<size_t>(filter::strings::convert_to_int (request->post ["d"]));

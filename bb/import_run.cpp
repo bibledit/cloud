@@ -131,8 +131,8 @@ void bible_import_text (string text, string bible, int book, int chapter)
     // If the line is a number on its own, and the number agrees with the chapter number
     // that was set, it silently removes this line. But if it differs, an error comes up.
     if (discoveries_passed) {
-      if (number_in_string(lines[i]) == lines[i]) {
-        int number = filter::strings::convert_to_int (number_in_string (lines[i]));
+      if (filter::strings::number_in_string(lines[i]) == lines[i]) {
+        int number = filter::strings::convert_to_int (filter::strings::number_in_string (lines[i]));
         if (number == chapter) {
           lines[i].clear();
           continue;
@@ -148,7 +148,7 @@ void bible_import_text (string text, string bible, int book, int chapter)
     // it is considered a a normal paragraph.
     // If no punctuation at the end, it is a section heading.
     if (discoveries_passed) {
-      if (number_in_string(lines[i]).empty()) {
+      if (filter::strings::number_in_string(lines[i]).empty()) {
         string last_character = lines[i].substr(lines[i].length() -1, 1);
         if (filter::strings::unicode_string_is_punctuation (last_character)) {
           lines[i].insert(0, "\\p ");
@@ -164,7 +164,7 @@ void bible_import_text (string text, string bible, int book, int chapter)
     bool paragraph_open = false;
     if (discoveries_passed) {
       string output {};
-      string number = number_in_string(lines[i]);
+      string number = filter::strings::number_in_string(lines[i]);
       // Setting for having the number only at the start of the line.
       bool treat_as_normal_paragraph {false};
       bool verses_at_start {true};
@@ -197,7 +197,7 @@ void bible_import_text (string text, string bible, int book, int chapter)
           output.append (" ");
           lines[i].erase (0, number.length());
           lines[i] = filter::strings::trim (lines[i]);
-          number = number_in_string(lines[i]);
+          number = filter::strings::number_in_string(lines[i]);
           // Setting for discovering only first number in a paragraph.
           if (verses_at_start) {
             number.clear();
@@ -217,7 +217,7 @@ void bible_import_text (string text, string bible, int book, int chapter)
   for (unsigned int i = 0; i < lines.size(); i++) {
     if (lines[i].empty())
       continue;
-    lines[i] = filter_string_collapse_whitespace (lines[i]);
+    lines[i] = filter::strings::collapse_whitespace (lines[i]);
     lines[i] = filter::strings::replace (" \n", "\n", lines[i]);
     newtext.append(lines[i]);
     newtext.append("\n");

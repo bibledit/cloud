@@ -104,7 +104,7 @@ string resource_print (void * webserver_request)
   if (!moveup.empty () || !movedown.empty ()) {
     size_t move = static_cast<size_t> (filter::strings::convert_to_int (moveup + movedown));
     vector <string> resources = request->database_config_user()->getPrintResources ();
-    array_move_up_down (resources, move, !moveup.empty ());
+    filter::strings::array_move_up_down (resources, move, !moveup.empty ());
     request->database_config_user()->setPrintResources (resources);
   }
   
@@ -301,9 +301,9 @@ string resource_print (void * webserver_request)
     string name = resources[i];
     view.add_iteration ("resources", { pair ("offset", offset), pair ("name", name) } );
   }
-  view.set_variable ("trash", emoji_wastebasket ());
-  view.set_variable ("uparrow", unicode_black_up_pointing_triangle ());
-  view.set_variable ("downarrow", unicode_black_down_pointing_triangle ());
+  view.set_variable ("trash", filter::strings::emoji_wastebasket ());
+  view.set_variable ("uparrow", filter::strings::unicode_black_up_pointing_triangle ());
+  view.set_variable ("downarrow", filter::strings::unicode_black_down_pointing_triangle ());
 
 
 

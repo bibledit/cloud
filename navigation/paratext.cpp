@@ -71,12 +71,12 @@ string navigation_paratext (void * webserver_request)
           string versification = Database_Config_Bible::getVersificationSystem (bible);
           vector <Passage> passages;
           Database_Mappings database_mappings;
-          if ((versification != english()) && !versification.empty ()) {
-            passages = database_mappings.translate (english (), versification, book, chapter, verse);
+          if ((versification != filter::strings::english()) && !versification.empty ()) {
+            passages = database_mappings.translate (filter::strings::english (), versification, book, chapter, verse);
           } else {
             passages.push_back (Passage ("", book, chapter, filter::strings::convert_to_string (verse)));
           }
-          if (passages.empty()) return "";
+          if (passages.empty()) return std::string();
           chapter = passages[0].m_chapter;
           verse = filter::strings::convert_to_int (passages[0].m_verse);
           // Set the focused passage for Bibledit.

@@ -196,7 +196,7 @@ string bible_order (void * webserver_request)
     vector <int> books = filter_passage_get_ordered_books (bible);
     vector <string> s_books;
     for (auto & book : books) s_books.push_back (filter::strings::convert_to_string (book));
-    array_move_up_down (s_books, move, !moveup.empty ());
+    filter::strings::array_move_up_down (s_books, move, !moveup.empty ());
     string s_order = filter::strings::implode (s_books, " ");
     Database_Config_Bible::setBookOrder (bible, s_order);
   }
@@ -208,8 +208,8 @@ string bible_order (void * webserver_request)
     view.add_iteration ("order", { pair ("offset", filter::strings::convert_to_string (i)), pair ("bookname", bookname) } );
   }
 
-  view.set_variable ("uparrow", unicode_black_up_pointing_triangle ());
-  view.set_variable ("downarrow", unicode_black_down_pointing_triangle ());
+  view.set_variable ("uparrow", filter::strings::unicode_black_up_pointing_triangle ());
+  view.set_variable ("downarrow", filter::strings::unicode_black_down_pointing_triangle ());
 
   page += view.render ("bb", "order");
   

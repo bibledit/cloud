@@ -76,12 +76,12 @@ string changes_changes (void * webserver_request)
     const Passage passage = database_modifications.getNotificationPassage (identifier);
     const string link = filter_passage_link_for_opening_editor_at (passage.m_book, passage.m_chapter, passage.m_verse);
     string category = database_modifications.getNotificationCategory (identifier);
-    if (category == changes_personal_category ()) category = emoji_smiling_face_with_smiling_eyes ();
-    if (category == changes_bible_category ()) category = emoji_open_book ();
+    if (category == changes_personal_category ()) category = filter::strings::emoji_smiling_face_with_smiling_eyes ();
+    if (category == changes_bible_category ()) category = filter::strings::emoji_open_book ();
     string modification = database_modifications.getNotificationModification (identifier);
     block << "<div id=" << quoted("entry" + filter::strings::convert_to_string (identifier)) << + ">\n";
-    block << "<a href=" << quoted ("expand") << ">" << emoji_file_folder () << "</a>\n";
-    block << "<a href=" << quoted("remove") << ">" << emoji_wastebasket () << "</a>\n";
+    block << "<a href=" << quoted ("expand") << ">" << filter::strings::emoji_file_folder () << "</a>\n";
+    block << "<a href=" << quoted("remove") << ">" << filter::strings::emoji_wastebasket () << "</a>\n";
     block << link << "\n";
     block << category << "\n";
     block << modification << "\n";
@@ -289,7 +289,7 @@ string changes_changes (void * webserver_request)
     vector <int> personal_ids2 = database_modifications.getNotificationTeamIdentifiers (username, user, selectedbible);
     string user_and_icon = translate ("user") + " " + category;
     if (category == changes_personal_category ()) {
-      user_and_icon = translate ("me") + " " + emoji_smiling_face_with_smiling_eyes ();
+      user_and_icon = translate ("me") + " " + filter::strings::emoji_smiling_face_with_smiling_eyes ();
     }
     if (!personal_ids2.empty () && !bible_ids.empty ()) {
       view.add_iteration ("matching", { pair ("user", user), pair ("icon", user_and_icon) } );

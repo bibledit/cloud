@@ -260,7 +260,7 @@ string edit_update (void * webserver_request)
   // If there's double spaces removed here,
   // then later in this code, the editor will load that text.
   if (good2go && bible_write_access && text_was_edited) {
-    edited_chapter_usfm = filter_string_collapse_whitespace(edited_chapter_usfm);
+    edited_chapter_usfm = filter::strings::collapse_whitespace(edited_chapter_usfm);
   }
   
   // Safely store the chapter.

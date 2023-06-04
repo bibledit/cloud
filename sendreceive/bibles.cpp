@@ -116,7 +116,7 @@ void sendreceive_bibles ()
   // The basic request to be POSTed to the server.
   // It contains the user's credentials.
   map <string, string> post;
-  post ["u"] = bin2hex (user);
+  post ["u"] = filter::strings::bin2hex (user);
   post ["p"] = password;
   post ["l"] = filter::strings::convert_to_string (request.database_users ()->get_level (user));
 

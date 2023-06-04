@@ -429,8 +429,8 @@ const char * bibledit_get_reference_for_accordance ()
   // Accordance expects a verse reference in the English versification system.
   vector <Passage> passages;
   Database_Mappings database_mappings;
-  if ((versification != english()) && !versification.empty ()) {
-    passages = database_mappings.translate (versification, english (), book, chapter, verse);
+  if ((versification != filter::strings::english()) && !versification.empty ()) {
+    passages = database_mappings.translate (versification, filter::strings::english (), book, chapter, verse);
   } else {
     passages.push_back (Passage ("", book, chapter, filter::strings::convert_to_string (verse)));
   }
@@ -481,8 +481,8 @@ void bibledit_put_reference_from_accordance (const char * reference)
   // Accordance expects a verse reference in the English versification system.
   vector <Passage> passages;
   Database_Mappings database_mappings;
-  if ((versification != english()) && !versification.empty ()) {
-    passages = database_mappings.translate (english (), versification, book, chapter, verse);
+  if ((versification != filter::strings::english()) && !versification.empty ()) {
+    passages = database_mappings.translate (filter::strings::english (), versification, book, chapter, verse);
   } else {
     passages.push_back (Passage ("", book, chapter, filter::strings::convert_to_string (verse)));
   }

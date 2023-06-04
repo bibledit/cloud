@@ -32,7 +32,7 @@ void Text_Text::paragraph (string text)
     // The filter that converts from USFM to clear texts inserts some stuff
     // that's being removed here again, as not desirable in clear text.
     thisline = filter::strings::replace (filter::strings::en_space_u2002(), " ", thisline);
-    thisline = filter_string_collapse_whitespace (thisline);
+    thisline = filter::strings::collapse_whitespace (thisline);
     output.push_back (thisline);
     thisline = "";
   }

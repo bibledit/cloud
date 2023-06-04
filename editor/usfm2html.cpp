@@ -106,7 +106,7 @@ string Editor_Usfm2Html::get ()
   
   // Currently the XML library produces hexadecimal character entities.
   // This is unwanted behaviour: Convert them to normal characters.
-  html = convert_xml_character_entities_to_characters (html);
+  html = filter::strings::convert_xml_character_entities_to_characters (html);
   
   // Result.
   return html;

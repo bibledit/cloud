@@ -153,7 +153,7 @@ void sources_etcbc4_parse ()
         // The raw data for the verse.
         string data = database_etcbc4.raw (book, chapter, verse);
         if (data.empty ()) continue;
-        data = filter::strings::replace (unicode_non_breaking_space_entity (), "", data);
+        data = filter::strings::replace (filter::strings::unicode_non_breaking_space_entity (), "", data);
         // Parse the data.
         xml_document document;
         document.load_string (data.c_str());

@@ -39,7 +39,7 @@ void test_versification ()
     database_versifications.defaults ();
     Database_Check database_check;
     database_check.create ();
-    vector <int> books = database_versifications.getBooks (english ());
+    vector <int> books = database_versifications.getBooks (filter::strings::english ());
     vector <int> fault = filter::strings::array_diff (books, {10});
     checks_versification::books ("Bible", fault);
     vector <Database_Check_Hit> results = database_check.getHits ();
@@ -207,7 +207,7 @@ void test_database_mappings ()
     database_mappings.create2 ();
     database_mappings.optimize ();
     vector <string> names = database_mappings.names ();
-    evaluate (__LINE__, __func__, {"Dutch Traditional", english (), "French Louise Segond", "Hebrew Greek", "Russian Canonical", "Russian Orthodox", "Russian Protestant", "Spanish", "Vulgate"}, names);
+    evaluate (__LINE__, __func__, {"Dutch Traditional", filter::strings::english (), "French Louise Segond", "Hebrew Greek", "Russian Canonical", "Russian Orthodox", "Russian Protestant", "Spanish", "Vulgate"}, names);
   }
 
   // Import and export.
@@ -423,37 +423,37 @@ void test_database_versifications ()
     database_versifications.defaults ();
     
     // GetID
-    int id = database_versifications.getID (english ());
+    int id = database_versifications.getID (filter::strings::english ());
     evaluate (__LINE__, __func__, 4 , id);
     
     // Test books.
-    vector <int> books = database_versifications.getBooks (english ());
+    vector <int> books = database_versifications.getBooks (filter::strings::english ());
     vector <int> standard;
     for (int i = 1; i <= 66; i++) standard.push_back (i);
     evaluate (__LINE__, __func__, standard, books);
     
     // Test chapters.
-    vector <int> chapters = database_versifications.getChapters (english (), 1);
+    vector <int> chapters = database_versifications.getChapters (filter::strings::english (), 1);
     standard.clear ();
     for (int i = 1; i <= 50; i++) standard.push_back (i);
     evaluate (__LINE__, __func__, standard, chapters);
-    chapters = database_versifications.getChapters (english (), 1, true);
+    chapters = database_versifications.getChapters (filter::strings::english (), 1, true);
     standard.clear ();
     for (int i = 0; i <= 50; i++) standard.push_back (i);
     evaluate (__LINE__, __func__, standard, chapters);
     
     // Test verses.
-    vector <int> verses = database_versifications.getVerses (english (), 1, 2);
+    vector <int> verses = database_versifications.getVerses (filter::strings::english (), 1, 2);
     standard.clear ();
     for (int i = 0; i <= 25; i++) standard.push_back (i);
     evaluate (__LINE__, __func__, standard, verses);
     
     // Verses in chapter 0.
-    verses = database_versifications.getVerses (english (), 1, 0);
+    verses = database_versifications.getVerses (filter::strings::english (), 1, 0);
     evaluate (__LINE__, __func__, {0}, verses);
     
     // Books Chapters Verses.
-    vector <Passage> data = database_versifications.getBooksChaptersVerses (english ());
+    vector <Passage> data = database_versifications.getBooksChaptersVerses (filter::strings::english ());
     evaluate (__LINE__, __func__, 1189, static_cast<int>(data.size()));
     evaluate (__LINE__, __func__, "31", data [0].m_verse);
     

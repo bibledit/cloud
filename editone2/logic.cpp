@@ -78,7 +78,7 @@ void editone_logic_suffix_html (string editable_last_p_style, string usfm, strin
   if (!html.empty ()) {
     if (!editable_last_p_style.empty ()) {
       xml_document document;
-      html = html2xml (html);
+      html = filter::strings::html2xml (html);
       document.load_string (html.c_str(), parse_ws_pcdata_single);
       xml_node p_node = document.first_child ();
       string p_style = p_node.attribute ("class").value ();
@@ -122,7 +122,7 @@ void editone_logic_move_notes_v2 (string & prefix, string & suffix)
   if (prefix.empty ()) return;
   
   // Do a html to xml conversion to avoid a mismatched tag error.
-  prefix = html2xml (prefix);
+  prefix = filter::strings::html2xml (prefix);
 
   // Load the prefix.
   xml_document document;
@@ -172,7 +172,7 @@ void editone_logic_move_notes_v2 (string & prefix, string & suffix)
   }
 
   // Do a html to xml conversion in the suffix to avoid a mismatched tag error.
-  suffix = html2xml (suffix);
+  suffix = filter::strings::html2xml (suffix);
 
   // Load the suffix.
   document.load_string (suffix.c_str(), parse_ws_pcdata_single);

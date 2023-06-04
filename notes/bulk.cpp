@@ -87,7 +87,7 @@ string notes_bulk (void * webserver_request)
   string search_text = request->database_config_user()->getConsultationNotesSearchText();
   
   
-  int userid = filter_string_user_identifier (webserver_request);
+  int userid = filter::strings::user_identifier (webserver_request);
   
   
   // The admin disables notes selection on Bibles, so the admin sees all notes, even notes referring to non-existing Bibles.

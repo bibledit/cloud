@@ -117,7 +117,7 @@ void sendreceive_files ()
     return;
   }
   string user = users [0];
-  post ["u"] = bin2hex (user);
+  post ["u"] = filter::strings::bin2hex (user);
 
   
   post ["v"] = filter::strings::convert_to_string (version);
@@ -235,7 +235,7 @@ void sendreceive_files ()
       string download_url = filter_url_build_http_query (url, "a", filter::strings::convert_to_string (Sync_Logic::files_file_download));
       download_url = filter_url_build_http_query (download_url, "v", filter::strings::convert_to_string (version));
       download_url = filter_url_build_http_query (download_url, "d", filter::strings::convert_to_string (d));
-      download_url = filter_url_build_http_query (download_url, "u", bin2hex (user));
+      download_url = filter_url_build_http_query (download_url, "u", filter::strings::bin2hex (user));
       download_url = filter_url_build_http_query (download_url, "f", filter_url_urlencode (file));
       // Download and save file locally.
       filter_url_download_file (download_url, fullpath, error, true);

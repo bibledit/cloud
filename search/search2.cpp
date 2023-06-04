@@ -99,7 +99,7 @@ string search_search2 (void * webserver_request)
     
     // Format it.
     string link = filter_passage_link_for_opening_editor_at (book, chapter, verse);
-    text =  filter_string_markup_words ({query2}, text);
+    text =  filter::strings::markup_words ({query2}, text);
     string output = "<div>" + link + " " + text + "</div>";
     
     

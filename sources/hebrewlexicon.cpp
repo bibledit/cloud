@@ -89,7 +89,7 @@ void sources_hebrewlexicon_parse ()
           if (element == "entry") {
             string xmlns = " xmlns=\"http://openscriptures.github.com/morphhb/namespace\"";
             definition = filter::strings::replace (xmlns, "", definition);
-            definition = convert_xml_character_entities_to_characters (definition);
+            definition = filter::strings::convert_xml_character_entities_to_characters (definition);
             vector <string> lines = filter::strings::explode (definition, '\n');
             for (auto & line : lines) {
               if (line.find ("</status>") != string::npos) line.clear ();
@@ -170,7 +170,7 @@ void sources_hebrewlexicon_parse ()
           if (element == "entry") {
             string xmlns = " xmlns=\"http://openscriptures.github.com/morphhb/namespace\"";
             definition = filter::strings::replace (xmlns, "", definition);
-            definition = convert_xml_character_entities_to_characters (definition);
+            definition = filter::strings::convert_xml_character_entities_to_characters (definition);
             definition = filter::strings::replace ("'", "''", definition);
             definition = filter::strings::trim (definition);
             database_hebrewlexicon.setstrong (id, definition);

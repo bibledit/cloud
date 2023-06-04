@@ -104,7 +104,7 @@ string Consistency_Logic::response ()
             text = verseText (resource, book, chapter, filter::strings::convert_to_int (verse));
             size_t length1 = text.size ();
             if (!translations.empty ()) {
-              text = filter_string_markup_words (translations, text);
+              text = filter::strings::markup_words (translations, text);
             }
             size_t length2 = text.size ();
             if (length2 == length1) {

@@ -80,11 +80,11 @@ string search_replace (void * webserver_request)
     string link = filter_passage_link_for_opening_editor_at (book, chapter, verse);
     string oldtext = text;
     string newtext = filter::strings::replace (searchfor, replacewith, text);
-    if (replacewith != "") newtext = filter_string_markup_words ({replacewith}, newtext);
+    if (replacewith != "") newtext = filter::strings::markup_words ({replacewith}, newtext);
     
     string output =
     "<div id=\"" + filter::strings::convert_to_string (id) + "\">\n"
-    "<p><a href=\"replace\"> ✔ </a> <a href=\"delete\">" + emoji_wastebasket () + "</a> $link</p>\n"
+    "<p><a href=\"replace\"> ✔ </a> <a href=\"delete\">" + filter::strings::emoji_wastebasket () + "</a> $link</p>\n"
     "<p>" + oldtext + "</p>\n"
     "<p>" + newtext + "</p>\n"
     "</div>\n";

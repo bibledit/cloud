@@ -190,13 +190,13 @@ string edit_save (void * webserver_request)
   // Convert to XML for comparison.
   // Remove spaces before comparing.
   // Goal: Entering a space in the editor does not cause a reload.
-  html = html2xml (html);
+  html = filter::strings::html2xml (html);
   html = filter::strings::replace (" ", "", html);
-  html = filter::strings::replace (unicode_non_breaking_space_entity (), "", html);
+  html = filter::strings::replace (filter::strings::unicode_non_breaking_space_entity (), "", html);
   filter::strings::replace_between (html, "<", ">", "");
-  converted_html = html2xml (converted_html);
+  converted_html = filter::strings::html2xml (converted_html);
   converted_html = filter::strings::replace (" ", "", converted_html);
-  converted_html = filter::strings::replace (unicode_non_breaking_space_entity (), "", converted_html);
+  converted_html = filter::strings::replace (filter::strings::unicode_non_breaking_space_entity (), "", converted_html);
   filter::strings::replace_between (converted_html, "<", ">", "");
   // If round trip conversion differs, send a known string to the browser,
   // to signal the browser to reload the reformatted chapter.

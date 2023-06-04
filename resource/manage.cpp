@@ -110,7 +110,7 @@ string resource_manage (void * webserver_request)
   for (auto & resource : resources) {
     resourceblock.push_back ("<p>");
     resourceblock.push_back ("<a href=\"?delete=" + resource + "\" class=\"deleteresource\" title=\"" + translate("Remove") + "\">");
-    resourceblock.push_back (emoji_wastebasket ());
+    resourceblock.push_back (filter::strings::emoji_wastebasket ());
     resourceblock.push_back ("</a>");
     resourceblock.push_back ("<a href=\"?convert=" + resource + "\" class=\"convertresource\" title=\"" + translate("Convert") + "\">");
     resourceblock.push_back ("♻");

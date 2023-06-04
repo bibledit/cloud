@@ -36,9 +36,9 @@ void test_users ()
     Webserver_Request request;
     request.database_users ()->create ();
     request.session_logic()->set_username ("phpunit");
-    evaluate (__LINE__, __func__, 13683715, filter_string_user_identifier (&request));
+    evaluate (__LINE__, __func__, 13683715, filter::strings::user_identifier (&request));
     request.session_logic()->set_username ("phpunit2");
-    evaluate (__LINE__, __func__, 13767813, filter_string_user_identifier (&request));
+    evaluate (__LINE__, __func__, 13767813, filter::strings::user_identifier (&request));
   }
   refresh_sandbox (true);
 }

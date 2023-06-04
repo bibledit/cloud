@@ -152,23 +152,23 @@ void test_string ()
     evaluate (__LINE__, __func__, {2, 3, 4}, array_intersect (one, two));
   }
   
-  // Test hex2bin and bin2hex as equivalents to PHP's functions.
+  // Test hex2bin and filter::strings::bin2hex as equivalents to PHP's functions.
   {
     string bin = "This is a 123 test.";
     string hex = "5468697320697320612031323320746573742e";
-    evaluate (__LINE__, __func__, hex, bin2hex (bin));
-    evaluate (__LINE__, __func__, bin, hex2bin (hex));
+    evaluate (__LINE__, __func__, hex, filter::strings::bin2hex (bin));
+    evaluate (__LINE__, __func__, bin, filter::strings::hex2bin (hex));
     bin = "סֶ	א	ב	ױ";
     hex = "d7a1d6b609d79009d79109d7b1";
-    evaluate (__LINE__, __func__, hex, bin2hex (bin));
-    evaluate (__LINE__, __func__, bin, hex2bin (hex));
+    evaluate (__LINE__, __func__, hex, filter::strings::bin2hex (bin));
+    evaluate (__LINE__, __func__, bin, filter::strings::hex2bin (hex));
     bin.clear ();
     hex.clear ();
-    evaluate (__LINE__, __func__, hex, bin2hex (bin));
-    evaluate (__LINE__, __func__, bin, hex2bin (hex));
+    evaluate (__LINE__, __func__, hex, filter::strings::bin2hex (bin));
+    evaluate (__LINE__, __func__, bin, filter::strings::hex2bin (hex));
     hex = "a";
-    evaluate (__LINE__, __func__, "", bin2hex (bin));
-    evaluate (__LINE__, __func__, bin, hex2bin (hex));
+    evaluate (__LINE__, __func__, "", filter::strings::bin2hex (bin));
+    evaluate (__LINE__, __func__, bin, filter::strings::hex2bin (hex));
   }
 
   // Test string modifiers.
@@ -330,7 +330,7 @@ void test_string ()
     "Zvindori zvichava pamupendero kuti zvive nzvimbo dzemakumbo kutakura tafura.\n"
     "Zvino uchaita makumbo nematanda neMatanda nemaTANDA emuAkasia, ugoiputira negoridhe, kuti tafura itakurwe nawo.\n";
     vector <string> words = { "makumbo", "akasia", "matanda" };
-    string result = filter_string_markup_words (words, text);
+    string result = filter::strings::markup_words (words, text);
     string standard =
     "Zvino uchagadzira <mark>makumbo</mark> uye <mark>Makumbo</mark> uye <mark>maKumbo</mark> uye <mark>MAKUMBO</mark> emu<mark>akasia</mark>*, ndokuaputira negoridhe.\n"
     "Zvino uchaisa <mark>makumbo</mark> muzvindori panhivi dzeareka, kuti areka itakurwe nawo.\n"
@@ -347,7 +347,7 @@ void test_string ()
     "Zvindori zvichava pamupendero kuti zvive nzvimbo dzemakumbo kutakura tafura.\n"
     "Zvino uchaita makumbo nematanda neMatanda nemaTANDA emuAkasia, ugoiputira negoridhe, kuti tafura itakurwe nawo.\n";
     vector <string> words;
-    string result = filter_string_markup_words (words, text);
+    string result = filter::strings::markup_words (words, text);
     evaluate (__LINE__, __func__, text, result);
   }
 
@@ -355,36 +355,36 @@ void test_string ()
   {
     string folder = filter_url_create_root_path ({"unittests", "tests"});
     string html = filter_url_file_get_contents (filter_url_create_path ({folder, "biblehub-john-1-1.html"}));
-    vector <string> tidy = filter::strings::explode (html_tidy (html), '\n');
+    vector <string> tidy = filter::strings::explode (filter::strings::html_tidy (html), '\n');
     evaluate (__LINE__, __func__, 747, static_cast<int>(tidy.size()));
   }
   
   {
     string input = "<span>Praise the LORD&#xB6;, all &amp; you nations</span>";
-    string output = convert_xml_character_entities_to_characters (input);
+    string output = filter::strings::convert_xml_character_entities_to_characters (input);
     string standard = filter::strings::replace ("&#xB6;", "¶", input);
     evaluate (__LINE__, __func__, standard, output);
     
     input = "<span>Praise the LORD &#x5D0; all you nations</span>";
-    output = convert_xml_character_entities_to_characters (input);
+    output = filter::strings::convert_xml_character_entities_to_characters (input);
     standard = filter::strings::replace ("&#x5D0;", "א", input);
     evaluate (__LINE__, __func__, standard, output);
     
     input = "Username";
-    output = encrypt_decrypt ("key", input);
-    output = encrypt_decrypt ("key", output);
+    output = filter::strings::encrypt_decrypt ("key", input);
+    output = filter::strings::encrypt_decrypt ("key", output);
     evaluate (__LINE__, __func__, input, output);
     
     input = "בְּרֵאשִׁ֖ית בָּרָ֣א אֱלֹהִ֑ים אֵ֥ת הַשָּׁמַ֖יִם וְאֵ֥ת הָאָֽרֶץ";
-    output = encrypt_decrypt ("בְּרֵאשִׁ֖ית", input);
-    output = encrypt_decrypt ("בְּרֵאשִׁ֖ית", output);
+    output = filter::strings::encrypt_decrypt ("בְּרֵאשִׁ֖ית", input);
+    output = filter::strings::encrypt_decrypt ("בְּרֵאשִׁ֖ית", output);
     evaluate (__LINE__, __func__, input, output);
   }
   
   {
-    string one = get_new_random_string ();
+    string one = filter::strings::get_new_random_string ();
     this_thread::sleep_for (chrono::milliseconds (10));
-    string two = get_new_random_string ();
+    string two = filter::strings::get_new_random_string ();
     evaluate (__LINE__, __func__, 32, one.length ());
     evaluate (__LINE__, __func__, true, one != two);
   }
@@ -449,9 +449,9 @@ void test_string ()
   
   {
     vector <string> needles;
-    needles = filter_string_search_needles ("ABC", "one abc two ABc three aBc four");
+    needles = filter::strings::search_needles ("ABC", "one abc two ABc three aBc four");
     evaluate (__LINE__, __func__, { "abc", "ABc", "aBc" }, needles);
-    needles = filter_string_search_needles ("abc", "one abc two ABc three aBc four");
+    needles = filter::strings::search_needles ("abc", "one abc two ABc three aBc four");
     evaluate (__LINE__, __func__, { "abc", "ABc", "aBc" }, needles);
   }
   
@@ -538,7 +538,7 @@ void test_string ()
     vector <string> container;
     
     container = { };
-    array_move_up_down (container, 0, false);
+    filter::strings::array_move_up_down (container, 0, false);
     evaluate (__LINE__, __func__, { }, container);
   }
   
@@ -561,7 +561,7 @@ void test_string ()
     string path_valid {};
     string html_valid {};
 
-    string html_tidied = filter_string_fix_invalid_html_gumbo (html_invalid);
+    string html_tidied = filter::strings::fix_invalid_html_gumbo (html_invalid);
     path_valid = filter_url_create_root_path ({"unittests", "tests", "html-fixed-1-gumbo.html"});
     html_valid = filter_url_file_get_contents(path_valid);
     evaluate (__LINE__, __func__, html_valid, html_tidied);
@@ -578,7 +578,7 @@ document.getElementById("demo").innerHTML = "Hello JavaScript!";
 </body>
 </html>
 )";
-    html_tidied = filter_string_fix_invalid_html_gumbo (html_invalid);
+    html_tidied = filter::strings::fix_invalid_html_gumbo (html_invalid);
     html_valid =
 R"(<!DOCTYPE html>
 <html>
@@ -597,7 +597,7 @@ R"(<!DOCTYPE html>
   
   // Test "tidying" empty html.
   {
-    string result = filter_string_fix_invalid_html_gumbo (string());
+    string result = filter::strings::fix_invalid_html_gumbo (string());
     string standard {
 R"(<html>
  <head>
@@ -613,7 +613,7 @@ R"(<html>
   // Test tidying html with special XML characters.
   {
     string html = R"(<p>Paragraph & < > paragraph</p>)";
-    string tidied = filter_string_fix_invalid_html_gumbo (html);
+    string tidied = filter::strings::fix_invalid_html_gumbo (html);
     string valid =
 R"(<html>
  <head>
@@ -633,23 +633,23 @@ R"(<html>
     string result;
 
     standard = "ABC abc";
-    result = filter_string_collapse_whitespace ("ABC abc");
+    result = filter::strings::collapse_whitespace ("ABC abc");
     evaluate (__LINE__, __func__, standard, result);
 
     standard = "ABC abc";
-    result = filter_string_collapse_whitespace ("ABC  abc");
+    result = filter::strings::collapse_whitespace ("ABC  abc");
     evaluate (__LINE__, __func__, standard, result);
 
     standard = "ABC abc";
-    result = filter_string_collapse_whitespace ("ABC   abc");
+    result = filter::strings::collapse_whitespace ("ABC   abc");
     evaluate (__LINE__, __func__, standard, result);
 
     standard = "ABC abc";
-    result = filter_string_collapse_whitespace ("ABC      abc");
+    result = filter::strings::collapse_whitespace ("ABC      abc");
     evaluate (__LINE__, __func__, standard, result);
 
     standard = "ABC abc";
-    result = filter_string_collapse_whitespace ("ABC               abc");
+    result = filter::strings::collapse_whitespace ("ABC               abc");
     evaluate (__LINE__, __func__, standard, result);
   }
 
@@ -669,7 +669,7 @@ R"(<html>
   // Test conversion from Windows-1252 encoding to UTF-8 encoding.
   {
     std::string input = "Windows 1252";
-    std::string output = convert_windows1252_to_utf8 (input);
+    std::string output = filter::strings::convert_windows1252_to_utf8 (input);
     evaluate (__LINE__, __func__, input, output);
   }
 }

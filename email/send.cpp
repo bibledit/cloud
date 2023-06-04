@@ -196,7 +196,7 @@ string email_send ([[maybe_unused]] string to_mail,
   Sync_Logic sync_logic = Sync_Logic (&request);
 
   map <string, string> post;
-  post ["n"] = bin2hex (to_name);
+  post ["n"] = filter::strings::bin2hex (to_name);
   post ["s"] = subject;
   post ["b"] = body;
 

@@ -52,10 +52,10 @@ void test_database_config_bible ()
   trace_unit_tests (__func__);
   
   string value = Database_Config_Bible::getVersificationSystem ("phpunit");
-  evaluate (__LINE__, __func__, english (), value);
+  evaluate (__LINE__, __func__, filter::strings::english (), value);
   
   value = Database_Config_Bible::getVersificationSystem ("x");
-  evaluate (__LINE__, __func__, english (), value);
+  evaluate (__LINE__, __func__, filter::strings::english (), value);
 
   Database_Config_Bible::setVersificationSystem ("phpunit", "VersificatioN");
   value = Database_Config_Bible::getVersificationSystem ("phpunit");

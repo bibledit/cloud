@@ -103,7 +103,7 @@ string editone2_load (void * webserver_request)
   bool editable_verse_is_empty = plain_text == vs;
   if (editable_verse_is_empty) {
     string search = "<span> </span></p>";
-    string replace = "<span>" + unicode_non_breaking_space_entity () + "</span></p>";
+    string replace = "<span>" + filter::strings::unicode_non_breaking_space_entity () + "</span></p>";
     focused_verse_html = filter::strings::replace (search, replace, focused_verse_html);
   }
 

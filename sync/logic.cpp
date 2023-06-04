@@ -74,7 +74,7 @@ bool Sync_Logic::credentials_okay ()
   }
   
   // Get the credentials the client POSTed to the us, the server.
-  string username = hex2bin (request->post ["u"]);
+  string username = filter::strings::hex2bin (request->post ["u"]);
   string password = request->post ["p"];
   int level = filter::strings::convert_to_int (request->post ["l"]);
   

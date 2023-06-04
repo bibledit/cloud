@@ -90,13 +90,10 @@ void quick_sort (std::vector <std::string>& one, std::vector <bool>& two, unsign
 void quick_sort (std::vector <std::string>& one, unsigned int beg, unsigned int end);
 void quick_sort (std::vector <long unsigned int>& one, std::vector <long unsigned int>& two, unsigned int beg, unsigned int end);
 void quick_sort (std::vector <int> & one, std::vector <int> & two, unsigned int beg, unsigned int end);
-
-}
-
 std::string number_in_string (const std::string & str);
-std::string filter_string_markup_words (const std::vector <std::string>& words, std::string text);
-std::vector <std::string> filter_string_search_needles (std::string search, std::string text);
-int filter_string_user_identifier (void * webserver_request);
+std::string markup_words (const std::vector <std::string>& words, std::string text);
+std::vector <std::string> search_needles (std::string search, std::string text);
+int user_identifier (void * webserver_request);
 std::string bin2hex (std::string bin);
 std::string hex2bin (std::string hex);
 std::string html_tidy (std::string html);
@@ -124,9 +121,10 @@ std::string wstring2string (const std::wstring& wstr);
 #endif
 std::string lf2crlf (std::string str);
 std::string crlf2lf (std::string str);
-std::string filter_text_html_get_element (std::string html, std::string element);
-std::string filter_string_fix_invalid_html_gumbo (std::string html);
-std::string filter_string_fix_invalid_html_tidy (std::string html);
-std::string filter_string_collapse_whitespace (std::string s);
+std::string html_get_element (std::string html, std::string element);
+std::string fix_invalid_html_gumbo (std::string html);
+std::string fix_invalid_html_tidy (std::string html);
+std::string collapse_whitespace (std::string s);
 std::string convert_windows1252_to_utf8 (const std::string& input);
 
+}

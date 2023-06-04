@@ -93,7 +93,7 @@ string sync_bibles_receive_chapter (Webserver_Request * request, string & bible,
   // Solution / fix to this:
   // Remove all the double spaces from the USFM to be saved.
   // (Keep the reference USFM as it is: Goal: Detect the differences.
-  newusfm = filter_string_collapse_whitespace (newusfm);
+  newusfm = filter::strings::collapse_whitespace (newusfm);
   
 
   // Gather data for recording the changes made by the user, for the change notifications.

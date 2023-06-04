@@ -226,7 +226,7 @@ string sprint_index ([[maybe_unused]] void * webserver_request)
     string title = filter::strings::escape_special_xml_characters (database_sprint.getTitle (task_id));
     int percentage = database_sprint.getComplete (task_id);
     tasks.append ("<tr id=\"a" + filter::strings::convert_to_string (task_id) + "\">\n");
-    tasks.append ("<td><a href=\"?id=" + filter::strings::convert_to_string (task_id) + "&remove=\">" + emoji_wastebasket () + "</a></td>\n");
+    tasks.append ("<td><a href=\"?id=" + filter::strings::convert_to_string (task_id) + "&remove=\">" + filter::strings::emoji_wastebasket () + "</a></td>\n");
     tasks.append ("<td></td>\n");
     tasks.append ("<td><a href=\"?id=" + filter::strings::convert_to_string (task_id) + "&moveback=\"> « </a></td>\n");
     tasks.append ("<td>" + title + "</td>\n");

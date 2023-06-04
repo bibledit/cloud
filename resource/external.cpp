@@ -86,15 +86,15 @@ resource_record resource_table [] =
 {
   { "Statenbijbel GBS", "Dutch Traditional", "Dutch Traditional", BIBLE, & resource_external_get_statenbijbel_gbs },
   { "Statenbijbel Plus GBS", "Dutch Traditional", "Dutch Traditional", BIBLE, & resource_external_get_statenbijbel_plus_gbs },
-  { "King James Version GBS", english (), english (), BIBLE, & resource_external_get_king_james_version_gbs },
-  { "King James Version Plus GBS", english (), english (), BIBLE, & resource_external_get_king_james_version_plus_gbs },
-  { resource_external_biblehub_interlinear_name (), english (), english (), ORIGINAL, & resource_external_get_biblehub_interlinear },
-  { "Scrivener Greek", english (), english (), ORIGINAL, & resource_external_get_biblehub_scrivener },
-  { "Westminster Hebrew", english (), english (), ORIGINAL, & resource_external_get_biblehub_westminster },
-  { resource_external_net_bible_name (), english (), english (), BIBLE, & resource_external_get_net_bible },
-  { "Blue Letter Bible", english (), english (), ORIGINAL, & resource_external_get_blue_letter_bible },
-  { "Elberfelder Bibel", english (), english (), BIBLE, & resource_external_get_elberfelder_bibel },
-  { resource_logic_easy_english_bible_name (), english (), english (), BIBLE, & resource_logic_easy_english_bible_get },
+  { "King James Version GBS", filter::strings::english (), filter::strings::english (), BIBLE, & resource_external_get_king_james_version_gbs },
+  { "King James Version Plus GBS", filter::strings::english (), filter::strings::english (), BIBLE, & resource_external_get_king_james_version_plus_gbs },
+  { resource_external_biblehub_interlinear_name (), filter::strings::english (), filter::strings::english (), ORIGINAL, & resource_external_get_biblehub_interlinear },
+  { "Scrivener Greek", filter::strings::english (), filter::strings::english (), ORIGINAL, & resource_external_get_biblehub_scrivener },
+  { "Westminster Hebrew", filter::strings::english (), filter::strings::english (), ORIGINAL, & resource_external_get_biblehub_westminster },
+  { resource_external_net_bible_name (), filter::strings::english (), filter::strings::english (), BIBLE, & resource_external_get_net_bible },
+  { "Blue Letter Bible", filter::strings::english (), filter::strings::english (), ORIGINAL, & resource_external_get_blue_letter_bible },
+  { "Elberfelder Bibel", filter::strings::english (), filter::strings::english (), BIBLE, & resource_external_get_elberfelder_bibel },
+  { resource_logic_easy_english_bible_name (), filter::strings::english (), filter::strings::english (), BIBLE, & resource_logic_easy_english_bible_get },
 };
 
 
@@ -397,7 +397,7 @@ string gbs_plus_processor (string url, int book, [[maybe_unused]] int chapter, i
     string error {};
     string annotation_html {filter_url_http_post (annotation_url, string(), post, error, false, false, {})};
     if (error.empty()) {
-      annotation_html = filter_string_fix_invalid_html_gumbo (annotation_html);
+      annotation_html = filter::strings::fix_invalid_html_gumbo (annotation_html);
       xml_document annotation_document {};
       annotation_document.load_string (annotation_html.c_str());
       string selector2 {"//body"};
@@ -431,7 +431,7 @@ string bibleserver_processor (string directory, int book, int chapter, int verse
   
   string error;
   string text = resource_logic_web_or_cache_get (url, error);
-  string tidy = html_tidy (text);
+  string tidy = filter::strings::html_tidy (text);
   vector <string> tidied = filter::strings::explode (tidy, '\n');
 
   text.clear ();
@@ -654,7 +654,7 @@ string resource_external_get_biblehub_interlinear (int book, int chapter, int ve
   // Get the html from the server, and tidy it up.
   string error;
   string html = resource_logic_web_or_cache_get (url, error);
-  string tidy = html_tidy (html);
+  string tidy = filter::strings::html_tidy (html);
   vector <string> tidied = filter::strings::explode (tidy, '\n');
   
   vector <string> filtered_lines;
@@ -687,7 +687,7 @@ string resource_external_get_biblehub_interlinear (int book, int chapter, int ve
   //html = filter::strings::replace ("height=\"165\"", "", html);
   html = filter::strings::replace ("height=\"160\"", "", html);
   html = filter::strings::replace ("height=\"145\"", "", html);
-  html = filter::strings::replace (unicode_non_breaking_space_entity () + unicode_non_breaking_space_entity (), unicode_non_breaking_space_entity (), html);
+  html = filter::strings::replace (filter::strings::unicode_non_breaking_space_entity () + filter::strings::unicode_non_breaking_space_entity (), filter::strings::unicode_non_breaking_space_entity (), html);
   
   // Stylesheet for using web fonts,
   // because installing fonts on some tablets is very hard.
@@ -717,7 +717,7 @@ string resource_external_get_biblehub_scrivener (int book, int chapter, int vers
   // Get the html from the server, and tidy it up.
   string error;
   string html = resource_logic_web_or_cache_get (url, error);
-  string tidy = html_tidy (html);
+  string tidy = filter::strings::html_tidy (html);
   vector <string> tidied = filter::strings::explode (tidy, '\n');
 
   html.clear ();
@@ -768,7 +768,7 @@ string resource_external_get_biblehub_westminster (int book, int chapter, int ve
   // Get the html from the server, and tidy it up.
   string error;
   string html = resource_logic_web_or_cache_get (url, error);
-  string tidy = html_tidy (html);
+  string tidy = filter::strings::html_tidy (html);
   vector <string> tidied = filter::strings::explode (tidy, '\n');
   
   html.clear ();
@@ -958,7 +958,7 @@ vector <string> resource_external_get_bibles ()
 // Returns the versification for the resource.
 string resource_external_versification (string name)
 {
-  string versification = english ();
+  string versification = filter::strings::english ();
   for (unsigned int i = 0; i < resource_external_count (); i++) {
     string resource = resource_table [i].name;
     if (name == resource) {
@@ -972,7 +972,7 @@ string resource_external_versification (string name)
 // Returns the versification for the resource.
 string resource_external_mapping (string name)
 {
-  string versification = english ();
+  string versification = filter::strings::english ();
   for (unsigned int i = 0; i < resource_external_count (); i++) {
     string resource = resource_table [i].name;
     if (name == resource) {

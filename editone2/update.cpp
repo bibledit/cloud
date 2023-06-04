@@ -206,7 +206,7 @@ string editone2_update (void * webserver_request)
   // If there's double spaces removed here,
   // then later in this code, the editor will load that text.
   if (good2go && bible_write_access && text_was_edited) {
-    edited_verse_usfm = filter_string_collapse_whitespace(edited_verse_usfm);
+    edited_verse_usfm = filter::strings::collapse_whitespace(edited_verse_usfm);
   }
 
   

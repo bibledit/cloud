@@ -564,7 +564,7 @@ void Database_Config_Bible::setExportStylesheet (string bible, string value)
 
 string Database_Config_Bible::getVersificationSystem (string bible)
 {
-  return getValue (bible, "versification-system", english ());
+  return getValue (bible, "versification-system", filter::strings::english ());
 }
 void Database_Config_Bible::setVersificationSystem (string bible, string value)
 {

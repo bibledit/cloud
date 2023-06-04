@@ -77,7 +77,7 @@ string client_logic_connection_setup (string user, string hash)
     hash = database_users.get_md5 (user);
   }
   
-  string encoded_user = bin2hex (user);
+  string encoded_user = filter::strings::bin2hex (user);
   
   string address = Database_Config_General::getServerAddress ();
   int port = Database_Config_General::getServerPort ();

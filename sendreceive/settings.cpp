@@ -113,7 +113,7 @@ void sendreceive_settings ()
   
   // The POST request contains the credentials.
   map <string, string> post;
-  post ["u"] = bin2hex (user);
+  post ["u"] = filter::strings::bin2hex (user);
   post ["p"] = request.database_users ()->get_md5 (user);
   post ["l"] = filter::strings::convert_to_string (request.database_users ()->get_level (user));
 

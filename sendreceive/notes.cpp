@@ -128,7 +128,7 @@ bool sendreceive_notes_upload ()
   // The basic request to be POSTed to the server.
   // It contains the user's credentials.
   map <string, string> post;
-  post ["u"] = bin2hex (user);
+  post ["u"] = filter::strings::bin2hex (user);
   post ["p"] = request.database_users ()->get_md5 (user);
   post ["l"] = filter::strings::convert_to_string (request.database_users ()->get_level (user));
   
@@ -285,7 +285,7 @@ bool sendreceive_notes_upload ()
     // Deal with the extra, added, note actions.
     for (int action = Sync_Logic::notes_get_total; action <= Sync_Logic::notes_get_modified; action++) {
       map <string, string> post2;
-      post2 ["u"] = bin2hex (user);
+      post2 ["u"] = filter::strings::bin2hex (user);
       post2 ["i"] = filter::strings::convert_to_string (identifier);
       post2 ["a"] = filter::strings::convert_to_string (action);
       sendreceive_notes_kick_watchdog ();
@@ -366,7 +366,7 @@ bool sendreceive_notes_download (int lowId, int highId)
   
   // The basic request to be POSTed to the server.
   map <string, string> post;
-  post ["u"] = bin2hex (user);
+  post ["u"] = filter::strings::bin2hex (user);
   post ["l"] = filter::strings::convert_to_string (lowId);
   post ["h"] = filter::strings::convert_to_string (highId);
 

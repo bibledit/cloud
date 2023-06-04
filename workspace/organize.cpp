@@ -68,14 +68,14 @@ string workspace_organize (void * webserver_request)
   if (request->query.count ("up")) {
     size_t item = static_cast<size_t>(filter::strings::convert_to_int (request->query ["up"]));
     vector <string> workspaces = workspace_get_names (request);
-    array_move_up_down (workspaces, item, true);
+    filter::strings::array_move_up_down (workspaces, item, true);
     workspace_reorder (request, workspaces);
     success = translate ("The workspace was moved up");
   }
   if (request->query.count ("down")) {
     size_t item = static_cast<size_t>(filter::strings::convert_to_int (request->query ["down"]));
     vector <string> workspaces = workspace_get_names (request);
-    array_move_up_down (workspaces, item, false);
+    filter::strings::array_move_up_down (workspaces, item, false);
     workspace_reorder (request, workspaces);
     success = translate ("The workspace was moved down");
   }
@@ -150,11 +150,11 @@ string workspace_organize (void * webserver_request)
   for (size_t i = 0; i < workspaces.size (); i++) {
     string workspace = workspaces [i];
     workspaceblock << "<p>" << endl;
-    workspaceblock << "<a href=" << quoted ("?remove=" + workspace) << " title=" << quoted (translate("Delete workspace")) << ">" << emoji_wastebasket () << "</a>" << endl;
+    workspaceblock << "<a href=" << quoted ("?remove=" + workspace) << " title=" << quoted (translate("Delete workspace")) << ">" << filter::strings::emoji_wastebasket () << "</a>" << endl;
     workspaceblock << "|" << endl;
-    workspaceblock << "<a href=" << quoted ("?up=" + filter::strings::convert_to_string (i)) << " title=" << quoted (translate("Move workspace up")) << "> " << unicode_black_up_pointing_triangle () << " </a>" << endl;
+    workspaceblock << "<a href=" << quoted ("?up=" + filter::strings::convert_to_string (i)) << " title=" << quoted (translate("Move workspace up")) << "> " << filter::strings::unicode_black_up_pointing_triangle () << " </a>" << endl;
     workspaceblock << "|" << endl;
-    workspaceblock << "<a href=" << quoted ("?down=" + filter::strings::convert_to_string (i)) << " title=" << quoted (translate("Move workspace down")) << "> " << unicode_black_down_pointing_triangle () << " </a>" << endl;
+    workspaceblock << "<a href=" << quoted ("?down=" + filter::strings::convert_to_string (i)) << " title=" << quoted (translate("Move workspace down")) << "> " << filter::strings::unicode_black_down_pointing_triangle () << " </a>" << endl;
     workspaceblock << "|" << endl;
     workspaceblock << "<a href=" << quoted ("settings?name=" + workspace) << " title=" << quoted (translate("Edit workspace")) << "> ✎ </a>" << endl;
     workspaceblock << "|";

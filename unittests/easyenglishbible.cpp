@@ -159,10 +159,10 @@ void test_easy_english_bible ()
   }
 
   {
-    int book = 54; // 1 Timothy.
+    const int book {54}; // 1 Timothy.
     string text = resource_logic_easy_english_bible_get (book, 5, 3);
     text = filter::strings::html2text (text);
-    size_t pos = text.find ("Widows need help and care.");
+    const size_t pos = text.find ("Widows need help and care.");
     evaluate (__LINE__, __func__, 8, pos);
   }
 

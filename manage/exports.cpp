@@ -111,7 +111,7 @@ string manage_exports (void * webserver_request)
     Database_State::setExport (bible, 0, export_logic::export_needed);
     return "";
   }
-  view.set_variable ("web", get_checkbox_status (Database_Config_Bible::getExportWebDuringNight (bible)));
+  view.set_variable ("web", filter::strings::get_checkbox_status (Database_Config_Bible::getExportWebDuringNight (bible)));
   
   
   if (request->query.count ("webnow")) {
@@ -144,7 +144,7 @@ string manage_exports (void * webserver_request)
     Database_Config_Bible::setExportHtmlDuringNight (bible, checked);
     Database_State::setExport (bible, 0, export_logic::export_needed);
   }
-  view.set_variable ("html", get_checkbox_status (Database_Config_Bible::getExportHtmlDuringNight (bible)));
+  view.set_variable ("html", filter::strings::get_checkbox_status (Database_Config_Bible::getExportHtmlDuringNight (bible)));
   
   
   if (request->query.count ("htmlnow")) {
@@ -156,14 +156,14 @@ string manage_exports (void * webserver_request)
   if (checkbox == "htmlpopup") {
     Database_Config_Bible::setExportHtmlNotesOnHover (bible, checked);
   }
-  view.set_variable ("htmlpopup", get_checkbox_status (Database_Config_Bible::getExportHtmlNotesOnHover (bible)));
+  view.set_variable ("htmlpopup", filter::strings::get_checkbox_status (Database_Config_Bible::getExportHtmlNotesOnHover (bible)));
 
   
   if (checkbox == "usfm") {
     Database_Config_Bible::setExportUsfmDuringNight (bible, checked);
     Database_State::setExport (bible, 0, export_logic::export_needed);
   }
-  view.set_variable ("usfm", get_checkbox_status (Database_Config_Bible::getExportUsfmDuringNight (bible)));
+  view.set_variable ("usfm", filter::strings::get_checkbox_status (Database_Config_Bible::getExportUsfmDuringNight (bible)));
  
   
   if (request->query.count ("usfmnow")) {
@@ -176,13 +176,13 @@ string manage_exports (void * webserver_request)
     Database_Config_Bible::setSecureUsfmExport (bible, checked);
     Database_State::setExport (bible, 0, export_logic::export_needed);
   }
-  view.set_variable ("usfmsecure", get_checkbox_status (Database_Config_Bible::getSecureUsfmExport (bible)));
+  view.set_variable ("usfmsecure", filter::strings::get_checkbox_status (Database_Config_Bible::getSecureUsfmExport (bible)));
 
                      
   if (checkbox == "text") {
     Database_Config_Bible::setExportTextDuringNight (bible, checked);
   }
-  view.set_variable ("text", get_checkbox_status (Database_Config_Bible::getExportTextDuringNight (bible)));
+  view.set_variable ("text", filter::strings::get_checkbox_status (Database_Config_Bible::getExportTextDuringNight (bible)));
   
   
   if (request->query.count ("textnow")) {
@@ -195,7 +195,7 @@ string manage_exports (void * webserver_request)
     Database_Config_Bible::setExportOdtDuringNight (bible, checked);
     Database_State::setExport (bible, 0, export_logic::export_needed);
   }
-  view.set_variable ("odt", get_checkbox_status (Database_Config_Bible::getExportOdtDuringNight (bible)));
+  view.set_variable ("odt", filter::strings::get_checkbox_status (Database_Config_Bible::getExportOdtDuringNight (bible)));
 
   
   if (request->query.count ("odtnow")) {
@@ -208,7 +208,7 @@ string manage_exports (void * webserver_request)
     Database_Config_Bible::setExportChapterDropCapsFrames (bible, checked);
     Database_State::setExport (bible, 0, export_logic::export_needed);
   }
-  view.set_variable ("dropcaps", get_checkbox_status (Database_Config_Bible::getExportChapterDropCapsFrames (bible)));
+  view.set_variable ("dropcaps", filter::strings::get_checkbox_status (Database_Config_Bible::getExportChapterDropCapsFrames (bible)));
 
   
   if (request->query.count ("pagewidth")) {
@@ -304,14 +304,14 @@ string manage_exports (void * webserver_request)
   if (checkbox == "dateinheader") {
     Database_Config_Bible::setDateInHeader (bible, checked);
   }
-  view.set_variable ("dateinheader", get_checkbox_status (Database_Config_Bible::getDateInHeader (bible)));
+  view.set_variable ("dateinheader", filter::strings::get_checkbox_status (Database_Config_Bible::getDateInHeader (bible)));
   
   
   if (checkbox == "odtsecure") {
     Database_Config_Bible::setSecureOdtExport (bible, checked);
     Database_State::setExport (bible, 0, export_logic::export_needed);
   }
-  view.set_variable ("odtsecure", get_checkbox_status (Database_Config_Bible::getSecureOdtExport (bible)));
+  view.set_variable ("odtsecure", filter::strings::get_checkbox_status (Database_Config_Bible::getSecureOdtExport (bible)));
 
   
   vector <string> spaces = { " ", filter::strings::non_breaking_space_u00A0 (), filter::strings::en_space_u2002 (), filter::strings::figure_space_u2007 (), filter::strings::narrow_non_breaking_space_u202F () };
@@ -343,7 +343,7 @@ string manage_exports (void * webserver_request)
     Database_Config_Bible::setOdtPoetryVersesLeft (bible, checked);
     Database_State::setExport (bible, 0, export_logic::export_needed);
   }
-  view.set_variable ("odtqleft", get_checkbox_status (Database_Config_Bible::getOdtPoetryVersesLeft (bible)));
+  view.set_variable ("odtqleft", filter::strings::get_checkbox_status (Database_Config_Bible::getOdtPoetryVersesLeft (bible)));
   {
     Database_Styles database_styles;
     vector <string> markers = database_styles.getMarkers (styles_logic_standard_sheet ());
@@ -368,14 +368,14 @@ string manage_exports (void * webserver_request)
     Database_Config_Bible::setOdtAutomaticNoteCaller (bible, checked);
     Database_State::setExport (bible, 0, export_logic::export_needed);
   }
-  view.set_variable ("autocaller", get_checkbox_status (Database_Config_Bible::getOdtAutomaticNoteCaller (bible)));
+  view.set_variable ("autocaller", filter::strings::get_checkbox_status (Database_Config_Bible::getOdtAutomaticNoteCaller (bible)));
 
   
   if (checkbox == "info") {
     Database_Config_Bible::setGenerateInfoDuringNight (bible, checked);
     Database_State::setExport (bible, 0, export_logic::export_needed);
   }
-  view.set_variable ("info", get_checkbox_status (Database_Config_Bible::getGenerateInfoDuringNight (bible)));
+  view.set_variable ("info", filter::strings::get_checkbox_status (Database_Config_Bible::getGenerateInfoDuringNight (bible)));
                    
   
   if (request->query.count ("infonow")) {
@@ -388,7 +388,7 @@ string manage_exports (void * webserver_request)
     Database_Config_Bible::setExportESwordDuringNight (bible, checked);
     Database_State::setExport (bible, 0, export_logic::export_needed);
   }
-  view.set_variable ("esword", get_checkbox_status (Database_Config_Bible::getExportESwordDuringNight (bible)));
+  view.set_variable ("esword", filter::strings::get_checkbox_status (Database_Config_Bible::getExportESwordDuringNight (bible)));
                      
                                           
   if (request->query.count ("eswordnow")) {
@@ -401,7 +401,7 @@ string manage_exports (void * webserver_request)
     Database_Config_Bible::setExportOnlineBibleDuringNight (bible, checked);
     Database_State::setExport (bible, 0, export_logic::export_needed);
   }
-  view.set_variable ("onlinebible", get_checkbox_status (Database_Config_Bible::getExportOnlineBibleDuringNight (bible)));
+  view.set_variable ("onlinebible", filter::strings::get_checkbox_status (Database_Config_Bible::getExportOnlineBibleDuringNight (bible)));
   
   
   if (request->query.count ("onlinebiblenow")) {

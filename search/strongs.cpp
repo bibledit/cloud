@@ -130,7 +130,7 @@ string search_strongs (void * webserver_request)
       i_passages.push_back (i_passage);
       counts.push_back (count);
     }
-    quick_sort (counts, i_passages, 0, static_cast<unsigned int>(counts.size()));
+    filter::strings::quick_sort (counts, i_passages, 0, static_cast<unsigned int>(counts.size()));
     reverse (i_passages.begin(), i_passages.end());
 
     // Output the passage identifiers to the browser.

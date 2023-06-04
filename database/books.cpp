@@ -156,7 +156,7 @@ book_id get_id_like_text (const string & text)
     ids.push_back (id);
     similarities.push_back (filter_diff_character_similarity (text, filter::strings::unicode_string_casefold(books_table[i].onlinebible)));
   }
-  quick_sort (similarities, ids, 0, static_cast<unsigned>(ids.size()));
+  filter::strings::quick_sort (similarities, ids, 0, static_cast<unsigned>(ids.size()));
   int id = ids.back ();
   return static_cast<book_id>(id);
 }

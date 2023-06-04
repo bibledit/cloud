@@ -201,7 +201,7 @@ string resource_organize (void * webserver_request)
     request->database_config_user ()->setIncludeRelatedPassages (checked);
     return "";
   }
-  view.set_variable ("related", get_checkbox_status (request->database_config_user ()->getIncludeRelatedPassages ()));
+  view.set_variable ("related", filter::strings::get_checkbox_status (request->database_config_user ()->getIncludeRelatedPassages ()));
 
 
   // For users with lower than administrator access levels, they can replace

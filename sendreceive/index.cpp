@@ -133,7 +133,7 @@ string sendreceive_index (void * webserver_request)
     Database_Config_Bible::setRepeatSendReceive (bible, checked);
     return "";
   }
-  view.set_variable ("repeatbible", get_checkbox_status (Database_Config_Bible::getRepeatSendReceive (bible)));
+  view.set_variable ("repeatbible", filter::strings::get_checkbox_status (Database_Config_Bible::getRepeatSendReceive (bible)));
   
     
   if (sendreceive_git_repository_linked (bible)) {

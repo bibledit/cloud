@@ -144,7 +144,7 @@ string system_index (void * webserver_request)
     Database_Config_General::setAuthorInRssFeed (checked);
     return string();
   }
-  view.set_variable ("rssauthor", get_checkbox_status (Database_Config_General::getAuthorInRssFeed ()));
+  view.set_variable ("rssauthor", filter::strings::get_checkbox_status (Database_Config_General::getAuthorInRssFeed ()));
   // The location of the RSS feed.
   view.set_variable ("rssfeed", rss_feed_url ());
   // The Bibles that send their changes to the RSS feed.
@@ -331,7 +331,7 @@ string system_index (void * webserver_request)
     Database_Config_General::setKeepResourcesCacheForLong (checked);
     return "";
   }
-  view.set_variable ("keepcache", get_checkbox_status (Database_Config_General::getKeepResourcesCacheForLong ()));
+  view.set_variable ("keepcache", filter::strings::get_checkbox_status (Database_Config_General::getKeepResourcesCacheForLong ()));
 #endif
 
 

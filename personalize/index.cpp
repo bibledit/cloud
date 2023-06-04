@@ -198,9 +198,9 @@ string personalize_index (void * webserver_request)
   // Whether to display bread crumbs.
   if (checkbox == "breadcrumbs") {
     request->database_config_user ()->setDisplayBreadcrumbs (checked);
-    return get_reload ();
+    return filter::strings::get_reload ();
   }
-  view.set_variable ("breadcrumbs", get_checkbox_status (request->database_config_user ()->getDisplayBreadcrumbs ()));
+  view.set_variable ("breadcrumbs", filter::strings::get_checkbox_status (request->database_config_user ()->getDisplayBreadcrumbs ()));
 
   
   // Set the chosen theme on the option HTML tag.
@@ -234,9 +234,9 @@ string personalize_index (void * webserver_request)
   // Whether to keep the main menu always visible.
   if (checkbox == "menuvisible") {
     request->database_config_user ()->setMainMenuAlwaysVisible (checked);
-    return get_reload ();
+    return filter::strings::get_reload ();
   }
-  view.set_variable ("menuvisible", get_checkbox_status (request->database_config_user ()->getMainMenuAlwaysVisible ()));
+  view.set_variable ("menuvisible", filter::strings::get_checkbox_status (request->database_config_user ()->getMainMenuAlwaysVisible ()));
   
   
   // Whether to enable swipe actions.
@@ -244,7 +244,7 @@ string personalize_index (void * webserver_request)
     request->database_config_user ()->setSwipeActionsAvailable (checked);
     return "";
   }
-  view.set_variable ("swipeactions", get_checkbox_status(request->database_config_user ()->getSwipeActionsAvailable ()));
+  view.set_variable ("swipeactions", filter::strings::get_checkbox_status(request->database_config_user ()->getSwipeActionsAvailable ()));
   
   
   // Whether to enable fast Bible editor switching.
@@ -252,7 +252,7 @@ string personalize_index (void * webserver_request)
     request->database_config_user ()->setFastEditorSwitchingAvailable (checked);
     return string();
   }
-  view.set_variable ("fasteditorswitch", get_checkbox_status(request->database_config_user ()->getFastEditorSwitchingAvailable ()));
+  view.set_variable ("fasteditorswitch", filter::strings::get_checkbox_status(request->database_config_user ()->getFastEditorSwitchingAvailable ()));
 
   
   // Visual editors in the fast Bible editor switcher.
@@ -292,7 +292,7 @@ string personalize_index (void * webserver_request)
     request->database_config_user ()->setEnableStylesButtonVisualEditors (checked);
     return string();
   }
-  view.set_variable ("enablestylesbutton", get_checkbox_status(request->database_config_user ()->getEnableStylesButtonVisualEditors ()));
+  view.set_variable ("enablestylesbutton", filter::strings::get_checkbox_status(request->database_config_user ()->getEnableStylesButtonVisualEditors ()));
   
 
   // Change the active Bible.
@@ -326,16 +326,16 @@ string personalize_index (void * webserver_request)
   if (checkbox == "showchanges") {
     request->database_config_user ()->setMenuChangesInBasicMode (checked);
     menu_logic_tabbed_mode_save_json (webserver_request);
-    return get_reload ();
+    return filter::strings::get_reload ();
   }
-  view.set_variable ("showchanges", get_checkbox_status(request->database_config_user ()->getMenuChangesInBasicMode ()));
+  view.set_variable ("showchanges", filter::strings::get_checkbox_status(request->database_config_user ()->getMenuChangesInBasicMode ()));
 
   
   // Whether to put the controls for dismissing the change notifications at the top of the page.
   if (checkbox == "dismisschangesattop") {
     request->database_config_user ()->setDismissChangesAtTop (checked);
   }
-  view.set_variable ("dismisschangesattop", get_checkbox_status(request->database_config_user ()->getDismissChangesAtTop ()));
+  view.set_variable ("dismisschangesattop", filter::strings::get_checkbox_status(request->database_config_user ()->getDismissChangesAtTop ()));
   
   
   // Setting for whether to show the main menu in tabbed view in basic mode on phones and tablets.
@@ -345,7 +345,7 @@ string personalize_index (void * webserver_request)
   }
   if (menu_logic_can_do_tabbed_mode ()) {
     view.enable_zone ("tabs_possible");
-    view.set_variable ("mainmenutabs", get_checkbox_status(Database_Config_General::getMenuInTabbedViewOn ()));
+    view.set_variable ("mainmenutabs", filter::strings::get_checkbox_status(Database_Config_General::getMenuInTabbedViewOn ()));
   }
 
   
@@ -353,14 +353,14 @@ string personalize_index (void * webserver_request)
   if (checkbox == "quickeditnotecontents") {
     request->database_config_user ()->setQuickNoteEditLink (checked);
   }
-  view.set_variable ("quickeditnotecontents", get_checkbox_status(request->database_config_user ()->getQuickNoteEditLink ()));
+  view.set_variable ("quickeditnotecontents", filter::strings::get_checkbox_status(request->database_config_user ()->getQuickNoteEditLink ()));
 
   
   // Whether the list of consultation notes shows the Bible the note refers to.
   if (checkbox == "showbibleinnoteslist") {
     request->database_config_user ()->setShowBibleInNotesList (checked);
   }
-  view.set_variable ("showbibleinnoteslist", get_checkbox_status(request->database_config_user ()->getShowBibleInNotesList ()));
+  view.set_variable ("showbibleinnoteslist", filter::strings::get_checkbox_status(request->database_config_user ()->getShowBibleInNotesList ()));
   
   
   // Whether to display the note status in the notes list and the note display.
@@ -368,7 +368,7 @@ string personalize_index (void * webserver_request)
   // These two settings work together.
   if (checkbox == "shownotestatus") {
     request->database_config_user ()->setShowNoteStatus (checked);
-    return get_reload ();
+    return filter::strings::get_reload ();
   }
   if (checkbox == "colorednotetatus") {
     request->database_config_user ()->setUseColoredNoteStatusLabels (checked);
@@ -376,9 +376,9 @@ string personalize_index (void * webserver_request)
   {
     bool state = request->database_config_user ()->getShowNoteStatus ();
     if (state) view.enable_zone ("notestatuson");
-    view.set_variable ("shownotestatus", get_checkbox_status(state));
+    view.set_variable ("shownotestatus", filter::strings::get_checkbox_status(state));
   }
-  view.set_variable ("colorednotetatus", get_checkbox_status(request->database_config_user ()->getUseColoredNoteStatusLabels ()));
+  view.set_variable ("colorednotetatus", filter::strings::get_checkbox_status(request->database_config_user ()->getUseColoredNoteStatusLabels ()));
 
   
   // Whether to show the text of the focused Bible passage, while creating a new Consultation Note.
@@ -389,7 +389,7 @@ string personalize_index (void * webserver_request)
   if (checkbox == "showversetextcreatenote") {
     request->database_config_user ()->setShowVerseTextAtCreateNote (checked);
   }
-  view.set_variable ("showversetextcreatenote", get_checkbox_status(request->database_config_user ()->getShowVerseTextAtCreateNote ()));
+  view.set_variable ("showversetextcreatenote", filter::strings::get_checkbox_status(request->database_config_user ()->getShowVerseTextAtCreateNote ()));
   
   
   // Whether to disable the "Copy / Paste / SelectAll / ..." popup on Chrome OS.
@@ -398,7 +398,7 @@ string personalize_index (void * webserver_request)
   if (checkbox == "disableselectionpopupchromeos") {
     Database_Config_General::setDisableSelectionPopupChromeOS (checked);
   }
-  view.set_variable ("disableselectionpopupchromeos", get_checkbox_status(Database_Config_General::getDisableSelectionPopupChromeOS ()));
+  view.set_variable ("disableselectionpopupchromeos", filter::strings::get_checkbox_status(Database_Config_General::getDisableSelectionPopupChromeOS ()));
   if (config_globals_running_on_chrome_os) {
     view.enable_zone ("chromeos");
   }
@@ -421,14 +421,14 @@ string personalize_index (void * webserver_request)
   if (checkbox == "referencefromparatext") {
     request->database_config_user ()->setReceiveFocusedReferenceFromParatext (checked);
   }
-  view.set_variable ("referencefromparatext", get_checkbox_status(request->database_config_user ()->getReceiveFocusedReferenceFromParatext ()));
+  view.set_variable ("referencefromparatext", filter::strings::get_checkbox_status(request->database_config_user ()->getReceiveFocusedReferenceFromParatext ()));
 
   
   // Setting for whether to receive the focused reference from Accordance on macOS.
   if (checkbox == "referencefromaccordance") {
     request->database_config_user ()->setReceiveFocusedReferenceFromAccordance (checked);
   }
-  view.set_variable ("referencefromaccordance", get_checkbox_status(request->database_config_user ()->getReceiveFocusedReferenceFromAccordance ()));
+  view.set_variable ("referencefromaccordance", filter::strings::get_checkbox_status(request->database_config_user ()->getReceiveFocusedReferenceFromAccordance ()));
 
   
   // The date format to be used in the Consultation Notes.

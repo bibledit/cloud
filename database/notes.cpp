@@ -485,7 +485,7 @@ int Database_Notes::get_new_unique_identifier ()
 {
   int identifier = 0;
   do {
-    identifier = filter_string_rand (Notes_Logic::lowNoteIdentifier, Notes_Logic::highNoteIdentifier);
+    identifier = filter::strings::rand (Notes_Logic::lowNoteIdentifier, Notes_Logic::highNoteIdentifier);
   } while (identifier_exists (identifier));
   return identifier;
 }
@@ -1491,7 +1491,7 @@ void Database_Notes::update_search_fields (int identifier)
   // It enables us to search with wildcards before and after the search query.
   string noteSummary = get_summary (identifier);
   string noteContents = get_contents (identifier);
-  string cleanText = noteSummary + "\n" + filter_string_html2text (noteContents);
+  string cleanText = noteSummary + "\n" + filter::strings::html2text (noteContents);
   // Bail out if the search field is already up to date.
   if (cleanText == get_search_field (identifier)) return;
   // Update the field.

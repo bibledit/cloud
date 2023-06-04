@@ -229,9 +229,9 @@ void test_string ()
   {
     int floor = 100'000;
     int ceiling = 999'999;
-    int r1 = filter_string_rand (floor, ceiling);
+    int r1 = filter::strings::rand (floor, ceiling);
     if ((r1 < floor) || (r1 > ceiling)) evaluate (__LINE__, __func__, "Random generator out of bounds", filter::strings::convert_to_string (r1));
-    int r2 = filter_string_rand (floor, ceiling);
+    int r2 = filter::strings::rand (floor, ceiling);
     if ((r2 < floor) || (r2 > ceiling)) evaluate (__LINE__, __func__, "Random generator out of bounds", filter::strings::convert_to_string (r2));
     if (r1 == r2) evaluate (__LINE__, __func__, "Random generator should generate different values", filter::strings::convert_to_string (r1) + " " + filter::strings::convert_to_string (r2));
   }
@@ -246,7 +246,7 @@ void test_string ()
     "Text 1\n"
     "Text 2\n"
     "Text 3";
-    evaluate (__LINE__, __func__, plain, filter_string_html2text (html));
+    evaluate (__LINE__, __func__, plain, filter::strings::html2text (html));
   }
   {
     string html =
@@ -269,7 +269,7 @@ void test_string ()
     "Header 1\n"
     "Normal text again below the header.\n";
     html = filter::strings::any_space_to_standard_space (html);
-    html = filter_string_html2text (html);
+    html = filter::strings::html2text (html);
     evaluate (__LINE__, __func__, filter::strings::trim (plain), filter::strings::trim (html));
   }
   {
@@ -280,7 +280,7 @@ void test_string ()
     "\n";
     string plain =
     "test notes fourLogbook:";
-    evaluate (__LINE__, __func__, filter::strings::trim (plain), filter::strings::trim (filter_string_html2text (html)));
+    evaluate (__LINE__, __func__, filter::strings::trim (plain), filter::strings::trim (filter::strings::html2text (html)));
   }
   {
     string html =
@@ -293,17 +293,17 @@ void test_string ()
     "Line one.\n"
     "Line two.\n"
     "Line three.\n";
-    evaluate (__LINE__, __func__, filter::strings::trim (plain), filter::strings::trim (filter_string_html2text (html)));
+    evaluate (__LINE__, __func__, filter::strings::trim (plain), filter::strings::trim (filter::strings::html2text (html)));
   }
 
   // Email address extraction.
   {
-    evaluate (__LINE__, __func__, "foo@bar.eu", filter_string_extract_email ("Foo Bar <foo@bar.eu>"));
-    evaluate (__LINE__, __func__, "foo@bar.eu", filter_string_extract_email ("<foo@bar.eu>"));
-    evaluate (__LINE__, __func__, "foo@bar.eu", filter_string_extract_email ("foo@bar.eu"));
+    evaluate (__LINE__, __func__, "foo@bar.eu", filter::strings::extract_email ("Foo Bar <foo@bar.eu>"));
+    evaluate (__LINE__, __func__, "foo@bar.eu", filter::strings::extract_email ("<foo@bar.eu>"));
+    evaluate (__LINE__, __func__, "foo@bar.eu", filter::strings::extract_email ("foo@bar.eu"));
     
     string body = "body";
-    evaluate (__LINE__, __func__, body, filter_string_extract_body (body));
+    evaluate (__LINE__, __func__, body, filter::strings::extract_body (body));
     
     body =
     "\n"
@@ -319,7 +319,7 @@ void test_string ()
     "On Wed, 2011-03-02 at 08:26 +0100, Bibledit wrote:\n"
     "\n"
     ">    test notes three \n";
-    evaluate (__LINE__, __func__, "test", filter_string_extract_body (body, "2011", "Bibledit"));
+    evaluate (__LINE__, __func__, "test", filter::strings::extract_body (body, "2011", "Bibledit"));
   }
   
   // Word markup.

@@ -97,7 +97,7 @@ string read_load (void * webserver_request)
   
   // If the verse was empty, ensure that it has a non-breaking space as the last character,
   // for easier text entry in the verse.
-  string plain_text = filter_string_html2text (focused_verse_html);
+  string plain_text = filter::strings::html2text (focused_verse_html);
   plain_text = filter::strings::trim (plain_text);
   string vs = filter::strings::convert_to_string (verse);
   bool editable_verse_is_empty = plain_text == vs;

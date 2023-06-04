@@ -100,7 +100,7 @@ string notes_notes (void * webserver_request)
       }
       passage_sort_keys.push_back (passage_sort_key);
     }
-    quick_sort (passage_sort_keys, identifiers, 0, static_cast <unsigned> (identifiers.size ()));
+    filter::strings::quick_sort (passage_sort_keys, identifiers, 0, static_cast <unsigned> (identifiers.size ()));
   }
 
 

@@ -872,7 +872,7 @@ const char * filter_url_temp_dir ()
 // Returns the name of a temporary file.
 string filter_url_tempfile (const char * directory)
 {
-  string filename = filter::strings::convert_to_string (filter::date::seconds_since_epoch ()) + filter::strings::convert_to_string (filter::date::numerical_microseconds ()) + filter::strings::convert_to_string (filter_string_rand (10000000, 99999999));
+  string filename = filter::strings::convert_to_string (filter::date::seconds_since_epoch ()) + filter::strings::convert_to_string (filter::date::numerical_microseconds ()) + filter::strings::convert_to_string (filter::strings::rand (10000000, 99999999));
   if (directory) {
     filename = filter_url_create_path ({directory, filename});
   } else {
@@ -902,7 +902,7 @@ string filter_url_unique_path (string path)
     string uniquepath = path + "." + filter::strings::convert_to_string (i);
     if (!file_or_dir_exists (uniquepath)) return uniquepath;
   }
-  return path + "." + filter::strings::convert_to_string (filter_string_rand (100, 1000));
+  return path + "." + filter::strings::convert_to_string (filter::strings::rand (100, 1000));
 }
 
 

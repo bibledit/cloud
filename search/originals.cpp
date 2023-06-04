@@ -152,7 +152,7 @@ string search_originals (void * webserver_request)
       v_passages.push_back (passage);
       counts.push_back (count);
     }
-    quick_sort (counts, v_passages, 0, static_cast<unsigned> (counts.size()));
+    filter::strings::quick_sort (counts, v_passages, 0, static_cast<unsigned> (counts.size()));
     reverse (v_passages.begin(), v_passages.end());
 
     

@@ -183,10 +183,10 @@ string notes_actions (void * webserver_request)
   
 #ifdef HAVE_CLOUD
   view.enable_zone ("cloud");
-  view.set_variable ("public", get_checkbox_status (database_notes.get_public (id)));
+  view.set_variable ("public", filter::strings::get_checkbox_status (database_notes.get_public (id)));
 #endif
   // Roles of translator or higher can edit the public visibility of a note.
-  if (level < Filter_Roles::translator ()) view.set_variable(get_disabled(), get_disabled());
+  if (level < Filter_Roles::translator ()) view.set_variable(filter::strings::get_disabled(), filter::strings::get_disabled());
 
   
   view.set_variable ("success", success);

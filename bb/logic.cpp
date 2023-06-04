@@ -246,7 +246,7 @@ void bible_logic::import_resource (string bible, string resource)
         } while (server_is_installing_module && (wait_iterations < 5));
         
         // Remove all html markup.
-        html = filter_string_html2text (html);
+        html = filter::strings::html2text (html);
         html = filter::strings::replace ("\n", " ", html);
 
         // Add the verse to the USFM.

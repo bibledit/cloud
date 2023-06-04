@@ -45,7 +45,7 @@ void trash_consultation_note (void * webserver_request, int id)
   string passageText = filter_passage_display_inline (passages);
   string summary = database_notes.get_summary (id);
   string contents = database_notes.get_contents (id);
-  contents = filter_string_html2text (contents);
+  contents = filter::strings::html2text (contents);
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   string username = request->session_logic()->currentUser ();
   if (username.empty ()) username = "This app";

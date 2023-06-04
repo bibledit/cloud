@@ -230,7 +230,7 @@ string bible_settings (void * webserver_request)
   if (checkbox == "public") {
     if (write_access) Database_Config_Bible::setPublicFeedbackEnabled (bible, checked);
   }
-  view.set_variable ("public", get_checkbox_status (Database_Config_Bible::getPublicFeedbackEnabled (bible)));
+  view.set_variable ("public", filter::strings::get_checkbox_status (Database_Config_Bible::getPublicFeedbackEnabled (bible)));
 
   
  
@@ -242,7 +242,7 @@ string bible_settings (void * webserver_request)
       rss_logic_feed_on_off ();
     }
   }
-  view.set_variable ("rss", get_checkbox_status (Database_Config_Bible::getSendChangesToRSS (bible)));
+  view.set_variable ("rss", filter::strings::get_checkbox_status (Database_Config_Bible::getSendChangesToRSS (bible)));
 #endif
 
   
@@ -300,7 +300,7 @@ string bible_settings (void * webserver_request)
       }
     }
   }
-  view.set_variable ("checks", get_checkbox_status (Database_Config_Bible::getDailyChecksEnabled (bible)));
+  view.set_variable ("checks", filter::strings::get_checkbox_status (Database_Config_Bible::getDailyChecksEnabled (bible)));
 #endif
 
   

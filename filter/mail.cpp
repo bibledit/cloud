@@ -102,7 +102,7 @@ void filter_mail_dissect_internal (const MimeEntity& me, string& plaintext)
       // Remove headers.
       html = filter_mail_remove_headers_internal (html);
       // Convert the html to plain text.
-      plaintext = filter_string_html2text (html);
+      plaintext = filter::strings::html2text (html);
     }
     
     // Get transfer encoding.

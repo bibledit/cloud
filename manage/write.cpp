@@ -130,7 +130,7 @@ string manage_write (void * webserver_request)
     string checkboxname = "book" + filter::strings::convert_to_string (book);
     bool read, write;
     DatabasePrivileges::get_bible_book (user, bible, book, read, write);
-    string checked = get_checkbox_status (write);
+    string checked = filter::strings::get_checkbox_status (write);
     view.add_iteration ("write", { pair ("bookname", bookname), pair ("checkboxname", checkboxname), pair ("checked", checked) } );
   }
   

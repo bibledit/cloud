@@ -155,7 +155,7 @@ string changes_change (void * webserver_request)
     int timestap = database_notes.get_modified (note);
     timestamps.push_back (timestap);
   }
-  quick_sort (timestamps, notes, 0, static_cast <unsigned int> (notes.size ()));
+  filter::strings::quick_sort (timestamps, notes, 0, static_cast <unsigned int> (notes.size ()));
   reverse (notes.begin(), notes.end());
   
   

@@ -374,8 +374,8 @@ string resource_logic_cloud_get_comparison (void * webserver_request,
   update = resource_logic_get_html (webserver_request, update, book, chapter, verse, add_verse_numbers);
   
   // Clean all html elements away from the text to get a better and cleaner comparison.
-  base = filter_string_html2text (base);
-  update = filter_string_html2text(update);
+  base = filter::strings::html2text (base);
+  update = filter::strings::html2text(update);
   
   // It has been seen that one resource had a normal space, and the updated resource a non-breaking space.
   // In such a situation there was highlighting of differences between the two resources.
@@ -444,7 +444,7 @@ string resource_logic_cloud_get_translation (void * webserver_request,
   // Get the html of the resources to be translated.
   string original_text = resource_logic_get_html (webserver_request, original_resource, book, chapter, verse, add_verse_numbers);
   // Clean all html elements away from the text to get a better and cleaner translation.
-  original_text = filter_string_html2text (original_text);
+  original_text = filter::strings::html2text (original_text);
   
   // If the original text is empty, do not even send it to Google Translate, for saving resources.
   if (original_text.empty()) return string();
@@ -1248,7 +1248,7 @@ string resource_logic_bible_gateway_get (string resource, int book, int chapter,
             stringstream ss;
             xpath.node().print (ss, "", format_raw);
             string selected_html = ss.str ();
-            string footnote_text = filter_string_html2text (selected_html);
+            string footnote_text = filter::strings::html2text (selected_html);
             result.append ("<br>Note: ");
             result.append (footnote_text);
           }

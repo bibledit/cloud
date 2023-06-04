@@ -73,15 +73,12 @@ std::string unicode_string_str_replace (const std::string& search, const std::st
 #ifdef HAVE_ICU
 std::string icu_string_normalize (const std::string& s, const bool remove_diacritics, const bool casefold);
 #endif
-
-}
-
-int filter_string_rand (int floor, int ceiling);
-std::string filter_string_html2text (std::string html);
-std::string filter_string_extract_email (std::string input);
-std::string filter_string_extract_body (std::string input, std::string year = "", std::string sender = "");
-std::string get_checkbox_status (bool enabled);
-std::string get_disabled (bool disabled = true);
+int rand (const int floor, const int ceiling);
+std::string html2text (std::string html);
+std::string extract_email (std::string input);
+std::string extract_body (const std::string& input, const std::string year = "", const std::string sender = "");
+std::string get_checkbox_status (const bool enabled);
+std::string get_disabled (const bool disabled = true);
 std::string get_reload ();
 void quick_sort (std::vector <unsigned int>& one, std::vector <std::string>& two, unsigned int beg, unsigned int end);
 void quick_sort (std::vector <std::string>& one, std::vector <unsigned int>& two, unsigned int beg, unsigned int end);
@@ -93,6 +90,9 @@ void quick_sort (std::vector <std::string>& one, std::vector <bool>& two, unsign
 void quick_sort (std::vector <std::string>& one, unsigned int beg, unsigned int end);
 void quick_sort (std::vector <long unsigned int>& one, std::vector <long unsigned int>& two, unsigned int beg, unsigned int end);
 void quick_sort (std::vector <int> & one, std::vector <int> & two, unsigned int beg, unsigned int end);
+
+}
+
 std::string number_in_string (const std::string & str);
 std::string filter_string_markup_words (const std::vector <std::string>& words, std::string text);
 std::vector <std::string> filter_string_search_needles (std::string search, std::string text);

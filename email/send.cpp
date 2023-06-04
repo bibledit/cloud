@@ -237,7 +237,7 @@ string email_send ([[maybe_unused]] string to_mail,
   string site = from_mail;
   size_t pos = site.find ("@");
   if (pos != string::npos) site = site.substr (pos);
-  payload = "Message-ID: <" + md5 (filter::strings::convert_to_string (filter_string_rand (0, 1000000))) + site + ">\n";
+  payload = "Message-ID: <" + md5 (filter::strings::convert_to_string (filter::strings::rand (0, 1000000))) + site + ">\n";
   payload_text.push_back (payload);
   payload = "Subject: " + subject + "\n";
   payload_text.push_back (payload);

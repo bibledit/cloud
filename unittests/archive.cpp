@@ -52,7 +52,7 @@ void test_archive ()
 
   for (int i = 0; i < 5; i++) {
     string path = filter_url_create_path ({directory, "testdata" + filter::strings::convert_to_string (i)});
-    string data = filter::strings::convert_to_string (filter_string_rand (1000000, 2000000));
+    string data = filter::strings::convert_to_string (filter::strings::rand (1000000, 2000000));
     for (int i2 = 0; i2 <= i; i2++) data.append (data);
     filter_url_file_put_contents (path, data);
     path = filter_url_create_path ({directory, filter::strings::convert_to_string (i), filter::strings::convert_to_string (i)});

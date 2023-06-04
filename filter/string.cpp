@@ -829,16 +829,6 @@ std::string icu_string_normalize (const std::string& s, const bool remove_diacri
 #endif
 
 
-
-
-
-
-} // Namespace.
-
-
-using namespace std; // Todo working here moving the below into another namespace.
-
-
 // Some code for when it's necessary to find out if text is alphabetic.
 //#include <unicode/uchar.h>
 //#include <unicode/unistr.h>
@@ -939,49 +929,49 @@ using namespace std; // Todo working here moving the below into another namespac
 
 
 // Generate a truly random number between $floor and $ceiling.
-int filter_string_rand (int floor, int ceiling)
+int rand (const int floor, const int ceiling)
 {
-  int range = ceiling - floor;
-  int r = config_globals_int_distribution (config_globals_random_engine) % range + floor;
+  const int range = ceiling - floor;
+  const int r = config_globals_int_distribution (config_globals_random_engine) % range + floor;
   return r;
 }
 
 
-string filter_string_html2text (string html)
+std::string html2text (std::string html)
 {
   // Clean the html up.
-  html = filter::strings::replace ("\n", string(), html);
-
+  html = replace ("\n", std::string(), html);
+  
   // The output text.
-  string text {};
-
+  std::string text {};
+  
   // Keep going while the html contains the < character.
   size_t pos {html.find ("<")};
-  while (pos != string::npos) {
+  while (pos != std::string::npos) {
     // Add the text before the <.
     text.append (html.substr (0, pos));
     html = html.substr (pos + 1);
     // Certain tags start new lines.
-    string tag1 {filter::strings::unicode_string_casefold (html.substr (0, 1))};
-    string tag2 {filter::strings::unicode_string_casefold (html.substr (0, 2))};
-    string tag3 {filter::strings::unicode_string_casefold (html.substr (0, 3))};
+    const std::string tag1 {filter::strings::unicode_string_casefold (html.substr (0, 1))};
+    const std::string tag2 {filter::strings::unicode_string_casefold (html.substr (0, 2))};
+    const std::string tag3 {filter::strings::unicode_string_casefold (html.substr (0, 3))};
     if  ((tag1 == "p")
-      || (tag3 == "div")
-      || (tag2 == "li")
-      || (tag3 == "/ol")
-      || (tag3 == "/ul")
-      || (tag2 == "h1")
-      || (tag2 == "h2")
-      || (tag2 == "h3")
-      || (tag2 == "h4")
-      || (tag2 == "h5")
-      || (tag2 == "br")
-       ) {
+         || (tag3 == "div")
+         || (tag2 == "li")
+         || (tag3 == "/ol")
+         || (tag3 == "/ul")
+         || (tag2 == "h1")
+         || (tag2 == "h2")
+         || (tag2 == "h3")
+         || (tag2 == "h4")
+         || (tag2 == "h5")
+         || (tag2 == "br")
+         ) {
       text.append ("\n");
     }
     // Clear text out till the > character.
     pos = html.find (">");
-    if (pos != string::npos) {
+    if (pos != std::string::npos) {
       html = html.substr (pos + 1);
     }
     // Next iteration.
@@ -989,11 +979,11 @@ string filter_string_html2text (string html)
   }
   // Add any remaining bit of text.
   text.append (html);
-
+  
   // Replace xml entities with their text.
   text = filter::strings::unescape_special_xml_characters (text);
-
-  while (text.find ("\n\n") != string::npos) {
+  
+  while (text.find ("\n\n") != std::string::npos) {
     text = filter::strings::replace ("\n\n", "\n", text);
   }
   text = filter::strings::trim (text);
@@ -1006,17 +996,17 @@ string filter_string_html2text (string html)
 // input: foo@bar.nl
 // Returns: foo@bar.nl
 // If there is no valid email, it returns false.
-string filter_string_extract_email (string input)
+std::string extract_email (std::string input)
 {
   size_t pos = input.find ("<");
-  if (pos != string::npos) {
+  if (pos != std::string::npos) {
     input = input.substr (pos + 1);
   }
   pos = input.find (">");
-  if (pos != string::npos) {
+  if (pos != std::string::npos) {
     input = input.substr (0, pos);
   }
-  string email = input;
+  std::string email {input};
   if (!filter_url_email_is_valid (email)) email.clear();
   return email;
 }
@@ -1027,54 +1017,54 @@ string filter_string_extract_email (string input)
 // If year and sender are given, it also removes lines that contain both strings.
 // This is used to remove lines like:
 // On Wed, 2011-03-02 at 08:26 +0100, Bibledit wrote:
-string filter_string_extract_body (string input, string year, string sender)
+std::string extract_body (const std::string& input, std::string year, std::string sender)
 {
-  vector <string> inputlines = filter::strings::explode (input, '\n');
-  if (inputlines.empty ()) return "";
-  vector <string> body;
-  for (string & line : inputlines) {
-    string trimmed = filter::strings::trim (line);
-    if (trimmed == "") continue;
+  const std::vector <std::string> inputlines {filter::strings::explode (input, '\n')};
+  if (inputlines.empty ()) return std::string();
+  std::vector <std::string> body {};
+  for (const auto& line : inputlines) {
+    const std::string trimmed {filter::strings::trim (line)};
+    if (trimmed.empty()) continue;
     if (trimmed.find (">") == 0) continue;
-    if ((year != "") && (sender != "")) {
-      if (trimmed.find (year) != string::npos) {
-        if (trimmed.find (sender) != string::npos) {
+    if ((!year.empty()) && (!sender.empty())) {
+      if (trimmed.find (year) != std::string::npos) {
+        if (trimmed.find (sender) != std::string::npos) {
           continue;
         }
       }
     }
     body.push_back (line);
   }
-  string bodystring = filter::strings::implode (body, "\n");
-  bodystring = filter::strings::trim (bodystring);
+  std::string bodystring = filter::strings::implode (body, "\n");
+  bodystring = trim (bodystring);
   return bodystring;
 }
 
 
 // Returns an appropriate value.
-string get_checkbox_status (bool enabled)
+std::string get_checkbox_status (const bool enabled)
 {
   if (enabled) return "checked";
   return "";
 }
 
 
-string get_disabled (bool disabled)
+std::string get_disabled (const bool disabled)
 {
   if (disabled) return "disabled";
-  return string();
+  return std::string();
 }
 
 
-string get_reload ()
+std::string get_reload ()
 {
-  return string("reload");
+  return "reload";
 }
 
 
-void quick_swap(string & a, string & b)
+void quick_swap(std::string& a, std::string & b)
 {
-  string t = a;
+  std::string t {a};
   a = b;
   b = t;
 }
@@ -1082,7 +1072,7 @@ void quick_swap(string & a, string & b)
 
 void quick_swap(unsigned int &a, unsigned int &b)
 {
-  unsigned int t = a;
+  unsigned int t {a};
   a = b;
   b = t;
 }
@@ -1090,7 +1080,7 @@ void quick_swap(unsigned int &a, unsigned int &b)
 
 void quick_swap(long unsigned int &a, long unsigned int &b)
 {
-  long unsigned int t = a;
+  long unsigned int t {a};
   a = b;
   b = t;
 }
@@ -1098,7 +1088,7 @@ void quick_swap(long unsigned int &a, long unsigned int &b)
 
 void quick_swap(int &a, int &b)
 {
-  int t = a;
+  int t {a};
   a = b;
   b = t;
 }
@@ -1106,7 +1096,7 @@ void quick_swap(int &a, int &b)
 
 void quick_swap(bool & a, bool & b)
 {
-  bool t = a;
+  bool t {a};
   a = b;
   b = t;
 }
@@ -1116,7 +1106,7 @@ void quick_swap(bool & a, bool & b)
 // as the majority of sort functions do, but it accepts two containers.
 // It sorts on the first, and reorders the second container at the same time,
 // following the reordering done in the first container.
-void quick_sort (vector <unsigned int>& one, vector <string> &two, unsigned int beg, unsigned int end)
+void quick_sort (std::vector <unsigned int>& one, std::vector <std::string>& two, unsigned int beg, unsigned int end)
 {
   if (end > beg + 1) {
     unsigned int piv = one[beg];
@@ -1140,10 +1130,10 @@ void quick_sort (vector <unsigned int>& one, vector <string> &two, unsigned int 
 }
 
 
-void quick_sort(vector < string > &one, vector < unsigned int >&two, unsigned int beg, unsigned int end)
+void quick_sort(std::vector<std::string>& one, std::vector<unsigned int>& two, unsigned int beg, unsigned int end)
 {
   if (end > beg + 1) {
-    string piv = one[beg];
+    std::string piv = one[beg];
     unsigned int l = beg + 1;
     unsigned int r = end;
     while (l < r) {
@@ -1164,7 +1154,7 @@ void quick_sort(vector < string > &one, vector < unsigned int >&two, unsigned in
 }
 
 
-void quick_sort(vector < unsigned int >&one, vector < unsigned int >&two, unsigned int beg, unsigned int end)
+void quick_sort(std::vector<unsigned int>& one, std::vector<unsigned int>& two, unsigned int beg, unsigned int end)
 {
   if (end > beg + 1) {
     unsigned int piv = one[beg];
@@ -1188,7 +1178,7 @@ void quick_sort(vector < unsigned int >&one, vector < unsigned int >&two, unsign
 }
 
 
-void quick_sort (vector<unsigned int>& one, vector<bool>& two, unsigned int beg, unsigned int end)
+void quick_sort (std::vector<unsigned int>& one, std::vector<bool>& two, unsigned int beg, unsigned int end)
 {
   if (end > beg + 1) {
     unsigned int piv = one[beg];
@@ -1220,7 +1210,7 @@ void quick_sort (vector<unsigned int>& one, vector<bool>& two, unsigned int beg,
 }
 
 
-void quick_sort(vector < int >&one, vector < unsigned int >&two, unsigned int beg, unsigned int end)
+void quick_sort(std::vector<int>& one, std::vector<unsigned int>& two, unsigned int beg, unsigned int end)
 {
   if (end > beg + 1) {
     int piv = one[beg];
@@ -1238,15 +1228,15 @@ void quick_sort(vector < int >&one, vector < unsigned int >&two, unsigned int be
     --l;
     quick_swap(one[l], one[beg]);
     quick_swap(two[l], two[beg]);
-    quick_sort(one, two, beg, l);
-    quick_sort(one, two, r, end);
+    filter::strings::quick_sort(one, two, beg, l);
+    filter::strings::quick_sort(one, two, r, end);
   }
 }
 
-void quick_sort(vector < string > &one, vector < string > &two, unsigned int beg, unsigned int end)
+void quick_sort(std::vector<std::string>& one, std::vector<std::string>& two, unsigned int beg, unsigned int end)
 {
   if (end > beg + 1) {
-    string piv = one[beg];
+    std::string piv = one[beg];
     unsigned int l = beg + 1;
     unsigned int r = end;
     while (l < r) {
@@ -1267,10 +1257,10 @@ void quick_sort(vector < string > &one, vector < string > &two, unsigned int beg
 }
 
 
-void quick_sort(vector < string > &one, vector < bool > &two, unsigned int beg, unsigned int end)
+void quick_sort(std::vector<std::string>& one, std::vector<bool>& two, unsigned int beg, unsigned int end)
 {
   if (end > beg + 1) {
-    string piv = one[beg];
+    std::string piv = one[beg];
     unsigned int l = beg + 1;
     unsigned int r = end;
     while (l < r) {
@@ -1299,10 +1289,10 @@ void quick_sort(vector < string > &one, vector < bool > &two, unsigned int beg, 
 }
 
 
-void quick_sort(vector < string > &one, unsigned int beg, unsigned int end)
+void quick_sort (std::vector<std::string>& one, unsigned int beg, unsigned int end)
 {
   if (end > beg + 1) {
-    string piv = one[beg];
+    std::string piv = one[beg];
     unsigned int l = beg + 1;
     unsigned int r = end;
     while (l < r) {
@@ -1321,7 +1311,7 @@ void quick_sort(vector < string > &one, unsigned int beg, unsigned int end)
 }
 
 
-void quick_sort(vector <long unsigned int>& one, vector <long unsigned int>& two, unsigned int beg, unsigned int end)
+void quick_sort (std::vector<long unsigned int>& one, std::vector <long unsigned int>& two, unsigned int beg, unsigned int end)
 {
   if (end > beg + 1) {
     long unsigned int piv = one[beg];
@@ -1345,7 +1335,7 @@ void quick_sort(vector <long unsigned int>& one, vector <long unsigned int>& two
 }
 
 
-void quick_sort (vector <int> & one, vector <int> & two, unsigned int beg, unsigned int end)
+void quick_sort (std::vector<int>& one, std::vector<int>& two, unsigned int beg, unsigned int end)
 {
   if (end > beg + 1) {
     int piv = one[beg];
@@ -1367,6 +1357,16 @@ void quick_sort (vector <int> & one, vector <int> & two, unsigned int beg, unsig
     quick_sort(one, two, r, end);
   }
 }
+
+
+
+
+
+
+} // Namespace.
+
+
+using namespace std; // Todo working here moving the below into another namespace.
 
 
 #define MY_NUMBERS "0123456789"

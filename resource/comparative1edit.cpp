@@ -209,9 +209,9 @@ string resource_comparative1edit (void * webserver_request)
   view.set_variable ("update", update);
   view.set_variable ("remove", remove);
   view.set_variable ("replace", replace);
-  view.set_variable ("diacritics", get_checkbox_status (diacritics));
-  view.set_variable ("casefold", get_checkbox_status (casefold));
-  view.set_variable ("cache", get_checkbox_status (cache));
+  view.set_variable ("diacritics", filter::strings::get_checkbox_status (diacritics));
+  view.set_variable ("casefold", filter::strings::get_checkbox_status (casefold));
+  view.set_variable ("cache", filter::strings::get_checkbox_status (cache));
   page += view.render ("resource", "comparative1edit");
   page += assets_page::footer ();
   return page;

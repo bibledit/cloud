@@ -190,7 +190,7 @@ string session_signup ([[maybe_unused]] void * webserver_request)
   verification.passage  = translate("I am Hosea son of Beeri.");
   verifications.push_back (verification);
 
-  size_t question_number = static_cast<size_t>(filter_string_rand (0, 20));
+  size_t question_number = static_cast<size_t>(filter::strings::rand (0, 20));
   view.set_variable ("question", verifications[question_number].question);
   view.set_variable ("passage", verifications[question_number].passage);
   // The form has a hidden text entry. This text entry stores the right answer to the questions.

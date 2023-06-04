@@ -78,67 +78,67 @@ string user_notifications (void * webserver_request)
     database_config_user.setSubscribeToConsultationNotesEditedByMe (checked);
     return "";
   }
-  view.set_variable ("editednotessubscription", get_checkbox_status (database_config_user.getSubscribeToConsultationNotesEditedByMe ()));
+  view.set_variable ("editednotessubscription", filter::strings::get_checkbox_status (database_config_user.getSubscribeToConsultationNotesEditedByMe ()));
 
   if (checkbox == "anynotessubscription") {
     database_config_user.setNotifyMeOfAnyConsultationNotesEdits (checked);
     return "";
   }
-  view.set_variable ("anynotessubscription", get_checkbox_status (database_config_user.getNotifyMeOfAnyConsultationNotesEdits ()));
+  view.set_variable ("anynotessubscription", filter::strings::get_checkbox_status (database_config_user.getNotifyMeOfAnyConsultationNotesEdits ()));
 
   if (checkbox == "emailconfirmationyourposts") {
     database_config_user.setNotifyMeOfMyPosts (checked);
     return "";
   }
-  view.set_variable ("emailconfirmationyourposts", get_checkbox_status (database_config_user.getNotifyMeOfMyPosts ()));
+  view.set_variable ("emailconfirmationyourposts", filter::strings::get_checkbox_status (database_config_user.getNotifyMeOfMyPosts ()));
 
   if (checkbox == "subscribednotenotification") {
     database_config_user.setSubscribedConsultationNoteNotification (checked);
     return "";
   }
-  view.set_variable ("subscribednotenotification", get_checkbox_status (database_config_user.getSubscribedConsultationNoteNotification ()));
+  view.set_variable ("subscribednotenotification", filter::strings::get_checkbox_status (database_config_user.getSubscribedConsultationNoteNotification ()));
 
   if (checkbox == "notesassignment") {
     database_config_user.setAssignedToConsultationNotesChanges (checked);
     return "";
   }
-  view.set_variable ("notesassignment", get_checkbox_status (database_config_user.getAssignedToConsultationNotesChanges ()));
+  view.set_variable ("notesassignment", filter::strings::get_checkbox_status (database_config_user.getAssignedToConsultationNotesChanges ()));
   
   if (checkbox == "assignednotenotification") {
     database_config_user.setAssignedConsultationNoteNotification (checked);
     return "";
   }
-  view.set_variable ("assignednotenotification", get_checkbox_status (database_config_user.getAssignedConsultationNoteNotification ()));
+  view.set_variable ("assignednotenotification", filter::strings::get_checkbox_status (database_config_user.getAssignedConsultationNoteNotification ()));
   
   if (checkbox == "suppressemailsfromnotesyouupdated") {
     database_config_user.setSuppressMailFromYourUpdatesNotes (checked);
     return "";
   }
-  view.set_variable ("suppressemailsfromnotesyouupdated", get_checkbox_status (database_config_user.getSuppressMailFromYourUpdatesNotes ()));
+  view.set_variable ("suppressemailsfromnotesyouupdated", filter::strings::get_checkbox_status (database_config_user.getSuppressMailFromYourUpdatesNotes ()));
 
   if (checkbox == "assignednotesnotification") {
     database_config_user.setAssignedNotesStatisticsNotification (checked);
     return "";
   }
-  view.set_variable ("assignednotesnotification", get_checkbox_status (database_config_user.getAssignedNotesStatisticsNotification ()));
+  view.set_variable ("assignednotesnotification", filter::strings::get_checkbox_status (database_config_user.getAssignedNotesStatisticsNotification ()));
 
   if (checkbox == "subscribednotesnotification") {
     database_config_user.setSubscribedNotesStatisticsNotification (checked);
     return "";
   }
-  view.set_variable ("subscribednotesnotification", get_checkbox_status (database_config_user.getSubscribedNotesStatisticsNotification ()));
+  view.set_variable ("subscribednotesnotification", filter::strings::get_checkbox_status (database_config_user.getSubscribedNotesStatisticsNotification ()));
 
   if (checkbox == "deletednotenotification") {
     database_config_user.setDeletedConsultationNoteNotification (checked);
     return "";
   }
-  view.set_variable ("deletednotenotification", get_checkbox_status (database_config_user.getDeletedConsultationNoteNotification ()));
+  view.set_variable ("deletednotenotification", filter::strings::get_checkbox_status (database_config_user.getDeletedConsultationNoteNotification ()));
 
   if (checkbox == "postponenewnotesmails") {
     database_config_user.setPostponeNewNotesMails (checked);
     return "";
   }
-  view.set_variable ("postponenewnotesmails", get_checkbox_status (database_config_user.getPostponeNewNotesMails ()));
+  view.set_variable ("postponenewnotesmails", filter::strings::get_checkbox_status (database_config_user.getPostponeNewNotesMails ()));
 
   string user = request->session_logic ()->currentUser ();
   vector <string> all_assignees = database_noteassignment.assignees (user);
@@ -156,7 +156,7 @@ string user_notifications (void * webserver_request)
   for (auto assignee : all_assignees) {
     map <string, string> values;
     values ["user"] = assignee;
-    values ["assign"] = get_checkbox_status (in_array (assignee, current_assignees));
+    values ["assign"] = filter::strings::get_checkbox_status (in_array (assignee, current_assignees));
     view.add_iteration ("autoassign", values);
   }
   
@@ -164,37 +164,37 @@ string user_notifications (void * webserver_request)
     database_config_user.setBibleChangesNotification (checked);
     return "";
   }
-  view.set_variable ("anyonechangesemailnotification", get_checkbox_status (database_config_user.getBibleChangesNotification ()));
+  view.set_variable ("anyonechangesemailnotification", filter::strings::get_checkbox_status (database_config_user.getBibleChangesNotification ()));
 
   if (checkbox == "anyonechangesonlinenotifications") {
     database_config_user.setGenerateChangeNotifications (checked);
     return "";
   }
-  view.set_variable ("anyonechangesonlinenotifications", get_checkbox_status (database_config_user.getGenerateChangeNotifications ()));
+  view.set_variable ("anyonechangesonlinenotifications", filter::strings::get_checkbox_status (database_config_user.getGenerateChangeNotifications ()));
 
   if (checkbox == "pendingchangenotifications") {
     database_config_user.setPendingChangesNotification (checked);
     return "";
   }
-  view.set_variable ("pendingchangenotifications", get_checkbox_status (database_config_user.getPendingChangesNotification ()));
+  view.set_variable ("pendingchangenotifications", filter::strings::get_checkbox_status (database_config_user.getPendingChangesNotification ()));
   
   if (checkbox == "mychangesemailnotifications") {
     database_config_user.setUserChangesNotification (checked);
     return "";
   }
-  view.set_variable ("mychangesemailnotifications", get_checkbox_status (database_config_user.getUserChangesNotification ()));
+  view.set_variable ("mychangesemailnotifications", filter::strings::get_checkbox_status (database_config_user.getUserChangesNotification ()));
   
   if (checkbox == "mychangesonlinenotifications") {
     database_config_user.setUserChangesNotificationsOnline (checked);
     return "";
   }
-  view.set_variable ("mychangesonlinenotifications", get_checkbox_status (database_config_user.getUserChangesNotificationsOnline ()));
+  view.set_variable ("mychangesonlinenotifications", filter::strings::get_checkbox_status (database_config_user.getUserChangesNotificationsOnline ()));
 
   if (checkbox == "contributorschangesonlinenotifications") {
     database_config_user.setContributorChangesNotificationsOnline (checked);
     return "";
   }
-  view.set_variable ("contributorschangesonlinenotifications", get_checkbox_status (database_config_user.getContributorChangesNotificationsOnline ()));
+  view.set_variable ("contributorschangesonlinenotifications", filter::strings::get_checkbox_status (database_config_user.getContributorChangesNotificationsOnline ()));
 
   // Setting per user for which Bibles the user will receive change notifications.
   // The set of Bibles the user can choose
@@ -216,7 +216,7 @@ string user_notifications (void * webserver_request)
     for (const auto & bible : bibles) {
       map <string, string> values;
       values ["bible"] = bible;
-      values ["checked"] = get_checkbox_status (in_array (bible, currentbibles));
+      values ["checked"] = filter::strings::get_checkbox_status (in_array (bible, currentbibles));
       view.add_iteration ("changenotificationbible", values);
     }
   }
@@ -225,13 +225,13 @@ string user_notifications (void * webserver_request)
     database_config_user.setBibleChecksNotification (checked);
     return "";
   }
-  view.set_variable ("biblechecksnotification", get_checkbox_status (database_config_user.getBibleChecksNotification ()));
+  view.set_variable ("biblechecksnotification", filter::strings::get_checkbox_status (database_config_user.getBibleChecksNotification ()));
 
   if (checkbox == "sprintprogressnotification") {
     database_config_user.setSprintProgressNotification (checked);
     return "";
   }
-  view.set_variable ("sprintprogressnotification", get_checkbox_status (database_config_user.getSprintProgressNotification ()));
+  view.set_variable ("sprintprogressnotification", filter::strings::get_checkbox_status (database_config_user.getSprintProgressNotification ()));
   
 #ifdef HAVE_CLIENT
   view.enable_zone ("client");

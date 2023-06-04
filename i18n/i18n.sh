@@ -73,7 +73,9 @@ if [ $? -ne 0 ]; then exit; fi
 
 echo Transfer translatable strings from the html files to a C++ file.
 g++ -std=c++17 -I. -I.. i18n/i18n.cpp
+if [ $? -ne 0 ]; then exit; fi
 ./a.out
+if [ $? -ne 0 ]; then exit; fi
 rm a.out
 
 
@@ -83,13 +85,13 @@ echo Cleaning up raw string literals.
 # string script = R"(
 # <div id="defid" style="clear:both"></div>
 # )";
-sed -i.bak '/R"(/,/)";/d' lexicon/logic.cpp
-sed -i.bak '/R"(/,/)";/d' bb/book.cpp
-sed -i.bak '/R"(/,/)";/d' menu/logic.cpp
-sed -i.bak '/R"(/,/)";/d' filter/string.cpp
-sed -i.bak '/R"(/,/)";/d' resource/logic.cpp
-sed -i.bak '/R"(/,/)";/d' resource/logic.cpp
-sed -i.bak '/R"(/,/)";/d' i18n/i18n.cpp
+#sed -i.bak '/R"(/,/)";/d' lexicon/logic.cpp
+#sed -i.bak '/R"(/,/)";/d' bb/book.cpp
+#sed -i.bak '/R"(/,/)";/d' menu/logic.cpp
+#sed -i.bak '/R"(/,/)";/d' filter/string.cpp
+#sed -i.bak '/R"(/,/)";/d' resource/logic.cpp
+#sed -i.bak '/R"(/,/)";/d' resource/logic.cpp
+#sed -i.bak '/R"(/,/)";/d' i18n/i18n.cpp
 
 
 echo Create a temporal file containing all the files for internationalization.
@@ -102,7 +104,7 @@ rm -f /tmp/bibledit.pot
 
 
 echo Extracting translatable strings and storing them in bibledit.pot
-xgettext --files-from=gettextfiles.txt --default-domain=bibledit --force-po --copyright-holder="Teus Benschop" -o /tmp/bibledit.pot --from-code=UTF-8 --no-location --keyword=translate --language=C
+xgettext --files-from=gettextfiles.txt --default-domain=bibledit --force-po --copyright-holder="Teus Benschop" -o /tmp/bibledit.pot --from-code=UTF-8 --no-location --keyword=translate --language=C++
 if [ $? -ne 0 ]; then exit; fi
 
 
@@ -158,7 +160,7 @@ sed -i.bak '/X-Launchpad-Export-Date/d' ~/dev/cloud/locale/*.po ~/dev/cloud/loca
 if [ $? -ne 0 ]; then exit; fi
 rm ~/dev/cloud/locale/*.bak
 # Remove temporal .pot.
-rm /tmp/bibledit.pot
+# rm /tmp/bibledit.pot
 
 
 echo Remember to bump the version number so it reloads the localization database.

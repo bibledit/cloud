@@ -13,7 +13,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Launchpad (build 26a6866b96cbe27080a0dd50a67efeae15dd1018)\n"
+"X-Generator: Launchpad (build b826c8bc42f0c41016fa141bf50faee47f7ecd80)\n"
 
 msgid "Has been sending and receiving during the past hour"
 msgstr ""
@@ -1159,10 +1159,10 @@ msgstr "Endereço de e-mail:"
 msgid "The following email was sent to this user:"
 msgstr "O seguinte e-mail foi enviado para este usuário:"
 
-msgid "Back"
+msgid "Go back or long-press to show history"
 msgstr ""
 
-msgid "Forward"
+msgid "Go forward or long-press to show history"
 msgstr ""
 
 msgid "Select book"
@@ -5437,6 +5437,10 @@ msgstr ""
 msgid "Resource Organizer"
 msgstr ""
 
+msgid ""
+"You can reorder the resources below by holding, then dragging and dropping."
+msgstr ""
+
 msgid "Number of verses to display before the focused verse:"
 msgstr ""
 
@@ -6365,9 +6369,6 @@ msgstr ""
 msgid "Show from the Word where this is the case."
 msgstr ""
 
-msgid "bibledit"
-msgstr ""
-
 msgid "Licenses"
 msgstr ""
 
@@ -6885,19 +6886,28 @@ msgid ""
 msgstr ""
 
 msgid ""
-"Normally, when going to the Consultation Notes, you will see a list of "
-"notes. It would say, for example: Displaying notes 1 - 5 / 5. This means "
-"that it would display notes 1 to 5, out of 5 notes total."
+"Normally, when going to the Consultation Notes, you will see a list of notes."
+msgstr ""
+
+msgid "It would say, for example: Displaying notes 1 - 5 / 5."
+msgstr ""
+
+msgid "This means that it would display notes 1 to 5, out of 5 notes total."
+msgstr ""
+
+msgid "You can edit the display."
 msgstr ""
 
 msgid ""
-"You can edit the display. That means that you can edit the number of notes "
-"that will display in that list."
+"That means that you can edit the number of notes that will display in that "
+"list."
+msgstr ""
+
+msgid "Clicking [edit] takes you to a new page, called Edit Notes Display."
 msgstr ""
 
 msgid ""
-"Clicking [edit] takes you to a new page, called Edit Notes Display. This "
-"enables you to edit how the notes will be displayed, and how many."
+"This enables you to edit how the notes will be displayed, and how many."
 msgstr ""
 
 msgid "The first thing that you can edit is how many notes will be selected."
@@ -6905,36 +6915,57 @@ msgstr ""
 
 msgid ""
 "If you select notes that refer to any passage, then notes will be selected "
-"that refer to any passage, from Genesis to Revelation. But when you select "
-"notes that refer to the current verse, then only those notes will be "
-"selected that refer to the currently opened verse. In case you have Genesis "
-"2.2 open in the navigator, then only notes that refer to that particular "
-"verse are displayed."
+"that refer to any passage, from Genesis to Revelation."
+msgstr ""
+
+msgid ""
+"But when you select notes that refer to the current verse, then only those "
+"notes will be selected that refer to the currently opened verse."
+msgstr ""
+
+msgid ""
+"In case you have Genesis 2.2 open in the navigator, then only notes that "
+"refer to that particular verse are displayed."
 msgstr ""
 
 msgid ""
 "If you select notes that have been edited at any time, then all notes would "
-"be selected. But when you select notes that have been edited on Today, then "
-"only today's notes are displayed."
+"be selected."
+msgstr ""
+
+msgid ""
+"But when you select notes that have been edited on Today, then only today's "
+"notes are displayed."
 msgstr ""
 
 msgid ""
 "The note selection mechanism combines all selection methods that have been "
-"set. If you select notes that refer to the current verse, for example, and "
-"that have been edited today, and only those notes that both refer to the "
-"current verse, and that also have been edited today, are displayed."
+"set."
 msgstr ""
 
 msgid ""
-"There are other notes selection mechanisms as well. See the relevant page "
-"for all selection mechanisms. Things should be plain and there should be no "
-"need for any further information."
+"If you select notes that refer to the current verse, for example, and that "
+"have been edited today, and only those notes that both refer to the current "
+"verse, and that also have been edited today, are displayed."
+msgstr ""
+
+msgid "There are other notes selection mechanisms as well."
+msgstr ""
+
+msgid "See the relevant page for all selection mechanisms."
+msgstr ""
+
+msgid ""
+"Things should be plain and there should be no need for any further "
+"information."
 msgstr ""
 
 msgid ""
 "One thing that would need explanation would be the mechanism that selects "
-"notes that contain certain text. This is intended to be used to search notes "
-"for text."
+"notes that contain certain text."
+msgstr ""
+
+msgid "This is intended to be used to search notes for text."
 msgstr ""
 
 msgid ""
@@ -6944,41 +6975,94 @@ msgstr ""
 
 msgid ""
 "Searching for text can be done by selecting notes that contain specific "
-"words or text. When you select this option, you will see that an entry "
-"becomes visible. Search text should be entered there. Then the Save button "
-"should be pressed. This is to save that search text. Or just pressing Enter "
-"while the cursor is in that entry will do also."
+"words or text."
+msgstr ""
+
+msgid ""
+"When you select this option, you will see that an entry becomes visible."
+msgstr ""
+
+msgid "Search text should be entered there."
+msgstr ""
+
+msgid "Then the Save button should be pressed."
+msgstr ""
+
+msgid "This is to save that search text."
+msgstr ""
+
+msgid ""
+" Or just pressing Enter while the cursor is in that entry will do also."
 msgstr ""
 
 msgid ""
 "When you search for, for example, 'house', then notes that contain the word "
-"'house' will be selected. Notes that contain the word 'houses' (in plural) "
-"would not be selected. To select this plural form, you can use wildcards. "
-"Instead of entering 'house, enter 'house*' Notice the asterisk. This will "
-"select notes that contains the word 'house' or 'houses."
+"'house' will be selected."
 msgstr ""
 
 msgid ""
-"You can also enter two or more words to search for. The search routine will "
-"then do its best to select these notes that contain some or all of these "
-"words. Notes that contain all words are given first, and notes that contains "
-"only one or a few of the words will be given later."
+"Notes that contain the word 'houses' (in plural) would not be selected."
+msgstr ""
+
+msgid "To select this plural form, you can use wildcards."
+msgstr ""
+
+msgid "Instead of entering 'house, enter 'house*'."
+msgstr ""
+
+msgid "Notice the asterisk."
+msgstr ""
+
+msgid "This will select notes that contains the word 'house' or 'houses."
+msgstr ""
+
+msgid "You can also enter two or more words to search for."
+msgstr ""
+
+msgid ""
+"The search routine will then do its best to select these notes that contain "
+"some or all of these words."
+msgstr ""
+
+msgid ""
+"Notes that contain all words are given first, and notes that contains only "
+"one or a few of the words will be given later."
 msgstr ""
 
 msgid ""
 "If you select notes that refer to the current verse, and then also search "
 "for some text, then only the notes that refer to the current verse would be "
-"searched. It is important to be aware of this. At times one may search for "
-"words or phrases, and get zero results, yet he is sure that there should be "
-"some results. This would happen because the user does not search the whole "
-"Bible, but only the current verse. The same applies to other selection "
-"mechanisms. Therefore, when searching notes for text, you may want to set "
-"all other selection mechanisms to Any."
+"searched."
+msgstr ""
+
+msgid "It is important to be aware of this."
 msgstr ""
 
 msgid ""
-"There is more that can be said about searching notes. The wildcard operator "
-"already has been mentioned. Here is a list of possible operators:"
+"At times one may search for words or phrases, and get zero results, yet he "
+"is sure that there should be some results."
+msgstr ""
+
+msgid ""
+"This would happen because the user does not search the whole Bible, but only "
+"the current verse."
+msgstr ""
+
+msgid "The same applies to other selection mechanisms."
+msgstr ""
+
+msgid ""
+"Therefore, when searching notes for text, you may want to set all other "
+"selection mechanisms to Any."
+msgstr ""
+
+msgid "There is more that can be said about searching notes."
+msgstr ""
+
+msgid "The wildcard operator already has been mentioned."
+msgstr ""
+
+msgid "Here is a list of possible operators:"
 msgstr ""
 
 msgid ""
@@ -6998,18 +7082,36 @@ msgstr ""
 
 msgid ""
 "A leading tilde acts as a negation operator, causing the word's contribution "
-"to the result relevance to be negative. It's useful for marking noise words. "
+"to the result relevance to be negative."
+msgstr ""
+
+msgid "It's useful for marking noise words."
+msgstr ""
+
+msgid ""
 "A result that contains such a word will be rated lower than others, but will "
 "not be excluded altogether, as it would be with the minus operator."
 msgstr ""
 
+msgid "An asterisk is the wildcard operator."
+msgstr ""
+
 msgid ""
-"An asterisk is the wildcard operator. Unlike the other operators, it is "
-"appended to the word, or fragment, not prepended. This means that if there "
-"is a note with the word 'house', and you search for '*ouse', this note will "
-"not be selected. Yes, this is unusual, but this is how the database search "
-"works. To minimize the pain of this, measures have been taken that if you "
-"type any part of the word, the expected result will still be found."
+"Unlike the other operators, it is appended to the word, or fragment, not "
+"prepended."
+msgstr ""
+
+msgid ""
+"This means that if there is a note with the word 'house', and you search for "
+"'*ouse', this note will not be selected."
+msgstr ""
+
+msgid "Yes, this is unusual, but this is how the database search works."
+msgstr ""
+
+msgid ""
+"To minimize the pain of this, measures have been taken that if you type any "
+"part of the word, the expected result will still be found."
 msgstr ""
 
 msgid ""
@@ -7017,10 +7119,15 @@ msgid ""
 "that contain the complete phrase, as it was typed."
 msgstr ""
 
+msgid "Each note can be assigned to somebody."
+msgstr ""
+
 msgid ""
-"Each note can be assigned to somebody. The person to whom the note is "
-"assigned then knows that action should be taken on this note. Or the person "
-"can be automatically emailed if the note gets changed."
+"The person to whom the note is assigned then knows that action should be "
+"taken on this note."
+msgstr ""
+
+msgid "Or the person can be automatically emailed if the note gets changed."
 msgstr ""
 
 msgid "The Consultation Notes can partly be operated by email."
@@ -7028,19 +7135,41 @@ msgstr ""
 
 msgid ""
 "When you receive an email from Bibledit, and this email contains a "
-"Consultation Note, then you can reply to this email. Your reply will be "
-"added as a comment to this particular Consultation Note."
+"Consultation Note, then you can reply to this email."
+msgstr ""
+
+msgid ""
+"Your reply will be added as a comment to this particular Consultation Note."
 msgstr ""
 
 msgid ""
 "The reply should come from the email address which you registered with "
-"Bibledit when you created your  account. The reply should also have "
-"(CSID123456789) in the subject line. The number 123456789 is a Consultation "
-"Note Identifier. It is different for every Note. Just replying to a "
-"Consultation Note you received is usually all that is needed. Only replies "
-"that are typed before the quoted text are considered. This is called top-"
-"posting. When the quoted text gets posted too, then it is necessary to "
-"remove that from your email reply."
+"Bibledit when you created your  account."
+msgstr ""
+
+msgid "The reply should also have (CSID123456789) in the subject line."
+msgstr ""
+
+msgid "The number 123456789 is a Consultation Note Identifier."
+msgstr ""
+
+msgid "It is different for every Note."
+msgstr ""
+
+msgid ""
+"Just replying to a Consultation Note you received is usually all that is "
+"needed."
+msgstr ""
+
+msgid "Only replies that are typed before the quoted text are considered."
+msgstr ""
+
+msgid "This is called top-posting."
+msgstr ""
+
+msgid ""
+"When the quoted text gets posted too, then it is necessary to remove that "
+"from your email reply."
 msgstr ""
 
 msgid "You can also submit a new Consultation Note by email."
@@ -7049,9 +7178,12 @@ msgstr ""
 msgid "This is how to do it:"
 msgstr ""
 
+msgid "Create a new email to the site's email address."
+msgstr ""
+
 msgid ""
-"Create a new email to the site's email address. The subject line contains "
-"'New note', then the passage, and finally the summary."
+"The subject line contains 'New note', then the passage, and finally the "
+"summary."
 msgstr ""
 
 msgid "The body of the email will be the first comment on that note."
@@ -7084,7 +7216,7 @@ msgstr ""
 msgid "Bibledit software"
 msgstr ""
 
-msgid "Copyright (©) 2003-2022 Teus Benschop."
+msgid "Copyright (©) 2003-2023 Teus Benschop."
 msgstr ""
 
 msgid ""
@@ -9043,7 +9175,7 @@ msgstr ""
 msgid "Install Bibledit Cloud on CentOS"
 msgstr ""
 
-msgid "Follow the steps below to install Bibledit Cloud on CentOS 7 and 8."
+msgid "Follow the steps below to install Bibledit Cloud on CentOS 9."
 msgstr ""
 
 msgid "It needs basic knowledge about working with CentOS Server."
@@ -9052,33 +9184,13 @@ msgstr ""
 msgid "Update the software sources:"
 msgstr ""
 
-msgid "For CentOS 7 install and activate a newer compiler:"
+msgid "Install and enable extra package repositories:"
 msgstr ""
 
 msgid "Install the software Bibledit relies on:"
 msgstr ""
 
-msgid "Download the most recent mimetic library from"
-msgstr ""
-
-msgid "Unpack the downloaded mimetic library:"
-msgstr ""
-
-msgid "Change to the directory:"
-msgstr ""
-
-msgid "Build and install the mimetic library:"
-msgstr ""
-
-msgid "This takes a while."
-msgstr ""
-
-msgid ""
-"There will be many technical messages and warnings, but there should be no "
-"errors."
-msgstr ""
-
-msgid "Go back to the home directory:"
+msgid "Go to the home directory:"
 msgstr ""
 
 msgid "Download a recent version of Bibledit from"
@@ -9087,13 +9199,16 @@ msgstr ""
 msgid "Unpack the downloaded Bibledit in folder bibledit:"
 msgstr ""
 
+msgid "Change to the directory:"
+msgstr ""
+
 msgid "Build Bibledit:"
 msgstr ""
 
-msgid "There will be many technical messages, but there should be no errors."
+msgid "This takes a while."
 msgstr ""
 
-msgid "For CentOS 7 deactivate the previously activated compiler:"
+msgid "There will be many technical messages, but there should be no errors."
 msgstr ""
 
 msgid "Open port 8080 in the firewall:"
@@ -9383,10 +9498,10 @@ msgstr ""
 msgid "Accessing Bibledit Cloud through a Tor browser."
 msgstr ""
 
-msgid "This file refers to a configuration path."
+msgid "Configuration"
 msgstr ""
 
-msgid "This path is:"
+msgid "Here is more information about how to configure Bibledit Cloud."
 msgstr ""
 
 msgid "Install Bibledit on macOS"

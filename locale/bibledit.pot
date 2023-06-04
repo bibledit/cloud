@@ -1804,7 +1804,7 @@ msgstr ""
 msgid "Please enter a marker at which the endnotes should be dumped"
 msgstr ""
 
-msgid "(The marker is to be given without the backslash, e.g. "
+msgid "The marker is to be given without the backslash, e.g. \"zendnotes\"."
 msgstr ""
 
 msgid "Styles"
@@ -1897,9 +1897,6 @@ msgid "There were no installed resources to make an archive from."
 msgstr ""
 
 msgid "Install some resources on the device, and try again."
-msgstr ""
-
-msgid ": "
 msgstr ""
 
 msgid "Google Translate"
@@ -2122,6 +2119,138 @@ msgid "Adding a comment to the note cancels the deletion."
 msgstr ""
 
 msgid "unassign"
+msgstr ""
+
+msgid "Login"
+msgstr ""
+
+msgid "Read"
+msgstr ""
+
+msgid "User resources"
+msgstr ""
+
+msgid "Advanced search"
+msgstr ""
+
+msgid "Advanced replace"
+msgstr ""
+
+msgid "Search all Bibles and notes"
+msgstr ""
+
+msgid "Search Bible for similar verses"
+msgstr ""
+
+msgid "Search Bible for similar Strong's numbers"
+msgstr ""
+
+msgid "Search Bible for Strong's number"
+msgstr ""
+
+msgid "Search Bible for similar Hebrew or Greek words"
+msgstr ""
+
+msgid "Print"
+msgstr ""
+
+msgid "Planning"
+msgstr ""
+
+msgid "Hyphenate"
+msgstr ""
+
+msgid "Develop"
+msgstr ""
+
+msgid "Export"
+msgstr ""
+
+msgid "Mail"
+msgstr ""
+
+msgid "Cloud"
+msgstr ""
+
+msgid "Basic mode"
+msgstr ""
+
+msgid "USFM"
+msgstr ""
+
+msgid "Images"
+msgstr ""
+
+msgid "SWORD"
+msgstr ""
+
+msgid "User-defined"
+msgstr ""
+
+msgid "Comparative"
+msgstr ""
+
+msgid "Translated"
+msgstr ""
+
+msgid "Help and About"
+msgstr ""
+
+msgid "Translate"
+msgstr ""
+
+msgid "Tools"
+msgstr ""
+
+msgid "Help"
+msgstr ""
+
+msgid "Logout"
+msgstr ""
+
+msgid "Image resources"
+msgstr ""
+
+msgid "Users"
+msgstr ""
+
+msgid "Versifications"
+msgstr ""
+
+msgid "Select stylesheet"
+msgstr ""
+
+msgid "Edit stylesheet"
+msgstr ""
+
+msgid "Menu"
+msgstr ""
+
+msgid "Both the visual chapter and visual verse editors"
+msgstr ""
+
+msgid "Only the visual chapter editor"
+msgstr ""
+
+msgid "Only the visual verse editor"
+msgstr ""
+
+msgid "Hide"
+msgstr ""
+
+msgid "Show"
+msgstr ""
+
+msgid "Chapter editor"
+msgstr ""
+
+msgid "Verse editor"
+msgstr ""
+
+msgid "USFM editor"
+msgstr ""
+
+msgid "dot"
 msgstr ""
 
 msgid "colon"
@@ -2578,9 +2707,6 @@ msgstr ""
 msgid "Bibledit always sends the focused verse reference to Accordance."
 msgstr ""
 
-msgid "Visit alkitabkita.info for more information."
-msgstr ""
-
 msgid "Date format in consultation notes"
 msgstr ""
 
@@ -2811,9 +2937,6 @@ msgid "The upload may take some time."
 msgstr ""
 
 msgid "This can be done in Bibledit Cloud."
-msgstr ""
-
-msgid "Help"
 msgstr ""
 
 msgid "This page helps with importing Bible text."
@@ -3930,9 +4053,6 @@ msgstr ""
 msgid "Background color"
 msgstr ""
 
-msgid "Print"
-msgstr ""
-
 msgid "Note numbering"
 msgstr ""
 
@@ -4721,9 +4841,6 @@ msgstr ""
 msgid "There are more export formats through the BibleMultiConverter."
 msgstr ""
 
-msgid "Users"
-msgstr ""
-
 msgid "Privileges"
 msgstr ""
 
@@ -4766,6 +4883,30 @@ msgstr ""
 msgid "You can manage the accounts."
 msgstr ""
 
+msgid "Common Settings"
+msgstr ""
+
+msgid "New user default access level:"
+msgstr ""
+
+msgid "Change default privileges for:"
+msgstr ""
+
+msgid "Guest"
+msgstr ""
+
+msgid "Member"
+msgstr ""
+
+msgid "Consultant"
+msgstr ""
+
+msgid "Translator"
+msgstr ""
+
+msgid "Manager"
+msgstr ""
+
 msgid "You can set the privileges for the user."
 msgstr ""
 
@@ -4785,6 +4926,9 @@ msgid "Can delete consultation notes."
 msgstr ""
 
 msgid "Can use advanced mode in Cloud."
+msgstr ""
+
+msgid "Can apply stylesheets."
 msgstr ""
 
 msgid "Go back."
@@ -4819,9 +4963,6 @@ msgid "Original language texts"
 msgstr ""
 
 msgid "Bibles and notes"
-msgstr ""
-
-msgid "Image resources"
 msgstr ""
 
 msgid "Lexicons"
@@ -5175,6 +5316,21 @@ msgid ""
 "You can reorder the resources below by holding, then dragging and dropping."
 msgstr ""
 
+msgid ""
+"The administrator has defined a selection of resources. Would you like to:"
+msgstr ""
+
+msgid "Replace your current resource selection with the admin's selection."
+msgstr ""
+
+msgid ""
+"WARNING! This will erase your current selection and give you the default "
+"selection."
+msgstr ""
+
+msgid "Add the admin's selection to the bottom of your current selection."
+msgstr ""
+
 msgid "Number of verses to display before the focused verse:"
 msgstr ""
 
@@ -5185,6 +5341,12 @@ msgid "Display related passages"
 msgstr ""
 
 msgid "Install all the above resources on the device."
+msgstr ""
+
+msgid "Default Resource Organizer"
+msgstr ""
+
+msgid "As an administrator, you can organize default resources for your team."
 msgstr ""
 
 msgid ""
@@ -5301,9 +5463,6 @@ msgstr ""
 msgid "Enter task completion categories."
 msgstr ""
 
-msgid "Menu"
-msgstr ""
-
 msgid "chapters"
 msgstr ""
 
@@ -5358,9 +5517,6 @@ msgid ""
 msgstr ""
 
 msgid "I understand it and want to disconnect from the Cloud."
-msgstr ""
-
-msgid "Mail"
 msgstr ""
 
 msgid "This page deals with setting up the email system."
@@ -5495,9 +5651,6 @@ msgid "To do that, edit the data below, and then submit it."
 msgstr ""
 
 msgid "It will overwrite whatever was there before."
-msgstr ""
-
-msgid "Versifications"
 msgstr ""
 
 msgid "This lists the currently available versification systems."
@@ -8125,12 +8278,6 @@ msgstr ""
 msgid "In Bibledit, go to this menu:"
 msgstr ""
 
-msgid "Tools"
-msgstr ""
-
-msgid "Hyphenate"
-msgstr ""
-
 msgid "Enter the first set of characters, and the second set, and save it."
 msgstr ""
 
@@ -9187,17 +9334,6 @@ msgstr ""
 msgid "If you would like this assistance, post a message to:"
 msgstr ""
 
-msgid "OpenLDAP"
-msgstr ""
-
-msgid ""
-"It is possible to enable an external OpenLDAP server for user authentication."
-msgstr ""
-
-msgid ""
-"The following file in the Bibledit installation provides more information:"
-msgstr ""
-
 msgid "Security"
 msgstr ""
 
@@ -9535,9 +9671,6 @@ msgid "Clicking them updates the Passage Navigator."
 msgstr ""
 
 msgid "Username or email address:"
-msgstr ""
-
-msgid "Login"
 msgstr ""
 
 msgid "Forgot password?"
@@ -11596,6 +11729,9 @@ msgstr ""
 msgid "Cannot remove the last administrator"
 msgstr ""
 
+msgid "The default new user is changed."
+msgstr ""
+
 msgid "Please enter a name for the new user"
 msgstr ""
 
@@ -11651,9 +11787,6 @@ msgid "No first set of characters given"
 msgstr ""
 
 msgid "No second set of characters given"
-msgstr ""
-
-msgid "Export"
 msgstr ""
 
 msgid "The export has been removed."
@@ -11800,21 +11933,6 @@ msgstr ""
 msgid "Administrator"
 msgstr ""
 
-msgid "Manager"
-msgstr ""
-
-msgid "Translator"
-msgstr ""
-
-msgid "Consultant"
-msgstr ""
-
-msgid "Member"
-msgstr ""
-
-msgid "Guest"
-msgstr ""
-
 msgid "A translator added chapter"
 msgstr ""
 
@@ -11891,9 +12009,6 @@ msgid "This job is not available to you."
 msgstr ""
 
 msgid "The job is scheduled to start shortly."
-msgstr ""
-
-msgid "User resources"
 msgstr ""
 
 msgid "Please enter a name for the new user-defined resource"
@@ -12429,10 +12544,10 @@ msgstr ""
 msgid "The priest Joshua son of Jozadak."
 msgstr ""
 
-msgid "Who's Nebuchadnezzar?"
+msgid "Who's the king of Babylonia, that captures Israel?"
 msgstr ""
 
-msgid "The king of Babylonia"
+msgid "Nebuchadnezzar"
 msgstr ""
 
 msgid ""
@@ -12440,26 +12555,24 @@ msgid ""
 "captured by Nebuchadnezzar, the king of Babylonia."
 msgstr ""
 
-msgid "Who's Cyrus?"
-msgstr ""
-
-msgid "King of Babylonia"
-msgstr ""
-
-msgid "They also said that during the first year Cyrus was king of Babylonia."
+msgid ""
+"Who prospered in the reign of Darius, and in the reign of Cyrus the Persian?"
 msgstr ""
 
 msgid ""
-"For how many days does Jesus appeared to the disciples after he rose from "
-"the dead?"
+"So this Daniel prospered in the reign of Darius, and in the reign of Cyrus "
+"the Persian."
 msgstr ""
 
-msgid "40"
+msgid "Who's Abram's brother's son?"
+msgstr ""
+
+msgid "Lot"
 msgstr ""
 
 msgid ""
-"For 40 days after Jesus had suffered and died, he proved in many ways that "
-"he had been raised from death."
+"And they took Lot, Abram's brother's son, who dwelt in Sodom, and his goods, "
+"and departed."
 msgstr ""
 
 msgid "Who wrote Song of Songs?"

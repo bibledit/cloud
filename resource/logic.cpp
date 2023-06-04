@@ -383,8 +383,8 @@ string resource_logic_cloud_get_comparison (void * webserver_request,
   // So the question would come up like:
   // Why does it highlight a difference while there seems to be no difference?
   // The solution is to convert types of non-breaking spaces to normal ones.
-  base = any_space_to_standard_space (base);
-  update = any_space_to_standard_space(update);
+  base = filter::strings::any_space_to_standard_space (base);
+  update = filter::strings::any_space_to_standard_space(update);
 
   // If characters are given to remove from the resources, handle that situation now.
   if (!remove.empty()) {
@@ -417,8 +417,8 @@ string resource_logic_cloud_get_comparison (void * webserver_request,
   // To handle such a situation, remove the diacritics.
   // Similarly to not mark small letters versus capitals as a difference, do case folding.
 #ifdef HAVE_ICU
-  base = icu_string_normalize (base, diacritics, casefold);
-  update = icu_string_normalize (update, diacritics, casefold);
+  base = filter::strings::icu_string_normalize (base, diacritics, casefold);
+  update = filter::strings::icu_string_normalize (update, diacritics, casefold);
 #endif
 
   // Find the differences.
@@ -599,7 +599,7 @@ void resource_logic_import_images (string resource, string path)
     paths.erase (paths.begin());
     string basename = filter_url_basename (path);
     string extension = filter_url_get_extension (path);
-    extension = unicode_string_casefold (extension);
+    extension = filter::strings::unicode_string_casefold (extension);
 
     if (extension == "pdf") {
       
@@ -711,8 +711,8 @@ string resource_logic_get_divider (string resource)
   string background;
   if (resource_logic_parse_rich_divider (resource, title, link, foreground, background)) {
     // Trim whitespace.
-    title = filter_string_trim(title);
-    link = filter_string_trim(link);
+    title = filter::strings::trim(title);
+    link = filter::strings::trim(link);
     // Render a rich divider.
     if (title.empty ()) title = link;
     // The $ influences the resource's embedding through Javascript.
@@ -735,7 +735,7 @@ string resource_logic_get_divider (string resource)
   } else {
     // Render the standard fixed dividers.
     vector <string> bits = filter::strings::explode (resource, ' ');
-    string colour = unicode_string_casefold (bits [0]);
+    string colour = filter::strings::unicode_string_casefold (bits [0]);
     // The $ influences the resource's embedding through Javascript.
     string html = R"($<div class="divider" style="background-color:)" + colour + R"(">&nbsp;</div>)";
     return html;
@@ -1259,7 +1259,7 @@ string resource_logic_bible_gateway_get (string resource, int book, int chapter,
   result = filter::strings::replace (unicode_non_breaking_space_entity (), " ", result);
   result = filter::strings::replace (" ", " ", result); // Make special space visible.
   result = filter_string_collapse_whitespace (result);
-  result = filter_string_trim (result);
+  result = filter::strings::trim (result);
 #endif
 #ifdef HAVE_CLIENT
   result = resource_logic_client_fetch_cache_from_cloud (resource, book, chapter, verse);
@@ -1450,7 +1450,7 @@ vector <string> resource_logic_easy_english_bible_pages (int book, int chapter)
     case 18: return { "job-lbw" }; // Job.
     case 19: // Psalms.
     {
-      string number = filter_string_fill (filter::strings::convert_to_string (chapter), 3, '0');
+      string number = filter::strings::fill (filter::strings::convert_to_string (chapter), 3, '0');
       return { "psalm" + number + "-taw" };
     }
     case 20: return { "proverbs-lbw" }; // Proverbs.
@@ -1645,7 +1645,7 @@ string resource_logic_easy_english_bible_get (int book, int chapter, int verse)
       paragraph_node.traverse(tree_walker);
 
       // Clean the text and skip empty text.
-      string paragraph = filter_string_trim (tree_walker.text);
+      string paragraph = filter::strings::trim (tree_walker.text);
       if (paragraph.empty()) continue;
 
       // Check for whether the chapter indicates that

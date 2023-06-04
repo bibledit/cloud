@@ -233,7 +233,7 @@ string sync_bibles (void * webserver_request)
     case Sync_Logic::bibles_get_chapter:
     {
       // The server responds with the USFM of the chapter, prefixed by a checksum.
-      string usfm = filter_string_trim (request->database_bibles()->getChapter (bible, book, chapter));
+      string usfm = filter::strings::trim (request->database_bibles()->getChapter (bible, book, chapter));
       string checksum = checksum_logic::get (usfm);
       return checksum + "\n" + usfm;
     }

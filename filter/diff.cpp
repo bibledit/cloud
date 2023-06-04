@@ -104,7 +104,7 @@ string filter_diff_diff (string oldstring, string newstring,
   string html = filter::strings::implode (output, " ");
   
   // Restore the new lines.
-  html = filter::strings::replace (filter_string_trim (newline), "\n", html);
+  html = filter::strings::replace (filter::strings::trim (newline), "\n", html);
   
   return html;
 }
@@ -185,7 +185,7 @@ void filter_diff_diff_utf16 (const vector<string> & oldinput, const vector<strin
     char indicator = line.front ();
     line.erase (0, 1);
     // Get the size of the character in UTF-16, whether 1 or 2.
-    string utf8 = unicode_string_substr (line, 0, 1);
+    string utf8 = filter::strings::unicode_string_substr (line, 0, 1);
     u16string utf16 = filter::strings::convert_to_u16string (utf8);
     size_t size = utf16.length();
     if (indicator == '+') {
@@ -367,7 +367,7 @@ void filter_diff_produce_verse_level (string bible, string directory)
       vector <int> new_verse_numbers = filter::usfm::get_verse_numbers (new_chapter_usfm);
       vector <int> verses = old_verse_numbers;
       verses.insert (verses.end (), new_verse_numbers.begin (), new_verse_numbers.end ());
-      verses = array_unique (verses);
+      verses = filter::strings::array_unique (verses);
       sort (verses.begin(), verses.end());
       for (auto verse : verses) {
         string old_verse_text = filter::usfm::get_verse_text (old_chapter_usfm, verse);

@@ -80,7 +80,7 @@ string search_strongs (void * webserver_request)
       searchtext += ")";
     }
     
-    searchtext = filter_string_trim (searchtext);
+    searchtext = filter::strings::trim (searchtext);
     
     return searchtext;
   }
@@ -89,7 +89,7 @@ string search_strongs (void * webserver_request)
   if (request->query.count ("words")) {
     
     string s_words {request->query ["words"]};
-    s_words = filter_string_trim (s_words);
+    s_words = filter::strings::trim (s_words);
     const vector <string> words {filter::strings::explode (s_words, ' ')};
     
     // Include items if there are no more search hits than 30% of the total number of verses in the KJV.

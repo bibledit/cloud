@@ -74,17 +74,17 @@ string resource_user1edit (void * webserver_request)
     int count = 0;
     int bookcount = 0;
     for (auto line : lines) {
-      line = filter_string_trim (line);
+      line = filter::strings::trim (line);
       if (line.empty ()) continue;
       if (count == 0) {
         Database_UserResources::url (name, line);
       } else {
         vector <string> bits = filter::strings::explode (line, '=');
         if (bits.size () == 2) {
-          string english = filter_string_trim (bits [0]);
+          string english = filter::strings::trim (bits [0]);
           book_id id = database::books::get_id_from_english (english);
           if (id != book_id::_unknown) {
-            string fragment = filter_string_trim (bits [1]);
+            string fragment = filter::strings::trim (bits [1]);
             Database_UserResources::book (name, static_cast<int>(id), fragment);
             bookcount++;
           } else {

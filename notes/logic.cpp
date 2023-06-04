@@ -616,12 +616,12 @@ bool Notes_Logic::handleEmailNew (string from, string subject, string body)
   // Store the original subject.
   string originalSubject = subject;
   // Check that the subject indicates that a new consultation note is to be created.
-  size_t pos = unicode_string_casefold (subject).find ("new note");
+  size_t pos = filter::strings::unicode_string_casefold (subject).find ("new note");
   if (pos == string::npos) return false;
   // There is a new note. Remove that bit from the subject.
   if (pos > 0) subject.erase (0, pos + 8);
   // Clean the subject line.
-  subject = filter_string_trim (subject);
+  subject = filter::strings::trim (subject);
   subject = filter::strings::replace (".", " ", subject);
   subject = filter::strings::replace (":", " ", subject);
   subject = filter_string_collapse_whitespace (subject);
@@ -735,7 +735,7 @@ void notes_logic_maintain_note_assignees (bool force)
       }
     }
 
-    assignees = array_unique (assignees);
+    assignees = filter::strings::array_unique (assignees);
     database_noteassignment.assignees (user, assignees);
   }
 }

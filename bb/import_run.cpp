@@ -50,7 +50,7 @@ void bible_import_run (string location, string bible, int book, int chapter)
     string error_message {};
     string data = filter_url_file_get_contents (file);
     if (!data.empty()) {
-      if (unicode_string_is_valid (data)) {
+      if (filter::strings::unicode_string_is_valid (data)) {
         
         // Check whether this is USFM data.
         bool id = data.find ("\\id ") != string::npos;
@@ -112,7 +112,7 @@ void bible_import_text (string text, string bible, int book, int chapter)
   for (size_t i = 0; i < lines.size(); i++) {
     
     // Trim the line.
-    lines[i] = filter_string_trim (lines[i]);
+    lines[i] = filter::strings::trim (lines[i]);
     
     // Skip empty line.
     if (lines[i].empty())
@@ -150,7 +150,7 @@ void bible_import_text (string text, string bible, int book, int chapter)
     if (discoveries_passed) {
       if (number_in_string(lines[i]).empty()) {
         string last_character = lines[i].substr(lines[i].length() -1, 1);
-        if (unicode_string_is_punctuation (last_character)) {
+        if (filter::strings::unicode_string_is_punctuation (last_character)) {
           lines[i].insert(0, "\\p ");
         } else {
           lines[i].insert(0, "\\s ");
@@ -196,7 +196,7 @@ void bible_import_text (string text, string bible, int book, int chapter)
           output.append (number);
           output.append (" ");
           lines[i].erase (0, number.length());
-          lines[i] = filter_string_trim (lines[i]);
+          lines[i] = filter::strings::trim (lines[i]);
           number = number_in_string(lines[i]);
           // Setting for discovering only first number in a paragraph.
           if (verses_at_start) {

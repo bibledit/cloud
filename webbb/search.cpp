@@ -64,7 +64,7 @@ string webbible_search (void * webserver_request)
 
   
   // Clean the query string up.
-  queryString = filter_string_trim (queryString);
+  queryString = filter::strings::trim (queryString);
   
   
   // Generate search words for emphasizing the search hits.
@@ -100,7 +100,7 @@ string webbible_search (void * webserver_request)
     
     // The title.
     string title = bible + " | " + filter_passage_display (book, chapter, verse);
-    title = escape_special_xml_characters (title);
+    title = filter::strings::escape_special_xml_characters (title);
     
     
     // The URL.

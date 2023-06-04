@@ -72,7 +72,7 @@ string notes_summary (void * webserver_request)
   
   
   string summary = database_notes.get_summary (id);
-  view.set_variable ("summary", escape_special_xml_characters (summary));
+  view.set_variable ("summary", filter::strings::escape_special_xml_characters (summary));
 
   
   page += view.render ("notes", "summary");

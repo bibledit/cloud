@@ -264,7 +264,7 @@ string email_send ([[maybe_unused]] string to_mail,
   payload_text.push_back ("<body>\n");
   vector <string> bodylines = filter::strings::explode (body, '\n');
   for (auto & line : bodylines) {
-    if (filter_string_trim (line).empty ()) payload_text.push_back (" ");
+    if (filter::strings::trim (line).empty ()) payload_text.push_back (" ");
     else payload_text.push_back (line);
     payload_text.push_back ("\n");
   }

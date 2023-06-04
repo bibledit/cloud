@@ -65,7 +65,7 @@ void export_bibledropbox (string user, string bible)
     for (auto chapter : chapters) {
       // Get the USFM code for the current chapter.
       string usfm = database_bibles.getChapter (bible, book, chapter);
-      usfm = filter_string_trim (usfm);
+      usfm = filter::strings::trim (usfm);
       // Add the chapter USFM code to the book's USFM code.
       bookdata.append (usfm);
       bookdata.append ("\n");

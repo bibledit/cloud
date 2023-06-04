@@ -77,11 +77,11 @@ Filter_Text::~Filter_Text ()
 void Filter_Text::add_usfm_code (string usfm)
 {
   // Check that the USFM is valid UTF-8.
-  if (!unicode_string_is_valid (usfm)) {
+  if (!filter::strings::unicode_string_is_valid (usfm)) {
     Database_Logs::log (translate ("Exporting invalid UTF-8.") + " " + translate ("Please check.") + " " + usfm);
   }
   // Clean the USFM.
-  usfm = filter_string_trim (usfm);
+  usfm = filter::strings::trim (usfm);
   usfm += "\n";
   // Sort the USFM code out and separate it into markers and text.
   vector <string> markers_and_text = filter::usfm::get_markers_and_text (usfm);
@@ -151,7 +151,7 @@ void Filter_Text::get_usfm_next_chapter ()
   while (unprocessed_usfm_code_available ()) {
     string item = m_usfm_markers_and_text [usfm_markers_and_text_ptr];
     if (!firstLine) {
-      if (filter_string_trim (item) == (R"(\)" + chapterMarker)) {
+      if (filter::strings::trim (item) == (R"(\)" + chapterMarker)) {
         return;
       }
     }
@@ -203,7 +203,7 @@ void Filter_Text::pre_process_usfm ()
     for (chapter_usfm_markers_and_text_pointer = 0; chapter_usfm_markers_and_text_pointer < chapter_usfm_markers_and_text.size(); chapter_usfm_markers_and_text_pointer++) {
       string currentItem = chapter_usfm_markers_and_text[chapter_usfm_markers_and_text_pointer];
       if (filter::usfm::is_usfm_marker (currentItem)) {
-        string marker = filter_string_trim (currentItem); // Change, e.g. '\id ' to '\id'.
+        string marker = filter::strings::trim (currentItem); // Change, e.g. '\id ' to '\id'.
         marker = marker.substr (1); // Remove the initial backslash, e.g. '\id' becomes 'id'.
         if (filter::usfm::is_opening_marker (marker)) {
           if (styles.find (marker) != styles.end()) {
@@ -216,7 +216,7 @@ void Filter_Text::pre_process_usfm ()
                   {
                     // Get book number.
                     string usfm_id = filter::usfm::get_book_identifier (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
-                    usfm_id = filter::strings::replace (soft_hyphen_u00AD (), "", usfm_id); // Remove possible soft hyphen.
+                    usfm_id = filter::strings::replace (filter::strings::soft_hyphen_u00AD (), "", usfm_id); // Remove possible soft hyphen.
                     // Get Bibledit book number.
                     m_current_book_identifier = static_cast<int>(database::books::get_id_from_usfm (usfm_id));
                     // Reset chapter and verse numbers.
@@ -376,7 +376,7 @@ void Filter_Text::process_usfm ()
                 {
                   // Get book number.
                   string usfm_id = filter::usfm::get_book_identifier (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
-                  usfm_id = filter::strings::replace (soft_hyphen_u00AD (), "", usfm_id); // Remove possible soft hyphen.
+                  usfm_id = filter::strings::replace (filter::strings::soft_hyphen_u00AD (), "", usfm_id); // Remove possible soft hyphen.
                   m_current_book_identifier = static_cast<int>(database::books::get_id_from_usfm (usfm_id));
                   // Reset chapter and verse numbers.
                   m_current_chapter_number = 0;
@@ -491,7 +491,7 @@ void Filter_Text::process_usfm ()
                     size_t pointer = chapter_usfm_markers_and_text_pointer + 1;
                     if (pointer < chapter_usfm_markers_and_text.size()) {
                       string text = chapter_usfm_markers_and_text[pointer];
-                      text = filter_string_ltrim (text);
+                      text = filter::strings::ltrim (text);
                       chapter_usfm_markers_and_text[pointer] = text;
                     }
                   }
@@ -728,7 +728,7 @@ void Filter_Text::process_usfm ()
               // Deal with the case of a pending chapter number.
               if (!output_chapter_text_at_first_verse.empty()) {
                 if (!Database_Config_Bible::getExportChapterDropCapsFrames (m_bible)) {
-                  int dropCapsLength = static_cast<int>(unicode_string_length (output_chapter_text_at_first_verse));
+                  int dropCapsLength = static_cast<int>( filter::strings::unicode_string_length (output_chapter_text_at_first_verse));
                   applyDropCapsToCurrentParagraph (dropCapsLength);
                   if (odf_text_standard) odf_text_standard->add_text (output_chapter_text_at_first_verse);
                   if (odf_text_text_only) odf_text_text_only->add_text (output_chapter_text_at_first_verse);
@@ -824,7 +824,7 @@ void Filter_Text::process_usfm ()
                 }
                 // If a verse number was put, do this:
                 // Remove any whitespace from the start of the following text.
-                text_following_v_marker = filter_string_ltrim (text_following_v_marker);
+                text_following_v_marker = filter::strings::ltrim (text_following_v_marker);
                 chapter_usfm_markers_and_text [chapter_usfm_markers_and_text_pointer] = text_following_v_marker;
                 chapter_usfm_markers_and_text_pointer--;
                 // If a verse number was put, do this too:
@@ -1104,8 +1104,8 @@ void Filter_Text::process_usfm ()
               // The verse text straight after the \v starts with certain space type.
               // Replace it with a normal space.
               string item = filter::strings::replace (space_type_after_verse, " ", currentItem);
-              verses_text [iverse] = filter_string_ltrim (item);
-              actual_verses_paragraph [iverse] = filter_string_ltrim (item);
+              verses_text [iverse] = filter::strings::ltrim (item);
+              actual_verses_paragraph [iverse] = filter::strings::ltrim (item);
             }
           }
           if (note_open_now) {
@@ -1168,7 +1168,7 @@ void Filter_Text::processNote ()
                     }
                   }
                   // Add the note citation. And a no-break space after it.
-                  if (odf_text_notes) odf_text_notes->add_text (citation + non_breaking_space_u00A0());
+                  if (odf_text_notes) odf_text_notes->add_text (citation + filter::strings::non_breaking_space_u00A0());
                   // Open note in the web pages.
                   if (html_text_standard) html_text_standard->add_note (citation, standardContentMarkerFootEndNote);
                   if (html_text_linked) html_text_linked->add_note (citation, standardContentMarkerFootEndNote);
@@ -1281,7 +1281,7 @@ void Filter_Text::processNote ()
                     }
                   }
                   // Add the note citation. And a no-break space (NBSP) after it.
-                  if (odf_text_notes) odf_text_notes->add_text (citation + non_breaking_space_u00A0());
+                  if (odf_text_notes) odf_text_notes->add_text (citation + filter::strings::non_breaking_space_u00A0());
                   // Open note in the web page.
                   ensureNoteParagraphStyle (standardContentMarkerCrossReference, styles[standardContentMarkerCrossReference]);
                   if (html_text_standard) html_text_standard->add_note (citation, standardContentMarkerCrossReference);
@@ -1649,9 +1649,9 @@ string Filter_Text::getNoteCitation (const Database_Styles_Item & style)
   // Extract the raw note citation from the USFM. This could be, e.g. '+'.
   string nextText = chapter_usfm_markers_and_text [chapter_usfm_markers_and_text_pointer + 1];
   string citation = nextText.substr (0, 1);
-  nextText = filter_string_ltrim (nextText.substr (1));
+  nextText = filter::strings::ltrim (nextText.substr (1));
   chapter_usfm_markers_and_text [chapter_usfm_markers_and_text_pointer + 1] = nextText;
-  citation = filter_string_trim (citation);
+  citation = filter::strings::trim (citation);
   
   // Get the rendered note citation.
   citation = note_citations.get(style.marker, citation);
@@ -1707,7 +1707,7 @@ map <int, string> Filter_Text::getVersesText ()
 {
   // Trim white space at start and end of each line.
   for (auto & element : verses_text) {
-    element.second = filter_string_trim (element.second);
+    element.second = filter::strings::trim (element.second);
   }
   // Return the result.
   return verses_text;

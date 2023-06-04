@@ -90,7 +90,7 @@ void export_html_book (string bible, int book, bool log)
   for (auto chapter : chapters) {
     // Get the USFM for this chapter.
     string usfm = database_bibles.getChapter (bible, book, chapter);
-    usfm = filter_string_trim (usfm);
+    usfm = filter::strings::trim (usfm);
     // Use small chunks of USFM at a time for much better performance.
     filter_text.add_usfm_code (usfm);
   }

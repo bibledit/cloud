@@ -129,13 +129,13 @@ string editone2_update (void * webserver_request)
   // Decode html encoded in javascript, and clean it.
   loaded_html = filter_url_tag_to_plus (loaded_html);
   edited_html = filter_url_tag_to_plus (edited_html);
-  loaded_html = filter_string_trim (loaded_html);
-  edited_html = filter_string_trim (edited_html);
+  loaded_html = filter::strings::trim (loaded_html);
+  edited_html = filter::strings::trim (edited_html);
 
   
   // Check on valid UTF-8.
   if (good2go) {
-    if (!unicode_string_is_valid (loaded_html) || !unicode_string_is_valid (edited_html)) {
+    if (!filter::strings::unicode_string_is_valid (loaded_html) || !filter::strings::unicode_string_is_valid (edited_html)) {
       messages.push_back (translate ("Cannot update: Needs Unicode"));
       good2go = false;
     }
@@ -172,7 +172,7 @@ string editone2_update (void * webserver_request)
   string loaded_verse_usfm = editone_logic_html_to_usfm (stylesheet, loaded_html);
   string edited_verse_usfm = editone_logic_html_to_usfm (stylesheet, edited_html);
   string existing_verse_usfm = filter::usfm::get_verse_text_quill (old_chapter_usfm, verse);
-  existing_verse_usfm = filter_string_trim (existing_verse_usfm);
+  existing_verse_usfm = filter::strings::trim (existing_verse_usfm);
 
   
   // Set a flag if there is a reason to save the editor text, since it was edited.
@@ -295,11 +295,11 @@ string editone2_update (void * webserver_request)
       response.append (operation);
       if (operation == bible_logic::insert_operator ()) {
         string text = content[i];
-        string character = unicode_string_substr (text, 0, 1);
+        string character = filter::strings::unicode_string_substr (text, 0, 1);
         response.append ("#_be_#");
         response.append (character);
-        size_t length = unicode_string_length (text);
-        string format = unicode_string_substr (text, 1, length - 1);
+        size_t length = filter::strings::unicode_string_length (text);
+        string format = filter::strings::unicode_string_substr (text, 1, length - 1);
         response.append ("#_be_#");
         response.append (format);
         // Also add the size of the character in UTF-16 format, 2-bytes or 4 bytes, as size 1 or 2.

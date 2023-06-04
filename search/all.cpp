@@ -75,7 +75,7 @@ string search_all (void * webserver_request)
 
   
   // Clean the query string up.
-  queryString = filter_string_trim (queryString);
+  queryString = filter::strings::trim (queryString);
   
   
   // Generate search words for emphasizing the search passages.
@@ -107,7 +107,7 @@ string search_all (void * webserver_request)
     string summary = database_notes.get_summary (identifier);
     string verses = filter_passage_display_inline (database_notes.get_passages (identifier));
     string title = summary + " | " + verses;
-    title = escape_special_xml_characters (title);
+    title = filter::strings::escape_special_xml_characters (title);
     
     // The url.
     string url = siteUrl + notes_note_url () + "?id=" + filter::strings::convert_to_string (identifier);

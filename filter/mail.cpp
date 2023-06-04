@@ -61,10 +61,10 @@ string filter_mail_remove_headers_internal (string contents)
     if (line.find ("Content-Type") != string::npos) continue;
     if (line.find ("Content-Transfer-Encoding") != string::npos) continue;
     if (empty_line_encountered) cleaned.push_back (line);
-    if (filter_string_trim (line).empty ()) empty_line_encountered = true;
+    if (filter::strings::trim (line).empty ()) empty_line_encountered = true;
   }
   contents = filter::strings::implode (cleaned, "\n");
-  contents = filter_string_trim (contents);
+  contents = filter::strings::trim (contents);
   return contents;
 }
 
@@ -80,8 +80,8 @@ void filter_mail_dissect_internal (const MimeEntity& me, string& plaintext)
   
   // Look for content type and subtype.
   // Fold their case as some messages use upper case.
-  string type = unicode_string_casefold (h.contentType().type());
-  string subtype = unicode_string_casefold (h.contentType().subtype());
+  string type = filter::strings::unicode_string_casefold (h.contentType().type());
+  string subtype = filter::strings::unicode_string_casefold (h.contentType().subtype());
 
   if (type == "text") {
   
@@ -107,7 +107,7 @@ void filter_mail_dissect_internal (const MimeEntity& me, string& plaintext)
     
     // Get transfer encoding.
     // Fold the case as some email messages use uppercase.
-    string transfer_encoding = unicode_string_casefold (h.contentTransferEncoding().str ());
+    string transfer_encoding = filter::strings::unicode_string_casefold (h.contentTransferEncoding().str ());
     
     // Decode quoted-printable text.
     if (transfer_encoding == ContentTransferEncoding::quoted_printable) {
@@ -171,7 +171,7 @@ void filter_mail_dissect (string message, string & from, string & subject, strin
   vector <string> inputlines = filter::strings::explode (plaintext, '\n');
   for (auto line : inputlines) {
     // Remove whitespace and empty lines.
-    line = filter_string_trim (line);
+    line = filter::strings::trim (line);
     if (line.empty ()) continue;
     // If the line starts with ">", it indicates quoted text. Skip it.
     if (line.substr (0, 1) == ">") continue;

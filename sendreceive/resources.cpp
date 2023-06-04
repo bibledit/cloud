@@ -212,7 +212,7 @@ void sendreceive_resources ()
   }
   // Store new download schedule.
   resources = Database_Config_General::getResourcesToCache ();
-  resources = filter_string_array_diff (resources, {resource});
+  resources = filter::strings::array_diff (resources, {resource});
   if (re_schedule_download) {
     resources.push_back (resource);
   }

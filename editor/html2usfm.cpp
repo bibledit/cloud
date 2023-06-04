@@ -241,7 +241,7 @@ void Editor_Html2Usfm::closeElementNode (xml_node node)
     // Add closing USFM, optionally closing embedded tags in reverse order.
     char separator = '0';
     vector <string> classes = filter::strings::explode (className, separator);
-    characterStyles = filter_string_array_diff (characterStyles, classes);
+    characterStyles = filter::strings::array_diff (characterStyles, classes);
     reverse (classes.begin(), classes.end());
     for (unsigned int offset = 0; offset < classes.size(); offset++) {
       bool embedded = (classes.size () > 1) && (offset == 0);
@@ -367,7 +367,7 @@ string Editor_Html2Usfm::cleanUSFM (string usfm)
   }
   
   // Unescape special XML characters.
-  usfm = unescape_special_xml_characters (usfm);
+  usfm = filter::strings::unescape_special_xml_characters (usfm);
 
   // Done.
   return usfm;
@@ -386,11 +386,11 @@ void Editor_Html2Usfm::flushLine ()
 {
   if (!currentLine.empty ()) {
     // Trim so that '\p ' becomes '\p', for example.
-    currentLine = filter_string_trim (currentLine);
+    currentLine = filter::strings::trim (currentLine);
     // No longer doing the above
     // because it would remove a space intentionally added to the end of a line.
     // Instead it now only does a left trim instead of the full trim.
-    // currentLine = filter_string_ltrim (currentLine);
+    // currentLine = filter::strings::ltrim (currentLine);
     output.push_back (currentLine);
     currentLine.clear ();
   }
@@ -501,7 +501,7 @@ string editor_export_verse_quill (string stylesheet, string html)
   
   // Remove that recognizable style converted to USFM.
   usfm = filter::strings::replace (R"(\)" + style, string(), usfm);
-  usfm = filter_string_trim (usfm);
+  usfm = filter::strings::trim (usfm);
 
   return usfm;
 }

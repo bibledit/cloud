@@ -267,7 +267,7 @@ void client_logic_no_cache_resource_remove (string name)
 {
   vector <string> resources = client_logic_no_cache_resources_get();
   if (!in_array(name, resources)) return;
-  resources = filter_string_array_diff(resources, {name});
+  resources = filter::strings::array_diff(resources, {name});
   client_logic_no_cache_resources_save(resources);
 }
 

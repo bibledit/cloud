@@ -31,7 +31,7 @@ using namespace std;
 void Editor_Usfm2Html::load (string usfm)
 {
   // Clean up.
-  usfm = filter_string_trim (usfm);
+  usfm = filter::strings::trim (usfm);
   usfm.append ("\n");
   // Separate it into markers and text.
   // Load it into the object.
@@ -137,7 +137,7 @@ void Editor_Usfm2Html::preprocess ()
   notes_node = document.append_child ("p");
   notes_value.insert (0, quill_logic_class_prefix_block ());
   notes_node.append_attribute ("class") = notes_value.c_str ();
-  notes_node.text().set(non_breaking_space_u00A0().c_str());
+  notes_node.text().set(filter::strings::non_breaking_space_u00A0().c_str());
 }
 
 
@@ -236,7 +236,7 @@ void Editor_Usfm2Html::process ()
               if (pos != string::npos) {
                 textFollowingMarker = textFollowingMarker.substr (pos + number.length());
               }
-              textFollowingMarker = filter_string_ltrim (textFollowingMarker);
+              textFollowingMarker = filter::strings::ltrim (textFollowingMarker);
               markers_and_text [markers_and_text_pointer] = textFollowingMarker;
               markers_and_text_pointer--;
             }
@@ -502,7 +502,7 @@ void Editor_Usfm2Html::addText (string text)
     }
     currentParagraphContent.append (text);
   }
-  textLength += unicode_string_length (text);
+  textLength += filter::strings::unicode_string_length (text);
 }
 
 
@@ -545,7 +545,7 @@ void Editor_Usfm2Html::add_note (string citation, string style, [[maybe_unused]]
   addNoteText (" ");
   
   // Update the text length of the text body, excluding the note.
-  textLength += unicode_string_length (citation);
+  textLength += filter::strings::unicode_string_length (citation);
 }
 
 

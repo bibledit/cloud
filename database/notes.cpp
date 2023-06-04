@@ -526,7 +526,7 @@ string Database_Notes::assemble_contents (int identifier, string contents)
   if (contents == "<br>") contents.clear();
   vector <string> lines = filter::strings::explode (contents, '\n');
   for (auto line : lines) {
-    line = filter_string_trim (line);
+    line = filter::strings::trim (line);
     new_contents.append ("<p>");
     new_contents.append (line);
     new_contents.append ("</p>\n");
@@ -931,7 +931,7 @@ vector <string> Database_Notes::get_subscribers (int identifier)
   if (contents.empty()) return {};
   vector <string> subscribers = filter::strings::explode (contents, '\n');
   for (auto & subscriber : subscribers) {
-    subscriber = filter_string_trim (subscriber);
+    subscriber = filter::strings::trim (subscriber);
   }
   return subscribers;
 }
@@ -1060,7 +1060,7 @@ vector <string> Database_Notes::get_all_assignees (const vector <string>& bibles
   
   vector <string> assignees (unique_assignees.begin(), unique_assignees.end());
   for (auto & assignee : assignees) {
-    assignee = filter_string_trim (assignee);
+    assignee = filter::strings::trim (assignee);
   }
   return assignees;
 }
@@ -1081,7 +1081,7 @@ vector <string> Database_Notes::get_assignees_internal (string assignees)
   vector <string> assignees_vector = filter::strings::explode (assignees, '\n');
   // Remove the padding space at both sides of the assignee.
   for (auto & assignee : assignees_vector) {
-    assignee = filter_string_trim (assignee);
+    assignee = filter::strings::trim (assignee);
   }
   return assignees_vector;
 }
@@ -1205,7 +1205,7 @@ string Database_Notes::encode_passage (int book, int chapter, int verse)
 // Takes the passage as a string, and returns an object with book, chapter, and verse.
 Passage Database_Notes::decode_passage (string passage)
 {
-  passage = filter_string_trim (passage);
+  passage = filter::strings::trim (passage);
   Passage decodedpassage = Passage ();
   vector <string> lines = filter::strings::explode (passage, '.');
   if (lines.size() > 0) decodedpassage.m_book = filter::strings::convert_to_int (lines[0]);
@@ -1532,7 +1532,7 @@ vector <int> Database_Notes::search_notes (string search, const vector <string> 
 {
   vector <int> identifiers;
 
-  search = filter_string_trim (search);
+  search = filter::strings::trim (search);
   if (search == "") return identifiers;
 
   // SQL SELECT statement.

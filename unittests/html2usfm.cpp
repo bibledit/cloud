@@ -199,12 +199,12 @@ void test_html2usfm ()
 \p
 \v 1 Line\f  + \fr 117.1\fk  keyword\ft  Text.\f* one.
 )";
-    standard = filter_string_ltrim(standard);
+    standard = filter::strings::ltrim(standard);
     string html = R"(
 <p class="b-p"><span class="i-v">1</span> Line<span class="i-notecall1">1</span> one.</p>
 <p class="b-f">&nbsp;<span class="i-notebody1">1</span> + <span class="i-fr">117.1</span><span class="i-fk"> keyword</span><span class="i-ft"> Text.</span></p>
     )";
-    html = filter_string_trim(html);
+    html = filter::strings::trim(html);
     Editor_Html2Usfm editor_html2usfm;
     editor_html2usfm.load (html);
     editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
@@ -221,7 +221,7 @@ void test_html2usfm ()
 <p class="b-p">Body<span class="i-notecall33" /></p>
 <p class="b-x"><span class="i-notebody33">1</span> + <span class="i-xo">117.1</span> <span class="i-xt">Note</span></p>
     )";
-    html = filter_string_trim(html);
+    html = filter::strings::trim(html);
     Editor_Html2Usfm editor_html2usfm;
     editor_html2usfm.load (html);
     editor_html2usfm.stylesheet (styles_logic_standard_sheet ());

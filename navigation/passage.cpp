@@ -334,7 +334,7 @@ void Navigation_Passage::set_passage (void * webserver_request, string bible, st
   int currentBook = Ipc_Focus::getBook (webserver_request);
   int currentChapter = Ipc_Focus::getChapter (webserver_request);
   int currentVerse = Ipc_Focus::getVerse (webserver_request);
-  passage = filter_string_trim (passage);
+  passage = filter::strings::trim (passage);
   Passage passage_to_set;
   if ((passage == "") || (passage == "+")) {
     passage_to_set = Navigation_Passage::get_next_verse (webserver_request, bible, currentBook, currentChapter, currentVerse);

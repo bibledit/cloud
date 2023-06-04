@@ -177,7 +177,7 @@ Passage filter_integer_to_passage (int integer)
 // or the unknown enum in case no book could be interpreted.
 book_id filter_passage_interpret_book_v2 (string book)
 {
-  book = filter_string_trim (book);
+  book = filter::strings::trim (book);
   
   // Recognise the USFM book abbreviations.
   {
@@ -208,7 +208,7 @@ book_id filter_passage_interpret_book_v2 (string book)
   book = filter::strings::replace ("I ", "1 ", book);
   
   // Do case folding, i.e., work with lower case only.
-  book = unicode_string_casefold (book);
+  book = filter::strings::unicode_string_casefold (book);
   
   // Remove any spaces from the book name and try with that too.
   string nospacebook = filter::strings::replace (" ", "", book);
@@ -225,52 +225,52 @@ book_id filter_passage_interpret_book_v2 (string book)
   for (auto identifier : bookids) {
     string english = database::books::get_english_from_id(identifier);
     if (english.empty()) continue;
-    if (book == unicode_string_casefold(english)) return identifier;
+    if (book == filter::strings::unicode_string_casefold(english)) return identifier;
     
-    if (nospacebook == unicode_string_casefold(english)) return identifier;
+    if (nospacebook == filter::strings::unicode_string_casefold(english)) return identifier;
     
     string localized = translate(english);
     if (localized.empty()) continue;
     
-    if (book == unicode_string_casefold(localized)) return identifier;
+    if (book == filter::strings::unicode_string_casefold(localized)) return identifier;
     
-    if (nospacebook == unicode_string_casefold(localized)) return identifier;
+    if (nospacebook == filter::strings::unicode_string_casefold(localized)) return identifier;
   }
   
   // Try the OSIS abbreviations.
   for (auto identifier : bookids) {
     string osis = database::books::get_osis_from_id(identifier);
     if (osis.empty()) continue;
-    if (book == unicode_string_casefold(osis)) return identifier;
-    if (nospacebook == unicode_string_casefold(osis)) return identifier;
+    if (book == filter::strings::unicode_string_casefold(osis)) return identifier;
+    if (nospacebook == filter::strings::unicode_string_casefold(osis)) return identifier;
     string localized = translate(osis);
     if (localized.empty()) continue;
-    if (book == unicode_string_casefold(localized)) return identifier;
-    if (nospacebook == unicode_string_casefold(localized)) return identifier;
+    if (book == filter::strings::unicode_string_casefold(localized)) return identifier;
+    if (nospacebook == filter::strings::unicode_string_casefold(localized)) return identifier;
   }
   
   // Try the abbreviations of BibleWorks.
   for (auto identifier : bookids) {
     string bibleworks = database::books::get_bibleworks_from_id(identifier);
     if (bibleworks.empty()) continue;
-    if (book == unicode_string_casefold(bibleworks)) return identifier;
-    if (nospacebook == unicode_string_casefold(bibleworks)) return identifier;
+    if (book == filter::strings::unicode_string_casefold(bibleworks)) return identifier;
+    if (nospacebook == filter::strings::unicode_string_casefold(bibleworks)) return identifier;
     string localized = translate(bibleworks);
     if (localized.empty()) continue;
-    if (book == unicode_string_casefold(localized)) return identifier;
-    if (nospacebook == unicode_string_casefold(localized)) return identifier;
+    if (book == filter::strings::unicode_string_casefold(localized)) return identifier;
+    if (nospacebook == filter::strings::unicode_string_casefold(localized)) return identifier;
   }
   
   // Try the abbreviations of the Online Bible.
   for (auto identifier : bookids) {
     string onlinebible = database::books::get_onlinebible_from_id(identifier);
     if (onlinebible.empty()) continue;
-    if (book == unicode_string_casefold(onlinebible)) return identifier;
-    if (nospacebook == unicode_string_casefold(onlinebible)) return identifier;
+    if (book == filter::strings::unicode_string_casefold(onlinebible)) return identifier;
+    if (nospacebook == filter::strings::unicode_string_casefold(onlinebible)) return identifier;
     string localized = translate(onlinebible);
     if (localized.empty()) continue;
-    if (book == unicode_string_casefold(localized)) return identifier;
-    if (nospacebook == unicode_string_casefold(localized)) return identifier;
+    if (book == filter::strings::unicode_string_casefold(localized)) return identifier;
+    if (nospacebook == filter::strings::unicode_string_casefold(localized)) return identifier;
   }
   
   // Do a case-insensitive search in the books database for something like the book given.
@@ -287,7 +287,7 @@ book_id filter_passage_interpret_book_v2 (string book)
 string filter_passage_clean_passage (string text)
 {
   // Trim text.
-  text = filter_string_trim (text);
+  text = filter::strings::trim (text);
   // As references could be, e.g.: Genesis 10.2, or Genesis 10:2,
   // it needs to convert a the full stop and the colon to a space.
   text = filter::strings::replace (".", " ", text);
@@ -295,7 +295,7 @@ string filter_passage_clean_passage (string text)
   // Change double spaces into single ones.
   text = filter_string_collapse_whitespace (text);
   // Trim again.
-  text = filter_string_trim (text);
+  text = filter::strings::trim (text);
   // Result.
   return text;
 }
@@ -418,7 +418,7 @@ vector <string> filter_passage_handle_sequences_ranges (const string& passage)
   // 27-28
   // It implies that the first sequence has book and chapter.
   vector <string> sequences = filter::strings::explode (passage, ',');
-  for (string & line : sequences) line = filter_string_trim (line);
+  for (string & line : sequences) line = filter::strings::trim (line);
 
 
   // Store output lines.
@@ -429,9 +429,9 @@ vector <string> filter_passage_handle_sequences_ranges (const string& passage)
     string sequence = sequences [offset];
     vector <string> range = filter::strings::explode (sequence, '-');
     if (range.size () == 1) {
-      output.push_back (filter_string_trim (range [0]));
+      output.push_back (filter::strings::trim (range [0]));
     } else {
-      string start = filter_string_trim (range [0]);
+      string start = filter::strings::trim (range [0]);
       output.push_back (start);
       if (offset == 0) {
         // Since the first bit contains book / chapter / verse,
@@ -440,7 +440,7 @@ vector <string> filter_passage_handle_sequences_ranges (const string& passage)
         start = filter::strings::convert_to_string (filter::strings::convert_to_int (start));
         start = string (start.rbegin(), start.rend());
       }
-      unsigned int end = static_cast <unsigned> (filter::strings::convert_to_int (filter_string_trim (range [1])));
+      unsigned int end = static_cast <unsigned> (filter::strings::convert_to_int (filter::strings::trim (range [1])));
       for (size_t i = static_cast<size_t> (filter::strings::convert_to_int (start) + 1); i <= end; i++) {
         output.push_back (filter::strings::convert_to_string (i));
       }

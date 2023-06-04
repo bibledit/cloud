@@ -81,7 +81,7 @@ void export_text_usfm_book (string bible, int book, bool log)
     
     // Get the USFM code for the current chapter.
     string chapter_data = database_bibles.getChapter (bible, book, chapter);
-    chapter_data = filter_string_trim (chapter_data);
+    chapter_data = filter::strings::trim (chapter_data);
     
     
     // Add the chapter's USFM code to the Text_* filter for the book, and for the chapter.

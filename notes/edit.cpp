@@ -77,7 +77,7 @@ string notes_edit (void * webserver_request)
     if (database_notes.identifier_exists (identifier)) {
       vector <string> lines = filter::strings::explode (noteData, '\n');
       for (size_t i = 0; i < lines.size (); i++) {
-        lines[i] = filter_string_trim (lines[i]);
+        lines[i] = filter::strings::trim (lines[i]);
         size_t pos = lines[i].find (">");
         if (pos != string::npos) lines[i].erase (0, pos + 1);
         if (lines[i].length () >= 6) lines[i].erase (lines[i].length () - 6);
@@ -99,7 +99,7 @@ string notes_edit (void * webserver_request)
       vector <string> lines = filter::strings::explode (noteData, '\n');
       for (size_t i = 0; i < lines.size (); i++) {
 
-        lines[i] = filter_string_trim (lines[i]);
+        lines[i] = filter::strings::trim (lines[i]);
         
         // Retrieve possible username from the line.
         // This is the pattern of a line with a username.

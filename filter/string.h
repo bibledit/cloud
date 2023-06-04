@@ -42,18 +42,15 @@ float convert_to_float (const std::string& s);
 bool convert_to_bool (const std::string& s);
 std::string convert_to_true_false (const bool b);
 std::u16string convert_to_u16string (const std::string& s);
-
-}
-
-std::vector <std::string> array_unique (std::vector <std::string> values);
-std::vector <int> array_unique (std::vector <int> values);
-std::vector <std::string> filter_string_array_diff (std::vector <std::string> from, std::vector <std::string> against);
-std::vector <int> filter_string_array_diff (std::vector <int> from, std::vector <int> against);
-std::string filter_string_trim (std::string s);
-std::string filter_string_ltrim (std::string s);
-std::string filter_string_rtrim (std::string s);
-std::string filter_string_fill (std::string s, int width, char fill);
-bool filter_string_is_numeric (std::string s);
+std::vector <std::string> array_unique (const std::vector <std::string>& values);
+std::vector <int> array_unique (const std::vector <int>& values);
+std::vector <std::string> array_diff (const std::vector <std::string>& from, const std::vector <std::string>& against);
+std::vector <int> array_diff (const std::vector <int>& from, const std::vector <int>& against);
+std::string trim (const std::string& s);
+std::string ltrim (const std::string& s);
+std::string rtrim (std::string s);
+std::string fill (const std::string& s, const int width, const char fill);
+bool is_numeric (const std::string& s);
 std::string escape_special_xml_characters (std::string s);
 std::string unescape_special_xml_characters (std::string s);
 std::string any_space_to_standard_space (std::string s);
@@ -62,20 +59,23 @@ std::string soft_hyphen_u00AD ();
 std::string en_space_u2002 ();
 std::string figure_space_u2007 ();
 std::string narrow_non_breaking_space_u202F ();
-size_t unicode_string_length (std::string s);
+size_t unicode_string_length (const std::string& s);
 std::string unicode_string_substr (std::string s, size_t pos = 0, size_t len = 0);
-size_t unicode_string_strpos (std::string haystack, std::string needle, size_t offset = 0);
+size_t unicode_string_strpos (const std::string& haystack, const std::string& needle, const size_t offset = 0);
 size_t unicode_string_strpos_case_insensitive (std::string haystack, std::string needle, size_t offset = 0);
-std::string unicode_string_casefold (std::string s);
-std::string unicode_string_uppercase (std::string s);
-std::string unicode_string_transliterate (std::string s);
-bool unicode_string_is_valid (std::string s);
+std::string unicode_string_casefold (const std::string& s);
+std::string unicode_string_uppercase (const std::string& s);
+std::string unicode_string_transliterate (const std::string& s);
+bool unicode_string_is_valid (const std::string& s);
 bool unicode_string_is_punctuation (std::string s);
 int unicode_string_convert_to_codepoint (std::string s);
-std::string unicode_string_str_replace (std::string search, std::string replace, std::string subject);
+std::string unicode_string_str_replace (const std::string& search, const std::string& replace, std::string subject);
 #ifdef HAVE_ICU
-std::string icu_string_normalize (std::string s, bool remove_diacritics, bool casefold);
+std::string icu_string_normalize (const std::string& s, const bool remove_diacritics, const bool casefold);
 #endif
+
+}
+
 int filter_string_rand (int floor, int ceiling);
 std::string filter_string_html2text (std::string html);
 std::string filter_string_extract_email (std::string input);

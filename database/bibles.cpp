@@ -129,7 +129,7 @@ vector <int> Database_Bibles::getBooks (string bible)
   vector <int> books {};
   vector <string> files = filter_url_scandir (folder);
   for (const string & book : files) {
-    if (filter_string_is_numeric (book)) {
+    if (filter::strings::is_numeric (book)) {
       books.push_back (filter::strings::convert_to_int (book));
     }
   }
@@ -163,7 +163,7 @@ vector <int> Database_Bibles::getChapters (string bible, int book)
   vector <int> chapters;
   vector <string> files = filter_url_scandir (folder);
   for (string file : files) {
-    if (filter_string_is_numeric (file)) chapters.push_back (filter::strings::convert_to_int (file));
+    if (filter::strings::is_numeric (file)) chapters.push_back (filter::strings::convert_to_int (file));
   }
   sort (chapters.begin (), chapters.end ());
   return chapters;
@@ -188,7 +188,7 @@ string Database_Bibles::getChapter (string bible, int book, int chapter)
     string file = files [files.size () - 1];
     string data = filter_url_file_get_contents (filter_url_create_path ({folder, file}));
     // Remove trailing new line.
-    data = filter_string_trim (data);
+    data = filter::strings::trim (data);
     return data;
   }
   return "";

@@ -86,7 +86,7 @@ string search_strong (void * webserver_request)
   if (request->query.count ("strong")) {
     
     string strong = request->query ["strong"];
-    strong = filter_string_trim (strong);
+    strong = filter::strings::trim (strong);
     
     vector <int> passages;
     
@@ -97,7 +97,7 @@ string search_strong (void * webserver_request)
       passages.push_back (i_passage);
     }
     
-    passages = array_unique (passages);
+    passages = filter::strings::array_unique (passages);
     sort (passages.begin(), passages.end());
     
     string output;

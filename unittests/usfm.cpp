@@ -1070,7 +1070,7 @@ void test_usfm ()
 \v 1 \vp A\vp* Verse one.
 \v 2 \vp B\vp* Verse two.
     )";
-    standard_chapter = filter_string_trim (standard_chapter);
+    standard_chapter = filter::strings::trim (standard_chapter);
     vector <filter::usfm::BookChapterData> import = filter::usfm::usfm_import (usfm, styles_logic_standard_sheet ());
     evaluate (__LINE__, __func__, 2, static_cast<int> (import.size ()));
     if (import.size () == 2) {
@@ -1079,7 +1079,7 @@ void test_usfm ()
       evaluate (__LINE__, __func__, "\\id MIC", import [0].m_data);
       evaluate (__LINE__, __func__, 33, import [1].m_book);
       evaluate (__LINE__, __func__, 1, import [1].m_chapter);
-      evaluate (__LINE__, __func__, standard_chapter, filter_string_trim (import [1].m_data));
+      evaluate (__LINE__, __func__, standard_chapter, filter::strings::trim (import [1].m_data));
     } else {
       evaluate (__LINE__, __func__, string("executing tests"), string("skipping tests"));
     }

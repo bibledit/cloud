@@ -153,8 +153,8 @@ void developer_logic_import_changes ()
       if (pos != string::npos) {
         vector <string> bits = filter::strings::explode(line.substr (0, pos), ".");
         if (bits.size() == 2) {
-          chapter = filter::strings::convert_to_int(filter_string_trim(bits[0]));
-          verse = filter::strings::convert_to_int(filter_string_trim(bits[1]));
+          chapter = filter::strings::convert_to_int(filter::strings::trim(bits[0]));
+          verse = filter::strings::convert_to_int(filter::strings::trim(bits[1]));
           line.erase (0, pos + 2);
           passage_found = (book != book_id::_unknown) && (chapter >= 0) && (verse >= 0);
         }

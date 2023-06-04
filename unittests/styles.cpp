@@ -57,7 +57,7 @@ void test_styles ()
     styles_css.exports ();
     styles_css.generate ();
     string css = styles_css.css ();
-    string standard = filter_string_trim (filter_url_file_get_contents (filter_url_create_path ({"unittests", "tests", "exports.css"})));
+    string standard = filter::strings::trim (filter_url_file_get_contents (filter_url_create_path ({"unittests", "tests", "exports.css"})));
     evaluate (__LINE__, __func__, standard, css);
   }
   
@@ -70,7 +70,7 @@ void test_styles ()
     styles_css.editor ();
     styles_css.generate ();
     string css = styles_css.css ();
-    string standard = filter_string_trim (filter_url_file_get_contents (filter_url_create_path ({"unittests", "tests", "editor.css"})));
+    string standard = filter::strings::trim (filter_url_file_get_contents (filter_url_create_path ({"unittests", "tests", "editor.css"})));
     //filter_url_file_put_contents ("editor.css", css);
     evaluate (__LINE__, __func__, standard, css);
   }
@@ -117,7 +117,7 @@ void test_styles ()
     ".class\n"
     "{\n"
     "}\n";
-    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (css));
+    evaluate (__LINE__, __func__, filter::strings::trim (standard), filter::strings::trim (css));
     
     css = Filter_Css::get_css ("class", string(), 101);
     standard =
@@ -125,7 +125,7 @@ void test_styles ()
     "{\n"
     "direction: ltr;\n"
     "}\n";
-    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (css));
+    evaluate (__LINE__, __func__, filter::strings::trim (standard), filter::strings::trim (css));
     
     css = Filter_Css::get_css ("class", string(), 102);
     standard =
@@ -133,7 +133,7 @@ void test_styles ()
     "{\n"
     "direction: rtl;\n"
     "}\n";
-    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (css));
+    evaluate (__LINE__, __func__, filter::strings::trim (standard), filter::strings::trim (css));
     
     css = Filter_Css::get_css ("class", string(), 110);
     standard =
@@ -141,7 +141,7 @@ void test_styles ()
     "{\n"
     "writing-mode: tb-lr;\n"
     "}\n";
-    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (css));
+    evaluate (__LINE__, __func__, filter::strings::trim (standard), filter::strings::trim (css));
     
     css = Filter_Css::get_css ("CLass", string(), 130);
     standard =
@@ -149,7 +149,7 @@ void test_styles ()
     "{\n"
     "writing-mode: bt-lr;\n"
     "}\n";
-    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (css));
+    evaluate (__LINE__, __func__, filter::strings::trim (standard), filter::strings::trim (css));
     
     css = Filter_Css::get_css ("CLass", string(), 1322);
     standard =
@@ -158,7 +158,7 @@ void test_styles ()
     "direction: rtl;\n"
     "writing-mode: tb-rl;\n"
     "}\n";
-    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (css));
+    evaluate (__LINE__, __func__, filter::strings::trim (standard), filter::strings::trim (css));
     
     css = Filter_Css::get_css ("Class", "sherif", 0);
     standard =
@@ -166,7 +166,7 @@ void test_styles ()
     "{\n"
     "font-family: sherif;\n"
     "}\n";
-    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (css));
+    evaluate (__LINE__, __func__, filter::strings::trim (standard), filter::strings::trim (css));
     
     css = Filter_Css::get_css ("Class", "sherif", 102);
     standard =
@@ -175,7 +175,7 @@ void test_styles ()
     "font-family: sherif;\n"
     "direction: rtl;\n"
     "}\n";
-    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (css));
+    evaluate (__LINE__, __func__, filter::strings::trim (standard), filter::strings::trim (css));
     
     css = Filter_Css::get_css ("classs", "../font.ttf", 0);
     standard =
@@ -188,7 +188,7 @@ void test_styles ()
     "{\n"
     "font-family: classs;\n"
     "}\n";
-    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (css));
+    evaluate (__LINE__, __func__, filter::strings::trim (standard), filter::strings::trim (css));
   }
 
   // Class.

@@ -66,11 +66,11 @@ string locale_logic_date_time (int seconds)
   string timestamp;
   timestamp.append (locale_logic_date (seconds));
   timestamp.append (" ");
-  timestamp.append (filter_string_fill (filter::strings::convert_to_string (filter::date::numerical_hour (seconds)), 2, '0'));
+  timestamp.append (filter::strings::fill (filter::strings::convert_to_string (filter::date::numerical_hour (seconds)), 2, '0'));
   timestamp.append (":");
-  timestamp.append (filter_string_fill (filter::strings::convert_to_string (filter::date::numerical_minute (seconds)), 2, '0'));
+  timestamp.append (filter::strings::fill (filter::strings::convert_to_string (filter::date::numerical_minute (seconds)), 2, '0'));
   timestamp.append (":");
-  timestamp.append (filter_string_fill (filter::strings::convert_to_string (filter::date::numerical_second (seconds)), 2, '0'));
+  timestamp.append (filter::strings::fill (filter::strings::convert_to_string (filter::date::numerical_second (seconds)), 2, '0'));
   // Done.
   return timestamp;
 }
@@ -114,19 +114,19 @@ unordered_map <string, string> locale_logic_read_msgid_msgstr (string file)
   int stage = 0;
   for (size_t i = 0; i < lines.size (); i++) {
     // Clean the line up.
-    string line = filter_string_trim (lines[i]);
+    string line = filter::strings::trim (lines[i]);
     // Skip a comment.
     if (line.find ("#") == 0) continue;
     // Deal with the messages.
     if (line.find ("msgid") == 0) {
       stage = 1;
       line.erase (0, 5);
-      line = filter_string_trim (line);
+      line = filter::strings::trim (line);
     }
     if (line.find ("msgstr") == 0) {
       stage = 2;
       line.erase (0, 6);
-      line = filter_string_trim (line);
+      line = filter::strings::trim (line);
     }
     // Build msgid.
     if (stage == 1) {
@@ -224,19 +224,19 @@ string locale_logic_space_get_name (string space, bool english)
     if (english) return "space";
     else return translate ("space");
   }
-  if (space == non_breaking_space_u00A0 ()) {
+  if (space == filter::strings::non_breaking_space_u00A0 ()) {
     if (english) return "non-breaking space";
     else return translate ("non-breaking space");
   }
-  if (space == en_space_u2002 ()) {
+  if (space == filter::strings::en_space_u2002 ()) {
     if (english) return "en space";
     else return translate ("en space");
   }
-  if (space == figure_space_u2007 ()) {
+  if (space == filter::strings::figure_space_u2007 ()) {
     if (english) return "figure space";
     else return translate ("figure space");
   }
-  if (space == narrow_non_breaking_space_u202F ()) {
+  if (space == filter::strings::narrow_non_breaking_space_u202F ()) {
     if (english) return "narrow non-breaking space";
     else return translate ("narrow non-breaking space");
   }
@@ -285,7 +285,7 @@ void locale_logic_obfuscate_initialize ()
   for (auto & line : lines) {
 
     // Trim lines.
-    line = filter_string_trim (line);
+    line = filter::strings::trim (line);
     
     // Skip empty lines.
     if (line.empty ()) continue;

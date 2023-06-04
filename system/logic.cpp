@@ -91,7 +91,7 @@ void system_logic_produce_bibles_file (int jobid)
       vector <int> chapters = database_bibles.getChapters (bible, book);
       for (auto chapter : chapters) {
         string usfm = database_bibles.getChapter (bible, book, chapter);
-        book_usfm.append (filter_string_trim (usfm));
+        book_usfm.append (filter::strings::trim (usfm));
         book_usfm.append ("\n");
       }
       string file = bible + "_" + filter::strings::convert_to_string (book) + ".usfm";

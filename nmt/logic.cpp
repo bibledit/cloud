@@ -170,10 +170,10 @@ void nmt_logic_split (string reference_text, string translating_text,
     if (reference_bits.size() > 1) {
       if (reference_bits.size() == translating_bits.size()) {
         for (auto & s : reference_bits) {
-          s = filter_string_trim (s);
+          s = filter::strings::trim (s);
         }
         for (auto & s : translating_bits) {
-          s = filter_string_trim (s);
+          s = filter::strings::trim (s);
         }
         return;
       }

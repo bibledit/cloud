@@ -119,7 +119,7 @@ vector <string> filter_url_scandir_internal (string folder)
 #endif
   
   // Remove . and ..
-  files = filter_string_array_diff (files, {".", ".."});
+  files = filter::strings::array_diff (files, {".", ".."});
   
   return files;
 }
@@ -780,7 +780,7 @@ int filter_url_filesize (string filename)
 vector <string> filter_url_scandir (string folder)
 {
   vector <string> files = filter_url_scandir_internal (folder);
-  files = filter_string_array_diff (files, {"gitflag"});
+  files = filter::strings::array_diff (files, {"gitflag"});
   return files;
 }
 
@@ -1321,14 +1321,14 @@ string filter_url_html_file_name_bible (string path, int book, int chapter)
   }
   
   // Add the name for the book. No spaces.
-  filename += filter_string_fill (filter::strings::convert_to_string (book), 2, '0');
+  filename += filter::strings::fill (filter::strings::convert_to_string (book), 2, '0');
   string sbook = database::books::get_english_from_id (static_cast<book_id>(book));
   sbook = filter::strings::replace (" ", "", sbook);
   filename += '-' + sbook;
   
   // Chapter given: Provide name for the chaper.
   if (chapter >= 0) {
-    filename += '-' + filter_string_fill (filter::strings::convert_to_string (chapter), 3, '0');
+    filename += '-' + filter::strings::fill (filter::strings::convert_to_string (chapter), 3, '0');
   }
   
   filename += ".html";
@@ -1951,7 +1951,7 @@ void filter_url_display_mbed_tls_error (int & ret, string * error, bool server)
 string filter_url_set_scheme (string url, bool secure)
 {
   // Remove whitespace.
-  url = filter_string_trim (url);
+  url = filter::strings::trim (url);
   // Remove amy existing scheme: http(s) or whatever.
   size_t pos = url.find ("://");
   if (pos != string::npos) {

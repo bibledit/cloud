@@ -67,7 +67,7 @@ string Flate::render (string html)
   vector <string> lines = filter::strings::explode (rendering, '\n');
   rendering.clear ();
   for (auto & line : lines) {
-    line = filter_string_trim (line);
+    line = filter::strings::trim (line);
     if (line.empty ()) continue;
     rendering.append (line);
     rendering.append ("\n");

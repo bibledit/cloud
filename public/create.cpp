@@ -81,9 +81,9 @@ string public_create (void * webserver_request)
 
  
   if (request->post.count ("submit")) {
-    string summary = filter_string_trim (request->post["summary"]);
+    string summary = filter::strings::trim (request->post["summary"]);
     if (summary.empty ()) summary = translate ("Feedback");
-    string contents = "<p>" + versetext + "</p>" + filter_string_trim (request->post["contents"]);
+    string contents = "<p>" + versetext + "</p>" + filter::strings::trim (request->post["contents"]);
     int identifier = notes_logic.createNote (bible, book, chapter, verse, summary, contents, false);
     // A note created by a public user is made public to all.
     database_notes.set_public (identifier, true);

@@ -78,7 +78,7 @@ string search_similar (void * webserver_request)
     for (auto & sign : punctuation) {
       versetext = filter::strings::replace (sign, "", versetext);
     }
-    versetext = filter_string_trim (versetext);
+    versetext = filter::strings::trim (versetext);
     Database_Volatile::setValue (myIdentifier, "searchsimilar", versetext);
     return versetext;
   }
@@ -87,7 +87,7 @@ string search_similar (void * webserver_request)
   if (request->query.count ("words")) {
     
     string words = request->query ["words"];
-    words = filter_string_trim (words);
+    words = filter::strings::trim (words);
     Database_Volatile::setValue (myIdentifier, "searchsimilar", words);
     vector <string> vwords = filter::strings::explode (words, ' ');
     

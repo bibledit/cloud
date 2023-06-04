@@ -65,17 +65,17 @@ string bible_chapter (void * webserver_request)
   
   // The name of the Bible.
   string bible = access_bible::clamp (request, request->query["bible"]);
-  view.set_variable ("bible", escape_special_xml_characters (bible));
+  view.set_variable ("bible", filter::strings::escape_special_xml_characters (bible));
   
   // The book.
   int book = filter::strings::convert_to_int (request->query ["book"]);
   view.set_variable ("book", filter::strings::convert_to_string (book));
   string book_name = database::books::get_english_from_id (static_cast<book_id>(book));
-  view.set_variable ("book_name", escape_special_xml_characters (book_name));
+  view.set_variable ("book_name", filter::strings::escape_special_xml_characters (book_name));
   
   // The chapter.
   string chapter = request->query ["chapter"];
-  view.set_variable ("chapter", escape_special_xml_characters (chapter));
+  view.set_variable ("chapter", filter::strings::escape_special_xml_characters (chapter));
   
   // Whether the user has write access to this Bible book.
   if (bool write_access = access_bible::book_write (request, string(), bible, book); write_access) view.enable_zone ("write_access");

@@ -47,17 +47,17 @@ void manage_hyphenate (string bible, string user)
   // The /u switch treats the text as UTF8 Unicode.
   vector <string> firstset;
   string s_firstset = Database_Config_Bible::getHyphenationFirstSet (inputBible);
-  size_t length = unicode_string_length (s_firstset);
+  size_t length = filter::strings::unicode_string_length (s_firstset);
   for (size_t i = 0; i < length; i++) {
-    string s = unicode_string_substr (s_firstset, i, 1);
+    string s = filter::strings::unicode_string_substr (s_firstset, i, 1);
     if (s == " ") continue;
     firstset.push_back (s);
   }
   vector <string> secondset;
   string s_secondset = Database_Config_Bible::getHyphenationSecondSet (inputBible);
-  length = unicode_string_length (s_secondset);
+  length = filter::strings::unicode_string_length (s_secondset);
   for (size_t i = 0; i < length; i++) {
-    string s = unicode_string_substr (s_secondset, i, 1);
+    string s = filter::strings::unicode_string_substr (s_secondset, i, 1);
     if (s == " ") continue;
     secondset.push_back (s);
   }
@@ -117,9 +117,9 @@ string hyphenate_at_transition (vector <string>& firstset, vector <string>& seco
     
     // Split the line up into an array of UTF8 Unicode characters.
     vector <string> characters;
-    size_t length = unicode_string_length (line);
+    size_t length = filter::strings::unicode_string_length (line);
     for (size_t i = 0; i < length; i++) {
-      string s = unicode_string_substr (line, i, 1);
+      string s = filter::strings::unicode_string_substr (line, i, 1);
       characters.push_back (s);
     }
     
@@ -142,7 +142,7 @@ string hyphenate_at_transition (vector <string>& firstset, vector <string>& seco
         thisCharacterIsRelevant = in_array (character, secondset);
         if ((thisCharacterIsRelevant) && (previousCharacterWasRelevant)) {
           if (!hyphenate_is_near_white_space (characters, static_cast<int> (i))) {
-            characters[i] = soft_hyphen_u00AD () + character;
+            characters[i] = filter::strings::soft_hyphen_u00AD () + character;
           }
         }
         

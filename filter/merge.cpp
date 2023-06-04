@@ -102,9 +102,9 @@ string filter_merge_lines2graphemes (string data)
 {
   data = filter::strings::replace ("\n", " new__line ", data);
   string data2;
-  size_t count = unicode_string_length (data);
+  size_t count = filter::strings::unicode_string_length (data);
   for (size_t i = 0; i < count; i++) {
-    string grapheme = unicode_string_substr (data, i, 1);
+    string grapheme = filter::strings::unicode_string_substr (data, i, 1);
     data2.append (grapheme);
     data2.append ("\n");
   }
@@ -127,10 +127,10 @@ void filter_merge_detect_conflict (string base,
                                    vector <Merge_Conflict> & conflicts)
 {
   // Clean input.
-  base = filter_string_trim (base);
-  change = filter_string_trim (change);
-  prioritized_change = filter_string_trim (prioritized_change);
-  result = filter_string_trim (result);
+  base = filter::strings::trim (base);
+  change = filter::strings::trim (change);
+  prioritized_change = filter::strings::trim (prioritized_change);
+  result = filter::strings::trim (result);
 
   bool irregularity = false;
   string subject;
@@ -197,9 +197,9 @@ string filter_merge_run (string base, string change, string prioritized_change,
                          vector <Merge_Conflict> & conflicts)
 {
   // Trim the input.
-  base = filter_string_trim (base);
-  change = filter_string_trim (change);
-  prioritized_change = filter_string_trim (prioritized_change);
+  base = filter::strings::trim (base);
+  change = filter::strings::trim (change);
+  prioritized_change = filter::strings::trim (prioritized_change);
 
   // Try a standard line-based merge. Should be sufficient for most cases.
   vector <string> baselines = filter::strings::explode (base, '\n');

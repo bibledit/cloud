@@ -437,7 +437,7 @@ void test_database_modifications_notifications ()
     ids = database_modifications.getNotificationIdentifiers (any_user, any_bible);
     evaluate (__LINE__, __func__, {1, 2}, ids);
     
-    // Set the time back, re-index, filter_string_trim, and check one entry's gone.
+    // Set the time back, re-index, filter::strings::trim, and check one entry's gone.
     database_modifications.indexTrimAllNotifications ();
     database_modifications.notificationUpdateTime (1, filter::date::seconds_since_epoch () - 7776001);
     database_modifications.indexTrimAllNotifications ();

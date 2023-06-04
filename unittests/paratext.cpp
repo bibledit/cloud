@@ -103,8 +103,8 @@ void test_paratext ()
 \v 1 paratext 1.
 \v 2 paratext 2.
     )";
-    bibledit = filter_string_trim (bibledit);
-    paratext = filter_string_trim (paratext);
+    bibledit = filter::strings::trim (bibledit);
+    paratext = filter::strings::trim (paratext);
     {
       // Test that it takes the changes from Paratext.
       string ancestor (bibledit);
@@ -187,7 +187,7 @@ void test_paratext ()
     vector <string> messages;
     vector <Merge_Conflict> conflicts;
     string result = Paratext_Logic::synchronize (ancestor, bibledit, paratext, messages, conflicts);
-    evaluate (__LINE__, __func__, filter_string_trim (paratext), result);
+    evaluate (__LINE__, __func__, filter::strings::trim (paratext), result);
     evaluate (__LINE__, __func__, 1, messages.size ());
     if (messages.size() == 1) {
       evaluate (__LINE__, __func__, "Chapter merged", messages[0]);
@@ -198,7 +198,7 @@ void test_paratext ()
       evaluate (__LINE__, __func__, "Failed to merge your changes", conflicts[0].subject);
       evaluate (__LINE__, __func__, R"(\v 2 paratext.)", conflicts[1].result);
       evaluate (__LINE__, __func__, "Failed to merge your changes", conflicts[1].subject);
-      evaluate (__LINE__, __func__, filter_string_trim (paratext), conflicts[2].result);
+      evaluate (__LINE__, __func__, filter::strings::trim (paratext), conflicts[2].result);
       evaluate (__LINE__, __func__, "Failed to merge your changes", conflicts[1].subject);
     }
   }
@@ -244,7 +244,7 @@ void test_paratext ()
     vector <string> messages;
     vector <Merge_Conflict> conflicts;
     string result = Paratext_Logic::synchronize (ancestor, bibledit, paratext, messages, conflicts);
-    evaluate (__LINE__, __func__, filter_string_trim (bibledit), filter_string_trim (result));
+    evaluate (__LINE__, __func__, filter::strings::trim (bibledit), filter::strings::trim (result));
     evaluate (__LINE__, __func__, 1, messages.size ());
     if (messages.size() == 1) {
       evaluate (__LINE__, __func__, "Copy larger Bibledit chapter to smaller Paratext chapter", messages[0]);

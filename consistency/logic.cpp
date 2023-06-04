@@ -49,12 +49,12 @@ string Consistency_Logic::response ()
   
   // The passages entered in the Consistency tool.
   string s_passages = Database_Volatile::getValue (id, "passages");
-  s_passages = filter_string_trim (s_passages);
+  s_passages = filter::strings::trim (s_passages);
   vector <string> passages = filter::strings::explode (s_passages, '\n');
   
   // The translations entered in the Consistency tool.
   string s_translations = Database_Volatile::getValue (id, "translations");
-  s_translations = filter_string_trim (s_translations);
+  s_translations = filter::strings::trim (s_translations);
   vector <string> translations = filter::strings::explode (s_translations, '\n');
   
   // Contains the response to display.
@@ -65,7 +65,7 @@ string Consistency_Logic::response ()
   for (auto line : passages) {
     
     // Clean line.
-    line = filter_string_trim (line);
+    line = filter::strings::trim (line);
     
     // Skip empty line.
     if (line.empty ()) continue;
@@ -151,15 +151,15 @@ string Consistency_Logic::omit_verse_text (string input)
   // 1 Peter 4:17 For the time has come for judgment to begin with the household of God. If it begins first with us, what will happen to those who don’t obey the Good News of God?
   // The purpose of this function is to extract "1 Peter 4:17" from it, and leave the rest out.
   // This is done by leaving out everything after the last numeral.
-  size_t length = unicode_string_length (input);
+  size_t length = filter::strings::unicode_string_length (input);
   size_t last_numeral = 0;
   for (size_t i = 0; i < length; i++) {
-    string character = unicode_string_substr (input, i, 1);
-    if (filter_string_is_numeric (character)) {
+    string character = filter::strings::unicode_string_substr (input, i, 1);
+    if (filter::strings::is_numeric (character)) {
       last_numeral = i;
     }
   }
   last_numeral++;
-  input = unicode_string_substr (input, 0, last_numeral);
+  input = filter::strings::unicode_string_substr (input, 0, last_numeral);
   return input;
 }

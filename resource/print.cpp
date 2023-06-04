@@ -93,7 +93,7 @@ string resource_print (void * webserver_request)
     vector <string> resources = request->database_config_user()->getPrintResources ();
     if (!resources.empty () && (offset < resources.size ())) {
       string remove = resources [offset];
-      resources = filter_string_array_diff (resources, {remove});
+      resources = filter::strings::array_diff (resources, {remove});
       request->database_config_user()->setPrintResources (resources);
     }
   }

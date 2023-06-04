@@ -73,7 +73,7 @@ string images_index (void * webserver_request)
       filter_url_file_put_contents (file, data);
       bool background_import = filter_archive_is_archive (file);
       string extension = filter_url_get_extension (file);
-      extension = unicode_string_casefold (extension);
+      extension = filter::strings::unicode_string_casefold (extension);
       if (background_import) {
         tasks_logic_queue (IMPORTBIBLEIMAGES, { file });
         success = translate("The file was uploaded and is being processed.");

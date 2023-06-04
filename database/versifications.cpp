@@ -89,7 +89,7 @@ void Database_Versifications::input (const string& contents, const string& name)
   
   vector <string> lines = filter::strings::explode (contents, '\n');
   for (auto line : lines) {
-    line = filter_string_trim (line);
+    line = filter::strings::trim (line);
     if (line.empty ()) continue;
     // The line will be something similar to this: 1 Corinthians 1:31
     // Split the passage entry on the colon (:) to get the verse.

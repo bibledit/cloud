@@ -146,15 +146,15 @@ book_id get_id_like_text (const string & text)
   for (unsigned int i = 0; i < data_count; i++) {
     int id {static_cast<int>(books_table[i].id)};
     ids.push_back (id);
-    similarities.push_back (filter_diff_character_similarity (text, unicode_string_casefold(books_table[i].english)));
+    similarities.push_back (filter_diff_character_similarity (text, filter::strings::unicode_string_casefold(books_table[i].english)));
     ids.push_back (id);
-    similarities.push_back (filter_diff_character_similarity (text, unicode_string_casefold(books_table[i].osis)));
+    similarities.push_back (filter_diff_character_similarity (text, filter::strings::unicode_string_casefold(books_table[i].osis)));
     ids.push_back (id);
     similarities.push_back (filter_diff_character_similarity (text, books_table[i].usfm));
     ids.push_back (id);
-    similarities.push_back (filter_diff_character_similarity (text, unicode_string_casefold(books_table[i].bibleworks)));
+    similarities.push_back (filter_diff_character_similarity (text, filter::strings::unicode_string_casefold(books_table[i].bibleworks)));
     ids.push_back (id);
-    similarities.push_back (filter_diff_character_similarity (text, unicode_string_casefold(books_table[i].onlinebible)));
+    similarities.push_back (filter_diff_character_similarity (text, filter::strings::unicode_string_casefold(books_table[i].onlinebible)));
   }
   quick_sort (similarities, ids, 0, static_cast<unsigned>(ids.size()));
   int id = ids.back ();

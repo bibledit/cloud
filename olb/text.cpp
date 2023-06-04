@@ -35,7 +35,7 @@ OnlineBible_Text::OnlineBible_Text ()
 
 void OnlineBible_Text::storeData ()
 {
-  if (lineLoaded) output.push_back (filter_string_trim (currentLine));
+  if (lineLoaded) output.push_back (filter::strings::trim (currentLine));
   currentLine.clear();
   lineLoaded = false;
 }

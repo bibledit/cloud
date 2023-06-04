@@ -62,13 +62,13 @@ string bible_css (void * webserver_request)
   
   // The name of the Bible.
   string bible = access_bible::clamp (request, request->query ["bible"]);
-  view.set_variable ("bible", escape_special_xml_characters (bible));
+  view.set_variable ("bible", filter::strings::escape_special_xml_characters (bible));
   
   // Data submission.
   if (request->post.count ("submit")) {
     
     string font = request->post ["font"];
-    font = filter_string_trim (font);
+    font = filter::strings::trim (font);
 #ifdef HAVE_CLIENT
     // Bibledit client storage.
     Database_Config_Bible::setTextFontClient (bible, font);

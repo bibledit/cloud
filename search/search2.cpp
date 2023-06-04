@@ -180,12 +180,12 @@ string search_search2 (void * webserver_request)
         hits.insert (hits.end(), loaded_hits.begin(), loaded_hits.end());
       }
       if (sharing == "remove") {
-        hits = filter_string_array_diff (loaded_hits, hits);
+        hits = filter::strings::array_diff (loaded_hits, hits);
       }
       if (sharing == "intersect") {
         hits = array_intersect (loaded_hits, hits);
       }
-      hits = array_unique (hits);
+      hits = filter::strings::array_unique (hits);
     }
 
 

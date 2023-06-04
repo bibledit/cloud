@@ -62,7 +62,7 @@ void Checks_Sentences::enter_names (string names)
   for (auto name : names2) {
     if (!name.empty()) {
       // Limit the length to the left of the suffix in the test.
-      name = unicode_string_substr (name, 0, 11);
+      name = filter::strings::unicode_string_substr (name, 0, 11);
       m_names.push_back (name);
     }
   }
@@ -100,9 +100,9 @@ void Checks_Sentences::check (const map <int, string> & texts)
       full_text += " ";
     }
     // Split the UTF-8 text into characters and add them to the arrays of verse_numbers / characters.
-    size_t count = unicode_string_length (text);
+    size_t count = filter::strings::unicode_string_length (text);
     for (size_t i = 0; i < count; i++) {
-      character = unicode_string_substr (text, i, 1);
+      character = filter::strings::unicode_string_substr (text, i, 1);
       // Skip characters to be disregarded.
       if (in_array (character, m_disregards)) continue;
       // Store verse numbers and characters.
@@ -198,7 +198,7 @@ void Checks_Sentences::paragraphs (const vector <string> & paragraph_start_marke
     int verse = verses_paragraph.begin()->first;
     string character2 = verses_paragraph.begin()->second;
     if (!character2.empty ()) {
-      character2 = unicode_string_substr (character2, 0, 1);
+      character2 = filter::strings::unicode_string_substr (character2, 0, 1);
     }
     
     // Check that the paragraph starts with a capital.
@@ -207,7 +207,7 @@ void Checks_Sentences::paragraphs (const vector <string> & paragraph_start_marke
       const string & paragraph_marker = paragraph_start_markers [p];
       if (!in_array (paragraph_marker, within_sentence_paragraph_markers)) {
         string context = verses_paragraph.begin()->second;
-        context = unicode_string_substr (context, 0, 15);
+        context = filter::strings::unicode_string_substr (context, 0, 15);
         checking_results.push_back (pair (verse, translate ("Paragraph does not start with a capital:") + " " + context));
       }
     }
@@ -216,14 +216,14 @@ void Checks_Sentences::paragraphs (const vector <string> & paragraph_start_marke
     verse = verses_paragraph.rbegin()->first;
     character2 = verses_paragraph.rbegin()->second;
     if (!character2.empty ()) {
-      size_t length = unicode_string_length (character2);
-      character2 = unicode_string_substr (character2, length - 1, 1);
+      size_t length = filter::strings::unicode_string_length (character2);
+      character2 = filter::strings::unicode_string_substr (character2, length - 1, 1);
     }
     string previous_character = verses_paragraph.rbegin()->second;
     if (!previous_character.empty ()) {
-      size_t length = unicode_string_length (character2);
+      size_t length = filter::strings::unicode_string_length (character2);
       if (length >= 2) {
-        previous_character = unicode_string_substr (previous_character, length - 2, 1);
+        previous_character = filter::strings::unicode_string_substr (previous_character, length - 2, 1);
       } else {
         previous_character.clear ();
       }
@@ -241,9 +241,9 @@ void Checks_Sentences::paragraphs (const vector <string> & paragraph_start_marke
       }
       if (next_paragraph_marker.empty () || (!in_array (next_paragraph_marker, within_sentence_paragraph_markers))) {
         string context = verses_paragraph.rbegin()->second;
-        const size_t length = unicode_string_length (character2);
+        const size_t length = filter::strings::unicode_string_length (character2);
         if (length >= 15) {
-          context = unicode_string_substr (context, length - 15, 15);
+          context = filter::strings::unicode_string_substr (context, length - 15, 15);
         }
         checking_results.push_back (pair (verse, translate ("Paragraph does not end with an end marker:") + " " + context));
       }
@@ -264,7 +264,7 @@ void Checks_Sentences::add_result (string text, int modifier)
   // Get previous and next text fragment.
   int start = current_position - 25;
   if (start < 0) start = 0;
-  string previousFragment = unicode_string_substr (full_text, static_cast <size_t> (start), static_cast <size_t> (current_position - start - 1));
+  string previousFragment = filter::strings::unicode_string_substr (full_text, static_cast <size_t> (start), static_cast <size_t> (current_position - start - 1));
   int iterations {5};
   while (iterations) {
     const size_t pos = previousFragment.find (" ");
@@ -275,7 +275,7 @@ void Checks_Sentences::add_result (string text, int modifier)
     }
     iterations--;
   }
-  string nextFragment = unicode_string_substr (full_text, static_cast <size_t> (current_position), 25);
+  string nextFragment = filter::strings::unicode_string_substr (full_text, static_cast <size_t> (current_position), 25);
   while (nextFragment.length () > 10) {
     const size_t pos = nextFragment.rfind (" ");
     if (pos == string::npos) nextFragment.erase (nextFragment.length () - 1, 1);

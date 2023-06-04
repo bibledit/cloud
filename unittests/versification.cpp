@@ -40,7 +40,7 @@ void test_versification ()
     Database_Check database_check;
     database_check.create ();
     vector <int> books = database_versifications.getBooks (english ());
-    vector <int> fault = filter_string_array_diff (books, {10});
+    vector <int> fault = filter::strings::array_diff (books, {10});
     checks_versification::books ("Bible", fault);
     vector <Database_Check_Hit> results = database_check.getHits ();
     evaluate (__LINE__, __func__, 1, static_cast<int>(results.size()));
@@ -223,7 +223,7 @@ void test_database_mappings ()
     vector <string> names = database_mappings.names ();
     evaluate (__LINE__, __func__, {"Hebrew Greek", "phpunit"}, names);
     string output = database_mappings.output ("phpunit");
-    evaluate (__LINE__, __func__, filter_string_trim (import), filter_string_trim (output));
+    evaluate (__LINE__, __func__, filter::strings::trim (import), filter::strings::trim (output));
   }
   
   // Create.
@@ -489,6 +489,6 @@ void test_database_versifications ()
     evaluate (__LINE__, __func__, 2, static_cast<int> (data.size ()));
     evaluate (__LINE__, __func__, "25", data [1].m_verse);
     string output = database_versifications.output ("phpunit");
-    evaluate (__LINE__, __func__, filter_string_trim (input), filter_string_trim (output));
+    evaluate (__LINE__, __func__, filter::strings::trim (input), filter::strings::trim (output));
   }
 }

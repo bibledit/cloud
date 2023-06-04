@@ -459,7 +459,7 @@ bool sendreceive_notes_download (int lowId, int highId)
   // The client deletes notes no longer on the server.
   // But it skips the notes that have actions recorded for them,
   // as these notes are scheduled to be sent to the server first.
-  identifiers = filter_string_array_diff (client_identifiers, server_identifiers);
+  identifiers = filter::strings::array_diff (client_identifiers, server_identifiers);
   int delete_counter = 0;
   for (auto identifier : identifiers) {
     if (database_noteactions.exists (identifier)) continue;

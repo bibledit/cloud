@@ -174,7 +174,7 @@ int email_receive_count (string& error, bool verbose)
   if (res == CURLE_OK) {
     if (s.ptr) {
       string response = s.ptr;
-      response = filter_string_trim (response);
+      response = filter::strings::trim (response);
       mailcount = static_cast<int>(filter::strings::explode (response, '\n').size());
     }
   } else {

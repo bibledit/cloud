@@ -131,7 +131,7 @@ string sources_etcbc4_clean (string item)
   item = filter::strings::replace ("]", "", item);
   item = filter::strings::replace ("[", "", item);
   item = filter::strings::replace ("=", "", item);
-  item = filter_string_trim (item);
+  item = filter::strings::trim (item);
   return item;
 }
 

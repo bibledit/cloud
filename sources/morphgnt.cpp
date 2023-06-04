@@ -67,8 +67,8 @@ void sources_morphgnt_parse ()
       string lemma = bits[6];
 
       // Casefold and transliterate the lemma: This enables searching on the lemma.
-      lemma = unicode_string_casefold (lemma);
-      lemma = unicode_string_transliterate (lemma);
+      lemma = filter::strings::unicode_string_casefold (lemma);
+      lemma = filter::strings::unicode_string_transliterate (lemma);
 
       database_morphgnt.store (book, chapter, verse, pos, parsing, word, lemma);
     }

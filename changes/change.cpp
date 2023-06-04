@@ -169,7 +169,7 @@ string changes_change (void * webserver_request)
   xml_document notes_document {};
   for (const auto note : notes) {
     string summary = database_notes.get_summary (note);
-    summary = escape_special_xml_characters (summary);
+    summary = filter::strings::escape_special_xml_characters (summary);
     bool subscription = database_notes.is_subscribed (note, username);
     bool assignment = database_notes.is_assigned (note, username);
     xml_node tr_node = notes_document.append_child("tr");

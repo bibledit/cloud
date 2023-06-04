@@ -928,7 +928,7 @@ void odf_text::place_text_in_frame (string text, string style, float fontsize, i
 
   xml_node text_p_dom_element = draw_text_box_dom_element.append_child ("text:p");
   text_p_dom_element.append_attribute ("text:style-name") = convert_style_name (style).c_str();
-  text_p_dom_element.text().set( escape_special_xml_characters (text).c_str());
+  text_p_dom_element.text().set( filter::strings::escape_special_xml_characters (text).c_str());
 
   // File styles.xml contains the appropriate styles for this frame and text box and paragraph.
   // Create the styles once for the whole document.
@@ -1043,9 +1043,9 @@ void odf_text::add_note (string caller, string style, bool endnote)
   // It handles the setting on the export page for having an automatic note caller.
   xml_node text_note_citation_dom_element = text_note_dom_element.append_child ("text:note-citation");
   if (!automatic_note_caller) {
-    text_note_citation_dom_element.append_attribute ("text:label") = escape_special_xml_characters (caller).c_str();
+    text_note_citation_dom_element.append_attribute ("text:label") = filter::strings::escape_special_xml_characters (caller).c_str();
   }
-  text_note_citation_dom_element.text().set( escape_special_xml_characters (caller).c_str());
+  text_note_citation_dom_element.text().set( filter::strings::escape_special_xml_characters (caller).c_str());
 
   xml_node text_note_body_dom_element = text_note_dom_element.append_child ("text:note-body");
 
@@ -1079,7 +1079,7 @@ void odf_text::add_note_text (string text)
     }
     dom_element = text_span_dom_element;
   }
-  dom_element.text().set( escape_special_xml_characters (text).c_str());
+  dom_element.text().set( filter::strings::escape_special_xml_characters (text).c_str());
 }
 
 
@@ -1101,7 +1101,7 @@ void odf_text::new_named_heading (string style, string text, bool hide)
   xml_node text_h_dom_element = office_text_node.append_child ("text:h");
   text_h_dom_element.append_attribute ("text:style-name") = convert_style_name (style).c_str();
   text_h_dom_element.append_attribute ("text:outline-level") = "1";
-  text_h_dom_element.text().set(escape_special_xml_characters (text).c_str());
+  text_h_dom_element.text().set(filter::strings::escape_special_xml_characters (text).c_str());
 
   // Heading style looks like this in styles.xml:
   // <style:style style:name="Heading_20_1" style:display-name="Heading 1" style:family="paragraph" style:parent-style-name="Heading" style:next-style-name="Text_20_body" style:default-outline-level="1" style:class="text">

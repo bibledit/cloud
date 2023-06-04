@@ -37,15 +37,15 @@ void test_string ()
     evaluate (__LINE__, __func__, "a", filter::strings::replace ("bc", "", "abc", &counter));
     evaluate (__LINE__, __func__, 1, counter);
     // Same test for the real Unicode replacer.
-    evaluate (__LINE__, __func__, "⇊⇦", unicode_string_str_replace ("⇖", "", "⇊⇖⇦"));
-    evaluate (__LINE__, __func__, "⇊⇖⇦", unicode_string_str_replace ("", "", "⇊⇖⇦"));
-    evaluate (__LINE__, __func__, "⇖⇦", unicode_string_str_replace ("⇊", "", "⇊⇖⇦"));
-    evaluate (__LINE__, __func__, "⇊⇖", unicode_string_str_replace ("⇦", "", "⇊⇖⇦"));
-    evaluate (__LINE__, __func__, "⇊⇖⇦", unicode_string_str_replace ("a", "", "⇊⇖⇦"));
-    evaluate (__LINE__, __func__, "a", unicode_string_str_replace ("bc", "", "abc"));
+    evaluate (__LINE__, __func__, "⇊⇦", filter::strings::unicode_string_str_replace ("⇖", "", "⇊⇖⇦"));
+    evaluate (__LINE__, __func__, "⇊⇖⇦", filter::strings::unicode_string_str_replace ("", "", "⇊⇖⇦"));
+    evaluate (__LINE__, __func__, "⇖⇦", filter::strings::unicode_string_str_replace ("⇊", "", "⇊⇖⇦"));
+    evaluate (__LINE__, __func__, "⇊⇖", filter::strings::unicode_string_str_replace ("⇦", "", "⇊⇖⇦"));
+    evaluate (__LINE__, __func__, "⇊⇖⇦", filter::strings::unicode_string_str_replace ("a", "", "⇊⇖⇦"));
+    evaluate (__LINE__, __func__, "a", filter::strings::unicode_string_str_replace ("bc", "", "abc"));
   }
 
-  // Test array_unique, a C++ equivalent for PHP's array_unique function.
+  // Test filter::strings::array_unique, a C++ equivalent for PHP's filter::strings::array_unique function.
   {
     vector <string> reference;
     reference.push_back ("aaa");
@@ -66,11 +66,11 @@ void test_string ()
     input.push_back ("yyy");
     input.push_back ("k");
     input.push_back ("k");
-    vector <string> output = array_unique (input);
+    vector <string> output = filter::strings::array_unique (input);
     evaluate (__LINE__, __func__, reference, output);
   }
 
-  // Test array_unique, a C++ equivalent for PHP's array_unique function.
+  // Test filter::strings::array_unique, a C++ equivalent for PHP's filter::strings::array_unique function.
   {
     vector <int> reference;
     reference.push_back (111);
@@ -91,11 +91,11 @@ void test_string ()
     input.push_back (888);
     input.push_back (5);
     input.push_back (5);
-    vector <int> output = array_unique (input);
+    vector <int> output = filter::strings::array_unique (input);
     evaluate (__LINE__, __func__, reference, output);
   }
 
-  // Test filter_string_array_diff, a C++ equivalent for PHP's filter_string_array_diff function.
+  // Test filter::strings::array_diff, a C++ equivalent for PHP's filter::strings::array_diff function.
   {
     vector <string> reference;
     reference.push_back ("aaa");
@@ -112,11 +112,11 @@ void test_string ()
     against.push_back ("bbb");
     against.push_back ("ccc");
     against.push_back ("x");
-    vector <string> output = filter_string_array_diff (from, against);
+    vector <string> output = filter::strings::array_diff (from, against);
     evaluate (__LINE__, __func__, reference, output);
   }
 
-  // Test filter_string_array_diff, a C++ equivalent for PHP's filter_string_array_diff function.
+  // Test filter::strings::array_diff, a C++ equivalent for PHP's filter::strings::array_diff function.
   {
     vector <int> reference;
     reference.push_back (111);
@@ -133,7 +133,7 @@ void test_string ()
     against.push_back (222);
     against.push_back (333);
     against.push_back (8);
-    vector <int> output = filter_string_array_diff (from, against);
+    vector <int> output = filter::strings::array_diff (from, against);
     evaluate (__LINE__, __func__, reference, output);
   }
 
@@ -173,27 +173,27 @@ void test_string ()
 
   // Test string modifiers.
   {
-    evaluate (__LINE__, __func__, string(), filter_string_trim ("  "));
-    evaluate (__LINE__, __func__, string(), filter_string_trim (string()));
-    evaluate (__LINE__, __func__, "xx", filter_string_trim ("\t\nxx\n\r"));
-    evaluate (__LINE__, __func__, string(), filter_string_ltrim ("  "));
-    evaluate (__LINE__, __func__, string(), filter_string_ltrim (string()));
-    evaluate (__LINE__, __func__, "xx\n\r", filter_string_ltrim ("xx\n\r"));
-    evaluate (__LINE__, __func__, "xx  ", filter_string_ltrim ("  xx  "));
-    evaluate (__LINE__, __func__, string(), filter_string_rtrim ("  "));
-    evaluate (__LINE__, __func__, string(), filter_string_rtrim (string()));
-    evaluate (__LINE__, __func__, "xx", filter_string_rtrim ("xx\n\r"));
-    evaluate (__LINE__, __func__, "\n\rxx", filter_string_rtrim ("\n\rxx"));
-    evaluate (__LINE__, __func__, "  xx", filter_string_rtrim ("  xx  "));
-    evaluate (__LINE__, __func__, "0000012345", filter_string_fill ("12345", 10, '0'));
+    evaluate (__LINE__, __func__, string(), filter::strings::trim ("  "));
+    evaluate (__LINE__, __func__, string(), filter::strings::trim (string()));
+    evaluate (__LINE__, __func__, "xx", filter::strings::trim ("\t\nxx\n\r"));
+    evaluate (__LINE__, __func__, string(), filter::strings::ltrim ("  "));
+    evaluate (__LINE__, __func__, string(), filter::strings::ltrim (string()));
+    evaluate (__LINE__, __func__, "xx\n\r", filter::strings::ltrim ("xx\n\r"));
+    evaluate (__LINE__, __func__, "xx  ", filter::strings::ltrim ("  xx  "));
+    evaluate (__LINE__, __func__, string(), filter::strings::rtrim ("  "));
+    evaluate (__LINE__, __func__, string(), filter::strings::rtrim (string()));
+    evaluate (__LINE__, __func__, "xx", filter::strings::rtrim ("xx\n\r"));
+    evaluate (__LINE__, __func__, "\n\rxx", filter::strings::rtrim ("\n\rxx"));
+    evaluate (__LINE__, __func__, "  xx", filter::strings::rtrim ("  xx  "));
+    evaluate (__LINE__, __func__, "0000012345", filter::strings::fill ("12345", 10, '0'));
   }
   
   // Numeric tests.
   {
-    evaluate (__LINE__, __func__, true, filter_string_is_numeric ("1"));
-    evaluate (__LINE__, __func__, true, filter_string_is_numeric ("1234"));
-    evaluate (__LINE__, __func__, false, filter_string_is_numeric ("X"));
-    evaluate (__LINE__, __func__, false, filter_string_is_numeric ("120X"));
+    evaluate (__LINE__, __func__, true, filter::strings::is_numeric ("1"));
+    evaluate (__LINE__, __func__, true, filter::strings::is_numeric ("1234"));
+    evaluate (__LINE__, __func__, false, filter::strings::is_numeric ("X"));
+    evaluate (__LINE__, __func__, false, filter::strings::is_numeric ("120X"));
   }
   
   // String conversion to int.
@@ -206,8 +206,8 @@ void test_string ()
   
   // Unicode validity test.
   {
-    evaluate (__LINE__, __func__, true, unicode_string_is_valid ("valid"));
-    evaluate (__LINE__, __func__, true, unicode_string_is_valid ("בְּרֵאשִׁית, בָּרָא אֱלֹהִים, אֵת הַשָּׁמַיִם, וְאֵת הָאָרֶץ"));
+    evaluate (__LINE__, __func__, true, filter::strings::unicode_string_is_valid ("valid"));
+    evaluate (__LINE__, __func__, true, filter::strings::unicode_string_is_valid ("בְּרֵאשִׁית, בָּרָא אֱלֹהִים, אֵת הַשָּׁמַיִם, וְאֵת הָאָרֶץ"));
   }
   
   // Searching in array.
@@ -268,9 +268,9 @@ void test_string ()
     "Here follows an image: .\n"
     "Header 1\n"
     "Normal text again below the header.\n";
-    html = any_space_to_standard_space (html);
+    html = filter::strings::any_space_to_standard_space (html);
     html = filter_string_html2text (html);
-    evaluate (__LINE__, __func__, filter_string_trim (plain), filter_string_trim (html));
+    evaluate (__LINE__, __func__, filter::strings::trim (plain), filter::strings::trim (html));
   }
   {
     string html =
@@ -280,7 +280,7 @@ void test_string ()
     "\n";
     string plain =
     "test notes fourLogbook:";
-    evaluate (__LINE__, __func__, filter_string_trim (plain), filter_string_trim (filter_string_html2text (html)));
+    evaluate (__LINE__, __func__, filter::strings::trim (plain), filter::strings::trim (filter_string_html2text (html)));
   }
   {
     string html =
@@ -293,7 +293,7 @@ void test_string ()
     "Line one.\n"
     "Line two.\n"
     "Line three.\n";
-    evaluate (__LINE__, __func__, filter_string_trim (plain), filter_string_trim (filter_string_html2text (html)));
+    evaluate (__LINE__, __func__, filter::strings::trim (plain), filter::strings::trim (filter_string_html2text (html)));
   }
 
   // Email address extraction.
@@ -390,61 +390,61 @@ void test_string ()
   }
   
   {
-    evaluate (__LINE__, __func__, 4, static_cast<int>(unicode_string_length ("test")));
-    evaluate (__LINE__, __func__, 4, static_cast<int>(unicode_string_length ("ᨁᨃᨅᨕ")));
+    evaluate (__LINE__, __func__, 4, static_cast<int>( filter::strings::unicode_string_length ("test")));
+    evaluate (__LINE__, __func__, 4, static_cast<int>( filter::strings::unicode_string_length ("ᨁᨃᨅᨕ")));
   }
   
   {
     string hebrew = "אָבּגּדּהּ";
-    evaluate (__LINE__, __func__, "st1234", unicode_string_substr ("test1234", 2));
-    evaluate (__LINE__, __func__, "גּדּהּ", unicode_string_substr (hebrew, 2));
-    evaluate (__LINE__, __func__, "", unicode_string_substr (hebrew, 5));
-    evaluate (__LINE__, __func__, "", unicode_string_substr (hebrew, 6));
-    evaluate (__LINE__, __func__, "test", unicode_string_substr ("test123456", 0, 4));
-    evaluate (__LINE__, __func__, "12", unicode_string_substr ("test123456", 4, 2));
-    evaluate (__LINE__, __func__, "גּדּ", unicode_string_substr (hebrew, 2, 2));
-    evaluate (__LINE__, __func__, "גּדּהּ", unicode_string_substr (hebrew, 2, 10));
+    evaluate (__LINE__, __func__, "st1234", filter::strings::unicode_string_substr ("test1234", 2));
+    evaluate (__LINE__, __func__, "גּדּהּ", filter::strings::unicode_string_substr (hebrew, 2));
+    evaluate (__LINE__, __func__, "", filter::strings::unicode_string_substr (hebrew, 5));
+    evaluate (__LINE__, __func__, "", filter::strings::unicode_string_substr (hebrew, 6));
+    evaluate (__LINE__, __func__, "test", filter::strings::unicode_string_substr ("test123456", 0, 4));
+    evaluate (__LINE__, __func__, "12", filter::strings::unicode_string_substr ("test123456", 4, 2));
+    evaluate (__LINE__, __func__, "גּדּ", filter::strings::unicode_string_substr (hebrew, 2, 2));
+    evaluate (__LINE__, __func__, "גּדּהּ", filter::strings::unicode_string_substr (hebrew, 2, 10));
   }
   
   {
-    string hebrew = "אָבּגּדּהּ";
-    string needle = "דּ";
-    evaluate (__LINE__, __func__, 3, static_cast<int>(unicode_string_strpos ("012345", "3")));
-    evaluate (__LINE__, __func__, 5, static_cast<int>(unicode_string_strpos ("012345", "5")));
-    evaluate (__LINE__, __func__, 0, static_cast<int>(unicode_string_strpos ("012345", "0")));
-    evaluate (__LINE__, __func__, -1, static_cast<int>(unicode_string_strpos ("012345", "6")));
-    evaluate (__LINE__, __func__, 3, static_cast<int>(unicode_string_strpos (hebrew, needle)));
-    evaluate (__LINE__, __func__, 3, static_cast<int>(unicode_string_strpos (hebrew, needle, 3)));
-    evaluate (__LINE__, __func__, -1, static_cast<int>(unicode_string_strpos (hebrew, needle, 4)));
-    evaluate (__LINE__, __func__, -1, static_cast<int>(unicode_string_strpos ("", "3")));
+    string hebrew {"אָבּגּדּהּ"};
+    string needle {"דּ"};
+    evaluate (__LINE__, __func__, 3, static_cast<int>(filter::strings::unicode_string_strpos ("012345", "3")));
+    evaluate (__LINE__, __func__, 5, static_cast<int>(filter::strings::unicode_string_strpos ("012345", "5")));
+    evaluate (__LINE__, __func__, 0, static_cast<int>(filter::strings::unicode_string_strpos ("012345", "0")));
+    evaluate (__LINE__, __func__, -1, static_cast<int>(filter::strings::unicode_string_strpos ("012345", "6")));
+    evaluate (__LINE__, __func__, 3, static_cast<int>(filter::strings::unicode_string_strpos (hebrew, needle)));
+    evaluate (__LINE__, __func__, 3, static_cast<int>(filter::strings::unicode_string_strpos (hebrew, needle, 3)));
+    evaluate (__LINE__, __func__, -1, static_cast<int>(filter::strings::unicode_string_strpos (hebrew, needle, 4)));
+    evaluate (__LINE__, __func__, -1, static_cast<int>(filter::strings::unicode_string_strpos ("", "3")));
   }
   
   {
-    evaluate (__LINE__, __func__, 2, static_cast<int>(unicode_string_strpos_case_insensitive ("AbCdEf", "c")));
-    evaluate (__LINE__, __func__, 2, static_cast<int>(unicode_string_strpos_case_insensitive ("AbCdEf", "cD")));
-    evaluate (__LINE__, __func__, -1, static_cast<int>(unicode_string_strpos_case_insensitive ("AbCdEf", "ce")));
+    evaluate (__LINE__, __func__, 2, static_cast<int>(filter::strings::unicode_string_strpos_case_insensitive ("AbCdEf", "c")));
+    evaluate (__LINE__, __func__, 2, static_cast<int>(filter::strings::unicode_string_strpos_case_insensitive ("AbCdEf", "cD")));
+    evaluate (__LINE__, __func__, -1, static_cast<int>(filter::strings::unicode_string_strpos_case_insensitive ("AbCdEf", "ce")));
   }
   
   {
-    evaluate (__LINE__, __func__, "test1234", unicode_string_casefold ("test1234"));
-    evaluate (__LINE__, __func__, "test1234", unicode_string_casefold ("TEST1234"));
-    evaluate (__LINE__, __func__, "θεος", unicode_string_casefold ("Θεος"));
-    evaluate (__LINE__, __func__, "α α β β", unicode_string_casefold ("Α α Β β"));
-    evaluate (__LINE__, __func__, "אָבּגּדּהּ", unicode_string_casefold ("אָבּגּדּהּ"));
+    evaluate (__LINE__, __func__, "test1234", filter::strings::unicode_string_casefold ("test1234"));
+    evaluate (__LINE__, __func__, "test1234", filter::strings::unicode_string_casefold ("TEST1234"));
+    evaluate (__LINE__, __func__, "θεος", filter::strings::unicode_string_casefold ("Θεος"));
+    evaluate (__LINE__, __func__, "α α β β", filter::strings::unicode_string_casefold ("Α α Β β"));
+    evaluate (__LINE__, __func__, "אָבּגּדּהּ", filter::strings::unicode_string_casefold ("אָבּגּדּהּ"));
   }
   
   {
-    evaluate (__LINE__, __func__, "TEST1234", unicode_string_uppercase ("test1234"));
-    evaluate (__LINE__, __func__, "TEST1234", unicode_string_uppercase ("TEST1234"));
-    evaluate (__LINE__, __func__, "ΘΕΟΣ", unicode_string_uppercase ("Θεος"));
-    evaluate (__LINE__, __func__, "Α Α Β Β", unicode_string_uppercase ("Α α Β β"));
-    evaluate (__LINE__, __func__, "אָבּגּדּהּ", unicode_string_uppercase ("אָבּגּדּהּ"));
+    evaluate (__LINE__, __func__, "TEST1234", filter::strings::unicode_string_uppercase ("test1234"));
+    evaluate (__LINE__, __func__, "TEST1234", filter::strings::unicode_string_uppercase ("TEST1234"));
+    evaluate (__LINE__, __func__, "ΘΕΟΣ", filter::strings::unicode_string_uppercase ("Θεος"));
+    evaluate (__LINE__, __func__, "Α Α Β Β", filter::strings::unicode_string_uppercase ("Α α Β β"));
+    evaluate (__LINE__, __func__, "אָבּגּדּהּ", filter::strings::unicode_string_uppercase ("אָבּגּדּהּ"));
   }
   
   {
-    evaluate (__LINE__, __func__, "ABCDEFG", unicode_string_transliterate ("ABCDEFG"));
-    evaluate (__LINE__, __func__, "Ιησου Χριστου", unicode_string_transliterate ("Ἰησοῦ Χριστοῦ"));
-    evaluate (__LINE__, __func__, "אבגדה", unicode_string_transliterate ("אָבּגּדּהּ"));
+    evaluate (__LINE__, __func__, "ABCDEFG", filter::strings::unicode_string_transliterate ("ABCDEFG"));
+    evaluate (__LINE__, __func__, "Ιησου Χριστου", filter::strings::unicode_string_transliterate ("Ἰησοῦ Χριστοῦ"));
+    evaluate (__LINE__, __func__, "אבגדה", filter::strings::unicode_string_transliterate ("אָבּגּדּהּ"));
   }
   
   {
@@ -456,10 +456,10 @@ void test_string ()
   }
   
   {
-    evaluate (__LINE__, __func__, false, unicode_string_is_punctuation ("A"));
-    evaluate (__LINE__, __func__, false, unicode_string_is_punctuation ("z"));
-    evaluate (__LINE__, __func__, true, unicode_string_is_punctuation ("."));
-    evaluate (__LINE__, __func__, true, unicode_string_is_punctuation (","));
+    evaluate (__LINE__, __func__, false, filter::strings::unicode_string_is_punctuation ("A"));
+    evaluate (__LINE__, __func__, false, filter::strings::unicode_string_is_punctuation ("z"));
+    evaluate (__LINE__, __func__, true, filter::strings::unicode_string_is_punctuation ("."));
+    evaluate (__LINE__, __func__, true, filter::strings::unicode_string_is_punctuation (","));
   }
   
   {
@@ -472,18 +472,18 @@ void test_string ()
   }
   
   {
-    evaluate (__LINE__, __func__, 21109, unicode_string_convert_to_codepoint ("創"));
-    evaluate (__LINE__, __func__, 97, unicode_string_convert_to_codepoint ("a"));
+    evaluate (__LINE__, __func__, 21109, filter::strings::unicode_string_convert_to_codepoint ("創"));
+    evaluate (__LINE__, __func__, 97, filter::strings::unicode_string_convert_to_codepoint ("a"));
   }
   
   {
     // Check that the function to desanitize html no longer corrupts UTF-8.
     string html = "<p>“Behold”, from “הִנֵּה”, means look at</p>";
-    string desanitized = any_space_to_standard_space (unescape_special_xml_characters (html));
+    string desanitized = filter::strings::any_space_to_standard_space (filter::strings::unescape_special_xml_characters (html));
     evaluate (__LINE__, __func__, html, desanitized);
     // Regression test for fix for corrupting Greek.
     html = "Ada juga seorang pengemis yang ita bernama Lazarus.<span class=i-notecall1>1</span> Setiap hari dia terbaring di pintu gerbang rumah orang kaya itu. Badan Lazarus penuh dengan luka bernanah dan busuk.<span class=i-notecall2>2</span></p><p class=b-notes><br></p><p class=b-f><span class=i-notebody1>1</span> <span class=i-fr>16:20 </span><span class=i-fk>Lazarus </span><span class=i-ft>Orang miskin Lazarus dalam perumpamaan ini berbeda dengan Lazarus— sahabat Isa yang dihidupkan oleh Isa dari kematian (Yoh. 11).</span></p><p class=b-x><span class=i-notebody2>2</span> <span class=i-xo>16:20 </span><span class=i-xt>Πτωχὸς δέ τις ἦν ὀνόματι Λάζαρος, ὃς ἐβέβλητο πρὸς τὸν πυλῶνα αὐτοῦ ἡλκωμένος</span></p>";
-    desanitized = any_space_to_standard_space (html);
+    desanitized = filter::strings::any_space_to_standard_space (html);
     evaluate (__LINE__, __func__, html, desanitized);
   }
   
@@ -491,15 +491,15 @@ void test_string ()
   {
     // The "­" below is not an empty string, but the soft hyphen U+00AD.
     string standard_soft_hyphen = "­";
-    evaluate (__LINE__, __func__, standard_soft_hyphen, soft_hyphen_u00AD ());
-    evaluate (__LINE__, __func__, "\u00AD", soft_hyphen_u00AD ());
+    evaluate (__LINE__, __func__, standard_soft_hyphen, filter::strings::soft_hyphen_u00AD ());
+    evaluate (__LINE__, __func__, "\u00AD", filter::strings::soft_hyphen_u00AD ());
 
-    evaluate (__LINE__, __func__, "\u00A0", non_breaking_space_u00A0 ());
+    evaluate (__LINE__, __func__, "\u00A0", filter::strings::non_breaking_space_u00A0 ());
 
     // The space below is "en space", U+2002.
     string standard_en_space_u2002 = " ";
-    evaluate (__LINE__, __func__, standard_en_space_u2002, en_space_u2002 ());
-    evaluate (__LINE__, __func__, "\u2002", en_space_u2002 ());
+    evaluate (__LINE__, __func__, standard_en_space_u2002, filter::strings::en_space_u2002 ());
+    evaluate (__LINE__, __func__, "\u2002", filter::strings::en_space_u2002 ());
   }
   
   // Test conversion of boolean to true / false string.
@@ -658,11 +658,11 @@ R"(<html>
     string standard, result;
 
     standard = "&quot; &quot;";
-    result = escape_special_xml_characters (R"(" ")");
+    result = filter::strings::escape_special_xml_characters (R"(" ")");
     evaluate (__LINE__, __func__, standard, result);
 
     standard = R"(" ")";
-    result = unescape_special_xml_characters ("&quot; &quot;");
+    result = filter::strings::unescape_special_xml_characters ("&quot; &quot;");
     evaluate (__LINE__, __func__, standard, result);
   }
   

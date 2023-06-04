@@ -129,7 +129,7 @@ string search_replacego (void * webserver_request)
   // Check that the standard and real number of replacements, and the standard and new texts, are the same.
   bool replacementOkay = true;
   if (plain_replacement_count != usfm_replacement_count) replacementOkay = false;
-  if (filter_string_trim (updatedPlainText) != filter_string_trim (standardPlainText)) replacementOkay = false;
+  if (filter::strings::trim (updatedPlainText) != filter::strings::trim (standardPlainText)) replacementOkay = false;
 
   
   // Generate success or failure icon.

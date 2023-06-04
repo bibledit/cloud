@@ -122,15 +122,15 @@ void Database_Mappings::import (const string& name, const string& data)
     // Haggai 2:15 = Haggai 2:14
     // At the left is the passage in this versification.
     // At the right is the passage in the original Hebrew and Greek versification.
-    line = filter_string_trim (line);
+    line = filter::strings::trim (line);
     if (line.empty ()) continue;
 
     // Cut the line into two: The two passages.
     vector <string> entry = filter::strings::explode (line, '=');
     if (entry.size() != 2) continue;
     
-    string passage_string = filter_string_trim (entry [0]);
-    string original_string = filter_string_trim (entry [1]);
+    string passage_string = filter::strings::trim (entry [0]);
+    string original_string = filter::strings::trim (entry [1]);
 
     // Storage for further interpretation.
     vector <string> bits;

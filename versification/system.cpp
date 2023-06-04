@@ -62,7 +62,7 @@ string versification_system (void * webserver_request)
   Database_Versifications database_versifications = Database_Versifications();
 
   string name = request->query["name"];
-  view.set_variable ("name", escape_special_xml_characters (name));
+  view.set_variable ("name", filter::strings::escape_special_xml_characters (name));
 
   if (request->post.count ("submit")) {
     string data = request->post["data"];

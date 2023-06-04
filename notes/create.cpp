@@ -88,9 +88,9 @@ string notes_create (void * webserver_request)
 
   
   if (request->post.count ("summary")) {
-    string summary = filter_string_trim (request->post["summary"]);
+    string summary = filter::strings::trim (request->post["summary"]);
     summary = filter_url_tag_to_plus (summary);
-    string body = filter_string_trim (request->post["body"]);
+    string body = filter::strings::trim (request->post["body"]);
     body = filter_url_tag_to_plus (body);
     notes_logic.createNote (bible, book, chapter, verse, summary, body, false);
     return string();

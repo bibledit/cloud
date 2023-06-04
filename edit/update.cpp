@@ -128,13 +128,13 @@ string edit_update (void * webserver_request)
   // Decode html encoded in javascript, and clean it.
   loaded_html = filter_url_tag_to_plus (loaded_html);
   edited_html = filter_url_tag_to_plus (edited_html);
-  loaded_html = filter_string_trim (loaded_html);
-  edited_html = filter_string_trim (edited_html);
+  loaded_html = filter::strings::trim (loaded_html);
+  edited_html = filter::strings::trim (edited_html);
 
   
   // Check on valid UTF-8.
   if (good2go) {
-    if (!unicode_string_is_valid (loaded_html) || !unicode_string_is_valid (edited_html)) {
+    if (!filter::strings::unicode_string_is_valid (loaded_html) || !filter::strings::unicode_string_is_valid (edited_html)) {
       messages.push_back (translate ("Cannot update: Needs Unicode"));
       good2go = false;
     }
@@ -188,7 +188,7 @@ string edit_update (void * webserver_request)
     editor_export.run ();
     edited_chapter_usfm = editor_export.get ();
   }
-  string existing_chapter_usfm = filter_string_trim (old_chapter_usfm);
+  string existing_chapter_usfm = filter::strings::trim (old_chapter_usfm);
 
 
   // Check that the edited USFM contains no more than, and exactly the same as,
@@ -352,11 +352,11 @@ string edit_update (void * webserver_request)
       response.append (operation);
       if (operation == bible_logic::insert_operator ()) {
         string text = content[i];
-        string character = unicode_string_substr (text, 0, 1);
+        string character = filter::strings::unicode_string_substr (text, 0, 1);
         response.append ("#_be_#");
         response.append (character);
-        size_t length = unicode_string_length (text);
-        string format = unicode_string_substr (text, 1, length - 1);
+        size_t length = filter::strings::unicode_string_length (text);
+        string format = filter::strings::unicode_string_substr (text, 1, length - 1);
         response.append ("#_be_#");
         response.append (format);
         // Also add the size of the character in UTF-16 format, 2-bytes or 4 bytes, as size 1 or 2.

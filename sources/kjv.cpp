@@ -82,7 +82,7 @@ void sources_kjv_parse_loop (xml_node element,
   } else if (element_name == "w") {
     if (within_verse) {
       lemma = element.attribute ("lemma").value ();
-      lemma = filter_string_trim (lemma);
+      lemma = filter::strings::trim (lemma);
       for (xml_node child : element.children ()) {
         sources_kjv_parse_loop (child, book, chapter, verse, within_verse, lemma);
       }

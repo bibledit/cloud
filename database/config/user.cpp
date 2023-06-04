@@ -909,7 +909,7 @@ void Database_Config_User::addUpdatedSetting (int value)
 {
   vector <int> settings = getUpdatedSettings ();
   settings.push_back (value);
-  settings = array_unique (settings);
+  settings = filter::strings::array_unique (settings);
   setUpdatedSettings (settings);
 }
 void Database_Config_User::removeUpdatedSetting (int value)
@@ -917,7 +917,7 @@ void Database_Config_User::removeUpdatedSetting (int value)
   vector <int> settings = getUpdatedSettings ();
   vector <int> against;
   against.push_back (value);
-  settings = filter_string_array_diff (settings, against);
+  settings = filter::strings::array_diff (settings, against);
   setUpdatedSettings (settings);
 }
 
@@ -934,7 +934,7 @@ void Database_Config_User::addRemovedChange (int value)
 {
   vector <int> settings = getRemovedChanges ();
   settings.push_back (value);
-  settings = array_unique (settings);
+  settings = filter::strings::array_unique (settings);
   setRemovedChanges (settings);
 }
 void Database_Config_User::removeRemovedChange (int value)
@@ -942,7 +942,7 @@ void Database_Config_User::removeRemovedChange (int value)
   vector <int> settings = getRemovedChanges ();
   vector <int> against;
   against.push_back (value);
-  settings = filter_string_array_diff (settings, against);
+  settings = filter::strings::array_diff (settings, against);
   setRemovedChanges (settings);
 }
 

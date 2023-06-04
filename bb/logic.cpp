@@ -250,7 +250,7 @@ void bible_logic::import_resource (string bible, string resource)
         html = filter::strings::replace ("\n", " ", html);
 
         // Add the verse to the USFM.
-        usfm.push_back ("\\v " + filter::strings::convert_to_string (verse) + " " + filter_string_trim (html));
+        usfm.push_back ("\\v " + filter::strings::convert_to_string (verse) + " " + filter::strings::trim (html));
       }
       bible_logic::store_chapter (bible, book, chapter, filter::strings::implode (usfm, "\n"));
     }
@@ -288,7 +288,7 @@ void bible_logic::log_change (const string& bible,
   vector <int> verse_numbers = filter::usfm::get_verse_numbers (usfm);
   vector <int> verses = existing_verse_numbers;
   verses.insert (verses.end (), verse_numbers.begin (), verse_numbers.end ());
-  verses = array_unique (verses);
+  verses = filter::strings::array_unique (verses);
   sort (verses.begin (), verses.end ());
 
   vector <string> body;
@@ -1112,9 +1112,9 @@ void bible_logic::html_to_editor_updates (const string & editor_html,
   for (size_t i = 0; i < editor_format.texts.size(); i++) {
     const string & text = editor_format.texts[i];
     const string & format = editor_format.formats[i];
-    const size_t length = unicode_string_length (text);
+    const size_t length = filter::strings::unicode_string_length (text);
     for (size_t pos = 0; pos < length; pos++) {
-      const string utf8_character = unicode_string_substr (text, pos, 1);
+      const string utf8_character = filter::strings::unicode_string_substr (text, pos, 1);
       editor_formatted_character_content.push_back (utf8_character + format);
     }
   }
@@ -1123,9 +1123,9 @@ void bible_logic::html_to_editor_updates (const string & editor_html,
   for (size_t i = 0; i < server_format.texts.size(); i++) {
     const string & text = server_format.texts[i];
     const string & format = server_format.formats[i];
-    const size_t length = unicode_string_length (text);
+    const size_t length = filter::strings::unicode_string_length (text);
     for (size_t pos = 0; pos < length; pos++) {
-      const string utf8_character = unicode_string_substr (text, pos, 1);
+      const string utf8_character = filter::strings::unicode_string_substr (text, pos, 1);
       server_formatted_character_content.push_back (utf8_character + format);
       server_utf8_characters.push_back(utf8_character);
     }

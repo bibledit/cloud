@@ -84,7 +84,7 @@ void space_end_verse (const string & bible, int book, int chapter, const string 
     }
     bool hit {false};
     if (!text.empty ()) {
-      string trimmed = filter_string_trim (text);
+      string trimmed = filter::strings::trim (text);
       if (trimmed.empty ()) hit = true;
       char lastchar = text.back ();
       if (lastchar == ' ') hit = true;

@@ -32,8 +32,8 @@ void checks_french::space_before_after_punctuation (const string & bible, int bo
                                                     const map <int, string> & texts)
 {
   Database_Check database_check {};
-  string nbsp = non_breaking_space_u00A0 ();
-  string nnbsp = narrow_non_breaking_space_u202F ();
+  string nbsp = filter::strings::non_breaking_space_u00A0 ();
+  string nnbsp = filter::strings::narrow_non_breaking_space_u202F ();
   vector <string> right_punctuation = { right_guillemet(), "!", "?", ":", ";" };
   for (const auto & element : texts) {
     int verse = element.first;
@@ -60,10 +60,10 @@ void checks_french::space_before_after_punctuation (const string & bible, int bo
     for (const auto & punctuation : right_punctuation) {
       string text = element.second;
       // The location of this punctuation character.
-      size_t pos = unicode_string_strpos (text, punctuation);
+      size_t pos = filter::strings::unicode_string_strpos (text, punctuation);
       while (pos != string::npos) {
         if (pos > 0) {
-          string preceding_character = unicode_string_substr (text, pos - 1, 1);
+          string preceding_character = filter::strings::unicode_string_substr (text, pos - 1, 1);
           if (preceding_character == " ") {
             string message = punctuation + " - " + translate ("Should be preceded by a no-break space rather than a plain space in French");
             database_check.recordOutput (bible, book, chapter, verse, message);
@@ -76,8 +76,8 @@ void checks_french::space_before_after_punctuation (const string & bible, int bo
           }
         }
         // Prepare for next iteration.
-        text = unicode_string_substr (text, pos + 1, unicode_string_length (text) - pos - 1);
-        pos = unicode_string_strpos (text, punctuation);
+        text = filter::strings::unicode_string_substr (text, pos + 1, filter::strings::unicode_string_length (text) - pos - 1);
+        pos = filter::strings::unicode_string_strpos (text, punctuation);
       }
     }
     
@@ -116,7 +116,7 @@ void checks_french::citation_style (const string & bible, int book, int chapter,
         int verse = verses_paragraph.begin()->first;
         string text = verses_paragraph.begin()->second;
         if (!text.empty ()) {
-          string character = unicode_string_substr (text, 0, 1);
+          string character = filter::strings::unicode_string_substr (text, 0, 1);
           if (character != left_guillemet ()) {
             string message = translate ("The previous paragraph contains a citation not closed with a » therefore the current paragraph is expected to start with a « to continue that citation in French");
             database_check.recordOutput (bible, book, chapter, verse, message);

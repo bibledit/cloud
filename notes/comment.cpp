@@ -68,7 +68,7 @@ string notes_comment (void * webserver_request)
   
   
   if (request->post.count ("body")) {
-    string comment = filter_string_trim (request->post ["body"]);
+    string comment = filter::strings::trim (request->post ["body"]);
     comment = filter_url_tag_to_plus (comment);
     notes_logic.addComment (id, comment);
     redirect_browser (request, notes_note_url () + "?id=" + filter::strings::convert_to_string (id) + "&temporal=");

@@ -63,7 +63,7 @@ string one_string (string usfm)
   string long_string = "";
   vector <string> usfm_lines = filter::strings::explode (usfm, '\n');
   for (string & line : usfm_lines) {
-    line = filter_string_trim (line);
+    line = filter::strings::trim (line);
     // Skip empty line.
     if (line != "") {
       // The line will be appended to the output line.
@@ -91,7 +91,7 @@ vector <string> get_markers_and_text (string code)
   code = filter::strings::replace ("\n\\", "\\", code); // New line followed by backslash: leave new line out.
   code = filter::strings::replace ("\n", " ", code); // New line only: change to space, according to the USFM specification.
   // No removal of double spaces, because it would remove an opening marker (which already has its own space), followed by a space.
-  code = filter_string_trim (code);
+  code = filter::strings::trim (code);
   while (!code.empty ()) {
     size_t pos = code.find ("\\");
     if (pos == 0) {
@@ -209,7 +209,7 @@ vector <BookChapterData> usfm_import (string input, string stylesheet)
         store_chapter_data = true;
       }
       if (store_chapter_data) {
-        chapter_data = filter_string_trim (chapter_data);
+        chapter_data = filter::strings::trim (chapter_data);
         if (!chapter_data.empty()) result.push_back ( { static_cast<int>(bookid), chapter_number, chapter_data } );
         chapter_number = 0;
         chapter_data = "";
@@ -229,7 +229,7 @@ vector <BookChapterData> usfm_import (string input, string stylesheet)
     }
     chapter_data += marker_or_text;
   }
-  chapter_data = filter_string_trim (chapter_data);
+  chapter_data = filter::strings::trim (chapter_data);
   if (!chapter_data.empty()) result.push_back (BookChapterData (static_cast<int>(bookid), chapter_number, chapter_data));
   return result;
 }
@@ -297,7 +297,7 @@ vector <int> linenumber_to_versenumber (string usfm, unsigned int line_number)
     if (i <= line_number) {
       vector <int> verse_numbers = get_verse_numbers (lines[i]);
       if (verse_numbers.size() >= 2) {
-        verse_number = filter_string_array_diff (verse_numbers, {0});
+        verse_number = filter::strings::array_diff (verse_numbers, {0});
       }
     }
   }
@@ -306,13 +306,13 @@ vector <int> linenumber_to_versenumber (string usfm, unsigned int line_number)
 
 
 // Returns the verse numbers in the string of $usfm code at offset $offset.
-// Offset is calculated with unicode_string_length to support UTF-8.
+// Offset is calculated with filter::strings::unicode_string_length to support UTF-8.
 vector <int> offset_to_versenumber (string usfm, unsigned int offset)
 {
   size_t totalOffset = 0;
   vector <string> lines = filter::strings::explode (usfm, '\n');
   for (unsigned i = 0; i < lines.size(); i++) {
-    size_t length = unicode_string_length (lines [i]);
+    size_t length = filter::strings::unicode_string_length (lines [i]);
     totalOffset += length;
     if (totalOffset >= offset) {
       return linenumber_to_versenumber (usfm, i);
@@ -337,11 +337,11 @@ int versenumber_to_offset (string usfm, int verse)
     for (auto & v : verses) {
       if (v == verse) return totalOffset;
     }
-    totalOffset += static_cast<int>(unicode_string_length (line));
+    totalOffset += static_cast<int>( filter::strings::unicode_string_length (line));
     // Add 1 for new line.
     totalOffset += 1;
   }
-  return static_cast<int>(unicode_string_length (usfm));
+  return static_cast<int>( filter::strings::unicode_string_length (usfm));
 }
 
 
@@ -402,7 +402,7 @@ string get_verse_text_quill (string usfm, int verse)
     if (!is_usfm_marker (code)) break;
     if (!is_opening_marker (code)) break;
     verse_usfm.erase (verse_usfm.size () - code.size ());
-    verse_usfm = filter_string_trim (verse_usfm);
+    verse_usfm = filter::strings::trim (verse_usfm);
     if (verse_usfm.empty ()) break;
   }
 
@@ -462,7 +462,7 @@ string get_chapter_text (string usfm, int chapter_number)
       usfm.erase (0, pos);
     }
     // Another observed unusual situation: A non-breaking space after the chapter number.
-    marker = get_opening_usfm ("c", false) + filter::strings::convert_to_string (chapter_number) + non_breaking_space_u00A0 ();
+    marker = get_opening_usfm ("c", false) + filter::strings::convert_to_string (chapter_number) + filter::strings::non_breaking_space_u00A0 ();
     pos = usfm.find (marker);
     if (pos != string::npos) {
       found = true;
@@ -480,7 +480,7 @@ string get_chapter_text (string usfm, int chapter_number)
   }
   
   // Clean up.
-  usfm = filter_string_trim (usfm);
+  usfm = filter::strings::trim (usfm);
   
   // Done.
   return usfm;
@@ -607,7 +607,7 @@ string peek_verse_number (string usfm)
     break;
   }
   verseNumber = usfm.substr (0, i);
-  verseNumber = filter_string_trim (verseNumber);
+  verseNumber = filter::strings::trim (verseNumber);
   return verseNumber;
 }
 
@@ -758,7 +758,7 @@ string safely_store_verse (void * webserver_request,
 {
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   
-  usfm = filter_string_trim (usfm);
+  usfm = filter::strings::trim (usfm);
 
   // Check that the USFM to be saved is for the correct verse.
   vector <int> save_verses = get_verse_numbers (usfm);
@@ -785,7 +785,7 @@ string safely_store_verse (void * webserver_request,
   string existing_verse_usfm;
   if (quill) existing_verse_usfm = get_verse_text_quill (chapter_usfm, verse);
   else existing_verse_usfm = get_verse_text (chapter_usfm, verse);
-  existing_verse_usfm = filter_string_trim (existing_verse_usfm);
+  existing_verse_usfm = filter::strings::trim (existing_verse_usfm);
 
   // Check that there is a match between the existing verse numbers and the verse numbers to save.
   vector <int> existing_verses = get_verse_numbers (existing_verse_usfm);

@@ -183,7 +183,7 @@ string notes_select (void * webserver_request)
   if (request->session_logic ()->currentLevel () == Filter_Roles::admin ()) {
     vector <string> notesbibles = database_notes.get_all_bibles ();
     bibles.insert (bibles.end (), notesbibles.begin (), notesbibles.end ());
-    bibles = array_unique (bibles);
+    bibles = filter::strings::array_unique (bibles);
   }
   for (auto bible : bibles) {
     bibleblock << " | ";

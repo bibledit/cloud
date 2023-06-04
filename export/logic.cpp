@@ -182,7 +182,7 @@ string export_logic::base_book_filename (const string & bible, int book)
     iterator = find(ordered_books.begin(), ordered_books.end(), book);
     if (iterator != ordered_books.end()) {
       long order = iterator - ordered_books.begin() + 1;
-      filename = filter_string_fill (to_string (order), 2, '0');
+      filename = filter::strings::fill (to_string (order), 2, '0');
       filename.append ("_");
     }
     filename.append (translate (database::books::get_english_from_id (static_cast<book_id>(book))));

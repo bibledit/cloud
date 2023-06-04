@@ -83,7 +83,7 @@ string workspace_settings (void * webserver_request)
     workspace_set_heights (request, row_heights);
     // If no "px" or "%" is given, then default to "%".
     // https://github.com/bibledit/cloud/issues/643
-    string workspacewidth = filter_string_trim(request->post ["workspacewidth"]);\
+    string workspacewidth = filter::strings::trim(request->post ["workspacewidth"]);\
     if (!workspacewidth.empty()) {
       size_t pos_px = workspacewidth.find ("px");
       size_t pos_pct = workspacewidth.find ("%");

@@ -42,14 +42,14 @@ void test_usfm2html2usfm ()
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
     editor_usfm2html.run ();
     string html = editor_usfm2html.get ();
-    evaluate (__LINE__, __func__, standard_html, filter_string_trim (html));
+    evaluate (__LINE__, __func__, standard_html, filter::strings::trim (html));
     
     Editor_Html2Usfm editor_html2usfm;
     editor_html2usfm.load (html);
     editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
     editor_html2usfm.run ();
     string usfm = editor_html2usfm.get ();
-    evaluate (__LINE__, __func__, standard_usfm, filter_string_trim (usfm));
+    evaluate (__LINE__, __func__, standard_usfm, filter::strings::trim (usfm));
   }
 
   // Two unknown opening markers.
@@ -290,7 +290,7 @@ void test_usfm2html2usfm ()
 \v 1 \vp A\vp* One.
 \v 2 \vp B\vp* Two.
     )";
-    standard_usfm = filter_string_trim (standard_usfm);
+    standard_usfm = filter::strings::trim (standard_usfm);
     string standard_html = R"(
 <p class="b-p"><span class="i-v">1</span><span> </span><span class="i-vp">A</span><span> One.</span><span> </span><span class="i-v">2</span><span> </span><span class="i-vp">B</span><span> Two.</span></p>
       )";
@@ -300,7 +300,7 @@ void test_usfm2html2usfm ()
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
     editor_usfm2html.run ();
     string html = editor_usfm2html.get ();
-    evaluate (__LINE__, __func__, filter_string_trim (standard_html), html);
+    evaluate (__LINE__, __func__, filter::strings::trim (standard_html), html);
     
     Editor_Html2Usfm editor_html2usfm;
     editor_html2usfm.load (html);
@@ -904,7 +904,7 @@ void test_usfm2html2usfm ()
     editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
     editor_html2usfm.run ();
     string usfm = editor_html2usfm.get ();
-    evaluate (__LINE__, __func__, filter_string_trim (standard_usfm), filter_string_trim (usfm));
+    evaluate (__LINE__, __func__, filter::strings::trim (standard_usfm), filter::strings::trim (usfm));
   }
 
   // Inline opener without matching inline closer.
@@ -926,7 +926,7 @@ void test_usfm2html2usfm ()
     editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
     editor_html2usfm.run ();
     string usfm = editor_html2usfm.get ();
-    evaluate (__LINE__, __func__, filter_string_trim (standard_usfm), filter_string_trim (usfm));
+    evaluate (__LINE__, __func__, filter::strings::trim (standard_usfm), filter::strings::trim (usfm));
   }
 
   // Inline opener without matching inline closer but with other inline markup.
@@ -949,7 +949,7 @@ void test_usfm2html2usfm ()
     editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
     editor_html2usfm.run ();
     string usfm = editor_html2usfm.get ();
-    evaluate (__LINE__, __func__, filter_string_trim (standard_usfm), filter_string_trim (usfm));
+    evaluate (__LINE__, __func__, filter::strings::trim (standard_usfm), filter::strings::trim (usfm));
   }
 
   // Inline opener without matching inline closer and with a paragraph after that.
@@ -972,7 +972,7 @@ void test_usfm2html2usfm ()
     editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
     editor_html2usfm.run ();
     string usfm = editor_html2usfm.get ();
-    evaluate (__LINE__, __func__, filter_string_trim (standard_usfm), filter_string_trim (usfm));
+    evaluate (__LINE__, __func__, filter::strings::trim (standard_usfm), filter::strings::trim (usfm));
   }
 
   // Testing editing one verse, which does not have a starting paragraph.

@@ -120,7 +120,7 @@ string notes_notes (void * webserver_request)
         // The class properties are in the stylesheet.
         // Distinct colors were generated through https://mokole.com/palette.html.
         raw_status = database_notes.get_raw_status (identifier);
-        raw_status = unicode_string_casefold (raw_status);
+        raw_status = filter::strings::unicode_string_casefold (raw_status);
         raw_status = filter::strings::replace (" ", "", raw_status);
         string css_class;
         if (raw_status == "new") css_class = Filter_Css::distinction_set_notes (0);

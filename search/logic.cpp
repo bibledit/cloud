@@ -87,7 +87,7 @@ void search_logic_index_chapter (string bible, int book, int chapter)
   
   for (auto verse : verses) {
 
-    string raw_usfm = filter_string_trim (filter::usfm::get_verse_text (usfm, verse));
+    string raw_usfm = filter::strings::trim (filter::usfm::get_verse_text (usfm, verse));
 
     // In case of combined verses, the bit of USFM may have been indexed already.
     // Skip it in that case.
@@ -100,7 +100,7 @@ void search_logic_index_chapter (string bible, int book, int chapter)
 
     index.push_back (raw_usfm);
     
-    string usfm_lower = unicode_string_casefold (raw_usfm);
+    string usfm_lower = filter::strings::unicode_string_casefold (raw_usfm);
 
     index.push_back (search_logic_index_separator ());
 
@@ -127,13 +127,13 @@ void search_logic_index_chapter (string bible, int book, int chapter)
     // Add any footnotes.
     raw_plain.append (filter_text.text_text->getnote ());
     // Clean up.
-    raw_plain = filter_string_trim (raw_plain);
+    raw_plain = filter::strings::trim (raw_plain);
     
     index.push_back (search_logic_index_separator ());
 
     index.push_back (raw_plain);
     
-    string plain_lower = unicode_string_casefold (raw_plain);
+    string plain_lower = filter::strings::unicode_string_casefold (raw_plain);
 
     index.push_back (search_logic_index_separator ());
 
@@ -158,7 +158,7 @@ vector <Passage> search_logic_search_text (string search, vector <string> bibles
   
   if (search == "") return passages;
   
-  search = unicode_string_casefold (search);
+  search = filter::strings::unicode_string_casefold (search);
   search = filter::strings::replace (",", "", search);
   
   Database_Bibles database_bibles;
@@ -207,7 +207,7 @@ vector <Passage> search_logic_search_bible_text (string bible, string search)
   
   if (search == "") return passages;
   
-  search = unicode_string_casefold (search);
+  search = filter::strings::unicode_string_casefold (search);
   
   Database_Bibles database_bibles;
   vector <int> books = database_bibles.getBooks (bible);
@@ -297,7 +297,7 @@ vector <Passage> search_logic_search_bible_usfm (string bible, string search)
   
   if (search == "") return passages;
   
-  search = unicode_string_casefold (search);
+  search = filter::strings::unicode_string_casefold (search);
   
   Database_Bibles database_bibles;
   vector <int> books = database_bibles.getBooks (bible);
@@ -549,7 +549,7 @@ string search_logic_plain_replace_verse_text (string usfm)
   plain_text.append (filter_text.text_text->getnote ());
   
   // Clean up.
-  plain_text = filter_string_trim (plain_text);
+  plain_text = filter::strings::trim (plain_text);
   
   // Done.
   return plain_text;

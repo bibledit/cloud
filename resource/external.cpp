@@ -208,7 +208,7 @@ string gbs_basic_processor (string url, int verse)
   div_node.traverse (walker);
   for (size_t i {0}; i < walker.texts.size(); i++) {
     if (i) text.append (" ");
-    text.append (filter_string_trim(walker.texts[i]));
+    text.append (filter::strings::trim(walker.texts[i]));
   }
   
   // Done.
@@ -378,7 +378,7 @@ string gbs_plus_processor (string url, int book, [[maybe_unused]] int chapter, i
   div_node.traverse (walker);
   for (size_t i {0}; i < walker.texts.size(); i++) {
     if (i) text.append (" ");
-    text.append (filter_string_trim(walker.texts[i]));
+    text.append (filter::strings::trim(walker.texts[i]));
   }
   
   // Get the raw annotations html.
@@ -409,7 +409,7 @@ string gbs_plus_processor (string url, int book, [[maybe_unused]] int chapter, i
       body_node.traverse (annotation_walker);
       for (auto fragment : annotation_walker.texts) {
         text.append(" ");
-        text.append (filter_string_trim(fragment));
+        text.append (filter::strings::trim(fragment));
       }
     } else {
       text.append("<br>");
@@ -447,7 +447,7 @@ string bibleserver_processor (string directory, int book, int chapter, int verse
     if (pos != string::npos) relevant_line = true;
   }
   filter::strings::replace_between (text, "<", ">", "");
-  text = filter_string_trim (text);
+  text = filter::strings::trim (text);
   
   text += "<p><a href=\"" + url + "\">" + url + "</a></p>\n";
   

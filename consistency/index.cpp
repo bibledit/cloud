@@ -73,7 +73,7 @@ string consistency_index (void * webserver_request)
   string remove = request->query ["remove"];
   if (!remove.empty ()) {
     vector <string> resources = request->database_config_user()->getConsistencyResources ();
-    resources = filter_string_array_diff (resources, {remove});
+    resources = filter::strings::array_diff (resources, {remove});
     request->database_config_user()->setConsistencyResources (resources);
   }
   

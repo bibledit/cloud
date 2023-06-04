@@ -148,7 +148,7 @@ string user_notifications (void * webserver_request)
       if (checked) {
         current_assignees.push_back (assignee);
       } else {
-        current_assignees = filter_string_array_diff (current_assignees, {assignee});
+        current_assignees = filter::strings::array_diff (current_assignees, {assignee});
       }
       database_config_user.setAutomaticNoteAssignment (current_assignees);
     }
@@ -207,7 +207,7 @@ string user_notifications (void * webserver_request)
         if (checked) {
           currentbibles.push_back(bible);
         } else {
-          currentbibles = filter_string_array_diff (currentbibles, {bible});
+          currentbibles = filter::strings::array_diff (currentbibles, {bible});
         }
         database_config_user.setChangeNotificationsBibles(currentbibles);
       }

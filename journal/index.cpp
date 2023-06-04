@@ -83,7 +83,7 @@ string render_journal_entry (string filename, [[maybe_unused]] int userlevel)
   if (!lines.empty ()) entry = lines [0];
   
   // Sanitize HTML.
-  entry = escape_special_xml_characters (entry);
+  entry = filter::strings::escape_special_xml_characters (entry);
   
   bool limit = entry.size () > 150;
   if (limit) {
@@ -145,7 +145,7 @@ string journal_index (void * webserver_request)
     // The rest is sanitized.
     // To do this properly, the order is important:
     // 1. Clean it up.
-    expansion = escape_special_xml_characters (expansion);
+    expansion = filter::strings::escape_special_xml_characters (expansion);
     // 2. Convert \n to <br>
     expansion = filter::strings::replace ("\n", "<br>", expansion);
     // Done.

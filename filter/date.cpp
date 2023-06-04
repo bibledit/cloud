@@ -266,7 +266,7 @@ string rfc822 (int seconds)
   // rfc822.append (day_rfc822 (weekday));
   // rfc822.append (", ");
   string monthday = filter::strings::convert_to_string (numerical_month_day (seconds));
-  rfc822.append (filter_string_fill (monthday, 2, '0'));
+  rfc822.append (filter::strings::fill (monthday, 2, '0'));
   rfc822.append (" ");
   int month = numerical_month (seconds);
   rfc822.append (month_rfc822 (month));
@@ -275,19 +275,19 @@ string rfc822 (int seconds)
   rfc822.append (filter::strings::convert_to_string (year));
   rfc822.append (" ");
   string hour = filter::strings::convert_to_string (numerical_hour (seconds));
-  rfc822.append (filter_string_fill (hour, 2, '0'));
+  rfc822.append (filter::strings::fill (hour, 2, '0'));
   rfc822.append (":");
   string minute = filter::strings::convert_to_string (numerical_minute (seconds));
-  rfc822.append (filter_string_fill (minute, 2, '0'));
+  rfc822.append (filter::strings::fill (minute, 2, '0'));
   rfc822.append (":");
   string second = filter::strings::convert_to_string (numerical_second (seconds));
-  rfc822.append (filter_string_fill (second, 2, '0'));
+  rfc822.append (filter::strings::fill (second, 2, '0'));
   rfc822.append (" ");
   int timezone = Database_Config_General::getTimezone ();
   if (timezone >= 0) rfc822.append ("+");
   else rfc822.append ("-");
   if (timezone < 0) timezone = 0 - timezone;
-  rfc822.append (filter_string_fill (filter::strings::convert_to_string (timezone), 2, '0'));
+  rfc822.append (filter::strings::fill (filter::strings::convert_to_string (timezone), 2, '0'));
   rfc822.append ("00");
   return rfc822;
 }

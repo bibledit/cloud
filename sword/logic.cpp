@@ -112,7 +112,7 @@ void sword_logic_refresh_module_list ()
   sword_logic_log (out_err);
   vector <string> lines = filter::strings::explode (out_err, '\n');
   for (auto line : lines) {
-    line = filter_string_trim (line);
+    line = filter::strings::trim (line);
     if (line.find ("[") != string::npos) {
       line.erase (0, 1);
       if (line.find ("]") != string::npos) {
@@ -148,7 +148,7 @@ void sword_logic_refresh_module_list ()
     filter_shell_run ("installmgr -rl \"" + remote_source + "\"", out_err);
     lines = filter::strings::explode (out_err, '\n');
     for (auto line : lines) {
-      line = filter_string_trim (line);
+      line = filter::strings::trim (line);
       if (line.empty ()) continue;
       if (line.find ("[") == string::npos) continue;
       if (line.find ("]") == string::npos) continue;
@@ -211,7 +211,7 @@ string sword_logic_get_remote_module (string line)
 // [Shona]  (1.1)  - Shona Bible
 string sword_logic_get_installed_module (string line)
 {
-  line = filter_string_trim (line);
+  line = filter::strings::trim (line);
   if (line.length () > 10) {
     line.erase (0, 1);
     size_t pos = line.find ("]");
@@ -225,7 +225,7 @@ string sword_logic_get_installed_module (string line)
 // [Shona]  (1.1)  - Shona Bible
 string sword_logic_get_version (string line)
 {
-  line = filter_string_trim (line);
+  line = filter::strings::trim (line);
   if (line.length () > 10) {
     line.erase (0, 3);
   }
@@ -248,7 +248,7 @@ string sword_logic_get_name (string line)
     bits.erase (bits.begin ());
   }
   line = filter::strings::implode (bits, "-");
-  line = filter_string_trim (line);
+  line = filter::strings::trim (line);
   return line;
 }
 
@@ -359,7 +359,7 @@ vector <string> sword_logic_get_installed ()
   filter_shell_run ("cd " + sword_path + "; installmgr -l", out_err);
   vector <string> lines = filter::strings::explode (out_err, '\n');
   for (auto line : lines) {
-    line = filter_string_trim (line);
+    line = filter::strings::trim (line);
     if (line.empty ()) continue;
     if (line.find ("[") == string::npos) continue;
     modules.push_back (line);
@@ -877,7 +877,7 @@ void sword_logic_log (string message)
   message = filter::strings::replace ("enable?", "", message);
   message = filter::strings::replace ("[no]", "", message);
   // Clean message up.
-  message = filter_string_trim (message);
+  message = filter::strings::trim (message);
   // Record in the journal.
   Database_Logs::log (message);
 }
@@ -902,7 +902,7 @@ string sword_logic_clean_verse (const string & module, int chapter, int verse, s
   text = filter::strings::replace ("(" + module + ")", "", text);
   
   // Clean whitespace away.
-  text = filter_string_trim (text);
+  text = filter::strings::trim (text);
 
   // Done.
   return text;

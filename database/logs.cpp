@@ -37,7 +37,7 @@ using namespace std;
 void Database_Logs::log (string description, int level)
 {
   // Trim spaces.
-  description = filter_string_trim (description);
+  description = filter::strings::trim (description);
   // Discard empty line.
   if (description.empty()) return;
   // Truncate very long entry.
@@ -48,7 +48,7 @@ void Database_Logs::log (string description, int level)
   }
   // Save this logbook entry to a filename with seconds and microseconds.
   string seconds = filter::strings::convert_to_string (filter::date::seconds_since_epoch ());
-  string time = seconds + filter_string_fill (filter::strings::convert_to_string (filter::date::numerical_microseconds ()), 8, '0');
+  string time = seconds + filter::strings::fill (filter::strings::convert_to_string (filter::date::numerical_microseconds ()), 8, '0');
   string file = filter_url_create_path ({folder (), time});
   // The microseconds granularity depends on the platform.
   // On Windows it is lower than on Linux.

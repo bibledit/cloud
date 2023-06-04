@@ -133,7 +133,7 @@ string search_replacego2 (void * webserver_request)
   bool replacementOkay = true;
   if (searchplain) {
     if (usfmReplacementCount != standardReplacementCount) replacementOkay = false;
-    if (filter_string_trim (updatedPlainText) != filter_string_trim (standardPlainText)) replacementOkay = false;
+    if (filter::strings::trim (updatedPlainText) != filter::strings::trim (standardPlainText)) replacementOkay = false;
   }
   
   

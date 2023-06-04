@@ -89,14 +89,14 @@ string editone2_save (void * webserver_request)
 
   
   // Check there's anything to save at all.
-  html = filter_string_trim (html);
+  html = filter::strings::trim (html);
   if (html.empty ()) {
     return translate ("Nothing to save");
   }
   
   
   // Check on valid UTF-8.
-  if (!unicode_string_is_valid (html)) {
+  if (!filter::strings::unicode_string_is_valid (html)) {
     return translate ("Cannot save: Needs Unicode");
   }
   

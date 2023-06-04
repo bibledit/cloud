@@ -32,8 +32,8 @@ void checks_versification::books (const string & bible, const vector <int> & boo
   string versification = Database_Config_Bible::getVersificationSystem (bible);
   if (versification.empty ()) versification = english ();
   const vector <int> standardBooks = database_versifications.getBooks (versification);
-  const vector <int> absentBooks = filter_string_array_diff (standardBooks, books);
-  const vector <int> extraBooks = filter_string_array_diff (books, standardBooks);
+  const vector <int> absentBooks = filter::strings::array_diff (standardBooks, books);
+  const vector <int> extraBooks = filter::strings::array_diff (books, standardBooks);
   Database_Check database_check {};
   for (auto book : absentBooks) {
     database_check.recordOutput (bible, book, 1, 1, translate ("This book is absent from the Bible"));
@@ -50,8 +50,8 @@ void checks_versification::chapters (const string & bible, int book, const vecto
   string versification = Database_Config_Bible::getVersificationSystem (bible);
   if (versification.empty ()) versification = english ();
   const vector <int> standardChapters = database_versifications.getChapters (versification, book, true);
-  const vector <int> absentChapters = filter_string_array_diff (standardChapters, chapters);
-  const vector <int> extraChapters = filter_string_array_diff (chapters, standardChapters);
+  const vector <int> absentChapters = filter::strings::array_diff (standardChapters, chapters);
+  const vector <int> extraChapters = filter::strings::array_diff (chapters, standardChapters);
   Database_Check database_check {};
   for (auto chapter : absentChapters) {
     database_check.recordOutput (bible, book, chapter, 1, translate ("This chapter is missing"));
@@ -70,8 +70,8 @@ void checks_versification::verses (const string & bible, int book, int chapter, 
   if (versification.empty ()) versification = english ();
   const vector <int> standardVerses = database_versifications.getVerses (versification, book, chapter);
   // Look for missing and extra verses.
-  const vector <int> absentVerses = filter_string_array_diff (standardVerses, verses);
-  const vector <int> extraVerses = filter_string_array_diff (verses, standardVerses);
+  const vector <int> absentVerses = filter::strings::array_diff (standardVerses, verses);
+  const vector <int> extraVerses = filter::strings::array_diff (verses, standardVerses);
   Database_Check database_check {};
   for (auto verse : absentVerses) {
     database_check.recordOutput (bible, book, chapter, verse, translate ("This verse is missing according to the versification system"));

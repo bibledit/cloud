@@ -97,7 +97,7 @@ string compare_index (void * webserver_request)
 
   sort (names.begin (), names.end ());
   
-  names = filter_string_array_diff (names, {bible});
+  names = filter::strings::array_diff (names, {bible});
   xml_document document;
   for (auto & name : names) {
     xml_node li_node = document.append_child("li");

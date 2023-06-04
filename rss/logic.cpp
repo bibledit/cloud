@@ -126,7 +126,7 @@ void rss_logic_execute_update (string user, string bible, int book, int chapter,
   vector <int> new_verse_numbers = filter::usfm::get_verse_numbers (newusfm);
   vector <int> verses = old_verse_numbers;
   verses.insert (verses.end (), new_verse_numbers.begin (), new_verse_numbers.end ());
-  verses = array_unique (verses);
+  verses = filter::strings::array_unique (verses);
   sort (verses.begin(), verses.end());
 
   for (auto verse : verses) {

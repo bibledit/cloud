@@ -74,7 +74,7 @@ void export_odt_book (string bible, int book, bool log)
       vector <int> chapters = database_bibles.getChapters (bible, book2);
       for (auto chapter : chapters) {
         string usfm = database_bibles.getChapter (bible, book2, chapter);
-        usfm = filter_string_trim (usfm);
+        usfm = filter::strings::trim (usfm);
         // Use small chunks of USFM at a time for much better performance.
         filter_text.add_usfm_code (usfm);
       }
@@ -84,7 +84,7 @@ void export_odt_book (string bible, int book, bool log)
     vector <int> chapters = database_bibles.getChapters (bible, book);
     for (auto chapter : chapters) {
       string usfm = database_bibles.getChapter (bible, book, chapter);
-      usfm = filter_string_trim (usfm);
+      usfm = filter::strings::trim (usfm);
       // Use small chunks of USFM at a time for much better performance.
       filter_text.add_usfm_code (usfm);
     }

@@ -187,7 +187,7 @@ void sendreceive_files ()
     
     // Delete files that exist locally but not on the server.
     vector <string> client_files = Sync_Logic::files_get_files (directory);
-    vector <string> files = filter_string_array_diff (client_files, server_files);
+    vector <string> files = filter::strings::array_diff (client_files, server_files);
     for (auto file : files) {
       Database_Logs::log (sendreceive_files_text () + "Deleting file: " + filter_url_create_path ({directory, file}), Filter_Roles::translator ());
       string path = filter_url_create_root_path ({directory, file});

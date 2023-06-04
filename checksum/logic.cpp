@@ -66,7 +66,7 @@ string checksum_logic::get_chapter (void * webserver_request, const string & bib
 {
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   string usfm = request->database_bibles()->getChapter (bible, book, chapter);
-  string checksum = md5 (filter_string_trim (usfm));
+  string checksum = md5 (filter::strings::trim (usfm));
   return checksum;
 }
 

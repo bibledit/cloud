@@ -171,7 +171,7 @@ Header4 ②
 
 This is the text of chapter 2, verse 2. This is the text of chapter 2, verse 2. This is the text of chapter 2, verse 2. This is the text of chapter 2, verse 2. This is the text of chapter 2, verse 2. This is the text of chapter 2, verse 2.
     )";
-    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
+    evaluate (__LINE__, __func__, filter::strings::trim (standard), filter::strings::trim (odt));
   }
 
   // There are two books here.
@@ -224,7 +224,7 @@ This is the text of chapter 2, verse 2. This is the text of chapter 2, verse 2. 
     "\n"
     "Text Matthew 2\n"
     "\n";
-    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
+    evaluate (__LINE__, __func__, filter::strings::trim (standard), filter::strings::trim (odt));
     evaluate (__LINE__, __func__, {"Matthew 2:0 Unknown marker \\xxx, formatting error: Unknown markup"}, filter_text.fallout);
     evaluate (__LINE__, __func__, {"Genesis 0:0 Text encoding: \\ide XYZ", "Matthew 2:0 Comment: \\rem Comment"}, filter_text.info);
   }
@@ -267,7 +267,7 @@ This is the text of chapter 2, verse 2. This is the text of chapter 2, verse 2. 
     "\n"
     "1 Peter, an apostle of Jesus Christ, to the chosen ones who are living as foreigners in the Dispersion in Pontus, Galatia, Cappadocia, Asia, and Bithynia,\n"
     "\n";
-    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
+    evaluate (__LINE__, __func__, filter::strings::trim (standard), filter::strings::trim (odt));
   }
   
   // Test transformation of verse numbers and text following.
@@ -298,7 +298,7 @@ This is the text of chapter 2, verse 2. This is the text of chapter 2, verse 2. 
     "Paragraph One. 2 Verse Two.\n"
     "\n"
     "3 Verse Three. 4 Verse Four. 5 Verse Five.\n";
-    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
+    evaluate (__LINE__, __func__, filter::strings::trim (standard), filter::strings::trim (odt));
   }
   
   // Test footnotes and cross references.
@@ -330,7 +330,7 @@ This is the text of chapter 2, verse 2. This is the text of chapter 2, verse 2. 
     "\n"
     ", text3.3Test: Heb. Note at the very end.\n"
     "\n";
-    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
+    evaluate (__LINE__, __func__, filter::strings::trim (standard), filter::strings::trim (odt));
   }
 
   // Test footnotes and cross references and their behaviour in new chapters.
@@ -354,7 +354,7 @@ This is the text of chapter 2, verse 2. This is the text of chapter 2, verse 2. 
 \v 5 Note 5\f + \ft Note 5.\f*.
 \v 6 Note 6\f + \ft Note 6.\f*.
     )";
-    usfm = filter_string_trim (usfm);
+    usfm = filter::strings::trim (usfm);
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.odf_text_standard = new odf_text (bible);
     filter_text.add_usfm_code (usfm);
@@ -403,7 +403,7 @@ Xref 4aXref 4.
 
 .
     )";
-    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
+    evaluate (__LINE__, __func__, filter::strings::trim (standard), filter::strings::trim (odt));
   }
 
   // Test transformation of published verse numbers.
@@ -417,7 +417,7 @@ Xref 4aXref 4.
 \v 3 \vp ၃။\vp* ကိုယ်တော်က သင်တို့သွားရမည့်လမ်းခရီးအတွက် မည်သည့်အရာကိုမျှ ယူဆောင်မသွားကြလေနှင့်။ တောင်ဝှေး၊ လွယ်အိတ်၊  စားစရာနှင့် ငွေကြေးတို့ကို သယ်ဆောင်မသွားကြနှင့်။ ဝတ်ရုံကိုလည်း နှစ်ထည်ယူမသွားလေနှင့်။-
 \v 4 \vp ၄။\vp* မည်သည့်အိမ်ကိုမဆို သင်တို့ဝင်ကြလျှင် ထိုအိမ်၌နေထိုင်၍ ထိုနေရာမှပင် ပြန်လည်ထွက်ခွာကြလော့။-
     )";
-    usfm = filter_string_trim (usfm);
+    usfm = filter::strings::trim (usfm);
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.odf_text_standard = new odf_text (bible);
     filter_text.add_usfm_code (usfm);
@@ -433,7 +433,7 @@ Genesis 1
 
 ၁။ ကိုယ်တော်သည် တမန်တော် တစ်ဆယ့်နှစ်ပါးတို့ကို အတူတကွခေါ်ပြီးလျှင် နတ်ဆိုးအပေါင်းတို့ကို နှင်ထုတ်နိုင်ရန်နှင့် အနာရောဂါများကို ပျောက်ကင်းစေနိုင်ရန် တန်ခိုးအာဏာတို့ကို သူတို့အား ပေးတော်မူ၏။- ၂။ ထို့နောက် ကိုယ်တော်သည် ဘုရားသခင်၏ နိုင်ငံတော်အကြောင်းကို ဟောပြောရန်နှင့် ဖျားနာသူများကို ကုသ ပျောက်ကင်းစေရန် သူတို့ကို စေလွှတ်တော်မူ၏။- ၃။ ကိုယ်တော်က သင်တို့သွားရမည့်လမ်းခရီးအတွက် မည်သည့်အရာကိုမျှ ယူဆောင်မသွားကြလေနှင့်။ တောင်ဝှေး၊ လွယ်အိတ်၊  စားစရာနှင့် ငွေကြေးတို့ကို သယ်ဆောင်မသွားကြနှင့်။ ဝတ်ရုံကိုလည်း နှစ်ထည်ယူမသွားလေနှင့်။- ၄။ မည်သည့်အိမ်ကိုမဆို သင်တို့ဝင်ကြလျှင် ထိုအိမ်၌နေထိုင်၍ ထိုနေရာမှပင် ပြန်လည်ထွက်ခွာကြလော့။-
     )";
-    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
+    evaluate (__LINE__, __func__, filter::strings::trim (standard), filter::strings::trim (odt));
   }
 
   // Test that the \vp... markup does not introduce an extra space after the \v marker.
@@ -453,7 +453,7 @@ Genesis 1
 1
 A Verse text.
     )";
-    evaluate (__LINE__, __func__, filter_string_trim (standard), output);
+    evaluate (__LINE__, __func__, filter::strings::trim (standard), output);
   }
   
   // Test clear text export.
@@ -511,7 +511,7 @@ A Verse text.
     "1 Chapter 1, verse one. 2 Verse two.\n"
     "2\n"
     "1 Chapter 2, verse one. 2 Verse two.\n";
-    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (output));
+    evaluate (__LINE__, __func__, filter::strings::trim (standard), filter::strings::trim (output));
     evaluate (__LINE__, __func__, "", notes);
   }
   
@@ -743,7 +743,7 @@ A Verse text.
     R"(<span class="add nd">Lord</span>)"
     "<span>.</span>"
     "</p>\n";
-    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (html));
+    evaluate (__LINE__, __func__, filter::strings::trim (standard), filter::strings::trim (html));
   }
   
   // Test embedded character styles to html output.
@@ -768,7 +768,7 @@ A Verse text.
     R"(<span class="add"> God</span>)"
     "<span>.</span>"
     "</p>\n";
-    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (html));
+    evaluate (__LINE__, __func__, filter::strings::trim (standard), filter::strings::trim (html));
   }
   
   // Test embedded character styles to html output.
@@ -793,7 +793,7 @@ A Verse text.
     R"(<span class="add nd">Lord</span>)"
     "<span>.</span>"
     "</p>\n";
-    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (html));
+    evaluate (__LINE__, __func__, filter::strings::trim (standard), filter::strings::trim (html));
   }
   
   // Test embedded character styles to OpenDocument output.
@@ -819,7 +819,7 @@ A Verse text.
     "Genesis 1\n"
     "\n"
     "1 I will sing to the Lord.\n";
-    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
+    evaluate (__LINE__, __func__, filter::strings::trim (standard), filter::strings::trim (odt));
   }
   
   // Exercise bits in document to generate text and note citations.
@@ -839,7 +839,7 @@ A Verse text.
     "Genesis\n"
     "\n"
     "1 Text 1a text1 text1.";
-    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
+    evaluate (__LINE__, __func__, filter::strings::trim (standard), filter::strings::trim (odt));
   }
   
   // Test embedded character styles to OpenDocument output.
@@ -865,7 +865,7 @@ A Verse text.
     "Genesis 1\n"
     "\n"
     "1 I will sing to the Lord God.\n";
-    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
+    evaluate (__LINE__, __func__, filter::strings::trim (standard), filter::strings::trim (odt));
   }
   
   // Test embedded character styles to OpenDocument output.
@@ -891,7 +891,7 @@ A Verse text.
     "Genesis 1\n"
     "\n"
     "1 I will sing to the Lord.\n";
-    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
+    evaluate (__LINE__, __func__, filter::strings::trim (standard), filter::strings::trim (odt));
   }
   
   // Test the behaviour of a chapter label put in chapter zero.
@@ -951,7 +951,7 @@ Chapter 2
 
 2 Jesus came to save the people.
     )";
-    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
+    evaluate (__LINE__, __func__, filter::strings::trim (standard), filter::strings::trim (odt));
   }
   
   // Test the behaviour of a chapter label put in each separate chapter.
@@ -1019,7 +1019,7 @@ Chapter Two
 
 2 Jesus came to save the people.
     )";
-    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
+    evaluate (__LINE__, __func__, filter::strings::trim (standard), filter::strings::trim (odt));
   }
 
   // Test footnotes and cross references in plain text.
@@ -1105,7 +1105,7 @@ Chapter Two
     )";
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.odf_text_standard = new odf_text (bible);
-    filter_text.add_usfm_code (filter_string_trim(usfm));
+    filter_text.add_usfm_code (filter::strings::trim(usfm));
     filter_text.run (styles_logic_standard_sheet ());
     filter_text.odf_text_standard->save (TextTestOdt);
     int ret = odf2txt (TextTestOdt, TextTestTxt);
@@ -1116,7 +1116,7 @@ Unknown 1
 
 A Jesus is King.  B Jesus is the son of God.
     )";
-    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
+    evaluate (__LINE__, __func__, filter::strings::trim (standard), filter::strings::trim (odt));
   }
   
   // Test basic export to TBSX.
@@ -1147,7 +1147,7 @@ A Jesus is King.  B Jesus is the son of God.
     string invalid_utf8_usfm = filter_url_file_get_contents (path);
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.odf_text_standard = new odf_text (bible);
-    filter_text.add_usfm_code (filter_string_trim(invalid_utf8_usfm));
+    filter_text.add_usfm_code (filter::strings::trim(invalid_utf8_usfm));
     filter_text.run (styles_logic_standard_sheet ());
     filter_text.odf_text_standard->save (TextTestOdt);
     int ret = odf2txt (TextTestOdt, TextTestTxt);
@@ -1215,7 +1215,7 @@ caption
 
 2 Verse two.
       )";
-      evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
+      evaluate (__LINE__, __func__, filter::strings::trim (standard), filter::strings::trim (odt));
     }
   }
 

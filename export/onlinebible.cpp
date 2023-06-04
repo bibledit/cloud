@@ -60,7 +60,7 @@ void export_onlinebible (string bible, bool log)
     vector <int> chapters = database_bibles.getChapters (bible, book);
     for (auto chapter : chapters) {
       string chapter_data = database_bibles.getChapter (bible, book, chapter);
-      chapter_data = filter_string_trim (chapter_data);
+      chapter_data = filter::strings::trim (chapter_data);
       filter_text_bible.add_usfm_code (chapter_data);
     }
   }

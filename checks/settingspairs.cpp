@@ -77,7 +77,7 @@ string checks_settingspairs (void * webserver_request)
     vector <string> pairs = filter::strings::explode (fragment, ' ');
     bool okay {true};
     for (const auto & pair : pairs) {
-      const size_t length = unicode_string_length (pair);
+      const size_t length = filter::strings::unicode_string_length (pair);
       if (length != 2) {
         errors.push_back (translate ("A pair should consist of two characters:") + " " + pair);
         okay = false;

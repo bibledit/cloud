@@ -70,13 +70,13 @@ void ldap_logic_initialize ()
     const string contents = filter_url_file_get_contents (path);
     const vector <string> lines = filter::strings::explode (contents, '\n');
     for (auto line : lines) {
-      line = filter_string_trim (line);
+      line = filter::strings::trim (line);
       if (line.empty ()) continue;
       if (line.substr (0, 1) == "#") continue;
       size_t pos = line.find ("=");
-      const string key = filter_string_trim (line.substr (0, pos));
+      const string key = filter::strings::trim (line.substr (0, pos));
       line.erase (0, ++pos);
-      line = filter_string_trim (line);
+      line = filter::strings::trim (line);
       if (key == "uri"   ) ldap_logic_uri    = line;
       if (key == "binddn") ldap_logic_binddn = line;
       if (key == "basedn") ldap_logic_basedn = line;
@@ -178,12 +178,12 @@ bool ldap_logic_fetch (const string& user, const string& password, bool& access,
     const vector <string> lines = filter::strings::explode (output, '\n');
     for (const auto& line : lines) {
       if (line.find ("mail:") == 0) {
-        email = filter_string_trim (line.substr (5));
+        email = filter::strings::trim (line.substr (5));
       }
       if (line.find (ldap_logic_role + ":") == 0) {
-        const string fragment = unicode_string_casefold (filter_string_trim (line.substr (3)));
+        const string fragment = filter::strings::unicode_string_casefold (filter::strings::trim (line.substr (3)));
         for (int r = Filter_Roles::lowest (); r <= Filter_Roles::highest (); r++) {
-          if (fragment.find (unicode_string_casefold (Filter_Roles::english (r))) != string::npos) {
+          if (fragment.find (filter::strings::unicode_string_casefold (Filter_Roles::english (r))) != string::npos) {
             role = r;
           }
         }

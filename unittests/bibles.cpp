@@ -57,7 +57,7 @@ void test_bibles ()
 \v 4 Verse 4.
 \v 5 Verse 5.
 )";
-  usfm = filter_string_trim(usfm);
+  usfm = filter::strings::trim(usfm);
 
   // Safely store a chapter.
   {

@@ -270,17 +270,11 @@ std::u16string convert_to_u16string (const std::string& s)
 }
 
 
-} // Namespace.
-
-
-using namespace std; // Todo working here moving the below into another namespace.
-
-
-// A C++ equivalent for PHP's array_unique function.
-vector <string> array_unique (vector <string> values)
+// A C++ equivalent for PHP's filter::strings::array_unique function.
+std::vector <std::string> array_unique (const std::vector <std::string>& values)
 {
-  vector <string> result;
-  set <string> unique;
+  std::vector <std::string> result;
+  std::set <std::string> unique;
   for (unsigned int i = 0; i < values.size (); i++) {
     if (unique.find (values[i]) == unique.end ()) {
       unique.insert (values[i]);
@@ -291,11 +285,11 @@ vector <string> array_unique (vector <string> values)
 }
 
 
-// A C++ equivalent for PHP's array_unique function.
-vector <int> array_unique (vector <int> values)
+// A C++ equivalent for PHP's filter::strings::array_unique function.
+std::vector <int> array_unique (const std::vector <int>& values)
 {
-  vector <int> result;
-  set <int> unique;
+  std::vector <int> result;
+  std::set <int> unique;
   for (unsigned int i = 0; i < values.size (); i++) {
     if (unique.find (values[i]) == unique.end ()) {
       unique.insert (values[i]);
@@ -306,12 +300,11 @@ vector <int> array_unique (vector <int> values)
 }
 
 
-// A C++ equivalent for PHP's array_diff function.
 // Returns items in "from" which are not present in "against".
-vector <string> filter_string_array_diff (vector <string> from, vector <string> against)
+std::vector <std::string> array_diff (const std::vector <std::string>& from, const std::vector <std::string>& against)
 {
-  vector <string> result;
-  set <string> against2 (against.begin (), against.end ());
+  std::vector <std::string> result {};
+  std::set <std::string> against2 (against.begin (), against.end ());
   for (unsigned int i = 0; i < from.size (); i++) {
     if (against2.find (from[i]) == against2.end ()) {
       result.push_back ((from[i]));
@@ -321,12 +314,11 @@ vector <string> filter_string_array_diff (vector <string> from, vector <string> 
 }
 
 
-// A C++ equivalent for PHP's array_diff function.
 // Returns items in "from" which are not present in "against".
-vector <int> filter_string_array_diff (vector <int> from, vector <int> against)
+std::vector <int> array_diff (const std::vector <int>& from, const std::vector <int>& against)
 {
-  vector <int> result;
-  set <int> against2 (against.begin (), against.end ());
+  std::vector <int> result {};
+  std::set <int> against2 (against.begin (), against.end ());
   for (unsigned int i = 0; i < from.size (); i++) {
     if (against2.find (from[i]) == against2.end ()) {
       result.push_back ((from[i]));
@@ -336,41 +328,39 @@ vector <int> filter_string_array_diff (vector <int> from, vector <int> against)
 }
 
 
-// A C++ equivalent for PHP's filter_string_trim function.
-string filter_string_trim (string s)
+// A C++ equivalent for PHP's filter::strings::trim function.
+std::string trim (const std::string& s)
 {
-  if (s.length () == 0)
-    return s;
+  if (s.length () == 0) return s;
   // Strip spaces, tabs, new lines, carriage returns.
   size_t beg = s.find_first_not_of(" \t\n\r");
   size_t end = s.find_last_not_of(" \t\n\r");
-  // No non-spaces  
-  if (beg == string::npos)
-    return "";
-  return string (s, beg, end - beg + 1);
+  // No non-spaces
+  if (beg == std::string::npos) return std::string();
+  return std::string (s, beg, end - beg + 1);
 }
 
 
-// A C++ equivalent for PHP's filter_string_ltrim function.
-string filter_string_ltrim (string s)
+// A C++ equivalent for PHP's filter::strings::ltrim function.
+std::string ltrim (const std::string& s)
 {
   if (s.length () == 0) return s;
   // Strip spaces, tabs, new lines, carriage returns.
   size_t pos = s.find_first_not_of(" \t\n\r");
-  // No non-spaces  
-  if (pos == string::npos) return "";
+  // No non-spaces
+  if (pos == std::string::npos) return std::string();
   return s.substr (pos);
 }
 
 
 // Right trim string.
-string filter_string_rtrim (string s)
+std::string rtrim (std::string s)
 {
   if (s.length () == 0) return s;
   // Strip spaces, tabs, new lines, carriage returns.
   size_t pos = s.find_last_not_of(" \t\n\r");
   // No non-spaces
-  if (pos == string::npos) return string();
+  if (pos == std::string::npos) return std::string();
   // Erase it.
   s.erase (pos + 1);
   // Done.
@@ -379,18 +369,22 @@ string filter_string_rtrim (string s)
 
 
 // Fills a string up to "width", with the character "fill" at the left.
-string filter_string_fill (string s, int width, char fill)
+std::string fill (const std::string& s, const int width, const char fill)
 {
-  ostringstream str;
-  str << setfill (fill) << setw (width) << s;
+  std::ostringstream str {};
+  str << std::setfill (fill) << std::setw (width) << s;
   return str.str();
 }
 
 
 // Returns true/false whether s is numeric.
-bool filter_string_is_numeric (string s)
+bool is_numeric (const std::string& s)
 {
-  for (char c : s) if (!isdigit (c)) return false;
+  for (char c : s) {
+    if (!isdigit (c)) {
+      return false;
+    }
+  }
   return true;
 }
 
@@ -401,7 +395,7 @@ bool filter_string_is_numeric (string s)
 // > : &gt;
 // " : &quot;
 // ' : &apos;
-string escape_special_xml_characters (string s)
+std::string escape_special_xml_characters (std::string s)
 {
   s = filter::strings::replace ("&", "&amp;", s);
   s = filter::strings::replace (R"(")", "&quot;", s);
@@ -413,7 +407,7 @@ string escape_special_xml_characters (string s)
 
 
 // This unescapes the five special XML characters.
-string unescape_special_xml_characters (string s)
+std::string unescape_special_xml_characters (std::string s)
 {
   s = filter::strings::replace ("&quot;", R"(")", s);
   s = filter::strings::replace ("&amp;", "&", s);
@@ -425,7 +419,7 @@ string unescape_special_xml_characters (string s)
 
 
 // Converts other types of spaces to standard spaces.
-string any_space_to_standard_space (string s)
+std::string any_space_to_standard_space (std::string s)
 {
   s = filter::strings::replace (unicode_non_breaking_space_entity (), " ", s);
   s = filter::strings::replace (non_breaking_space_u00A0 (), " ", s);
@@ -437,7 +431,7 @@ string any_space_to_standard_space (string s)
 
 
 // Returns a no-break space (NBSP) (x00A0).
-string non_breaking_space_u00A0 ()
+std::string non_breaking_space_u00A0 ()
 {
 #ifdef HAVE_WINDOWS
   // On Visual Studio 2015 the C-style code below does not work.
@@ -449,7 +443,7 @@ string non_breaking_space_u00A0 ()
 
 
 // Returns a soft hyphen.
-string soft_hyphen_u00AD ()
+std::string soft_hyphen_u00AD ()
 {
 #ifdef HAVE_WINDOWS
   // On Visual Studio 2015 the C-style code below does not work.
@@ -461,7 +455,7 @@ string soft_hyphen_u00AD ()
 
 
 // Returns an "en space", this is a nut, half an em space.
-string en_space_u2002 ()
+std::string en_space_u2002 ()
 {
 #ifdef HAVE_WINDOWS
   // On Visual Studio 2015 the C-style code below does not work.
@@ -476,7 +470,7 @@ string en_space_u2002 ()
 // A space to use in numbers.
 // It has the same width as the digits.
 // It does not break, it keeps the numbers together.
-string figure_space_u2007 ()
+std::string figure_space_u2007 ()
 {
 #ifdef HAVE_WINDOWS
   // On Visual Studio 2015 the C-style code below does not work.
@@ -487,7 +481,7 @@ string figure_space_u2007 ()
 
 
 // Returns a "narrow no-break space (x202F)
-string narrow_non_breaking_space_u202F ()
+std::string narrow_non_breaking_space_u202F ()
 {
 #ifdef HAVE_WINDOWS
   // On Visual Studio 2015 the C-style code below does not work.
@@ -498,7 +492,7 @@ string narrow_non_breaking_space_u202F ()
 
 
 // Returns the length of string s in unicode points, not in bytes.
-size_t unicode_string_length (string s)
+size_t unicode_string_length (const std::string& s)
 {
   size_t length = static_cast<size_t> (utf8::distance (s.begin(), s.end()));
   return length;
@@ -507,7 +501,7 @@ size_t unicode_string_length (string s)
 
 // Get the substring with unicode point pos(ition) and len(gth).
 // If len = 0, the string from start till end is returned.
-string unicode_string_substr (string s, size_t pos, size_t len)
+std::string unicode_string_substr (std::string s, size_t pos, size_t len)
 {
   char * input = const_cast<char *>(s.c_str());
   char * startiter = input;
@@ -519,7 +513,7 @@ string unicode_string_substr (string s, size_t pos, size_t len)
       utf8::next (startiter, veryend);
     } else {
       // End reached: Return empty result.
-      return "";
+      return std::string();
     }
     pos--;
   }
@@ -528,7 +522,7 @@ string unicode_string_substr (string s, size_t pos, size_t len)
     s.assign (startiter);
     return s;
   }
-
+  
   // Iterate forward len times.
   char * enditer = startiter;
   while (len > 0) {
@@ -550,38 +544,38 @@ string unicode_string_substr (string s, size_t pos, size_t len)
 
 
 // Equivalent to PHP's mb_strpos function.
-size_t unicode_string_strpos (string haystack, string needle, size_t offset)
+size_t unicode_string_strpos (const std::string& haystack, const std::string& needle, const size_t offset)
 {
-  int haystack_length = static_cast<int>(unicode_string_length (haystack));
-  int needle_length = static_cast<int>(unicode_string_length (needle));
+  const int haystack_length = static_cast<int>( filter::strings::unicode_string_length (haystack));
+  const int needle_length = static_cast<int>( filter::strings::unicode_string_length (needle));
   for (int pos = static_cast<int>(offset); pos <= haystack_length - needle_length; pos++) {
-    string substring = unicode_string_substr (haystack, static_cast <size_t> (pos), static_cast <size_t> (needle_length));
+    const std::string substring = filter::strings::unicode_string_substr (haystack, static_cast <size_t> (pos), static_cast <size_t> (needle_length));
     if (substring == needle) return static_cast <size_t> (pos);
   }
-  return string::npos;
+  return std::string::npos;
 }
 
 
-// Case-insensitive version of "unicode_string_strpos".
-size_t unicode_string_strpos_case_insensitive (string haystack, string needle, size_t offset)
+// Case-insensitive version of "filter::strings::unicode_string_strpos".
+size_t unicode_string_strpos_case_insensitive (std::string haystack, std::string needle, size_t offset)
 {
-  haystack = unicode_string_casefold (haystack);
-  needle = unicode_string_casefold (needle);
+  haystack = filter::strings::unicode_string_casefold (haystack);
+  needle = filter::strings::unicode_string_casefold (needle);
   
-  int haystack_length = static_cast<int>(unicode_string_length (haystack));
-  int needle_length = static_cast<int>(unicode_string_length (needle));
+  const int haystack_length = static_cast<int>( filter::strings::unicode_string_length (haystack));
+  const int needle_length = static_cast<int>( filter::strings::unicode_string_length (needle));
   for (int pos = static_cast<int>(offset); pos <= haystack_length - needle_length; pos++) {
-    string substring = unicode_string_substr (haystack, static_cast<size_t> (pos), static_cast<size_t> (needle_length));
+    const std::string substring = filter::strings::unicode_string_substr (haystack, static_cast<size_t> (pos), static_cast<size_t> (needle_length));
     if (substring == needle) return static_cast<size_t>(pos);
   }
-  return string::npos;
+  return std::string::npos;
 }
 
 
 // Converts string to lowercase.
-string unicode_string_casefold (string s)
+std::string unicode_string_casefold (const std::string& s)
 {
-  string casefolded;
+  std::string casefolded {};
   // The conversion routine below is slow.
   // There was a case that a user tried to put a whole Bible into one chapter.
   // As a result, the Cloud choked on converting this chapter to lower case.
@@ -596,10 +590,10 @@ string unicode_string_casefold (string s)
   // Do the case folding.
   try {
     // The UTF8 processor works with one Unicode point at a time.
-    size_t string_length = unicode_string_length (s);
+    size_t string_length = filter::strings::unicode_string_length (s);
     for (unsigned int pos = 0; pos < string_length; pos++) {
       // Get one UTF-8 character.
-      string character = unicode_string_substr (s, pos, 1);
+      const std::string character = filter::strings::unicode_string_substr (s, pos, 1);
       // Convert it to a Unicode point.
       const utf8proc_uint8_t *str = reinterpret_cast<const unsigned char *> (character.c_str ());
       utf8proc_ssize_t len = static_cast<utf8proc_ssize_t> (character.length ());
@@ -611,42 +605,42 @@ string unicode_string_casefold (string s)
       utf8proc_uint8_t buffer [10];
       output = utf8proc_encode_char (luc, buffer);
       buffer [output] = 0;
-      stringstream ss;
+      std::stringstream ss {};
       ss << buffer;
       // Add the casefolded UTF-8 character to the result.
       casefolded.append (ss.str ());
     }
-  } catch (...) {
   }
+  catch (...) { }
   // Done.
   return casefolded;
-/*
- The code below shows how to do it through the ICU library.
- But the ICU library could not be compiled properly for Android.
- Therefore it is not used on any platform.
-
-  // UTF-8 string -> UTF-16 UnicodeString
-  UnicodeString source = UnicodeString::fromUTF8 (StringPiece (s));
-  // Case folding.
-  source.foldCase ();
-  // UTF-16 UnicodeString -> UTF-8 std::string
-  string result;
-  source.toUTF8String (result);
-  // Ready.
-  return result;
-*/
+  /*
+   The code below shows how to do it through the ICU library.
+   But the ICU library could not be compiled properly for Android.
+   Therefore it is not used on any platform.
+   
+   // UTF-8 string -> UTF-16 UnicodeString
+   UnicodeString source = UnicodeString::fromUTF8 (StringPiece (s));
+   // Case folding.
+   source.foldCase ();
+   // UTF-16 UnicodeString -> UTF-8 std::string
+   string result;
+   source.toUTF8String (result);
+   // Ready.
+   return result;
+   */
 }
 
 
-string unicode_string_uppercase (string s)
+std::string unicode_string_uppercase (const std::string& s)
 {
-  string uppercase;
+  std::string uppercase {};
   try {
     // The UTF8 processor works with one Unicode point at a time.
-    size_t string_length = unicode_string_length (s);
+    const size_t string_length = filter::strings::unicode_string_length (s);
     for (unsigned int pos = 0; pos < string_length; pos++) {
       // Get one UTF-8 character.
-      string character = unicode_string_substr (s, pos, 1);
+      const std::string character = filter::strings::unicode_string_substr (s, pos, 1);
       // Convert it to a Unicode point.
       const utf8proc_uint8_t *str = reinterpret_cast<const unsigned char *> (character.c_str ());
       utf8proc_ssize_t len = static_cast<utf8proc_ssize_t> (character.length ());
@@ -658,143 +652,140 @@ string unicode_string_uppercase (string s)
       utf8proc_uint8_t buffer [10];
       output = utf8proc_encode_char (luc, buffer);
       buffer [output] = 0;
-      stringstream ss;
+      std::stringstream ss {};
       ss << buffer;
       // Add the casefolded UTF-8 character to the result.
       uppercase.append (ss.str ());
     }
-  } catch (...) {
-  }
+  } catch (...) { }
   // Done.
   return uppercase;
-/*
- How to do the above through the ICU library.
-  UnicodeString source = UnicodeString::fromUTF8 (StringPiece (s));
-  source.toUpper ();
-  string result;
-  source.toUTF8String (result);
-  return result;
-*/
+  /*
+   How to do the above through the ICU library.
+   UnicodeString source = UnicodeString::fromUTF8 (StringPiece (s));
+   source.toUpper ();
+   string result;
+   source.toUTF8String (result);
+   return result;
+   */
 }
 
 
-string unicode_string_transliterate (string s)
+std::string unicode_string_transliterate (const std::string& s)
 {
-  string transliteration;
+  std::string transliteration {};
   try {
-    size_t string_length = unicode_string_length (s);
+    const size_t string_length = filter::strings::unicode_string_length (s);
     for (unsigned int pos = 0; pos < string_length; pos++) {
-      string character = unicode_string_substr (s, pos, 1);
+      const std::string character {unicode_string_substr (s, pos, 1)};
       const utf8proc_uint8_t *str = reinterpret_cast<const unsigned char *> (character.c_str ());
       utf8proc_ssize_t len = static_cast<utf8proc_ssize_t> (character.length ());
       uint8_t *dest;
       utf8proc_option_t options = static_cast<utf8proc_option_t> (UTF8PROC_DECOMPOSE | UTF8PROC_STRIPMARK);
       [[maybe_unused]] auto output = utf8proc_map (str, len, &dest, options);
-      stringstream ss;
+      std::stringstream ss {};
       ss << dest;
       transliteration.append (ss.str ());
       free (dest);
     }
-  } catch (...) {
-  }
+  } catch (...) { }
   return transliteration;
-/*
- Code showing how to do the transliteration through the ICU library.
-  // UTF-8 string -> UTF-16 UnicodeString
-  UnicodeString source = UnicodeString::fromUTF8 (StringPiece (s));
-  
-  // Transliterate UTF-16 UnicodeString following this rule:
-  // decompose, remove diacritics, recompose
-  UErrorCode status = U_ZERO_ERROR;
-  Transliterator *transliterator = Transliterator::createInstance("NFD; [:M:] Remove; NFC",
-                                                                  UTRANS_FORWARD,
-                                                                  status);
-  transliterator->transliterate(source);
-  
-  // UTF-16 UnicodeString -> UTF-8 std::string
-  string result;
-  source.toUTF8String (result);
-  
-  // Done.
-  return result;
- */
+  /*
+   Code showing how to do the transliteration through the ICU library.
+   // UTF-8 string -> UTF-16 UnicodeString
+   UnicodeString source = UnicodeString::fromUTF8 (StringPiece (s));
+   
+   // Transliterate UTF-16 UnicodeString following this rule:
+   // decompose, remove diacritics, recompose
+   UErrorCode status = U_ZERO_ERROR;
+   Transliterator *transliterator = Transliterator::createInstance("NFD; [:M:] Remove; NFC",
+   UTRANS_FORWARD,
+   status);
+   transliterator->transliterate(source);
+   
+   // UTF-16 UnicodeString -> UTF-8 std::string
+   string result;
+   source.toUTF8String (result);
+   
+   // Done.
+   return result;
+   */
 }
 
 
 // Returns true if string "s" is valid UTF8 encoded.
-bool unicode_string_is_valid (string s)
+bool unicode_string_is_valid (const std::string& s)
 {
   return utf8::is_valid (s.begin(), s.end());
 }
 
 
 // Returns whether $s is Unicode punctuation.
-bool unicode_string_is_punctuation (string s)
+bool unicode_string_is_punctuation (std::string s)
 {
   try {
     if (s.empty ()) return false;
     // Be sure to take only one character.
-    s = unicode_string_substr (s, 0, 1);
+    s = filter::strings::unicode_string_substr (s, 0, 1);
     // Convert the string to a Unicode point.
     const utf8proc_uint8_t *str = reinterpret_cast<const unsigned char *>(s.c_str ());
-    utf8proc_ssize_t len = static_cast<utf8proc_ssize_t> (s.length ());
+    const utf8proc_ssize_t len = static_cast<utf8proc_ssize_t> (s.length ());
     utf8proc_int32_t codepoint;
     [[maybe_unused]] auto output = utf8proc_iterate (str, len, &codepoint);
     // Get category.
-    utf8proc_category_t category = utf8proc_category	(codepoint);
+    utf8proc_category_t category = utf8proc_category  (codepoint);
     if ((category >= UTF8PROC_CATEGORY_PC) && (category <= UTF8PROC_CATEGORY_PO)) return true;
-  } catch (...) {
   }
+  catch (...) { }
   return false;
-  /* 
-  The following code shows how to do the above code through the ICU library.
-  UnicodeString source = UnicodeString::fromUTF8 (StringPiece (s));
-  StringCharacterIterator iter (source);
-  UChar32 character = iter.first32 ();
-  bool punctuation = u_ispunct (character);
-  return punctuation;
-  */
+  /*
+   The following code shows how to do the above code through the ICU library.
+   UnicodeString source = UnicodeString::fromUTF8 (StringPiece (s));
+   StringCharacterIterator iter (source);
+   UChar32 character = iter.first32 ();
+   bool punctuation = u_ispunct (character);
+   return punctuation;
+   */
 }
 
 
 // Converts the string $s to a Unicode codepoint.
-int unicode_string_convert_to_codepoint (string s)
+int unicode_string_convert_to_codepoint (std::string s)
 {
   int point = 0;
   if (!s.empty ()) {
     try {
       // Be sure to take only one character.
-      s = unicode_string_substr (s, 0, 1);
+      s = filter::strings::unicode_string_substr (s, 0, 1);
       // Convert the string to a Unicode point.
       const utf8proc_uint8_t *str = reinterpret_cast<const unsigned char *>(s.c_str ());
-      utf8proc_ssize_t len = static_cast<utf8proc_ssize_t> (s.length ());
+      const utf8proc_ssize_t len = static_cast<utf8proc_ssize_t> (s.length ());
       utf8proc_int32_t codepoint;
       [[maybe_unused]] auto output = utf8proc_iterate (str, len, &codepoint);
       point = codepoint;
-    } catch (...) {
     }
-    
+    catch (...) { }
   }
   return point;
 }
 
 
-string unicode_string_str_replace (string search, string replace, string subject)
+std::string unicode_string_str_replace (const std::string& search, const std::string& replace, std::string subject)
 {
   // The needle to look for should not be empty.
   if (!search.empty ()) {
     // Do the replacing.
-    size_t searchlength = unicode_string_length (search);
-    size_t offposition = unicode_string_strpos (subject, search);
-    while (offposition != string::npos) {
-      string subject_before;
+    const size_t searchlength = filter::strings::unicode_string_length (search);
+    size_t offposition = filter::strings::unicode_string_strpos (subject, search);
+    while (offposition != std::string::npos) {
+      std::string subject_before {};
       // Due to the nature of the substr finder, it needs special handling for search position zero.
-      if (offposition != 0) subject_before = unicode_string_substr (subject, 0, offposition);
+      if (offposition != 0) subject_before = filter::strings::unicode_string_substr (subject, 0, offposition);
       // Continue with the splitting and joining.
-      string subject_after = unicode_string_substr (subject, offposition + searchlength, subject.length());
+      const std::string subject_after = filter::strings::unicode_string_substr (subject, offposition + searchlength, subject.length());
       subject = subject_before + replace + subject_after;
       // Prepare for next iteration.
-      offposition = unicode_string_strpos (subject, search, offposition + unicode_string_length (replace));
+      offposition = filter::strings::unicode_string_strpos (subject, search, offposition + filter::strings::unicode_string_length (replace));
     }
   }
   // Ready.
@@ -803,17 +794,17 @@ string unicode_string_str_replace (string search, string replace, string subject
 
 
 #ifdef HAVE_ICU
-string icu_string_normalize (string s, bool remove_diacritics, bool casefold)
+std::string icu_string_normalize (const std::string& s, const bool remove_diacritics, const bool casefold)
 {
   // Skip any conversions that slow things down if no normalization is to be done.
   if (!remove_diacritics && !casefold) return s;
   
   // UTF-8 std::string -> UTF-16 UnicodeString
   icu::UnicodeString source = icu::UnicodeString::fromUTF8 (icu::StringPiece (s));
-
+  
   // The order of doing the normalization action may be of influence on the result.
   // Right now it seems more logical to remove diacritics first and then doing the case folding.
-
+  
   // Removal of diacritics.
   if (remove_diacritics) {
     // Transliterate UTF-16 UnicodeString following this rule:
@@ -822,19 +813,30 @@ string icu_string_normalize (string s, bool remove_diacritics, bool casefold)
     icu::Transliterator *accents_converter = icu::Transliterator::createInstance("NFD; [:M:] Remove; NFC", UTRANS_FORWARD, status);
     accents_converter->transliterate(source);
   }
-
+  
   // Case folding.
   if (casefold) {
     source.foldCase ();
   }
   
   // UTF-16 UnicodeString -> UTF-8 std::string
-  string result;
+  std::string result {};
   source.toUTF8String (result);
   
+  // Ready.
   return result;
 }
 #endif
+
+
+
+
+
+
+} // Namespace.
+
+
+using namespace std; // Todo working here moving the below into another namespace.
 
 
 // Some code for when it's necessary to find out if text is alphabetic.
@@ -960,9 +962,9 @@ string filter_string_html2text (string html)
     text.append (html.substr (0, pos));
     html = html.substr (pos + 1);
     // Certain tags start new lines.
-    string tag1 {unicode_string_casefold (html.substr (0, 1))};
-    string tag2 {unicode_string_casefold (html.substr (0, 2))};
-    string tag3 {unicode_string_casefold (html.substr (0, 3))};
+    string tag1 {filter::strings::unicode_string_casefold (html.substr (0, 1))};
+    string tag2 {filter::strings::unicode_string_casefold (html.substr (0, 2))};
+    string tag3 {filter::strings::unicode_string_casefold (html.substr (0, 3))};
     if  ((tag1 == "p")
       || (tag3 == "div")
       || (tag2 == "li")
@@ -989,12 +991,12 @@ string filter_string_html2text (string html)
   text.append (html);
 
   // Replace xml entities with their text.
-  text = unescape_special_xml_characters (text);
+  text = filter::strings::unescape_special_xml_characters (text);
 
   while (text.find ("\n\n") != string::npos) {
     text = filter::strings::replace ("\n\n", "\n", text);
   }
-  text = filter_string_trim (text);
+  text = filter::strings::trim (text);
   return text;
 }
 
@@ -1031,7 +1033,7 @@ string filter_string_extract_body (string input, string year, string sender)
   if (inputlines.empty ()) return "";
   vector <string> body;
   for (string & line : inputlines) {
-    string trimmed = filter_string_trim (line);
+    string trimmed = filter::strings::trim (line);
     if (trimmed == "") continue;
     if (trimmed.find (">") == 0) continue;
     if ((year != "") && (sender != "")) {
@@ -1044,7 +1046,7 @@ string filter_string_extract_body (string input, string year, string sender)
     body.push_back (line);
   }
   string bodystring = filter::strings::implode (body, "\n");
-  bodystring = filter_string_trim (bodystring);
+  bodystring = filter::strings::trim (bodystring);
   return bodystring;
 }
 
@@ -1396,7 +1398,7 @@ string filter_string_markup_words (const vector <string>& words, string text)
     vector <string> new_needles = filter_string_search_needles (word, text);
     needles.insert (needles.end(), new_needles.begin(), new_needles.end());
   }
-  needles = array_unique (needles);
+  needles = filter::strings::array_unique (needles);
   
   // All the $needles are converted to $markup,
   // which will replace the $needles.
@@ -1416,13 +1418,13 @@ string filter_string_markup_words (const vector <string>& words, string text)
 vector <string> filter_string_search_needles (string search, string text)
 {
   vector <string> needles;
-  size_t position = unicode_string_strpos_case_insensitive (text, search, 0);
+  size_t position = filter::strings::unicode_string_strpos_case_insensitive (text, search, 0);
   while (position != string::npos) {
-    string needle = unicode_string_substr (text, position, unicode_string_length (search));
+    string needle = filter::strings::unicode_string_substr (text, position, filter::strings::unicode_string_length (search));
     needles.push_back (needle);
-    position = unicode_string_strpos_case_insensitive (text, search, position + 1);
+    position = filter::strings::unicode_string_strpos_case_insensitive (text, search, position + 1);
   }
-  needles = array_unique (needles);
+  needles = filter::strings::array_unique (needles);
   return needles;
 }
 
@@ -1969,7 +1971,7 @@ static string pretty_print_contents (GumboNode* node, int lvl, const string & in
       }
       
       if (pp_okay) {
-        val = filter_string_rtrim(val);
+        val = filter::strings::rtrim(val);
       }
       
       if (pp_okay && (contents.length() == 0)) {
@@ -1990,7 +1992,7 @@ static string pretty_print_contents (GumboNode* node, int lvl, const string & in
       string childname = get_tag_name(child);
       string childkey = "|" + childname + "|";
       if ((nonbreaking_inline_tags.find(childkey) != string::npos) && (contents.length() > 0)) {
-        val = filter_string_ltrim(val);
+        val = filter::strings::ltrim(val);
       }
       
       contents.append(val);
@@ -2061,7 +2063,7 @@ static string pretty_print(GumboNode* node, int lvl, const string & indent_chars
   string contents {pretty_print_contents(node, lvl+1, indent_chars)};
   
 //  if (need_special_handling) {
-//    contents = filter_string_rtrim(contents);
+//    contents = filter::strings::rtrim(contents);
 //  }
   
   char last_char = ' ';
@@ -2079,7 +2081,7 @@ static string pretty_print(GumboNode* node, int lvl, const string & indent_chars
     results.append("\n");
   }
 //  if (inline_like) {
-//    contents = filter_string_ltrim(contents);
+//    contents = filter::strings::ltrim(contents);
 //  }
   results.append(contents);
   if (pp_okay && !contents.empty() && (last_char != '\n') && (!inline_like)) {

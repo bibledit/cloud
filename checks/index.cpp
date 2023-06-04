@@ -94,12 +94,12 @@ string checks_index (void * webserver_request)
     string bible = hit.bible;
     if (find (bibles.begin(), bibles.end (), bible) != bibles.end ()) {
       int id = hit.rowid;
-      bible = escape_special_xml_characters (bible);
+      bible = filter::strings::escape_special_xml_characters (bible);
       int book = hit.book;
       int chapter = hit.chapter;
       int verse = hit.verse;
       string link = filter_passage_link_for_opening_editor_at (book, chapter, filter::strings::convert_to_string (verse));
-      string information = escape_special_xml_characters (hit.data);
+      string information = filter::strings::escape_special_xml_characters (hit.data);
       resultblock << "<p>\n";
       resultblock << "<a href=" << quoted("index?approve=" + filter::strings::convert_to_string (id)) << "> ✔ </a>\n";
       resultblock << "<a href=" << quoted ("index?delete=" + filter::strings::convert_to_string (id)) << ">" << emoji_wastebasket () << "</a>\n";

@@ -200,7 +200,7 @@ void sendreceive_changes ()
 
   
   // Any identifiers on the client, but not on the server, remove them from the client.
-  vector <int> remove_identifiers = filter_string_array_diff (client_identifiers, server_identifiers);
+  vector <int> remove_identifiers = filter::strings::array_diff (client_identifiers, server_identifiers);
   for (auto & id : remove_identifiers) {
     database_modifications.deleteNotification (id);
     request.database_config_user ()->setChangeNotificationsChecksum ("");
@@ -209,7 +209,7 @@ void sendreceive_changes ()
 
   
   // Any identifiers on the server, but not on the client, download them from the server.
-  vector <int> download_identifiers = filter_string_array_diff (server_identifiers, client_identifiers);
+  vector <int> download_identifiers = filter::strings::array_diff (server_identifiers, client_identifiers);
   for (auto & id : download_identifiers) {
     sendreceive_changes_kick_watchdog ();
     Database_Logs::log (sendreceive_changes_text () + "Downloading notification: " + filter::strings::convert_to_string (id), Filter_Roles::translator ());

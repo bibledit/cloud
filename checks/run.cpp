@@ -101,11 +101,11 @@ void checks_run (string bible)
     string fragment = Database_Config_Bible::getMatchingPairs (bible);
     vector <string> pairs = filter::strings::explode (fragment, ' ');
     for (auto & pair : pairs) {
-      pair = filter_string_trim (pair);
-      size_t length = unicode_string_length (pair);
+      pair = filter::strings::trim (pair);
+      size_t length = filter::strings::unicode_string_length (pair);
       if (length == 2) {
-        string opener = unicode_string_substr (pair, 0, 1);
-        string closer = unicode_string_substr (pair, 1, 1);
+        string opener = filter::strings::unicode_string_substr (pair, 0, 1);
+        string closer = filter::strings::unicode_string_substr (pair, 1, 1);
         matching_pairs.push_back ({opener, closer});
       }
     }
@@ -165,7 +165,7 @@ void checks_run (string bible)
           checks::space::double_space_usfm (bible, book, chapter, verse, verseUsfm);
         }
         if (check_valid_utf8_text) {
-          if (!unicode_string_is_valid (verseUsfm)) {
+          if (!filter::strings::unicode_string_is_valid (verseUsfm)) {
             string msg = "Invalid UTF-8 Unicode in verse text";
             database_check.recordOutput (bible, book, chapter, verse, msg);
           }
@@ -254,7 +254,7 @@ void checks_run (string bible)
   for (const auto & hit : hits) {
     if (hit.bible == bible) {
       string passage = filter_passage_display_inline ({Passage ("", hit.book, hit.chapter, filter::strings::convert_to_string (hit.verse))});
-      string data = escape_special_xml_characters (hit.data);
+      string data = filter::strings::escape_special_xml_characters (hit.data);
       string result = "<p>" + passage + " " + data + "</p>";
       emailBody.push_back (result);
     }

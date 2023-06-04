@@ -67,7 +67,7 @@ void test_odf ()
     "\n"
     "\n"
     "Paragraph Three\n";
-    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
+    evaluate (__LINE__, __func__, filter::strings::trim (standard), filter::strings::trim (odt));
   }
   filter_url_unlink (odf_text_test_odt);
   filter_url_unlink (Odt2TxtOutput);
@@ -82,7 +82,7 @@ void test_odf ()
     string odt = filter_url_file_get_contents (Odt2TxtOutput);
     string standard = ""
     "Should create new paragraph automatically\n";
-    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
+    evaluate (__LINE__, __func__, filter::strings::trim (standard), filter::strings::trim (odt));
   }
   filter_url_unlink (odf_text_test_odt);
   filter_url_unlink (Odt2TxtOutput);
@@ -103,7 +103,7 @@ void test_odf ()
     "Text†Note\n"
     "\n"
     ".\n";
-    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
+    evaluate (__LINE__, __func__, filter::strings::trim (standard), filter::strings::trim (odt));
   }
   filter_url_unlink (odf_text_test_odt);
   filter_url_unlink (Odt2TxtOutput);
@@ -126,7 +126,7 @@ void test_odf ()
     evaluate (__LINE__, __func__, 0, ret);
     string odt = filter_url_file_get_contents (Odt2TxtOutput);
     string standard = "textaddnormal.";
-    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
+    evaluate (__LINE__, __func__, filter::strings::trim (standard), filter::strings::trim (odt));
   }
   filter_url_unlink (odf_text_test_odt);
   filter_url_unlink (Odt2TxtOutput);
@@ -153,7 +153,7 @@ void test_odf ()
     "Text𐌰Addnormal\n"
     "\n"
     ".\n";
-    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
+    evaluate (__LINE__, __func__, filter::strings::trim (standard), filter::strings::trim (odt));
   }
   filter_url_unlink (odf_text_test_odt);
   filter_url_unlink (Odt2TxtOutput);
@@ -191,7 +191,7 @@ void test_odf ()
     evaluate (__LINE__, __func__, 0, ret);
     string odt = filter_url_file_get_contents (Odt2TxtOutput);
     string standard = "textaddndnormal.";
-    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
+    evaluate (__LINE__, __func__, filter::strings::trim (standard), filter::strings::trim (odt));
   }
   filter_url_unlink (odf_text_test_odt);
   filter_url_unlink (Odt2TxtOutput);
@@ -233,7 +233,7 @@ void test_odf ()
     "text𐌰addndnormal\n"
     "\n"
     ".\n";
-    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
+    evaluate (__LINE__, __func__, filter::strings::trim (standard), filter::strings::trim (odt));
   }
   filter_url_unlink (odf_text_test_odt);
   filter_url_unlink (Odt2TxtOutput);
@@ -259,7 +259,7 @@ void test_odf ()
     "\n"
     "Paragraph with d style at first, then Standard\n"
     "";
-    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
+    evaluate (__LINE__, __func__, filter::strings::trim (standard), filter::strings::trim (odt));
   }
   filter_url_unlink (odf_text_test_odt);
   filter_url_unlink (Odt2TxtOutput);
@@ -275,7 +275,7 @@ void test_odf ()
     evaluate (__LINE__, __func__, 0, ret);
     string odt = filter_url_file_get_contents (Odt2TxtOutput);
     string standard = "One apostrophy ' and two more ''.";
-    evaluate (__LINE__, __func__, filter_string_trim (standard), filter_string_trim (odt));
+    evaluate (__LINE__, __func__, filter::strings::trim (standard), filter::strings::trim (odt));
   }
   
   // Test a tab.

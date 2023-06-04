@@ -174,7 +174,7 @@ void filter_git_sync_bible_to_git (void * webserver_request, string bible, strin
           for (auto & chaptername : chapterfiles) {
             string chapter_path = filter_url_create_path ({repository, bookname, chaptername});
             if (filter_url_is_dir (chapter_path)) {
-              if (filter_string_is_numeric (chaptername)) {
+              if (filter::strings::is_numeric (chaptername)) {
                 int chapter = filter::strings::convert_to_int (chaptername);
                 string filename = filter_url_create_path ({repository, bookname, chaptername, "data"});
                 if (file_or_dir_exists (filename)) {
@@ -243,7 +243,7 @@ void filter_git_sync_git_to_bible (void * webserver_request, string repository, 
         for (auto & chapterfile : chapterfiles) {
           string chapterpath = filter_url_create_path ({bookpath, chapterfile});
           if (filter_url_is_dir (chapterpath)) {
-            if (filter_string_is_numeric (chapterfile)) {
+            if (filter::strings::is_numeric (chapterfile)) {
               int chapter = filter::strings::convert_to_int (chapterfile);
               string filename = filter_url_create_path ({chapterpath, "data"});
               if (file_or_dir_exists (filename)) {
@@ -387,8 +387,8 @@ bool filter_git_commit (string repository, string user, string message,
                                  "-m",
                                  message
                                 }, &out, &err);
-  out = filter_string_trim (out);
-  err = filter_string_trim (err);
+  out = filter::strings::trim (out);
+  err = filter::strings::trim (err);
   error = err;
   filter_git_check_error (error);
   messages = filter::strings::explode (out, '\n');
@@ -456,10 +456,10 @@ Passage filter_git_get_passage (string line)
   if (bits.size () == 3) {
     size_t pos = bits [0].find (":");
     if (pos != string::npos) bits [0].erase (0, pos + 1);
-    string bookname = filter_string_trim (bits [0]);
+    string bookname = filter::strings::trim (bits [0]);
     int book = static_cast<int>(database::books::get_id_from_english (bookname));
     if (book) {
-      if (filter_string_is_numeric (bits [1])) {
+      if (filter::strings::is_numeric (bits [1])) {
         int chapter = filter::strings::convert_to_int (bits [1]);
         string data = bits [2];
         if (data.find ("data") != string::npos) {
@@ -496,8 +496,8 @@ bool filter_git_pull (string repository, vector <string> & messages)
 {
   string out, err;
   int result = filter_shell_run (repository, "git", {"pull"}, &out, &err);
-  out = filter_string_trim (out);
-  err = filter_string_trim (err);
+  out = filter::strings::trim (out);
+  err = filter::strings::trim (err);
   messages = filter::strings::explode (out, '\n');
   vector <string> lines = filter::strings::explode (err, '\n');
   messages.insert (messages.end(), lines.begin(), lines.end());
@@ -513,8 +513,8 @@ bool filter_git_push (string repository, vector <string> & messages, bool all)
   vector <string> parameters = {"push"};
   if (all) parameters.push_back ("--all");
   int result = filter_shell_run (repository, "git", parameters, &out, &err);
-  out = filter_string_trim (out);
-  err = filter_string_trim (err);
+  out = filter::strings::trim (out);
+  err = filter::strings::trim (err);
   messages = filter::strings::explode (out, '\n');
   vector <string> lines = filter::strings::explode (err, '\n');
   messages.insert (messages.end(), lines.begin(), lines.end());
@@ -539,7 +539,7 @@ bool filter_git_resolve_conflicts (string repository, vector <string> & paths, s
     size_t pos = line.find ("UU ");
     if (pos != string::npos) {
       line.erase (0, 3);
-      line = filter_string_trim (line);
+      line = filter::strings::trim (line);
       unmerged_paths.push_back (line);
     }
   }
@@ -562,7 +562,7 @@ bool filter_git_resolve_conflicts (string repository, vector <string> & paths, s
     
     vector <Merge_Conflict> conflicts;
     string mergedData = filter_merge_run (mergeBase, userData, serverData, true, conflicts);
-    mergedData = filter_string_trim (mergedData);
+    mergedData = filter::strings::trim (mergedData);
     filter_url_file_put_contents (filter_url_create_path ({repository, unmerged_path}), mergedData);
     
     paths.push_back (unmerged_path);

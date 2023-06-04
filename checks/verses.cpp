@@ -46,8 +46,8 @@ void checks_verses::missing_punctuation_at_end (const string & bible, int book, 
     for (const auto & ignore_text : ignores) {
       text = filter::strings::replace (ignore_text, string(), text);
     }
-    const size_t text_length = unicode_string_length (text);
-    const string lastCharacter = unicode_string_substr (text, text_length - 1, 1);
+    const size_t text_length = filter::strings::unicode_string_length (text);
+    const string lastCharacter = filter::strings::unicode_string_substr (text, text_length - 1, 1);
     if (in_array (lastCharacter, centermarks)) continue;
     if (in_array (lastCharacter, endmarks)) continue;
     database_check.recordOutput (bible, book, chapter, verse, translate ("No punctuation at end of verse:") + " " + lastCharacter);

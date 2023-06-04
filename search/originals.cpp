@@ -88,7 +88,7 @@ string search_originals (void * webserver_request)
       classs = "greek";
     }
     searchtext = filter::strings::implode (details, " ");
-    searchtext = filter_string_trim (searchtext);
+    searchtext = filter::strings::trim (searchtext);
     
     return classs + "\n" + searchtext;
   }
@@ -97,7 +97,7 @@ string search_originals (void * webserver_request)
   if (request->query.count ("words")) {
     string words = request->query ["words"];
     
-    words = filter_string_trim (words);
+    words = filter::strings::trim (words);
     vector <string> v_words = filter::strings::explode (words, ' ');
     
     book_id book = static_cast<book_id>(Ipc_Focus::getBook (request));

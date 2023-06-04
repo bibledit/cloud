@@ -293,7 +293,7 @@ void sendreceive_bibles ()
   
   // The client now has a list of Bibles the user has access to on the server.
   bibles = request.database_bibles()->getBibles ();
-  bibles = filter_string_array_diff (bibles, v_server_bibles);
+  bibles = filter::strings::array_diff (bibles, v_server_bibles);
   if (first_sync_after_connect) {
     // At the first synchronize action after the user connected to the Cloud,
     // any local Bible not available from the server,
@@ -368,7 +368,7 @@ void sendreceive_bibles ()
 
 
     // Find the books on the client which are not on the server.
-    client_books = filter_string_array_diff (client_books, i_server_books);
+    client_books = filter::strings::array_diff (client_books, i_server_books);
     if (first_sync_after_connect) {
       // The first sync action after connecting to the Cloud,
       // any books on the client and not on the server,
@@ -438,7 +438,7 @@ void sendreceive_bibles ()
       
       
       // The client now should remove any local chapters not on the server.
-      client_chapters = filter_string_array_diff (client_chapters, i_server_chapters);
+      client_chapters = filter::strings::array_diff (client_chapters, i_server_chapters);
       if (first_sync_after_connect) {
         // First sync after connecting to Cloud:
         // It does not delete any chapters, but rather sends them to the Cloud.

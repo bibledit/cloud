@@ -70,7 +70,7 @@ string notes_verses (void * webserver_request)
     vector <Passage> passages;
     Passage previousPassage = Passage ("", 1, 1, "1");
     for (auto & line : verses) {
-      line = filter_string_trim (line);
+      line = filter::strings::trim (line);
       if (line != "") {
         Passage passage = filter_passage_interpret_passage (previousPassage, line);
         if (passage.m_book != 0) {

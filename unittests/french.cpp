@@ -34,8 +34,8 @@ void test_french ()
   Database_Check database_check;
   database_check.create ();
   string bible = "unit test";
-  string nbsp = non_breaking_space_u00A0 ();
-  string nnbsp = narrow_non_breaking_space_u202F ();
+  string nbsp = filter::strings::non_breaking_space_u00A0 ();
+  string nnbsp = filter::strings::narrow_non_breaking_space_u202F ();
   
   // Test reporting lacking no-break space at French square brackets and other punctuation.
   {

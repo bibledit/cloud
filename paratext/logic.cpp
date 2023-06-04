@@ -380,7 +380,7 @@ void Paratext_Logic::synchronize (tasks::enums::paratext_sync method)
       for (auto element : paratext_usfm) {
         chapters.push_back (element.first);
       }
-      chapters = array_unique (chapters);
+      chapters = filter::strings::array_unique (chapters);
       sort (chapters.begin(), chapters.end());
       
 
@@ -477,7 +477,7 @@ void Paratext_Logic::synchronize (tasks::enums::paratext_sync method)
           string data = element.second;
           if (!data.empty ()) {
             if (!usfm.empty ()) usfm.append ("\n");
-            usfm.append (filter_string_trim (data));
+            usfm.append (filter::strings::trim (data));
           }
         }
         ancestor (bible, book, usfm);
@@ -487,7 +487,7 @@ void Paratext_Logic::synchronize (tasks::enums::paratext_sync method)
           string data = element.second;
           if (!data.empty ()) {
             if (!usfm.empty ()) usfm.append ("\n");
-            usfm.append (filter_string_trim (data));
+            usfm.append (filter::strings::trim (data));
           }
         }
         string path = filter_url_create_path ({projectFolder (bible), paratext_book});
@@ -522,7 +522,7 @@ string Paratext_Logic::synchronize (string ancestor, string bibledit, string par
   }
 
   // Bibledit and Paratext are the same: Do nothing.
-  else if (filter_string_trim (bibledit) == filter_string_trim (paratext)) {
+  else if (filter::strings::trim (bibledit) == filter::strings::trim (paratext)) {
   }
 
   // If the chapter in Bibledit is much larger than the chapter in Paratext,

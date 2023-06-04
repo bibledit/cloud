@@ -94,7 +94,7 @@ string lexicon_logic_get_html ([[maybe_unused]] void * webserver_request, string
         ss << "<tr>";
         ss << "<td>";
         string gloss = database_etcbc4.gloss (rowid);
-        gloss = escape_special_xml_characters (gloss);
+        gloss = filter::strings::escape_special_xml_characters (gloss);
         ss << gloss;
         ss << "</td>";
         ss << "</tr>";
@@ -306,7 +306,7 @@ string lexicon_logic_render_strongs_definition (string strong)
   definition = filter::strings::replace ("/>", "/>\n", definition);
   vector <string> lines = filter::strings::explode (definition, '\n');
   for (auto & line : lines) {
-    line = filter_string_trim (line);
+    line = filter::strings::trim (line);
     line = filter_string_collapse_whitespace (line);
     size_t position;
     // The first <w> element describes it.
@@ -419,7 +419,7 @@ string lexicon_logic_render_strongs_definition (string strong)
     }
   }
   string rendering = filter::strings::implode (renderings, " ");
-  rendering = filter_string_trim (rendering);
+  rendering = filter::strings::trim (rendering);
 
   // If no rendering has been found yet, try the user-defined Strong's definitions.
   if (rendering.empty ()) {
@@ -447,7 +447,7 @@ string lexicon_logic_render_part_of_speech_pop_front (vector <string> & parts)
 // Render the part of speech.
 string lexicon_logic_render_strongs_part_of_speech (string value)
 {
-  if (value == unicode_string_casefold (value)) {
+  if (value == filter::strings::unicode_string_casefold (value)) {
     // Deal with Strong's parsings.
     vector <string> parts = filter::strings::explode (value, ' ');
     value.clear ();
@@ -855,7 +855,7 @@ string lexicon_logic_render_etcbc4_morphology (string rowid)
   //renderings.push_back (";");
   //renderings.push_back ("gloss:");
   renderings.push_back ("-");
-  renderings.push_back (escape_special_xml_characters (gloss));
+  renderings.push_back (filter::strings::escape_special_xml_characters (gloss));
   
   renderings.push_back ("<br>");
   
@@ -1546,7 +1546,7 @@ string lexicon_logic_render_abbott_smiths_definition (string lemma, string stron
   renderings.push_back (tree_walker.text);
 
   string rendering = filter::strings::implode (renderings, " ");
-  rendering = filter_string_trim (rendering);
+  rendering = filter::strings::trim (rendering);
 
   // If any rendering is given, then prefix the name of the lexicon.
   if (!rendering.empty ()) {

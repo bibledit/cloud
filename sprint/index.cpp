@@ -195,10 +195,10 @@ string sprint_index ([[maybe_unused]] void * webserver_request)
   if (request->post.count ("categories")) {
     string categories = request->post ["categories"];
     vector <string> categories2;
-    categories = filter_string_trim (categories);
+    categories = filter::strings::trim (categories);
     vector <string> vcategories = filter::strings::explode (categories, '\n');
     for (auto category : vcategories) {
-      category = filter_string_trim (category);
+      category = filter::strings::trim (category);
       if (category != "") categories2.push_back (category);
     }
     categories = filter::strings::implode (categories2, "\n");
@@ -223,7 +223,7 @@ string sprint_index ([[maybe_unused]] void * webserver_request)
   string tasks;
   vector <int> v_tasks = database_sprint.getTasks (bible, year, month);
   for (auto & task_id : v_tasks) {
-    string title = escape_special_xml_characters (database_sprint.getTitle (task_id));
+    string title = filter::strings::escape_special_xml_characters (database_sprint.getTitle (task_id));
     int percentage = database_sprint.getComplete (task_id);
     tasks.append ("<tr id=\"a" + filter::strings::convert_to_string (task_id) + "\">\n");
     tasks.append ("<td><a href=\"?id=" + filter::strings::convert_to_string (task_id) + "&remove=\">" + emoji_wastebasket () + "</a></td>\n");

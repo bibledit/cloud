@@ -68,11 +68,11 @@ string styles_view (void * webserver_request)
 
 
   string sheet = request->query ["sheet"];
-  view.set_variable ("sheet", escape_special_xml_characters (sheet));
+  view.set_variable ("sheet", filter::strings::escape_special_xml_characters (sheet));
   
   
   string style = request->query ["style"];
-  view.set_variable ("style", escape_special_xml_characters (style));
+  view.set_variable ("style", filter::strings::escape_special_xml_characters (style));
 
   
   Database_Styles database_styles {};
@@ -106,7 +106,7 @@ string styles_view (void * webserver_request)
       style_is_edited = true;
     }
   }
-  view.set_variable ("name", escape_special_xml_characters (translate (name)));
+  view.set_variable ("name", filter::strings::escape_special_xml_characters (translate (name)));
   
 
   // The style's info.
@@ -125,7 +125,7 @@ string styles_view (void * webserver_request)
       style_is_edited = true;
     }
   }
-  view.set_variable ("info", escape_special_xml_characters (translate (info)));
+  view.set_variable ("info", filter::strings::escape_special_xml_characters (translate (info)));
   
   
   // The style's category.
@@ -764,7 +764,7 @@ string styles_view (void * webserver_request)
     }
   }
   if (userstring1.empty()) userstring1 = "--";
-  view.set_variable ("userstring1", escape_special_xml_characters (userstring1));
+  view.set_variable ("userstring1", filter::strings::escape_special_xml_characters (userstring1));
   
 
   // Userstring2
@@ -798,7 +798,7 @@ string styles_view (void * webserver_request)
     }
   }
   if (userstring2.empty()) userstring2 = "--";
-  view.set_variable ("userstring2", escape_special_xml_characters (userstring2));
+  view.set_variable ("userstring2", filter::strings::escape_special_xml_characters (userstring2));
   
   // Recreate stylesheets after editing a style.
   if (style_is_edited) {

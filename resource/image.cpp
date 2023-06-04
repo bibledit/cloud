@@ -82,7 +82,7 @@ string resource_image (void * webserver_request)
       bool background_import = false;
       if (filter_archive_is_archive (file)) background_import = true;
       string extension = filter_url_get_extension (file);
-      extension = unicode_string_casefold (extension);
+      extension = filter::strings::unicode_string_casefold (extension);
       if (extension == "pdf") background_import = true;
       if (background_import) {
         tasks_logic_queue (IMPORTIMAGES, { name, file });

@@ -79,14 +79,14 @@ string edit_save (void * webserver_request)
   }
 
   html = filter_url_tag_to_plus (html);
-  html = filter_string_trim (html);
+  html = filter::strings::trim (html);
 
   if (html.empty ()) {
     Database_Logs::log (translate ("There was no text.") + " " + translate ("Nothing was saved.") + " " + translate ("The original text of the chapter was reloaded."));
     return translate("Nothing to save");
   }
 
-  if (!unicode_string_is_valid (html)) {
+  if (!filter::strings::unicode_string_is_valid (html)) {
     Database_Logs::log ("The text was not valid Unicode UTF-8. The chapter could not saved and has been reverted to the last good version.");
     return translate("Save failure");
   }

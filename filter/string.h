@@ -92,10 +92,10 @@ void quick_sort (std::vector <long unsigned int>& one, std::vector <long unsigne
 void quick_sort (std::vector <int> & one, std::vector <int> & two, unsigned int beg, unsigned int end);
 std::string number_in_string (const std::string & str);
 std::string markup_words (const std::vector <std::string>& words, std::string text);
-std::vector <std::string> search_needles (std::string search, std::string text);
+std::vector <std::string> search_needles (const std::string& search, const std::string& text);
 int user_identifier (void * webserver_request);
-std::string bin2hex (std::string bin);
-std::string hex2bin (std::string hex);
+std::string bin2hex (const std::string& bin);
+std::string hex2bin (const std::string& hex);
 std::string html_tidy (std::string html);
 std::string html2xml (std::string html);
 std::string convert_xml_character_entities_to_characters (std::string data);
@@ -112,8 +112,8 @@ std::string emoji_open_book ();
 std::string emoji_wastebasket ();
 std::string emoji_smiling_face_with_smiling_eyes ();
 std::string emoji_heavy_plus_sign ();
-void array_move_up_down (std::vector <std::string> & container, size_t item, bool up);
-void array_move_from_to (std::vector <std::string> & container, size_t from, size_t to);
+void array_move_up_down (std::vector <std::string>& container, const size_t item, const bool up);
+void array_move_from_to (std::vector <std::string>& container, size_t from, size_t to);
 const char * english ();
 #ifdef HAVE_WINDOWS
 std::wstring string2wstring (const std::string& str);

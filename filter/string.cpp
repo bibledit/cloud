@@ -1401,17 +1401,15 @@ std::string markup_words (const std::vector<std::string>& words, std::string tex
 }
 
 
-// Todo constness and references.
-
 // This function returns an array of needles to look for.
 // The needles contain the $search word as it occurs in the $string
 // in upper case or lower case or any mixed case.
-std::vector <std::string> search_needles (std::string search, std::string text)
+std::vector <std::string> search_needles (const std::string& search, const std::string& text)
 {
   std::vector <std::string> needles {};
   size_t position = filter::strings::unicode_string_strpos_case_insensitive (text, search, 0);
   while (position != std::string::npos) {
-    std::string needle = unicode_string_substr (text, position, filter::strings::unicode_string_length (search));
+    const std::string needle = unicode_string_substr (text, position, filter::strings::unicode_string_length (search));
     needles.push_back (needle);
     position = filter::strings::unicode_string_strpos_case_insensitive (text, search, position + 1);
   }
@@ -1424,15 +1422,15 @@ std::vector <std::string> search_needles (std::string search, std::string text)
 int user_identifier (void * webserver_request)
 {
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  std::string username = request->session_logic()->currentUser ();
-  std::string hash = md5 (username).substr (0, 5);
+  const std::string username = request->session_logic()->currentUser ();
+  const std::string hash = md5 (username).substr (0, 5);
   const int identifier = config::logic::my_stoi (hash, nullptr, 36);
   return identifier;
 }
 
 
 // C++ equivalent for PHP's filter::strings::bin2hex function.
-std::string bin2hex (std::string bin)
+std::string bin2hex (const std::string& bin)
 {
   std::string res {};
   const char hex[] = "0123456789abcdef";
@@ -1447,7 +1445,7 @@ std::string bin2hex (std::string bin)
 
 
 // C++ equivalent for PHP's hex2bin function.
-std::string hex2bin (std::string hex)
+std::string hex2bin (const std::string& hex)
 {
   std::string out {};
   if (hex.length() % 2 == 0) {
@@ -1635,20 +1633,20 @@ std::string emoji_heavy_plus_sign ()
 
 
 // Move the $item $up (towards the beginning), or else down (towards the end).
-void array_move_up_down (std::vector<std::string>& container, size_t item, bool up)
+void array_move_up_down (std::vector<std::string>& container, const size_t item, const bool up)
 {
   if (container.empty ()) return;
   if (up) {
     if (item > 0) {
       if (item < container.size ()) {
-        std::string s = container [item - 1];
+        const std::string s = container [item - 1];
         container [item - 1] = container [item];
         container [item] = s;
       }
     }
   } else {
     if (item < (container.size () - 1)) {
-      std::string s = container [item + 1];
+      const std::string s = container [item + 1];
       container [item + 1] = container [item];
       container [item] = s;
     }
@@ -1671,7 +1669,7 @@ void array_move_from_to (std::vector<std::string>& container, size_t from, size_
   }
   
   // Direction of moving.
-  bool move_up = to > from;
+  const bool move_up = to > from;
   
   // Updated keys.
   from *= 2;
@@ -1821,7 +1819,7 @@ static std::string substitute_xml_entities_into_text(const std::string& text)
 }
 
 
-static std::string substitute_xml_entities_into_attributes(char quote, const std::string& text)
+static std::string substitute_xml_entities_into_attributes(const char quote, const std::string& text)
 {
   std::string result {substitute_xml_entities_into_text (text)};
   if (quote == '"') {
@@ -1855,7 +1853,7 @@ static std::string handle_unknown_tag(GumboStringPiece *text)
 static std::string get_tag_name(GumboNode *node)
 {
   std::string tagname {};
-  // work around lack of proper name for document node
+  // Work around lack of proper name for document node.
   if (node->type == GUMBO_NODE_DOCUMENT) {
     tagname = "document";
   } else {

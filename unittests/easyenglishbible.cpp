@@ -173,17 +173,17 @@ void test_easy_english_bible ()
     Database_Versifications database_versifications;
     database_versifications.create ();
     database_versifications.defaults ();
-    vector <int> books = database_versifications.getBooks (english());
+    vector <int> books = database_versifications.getBooks (filter::strings::english());
     for (auto book : books) {
       //if (book < 10) continue;
       //if (book > 9) continue;
       continue;
       int total_passage_counter = 0;
       int empty_passage_counter = 0;
-      vector <int> chapters = database_versifications.getChapters (english(), book);
+      vector <int> chapters = database_versifications.getChapters (filter::strings::english(), book);
       for (auto chapter : chapters) {
         if (chapter == 0) continue;
-        vector <int> verses = database_versifications.getVerses (english(), book, chapter);
+        vector <int> verses = database_versifications.getVerses (filter::strings::english(), book, chapter);
         for (auto verse : verses) {
           if (verse == 0) continue;
           total_passage_counter++;

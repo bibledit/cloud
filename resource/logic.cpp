@@ -948,7 +948,7 @@ std::string resource_logic_bible_gateway_module_list_refresh ()
   if (error.empty ()) {
     std::vector <std::string> resources {};
     html =  filter::strings::html_get_element (html, "select");
-    xml_document document; // Todo log errors?
+    xml_document document;
     document.load_string (html.c_str());
     xml_node select_node = document.first_child ();
     for (xml_node option_node : select_node.children()) {
@@ -1218,7 +1218,7 @@ std::string resource_logic_bible_gateway_get (std::string resource, int book, in
         // Parse the html fragment into a DOM.
         std::string verse_s = filter::strings::convert_to_string (verse);
         xml_document document;
-        document.load_string (html.c_str()); // Todo error printing?
+        document.load_string (html.c_str());
         // There can be cross references in the html.
         // These result in e.g. "A" or "B" scattered through the final text.
         // So remove these.
@@ -1368,35 +1368,36 @@ std::string resource_logic_study_light_get (std::string resource, int book, int 
   // Get the html from the server.
   std::string error {};
   std::string html = resource_logic_web_or_cache_get (url, error);
-  filter_url_file_put_contents("/Users/teus/1raw.html", html); // Todo
 
   // It appears that the html from this website is not well-formed.
   // It cannot be loaded as an XML document without errors and missing text.
   // Therefore the html is tidied first.
-  html = filter::strings::fix_invalid_html_gumbo (html);
-  filter_url_file_put_contents("/Users/teus/2gumbo.html", html); // Todo
+//  html = filter::strings::fix_invalid_html_gumbo (html);
+  html = filter::strings::fix_invalid_html_tidy(html);
 
-  std::string start_key = R"(<div class="ptb10">)";
-  std::vector <int> class_lightgrey_book {
-    23, // Isaiah
-    27, // Daniel
-    52, // 1 Thessalonians
-    53, // 2 Thessalonians
-    54, // 1 Timothy
-    58, // Hebrews
-  };
-  if (in_array(book, class_lightgrey_book)) {
-    start_key = R"(<div class="tl-lightgrey ptb10">)";
-  }
-  pos = html.find(start_key);
-  if (pos != std::string::npos) html.erase (0, pos);
-  filter_url_file_put_contents("/Users/teus/3erase.html", html); // Todo
+  // Where to start (updated over time).
+//  std::string start_key = R"(<div class="ptb10">)";
+//  start_key = R"(<h3 class="commentaries-entry-number">)";
+//  start_key = R"(<body )";
+//  const std::vector <int> class_lightgrey_book {
+//    23, // Isaiah
+//    27, // Daniel
+//    52, // 1 Thessalonians
+//    53, // 2 Thessalonians
+//    54, // 1 Timothy
+//    58, // Hebrews
+//  };
+//  if (in_array(book, class_lightgrey_book)) {
+//    start_key = R"(<div class="tl-lightgrey ptb10">)";
+//  }
+//  pos = html.find(start_key);
+//  if (pos != std::string::npos) html.erase (0, pos);
 
   // Parse the html into a DOM.
   std::string verse_s {filter::strings::convert_to_string (verse)};
   xml_document document {};
   pugi::xml_parse_result parse_result = document.load_string (html.c_str());
-  pugixml_utils_error_logger (&parse_result, html);// Todo expand?
+  pugixml_utils_error_logger (&parse_result, html);
 
   // Example verse indicator within the XML:
   // <a name="verses-2-10"></a>

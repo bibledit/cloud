@@ -49,7 +49,7 @@
 #include <related/logic.h>
 #include <developer/logic.h>
 #include <database/logic.h>
-using namespace std;
+#include <pugixml/utils.h>
 
 
 /*
@@ -93,42 +93,42 @@ Stages to retrieve resource content and serve it.
 */
 
 
-vector <string> resource_logic_get_names (void * webserver_request, bool bibles_only)
+std::vector <std::string> resource_logic_get_names (void * webserver_request, bool bibles_only)
 {
-  vector <string> names {};
+  std::vector <std::string> names {};
   
   // Bibles the user has read access to.
-  vector <string> bibles = access_bible::bibles (webserver_request);
+  std::vector <std::string> bibles = access_bible::bibles (webserver_request);
   names.insert (names.end(), bibles.begin (), bibles.end());
   
   // USFM resources.
   Database_UsfmResources database_usfmresources {};
-  vector <string> usfm_resources = database_usfmresources.getResources ();
+  std::vector <std::string> usfm_resources = database_usfmresources.getResources ();
   names.insert (names.end(), usfm_resources.begin(), usfm_resources.end());
   
   // External resources.
-  vector <string> external_resources = resource_external_names ();
+  std::vector <std::string> external_resources = resource_external_names ();
   names.insert (names.end (), external_resources.begin(), external_resources.end());
   
   // Image resources.
   if (!bibles_only) {
     Database_ImageResources database_imageresources {};
-    vector <string> image_resources = database_imageresources.names ();
+    std::vector <std::string> image_resources = database_imageresources.names ();
     names.insert (names.end (), image_resources.begin(), image_resources.end());
   }
   
   // Lexicon resources.
   if (!bibles_only) {
-    vector <string> lexicon_resources = lexicon_logic_resource_names ();
+    std::vector <std::string> lexicon_resources = lexicon_logic_resource_names ();
     names.insert (names.end (), lexicon_resources.begin(), lexicon_resources.end());
   }
   
   // SWORD resources.
-  vector <string> sword_resources = sword_logic_get_available ();
+  std::vector <std::string> sword_resources = sword_logic_get_available ();
   names.insert (names.end (), sword_resources.begin(), sword_resources.end());
   
   // Bible Gateway resources.
-  vector <string> bible_gateway_resources = resource_logic_bible_gateway_module_list_get ();
+  std::vector <std::string> bible_gateway_resources = resource_logic_bible_gateway_module_list_get ();
   names.insert (names.end (), bible_gateway_resources.begin(), bible_gateway_resources.end());
   
   sort (names.begin(), names.end());
@@ -137,9 +137,9 @@ vector <string> resource_logic_get_names (void * webserver_request, bool bibles_
 }
 
 
-string resource_logic_get_html (void * webserver_request,
-                                string resource, int book, int chapter, int verse,
-                                bool add_verse_numbers)
+std::string resource_logic_get_html (void * webserver_request,
+                                     std::string resource, int book, int chapter, int verse,
+                                     bool add_verse_numbers)
 {
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
 
@@ -184,11 +184,11 @@ string resource_logic_get_html (void * webserver_request,
   Database_Mappings database_mappings;
 
   // Retrieve versification system of the active Bible.
-  string bible = request->database_config_user ()->getBible ();
-  string bible_versification = Database_Config_Bible::getVersificationSystem (bible);
+  std::string bible = request->database_config_user ()->getBible ();
+  std::string bible_versification = Database_Config_Bible::getVersificationSystem (bible);
 
   // Determine the versification system of the current resource.
-  string resource_versification;
+  std::string resource_versification;
   if (is_bible || is_usfm) {
     resource_versification = Database_Config_Bible::getVersificationSystem (bible);
   } else if (is_external) {
@@ -209,7 +209,7 @@ string resource_logic_get_html (void * webserver_request,
   // If the resource versification system differs from the Bible's versification system,
   // map the focused verse of the Bible to a verse in the Resource.
   // There are resources without versification system: Do nothing about them.
-  vector <Passage> passages;
+  std::vector <Passage> passages;
   if ((bible_versification != resource_versification) && !resource_versification.empty ()) {
     passages = database_mappings.translate (bible_versification, resource_versification, book, chapter, verse);
   } else {
@@ -231,7 +231,7 @@ string resource_logic_get_html (void * webserver_request,
   if (request->database_config_user ()->getIncludeRelatedPassages ()) {
     
     // Take the Bible's active passage and mapping, and translate that to the original mapping.
-    vector <Passage> related_passages = database_mappings.translate (bible_versification, database_mappings.original (), book, chapter, verse);
+    std::vector <Passage> related_passages = database_mappings.translate (bible_versification, database_mappings.original (), book, chapter, verse);
     
     // Look for related passages.
     related_passages = related_logic_get_verses (related_passages);
@@ -244,7 +244,7 @@ string resource_logic_get_html (void * webserver_request,
         if (resource_versification != database_mappings.original ()) {
           passages.clear ();
           for (auto & related_passage : related_passages) {
-            vector <Passage> mapped_passages = database_mappings.translate (database_mappings.original (), resource_versification, related_passage.m_book, related_passage.m_chapter, filter::strings::convert_to_int (related_passage.m_verse));
+            std::vector <Passage> mapped_passages = database_mappings.translate (database_mappings.original (), resource_versification, related_passage.m_book, related_passage.m_chapter, filter::strings::convert_to_int (related_passage.m_verse));
             passages.insert (passages.end (), mapped_passages.begin (), mapped_passages.end ());
           }
         }
@@ -252,10 +252,10 @@ string resource_logic_get_html (void * webserver_request,
     }
   }
 
-  string html;
+  std::string html {};
 
   for (auto passage : passages) {
-    string possible_included_passage;
+    std::string possible_included_passage;
     if (add_verse_numbers) possible_included_passage = passage.m_verse + " ";
     if (add_passages_in_full) possible_included_passage = filter_passage_display (passage.m_book, passage.m_chapter, passage.m_verse) + " ";
     if (is_image) possible_included_passage.clear ();
@@ -270,18 +270,18 @@ string resource_logic_get_html (void * webserver_request,
 // This is the most basic version that fetches the text of a $resource.
 // It works on server and on client.
 // It uses the cache.
-string resource_logic_get_verse (void * webserver_request, string resource, int book, int chapter, int verse)
+std::string resource_logic_get_verse (void * webserver_request, std::string resource, int book, int chapter, int verse)
 {
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
 
-  string data;
+  std::string data {};
 
   // Determine the type of the current resource.
   bool isBible = resource_logic_is_bible (resource);
   Database_UsfmResources database_usfmresources;
-  vector <string> local_usfms = database_usfmresources.getResources ();
+  std::vector <std::string> local_usfms {database_usfmresources.getResources ()};
   bool isLocalUsfm = in_array (resource, local_usfms);
-  vector <string> remote_usfms;
+  std::vector <std::string> remote_usfms {};
 #ifdef HAVE_CLIENT
   remote_usfms = client_logic_usfm_resources_get ();
 #endif
@@ -294,11 +294,11 @@ string resource_logic_get_verse (void * webserver_request, string resource, int 
   bool isStudyLight = resource_logic_is_studylight (resource);
   
   if (isBible || isLocalUsfm) {
-    string chapter_usfm;
+    std::string chapter_usfm {};
     if (isBible) chapter_usfm = request->database_bibles()->getChapter (resource, book, chapter);
     if (isLocalUsfm) chapter_usfm = database_usfmresources.getUsfm (resource, book, chapter);
-    string verse_usfm = filter::usfm::get_verse_text (chapter_usfm, verse);
-    string stylesheet = styles_logic_standard_sheet ();
+    std::string verse_usfm = filter::usfm::get_verse_text (chapter_usfm, verse);
+    std::string stylesheet = styles_logic_standard_sheet ();
     Filter_Text filter_text = Filter_Text (resource);
     filter_text.html_text_standard = new HtmlText ("");
     filter_text.add_usfm_code (verse_usfm);
@@ -316,15 +316,15 @@ string resource_logic_get_verse (void * webserver_request, string resource, int 
 #endif
   } else if (isImage) {
     Database_ImageResources database_imageresources;
-    vector <string> images = database_imageresources.get (resource, book, chapter, verse);
-    for (auto & image : images) {
+    const std::vector <std::string> images = database_imageresources.get (resource, book, chapter, verse);
+    for (const auto& image : images) {
       data.append ("<div><img src=\"/resource/imagefetch?name=" + resource + "&image=" + image + "\" alt=\"Image resource\" style=\"width:100%\"></div>");
     }
   } else if (isLexicon) {
     data = lexicon_logic_get_html (request, resource, book, chapter, verse);
   } else if (isSword) {
-    string sword_module = sword_logic_get_remote_module (resource);
-    string sword_source = sword_logic_get_source (resource);
+    const std::string sword_module = sword_logic_get_remote_module (resource);
+    const std::string sword_source = sword_logic_get_source (resource);
     data = sword_logic_get_text (sword_source, sword_module, book, chapter, verse);
   } else if (isBibleGateway) {
     data = resource_logic_bible_gateway_get (resource, book, chapter, verse);
@@ -337,11 +337,11 @@ string resource_logic_get_verse (void * webserver_request, string resource, int 
   // Any font size given in a paragraph style may interfere with the font size setting for the resources
   // as given in Bibledit. For that reason remove the class name from a paragraph style.
   for (unsigned int i = 0; i < 5; i++) {
-    string fragment = "p class=\"";
+    std::string fragment = "p class=\"";
     size_t pos = data.find (fragment);
-    if (pos != string::npos) {
+    if (pos != std::string::npos) {
       size_t pos2 = data.find ("\"", pos + fragment.length () + 1);
-      if (pos2 != string::npos) {
+      if (pos2 != std::string::npos) {
         data.erase (pos + 1, pos2 - pos);
       }
     }
@@ -354,17 +354,17 @@ string resource_logic_get_verse (void * webserver_request, string resource, int 
 }
 
 
-string resource_logic_cloud_get_comparison (void * webserver_request,
-                                            string resource, int book, int chapter, int verse,
-                                            bool add_verse_numbers)
+std::string resource_logic_cloud_get_comparison (void * webserver_request,
+                                                 std::string resource, int book, int chapter, int verse,
+                                                 bool add_verse_numbers)
 {
   // This function gets passed the resource title only.
   // So get all resources and look for the one with this title.
   // And then get the additional properties belonging to this resource.
-  string title, base, update, remove, replace;
+  std::string title, base, update, remove, replace;
   bool diacritics = false, casefold = false;
-  vector <string> resources = Database_Config_General::getComparativeResources ();
-  for (auto s : resources) {
+  std::vector <std::string> resources = Database_Config_General::getComparativeResources ();
+  for (const auto& s : resources) {
     resource_logic_parse_comparative_resource (s, &title, &base, &update, &remove, &replace, &diacritics, &casefold);
     if (title == resource) break;
   }
@@ -388,8 +388,8 @@ string resource_logic_cloud_get_comparison (void * webserver_request,
 
   // If characters are given to remove from the resources, handle that situation now.
   if (!remove.empty()) {
-    vector<string> bits = filter::strings::explode(remove, ' ');
-    for (auto rem : bits) {
+    const std::vector<std::string> bits = filter::strings::explode(remove, ' ');
+    for (const auto& rem : bits) {
       if (rem.empty()) continue;
       base = filter::strings::replace(rem, "", base);
       update = filter::strings::replace(rem, "", update);
@@ -398,13 +398,13 @@ string resource_logic_cloud_get_comparison (void * webserver_request,
   
   // If search-and-replace sets are given to be applied to the resources, handle that now.
   if (!replace.empty()) {
-    vector<string> search_replace_sets = filter::strings::explode(replace, ' ');
+    std::vector<std::string> search_replace_sets = filter::strings::explode(replace, ' ');
     for (auto search_replace_set : search_replace_sets) {
-      vector <string> search_replace = filter::strings::explode(search_replace_set, '=');
+      std::vector <std::string> search_replace = filter::strings::explode(search_replace_set, '=');
       if (search_replace.size() == 2) {
-        string search_item = search_replace[0];
+        std::string search_item = search_replace[0];
         if (search_item.empty()) continue;
-        string replace_item = search_replace[1];
+        std::string replace_item = search_replace[1];
         base = filter::strings::replace(search_item, replace_item, base);
         update = filter::strings::replace(search_item, replace_item, update);
       }
@@ -422,32 +422,33 @@ string resource_logic_cloud_get_comparison (void * webserver_request,
 #endif
 
   // Find the differences.
-  string html = filter_diff_diff (base, update);
+  std::string html = filter_diff_diff (base, update);
   return html;
 }
 
 
-string resource_logic_cloud_get_translation (void * webserver_request,
-                                             const string & resource, int book, int chapter, int verse,
-                                             bool add_verse_numbers)
+std::string resource_logic_cloud_get_translation (void * webserver_request,
+                                                  const std::string& resource,
+                                                  int book, int chapter, int verse,
+                                                  bool add_verse_numbers)
 {
   // This function gets passed the resource title only.
   // So get all defined translated resources and look for the one with this title.
   // And then get the additional properties belonging to this resource.
-  string title, original_resource, source_language, target_language;
-  vector <string> resources = Database_Config_General::getTranslatedResources ();
-  for (const auto & input : resources) {
+  std::string title, original_resource, source_language, target_language;
+  std::vector <std::string> resources = Database_Config_General::getTranslatedResources ();
+  for (const auto& input : resources) {
     resource_logic_parse_translated_resource (input, &title, &original_resource, &source_language, &target_language);
     if (title == resource) break;
   }
   
   // Get the html of the resources to be translated.
-  string original_text = resource_logic_get_html (webserver_request, original_resource, book, chapter, verse, add_verse_numbers);
+  std::string original_text = resource_logic_get_html (webserver_request, original_resource, book, chapter, verse, add_verse_numbers);
   // Clean all html elements away from the text to get a better and cleaner translation.
   original_text = filter::strings::html2text (original_text);
   
   // If the original text is empty, do not even send it to Google Translate, for saving resources.
-  if (original_text.empty()) return string();
+  if (original_text.empty()) return std::string();
 
   // Run it through Google Translate.
   auto [ translation_success, translated_text, translation_error] = filter::google::translate (original_text, source_language.c_str(), target_language.c_str());
@@ -461,7 +462,7 @@ string resource_logic_cloud_get_translation (void * webserver_request,
 
 // This runs on the server.
 // It gets the html or text contents for a $resource for serving it to a client.
-string resource_logic_get_contents_for_client (string resource, int book, int chapter, int verse)
+std::string resource_logic_get_contents_for_client (std::string resource, int book, int chapter, int verse)
 {
   // Determine the type of the current resource.
   bool is_external = resource_logic_is_external (resource);
@@ -480,9 +481,9 @@ string resource_logic_get_contents_for_client (string resource, int book, int ch
   if (is_usfm) {
     // Fetch from database and convert to html.
     Database_UsfmResources database_usfmresources;
-    string chapter_usfm = database_usfmresources.getUsfm (resource, book, chapter);
-    string verse_usfm = filter::usfm::get_verse_text (chapter_usfm, verse);
-    string stylesheet = styles_logic_standard_sheet ();
+    std::string chapter_usfm = database_usfmresources.getUsfm (resource, book, chapter);
+    std::string verse_usfm = filter::usfm::get_verse_text (chapter_usfm, verse);
+    std::string stylesheet = styles_logic_standard_sheet ();
     Filter_Text filter_text = Filter_Text (resource);
     filter_text.html_text_standard = new HtmlText ("");
     filter_text.add_usfm_code (verse_usfm);
@@ -492,8 +493,8 @@ string resource_logic_get_contents_for_client (string resource, int book, int ch
   
   if (is_sword) {
     // Fetch it from a SWORD module.
-    string sword_module = sword_logic_get_remote_module (resource);
-    string sword_source = sword_logic_get_source (resource);
+    std::string sword_module = sword_logic_get_remote_module (resource);
+    std::string sword_source = sword_logic_get_source (resource);
     return sword_logic_get_text (sword_source, sword_module, book, chapter, verse);
   }
 
@@ -512,7 +513,7 @@ string resource_logic_get_contents_for_client (string resource, int book, int ch
     // This type of resource is special.
     // It is not one resource, but made out of two resources.
     // It fetches data from two resources and combines that into one.
-    Webserver_Request request;
+    Webserver_Request request {};
     return resource_logic_cloud_get_comparison (&request, resource, book, chapter, verse, false);
   }
   
@@ -532,7 +533,7 @@ string resource_logic_get_contents_for_client (string resource, int book, int ch
 // or from its local cache,
 // and to update the local cache with the fetched content, if needed,
 // and to return the requested content.
-string resource_logic_client_fetch_cache_from_cloud (string resource, int book, int chapter, int verse)
+std::string resource_logic_client_fetch_cache_from_cloud (std::string resource, int book, int chapter, int verse)
 {
   // Whether the client should cache this resource.
   bool cache = !in_array(resource, client_logic_no_cache_resources_get ());
@@ -548,7 +549,7 @@ string resource_logic_client_fetch_cache_from_cloud (string resource, int book, 
   }
   
   // Fetch this resource from Bibledit Cloud.
-  string address = Database_Config_General::getServerAddress ();
+  std::string address = Database_Config_General::getServerAddress ();
   int port = Database_Config_General::getServerPort ();
   if (!client_logic_client_enabled ()) {
     // If the client has not been connected to a cloud instance,
@@ -557,13 +558,13 @@ string resource_logic_client_fetch_cache_from_cloud (string resource, int book, 
     port = demo_port ();
   }
   
-  string url = client_logic_url (address, port, sync_resources_url ());
+  std::string url = client_logic_url (address, port, sync_resources_url ());
   url = filter_url_build_http_query (url, "r", filter_url_urlencode (resource));
   url = filter_url_build_http_query (url, "b", filter::strings::convert_to_string (book));
   url = filter_url_build_http_query (url, "c", filter::strings::convert_to_string (chapter));
   url = filter_url_build_http_query (url, "v", filter::strings::convert_to_string (verse));
-  string error;
-  string content = filter_url_http_get (url, error, false);
+  std::string error {};
+  std::string content = filter_url_http_get (url, error, false);
   
   // Cache the content under circumstances.
   if (cache) {
@@ -583,22 +584,22 @@ string resource_logic_client_fetch_cache_from_cloud (string resource, int book, 
 
 
 // Imports the file at $path into $resource.
-void resource_logic_import_images (string resource, string path)
+void resource_logic_import_images (std::string resource, std::string path)
 {
   Database_ImageResources database_imageresources;
   
   Database_Logs::log ("Importing: " + filter_url_basename (path));
   
   // To begin with, add the path to the main file to the list of paths to be processed.
-  vector <string> paths = {path};
+  std::vector <std::string> paths = {path};
   
   while (!paths.empty ()) {
   
     // Take and remove the first path from the container.
     path = paths[0];
     paths.erase (paths.begin());
-    string basename = filter_url_basename (path);
-    string extension = filter_url_get_extension (path);
+    std::string basename = filter_url_basename (path);
+    std::string extension = filter_url_get_extension (path);
     extension = filter::strings::unicode_string_casefold (extension);
 
     if (extension == "pdf") {
@@ -609,7 +610,7 @@ void resource_logic_import_images (string resource, string path)
       filter_shell_run ("", "pdfinfo", {path}, nullptr, nullptr);
 
       // Convert the PDF file to separate images.
-      string folder = filter_url_tempfile ();
+      std::string folder = filter_url_tempfile ();
       filter_url_mkdir (folder);
       filter_shell_run (folder, "pdftocairo", {"-jpeg", path}, nullptr, nullptr);
       // Add the images to the ones to be processed.
@@ -618,7 +619,7 @@ void resource_logic_import_images (string resource, string path)
     } else if (filter_archive_is_archive (path)) {
       
       Database_Logs::log ("Unpacking archive: " + basename);
-      string folder = filter_archive_uncompress (path);
+      std::string folder = filter_archive_uncompress (path);
       filter_url_recursive_scandir (folder, paths);
       
     } else {
@@ -635,56 +636,55 @@ void resource_logic_import_images (string resource, string path)
 }
 
 
-string resource_logic_yellow_divider ()
+std::string resource_logic_yellow_divider ()
 {
   return "Yellow Divider";
 }
 
 
-string resource_logic_green_divider ()
+std::string resource_logic_green_divider ()
 {
   return "Green Divider";
 }
 
 
-string resource_logic_blue_divider ()
+std::string resource_logic_blue_divider ()
 {
   return "Blue Divider";
 }
 
 
-string resource_logic_violet_divider ()
+std::string resource_logic_violet_divider ()
 {
   return "Violet Divider";
 }
 
 
-string resource_logic_red_divider ()
+std::string resource_logic_red_divider ()
 {
   return "Red Divider";
 }
 
 
-string resource_logic_orange_divider ()
+std::string resource_logic_orange_divider ()
 {
   return "Orange Divider";
 }
 
 
-string resource_logic_rich_divider ()
+std::string resource_logic_rich_divider ()
 {
   return "Rich Divider";
 }
 
 
-bool resource_logic_parse_rich_divider (string input, string & title, string & link,
-                                      string & foreground, string & background)
+bool resource_logic_parse_rich_divider (std::string input, std::string& title, std::string& link, std::string& foreground, std::string& background)
 {
   title.clear();
   link.clear();
   foreground.clear();
   background.clear();
-  vector <string> bits = filter::strings::explode(input, '|');
+  std::vector <std::string> bits = filter::strings::explode(input, '|');
   if (bits.size() != 5) return false;
   if (bits[0] != resource_logic_rich_divider()) return false;
   title = bits[1];
@@ -695,20 +695,19 @@ bool resource_logic_parse_rich_divider (string input, string & title, string & l
 }
 
 
-string resource_logic_assemble_rich_divider (string title, string link,
-                                             string foreground, string background)
+std::string resource_logic_assemble_rich_divider (std::string title, std::string link, std::string foreground, std::string background)
 {
-  vector <string> bits = {resource_logic_rich_divider(), title, link, foreground, background};
+  std::vector <std::string> bits = {resource_logic_rich_divider(), title, link, foreground, background};
   return filter::strings::implode(bits, "|");
 }
 
 
-string resource_logic_get_divider (string resource)
+std::string resource_logic_get_divider (std::string resource)
 {
-  string title;
-  string link;
-  string foreground;
-  string background;
+  std::string title {};
+  std::string link {};
+  std::string foreground {};
+  std::string background {};
   if (resource_logic_parse_rich_divider (resource, title, link, foreground, background)) {
     // Trim whitespace.
     title = filter::strings::trim(title);
@@ -716,7 +715,7 @@ string resource_logic_get_divider (string resource)
     // Render a rich divider.
     if (title.empty ()) title = link;
     // The $ influences the resource's embedding through Javascript.
-    string html = "$";
+    std::string html = "$";
     html.append (R"(<div class="width100 center" style="background-color:)");
     html.append (background);
     html.append (R"(;color:)");
@@ -734,10 +733,10 @@ string resource_logic_get_divider (string resource)
     return html;
   } else {
     // Render the standard fixed dividers.
-    vector <string> bits = filter::strings::explode (resource, ' ');
-    string colour = filter::strings::unicode_string_casefold (bits [0]);
+    std::vector <std::string> bits = filter::strings::explode (resource, ' ');
+    std::string colour = filter::strings::unicode_string_casefold (bits [0]);
     // The $ influences the resource's embedding through Javascript.
-    string html = R"($<div class="divider" style="background-color:)" + colour + R"(">&nbsp;</div>)";
+    std::string html = R"($<div class="divider" style="background-color:)" + colour + R"(">&nbsp;</div>)";
     return html;
   }
 
@@ -746,7 +745,7 @@ string resource_logic_get_divider (string resource)
 
 // In Cloud mode, this function wraps around http GET.
 // It fetches existing content from the cache, and caches new content.
-string resource_logic_web_or_cache_get (string url, string & error)
+std::string resource_logic_web_or_cache_get (std::string url, std::string& error)
 {
 #ifndef HAVE_CLIENT
   // On the Cloud, check if the URL is in the cache.
@@ -757,7 +756,7 @@ string resource_logic_web_or_cache_get (string url, string & error)
 
   // Fetch the URL from the network.
   error.clear ();
-  string html = filter_url_http_get (url, error, false);
+  std::string html = filter_url_http_get (url, error, false);
 
 #ifdef HAVE_CLOUD
   // In the Cloud, cache the response based on certain criteria.
@@ -773,18 +772,18 @@ string resource_logic_web_or_cache_get (string url, string & error)
 
 
 // Returns the page type for the resource selector.
-string resource_logic_selector_page (void * webserver_request)
+std::string resource_logic_selector_page (void * webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  string page = request->query["page"];
+  Webserver_Request * request {static_cast<Webserver_Request *>(webserver_request)};
+  std::string page {request->query["page"]};
   return page;
 }
 
 
 // Returns the page which called the resource selector.
-string resource_logic_selector_caller (void * webserver_request)
+std::string resource_logic_selector_caller (void * webserver_request)
 {
-  string caller = resource_logic_selector_page (webserver_request);
+  std::string caller = resource_logic_selector_page (webserver_request);
   if (caller == "view") caller = "organize";
   if (caller == "consistency") caller = "../consistency/index";
   if (caller == "print") caller = "print";
@@ -792,7 +791,7 @@ string resource_logic_selector_caller (void * webserver_request)
 }
 
 
-string resource_logic_default_user_url ()
+std::string resource_logic_default_user_url ()
 {
   return "http://bibledit.org/resource-[book]-[chapter]-[verse].html";
 }
@@ -810,31 +809,31 @@ void resource_logic_create_cache ()
   resource_logic_create_cache_running = true;
   
   // Get the signatures of the resources to cache.
-  vector <string> signatures = Database_Config_General::getResourcesToCache ();
+  std::vector <std::string> signatures = Database_Config_General::getResourcesToCache ();
   // If there's nothing to cache, bail out.
   if (signatures.empty ()) return;
 
   // A signature is the resource title, then a space, and then the book number.
   // Remove this signature and store the remainder back into the configuration.
-  string signature = signatures [0];
+  std::string signature = signatures [0];
   signatures.erase (signatures.begin ());
   Database_Config_General::setResourcesToCache (signatures);
   size_t pos = signature.find_last_of (" ");
-  string resource = signature.substr (0, pos);
+  std::string resource = signature.substr (0, pos);
   int book = filter::strings::convert_to_int (signature.substr (pos++));
-  string bookname = database::books::get_english_from_id (static_cast<book_id>(book));
+  std::string bookname = database::books::get_english_from_id (static_cast<book_id>(book));
   
   // Whether it's a SWORD module.
-  string sword_module = sword_logic_get_remote_module (resource);
-  string sword_source = sword_logic_get_source (resource);
+  std::string sword_module = sword_logic_get_remote_module (resource);
+  std::string sword_source = sword_logic_get_source (resource);
   bool is_sword_module = (!sword_source.empty () && !sword_module.empty ());
 
   // In case of a  SWORD module, ensure it has been installed.
   if (is_sword_module) {
-    vector <string> modules = sword_logic_get_installed ();
+    std::vector <std::string> modules = sword_logic_get_installed ();
     bool already_installed = false;
-    for (auto & installed_module : modules) {
-      if (installed_module.find ("[" + sword_module + "]") != string::npos) {
+    for (const auto& installed_module : modules) {
+      if (installed_module.find ("[" + sword_module + "]") != std::string::npos) {
         already_installed = true;
       }
     }
@@ -848,18 +847,18 @@ void resource_logic_create_cache ()
   Database_Cache::create (resource, book);
   
   Database_Versifications database_versifications;
-  vector <int> chapters = database_versifications.getMaximumChapters (book);
-  for (auto & chapter : chapters) {
+  std::vector <int> chapters = database_versifications.getMaximumChapters (book);
+  for (const auto& chapter : chapters) {
 
     Database_Logs::log ("Caching " + resource + " " + bookname + " " + filter::strings::convert_to_string (chapter), Filter_Roles::consultant ());
 
     // The verse numbers in the chapter.
-    vector <int> verses = database_versifications.getMaximumVerses (book, chapter);
+    std::vector <int> verses = database_versifications.getMaximumVerses (book, chapter);
     
     // In case of a SWORD module, fetch the texts of all verses in bulk.
     // This is because calling vfork once per verse to run diatheke stops working in the Cloud after some time.
     // Forking once per chapter is much better, also for the performance.
-    map <int, string> sword_texts;
+    std::map <int, std::string> sword_texts {};
     if (is_sword_module) {
       sword_texts = sword_logic_get_bulk_text (sword_module, book, chapter, verses);
     }
@@ -872,7 +871,7 @@ void resource_logic_create_cache ()
       bool server_is_updating = false;
       bool server_is_unavailable = false;
       int wait_iterations = 0;
-      string html, error;
+      std::string html, error;
       do {
         // Fetch the resource data.
         if (is_sword_module) html = sword_texts [verse];
@@ -882,14 +881,14 @@ void resource_logic_create_cache ()
         if (server_is_installing_module) {
           Database_Logs::log ("Waiting while installing SWORD module: " + resource);
         }
-        server_is_updating = html.find ("... upgrading ...") != string::npos;
+        server_is_updating = html.find ("... upgrading ...") != std::string::npos;
         if (server_is_updating) {
           Database_Logs::log ("Waiting while Cloud is upgrading itself");
         }
         // In case of server unavailability, wait a while, then try again.
         server_is_unavailable = server_is_installing_module || server_is_updating;
         if (server_is_unavailable) {
-          this_thread::sleep_for (chrono::seconds (60));
+          std::this_thread::sleep_for (std::chrono::seconds (60));
           wait_iterations++;
         }
       } while (server_is_unavailable && (wait_iterations < 5));
@@ -914,7 +913,7 @@ void resource_logic_create_cache ()
 
 
 // Returns true if the resource can be installed locally.
-bool resource_logic_can_cache (string resource)
+bool resource_logic_can_cache (std::string resource)
 {
   // Bibles are local already, cannot be installed.
   if (resource_logic_is_bible (resource)) return false;
@@ -933,30 +932,30 @@ bool resource_logic_can_cache (string resource)
 // The path to the list of BibleGateway resources.
 // It is stored in the client files area.
 // Clients will download it from there.
-string resource_logic_bible_gateway_module_list_path ()
+std::string resource_logic_bible_gateway_module_list_path ()
 {
   return filter_url_create_root_path ({database_logic_databases (), "client", "bible_gateway_modules.txt"});
 }
 
 
 // Refreshes the list of resources available from BibleGateway.
-string resource_logic_bible_gateway_module_list_refresh ()
+std::string resource_logic_bible_gateway_module_list_refresh ()
 {
   Database_Logs::log ("Refresh BibleGateway resources");
-  string path = resource_logic_bible_gateway_module_list_path ();
-  string error;
-  string html = filter_url_http_get ("https://www.biblegateway.com/versions/", error, false);
+  std::string path = resource_logic_bible_gateway_module_list_path ();
+  std::string error {};
+  std::string html = filter_url_http_get ("https://www.biblegateway.com/versions/", error, false);
   if (error.empty ()) {
-    vector <string> resources;
+    std::vector <std::string> resources {};
     html =  filter::strings::html_get_element (html, "select");
-    xml_document document;
+    xml_document document; // Todo log errors?
     document.load_string (html.c_str());
     xml_node select_node = document.first_child ();
     for (xml_node option_node : select_node.children()) {
-      string cls = option_node.attribute ("class").value ();
+      std::string cls = option_node.attribute ("class").value ();
       if (cls == "lang") continue;
       if (cls == "spacer") continue;
-      string name = option_node.text ().get ();
+      std::string name = option_node.text ().get ();
       resources.push_back (name);
     }
     filter_url_file_put_contents (path, filter::strings::implode (resources, "\n"));
@@ -969,159 +968,162 @@ string resource_logic_bible_gateway_module_list_refresh ()
 
 
 // Get the list of BibleGateway resources.
-vector <string> resource_logic_bible_gateway_module_list_get ()
+std::vector <std::string> resource_logic_bible_gateway_module_list_get ()
 {
-  string path = resource_logic_bible_gateway_module_list_path ();
-  string contents = filter_url_file_get_contents (path);
+  std::string path = resource_logic_bible_gateway_module_list_path ();
+  std::string contents = filter_url_file_get_contents (path);
   return filter::strings::explode (contents, '\n');
 }
 
 
-string resource_logic_bible_gateway_book (int book)
+std::string resource_logic_bible_gateway_book (int book)
 {
   // Map Bibledit books to biblegateway.com books as used at the web service.
-  map <int, string> mapping = {
-    pair (1, "Genesis"),
-    pair (2, "Exodus"),
-    pair (3, "Leviticus"),
-    pair (4, "Numbers"),
-    pair (5, "Deuteronomy"),
-    pair (6, "Joshua"),
-    pair (7, "Judges"),
-    pair (8, "Ruth"),
-    pair (9, "1 Samuel"),
-    pair (10, "2 Samuel"),
-    pair (11, "1 Kings"),
-    pair (12, "2 Kings"),
-    pair (13, "1 Chronicles"),
-    pair (14, "2 Chronicles"),
-    pair (15, "Ezra"),
-    pair (16, "Nehemiah"),
-    pair (17, "Esther"),
-    pair (18, "Job"),
-    pair (19, "Psalms"),
-    pair (20, "Proverbs"),
-    pair (21, "Ecclesiastes"),
-    pair (22, "Song of Solomon"),
-    pair (23, "Isaiah"),
-    pair (24, "Jeremiah"),
-    pair (25, "Lamentations"),
-    pair (26, "Ezekiel"),
-    pair (27, "Daniel"),
-    pair (28, "Hosea"),
-    pair (29, "Joel"),
-    pair (30, "Amos"),
-    pair (31, "Obadiah"),
-    pair (32, "Jonah"),
-    pair (33, "Micah"),
-    pair (34, "Nahum"),
-    pair (35, "Habakkuk"),
-    pair (36, "Zephaniah"),
-    pair (37, "Haggai"),
-    pair (38, "Zechariah"),
-    pair (39, "Malachi"),
-    pair (40, "Matthew"),
-    pair (41, "Mark"),
-    pair (42, "Luke"),
-    pair (43, "John"),
-    pair (44, "Acts"),
-    pair (45, "Romans"),
-    pair (46, "1 Corinthians"),
-    pair (47, "2 Corinthians"),
-    pair (48, "Galatians"),
-    pair (49, "Ephesians"),
-    pair (50, "Philippians"),
-    pair (51, "Colossians"),
-    pair (52, "1 Thessalonians"),
-    pair (53, "2 Thessalonians"),
-    pair (54, "1 Timothy"),
-    pair (55, "2 Timothy"),
-    pair (56, "Titus"),
-    pair (57, "Philemon"),
-    pair (58, "Hebrews"),
-    pair (59, "James"),
-    pair (60, "1 Peter"),
-    pair (61, "2 Peter"),
-    pair (62, "1 John"),
-    pair (63, "2 John"),
-    pair (64, "3 John"),
-    pair (65, "Jude"),
-    pair (66, "Revelation")
+  std::map <int, std::string> mapping = {
+    std::pair (1, "Genesis"),
+    std::pair (2, "Exodus"),
+    std::pair (3, "Leviticus"),
+    std::pair (4, "Numbers"),
+    std::pair (5, "Deuteronomy"),
+    std::pair (6, "Joshua"),
+    std::pair (7, "Judges"),
+    std::pair (8, "Ruth"),
+    std::pair (9, "1 Samuel"),
+    std::pair (10, "2 Samuel"),
+    std::pair (11, "1 Kings"),
+    std::pair (12, "2 Kings"),
+    std::pair (13, "1 Chronicles"),
+    std::pair (14, "2 Chronicles"),
+    std::pair (15, "Ezra"),
+    std::pair (1, "Genesis"),
+    std::pair (1, "Genesis"),
+    std::pair (1, "Genesis"),
+    std::pair (16, "Nehemiah"),
+    std::pair (17, "Esther"),
+    std::pair (18, "Job"),
+    std::pair (19, "Psalms"),
+    std::pair (20, "Proverbs"),
+    std::pair (21, "Ecclesiastes"),
+    std::pair (22, "Song of Solomon"),
+    std::pair (23, "Isaiah"),
+    std::pair (24, "Jeremiah"),
+    std::pair (25, "Lamentations"),
+    std::pair (26, "Ezekiel"),
+    std::pair (27, "Daniel"),
+    std::pair (28, "Hosea"),
+    std::pair (29, "Joel"),
+    std::pair (30, "Amos"),
+    std::pair (31, "Obadiah"),
+    std::pair (32, "Jonah"),
+    std::pair (33, "Micah"),
+    std::pair (34, "Nahum"),
+    std::pair (35, "Habakkuk"),
+    std::pair (36, "Zephaniah"),
+    std::pair (37, "Haggai"),
+    std::pair (38, "Zechariah"),
+    std::pair (39, "Malachi"),
+    std::pair (40, "Matthew"),
+    std::pair (41, "Mark"),
+    std::pair (42, "Luke"),
+    std::pair (43, "John"),
+    std::pair (44, "Acts"),
+    std::pair (45, "Romans"),
+    std::pair (46, "1 Corinthians"),
+    std::pair (47, "2 Corinthians"),
+    std::pair (48, "Galatians"),
+    std::pair (49, "Ephesians"),
+    std::pair (50, "Philippians"),
+    std::pair (51, "Colossians"),
+    std::pair (52, "1 Thessalonians"),
+    std::pair (53, "2 Thessalonians"),
+    std::pair (54, "1 Timothy"),
+    std::pair (55, "2 Timothy"),
+    std::pair (56, "Titus"),
+    std::pair (57, "Philemon"),
+    std::pair (58, "Hebrews"),
+    std::pair (59, "James"),
+    std::pair (60, "1 Peter"),
+    std::pair (61, "2 Peter"),
+    std::pair (62, "1 John"),
+    std::pair (63, "2 John"),
+    std::pair (64, "3 John"),
+    std::pair (65, "Jude"),
+    std::pair (66, "Revelation")
   };
   return filter_url_urlencode (mapping [book]);
 }
 
 
-string resource_external_convert_book_studylight (int book)
+std::string resource_external_convert_book_studylight (int book)
 {
   // Map Bibledit books to biblehub.com books.
-  map <int, string> mapping = {
-    pair (1, "genesis"),
-    pair (2, "exodus"),
-    pair (3, "leviticus"),
-    pair (4, "numbers"),
-    pair (5, "deuteronomy"),
-    pair (6, "joshua"),
-    pair (7, "judges"),
-    pair (8, "ruth"),
-    pair (9, "1-samuel"),
-    pair (10, "2-samuel"),
-    pair (11, "1-kings"),
-    pair (12, "2-kings"),
-    pair (13, "1-chronicles"),
-    pair (14, "2-chronicles"),
-    pair (15, "ezra"),
-    pair (16, "nehemiah"),
-    pair (17, "esther"),
-    pair (18, "job"),
-    pair (19, "psalms"),
-    pair (20, "proverbs"),
-    pair (21, "ecclesiastes"),
-    pair (22, "song-of-solomon"),
-    pair (23, "isaiah"),
-    pair (24, "jeremiah"),
-    pair (25, "lamentations"),
-    pair (26, "ezekiel"),
-    pair (27, "daniel"),
-    pair (28, "hosea"),
-    pair (29, "joel"),
-    pair (30, "amos"),
-    pair (31, "obadiah"),
-    pair (32, "jonah"),
-    pair (33, "micah"),
-    pair (34, "nahum"),
-    pair (35, "habakkuk"),
-    pair (36, "zephaniah"),
-    pair (37, "haggai"),
-    pair (38, "zechariah"),
-    pair (39, "malachi"),
-    pair (40, "matthew"),
-    pair (41, "mark"),
-    pair (42, "luke"),
-    pair (43, "john"),
-    pair (44, "acts"),
-    pair (45, "romans"),
-    pair (46, "1-corinthians"),
-    pair (47, "2-corinthians"),
-    pair (48, "galatians"),
-    pair (49, "ephesians"),
-    pair (50, "philippians"),
-    pair (51, "colossians"),
-    pair (52, "1-thessalonians"),
-    pair (53, "2-thessalonians"),
-    pair (54, "1-timothy"),
-    pair (55, "2-timothy"),
-    pair (56, "titus"),
-    pair (57, "philemon"),
-    pair (58, "hebrews"),
-    pair (59, "james"),
-    pair (60, "1-peter"),
-    pair (61, "2-peter"),
-    pair (62, "1-john"),
-    pair (63, "2-john"),
-    pair (64, "3-john"),
-    pair (65, "jude"),
-    pair (66, "revelation")
+  std::map <int, std::string> mapping = {
+    std::pair (1, "genesis"),
+    std::pair (2, "exodus"),
+    std::pair (3, "leviticus"),
+    std::pair (4, "numbers"),
+    std::pair (5, "deuteronomy"),
+    std::pair (6, "joshua"),
+    std::pair (7, "judges"),
+    std::pair (8, "ruth"),
+    std::pair (9, "1-samuel"),
+    std::pair (10, "2-samuel"),
+    std::pair (11, "1-kings"),
+    std::pair (12, "2-kings"),
+    std::pair (13, "1-chronicles"),
+    std::pair (14, "2-chronicles"),
+    std::pair (15, "ezra"),
+    std::pair (16, "nehemiah"),
+    std::pair (17, "esther"),
+    std::pair (18, "job"),
+    std::pair (19, "psalms"),
+    std::pair (20, "proverbs"),
+    std::pair (21, "ecclesiastes"),
+    std::pair (22, "song-of-solomon"),
+    std::pair (23, "isaiah"),
+    std::pair (24, "jeremiah"),
+    std::pair (25, "lamentations"),
+    std::pair (26, "ezekiel"),
+    std::pair (27, "daniel"),
+    std::pair (28, "hosea"),
+    std::pair (29, "joel"),
+    std::pair (30, "amos"),
+    std::pair (31, "obadiah"),
+    std::pair (32, "jonah"),
+    std::pair (33, "micah"),
+    std::pair (34, "nahum"),
+    std::pair (35, "habakkuk"),
+    std::pair (36, "zephaniah"),
+    std::pair (37, "haggai"),
+    std::pair (38, "zechariah"),
+    std::pair (39, "malachi"),
+    std::pair (40, "matthew"),
+    std::pair (41, "mark"),
+    std::pair (42, "luke"),
+    std::pair (43, "john"),
+    std::pair (44, "acts"),
+    std::pair (45, "romans"),
+    std::pair (46, "1-corinthians"),
+    std::pair (47, "2-corinthians"),
+    std::pair (48, "galatians"),
+    std::pair (49, "ephesians"),
+    std::pair (50, "philippians"),
+    std::pair (51, "colossians"),
+    std::pair (52, "1-thessalonians"),
+    std::pair (53, "2-thessalonians"),
+    std::pair (54, "1-timothy"),
+    std::pair (55, "2-timothy"),
+    std::pair (56, "titus"),
+    std::pair (57, "philemon"),
+    std::pair (58, "hebrews"),
+    std::pair (59, "james"),
+    std::pair (60, "1-peter"),
+    std::pair (61, "2-peter"),
+    std::pair (62, "1-john"),
+    std::pair (63, "2-john"),
+    std::pair (64, "3-john"),
+    std::pair (65, "jude"),
+    std::pair (66, "revelation")
   };
   return mapping [book];
 }
@@ -1131,14 +1133,14 @@ struct bible_gateway_walker: xml_tree_walker
 {
   bool skip_next_text = false;
   bool parsing = true;
-  string text {};
-  vector <string> footnotes {};
+  std::string text {};
+  std::vector <std::string> footnotes {};
 
   virtual bool for_each (xml_node& node) override
   {
     // Details of the current node.
-    string classname = node.attribute ("class").value ();
-    string nodename = node.name ();
+    std::string classname = node.attribute ("class").value ();
+    std::string nodename = node.name ();
 
     // At the end of the verse, there's this:
     // Read full chapter.
@@ -1168,7 +1170,7 @@ struct bible_gateway_walker: xml_tree_walker
     // Fetch the foonote(s) relevant to this verse.
     // <sup data-fn='#fen-TLB-20531a' class='footnote' data-link=......
     if (parsing && (classname == "footnote")) {
-      string data_fn = node.attribute ("data-fn").value ();
+      std::string data_fn = node.attribute ("data-fn").value ();
       footnotes.push_back(data_fn);
     }
     
@@ -1179,27 +1181,27 @@ struct bible_gateway_walker: xml_tree_walker
 
 
 // Get the clean text of a passage of a BibleGateway resource.
-string resource_logic_bible_gateway_get (string resource, int book, int chapter, int verse)
+std::string resource_logic_bible_gateway_get (std::string resource, int book, int chapter, int verse)
 {
-  string result;
+  std::string result {};
 #ifdef HAVE_CLOUD
   // Convert the resource name to a resource abbreviation for biblegateway.com.
   size_t pos = resource.find_last_of ("(");
-  if (pos != string::npos) {
+  if (pos != std::string::npos) {
     pos++;
     resource.erase (0, pos);
     pos = resource.find_last_of (")");
-    if (pos != string::npos) {
+    if (pos != std::string::npos) {
       resource.erase (pos);
       // Assemble the URL to fetch the chapter.
-      string bookname = resource_logic_bible_gateway_book (book);
-      string url = "https://www.biblegateway.com/passage/?search=" + bookname + "+" + filter::strings::convert_to_string (chapter) + ":" + filter::strings::convert_to_string(verse) + "&version=" + resource;
+      std::string bookname = resource_logic_bible_gateway_book (book);
+      std::string url = "https://www.biblegateway.com/passage/?search=" + bookname + "+" + filter::strings::convert_to_string (chapter) + ":" + filter::strings::convert_to_string(verse) + "&version=" + resource;
       // Fetch the html.
-      string error;
-      string html = resource_logic_web_or_cache_get (url, error);
+      std::string error {};
+      std::string html = resource_logic_web_or_cache_get (url, error);
       // Remove the html that precedes the relevant verses content.
       pos = html.find ("<div class=\"passage-text\">");
-      if (pos != string::npos) {
+      if (pos != std::string::npos) {
         html.erase (0, pos);
         // Load the remaining html into the XML parser.
         // The parser will given an error about Start-end tags mismatch.
@@ -1214,16 +1216,16 @@ string resource_logic_bible_gateway_get (string resource, int book, int chapter,
           }
         }
         // Parse the html fragment into a DOM.
-        string verse_s = filter::strings::convert_to_string (verse);
+        std::string verse_s = filter::strings::convert_to_string (verse);
         xml_document document;
-        document.load_string (html.c_str());
+        document.load_string (html.c_str()); // Todo error printing?
         // There can be cross references in the html.
         // These result in e.g. "A" or "B" scattered through the final text.
         // So remove these.
         // Sample cross reference XML:
         // <sup class='crossreference' data-cr='#cen-NASB-30388A'  data-link='(&lt;a href=&quot;#cen-NASB-30388A&quot; title=&quot;See cross-reference A&quot;&gt;A&lt;/a&gt;)'>(<a href="#cen-NASB-30388A" title="See cross-reference A">A</a>)</sup>
         {
-          string selector = "//sup[@class='crossreference']";
+          std::string selector = "//sup[@class='crossreference']";
           xpath_node_set nodeset = document.select_nodes(selector.c_str());
           for (auto xrefnode: nodeset) xrefnode.node().parent().remove_child(xrefnode.node());
         }
@@ -1242,13 +1244,13 @@ string resource_logic_bible_gateway_get (string resource, int book, int chapter,
           footnote_id.erase (0, 1);
           // XPath selector.
           // <li id="fen-TLB-20531a"><a href="#en-TLB-20531" title="Go to Matthew 1:17">Matthew 1:17</a> <span class='footnote-text'><i>These are fourteen,</i> literally, “So all the generations from Abraham unto David are fourteen.”</span></li>
-          string selector = "//li[@id='" + footnote_id + "']/span[@class='footnote-text']";
+          std::string selector = "//li[@id='" + footnote_id + "']/span[@class='footnote-text']";
           xpath_node xpath = document.select_node(selector.c_str());
           if (xpath) {
-            stringstream ss;
+            std::stringstream ss {};
             xpath.node().print (ss, "", format_raw);
-            string selected_html = ss.str ();
-            string footnote_text = filter::strings::html2text (selected_html);
+            std::string selected_html = ss.str ();
+            std::string footnote_text = filter::strings::html2text (selected_html);
             result.append ("<br>Note: ");
             result.append (footnote_text);
           }
@@ -1271,44 +1273,49 @@ string resource_logic_bible_gateway_get (string resource, int book, int chapter,
 // The path to the list of StudyLight resources.
 // It is stored in the client files area.
 // Clients will download it from there.
-string resource_logic_study_light_module_list_path ()
+std::string resource_logic_study_light_module_list_path ()
 {
   return filter_url_create_root_path ({database_logic_databases (), "client", "study_light_modules.txt"});
 }
 
 
 // Refreshes the list of resources available from StudyLight.
-string resource_logic_study_light_module_list_refresh ()
+std::string resource_logic_study_light_module_list_refresh ()
 {
   Database_Logs::log ("Refresh StudyLight resources");
-  string path = resource_logic_study_light_module_list_path ();
-  string error;
-  string html = filter_url_http_get ("http://www.studylight.org/commentaries", error, false);
+  std::string path {resource_logic_study_light_module_list_path ()};
+  std::string error {};
+  std::string html = filter_url_http_get ("http://www.studylight.org/commentaries", error, false);
   if (error.empty ()) {
-    vector <string> resources;
+    std::vector <std::string> resources;
     // Example commentary fragment:
     // <h3><a class="emphasis" href="//www.studylight.org/commentaries/gsb.html">Geneva Study Bible</a></h3>
     do {
       // <a class="emphasis" ...
-      string fragment = R"(<a class="emphasis")";
+      // std::string fragment = R"(<a class="emphasis")";
       // New fragment on updated website:
-      fragment = R"(<a class="fg-darkgrey")";
+      // std::string fragment = R"(<a class="fg-darkgrey")";
+      // New fragent on updated website:
+      std::string fragment = R"(<a class="fg-dark")";
       size_t pos = html.find (fragment);
-      if (pos == string::npos) break;
+      if (pos == std::string::npos) break;
       html.erase (0, pos + fragment.size ());
       fragment = "commentaries";
       pos = html.find (fragment);
-      if (pos == string::npos) break;
+      if (pos == std::string::npos) break;
       html.erase (0, pos + fragment.size () + 1);
       fragment = ".html";
       pos = html.find (fragment);
-      if (pos == string::npos) break;
-      string abbreviation = html.substr (0, pos);
+      if (pos == std::string::npos) break;
+      std::string abbreviation = html.substr (0, pos);
       html.erase (0, pos + fragment.size () + 2);
       pos = html.find ("</a>");
-      if (pos == string::npos) break;
-      string name = html.substr (0, pos);
-      string resource = name + " (studylight-" + abbreviation + ")";
+      if (pos == std::string::npos) break;
+      std::string name = html.substr (0, pos);
+      filter::strings::replace_between(name, "<desktop>", "</desktop>", std::string());
+      name = filter::strings::replace("<mobile>", std::string(), name);
+      name = filter::strings::replace("</mobile>", std::string(), name);
+      std::string resource = name + " (studylight-" + abbreviation + ")";
       resources.push_back (resource);
     } while (true);
     // Store the resources in a file.
@@ -1323,27 +1330,27 @@ string resource_logic_study_light_module_list_refresh ()
 
 
 // Get the list of StudyLight resources.
-vector <string> resource_logic_study_light_module_list_get ()
+std::vector <std::string> resource_logic_study_light_module_list_get ()
 {
-  string path = resource_logic_study_light_module_list_path ();
-  string contents = filter_url_file_get_contents (path);
+  std::string path = resource_logic_study_light_module_list_path ();
+  std::string contents = filter_url_file_get_contents (path);
   return filter::strings::explode (contents, '\n');
 }
 
 
 // Get the slightly formatted of a passage of a StudyLight resource.
-string resource_logic_study_light_get (string resource, int book, int chapter, int verse)
+std::string resource_logic_study_light_get (std::string resource, int book, int chapter, int verse)
 {
-  string result {};
+  std::string result {};
 
 #ifdef HAVE_CLOUD
   // Transform the full name to the abbreviation for the website, e.g.:
   // "Adam Clarke Commentary (acc)" becomes "acc".
   size_t pos = resource.find_last_of ("(");
-  if (pos == string::npos) return string();
+  if (pos == std::string::npos) return std::string();
   resource.erase (0, pos + 1);
   pos = resource.find (")");
-  if (pos == string::npos) return string();
+  if (pos == std::string::npos) return std::string();
   resource.erase (pos);
   
   // The resource abbreviation might look like this:
@@ -1352,23 +1359,25 @@ string resource_logic_study_light_get (string resource, int book, int chapter, i
   resource.erase (0, 11);
   
   // Example URL: https://www.studylight.org/commentaries/eng/acc/revelation-1.html
-  string url {};
+  std::string url {};
   url.append ("http://www.studylight.org/commentaries/");
   url.append (resource + "/");
   url.append (resource_external_convert_book_studylight (book));
   url.append ("-" + filter::strings::convert_to_string (chapter) + ".html");
   
   // Get the html from the server.
-  string error {};
-  string html = resource_logic_web_or_cache_get (url, error);
+  std::string error {};
+  std::string html = resource_logic_web_or_cache_get (url, error);
+  filter_url_file_put_contents("/Users/teus/1raw.html", html); // Todo
 
   // It appears that the html from this website is not well-formed.
   // It cannot be loaded as an XML document without errors and missing text.
   // Therefore the html is tidied first.
   html = filter::strings::fix_invalid_html_gumbo (html);
-  
-  string start_key = R"(<div class="ptb10">)";
-  vector <int> class_lightgrey_book {
+  filter_url_file_put_contents("/Users/teus/2gumbo.html", html); // Todo
+
+  std::string start_key = R"(<div class="ptb10">)";
+  std::vector <int> class_lightgrey_book {
     23, // Isaiah
     27, // Daniel
     52, // 1 Thessalonians
@@ -1380,25 +1389,27 @@ string resource_logic_study_light_get (string resource, int book, int chapter, i
     start_key = R"(<div class="tl-lightgrey ptb10">)";
   }
   pos = html.find(start_key);
-  if (pos != string::npos) html.erase (0, pos);
+  if (pos != std::string::npos) html.erase (0, pos);
+  filter_url_file_put_contents("/Users/teus/3erase.html", html); // Todo
 
   // Parse the html into a DOM.
-  string verse_s {filter::strings::convert_to_string (verse)};
+  std::string verse_s {filter::strings::convert_to_string (verse)};
   xml_document document {};
-  document.load_string (html.c_str());
+  pugi::xml_parse_result parse_result = document.load_string (html.c_str());
+  pugixml_utils_error_logger (&parse_result, html);// Todo expand?
 
   // Example verse indicator within the XML:
   // <a name="verses-2-10"></a>
   // <a name="verse-2"></a>
-  string selector1 = "//a[contains(@name,'verses-" + filter::strings::convert_to_string (verse) + "-')]";
-  string selector2 = "//a[@name='verse-" + filter::strings::convert_to_string (verse) + "']";
-  string selector = selector1 + "|" + selector2;
+  std::string selector1 = "//a[contains(@name,'verses-" + filter::strings::convert_to_string (verse) + "-')]";
+  std::string selector2 = "//a[@name='verse-" + filter::strings::convert_to_string (verse) + "']";
+  std::string selector = selector1 + "|" + selector2;
   xpath_node_set nodeset = document.select_nodes(selector.c_str());
   nodeset.sort();
   for (xpath_node xpathnode : nodeset) {
     xml_node h3_node = xpathnode.node().parent();
     xml_node div_node = h3_node.parent();
-    stringstream ss;
+    std::stringstream ss {};
     div_node.print (ss, "", format_raw);
     result.append(ss.str ());
   }
@@ -1412,7 +1423,7 @@ string resource_logic_study_light_get (string resource, int book, int chapter, i
 }
 
 
-string resource_logic_easy_english_bible_name ()
+std::string resource_logic_easy_english_bible_name ()
 {
   return "Easy English Bible Commentary";
 }
@@ -1420,7 +1431,7 @@ string resource_logic_easy_english_bible_name ()
 
 // Given a book number and a chapter,
 // this returns 0 to 2 parts of the URL that will contain the relevant text.
-vector <string> resource_logic_easy_english_bible_pages (int book, int chapter)
+std::vector <std::string> resource_logic_easy_english_bible_pages (int book, int chapter)
 {
   switch (book) {
     case 1: return { "genesis-lbw", "genesis-mwks-lbw" }; // Genesis.
@@ -1450,7 +1461,7 @@ vector <string> resource_logic_easy_english_bible_pages (int book, int chapter)
     case 18: return { "job-lbw" }; // Job.
     case 19: // Psalms.
     {
-      string number = filter::strings::fill (filter::strings::convert_to_string (chapter), 3, '0');
+      std::string number = filter::strings::fill (filter::strings::convert_to_string (chapter), 3, '0');
       return { "psalm" + number + "-taw" };
     }
     case 20: return { "proverbs-lbw" }; // Proverbs.
@@ -1545,13 +1556,13 @@ vector <string> resource_logic_easy_english_bible_pages (int book, int chapter)
 
 struct easy_english_bible_walker: xml_tree_walker
 {
-  string text {};
+  std::string text {};
 
   virtual bool for_each (xml_node& node) override
   {
     // Handle this node if it's a text node.
     if (node.type() == pugi::node_pcdata) {
-      string fragment = node.value();
+      std::string fragment = node.value();
       fragment = filter::strings::replace ("\n", " ", fragment);
       text.append (fragment);
     }
@@ -1562,7 +1573,7 @@ struct easy_english_bible_walker: xml_tree_walker
 
 
 // Get the slightly formatted of a passage of a Easy English Bible Commentary.
-string resource_logic_easy_english_bible_get (int book, int chapter, int verse)
+std::string resource_logic_easy_english_bible_get (int book, int chapter, int verse)
 {
   // First handle the easier part:
   // The client will fetch the data from the Cloud.
@@ -1575,16 +1586,16 @@ string resource_logic_easy_english_bible_get (int book, int chapter, int verse)
 #ifdef HAVE_CLOUD
 
   // The combined text result taken from the commentary.
-  string result {};
+  std::string result {};
 
   // This resource may have one or more commentaries per book.
   // This means that the URLs may be one or more.
-  vector <string> urls {};
+  std::vector <std::string> urls {};
   {
-    vector <string> pages = resource_logic_easy_english_bible_pages (book, chapter);
+    std::vector <std::string> pages = resource_logic_easy_english_bible_pages (book, chapter);
     for (auto page : pages) {
       // Example URL: https://www.easyenglish.bible/bible-commentary/matthew-lbw.htm
-      string url = "https://www.easyenglish.bible/bible-commentary/";
+      std::string url = "https://www.easyenglish.bible/bible-commentary/";
       // Handle the special URL for the Psalms:
       if (book == 19) url = "https://www.easyenglish.bible/psalms/";
       url.append (page);
@@ -1602,8 +1613,8 @@ string resource_logic_easy_english_bible_get (int book, int chapter, int verse)
     bool at_passage {false};
     
     // Get the html from the server.
-    string error {};
-    string html = resource_logic_web_or_cache_get (url, error);
+    std::string error {};
+    std::string html = resource_logic_web_or_cache_get (url, error);
 
     // It appears that the html from this website is not well-formed.
     // It cannot be loaded as an XML document without errors and missing text.
@@ -1620,10 +1631,10 @@ string resource_logic_easy_english_bible_get (int book, int chapter, int verse)
     // <div class="Section1">
     // Or: <div class="WordSection1"> like in Exodus.
     size_t pos = html.find(R"(<div class="Section1">)");
-    if (pos == string::npos) {
+    if (pos == std::string::npos) {
       pos = html.find(R"(<div class="WordSection1">)");
     }
-    if (pos != string::npos) html.erase (0, pos);
+    if (pos != std::string::npos) html.erase (0, pos);
     
     // Parse the html into a DOM.
     xml_document document {};
@@ -1633,7 +1644,7 @@ string resource_logic_easy_english_bible_get (int book, int chapter, int verse)
     // <div class="Section1">
     // Or: <div class="WordSection1"> like in Exodus.
     // That secion has many children all containing one paragraph of text.
-    string selector = "//div[contains(@class, 'Section1')]";
+    std::string selector = "//div[contains(@class, 'Section1')]";
     xpath_node xnode = document.select_node(selector.c_str());
     xml_node div_node = xnode.node();
 
@@ -1645,7 +1656,7 @@ string resource_logic_easy_english_bible_get (int book, int chapter, int verse)
       paragraph_node.traverse(tree_walker);
 
       // Clean the text and skip empty text.
-      string paragraph = filter::strings::trim (tree_walker.text);
+      std::string paragraph = filter::strings::trim (tree_walker.text);
       if (paragraph.empty()) continue;
 
       // Check for whether the chapter indicates that
@@ -1692,8 +1703,8 @@ string resource_logic_easy_english_bible_get (int book, int chapter, int verse)
         // But in Psalms this confuses things again.
         if (!at_passage) {
           if (book != 19) {
-            string tag = "v" + filter::strings::convert_to_string(verse);
-            if (paragraph.find(tag) != string::npos) {
+            std::string tag = "v" + filter::strings::convert_to_string(verse);
+            if (paragraph.find(tag) != std::string::npos) {
               at_passage = true;
               continue;
             }
@@ -1722,7 +1733,7 @@ string resource_logic_easy_english_bible_get (int book, int chapter, int verse)
 
 
 
-bool resource_logic_easy_english_bible_handle_chapter_heading (const string & paragraph,
+bool resource_logic_easy_english_bible_handle_chapter_heading (const std::string& paragraph,
                                                                int chapter,
                                                                bool & near_passage,
                                                                bool & at_passage)
@@ -1738,7 +1749,7 @@ bool resource_logic_easy_english_bible_handle_chapter_heading (const string & pa
   // The above is 19 characters long, so set the limit slightly higher.
   if (paragraph.length() <= 25) {
     if (paragraph.find ("Proverbs chapter") == 0) {
-      string tag = "Proverbs chapter " + filter::strings::convert_to_string(chapter);
+      std::string tag = "Proverbs chapter " + filter::strings::convert_to_string(chapter);
       near_passage = (paragraph == tag);
       if (near_passage) {
         // If this paragraph contains a passage, it likely is a heading.
@@ -1750,7 +1761,7 @@ bool resource_logic_easy_english_bible_handle_chapter_heading (const string & pa
       }
     }
     if (paragraph.find ("Chapter ") == 0) {
-      string tag = "Chapter " + filter::strings::convert_to_string(chapter);
+      std::string tag = "Chapter " + filter::strings::convert_to_string(chapter);
       near_passage = (paragraph == tag);
       if (near_passage) {
         // If this paragraph contains a passage, it likely is a heading.
@@ -1767,7 +1778,7 @@ bool resource_logic_easy_english_bible_handle_chapter_heading (const string & pa
 }
 
 
-bool resource_logic_easy_english_bible_handle_passage_heading (const string & paragraph,
+bool resource_logic_easy_english_bible_handle_passage_heading (const std::string& paragraph,
                                                                int chapter, int verse,
                                                                bool & near_passage,
                                                                bool & at_passage)
@@ -1780,28 +1791,28 @@ bool resource_logic_easy_english_bible_handle_passage_heading (const string & pa
   // That last word consists of digits, one or two colons, and one hyphen.
   // No other characters are in that last word.
   size_t space_pos = paragraph.find_last_of(" ");
-  if (space_pos == string::npos) return false;
-  string last_word = paragraph.substr(space_pos + 1);
+  if (space_pos == std::string::npos) return false;
+  std::string last_word = paragraph.substr(space_pos + 1);
   
   // There's also situations that the last bit is surrounded by round bracket.
   // Example: Greetings from Paul to Timothy (1:1-2)
-  last_word = filter::strings::replace ("(", string(), last_word);
-  last_word = filter::strings::replace (")", string(), last_word);
+  last_word = filter::strings::replace ("(", std::string(), last_word);
+  last_word = filter::strings::replace (")", std::string(), last_word);
   
   // Look for the first colon and the first hyphen.
   // This will obtain the starting chapter and verse numbers.
   size_t colon_pos = last_word.find(":");
-  if (colon_pos == string::npos) return false;
+  if (colon_pos == std::string::npos) return false;
   size_t hyphen_pos = last_word.find ("-");
-  if (hyphen_pos == string::npos) return false;
-  string ch_fragment = last_word.substr(0, colon_pos);
+  if (hyphen_pos == std::string::npos) return false;
+  std::string ch_fragment = last_word.substr(0, colon_pos);
   int starting_chapter = filter::strings::convert_to_int(ch_fragment);
-  string check = filter::strings::convert_to_string(starting_chapter);
+  std::string check = filter::strings::convert_to_string(starting_chapter);
   if (ch_fragment != check) return false;
 
   // Look for the first hyphen.
   // This will provide the starting verse number.
-  string vs_fragment = last_word.substr(colon_pos + 1, hyphen_pos - colon_pos - 1);
+  std::string vs_fragment = last_word.substr(colon_pos + 1, hyphen_pos - colon_pos - 1);
   int starting_verse = filter::strings::convert_to_int(vs_fragment);
   check = filter::strings::convert_to_string(starting_verse);
   if (vs_fragment != check) return false;
@@ -1815,8 +1826,8 @@ bool resource_logic_easy_english_bible_handle_passage_heading (const string & pa
   // is that last chapter number.
   int ending_chapter = starting_chapter;
   colon_pos = last_word.find(":");
-  if (colon_pos != string::npos) {
-    string chapter_fragment = last_word.substr(0, colon_pos);
+  if (colon_pos != std::string::npos) {
+    std::string chapter_fragment = last_word.substr(0, colon_pos);
     ending_chapter = filter::strings::convert_to_int(chapter_fragment);
     check = filter::strings::convert_to_string(ending_chapter);
     if (chapter_fragment != check) return false;
@@ -1844,7 +1855,7 @@ bool resource_logic_easy_english_bible_handle_passage_heading (const string & pa
 }
 
 
-void resource_logic_easy_english_bible_handle_verse_marker (const string & paragraph,
+void resource_logic_easy_english_bible_handle_verse_marker (const std::string& paragraph,
                                                             int verse,
                                                             bool & at_passage)
 {
@@ -1861,7 +1872,7 @@ void resource_logic_easy_english_bible_handle_verse_marker (const string & parag
   // The space at the end is to prevent it from matching more verses.
   // Like when looking for "Verse 1", it would be found in "Verse 10" too.
   // Hence the space.
-  string tag = "Verse " + filter::strings::convert_to_string(verse) + " ";
+  std::string tag = "Verse " + filter::strings::convert_to_string(verse) + " ";
   at_passage = paragraph.find(tag) == 0;
   // If it's at the passage, then it's done parsing.
   if (at_passage) return;
@@ -1884,8 +1895,8 @@ void resource_logic_easy_english_bible_handle_verse_marker (const string & parag
   // Example: Verse 8-11 ...
   tag = "Verse ";
   if (paragraph.find(tag) == 0) {
-    string fragment = paragraph.substr(tag.size(), 10);
-    vector<string> bits = filter::strings::explode(fragment, '-');
+    std::string fragment = paragraph.substr(tag.size(), 10);
+    std::vector<std::string> bits = filter::strings::explode(fragment, '-');
     if (bits.size() >= 2) {
       int begin = filter::strings::convert_to_int(bits[0]);
       int end = filter::strings::convert_to_int(bits[1]);
@@ -1905,8 +1916,8 @@ void resource_logic_easy_english_bible_handle_verse_marker (const string & parag
   // And to dedice the starting and ending verse from that.
   tag = "Verses ";
   if (paragraph.find(tag) == 0) {
-    string fragment = paragraph.substr(tag.size(), 10);
-    vector <int> digits;
+    std::string fragment = paragraph.substr(tag.size(), 10);
+    std::vector <int> digits;
     int digit = 0;
     for (size_t i = 0; i < fragment.size(); i++) {
       int d = filter::strings::convert_to_int(fragment.substr(i, 1));
@@ -1926,17 +1937,17 @@ void resource_logic_easy_english_bible_handle_verse_marker (const string & parag
 }
 
 
-bool resource_logic_is_bible (string resource)
+bool resource_logic_is_bible (std::string resource)
 {
-  Database_Bibles database_bibles;
-  vector <string> names = database_bibles.getBibles ();
+  Database_Bibles database_bibles {};
+  std::vector <std::string> names = database_bibles.getBibles ();
   return in_array (resource, names);
 }
 
 
-bool resource_logic_is_usfm (string resource)
+bool resource_logic_is_usfm (std::string resource)
 {
-  vector <string> names;
+  std::vector <std::string> names {};
 #ifdef HAVE_CLIENT
   names = client_logic_usfm_resources_get ();
 #else
@@ -1947,37 +1958,37 @@ bool resource_logic_is_usfm (string resource)
 }
 
 
-bool resource_logic_is_external (string resource)
+bool resource_logic_is_external (std::string resource)
 {
-  vector <string> names = resource_external_names ();
+  std::vector <std::string> names = resource_external_names ();
   return in_array (resource, names);
 }
 
 
-bool resource_logic_is_image (string resource)
+bool resource_logic_is_image (std::string resource)
 {
   Database_ImageResources database_imageresources;
-  vector <string> names = database_imageresources.names ();
+  std::vector <std::string> names = database_imageresources.names ();
   return in_array (resource, names);
 }
 
 
-bool resource_logic_is_lexicon (string resource)
+bool resource_logic_is_lexicon (std::string resource)
 {
-  vector <string> names = lexicon_logic_resource_names ();
+  std::vector <std::string> names = lexicon_logic_resource_names ();
   return in_array (resource, names);
 }
 
 
-bool resource_logic_is_sword (string resource)
+bool resource_logic_is_sword (std::string resource)
 {
-  string module = sword_logic_get_remote_module (resource);
-  string source = sword_logic_get_source (resource);
+  std::string module = sword_logic_get_remote_module (resource);
+  std::string source = sword_logic_get_source (resource);
   return (!source.empty () && !module.empty ());
 }
 
 
-bool resource_logic_is_divider (string resource)
+bool resource_logic_is_divider (std::string resource)
 {
   if (resource == resource_logic_yellow_divider ()) return true;
   if (resource == resource_logic_green_divider ()) return true;
@@ -1990,41 +2001,41 @@ bool resource_logic_is_divider (string resource)
 }
 
 
-bool resource_logic_is_biblegateway (string resource)
+bool resource_logic_is_biblegateway (std::string resource)
 {
-  vector <string> names = resource_logic_bible_gateway_module_list_get ();
+  std::vector <std::string> names = resource_logic_bible_gateway_module_list_get ();
   return in_array (resource, names);
 }
 
 
-bool resource_logic_is_studylight (string resource)
+bool resource_logic_is_studylight (std::string resource)
 {
-  vector <string> names = resource_logic_study_light_module_list_get ();
+  std::vector <std::string> names = resource_logic_study_light_module_list_get ();
   return in_array (resource, names);
 }
 
 
-bool resource_logic_is_comparative (const string & resource)
+bool resource_logic_is_comparative (const std::string& resource)
 {
   return resource_logic_parse_comparative_resource(resource);
 }
 
 
-string resource_logic_comparative_resource ()
+std::string resource_logic_comparative_resource ()
 {
   return "Comparative ";
 }
 
 
-bool resource_logic_parse_comparative_resource (const string & input,
-                                                string * title,
-                                                string * base,
-                                                string * update,
-                                                string * remove,
-                                                string * replace,
-                                                bool * diacritics,
-                                                bool * casefold,
-                                                bool * cache)
+bool resource_logic_parse_comparative_resource (const std::string& input,
+                                                std::string* title,
+                                                std::string* base,
+                                                std::string* update,
+                                                std::string* remove,
+                                                std::string* replace,
+                                                bool* diacritics,
+                                                bool* casefold,
+                                                bool* cache)
 {
   // The definite check whether this is a comparative resource
   // is to check that "Comparative " is the first part of the input.
@@ -2039,7 +2050,7 @@ bool resource_logic_parse_comparative_resource (const string & input,
   if (diacritics) * diacritics = false;
   if (casefold) * casefold = false;
   if (cache) * cache = false;
-  vector <string> bits = filter::strings::explode(input, '|');
+  std::vector <std::string> bits = filter::strings::explode(input, '|');
   if (bits.size() > 0) if (title) title->assign (bits[0]);
   if (bits.size() > 1) if (base) base->assign(bits[1]);
   if (bits.size() > 2) if (update) update->assign(bits[2]);
@@ -2054,59 +2065,59 @@ bool resource_logic_parse_comparative_resource (const string & input,
 }
 
 
-string resource_logic_assemble_comparative_resource (string title,
-                                                     string base,
-                                                     string update,
-                                                     string remove,
-                                                     string replace,
-                                                     bool diacritics,
-                                                     bool casefold,
-                                                     bool cache)
+std::string resource_logic_assemble_comparative_resource (std::string title,
+                                                          std::string base,
+                                                          std::string update,
+                                                          std::string remove,
+                                                          std::string replace,
+                                                          bool diacritics,
+                                                          bool casefold,
+                                                          bool cache)
 {
   // Check whether the "Comparative " flag already is included in the given $title.
   size_t pos = title.find (resource_logic_comparative_resource ());
-  if (pos != string::npos) {
+  if (pos != std::string::npos) {
     title.erase (pos, resource_logic_comparative_resource ().length());
   }
   // Ensure the "Comparative " flag is always included right at the start.
-  vector <string> bits = {resource_logic_comparative_resource() + title, base, update, remove, replace, filter::strings::convert_to_true_false(diacritics), filter::strings::convert_to_true_false(casefold), filter::strings::convert_to_true_false(cache)};
+  std::vector <std::string> bits = {resource_logic_comparative_resource() + title, base, update, remove, replace, filter::strings::convert_to_true_false(diacritics), filter::strings::convert_to_true_false(casefold), filter::strings::convert_to_true_false(cache)};
   return filter::strings::implode(bits, "|");
 }
 
 
-string resource_logic_comparative_resources_list_path ()
+std::string resource_logic_comparative_resources_list_path ()
 {
   return filter_url_create_root_path ({database_logic_databases (), "client", "comparative_resources.txt"});
 }
 
 
 // Get the list of comparative resources on a client device.
-vector <string> resource_logic_comparative_resources_get_list_on_client ()
+std::vector <std::string> resource_logic_comparative_resources_get_list_on_client ()
 {
-  string path = resource_logic_comparative_resources_list_path ();
-  string contents = filter_url_file_get_contents (path);
+  std::string path = resource_logic_comparative_resources_list_path ();
+  std::string contents = filter_url_file_get_contents (path);
   return filter::strings::explode (contents, '\n');
 }
 
 
-bool resource_logic_is_translated (const string & resource)
+bool resource_logic_is_translated (const std::string& resource)
 {
   return resource_logic_parse_translated_resource(resource);
 }
 
 
-string resource_logic_translated_resource ()
+std::string resource_logic_translated_resource ()
 {
   return "Translated ";
 }
 
 
-bool resource_logic_parse_translated_resource (const string & input,
-                                               string * title,
-                                               string * original_resource,
-                                               string * source_language,
-                                               string * target_language,
-                                               bool * cache)
+bool resource_logic_parse_translated_resource (const std::string& input,
+                                               std::string* title,
+                                               std::string* original_resource,
+                                               std::string* source_language,
+                                               std::string* target_language,
+                                               bool* cache)
 {
   // The definite check whether this is a translated resource
   // is to check that "Translated " is the first part of the input.
@@ -2118,7 +2129,7 @@ bool resource_logic_parse_translated_resource (const string & input,
   if (source_language) source_language->clear();
   if (target_language) target_language->clear();
   if (cache) * cache = false;
-  vector <string> bits = filter::strings::explode(input, '|');
+  std::vector <std::string> bits = filter::strings::explode(input, '|');
   if (bits.size() > 0) if (title) title->assign (bits[0]);
   if (bits.size() > 1) if (original_resource) original_resource->assign(bits[1]);
   if (bits.size() > 2) if (source_language) source_language->assign(bits[2]);
@@ -2130,33 +2141,33 @@ bool resource_logic_parse_translated_resource (const string & input,
 }
 
 
-string resource_logic_assemble_translated_resource (string title,
-                                                    string original_resource,
-                                                    string source_language,
-                                                    string target_language,
-                                                    bool cache)
+std::string resource_logic_assemble_translated_resource (std::string title,
+                                                         std::string original_resource,
+                                                         std::string source_language,
+                                                         std::string target_language,
+                                                         bool cache)
 {
   // Check whether the "Translated " flag already is included in the given $title.
   size_t pos = title.find (resource_logic_translated_resource ());
-  if (pos != string::npos) {
+  if (pos != std::string::npos) {
     title.erase (pos, resource_logic_translated_resource ().length());
   }
   // Ensure the "Translated " flag is always included right at the start.
-  vector <string> bits = {resource_logic_translated_resource() + title, original_resource, source_language, target_language, filter::strings::convert_to_true_false(cache)};
+  std::vector <std::string> bits = {resource_logic_translated_resource() + title, original_resource, source_language, target_language, filter::strings::convert_to_true_false(cache)};
   return filter::strings::implode(bits, "|");
 }
 
 
-string resource_logic_translated_resources_list_path ()
+std::string resource_logic_translated_resources_list_path ()
 {
   return filter_url_create_root_path ({database_logic_databases (), "client", "translated_resources.txt"});
 }
 
 
 // Get the list of translated resources on a client device.
-vector <string> resource_logic_translated_resources_get_list_on_client ()
+std::vector <std::string> resource_logic_translated_resources_get_list_on_client ()
 {
-  string path = resource_logic_translated_resources_list_path ();
-  string contents = filter_url_file_get_contents (path);
+  std::string path = resource_logic_translated_resources_list_path ();
+  std::string contents = filter_url_file_get_contents (path);
   return filter::strings::explode (contents, '\n');
 }

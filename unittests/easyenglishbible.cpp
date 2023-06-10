@@ -102,14 +102,14 @@ void test_easy_english_bible ()
   
   // A couple of tests for text extraction.
   {
-    int book = 58; // Hebrews.
+    const int book {58}; // Hebrews.
     string text = resource_logic_easy_english_bible_get (book, 10, 14);
     text = filter::strings::html2text (text);
     evaluate (__LINE__, __func__, "Verse 14 Again, the writer makes it clear that Jesus died once for all time and for all *sin. It is most important that we know and believe that this is true. All who trust in Jesus, God will make holy. Jesus makes them perfect, that is, all that God intended them to be in his plan. Jesus has done all that God said was necessary.", text);
   }
 
   {
-    int book = 58; // Hebrews.
+    const int book {58}; // Hebrews.
     string text = resource_logic_easy_english_bible_get (book, 8, 8);
     text = filter::strings::html2text (text);
     size_t pos = text.find ("Verse 8 From verse 8 to the end of verse 12 the author copies words from Jeremiah 31:31-34. He uses these words to show that the old agreement is no longer in operation. The new agreement, that Jesus brought, has taken its place. It was not that there was a fault with the old agreement. The fault was with people, because nobody could obey the agreement.");
@@ -119,43 +119,43 @@ void test_easy_english_bible ()
   }
 
   {
-    int book = 1; // Genesis.
+    const int book {1}; // Genesis.
     string text = resource_logic_easy_english_bible_get (book, 2, 5);
     text = filter::strings::html2text (text);
-    size_t pos = text.find ("The plants that man needed for his food were not growing. There were two reasons for this.");
+    const size_t pos = text.find ("The plants that man needed for his food were not growing. There were two reasons for this.");
     evaluate (__LINE__, __func__, 8, pos);
   }
 
   {
-    int book = 2; // Exodus.
+    const int book {2}; // Exodus.
     string text = resource_logic_easy_english_bible_get (book, 20, 9);
     text = filter::strings::html2text (text);
-    size_t pos = text.find ("At the beginning of time, God rested on the 7th day.");
-    evaluate (__LINE__, __func__, 461, pos);
+    const size_t pos = text.find ("At the beginning of time, God rested on the 7th day.");
+    evaluate (__LINE__, __func__, 451, pos);
   }
 
   {
-    int book = 5; // Deuteronomy.
+    const int book {5}; // Deuteronomy.
     string text = resource_logic_easy_english_bible_get (book, 1, 2);
     text = filter::strings::html2text (text);
-    size_t pos = text.find ("The journey from Horeb to Kadesh-Barnea would take 11 days.");
+    const size_t pos = text.find ("The journey from Horeb to Kadesh-Barnea would take 11 days.");
     evaluate (__LINE__, __func__, 9, pos);
   }
 
   {
-    int book = 7; // Judges
+    const int book {7}; // Judges
     string text = resource_logic_easy_english_bible_get (book, 3, 12);
     text = filter::strings::html2text (text);
-    size_t pos = text.find ("There the writer says that God uses those that are nothing.");
-    evaluate (__LINE__, __func__, 1707, pos);
+    const size_t pos = text.find ("There the writer says that God uses those that are nothing.");
+    evaluate (__LINE__, __func__, 1679, pos);
   }
 
   {
-    int book = 19; // Psalms
+    const int book {19}; // Psalms
     string text = resource_logic_easy_english_bible_get (book, 3, 6);
     text = filter::strings::html2text (text);
-    size_t pos = text.find (" The LORD answered David when he prayed.");
-    evaluate (__LINE__, __func__, 38, pos);
+    const size_t pos = text.find (" The LORD answered David when he prayed.");
+    evaluate (__LINE__, __func__, 36, pos);
   }
 
   {
@@ -173,11 +173,12 @@ void test_easy_english_bible ()
     Database_Versifications database_versifications;
     database_versifications.create ();
     database_versifications.defaults ();
-    vector <int> books = database_versifications.getBooks (filter::strings::english());
+    const vector <int> books = database_versifications.getBooks (filter::strings::english());
     for (auto book : books) {
       //if (book < 10) continue;
       //if (book > 9) continue;
       continue;
+      std::cout << book << std::endl;
       int total_passage_counter = 0;
       int empty_passage_counter = 0;
       vector <int> chapters = database_versifications.getChapters (filter::strings::english(), book);

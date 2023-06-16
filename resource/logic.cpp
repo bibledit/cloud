@@ -1579,7 +1579,7 @@ std::string resource_logic_easy_english_bible_get (int book, int chapter, int ve
   // First handle the easier part:
   // The client will fetch the data from the Cloud.
 #ifdef HAVE_CLIENT
-  string resource = resource_logic_easy_english_bible_name ();
+  std::string resource = resource_logic_easy_english_bible_name ();
   return resource_logic_client_fetch_cache_from_cloud (resource, book, chapter, verse);
 #endif
 

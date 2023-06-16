@@ -19,6 +19,7 @@
 #include <mimetic098/utils.h>
 #include <mimetic098/os/utils.h>
 #include <mimetic098/rfc822/fieldvalue.h>
+#include <cstdint>
 
 namespace mimetic
 {
@@ -28,7 +29,7 @@ namespace mimetic
 /// On Win32 Winsock library must be initialized before using this class.
 struct MessageId: public FieldValue
 {
-  MessageId(uint32_t thread_id);
+  MessageId(uint32_t thread_identifier);
   MessageId(const std::string&);
   MessageId() : MessageId(0) {};
   std::string str() const;

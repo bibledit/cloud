@@ -85,15 +85,13 @@ namespace mimetic
 unsigned int MessageId::ms_sequence_number = 0;
 
 /// pass the thread_id argument if you're using mimetic with threads
-MessageId::MessageId(uint32_t thread_id)
+MessageId::MessageId(uint32_t thread_identifier)
 {
-    std::string host = gethostname();
-    if(!host.length())
-        host = "unknown";
-
-    m_msgid = "m" + utils::int2str((int)time(0)) + "." + utils::int2str(getpid()) + 
-        "." + utils::int2str(thread_id) + 
-        utils::int2str(++ms_sequence_number) + "@" + host;
+  std::string host {gethostname()};
+  if(!host.length()) {
+    host = "unknown";
+  }
+  m_msgid = "m" + utils::int2str((int)time(0)) + "." + utils::int2str(getpid()) + "." + utils::int2str(thread_identifier) + utils::int2str(++ms_sequence_number) + "@" + host;
 }
 
 MessageId::MessageId(const std::string& value)
@@ -103,17 +101,17 @@ MessageId::MessageId(const std::string& value)
 
 std::string MessageId::str() const
 {
-    return m_msgid;
+  return m_msgid;
 }
 
 void MessageId::set(const std::string& value)
 {
-    m_msgid = value;
+  m_msgid = value;
 }
 
 FieldValue* MessageId::clone() const
 {
-    return new MessageId(*this);
+  return new MessageId(*this);
 }
 
 }

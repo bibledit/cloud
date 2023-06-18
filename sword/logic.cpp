@@ -432,8 +432,17 @@ std::string sword_logic_get_text (const std::string& source, const std::string& 
   sword_logic_diatheke_run_mutex.lock ();
   // The server fetches the module text as follows:
   // diatheke -b KJV -k Jn 3:16
-  std::string error;
-  const int result = filter_shell_run (sword_path, "diatheke", { "-b", module, "-k", osis, chapter_verse }, &module_text, &error);
+  // To included, run this instead: $ diatheke -b KJV -o n -k Jn 3:16
+  std::vector <std::string> parameters {"-b", module};
+  if (Database_Config_General::getKeepOsisContentInSwordResources ()) {
+    parameters.push_back("-o");
+    parameters.push_back("n");
+  }
+  parameters.push_back("-k");
+  parameters.push_back(osis);
+  parameters.push_back(chapter_verse);
+  std::string error {};
+  const int result = filter_shell_run (sword_path, "diatheke", { "-b", module, "-o", "n", "-k", osis, chapter_verse }, &module_text, &error);
   module_text.append (error);
   sword_logic_diatheke_run_mutex.unlock ();
   if (result != 0) return sword_logic_fetch_failure_text ();
@@ -884,8 +893,12 @@ void sword_logic_log (std::string message)
 
 std::string sword_logic_clean_verse (const std::string& module, int chapter, int verse, std::string text)
 {
-  // Remove any OSIS elements.
-  filter::strings::replace_between (text, "<", ">", "");
+  // Remove any OSIS elements or make those elements displayable.
+  if (Database_Config_General::getKeepOsisContentInSwordResources ()) {
+    text = filter::strings::escape_special_xml_characters (text);
+  } else {
+    filter::strings::replace_between (text, "<", ">", "");
+  }
   
   // Remove the passage name that diatheke adds.
   // A reliable signature for this is the chapter and verse plus subsequent colon.

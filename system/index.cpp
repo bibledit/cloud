@@ -47,10 +47,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <fonts/logic.h>
 #include <manage/index.h>
 #include <client/logic.h>
-using namespace std;
 
 
-string system_index_url ()
+std::string system_index_url ()
 {
   return "system/index";
 }
@@ -68,20 +67,20 @@ bool system_index_acl ([[maybe_unused]] void * webserver_request)
 }
 
 
-string system_index (void * webserver_request)
+std::string system_index (void * webserver_request)
 {
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   
   
-  string page;
-  string success;
-  string error;
+  std::string page {};
+  std::string success {};
+  std::string error {};
 
   
   // User can set the system language.
   // This is to be done before displaying the header.
   if (request->post.count ("languageselection")) {
-    string languageselection = request->post ["languageselection"];
+    std::string languageselection {request->post ["languageselection"]};
     Database_Config_General::setSiteLanguage (languageselection);
   }
 
@@ -96,37 +95,37 @@ string system_index (void * webserver_request)
 
 
   // Get values for setting checkboxes.
-  string checkbox = request->post ["checkbox"];
-  [[maybe_unused]] bool checked = filter::strings::convert_to_bool (request->post ["checked"]);
+  const std::string checkbox = request->post ["checkbox"];
+  [[maybe_unused]] const bool checked = filter::strings::convert_to_bool (request->post ["checked"]);
 
 
   // The available localizations.
-  map <string, string> localizations = locale_logic_localizations ();
+  std::map <std::string, std::string> localizations = locale_logic_localizations ();
 
 
   // Set the language on the page.
     // Create the option tags for interface language selection.
   // Also the current selected option.
-  string language_html;
-  for (auto element : localizations) {
+  std::string language_html {};
+  for (const auto& element : localizations) {
     language_html = Options_To_Select::add_selection (element.second, element.first, language_html);
   }
-  string current_user_preference = Database_Config_General::getSiteLanguage ();
-  string language = current_user_preference;
+  const std::string current_user_preference = Database_Config_General::getSiteLanguage ();
+  const std::string language = current_user_preference;
   view.set_variable ("languageselectionoptags", Options_To_Select::mark_selected (language, language_html));
   view.set_variable ("languageselection", language);
 
   
   // Entry of time zone offset in hours.
   if (request->post.count ("timezone")) {
-    string input = request->post ["timezone"];
-    input = filter::strings::replace ("UTC", string(), input);
+    std::string input = request->post ["timezone"];
+    input = filter::strings::replace ("UTC", std::string(), input);
     int input_timezone = filter::strings::convert_to_int (input);
     input_timezone = clip (input_timezone, MINIMUM_TIMEZONE, MAXIMUM_TIMEZONE);
     Database_Config_General::setTimezone (input_timezone);
   }
   // Set the time zone offset in the GUI.
-  int timezone_setting = Database_Config_General::getTimezone();
+  const int timezone_setting = Database_Config_General::getTimezone();
   view.set_variable ("timezone", filter::strings::convert_to_string (timezone_setting));
   // Display the section to set the site's timezone only
   // in case the calling program has not yet set this zone in the library.
@@ -142,17 +141,17 @@ string system_index (void * webserver_request)
   // Whether to include the author with every change in the RSS feed.
   if (checkbox == "rssauthor") {
     Database_Config_General::setAuthorInRssFeed (checked);
-    return string();
+    return std::string();
   }
   view.set_variable ("rssauthor", filter::strings::get_checkbox_status (Database_Config_General::getAuthorInRssFeed ()));
   // The location of the RSS feed.
   view.set_variable ("rssfeed", rss_feed_url ());
   // The Bibles that send their changes to the RSS feed.
-  string rssbibles;
+  std::string rssbibles {};
   {
     Database_Bibles database_bibles;
-    vector <string> bibles = database_bibles.getBibles ();
-    for (auto bible : bibles) {
+    std::vector <std::string> bibles = database_bibles.getBibles ();
+    for (const auto& bible : bibles) {
       if (Database_Config_Bible::getSendChangesToRSS (bible)) {
         if (!rssbibles.empty ()) rssbibles.append (" ");
         rssbibles.append (bible);
@@ -167,30 +166,30 @@ string system_index (void * webserver_request)
 
   
 #ifdef HAVE_CLIENT
-  bool producebibles = request->query.count ("producebibles");
-  bool producenotes = request->query.count ("producenotes");
-  bool produceresources = request->query.count ("produceresources");
+  const bool producebibles = request->query.count ("producebibles");
+  const bool producenotes = request->query.count ("producenotes");
+  const bool produceresources = request->query.count ("produceresources");
   if (producebibles || producenotes || produceresources) {
     Database_Jobs database_jobs;
-    int jobId = database_jobs.get_new_id ();
+    const int jobId = database_jobs.get_new_id ();
     database_jobs.set_level (jobId, Filter_Roles::member ());
-    string task;
+    std::string task {};
     if (producebibles) task = PRODUCEBIBLESTRANSFERFILE;
     if (producenotes) task = PRODUCERENOTESTRANSFERFILE;
     if (produceresources) task = PRODUCERESOURCESTRANSFERFILE;
     tasks_logic_queue (task, { filter::strings::convert_to_string (jobId) });
     redirect_browser (request, jobs_index_url () + "?id=" + filter::strings::convert_to_string (jobId));
-    return "";
+    return std::string();
   }
 #endif
 
   
 #ifdef HAVE_CLIENT
-  string importbibles = "importbibles";
+  const std::string importbibles = "importbibles";
   if (request->query.count (importbibles)) {
     if (request->post.count ("upload")) {
-      string datafile = filter_url_tempfile () + request->post ["filename"];
-      string data = request->post ["data"];
+      const std::string datafile = filter_url_tempfile () + request->post ["filename"];
+      const std::string data = request->post ["data"];
       if (!data.empty ()) {
         filter_url_file_put_contents (datafile, data);
         success = translate("Import has started.");
@@ -210,11 +209,11 @@ string system_index (void * webserver_request)
 
   
 #ifdef HAVE_CLIENT
-  string importnotes = "importnotes";
+  const std::string importnotes = "importnotes";
   if (request->query.count (importnotes)) {
     if (request->post.count ("upload")) {
-      string datafile = filter_url_tempfile () + request->post ["filename"];
-      string data = request->post ["data"];
+      const std::string datafile = filter_url_tempfile () + request->post ["filename"];
+      const std::string data = request->post ["data"];
       if (!data.empty ()) {
         filter_url_file_put_contents (datafile, data);
         success = translate("Import has started.");
@@ -234,11 +233,11 @@ string system_index (void * webserver_request)
   
   
 #ifdef HAVE_CLIENT
-  string importresources = "importresources";
+  const std::string importresources = "importresources";
   if (request->query.count (importresources)) {
     if (request->post.count ("upload")) {
-      string datafile = filter_url_tempfile () + request->post ["filename"];
-      string data = request->post ["data"];
+      const std::string datafile = filter_url_tempfile () + request->post ["filename"];
+      const std::string data = request->post ["data"];
       if (!data.empty ()) {
         filter_url_file_put_contents (datafile, data);
         success = translate("Import has started.");
@@ -262,7 +261,7 @@ string system_index (void * webserver_request)
     Database_Config_General::setIndexBibles (true);
     tasks_logic_queue (REINDEXBIBLES, {"1"});
     redirect_browser (request, journal_index_url ());
-    return "";
+    return std::string();
   }
   
   
@@ -271,17 +270,17 @@ string system_index (void * webserver_request)
     Database_Config_General::setIndexNotes (true);
     tasks_logic_queue (REINDEXNOTES);
     redirect_browser (request, journal_index_url ());
-    return "";
+    return std::string();
   }
 
   
   // Delete a font.
-  string deletefont = request->query ["deletefont"];
+  const std::string deletefont = request->query ["deletefont"];
   if (!deletefont.empty ()) {
-    string font = filter_url_basename_web (deletefont);
+    const std::string font = filter_url_basename_web (deletefont);
     bool font_in_use = false;
-    vector <string> bibles = request->database_bibles ()->getBibles ();
-    for (auto & bible : bibles) {
+    const std::vector <std::string> bibles = request->database_bibles ()->getBibles ();
+    for (const auto& bible : bibles) {
       if (font == fonts::logic::get_text_font (bible)) font_in_use = true;
     }
     if (!font_in_use) {
@@ -295,18 +294,18 @@ string system_index (void * webserver_request)
   
   // Upload a font.
   if (request->post.count ("uploadfont")) {
-    string filename = request->post ["filename"];
-    string path = filter_url_create_root_path ({"fonts", filename});
-    string fontdata = request->post ["fontdata"];
+    const std::string filename = request->post ["filename"];
+    const std::string path = filter_url_create_root_path ({"fonts", filename});
+    const std::string fontdata = request->post ["fontdata"];
     filter_url_file_put_contents (path, fontdata);
     success = translate("The font has been uploaded.");
   }
   
   
   // Assemble the font block html.
-  vector <string> fonts = fonts::logic::get_fonts ();
-  stringstream fontsblock;
-  for (auto & font : fonts) {
+  const std::vector <std::string> fonts = fonts::logic::get_fonts ();
+  std::stringstream fontsblock;
+  for (const auto& font : fonts) {
     fontsblock << "<p>";
 #ifndef HAVE_CLIENT
     fontsblock << "<a href=" << quoted ("?deletefont=" + font) << " title=" << quoted(translate("Delete font")) << ">" << filter::strings::emoji_wastebasket () << "</a>";
@@ -321,7 +320,7 @@ string system_index (void * webserver_request)
   if (request->query.count ("clearcache")) {
     tasks_logic_queue (CLEARCACHES);
     redirect_browser (request, journal_index_url ());
-    return "";
+    return std::string();
   }
   
   
@@ -329,7 +328,7 @@ string system_index (void * webserver_request)
 #ifdef HAVE_CLOUD
   if (checkbox == "keepcache") {
     Database_Config_General::setKeepResourcesCacheForLong (checked);
-    return "";
+    return std::string();
   }
   view.set_variable ("keepcache", filter::strings::get_checkbox_status (Database_Config_General::getKeepResourcesCacheForLong ()));
 #endif
@@ -339,14 +338,24 @@ string system_index (void * webserver_request)
 #ifdef HAVE_CLOUD
   Database_Mail database_mail (webserver_request);
   if (request->query.count ("clearemails")) {
-    vector <int> mails = database_mail.getAllMails ();
+    const std::vector <int> mails = database_mail.getAllMails ();
     for (auto rowid : mails) {
       database_mail.erase (rowid);
     }
   }
-  vector <int> mails = database_mail.getAllMails ();
-  string mailcount = filter::strings::convert_to_string (mails.size());
+  const std::vector <int> mails = database_mail.getAllMails ();
+  const std::string mailcount = filter::strings::convert_to_string (mails.size());
   view.set_variable ("emailscount", mailcount);
+#endif
+
+  
+  // Handle the setting whether to keep the resource caches for an extended period of time.
+#ifdef HAVE_CLOUD
+  if (checkbox == "keeposis") {
+    Database_Config_General::setKeepOsisContentInSwordResources (checked);
+    return std::string();
+  }
+  view.set_variable ("keeposis", filter::strings::get_checkbox_status (Database_Config_General::getKeepOsisContentInSwordResources ()));
 #endif
 
   
@@ -355,7 +364,7 @@ string system_index (void * webserver_request)
 #endif
 #ifdef HAVE_CLIENT
   view.enable_zone ("client");
-  view.set_variable ("cloudlink", client_logic_link_to_cloud (manage_index_url (), ""));
+  view.set_variable ("cloudlink", client_logic_link_to_cloud (manage_index_url (), std::string()));
 #endif
   
   

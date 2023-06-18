@@ -274,21 +274,18 @@ void Database_Config_General::setSiteURL (string value)
 }
 
 
-const char * general_site_language_key ()
-{
-  return "site-language";
-}
+constexpr const char * general_site_language_key {"site-language"};
 string Database_Config_General::getSiteLanguage ()
 {
   // The default site language is an empty string.
   // It means not to localize the interface.
   // Since the default messages are all in English,
   // the default language for the interface will be English.
-  return getValue (general_site_language_key (), "");
+  return getValue (general_site_language_key, "");
 }
 void Database_Config_General::setSiteLanguage (string value)
 {
-  setValue (general_site_language_key (), value);
+  setValue (general_site_language_key, value);
 }
 
 
@@ -478,142 +475,123 @@ void Database_Config_General::setJustConnectedToCloud (bool value)
 }
 
 
-const char * menu_in_tabbed_view_on_key ()
-{
-  return "menu-in-tabbed-view-on";
-}
+constexpr const char * menu_in_tabbed_view_on_key {"menu-in-tabbed-view-on"};
 bool Database_Config_General::getMenuInTabbedViewOn ()
 {
-  return getBValue (menu_in_tabbed_view_on_key (), true);
+  return getBValue (menu_in_tabbed_view_on_key, true);
 }
 void Database_Config_General::setMenuInTabbedViewOn (bool value)
 {
-  setBValue (menu_in_tabbed_view_on_key (), value);
+  setBValue (menu_in_tabbed_view_on_key, value);
 }
 
 
-const char * menu_in_tabbed_view_json_key ()
-{
-  return "menu-in-tabbed-view-json";
-}
+constexpr const char * menu_in_tabbed_view_json_key {"menu-in-tabbed-view-json"};
 string Database_Config_General::getMenuInTabbedViewJSON ()
 {
-  return getValue (menu_in_tabbed_view_json_key (), "");
+  return getValue (menu_in_tabbed_view_json_key, "");
 }
 void Database_Config_General::setMenuInTabbedViewJSON (string value)
 {
-  setValue (menu_in_tabbed_view_json_key (), value);
+  setValue (menu_in_tabbed_view_json_key, value);
 }
 
 
-const char * disable_selection_popup_chrome_os_key ()
-{
-  return "disable-selection-popup-chrome-os";
-}
+constexpr const char * disable_selection_popup_chrome_os_key {"disable-selection-popup-chrome-os"};
 bool Database_Config_General::getDisableSelectionPopupChromeOS ()
 {
-  return getBValue (disable_selection_popup_chrome_os_key (), false);
+  return getBValue (disable_selection_popup_chrome_os_key, false);
 }
 void Database_Config_General::setDisableSelectionPopupChromeOS (bool value)
 {
-  setBValue (disable_selection_popup_chrome_os_key (), value);
+  setBValue (disable_selection_popup_chrome_os_key, value);
 }
 
 
-const char * notes_verse_separator_key ()
-{
-  return "notes-verse-separator";
-}
+constexpr const char * notes_verse_separator_key {"notes-verse-separator"};
 string Database_Config_General::getNotesVerseSeparator ()
 {
   // The colon is the default value. See https://github.com/bibledit/cloud/issues/509
-  return getValue (notes_verse_separator_key (), ":");
+  return getValue (notes_verse_separator_key, ":");
 }
 void Database_Config_General::setNotesVerseSeparator (string value)
 {
-  setValue (notes_verse_separator_key (), value);
+  setValue (notes_verse_separator_key, value);
 }
 
 
-const char * comparative_resources_key ()
-{
-  return "comparative-resources";
-}
+constexpr const char * comparative_resources_key {"comparative-resources"};
 vector <string> Database_Config_General::getComparativeResources ()
 {
-  return getList (comparative_resources_key ());
+  return getList (comparative_resources_key);
 }
 void Database_Config_General::setComparativeResources (vector <string> values)
 {
-  setList (comparative_resources_key (), values);
+  setList (comparative_resources_key, values);
 }
 
 
-const char * translated_resources_key ()
-{
-  return "translated-resources";
-}
+constexpr const char * translated_resources_key {"translated-resources"};
 vector <string> Database_Config_General::getTranslatedResources ()
 {
-  return getList (translated_resources_key ());
+  return getList (translated_resources_key);
 }
 void Database_Config_General::setTranslatedResources (vector <string> values)
 {
-  setList (translated_resources_key (), values);
+  setList (translated_resources_key, values);
 }
 
 
-const char * default_active_resources_key ()
-{
-  return "default-active-resources";
-}
+constexpr const char * default_active_resources_key {"default-active-resources"};
 vector <string> Database_Config_General::getDefaultActiveResources ()
 {
-  return getList (default_active_resources_key ());
+  return getList (default_active_resources_key);
 }
 void Database_Config_General::setDefaultActiveResources (vector <string> values)
 {
-  setList (default_active_resources_key (), values);
+  setList (default_active_resources_key, values);
 }
 
 
-const char * account_creation_times_key ()
-{
-  return "account-creation-times";
-}
+constexpr const char * account_creation_times_key {"account-creation-times"};
 vector <string> Database_Config_General::getAccountCreationTimes ()
 {
-  return getList (account_creation_times_key ());
+  return getList (account_creation_times_key);
 }
 void Database_Config_General::setAccountCreationTimes (vector <string> values)
 {
-  setList (account_creation_times_key (), values);
+  setList (account_creation_times_key, values);
 }
 
 
-const char * keep_resources_cache_for_long_key ()
-{
-  return "keep-resources-cache-for-long";
-}
+constexpr const char * keep_resources_cache_for_long_key {"keep-resources-cache-for-long"};
 bool Database_Config_General::getKeepResourcesCacheForLong ()
 {
-  return getBValue (keep_resources_cache_for_long_key (), false);
+  return getBValue (keep_resources_cache_for_long_key, false);
 }
 void Database_Config_General::setKeepResourcesCacheForLong (bool value)
 {
-  setBValue (keep_resources_cache_for_long_key (), value);
+  setBValue (keep_resources_cache_for_long_key, value);
 }
 
 
-const char * default_new_user_access_level_key ()
-{
-  return "default-new-user-access-level";
-}
+constexpr const char * default_new_user_access_level_key {"default-new-user-access-level"};
 int Database_Config_General::getDefaultNewUserAccessLevel ()
 {
-  return getIValue (default_new_user_access_level_key (), Filter_Roles::member ());
+  return getIValue (default_new_user_access_level_key, Filter_Roles::member ());
 }
 void Database_Config_General::setDefaultNewUserAccessLevel (int value)
 {
-  setIValue (default_new_user_access_level_key (), value);
+  setIValue (default_new_user_access_level_key, value);
+}
+
+
+constexpr const char * keep_osis_content_in_sword_resources_key {"keep-osis-content-in-sword-resources"};
+bool Database_Config_General::getKeepOsisContentInSwordResources ()
+{
+  return getBValue (keep_osis_content_in_sword_resources_key, false);
+}
+void Database_Config_General::setKeepOsisContentInSwordResources (bool value)
+{
+  setBValue (keep_osis_content_in_sword_resources_key, value);
 }

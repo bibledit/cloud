@@ -101,9 +101,9 @@ void Database_Logs::rotate ()
   // that led to an infinite loop, as had been noticed at times,
   // and this quickly exhausted the available inodes on the filesystem.
 #ifdef HAVE_TINY_JOURNAL
-  int limitfilecount = files.size () - 200;
+  const int limitfilecount = static_cast<int>(files.size () - 200);
 #else
-  int limitfilecount = static_cast<int>(files.size () - 2000);
+  const int limitfilecount = static_cast<int>(files.size () - 2000);
 #endif
 
   

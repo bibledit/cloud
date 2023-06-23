@@ -55,6 +55,8 @@
 
 
 #ifdef HAVE_ANDROID
+// Undefine upload capabilities, see issue https://github.com/bibledit/cloud/issues/896
+#undef HAVE_UPLOAD
 #undef HAVE_CLOUD
 #define HAVE_CLIENT 1
 #undef MAX_PARALLEL_TASKS
@@ -83,6 +85,8 @@
 
 
 #ifdef HAVE_IOS
+// Undefine upload capabilities, see issue https://github.com/bibledit/cloud/issues/896
+#undef HAVE_UPLOAD
 #undef HAVE_CLOUD
 #define HAVE_CLIENT 1
 #undef MAX_PARALLEL_TASKS

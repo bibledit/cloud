@@ -100,6 +100,7 @@ string resource_organize (void * webserver_request)
     if (is_def) Database_Config_General::setDefaultActiveResources (resources);
     else request->database_config_user()->setActiveResources (resources);
     if (!is_def) request->database_config_user()->addUpdatedSetting (Sync_Logic::settings_send_resources_organization);
+    else redirect_browser (webserver_request, resource_organize_url());
   }
 
   
@@ -115,6 +116,7 @@ string resource_organize (void * webserver_request)
       if (is_def) Database_Config_General::setDefaultActiveResources (resources);
       else request->database_config_user()->setActiveResources (resources);
       if (!is_def) request->database_config_user()->addUpdatedSetting (Sync_Logic::settings_send_resources_organization);
+      else redirect_browser (webserver_request, resource_organize_url());
     }
     return "";
   }

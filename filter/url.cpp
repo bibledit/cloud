@@ -79,13 +79,13 @@ vector <string> filter_url_scandir_internal (string folder)
       folder = folder.substr(0, folder.size() - 1);
     }
     folder.append("\\*");
-    wstring wfolder = string2wstring(folder);
+    wstring wfolder = filter::strings::string2wstring(folder);
     WIN32_FIND_DATA fdata;
     HANDLE hFind = FindFirstFileW(wfolder.c_str(), &fdata);
     if (hFind != INVALID_HANDLE_VALUE) {
       do {
         wstring wfilename(fdata.cFileName);
-        string name = wstring2string (wfilename);
+        string name = filter::strings::wstring2string (wfilename);
         if (name.substr(0, 1) != ".") {
           files.push_back(name);
         }
@@ -314,7 +314,7 @@ string filter_url_basename_web (string url)
 void filter_url_unlink (string filename)
 {
 #ifdef HAVE_WINDOWS
-  wstring wfilename = string2wstring (filename);
+  wstring wfilename = filter::strings::string2wstring (filename);
   _wunlink (wfilename.c_str ());
 #else
   unlink (filename.c_str ());
@@ -335,8 +335,8 @@ void filter_url_unlink (string filename)
 void filter_url_rename (const string& oldfilename, const string& newfilename)
 {
 #ifdef HAVE_WINDOWS
-  wstring woldfilename = string2wstring (oldfilename);
-  wstring wnewfilename = string2wstring (newfilename);
+  wstring woldfilename = filter::strings::string2wstring (oldfilename);
+  wstring wnewfilename = filter::strings::string2wstring (newfilename);
   _wrename (woldfilename.c_str (), wnewfilename.c_str ());
 #else
   rename (oldfilename.c_str (), newfilename.c_str ());
@@ -474,7 +474,7 @@ bool file_or_dir_exists (string url)
 {
 #ifdef HAVE_WINDOWS
   // Function '_wstat' works with wide characters.
-  wstring wurl = string2wstring(url);
+  wstring wurl = filter::strings::string2wstring(url);
   struct _stat buffer;
   int result = _wstat (wurl.c_str (), &buffer);
   return (result == 0);
@@ -502,7 +502,7 @@ void filter_url_mkdir (string directory)
 {
   int status;
 #ifdef HAVE_WINDOWS
-  wstring wdirectory = string2wstring(directory);
+  wstring wdirectory = filter::strings::string2wstring(directory);
   status = _wmkdir (wdirectory.c_str());
 #else
   status = mkdir (directory.c_str(), 0777);
@@ -518,7 +518,7 @@ void filter_url_mkdir (string directory)
     reverse (paths.begin (), paths.end ());
     for (unsigned int i = 0; i < paths.size (); i++) {
 #ifdef HAVE_WINDOWS
-      wstring wpathsi = string2wstring(paths[i]);
+      wstring wpathsi = filter::strings::string2wstring(paths[i]);
       _wmkdir (wpathsi.c_str ());
 #else
       mkdir (paths[i].c_str (), 0777);
@@ -551,7 +551,7 @@ void filter_url_rmdir (string directory)
     }
 #ifdef HAVE_WINDOWS
   // Remove directory.
-  wstring wpath = string2wstring(path);
+  wstring wpath = filter::strings::string2wstring(path);
   _wrmdir(wpath.c_str());
   // Remove file.
   filter_url_unlink(path);
@@ -561,7 +561,7 @@ void filter_url_rmdir (string directory)
 #endif
   }
 #ifdef HAVE_WINDOWS
-  wstring wdirectory = string2wstring(directory);
+  wstring wdirectory = filter::strings::string2wstring(directory);
   _wrmdir(wdirectory.c_str());
   filter_url_unlink(directory);
 #else
@@ -586,7 +586,7 @@ bool filter_url_is_dir (string path)
 {
 #ifdef HAVE_WINDOWS
   // Function '_wstat', on Windows, works with wide characters.
-  wstring wpath = string2wstring (path);
+  wstring wpath = filter::strings::string2wstring (path);
   struct _stat sb;
   _wstat (wpath.c_str (), &sb);
 #else
@@ -613,7 +613,7 @@ bool filter_url_is_dir (string path)
 bool filter_url_get_write_permission (string path)
 {
 #ifdef HAVE_WINDOWS
-  wstring wpath = string2wstring (path);
+  wstring wpath = filter::strings::string2wstring (path);
   int result = _waccess (wpath.c_str (), 06);
 #else
   int result = access (path.c_str(), W_OK);
@@ -625,7 +625,7 @@ bool filter_url_get_write_permission (string path)
 void filter_url_set_write_permission (string path)
 {
 #ifdef HAVE_WINDOWS
-  wstring wpath = string2wstring (path);
+  wstring wpath = filter::strings::string2wstring (path);
   _wchmod (wpath.c_str (), _S_IREAD | _S_IWRITE);
 #else
   chmod (path.c_str (), S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IWGRP | S_IXGRP | S_IROTH | S_IWOTH | S_IXOTH);
@@ -647,7 +647,7 @@ string filter_url_file_get_contents(string filename)
   if (!file_or_dir_exists (filename)) return string();
   try {
 #ifdef HAVE_WINDOWS
-    wstring wfilename = string2wstring(filename);
+    wstring wfilename = filter::strings::string2wstring(filename);
     ifstream ifs(wfilename.c_str(), ios::in | ios::binary | ios::ate);
 #else
     ifstream ifs(filename.c_str(), ios::in | ios::binary | ios::ate);
@@ -671,7 +671,7 @@ void filter_url_file_put_contents (string filename, string contents)
   try {
     ofstream file;  
 #ifdef HAVE_WINDOWS
-    wstring wfilename = string2wstring(filename);
+    wstring wfilename = filter::strings::string2wstring(filename);
     file.open(wfilename, ios::binary | ios::trunc);
 #else
     file.open(filename, ios::binary | ios::trunc);
@@ -690,7 +690,7 @@ void filter_url_file_put_contents_append (string filename, string contents)
   try {
     ofstream file;
 #ifdef HAVE_WINDOWS
-    wstring wfilename = string2wstring (filename);
+    wstring wfilename = filter::strings::string2wstring (filename);
     file.open (wfilename, ios::binary | ios::app);
 #else
     file.open (filename, ios::binary | ios::app);
@@ -708,8 +708,8 @@ bool filter_url_file_cp (string input, string output)
 {
   try {
 #ifdef HAVE_WINDOWS
-    ifstream source (string2wstring (input), ios::binary);
-    ofstream dest (string2wstring (output), ios::binary | ios::trunc);
+    ifstream source (filter::strings::string2wstring (input), ios::binary);
+    ofstream dest (filter::strings::string2wstring (output), ios::binary | ios::trunc);
 #else
     ifstream source (input, ios::binary);
     ofstream dest (output, ios::binary | ios::trunc);
@@ -752,7 +752,7 @@ void filter_url_dir_cp (const string & input, const string & output)
 int filter_url_filesize (string filename)
 {
 #ifdef HAVE_WINDOWS
-  wstring wfilename = string2wstring (filename);
+  wstring wfilename = filter::strings::string2wstring (filename);
   struct _stat buf;
   int rc = _wstat (wfilename.c_str (), &buf);
 #else
@@ -834,7 +834,7 @@ void filter_url_recursive_scandir (string folder, vector <string> & paths)
 int filter_url_file_modification_time (string filename)
 {
 #ifdef HAVE_WINDOWS
-  wstring wfilename = string2wstring (filename);
+  wstring wfilename = filter::strings::string2wstring (filename);
   struct _stat attributes;
   _wstat (wfilename.c_str (), &attributes);
 #else
@@ -1518,7 +1518,7 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
       error = "Internet connection failure: " + hostname + ": ";
 #ifdef HAVE_WINDOWS
       wchar_t * err = gai_strerrorW (res);
-      error.append (wstring2string (err));
+      error.append (filter::strings::wstring2string (err));
 #else
       error.append (gai_strerror (res));
 #endif
@@ -1777,7 +1777,7 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
     FILE * file = nullptr;
     if (!filename.empty ()) {
 #ifdef HAVE_WINDOWS
-      wstring wfilename = string2wstring (filename);
+      wstring wfilename = filter::strings::string2wstring (filename);
       file = _wfopen (wfilename.c_str (), L"w");
 #else
       file = fopen (filename.c_str (), "w");

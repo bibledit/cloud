@@ -178,9 +178,9 @@ vector <string> filter_shell_active_processes ()
     PROCESSENTRY32 pe32;
     pe32.dwSize = sizeof (PROCESSENTRY32);
     if (Process32First (hProcessSnap, &pe32)) {
-      processes.push_back (wstring2string (pe32.szExeFile));
+      processes.push_back (filter::strings::wstring2string (pe32.szExeFile));
       while (Process32Next (hProcessSnap, &pe32)) {
-        processes.push_back (wstring2string (pe32.szExeFile));
+        processes.push_back (filter::strings::wstring2string (pe32.szExeFile));
       }
       CloseHandle (hProcessSnap);
     }

@@ -714,6 +714,8 @@
 		CA300E0A29059CD200775963 /* libicui18n.71.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicui18n.71.1.dylib; path = ../../../../opt/local/lib/libicui18n.71.1.dylib; sourceTree = "<group>"; };
 		CA314CD22662298D00EF8CE3 /* delay.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = delay.cpp; sourceTree = "<group>"; };
 		CA314CD32662298D00EF8CE3 /* delay.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = delay.h; sourceTree = "<group>"; };
+		CA3597052A55CA78005F5B58 /* run.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = run.sh; sourceTree = "<group>"; };
+		CA3597062A55CB7A005F5B58 /* gunittest.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = gunittest.cpp; sourceTree = "<group>"; };
 		CA37D368293D2EC50065795A /* 00readme.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = 00readme.txt; sourceTree = "<group>"; };
 		CA40E47028A91E7200E0A563 /* translated9edit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = translated9edit.cpp; sourceTree = "<group>"; };
 		CA40E47128A91E7200E0A563 /* translated1edit.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = translated1edit.cpp; sourceTree = "<group>"; };
@@ -5569,6 +5571,7 @@
 				CA05A59926878ACA000D0737 /* gbs.h */,
 				CADE44D224F174BF003165BB /* git.cpp */,
 				CADE43FE24F174BE003165BB /* git.h */,
+				CA3597062A55CB7A005F5B58 /* gunittest.cpp */,
 				CADE440C24F174BE003165BB /* html.cpp */,
 				CADE42C524F174BD003165BB /* html.h */,
 				CA10382A2527A4010021AF25 /* html2format.cpp */,
@@ -5639,6 +5642,7 @@
 				CADE42E624F174BD003165BB /* roles.h */,
 				CADE445924F174BE003165BB /* rss.cpp */,
 				CADE44CD24F174BF003165BB /* rss.h */,
+				CA3597052A55CA78005F5B58 /* run.sh */,
 				CADE43FD24F174BE003165BB /* sample.cpp */,
 				CADE44B624F174BF003165BB /* sample.h */,
 				CADE444324F174BE003165BB /* sblgnt.cpp */,

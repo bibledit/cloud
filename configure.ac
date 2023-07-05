@@ -153,6 +153,11 @@ PKG_CHECK_MODULES(PUGIXML, pugixml >= 1.10, AC_DEFINE(HAVE_PUGIXML, 1, Define wh
 AC_SUBST(PUGIXML_CFLAGS)
 AC_SUBST(PUGIXML_LIBS)
 
+# Check whether the GTest library is available.
+PKG_CHECK_MODULES(GTEST, gtest >= 1.10.0, AC_DEFINE(HAVE_GTEST, 1, Define whether GTest is available), AC_MSG_NOTICE(Install gtest to also build the unit tests.))
+AC_SUBST(GTEST_CFLAGS)
+AC_SUBST(GTEST_LIBS)
+
 AC_MSG_CHECKING([C++ compiler])
 GPPVERSION=`${CXX} --version | grep clang`
 if test "$GPPVERSION" = ""; then

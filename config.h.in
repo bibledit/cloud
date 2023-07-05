@@ -9,6 +9,9 @@
 /* Define whether execinfo.h is present */
 #undef HAVE_EXECINFO
 
+/* Define whether GTest is available */
+#undef HAVE_GTEST
+
 /* Define whether ICU is available */
 #undef HAVE_ICU
 

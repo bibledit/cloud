@@ -18,6 +18,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 #include <unittests/unittest.h>
+#include "gtest/gtest.h"
+
 #include <unittests/utilities.h>
 #include <config/libraries.h>
 #include <library/bibledit.h>
@@ -120,6 +122,17 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 using namespace std;
 
 
+TEST(bibledit, dummy)
+{
+  constexpr int vms_height {25};
+  constexpr int vms_width {200};
+  const unsigned short char_spacing {1};
+  const unsigned short line_spacing {5};
+  const std::string font_path {"UnitTests/Bitmaps/16_23SE1-20-unicode.bdf"};
+  EXPECT_EQ (3, 3);
+}
+
+
 int main ([[maybe_unused]] int argc, [[maybe_unused]] char **argv)
 {
   cout << "Running unittests" << endl;
@@ -139,15 +152,12 @@ int main ([[maybe_unused]] int argc, [[maybe_unused]] char **argv)
   // Flag for unit tests.
   config_globals_unit_testing = true;
 
-  // The next line is a signature for automated unit testing: Do not change it.
-  // Automated Unit Tests Start Removing Code Here.
-  
   refresh_sandbox (false);
-  test_dev ();
-  test_easy_english_bible ();
-  refresh_sandbox (false);
-  exit (0);
   
+  ::testing::InitGoogleTest(&argc, argv);
+  return RUN_ALL_TESTS();
+  
+ 
   // The next line is a signature for automated unit testing: Do not change it.
   // Automated Unit Tests End Removing Code Here.
   

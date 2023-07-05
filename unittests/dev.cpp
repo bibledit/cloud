@@ -17,45 +17,20 @@
  */
 
 
-#include <codecvt>
+#include <config/libraries.h>
 #include <unittests/utilities.h>
-#include <filter/string.h>
-#include <filter/url.h>
-#include <filter/text.h>
-#include <filter/image.h>
-#include <editor/html2usfm.h>
-#include <editor/html2format.h>
-#include <styles/logic.h>
-#include <database/state.h>
-#include <database/login.h>
-#include <database/users.h>
-#include <database/bibleimages.h>
-#include <webserver/request.h>
-#include <user/logic.h>
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Weffc++"
-#pragma GCC diagnostic ignored "-Wsuggest-override"
-#pragma GCC diagnostic ignored "-Wzero-as-null-pointer-constant"
-#ifndef HAVE_PUGIXML
-#include <pugixml/pugixml.hpp>
-#endif
-#ifdef HAVE_PUGIXML
-#include <pugixml.hpp>
-#endif
-#pragma GCC diagnostic pop
-#include <html/text.h>
-#include <checks/usfm.h>
-#include <resource/logic.h>
-#include <type_traits>
-using namespace std;
-using namespace pugi;
+#include "gtest/gtest.h"
 
 
-void test_dev ()
+TEST(bibledit, dev)
 {
-  trace_unit_tests (__func__);
   refresh_sandbox (true);
-
-  
+  constexpr int vms_height {25};
+  constexpr int vms_width {200};
+  const unsigned short char_spacing {1};
+  const unsigned short line_spacing {5};
+  const std::string font_path {"UnitTests/Bitmaps/16_23SE1-20-unicode.bdf"};
+  EXPECT_EQ (3, 3);
   refresh_sandbox (true);
 }
+

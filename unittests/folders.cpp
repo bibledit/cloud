@@ -17,24 +17,26 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
+#include <config/libraries.h>
+#ifdef HAVE_GTEST
+#include "gtest/gtest.h"
 #include <unittests/folders.h>
 #include <unittests/utilities.h>
 #include <filter/url.h>
-using namespace std;
 
 
-void test_folders ()
+TEST (folders, basic)
 {
-  trace_unit_tests (__func__);
-  
   // There should be no empty folders in the library, because git won't include them.
   // If there were such empty folders, they would not be included in the git.
   // Apart from any empty folders in the ./git folder itself,
   // and apart from the Xcode project.
-  int result = system ("find . -type d -empty -not -path './.git/*' -not -path './xcode.xcodeproj/*' > /tmp/bibledittest.txt");
-  evaluate (__LINE__, __func__, 0, result);
-  string contents = filter_url_file_get_contents ("/tmp/bibledittest.txt");
-  evaluate (__LINE__, __func__, "", contents);
+  const int result = system ("find . -type d -empty -not -path './.git/*' -not -path './xcode.xcodeproj/*' > /tmp/bibledittest.txt");
+  EXPECT_EQ (0, result);
+  const std::string contents = filter_url_file_get_contents ("/tmp/bibledittest.txt");
+  EXPECT_EQ (std::string(), contents);
   filter_url_unlink ("/tmp/bibledittest.txt");
 }
+
+#endif
 

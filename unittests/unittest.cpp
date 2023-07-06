@@ -125,10 +125,6 @@ using namespace std;
 #ifdef HAVE_GTEST
 TEST (existing, existing)
 {
-  test_database_users ();
-  test_session ();
-  test_folders ();
-  test_flate ();
   test_database_bibles ();
   test_database_books ();
   test_database_bibleactions ();
@@ -192,7 +188,6 @@ TEST (existing, existing)
   test_roles ();
   test_md5 ();
   test_string ();
-  test_users ();
   test_date ();
   test_export ();
   test_html ();

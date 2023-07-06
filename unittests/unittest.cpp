@@ -37,9 +37,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/usfm.h>
 #include <session/logic.h>
 #include <unittests/sqlite.h>
-#include <unittests/session.h>
-#include <unittests/folders.h>
-#include <unittests/flate.h>
 #include <unittests/checksum.h>
 #include <unittests/bibles.h>
 #include <unittests/html2usfm.h>
@@ -66,7 +63,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <unittests/roles.h>
 #include <unittests/md5.h>
 #include <unittests/string.h>
-#include <unittests/users.h>
 #include <unittests/date.h>
 #include <unittests/export.h>
 #include <unittests/html.h>

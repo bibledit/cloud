@@ -20,7 +20,6 @@
 #include <config/libraries.h>
 #ifdef HAVE_GTEST
 #include "gtest/gtest.h"
-#include <unittests/users.h>
 #include <unittests/utilities.h>
 #include <webserver/request.h>
 #include <filter/string.h>

@@ -122,36 +122,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 using namespace std;
 
 
-int main ([[maybe_unused]] int argc, [[maybe_unused]] char **argv)
-{
-  cout << "Running unittests" << endl;
-
-  // Directory where the unit tests will run.
-  testing_directory = "/tmp/bibledit-unittests";  
-  filter_url_mkdir (testing_directory);
-  refresh_sandbox (true);
-  config_globals_document_root = testing_directory;
-
-  // Initialize SSL/TLS (after webroot has been set).
-  filter_url_ssl_tls_initialize ();
-
-  // Number of failed unit tests.
-  error_count = 0;
-
-  // Flag for unit tests.
-  config_globals_unit_testing = true;
-
-  refresh_sandbox (false);
-  
-  int gtest_result {0};
 #ifdef HAVE_GTEST
-  ::testing::InitGoogleTest(&argc, argv);
-  gtest_result = RUN_ALL_TESTS();
-#endif
-  
-  // Run the tests.
-  test_sqlite ();
-  test_database_logs ();
+TEST (existing, existing)
+{
   test_database_users ();
   test_session ();
   test_folders ();
@@ -247,16 +220,38 @@ int main ([[maybe_unused]] int argc, [[maybe_unused]] char **argv)
   test_database_bible_images ();
   test_image ();
   test_easy_english_bible ();
+}
+#endif
+
+int main ([[maybe_unused]] int argc, [[maybe_unused]] char **argv)
+{
+  // Directory where the unit tests will run.
+  testing_directory = "/tmp/bibledit-unittests";  
+  filter_url_mkdir (testing_directory);
+  refresh_sandbox (true);
+  config_globals_document_root = testing_directory;
+
+  // Initialize SSL/TLS (after webroot has been set).
+  filter_url_ssl_tls_initialize ();
+
+  // Number of failed unit tests.
+  error_count = 0;
+
+  // Flag for unit tests.
+  config_globals_unit_testing = true;
+
+  refresh_sandbox (false);
+  
+  int gtest_result {0};
+#ifdef HAVE_GTEST
+  ::testing::InitGoogleTest(&argc, argv);
+  gtest_result = RUN_ALL_TESTS();
+#endif
 
   // Output possible journal entries.
   refresh_sandbox (false);
 
-  // Test results.
-  if (error_count == 0) cout << "All tests passed" << endl;
-  else cout << "Number of failures: " << error_count << endl;
-
   // Ready.
   return gtest_result;
 }
-
 

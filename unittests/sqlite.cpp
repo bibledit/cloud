@@ -17,16 +17,18 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
+#include <config/libraries.h>
+#ifdef HAVE_GTEST
+#include "gtest/gtest.h"
 #include <unittests/sqlite.h>
 #include <unittests/utilities.h>
 #include <database/sqlite.h>
-using namespace std;
 
 
-void test_sqlite ()
+TEST (sqlite, standard)
 {
-  trace_unit_tests (__func__);
-  
+  refresh_sandbox (false);
+
   // Tests for SQLite.
   sqlite3 * db = database_sqlite_connect ("sqlite");
   if (!db) error_message (__LINE__, __func__, "pointer", "NULL");
@@ -34,14 +36,19 @@ void test_sqlite ()
   database_sqlite_exec (db, "INSERT INTO test VALUES (123, 456, 789);");
   database_sqlite_exec (db, "INSERT INTO test VALUES (234, 567, 890);");
   database_sqlite_exec (db, "INSERT INTO test VALUES (345, 678, 901);");
-  map <string, vector <string> > actual = database_sqlite_query (db, "SELECT column1, column2, column3 FROM test;");
-  evaluate (__LINE__, __func__, "567", actual ["column2"] [1]);
+  std::map <std::string, std::vector <std::string> > actual = database_sqlite_query (db, "SELECT column1, column2, column3 FROM test;");
+  EXPECT_EQ ("567", actual ["column2"] [1]);
   database_sqlite_disconnect (db);
   database_sqlite_disconnect (nullptr);
 
-  evaluate (__LINE__, __func__, true, database_sqlite_healthy ("sqlite"));
+  EXPECT_TRUE (database_sqlite_healthy ("sqlite"));
   unlink (database_sqlite_file ("sqlite").c_str());
-  evaluate (__LINE__, __func__, false, database_sqlite_healthy ("sqlite"));
+  EXPECT_FALSE (database_sqlite_healthy ("sqlite"));
 
-  evaluate (__LINE__, __func__, "He''s", database_sqlite_no_sql_injection ("He's"));
+  EXPECT_EQ ("He''s", database_sqlite_no_sql_injection ("He's"));
+  
+  refresh_sandbox (false);
 }
+
+#endif
+

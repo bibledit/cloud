@@ -17,19 +17,19 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
+#include <config/libraries.h>
+#ifdef HAVE_GTEST
+#include "gtest/gtest.h"
 #include <unittests/ldap.h>
 #include <unittests/utilities.h>
 #include <database/logs.h>
 #include <filter/string.h>
 #include <filter/url.h>
 #include <filter/date.h>
-using namespace std;
 
 
-void test_database_logs ()
+TEST (database, logs_1)
 {
-  trace_unit_tests (__func__);
-  
   // Tests for Database_Logs.
   {
     refresh_sandbox (true);
@@ -40,43 +40,52 @@ void test_database_logs ()
     // Rotate the items.
     Database_Logs::rotate ();
     // Get the items from the SQLite database.
-    string lastfilename;
-    vector <string> result = Database_Logs::get (lastfilename);
-    evaluate (__LINE__, __func__, 3, result.size ());
-    refresh_sandbox (false);
-  }
-  {
-    // Test huge journal entry.
-    refresh_sandbox (true);
-    string huge (60'000, 'x');
-    Database_Logs::log (huge);
-    Database_Logs::rotate ();
-    string s = "0";
-    vector <string> result = Database_Logs::get (s);
-    if (result.size () == 1) {
-      s = result [0];
-      string path = filter_url_create_path ({Database_Logs::folder (), s});
-      string contents = filter_url_file_get_contents (path);
-      evaluate (__LINE__, __func__, 50'006, contents.find ("This entry was too large and has been truncated: 60000 bytes"));
-    } else {
-      evaluate (__LINE__, __func__, 1, static_cast<int>(result.size ()));
-    }
-    refresh_sandbox (true, {"This entry was too large and has been truncated"});
-  }
-  {
-    // Test the getNext function of the Journal.
-    refresh_sandbox (true);
-    Database_Logs::log ("description");
-    int second = filter::date::seconds_since_epoch ();
-    string filename = filter::strings::convert_to_string (second) + "00000000";
-    // First time: getNext gets the logged entry.
-    string s;
-    s = Database_Logs::next (filename);
-    if (s == "") evaluate (__LINE__, __func__, "...description", s);
-    // Since variable "filename" is updated and set to the last filename,
-    // next time function getNext gets nothing.
-    s = Database_Logs::next (filename);
-    evaluate (__LINE__, __func__, "", s);
+    std::string lastfilename;
+    std::vector <std::string> result = Database_Logs::get (lastfilename);
+    EXPECT_EQ (3, result.size ());
     refresh_sandbox (false);
   }
 }
+
+
+TEST (database, logs_2)
+{
+  // Test huge journal entry.
+  refresh_sandbox (true);
+  const std::string huge (60'000, 'x');
+  Database_Logs::log (huge);
+  Database_Logs::rotate ();
+  std::string s = "0";
+  std::vector <std::string> result = Database_Logs::get (s);
+  if (result.size () == 1) {
+    s = result [0];
+    const std::string path = filter_url_create_path ({Database_Logs::folder (), s});
+    const std::string contents = filter_url_file_get_contents (path);
+    EXPECT_EQ (50'006, contents.find ("This entry was too large and has been truncated: 60000 bytes"));
+  } else {
+    EXPECT_EQ (1, static_cast<int>(result.size ()));
+  }
+  refresh_sandbox (true, {"This entry was too large and has been truncated"});
+}
+
+
+TEST (database, logs_3)
+{
+  // Test the getNext function of the Journal.
+  refresh_sandbox (true);
+  Database_Logs::log ("description");
+  int second = filter::date::seconds_since_epoch ();
+  std::string filename = filter::strings::convert_to_string (second) + "00000000";
+  // First time: getNext gets the logged entry.
+  std::string s = Database_Logs::next (filename);
+  EXPECT_NE (std::string(), s);
+  // Since variable "filename" is updated and set to the last filename,
+  // next time function getNext gets nothing.
+  s = Database_Logs::next (filename);
+  EXPECT_EQ (std::string(), s);
+  refresh_sandbox (false);
+}
+
+
+#endif
+

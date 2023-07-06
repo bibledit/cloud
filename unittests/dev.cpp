@@ -17,6 +17,8 @@
  */
 
 
+#ifdef HAVE_GTEST
+
 #include <config/libraries.h>
 #include <unittests/utilities.h>
 #include "gtest/gtest.h"
@@ -34,3 +36,4 @@ TEST(bibledit, dev)
   refresh_sandbox (true);
 }
 
+#endif

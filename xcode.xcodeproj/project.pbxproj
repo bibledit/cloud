@@ -2346,7 +2346,6 @@
 		CADE42E024F174BD003165BB /* modifications.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = modifications.cpp; sourceTree = "<group>"; };
 		CADE42E224F174BD003165BB /* navigation.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = navigation.cpp; sourceTree = "<group>"; };
 		CADE42E424F174BD003165BB /* sqlite.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = sqlite.cpp; sourceTree = "<group>"; };
-		CADE42E524F174BD003165BB /* config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
 		CADE42E624F174BD003165BB /* roles.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = roles.h; sourceTree = "<group>"; };
 		CADE42E724F174BD003165BB /* checksum.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = checksum.cpp; sourceTree = "<group>"; };
 		CADE42EB24F174BD003165BB /* odf.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = odf.h; sourceTree = "<group>"; };
@@ -5542,7 +5541,6 @@
 				CADE42DD24F174BD003165BB /* client.cpp */,
 				CADE42C324F174BD003165BB /* client.h */,
 				CADE442A24F174BE003165BB /* config.cpp */,
-				CADE42E524F174BD003165BB /* config.h */,
 				CADE42EF24F174BD003165BB /* confirm.cpp */,
 				CADE43F324F174BE003165BB /* confirm.h */,
 				CADE42ED24F174BD003165BB /* date.cpp */,

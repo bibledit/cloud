@@ -17,11 +17,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <unittests/unittest.h>
-#include "gtest/gtest.h"
-
-#include <unittests/utilities.h>
 #include <config/libraries.h>
+#include <unittests/unittest.h>
+#ifdef HAVE_GTEST
+#include "gtest/gtest.h"
+#endif
+#include <unittests/utilities.h>
 #include <library/bibledit.h>
 #include <library/locks.h>
 #include <database/config/user.h>
@@ -81,7 +82,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <unittests/shell.h>
 #include <unittests/dev.h>
 #include <unittests/sample.h>
-#include <unittests/config.h>
 #include <unittests/log.h>
 #include <unittests/books.h>
 #include <unittests/check.h>
@@ -122,17 +122,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 using namespace std;
 
 
-TEST(bibledit, dummy)
-{
-  constexpr int vms_height {25};
-  constexpr int vms_width {200};
-  const unsigned short char_spacing {1};
-  const unsigned short line_spacing {5};
-  const std::string font_path {"UnitTests/Bitmaps/16_23SE1-20-unicode.bdf"};
-  EXPECT_EQ (3, 3);
-}
-
-
 int main ([[maybe_unused]] int argc, [[maybe_unused]] char **argv)
 {
   cout << "Running unittests" << endl;
@@ -154,17 +143,13 @@ int main ([[maybe_unused]] int argc, [[maybe_unused]] char **argv)
 
   refresh_sandbox (false);
   
+  int gtest_result {0};
+#ifdef HAVE_GTEST
   ::testing::InitGoogleTest(&argc, argv);
-  return RUN_ALL_TESTS();
-  
- 
-  // The next line is a signature for automated unit testing: Do not change it.
-  // Automated Unit Tests End Removing Code Here.
+  gtest_result = RUN_ALL_TESTS();
+#endif
   
   // Run the tests.
-  test_database_config_general ();
-  test_database_config_bible ();
-  test_database_config_user ();
   test_sqlite ();
   test_database_logs ();
   test_database_users ();
@@ -271,7 +256,7 @@ int main ([[maybe_unused]] int argc, [[maybe_unused]] char **argv)
   else cout << "Number of failures: " << error_count << endl;
 
   // Ready.
-  return (error_count == 0) ? 0 : 1;
+  return gtest_result;
 }
 
 

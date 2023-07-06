@@ -955,7 +955,6 @@
 /tmp/holder
 /trash
 /trash/holder
-/unittest
 /unittests
 /unittests/scripts
 /unittests/scripts/editor1.py

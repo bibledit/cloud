@@ -65,3 +65,6 @@
 [class^='i-note'] {
   cursor: pointer;
 }
+[class^='i-th'] {
+  font-style: italic;
+}

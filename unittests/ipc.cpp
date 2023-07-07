@@ -17,6 +17,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
+#include <config/libraries.h>
+#ifdef HAVE_GTEST
+#include "gtest/gtest.h"
 #include <unittests/ipc.h>
 #include <unittests/utilities.h>
 #include <webserver/request.h>
@@ -25,10 +28,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 using namespace std;
 
 
-void test_ipc ()
+TEST (ipc, basic)
 {
-  trace_unit_tests (__func__);
-  
   // Initialize.
   refresh_sandbox (true);
   Webserver_Request request;
@@ -37,46 +38,45 @@ void test_ipc ()
   
   // There should be no note identifier.
   int identifier = Ipc_Notes::get (&request);
-  evaluate (__LINE__, __func__, 0, identifier);
+  EXPECT_EQ (0, identifier);
   
   // Test opening note.
   Ipc_Notes::open (&request, 123456789);
   identifier = Ipc_Notes::get (&request);
-  evaluate (__LINE__, __func__, 123456789, identifier);
+  EXPECT_EQ (123456789, identifier);
   
   // Test trimming.
   request.database_ipc()->trim ();
   identifier = Ipc_Notes::get (&request);
-  evaluate (__LINE__, __func__, 123456789, identifier);
+  EXPECT_EQ (123456789, identifier);
   
   // Test deleting note once.
   Ipc_Notes::open (&request, 123456789);
   Ipc_Notes::erase (&request);
   identifier = Ipc_Notes::get (&request);
-  evaluate (__LINE__, __func__, 0, identifier);
+  EXPECT_EQ (0, identifier);
   
   // Test deleting two notes.
   Ipc_Notes::open (&request, 123456789);
   Ipc_Notes::open (&request, 123456789);
   Ipc_Notes::erase (&request);
   identifier = Ipc_Notes::get (&request);
-  evaluate (__LINE__, __func__, 0, identifier);
+  EXPECT_EQ (0, identifier);
   Ipc_Notes::erase (&request);
   identifier = Ipc_Notes::get (&request);
-  evaluate (__LINE__, __func__, 0, identifier);
+  EXPECT_EQ (0, identifier);
 }
 
 
-void test_database_ipc ()
+TEST (database, ipc)
 {
-  trace_unit_tests (__func__);
-  
   // Test trim.
   {
     refresh_sandbox (true);
     Database_Ipc database_ipc = Database_Ipc (nullptr);
     database_ipc.trim ();
   }
+
   // Test store retrieve
   {
     refresh_sandbox (true);
@@ -92,14 +92,15 @@ void test_database_ipc ()
     database_ipc.storeMessage (user, channel, command, message);
     
     Database_Ipc_Message data = database_ipc.retrieveMessage (id, user, channel, command);
-    evaluate (__LINE__, __func__, 0, data.id);
+    EXPECT_EQ (0, data.id);
     
     database_ipc.storeMessage (user, channel, command, message);
     
     data = database_ipc.retrieveMessage (id, user, channel, command);
-    evaluate (__LINE__, __func__, 2, data.id);
-    evaluate (__LINE__, __func__, message, data.message);
+    EXPECT_EQ (2, data.id);
+    EXPECT_EQ (message, data.message);
   }
+
   // Test delete
   {
     refresh_sandbox (true);
@@ -115,13 +116,14 @@ void test_database_ipc ()
     database_ipc.storeMessage (user, channel, command, message);
     
     Database_Ipc_Message data = database_ipc.retrieveMessage (0, user, channel, command);
-    evaluate (__LINE__, __func__, id, data.id);
+    EXPECT_EQ (id, data.id);
     
     database_ipc.deleteMessage (id);
     
     data = database_ipc.retrieveMessage (0, user, channel, command);
-    evaluate (__LINE__, __func__, 0, data.id);
+    EXPECT_EQ (0, data.id);
   }
+
   // Test get focus
   {
     refresh_sandbox (true);
@@ -136,18 +138,19 @@ void test_database_ipc ()
     string command = "focus";
     
     string passage = database_ipc.getFocus ();
-    evaluate (__LINE__, __func__, "1.1.1", passage);
+    EXPECT_EQ ("1.1.1", passage);
     
     string message = "2.3.4";
     database_ipc.storeMessage (user, channel, command, message);
     passage = database_ipc.getFocus ();
-    evaluate (__LINE__, __func__, message, passage);
+    EXPECT_EQ (message, passage);
     
     message = "5.6.7";
     database_ipc.storeMessage (user, channel, command, message);
     passage = database_ipc.getFocus ();
-    evaluate (__LINE__, __func__, message, passage);
+    EXPECT_EQ (message, passage);
   }
+
   // Test get note.
   {
     refresh_sandbox (true);
@@ -162,18 +165,19 @@ void test_database_ipc ()
     string command = "opennote";
     
     Database_Ipc_Message note = database_ipc.getNote ();
-    evaluate (__LINE__, __func__, 0, note.id);
+    EXPECT_EQ (0, note.id);
     
     string message = "12345";
     database_ipc.storeMessage (user, channel, command, message);
     note = database_ipc.getNote ();
-    evaluate (__LINE__, __func__, message, note.message);
+    EXPECT_EQ (message, note.message);
     
     message = "54321";
     database_ipc.storeMessage (user, channel, command, message);
     note = database_ipc.getNote ();
-    evaluate (__LINE__, __func__, message, note.message);
+    EXPECT_EQ (message, note.message);
   }
+
   // Test notes alive.
   {
     refresh_sandbox (true);
@@ -188,16 +192,19 @@ void test_database_ipc ()
     string command = "notesalive";
     
     bool alive = database_ipc.getNotesAlive ();
-    evaluate (__LINE__, __func__, false, alive);
+    EXPECT_EQ (false, alive);
     
     string message = "1";
     database_ipc.storeMessage (user, channel, command, message);
     alive = database_ipc.getNotesAlive ();
-    evaluate (__LINE__, __func__, filter::strings::convert_to_bool (message), alive);
+    EXPECT_EQ (filter::strings::convert_to_bool (message), alive);
     
     message = "0";
     database_ipc.storeMessage (user, channel, command, message);
     alive = database_ipc.getNotesAlive ();
-    evaluate (__LINE__, __func__, filter::strings::convert_to_bool (message), alive);
+    EXPECT_EQ (filter::strings::convert_to_bool (message), alive);
   }
 }
+
+
+#endif

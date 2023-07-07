@@ -121,15 +121,6 @@ using namespace std;
 #ifdef HAVE_GTEST
 TEST (existing, existing)
 {
-  test_database_bibles ();
-  test_database_books ();
-  test_database_bibleactions ();
-  test_database_check ();
-  test_database_localization ();
-  test_database_confirm ();
-  test_database_ipc ();
-  test_database_jobs ();
-  test_database_kjv ();
   test_database_oshb ();
   test_database_sblgnt ();
   test_database_sprint ();
@@ -148,7 +139,6 @@ TEST (existing, existing)
   test_database_state ();
   test_database_imageresources ();
   test_checksum ();
-  test_bibles ();
   test_html2usfm ();
   test_usfm2html ();
   test_usfm2html2usfm ();
@@ -195,7 +185,6 @@ TEST (existing, existing)
   test_styles ();
   test_diff ();
   test_git ();
-  test_ipc ();
   test_shell ();
   test_database_sample ();
   test_filter_webview ();

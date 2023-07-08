@@ -17,6 +17,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
+#include <config/libraries.h>
+#ifdef HAVE_GTEST
+#include "gtest/gtest.h"
 #include <unittests/bibles.h>
 #include <unittests/utilities.h>
 #include <webserver/request.h>
@@ -26,10 +29,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/usfm.h>
 #include <filter/string.h>
 #include <bb/logic.h>
-using namespace std;
 
 
-void test_store_bible_data_safely_setup (Webserver_Request * request, string usfm)
+void test_store_bible_data_safely_setup (Webserver_Request * request, std::string usfm)
 {
   refresh_sandbox (true);
   Database_State::create ();
@@ -39,15 +41,13 @@ void test_store_bible_data_safely_setup (Webserver_Request * request, string usf
 }
 
 
-void test_bibles ()
+TEST (bibles, basic)
 {
-  trace_unit_tests (__func__);
-  
   Webserver_Request request;
   test_store_bible_data_safely_setup (&request, "");
   request.database_users ()->create ();
   request.session_logic ()->set_username ("phpunit");
-  string usfm = R"(
+  std::string usfm = R"(
 \c 1
 \p
 \v 1 Verse 1.
@@ -62,7 +62,7 @@ void test_bibles ()
   // Safely store a chapter.
   {
     test_store_bible_data_safely_setup (&request, usfm);
-    string data =
+    const std::string data =
     "\\c 1\n"
     "\\p\n"
     "\\v 1 Verse 1.\n"
@@ -70,19 +70,19 @@ void test_bibles ()
     "\\v 3 Verse 3.\n"
     "\\v 4 Verse 4.\n"
     "\\v 5 Verse 5.";
-    string explanation;
-    string stored = filter::usfm::safely_store_chapter (&request, "phpunit", 1, 1, data, explanation);
-    evaluate (__LINE__, __func__, string(), stored);
-    evaluate (__LINE__, __func__, string(), explanation);
-    string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
-    evaluate (__LINE__, __func__, data, result);
+    std::string explanation;
+    std::string stored = filter::usfm::safely_store_chapter (&request, "phpunit", 1, 1, data, explanation);
+    EXPECT_EQ (std::string(), stored);
+    EXPECT_EQ (std::string(), explanation);
+    const std::string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
+    EXPECT_EQ (data, result);
     refresh_sandbox (false);
   }
 
   // Safely store a chapter.
   {
     test_store_bible_data_safely_setup (&request, usfm);
-    string data =
+    const std::string data =
     "\\c 1\n"
     "\\p\n"
     "\\v 1 Verse 1.\n"
@@ -90,64 +90,64 @@ void test_bibles ()
     "\\p\n"
     "\\v 3 Verse 3.\n"
     "\\v 4 Verse 4.";
-    string explanation;
-    string stored = filter::usfm::safely_store_chapter (&request, "phpunit", 1, 1, data, explanation);
-    evaluate (__LINE__, __func__, "", stored);
-    evaluate (__LINE__, __func__, "", explanation);
-    string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
-    evaluate (__LINE__, __func__, data, result);
+    std::string explanation;
+    std::string stored = filter::usfm::safely_store_chapter (&request, "phpunit", 1, 1, data, explanation);
+    EXPECT_EQ (std::string(), stored);
+    EXPECT_EQ (std::string(), explanation);
+    const std::string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
+    EXPECT_EQ (data, result);
     refresh_sandbox (false);
   }
 
   // Safely store chapter with length error
   {
     test_store_bible_data_safely_setup (&request, usfm);
-    string data =
+    const std::string data =
     "\\c 1\n"
     "\\p\n"
     "\\v 1 Verse 1.\n"
     "\\v 2 Verse 2.\n"
     "\\v 3 Verse 3.\n";
-    string explanation;
-    string stored = filter::usfm::safely_store_chapter (&request, "phpunit", 1, 1, data, explanation);
-    evaluate (__LINE__, __func__, "Text length differs too much", stored);
-    evaluate (__LINE__, __func__, "The text was not saved for safety reasons. The length differs 50% from the existing text. Make fewer changes at a time and wait till the editor has saved the text. Or relax the restriction in the editing settings. See menu Settings - Preferences.", explanation);
-    string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
-    evaluate (__LINE__, __func__, usfm, result);
+    std::string explanation;
+    const std::string stored = filter::usfm::safely_store_chapter (&request, "phpunit", 1, 1, data, explanation);
+    EXPECT_EQ ("Text length differs too much", stored);
+    EXPECT_EQ ("The text was not saved for safety reasons. The length differs 50% from the existing text. Make fewer changes at a time and wait till the editor has saved the text. Or relax the restriction in the editing settings. See menu Settings - Preferences.", explanation);
+    const std::string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
+    EXPECT_EQ (usfm, result);
     refresh_sandbox (false);
   }
 
   // Safely store chapter with text similarity error.
   {
     test_store_bible_data_safely_setup (&request, usfm);
-    string data =
+    const std::string data =
     "\\c 1\n"
     "\\p\n"
     "\\v 1 Verse 1.\n"
     "\\v 3 Verse 3.\n"
     "\\v 2 Verse two two two two two two two.\n"
     "\\v 4 Verse 4.\n";
-    string explanation;
-    string stored = filter::usfm::safely_store_chapter (&request, "phpunit", 1, 1, data, explanation);
-    evaluate (__LINE__, __func__, "Text content differs too much", stored);
-    evaluate (__LINE__, __func__, "The text was not saved for safety reasons. The new text is 59% similar to the existing text. Make fewer changes at a time and wait till the editor has saved the text. Or relax the restriction in the editing settings. See menu Settings - Preferences.", explanation);
-    string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
-    evaluate (__LINE__, __func__, usfm, result);
+    std::string explanation;
+    const std::string stored = filter::usfm::safely_store_chapter (&request, "phpunit", 1, 1, data, explanation);
+    EXPECT_EQ ("Text content differs too much", stored);
+    EXPECT_EQ ("The text was not saved for safety reasons. The new text is 59% similar to the existing text. Make fewer changes at a time and wait till the editor has saved the text. Or relax the restriction in the editing settings. See menu Settings - Preferences.", explanation);
+    const std::string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
+    EXPECT_EQ (usfm, result);
     refresh_sandbox (false);
   }
 
   // Safely store a chapter with no change in the text.
   {
     test_store_bible_data_safely_setup (&request, usfm);
-    string explanation;
-    int currentId = request.database_bibles()->getChapterId ("phpunit", 1, 1);
-    string stored = filter::usfm::safely_store_chapter (&request, "phpunit", 1, 1, usfm, explanation);
-    evaluate (__LINE__, __func__, string(), stored);
-    evaluate (__LINE__, __func__, string(), explanation);
-    string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
-    evaluate (__LINE__, __func__, usfm, result);
-    int currentId2 = request.database_bibles()->getChapterId ("phpunit", 1, 1);
-    evaluate (__LINE__, __func__, currentId, currentId2);
+    std::string explanation;
+    const int currentId = request.database_bibles()->getChapterId ("phpunit", 1, 1);
+    const std::string stored = filter::usfm::safely_store_chapter (&request, "phpunit", 1, 1, usfm, explanation);
+    EXPECT_EQ (std::string(), stored);
+    EXPECT_EQ (std::string(), explanation);
+    const std::string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
+    EXPECT_EQ (usfm, result);
+    const int currentId2 = request.database_bibles()->getChapterId ("phpunit", 1, 1);
+    EXPECT_EQ (currentId, currentId2);
     refresh_sandbox (false);
   }
 
@@ -155,27 +155,27 @@ void test_bibles ()
   {
     {
       test_store_bible_data_safely_setup (&request, usfm);
-      string data =
+      const std::string data =
       "\\c 1\n"
       "\\p\n";
-      string explanation;
-      string stored = filter::usfm::safely_store_verse (&request, "phpunit", 1, 1, 0, data, explanation, false);
-      evaluate (__LINE__, __func__, string(), stored);
-      evaluate (__LINE__, __func__, string(), explanation);
-      string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
-      evaluate (__LINE__, __func__, usfm, result);
+      std::string explanation;
+      const std::string stored = filter::usfm::safely_store_verse (&request, "phpunit", 1, 1, 0, data, explanation, false);
+      EXPECT_EQ (std::string(), stored);
+      EXPECT_EQ (std::string(), explanation);
+      const std::string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
+      EXPECT_EQ (usfm, result);
       refresh_sandbox (false);
     }
     {
       test_store_bible_data_safely_setup (&request, usfm);
-      string data =
+      const std::string data =
       "\\c 1\n";
-      string explanation;
-      string stored = filter::usfm::safely_store_verse (&request, "phpunit", 1, 1, 0, data, explanation, true);
-      evaluate (__LINE__, __func__, string(), stored);
-      evaluate (__LINE__, __func__, string(), explanation);
-      string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
-      evaluate (__LINE__, __func__, usfm, result);
+      std::string explanation;
+      const  std::string stored = filter::usfm::safely_store_verse (&request, "phpunit", 1, 1, 0, data, explanation, true);
+      EXPECT_EQ (std::string(), stored);
+      EXPECT_EQ (std::string(), explanation);
+      const std::string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
+      EXPECT_EQ (usfm, result);
       refresh_sandbox (false);
     }
   }
@@ -184,29 +184,29 @@ void test_bibles ()
   {
     {
       test_store_bible_data_safely_setup (&request, usfm);
-      string data =
+      const std::string data =
       "\\c 1\n"
       "\\p xx\n";
-      string explanation;
-      string stored = filter::usfm::safely_store_verse (&request, "phpunit", 1, 1, 0, data, explanation, false);
-      evaluate (__LINE__, __func__, string(), stored);
-      evaluate (__LINE__, __func__, string(), explanation);
-      string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
-      string newusfm = filter::strings::replace ("\\p\n\\v 1", "\\p xx\n\\v 1", usfm);
-      evaluate (__LINE__, __func__, newusfm, result);
+      std::string explanation;
+      std::string stored = filter::usfm::safely_store_verse (&request, "phpunit", 1, 1, 0, data, explanation, false);
+      EXPECT_EQ (std::string(), stored);
+      EXPECT_EQ (std::string(), explanation);
+      std::string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
+      std::string newusfm = filter::strings::replace ("\\p\n\\v 1", "\\p xx\n\\v 1", usfm);
+      EXPECT_EQ (newusfm, result);
       refresh_sandbox (false);
     }
     {
       test_store_bible_data_safely_setup (&request, usfm);
-      string data =
+      const std::string data =
       "\\c 1x\n";
-      string explanation;
-      string stored = filter::usfm::safely_store_verse (&request, "phpunit", 1, 1, 0, data, explanation, true);
-      evaluate (__LINE__, __func__, string(), stored);
-      evaluate (__LINE__, __func__, string(), explanation);
-      string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
-      string newusfm = filter::strings::replace ("c 1", "c 1x", usfm);
-      evaluate (__LINE__, __func__, newusfm, result);
+      std::string explanation;
+      std::string stored = filter::usfm::safely_store_verse (&request, "phpunit", 1, 1, 0, data, explanation, true);
+      EXPECT_EQ (std::string(), stored);
+      EXPECT_EQ (std::string(), explanation);
+      std::string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
+      std::string newusfm = filter::strings::replace ("c 1", "c 1x", usfm);
+      EXPECT_EQ (newusfm, result);
       refresh_sandbox (false);
     }
   }
@@ -215,26 +215,26 @@ void test_bibles ()
   {
     {
       test_store_bible_data_safely_setup (&request, usfm);
-      string data = "\\v 2 Verse two two two two.\n\\p\n";
-      string explanation;
-      string stored = filter::usfm::safely_store_verse (&request, "phpunit", 1, 1, 2, data, explanation, false);
-      evaluate (__LINE__, __func__, string(), stored);
-      evaluate (__LINE__, __func__, string(), explanation);
-      string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
-      string newusfm = filter::strings::replace ("two two two two two two", "two two two two", usfm);
-      evaluate (__LINE__, __func__, newusfm, result);
+      const std::string data = "\\v 2 Verse two two two two.\n\\p\n";
+      std::string explanation;
+      std::string stored = filter::usfm::safely_store_verse (&request, "phpunit", 1, 1, 2, data, explanation, false);
+      EXPECT_EQ (std::string(), stored);
+      EXPECT_EQ (std::string(), explanation);
+      std::string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
+      std::string newusfm = filter::strings::replace ("two two two two two two", "two two two two", usfm);
+      EXPECT_EQ (newusfm, result);
       refresh_sandbox (false);
     }
     {
       test_store_bible_data_safely_setup (&request, usfm);
-      string data = "\\v 2 Verse two.\n";
-      string explanation;
-      string stored = filter::usfm::safely_store_verse (&request, "phpunit", 1, 1, 2, data, explanation, true);
-      evaluate (__LINE__, __func__, string(), stored);
-      evaluate (__LINE__, __func__, string(), explanation);
-      string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
-      string newusfm = filter::strings::replace ("two two two two two two", "two", usfm);
-      evaluate (__LINE__, __func__, newusfm, result);
+      const std::string data = "\\v 2 Verse two.\n";
+      std::string explanation;
+      std::string stored = filter::usfm::safely_store_verse (&request, "phpunit", 1, 1, 2, data, explanation, true);
+      EXPECT_EQ (std::string(), stored);
+      EXPECT_EQ (std::string(), explanation);
+      std::string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
+      std::string newusfm = filter::strings::replace ("two two two two two two", "two", usfm);
+      EXPECT_EQ (newusfm, result);
       refresh_sandbox (false);
     }
   }
@@ -243,26 +243,26 @@ void test_bibles ()
   {
     {
       test_store_bible_data_safely_setup (&request, usfm);
-      string data = "\\v 3 Verse three.\n";
-      string explanation;
-      string stored = filter::usfm::safely_store_verse (&request, "phpunit", 1, 1, 3, data, explanation, false);
-      evaluate (__LINE__, __func__, string(), stored);
-      evaluate (__LINE__, __func__, string(), explanation);
-      string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
-      string newusfm = filter::strings::replace ("Verse 3", "Verse three", usfm);
-      evaluate (__LINE__, __func__, newusfm, result);
+      const std::string data = "\\v 3 Verse three.\n";
+      std::string explanation;
+      std::string stored = filter::usfm::safely_store_verse (&request, "phpunit", 1, 1, 3, data, explanation, false);
+      EXPECT_EQ (std::string(), stored);
+      EXPECT_EQ (std::string(), explanation);
+      std::string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
+      std::string newusfm = filter::strings::replace ("Verse 3", "Verse three", usfm);
+      EXPECT_EQ (newusfm, result);
       refresh_sandbox (false);
     }
     {
       test_store_bible_data_safely_setup (&request, usfm);
-      string data = "\\p\n\\v 3 Verse three.\n";
-      string explanation;
-      string stored = filter::usfm::safely_store_verse (&request, "phpunit", 1, 1, 3, data, explanation, true);
-      evaluate (__LINE__, __func__, string(), stored);
-      evaluate (__LINE__, __func__, string(), explanation);
-      string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
-      string newusfm = filter::strings::replace ("Verse 3", "Verse three", usfm);
-      evaluate (__LINE__, __func__, newusfm, result);
+      const std::string data = "\\p\n\\v 3 Verse three.\n";
+      std::string explanation;
+      std::string stored = filter::usfm::safely_store_verse (&request, "phpunit", 1, 1, 3, data, explanation, true);
+      EXPECT_EQ (std::string(), stored);
+      EXPECT_EQ (std::string(), explanation);
+      std::string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
+      std::string newusfm = filter::strings::replace ("Verse 3", "Verse three", usfm);
+      EXPECT_EQ (newusfm, result);
       refresh_sandbox (false);
     }
   }
@@ -271,24 +271,24 @@ void test_bibles ()
   {
     {
       test_store_bible_data_safely_setup (&request, usfm);
-      string data = "\\v 2 Verse 2.\n";
-      string explanation;
-      string stored = filter::usfm::safely_store_verse (&request, "phpunit", 1, 1, 1, data, explanation, false);
-      evaluate (__LINE__, __func__, "Verse mismatch", stored);
-      evaluate (__LINE__, __func__, "The USFM contains verse(s) 2 while it wants to save to verse 1", explanation);
-      string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
-      evaluate (__LINE__, __func__, usfm, result);
+      const std::string data = "\\v 2 Verse 2.\n";
+      std::string explanation;
+      std::string stored = filter::usfm::safely_store_verse (&request, "phpunit", 1, 1, 1, data, explanation, false);
+      EXPECT_EQ ("Verse mismatch", stored);
+      EXPECT_EQ ("The USFM contains verse(s) 2 while it wants to save to verse 1", explanation);
+      std::string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
+      EXPECT_EQ (usfm, result);
       refresh_sandbox (false);
     }
     {
       test_store_bible_data_safely_setup (&request, usfm);
-      string data = "\\v 2 Verse 2.\n";
-      string explanation;
-      string stored = filter::usfm::safely_store_verse (&request, "phpunit", 1, 1, 1, data, explanation, true);
-      evaluate (__LINE__, __func__, "Verse mismatch", stored);
-      evaluate (__LINE__, __func__, "The USFM contains verse(s) 2 while it wants to save to verse 1", explanation);
-      string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
-      evaluate (__LINE__, __func__, usfm, result);
+      const std::string data = "\\v 2 Verse 2.\n";
+      std::string explanation;
+      std::string stored = filter::usfm::safely_store_verse (&request, "phpunit", 1, 1, 1, data, explanation, true);
+      EXPECT_EQ ("Verse mismatch", stored);
+      EXPECT_EQ ("The USFM contains verse(s) 2 while it wants to save to verse 1", explanation);
+      std::string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
+      EXPECT_EQ (usfm, result);
       refresh_sandbox (false);
     }
   }
@@ -301,51 +301,51 @@ void test_bibles ()
     {
       quill = false;
       test_store_bible_data_safely_setup (&request, usfm);
-      string data = "\\v 2 Verse two two two two two two two two two.\n\\p\n";
-      string explanation;
-      string stored = filter::usfm::safely_store_verse (&request, "phpunit", 1, 1, 2, data, explanation, quill);
-      evaluate (__LINE__, __func__, true, stored.empty());
-      evaluate (__LINE__, __func__, true, explanation.empty());
-      string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
-      string standard = filter::strings::replace("two two two two two two", "two two two two two two two two two", usfm);
-      evaluate (__LINE__, __func__, standard, result);
+      const std::string data = "\\v 2 Verse two two two two two two two two two.\n\\p\n";
+      std::string explanation;
+      std::string stored = filter::usfm::safely_store_verse (&request, "phpunit", 1, 1, 2, data, explanation, quill);
+      EXPECT_EQ (true, stored.empty());
+      EXPECT_EQ (true, explanation.empty());
+      std::string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
+      std::string standard = filter::strings::replace("two two two two two two", "two two two two two two two two two", usfm);
+      EXPECT_EQ (standard, result);
       refresh_sandbox (false);
     }
     {
       quill = true;
       test_store_bible_data_safely_setup (&request, usfm);
-      string data = "\\v 2 Verse two two two two two two two two two.\n";
-      string explanation;
-      string stored = filter::usfm::safely_store_verse (&request, "phpunit", 1, 1, 2, data, explanation, quill);
-      evaluate (__LINE__, __func__, true, stored.empty());
-      evaluate (__LINE__, __func__, true, explanation.empty());
-      string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
-      string standard = filter::strings::replace("two two two two two two", "two two two two two two two two two", usfm);
-      evaluate (__LINE__, __func__, standard, result);
+      const std::string data = "\\v 2 Verse two two two two two two two two two.\n";
+      std::string explanation;
+      std::string stored = filter::usfm::safely_store_verse (&request, "phpunit", 1, 1, 2, data, explanation, quill);
+      EXPECT_EQ (true, stored.empty());
+      EXPECT_EQ (true, explanation.empty());
+      std::string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
+      std::string standard = filter::strings::replace("two two two two two two", "two two two two two two two two two", usfm);
+      EXPECT_EQ (standard, result);
       refresh_sandbox (false);
     }
     {
       quill = false;
       test_store_bible_data_safely_setup (&request, usfm);
-      string data = "\\v 2 two";
-      string explanation;
-      string stored = filter::usfm::safely_store_verse (&request, "phpunit", 1, 1, 2, data, explanation, quill);
-      evaluate (__LINE__, __func__, "Text length differs too much", stored);
-      evaluate (__LINE__, __func__, "The text was not saved for safety reasons. The length differs 78% from the existing text. Make fewer changes at a time and wait till the editor has saved the text. Or relax the restriction in the editing settings. See menu Settings - Preferences.", explanation);
-      string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
-      evaluate (__LINE__, __func__, usfm, result);
+      const std::string data = "\\v 2 two";
+      std::string explanation;
+      std::string stored = filter::usfm::safely_store_verse (&request, "phpunit", 1, 1, 2, data, explanation, quill);
+      EXPECT_EQ ("Text length differs too much", stored);
+      EXPECT_EQ ("The text was not saved for safety reasons. The length differs 78% from the existing text. Make fewer changes at a time and wait till the editor has saved the text. Or relax the restriction in the editing settings. See menu Settings - Preferences.", explanation);
+      std::string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
+      EXPECT_EQ (usfm, result);
       refresh_sandbox (false);
     }
     {
       quill = true;
       test_store_bible_data_safely_setup (&request, usfm);
-      string data = "\\v 2 two";
-      string explanation;
-      string stored = filter::usfm::safely_store_verse (&request, "phpunit", 1, 1, 2, data, explanation, quill);
-      evaluate (__LINE__, __func__, "Text length differs too much", stored);
-      evaluate (__LINE__, __func__, "The text was not saved for safety reasons. The length differs 77% from the existing text. Make fewer changes at a time and wait till the editor has saved the text. Or relax the restriction in the editing settings. See menu Settings - Preferences.", explanation);
-      string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
-      evaluate (__LINE__, __func__, usfm, result);
+      const std::string data = "\\v 2 two";
+      std::string explanation;
+      std::string stored = filter::usfm::safely_store_verse (&request, "phpunit", 1, 1, 2, data, explanation, quill);
+      EXPECT_EQ ("Text length differs too much", stored);
+      EXPECT_EQ ("The text was not saved for safety reasons. The length differs 77% from the existing text. Make fewer changes at a time and wait till the editor has saved the text. Or relax the restriction in the editing settings. See menu Settings - Preferences.", explanation);
+      std::string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
+      EXPECT_EQ (usfm, result);
       refresh_sandbox (false);
     }
   }
@@ -355,25 +355,25 @@ void test_bibles ()
     {
       test_store_bible_data_safely_setup (&request, usfm);
       request.database_config_user ()->setEditingAllowedDifferenceVerse (40);
-      string data = "\\v 2 vERSE TWO TWO two two two two.\n";
-      string explanation;
-      string stored = filter::usfm::safely_store_verse (&request, "phpunit", 1, 1, 2, data, explanation, false);
-      evaluate (__LINE__, __func__, "Text content differs too much", stored);
-      evaluate (__LINE__, __func__, "The text was not saved for safety reasons. The new text is 49% similar to the existing text. Make fewer changes at a time and wait till the editor has saved the text. Or relax the restriction in the editing settings. See menu Settings - Preferences.", explanation);
-      string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
-      evaluate (__LINE__, __func__, usfm, result);
+      const std::string data = "\\v 2 vERSE TWO TWO two two two two.\n";
+      std::string explanation;
+      std::string stored = filter::usfm::safely_store_verse (&request, "phpunit", 1, 1, 2, data, explanation, false);
+      EXPECT_EQ ("Text content differs too much", stored);
+      EXPECT_EQ ("The text was not saved for safety reasons. The new text is 49% similar to the existing text. Make fewer changes at a time and wait till the editor has saved the text. Or relax the restriction in the editing settings. See menu Settings - Preferences.", explanation);
+      std::string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
+      EXPECT_EQ (usfm, result);
       refresh_sandbox (false);
     }
     {
       test_store_bible_data_safely_setup (&request, usfm);
       request.database_config_user ()->setEditingAllowedDifferenceVerse (40);
-      string data = "\\v 2 vERSE TWO TWO two two two two.\n";
-      string explanation;
-      string stored = filter::usfm::safely_store_verse (&request, "phpunit", 1, 1, 2, data, explanation, true);
-      evaluate (__LINE__, __func__, "Text content differs too much", stored);
-      evaluate (__LINE__, __func__, "The text was not saved for safety reasons. The new text is 52% similar to the existing text. Make fewer changes at a time and wait till the editor has saved the text. Or relax the restriction in the editing settings. See menu Settings - Preferences.", explanation);
-      string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
-      evaluate (__LINE__, __func__, usfm, result);
+      const std::string data = "\\v 2 vERSE TWO TWO two two two two.\n";
+      std::string explanation;
+      std::string stored = filter::usfm::safely_store_verse (&request, "phpunit", 1, 1, 2, data, explanation, true);
+      EXPECT_EQ ("Text content differs too much", stored);
+      EXPECT_EQ ("The text was not saved for safety reasons. The new text is 52% similar to the existing text. Make fewer changes at a time and wait till the editor has saved the text. Or relax the restriction in the editing settings. See menu Settings - Preferences.", explanation);
+      std::string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
+      EXPECT_EQ (usfm, result);
       refresh_sandbox (false);
     }
   }
@@ -383,25 +383,25 @@ void test_bibles ()
     {
       test_store_bible_data_safely_setup (&request, usfm);
       request.database_config_user ()->setEditingAllowedDifferenceVerse (40);
-      string data = "\\p Verse 2.\n";
-      string explanation;
-      string stored = filter::usfm::safely_store_verse (&request, "phpunit", 1, 1, 2, data, explanation, false);
-      evaluate (__LINE__, __func__, "Missing verse number", stored);
-      evaluate (__LINE__, __func__, "The USFM contains no verse information", explanation);
-      string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
-      evaluate (__LINE__, __func__, usfm, result);
+      const std::string data = "\\p Verse 2.\n";
+      std::string explanation;
+      std::string stored = filter::usfm::safely_store_verse (&request, "phpunit", 1, 1, 2, data, explanation, false);
+      EXPECT_EQ ("Missing verse number", stored);
+      EXPECT_EQ ("The USFM contains no verse information", explanation);
+      std::string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
+      EXPECT_EQ (usfm, result);
       refresh_sandbox (false);
     }
     {
       test_store_bible_data_safely_setup (&request, usfm);
       request.database_config_user ()->setEditingAllowedDifferenceVerse (40);
-      string data = "\\p Verse 2.\n";
-      string explanation;
-      string stored = filter::usfm::safely_store_verse (&request, "phpunit", 1, 1, 2, data, explanation, true);
-      evaluate (__LINE__, __func__, "Missing verse number", stored);
-      evaluate (__LINE__, __func__, "The USFM contains no verse information", explanation);
-      string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
-      evaluate (__LINE__, __func__, usfm, result);
+      const std::string data = "\\p Verse 2.\n";
+      std::string explanation;
+      std::string stored = filter::usfm::safely_store_verse (&request, "phpunit", 1, 1, 2, data, explanation, true);
+      EXPECT_EQ ("Missing verse number", stored);
+      EXPECT_EQ ("The USFM contains no verse information", explanation);
+      std::string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
+      EXPECT_EQ (usfm, result);
       refresh_sandbox (false);
     }
   }
@@ -411,25 +411,25 @@ void test_bibles ()
     {
       test_store_bible_data_safely_setup (&request, usfm);
       request.database_config_user ()->setEditingAllowedDifferenceVerse (40);
-      string data = "\\v 2 Verse 2.\n\\v 3 3";
-      string explanation;
-      string stored = filter::usfm::safely_store_verse (&request, "phpunit", 1, 1, 2, data, explanation, false);
-      evaluate (__LINE__, __func__, "Cannot overwrite another verse", stored);
-      evaluate (__LINE__, __func__, "The USFM contains verse(s) 0 2 3 which would overwrite a fragment that contains verse(s) 0 2", explanation);
-      string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
-      evaluate (__LINE__, __func__, usfm, result);
+      const std::string data = "\\v 2 Verse 2.\n\\v 3 3";
+      std::string explanation;
+      std::string stored = filter::usfm::safely_store_verse (&request, "phpunit", 1, 1, 2, data, explanation, false);
+      EXPECT_EQ ("Cannot overwrite another verse", stored);
+      EXPECT_EQ ("The USFM contains verse(s) 0 2 3 which would overwrite a fragment that contains verse(s) 0 2", explanation);
+      std::string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
+      EXPECT_EQ (usfm, result);
       refresh_sandbox (false);
     }
     {
       test_store_bible_data_safely_setup (&request, usfm);
       request.database_config_user ()->setEditingAllowedDifferenceVerse (40);
-      string data = "\\v 2 Verse 2.\n\\v 3 3";
-      string explanation;
-      string stored = filter::usfm::safely_store_verse (&request, "phpunit", 1, 1, 2, data, explanation, true);
-      evaluate (__LINE__, __func__, "Cannot overwrite another verse", stored);
-      evaluate (__LINE__, __func__, "The USFM contains verse(s) 0 2 3 which would overwrite a fragment that contains verse(s) 0 2", explanation);
-      string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
-      evaluate (__LINE__, __func__, usfm, result);
+      const std::string data = "\\v 2 Verse 2.\n\\v 3 3";
+      std::string explanation;
+      std::string stored = filter::usfm::safely_store_verse (&request, "phpunit", 1, 1, 2, data, explanation, true);
+      EXPECT_EQ ("Cannot overwrite another verse", stored);
+      EXPECT_EQ ("The USFM contains verse(s) 0 2 3 which would overwrite a fragment that contains verse(s) 0 2", explanation);
+      std::string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
+      EXPECT_EQ (usfm, result);
       refresh_sandbox (false);
     }
   }
@@ -447,23 +447,23 @@ void test_bibles ()
   {
     {
       test_store_bible_data_safely_setup (&request, usfm);
-      string data = "\\v 2-3 Verse 2 and 3.\n\\p\n";
-      string explanation;
-      string stored = filter::usfm::safely_store_verse (&request, "phpunit", 1, 1, 2, data, explanation, false);
-      evaluate (__LINE__, __func__, "", stored);
-      evaluate (__LINE__, __func__, "", explanation);
-      string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
-      evaluate (__LINE__, __func__, usfm, result);
+      const std::string data = "\\v 2-3 Verse 2 and 3.\n\\p\n";
+      std::string explanation;
+      std::string stored = filter::usfm::safely_store_verse (&request, "phpunit", 1, 1, 2, data, explanation, false);
+      EXPECT_EQ ("", stored);
+      EXPECT_EQ ("", explanation);
+      std::string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
+      EXPECT_EQ (usfm, result);
     }
     {
       test_store_bible_data_safely_setup (&request, usfm);
-      string data = "\\v 2-3 Verse 2 and 3.\n";
-      string explanation;
-      string stored = filter::usfm::safely_store_verse (&request, "phpunit", 1, 1, 2, data, explanation, true);
-      evaluate (__LINE__, __func__, "", stored);
-      evaluate (__LINE__, __func__, "", explanation);
-      string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
-      evaluate (__LINE__, __func__, usfm, result);
+      const std::string data = "\\v 2-3 Verse 2 and 3.\n";
+      std::string explanation;
+      std::string stored = filter::usfm::safely_store_verse (&request, "phpunit", 1, 1, 2, data, explanation, true);
+      EXPECT_EQ ("", stored);
+      EXPECT_EQ ("", explanation);
+      std::string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
+      EXPECT_EQ (usfm, result);
     }
   }
 
@@ -471,26 +471,26 @@ void test_bibles ()
   {
     {
       test_store_bible_data_safely_setup (&request, usfm);
-      string data = "\\v 2-3 Verse 2 andx 3.\n\\p\n";
-      string explanation;
-      string stored = filter::usfm::safely_store_verse (&request, "phpunit", 1, 1, 3, data, explanation, false);
-      evaluate (__LINE__, __func__, "", stored);
-      evaluate (__LINE__, __func__, "", explanation);
-      string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
-      string newusfm = filter::strings::replace ("2 and 3", "2 andx 3", usfm);
-      evaluate (__LINE__, __func__, newusfm, result);
+      const std::string data = "\\v 2-3 Verse 2 andx 3.\n\\p\n";
+      std::string explanation;
+      std::string stored = filter::usfm::safely_store_verse (&request, "phpunit", 1, 1, 3, data, explanation, false);
+      EXPECT_EQ ("", stored);
+      EXPECT_EQ ("", explanation);
+      std::string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
+      std::string newusfm = filter::strings::replace ("2 and 3", "2 andx 3", usfm);
+      EXPECT_EQ (newusfm, result);
       refresh_sandbox (false);
     }
     {
       test_store_bible_data_safely_setup (&request, usfm);
-      string data = "\\v 2-3 Verse 2 andx 3.\n";
-      string explanation;
-      string stored = filter::usfm::safely_store_verse (&request, "phpunit", 1, 1, 3, data, explanation, true);
-      evaluate (__LINE__, __func__, "", stored);
-      evaluate (__LINE__, __func__, "", explanation);
-      string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
-      string newusfm = filter::strings::replace ("2 and 3", "2 andx 3", usfm);
-      evaluate (__LINE__, __func__, newusfm, result);
+      const std::string data = "\\v 2-3 Verse 2 andx 3.\n";
+      std::string explanation;
+      std::string stored = filter::usfm::safely_store_verse (&request, "phpunit", 1, 1, 3, data, explanation, true);
+      EXPECT_EQ ("", stored);
+      EXPECT_EQ ("", explanation);
+      std::string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
+      std::string newusfm = filter::strings::replace ("2 and 3", "2 andx 3", usfm);
+      EXPECT_EQ (newusfm, result);
       refresh_sandbox (false);
     }
   }
@@ -499,26 +499,26 @@ void test_bibles ()
   {
     {
       test_store_bible_data_safely_setup (&request, usfm);
-      string data = "\\v 4-5 Verse 4 andx 5.\n";
-      string explanation;
-      string stored = filter::usfm::safely_store_verse (&request, "phpunit", 1, 1, 4, data, explanation, false);
-      evaluate (__LINE__, __func__, "", stored);
-      evaluate (__LINE__, __func__, "", explanation);
-      string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
-      string newusfm = filter::strings::replace ("4 and 5", "4 andx 5", usfm);
-      evaluate (__LINE__, __func__, newusfm, result);
+      const std::string data = "\\v 4-5 Verse 4 andx 5.\n";
+      std::string explanation;
+      std::string stored = filter::usfm::safely_store_verse (&request, "phpunit", 1, 1, 4, data, explanation, false);
+      EXPECT_EQ ("", stored);
+      EXPECT_EQ ("", explanation);
+      std::string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
+      std::string newusfm = filter::strings::replace ("4 and 5", "4 andx 5", usfm);
+      EXPECT_EQ (newusfm, result);
       refresh_sandbox (false);
     }
     {
       test_store_bible_data_safely_setup (&request, usfm);
-      string data = "\\p\n\\v 4-5 Verse 4 andx 5.\n";
-      string explanation;
-      string stored = filter::usfm::safely_store_verse (&request, "phpunit", 1, 1, 4, data, explanation, true);
-      evaluate (__LINE__, __func__, "", stored);
-      evaluate (__LINE__, __func__, "", explanation);
-      string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
-      string newusfm = filter::strings::replace ("4 and 5", "4 andx 5", usfm);
-      evaluate (__LINE__, __func__, newusfm, result);
+      const std::string data = "\\p\n\\v 4-5 Verse 4 andx 5.\n";
+      std::string explanation;
+      std::string stored = filter::usfm::safely_store_verse (&request, "phpunit", 1, 1, 4, data, explanation, true);
+      EXPECT_EQ ("", stored);
+      EXPECT_EQ ("", explanation);
+      std::string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
+      std::string newusfm = filter::strings::replace ("4 and 5", "4 andx 5", usfm);
+      EXPECT_EQ (newusfm, result);
       refresh_sandbox (false);
     }
   }
@@ -527,196 +527,217 @@ void test_bibles ()
   {
     {
       test_store_bible_data_safely_setup (&request, usfm);
-      string data = "\\v 2-4 Verse 2 andx 3.\n";
-      string explanation;
-      string stored = filter::usfm::safely_store_verse (&request, "phpunit", 1, 1, 3, data, explanation, false);
-      evaluate (__LINE__, __func__, "Cannot overwrite another verse", stored);
-      evaluate (__LINE__, __func__, "The USFM contains verse(s) 0 2 3 4 which would overwrite a fragment that contains verse(s) 0 2 3", explanation);
-      string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
-      evaluate (__LINE__, __func__, usfm, result);
+      const std::string data = "\\v 2-4 Verse 2 andx 3.\n";
+      std::string explanation;
+      std::string stored = filter::usfm::safely_store_verse (&request, "phpunit", 1, 1, 3, data, explanation, false);
+      EXPECT_EQ ("Cannot overwrite another verse", stored);
+      EXPECT_EQ ("The USFM contains verse(s) 0 2 3 4 which would overwrite a fragment that contains verse(s) 0 2 3", explanation);
+      std::string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
+      EXPECT_EQ (usfm, result);
       refresh_sandbox (false);
     }
     {
       test_store_bible_data_safely_setup (&request, usfm);
-      string data = "\\v 2-4 Verse 2 andx 3.\n";
-      string explanation;
-      string stored = filter::usfm::safely_store_verse (&request, "phpunit", 1, 1, 3, data, explanation, true);
-      evaluate (__LINE__, __func__, "Cannot overwrite another verse", stored);
-      evaluate (__LINE__, __func__, "The USFM contains verse(s) 0 2 3 4 which would overwrite a fragment that contains verse(s) 0 2 3", explanation);
-      string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
-      evaluate (__LINE__, __func__, usfm, result);
+      const std::string data = "\\v 2-4 Verse 2 andx 3.\n";
+      std::string explanation;
+      std::string stored = filter::usfm::safely_store_verse (&request, "phpunit", 1, 1, 3, data, explanation, true);
+      EXPECT_EQ ("Cannot overwrite another verse", stored);
+      EXPECT_EQ ("The USFM contains verse(s) 0 2 3 4 which would overwrite a fragment that contains verse(s) 0 2 3", explanation);
+      std::string result = request.database_bibles()->getChapter ("phpunit", 1, 1);
+      EXPECT_EQ (usfm, result);
       refresh_sandbox (false);
     }
   }
 
   // Condense a simple editor update to format a paragraph.
   {
-    vector <int> positions_in =  { 6,     6 };
-    vector <int> sizes_in     =  { 1,     1 };
-    vector <bool> additions_in = { false, true };
-    vector <string> content_in = { "\np", "\ns" };
-    vector <int> positions_out;
-    vector <int> sizes_out;
-    vector <string> operators_out;
-    vector <string> content_out;
+    const std::vector <int> positions_in       { 6,     6 };
+    const std::vector <int> sizes_in           { 1,     1 };
+    const std::vector <bool> additions_in      { false, true };
+    const std::vector <std::string> content_in { "\np", "\ns" };
+    std::vector <int> positions_out;
+    std::vector <int> sizes_out;
+    std::vector <std::string> operators_out;
+    std::vector <std::string> content_out;
     bible_logic::condense_editor_updates (positions_in, sizes_in, additions_in, content_in,
-                                         positions_out, sizes_out, operators_out, content_out);
-    evaluate (__LINE__, __func__, {6  }, positions_out);
-    evaluate (__LINE__, __func__, {1  }, sizes_out);
-    evaluate (__LINE__, __func__, {"p"}, operators_out);
-    evaluate (__LINE__, __func__, {"s"}, content_out);
+                                          positions_out, sizes_out, operators_out, content_out);
+    EXPECT_EQ (std::vector<int>{6}, positions_out);
+    EXPECT_EQ (std::vector<int>{1}, sizes_out);
+    EXPECT_EQ (std::vector <std::string>{"p"}, operators_out);
+    EXPECT_EQ (std::vector <std::string>{"s"}, content_out);
   }
 
   // No condensing of any editor updates.
   {
-    vector <int> positions_in =  { 6,     6 };
-    vector <int> sizes_in     =  { 1,     1 };
-    vector <bool> additions_in = { false, true };
-    vector <string> content_in = { "ladd", "kadd" };
-    vector <int> positions_out;
-    vector <int> sizes_out;
-    vector <string> operators_out;
-    vector <string> content_out;
+    const std::vector <int> positions_in       { 6,      6 };
+    const std::vector <int> sizes_in           { 1,      1 };
+    const std::vector <bool> additions_in      { false,  true };
+    const std::vector <std::string> content_in { "ladd", "kadd" };
+    std::vector <int> positions_out;
+    std::vector <int> sizes_out;
+    std::vector <std::string> operators_out;
+    std::vector <std::string> content_out;
     bible_logic::condense_editor_updates (positions_in, sizes_in, additions_in, content_in,
-                                         positions_out, sizes_out, operators_out, content_out);
-    evaluate (__LINE__, __func__, {6,      6    }, positions_out);
-    evaluate (__LINE__, __func__, {1,      1    }, sizes_out);
-    evaluate (__LINE__, __func__, {"d",    "i"  }, operators_out);
-    evaluate (__LINE__, __func__, {"ladd", "kadd"}, content_out);
+                                          positions_out, sizes_out, operators_out, content_out);
+    EXPECT_EQ (positions_in, positions_out);
+    EXPECT_EQ (sizes_in, sizes_out);
+    
+    std::vector<std::string> standard_operators_out {"d","i"};
+    EXPECT_EQ (standard_operators_out, operators_out);
+    std::vector<std::string> standard_content_out {"ladd", "kadd"};
+    EXPECT_EQ (standard_content_out, content_out);
   }
 
   // No condensing of any editor updates.
   // Handle smileys as examples of characters that are 4 bytes long in UTF-16.
   {
-    vector <int> positions_in =  { 6,     6 };
-    vector <int> sizes_in     =  { 2,     2 };
-    vector <bool> additions_in = { false, true };
-    vector <string> content_in = { "😀add", "😁add" };
-    vector <int> positions_out;
-    vector <int> sizes_out;
-    vector <string> operators_out;
-    vector <string> content_out;
+    std::vector <int> positions_in {6, 6};
+    std::vector <int> sizes_in {2, 2};
+    std::vector <bool> additions_in {false, true};
+    std::vector <std::string> content_in {"😀add", "😁add"};
+    std::vector <int> positions_out;
+    std::vector <int> sizes_out;
+    std::vector <std::string> operators_out;
+    std::vector <std::string> content_out;
     bible_logic::condense_editor_updates (positions_in, sizes_in, additions_in, content_in,
                                          positions_out, sizes_out, operators_out, content_out);
-    evaluate (__LINE__, __func__, {6,      6       }, positions_out);
-    evaluate (__LINE__, __func__, {2,      2       }, sizes_out);
-    evaluate (__LINE__, __func__, {"d",    "i"     }, operators_out);
-    evaluate (__LINE__, __func__, {"😀add", "😁add"}, content_out);
+    EXPECT_EQ (positions_in, positions_out);
+    EXPECT_EQ (sizes_in, sizes_out);
+    std::vector <std::string> standard_operators_out {"d", "i"};
+    EXPECT_EQ (standard_operators_out, operators_out);
+    std::vector <std::string> standard_content_out {"😀add", "😁add"};
+    EXPECT_EQ (standard_content_out, content_out);
   }
 
   // Condense new line and leave other edits as they are.
   {
-    vector <int> positions_in =  { 6,     6,     7,      8 };
-    vector <int> sizes_in     =  { 1,     1,     1,      1 };
-    vector <bool> additions_in = { false, true,  false,  true };
-    vector <string> content_in = { "\np", "\ns", "ladd", "kadd" };
-    vector <int> positions_out;
-    vector <int> sizes_out;
-    vector <string> operators_out;
-    vector <string> content_out;
+    std::vector <int> positions_in {6, 6, 7, 8};
+    std::vector <int> sizes_in {1, 1, 1, 1};
+    std::vector <bool> additions_in {false, true,  false,  true};
+    std::vector <std::string> content_in {"\np", "\ns", "ladd", "kadd"};
+    std::vector <int> positions_out;
+    std::vector <int> sizes_out;
+    std::vector <std::string> operators_out;
+    std::vector <std::string> content_out;
     bible_logic::condense_editor_updates (positions_in, sizes_in, additions_in, content_in,
-                                         positions_out, sizes_out, operators_out, content_out);
-    evaluate (__LINE__, __func__, {6,   7,      8     }, positions_out);
-    evaluate (__LINE__, __func__, {1,   1,      1     }, sizes_out);
-    evaluate (__LINE__, __func__, {"p", "d",    "i"   }, operators_out);
-    evaluate (__LINE__, __func__, {"s", "ladd", "kadd"}, content_out);
+                                          positions_out, sizes_out, operators_out, content_out);
+    std::vector <int> standard_positions_out {6, 7, 8};
+    EXPECT_EQ (standard_positions_out, positions_out);
+    std::vector <int> standard_sizes_out {1, 1, 1};
+    EXPECT_EQ (standard_sizes_out, sizes_out);
+    std::vector <std::string> standard_operators_out {"p", "d", "i"};
+    EXPECT_EQ (standard_operators_out, operators_out);
+    std::vector <std::string> standard_content_out {"s", "ladd", "kadd"};
+    EXPECT_EQ (standard_content_out, content_out);
   }
   
   // Test entire pipeline for generating editor updates.
   {
     // The server text has inserted an exclamation mark after "nations!".
-    string editor_html = R"(<p class="b-q1"><span class="i-v">1</span> Praise Yahweh, all you nations!</p><p class="b-p">Extol him, all you peoples!</p><p class="b-q2">And so on the third line.</p>)";
-    string server_html = R"(<p class="b-q1"><span class="i-v">1</span><span> </span><span>Praise Yahweh, all you nations!!</span></p><p class="b-p"><span>Extol him, all you peoples!</span></p><p class="b-q2"><span>And so on the third line.</span></p>)";
-    vector <int> positions;
-    vector <int> sizes;
-    vector <string> operators;
-    vector <string> content;
+    const std::string editor_html = R"(<p class="b-q1"><span class="i-v">1</span> Praise Yahweh, all you nations!</p><p class="b-p">Extol him, all you peoples!</p><p class="b-q2">And so on the third line.</p>)";
+    const std::string server_html = R"(<p class="b-q1"><span class="i-v">1</span><span> </span><span>Praise Yahweh, all you nations!!</span></p><p class="b-p"><span>Extol him, all you peoples!</span></p><p class="b-q2"><span>And so on the third line.</span></p>)";
+    std::vector <int> positions;
+    std::vector <int> sizes;
+    std::vector <std::string> operators;
+    std::vector <std::string> content;
     bible_logic::html_to_editor_updates (editor_html, server_html, positions, sizes, operators, content);
-    evaluate (__LINE__, __func__, { 34  }, positions);
-    evaluate (__LINE__, __func__, { 1   }, sizes);
-    evaluate (__LINE__, __func__, { "i" }, operators);
-    evaluate (__LINE__, __func__, { "!" }, content);
+    EXPECT_EQ (std::vector <int>{34}, positions);
+    EXPECT_EQ (std::vector <int>{1}, sizes);
+    EXPECT_EQ (std::vector <std::string>{"i"}, operators);
+    EXPECT_EQ (std::vector <std::string>{"!"}, content);
   }
 
   // Test entire pipeline for generating editor updates.
   {
     // The server text has removed two exclamation marks from "nations!!" and inserted a full stop.
-    string editor_html = R"(<p class="b-q1"><span class="i-v">1</span> Praise Yahweh, all you nations!!</p><p class="b-p">Extol him, all you peoples!</p><p class="b-q2">And so on the third line.</p>)";
-    string server_html = R"(<p class="b-q1"><span class="i-v">1</span><span> </span><span>Praise Yahweh, all you nations.</span></p><p class="b-p"><span>Extol him, all you peoples!</span></p><p class="b-q2"><span>And so on the third line.</span></p>)";
-    vector <int> positions;
-    vector <int> sizes;
-    vector <string> operators;
-    vector <string> content;
+    const std::string editor_html = R"(<p class="b-q1"><span class="i-v">1</span> Praise Yahweh, all you nations!!</p><p class="b-p">Extol him, all you peoples!</p><p class="b-q2">And so on the third line.</p>)";
+    const std::string server_html = R"(<p class="b-q1"><span class="i-v">1</span><span> </span><span>Praise Yahweh, all you nations.</span></p><p class="b-p"><span>Extol him, all you peoples!</span></p><p class="b-q2"><span>And so on the third line.</span></p>)";
+    std::vector <int> positions;
+    std::vector <int> sizes;
+    std::vector <std::string> operators;
+    std::vector <std::string> content;
     bible_logic::html_to_editor_updates (editor_html, server_html, positions, sizes, operators, content);
-    evaluate (__LINE__, __func__, { 33,  33,  33  }, positions);
-    evaluate (__LINE__, __func__, { 1,   1,   1   }, sizes);
-    evaluate (__LINE__, __func__, { "d", "d", "i" }, operators);
-    evaluate (__LINE__, __func__, { "!", "!", "." }, content);
+    std::vector <int> standard_positions {33, 33, 33};
+    std::vector <int> standard_sizes {1, 1, 1};
+    std::vector <std::string> standard_operators {"d", "d", "i"};
+    std::vector <std::string> standard_content {"!", "!", "."};
+    EXPECT_EQ (standard_positions, positions);
+    EXPECT_EQ (standard_sizes, sizes);
+    EXPECT_EQ (standard_operators, operators);
+    EXPECT_EQ (standard_content, content);
   }
 
   // Test entire pipeline for generating editor updates.
   {
     // The server text has joined the second paragraph to the first.
-    string editor_html = R"(<p class="b-q1"><span class="i-v">1</span> Praise Yahweh, all you nations!</p><p class="b-p">Extol him, all you peoples!</p><p class="b-q2">And so on the third line.</p>)";
-    string server_html = R"(<p class="b-q1"><span class="i-v">1</span><span> </span><span>Praise Yahweh, all you nations!</span> <span>Extol him, all you peoples!</span></p><p class="b-q2"><span>And so on the third line.</span></p>)";
-    vector <int> positions;
-    vector <int> sizes;
-    vector <string> operators;
-    vector <string> content;
+    const std::string editor_html = R"(<p class="b-q1"><span class="i-v">1</span> Praise Yahweh, all you nations!</p><p class="b-p">Extol him, all you peoples!</p><p class="b-q2">And so on the third line.</p>)";
+    const std::string server_html = R"(<p class="b-q1"><span class="i-v">1</span><span> </span><span>Praise Yahweh, all you nations!</span> <span>Extol him, all you peoples!</span></p><p class="b-q2"><span>And so on the third line.</span></p>)";
+    std::vector <int> positions;
+    std::vector <int> sizes;
+    std::vector <std::string> operators;
+    std::vector <std::string> content;
     bible_logic::html_to_editor_updates (editor_html, server_html, positions, sizes, operators, content);
-    evaluate (__LINE__, __func__, { 34,    34,  0,    62   }, positions);
-    evaluate (__LINE__, __func__, { 1,     1,   1,    1    }, sizes);
-    evaluate (__LINE__, __func__, { "d",   "i", "p",  "p"  }, operators);
-    evaluate (__LINE__, __func__, { "\np", " ", "q1", "q2" }, content);
+    std::vector <int> standard_positions {34, 34, 0, 62};
+    std::vector <int> standard_sizes {1, 1, 1, 1};
+    std::vector <std::string> standard_operators {"d", "i", "p", "p"};
+    std::vector <std::string> standard_content {"\np", " ", "q1", "q2"};
+    EXPECT_EQ (standard_positions, positions);
+    EXPECT_EQ (standard_sizes, sizes);
+    EXPECT_EQ (standard_operators, operators);
+    EXPECT_EQ (standard_content, content);
   }
 
   // Test entire pipeline for generating editor updates.
   {
     // The server text has added an extra paragraph with a certain paragraph style.
-    string editor_html = R"(<p class="b-q1"><span class="i-v">1</span> Praise Yahweh, all you nations!</p><p class="b-p">Extol him, all you peoples!</p><p class="b-q2">And so on the third line.</p>)";
-    string server_html = R"(<p class="b-q1"><span class="i-v">1</span><span> </span><span>Praise Yahweh, all you nations!</span></p><p class="b-p"><span>Extol him, all you peoples!</span></p><p class="b-q3">P.</p><p class="b-q2"><span>And so on the third line.</span></p>)";
-    vector <int> positions;
-    vector <int> sizes;
-    vector <string> operators;
-    vector <string> content;
+    const std::string editor_html = R"(<p class="b-q1"><span class="i-v">1</span> Praise Yahweh, all you nations!</p><p class="b-p">Extol him, all you peoples!</p><p class="b-q2">And so on the third line.</p>)";
+    const std::string server_html = R"(<p class="b-q1"><span class="i-v">1</span><span> </span><span>Praise Yahweh, all you nations!</span></p><p class="b-p"><span>Extol him, all you peoples!</span></p><p class="b-q3">P.</p><p class="b-q2"><span>And so on the third line.</span></p>)";
+    std::vector <int> positions;
+    std::vector <int> sizes;
+    std::vector <std::string> operators;
+    std::vector <std::string> content;
     bible_logic::html_to_editor_updates (editor_html, server_html, positions, sizes, operators, content);
-    evaluate (__LINE__, __func__, { 62,     63,  64,  0,    34,  62,   65   }, positions);
-    evaluate (__LINE__, __func__, { 1,      1,   1,   1,    1,   1,    1    }, sizes);
-    evaluate (__LINE__, __func__, { "i",    "i", "i", "p",  "p", "p",  "p"  }, operators);
-    evaluate (__LINE__, __func__, { "\nq3", "P", ".", "q1", "p", "q3", "q2" }, content);
+    std::vector <int> standard_positions {62, 63, 64, 0, 34, 62, 65};
+    std::vector <int> standard_sizes {1, 1, 1, 1, 1, 1, 1};
+    std::vector <std::string> standard_operators {"i", "i", "i", "p", "p", "p",  "p"};
+    std::vector <std::string> standard_content {"\nq3", "P", ".", "q1", "p", "q3", "q2"};
+    EXPECT_EQ (standard_positions, positions);
+    EXPECT_EQ (standard_sizes, sizes);
+    EXPECT_EQ (standard_operators, operators);
+    EXPECT_EQ (standard_content, content);
   }
 
   // Test entire pipeline for generating editor updates using 4-bytes UTF-16 characters.
   {
     // The server text has added an extra paragraph with a certain paragraph style.
-    string editor_html = R"(<p class="b-q1"><span class="i-v">1</span> Praise Yahweh, all you nations!</p><p class="b-p">Extol him, all you peoples😀!</p><p class="b-q2">And so on the third line.</p>)";
-    string server_html = R"(<p class="b-q1"><span class="i-v">1</span><span> </span><span>Praise Yahweh, all you nations😀!</span></p><p class="b-p"><span>Extol him, all you peoples!</span></p><p class="b-q3">P😀.</p><p class="b-q2"><span>And so on the third line😀.</span></p>)";
-    vector <int> positions;
-    vector <int> sizes;
-    vector <string> operators;
-    vector <string> content;
+    const std::string editor_html = R"(<p class="b-q1"><span class="i-v">1</span> Praise Yahweh, all you nations!</p><p class="b-p">Extol him, all you peoples😀!</p><p class="b-q2">And so on the third line.</p>)";
+    const std::string server_html = R"(<p class="b-q1"><span class="i-v">1</span><span> </span><span>Praise Yahweh, all you nations😀!</span></p><p class="b-p"><span>Extol him, all you peoples!</span></p><p class="b-q3">P😀.</p><p class="b-q2"><span>And so on the third line😀.</span></p>)";
+    std::vector <int> positions;
+    std::vector <int> sizes;
+    std::vector <std::string> operators;
+    std::vector <std::string> content;
     bible_logic::html_to_editor_updates (editor_html, server_html, positions, sizes, operators, content);
-    //evaluate (__LINE__, __func__, { 62,     63,  64,  0,    34,  62,   65   }, positions);
-    //evaluate (__LINE__, __func__, { 1,      1,   1,   1,    1,   1,    1    }, sizes);
-    //evaluate (__LINE__, __func__, { "i",    "i", "i", "p",  "p", "p",  "p"  }, operators);
-    evaluate (__LINE__, __func__, { "😀", "!", "\nq3", "P", ".", "!", "😀", "q1", "p", "q3", "q2" }, content);
+    //EXPECT_EQ ({ 62,     63,  64,  0,    34,  62,   65   }, positions); // Todo enable?
+    //EXPECT_EQ ({ 1,      1,   1,   1,    1,   1,    1    }, sizes); // Todo enable?
+    //EXPECT_EQ ({ "i",    "i", "i", "p",  "p", "p",  "p"  }, operators); // Todo enable?
+    std::vector <std::string> standard_content {"😀", "!", "\nq3", "P", ".", "!", "😀", "q1", "p", "q3", "q2"};
+    EXPECT_EQ (standard_content, content);
   }
-
 }
 
 
-void test_database_bibleactions ()
+TEST (database, bibleactions)
 {
-  trace_unit_tests (__func__);
-  
   refresh_sandbox (true);
   Database_BibleActions database_bibleactions;
   database_bibleactions.create ();
   
   database_bibleactions.optimize ();
   
-  vector <string> bibles = database_bibleactions.getBibles ();
-  evaluate (__LINE__, __func__, { }, bibles);
+  std::vector <std::string> s_standard{};
+  std::vector <std::string> bibles = database_bibleactions.getBibles ();
+  s_standard = {};
+  EXPECT_EQ (s_standard, bibles);
   
   database_bibleactions.record ("phpunit1", 1, 2, "data112");
   database_bibleactions.record ("phpunit1", 1, 3, "data113");
@@ -725,50 +746,56 @@ void test_database_bibleactions ()
   database_bibleactions.record ("phpunit2", 5, 6, "data256: Not to be stored");
   
   bibles = database_bibleactions.getBibles ();
-  evaluate (__LINE__, __func__, {"phpunit1", "phpunit2"}, bibles);
+  s_standard = {"phpunit1", "phpunit2"};
+  EXPECT_EQ (s_standard, bibles);
   
-  vector <int> books = database_bibleactions.getBooks ("phpunit1");
-  evaluate (__LINE__, __func__, {1, 2}, books);
+  std::vector <int> i_standard{};
   
-  vector <int> chapters = database_bibleactions.getChapters ("phpunit1", 1);
-  evaluate (__LINE__, __func__, {2, 3}, chapters);
+  std::vector <int> books = database_bibleactions.getBooks ("phpunit1");
+  i_standard = {1, 2};
+  EXPECT_EQ (i_standard, books);
+  
+  std::vector <int> chapters = database_bibleactions.getChapters ("phpunit1", 1);
+  i_standard = {2, 3};
+  EXPECT_EQ (i_standard, chapters);
   
   chapters = database_bibleactions.getChapters ("phpunit1", 2);
-  evaluate (__LINE__, __func__, {4}, chapters);
+  i_standard = {4};
+  EXPECT_EQ (i_standard, chapters);
   
   database_bibleactions.erase ("phpunit1", 2, 3);
   
   chapters = database_bibleactions.getChapters ("phpunit1", 2);
-  evaluate (__LINE__, __func__, {4}, chapters);
+  i_standard = {4};
+  EXPECT_EQ (i_standard, chapters);
   
   database_bibleactions.erase ("phpunit1", 2, 4);
   
   chapters = database_bibleactions.getChapters ("phpunit1", 2);
-  evaluate (__LINE__, __func__, { }, chapters);
+  i_standard = {};
+  EXPECT_EQ (i_standard, chapters);
   
-  string usfm = database_bibleactions.getUsfm ("phpunit2", 5, 5);
-  evaluate (__LINE__, __func__, "", usfm);
+  std::string usfm = database_bibleactions.getUsfm ("phpunit2", 5, 5);
+  EXPECT_EQ ("", usfm);
   
   usfm = database_bibleactions.getUsfm ("phpunit2", 5, 6);
-  evaluate (__LINE__, __func__, "data256", usfm);
+  EXPECT_EQ ("data256", usfm);
 }
 
 
-void test_database_bibles ()
+TEST (database, bibles)
 {
-  trace_unit_tests (__func__);
-  
-  string testbible = "testbible";
-  string testbible2 = testbible + "2";
+  std::string testbible = "testbible";
+  std::string testbible2 = testbible + "2";
 
   // It should get the standard default Bible when there's no Bibles created by the user yet.
   {
     refresh_sandbox (true);
     Database_Bibles database_bibles;
     Database_State::create ();
-    vector <string> standard;
-    vector <string> bibles = database_bibles.getBibles ();
-    evaluate (__LINE__, __func__, standard, bibles);
+    std::vector <std::string> standard;
+    std::vector <std::string> bibles = database_bibles.getBibles ();
+    EXPECT_EQ (standard, bibles);
   }
 
   // Test whether optimizing works without errors.
@@ -785,8 +812,8 @@ void test_database_bibles ()
     database_bibles.storeChapter (testbible, 2, 3, "f");
     database_bibles.storeChapter (testbible, 2, 3, "g");
     database_bibles.optimize ();
-    string usfm = database_bibles.getChapter (testbible, 2, 3);
-    evaluate (__LINE__, __func__, "g", usfm);
+    const std::string usfm = database_bibles.getChapter (testbible, 2, 3);
+    EXPECT_EQ ("g", usfm);
   }
 
   // Test whether optimizing removes files with 0 size.
@@ -802,11 +829,11 @@ void test_database_bibles ()
     database_bibles.storeChapter (testbible, 2, 3, "e");
     database_bibles.storeChapter (testbible, 2, 3, "f");
     database_bibles.storeChapter (testbible, 2, 3, "");
-    string usfm = database_bibles.getChapter (testbible, 2, 3);
-    evaluate (__LINE__, __func__, "", usfm);
+    std::string usfm = database_bibles.getChapter (testbible, 2, 3);
+    EXPECT_EQ (std::string(), usfm);
     database_bibles.optimize ();
     usfm = database_bibles.getChapter (testbible, 2, 3);
-    evaluate (__LINE__, __func__, "f", usfm);
+    EXPECT_EQ ("f", usfm);
   }
 
   // Test create / get / delete Bibles.
@@ -817,13 +844,15 @@ void test_database_bibles ()
     
     database_bibles.createBible (testbible);
     
-    vector <string> bibles = database_bibles.getBibles ();
-    evaluate (__LINE__, __func__, {testbible}, bibles);
+    std::vector <std::string> bibles = database_bibles.getBibles ();
+    std::vector <std::string> standard {testbible};
+    EXPECT_EQ (standard, bibles);
     
     database_bibles.deleteBible (testbible);
     
     bibles = database_bibles.getBibles ();
-    evaluate (__LINE__, __func__, {}, bibles);
+    standard = {};
+    EXPECT_EQ (standard, bibles);
   }
 
   // Test storing a chapter, and getting it again.
@@ -833,14 +862,14 @@ void test_database_bibles ()
     Database_State::create ();
     
     database_bibles.createBible (testbible);
-    string usfm = "\\c 1\n\\p\n\\v 1 Verse 1";
+    const std::string usfm = "\\c 1\n\\p\n\\v 1 Verse 1";
     database_bibles.storeChapter (testbible, 2, 1, usfm);
-    string result = database_bibles.getChapter (testbible, 2, 1);
-    evaluate (__LINE__, __func__, usfm, result);
+    std::string result = database_bibles.getChapter (testbible, 2, 1);
+    EXPECT_EQ (usfm, result);
     result = database_bibles.getChapter (testbible2, 2, 1);
-    evaluate (__LINE__, __func__, "", result);
+    EXPECT_EQ (std::string(), result);
     result = database_bibles.getChapter (testbible, 1, 1);
-    evaluate (__LINE__, __func__, "", result);
+    EXPECT_EQ (std::string(), result);
   }
 
   // Test books.
@@ -848,30 +877,33 @@ void test_database_bibles ()
     refresh_sandbox (true);
     Database_Bibles database_bibles;
     Database_State::create ();
+    std::vector <int> standard{};
     
     database_bibles.createBible (testbible);
-    vector <int> books = database_bibles.getBooks (testbible);
-    evaluate (__LINE__, __func__, { }, books);
+    std::vector <int> books = database_bibles.getBooks (testbible);
+    EXPECT_EQ (std::vector <int>{}, books);
     
     database_bibles.storeChapter (testbible, 1, 2, "\\c 1");
     books = database_bibles.getBooks (testbible);
-    evaluate (__LINE__, __func__, { 1 }, books);
+    EXPECT_EQ (std::vector <int>{1}, books);
     
     database_bibles.storeChapter (testbible, 2, 3, "\\c 0");
     books = database_bibles.getBooks (testbible);
-    evaluate (__LINE__, __func__, { 1, 2 }, books);
+    standard = {1, 2};
+    EXPECT_EQ (standard, books);
     
     database_bibles.deleteBook (testbible, 3);
     books = database_bibles.getBooks (testbible);
-    evaluate (__LINE__, __func__, { 1, 2 }, books);
+    standard = {1, 2};
+    EXPECT_EQ (standard, books);
     
     database_bibles.deleteBook (testbible, 1);
     books = database_bibles.getBooks (testbible);
-    evaluate (__LINE__, __func__, { 2 }, books);
+    EXPECT_EQ (std::vector <int>{2}, books);
     
     database_bibles.deleteBook (testbible2, 2);
     books = database_bibles.getBooks (testbible);
-    evaluate (__LINE__, __func__, { 2 }, books);
+    EXPECT_EQ (std::vector <int>{2}, books);
   }
 
   // Test chapters.
@@ -879,33 +911,41 @@ void test_database_bibles ()
     refresh_sandbox (true);
     Database_Bibles database_bibles;
     Database_State::create ();
+    std::vector<int>standard{};
     
     database_bibles.createBible (testbible);
-    vector <int> chapters = database_bibles.getChapters (testbible, 1);
-    evaluate (__LINE__, __func__, { }, chapters);
+    std::vector <int> chapters = database_bibles.getChapters (testbible, 1);
+    standard = { };
+    EXPECT_EQ (standard, chapters);
     
     database_bibles.storeChapter (testbible, 1, 2, "\\c 1");
     chapters = database_bibles.getChapters (testbible, 1);
-    evaluate (__LINE__, __func__, { 2 }, chapters);
+    standard = { 2 };
+    EXPECT_EQ (standard, chapters);
     
     chapters = database_bibles.getChapters (testbible, 2);
-    evaluate (__LINE__, __func__, { }, chapters);
+    standard = { };
+    EXPECT_EQ (standard, chapters);
     
     database_bibles.storeChapter (testbible, 1, 3, "\\c 1");
     chapters = database_bibles.getChapters (testbible, 1);
-    evaluate (__LINE__, __func__, { 2, 3 }, chapters);
+    standard = { 2, 3 };
+    EXPECT_EQ (standard, chapters);
     
     database_bibles.deleteChapter (testbible, 3, 3);
     chapters = database_bibles.getChapters (testbible, 1);
-    evaluate (__LINE__, __func__, { 2, 3 }, chapters);
+    standard = { 2, 3 };
+    EXPECT_EQ (standard, chapters);
     
     database_bibles.deleteChapter (testbible, 1, 2);
     chapters = database_bibles.getChapters (testbible, 1);
-    evaluate (__LINE__, __func__, { 3 }, chapters);
+    standard = { 3 };
+    EXPECT_EQ (standard, chapters);
     
     database_bibles.deleteChapter (testbible, 1, 3);
     chapters = database_bibles.getChapters (testbible, 1);
-    evaluate (__LINE__, __func__, { }, chapters);
+    standard = { };
+    EXPECT_EQ (standard, chapters);
   }
 
   // Test chapter identifiers.
@@ -917,20 +957,20 @@ void test_database_bibles ()
     database_bibles.createBible (testbible);
     database_bibles.storeChapter (testbible, 1, 2, "\\c 1");
     int id = database_bibles.getChapterId (testbible, 1, 2);
-    evaluate (__LINE__, __func__, 100'000'001, id);
+    EXPECT_EQ (100'000'001, id);
     
     database_bibles.storeChapter (testbible, 1, 2, "\\c 1");
     id = database_bibles.getChapterId (testbible, 1, 2);
-    evaluate (__LINE__, __func__, 100'000'002, id);
+    EXPECT_EQ (100'000'002, id);
     
     database_bibles.storeChapter (testbible, 1, 2, "\\c 1");
     database_bibles.storeChapter (testbible, 1, 2, "\\c 1");
     id = database_bibles.getChapterId (testbible, 1, 2);
-    evaluate (__LINE__, __func__, 100'000'004, id);
+    EXPECT_EQ (100'000'004, id);
     
     database_bibles.storeChapter (testbible, 2, 3, "\\c 1");
     id = database_bibles.getChapterId (testbible, 1, 2);
-    evaluate (__LINE__, __func__, 100'000'004, id);
+    EXPECT_EQ (100'000'004, id);
   }
   
   // Test the age of the newest chapter.
@@ -941,18 +981,20 @@ void test_database_bibles ()
     
     database_bibles.createBible (testbible);
     int age = database_bibles.getChapterAge (testbible, 1, 2);
-    evaluate (__LINE__, __func__, 100'000'000, age);
+    EXPECT_EQ (100'000'000, age);
 
     database_bibles.storeChapter (testbible, 1, 2, "\\c 1");
     age = database_bibles.getChapterAge (testbible, 1, 2);
-    evaluate (__LINE__, __func__, 0, age);
+    EXPECT_EQ (0, age);
 
     database_bibles.storeChapter (testbible, 1, 2, "\\c 1");
-    this_thread::sleep_for(chrono::milliseconds(1000));
+    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
     age = database_bibles.getChapterAge (testbible, 1, 2);
-    evaluate (__LINE__, __func__, 1, age);
+    EXPECT_EQ (1, age);
   }
   
 }
 
+
+#endif
 

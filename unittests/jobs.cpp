@@ -17,16 +17,17 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
+#include <config/libraries.h>
+#ifdef HAVE_GTEST
+#include "gtest/gtest.h"
 #include <unittests/jobs.h>
 #include <unittests/utilities.h>
 #include <database/jobs.h>
 using namespace std;
 
 
-void test_database_jobs ()
+TEST (database, jobs)
 {
-  trace_unit_tests (__func__);
-  
   {
     refresh_sandbox (true);
     Database_Jobs database_jobs = Database_Jobs ();
@@ -38,46 +39,48 @@ void test_database_jobs ()
     // Test Identifiers
     int id = database_jobs.get_new_id ();
     bool exists = database_jobs.id_exists (id);
-    evaluate (__LINE__, __func__, true, exists);
+    EXPECT_EQ (true, exists);
     
     // Test Level.
     id = database_jobs.get_new_id ();
     int level = database_jobs.get_level (id);
-    evaluate (__LINE__, __func__, 0, level);
+    EXPECT_EQ (0, level);
     database_jobs.set_level (id, 123);
     level = database_jobs.get_level (id);
-    evaluate (__LINE__, __func__, 123, level);
+    EXPECT_EQ (123, level);
     
     // Test Start
     id = database_jobs.get_new_id ();
     string start = database_jobs.get_start (id);
-    evaluate (__LINE__, __func__, "", start);
+    EXPECT_EQ ("", start);
     database_jobs.set_start (id, "start");
     start = database_jobs.get_start (id);
-    evaluate (__LINE__, __func__, "start", start);
+    EXPECT_EQ ("start", start);
     
     // Test Progress
     id = database_jobs.get_new_id ();
     string progress = database_jobs.get_progress (id);
-    evaluate (__LINE__, __func__, "", progress);
+    EXPECT_EQ ("", progress);
     database_jobs.set_progress (id, "progress");
     progress = database_jobs.get_progress (id);
-    evaluate (__LINE__, __func__, "progress", progress);
+    EXPECT_EQ ("progress", progress);
     
     // Test Percentage
     id = database_jobs.get_new_id ();
     string percentage = database_jobs.get_percentage (id);
-    evaluate (__LINE__, __func__, "", percentage);
+    EXPECT_EQ ("", percentage);
     database_jobs.set_percentage (id, 55);
     percentage = database_jobs.get_percentage (id);
-    evaluate (__LINE__, __func__, "55", percentage);
+    EXPECT_EQ ("55", percentage);
     
     // Test Result.
     id = database_jobs.get_new_id ();
     string result = database_jobs.get_result (id);
-    evaluate (__LINE__, __func__, "", result);
+    EXPECT_EQ ("", result);
     database_jobs.set_result (id, "result");
     result = database_jobs.get_result (id);
-    evaluate (__LINE__, __func__, "result", result);
+    EXPECT_EQ ("result", result);
   }
 }
+
+#endif

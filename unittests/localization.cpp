@@ -17,6 +17,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
+#include <config/libraries.h>
+#ifdef HAVE_GTEST
+#include "gtest/gtest.h"
 #include <unittests/localization.h>
 #include <unittests/utilities.h>
 #include <filter/url.h>
@@ -24,10 +27,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 using namespace std;
 
 
-void test_database_localization ()
+TEST (database, localization)
 {
-  trace_unit_tests (__func__);
-  
   refresh_sandbox (true);
   string file_po = filter_url_create_root_path ({"unittests", "tests", "nl.po"});
   Database_Localization database_localization = Database_Localization ("nl");
@@ -36,14 +37,16 @@ void test_database_localization ()
   string msgid = "phpunit";
   string msgstr = "phpunit";
   string result = database_localization.translate (msgid);
-  evaluate (__LINE__, __func__, msgstr, result);
+  EXPECT_EQ (msgstr, result);
   result = database_localization.backtranslate (msgstr);
-  evaluate (__LINE__, __func__, msgid, result);
+  EXPECT_EQ (msgid, result);
   
   msgid = "To display all the notes for a certain passage, enter the following URL:";
   msgstr = "Om alle aantekeningen voor een bepaalde passage te tonen voert u de volgende URL in:";
   result = database_localization.translate (msgid);
-  evaluate (__LINE__, __func__, msgstr, result);
+  EXPECT_EQ (msgstr, result);
   result = database_localization.backtranslate (msgstr);
-  evaluate (__LINE__, __func__, msgid, result);
+  EXPECT_EQ (msgid, result);
 }
+
+#endif

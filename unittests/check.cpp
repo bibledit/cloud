@@ -17,6 +17,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
+#include <config/libraries.h>
+#ifdef HAVE_GTEST
+#include "gtest/gtest.h"
 #include <unittests/check.h>
 #include <unittests/utilities.h>
 #include <database/check.h>
@@ -25,7 +28,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 using namespace std;
 
 
-void test_database_check ()
+TEST (database, check)
 {
   trace_unit_tests (__func__);
   
@@ -46,15 +49,15 @@ void test_database_check ()
     database_check.create ();
     
     vector <Database_Check_Hit> hits = database_check.getHits ();
-    evaluate (__LINE__, __func__, 0, static_cast<int> (hits.size()));
+    EXPECT_EQ (0, static_cast<int> (hits.size()));
     
     database_check.recordOutput ("phpunit", 1, 2, 3, "test");
     hits = database_check.getHits ();
-    evaluate (__LINE__, __func__, 1, static_cast<int> (hits.size()));
+    EXPECT_EQ (1, static_cast<int> (hits.size()));
     
     database_check.truncateOutput ("");
     hits = database_check.getHits ();
-    evaluate (__LINE__, __func__, 0, static_cast<int> (hits.size()));
+    EXPECT_EQ (0, static_cast<int> (hits.size()));
   }
 
   {
@@ -67,11 +70,11 @@ void test_database_check ()
     database_check.create ();
     database_check.recordOutput ("phpunit", 5, 2, 3, "test");
     vector <Database_Check_Hit> hits = database_check.getHits ();
-    evaluate (__LINE__, __func__, 1, static_cast<int> (hits.size()));
-    evaluate (__LINE__, __func__, "phpunit", hits [0].bible);
-    evaluate (__LINE__, __func__, 5, hits [0].book);
-    evaluate (__LINE__, __func__, 2, hits [0].chapter);
-    evaluate (__LINE__, __func__, "test", hits [0].data);
+    EXPECT_EQ (1, static_cast<int> (hits.size()));
+    EXPECT_EQ ("phpunit", hits [0].bible);
+    EXPECT_EQ (5, hits [0].book);
+    EXPECT_EQ (2, hits [0].chapter);
+    EXPECT_EQ ("test", hits [0].data);
   }
 
   {
@@ -87,22 +90,22 @@ void test_database_check ()
     database_check.recordOutput ("phpunit", 3, 4, 5, "test2");
     
     vector <Database_Check_Hit> hits = database_check.getHits ();
-    evaluate (__LINE__, __func__, 2, static_cast<int> (hits.size()));
+    EXPECT_EQ (2, static_cast<int> (hits.size()));
     
     int id = hits [0].rowid;
     database_check.approve (id);
     hits = database_check.getHits ();
-    evaluate (__LINE__, __func__, 1, static_cast<int> (hits.size()));
+    EXPECT_EQ (1, static_cast<int> (hits.size()));
     
     vector <Database_Check_Hit> suppressions = database_check.getSuppressions ();
-    evaluate (__LINE__, __func__, 1, static_cast<int>(suppressions.size()));
+    EXPECT_EQ (1, static_cast<int>(suppressions.size()));
     
     id = suppressions [0].rowid;
-    evaluate (__LINE__, __func__, 1, id);
+    EXPECT_EQ (1, id);
 
     database_check.release (1);
     hits = database_check.getHits ();
-    evaluate (__LINE__, __func__, 2, static_cast<int> (hits.size()));
+    EXPECT_EQ (2, static_cast<int> (hits.size()));
   }
 
   {
@@ -116,11 +119,11 @@ void test_database_check ()
     database_check.recordOutput ("phpunit", 3, 4, 5, "test1");
     database_check.recordOutput ("phpunit", 3, 4, 5, "test2");
     vector <Database_Check_Hit> hits = database_check.getHits ();
-    evaluate (__LINE__, __func__, 2, static_cast<int> (hits.size()));
+    EXPECT_EQ (2, static_cast<int> (hits.size()));
     int id = hits [0].rowid;
     database_check.erase (id);
     hits = database_check.getHits ();
-    evaluate (__LINE__, __func__, 1, static_cast<int> (hits.size()));
+    EXPECT_EQ (1, static_cast<int> (hits.size()));
   }
 
   {
@@ -134,9 +137,9 @@ void test_database_check ()
     database_check.recordOutput ("phpunit", 3, 4, 5, "test1");
     database_check.recordOutput ("phpunit", 6, 7, 8, "test2");
     Passage passage = database_check.getPassage (2);
-    evaluate (__LINE__, __func__, 6, passage.m_book);
-    evaluate (__LINE__, __func__, 7, passage.m_chapter);
-    evaluate (__LINE__, __func__, "8", passage.m_verse);
+    EXPECT_EQ (6, passage.m_book);
+    EXPECT_EQ (7, passage.m_chapter);
+    EXPECT_EQ ("8", passage.m_verse);
   }
 
   {
@@ -152,6 +155,8 @@ void test_database_check ()
       database_check.recordOutput ("phpunit", i, i, i, "multiple");
     }
     vector <Database_Check_Hit> hits = database_check.getHits ();
-    evaluate (__LINE__, __func__, 12, static_cast<int> (hits.size()));
+    EXPECT_EQ (12, static_cast<int> (hits.size()));
   }
 }
+
+#endif

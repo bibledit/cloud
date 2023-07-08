@@ -17,28 +17,30 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
+#include <config/libraries.h>
+#ifdef HAVE_GTEST
+#include "gtest/gtest.h"
 #include <unittests/volatile.h>
 #include <unittests/utilities.h>
 #include <database/volatile.h>
-using namespace std;
 
 
-void test_database_volatile ()
+TEST (database, volatile)
 {
-  trace_unit_tests (__func__);
-  
   // No value initially.
-  string value = Database_Volatile::getValue (1, "key");
-  evaluate (__LINE__, __func__, "", value);
+  std::string value = Database_Volatile::getValue (1, "key");
+  EXPECT_EQ (std::string(), value);
   
   // Store value and retrieve it.
   Database_Volatile::setValue (2, "key2", "value2");
   value = Database_Volatile::getValue (2, "key2");
-  evaluate (__LINE__, __func__, "value2", value);
+  EXPECT_EQ ("value2", value);
   
   // Another key should retrieve nothing.
   value = Database_Volatile::getValue (2, "key1");
-  evaluate (__LINE__, __func__, "", value);
+  EXPECT_EQ (std::string(), value);
 }
 
+
+#endif
 

@@ -121,12 +121,6 @@ using namespace std;
 #ifdef HAVE_GTEST
 TEST (existing, existing)
 {
-  test_database_modifications_user ();
-  test_database_modifications_team ();
-  test_database_modifications_notifications ();
-  test_database_volatile ();
-  test_database_state ();
-  test_checksum ();
   test_html2usfm ();
   test_usfm2html ();
   test_workspaces ();

@@ -17,45 +17,46 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
+#include <config/libraries.h>
+#ifdef HAVE_GTEST
+#include "gtest/gtest.h"
 #include <unittests/checksum.h>
 #include <unittests/utilities.h>
 #include <checksum/logic.h>
 #include <database/state.h>
 #include <webserver/request.h>
 #include <filter/md5.h>
-using namespace std;
 
 
-void test_checksum ()
+TEST (checksum, basic)
 {
-  trace_unit_tests (__func__);
-  
   // Get1
   {
-    string data = "\\v Verse 1";
-    string checksum = checksum_logic::get (data);
-    evaluate (__LINE__, __func__, "10", checksum);
+    const std::string data = "\\v Verse 1";
+    const std::string checksum = checksum_logic::get (data);
+    EXPECT_EQ ("10", checksum);
   }
   // Get2
   {
-    string data = "Line one\nLine 2\n";
-    string checksum = checksum_logic::get (data);
-    evaluate (__LINE__, __func__, "16", checksum);
+    const std::string data = "Line one\nLine 2\n";
+    const std::string checksum = checksum_logic::get (data);
+    EXPECT_EQ ("16", checksum);
   }
   // Send1
   {
-    string data = "\\v Verse 1";
-    string checksum = checksum_logic::send (data, false);
-    string standard = "10\n0\n" + data;
-    evaluate (__LINE__, __func__, standard, checksum);
+    const std::string data = "\\v Verse 1";
+    const std::string checksum = checksum_logic::send (data, false);
+    const std::string standard = "10\n0\n" + data;
+    EXPECT_EQ (standard, checksum);
   }
   // Send2
   {
-    string data = "Line one\nLine 2\n";
-    string checksum = checksum_logic::send (data, true);
-    string standard = "16\n1\n" + data;
-    evaluate (__LINE__, __func__, standard, checksum);
+    const std::string data = "Line one\nLine 2\n";
+    const std::string checksum = checksum_logic::send (data, true);
+    const std::string standard = "16\n1\n" + data;
+    EXPECT_EQ (standard, checksum);
   }
+
   // Setup some data.
   refresh_sandbox (true);
   Database_State::create ();
@@ -64,44 +65,48 @@ void test_checksum ()
   request.database_bibles()->storeChapter ("phpunit1", 1, 3, "data2");
   request.database_bibles()->storeChapter ("phpunit1", 1, 4, "data3");
   request.database_bibles()->storeChapter ("phpunit2", 2, 5, "data4");
+
   // GetChapter1
   {
-    string checksum = checksum_logic::get_chapter (&request, "phpunit1", 1, 2);
-    evaluate (__LINE__, __func__, md5 ("data1"), checksum);
+    const std::string checksum = checksum_logic::get_chapter (&request, "phpunit1", 1, 2);
+    EXPECT_EQ (md5 ("data1"), checksum);
   }
   // GetChapter2
   {
-    string checksum = checksum_logic::get_chapter (&request, "phpunit2", 2, 6);
-    evaluate (__LINE__, __func__, md5 (""), checksum);
+    const std::string checksum = checksum_logic::get_chapter (&request, "phpunit2", 2, 6);
+    EXPECT_EQ (md5 (""), checksum);
   }
   // GetBook1
   {
-    string checksum = checksum_logic::get_book (&request, "phpunit1", 1);
-    evaluate (__LINE__, __func__, "2ab6425924e6cd38b2474c543c5ea602", checksum);
+    const std::string checksum = checksum_logic::get_book (&request, "phpunit1", 1);
+    EXPECT_EQ ("2ab6425924e6cd38b2474c543c5ea602", checksum);
   }
   // GetBook2
   {
-    string checksum = checksum_logic::get_book (&request, "phpunit3", 1);
-    evaluate (__LINE__, __func__, "d41d8cd98f00b204e9800998ecf8427e", checksum);
+    const std::string checksum = checksum_logic::get_book (&request, "phpunit3", 1);
+    EXPECT_EQ ("d41d8cd98f00b204e9800998ecf8427e", checksum);
   }
   // GetBible1
   {
-    string checksum = checksum_logic::get_bible (&request, "phpunit1");
-    evaluate (__LINE__, __func__, "f9dc679a8712eb6f65b584e9688e9680", checksum);
+    const std::string checksum = checksum_logic::get_bible (&request, "phpunit1");
+    EXPECT_EQ ("f9dc679a8712eb6f65b584e9688e9680", checksum);
   }
   // GetBible2
   {
-    string checksum = checksum_logic::get_bible (&request, "phpunit2");
-    evaluate (__LINE__, __func__, "ee84a85bac14adb35e887c3d89bc80ab", checksum);
+    const std::string checksum = checksum_logic::get_bible (&request, "phpunit2");
+    EXPECT_EQ ("ee84a85bac14adb35e887c3d89bc80ab", checksum);
   }
   // GetBibles1
   {
-    string checksum = checksum_logic::get_bibles (&request, {"phpunit1", "phpunit2"});
-    evaluate (__LINE__, __func__, "440b2008993816f0bc8c557b64fbdaf2", checksum);
+    const std::string checksum = checksum_logic::get_bibles (&request, {"phpunit1", "phpunit2"});
+    EXPECT_EQ ("440b2008993816f0bc8c557b64fbdaf2", checksum);
   }
   // GetBibles2
   {
-    string checksum = checksum_logic::get_bibles (&request, {"phpunit3", "phpunit4"});
-    evaluate (__LINE__, __func__, "020eb29b524d7ba672d9d48bc72db455", checksum);
+    const std::string checksum = checksum_logic::get_bibles (&request, {"phpunit3", "phpunit4"});
+    EXPECT_EQ ("020eb29b524d7ba672d9d48bc72db455", checksum);
   }
 }
+
+#endif
+

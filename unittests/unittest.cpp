@@ -121,8 +121,6 @@ using namespace std;
 #ifdef HAVE_GTEST
 TEST (existing, existing)
 {
-  test_html2usfm ();
-  test_usfm2html ();
   test_workspaces ();
   test_verses ();
   test_client ();

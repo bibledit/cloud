@@ -17,6 +17,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
+#include <config/libraries.h>
+#ifdef HAVE_GTEST
+#include "gtest/gtest.h"
 #include <unittests/resources.h>
 #include <unittests/utilities.h>
 #include <resource/external.h>
@@ -28,22 +31,20 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 using namespace std;
 
 
-void test_database_resources ()
+TEST (database, resources)
 {
-  trace_unit_tests (__func__);
-  
   refresh_sandbox (true);
   vector <string> names = resource_external_names ();
   bool hit = false;
-  for (auto & name : names) if (name == "Statenbijbel GBS") hit = true;
-  evaluate (__LINE__, __func__, true, hit);
+  for (const auto& name : names)
+    if (name == "Statenbijbel GBS")
+      hit = true;
+  EXPECT_EQ (true, hit);
 }
 
 
-void test_database_usfmresources ()
+TEST (database, usfmresources)
 {
-  trace_unit_tests (__func__);
-  
   // Empty
   {
     refresh_sandbox (true);
@@ -51,7 +52,7 @@ void test_database_usfmresources ()
     vector <string> resources = database_usfmresources.getResources ();
     bool hit = false;
     for (auto & resource : resources) if (resource == "bibledit") hit = true;
-    evaluate (__LINE__, __func__, false, hit);
+    EXPECT_EQ (false, hit);
   }
   // Names
   {
@@ -61,7 +62,7 @@ void test_database_usfmresources ()
     vector <string> resources = database_usfmresources.getResources ();
     bool hit = false;
     for (auto & resource : resources) if (resource == "bibledit") hit = true;
-    evaluate (__LINE__, __func__, true, hit);
+    EXPECT_EQ (true, hit);
   }
   // Store Get Chapter
   {
@@ -69,9 +70,9 @@ void test_database_usfmresources ()
     Database_UsfmResources database_usfmresources = Database_UsfmResources ();
     database_usfmresources.storeChapter ("bibledit", 2, 3, "usfm");
     string usfm = database_usfmresources.getUsfm ("bibledit", 2, 3);
-    evaluate (__LINE__, __func__, "usfm", usfm);
+    EXPECT_EQ ("usfm", usfm);
     usfm = database_usfmresources.getUsfm ("bibledit", 2, 4);
-    evaluate (__LINE__, __func__, "", usfm);
+    EXPECT_EQ ("", usfm);
   }
   // Books
   {
@@ -81,8 +82,9 @@ void test_database_usfmresources ()
     database_usfmresources.storeChapter ("bibledit", 3, 4, "usfm");
     database_usfmresources.storeChapter ("bibledit", 1, 1, "usfm");
     database_usfmresources.storeChapter ("bibledit", 1, 2, "usfm");
-    vector <int> books = database_usfmresources.getBooks ("bibledit");
-    evaluate (__LINE__, __func__, {1, 2, 3}, books);
+    const vector <int> books = database_usfmresources.getBooks ("bibledit");
+    const vector <int> standard_books {1, 2, 3};
+    EXPECT_EQ (standard_books, books);
   }
   // Chapters
   {
@@ -93,9 +95,10 @@ void test_database_usfmresources ()
     database_usfmresources.storeChapter ("bibledit", 1, 1, "usfm");
     database_usfmresources.storeChapter ("bibledit", 1, 2, "usfm");
     vector <int> chapters = database_usfmresources.getChapters ("bibledit", 1);
-    evaluate (__LINE__, __func__, {1, 2}, chapters);
+    const vector <int> standard_chapters {1, 2};
+    EXPECT_EQ (standard_chapters, chapters);
     chapters = database_usfmresources.getChapters ("bibledit", 2);
-    evaluate (__LINE__, __func__, {3}, chapters);
+    EXPECT_EQ (vector <int>{3}, chapters);
   }
   // Sizes
   {
@@ -103,15 +106,15 @@ void test_database_usfmresources ()
     Database_UsfmResources database_usfmresources = Database_UsfmResources ();
     
     int size = database_usfmresources.getSize ("bibledit", 2, 3);
-    evaluate (__LINE__, __func__, 0, size);
+    EXPECT_EQ (0, size);
     
     database_usfmresources.storeChapter ("bibledit", 2, 3, "usfm");
     size = database_usfmresources.getSize ("bibledit", 2, 3);
-    evaluate (__LINE__, __func__, 4, size);
+    EXPECT_EQ (4, size);
     
     database_usfmresources.storeChapter ("bibledit", 2, 3, "chapter");
     size = database_usfmresources.getSize ("bibledit", 2, 3);
-    evaluate (__LINE__, __func__, 7, size);
+    EXPECT_EQ (7, size);
   }
   // Delete Book
   {
@@ -119,26 +122,24 @@ void test_database_usfmresources ()
     Database_UsfmResources database_usfmresources = Database_UsfmResources ();
     database_usfmresources.storeChapter ("bibledit", 2, 3, "usfm");
     vector <int> books = database_usfmresources.getBooks ("bibledit");
-    evaluate (__LINE__, __func__, {2}, books);
+    EXPECT_EQ (vector <int>{2}, books);
     database_usfmresources.deleteBook ("bibledit", 2);
     books = database_usfmresources.getBooks ("bibledit");
-    evaluate (__LINE__, __func__, {}, books);
+    EXPECT_EQ (vector <int>{}, books);
   }
 }
 
 
-void test_database_imageresources ()
+TEST (database, imageresources)
 {
-  trace_unit_tests (__func__);
-  
   Database_ImageResources database_imageresources;
-  string image = filter_url_create_root_path ({"unittests", "tests", "Genesis-1-1-18.gif"});
+  const string image = filter_url_create_root_path ({"unittests", "tests", "Genesis-1-1-18.gif"});
   
-  // Empty
+  // Empty.
   {
     refresh_sandbox (true);
     vector <string> resources = database_imageresources.names ();
-    evaluate (__LINE__, __func__, 0, resources.size());
+    EXPECT_EQ (0, resources.size());
   }
   
   // Create, names, erase.
@@ -147,18 +148,18 @@ void test_database_imageresources ()
     
     database_imageresources.create ("unittest");
     vector <string> resources = database_imageresources.names ();
-    evaluate (__LINE__, __func__, 1, resources.size());
+    EXPECT_EQ (1, resources.size());
     bool hit = false;
     for (auto & resource : resources) if (resource == "unittest") hit = true;
-    evaluate (__LINE__, __func__, true, hit);
+    EXPECT_EQ (true, hit);
     
     database_imageresources.erase ("none-existing");
     resources = database_imageresources.names ();
-    evaluate (__LINE__, __func__, 1, resources.size());
+    EXPECT_EQ (1, resources.size());
     
     database_imageresources.erase ("unittest");
     resources = database_imageresources.names ();
-    evaluate (__LINE__, __func__, 0, resources.size());
+    EXPECT_EQ (0, resources.size());
   }
   
   // Store, get, erase images.
@@ -175,12 +176,13 @@ void test_database_imageresources ()
     filter_url_unlink (path);
     
     vector <string> images = database_imageresources.get ("unittest");
-    evaluate (__LINE__, __func__, images, {"unittest.jpg", "unittest0.jpg"});
+    const vector <string> standard_images {"unittest.jpg", "unittest0.jpg"};
+    EXPECT_EQ (standard_images, images);
     
     database_imageresources.erase ("unittest", "unittest.jpg");
     
     images = database_imageresources.get ("unittest");
-    evaluate (__LINE__, __func__, images, {"unittest0.jpg"});
+    EXPECT_EQ (vector <string>{"unittest0.jpg"}, images);
   }
   // Assign passage and get image based on passage.
   {
@@ -198,10 +200,10 @@ void test_database_imageresources ()
     }
     
     vector <string> images = database_imageresources.get ("unittest", 11, 11, 13);
-    evaluate (__LINE__, __func__, images, {"unittest11.jpg"});
+    EXPECT_EQ (images, vector <string>{"unittest11.jpg"});
     
     images = database_imageresources.get ("unittest", 11, 11, 100);
-    evaluate (__LINE__, __func__, images, {});
+    EXPECT_EQ (images, vector <string>{});
   }
   // Assign passage to image, and retrieve it.
   {
@@ -219,25 +221,23 @@ void test_database_imageresources ()
     int book1, chapter1, verse1, book2, chapter2, verse2;
     database_imageresources.get ("unittest", "none-existing",
                                  book1, chapter1, verse1, book2, chapter2, verse2);
-    evaluate (__LINE__, __func__, book1, 0);
-    evaluate (__LINE__, __func__, chapter1, 0);
+    EXPECT_EQ (book1, 0);
+    EXPECT_EQ (chapter1, 0);
     
     database_imageresources.get ("unittest", image_name,
                                  book1, chapter1, verse1, book2, chapter2, verse2);
-    evaluate (__LINE__, __func__, book1, 1);
-    evaluate (__LINE__, __func__, chapter1, 2);
-    evaluate (__LINE__, __func__, verse1, 0);
-    evaluate (__LINE__, __func__, book2, 1);
-    evaluate (__LINE__, __func__, chapter2, 2);
-    evaluate (__LINE__, __func__, verse2, 10);
+    EXPECT_EQ (book1, 1);
+    EXPECT_EQ (chapter1, 2);
+    EXPECT_EQ (verse1, 0);
+    EXPECT_EQ (book2, 1);
+    EXPECT_EQ (chapter2, 2);
+    EXPECT_EQ (verse2, 10);
   }
 }
 
 
-void test_database_userresources ()
+TEST (database, userresources)
 {
-  trace_unit_tests (__func__);
-  
   refresh_sandbox (true);
   
   vector <string> names;
@@ -250,31 +250,34 @@ void test_database_userresources ()
   vector <string> specialnames = { "abc\\def:ghi", name };
   
   names = Database_UserResources::names ();
-  evaluate (__LINE__, __func__, {}, names);
+  EXPECT_EQ (vector <string>{}, names);
   
   Database_UserResources::url (name, url);
   value = Database_UserResources::url (name);
-  evaluate (__LINE__, __func__, url, value);
+  EXPECT_EQ (url, value);
   
   for (auto special_name : specialnames) {
     Database_UserResources::url (special_name, special_name + url);
   }
   names = Database_UserResources::names ();
-  evaluate (__LINE__, __func__, specialnames, names);
+  EXPECT_EQ (specialnames, names);
   
   for (auto special_name : specialnames) {
     Database_UserResources::remove (special_name);
   }
   names = Database_UserResources::names ();
-  evaluate (__LINE__, __func__, {}, names);
+  EXPECT_EQ (vector <string>{}, names);
   
   Database_UserResources::book (name, book, abbrev);
   fragment = Database_UserResources::book (name, book);
-  evaluate (__LINE__, __func__, abbrev, fragment);
+  EXPECT_EQ (abbrev, fragment);
   
   fragment = Database_UserResources::book (name + "x", book);
-  evaluate (__LINE__, __func__, "", fragment);
+  EXPECT_EQ (std::string(), fragment);
   
   fragment = Database_UserResources::book (name, book + 1);
-  evaluate (__LINE__, __func__, "", fragment);
+  EXPECT_EQ (std::string(), fragment);
 }
+
+#endif
+

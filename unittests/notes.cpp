@@ -17,6 +17,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
+#include <config/libraries.h>
+#ifdef HAVE_GTEST
+#include "gtest/gtest.h"
 #include <unittests/notes.h>
 #include <unittests/utilities.h>
 #include <database/noteactions.h>
@@ -34,9 +37,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 using namespace std;
 
 
-void test_database_noteactions ()
+TEST (database, noteactions)
 {
-  trace_unit_tests (__func__);
 
   // Basic tests: create / clear / optimize.
   {
@@ -54,7 +56,7 @@ void test_database_noteactions ()
     database.create ();
     database.record ("unittest", 2, 3, "content");
     vector <int> notes = database.getNotes ();
-    evaluate (__LINE__, __func__, {2}, notes);
+    EXPECT_EQ (vector <int>{2}, notes);
   }
 
   // Get notes
@@ -66,7 +68,8 @@ void test_database_noteactions ()
     database.record ("unittest", 2, 4, "content");
     database.record ("unittest", 3, 3, "content");
     vector <int> notes = database.getNotes ();
-    evaluate (__LINE__, __func__, {2, 3}, notes);
+    vector <int> standard_notes{2, 3};
+    EXPECT_EQ (standard_notes, notes);
   }
 
   // Get note data
@@ -78,18 +81,18 @@ void test_database_noteactions ()
     database.record ("phpunit2", 2, 4, "content4");
     database.record ("phpunit3", 3, 4, "content5");
     vector <Database_Note_Action> data = database.getNoteData (2);
-    evaluate (__LINE__, __func__, 2, static_cast<int>(data.size()));
+    EXPECT_EQ (2, static_cast<int>(data.size()));
     int now = filter::date::seconds_since_epoch ();
-    evaluate (__LINE__, __func__, 1, data[0].rowid);
-    evaluate (__LINE__, __func__, "phpunit1", data[0].username);
-    if ((data[0].timestamp < now - 1) || (data[0].timestamp > now + 2)) evaluate (__LINE__, __func__, now, data[0].timestamp);
-    evaluate (__LINE__, __func__, 3, data[0].action);
-    evaluate (__LINE__, __func__, "content3", data[0].content);
-    evaluate (__LINE__, __func__, 2, data[1].rowid);
-    evaluate (__LINE__, __func__, "phpunit2", data[1].username);
-    if ((data[1].timestamp < now) || (data[1].timestamp > now + 1)) evaluate (__LINE__, __func__, now, data[1].timestamp);
-    evaluate (__LINE__, __func__, 4, data[1].action);
-    evaluate (__LINE__, __func__, "content4", data[1].content);
+    EXPECT_EQ (1, data[0].rowid);
+    EXPECT_EQ ("phpunit1", data[0].username);
+    if ((data[0].timestamp < now - 1) || (data[0].timestamp > now + 2)) EXPECT_EQ (now, data[0].timestamp);
+    EXPECT_EQ (3, data[0].action);
+    EXPECT_EQ ("content3", data[0].content);
+    EXPECT_EQ (2, data[1].rowid);
+    EXPECT_EQ ("phpunit2", data[1].username);
+    if ((data[1].timestamp < now) || (data[1].timestamp > now + 1)) EXPECT_EQ (now, data[1].timestamp);
+    EXPECT_EQ (4, data[1].action);
+    EXPECT_EQ ("content4", data[1].content);
   }
 
   // Update notes.
@@ -102,7 +105,8 @@ void test_database_noteactions ()
     database.record ("unittest", 3, 3, "content");
     database.updateNotes (2, 12345);
     vector <int> notes = database.getNotes ();
-    evaluate (__LINE__, __func__, {12345, 3}, notes);
+    const vector <int> standard_notes{12345, 3};
+    EXPECT_EQ (standard_notes, notes);
   }
 
   // Delete.
@@ -114,7 +118,7 @@ void test_database_noteactions ()
     database.record ("phpunit2", 4, 5, "content2");
     database.erase (1);
     vector <int> notes = database.getNotes ();
-    evaluate (__LINE__, __func__, {4}, notes);
+    EXPECT_EQ (vector <int>{4}, notes);
   }
 
   // Exists
@@ -122,28 +126,26 @@ void test_database_noteactions ()
     refresh_sandbox (true);
     Database_NoteActions database = Database_NoteActions ();
     database.create ();
-    evaluate (__LINE__, __func__, false, database.exists (2));
+    EXPECT_EQ (false, database.exists (2));
     database.record ("phpunit1", 2, 3, "content1");
     database.record ("phpunit2", 4, 5, "content2");
-    evaluate (__LINE__, __func__, true, database.exists (2));
-    evaluate (__LINE__, __func__, false, database.exists (3));
+    EXPECT_EQ (true, database.exists (2));
+    EXPECT_EQ (false, database.exists (3));
   }
 }
 
 
 void test_database_notes ()
 {
-  trace_unit_tests (__func__);
-
   // Database path.
   {
     refresh_sandbox (true);
     Webserver_Request request;
     Database_Notes database_notes (&request);
     string path = database_notes.database_path ();
-    evaluate (__LINE__, __func__, filter_url_create_root_path ({"databases", "notes.sqlite"}), path);
+    EXPECT_EQ (filter_url_create_root_path ({"databases", "notes.sqlite"}), path);
     path = database_notes.checksums_database_path ();
-    evaluate (__LINE__, __func__, filter_url_create_root_path ({"databases", "notes_checksums.sqlite"}), path);
+    EXPECT_EQ (filter_url_create_root_path ({"databases", "notes_checksums.sqlite"}), path);
   }
   
   // Test the note file routine.
@@ -151,7 +153,7 @@ void test_database_notes ()
     Webserver_Request request;
     Database_Notes database_notes (&request);
     string file = database_notes.note_file (123456789);
-    evaluate (__LINE__, __func__, filter_url_create_root_path ({"consultations", "123", "456789.json"}), file);
+    EXPECT_EQ (filter_url_create_root_path ({"consultations", "123", "456789.json"}), file);
   }
 
   // Trim and optimize note.
@@ -185,24 +187,24 @@ void test_database_notes ()
     database_notes.create ();
     
     int identifier = Notes_Logic::lowNoteIdentifier;
-    evaluate (__LINE__, __func__, 100'000'000, identifier);
+    EXPECT_EQ (100'000'000, identifier);
     
     identifier = Notes_Logic::highNoteIdentifier;
-    evaluate (__LINE__, __func__, 999'999'999, identifier);
+    EXPECT_EQ (999'999'999, identifier);
     
     identifier = database_notes.get_new_unique_identifier ();
-    if ((identifier < 100'000'000) || (identifier > 999'999'999)) evaluate (__LINE__, __func__, "Out of bounds", filter::strings::convert_to_string (identifier));
-    evaluate (__LINE__, __func__, false, database_notes.identifier_exists (identifier));
+    if ((identifier < 100'000'000) || (identifier > 999'999'999)) EXPECT_EQ ("Out of bounds", filter::strings::convert_to_string (identifier));
+    EXPECT_EQ (false, database_notes.identifier_exists (identifier));
     
     identifier = database_notes.store_new_note ("", 0, 0, 0, "", "", false);
-    evaluate (__LINE__, __func__, true, database_notes.identifier_exists (identifier));
+    EXPECT_EQ (true, database_notes.identifier_exists (identifier));
     database_notes.erase (identifier);
-    evaluate (__LINE__, __func__, false, database_notes.identifier_exists (identifier));
+    EXPECT_EQ (false, database_notes.identifier_exists (identifier));
 
     identifier = database_notes.store_new_note ("", 0, 0, 0, "", "", false);
-    evaluate (__LINE__, __func__, true, database_notes.identifier_exists (identifier));
+    EXPECT_EQ (true, database_notes.identifier_exists (identifier));
     database_notes.erase (identifier);
-    evaluate (__LINE__, __func__, false, database_notes.identifier_exists (identifier));
+    EXPECT_EQ (false, database_notes.identifier_exists (identifier));
   }
 
   // Summary and contents.
@@ -226,31 +228,31 @@ void test_database_notes ()
     string contents = "Contents";
     int newidentifier = database_notes.store_new_note ("", 0, 0, 0, summary, contents, false);
     value = database_notes.get_summary (newidentifier);
-    evaluate (__LINE__, __func__, summary, value);
+    EXPECT_EQ (summary, value);
     value = database_notes.get_contents (newidentifier);
     values = filter::strings::explode (value, '\n');
     if (values.size () > 1) value = values[1];
-    evaluate (__LINE__, __func__, "<p>Contents</p>", value);
+    EXPECT_EQ ("<p>Contents</p>", value);
     
     // Test that if the summary is not given, it is going to be the first line of the contents.
     contents = "This is a note.\nLine two.";
     newidentifier = database_notes.store_new_note ("", 0, 0, 0, "", contents, false);
     value = database_notes.get_summary (newidentifier);
-    evaluate (__LINE__, __func__, "This is a note.", value);
+    EXPECT_EQ ("This is a note.", value);
     value = database_notes.get_contents (newidentifier);
     values = filter::strings::explode (value, '\n');
     if (values.size () > 2) value = values[2];
-    evaluate (__LINE__, __func__, "<p>Line two.</p>", value);
+    EXPECT_EQ ("<p>Line two.</p>", value);
     
     // Test setting the summary.
     database_notes.set_summary (newidentifier, "summary2");
     value = database_notes.get_summary (newidentifier);
-    evaluate (__LINE__, __func__, "summary2", value);
+    EXPECT_EQ ("summary2", value);
     
     // Test setting the note contents.
     database_notes.set_contents (newidentifier, "contents2");
     value = database_notes.get_contents (newidentifier);
-    evaluate (__LINE__, __func__, "contents2", value);
+    EXPECT_EQ ("contents2", value);
     
     // Test adding comment.
     value = database_notes.get_contents (newidentifier);
@@ -258,21 +260,21 @@ void test_database_notes ()
     database_notes.add_comment (newidentifier, "comment2");
     value = database_notes.get_contents (newidentifier);
     if (value.length () < (length + 30)) {
-      evaluate (__LINE__, __func__, "Should be larger than length + 30", filter::strings::convert_to_string (static_cast<int>(value.length())));
+      EXPECT_EQ ("Should be larger than length + 30", filter::strings::convert_to_string (static_cast<int>(value.length())));
     }
     pos = value.find ("comment2");
     if (pos == string::npos) {
-      evaluate (__LINE__, __func__, "Should contain 'comment2'", value);
+      EXPECT_EQ ("Should contain 'comment2'", value);
     }
     // Universal method to add comment.
     database_notes.add_comment (newidentifier, "comment5");
     value = database_notes.get_contents (newidentifier);
     if (value.length () < (length + 30)) {
-      evaluate (__LINE__, __func__, "Should be larger than length + 30", filter::strings::convert_to_string (static_cast<int>(value.length())));
+      EXPECT_EQ ("Should be larger than length + 30", filter::strings::convert_to_string (static_cast<int>(value.length())));
     }
     pos = value.find ("comment5");
     if (pos == string::npos) {
-      evaluate (__LINE__, __func__, "Should contain 'comment5'", value);
+      EXPECT_EQ ("Should contain 'comment5'", value);
     }
   }
 
@@ -295,7 +297,7 @@ void test_database_notes ()
     request.session_logic()->set_username ("");
     int identifier = database_notes.store_new_note ("", 0, 0, 0, "Summary", "Contents", false);
     vector <string> subscribers = database_notes.get_subscribers (identifier);
-    evaluate (__LINE__, __func__, {}, subscribers);
+    EXPECT_EQ (vector <string>{}, subscribers);
     
     // Create a note again, but this time set the session variable to a certain user.
     database_users.add_user ("unittest", "", 5, "");
@@ -304,42 +306,44 @@ void test_database_notes ()
     identifier = database_notes.store_new_note ("", 1, 1, 1, "Summary", "Contents", false);
     notes_logic.handlerNewNote (identifier);
     subscribers = database_notes.get_subscribers (identifier);
-    evaluate (__LINE__, __func__, {"unittest"}, subscribers);
-    evaluate (__LINE__, __func__, true, database_notes.is_subscribed (identifier, "unittest"));
+    EXPECT_EQ (vector <string>{"unittest"}, subscribers);
+    EXPECT_EQ (true, database_notes.is_subscribed (identifier, "unittest"));
     request.database_config_user()->setSubscribeToConsultationNotesEditedByMe (false);
     // Test various other subscription related functions.
-    evaluate (__LINE__, __func__, false, database_notes.is_subscribed (identifier, "unittest_unittest"));
+    EXPECT_EQ (false, database_notes.is_subscribed (identifier, "unittest_unittest"));
     database_notes.unsubscribe (identifier);
-    evaluate (__LINE__, __func__, false, database_notes.is_subscribed (identifier, "unittest"));
+    EXPECT_EQ (false, database_notes.is_subscribed (identifier, "unittest"));
     database_notes.subscribe_user (identifier, "unittest_unittest_unittest");
-    evaluate (__LINE__, __func__, true, database_notes.is_subscribed (identifier, "unittest_unittest_unittest"));
+    EXPECT_EQ (true, database_notes.is_subscribed (identifier, "unittest_unittest_unittest"));
     database_notes.unsubscribe_user (identifier, "unittest_unittest_unittest");
-    evaluate (__LINE__, __func__, false, database_notes.is_subscribed (identifier, "unittest_unittest_unittest"));
+    EXPECT_EQ (false, database_notes.is_subscribed (identifier, "unittest_unittest_unittest"));
     
     // With the username still set, test the plan subscribe and unsubscribe mechanisms.
     request.database_config_user()->setSubscribeToConsultationNotesEditedByMe (false);
     identifier = database_notes.store_new_note ("", 1, 1, 1, "Summary", "Contents", false);
-    evaluate (__LINE__, __func__, false, database_notes.is_subscribed (identifier, "unittest"));
+    EXPECT_EQ (false, database_notes.is_subscribed (identifier, "unittest"));
     database_notes.subscribe (identifier);
-    evaluate (__LINE__, __func__, true, database_notes.is_subscribed (identifier, "unittest"));
+    EXPECT_EQ (true, database_notes.is_subscribed (identifier, "unittest"));
     database_notes.unsubscribe (identifier);
-    evaluate (__LINE__, __func__, false, database_notes.is_subscribed (identifier, "unittest"));
+    EXPECT_EQ (false, database_notes.is_subscribed (identifier, "unittest"));
     database_notes.subscribe (identifier);
-    evaluate (__LINE__, __func__, true, database_notes.is_subscribed (identifier, "unittest"));
+    EXPECT_EQ (true, database_notes.is_subscribed (identifier, "unittest"));
     database_notes.unsubscribe (identifier);
-    evaluate (__LINE__, __func__, false, database_notes.is_subscribed (identifier, "unittest"));
+    EXPECT_EQ (false, database_notes.is_subscribed (identifier, "unittest"));
     
     // Test subscribing and unsubscribing other users.
     database_notes.subscribe_user (identifier, "a");
     database_notes.subscribe_user (identifier, "b");
     subscribers = database_notes.get_subscribers (identifier);
-    evaluate (__LINE__, __func__, {"a", "b"}, subscribers);
+    vector<string> standard_subscribers {"a", "b"};
+    EXPECT_EQ (standard_subscribers, subscribers);
     database_notes.unsubscribe_user (identifier, "a");
     subscribers = database_notes.get_subscribers (identifier);
-    evaluate (__LINE__, __func__, {"b"}, subscribers);
+    EXPECT_EQ (vector<string>{"b"}, subscribers);
     database_notes.set_subscribers (identifier, {"aa", "bb"});
     subscribers = database_notes.get_subscribers (identifier);
-    evaluate (__LINE__, __func__, {"aa", "bb"}, subscribers);
+    standard_subscribers = {"aa", "bb"};
+    EXPECT_EQ (standard_subscribers, subscribers);
   }
 
   // Test assignments.
@@ -360,60 +364,63 @@ void test_database_notes ()
     // Create a note and check that it was not assigned to anybody.
     int oldidentifier = database_notes.store_new_note ("", 0, 0, 0, "Summary", "Contents", false);
     vector <string> assignees = database_notes.get_assignees (oldidentifier);
-    evaluate (__LINE__, __func__, {}, assignees);
+    EXPECT_EQ (vector <string>{}, assignees);
     int newidentifier = database_notes.store_new_note ("", 0, 0, 0, "Summary2", "Contents2", false);
     assignees = database_notes.get_assignees (newidentifier);
-    evaluate (__LINE__, __func__, {}, assignees);
+    EXPECT_EQ (vector <string>{}, assignees);
 
     // Assign the note to a user, and check that this reflects in the list of assignees.
     database_notes.assign_user (oldidentifier, "unittest");
     assignees = database_notes.get_assignees (oldidentifier);
-    evaluate (__LINE__, __func__, {"unittest"}, assignees);
+    EXPECT_EQ (vector <string>{"unittest"}, assignees);
     database_notes.assign_user (newidentifier, "unittest");
     assignees = database_notes.get_assignees (newidentifier);
-    evaluate (__LINE__, __func__, {"unittest"}, assignees);
+    EXPECT_EQ (vector <string>{"unittest"}, assignees);
     
     // Test the set_assignees function.
     database_notes.set_assignees (oldidentifier, {"unittest"});
     assignees = database_notes.get_assignees (oldidentifier);
-    evaluate (__LINE__, __func__, {"unittest"}, assignees);
+    EXPECT_EQ (vector <string>{"unittest"}, assignees);
     database_notes.set_assignees (newidentifier, {"unittest"});
     assignees = database_notes.get_assignees (newidentifier);
-    evaluate (__LINE__, __func__, {"unittest"}, assignees);
+    EXPECT_EQ (vector <string>{"unittest"}, assignees);
     
     // Assign note to second user, and check it reflects.
     database_notes.assign_user (oldidentifier, "unittest2");
     assignees = database_notes.get_assignees (oldidentifier);
-    evaluate (__LINE__, __func__, {"unittest", "unittest2"}, assignees);
+    vector <string> standard_assignees = {"unittest", "unittest2"};
+    EXPECT_EQ (standard_assignees, assignees);
     database_notes.assign_user (newidentifier, "unittest3");
     assignees = database_notes.get_assignees (newidentifier);
-    evaluate (__LINE__, __func__, {"unittest", "unittest3"}, assignees);
+    standard_assignees = {"unittest", "unittest3"};
+    EXPECT_EQ (standard_assignees, assignees);
     
     // Based on the above, check the is_assigned function.
-    evaluate (__LINE__, __func__, true, database_notes.is_assigned (oldidentifier, "unittest"));
-    evaluate (__LINE__, __func__, true, database_notes.is_assigned (oldidentifier, "unittest2"));
-    evaluate (__LINE__, __func__, false, database_notes.is_assigned (oldidentifier, "PHPUnit3"));
-    evaluate (__LINE__, __func__, true, database_notes.is_assigned (newidentifier, "unittest"));
-    evaluate (__LINE__, __func__, true, database_notes.is_assigned (newidentifier, "unittest3"));
-    evaluate (__LINE__, __func__, false, database_notes.is_assigned (newidentifier, "PHPUnit3"));
+    EXPECT_EQ (true, database_notes.is_assigned (oldidentifier, "unittest"));
+    EXPECT_EQ (true, database_notes.is_assigned (oldidentifier, "unittest2"));
+    EXPECT_EQ (false, database_notes.is_assigned (oldidentifier, "PHPUnit3"));
+    EXPECT_EQ (true, database_notes.is_assigned (newidentifier, "unittest"));
+    EXPECT_EQ (true, database_notes.is_assigned (newidentifier, "unittest3"));
+    EXPECT_EQ (false, database_notes.is_assigned (newidentifier, "PHPUnit3"));
     
     // Based on the above, test get_all_assignees.
     assignees = database_notes.get_all_assignees ({""});
-    evaluate (__LINE__, __func__, {"unittest", "unittest2", "unittest3"}, assignees);
+    standard_assignees = {"unittest", "unittest2", "unittest3"};
+    EXPECT_EQ (standard_assignees, assignees);
     
     // Based on the above, test the unassign_user function.
     database_notes.unassign_user (oldidentifier, "unittest");
     assignees = database_notes.get_assignees (oldidentifier);
-    evaluate (__LINE__, __func__, {"unittest2"}, assignees);
+    EXPECT_EQ (vector<string>{"unittest2"}, assignees);
     database_notes.unassign_user (oldidentifier, "unittest2");
     assignees = database_notes.get_assignees (oldidentifier);
-    evaluate (__LINE__, __func__, {}, assignees);
+    EXPECT_EQ (vector<string>{}, assignees);
     database_notes.unassign_user (newidentifier, "unittest");
     assignees = database_notes.get_assignees (newidentifier);
-    evaluate (__LINE__, __func__, {"unittest3"}, assignees);
+    EXPECT_EQ (vector<string>{"unittest3"}, assignees);
     database_notes.unassign_user (newidentifier, "unittest3");
     assignees = database_notes.get_assignees (newidentifier);
-    evaluate (__LINE__, __func__, {}, assignees);
+    EXPECT_EQ (vector<string>{}, assignees);
   }
 
   // Test the getters and the setters for the Bible.
@@ -430,22 +437,22 @@ void test_database_notes ()
     request.session_logic()->set_username ("unittest");
     int oldidentifier = database_notes.store_new_note ("unittest", 0, 0, 0, "Summary", "Contents", false);
     string bible = database_notes.get_bible (oldidentifier);
-    evaluate (__LINE__, __func__, "unittest", bible);
+    EXPECT_EQ ("unittest", bible);
     int newidentifier = database_notes.store_new_note ("unittest2", 0, 0, 0, "Summary", "Contents", false);
     bible = database_notes.get_bible (newidentifier);
-    evaluate (__LINE__, __func__, "unittest2", bible);
+    EXPECT_EQ ("unittest2", bible);
     database_notes.set_bible (oldidentifier, "PHPUnit2");
     bible = database_notes.get_bible (oldidentifier);
-    evaluate (__LINE__, __func__, "PHPUnit2", bible);
+    EXPECT_EQ ("PHPUnit2", bible);
     database_notes.set_bible (newidentifier, "PHPUnit3");
     bible = database_notes.get_bible (newidentifier);
-    evaluate (__LINE__, __func__, "PHPUnit3", bible);
+    EXPECT_EQ ("PHPUnit3", bible);
     database_notes.set_bible (oldidentifier, "");
     bible = database_notes.get_bible (oldidentifier);
-    evaluate (__LINE__, __func__, "", bible);
+    EXPECT_EQ ("", bible);
     database_notes.set_bible (newidentifier, "");
     bible = database_notes.get_bible (newidentifier);
-    evaluate (__LINE__, __func__, "", bible);
+    EXPECT_EQ ("", bible);
   }
 
   // Test getting and setting the passage(s).
@@ -468,24 +475,24 @@ void test_database_notes ()
     // Test getting passage.
     vector <Passage> passages = database_notes.get_passages (oldidentifier);
     Passage standard = Passage ("", 10, 9, "8");
-    evaluate (__LINE__, __func__, 1, static_cast<int> (passages.size()));
-    evaluate (__LINE__, __func__, true, standard.equal (passages [0]));
+    EXPECT_EQ (1, static_cast<int> (passages.size()));
+    EXPECT_EQ (true, standard.equal (passages [0]));
     passages = database_notes.get_passages (newidentifier);
     standard = Passage ("", 5, 4, "3");
-    evaluate (__LINE__, __func__, 1, static_cast<int>(passages.size()));
-    evaluate (__LINE__, __func__, true, standard.equal (passages [0]));
+    EXPECT_EQ (1, static_cast<int>(passages.size()));
+    EXPECT_EQ (true, standard.equal (passages [0]));
     
     // Test setting the passage.
     standard = Passage ("", 5, 6, "7");
     database_notes.set_passages (oldidentifier, {standard});
     passages = database_notes.get_passages (oldidentifier);
-    evaluate (__LINE__, __func__, 1, static_cast<int>(passages.size()));
-    evaluate (__LINE__, __func__, true, standard.equal (passages [0]));
+    EXPECT_EQ (1, static_cast<int>(passages.size()));
+    EXPECT_EQ (true, standard.equal (passages [0]));
     standard = Passage ("", 12, 13, "14");
     database_notes.set_passages (newidentifier, {standard});
     passages = database_notes.get_passages (newidentifier);
-    evaluate (__LINE__, __func__, 1, static_cast<int>(passages.size()));
-    evaluate (__LINE__, __func__, true, standard.equal (passages [0]));
+    EXPECT_EQ (1, static_cast<int>(passages.size()));
+    EXPECT_EQ (true, standard.equal (passages [0]));
   }
 
   // Test getting and setting the note status.
@@ -507,17 +514,17 @@ void test_database_notes ()
     
     // Test default status = New.
     string status = database_notes.get_status (oldidentifier);
-    evaluate (__LINE__, __func__, "New", status);
+    EXPECT_EQ ("New", status);
     status = database_notes.get_status (newidentifier);
-    evaluate (__LINE__, __func__, "New", status);
+    EXPECT_EQ ("New", status);
     
     // Test setting the status.
     database_notes.set_status (oldidentifier, "xxxxx");
     status = database_notes.get_status (oldidentifier);
-    evaluate (__LINE__, __func__, "xxxxx", status);
+    EXPECT_EQ ("xxxxx", status);
     database_notes.set_status (newidentifier, "yyyyy");
     status = database_notes.get_status (newidentifier);
-    evaluate (__LINE__, __func__, "yyyyy", status);
+    EXPECT_EQ ("yyyyy", status);
     
     // Test getting all possible statuses.
     vector <Database_Notes_Text> statuses = database_notes.get_possible_statuses ();
@@ -525,7 +532,8 @@ void test_database_notes ()
     for (auto & note_text : statuses) {
       rawstatuses.push_back (note_text.raw);
     }
-    evaluate (__LINE__, __func__, {"yyyyy", "xxxxx", "New", "Pending", "In progress", "Done", "Reopened"}, rawstatuses);
+    vector <string> standard_rawstatuses {"yyyyy", "xxxxx", "New", "Pending", "In progress", "Done", "Reopened"};
+    EXPECT_EQ (standard_rawstatuses, rawstatuses);
   }
 
   // Getting and setting the severity.
@@ -547,23 +555,23 @@ void test_database_notes ()
     
     // Test default severity = Normal.
     string severity = database_notes.get_severity (oldidentifier);
-    evaluate (__LINE__, __func__, "Normal", severity);
+    EXPECT_EQ ("Normal", severity);
     severity = database_notes.get_severity (newidentifier);
-    evaluate (__LINE__, __func__, "Normal", severity);
+    EXPECT_EQ ("Normal", severity);
     
     // Test setting the severity.
     database_notes.set_raw_severity (oldidentifier, 0);
     severity = database_notes.get_severity (oldidentifier);
-    evaluate (__LINE__, __func__, "Wish", severity);
+    EXPECT_EQ ("Wish", severity);
     database_notes.set_raw_severity (newidentifier, 0);
     severity = database_notes.get_severity (newidentifier);
-    evaluate (__LINE__, __func__, "Wish", severity);
+    EXPECT_EQ ("Wish", severity);
     database_notes.set_raw_severity (oldidentifier, 4);
     severity = database_notes.get_severity (oldidentifier);
-    evaluate (__LINE__, __func__, "Major", severity);
+    EXPECT_EQ ("Major", severity);
     database_notes.set_raw_severity (newidentifier, 4);
     severity = database_notes.get_severity (newidentifier);
-    evaluate (__LINE__, __func__, "Major", severity);
+    EXPECT_EQ ("Major", severity);
     
     // Test getting all unique severities.
     vector <Database_Notes_Text> severities = database_notes.get_possible_severities ();
@@ -573,8 +581,10 @@ void test_database_notes ()
       rawseverities.push_back (note_text.raw);
       localizedseverities.push_back (note_text.localized);
     }
-    evaluate (__LINE__, __func__, {"0", "1", "2", "3", "4", "5"}, rawseverities);
-    evaluate (__LINE__, __func__, {"Wish", "Minor", "Normal", "Important", "Major", "Critical"}, localizedseverities);
+    vector <string> standard_severities {"0", "1", "2", "3", "4", "5"};
+    EXPECT_EQ (standard_severities, rawseverities);
+    standard_severities = {"Wish", "Minor", "Normal", "Important", "Major", "Critical"};
+    EXPECT_EQ (standard_severities, localizedseverities);
   }
 
   // Test setting and getting the "modified" property of notes.
@@ -597,18 +607,18 @@ void test_database_notes ()
     
     // Test getter.
     int value = database_notes.get_modified (oldidentifier);
-    if ((value < time) || (value > time + 1)) evaluate (__LINE__, __func__, time, value);
+    if ((value < time) || (value > time + 1)) EXPECT_EQ (time, value);
     value = database_notes.get_modified (newidentifier);
-    if ((value < time) || (value > time + 1)) evaluate (__LINE__, __func__, time, value);
+    if ((value < time) || (value > time + 1)) EXPECT_EQ (time, value);
     
     // Test setter.
     time = 123456789;
     database_notes.set_modified (oldidentifier, time);
     value = database_notes.get_modified (oldidentifier);
-    evaluate (__LINE__, __func__, time, value);;
+    EXPECT_EQ (time, value);;
     database_notes.set_modified (newidentifier, time);
     value = database_notes.get_modified (newidentifier);
-    evaluate (__LINE__, __func__, time, value);;
+    EXPECT_EQ (time, value);;
   }
 
   // Get identifiers.
@@ -635,7 +645,7 @@ void test_database_notes ()
     vector <int> identifiers = database_notes.get_identifiers ();
     sort (standardids.begin(), standardids.end());
     sort (identifiers.begin(), identifiers.end());
-    evaluate (__LINE__, __func__, standardids, identifiers);
+    EXPECT_EQ (standardids, identifiers);
   }
 
   // Setting the note identifier.
@@ -657,18 +667,18 @@ void test_database_notes ()
     // Contents of the note.
     string original_contents1 = database_notes.get_contents (identifier1);
     if (original_contents1.length () <= 20) {
-      evaluate (__LINE__, __func__, "Should be greater than 20", filter::strings::convert_to_string (static_cast<int>(original_contents1.length ())));
+      EXPECT_EQ ("Should be greater than 20", filter::strings::convert_to_string (static_cast<int>(original_contents1.length ())));
     }
     string original_contents2 = database_notes.get_contents (identifier2);
     if (original_contents2.length () <= 20) {
-      evaluate (__LINE__, __func__, "Should be greater than 20", filter::strings::convert_to_string (static_cast<int>(original_contents2.length())));
+      EXPECT_EQ ("Should be greater than 20", filter::strings::convert_to_string (static_cast<int>(original_contents2.length())));
     }
     
     // Checksum of the notes.
     string original_checksum1 = database_notes.get_checksum (identifier1);
-    evaluate (__LINE__, __func__, 32, static_cast<int>(original_checksum1.length()));
+    EXPECT_EQ (32, static_cast<int>(original_checksum1.length()));
     string original_checksum2 = database_notes.get_checksum (identifier2);
-    evaluate (__LINE__, __func__, 32, static_cast<int>(original_checksum2.length()));
+    EXPECT_EQ (32, static_cast<int>(original_checksum2.length()));
     
     // Change the identifier.
     int new_id1 = database_notes.get_new_unique_identifier ();
@@ -678,22 +688,22 @@ void test_database_notes ()
     
     // Check old and new identifier for v2 and v2.
     string contents = database_notes.get_contents (identifier1);
-    evaluate (__LINE__, __func__, "", contents);
+    EXPECT_EQ ("", contents);
     contents = database_notes.get_contents (new_id1);
-    evaluate (__LINE__, __func__, original_contents1, contents);
+    EXPECT_EQ (original_contents1, contents);
     contents = database_notes.get_contents (identifier2);
-    evaluate (__LINE__, __func__, "", contents);
+    EXPECT_EQ ("", contents);
     contents = database_notes.get_contents (new_id2);
-    evaluate (__LINE__, __func__, original_contents2, contents);
+    EXPECT_EQ (original_contents2, contents);
     
     string checksum = database_notes.get_checksum (identifier1);
-    evaluate (__LINE__, __func__, "", checksum);
+    EXPECT_EQ ("", checksum);
     checksum = database_notes.get_checksum (new_id1);
-    evaluate (__LINE__, __func__, original_checksum1, checksum);
+    EXPECT_EQ (original_checksum1, checksum);
     checksum = database_notes.get_checksum (identifier2);
-    evaluate (__LINE__, __func__, "", checksum);
+    EXPECT_EQ ("", checksum);
     checksum = database_notes.get_checksum (new_id2);
-    evaluate (__LINE__, __func__, original_checksum2, checksum);
+    EXPECT_EQ (original_checksum2, checksum);
   }
 
   // Testing note due for deletion.
@@ -719,30 +729,31 @@ void test_database_notes ()
     database_notes.touch_marked_for_deletion ();
     
     vector <int> identifiers = database_notes.get_due_for_deletion ();
-    evaluate (__LINE__, __func__, {}, identifiers);
+    EXPECT_EQ (vector <int>{}, identifiers);
     identifiers = database_notes.get_due_for_deletion ();
-    evaluate (__LINE__, __func__, {}, identifiers);
+    EXPECT_EQ (vector <int>{}, identifiers);
     
     database_notes.touch_marked_for_deletion ();
     database_notes.touch_marked_for_deletion ();
     database_notes.touch_marked_for_deletion ();
     database_notes.touch_marked_for_deletion ();
     identifiers = database_notes.get_due_for_deletion ();
-    evaluate (__LINE__, __func__, {}, identifiers);
+    EXPECT_EQ (vector <int>{}, identifiers);
     identifiers = database_notes.get_due_for_deletion ();
-    evaluate (__LINE__, __func__, {}, identifiers);
+    EXPECT_EQ (vector <int>{}, identifiers);
     
     database_notes.touch_marked_for_deletion ();
     identifiers = database_notes.get_due_for_deletion ();
-    evaluate (__LINE__, __func__, {oldidentifier, newidentifier}, identifiers);
+    vector <int> standard_identifiers {oldidentifier, newidentifier};
+    EXPECT_EQ (standard_identifiers, identifiers);
     identifiers = database_notes.get_due_for_deletion ();
-    evaluate (__LINE__, __func__, {oldidentifier, newidentifier}, identifiers);
+    EXPECT_EQ (standard_identifiers, identifiers);
     
     database_notes.touch_marked_for_deletion ();
     identifiers = database_notes.get_due_for_deletion ();
-    evaluate (__LINE__, __func__, {oldidentifier, newidentifier}, identifiers);
+    EXPECT_EQ (standard_identifiers, identifiers);
     identifiers = database_notes.get_due_for_deletion ();
-    evaluate (__LINE__, __func__, {oldidentifier, newidentifier}, identifiers);
+    EXPECT_EQ (standard_identifiers, identifiers);
   }
 
   // Test unmarking a note for deletion.
@@ -774,15 +785,15 @@ void test_database_notes ()
     database_notes.unmark_for_deletion (newidentifier);
 
     vector <int> identifiers = database_notes.get_due_for_deletion ();
-    evaluate (__LINE__, __func__, {}, identifiers);
+    EXPECT_EQ (vector <int>{}, identifiers);
     identifiers = database_notes.get_due_for_deletion ();
-    evaluate (__LINE__, __func__, {}, identifiers);
+    EXPECT_EQ (vector <int>{}, identifiers);
     
     database_notes.touch_marked_for_deletion ();
     identifiers = database_notes.get_due_for_deletion ();
-    evaluate (__LINE__, __func__, {}, identifiers);
+    EXPECT_EQ (vector <int>{}, identifiers);
     identifiers = database_notes.get_due_for_deletion ();
-    evaluate (__LINE__, __func__, {}, identifiers);
+    EXPECT_EQ (vector <int>{}, identifiers);
   }
 
   // Test touching several notes marked for deletion.
@@ -819,31 +830,34 @@ void test_database_notes ()
     database_notes.touch_marked_for_deletion ();
 
     vector <int> identifiers = database_notes.get_due_for_deletion ();
-    evaluate (__LINE__, __func__, {}, identifiers);
+    EXPECT_EQ (vector <int>{}, identifiers);
     identifiers = database_notes.get_due_for_deletion ();
-    evaluate (__LINE__, __func__, {}, identifiers);
+    EXPECT_EQ (vector <int>{}, identifiers);
     
     database_notes.touch_marked_for_deletion ();
     identifiers = database_notes.get_due_for_deletion ();
-    evaluate (__LINE__, __func__, {oldidentifier1, newidentifier1}, identifiers);
+    vector <int> standard_identifiers {oldidentifier1, newidentifier1};
+    EXPECT_EQ (standard_identifiers, identifiers);
     identifiers = database_notes.get_due_for_deletion ();
-    evaluate (__LINE__, __func__, {oldidentifier1, newidentifier1}, identifiers);
+    EXPECT_EQ (standard_identifiers, identifiers);
 
     database_notes.unmark_for_deletion (oldidentifier1);
     database_notes.unmark_for_deletion (newidentifier1);
     database_notes.touch_marked_for_deletion ();
     identifiers = database_notes.get_due_for_deletion ();
-    evaluate (__LINE__, __func__, {oldidentifier2, newidentifier2}, identifiers);
+    standard_identifiers = {oldidentifier2, newidentifier2};
+    EXPECT_EQ (standard_identifiers, identifiers);
     identifiers = database_notes.get_due_for_deletion ();
-    evaluate (__LINE__, __func__, {oldidentifier2, newidentifier2}, identifiers);
+    EXPECT_EQ (standard_identifiers, identifiers);
     
     database_notes.unmark_for_deletion (oldidentifier2);
     database_notes.unmark_for_deletion (newidentifier2);
     database_notes.touch_marked_for_deletion ();
     identifiers = database_notes.get_due_for_deletion ();
-    evaluate (__LINE__, __func__, {oldidentifier3, newidentifier3}, identifiers);
+    standard_identifiers = {oldidentifier3, newidentifier3};
+    EXPECT_EQ (standard_identifiers, identifiers);
     identifiers = database_notes.get_due_for_deletion ();
-    evaluate (__LINE__, __func__, {oldidentifier3, newidentifier3}, identifiers);
+    EXPECT_EQ (standard_identifiers, identifiers);
   }
 
   // Testing whether note is marked for deletion.
@@ -865,48 +879,48 @@ void test_database_notes ()
     int newidentifier3 = database_notes.store_new_note ("", 0, 0, 0, "summary", "contents", false);
 
     database_notes.mark_for_deletion (oldidentifier1);
-    evaluate (__LINE__, __func__, true, database_notes.is_marked_for_deletion (oldidentifier1));
-    evaluate (__LINE__, __func__, true, database_notes.is_marked_for_deletion (oldidentifier1));
-    evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion (oldidentifier2));
-    evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion (oldidentifier2));
+    EXPECT_EQ (true, database_notes.is_marked_for_deletion (oldidentifier1));
+    EXPECT_EQ (true, database_notes.is_marked_for_deletion (oldidentifier1));
+    EXPECT_EQ (false, database_notes.is_marked_for_deletion (oldidentifier2));
+    EXPECT_EQ (false, database_notes.is_marked_for_deletion (oldidentifier2));
     database_notes.mark_for_deletion (newidentifier1);
-    evaluate (__LINE__, __func__, true, database_notes.is_marked_for_deletion (newidentifier1));
-    evaluate (__LINE__, __func__, true, database_notes.is_marked_for_deletion (newidentifier1));
-    evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion (newidentifier2));
-    evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion (newidentifier2));
+    EXPECT_EQ (true, database_notes.is_marked_for_deletion (newidentifier1));
+    EXPECT_EQ (true, database_notes.is_marked_for_deletion (newidentifier1));
+    EXPECT_EQ (false, database_notes.is_marked_for_deletion (newidentifier2));
+    EXPECT_EQ (false, database_notes.is_marked_for_deletion (newidentifier2));
     
     database_notes.unmark_for_deletion (oldidentifier2);
-    evaluate (__LINE__, __func__, true, database_notes.is_marked_for_deletion (oldidentifier1));
-    evaluate (__LINE__, __func__, true, database_notes.is_marked_for_deletion (oldidentifier1));
-    evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion (oldidentifier2));
-    evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion (oldidentifier2));
+    EXPECT_EQ (true, database_notes.is_marked_for_deletion (oldidentifier1));
+    EXPECT_EQ (true, database_notes.is_marked_for_deletion (oldidentifier1));
+    EXPECT_EQ (false, database_notes.is_marked_for_deletion (oldidentifier2));
+    EXPECT_EQ (false, database_notes.is_marked_for_deletion (oldidentifier2));
     database_notes.unmark_for_deletion (newidentifier2);
-    evaluate (__LINE__, __func__, true, database_notes.is_marked_for_deletion (newidentifier1));
-    evaluate (__LINE__, __func__, true, database_notes.is_marked_for_deletion (newidentifier1));
-    evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion (newidentifier2));
-    evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion (newidentifier2));
+    EXPECT_EQ (true, database_notes.is_marked_for_deletion (newidentifier1));
+    EXPECT_EQ (true, database_notes.is_marked_for_deletion (newidentifier1));
+    EXPECT_EQ (false, database_notes.is_marked_for_deletion (newidentifier2));
+    EXPECT_EQ (false, database_notes.is_marked_for_deletion (newidentifier2));
 
     database_notes.unmark_for_deletion (oldidentifier1);
-    evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion (oldidentifier1));
-    evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion (oldidentifier1));
-    evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion (oldidentifier2));
-    evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion (oldidentifier2));
+    EXPECT_EQ (false, database_notes.is_marked_for_deletion (oldidentifier1));
+    EXPECT_EQ (false, database_notes.is_marked_for_deletion (oldidentifier1));
+    EXPECT_EQ (false, database_notes.is_marked_for_deletion (oldidentifier2));
+    EXPECT_EQ (false, database_notes.is_marked_for_deletion (oldidentifier2));
     database_notes.unmark_for_deletion (newidentifier1);
-    evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion (newidentifier1));
-    evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion (newidentifier1));
-    evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion (newidentifier2));
-    evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion (newidentifier2));
+    EXPECT_EQ (false, database_notes.is_marked_for_deletion (newidentifier1));
+    EXPECT_EQ (false, database_notes.is_marked_for_deletion (newidentifier1));
+    EXPECT_EQ (false, database_notes.is_marked_for_deletion (newidentifier2));
+    EXPECT_EQ (false, database_notes.is_marked_for_deletion (newidentifier2));
 
     database_notes.mark_for_deletion (oldidentifier2);
-    evaluate (__LINE__, __func__, true, database_notes.is_marked_for_deletion (oldidentifier2));
-    evaluate (__LINE__, __func__, true, database_notes.is_marked_for_deletion (oldidentifier2));
-    evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion (oldidentifier3));
-    evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion (oldidentifier3));
+    EXPECT_EQ (true, database_notes.is_marked_for_deletion (oldidentifier2));
+    EXPECT_EQ (true, database_notes.is_marked_for_deletion (oldidentifier2));
+    EXPECT_EQ (false, database_notes.is_marked_for_deletion (oldidentifier3));
+    EXPECT_EQ (false, database_notes.is_marked_for_deletion (oldidentifier3));
     database_notes.mark_for_deletion (newidentifier2);
-    evaluate (__LINE__, __func__, true, database_notes.is_marked_for_deletion (newidentifier2));
-    evaluate (__LINE__, __func__, true, database_notes.is_marked_for_deletion (newidentifier2));
-    evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion (newidentifier3));
-    evaluate (__LINE__, __func__, false, database_notes.is_marked_for_deletion (newidentifier3));
+    EXPECT_EQ (true, database_notes.is_marked_for_deletion (newidentifier2));
+    EXPECT_EQ (true, database_notes.is_marked_for_deletion (newidentifier2));
+    EXPECT_EQ (false, database_notes.is_marked_for_deletion (newidentifier3));
+    EXPECT_EQ (false, database_notes.is_marked_for_deletion (newidentifier3));
   }
 
   // Test operations on the checksum.
@@ -926,135 +940,135 @@ void test_database_notes ()
     
     // Checksum of new note should be calculated.
     string good_checksum_old = database_notes.get_checksum (oldidentifier);
-    evaluate (__LINE__, __func__, false, good_checksum_old.empty());
+    EXPECT_EQ (false, good_checksum_old.empty());
     string good_checksum_new = database_notes.get_checksum (newidentifier);
-    evaluate (__LINE__, __func__, false, good_checksum_new.empty());
+    EXPECT_EQ (false, good_checksum_new.empty());
     // The two should match.
-    evaluate (__LINE__, __func__, good_checksum_old, good_checksum_new);
+    EXPECT_EQ (good_checksum_old, good_checksum_new);
     
     // Clear checksum, and recalculate it.
     string outdated_checksum = "outdated checksum";
     database_notes.set_checksum (oldidentifier, outdated_checksum);
     string checksum = database_notes.get_checksum (oldidentifier);
-    evaluate (__LINE__, __func__, outdated_checksum, checksum);
+    EXPECT_EQ (outdated_checksum, checksum);
     database_notes.set_checksum (newidentifier, outdated_checksum);
     checksum = database_notes.get_checksum (newidentifier);
-    evaluate (__LINE__, __func__, outdated_checksum, checksum);
+    EXPECT_EQ (outdated_checksum, checksum);
     database_notes.sync ();
     // Sometimes something strange happens:
     // At times the checksum gets erased as the sync routine cannot find the original note.
     // The sync (2) call did not make any difference.
     checksum = database_notes.get_checksum (oldidentifier);
-    if (!checksum.empty()) evaluate (__LINE__, __func__, good_checksum_old, checksum);
+    if (!checksum.empty()) EXPECT_EQ (good_checksum_old, checksum);
     database_notes.set_checksum (oldidentifier, outdated_checksum);
     checksum = database_notes.get_checksum (newidentifier);
-    if (!checksum.empty()) evaluate (__LINE__, __func__, good_checksum_new, checksum);
+    if (!checksum.empty()) EXPECT_EQ (good_checksum_new, checksum);
     database_notes.set_checksum (newidentifier, outdated_checksum);
     
     // Test that saving a note updates the checksum in most cases.
     database_notes.set_checksum (oldidentifier, "");
     checksum = database_notes.get_checksum (oldidentifier);
-    evaluate (__LINE__, __func__, "", checksum);
+    EXPECT_EQ ("", checksum);
     database_notes.set_modified (oldidentifier, 1234567);
     checksum = database_notes.get_checksum (oldidentifier);
-    evaluate (__LINE__, __func__, false, checksum.empty());
+    EXPECT_EQ (false, checksum.empty());
     database_notes.set_checksum (newidentifier, "");
     checksum = database_notes.get_checksum (newidentifier);
-    evaluate (__LINE__, __func__, "", checksum);
+    EXPECT_EQ ("", checksum);
     database_notes.set_modified (newidentifier, 1234567);
     checksum = database_notes.get_checksum (newidentifier);
-    evaluate (__LINE__, __func__, false, checksum.empty());
+    EXPECT_EQ (false, checksum.empty());
 
     database_notes.delete_checksum (oldidentifier);
     checksum = database_notes.get_checksum (oldidentifier);
-    evaluate (__LINE__, __func__, "", checksum);
+    EXPECT_EQ ("", checksum);
     database_notes.set_subscribers (oldidentifier, {"subscribers"});
     checksum = database_notes.get_checksum (oldidentifier);
-    evaluate (__LINE__, __func__, false, checksum.empty());
+    EXPECT_EQ (false, checksum.empty());
     database_notes.delete_checksum (newidentifier);
     checksum = database_notes.get_checksum (newidentifier);
-    evaluate (__LINE__, __func__, "", checksum);
+    EXPECT_EQ ("", checksum);
     database_notes.set_subscribers (newidentifier, {"subscribers"});
     checksum = database_notes.get_checksum (newidentifier);
-    evaluate (__LINE__, __func__, false, checksum.empty());
+    EXPECT_EQ (false, checksum.empty());
     
     database_notes.set_checksum (oldidentifier, "");
     checksum = database_notes.get_checksum (oldidentifier);
-    evaluate (__LINE__, __func__, "", checksum);
+    EXPECT_EQ ("", checksum);
     database_notes.set_bible (oldidentifier, "unittest");
     checksum = database_notes.get_checksum (oldidentifier);
-    evaluate (__LINE__, __func__, false, checksum.empty());
+    EXPECT_EQ (false, checksum.empty());
     database_notes.set_checksum (newidentifier, "");
     checksum = database_notes.get_checksum (newidentifier);
-    evaluate (__LINE__, __func__, "", checksum);
+    EXPECT_EQ ("", checksum);
     database_notes.set_bible (newidentifier, "unittest");
     checksum = database_notes.get_checksum (newidentifier);
-    evaluate (__LINE__, __func__, false, checksum.empty());
+    EXPECT_EQ (false, checksum.empty());
 
     database_notes.delete_checksum (oldidentifier);
     checksum = database_notes.get_checksum (oldidentifier);
-    evaluate (__LINE__, __func__, "", checksum);
+    EXPECT_EQ ("", checksum);
     database_notes.set_passages (oldidentifier, {});
     checksum = database_notes.get_checksum (oldidentifier);
-    evaluate (__LINE__, __func__, false, checksum.empty());
+    EXPECT_EQ (false, checksum.empty());
     database_notes.delete_checksum (newidentifier);
     checksum = database_notes.get_checksum (newidentifier);
-    evaluate (__LINE__, __func__, "", checksum);
+    EXPECT_EQ ("", checksum);
     database_notes.set_passages (newidentifier, {});
     checksum = database_notes.get_checksum (newidentifier);
-    evaluate (__LINE__, __func__, false, checksum.empty());
+    EXPECT_EQ (false, checksum.empty());
     
     database_notes.set_checksum (oldidentifier, "");
     checksum = database_notes.get_checksum (oldidentifier);
-    evaluate (__LINE__, __func__, "", checksum);
+    EXPECT_EQ ("", checksum);
     database_notes.set_status (oldidentifier, "Status");
     checksum = database_notes.get_checksum (oldidentifier);
-    evaluate (__LINE__, __func__, false, checksum.empty());
+    EXPECT_EQ (false, checksum.empty());
     database_notes.set_checksum (newidentifier, "");
     checksum = database_notes.get_checksum (newidentifier);
-    evaluate (__LINE__, __func__, "", checksum);
+    EXPECT_EQ ("", checksum);
     database_notes.set_status (newidentifier, "Status");
     checksum = database_notes.get_checksum (newidentifier);
-    evaluate (__LINE__, __func__, false, checksum.empty());
+    EXPECT_EQ (false, checksum.empty());
     
     database_notes.delete_checksum (oldidentifier);
     checksum = database_notes.get_checksum (oldidentifier);
-    evaluate (__LINE__, __func__, "", checksum);
+    EXPECT_EQ ("", checksum);
     database_notes.set_raw_severity (oldidentifier, 123);
     checksum = database_notes.get_checksum (oldidentifier);
-    evaluate (__LINE__, __func__, false, checksum.empty());
+    EXPECT_EQ (false, checksum.empty());
     database_notes.delete_checksum (newidentifier);
     checksum = database_notes.get_checksum (newidentifier);
-    evaluate (__LINE__, __func__, "", checksum);
+    EXPECT_EQ ("", checksum);
     database_notes.set_raw_severity (newidentifier, 123);
     checksum = database_notes.get_checksum (newidentifier);
-    evaluate (__LINE__, __func__, false, checksum.empty());
+    EXPECT_EQ (false, checksum.empty());
     
     database_notes.set_checksum (oldidentifier, "");
     checksum = database_notes.get_checksum (oldidentifier);
-    evaluate (__LINE__, __func__, "", checksum);
+    EXPECT_EQ ("", checksum);
     database_notes.set_summary (oldidentifier, "new");
     checksum = database_notes.get_checksum (oldidentifier);
-    evaluate (__LINE__, __func__, false, checksum.empty());
+    EXPECT_EQ (false, checksum.empty());
     database_notes.set_checksum (newidentifier, "");
     checksum = database_notes.get_checksum (newidentifier);
-    evaluate (__LINE__, __func__, "", checksum);
+    EXPECT_EQ ("", checksum);
     database_notes.set_summary (newidentifier, "new");
     checksum = database_notes.get_checksum (newidentifier);
-    evaluate (__LINE__, __func__, false, checksum.empty());
+    EXPECT_EQ (false, checksum.empty());
     
     database_notes.delete_checksum (oldidentifier);
     checksum = database_notes.get_checksum (oldidentifier);
-    evaluate (__LINE__, __func__, "", checksum);
+    EXPECT_EQ ("", checksum);
     database_notes.set_contents (oldidentifier, "new");
     checksum = database_notes.get_checksum (oldidentifier);
-    evaluate (__LINE__, __func__, false, checksum.empty());
+    EXPECT_EQ (false, checksum.empty());
     database_notes.delete_checksum (newidentifier);
     checksum = database_notes.get_checksum (newidentifier);
-    evaluate (__LINE__, __func__, "", checksum);
+    EXPECT_EQ ("", checksum);
     database_notes.set_contents (newidentifier, "new");
     checksum = database_notes.get_checksum (newidentifier);
-    evaluate (__LINE__, __func__, false, checksum.empty());
+    EXPECT_EQ (false, checksum.empty());
   }
 
   // Test sync logic checksums.
@@ -1081,13 +1095,13 @@ void test_database_notes ()
     // Checksum calculation: slow and fast methods should be the same.
     Sync_Logic sync_logic = Sync_Logic (&request);
     string oldchecksum1 = sync_logic.checksum (oldidentifiers);
-    evaluate (__LINE__, __func__, 32, static_cast<int>(oldchecksum1.length()));
+    EXPECT_EQ (32, static_cast<int>(oldchecksum1.length()));
     string oldchecksum2 = database_notes.get_multiple_checksum (oldidentifiers);
-    evaluate (__LINE__, __func__, oldchecksum1, oldchecksum2);
+    EXPECT_EQ (oldchecksum1, oldchecksum2);
     string newchecksum1 = sync_logic.checksum (newidentifiers);
-    evaluate (__LINE__, __func__, 32, static_cast<int>(newchecksum1.length()));
+    EXPECT_EQ (32, static_cast<int>(newchecksum1.length()));
     string newchecksum2 = database_notes.get_multiple_checksum (newidentifiers);
-    evaluate (__LINE__, __func__, newchecksum1, newchecksum2);
+    EXPECT_EQ (newchecksum1, newchecksum2);
   }
 
   // Test updating checksums.
@@ -1107,23 +1121,23 @@ void test_database_notes ()
 
     // Check checksum.
     string oldchecksum = database_notes.get_checksum (oldidentifier);
-    evaluate (__LINE__, __func__, 32, oldchecksum.length ());
+    EXPECT_EQ (32, oldchecksum.length ());
     string newchecksum = database_notes.get_checksum (newidentifier);
-    evaluate (__LINE__, __func__, oldchecksum, newchecksum);
+    EXPECT_EQ (oldchecksum, newchecksum);
     
     // Clear it and set the checksum again.
     database_notes.delete_checksum (oldidentifier);
     string checksum = database_notes.get_checksum (oldidentifier);
-    evaluate (__LINE__, __func__, "", checksum);
+    EXPECT_EQ ("", checksum);
     database_notes.update_checksum (oldidentifier);
     checksum = database_notes.get_checksum (oldidentifier);
-    evaluate (__LINE__, __func__, oldchecksum, checksum);
+    EXPECT_EQ (oldchecksum, checksum);
     database_notes.delete_checksum (newidentifier);
     checksum = database_notes.get_checksum (newidentifier);
-    evaluate (__LINE__, __func__, "", checksum);
+    EXPECT_EQ ("", checksum);
     database_notes.update_checksum (newidentifier);
     checksum = database_notes.get_checksum (newidentifier);
-    evaluate (__LINE__, __func__, newchecksum, checksum);
+    EXPECT_EQ (newchecksum, checksum);
   }
 
   // Test getting notes within a notes range for given Bibles.
@@ -1152,17 +1166,20 @@ void test_database_notes ()
     
     // Test selection mechanism for certain Bibles.
     vector <int> identifiers = database_notes.get_notes_in_range_for_bibles (100'000'000, 999'999'999, {"bible1", "bible2"}, false);
-    evaluate (__LINE__, __func__, {100'000'000, 50'0000'000, 99'9999'999}, identifiers);
+    vector <int> standard_identifiers {100'000'000, 50'0000'000, 99'9999'999};
+    EXPECT_EQ (standard_identifiers, identifiers);
     
     identifiers = database_notes.get_notes_in_range_for_bibles (100'000'000, 999'999'999, {"bible1", "bible3"}, false);
-    evaluate (__LINE__, __func__, {100'000'000, 999'999'999}, identifiers);
+    standard_identifiers = {100'000'000, 999'999'999};
+    EXPECT_EQ (standard_identifiers, identifiers);
     
     identifiers = database_notes.get_notes_in_range_for_bibles (10'0000'000, 999'999'999, {}, false);
-    evaluate (__LINE__, __func__, {99'9999'999}, identifiers);
+    EXPECT_EQ (vector<int>{99'9999'999}, identifiers);
     
     // Test selection mechanism for any Bible.
     identifiers = database_notes.get_notes_in_range_for_bibles (100'000'000, 999'999'999, {}, true);
-    evaluate (__LINE__, __func__, {100'000'000, 500'000'000, 999'999'999}, identifiers);
+    standard_identifiers = {100'000'000, 500'000'000, 999'999'999};
+    EXPECT_EQ (standard_identifiers, identifiers);
   }
 
   // Test creating a range of identifiers.
@@ -1171,50 +1188,50 @@ void test_database_notes ()
     Sync_Logic sync_logic = Sync_Logic (&request);
     
     vector <Sync_Logic_Range> ranges = sync_logic.create_range (100'000'000, 999'999'999);
-    evaluate (__LINE__, __func__, 10, static_cast<int>(ranges.size()));
-    evaluate (__LINE__, __func__, 100'000'000, ranges[0].low);
-    evaluate (__LINE__, __func__, 189'999'998, ranges[0].high);
-    evaluate (__LINE__, __func__, 189'999'999, ranges[1].low);
-    evaluate (__LINE__, __func__, 279'999'997, ranges[1].high);
-    evaluate (__LINE__, __func__, 279'999'998, ranges[2].low);
-    evaluate (__LINE__, __func__, 369'999'996, ranges[2].high);
-    evaluate (__LINE__, __func__, 369'999'997, ranges[3].low);
-    evaluate (__LINE__, __func__, 459'999'995, ranges[3].high);
-    evaluate (__LINE__, __func__, 459'999'996, ranges[4].low);
-    evaluate (__LINE__, __func__, 549'999'994, ranges[4].high);
-    evaluate (__LINE__, __func__, 549'999'995, ranges[5].low);
-    evaluate (__LINE__, __func__, 639'999'993, ranges[5].high);
-    evaluate (__LINE__, __func__, 639'999'994, ranges[6].low);
-    evaluate (__LINE__, __func__, 729'999'992, ranges[6].high);
-    evaluate (__LINE__, __func__, 729'999'993, ranges[7].low);
-    evaluate (__LINE__, __func__, 819'999'991, ranges[7].high);
-    evaluate (__LINE__, __func__, 819'999'992, ranges[8].low);
-    evaluate (__LINE__, __func__, 909'999'990, ranges[8].high);
-    evaluate (__LINE__, __func__, 909'999'991, ranges[9].low);
-    evaluate (__LINE__, __func__, 999'999'999, ranges[9].high);
+    EXPECT_EQ (10, static_cast<int>(ranges.size()));
+    EXPECT_EQ (100'000'000, ranges[0].low);
+    EXPECT_EQ (189'999'998, ranges[0].high);
+    EXPECT_EQ (189'999'999, ranges[1].low);
+    EXPECT_EQ (279'999'997, ranges[1].high);
+    EXPECT_EQ (279'999'998, ranges[2].low);
+    EXPECT_EQ (369'999'996, ranges[2].high);
+    EXPECT_EQ (369'999'997, ranges[3].low);
+    EXPECT_EQ (459'999'995, ranges[3].high);
+    EXPECT_EQ (459'999'996, ranges[4].low);
+    EXPECT_EQ (549'999'994, ranges[4].high);
+    EXPECT_EQ (549'999'995, ranges[5].low);
+    EXPECT_EQ (639'999'993, ranges[5].high);
+    EXPECT_EQ (639'999'994, ranges[6].low);
+    EXPECT_EQ (729'999'992, ranges[6].high);
+    EXPECT_EQ (729'999'993, ranges[7].low);
+    EXPECT_EQ (819'999'991, ranges[7].high);
+    EXPECT_EQ (819'999'992, ranges[8].low);
+    EXPECT_EQ (909'999'990, ranges[8].high);
+    EXPECT_EQ (909'999'991, ranges[9].low);
+    EXPECT_EQ (999'999'999, ranges[9].high);
     
     ranges = sync_logic.create_range (100'000'000, 100'000'100);
-    evaluate (__LINE__, __func__, 10, static_cast<int>(ranges.size()));
-    evaluate (__LINE__, __func__, 100'000'000, ranges[0].low);
-    evaluate (__LINE__, __func__, 100'000'009, ranges[0].high);
-    evaluate (__LINE__, __func__, 100'000'010, ranges[1].low);
-    evaluate (__LINE__, __func__, 100'000'019, ranges[1].high);
-    evaluate (__LINE__, __func__, 100'000'020, ranges[2].low);
-    evaluate (__LINE__, __func__, 100'000'029, ranges[2].high);
-    evaluate (__LINE__, __func__, 100'000'030, ranges[3].low);
-    evaluate (__LINE__, __func__, 100'000'039, ranges[3].high);
-    evaluate (__LINE__, __func__, 100'000'040, ranges[4].low);
-    evaluate (__LINE__, __func__, 100'000'049, ranges[4].high);
-    evaluate (__LINE__, __func__, 100'000'050, ranges[5].low);
-    evaluate (__LINE__, __func__, 100'000'059, ranges[5].high);
-    evaluate (__LINE__, __func__, 100'000'060, ranges[6].low);
-    evaluate (__LINE__, __func__, 100'000'069, ranges[6].high);
-    evaluate (__LINE__, __func__, 100'000'070, ranges[7].low);
-    evaluate (__LINE__, __func__, 100'000'079, ranges[7].high);
-    evaluate (__LINE__, __func__, 100'000'080, ranges[8].low);
-    evaluate (__LINE__, __func__, 100'000'089, ranges[8].high);
-    evaluate (__LINE__, __func__, 100'000'090, ranges[9].low);
-    evaluate (__LINE__, __func__, 100'000'100, ranges[9].high);
+    EXPECT_EQ (10, static_cast<int>(ranges.size()));
+    EXPECT_EQ (100'000'000, ranges[0].low);
+    EXPECT_EQ (100'000'009, ranges[0].high);
+    EXPECT_EQ (100'000'010, ranges[1].low);
+    EXPECT_EQ (100'000'019, ranges[1].high);
+    EXPECT_EQ (100'000'020, ranges[2].low);
+    EXPECT_EQ (100'000'029, ranges[2].high);
+    EXPECT_EQ (100'000'030, ranges[3].low);
+    EXPECT_EQ (100'000'039, ranges[3].high);
+    EXPECT_EQ (100'000'040, ranges[4].low);
+    EXPECT_EQ (100'000'049, ranges[4].high);
+    EXPECT_EQ (100'000'050, ranges[5].low);
+    EXPECT_EQ (100'000'059, ranges[5].high);
+    EXPECT_EQ (100'000'060, ranges[6].low);
+    EXPECT_EQ (100'000'069, ranges[6].high);
+    EXPECT_EQ (100'000'070, ranges[7].low);
+    EXPECT_EQ (100'000'079, ranges[7].high);
+    EXPECT_EQ (100'000'080, ranges[8].low);
+    EXPECT_EQ (100'000'089, ranges[8].high);
+    EXPECT_EQ (100'000'090, ranges[9].low);
+    EXPECT_EQ (100'000'100, ranges[9].high);
   }
 
   // Test selecting based on a given Bible.
@@ -1235,25 +1252,26 @@ void test_database_notes ()
     
     // Select notes while varying Bible selection.
     vector <int> identifiers = database_notes.select_notes ({"bible1"}, 0, 0, 0, 3, 0, 0, "", "bible1", "", false, -1, 0, "", -1);
-    evaluate (__LINE__, __func__, {identifier1}, identifiers);
+    EXPECT_EQ (vector <int>{identifier1}, identifiers);
     
     identifiers = database_notes.select_notes ({"bible1", "bible2"}, 0, 0, 0, 3, 0, 0, "", "bible2", "", false, -1, 0, "", -1);
-    evaluate (__LINE__, __func__, {identifier2}, identifiers);
+    EXPECT_EQ (vector <int>{identifier2}, identifiers);
     
     identifiers = database_notes.select_notes ({"bible1", "bible2"}, 0, 0, 0, 3, 0, 0, "", "", "", false, -1, 0, "", -1);
-    evaluate (__LINE__, __func__, {identifier1, identifier2}, identifiers);
+    vector <int> standard_identifiers {identifier1, identifier2};
+    EXPECT_EQ (standard_identifiers, identifiers);
     
     identifiers = database_notes.select_notes ({"bible1", "bible2", "bible4"}, 0, 0, 0, 3, 0, 0, "", "bible", "", false, -1, 0, "", -1);
-    evaluate (__LINE__, __func__, {}, identifiers);
+    EXPECT_EQ (vector <int>{}, identifiers);
     
     identifiers = database_notes.select_notes ({}, 0, 0, 0, 3, 0, 0, "", "", "", true, -1, 0, "", -1);
-    evaluate (__LINE__, __func__, {}, identifiers);
+    EXPECT_EQ (vector <int>{}, identifiers);
     
     identifiers = database_notes.select_notes ({"bible1", "bible2", "bible3"}, 0, 0, 0, 3, 0, 0, "", "bible3", "", false, -1, 0, "", -1);
-    evaluate (__LINE__, __func__, {identifier3}, identifiers);
+    EXPECT_EQ (vector <int>{identifier3}, identifiers);
     
     identifiers = database_notes.select_notes ({}, 0, 0, 0, 3, 0, 0, "", "bible3", "", false, -1, 0, "", -1);
-    evaluate (__LINE__, __func__, {identifier3}, identifiers);
+    EXPECT_EQ (vector <int>{identifier3}, identifiers);
   }
 
   // Test the resilience of the notes.
@@ -1267,18 +1285,18 @@ void test_database_notes ()
     database_notes.create ();
     
     bool healthy = database_notes.healthy ();
-    evaluate (__LINE__, __func__, true, healthy);
+    EXPECT_EQ (true, healthy);
     
     string corrupted_database = filter_url_create_root_path ({"unittests", "tests", "notes.sqlite.damaged"});
     string path = database_notes.database_path ();
     filter_url_file_put_contents (path, filter_url_file_get_contents (corrupted_database));
     
     healthy = database_notes.healthy ();
-    evaluate (__LINE__, __func__, false, healthy);
+    EXPECT_EQ (false, healthy);
     
     database_notes.checkup ();
     healthy = database_notes.healthy ();
-    evaluate (__LINE__, __func__, true, healthy);
+    EXPECT_EQ (true, healthy);
 
     // Clean the generated logbook entries away invisibly.
     refresh_sandbox (false);
@@ -1295,18 +1313,18 @@ void test_database_notes ()
     database_notes.create ();
 
     bool healthy = database_notes.checksums_healthy ();
-    evaluate (__LINE__, __func__, true, healthy);
+    EXPECT_EQ (true, healthy);
     
     string corrupted_database = filter_url_create_root_path ({"unittests", "tests", "notes.sqlite.damaged"});
     string path = database_notes.checksums_database_path ();
     filter_url_file_put_contents (path, filter_url_file_get_contents (corrupted_database));
 
     healthy = database_notes.checksums_healthy ();
-    evaluate (__LINE__, __func__, false, healthy);
+    EXPECT_EQ (false, healthy);
 
     database_notes.checkup_checksums ();
     healthy = database_notes.checksums_healthy ();
-    evaluate (__LINE__, __func__, true, healthy);
+    EXPECT_EQ (true, healthy);
 
     // Clear the generated and expected logbook entries away invisibly.
     refresh_sandbox (false);
@@ -1321,11 +1339,11 @@ void test_database_notes ()
     Webserver_Request request;
     Database_Notes database_notes (&request);
     database_notes.create ();
-    evaluate (__LINE__, __func__, true, database_notes.available ());
+    EXPECT_EQ (true, database_notes.available ());
     database_notes.set_availability (false);
-    evaluate (__LINE__, __func__, false, database_notes.available ());
+    EXPECT_EQ (false, database_notes.available ());
     database_notes.set_availability (true);
-    evaluate (__LINE__, __func__, true, database_notes.available ());
+    EXPECT_EQ (true, database_notes.available ());
   }
 
   // Testing public notes.
@@ -1348,34 +1366,34 @@ void test_database_notes ()
     int newidentifier3 = database_notes.store_new_note ("bible3", 1, 2, 3, "summary3", "contents3", false);
     
     // None of them, or others, are public notes.
-    evaluate (__LINE__, __func__, false, database_notes.get_public (oldidentifier1));
-    evaluate (__LINE__, __func__, false, database_notes.get_public (oldidentifier2));
-    evaluate (__LINE__, __func__, false, database_notes.get_public (oldidentifier3));
-    evaluate (__LINE__, __func__, false, database_notes.get_public (oldidentifier1 + 1));
-    evaluate (__LINE__, __func__, false, database_notes.get_public (newidentifier1));
-    evaluate (__LINE__, __func__, false, database_notes.get_public (newidentifier2));
-    evaluate (__LINE__, __func__, false, database_notes.get_public (newidentifier3));
-    evaluate (__LINE__, __func__, false, database_notes.get_public (newidentifier1 + 1));
+    EXPECT_EQ (false, database_notes.get_public (oldidentifier1));
+    EXPECT_EQ (false, database_notes.get_public (oldidentifier2));
+    EXPECT_EQ (false, database_notes.get_public (oldidentifier3));
+    EXPECT_EQ (false, database_notes.get_public (oldidentifier1 + 1));
+    EXPECT_EQ (false, database_notes.get_public (newidentifier1));
+    EXPECT_EQ (false, database_notes.get_public (newidentifier2));
+    EXPECT_EQ (false, database_notes.get_public (newidentifier3));
+    EXPECT_EQ (false, database_notes.get_public (newidentifier1 + 1));
     
     // Set some public.
     database_notes.set_public (oldidentifier1, true);
     database_notes.set_public (oldidentifier2, true);
     database_notes.set_public (newidentifier1, true);
     database_notes.set_public (newidentifier2, true);
-    evaluate (__LINE__, __func__, true, database_notes.get_public (oldidentifier1));
-    evaluate (__LINE__, __func__, true, database_notes.get_public (oldidentifier2));
-    evaluate (__LINE__, __func__, false, database_notes.get_public (oldidentifier3));
-    evaluate (__LINE__, __func__, true, database_notes.get_public (newidentifier1));
-    evaluate (__LINE__, __func__, true, database_notes.get_public (newidentifier2));
-    evaluate (__LINE__, __func__, false, database_notes.get_public (newidentifier3));
+    EXPECT_EQ (true, database_notes.get_public (oldidentifier1));
+    EXPECT_EQ (true, database_notes.get_public (oldidentifier2));
+    EXPECT_EQ (false, database_notes.get_public (oldidentifier3));
+    EXPECT_EQ (true, database_notes.get_public (newidentifier1));
+    EXPECT_EQ (true, database_notes.get_public (newidentifier2));
+    EXPECT_EQ (false, database_notes.get_public (newidentifier3));
     
     // Unset some of them.
     database_notes.set_public (oldidentifier1, false);
-    evaluate (__LINE__, __func__, false, database_notes.get_public (oldidentifier1));
-    evaluate (__LINE__, __func__, true, database_notes.get_public (oldidentifier2));
+    EXPECT_EQ (false, database_notes.get_public (oldidentifier1));
+    EXPECT_EQ (true, database_notes.get_public (oldidentifier2));
     database_notes.set_public (newidentifier1, false);
-    evaluate (__LINE__, __func__, false, database_notes.get_public (newidentifier1));
-    evaluate (__LINE__, __func__, true, database_notes.get_public (newidentifier2));
+    EXPECT_EQ (false, database_notes.get_public (newidentifier1));
+    EXPECT_EQ (true, database_notes.get_public (newidentifier2));
   }
 
   // Bulk notes transfer elaborate tests for notes stored in JSON format.
@@ -1459,34 +1477,34 @@ void test_database_notes ()
     // Delete all notes again.
     for (size_t i = 0; i < 5; i++) {
       int identifier = v_identifier [i];
-      evaluate (__LINE__, __func__, false, database_notes.get_summary (identifier).empty ());
-      evaluate (__LINE__, __func__, false, database_notes.get_contents (identifier).empty ());
-      evaluate (__LINE__, __func__, false, database_notes.get_bible (identifier).empty ());
-      evaluate (__LINE__, __func__, false, database_notes.get_raw_passage (identifier).empty ());
-      evaluate (__LINE__, __func__, false, database_notes.get_raw_status (identifier).empty ());
-      evaluate (__LINE__, __func__, true, database_notes.get_raw_severity (identifier) != 2);
-      evaluate (__LINE__, __func__, true, database_notes.get_modified (identifier) < 1000);
+      EXPECT_EQ (false, database_notes.get_summary (identifier).empty ());
+      EXPECT_EQ (false, database_notes.get_contents (identifier).empty ());
+      EXPECT_EQ (false, database_notes.get_bible (identifier).empty ());
+      EXPECT_EQ (false, database_notes.get_raw_passage (identifier).empty ());
+      EXPECT_EQ (false, database_notes.get_raw_status (identifier).empty ());
+      EXPECT_EQ (true, database_notes.get_raw_severity (identifier) != 2);
+      EXPECT_EQ (true, database_notes.get_modified (identifier) < 1000);
       database_notes.erase (identifier);
-      evaluate (__LINE__, __func__, "", database_notes.get_summary (identifier));
-      evaluate (__LINE__, __func__, "", database_notes.get_contents (identifier));
-      evaluate (__LINE__, __func__, "", database_notes.get_bible (identifier));
-      evaluate (__LINE__, __func__, "", database_notes.get_raw_passage (identifier));
-      evaluate (__LINE__, __func__, "", database_notes.get_raw_status (identifier));
-      evaluate (__LINE__, __func__, 2, database_notes.get_raw_severity (identifier));
-      evaluate (__LINE__, __func__, 0, database_notes.get_modified (identifier));
+      EXPECT_EQ ("", database_notes.get_summary (identifier));
+      EXPECT_EQ ("", database_notes.get_contents (identifier));
+      EXPECT_EQ ("", database_notes.get_bible (identifier));
+      EXPECT_EQ ("", database_notes.get_raw_passage (identifier));
+      EXPECT_EQ ("", database_notes.get_raw_status (identifier));
+      EXPECT_EQ (2, database_notes.get_raw_severity (identifier));
+      EXPECT_EQ (0, database_notes.get_modified (identifier));
     }
     
     // The checksums should now be gone.
     for (size_t i = 0; i < 5; i++) {
       int identifier = v_identifier [i];
       string checksum = database_notes.get_checksum (identifier);
-      evaluate (__LINE__, __func__, "", checksum);
+      EXPECT_EQ ("", checksum);
     }
     
     // There should be no search results anymore.
     vector <int> no_search_results;
     no_search_results = database_notes.select_notes ({"bible2"}, 0, 0, 0, 3, 0, 0, "", "bible1", "", false, -1, 0, "", -1);
-    evaluate (__LINE__, __func__, {}, no_search_results);
+    EXPECT_EQ (vector <int>{}, no_search_results);
     
     // Copy the notes from the database back to the filesystem.
     database_notes.set_bulk (json);
@@ -1495,36 +1513,36 @@ void test_database_notes ()
     for (size_t i = 0; i < 5; i++) {
       int identifier = v_identifier [i];
       string assigned = database_notes.get_raw_assigned (identifier);
-      evaluate (__LINE__, __func__, v_assigned [i], assigned);
+      EXPECT_EQ (v_assigned [i], assigned);
       string bible = database_notes.get_bible (identifier);
-      evaluate (__LINE__, __func__, v_bible [i], bible);
+      EXPECT_EQ (v_bible [i], bible);
       string contents = database_notes.get_contents (identifier);
-      evaluate (__LINE__, __func__, v_contents [i], contents);
+      EXPECT_EQ (v_contents [i], contents);
       int modified = database_notes.get_modified (identifier);
-      evaluate (__LINE__, __func__, v_modified [i], modified);
+      EXPECT_EQ (v_modified [i], modified);
       string passage = database_notes.get_raw_passage (identifier);
-      evaluate (__LINE__, __func__, v_passage [i], passage);
+      EXPECT_EQ (v_passage [i], passage);
       int severity = database_notes.get_raw_severity (identifier);
-      evaluate (__LINE__, __func__, v_severity [i], severity);
+      EXPECT_EQ (v_severity [i], severity);
       string status = database_notes.get_raw_status (identifier);
-      evaluate (__LINE__, __func__, v_status [i], status);
+      EXPECT_EQ (v_status [i], status);
       string subscriptions = database_notes.get_raw_subscriptions (identifier);
-      evaluate (__LINE__, __func__, v_subscriptions [i], subscriptions);
+      EXPECT_EQ (v_subscriptions [i], subscriptions);
       string summary = database_notes.get_summary (identifier);
-      evaluate (__LINE__, __func__, v_summary [i], summary);
+      EXPECT_EQ (v_summary [i], summary);
     }
     
     // The checksums should be back also.
     for (size_t i = 0; i < 5; i++) {
       int identifier = v_identifier [i];
       string checksum = database_notes.get_checksum (identifier);
-      evaluate (__LINE__, __func__, checksums [i], checksum);
+      EXPECT_EQ (checksums [i], checksum);
     }
     
     // The search results should be back too.
     vector <int> restored_search;
     restored_search = database_notes.select_notes ({"bible2"}, 0, 0, 0, 3, 0, 0, "", "bible1", "", false, -1, 0, "", -1);
-    evaluate (__LINE__, __func__, search_results, restored_search);
+    EXPECT_EQ (search_results, restored_search);
   }
 
   // Test updating the search database for the notes with JSON storage.
@@ -1564,7 +1582,7 @@ void test_database_notes ()
                                                    "", // Search on any contents.
                                                    0); // Don't limit the search results.
     // Search result should be there.
-    evaluate (__LINE__, __func__, { identifier }, identifiers);
+    EXPECT_EQ (vector <int>{identifier}, identifiers);
     // Do a raw update of the note. The search database is not updated.
     database_notes.set_raw_contents (identifier, contents);
     // Doing a search now does not give results.
@@ -1583,7 +1601,7 @@ void test_database_notes ()
                                                    1, // Do search on the text following.
                                                    contents, // Search on certain content.
                                                    0); // Don't limit the search results.
-    evaluate (__LINE__, __func__, { }, identifiers);
+    EXPECT_EQ (vector <int>{}, identifiers);
     // Update the search index.
     // Search results should be back to normal.
     database_notes.update_database (identifier);
@@ -1603,7 +1621,7 @@ void test_database_notes ()
                                                    1, // Do search on the text following.
                                                    contents, // Search on any contents.
                                                    0); // Don't limit the search results.
-    evaluate (__LINE__, __func__, { identifier }, identifiers);
+    EXPECT_EQ (vector <int>{identifier}, identifiers);
     
     // Search on the note's passage.
     identifiers = database_notes.select_notes ({}, // No Bibles given.
@@ -1622,7 +1640,7 @@ void test_database_notes ()
                                                    "", // No text given as being irrelevant.
                                                    0); // Don't limit the search results.
     // Search result should be there.
-    evaluate (__LINE__, __func__, { identifier }, identifiers);
+    EXPECT_EQ (vector <int>{identifier}, identifiers);
     // Update the passage of the note without updating the search index.
     database_notes.set_raw_passage (identifier, " 1.2.3 ");
     // There should be no search results yet when searching on the new passage.
@@ -1641,7 +1659,7 @@ void test_database_notes ()
                                                    0, // Do not search on any text.
                                                    "", // No text given as being irrelevant.
                                                    0); // Don't limit the search results.
-    evaluate (__LINE__, __func__, { }, identifiers);
+    EXPECT_EQ (vector <int>{}, identifiers);
     // Update the search index. There should be search results now.
     database_notes.update_database (identifier);
     identifiers = database_notes.select_notes ({}, // No Bibles given.
@@ -1659,7 +1677,7 @@ void test_database_notes ()
                                                    0, // Do not search on any text.
                                                    "", // No text given as being irrelevant.
                                                    0); // Don't limit the search results.
-    evaluate (__LINE__, __func__, { identifier }, identifiers);
+    EXPECT_EQ (vector <int>{identifier}, identifiers);
   }
 
   // Test methods for getting and setting note properties.
@@ -1693,8 +1711,8 @@ void test_database_notes ()
     string summary2 = "summary2";
     database_notes.set_summary (identifier1, summary1);
     database_notes.set_summary (identifier2, summary2);
-    evaluate (__LINE__, __func__, summary1, database_notes.get_summary (identifier1));
-    evaluate (__LINE__, __func__, summary2, database_notes.get_summary (identifier2));
+    EXPECT_EQ (summary1, database_notes.get_summary (identifier1));
+    EXPECT_EQ (summary2, database_notes.get_summary (identifier2));
     
     // Test the methods to get and to set the contents.
     string contents1 = "contents1";
@@ -1702,62 +1720,62 @@ void test_database_notes ()
     database_notes.set_contents (identifier1, contents1);
     database_notes.set_contents (identifier2, contents2);
     string contents = database_notes.get_contents (identifier1);
-    evaluate (__LINE__, __func__, true, contents.find (contents1) != string::npos);
-    evaluate (__LINE__, __func__, contents, database_notes.get_contents (identifier1));
+    EXPECT_EQ (true, contents.find (contents1) != string::npos);
+    EXPECT_EQ (contents, database_notes.get_contents (identifier1));
     contents = database_notes.get_contents (identifier2);
-    evaluate (__LINE__, __func__, true, contents.find (contents2) != string::npos);
-    evaluate (__LINE__, __func__, contents, database_notes.get_contents (identifier2));
+    EXPECT_EQ (true, contents.find (contents2) != string::npos);
+    EXPECT_EQ (contents, database_notes.get_contents (identifier2));
     
     // Test the method to get the subscribers.
     string subscriber1 = "subscriber1";
     string subscriber2 = "subscriber2";
     database_notes.set_subscribers (identifier1, { subscriber1 });
     database_notes.set_subscribers (identifier2, { subscriber2 });
-    evaluate (__LINE__, __func__, { subscriber1 }, database_notes.get_subscribers (identifier1));
-    evaluate (__LINE__, __func__, { subscriber2 }, database_notes.get_subscribers (identifier2));
+    EXPECT_EQ (vector <string>{subscriber1}, database_notes.get_subscribers (identifier1));
+    EXPECT_EQ (vector <string>{subscriber2}, database_notes.get_subscribers (identifier2));
     
     // Test the method to test a subscriber to a note.
-    evaluate (__LINE__, __func__, true, database_notes.is_subscribed (identifier1, subscriber1));
-    evaluate (__LINE__, __func__, true, database_notes.is_subscribed (identifier2, subscriber2));
-    evaluate (__LINE__, __func__, false, database_notes.is_subscribed (identifier1, subscriber2));
-    evaluate (__LINE__, __func__, false, database_notes.is_subscribed (identifier2, subscriber1));
+    EXPECT_EQ (true, database_notes.is_subscribed (identifier1, subscriber1));
+    EXPECT_EQ (true, database_notes.is_subscribed (identifier2, subscriber2));
+    EXPECT_EQ (false, database_notes.is_subscribed (identifier1, subscriber2));
+    EXPECT_EQ (false, database_notes.is_subscribed (identifier2, subscriber1));
     
     // Test the methods for the assignees.
     string assignee1 = "assignee1";
     string assignee2 = "assignee2";
     database_notes.set_assignees (identifier1, { assignee1 });
     database_notes.set_assignees (identifier2, { assignee2 });
-    evaluate (__LINE__, __func__, { assignee1 }, database_notes.get_assignees (identifier1));
-    evaluate (__LINE__, __func__, { assignee2 }, database_notes.get_assignees (identifier2));
-    evaluate (__LINE__, __func__, true, database_notes.is_assigned (identifier1, assignee1));
-    evaluate (__LINE__, __func__, true, database_notes.is_assigned (identifier2, assignee2));
-    evaluate (__LINE__, __func__, false, database_notes.is_assigned (identifier1, assignee2));
-    evaluate (__LINE__, __func__, false, database_notes.is_assigned (identifier2, assignee1));
+    EXPECT_EQ (vector <string>{assignee1}, database_notes.get_assignees (identifier1));
+    EXPECT_EQ (vector <string>{assignee2}, database_notes.get_assignees (identifier2));
+    EXPECT_EQ (true, database_notes.is_assigned (identifier1, assignee1));
+    EXPECT_EQ (true, database_notes.is_assigned (identifier2, assignee2));
+    EXPECT_EQ (false, database_notes.is_assigned (identifier1, assignee2));
+    EXPECT_EQ (false, database_notes.is_assigned (identifier2, assignee1));
     
     // Test the methods for the Bible.
-    evaluate (__LINE__, __func__, bible1, database_notes.get_bible (identifier1));
-    evaluate (__LINE__, __func__, bible2, database_notes.get_bible (identifier2));
+    EXPECT_EQ (bible1, database_notes.get_bible (identifier1));
+    EXPECT_EQ (bible2, database_notes.get_bible (identifier2));
     
     // Test the methods for the passage.
     vector <Passage> passages;
     passages = database_notes.get_passages (identifier1);
-    evaluate (__LINE__, __func__, 1, passages.size());
-    for (auto passage : passages) evaluate (__LINE__, __func__, true, passage1.equal (passage));
+    EXPECT_EQ (1, passages.size());
+    for (auto passage : passages) EXPECT_EQ (true, passage1.equal (passage));
     passages = database_notes.get_passages (identifier2);
-    evaluate (__LINE__, __func__, 1, passages.size());
-    for (auto passage : passages) evaluate (__LINE__, __func__, true, passage2.equal (passage));
-    evaluate (__LINE__, __func__, " 1.2.3 ", database_notes.decode_passage (identifier1));
-    evaluate (__LINE__, __func__, " 4.5.6 ", database_notes.decode_passage (identifier2));
+    EXPECT_EQ (1, passages.size());
+    for (auto passage : passages) EXPECT_EQ (true, passage2.equal (passage));
+    EXPECT_EQ (" 1.2.3 ", database_notes.decode_passage (identifier1));
+    EXPECT_EQ (" 4.5.6 ", database_notes.decode_passage (identifier2));
     
     // Test the methods for the status.
     string status1 = "status1";
     string status2 = "status2";
     database_notes.set_status (identifier1, status1);
     database_notes.set_status (identifier2, status2);
-    evaluate (__LINE__, __func__, status1, database_notes.get_raw_status (identifier1));
-    evaluate (__LINE__, __func__, status1, database_notes.get_status (identifier1));
-    evaluate (__LINE__, __func__, status2, database_notes.get_raw_status (identifier2));
-    evaluate (__LINE__, __func__, status2, database_notes.get_status (identifier2));
+    EXPECT_EQ (status1, database_notes.get_raw_status (identifier1));
+    EXPECT_EQ (status1, database_notes.get_status (identifier1));
+    EXPECT_EQ (status2, database_notes.get_raw_status (identifier2));
+    EXPECT_EQ (status2, database_notes.get_status (identifier2));
     
     // Test the methods for the severity.
     int severity1 = 4;
@@ -1765,62 +1783,69 @@ void test_database_notes ()
     vector <string> standard_severities = database_notes.standard_severities ();
     database_notes.set_raw_severity (identifier1, severity1);
     database_notes.set_raw_severity (identifier2, severity2);
-    evaluate (__LINE__, __func__, severity1, database_notes.get_raw_severity (identifier1));
-    evaluate (__LINE__, __func__, severity2, database_notes.get_raw_severity (identifier2));
-    evaluate (__LINE__, __func__, standard_severities [static_cast <size_t> (severity1)], database_notes.get_severity (identifier1));
-    evaluate (__LINE__, __func__, standard_severities [static_cast <size_t> (severity2)], database_notes.get_severity (identifier2));
+    EXPECT_EQ (severity1, database_notes.get_raw_severity (identifier1));
+    EXPECT_EQ (severity2, database_notes.get_raw_severity (identifier2));
+    EXPECT_EQ (standard_severities [static_cast <size_t> (severity1)], database_notes.get_severity (identifier1));
+    EXPECT_EQ (standard_severities [static_cast <size_t> (severity2)], database_notes.get_severity (identifier2));
     
     // Test the methods for the modification time.
     int modified1 = 1000;
     int modified2 = 2000;
     database_notes.set_modified (identifier1, modified1);
     database_notes.set_modified (identifier2, modified2);
-    evaluate (__LINE__, __func__, modified1, database_notes.get_modified (identifier1));
-    evaluate (__LINE__, __func__, modified2, database_notes.get_modified (identifier2));
+    EXPECT_EQ (modified1, database_notes.get_modified (identifier1));
+    EXPECT_EQ (modified2, database_notes.get_modified (identifier2));
     
     // Test the methods for a note being public.
     database_notes.set_public (identifier1, true);
     database_notes.set_public (identifier2, false);
-    evaluate (__LINE__, __func__, true, database_notes.get_public (identifier1));
-    evaluate (__LINE__, __func__, false, database_notes.get_public (identifier2));
+    EXPECT_EQ (true, database_notes.get_public (identifier1));
+    EXPECT_EQ (false, database_notes.get_public (identifier2));
     database_notes.set_public (identifier1, false);
     database_notes.set_public (identifier2, true);
-    evaluate (__LINE__, __func__, false, database_notes.get_public (identifier1));
-    evaluate (__LINE__, __func__, true, database_notes.get_public (identifier2));
+    EXPECT_EQ (false, database_notes.get_public (identifier1));
+    EXPECT_EQ (true, database_notes.get_public (identifier2));
   }
+}
 
+TEST (database, notes)
+{
+  test_database_notes ();
 }
 
 
-void test_database_noteassignment ()
+TEST (database, noteassignment)
 {
-  trace_unit_tests (__func__);
-  
   refresh_sandbox (true);
   Database_NoteAssignment database;
   
   bool exists = database.exists ("unittest");
-  evaluate (__LINE__, __func__, false, exists);
+  EXPECT_EQ (false, exists);
   
   vector <string> assignees = database.assignees ("unittest");
-  evaluate (__LINE__, __func__, {}, assignees);
+  EXPECT_EQ (vector <string>{}, assignees);
   
   database.assignees ("unittest", {"one", "two"});
   assignees = database.assignees ("none-existing");
-  evaluate (__LINE__, __func__, {}, assignees);
+  EXPECT_EQ (vector <string>{}, assignees);
   
   exists = database.exists ("unittest");
-  evaluate (__LINE__, __func__, true, exists);
+  EXPECT_EQ (true, exists);
   
   assignees = database.assignees ("unittest");
-  evaluate (__LINE__, __func__, {"one", "two"}, assignees);
+  vector <string> standard_assignees {"one", "two"};
+  EXPECT_EQ (standard_assignees, assignees);
   
   database.assignees ("unittest", {"1", "2"});
   assignees = database.assignees ("unittest");
-  evaluate (__LINE__, __func__, {"1", "2"}, assignees);
+  standard_assignees = {"1", "2"};
+  EXPECT_EQ (standard_assignees, assignees);
   
   exists = database.exists ("unittest", "1");
-  evaluate (__LINE__, __func__, true, exists);
+  EXPECT_EQ (true, exists);
   exists = database.exists ("unittest", "none-existing");
-  evaluate (__LINE__, __func__, false, exists);
+  EXPECT_EQ (false, exists);
 }
+
+#endif
+

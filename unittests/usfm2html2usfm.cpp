@@ -17,6 +17,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
+#include <config/libraries.h>
+#ifdef HAVE_GTEST
+#include "gtest/gtest.h"
 #include <unittests/usfm2html2usfm.h>
 #include <unittests/utilities.h>
 #include <editor/html2usfm.h>
@@ -27,9 +30,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 using namespace std;
 
 
-void test_usfm2html2usfm ()
+TEST (roundtrip, usfm2html2usfm)
 {
-  trace_unit_tests (__func__);
   refresh_sandbox (true);
 
   // One unknown opening marker.
@@ -42,14 +44,14 @@ void test_usfm2html2usfm ()
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
     editor_usfm2html.run ();
     string html = editor_usfm2html.get ();
-    evaluate (__LINE__, __func__, standard_html, filter::strings::trim (html));
+    EXPECT_EQ (standard_html, filter::strings::trim (html));
     
     Editor_Html2Usfm editor_html2usfm;
     editor_html2usfm.load (html);
     editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
     editor_html2usfm.run ();
     string usfm = editor_html2usfm.get ();
-    evaluate (__LINE__, __func__, standard_usfm, filter::strings::trim (usfm));
+    EXPECT_EQ (standard_usfm, filter::strings::trim (usfm));
   }
 
   // Two unknown opening markers.
@@ -65,14 +67,14 @@ void test_usfm2html2usfm ()
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
     editor_usfm2html.run ();
     string html = editor_usfm2html.get ();
-    evaluate (__LINE__, __func__, standard_html, html);
+    EXPECT_EQ (standard_html, html);
     
     Editor_Html2Usfm editor_html2usfm;
     editor_html2usfm.load (html);
     editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
     editor_html2usfm.run ();
     string usfm = editor_html2usfm.get ();
-    evaluate (__LINE__, __func__, standard_usfm, usfm);
+    EXPECT_EQ (standard_usfm, usfm);
   }
 
   // One unknown closing marker.
@@ -84,14 +86,14 @@ void test_usfm2html2usfm ()
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
     editor_usfm2html.run ();
     string html = editor_usfm2html.get ();
-    evaluate (__LINE__, __func__, standard_html, html);
+    EXPECT_EQ (standard_html, html);
     
     Editor_Html2Usfm editor_html2usfm;
     editor_html2usfm.load (html);
     editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
     editor_html2usfm.run ();
     string usfm = editor_html2usfm.get ();
-    evaluate (__LINE__, __func__, standard_usfm, usfm);
+    EXPECT_EQ (standard_usfm, usfm);
   }
 
   // Two unknown closing markers.
@@ -108,14 +110,14 @@ void test_usfm2html2usfm ()
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
     editor_usfm2html.run ();
     string html = editor_usfm2html.get ();
-    evaluate (__LINE__, __func__, standard_html, html);
+    EXPECT_EQ (standard_html, html);
     
     Editor_Html2Usfm editor_html2usfm;
     editor_html2usfm.load (html);
     editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
     editor_html2usfm.run ();
     string usfm = editor_html2usfm.get ();
-    evaluate (__LINE__, __func__, standard_usfm, usfm);
+    EXPECT_EQ (standard_usfm, usfm);
   }
 
   // Identifiers.
@@ -140,14 +142,14 @@ void test_usfm2html2usfm ()
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
     editor_usfm2html.run ();
     string html = editor_usfm2html.get ();
-    evaluate (__LINE__, __func__, standard_html, html);
+    EXPECT_EQ (standard_html, html);
     
     Editor_Html2Usfm editor_html2usfm;
     editor_html2usfm.load (html);
     editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
     editor_html2usfm.run ();
     string usfm = editor_html2usfm.get ();
-    evaluate (__LINE__, __func__, standard_usfm, usfm);
+    EXPECT_EQ (standard_usfm, usfm);
   }
 
   // One paragraph.
@@ -160,14 +162,14 @@ void test_usfm2html2usfm ()
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
     editor_usfm2html.run ();
     string html = editor_usfm2html.get ();
-    evaluate (__LINE__, __func__, standard_html, html);
+    EXPECT_EQ (standard_html, html);
     
     Editor_Html2Usfm editor_html2usfm;
     editor_html2usfm.load (html);
     editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
     editor_html2usfm.run ();
     string usfm = editor_html2usfm.get ();
-    evaluate (__LINE__, __func__, standard_usfm, usfm);
+    EXPECT_EQ (standard_usfm, usfm);
   }
 
   // Two paragraphs.
@@ -184,14 +186,14 @@ void test_usfm2html2usfm ()
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
     editor_usfm2html.run ();
     string html = editor_usfm2html.get ();
-    evaluate (__LINE__, __func__, standard_html, html);
+    EXPECT_EQ (standard_html, html);
     
     Editor_Html2Usfm editor_html2usfm;
     editor_html2usfm.load (html);
     editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
     editor_html2usfm.run ();
     string usfm = editor_html2usfm.get ();
-    evaluate (__LINE__, __func__, standard_usfm, usfm);
+    EXPECT_EQ (standard_usfm, usfm);
   }
 
   // Inline text
@@ -204,14 +206,14 @@ void test_usfm2html2usfm ()
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
     editor_usfm2html.run ();
     string html = editor_usfm2html.get ();
-    evaluate (__LINE__, __func__, standard_html, html);
+    EXPECT_EQ (standard_html, html);
     
     Editor_Html2Usfm editor_html2usfm;
     editor_html2usfm.load (html);
     editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
     editor_html2usfm.run ();
     string usfm = editor_html2usfm.get ();
-    evaluate (__LINE__, __func__, standard_usfm, usfm);
+    EXPECT_EQ (standard_usfm, usfm);
   }
 
   // Inline texts.
@@ -224,14 +226,14 @@ void test_usfm2html2usfm ()
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
     editor_usfm2html.run ();
     string html = editor_usfm2html.get ();
-    evaluate (__LINE__, __func__, standard_html, html);
+    EXPECT_EQ (standard_html, html);
     
     Editor_Html2Usfm editor_html2usfm;
     editor_html2usfm.load (html);
     editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
     editor_html2usfm.run ();
     string usfm = editor_html2usfm.get ();
-    evaluate (__LINE__, __func__, standard_usfm, usfm);
+    EXPECT_EQ (standard_usfm, usfm);
   }
 
   // Chapter.
@@ -249,14 +251,14 @@ void test_usfm2html2usfm ()
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
     editor_usfm2html.run ();
     string html = editor_usfm2html.get ();
-    evaluate (__LINE__, __func__, standard_html, html);
+    EXPECT_EQ (standard_html, html);
     
     Editor_Html2Usfm editor_html2usfm;
     editor_html2usfm.load (html);
     editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
     editor_html2usfm.run ();
     string usfm = editor_html2usfm.get ();
-    evaluate (__LINE__, __func__, standard_usfm, usfm);
+    EXPECT_EQ (standard_usfm, usfm);
   }
 
   // Verses.
@@ -273,14 +275,14 @@ void test_usfm2html2usfm ()
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
     editor_usfm2html.run ();
     string html = editor_usfm2html.get ();
-    evaluate (__LINE__, __func__, standard_html, html);
+    EXPECT_EQ (standard_html, html);
     
     Editor_Html2Usfm editor_html2usfm;
     editor_html2usfm.load (html);
     editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
     editor_html2usfm.run ();
     string usfm = editor_html2usfm.get ();
-    evaluate (__LINE__, __func__, standard_usfm, usfm);
+    EXPECT_EQ (standard_usfm, usfm);
   }
 
   // Published verse markers.
@@ -300,14 +302,14 @@ void test_usfm2html2usfm ()
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
     editor_usfm2html.run ();
     string html = editor_usfm2html.get ();
-    evaluate (__LINE__, __func__, filter::strings::trim (standard_html), html);
+    EXPECT_EQ (filter::strings::trim (standard_html), html);
     
     Editor_Html2Usfm editor_html2usfm;
     editor_html2usfm.load (html);
     editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
     editor_html2usfm.run ();
     string usfm = editor_html2usfm.get ();
-    evaluate (__LINE__, __func__, standard_usfm, usfm);
+    EXPECT_EQ (standard_usfm, usfm);
   }
   
   // Peripherals.
@@ -324,14 +326,14 @@ void test_usfm2html2usfm ()
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
     editor_usfm2html.run ();
     string html = editor_usfm2html.get ();
-    evaluate (__LINE__, __func__, standard_html, html);
+    EXPECT_EQ (standard_html, html);
     
     Editor_Html2Usfm editor_html2usfm;
     editor_html2usfm.load (html);
     editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
     editor_html2usfm.run ();
     string usfm = editor_html2usfm.get ();
-    evaluate (__LINE__, __func__, standard_usfm, usfm);
+    EXPECT_EQ (standard_usfm, usfm);
   }
 
   // Picture.
@@ -350,14 +352,14 @@ void test_usfm2html2usfm ()
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
     editor_usfm2html.run ();
     string html = editor_usfm2html.get ();
-    evaluate (__LINE__, __func__, standard_html, html);
+    EXPECT_EQ (standard_html, html);
     
     Editor_Html2Usfm editor_html2usfm;
     editor_html2usfm.load (html);
     editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
     editor_html2usfm.run ();
     string usfm = editor_html2usfm.get ();
-    evaluate (__LINE__, __func__, standard_usfm, usfm);
+    EXPECT_EQ (standard_usfm, usfm);
   }
 
   // Table.
@@ -380,7 +382,7 @@ void test_usfm2html2usfm ()
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
     editor_usfm2html.run ();
     string html = editor_usfm2html.get ();
-    evaluate (__LINE__, __func__, standard_html, html);
+    EXPECT_EQ (standard_html, html);
     
     Editor_Html2Usfm editor_html2usfm;
     editor_html2usfm.load (html);
@@ -388,7 +390,7 @@ void test_usfm2html2usfm ()
     editor_html2usfm.run ();
     string usfm = editor_html2usfm.get ();
     string standard_usfm2 = filter::strings::replace ("\\tc1 \\", "\\", standard_usfm);
-    evaluate (__LINE__, __func__, standard_usfm2, usfm);
+    EXPECT_EQ (standard_usfm2, usfm);
   }
 
   // Word list entry.
@@ -402,14 +404,14 @@ void test_usfm2html2usfm ()
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
     editor_usfm2html.run ();
     string html = editor_usfm2html.get ();
-    evaluate (__LINE__, __func__, standard_html, html);
+    EXPECT_EQ (standard_html, html);
     
     Editor_Html2Usfm editor_html2usfm;
     editor_html2usfm.load (html);
     editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
     editor_html2usfm.run ();
     string usfm = editor_html2usfm.get ();
-    evaluate (__LINE__, __func__, standard_usfm, usfm);
+    EXPECT_EQ (standard_usfm, usfm);
   }
 
   // Crossreference.
@@ -427,14 +429,14 @@ void test_usfm2html2usfm ()
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
     editor_usfm2html.run ();
     string html = editor_usfm2html.get ();
-    evaluate (__LINE__, __func__, standard_html, html);
+    EXPECT_EQ (standard_html, html);
     
     Editor_Html2Usfm editor_html2usfm;
     editor_html2usfm.load (html);
     editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
     editor_html2usfm.run ();
     string usfm = editor_html2usfm.get ();
-    evaluate (__LINE__, __func__, standard_usfm, usfm);
+    EXPECT_EQ (standard_usfm, usfm);
   }
 
   // Crossreferences.
@@ -455,14 +457,14 @@ void test_usfm2html2usfm ()
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
     editor_usfm2html.run ();
     string html = editor_usfm2html.get ();
-    evaluate (__LINE__, __func__, standard_html, html);
+    EXPECT_EQ (standard_html, html);
     
     Editor_Html2Usfm editor_html2usfm;
     editor_html2usfm.load (html);
     editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
     editor_html2usfm.run ();
     string usfm = editor_html2usfm.get ();
-    evaluate (__LINE__, __func__, standard_usfm, usfm);
+    EXPECT_EQ (standard_usfm, usfm);
   }
 
   // Footnote.
@@ -481,14 +483,14 @@ void test_usfm2html2usfm ()
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
     editor_usfm2html.run ();
     string html = editor_usfm2html.get ();
-    evaluate (__LINE__, __func__, standard_html, html);
+    EXPECT_EQ (standard_html, html);
     
     Editor_Html2Usfm editor_html2usfm;
     editor_html2usfm.load (html);
     editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
     editor_html2usfm.run ();
     string usfm = editor_html2usfm.get ();
-    evaluate (__LINE__, __func__, standard_usfm, usfm);
+    EXPECT_EQ (standard_usfm, usfm);
   }
 
   // Cycling the note caller.
@@ -522,14 +524,14 @@ void test_usfm2html2usfm ()
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
     editor_usfm2html.run ();
     string html = editor_usfm2html.get ();
-    evaluate (__LINE__, __func__, standard_html, html);
+    EXPECT_EQ (standard_html, html);
     
     Editor_Html2Usfm editor_html2usfm;
     editor_html2usfm.load (html);
     editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
     editor_html2usfm.run ();
     string usfm = editor_html2usfm.get ();
-    evaluate (__LINE__, __func__, standard_usfm, usfm);
+    EXPECT_EQ (standard_usfm, usfm);
   }
 
   // Endnote.
@@ -548,14 +550,14 @@ void test_usfm2html2usfm ()
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
     editor_usfm2html.run ();
     string html = editor_usfm2html.get ();
-    evaluate (__LINE__, __func__, standard_html, html);
+    EXPECT_EQ (standard_html, html);
     
     Editor_Html2Usfm editor_html2usfm;
     editor_html2usfm.load (html);
     editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
     editor_html2usfm.run ();
     string usfm = editor_html2usfm.get ();
-    evaluate (__LINE__, __func__, standard_usfm, usfm);
+    EXPECT_EQ (standard_usfm, usfm);
   }
 
   // Round trip from real life.
@@ -591,7 +593,7 @@ void test_usfm2html2usfm ()
     editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
     editor_html2usfm.run ();
     string usfm = editor_html2usfm.get ();
-    evaluate (__LINE__, __func__, standard_usfm, usfm);
+    EXPECT_EQ (standard_usfm, usfm);
   }
 
   // Round trip from real life.
@@ -650,7 +652,7 @@ void test_usfm2html2usfm ()
     editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
     editor_html2usfm.run ();
     string usfm = editor_html2usfm.get ();
-    evaluate (__LINE__, __func__, standard_usfm, usfm);
+    EXPECT_EQ (standard_usfm, usfm);
   }
 
   // Nested text markup.
@@ -669,14 +671,14 @@ void test_usfm2html2usfm ()
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
     editor_usfm2html.run ();
     string output = editor_usfm2html.get ();
-    evaluate (__LINE__, __func__, html, output);
+    EXPECT_EQ (html, output);
     
     Editor_Html2Usfm editor_html2usfm;
     editor_html2usfm.load (html);
     editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
     editor_html2usfm.run ();
     output = editor_html2usfm.get ();
-    evaluate (__LINE__, __func__, output_usfm, output);
+    EXPECT_EQ (output_usfm, output);
   }
 
   // Nested text markup.
@@ -695,14 +697,14 @@ void test_usfm2html2usfm ()
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
     editor_usfm2html.run ();
     string output = editor_usfm2html.get ();
-    evaluate (__LINE__, __func__, html, output);
+    EXPECT_EQ (html, output);
     
     Editor_Html2Usfm editor_html2usfm;
     editor_html2usfm.load (html);
     editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
     editor_html2usfm.run ();
     output = editor_html2usfm.get ();
-    evaluate (__LINE__, __func__, output_usfm, output);
+    EXPECT_EQ (output_usfm, output);
   }
 
   // Nested text markup.
@@ -717,14 +719,14 @@ void test_usfm2html2usfm ()
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
     editor_usfm2html.run ();
     string output = editor_usfm2html.get ();
-    evaluate (__LINE__, __func__, html, output);
+    EXPECT_EQ (html, output);
     
     Editor_Html2Usfm editor_html2usfm;
     editor_html2usfm.load (html);
     editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
     editor_html2usfm.run ();
     output = editor_html2usfm.get ();
-    evaluate (__LINE__, __func__, output_usfm, output);
+    EXPECT_EQ (output_usfm, output);
   }
 
   // Nested note markup.
@@ -744,14 +746,14 @@ void test_usfm2html2usfm ()
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
     editor_usfm2html.run ();
     string output = editor_usfm2html.get ();
-    evaluate (__LINE__, __func__, html, output);
+    EXPECT_EQ (html, output);
     
     Editor_Html2Usfm editor_html2usfm;
     editor_html2usfm.load (html);
     editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
     editor_html2usfm.run ();
     output = editor_html2usfm.get ();
-    evaluate (__LINE__, __func__, standard_usfm, output);
+    EXPECT_EQ (standard_usfm, output);
   }
 
   // Nested note markup.
@@ -774,14 +776,14 @@ void test_usfm2html2usfm ()
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
     editor_usfm2html.run ();
     string output = editor_usfm2html.get ();
-    evaluate (__LINE__, __func__, html, output);
+    EXPECT_EQ (html, output);
     
     Editor_Html2Usfm editor_html2usfm;
     editor_html2usfm.load (html);
     editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
     editor_html2usfm.run ();
     output = editor_html2usfm.get ();
-    evaluate (__LINE__, __func__, output_usfm, output);
+    EXPECT_EQ (output_usfm, output);
   }
 
   // Fix for change \ft to \fk
@@ -804,14 +806,14 @@ void test_usfm2html2usfm ()
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
     editor_usfm2html.run ();
     string output = editor_usfm2html.get ();
-    evaluate (__LINE__, __func__, html, output);
+    EXPECT_EQ (html, output);
     
     Editor_Html2Usfm editor_html2usfm;
     editor_html2usfm.load (html);
     editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
     editor_html2usfm.run ();
     output = editor_html2usfm.get ();
-    evaluate (__LINE__, __func__, usfm, output);
+    EXPECT_EQ (usfm, output);
   }
 
   // \b Blank line.
@@ -826,14 +828,14 @@ void test_usfm2html2usfm ()
     editor_usfm2html.run ();
     string html = editor_usfm2html.get ();
     string standard_html = R"(<p class="b-p"><span>paragraph</span></p><p class="b-b"><br/></p><p class="b-p"><span>paragraph</span></p>)";
-    evaluate (__LINE__, __func__, standard_html, html);
+    EXPECT_EQ (standard_html, html);
     
     Editor_Html2Usfm editor_html2usfm;
     editor_html2usfm.load (html);
     editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
     editor_html2usfm.run ();
     string usfm = editor_html2usfm.get ();
-    evaluate (__LINE__, __func__, standard_usfm, usfm);
+    EXPECT_EQ (standard_usfm, usfm);
   }
   
   // Test the \sd and \sd2 semantic divisions.
@@ -850,14 +852,14 @@ void test_usfm2html2usfm ()
     editor_usfm2html.run ();
     string html = editor_usfm2html.get ();
     string standard_html = R"(<p class="b-p"><span>paragraph</span></p><p class="b-sd"><br/></p><p class="b-p"><span>paragraph</span></p><p class="b-sd2"><br/></p>)";
-    evaluate (__LINE__, __func__, standard_html, html);
+    EXPECT_EQ (standard_html, html);
     
     Editor_Html2Usfm editor_html2usfm;
     editor_html2usfm.load (html);
     editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
     editor_html2usfm.run ();
     string usfm = editor_html2usfm.get ();
-    evaluate (__LINE__, __func__, standard_usfm, usfm);
+    EXPECT_EQ (standard_usfm, usfm);
   }
   
   // Text \xo and \xt.
@@ -872,14 +874,14 @@ void test_usfm2html2usfm ()
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
     editor_usfm2html.run ();
     string html = editor_usfm2html.get ();
-    evaluate (__LINE__, __func__, standardhtml, html);
+    EXPECT_EQ (standardhtml, html);
     
     Editor_Html2Usfm editor_html2usfm;
     editor_html2usfm.load (standardhtml);
     editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
     editor_html2usfm.run ();
     string usfm = editor_html2usfm.get ();
-    evaluate (__LINE__, __func__, standardusfm, usfm);
+    EXPECT_EQ (standardusfm, usfm);
   }
 
   // Unmatched note opener and xref opener.
@@ -897,14 +899,14 @@ void test_usfm2html2usfm ()
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
     editor_usfm2html.run ();
     string html = editor_usfm2html.get ();
-    evaluate (__LINE__, __func__, standard_html, html);
+    EXPECT_EQ (standard_html, html);
     
     Editor_Html2Usfm editor_html2usfm;
     editor_html2usfm.load (html);
     editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
     editor_html2usfm.run ();
     string usfm = editor_html2usfm.get ();
-    evaluate (__LINE__, __func__, filter::strings::trim (standard_usfm), filter::strings::trim (usfm));
+    EXPECT_EQ (filter::strings::trim (standard_usfm), filter::strings::trim (usfm));
   }
 
   // Inline opener without matching inline closer.
@@ -919,14 +921,14 @@ void test_usfm2html2usfm ()
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
     editor_usfm2html.run ();
     string html = editor_usfm2html.get ();
-    evaluate (__LINE__, __func__, standard_html, html);
+    EXPECT_EQ (standard_html, html);
     
     Editor_Html2Usfm editor_html2usfm;
     editor_html2usfm.load (html);
     editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
     editor_html2usfm.run ();
     string usfm = editor_html2usfm.get ();
-    evaluate (__LINE__, __func__, filter::strings::trim (standard_usfm), filter::strings::trim (usfm));
+    EXPECT_EQ (filter::strings::trim (standard_usfm), filter::strings::trim (usfm));
   }
 
   // Inline opener without matching inline closer but with other inline markup.
@@ -942,14 +944,14 @@ void test_usfm2html2usfm ()
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
     editor_usfm2html.run ();
     string html = editor_usfm2html.get ();
-    evaluate (__LINE__, __func__, standard_html, html);
+    EXPECT_EQ (standard_html, html);
     
     Editor_Html2Usfm editor_html2usfm;
     editor_html2usfm.load (standard_html);
     editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
     editor_html2usfm.run ();
     string usfm = editor_html2usfm.get ();
-    evaluate (__LINE__, __func__, filter::strings::trim (standard_usfm), filter::strings::trim (usfm));
+    EXPECT_EQ (filter::strings::trim (standard_usfm), filter::strings::trim (usfm));
   }
 
   // Inline opener without matching inline closer and with a paragraph after that.
@@ -965,14 +967,14 @@ void test_usfm2html2usfm ()
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
     editor_usfm2html.run ();
     string html = editor_usfm2html.get ();
-    evaluate (__LINE__, __func__, standard_html, html);
+    EXPECT_EQ (standard_html, html);
     
     Editor_Html2Usfm editor_html2usfm;
     editor_html2usfm.load (html);
     editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
     editor_html2usfm.run ();
     string usfm = editor_html2usfm.get ();
-    evaluate (__LINE__, __func__, filter::strings::trim (standard_usfm), filter::strings::trim (usfm));
+    EXPECT_EQ (filter::strings::trim (standard_usfm), filter::strings::trim (usfm));
   }
 
   // Testing editing one verse, which does not have a starting paragraph.
@@ -984,9 +986,9 @@ void test_usfm2html2usfm ()
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
     editor_usfm2html.run ();
     string output = editor_usfm2html.get ();
-    evaluate (__LINE__, __func__, html, output);
+    EXPECT_EQ (html, output);
     output = editor_export_verse_quill (styles_logic_standard_sheet (), html);
-    evaluate (__LINE__, __func__, usfm, output);
+    EXPECT_EQ (usfm, output);
   }
 
   // Testing editing one verse: The chapter number, or verse 0.
@@ -1000,10 +1002,10 @@ void test_usfm2html2usfm ()
     string output = editor_usfm2html.get ();
     
     string html = R"(<p class="b-c"><span>1</span></p><p class="b-p"><br/></p>)";
-    evaluate (__LINE__, __func__, html, output);
+    EXPECT_EQ (html, output);
     
     output = editor_export_verse_quill (styles_logic_standard_sheet (), html);
-    evaluate (__LINE__, __func__, usfm, output);
+    EXPECT_EQ (usfm, output);
   }
 
   // One-verse editor, testing chapter 0 verse 0.
@@ -1021,10 +1023,10 @@ void test_usfm2html2usfm ()
     string output = editor_usfm2html.get ();
     
     string html = R"(<p class="b-mono"><span>\id </span><span>GEN Genesis</span></p><p class="b-mono"><span>\h </span><span>Genesis</span></p><p class="b-mono"><span>\toc1 </span><span>The First Book of Moses, called Genesis</span></p><p class="b-mt1"><span>The First Book of Moses, called Genesis</span></p>)";
-    evaluate (__LINE__, __func__, html, output);
+    EXPECT_EQ (html, output);
     
     output = editor_export_verse_quill (styles_logic_standard_sheet (), html);
-    evaluate (__LINE__, __func__, usfm, output);
+    EXPECT_EQ (usfm, output);
   }
 
   // Testing one verse: a paragraph with content.
@@ -1037,10 +1039,10 @@ void test_usfm2html2usfm ()
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
     editor_usfm2html.run ();
     string output = editor_usfm2html.get ();
-    evaluate (__LINE__, __func__, html, output);
+    EXPECT_EQ (html, output);
     
     output = editor_export_verse_quill (styles_logic_standard_sheet (), html);
-    evaluate (__LINE__, __func__, usfm, output);
+    EXPECT_EQ (usfm, output);
   }
   
   // Testing \add ..\add* markup in a footnote.
@@ -1053,14 +1055,14 @@ void test_usfm2html2usfm ()
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
     editor_usfm2html.run ();
     string output_html = editor_usfm2html.get ();
-    evaluate (__LINE__, __func__, standard_html, output_html);
+    EXPECT_EQ (standard_html, output_html);
     
     Editor_Html2Usfm editor_html2usfm;
     editor_html2usfm.load (output_html);
     editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
     editor_html2usfm.run ();
     string output_usfm = editor_html2usfm.get ();
-    evaluate (__LINE__, __func__, standard_usfm, output_usfm);
+    EXPECT_EQ (standard_usfm, output_usfm);
   }
 
   // Testing \xt in a footnote.
@@ -1073,14 +1075,14 @@ void test_usfm2html2usfm ()
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
     editor_usfm2html.run ();
     string output_html = editor_usfm2html.get ();
-    evaluate (__LINE__, __func__, standard_html, output_html);
+    EXPECT_EQ (standard_html, output_html);
     
     Editor_Html2Usfm editor_html2usfm;
     editor_html2usfm.load (output_html);
     editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
     editor_html2usfm.run ();
     string output_usfm = editor_html2usfm.get ();
-    evaluate (__LINE__, __func__, standard_usfm, output_usfm);
+    EXPECT_EQ (standard_usfm, output_usfm);
   }
 
   // Testing \xt and \add markup in a footnote, in Romans 2.15, received from a user.
@@ -1092,14 +1094,14 @@ void test_usfm2html2usfm ()
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
     editor_usfm2html.run ();
     string output_html = editor_usfm2html.get ();
-    evaluate (__LINE__, __func__, standard_html, output_html);
+    EXPECT_EQ (standard_html, output_html);
     
     Editor_Html2Usfm editor_html2usfm;
     editor_html2usfm.load (output_html);
     editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
     editor_html2usfm.run ();
     string output_usfm = editor_html2usfm.get ();
-    evaluate (__LINE__, __func__, standard_usfm, output_usfm);
+    EXPECT_EQ (standard_usfm, output_usfm);
   }
 
   // Regression testing for a situation that a user pastes some text into a note.
@@ -1113,7 +1115,7 @@ void test_usfm2html2usfm ()
     editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
     editor_html2usfm.run ();
     string output_usfm = editor_html2usfm.get ();
-    evaluate (__LINE__, __func__, standard_usfm_short, output_usfm);
+    EXPECT_EQ (standard_usfm_short, output_usfm);
   }
   
   // Regression testing for a fixed bug where after entering a new line in a footnote,
@@ -1131,3 +1133,7 @@ void test_usfm2html2usfm ()
 
   refresh_sandbox (false);
 }
+
+
+#endif
+

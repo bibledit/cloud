@@ -121,36 +121,21 @@ using namespace std;
 #ifdef HAVE_GTEST
 TEST (existing, existing)
 {
-  test_database_oshb ();
-  test_database_sblgnt ();
-  test_database_sprint ();
-  test_database_mail ();
-  test_database_navigation ();
-  test_database_resources ();
-  test_database_usfmresources ();
-  test_database_mappings ();
-  test_database_noteactions ();
-  test_database_versifications ();
   test_database_modifications_user ();
   test_database_modifications_team ();
   test_database_modifications_notifications ();
-  test_database_notes ();
   test_database_volatile ();
   test_database_state ();
-  test_database_imageresources ();
   test_checksum ();
   test_html2usfm ();
   test_usfm2html ();
-  test_usfm2html2usfm ();
   test_workspaces ();
   test_verses ();
   test_client ();
   test_sentences ();
-  test_versification ();
   test_usfm ();
   test_pairs ();
   test_hyphenate ();
-  test_database_noteassignment ();
   test_database_strong ();
   test_database_morphgnt ();
   test_database_etcbc4 ();
@@ -161,7 +146,6 @@ TEST (existing, existing)
   test_database_privileges ();
   test_json ();
   test_database_git ();
-  test_database_userresources ();
   test_related ();
   test_editone_logic ();
   test_http ();
@@ -189,7 +173,6 @@ TEST (existing, existing)
   test_database_sample ();
   test_filter_webview ();
   test_javascript ();
-  test_filter_mail ();
   test_french ();
   test_merge ();
   test_paratext ();

@@ -20,7 +20,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/libraries.h>
 #ifdef HAVE_GTEST
 #include "gtest/gtest.h"
-#include <unittests/client.h>
 #include <unittests/utilities.h>
 #include <client/logic.h>
 #include <database/logic.h>

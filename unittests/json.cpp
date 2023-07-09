@@ -20,7 +20,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/libraries.h>
 #ifdef HAVE_GTEST
 #include "gtest/gtest.h"
-#include <unittests/json.h>
 #include <unittests/utilities.h>
 #pragma clang diagnostic ignored "-Wunknown-warning-option"
 #pragma GCC diagnostic push

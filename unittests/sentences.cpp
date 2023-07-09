@@ -20,7 +20,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/libraries.h>
 #ifdef HAVE_GTEST
 #include "gtest/gtest.h"
-#include <unittests/sentences.h>
 #include <unittests/utilities.h>
 #include <checks/sentences.h>
 using namespace std;

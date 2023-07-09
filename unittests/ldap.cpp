@@ -17,7 +17,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <unittests/ldap.h>
 #include <unittests/utilities.h>
 #include <filter/url.h>
 #include <ldap/logic.h>

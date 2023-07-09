@@ -20,7 +20,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/libraries.h>
 #ifdef HAVE_GTEST
 #include "gtest/gtest.h"
-#include <unittests/usfm2html2usfm.h>
 #include <unittests/utilities.h>
 #include <editor/html2usfm.h>
 #include <editor/usfm2html.h>

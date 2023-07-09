@@ -17,16 +17,17 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
+#include <config/libraries.h>
+#ifdef HAVE_GTEST
+#include "gtest/gtest.h"
 #include <unittests/javascript.h>
 #include <unittests/utilities.h>
 #include <filter/shell.h>
 using namespace std;
 
 
-void test_javascript ()
+TEST (javascript, basic)
 {
-  trace_unit_tests (__func__);
-  
   // In some older browsers it gives this warning or error in the console:
   // -file- is being assigned a //# sourceMappingURL, but already has one.
   // A solution to this is to ensure that minified JavaScript does not assign the source map.
@@ -34,7 +35,10 @@ void test_javascript ()
   {
     string out_err;
     int exitcode = filter_shell_run ("grep '//# sourceMappingURL' `find . -name '*.js'`", out_err);
-    evaluate (__LINE__, __func__, 0, exitcode);
-    evaluate (__LINE__, __func__, 59, out_err.size());
+    EXPECT_EQ (0, exitcode);
+    EXPECT_EQ (59, out_err.size());
   }
 }
+
+#endif
+

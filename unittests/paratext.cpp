@@ -17,6 +17,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
+#include <config/libraries.h>
+#ifdef HAVE_GTEST
+#include "gtest/gtest.h"
 #include <unittests/paratext.h>
 #include <unittests/utilities.h>
 #include <paratext/logic.h>
@@ -24,10 +27,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 using namespace std;
 
 
-void test_paratext ()
+TEST (paratext, logic)
 {
-  trace_unit_tests (__func__);
-
   refresh_sandbox (true);
 
   // If Bibledit has the chapter, and Paratext does not, take the Bibledit chapter.
@@ -44,9 +45,9 @@ void test_paratext ()
     vector <string> messages;
     vector <Merge_Conflict> conflicts;
     string result = Paratext_Logic::synchronize (ancestor, bibledit, paratext, messages, conflicts);
-    evaluate (__LINE__, __func__, bibledit, result);
-    evaluate (__LINE__, __func__, 1, messages.size ());
-    evaluate (__LINE__, __func__, 0, conflicts.size ());
+    EXPECT_EQ (bibledit, result);
+    EXPECT_EQ (1, messages.size ());
+    EXPECT_EQ (0, conflicts.size ());
   }
   
   // If Paratext has the chapter, and Bibledit does not, take the Paratext chapter.
@@ -63,9 +64,9 @@ void test_paratext ()
     vector <string> messages;
     vector <Merge_Conflict> conflicts;
     string result = Paratext_Logic::synchronize (ancestor, bibledit, paratext, messages, conflicts);
-    evaluate (__LINE__, __func__, paratext, result);
-    evaluate (__LINE__, __func__, 1, messages.size ());
-    evaluate (__LINE__, __func__, 0, conflicts.size ());
+    EXPECT_EQ (paratext, result);
+    EXPECT_EQ (1, messages.size ());
+    EXPECT_EQ (0, conflicts.size ());
   }
   
   // Bibledit and Paratext are the same: Do nothing.
@@ -82,9 +83,9 @@ void test_paratext ()
     vector <string> messages;
     vector <Merge_Conflict> conflicts;
     string result = Paratext_Logic::synchronize (ancestor, bibledit, paratext, messages, conflicts);
-    evaluate (__LINE__, __func__, "", result);
-    evaluate (__LINE__, __func__, 0, messages.size ());
-    evaluate (__LINE__, __func__, 0, conflicts.size ());
+    EXPECT_EQ ("", result);
+    EXPECT_EQ (0, messages.size ());
+    EXPECT_EQ (0, conflicts.size ());
   }
   
   // Normal merge operation between Bibledit and Paratext data.
@@ -111,12 +112,12 @@ void test_paratext ()
       vector <string> messages;
       vector <Merge_Conflict> conflicts;
       string result = Paratext_Logic::synchronize (ancestor, bibledit, paratext, messages, conflicts);
-      evaluate (__LINE__, __func__, paratext, result);
-      evaluate (__LINE__, __func__, 1, messages.size ());
+      EXPECT_EQ (paratext, result);
+      EXPECT_EQ (1, messages.size ());
       if (messages.size() == 1) {
-        evaluate (__LINE__, __func__, "Chapter merged", messages[0]);
+        EXPECT_EQ ("Chapter merged", messages[0]);
       }
-      evaluate (__LINE__, __func__, 0, conflicts.size ());
+      EXPECT_EQ (0, conflicts.size ());
     }
     {
       // Test that it takes the changes from Bibledit.
@@ -124,12 +125,12 @@ void test_paratext ()
       vector <string> messages;
       vector <Merge_Conflict> conflicts;
       string result = Paratext_Logic::synchronize (ancestor, bibledit, paratext, messages, conflicts);
-      evaluate (__LINE__, __func__, bibledit, result);
-      evaluate (__LINE__, __func__, 1, messages.size ());
+      EXPECT_EQ (bibledit, result);
+      EXPECT_EQ (1, messages.size ());
       if (messages.size() == 1) {
-        evaluate (__LINE__, __func__, "Chapter merged", messages[0]);
+        EXPECT_EQ ("Chapter merged", messages[0]);
       }
-      evaluate (__LINE__, __func__, 0, conflicts.size ());
+      EXPECT_EQ (0, conflicts.size ());
     }
   }
   
@@ -153,12 +154,12 @@ void test_paratext ()
     vector <string> messages;
     vector <Merge_Conflict> conflicts;
     string result = Paratext_Logic::synchronize (ancestor, bibledit, paratext, messages, conflicts);
-    evaluate (__LINE__, __func__, "", result);
-    evaluate (__LINE__, __func__, 1, messages.size ());
+    EXPECT_EQ ("", result);
+    EXPECT_EQ (1, messages.size ());
     if (messages.size() == 1) {
-      evaluate (__LINE__, __func__, "Cannot merge chapter due to missing parent data", messages[0]);
+      EXPECT_EQ ("Cannot merge chapter due to missing parent data", messages[0]);
     }
-    evaluate (__LINE__, __func__, 0, conflicts.size ());
+    EXPECT_EQ (0, conflicts.size ());
   }
 
   // Merge conflict.
@@ -187,19 +188,19 @@ void test_paratext ()
     vector <string> messages;
     vector <Merge_Conflict> conflicts;
     string result = Paratext_Logic::synchronize (ancestor, bibledit, paratext, messages, conflicts);
-    evaluate (__LINE__, __func__, filter::strings::trim (paratext), result);
-    evaluate (__LINE__, __func__, 1, messages.size ());
+    EXPECT_EQ (filter::strings::trim (paratext), result);
+    EXPECT_EQ (1, messages.size ());
     if (messages.size() == 1) {
-      evaluate (__LINE__, __func__, "Chapter merged", messages[0]);
+      EXPECT_EQ ("Chapter merged", messages[0]);
     }
-    evaluate (__LINE__, __func__, 3, conflicts.size ());
+    EXPECT_EQ (3, conflicts.size ());
     if (conflicts.size() == 3) {
-      evaluate (__LINE__, __func__, R"(\v 1 paratext.)", conflicts[0].result);
-      evaluate (__LINE__, __func__, "Failed to merge your changes", conflicts[0].subject);
-      evaluate (__LINE__, __func__, R"(\v 2 paratext.)", conflicts[1].result);
-      evaluate (__LINE__, __func__, "Failed to merge your changes", conflicts[1].subject);
-      evaluate (__LINE__, __func__, filter::strings::trim (paratext), conflicts[2].result);
-      evaluate (__LINE__, __func__, "Failed to merge your changes", conflicts[1].subject);
+      EXPECT_EQ (R"(\v 1 paratext.)", conflicts[0].result);
+      EXPECT_EQ ("Failed to merge your changes", conflicts[0].subject);
+      EXPECT_EQ (R"(\v 2 paratext.)", conflicts[1].result);
+      EXPECT_EQ ("Failed to merge your changes", conflicts[1].subject);
+      EXPECT_EQ (filter::strings::trim (paratext), conflicts[2].result);
+      EXPECT_EQ ("Failed to merge your changes", conflicts[1].subject);
     }
   }
   
@@ -244,12 +245,15 @@ void test_paratext ()
     vector <string> messages;
     vector <Merge_Conflict> conflicts;
     string result = Paratext_Logic::synchronize (ancestor, bibledit, paratext, messages, conflicts);
-    evaluate (__LINE__, __func__, filter::strings::trim (bibledit), filter::strings::trim (result));
-    evaluate (__LINE__, __func__, 1, messages.size ());
+    EXPECT_EQ (filter::strings::trim (bibledit), filter::strings::trim (result));
+    EXPECT_EQ (1, messages.size ());
     if (messages.size() == 1) {
-      evaluate (__LINE__, __func__, "Copy larger Bibledit chapter to smaller Paratext chapter", messages[0]);
+      EXPECT_EQ ("Copy larger Bibledit chapter to smaller Paratext chapter", messages[0]);
     }
-    evaluate (__LINE__, __func__, 0, conflicts.size ());
+    EXPECT_EQ (0, conflicts.size ());
   }
 
 }
+
+#endif
+

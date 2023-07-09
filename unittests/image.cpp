@@ -17,6 +17,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
+#include <config/libraries.h>
+#ifdef HAVE_GTEST
+#include "gtest/gtest.h"
 #include <unittests/image.h>
 #include <unittests/utilities.h>
 #include <filter/image.h>
@@ -24,7 +27,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 using namespace std;
 
 
-void test_image ()
+TEST (filter, image)
 {
   trace_unit_tests (__func__);
   
@@ -36,11 +39,14 @@ void test_image ()
     string image_3_path = filter_url_create_root_path ({"unittests", "tests", image_3_name});
     int width = 0, height = 0;
     filter_image_get_sizes (image_2_path, width, height);
-    evaluate (__LINE__, __func__, 860, width);
-    evaluate (__LINE__, __func__, 318, height);
+    EXPECT_EQ (860, width);
+    EXPECT_EQ (318, height);
     filter_image_get_sizes (image_3_path, width, height);
-    evaluate (__LINE__, __func__, 427, width);
-    evaluate (__LINE__, __func__, 304, height);
+    EXPECT_EQ (427, width);
+    EXPECT_EQ (304, height);
   }
 
 }
+
+#endif
+

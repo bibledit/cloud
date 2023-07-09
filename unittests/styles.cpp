@@ -17,6 +17,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
+#include <config/libraries.h>
+#ifdef HAVE_GTEST
+#include "gtest/gtest.h"
 #include <unittests/styles.h>
 #include <unittests/utilities.h>
 #include <database/styles.h>
@@ -31,7 +34,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 using namespace std;
 
 
-void test_styles ()
+TEST (styles, css)
 {
   trace_unit_tests (__func__);
   Webserver_Request request {};
@@ -361,3 +364,7 @@ void test_styles ()
   // Done.
   refresh_sandbox (true);
 }
+
+
+#endif
+

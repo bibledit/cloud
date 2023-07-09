@@ -17,6 +17,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
+#include <config/libraries.h>
+#ifdef HAVE_GTEST
+#include "gtest/gtest.h"
 #include <unittests/diff.h>
 #include <unittests/utilities.h>
 #include <filter/diff.h>
@@ -31,18 +34,16 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 using namespace std;
 
 
-void test_diff ()
+TEST (filter, diff)
 {
-  trace_unit_tests (__func__);
-  
   // Difference.
   {
     vector <string> removals, additions;
     string output = filter_diff_diff ("Old text", "New text", &removals, &additions);
     string standard = R"(<span style="text-decoration: line-through;"> Old </span> <span style="font-weight: bold;"> New </span> text)";
-    evaluate (__LINE__, __func__, standard, output);
-    evaluate (__LINE__, __func__, {"Old"}, removals);
-    evaluate (__LINE__, __func__, {"New"}, additions);
+    EXPECT_EQ (standard, output);
+    EXPECT_EQ (vector <string>{"Old"}, removals);
+    EXPECT_EQ (vector <string>{"New"}, additions);
   }
 
   // Difference.
@@ -51,9 +52,9 @@ void test_diff ()
     string output = filter_diff_diff ("this is really old text", "and this is new text",
                                       &removals, &additions);
     string standard = R"(<span style="font-weight: bold;"> and </span> this is <span style="text-decoration: line-through;"> really </span> <span style="text-decoration: line-through;"> old </span> <span style="font-weight: bold;"> new </span> text)";
-    evaluate (__LINE__, __func__, standard, output);
-    evaluate (__LINE__, __func__, {"really", "old"}, removals);
-    evaluate (__LINE__, __func__, {"and", "new"}, additions);
+    EXPECT_EQ (standard, output);
+    EXPECT_EQ ((vector <string>{"really", "old"}), removals);
+    EXPECT_EQ ((vector <string>{"and", "new"}), additions);
   }
   
   // Diff with new lines in the text.
@@ -73,12 +74,12 @@ Genesis 1.3 3 And God said: "Let there be light". And there was light.
     string output = filter_diff_diff (oldtext, newtext, &removals, &additions);
     
     string standard = filter_url_file_get_contents (filter_url_create_root_path ({"unittests", "tests", "diff.txt"}));
-    evaluate (__LINE__, __func__, standard, output);
+    EXPECT_EQ (standard, output);
     
-    evaluate (__LINE__, __func__, {"heavens", "form,", "void;", "said,", "Let", "light:", "and"},
-              removals);
-    evaluate (__LINE__, __func__, {"heaven", "form", "void", "said:", R"("Let)", R"(light".)", "And"},
-              additions);
+    EXPECT_EQ ((vector <string>{"heavens", "form,", "void;", "said,", "Let", "light:", "and"}),
+               removals);
+    EXPECT_EQ ((vector <string>{"heaven", "form", "void", "said:", R"("Let)", R"(light".)", "And"}),
+               additions);
   }
 
   
@@ -92,11 +93,11 @@ Genesis 1.3 3 And God said: "Let there be light". And there was light.
     vector <string> content;
     int new_line_diff_count;
     filter_diff_diff_utf16 (oldinput, newinput, positions, sizes, additions, content, new_line_diff_count);
-    evaluate (__LINE__, __func__, {3,    6,     7   }, positions);
-    evaluate (__LINE__, __func__, {1,    1,     1   }, sizes);
-    evaluate (__LINE__, __func__, {true, false, true}, additions);
-    evaluate (__LINE__, __func__, {"d",  "g",    "h"}, content);
-    evaluate (__LINE__, __func__, 0, new_line_diff_count);
+    EXPECT_EQ ((vector <int>{3, 6, 7}), positions);
+    EXPECT_EQ ((vector <int>{1, 1, 1}), sizes);
+    EXPECT_EQ ((vector <bool>{true, false, true}), additions);
+    EXPECT_EQ ((vector <string>{"d", "g", "h"}), content);
+    EXPECT_EQ (0, new_line_diff_count);
   }
   {
     vector <string> oldinput = {"a",         "c",      "e", "f", "g", "\np",     "i"};
@@ -107,11 +108,11 @@ Genesis 1.3 3 And God said: "Let there be light". And there was light.
     vector <string> content;
     int new_line_diff_count;
     filter_diff_diff_utf16 (oldinput, newinput, positions, sizes, additions, content, new_line_diff_count);
-    evaluate (__LINE__, __func__, {1,      3,    6,     7,    8    }, positions);
-    evaluate (__LINE__, __func__, {1,      1,    1,     1,    1    }, sizes);
-    evaluate (__LINE__, __func__, {true,   true, false, true, false}, additions);
-    evaluate (__LINE__, __func__, {"badd", "d",  "g",   "h", "i"   }, content);
-    evaluate (__LINE__, __func__, 0, new_line_diff_count);
+    EXPECT_EQ ((vector <int>{1, 3, 6, 7, 8}), positions);
+    EXPECT_EQ ((vector <int>{1, 1, 1, 1, 1}), sizes);
+    EXPECT_EQ ((vector <bool>{true, true, false, true, false}), additions);
+    EXPECT_EQ ((vector <string>{"badd", "d", "g", "h", "i"}), content);
+    EXPECT_EQ (0, new_line_diff_count);
   }
   {
     vector <string> oldinput = {"\n", "\n", "a", "b", "\n", "\n", "c"      };
@@ -122,11 +123,11 @@ Genesis 1.3 3 And God said: "Let there be light". And there was light.
     vector <string> content;
     int new_line_diff_count;
     filter_diff_diff_utf16 (oldinput, newinput, positions, sizes, additions, content, new_line_diff_count);
-    evaluate (__LINE__, __func__, {1,     2,     3,     3,    5    }, positions);
-    evaluate (__LINE__, __func__, {1,     1,     1,     1,    1    }, sizes);
-    evaluate (__LINE__, __func__, {false, false, false, true, true }, additions);
-    evaluate (__LINE__, __func__, {"\n",  "b",   "\n",  "b",  "\n" }, content);
-    evaluate (__LINE__, __func__, 3, new_line_diff_count);
+    EXPECT_EQ ((vector <int>{1, 2, 3, 3, 5}), positions);
+    EXPECT_EQ ((vector <int>{1, 1, 1, 1, 1}), sizes);
+    EXPECT_EQ ((vector <bool>{false, false, false, true, true}), additions);
+    EXPECT_EQ ((vector <string>{"\n", "b", "\n", "b", "\n"}), content);
+    EXPECT_EQ (3, new_line_diff_count);
   }
   {
     // Positions                0     1     2    3     4    5     6     7    8
@@ -138,24 +139,24 @@ Genesis 1.3 3 And God said: "Let there be light". And there was light.
     vector <string> content;
     int new_line_diff_count;
     filter_diff_diff_utf16 (oldinput, newinput, positions, sizes, additions, content, new_line_diff_count);
-    evaluate (__LINE__, __func__, {1,     2,     2,     3,     3,    6    }, positions);
-    evaluate (__LINE__, __func__, {1,     2,     1,     1,     2,    1    }, sizes);
-    evaluate (__LINE__, __func__, {false, false, false, false, true, true }, additions);
-    evaluate (__LINE__, __func__, {"\n", "😀",   "b",   "\n",  "😃", "\n" }, content);
-    evaluate (__LINE__, __func__, 3, new_line_diff_count);
+    EXPECT_EQ ((vector <int>{1, 2, 2, 3, 3, 6}), positions);
+    EXPECT_EQ ((vector <int>{1, 2, 1, 1, 2, 1}), sizes);
+    EXPECT_EQ ((vector <bool>{false, false, false, false, true, true}), additions);
+    EXPECT_EQ ((vector <string>{"\n", "😀", "b", "\n", "😃", "\n"}), content);
+    EXPECT_EQ (3, new_line_diff_count);
   }
 
   
   // Character similarity.
   {
     int similarity = filter_diff_character_similarity ("Old text", "New text");
-    evaluate (__LINE__, __func__, 45, similarity);
+    EXPECT_EQ (45, similarity);
     
     similarity = filter_diff_character_similarity ("New text", "New text");
-    evaluate (__LINE__, __func__, 100, similarity);
+    EXPECT_EQ (100, similarity);
     
     similarity = filter_diff_character_similarity ("ABCDEFGH", "IJKLMNOPQRST");
-    evaluate (__LINE__, __func__, 0, similarity);
+    EXPECT_EQ (0, similarity);
   }
   
   // Similarity with text that used to crash the routine but was fixed.
@@ -170,7 +171,7 @@ Genesis 1.3 3 And God said: "Let there be light". And there was light.
     string oldtext = filter_url_file_get_contents (filter_url_create_path ({path, "invalid-utf8-old.txt"}));
     string newtext = filter_url_file_get_contents (filter_url_create_path ({path, "invalid-utf8-new.txt"}));
     int similarity = filter_diff_character_similarity (oldtext, newtext);
-    evaluate (__LINE__, __func__, 99, similarity);
+    EXPECT_EQ (99, similarity);
   }
   
   // Similarity.
@@ -286,16 +287,16 @@ Genesis 1.3 3 And God said: "Let there be light". And there was light.
     "\\v 45 Ndichagara pakati pavana vaIsraeri, kuti ndive Mwari wavo.\n"
     "\\v 46 Vachaziva kuti ndini Jehovha wavo, wakavabudisa panyika kuti ndigare pakati pavo; ndini Jehovha Mwari wavo.\n";
     int similarity = filter_diff_character_similarity (first, second);
-    evaluate (__LINE__, __func__, 94, similarity);
+    EXPECT_EQ (94, similarity);
     
     similarity = filter_diff_word_similarity (first, second);
-    evaluate (__LINE__, __func__, 94, similarity);
+    EXPECT_EQ (94, similarity);
     
     similarity = filter_diff_word_similarity ("one two three", "three two one");
-    evaluate (__LINE__, __func__, 20, similarity);
+    EXPECT_EQ (20, similarity);
     
     similarity = filter_diff_word_similarity ("one two three", "one two three four");
-    evaluate (__LINE__, __func__, 75, similarity);
+    EXPECT_EQ (75, similarity);
   }
   
   {
@@ -323,25 +324,25 @@ Genesis 1.3 3 And God said: "Let there be light". And there was light.
     standard = filter_url_file_get_contents (path);
     path = filter_url_create_path ({temporary_folder, "verses_old.usfm"});
     output = filter_url_file_get_contents (path);
-    evaluate (__LINE__, __func__, standard, output);
+    EXPECT_EQ (standard, output);
     
     path = filter_url_create_path ({"unittests", "tests", "verses_new.usfm"});
     standard = filter_url_file_get_contents (path);
     path = filter_url_create_path ({temporary_folder, "verses_new.usfm"});
     output = filter_url_file_get_contents (path);
-    evaluate (__LINE__, __func__, standard, output);
+    EXPECT_EQ (standard, output);
     
     path = filter_url_create_path ({"unittests", "tests", "verses_old.txt"});
     standard = filter_url_file_get_contents (path);
     path = filter_url_create_path ({temporary_folder, "verses_old.txt"});
     output = filter_url_file_get_contents (path);
-    evaluate (__LINE__, __func__, standard, output);
+    EXPECT_EQ (standard, output);
     
     path = filter_url_create_path ({"unittests", "tests", "verses_new.txt"});
     standard = filter_url_file_get_contents (path);
     path = filter_url_create_path ({temporary_folder, "verses_new.txt"});
     output = filter_url_file_get_contents (path);
-    evaluate (__LINE__, __func__, standard, output);
+    EXPECT_EQ (standard, output);
     
     string oldfile = filter_url_create_path ({temporary_folder, "verses_old.usfm"});
     string newfile = filter_url_create_path ({temporary_folder, "verses_new.usfm"});
@@ -352,8 +353,11 @@ Genesis 1.3 3 And God said: "Let there be light". And there was light.
     standard = filter_url_file_get_contents (path);
     path = filter_url_create_path ({temporary_folder, "changed_verses.html"});
     output = filter_url_file_get_contents (path);
-    evaluate (__LINE__, __func__, standard, output);
+    EXPECT_EQ (standard, output);
   }
 
   refresh_sandbox (true);
 }
+
+#endif
+

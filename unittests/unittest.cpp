@@ -22,7 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #ifdef HAVE_GTEST
 #include "gtest/gtest.h"
 #endif
-#include <unittests/utilities.h>
+#include <unittests/utilities.h> // Todo lots of these out.
 #include <library/bibledit.h>
 #include <library/locks.h>
 #include <database/config/user.h>
@@ -117,31 +117,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <unittests/easyenglishbible.h>
 using namespace std;
 
-
-#ifdef HAVE_GTEST
-TEST (existing, existing)
-{
-  test_filter_text ();
-  test_url ();
-  test_passage ();
-  test_styles ();
-  test_diff ();
-  test_shell ();
-  test_database_sample ();
-  test_filter_webview ();
-  test_javascript ();
-  test_french ();
-  test_merge ();
-  test_paratext ();
-  test_nmt ();
-  test_html2format ();
-  test_studylight ();
-  test_gbs ();
-  test_database_bible_images ();
-  test_image ();
-  test_easy_english_bible ();
-}
-#endif
 
 int main ([[maybe_unused]] int argc, [[maybe_unused]] char **argv)
 {

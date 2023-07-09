@@ -17,6 +17,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
+#include <config/libraries.h>
+#ifdef HAVE_GTEST
+#include "gtest/gtest.h"
 #include <unittests/sample.h>
 #include <unittests/utilities.h>
 #include <database/sample.h>
@@ -24,9 +27,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 using namespace std;
 
 
-void test_database_sample ()
+TEST (database, sample)
 {
-  trace_unit_tests (__func__);
   refresh_sandbox (true);
   Database_Sample::create ();
   
@@ -39,7 +41,7 @@ void test_database_sample ()
 
   // Check amount of stored sample.
   vector <int> rowids = Database_Sample::get ();
-  evaluate (__LINE__, __func__, { 1, 2, 3, 4, 5 }, rowids);
+  EXPECT_EQ ((vector <int>{ 1, 2, 3, 4, 5}), rowids);
   
   // Retrieve and check the samples.
   for (int i = 1; i <= 5; i++) {
@@ -47,7 +49,10 @@ void test_database_sample ()
     string standard_data = filter::strings::convert_to_string (10'000 * i);
     string file, data;
     Database_Sample::get (i, file, data);
-    evaluate (__LINE__, __func__, standard_file, file);
-    evaluate (__LINE__, __func__, standard_data, data);
+    EXPECT_EQ (standard_file, file);
+    EXPECT_EQ (standard_data, data);
   }
 }
+
+#endif
+

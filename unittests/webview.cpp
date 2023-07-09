@@ -17,15 +17,18 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
+#include <config/libraries.h>
+#ifdef HAVE_GTEST
+#include "gtest/gtest.h"
 #include <unittests/workspaces.h>
 #include <unittests/utilities.h>
 #include <webserver/request.h>
 
-void test_filter_webview ()
+
+TEST (filter, webview)
 {
-  trace_unit_tests (__func__);
   Webserver_Request request;
-  evaluate (__LINE__, __func__, "Browser/1.0", request.user_agent);
+  EXPECT_EQ ("Browser/1.0", request.user_agent);
 }
 
 
@@ -52,3 +55,6 @@ void test_filter_webview ()
  So it appears that it is hard to decide to downgrade based on the user agent.
 
 */
+
+#endif
+

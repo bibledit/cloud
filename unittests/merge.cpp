@@ -17,6 +17,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
+#include <config/libraries.h>
+#ifdef HAVE_GTEST
+#include "gtest/gtest.h"
 #include <unittests/merge.h>
 #include <unittests/utilities.h>
 #include <filter/merge.h>
@@ -24,10 +27,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 using namespace std;
 
 
-void test_merge ()
+TEST (filter, merge)
 {
-  trace_unit_tests (__func__);
-  
   {
     string ancestor_usfm = R"(\v 30 Yakub menamai tempat tersebut Peniel,\f \fr 32:30 \fk Peniel \ft Nama ini berarti karena dia sudah bertatapan muka dengan Allah secara langsung dan dia masih hidup.)";
     string server_usfm = R"(\v 30 Yakub menamai tempat tersebut Peniel,\f \fr 32:30 \fk Peniel \ft Nama ini berarti karena dia sudah bertatapan muka dengan Allah secara langsung dan dia masih hidup.)";
@@ -35,7 +36,7 @@ void test_merge ()
     string standard = R"(\v 30 Yakub menamai tempat tersebut Peniel,\f \fr 32:30 \fk Peniel \ft Nama ini berarti ‘muka Allah’ dalam bahasa Ibrani.\f* karena dia sudah bertatapan muka dengan Allah secara langsung dan dia masih hidup.)";
     vector <Merge_Conflict> conflicts;
     string result = filter_merge_run (ancestor_usfm, server_usfm, user_usfm, true, conflicts);
-    evaluate (__LINE__, __func__, standard, result);
+    EXPECT_EQ (standard, result);
   }
 
   // Test line merge for simple modifications.
@@ -58,8 +59,8 @@ void test_merge ()
     "\\c 29\n"
     "\\s Ukuvuka lokuzibonakalisa kukaJesu\n"
     "\\s Ukuvuka kukaJesu";
-    evaluate (__LINE__, __func__, standard, output);
-    evaluate (__LINE__, __func__, true, conflicts.empty ());
+    EXPECT_EQ (standard, output);
+    EXPECT_EQ (true, conflicts.empty ());
   }
   
   // Test line merge for equal modifications
@@ -82,8 +83,8 @@ void test_merge ()
     "\\c 28\n"
     "\\s Ukuvuka kukaJesu\n"
     "\\s Ukuvuka kukaJesu";
-    evaluate (__LINE__, __func__, standard, output);
-    evaluate (__LINE__, __func__, true, conflicts.empty ());
+    EXPECT_EQ (standard, output);
+    EXPECT_EQ (true, conflicts.empty ());
   }
   
   // Test line merge for multiple modifications
@@ -122,8 +123,8 @@ void test_merge ()
     "\\v 2 Futhi khangela, kwaba khona ukuzamazama komhlaba okukhulu\\x + 27.51,54.\\x*; ngoba ingilosi yeNkosi yehla ivela ezulwini\\x + Mark. 16.5. Luka 24.4. Joha. 20.12.\\x*, yasondela yagiqa ilitshe yalisusa emnyango, yahlala phezu kwalo\\x + 27.60,66.\\x*.\n"
     "\\v 3 Lokubonakala kwakunjengombane\\x + Dan. 10.6. Hlu. 13.6.\\x*, lesematho sayo sasimhlophe njengeliqhwa elikhithikileyo\\x + Dan. 7.9. Mark. 9.3.\\x*.\n"
     "\\v 4 Abalindi bathuthumela ngokuyesaba, baba njengabafileyo\\x + 27.65-66.\\x*.";
-    evaluate (__LINE__, __func__, standard, output);
-    evaluate (__LINE__, __func__, true, conflicts.empty ());
+    EXPECT_EQ (standard, output);
+    EXPECT_EQ (true, conflicts.empty ());
   }
   
   // Test word merge for simple modifications
@@ -142,8 +143,8 @@ void test_merge ()
     string standard =
     "\\c 29\n"
     "\\v 4 Abalindi bathuthumela ngokuyesaba, basebesiba njengabafileyo\\x + 27.65,66.\\x*.";
-    evaluate (__LINE__, __func__, standard, output);
-    evaluate (__LINE__, __func__, true, conflicts.empty ());
+    EXPECT_EQ (standard, output);
+    EXPECT_EQ (true, conflicts.empty ());
   }
   
   // Test word merge for conflicting modifications.
@@ -162,8 +163,8 @@ void test_merge ()
     string standard =
     "\\c 29\n"
     "\\v 4 Abalindi bathuthumela ngokuyesaba, basebesiba njengabafileyo\\x + 27.65,66.\\x*.";
-    evaluate (__LINE__, __func__, standard, output);
-    evaluate (__LINE__, __func__, 1, conflicts.size ());
+    EXPECT_EQ (standard, output);
+    EXPECT_EQ (1, conflicts.size ());
   }
   
   // Test word merge for multiple modifications
@@ -202,8 +203,8 @@ void test_merge ()
     "\\v 2 Futhi khangela, kwaba khona ukuzamazama komhlaba okukhulu\\x + 27.51,54.\\x*; ngoba ingilosi yeNkosi yehla ivela ezulwini\\x + Mark. 16.5. Luka 24.4. Joha. 20.12.\\x*, yasondela yagiqa ilitshe yalisusa emnyango, yahlala phezu kwalo\\x + 27.60,66.\\x*.\n"
     "\\v 3 Lokubonakala kwayo kwakunjengombane\\x + Hlu. 13.6.\\x*, njalo isembatho sayo sasimhlophe njengeliqhwa elikhithikileyo\\x + Dan. 7.9. Mark. 9.3.\\x*.\n"
     "\\v 4 Abalindi basebethuthumela ngokuyesaba, baba njengabafileyo\\x + 27.65,66.\\x*.";
-    evaluate (__LINE__, __func__, standard, output);
-    evaluate (__LINE__, __func__, 0, conflicts.size ());
+    EXPECT_EQ (standard, output);
+    EXPECT_EQ (0, conflicts.size ());
   }
   
   // Test grapheme merge for simple modifications
@@ -222,8 +223,8 @@ void test_merge ()
     string standard =
     "\\c 29\n"
     "\\v 4 Abalindi bathuthumela besabe baba njengabafileyo\\x + 27.65,66.\\x*.";
-    evaluate (__LINE__, __func__, standard, output);
-    evaluate (__LINE__, __func__, 0, conflicts.size ());
+    EXPECT_EQ (standard, output);
+    EXPECT_EQ (0, conflicts.size ());
   }
   
   // Test that in case of a conflict, it takes the server's version.
@@ -242,8 +243,8 @@ void test_merge ()
     string standard =
     "\\c 29\n"
     "\\v 4 Abalindi basebethuthumela ngokuyesaba; baba njengabafileyo\\x + 27.65,66.\\x*.";
-    evaluate (__LINE__, __func__, standard, output);
-    evaluate (__LINE__, __func__, 1, conflicts.size ());
+    EXPECT_EQ (standard, output);
+    EXPECT_EQ (1, conflicts.size ());
   }
   
   // Realistic merge example.
@@ -282,8 +283,8 @@ void test_merge ()
     "\\v 3 The third verse.\n"
     "\\v 4 The fourth verse.\n"
     "\\v 5";
-    evaluate (__LINE__, __func__, standard, output);
-    evaluate (__LINE__, __func__, 0, conflicts.size ());
+    EXPECT_EQ (standard, output);
+    EXPECT_EQ (0, conflicts.size ());
   }
   
   // Merge situation taken from real life.
@@ -300,13 +301,13 @@ void test_merge ()
     string standard = filter_url_file_get_contents (path);
     
     string output = filter_merge_run_clever (mergeBaseData, userModificationData, serverModificationData, conflicts);
-    evaluate (__LINE__, __func__, standard, output);
-    evaluate (__LINE__, __func__, 0, conflicts.size ());
+    EXPECT_EQ (standard, output);
+    EXPECT_EQ (0, conflicts.size ());
     
     conflicts.clear ();
     output = filter_merge_run (mergeBaseData, userModificationData, serverModificationData, true, conflicts);
-    evaluate (__LINE__, __func__, standard, output);
-    evaluate (__LINE__, __func__, 0, conflicts.size ());
+    EXPECT_EQ (standard, output);
+    EXPECT_EQ (0, conflicts.size ());
   }
   
   // Testing the clever merge routine on chapter 0.
@@ -325,13 +326,13 @@ void test_merge ()
     string standard =
     "\\id GEN\n"
     "\\p Some text two.";
-    evaluate (__LINE__, __func__, standard, output);
-    evaluate (__LINE__, __func__, 0, conflicts.size ());
+    EXPECT_EQ (standard, output);
+    EXPECT_EQ (0, conflicts.size ());
     
     conflicts.clear ();
     output = filter_merge_run (mergeBaseData, userModificationData, serverModificationData, true, conflicts);
-    evaluate (__LINE__, __func__, standard, output);
-    evaluate (__LINE__, __func__, 0, conflicts.size ());
+    EXPECT_EQ (standard, output);
+    EXPECT_EQ (0, conflicts.size ());
   }
   
   // Testing switching from separate verses into a combined verse.
@@ -368,13 +369,13 @@ void test_merge ()
     "\\v 3 The third verse.\n"
     "\\v 4 The fourth (4th) verse.\n"
     "\\v 5";
-    evaluate (__LINE__, __func__, standard, output);
-    evaluate (__LINE__, __func__, 0, conflicts.size ());
+    EXPECT_EQ (standard, output);
+    EXPECT_EQ (0, conflicts.size ());
     
     conflicts.clear ();
     output = filter_merge_run_clever (mergeBaseData, userModificationData, serverModificationData, conflicts);
-    evaluate (__LINE__, __func__, standard, output);
-    evaluate (__LINE__, __func__, 0, conflicts.size ());
+    EXPECT_EQ (standard, output);
+    EXPECT_EQ (0, conflicts.size ());
   }
   
   // Testing switching from a combined verse to separate verses.
@@ -411,13 +412,13 @@ void test_merge ()
     "\\v 3 The third (3rd) verse.\n"
     "\\v 4 The fourth (4th) verse.\n"
     "\\v 5";
-    evaluate (__LINE__, __func__, standard, output);
-    evaluate (__LINE__, __func__, 0, conflicts.size ());
+    EXPECT_EQ (standard, output);
+    EXPECT_EQ (0, conflicts.size ());
     
     conflicts.clear ();
     output = filter_merge_run_clever (mergeBaseData, userModificationData, serverModificationData, conflicts);
-    evaluate (__LINE__, __func__, standard, output);
-    evaluate (__LINE__, __func__, 0, conflicts.size ());
+    EXPECT_EQ (standard, output);
+    EXPECT_EQ (0, conflicts.size ());
   }
   
   // Merge situation taken from real life.
@@ -434,13 +435,13 @@ void test_merge ()
     string standard = filter_url_file_get_contents (path);
     
     string output = filter_merge_run_clever (mergeBaseData, userModificationData, serverModificationData, conflicts);
-    evaluate (__LINE__, __func__, standard, output);
-    evaluate (__LINE__, __func__, 3, conflicts.size ());
+    EXPECT_EQ (standard, output);
+    EXPECT_EQ (3, conflicts.size ());
     
     conflicts.clear ();
     output = filter_merge_run (mergeBaseData, userModificationData, serverModificationData, true, conflicts);
-    evaluate (__LINE__, __func__, standard, output);
-    evaluate (__LINE__, __func__, 3, conflicts.size ());
+    EXPECT_EQ (standard, output);
+    EXPECT_EQ (3, conflicts.size ());
   }
 
   // Merge situation taken from real life in July 2020.
@@ -457,13 +458,13 @@ void test_merge ()
     string standard = filter_url_file_get_contents (path);
     
     string output = filter_merge_run_clever (mergeBaseData, userModificationData, serverModificationData, conflicts);
-    evaluate (__LINE__, __func__, standard, output);
-    evaluate (__LINE__, __func__, 0, conflicts.size ());
+    EXPECT_EQ (standard, output);
+    EXPECT_EQ (0, conflicts.size ());
     
     conflicts.clear ();
     output = filter_merge_run (mergeBaseData, userModificationData, serverModificationData, true, conflicts);
-    evaluate (__LINE__, __func__, standard, output);
-    evaluate (__LINE__, __func__, 0, conflicts.size ());
+    EXPECT_EQ (standard, output);
+    EXPECT_EQ (0, conflicts.size ());
   }
 
   // Merge situation taken from issue https://github.com/bibledit/cloud/issues/418
@@ -480,14 +481,17 @@ void test_merge ()
     string standard = filter_url_file_get_contents (path);
     
     string output = filter_merge_run_clever (mergeBaseData, userModificationData, serverModificationData, conflicts);
-    evaluate (__LINE__, __func__, standard, output);
-    evaluate (__LINE__, __func__, 0, conflicts.size ());
+    EXPECT_EQ (standard, output);
+    EXPECT_EQ (0, conflicts.size ());
     
     conflicts.clear ();
     output = filter_merge_run (mergeBaseData, userModificationData, serverModificationData, true, conflicts);
-    evaluate (__LINE__, __func__, standard, output);
-    evaluate (__LINE__, __func__, 0, conflicts.size ());
+    EXPECT_EQ (standard, output);
+    EXPECT_EQ (0, conflicts.size ());
   }
 
   refresh_sandbox (true);
 }
+
+#endif
+

@@ -17,6 +17,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
+#include <config/libraries.h>
+#ifdef HAVE_GTEST
+#include "gtest/gtest.h"
 #include <unittests/url.h>
 #include <unittests/utilities.h>
 #include <filter/url.h>
@@ -27,33 +30,31 @@ using namespace std;
 using namespace std::chrono_literals;
 
 
-void test_url ()
+TEST (filter, url)
 {
-  trace_unit_tests (__func__);
-  
   // Test writing to and reading from files, and whether a file exists.
   {
     string filename = "/tmp/בוקר טוב";
     string contents = "בוקר טוב בוקר טוב";
-    evaluate (__LINE__, __func__, false, file_or_dir_exists (filename));
-    evaluate (__LINE__, __func__, false, file_or_dir_exists (filename));
+    EXPECT_EQ (false, file_or_dir_exists (filename));
+    EXPECT_EQ (false, file_or_dir_exists (filename));
     filter_url_file_put_contents (filename, contents);
-    evaluate (__LINE__, __func__, true, file_or_dir_exists (filename));
-    evaluate (__LINE__, __func__, true, file_or_dir_exists (filename));
-    evaluate (__LINE__, __func__, contents, filter_url_file_get_contents (filename));
+    EXPECT_EQ (true, file_or_dir_exists (filename));
+    EXPECT_EQ (true, file_or_dir_exists (filename));
+    EXPECT_EQ (contents, filter_url_file_get_contents (filename));
     filter_url_unlink (filename);
-    evaluate (__LINE__, __func__, false, file_or_dir_exists (filename));
-    evaluate (__LINE__, __func__, false, file_or_dir_exists (filename));
+    EXPECT_EQ (false, file_or_dir_exists (filename));
+    EXPECT_EQ (false, file_or_dir_exists (filename));
   }
 
   // Test function to check existence of directory.
   {
     string folder = "/tmp/בוקר טוב";
-    evaluate (__LINE__, __func__, false, file_or_dir_exists (folder));
+    EXPECT_EQ (false, file_or_dir_exists (folder));
     filter_url_mkdir (folder);
-    evaluate (__LINE__, __func__, true, file_or_dir_exists (folder));
+    EXPECT_EQ (true, file_or_dir_exists (folder));
     filter_url_rmdir (folder);
-    evaluate (__LINE__, __func__, false, file_or_dir_exists (folder));
+    EXPECT_EQ (false, file_or_dir_exists (folder));
   }
   
   // Test unique filename.
@@ -62,10 +63,10 @@ void test_url ()
     filter_url_file_put_contents (filename, "");
     string filename1 = filter_url_unique_path (filename);
     filter_url_file_put_contents (filename1, "");
-    evaluate (__LINE__, __func__, "/tmp/unique.1", filename1);
+    EXPECT_EQ ("/tmp/unique.1", filename1);
     string filename2 = filter_url_unique_path (filename);
     filter_url_file_put_contents (filename2, "");
-    evaluate (__LINE__, __func__, "/tmp/unique.2", filename2);
+    EXPECT_EQ ("/tmp/unique.2", filename2);
     filter_url_unlink (filename);
     filter_url_unlink (filename1);
     filter_url_unlink (filename2);
@@ -73,14 +74,14 @@ void test_url ()
   
   // Html export filenames.
   {
-    evaluate (__LINE__, __func__, "index.html", filter_url_html_file_name_bible ());
-    evaluate (__LINE__, __func__, "path/index.html", filter_url_html_file_name_bible ("path"));
-    evaluate (__LINE__, __func__, "path/01-Genesis.html", filter_url_html_file_name_bible ("path", 1));
-    evaluate (__LINE__, __func__, "01-Genesis.html", filter_url_html_file_name_bible ("", 1));
-    evaluate (__LINE__, __func__, "path/11-1Kings.html", filter_url_html_file_name_bible ("path", 11));
-    evaluate (__LINE__, __func__, "path/22-SongofSolomon-000.html", filter_url_html_file_name_bible ("path", 22, 0));
-    evaluate (__LINE__, __func__, "path/33-Micah-333.html", filter_url_html_file_name_bible ("path", 33, 333));
-    evaluate (__LINE__, __func__, "33-Micah-333.html", filter_url_html_file_name_bible ("", 33, 333));
+    EXPECT_EQ ("index.html", filter_url_html_file_name_bible ());
+    EXPECT_EQ ("path/index.html", filter_url_html_file_name_bible ("path"));
+    EXPECT_EQ ("path/01-Genesis.html", filter_url_html_file_name_bible ("path", 1));
+    EXPECT_EQ ("01-Genesis.html", filter_url_html_file_name_bible ("", 1));
+    EXPECT_EQ ("path/11-1Kings.html", filter_url_html_file_name_bible ("path", 11));
+    EXPECT_EQ ("path/22-SongofSolomon-000.html", filter_url_html_file_name_bible ("path", 22, 0));
+    EXPECT_EQ ("path/33-Micah-333.html", filter_url_html_file_name_bible ("path", 33, 333));
+    EXPECT_EQ ("33-Micah-333.html", filter_url_html_file_name_bible ("", 33, 333));
   }
   
   // Testing mkdir and rmdir including parents.
@@ -91,80 +92,80 @@ void test_url ()
     string path = filter_url_create_path ({directory, "c"});
     string contents = "unittest";
     filter_url_file_put_contents (path, contents);
-    evaluate (__LINE__, __func__, contents, filter_url_file_get_contents (path));
+    EXPECT_EQ (contents, filter_url_file_get_contents (path));
     
     path = filter_url_create_path ({testing_directory, "a"});
-    evaluate (__LINE__, __func__, true, file_or_dir_exists (path));
-    evaluate (__LINE__, __func__, true, filter_url_is_dir (path));
+    EXPECT_EQ (true, file_or_dir_exists (path));
+    EXPECT_EQ (true, filter_url_is_dir (path));
     
     filter_url_rmdir (path);
-    evaluate (__LINE__, __func__, false, file_or_dir_exists (path));
-    evaluate (__LINE__, __func__, false, filter_url_is_dir (path));
+    EXPECT_EQ (false, file_or_dir_exists (path));
+    EXPECT_EQ (false, filter_url_is_dir (path));
   }
   
   // Test filter_url_escape_shell_argument.
   {
-    evaluate (__LINE__, __func__, "'argument'", filter_url_escape_shell_argument ("argument"));
-    evaluate (__LINE__, __func__, "'arg\\'ument'", filter_url_escape_shell_argument ("arg'ument"));
+    EXPECT_EQ ("'argument'", filter_url_escape_shell_argument ("argument"));
+    EXPECT_EQ ("'arg\\'ument'", filter_url_escape_shell_argument ("arg'ument"));
   }
 
   // Test URL decoder.
   {
-    evaluate (__LINE__, __func__, "Store settings", filter_url_urldecode ("Store+settings"));
-    evaluate (__LINE__, __func__, "test@mail", filter_url_urldecode ("test%40mail"));
-    evaluate (__LINE__, __func__, "ᨀab\\d@a", filter_url_urldecode ("%E1%A8%80ab%5Cd%40a"));
-    evaluate (__LINE__, __func__, "\xFF", filter_url_urldecode ("%FF"));
-    evaluate (__LINE__, __func__, "\xFF", filter_url_urldecode ("%ff"));
+    EXPECT_EQ ("Store settings", filter_url_urldecode ("Store+settings"));
+    EXPECT_EQ ("test@mail", filter_url_urldecode ("test%40mail"));
+    EXPECT_EQ ("ᨀab\\d@a", filter_url_urldecode ("%E1%A8%80ab%5Cd%40a"));
+    EXPECT_EQ ("\xFF", filter_url_urldecode ("%FF"));
+    EXPECT_EQ ("\xFF", filter_url_urldecode ("%ff"));
   }
   
   // Test URL encoder.
   {
-    evaluate (__LINE__, __func__, "Store%20settings", filter_url_urlencode ("Store settings"));
-    evaluate (__LINE__, __func__, "test%40mail", filter_url_urlencode ("test@mail"));
-    evaluate (__LINE__, __func__, "%E1%A8%80ab%5Cd%40a", filter_url_urlencode ("ᨀab\\d@a"));
-    evaluate (__LINE__, __func__, "foo%3Dbar%26baz%3D", filter_url_urlencode ("foo=bar&baz="));
-    evaluate (__LINE__, __func__, "%D7%91%D6%BC%D6%B0%D7%A8%D6%B5%D7%90%D7%A9%D7%81%D6%B4%D6%96%D7%99%D7%AA", filter_url_urlencode ("בְּרֵאשִׁ֖ית"));
-    evaluate (__LINE__, __func__, "ABC", filter_url_urlencode ("ABC"));
-    evaluate (__LINE__, __func__, "%FF", filter_url_urlencode ("\xFF"));
+    EXPECT_EQ ("Store%20settings", filter_url_urlencode ("Store settings"));
+    EXPECT_EQ ("test%40mail", filter_url_urlencode ("test@mail"));
+    EXPECT_EQ ("%E1%A8%80ab%5Cd%40a", filter_url_urlencode ("ᨀab\\d@a"));
+    EXPECT_EQ ("foo%3Dbar%26baz%3D", filter_url_urlencode ("foo=bar&baz="));
+    EXPECT_EQ ("%D7%91%D6%BC%D6%B0%D7%A8%D6%B5%D7%90%D7%A9%D7%81%D6%B4%D6%96%D7%99%D7%AA", filter_url_urlencode ("בְּרֵאשִׁ֖ית"));
+    EXPECT_EQ ("ABC", filter_url_urlencode ("ABC"));
+    EXPECT_EQ ("%FF", filter_url_urlencode ("\xFF"));
   }
 
   // Test encode and decode round trip.
   {
     string original ("\0\1\2", 3);
     string encoded ("%00%01%02");
-    evaluate (__LINE__, __func__, encoded, filter_url_urlencode (original));
-    evaluate (__LINE__, __func__, original, filter_url_urldecode (encoded));
+    EXPECT_EQ (encoded, filter_url_urlencode (original));
+    EXPECT_EQ (original, filter_url_urldecode (encoded));
   }
 
   // Test encode and decode unsafe chars, RFC1738.
   {
     string unsafe (" <>#{}|\\^~[]`");
     string unsafe_encoded = filter_url_urlencode (unsafe);
-    evaluate (__LINE__, __func__, true, unsafe_encoded.find_first_of (unsafe) == string::npos);
-    evaluate (__LINE__, __func__, unsafe, filter_url_urldecode (unsafe_encoded));
+    EXPECT_EQ (true, unsafe_encoded.find_first_of (unsafe) == string::npos);
+    EXPECT_EQ (unsafe, filter_url_urldecode (unsafe_encoded));
   }
   
   // Test char values used in encoding and decoding.
   {
     char one = -1;
     char two = static_cast<char> (255);
-    evaluate (__LINE__, __func__, one, two);
+    EXPECT_EQ (one, two);
   }
     
   // Test dirname and basename functions.
   {
-    evaluate (__LINE__, __func__, ".", filter_url_dirname (string()));
-    evaluate (__LINE__, __func__, ".", filter_url_dirname ("/"));
-    evaluate (__LINE__, __func__, ".", filter_url_dirname ("dir/"));
-    // C++17 version: evaluate (__LINE__, __func__, "/", filter_url_dirname ("/dir"));
-    evaluate (__LINE__, __func__, ".", filter_url_dirname ("/dir"));
-    evaluate (__LINE__, __func__, "foo", filter_url_dirname ("foo/bar"));
-    evaluate (__LINE__, __func__, "/foo", filter_url_dirname ("/foo/bar"));
-    evaluate (__LINE__, __func__, "/foo", filter_url_dirname ("/foo/bar/"));
-    evaluate (__LINE__, __func__, "a.txt", filter_url_basename ("/a.txt"));
-    evaluate (__LINE__, __func__, "txt", filter_url_basename ("/txt/"));
-    evaluate (__LINE__, __func__, "foo.bar", filter_url_basename ("/path/to/foo.bar"));
-    evaluate (__LINE__, __func__, "foo.bar", filter_url_basename ("foo.bar"));
+    EXPECT_EQ (".", filter_url_dirname (string()));
+    EXPECT_EQ (".", filter_url_dirname ("/"));
+    EXPECT_EQ (".", filter_url_dirname ("dir/"));
+    // C++17 version: EXPECT_EQ ("/", filter_url_dirname ("/dir"));
+    EXPECT_EQ (".", filter_url_dirname ("/dir"));
+    EXPECT_EQ ("foo", filter_url_dirname ("foo/bar"));
+    EXPECT_EQ ("/foo", filter_url_dirname ("/foo/bar"));
+    EXPECT_EQ ("/foo", filter_url_dirname ("/foo/bar/"));
+    EXPECT_EQ ("a.txt", filter_url_basename ("/a.txt"));
+    EXPECT_EQ ("txt", filter_url_basename ("/txt/"));
+    EXPECT_EQ ("foo.bar", filter_url_basename ("/path/to/foo.bar"));
+    EXPECT_EQ ("foo.bar", filter_url_basename ("foo.bar"));
   }
   
   // Test http GET and POST
@@ -172,58 +173,58 @@ void test_url ()
     string result, error;
     result = filter_url_http_get ("http://localhost/none", error, false);
 #ifndef HAVE_CLIENT
-    evaluate (__LINE__, __func__, "Couldn't connect to server", error);
+    EXPECT_EQ ("Couldn't connect to server", error);
 #endif
-    evaluate (__LINE__, __func__, "", result);
+    EXPECT_EQ ("", result);
     map <string, string> values = {pair ("a", "value1"), pair ("b", "value2")};
     result = filter_url_http_post ("http://localhost/none", string(), values, error, false, false, {});
 #ifndef HAVE_CLIENT
-    evaluate (__LINE__, __func__, "Couldn't connect to server", error);
+    EXPECT_EQ ("Couldn't connect to server", error);
 #endif
-    evaluate (__LINE__, __func__, "", result);
+    EXPECT_EQ ("", result);
   }
   
   // Test low-level http(s) client error for unknown host.
   {
     string result, error;
     result = filter_url_http_request_mbed ("http://unknownhost", error, {}, "", false);
-    evaluate (__LINE__, __func__, "", result);
-    evaluate (__LINE__, __func__, "Internet connection failure: unknownhost: nodename nor servname provided, or not known", error);
+    EXPECT_EQ ("", result);
+    EXPECT_EQ ("Internet connection failure: unknownhost: nodename nor servname provided, or not known", error);
   }
   
   // Test low-level http(s) client error for closed port.
   {
     string result, error;
     result = filter_url_http_request_mbed ("http://bibledit.org:8086/non-existing", error, {}, "", false);
-    evaluate (__LINE__, __func__, "", result);
-    evaluate (__LINE__, __func__, "bibledit.org:8086: Connection refused | bibledit.org:8086: Connection refused", error);
+    EXPECT_EQ ("", result);
+    EXPECT_EQ ("bibledit.org:8086: Connection refused | bibledit.org:8086: Connection refused", error);
   }
   
   // Test low-level http(s) client result.
   {
     string result, error;
     result = filter_url_http_request_mbed ("http://185.87.186.229", error, {}, "", false);
-    evaluate (__LINE__, __func__, true, result.find ("Home") != string::npos);
-    evaluate (__LINE__, __func__, true, result.find ("Ndebele Bible") != string::npos);
-    evaluate (__LINE__, __func__, true, result.find ("Shona Bible") != string::npos);
-    evaluate (__LINE__, __func__, true, result.find ("Downloads") != string::npos);
-    evaluate (__LINE__, __func__, "", error);
+    EXPECT_EQ (true, result.find ("Home") != string::npos);
+    EXPECT_EQ (true, result.find ("Ndebele Bible") != string::npos);
+    EXPECT_EQ (true, result.find ("Shona Bible") != string::npos);
+    EXPECT_EQ (true, result.find ("Downloads") != string::npos);
+    EXPECT_EQ ("", error);
   }
   {
     string result, error;
     result = filter_url_http_request_mbed ("https://bibledit.org", error, {}, "", false);
-    evaluate (__LINE__, __func__, true, result.find ("Bibledit") != string::npos);
-    evaluate (__LINE__, __func__, true, result.find ("Linux") != string::npos);
-    evaluate (__LINE__, __func__, true, result.find ("Cloud") != string::npos);
-    evaluate (__LINE__, __func__, true, result.find ("Android") != string::npos);
-    evaluate (__LINE__, __func__, "", error);
+    EXPECT_EQ (true, result.find ("Bibledit") != string::npos);
+    EXPECT_EQ (true, result.find ("Linux") != string::npos);
+    EXPECT_EQ (true, result.find ("Cloud") != string::npos);
+    EXPECT_EQ (true, result.find ("Android") != string::npos);
+    EXPECT_EQ ("", error);
   }
 
   // Test removing credentials from a URL.
   {
     string url = "https://username:password@github.com/username/repository.git";
     url = filter_url_remove_username_password (url);
-    evaluate (__LINE__, __func__, "https://github.com/username/repository.git", url);
+    EXPECT_EQ ("https://github.com/username/repository.git", url);
   }
   
   // Test recursively copying a directory.
@@ -233,7 +234,7 @@ void test_url ()
     filter_url_rmdir (output);
     filter_url_dir_cp (input, output);
     string path = filter_url_create_path ({output, "tests", "basic.css"});
-    evaluate (__LINE__, __func__, true, file_or_dir_exists (path));
+    EXPECT_EQ (true, file_or_dir_exists (path));
   }
   
   // Secure communications.
@@ -245,27 +246,27 @@ void test_url ()
     string result;
     
     url = filter_url_set_scheme (" localhost ", false);
-    evaluate (__LINE__, __func__, "http://localhost", url);
+    EXPECT_EQ ("http://localhost", url);
     url = filter_url_set_scheme ("httpx://localhost", false);
-    evaluate (__LINE__, __func__, "http://localhost", url);
+    EXPECT_EQ ("http://localhost", url);
     url = filter_url_set_scheme ("http://localhost", true);
-    evaluate (__LINE__, __func__, "https://localhost", url);
+    EXPECT_EQ ("https://localhost", url);
     
     result = filter_url_http_request_mbed ("http://www.google.nl", error, {}, "", false);
-    evaluate (__LINE__, __func__, true, result.find ("google") != string::npos);
-    evaluate (__LINE__, __func__, true, result.find ("search") != string::npos);
-    evaluate (__LINE__, __func__, true, result.find ("background") != string::npos);
-    evaluate (__LINE__, __func__, "", error);
+    EXPECT_EQ (true, result.find ("google") != string::npos);
+    EXPECT_EQ (true, result.find ("search") != string::npos);
+    EXPECT_EQ (true, result.find ("background") != string::npos);
+    EXPECT_EQ ("", error);
     
     result = filter_url_http_request_mbed ("https://www.google.nl", error, {}, "", false);
-    evaluate (__LINE__, __func__, true, result.find ("google") != string::npos);
-    evaluate (__LINE__, __func__, true, result.find ("search") != string::npos);
-    evaluate (__LINE__, __func__, true, result.find ("background") != string::npos);
-    evaluate (__LINE__, __func__, "", error);
+    EXPECT_EQ (true, result.find ("google") != string::npos);
+    EXPECT_EQ (true, result.find ("search") != string::npos);
+    EXPECT_EQ (true, result.find ("background") != string::npos);
+    EXPECT_EQ ("", error);
     
     result = filter_url_http_request_mbed ("https://bibledit.org:8091", error, {}, "", false);
-    evaluate (__LINE__, __func__, "", result);
-    evaluate (__LINE__, __func__, "Response code: 302 Found", error);
+    EXPECT_EQ ("", result);
+    EXPECT_EQ ("Response code: 302 Found", error);
     
     filter_url_ssl_tls_finalize ();
   }
@@ -273,9 +274,9 @@ void test_url ()
   // Testing is_dir.
   {
     string path = filter_url_create_root_path ({"git"});
-    evaluate (__LINE__, __func__, true, filter_url_is_dir (path));
+    EXPECT_EQ (true, filter_url_is_dir (path));
     path = filter_url_create_root_path ({"setup", "index.html"});
-    evaluate (__LINE__, __func__, false, filter_url_is_dir (path));
+    EXPECT_EQ (false, filter_url_is_dir (path));
   }
   
   // Testing checking for and setting write permissions.
@@ -286,41 +287,41 @@ void test_url ()
     filter_url_file_put_contents (file1, "x");
     filter_url_file_put_contents (file2, "x");
     
-    evaluate (__LINE__, __func__, true, filter_url_get_write_permission (directory));
-    evaluate (__LINE__, __func__, true, filter_url_get_write_permission (file1));
-    evaluate (__LINE__, __func__, true, filter_url_get_write_permission (file2));
+    EXPECT_EQ (true, filter_url_get_write_permission (directory));
+    EXPECT_EQ (true, filter_url_get_write_permission (file1));
+    EXPECT_EQ (true, filter_url_get_write_permission (file2));
 
     chmod (directory.c_str(), S_IRUSR);
     chmod (file1.c_str(), S_IRUSR);
     chmod (file2.c_str(), S_IRUSR);
     
-    evaluate (__LINE__, __func__, false, filter_url_get_write_permission (directory));
-    evaluate (__LINE__, __func__, false, filter_url_get_write_permission (file1));
-    evaluate (__LINE__, __func__, false, filter_url_get_write_permission (file2));
+    EXPECT_EQ (false, filter_url_get_write_permission (directory));
+    EXPECT_EQ (false, filter_url_get_write_permission (file1));
+    EXPECT_EQ (false, filter_url_get_write_permission (file2));
     
     filter_url_set_write_permission (directory);
     filter_url_set_write_permission (file1);
     filter_url_set_write_permission (file2);
     
-    evaluate (__LINE__, __func__, true, filter_url_get_write_permission (directory));
-    evaluate (__LINE__, __func__, true, filter_url_get_write_permission (file1));
-    evaluate (__LINE__, __func__, true, filter_url_get_write_permission (file2));
+    EXPECT_EQ (true, filter_url_get_write_permission (directory));
+    EXPECT_EQ (true, filter_url_get_write_permission (file1));
+    EXPECT_EQ (true, filter_url_get_write_permission (file2));
   }
 
   // Email address validity.
   {
-    evaluate (__LINE__, __func__, true, filter_url_email_is_valid ("user@web.site"));
-    evaluate (__LINE__, __func__, false, filter_url_email_is_valid ("user@website"));
-    evaluate (__LINE__, __func__, false, filter_url_email_is_valid (" user@web.site"));
-    evaluate (__LINE__, __func__, false, filter_url_email_is_valid ("user @ web.site"));
+    EXPECT_EQ (true, filter_url_email_is_valid ("user@web.site"));
+    EXPECT_EQ (false, filter_url_email_is_valid ("user@website"));
+    EXPECT_EQ (false, filter_url_email_is_valid (" user@web.site"));
+    EXPECT_EQ (false, filter_url_email_is_valid ("user @ web.site"));
   }
   
   // Getting the file extension.
   {
-    evaluate (__LINE__, __func__, "txt", filter_url_get_extension ("foo/bar.txt"));
-    // C++17 version: evaluate (__LINE__, __func__, string(), filter_url_get_extension (".hidden"));
-    evaluate (__LINE__, __func__, "hidden", filter_url_get_extension (".hidden"));
-    evaluate (__LINE__, __func__, string(), filter_url_get_extension (""));
+    EXPECT_EQ ("txt", filter_url_get_extension ("foo/bar.txt"));
+    // C++17 version: EXPECT_EQ (string(), filter_url_get_extension (".hidden"));
+    EXPECT_EQ ("hidden", filter_url_get_extension (".hidden"));
+    EXPECT_EQ (string(), filter_url_get_extension (""));
   }
   
   // Reading the directory content.
@@ -332,7 +333,7 @@ void test_url ()
     filter_url_file_put_contents (file1, "1");
     filter_url_file_put_contents (file2, "2");
     vector <string> files = filter_url_scandir (directory);
-    evaluate (__LINE__, __func__, {"1", "2"}, files);
+    EXPECT_EQ ((vector <string>{"1", "2"}), files);
   }
   
   // Testing the file modification time.
@@ -344,7 +345,7 @@ void test_url ()
     int mod_time = filter_url_file_modification_time (file);
     int ref_time = filter::date::seconds_since_epoch ();
     bool check = (mod_time < ref_time - 1) || (mod_time > ref_time + 1);
-    if (check) evaluate (__LINE__, __func__, ref_time, mod_time);
+    if (check) EXPECT_EQ (ref_time, mod_time);
   }
   
   // Testing the splitting of scheme and host and port.
@@ -354,20 +355,23 @@ void test_url ()
     int port {0};
     
     filter_url_get_scheme_host_port ("https://bibledit.org:8080", scheme, host, port);
-    evaluate (__LINE__, __func__, "https", scheme);
-    evaluate (__LINE__, __func__, "bibledit.org", host);
-    evaluate (__LINE__, __func__, 8080, port);
+    EXPECT_EQ ("https", scheme);
+    EXPECT_EQ ("bibledit.org", host);
+    EXPECT_EQ (8080, port);
     
     filter_url_get_scheme_host_port ("bibledit.org:8080", scheme, host, port);
-    evaluate (__LINE__, __func__, string(), scheme);
-    evaluate (__LINE__, __func__, "bibledit.org", host);
-    evaluate (__LINE__, __func__, 8080, port);
+    EXPECT_EQ (string(), scheme);
+    EXPECT_EQ ("bibledit.org", host);
+    EXPECT_EQ (8080, port);
     
     filter_url_get_scheme_host_port ("bibledit.org", scheme, host, port);
-    evaluate (__LINE__, __func__, string(), scheme);
-    evaluate (__LINE__, __func__, "bibledit.org", host);
-    evaluate (__LINE__, __func__, 0, port);
+    EXPECT_EQ (string(), scheme);
+    EXPECT_EQ ("bibledit.org", host);
+    EXPECT_EQ (0, port);
   }
   
   refresh_sandbox (true);
 }
+
+#endif
+

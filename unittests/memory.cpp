@@ -17,6 +17,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
+#include <config/libraries.h>
+#ifdef HAVE_GTEST
+#include "gtest/gtest.h"
 #include <unittests/memory.h>
 #include <unittests/utilities.h>
 #include <filter/memory.h>
@@ -47,7 +50,7 @@ bool test_memory_run = false;
 uint64_t max_memory_usage = 0;
 void test_memory_record ()
 {
-  uint64_t maximum = 0;
+  uint64_t maximum {0};
   do {
     uint64_t total = filter_memory_total_usage ();
     if (total > maximum) maximum = total;
@@ -57,10 +60,9 @@ void test_memory_record ()
 }
 
 
-void test_memory ()
+TEST (DISABLED_memory, basic)
 {
   // Measure maximum memory usage of tasks that normally run in the background.
-  trace_unit_tests (__func__);
 
   // Creating search index for one Bible.
   refresh_sandbox (false);
@@ -291,3 +293,6 @@ void test_memory ()
   
   */
 }
+
+#endif
+

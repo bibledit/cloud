@@ -17,15 +17,18 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
+#include <config/libraries.h>
+#ifdef HAVE_GTEST
+#include "gtest/gtest.h"
 #include <unittests/md5.h>
 #include <unittests/utilities.h>
 #include <filter/md5.h>
 #include <mbedtls/md5.h>
 
 
-void test_md5 ()
+TEST (filter, md5)
 {
-  //Test the md5 from the mbedtls library.
+  // Test the md5 from the mbedtls library.
   trace_unit_tests (__func__);
 
   std::string apple = "apple";
@@ -34,9 +37,12 @@ void test_md5 ()
   std::string pear = "pear";
   std::string pear_hexits = "8893dc16b1b2534bab7b03727145a2bb";
 
-  evaluate (__LINE__, __func__, apple_hexits, md5 (apple));
-  evaluate (__LINE__, __func__, pear_hexits, md5 (pear));
+  EXPECT_EQ (apple_hexits, md5 (apple));
+  EXPECT_EQ (pear_hexits, md5 (pear));
 
   // The md5 digest hash of an empty string.
-  evaluate (__LINE__, __func__, "d41d8cd98f00b204e9800998ecf8427e", md5 (std::string()));
+  EXPECT_EQ ("d41d8cd98f00b204e9800998ecf8427e", md5 (std::string()));
 }
+
+#endif
+

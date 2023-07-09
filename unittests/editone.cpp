@@ -17,6 +17,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
+#include <config/libraries.h>
+#ifdef HAVE_GTEST
+#include "gtest/gtest.h"
 #include <unittests/editone.h>
 #include <unittests/utilities.h>
 #include <styles/logic.h>
@@ -34,12 +37,10 @@ void test_editone_logic_verse_indicator (int verse)
 
 
 // Test the logic used in the visual verse editor.
-void test_editone_logic ()
+TEST (editone, logic)
 {
-  trace_unit_tests (__func__);
-
-  string stylesheet = styles_logic_standard_sheet ();
-  string directory = filter_url_create_root_path ({"unittests", "tests"});
+  const string stylesheet = styles_logic_standard_sheet ();
+  const string directory = filter_url_create_root_path ({"unittests", "tests"});
   
   // Prefix.
   {
@@ -48,8 +49,8 @@ void test_editone_logic ()
     string last_paragraph_style;
     editone_logic_prefix_html (usfm, stylesheet, html, last_paragraph_style);
     string standard = filter_url_file_get_contents (filter_url_create_path ({directory, "editone01.html"}));
-    evaluate (__LINE__, __func__, standard, html);
-    evaluate (__LINE__, __func__, "p", last_paragraph_style);
+    EXPECT_EQ (standard, html);
+    EXPECT_EQ ("p", last_paragraph_style);
   }
   
   // Suffix.
@@ -59,8 +60,8 @@ void test_editone_logic ()
     string last_paragraph_style;
     editone_logic_suffix_html ("q1", usfm, stylesheet, html);
     string standard = filter_url_file_get_contents (filter_url_create_path ({directory, "editone03.html"}));
-    evaluate (__LINE__, __func__, standard, html);
-    evaluate (__LINE__, __func__, "", last_paragraph_style);
+    EXPECT_EQ (standard, html);
+    EXPECT_EQ ("", last_paragraph_style);
   }
   
   // Removing notes from the prefix and appending them to the notes in the suffix.
@@ -75,8 +76,8 @@ void test_editone_logic ()
     editone_logic_move_notes_v2 (html_prefix, html_suffix);
     string standard_prefix = R"(<p class="b-c"><span>117</span></p><p class="b-p"><span class="i-v">1</span><span> </span><span>Praise Yahweh</span><span class="i-notecall1">1</span><span>, all you nations!</span><span> </span><span class="i-v">2</span><span> </span><span>Extol him</span><span class="i-notecall2">2</span><span>, all you peoples!</span></p><p class="b-p"><br/></p>)";
     string standard_suffix = R"(<p class="p"><span class="i-v">4</span><span> </span><span>Yahweh’s faithfulness</span><span class="i-notecall1">1</span><span>, endures forever.</span><span> </span><span class="i-v">5</span><span> </span><span>Last verse, without a note.</span></p><p class="b-notes"> <p class="b-f"><span class="i-notebody1">1</span><span/><span>+ Note one.</span></p><p class="b-f"><span class="i-notebody2">2</span><span/><span>+ Note two.</span></p></p><p class="b-f"><span class="i-notebody1">1</span><span> </span><span>+ Note four.</span></p>)";
-    evaluate (__LINE__, __func__, standard_prefix, html_prefix);
-    evaluate (__LINE__, __func__, standard_suffix, html_suffix);
+    EXPECT_EQ (standard_prefix, html_prefix);
+    EXPECT_EQ (standard_suffix, html_suffix);
   }
 
   // Prefix without notes, so moving nothing to the notes in the suffix.
@@ -91,8 +92,8 @@ void test_editone_logic ()
     editone_logic_move_notes_v2 (html_prefix, html_suffix);
     string standard_prefix = R"(<p class="b-c"><span>117</span></p><p class="b-p"><span class="i-v">1</span><span> </span><span>Praise Yahweh, all you nations!</span><span> </span><span class="i-v">2</span><span> </span><span>Extol him, all you peoples!</span></p><p class="b-p"><br/></p>)";
     string standard_suffix = R"(<p class="p"><span class="i-v">4</span><span> </span><span>Yahweh’s faithfulness, endures forever.</span><span> </span><span class="i-v">5</span><span> </span><span>Last verse, without a note.</span></p>)";
-    evaluate (__LINE__, __func__, standard_prefix, html_prefix);
-    evaluate (__LINE__, __func__, standard_suffix, html_suffix);
+    EXPECT_EQ (standard_prefix, html_prefix);
+    EXPECT_EQ (standard_suffix, html_suffix);
   }
 
   // Move notes from the prefix to a suffix that does not have notes of its own.
@@ -107,8 +108,8 @@ void test_editone_logic ()
     editone_logic_move_notes_v2 (html_prefix, html_suffix);
     string standard_prefix = R"(<p class="b-c"><span>117</span></p><p class="b-p"><span class="i-v">1</span><span> </span><span>Praise Yahweh</span><span class="i-notecall1">1</span><span>, all you nations!</span><span> </span><span class="i-v">2</span><span> </span><span>Extol him</span><span class="i-notecall2">2</span><span>, all you peoples!</span></p><p class="b-p"><br/></p>)";
     string standard_suffix = R"(<p class="p"><span class="i-v">4</span><span> </span><span>Yahweh’s faithfulness, endures forever.</span><span> </span><span class="i-v">5</span><span> </span><span>Last verse, without a note.</span></p><p class="b-notes"><br/><p class="b-f"><span class="i-notebody1">1</span><span/><span>+ Note one.</span></p><p class="b-f"><span class="i-notebody2">2</span><span/><span>+ Note two.</span></p></p>)";
-    evaluate (__LINE__, __func__, standard_prefix, html_prefix);
-    evaluate (__LINE__, __func__, standard_suffix, html_suffix);
+    EXPECT_EQ (standard_prefix, html_prefix);
+    EXPECT_EQ (standard_suffix, html_suffix);
   }
 
   // Test that a empty prefix works fine when trying to move notes from prefix to suffix.
@@ -123,8 +124,8 @@ void test_editone_logic ()
     editone_logic_move_notes_v2 (html_prefix, html_suffix);
     string standard_prefix = R"()";
     string standard_suffix = R"(<p><span class="i-v">4</span><span> </span><span>Yahweh’s faithfulness</span><span class="i-notecall1">1</span><span>, endures forever.</span><span> </span><span class="i-v">5</span><span> </span><span>Last verse, without a note.</span></p><p class="b-notes"> </p><p class="b-f"><span class="i-notebody1">1</span><span> </span><span>+ Note four.</span></p>)";
-    evaluate (__LINE__, __func__, standard_prefix, html_prefix);
-    evaluate (__LINE__, __func__, standard_suffix, html_suffix);
+    EXPECT_EQ (standard_prefix, html_prefix);
+    EXPECT_EQ (standard_suffix, html_suffix);
   }
 
   // Test that notes from the prefix get moved even to an empty suffix.
@@ -139,8 +140,8 @@ void test_editone_logic ()
     editone_logic_move_notes_v2 (html_prefix, html_suffix);
     string standard_prefix = R"(<p class="b-c"><span>117</span></p><p class="b-p"><span class="i-v">1</span><span> </span><span>Praise Yahweh</span><span class="i-notecall1">1</span><span>, all you nations!</span><span> </span><span class="i-v">2</span><span> </span><span>Extol him</span><span class="i-notecall2">2</span><span>, all you peoples!</span></p><p class="b-p"><br/></p>)";
     string standard_suffix = R"(<p class="b-notes"><br/><p class="b-f"><span class="i-notebody1">1</span><span/><span>+ Note one.</span></p><p class="b-f"><span class="i-notebody2">2</span><span/><span>+ Note two.</span></p></p>)";
-    evaluate (__LINE__, __func__, standard_prefix, html_prefix);
-    evaluate (__LINE__, __func__, standard_suffix, html_suffix);
+    EXPECT_EQ (standard_prefix, html_prefix);
+    EXPECT_EQ (standard_suffix, html_suffix);
   }
 
   // Regression test for case of a chapter with references and combined verse.
@@ -149,7 +150,6 @@ void test_editone_logic ()
     string chapter_usfm = filter_url_file_get_contents (filter_url_create_path ({directory, "editone06.usfm"}));
     int highest_verse = 4;
     string reference;
-    bool evaluation = false;
     
     // Test the range of verses found in the USFM fragment.
     for (int verse = 0; verse <= 4; verse++) {
@@ -159,42 +159,45 @@ void test_editone_logic ()
       // Test the editable USFM fragment.
       string editable_usfm = filter::usfm::get_verse_text_quill (chapter_usfm, verse);
       reference = filter_url_file_get_contents (filter_url_create_path ({directory, "editone06verse" + number + "edit.usfm"}));
-      evaluation = evaluate (__LINE__, __func__, reference, editable_usfm);
-      if (!evaluation) test_editone_logic_verse_indicator (verse);
+      EXPECT_EQ (reference, editable_usfm);
+      if (reference != editable_usfm) test_editone_logic_verse_indicator (verse);
       
       // Test the USFM fragment before the editable verse.
       string prefix_usfm = filter::usfm::get_verse_range_text (chapter_usfm, 0, verse - 1, editable_usfm, true);
       reference = filter_url_file_get_contents (filter_url_create_path ({directory, "editone06verse" + number + "prefix.usfm"}));
-      evaluation = evaluate (__LINE__, __func__, reference, prefix_usfm);
-      if (!evaluation) test_editone_logic_verse_indicator (verse);
+      EXPECT_EQ (reference, prefix_usfm);
+      if (reference != prefix_usfm) test_editone_logic_verse_indicator (verse);
       
       // Test the USFM fragment that follows the editable verse.
       string suffix_usfm = filter::usfm::get_verse_range_text (chapter_usfm, verse + 1, highest_verse, editable_usfm, true);
       reference = filter_url_file_get_contents (filter_url_create_path ({directory, "editone06verse" + number + "suffix.usfm"}));
-      evaluation = evaluate (__LINE__, __func__, reference, suffix_usfm);
-      if (!evaluation) test_editone_logic_verse_indicator (verse);
+      EXPECT_EQ (reference, suffix_usfm);
+      if (reference != suffix_usfm) test_editone_logic_verse_indicator (verse);
 
       // The rendered html of the prefix to the editable verse.
       string prefix_html;
       string not_used;
       editone_logic_prefix_html (prefix_usfm, stylesheet, prefix_html, not_used);
       reference = filter_url_file_get_contents (filter_url_create_path ({directory, "editone06verse" + number + "prefix.html"}));
-      evaluation = evaluate (__LINE__, __func__, reference, prefix_html);
-      if (!evaluation) test_editone_logic_verse_indicator (verse);
+      EXPECT_EQ (reference, prefix_html);
+      if (reference != prefix_html) test_editone_logic_verse_indicator (verse);
 
       // The rendered html of the editable verse.
       string editable_html;
       editone_logic_editable_html (editable_usfm, stylesheet, editable_html);
       reference = filter_url_file_get_contents (filter_url_create_path ({directory, "editone06verse" + number + "edit.html"}));
-      evaluation = evaluate (__LINE__, __func__, reference, editable_html);
-      if (!evaluation) test_editone_logic_verse_indicator (verse);
+      EXPECT_EQ (reference, editable_html);
+      if (reference != editable_html) test_editone_logic_verse_indicator (verse);
 
       // The html rendering of the suffix of the editable verse.
       string suffix_html;
       editone_logic_suffix_html ("", suffix_usfm, stylesheet, suffix_html);
       reference = filter_url_file_get_contents (filter_url_create_path ({directory, "editone06verse" + number + "suffix.html"}));
-      evaluation = evaluate (__LINE__, __func__, reference, suffix_html);
-      if (!evaluation) test_editone_logic_verse_indicator (verse);
+      EXPECT_EQ (reference, suffix_html);
+      if (reference != suffix_html) test_editone_logic_verse_indicator (verse);
     }
   }
 }
+
+#endif
+

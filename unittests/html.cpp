@@ -17,29 +17,30 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
+#include <config/libraries.h>
+#ifdef HAVE_GTEST
+#include "gtest/gtest.h"
 #include <unittests/html.h>
 #include <unittests/utilities.h>
 #include <html/text.h>
 using namespace std;
 
 
-void test_html ()
+TEST (filter, html)
 {
-  trace_unit_tests (__func__);
-
   // Test paragraphs.
   {
     HtmlText html_text ("TestOne");
     html_text.new_paragraph ();
-    evaluate (__LINE__, __func__, "", html_text.current_paragraph_style);
+    EXPECT_EQ ("", html_text.current_paragraph_style);
     html_text.add_text ("Paragraph One");
-    evaluate (__LINE__, __func__, "Paragraph One", html_text.current_paragraph_content);
+    EXPECT_EQ ("Paragraph One", html_text.current_paragraph_content);
     html_text.new_paragraph ();
-    evaluate (__LINE__, __func__, "", html_text.current_paragraph_content);
+    EXPECT_EQ ("", html_text.current_paragraph_content);
     html_text.add_text ("Paragraph Two");
-    evaluate (__LINE__, __func__, "Paragraph Two", html_text.current_paragraph_content);
+    EXPECT_EQ ("Paragraph Two", html_text.current_paragraph_content);
     html_text.new_heading1 ("Heading One");
-    evaluate (__LINE__, __func__, "", html_text.current_paragraph_content);
+    EXPECT_EQ ("", html_text.current_paragraph_content);
     html_text.new_paragraph ();
     html_text.add_text ("Paragraph Three");
     string html = html_text.get_inner_html ();
@@ -48,7 +49,7 @@ void test_html ()
     "<p><span>Paragraph Two</span></p>"
     "<h1>Heading One</h1>"
     "<p><span>Paragraph Three</span></p>";
-    evaluate (__LINE__, __func__, standard, html);
+    EXPECT_EQ (standard, html);
   }
   
   // Test automatic paragraph.
@@ -58,7 +59,7 @@ void test_html ()
     string html = html_text.get_inner_html ();
     string standard =
     "<p><span>Should create new paragraph automatically</span></p>";
-    evaluate (__LINE__, __func__, standard, html);
+    EXPECT_EQ (standard, html);
   }
   
   // Test a basic note.
@@ -71,7 +72,7 @@ void test_html ()
     html_text.add_text (".");
     string html = html_text.get_inner_html ();
     string standard = R"(<p><span>Text1</span><a href="#note1" id="citation1" class="superscript">†</a><span>.</span></p><div><p class=""><a href="#citation1" id="note1">†</a><span> </span><span>Note1.</span></p></div>)";
-    evaluate (__LINE__, __func__, standard, html);
+    EXPECT_EQ (standard, html);
   }
   {
     HtmlText html_text ({});
@@ -83,7 +84,7 @@ void test_html ()
     html_text.add_text (".");
     string html = html_text.get_inner_html ();
     string standard = R"(<p><span>Text1</span><a href="#note1" id="citation1" class="superscript">†<span class="popup"><span> </span><span>Note1.</span></span></a><span>.</span></p><div><p class=""><a href="#citation1" id="note1">†</a><span> </span><span>Note1.</span></p></div>)";
-    evaluate (__LINE__, __func__, standard, html);
+    EXPECT_EQ (standard, html);
   }
   
   // Test getting the inner html.
@@ -95,7 +96,7 @@ void test_html ()
     html_text.add_text ("Paragraph Two");
     string html = html_text.get_inner_html ();
     string standard = R"(<p><span>Paragraph One</span></p><p><span>Paragraph Two</span></p>)";
-    evaluate (__LINE__, __func__, standard, html);
+    EXPECT_EQ (standard, html);
   }
   
   // Test basic formatted note.
@@ -113,7 +114,7 @@ void test_html ()
     html_text.add_text (".");
     string html = html_text.get_inner_html ();
     string standard = R"(<p><span>Text</span><a href="#note1" id="citation1" class="superscript">𐌰</a><span>.</span></p><div><p class="f"><a href="#citation1" id="note1">𐌰</a><span> </span><span class="add">Add</span><span>normal</span></p></div>)";
-    evaluate (__LINE__, __func__, standard, html);
+    EXPECT_EQ (standard, html);
   }
   {
     Database_Styles_Item style;
@@ -130,7 +131,7 @@ void test_html ()
     html_text.add_text (".");
     string html = html_text.get_inner_html ();
     string standard = R"(<p><span>text</span><a href="#note1" id="citation1" class="superscript">𐌰<span class="popup"><span> </span><span>add</span><span>normal</span></span></a><span>.</span></p><div><p class="f"><a href="#citation1" id="note1">𐌰</a><span> </span><span class="add">add</span><span>normal</span></p></div>)";
-    evaluate (__LINE__, __func__, standard, html);
+    EXPECT_EQ (standard, html);
   }
 
   // Test embedded formatted note.
@@ -151,7 +152,7 @@ void test_html ()
     html_text.add_text (".");
     string html = html_text.get_inner_html ();
     string standard = R"(<p><span>text</span><a href="#note1" id="citation1" class="superscript">𐌰</a><span>.</span></p><div><p class="f"><a href="#citation1" id="note1">𐌰</a><span> </span><span class="add">add</span><span class="add nd">nd</span><span>normal</span></p></div>)";
-    evaluate (__LINE__, __func__, standard, html);
+    EXPECT_EQ (standard, html);
   }
   {
     Database_Styles_Item style;
@@ -171,7 +172,10 @@ void test_html ()
     html_text.add_text (".");
     string html = html_text.get_inner_html ();
     string standard = R"(<p><span>text</span><a href="#note1" id="citation1" class="superscript">𐌰<span class="popup"><span> </span><span>add</span><span>nd</span><span>normal</span></span></a><span>.</span></p><div><p class="f"><a href="#citation1" id="note1">𐌰</a><span> </span><span class="add">add</span><span class="add nd">nd</span><span>normal</span></p></div>)";
-    evaluate (__LINE__, __func__, standard, html);
+    EXPECT_EQ (standard, html);
   }
 
 }
+
+#endif
+

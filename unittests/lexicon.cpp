@@ -17,6 +17,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
+#include <config/libraries.h>
+#ifdef HAVE_GTEST
+#include "gtest/gtest.h"
 #include <unittests/lexicon.h>
 #include <unittests/utilities.h>
 #include <database/hebrewlexicon.h>
@@ -24,79 +27,80 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 using namespace std;
 
 
-void test_lexicons ()
+TEST (database, lexicons)
 {
-  trace_unit_tests (__func__);
-  
   {
     Database_HebrewLexicon database;
     string result = database.getaug ("1");
-    evaluate (__LINE__, __func__, "aac", result);
+    EXPECT_EQ ("aac", result);
   }
 
   {
     Database_HebrewLexicon database;
     string result = database.getaug ("10");
-    evaluate (__LINE__, __func__, "aai", result);
+    EXPECT_EQ ("aai", result);
   }
 
   {
     Database_HebrewLexicon database;
     string result = database.getbdb ("a.aa.aa");
-    evaluate (__LINE__, __func__, 160, result.length ());
+    EXPECT_EQ (160, result.length ());
   }
 
   {
     Database_HebrewLexicon database;
     string result = database.getbdb ("a.ac.ac");
-    evaluate (__LINE__, __func__, 424, result.length ());
+    EXPECT_EQ (424, result.length ());
   }
 
   {
     Database_HebrewLexicon database;
     string result = database.getmap ("aaa");
-    evaluate (__LINE__, __func__, "a.aa.aa", result);
+    EXPECT_EQ ("a.aa.aa", result);
   }
 
   {
     Database_HebrewLexicon database;
     string result = database.getmap ("aaj");
-    evaluate (__LINE__, __func__, "a.ac.af", result);
+    EXPECT_EQ ("a.ac.af", result);
   }
 
   {
     Database_HebrewLexicon database;
     string result = database.getpos ("a");
-    evaluate (__LINE__, __func__, "adjective", result);
+    EXPECT_EQ ("adjective", result);
   }
 
   {
     Database_HebrewLexicon database;
     string result = database.getpos ("x");
-    evaluate (__LINE__, __func__, "indefinite pronoun", result);
+    EXPECT_EQ ("indefinite pronoun", result);
   }
 
   {
     Database_HebrewLexicon database;
     string result = database.getstrong ("H0");
-    evaluate (__LINE__, __func__, "", result);
+    EXPECT_EQ ("", result);
   }
 
   {
     Database_HebrewLexicon database;
     string result = database.getstrong ("H1");
-    evaluate (__LINE__, __func__, 303, result.length ());
+    EXPECT_EQ (303, result.length ());
   }
   
   {
     Database_HebrewLexicon database;
     string result = database.getstrong ("H2");
-    evaluate (__LINE__, __func__, 149, result.length ());
+    EXPECT_EQ (149, result.length ());
   }
   
   {
     string result = lexicon_logic_render_strongs_definition ("G5590");
     string standard = R"(Strong's 5590 ψυχή psychḗ psoo-khay' from <a href="G5594">5594</a> ; breath, i.e. (by implication) spirit, abstractly or concretely (the animal sentient principle only; thus distinguished on the one hand from <a href="G4151">4151</a> , which is the rational and immortal soul; and on the other from <a href="G2222">2222</a> , which is mere vitality, even of plants: these terms thus exactly correspond respectively to the Hebrew <a href="H05315">05315</a> , <a href="H07307">07307</a> and <a href="H02416">02416</a> ); usage in King James Bible:--heart (+ -ily), life, mind, soul, + us, + you.)";
-    evaluate (__LINE__, __func__, standard, result);
+    EXPECT_EQ (standard, result);
   }
 }
+
+#endif
+

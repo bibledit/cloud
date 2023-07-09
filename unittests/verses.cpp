@@ -17,6 +17,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
+#include <config/libraries.h>
+#ifdef HAVE_GTEST
+#include "gtest/gtest.h"
 #include <unittests/verses.h>
 #include <unittests/utilities.h>
 #include <database/check.h>
@@ -24,10 +27,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 using namespace std;
 
 
-void test_verses ()
+TEST (verses, basic)
 {
-  trace_unit_tests (__func__);
-  
   refresh_sandbox (true);
   Database_Check database_check;
   database_check.create ();
@@ -41,15 +42,15 @@ void test_verses ()
     };
     checks_verses::missing_punctuation_at_end ("1", 1, 1, verses, ", ;", ". ! ? :", "”");
     vector <Database_Check_Hit> results = database_check.getHits ();
-    evaluate (__LINE__, __func__, 1, static_cast<int>(results.size()));
+    EXPECT_EQ (1, static_cast<int>(results.size()));
     if (results.size ()) {
       Database_Check_Hit hit = results[0];
-      evaluate (__LINE__, __func__, 1, hit.rowid);
-      evaluate (__LINE__, __func__, "1", hit.bible);
-      evaluate (__LINE__, __func__, 1, hit.book);
-      evaluate (__LINE__, __func__, 1, hit.chapter);
-      evaluate (__LINE__, __func__, 3, hit.verse);
-      evaluate (__LINE__, __func__, "No punctuation at end of verse: y", hit.data);
+      EXPECT_EQ (1, hit.rowid);
+      EXPECT_EQ ("1", hit.bible);
+      EXPECT_EQ (1, hit.book);
+      EXPECT_EQ (1, hit.chapter);
+      EXPECT_EQ (3, hit.verse);
+      EXPECT_EQ ("No punctuation at end of verse: y", hit.data);
     }
   }
   database_check.truncateOutput ("");
@@ -62,15 +63,15 @@ void test_verses ()
     };
     checks_verses::patterns ("1", 1, 1, verses, {"did"});
     vector <Database_Check_Hit> results = database_check.getHits ();
-    evaluate (__LINE__, __func__, 1, static_cast<int>(results.size()));
+    EXPECT_EQ (1, static_cast<int>(results.size()));
     if (results.size ()) {
       Database_Check_Hit hit = results[0];
-      evaluate (__LINE__, __func__, 1, hit.rowid);
-      evaluate (__LINE__, __func__, "1", hit.bible);
-      evaluate (__LINE__, __func__, 1, hit.book);
-      evaluate (__LINE__, __func__, 1, hit.chapter);
-      evaluate (__LINE__, __func__, 3, hit.verse);
-      evaluate (__LINE__, __func__, "Pattern found in text: did", hit.data);
+      EXPECT_EQ (1, hit.rowid);
+      EXPECT_EQ ("1", hit.bible);
+      EXPECT_EQ (1, hit.book);
+      EXPECT_EQ (1, hit.chapter);
+      EXPECT_EQ (3, hit.verse);
+      EXPECT_EQ ("Pattern found in text: did", hit.data);
     }
   }
   database_check.truncateOutput ("");
@@ -83,7 +84,7 @@ void test_verses ()
     };
     checks_verses::patterns ("1", 1, 1, verses, {"Did"});
     vector <Database_Check_Hit> results = database_check.getHits ();
-    evaluate (__LINE__, __func__, 0, static_cast<int>(results.size()));
+    EXPECT_EQ (0, static_cast<int>(results.size()));
   }
   database_check.truncateOutput ("");
   // Test Pattern
@@ -95,23 +96,26 @@ void test_verses ()
     };
     checks_verses::patterns ("1", 1, 1, verses, {"said"});
     vector <Database_Check_Hit> results = database_check.getHits ();
-    evaluate (__LINE__, __func__, 2, static_cast<int>(results.size()));
+    EXPECT_EQ (2, static_cast<int>(results.size()));
     if (results.size () == 2) {
       Database_Check_Hit hit = results[0];
-      evaluate (__LINE__, __func__, 1, hit.rowid);
-      evaluate (__LINE__, __func__, "1", hit.bible);
-      evaluate (__LINE__, __func__, 1, hit.book);
-      evaluate (__LINE__, __func__, 1, hit.chapter);
-      evaluate (__LINE__, __func__, 2, hit.verse);
-      evaluate (__LINE__, __func__, "Pattern found in text: said", hit.data);
+      EXPECT_EQ (1, hit.rowid);
+      EXPECT_EQ ("1", hit.bible);
+      EXPECT_EQ (1, hit.book);
+      EXPECT_EQ (1, hit.chapter);
+      EXPECT_EQ (2, hit.verse);
+      EXPECT_EQ ("Pattern found in text: said", hit.data);
       hit = results[1];
-      evaluate (__LINE__, __func__, 2, hit.rowid);
-      evaluate (__LINE__, __func__, "1", hit.bible);
-      evaluate (__LINE__, __func__, 1, hit.book);
-      evaluate (__LINE__, __func__, 1, hit.chapter);
-      evaluate (__LINE__, __func__, 4, hit.verse);
-      evaluate (__LINE__, __func__, "Pattern found in text: said", hit.data);
+      EXPECT_EQ (2, hit.rowid);
+      EXPECT_EQ ("1", hit.bible);
+      EXPECT_EQ (1, hit.book);
+      EXPECT_EQ (1, hit.chapter);
+      EXPECT_EQ (4, hit.verse);
+      EXPECT_EQ ("Pattern found in text: said", hit.data);
     }
   }
   database_check.truncateOutput ("");
 }
+
+#endif
+

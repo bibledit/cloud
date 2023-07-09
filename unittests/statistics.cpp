@@ -17,6 +17,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
+#include <config/libraries.h>
+#ifdef HAVE_GTEST
+#include "gtest/gtest.h"
 #include <unittests/statistics.h>
 #include <unittests/utilities.h>
 #include <database/statistics.h>
@@ -24,12 +27,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 using namespace std;
 
 
-void test_database_statistics ()
+TEST (database, statistics)
 {
 #ifdef HAVE_CLOUD
 
-  trace_unit_tests (__func__);
-  
   {
     refresh_sandbox (true);
     
@@ -54,25 +55,28 @@ void test_database_statistics ()
     
     // Check all available users.
     vector <string> users = Database_Statistics::get_users ();
-    evaluate (__LINE__, __func__, {"one", "two"}, users);
+    EXPECT_EQ ((vector <string>{"one", "two"}), users);
     
     // The changes for all available users for no more than a year ago.
     vector <pair <int, int>> changes = Database_Statistics::get_changes ("");
-    evaluate (__LINE__, __func__, 4, changes.size ());
+    EXPECT_EQ (4, changes.size ());
     
     // A known amount of change statistics records for a known user for no more than a year ago.
     changes = Database_Statistics::get_changes ("two");
     int size = 2;
-    evaluate (__LINE__, __func__, size, changes.size ());
+    EXPECT_EQ (size, changes.size ());
     
     // Sort the change statistics most recent first.
     if (static_cast<int>(changes.size ()) == size) {
-      evaluate (__LINE__, __func__, now - one_thousand, changes[0].first);
-      evaluate (__LINE__, __func__, 31, changes[0].second);
-      evaluate (__LINE__, __func__, now - two_thousand, changes[1].first);
-      evaluate (__LINE__, __func__, 41, changes[1].second);
+      EXPECT_EQ (now - one_thousand, changes[0].first);
+      EXPECT_EQ (31, changes[0].second);
+      EXPECT_EQ (now - two_thousand, changes[1].first);
+      EXPECT_EQ (41, changes[1].second);
     }
   }
 
 #endif
 }
+
+#endif
+

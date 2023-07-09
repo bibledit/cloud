@@ -17,6 +17,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
+#include <config/libraries.h>
+#ifdef HAVE_GTEST
+#include "gtest/gtest.h"
 #include <unittests/usfm.h>
 #include <unittests/utilities.h>
 #include <styles/logic.h>
@@ -27,11 +30,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 using namespace std;
 
 
-void test_usfm ()
+TEST (checks, usfm)
 {
-  trace_unit_tests (__func__);
-  
-  string bible = "bible";
+  const string bible = "bible";
   
   // Test check on malformed verse.
   {
@@ -47,7 +48,7 @@ void test_usfm ()
     vector <pair<int, string>> standard = {
       pair (2, "Malformed verse number: \\v 2,He said.")
     };
-    evaluate (__LINE__, __func__, standard, results);
+    EXPECT_EQ (standard, results);
   }
 
   // Test check on new line in USFM as properly formatted.
@@ -64,7 +65,7 @@ void test_usfm ()
     check.finalize ();
     vector <pair<int, string>> results = check.get_results ();
     vector <pair<int, string>> standard = { };
-    evaluate (__LINE__, __func__, standard, results);
+    EXPECT_EQ (standard, results);
   }
 
   // Test check on new line in USFM.
@@ -84,7 +85,7 @@ void test_usfm ()
     vector <pair<int, string>> standard = {
       pair (0, "New line within USFM:  \\ \\p He s")
     };
-    evaluate (__LINE__, __func__, standard, results);
+    EXPECT_EQ (standard, results);
   }
 
   // Test check on new line in USFM.
@@ -104,7 +105,7 @@ void test_usfm ()
     vector <pair<int, string>> standard = {
       pair (0, "New line within USFM:  \\ \\p He s")
     };
-    evaluate (__LINE__, __func__, standard, results);
+    EXPECT_EQ (standard, results);
   }
   
   // Test check on unknown USFM.
@@ -123,7 +124,7 @@ void test_usfm ()
     vector <pair<int, string>> standard = {
       pair (1, "Marker not in stylesheet: \\p,p ")
     };
-    evaluate (__LINE__, __func__, standard, results);
+    EXPECT_EQ (standard, results);
   }
 
   // Test check on unknown USFM.
@@ -142,7 +143,7 @@ void test_usfm ()
     vector <pair<int, string>> standard = {
       pair (0, "Marker not in stylesheet: \\pHe ")
     };
-    evaluate (__LINE__, __func__, standard, results);
+    EXPECT_EQ (standard, results);
   }
 
   // Test check on \id.
@@ -159,7 +160,7 @@ void test_usfm ()
     vector <pair<int, string>> standard = {
       pair (0, "Unknown ID: \\id GENN")
     };
-    evaluate (__LINE__, __func__, standard, results);
+    EXPECT_EQ (standard, results);
   }
 
   // Test check on \id.
@@ -176,7 +177,7 @@ void test_usfm ()
     vector <pair<int, string>> standard = {
       pair (0, "Unknown ID: \\id\\p ")
     };
-    evaluate (__LINE__, __func__, standard, results);
+    EXPECT_EQ (standard, results);
   }
 
   // Test check on \id.
@@ -193,7 +194,7 @@ void test_usfm ()
     vector <pair<int, string>> standard = {
       pair (0, "Unknown ID: \\id Gen")
     };
-    evaluate (__LINE__, __func__, standard, results);
+    EXPECT_EQ (standard, results);
   }
 
   // Test check on forward slash.
@@ -210,7 +211,7 @@ void test_usfm ()
     vector <pair<int, string>> standard = {
       pair (0, "Forward slash instead of backslash: /add")
     };
-    evaluate (__LINE__, __func__, standard, results);
+    EXPECT_EQ (standard, results);
   }
 
   // Test check on forward slash.
@@ -227,7 +228,7 @@ void test_usfm ()
     vector <pair<int, string>> standard = {
       pair (0, "Forward slash instead of backslash: /v")
     };
-    evaluate (__LINE__, __func__, standard, results);
+    EXPECT_EQ (standard, results);
   }
 
   // Test that checking clean USFM has no output.
@@ -280,7 +281,7 @@ void test_usfm ()
     check.finalize ();
     vector <pair<int, string>> results = check.get_results ();
     vector <pair<int, string>> standard = {};
-    evaluate (__LINE__, __func__, standard, results);
+    EXPECT_EQ (standard, results);
   }
 
   // Test check on a widow backslash.
@@ -297,7 +298,7 @@ void test_usfm ()
     vector <pair<int, string>> standard = {
       pair (1, "Widow backslash: \\ ")
     };
-    evaluate (__LINE__, __func__, standard, results);
+    EXPECT_EQ (standard, results);
   }
 
   // Test check on matching markers.
@@ -311,7 +312,7 @@ void test_usfm ()
     check.finalize ();
     vector <pair<int, string>> results = check.get_results ();
     vector <pair<int, string>> standard = {};
-    evaluate (__LINE__, __func__, standard, results);
+    EXPECT_EQ (standard, results);
   }
 
   // Test check on matching markers.
@@ -327,7 +328,7 @@ void test_usfm ()
     vector <pair<int, string>> standard = {
       pair (1, "Closing marker does not match opening marker : \\add*")
     };
-    evaluate (__LINE__, __func__, standard, results);
+    EXPECT_EQ (standard, results);
   }
 
   // Test check on matching markers.
@@ -344,7 +345,7 @@ void test_usfm ()
       pair (1, "Repeating opening marker: \\add "),
       pair (1, "Unclosed markers: add")
     };
-    evaluate (__LINE__, __func__, standard, results);
+    EXPECT_EQ (standard, results);
   }
 
   // Test check on matching markers.
@@ -359,7 +360,7 @@ void test_usfm ()
     check.finalize ();
     vector <pair<int, string>> results = check.get_results ();
     vector <pair<int, string>> standard = {};
-    evaluate (__LINE__, __func__, standard, results);
+    EXPECT_EQ (standard, results);
   }
 
   // Test check on matching markers.
@@ -377,7 +378,7 @@ void test_usfm ()
       pair (8, "Embedded marker requires a plus sign: \\nd*\\x*"),
       pair (8, "Unclosed markers: add"),
     };
-    evaluate (__LINE__, __func__, standard, results);
+    EXPECT_EQ (standard, results);
   }
 
   // Check on correct \toc[1-3] markers.
@@ -391,7 +392,7 @@ void test_usfm ()
     check.initialize (1, 0);
     check.check (usfm);
     check.finalize ();
-    evaluate (__LINE__, __func__, 0, check.get_results ().size ());
+    EXPECT_EQ (0, check.get_results ().size ());
     vector <pair<int, string>> results = check.get_results ();
   }
 
@@ -407,13 +408,13 @@ void test_usfm ()
     check.check (usfm);
     check.finalize ();
     vector <pair<int, string>> results = check.get_results ();
-    evaluate (__LINE__, __func__, 3, results.size ());
+    EXPECT_EQ (3, results.size ());
     vector <pair<int, string>> standard = {
       pair (0, "The following marker belongs in chapter 0: \\toc1 "),
       pair (0, "The following marker belongs in chapter 0: \\toc2 "),
       pair (0, "The following marker belongs in chapter 0: \\toc3 ")
     };
-    evaluate (__LINE__, __func__, standard, results);
+    EXPECT_EQ (standard, results);
   }
 
   // Lacks \toc# markers.
@@ -425,19 +426,19 @@ void test_usfm ()
     check.check (usfm);
     check.finalize ();
     vector <pair<int, string>> results = check.get_results ();
-    evaluate (__LINE__, __func__, 2, results.size ());
+    EXPECT_EQ (2, results.size ());
     vector <pair<int, string>> standard = {
       pair (0, "The book lacks the marker for the verbose book name: \\toc1 "),
       pair (0, "The book lacks the marker for the short book name: \\toc2 ")
     };
-    evaluate (__LINE__, __func__, standard, results);
+    EXPECT_EQ (standard, results);
   }
   
   // Test converting line number to verse number.
   {
     string usfm =
     "\\id MIC";
-    evaluate (__LINE__, __func__, {0}, filter::usfm::linenumber_to_versenumber (usfm, 0));
+    EXPECT_EQ (vector <int>{0}, filter::usfm::linenumber_to_versenumber (usfm, 0));
   }
   
   // Test converting line number to verse number.
@@ -445,14 +446,14 @@ void test_usfm ()
     string usfm =
     "\\id MIC\n"
     "\\v 1 Verse";
-    evaluate (__LINE__, __func__, {1}, filter::usfm::linenumber_to_versenumber (usfm, 1));
+    EXPECT_EQ (vector <int>{1}, filter::usfm::linenumber_to_versenumber (usfm, 1));
   }
   
   // Test converting line number to verse number.
   {
     string usfm =
     "\\v 1 Verse";
-    evaluate (__LINE__, __func__, {1}, filter::usfm::linenumber_to_versenumber (usfm, 0));
+    EXPECT_EQ (vector <int>{1}, filter::usfm::linenumber_to_versenumber (usfm, 0));
   }
   
   // Test converting line number to verse number.
@@ -462,10 +463,10 @@ void test_usfm ()
     "\\v 3 Verse 3 (out of order).\n"
     "\\v 1 Verse 1. \n"
     "\\v 2 Verse 1.";
-    evaluate (__LINE__, __func__, {0}, filter::usfm::linenumber_to_versenumber (usfm, 0));
-    evaluate (__LINE__, __func__, {3}, filter::usfm::linenumber_to_versenumber (usfm, 1));
-    evaluate (__LINE__, __func__, {1}, filter::usfm::linenumber_to_versenumber (usfm, 2));
-    evaluate (__LINE__, __func__, {2}, filter::usfm::linenumber_to_versenumber (usfm, 3));
+    EXPECT_EQ (vector <int>{0}, filter::usfm::linenumber_to_versenumber (usfm, 0));
+    EXPECT_EQ (vector <int>{3}, filter::usfm::linenumber_to_versenumber (usfm, 1));
+    EXPECT_EQ (vector <int>{1}, filter::usfm::linenumber_to_versenumber (usfm, 2));
+    EXPECT_EQ (vector <int>{2}, filter::usfm::linenumber_to_versenumber (usfm, 3));
   }
   
   // Test converting line number to verse number.
@@ -473,15 +474,15 @@ void test_usfm ()
     string usfm =
     "\\id MIC\n"
     "\\v 1-2 Verse";
-    evaluate (__LINE__, __func__, {1, 2}, filter::usfm::linenumber_to_versenumber (usfm, 1));
+    EXPECT_EQ ((vector <int>{1, 2}), filter::usfm::linenumber_to_versenumber (usfm, 1));
   }
   
   // Test converting offset to verse number.
   {
     string usfm = "\\id MIC";
-    evaluate (__LINE__, __func__, {0}, filter::usfm::offset_to_versenumber (usfm, 0));
-    evaluate (__LINE__, __func__, {0}, filter::usfm::offset_to_versenumber (usfm, 7));
-    evaluate (__LINE__, __func__, {0}, filter::usfm::offset_to_versenumber (usfm, 17));
+    EXPECT_EQ (vector <int>{0}, filter::usfm::offset_to_versenumber (usfm, 0));
+    EXPECT_EQ (vector <int>{0}, filter::usfm::offset_to_versenumber (usfm, 7));
+    EXPECT_EQ (vector <int>{0}, filter::usfm::offset_to_versenumber (usfm, 17));
   }
   
   // Test converting offset to verse number.
@@ -489,8 +490,8 @@ void test_usfm ()
     string usfm =
     "\\id MIC\n"
     "\\v 1 Verse";
-    evaluate (__LINE__, __func__, {0}, filter::usfm::offset_to_versenumber (usfm, 7));
-    evaluate (__LINE__, __func__, {1}, filter::usfm::offset_to_versenumber (usfm, 8));
+    EXPECT_EQ (vector <int>{0}, filter::usfm::offset_to_versenumber (usfm, 7));
+    EXPECT_EQ (vector <int>{1}, filter::usfm::offset_to_versenumber (usfm, 8));
   }
   
   // Test converting offset to verse number.
@@ -498,16 +499,16 @@ void test_usfm ()
     string usfm =
     "\\id MIC\n"
     "\\v 1-3 Verse";
-    evaluate (__LINE__, __func__, {0}, filter::usfm::offset_to_versenumber (usfm, 7));
-    evaluate (__LINE__, __func__, {1, 2, 3}, filter::usfm::offset_to_versenumber (usfm, 8));
+    EXPECT_EQ (vector <int>{0}, filter::usfm::offset_to_versenumber (usfm, 7));
+    EXPECT_EQ ((vector <int>{1, 2, 3}), filter::usfm::offset_to_versenumber (usfm, 8));
   }
   
   // Test converting offset to verse number.
   {
     string usfm =
     "\\v 1 Verse";
-    evaluate (__LINE__, __func__, {1}, filter::usfm::offset_to_versenumber (usfm, 0));
-    evaluate (__LINE__, __func__, {1}, filter::usfm::offset_to_versenumber (usfm, 2));
+    EXPECT_EQ (vector <int>{1}, filter::usfm::offset_to_versenumber (usfm, 0));
+    EXPECT_EQ (vector <int>{1}, filter::usfm::offset_to_versenumber (usfm, 2));
   }
   
   // Test converting offset to verse number.
@@ -518,20 +519,20 @@ void test_usfm ()
     "\\v 1 Verse 1.\n"
     "\\v 2 Verse 2.";
     
-    evaluate (__LINE__, __func__, {0}, filter::usfm::offset_to_versenumber (usfm, 0));
-    evaluate (__LINE__, __func__, {0}, filter::usfm::offset_to_versenumber (usfm, 1));
+    EXPECT_EQ (vector <int>{0}, filter::usfm::offset_to_versenumber (usfm, 0));
+    EXPECT_EQ (vector <int>{0}, filter::usfm::offset_to_versenumber (usfm, 1));
     
-    evaluate (__LINE__, __func__, {0}, filter::usfm::offset_to_versenumber (usfm, 2));
-    evaluate (__LINE__, __func__, {3}, filter::usfm::offset_to_versenumber (usfm, 3));
-    evaluate (__LINE__, __func__, {3}, filter::usfm::offset_to_versenumber (usfm, 4));
+    EXPECT_EQ (vector <int>{0}, filter::usfm::offset_to_versenumber (usfm, 2));
+    EXPECT_EQ (vector <int>{3}, filter::usfm::offset_to_versenumber (usfm, 3));
+    EXPECT_EQ (vector <int>{3}, filter::usfm::offset_to_versenumber (usfm, 4));
     
-    evaluate (__LINE__, __func__, {3}, filter::usfm::offset_to_versenumber (usfm, 31));
-    evaluate (__LINE__, __func__, {1}, filter::usfm::offset_to_versenumber (usfm, 32));
-    evaluate (__LINE__, __func__, {1}, filter::usfm::offset_to_versenumber (usfm, 33));
+    EXPECT_EQ (vector <int>{3}, filter::usfm::offset_to_versenumber (usfm, 31));
+    EXPECT_EQ (vector <int>{1}, filter::usfm::offset_to_versenumber (usfm, 32));
+    EXPECT_EQ (vector <int>{1}, filter::usfm::offset_to_versenumber (usfm, 33));
     
-    evaluate (__LINE__, __func__, {1}, filter::usfm::offset_to_versenumber (usfm, 45));
-    evaluate (__LINE__, __func__, {2}, filter::usfm::offset_to_versenumber (usfm, 46));
-    evaluate (__LINE__, __func__, {2}, filter::usfm::offset_to_versenumber (usfm, 47));
+    EXPECT_EQ (vector <int>{1}, filter::usfm::offset_to_versenumber (usfm, 45));
+    EXPECT_EQ (vector <int>{2}, filter::usfm::offset_to_versenumber (usfm, 46));
+    EXPECT_EQ (vector <int>{2}, filter::usfm::offset_to_versenumber (usfm, 47));
   }
   
   // Test converting verse number to offset.
@@ -542,13 +543,13 @@ void test_usfm ()
     "\\v 2 Verse 2.\n"
     "\\v 3 Verse 3.\n"
     "\\v 4-5 Verse 4 and 5.";
-    evaluate (__LINE__, __func__, 3, filter::usfm::versenumber_to_offset (usfm, 1));
-    evaluate (__LINE__, __func__, 17, filter::usfm::versenumber_to_offset (usfm, 2));
-    evaluate (__LINE__, __func__, 31, filter::usfm::versenumber_to_offset (usfm, 3));
-    evaluate (__LINE__, __func__, 45, filter::usfm::versenumber_to_offset (usfm, 4));
-    evaluate (__LINE__, __func__, 45, filter::usfm::versenumber_to_offset (usfm, 5));
-    evaluate (__LINE__, __func__, 66, filter::usfm::versenumber_to_offset (usfm, 6));
-    evaluate (__LINE__, __func__, 66, filter::usfm::versenumber_to_offset (usfm, 6));
+    EXPECT_EQ (3, filter::usfm::versenumber_to_offset (usfm, 1));
+    EXPECT_EQ (17, filter::usfm::versenumber_to_offset (usfm, 2));
+    EXPECT_EQ (31, filter::usfm::versenumber_to_offset (usfm, 3));
+    EXPECT_EQ (45, filter::usfm::versenumber_to_offset (usfm, 4));
+    EXPECT_EQ (45, filter::usfm::versenumber_to_offset (usfm, 5));
+    EXPECT_EQ (66, filter::usfm::versenumber_to_offset (usfm, 6));
+    EXPECT_EQ (66, filter::usfm::versenumber_to_offset (usfm, 6));
   }
 
   // Testing getting USFM for verse, basic and for Quill-based verse editor.
@@ -556,12 +557,12 @@ void test_usfm ()
     string usfm =
     "\\p\n"
     "\\v 1 One";
-    evaluate (__LINE__, __func__, "\\p", filter::usfm::get_verse_text (usfm, 0));
-    evaluate (__LINE__, __func__, "", filter::usfm::get_verse_text_quill (usfm, 0));
-    evaluate (__LINE__, __func__, "\\v 1 One", filter::usfm::get_verse_text (usfm, 1));
-    evaluate (__LINE__, __func__, usfm, filter::usfm::get_verse_text_quill (usfm, 1));
-    evaluate (__LINE__, __func__, "", filter::usfm::get_verse_text (usfm, 2));
-    evaluate (__LINE__, __func__, "", filter::usfm::get_verse_text_quill (usfm, 2));
+    EXPECT_EQ ("\\p", filter::usfm::get_verse_text (usfm, 0));
+    EXPECT_EQ ("", filter::usfm::get_verse_text_quill (usfm, 0));
+    EXPECT_EQ ("\\v 1 One", filter::usfm::get_verse_text (usfm, 1));
+    EXPECT_EQ (usfm, filter::usfm::get_verse_text_quill (usfm, 1));
+    EXPECT_EQ ("", filter::usfm::get_verse_text (usfm, 2));
+    EXPECT_EQ ("", filter::usfm::get_verse_text_quill (usfm, 2));
   }
   
   // Testing getting USFM for verse, basic and Quill.
@@ -597,73 +598,73 @@ void test_usfm ()
     "\\c 1\n"
     "\\s Isibingelelo\n"
     "\\p";
-    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_text (usfm, 0));
+    EXPECT_EQ (result, filter::usfm::get_verse_text (usfm, 0));
     result =
     "\\c 1\n"
     "\\s Isibingelelo";
-    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_text_quill (usfm, 0));
+    EXPECT_EQ (result, filter::usfm::get_verse_text_quill (usfm, 0));
     
     result =
     "\\v 1 Umdala\n"
     "\\p";
-    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_text (usfm, 1));
+    EXPECT_EQ (result, filter::usfm::get_verse_text (usfm, 1));
     result =
     "\\p\n"
     "\\v 1 Umdala";
-    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_text_quill (usfm, 1));
+    EXPECT_EQ (result, filter::usfm::get_verse_text_quill (usfm, 1));
     
     result =
     "\\v 2 Sithandwa";
-    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_text (usfm, 2));
+    EXPECT_EQ (result, filter::usfm::get_verse_text (usfm, 2));
     result =
     "\\p\n"
     "\\v 2 Sithandwa";
-    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_text_quill (usfm, 2));
+    EXPECT_EQ (result, filter::usfm::get_verse_text_quill (usfm, 2));
     
     result =
     "\\v 3 Ngoba";
-    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_text (usfm, 3));
+    EXPECT_EQ (result, filter::usfm::get_verse_text (usfm, 3));
     result =
     "\\v 3 Ngoba";
-    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_text_quill (usfm, 3));
+    EXPECT_EQ (result, filter::usfm::get_verse_text_quill (usfm, 3));
     
     result =
     "\\v 4 Kangilantokozo\n"
     "\\s Inkathazo\n"
     "\\p";
-    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_text (usfm, 4));
+    EXPECT_EQ (result, filter::usfm::get_verse_text (usfm, 4));
     result =
     "\\v 4 Kangilantokozo\n"
     "\\s Inkathazo";
-    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_text_quill (usfm, 4));
+    EXPECT_EQ (result, filter::usfm::get_verse_text_quill (usfm, 4));
     
     result =
     "\\v 5 Sithandwa";
-    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_text (usfm, 5));
+    EXPECT_EQ (result, filter::usfm::get_verse_text (usfm, 5));
     result =
     "\\p\n"
     "\\v 5 Sithandwa";
-    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_text_quill (usfm, 5));
+    EXPECT_EQ (result, filter::usfm::get_verse_text_quill (usfm, 5));
     
     result =
     "\\v 12 NgoDemetriyu\n"
     "\\s Isicino\n"
     "\\p";
-    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_text (usfm, 12));
+    EXPECT_EQ (result, filter::usfm::get_verse_text (usfm, 12));
     result =
     "\\v 12 NgoDemetriyu\n"
     "\\s Isicino";
-    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_text_quill (usfm, 12));
+    EXPECT_EQ (result, filter::usfm::get_verse_text_quill (usfm, 12));
     
     result =
     "\\v 14 kodwa\n"
     "\\p Ukuthula";
-    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_text (usfm, 14));
-    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_text_quill (usfm, 14));
+    EXPECT_EQ (result, filter::usfm::get_verse_text (usfm, 14));
+    EXPECT_EQ (result, filter::usfm::get_verse_text_quill (usfm, 14));
     
     result.clear ();
-    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_text (usfm, 15));
-    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_text_quill (usfm, 15));
+    EXPECT_EQ (result, filter::usfm::get_verse_text (usfm, 15));
+    EXPECT_EQ (result, filter::usfm::get_verse_text_quill (usfm, 15));
   }
  
   // Test getting the verse text from USFM.
@@ -676,19 +677,19 @@ void test_usfm ()
     string result;
     
     result = filter::usfm::get_verse_text (usfm, 2);
-    evaluate (__LINE__, __func__, "\\v 2-4 Verse 2, 3, and 4.", result);
+    EXPECT_EQ ("\\v 2-4 Verse 2, 3, and 4.", result);
     result = filter::usfm::get_verse_text_quill (usfm, 2);
-    evaluate (__LINE__, __func__, "\\v 2-4 Verse 2, 3, and 4.", result);
+    EXPECT_EQ ("\\v 2-4 Verse 2, 3, and 4.", result);
     
     result = filter::usfm::get_verse_text (usfm, 3);
-    evaluate (__LINE__, __func__, "\\v 2-4 Verse 2, 3, and 4.", result);
+    EXPECT_EQ ("\\v 2-4 Verse 2, 3, and 4.", result);
     result = filter::usfm::get_verse_text_quill (usfm, 3);
-    evaluate (__LINE__, __func__, "\\v 2-4 Verse 2, 3, and 4.", result);
+    EXPECT_EQ ("\\v 2-4 Verse 2, 3, and 4.", result);
     
     result = filter::usfm::get_verse_text (usfm, 4);
-    evaluate (__LINE__, __func__, "\\v 2-4 Verse 2, 3, and 4.", result);
+    EXPECT_EQ ("\\v 2-4 Verse 2, 3, and 4.", result);
     result = filter::usfm::get_verse_text_quill (usfm, 4);
-    evaluate (__LINE__, __func__, "\\v 2-4 Verse 2, 3, and 4.", result);
+    EXPECT_EQ ("\\v 2-4 Verse 2, 3, and 4.", result);
   }
   
   // Testing USFM extraction for Quill-based visual verse editor with more than one empty paragraph in sequence.
@@ -711,57 +712,57 @@ void test_usfm ()
     "\\b\n"
     "\\p"
     "";
-    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_text (usfm, 0));
+    EXPECT_EQ (result, filter::usfm::get_verse_text (usfm, 0));
     result =
     "\\c 1"
     "";
-    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_text_quill (usfm, 0));
+    EXPECT_EQ (result, filter::usfm::get_verse_text_quill (usfm, 0));
     
     result =
     "\\v 1 One"
     "";
-    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_text (usfm, 1));
+    EXPECT_EQ (result, filter::usfm::get_verse_text (usfm, 1));
     result =
     "\\b\n"
     "\\p\n"
     "\\v 1 One"
     "";
-    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_text_quill (usfm, 1));
+    EXPECT_EQ (result, filter::usfm::get_verse_text_quill (usfm, 1));
     
     result =
     "\\v 2 Two\n"
     "\\b\n"
     "\\p"
     "";
-    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_text (usfm, 2));
+    EXPECT_EQ (result, filter::usfm::get_verse_text (usfm, 2));
     result =
     "\\v 2 Two"
     "";
-    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_text_quill (usfm, 2));
+    EXPECT_EQ (result, filter::usfm::get_verse_text_quill (usfm, 2));
     
     result =
     "\\v 3 Three"
     "";
-    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_text (usfm, 3));
+    EXPECT_EQ (result, filter::usfm::get_verse_text (usfm, 3));
     result =
     "\\b\n"
     "\\p\n"
     "\\v 3 Three"
     "";
-    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_text_quill (usfm, 3));
+    EXPECT_EQ (result, filter::usfm::get_verse_text_quill (usfm, 3));
     
     result =
     "\\v 4 Four"
     "";
-    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_text (usfm, 4));
+    EXPECT_EQ (result, filter::usfm::get_verse_text (usfm, 4));
     result =
     "\\v 4 Four"
     "";
-    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_text_quill (usfm, 4));
+    EXPECT_EQ (result, filter::usfm::get_verse_text_quill (usfm, 4));
     
     result.clear ();
-    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_text (usfm, 5));
-    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_text_quill (usfm, 5));
+    EXPECT_EQ (result, filter::usfm::get_verse_text (usfm, 5));
+    EXPECT_EQ (result, filter::usfm::get_verse_text_quill (usfm, 5));
   }
   
   // Testing USFM extraction for Quill-based visual verse editor with empty verses.
@@ -781,54 +782,54 @@ void test_usfm ()
     "\\c 1\n"
     "\\p"
     "";
-    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_text (usfm, 0));
+    EXPECT_EQ (result, filter::usfm::get_verse_text (usfm, 0));
     result =
     "\\c 1"
     "";
-    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_text_quill (usfm, 0));
+    EXPECT_EQ (result, filter::usfm::get_verse_text_quill (usfm, 0));
     
     result =
     "\\v 1"
     "";
-    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_text (usfm, 1));
+    EXPECT_EQ (result, filter::usfm::get_verse_text (usfm, 1));
     result =
     "\\p\n"
     "\\v 1"
     "";
-    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_text_quill (usfm, 1));
+    EXPECT_EQ (result, filter::usfm::get_verse_text_quill (usfm, 1));
     
     result =
     "\\v 2\n"
     "\\p"
     "";
-    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_text (usfm, 2));
+    EXPECT_EQ (result, filter::usfm::get_verse_text (usfm, 2));
     result =
     "\\v 2"
     "";
-    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_text_quill (usfm, 2));
+    EXPECT_EQ (result, filter::usfm::get_verse_text_quill (usfm, 2));
     
     result =
     "\\v 3"
     "";
-    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_text (usfm, 3));
+    EXPECT_EQ (result, filter::usfm::get_verse_text (usfm, 3));
     result =
     "\\p\n"
     "\\v 3"
     "";
-    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_text_quill (usfm, 3));
+    EXPECT_EQ (result, filter::usfm::get_verse_text_quill (usfm, 3));
     
     result =
     "\\v 4"
     "";
-    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_text (usfm, 4));
+    EXPECT_EQ (result, filter::usfm::get_verse_text (usfm, 4));
     result =
     "\\v 4"
     "";
-    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_text_quill (usfm, 4));
+    EXPECT_EQ (result, filter::usfm::get_verse_text_quill (usfm, 4));
     
     result.clear ();
-    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_text (usfm, 5));
-    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_text_quill (usfm, 5));
+    EXPECT_EQ (result, filter::usfm::get_verse_text (usfm, 5));
+    EXPECT_EQ (result, filter::usfm::get_verse_text_quill (usfm, 5));
   }
   
   // Test getting the USFM for a verse where there's alternate verse number or published verse numbers.
@@ -840,10 +841,10 @@ void test_usfm ()
     string usfm;
     
     usfm = filter::usfm::get_verse_text (chapter_usfm, 1);
-    evaluate (__LINE__, __func__, "\\v 1 Verse 1.", usfm);
+    EXPECT_EQ ("\\v 1 Verse 1.", usfm);
     
     usfm = filter::usfm::get_verse_text (chapter_usfm, 12);
-    evaluate (__LINE__, __func__, "\\v 12 Verse 12 one.\n"
+    EXPECT_EQ ("\\v 12 Verse 12 one.\n"
               "\\p \\va 1b \\va* Alternate verse 1b, \\va 2 \\va* alternate verse 2.\n"
               "\\s Header 13\n"
               "\\r refs 13\n"
@@ -864,77 +865,77 @@ void test_usfm ()
     result =
     "\\v 1 One\n"
     "\\v 2-3 Two three";
-    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_range_text (usfm, 1, 2, "", false));
+    EXPECT_EQ (result, filter::usfm::get_verse_range_text (usfm, 1, 2, "", false));
     result =
     "\\p\n"
     "\\v 1 One\n"
     "\\v 2-3 Two three";
-    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_range_text (usfm, 1, 2, "", true));
+    EXPECT_EQ (result, filter::usfm::get_verse_range_text (usfm, 1, 2, "", true));
     
     result =
     "\\v 1 One\n"
     "\\v 2-3 Two three";
-    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_range_text (usfm, 1, 3, "", false));
+    EXPECT_EQ (result, filter::usfm::get_verse_range_text (usfm, 1, 3, "", false));
     result =
     "\\p\n"
     "\\v 1 One\n"
     "\\v 2-3 Two three";
-    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_range_text (usfm, 1, 3, "", true));
+    EXPECT_EQ (result, filter::usfm::get_verse_range_text (usfm, 1, 3, "", true));
     
     result =
     "\\v 4 Four";
-    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_range_text (usfm, 3, 4, "\\v 2-3 Two three", false));
+    EXPECT_EQ (result, filter::usfm::get_verse_range_text (usfm, 3, 4, "\\v 2-3 Two three", false));
     result =
     "\\v 4 Four";
-    evaluate (__LINE__, __func__, result, filter::usfm::get_verse_range_text (usfm, 3, 4, "\\v 2-3 Two three", true));
+    EXPECT_EQ (result, filter::usfm::get_verse_range_text (usfm, 3, 4, "\\v 2-3 Two three", true));
   }
 
   // Test on detecting a general USFM marker.
   {
-    evaluate (__LINE__, __func__, true, filter::usfm::is_usfm_marker ("\\id"));
-    evaluate (__LINE__, __func__, true, filter::usfm::is_usfm_marker ("\\c "));
-    evaluate (__LINE__, __func__, false, filter::usfm::is_usfm_marker ("c"));
-    evaluate (__LINE__, __func__, true, filter::usfm::is_usfm_marker ("\\add "));
-    evaluate (__LINE__, __func__, true, filter::usfm::is_usfm_marker ("\\add*"));
-    evaluate (__LINE__, __func__, true, filter::usfm::is_usfm_marker ("\\+add*"));
+    EXPECT_EQ (true, filter::usfm::is_usfm_marker ("\\id"));
+    EXPECT_EQ (true, filter::usfm::is_usfm_marker ("\\c "));
+    EXPECT_EQ (false, filter::usfm::is_usfm_marker ("c"));
+    EXPECT_EQ (true, filter::usfm::is_usfm_marker ("\\add "));
+    EXPECT_EQ (true, filter::usfm::is_usfm_marker ("\\add*"));
+    EXPECT_EQ (true, filter::usfm::is_usfm_marker ("\\+add*"));
   }
   
   // Test on detecting an opening marker.
   {
-    evaluate (__LINE__, __func__, true, filter::usfm::is_opening_marker ("\\id"));
-    evaluate (__LINE__, __func__, true, filter::usfm::is_opening_marker ("\\c "));
-    evaluate (__LINE__, __func__, false, filter::usfm::is_opening_marker ("\\c*"));
-    evaluate (__LINE__, __func__, true, filter::usfm::is_opening_marker ("\\+add "));
-    evaluate (__LINE__, __func__, false, filter::usfm::is_opening_marker ("\\+add*"));
+    EXPECT_EQ (true, filter::usfm::is_opening_marker ("\\id"));
+    EXPECT_EQ (true, filter::usfm::is_opening_marker ("\\c "));
+    EXPECT_EQ (false, filter::usfm::is_opening_marker ("\\c*"));
+    EXPECT_EQ (true, filter::usfm::is_opening_marker ("\\+add "));
+    EXPECT_EQ (false, filter::usfm::is_opening_marker ("\\+add*"));
   }
   
   // Test on detecting embedded marker.
   {
-    evaluate (__LINE__, __func__, false, filter::usfm::is_embedded_marker ("\\add"));
-    evaluate (__LINE__, __func__, false, filter::usfm::is_embedded_marker ("\\add*"));
-    evaluate (__LINE__, __func__, true, filter::usfm::is_embedded_marker ("\\+add"));
-    evaluate (__LINE__, __func__, true, filter::usfm::is_embedded_marker ("\\+add "));
-    evaluate (__LINE__, __func__, true, filter::usfm::is_embedded_marker ("\\+add*"));
+    EXPECT_EQ (false, filter::usfm::is_embedded_marker ("\\add"));
+    EXPECT_EQ (false, filter::usfm::is_embedded_marker ("\\add*"));
+    EXPECT_EQ (true, filter::usfm::is_embedded_marker ("\\+add"));
+    EXPECT_EQ (true, filter::usfm::is_embedded_marker ("\\+add "));
+    EXPECT_EQ (true, filter::usfm::is_embedded_marker ("\\+add*"));
   }
 
   // Test on extracting a book identifier.
   {
-    evaluate (__LINE__, __func__, "GEN", filter::usfm::get_book_identifier ({ "\\id", "GEN" }, 0));
-    evaluate (__LINE__, __func__, "XXX", filter::usfm::get_book_identifier ({ "\\id", "GEN" }, 1));
-    evaluate (__LINE__, __func__, "GE", filter::usfm::get_book_identifier ({ "\\id", "GE" }, 0));
-    evaluate (__LINE__, __func__, "GEN", filter::usfm::get_book_identifier ({ "\\id", "GENxxx" }, 0));
-    evaluate (__LINE__, __func__, "GEN", filter::usfm::get_book_identifier ({ "", "GENxxx" }, 0));
+    EXPECT_EQ ("GEN", filter::usfm::get_book_identifier ({ "\\id", "GEN" }, 0));
+    EXPECT_EQ ("XXX", filter::usfm::get_book_identifier ({ "\\id", "GEN" }, 1));
+    EXPECT_EQ ("GE", filter::usfm::get_book_identifier ({ "\\id", "GE" }, 0));
+    EXPECT_EQ ("GEN", filter::usfm::get_book_identifier ({ "\\id", "GENxxx" }, 0));
+    EXPECT_EQ ("GEN", filter::usfm::get_book_identifier ({ "", "GENxxx" }, 0));
   }
   
   // Test on extracting a verse number.
   {
-    evaluate (__LINE__, __func__, "1", filter::usfm::peek_verse_number ("1"));
-    evaluate (__LINE__, __func__, "1", filter::usfm::peek_verse_number ("1 "));
-    evaluate (__LINE__, __func__, "1a", filter::usfm::peek_verse_number ("1a"));
-    evaluate (__LINE__, __func__, "2-3", filter::usfm::peek_verse_number ("2-3"));
-    evaluate (__LINE__, __func__, "2b,3", filter::usfm::peek_verse_number ("2b,3"));
-    evaluate (__LINE__, __func__, "2b,3,", filter::usfm::peek_verse_number ("2b,3, 4"));
-    evaluate (__LINE__, __func__, "2a-3b", filter::usfm::peek_verse_number ("2a-3b And he said"));
+    EXPECT_EQ ("1", filter::usfm::peek_verse_number ("1"));
+    EXPECT_EQ ("1", filter::usfm::peek_verse_number ("1 "));
+    EXPECT_EQ ("1a", filter::usfm::peek_verse_number ("1a"));
+    EXPECT_EQ ("2-3", filter::usfm::peek_verse_number ("2-3"));
+    EXPECT_EQ ("2b,3", filter::usfm::peek_verse_number ("2b,3"));
+    EXPECT_EQ ("2b,3,", filter::usfm::peek_verse_number ("2b,3, 4"));
+    EXPECT_EQ ("2a-3b", filter::usfm::peek_verse_number ("2a-3b And he said"));
   }
 
   // Test on Genesis USFM.
@@ -946,47 +947,47 @@ void test_usfm ()
     vector <int> chapters = filter::usfm::get_chapter_numbers (bookusfm);
     vector <int> all_chapters;
     for (int i = 0; i <= 50; i++) all_chapters.push_back (i);
-    evaluate (__LINE__, __func__, all_chapters, chapters);
+    EXPECT_EQ (all_chapters, chapters);
     
     // Test getting contents for chapter 0.
     string usfm = filter::usfm::get_chapter_text (bookusfm, 0);
     string standard = filter_url_file_get_contents (filter_url_create_path ({directory, "01GEN-0.SFM"}));
-    evaluate (__LINE__, __func__, standard, usfm);
+    EXPECT_EQ (standard, usfm);
     
     chapters = filter::usfm::get_chapter_numbers (usfm);
-    evaluate (__LINE__, __func__, { 0 }, chapters);
+    EXPECT_EQ (vector <int>{ 0 }, chapters);
     
     // Test getting contents for last chapter in USFM.
     usfm = filter::usfm::get_chapter_text (bookusfm, 50);
     standard = filter_url_file_get_contents (filter_url_create_path ({directory, "01GEN-50.SFM"}));
-    evaluate (__LINE__, __func__, standard, usfm);
+    EXPECT_EQ (standard, usfm);
     
     chapters = filter::usfm::get_chapter_numbers (usfm);
-    evaluate (__LINE__, __func__, { 0, 50 }, chapters);
+    EXPECT_EQ ((vector <int>{0,50}), chapters);
     
     // Test getting the text of a chapter somewhere within a block of USFM.
     usfm = filter::usfm::get_chapter_text (bookusfm, 25);
     standard = filter_url_file_get_contents (filter_url_create_path ({directory, "01GEN-25.SFM"}));
-    evaluate (__LINE__, __func__, standard, usfm);
+    EXPECT_EQ (standard, usfm);
     
     chapters = filter::usfm::get_chapter_numbers (usfm);
-    evaluate (__LINE__, __func__, { 0, 25 }, chapters);
+    EXPECT_EQ ((vector <int>{ 0, 25 }), chapters);
     
     // Test getting non-existing chapter text.
     usfm = filter::usfm::get_chapter_text (bookusfm, 51);
-    evaluate (__LINE__, __func__, "", usfm);
+    EXPECT_EQ ("", usfm);
     
     chapters = filter::usfm::get_chapter_numbers (usfm);
-    evaluate (__LINE__, __func__, { 0 }, chapters);
+    EXPECT_EQ (vector <int>{ 0 }, chapters);
     
     // Test getting text for chapter that has a space after chapter number.
     string modified_book_usfm = filter::strings::replace ("\\c 10", "\\c 10 ", bookusfm);
     usfm = filter::usfm::get_chapter_text (modified_book_usfm, 10);
     standard = filter_url_file_get_contents (filter_url_create_path ({directory, "01GEN-10.SFM"}));
-    evaluate (__LINE__, __func__, standard, usfm);
+    EXPECT_EQ (standard, usfm);
     
     chapters = filter::usfm::get_chapter_numbers (modified_book_usfm);
-    evaluate (__LINE__, __func__, all_chapters, chapters);
+    EXPECT_EQ (all_chapters, chapters);
   }
   
   // Regression text on instance of Nehemia 12 in combination with the Paratext bridge.
@@ -994,63 +995,69 @@ void test_usfm ()
     string directory = filter_url_create_root_path ({"unittests", "tests"});
     string book_usfm = filter_url_file_get_contents (filter_url_create_path ({directory, "16NEHTSIC.SFM"}));
     string chapter_usfm = filter::usfm::get_chapter_text (book_usfm, 12);
-    evaluate (__LINE__, __func__, 7355, chapter_usfm.size());
+    EXPECT_EQ (7355, chapter_usfm.size());
   }
   
   // Test making one string out of the USFM.
   {
-    evaluate (__LINE__, __func__, "", filter::usfm::one_string (""));
-    evaluate (__LINE__, __func__, "\\id GEN", filter::usfm::one_string ("\\id GEN\n"));
-    evaluate (__LINE__, __func__, "\\v 10 text", filter::usfm::one_string ("\\v 10\ntext"));
-    evaluate (__LINE__, __func__, "\\v 10\\v 11", filter::usfm::one_string ("\\v 10\n\\v 11"));
-    evaluate (__LINE__, __func__, "\\v 10 text\\p\\v 11", filter::usfm::one_string ("\\v 10 text\n\\p\\v 11"));
+    EXPECT_EQ ("", filter::usfm::one_string (""));
+    EXPECT_EQ ("\\id GEN", filter::usfm::one_string ("\\id GEN\n"));
+    EXPECT_EQ ("\\v 10 text", filter::usfm::one_string ("\\v 10\ntext"));
+    EXPECT_EQ ("\\v 10\\v 11", filter::usfm::one_string ("\\v 10\n\\v 11"));
+    EXPECT_EQ ("\\v 10 text\\p\\v 11", filter::usfm::one_string ("\\v 10 text\n\\p\\v 11"));
     string inputusfm =
     "\\v 9  If we confess our sins, he is faithful and just to forgive\n"
     "us \\add our\\add* sins, and to cleanse us from all unrighteousness.";
     string outputusfm = filter::usfm::one_string (inputusfm);
     string standard = filter::strings::replace ("\n", " ", inputusfm);
-    evaluate (__LINE__, __func__, standard, outputusfm);
+    EXPECT_EQ (standard, outputusfm);
   }
   
   // Test getting the markers and the text from USFM.
   {
-    evaluate (__LINE__, __func__, { "\\id ", "GEN", "\\c ", "10" }, filter::usfm::get_markers_and_text ("\\id GEN\\c 10"));
-    evaluate (__LINE__, __func__, { "noise", "\\id ", "GEN", "\\c ", "10" }, filter::usfm::get_markers_and_text ("noise\\id GEN\\c 10"));
-    evaluate (__LINE__, __func__, { "\\p", "\\v ", "1 In ", "\\add ", "the", "\\add*" }, filter::usfm::get_markers_and_text ("\\p\\v 1 In \\add the\\add*"));
-    evaluate (__LINE__, __func__, { "\\v ", "2 Text ", "\\add ", "of the ", "\\add*", "1st", "\\add ", "second verse", "\\add*", "." }, filter::usfm::get_markers_and_text ("\\v 2 Text \\add of the \\add*1st\\add second verse\\add*."));
-    evaluate (__LINE__, __func__, { "\\p", "\\v ", "1 In ", "\\+add ", "the", "\\+add*" }, filter::usfm::get_markers_and_text ("\\p\\v 1 In \\+add the\\+add*"));
+    vector <string> standard;
+    standard = { "\\id ", "GEN", "\\c ", "10" };
+    EXPECT_EQ (standard, filter::usfm::get_markers_and_text ("\\id GEN\\c 10"));
+    standard = { "noise", "\\id ", "GEN", "\\c ", "10" };
+    EXPECT_EQ (standard, filter::usfm::get_markers_and_text ("noise\\id GEN\\c 10"));
+    standard = { "\\p", "\\v ", "1 In ", "\\add ", "the", "\\add*" };
+    EXPECT_EQ (standard, filter::usfm::get_markers_and_text ("\\p\\v 1 In \\add the\\add*"));
+    standard = { "\\v ", "2 Text ", "\\add ", "of the ", "\\add*", "1st", "\\add ", "second verse", "\\add*", "." };
+    EXPECT_EQ (standard, filter::usfm::get_markers_and_text ("\\v 2 Text \\add of the \\add*1st\\add second verse\\add*."));
+    standard = { "\\p", "\\v ", "1 In ", "\\+add ", "the", "\\+add*" };
+    EXPECT_EQ (standard, filter::usfm::get_markers_and_text ("\\p\\v 1 In \\+add the\\+add*"));
   }
 
   // Test getting the markers from a fragment of USFM.
   {
-    evaluate (__LINE__, __func__, "", filter::usfm::get_marker (""));
-    evaluate (__LINE__, __func__, "id", filter::usfm::get_marker ("\\id GEN"));
-    evaluate (__LINE__, __func__, "add", filter::usfm::get_marker ("\\add insertion"));
-    evaluate (__LINE__, __func__, "add", filter::usfm::get_marker ("\\add"));
-    evaluate (__LINE__, __func__, "add", filter::usfm::get_marker ("\\add*"));
-    evaluate (__LINE__, __func__, "add", filter::usfm::get_marker ("\\add*\\add"));
-    evaluate (__LINE__, __func__, "add", filter::usfm::get_marker ("\\+add"));
-    evaluate (__LINE__, __func__, "add", filter::usfm::get_marker ("\\+add*"));
+    EXPECT_EQ ("", filter::usfm::get_marker (""));
+    EXPECT_EQ ("id", filter::usfm::get_marker ("\\id GEN"));
+    EXPECT_EQ ("add", filter::usfm::get_marker ("\\add insertion"));
+    EXPECT_EQ ("add", filter::usfm::get_marker ("\\add"));
+    EXPECT_EQ ("add", filter::usfm::get_marker ("\\add*"));
+    EXPECT_EQ ("add", filter::usfm::get_marker ("\\add*\\add"));
+    EXPECT_EQ ("add", filter::usfm::get_marker ("\\+add"));
+    EXPECT_EQ ("add", filter::usfm::get_marker ("\\+add*"));
   }
 
   // Test importing common USFM.
   {
-    evaluate (__LINE__, __func__, 0, static_cast<int>(filter::usfm::usfm_import ("", styles_logic_standard_sheet ()).size()));
+    EXPECT_EQ (0, static_cast<int>(filter::usfm::usfm_import ("", styles_logic_standard_sheet ()).size()));
     
     vector <filter::usfm::BookChapterData> import = filter::usfm::usfm_import ("\\id MIC\n\\c 1\n\\s Heading\n\\p\n\\v 1 Verse one.", styles_logic_standard_sheet ());
-    evaluate (__LINE__, __func__, 2, static_cast<int> (import.size ()));
+    EXPECT_EQ (2, static_cast<int> (import.size ()));
     if (import.size () == 2) {
-      evaluate (__LINE__, __func__, 33, import [0].m_book);
-      evaluate (__LINE__, __func__, 0, import [0].m_chapter);
-      evaluate (__LINE__, __func__, "\\id MIC", import [0].m_data);
-      evaluate (__LINE__, __func__, 33, import [1].m_book);
-      evaluate (__LINE__, __func__, 1, import [1].m_chapter);
-      evaluate (__LINE__, __func__, "\\c 1\n\\s Heading\n\\p\n\\v 1 Verse one.", import [1].m_data);
+      EXPECT_EQ (33, import [0].m_book);
+      EXPECT_EQ (0, import [0].m_chapter);
+      EXPECT_EQ ("\\id MIC", import [0].m_data);
+      EXPECT_EQ (33, import [1].m_book);
+      EXPECT_EQ (1, import [1].m_chapter);
+      EXPECT_EQ ("\\c 1\n\\s Heading\n\\p\n\\v 1 Verse one.", import [1].m_data);
     } else {
-      evaluate (__LINE__, __func__, string("executing tests"), string("skipping tests"));
+      EXPECT_EQ (string("executing tests"), string("skipping tests"));
     }
     
-    evaluate (__LINE__, __func__, {0, 1, 2}, filter::usfm::get_verse_numbers ("\\v 1 test\\v 2 test"));
+    EXPECT_EQ ((vector<int>{0, 1, 2}), filter::usfm::get_verse_numbers ("\\v 1 test\\v 2 test"));
   }
 
   // Test importing USFM with \vp markup.
@@ -1072,16 +1079,16 @@ void test_usfm ()
     )";
     standard_chapter = filter::strings::trim (standard_chapter);
     vector <filter::usfm::BookChapterData> import = filter::usfm::usfm_import (usfm, styles_logic_standard_sheet ());
-    evaluate (__LINE__, __func__, 2, static_cast<int> (import.size ()));
+    EXPECT_EQ (2, static_cast<int> (import.size ()));
     if (import.size () == 2) {
-      evaluate (__LINE__, __func__, 33, import [0].m_book);
-      evaluate (__LINE__, __func__, 0, import [0].m_chapter);
-      evaluate (__LINE__, __func__, "\\id MIC", import [0].m_data);
-      evaluate (__LINE__, __func__, 33, import [1].m_book);
-      evaluate (__LINE__, __func__, 1, import [1].m_chapter);
-      evaluate (__LINE__, __func__, standard_chapter, filter::strings::trim (import [1].m_data));
+      EXPECT_EQ (33, import [0].m_book);
+      EXPECT_EQ (0, import [0].m_chapter);
+      EXPECT_EQ ("\\id MIC", import [0].m_data);
+      EXPECT_EQ (33, import [1].m_book);
+      EXPECT_EQ (1, import [1].m_chapter);
+      EXPECT_EQ (standard_chapter, filter::strings::trim (import [1].m_data));
     } else {
-      evaluate (__LINE__, __func__, string("executing tests"), string("skipping tests"));
+      EXPECT_EQ (string("executing tests"), string("skipping tests"));
     }
   }
 
@@ -1090,29 +1097,29 @@ void test_usfm ()
     string usfm = filter_url_file_get_contents (filter_url_create_root_path ({"demo", "92-1JNeng-web.usfm"}));
     vector <filter::usfm::BookChapterData> import = filter::usfm::usfm_import (usfm, styles_logic_standard_sheet ());
     // It imports book 0 due to the copyright notices at the top of the USFM file.
-    evaluate (__LINE__, __func__, 7, static_cast<int> (import.size ()));
+    EXPECT_EQ (7, static_cast<int> (import.size ()));
   }
 
   // Test building opening USFM marker.
   {
-    evaluate (__LINE__, __func__, "\\id ", filter::usfm::get_opening_usfm ("id"));
-    evaluate (__LINE__, __func__, "\\add ", filter::usfm::get_opening_usfm ("add"));
-    evaluate (__LINE__, __func__, "\\add ", filter::usfm::get_opening_usfm ("add", false));
-    evaluate (__LINE__, __func__, "\\+add ", filter::usfm::get_opening_usfm ("add", true));
+    EXPECT_EQ ("\\id ", filter::usfm::get_opening_usfm ("id"));
+    EXPECT_EQ ("\\add ", filter::usfm::get_opening_usfm ("add"));
+    EXPECT_EQ ("\\add ", filter::usfm::get_opening_usfm ("add", false));
+    EXPECT_EQ ("\\+add ", filter::usfm::get_opening_usfm ("add", true));
   }
   
   // Test building closing USFM marker.
   {
-    evaluate (__LINE__, __func__, "\\wj*", filter::usfm::get_closing_usfm ("wj"));
-    evaluate (__LINE__, __func__, "\\add*", filter::usfm::get_closing_usfm ("add"));
-    evaluate (__LINE__, __func__, "\\add*", filter::usfm::get_closing_usfm ("add", false));
-    evaluate (__LINE__, __func__, "\\+add*", filter::usfm::get_closing_usfm ("add", true));
+    EXPECT_EQ ("\\wj*", filter::usfm::get_closing_usfm ("wj"));
+    EXPECT_EQ ("\\add*", filter::usfm::get_closing_usfm ("add"));
+    EXPECT_EQ ("\\add*", filter::usfm::get_closing_usfm ("add", false));
+    EXPECT_EQ ("\\+add*", filter::usfm::get_closing_usfm ("add", true));
   }
 
   // Test getting verse numbers from USFM.
   {
     string usfm = "\\c 1\n\\s Isibingelelo\n\\p\n\\v 1 Umdala\n\\p\n\\v 2 Sithandwa\n\\v 3 Ngoba\n\\v 4 Kangilantokozo\n\\s Inkathazo\n\\p\n\\v 5 Sithandwa\n\\v 6 abafakazele\n\\v 7 Ngoba\n\\v 8 Ngakho\n\\p\n\\v 9 Ngabhalela\n\\v 10 Ngakho\n\\p\n\\v 11 Sithandwa\n\\v 12 NgoDemetriyu\n\\s Isicino\n\\p\n\\v 13 Bengilezinto\n\\v 14 kodwa\n\\p Ukuthula";
-    evaluate (__LINE__, __func__, { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 }, filter::usfm::get_verse_numbers (usfm));
+    EXPECT_EQ ((vector<int>{ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 }), filter::usfm::get_verse_numbers (usfm));
     usfm = ""
     "\\c 80\n"
     "\\s Umkhuleko wokusizwa kukaIsrayeli\n"
@@ -1143,26 +1150,26 @@ void test_usfm ()
     "\\v 18 Ngakho kasiyikubuyela emuva sisuke kuwe; sivuselele, khona sizabiza ibizo lakho\\x + Hlab. 71.20.\\x*.\n"
     "\\p\n"
     "\\v 19 \nnd kosi\nd*, Nkulunkulu wamabandla, siphendule, wenze ubuso bakho bukhanye, ngakho sizasindiswa\\x + 80.3,7.\\x*.\n";
-    evaluate (__LINE__, __func__, { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19 }, filter::usfm::get_verse_numbers (usfm));
+    EXPECT_EQ ((vector<int>{ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19 }), filter::usfm::get_verse_numbers (usfm));
   }
   
   // Test getting verse numbers from USFM.
   {
     string usfm = "\\v 1-2 Umdala\n\\p\n\\v 3 Ngoba\n";
     vector <int> verses = filter::usfm::get_verse_numbers (usfm);
-    evaluate (__LINE__, __func__, { 0, 1, 2, 3 }, verses);
+    EXPECT_EQ ((vector<int>{ 0, 1, 2, 3 }), verses);
     
     usfm = "\\v 10-12b Fragment\n\\p\n\\v 13 Fragment\n";
     verses = filter::usfm::get_verse_numbers (usfm);
-    evaluate (__LINE__, __func__, { 0, 10, 11, 12, 13 }, verses);
+    EXPECT_EQ ((vector<int>{ 0, 10, 11, 12, 13 }), verses);
     
     usfm = "\\v 10,11a Fragment\n\\p\n\\v 13 Fragment\n";
     verses = filter::usfm::get_verse_numbers (usfm);
-    evaluate (__LINE__, __func__, { 0, 10, 11, 13 }, verses);
+    EXPECT_EQ ((vector<int>{ 0, 10, 11, 13 }), verses);
     
     usfm = "\\v 10,12 Fragment\n\\p\n\\v 13 Fragment\n";
     verses = filter::usfm::get_verse_numbers (usfm);
-    evaluate (__LINE__, __func__, { 0, 10, 12, 13 }, verses);
+    EXPECT_EQ ((vector<int>{ 0, 10, 12, 13 }), verses);
   }
   
   // Testing on USFM without verse text.
@@ -1170,23 +1177,23 @@ void test_usfm ()
     string usfm;
     
     usfm = "\\v 1 Zvino namazuva\\x + Gen.1.1.\\x* okutonga kwavatongi nzara yakange iripo panyika.";
-    evaluate (__LINE__, __func__, false, filter::usfm::contains_empty_verses (usfm));
+    EXPECT_EQ (false, filter::usfm::contains_empty_verses (usfm));
     
     usfm = "\\v 1 Zvino namazuva\\x + Gen.1.1.\\x* okutonga kwavatongi nzara yakange iripo panyika.\n"
     "\\v 2 Two";
-    evaluate (__LINE__, __func__, false, filter::usfm::contains_empty_verses (usfm));
+    EXPECT_EQ (false, filter::usfm::contains_empty_verses (usfm));
     
     usfm = "\\v 1 Zvino namazuva\\x + Gen.1.1.\\x* okutonga kwavatongi nzara yakange iripo panyika.\n"
     "\\v 2";
-    evaluate (__LINE__, __func__, true, filter::usfm::contains_empty_verses (usfm));
+    EXPECT_EQ (true, filter::usfm::contains_empty_verses (usfm));
     
     usfm = "\\v 1 \n"
     "\\v 2 Two";
-    evaluate (__LINE__, __func__, true, filter::usfm::contains_empty_verses (usfm));
+    EXPECT_EQ (true, filter::usfm::contains_empty_verses (usfm));
     
     usfm = "\\v 1 \n"
     "\\v 2 ";
-    evaluate (__LINE__, __func__, true, filter::usfm::contains_empty_verses (usfm));
+    EXPECT_EQ (true, filter::usfm::contains_empty_verses (usfm));
   }
   
   // Testing removing fig word-level attributes.
@@ -1199,12 +1206,12 @@ void test_usfm ()
     usfm = R"(\v 18 At once they left their nets and went with him. \fig At once they left their nets.|src="avnt016.jpg" size="span" ref="1.18"\fig*)";
     result = filter::usfm::extract_fig (usfm, dummy, dummy, dummy, dummy, dummy, dummy, dummy);
     standard = R"(\v 18 At once they left their nets and went with him. )";
-    evaluate (__LINE__, __func__, standard, result);
+    EXPECT_EQ (standard, result);
 
     usfm = R"(\v 31 He went to her, took her by the hand, and helped her up. The fever left her, and she began to wait on them. \fig Took her by the hand, and...the fever left her.|src="avnt017.tif" size="col" ref="1.31"\fig*)";
     result = filter::usfm::extract_fig (usfm, dummy, dummy, dummy, dummy, dummy, dummy, dummy);
     standard = R"(\v 31 He went to her, took her by the hand, and helped her up. The fever left her, and she began to wait on them. )";
-    evaluate (__LINE__, __func__, standard, result);
+    EXPECT_EQ (standard, result);
   }
   
   // Test check on embedded markers.
@@ -1231,7 +1238,7 @@ void test_usfm ()
       pair (6, "Embedded marker requires a plus sign: \\add du"),
       pair (6, "Embedded marker requires a plus sign: \\add*e"),
     };
-    evaluate (__LINE__, __func__, standard, results);
+    EXPECT_EQ (standard, results);
   }
 
   // Test on correct or incorrect \vp ...\vp* markup.
@@ -1251,7 +1258,7 @@ void test_usfm ()
     vector <pair<int, string>> standard = {
       pair (3, "Unclosed markers: vp"),
     };
-    evaluate (__LINE__, __func__, standard, results);
+    EXPECT_EQ (standard, results);
   }
   
   // Test extracting the figure attributes.
@@ -1270,96 +1277,96 @@ void test_usfm ()
     // USFM without any figure information.
     usfm_in = R"(Text \fig Empty figure.\fig* text.)";
     usfm_out = filter::usfm::extract_fig (usfm_in, caption, alt, src, size, loc, copy, ref);
-    evaluate (__LINE__, __func__, string(), caption);
-    evaluate (__LINE__, __func__, string(), alt);
-    evaluate (__LINE__, __func__, string(), src);
-    evaluate (__LINE__, __func__, string(), size);
-    evaluate (__LINE__, __func__, string(), loc);
-    evaluate (__LINE__, __func__, string(), copy);
-    evaluate (__LINE__, __func__, string(), ref);
-    evaluate (__LINE__, __func__, R"(Text  text.)", usfm_out);
+    EXPECT_EQ (string(), caption);
+    EXPECT_EQ (string(), alt);
+    EXPECT_EQ (string(), src);
+    EXPECT_EQ (string(), size);
+    EXPECT_EQ (string(), loc);
+    EXPECT_EQ (string(), copy);
+    EXPECT_EQ (string(), ref);
+    EXPECT_EQ (R"(Text  text.)", usfm_out);
 
     // USFM 1/2.x with invalid figure information.
     usfm_in = R"(Text \fig DESC|SIZE|LOC|COPY|CAP|REF\fig* text.)";
     usfm_out = filter::usfm::extract_fig (usfm_in, caption, alt, src, size, loc, copy, ref);
-    evaluate (__LINE__, __func__, string(), caption);
-    evaluate (__LINE__, __func__, string(), alt);
-    evaluate (__LINE__, __func__, string(), src);
-    evaluate (__LINE__, __func__, string(), size);
-    evaluate (__LINE__, __func__, string(), loc);
-    evaluate (__LINE__, __func__, string(), copy);
-    evaluate (__LINE__, __func__, string(), ref);
-    evaluate (__LINE__, __func__, "Text  text.", usfm_out);
+    EXPECT_EQ (string(), caption);
+    EXPECT_EQ (string(), alt);
+    EXPECT_EQ (string(), src);
+    EXPECT_EQ (string(), size);
+    EXPECT_EQ (string(), loc);
+    EXPECT_EQ (string(), copy);
+    EXPECT_EQ (string(), ref);
+    EXPECT_EQ ("Text  text.", usfm_out);
 
     // USFM 2.4 example taken from https://paratext.org/files/documentation/usfmReference2_4.pdf
     usfm_in = R"(Text \fig |avnt016.tif|span|||At once they left their nets.|1.18\fig* text.)";
     usfm_out = filter::usfm::extract_fig (usfm_in, caption, alt, src, size, loc, copy, ref);
-    evaluate (__LINE__, __func__, "At once they left their nets.", caption);
-    evaluate (__LINE__, __func__, string(), alt);
-    evaluate (__LINE__, __func__, "avnt016.tif", src);
-    evaluate (__LINE__, __func__, "span", size);
-    evaluate (__LINE__, __func__, string(), loc);
-    evaluate (__LINE__, __func__, string(), copy);
-    evaluate (__LINE__, __func__, "1.18", ref);
-    evaluate (__LINE__, __func__, "Text  text.", usfm_out);
+    EXPECT_EQ ("At once they left their nets.", caption);
+    EXPECT_EQ (string(), alt);
+    EXPECT_EQ ("avnt016.tif", src);
+    EXPECT_EQ ("span", size);
+    EXPECT_EQ (string(), loc);
+    EXPECT_EQ (string(), copy);
+    EXPECT_EQ ("1.18", ref);
+    EXPECT_EQ ("Text  text.", usfm_out);
 
     // USFM 2.4 example taken from https://paratext.org/files/documentation/usfmReference2_4.pdf
     usfm_in = R"(Text \fig |avnt017.tif|col|||Took her by the hand, and...the fever left her.|1.31\fig* text.)";
     usfm_out = filter::usfm::extract_fig (usfm_in, caption, alt, src, size, loc, copy, ref);
-    evaluate (__LINE__, __func__, "Took her by the hand, and...the fever left her.", caption);
-    evaluate (__LINE__, __func__, string(), alt);
-    evaluate (__LINE__, __func__, "avnt017.tif", src);
-    evaluate (__LINE__, __func__, "col", size);
-    evaluate (__LINE__, __func__, string(), loc);
-    evaluate (__LINE__, __func__, string(), copy);
-    evaluate (__LINE__, __func__, "1.31", ref);
-    evaluate (__LINE__, __func__, "Text  text.", usfm_out);
+    EXPECT_EQ ("Took her by the hand, and...the fever left her.", caption);
+    EXPECT_EQ (string(), alt);
+    EXPECT_EQ ("avnt017.tif", src);
+    EXPECT_EQ ("col", size);
+    EXPECT_EQ (string(), loc);
+    EXPECT_EQ (string(), copy);
+    EXPECT_EQ ("1.31", ref);
+    EXPECT_EQ ("Text  text.", usfm_out);
 
     // Default USFM 1/2.x \fig definition.
     usfm_in = R"(Text \fig DESC|FILE|SIZE|LOC|COPY|CAP|REF\fig* text.)";
     usfm_out = filter::usfm::extract_fig (usfm_in, caption, alt, src, size, loc, copy, ref);
-    evaluate (__LINE__, __func__, "CAP", caption);
-    evaluate (__LINE__, __func__, "DESC", alt);
-    evaluate (__LINE__, __func__, "FILE", src);
-    evaluate (__LINE__, __func__, "SIZE", size);
-    evaluate (__LINE__, __func__, "LOC", loc);
-    evaluate (__LINE__, __func__, "COPY", copy);
-    evaluate (__LINE__, __func__, "REF", ref);
-    evaluate (__LINE__, __func__, "Text  text.", usfm_out);
+    EXPECT_EQ ("CAP", caption);
+    EXPECT_EQ ("DESC", alt);
+    EXPECT_EQ ("FILE", src);
+    EXPECT_EQ ("SIZE", size);
+    EXPECT_EQ ("LOC", loc);
+    EXPECT_EQ ("COPY", copy);
+    EXPECT_EQ ("REF", ref);
+    EXPECT_EQ ("Text  text.", usfm_out);
 
     // USFM 3.0 example.
     usfm_in = R"(\v 18 At once they left their nets and went with him. \fig At once they left their nets.|src="avnt016.jpg" size="span" ref="1.18"\fig*.)";
     usfm_out = filter::usfm::extract_fig (usfm_in, caption, alt, src, size, loc, copy, ref);
-    evaluate (__LINE__, __func__, "At once they left their nets.", caption);
-    evaluate (__LINE__, __func__, string(), alt);
-    evaluate (__LINE__, __func__, "avnt016.jpg", src);
-    evaluate (__LINE__, __func__, "span", size);
-    evaluate (__LINE__, __func__, string(), loc);
-    evaluate (__LINE__, __func__, string(), copy);
-    evaluate (__LINE__, __func__, "1.18", ref);
-    evaluate (__LINE__, __func__, R"(\v 18 At once they left their nets and went with him. .)", usfm_out);
+    EXPECT_EQ ("At once they left their nets.", caption);
+    EXPECT_EQ (string(), alt);
+    EXPECT_EQ ("avnt016.jpg", src);
+    EXPECT_EQ ("span", size);
+    EXPECT_EQ (string(), loc);
+    EXPECT_EQ (string(), copy);
+    EXPECT_EQ ("1.18", ref);
+    EXPECT_EQ (R"(\v 18 At once they left their nets and went with him. .)", usfm_out);
 
     // USFM 3.0 example.
     usfm_in = R"(\v 31 He went to her, took her by the hand, and helped her up. The fever left her, and she began to wait on them. \fig Took her by the hand, and...the fever left her.|src="avnt017.tif" size="col" ref="1.31"\fig*.)";
     usfm_out = filter::usfm::extract_fig (usfm_in, caption, alt, src, size, loc, copy, ref);
-    evaluate (__LINE__, __func__, "Took her by the hand, and...the fever left her.", caption);
-    evaluate (__LINE__, __func__, string(), alt);
-    evaluate (__LINE__, __func__, "avnt017.tif", src);
-    evaluate (__LINE__, __func__, "col", size);
-    evaluate (__LINE__, __func__, string(), loc);
-    evaluate (__LINE__, __func__, string(), copy);
-    evaluate (__LINE__, __func__, "1.31", ref);
-    evaluate (__LINE__, __func__, R"(\v 31 He went to her, took her by the hand, and helped her up. The fever left her, and she began to wait on them. .)", usfm_out);
+    EXPECT_EQ ("Took her by the hand, and...the fever left her.", caption);
+    EXPECT_EQ (string(), alt);
+    EXPECT_EQ ("avnt017.tif", src);
+    EXPECT_EQ ("col", size);
+    EXPECT_EQ (string(), loc);
+    EXPECT_EQ (string(), copy);
+    EXPECT_EQ ("1.31", ref);
+    EXPECT_EQ (R"(\v 31 He went to her, took her by the hand, and helped her up. The fever left her, and she began to wait on them. .)", usfm_out);
   }
 
   // Test determining standard q poetry styles.
   {
-    evaluate (__LINE__, __func__, true, filter::usfm::is_standard_q_poetry ("q"));
-    evaluate (__LINE__, __func__, true, filter::usfm::is_standard_q_poetry ("q1"));
-    evaluate (__LINE__, __func__, true, filter::usfm::is_standard_q_poetry ("q2"));
-    evaluate (__LINE__, __func__, true, filter::usfm::is_standard_q_poetry ("q3"));
-    evaluate (__LINE__, __func__, false, filter::usfm::is_standard_q_poetry ("q4"));
-    evaluate (__LINE__, __func__, false, filter::usfm::is_standard_q_poetry ("q5"));
+    EXPECT_EQ (true, filter::usfm::is_standard_q_poetry ("q"));
+    EXPECT_EQ (true, filter::usfm::is_standard_q_poetry ("q1"));
+    EXPECT_EQ (true, filter::usfm::is_standard_q_poetry ("q2"));
+    EXPECT_EQ (true, filter::usfm::is_standard_q_poetry ("q3"));
+    EXPECT_EQ (false, filter::usfm::is_standard_q_poetry ("q4"));
+    EXPECT_EQ (false, filter::usfm::is_standard_q_poetry ("q5"));
   }
   
   // Test checking valid USFM of the fig markup.
@@ -1373,7 +1380,7 @@ void test_usfm ()
     vector <pair<int, string>> standard = {
       pair (31,  "Could not find Bible image: avnt017.tif"),
     };
-    evaluate (__LINE__, __func__, standard, results);
+    EXPECT_EQ (standard, results);
   }
   {
     string usfm = R"(\v 31 He went to her, took her by the hand, and helped her up. The fever left her, and she began to wait on them. \fig Took her by the hand, and...the fever left her.|src=“avnt017.tif“ size="col" ref="1.31"\fig*.)";
@@ -1386,7 +1393,7 @@ void test_usfm ()
       pair (31,  R"(Empty figure source: Took her by the hand, and...the fever left her.|src=“avnt017.tif“ size="col" ref="1.31")"),
       pair (31,  R"(Unusual quotation mark found: Took her by the hand, and...the fever left her.|src=“avnt017.tif“ size="col" ref="1.31")"),
     };
-    evaluate (__LINE__, __func__, standard, results);
+    EXPECT_EQ (standard, results);
   }
 
   // Text detecting markup sequence without intervening text.
@@ -1400,7 +1407,7 @@ void test_usfm ()
     vector <pair<int, string>> standard = {
       pair (1,  R"(Opening markup is followed by closing markup without intervening text: \add \add*)")
     };
-    evaluate (__LINE__, __func__, standard, results);
+    EXPECT_EQ (standard, results);
   }
 
   // Test that a properly formatted note gives no checking results.
@@ -1412,7 +1419,7 @@ void test_usfm ()
     check.finalize ();
     vector <pair<int, string>> results = check.get_results ();
     vector <pair<int, string>> standard = { };
-    evaluate (__LINE__, __func__, standard, results);
+    EXPECT_EQ (standard, results);
   }
 
   // Test a note consisting of opening markup without text.
@@ -1427,7 +1434,7 @@ void test_usfm ()
     vector <pair<int, string>> standard = {
       pair (2,  R"(Opening markup is followed by closing markup without intervening text: \ft \fe*)")
     };
-    evaluate (__LINE__, __func__, standard, results);
+    EXPECT_EQ (standard, results);
   }
 
   // Test that a correctly formatted note,
@@ -1440,7 +1447,7 @@ void test_usfm ()
     check.finalize ();
     vector <pair<int, string>> results = check.get_results ();
     vector <pair<int, string>> standard = { };
-    evaluate (__LINE__, __func__, standard, results);
+    EXPECT_EQ (standard, results);
   }
 
   // Test that a a note e.g. \ft followed by e.g. \add, is not flagged.
@@ -1452,7 +1459,7 @@ void test_usfm ()
     check.finalize ();
     vector <pair<int, string>> results = check.get_results ();
     vector <pair<int, string>> standard = { };
-    evaluate (__LINE__, __func__, standard, results);
+    EXPECT_EQ (standard, results);
   }
 
   // Test a corect cross reference is not flagged.
@@ -1464,7 +1471,11 @@ void test_usfm ()
     check.finalize ();
     vector <pair<int, string>> results = check.get_results ();
     vector <pair<int, string>> standard = { };
-    evaluate (__LINE__, __func__, standard, results);
+    EXPECT_EQ (standard, results);
   }
   
 }
+
+
+#endif
+

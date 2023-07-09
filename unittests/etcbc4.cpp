@@ -17,23 +17,24 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
+#include <config/libraries.h>
+#ifdef HAVE_GTEST
+#include "gtest/gtest.h"
 #include <unittests/etcbc4.h>
 #include <unittests/utilities.h>
 #include <database/etcbc4.h>
 using namespace std;
 
 
-void test_database_etcbc4 ()
+TEST (database, etcbc4)
 {
-  trace_unit_tests (__func__);
-  
   Database_Etcbc4 database;
   
   vector <int> rowids = database.rowids (1, 1, 1);
-  evaluate (__LINE__, __func__, {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11}, rowids);
+  EXPECT_EQ ((vector <int>{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11}), rowids);
   
   rowids = database.rowids (2, 3, 4);
-  evaluate (__LINE__, __func__, {
+  EXPECT_EQ ((vector <int>{
     29690,
     29691,
     29692,
@@ -56,121 +57,124 @@ void test_database_etcbc4 ()
     29709,
     29710,
     29711
-  }, rowids);
+  }), rowids);
   
   string result;
   
   result = database.word (2);
-  evaluate (__LINE__, __func__, "רֵאשִׁ֖ית", result);
+  EXPECT_EQ ("רֵאשִׁ֖ית", result);
   
   result = database.word (1001);
-  evaluate (__LINE__, __func__, "טֹ֛וב", result);
+  EXPECT_EQ ("טֹ֛וב", result);
   
   result = database.vocalized_lexeme (2);
-  evaluate (__LINE__, __func__, "רֵאשִׁית", result);
+  EXPECT_EQ ("רֵאשִׁית", result);
   
   result = database.vocalized_lexeme (1001);
-  evaluate (__LINE__, __func__, "טֹוב", result);
+  EXPECT_EQ ("טֹוב", result);
   
   result = database.consonantal_lexeme (2);
-  evaluate (__LINE__, __func__, "ראשׁית", result);
+  EXPECT_EQ ("ראשׁית", result);
   
   result = database.consonantal_lexeme (1001);
-  evaluate (__LINE__, __func__, "טוב", result);
+  EXPECT_EQ ("טוב", result);
   
   result = database.gloss (2);
-  evaluate (__LINE__, __func__, "beginning", result);
+  EXPECT_EQ ("beginning", result);
   
   result = database.gloss (1001);
-  evaluate (__LINE__, __func__, "good", result);
+  EXPECT_EQ ("good", result);
   
   result = database.pos (2);
-  evaluate (__LINE__, __func__, "subs", result);
+  EXPECT_EQ ("subs", result);
   
   result = database.pos (1001);
-  evaluate (__LINE__, __func__, "adjv", result);
+  EXPECT_EQ ("adjv", result);
   
   result = database.subpos (2);
-  evaluate (__LINE__, __func__, "none", result);
+  EXPECT_EQ ("none", result);
   
   result = database.subpos (1001);
-  evaluate (__LINE__, __func__, "none", result);
+  EXPECT_EQ ("none", result);
   
   result = database.gender (2);
-  evaluate (__LINE__, __func__, "f", result);
+  EXPECT_EQ ("f", result);
   
   result = database.gender (1001);
-  evaluate (__LINE__, __func__, "m", result);
+  EXPECT_EQ ("m", result);
   
   result = database.number (4);
-  evaluate (__LINE__, __func__, "pl", result);
+  EXPECT_EQ ("pl", result);
   
   result = database.number (1001);
-  evaluate (__LINE__, __func__, "sg", result);
+  EXPECT_EQ ("sg", result);
   
   result = database.person (3);
-  evaluate (__LINE__, __func__, "p3", result);
+  EXPECT_EQ ("p3", result);
   
   result = database.person (1001);
-  evaluate (__LINE__, __func__, "NA", result);
+  EXPECT_EQ ("NA", result);
   
   result = database.state (2);
-  evaluate (__LINE__, __func__, "a", result);
+  EXPECT_EQ ("a", result);
   
   result = database.state (1001);
-  evaluate (__LINE__, __func__, "a", result);
+  EXPECT_EQ ("a", result);
   
   result = database.tense (3);
-  evaluate (__LINE__, __func__, "perf", result);
+  EXPECT_EQ ("perf", result);
   
   result = database.tense (1001);
-  evaluate (__LINE__, __func__, "NA", result);
+  EXPECT_EQ ("NA", result);
   
   result = database.stem (3);
-  evaluate (__LINE__, __func__, "qal", result);
+  EXPECT_EQ ("qal", result);
   
   result = database.stem (1001);
-  evaluate (__LINE__, __func__, "NA", result);
+  EXPECT_EQ ("NA", result);
   
   result = database.phrase_function (2);
-  evaluate (__LINE__, __func__, "Time", result);
+  EXPECT_EQ ("Time", result);
   
   result = database.phrase_function (1001);
-  evaluate (__LINE__, __func__, "PreC", result);
+  EXPECT_EQ ("PreC", result);
   
   result = database.phrase_type (2);
-  evaluate (__LINE__, __func__, "PP", result);
+  EXPECT_EQ ("PP", result);
   
   result = database.phrase_type (1001);
-  evaluate (__LINE__, __func__, "AdjP", result);
+  EXPECT_EQ ("AdjP", result);
   
   result = database.phrase_relation (2);
-  evaluate (__LINE__, __func__, "NA", result);
+  EXPECT_EQ ("NA", result);
   
   result = database.phrase_relation (1001);
-  evaluate (__LINE__, __func__, "NA", result);
+  EXPECT_EQ ("NA", result);
   
   result = database.phrase_a_relation (2);
-  evaluate (__LINE__, __func__, "NA", result);
+  EXPECT_EQ ("NA", result);
   
   result = database.phrase_a_relation (1001);
-  evaluate (__LINE__, __func__, "NA", result);
+  EXPECT_EQ ("NA", result);
   
   result = database.clause_text_type (2);
-  evaluate (__LINE__, __func__, "?", result);
+  EXPECT_EQ ("?", result);
   
   result = database.clause_text_type (1001);
-  evaluate (__LINE__, __func__, "NQ", result);
+  EXPECT_EQ ("NQ", result);
   
   result = database.clause_type (2);
-  evaluate (__LINE__, __func__, "xQtX", result);
+  EXPECT_EQ ("xQtX", result);
   
   result = database.clause_type (1001);
-  evaluate (__LINE__, __func__, "AjCl", result);
+  EXPECT_EQ ("AjCl", result);
   
   result = database.clause_relation (2);
-  evaluate (__LINE__, __func__, "NA", result);
+  EXPECT_EQ ("NA", result);
   
   result = database.clause_relation (1001);
-  evaluate (__LINE__, __func__, "NA", result);
+  EXPECT_EQ ("NA", result);
 }
+
+#endif
+

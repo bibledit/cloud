@@ -17,6 +17,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
+#include <config/libraries.h>
+#ifdef HAVE_GTEST
+#include "gtest/gtest.h"
 #include <unittests/odf.h>
 #include <unittests/utilities.h>
 #include <odf/text.h>
@@ -26,9 +29,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 using namespace std;
 
 
-void test_odf ()
+TEST (filter, odf)
 {
-  trace_unit_tests (__func__);
   refresh_sandbox (true);
   string odf_text_test_odt = "/tmp/test.odt";
   string Odt2TxtOutput = "/tmp/test.txt";
@@ -41,21 +43,21 @@ void test_odf ()
     odf_text odf_text (bible);
     odf_text.create_page_break_style ();
     odf_text.new_paragraph ();
-    evaluate (__LINE__, __func__, styles_logic_standard_sheet (), odf_text.m_current_paragraph_style);
+    EXPECT_EQ (styles_logic_standard_sheet (), odf_text.m_current_paragraph_style);
     odf_text.add_text ("Paragraph One");
-    evaluate (__LINE__, __func__, "Paragraph One", odf_text.m_current_paragraph_content);
+    EXPECT_EQ ("Paragraph One", odf_text.m_current_paragraph_content);
     odf_text.new_paragraph ();
-    evaluate (__LINE__, __func__, "", odf_text.m_current_paragraph_content);
+    EXPECT_EQ ("", odf_text.m_current_paragraph_content);
     odf_text.add_text ("Paragraph Two");
-    evaluate (__LINE__, __func__, "Paragraph Two", odf_text.m_current_paragraph_content);
+    EXPECT_EQ ("Paragraph Two", odf_text.m_current_paragraph_content);
     odf_text.new_heading1 ("Heading One");
-    evaluate (__LINE__, __func__, "", odf_text.m_current_paragraph_content);
+    EXPECT_EQ ("", odf_text.m_current_paragraph_content);
     odf_text.new_page_break ();
     odf_text.new_paragraph ();
     odf_text.add_text ("Paragraph Three");
     odf_text.save (odf_text_test_odt);
     int ret = odf2txt (odf_text_test_odt, Odt2TxtOutput);
-    evaluate (__LINE__, __func__, 0, ret);
+    EXPECT_EQ (0, ret);
     string odt = filter_url_file_get_contents (Odt2TxtOutput);
     string standard = ""
     "Paragraph One\n"
@@ -67,7 +69,7 @@ void test_odf ()
     "\n"
     "\n"
     "Paragraph Three\n";
-    evaluate (__LINE__, __func__, filter::strings::trim (standard), filter::strings::trim (odt));
+    EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (odt));
   }
   filter_url_unlink (odf_text_test_odt);
   filter_url_unlink (Odt2TxtOutput);
@@ -78,11 +80,11 @@ void test_odf ()
     odf_text.add_text ("Should create new paragraph automatically");
     odf_text.save (odf_text_test_odt);
     int ret = odf2txt (odf_text_test_odt, Odt2TxtOutput);
-    evaluate (__LINE__, __func__, 0, ret);
+    EXPECT_EQ (0, ret);
     string odt = filter_url_file_get_contents (Odt2TxtOutput);
     string standard = ""
     "Should create new paragraph automatically\n";
-    evaluate (__LINE__, __func__, filter::strings::trim (standard), filter::strings::trim (odt));
+    EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (odt));
   }
   filter_url_unlink (odf_text_test_odt);
   filter_url_unlink (Odt2TxtOutput);
@@ -97,13 +99,13 @@ void test_odf ()
     odf_text.add_text (".");
     odf_text.save (odf_text_test_odt);
     int ret = odf2txt (odf_text_test_odt, Odt2TxtOutput);
-    evaluate (__LINE__, __func__, 0, ret);
+    EXPECT_EQ (0, ret);
     string odt = filter_url_file_get_contents (Odt2TxtOutput);
     string standard = ""
     "Text†Note\n"
     "\n"
     ".\n";
-    evaluate (__LINE__, __func__, filter::strings::trim (standard), filter::strings::trim (odt));
+    EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (odt));
   }
   filter_url_unlink (odf_text_test_odt);
   filter_url_unlink (Odt2TxtOutput);
@@ -123,10 +125,10 @@ void test_odf ()
     odf_text.add_text (".");
     odf_text.save (odf_text_test_odt);
     int ret = odf2txt (odf_text_test_odt, Odt2TxtOutput);
-    evaluate (__LINE__, __func__, 0, ret);
+    EXPECT_EQ (0, ret);
     string odt = filter_url_file_get_contents (Odt2TxtOutput);
     string standard = "textaddnormal.";
-    evaluate (__LINE__, __func__, filter::strings::trim (standard), filter::strings::trim (odt));
+    EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (odt));
   }
   filter_url_unlink (odf_text_test_odt);
   filter_url_unlink (Odt2TxtOutput);
@@ -147,13 +149,13 @@ void test_odf ()
     odf_text.add_text (".");
     odf_text.save (odf_text_test_odt);
     int ret = odf2txt (odf_text_test_odt, Odt2TxtOutput);
-    evaluate (__LINE__, __func__, 0, ret);
+    EXPECT_EQ (0, ret);
     string odt = filter_url_file_get_contents (Odt2TxtOutput);
     string standard = ""
     "Text𐌰Addnormal\n"
     "\n"
     ".\n";
-    evaluate (__LINE__, __func__, filter::strings::trim (standard), filter::strings::trim (odt));
+    EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (odt));
   }
   filter_url_unlink (odf_text_test_odt);
   filter_url_unlink (Odt2TxtOutput);
@@ -188,10 +190,10 @@ void test_odf ()
     odf_text.add_text (".");
     odf_text.save (odf_text_test_odt);
     int ret = odf2txt (odf_text_test_odt, Odt2TxtOutput);
-    evaluate (__LINE__, __func__, 0, ret);
+    EXPECT_EQ (0, ret);
     string odt = filter_url_file_get_contents (Odt2TxtOutput);
     string standard = "textaddndnormal.";
-    evaluate (__LINE__, __func__, filter::strings::trim (standard), filter::strings::trim (odt));
+    EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (odt));
   }
   filter_url_unlink (odf_text_test_odt);
   filter_url_unlink (Odt2TxtOutput);
@@ -227,13 +229,13 @@ void test_odf ()
     odf_text.add_text (".");
     odf_text.save (odf_text_test_odt);
     int ret = odf2txt (odf_text_test_odt, Odt2TxtOutput);
-    evaluate (__LINE__, __func__, 0, ret);
+    EXPECT_EQ (0, ret);
     string odt = filter_url_file_get_contents (Odt2TxtOutput);
     string standard = ""
     "text𐌰addndnormal\n"
     "\n"
     ".\n";
-    evaluate (__LINE__, __func__, filter::strings::trim (standard), filter::strings::trim (odt));
+    EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (odt));
   }
   filter_url_unlink (odf_text_test_odt);
   filter_url_unlink (Odt2TxtOutput);
@@ -252,14 +254,14 @@ void test_odf ()
     odf_text.update_current_paragraph_style (styles_logic_standard_sheet ());
     odf_text.save (odf_text_test_odt);
     int ret = odf2txt (odf_text_test_odt, Odt2TxtOutput);
-    evaluate (__LINE__, __func__, 0, ret);
+    EXPECT_EQ (0, ret);
     string odt = filter_url_file_get_contents (Odt2TxtOutput);
     string standard = ""
     "Paragraph with d style\n"
     "\n"
     "Paragraph with d style at first, then Standard\n"
     "";
-    evaluate (__LINE__, __func__, filter::strings::trim (standard), filter::strings::trim (odt));
+    EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (odt));
   }
   filter_url_unlink (odf_text_test_odt);
   filter_url_unlink (Odt2TxtOutput);
@@ -268,14 +270,14 @@ void test_odf ()
   {
     odf_text odf_text (bible);
     odf_text.new_paragraph ();
-    evaluate (__LINE__, __func__, styles_logic_standard_sheet (), odf_text.m_current_paragraph_style);
+    EXPECT_EQ (styles_logic_standard_sheet (), odf_text.m_current_paragraph_style);
     odf_text.add_text ("One apostrophy ' and two more ''.");
     odf_text.save (odf_text_test_odt);
     int ret = odf2txt (odf_text_test_odt, Odt2TxtOutput);
-    evaluate (__LINE__, __func__, 0, ret);
+    EXPECT_EQ (0, ret);
     string odt = filter_url_file_get_contents (Odt2TxtOutput);
     string standard = "One apostrophy ' and two more ''.";
-    evaluate (__LINE__, __func__, filter::strings::trim (standard), filter::strings::trim (odt));
+    EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (odt));
   }
   
   // Test a tab.
@@ -285,10 +287,10 @@ void test_odf ()
     odf_text.add_tab ();
     odf_text.save (odf_text_test_odt);
     int ret = odf2txt (odf_text_test_odt, Odt2TxtOutput);
-    evaluate (__LINE__, __func__, 0, ret);
+    EXPECT_EQ (0, ret);
     string odt = filter_url_file_get_contents (Odt2TxtOutput);
     string standard = "\t\n\n";
-    evaluate (__LINE__, __func__, standard, odt);
+    EXPECT_EQ (standard, odt);
   }
 
   filter_url_unlink (odf_text_test_odt);
@@ -297,4 +299,6 @@ void test_odf ()
   refresh_sandbox (true);
 }
 
+
+#endif
 

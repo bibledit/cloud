@@ -17,6 +17,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
+#include <config/libraries.h>
+#ifdef HAVE_GTEST
+#include "gtest/gtest.h"
 #include <unittests/rss.h>
 #include <unittests/utilities.h>
 #include <rss/logic.h>
@@ -29,11 +32,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 using namespace std;
 
 
-void test_rss_feed ()
+TEST (rss, feed)
 {
 #ifdef HAVE_CLOUD
 
-  trace_unit_tests (__func__);
   refresh_sandbox (true);
   
   Database_State::create ();
@@ -50,12 +52,12 @@ void test_rss_feed ()
   
   // Write two items.
   rss_logic_update_xml ({ "titleone", "titletwo" }, { "authorone", "authortwo" }, { "description one", "description two"} );
-  evaluate (__LINE__, __func__, 849, filter_url_filesize (path));
+  EXPECT_EQ (849, filter_url_filesize (path));
 
   // Disable the Bible: Should remove the file.
   Database_Config_Bible::setSendChangesToRSS (bible, false);
   rss_logic_feed_on_off ();
-  evaluate (__LINE__, __func__, 0, filter_url_filesize (path));
+  EXPECT_EQ (0, filter_url_filesize (path));
 
   // Add many entries and clipping their number.
   Database_Config_Bible::setSendChangesToRSS (bible, true);
@@ -69,7 +71,10 @@ void test_rss_feed ()
     descriptions.push_back ("description " + filter::strings::convert_to_string (i));
   }
   rss_logic_update_xml (titles, authors, descriptions);
-  evaluate (__LINE__, __func__, 25693, filter_url_filesize (path));
+  EXPECT_EQ (25693, filter_url_filesize (path));
 
 #endif
 }
+
+#endif
+

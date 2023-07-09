@@ -17,6 +17,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
+#include <config/libraries.h>
+#ifdef HAVE_GTEST
+#include "gtest/gtest.h"
 #include <unittests/privileges.h>
 #include <unittests/utilities.h>
 #include <database/privileges.h>
@@ -25,18 +28,16 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 using namespace std;
 
 
-void test_database_privileges ()
+TEST (database, privileges)
 {
-  trace_unit_tests (__func__);
-  
   // Test creation, automatic repair of damages.
   refresh_sandbox (true);
   DatabasePrivileges::create ();
   string path = database_sqlite_file (DatabasePrivileges::database ());
   filter_url_file_put_contents (path, "damaged database");
-  evaluate (__LINE__, __func__, false, DatabasePrivileges::healthy ());
+  EXPECT_EQ (false, DatabasePrivileges::healthy ());
   DatabasePrivileges::optimize ();
-  evaluate (__LINE__, __func__, true, DatabasePrivileges::healthy ());
+  EXPECT_EQ (true, DatabasePrivileges::healthy ());
   refresh_sandbox (false);
   
   DatabasePrivileges::create ();
@@ -51,8 +52,8 @@ void test_database_privileges ()
   {
     bool read, write;
     DatabasePrivileges::get_bible_book (username, bible, 2, read, write);
-    evaluate (__LINE__, __func__, false, read);
-    evaluate (__LINE__, __func__, false, write);
+    EXPECT_EQ (false, read);
+    EXPECT_EQ (false, write);
   }
   
   // Set privileges and read them.
@@ -60,38 +61,38 @@ void test_database_privileges ()
     bool read, write;
     DatabasePrivileges::set_bible_book (username, bible, 3, false);
     DatabasePrivileges::get_bible_book (username, bible, 3, read, write);
-    evaluate (__LINE__, __func__, true, read);
-    evaluate (__LINE__, __func__, false, write);
+    EXPECT_EQ (true, read);
+    EXPECT_EQ (false, write);
   }
   
   {
     bool read, write;
     DatabasePrivileges::set_bible_book (username, bible, 4, true);
     DatabasePrivileges::get_bible_book (username, bible, 4, read, write);
-    evaluate (__LINE__, __func__, true, read);
-    evaluate (__LINE__, __func__, true, write);
+    EXPECT_EQ (true, read);
+    EXPECT_EQ (true, write);
   }
 
   {
     bool read, write;
     DatabasePrivileges::remove_bible_book (username, bible, 4);
     DatabasePrivileges::get_bible_book (username, bible, 4, read, write);
-    evaluate (__LINE__, __func__, false, read);
-    evaluate (__LINE__, __func__, false, write);
+    EXPECT_EQ (false, read);
+    EXPECT_EQ (false, write);
   }
   
   // Test Bible book entry count.
   {
     DatabasePrivileges::set_bible_book (username, bible, 6, true);
     int count = DatabasePrivileges::get_bible_book_count ();
-    evaluate (__LINE__, __func__, 2, count);
+    EXPECT_EQ (2, count);
   }
   
   // Test removing book zero, that it removes entries for all books.
   {
     DatabasePrivileges::remove_bible_book (username, bible, 0);
     int count = DatabasePrivileges::get_bible_book_count ();
-    evaluate (__LINE__, __func__, 0, count);
+    EXPECT_EQ (0, count);
   }
   
   // Enter a privilege for book = 1, and a different privilege for book 0,
@@ -100,13 +101,13 @@ void test_database_privileges ()
     bool read, write;
     DatabasePrivileges::set_bible_book (username, bible, 1, false);
     DatabasePrivileges::get_bible_book (username, bible, 1, read, write);
-    evaluate (__LINE__, __func__, true, read);
-    evaluate (__LINE__, __func__, false, write);
+    EXPECT_EQ (true, read);
+    EXPECT_EQ (false, write);
     DatabasePrivileges::set_bible_book (username, bible, 0, true);
     DatabasePrivileges::set_bible_book (username, bible, 1, false);
     DatabasePrivileges::get_bible_book (username, bible, 1, read, write);
-    evaluate (__LINE__, __func__, true, read);
-    evaluate (__LINE__, __func__, false, write);
+    EXPECT_EQ (true, read);
+    EXPECT_EQ (false, write);
   }
   
   // Start afresh to not depend too much on previous tests.
@@ -116,17 +117,17 @@ void test_database_privileges ()
   // Test whether an entry for a book exists.
   {
     bool exists = DatabasePrivileges::get_bible_book_exists (username, bible, 0);
-    evaluate (__LINE__, __func__, false, exists);
+    EXPECT_EQ (false, exists);
     DatabasePrivileges::set_bible_book (username, bible, 1, false);
     // Test the record for the correct book.
     exists = DatabasePrivileges::get_bible_book_exists (username, bible, 1);
-    evaluate (__LINE__, __func__, true, exists);
+    EXPECT_EQ (true, exists);
     // The record should also exist for book 0.
     exists = DatabasePrivileges::get_bible_book_exists (username, bible, 0);
-    evaluate (__LINE__, __func__, true, exists);
+    EXPECT_EQ (true, exists);
     // The record should not exist for another book.
     exists = DatabasePrivileges::get_bible_book_exists (username, bible, 2);
-    evaluate (__LINE__, __func__, false, exists);
+    EXPECT_EQ (false, exists);
   }
   
   // Start afresh to not depend on the outcome of previous tests.
@@ -136,43 +137,43 @@ void test_database_privileges ()
   // Test no read access to entire Bible.
   {
     auto [read, write] = DatabasePrivileges::get_bible (username, bible);
-    evaluate (__LINE__, __func__, false, read);
-    evaluate (__LINE__, __func__, false, write);
+    EXPECT_EQ (false, read);
+    EXPECT_EQ (false, write);
   }
   // Set Bible read-only and test it.
   DatabasePrivileges::set_bible (username, bible, false);
   {
     auto [read, write] = DatabasePrivileges::get_bible (username, bible);
-    evaluate (__LINE__, __func__, true, read);
-    evaluate (__LINE__, __func__, false, write);
+    EXPECT_EQ (true, read);
+    EXPECT_EQ (false, write);
   }
   // Set Bible read-write, and test it.
   DatabasePrivileges::set_bible (username, bible, true);
   {
     auto [read, write] = DatabasePrivileges::get_bible (username, bible);
-    evaluate (__LINE__, __func__, true, read);
-    evaluate (__LINE__, __func__, true, write);
+    EXPECT_EQ (true, read);
+    EXPECT_EQ (true, write);
   }
   // Set one book read-write and test that this applies to entire Bible.
   DatabasePrivileges::set_bible (username, bible, false);
   DatabasePrivileges::set_bible_book (username, bible, 1, true);
   {
     auto [read, write] = DatabasePrivileges::get_bible (username, bible);
-    evaluate (__LINE__, __func__, true, read);
-    evaluate (__LINE__, __func__, true, write);
+    EXPECT_EQ (true, read);
+    EXPECT_EQ (true, write);
   }
   
   // A feature is off by default.
   bool enabled = DatabasePrivileges::get_feature (username, 123);
-  evaluate (__LINE__, __func__, false, enabled);
+  EXPECT_EQ (false, enabled);
   
   // Test setting a feature on and off.
   DatabasePrivileges::set_feature (username, 1234, true);
   enabled = DatabasePrivileges::get_feature (username, 1234);
-  evaluate (__LINE__, __func__, true, enabled);
+  EXPECT_EQ (true, enabled);
   DatabasePrivileges::set_feature (username, 1234, false);
   enabled = DatabasePrivileges::get_feature (username, 1234);
-  evaluate (__LINE__, __func__, false, enabled);
+  EXPECT_EQ (false, enabled);
 
   {
     // Test bulk privileges removal.
@@ -181,29 +182,29 @@ void test_database_privileges ()
     // Set privileges for user for Bible.
     DatabasePrivileges::set_bible (username, bible, false);
     int count = DatabasePrivileges::get_bible_book_count ();
-    evaluate (__LINE__, __func__, 1, count);
+    EXPECT_EQ (1, count);
     // Remove privileges for a Bible and check on them.
     DatabasePrivileges::remove_bible (bible);
     count = DatabasePrivileges::get_bible_book_count ();
-    evaluate (__LINE__, __func__, 0, count);
+    EXPECT_EQ (0, count);
     // Again, set privileges, and remove them by username.
     DatabasePrivileges::set_bible (username, bible, false);
     count = DatabasePrivileges::get_bible_book_count ();
-    evaluate (__LINE__, __func__, 1, count);
+    EXPECT_EQ (1, count);
     DatabasePrivileges::remove_user (username);
     count = DatabasePrivileges::get_bible_book_count ();
-    evaluate (__LINE__, __func__, 0, count);
+    EXPECT_EQ (0, count);
   }
   
   {
     // Set features for user.
     DatabasePrivileges::set_feature (username, 1234, true);
     enabled = DatabasePrivileges::get_feature (username, 1234);
-    evaluate (__LINE__, __func__, true, enabled);
+    EXPECT_EQ (true, enabled);
     // Remove features by username.
     DatabasePrivileges::remove_user (username);
     enabled = DatabasePrivileges::get_feature (username, 1234);
-    evaluate (__LINE__, __func__, false, enabled);
+    EXPECT_EQ (false, enabled);
   }
 
   {
@@ -223,17 +224,19 @@ void test_database_privileges ()
     "features_start\n"
     "1234\n"
     "features_start";
-    evaluate (__LINE__, __func__, privileges, DatabasePrivileges::save (username));
+    EXPECT_EQ (privileges, DatabasePrivileges::save (username));
     // Transfer the privileges to another user.
     string clientuser = username + "client";
     DatabasePrivileges::load (clientuser, privileges);
     // Check the privileges for that other user.
     auto [read, write] = DatabasePrivileges::get_bible (clientuser, bible);
-    evaluate (__LINE__, __func__, true, read);
-    evaluate (__LINE__, __func__, true, write);
+    EXPECT_EQ (true, read);
+    EXPECT_EQ (true, write);
     enabled = DatabasePrivileges::get_feature (username, 1234);
-    evaluate (__LINE__, __func__, true, enabled);
+    EXPECT_EQ (true, enabled);
   }
 }
 
+
+#endif
 

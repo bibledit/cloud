@@ -17,7 +17,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <unittests/html2usfm.h>
+#include <config/libraries.h>
+#ifdef HAVE_GTEST
+#include "gtest/gtest.h"
 #include <unittests/utilities.h>
 #include <database/state.h>
 #include <editor/html2usfm.h>
@@ -26,7 +28,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 using namespace std;
 
 
-void test_html2usfm ()
+TEST (editor, html2usfm)
 {
   trace_unit_tests (__func__);
   
@@ -43,7 +45,7 @@ void test_html2usfm ()
       editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
       editor_html2usfm.run ();
       string usfm = editor_html2usfm.get ();
-      evaluate (__LINE__, __func__, standard, usfm);
+      EXPECT_EQ (standard, usfm);
     }
     // The Quill library uses <span> only when needed, so remove them for testing.
     html = filter::strings::replace ("<span>", "", html);
@@ -54,7 +56,7 @@ void test_html2usfm ()
       editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
       editor_html2usfm.run ();
       string usfm = editor_html2usfm.get ();
-      evaluate (__LINE__, __func__, standard, usfm);
+      EXPECT_EQ (standard, usfm);
     }
   }
 
@@ -70,7 +72,7 @@ void test_html2usfm ()
     editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
     editor_html2usfm.run ();
     string usfm = editor_html2usfm.get ();
-    evaluate (__LINE__, __func__, standard, usfm);
+    EXPECT_EQ (standard, usfm);
   }
 
   // Test embedded <span> elements.
@@ -82,7 +84,7 @@ void test_html2usfm ()
     editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
     editor_html2usfm.run ();
     string usfm = editor_html2usfm.get ();
-    evaluate (__LINE__, __func__, standard, usfm);
+    EXPECT_EQ (standard, usfm);
   }
 
   // Basic note
@@ -99,7 +101,7 @@ void test_html2usfm ()
     editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
     editor_html2usfm.run ();
     string usfm = editor_html2usfm.get ();
-    evaluate (__LINE__, __func__, standard, usfm);
+    EXPECT_EQ (standard, usfm);
   }
 
   // Footnote with its body deleted.
@@ -118,7 +120,7 @@ void test_html2usfm ()
     editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
     editor_html2usfm.run ();
     string usfm = editor_html2usfm.get ();
-    evaluate (__LINE__, __func__, standard, usfm);
+    EXPECT_EQ (standard, usfm);
 
     // Clear message from logbook.
     refresh_sandbox (false);
@@ -138,7 +140,7 @@ void test_html2usfm ()
     editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
     editor_html2usfm.run ();
     string usfm = editor_html2usfm.get ();
-    evaluate (__LINE__, __func__, standard, usfm);
+    EXPECT_EQ (standard, usfm);
   }
 
   // Two words with character markup in sequence.
@@ -152,7 +154,7 @@ void test_html2usfm ()
     editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
     editor_html2usfm.run ();
     string usfm = editor_html2usfm.get ();
-    evaluate (__LINE__, __func__, standard, usfm);
+    EXPECT_EQ (standard, usfm);
   }
 
   // Regression test for issue https://github.com/bibledit/cloud/issues/444.
@@ -167,7 +169,7 @@ void test_html2usfm ()
     editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
     editor_html2usfm.run ();
     string output_usfm = editor_html2usfm.get ();
-    evaluate (__LINE__, __func__, standard_usfm, output_usfm);
+    EXPECT_EQ (standard_usfm, output_usfm);
   }
   {
     string standard_usfm = R"(\p text1\f + \ft note1\f* text2\f + \fk keyword2\ft text2\f* text3\f + note3\f*)";
@@ -177,7 +179,7 @@ void test_html2usfm ()
     editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
     editor_html2usfm.run ();
     string output_usfm = editor_html2usfm.get ();
-    evaluate (__LINE__, __func__, standard_usfm, output_usfm);
+    EXPECT_EQ (standard_usfm, output_usfm);
   }
   
   // Test that the converter to USFM removes the Quill caret class.
@@ -189,7 +191,7 @@ void test_html2usfm ()
     editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
     editor_html2usfm.run ();
     string output_usfm = editor_html2usfm.get ();
-    evaluate (__LINE__, __func__, standard_usfm, output_usfm);
+    EXPECT_EQ (standard_usfm, output_usfm);
   }
   
   // Text plus note but with some unexpected character before the notebody span.
@@ -210,7 +212,7 @@ void test_html2usfm ()
     editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
     editor_html2usfm.run ();
     string usfm = editor_html2usfm.get ();
-    evaluate (__LINE__, __func__, standard, usfm);
+    EXPECT_EQ (standard, usfm);
   }
   
   // Text plus note but with a deleted notes separator.
@@ -227,7 +229,7 @@ void test_html2usfm ()
     editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
     editor_html2usfm.run ();
     string usfm = editor_html2usfm.get ();
-    evaluate (__LINE__, __func__, standard, usfm);
+    EXPECT_EQ (standard, usfm);
   }
 
   // Check that it collapses only three spaces into two.
@@ -241,7 +243,7 @@ void test_html2usfm ()
       editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
       editor_html2usfm.run ();
       string usfm = editor_html2usfm.get ();
-      evaluate (__LINE__, __func__, standard, usfm);
+      EXPECT_EQ (standard, usfm);
     }
     // The Quill library uses <span> only when needed, so remove them for testing.
     html = filter::strings::replace ("<span>", "", html);
@@ -252,9 +254,12 @@ void test_html2usfm ()
       editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
       editor_html2usfm.run ();
       string usfm = editor_html2usfm.get ();
-      evaluate (__LINE__, __func__, standard, usfm);
+      EXPECT_EQ (standard, usfm);
     }
   }
 
   refresh_sandbox (true);
 }
+
+#endif
+

@@ -17,16 +17,16 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <unittests/hyphenate.h>
+#include <config/libraries.h>
+#ifdef HAVE_GTEST
+#include "gtest/gtest.h"
 #include <unittests/utilities.h>
 #include <manage/hyphenate.h>
 using namespace std;
 
 
-void test_hyphenate ()
+TEST (hyphenate, basic)
 {
-  trace_unit_tests (__func__);
-  
   vector <string> firstset = {"a", "e", "i", "o", "u"};
   vector <string> secondset = {"b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z"};
   string input =
@@ -36,5 +36,9 @@ void test_hyphenate ()
   string standard =
   "\\s \\nd UNku­lu­nku­lu\\nd* u\\add ba\\add*­xwa­yi­sa ngo­ku­lu­nga oku­ngo­kwa­ba­ntu 文字a­b化け\n"
   "\\s Uku­lu­nga oku­ku\\nd Kri­stu\\nd* אבa­bגד ku­yi­nzu­zo אבגד ab";
-  evaluate (__LINE__, __func__, standard, output);
+  EXPECT_EQ (standard, output);
 }
+
+
+#endif
+

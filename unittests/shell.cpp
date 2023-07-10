@@ -17,31 +17,34 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <unittests/shell.h>
+#include <config/libraries.h>
+#ifdef HAVE_GTEST
+#include "gtest/gtest.h"
 #include <unittests/utilities.h>
 #include <filter/shell.h>
 using namespace std;
 
 
-void test_shell ()
+TEST (filter, shell)
 {
-  trace_unit_tests (__func__);
-  
-  evaluate (__LINE__, __func__, true, filter_shell_is_present ("zip"));
-  evaluate (__LINE__, __func__, false, filter_shell_is_present ("xxxxx"));
+  EXPECT_EQ (true, filter_shell_is_present ("zip"));
+  EXPECT_EQ (false, filter_shell_is_present ("xxxxx"));
   
   string output;
   int result;
   
   result = filter_shell_vfork (output, "", "ls", "-l");
-  evaluate (__LINE__, __func__, 0, result);
+  EXPECT_EQ (0, result);
   if (output.find ("unittest") == string::npos) {
-    evaluate (__LINE__, __func__, "Supposed to list files", output);
+    EXPECT_EQ ("Supposed to list files", output);
   }
   
   result = filter_shell_vfork (output, "/", "ls", "-l");
-  evaluate (__LINE__, __func__, 0, result);
+  EXPECT_EQ (0, result);
   if (output.find ("tmp") == string::npos) {
-    evaluate (__LINE__, __func__, "Supposed to list folder /", output);
+    EXPECT_EQ ("Supposed to list folder /", output);
   }
 }
+
+#endif
+

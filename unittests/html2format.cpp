@@ -17,7 +17,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <unittests/html2format.h>
+#include <config/libraries.h>
+#ifdef HAVE_GTEST
+#include "gtest/gtest.h"
 #include <unittests/utilities.h>
 #include <database/state.h>
 #include <editor/html2format.h>
@@ -26,10 +28,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 using namespace std;
 
 
-void test_html2format ()
+TEST (html, format)
 {
-  trace_unit_tests (__func__);
-  
   refresh_sandbox (true);
   Database_State::create ();
 
@@ -42,8 +42,8 @@ void test_html2format ()
       Editor_Html2Format editor_html2format;
       editor_html2format.load (html);
       editor_html2format.run ();
-      evaluate (__LINE__, __func__, texts, editor_html2format.texts);
-      evaluate (__LINE__, __func__, formats, editor_html2format.formats);
+      EXPECT_EQ (texts, editor_html2format.texts);
+      EXPECT_EQ (formats, editor_html2format.formats);
     }
     // The Quill library uses <span> only when needed, so remove them for testing.
     html = filter::strings::replace ("<span>", "", html);
@@ -52,8 +52,8 @@ void test_html2format ()
       Editor_Html2Format editor_html2format;
       editor_html2format.load (html);
       editor_html2format.run ();
-      evaluate (__LINE__, __func__, texts, editor_html2format.texts);
-      evaluate (__LINE__, __func__, formats, editor_html2format.formats);
+      EXPECT_EQ (texts, editor_html2format.texts);
+      EXPECT_EQ (formats, editor_html2format.formats);
     }
   }
 
@@ -66,8 +66,8 @@ void test_html2format ()
       Editor_Html2Format editor_html2format;
       editor_html2format.load (html);
       editor_html2format.run ();
-      evaluate (__LINE__, __func__, texts, editor_html2format.texts);
-      evaluate (__LINE__, __func__, formats, editor_html2format.formats);
+      EXPECT_EQ (texts, editor_html2format.texts);
+      EXPECT_EQ (formats, editor_html2format.formats);
     }
     // Test Quill-based editor.
     html = filter::strings::replace ("<span>", "", html);
@@ -76,8 +76,8 @@ void test_html2format ()
       Editor_Html2Format editor_html2format;
       editor_html2format.load (html);
       editor_html2format.run ();
-      evaluate (__LINE__, __func__, texts, editor_html2format.texts);
-      evaluate (__LINE__, __func__, formats, editor_html2format.formats);
+      EXPECT_EQ (texts, editor_html2format.texts);
+      EXPECT_EQ (formats, editor_html2format.formats);
     }
   }
 
@@ -90,16 +90,16 @@ void test_html2format ()
       Editor_Html2Format editor_html2format;
       editor_html2format.load (html);
       editor_html2format.run ();
-      evaluate (__LINE__, __func__, texts, editor_html2format.texts);
-      evaluate (__LINE__, __func__, formats, editor_html2format.formats);
+      EXPECT_EQ (texts, editor_html2format.texts);
+      EXPECT_EQ (formats, editor_html2format.formats);
     }
     html = R"(<p class="p">The <span class="add"><span class="add0nd">Lord God</span> is calling you</span>.</p>)";
     {
       Editor_Html2Format editor_html2format;
       editor_html2format.load (html);
       editor_html2format.run ();
-      evaluate (__LINE__, __func__, texts, editor_html2format.texts);
-      evaluate (__LINE__, __func__, formats, editor_html2format.formats);
+      EXPECT_EQ (texts, editor_html2format.texts);
+      EXPECT_EQ (formats, editor_html2format.formats);
     }
   }
   
@@ -139,8 +139,8 @@ void test_html2format ()
       Editor_Html2Format editor_html2format;
       editor_html2format.load (html);
       editor_html2format.run ();
-      evaluate (__LINE__, __func__, texts, editor_html2format.texts);
-      evaluate (__LINE__, __func__, formats, editor_html2format.formats);
+      EXPECT_EQ (texts, editor_html2format.texts);
+      EXPECT_EQ (formats, editor_html2format.formats);
     }
   }
   
@@ -173,8 +173,8 @@ void test_html2format ()
     Editor_Html2Format editor_html2format;
     editor_html2format.load (html);
     editor_html2format.run ();
-    evaluate (__LINE__, __func__, texts, editor_html2format.texts);
-    evaluate (__LINE__, __func__, formats, editor_html2format.formats);
+    EXPECT_EQ (texts, editor_html2format.texts);
+    EXPECT_EQ (formats, editor_html2format.formats);
     // Clear message from logbook.
     refresh_sandbox (false);
   }
@@ -219,8 +219,8 @@ void test_html2format ()
       Editor_Html2Format editor_html2format;
       editor_html2format.load (html);
       editor_html2format.run ();
-      evaluate (__LINE__, __func__, texts, editor_html2format.texts);
-      evaluate (__LINE__, __func__, formats, editor_html2format.formats);
+      EXPECT_EQ (texts, editor_html2format.texts);
+      EXPECT_EQ (formats, editor_html2format.formats);
     }
   }
   
@@ -249,8 +249,8 @@ void test_html2format ()
       Editor_Html2Format editor_html2format;
       editor_html2format.load (html);
       editor_html2format.run ();
-      evaluate (__LINE__, __func__, texts, editor_html2format.texts);
-      evaluate (__LINE__, __func__, formats, editor_html2format.formats);
+      EXPECT_EQ (texts, editor_html2format.texts);
+      EXPECT_EQ (formats, editor_html2format.formats);
     }
     {
       string html = R"(<p class="b-p"><span>Praise </span><span class="i-add">Yahweh</span><span> <span class="i-add">all</span> you nations!</span></p>)";
@@ -273,8 +273,8 @@ void test_html2format ()
       Editor_Html2Format editor_html2format;
       editor_html2format.load (html);
       editor_html2format.run ();
-      evaluate (__LINE__, __func__, texts, editor_html2format.texts);
-      evaluate (__LINE__, __func__, formats, editor_html2format.formats);
+      EXPECT_EQ (texts, editor_html2format.texts);
+      EXPECT_EQ (formats, editor_html2format.formats);
     }
   }
   
@@ -302,8 +302,8 @@ void test_html2format ()
     Editor_Html2Format editor_html2format;
     editor_html2format.load (html);
     editor_html2format.run ();
-    evaluate (__LINE__, __func__, texts, editor_html2format.texts);
-    evaluate (__LINE__, __func__, formats, editor_html2format.formats);
+    EXPECT_EQ (texts, editor_html2format.texts);
+    EXPECT_EQ (formats, editor_html2format.formats);
   }
 
   // Test that it changes three or more spaces in sequence to two spaces.
@@ -315,8 +315,8 @@ void test_html2format ()
       Editor_Html2Format editor_html2format;
       editor_html2format.load (html);
       editor_html2format.run ();
-      evaluate (__LINE__, __func__, texts, editor_html2format.texts);
-      evaluate (__LINE__, __func__, formats, editor_html2format.formats);
+      EXPECT_EQ (texts, editor_html2format.texts);
+      EXPECT_EQ (formats, editor_html2format.formats);
     }
     // The Quill library uses <span> only when needed, so remove them for testing.
     html = filter::strings::replace ("<span>", "", html);
@@ -325,10 +325,13 @@ void test_html2format ()
       Editor_Html2Format editor_html2format;
       editor_html2format.load (html);
       editor_html2format.run ();
-      evaluate (__LINE__, __func__, texts, editor_html2format.texts);
-      evaluate (__LINE__, __func__, formats, editor_html2format.formats);
+      EXPECT_EQ (texts, editor_html2format.texts);
+      EXPECT_EQ (formats, editor_html2format.formats);
     }
   }
 
   refresh_sandbox (true);
 }
+
+#endif
+

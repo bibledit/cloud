@@ -17,7 +17,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <unittests/client.h>
+#include <config/libraries.h>
+#ifdef HAVE_GTEST
+#include "gtest/gtest.h"
 #include <unittests/utilities.h>
 #include <client/logic.h>
 #include <database/logic.h>
@@ -25,26 +27,24 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 using namespace std;
 
 
-void test_client ()
+TEST (client, basic)
 {
-  trace_unit_tests (__func__);
-  
   refresh_sandbox (true);
   
   // Test client enabled logic.
   {
     bool enabled = client_logic_client_enabled ();
-    evaluate (__LINE__, __func__, false, enabled);
+    EXPECT_EQ (false, enabled);
     client_logic_enable_client (true);
     // When a client is disabled in config.h, it remains disabled, no matter the setting in the database.
     // It means that this unit test depends on client mode to be off in ./configure.
     enabled = client_logic_client_enabled ();
 #ifndef HAVE_CLIENT
-    evaluate (__LINE__, __func__, false, enabled);
+    EXPECT_EQ (false, enabled);
 #endif
     client_logic_enable_client (false);
     enabled = client_logic_client_enabled ();
-    evaluate (__LINE__, __func__, false, enabled);
+    EXPECT_EQ (false, enabled);
   }
 
   // Test create consultation note encoding and decoding.
@@ -59,52 +59,54 @@ void test_client ()
     "0\n"
     "line1\n"
     "line2";
-    evaluate (__LINE__, __func__, standard, data);
+    EXPECT_EQ (standard, data);
 
     string bible;
     int book, chapter, verse;
     string summary, contents;
     bool raw;
     client_logic_create_note_decode (standard, bible, book, chapter, verse, summary, contents, raw);
-    evaluate (__LINE__, __func__, "bible", bible);
-    evaluate (__LINE__, __func__, 1, book);
-    evaluate (__LINE__, __func__, 2, chapter);
-    evaluate (__LINE__, __func__, 3, verse);
-    evaluate (__LINE__, __func__, "summary", summary);
-    evaluate (__LINE__, __func__, false, raw);
+    EXPECT_EQ ("bible", bible);
+    EXPECT_EQ (1, book);
+    EXPECT_EQ (2, chapter);
+    EXPECT_EQ (3, verse);
+    EXPECT_EQ ("summary", summary);
+    EXPECT_EQ (false, raw);
     standard =
     "line1\n"
     "line2";
-    evaluate (__LINE__, __func__, standard, contents);
+    EXPECT_EQ (standard, contents);
   }
   
   // Testing logic for resources not to cache.
   {
     string path = client_logic_no_cache_resources_path ();
     string standard = filter_url_create_root_path ({"databases", "client", "no_cache_resources.txt"});
-    evaluate (__LINE__, __func__, standard, path);
+    EXPECT_EQ (standard, path);
     
     vector <string> resources = client_logic_no_cache_resources_get ();
-    evaluate (__LINE__, __func__, {}, resources);
+    EXPECT_EQ (vector <string>{}, resources);
 
     string name1 = "comparative test";
     string name2 = "comparative greek";
 
     client_logic_no_cache_resource_add (name1);
     resources = client_logic_no_cache_resources_get ();
-    evaluate (__LINE__, __func__, {name1}, resources);
+    EXPECT_EQ (vector <string>{name1}, resources);
 
     client_logic_no_cache_resource_add (name2);
     resources = client_logic_no_cache_resources_get ();
-    evaluate (__LINE__, __func__, {name1, name2}, resources);
+    EXPECT_EQ ((vector <string>{name1, name2}), resources);
 
     client_logic_no_cache_resource_remove (name1);
     resources = client_logic_no_cache_resources_get ();
-    evaluate (__LINE__, __func__, {name2}, resources);
+    EXPECT_EQ (vector <string>{name2}, resources);
 
     client_logic_no_cache_resource_remove (name2);
     resources = client_logic_no_cache_resources_get ();
-    evaluate (__LINE__, __func__, {}, resources);
+    EXPECT_EQ (vector <string>{}, resources);
   }
   
 }
+
+#endif

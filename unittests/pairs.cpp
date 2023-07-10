@@ -17,26 +17,26 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <unittests/pairs.h>
+#include <config/libraries.h>
+#ifdef HAVE_GTEST
+#include "gtest/gtest.h"
 #include <unittests/utilities.h>
 #include <database/check.h>
 #include <checks/pairs.h>
 using namespace std;
 
 
-void test_pairs ()
+TEST (checks, pairs)
 {
-  trace_unit_tests (__func__);
-  
   refresh_sandbox (true);
   Database_Check database_check;
   database_check.create ();
   
-  string bible = "bible";
-  int book = 2;
-  int chapter = 3;
+  const string bible = "bible";
+  const int book = 2;
+  const int chapter = 3;
   map <int, string> verses;
-  vector <pair <string, string> > pairs = {
+  const vector <pair <string, string> > pairs = {
     pair ("[", "]"),
     pair ("(", ")"),
     pair ("“", "”"),
@@ -51,7 +51,7 @@ void test_pairs ()
     };
     checks_pairs::run (bible, book, chapter, verses, pairs, false);
     results = database_check.getHits ();
-    evaluate (__LINE__, __func__, 0, results.size());
+    EXPECT_EQ (0, results.size());
     database_check.truncateOutput ("");
   }
 
@@ -63,7 +63,7 @@ void test_pairs ()
     };
     checks_pairs::run (bible, book, chapter, verses, pairs, false);
     results = database_check.getHits ();
-    evaluate (__LINE__, __func__, 0, results.size());
+    EXPECT_EQ (0, results.size());
     database_check.truncateOutput ("");
   }
 
@@ -75,17 +75,17 @@ void test_pairs ()
     };
     checks_pairs::run (bible, book, chapter, verses, pairs, false);
     results = database_check.getHits ();
-    evaluate (__LINE__, __func__, 2, results.size());
+    EXPECT_EQ (2, results.size());
     if (results.size () == 2) {
       Database_Check_Hit hit = results[0];
-      evaluate (__LINE__, __func__, 1, hit.rowid);
-      evaluate (__LINE__, __func__, bible, hit.bible);
-      evaluate (__LINE__, __func__, book, hit.book);
-      evaluate (__LINE__, __func__, chapter, hit.chapter);
-      evaluate (__LINE__, __func__, 2, hit.verse);
-      evaluate (__LINE__, __func__, R"(Opening character "[" without its matching closing character "]")", hit.data);
+      EXPECT_EQ (1, hit.rowid);
+      EXPECT_EQ (bible, hit.bible);
+      EXPECT_EQ (book, hit.book);
+      EXPECT_EQ (chapter, hit.chapter);
+      EXPECT_EQ (2, hit.verse);
+      EXPECT_EQ (R"(Opening character "[" without its matching closing character "]")", hit.data);
       hit = results[1];
-      evaluate (__LINE__, __func__, "Opening character \"(\" without its matching closing character \")\"", hit.data);
+      EXPECT_EQ ("Opening character \"(\" without its matching closing character \")\"", hit.data);
     }
     database_check.truncateOutput ("");
   }
@@ -98,19 +98,22 @@ void test_pairs ()
     };
     checks_pairs::run (bible, book, chapter, verses, pairs, false);
     results = database_check.getHits ();
-    evaluate (__LINE__, __func__, 2, results.size());
+    EXPECT_EQ (2, results.size());
     if (results.size () == 2) {
       Database_Check_Hit hit = results[0];
-      evaluate (__LINE__, __func__, 1, hit.rowid);
-      evaluate (__LINE__, __func__, bible, hit.bible);
-      evaluate (__LINE__, __func__, book, hit.book);
-      evaluate (__LINE__, __func__, chapter, hit.chapter);
-      evaluate (__LINE__, __func__, 4, hit.verse);
-      evaluate (__LINE__, __func__, "Closing character \")\" without its matching opening character \"(\"", hit.data);
+      EXPECT_EQ (1, hit.rowid);
+      EXPECT_EQ (bible, hit.bible);
+      EXPECT_EQ (book, hit.book);
+      EXPECT_EQ (chapter, hit.chapter);
+      EXPECT_EQ (4, hit.verse);
+      EXPECT_EQ ("Closing character \")\" without its matching opening character \"(\"", hit.data);
       hit = results[1];
-      evaluate (__LINE__, __func__, 2, hit.verse);
-      evaluate (__LINE__, __func__, R"(Opening character "[" without its matching closing character "]")", hit.data);
+      EXPECT_EQ (2, hit.verse);
+      EXPECT_EQ (R"(Opening character "[" without its matching closing character "]")", hit.data);
     }
     database_check.truncateOutput ("");
   }
 }
+
+#endif
+

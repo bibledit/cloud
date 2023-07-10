@@ -17,16 +17,19 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <unittests/roles.h>
+#include <config/libraries.h>
+#ifdef HAVE_GTEST
+#include "gtest/gtest.h"
 #include <unittests/utilities.h>
 #include <filter/roles.h>
 
 
-void test_roles ()
+TEST (filter, roles)
 {
-  trace_unit_tests (__func__);
-  
   // Filter_Roles.
-  evaluate (__LINE__, __func__, 3, Filter_Roles::consultant ());
-  evaluate (__LINE__, __func__, 1, Filter_Roles::lowest ());
+  EXPECT_EQ (3, Filter_Roles::consultant ());
+  EXPECT_EQ (1, Filter_Roles::lowest ());
 }
+
+#endif
+

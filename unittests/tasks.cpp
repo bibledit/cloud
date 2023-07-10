@@ -17,26 +17,29 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <unittests/tasks.h>
+#include <config/libraries.h>
+#ifdef HAVE_GTEST
+#include "gtest/gtest.h"
 #include <unittests/utilities.h>
 #include <tasks/logic.h>
 
 
-void test_tasks_logic ()
+TEST (tasks, logic)
 {
-  trace_unit_tests (__func__);
-  
   refresh_sandbox (true);
   tasks_logic_queue ("task1");
   tasks_logic_queue ("task3");
   tasks_logic_queue ("task4", { "parameter1", "parameter2" });
-  evaluate (__LINE__, __func__, true, tasks_logic_queued ("task1"));
-  evaluate (__LINE__, __func__, false, tasks_logic_queued ("task2"));
-  evaluate (__LINE__, __func__, false, tasks_logic_queued ("task1", { "parameter" }));
-  evaluate (__LINE__, __func__, true, tasks_logic_queued ("task4"));
-  evaluate (__LINE__, __func__, true, tasks_logic_queued ("task4", { "parameter1" }));
-  evaluate (__LINE__, __func__, true, tasks_logic_queued ("task4", { "parameter1", "parameter2" }));
-  evaluate (__LINE__, __func__, false, tasks_logic_queued ("task4", { "parameter1", "parameter3" }));
-  evaluate (__LINE__, __func__, false, tasks_logic_queued ("task4", { "parameter2" }));
+  EXPECT_EQ (true, tasks_logic_queued ("task1"));
+  EXPECT_EQ (false, tasks_logic_queued ("task2"));
+  EXPECT_EQ (false, tasks_logic_queued ("task1", { "parameter" }));
+  EXPECT_EQ (true, tasks_logic_queued ("task4"));
+  EXPECT_EQ (true, tasks_logic_queued ("task4", { "parameter1" }));
+  EXPECT_EQ (true, tasks_logic_queued ("task4", { "parameter1", "parameter2" }));
+  EXPECT_EQ (false, tasks_logic_queued ("task4", { "parameter1", "parameter3" }));
+  EXPECT_EQ (false, tasks_logic_queued ("task4", { "parameter2" }));
   
 }
+
+#endif
+

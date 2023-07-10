@@ -17,18 +17,18 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <unittests/odf.h>
+#include <config/libraries.h>
+#ifdef HAVE_GTEST
+#include "gtest/gtest.h"
 #include <unittests/utilities.h>
 #include <database/navigation.h>
 #include <filter/date.h>
 using namespace std;
 
 
-void test_database_navigation ()
+TEST (database, navigation)
 {
-  trace_unit_tests (__func__);
-  
-  string user = "user";
+  const string user = "user";
   
   {
     refresh_sandbox (true);
@@ -49,14 +49,14 @@ void test_database_navigation ()
     // As a result there should be no previous entry.
     database.record (time, user, 1, 2, 3);
     bool previous = database.previous_exists (user);
-    evaluate (__LINE__, __func__, false, previous);
+    EXPECT_EQ (false, previous);
     
     // Record another entry, with the same time.
     // This should remove the already existing entry.
     // As a result there should be no previous entry.
     database.record (time, user, 4, 5, 6);
     previous = database.previous_exists (user);
-    evaluate (__LINE__, __func__, false, previous);
+    EXPECT_EQ (false, previous);
     
     // Record another entry 4 seconds later.
     // This should remove the already existing entry.
@@ -64,7 +64,7 @@ void test_database_navigation ()
     time += 4;
     database.record (time, user, 4, 5, 6);
     previous = database.previous_exists (user);
-    evaluate (__LINE__, __func__, false, previous);
+    EXPECT_EQ (false, previous);
     
     // Record another entry 5 seconds later.
     // This should remove the already existing entry.
@@ -72,7 +72,7 @@ void test_database_navigation ()
     time += 5;
     database.record (time, user, 4, 5, 6);
     previous = database.previous_exists (user);
-    evaluate (__LINE__, __func__, false, previous);
+    EXPECT_EQ (false, previous);
     
     // Record another entry 6 seconds later.
     // This should not remove the already existing entry.
@@ -80,7 +80,7 @@ void test_database_navigation ()
     time += 6;
     database.record (time, user, 4, 5, 6);
     previous = database.previous_exists (user);
-    evaluate (__LINE__, __func__, true, previous);
+    EXPECT_EQ (true, previous);
   }
   
   {
@@ -95,9 +95,9 @@ void test_database_navigation ()
     database.record (time, user, 4, 5, 6);
     // Get previous entry, which should be the first one entered.
     Passage passage = database.get_previous (user);
-    evaluate (__LINE__, __func__, 1, passage.m_book);
-    evaluate (__LINE__, __func__, 2, passage.m_chapter);
-    evaluate (__LINE__, __func__, "3", passage.m_verse);
+    EXPECT_EQ (1, passage.m_book);
+    EXPECT_EQ (2, passage.m_chapter);
+    EXPECT_EQ ("3", passage.m_verse);
   }
   
   {
@@ -112,9 +112,9 @@ void test_database_navigation ()
     database.record (time, user, 4, 5, 6);
     // Get previous entry for another user: It should not be there.
     Passage passage = database.get_previous (user + "2");
-    evaluate (__LINE__, __func__, 0, passage.m_book);
-    evaluate (__LINE__, __func__, 0, passage.m_chapter);
-    evaluate (__LINE__, __func__, "", passage.m_verse);
+    EXPECT_EQ (0, passage.m_book);
+    EXPECT_EQ (0, passage.m_chapter);
+    EXPECT_EQ ("", passage.m_verse);
   }
   
   {
@@ -131,9 +131,9 @@ void test_database_navigation ()
     database.record (time, user, 7, 8, 9);
     // Get previous entry, which should be the second one entered.
     Passage passage = database.get_previous (user);
-    evaluate (__LINE__, __func__, 4, passage.m_book);
-    evaluate (__LINE__, __func__, 5, passage.m_chapter);
-    evaluate (__LINE__, __func__, "6", passage.m_verse);
+    EXPECT_EQ (4, passage.m_book);
+    EXPECT_EQ (5, passage.m_chapter);
+    EXPECT_EQ ("6", passage.m_verse);
   }
   
   {
@@ -154,9 +154,9 @@ void test_database_navigation ()
     database.record (time, user, 13, 14, 15);
     // Get previous entry, which should be the last but one passage recorded.
     Passage passage = database.get_previous (user);
-    evaluate (__LINE__, __func__, 10, passage.m_book);
-    evaluate (__LINE__, __func__, 11, passage.m_chapter);
-    evaluate (__LINE__, __func__, "12", passage.m_verse);
+    EXPECT_EQ (10, passage.m_book);
+    EXPECT_EQ (11, passage.m_chapter);
+    EXPECT_EQ ("12", passage.m_verse);
   }
   
   {
@@ -165,9 +165,9 @@ void test_database_navigation ()
     database.create ();
     // There should be no next passage.
     Passage passage = database.get_next (user);
-    evaluate (__LINE__, __func__, 0, passage.m_book);
-    evaluate (__LINE__, __func__, 0, passage.m_chapter);
-    evaluate (__LINE__, __func__, "", passage.m_verse);
+    EXPECT_EQ (0, passage.m_book);
+    EXPECT_EQ (0, passage.m_chapter);
+    EXPECT_EQ ("", passage.m_verse);
   }
   
   {
@@ -187,9 +187,9 @@ void test_database_navigation ()
     time += 6;
     database.record (time, user, 1, 2, 3);
     Passage passage = database.get_next (user);
-    evaluate (__LINE__, __func__, 0, passage.m_book);
-    evaluate (__LINE__, __func__, 0, passage.m_chapter);
-    evaluate (__LINE__, __func__, "", passage.m_verse);
+    EXPECT_EQ (0, passage.m_book);
+    EXPECT_EQ (0, passage.m_chapter);
+    EXPECT_EQ ("", passage.m_verse);
   }
   
   {
@@ -203,39 +203,39 @@ void test_database_navigation ()
     database.record (time, user, 4, 5, 6);
     // Next entry is not there.
     Passage passage = database.get_next (user);
-    evaluate (__LINE__, __func__, 0, passage.m_book);
-    evaluate (__LINE__, __func__, 0, passage.m_chapter);
-    evaluate (__LINE__, __func__, "", passage.m_verse);
+    EXPECT_EQ (0, passage.m_book);
+    EXPECT_EQ (0, passage.m_chapter);
+    EXPECT_EQ ("", passage.m_verse);
     // Previous entry should be there.
     passage = database.get_previous (user);
-    evaluate (__LINE__, __func__, 1, passage.m_book);
-    evaluate (__LINE__, __func__, 2, passage.m_chapter);
-    evaluate (__LINE__, __func__, "3", passage.m_verse);
+    EXPECT_EQ (1, passage.m_book);
+    EXPECT_EQ (2, passage.m_chapter);
+    EXPECT_EQ ("3", passage.m_verse);
     // Next entry should be there since we moved to the previous one.
     passage = database.get_next (user);
-    evaluate (__LINE__, __func__, 4, passage.m_book);
-    evaluate (__LINE__, __func__, 5, passage.m_chapter);
-    evaluate (__LINE__, __func__, "6", passage.m_verse);
+    EXPECT_EQ (4, passage.m_book);
+    EXPECT_EQ (5, passage.m_chapter);
+    EXPECT_EQ ("6", passage.m_verse);
     // Previous entry should be there.
     passage = database.get_previous (user);
-    evaluate (__LINE__, __func__, 1, passage.m_book);
-    evaluate (__LINE__, __func__, 2, passage.m_chapter);
-    evaluate (__LINE__, __func__, "3", passage.m_verse);
+    EXPECT_EQ (1, passage.m_book);
+    EXPECT_EQ (2, passage.m_chapter);
+    EXPECT_EQ ("3", passage.m_verse);
     // Previous entry before previous entry should not be there.
     passage = database.get_previous (user);
-    evaluate (__LINE__, __func__, 0, passage.m_book);
-    evaluate (__LINE__, __func__, 0, passage.m_chapter);
-    evaluate (__LINE__, __func__, "", passage.m_verse);
+    EXPECT_EQ (0, passage.m_book);
+    EXPECT_EQ (0, passage.m_chapter);
+    EXPECT_EQ ("", passage.m_verse);
     // Next entry should be there since we moved to the previous one.
     passage = database.get_next (user);
-    evaluate (__LINE__, __func__, 4, passage.m_book);
-    evaluate (__LINE__, __func__, 5, passage.m_chapter);
-    evaluate (__LINE__, __func__, "6", passage.m_verse);
+    EXPECT_EQ (4, passage.m_book);
+    EXPECT_EQ (5, passage.m_chapter);
+    EXPECT_EQ ("6", passage.m_verse);
     // The entry next to the next entry should not be there.
     passage = database.get_next (user);
-    evaluate (__LINE__, __func__, 0, passage.m_book);
-    evaluate (__LINE__, __func__, 0, passage.m_chapter);
-    evaluate (__LINE__, __func__, "", passage.m_verse);
+    EXPECT_EQ (0, passage.m_book);
+    EXPECT_EQ (0, passage.m_chapter);
+    EXPECT_EQ ("", passage.m_verse);
   }
   
   {
@@ -261,37 +261,37 @@ void test_database_navigation ()
     // They should be in reverse order of entry.
     // The entries for the other user should not be in the retrieved history.
     passages = database.get_history(user, -1);
-    evaluate (__LINE__, __func__, 2, passages.size());
+    EXPECT_EQ (2, passages.size());
     if (passages.size() == 2) {
-      evaluate (__LINE__, __func__, 4, passages[0].m_book);
-      evaluate (__LINE__, __func__, 5, passages[0].m_chapter);
-      evaluate (__LINE__, __func__, "6", passages[0].m_verse);
-      evaluate (__LINE__, __func__, 1, passages[1].m_book);
-      evaluate (__LINE__, __func__, 2, passages[1].m_chapter);
-      evaluate (__LINE__, __func__, "3", passages[1].m_verse);
+      EXPECT_EQ (4, passages[0].m_book);
+      EXPECT_EQ (5, passages[0].m_chapter);
+      EXPECT_EQ ("6", passages[0].m_verse);
+      EXPECT_EQ (1, passages[1].m_book);
+      EXPECT_EQ (2, passages[1].m_chapter);
+      EXPECT_EQ ("3", passages[1].m_verse);
     }
     
     // At this stage there should not yet be any forward history.
     passages = database.get_history(user, 1);
-    evaluate (__LINE__, __func__, 0, passages.size());
+    EXPECT_EQ (0, passages.size());
     
     // Go backwards one step.
     // As a result there should be one history item going back.
     // And one history item going forward.
     database.get_previous(user);
     passages = database.get_history(user, -1);
-    evaluate (__LINE__, __func__, 1, passages.size());
+    EXPECT_EQ (1, passages.size());
     if (passages.size() == 1) {
-      evaluate (__LINE__, __func__, 1, passages[0].m_book);
-      evaluate (__LINE__, __func__, 2, passages[0].m_chapter);
-      evaluate (__LINE__, __func__, "3", passages[0].m_verse);
+      EXPECT_EQ (1, passages[0].m_book);
+      EXPECT_EQ (2, passages[0].m_chapter);
+      EXPECT_EQ ("3", passages[0].m_verse);
     }
     passages = database.get_history(user, 1);
-    evaluate (__LINE__, __func__, 1, passages.size());
+    EXPECT_EQ (1, passages.size());
     if (passages.size() == 1) {
-      evaluate (__LINE__, __func__, 7, passages[0].m_book);
-      evaluate (__LINE__, __func__, 8, passages[0].m_chapter);
-      evaluate (__LINE__, __func__, "9", passages[0].m_verse);
+      EXPECT_EQ (7, passages[0].m_book);
+      EXPECT_EQ (8, passages[0].m_chapter);
+      EXPECT_EQ ("9", passages[0].m_verse);
     }
 
     // Go backwards yet another step.
@@ -299,18 +299,18 @@ void test_database_navigation ()
     // There should now be two forward history items available.
     database.get_previous(user);
     passages = database.get_history(user, -1);
-    evaluate (__LINE__, __func__, 0, passages.size());
+    EXPECT_EQ (0, passages.size());
     if (passages.size() == 1) {
     }
     passages = database.get_history(user, 1);
-    evaluate (__LINE__, __func__, 2, passages.size());
+    EXPECT_EQ (2, passages.size());
     if (passages.size() == 2) {
-      evaluate (__LINE__, __func__, 4, passages[0].m_book);
-      evaluate (__LINE__, __func__, 5, passages[0].m_chapter);
-      evaluate (__LINE__, __func__, "6", passages[0].m_verse);
-      evaluate (__LINE__, __func__, 7, passages[1].m_book);
-      evaluate (__LINE__, __func__, 8, passages[1].m_chapter);
-      evaluate (__LINE__, __func__, "9", passages[1].m_verse);
+      EXPECT_EQ (4, passages[0].m_book);
+      EXPECT_EQ (5, passages[0].m_chapter);
+      EXPECT_EQ ("6", passages[0].m_verse);
+      EXPECT_EQ (7, passages[1].m_book);
+      EXPECT_EQ (8, passages[1].m_chapter);
+      EXPECT_EQ ("9", passages[1].m_verse);
     }
   }
 
@@ -330,7 +330,7 @@ void test_database_navigation ()
     }
     database.trim ();
     passages = database.get_history(user, -1);
-    evaluate (__LINE__, __func__, 4, passages.size());
+    EXPECT_EQ (4, passages.size());
   }
   // Test trimming the navigation database.
   {
@@ -346,7 +346,7 @@ void test_database_navigation ()
       database.record(time + (10 * i) - (15 * 24 * 3600), user, 1, 2, 3);
     }
     passages = database.get_history(user, -1);
-    evaluate (__LINE__, __func__, 4, passages.size());
+    EXPECT_EQ (4, passages.size());
     // 2. Trim the database.
     // 3. Add two new ones.
     // Check the passages are gone now.
@@ -355,7 +355,9 @@ void test_database_navigation ()
       database.record(time + (10 * i), user, 1, 2, 3);
     }
     passages = database.get_history(user, -1);
-    evaluate (__LINE__, __func__, 1, passages.size());
+    EXPECT_EQ (1, passages.size());
   }
 
 }
+
+#endif

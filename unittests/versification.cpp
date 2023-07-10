@@ -17,7 +17,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <unittests/versification.h>
+#include <config/libraries.h>
+#ifdef HAVE_GTEST
+#include "gtest/gtest.h"
 #include <unittests/utilities.h>
 #include <database/versifications.h>
 #include <database/check.h>
@@ -27,9 +29,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 using namespace std;
 
 
-void test_versification ()
+TEST (versification, basic )
 {
-  trace_unit_tests (__func__);
   
   // Test the available books.
   {
@@ -43,15 +44,15 @@ void test_versification ()
     vector <int> fault = filter::strings::array_diff (books, {10});
     checks_versification::books ("Bible", fault);
     vector <Database_Check_Hit> results = database_check.getHits ();
-    evaluate (__LINE__, __func__, 1, static_cast<int>(results.size()));
+    EXPECT_EQ (1, static_cast<int>(results.size()));
     if (results.size ()) {
       Database_Check_Hit hit = results[0];
-      evaluate (__LINE__, __func__, 1, hit.rowid);
-      evaluate (__LINE__, __func__, "Bible", hit.bible);
-      evaluate (__LINE__, __func__, 10, hit.book);
-      evaluate (__LINE__, __func__, 1, hit.chapter);
-      evaluate (__LINE__, __func__, 1, hit.verse);
-      evaluate (__LINE__, __func__, "This book is absent from the Bible", hit.data);
+      EXPECT_EQ (1, hit.rowid);
+      EXPECT_EQ ("Bible", hit.bible);
+      EXPECT_EQ (10, hit.book);
+      EXPECT_EQ (1, hit.chapter);
+      EXPECT_EQ (1, hit.verse);
+      EXPECT_EQ ("This book is absent from the Bible", hit.data);
     }
   }
   
@@ -73,22 +74,22 @@ void test_versification ()
 
     // Verify results.
     vector <Database_Check_Hit> results = database_check.getHits ();
-    evaluate (__LINE__, __func__, 2, static_cast<int>(results.size()));
+    EXPECT_EQ (2, static_cast<int>(results.size()));
     if (results.size () == 2) {
       Database_Check_Hit hit = results[0];
-      evaluate (__LINE__, __func__, 1, hit.rowid);
-      evaluate (__LINE__, __func__, "Bible", hit.bible);
-      evaluate (__LINE__, __func__, 8, hit.book);
-      evaluate (__LINE__, __func__, 1, hit.chapter);
-      evaluate (__LINE__, __func__, 1, hit.verse);
-      evaluate (__LINE__, __func__, "This chapter is missing", hit.data);
+      EXPECT_EQ (1, hit.rowid);
+      EXPECT_EQ ("Bible", hit.bible);
+      EXPECT_EQ (8, hit.book);
+      EXPECT_EQ (1, hit.chapter);
+      EXPECT_EQ (1, hit.verse);
+      EXPECT_EQ ("This chapter is missing", hit.data);
       hit = results[1];
-      evaluate (__LINE__, __func__, 2, hit.rowid);
-      evaluate (__LINE__, __func__, "Bible", hit.bible);
-      evaluate (__LINE__, __func__, 8, hit.book);
-      evaluate (__LINE__, __func__, 5, hit.chapter);
-      evaluate (__LINE__, __func__, 1, hit.verse);
-      evaluate (__LINE__, __func__, "This chapter is extra", hit.data);
+      EXPECT_EQ (2, hit.rowid);
+      EXPECT_EQ ("Bible", hit.bible);
+      EXPECT_EQ (8, hit.book);
+      EXPECT_EQ (5, hit.chapter);
+      EXPECT_EQ (1, hit.verse);
+      EXPECT_EQ ("This chapter is extra", hit.data);
     }
   }
 
@@ -112,36 +113,36 @@ void test_versification ()
 
     // Verify results.
     vector <Database_Check_Hit> results = database_check.getHits ();
-    evaluate (__LINE__, __func__, 4, static_cast<int>(results.size()));
+    EXPECT_EQ (4, static_cast<int>(results.size()));
     if (results.size () == 4) {
       Database_Check_Hit hit = results[0];
-      evaluate (__LINE__, __func__, 1, hit.rowid);
-      evaluate (__LINE__, __func__, "Bible", hit.bible);
-      evaluate (__LINE__, __func__, 8, hit.book);
-      evaluate (__LINE__, __func__, 1, hit.chapter);
-      evaluate (__LINE__, __func__, 1, hit.verse);
-      evaluate (__LINE__, __func__, "This verse is missing according to the versification system", hit.data);
+      EXPECT_EQ (1, hit.rowid);
+      EXPECT_EQ ("Bible", hit.bible);
+      EXPECT_EQ (8, hit.book);
+      EXPECT_EQ (1, hit.chapter);
+      EXPECT_EQ (1, hit.verse);
+      EXPECT_EQ ("This verse is missing according to the versification system", hit.data);
       hit = results[1];
-      evaluate (__LINE__, __func__, 2, hit.rowid);
-      evaluate (__LINE__, __func__, "Bible", hit.bible);
-      evaluate (__LINE__, __func__, 8, hit.book);
-      evaluate (__LINE__, __func__, 1, hit.chapter);
-      evaluate (__LINE__, __func__, 24, hit.verse);
-      evaluate (__LINE__, __func__, "This verse is extra according to the versification system", hit.data);
+      EXPECT_EQ (2, hit.rowid);
+      EXPECT_EQ ("Bible", hit.bible);
+      EXPECT_EQ (8, hit.book);
+      EXPECT_EQ (1, hit.chapter);
+      EXPECT_EQ (24, hit.verse);
+      EXPECT_EQ ("This verse is extra according to the versification system", hit.data);
       hit = results[2];
-      evaluate (__LINE__, __func__, 3, hit.rowid);
-      evaluate (__LINE__, __func__, "Bible", hit.bible);
-      evaluate (__LINE__, __func__, 8, hit.book);
-      evaluate (__LINE__, __func__, 1, hit.chapter);
-      evaluate (__LINE__, __func__, 2, hit.verse);
-      evaluate (__LINE__, __func__, "The verse is out of sequence", hit.data);
+      EXPECT_EQ (3, hit.rowid);
+      EXPECT_EQ ("Bible", hit.bible);
+      EXPECT_EQ (8, hit.book);
+      EXPECT_EQ (1, hit.chapter);
+      EXPECT_EQ (2, hit.verse);
+      EXPECT_EQ ("The verse is out of sequence", hit.data);
       hit = results[3];
-      evaluate (__LINE__, __func__, 4, hit.rowid);
-      evaluate (__LINE__, __func__, "Bible", hit.bible);
-      evaluate (__LINE__, __func__, 8, hit.book);
-      evaluate (__LINE__, __func__, 1, hit.chapter);
-      evaluate (__LINE__, __func__, 24, hit.verse);
-      evaluate (__LINE__, __func__, "The verse is out of sequence", hit.data);
+      EXPECT_EQ (4, hit.rowid);
+      EXPECT_EQ ("Bible", hit.bible);
+      EXPECT_EQ (8, hit.book);
+      EXPECT_EQ (1, hit.chapter);
+      EXPECT_EQ (24, hit.verse);
+      EXPECT_EQ ("The verse is out of sequence", hit.data);
     }
   }
 
@@ -166,35 +167,35 @@ void test_versification ()
     
     // Verify results.
     vector <Database_Check_Hit> results = database_check.getHits ();
-    evaluate (__LINE__, __func__, 3, static_cast<int>(results.size()));
+    EXPECT_EQ (3, static_cast<int>(results.size()));
     if (results.size () == 3) {
       Database_Check_Hit hit = results[0];
-      evaluate (__LINE__, __func__, 1, hit.rowid);
-      evaluate (__LINE__, __func__, "Bible", hit.bible);
-      evaluate (__LINE__, __func__, 8, hit.book);
-      evaluate (__LINE__, __func__, 1, hit.chapter);
-      evaluate (__LINE__, __func__, 2, hit.verse);
-      evaluate (__LINE__, __func__, "The verse is out of sequence", hit.data);
+      EXPECT_EQ (1, hit.rowid);
+      EXPECT_EQ ("Bible", hit.bible);
+      EXPECT_EQ (8, hit.book);
+      EXPECT_EQ (1, hit.chapter);
+      EXPECT_EQ (2, hit.verse);
+      EXPECT_EQ ("The verse is out of sequence", hit.data);
       hit = results[1];
-      evaluate (__LINE__, __func__, 2, hit.rowid);
-      evaluate (__LINE__, __func__, "Bible", hit.bible);
-      evaluate (__LINE__, __func__, 8, hit.book);
-      evaluate (__LINE__, __func__, 1, hit.chapter);
-      evaluate (__LINE__, __func__, 1, hit.verse);
-      evaluate (__LINE__, __func__, "The verse is out of sequence", hit.data);
+      EXPECT_EQ (2, hit.rowid);
+      EXPECT_EQ ("Bible", hit.bible);
+      EXPECT_EQ (8, hit.book);
+      EXPECT_EQ (1, hit.chapter);
+      EXPECT_EQ (1, hit.verse);
+      EXPECT_EQ ("The verse is out of sequence", hit.data);
       hit = results[2];
-      evaluate (__LINE__, __func__, 3, hit.rowid);
-      evaluate (__LINE__, __func__, "Bible", hit.bible);
-      evaluate (__LINE__, __func__, 8, hit.book);
-      evaluate (__LINE__, __func__, 1, hit.chapter);
-      evaluate (__LINE__, __func__, 3, hit.verse);
-      evaluate (__LINE__, __func__, "The verse is out of sequence", hit.data);
+      EXPECT_EQ (3, hit.rowid);
+      EXPECT_EQ ("Bible", hit.bible);
+      EXPECT_EQ (8, hit.book);
+      EXPECT_EQ (1, hit.chapter);
+      EXPECT_EQ (3, hit.verse);
+      EXPECT_EQ ("The verse is out of sequence", hit.data);
     }
   }
 }
 
 
-void test_database_mappings ()
+TEST (database, mappings)
 {
   trace_unit_tests (__func__);
   
@@ -207,7 +208,8 @@ void test_database_mappings ()
     database_mappings.create2 ();
     database_mappings.optimize ();
     vector <string> names = database_mappings.names ();
-    evaluate (__LINE__, __func__, {"Dutch Traditional", filter::strings::english (), "French Louise Segond", "Hebrew Greek", "Russian Canonical", "Russian Orthodox", "Russian Protestant", "Spanish", "Vulgate"}, names);
+    vector <string> standard_names{"Dutch Traditional", filter::strings::english (), "French Louise Segond", "Hebrew Greek", "Russian Canonical", "Russian Orthodox", "Russian Protestant", "Spanish", "Vulgate"};
+    EXPECT_EQ (standard_names, names);
   }
 
   // Import and export.
@@ -221,9 +223,10 @@ void test_database_mappings ()
     "Song of Solomon 7:2 = Song of Solomon 7:3\n";
     database_mappings.import ("phpunit", import);
     vector <string> names = database_mappings.names ();
-    evaluate (__LINE__, __func__, {"Hebrew Greek", "phpunit"}, names);
+    vector <string> standard_names{"Hebrew Greek", "phpunit"};
+    EXPECT_EQ (standard_names, names);
     string output = database_mappings.output ("phpunit");
-    evaluate (__LINE__, __func__, filter::strings::trim (import), filter::strings::trim (output));
+    EXPECT_EQ (filter::strings::trim (import), filter::strings::trim (output));
   }
   
   // Create.
@@ -232,8 +235,9 @@ void test_database_mappings ()
     Database_Mappings database_mappings;
     database_mappings.create1 ();
     database_mappings.create ("phpunit");
-    vector <string> names = database_mappings.names ();
-    evaluate (__LINE__, __func__, {"Hebrew Greek", "phpunit"}, names);
+    const vector <string> names = database_mappings.names ();
+    const vector <string> standard_names {"Hebrew Greek", "phpunit"};
+    EXPECT_EQ (standard_names, names);
   }
   
   // Translate the same.
@@ -242,13 +246,13 @@ void test_database_mappings ()
     Database_Mappings database_mappings;
     database_mappings.create1 ();
     vector <Passage> passages = database_mappings.translate ("ABC", "ABC", 14, 14, 15);
-    evaluate (__LINE__, __func__, 1, static_cast<int>(passages.size ()));
+    EXPECT_EQ (1, static_cast<int>(passages.size ()));
     Passage standard = Passage ("", 14, 14, "15");
-    evaluate (__LINE__, __func__, true, passages[0].equal (standard));
+    EXPECT_EQ (true, passages[0].equal (standard));
     passages = database_mappings.translate ("--X", "--X", 15, 16, 17);
     standard = Passage ("", 15, 16, "17");
-    evaluate (__LINE__, __func__, 1, static_cast<int>(passages.size ()));
-    evaluate (__LINE__, __func__, true, passages[0].equal (standard));
+    EXPECT_EQ (1, static_cast<int>(passages.size ()));
+    EXPECT_EQ (true, passages[0].equal (standard));
   }
   
   // Translate.
@@ -269,8 +273,8 @@ void test_database_mappings ()
     // Test mapping 2 Chronicles.
     vector <Passage> passages = database_mappings.translate ("ABC", "XYZ", 14, 14, 15);
     Passage standard = Passage ("", 14, 14, "15");
-    evaluate (__LINE__, __func__, 1, static_cast<int>(passages.size ()));
-    evaluate (__LINE__, __func__, true, passages[0].equal (standard));
+    EXPECT_EQ (1, static_cast<int>(passages.size ()));
+    EXPECT_EQ (true, passages[0].equal (standard));
   }
 
   // Translate.
@@ -291,8 +295,8 @@ void test_database_mappings ()
     // Test mapping 2 Chronicles.
     vector <Passage> passages = database_mappings.translate ("ABC", "XYZ", 14, 14, 15);
     Passage standard = Passage ("", 14, 14, "13");
-    evaluate (__LINE__, __func__, 1, static_cast<int>(passages.size ()));
-    evaluate (__LINE__, __func__, true, passages[0].equal (standard));
+    EXPECT_EQ (1, static_cast<int>(passages.size ()));
+    EXPECT_EQ (true, passages[0].equal (standard));
   }
 
   // Translate double result.
@@ -313,11 +317,11 @@ void test_database_mappings ()
     database_mappings.import ("XYZ", import);
     // Test mapping 2 Chronicles.
     vector <Passage> passages = database_mappings.translate ("ABC", "XYZ", 14, 14, 15);
-    evaluate (__LINE__, __func__, 2, static_cast<int>(passages.size ()));
+    EXPECT_EQ (2, static_cast<int>(passages.size ()));
     Passage standard = Passage ("", 14, 14, "12");
-    evaluate (__LINE__, __func__, true, passages[0].equal (standard));
+    EXPECT_EQ (true, passages[0].equal (standard));
     standard = Passage ("", 14, 14, "13");
-    evaluate (__LINE__, __func__, true, passages[1].equal (standard));
+    EXPECT_EQ (true, passages[1].equal (standard));
   }
 
   // Translate from original.
@@ -329,8 +333,8 @@ void test_database_mappings ()
     database_mappings.import ("VVV", import);
     vector <Passage> passages = database_mappings.translate ("Hebrew Greek", "VVV", 14, 14, 14);
     Passage standard = Passage ("", 14, 14, "12");
-    evaluate (__LINE__, __func__, 1, static_cast<int>(passages.size ()));
-    evaluate (__LINE__, __func__, true, passages[0].equal (standard));
+    EXPECT_EQ (1, static_cast<int>(passages.size ()));
+    EXPECT_EQ (true, passages[0].equal (standard));
   }
 
   // Translate From Original Double
@@ -343,11 +347,11 @@ void test_database_mappings ()
     "2 Chronicles 14:13 = 2 Chronicles 14:14\n";
     database_mappings.import ("VVV", import);
     vector <Passage> passages = database_mappings.translate ("Hebrew Greek", "VVV", 14, 14, 14);
-    evaluate (__LINE__, __func__, 2, static_cast<int>(passages.size ()));
+    EXPECT_EQ (2, static_cast<int>(passages.size ()));
     Passage standard = Passage ("", 14, 14, "12");
-    evaluate (__LINE__, __func__, true, passages[0].equal (standard));
+    EXPECT_EQ (true, passages[0].equal (standard));
     standard = Passage ("", 14, 14, "13");
-    evaluate (__LINE__, __func__, true, passages[1].equal (standard));
+    EXPECT_EQ (true, passages[1].equal (standard));
   }
 
   // Translate From Original No Mapping
@@ -358,9 +362,9 @@ void test_database_mappings ()
     string import = "2 Chronicles 14:12 = 2 Chronicles 14:14";
     database_mappings.import ("VVV", import);
     vector <Passage> passages = database_mappings.translate ("Hebrew Greek", "VVV", 14, 15, 14);
-    evaluate (__LINE__, __func__, 1, static_cast<int>(passages.size ()));
+    EXPECT_EQ (1, static_cast<int>(passages.size ()));
     Passage standard = Passage ("", 14, 15, "14");
-    evaluate (__LINE__, __func__, true, passages[0].equal (standard));
+    EXPECT_EQ (true, passages[0].equal (standard));
   }
 
   // Translate To Original
@@ -371,9 +375,9 @@ void test_database_mappings ()
     string import = "2 Chronicles 14:12 = 2 Chronicles 14:14";
     database_mappings.import ("ABA", import);
     vector <Passage> passages = database_mappings.translate ("ABA", "Hebrew Greek", 14, 14, 12);
-    evaluate (__LINE__, __func__, 1, static_cast<int>(passages.size ()));
+    EXPECT_EQ (1, static_cast<int>(passages.size ()));
     Passage standard = Passage ("", 14, 14, "14");
-    evaluate (__LINE__, __func__, true, passages[0].equal (standard));
+    EXPECT_EQ (true, passages[0].equal (standard));
   }
 
   // Translate To Original Double
@@ -386,20 +390,18 @@ void test_database_mappings ()
     "2 Chronicles 14:12 = 2 Chronicles 14:14\n";
     database_mappings.import ("ABA", import);
     vector <Passage> passages = database_mappings.translate ("ABA", "Hebrew Greek", 14, 14, 12);
-    evaluate (__LINE__, __func__, 2, static_cast<int>(passages.size ()));
+    EXPECT_EQ (2, static_cast<int>(passages.size ()));
     Passage standard = Passage ("", 14, 14, "13");
-    evaluate (__LINE__, __func__, true, passages[0].equal (standard));
+    EXPECT_EQ (true, passages[0].equal (standard));
     standard = Passage ("", 14, 14, "14");
-    evaluate (__LINE__, __func__, true, passages[1].equal (standard));
+    EXPECT_EQ (true, passages[1].equal (standard));
   }
   
 }
 
 
-void test_database_versifications ()
+TEST (database, versifications)
 {
-  trace_unit_tests (__func__);
-  
   // Basic operations, create, delete.
   {
     refresh_sandbox (true);
@@ -407,14 +409,14 @@ void test_database_versifications ()
     database_versifications.create ();
     database_versifications.optimize ();
     int id = database_versifications.createSystem ("phpunit");
-    evaluate (__LINE__, __func__, 1000, id);
+    EXPECT_EQ (1000, id);
     id = database_versifications.getID ("phpunit");
-    evaluate (__LINE__, __func__, 1000, id);
+    EXPECT_EQ (1000, id);
     vector <string> systems = database_versifications.getSystems ();
-    evaluate (__LINE__, __func__, {"phpunit"}, systems);
+    EXPECT_EQ (vector <string>{"phpunit"}, systems);
     database_versifications.erase ("phpunit");
     systems = database_versifications.getSystems ();
-    evaluate (__LINE__, __func__, {}, systems);
+    EXPECT_EQ (vector <string>{}, systems);
   }
   {
     refresh_sandbox (true);
@@ -424,55 +426,55 @@ void test_database_versifications ()
     
     // GetID
     int id = database_versifications.getID (filter::strings::english ());
-    evaluate (__LINE__, __func__, 4 , id);
+    EXPECT_EQ (4 , id);
     
     // Test books.
     vector <int> books = database_versifications.getBooks (filter::strings::english ());
     vector <int> standard;
     for (int i = 1; i <= 66; i++) standard.push_back (i);
-    evaluate (__LINE__, __func__, standard, books);
+    EXPECT_EQ (standard, books);
     
     // Test chapters.
     vector <int> chapters = database_versifications.getChapters (filter::strings::english (), 1);
     standard.clear ();
     for (int i = 1; i <= 50; i++) standard.push_back (i);
-    evaluate (__LINE__, __func__, standard, chapters);
+    EXPECT_EQ (standard, chapters);
     chapters = database_versifications.getChapters (filter::strings::english (), 1, true);
     standard.clear ();
     for (int i = 0; i <= 50; i++) standard.push_back (i);
-    evaluate (__LINE__, __func__, standard, chapters);
+    EXPECT_EQ (standard, chapters);
     
     // Test verses.
     vector <int> verses = database_versifications.getVerses (filter::strings::english (), 1, 2);
     standard.clear ();
     for (int i = 0; i <= 25; i++) standard.push_back (i);
-    evaluate (__LINE__, __func__, standard, verses);
+    EXPECT_EQ (standard, verses);
     
     // Verses in chapter 0.
     verses = database_versifications.getVerses (filter::strings::english (), 1, 0);
-    evaluate (__LINE__, __func__, {0}, verses);
+    EXPECT_EQ (vector <int>{0}, verses);
     
     // Books Chapters Verses.
     vector <Passage> data = database_versifications.getBooksChaptersVerses (filter::strings::english ());
-    evaluate (__LINE__, __func__, 1189, static_cast<int>(data.size()));
-    evaluate (__LINE__, __func__, "31", data [0].m_verse);
+    EXPECT_EQ (1189, static_cast<int>(data.size()));
+    EXPECT_EQ ("31", data [0].m_verse);
     
     // Maximum number of books.
     books = database_versifications.getMaximumBooks ();
     standard = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 70, 71, 73, 74, 75, 80, 81 };
-    evaluate (__LINE__, __func__, standard, books);
+    EXPECT_EQ (standard, books);
     
     // Maximum number of chapters.
     chapters = database_versifications.getMaximumChapters (5);
     standard.clear ();
     for (int i = 0; i <= 34; i++) standard.push_back (i);
-    evaluate (__LINE__, __func__, standard, chapters);
+    EXPECT_EQ (standard, chapters);
     
     // Maximum number of verses.
     verses = database_versifications.getMaximumVerses (1, 2);
     standard.clear ();
     for (int i = 0; i <= 25; i++) standard.push_back (i);
-    evaluate (__LINE__, __func__, standard, verses);
+    EXPECT_EQ (standard, verses);
   }
   // Import Export
   {
@@ -484,11 +486,15 @@ void test_database_versifications ()
     "Genesis 2:25\n";
     database_versifications.input (input, "phpunit");
     int id = database_versifications.getID ("phpunit");
-    evaluate (__LINE__, __func__, 1000, id);
+    EXPECT_EQ (1000, id);
     vector <Passage> data = database_versifications.getBooksChaptersVerses ("phpunit");
-    evaluate (__LINE__, __func__, 2, static_cast<int> (data.size ()));
-    evaluate (__LINE__, __func__, "25", data [1].m_verse);
+    EXPECT_EQ (2, static_cast<int> (data.size ()));
+    EXPECT_EQ ("25", data [1].m_verse);
     string output = database_versifications.output ("phpunit");
-    evaluate (__LINE__, __func__, filter::strings::trim (input), filter::strings::trim (output));
+    EXPECT_EQ (filter::strings::trim (input), filter::strings::trim (output));
   }
 }
+
+
+#endif
+

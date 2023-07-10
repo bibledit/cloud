@@ -17,7 +17,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <unittests/mail.h>
+#include <config/libraries.h>
+#ifdef HAVE_GTEST
+#include "gtest/gtest.h"
 #include <unittests/utilities.h>
 #include <database/users.h>
 #include <webserver/request.h>
@@ -27,11 +29,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 using namespace std;
 
 
-void test_database_mail ()
+TEST (database, mail)
 {
 #ifdef HAVE_CLOUD
-  
-  trace_unit_tests (__func__);
   
   // Optimize / trim.
   {
@@ -55,14 +55,14 @@ void test_database_mail ()
     database_mail.create ();
     request.session_logic ()->set_username ("phpunit");
     
-    int count = database_mail.getMailCount ();
-    evaluate (__LINE__, __func__, 0, count);
+    const int count = database_mail.getMailCount ();
+    EXPECT_EQ (0, count);
     
-    vector <Database_Mail_User> mails = database_mail.getMails ();
-    evaluate (__LINE__, __func__, 0, static_cast<int>(mails.size()));
+    const vector <Database_Mail_User> mails = database_mail.getMails ();
+    EXPECT_EQ (0, static_cast<int>(mails.size()));
     
-    vector <int> mails_to_send = database_mail.getMailsToSend ();
-    evaluate (__LINE__, __func__, {}, mails_to_send);
+    const vector <int> mails_to_send = database_mail.getMailsToSend ();
+    EXPECT_EQ (vector <int>{}, mails_to_send);
   }
   
   // Normal cycle.
@@ -78,19 +78,19 @@ void test_database_mail ()
     database_mail.send ("phpunit", "subject", "body");
     
     int count = database_mail.getMailCount ();
-    evaluate (__LINE__, __func__, 1, count);
+    EXPECT_EQ (1, count);
     
     vector <Database_Mail_User> mails = database_mail.getMails ();
-    evaluate (__LINE__, __func__, "subject", mails [0].subject);
+    EXPECT_EQ ("subject", mails [0].subject);
     
     Database_Mail_Item mail = database_mail.get (1);
-    evaluate (__LINE__, __func__, "phpunit", mail.username);
-    evaluate (__LINE__, __func__, "body", mail.body);
+    EXPECT_EQ ("phpunit", mail.username);
+    EXPECT_EQ ("body", mail.body);
     
     database_mail.erase (1);
     
     count = database_mail.getMailCount ();
-    evaluate (__LINE__, __func__, 0, count);
+    EXPECT_EQ (0, count);
   }
 
   // Normal postpone.
@@ -106,79 +106,78 @@ void test_database_mail ()
     database_mail.send ("phpunit", "subject", "body");
     
     vector <int> mails = database_mail.getMailsToSend ();
-    evaluate (__LINE__, __func__, 1, static_cast <int>(mails.size ()));
+    EXPECT_EQ (1, static_cast <int>(mails.size ()));
     
     database_mail.postpone (1);
     mails = database_mail.getMailsToSend ();
-    evaluate (__LINE__, __func__, 0, static_cast <int>(mails.size ()));
+    EXPECT_EQ (0, static_cast <int>(mails.size ()));
   }
 #endif
 }
 
 
-void test_filter_mail ()
+TEST (filter, mail)
 {
 #ifdef HAVE_CLOUD
-  trace_unit_tests (__func__);
   
-  string datafolder = filter_url_create_root_path ({"unittests", "tests", "emails"});
+  const string datafolder = filter_url_create_root_path ({"unittests", "tests", "emails"});
   
   // Standard mimetic library's test message.
   {
-    string msgpath = filter_url_create_path ({datafolder, "email1.msg"});
-    string msg = filter_url_file_get_contents (msgpath);
+    const string msgpath = filter_url_create_path ({datafolder, "email1.msg"});
+    const string msg = filter_url_file_get_contents (msgpath);
     string from, subject, plaintext;
     filter_mail_dissect (msg, from, subject, plaintext);
-    string txtpath = filter_url_create_path ({datafolder, "email1.txt"});
-    string txt = filter_url_file_get_contents (txtpath);
-    evaluate (__LINE__, __func__, "stefano@codesink.org", from);
-    evaluate (__LINE__, __func__, "My picture!", subject);
-    evaluate (__LINE__, __func__, txt, plaintext);
+    const string txtpath = filter_url_create_path ({datafolder, "email1.txt"});
+    const string txt = filter_url_file_get_contents (txtpath);
+    EXPECT_EQ ("stefano@codesink.org", from);
+    EXPECT_EQ ("My picture!", subject);
+    EXPECT_EQ (txt, plaintext);
   }
    
   // A plain text message, that is, not a MIME message.
   {
-    string msgpath = filter_url_create_path ({datafolder, "email2.msg"});
-    string msg = filter_url_file_get_contents (msgpath);
+    const string msgpath = filter_url_create_path ({datafolder, "email2.msg"});
+    const string msg = filter_url_file_get_contents (msgpath);
     string from, subject, plaintext;
     filter_mail_dissect (msg, from, subject, plaintext);
-    string txtpath = filter_url_create_path ({datafolder, "email2.txt"});
-    string txt = filter_url_file_get_contents (txtpath);
-    evaluate (__LINE__, __func__, "developer@device.localdomain (Developer)", from);
-    evaluate (__LINE__, __func__, "plain text", subject);
-    evaluate (__LINE__, __func__, txt, plaintext);
+    const string txtpath = filter_url_create_path ({datafolder, "email2.txt"});
+    const string txt = filter_url_file_get_contents (txtpath);
+    EXPECT_EQ ("developer@device.localdomain (Developer)", from);
+    EXPECT_EQ ("plain text", subject);
+    EXPECT_EQ (txt, plaintext);
   }
   
   // A UTF-8 quoted-printable message.
   {
-    string msgpath = filter_url_create_path ({datafolder, "email3.msg"});
-    string msg = filter_url_file_get_contents (msgpath);
+    const string msgpath = filter_url_create_path ({datafolder, "email3.msg"});
+    const string msg = filter_url_file_get_contents (msgpath);
     string from, subject, plaintext;
     filter_mail_dissect (msg, from, subject, plaintext);
-    string txtpath = filter_url_create_path ({datafolder, "email3.txt"});
-    string txt = filter_url_file_get_contents (txtpath);
-    evaluate (__LINE__, __func__, "Sender <sender@domain.net>", from);
-    evaluate (__LINE__, __func__, "Message encoded with quoted-printable", subject);
-    evaluate (__LINE__, __func__, txt, plaintext);
+    const string txtpath = filter_url_create_path ({datafolder, "email3.txt"});
+    const string txt = filter_url_file_get_contents (txtpath);
+    EXPECT_EQ ("Sender <sender@domain.net>", from);
+    EXPECT_EQ ("Message encoded with quoted-printable", subject);
+    EXPECT_EQ (txt, plaintext);
   }
 
   // A UTF-8 base64 encoded message.
   {
-    string msgpath = filter_url_create_path ({datafolder, "email4.msg"});
-    string msg = filter_url_file_get_contents (msgpath);
+    const string msgpath = filter_url_create_path ({datafolder, "email4.msg"});
+    const string msg = filter_url_file_get_contents (msgpath);
     string from, subject, plaintext;
     filter_mail_dissect (msg, from, subject, plaintext);
-    string txtpath = filter_url_create_path ({datafolder, "email4.txt"});
-    string txt = filter_url_file_get_contents (txtpath);
-    evaluate (__LINE__, __func__, "Sender <sender@domain.net>", from);
-    evaluate (__LINE__, __func__, "Message encoded in base64", subject);
-    evaluate (__LINE__, __func__, txt, plaintext);
+    const string txtpath = filter_url_create_path ({datafolder, "email4.txt"});
+    const string txt = filter_url_file_get_contents (txtpath);
+    EXPECT_EQ ("Sender <sender@domain.net>", from);
+    EXPECT_EQ ("Message encoded in base64", subject);
+    EXPECT_EQ (txt, plaintext);
   }
   
   // Test the collection of sample mails.
   {
-    vector <string> files = filter_url_scandir (datafolder);
-    for (auto messagefile : files) {
+    const vector <string> files = filter_url_scandir (datafolder);
+    for (const auto& messagefile : files) {
       if (messagefile.find ("m") != 0) continue;
       if (filter_url_get_extension (messagefile) != "msg") continue;
       string path = filter_url_create_path ({datafolder, messagefile});
@@ -192,3 +191,6 @@ void test_filter_mail ()
   }
 #endif
 }
+
+
+#endif

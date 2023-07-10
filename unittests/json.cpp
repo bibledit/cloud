@@ -17,7 +17,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <unittests/json.h>
+#include <config/libraries.h>
+#ifdef HAVE_GTEST
+#include "gtest/gtest.h"
 #include <unittests/utilities.h>
 #pragma clang diagnostic ignored "-Wunknown-warning-option"
 #pragma GCC diagnostic push
@@ -26,77 +28,76 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <jsonxx/jsonxx.h>
 #pragma GCC diagnostic pop
 #include <filter/url.h>
-using namespace std;
-using namespace jsonxx;
 
 
 // Test included JSON libraries.
-void test_json ()
+TEST (json, basic)
 {
-  trace_unit_tests (__func__);
-  
   // Convert JSON to xml.
   {
-    string json ("{"
-                 R"(  "foo" : 1,)"
-                 R"(  "bar" : false,)"
-                 R"(  "person" : {"name" : "GWB", "age" : 60,},)"
-                 R"(  "data": ["abcd", 42],)"
-                 "}");
-    Object object;
+    const std::string json ("{"
+                            R"(  "foo" : 1,)"
+                            R"(  "bar" : false,)"
+                            R"(  "person" : {"name" : "GWB", "age" : 60,},)"
+                            R"(  "data": ["abcd", 42],)"
+                            "}");
+    jsonxx::Object object;
     object.parse (json);
-    string path = filter_url_create_root_path ({"unittests", "tests", "json1.txt"});
-    string xml = filter_url_file_get_contents (path);
-    evaluate (__LINE__, __func__, xml, object.xml (JSONx));
+    std::string path = filter_url_create_root_path ({"unittests", "tests", "json1.txt"});
+    std::string xml = filter_url_file_get_contents (path);
+    EXPECT_EQ (xml, object.xml (jsonxx::JSONx));
   }
 
   // Test malformed JSON.
   {
-    string json ("{"
-                 R"(  "foo" 1,)"
-                 R"(  "bar : false,)"
-                 R"(  "person" : me" : "GWB", "age" : 60,},)"
-                 R"(  "data": "abcd", 42],)"
-                 );
-    Object object;
+    std::string json ("{"
+                      R"(  "foo" 1,)"
+                      R"(  "bar : false,)"
+                      R"(  "person" : me" : "GWB", "age" : 60,},)"
+                      R"(  "data": "abcd", 42],)"
+                      );
+    jsonxx::Object object;
     object.parse (json);
-    evaluate (__LINE__, __func__, "{\n} \n", object.json ());
+    EXPECT_EQ ("{\n} \n", object.json ());
   }
   
   // JSON roundtrip.
   {
-    string json;
+    std::string json;
     {
-      Array array;
+      jsonxx::Array array;
       {
-        Object object;
+        jsonxx::Object object;
         object << "key1" << "content1";
         object << "key2" << "content2";
         array << object;
       }
       {
-        Object object;
+        jsonxx::Object object;
         object << "key3" << "content3";
         object << "key4" << "content4";
         array << object;
       }
       json = array.json ();
-      string path = filter_url_create_root_path ({"unittests", "tests", "json2.txt"});
-      string standard = filter_url_file_get_contents (path);
-      evaluate (__LINE__, __func__, standard, json);
+      std::string path = filter_url_create_root_path ({"unittests", "tests", "json2.txt"});
+      std::string standard = filter_url_file_get_contents (path);
+      EXPECT_EQ (standard, json);
     }
     {
-      Array array;
+      jsonxx::Array array;
       array.parse (json);
-      Object object;
-      object = array.get<Object>(0);
-      evaluate (__LINE__, __func__, "content1", object.get<String>("key1"));
-      evaluate (__LINE__, __func__, "content2", object.get<String>("key2"));
-      evaluate (__LINE__, __func__, false, object.has<String>("key3"));
-      object = array.get<Object>(1);
-      evaluate (__LINE__, __func__, "content3", object.get<String>("key3"));
-      evaluate (__LINE__, __func__, "content4", object.get<String>("key4"));
-      evaluate (__LINE__, __func__, false, object.has<String>("key5"));
+      jsonxx::Object object;
+      object = array.get<jsonxx::Object>(0);
+      EXPECT_EQ ("content1", object.get<jsonxx::String>("key1"));
+      EXPECT_EQ ("content2", object.get<jsonxx::String>("key2"));
+      EXPECT_EQ (false, object.has<jsonxx::String>("key3"));
+      object = array.get<jsonxx::Object>(1);
+      EXPECT_EQ ("content3", object.get<jsonxx::String>("key3"));
+      EXPECT_EQ ("content4", object.get<jsonxx::String>("key4"));
+      EXPECT_EQ (false, object.has<jsonxx::String>("key5"));
     }
   }
 }
+
+#endif
+

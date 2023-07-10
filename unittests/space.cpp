@@ -17,16 +17,17 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <unittests/space.h>
+#include <config/libraries.h>
+#ifdef HAVE_GTEST
+#include "gtest/gtest.h"
 #include <unittests/utilities.h>
 #include <checks/space.h>
 #include <database/check.h>
 using namespace std;
 
 
-void test_space ()
+TEST (checks, space)
 {
-  trace_unit_tests (__func__);
   refresh_sandbox (true);
   Database_Check database_check;
   database_check.create ();
@@ -41,7 +42,7 @@ void test_space ()
     ;
     checks::space::space_end_verse (bible, 2, 3, usfm);
     vector <Database_Check_Hit> hits = database_check.getHits ();
-    evaluate (__LINE__, __func__, 0, hits.size ());
+    EXPECT_EQ (0, hits.size ());
   }
 
   // Test reporting space at end of verse: One space here.
@@ -52,7 +53,7 @@ void test_space ()
     ;
     checks::space::space_end_verse (bible, 2, 3, usfm);
     vector <Database_Check_Hit> hits = database_check.getHits ();
-    evaluate (__LINE__, __func__, 1, hits.size ());
+    EXPECT_EQ (1, hits.size ());
   }
 
   // Test reporting space at end of verse: One space here.
@@ -67,7 +68,7 @@ void test_space ()
     ;
     checks::space::space_end_verse (bible, 2, 3, usfm);
     vector <Database_Check_Hit> hits = database_check.getHits ();
-    evaluate (__LINE__, __func__, 1, hits.size ());
+    EXPECT_EQ (1, hits.size ());
   }
   
   // Test there's no space in the cleaned text at the end of the verse.
@@ -78,7 +79,7 @@ void test_space ()
     ;
     checks::space::space_end_verse (bible, 2, 3, usfm);
     vector <Database_Check_Hit> hits = database_check.getHits ();
-    evaluate (__LINE__, __func__, 0, hits.size ());
+    EXPECT_EQ (0, hits.size ());
   }
   
   // Check that it catches a double space in USFM.
@@ -87,7 +88,7 @@ void test_space ()
     string usfm = R"(\v 1 This contains  a double space.)";
     checks::space::double_space_usfm (bible, 2, 3, 4, usfm);
     vector <Database_Check_Hit> hits = database_check.getHits ();
-    evaluate (__LINE__, __func__, 1, hits.size ());
+    EXPECT_EQ (1, hits.size ());
   }
   
   // Check that it transposes spaces in notes.
@@ -95,15 +96,15 @@ void test_space ()
     string usfm = R"(\v 1 Verse\f + \fr 3.1\fk  keyword\ft  Text.\f* one.)";
     string standard = R"(\v 1 Verse\f + \fr 3.1 \fk keyword \ft Text.\f* one.)";
     bool transposed = checks::space::transpose_note_space (usfm);
-    evaluate (__LINE__, __func__, true, transposed);
-    evaluate (__LINE__, __func__, standard, usfm);
+    EXPECT_EQ (true, transposed);
+    EXPECT_EQ (standard, usfm);
   }
   {
     string usfm = R"(\v 2 Verse\x + \xo 3.2\xt  Text.\x* two.)";
     string standard = R"(\v 2 Verse\x + \xo 3.2 \xt Text.\x* two.)";
     bool transposed = checks::space::transpose_note_space (usfm);
-    evaluate (__LINE__, __func__, true, transposed);
-    evaluate (__LINE__, __func__, standard, usfm);
+    EXPECT_EQ (true, transposed);
+    EXPECT_EQ (standard, usfm);
   }
   
   // Check on a space before final note and cross reference markup.
@@ -113,7 +114,7 @@ void test_space ()
     string usfm = R"(\v 1 Note \f ... \f*.)";
     checks::space::space_before_final_note_markup (bible, 2, 3, verse, usfm);
     vector <Database_Check_Hit> hits = database_check.getHits ();
-    evaluate (__LINE__, __func__, 1, hits.size ());
+    EXPECT_EQ (1, hits.size ());
   }
   {
     database_check.truncateOutput (bible);
@@ -121,7 +122,7 @@ void test_space ()
     string usfm = R"(\v 2 Endnote \fe ... \fe*.)";
     checks::space::space_before_final_note_markup (bible, 2, 3, verse, usfm);
     vector <Database_Check_Hit> hits = database_check.getHits ();
-    evaluate (__LINE__, __func__, 1, hits.size ());
+    EXPECT_EQ (1, hits.size ());
   }
   {
     database_check.truncateOutput (bible);
@@ -129,7 +130,10 @@ void test_space ()
     string usfm = R"(\v 3 Cross reference \x ... \x*.)";
     checks::space::space_before_final_note_markup (bible, 2, 3, verse, usfm);
     vector <Database_Check_Hit> hits = database_check.getHits ();
-    evaluate (__LINE__, __func__, 1, hits.size ());
+    EXPECT_EQ (1, hits.size ());
   }
 
 }
+
+#endif
+

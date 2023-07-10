@@ -17,17 +17,17 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <unittests/bibleimages.h>
+#include <config/libraries.h>
+#ifdef HAVE_GTEST
+#include "gtest/gtest.h"
 #include <unittests/utilities.h>
 #include <database/bibleimages.h>
 #include <filter/url.h>
 using namespace std;
 
 
-void test_database_bible_images ()
+TEST (database, bible_images)
 {
-  trace_unit_tests (__func__);
-
   refresh_sandbox (true);
 
   Database_BibleImages database_bibleimages;
@@ -39,36 +39,39 @@ void test_database_bible_images ()
   
   // Initially there's no images yet.
   images = database_bibleimages.get ();
-  evaluate (__LINE__, __func__, 0, images.size());
+  EXPECT_EQ (0, images.size());
 
   // Store one image and check it's there.
   database_bibleimages.store (image_1_path);
   images = database_bibleimages.get ();
-  evaluate (__LINE__, __func__, 1, images.size());
+  EXPECT_EQ (1, images.size());
   if (!images.empty()) {
-    evaluate (__LINE__, __func__, image_1_name, images[0]);
+    EXPECT_EQ (image_1_name, images[0]);
   }
 
   // Store another image and check there are two of them now.
   database_bibleimages.store (image_2_path);
   images = database_bibleimages.get ();
-  evaluate (__LINE__, __func__, 2, images.size());
-  evaluate (__LINE__, __func__, { image_2_name, image_1_name }, images);
+  EXPECT_EQ (2, images.size());
+  EXPECT_EQ ((vector<string>{image_2_name, image_1_name}), images);
 
   // Erase the first image and a non-existing one, and check the remaining image.
   database_bibleimages.erase (image_1_name);
   database_bibleimages.erase ("non-existing");
   images = database_bibleimages.get ();
-  evaluate (__LINE__, __func__, 1, images.size());
+  EXPECT_EQ (1, images.size());
   if (!images.empty()) {
-    evaluate (__LINE__, __func__, image_2_name, images[0]);
+    EXPECT_EQ (image_2_name, images[0]);
   }
 
   // Get the contents of the second image.
   string standard_contents = filter_url_file_get_contents (image_2_path);
   string contents = database_bibleimages.get (image_2_name);
-  evaluate (__LINE__, __func__, standard_contents, contents);
+  EXPECT_EQ (standard_contents, contents);
 
   // Cleanup.
   refresh_sandbox (true);
 }
+
+#endif
+

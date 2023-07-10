@@ -17,7 +17,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <unittests/search.h>
+#include <config/libraries.h>
+#ifdef HAVE_GTEST
+#include "gtest/gtest.h"
 #include <unittests/utilities.h>
 #include <database/state.h>
 #include <database/bibles.h>
@@ -62,10 +64,8 @@ void test_search_setup ()
 }
 
 
-void test_search ()
+TEST (search, logic)
 {
-  trace_unit_tests (__func__);
-  
   // Test updating search fields.
   {
     refresh_sandbox (true);
@@ -78,12 +78,12 @@ void test_search ()
     refresh_sandbox (true);
     test_search_setup ();
     vector <Passage> passages = search_logic_search_text ("sixth", {"phpunit"});
-    evaluate (__LINE__, __func__, 1, static_cast <int> (passages.size()));
+    EXPECT_EQ (1, static_cast <int> (passages.size()));
     if (!passages.empty ()) {
-      evaluate (__LINE__, __func__, "phpunit", passages[0].m_bible);
-      evaluate (__LINE__, __func__, 2, passages[0].m_book);
-      evaluate (__LINE__, __func__, 3, passages[0].m_chapter);
-      evaluate (__LINE__, __func__, "6", passages[0].m_verse);
+      EXPECT_EQ ("phpunit", passages[0].m_bible);
+      EXPECT_EQ (2, passages[0].m_book);
+      EXPECT_EQ (3, passages[0].m_chapter);
+      EXPECT_EQ ("6", passages[0].m_verse);
     }
   }
 
@@ -92,15 +92,15 @@ void test_search ()
     refresh_sandbox (true);
     test_search_setup ();
     vector <Passage> passages = search_logic_search_text ("ALLAH", {"phpunit3"});
-    evaluate (__LINE__, __func__, 4, static_cast <int> (passages.size()));
+    EXPECT_EQ (4, static_cast <int> (passages.size()));
     if (passages.size () == 4) {
-      evaluate (__LINE__, __func__, "phpunit3", passages[0].m_bible);
-      evaluate (__LINE__, __func__, 6, passages[1].m_book);
-      evaluate (__LINE__, __func__, 7, passages[2].m_chapter);
-      evaluate (__LINE__, __func__, "0", passages[0].m_verse);
-      evaluate (__LINE__, __func__, "1", passages[1].m_verse);
-      evaluate (__LINE__, __func__, "2", passages[2].m_verse);
-      evaluate (__LINE__, __func__, "4", passages[3].m_verse);
+      EXPECT_EQ ("phpunit3", passages[0].m_bible);
+      EXPECT_EQ (6, passages[1].m_book);
+      EXPECT_EQ (7, passages[2].m_chapter);
+      EXPECT_EQ ("0", passages[0].m_verse);
+      EXPECT_EQ ("1", passages[1].m_verse);
+      EXPECT_EQ ("2", passages[2].m_verse);
+      EXPECT_EQ ("4", passages[3].m_verse);
     }
   }
 
@@ -109,11 +109,11 @@ void test_search ()
     refresh_sandbox (true);
     test_search_setup ();
     vector <Passage> passages = search_logic_search_bible_text ("phpunit", "sixth");
-    evaluate (__LINE__, __func__, 1, static_cast<int>(passages.size ()));
+    EXPECT_EQ (1, static_cast<int>(passages.size ()));
     passages = search_logic_search_bible_text ("phpunit2", "sixth");
-    evaluate (__LINE__, __func__, 0, static_cast<int>(passages.size ()));
+    EXPECT_EQ (0, static_cast<int>(passages.size ()));
     passages = search_logic_search_bible_text ("phpunit2", "said");
-    evaluate (__LINE__, __func__, 1, static_cast<int>(passages.size ()));
+    EXPECT_EQ (1, static_cast<int>(passages.size ()));
   }
   
   // Test search Bible case sensitive.
@@ -121,11 +121,11 @@ void test_search ()
     refresh_sandbox (true);
     test_search_setup ();
     vector <Passage> passages = search_logic_search_bible_text_case_sensitive ("phpunit", "Verse");
-    evaluate (__LINE__, __func__, 3, static_cast<int>(passages.size ()));
+    EXPECT_EQ (3, static_cast<int>(passages.size ()));
     passages = search_logic_search_bible_text_case_sensitive ("phpunit", "sixth");
-    evaluate (__LINE__, __func__, 1, static_cast<int>(passages.size ()));
+    EXPECT_EQ (1, static_cast<int>(passages.size ()));
     passages = search_logic_search_bible_text_case_sensitive ("phpunit2", "said");
-    evaluate (__LINE__, __func__, 1, static_cast<int>(passages.size ()));
+    EXPECT_EQ (1, static_cast<int>(passages.size ()));
   }
 
   // Searching in USFM.
@@ -133,7 +133,7 @@ void test_search ()
     refresh_sandbox (true);
     test_search_setup ();
     vector <Passage> passages = search_logic_search_bible_usfm ("phpunit", "\\Add");
-    evaluate (__LINE__, __func__, 2, static_cast<int>(passages.size ()));
+    EXPECT_EQ (2, static_cast<int>(passages.size ()));
   }
   
   // Searching in USFM case-sensitive.
@@ -141,9 +141,9 @@ void test_search ()
     refresh_sandbox (true);
     test_search_setup ();
     vector <Passage> passages = search_logic_search_bible_usfm_case_sensitive ("phpunit", "\\Add");
-    evaluate (__LINE__, __func__, 0, static_cast<int>(passages.size ()));
+    EXPECT_EQ (0, static_cast<int>(passages.size ()));
     passages = search_logic_search_bible_usfm_case_sensitive ("phpunit", "\\add");
-    evaluate (__LINE__, __func__, 2, static_cast<int>(passages.size ()));
+    EXPECT_EQ (2, static_cast<int>(passages.size ()));
   }
   
   // Test getting Bible verse text.
@@ -152,10 +152,10 @@ void test_search ()
     test_search_setup ();
     // Plain.
     string text = search_logic_get_bible_verse_text ("phpunit", 2, 3, 5);
-    evaluate (__LINE__, __func__, "Text of the 5th fifth verse is this: Verse five ✆.", text);
+    EXPECT_EQ ("Text of the 5th fifth verse is this: Verse five ✆.", text);
     // USFM.
     text = search_logic_get_bible_verse_usfm ("phpunit", 2, 3, 5);
-    evaluate (__LINE__, __func__, "\\v 5 Text of the 5th fifth verse is this: Verse five ✆.", text);
+    EXPECT_EQ ("\\v 5 Text of the 5th fifth verse is this: Verse five ✆.", text);
   }
   
   // Test deleting a bible or book or chapter.
@@ -165,28 +165,28 @@ void test_search ()
     test_search_setup ();
     
     vector <Passage> passages = search_logic_search_bible_text ("phpunit", "e");
-    evaluate (__LINE__, __func__, 10, static_cast <int> (passages.size()));
+    EXPECT_EQ (10, static_cast <int> (passages.size()));
     search_logic_delete_bible ("phpunit");
     passages = search_logic_search_bible_text ("phpunit", "e");
-    evaluate (__LINE__, __func__, 0, static_cast <int> (passages.size()));
+    EXPECT_EQ (0, static_cast <int> (passages.size()));
     
     test_search_setup ();
 
     search_logic_delete_book ("phpunit", 3);
     passages = search_logic_search_bible_text ("phpunit", "e");
-    evaluate (__LINE__, __func__, 10, static_cast <int> (passages.size()));
+    EXPECT_EQ (10, static_cast <int> (passages.size()));
     search_logic_delete_book ("phpunit", 2);
     passages = search_logic_search_bible_text ("phpunit", "e");
-    evaluate (__LINE__, __func__, 0, static_cast <int> (passages.size()));
+    EXPECT_EQ (0, static_cast <int> (passages.size()));
     
     test_search_setup ();
 
     search_logic_delete_chapter ("phpunit", 3, 3);
     passages = search_logic_search_bible_text ("phpunit", "e");
-    evaluate (__LINE__, __func__, 10, static_cast <int> (passages.size()));
+    EXPECT_EQ (10, static_cast <int> (passages.size()));
     search_logic_delete_chapter ("phpunit", 2, 3);
     passages = search_logic_search_bible_text ("phpunit", "e");
-    evaluate (__LINE__, __func__, 0, static_cast <int> (passages.size()));
+    EXPECT_EQ (0, static_cast <int> (passages.size()));
   }
   
   // Test total verse count in Bible.
@@ -194,6 +194,9 @@ void test_search ()
     refresh_sandbox (true);
     test_search_setup ();
     int count = search_logic_get_verse_count ("phpunit");
-    evaluate (__LINE__, __func__, 11, count);
+    EXPECT_EQ (11, count);
   }
 }
+
+#endif
+

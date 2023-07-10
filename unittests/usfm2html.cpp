@@ -17,7 +17,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <unittests/usfm2html.h>
+#include <config/libraries.h>
+#ifdef HAVE_GTEST
+#include "gtest/gtest.h"
 #include <unittests/utilities.h>
 #include <database/state.h>
 #include <editor/usfm2html.h>
@@ -27,9 +29,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 using namespace std;
 
 
-void test_usfm2html ()
+TEST (editor, usfm2html)
 {
-  trace_unit_tests (__func__);
   Database_State::create ();
 
   // Test text length for one verse.
@@ -42,9 +43,9 @@ void test_usfm2html ()
     editor_usfm2html.load (usfm);
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
     editor_usfm2html.run ();
-    evaluate (__LINE__, __func__, 61, static_cast<int>(editor_usfm2html.textLength));
-    evaluate (__LINE__, __func__,  { pair (0, 0), pair (1, 2) }, editor_usfm2html.verseStartOffsets);
-    evaluate (__LINE__, __func__, "1 Kwasekuqediswa amazulu lomhlaba lalo lonke ibutho lakho.", editor_usfm2html.currentParagraphContent);
+    EXPECT_EQ (61, static_cast<int>(editor_usfm2html.textLength));
+    EXPECT_EQ ((std::map <int, int>{ pair (0, 0), pair (1, 2) }), editor_usfm2html.verseStartOffsets);
+    EXPECT_EQ ("1 Kwasekuqediswa amazulu lomhlaba lalo lonke ibutho lakho.", editor_usfm2html.currentParagraphContent);
   }
 
   // Test text length for several verses.
@@ -65,17 +66,17 @@ void test_usfm2html ()
     editor_usfm2html.load (usfm);
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
     editor_usfm2html.run ();
-    evaluate (__LINE__, __func__, 913, static_cast<int>(editor_usfm2html.textLength));
-    evaluate (__LINE__, __func__, { pair (0, 0),
+    EXPECT_EQ (913, static_cast<int>(editor_usfm2html.textLength));
+    EXPECT_EQ ((std::map <int, int>{ pair (0, 0),
       pair (1, 2),
       pair (2, 62),
       pair (3, 202),
       pair (4, 359),
       pair (5, 469),
       pair (6, 676),
-      pair (7, 758) },
-              editor_usfm2html.verseStartOffsets);
-    evaluate (__LINE__, __func__, 550, static_cast<int>(editor_usfm2html.currentParagraphContent.size ()));
+      pair (7, 758) }),
+               editor_usfm2html.verseStartOffsets);
+    EXPECT_EQ (550, static_cast<int>(editor_usfm2html.currentParagraphContent.size ()));
   }
 
   // Space after starting marker
@@ -92,7 +93,7 @@ void test_usfm2html ()
     string html = editor_usfm2html.get ();
     string standard =
     R"(<p class="b-c"><span>1</span></p><p class="b-p"><span class="i-v">2</span><span> </span><span>Text </span><span class="i-add">of the </span><span>1st</span><span class="i-add"> second verse</span><span>.</span></p>)";
-    evaluate (__LINE__, __func__, standard, html);
+    EXPECT_EQ (standard, html);
   }
 
   // Apostrophy etc.
@@ -109,7 +110,7 @@ void test_usfm2html ()
     string html = editor_usfm2html.get ();
     string standard =
     R"(<p class="b-c"><span>1</span></p><p class="b-p"><span class="i-v">1</span><span> </span><span>Judha muranda waJesu Kristu, uye munin'ina waJakobho ...</span></p>)";
-    evaluate (__LINE__, __func__, standard, html);
+    EXPECT_EQ (standard, html);
   }
 
   // Most recent paragraph style.
@@ -126,8 +127,8 @@ void test_usfm2html ()
     editor_usfm2html.load (usfm);
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
     editor_usfm2html.run ();
-    evaluate (__LINE__, __func__, "q2", editor_usfm2html.currentParagraphStyle);
-    evaluate (__LINE__, __func__, "2 Two 3 Three", editor_usfm2html.currentParagraphContent);
+    EXPECT_EQ ("q2", editor_usfm2html.currentParagraphStyle);
+    EXPECT_EQ ("2 Two 3 Three", editor_usfm2html.currentParagraphContent);
   }
 
   // Most recent paragraph style and length 0.
@@ -145,8 +146,8 @@ void test_usfm2html ()
     editor_usfm2html.load (usfm);
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
     editor_usfm2html.run ();
-    evaluate (__LINE__, __func__, "q3", editor_usfm2html.currentParagraphStyle);
-    evaluate (__LINE__, __func__, "", editor_usfm2html.currentParagraphContent);
+    EXPECT_EQ ("q3", editor_usfm2html.currentParagraphStyle);
+    EXPECT_EQ ("", editor_usfm2html.currentParagraphContent);
   }
 
   // Convert styles for Quill-based editor.
@@ -164,7 +165,10 @@ void test_usfm2html ()
     string standard =
     R"(<p class="b-c"><span>1</span></p>)"
     R"(<p class="b-p"><span class="i-v">2</span><span> </span><span>Text </span><span class="i-add">of the </span><span>1st </span><span class="i-add">second verse</span><span>.</span></p>)";
-    evaluate (__LINE__, __func__, standard, html);
+    EXPECT_EQ (standard, html);
   }
 
 }
+
+#endif
+

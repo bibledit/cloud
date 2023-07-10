@@ -17,7 +17,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <unittests/git.h>
+#include <config/libraries.h>
+#ifdef HAVE_GTEST
+#include "gtest/gtest.h"
 #include <unittests/utilities.h>
 #include <webserver/request.h>
 #include <database/state.h>
@@ -62,9 +64,9 @@ void test_filter_git_setup ([[maybe_unused]] Webserver_Request * request,
   
   bool result;
   result = filter_git_init (repository);
-  evaluate (__LINE__, __func__, true, result);
+  EXPECT_EQ (true, result);
   result = filter_git_init (newrepository);
-  evaluate (__LINE__, __func__, true, result);
+  EXPECT_EQ (true, result);
   
   filter_url_mkdir (filter_url_create_path ({repository, "Psalms", "0"}));
   filter_url_mkdir (filter_url_create_path ({repository, "Psalms", "11"}));
@@ -85,10 +87,9 @@ void test_filter_git_setup ([[maybe_unused]] Webserver_Request * request,
 }
 
 
-void test_git ()
+TEST (git, basic)
 {
 #ifdef HAVE_CLOUD
-  trace_unit_tests (__func__);
   
   string bible = "localrepo";
   string newbible = "newlocalrepo";
@@ -147,20 +148,20 @@ void test_git ()
   // Test sync Bible to git.
   {
     test_filter_git_setup (&request, bible, newbible, psalms_0_data, psalms_11_data, song_of_solomon_2_data);
-    evaluate (__LINE__, __func__, true, file_or_dir_exists (filter_url_create_path ({repository, ".git"})));
-    evaluate (__LINE__, __func__, true, file_or_dir_exists (filter_url_create_path ({repository, "Psalms", "0", "data"})));
-    evaluate (__LINE__, __func__, true, file_or_dir_exists (filter_url_create_path ({repository, "Psalms", "11", "data"})));
-    evaluate (__LINE__, __func__, true, file_or_dir_exists (filter_url_create_path ({repository, "Song of Solomon", "2", "data"})));
-    evaluate (__LINE__, __func__, false, file_or_dir_exists (filter_url_create_path ({repository, "Exodus", "1", "data"})));
+    EXPECT_EQ (true, file_or_dir_exists (filter_url_create_path ({repository, ".git"})));
+    EXPECT_EQ (true, file_or_dir_exists (filter_url_create_path ({repository, "Psalms", "0", "data"})));
+    EXPECT_EQ (true, file_or_dir_exists (filter_url_create_path ({repository, "Psalms", "11", "data"})));
+    EXPECT_EQ (true, file_or_dir_exists (filter_url_create_path ({repository, "Song of Solomon", "2", "data"})));
+    EXPECT_EQ (false, file_or_dir_exists (filter_url_create_path ({repository, "Exodus", "1", "data"})));
     
     request.database_bibles()->storeChapter (bible, 2, 1, song_of_solomon_2_data);
     filter_git_sync_bible_to_git (&request, bible, repository);
     
-    evaluate (__LINE__, __func__, true, file_or_dir_exists (filter_url_create_path ({repository, ".git"})));
-    evaluate (__LINE__, __func__, false, file_or_dir_exists (filter_url_create_path ({repository, "Psalms", "0", "data"})));
-    evaluate (__LINE__, __func__, false, file_or_dir_exists (filter_url_create_path ({repository, "Psalms", "11", "data"})));
-    evaluate (__LINE__, __func__, false, file_or_dir_exists (filter_url_create_path ({repository, "Song of Solomon", "2", "data"})));
-    evaluate (__LINE__, __func__, true, file_or_dir_exists (filter_url_create_path ({repository, "Exodus", "1", "data"})));
+    EXPECT_EQ (true, file_or_dir_exists (filter_url_create_path ({repository, ".git"})));
+    EXPECT_EQ (false, file_or_dir_exists (filter_url_create_path ({repository, "Psalms", "0", "data"})));
+    EXPECT_EQ (false, file_or_dir_exists (filter_url_create_path ({repository, "Psalms", "11", "data"})));
+    EXPECT_EQ (false, file_or_dir_exists (filter_url_create_path ({repository, "Song of Solomon", "2", "data"})));
+    EXPECT_EQ (true, file_or_dir_exists (filter_url_create_path ({repository, "Exodus", "1", "data"})));
     
     // Remove generated journal entries.
     refresh_sandbox (false);
@@ -170,21 +171,21 @@ void test_git ()
   {
     test_filter_git_setup (&request, bible, newbible, psalms_0_data, psalms_11_data, song_of_solomon_2_data);
     
-    evaluate (__LINE__, __func__, true, file_or_dir_exists (filter_url_create_path ({repository, ".git"})));
-    evaluate (__LINE__, __func__, true, file_or_dir_exists (filter_url_create_path ({repository, "Psalms", "0", "data"})));
-    evaluate (__LINE__, __func__, true, file_or_dir_exists (filter_url_create_path ({repository, "Psalms", "11", "data"})));
-    evaluate (__LINE__, __func__, true, file_or_dir_exists (filter_url_create_path ({repository, "Song of Solomon", "2", "data"})));
-    evaluate (__LINE__, __func__, false, file_or_dir_exists (filter_url_create_path ({repository, "Exodus", "1", "data"})));
+    EXPECT_EQ (true, file_or_dir_exists (filter_url_create_path ({repository, ".git"})));
+    EXPECT_EQ (true, file_or_dir_exists (filter_url_create_path ({repository, "Psalms", "0", "data"})));
+    EXPECT_EQ (true, file_or_dir_exists (filter_url_create_path ({repository, "Psalms", "11", "data"})));
+    EXPECT_EQ (true, file_or_dir_exists (filter_url_create_path ({repository, "Song of Solomon", "2", "data"})));
+    EXPECT_EQ (false, file_or_dir_exists (filter_url_create_path ({repository, "Exodus", "1", "data"})));
     
     request.database_bibles()->storeChapter (bible, 19, 1, song_of_solomon_2_data);
     filter_git_sync_bible_to_git (&request, bible, repository);
     
-    evaluate (__LINE__, __func__, true, file_or_dir_exists (filter_url_create_path ({repository, ".git"})));
-    evaluate (__LINE__, __func__, false, file_or_dir_exists (filter_url_create_path ({repository, "Psalms", "0", "data"})));
-    evaluate (__LINE__, __func__, true, file_or_dir_exists (filter_url_create_path ({repository, "Psalms", "1", "data"})));
+    EXPECT_EQ (true, file_or_dir_exists (filter_url_create_path ({repository, ".git"})));
+    EXPECT_EQ (false, file_or_dir_exists (filter_url_create_path ({repository, "Psalms", "0", "data"})));
+    EXPECT_EQ (true, file_or_dir_exists (filter_url_create_path ({repository, "Psalms", "1", "data"})));
     
     string data = filter_url_file_get_contents (filter_url_create_path ({repository, "Psalms", "1", "data"}));
-    evaluate (__LINE__, __func__, song_of_solomon_2_data, data);
+    EXPECT_EQ (song_of_solomon_2_data, data);
     
     // Remove generated journal entries.
     refresh_sandbox (false);
@@ -194,30 +195,30 @@ void test_git ()
   {
     test_filter_git_setup (&request, bible, newbible, psalms_0_data, psalms_11_data, song_of_solomon_2_data);
     
-    evaluate (__LINE__, __func__, true, file_or_dir_exists (filter_url_create_path ({repository, ".git"})));
-    evaluate (__LINE__, __func__, true, file_or_dir_exists (filter_url_create_path ({repository, "Psalms", "0", "data"})));
-    evaluate (__LINE__, __func__, true, file_or_dir_exists (filter_url_create_path ({repository, "Psalms", "11", "data"})));
-    evaluate (__LINE__, __func__, true, file_or_dir_exists (filter_url_create_path ({repository, "Song of Solomon", "2", "data"})));
-    evaluate (__LINE__, __func__, false, file_or_dir_exists (filter_url_create_path ({repository, "Exodus", "1", "data"})));
+    EXPECT_EQ (true, file_or_dir_exists (filter_url_create_path ({repository, ".git"})));
+    EXPECT_EQ (true, file_or_dir_exists (filter_url_create_path ({repository, "Psalms", "0", "data"})));
+    EXPECT_EQ (true, file_or_dir_exists (filter_url_create_path ({repository, "Psalms", "11", "data"})));
+    EXPECT_EQ (true, file_or_dir_exists (filter_url_create_path ({repository, "Song of Solomon", "2", "data"})));
+    EXPECT_EQ (false, file_or_dir_exists (filter_url_create_path ({repository, "Exodus", "1", "data"})));
     
     request.database_bibles()->storeChapter (bible, 19, 1, song_of_solomon_2_data);
     request.database_bibles()->storeChapter (bible, 22, 2, psalms_11_data);
     request.database_bibles()->storeChapter (bible, 19, 11, song_of_solomon_2_data);
     filter_git_sync_bible_to_git (&request, bible, repository);
     
-    evaluate (__LINE__, __func__, true, file_or_dir_exists (filter_url_create_path ({repository, ".git"})));
-    evaluate (__LINE__, __func__, true, file_or_dir_exists (filter_url_create_path ({repository, "Psalms", "1", "data"})));
-    evaluate (__LINE__, __func__, true, file_or_dir_exists (filter_url_create_path ({repository, "Song of Solomon", "2", "data"})));
-    evaluate (__LINE__, __func__, true, file_or_dir_exists (filter_url_create_path ({repository, "Psalms", "11", "data"})));
+    EXPECT_EQ (true, file_or_dir_exists (filter_url_create_path ({repository, ".git"})));
+    EXPECT_EQ (true, file_or_dir_exists (filter_url_create_path ({repository, "Psalms", "1", "data"})));
+    EXPECT_EQ (true, file_or_dir_exists (filter_url_create_path ({repository, "Song of Solomon", "2", "data"})));
+    EXPECT_EQ (true, file_or_dir_exists (filter_url_create_path ({repository, "Psalms", "11", "data"})));
     
     string data = filter_url_file_get_contents (filter_url_create_path ({repository, "Song of Solomon", "2", "data"}));
-    evaluate (__LINE__, __func__, psalms_11_data, data);
+    EXPECT_EQ (psalms_11_data, data);
     
     data = filter_url_file_get_contents (filter_url_create_path ({repository, "Psalms", "11", "data"}));
-    evaluate (__LINE__, __func__, song_of_solomon_2_data, data);
+    EXPECT_EQ (song_of_solomon_2_data, data);
     
     data = filter_url_file_get_contents (filter_url_create_path ({repository, "Psalms", "1", "data"}));
-    evaluate (__LINE__, __func__, song_of_solomon_2_data, data);
+    EXPECT_EQ (song_of_solomon_2_data, data);
     
     // Remove generated journal entries.
     refresh_sandbox (false);
@@ -231,14 +232,14 @@ void test_git ()
     // Run the filter, and check that all three chapters are now in the database.
     filter_git_sync_git_to_bible (&request, repository, bible);
     vector <int> books = request.database_bibles()->getBooks (bible);
-    evaluate (__LINE__, __func__, {19, 22}, books);
+    EXPECT_EQ ((vector <int>{19, 22}), books);
     // Check that the data matches.
     string usfm = request.database_bibles()->getChapter (bible, 19, 0);
-    evaluate (__LINE__, __func__, psalms_0_data, usfm);
+    EXPECT_EQ (psalms_0_data, usfm);
     usfm = request.database_bibles()->getChapter (bible, 19, 11);
-    evaluate (__LINE__, __func__, psalms_11_data, usfm);
+    EXPECT_EQ (psalms_11_data, usfm);
     usfm = request.database_bibles()->getChapter (bible, 22, 2);
-    evaluate (__LINE__, __func__, song_of_solomon_2_data, usfm);
+    EXPECT_EQ (song_of_solomon_2_data, usfm);
     // Remove the journal entries the test created.
     refresh_sandbox (false);
   }
@@ -255,14 +256,14 @@ void test_git ()
     filter_url_rmdir (repository + "/Psalms/0");
     filter_git_sync_git_to_bible (&request, repository, bible);
     vector <int> books = request.database_bibles()->getBooks (bible);
-    evaluate (__LINE__, __func__, {19}, books);
+    EXPECT_EQ (vector <int>{19}, books);
     // Check that the data matches.
     string usfm = request.database_bibles()->getChapter (bible, 19, 0);
-    evaluate (__LINE__, __func__, "", usfm);
+    EXPECT_EQ ("", usfm);
     usfm = request.database_bibles()->getChapter (bible, 19, 11);
-    evaluate (__LINE__, __func__, psalms_11_data, usfm);
+    EXPECT_EQ (psalms_11_data, usfm);
     usfm = request.database_bibles()->getChapter (bible, 22, 2);
-    evaluate (__LINE__, __func__, "", usfm);
+    EXPECT_EQ ("", usfm);
     // Remove the journal entries the test created.
     refresh_sandbox (false);
   }
@@ -279,11 +280,11 @@ void test_git ()
     filter_url_file_put_contents (repository + "/Song of Solomon/2/data", "\\c 2");
     filter_git_sync_git_to_bible (&request, repository, bible);
     string usfm = request.database_bibles()->getChapter (bible, 19, 0);
-    evaluate (__LINE__, __func__, psalms_0_data, usfm);
+    EXPECT_EQ (psalms_0_data, usfm);
     usfm = request.database_bibles()->getChapter (bible, 19, 11);
-    evaluate (__LINE__, __func__, "\\c 11", usfm);
+    EXPECT_EQ ("\\c 11", usfm);
     usfm = request.database_bibles()->getChapter (bible, 22, 2);
-    evaluate (__LINE__, __func__, "\\c 2", usfm);
+    EXPECT_EQ ("\\c 2", usfm);
     // Remove the journal entries the test created.
     refresh_sandbox (false);
   }
@@ -295,28 +296,28 @@ void test_git ()
     // The git repository has Psalm 0, Psalm 11, and Song of Solomon 2.
     // The Bible has been created, but has no data yet.
     string usfm = request.database_bibles()->getChapter (bible, 19, 0);
-    evaluate (__LINE__, __func__, "", usfm);
+    EXPECT_EQ ("", usfm);
     usfm = request.database_bibles()->getChapter (bible, 19, 11);
-    evaluate (__LINE__, __func__, "", usfm);
+    EXPECT_EQ ("", usfm);
     usfm = request.database_bibles()->getChapter (bible, 22, 2);
-    evaluate (__LINE__, __func__, "", usfm);
+    EXPECT_EQ ("", usfm);
     
     // Run the filter for each chapter, and check that all three chapters make it into the database.
     filter_git_sync_git_chapter_to_bible (repository, bible, 19, 0);
     usfm = request.database_bibles()->getChapter (bible, 19, 0);
-    evaluate (__LINE__, __func__, psalms_0_data, usfm);
+    EXPECT_EQ (psalms_0_data, usfm);
     
     filter_git_sync_git_chapter_to_bible (repository, bible, 19, 11);
     usfm = request.database_bibles()->getChapter (bible, 19, 11);
-    evaluate (__LINE__, __func__, psalms_11_data, usfm);
+    EXPECT_EQ (psalms_11_data, usfm);
     
     filter_git_sync_git_chapter_to_bible (repository, bible, 22, 2);
     usfm = request.database_bibles()->getChapter (bible, 22, 2);
-    evaluate (__LINE__, __func__, song_of_solomon_2_data, usfm);
+    EXPECT_EQ (song_of_solomon_2_data, usfm);
     
     // Check the two books are there.
     vector <int> books = request.database_bibles()->getBooks (bible);
-    evaluate (__LINE__, __func__, {19, 22}, books);
+    EXPECT_EQ ((vector <int>{19, 22}), books);
     
     // Remove the journal entries the test created.
     refresh_sandbox (false);
@@ -341,15 +342,15 @@ void test_git ()
     
     // There should still be two books, although one book would have no chapters.
     vector <int> books = request.database_bibles()->getBooks (bible);
-    evaluate (__LINE__, __func__, {19, 22}, books);
+    EXPECT_EQ ((vector <int>{19, 22}), books);
     
     // Check that the chapter data matches.
     string usfm = request.database_bibles()->getChapter (bible, 19, 0);
-    evaluate (__LINE__, __func__, "", usfm);
+    EXPECT_EQ ("", usfm);
     usfm = request.database_bibles()->getChapter (bible, 19, 11);
-    evaluate (__LINE__, __func__, psalms_11_data, usfm);
+    EXPECT_EQ (psalms_11_data, usfm);
     usfm = request.database_bibles()->getChapter (bible, 22, 2);
-    evaluate (__LINE__, __func__, "", usfm);
+    EXPECT_EQ ("", usfm);
     
     // Remove the journal entries the test created.
     refresh_sandbox (false);
@@ -373,11 +374,11 @@ void test_git ()
     
     // Check that the database is updated accordingly.
     string usfm = request.database_bibles()->getChapter (bible, 19, 0);
-    evaluate (__LINE__, __func__, psalms_0_data, usfm);
+    EXPECT_EQ (psalms_0_data, usfm);
     usfm = request.database_bibles()->getChapter (bible, 19, 11);
-    evaluate (__LINE__, __func__, "\\c 11", usfm);
+    EXPECT_EQ ("\\c 11", usfm);
     usfm = request.database_bibles()->getChapter (bible, 22, 2);
-    evaluate (__LINE__, __func__, "\\c 2", usfm);
+    EXPECT_EQ ("\\c 2", usfm);
     
     // Remove the journal entries the test created.
     refresh_sandbox (false);
@@ -390,10 +391,10 @@ void test_git ()
     filter_git_config_set_int (repository, "bar.baz", 11);
     string path = filter_url_create_path ({repository, ".git", "config"});
     string contents = filter_url_file_get_contents (path);
-    evaluate (__LINE__, __func__, true, contents.find ("[foo]") != string::npos);
-    evaluate (__LINE__, __func__, true, contents.find ("[bar]") != string::npos);
-    evaluate (__LINE__, __func__, true, contents.find ("bar = false") != string::npos);
-    evaluate (__LINE__, __func__, true, contents.find ("baz = 11") != string::npos);
+    EXPECT_EQ (true, contents.find ("[foo]") != string::npos);
+    EXPECT_EQ (true, contents.find ("[bar]") != string::npos);
+    EXPECT_EQ (true, contents.find ("bar = false") != string::npos);
+    EXPECT_EQ (true, contents.find ("baz = 11") != string::npos);
     refresh_sandbox (false);
   }
   
@@ -411,13 +412,13 @@ void test_git ()
     
     // Test read access to the remote repository.
     success = filter_git_remote_read (remoterepository, error);
-    evaluate (__LINE__, __func__, true, success);
-    evaluate (__LINE__, __func__, "", error);
+    EXPECT_EQ (true, success);
+    EXPECT_EQ ("", error);
     
     // Test cloning the repository.
     success = filter_git_remote_clone (remoteurl, clonedrepository, 0, error);
-    evaluate (__LINE__, __func__, true, success);
-    evaluate (__LINE__, __func__, "", error);
+    EXPECT_EQ (true, success);
+    EXPECT_EQ ("", error);
     
     // Store some Bible data in the cloned repository.
     filter_url_mkdir (filter_url_create_path ({clonedrepository, "Psalms", "0"}));
@@ -429,34 +430,34 @@ void test_git ()
     
     // Add the Bible data to the git index.
     success = filter_git_add_remove_all (clonedrepository, error);
-    evaluate (__LINE__, __func__, true, success);
-    evaluate (__LINE__, __func__, "", error);
+    EXPECT_EQ (true, success);
+    EXPECT_EQ ("", error);
     
     // Commit the index to the repository.
     success = filter_git_commit (clonedrepository, "username", "unittest", messages, error);
-    evaluate (__LINE__, __func__, true, success);
-    evaluate (__LINE__, __func__, "", error);
+    EXPECT_EQ (true, success);
+    EXPECT_EQ ("", error);
     
     // Remove some Bible data from the cloned repository.
     filter_url_rmdir (filter_url_create_path ({clonedrepository, "Psalms"}));
     success = filter_git_add_remove_all (clonedrepository, error);
-    evaluate (__LINE__, __func__, true, success);
-    evaluate (__LINE__, __func__, "", error);
+    EXPECT_EQ (true, success);
+    EXPECT_EQ ("", error);
     
     // Commit the index to the repository.
     success = filter_git_commit (clonedrepository, "username", "unittest", messages, error);
-    evaluate (__LINE__, __func__, true, success);
-    evaluate (__LINE__, __func__, "", error);
+    EXPECT_EQ (true, success);
+    EXPECT_EQ ("", error);
     
     // Push to the remote repository.
     success = filter_git_push (clonedrepository, messages);
-    evaluate (__LINE__, __func__, true, success);
-    evaluate (__LINE__, __func__, 2, static_cast<int>(messages.size()));
+    EXPECT_EQ (true, success);
+    EXPECT_EQ (2, static_cast<int>(messages.size()));
     
     // Pull from remote repository.
     success = filter_git_pull (clonedrepository, messages);
-    evaluate (__LINE__, __func__, true, success);
-    evaluate (__LINE__, __func__, {"Already up to date."}, messages);
+    EXPECT_EQ (true, success);
+    EXPECT_EQ (vector<string>{"Already up to date."}, messages);
     
     // Remove journal entries.
     refresh_sandbox (false);
@@ -465,34 +466,34 @@ void test_git ()
   // Get Git Passage
   {
     Passage passage = filter_git_get_passage ("From https://github.com/joe/test");
-    evaluate (__LINE__, __func__, 0, passage.m_book);
+    EXPECT_EQ (0, passage.m_book);
     
     passage = filter_git_get_passage ("   443579b..90dcb57  master     -> origin/master");
-    evaluate (__LINE__, __func__, 0, passage.m_book);
+    EXPECT_EQ (0, passage.m_book);
     
     passage = filter_git_get_passage ("Updating 443579b..90dcb57");
-    evaluate (__LINE__, __func__, 0, passage.m_book);
+    EXPECT_EQ (0, passage.m_book);
     
     passage = filter_git_get_passage ("Fast-forward");
-    evaluate (__LINE__, __func__, 0, passage.m_book);
+    EXPECT_EQ (0, passage.m_book);
     
     passage = filter_git_get_passage (" Genesis/3/data | 2 +-");
     Passage standard = Passage ("", 1, 3, "");
-    evaluate (__LINE__, __func__, true, standard.equal (passage));
+    EXPECT_EQ (true, standard.equal (passage));
     
     passage = filter_git_get_passage (" 1 file changed, 1 insertion(+), 1 deletion(-)");
-    evaluate (__LINE__, __func__, 0, passage.m_book);
+    EXPECT_EQ (0, passage.m_book);
     
     passage = filter_git_get_passage (" delete mode 100644 Leviticus/1/data");
-    evaluate (__LINE__, __func__, 0, passage.m_book);
+    EXPECT_EQ (0, passage.m_book);
     
     passage = filter_git_get_passage (" Revelation/3/data | 2 +-");
     standard = Passage ("", 66, 3, "");
-    evaluate (__LINE__, __func__, true, standard.equal (passage));
+    EXPECT_EQ (true, standard.equal (passage));
     
     passage = filter_git_get_passage ("	modified:   Exodus/3/data");
     standard = Passage ("", 2, 3, "");
-    evaluate (__LINE__, __func__, true, standard.equal (passage));
+    EXPECT_EQ (true, standard.equal (passage));
   }
   
   // Exercise the "git status" filter.
@@ -506,35 +507,35 @@ void test_git ()
     // There should be three modified paths.
     paths = filter_git_status (repository);
     size = 10;
-    evaluate (__LINE__, __func__, size, paths.size());
+    EXPECT_EQ (size, paths.size());
     if (static_cast<int> (paths.size()) == size) {
-      evaluate (__LINE__, __func__, 6, (paths[6].find ("Psalms/")));
-      evaluate (__LINE__, __func__, 6, (paths[7].find ("Song of Solomon/")));
+      EXPECT_EQ (6, (paths[6].find ("Psalms/")));
+      EXPECT_EQ (6, (paths[7].find ("Song of Solomon/")));
     }
 
     // Add the files to the index.
     string error;
     vector <string> messages;
     filter_git_add_remove_all (repository, error);
-    evaluate (__LINE__, __func__, "", error);
+    EXPECT_EQ ("", error);
     
     // There should still be three paths.
     paths = filter_git_status (repository);
     size = 10;
-    evaluate (__LINE__, __func__, size, paths.size());
+    EXPECT_EQ (size, paths.size());
     if (static_cast<int> (paths.size()) == size) {
-      evaluate (__LINE__, __func__, 6, (paths[6].find ("new file:   Psalms/0/data")));
-      evaluate (__LINE__, __func__, 6, (paths[7].find ("new file:   Psalms/11/data")));
-      evaluate (__LINE__, __func__, 6, (paths[8].find ("new file:   Song of Solomon/2/data")));
+      EXPECT_EQ (6, (paths[6].find ("new file:   Psalms/0/data")));
+      EXPECT_EQ (6, (paths[7].find ("new file:   Psalms/11/data")));
+      EXPECT_EQ (6, (paths[8].find ("new file:   Song of Solomon/2/data")));
     }
     
     // Commit the index.
     filter_git_commit (repository, "user", "unittest", messages, error);
-    evaluate (__LINE__, __func__, string(), error);
+    EXPECT_EQ (string(), error);
     
     // There should be no modified paths now.
     paths = filter_git_status (repository);
-    evaluate (__LINE__, __func__, {"On branch master", "nothing to commit, working tree clean"}, paths);
+    EXPECT_EQ ((vector<string>{"On branch master", "nothing to commit, working tree clean"}), paths);
 
     // Remove both Psalms chapters.
     filter_url_rmdir (filter_url_create_path ({repository, "Psalms"}));
@@ -542,32 +543,32 @@ void test_git ()
     // There should be two modified paths now.
     paths = filter_git_status (repository);
     size = 8;
-    evaluate (__LINE__, __func__, size, paths.size());
+    EXPECT_EQ (size, paths.size());
     if (static_cast<int> (paths.size()) == size) {
-      evaluate (__LINE__, __func__, 6, (paths[4].find ("deleted:    Psalms/0/data")));
-      evaluate (__LINE__, __func__, 6, (paths[5].find ("deleted:    Psalms/11/data")));
+      EXPECT_EQ (6, (paths[4].find ("deleted:    Psalms/0/data")));
+      EXPECT_EQ (6, (paths[5].find ("deleted:    Psalms/11/data")));
     }
     
     // Add / remove the files to the index.
     filter_git_add_remove_all (repository, error);
-    evaluate (__LINE__, __func__, string(), error);
+    EXPECT_EQ (string(), error);
     
     // There should still be two paths now.
     paths = filter_git_status (repository);
     size = 6;
-    evaluate (__LINE__, __func__, size, paths.size());
+    EXPECT_EQ (size, paths.size());
     if (static_cast<int> (paths.size()) == size) {
-      evaluate (__LINE__, __func__, 6, (paths[3].find ("deleted:    Psalms/0/data")));
-      evaluate (__LINE__, __func__, 6, (paths[4].find ("deleted:    Psalms/11/data")));
+      EXPECT_EQ (6, (paths[3].find ("deleted:    Psalms/0/data")));
+      EXPECT_EQ (6, (paths[4].find ("deleted:    Psalms/11/data")));
     }
     
     // Commit the index.
     filter_git_commit (repository, "user", "unittest", messages, error);
-    evaluate (__LINE__, __func__, "", error);
+    EXPECT_EQ ("", error);
     
     // There should be no modified paths now.
     paths = filter_git_status (repository);
-    evaluate (__LINE__, __func__, {"On branch master", "nothing to commit, working tree clean"}, paths);
+    EXPECT_EQ ((vector<string>{"On branch master", "nothing to commit, working tree clean"}), paths);
 
     // Remove journal entries.
     refresh_sandbox (false);
@@ -587,8 +588,8 @@ void test_git ()
     
     // Clone the remote repository.
     success = filter_git_remote_clone (remoteurl, repository, 0, error);
-    evaluate (__LINE__, __func__, true, success);
-    evaluate (__LINE__, __func__, "", error);
+    EXPECT_EQ (true, success);
+    EXPECT_EQ ("", error);
     
     // Configure the local repository for being able to fast forward.
     filter_git_config (repository);
@@ -601,18 +602,18 @@ void test_git ()
     filter_url_file_put_contents (filter_url_create_path ({repository, "Psalms", "11", "data"}), psalms_11_data);
     filter_url_file_put_contents (filter_url_create_path ({repository, "Song of Solomon", "2", "data"}), song_of_solomon_2_data);
     success = filter_git_add_remove_all (repository, error);
-    evaluate (__LINE__, __func__, true, success);
-    evaluate (__LINE__, __func__, string(), error);
+    EXPECT_EQ (true, success);
+    EXPECT_EQ (string(), error);
     success = filter_git_commit (repository, "test", "test", messages, error);
-    evaluate (__LINE__, __func__, true, success);
-    evaluate (__LINE__, __func__, string(), error);
+    EXPECT_EQ (true, success);
+    EXPECT_EQ (string(), error);
     success = filter_git_push (repository, messages, true);
-    evaluate (__LINE__, __func__, true, success);
+    EXPECT_EQ (true, success);
     
     // Clone the remote repository to a new local repository.
     success = filter_git_remote_clone (remoteurl, newrepository, 0, error);
-    evaluate (__LINE__, __func__, true, success);
-    evaluate (__LINE__, __func__, string(), error);
+    EXPECT_EQ (true, success);
+    EXPECT_EQ (string(), error);
 
     // Set the stage for a conflict that git itself cannot merge:
     // Change something in the new repository, push it to the remote.
@@ -624,11 +625,11 @@ void test_git ()
     "\\mt OF PSALMS\n";
     filter_url_file_put_contents (filter_url_create_path ({newrepository, "Psalms", "0", "data"}), newcontents);
     success = filter_git_add_remove_all (newrepository, error);
-    evaluate (__LINE__, __func__, true, success);
-    evaluate (__LINE__, __func__, string(), error);
+    EXPECT_EQ (true, success);
+    EXPECT_EQ (string(), error);
     success = filter_git_commit (newrepository, "test", "test", messages, error);
-    evaluate (__LINE__, __func__, true, success);
-    evaluate (__LINE__, __func__, "", error);
+    EXPECT_EQ (true, success);
+    EXPECT_EQ ("", error);
     success = filter_git_push (newrepository, messages, true);
     // Change something in the repository, and pull from remote:
     // Git fails to merge by itself.
@@ -639,25 +640,25 @@ void test_git ()
     "\\mt2 UGWALO\n"
     "\\mt LWEZIHLABELELO\n";
     filter_url_file_put_contents (filter_url_create_path ({repository, "Psalms", "0", "data"}), contents);
-    evaluate (__LINE__, __func__, true, success);
+    EXPECT_EQ (true, success);
     success = filter_git_add_remove_all (repository, error);
-    evaluate (__LINE__, __func__, true, success);
-    evaluate (__LINE__, __func__, string(), error);
+    EXPECT_EQ (true, success);
+    EXPECT_EQ (string(), error);
     success = filter_git_commit (repository, "test", "test", messages, error);
-    evaluate (__LINE__, __func__, true, success);
-    evaluate (__LINE__, __func__, string(), error);
+    EXPECT_EQ (true, success);
+    EXPECT_EQ (string(), error);
     success = filter_git_pull (repository, messages);
-    evaluate (__LINE__, __func__, false, success);
+    EXPECT_EQ (false, success);
     success = find (messages.begin(), messages.end(), "Auto-merging Psalms/0/data") != messages.end();
-    evaluate (__LINE__, __func__, true, success);
+    EXPECT_EQ (true, success);
     success = find (messages.begin(), messages.end(), "CONFLICT (content): Merge conflict in Psalms/0/data") != messages.end();
-    evaluate (__LINE__, __func__, true, success);
+    EXPECT_EQ (true, success);
     success = filter_git_push (repository, messages);
-    evaluate (__LINE__, __func__, false, success);
+    EXPECT_EQ (false, success);
     vector <string> paths = { "Psalms/0/data" };
     success = filter_git_resolve_conflicts (repository, paths, error);
-    evaluate (__LINE__, __func__, string(), error);
-    evaluate (__LINE__, __func__, true, success);
+    EXPECT_EQ (string(), error);
+    EXPECT_EQ (true, success);
     // Check the merge result.
     string standard =
     "\\id PSALM\n"
@@ -666,7 +667,7 @@ void test_git ()
     "\\mt2 THE BOOK\n"
     "\\mt OF PSALMS";
     contents = filter_url_file_get_contents (filter_url_create_path ({repository, "Psalms", "0", "data"}));
-    evaluate (__LINE__, __func__, standard, contents);
+    EXPECT_EQ (standard, contents);
     
     // Remove journal entries.
     refresh_sandbox (false);
@@ -685,8 +686,8 @@ void test_git ()
     
     // Clone the remote repository.
     success = filter_git_remote_clone (remoteurl, repository, 0, error);
-    evaluate (__LINE__, __func__, true, success);
-    evaluate (__LINE__, __func__, "", error);
+    EXPECT_EQ (true, success);
+    EXPECT_EQ ("", error);
 
     // Configure the local repository for being able to fast forward.
     filter_git_config (repository);
@@ -703,18 +704,18 @@ void test_git ()
     filter_url_file_put_contents (filter_url_create_path ({repository, "Psalms", "11", "data"}), psalms_11_data);
     filter_url_file_put_contents (filter_url_create_path ({repository, "Song of Solomon", "2", "data"}), song_of_solomon_2_data);
     success = filter_git_add_remove_all (repository, error);
-    evaluate (__LINE__, __func__, true, success);
-    evaluate (__LINE__, __func__, "", error);
+    EXPECT_EQ (true, success);
+    EXPECT_EQ ("", error);
     success = filter_git_commit (repository, "test", "test", messages, error);
-    evaluate (__LINE__, __func__, true, success);
-    evaluate (__LINE__, __func__, "", error);
+    EXPECT_EQ (true, success);
+    EXPECT_EQ ("", error);
     success = filter_git_push (repository, messages, true);
-    evaluate (__LINE__, __func__, true, success);
+    EXPECT_EQ (true, success);
     
     // Clone the remote repository to a new local repository.
     success = filter_git_remote_clone (remoteurl, newrepository, 0, error);
-    evaluate (__LINE__, __func__, true, success);
-    evaluate (__LINE__, __func__, "", error);
+    EXPECT_EQ (true, success);
+    EXPECT_EQ ("", error);
     
     // Set the stage for a conflict that git itself can merge:
     // Change something in the new repository, push it to the remote.
@@ -724,11 +725,11 @@ void test_git ()
     "Line three three three\n";
     filter_url_file_put_contents (filter_url_create_path ({newrepository, "Psalms", "0", "data"}), newcontents);
     success = filter_git_add_remove_all (newrepository, error);
-    evaluate (__LINE__, __func__, true, success);
-    evaluate (__LINE__, __func__, "", error);
+    EXPECT_EQ (true, success);
+    EXPECT_EQ ("", error);
     success = filter_git_commit (newrepository, "test", "test", messages, error);
-    evaluate (__LINE__, __func__, true, success);
-    evaluate (__LINE__, __func__, "", error);
+    EXPECT_EQ (true, success);
+    EXPECT_EQ ("", error);
     success = filter_git_push (newrepository, messages, true);
     // Change something in the repository, and pull from remote:
     // Git fails to merge by itself.
@@ -737,22 +738,22 @@ void test_git ()
     "Line two 2 two 2 two\n"
     "Line three 3 three 3 three\n";
     filter_url_file_put_contents (filter_url_create_path ({repository, "Psalms", "0", "data"}), contents);
-    evaluate (__LINE__, __func__, true, success);
+    EXPECT_EQ (true, success);
     success = filter_git_add_remove_all (repository, error);
-    evaluate (__LINE__, __func__, true, success);
-    evaluate (__LINE__, __func__, "", error);
+    EXPECT_EQ (true, success);
+    EXPECT_EQ ("", error);
     success = filter_git_commit (repository, "test", "test", messages, error);
-    evaluate (__LINE__, __func__, true, success);
-    evaluate (__LINE__, __func__, "", error);
+    EXPECT_EQ (true, success);
+    EXPECT_EQ ("", error);
     // Pulling changes should result in a merge conflict.
     success = filter_git_pull (repository, messages);
-    evaluate (__LINE__, __func__, false, success);
+    EXPECT_EQ (false, success);
     
     // Resolve the conflict.
     success = filter_git_resolve_conflicts (repository, messages, error);
-    evaluate (__LINE__, __func__, true, success);
-    evaluate (__LINE__, __func__, "", error);
-    evaluate (__LINE__, __func__, {"Psalms/0/data"}, messages);
+    EXPECT_EQ (true, success);
+    EXPECT_EQ ("", error);
+    EXPECT_EQ (vector<string>{"Psalms/0/data"}, messages);
 
     // Verify the resolved contents on correctness.
     contents = filter_url_file_get_contents (filter_url_create_path ({repository, "Psalms", "0", "data"}));
@@ -760,23 +761,23 @@ void test_git ()
     "Line 1 one 1 one\n"
     "Line two 2 two 2 two\n"
     "Line three 3 three 3 three";
-    evaluate (__LINE__, __func__, standard, contents);
+    EXPECT_EQ (standard, contents);
     
     // The status still displays the file as in conflict.
     // messages = filter_git_status (repository);
-    // evaluate (__LINE__, __func__, {"Psalms/0/data"}, messages);
+    // EXPECT_EQ ({"Psalms/0/data"}, messages);
     
     // Commit and push the result.
     success = filter_git_commit (repository, "", "message", messages, error);
-    evaluate (__LINE__, __func__, true, success);
-    evaluate (__LINE__, __func__, 5, static_cast<int>(messages.size()));
+    EXPECT_EQ (true, success);
+    EXPECT_EQ (5, static_cast<int>(messages.size()));
     success = filter_git_push (repository, messages);
-    evaluate (__LINE__, __func__, true, success);
-    evaluate (__LINE__, __func__, 2, static_cast<int>(messages.size()));
+    EXPECT_EQ (true, success);
+    EXPECT_EQ (2, static_cast<int>(messages.size()));
     
     // Status up-to-date.
     messages = filter_git_status (repository);
-    evaluate (__LINE__, __func__, 4, static_cast<int>(messages.size ()));
+    EXPECT_EQ (4, static_cast<int>(messages.size ()));
     
     // Remove journal entries.
     refresh_sandbox (false);
@@ -796,9 +797,9 @@ void test_git ()
     
     // Commit the data to the repository.
     success = filter_git_add_remove_all (repository, error);
-    evaluate (__LINE__, __func__, true, success);
+    EXPECT_EQ (true, success);
     success = filter_git_commit (repository, "", "initial commit", messages, error);
-    evaluate (__LINE__, __func__, true, success);
+    EXPECT_EQ (true, success);
     
     int psalms = 19;
     string user1 = "user1";
@@ -821,9 +822,9 @@ void test_git ()
     // Check the elaborate log.
     // Disable color codes in the output for easier parsing.
     filter_shell_run ("cd " + repository + " && git log -p --color=never", out_err);
-    evaluate (__LINE__, __func__, true, out_err.find ("+Praise Jesus forever.") != string::npos);
-    evaluate (__LINE__, __func__, true, out_err.find ("Author: user1 <bibledit@bibledit.org>") != string::npos);
-    evaluate (__LINE__, __func__, true, out_err.find ("User modification") != string::npos);
+    EXPECT_EQ (true, out_err.find ("+Praise Jesus forever.") != string::npos);
+    EXPECT_EQ (true, out_err.find ("Author: user1 <bibledit@bibledit.org>") != string::npos);
+    EXPECT_EQ (true, out_err.find ("User modification") != string::npos);
     
     // Remove journal entries.
     refresh_sandbox (false);
@@ -842,9 +843,9 @@ void test_git ()
     
     // Commit the data to the repository.
     success = filter_git_add_remove_all (repository, error);
-    evaluate (__LINE__, __func__, true, success);
+    EXPECT_EQ (true, success);
     success = filter_git_commit (repository, "", "initial commit", messages, error);
-    evaluate (__LINE__, __func__, true, success);
+    EXPECT_EQ (true, success);
     
     int psalms = 19;
     string user1 = "user1";
@@ -865,12 +866,12 @@ void test_git ()
     Database_Git::store_chapter (user1, bible, psalms, 11, oldusfm1, newusfm1);
     filter_git_sync_modifications_to_git (bible, repository);
     filter_shell_run ("cd " + repository + " && git log -p --color=never", out_err);
-    evaluate (__LINE__, __func__, true, out_err.find ("+Praise Jesus forever.") != string::npos);
-    evaluate (__LINE__, __func__, true, out_err.find ("Author: user1 <bibledit@bibledit.org>") != string::npos);
-    evaluate (__LINE__, __func__, true, out_err.find ("Author: user2 <bibledit@bibledit.org>") != string::npos);
-    evaluate (__LINE__, __func__, true, out_err.find ("User modification") != string::npos);
-    evaluate (__LINE__, __func__, true, out_err.find ("System-generated to clearly display user modification in next commit") != string::npos);
-    evaluate (__LINE__, __func__, true, out_err.find ("+Praise Jesus xxx") != string::npos);
+    EXPECT_EQ (true, out_err.find ("+Praise Jesus forever.") != string::npos);
+    EXPECT_EQ (true, out_err.find ("Author: user1 <bibledit@bibledit.org>") != string::npos);
+    EXPECT_EQ (true, out_err.find ("Author: user2 <bibledit@bibledit.org>") != string::npos);
+    EXPECT_EQ (true, out_err.find ("User modification") != string::npos);
+    EXPECT_EQ (true, out_err.find ("System-generated to clearly display user modification in next commit") != string::npos);
+    EXPECT_EQ (true, out_err.find ("+Praise Jesus xxx") != string::npos);
     
     // Remove journal entries.
     refresh_sandbox (false);
@@ -879,11 +880,10 @@ void test_git ()
 }
 
 
-void test_database_git ()
+TEST (database, git)
 {
 #ifdef HAVE_CLOUD
-  trace_unit_tests (__func__);
-  
+
   refresh_sandbox (true);
   
   // Create the database.
@@ -895,11 +895,11 @@ void test_database_git ()
   // Store one chapter, and check there's one rowid as a result.
   Database_Git::store_chapter (user, bible, 1, 2, "old", "new");
   vector <int> rowids = Database_Git::get_rowids (user, "");
-  evaluate (__LINE__, __func__, {}, rowids);
+  EXPECT_EQ (vector <int>{}, rowids);
   rowids = Database_Git::get_rowids ("", bible);
-  evaluate (__LINE__, __func__, {}, rowids);
+  EXPECT_EQ (vector <int>{}, rowids);
   rowids = Database_Git::get_rowids (user, bible);
-  evaluate (__LINE__, __func__, {1}, rowids);
+  EXPECT_EQ (vector <int>{1}, rowids);
   
   // Store some more chapters to get more rowids in the database.
   Database_Git::store_chapter (user, bible, 2, 5, "old2", "new5");
@@ -911,42 +911,43 @@ void test_database_git ()
   int book, chapter;
   string oldusfm, newusfm;
   bool get = Database_Git::get_chapter (1, user2, bible2, book, chapter, oldusfm, newusfm);
-  evaluate (__LINE__, __func__, true, get);
-  evaluate (__LINE__, __func__, user, user2);
-  evaluate (__LINE__, __func__, bible, bible2);
-  evaluate (__LINE__, __func__, 1, book);
-  evaluate (__LINE__, __func__, 2, chapter);
-  evaluate (__LINE__, __func__, "old", oldusfm);
-  evaluate (__LINE__, __func__, "new", newusfm);
+  EXPECT_EQ (true, get);
+  EXPECT_EQ (user, user2);
+  EXPECT_EQ (bible, bible2);
+  EXPECT_EQ (1, book);
+  EXPECT_EQ (2, chapter);
+  EXPECT_EQ ("old", oldusfm);
+  EXPECT_EQ ("new", newusfm);
   
   // Erase a rowid, and check that the remaining ones in the database are correct.
   Database_Git::erase_rowid (2);
   rowids = Database_Git::get_rowids (user, bible);
-  evaluate (__LINE__, __func__, {1, 3, 4}, rowids);
+  EXPECT_EQ ((vector<int>{1, 3, 4}), rowids);
   
   // Getting a non-existent rowid should fail.
   get = Database_Git::get_chapter (2, user, bible, book, chapter, oldusfm, newusfm);
-  evaluate (__LINE__, __func__, false, get);
+  EXPECT_EQ (false, get);
   
   // Update the timestamps and check that expired entries get removed and recent ones remain.
   rowids = Database_Git::get_rowids ("user", "bible");
-  evaluate (__LINE__, __func__, 3, rowids.size ());
+  EXPECT_EQ (3, rowids.size ());
   Database_Git::optimize ();
   rowids = Database_Git::get_rowids (user, bible);
-  evaluate (__LINE__, __func__, 3, rowids.size ());
+  EXPECT_EQ (3, rowids.size ());
   Database_Git::touch_timestamps (filter::date::seconds_since_epoch () - 432000 - 1);
   Database_Git::optimize ();
   rowids = Database_Git::get_rowids (user, bible);
-  evaluate (__LINE__, __func__, 0, rowids.size ());
+  EXPECT_EQ (0, rowids.size ());
   
   // Test that it reads distinct users.
   Database_Git::store_chapter (user, bible, 2, 5, "old", "new");
   Database_Git::store_chapter (user, bible, 2, 5, "old", "new");
   Database_Git::store_chapter ("user2", bible, 2, 5, "old", "new");
   vector <string> users = Database_Git::get_users (bible);
-  evaluate (__LINE__, __func__, {user, "user2"}, users);
+  EXPECT_EQ ((vector<string>{user, "user2"}), users);
   
 #endif
 }
 
+#endif
 

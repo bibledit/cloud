@@ -17,7 +17,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <unittests/export.h>
+#include <config/libraries.h>
+#ifdef HAVE_GTEST
+#include "gtest/gtest.h"
 #include <unittests/utilities.h>
 #include <text/text.h>
 #include <esword/text.h>
@@ -29,9 +31,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 using namespace std;
 
 
-void test_export () 
+TEST (filter, export) 
 {
-  trace_unit_tests (__func__);
   refresh_sandbox (true);
 
   // Test the plain text export tool.
@@ -39,8 +40,8 @@ void test_export ()
     Text_Text text_text;
     text_text.addtext ("text one");
     text_text.addnotetext ("note one");
-    evaluate (__LINE__, __func__, "text one", text_text.get ());
-    evaluate (__LINE__, __func__, "note one", text_text.getnote ());
+    EXPECT_EQ ("text one", text_text.get ());
+    EXPECT_EQ ("note one", text_text.getnote ());
   }
 
   {
@@ -50,14 +51,14 @@ void test_export ()
     text_text.paragraph ("paragraph2");
     text_text.note ("note");
     text_text.addnotetext ("2");
-    evaluate (__LINE__, __func__, "paragraph1\nparagraph2", text_text.get ());
-    evaluate (__LINE__, __func__, "note1\nnote2", text_text.getnote ());
+    EXPECT_EQ ("paragraph1\nparagraph2", text_text.get ());
+    EXPECT_EQ ("note1\nnote2", text_text.getnote ());
   }
   
   {
     Text_Text text_text;
     text_text.paragraph ("paragraph");
-    evaluate (__LINE__, __func__, "paragraph", text_text.line ());
+    EXPECT_EQ ("paragraph", text_text.line ());
   }
 
   // Test export title via the e-Sword tool.
@@ -70,7 +71,7 @@ void test_export ()
       {"INSERT INTO Details VALUES ('The Word of the Lord Jesus Christ', 'The Word of the Lord Jesus Christ', 'The Word of the Lord Jesus Christ', 1, 'UNICODE', 1, 0, 1, 1, 0, 0);"},
       {"CREATE TABLE Bible (Book INT, Chapter INT, Verse INT, Scripture TEXT);"}
     };
-    evaluate (__LINE__, __func__, sql, esword_text.get_sql ());
+    EXPECT_EQ (sql, esword_text.get_sql ());
   }
   
   // Test e-Sword text zero reference.
@@ -87,7 +88,7 @@ void test_export ()
       {"INSERT INTO Bible VALUES (0, 0, 0, '\\u84?\\u104?\\u101?\\u32?\\u87?\\u111?\\u114?\\u100?\\u32?\\u111?\\u102?\\u32?\\u71?\\u111?\\u100?');"},
       {"CREATE INDEX BookChapterVerseIndex ON Bible (Book, Chapter, Verse);"}
     };
-    evaluate (__LINE__, __func__, sql, esword_text.get_sql ());
+    EXPECT_EQ (sql, esword_text.get_sql ());
   }
   
   // Test e-Sword converter John 2:3.
@@ -107,7 +108,7 @@ void test_export ()
       {"INSERT INTO Bible VALUES (43, 2, 3, '\\u73?\\u110?\\u32?\\u116?\\u104?\\u101?\\u32?\\u98?\\u101?\\u103?\\u105?\\u110?\\u110?\\u105?\\u110?\\u103?\\u32?\\u119?\\u97?\\u115?\\u32?\\u116?\\u104?\\u101?\\u32?\\u87?\\u111?\\u114?\\u100?\\u44?\\u32?\\u97?\\u110?\\u100?\\u32?\\u116?\\u104?\\u101?\\u32?\\u87?\\u111?\\u114?\\u100?\\u32?\\u119?\\u97?\\u115?\\u32?\\u119?\\u105?\\u116?\\u104?\\u32?\\u71?\\u111?\\u100?\\u44?\\u32?\\u97?\\u110?\\u100?\\u32?\\u116?\\u104?\\u101?\\u32?\\u87?\\u111?\\u114?\\u100?\\u32?\\u119?\\u97?\\u115?\\u32?\\u71?\\u111?\\u100?\\u46?');"},
       {"CREATE INDEX BookChapterVerseIndex ON Bible (Book, Chapter, Verse);"}
     };
-    evaluate (__LINE__, __func__, sql, esword_text.get_sql ());
+    EXPECT_EQ (sql, esword_text.get_sql ());
   }
   
   // Test e-Sword converter fragmented text.
@@ -129,7 +130,7 @@ void test_export ()
       {"INSERT INTO Bible VALUES (43, 1, 1, '\\u73?\\u110?\\u32?\\u116?\\u104?\\u101?\\u32?\\u98?\\u101?\\u103?\\u105?\\u110?\\u110?\\u105?\\u110?\\u103?\\u32?\\u119?\\u97?\\u115?\\u32?\\u116?\\u104?\\u101?\\u32?\\u87?\\u111?\\u114?\\u100?\\u44?\\u32?\\u97?\\u110?\\u100?\\u32?\\u116?\\u104?\\u101?\\u32?\\u87?\\u111?\\u114?\\u100?\\u32?\\u119?\\u97?\\u115?\\u32?\\u119?\\u105?\\u116?\\u104?\\u32?\\u71?\\u111?\\u100?\\u44?\\u32?\\u97?\\u110?\\u100?\\u32?\\u116?\\u104?\\u101?\\u32?\\u87?\\u111?\\u114?\\u100?\\u32?\\u119?\\u97?\\u115?\\u32?\\u71?\\u111?\\u100?\\u46?');"},
       {"CREATE INDEX BookChapterVerseIndex ON Bible (Book, Chapter, Verse);"}
     };
-    evaluate (__LINE__, __func__, sql, esword_text.get_sql ());
+    EXPECT_EQ (sql, esword_text.get_sql ());
   }
 
   // Test e-Sword converter switch reference.
@@ -154,7 +155,7 @@ void test_export ()
       {"INSERT INTO Bible VALUES (4, 5, 6, '\\u87?\\u104?\\u105?\\u99?\\u104?\\u32?\\u119?\\u101?\\u114?\\u101?\\u32?\\u98?\\u111?\\u114?\\u110?\\u44?\\u32?\\u110?\\u111?\\u116?\\u32?\\u111?\\u102?\\u32?\\u98?\\u108?\\u111?\\u111?\\u100?\\u44?\\u32?\\u110?\\u111?\\u114?\\u32?\\u111?\\u102?\\u32?\\u116?\\u104?\\u101?\\u32?\\u119?\\u105?\\u108?\\u108?\\u32?\\u111?\\u102?\\u32?\\u116?\\u104?\\u101?\\u32?\\u102?\\u108?\\u101?\\u115?\\u104?\\u44?\\u32?\\u110?\\u111?\\u114?\\u32?\\u111?\\u102?\\u32?\\u116?\\u104?\\u101?\\u32?\\u119?\\u105?\\u108?\\u108?\\u32?\\u111?\\u102?\\u32?\\u109?\\u97?\\u110?\\u44?\\u32?\\u98?\\u117?\\u116?\\u32?\\u111?\\u102?\\u32?\\u71?\\u111?\\u100?\\u46?');"},
       {"CREATE INDEX BookChapterVerseIndex ON Bible (Book, Chapter, Verse);"}
     };
-    evaluate (__LINE__, __func__, sql, esword_text.get_sql ());
+    EXPECT_EQ (sql, esword_text.get_sql ());
   }
 
   // Test e-Sword converter create module.
@@ -165,7 +166,7 @@ void test_export ()
     string filename = "/tmp/module.bblx";
     esword_text.createModule (filename);
     int filesize = filter_url_filesize (filename);
-    evaluate (__LINE__, __func__, 16384, filesize);
+    EXPECT_EQ (16384, filesize);
     filter_url_unlink (filename);
   }
   
@@ -181,7 +182,7 @@ void test_export ()
     onlinebible_text.save (filename);
     string standard = filter_url_file_get_contents (filter_url_create_root_path ({"unittests", "tests", "onlinebible1.exp"}));
     string result = filter_url_file_get_contents (filename);
-    evaluate (__LINE__, __func__, standard, result);
+    EXPECT_EQ (standard, result);
     filter_url_unlink (filename);
   }
   
@@ -198,7 +199,7 @@ void test_export ()
     onlinebible_text.save (filename);
     string standard = filter_url_file_get_contents (filter_url_create_root_path ({"unittests", "tests", "onlinebible2.exp"}));
     string result = filter_url_file_get_contents (filename);
-    evaluate (__LINE__, __func__, standard, result);
+    EXPECT_EQ (standard, result);
     filter_url_unlink (filename);
   }
 
@@ -210,7 +211,7 @@ void test_export ()
     string standard =
 R"(###MAT
 ###! Matthew)";
-    evaluate (__LINE__, __func__, standard, tbsx.get_document ());
+    EXPECT_EQ (standard, tbsx.get_document ());
   }
   
   // Test TBS exporter chapter handling.
@@ -221,7 +222,7 @@ R"(###MAT
     string standard =
 R"(##2
 ##! Header)";
-    evaluate (__LINE__, __func__, standard, tbsx.get_document ());
+    EXPECT_EQ (standard, tbsx.get_document ());
   }
   
   // Text the TBS exporter tool paragraph handling.
@@ -232,7 +233,7 @@ R"(##2
     string standard =
 R"(#%
 #1 Text contents)";
-    evaluate (__LINE__, __func__, standard, tbsx.get_document ());
+    EXPECT_EQ (standard, tbsx.get_document ());
   }
   
   // Text the TBS exporter tool supplied text handling.
@@ -245,7 +246,7 @@ R"(#%
     string standard =
 R"(#%
 #1 Text *added* content)";
-    evaluate (__LINE__, __func__, standard, tbsx.get_document ());
+    EXPECT_EQ (standard, tbsx.get_document ());
   }
 
   // Test the TBS text export tool.
@@ -256,9 +257,11 @@ R"(#%
     tbsx.add_text("note");
     tbsx.close_note();
     tbsx.add_text (" of verse.");
-    string standard =
-R"(#Text[note] of verse.)";
-    evaluate (__LINE__, __func__, standard, tbsx.get_document ());
+    string standard = R"(#Text[note] of verse.)";
+    EXPECT_EQ (standard, tbsx.get_document ());
   }
-
 }
+
+
+#endif
+

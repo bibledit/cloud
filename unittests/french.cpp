@@ -17,7 +17,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <unittests/french.h>
+#include <config/libraries.h>
+#ifdef HAVE_GTEST
+#include "gtest/gtest.h"
 #include <unittests/utilities.h>
 #include <checks/french.h>
 #include <database/check.h>
@@ -27,9 +29,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 using namespace std;
 
 
-void test_french ()
+TEST (checks, french)
 {
-  trace_unit_tests (__func__);
   refresh_sandbox (true);
   Database_Check database_check;
   database_check.create ();
@@ -51,27 +52,27 @@ void test_french ()
     checks_french::space_before_after_punctuation (bible, 2, 3, texts);
     vector <Database_Check_Hit> hits = database_check.getHits ();
     int hitcount = 6;
-    evaluate (__LINE__, __func__, hitcount, hits.size ());
+    EXPECT_EQ (hitcount, hits.size ());
     if (static_cast<int> (hits.size ()) == hitcount) {
       string standard;
       standard = "« - Should be followed by a no-break space in French";
-      evaluate (__LINE__, __func__, standard, hits [0].data);
-      evaluate (__LINE__, __func__, 1, hits [0].verse);
+      EXPECT_EQ (standard, hits [0].data);
+      EXPECT_EQ (1, hits [0].verse);
       standard = "» - Should be preceded by a no-break space in French";
-      evaluate (__LINE__, __func__, standard, hits [1].data);
-      evaluate (__LINE__, __func__, 1, hits [1].verse);
+      EXPECT_EQ (standard, hits [1].data);
+      EXPECT_EQ (1, hits [1].verse);
       standard = "« - Should be followed by a no-break space rather than a plain space in French";
-      evaluate (__LINE__, __func__, standard, hits [2].data);
-      evaluate (__LINE__, __func__, 2, hits [2].verse);
+      EXPECT_EQ (standard, hits [2].data);
+      EXPECT_EQ (2, hits [2].verse);
       standard = "» - Should be preceded by a no-break space rather than a plain space in French";
-      evaluate (__LINE__, __func__, standard, hits [3].data);
-      evaluate (__LINE__, __func__, 2, hits [3].verse);
+      EXPECT_EQ (standard, hits [3].data);
+      EXPECT_EQ (2, hits [3].verse);
       standard = "; - Should be preceded by a no-break space rather than a plain space in French";
-      evaluate (__LINE__, __func__, standard, hits [4].data);
-      evaluate (__LINE__, __func__, 4, hits [4].verse);
+      EXPECT_EQ (standard, hits [4].data);
+      EXPECT_EQ (4, hits [4].verse);
       standard = "; - Should be preceded by a no-break space in French";
-      evaluate (__LINE__, __func__, standard, hits [5].data);
-      evaluate (__LINE__, __func__, 5, hits [5].verse);
+      EXPECT_EQ (standard, hits [5].data);
+      EXPECT_EQ (5, hits [5].verse);
       standard = "» - Should be preceded by a no-break space in French";
     }
   }
@@ -105,18 +106,18 @@ void test_french ()
     checks_french::citation_style (bible, 2, 3, verses_paragraphs);
     vector <Database_Check_Hit> hits = database_check.getHits ();
     int size = 4;
-    evaluate (__LINE__, __func__, size, hits.size ());
+    EXPECT_EQ (size, hits.size ());
     if (static_cast<int> (hits.size ()) == size) {
       string standard1 = "The previous paragraph contains a citation not closed with a » therefore the current paragraph is expected to start with a « to continue that citation in French";
       string standard2 = "The paragraph contains more right guillements than needed";
-      evaluate (__LINE__, __func__, 6, hits [0].verse);
-      evaluate (__LINE__, __func__, standard1, hits [0].data);
-      evaluate (__LINE__, __func__, 6, hits [1].verse);
-      evaluate (__LINE__, __func__, standard2, hits [1].data);
-      evaluate (__LINE__, __func__, 8, hits [2].verse);
-      evaluate (__LINE__, __func__, standard1, hits [2].data);
-      evaluate (__LINE__, __func__, 9, hits [3].verse);
-      evaluate (__LINE__, __func__, standard2, hits [3].data);
+      EXPECT_EQ (6, hits [0].verse);
+      EXPECT_EQ (standard1, hits [0].data);
+      EXPECT_EQ (6, hits [1].verse);
+      EXPECT_EQ (standard2, hits [1].data);
+      EXPECT_EQ (8, hits [2].verse);
+      EXPECT_EQ (standard1, hits [2].data);
+      EXPECT_EQ (9, hits [3].verse);
+      EXPECT_EQ (standard2, hits [3].data);
     }
   }
   
@@ -141,11 +142,14 @@ void test_french ()
     checks_french::citation_style (bible, 2, 3, verses_paragraphs);
     vector <Database_Check_Hit> hits = database_check.getHits ();
     int size = 1;
-    evaluate (__LINE__, __func__, size, hits.size ());
+    EXPECT_EQ (size, hits.size ());
     if (static_cast<int> (hits.size ()) == size) {
       string standard = "The paragraph contains more left guillements than needed";
-      evaluate (__LINE__, __func__, 14, hits [0].verse);
-      evaluate (__LINE__, __func__, standard, hits [0].data);
+      EXPECT_EQ (14, hits [0].verse);
+      EXPECT_EQ (standard, hits [0].data);
     }
   }
 }
+
+#endif
+

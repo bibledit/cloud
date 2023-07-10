@@ -17,17 +17,17 @@
  */
 
 
-#include <unittests/nmt.h>
+#include <config/libraries.h>
+#ifdef HAVE_GTEST
+#include "gtest/gtest.h"
 #include <unittests/utilities.h>
 #include <filter/string.h>
 #include <nmt/logic.h>
 using namespace std;
 
 
-void test_nmt ()
+TEST (nmt, logic)
 {
-  trace_unit_tests (__func__);
-
   string reference_text;
   string translating_text;
   vector <string> reference_bits, standard_reference_bits;
@@ -38,24 +38,27 @@ void test_nmt ()
   translating_text = "Translating text one. Translate two.";
   standard_translating_bits = { "Translating text one", "Translate two" };
   nmt_logic_split (reference_text, translating_text, reference_bits, translating_bits);
-  evaluate (__LINE__, __func__, standard_reference_bits, reference_bits);
-  evaluate (__LINE__, __func__, standard_translating_bits, translating_bits);
+  EXPECT_EQ (standard_reference_bits, reference_bits);
+  EXPECT_EQ (standard_translating_bits, translating_bits);
 
   reference_text = "Reference text one! Ref two.";
   standard_reference_bits = { "Reference text one", "Ref two" };
   translating_text = "Translating text one? Translate two.";
   standard_translating_bits = { "Translating text one", "Translate two" };
   nmt_logic_split (reference_text, translating_text, reference_bits, translating_bits);
-  evaluate (__LINE__, __func__, standard_reference_bits, reference_bits);
-  evaluate (__LINE__, __func__, standard_translating_bits, translating_bits);
+  EXPECT_EQ (standard_reference_bits, reference_bits);
+  EXPECT_EQ (standard_translating_bits, translating_bits);
 
   reference_text = "ref text, one; ref two";
   standard_reference_bits = { "ref text, one", "ref two" };
   translating_text = "translating text, one? translate two";
   standard_translating_bits = { "translating text, one", "translate two" };
   nmt_logic_split (reference_text, translating_text, reference_bits, translating_bits);
-  evaluate (__LINE__, __func__, standard_reference_bits, reference_bits);
-  evaluate (__LINE__, __func__, standard_translating_bits, translating_bits);
+  EXPECT_EQ (standard_reference_bits, reference_bits);
+  EXPECT_EQ (standard_translating_bits, translating_bits);
 
   refresh_sandbox (true);
 }
+
+#endif
+

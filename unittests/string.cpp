@@ -17,32 +17,32 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <unittests/string.h>
+#include <config/libraries.h>
+#ifdef HAVE_GTEST
+#include "gtest/gtest.h"
 #include <unittests/utilities.h>
 #include <filter/string.h>
 #include <filter/url.h>
 using namespace std;
 
 
-void test_string ()
+TEST (filter, string)
 {
-  trace_unit_tests (__func__);
-  
   // Test string replacement filter.
   {
     // Shows that std::string handles UTF-8 well for simple operations.
-    evaluate (__LINE__, __func__, "⇊⇦", filter::strings::replace ("⇖", "", "⇊⇖⇦"));
+    EXPECT_EQ ("⇊⇦", filter::strings::replace ("⇖", "", "⇊⇖⇦"));
     // Exercise the replacement counter.
     int counter = 0;
-    evaluate (__LINE__, __func__, "a", filter::strings::replace ("bc", "", "abc", &counter));
-    evaluate (__LINE__, __func__, 1, counter);
+    EXPECT_EQ ("a", filter::strings::replace ("bc", "", "abc", &counter));
+    EXPECT_EQ (1, counter);
     // Same test for the real Unicode replacer.
-    evaluate (__LINE__, __func__, "⇊⇦", filter::strings::unicode_string_str_replace ("⇖", "", "⇊⇖⇦"));
-    evaluate (__LINE__, __func__, "⇊⇖⇦", filter::strings::unicode_string_str_replace ("", "", "⇊⇖⇦"));
-    evaluate (__LINE__, __func__, "⇖⇦", filter::strings::unicode_string_str_replace ("⇊", "", "⇊⇖⇦"));
-    evaluate (__LINE__, __func__, "⇊⇖", filter::strings::unicode_string_str_replace ("⇦", "", "⇊⇖⇦"));
-    evaluate (__LINE__, __func__, "⇊⇖⇦", filter::strings::unicode_string_str_replace ("a", "", "⇊⇖⇦"));
-    evaluate (__LINE__, __func__, "a", filter::strings::unicode_string_str_replace ("bc", "", "abc"));
+    EXPECT_EQ ("⇊⇦", filter::strings::unicode_string_str_replace ("⇖", "", "⇊⇖⇦"));
+    EXPECT_EQ ("⇊⇖⇦", filter::strings::unicode_string_str_replace ("", "", "⇊⇖⇦"));
+    EXPECT_EQ ("⇖⇦", filter::strings::unicode_string_str_replace ("⇊", "", "⇊⇖⇦"));
+    EXPECT_EQ ("⇊⇖", filter::strings::unicode_string_str_replace ("⇦", "", "⇊⇖⇦"));
+    EXPECT_EQ ("⇊⇖⇦", filter::strings::unicode_string_str_replace ("a", "", "⇊⇖⇦"));
+    EXPECT_EQ ("a", filter::strings::unicode_string_str_replace ("bc", "", "abc"));
   }
 
   // Test filter::strings::array_unique, a C++ equivalent for PHP's filter::strings::array_unique function.
@@ -67,7 +67,7 @@ void test_string ()
     input.push_back ("k");
     input.push_back ("k");
     vector <string> output = filter::strings::array_unique (input);
-    evaluate (__LINE__, __func__, reference, output);
+    EXPECT_EQ (reference, output);
   }
 
   // Test filter::strings::array_unique, a C++ equivalent for PHP's filter::strings::array_unique function.
@@ -92,7 +92,7 @@ void test_string ()
     input.push_back (5);
     input.push_back (5);
     vector <int> output = filter::strings::array_unique (input);
-    evaluate (__LINE__, __func__, reference, output);
+    EXPECT_EQ (reference, output);
   }
 
   // Test filter::strings::array_diff, a C++ equivalent for PHP's filter::strings::array_diff function.
@@ -113,7 +113,7 @@ void test_string ()
     against.push_back ("ccc");
     against.push_back ("x");
     vector <string> output = filter::strings::array_diff (from, against);
-    evaluate (__LINE__, __func__, reference, output);
+    EXPECT_EQ (reference, output);
   }
 
   // Test filter::strings::array_diff, a C++ equivalent for PHP's filter::strings::array_diff function.
@@ -134,7 +134,7 @@ void test_string ()
     against.push_back (333);
     against.push_back (8);
     vector <int> output = filter::strings::array_diff (from, against);
-    evaluate (__LINE__, __func__, reference, output);
+    EXPECT_EQ (reference, output);
   }
 
   // Test for array_intersect, a C++ equivalent for PHP's array_intersect function.
@@ -143,86 +143,86 @@ void test_string ()
     vector <int> two;
     one = {1};
     two = {2};
-    evaluate (__LINE__, __func__, {}, array_intersect (one, two));
+    EXPECT_EQ (vector <int>{}, array_intersect (one, two));
     one = {1, 2, 3};
     two = {2, 3, 4};
-    evaluate (__LINE__, __func__, {2, 3}, array_intersect (one, two));
+    EXPECT_EQ ((vector <int>{2, 3}), array_intersect (one, two));
     one = {1, 2, 3, 4, 5};
     two = {2, 3, 4};
-    evaluate (__LINE__, __func__, {2, 3, 4}, array_intersect (one, two));
+    EXPECT_EQ ((vector <int>{2, 3, 4}), array_intersect (one, two));
   }
   
   // Test hex2bin and filter::strings::bin2hex as equivalents to PHP's functions.
   {
     string bin = "This is a 123 test.";
     string hex = "5468697320697320612031323320746573742e";
-    evaluate (__LINE__, __func__, hex, filter::strings::bin2hex (bin));
-    evaluate (__LINE__, __func__, bin, filter::strings::hex2bin (hex));
+    EXPECT_EQ (hex, filter::strings::bin2hex (bin));
+    EXPECT_EQ (bin, filter::strings::hex2bin (hex));
     bin = "סֶ	א	ב	ױ";
     hex = "d7a1d6b609d79009d79109d7b1";
-    evaluate (__LINE__, __func__, hex, filter::strings::bin2hex (bin));
-    evaluate (__LINE__, __func__, bin, filter::strings::hex2bin (hex));
+    EXPECT_EQ (hex, filter::strings::bin2hex (bin));
+    EXPECT_EQ (bin, filter::strings::hex2bin (hex));
     bin.clear ();
     hex.clear ();
-    evaluate (__LINE__, __func__, hex, filter::strings::bin2hex (bin));
-    evaluate (__LINE__, __func__, bin, filter::strings::hex2bin (hex));
+    EXPECT_EQ (hex, filter::strings::bin2hex (bin));
+    EXPECT_EQ (bin, filter::strings::hex2bin (hex));
     hex = "a";
-    evaluate (__LINE__, __func__, "", filter::strings::bin2hex (bin));
-    evaluate (__LINE__, __func__, bin, filter::strings::hex2bin (hex));
+    EXPECT_EQ ("", filter::strings::bin2hex (bin));
+    EXPECT_EQ (bin, filter::strings::hex2bin (hex));
   }
 
   // Test string modifiers.
   {
-    evaluate (__LINE__, __func__, string(), filter::strings::trim ("  "));
-    evaluate (__LINE__, __func__, string(), filter::strings::trim (string()));
-    evaluate (__LINE__, __func__, "xx", filter::strings::trim ("\t\nxx\n\r"));
-    evaluate (__LINE__, __func__, string(), filter::strings::ltrim ("  "));
-    evaluate (__LINE__, __func__, string(), filter::strings::ltrim (string()));
-    evaluate (__LINE__, __func__, "xx\n\r", filter::strings::ltrim ("xx\n\r"));
-    evaluate (__LINE__, __func__, "xx  ", filter::strings::ltrim ("  xx  "));
-    evaluate (__LINE__, __func__, string(), filter::strings::rtrim ("  "));
-    evaluate (__LINE__, __func__, string(), filter::strings::rtrim (string()));
-    evaluate (__LINE__, __func__, "xx", filter::strings::rtrim ("xx\n\r"));
-    evaluate (__LINE__, __func__, "\n\rxx", filter::strings::rtrim ("\n\rxx"));
-    evaluate (__LINE__, __func__, "  xx", filter::strings::rtrim ("  xx  "));
-    evaluate (__LINE__, __func__, "0000012345", filter::strings::fill ("12345", 10, '0'));
+    EXPECT_EQ (string(), filter::strings::trim ("  "));
+    EXPECT_EQ (string(), filter::strings::trim (string()));
+    EXPECT_EQ ("xx", filter::strings::trim ("\t\nxx\n\r"));
+    EXPECT_EQ (string(), filter::strings::ltrim ("  "));
+    EXPECT_EQ (string(), filter::strings::ltrim (string()));
+    EXPECT_EQ ("xx\n\r", filter::strings::ltrim ("xx\n\r"));
+    EXPECT_EQ ("xx  ", filter::strings::ltrim ("  xx  "));
+    EXPECT_EQ (string(), filter::strings::rtrim ("  "));
+    EXPECT_EQ (string(), filter::strings::rtrim (string()));
+    EXPECT_EQ ("xx", filter::strings::rtrim ("xx\n\r"));
+    EXPECT_EQ ("\n\rxx", filter::strings::rtrim ("\n\rxx"));
+    EXPECT_EQ ("  xx", filter::strings::rtrim ("  xx  "));
+    EXPECT_EQ ("0000012345", filter::strings::fill ("12345", 10, '0'));
   }
   
   // Numeric tests.
   {
-    evaluate (__LINE__, __func__, true, filter::strings::is_numeric ("1"));
-    evaluate (__LINE__, __func__, true, filter::strings::is_numeric ("1234"));
-    evaluate (__LINE__, __func__, false, filter::strings::is_numeric ("X"));
-    evaluate (__LINE__, __func__, false, filter::strings::is_numeric ("120X"));
+    EXPECT_EQ (true, filter::strings::is_numeric ("1"));
+    EXPECT_EQ (true, filter::strings::is_numeric ("1234"));
+    EXPECT_EQ (false, filter::strings::is_numeric ("X"));
+    EXPECT_EQ (false, filter::strings::is_numeric ("120X"));
   }
   
   // String conversion to int.
   {
-    evaluate (__LINE__, __func__, 0, filter::strings::convert_to_int (""));
-    evaluate (__LINE__, __func__, 123, filter::strings::convert_to_int ("123"));
-    evaluate (__LINE__, __func__, 123, filter::strings::convert_to_int ("123xx"));
-    evaluate (__LINE__, __func__, 0, filter::strings::convert_to_int ("xxx123xx"));
+    EXPECT_EQ (0, filter::strings::convert_to_int (""));
+    EXPECT_EQ (123, filter::strings::convert_to_int ("123"));
+    EXPECT_EQ (123, filter::strings::convert_to_int ("123xx"));
+    EXPECT_EQ (0, filter::strings::convert_to_int ("xxx123xx"));
   }
   
   // Unicode validity test.
   {
-    evaluate (__LINE__, __func__, true, filter::strings::unicode_string_is_valid ("valid"));
-    evaluate (__LINE__, __func__, true, filter::strings::unicode_string_is_valid ("בְּרֵאשִׁית, בָּרָא אֱלֹהִים, אֵת הַשָּׁמַיִם, וְאֵת הָאָרֶץ"));
+    EXPECT_EQ (true, filter::strings::unicode_string_is_valid ("valid"));
+    EXPECT_EQ (true, filter::strings::unicode_string_is_valid ("בְּרֵאשִׁית, בָּרָא אֱלֹהִים, אֵת הַשָּׁמַיִם, וְאֵת הָאָרֶץ"));
   }
   
   // Searching in array.
   {
     vector <string> haystack = {"needle"};
     string needle = "needle";
-    evaluate (__LINE__, __func__, true, in_array (needle, haystack));
+    EXPECT_EQ (true, in_array (needle, haystack));
     needle.clear ();
-    evaluate (__LINE__, __func__, false, in_array (needle, haystack));
+    EXPECT_EQ (false, in_array (needle, haystack));
     haystack.clear ();
-    evaluate (__LINE__, __func__, false, in_array (needle, haystack));
+    EXPECT_EQ (false, in_array (needle, haystack));
     needle = "needle";
-    evaluate (__LINE__, __func__, false, in_array (needle, haystack));
-    evaluate (__LINE__, __func__, true, in_array (1, {1, 2, 3}));
-    evaluate (__LINE__, __func__, false, in_array (1, {2, 3}));
+    EXPECT_EQ (false, in_array (needle, haystack));
+    EXPECT_EQ (true, in_array (1, {1, 2, 3}));
+    EXPECT_EQ (false, in_array (1, {2, 3}));
   }
 
   // Test random number generator.
@@ -230,10 +230,10 @@ void test_string ()
     int floor = 100'000;
     int ceiling = 999'999;
     int r1 = filter::strings::rand (floor, ceiling);
-    if ((r1 < floor) || (r1 > ceiling)) evaluate (__LINE__, __func__, "Random generator out of bounds", filter::strings::convert_to_string (r1));
+    if ((r1 < floor) || (r1 > ceiling)) EXPECT_EQ ("Random generator out of bounds", filter::strings::convert_to_string (r1));
     int r2 = filter::strings::rand (floor, ceiling);
-    if ((r2 < floor) || (r2 > ceiling)) evaluate (__LINE__, __func__, "Random generator out of bounds", filter::strings::convert_to_string (r2));
-    if (r1 == r2) evaluate (__LINE__, __func__, "Random generator should generate different values", filter::strings::convert_to_string (r1) + " " + filter::strings::convert_to_string (r2));
+    if ((r2 < floor) || (r2 > ceiling)) EXPECT_EQ ("Random generator out of bounds", filter::strings::convert_to_string (r2));
+    if (r1 == r2) EXPECT_EQ ("Random generator should generate different values", filter::strings::convert_to_string (r1) + " " + filter::strings::convert_to_string (r2));
   }
 
   // Convert html to plain text.
@@ -246,7 +246,7 @@ void test_string ()
     "Text 1\n"
     "Text 2\n"
     "Text 3";
-    evaluate (__LINE__, __func__, plain, filter::strings::html2text (html));
+    EXPECT_EQ (plain, filter::strings::html2text (html));
   }
   {
     string html =
@@ -270,7 +270,7 @@ void test_string ()
     "Normal text again below the header.\n";
     html = filter::strings::any_space_to_standard_space (html);
     html = filter::strings::html2text (html);
-    evaluate (__LINE__, __func__, filter::strings::trim (plain), filter::strings::trim (html));
+    EXPECT_EQ (filter::strings::trim (plain), filter::strings::trim (html));
   }
   {
     string html =
@@ -280,7 +280,7 @@ void test_string ()
     "\n";
     string plain =
     "test notes fourLogbook:";
-    evaluate (__LINE__, __func__, filter::strings::trim (plain), filter::strings::trim (filter::strings::html2text (html)));
+    EXPECT_EQ (filter::strings::trim (plain), filter::strings::trim (filter::strings::html2text (html)));
   }
   {
     string html =
@@ -293,17 +293,17 @@ void test_string ()
     "Line one.\n"
     "Line two.\n"
     "Line three.\n";
-    evaluate (__LINE__, __func__, filter::strings::trim (plain), filter::strings::trim (filter::strings::html2text (html)));
+    EXPECT_EQ (filter::strings::trim (plain), filter::strings::trim (filter::strings::html2text (html)));
   }
 
   // Email address extraction.
   {
-    evaluate (__LINE__, __func__, "foo@bar.eu", filter::strings::extract_email ("Foo Bar <foo@bar.eu>"));
-    evaluate (__LINE__, __func__, "foo@bar.eu", filter::strings::extract_email ("<foo@bar.eu>"));
-    evaluate (__LINE__, __func__, "foo@bar.eu", filter::strings::extract_email ("foo@bar.eu"));
+    EXPECT_EQ ("foo@bar.eu", filter::strings::extract_email ("Foo Bar <foo@bar.eu>"));
+    EXPECT_EQ ("foo@bar.eu", filter::strings::extract_email ("<foo@bar.eu>"));
+    EXPECT_EQ ("foo@bar.eu", filter::strings::extract_email ("foo@bar.eu"));
     
     string body = "body";
-    evaluate (__LINE__, __func__, body, filter::strings::extract_body (body));
+    EXPECT_EQ (body, filter::strings::extract_body (body));
     
     body =
     "\n"
@@ -319,7 +319,7 @@ void test_string ()
     "On Wed, 2011-03-02 at 08:26 +0100, Bibledit wrote:\n"
     "\n"
     ">    test notes three \n";
-    evaluate (__LINE__, __func__, "test", filter::strings::extract_body (body, "2011", "Bibledit"));
+    EXPECT_EQ ("test", filter::strings::extract_body (body, "2011", "Bibledit"));
   }
   
   // Word markup.
@@ -336,7 +336,7 @@ void test_string ()
     "Zvino uchaisa <mark>makumbo</mark> muzvindori panhivi dzeareka, kuti areka itakurwe nawo.\n"
     "Zvindori zvichava pamupendero kuti zvive nzvimbo dze<mark>makumbo</mark> kutakura tafura.\n"
     "Zvino uchaita <mark>makumbo</mark> ne<mark>matanda</mark> ne<mark>Matanda</mark> ne<mark>maTANDA</mark> emu<mark>Akasia</mark>, ugoiputira negoridhe, kuti tafura itakurwe nawo.\n";
-    evaluate (__LINE__, __func__, standard, result);
+    EXPECT_EQ (standard, result);
   }
 
   // Word markup.
@@ -348,7 +348,7 @@ void test_string ()
     "Zvino uchaita makumbo nematanda neMatanda nemaTANDA emuAkasia, ugoiputira negoridhe, kuti tafura itakurwe nawo.\n";
     vector <string> words;
     string result = filter::strings::markup_words (words, text);
-    evaluate (__LINE__, __func__, text, result);
+    EXPECT_EQ (text, result);
   }
 
   // Test tidying html.
@@ -356,156 +356,156 @@ void test_string ()
     string folder = filter_url_create_root_path ({"unittests", "tests"});
     string html = filter_url_file_get_contents (filter_url_create_path ({folder, "biblehub-john-1-1.html"}));
     vector <string> tidy = filter::strings::explode (filter::strings::html_tidy (html), '\n');
-    evaluate (__LINE__, __func__, 747, static_cast<int>(tidy.size()));
+    EXPECT_EQ (747, static_cast<int>(tidy.size()));
   }
   
   {
     string input = "<span>Praise the LORD&#xB6;, all &amp; you nations</span>";
     string output = filter::strings::convert_xml_character_entities_to_characters (input);
     string standard = filter::strings::replace ("&#xB6;", "¶", input);
-    evaluate (__LINE__, __func__, standard, output);
+    EXPECT_EQ (standard, output);
     
     input = "<span>Praise the LORD &#x5D0; all you nations</span>";
     output = filter::strings::convert_xml_character_entities_to_characters (input);
     standard = filter::strings::replace ("&#x5D0;", "א", input);
-    evaluate (__LINE__, __func__, standard, output);
+    EXPECT_EQ (standard, output);
     
     input = "Username";
     output = filter::strings::encrypt_decrypt ("key", input);
     output = filter::strings::encrypt_decrypt ("key", output);
-    evaluate (__LINE__, __func__, input, output);
+    EXPECT_EQ (input, output);
     
     input = "בְּרֵאשִׁ֖ית בָּרָ֣א אֱלֹהִ֑ים אֵ֥ת הַשָּׁמַ֖יִם וְאֵ֥ת הָאָֽרֶץ";
     output = filter::strings::encrypt_decrypt ("בְּרֵאשִׁ֖ית", input);
     output = filter::strings::encrypt_decrypt ("בְּרֵאשִׁ֖ית", output);
-    evaluate (__LINE__, __func__, input, output);
+    EXPECT_EQ (input, output);
   }
   
   {
     string one = filter::strings::get_new_random_string ();
     this_thread::sleep_for (chrono::milliseconds (10));
     string two = filter::strings::get_new_random_string ();
-    evaluate (__LINE__, __func__, 32, one.length ());
-    evaluate (__LINE__, __func__, true, one != two);
+    EXPECT_EQ (32, one.length ());
+    EXPECT_EQ (true, one != two);
   }
   
   {
-    evaluate (__LINE__, __func__, 4, static_cast<int>( filter::strings::unicode_string_length ("test")));
-    evaluate (__LINE__, __func__, 4, static_cast<int>( filter::strings::unicode_string_length ("ᨁᨃᨅᨕ")));
+    EXPECT_EQ (4, static_cast<int>( filter::strings::unicode_string_length ("test")));
+    EXPECT_EQ (4, static_cast<int>( filter::strings::unicode_string_length ("ᨁᨃᨅᨕ")));
   }
   
   {
     string hebrew = "אָבּגּדּהּ";
-    evaluate (__LINE__, __func__, "st1234", filter::strings::unicode_string_substr ("test1234", 2));
-    evaluate (__LINE__, __func__, "גּדּהּ", filter::strings::unicode_string_substr (hebrew, 2));
-    evaluate (__LINE__, __func__, "", filter::strings::unicode_string_substr (hebrew, 5));
-    evaluate (__LINE__, __func__, "", filter::strings::unicode_string_substr (hebrew, 6));
-    evaluate (__LINE__, __func__, "test", filter::strings::unicode_string_substr ("test123456", 0, 4));
-    evaluate (__LINE__, __func__, "12", filter::strings::unicode_string_substr ("test123456", 4, 2));
-    evaluate (__LINE__, __func__, "גּדּ", filter::strings::unicode_string_substr (hebrew, 2, 2));
-    evaluate (__LINE__, __func__, "גּדּהּ", filter::strings::unicode_string_substr (hebrew, 2, 10));
+    EXPECT_EQ ("st1234", filter::strings::unicode_string_substr ("test1234", 2));
+    EXPECT_EQ ("גּדּהּ", filter::strings::unicode_string_substr (hebrew, 2));
+    EXPECT_EQ ("", filter::strings::unicode_string_substr (hebrew, 5));
+    EXPECT_EQ ("", filter::strings::unicode_string_substr (hebrew, 6));
+    EXPECT_EQ ("test", filter::strings::unicode_string_substr ("test123456", 0, 4));
+    EXPECT_EQ ("12", filter::strings::unicode_string_substr ("test123456", 4, 2));
+    EXPECT_EQ ("גּדּ", filter::strings::unicode_string_substr (hebrew, 2, 2));
+    EXPECT_EQ ("גּדּהּ", filter::strings::unicode_string_substr (hebrew, 2, 10));
   }
   
   {
     string hebrew {"אָבּגּדּהּ"};
     string needle {"דּ"};
-    evaluate (__LINE__, __func__, 3, static_cast<int>(filter::strings::unicode_string_strpos ("012345", "3")));
-    evaluate (__LINE__, __func__, 5, static_cast<int>(filter::strings::unicode_string_strpos ("012345", "5")));
-    evaluate (__LINE__, __func__, 0, static_cast<int>(filter::strings::unicode_string_strpos ("012345", "0")));
-    evaluate (__LINE__, __func__, -1, static_cast<int>(filter::strings::unicode_string_strpos ("012345", "6")));
-    evaluate (__LINE__, __func__, 3, static_cast<int>(filter::strings::unicode_string_strpos (hebrew, needle)));
-    evaluate (__LINE__, __func__, 3, static_cast<int>(filter::strings::unicode_string_strpos (hebrew, needle, 3)));
-    evaluate (__LINE__, __func__, -1, static_cast<int>(filter::strings::unicode_string_strpos (hebrew, needle, 4)));
-    evaluate (__LINE__, __func__, -1, static_cast<int>(filter::strings::unicode_string_strpos ("", "3")));
+    EXPECT_EQ (3, static_cast<int>(filter::strings::unicode_string_strpos ("012345", "3")));
+    EXPECT_EQ (5, static_cast<int>(filter::strings::unicode_string_strpos ("012345", "5")));
+    EXPECT_EQ (0, static_cast<int>(filter::strings::unicode_string_strpos ("012345", "0")));
+    EXPECT_EQ (-1, static_cast<int>(filter::strings::unicode_string_strpos ("012345", "6")));
+    EXPECT_EQ (3, static_cast<int>(filter::strings::unicode_string_strpos (hebrew, needle)));
+    EXPECT_EQ (3, static_cast<int>(filter::strings::unicode_string_strpos (hebrew, needle, 3)));
+    EXPECT_EQ (-1, static_cast<int>(filter::strings::unicode_string_strpos (hebrew, needle, 4)));
+    EXPECT_EQ (-1, static_cast<int>(filter::strings::unicode_string_strpos ("", "3")));
   }
   
   {
-    evaluate (__LINE__, __func__, 2, static_cast<int>(filter::strings::unicode_string_strpos_case_insensitive ("AbCdEf", "c")));
-    evaluate (__LINE__, __func__, 2, static_cast<int>(filter::strings::unicode_string_strpos_case_insensitive ("AbCdEf", "cD")));
-    evaluate (__LINE__, __func__, -1, static_cast<int>(filter::strings::unicode_string_strpos_case_insensitive ("AbCdEf", "ce")));
+    EXPECT_EQ (2, static_cast<int>(filter::strings::unicode_string_strpos_case_insensitive ("AbCdEf", "c")));
+    EXPECT_EQ (2, static_cast<int>(filter::strings::unicode_string_strpos_case_insensitive ("AbCdEf", "cD")));
+    EXPECT_EQ (-1, static_cast<int>(filter::strings::unicode_string_strpos_case_insensitive ("AbCdEf", "ce")));
   }
   
   {
-    evaluate (__LINE__, __func__, "test1234", filter::strings::unicode_string_casefold ("test1234"));
-    evaluate (__LINE__, __func__, "test1234", filter::strings::unicode_string_casefold ("TEST1234"));
-    evaluate (__LINE__, __func__, "θεος", filter::strings::unicode_string_casefold ("Θεος"));
-    evaluate (__LINE__, __func__, "α α β β", filter::strings::unicode_string_casefold ("Α α Β β"));
-    evaluate (__LINE__, __func__, "אָבּגּדּהּ", filter::strings::unicode_string_casefold ("אָבּגּדּהּ"));
+    EXPECT_EQ ("test1234", filter::strings::unicode_string_casefold ("test1234"));
+    EXPECT_EQ ("test1234", filter::strings::unicode_string_casefold ("TEST1234"));
+    EXPECT_EQ ("θεος", filter::strings::unicode_string_casefold ("Θεος"));
+    EXPECT_EQ ("α α β β", filter::strings::unicode_string_casefold ("Α α Β β"));
+    EXPECT_EQ ("אָבּגּדּהּ", filter::strings::unicode_string_casefold ("אָבּגּדּהּ"));
   }
   
   {
-    evaluate (__LINE__, __func__, "TEST1234", filter::strings::unicode_string_uppercase ("test1234"));
-    evaluate (__LINE__, __func__, "TEST1234", filter::strings::unicode_string_uppercase ("TEST1234"));
-    evaluate (__LINE__, __func__, "ΘΕΟΣ", filter::strings::unicode_string_uppercase ("Θεος"));
-    evaluate (__LINE__, __func__, "Α Α Β Β", filter::strings::unicode_string_uppercase ("Α α Β β"));
-    evaluate (__LINE__, __func__, "אָבּגּדּהּ", filter::strings::unicode_string_uppercase ("אָבּגּדּהּ"));
+    EXPECT_EQ ("TEST1234", filter::strings::unicode_string_uppercase ("test1234"));
+    EXPECT_EQ ("TEST1234", filter::strings::unicode_string_uppercase ("TEST1234"));
+    EXPECT_EQ ("ΘΕΟΣ", filter::strings::unicode_string_uppercase ("Θεος"));
+    EXPECT_EQ ("Α Α Β Β", filter::strings::unicode_string_uppercase ("Α α Β β"));
+    EXPECT_EQ ("אָבּגּדּהּ", filter::strings::unicode_string_uppercase ("אָבּגּדּהּ"));
   }
   
   {
-    evaluate (__LINE__, __func__, "ABCDEFG", filter::strings::unicode_string_transliterate ("ABCDEFG"));
-    evaluate (__LINE__, __func__, "Ιησου Χριστου", filter::strings::unicode_string_transliterate ("Ἰησοῦ Χριστοῦ"));
-    evaluate (__LINE__, __func__, "אבגדה", filter::strings::unicode_string_transliterate ("אָבּגּדּהּ"));
+    EXPECT_EQ ("ABCDEFG", filter::strings::unicode_string_transliterate ("ABCDEFG"));
+    EXPECT_EQ ("Ιησου Χριστου", filter::strings::unicode_string_transliterate ("Ἰησοῦ Χριστοῦ"));
+    EXPECT_EQ ("אבגדה", filter::strings::unicode_string_transliterate ("אָבּגּדּהּ"));
   }
   
   {
     vector <string> needles;
     needles = filter::strings::search_needles ("ABC", "one abc two ABc three aBc four");
-    evaluate (__LINE__, __func__, { "abc", "ABc", "aBc" }, needles);
+    EXPECT_EQ ((vector <string>{ "abc", "ABc", "aBc" }), needles);
     needles = filter::strings::search_needles ("abc", "one abc two ABc three aBc four");
-    evaluate (__LINE__, __func__, { "abc", "ABc", "aBc" }, needles);
+    EXPECT_EQ ((vector <string>{ "abc", "ABc", "aBc" }), needles);
   }
   
   {
-    evaluate (__LINE__, __func__, false, filter::strings::unicode_string_is_punctuation ("A"));
-    evaluate (__LINE__, __func__, false, filter::strings::unicode_string_is_punctuation ("z"));
-    evaluate (__LINE__, __func__, true, filter::strings::unicode_string_is_punctuation ("."));
-    evaluate (__LINE__, __func__, true, filter::strings::unicode_string_is_punctuation (","));
+    EXPECT_EQ (false, filter::strings::unicode_string_is_punctuation ("A"));
+    EXPECT_EQ (false, filter::strings::unicode_string_is_punctuation ("z"));
+    EXPECT_EQ (true, filter::strings::unicode_string_is_punctuation ("."));
+    EXPECT_EQ (true, filter::strings::unicode_string_is_punctuation (","));
   }
   
   {
-    evaluate (__LINE__, __func__, false, filter::strings::convert_to_bool ("0"));
-    evaluate (__LINE__, __func__, false, filter::strings::convert_to_bool ("false"));
-    evaluate (__LINE__, __func__, false, filter::strings::convert_to_bool ("FALSE"));
-    evaluate (__LINE__, __func__, true, filter::strings::convert_to_bool ("1"));
-    evaluate (__LINE__, __func__, true, filter::strings::convert_to_bool ("true"));
-    evaluate (__LINE__, __func__, true, filter::strings::convert_to_bool ("TRUE"));
+    EXPECT_EQ (false, filter::strings::convert_to_bool ("0"));
+    EXPECT_EQ (false, filter::strings::convert_to_bool ("false"));
+    EXPECT_EQ (false, filter::strings::convert_to_bool ("FALSE"));
+    EXPECT_EQ (true, filter::strings::convert_to_bool ("1"));
+    EXPECT_EQ (true, filter::strings::convert_to_bool ("true"));
+    EXPECT_EQ (true, filter::strings::convert_to_bool ("TRUE"));
   }
   
   {
-    evaluate (__LINE__, __func__, 21109, filter::strings::unicode_string_convert_to_codepoint ("創"));
-    evaluate (__LINE__, __func__, 97, filter::strings::unicode_string_convert_to_codepoint ("a"));
+    EXPECT_EQ (21109, filter::strings::unicode_string_convert_to_codepoint ("創"));
+    EXPECT_EQ (97, filter::strings::unicode_string_convert_to_codepoint ("a"));
   }
   
   {
     // Check that the function to desanitize html no longer corrupts UTF-8.
     string html = "<p>“Behold”, from “הִנֵּה”, means look at</p>";
     string desanitized = filter::strings::any_space_to_standard_space (filter::strings::unescape_special_xml_characters (html));
-    evaluate (__LINE__, __func__, html, desanitized);
+    EXPECT_EQ (html, desanitized);
     // Regression test for fix for corrupting Greek.
     html = "Ada juga seorang pengemis yang ita bernama Lazarus.<span class=i-notecall1>1</span> Setiap hari dia terbaring di pintu gerbang rumah orang kaya itu. Badan Lazarus penuh dengan luka bernanah dan busuk.<span class=i-notecall2>2</span></p><p class=b-notes><br></p><p class=b-f><span class=i-notebody1>1</span> <span class=i-fr>16:20 </span><span class=i-fk>Lazarus </span><span class=i-ft>Orang miskin Lazarus dalam perumpamaan ini berbeda dengan Lazarus— sahabat Isa yang dihidupkan oleh Isa dari kematian (Yoh. 11).</span></p><p class=b-x><span class=i-notebody2>2</span> <span class=i-xo>16:20 </span><span class=i-xt>Πτωχὸς δέ τις ἦν ὀνόματι Λάζαρος, ὃς ἐβέβλητο πρὸς τὸν πυλῶνα αὐτοῦ ἡλκωμένος</span></p>";
     desanitized = filter::strings::any_space_to_standard_space (html);
-    evaluate (__LINE__, __func__, html, desanitized);
+    EXPECT_EQ (html, desanitized);
   }
   
   // Test whitespace characters, breaking and non-breaking.
   {
     // The "­" below is not an empty string, but the soft hyphen U+00AD.
     string standard_soft_hyphen = "­";
-    evaluate (__LINE__, __func__, standard_soft_hyphen, filter::strings::soft_hyphen_u00AD ());
-    evaluate (__LINE__, __func__, "\u00AD", filter::strings::soft_hyphen_u00AD ());
+    EXPECT_EQ (standard_soft_hyphen, filter::strings::soft_hyphen_u00AD ());
+    EXPECT_EQ ("\u00AD", filter::strings::soft_hyphen_u00AD ());
 
-    evaluate (__LINE__, __func__, "\u00A0", filter::strings::non_breaking_space_u00A0 ());
+    EXPECT_EQ ("\u00A0", filter::strings::non_breaking_space_u00A0 ());
 
     // The space below is "en space", U+2002.
     string standard_en_space_u2002 = " ";
-    evaluate (__LINE__, __func__, standard_en_space_u2002, filter::strings::en_space_u2002 ());
-    evaluate (__LINE__, __func__, "\u2002", filter::strings::en_space_u2002 ());
+    EXPECT_EQ (standard_en_space_u2002, filter::strings::en_space_u2002 ());
+    EXPECT_EQ ("\u2002", filter::strings::en_space_u2002 ());
   }
   
   // Test conversion of boolean to true / false string.
   {
-    evaluate (__LINE__, __func__, "true", filter::strings::convert_to_true_false (true));
-    evaluate (__LINE__, __func__, "false", filter::strings::convert_to_true_false (false));
+    EXPECT_EQ ("true", filter::strings::convert_to_true_false (true));
+    EXPECT_EQ ("false", filter::strings::convert_to_true_false (false));
   }
   
   // Test two explode functions.
@@ -514,43 +514,43 @@ void test_string ()
 
     // Explode on single delimiter.
     result = filter::strings::explode ("a b c", ' ');
-    evaluate (__LINE__, __func__, {"a", "b", "c"}, result);
+    EXPECT_EQ ((vector <string>{"a", "b", "c"}), result);
 
     // Explode on a single space.
     result = filter::strings::explode ("a b c", " ");
-    evaluate (__LINE__, __func__, {"a", "b", "c"}, result);
+    EXPECT_EQ ((vector <string>{"a", "b", "c"}), result);
 
     // Explode on a set consisting of two spaces.
     result = filter::strings::explode ("a b c", "  ");
-    evaluate (__LINE__, __func__, {"a", "b", "c"}, result);
+    EXPECT_EQ ((vector <string>{"a", "b", "c"}), result);
 
     // Explode on a semicolon, on a comma, and on a full stop.
     result = filter::strings::explode ("aa.bb,cc;", ";,.");
-    evaluate (__LINE__, __func__, {"aa", "bb", "cc"}, result);
+    EXPECT_EQ ((vector <string>{"aa", "bb", "cc"}), result);
 
     // Explode on two punctuation marks, leaving one in the output.
     result = filter::strings::explode ("aa.bb,cc;", ";,");
-    evaluate (__LINE__, __func__, {"aa.bb", "cc"}, result);
+    EXPECT_EQ ((vector <string>{"aa.bb", "cc"}), result);
   }
   
   // Test the array mover function.
   {
     vector <string> container;
     
-    container = { };
+    container = {};
     filter::strings::array_move_up_down (container, 0, false);
-    evaluate (__LINE__, __func__, { }, container);
+    EXPECT_EQ (vector <string>{}, container);
   }
   
   // Test UTF-16 number of bytes whether 1 or 2.
   {
     u16string u16;
     u16 = filter::strings::convert_to_u16string ("a");
-    evaluate (__LINE__, __func__, 1, static_cast<int> (u16.length()));
+    EXPECT_EQ (1, static_cast<int> (u16.length()));
     u16 = filter::strings::convert_to_u16string ("ℵ");
-    evaluate (__LINE__, __func__, 1, static_cast<int> (u16.length()));
+    EXPECT_EQ (1, static_cast<int> (u16.length()));
     u16 = filter::strings::convert_to_u16string ("😀");
-    evaluate (__LINE__, __func__, 2, static_cast<int> (u16.length()));
+    EXPECT_EQ (2, static_cast<int> (u16.length()));
   }
   
   // Test tidying invalid html.
@@ -564,7 +564,7 @@ void test_string ()
     string html_tidied = filter::strings::fix_invalid_html_gumbo (html_invalid);
     path_valid = filter_url_create_root_path ({"unittests", "tests", "html-fixed-1-gumbo.html"});
     html_valid = filter_url_file_get_contents(path_valid);
-    evaluate (__LINE__, __func__, html_valid, html_tidied);
+    EXPECT_EQ (html_valid, html_tidied);
 
     html_invalid = R"(
 <!DOCTYPE html>
@@ -592,7 +592,7 @@ R"(<!DOCTYPE html>
  </body>
 </html>
 )";
-    evaluate (__LINE__, __func__, html_valid, html_tidied);
+    EXPECT_EQ (html_valid, html_tidied);
   }
   
   // Test "tidying" empty html.
@@ -607,7 +607,7 @@ R"(<html>
 </html>
 )"
     };
-    evaluate (__LINE__, __func__, standard, result);
+    EXPECT_EQ (standard, result);
   }
   
   // Test tidying html with special XML characters.
@@ -623,7 +623,7 @@ R"(<html>
  </body>
 </html>
 )";
-    evaluate (__LINE__, __func__, valid, tidied);
+    EXPECT_EQ (valid, tidied);
 
   }
   
@@ -634,23 +634,23 @@ R"(<html>
 
     standard = "ABC abc";
     result = filter::strings::collapse_whitespace ("ABC abc");
-    evaluate (__LINE__, __func__, standard, result);
+    EXPECT_EQ (standard, result);
 
     standard = "ABC abc";
     result = filter::strings::collapse_whitespace ("ABC  abc");
-    evaluate (__LINE__, __func__, standard, result);
+    EXPECT_EQ (standard, result);
 
     standard = "ABC abc";
     result = filter::strings::collapse_whitespace ("ABC   abc");
-    evaluate (__LINE__, __func__, standard, result);
+    EXPECT_EQ (standard, result);
 
     standard = "ABC abc";
     result = filter::strings::collapse_whitespace ("ABC      abc");
-    evaluate (__LINE__, __func__, standard, result);
+    EXPECT_EQ (standard, result);
 
     standard = "ABC abc";
     result = filter::strings::collapse_whitespace ("ABC               abc");
-    evaluate (__LINE__, __func__, standard, result);
+    EXPECT_EQ (standard, result);
   }
 
   // Test escaping and unescaping special XML characters.
@@ -659,17 +659,20 @@ R"(<html>
 
     standard = "&quot; &quot;";
     result = filter::strings::escape_special_xml_characters (R"(" ")");
-    evaluate (__LINE__, __func__, standard, result);
+    EXPECT_EQ (standard, result);
 
     standard = R"(" ")";
     result = filter::strings::unescape_special_xml_characters ("&quot; &quot;");
-    evaluate (__LINE__, __func__, standard, result);
+    EXPECT_EQ (standard, result);
   }
   
   // Test conversion from Windows-1252 encoding to UTF-8 encoding.
   {
     std::string input = "Windows 1252";
     std::string output = filter::strings::convert_windows1252_to_utf8 (input);
-    evaluate (__LINE__, __func__, input, output);
+    EXPECT_EQ (input, output);
   }
 }
+
+#endif
+

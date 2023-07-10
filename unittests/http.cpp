@@ -17,31 +17,34 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <unittests/http.h>
+#include <config/libraries.h>
+#ifdef HAVE_GTEST
+#include "gtest/gtest.h"
 #include <unittests/utilities.h>
 #include <webserver/http.h>
-using namespace std;
 
 
-void test_http ()
+TEST (http, basic)
 {
-  trace_unit_tests (__func__);
-
-  string host, line;
+  std::string host;
+  std::string line;
   
   line = "192.168.1.139:8080";
   host = http_parse_host (line);
-  evaluate (__LINE__, __func__, "192.168.1.139", host);
+  EXPECT_EQ ("192.168.1.139", host);
 
   line = "localhost:8080";
   host = http_parse_host (line);
-  evaluate (__LINE__, __func__, "localhost", host);
+  EXPECT_EQ ("localhost", host);
 
   line = "[::1]:8080";
   host = http_parse_host (line);
-  evaluate (__LINE__, __func__, "[::1]", host);
+  EXPECT_EQ ("[::1]", host);
 
   line = "[fe80::601:25ff:fe07:6801]:8080";
   host = http_parse_host (line);
-  evaluate (__LINE__, __func__, "[fe80::601:25ff:fe07:6801]", host);
+  EXPECT_EQ ("[fe80::601:25ff:fe07:6801]", host);
 }
+
+#endif
+

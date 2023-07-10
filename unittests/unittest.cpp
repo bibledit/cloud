@@ -18,11 +18,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 #include <config/libraries.h>
-#include <unittests/unittest.h>
 #ifdef HAVE_GTEST
 #include "gtest/gtest.h"
 #endif
-#include <unittests/utilities.h>
+#include <unittests/utilities.h> // Todo lots of these out.
 #include <library/bibledit.h>
 #include <library/locks.h>
 #include <database/config/user.h>
@@ -36,172 +35,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/md5.h>
 #include <filter/usfm.h>
 #include <session/logic.h>
-#include <unittests/sqlite.h>
-#include <unittests/checksum.h>
-#include <unittests/bibles.h>
-#include <unittests/html2usfm.h>
-#include <unittests/usfm2html.h>
-#include <unittests/usfm2html2usfm.h>
-#include <unittests/workspaces.h>
-#include <unittests/client.h>
-#include <unittests/sentences.h>
-#include <unittests/versification.h>
-#include <unittests/usfm.h>
-#include <unittests/verses.h>
-#include <unittests/pairs.h>
-#include <unittests/hyphenate.h>
-#include <unittests/search.h>
-#include <unittests/json.h>
-#include <unittests/related.h>
-#include <unittests/editone.h>
-#include <unittests/http.h>
-#include <unittests/memory.h>
-#include <unittests/tasks.h>
-#include <unittests/biblegateway.h>
-#include <unittests/rss.h>
-#include <unittests/space.h>
-#include <unittests/roles.h>
-#include <unittests/md5.h>
-#include <unittests/string.h>
-#include <unittests/date.h>
-#include <unittests/export.h>
-#include <unittests/html.h>
-#include <unittests/archive.h>
-#include <unittests/odf.h>
-#include <unittests/text.h>
-#include <unittests/url.h>
-#include <unittests/passage.h>
-#include <unittests/styles.h>
-#include <unittests/diff.h>
-#include <unittests/git.h>
-#include <unittests/ipc.h>
-#include <unittests/shell.h>
-#include <unittests/dev.h>
-#include <unittests/sample.h>
-#include <unittests/log.h>
-#include <unittests/books.h>
-#include <unittests/check.h>
-#include <unittests/localization.h>
-#include <unittests/confirm.h>
-#include <unittests/jobs.h>
-#include <unittests/kjv.h>
-#include <unittests/oshb.h>
-#include <unittests/sblgnt.h>
-#include <unittests/sprint.h>
-#include <unittests/mail.h>
-#include <unittests/navigation.h>
-#include <unittests/resources.h>
-#include <unittests/notes.h>
-#include <unittests/modifications.h>
-#include <unittests/volatile.h>
-#include <unittests/state.h>
-#include <unittests/strong.h>
-#include <unittests/morphgnt.h>
-#include <unittests/etcbc4.h>
-#include <unittests/lexicon.h>
-#include <unittests/cache.h>
-#include <unittests/login.h>
-#include <unittests/privileges.h>
-#include <unittests/statistics.h>
-#include <unittests/webview.h>
-#include <unittests/javascript.h>
-#include <unittests/french.h>
-#include <unittests/merge.h>
-#include <unittests/paratext.h>
-#include <unittests/nmt.h>
-#include <unittests/html2format.h>
-#include <unittests/studylight.h>
-#include <unittests/gbs.h>
-#include <unittests/bibleimages.h>
-#include <unittests/image.h>
-#include <unittests/easyenglishbible.h>
 using namespace std;
 
-
-#ifdef HAVE_GTEST
-TEST (existing, existing)
-{
-  test_database_oshb ();
-  test_database_sblgnt ();
-  test_database_sprint ();
-  test_database_mail ();
-  test_database_navigation ();
-  test_database_resources ();
-  test_database_usfmresources ();
-  test_database_mappings ();
-  test_database_noteactions ();
-  test_database_versifications ();
-  test_database_modifications_user ();
-  test_database_modifications_team ();
-  test_database_modifications_notifications ();
-  test_database_notes ();
-  test_database_volatile ();
-  test_database_state ();
-  test_database_imageresources ();
-  test_checksum ();
-  test_html2usfm ();
-  test_usfm2html ();
-  test_usfm2html2usfm ();
-  test_workspaces ();
-  test_verses ();
-  test_client ();
-  test_sentences ();
-  test_versification ();
-  test_usfm ();
-  test_pairs ();
-  test_hyphenate ();
-  test_database_noteassignment ();
-  test_database_strong ();
-  test_database_morphgnt ();
-  test_database_etcbc4 ();
-  test_lexicons ();
-  test_database_cache ();
-  test_search ();
-  test_database_login ();
-  test_database_privileges ();
-  test_json ();
-  test_database_git ();
-  test_database_userresources ();
-  test_related ();
-  test_editone_logic ();
-  test_http ();
-  //test_memory ();
-  test_database_statistics ();
-  test_tasks_logic ();
-  test_biblegateway ();
-  test_rss_feed ();
-  test_space ();
-  test_roles ();
-  test_md5 ();
-  test_string ();
-  test_date ();
-  test_export ();
-  test_html ();
-  test_archive ();
-  test_odf ();
-  test_filter_text ();
-  test_url ();
-  test_passage ();
-  test_styles ();
-  test_diff ();
-  test_git ();
-  test_shell ();
-  test_database_sample ();
-  test_filter_webview ();
-  test_javascript ();
-  test_filter_mail ();
-  test_french ();
-  test_merge ();
-  test_paratext ();
-  test_nmt ();
-  test_html2format ();
-  test_studylight ();
-  test_gbs ();
-  test_database_bible_images ();
-  test_image ();
-  test_easy_english_bible ();
-}
-#endif
 
 int main ([[maybe_unused]] int argc, [[maybe_unused]] char **argv)
 {

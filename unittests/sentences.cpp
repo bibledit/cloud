@@ -17,7 +17,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <unittests/sentences.h>
+#include <config/libraries.h>
+#ifdef HAVE_GTEST
+#include "gtest/gtest.h"
 #include <unittests/utilities.h>
 #include <checks/sentences.h>
 using namespace std;
@@ -25,8 +27,6 @@ using namespace std;
 
 Checks_Sentences test_sentences_setup ()
 {
-  trace_unit_tests (__func__);
-  
   Checks_Sentences check;
   check.enter_capitals ("A B C D E F G H I J K L M N O P Q R S T U V W X Y Z");
   check.enter_small_letters ("a b c d e f g h i j k l m n o p q r s t u v w x y z");
@@ -39,17 +39,15 @@ Checks_Sentences test_sentences_setup ()
 }
 
 
-void test_sentences ()
+TEST (check, sentences)
 {
-  trace_unit_tests (__func__);
-  
   // Test unknown character.
   {
     Checks_Sentences check = test_sentences_setup ();
     check.check ({pair (1, "Abc ζ abc.")});
     vector <pair<int, string>> results = check.get_results ();
     vector <pair<int, string>> standard = {pair (1, "Unknown character: ζ")};
-    evaluate (__LINE__, __func__, standard, results);
+    EXPECT_EQ (standard, results);
   }
   // Test capital after mid-sentence punctuation mark.
   {
@@ -57,7 +55,7 @@ void test_sentences ()
     check.check ({pair (2, "He said, Go.")});
     vector <pair<int, string>> results = check.get_results ();
     vector <pair<int, string>> standard = {pair (2, "Capital follows mid-sentence punctuation mark: He said, Go.")};
-    evaluate (__LINE__, __func__, standard, results);
+    EXPECT_EQ (standard, results);
   }
   // Test capital straight after mid-sentence punctuation mark.
   {
@@ -65,7 +63,7 @@ void test_sentences ()
     check.check ({pair (2, "He said,Go.")});
     vector <pair<int, string>> results = check.get_results ();
     vector <pair<int, string>> standard = { pair (2, "Capital follows straight after a mid-sentence punctuation mark: He said,Go.")};
-    evaluate (__LINE__, __func__, standard, results);
+    EXPECT_EQ (standard, results);
   }
   // Test small letter straight after mid-sentence punctuation mark.
   {
@@ -73,7 +71,7 @@ void test_sentences ()
     check.check ({pair (2, "He said,go.")});
     vector <pair<int, string>> results = check.get_results ();
     vector <pair<int, string>> standard = { pair (2, "Small letter follows straight after a mid-sentence punctuation mark: He said,go.")};
-    evaluate (__LINE__, __func__, standard, results);
+    EXPECT_EQ (standard, results);
   }
   // Test two verses okay.
   {
@@ -81,7 +79,7 @@ void test_sentences ()
     check.check ({ pair (17, "Jezus kwam naar de wereld,"), pair (18, "dat hij zou lijden.")});
     vector <pair<int, string>> results = check.get_results ();
     vector <pair<int, string>> standard;
-    evaluate (__LINE__, __func__, standard, results);
+    EXPECT_EQ (standard, results);
   }
   // Test name after comma several verses okay.
   {
@@ -96,7 +94,7 @@ void test_sentences ()
     });
     vector <pair<int, string>> results = check.get_results ();
     vector <pair<int, string>> standard;
-    evaluate (__LINE__, __func__, standard, results);
+    EXPECT_EQ (standard, results);
   }
   // Test long name.
   {
@@ -104,7 +102,7 @@ void test_sentences ()
     check.check ({pair (17, "O, Longnamelongnamelongname.")});
     vector <pair<int, string>> results = check.get_results ();
     vector <pair<int, string>> standard;
-    evaluate (__LINE__, __func__, standard, results);
+    EXPECT_EQ (standard, results);
   }
   // Test no space after full stop.
   {
@@ -115,7 +113,7 @@ void test_sentences ()
       pair (2, "A letter follows straight after an end-sentence punctuation mark: He did that.He went."),
       pair (2, "No capital after an end-sentence punctuation mark: did that.He went.")
     };
-    evaluate (__LINE__, __func__, standard, results);
+    EXPECT_EQ (standard, results);
   }
   // Test capital full stop.
   {
@@ -123,7 +121,7 @@ void test_sentences ()
     check.check ({ pair (2, "He did that. he went.")});
     vector <pair<int, string>> results = check.get_results ();
     vector <pair<int, string>> standard = { pair (2, "No capital after an end-sentence punctuation mark: did that. he went.")};
-    evaluate (__LINE__, __func__, standard, results);
+    EXPECT_EQ (standard, results);
   }
   // Test paragraph
   {
@@ -134,7 +132,7 @@ void test_sentences ()
                        pair (1, "Paragraph does not start with a capital: he said"),
                        pair (1, "Paragraph does not end with an end marker: he said")
     };
-    evaluate (__LINE__, __func__, standard, results);
+    EXPECT_EQ (standard, results);
   }
   // Test that a paragraph started by \q and starting with a small letter, is not flagged.
   {
@@ -144,7 +142,7 @@ void test_sentences ()
     vector <pair<int, string>> standard = {
       pair (1, "Paragraph does not end with an end marker: he said")
     };
-    evaluate (__LINE__, __func__, standard, results);
+    EXPECT_EQ (standard, results);
   }
   // Test that a paragraph without proper ending, where the next paragraph starts with e.g. \q, is not flagged.
   {
@@ -152,7 +150,7 @@ void test_sentences ()
     check.paragraphs ({"p", "q"}, {"q"}, {{ pair (1, "He said,")}, { pair (1, "he is Jesus.")}});
     vector <pair<int, string>> results = check.get_results ();
     vector <pair<int, string>> standard = {};
-    evaluate (__LINE__, __func__, standard, results);
+    EXPECT_EQ (standard, results);
   }
   // Test flagging a paragraph that starts with a Greek small letter.
   {
@@ -163,7 +161,7 @@ void test_sentences ()
       pair (1, "Paragraph does not start with a capital: εὐθέως"),
       pair (1, "Paragraph does not end with an end marker: εὐθέως")
     };
-    evaluate (__LINE__, __func__, standard, results);
+    EXPECT_EQ (standard, results);
   }
   // Test a correct paragraph.
   {
@@ -171,14 +169,14 @@ void test_sentences ()
     check.paragraphs ({"p"}, {"q"}, {{ pair (1, "Immediately εὐθέως.")}});
     vector <pair<int, string>> results = check.get_results ();
     vector <pair<int, string>> standard;
-    evaluate (__LINE__, __func__, standard, results);
+    EXPECT_EQ (standard, results);
   }
   {
     Checks_Sentences check = test_sentences_setup ();
     check.paragraphs ({"q1"}, {"q1", "q"}, {{ pair (1, "Immediately εὐθέως.")}});
     vector <pair<int, string>> results = check.get_results ();
     vector <pair<int, string>> standard;
-    evaluate (__LINE__, __func__, standard, results);
+    EXPECT_EQ (standard, results);
   }
   // Test two punctuation marks.
   {
@@ -186,13 +184,17 @@ void test_sentences ()
     check.check ({ pair (2, "He did that..")});
     vector <pair<int, string>> results = check.get_results ();
     vector <pair<int, string>> standard = { pair (2, "Two punctuation marks in sequence: He did that..")};
-    evaluate (__LINE__, __func__, standard, results);
+    EXPECT_EQ (standard, results);
   }
   {
     Checks_Sentences check = test_sentences_setup ();
     check.check ({ pair (2, "He did ;. That.")});
     vector <pair<int, string>> results = check.get_results ();
     vector <pair<int, string>> standard = { pair (2, "Two punctuation marks in sequence: He did ;. That.")};
-    evaluate (__LINE__, __func__, standard, results);
+    EXPECT_EQ (standard, results);
   }
 }
+
+
+#endif
+

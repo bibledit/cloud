@@ -17,7 +17,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <unittests/cache.h>
+#include <config/libraries.h>
+#ifdef HAVE_GTEST
+#include "gtest/gtest.h"
 #include <unittests/utilities.h>
 #include <database/cache.h>
 #include <filter/url.h>
@@ -26,17 +28,15 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 using namespace std;
 
 
-void test_database_cache ()
+TEST (database, cache)
 {
-  trace_unit_tests (__func__);
-  
   refresh_sandbox (true);
   
   // Initially the database should not exist.
   bool exists = Database_Cache::exists ("");
-  evaluate (__LINE__, __func__, false, exists);
+  EXPECT_EQ (false, exists);
   exists = Database_Cache::exists ("unittests");
-  evaluate (__LINE__, __func__, false, exists);
+  EXPECT_EQ (false, exists);
   
   // Copy an old cache database in place.
   // It contains cached data in the old layout.
@@ -46,60 +46,60 @@ void test_database_cache ()
   string out_err;
   filter_shell_run ("cp " + testdatapath + " " + databasepath, out_err);
   int count = Database_Cache::count ("unittests");
-  evaluate (__LINE__, __func__, 1, count);
+  EXPECT_EQ (1, count);
   exists = Database_Cache::exists ("unittests", 8, 1, 16);
-  evaluate (__LINE__, __func__, true, exists);
+  EXPECT_EQ (true, exists);
   string value = Database_Cache::retrieve ("unittests", 8, 1, 16);
-  evaluate (__LINE__, __func__, "And Ruth said, Entreat me not to leave you, or to return from following you; for wherever you go, I will go, and wherever you lodge, I will lodge; your people shall be my people, and your God my God.", value);
+  EXPECT_EQ ("And Ruth said, Entreat me not to leave you, or to return from following you; for wherever you go, I will go, and wherever you lodge, I will lodge; your people shall be my people, and your God my God.", value);
   
   // Now remove the (old) cache and verify that it no longer exists or contains data.
   Database_Cache::remove ("unittests");
   exists = Database_Cache::exists ("unittests");
-  evaluate (__LINE__, __func__, false, exists);
+  EXPECT_EQ (false, exists);
   count = Database_Cache::count ("unittests");
-  evaluate (__LINE__, __func__, 0, count);
+  EXPECT_EQ (0, count);
   
   // Create a cache for one book.
   Database_Cache::create ("unittests", 10);
   // It should exists for the correct book, but not for another book.
   exists = Database_Cache::exists ("unittests", 10);
-  evaluate (__LINE__, __func__, true, exists);
+  EXPECT_EQ (true, exists);
   exists = Database_Cache::exists ("unittests", 11);
-  evaluate (__LINE__, __func__, false, exists);
+  EXPECT_EQ (false, exists);
   // The cache should have one book.
   count = Database_Cache::count ("unittests");
-  evaluate (__LINE__, __func__, 1, count);
+  EXPECT_EQ (1, count);
   
   // Cache and retrieve value.
   Database_Cache::create ("unittests", 1);
   Database_Cache::cache ("unittests", 1, 2, 3, "cached");
   value = Database_Cache::retrieve ("unittests", 1, 2, 3);
-  evaluate (__LINE__, __func__, "cached", value);
+  EXPECT_EQ ("cached", value);
   
   // Book count check.
   count = Database_Cache::count ("unittests");
-  evaluate (__LINE__, __func__, 2, count);
+  EXPECT_EQ (2, count);
   
   // Cache does not exist for one passage, but does exist for the other passage.
   exists = Database_Cache::exists ("unittests", 1, 2, 4);
-  evaluate (__LINE__, __func__, false, exists);
+  EXPECT_EQ (false, exists);
   exists = Database_Cache::exists ("unittests", 1, 2, 3);
-  evaluate (__LINE__, __func__, true, exists);
+  EXPECT_EQ (true, exists);
   
   // Excercise book cache removal.
   Database_Cache::remove ("unittests");
   exists = Database_Cache::exists ("unittests", 1);
-  evaluate (__LINE__, __func__, false, exists);
+  EXPECT_EQ (false, exists);
   
   // Excercise the file-based cache.
   {
     string url = "https://netbible.org/bible/1/2/3";
     string contents = "Bible contents";
-    evaluate (__LINE__, __func__, false, database_filebased_cache_exists (url));
-    evaluate (__LINE__, __func__, "", database_filebased_cache_get (url));
+    EXPECT_EQ (false, database_filebased_cache_exists (url));
+    EXPECT_EQ ("", database_filebased_cache_get (url));
     database_filebased_cache_put (url, contents);
-    evaluate (__LINE__, __func__, true, database_filebased_cache_exists (url));
-    evaluate (__LINE__, __func__, contents, database_filebased_cache_get (url));
+    EXPECT_EQ (true, database_filebased_cache_exists (url));
+    EXPECT_EQ (contents, database_filebased_cache_get (url));
     database_cache_trim (false);
   }
   
@@ -110,15 +110,15 @@ void test_database_cache ()
     Database_Cache::create (bible, book);
     
     bool ready = Database_Cache::ready (bible, book);
-    evaluate (__LINE__, __func__, false, ready);
+    EXPECT_EQ (false, ready);
     
     Database_Cache::ready (bible, book, false);
     ready = Database_Cache::ready (bible, book);
-    evaluate (__LINE__, __func__, false, ready);
+    EXPECT_EQ (false, ready);
     
     Database_Cache::ready (bible, book, true);
     ready = Database_Cache::ready (bible, book);
-    evaluate (__LINE__, __func__, true, ready);
+    EXPECT_EQ (true, ready);
   }
   
   // Check the file size function.
@@ -129,19 +129,22 @@ void test_database_cache ()
     
     int size = Database_Cache::size (bible, book);
     if ((size < 10'000) || (size > 15'000)) {
-      evaluate (__LINE__, __func__, "between 3072 and 5120", filter::strings::convert_to_string (size));
+      EXPECT_EQ ("between 3072 and 5120", filter::strings::convert_to_string (size));
     }
     
     size = Database_Cache::size (bible, book + 1);
-    evaluate (__LINE__, __func__, 0, size);
+    EXPECT_EQ (0, size);
   }
   
   // Check file naming for downloading a cache.
   {
-    evaluate (__LINE__, __func__, "cache_resource_", Database_Cache::fragment ());
-    evaluate (__LINE__, __func__, "databases/cache_resource_download_23.sqlite", Database_Cache::path ("download", 23));
+    EXPECT_EQ ("cache_resource_", Database_Cache::fragment ());
+    EXPECT_EQ ("databases/cache_resource_download_23.sqlite", Database_Cache::path ("download", 23));
   }
   
   // Remove some logs.
   refresh_sandbox (false);
 }
+
+#endif
+

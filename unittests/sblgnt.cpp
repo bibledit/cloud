@@ -17,24 +17,27 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
-#include <unittests/sblgnt.h>
+#include <config/libraries.h>
+#ifdef HAVE_GTEST
+#include "gtest/gtest.h"
 #include <unittests/utilities.h>
 #include <database/sblgnt.h>
-using namespace std;
 
 
-void test_database_sblgnt ()
+TEST (database, sblgnt)
 {
-  trace_unit_tests (__func__);
-  
   Database_Sblgnt database_sblgnt = Database_Sblgnt ();
   
-  vector <string> data = database_sblgnt.getVerse (43, 11, 35);
-  evaluate (__LINE__, __func__, { "ἐδάκρυσεν", "ὁ", "Ἰησοῦς" }, data);
+  const std::vector <std::string> data = database_sblgnt.getVerse (43, 11, 35);
+  const std::vector<std::string> standard_data { "ἐδάκρυσεν", "ὁ", "Ἰησοῦς" };
+  EXPECT_EQ (standard_data, data);
   
-  vector <Passage> passages = database_sblgnt.searchGreek ("βαπτισμῶν");
-  evaluate (__LINE__, __func__, 1,   static_cast <int> (passages.size()));
-  evaluate (__LINE__, __func__, 58,  passages[0].m_book);
-  evaluate (__LINE__, __func__, 6,   passages[0].m_chapter);
-  evaluate (__LINE__, __func__, "2", passages[0].m_verse);
+  const std::vector <Passage> passages = database_sblgnt.searchGreek ("βαπτισμῶν");
+  EXPECT_EQ (1,   static_cast <int> (passages.size()));
+  EXPECT_EQ (58,  passages[0].m_book);
+  EXPECT_EQ (6,   passages[0].m_chapter);
+  EXPECT_EQ ("2", passages[0].m_verse);
 }
+
+
+#endif

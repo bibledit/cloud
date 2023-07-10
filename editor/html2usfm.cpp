@@ -38,10 +38,6 @@ void Editor_Html2Usfm::load (string html)
   // but the pugixml XML parser needs <hr/> and similar elements.
   html = filter::strings::html2xml (html);
 
-  // The web editor adds a default wrapped vertical bar to separate cells of a
-  // table. Remove them when reconverting back to USFM.
-  html = filter::strings::replace ("<span> | </span>", "", html);
-  
   string xml = "<body>" + html + "</body>";
   // Parse document such that all whitespace is put in the DOM tree.
   // See http://pugixml.org/docs/manual.html for more information.

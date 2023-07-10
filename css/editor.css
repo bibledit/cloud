@@ -68,3 +68,11 @@
 [class^='i-th'] {
   font-style: italic;
 }
+[class^='i-th2']::before,
+[class^='i-th3']::before,
+[class^='i-tc2']::before,
+[class^='i-tc3']::before {
+  content: "|";
+  display: inline-block;
+  padding-right: 0.25em;
+}

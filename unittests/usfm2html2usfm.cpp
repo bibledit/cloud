@@ -369,11 +369,11 @@ void test_usfm2html2usfm ()
     "\\tr \\tc1 Gad \\tc2 Eliasaph son of Reuel \\tcr3 45650\n"
     "\\tr \\tc1 \\tcr2 Total: \\tcr3 151450";
     string standard_html =
-    R"(<p class="b-mono"><span>\tr </span><span class="i-th1">Tribe </span><span> | </span><span class="i-th2">Leader </span><span> | </span><span class="i-thr3">Number</span></p>)"
-    R"(<p class="b-mono"><span>\tr </span><span class="i-tc1">Reuben </span><span> | </span><span class="i-tc2">Elizur son of Shedeur </span><span> | </span><span class="i-tcr3">46500</span></p>)"
-    R"(<p class="b-mono"><span>\tr </span><span class="i-tc1">Simeon </span><span> | </span><span class="i-tc2">Shelumiel son of Zurishaddai </span><span> | </span><span class="i-tcr3">59300</span></p>)"
-    R"(<p class="b-mono"><span>\tr </span><span class="i-tc1">Gad </span><span> | </span><span class="i-tc2">Eliasaph son of Reuel </span><span> | </span><span class="i-tcr3">45650</span></p>)"
-    R"(<p class="b-mono"><span>\tr </span><span class="i-tcr2">Total: </span><span> | </span><span class="i-tcr3">151450</span></p>)";
+    R"(<p class="b-mono"><span>\tr </span><span class="i-th1">Tribe </span><span class="i-th2">Leader </span><span class="i-thr3">Number</span></p>)"
+    R"(<p class="b-mono"><span>\tr </span><span class="i-tc1">Reuben </span><span class="i-tc2">Elizur son of Shedeur </span><span class="i-tcr3">46500</span></p>)"
+    R"(<p class="b-mono"><span>\tr </span><span class="i-tc1">Simeon </span><span class="i-tc2">Shelumiel son of Zurishaddai </span><span class="i-tcr3">59300</span></p>)"
+    R"(<p class="b-mono"><span>\tr </span><span class="i-tc1">Gad </span><span class="i-tc2">Eliasaph son of Reuel </span><span class="i-tcr3">45650</span></p>)"
+    R"(<p class="b-mono"><span>\tr </span><span class="i-tcr2">Total: </span><span class="i-tcr3">151450</span></p>)";
 
     Editor_Usfm2Html editor_usfm2html;
     editor_usfm2html.load (standard_usfm);

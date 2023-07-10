@@ -343,15 +343,6 @@ void Editor_Usfm2Html::process ()
               case TableElementSubtypeHeading:
               case TableElementSubtypeCell:
               {
-                // If the last item is not a table row marker or an empty table
-                // cell (table cell marker), add a vertical bar to separate the
-                // cells
-                string previousItem = markers_and_text[markers_and_text_pointer - 1];
-                if (previousItem.find("\\tr") == std::string::npos) {
-                  if (previousItem.find("\\tc") == std::string::npos) {
-                    addText (" | ");
-                  }
-                }
                 openTextStyle (style, false);
                 break;
               }

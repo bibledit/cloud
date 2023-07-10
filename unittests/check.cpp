@@ -29,8 +29,6 @@ using namespace std;
 
 TEST (database, check)
 {
-  trace_unit_tests (__func__);
-  
   {
     // Test optimize.
     refresh_sandbox (true);

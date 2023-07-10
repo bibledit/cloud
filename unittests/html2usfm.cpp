@@ -30,8 +30,6 @@ using namespace std;
 
 TEST (editor, html2usfm)
 {
-  trace_unit_tests (__func__);
-  
   refresh_sandbox (true);
   Database_State::create ();
 

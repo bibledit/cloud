@@ -28,8 +28,6 @@ using namespace std;
 
 TEST (filter, image)
 {
-  trace_unit_tests (__func__);
-  
   // Test some functions of the image filter.
   {
     string image_2_name = "bibleimage2.png";

@@ -29,8 +29,6 @@ using namespace std;
 
 TEST (studylight, logic)
 {
-  trace_unit_tests (__func__);
-  
   string resource {};
   int book {};
   string text {};

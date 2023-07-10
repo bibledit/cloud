@@ -716,9 +716,9 @@ TEST (bibles, basic)
     std::vector <std::string> operators;
     std::vector <std::string> content;
     bible_logic::html_to_editor_updates (editor_html, server_html, positions, sizes, operators, content);
-    //EXPECT_EQ ({ 62,     63,  64,  0,    34,  62,   65   }, positions); // Todo enable?
-    //EXPECT_EQ ({ 1,      1,   1,   1,    1,   1,    1    }, sizes); // Todo enable?
-    //EXPECT_EQ ({ "i",    "i", "i", "p",  "p", "p",  "p"  }, operators); // Todo enable?
+    EXPECT_EQ ((std::vector <int>{33, 63, 64, 65, 68, 69, 94, 0, 36, 64, 69}), positions);
+    EXPECT_EQ ((std::vector <int>{2, 1, 1, 1, 1, 1, 2, 1, 1, 1, 1}), sizes);
+    EXPECT_EQ ((std::vector <std::string>{"i", "i", "i", "i", "i", "d", "i", "p", "p", "p", "p"}), operators);
     std::vector <std::string> standard_content {"😀", "!", "\nq3", "P", ".", "!", "😀", "q1", "p", "q3", "q2"};
     EXPECT_EQ (standard_content, content);
   }

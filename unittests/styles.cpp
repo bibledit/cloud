@@ -35,7 +35,6 @@ using namespace std;
 
 TEST (styles, css)
 {
-  trace_unit_tests (__func__);
   Webserver_Request request {};
 
   // Create basic stylesheet.
@@ -47,7 +46,7 @@ TEST (styles, css)
     styles_css.generate ();
     string css = styles_css.css ();
     string standard = filter_url_file_get_contents (filter_url_create_path ({"unittests", "tests", "basic.css"}));
-    evaluate (__LINE__, __func__, standard, css);
+    EXPECT_EQ (standard, css);
   }
   
   // Create stylesheet for export.
@@ -60,7 +59,7 @@ TEST (styles, css)
     styles_css.generate ();
     string css = styles_css.css ();
     string standard = filter::strings::trim (filter_url_file_get_contents (filter_url_create_path ({"unittests", "tests", "exports.css"})));
-    evaluate (__LINE__, __func__, standard, css);
+    EXPECT_EQ (standard, css);
   }
   
   // Stylesheet for the Bible editor.
@@ -74,41 +73,41 @@ TEST (styles, css)
     string css = styles_css.css ();
     string standard = filter::strings::trim (filter_url_file_get_contents (filter_url_create_path ({"unittests", "tests", "editor.css"})));
     //filter_url_file_put_contents ("editor.css", css);
-    evaluate (__LINE__, __func__, standard, css);
+    EXPECT_EQ (standard, css);
   }
   
   // Direction.
   {
-    evaluate (__LINE__, __func__, "checked", Filter_Css::directionUnspecified (100));
-    evaluate (__LINE__, __func__, "", Filter_Css::directionUnspecified (101));
+    EXPECT_EQ ("checked", Filter_Css::directionUnspecified (100));
+    EXPECT_EQ ("", Filter_Css::directionUnspecified (101));
     
-    evaluate (__LINE__, __func__, "checked", Filter_Css::directionLeftToRight (101));
-    evaluate (__LINE__, __func__, "", Filter_Css::directionLeftToRight (102));
+    EXPECT_EQ ("checked", Filter_Css::directionLeftToRight (101));
+    EXPECT_EQ ("", Filter_Css::directionLeftToRight (102));
     
-    evaluate (__LINE__, __func__, "checked", Filter_Css::directionRightToLeft (102));
-    evaluate (__LINE__, __func__, "", Filter_Css::directionRightToLeft (103));
+    EXPECT_EQ ("checked", Filter_Css::directionRightToLeft (102));
+    EXPECT_EQ ("", Filter_Css::directionRightToLeft (103));
     
-    evaluate (__LINE__, __func__, 0, Filter_Css::directionValue (""));
-    evaluate (__LINE__, __func__, 1, Filter_Css::directionValue ("ltr"));
-    evaluate (__LINE__, __func__, 2, Filter_Css::directionValue ("rtl"));
+    EXPECT_EQ (0, Filter_Css::directionValue (""));
+    EXPECT_EQ (1, Filter_Css::directionValue ("ltr"));
+    EXPECT_EQ (2, Filter_Css::directionValue ("rtl"));
   }
 
   // Writing Mode
   {
-    evaluate (__LINE__, __func__, "checked", Filter_Css::writingModeUnspecified (102));
-    evaluate (__LINE__, __func__, "", Filter_Css::writingModeUnspecified (112));
+    EXPECT_EQ ("checked", Filter_Css::writingModeUnspecified (102));
+    EXPECT_EQ ("", Filter_Css::writingModeUnspecified (112));
     
-    evaluate (__LINE__, __func__, "checked", Filter_Css::writingModeTopBottomLeftRight (112));
-    evaluate (__LINE__, __func__, "", Filter_Css::writingModeTopBottomLeftRight (122));
+    EXPECT_EQ ("checked", Filter_Css::writingModeTopBottomLeftRight (112));
+    EXPECT_EQ ("", Filter_Css::writingModeTopBottomLeftRight (122));
     
-    evaluate (__LINE__, __func__, "checked", Filter_Css::writingModeTopBottomRightLeft (122));
-    evaluate (__LINE__, __func__, "", Filter_Css::writingModeTopBottomRightLeft (132));
+    EXPECT_EQ ("checked", Filter_Css::writingModeTopBottomRightLeft (122));
+    EXPECT_EQ ("", Filter_Css::writingModeTopBottomRightLeft (132));
     
-    evaluate (__LINE__, __func__, "checked", Filter_Css::writingModeBottomTopLeftRight (132));
-    evaluate (__LINE__, __func__, "", Filter_Css::writingModeBottomTopLeftRight (142));
+    EXPECT_EQ ("checked", Filter_Css::writingModeBottomTopLeftRight (132));
+    EXPECT_EQ ("", Filter_Css::writingModeBottomTopLeftRight (142));
     
-    evaluate (__LINE__, __func__, "checked", Filter_Css::writingModeBottomTopRightLeft (142));
-    evaluate (__LINE__, __func__, "", Filter_Css::writingModeBottomTopRightLeft (152));
+    EXPECT_EQ ("checked", Filter_Css::writingModeBottomTopRightLeft (142));
+    EXPECT_EQ ("", Filter_Css::writingModeBottomTopRightLeft (152));
   }
 
   // CSS.
@@ -119,7 +118,7 @@ TEST (styles, css)
     ".class\n"
     "{\n"
     "}\n";
-    evaluate (__LINE__, __func__, filter::strings::trim (standard), filter::strings::trim (css));
+    EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (css));
     
     css = Filter_Css::get_css ("class", string(), 101);
     standard =
@@ -127,7 +126,7 @@ TEST (styles, css)
     "{\n"
     "direction: ltr;\n"
     "}\n";
-    evaluate (__LINE__, __func__, filter::strings::trim (standard), filter::strings::trim (css));
+    EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (css));
     
     css = Filter_Css::get_css ("class", string(), 102);
     standard =
@@ -135,7 +134,7 @@ TEST (styles, css)
     "{\n"
     "direction: rtl;\n"
     "}\n";
-    evaluate (__LINE__, __func__, filter::strings::trim (standard), filter::strings::trim (css));
+    EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (css));
     
     css = Filter_Css::get_css ("class", string(), 110);
     standard =
@@ -143,7 +142,7 @@ TEST (styles, css)
     "{\n"
     "writing-mode: tb-lr;\n"
     "}\n";
-    evaluate (__LINE__, __func__, filter::strings::trim (standard), filter::strings::trim (css));
+    EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (css));
     
     css = Filter_Css::get_css ("CLass", string(), 130);
     standard =
@@ -151,7 +150,7 @@ TEST (styles, css)
     "{\n"
     "writing-mode: bt-lr;\n"
     "}\n";
-    evaluate (__LINE__, __func__, filter::strings::trim (standard), filter::strings::trim (css));
+    EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (css));
     
     css = Filter_Css::get_css ("CLass", string(), 1322);
     standard =
@@ -160,7 +159,7 @@ TEST (styles, css)
     "direction: rtl;\n"
     "writing-mode: tb-rl;\n"
     "}\n";
-    evaluate (__LINE__, __func__, filter::strings::trim (standard), filter::strings::trim (css));
+    EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (css));
     
     css = Filter_Css::get_css ("Class", "sherif", 0);
     standard =
@@ -168,7 +167,7 @@ TEST (styles, css)
     "{\n"
     "font-family: sherif;\n"
     "}\n";
-    evaluate (__LINE__, __func__, filter::strings::trim (standard), filter::strings::trim (css));
+    EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (css));
     
     css = Filter_Css::get_css ("Class", "sherif", 102);
     standard =
@@ -177,7 +176,7 @@ TEST (styles, css)
     "font-family: sherif;\n"
     "direction: rtl;\n"
     "}\n";
-    evaluate (__LINE__, __func__, filter::strings::trim (standard), filter::strings::trim (css));
+    EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (css));
     
     css = Filter_Css::get_css ("classs", "../font.ttf", 0);
     standard =
@@ -190,34 +189,39 @@ TEST (styles, css)
     "{\n"
     "font-family: classs;\n"
     "}\n";
-    evaluate (__LINE__, __func__, filter::strings::trim (standard), filter::strings::trim (css));
+    EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (css));
   }
 
   // Class.
   {
     string clss = Filter_Css::getClass ("ആഈഘലറ");
-    evaluate (__LINE__, __func__, "customf86528", clss);
+    EXPECT_EQ ("customf86528", clss);
   }
   
   // Creating and deleting stylesheets.
   {
     refresh_sandbox (true);
     Database_Styles database_styles;
+    vector <string> standard {};
     
     vector <string> sheets = database_styles.getSheets ();
-    evaluate (__LINE__, __func__, { styles_logic_standard_sheet () }, sheets);
+    standard = { styles_logic_standard_sheet () };
+    EXPECT_EQ (standard, sheets);
     
     database_styles.createSheet ("testsheet");
     sheets = database_styles.getSheets ();
-    evaluate (__LINE__, __func__, { styles_logic_standard_sheet (), "testsheet" }, sheets);
+    standard = { styles_logic_standard_sheet (), "testsheet" };
+    EXPECT_EQ (standard, sheets);
     
     database_styles.deleteSheet ("testsheet");
     sheets = database_styles.getSheets ();
-    evaluate (__LINE__, __func__, { styles_logic_standard_sheet () }, sheets);
+    standard = { styles_logic_standard_sheet () };
+    EXPECT_EQ (standard, sheets);
     
     database_styles.deleteSheet (styles_logic_standard_sheet ());
     sheets = database_styles.getSheets ();
-    evaluate (__LINE__, __func__, { styles_logic_standard_sheet () }, sheets);
+    standard = { styles_logic_standard_sheet () };
+    EXPECT_EQ (standard, sheets);
   }
   
   // Do a spot check on the markers and their associated parameters.
@@ -229,32 +233,32 @@ TEST (styles, css)
     vector <string> markers {};
     
     markers = database_styles.getMarkers (styles_logic_standard_sheet ());
-    evaluate (__LINE__, __func__, 204, static_cast<int>(markers.size ()));
+    EXPECT_EQ (204, static_cast<int>(markers.size ()));
     
     markers = database_styles.getMarkers ("testsheet");
-    evaluate (__LINE__, __func__, 204, static_cast<int>(markers.size ()));
+    EXPECT_EQ (204, static_cast<int>(markers.size ()));
     
     string marker {"p"};
-    if (find (markers.begin (), markers.end (), marker) == markers.end ()) evaluate (__LINE__, __func__, marker, "not found");
+    if (find (markers.begin (), markers.end (), marker) == markers.end ()) EXPECT_EQ (marker, "not found");
     marker = "add";
-    if (find (markers.begin (), markers.end (), marker) == markers.end ()) evaluate (__LINE__, __func__, marker, "not found");
+    if (find (markers.begin (), markers.end (), marker) == markers.end ()) EXPECT_EQ (marker, "not found");
     
     map <string, string> markers_names = database_styles.getMarkersAndNames ("testsheet");
-    evaluate (__LINE__, __func__, 204, static_cast<int>(markers_names.size()));
-    evaluate (__LINE__, __func__, "Blank line", markers_names ["b"]);
-    evaluate (__LINE__, __func__, "Normal paragraph", markers_names ["p"]);
-    evaluate (__LINE__, __func__, "Translator’s addition", markers_names ["add"]);
+    EXPECT_EQ (204, static_cast<int>(markers_names.size()));
+    EXPECT_EQ ("Blank line", markers_names ["b"]);
+    EXPECT_EQ ("Normal paragraph", markers_names ["p"]);
+    EXPECT_EQ ("Translator’s addition", markers_names ["add"]);
     
     database_styles.deleteMarker ("testsheet", "p");
     markers = database_styles.getMarkers ("testsheet");
     marker = "p";
-    if (find (markers.begin (), markers.end (), marker) != markers.end ()) evaluate (__LINE__, __func__, marker, "should not be there");
+    if (find (markers.begin (), markers.end (), marker) != markers.end ()) EXPECT_EQ (marker, "should not be there");
     marker = "add";
-    if (find (markers.begin (), markers.end (), marker) == markers.end ()) evaluate (__LINE__, __func__, marker, "not found");
+    if (find (markers.begin (), markers.end (), marker) == markers.end ()) EXPECT_EQ (marker, "not found");
     
     markers_names = database_styles.getMarkersAndNames ("testsheet");
-    evaluate (__LINE__, __func__, "", markers_names ["p"]);
-    evaluate (__LINE__, __func__, "Translator’s addition", markers_names ["add"]);
+    EXPECT_EQ ("", markers_names ["p"]);
+    EXPECT_EQ ("Translator’s addition", markers_names ["add"]);
   }
   
   // More specific check on a marker.
@@ -263,8 +267,8 @@ TEST (styles, css)
     Database_Styles database_styles {};
     database_styles.createSheet ("testsheet");
     Database_Styles_Item data = database_styles.getMarkerData ("testsheet", "add");
-    evaluate (__LINE__, __func__, "add", data.marker);
-    evaluate (__LINE__, __func__, "st", data.category);
+    EXPECT_EQ ("add", data.marker);
+    EXPECT_EQ ("st", data.category);
   }
   
   // Updating a marker.
@@ -274,10 +278,10 @@ TEST (styles, css)
     database_styles.createSheet ("testsheet");
     database_styles.updateName ("testsheet", "add", "Addition");
     Database_Styles_Item data = database_styles.getMarkerData ("testsheet", "add");
-    evaluate (__LINE__, __func__, "Addition", data.name);
+    EXPECT_EQ ("Addition", data.name);
     database_styles.updateInfo ("testsheet", "p", "Paragraph");
     data = database_styles.getMarkerData ("testsheet", "p");
-    evaluate (__LINE__, __func__, "Paragraph", data.info);
+    EXPECT_EQ ("Paragraph", data.info);
   }
   
   // Read and write access to the styles database.
@@ -289,31 +293,31 @@ TEST (styles, css)
     
     // A user does not have write access to the stylesheet.
     bool write = database_styles.hasWriteAccess ("user", "testsheet");
-    evaluate (__LINE__, __func__, false, write);
+    EXPECT_EQ (false, write);
     
     // Grant write access, and test it for this user, and for another user.
     database_styles.grantWriteAccess ("user", "testsheet");
     write = database_styles.hasWriteAccess ("user", "testsheet");
-    evaluate (__LINE__, __func__, true, write);
+    EXPECT_EQ (true, write);
     write = database_styles.hasWriteAccess ("user2", "testsheet");
-    evaluate (__LINE__, __func__, false, write);
+    EXPECT_EQ (false, write);
     write = database_styles.hasWriteAccess ("user", "phpunit2");
-    evaluate (__LINE__, __func__, false, write);
+    EXPECT_EQ (false, write);
     
     // Revoke write access for a user, test it in various ways.
     database_styles.revokeWriteAccess ("user2", "testsheet");
     write = database_styles.hasWriteAccess ("user", "testsheet");
-    evaluate (__LINE__, __func__, true, write);
+    EXPECT_EQ (true, write);
     database_styles.revokeWriteAccess ("user", "testsheet");
     write = database_styles.hasWriteAccess ("user", "testsheet");
-    evaluate (__LINE__, __func__, false, write);
+    EXPECT_EQ (false, write);
     
     // Revoking write access for all users.
     database_styles.grantWriteAccess ("user1", "testsheet");
     database_styles.grantWriteAccess ("user2", "testsheet");
     database_styles.revokeWriteAccess ("", "testsheet");
     write = database_styles.hasWriteAccess ("user1", "testsheet");
-    evaluate (__LINE__, __func__, false, write);
+    EXPECT_EQ (false, write);
   }
   
   // Adding a marker.
@@ -326,12 +330,12 @@ TEST (styles, css)
     // Get markers.
     vector <string> markers = database_styles.getMarkers ("testsheet");
     string marker {"zhq"};
-    if (find (markers.begin (), markers.end (), marker) != markers.end ()) evaluate (__LINE__, __func__, marker, "should not be there");
+    if (find (markers.begin (), markers.end (), marker) != markers.end ()) EXPECT_EQ (marker, "should not be there");
     
     // Add marker.
     database_styles.addMarker ("testsheet", marker);
     markers = database_styles.getMarkers ("testsheet");
-    if (find (markers.begin (), markers.end (), marker) == markers.end ()) evaluate (__LINE__, __func__, marker, "should be there");
+    if (find (markers.begin (), markers.end (), marker) == markers.end ()) EXPECT_EQ (marker, "should be there");
   }
 
   // Testing empty stylesheet.
@@ -341,7 +345,7 @@ TEST (styles, css)
     database_styles.create ();
     vector <string> markers = database_styles.getMarkers ("");
     string marker {"zhq"};
-    if (find (markers.begin (), markers.end (), marker) != markers.end ()) evaluate (__LINE__, __func__, marker, "should not be there");
+    if (find (markers.begin (), markers.end (), marker) != markers.end ()) EXPECT_EQ (marker, "should not be there");
   }
   
   // Testing the styles application in the editors.
@@ -352,11 +356,11 @@ TEST (styles, css)
     Database_State database_state;
     database_state.create ();
     string action = Editor_Styles::getAction (&request, "add");
-    evaluate (__LINE__, __func__, "c", action);
+    EXPECT_EQ ("c", action);
     action = Editor_Styles::getAction (&request, "vp");
-    evaluate (__LINE__, __func__, "c", action);
+    EXPECT_EQ ("c", action);
     action = Editor_Styles::getAction (&request, "id");
-    evaluate (__LINE__, __func__, "m", action);
+    EXPECT_EQ ("m", action);
     refresh_sandbox (true, {"5 Creating sample Bible", "5 Sample Bible was created"});
   }
   

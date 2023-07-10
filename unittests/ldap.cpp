@@ -17,6 +17,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
 
+#include <config/libraries.h>
+#ifdef HAVE_GTEST
+#include "gtest/gtest.h"
 #include <unittests/utilities.h>
 #include <filter/url.h>
 #include <ldap/logic.h>
@@ -25,10 +28,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 using namespace std;
 
 
-void test_ldap ()
+TEST (ldap, logic)
 {
-  trace_unit_tests (__func__);
-  
   refresh_sandbox (true);
   
   // Copy the default LDAP server configuration into place.
@@ -46,17 +47,20 @@ void test_ldap ()
   string email;
   int role;
   okay = ldap_logic_fetch (user, password, access, email, role, false);
-  evaluate (__LINE__, __func__, true, okay);
-  evaluate (__LINE__, __func__, true, access);
-  evaluate (__LINE__, __func__, "boyle@ldap.forumsys.com", email);
-  evaluate (__LINE__, __func__, Filter_Roles::guest (), role);
+  EXPECT_EQ (true, okay);
+  EXPECT_EQ (true, access);
+  EXPECT_EQ ("boyle@ldap.forumsys.com", email);
+  EXPECT_EQ (Filter_Roles::guest (), role);
   
   // Check there is one journal entry as a result of authenticating a user.
   string last = "0";
   vector <string> logs = Database_Logs::get (last);
-  evaluate (__LINE__, __func__, 1, logs.size ());
+  EXPECT_EQ (1, logs.size ());
   
   // Clear LDAP settings.
   ldap_logic_clear ();
   refresh_sandbox (false);
 }
+
+#endif
+

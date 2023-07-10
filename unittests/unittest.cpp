@@ -21,7 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #ifdef HAVE_GTEST
 #include "gtest/gtest.h"
 #endif
-#include <unittests/utilities.h> // Todo lots of these out.
+#include <unittests/utilities.h>
 #include <library/bibledit.h>
 #include <library/locks.h>
 #include <database/config/user.h>
@@ -48,9 +48,6 @@ int main ([[maybe_unused]] int argc, [[maybe_unused]] char **argv)
 
   // Initialize SSL/TLS (after webroot has been set).
   filter_url_ssl_tls_initialize ();
-
-  // Number of failed unit tests.
-  error_count = 0;
 
   // Flag for unit tests.
   config_globals_unit_testing = true;

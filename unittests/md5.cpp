@@ -25,11 +25,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <mbedtls/md5.h>
 
 
+// Test the md5 from the mbedtls library.
 TEST (filter, md5)
 {
-  // Test the md5 from the mbedtls library.
-  trace_unit_tests (__func__);
-
   std::string apple = "apple";
   std::string apple_hexits = "1f3870be274f6c49b3e31a0c6728957f";
 

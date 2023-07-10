@@ -197,8 +197,6 @@ TEST (versification, basic )
 
 TEST (database, mappings)
 {
-  trace_unit_tests (__func__);
-  
   // Setup.
   {
     refresh_sandbox (true);

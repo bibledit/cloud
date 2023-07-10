@@ -186,7 +186,7 @@ TEST (filter, mail)
       filter_mail_dissect (contents, from, subject, plaintext);
       path += ".txt";
       contents = filter_url_file_get_contents (path);
-      evaluate (__LINE__, string (__func__) + " " + messagefile, contents, plaintext);
+      EXPECT_EQ (contents, plaintext);
     }
   }
 #endif

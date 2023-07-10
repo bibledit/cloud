@@ -73,7 +73,7 @@ TEST (database, confirm)
   // Delete this ID.
   database_confirm.erase (id);
   query = database_confirm.get_query (id);
-  evaluate (__LINE__, __func__,"", query);
+  EXPECT_EQ ("", query);
 
 #endif
 }

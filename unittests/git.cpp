@@ -42,8 +42,6 @@ void test_filter_git_setup ([[maybe_unused]] Webserver_Request * request,
 {
 #ifdef HAVE_CLOUD
 
-  trace_unit_tests (__func__);
-  
   refresh_sandbox (true);
   
   Database_State::create ();

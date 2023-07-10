@@ -30,7 +30,7 @@ TEST (sqlite, standard)
 
   // Tests for SQLite.
   sqlite3 * db = database_sqlite_connect ("sqlite");
-  if (!db) error_message (__LINE__, __func__, "pointer", "NULL");
+  if (!db) EXPECT_EQ ("pointer", "NULL");
   database_sqlite_exec (db, "CREATE TABLE test (column1 integer, column2 integer, column3 integer);");
   database_sqlite_exec (db, "INSERT INTO test VALUES (123, 456, 789);");
   database_sqlite_exec (db, "INSERT INTO test VALUES (234, 567, 890);");

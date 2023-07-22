@@ -7,13 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		CA0E0C192A3CC66E003CA623 /* libicuuc.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CA0E0C182A3CC66D003CA623 /* libicuuc.dylib */; };
-		CA0E0C1B2A3CC68D003CA623 /* libicudata.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CA0E0C1A2A3CC68D003CA623 /* libicudata.dylib */; };
-		CA0E0C1D2A3CC6AD003CA623 /* libicui18n.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CA0E0C1C2A3CC6AC003CA623 /* libicui18n.dylib */; };
 		CA0FFF4428D3A42F001DCF44 /* google.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CA84204328A03C39006EEA23 /* google.cpp */; };
 		CA10382925279F940021AF25 /* html2format.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CA10382725279F940021AF25 /* html2format.cpp */; };
 		CA10382C2527A4010021AF25 /* html2format.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CA10382A2527A4010021AF25 /* html2format.cpp */; };
-		CA104BB7277B96B300BD2E7C /* libmimetic.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CA104BB6277B96B300BD2E7C /* libmimetic.0.dylib */; };
 		CA29E7BD292C0897003AC875 /* access.c in Sources */ = {isa = PBXBuildFile; fileRef = CA29E757292C07BE003AC875 /* access.c */; };
 		CA29E7BE292C0897003AC875 /* alloc.c in Sources */ = {isa = PBXBuildFile; fileRef = CA29E76A292C07BE003AC875 /* alloc.c */; };
 		CA29E7BF292C0897003AC875 /* attrdict.c in Sources */ = {isa = PBXBuildFile; fileRef = CA29E75D292C07BE003AC875 /* attrdict.c */; };
@@ -72,7 +68,6 @@
 		CA55F19E277B941D00673C9E /* mmfile.cxx in Sources */ = {isa = PBXBuildFile; fileRef = CA74D24D277B6D74000EC1CA /* mmfile.cxx */; };
 		CA55F19F277B943E00673C9E /* base64.cxx in Sources */ = {isa = PBXBuildFile; fileRef = CA74D22B277B6D74000EC1CA /* base64.cxx */; };
 		CA74778827F7516F00192B66 /* note.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CA74778627F7376700192B66 /* note.cpp */; };
-		CA7540A92946290F0043BE37 /* libiconv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CA7540A8294628EA0043BE37 /* libiconv.tbd */; };
 		CA77112627523B94003ADD67 /* index.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CAECA50525EED7B500650B41 /* index.cpp */; };
 		CA77112727523C07003ADD67 /* verse.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CAECA50425EED7B500650B41 /* verse.cpp */; };
 		CA77112827523C15003ADD67 /* update.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CADD5A392630A3F5003AAB27 /* update.cpp */; };
@@ -102,9 +97,6 @@
 		CA77114427524240003ADD67 /* bibleimages.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CABDBAD726E3F82000BE27F8 /* bibleimages.cpp */; };
 		CA83A6A2289D87730038E298 /* googletranslate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CA83A69F289D7C9F0038E298 /* googletranslate.cpp */; };
 		CAAA5DBA256555E5003249CA /* paratext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CAAA5DB9256555E5003249CA /* paratext.cpp */; };
-		CAB6D33A28B7E5BF00D11967 /* libutf8proc.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CAB6D33928B7E5BF00D11967 /* libutf8proc.2.dylib */; };
-		CABD0EA62916F508007D21D0 /* libtidy.5.8.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CABD0EA52916F508007D21D0 /* libtidy.5.8.0.dylib */; };
-		CAD085AF2904405B00226A66 /* libgumbo.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CAD085AE2904405B00226A66 /* libgumbo.1.dylib */; };
 		CAD5E3952791E77700AE0A28 /* folders.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CAD5E3942791E72F00AE0A28 /* folders.cpp */; };
 		CADE454624F174DF003165BB /* bible.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CADE36FE24F1737A003165BB /* bible.cpp */; };
 		CADE454724F174DF003165BB /* logic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = CADE36FF24F1737A003165BB /* logic.cpp */; };
@@ -619,9 +611,6 @@
 		CADE475124F17537003165BB /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = CADE410D24F174A3003165BB /* sqlite3.c */; };
 		CADE475224F17537003165BB /* utf8proc.c in Sources */ = {isa = PBXBuildFile; fileRef = CADE42A024F174BD003165BB /* utf8proc.c */; };
 		CADE475424F17537003165BB /* io.c in Sources */ = {isa = PBXBuildFile; fileRef = CADE452024F174C0003165BB /* io.c */; };
-		CADE475724F1786C003165BB /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CADE475624F1786C003165BB /* libxml2.tbd */; };
-		CADE475C24F17D04003165BB /* libcurl.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CADE475B24F17D04003165BB /* libcurl.dylib */; };
-		CAFA33C429269F1100474A52 /* libpugixml.1.12.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CAFA33C329269F1100474A52 /* libpugixml.1.12.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -2679,17 +2668,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CAFA33C429269F1100474A52 /* libpugixml.1.12.dylib in Frameworks */,
-				CABD0EA62916F508007D21D0 /* libtidy.5.8.0.dylib in Frameworks */,
-				CA0E0C1D2A3CC6AD003CA623 /* libicui18n.dylib in Frameworks */,
-				CA0E0C192A3CC66E003CA623 /* libicuuc.dylib in Frameworks */,
-				CA0E0C1B2A3CC68D003CA623 /* libicudata.dylib in Frameworks */,
-				CAD085AF2904405B00226A66 /* libgumbo.1.dylib in Frameworks */,
-				CAB6D33A28B7E5BF00D11967 /* libutf8proc.2.dylib in Frameworks */,
-				CA7540A92946290F0043BE37 /* libiconv.tbd in Frameworks */,
-				CA104BB7277B96B300BD2E7C /* libmimetic.0.dylib in Frameworks */,
-				CADE475C24F17D04003165BB /* libcurl.dylib in Frameworks */,
-				CADE475724F1786C003165BB /* libxml2.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5905,6 +5883,23 @@
 		};
 /* End PBXGroup section */
 
+/* Begin PBXLegacyTarget section */
+		CAA877B22A63DC440059B211 /* server2 */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "-j8";
+			buildConfigurationList = CAA877B52A63DC440059B211 /* Build configuration list for PBXLegacyTarget "server2" */;
+			buildPhases = (
+			);
+			buildToolPath = make;
+			buildWorkingDirectory = "$(HOME)/dev/cloud";
+			dependencies = (
+			);
+			name = server2;
+			passBuildSettingsInEnvironment = 1;
+			productName = server2;
+		};
+/* End PBXLegacyTarget section */
+
 /* Begin PBXNativeTarget section */
 		CA18ADBE24F169DA00FF603C /* server */ = {
 			isa = PBXNativeTarget;
@@ -5935,6 +5930,9 @@
 					CA18ADBE24F169DA00FF603C = {
 						CreatedOnToolsVersion = 11.5;
 					};
+					CAA877B22A63DC440059B211 = {
+						CreatedOnToolsVersion = 14.3.1;
+					};
 				};
 			};
 			buildConfigurationList = CA18ADBA24F169DA00FF603C /* Build configuration list for PBXProject "xcode" */;
@@ -5951,6 +5949,7 @@
 			projectRoot = "";
 			targets = (
 				CA18ADBE24F169DA00FF603C /* server */,
+				CAA877B22A63DC440059B211 /* server2 */,
 			);
 		};
 /* End PBXProject section */
@@ -6622,7 +6621,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				MACOSX_DEPLOYMENT_TARGET = 13.3;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -6679,7 +6678,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				MACOSX_DEPLOYMENT_TARGET = 13.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				OTHER_CPLUSPLUSFLAGS = "$(OTHER_CFLAGS)";
@@ -6797,6 +6796,35 @@
 			};
 			name = Release;
 		};
+		CAA877B32A63DC440059B211 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Automatic;
+				DEBUGGING_SYMBOLS = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = L37WFUB5MH;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		CAA877B42A63DC440059B211 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Automatic;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = L37WFUB5MH;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -6814,6 +6842,15 @@
 			buildConfigurations = (
 				CA18ADC724F169DA00FF603C /* Debug */,
 				CA18ADC824F169DA00FF603C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CAA877B52A63DC440059B211 /* Build configuration list for PBXLegacyTarget "server2" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CAA877B32A63DC440059B211 /* Debug */,
+				CAA877B42A63DC440059B211 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

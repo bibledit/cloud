@@ -1815,7 +1815,7 @@ TEST (database, notes)
 
 TEST (database, noteassignment)
 {
-  refresh_sandbox (true);
+  refresh_sandbox (false);
   Database_NoteAssignment database;
   
   bool exists = database.exists ("unittest");

@@ -32,7 +32,7 @@ using namespace std;
 
 TEST (database, resources)
 {
-  refresh_sandbox (true);
+  refresh_sandbox (false);
   vector <string> names = resource_external_names ();
   bool hit = false;
   for (const auto& name : names)
@@ -46,7 +46,7 @@ TEST (database, usfmresources)
 {
   // Empty
   {
-    refresh_sandbox (true);
+    refresh_sandbox (false);
     Database_UsfmResources database_usfmresources = Database_UsfmResources ();
     vector <string> resources = database_usfmresources.getResources ();
     bool hit = false;
@@ -136,7 +136,7 @@ TEST (database, imageresources)
   
   // Empty.
   {
-    refresh_sandbox (true);
+    refresh_sandbox (false);
     vector <string> resources = database_imageresources.names ();
     EXPECT_EQ (0, resources.size());
   }
@@ -237,7 +237,7 @@ TEST (database, imageresources)
 
 TEST (database, userresources)
 {
-  refresh_sandbox (true);
+  refresh_sandbox (false);
   
   vector <string> names;
   string name = "unit//test";

@@ -30,7 +30,7 @@ using namespace std;
 
 TEST (ldap, logic)
 {
-  refresh_sandbox (true);
+  refresh_sandbox (false);
   
   // Copy the default LDAP server configuration into place.
   string ldap_txt = filter_url_create_root_path ({config::logic::config_folder (), "ldap.txt"});

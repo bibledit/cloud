@@ -28,7 +28,7 @@ using namespace std;
 
 TEST (database, bible_images)
 {
-  refresh_sandbox (true);
+  refresh_sandbox (false);
 
   Database_BibleImages database_bibleimages;
   vector <string> images;

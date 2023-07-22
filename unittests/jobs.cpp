@@ -28,7 +28,7 @@ using namespace std;
 TEST (database, jobs)
 {
   {
-    refresh_sandbox (true);
+    refresh_sandbox (false);
     Database_Jobs database_jobs = Database_Jobs ();
     database_jobs.create ();
     

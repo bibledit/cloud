@@ -30,7 +30,7 @@ using namespace std;
 TEST (database, privileges)
 {
   // Test creation, automatic repair of damages.
-  refresh_sandbox (true);
+  refresh_sandbox (false);
   DatabasePrivileges::create ();
   string path = database_sqlite_file (DatabasePrivileges::database ());
   filter_url_file_put_contents (path, "damaged database");

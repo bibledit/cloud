@@ -33,7 +33,7 @@ using namespace std;
 
 TEST (filter, export) 
 {
-  refresh_sandbox (true);
+  refresh_sandbox (false);
 
   // Test the plain text export tool.
   {

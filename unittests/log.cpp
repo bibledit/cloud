@@ -31,7 +31,7 @@ TEST (database, logs_1)
 {
   // Tests for Database_Logs.
   {
-    refresh_sandbox (true);
+    refresh_sandbox (false);
     // Log some items.
     Database_Logs::log ("description1", 2);
     Database_Logs::log ("description2", 3);
@@ -50,7 +50,7 @@ TEST (database, logs_1)
 TEST (database, logs_2)
 {
   // Test huge journal entry.
-  refresh_sandbox (true);
+  refresh_sandbox (false);
   const std::string huge (60'000, 'x');
   Database_Logs::log (huge);
   Database_Logs::rotate ();
@@ -71,7 +71,7 @@ TEST (database, logs_2)
 TEST (database, logs_3)
 {
   // Test the getNext function of the Journal.
-  refresh_sandbox (true);
+  refresh_sandbox (false);
   Database_Logs::log ("description");
   int second = filter::date::seconds_since_epoch ();
   std::string filename = filter::strings::convert_to_string (second) + "00000000";

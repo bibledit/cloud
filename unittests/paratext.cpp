@@ -28,7 +28,7 @@ using namespace std;
 
 TEST (paratext, logic)
 {
-  refresh_sandbox (true);
+  refresh_sandbox (false);
 
   // If Bibledit has the chapter, and Paratext does not, take the Bibledit chapter.
   {

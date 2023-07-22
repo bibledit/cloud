@@ -882,7 +882,7 @@ TEST (database, git)
 {
 #ifdef HAVE_CLOUD
 
-  refresh_sandbox (true);
+  refresh_sandbox (false);
   
   // Create the database.
   Database_Git::create ();

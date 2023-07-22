@@ -30,7 +30,7 @@ using namespace std;
 
 TEST (database, cache)
 {
-  refresh_sandbox (true);
+  refresh_sandbox (false);
   
   // Initially the database should not exist.
   bool exists = Database_Cache::exists ("");

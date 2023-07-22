@@ -28,7 +28,7 @@ using namespace std;
 
 TEST (database, localization)
 {
-  refresh_sandbox (true);
+  refresh_sandbox (false);
   string file_po = filter_url_create_root_path ({"unittests", "tests", "nl.po"});
   Database_Localization database_localization = Database_Localization ("nl");
   database_localization.create (file_po);

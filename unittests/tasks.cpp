@@ -26,7 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 TEST (tasks, logic)
 {
-  refresh_sandbox (true);
+  refresh_sandbox (false);
   tasks_logic_queue ("task1");
   tasks_logic_queue ("task3");
   tasks_logic_queue ("task4", { "parameter1", "parameter2" });

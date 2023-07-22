@@ -28,7 +28,7 @@ using namespace std;
 
 TEST (checks, pairs)
 {
-  refresh_sandbox (true);
+  refresh_sandbox (false);
   Database_Check database_check;
   database_check.create ();
   

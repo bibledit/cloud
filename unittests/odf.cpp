@@ -30,7 +30,7 @@ using namespace std;
 
 TEST (filter, odf)
 {
-  refresh_sandbox (true);
+  refresh_sandbox (false);
   string odf_text_test_odt = "/tmp/test.odt";
   string Odt2TxtOutput = "/tmp/test.txt";
   string bible = "testbible";

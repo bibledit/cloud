@@ -31,7 +31,7 @@ TEST (database, check)
 {
   {
     // Test optimize.
-    refresh_sandbox (true);
+    refresh_sandbox (false);
     Database_Check database_check = Database_Check ();
     database_check.optimize ();
   }

@@ -31,7 +31,7 @@ using namespace std;
 
 TEST (roundtrip, usfm2html2usfm)
 {
-  refresh_sandbox (true);
+  refresh_sandbox (false);
 
   // One unknown opening marker.
   {

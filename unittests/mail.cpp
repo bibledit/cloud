@@ -35,7 +35,7 @@ TEST (database, mail)
   
   // Optimize / trim.
   {
-    refresh_sandbox (true);
+    refresh_sandbox (false);
     Database_Users database_users;
     database_users.create ();
     Webserver_Request request;

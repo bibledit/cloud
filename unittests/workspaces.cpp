@@ -35,7 +35,7 @@ void test_workspaces_setup (Webserver_Request & request)
 TEST (workspaces, basic)
 {
   // Initial setup for the tests.
-  refresh_sandbox (true);
+  refresh_sandbox (false);
   {
     Webserver_Request request;
     test_workspaces_setup (request);

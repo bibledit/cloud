@@ -28,7 +28,7 @@ using namespace std;
 // Tests for the Database_Books object.
 TEST (database, books)
 {
-  refresh_sandbox (true);
+  refresh_sandbox (false);
   EXPECT_EQ (109, database::books::get_ids ().size());
   EXPECT_EQ (static_cast<int>(book_id::_exodus), static_cast<int>(database::books::get_id_from_english ("Exodus")));
   EXPECT_EQ (static_cast<int>(book_id::_unknown), static_cast<int>(database::books::get_id_from_english ("exodus")));

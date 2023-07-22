@@ -32,7 +32,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 void test_store_bible_data_safely_setup (Webserver_Request * request, std::string usfm)
 {
-  refresh_sandbox (true);
+  refresh_sandbox (false);
   Database_State::create ();
   Database_Login::create ();
   request->database_bibles()->createBible ("phpunit");
@@ -727,7 +727,7 @@ TEST (bibles, basic)
 
 TEST (database, bibleactions)
 {
-  refresh_sandbox (true);
+  refresh_sandbox (false);
   Database_BibleActions database_bibleactions;
   database_bibleactions.create ();
   
@@ -789,7 +789,7 @@ TEST (database, bibles)
 
   // It should get the standard default Bible when there's no Bibles created by the user yet.
   {
-    refresh_sandbox (true);
+    refresh_sandbox (false);
     Database_Bibles database_bibles;
     Database_State::create ();
     std::vector <std::string> standard;

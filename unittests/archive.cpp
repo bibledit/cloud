@@ -30,7 +30,7 @@ using namespace std;
 
 TEST (filter, archive)
 {
-  refresh_sandbox (true);
+  refresh_sandbox (false);
   
   // Prepare data structure for testing.
   

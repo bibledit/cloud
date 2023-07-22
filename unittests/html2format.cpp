@@ -30,7 +30,7 @@ using namespace std;
 
 TEST (html, format)
 {
-  refresh_sandbox (true);
+  refresh_sandbox (false);
   Database_State::create ();
 
   // Basic test.

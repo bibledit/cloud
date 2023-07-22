@@ -28,7 +28,7 @@ using namespace std;
 
 TEST (database, sample)
 {
-  refresh_sandbox (true);
+  refresh_sandbox (false);
   Database_Sample::create ();
   
   // Store samples.

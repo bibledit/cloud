@@ -29,7 +29,7 @@ using namespace std;
 
 TEST (client, basic)
 {
-  refresh_sandbox (true);
+  refresh_sandbox (false);
   
   // Test client enabled logic.
   {

@@ -30,7 +30,7 @@ TEST (database, confirm)
 {
 #ifdef HAVE_CLOUD
   
-  refresh_sandbox (true);
+  refresh_sandbox (false);
   Database_Confirm database_confirm;
   database_confirm.create ();
   database_confirm.upgrade();

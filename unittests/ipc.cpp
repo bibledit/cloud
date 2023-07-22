@@ -30,7 +30,7 @@ using namespace std;
 TEST (ipc, basic)
 {
   // Initialize.
-  refresh_sandbox (true);
+  refresh_sandbox (false);
   Webserver_Request request;
   request.database_users ()->create ();
   request.session_logic ()->set_username ("phpunit");
@@ -71,7 +71,7 @@ TEST (database, ipc)
 {
   // Test trim.
   {
-    refresh_sandbox (true);
+    refresh_sandbox (false);
     Database_Ipc database_ipc = Database_Ipc (nullptr);
     database_ipc.trim ();
   }

@@ -35,7 +35,7 @@ TEST (rss, feed)
 {
 #ifdef HAVE_CLOUD
 
-  refresh_sandbox (true);
+  refresh_sandbox (false);
   
   Database_State::create ();
   Database_Bibles database_bibles;

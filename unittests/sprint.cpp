@@ -31,7 +31,7 @@ TEST (database, sprint)
 
   // Maintenance.
   {
-    refresh_sandbox (true);
+    refresh_sandbox (false);
     Database_Sprint database = Database_Sprint ();
     database.create ();
     database.optimize ();

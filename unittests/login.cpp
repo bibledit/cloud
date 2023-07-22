@@ -29,7 +29,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 TEST (database, login)
 {
   {
-    refresh_sandbox (true);
+    refresh_sandbox (false);
     Database_Login::create ();
     const std::string path = database_sqlite_file (Database_Login::database ());
     filter_url_file_put_contents (path, "damaged database");

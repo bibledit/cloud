@@ -26,7 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 TEST (database, state)
 {
-  refresh_sandbox (true);
+  refresh_sandbox (false);
   Database_State::create ();
 
   // Test notes checksums.

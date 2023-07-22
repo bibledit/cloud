@@ -30,7 +30,7 @@
 // Tests for a user's identifier.
 TEST (session, users)
 {
-  refresh_sandbox (true);
+  refresh_sandbox (false);
   Webserver_Request request;
   request.database_users ()->create ();
   request.session_logic()->set_username ("phpunit");
@@ -44,7 +44,7 @@ TEST (session, users)
 // Tests for Database_Users.
 TEST (database, users1)
 {
-  refresh_sandbox (true);
+  refresh_sandbox (false);
   Database_Users database_users;
   database_users.create ();
   database_users.upgrade ();
@@ -102,7 +102,7 @@ TEST (database, users1)
 // Test administrators and updating email.
 TEST (database, users2)
 {
-  refresh_sandbox (true);
+  refresh_sandbox (false);
   Database_Users database_users;
   database_users.create ();
   database_users.upgrade ();
@@ -146,7 +146,7 @@ TEST (database, users2)
 
 TEST (database, users3)
 {
-  refresh_sandbox (true);
+  refresh_sandbox (false);
   Database_Users database_users;
   database_users.create ();
   database_users.upgrade ();
@@ -171,7 +171,7 @@ TEST (database, users3)
 
 TEST (database, users4)
 {
-  refresh_sandbox (true);
+  refresh_sandbox (false);
   Database_Users database_users;
   database_users.create ();
   database_users.upgrade ();

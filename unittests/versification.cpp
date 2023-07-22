@@ -34,7 +34,7 @@ TEST (versification, basic )
   
   // Test the available books.
   {
-    refresh_sandbox (true);
+    refresh_sandbox (false);
     Database_Versifications database_versifications;
     database_versifications.create ();
     database_versifications.defaults ();
@@ -199,7 +199,7 @@ TEST (database, mappings)
 {
   // Setup.
   {
-    refresh_sandbox (true);
+    refresh_sandbox (false);
     Database_Mappings database_mappings;
     database_mappings.create1 ();
     database_mappings.defaults ();
@@ -402,7 +402,7 @@ TEST (database, versifications)
 {
   // Basic operations, create, delete.
   {
-    refresh_sandbox (true);
+    refresh_sandbox (false);
     Database_Versifications database_versifications;
     database_versifications.create ();
     database_versifications.optimize ();

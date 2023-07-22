@@ -34,7 +34,7 @@ TEST (database, modifications_user)
 {
   // Create, erase, clear.
   {
-    refresh_sandbox (true);
+    refresh_sandbox (false);
     Database_Modifications database_modifications;
     database_modifications.erase ();
     database_modifications.create ();
@@ -148,7 +148,7 @@ TEST (database, modifications_team)
 {
   // Basics.
   {
-    refresh_sandbox (true);
+    refresh_sandbox (false);
     Database_Modifications database_modifications;
     database_modifications.create ();
     Database_State::create ();

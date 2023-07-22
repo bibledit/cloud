@@ -34,7 +34,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // Test for class Session_Logic.
 TEST (session, logic1)
 {
-  refresh_sandbox (true);
+  refresh_sandbox (false);
   
   // The session logic depends on users in the database.
   Database_State::create ();
@@ -65,7 +65,7 @@ TEST (session, logic1)
 TEST (session, logic2)
 {
   // In a client installation, a client is logged in as admin when there's no user in the database.
-  refresh_sandbox (true);
+  refresh_sandbox (false);
   Database_State::create ();
   Database_Login::create ();
   Database_Users database_users;
@@ -82,7 +82,7 @@ TEST (session, logic2)
 TEST (session, logic3)
 {
   // In a client installation, a client is logged in as the first user in the database.
-  refresh_sandbox (true);
+  refresh_sandbox (false);
   Database_State::create ();
   Database_Login::create ();
   Database_Users database_users;
@@ -102,7 +102,7 @@ TEST (session, logic3)
 
 TEST (session, logic4)
 {
-  refresh_sandbox (true);
+  refresh_sandbox (false);
   Database_State::create ();
   Database_Login::create ();
   Database_Users database_users;
@@ -179,7 +179,7 @@ TEST (session, logic4)
 TEST (session, logic5)
 {
   // Detection and mitigation of brute force login attack.
-  refresh_sandbox (true);
+  refresh_sandbox (false);
   Database_State::create ();
   Database_Login::create ();
   Database_Users database_users;
@@ -243,7 +243,7 @@ TEST (session, logic5)
 // Checks on login session without proper check, as in a confirmation through a link.
 TEST (session, logic6)
 {
-  refresh_sandbox (true);
+  refresh_sandbox (false);
   Database_State::create ();
   Database_Login::create ();
   Database_Users database_users;

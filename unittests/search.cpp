@@ -68,7 +68,7 @@ TEST (search, logic)
 {
   // Test updating search fields.
   {
-    refresh_sandbox (true);
+    refresh_sandbox (false);
     test_search_setup ();
     search_logic_index_chapter ("phpunit", 2, 3);
   }

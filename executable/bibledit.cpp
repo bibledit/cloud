@@ -34,6 +34,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/globals.h>
 using namespace std;
 
+// Fix for architecture hurd-i386 that does not define MAXPATHLEN.
+#ifndef MAXPATHLEN
+#define MAXPATHLEN 1024
+#endif
+
 
 // Declarations.
 void sigint_handler ([[maybe_unused]] int s);

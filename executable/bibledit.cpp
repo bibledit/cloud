@@ -40,14 +40,7 @@ using namespace std;
 #endif
 
 
-// Declarations.
-void sigint_handler ([[maybe_unused]] int s);
-string backtrace_path ();
-[[ noreturn ]]
-void sigsegv_handler ([[maybe_unused]] int sig);
-
-
-void sigint_handler ([[maybe_unused]] int s)
+static void sigint_handler ([[maybe_unused]] int s)
 {
   // When pressing Ctrl-C, the system outputs a "^C".
   // It is cleaner to write a new line after that.
@@ -57,10 +50,9 @@ void sigint_handler ([[maybe_unused]] int s)
 }
 
 
-string backtrace_path ()
+static string backtrace_path ()
 {
-  string path = filter_url_create_root_path ({filter_url_temp_dir (), "backtrace.txt"});
-  return path;
+  return filter_url_create_root_path ({filter_url_temp_dir (), "backtrace.txt"});
 }
 
 
@@ -68,16 +60,14 @@ string backtrace_path ()
 // http://stackoverflow.com/questions/77005/how-to-generate-a-stacktrace-when-my-gcc-c-app-crashes
 // To add linker flag -rdynamic is essential.
 [[ noreturn ]]
-void sigsegv_handler ([[maybe_unused]] int sig)
+static void sigsegv_handler ([[maybe_unused]] int sig)
 {
   // Information.
   cout << "Segmentation fault, writing backtrace to " << backtrace_path () << endl;
-
-  void *array[20];
-  int size;
   
   // Get void*'s for all entries on the stack
-  size = backtrace (array, 20);
+  void *array[20];
+  int size = backtrace (array, 20);
 
   // Write entries to file (to be logged next time bibledit starts).
   int fd = open (backtrace_path ().c_str (), O_WRONLY|O_CREAT, 0666);
@@ -123,13 +113,13 @@ int main ([[maybe_unused]] int argc, [[maybe_unused]] char **argv)
 
   
   // Get the executable path and derive the document root from it.
-  string webroot;
+  string webroot {};
 #ifndef HAVE_WINDOWS
   {
     // The following works on Linux but not on macOS:
     char *linkname = static_cast<char *> (malloc (256));
     memset (linkname, 0, 256); // valgrind uninitialized value(s)
-    [[maybe_unused]] ssize_t result = readlink ("/proc/self/exe", linkname, 256);
+    [[maybe_unused]] auto result = readlink ("/proc/self/exe", linkname, 256);
     webroot = filter_url_dirname (linkname);
     free (linkname);
   }
@@ -137,11 +127,9 @@ int main ([[maybe_unused]] int argc, [[maybe_unused]] char **argv)
 #ifdef HAVE_LIBPROC
   {
     // The following works on Linux and on macOS:
-    int ret;
-    pid_t pid;
+    pid_t pid = getpid ();
     char pathbuf [2048];
-    pid = getpid ();
-    ret = proc_pidpath (pid, pathbuf, sizeof (pathbuf));
+    int ret = proc_pidpath (pid, pathbuf, sizeof (pathbuf));
     if (ret > 0 ) {
       webroot = filter_url_dirname (pathbuf);
     }

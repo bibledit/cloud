@@ -280,7 +280,7 @@ void Filter_Text::pre_process_usfm ()
                 break;
               case StyleTypeChapterNumber:
               {
-                string number = filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
+                const string number = filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
                 m_current_chapter_number = filter::strings::convert_to_int (number);
                 numberOfChaptersPerBook[m_current_book_identifier] = m_current_chapter_number;
                 currentVerseNumber = "0";
@@ -595,27 +595,27 @@ void Filter_Text::process_usfm ()
               currentVerseNumber = "0";
 
               // If there is a published chapter character, the chapter number takes that value.
-              for (auto publishedChapterMarker : publishedChapterMarkers) {
-                if (publishedChapterMarker.m_book == m_current_book_identifier) {
-                  if (publishedChapterMarker.m_chapter == m_current_chapter_number) {
-                    number = publishedChapterMarker.m_value;
+              for (const auto& published_chapter_marker : publishedChapterMarkers) {
+                if (published_chapter_marker.m_book == m_current_book_identifier) {
+                  if (published_chapter_marker.m_chapter == m_current_chapter_number) {
+                    number = published_chapter_marker.m_value;
                     inumber = filter::strings::convert_to_int (number);
                   }
                 }
               }
 
               // Enter text for the running headers.
-              string runningHeader = database::books::get_english_from_id (static_cast<book_id>(m_current_book_identifier));
+              string running_header = database::books::get_english_from_id (static_cast<book_id>(m_current_book_identifier));
               for (auto item : runningHeaders) {
                 if (item.m_book == m_current_book_identifier) {
-                  runningHeader = item.m_value;
+                  running_header = item.m_value;
                 }
               }
-              runningHeader = runningHeader + " " + number;
-              if (odf_text_standard) odf_text_standard->new_heading1 (runningHeader, true);
-              if (odf_text_text_only) odf_text_text_only->new_heading1 (runningHeader, true);
-              if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->new_heading1 (runningHeader, true);
-              if (odf_text_notes) odf_text_notes->new_heading1 (runningHeader, false);
+              running_header += (" " + number);
+              if (odf_text_standard) odf_text_standard->new_heading1 (running_header, true);
+              if (odf_text_text_only) odf_text_text_only->new_heading1 (running_header, true);
+              if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->new_heading1 (running_header, true);
+              if (odf_text_notes) odf_text_notes->new_heading1 (running_header, false);
 
               // This is the phase of outputting the chapter number in the text body.
               // It always outputs the chapter number to the clear text export.
@@ -626,7 +626,7 @@ void Filter_Text::process_usfm ()
               if (numberOfChaptersPerBook [m_current_book_identifier] > 1) {
                 // Putting the chapter number at the first verse is determined by the style of the \c marker.
                 // But if a chapter label (\cl) is found in the current book, that disables the above.
-                bool cl_found = book_has_chapter_label[m_current_book_identifier];
+                const bool cl_found = book_has_chapter_label[m_current_book_identifier];
                 if (style.userbool1 && !cl_found) {
                   // Output the chapter number at the first verse, not here.
                   // Store it for later processing.

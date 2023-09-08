@@ -103,9 +103,9 @@ void HtmlText::add_text (const std::string& text)
 
 // This creates a <h1> heading with contents.
 // $text: Contents.
-void HtmlText::new_heading1 (const std::string& text, const bool hide)
+void HtmlText::new_heading1 (const std::string& text)
 {
-  new_named_heading ("h1", text, hide);
+  new_named_heading ("h1", text);
 }
 
 
@@ -259,7 +259,7 @@ std::string HtmlText::get_html ()
   note_count = 0;
 
   // Get the html.
-  std::stringstream output;
+  std::stringstream output {};
   document.print (output, "", format_raw);
   std::string html = output.str ();
   
@@ -304,38 +304,38 @@ xml_node HtmlText::new_table ()
   current_paragraph_style.clear();
   current_paragraph_content.clear();
   // Append the table.
-  xml_node tableElement = body_node.append_child ("table");
-  tableElement.append_attribute ("width") = "100%";
-  return tableElement;
+  xml_node table_element = body_node.append_child ("table");
+  table_element.append_attribute ("width") = "100%";
+  return table_element;
 }
 
 
-// This adds a new row to an existing $tableElement.
-// Returns: The new $tableRowElement.
-xml_node HtmlText::new_table_row (xml_node tableElement)
+// This adds a new row to an existing $table_element.
+// Returns: The new $table_row_element.
+xml_node HtmlText::new_table_row (xml_node table_element)
 {
-  xml_node tableRowElement = tableElement.append_child ("tr");
-  return tableRowElement;
+  xml_node table_row_element = table_element.append_child ("tr");
+  return table_row_element;
 }
 
 
-// This adds a new data cell to an existing $tableRowElement.
-// Returns: The new $tableDataElement.
-xml_node HtmlText::new_table_data (xml_node tableRowElement, const bool alignRight)
+// This adds a new data cell to an existing $table_row_element.
+// Returns: The new $table_data_element.
+xml_node HtmlText::new_table_data (xml_node table_row_element, const bool align_right)
 {
-  xml_node tableDataElement = tableRowElement.append_child ("td");
-  if (alignRight) tableDataElement.append_attribute ("align") = "right";
-  return tableDataElement;
+  xml_node table_data_element = table_row_element.append_child ("td");
+  if (align_right) table_data_element.append_attribute ("align") = "right";
+  return table_data_element;
 }
 
 
 // This creates a heading with styled content.
 // $style: A style name.
 // $text: Content.
-void HtmlText::new_named_heading (const std::string& style, const std::string& text, [[maybe_unused]] const bool hide)
+void HtmlText::new_named_heading (const std::string& style, const std::string& text)
 {
-  xml_node textHDomElement = body_node.append_child (style.c_str());
-  textHDomElement.text ().set (text.c_str());
+  xml_node text_h_dom_element = body_node.append_child (style.c_str());
+  text_h_dom_element.text ().set (text.c_str());
   // Make paragraph null, so that adding subsequent text creates a new paragraph.
   current_p_node_open = false;
   current_paragraph_style.clear ();
@@ -351,7 +351,10 @@ void HtmlText::have_popup_notes ()
 
 
 // Add an image to the html.
-void HtmlText::add_image (const std::string& style, const std::string& alt, const std::string& src, const std::string& caption)
+void HtmlText::add_image (const std::string& style,
+                          const std::string& alt,
+                          const std::string& src,
+                          const std::string& caption)
 {
   xml_node img_node = body_node.append_child ("img");
   img_node.append_attribute("alt") = alt.c_str();

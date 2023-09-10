@@ -2,7 +2,7 @@
 body { }
 p { margin-top: 0; margin-bottom: 0; }
 p.page { page-break-after: always; }
-span.dropcaps { float: left; font-size: 300%; line-height: 0.85em; margin-right: 0.03em; margin-bottom:-0.25em; }
+.dropcaps:nth-of-type(1) { font-size: 300%; line-height: 0.85em; margin-right: 0.03em; margin-bottom:-0.25em; }
 a { text-decoration: none; background: none; }
 a:visited { color: #5a3696; }
 a:active { color: #faa700; }

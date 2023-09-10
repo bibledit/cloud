@@ -335,7 +335,13 @@ void Styles_Css::add_exports_styles ()
   m_code.push_back ("body { }");
   m_code.push_back ("p { margin-top: 0; margin-bottom: 0; }");
   m_code.push_back ("p.page { page-break-after: always; }");
-  m_code.push_back ("span.dropcaps { float: left; font-size: 300%; line-height: 0.85em; margin-right: 0.03em; margin-bottom:-0.25em; }");
+  // Old way of having dropcaps in the html export.
+  // But this has problem with negative indent like in poetry, visible in many Psalms.
+  // See issue https://github.com/bibledit/cloud/issues/905
+  // m_code.push_back ("span.dropcaps { float: left; font-size: 300%; line-height: 0.85em; margin-right: 0.03em; margin-bottom:-0.25em; }");
+  // New way of having dropcaps.
+  // Property "vertical-align: top;" could have been added, but then without it, it looks more beautify.
+  m_code.push_back (".dropcaps:nth-of-type(1) { font-size: 300%; line-height: 0.85em; margin-right: 0.03em; margin-bottom:-0.25em; }");
   m_code.push_back ("a { text-decoration: none; background: none; }");
   m_code.push_back ("a:visited { color: #5a3696; }");
   m_code.push_back ("a:active { color: #faa700; }");

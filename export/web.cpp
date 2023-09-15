@@ -87,7 +87,7 @@ void export_web_book (string bible, int book, bool log)
   
   
   // Go through the chapters of this book.
-  vector <int> chapters = database_bibles.getChapters (bible, book);
+  const vector <int> chapters = database_bibles.getChapters (bible, book);
   for (size_t c = 0; c < chapters.size(); c++) {
     const int chapter = chapters [c];
     const bool is_first_chapter = (c == 0);

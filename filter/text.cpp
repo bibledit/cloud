@@ -517,7 +517,7 @@ void Filter_Text::process_usfm ()
               addToFallout (R"(Unknown markup: \)" + marker, true);
               break;
             }
-            case StyleTypeStartsParagraph: // Todo
+            case StyleTypeStartsParagraph:
             {
               if (odf_text_standard) odf_text_standard->close_text_style (false, false);
               if (odf_text_text_only) odf_text_text_only->close_text_style (false, false);
@@ -577,7 +577,7 @@ void Filter_Text::process_usfm ()
               }
               break;
             }
-            case StyleTypeChapterNumber: // Todo
+            case StyleTypeChapterNumber:
             {
               if (odf_text_standard) odf_text_standard->close_text_style (false, false);
               if (odf_text_text_only) odf_text_text_only->close_text_style (false, false);
@@ -589,19 +589,19 @@ void Filter_Text::process_usfm ()
               if (onlinebible_text) onlinebible_text->storeData ();
 
               // Get the chapter number.
-              string number = filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
-              int inumber = filter::strings::convert_to_int (number);
+              string usfm_c_fragment = filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
+              int chapter_number = filter::strings::convert_to_int (usfm_c_fragment);
 
               // Update this object.
-              m_current_chapter_number = inumber;
+              m_current_chapter_number = chapter_number;
               set_to_zero(m_current_verse_number);
 
               // If there is a published chapter character, the chapter number takes that value.
               for (const auto& published_chapter_marker : publishedChapterMarkers) {
                 if (published_chapter_marker.m_book == m_current_book_identifier) {
                   if (published_chapter_marker.m_chapter == m_current_chapter_number) {
-                    number = published_chapter_marker.m_value;
-                    inumber = filter::strings::convert_to_int (number);
+                    usfm_c_fragment = published_chapter_marker.m_value;
+                    chapter_number = filter::strings::convert_to_int (usfm_c_fragment);
                   }
                 }
               }
@@ -613,7 +613,7 @@ void Filter_Text::process_usfm ()
                   running_header = item.m_value;
                 }
               }
-              running_header += (" " + number);
+              running_header += (" " + usfm_c_fragment);
               if (odf_text_standard) odf_text_standard->new_heading1 (running_header, true);
               if (odf_text_text_only) odf_text_text_only->new_heading1 (running_header, true);
               if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->new_heading1 (running_header, true);
@@ -622,17 +622,20 @@ void Filter_Text::process_usfm ()
               // This is the phase of outputting the chapter number in the text body.
               // It always outputs the chapter number to the clear text export.
               if (text_text) { 
-                text_text->paragraph (number);
+                text_text->paragraph (usfm_c_fragment);
               }
               // The chapter number is only output when there is more than one chapter in a book.
-              if (m_number_of_chapters_per_book [m_current_book_identifier] > 1) {
+              // if (m_number_of_chapters_per_book [m_current_book_identifier] > 1)
+              // This was disabled because of a bug where exporting to web did not output the chapter number
+              // for the first chapter. See https://github.com/bibledit/cloud/issues/905 for more info.
+              {
                 // Putting the chapter number at the first verse is determined by the style of the \c marker.
                 // But if a chapter label (\cl) is found in the current book, that disables the above.
                 const bool cl_found = book_has_chapter_label[m_current_book_identifier];
                 if (style.userbool1 && !cl_found) {
                   // Output the chapter number at the first verse, not here.
                   // Store it for later processing.
-                  m_output_chapter_text_at_first_verse = number; // Todo
+                  m_output_chapter_text_at_first_verse = usfm_c_fragment;
                 } else {
                   // Output the chapter in a new paragraph.
                   // If the chapter label \cl is entered once before chapter 1 (\c 1)
@@ -653,19 +656,19 @@ void Filter_Text::process_usfm ()
                     }
                   }
                   if (!labelEntireBook.empty()) {
-                    number = labelEntireBook + " " + number;
+                    usfm_c_fragment = labelEntireBook + " " + usfm_c_fragment;
                   }
                   if (!labelCurrentChapter.empty()) {
-                    number = labelCurrentChapter;
+                    usfm_c_fragment = labelCurrentChapter;
                   }
                   // The chapter number shows in a new paragraph.
                   // Keep it together with the next paragraph.
                   new_paragraph (style, true);
-                  if (odf_text_standard) odf_text_standard->add_text (number);
-                  if (odf_text_text_only) odf_text_text_only->add_text (number);
-                  if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->add_text (number);
-                  if (html_text_standard) html_text_standard->add_text (number);
-                  if (html_text_linked) html_text_linked->add_text (number);
+                  if (odf_text_standard) odf_text_standard->add_text (usfm_c_fragment);
+                  if (odf_text_text_only) odf_text_text_only->add_text (usfm_c_fragment);
+                  if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->add_text (usfm_c_fragment);
+                  if (html_text_standard) html_text_standard->add_text (usfm_c_fragment);
+                  if (html_text_linked) html_text_linked->add_text (usfm_c_fragment);
                 }
               }
 
@@ -687,7 +690,7 @@ void Filter_Text::process_usfm ()
               // Done.
               break;
             }
-            case StyleTypeVerseNumber: // Todo
+            case StyleTypeVerseNumber:
             {
               if (odf_text_standard) odf_text_standard->close_text_style (false, false);
               if (odf_text_text_only) odf_text_text_only->close_text_style (false, false);
@@ -727,7 +730,7 @@ void Filter_Text::process_usfm ()
                   text_text->paragraph (); 
                 }
               }
-              // Deal with the case of a pending chapter number. // Todo
+              // Deal with the case of a pending chapter number.
               if (!m_output_chapter_text_at_first_verse.empty()) {
                 if (!Database_Config_Bible::getExportChapterDropCapsFrames (m_bible)) {
                   int dropCapsLength = static_cast<int>( filter::strings::unicode_string_length (m_output_chapter_text_at_first_verse));
@@ -1736,7 +1739,7 @@ void Filter_Text::notes_plain_text_handler ()
 }
 
 
-void Filter_Text::set_to_zero (string& value) // Todo
+void Filter_Text::set_to_zero (string& value)
 {
   value = "0";
 }

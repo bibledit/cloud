@@ -228,32 +228,32 @@ void Filter_Text::pre_process_usfm ()
                   }
                   case IdentifierSubtypeRunningHeader:
                   {
-                    string runningHeader = filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
+                    const string runningHeader = filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
                     runningHeaders.push_back (filter::text::passage_marker_value (m_current_book_identifier, m_current_chapter_number, m_current_verse_number, marker, runningHeader));
                     break;
                   }
                   case IdentifierSubtypeLongTOC:
                   {
-                    string longTOC = filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
+                    const string longTOC = filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
                     longTOCs.push_back (filter::text::passage_marker_value (m_current_book_identifier, m_current_chapter_number, m_current_verse_number, marker, longTOC));
                     break;
                   }
                   case IdentifierSubtypeShortTOC:
                   {
-                    string shortTOC = filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
+                    const string shortTOC = filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
                     shortTOCs.push_back (filter::text::passage_marker_value (m_current_book_identifier, m_current_chapter_number, m_current_verse_number, marker, shortTOC));
                     break;
                   }
                   case IdentifierSubtypeBookAbbrev:
                   {
-                    string bookAbbreviation = filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
+                    const string bookAbbreviation = filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
                     bookAbbreviations.push_back (filter::text::passage_marker_value (m_current_book_identifier, m_current_chapter_number, m_current_verse_number, marker, bookAbbreviation));
                     break;
                   }
                   case IdentifierSubtypeChapterLabel:
                   {
                     // Store the chapter label for this book and chapter.
-                    string chapterLabel = filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
+                    const string chapterLabel = filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
                     chapterLabels.push_back (filter::text::passage_marker_value (m_current_book_identifier, m_current_chapter_number, m_current_verse_number, marker, chapterLabel));
                     // If a chapter label is in the book, there's no drop caps output of the chapter number.
                     book_has_chapter_label [m_current_book_identifier] = true;
@@ -262,7 +262,7 @@ void Filter_Text::pre_process_usfm ()
                   }
                   case IdentifierSubtypePublishedChapterMarker:
                   {
-                    string publishedChapterMarker = filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
+                    const string publishedChapterMarker = filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
                     publishedChapterMarkers.push_back (filter::text::passage_marker_value (m_current_book_identifier, m_current_chapter_number, m_current_verse_number, marker, publishedChapterMarker));
                     break;
                   }
@@ -271,11 +271,13 @@ void Filter_Text::pre_process_usfm ()
                     // It gets the published verse markup.
                     // The marker looks like: ... \vp ၁။\vp* ...
                     // It stores this markup in the object for later reference.
-                    string publishedVerseMarker = filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
+                    const string publishedVerseMarker = filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
                     publishedVerseMarkers.push_back (filter::text::passage_marker_value (m_current_book_identifier, m_current_chapter_number, m_current_verse_number, marker, publishedVerseMarker));
                     break;
                   }
-                  default: break;
+                  default: {
+                    break;
+                  }
                 }
                 break;
               case StyleTypeChapterNumber:
@@ -346,14 +348,14 @@ void Filter_Text::process_usfm ()
   while (unprocessed_usfm_code_available ()) {
     get_usfm_next_chapter ();
     for (chapter_usfm_markers_and_text_pointer = 0; chapter_usfm_markers_and_text_pointer < chapter_usfm_markers_and_text.size(); chapter_usfm_markers_and_text_pointer++) {
-      string currentItem = chapter_usfm_markers_and_text [chapter_usfm_markers_and_text_pointer];
-      if (filter::usfm::is_usfm_marker (currentItem))
+      const string current_item = chapter_usfm_markers_and_text [chapter_usfm_markers_and_text_pointer];
+      if (filter::usfm::is_usfm_marker (current_item)) // Todo working here.
       {
         // Indicator describing the marker.
-        bool is_opening_marker = filter::usfm::is_opening_marker (currentItem);
-        bool is_embedded_marker = filter::usfm::is_embedded_marker (currentItem);
+        bool is_opening_marker = filter::usfm::is_opening_marker (current_item);
+        bool is_embedded_marker = filter::usfm::is_embedded_marker (current_item);
         // Clean up the marker, so we remain with the basic version, e.g. 'id'.
-        string marker = filter::usfm::get_marker (currentItem);
+        string marker = filter::usfm::get_marker (current_item);
         // Strip word-level attributes.
         if (is_opening_marker) filter::usfm::remove_word_level_attributes (marker, chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
         if (styles.find (marker) != styles.end())
@@ -1050,7 +1052,7 @@ void Filter_Text::process_usfm ()
         if (is_within_figure_markup) {
           // Extract the bits for this image / picture / figure.
           string caption, alt, src, size, loc, copy, ref;
-          filter::usfm::extract_fig (currentItem, caption, alt, src, size, loc, copy, ref);
+          filter::usfm::extract_fig (current_item, caption, alt, src, size, loc, copy, ref);
           // Store the name of this image in the object, ready to be copied into place if needed.
           image_sources.push_back(src);
           // Add the image to the various output formats.
@@ -1082,34 +1084,34 @@ void Filter_Text::process_usfm ()
                 if (odf_text_text_and_note_citations->m_current_paragraph_content.empty())
                   odf_text_text_and_note_citations->add_tab();
           // Output text as normal.
-          if (odf_text_standard) odf_text_standard->add_text (currentItem);
-          if (odf_text_text_only) odf_text_text_only->add_text (currentItem);
-          if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->add_text (currentItem);
-          if (html_text_standard) html_text_standard->add_text (currentItem);
-          if (html_text_linked) html_text_linked->add_text (currentItem);
-          if (onlinebible_text) onlinebible_text->addText (currentItem);
-          if (esword_text) esword_text->addText (currentItem);
-          if (text_text) text_text->addtext (currentItem);
-          if (tbsx_text) tbsx_text->add_text(currentItem);
+          if (odf_text_standard) odf_text_standard->add_text (current_item);
+          if (odf_text_text_only) odf_text_text_only->add_text (current_item);
+          if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->add_text (current_item);
+          if (html_text_standard) html_text_standard->add_text (current_item);
+          if (html_text_linked) html_text_linked->add_text (current_item);
+          if (onlinebible_text) onlinebible_text->addText (current_item);
+          if (esword_text) esword_text->addText (current_item);
+          if (text_text) text_text->addtext (current_item);
+          if (tbsx_text) tbsx_text->add_text(current_item);
           if (headings_text_per_verse_active && heading_started) {
             int iverse = filter::strings::convert_to_int (m_current_verse_number);
-            verses_headings [iverse].append (currentItem);
+            verses_headings [iverse].append (current_item);
           }
           if (headings_text_per_verse_active && text_started) {
             int iverse = filter::strings::convert_to_int (m_current_verse_number);
             if (m_verses_text.count (iverse) && !m_verses_text [iverse].empty ()) {
-              m_verses_text [iverse].append (currentItem);
-              actual_verses_paragraph [iverse].append (currentItem);
+              m_verses_text [iverse].append (current_item);
+              actual_verses_paragraph [iverse].append (current_item);
             } else {
               // The verse text straight after the \v starts with certain space type.
               // Replace it with a normal space.
-              string item = filter::strings::replace (space_type_after_verse, " ", currentItem);
+              string item = filter::strings::replace (space_type_after_verse, " ", current_item);
               m_verses_text [iverse] = filter::strings::ltrim (item);
               actual_verses_paragraph [iverse] = filter::strings::ltrim (item);
             }
           }
           if (note_open_now) {
-            notes_plain_text_buffer.append (currentItem);
+            notes_plain_text_buffer.append (current_item);
           }
         }
       }

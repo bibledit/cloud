@@ -221,8 +221,8 @@ void Filter_Text::pre_process_usfm ()
                     m_current_book_identifier = static_cast<int>(database::books::get_id_from_usfm (usfm_id));
                     // Reset chapter and verse numbers.
                     m_current_chapter_number = 0;
-                    numberOfChaptersPerBook[m_current_book_identifier] = 0;
-                    m_current_verse_number = "0";
+                    m_number_of_chapters_per_book[m_current_book_identifier] = 0;
+                    set_to_zero(m_current_verse_number);
                     // Done.
                     break;
                   }
@@ -282,8 +282,8 @@ void Filter_Text::pre_process_usfm ()
               {
                 const string number = filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
                 m_current_chapter_number = filter::strings::convert_to_int (number);
-                numberOfChaptersPerBook[m_current_book_identifier] = m_current_chapter_number;
-                m_current_verse_number = "0";
+                m_number_of_chapters_per_book[m_current_book_identifier] = m_current_chapter_number;
+                set_to_zero(m_current_verse_number);
                 break;
               }
               case StyleTypeVerseNumber:
@@ -380,7 +380,7 @@ void Filter_Text::process_usfm ()
                   m_current_book_identifier = static_cast<int>(database::books::get_id_from_usfm (usfm_id));
                   // Reset chapter and verse numbers.
                   m_current_chapter_number = 0;
-                  m_current_verse_number = "0";
+                  set_to_zero(m_current_verse_number);
                   // Throw away whatever follows the \id, e.g. 'GEN xxx xxx'.
                   filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
                   // Whether to insert a new page before the book. But never before the first book.
@@ -592,7 +592,7 @@ void Filter_Text::process_usfm ()
 
               // Update this object.
               m_current_chapter_number = inumber;
-              m_current_verse_number = "0";
+              set_to_zero(m_current_verse_number);
 
               // If there is a published chapter character, the chapter number takes that value.
               for (const auto& published_chapter_marker : publishedChapterMarkers) {
@@ -623,14 +623,14 @@ void Filter_Text::process_usfm ()
                 text_text->paragraph (number);
               }
               // The chapter number is only output when there is more than one chapter in a book.
-              if (numberOfChaptersPerBook [m_current_book_identifier] > 1) {
+              if (m_number_of_chapters_per_book [m_current_book_identifier] > 1) {
                 // Putting the chapter number at the first verse is determined by the style of the \c marker.
                 // But if a chapter label (\cl) is found in the current book, that disables the above.
                 const bool cl_found = book_has_chapter_label[m_current_book_identifier];
                 if (style.userbool1 && !cl_found) {
                   // Output the chapter number at the first verse, not here.
                   // Store it for later processing.
-                  output_chapter_text_at_first_verse = number;
+                  m_output_chapter_text_at_first_verse = number; // Todo
                 } else {
                   // Output the chapter in a new paragraph.
                   // If the chapter label \cl is entered once before chapter 1 (\c 1)
@@ -726,23 +726,23 @@ void Filter_Text::process_usfm ()
                 }
               }
               // Deal with the case of a pending chapter number. // Todo
-              if (!output_chapter_text_at_first_verse.empty()) {
+              if (!m_output_chapter_text_at_first_verse.empty()) {
                 if (!Database_Config_Bible::getExportChapterDropCapsFrames (m_bible)) {
-                  int dropCapsLength = static_cast<int>( filter::strings::unicode_string_length (output_chapter_text_at_first_verse));
+                  int dropCapsLength = static_cast<int>( filter::strings::unicode_string_length (m_output_chapter_text_at_first_verse));
                   applyDropCapsToCurrentParagraph (dropCapsLength);
-                  if (odf_text_standard) odf_text_standard->add_text (output_chapter_text_at_first_verse);
-                  if (odf_text_text_only) odf_text_text_only->add_text (output_chapter_text_at_first_verse);
-                  if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->add_text (output_chapter_text_at_first_verse);
+                  if (odf_text_standard) odf_text_standard->add_text (m_output_chapter_text_at_first_verse);
+                  if (odf_text_text_only) odf_text_text_only->add_text (m_output_chapter_text_at_first_verse);
+                  if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->add_text (m_output_chapter_text_at_first_verse);
                 } else {
-                  putChapterNumberInFrame (output_chapter_text_at_first_verse);
+                  putChapterNumberInFrame (m_output_chapter_text_at_first_verse);
                 }
                 Database_Styles_Item styleItem = Database_Styles_Item ();
                 styleItem.marker = "dropcaps";
                 if (html_text_standard) html_text_standard->open_text_style (styleItem, false, false);
-                if (html_text_standard) html_text_standard->add_text (output_chapter_text_at_first_verse);
+                if (html_text_standard) html_text_standard->add_text (m_output_chapter_text_at_first_verse);
                 if (html_text_standard) html_text_standard->close_text_style (false, false);
                 if (html_text_linked) html_text_linked->open_text_style (styleItem, false, false);
-                if (html_text_linked) html_text_linked->add_text (output_chapter_text_at_first_verse);
+                if (html_text_linked) html_text_linked->add_text (m_output_chapter_text_at_first_verse);
                 if (html_text_linked) html_text_linked->close_text_style (false, false);
               }
               // Temporarily retrieve the text that follows the \v verse marker.
@@ -762,7 +762,7 @@ void Filter_Text::process_usfm ()
                 }
               }
               // Output the verse number. But only if no chapter number was put here.
-              if (output_chapter_text_at_first_verse.empty ()) {
+              if (m_output_chapter_text_at_first_verse.empty ()) {
                 // If the current paragraph has text already, then insert a space.
                 if (odf_text_standard) {
                   if (!odf_text_standard->m_current_paragraph_content.empty()) {
@@ -836,7 +836,7 @@ void Filter_Text::process_usfm ()
                 // then output a tab to OpenDocument instead of the space.
                 // Exception:
                 // If a chapter number was put, do not output any white space.
-                if (output_chapter_text_at_first_verse.empty()) {
+                if (m_output_chapter_text_at_first_verse.empty()) {
                   if (odf_text_standard) {
                     bool tab = odt_left_align_verse_in_poetry_styles && filter::usfm::is_standard_q_poetry (odf_text_standard->m_current_paragraph_style);
                     if (tab) odf_text_standard->add_tab();
@@ -858,7 +858,7 @@ void Filter_Text::process_usfm ()
               }
               // Unset the chapter variable, whether it was used or not.
               // This makes it ready for subsequent use.
-              output_chapter_text_at_first_verse.clear();
+              m_output_chapter_text_at_first_verse.clear();
               // Other export formats.
               if (onlinebible_text) onlinebible_text->newVerse (m_current_book_identifier, m_current_chapter_number, filter::strings::convert_to_int (m_current_verse_number));
               if (esword_text) esword_text->newVerse (filter::strings::convert_to_int (m_current_verse_number));
@@ -1382,8 +1382,8 @@ void Filter_Text::produceInfoDocument (string path)
 
   // Number of chapters per book.
   information.new_heading1 (translate("Number of chapters per book"));
-  for (const auto & element : numberOfChaptersPerBook) {
-    string line = database::books::get_english_from_id (static_cast<book_id>(element.first)) + " => " + filter::strings::convert_to_string (element.second);
+  for (const auto& element : m_number_of_chapters_per_book) {
+    const string line = database::books::get_english_from_id (static_cast<book_id>(element.first)) + " => " + filter::strings::convert_to_string (element.second);
     information.new_paragraph ();
     information.add_text (line);
   }
@@ -1391,7 +1391,7 @@ void Filter_Text::produceInfoDocument (string path)
   // Running headers.
   information.new_heading1 (translate("Running headers"));
   for (auto item : runningHeaders) {
-    string line = database::books::get_english_from_id (static_cast<book_id>(item.m_book)) + " (USFM " + item.m_marker + ") => " + item.m_value;
+    const string line = database::books::get_english_from_id (static_cast<book_id>(item.m_book)) + " (USFM " + item.m_marker + ") => " + item.m_value;
     information.new_paragraph ();
     information.add_text (line);
   }
@@ -1399,13 +1399,13 @@ void Filter_Text::produceInfoDocument (string path)
   // Table of Contents entries.
   information.new_heading1 (translate("Long table of contents entries"));
   for (auto item : longTOCs) {
-    string line = database::books::get_english_from_id (static_cast<book_id>(item.m_book)) + " (USFM " + item.m_marker + ") => " + item.m_value;
+    const string line = database::books::get_english_from_id (static_cast<book_id>(item.m_book)) + " (USFM " + item.m_marker + ") => " + item.m_value;
     information.new_paragraph ();
     information.add_text (line);
   }
   information.new_heading1 (translate("Short table of contents entries"));
   for (auto item : shortTOCs) {
-    string line = database::books::get_english_from_id (static_cast<book_id>(item.m_book)) + " (USFM " + item.m_marker + ") => " + item.m_value;
+    const string line = database::books::get_english_from_id (static_cast<book_id>(item.m_book)) + " (USFM " + item.m_marker + ") => " + item.m_value;
     information.new_paragraph ();
     information.add_text (line);
   }
@@ -1413,7 +1413,7 @@ void Filter_Text::produceInfoDocument (string path)
   // Book abbreviations.
   information.new_heading1 (translate("Book abbreviations"));
   for (auto item : bookAbbreviations) {
-    string line = database::books::get_english_from_id (static_cast<book_id>(item.m_book)) + " (USFM " + item.m_marker + ") => " + item.m_value;
+    const string line = database::books::get_english_from_id (static_cast<book_id>(item.m_book)) + " (USFM " + item.m_marker + ") => " + item.m_value;
     information.new_paragraph ();
     information.add_text (line);
   }
@@ -1421,42 +1421,42 @@ void Filter_Text::produceInfoDocument (string path)
   // Chapter specials.
   information.new_heading1 (translate("Publishing chapter labels"));
   for (auto item : chapterLabels) {
-    string line = database::books::get_english_from_id (static_cast<book_id>(item.m_book)) + " (USFM " + item.m_marker + ") => " + item.m_value;
+    const string line = database::books::get_english_from_id (static_cast<book_id>(item.m_book)) + " (USFM " + item.m_marker + ") => " + item.m_value;
     information.new_paragraph ();
     information.add_text (line);
   }
   information.new_heading1 (translate("Publishing alternate chapter numbers"));
   for (auto item : publishedChapterMarkers) {
-    string line = database::books::get_english_from_id (static_cast<book_id>(item.m_book)) + " (USFM " + item.m_marker + ") => " + item.m_value;
+    const string line = database::books::get_english_from_id (static_cast<book_id>(item.m_book)) + " (USFM " + item.m_marker + ") => " + item.m_value;
     information.new_paragraph ();
     information.add_text (line);
   }
 
   // Word lists.
   information.new_heading1 (translate("Word list, glossary, dictionary entries"));
-  for (auto item : wordListGlossaryDictionary) {
+  for (const auto& item : wordListGlossaryDictionary) {
     information.new_paragraph ();
     information.add_text (item);
   }
   information.new_heading1 (translate("Hebrew word list entries"));
-  for (auto item : hebrewWordList) {
+  for (const auto& item : hebrewWordList) {
     information.new_paragraph ();
     information.add_text (item);
   }
   information.new_heading1 (translate("Greek word list entries"));
-  for (auto item : greekWordList) {
+  for (const auto& item : greekWordList) {
     information.new_paragraph ();
     information.add_text (item);
   }
   information.new_heading1 (translate("Subject index entries"));
-  for (auto item : subjectIndex) {
+  for (const auto& item : subjectIndex) {
     information.new_paragraph ();
     information.add_text (item);
   }
 
   // Other info.
   information.new_heading1 (translate("Other information"));
-  for (auto item : info) {
+  for (const auto& item : info) {
     information.new_paragraph ();
     information.add_text (item);
   }
@@ -1731,4 +1731,10 @@ void Filter_Text::notes_plain_text_handler ()
     offset = static_cast<int>(m_verses_text [iverse].size ());
   }
   verses_text_note_positions[iverse].push_back (offset);
+}
+
+
+void Filter_Text::set_to_zero (string& value) // Todo
+{
+  value = "0";
 }

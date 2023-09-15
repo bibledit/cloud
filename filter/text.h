@@ -95,7 +95,7 @@ private:
   std::string m_current_verse_number {};
   std::string getCurrentPassageText ();
   // Map of (book, chapter number).
-  std::map <int, int> numberOfChaptersPerBook {};
+  std::map <int, int> m_number_of_chapters_per_book {};
   void process_usfm ();
   void processNote ();
   // Opening a new paragraph.
@@ -125,7 +125,7 @@ public:
   std::vector <filter::text::passage_marker_value> publishedVerseMarkers {};
 private:
   // std::string holding the chapter number or text to output at the first verse.
-  std::string output_chapter_text_at_first_verse {};
+  std::string m_output_chapter_text_at_first_verse {};
 
 public:
   // Object for creating OpenDocument with text in standard form.
@@ -230,5 +230,8 @@ private:
   // Flag for whether to left-align certain poetry styles
   // in exports to OpenDocument format.
   bool odt_left_align_verse_in_poetry_styles { false };
-  
+
+public:
+private:
+  void set_to_zero (std::string& value);
 };

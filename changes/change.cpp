@@ -92,7 +92,7 @@ string changes_change (void * webserver_request)
   if (request->post.count("delete")) {
     string erase = request->post["delete"];
     erase.erase (0, 6);
-    int identifier = filter::strings::convert_to_int (erase);
+    const int identifier {filter::strings::convert_to_int (erase)};
     notes_logic.markForDeletion (identifier);
     return string();
   }
@@ -100,29 +100,29 @@ string changes_change (void * webserver_request)
   
   // From here on the script will produce output.
   Assets_View view {};
-  string username = request->session_logic()->currentUser ();
-  int level = request->session_logic ()->currentLevel ();
+  const string username {request->session_logic()->currentUser ()};
+  const int level {request->session_logic ()->currentLevel ()};
   
                       
   // The identifier of the change notification.
-  int id = filter::strings::convert_to_int (request->query ["get"]);
+  const int id {filter::strings::convert_to_int (request->query ["get"])};
   view.set_variable ("id", filter::strings::convert_to_string (id));
                       
                       
   // Get old text, modification, new text, date.
-  string old_text = database_modifications.getNotificationOldText (id);
+  const string old_text {database_modifications.getNotificationOldText (id)};
   view.set_variable ("old_text", old_text);
-  string modification = database_modifications.getNotificationModification (id);
+  const string modification {database_modifications.getNotificationModification (id)};
   view.set_variable ("modification", modification);
-  string new_text = database_modifications.getNotificationNewText (id);
+  const string new_text {database_modifications.getNotificationNewText (id)};
   view.set_variable ("new_text", new_text);
-  string date = locale_logic_date (database_modifications.getNotificationTimeStamp (id));
+  const string date {locale_logic_date (database_modifications.getNotificationTimeStamp (id))};
   view.set_variable ("date", date);
   
 
   // Bibles and passage.
-  Passage passage = database_modifications.getNotificationPassage (id);
-  vector <string> bibles = access_bible::bibles (request);
+  const Passage passage {database_modifications.getNotificationPassage (id)};
+  const vector <string> bibles {access_bible::bibles (request)};
   
   
   // Get notes for the passage.
@@ -141,13 +141,15 @@ string changes_change (void * webserver_request)
                                                     -1); // Limit.
   
   // Remove the ones marked for deletion.
-  vector <int> notes2;
-  for (const auto note : notes) {
-    if (!database_notes.is_marked_for_deletion (note)) {
-      notes2.push_back (note);
+  {
+    vector <int> notes2;
+    for (const auto note : notes) {
+      if (!database_notes.is_marked_for_deletion (note)) {
+        notes2.push_back (note);
+      }
     }
+    notes = notes2;
   }
-  notes = notes2;
   
   // Sort them, most recent notes first.
   vector <int> timestamps;

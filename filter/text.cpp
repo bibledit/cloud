@@ -349,19 +349,19 @@ void Filter_Text::process_usfm ()
     get_usfm_next_chapter ();
     for (chapter_usfm_markers_and_text_pointer = 0; chapter_usfm_markers_and_text_pointer < chapter_usfm_markers_and_text.size(); chapter_usfm_markers_and_text_pointer++) {
       const string current_item = chapter_usfm_markers_and_text [chapter_usfm_markers_and_text_pointer];
-      if (filter::usfm::is_usfm_marker (current_item)) // Todo working here.
+      if (filter::usfm::is_usfm_marker (current_item))
       {
         // Indicator describing the marker.
-        bool is_opening_marker = filter::usfm::is_opening_marker (current_item);
-        bool is_embedded_marker = filter::usfm::is_embedded_marker (current_item);
+        const bool is_opening_marker = filter::usfm::is_opening_marker (current_item);
+        const bool is_embedded_marker = filter::usfm::is_embedded_marker (current_item);
         // Clean up the marker, so we remain with the basic version, e.g. 'id'.
-        string marker = filter::usfm::get_marker (current_item);
+        const string marker = filter::usfm::get_marker (current_item);
         // Strip word-level attributes.
         if (is_opening_marker) filter::usfm::remove_word_level_attributes (marker, chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
         if (styles.find (marker) != styles.end())
         {
           // Deal with known style.
-          Database_Styles_Item style = styles [marker];
+          const Database_Styles_Item& style = styles.at(marker);
           switch (style.type)
           {
             case StyleTypeIdentifier:
@@ -490,7 +490,7 @@ void Filter_Text::process_usfm ()
                     // But this space should not be converted to text output.
                     // https://github.com/bibledit/cloud/issues/311
                     // It is going to be removed here.
-                    size_t pointer = chapter_usfm_markers_and_text_pointer + 1;
+                    const size_t pointer = chapter_usfm_markers_and_text_pointer + 1;
                     if (pointer < chapter_usfm_markers_and_text.size()) {
                       string text = chapter_usfm_markers_and_text[pointer];
                       text = filter::strings::ltrim (text);
@@ -517,7 +517,7 @@ void Filter_Text::process_usfm ()
               addToFallout (R"(Unknown markup: \)" + marker, true);
               break;
             }
-            case StyleTypeStartsParagraph: 
+            case StyleTypeStartsParagraph: // Todo
             {
               if (odf_text_standard) odf_text_standard->close_text_style (false, false);
               if (odf_text_text_only) odf_text_text_only->close_text_style (false, false);

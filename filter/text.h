@@ -92,7 +92,7 @@ private:
   // Chapter number, e.g. 1, 2, 3, etc.
   int m_current_chapter_number {0};
   // Verse number, e.g. "0", "1", "2", and so on.
-  std::string currentVerseNumber {};
+  std::string m_current_verse_number {};
   std::string getCurrentPassageText ();
   // Map of (book, chapter number).
   std::map <int, int> numberOfChaptersPerBook {};
@@ -194,7 +194,7 @@ private:
   bool headings_text_per_verse_active { false };
   bool heading_started  { false };
   // Holds verse numbers and the plain text in that verse, without anything extra.
-  std::map <int, std::string> verses_text {};
+  std::map <int, std::string> m_verses_text {};
   // Flag for text per verse processor.
   bool text_started {false};
   void store_verses_paragraphs ();

@@ -278,7 +278,7 @@ void Filter_Text::pre_process_usfm ()
                   default: break;
                 }
                 break;
-              case StyleTypeChapterNumber: // Todo
+              case StyleTypeChapterNumber:
               {
                 const string number = filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
                 m_current_chapter_number = filter::strings::convert_to_int (number);
@@ -288,9 +288,9 @@ void Filter_Text::pre_process_usfm ()
               }
               case StyleTypeVerseNumber:
               {
-                string number = filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
-                int inumber = filter::strings::convert_to_int (number);
-                m_current_verse_number = filter::strings::convert_to_string (inumber);
+                const string fragment = filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
+                const int number = filter::strings::convert_to_int (fragment);
+                m_current_verse_number = filter::strings::convert_to_string (number);
                 break;
               }
               case StyleTypeFootEndNote:
@@ -303,10 +303,9 @@ void Filter_Text::pre_process_usfm ()
                   case FootEndNoteSubtypeContent:
                   case FootEndNoteSubtypeContentWithEndmarker:
                   case FootEndNoteSubtypeParagraph:
-                  {
+                  default: {
                     break;
                   }
-                  default: break;
                 }
                 break;
               }
@@ -318,14 +317,15 @@ void Filter_Text::pre_process_usfm ()
                   case CrossreferenceSubtypeStandardContent:
                   case CrossreferenceSubtypeContent:
                   case CrossreferenceSubtypeContentWithEndmarker:
-                  {
+                  default: {
                     break;
                   }
-                  default: break;
                 }
                 break;
               }
-              default: break;
+              default: {
+                break;
+              }
             }
           }
         }

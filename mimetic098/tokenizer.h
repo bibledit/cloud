@@ -18,7 +18,7 @@ namespace mimetic
 {
 
 template<typename value_type>
-struct IsDelim: public std::unary_function<value_type,bool>
+struct IsDelim: public std::__unary_function<value_type,bool>
 {
     bool operator()(const value_type& val) const
     {
@@ -51,7 +51,7 @@ private:
 };
 
 template<>
-struct IsDelim<char>: public std::unary_function<char, bool>
+struct IsDelim<char>: public std::__unary_function<char, bool>
 {
     void setDelimList(const std::string& delims)
     {

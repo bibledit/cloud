@@ -36,7 +36,7 @@ class Rfc822Header: public std::deque<Field>
 {
 public:
     struct find_by_name: 
-        public std::unary_function<const Field, bool>
+        public std::__unary_function<const Field, bool>
     {
         find_by_name(const std::string&);
         bool operator()(const Field&) const;

@@ -35,7 +35,6 @@
 #include <database/logs.h>
 #include <database/config/general.h>
 #include <database/privileges.h>
-using namespace std;
 
 
 int sendreceive_files_watchdog {0};
@@ -48,19 +47,19 @@ void sendreceive_files_done ()
 }
 
 
-string sendreceive_files_text ()
+std::string sendreceive_files_text ()
 {
   return translate("Files") + ": ";
 }
 
 
-string sendreceive_files_sendreceive_text ()
+std::string sendreceive_files_sendreceive_text ()
 {
   return sendreceive_files_text () + translate ("Synchronizing");
 }
 
 
-string sendreceive_files_up_to_date_text ()
+std::string sendreceive_files_up_to_date_text ()
 {
   return sendreceive_files_text () + translate ("Up to date");
 }
@@ -70,7 +69,7 @@ void sendreceive_files ()
 {
   // Watchdog handler.
   if (sendreceive_files_watchdog) {
-    int time = filter::date::seconds_since_epoch ();
+    const int time = filter::date::seconds_since_epoch ();
     if (time < (sendreceive_files_watchdog + 900)) {
       Database_Logs::log (sendreceive_files_text () + translate("Still busy"), Filter_Roles::translator ());
       return;
@@ -84,46 +83,46 @@ void sendreceive_files ()
   // If any of the prioritized synchronization tasks run, postpone the current task and do not start it.
   if (sendreceive_logic_prioritized_task_is_active ()) {
     sendreceive_files_done ();
-    this_thread::sleep_for (chrono::seconds (5));
+    std::this_thread::sleep_for (std::chrono::seconds (5));
     tasks_logic_queue (SYNCFILES);
     return;
   }
   
   
-  Webserver_Request request;
+  Webserver_Request request {};
   Sync_Logic sync_logic = Sync_Logic (&request);
 
   
   Database_Logs::log (sendreceive_files_sendreceive_text (), Filter_Roles::translator ());
+
   
-  
-  string address = Database_Config_General::getServerAddress ();
-  int port = Database_Config_General::getServerPort ();
-  string url = client_logic_url (address, port, sync_files_url ());
+  const std::string address = Database_Config_General::getServerAddress ();
+  const int port = Database_Config_General::getServerPort ();
+  const std::string url = client_logic_url (address, port, sync_files_url ());
   
   
   // The verion number of the set of directories this client uses.
-  int version = 5;
+  const int version {5};
   
   
-  map <string, string> post;
+  std::map <std::string, std::string> post {};
 
   
   // The client user is the sole user registered on the system.
-  vector <string> users = request.database_users ()->get_users ();
+  const std::vector <std::string> users = request.database_users ()->get_users ();
   if (users.empty ()) {
     Database_Logs::log (translate("No user found"), Filter_Roles::translator ());
     sendreceive_files_done ();
     return;
   }
-  string user = users [0];
+  const std::string user {users.at(0)};
   post ["u"] = filter::strings::bin2hex (user);
 
   
   post ["v"] = filter::strings::convert_to_string (version);
-  string error;
-  string response;
-  int iresponse { 0 };
+  std::string error {};
+  std::string response {};
+  int iresponse {0};
   
 
   // Request the checksum of all relevant files on the server.
@@ -146,7 +145,7 @@ void sendreceive_files ()
 
   
   // Go through the directories relevant to the version.
-  vector <string> directories = Sync_Logic::files_get_directories (version, user);
+  const std::vector <std::string> directories = Sync_Logic::files_get_directories (version, user);
   for (size_t d = 0; d < directories.size (); d++) {
     
 
@@ -154,7 +153,7 @@ void sendreceive_files ()
     // but rather the index of the directory in the entire list.
     // This is for security reasons.
     post ["d"] = filter::strings::convert_to_string (d);
-    string directory = directories [d];
+    const std::string directory = directories [d];
     
 
     // Request the total checksum of a directory on the server.
@@ -182,15 +181,15 @@ void sendreceive_files ()
       sendreceive_files_done ();
       return;
     }
-    vector <string> server_files = filter::strings::explode (response, '\n');
+    const std::vector <std::string> server_files = filter::strings::explode (response, '\n');
     
     
     // Delete files that exist locally but not on the server.
-    vector <string> client_files = Sync_Logic::files_get_files (directory);
-    vector <string> files = filter::strings::array_diff (client_files, server_files);
-    for (auto file : files) {
+    const std::vector <std::string> client_files = Sync_Logic::files_get_files (directory);
+    const std::vector <std::string> files = filter::strings::array_diff (client_files, server_files);
+    for (const auto& file : files) {
       Database_Logs::log (sendreceive_files_text () + "Deleting file: " + filter_url_create_path ({directory, file}), Filter_Roles::translator ());
-      string path = filter_url_create_root_path ({directory, file});
+      std::string path = filter_url_create_root_path ({directory, file});
       filter_url_unlink (path);
       // Attempt to delete the directory, which will only succeed if it is empty.
       path = filter_url_dirname (path);
@@ -199,7 +198,7 @@ void sendreceive_files ()
     
 
     // Deal with each file individually.
-    for (auto & file : server_files) {
+    for (const auto& file : server_files) {
 
 
       // Request checksum of this file,
@@ -213,8 +212,8 @@ void sendreceive_files ()
         sendreceive_files_done ();
         return;
       }
-      int iresponse_file = filter::strings::convert_to_int (response);
-      int checksum_file = Sync_Logic::files_get_file_checksum (directory, file);
+      const int iresponse_file = filter::strings::convert_to_int (response);
+      const int checksum_file = Sync_Logic::files_get_file_checksum (directory, file);
       if (iresponse_file == checksum_file) {
         continue;
       }
@@ -226,13 +225,13 @@ void sendreceive_files ()
       // Download the file from the server, and store it locally on the client.
       Database_Logs::log (sendreceive_files_text () + "Downloading " + filter_url_create_path ({directory, file}), Filter_Roles::translator ());
       // Local file path where to save resource.
-      string fullpath = filter_url_create_root_path ({directory, file});
+      const std::string fullpath = filter_url_create_root_path ({directory, file});
       // Create directory if it does not yet exist.
-      string dirpath = filter_url_dirname (fullpath);
+      const std::string dirpath = filter_url_dirname (fullpath);
       if (!file_or_dir_exists (dirpath)) {
         filter_url_mkdir (dirpath);
       }
-      string download_url = filter_url_build_http_query (url, "a", filter::strings::convert_to_string (Sync_Logic::files_file_download));
+      std::string download_url = filter_url_build_http_query (url, "a", filter::strings::convert_to_string (Sync_Logic::files_file_download));
       download_url = filter_url_build_http_query (download_url, "v", filter::strings::convert_to_string (version));
       download_url = filter_url_build_http_query (download_url, "d", filter::strings::convert_to_string (d));
       download_url = filter_url_build_http_query (download_url, "u", filter::strings::bin2hex (user));

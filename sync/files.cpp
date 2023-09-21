@@ -68,9 +68,10 @@ std::string sync_files (void * webserver_request)
   const std::vector <std::string> directories = Sync_Logic::files_get_directories (version, user);
   if (d >= directories.size ()) {
     request->response_code = 400;
-    return "";
+    return std::string();
   }
   const std::string directory = directories [d];
+  std::cout << "directory " << directory << std::endl; // Todo
   
   if (action == Sync_Logic::files_total_checksum) {
     return filter::strings::convert_to_string (Sync_Logic::files_get_total_checksum (version, user));

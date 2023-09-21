@@ -27,16 +27,15 @@
 #include <webserver/request.h>
 #include <sync/logic.h>
 #include <checksum/logic.h>
-using namespace std;
 
 
-string sync_files_url ()
+std::string sync_files_url ()
 {
   return "sync/files";
 }
 
 
-string sync_files (void * webserver_request)
+std::string sync_files (void * webserver_request)
 {
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   Sync_Logic sync_logic = Sync_Logic (webserver_request);
@@ -44,7 +43,7 @@ string sync_files (void * webserver_request)
   if (!sync_logic.security_okay ()) {
     // When the Cloud enforces https, inform the client to upgrade.
     request->response_code = 426;
-    return "";
+    return std::string();
   }
 
   // If the client's IP address very recently made a prioritized server call,
@@ -52,26 +51,26 @@ string sync_files (void * webserver_request)
   // This is the way to give priority to the other call:
   // Not clogging the client's internet connection.
   if (sync_logic.prioritized_ip_address_active ()) {
-    this_thread::sleep_for (chrono::seconds (5));
+    std::this_thread::sleep_for (std::chrono::seconds (5));
   }
   
   if (request->post.empty ()) {
     request->post = request->query;
   }
-  string user = filter::strings::hex2bin (request->post ["u"]);
-  int action = filter::strings::convert_to_int (request->post ["a"]);
-  int version = filter::strings::convert_to_int (request->post ["v"]);
-  size_t d = static_cast<size_t>(filter::strings::convert_to_int (request->post ["d"]));
-  string file = request->post ["f"];
+  const std::string user = filter::strings::hex2bin (request->post ["u"]);
+  const int action = filter::strings::convert_to_int (request->post ["a"]);
+  const int version = filter::strings::convert_to_int (request->post ["v"]);
+  const size_t d = static_cast<size_t>(filter::strings::convert_to_int (request->post ["d"]));
+  const std::string file = request->post ["f"];
 
   // For security reasons a client does not specify the directory of the file to be downloaded.
   // Rather it specifies the offset within the list of allowed directories for the version.
-  vector <string> directories = Sync_Logic::files_get_directories (version, user);
+  const std::vector <std::string> directories = Sync_Logic::files_get_directories (version, user);
   if (d >= directories.size ()) {
     request->response_code = 400;
     return "";
   }
-  string directory = directories [d];
+  const std::string directory = directories [d];
   
   if (action == Sync_Logic::files_total_checksum) {
     return filter::strings::convert_to_string (Sync_Logic::files_get_total_checksum (version, user));
@@ -83,7 +82,7 @@ string sync_files (void * webserver_request)
   }
 
   else if (action == Sync_Logic::files_directory_files) {
-    vector <string> paths = Sync_Logic::files_get_files (directory);
+    std::vector <std::string> paths = Sync_Logic::files_get_files (directory);
     return filter::strings::implode (paths, "\n");
   }
 
@@ -96,12 +95,12 @@ string sync_files (void * webserver_request)
     // This triggers the correct mime type.
     request->get = "file.download";
     // Return the file's contents.
-    string path = filter_url_create_root_path ({directory, file});
+    const std::string path = filter_url_create_root_path ({directory, file});
     return filter_url_file_get_contents (path);
   }
   
   // Bad request. Delay flood of bad requests.
-  this_thread::sleep_for (chrono::seconds (1));
+  std::this_thread::sleep_for (std::chrono::seconds (1));
   request->response_code = 400;
   return "";
 }

@@ -1,3 +1,16 @@
+#pragma clang diagnostic ignored "-Wunknown-warning-option"
+#pragma clang diagnostic ignored "-Wimplicit-int-conversion"
+#pragma clang diagnostic ignored "-Wsign-conversion"
+
+#pragma GCC diagnostic ignored "-Wconversion"
+
+#pragma clang diagnostic ignored "-Wimplicit-int-conversion"
+#pragma clang diagnostic ignored "-Wsign-conversion"
+
+#pragma GCC diagnostic ignored "-Wconversion"
+
+#pragma clang diagnostic ignored "-Wimplicit-int-conversion"
+#pragma clang diagnostic ignored "-Wsign-conversion"
 /*
  *  X.509 Certidicate Revocation List (CRL) parsing
  *
@@ -565,7 +578,7 @@ int mbedtls_x509_crl_parse( mbedtls_x509_crl *chain, const unsigned char *buf, s
 {
 #if defined(MBEDTLS_PEM_PARSE_C)
     int ret;
-    size_t use_len;
+    size_t use_len = 0;
     mbedtls_pem_context pem;
     int is_pem = 0;
 

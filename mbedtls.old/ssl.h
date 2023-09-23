@@ -1,3 +1,4 @@
+#pragma GCC system_header
 /**
  * \file ssl.h
  *
@@ -2182,7 +2183,7 @@ void mbedtls_ssl_conf_psk_cb( mbedtls_ssl_config *conf,
  * \param dhm_P    Diffie-Hellman-Merkle modulus
  * \param dhm_G    Diffie-Hellman-Merkle generator
  *
- * \deprecated     Superseded by \c mbedtls_ssl_conf_dh_param_bin.
+ * \disabled_deprecated     Superseded by \c mbedtls_ssl_conf_dh_param_bin.
  *
  * \return         0 if successful
  */
@@ -2237,7 +2238,7 @@ void mbedtls_ssl_conf_dhm_min_bitlen( mbedtls_ssl_config *conf,
 #if defined(MBEDTLS_ECP_C)
 /**
  * \brief          Set the allowed curves in order of preference.
- *                 (Default: all defined curves.)
+ *                 (Default: all defined curves in order of decreasing size.)
  *
  *                 On server: this only affects selection of the ECDHE curve;
  *                 the curves used for ECDH and ECDSA are determined by the
@@ -2269,7 +2270,9 @@ void mbedtls_ssl_conf_curves( mbedtls_ssl_config *conf,
 #if defined(MBEDTLS_KEY_EXCHANGE__WITH_CERT__ENABLED)
 /**
  * \brief          Set the allowed hashes for signatures during the handshake.
- *                 (Default: all available hashes except MD5.)
+ *                 (Default: all SHA-2 hashes, largest first. Also SHA-1 if
+ *                 the compile-time option
+ *                 `MBEDTLS_TLS_DEFAULT_ALLOW_SHA1_IN_KEY_EXCHANGE` is enabled.)
  *
  * \note           This only affects which hashes are offered and can be used
  *                 for signatures during the handshake. Hashes for message

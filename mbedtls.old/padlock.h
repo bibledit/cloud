@@ -1,3 +1,4 @@
+#pragma GCC system_header
 /**
  * \file padlock.h
  *
@@ -98,7 +99,7 @@ extern "C" {
  *
  * \param feature  The feature to detect
  *
- * \return         1 if CPU has support for the feature, 0 otherwise
+ * \return         non-zero if CPU has support for the feature, 0 otherwise
  */
 int mbedtls_padlock_has_support( int feature );
 

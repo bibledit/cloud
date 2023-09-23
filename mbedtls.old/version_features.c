@@ -1,3 +1,16 @@
+#pragma clang diagnostic ignored "-Wunknown-warning-option"
+#pragma clang diagnostic ignored "-Wimplicit-int-conversion"
+#pragma clang diagnostic ignored "-Wsign-conversion"
+
+#pragma GCC diagnostic ignored "-Wconversion"
+
+#pragma clang diagnostic ignored "-Wimplicit-int-conversion"
+#pragma clang diagnostic ignored "-Wsign-conversion"
+
+#pragma GCC diagnostic ignored "-Wconversion"
+
+#pragma clang diagnostic ignored "-Wimplicit-int-conversion"
+#pragma clang diagnostic ignored "-Wsign-conversion"
 /*
  *  Version feature information
  *
@@ -553,6 +566,9 @@ static const char *features[] = {
 #if defined(MBEDTLS_SSL_TRUNCATED_HMAC_COMPAT)
     "MBEDTLS_SSL_TRUNCATED_HMAC_COMPAT",
 #endif /* MBEDTLS_SSL_TRUNCATED_HMAC_COMPAT */
+#if defined(MBEDTLS_TEST_HOOKS)
+    "MBEDTLS_TEST_HOOKS",
+#endif /* MBEDTLS_TEST_HOOKS */
 #if defined(MBEDTLS_THREADING_ALT)
     "MBEDTLS_THREADING_ALT",
 #endif /* MBEDTLS_THREADING_ALT */

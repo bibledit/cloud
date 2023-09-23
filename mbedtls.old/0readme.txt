@@ -57,5 +57,3 @@ to this:
 To increase the listen backlog, update
 MBEDTLS_NET_LISTEN_BACKLOG
 from 10 to 100 or so.
-
-

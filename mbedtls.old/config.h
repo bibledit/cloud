@@ -1,3 +1,4 @@
+#pragma GCC system_header
 /**
  * \file config.h
  *
@@ -453,7 +454,7 @@
  *       be overridden, but the wrapper functions mbedtls_aes_decrypt and mbedtls_aes_encrypt
  *       must stay untouched.
  *
- * \note If you use the AES_xxx_ALT macros, then is is recommended to also set
+ * \note If you use the AES_xxx_ALT macros, then it is recommended to also set
  *       MBEDTLS_AES_ROM_TABLES in order to help the linker garbage-collect the AES
  *       tables.
  *
@@ -1737,7 +1738,7 @@
  *          bandwidth, and (2) the peer is an Mbed TLS stack that doesn't use
  *          the fixed implementation yet (pre-2.7).
  *
- * \deprecated This option is deprecated and will likely be removed in a
+ * \disabled_deprecated This option is deprecated and will likely be removed in a
  *             future version of Mbed TLS.
  *
  * Uncomment to fallback to old, non-compliant truncated HMAC implementation.
@@ -1745,6 +1746,23 @@
  * Requires: MBEDTLS_SSL_TRUNCATED_HMAC
  */
 //#define MBEDTLS_SSL_TRUNCATED_HMAC_COMPAT
+
+/**
+ * \def MBEDTLS_TEST_HOOKS
+ *
+ * Enable features for invasive testing such as introspection functions and
+ * hooks for fault injection. This enables additional unit tests.
+ *
+ * Merely enabling this feature should not change the behavior of the product.
+ * It only adds new code, and new branching points where the default behavior
+ * is the same as when this feature is disabled.
+ * However, this feature increases the attack surface: there is an added
+ * risk of vulnerabilities, and more gadgets that can make exploits easier.
+ * Therefore this feature must never be enabled in production.
+ *
+ * Uncomment to enable invasive tests.
+ */
+//#define MBEDTLS_TEST_HOOKS
 
 /**
  * \def MBEDTLS_THREADING_ALT
@@ -1852,7 +1870,7 @@
  *
  * \note Currently compression can't be used with DTLS.
  *
- * \deprecated This feature is deprecated and will be removed
+ * \disabled_deprecated This feature is deprecated and will be removed
  *             in the next major revision of the library.
  *
  * Used in: library/ssl_tls.c

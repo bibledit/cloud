@@ -1,3 +1,16 @@
+#pragma clang diagnostic ignored "-Wunknown-warning-option"
+#pragma clang diagnostic ignored "-Wimplicit-int-conversion"
+#pragma clang diagnostic ignored "-Wsign-conversion"
+
+#pragma GCC diagnostic ignored "-Wconversion"
+
+#pragma clang diagnostic ignored "-Wimplicit-int-conversion"
+#pragma clang diagnostic ignored "-Wsign-conversion"
+
+#pragma GCC diagnostic ignored "-Wconversion"
+
+#pragma clang diagnostic ignored "-Wimplicit-int-conversion"
+#pragma clang diagnostic ignored "-Wsign-conversion"
 /*
  *  Public Key abstraction layer
  *
@@ -225,11 +238,14 @@ static inline int pk_hashlen_helper( mbedtls_md_type_t md_alg, size_t *hash_len 
 {
     const mbedtls_md_info_t *md_info;
 
-    if( *hash_len != 0 )
+    if( *hash_len != 0 && md_alg == MBEDTLS_MD_NONE )
         return( 0 );
 
     if( ( md_info = mbedtls_md_info_from_type( md_alg ) ) == NULL )
         return( -1 );
+
+    if ( *hash_len != 0 && *hash_len < mbedtls_md_get_size( md_info ) )
+        return ( -1 );
 
     *hash_len = mbedtls_md_get_size( md_info );
     return( 0 );

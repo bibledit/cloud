@@ -1,3 +1,4 @@
+#pragma GCC system_header
 /**
  * \file bignum.h
  *
@@ -906,7 +907,7 @@ int mbedtls_mpi_inv_mod( mbedtls_mpi *X, const mbedtls_mpi *A,
  * \brief          Perform a Miller-Rabin primality test with error
  *                 probability of 2<sup>-80</sup>.
  *
- * \deprecated     Superseded by mbedtls_mpi_is_prime_ext() which allows
+ * \disabled_deprecated     Superseded by mbedtls_mpi_is_prime_ext() which allows
  *                 specifying the number of Miller-Rabin rounds.
  *
  * \param X        The MPI to check for primality.

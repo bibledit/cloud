@@ -1,3 +1,4 @@
+#pragma GCC system_header
 /**
  * \file platform_util.h
  *

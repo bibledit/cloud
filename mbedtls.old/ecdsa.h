@@ -1,3 +1,4 @@
+#pragma GCC system_header
 /**
  * \file ecdsa.h
  *
@@ -452,7 +453,7 @@ int mbedtls_ecdsa_write_signature_restartable( mbedtls_ecdsa_context *ctx,
  *
  * \see             ecp.h
  *
- * \deprecated      Superseded by mbedtls_ecdsa_write_signature() in
+ * \disabled_deprecated      Superseded by mbedtls_ecdsa_write_signature() in
  *                  Mbed TLS version 2.0 and later.
  *
  * \param ctx       The ECDSA context to use. This must be initialized

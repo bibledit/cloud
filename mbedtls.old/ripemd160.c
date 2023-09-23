@@ -1,3 +1,16 @@
+#pragma clang diagnostic ignored "-Wunknown-warning-option"
+#pragma clang diagnostic ignored "-Wimplicit-int-conversion"
+#pragma clang diagnostic ignored "-Wsign-conversion"
+
+#pragma GCC diagnostic ignored "-Wconversion"
+
+#pragma clang diagnostic ignored "-Wimplicit-int-conversion"
+#pragma clang diagnostic ignored "-Wsign-conversion"
+
+#pragma GCC diagnostic ignored "-Wconversion"
+
+#pragma clang diagnostic ignored "-Wimplicit-int-conversion"
+#pragma clang diagnostic ignored "-Wsign-conversion"
 /*
  *  RIPE MD-160 implementation
  *
@@ -514,8 +527,7 @@ static const unsigned char ripemd160_test_str[TESTS][81] =
     { "abcdefghijklmnopqrstuvwxyz" },
     { "abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopq" },
     { "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789" },
-    { "12345678901234567890123456789012345678901234567890123456789012"
-      "345678901234567890" },
+    { "12345678901234567890123456789012345678901234567890123456789012345678901234567890" },
 };
 
 static const size_t ripemd160_test_strlen[TESTS] =

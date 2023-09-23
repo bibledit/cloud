@@ -1,3 +1,16 @@
+#pragma clang diagnostic ignored "-Wunknown-warning-option"
+#pragma clang diagnostic ignored "-Wimplicit-int-conversion"
+#pragma clang diagnostic ignored "-Wsign-conversion"
+
+#pragma GCC diagnostic ignored "-Wconversion"
+
+#pragma clang diagnostic ignored "-Wimplicit-int-conversion"
+#pragma clang diagnostic ignored "-Wsign-conversion"
+
+#pragma GCC diagnostic ignored "-Wconversion"
+
+#pragma clang diagnostic ignored "-Wimplicit-int-conversion"
+#pragma clang diagnostic ignored "-Wsign-conversion"
 /**
  * \file ssl_ciphersuites.c
  *
@@ -918,13 +931,13 @@ static const mbedtls_ssl_ciphersuite_t ciphersuite_definitions[] =
       0 },
 #endif /* MBEDTLS_SHA256_C */
 
-#if defined(MBEDTLS_SHA1_C)
+#if defined(MBEDTLS_SHA512_C)
     { MBEDTLS_TLS_RSA_WITH_CAMELLIA_256_GCM_SHA384, "TLS-RSA-WITH-CAMELLIA-256-GCM-SHA384",
       MBEDTLS_CIPHER_CAMELLIA_256_GCM, MBEDTLS_MD_SHA384, MBEDTLS_KEY_EXCHANGE_RSA,
       MBEDTLS_SSL_MAJOR_VERSION_3, MBEDTLS_SSL_MINOR_VERSION_3,
       MBEDTLS_SSL_MAJOR_VERSION_3, MBEDTLS_SSL_MINOR_VERSION_3,
       0 },
-#endif /* MBEDTLS_SHA1_C */
+#endif /* MBEDTLS_SHA512_C */
 #endif /* MBEDTLS_GCM_C */
 #endif /* MBEDTLS_CAMELLIA_C */
 

@@ -1,3 +1,16 @@
+#pragma clang diagnostic ignored "-Wunknown-warning-option"
+#pragma clang diagnostic ignored "-Wimplicit-int-conversion"
+#pragma clang diagnostic ignored "-Wsign-conversion"
+
+#pragma GCC diagnostic ignored "-Wconversion"
+
+#pragma clang diagnostic ignored "-Wimplicit-int-conversion"
+#pragma clang diagnostic ignored "-Wsign-conversion"
+
+#pragma GCC diagnostic ignored "-Wconversion"
+
+#pragma clang diagnostic ignored "-Wimplicit-int-conversion"
+#pragma clang diagnostic ignored "-Wsign-conversion"
 /*
  *  ARIA implementation
  *
@@ -952,7 +965,7 @@ static const uint8_t aria_test2_ctr_ct[3][48] =         // CTR ciphertext
         {                                   \
             if( verbose )                   \
                 mbedtls_printf( "failed\n" );       \
-            return( 1 );                    \
+            goto exit;                              \
         } else {                            \
             if( verbose )                   \
                 mbedtls_printf( "passed\n" );       \
@@ -966,6 +979,7 @@ int mbedtls_aria_self_test( int verbose )
     int i;
     uint8_t blk[MBEDTLS_ARIA_BLOCKSIZE];
     mbedtls_aria_context ctx;
+    int ret = 1;
 
 #if (defined(MBEDTLS_CIPHER_MODE_CFB) || defined(MBEDTLS_CIPHER_MODE_CTR))
     size_t j;
@@ -976,6 +990,8 @@ int mbedtls_aria_self_test( int verbose )
      defined(MBEDTLS_CIPHER_MODE_CTR))
     uint8_t buf[48], iv[MBEDTLS_ARIA_BLOCKSIZE];
 #endif
+
+    mbedtls_aria_init( &ctx );
 
     /*
      * Test set 1
@@ -1096,7 +1112,11 @@ int mbedtls_aria_self_test( int verbose )
         mbedtls_printf( "\n" );
 #endif /* MBEDTLS_CIPHER_MODE_CTR */
 
-    return( 0 );
+    ret = 0;
+
+exit:
+    mbedtls_aria_free( &ctx );
+    return( ret );
 }
 
 #endif /* MBEDTLS_SELF_TEST */

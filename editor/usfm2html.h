@@ -43,44 +43,44 @@ public:
   void stylesheet (std::string stylesheet);
   void run ();
   std::string get ();
-  size_t textLength {0};
-  std::map <int, int> verseStartOffsets {};
-  std::string currentParagraphStyle {};
-  std::string currentParagraphContent {};
+  size_t m_text_tength {0};
+  std::map <int, int> m_verse_start_offsets {};
+  std::string m_current_paragraph_style {};
+  std::string m_current_paragraph_content {};
   void set_preview ();
 private:
-  std::vector <std::string> markers_and_text {}; // Strings alternating between USFM and text.
-  unsigned int markers_and_text_pointer {0};
+  std::vector <std::string> m_markers_and_text {}; // Strings alternating between USFM and text.
+  unsigned int m_markers_and_text_pointer {0};
   
   // All the style information.
-  std::map <std::string, Database_Styles_Item> styles {};
+  std::map <std::string, Database_Styles_Item> m_styles {};
   
   // XML nodes.
-  xml_document document {};
-  xml_node body_node {};
-  xml_node notes_node {};
+  xml_document m_document {};
+  xml_node m_body_node {};
+  xml_node m_notes_node {};
   
   // Standard content markers for notes.
-  std::string standardContentMarkerFootEndNote {};
-  std::string standardContentMarkerCrossReference {};
+  std::string m_standard_content_marker_foot_end_note {};
+  std::string m_standard_content_marker_cross_reference {};
 
-  xml_node current_p_node {}; // The current p node.
-  bool current_p_open {false};
-  std::vector <std::string> currentTextStyles {};
+  xml_node m_current_p_node {}; // The current p node.
+  bool m_current_p_open {false};
+  std::vector <std::string> m_current_text_styles {};
   
-  int noteCount {0};
-  xml_node notePnode {}; // The p DOM element of the current footnote, if any.
-  bool note_p_open {false};
-  std::vector <std::string> currentNoteTextStyles {};
+  int m_note_count {0};
+  xml_node m_note_p_node {}; // The p DOM element of the current footnote, if any.
+  bool m_note_p_open {false};
+  std::vector <std::string> m_current_note_text_styles {};
   
   // The note citations.
-  filter::note::citations note_citations {};
+  filter::note::citations m_note_citations {};
 
   // Whether note is open.
-  bool noteOpened {false};
+  bool m_note_opened {false};
   
   // Lengths and offsets.
-  bool first_line_done {false};
+  bool m_first_line_done {false};
   
   // Whether it runs in preview-mode.
   bool m_preview { false };
@@ -88,16 +88,16 @@ private:
   void preprocess ();
   void process ();
   void postprocess ();
-  void outputAsIs (std::string marker, bool isOpeningMarker);
-  void newParagraph (std::string style = "");
-  void closeParagraph ();
-  void openTextStyle (Database_Styles_Item & style, bool embed);
-  void closeTextStyle (bool embed);
-  void addText (std::string text);
+  void output_as_is (std::string marker, bool is_opening_marker);
+  void new_paragraph (std::string style = std::string());
+  void close_paragraph ();
+  void open_text_style (Database_Styles_Item & style, bool embed);
+  void close_text_style (bool embed);
+  void add_text (std::string text);
   void add_note (std::string citation, std::string style, bool endnote = false);
-  void addNoteText (std::string text);
-  void closeCurrentNote ();
-  void addNotelLink (xml_node domNode, int identifier, std::string style, std::string text);
+  void add_note_text (std::string text);
+  void close_current_note ();
+  void add_notel_link (xml_node domNode, int identifier, std::string style, std::string text);
   
-  bool roadIsClear ();
+  bool road_is_clear ();
 };

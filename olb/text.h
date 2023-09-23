@@ -26,9 +26,9 @@ class OnlineBible_Text
 public:
   OnlineBible_Text ();
   void newVerse (int bookIdentifier, int chapterNumber, int verseNumber);
-  void addText (std::string text);
+  void add_text (std::string text);
   void addNote ();
-  void closeCurrentNote ();
+  void close_current_note ();
   void save (std::string name);
   void storeData ();
 private:

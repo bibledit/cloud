@@ -29,7 +29,7 @@ public:
   void newBook (int book);
   void newChapter (int chapter);
   void newVerse (int verse);
-  void addText (std::string text);
+  void add_text (std::string text);
   void finalize ();
   void createModule (std::string filename);
   std::vector <std::string> get_sql ();

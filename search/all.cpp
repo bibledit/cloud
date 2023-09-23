@@ -95,8 +95,8 @@ string search_all (void * webserver_request)
   vector <int> identifiers = database_notes.search_notes (queryString, bibles);
   
   
-  size_t noteCount = identifiers.size();
-  view.set_variable ("noteCount", filter::strings::convert_to_string (noteCount));
+  size_t note_count = identifiers.size();
+  view.set_variable ("note_count", filter::strings::convert_to_string (note_count));
   
   
   // Assemble the block of search results for the consultation notes.

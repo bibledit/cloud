@@ -61,7 +61,7 @@ void OnlineBible_Text::newVerse (int bookIdentifier, int chapterNumber, int vers
 
 
 // This function adds $text to the current line.
-void OnlineBible_Text::addText (string text)
+void OnlineBible_Text::add_text (string text)
 {
   if (lineLoaded) currentLine += text;
 }
@@ -70,14 +70,14 @@ void OnlineBible_Text::addText (string text)
 // This function adds a note to the current paragraph.
 void OnlineBible_Text::addNote ()
 {
-  addText ("{");
+  add_text ("{");
 }
 
 
 // This function closes the current footnote.
-void OnlineBible_Text::closeCurrentNote ()
+void OnlineBible_Text::close_current_note ()
 {
-  addText ("}");
+  add_text ("}");
 }
 
 

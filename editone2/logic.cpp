@@ -25,7 +25,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 using namespace std;
 
 
-void editone_logic_prefix_html (string usfm, string stylesheet, string & html, string & last_p_style)
+void editone_logic_prefix_html (string usfm, string stylesheet, string& html, string& last_p_style)
 {
   if (!usfm.empty ()) {
     Editor_Usfm2Html editor_usfm2html;
@@ -39,13 +39,13 @@ void editone_logic_prefix_html (string usfm, string stylesheet, string & html, s
     // If the last paragraph has any content in it,
     // for correct visual representation of the editable fragment, that follows this,
     // clear that style.
-    last_p_style = editor_usfm2html.currentParagraphStyle;
-    if (!editor_usfm2html.currentParagraphContent.empty ()) last_p_style.clear ();
+    last_p_style = editor_usfm2html.m_current_paragraph_style;
+    if (!editor_usfm2html.m_current_paragraph_content.empty ()) last_p_style.clear ();
   }
 }
 
 
-void editone_logic_editable_html (string usfm, string stylesheet, string & html)
+void editone_logic_editable_html (string usfm, string stylesheet, string& html)
 {
   if (!usfm.empty ()) {
     Editor_Usfm2Html editor_usfm2html;
@@ -57,7 +57,7 @@ void editone_logic_editable_html (string usfm, string stylesheet, string & html)
 }
 
 
-void editone_logic_suffix_html (string editable_last_p_style, string usfm, string stylesheet, string & html)
+void editone_logic_suffix_html (string editable_last_p_style, string usfm, string stylesheet, string& html)
 {
   if (!usfm.empty ()) {
     Editor_Usfm2Html editor_usfm2html;

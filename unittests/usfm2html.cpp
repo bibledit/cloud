@@ -43,9 +43,9 @@ TEST (editor, usfm2html)
     editor_usfm2html.load (usfm);
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
     editor_usfm2html.run ();
-    EXPECT_EQ (61, static_cast<int>(editor_usfm2html.textLength));
-    EXPECT_EQ ((std::map <int, int>{ pair (0, 0), pair (1, 2) }), editor_usfm2html.verseStartOffsets);
-    EXPECT_EQ ("1 Kwasekuqediswa amazulu lomhlaba lalo lonke ibutho lakho.", editor_usfm2html.currentParagraphContent);
+    EXPECT_EQ (61, static_cast<int>(editor_usfm2html.m_text_tength));
+    EXPECT_EQ ((std::map <int, int>{ pair (0, 0), pair (1, 2) }), editor_usfm2html.m_verse_start_offsets);
+    EXPECT_EQ ("1 Kwasekuqediswa amazulu lomhlaba lalo lonke ibutho lakho.", editor_usfm2html.m_current_paragraph_content);
   }
 
   // Test text length for several verses.
@@ -66,7 +66,7 @@ TEST (editor, usfm2html)
     editor_usfm2html.load (usfm);
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
     editor_usfm2html.run ();
-    EXPECT_EQ (913, static_cast<int>(editor_usfm2html.textLength));
+    EXPECT_EQ (913, static_cast<int>(editor_usfm2html.m_text_tength));
     EXPECT_EQ ((std::map <int, int>{ pair (0, 0),
       pair (1, 2),
       pair (2, 62),
@@ -75,8 +75,8 @@ TEST (editor, usfm2html)
       pair (5, 469),
       pair (6, 676),
       pair (7, 758) }),
-               editor_usfm2html.verseStartOffsets);
-    EXPECT_EQ (550, static_cast<int>(editor_usfm2html.currentParagraphContent.size ()));
+               editor_usfm2html.m_verse_start_offsets);
+    EXPECT_EQ (550, static_cast<int>(editor_usfm2html.m_current_paragraph_content.size ()));
   }
 
   // Space after starting marker
@@ -127,8 +127,8 @@ TEST (editor, usfm2html)
     editor_usfm2html.load (usfm);
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
     editor_usfm2html.run ();
-    EXPECT_EQ ("q2", editor_usfm2html.currentParagraphStyle);
-    EXPECT_EQ ("2 Two 3 Three", editor_usfm2html.currentParagraphContent);
+    EXPECT_EQ ("q2", editor_usfm2html.m_current_paragraph_style);
+    EXPECT_EQ ("2 Two 3 Three", editor_usfm2html.m_current_paragraph_content);
   }
 
   // Most recent paragraph style and length 0.
@@ -146,8 +146,8 @@ TEST (editor, usfm2html)
     editor_usfm2html.load (usfm);
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
     editor_usfm2html.run ();
-    EXPECT_EQ ("q3", editor_usfm2html.currentParagraphStyle);
-    EXPECT_EQ ("", editor_usfm2html.currentParagraphContent);
+    EXPECT_EQ ("q3", editor_usfm2html.m_current_paragraph_style);
+    EXPECT_EQ ("", editor_usfm2html.m_current_paragraph_content);
   }
 
   // Convert styles for Quill-based editor.

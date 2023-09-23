@@ -180,12 +180,12 @@ void Filter_Text::get_styles (string stylesheet)
     styles [marker] = style;
     if (style.type == StyleTypeFootEndNote) {
       if (style.subtype == FootEndNoteSubtypeStandardContent) {
-        standardContentMarkerFootEndNote = style.marker;
+        standard_content_marker_foot_end_note = style.marker;
       }
     }
     if (style.type == StyleTypeCrossreference) {
       if (style.subtype == CrossreferenceSubtypeStandardContent) {
-        standardContentMarkerCrossReference = style.marker;
+        standard_content_marker_cross_reference = style.marker;
       }
     }
   }
@@ -679,8 +679,8 @@ void Filter_Text::process_usfm ()
               // Open a paragraph for the notes.
               // It takes the style of the footnote content marker, usually 'ft'.
               // This is done specifically for the version that has the notes only.
-              ensureNoteParagraphStyle (standardContentMarkerFootEndNote, styles[standardContentMarkerFootEndNote]);
-              if (odf_text_notes) odf_text_notes->new_paragraph (standardContentMarkerFootEndNote);
+              ensureNoteParagraphStyle (standard_content_marker_foot_end_note, styles[standard_content_marker_foot_end_note]);
+              if (odf_text_notes) odf_text_notes->new_paragraph (standard_content_marker_foot_end_note);
               // UserBool2ChapterInLeftRunningHeader -> no headings implemented yet.
               // UserBool3ChapterInRightRunningHeader -> no headings implemented yet.
 
@@ -1092,8 +1092,8 @@ void Filter_Text::process_usfm ()
           if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->add_text (current_item);
           if (html_text_standard) html_text_standard->add_text (current_item);
           if (html_text_linked) html_text_linked->add_text (current_item);
-          if (onlinebible_text) onlinebible_text->addText (current_item);
-          if (esword_text) esword_text->addText (current_item);
+          if (onlinebible_text) onlinebible_text->add_text (current_item);
+          if (esword_text) esword_text->add_text (current_item);
           if (text_text) text_text->addtext (current_item);
           if (tbsx_text) tbsx_text->add_text(current_item);
           if (headings_text_per_verse_active && heading_started) {
@@ -1134,7 +1134,7 @@ void Filter_Text::processNote ()
     if (filter::usfm::is_usfm_marker (currentItem))
     {
       // Flags about the nature of the marker.
-      bool isOpeningMarker = filter::usfm::is_opening_marker (currentItem);
+      bool is_opening_marker = filter::usfm::is_opening_marker (currentItem);
       bool isEmbeddedMarker = filter::usfm::is_embedded_marker (currentItem);
       // Clean up the marker, so we remain with the basic version, e.g. 'f'.
       string marker = filter::usfm::get_marker (currentItem);
@@ -1155,16 +1155,16 @@ void Filter_Text::processNote ()
             {
               case FootEndNoteSubtypeFootnote:
               {
-                if (isOpeningMarker) {
-                  ensureNoteParagraphStyle (marker, styles [standardContentMarkerFootEndNote]);
+                if (is_opening_marker) {
+                  ensureNoteParagraphStyle (marker, styles [standard_content_marker_foot_end_note]);
                   string citation = getNoteCitation (style);
                   if (odf_text_standard) odf_text_standard->add_note (citation, marker);
                   // Note citation in superscript in the document with text and note citations.
                   if (odf_text_text_and_note_citations) {
-                    vector <string> currentTextStyles = odf_text_text_and_note_citations->m_current_text_style;
+                    vector <string> current_text_styles = odf_text_text_and_note_citations->m_current_text_style;
                     odf_text_text_and_note_citations->m_current_text_style = {"superscript"};
                     odf_text_text_and_note_citations->add_text (citation);
-                    odf_text_text_and_note_citations->m_current_text_style = currentTextStyles;
+                    odf_text_text_and_note_citations->m_current_text_style = current_text_styles;
                   }
                   // Add space if the paragraph has text already.
                   if (odf_text_notes) {
@@ -1175,8 +1175,8 @@ void Filter_Text::processNote ()
                   // Add the note citation. And a no-break space after it.
                   if (odf_text_notes) odf_text_notes->add_text (citation + filter::strings::non_breaking_space_u00A0());
                   // Open note in the web pages.
-                  if (html_text_standard) html_text_standard->add_note (citation, standardContentMarkerFootEndNote);
-                  if (html_text_linked) html_text_linked->add_note (citation, standardContentMarkerFootEndNote);
+                  if (html_text_standard) html_text_standard->add_note (citation, standard_content_marker_foot_end_note);
+                  if (html_text_linked) html_text_linked->add_note (citation, standard_content_marker_foot_end_note);
                   // Online Bible. Footnotes do not seem to behave as they ought in the Online Bible compiler. Just leave them out.
                   //if ($this->onlinebible_text) $this->onlinebible_text->addNote ();
                   if (text_text) text_text->note (); 
@@ -1191,20 +1191,20 @@ void Filter_Text::processNote ()
               }
               case FootEndNoteSubtypeEndnote:
               {
-                if (isOpeningMarker) {
-                  ensureNoteParagraphStyle (marker, styles[standardContentMarkerFootEndNote]);
+                if (is_opening_marker) {
+                  ensureNoteParagraphStyle (marker, styles[standard_content_marker_foot_end_note]);
                   string citation = getNoteCitation (style);
                   if (odf_text_standard) odf_text_standard->add_note (citation, marker, true);
                   // Note citation in superscript in the document with text and note citations.
                   if (odf_text_text_and_note_citations) {
-                    vector <string> currentTextStyles = odf_text_text_and_note_citations->m_current_text_style;
+                    vector <string> current_text_styles = odf_text_text_and_note_citations->m_current_text_style;
                     odf_text_text_and_note_citations->m_current_text_style = {"superscript"};
                     odf_text_text_and_note_citations->add_text (citation);
-                    odf_text_text_and_note_citations->m_current_text_style = currentTextStyles;
+                    odf_text_text_and_note_citations->m_current_text_style = current_text_styles;
                   }
                   // Open note in the web page.
-                  if (html_text_standard) html_text_standard->add_note (citation, standardContentMarkerFootEndNote, true);
-                  if (html_text_linked) html_text_linked->add_note (citation, standardContentMarkerFootEndNote, true);
+                  if (html_text_standard) html_text_standard->add_note (citation, standard_content_marker_foot_end_note, true);
+                  if (html_text_linked) html_text_linked->add_note (citation, standard_content_marker_foot_end_note, true);
                   // Online Bible: Leave note out.
                   //if ($this->onlinebible_text) $this->onlinebible_text->addNote ();
                   if (text_text) text_text->note (); 
@@ -1231,7 +1231,7 @@ void Filter_Text::processNote ()
               case FootEndNoteSubtypeContent:
               case FootEndNoteSubtypeContentWithEndmarker:
               {
-                if (isOpeningMarker) {
+                if (is_opening_marker) {
                   if (odf_text_standard) odf_text_standard->open_text_style (style, true, isEmbeddedMarker);
                   if (odf_text_notes) odf_text_notes->open_text_style (style, false, isEmbeddedMarker);
                   if (html_text_standard) html_text_standard->open_text_style (style, true, isEmbeddedMarker);
@@ -1268,16 +1268,16 @@ void Filter_Text::processNote ()
             {
               case CrossreferenceSubtypeCrossreference:
               {
-                if (isOpeningMarker) {
-                  ensureNoteParagraphStyle (marker, styles[standardContentMarkerCrossReference]);
+                if (is_opening_marker) {
+                  ensureNoteParagraphStyle (marker, styles[standard_content_marker_cross_reference]);
                   string citation = getNoteCitation (style);
                   if (odf_text_standard) odf_text_standard->add_note (citation, marker);
                   // Note citation in superscript in the document with text and note citations.
                   if (odf_text_text_and_note_citations) {
-                    vector <string> currentTextStyles = odf_text_text_and_note_citations->m_current_text_style;
+                    vector <string> current_text_styles = odf_text_text_and_note_citations->m_current_text_style;
                     odf_text_text_and_note_citations->m_current_text_style = {"superscript"};
                     odf_text_text_and_note_citations->add_text (citation);
-                    odf_text_text_and_note_citations->m_current_text_style = currentTextStyles;
+                    odf_text_text_and_note_citations->m_current_text_style = current_text_styles;
                   }
                   // Add a space if the paragraph has text already.
                   if (odf_text_notes) {
@@ -1288,9 +1288,9 @@ void Filter_Text::processNote ()
                   // Add the note citation. And a no-break space (NBSP) after it.
                   if (odf_text_notes) odf_text_notes->add_text (citation + filter::strings::non_breaking_space_u00A0());
                   // Open note in the web page.
-                  ensureNoteParagraphStyle (standardContentMarkerCrossReference, styles[standardContentMarkerCrossReference]);
-                  if (html_text_standard) html_text_standard->add_note (citation, standardContentMarkerCrossReference);
-                  if (html_text_linked) html_text_linked->add_note (citation, standardContentMarkerCrossReference);
+                  ensureNoteParagraphStyle (standard_content_marker_cross_reference, styles[standard_content_marker_cross_reference]);
+                  if (html_text_standard) html_text_standard->add_note (citation, standard_content_marker_cross_reference);
+                  if (html_text_linked) html_text_linked->add_note (citation, standard_content_marker_cross_reference);
                   // Online Bible: Skip notes.
                   //if ($this->onlinebible_text) $this->onlinebible_text->addNote ();
                   if (text_text) text_text->note (); 
@@ -1317,7 +1317,7 @@ void Filter_Text::processNote ()
               case CrossreferenceSubtypeContent:
               case CrossreferenceSubtypeContentWithEndmarker:
               {
-                if (isOpeningMarker) {
+                if (is_opening_marker) {
                   if (odf_text_standard) odf_text_standard->open_text_style (style, true, isEmbeddedMarker);
                   if (odf_text_notes) odf_text_notes->open_text_style (style, false, isEmbeddedMarker);
                   if (html_text_standard) html_text_standard->open_text_style (style, true, isEmbeddedMarker);
@@ -1368,7 +1368,7 @@ void Filter_Text::processNote ()
   if (odf_text_notes) odf_text_notes->close_text_style (false, false);
   if (html_text_standard) html_text_standard->close_current_note ();
   if (html_text_linked) html_text_linked->close_current_note ();
-  //if ($this->onlinebible_text) $this->onlinebible_text->closeCurrentNote ();
+  //if ($this->onlinebible_text) $this->onlinebible_text->close_current_note ();
   if (!notes_plain_text_buffer.empty ()) {
     notes_plain_text.push_back (pair (m_current_verse_number, notes_plain_text_buffer));
   }

@@ -77,7 +77,7 @@ TEST (filter, export)
   // Test e-Sword text zero reference.
   {
     Esword_Text esword_text = Esword_Text ("");
-    esword_text.addText ("The Word of God");
+    esword_text.add_text ("The Word of God");
     esword_text.finalize ();
     vector <string> sql = {
       {"PRAGMA foreign_keys=OFF;"},
@@ -97,7 +97,7 @@ TEST (filter, export)
     esword_text.newBook (43);
     esword_text.newChapter (2);
     esword_text.newVerse (3);
-    esword_text.addText ("In the beginning was the Word, and the Word was with God, and the Word was God.");
+    esword_text.add_text ("In the beginning was the Word, and the Word was with God, and the Word was God.");
     esword_text.finalize ();
     vector <string> sql = {
       {"PRAGMA foreign_keys=OFF;"},
@@ -117,9 +117,9 @@ TEST (filter, export)
     esword_text.newBook (43);
     esword_text.newChapter (1);
     esword_text.newVerse (1);
-    esword_text.addText ("In the beginning was the Word");
-    esword_text.addText (", and the Word was with God");
-    esword_text.addText (", and the Word was God.");
+    esword_text.add_text ("In the beginning was the Word");
+    esword_text.add_text (", and the Word was with God");
+    esword_text.add_text (", and the Word was God.");
     esword_text.finalize ();
     vector <string> sql = {
       {"PRAGMA foreign_keys=OFF;"},
@@ -139,11 +139,11 @@ TEST (filter, export)
     esword_text.newBook (1);
     esword_text.newChapter (2);
     esword_text.newVerse (3);
-    esword_text.addText ("But as many as received him, to them gave he power to become the sons of God, even to them that believe on his name.");
+    esword_text.add_text ("But as many as received him, to them gave he power to become the sons of God, even to them that believe on his name.");
     esword_text.newBook (4);
     esword_text.newChapter (5);
     esword_text.newVerse (6);
-    esword_text.addText ("Which were born, not of blood, nor of the will of the flesh, nor of the will of man, but of God.");
+    esword_text.add_text ("Which were born, not of blood, nor of the will of the flesh, nor of the will of man, but of God.");
     esword_text.finalize ();
     vector <string> sql = {
       {"PRAGMA foreign_keys=OFF;"},
@@ -161,7 +161,7 @@ TEST (filter, export)
   // Test e-Sword converter create module.
   {
     Esword_Text esword_text = Esword_Text ("");
-    esword_text.addText ("In the beginning was the Word, and the Word was with God, and the Word was God.");
+    esword_text.add_text ("In the beginning was the Word, and the Word was with God, and the Word was God.");
     esword_text.finalize ();
     string filename = "/tmp/module.bblx";
     esword_text.createModule (filename);
@@ -173,11 +173,11 @@ TEST (filter, export)
   // Test tool to export Online Bible.
   {
     OnlineBible_Text onlinebible_text = OnlineBible_Text ();
-    onlinebible_text.addText ("No verse given, so discard this.");
+    onlinebible_text.add_text ("No verse given, so discard this.");
     onlinebible_text.newVerse (2, 2, 2);
-    onlinebible_text.addText ("Text for Exodus 2:2, not verse 2-6a.");
+    onlinebible_text.add_text ("Text for Exodus 2:2, not verse 2-6a.");
     onlinebible_text.storeData ();
-    onlinebible_text.addText ("Verse was stored, no new verse given, so discard this.");
+    onlinebible_text.add_text ("Verse was stored, no new verse given, so discard this.");
     string filename = "/tmp/OLBTextTest1.exp";
     onlinebible_text.save (filename);
     string standard = filter_url_file_get_contents (filter_url_create_root_path ({"unittests", "tests", "onlinebible1.exp"}));
@@ -189,12 +189,12 @@ TEST (filter, export)
   {
     OnlineBible_Text onlinebible_text = OnlineBible_Text ();
     onlinebible_text.addNote ();
-    onlinebible_text.addText ("Discard this note text because no verse has been given yet.");
-    onlinebible_text.closeCurrentNote ();
+    onlinebible_text.add_text ("Discard this note text because no verse has been given yet.");
+    onlinebible_text.close_current_note ();
     onlinebible_text.newVerse (1, 2, 3);
     onlinebible_text.addNote ();
-    onlinebible_text.addText ("Output this note text.");
-    onlinebible_text.closeCurrentNote ();
+    onlinebible_text.add_text ("Output this note text.");
+    onlinebible_text.close_current_note ();
     string filename = "/tmp/OLBTextTest2.exp";
     onlinebible_text.save (filename);
     string standard = filter_url_file_get_contents (filter_url_create_root_path ({"unittests", "tests", "onlinebible2.exp"}));

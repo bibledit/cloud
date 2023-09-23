@@ -87,7 +87,7 @@ void Esword_Text::newVerse (int verse)
 }
 
 
-void Esword_Text::addText (string text)
+void Esword_Text::add_text (string text)
 {
   if (text != "") currentText += text;
 }

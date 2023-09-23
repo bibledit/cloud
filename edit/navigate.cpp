@@ -73,18 +73,18 @@ string edit_navigate (void * webserver_request)
   
   // The caret offset should be in the main text body.
   // If it is in a note body, skip the verse updating.
-  if (offset > editor_usfm2html.textLength) return "";
+  if (offset > editor_usfm2html.m_text_tength) return std::string();
 
 
   // Get the number of verses in the USFM.
   // This covers combined verses also.
-  int last_offset = 0;
+  int last_offset {0};
   vector <int> verses = filter::usfm::get_verse_numbers (usfm);
   for (int i = 0; i < static_cast<int>(verses.size ()); i++) {
-    if (editor_usfm2html.verseStartOffsets.count (i)) {
-      last_offset = editor_usfm2html.verseStartOffsets [i];
+    if (editor_usfm2html.m_verse_start_offsets.count (i)) {
+      last_offset = editor_usfm2html.m_verse_start_offsets [i];
     } else {
-      editor_usfm2html.verseStartOffsets [i] = last_offset;
+      editor_usfm2html.m_verse_start_offsets [i] = last_offset;
     }
   }
   
@@ -92,9 +92,9 @@ string edit_navigate (void * webserver_request)
   // Get the starting offsets for each verse.
   vector <size_t> starting_offsets;
   for (int i = 0; i < static_cast<int> (verses.size ()); i++) {
-    starting_offsets.push_back (static_cast<size_t>(editor_usfm2html.verseStartOffsets [i]));
+    starting_offsets.push_back (static_cast<size_t>(editor_usfm2html.m_verse_start_offsets [i]));
   }
-  starting_offsets.push_back (editor_usfm2html.textLength);
+  starting_offsets.push_back (editor_usfm2html.m_text_tength);
 
   
   // Get the ending offsets for each verse.
@@ -126,7 +126,7 @@ string edit_navigate (void * webserver_request)
   
   // Look for the verse that matches the offset.
   verse = -1;
-  for (auto & element : editor_usfm2html.verseStartOffsets) {
+  for (const auto& element : editor_usfm2html.m_verse_start_offsets) {
     int key = element.first;
     size_t value = static_cast<size_t> (element.second);
     if (offset >= value) {

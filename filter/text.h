@@ -155,8 +155,8 @@ private:
   // Information for the citations for the notes.
   filter::note::citations note_citations {};
 
-  std::string standardContentMarkerFootEndNote {};
-  std::string standardContentMarkerCrossReference {};
+  std::string standard_content_marker_foot_end_note {};
+  std::string standard_content_marker_cross_reference {};
 
 public:
   // Object for creating standard web documents.

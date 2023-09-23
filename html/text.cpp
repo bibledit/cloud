@@ -70,6 +70,15 @@ HtmlText::HtmlText (const std::string& title)
 
 void HtmlText::new_paragraph (const std::string& style)
 {
+  // First close a previous paragraph, if there's any open.
+  if (current_p_node_open) {
+    // Deal with a blank line.
+    // If the paragraph is empty, add a <br> to it.
+    if (current_paragraph_content.empty()) {
+      current_p_node.append_child("br");
+    }
+  }
+  // Secondly open the paragraph.
   current_p_node = body_node.append_child ("p");
   if (!style.empty()) {
     std::string clss = style;

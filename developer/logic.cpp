@@ -112,7 +112,7 @@ void developer_logic_import_changes ()
   string bible = "test";
   Database_Logs::log ("Import changes from " + file_path + " into Bible " + bible);
   Database_Bibles database_bibles {};
-  vector <string> bibles = database_bibles.getBibles ();
+  vector <string> bibles = database_bibles.get_bibles ();
   if (!in_array(bible, bibles)) {
     Database_Logs::log ("Cannot locate Bible " + bible);
     return;

@@ -50,7 +50,7 @@ string editusfm_focus (void * webserver_request)
   string bible = request->query ["bible"];
   int book = filter::strings::convert_to_int (request->query ["book"]);
   int chapter = filter::strings::convert_to_int (request->query ["chapter"]);
-  string usfm = request->database_bibles()->getChapter (bible, book, chapter);
+  string usfm = request->database_bibles()->get_chapter (bible, book, chapter);
   int verse = Ipc_Focus::getVerse (request);
   int startingOffset = filter::usfm::versenumber_to_offset (usfm, verse);
   int endingOffset = startingOffset;

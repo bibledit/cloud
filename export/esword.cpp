@@ -57,11 +57,11 @@ void export_esword (string bible, bool log)
   
   Filter_Text filter_text_bible = Filter_Text (bible);
   filter_text_bible.esword_text = new Esword_Text (bible);
-  vector <int> books = database_bibles.getBooks (bible);
+  vector <int> books = database_bibles.get_books (bible);
   for (auto book : books) {
-    vector <int> chapters = database_bibles.getChapters (bible, book);
+    vector <int> chapters = database_bibles.get_chapters (bible, book);
     for (auto chapter : chapters) {
-      string chapter_data = database_bibles.getChapter (bible, book, chapter);
+      string chapter_data = database_bibles.get_chapter (bible, book, chapter);
       filter_text_bible.add_usfm_code (chapter_data);
     }
   }

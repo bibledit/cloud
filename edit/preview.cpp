@@ -94,7 +94,7 @@ string edit_preview (void * webserver_request)
   
   string stylesheet = Database_Config_Bible::getEditorStylesheet (bible);
   
-  string usfm = request->database_bibles()->getChapter (bible, book, chapter);
+  string usfm = request->database_bibles()->get_chapter (bible, book, chapter);
   
   Editor_Usfm2Html editor_usfm2html;
   editor_usfm2html.load (usfm);

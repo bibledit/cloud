@@ -62,8 +62,8 @@ void compare_compare (string bible, string compare, int jobId)
   
   
   // Get the combined books in both Bibles / Resources.
-  vector <int> bibleBooks = database_bibles.getBooks (bible);
-  vector <int> compareBooks = database_bibles.getBooks (compare);
+  vector <int> bibleBooks = database_bibles.get_books (bible);
+  vector <int> compareBooks = database_bibles.get_books (compare);
   vector <int> resourceBooks = database_usfmresources.getBooks (compare);
   vector <int> books;
   {
@@ -109,8 +109,8 @@ void compare_compare (string bible, string compare, int jobId)
     
     
     // Get the combined chapters in both Bibles / Resources.
-    vector <int> bibleChapters = database_bibles.getChapters (bible, book);
-    vector <int> compareChapters = database_bibles.getChapters (compare, book);
+    vector <int> bibleChapters = database_bibles.get_chapters (bible, book);
+    vector <int> compareChapters = database_bibles.get_chapters (compare, book);
     vector <int> resourceChapters = database_usfmresources.getChapters (compare, book);
     vector <int> chapters;
     {
@@ -143,8 +143,8 @@ void compare_compare (string bible, string compare, int jobId)
       
 
       // Get source and compare USFM, and skip them if they are equal.
-      string bible_chapter_usfm = database_bibles.getChapter (bible, book, chapter);
-      string compare_chapter_usfm = database_bibles.getChapter (compare, book, chapter);
+      string bible_chapter_usfm = database_bibles.get_chapter (bible, book, chapter);
+      string compare_chapter_usfm = database_bibles.get_chapter (compare, book, chapter);
       if (compare_chapter_usfm == "") {
         compare_chapter_usfm = database_usfmresources.getUsfm (compare, book, chapter);
       }

@@ -39,7 +39,7 @@ void convert_resource_to_bible (string resource)
   Database_Logs::log (translate("Converting USFM Resource to Bible") + ": " + resource);
   
   
-  database_bibles.createBible (resource);
+  database_bibles.create_bible (resource);
   vector <int> books = database_usfmresources.getBooks (resource);
   for (auto & book : books) {
     string bookname = database::books::get_english_from_id (static_cast<book_id>(book));
@@ -47,7 +47,7 @@ void convert_resource_to_bible (string resource)
     vector <int> chapters = database_usfmresources.getChapters (resource, book);
     for (auto & chapter : chapters) {
       string usfm = database_usfmresources.getUsfm (resource, book, chapter);
-      database_bibles.storeChapter (resource, book, chapter, usfm);
+      database_bibles.store_chapter (resource, book, chapter, usfm);
     }
   }
   database_usfmresources.deleteResource (resource);

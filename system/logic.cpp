@@ -83,14 +83,14 @@ void system_logic_produce_bibles_file (int jobid)
   
 
   // Iterate over the Bibles, the books, the chapters.
-  vector <string> bibles = database_bibles.getBibles ();
+  vector <string> bibles = database_bibles.get_bibles ();
   for (auto bible : bibles) {
-    vector <int> books = database_bibles.getBooks (bible);
+    vector <int> books = database_bibles.get_books (bible);
     for (auto book : books) {
       string book_usfm;
-      vector <int> chapters = database_bibles.getChapters (bible, book);
+      vector <int> chapters = database_bibles.get_chapters (bible, book);
       for (auto chapter : chapters) {
-        string usfm = database_bibles.getChapter (bible, book, chapter);
+        string usfm = database_bibles.get_chapter (bible, book, chapter);
         book_usfm.append (filter::strings::trim (usfm));
         book_usfm.append ("\n");
       }
@@ -166,7 +166,7 @@ void system_logic_import_bibles_file (string tarball)
         // This does not trigger the client to send it to the Cloud.
         // Reason is that the Cloud is authoritative,
         // so importing outdated Bibles would not affect the authoritative copy in the Cloud.
-        database_bibles.storeChapter (bible, book_chapter_data.m_book, book_chapter_data.m_chapter, book_chapter_data.m_data);
+        database_bibles.store_chapter (bible, book_chapter_data.m_book, book_chapter_data.m_chapter, book_chapter_data.m_data);
         string bookname = database::books::get_english_from_id (static_cast<book_id>(book_chapter_data.m_book));
         Database_Logs::log ("Imported " + bible + " " + bookname + " " + filter::strings::convert_to_string (book_chapter_data.m_chapter));
       } else {

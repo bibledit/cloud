@@ -79,7 +79,7 @@ string checks_index (void * webserver_request)
   // Get the Bibles the user has write-access to.
   vector <string> bibles {};
   {
-    const vector <string> & all_bibles = request->database_bibles()->getBibles ();
+    const vector <string> & all_bibles = request->database_bibles()->get_bibles ();
     for (const auto & bible : all_bibles) {
       if (access_bible::write (webserver_request, bible)) {
         bibles.push_back (bible);

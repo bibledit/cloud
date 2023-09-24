@@ -724,7 +724,7 @@ string safely_store_chapter (void * webserver_request,
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   
   // Existing chapter contents.
-  string existing = request->database_bibles()->getChapter (bible, book, chapter);
+  string existing = request->database_bibles()->get_chapter (bible, book, chapter);
   
   // Bail out if the existing chapter equals the USFM to be saved.
   if (usfm == existing) return "";
@@ -779,7 +779,7 @@ string safely_store_verse (void * webserver_request,
   }
 
   // Get the existing chapter USFM.
-  string chapter_usfm = request->database_bibles()->getChapter (bible, book, chapter);
+  string chapter_usfm = request->database_bibles()->get_chapter (bible, book, chapter);
   
   // Get the existing USFM fragment for the verse to save.
   string existing_verse_usfm;

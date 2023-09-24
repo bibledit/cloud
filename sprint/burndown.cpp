@@ -103,7 +103,7 @@ void sprint_burndown ([[maybe_unused]] string bible,
   
   vector <string> bibles = {bible};
   if (bible.empty()) {
-    bibles = request.database_bibles()->getBibles ();
+    bibles = request.database_bibles()->get_bibles ();
   }
   
 

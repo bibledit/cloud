@@ -90,11 +90,11 @@ string bible_manage (void * webserver_request)
     string bible = request->post ["entry"];
     // No underscrore ( _ ) in the name of a Bible because the underscores are used in the searches to separate data.
     bible = filter::strings::replace ("_", "", bible);
-    vector <string> bibles = request->database_bibles ()->getBibles ();
+    vector <string> bibles = request->database_bibles()->get_bibles ();
     if (find (bibles.begin(), bibles.end(), bible) != bibles.end()) {
       error_message = translate("This Bible already exists");
     } else {
-      request->database_bibles ()->createBible (bible);
+      request->database_bibles()->create_bible (bible);
       // Check / grant access.
       if (!access_bible::write (request, bible)) {
         string me = request->session_logic ()->currentUser ();
@@ -103,7 +103,7 @@ string bible_manage (void * webserver_request)
       success_message = translate("The Bible was created");
       // Creating a Bible removes any Sample Bible that might have been there.
       if (!config::logic::demo_enabled ()) {
-        request->database_bibles ()->deleteBible (demo_sample_bible_name ());
+        request->database_bibles()->delete_bible (demo_sample_bible_name ());
         search_logic_delete_bible (demo_sample_bible_name ());
       }
     }
@@ -122,15 +122,15 @@ string bible_manage (void * webserver_request)
     if (request->post.count ("entry")) {
       string destination = request->post["entry"];
       destination = filter::strings::replace ("_", "", destination); // No underscores in the name.
-      vector <string> bibles = request->database_bibles ()->getBibles ();
+      vector <string> bibles = request->database_bibles()->get_bibles ();
       if (find (bibles.begin(), bibles.end(), destination) != bibles.end()) {
         error_message = translate("Cannot copy the Bible because the destination Bible already exists.");
       } else {
         // User needs read access to the original.
         if (access_bible::read (request, origin)) {
           // Copy the Bible data.
-          string origin_folder = request->database_bibles ()->bibleFolder (origin);
-          string destination_folder = request->database_bibles ()->bibleFolder (destination);
+          string origin_folder = request->database_bibles()->bible_folder (origin);
+          string destination_folder = request->database_bibles()->bible_folder (destination);
           filter_url_dir_cp (origin_folder, destination_folder);
           // Copy the Bible search index.
           search_logic_copy_bible (origin, destination);
@@ -143,7 +143,7 @@ string bible_manage (void * webserver_request)
           }
           // Creating a Bible removes any Sample Bible that might have been there.
           if (!config::logic::demo_enabled ()) {
-            request->database_bibles ()->deleteBible (demo_sample_bible_name ());
+            request->database_bibles()->delete_bible (demo_sample_bible_name ());
             search_logic_delete_bible (demo_sample_bible_name ());
           }
         }

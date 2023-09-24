@@ -61,7 +61,7 @@ void bible_logic::store_chapter (const string& bible, int book, int chapter, con
 #ifdef HAVE_CLIENT
 
   // Client stores Bible action.
-  string oldusfm = database_bibles.getChapter (bible, book, chapter);
+  string oldusfm = database_bibles.get_chapter (bible, book, chapter);
   Database_BibleActions database_bibleactions;
   database_bibleactions.record (bible, book, chapter, oldusfm);
   
@@ -79,7 +79,7 @@ void bible_logic::store_chapter (const string& bible, int book, int chapter, con
 #endif
 
   // Store the chapter in the database.
-  database_bibles.storeChapter (bible, book, chapter, usfm);
+  database_bibles.store_chapter (bible, book, chapter, usfm);
 }
 
 
@@ -92,7 +92,7 @@ void bible_logic::delete_chapter (const string& bible, int book, int chapter)
 #ifdef HAVE_CLIENT
 
   // Client stores Bible action.
-  string usfm = database_bibles.getChapter (bible, book, chapter);
+  string usfm = database_bibles.get_chapter (bible, book, chapter);
   Database_BibleActions database_bibleactions;
   database_bibleactions.record (bible, book, chapter, usfm);
   
@@ -110,7 +110,7 @@ void bible_logic::delete_chapter (const string& bible, int book, int chapter)
 #endif
 
   // Delete the chapter from the database.
-  database_bibles.deleteChapter (bible, book, chapter);
+  database_bibles.delete_chapter (bible, book, chapter);
 }
 
 
@@ -124,9 +124,9 @@ void bible_logic::delete_book (const string& bible, int book)
 
   // Client stores Bible actions.
   Database_BibleActions database_bibleactions;
-  vector <int> chapters = database_bibles.getChapters (bible, book);
+  vector <int> chapters = database_bibles.get_chapters (bible, book);
   for (auto & chapter : chapters) {
-    string usfm = database_bibles.getChapter (bible, book, chapter);
+    string usfm = database_bibles.get_chapter (bible, book, chapter);
     database_bibleactions.record (bible, book, chapter, usfm);
   }
   
@@ -144,7 +144,7 @@ void bible_logic::delete_book (const string& bible, int book)
 #endif
   
   // Delete the book from the database.
-  database_bibles.deleteBook (bible, book);
+  database_bibles.delete_book (bible, book);
 }
 
 
@@ -158,11 +158,11 @@ void bible_logic::delete_bible (const string& bible)
 
   // Client stores Bible actions.
   Database_BibleActions database_bibleactions {};
-  vector <int> books = database_bibles.getBooks (bible);
+  vector <int> books = database_bibles.get_books (bible);
   for (const auto book : books) {
-    vector <int> chapters = database_bibles.getChapters (bible, book);
+    vector <int> chapters = database_bibles.get_chapters (bible, book);
     for (auto chapter : chapters) {
-      string usfm = database_bibles.getChapter (bible, book, chapter);
+      string usfm = database_bibles.get_chapter (bible, book, chapter);
       database_bibleactions.record (bible, book, chapter, usfm);
     }
   }
@@ -187,7 +187,7 @@ void bible_logic::delete_bible (const string& bible)
 #endif
   
   // Delete the Bible from the database.
-  database_bibles.deleteBible (bible);
+  database_bibles.delete_bible (bible);
   
   // Delete the search index.
   search_logic_delete_bible (bible);
@@ -274,7 +274,7 @@ void bible_logic::log_change (const string& bible,
 #endif
   
   Database_Bibles database_bibles;
-  string existing_usfm = database_bibles.getChapter (bible, book, chapter);
+  string existing_usfm = database_bibles.get_chapter (bible, book, chapter);
 
   // It used to calculate the percentage difference, but this took a relatively long time.
   // In particular on low-power devices and on Windows, the time it took was excessive.
@@ -674,7 +674,7 @@ void bible_logic::client_mail_pending_bible_updates (string user)
         
         // Get old and new USFM for this chapter.
         string oldusfm = database_bibleactions.getUsfm (bible, book, chapter);
-        string newusfm = database_bibles.getChapter (bible, book, chapter);
+        string newusfm = database_bibles.get_chapter (bible, book, chapter);
         // If old USFM and new USFM are the same, or the new USFM is empty, skip it.
         if (newusfm == oldusfm) continue;
         if (newusfm.empty ()) continue;
@@ -1172,8 +1172,8 @@ void bible_logic::create_empty_bible (const string & name)
   
   // Remove and create the empty Bible.
   Database_Bibles database_bibles {};
-  database_bibles.deleteBible (name);
-  database_bibles.createBible (name);
+  database_bibles.delete_bible (name);
+  database_bibles.create_bible (name);
   
   // Remove index for the Bible.
   search_logic_delete_bible (name);

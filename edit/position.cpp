@@ -59,7 +59,7 @@ string edit_position (void * webserver_request)
   
   
   string stylesheet = Database_Config_Bible::getEditorStylesheet (bible);
-  string usfm = request->database_bibles()->getChapter (bible, book, chapter);
+  string usfm = request->database_bibles()->get_chapter (bible, book, chapter);
   int verse = Ipc_Focus::getVerse (request);
 
 

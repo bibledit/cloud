@@ -158,10 +158,10 @@ string editone2_update (void * webserver_request)
   string username = request->session_logic()->currentUser ();
 #ifdef HAVE_CLOUD
   int oldID = 0;
-  if (good2go) oldID = request->database_bibles()->getChapterId (bible, book, chapter);
+  if (good2go) oldID = request->database_bibles()->get_chapter_id (bible, book, chapter);
 #endif
   string old_chapter_usfm;
-  if (good2go) old_chapter_usfm = request->database_bibles()->getChapter (bible, book, chapter);
+  if (good2go) old_chapter_usfm = request->database_bibles()->get_chapter (bible, book, chapter);
 
   
   // Determine what (composed) version of USFM to save to the chapter.
@@ -220,10 +220,10 @@ string editone2_update (void * webserver_request)
 
   
   // The new chapter identifier and new chapter USFM.
-  int newID = request->database_bibles()->getChapterId (bible, book, chapter);
+  int newID = request->database_bibles()->get_chapter_id (bible, book, chapter);
   string new_chapter_usfm;
   if (good2go) {
-    new_chapter_usfm = request->database_bibles()->getChapter (bible, book, chapter);
+    new_chapter_usfm = request->database_bibles()->get_chapter (bible, book, chapter);
   }
 
   

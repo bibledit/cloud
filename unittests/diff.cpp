@@ -310,7 +310,7 @@ Genesis 1.3 3 And God said: "Let there be light". And there was light.
     string temporary_folder = filter_url_tempfile ();
     filter_url_mkdir (temporary_folder);
     
-    request.database_bibles()->createBible ("phpunit");
+    request.database_bibles()->create_bible ("phpunit");
     bible_logic::store_chapter ("phpunit", 1, 2, "old chapter text");
     database_modifications.truncateTeams ();
     bible_logic::store_chapter ("phpunit", 1, 2, "new chapter text");

@@ -64,7 +64,7 @@ string nmt_index (void * webserver_request)
     referencebible = request->query["reference"];
     if (referencebible.empty()) {
       Dialog_List dialog_list = Dialog_List ("index", translate("Which Bible would you like to use as a reference for producing the neural machine translation suggestions?"), "", "");
-      vector <string> bibles = request->database_bibles ()->getBibles ();
+      vector <string> bibles = request->database_bibles()->get_bibles ();
       bibles = filter::strings::array_diff (bibles, {translatingbible});
       for (auto bible : bibles) {
         dialog_list.add_row (bible, "reference", bible);
@@ -83,7 +83,7 @@ string nmt_index (void * webserver_request)
     translatingbible = request->query["translating"];
     if (translatingbible.empty()) {
       Dialog_List dialog_list = Dialog_List ("index", translate("Which Bible would you like to use as the one now being translated for getting the neural machine translation suggestions?"), "", "");
-      vector <string> bibles = request->database_bibles ()->getBibles ();
+      vector <string> bibles = request->database_bibles()->get_bibles ();
       bibles = filter::strings::array_diff (bibles, {referencebible});
       for (auto bible : bibles) {
         dialog_list.add_row (bible, "translating", bible);

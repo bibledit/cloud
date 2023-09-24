@@ -46,7 +46,7 @@ void nmt_logic_export (string referencebible, string translatingbible)
   string reference_versification = Database_Config_Bible::getVersificationSystem (referencebible);
   string translating_versification = Database_Config_Bible::getVersificationSystem (translatingbible);
   
-  vector <int> books = database_bibles.getBooks (referencebible);
+  vector <int> books = database_bibles.get_books (referencebible);
   for (auto book : books) {
   
     // Take books that contain text, leave others, like front matter, out.
@@ -56,7 +56,7 @@ void nmt_logic_export (string referencebible, string translatingbible)
     string bookname = database::books::get_english_from_id (static_cast<book_id>(book));
     Database_Logs::log ("Exporting " + bookname);
     
-    vector <int> chapters = database_bibles.getChapters (referencebible, book);
+    vector <int> chapters = database_bibles.get_chapters (referencebible, book);
     for (auto reference_chapter : chapters) {
       
       // Skip chapter 0.
@@ -96,7 +96,7 @@ void nmt_logic_export (string referencebible, string translatingbible)
         // Convert the verse USFM of the reference Bible to plain verse text.
         string reference_text;
         {
-          string chapter_usfm = database_bibles.getChapter (referencebible, book, reference_chapter);
+          string chapter_usfm = database_bibles.get_chapter (referencebible, book, reference_chapter);
           string stylesheet = styles_logic_standard_sheet ();
           Filter_Text filter_text = Filter_Text ("");
           filter_text.initializeHeadingsAndTextPerVerse (false);
@@ -114,7 +114,7 @@ void nmt_logic_export (string referencebible, string translatingbible)
         // Convert the verse USFM of the Bible being translated to plain verse text.
         string translation_text;
         {
-          string chapter_usfm = database_bibles.getChapter (translatingbible, book, translation_chapter);
+          string chapter_usfm = database_bibles.get_chapter (translatingbible, book, translation_chapter);
           string stylesheet = styles_logic_standard_sheet ();
           Filter_Text filter_text = Filter_Text ("");
           filter_text.initializeHeadingsAndTextPerVerse (false);

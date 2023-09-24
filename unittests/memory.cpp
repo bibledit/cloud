@@ -118,10 +118,10 @@ TEST (DISABLED_memory, basic)
     string bible = demo_sample_bible_name ();
     for (int book = 1; book <= 1; book++) {
       for (int chapter = 1; chapter <= 1; chapter++) {
-        string usfm = database_bibles.getChapter (bible, book, chapter);
+        string usfm = database_bibles.get_chapter (bible, book, chapter);
         usfm = filter::strings::replace ("the", "THE", usfm);
         database_modifications.storeTeamDiff (bible, book, chapter);
-        database_bibles.storeChapter (bible, book, chapter, usfm);
+        database_bibles.store_chapter (bible, book, chapter, usfm);
       }
     }
     thread * recorder = nullptr;

@@ -157,7 +157,7 @@ string resource_cache (void * webserver_request)
   
   
   // Generate html block with the resources.
-  vector <string> bibles = request->database_bibles()->getBibles ();
+  vector <string> bibles = request->database_bibles()->get_bibles ();
   string block;
   for (auto & resource2 : listed_resources) {
     // Skip internal Bibles and dividers.

@@ -479,7 +479,7 @@ vector <int> filter_passage_get_ordered_books (const string& bible)
   Database_Bibles database_bibles;
 
   // The available books from the Bible.
-  vector <int> projectbooks = database_bibles.getBooks (bible);
+  vector <int> projectbooks = database_bibles.get_books (bible);
 
   // The book order from the settings, if any.
   string s_orderedbooks = Database_Config_Bible::getBookOrder (bible);

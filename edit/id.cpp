@@ -55,6 +55,6 @@ string edit_id (void * webserver_request)
   string bible = request->query ["bible"];
   int book = filter::strings::convert_to_int (request->query ["book"]);
   int chapter = filter::strings::convert_to_int (request->query ["chapter"]);
-  int id = request->database_bibles()->getChapterId (bible, book, chapter);
+  int id = request->database_bibles()->get_chapter_id (bible, book, chapter);
   return filter::strings::convert_to_string (id);
 }

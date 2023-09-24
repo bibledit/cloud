@@ -86,10 +86,10 @@ void export_html_book (string bible, int book, bool log)
   
   
   // Load one book.
-  vector <int> chapters = database_bibles.getChapters (bible, book);
+  vector <int> chapters = database_bibles.get_chapters (bible, book);
   for (auto chapter : chapters) {
     // Get the USFM for this chapter.
-    string usfm = database_bibles.getChapter (bible, book, chapter);
+    string usfm = database_bibles.get_chapter (bible, book, chapter);
     usfm = filter::strings::trim (usfm);
     // Use small chunks of USFM at a time for much better performance.
     filter_text.add_usfm_code (usfm);

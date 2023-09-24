@@ -40,7 +40,7 @@ TEST (rss, feed)
   Database_State::create ();
   Database_Bibles database_bibles;
   string bible = "bible";
-  database_bibles.createBible (bible);
+  database_bibles.create_bible (bible);
   
   string path = rss_logic_xml_path ();
   Database_Config_General::setSiteURL ("http://localhost:8080/");

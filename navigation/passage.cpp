@@ -105,7 +105,7 @@ string Navigation_Passage::get_mouse_navigator (void * webserver_request, string
   
   // The book should exist in the Bible.
   if (bible != "") {
-    vector <int> books = request->database_bibles()->getBooks (bible);
+    vector <int> books = request->database_bibles()->get_books (bible);
     if (find (books.begin(), books.end(), book) == books.end()) {
       if (!books.empty ()) book = books [0];
       else book = 0;
@@ -129,7 +129,7 @@ string Navigation_Passage::get_mouse_navigator (void * webserver_request, string
   
   // The chapter should exist in the book.
   if (bible != "") {
-    vector <int> chapters = request->database_bibles()->getChapters (bible, book);
+    vector <int> chapters = request->database_bibles()->get_chapters (bible, book);
     if (find (chapters.begin(), chapters.end(), chapter) == chapters.end()) {
       if (!chapters.empty()) chapter = chapters [0];
       else chapter = 1;
@@ -152,7 +152,7 @@ string Navigation_Passage::get_mouse_navigator (void * webserver_request, string
   
   // The verse should exist in the chapter.
   if (bible != "") {
-    string usfm = request->database_bibles()->getChapter (bible, book, chapter);
+    string usfm = request->database_bibles()->get_chapter (bible, book, chapter);
     vector <int> verses = filter::usfm::get_verse_numbers (usfm);
     if (!in_array (verse, verses)) {
       if (!verses.empty()) verse = verses [0];
@@ -252,7 +252,7 @@ string Navigation_Passage::get_chapters_fragment (void * webserver_request, stri
     Database_Versifications database_versifications;
     chapters = database_versifications.getChapters (filter::strings::english (), book, true);
   } else {
-    chapters = request->database_bibles()->getChapters (bible, book);
+    chapters = request->database_bibles()->get_chapters (bible, book);
   }
   string html;
   html.append (" ");
@@ -277,7 +277,7 @@ string Navigation_Passage::get_verses_fragment (void * webserver_request, string
     Database_Versifications database_versifications;
     verses = database_versifications.getVerses (filter::strings::english (), book, chapter);
   } else {
-    verses = filter::usfm::get_verse_numbers (request->database_bibles()->getChapter (bible, book, chapter));
+    verses = filter::usfm::get_verse_numbers (request->database_bibles()->get_chapter (bible, book, chapter));
   }
   string html;
   html.append (" ");
@@ -356,7 +356,7 @@ Passage Navigation_Passage::get_next_chapter (void * webserver_request, string b
   chapter++;
   if (bible != "") {
     Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-    vector <int> chapters = request->database_bibles ()->getChapters (bible, book);
+    vector <int> chapters = request->database_bibles()->get_chapters (bible, book);
     if (find (chapters.begin(), chapters.end(), chapter) == chapters.end()) {
       if (!chapters.empty()) chapter = chapters.back ();
     }
@@ -371,7 +371,7 @@ Passage Navigation_Passage::get_previous_chapter (void * webserver_request, stri
   chapter--;
   if (bible != "") {
     Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-    vector <int> chapters = request->database_bibles ()->getChapters (bible, book);
+    vector <int> chapters = request->database_bibles()->get_chapters (bible, book);
     if (find (chapters.begin(), chapters.end(), chapter) == chapters.end()) {
       if (!chapters.empty ()) chapter = chapters [0];
     }
@@ -410,7 +410,7 @@ Passage Navigation_Passage::get_next_verse (void * webserver_request, string bib
   verse++;
   if (bible != "") {
     Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-    vector <int> verses = filter::usfm::get_verse_numbers (request->database_bibles()->getChapter (bible, book, chapter));
+    vector <int> verses = filter::usfm::get_verse_numbers (request->database_bibles()->get_chapter (bible, book, chapter));
     if (find (verses.begin(), verses.end(), verse) == verses.end()) {
       if (!verses.empty()) verse = verses.back ();
     }
@@ -425,7 +425,7 @@ Passage Navigation_Passage::get_previous_verse (void * webserver_request, string
   verse--;
   if (bible != "") {
     Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-    vector <int> verses = filter::usfm::get_verse_numbers (request->database_bibles()->getChapter (bible, book, chapter));
+    vector <int> verses = filter::usfm::get_verse_numbers (request->database_bibles()->get_chapter (bible, book, chapter));
     if (find (verses.begin(), verses.end(), verse) == verses.end()) {
       if (!verses.empty ()) verse = verses [0];
     }
@@ -537,7 +537,7 @@ string Navigation_Passage::get_keyboard_navigator (void * webserver_request, str
   
   // The book should exist in the Bible.
   if (bible != "") {
-    vector <int> books = request->database_bibles()->getBooks (bible);
+    vector <int> books = request->database_bibles()->get_books (bible);
     if (find (books.begin(), books.end(), book) == books.end()) {
       if (!books.empty ()) book = books [0];
       else book = 0;
@@ -549,7 +549,7 @@ string Navigation_Passage::get_keyboard_navigator (void * webserver_request, str
   
   // The chapter should exist in the book.
   if (bible != "") {
-    vector <int> chapters = request->database_bibles()->getChapters (bible, book);
+    vector <int> chapters = request->database_bibles()->get_chapters (bible, book);
     if (find (chapters.begin(), chapters.end(), chapter) == chapters.end()) {
       if (!chapters.empty()) chapter = chapters [0];
       else chapter = 1;
@@ -561,7 +561,7 @@ string Navigation_Passage::get_keyboard_navigator (void * webserver_request, str
   
   // The verse should exist in the chapter.
   if (bible != "") {
-    string usfm = request->database_bibles()->getChapter (bible, book, chapter);
+    string usfm = request->database_bibles()->get_chapter (bible, book, chapter);
     vector <int> verses = filter::usfm::get_verse_numbers (usfm);
     if (!in_array (verse, verses)) {
       if (!verses.empty()) verse = verses [0];
@@ -604,7 +604,7 @@ void Navigation_Passage::interpret_keyboard_navigator (void * webserver_request,
   
   // The book should exist in the Bible.
   if (bible != "") {
-    vector <int> books = request->database_bibles()->getBooks (bible);
+    vector <int> books = request->database_bibles()->get_books (bible);
     if (find (books.begin(), books.end(), book) == books.end()) {
       if (!books.empty ()) book = books [0];
       else book = 0;
@@ -615,7 +615,7 @@ void Navigation_Passage::interpret_keyboard_navigator (void * webserver_request,
   
   // The chapter should exist in the book.
   if (bible != "") {
-    vector <int> chapters = request->database_bibles()->getChapters (bible, book);
+    vector <int> chapters = request->database_bibles()->get_chapters (bible, book);
     if (find (chapters.begin(), chapters.end(), chapter) == chapters.end()) {
       if (!chapters.empty()) chapter = chapters [0];
       else chapter = 1;
@@ -626,7 +626,7 @@ void Navigation_Passage::interpret_keyboard_navigator (void * webserver_request,
   
   // The verse should exist in the chapter.
   if (bible != "") {
-    string usfm = request->database_bibles()->getChapter (bible, book, chapter);
+    string usfm = request->database_bibles()->get_chapter (bible, book, chapter);
     vector <int> verses = filter::usfm::get_verse_numbers (usfm);
     if (!in_array (verse, verses)) {
       if (!verses.empty()) verse = verses [0];

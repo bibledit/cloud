@@ -69,7 +69,7 @@ string public_create (void * webserver_request)
   int verse = Ipc_Focus::getVerse (webserver_request);
 
   
-  string chapter_usfm = request->database_bibles()->getChapter (bible, book, chapter);
+  string chapter_usfm = request->database_bibles()->get_chapter (bible, book, chapter);
   string verse_usfm = filter::usfm::get_verse_text (chapter_usfm, verse);
   string stylesheet = Database_Config_Bible::getExportStylesheet (bible);
   Filter_Text filter_text = Filter_Text (bible);

@@ -51,7 +51,7 @@ void rss_logic_feed_on_off ()
 {
   // See whether there's Bibles that send their changes to the RSS feed.
   Database_Bibles database_bibles;
-  vector <string> bibles = database_bibles.getBibles ();
+  vector <string> bibles = database_bibles.get_bibles ();
   bool rss_enabled = false;
   for (auto bible : bibles) {
     if (Database_Config_Bible::getSendChangesToRSS (bible)) {

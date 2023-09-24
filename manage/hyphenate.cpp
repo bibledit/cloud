@@ -64,10 +64,10 @@ void manage_hyphenate (string bible, string user)
  
   
   // Delete and (re)create the hyphenated Bible.
-  database_bibles.deleteBible (outputBible);
+  database_bibles.delete_bible (outputBible);
   DatabasePrivileges::remove_bible (outputBible);
   Database_Config_Bible::remove (outputBible);
-  database_bibles.createBible (outputBible);
+  database_bibles.create_bible (outputBible);
   Webserver_Request webserver_request;
   if (!access_bible::write (&webserver_request, outputBible, user)) {
     // Only grant access if the user does not yet have it.
@@ -78,14 +78,14 @@ void manage_hyphenate (string bible, string user)
   
   
   // Go through the input Bible's books and chapters.
-  vector <int> books = database_bibles.getBooks (inputBible);
+  vector <int> books = database_bibles.get_books (inputBible);
   for (auto book : books) {
     Database_Logs::log (database::books::get_english_from_id (static_cast<book_id>(book)));
-    vector <int> chapters = database_bibles.getChapters (inputBible, book);
+    vector <int> chapters = database_bibles.get_chapters (inputBible, book);
     for (auto chapter : chapters) {
-      string data = database_bibles.getChapter (inputBible, book, chapter);
+      string data = database_bibles.get_chapter (inputBible, book, chapter);
       data = hyphenate_at_transition (firstset, secondset, data);
-      database_bibles.storeChapter (outputBible, book, chapter, data);
+      database_bibles.store_chapter (outputBible, book, chapter, data);
     }
   }
 

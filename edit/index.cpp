@@ -81,7 +81,7 @@ string edit_index (void * webserver_request)
     request->database_config_user ()->setBible (bibleselect);
     // Going to another Bible, ensure that the focused book exists there.
     int book = Ipc_Focus::getBook (request);
-    vector <int> books = request->database_bibles()->getBooks (bibleselect);
+    vector <int> books = request->database_bibles()->get_books (bibleselect);
     if (find (books.begin(), books.end(), book) == books.end()) {
       if (!books.empty ()) book = books [0];
       else book = 0;

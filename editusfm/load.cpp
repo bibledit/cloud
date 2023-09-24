@@ -53,7 +53,7 @@ string editusfm_load (void * webserver_request)
   // Store a copy of the USFM loaded in the editor for later reference.
   storeLoadedUsfm2 (webserver_request, bible, book, chapter, unique_id);
 
-  string usfm = request->database_bibles()->getChapter (bible, book, chapter);
+  string usfm = request->database_bibles()->get_chapter (bible, book, chapter);
 
   // Escape the XML special characters so they load properly in the editor.
   usfm = filter::strings::escape_special_xml_characters (usfm);

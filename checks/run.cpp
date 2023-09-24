@@ -117,19 +117,19 @@ void checks_run (string bible)
   bool check_valid_utf8_text = Database_Config_Bible::getCheckValidUTF8Text (bible);
 
   
-  vector <int> books = request.database_bibles()->getBooks (bible);
+  vector <int> books = request.database_bibles()->get_books (bible);
   if (check_books_versification) checks_versification::books (bible, books);
   
   
   for (auto book : books) {
     
     
-    vector <int> chapters = request.database_bibles()->getChapters (bible, book);
+    vector <int> chapters = request.database_bibles()->get_chapters (bible, book);
     if (check_chapters_verses_versification) checks_versification::chapters (bible, book, chapters);
     
     
     for (auto chapter : chapters) {
-      string chapterUsfm = request.database_bibles()->getChapter (bible, book, chapter);
+      string chapterUsfm = request.database_bibles()->get_chapter (bible, book, chapter);
     
       
       // Transpose and fix spacing around certain markers in footnotes and cross references.
@@ -138,11 +138,11 @@ void checks_run (string bible)
         bool transposed = checks::space::transpose_note_space (chapterUsfm);
         if (transposed) {
 #ifndef HAVE_CLIENT
-          int oldID = request.database_bibles()->getChapterId (bible, book, chapter);
+          int oldID = request.database_bibles()->get_chapter_id (bible, book, chapter);
 #endif
-          request.database_bibles()->storeChapter(bible, book, chapter, chapterUsfm);
+          request.database_bibles()->store_chapter(bible, book, chapter, chapterUsfm);
 #ifndef HAVE_CLIENT
-          int newID = request.database_bibles()->getChapterId (bible, book, chapter);
+          int newID = request.database_bibles()->get_chapter_id (bible, book, chapter);
           string username = "Bibledit";
           database_modifications.recordUserSave (username, bible, book, chapter, oldID, old_usfm, newID, chapterUsfm);
           if (sendreceive_git_repository_linked (bible)) {

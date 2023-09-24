@@ -87,7 +87,7 @@ void export_web_book (string bible, int book, bool log)
   
   
   // Go through the chapters of this book.
-  const vector <int> chapters = database_bibles.getChapters (bible, book);
+  const vector <int> chapters = database_bibles.get_chapters (bible, book);
   for (size_t c = 0; c < chapters.size(); c++) {
     const int chapter = chapters [c];
     const bool is_first_chapter = (c == 0);
@@ -97,7 +97,7 @@ void export_web_book (string bible, int book, bool log)
     Filter_Text filter_text_chapter = Filter_Text (bible);
     
     // Get the USFM for the chapter.
-    string usfm = database_bibles.getChapter (bible, book, chapter);
+    string usfm = database_bibles.get_chapter (bible, book, chapter);
     // Trim it.
     usfm = filter::strings::trim (usfm);
     // Use small chunks of USFM at a time for much better performance.
@@ -201,7 +201,7 @@ void export_web_index (string bible, bool log)
   
   
   // Go through the Bible books.
-  vector <int> books = database_bibles.getBooks (bible);
+  vector <int> books = database_bibles.get_books (bible);
   for (auto book : books) {
     // Add this book to the main web index.
     html_text_rich_bible_index.add_link (html_text_rich_bible_index.current_p_node,  filter_url_html_file_name_bible ("", book), "", translate (database::books::get_english_from_id (static_cast<book_id>(book))), "", " " + translate (database::books::get_english_from_id (static_cast<book_id>(book))) + " ");

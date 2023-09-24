@@ -137,7 +137,7 @@ string bible_settings (void * webserver_request)
   if (request->query.count ("createbook")) {
     string createbook = request->query["createbook"];
     if (createbook == "") {
-      Dialog_Books dialog_books = Dialog_Books ("settings", translate("Create book"), "", "", "createbook", {}, request->database_bibles ()->getBooks (bible));
+      Dialog_Books dialog_books = Dialog_Books ("settings", translate("Create book"), "", "", "createbook", {}, request->database_bibles()->get_books (bible));
       dialog_books.add_query ("bible", bible);
       page += dialog_books.run ();
       return page;

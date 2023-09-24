@@ -47,7 +47,7 @@ void statistics_statistics ()
   string siteUrl = config::logic::site_url (nullptr);
   
   
-  vector <string> bibles = request.database_bibles()->getBibles ();
+  vector <string> bibles = request.database_bibles()->get_bibles ();
   
   
   vector <string> users = request.database_users ()->get_users ();

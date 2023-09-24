@@ -33,7 +33,7 @@ using namespace std;
 void export_index ()
 {
   Database_Bibles database_bibles;
-  vector <string> bibles = database_bibles.getBibles ();
+  vector <string> bibles = database_bibles.get_bibles ();
   
   
   // Go through all sub directories of the exports directory.
@@ -53,7 +53,7 @@ void export_index ()
     if (Database_State::getExport (bible, 0, export_logic::export_needed)) {
       
       Database_State::clearExport (bible, 0, export_logic::export_needed);
-      vector <int> books = database_bibles.getBooks (bible);
+      vector <int> books = database_bibles.get_books (bible);
       // Book 0 flags export of the whole Bible (this is not relevant to all export types).
       books.push_back (0);
       for (auto book : books) {

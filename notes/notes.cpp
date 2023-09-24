@@ -146,7 +146,7 @@ string notes_notes (void * webserver_request)
     if (passage_inclusion_selector) {
       vector <Passage> include_passages = database_notes.get_passages (identifier);
       for (auto & passage : include_passages) {
-        string usfm = request->database_bibles()->getChapter (bible, passage.m_book, passage.m_chapter);
+        string usfm = request->database_bibles()->get_chapter (bible, passage.m_book, passage.m_chapter);
         string text = filter::usfm::get_verse_text (usfm, filter::strings::convert_to_int (passage.m_verse));
         if (!verse_text.empty ()) verse_text.append ("<br>");
         verse_text.append (text);

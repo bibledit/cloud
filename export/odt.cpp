@@ -71,9 +71,9 @@ void export_odt_book (string bible, int book, bool log)
     // Load entire Bible, ordered.
     vector <int> books = filter_passage_get_ordered_books (bible);
     for (auto book2 : books) {
-      vector <int> chapters = database_bibles.getChapters (bible, book2);
+      vector <int> chapters = database_bibles.get_chapters (bible, book2);
       for (auto chapter : chapters) {
-        string usfm = database_bibles.getChapter (bible, book2, chapter);
+        string usfm = database_bibles.get_chapter (bible, book2, chapter);
         usfm = filter::strings::trim (usfm);
         // Use small chunks of USFM at a time for much better performance.
         filter_text.add_usfm_code (usfm);
@@ -81,9 +81,9 @@ void export_odt_book (string bible, int book, bool log)
     }
   } else {
     // Load one book.
-    vector <int> chapters = database_bibles.getChapters (bible, book);
+    vector <int> chapters = database_bibles.get_chapters (bible, book);
     for (auto chapter : chapters) {
-      string usfm = database_bibles.getChapter (bible, book, chapter);
+      string usfm = database_bibles.get_chapter (bible, book, chapter);
       usfm = filter::strings::trim (usfm);
       // Use small chunks of USFM at a time for much better performance.
       filter_text.add_usfm_code (usfm);

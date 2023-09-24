@@ -67,7 +67,7 @@ void export_text_usfm_book (string bible, int book, bool log)
   filter_url_file_put_contents_append (usfmFilename, basicUsfm);
   
   
-  vector <int> chapters = database_bibles.getChapters (bible, book);
+  vector <int> chapters = database_bibles.get_chapters (bible, book);
   for (auto chapter : chapters) {
     
     
@@ -80,7 +80,7 @@ void export_text_usfm_book (string bible, int book, bool log)
     
     
     // Get the USFM code for the current chapter.
-    string chapter_data = database_bibles.getChapter (bible, book, chapter);
+    string chapter_data = database_bibles.get_chapter (bible, book, chapter);
     chapter_data = filter::strings::trim (chapter_data);
     
     

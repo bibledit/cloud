@@ -174,7 +174,7 @@ void sendreceive_settings ()
   // If it matches, that means that the local settings match the settings on the server.
   // The script is then ready.
   if (post.count ("v")) post.erase (post.find ("v"));
-  vector <string> bibles = request.database_bibles ()->getBibles ();
+  vector <string> bibles = request.database_bibles()->get_bibles ();
   post ["a"] = filter::strings::convert_to_string (Sync_Logic::settings_get_total_checksum);
   post ["b"] = filter::strings::implode (bibles, "\n");
   string error;

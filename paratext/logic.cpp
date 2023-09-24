@@ -162,7 +162,7 @@ void Paratext_Logic::copyBibledit2Paratext (string bible)
 
   map <int, string> paratext_books = searchBooks (paratext_project_folder);
   
-  vector <int> bibledit_books = database_bibles.getBooks (bible);
+  vector <int> bibledit_books = database_bibles.get_books (bible);
   for (int book : bibledit_books) {
 
     string bookname = database::books::get_english_from_id (static_cast<book_id>(book));
@@ -170,9 +170,9 @@ void Paratext_Logic::copyBibledit2Paratext (string bible)
     string paratext_book = paratext_books [book];
 
     string usfm;
-    vector <int> chapters = database_bibles.getChapters (bible, book);
+    vector <int> chapters = database_bibles.get_chapters (bible, book);
     for (int chapter : chapters) {
-      usfm.append (database_bibles.getChapter (bible, book, chapter));
+      usfm.append (database_bibles.get_chapter (bible, book, chapter));
       // Add a new line after each chapter.
       usfm.append ("\n");
     }
@@ -215,7 +215,7 @@ void Paratext_Logic::copyParatext2Bibledit (string bible)
   Database_Logs::log (translate ("Paratext project:") + " " + project_folder);
   Database_Logs::log (translate ("Bibledit Bible:") + " " + bible);
 
-  vector <int> bibledit_books = database_bibles.getBooks (bible);
+  vector <int> bibledit_books = database_bibles.get_books (bible);
 
   map <int, string> paratext_books = searchBooks (project_folder);
   for (auto element : paratext_books) {
@@ -273,7 +273,7 @@ vector <string> Paratext_Logic::enabledBibles ()
 {
   vector <string> enabled;
   Database_Bibles database_bibles;
-  vector <string> bibles = database_bibles.getBibles ();
+  vector <string> bibles = database_bibles.get_bibles ();
   for (auto bible : bibles) {
     if (Database_Config_Bible::getParatextCollaborationEnabled (bible)) {
       enabled.push_back (bible);
@@ -327,7 +327,7 @@ void Paratext_Logic::synchronize (tasks::enums::paratext_sync method)
     }
 
     
-    vector <int> bibledit_books = database_bibles.getBooks (bible);
+    vector <int> bibledit_books = database_bibles.get_books (bible);
     map <int, string> paratext_books = searchBooks (project_folder);
 
     
@@ -376,7 +376,7 @@ void Paratext_Logic::synchronize (tasks::enums::paratext_sync method)
       // Assemble the available chapters in this book
       // by combining the available chapters in the Bible in Bibledit
       // with the available chapters in the relevant Paratext project.
-      vector <int> chapters = database_bibles.getChapters (bible, book);
+      vector <int> chapters = database_bibles.get_chapters (bible, book);
       for (auto element : paratext_usfm) {
         chapters.push_back (element.first);
       }
@@ -390,7 +390,7 @@ void Paratext_Logic::synchronize (tasks::enums::paratext_sync method)
       for (int chapter : chapters) {
         
         string ancestor = ancestor_usfm [chapter];
-        string bibledit = database_bibles.getChapter (bible, book, chapter);
+        string bibledit = database_bibles.get_chapter (bible, book, chapter);
         string paratext = paratext_usfm [chapter];
 
         // Results of the merge or copy operations.

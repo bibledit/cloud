@@ -87,13 +87,13 @@ string editusfm_save (void * webserver_request)
               string ancestor_usfm = getLoadedUsfm2 (webserver_request, bible, book, chapter, unique_id);
               // Collect some data about the changes for this user.
               string username = request->session_logic()->currentUser ();
-              [[maybe_unused]] int oldID = request->database_bibles()->getChapterId (bible, book, chapter);
+              [[maybe_unused]] int oldID = request->database_bibles()->get_chapter_id (bible, book, chapter);
               string oldText = ancestor_usfm;
               string newText = chapter_data_to_save;
               // Merge if the ancestor is there and differs from what's in the database.
               vector <Merge_Conflict> conflicts;
               // The USFM now on disk.
-              string server_usfm = request->database_bibles ()->getChapter (bible, book, chapter);
+              string server_usfm = request->database_bibles()->get_chapter (bible, book, chapter);
               if (!ancestor_usfm.empty ()) {
                 if (server_usfm != ancestor_usfm) {
                   // Prioritize the USFM to save.
@@ -128,7 +128,7 @@ string editusfm_save (void * webserver_request)
                 if (message.empty()) {
 #ifndef HAVE_CLIENT
                   // Server configuration: Store details for the user's changes.
-                  int newID = request->database_bibles()->getChapterId (bible, book, chapter);
+                  int newID = request->database_bibles()->get_chapter_id (bible, book, chapter);
                   Database_Modifications database_modifications;
                   database_modifications.recordUserSave (username, bible, book, chapter, oldID, oldText, newID, newText);
                   if (sendreceive_git_repository_linked (bible)) {

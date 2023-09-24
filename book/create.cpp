@@ -38,7 +38,7 @@ bool book_create (const string & bible, const book_id book, const int chapter, v
   Database_Bibles database_bibles {};
   Database_Versifications database_versifications {};
 
-  vector <string> bibles = database_bibles.getBibles ();
+  vector <string> bibles = database_bibles.get_bibles ();
   if (!in_array (bible, bibles)) {
     feedback.push_back (translate("Bible bible does not exist: Cannot create book"));
     return false;

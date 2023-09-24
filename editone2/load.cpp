@@ -59,7 +59,7 @@ string editone2_load (void * webserver_request)
   
   string stylesheet = Database_Config_Bible::getEditorStylesheet (bible);
 
-  string chapter_usfm = request->database_bibles()->getChapter (bible, book, chapter);
+  string chapter_usfm = request->database_bibles()->get_chapter (bible, book, chapter);
 
   vector <int> verses = filter::usfm::get_verse_numbers (chapter_usfm);
   int highest_verse = 0;

@@ -150,7 +150,7 @@ std::string system_index (void * webserver_request)
   std::string rssbibles {};
   {
     Database_Bibles database_bibles;
-    std::vector <std::string> bibles = database_bibles.getBibles ();
+    std::vector <std::string> bibles = database_bibles.get_bibles ();
     for (const auto& bible : bibles) {
       if (Database_Config_Bible::getSendChangesToRSS (bible)) {
         if (!rssbibles.empty ()) rssbibles.append (" ");
@@ -279,7 +279,7 @@ std::string system_index (void * webserver_request)
   if (!deletefont.empty ()) {
     const std::string font = filter_url_basename_web (deletefont);
     bool font_in_use = false;
-    const std::vector <std::string> bibles = request->database_bibles ()->getBibles ();
+    const std::vector <std::string> bibles = request->database_bibles()->get_bibles ();
     for (const auto& bible : bibles) {
       if (font == fonts::logic::get_text_font (bible)) font_in_use = true;
     }

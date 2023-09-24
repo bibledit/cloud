@@ -285,13 +285,13 @@ string Database_Config_User::getBible ()
   // If the Bible does not exist, take the first one available.
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   Database_Bibles * database_bibles = request->database_bibles ();
-  vector <string> bibles = database_bibles->getBibles ();
+  vector <string> bibles = database_bibles->get_bibles ();
   if (find (bibles.begin (), bibles.end (), bible) == bibles.end ()) {
     // There may not even be a first Bible: Create sample Bible.
     if (bibles.empty ()) {
       bible = demo_sample_bible_name ();
       demo_create_sample_bible ();
-      database_bibles->createBible (bible);
+      database_bibles->create_bible (bible);
     } else {
       bible = bibles [0];
     }

@@ -89,7 +89,7 @@ string compare_index (void * webserver_request)
   // Names of the Bibles and the USFM Resources.
   vector <string> names;
   
-  names = request->database_bibles ()->getBibles ();
+  names = request->database_bibles()->get_bibles ();
 
   Database_UsfmResources database_usfmresources;
   vector <string> usfm_resources = database_usfmresources.getResources ();

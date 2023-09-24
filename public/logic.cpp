@@ -27,7 +27,7 @@ vector <string> public_logic_bibles (void * webserver_request)
 {
   vector <string> public_bibles;
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  vector <string> bibles = request->database_bibles ()->getBibles ();
+  vector <string> bibles = request->database_bibles()->get_bibles ();
   for (auto & bible : bibles) {
     if (Database_Config_Bible::getPublicFeedbackEnabled (bible)) {
       public_bibles.push_back (bible);

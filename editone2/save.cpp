@@ -115,9 +115,9 @@ string editone2_save (void * webserver_request)
   // Collect some data about the changes for this user.
   string username = request->session_logic()->currentUser ();
 #ifdef HAVE_CLOUD
-  int oldID = request->database_bibles()->getChapterId (bible, book, chapter);
+  int oldID = request->database_bibles()->get_chapter_id (bible, book, chapter);
 #endif
-  string old_chapter_usfm = request->database_bibles()->getChapter (bible, book, chapter);
+  string old_chapter_usfm = request->database_bibles()->get_chapter (bible, book, chapter);
 
   
   // If the most recent save operation on this chapter
@@ -141,19 +141,19 @@ string editone2_save (void * webserver_request)
   // If storing the verse worked out well, there's no message to display.
   if (message.empty ()) {
     // Get the chapter text now, that is, after the save operation completed.
-    string new_chapter_usfm = request->database_bibles()->getChapter (bible, book, chapter);
+    string new_chapter_usfm = request->database_bibles()->get_chapter (bible, book, chapter);
     // Check whether the text on disk was changed while the user worked with the older copy.
     if (!loaded_usfm.empty () && (loaded_usfm != old_chapter_usfm)) {
       // Do a merge for better editing reliability.
       vector <Merge_Conflict> conflicts;
       // Prioritize the USFM already in the chapter.
       new_chapter_usfm = filter_merge_run (loaded_usfm, new_chapter_usfm, old_chapter_usfm, true, conflicts);
-      request->database_bibles()->storeChapter (bible, book, chapter, new_chapter_usfm);
+      request->database_bibles()->store_chapter (bible, book, chapter, new_chapter_usfm);
       Database_Logs::log (translate ("Merging chapter."));
     }
 #ifdef HAVE_CLOUD
     // The Cloud stores details of the user's changes.
-    int newID = request->database_bibles()->getChapterId (bible, book, chapter);
+    int newID = request->database_bibles()->get_chapter_id (bible, book, chapter);
     Database_Modifications database_modifications;
     database_modifications.recordUserSave (username, bible, book, chapter, oldID, old_chapter_usfm, newID, new_chapter_usfm);
     if (sendreceive_git_repository_linked (bible)) {

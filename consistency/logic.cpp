@@ -88,7 +88,7 @@ string Consistency_Logic::response ()
         // If there was no change, then the data can be fetched from the volatile database.
         bool redoPassage = false;
         string passageKey = filter::strings::convert_to_string (book) + "." + filter::strings::convert_to_string (chapter) + "." + verse;
-        int currentChapterId = request->database_bibles()->getChapterId (resources [0], book, chapter);
+        int currentChapterId = request->database_bibles()->get_chapter_id (resources [0], book, chapter);
         int storedChapterId = filter::strings::convert_to_int (Database_Volatile::getValue (id, passageKey + ".id"));
         if (currentChapterId != storedChapterId) {
           Database_Volatile::setValue (id, passageKey + ".id", filter::strings::convert_to_string (currentChapterId));

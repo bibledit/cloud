@@ -67,7 +67,7 @@ string paratext_index (void * webserver_request)
     if (select == "") {
       Dialog_List dialog_list = Dialog_List ("index", translate("Which Bible are you going to use?"), "", "");
       dialog_list.add_query ("bible", bible);
-      vector <string> bibles = request->database_bibles()->getBibles();
+      vector <string> bibles = request->database_bibles()->get_bibles();
       for (auto & value : bibles) {
         dialog_list.add_row (value, "selectbible", value);
       }

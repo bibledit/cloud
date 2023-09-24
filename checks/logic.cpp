@@ -27,7 +27,7 @@ using namespace std;
 void checks_logic_start_all ()
 {
   Database_Bibles database_bibles {};
-  const vector <string> & bibles = database_bibles.getBibles ();
+  const vector <string> & bibles = database_bibles.get_bibles ();
   for (const auto & bible : bibles) {
     bool enabled = Database_Config_Bible::getDailyChecksEnabled (bible);
     if (enabled) checks_logic_start (bible);

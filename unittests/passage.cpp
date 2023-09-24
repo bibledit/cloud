@@ -321,12 +321,12 @@ TEST (filter, passage)
     string bible = "php unit";
     
     // No ordering.
-    database_bibles.createBible (bible);
-    database_bibles.storeChapter (bible, 1, 1, "data");
-    database_bibles.storeChapter (bible, 2, 1, "data");
-    database_bibles.storeChapter (bible, 3, 1, "data");
-    database_bibles.storeChapter (bible, 4, 1, "data");
-    database_bibles.storeChapter (bible, 5, 1, "data");
+    database_bibles.create_bible (bible);
+    database_bibles.store_chapter (bible, 1, 1, "data");
+    database_bibles.store_chapter (bible, 2, 1, "data");
+    database_bibles.store_chapter (bible, 3, 1, "data");
+    database_bibles.store_chapter (bible, 4, 1, "data");
+    database_bibles.store_chapter (bible, 5, 1, "data");
     vector <int> books = filter_passage_get_ordered_books (bible);
     EXPECT_EQ ((vector <int>{1, 2, 3, 4, 5}), books);
     

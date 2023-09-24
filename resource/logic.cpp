@@ -295,7 +295,7 @@ std::string resource_logic_get_verse (void * webserver_request, std::string reso
   
   if (isBible || isLocalUsfm) {
     std::string chapter_usfm {};
-    if (isBible) chapter_usfm = request->database_bibles()->getChapter (resource, book, chapter);
+    if (isBible) chapter_usfm = request->database_bibles()->get_chapter (resource, book, chapter);
     if (isLocalUsfm) chapter_usfm = database_usfmresources.getUsfm (resource, book, chapter);
     std::string verse_usfm = filter::usfm::get_verse_text (chapter_usfm, verse);
     std::string stylesheet = styles_logic_standard_sheet ();
@@ -1941,7 +1941,7 @@ void resource_logic_easy_english_bible_handle_verse_marker (const std::string& p
 bool resource_logic_is_bible (std::string resource)
 {
   Database_Bibles database_bibles {};
-  std::vector <std::string> names = database_bibles.getBibles ();
+  std::vector <std::string> names = database_bibles.get_bibles ();
   return in_array (resource, names);
 }
 

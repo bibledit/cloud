@@ -24,24 +24,24 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 class Database_Bibles
 {
 public:
-  std::vector <std::string> getBibles ();
-  void createBible (std::string name);
-  void deleteBible (std::string name);
-  void storeChapter (std::string name, int book, int chapter_number, std::string chapter_text);
-  void updateSearchFields (std::string name, int book, int chapter);
-  std::vector <int> getBooks (std::string bible);
-  void deleteBook (std::string bible, int book);
-  std::vector <int> getChapters (std::string bible, int book);
-  void deleteChapter (std::string bible, int book, int chapter);
-  std::string getChapter (std::string bible, int book, int chapter);
-  int getChapterId (std::string bible, int book, int chapter);
-  int getChapterAge (std::string bible, int book, int chapter);
+  std::vector <std::string> get_bibles ();
+  void create_bible (const std::string& name);
+  void delete_bible (const std::string& name);
+  void store_chapter (const std::string& name, int book, int chapter_number, std::string chapter_text);
+  void update_search_fields (const std::string& name, int book, int chapter);
+  std::vector <int> get_books (const std::string& bible);
+  void delete_book (const std::string& bible, int book);
+  std::vector <int> get_chapters (const std::string& bible, int book);
+  void delete_chapter (const std::string& bible, int book, int chapter);
+  std::string get_chapter (const std::string& bible, int book, int chapter);
+  int get_chapter_id (const std::string& bible, int book, int chapter);
+  int get_chapter_age (const std::string& bible, int book, int chapter);
   void optimize ();
 private:
-  std::string mainFolder ();
+  std::string main_folder ();
 public:
-  std::string bibleFolder (std::string bible);
+  std::string bible_folder (const std::string& bible);
 private:
-  std::string bookFolder (std::string bible, int book);
-  std::string chapterFolder (std::string bible, int book, int chapter);
+  std::string book_folder (const std::string& bible, int book);
+  std::string chapter_folder (const std::string& bible, int book, int chapter);
 };

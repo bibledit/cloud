@@ -182,7 +182,7 @@ bool book_write (void * webserver_request, string user, const string & bible, in
 vector <string> bibles (void * webserver_request, string user)
 {
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  vector <string> allbibles = request->database_bibles ()->getBibles ();
+  vector <string> allbibles = request->database_bibles()->get_bibles ();
   vector <string> bibles;
   for (auto & bible : allbibles) {
     if (read (webserver_request, bible, user)) {
@@ -217,7 +217,7 @@ tuple<bool, bool> any (void * webserver_request)
   bool read {false};
   bool write {false};
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  vector <string> bibles = request->database_bibles ()->getBibles ();
+  vector <string> bibles = request->database_bibles()->get_bibles ();
   for (auto & bible : bibles) {
     if (access_bible::read (webserver_request, bible)) read = true;
     if (access_bible::write (webserver_request, bible)) write = true;

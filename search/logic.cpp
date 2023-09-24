@@ -76,7 +76,7 @@ void search_logic_index_chapter (string bible, int book, int chapter)
 {
   Database_Bibles database_bibles;
   
-  string usfm = database_bibles.getChapter (bible, book, chapter);
+  string usfm = database_bibles.get_chapter (bible, book, chapter);
   string stylesheet = Database_Config_Bible::getExportStylesheet (bible);
 
   vector <string> index;
@@ -163,9 +163,9 @@ vector <Passage> search_logic_search_text (string search, vector <string> bibles
   
   Database_Bibles database_bibles;
   for (auto bible : bibles) {
-    vector <int> books = database_bibles.getBooks (bible);
+    vector <int> books = database_bibles.get_books (bible);
     for (auto book : books) {
-      vector <int> chapters = database_bibles.getChapters (bible, book);
+      vector <int> chapters = database_bibles.get_chapters (bible, book);
       for (auto chapter : chapters) {
         string path = search_logic_chapter_file (bible, book, chapter);
         string index = filter_url_file_get_contents (path);
@@ -210,9 +210,9 @@ vector <Passage> search_logic_search_bible_text (string bible, string search)
   search = filter::strings::unicode_string_casefold (search);
   
   Database_Bibles database_bibles;
-  vector <int> books = database_bibles.getBooks (bible);
+  vector <int> books = database_bibles.get_books (bible);
   for (auto book : books) {
-    vector <int> chapters = database_bibles.getChapters (bible, book);
+    vector <int> chapters = database_bibles.get_chapters (bible, book);
     for (auto chapter : chapters) {
       string path = search_logic_chapter_file (bible, book, chapter);
       string index = filter_url_file_get_contents (path);
@@ -254,9 +254,9 @@ vector <Passage> search_logic_search_bible_text_case_sensitive (string bible, st
   if (search == "") return passages;
   
   Database_Bibles database_bibles;
-  vector <int> books = database_bibles.getBooks (bible);
+  vector <int> books = database_bibles.get_books (bible);
   for (auto book : books) {
-    vector <int> chapters = database_bibles.getChapters (bible, book);
+    vector <int> chapters = database_bibles.get_chapters (bible, book);
     for (auto chapter : chapters) {
       string path = search_logic_chapter_file (bible, book, chapter);
       string index = filter_url_file_get_contents (path);
@@ -300,9 +300,9 @@ vector <Passage> search_logic_search_bible_usfm (string bible, string search)
   search = filter::strings::unicode_string_casefold (search);
   
   Database_Bibles database_bibles;
-  vector <int> books = database_bibles.getBooks (bible);
+  vector <int> books = database_bibles.get_books (bible);
   for (auto book : books) {
-    vector <int> chapters = database_bibles.getChapters (bible, book);
+    vector <int> chapters = database_bibles.get_chapters (bible, book);
     for (auto chapter : chapters) {
       string path = search_logic_chapter_file (bible, book, chapter);
       string index = filter_url_file_get_contents (path);
@@ -344,9 +344,9 @@ vector <Passage> search_logic_search_bible_usfm_case_sensitive (string bible, st
   if (search == "") return passages;
   
   Database_Bibles database_bibles;
-  vector <int> books = database_bibles.getBooks (bible);
+  vector <int> books = database_bibles.get_books (bible);
   for (auto book : books) {
-    vector <int> chapters = database_bibles.getChapters (bible, book);
+    vector <int> chapters = database_bibles.get_chapters (bible, book);
     for (auto chapter : chapters) {
       string path = search_logic_chapter_file (bible, book, chapter);
       string index = filter_url_file_get_contents (path);
@@ -483,9 +483,9 @@ int search_logic_get_verse_count (string bible)
 {
   int verse_count = 0;
   Database_Bibles database_bibles;
-  vector <int> books = database_bibles.getBooks (bible);
+  vector <int> books = database_bibles.get_books (bible);
   for (auto book : books) {
-    vector <int> chapters = database_bibles.getChapters (bible, book);
+    vector <int> chapters = database_bibles.get_chapters (bible, book);
     for (auto chapter : chapters) {
       string path = search_logic_chapter_file (bible, book, chapter);
       string index = filter_url_file_get_contents (path);

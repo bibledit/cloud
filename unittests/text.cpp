@@ -26,25 +26,29 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/text.h>
 #include <filter/url.h>
 #include <filter/string.h>
-using namespace std;
 
+constexpr const char* bible {"unittest"};
 
-TEST (filter, text)
+constexpr const char* text_test_odt {"/tmp/text_test.odt"};
+constexpr const char* text_test_html {"/tmp/text_test.html"};
+constexpr const char*  text_test_txt {"/tmp/text_test.txt"};
+
+static void setup ()
 {
-  string TextTestOdt  = "/tmp/TextTest.odt";
-  string TextTestHtml = "/tmp/TextTest.html";
-  string TextTestTxt  = "/tmp/TextTest.txt";
-  
-  string bible = "phpunit";
-  
+  refresh_sandbox (false);
   // The unittests depend on known settings.
   Database_Config_Bible::setExportChapterDropCapsFrames (bible, true);
   Database_Config_Bible::setOdtSpaceAfterVerse (bible, " ");
+}
 
-  // Test extraction of all sorts of information from USFM code.
-  // Test basic formatting into OpenDocument.
-  {
-    string usfm = R"(
+
+// Test extraction of all sorts of information from USFM code.
+// Test basic formatting into OpenDocument.
+TEST (filter_text, extract)
+{
+  setup();
+
+  const std::string usfm = R"(
 \id GEN
 \h Header
 \h1 Header1
@@ -62,101 +66,101 @@ TEST (filter, text)
 \h Header4
 \p
 \v 2 This is the text of chapter 2, verse 2. This is the text of chapter 2, verse 2. This is the text of chapter 2, verse 2. This is the text of chapter 2, verse 2. This is the text of chapter 2, verse 2. This is the text of chapter 2, verse 2.
-    )";
-    Filter_Text filter_text = Filter_Text (bible);
-    filter_text.odf_text_standard = new odf_text (bible);
-    filter_text.add_usfm_code (usfm);
-    filter_text.run (styles_logic_standard_sheet ());
-    // Check that it finds the running headers.
-    int desiredRunningHeaders = 5;
-    int actualRunningHeaders = static_cast<int>(filter_text.runningHeaders.size());
-    EXPECT_EQ (desiredRunningHeaders, actualRunningHeaders);
-    if (actualRunningHeaders == desiredRunningHeaders) {
-      EXPECT_EQ (1, filter_text.runningHeaders[0].m_book);
-      EXPECT_EQ (0, filter_text.runningHeaders[0].m_chapter);
-      EXPECT_EQ ("0", filter_text.runningHeaders[0].m_verse);
-      EXPECT_EQ ("h", filter_text.runningHeaders[0].m_marker);
-      EXPECT_EQ ("Header", filter_text.runningHeaders[0].m_value);
-      EXPECT_EQ (1, filter_text.runningHeaders[1].m_book);
-      EXPECT_EQ (0, filter_text.runningHeaders[1].m_chapter);
-      EXPECT_EQ ("0", filter_text.runningHeaders[1].m_verse);
-      EXPECT_EQ ("h1", filter_text.runningHeaders[1].m_marker);
-      EXPECT_EQ ("Header1", filter_text.runningHeaders[1].m_value);
-      EXPECT_EQ (1, filter_text.runningHeaders[2].m_book);
-      EXPECT_EQ (0, filter_text.runningHeaders[2].m_chapter);
-      EXPECT_EQ ("0", filter_text.runningHeaders[2].m_verse);
-      EXPECT_EQ ("h2", filter_text.runningHeaders[2].m_marker);
-      EXPECT_EQ ("Header2", filter_text.runningHeaders[2].m_value);
-      EXPECT_EQ (1, filter_text.runningHeaders[3].m_book);
-      EXPECT_EQ (0, filter_text.runningHeaders[3].m_chapter);
-      EXPECT_EQ ("0", filter_text.runningHeaders[3].m_verse);
-      EXPECT_EQ ("h3", filter_text.runningHeaders[3].m_marker);
-      EXPECT_EQ ("Header3", filter_text.runningHeaders[3].m_value);
-      EXPECT_EQ (1, filter_text.runningHeaders[4].m_book);
-      EXPECT_EQ (2, filter_text.runningHeaders[4].m_chapter);
-      EXPECT_EQ ("0", filter_text.runningHeaders[4].m_verse);
-      EXPECT_EQ ("h", filter_text.runningHeaders[4].m_marker);
-      EXPECT_EQ ("Header4", filter_text.runningHeaders[4].m_value);
-    }
-
-    // Check table of contents items.
-    int desiredlongTOCs = 1;
-    size_t actuallongTOCs = filter_text.longTOCs.size();
-    EXPECT_EQ (desiredlongTOCs, actuallongTOCs);
-    if (desiredlongTOCs == static_cast<int>(actuallongTOCs)) {
-      EXPECT_EQ (1, filter_text.longTOCs[0].m_book);
-      EXPECT_EQ (0, filter_text.longTOCs[0].m_chapter);
-      EXPECT_EQ ("0", filter_text.longTOCs[0].m_verse);
-      EXPECT_EQ ("toc1", filter_text.longTOCs[0].m_marker);
-      EXPECT_EQ ("The Book of Genesis", filter_text.longTOCs[0].m_value);
-    }
-    int desiredshortTOCs = 1;
-    size_t actualshortTOCs = filter_text.shortTOCs.size();
-    EXPECT_EQ (desiredshortTOCs, actualshortTOCs);
-    if (desiredlongTOCs == static_cast<int>(actuallongTOCs)) {
-      EXPECT_EQ (1, filter_text.shortTOCs[0].m_book);
-      EXPECT_EQ (0, filter_text.shortTOCs[0].m_chapter);
-      EXPECT_EQ ("0", filter_text.shortTOCs[0].m_verse);
-      EXPECT_EQ ("toc2", filter_text.shortTOCs[0].m_marker);
-      EXPECT_EQ ("Genesis", filter_text.shortTOCs[0].m_value);
-    }
-
-    // Check book abbreviation.
-    int desiredbookAbbreviations = 1;
-    size_t actualbookAbbreviations = filter_text.bookAbbreviations.size();
-    EXPECT_EQ (desiredbookAbbreviations, actualbookAbbreviations);
-    if (desiredbookAbbreviations == static_cast<int>(actualbookAbbreviations)) {
-      EXPECT_EQ (1, filter_text.bookAbbreviations[0].m_book);
-      EXPECT_EQ (0, filter_text.bookAbbreviations[0].m_chapter);
-      EXPECT_EQ ("0", filter_text.bookAbbreviations[0].m_verse);
-      EXPECT_EQ ("toc3", filter_text.bookAbbreviations[0].m_marker);
-      EXPECT_EQ ("Gen", filter_text.bookAbbreviations[0].m_value);
-    }
-    
-    // Check published chapter markers.
-    int desiredpublishedChapterMarkers = 2;
-    size_t actualpublishedChapterMarkers = filter_text.publishedChapterMarkers.size();
-    EXPECT_EQ (desiredpublishedChapterMarkers, actualpublishedChapterMarkers);
-    if (desiredpublishedChapterMarkers == static_cast<int>(actualpublishedChapterMarkers)) {
-      EXPECT_EQ (1, filter_text.publishedChapterMarkers[0].m_book);
-      EXPECT_EQ (1, filter_text.publishedChapterMarkers[0].m_chapter);
-      EXPECT_EQ ("0", filter_text.publishedChapterMarkers[0].m_verse);
-      EXPECT_EQ ("cp", filter_text.publishedChapterMarkers[0].m_marker);
-      EXPECT_EQ ("Ⅰ", filter_text.publishedChapterMarkers[0].m_value);
-      EXPECT_EQ (1, filter_text.publishedChapterMarkers[1].m_book);
-      EXPECT_EQ (2, filter_text.publishedChapterMarkers[1].m_chapter);
-      EXPECT_EQ ("0", filter_text.publishedChapterMarkers[1].m_verse);
-      EXPECT_EQ ("cp", filter_text.publishedChapterMarkers[1].m_marker);
-      EXPECT_EQ ("②", filter_text.publishedChapterMarkers[1].m_value);
-    }
-    
-    // OpenDocument output.
-    filter_text.odf_text_standard->save (TextTestOdt);
-    int ret = odf2txt (TextTestOdt, TextTestTxt);
-    EXPECT_EQ (0, ret);
-    string odt = filter_url_file_get_contents (TextTestTxt);
-    odt = filter::strings::replace ("  ", "", odt);
-    string standard = R"(
+)";
+  Filter_Text filter_text = Filter_Text (bible);
+  filter_text.odf_text_standard = new odf_text (bible);
+  filter_text.add_usfm_code (usfm);
+  filter_text.run (styles_logic_standard_sheet ());
+  // Check that it finds the running headers.
+  const int desiredRunningHeaders = 5;
+  const int actualRunningHeaders = static_cast<int>(filter_text.runningHeaders.size());
+  EXPECT_EQ (desiredRunningHeaders, actualRunningHeaders);
+  if (actualRunningHeaders == desiredRunningHeaders) {
+    EXPECT_EQ (1, filter_text.runningHeaders[0].m_book);
+    EXPECT_EQ (0, filter_text.runningHeaders[0].m_chapter);
+    EXPECT_EQ ("0", filter_text.runningHeaders[0].m_verse);
+    EXPECT_EQ ("h", filter_text.runningHeaders[0].m_marker);
+    EXPECT_EQ ("Header", filter_text.runningHeaders[0].m_value);
+    EXPECT_EQ (1, filter_text.runningHeaders[1].m_book);
+    EXPECT_EQ (0, filter_text.runningHeaders[1].m_chapter);
+    EXPECT_EQ ("0", filter_text.runningHeaders[1].m_verse);
+    EXPECT_EQ ("h1", filter_text.runningHeaders[1].m_marker);
+    EXPECT_EQ ("Header1", filter_text.runningHeaders[1].m_value);
+    EXPECT_EQ (1, filter_text.runningHeaders[2].m_book);
+    EXPECT_EQ (0, filter_text.runningHeaders[2].m_chapter);
+    EXPECT_EQ ("0", filter_text.runningHeaders[2].m_verse);
+    EXPECT_EQ ("h2", filter_text.runningHeaders[2].m_marker);
+    EXPECT_EQ ("Header2", filter_text.runningHeaders[2].m_value);
+    EXPECT_EQ (1, filter_text.runningHeaders[3].m_book);
+    EXPECT_EQ (0, filter_text.runningHeaders[3].m_chapter);
+    EXPECT_EQ ("0", filter_text.runningHeaders[3].m_verse);
+    EXPECT_EQ ("h3", filter_text.runningHeaders[3].m_marker);
+    EXPECT_EQ ("Header3", filter_text.runningHeaders[3].m_value);
+    EXPECT_EQ (1, filter_text.runningHeaders[4].m_book);
+    EXPECT_EQ (2, filter_text.runningHeaders[4].m_chapter);
+    EXPECT_EQ ("0", filter_text.runningHeaders[4].m_verse);
+    EXPECT_EQ ("h", filter_text.runningHeaders[4].m_marker);
+    EXPECT_EQ ("Header4", filter_text.runningHeaders[4].m_value);
+  }
+  
+  // Check table of contents items.
+  const int desiredlongTOCs = 1;
+  const size_t actuallongTOCs = filter_text.longTOCs.size();
+  EXPECT_EQ (desiredlongTOCs, actuallongTOCs);
+  if (desiredlongTOCs == static_cast<int>(actuallongTOCs)) {
+    EXPECT_EQ (1, filter_text.longTOCs[0].m_book);
+    EXPECT_EQ (0, filter_text.longTOCs[0].m_chapter);
+    EXPECT_EQ ("0", filter_text.longTOCs[0].m_verse);
+    EXPECT_EQ ("toc1", filter_text.longTOCs[0].m_marker);
+    EXPECT_EQ ("The Book of Genesis", filter_text.longTOCs[0].m_value);
+  }
+  const int desiredshortTOCs = 1;
+  const size_t actualshortTOCs = filter_text.shortTOCs.size();
+  EXPECT_EQ (desiredshortTOCs, actualshortTOCs);
+  if (desiredlongTOCs == static_cast<int>(actuallongTOCs)) {
+    EXPECT_EQ (1, filter_text.shortTOCs[0].m_book);
+    EXPECT_EQ (0, filter_text.shortTOCs[0].m_chapter);
+    EXPECT_EQ ("0", filter_text.shortTOCs[0].m_verse);
+    EXPECT_EQ ("toc2", filter_text.shortTOCs[0].m_marker);
+    EXPECT_EQ ("Genesis", filter_text.shortTOCs[0].m_value);
+  }
+  
+  // Check book abbreviation.
+  const int desiredbookAbbreviations = 1;
+  const size_t actualbookAbbreviations = filter_text.bookAbbreviations.size();
+  EXPECT_EQ (desiredbookAbbreviations, actualbookAbbreviations);
+  if (desiredbookAbbreviations == static_cast<int>(actualbookAbbreviations)) {
+    EXPECT_EQ (1, filter_text.bookAbbreviations[0].m_book);
+    EXPECT_EQ (0, filter_text.bookAbbreviations[0].m_chapter);
+    EXPECT_EQ ("0", filter_text.bookAbbreviations[0].m_verse);
+    EXPECT_EQ ("toc3", filter_text.bookAbbreviations[0].m_marker);
+    EXPECT_EQ ("Gen", filter_text.bookAbbreviations[0].m_value);
+  }
+  
+  // Check published chapter markers.
+  const int desiredpublishedChapterMarkers = 2;
+  const size_t actualpublishedChapterMarkers = filter_text.publishedChapterMarkers.size();
+  EXPECT_EQ (desiredpublishedChapterMarkers, actualpublishedChapterMarkers);
+  if (desiredpublishedChapterMarkers == static_cast<int>(actualpublishedChapterMarkers)) {
+    EXPECT_EQ (1, filter_text.publishedChapterMarkers[0].m_book);
+    EXPECT_EQ (1, filter_text.publishedChapterMarkers[0].m_chapter);
+    EXPECT_EQ ("0", filter_text.publishedChapterMarkers[0].m_verse);
+    EXPECT_EQ ("cp", filter_text.publishedChapterMarkers[0].m_marker);
+    EXPECT_EQ ("Ⅰ", filter_text.publishedChapterMarkers[0].m_value);
+    EXPECT_EQ (1, filter_text.publishedChapterMarkers[1].m_book);
+    EXPECT_EQ (2, filter_text.publishedChapterMarkers[1].m_chapter);
+    EXPECT_EQ ("0", filter_text.publishedChapterMarkers[1].m_verse);
+    EXPECT_EQ ("cp", filter_text.publishedChapterMarkers[1].m_marker);
+    EXPECT_EQ ("②", filter_text.publishedChapterMarkers[1].m_value);
+  }
+  
+  // OpenDocument output.
+  filter_text.odf_text_standard->save (text_test_odt);
+  const int ret = odf2txt (text_test_odt, text_test_txt);
+  EXPECT_EQ (0, ret);
+  std::string odt = filter_url_file_get_contents (text_test_txt);
+  odt = filter::strings::replace ("  ", "", odt);
+  const std::string standard = R"(
 Header4
 
 Header4 Ⅰ
@@ -170,172 +174,190 @@ Header4 ②
 ②
 
 This is the text of chapter 2, verse 2. This is the text of chapter 2, verse 2. This is the text of chapter 2, verse 2. This is the text of chapter 2, verse 2. This is the text of chapter 2, verse 2. This is the text of chapter 2, verse 2.
-    )";
-    EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (odt));
-  }
+)";
+  EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (odt));
+}
 
-  // There are two books here.
-  // This normally gives one new page between these two books.
-  // Test that basic USFM code gets transformed correctly.
-  {
-    string usfm =
-    "\\id GEN\n"
-    "\\ide XYZ\n"
-    "\\c 1\n"
-    "\\p Text Genesis 1\n"
-    "\\c 2\n"
-    "\\p Text Genesis 2\n"
-    "\\id MAT\n"
-    "\\c 1\n"
-    "\\p Text Matthew 1\n"
-    "\\c 2\n"
-    "\\p Text Matthew 2\n"
-    "\\rem Comment\n"
-    "\\xxx Unknown markup\n";
-    Filter_Text filter_text = Filter_Text (bible);
-    filter_text.odf_text_standard = new odf_text (bible);
-    filter_text.add_usfm_code (usfm);
-    filter_text.run (styles_logic_standard_sheet ());
-    filter_text.odf_text_standard->save (TextTestOdt);
-    int ret = odf2txt (TextTestOdt, TextTestTxt);
-    EXPECT_EQ (0, ret);
-    string odt = filter_url_file_get_contents (TextTestTxt);
-    odt = filter::strings::replace ("  ", "", odt);
-    string standard = ""
-    "Genesis\n"
-    "\n"
-    "Genesis 1\n"
-    "\n"
-    "Text Genesis 1\n"
-    "\n"
-    "Genesis 2\n"
-    "\n"
-    "Text Genesis 2\n"
-    "\n"
-    "\n"
-    "\n"
-    "Matthew\n"
-    "\n"
-    "Matthew 1\n"
-    "\n"
-    "Text Matthew 1\n"
-    "\n"
-    "Matthew 2\n"
-    "\n"
-    "Text Matthew 2\n"
-    "\n";
-    EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (odt));
-    EXPECT_EQ ((vector<string>{"Matthew 2:0 Unknown marker \\xxx, formatting error: Unknown markup"}), filter_text.fallout);
-    EXPECT_EQ ((vector<string>{"Genesis 0:0 Text encoding: \\ide XYZ", "Matthew 2:0 Comment: \\rem Comment"}), filter_text.info);
-  }
 
-  
-  // Test multiple books in one OpenDocument file.
-  // The headers of each new book should be correct.
-  {
-    string directory = filter_url_create_root_path ({"unittests", "tests"});
-    string usfm_ruth = filter_url_file_get_contents (filter_url_create_path ({directory, "08-Ruth.usfm"}));
-    string usfm_1_peter = filter_url_file_get_contents (filter_url_create_path ({directory, "60-1Peter.usfm"}));
-    Filter_Text filter_text = Filter_Text (bible);
-    filter_text.odf_text_standard = new odf_text (bible);
-    filter_text.add_usfm_code (usfm_ruth);
-    filter_text.add_usfm_code (usfm_1_peter);
-    filter_text.run (styles_logic_standard_sheet ());
-    filter_text.odf_text_standard->save (TextTestOdt);
-    int ret = odf2txt (TextTestOdt, TextTestTxt);
-    EXPECT_EQ (0, ret);
-    string odt = filter_url_file_get_contents (TextTestTxt);
-    odt = filter::strings::replace ("  ", "", odt);
-    string standard = ""
-    "Ruth\n"
-    "\n"
-    "The Book of\n"
-    "\n"
-    "Ruth\n"
-    "\n"
-    "Ruth 1\n"
-    "\n"
-    "1 In the days when the judges judged, there was a famine in the land. A certain man of Bethlehem Judah went to live in the country of Moab with his wife and his two sons.\n"
-    "\n"
-    "\n"
-    "\n"
-    "1 Peter\n"
-    "\n"
-    "Peter’s First Letter\n"
-    "\n"
-    "1 Peter 1\n"
-    "\n"
-    "1 Peter, an apostle of Jesus Christ, to the chosen ones who are living as foreigners in the Dispersion in Pontus, Galatia, Cappadocia, Asia, and Bithynia,\n"
-    "\n";
-    EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (odt));
-  }
-  
-  // Test transformation of verse numbers and text following.
-  {
-    string usfm =
-    "\\id GEN\n"
-    "\\v 1 Verse One.\n"
-    "\\p Paragraph One.\n"
-    "\\v 2 Verse Two.\n"
-    "\\p\n"
-    "\\v 3 Verse Three.\n"
-    "\\v 4 Verse Four.\n"
-    "\\v 5 Verse Five.\n";
-    Filter_Text filter_text = Filter_Text (bible);
-    filter_text.odf_text_standard = new odf_text (bible);
-    filter_text.add_usfm_code (usfm);
-    filter_text.run (styles_logic_standard_sheet ());
-    filter_text.odf_text_standard->save (TextTestOdt);
-    int ret = odf2txt (TextTestOdt, TextTestTxt);
-    EXPECT_EQ (0, ret);
-    string odt = filter_url_file_get_contents (TextTestTxt);
-    odt = filter::strings::replace ("  ", "", odt);
-    string standard = ""
-    "Genesis\n"
-    "\n"
-    "1 Verse One.\n"
-    "\n"
-    "Paragraph One. 2 Verse Two.\n"
-    "\n"
-    "3 Verse Three. 4 Verse Four. 5 Verse Five.\n";
-    EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (odt));
-  }
-  
-  // Test footnotes and cross references.
-  {
-    string usfm =
-    "\\id GEN\n"
-    "\\v 1 Text 1\\x + \\xt Isa. 1.1.\\x*\\x - \\xt Isa. 2.2.\\x*\\x + \\xt Isa. 3.3.\\x*, text 2\\f + \\fk Word1: \\fl Heb. \\fq Explanation1.\\f*\\f + \\fk Word2: \\fl Heb. \\fq Explanation2.\\f*, text3.\\f + \\fk Test: \\fl Heb. \\fq Note at the very end.\\f*\n";
-    Filter_Text filter_text = Filter_Text (bible);
-    filter_text.odf_text_standard = new odf_text (bible);
-    filter_text.add_usfm_code (usfm);
-    filter_text.run (styles_logic_standard_sheet ());
-    filter_text.odf_text_standard->save (TextTestOdt);
-    int ret = odf2txt (TextTestOdt, TextTestTxt);
-    EXPECT_EQ (0, ret);
-    string odt = filter_url_file_get_contents (TextTestTxt);
-    odt = filter::strings::replace ("  ", "", odt);
-    string standard = ""
-    "Genesis\n"
-    "\n"
-    "1 Text 1aIsa. 1.1.\n"
-    "\n"
-    "Isa. 2.2.\n"
-    "\n"
-    "bIsa. 3.3.\n"
-    "\n"
-    ", text 21Word1: Heb. Explanation1.\n"
-    "\n"
-    "2Word2: Heb. Explanation2.\n"
-    "\n"
-    ", text3.3Test: Heb. Note at the very end.\n"
-    "\n";
-    EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (odt));
-  }
+// There are two books here.
+// This normally gives one new page between these two books.
+// Test that basic USFM code gets transformed correctly.
+TEST (filter_text, new_page_between_books)
+{
+  setup();
+  std::string usfm =
+  "\\id GEN\n"
+  "\\ide XYZ\n"
+  "\\c 1\n"
+  "\\p Text Genesis 1\n"
+  "\\c 2\n"
+  "\\p Text Genesis 2\n"
+  "\\id MAT\n"
+  "\\c 1\n"
+  "\\p Text Matthew 1\n"
+  "\\c 2\n"
+  "\\p Text Matthew 2\n"
+  "\\rem Comment\n"
+  "\\xxx Unknown markup\n";
+  Filter_Text filter_text = Filter_Text (bible);
+  filter_text.odf_text_standard = new odf_text (bible);
+  filter_text.add_usfm_code (usfm);
+  filter_text.run (styles_logic_standard_sheet ());
+  filter_text.odf_text_standard->save (text_test_odt);
+  int ret = odf2txt (text_test_odt, text_test_txt);
+  EXPECT_EQ (0, ret);
+  std::string odt = filter_url_file_get_contents (text_test_txt);
+  odt = filter::strings::replace ("  ", "", odt);
+  std::string standard = ""
+  "Genesis\n"
+  "\n"
+  "Genesis 1\n"
+  "\n"
+  "Text Genesis 1\n"
+  "\n"
+  "Genesis 2\n"
+  "\n"
+  "Text Genesis 2\n"
+  "\n"
+  "\n"
+  "\n"
+  "Matthew\n"
+  "\n"
+  "Matthew 1\n"
+  "\n"
+  "Text Matthew 1\n"
+  "\n"
+  "Matthew 2\n"
+  "\n"
+  "Text Matthew 2\n"
+  "\n";
+  EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (odt));
+  EXPECT_EQ ((std::vector<std::string>{"Matthew 2:0 Unknown marker \\xxx, formatting error: Unknown markup"}), filter_text.fallout);
+  EXPECT_EQ ((std::vector<std::string>{"Genesis 0:0 Text encoding: \\ide XYZ", "Matthew 2:0 Comment: \\rem Comment"}), filter_text.info);
+}
 
-  // Test footnotes and cross references and their behaviour in new chapters.
-  {
-    string usfm = R"(
+
+// Test multiple books in one OpenDocument file.
+// The headers of each new book should be correct.
+TEST (filter_text, books_odt_headers)
+{
+  setup();
+  std::string directory = filter_url_create_root_path ({"unittests", "tests"});
+  std::string usfm_ruth = filter_url_file_get_contents (filter_url_create_path ({directory, "08-Ruth.usfm"}));
+  std::string usfm_1_peter = filter_url_file_get_contents (filter_url_create_path ({directory, "60-1Peter.usfm"}));
+  Filter_Text filter_text = Filter_Text (bible);
+  filter_text.odf_text_standard = new odf_text (bible);
+  filter_text.add_usfm_code (usfm_ruth);
+  filter_text.add_usfm_code (usfm_1_peter);
+  filter_text.run (styles_logic_standard_sheet ());
+  filter_text.odf_text_standard->save (text_test_odt);
+  int ret = odf2txt (text_test_odt, text_test_txt);
+  EXPECT_EQ (0, ret);
+  std::string odt = filter_url_file_get_contents (text_test_txt);
+  odt = filter::strings::replace ("  ", "", odt);
+  const std::string standard = ""
+  "Ruth\n"
+  "\n"
+  "The Book of\n"
+  "\n"
+  "Ruth\n"
+  "\n"
+  "Ruth 1\n"
+  "\n"
+  "1\n"
+  "\n"
+  "In the days when the judges judged, there was a famine in the land. A certain man of Bethlehem Judah went to live in the country of Moab with his wife and his two sons.\n"
+  "\n"
+  "\n"
+  "\n"
+  "1 Peter\n"
+  "\n"
+  "Peter’s First Letter\n"
+  "\n"
+  "1 Peter 1\n"
+  "\n"
+  "1\n"
+  "\n"
+  "Peter, an apostle of Jesus Christ, to the chosen ones who are living as foreigners in the Dispersion in Pontus, Galatia, Cappadocia, Asia, and Bithynia,\n"
+  "\n";
+  EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (odt));
+}
+
+
+// Test transformation of verse numbers and text following.
+TEST (filter_text, transform_verse_numbers)
+{
+  setup();
+  const std::string usfm =
+  "\\id GEN\n"
+  "\\v 1 Verse One.\n"
+  "\\p Paragraph One.\n"
+  "\\v 2 Verse Two.\n"
+  "\\p\n"
+  "\\v 3 Verse Three.\n"
+  "\\v 4 Verse Four.\n"
+  "\\v 5 Verse Five.\n";
+  Filter_Text filter_text = Filter_Text (bible);
+  filter_text.odf_text_standard = new odf_text (bible);
+  filter_text.add_usfm_code (usfm);
+  filter_text.run (styles_logic_standard_sheet ());
+  filter_text.odf_text_standard->save (text_test_odt);
+  int ret = odf2txt (text_test_odt, text_test_txt);
+  EXPECT_EQ (0, ret);
+  std::string odt = filter_url_file_get_contents (text_test_txt);
+  odt = filter::strings::replace ("  ", "", odt);
+  std::string standard = ""
+  "Genesis\n"
+  "\n"
+  "1 Verse One.\n"
+  "\n"
+  "Paragraph One. 2 Verse Two.\n"
+  "\n"
+  "3 Verse Three. 4 Verse Four. 5 Verse Five.\n";
+  EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (odt));
+}
+
+
+// Test footnotes and cross references.
+TEST (filter_text, footnotes_xrefs_1)
+{
+  setup();
+  const std::string usfm =
+  "\\id GEN\n"
+  "\\v 1 Text 1\\x + \\xt Isa. 1.1.\\x*\\x - \\xt Isa. 2.2.\\x*\\x + \\xt Isa. 3.3.\\x*, text 2\\f + \\fk Word1: \\fl Heb. \\fq Explanation1.\\f*\\f + \\fk Word2: \\fl Heb. \\fq Explanation2.\\f*, text3.\\f + \\fk Test: \\fl Heb. \\fq Note at the very end.\\f*\n";
+  Filter_Text filter_text = Filter_Text (bible);
+  filter_text.odf_text_standard = new odf_text (bible);
+  filter_text.add_usfm_code (usfm);
+  filter_text.run (styles_logic_standard_sheet ());
+  filter_text.odf_text_standard->save (text_test_odt);
+  const int ret = odf2txt (text_test_odt, text_test_txt);
+  EXPECT_EQ (0, ret);
+  std::string odt = filter_url_file_get_contents (text_test_txt);
+  odt = filter::strings::replace ("  ", "", odt);
+  const std::string standard = ""
+  "Genesis\n"
+  "\n"
+  "1 Text 1aIsa. 1.1.\n"
+  "\n"
+  "Isa. 2.2.\n"
+  "\n"
+  "bIsa. 3.3.\n"
+  "\n"
+  ", text 21Word1: Heb. Explanation1.\n"
+  "\n"
+  "2Word2: Heb. Explanation2.\n"
+  "\n"
+  ", text3.3Test: Heb. Note at the very end.\n"
+  "\n";
+  EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (odt));
+}
+
+
+// Test footnotes and cross references and their behaviour in new chapters.
+TEST (filter_text, footnotes_xrefs_new_chapters)
+{
+  setup();
+  std::string usfm = R"(
 \id GEN
 \c 1
 \p
@@ -353,18 +375,18 @@ This is the text of chapter 2, verse 2. This is the text of chapter 2, verse 2. 
 \v 4 Note 4\f + \ft Note 4.\f*.
 \v 5 Note 5\f + \ft Note 5.\f*.
 \v 6 Note 6\f + \ft Note 6.\f*.
-    )";
-    usfm = filter::strings::trim (usfm);
-    Filter_Text filter_text = Filter_Text (bible);
-    filter_text.odf_text_standard = new odf_text (bible);
-    filter_text.add_usfm_code (usfm);
-    filter_text.run (styles_logic_standard_sheet ());
-    filter_text.odf_text_standard->save (TextTestOdt);
-    int ret = odf2txt (TextTestOdt, TextTestTxt);
-    EXPECT_EQ (0, ret);
-    string odt = filter_url_file_get_contents (TextTestTxt);
-    odt = filter::strings::replace ("  ", "", odt);
-    string standard = R"(
+)";
+  usfm = filter::strings::trim (usfm);
+  Filter_Text filter_text = Filter_Text (bible);
+  filter_text.odf_text_standard = new odf_text (bible);
+  filter_text.add_usfm_code (usfm);
+  filter_text.run (styles_logic_standard_sheet ());
+  filter_text.odf_text_standard->save (text_test_odt);
+  const int ret = odf2txt (text_test_odt, text_test_txt);
+  EXPECT_EQ (0, ret);
+  std::string odt = filter_url_file_get_contents (text_test_txt);
+  odt = filter::strings::replace ("  ", "", odt);
+  const std::string standard = R"(
 Genesis
 
 Genesis 1
@@ -402,13 +424,16 @@ Xref 4aXref 4.
 . 6 Note 63Note 6.
 
 .
-    )";
-    EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (odt));
-  }
+)";
+  EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (odt));
+}
 
-  // Test transformation of published verse numbers.
-  {
-    string usfm = R"(
+
+// Test transformation of published verse numbers.
+TEST (filter_text, transform_published_verse_numbers)
+{
+  setup();
+  std::string usfm = R"(
 \id GEN
 \c 1
 \p
@@ -416,494 +441,538 @@ Xref 4aXref 4.
 \v 2 \vp ၂။\vp* ထို့နောက် ကိုယ်တော်သည် ဘုရားသခင်၏ နိုင်ငံတော်အကြောင်းကို ဟောပြောရန်နှင့် ဖျားနာသူများကို ကုသ ပျောက်ကင်းစေရန် သူတို့ကို စေလွှတ်တော်မူ၏။-
 \v 3 \vp ၃။\vp* ကိုယ်တော်က သင်တို့သွားရမည့်လမ်းခရီးအတွက် မည်သည့်အရာကိုမျှ ယူဆောင်မသွားကြလေနှင့်။ တောင်ဝှေး၊ လွယ်အိတ်၊  စားစရာနှင့် ငွေကြေးတို့ကို သယ်ဆောင်မသွားကြနှင့်။ ဝတ်ရုံကိုလည်း နှစ်ထည်ယူမသွားလေနှင့်။-
 \v 4 \vp ၄။\vp* မည်သည့်အိမ်ကိုမဆို သင်တို့ဝင်ကြလျှင် ထိုအိမ်၌နေထိုင်၍ ထိုနေရာမှပင် ပြန်လည်ထွက်ခွာကြလော့။-
-    )";
-    usfm = filter::strings::trim (usfm);
-    Filter_Text filter_text = Filter_Text (bible);
-    filter_text.odf_text_standard = new odf_text (bible);
-    filter_text.add_usfm_code (usfm);
-    filter_text.run (styles_logic_standard_sheet ());
-    filter_text.odf_text_standard->save (TextTestOdt);
-    int ret = odf2txt (TextTestOdt, TextTestTxt);
-    EXPECT_EQ (0, ret);
-    string odt = filter_url_file_get_contents (TextTestTxt);
-    string standard = R"(
+)";
+  usfm = filter::strings::trim (usfm);
+  Filter_Text filter_text = Filter_Text (bible);
+  filter_text.odf_text_standard = new odf_text (bible);
+  filter_text.add_usfm_code (usfm);
+  filter_text.run (styles_logic_standard_sheet ());
+  filter_text.odf_text_standard->save (text_test_odt);
+  const int ret = odf2txt (text_test_odt, text_test_txt);
+  EXPECT_EQ (0, ret);
+  const std::string odt = filter_url_file_get_contents (text_test_txt);
+  const std::string standard = R"(
 Genesis
 
 Genesis 1
 
-၁။ ကိုယ်တော်သည် တမန်တော် တစ်ဆယ့်နှစ်ပါးတို့ကို အတူတကွခေါ်ပြီးလျှင် နတ်ဆိုးအပေါင်းတို့ကို နှင်ထုတ်နိုင်ရန်နှင့် အနာရောဂါများကို ပျောက်ကင်းစေနိုင်ရန် တန်ခိုးအာဏာတို့ကို သူတို့အား ပေးတော်မူ၏။- ၂။ ထို့နောက် ကိုယ်တော်သည် ဘုရားသခင်၏ နိုင်ငံတော်အကြောင်းကို ဟောပြောရန်နှင့် ဖျားနာသူများကို ကုသ ပျောက်ကင်းစေရန် သူတို့ကို စေလွှတ်တော်မူ၏။- ၃။ ကိုယ်တော်က သင်တို့သွားရမည့်လမ်းခရီးအတွက် မည်သည့်အရာကိုမျှ ယူဆောင်မသွားကြလေနှင့်။ တောင်ဝှေး၊ လွယ်အိတ်၊  စားစရာနှင့် ငွေကြေးတို့ကို သယ်ဆောင်မသွားကြနှင့်။ ဝတ်ရုံကိုလည်း နှစ်ထည်ယူမသွားလေနှင့်။- ၄။ မည်သည့်အိမ်ကိုမဆို သင်တို့ဝင်ကြလျှင် ထိုအိမ်၌နေထိုင်၍ ထိုနေရာမှပင် ပြန်လည်ထွက်ခွာကြလော့။-
-    )";
-    EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (odt));
-  }
+1
 
-  // Test that the \vp... markup does not introduce an extra space after the \v marker.
-  {
-    string usfm = R"(
+ကိုယ်တော်သည် တမန်တော် တစ်ဆယ့်နှစ်ပါးတို့ကို အတူတကွခေါ်ပြီးလျှင် နတ်ဆိုးအပေါင်းတို့ကို နှင်ထုတ်နိုင်ရန်နှင့် အနာရောဂါများကို ပျောက်ကင်းစေနိုင်ရန် တန်ခိုးအာဏာတို့ကို သူတို့အား ပေးတော်မူ၏။- ၂။ ထို့နောက် ကိုယ်တော်သည် ဘုရားသခင်၏ နိုင်ငံတော်အကြောင်းကို ဟောပြောရန်နှင့် ဖျားနာသူများကို ကုသ ပျောက်ကင်းစေရန် သူတို့ကို စေလွှတ်တော်မူ၏။- ၃။ ကိုယ်တော်က သင်တို့သွားရမည့်လမ်းခရီးအတွက် မည်သည့်အရာကိုမျှ ယူဆောင်မသွားကြလေနှင့်။ တောင်ဝှေး၊ လွယ်အိတ်၊  စားစရာနှင့် ငွေကြေးတို့ကို သယ်ဆောင်မသွားကြနှင့်။ ဝတ်ရုံကိုလည်း နှစ်ထည်ယူမသွားလေနှင့်။- ၄။ မည်သည့်အိမ်ကိုမဆို သင်တို့ဝင်ကြလျှင် ထိုအိမ်၌နေထိုင်၍ ထိုနေရာမှပင် ပြန်လည်ထွက်ခွာကြလော့။-
+)";
+  EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (odt));
+}
+
+
+// Test that the \vp... markup does not introduce an extra space after the \v marker.
+TEST (filter_text, vp_no_space_after_v)
+{
+  setup();
+  const std::string usfm = R"(
 \id MAT
 \c 1
 \p
 \v 1 \vp A\vp* Verse text.
-    )";
-    Filter_Text filter_text = Filter_Text (bible);
-    filter_text.text_text = new Text_Text ();
-    filter_text.add_usfm_code (usfm);
-    filter_text.run (styles_logic_standard_sheet ());
-    string output = filter_text.text_text->get ();
-    string standard = R"(
+)";
+  Filter_Text filter_text = Filter_Text (bible);
+  filter_text.text_text = new Text_Text ();
+  filter_text.add_usfm_code (usfm);
+  filter_text.run (styles_logic_standard_sheet ());
+  const std::string output = filter_text.text_text->get ();
+  const std::string standard = R"(
 1
 A Verse text.
-    )";
-    EXPECT_EQ (filter::strings::trim (standard), output);
-  }
-  
-  // Test clear text export.
-  {
-    string usfm =
-    "\\id GEN\n"
-    "\\h Genesis\n"
-    "\\toc2 Genesis\n"
-    "\\mt2 The book of\n"
-    "\\mt Genesis\n"
-    "\\c 1\n"
-    "\\p\n"
-    "\\v 1 In the be\\x + \\xt Isa. 1.1.\\x*\\x - \\xt Isa. 2.2.\\x*ginning, God created\\f + \\fk Word1: \\fl Heb. \\fq Explanation1.\\f*\\f + \\fk Word2: \\fl Heb. \\fq Explanation2.\\f* the heavens and the earth.\\f + \\fk Test: \\fl Heb. \\fq Note at the very end.\\f*\n";
-    Filter_Text filter_text = Filter_Text (bible);
-    filter_text.text_text = new Text_Text ();
-    filter_text.add_usfm_code (usfm);
-    filter_text.run (styles_logic_standard_sheet ());
-    string output = filter_text.text_text->get ();
-    string notes = filter_text.text_text->getnote ();
-    string standard =
-    "The book of\n"
-    "Genesis\n"
-    "1\n"
-    "1 In the beginning, God created the heavens and the earth.";
-    EXPECT_EQ (standard, output);
-    string standardnotes =
-    "Isa. 1.1.\n"
-    "Isa. 2.2.\n"
-    "Word1: Heb. Explanation1.\n"
-    "Word2: Heb. Explanation2.\n"
-    "Test: Heb. Note at the very end.";
-    EXPECT_EQ (standardnotes, notes);
-  }
-  
-  // Test clear text export.
-  {
-    string usfm =
-    "\\id GEN\n"
-    "\\c 1\n"
-    "\\p\n"
-    "\\v 1 Chapter 1, verse one.\n"
-    "\\v 2 Verse two.\n"
-    "\\c 2\n"
-    "\\p\n"
-    "\\v 1 Chapter 2, verse one.\n"
-    "\\v 2 Verse two.\n";
-    Filter_Text filter_text = Filter_Text (bible);
-    filter_text.text_text = new Text_Text ();
-    filter_text.add_usfm_code (usfm);
-    filter_text.run (styles_logic_standard_sheet ());
-    string output = filter_text.text_text->get ();
-    string notes = filter_text.text_text->getnote ();
-    string standard =
-    "1\n"
-    "1 Chapter 1, verse one. 2 Verse two.\n"
-    "2\n"
-    "1 Chapter 2, verse one. 2 Verse two.\n";
-    EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (output));
-    EXPECT_EQ ("", notes);
-  }
-  
-  // Test verses headings.
-  {
-    string usfm =
-    "\\id GEN\n"
-    "\\c 1\n"
-    "\\p\n"
-    "\\v 1 Verse one.\n"
-    "\\v 2 Verse two.\n"
-    "\\s Heading one\n"
-    "\\p\n"
-    "\\v 3 Verse three\n"
-    "\\p\n"
-    "\\s Heading two\n"
-    "\\p\n"
-    "\\v 4 Verse four.\n"
-    "\\v 5 Verse five.\n"
-    "\\c 2\n"
-    "\\s Heading three\n"
-    "\\p\n"
-    "\\v 1 Verse one.\n";
-    Filter_Text filter_text = Filter_Text (bible);
-    filter_text.initializeHeadingsAndTextPerVerse (false);
-    filter_text.add_usfm_code (usfm);
-    filter_text.run (styles_logic_standard_sheet ());
-    map <int, string> output = filter_text.verses_headings;
-    map <int, string> standard = { {0, "Heading three"}, {2, "Heading one"}, {3, "Heading two"} };
-    EXPECT_EQ (standard, output);
-  }
-  
-  // Test verses headings.
-  {
-    string usfm =
-    "\\id GEN\n"
-    "\\c 1\n"
-    "\\p\n"
-    "\\v 1 Verse one.\n"
-    "\\s \\s Usuku lweN\\nd kosi\\nd* luyeza masinyane\n"
-    "\\p\n"
-    "\\v 2 Verse two\n"
-    "\\p\n"
-    "\\s Heading \\add two\\add*\n"
-    "\\p\n"
-    "\\v 3 Verse three\n";
-    Filter_Text filter_text = Filter_Text (bible);
-    filter_text.initializeHeadingsAndTextPerVerse (false);
-    filter_text.add_usfm_code (usfm);
-    filter_text.run (styles_logic_standard_sheet ());
-    map <int, string> output = filter_text.verses_headings;
-    map <int, string> standard = { {1, "Usuku lweNkosi luyeza masinyane"}, {2, "Heading two"} };
-    EXPECT_EQ (standard, output);
-  }
-  
-  // Test verses text.
-  {
-    string usfm =
-    "\\id GEN\n"
-    "\\c 1\n"
-    "\\p\n"
-    "\\v 2 Verse\\x + \\xt Isa. 1.1.\\x* two.\n"
-    "\\v 3 Verse three\\x + \\xt Isa. 1.1.\\x*.\n"
-    "\\s Heading one\n"
-    "\\p\n"
-    "\\v 4 Verse four.\n"
-    "\\p\n"
-    "\\s Heading two\n"
-    "\\p\n"
-    "\\v 5 Verse five.\n"
-    "\\v 6 Verse six.\n"
-    "\\c 2\n"
-    "\\s Heading three\n"
-    "\\p\n"
-    "\\v 1 Verse one\\x + \\xt Isa. 1.1.\\x*.\n";
-    Filter_Text filter_text = Filter_Text (bible);
-    filter_text.initializeHeadingsAndTextPerVerse (false);
-    filter_text.add_usfm_code (usfm);
-    filter_text.run (styles_logic_standard_sheet ());
-    map <int, string> output = filter_text.getVersesText ();
-    map <int, string> standard = {
-      {1, "Verse one."},
-      {2, "Verse two."},
-      {3, "Verse three."},
-      {4, "Verse four."},
-      {5, "Verse five."},
-      {6, "Verse six."},
-    };
-    EXPECT_EQ (standard, output);
-  }
-  
-  // Test verses text.
-  {
-    string usfm =
-    "\\c 15\n"
-    "\\s Heading\n"
-    "\\p\n"
-    "\\v 1 He said:\n"
-    "\\p I will sing to the Lord.\n"
-    "\\v 2 The Lord is my strength.\n";
-    Filter_Text filter_text = Filter_Text (bible);
-    filter_text.initializeHeadingsAndTextPerVerse (false);
-    filter_text.add_usfm_code (usfm);
-    filter_text.run (styles_logic_standard_sheet ());
-    map <int, string> output = filter_text.getVersesText ();
-    map <int, string> standard = {
-      {1, "He said: I will sing to the Lord."},
-      {2, "The Lord is my strength." }
-    };
-    EXPECT_EQ (standard, output);
-  }
-  
-  // Test paragraph starting markers.
-  {
-    string usfm =
-    "\\c 1\n"
-    "\\s Heading\n"
-    "\\p\n"
-    "\\v 1 He said:\n"
-    "\\q1 I will sing to the Lord.\n"
-    "\\v 2 The Lord is my strength.\n"
-    "\\q2 I trust in Him.\n";
-    Filter_Text filter_text = Filter_Text (bible);
-    filter_text.initializeHeadingsAndTextPerVerse (false);
-    filter_text.add_usfm_code (usfm);
-    filter_text.run (styles_logic_standard_sheet ());
-    EXPECT_EQ ((vector<string>{"p", "q1", "q2"}), filter_text.paragraph_starting_markers);
-  }
-  
-  // Test improved paragraph detection.
-  {
-    string path = filter_url_create_root_path ({"unittests", "tests", "ShonaNumbers23.usfm"});
-    string usfm = filter_url_file_get_contents (path);
-    Filter_Text filter_text = Filter_Text ("");
-    filter_text.initializeHeadingsAndTextPerVerse (false);
-    filter_text.add_usfm_code (usfm);
-    filter_text.run (styles_logic_standard_sheet ());
-    for (size_t i = 0; i < filter_text.verses_paragraphs.size (); i++) {
-      map <int, string> verses_paragraph = filter_text.verses_paragraphs [i];
-      map <int, string> standard;
-      if (i == 0) {
-        standard = {
-          pair (1, "Zvino Bharamu wakati kuna Bharaki: Ndivakire pano aritari nomwe, ugondigadzirire pano nzombe nomwe nemakondohwe manomwe."),
-          pair (2, "Bharaki ndokuita Bharamu sezvakataura; Bharaki naBharamu ndokupa nzombe diki negondohwe paaritari imwe neimwe."),
-          pair (3, "Zvino Bharamu wakati kuna Bharaki: Mira pachipo chako chinopiswa, asi ini ndichaenda; zvimwe Jehovha achauya kuzosangana neni; zvino chinhu chaanondiratidza ndichakuudza. Zvino wakaenda pakakwirira."),
-          pair (4, "Zvino Mwari wakasangana naBharamu, iye ndokuti kwaari: Ndagadzira aritari nomwe uye ndapa nzombe diki negondohwe paaritari imwe neimwe. "),
-          pair (5, "Jehovha ndokuisa shoko mumuromo waBharamu, ndokuti: Dzokera kuna Bharaki ugotaura seizvi."),
-          pair (6, "Zvino wakadzokera kwaari, uye tarira, amire pachipo chake chinopiswa, iye nemachinda ese aMoabhu."),
-          pair (7, "Zvino wakasimudza mufananidzo wake ndokuti: Bharaki mambo waMoabhu wakandivinga kubva Siriya, pamakomo ekumabvazuva achiti: Uya nditukire Jakove, uye uya unyombe Israeri."),
-          pair (8, "Ini ndingatuka sei Mwari waasina kutuka; uye ndinganyomba sei Jehovha waasina kunyomba?"),
-          pair (9, "Nokuti kubva panhongonya yemabwe ndinomuona, uye kubva pazvikomo ndinomutarisa; tarira, vanhu vachagara vega, uye havangaverengwi pakati pendudzi."),
-          pair (10, "Ndiani angaverenga guruva raJakove, nekuverenga chechina chaIsraeri? Mweya wangu ngaufe rufu rwevakarurama, uye magumo angu ngaave seake!"),
-          pair (11, "Zvino Bharaki wakati kuna Bharamu: Wandiitei? Ndakutora kuti utuke vavengi vangu; zvino tarira, wavaropafadza nekuvaropafadza."),
-          pair (12, "Zvino wakapindura ndokuti: Handifaniri kuchenjerera kutaura izvo Jehovha zvaanoisa mumuromo mangu here?"),
-          pair (13, "Zvino Bharaki wakati kwaari: Uya hako neni kune imwe nzvimbo paungavaona kubvapo; uchaona kuguma kwavo chete, uye haungavaoni vese; ugonditukira ivo kubva ipapo.")
-        };
-      }
-      if (i == 1) {
-        standard = {
-          pair (14, "Zvino wakamutora akamuisa mumunda weZofimu, panhongonya yePisiga, ndokuvaka aritari nomwe, ndokupa nzombe diki negondohwe paaritari imwe neimwe."),
-          pair (15, "Zvino wakati kuna Bharaki: Mira pano pachipo chako chinopiswa, zvino ini ndichasangana naJehovha uko."),
-          pair (16, "Zvino Jehovha wakasangana naBharamu, ndokuisa shoko mumuromo make, ndokuti: Dzokera kuna Bharaki ugotaura seizvi."),
-          pair (17, "Zvino asvika kwaari, tarira, amire pachipo chake chinopiswa, nemachinda aMoabhu anaye. Bharaki ndokuti kwaari: Jehovha wataurei?"),
-          pair (18, "Zvino wakasimudza mufananidzo wake ndokuti: Simuka Bharaki, ugonzwa; urereke nzeve kwandiri, iwe mwanakomana waZipori:"),
-          pair (19, "Mwari haasi munhu kuti areve nhema, kana mwanakomana wemunhu kuti ashanduke. Iye wakareva, haangaiti kanhi? Kana wakareva, haangasimbisi kanhi?"),
-          pair (20, "Tarira, ndagamuchira kuti ndiropafadze; zvino waropafadza, uye handigoni kuzvidzosa."),
-          pair (21, "Haana kutarisira chakaipa kuna Jakove; uye haana kuona kutsauka kuna Israeri; Jehovha Mwari wake anaye, nekudanidzira kwamambo kuri pakati pavo."),
-          pair (22, "Mwari wakavabudisa Egipita, ane sesimba renyati."),
-          pair (23, "Zvirokwazvo hakuna un'anga hunopikisa Jakove, kana kuvuka kunopikisa Israeri. Ikozvino zvicharehwa pamusoro paJakove nepamusoro paIsraeri kuti Mwari wakazviita."),
-          pair (24, "Tarirai, vanhu vachasimuka seshumbakadzi, vazvisimudze seshumba. Havangarari pasi kusvika vadya chakajimbiwa, uye vanwa ropa revakaurawa.")
-        };
-      }
-      if (i == 2) {
-        standard = {
-          pair (25, "Zvino Bharaki wakati kuna Bharamu: Zvino usatongovatuka kana kutongovaropafadza."),
-          pair (26, "Asi Bharamu wakapindura, ndokuti kuna Bharaki: Handina kukuudza here ndichiti: Zvese Jehovha zvaanotaura, ndizvo zvandichaita?")
-        };
-      }
-      if (i == 3) {
-        standard = {
-          pair (27, "Zvino Bharaki wakati kuna Bharamu: Uya hako, ndichakuendesa kune imwe nzvimbo; zvimwe zvingarurama pameso aMwari kuti unditukire ivo kubva ipapo."),
-          pair (28, "Zvino Bharaki wakatora ndokuisa Bharamu panhongonya yePeori, pakatarisa pasi pachiso cherenje."),
-          pair (29, "Zvino Bharamu wakati kuna Bharaki: Ndivakire pano aritari nomwe, undigadzirire pano nzombe diki nomwe nemakondohwe manomwe."),
-          pair (30, "Bharaki ndokuita Bharamu sezvaakataura, ndokupa nzombe diki negondohwe paaritari imwe neimwe.")
-        };
-      }
-      EXPECT_EQ (standard, verses_paragraph);
+)";
+  EXPECT_EQ (filter::strings::trim (standard), output);
+}
+
+
+// Test clear text export.
+TEST (filter_text, clear_text_export_1)
+{
+  setup();
+  const std::string usfm =
+  "\\id GEN\n"
+  "\\h Genesis\n"
+  "\\toc2 Genesis\n"
+  "\\mt2 The book of\n"
+  "\\mt Genesis\n"
+  "\\c 1\n"
+  "\\p\n"
+  "\\v 1 In the be\\x + \\xt Isa. 1.1.\\x*\\x - \\xt Isa. 2.2.\\x*ginning, God created\\f + \\fk Word1: \\fl Heb. \\fq Explanation1.\\f*\\f + \\fk Word2: \\fl Heb. \\fq Explanation2.\\f* the heavens and the earth.\\f + \\fk Test: \\fl Heb. \\fq Note at the very end.\\f*\n";
+  Filter_Text filter_text = Filter_Text (bible);
+  filter_text.text_text = new Text_Text ();
+  filter_text.add_usfm_code (usfm);
+  filter_text.run (styles_logic_standard_sheet ());
+  const std::string output = filter_text.text_text->get ();
+  const std::string notes = filter_text.text_text->getnote ();
+  const std::string standard =
+  "The book of\n"
+  "Genesis\n"
+  "1\n"
+  "1 In the beginning, God created the heavens and the earth.";
+  EXPECT_EQ (standard, output);
+  const std::string standardnotes =
+  "Isa. 1.1.\n"
+  "Isa. 2.2.\n"
+  "Word1: Heb. Explanation1.\n"
+  "Word2: Heb. Explanation2.\n"
+  "Test: Heb. Note at the very end.";
+  EXPECT_EQ (standardnotes, notes);
+}
+
+
+// Test clear text export.
+TEST (filter_text, clear_text_export_2)
+{
+  setup();
+  const std::string usfm =
+  "\\id GEN\n"
+  "\\c 1\n"
+  "\\p\n"
+  "\\v 1 Chapter 1, verse one.\n"
+  "\\v 2 Verse two.\n"
+  "\\c 2\n"
+  "\\p\n"
+  "\\v 1 Chapter 2, verse one.\n"
+  "\\v 2 Verse two.\n";
+  Filter_Text filter_text = Filter_Text (bible);
+  filter_text.text_text = new Text_Text ();
+  filter_text.add_usfm_code (usfm);
+  filter_text.run (styles_logic_standard_sheet ());
+  const std::string output = filter_text.text_text->get ();
+  const std::string notes = filter_text.text_text->getnote ();
+  const std::string standard =
+  "1\n"
+  "1 Chapter 1, verse one. 2 Verse two.\n"
+  "2\n"
+  "1 Chapter 2, verse one. 2 Verse two.\n";
+  EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (output));
+  EXPECT_EQ (std::string(), notes);
+}
+
+
+// Test verses headings.
+TEST (filter_text, verse_headings_1)
+{
+  setup();
+  const std::string usfm =
+  "\\id GEN\n"
+  "\\c 1\n"
+  "\\p\n"
+  "\\v 1 Verse one.\n"
+  "\\v 2 Verse two.\n"
+  "\\s Heading one\n"
+  "\\p\n"
+  "\\v 3 Verse three\n"
+  "\\p\n"
+  "\\s Heading two\n"
+  "\\p\n"
+  "\\v 4 Verse four.\n"
+  "\\v 5 Verse five.\n"
+  "\\c 2\n"
+  "\\s Heading three\n"
+  "\\p\n"
+  "\\v 1 Verse one.\n";
+  Filter_Text filter_text = Filter_Text (bible);
+  filter_text.initializeHeadingsAndTextPerVerse (false);
+  filter_text.add_usfm_code (usfm);
+  filter_text.run (styles_logic_standard_sheet ());
+  const std::map <int, std::string> output = filter_text.verses_headings;
+  const std::map <int, std::string> standard = { {0, "Heading three"}, {2, "Heading one"}, {3, "Heading two"} };
+  EXPECT_EQ (standard, output);
+}
+
+
+// Test verses headings.
+TEST (filter_text, verse_headings_2)
+{
+  setup();
+  const std::string usfm =
+  "\\id GEN\n"
+  "\\c 1\n"
+  "\\p\n"
+  "\\v 1 Verse one.\n"
+  "\\s \\s Usuku lweN\\nd kosi\\nd* luyeza masinyane\n"
+  "\\p\n"
+  "\\v 2 Verse two\n"
+  "\\p\n"
+  "\\s Heading \\add two\\add*\n"
+  "\\p\n"
+  "\\v 3 Verse three\n";
+  Filter_Text filter_text = Filter_Text (bible);
+  filter_text.initializeHeadingsAndTextPerVerse (false);
+  filter_text.add_usfm_code (usfm);
+  filter_text.run (styles_logic_standard_sheet ());
+  const std::map <int, std::string> output = filter_text.verses_headings;
+  const std::map <int, std::string> standard = { {1, "Usuku lweNkosi luyeza masinyane"}, {2, "Heading two"} };
+  EXPECT_EQ (standard, output);
+}
+
+
+// Test verses text.
+TEST (filter_text, verses_text_1)
+{
+  setup();
+  const std::string usfm =
+  "\\id GEN\n"
+  "\\c 1\n"
+  "\\p\n"
+  "\\v 2 Verse\\x + \\xt Isa. 1.1.\\x* two.\n"
+  "\\v 3 Verse three\\x + \\xt Isa. 1.1.\\x*.\n"
+  "\\s Heading one\n"
+  "\\p\n"
+  "\\v 4 Verse four.\n"
+  "\\p\n"
+  "\\s Heading two\n"
+  "\\p\n"
+  "\\v 5 Verse five.\n"
+  "\\v 6 Verse six.\n"
+  "\\c 2\n"
+  "\\s Heading three\n"
+  "\\p\n"
+  "\\v 1 Verse one\\x + \\xt Isa. 1.1.\\x*.\n";
+  Filter_Text filter_text = Filter_Text (bible);
+  filter_text.initializeHeadingsAndTextPerVerse (false);
+  filter_text.add_usfm_code (usfm);
+  filter_text.run (styles_logic_standard_sheet ());
+  const std::map <int, std::string> output = filter_text.getVersesText ();
+  const std::map <int, std::string> standard = {
+    {1, "Verse one."},
+    {2, "Verse two."},
+    {3, "Verse three."},
+    {4, "Verse four."},
+    {5, "Verse five."},
+    {6, "Verse six."},
+  };
+  EXPECT_EQ (standard, output);
+}
+
+
+// Test verses text.
+TEST (filter_text, verses_text_2)
+{
+  setup();
+  const std::string usfm =
+  "\\c 15\n"
+  "\\s Heading\n"
+  "\\p\n"
+  "\\v 1 He said:\n"
+  "\\p I will sing to the Lord.\n"
+  "\\v 2 The Lord is my strength.\n";
+  Filter_Text filter_text = Filter_Text (bible);
+  filter_text.initializeHeadingsAndTextPerVerse (false);
+  filter_text.add_usfm_code (usfm);
+  filter_text.run (styles_logic_standard_sheet ());
+  const std::map <int, std::string> output = filter_text.getVersesText ();
+  const std::map <int, std::string> standard = {
+    {1, "He said: I will sing to the Lord."},
+    {2, "The Lord is my strength." }
+  };
+  EXPECT_EQ (standard, output);
+}
+
+
+// Test paragraph starting markers.
+TEST (filter_text, paragraph_starting_markers)
+{
+  setup();
+  const std::string usfm =
+  "\\c 1\n"
+  "\\s Heading\n"
+  "\\p\n"
+  "\\v 1 He said:\n"
+  "\\q1 I will sing to the Lord.\n"
+  "\\v 2 The Lord is my strength.\n"
+  "\\q2 I trust in Him.\n";
+  Filter_Text filter_text = Filter_Text (bible);
+  filter_text.initializeHeadingsAndTextPerVerse (false);
+  filter_text.add_usfm_code (usfm);
+  filter_text.run (styles_logic_standard_sheet ());
+  EXPECT_EQ ((std::vector<std::string>{"p", "q1", "q2"}), filter_text.paragraph_starting_markers);
+}
+
+
+// Test improved paragraph detection.
+TEST (filter_text, improved_paragraph_detection)
+{
+  setup();
+  const std::string path = filter_url_create_root_path ({"unittests", "tests", "ShonaNumbers23.usfm"});
+  const std::string usfm = filter_url_file_get_contents (path);
+  Filter_Text filter_text = Filter_Text (std::string());
+  filter_text.initializeHeadingsAndTextPerVerse (false);
+  filter_text.add_usfm_code (usfm);
+  filter_text.run (styles_logic_standard_sheet ());
+  for (size_t i = 0; i < filter_text.verses_paragraphs.size (); i++) {
+    const std::map <int, std::string> verses_paragraph = filter_text.verses_paragraphs [i];
+    std::map <int, std::string> standard;
+    if (i == 0) {
+      standard = {
+        std::pair (1, "Zvino Bharamu wakati kuna Bharaki: Ndivakire pano aritari nomwe, ugondigadzirire pano nzombe nomwe nemakondohwe manomwe."),
+        std::pair (2, "Bharaki ndokuita Bharamu sezvakataura; Bharaki naBharamu ndokupa nzombe diki negondohwe paaritari imwe neimwe."),
+        std::pair (3, "Zvino Bharamu wakati kuna Bharaki: Mira pachipo chako chinopiswa, asi ini ndichaenda; zvimwe Jehovha achauya kuzosangana neni; zvino chinhu chaanondiratidza ndichakuudza. Zvino wakaenda pakakwirira."),
+        std::pair (4, "Zvino Mwari wakasangana naBharamu, iye ndokuti kwaari: Ndagadzira aritari nomwe uye ndapa nzombe diki negondohwe paaritari imwe neimwe. "),
+        std::pair (5, "Jehovha ndokuisa shoko mumuromo waBharamu, ndokuti: Dzokera kuna Bharaki ugotaura seizvi."),
+        std::pair (6, "Zvino wakadzokera kwaari, uye tarira, amire pachipo chake chinopiswa, iye nemachinda ese aMoabhu."),
+        std::pair (7, "Zvino wakasimudza mufananidzo wake ndokuti: Bharaki mambo waMoabhu wakandivinga kubva Siriya, pamakomo ekumabvazuva achiti: Uya nditukire Jakove, uye uya unyombe Israeri."),
+        std::pair (8, "Ini ndingatuka sei Mwari waasina kutuka; uye ndinganyomba sei Jehovha waasina kunyomba?"),
+        std::pair (9, "Nokuti kubva panhongonya yemabwe ndinomuona, uye kubva pazvikomo ndinomutarisa; tarira, vanhu vachagara vega, uye havangaverengwi pakati pendudzi."),
+        std::pair (10, "Ndiani angaverenga guruva raJakove, nekuverenga chechina chaIsraeri? Mweya wangu ngaufe rufu rwevakarurama, uye magumo angu ngaave seake!"),
+        std::pair (11, "Zvino Bharaki wakati kuna Bharamu: Wandiitei? Ndakutora kuti utuke vavengi vangu; zvino tarira, wavaropafadza nekuvaropafadza."),
+        std::pair (12, "Zvino wakapindura ndokuti: Handifaniri kuchenjerera kutaura izvo Jehovha zvaanoisa mumuromo mangu here?"),
+        std::pair (13, "Zvino Bharaki wakati kwaari: Uya hako neni kune imwe nzvimbo paungavaona kubvapo; uchaona kuguma kwavo chete, uye haungavaoni vese; ugonditukira ivo kubva ipapo.")
+      };
     }
-    EXPECT_EQ ((vector<string>{"p", "p", "p", "p"}), filter_text.paragraph_starting_markers);
+    if (i == 1) {
+      standard = {
+        std::pair (14, "Zvino wakamutora akamuisa mumunda weZofimu, panhongonya yePisiga, ndokuvaka aritari nomwe, ndokupa nzombe diki negondohwe paaritari imwe neimwe."),
+        std::pair (15, "Zvino wakati kuna Bharaki: Mira pano pachipo chako chinopiswa, zvino ini ndichasangana naJehovha uko."),
+        std::pair (16, "Zvino Jehovha wakasangana naBharamu, ndokuisa shoko mumuromo make, ndokuti: Dzokera kuna Bharaki ugotaura seizvi."),
+        std::pair (17, "Zvino asvika kwaari, tarira, amire pachipo chake chinopiswa, nemachinda aMoabhu anaye. Bharaki ndokuti kwaari: Jehovha wataurei?"),
+        std::pair (18, "Zvino wakasimudza mufananidzo wake ndokuti: Simuka Bharaki, ugonzwa; urereke nzeve kwandiri, iwe mwanakomana waZipori:"),
+        std::pair (19, "Mwari haasi munhu kuti areve nhema, kana mwanakomana wemunhu kuti ashanduke. Iye wakareva, haangaiti kanhi? Kana wakareva, haangasimbisi kanhi?"),
+        std::pair (20, "Tarira, ndagamuchira kuti ndiropafadze; zvino waropafadza, uye handigoni kuzvidzosa."),
+        std::pair (21, "Haana kutarisira chakaipa kuna Jakove; uye haana kuona kutsauka kuna Israeri; Jehovha Mwari wake anaye, nekudanidzira kwamambo kuri pakati pavo."),
+        std::pair (22, "Mwari wakavabudisa Egipita, ane sesimba renyati."),
+        std::pair (23, "Zvirokwazvo hakuna un'anga hunopikisa Jakove, kana kuvuka kunopikisa Israeri. Ikozvino zvicharehwa pamusoro paJakove nepamusoro paIsraeri kuti Mwari wakazviita."),
+        std::pair (24, "Tarirai, vanhu vachasimuka seshumbakadzi, vazvisimudze seshumba. Havangarari pasi kusvika vadya chakajimbiwa, uye vanwa ropa revakaurawa.")
+      };
+    }
+    if (i == 2) {
+      standard = {
+        std::pair (25, "Zvino Bharaki wakati kuna Bharamu: Zvino usatongovatuka kana kutongovaropafadza."),
+        std::pair (26, "Asi Bharamu wakapindura, ndokuti kuna Bharaki: Handina kukuudza here ndichiti: Zvese Jehovha zvaanotaura, ndizvo zvandichaita?")
+      };
+    }
+    if (i == 3) {
+      standard = {
+        std::pair (27, "Zvino Bharaki wakati kuna Bharamu: Uya hako, ndichakuendesa kune imwe nzvimbo; zvimwe zvingarurama pameso aMwari kuti unditukire ivo kubva ipapo."),
+        std::pair (28, "Zvino Bharaki wakatora ndokuisa Bharamu panhongonya yePeori, pakatarisa pasi pachiso cherenje."),
+        std::pair (29, "Zvino Bharamu wakati kuna Bharaki: Ndivakire pano aritari nomwe, undigadzirire pano nzombe diki nomwe nemakondohwe manomwe."),
+        std::pair (30, "Bharaki ndokuita Bharamu sezvaakataura, ndokupa nzombe diki negondohwe paaritari imwe neimwe.")
+      };
+    }
+    EXPECT_EQ (standard, verses_paragraph);
   }
-  
-  // Test embedded character styles to text output.
-  {
-    string usfm =
-    "\\c 1\n"
-    "\\p\n"
-    "\\v 1 He said: I will sing \\add to the \\+nd Lord\\+nd*\\add*.\n"
-    "\\v 2 The \\nd Lord\\nd* is my strength.\n";
-    Filter_Text filter_text = Filter_Text (bible);
-    filter_text.initializeHeadingsAndTextPerVerse (false);
-    filter_text.add_usfm_code (usfm);
-    filter_text.run (styles_logic_standard_sheet ());
-    map <int, string> output = filter_text.getVersesText ();
-    map <int, string> standard = {
-      {1, "He said: I will sing to the Lord."},
-      {2, "The Lord is my strength."}
-    };
-    EXPECT_EQ (standard, output);
-  }
-  
-  // Test embedded character styles to html output.
-  {
-    // Open character style, and embedded character style, and close both normally.
-    string usfm =
-    "\\c 1\n"
-    "\\p\n"
-    "\\v 1 I will sing \\add to the \\+nd Lord\\+nd*\\add*.\n";
-    Filter_Text filter_text = Filter_Text (bible);
-    filter_text.html_text_standard = new HtmlText (bible);
-    filter_text.add_usfm_code (usfm);
-    filter_text.run (styles_logic_standard_sheet ());
-    string html = filter_text.html_text_standard->get_inner_html ();
-    string standard =
-    R"(<p class="p">)"
-    R"(<span class="v">1</span>)"
-    "<span> </span>"
-    "<span>I will sing </span>"
-    R"(<span class="add">to the </span>)"
-    R"(<span class="add nd">Lord</span>)"
-    "<span>.</span>"
-    "</p>\n";
-    EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (html));
-  }
-  
-  // Test embedded character styles to html output.
-  {
-    // Open character style, open embedded character style, close embedded one, then close the outer one.
-    string usfm =
-    "\\c 1\n"
-    "\\p\n"
-    "\\v 1 I will sing \\add to the \\+nd Lord\\+nd* God\\add*.\n";
-    Filter_Text filter_text = Filter_Text (bible);
-    filter_text.html_text_standard = new HtmlText (bible);
-    filter_text.add_usfm_code (usfm);
-    filter_text.run (styles_logic_standard_sheet ());
-    string html = filter_text.html_text_standard->get_inner_html ();
-    string standard =
-    R"(<p class="p">)"
-    R"(<span class="v">1</span>)"
-    "<span> </span>"
-    "<span>I will sing </span>"
-    R"(<span class="add">to the </span>)"
-    R"(<span class="add nd">Lord</span>)"
-    R"(<span class="add"> God</span>)"
-    "<span>.</span>"
-    "</p>\n";
-    EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (html));
-  }
-  
-  // Test embedded character styles to html output.
-  {
-    // Open character style, open embedded character style,
-    // then closing the outer one closes the embedded one also.
-    string usfm =
-    "\\c 1\n"
-    "\\p\n"
-    "\\v 1 I will sing \\add to the \\+nd Lord\\add*.\n";
-    Filter_Text filter_text = Filter_Text (bible);
-    filter_text.html_text_standard = new HtmlText (bible);
-    filter_text.add_usfm_code (usfm);
-    filter_text.run (styles_logic_standard_sheet ());
-    string html = filter_text.html_text_standard->get_inner_html ();
-    string standard =
-    R"(<p class="p">)"
-    R"(<span class="v">1</span>)"
-    "<span> </span>"
-    "<span>I will sing </span>"
-    R"(<span class="add">to the </span>)"
-    R"(<span class="add nd">Lord</span>)"
-    "<span>.</span>"
-    "</p>\n";
-    EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (html));
-  }
-  
-  // Test embedded character styles to OpenDocument output.
-  {
-    // Open character style, and embedded character style, and close both normally.
-    string usfm =
-    "\\id GEN\n"
-    "\\c 1\n"
-    "\\p\n"
-    "\\v 1 I will sing \\add to the \\+nd Lord\\+nd*\\add*.\n";
-    Filter_Text filter_text = Filter_Text (bible);
-    filter_text.odf_text_standard = new odf_text (bible);
-    filter_text.add_usfm_code (usfm);
-    filter_text.run (styles_logic_standard_sheet ());
-    filter_text.odf_text_standard->save (TextTestOdt);
-    int ret = odf2txt (TextTestOdt, TextTestTxt);
-    EXPECT_EQ (0, ret);
-    string odt = filter_url_file_get_contents (TextTestTxt);
-    odt = filter::strings::replace ("  ", "", odt);
-    string standard = ""
-    "Genesis\n"
-    "\n"
-    "Genesis 1\n"
-    "\n"
-    "1 I will sing to the Lord.\n";
-    EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (odt));
-  }
-  
-  // Exercise bits in document to generate text and note citations.
-  {
-    string usfm =
-    "\\id GEN\n"
-    "\\v 1 Text 1\\x + \\xt Isa. 1.1.\\x* text\\f + \\fk Word: \\fl Heb. \\fq Explanation1.\\f* text\\fe + \\fk Word: \\fl Heb. \\fq Explanation1.\\fe*.\n";
-    Filter_Text filter_text = Filter_Text (bible);
-    filter_text.odf_text_text_and_note_citations = new odf_text (bible);
-    filter_text.add_usfm_code (usfm);
-    filter_text.run (styles_logic_standard_sheet ());
-    filter_text.odf_text_text_and_note_citations->save (TextTestOdt);
-    int ret = odf2txt (TextTestOdt, TextTestTxt);
-    EXPECT_EQ (0, ret);
-    string odt = filter_url_file_get_contents (TextTestTxt);
-    string standard = ""
-    "Genesis\n"
-    "\n"
-    "1 Text 1a text1 text1.";
-    EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (odt));
-  }
-  
-  // Test embedded character styles to OpenDocument output.
-  {
-    // Open character style, open embedded character style, close embedded one, then close the outer one.
-    string usfm =
-    "\\id GEN\n"
-    "\\c 1\n"
-    "\\p\n"
-    "\\v 1 I will sing \\add to the \\+nd Lord\\+nd* God\\add*.\n";
-    Filter_Text filter_text = Filter_Text (bible);
-    filter_text.odf_text_standard = new odf_text (bible);
-    filter_text.add_usfm_code (usfm);
-    filter_text.run (styles_logic_standard_sheet ());
-    filter_text.odf_text_standard->save (TextTestOdt);
-    int ret = odf2txt (TextTestOdt, TextTestTxt);
-    EXPECT_EQ (0, ret);
-    string odt = filter_url_file_get_contents (TextTestTxt);
-    odt = filter::strings::replace ("  ", "", odt);
-    string standard = ""
-    "Genesis\n"
-    "\n"
-    "Genesis 1\n"
-    "\n"
-    "1 I will sing to the Lord God.\n";
-    EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (odt));
-  }
-  
-  // Test embedded character styles to OpenDocument output.
-  {
-    // Open character style, open embedded character style, then closing the outer one closes the embedded one also.
-    string usfm =
-    "\\id GEN\n"
-    "\\c 1\n"
-    "\\p\n"
-    "\\v 1 I will sing \\add to the \\+nd Lord\\add*.\n";
-    Filter_Text filter_text = Filter_Text (bible);
-    filter_text.odf_text_standard = new odf_text (bible);
-    filter_text.add_usfm_code (usfm);
-    filter_text.run (styles_logic_standard_sheet ());
-    filter_text.odf_text_standard->save (TextTestOdt);
-    int ret = odf2txt (TextTestOdt, TextTestTxt);
-    EXPECT_EQ (0, ret);
-    string odt = filter_url_file_get_contents (TextTestTxt);
-    odt = filter::strings::replace ("  ", "", odt);
-    string standard = ""
-    "Genesis\n"
-    "\n"
-    "Genesis 1\n"
-    "\n"
-    "1 I will sing to the Lord.\n";
-    EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (odt));
-  }
-  
-  // Test the behaviour of a chapter label put in chapter zero.
-  {
-    // The following USFM has the \cl - chapter label - before the first chapter.
-    // It means that the \cl represents the text for "chapter" to be used throughout the book.
-    // So it will output:
-    // "Chapter 1"
-    // ...
-    // "Chapter 2"
-    // ... and so on.
-    string usfm = R"(
+  EXPECT_EQ ((std::vector<std::string>{"p", "p", "p", "p"}), filter_text.paragraph_starting_markers);
+}
+
+
+// Test embedded character styles to text output.
+TEST (filter_text, embedded_character_styles_to_text)
+{
+  setup();
+  const std::string usfm =
+  "\\c 1\n"
+  "\\p\n"
+  "\\v 1 He said: I will sing \\add to the \\+nd Lord\\+nd*\\add*.\n"
+  "\\v 2 The \\nd Lord\\nd* is my strength.\n";
+  Filter_Text filter_text = Filter_Text (bible);
+  filter_text.initializeHeadingsAndTextPerVerse (false);
+  filter_text.add_usfm_code (usfm);
+  filter_text.run (styles_logic_standard_sheet ());
+  const std::map <int, std::string> output = filter_text.getVersesText ();
+  const std::map <int, std::string> standard = {
+    {1, "He said: I will sing to the Lord."},
+    {2, "The Lord is my strength."}
+  };
+  EXPECT_EQ (standard, output);
+}
+
+
+// Test embedded character styles to html output.
+TEST (filter_text, embedded_character_styles_to_html_1)
+{
+  setup();
+  // Open character style, and embedded character style, and close both normally.
+  const std::string usfm =
+  "\\c 1\n"
+  "\\p\n"
+  "\\v 1 I will sing \\add to the \\+nd Lord\\+nd*\\add*.\n";
+  Filter_Text filter_text = Filter_Text (bible);
+  filter_text.html_text_standard = new HtmlText (bible);
+  filter_text.add_usfm_code (usfm);
+  filter_text.run (styles_logic_standard_sheet ());
+  std::string html = filter_text.html_text_standard->get_inner_html ();
+  const std::string standard =
+  R"(<p class="p">)"
+  R"(<span class="dropcaps">1</span>)"
+  "<span>I will sing </span>"
+  R"(<span class="add">to the </span>)"
+  R"(<span class="add nd">Lord</span>)"
+  "<span>.</span>"
+  "</p>\n";
+  EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (html));
+}
+
+
+// Test embedded character styles to html output.
+TEST (filter_text, embedded_character_styles_to_html_2)
+{
+  setup();
+  // Open character style, open embedded character style, close embedded one, then close the outer one.
+  const std::string usfm =
+  "\\c 1\n"
+  "\\p\n"
+  "\\v 1 I will sing \\add to the \\+nd Lord\\+nd* God\\add*.\n";
+  Filter_Text filter_text = Filter_Text (bible);
+  filter_text.html_text_standard = new HtmlText (bible);
+  filter_text.add_usfm_code (usfm);
+  filter_text.run (styles_logic_standard_sheet ());
+  const std::string html = filter_text.html_text_standard->get_inner_html ();
+  const std::string standard = R"(<p class="p"><span class="dropcaps">1</span><span>I will sing </span><span class="add">to the </span><span class="add nd">Lord</span><span class="add"> God</span><span>.</span></p>)";
+  EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (html));
+}
+
+
+// Test embedded character styles to html output.
+TEST (filter_text, embedded_character_styles_to_html_3)
+{
+  setup();
+  // Open character style, open embedded character style,
+  // then closing the outer one closes the embedded one also.
+  const std::string usfm =
+  "\\c 1\n"
+  "\\p\n"
+  "\\v 1 I will sing \\add to the \\+nd Lord\\add*.\n";
+  Filter_Text filter_text = Filter_Text (bible);
+  filter_text.html_text_standard = new HtmlText (bible);
+  filter_text.add_usfm_code (usfm);
+  filter_text.run (styles_logic_standard_sheet ());
+  std::string html = filter_text.html_text_standard->get_inner_html ();
+  std::string standard = R"(<p class="p"><span class="dropcaps">1</span><span>I will sing </span><span class="add">to the </span><span class="add nd">Lord</span><span>.</span></p>)";
+  EXPECT_EQ (standard, html);
+}
+
+
+// Test embedded character styles to OpenDocument output.
+TEST (filter_text, embedded_character_styles_to_odt_1)
+{
+  setup();
+  // Open character style, and embedded character style, and close both normally.
+  std::string usfm =
+  "\\id GEN\n"
+  "\\c 1\n"
+  "\\p\n"
+  "\\v 1 I will sing \\add to the \\+nd Lord\\+nd*\\add*.\n";
+  Filter_Text filter_text = Filter_Text (bible);
+  filter_text.odf_text_standard = new odf_text (bible);
+  filter_text.add_usfm_code (usfm);
+  filter_text.run (styles_logic_standard_sheet ());
+  filter_text.odf_text_standard->save (text_test_odt);
+  int ret = odf2txt (text_test_odt, text_test_txt);
+  EXPECT_EQ (0, ret);
+  std::string odt = filter_url_file_get_contents (text_test_txt);
+  odt = filter::strings::replace ("  ", "", odt);
+  std::string standard = ""
+  "Genesis\n"
+  "\n"
+  "Genesis 1\n"
+  "\n"
+  "1\n"
+  "\n"
+  "I will sing to the Lord.\n";
+  EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (odt));
+}
+
+
+// Exercise bits in document to generate text and note citations.
+TEST (filter_text, generate_text_note_citations)
+{
+  setup();
+  std::string usfm =
+  "\\id GEN\n"
+  "\\v 1 Text 1\\x + \\xt Isa. 1.1.\\x* text\\f + \\fk Word: \\fl Heb. \\fq Explanation1.\\f* text\\fe + \\fk Word: \\fl Heb. \\fq Explanation1.\\fe*.\n";
+  Filter_Text filter_text = Filter_Text (bible);
+  filter_text.odf_text_text_and_note_citations = new odf_text (bible);
+  filter_text.add_usfm_code (usfm);
+  filter_text.run (styles_logic_standard_sheet ());
+  filter_text.odf_text_text_and_note_citations->save (text_test_odt);
+  int ret = odf2txt (text_test_odt, text_test_txt);
+  EXPECT_EQ (0, ret);
+  std::string odt = filter_url_file_get_contents (text_test_txt);
+  std::string standard = ""
+  "Genesis\n"
+  "\n"
+  "1 Text 1a text1 text1.";
+  EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (odt));
+}
+
+
+// Test embedded character styles to OpenDocument output.
+TEST (filter_text, embedded_character_styles_to_odt_2)
+{
+  setup();
+  // Open character style, open embedded character style, close embedded one, then close the outer one.
+  const std::string usfm =
+  "\\id GEN\n"
+  "\\c 1\n"
+  "\\p\n"
+  "\\v 1 I will sing \\add to the \\+nd Lord\\+nd* God\\add*.\n";
+  Filter_Text filter_text = Filter_Text (bible);
+  filter_text.odf_text_standard = new odf_text (bible);
+  filter_text.add_usfm_code (usfm);
+  filter_text.run (styles_logic_standard_sheet ());
+  filter_text.odf_text_standard->save (text_test_odt);
+  const int ret = odf2txt (text_test_odt, text_test_txt);
+  EXPECT_EQ (0, ret);
+  std::string odt = filter_url_file_get_contents (text_test_txt);
+  odt = filter::strings::replace ("  ", "", odt);
+  const std::string standard =
+  "Genesis\n"
+  "\n"
+  "Genesis 1\n"
+  "\n"
+  "1\n"
+  "\n"
+  "I will sing to the Lord God.\n";
+  EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (odt));
+}
+
+
+// Test embedded character styles to OpenDocument output.
+TEST (filter_text, embedded_character_styles_to_odt_3)
+{
+  setup();
+  // Open character style, open embedded character style, then closing the outer one closes the embedded one also.
+  std::string usfm =
+  "\\id GEN\n"
+  "\\c 1\n"
+  "\\p\n"
+  "\\v 1 I will sing \\add to the \\+nd Lord\\add*.\n";
+  Filter_Text filter_text = Filter_Text (bible);
+  filter_text.odf_text_standard = new odf_text (bible);
+  filter_text.add_usfm_code (usfm);
+  filter_text.run (styles_logic_standard_sheet ());
+  filter_text.odf_text_standard->save (text_test_odt);
+  int ret = odf2txt (text_test_odt, text_test_txt);
+  EXPECT_EQ (0, ret);
+  std::string odt = filter_url_file_get_contents (text_test_txt);
+  odt = filter::strings::replace ("  ", "", odt);
+  std::string standard =
+  "Genesis\n"
+  "\n"
+  "Genesis 1\n"
+  "\n"
+  "1\n"
+  "\n"
+  "I will sing to the Lord.\n";
+  EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (odt));
+}
+
+
+// Test the behaviour of a chapter label put in chapter zero.
+TEST (filter_text, chapter_label_in_chapter_zero)
+{
+  setup();
+  // The following USFM has the \cl - chapter label - before the first chapter.
+  // It means that the \cl represents the text for "chapter" to be used throughout the book.
+  // So it will output:
+  // "Chapter 1"
+  // ...
+  // "Chapter 2"
+  // ... and so on.
+  const std::string usfm = R"(
 \id GEN
 \cl Chapter
 \c 1
@@ -912,31 +981,31 @@ A Verse text.
 \c 2
 \p
 \v 2 Jesus came to save the people.
-    )";
-    Filter_Text filter_text = Filter_Text (bible);
-    filter_text.odf_text_standard = new odf_text (bible);
-    filter_text.add_usfm_code (usfm);
-    filter_text.run (styles_logic_standard_sheet ());
-    
-    // Check chapter labels.
-    int desiredchapterLabels = 1;
-    size_t actualchapterLabels = filter_text.chapterLabels.size();
-    EXPECT_EQ (desiredchapterLabels, actualchapterLabels);
-    if (desiredchapterLabels == static_cast<int>(actualchapterLabels)) {
-      EXPECT_EQ (1, filter_text.chapterLabels[0].m_book);
-      EXPECT_EQ (0, filter_text.chapterLabels[0].m_chapter);
-      EXPECT_EQ ("0", filter_text.chapterLabels[0].m_verse);
-      EXPECT_EQ ("cl", filter_text.chapterLabels[0].m_marker);
-      EXPECT_EQ ("Chapter", filter_text.chapterLabels[0].m_value);
-    }
-    
-    // OpenDocument output.
-    filter_text.odf_text_standard->save (TextTestOdt);
-    int ret = odf2txt (TextTestOdt, TextTestTxt);
-    EXPECT_EQ (0, ret);
-    string odt = filter_url_file_get_contents (TextTestTxt);
-    odt = filter::strings::replace ("  ", "", odt);
-    string standard = R"(
+)";
+  Filter_Text filter_text = Filter_Text (bible);
+  filter_text.odf_text_standard = new odf_text (bible);
+  filter_text.add_usfm_code (usfm);
+  filter_text.run (styles_logic_standard_sheet ());
+  
+  // Check chapter labels.
+  const int desiredchapterLabels = 1;
+  const size_t actualchapterLabels = filter_text.chapterLabels.size();
+  EXPECT_EQ (desiredchapterLabels, actualchapterLabels);
+  if (desiredchapterLabels == static_cast<int>(actualchapterLabels)) {
+    EXPECT_EQ (1, filter_text.chapterLabels[0].m_book);
+    EXPECT_EQ (0, filter_text.chapterLabels[0].m_chapter);
+    EXPECT_EQ ("0", filter_text.chapterLabels[0].m_verse);
+    EXPECT_EQ ("cl", filter_text.chapterLabels[0].m_marker);
+    EXPECT_EQ ("Chapter", filter_text.chapterLabels[0].m_value);
+  }
+  
+  // OpenDocument output.
+  filter_text.odf_text_standard->save (text_test_odt);
+  const int ret = odf2txt (text_test_odt, text_test_txt);
+  EXPECT_EQ (0, ret);
+  std::string odt = filter_url_file_get_contents (text_test_txt);
+  odt = filter::strings::replace ("  ", "", odt);
+  const std::string standard = R"(
 Genesis
 
 Genesis 1
@@ -951,21 +1020,24 @@ Chapter 2
 
 2 Jesus came to save the people.
     )";
-    EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (odt));
-  }
-  
-  // Test the behaviour of a chapter label put in each separate chapter.
-  {
-    // The following USFM has the \cl - chapter label - in each chapter.
-    // It means that the \cl represents the particular text to be used
-    // for the display of the current chapter heading.
-    // Usually this is done if numbers are being presented as words, not numerals.
-    // So it will output:
-    // "Chapter One"
-    // ...
-    // "Chapter Two"
-    // ... and so on.
-    string usfm = R"(
+  EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (odt));
+}
+
+
+// Test the behaviour of a chapter label put in each separate chapter.
+TEST (filter_text, chapter_label_in_chapters)
+{
+  setup();
+  // The following USFM has the \cl - chapter label - in each chapter.
+  // It means that the \cl represents the particular text to be used
+  // for the display of the current chapter heading.
+  // Usually this is done if numbers are being presented as words, not numerals.
+  // So it will output:
+  // "Chapter One"
+  // ...
+  // "Chapter Two"
+  // ... and so on.
+  const std::string usfm = R"(
 \id GEN
 \c 1
 \cl Chapter One
@@ -975,36 +1047,36 @@ Chapter 2
 \cl Chapter Two
 \p
 \v 2 Jesus came to save the people.
-    )";
-    Filter_Text filter_text = Filter_Text (bible);
-    filter_text.odf_text_standard = new odf_text (bible);
-    filter_text.add_usfm_code (usfm);
-    filter_text.run (styles_logic_standard_sheet ());
-    
-    // Check chapter labels.
-    int desiredchapterLabels = 2;
-    size_t actualchapterLabels = filter_text.chapterLabels.size();
-    EXPECT_EQ (desiredchapterLabels, actualchapterLabels);
-    if (desiredchapterLabels == static_cast<int>(actualchapterLabels)) {
-      EXPECT_EQ (1, filter_text.chapterLabels[0].m_book);
-      EXPECT_EQ (1, filter_text.chapterLabels[0].m_chapter);
-      EXPECT_EQ ("0", filter_text.chapterLabels[0].m_verse);
-      EXPECT_EQ ("cl", filter_text.chapterLabels[0].m_marker);
-      EXPECT_EQ ("Chapter One", filter_text.chapterLabels[0].m_value);
-      EXPECT_EQ (1, filter_text.chapterLabels[1].m_book);
-      EXPECT_EQ (2, filter_text.chapterLabels[1].m_chapter);
-      EXPECT_EQ ("0", filter_text.chapterLabels[1].m_verse);
-      EXPECT_EQ ("cl", filter_text.chapterLabels[1].m_marker);
-      EXPECT_EQ ("Chapter Two", filter_text.chapterLabels[1].m_value);
-    }
-    
-    // OpenDocument output.
-    filter_text.odf_text_standard->save (TextTestOdt);
-    int ret = odf2txt (TextTestOdt, TextTestTxt);
-    EXPECT_EQ (0, ret);
-    string odt = filter_url_file_get_contents (TextTestTxt);
-    odt = filter::strings::replace ("  ", string(), odt);
-    string standard = R"(
+)";
+  Filter_Text filter_text = Filter_Text (bible);
+  filter_text.odf_text_standard = new odf_text (bible);
+  filter_text.add_usfm_code (usfm);
+  filter_text.run (styles_logic_standard_sheet ());
+  
+  // Check chapter labels.
+  const int desiredchapterLabels = 2;
+  const size_t actualchapterLabels = filter_text.chapterLabels.size();
+  EXPECT_EQ (desiredchapterLabels, actualchapterLabels);
+  if (desiredchapterLabels == static_cast<int>(actualchapterLabels)) {
+    EXPECT_EQ (1, filter_text.chapterLabels[0].m_book);
+    EXPECT_EQ (1, filter_text.chapterLabels[0].m_chapter);
+    EXPECT_EQ ("0", filter_text.chapterLabels[0].m_verse);
+    EXPECT_EQ ("cl", filter_text.chapterLabels[0].m_marker);
+    EXPECT_EQ ("Chapter One", filter_text.chapterLabels[0].m_value);
+    EXPECT_EQ (1, filter_text.chapterLabels[1].m_book);
+    EXPECT_EQ (2, filter_text.chapterLabels[1].m_chapter);
+    EXPECT_EQ ("0", filter_text.chapterLabels[1].m_verse);
+    EXPECT_EQ ("cl", filter_text.chapterLabels[1].m_marker);
+    EXPECT_EQ ("Chapter Two", filter_text.chapterLabels[1].m_value);
+  }
+  
+  // OpenDocument output.
+  filter_text.odf_text_standard->save (text_test_odt);
+  const int ret = odf2txt (text_test_odt, text_test_txt);
+  EXPECT_EQ (0, ret);
+  std::string odt = filter_url_file_get_contents (text_test_txt);
+  odt = filter::strings::replace ("  ", std::string(), odt);
+  const std::string standard = R"(
 Genesis
 
 Genesis 1
@@ -1019,109 +1091,124 @@ Chapter Two
 
 2 Jesus came to save the people.
     )";
-    EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (odt));
-  }
+  EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (odt));
+}
 
-  // Test footnotes and cross references in plain text.
-  {
-    string usfm = R"(
+
+// Test footnotes and cross references in plain text.
+TEST (filter_text, footnotes_xrefs_plain_text)
+{
+  setup();
+  const std::string usfm = R"(
 \id GEN
 \c 1
 \p
 \v 1 This is verse one\x + Xref 1\x*.
 \v 2 This is verse two\f + Note 2\f*.
 \v 3 This is verse three\fe + Endnote 3\fe*.
-    )";
-    Filter_Text filter_text = Filter_Text (bible);
-    filter_text.add_usfm_code (usfm);
-    filter_text.run (styles_logic_standard_sheet ());
-    int n = 3;
-    size_t size = filter_text.notes_plain_text.size();
-    EXPECT_EQ (n, size);
-    if (static_cast<int> (size) == n) {
-      EXPECT_EQ ("1", filter_text.notes_plain_text[0].first);
-      EXPECT_EQ ("2", filter_text.notes_plain_text[1].first);
-      EXPECT_EQ ("3", filter_text.notes_plain_text[2].first);
-      EXPECT_EQ ("Xref 1", filter_text.notes_plain_text[0].second);
-      EXPECT_EQ ("Note 2", filter_text.notes_plain_text[1].second);
-      EXPECT_EQ ("Endnote 3", filter_text.notes_plain_text[2].second);
-    }
+)";
+  Filter_Text filter_text = Filter_Text (bible);
+  filter_text.add_usfm_code (usfm);
+  filter_text.run (styles_logic_standard_sheet ());
+  constexpr size_t n {3};
+  const size_t size = filter_text.notes_plain_text.size();
+  EXPECT_EQ (n, size);
+  if (size == n) {
+    EXPECT_EQ ("1", filter_text.notes_plain_text[0].first);
+    EXPECT_EQ ("2", filter_text.notes_plain_text[1].first);
+    EXPECT_EQ ("3", filter_text.notes_plain_text[2].first);
+    EXPECT_EQ ("Xref 1", filter_text.notes_plain_text[0].second);
+    EXPECT_EQ ("Note 2", filter_text.notes_plain_text[1].second);
+    EXPECT_EQ ("Endnote 3", filter_text.notes_plain_text[2].second);
   }
+}
 
-  // Test plain text and notes for export to.
-  {
-    string usfm = R"(
+
+// Test plain text and notes for export.
+TEST (filter_text, plain_text_notes_export)
+{
+  setup();
+  const std::string usfm = R"(
 \id GEN
 \c 1
 \p
 \v 1 This is verse one\x + Xref 1\x*\f + Note 1\f*.
 \v 2 This is verse two\f + Note 2\f*\x + Xref 2\x*.
 \v 3 This is verse three\fe + Endnote 3\fe*.
-    )";
-    Filter_Text filter_text = Filter_Text (bible);
-    filter_text.initializeHeadingsAndTextPerVerse (false);
-    filter_text.add_usfm_code (usfm);
-    filter_text.run (styles_logic_standard_sheet ());
-    
-    map <int, string> output = filter_text.getVersesText ();
-    map <int, string> standard = {
-      {1, "This is verse one."},
-      {2, "This is verse two."},
-      {3, "This is verse three."},
-    };
-    EXPECT_EQ (standard, output);
-    
-    int n = 5;
-    size_t size = filter_text.notes_plain_text.size();
-    EXPECT_EQ (n, size);
-    if (static_cast<int> (size) == n) {
-      EXPECT_EQ ("1", filter_text.notes_plain_text[0].first);
-      EXPECT_EQ ("1", filter_text.notes_plain_text[1].first);
-      EXPECT_EQ ("2", filter_text.notes_plain_text[2].first);
-      EXPECT_EQ ("2", filter_text.notes_plain_text[3].first);
-      EXPECT_EQ ("3", filter_text.notes_plain_text[4].first);
-      EXPECT_EQ ("Xref 1", filter_text.notes_plain_text[0].second);
-      EXPECT_EQ ("Note 1", filter_text.notes_plain_text[1].second);
-      EXPECT_EQ ("Note 2", filter_text.notes_plain_text[2].second);
-      EXPECT_EQ ("Xref 2", filter_text.notes_plain_text[3].second);
-      EXPECT_EQ ("Endnote 3", filter_text.notes_plain_text[4].second);
-    }
-    
-    EXPECT_EQ (3, filter_text.verses_text_note_positions.size());
-    EXPECT_EQ (vector <int>{}, filter_text.verses_text_note_positions [0]);
-    EXPECT_EQ ((vector <int>{17, 17}), filter_text.verses_text_note_positions [1]);
-    EXPECT_EQ ((vector <int>{17, 17}), filter_text.verses_text_note_positions [2]);
-    EXPECT_EQ (vector <int>{19}, filter_text.verses_text_note_positions [3]);
-    EXPECT_EQ (vector <int>{}, filter_text.verses_text_note_positions [4]);
+)";
+  Filter_Text filter_text = Filter_Text (bible);
+  filter_text.initializeHeadingsAndTextPerVerse (false);
+  filter_text.add_usfm_code (usfm);
+  filter_text.run (styles_logic_standard_sheet ());
+  
+  const std::map <int, std::string> output = filter_text.getVersesText ();
+  const std::map <int, std::string> standard = {
+    {1, "This is verse one."},
+    {2, "This is verse two."},
+    {3, "This is verse three."},
+  };
+  EXPECT_EQ (standard, output);
+  
+  constexpr size_t n = 5;
+  const size_t size = filter_text.notes_plain_text.size();
+  EXPECT_EQ (n, size);
+  if (size == n) {
+    EXPECT_EQ ("1", filter_text.notes_plain_text[0].first);
+    EXPECT_EQ ("1", filter_text.notes_plain_text[1].first);
+    EXPECT_EQ ("2", filter_text.notes_plain_text[2].first);
+    EXPECT_EQ ("2", filter_text.notes_plain_text[3].first);
+    EXPECT_EQ ("3", filter_text.notes_plain_text[4].first);
+    EXPECT_EQ ("Xref 1", filter_text.notes_plain_text[0].second);
+    EXPECT_EQ ("Note 1", filter_text.notes_plain_text[1].second);
+    EXPECT_EQ ("Note 2", filter_text.notes_plain_text[2].second);
+    EXPECT_EQ ("Xref 2", filter_text.notes_plain_text[3].second);
+    EXPECT_EQ ("Endnote 3", filter_text.notes_plain_text[4].second);
   }
+  
+  EXPECT_EQ (3, filter_text.verses_text_note_positions.size());
+  EXPECT_EQ (std::vector <int>{}, filter_text.verses_text_note_positions [0]);
+  EXPECT_EQ ((std::vector <int>{17, 17}), filter_text.verses_text_note_positions [1]);
+  EXPECT_EQ ((std::vector <int>{17, 17}), filter_text.verses_text_note_positions [2]);
+  EXPECT_EQ (std::vector <int>{19}, filter_text.verses_text_note_positions [3]);
+  EXPECT_EQ (std::vector <int>{}, filter_text.verses_text_note_positions [4]);
+}
 
-  // Test incorrect \vp markup.
-  {
-    string usfm = R"(
+
+// Test incorrect \vp markup.
+TEST (filter_text, incorrect_vp_markup) // Todo fix this one, weird now.
+{
+  setup();
+  const std::string usfm = R"(
 \c 1
 \p
 \v 1 \vp A Jesus is King.
 \v 2 \vp B Jesus is the son of God.
-    )";
-    Filter_Text filter_text = Filter_Text (bible);
-    filter_text.odf_text_standard = new odf_text (bible);
-    filter_text.add_usfm_code (filter::strings::trim(usfm));
-    filter_text.run (styles_logic_standard_sheet ());
-    filter_text.odf_text_standard->save (TextTestOdt);
-    int ret = odf2txt (TextTestOdt, TextTestTxt);
-    EXPECT_EQ (0, ret);
-    string odt = filter_url_file_get_contents (TextTestTxt);
-    string standard = R"(
+)";
+  Filter_Text filter_text = Filter_Text (bible);
+  filter_text.odf_text_standard = new odf_text (bible);
+  filter_text.add_usfm_code (filter::strings::trim(usfm));
+  filter_text.run (styles_logic_standard_sheet ());
+  filter_text.odf_text_standard->save (text_test_odt);
+  const int ret = odf2txt (text_test_odt, text_test_txt);
+  EXPECT_EQ (0, ret);
+  const std::string odt = filter_url_file_get_contents (text_test_txt);
+  // What happens is that due to the incorrect markup, the entire first verse \vp is omitted from the output.
+  const std::string standard = R"(
 Unknown 1
 
-A Jesus is King.  B Jesus is the son of God.
-    )";
-    EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (odt));
-  }
-  
-  // Test basic export to TBSX.
-  {
-    string usfm = R"(
+1
+
+B Jesus is the son of God.
+)";
+  EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (odt));
+}
+
+
+// Test basic export to TBSX.
+TEST (filter_text, tbsx)
+{
+  setup();
+  const std::string usfm = R"(
 \id GEN
 \h Genesis
 \c 1
@@ -1130,99 +1217,111 @@ A Jesus is King.  B Jesus is the son of God.
 \c 2
 \p
 \v 2 Jesus came to save the people.
-    )";
-    Filter_Text filter_text = Filter_Text (bible);
-    filter_text.tbsx_text = new Tbsx_Text ();
-    filter_text.add_usfm_code (usfm);
-    filter_text.run (styles_logic_standard_sheet ());
-    string output = filter_text.tbsx_text->get_document ();
+)";
+  Filter_Text filter_text = Filter_Text (bible);
+  filter_text.tbsx_text = new Tbsx_Text ();
+  filter_text.add_usfm_code (usfm);
+  filter_text.run (styles_logic_standard_sheet ());
+  std::string output = filter_text.tbsx_text->get_document ();
+}
 
-  }
 
-  refresh_sandbox (true);
+// Test invalid UTF8 input text.
+TEST (filter_text, invalid_utf8_input)
+{
+  setup();
+  refresh_sandbox (false);
+  std::string path = filter_url_create_root_path ({"unittests", "tests", "invalid-utf8-2.usfm"});
+  std::string invalid_utf8_usfm = filter_url_file_get_contents (path);
+  Filter_Text filter_text = Filter_Text (bible);
+  filter_text.odf_text_standard = new odf_text (bible);
+  filter_text.add_usfm_code (filter::strings::trim(invalid_utf8_usfm));
+  filter_text.run (styles_logic_standard_sheet ());
+  filter_text.odf_text_standard->save (text_test_odt);
+  int ret = odf2txt (text_test_odt, text_test_txt);
+  EXPECT_EQ (256, ret);
+  std::string odt = filter_url_file_get_contents (text_test_txt);
+  bool invalid_token = odt.find ("not well-formed (invalid token)") != std::string::npos;
+  EXPECT_EQ (true, invalid_token);
+  // The above test produces logbook entries.
+  // Clear them so they don't disturb the output in the terminal.
+  refresh_sandbox (false);
+}
 
-  // Test invalid UTF8 input text.
-  {
-    string path = filter_url_create_root_path ({"unittests", "tests", "invalid-utf8-2.usfm"});
-    string invalid_utf8_usfm = filter_url_file_get_contents (path);
-    Filter_Text filter_text = Filter_Text (bible);
-    filter_text.odf_text_standard = new odf_text (bible);
-    filter_text.add_usfm_code (filter::strings::trim(invalid_utf8_usfm));
-    filter_text.run (styles_logic_standard_sheet ());
-    filter_text.odf_text_standard->save (TextTestOdt);
-    int ret = odf2txt (TextTestOdt, TextTestTxt);
-    EXPECT_EQ (256, ret);
-    string odt = filter_url_file_get_contents (TextTestTxt);
-    bool invalid_token = odt.find ("not well-formed (invalid token)") != string::npos;
-    EXPECT_EQ (true, invalid_token);
-    // The above test produces logbook entries.
-    // Clear them so they don't disturb the output in the terminal.
-    refresh_sandbox (false);
-  }
 
-  // Test converting USFM with an image to other formats.
-  {
-    // Store images in the database that keeps the Bible images.
-    string image_2_name = "bibleimage2.png";
-    string image_3_name = "bibleimage3.png";
-    string image_2_path = filter_url_create_root_path ({"unittests", "tests", image_2_name});
-    string image_3_path = filter_url_create_root_path ({"unittests", "tests", image_3_name});
-    Database_BibleImages database_bibleimages;
-    database_bibleimages.store(image_2_path);
-    database_bibleimages.store(image_3_path);
-    string usfm = R"(
+// Test converting USFM with an image to other formats.
+TEST (filter_text, convert_image_to_format)
+{
+  setup();
+  // Store images in the database that keeps the Bible images.
+  const std::string image_2_name = "bibleimage2.png";
+  const std::string image_3_name = "bibleimage3.png";
+  const std::string image_2_path = filter_url_create_root_path ({"unittests", "tests", image_2_name});
+  const std::string image_3_path = filter_url_create_root_path ({"unittests", "tests", image_3_name});
+  Database_BibleImages database_bibleimages;
+  database_bibleimages.store(image_2_path);
+  database_bibleimages.store(image_3_path);
+  const std::string usfm = R"(
 \c 1
 \p
 \v 1 Verse one. \fig caption|src="bibleimage2.png" size="size" ref="reference"\fig*
 \v 2 Verse two.
-    )";
-    // Test converting the USFM with an image to html.
-    {
-      string standard_html = R"(<p class="p"><span class="v">1</span><span> </span><span>Verse one. </span></p><img alt="" src="bibleimage2.png" width="100%"/><p class="fig"><span>caption</span></p><p><span class="v">2</span><span> </span><span>Verse two.</span></p>)";
-      string html;
-      Filter_Text filter_text = Filter_Text (bible);
-      filter_text.html_text_standard = new HtmlText (bible);
-      filter_text.add_usfm_code (usfm);
-      filter_text.run (styles_logic_standard_sheet());
-      html = filter_text.html_text_standard->get_inner_html();
-      EXPECT_EQ (standard_html, html);
-      EXPECT_EQ (vector<string>{image_2_name}, filter_text.image_sources);
-      for (auto src : filter_text.image_sources) {
-        string contents = database_bibleimages.get(src);
-        string standard = filter_url_file_get_contents(image_2_path);
-        EXPECT_EQ (standard, contents);
-      }
-    }
-    // Test converting the USFM with an image to OpenDocument.
-    {
-      Filter_Text filter_text = Filter_Text (bible);
-      filter_text.odf_text_standard = new odf_text (bible);
-      filter_text.add_usfm_code (usfm);
-      filter_text.run (styles_logic_standard_sheet());
-      filter_text.odf_text_standard->save (TextTestOdt);
-      int ret = odf2txt (TextTestOdt, TextTestTxt);
-      EXPECT_EQ (0, ret);
-      string odt = filter_url_file_get_contents (TextTestTxt);
-      odt = filter::strings::replace ("  ", "", odt);
-      string standard = R"(
-Unknown 1
-
-1 Verse one. 
-
-
-
-caption
-
-2 Verse two.
-      )";
-      EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (odt));
+)";
+  // Test converting the USFM with an image to html.
+  {
+    const std::string standard_html = R"(<p class="p"><span class="dropcaps">1</span><span>Verse one. </span></p><img alt="" src="bibleimage2.png" width="100%"/><p class="fig"><span>caption</span></p><p><span class="v">2</span><span> </span><span>Verse two.</span></p>)";
+    Filter_Text filter_text = Filter_Text (bible);
+    filter_text.html_text_standard = new HtmlText (bible);
+    filter_text.add_usfm_code (usfm);
+    filter_text.run (styles_logic_standard_sheet());
+    const std::string html = filter_text.html_text_standard->get_inner_html();
+    EXPECT_EQ (standard_html, html);
+    EXPECT_EQ (std::vector<std::string>{image_2_name}, filter_text.image_sources);
+    for (const auto src : filter_text.image_sources) {
+      const std::string contents = database_bibleimages.get(src);
+      const std::string standard = filter_url_file_get_contents(image_2_path);
+      EXPECT_EQ (standard, contents);
     }
   }
-
-  // Test export word-level attributes.
-  // https://ubsicap.github.io/usfm/attributes/index.html
+  // Test converting the USFM with an image to OpenDocument.
   {
-    string usfm = R"(
+    Filter_Text filter_text = Filter_Text (bible);
+    filter_text.odf_text_standard = new odf_text (bible);
+    filter_text.add_usfm_code (usfm);
+    filter_text.run (styles_logic_standard_sheet());
+    filter_text.odf_text_standard->save (text_test_odt);
+    const int ret = odf2txt (text_test_odt, text_test_txt);
+    EXPECT_EQ (0, ret);
+    std::string odt = filter_url_file_get_contents (text_test_txt);
+    odt = filter::strings::replace ("  ", "", odt);
+    const std::string standard = 
+    "Unknown 1"
+    "\n"
+    "\n"
+    "1"
+    "\n"
+    "\n"
+    "Verse one. "
+    "\n"
+    "\n"
+    "\n"
+    "\n"
+    "caption"
+    "\n"
+    "\n"
+    "2 Verse two.";
+    EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (odt));
+  }
+}
+
+
+// Test export word-level attributes.
+// https://ubsicap.github.io/usfm/attributes/index.html
+TEST (filter_text, export_word_level_attributes)
+{
+  setup();
+
+  const std::string usfm = R"(
 \p
 \v 1 This is verse one.
 \v 2 And the \nd \+w Lord|strong="H3068"\+w*\nd* \w said|strong="H0559"\w* unto \w Cain|strong="H7014"\w*:
@@ -1231,30 +1330,23 @@ caption
 \v 5 Text with default attribute: \w gracious|strong="H1234,G5485"\w*.
 \v 6 Text with multiple attributes: \w gracious|lemma="grace" x-myattr="metadata"\w*.
 \v 7 Text with \x - \xt 1|GEN 2:1\xt*\x*link reference.
-    )";
-    Filter_Text filter_text = Filter_Text (bible);
-    filter_text.initializeHeadingsAndTextPerVerse (false);
-    filter_text.add_usfm_code (usfm);
-    filter_text.run (styles_logic_standard_sheet ());
-    map <int, string> verses_text = filter_text.getVersesText ();
-    map <int, string> standard = {
-      {1, "This is verse one."},
-      {2, "And the Lord said unto Cain:"},
-      {3, "This is verse three."},
-      {4, "Text with ruby glosses: One and two."},
-      {5, "Text with default attribute: gracious."},
-      {6, "Text with multiple attributes: gracious."},
-      {7, "Text with link reference."},
-    };
-    EXPECT_EQ (standard, verses_text);
-  }
-  
-  filter_url_unlink (TextTestOdt);
-  filter_url_unlink (TextTestHtml);
-  filter_url_unlink (TextTestTxt);
-  refresh_sandbox (true);
+  )";
+  Filter_Text filter_text = Filter_Text (bible);
+  filter_text.initializeHeadingsAndTextPerVerse (false);
+  filter_text.add_usfm_code (usfm);
+  filter_text.run (styles_logic_standard_sheet ());
+  const std::map <int, std::string> verses_text = filter_text.getVersesText ();
+  const std::map <int, std::string> standard = {
+    {1, "This is verse one."},
+    {2, "And the Lord said unto Cain:"},
+    {3, "This is verse three."},
+    {4, "Text with ruby glosses: One and two."},
+    {5, "Text with default attribute: gracious."},
+    {6, "Text with multiple attributes: gracious."},
+    {7, "Text with link reference."},
+  };
+  EXPECT_EQ (standard, verses_text);
 }
-
 
 #endif
 

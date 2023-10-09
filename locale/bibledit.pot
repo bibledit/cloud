@@ -4233,6 +4233,14 @@ msgid "Set up automatic translations through Google Translate."
 msgstr ""
 
 msgid ""
+"Display the OSIS content like Strong's numbers in the SWORD resources that "
+"have such content."
+msgstr ""
+
+msgid "Note that displaying the OSIS content makes the resources hard to read."
+msgstr ""
+
+msgid ""
 "Google Translate can help you translating your resources into another "
 "language."
 msgstr ""

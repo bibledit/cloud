@@ -7,13 +7,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bibledit\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"PO-Revision-Date: 2023-03-09 15:07+0000\n"
+"PO-Revision-Date: 2023-10-06 17:00+0000\n"
 "Last-Translator: L'Africain <Unknown>\n"
 "Language-Team: French <fr@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Launchpad (build 4172faca216310b5a2489df9a2b03113d28a5f29)\n"
+"X-Generator: Launchpad (build bd6cfd0cfc024dbe1dcd7d5d91165fb4f6a6c596)\n"
 
 msgid "Has been sending and receiving during the past hour"
 msgstr "A fait l'envoi et la réception au cours de la dernière heure"
@@ -1900,8 +1900,10 @@ msgstr ""
 "Veuillez saisir une balise au niveau de laquelle les notes de fin seront "
 "situées"
 
-msgid "(The marker is to be given without the backslash, e.g. "
-msgstr "(La balise doit être donnée sans la barre oblique inverse, par ex. "
+msgid "The marker is to be given without the backslash, e.g. \"zendnotes\"."
+msgstr ""
+"La balise doit être donnée sans la barre oblique inverse, par exemple "
+"« zendnotes »."
 
 msgid "Styles"
 msgstr "Styles"
@@ -1998,9 +2000,6 @@ msgstr "Il n'y a pas de ressources installées pour en créer un archive."
 
 msgid "Install some resources on the device, and try again."
 msgstr "Installez des ressources sur le périphérique, puis réessayez."
-
-msgid ": "
-msgstr ": "
 
 msgid "Google Translate"
 msgstr "Google Translate"
@@ -2224,6 +2223,138 @@ msgstr "L'ajout d'un commentaire à la note annule la suppression."
 
 msgid "unassign"
 msgstr "non attribuée"
+
+msgid "Login"
+msgstr "Connexion"
+
+msgid "Read"
+msgstr "Lire"
+
+msgid "User resources"
+msgstr "Ressources de l'utilisateur"
+
+msgid "Advanced search"
+msgstr "Recherche avancée"
+
+msgid "Advanced replace"
+msgstr "Remplacement avancé"
+
+msgid "Search all Bibles and notes"
+msgstr "Rechercher dans toutes les Bibles et les notes"
+
+msgid "Search Bible for similar verses"
+msgstr "Rechercher des versets identiques dans la Bible"
+
+msgid "Search Bible for similar Strong's numbers"
+msgstr "Rechercher des nombres de Strong identiques dans la Bible"
+
+msgid "Search Bible for Strong's number"
+msgstr "Rechercher des nombres de Strong dans la Bible"
+
+msgid "Search Bible for similar Hebrew or Greek words"
+msgstr "Rechercher  dans la Bible des mots hébreux ou grecs identiques"
+
+msgid "Print"
+msgstr "Imprimer"
+
+msgid "Planning"
+msgstr "Planification"
+
+msgid "Hyphenate"
+msgstr "Césurer"
+
+msgid "Develop"
+msgstr "Développer"
+
+msgid "Export"
+msgstr "Exporter"
+
+msgid "Mail"
+msgstr "Courriel"
+
+msgid "Cloud"
+msgstr "Nuage"
+
+msgid "Basic mode"
+msgstr "Mode basique"
+
+msgid "USFM"
+msgstr "USFM"
+
+msgid "Images"
+msgstr "Images"
+
+msgid "SWORD"
+msgstr "SWORD"
+
+msgid "User-defined"
+msgstr "Personnalisé"
+
+msgid "Comparative"
+msgstr "Comparaison"
+
+msgid "Translated"
+msgstr "Traduits"
+
+msgid "Help and About"
+msgstr "Aide et au sujte de…"
+
+msgid "Translate"
+msgstr "Traduire"
+
+msgid "Tools"
+msgstr "Outils"
+
+msgid "Help"
+msgstr "Aide"
+
+msgid "Logout"
+msgstr "Déconnexion"
+
+msgid "Image resources"
+msgstr "Ressources d'image"
+
+msgid "Users"
+msgstr "Utilisateurs"
+
+msgid "Versifications"
+msgstr "Versifications"
+
+msgid "Select stylesheet"
+msgstr "Sélectionner la feuille de style"
+
+msgid "Edit stylesheet"
+msgstr "Éditer la feuille de style"
+
+msgid "Menu"
+msgstr "Menu"
+
+msgid "Both the visual chapter and visual verse editors"
+msgstr "Les éditeurs visuels de chapitres et de versets"
+
+msgid "Only the visual chapter editor"
+msgstr "Seulement l’éditeur visuel de chapitre"
+
+msgid "Only the visual verse editor"
+msgstr "Seulement l’éditeur visuel de verset"
+
+msgid "Hide"
+msgstr "Masquer"
+
+msgid "Show"
+msgstr "Afficher"
+
+msgid "Chapter editor"
+msgstr "Éditeur de chapitre"
+
+msgid "Verse editor"
+msgstr "Éditeur de verset"
+
+msgid "USFM editor"
+msgstr "Éditeur USFM"
+
+msgid "dot"
+msgstr "point"
 
 msgid "colon"
 msgstr "double-point"
@@ -2743,9 +2874,6 @@ msgstr "Recevez des références de versets ciblées d’Accordance."
 msgid "Bibledit always sends the focused verse reference to Accordance."
 msgstr "Bibledit envoie toujours la référence du verset ciblé à Accordance."
 
-msgid "Visit alkitabkita.info for more information."
-msgstr "Visitez alkitabkita.info pour plus d’information."
-
 msgid "Date format in consultation notes"
 msgstr "Format de la date dans les notes de consultation"
 
@@ -2995,9 +3123,6 @@ msgstr "Le téléversement peut prendre un certain temps"
 
 msgid "This can be done in Bibledit Cloud."
 msgstr "Cela peut être fait dans Bibledit Cloud."
-
-msgid "Help"
-msgstr "Aide"
 
 msgid "This page helps with importing Bible text."
 msgstr "Cette page aide à l'importation de texte biblique."
@@ -4323,9 +4448,6 @@ msgstr "Couleur"
 msgid "Background color"
 msgstr "Couleur d'arrière-plan"
 
-msgid "Print"
-msgstr "Imprimer"
-
 msgid "Note numbering"
 msgstr "Numérotation des notes"
 
@@ -5212,9 +5334,6 @@ msgid "There are more export formats through the BibleMultiConverter."
 msgstr ""
 "Il existe d'autres formats d’exportation grâce au BibleMultiConverter."
 
-msgid "Users"
-msgstr "Utilisateurs"
-
 msgid "Privileges"
 msgstr "Privilèges"
 
@@ -5263,6 +5382,30 @@ msgstr "Normalement, les utilisateurs enregistrent leur propre compte."
 msgid "You can manage the accounts."
 msgstr "Vous pouvez gérer les comptes."
 
+msgid "Common Settings"
+msgstr "Paramètres courants"
+
+msgid "New user default access level:"
+msgstr "Niveau d’accès par défaut du nouvel utilisateur :"
+
+msgid "Change default privileges for:"
+msgstr "Modifier les privilèges par défaut pour :"
+
+msgid "Guest"
+msgstr "Invité"
+
+msgid "Member"
+msgstr "Membre"
+
+msgid "Consultant"
+msgstr "Expert"
+
+msgid "Translator"
+msgstr "Traducteur"
+
+msgid "Manager"
+msgstr "Responsable"
+
 msgid "You can set the privileges for the user."
 msgstr "Vous pouvez pararmétrer les privilèges pour l'utilisateur."
 
@@ -5283,6 +5426,9 @@ msgstr "Peut effacer les notes de consultation."
 
 msgid "Can use advanced mode in Cloud."
 msgstr "Peut utiliser le mode avancé dans le nuage."
+
+msgid "Can apply stylesheets."
+msgstr "Peut appliquer des feuilles de style."
 
 msgid "Go back."
 msgstr "Précédent."
@@ -5320,9 +5466,6 @@ msgstr "Textes en langues originales"
 
 msgid "Bibles and notes"
 msgstr "Bibles et notes"
-
-msgid "Image resources"
-msgstr "Ressources d'image"
 
 msgid "Lexicons"
 msgstr "Lexiques"
@@ -5727,6 +5870,26 @@ msgstr ""
 "Vous pouvez réorganiser les ressources ci-dessous en les maintenant "
 "enfoncées, puis en les faisant glisser-déposer."
 
+msgid ""
+"The administrator has defined a selection of resources. Would you like to:"
+msgstr "L’administrateur a défini une sélection de ressources. Voulez-vous :"
+
+msgid "Replace your current resource selection with the admin's selection."
+msgstr ""
+"Remplacer votre sélection de ressources actuelle par la sélection de "
+"l’administrateur."
+
+msgid ""
+"WARNING! This will erase your current selection and give you the default "
+"selection."
+msgstr ""
+"ATTENTION ! Cette opération effacera votre sélection actuelle et vous "
+"donnera la sélection par défaut."
+
+msgid "Add the admin's selection to the bottom of your current selection."
+msgstr ""
+"Ajoutez la sélection de l’administrateur au bas de votre sélection actuelle."
+
 msgid "Number of verses to display before the focused verse:"
 msgstr "Nombre de versets à afficher avant le verset ciblé :"
 
@@ -5738,6 +5901,15 @@ msgstr "Afficher les passages en lien avec"
 
 msgid "Install all the above resources on the device."
 msgstr "Installer toutes les ressources ci-dessus sur le périphérique."
+
+msgid "Default Resource Organizer"
+msgstr "Organisateur de ressources par défaut"
+
+msgid ""
+"As an administrator, you can organize default resources for your team."
+msgstr ""
+"En tant qu’administrateur, vous pouvez organiser des ressources par défaut "
+"pour votre équipe."
 
 msgid ""
 "Refresh the list of modules from the SWORD servers and view the progress in "
@@ -5875,9 +6047,6 @@ msgstr "Ajouter"
 msgid "Enter task completion categories."
 msgstr "Entrez les catégories d'achèvement des tâches."
 
-msgid "Menu"
-msgstr "Menu"
-
 msgid "chapters"
 msgstr "chapitres"
 
@@ -5941,9 +6110,6 @@ msgstr ""
 
 msgid "I understand it and want to disconnect from the Cloud."
 msgstr "Je le comprends et je veux me déconnecter du Nuage."
-
-msgid "Mail"
-msgstr "Courriel"
 
 msgid "This page deals with setting up the email system."
 msgstr ""
@@ -6105,9 +6271,6 @@ msgstr "Pour ce faire, modifiez les données ci-dessous, puis soumettez-les."
 
 msgid "It will overwrite whatever was there before."
 msgstr "Cela écrasera tout ce qui était là avant."
-
-msgid "Versifications"
-msgstr "Versifications"
 
 msgid "This lists the currently available versification systems."
 msgstr "Vous pouvez créer un nouveau système de versification."
@@ -9477,12 +9640,6 @@ msgstr "Bibledit a un script de césure qui pourrait aider."
 msgid "In Bibledit, go to this menu:"
 msgstr "Dans Bibledit, aller dans ce menu :"
 
-msgid "Tools"
-msgstr "Outils"
-
-msgid "Hyphenate"
-msgstr "Césurer"
-
 msgid "Enter the first set of characters, and the second set, and save it."
 msgstr ""
 "Entrez le premier jeu de caractères et le deuxième, puis enregistrez-les."
@@ -10847,21 +11004,6 @@ msgstr ""
 msgid "If you would like this assistance, post a message to:"
 msgstr "Si vous souhaitez cette assistance, postez un message à :"
 
-msgid "OpenLDAP"
-msgstr "OpenLDAP"
-
-msgid ""
-"It is possible to enable an external OpenLDAP server for user authentication."
-msgstr ""
-"Il est possible d'activer un serveur OpenLDAP externe pour "
-"l'authentification des utilisateurs."
-
-msgid ""
-"The following file in the Bibledit installation provides more information:"
-msgstr ""
-"Le fichier suivant dans l'installation de Bibledit fournit plus "
-"d'informations :"
-
 msgid "Security"
 msgstr "Sécurité"
 
@@ -11274,9 +11416,6 @@ msgstr "En cliquant sur elles, le navigateur de référence est mis à jour."
 
 msgid "Username or email address:"
 msgstr "Nom d'utilisateur ou adresse e-mail :"
-
-msgid "Login"
-msgstr "Connexion"
 
 msgid "Forgot password?"
 msgstr "Mot de passe oublié ?"
@@ -13493,6 +13632,9 @@ msgstr "Impossible de supprimer le dernier utilisateur"
 msgid "Cannot remove the last administrator"
 msgstr "Impossible de supprimer le dernier administrateur"
 
+msgid "The default new user is changed."
+msgstr "Le nouvel utilisateur par défaut est modifié."
+
 msgid "Please enter a name for the new user"
 msgstr "Entrer un nom pour le nouvel utilisateur"
 
@@ -13549,9 +13691,6 @@ msgstr "Pas de premier jeu de caractères renseigné"
 
 msgid "No second set of characters given"
 msgstr "Pas de second jeu de caractères renseigné"
-
-msgid "Export"
-msgstr "Exporter"
 
 msgid "The export has been removed."
 msgstr "L'exportation a été effacée"
@@ -13703,21 +13842,6 @@ msgstr "Enregistrement du verset"
 msgid "Administrator"
 msgstr "Administrateur"
 
-msgid "Manager"
-msgstr "Responsable"
-
-msgid "Translator"
-msgstr "Traducteur"
-
-msgid "Consultant"
-msgstr "Expert"
-
-msgid "Member"
-msgstr "Membre"
-
-msgid "Guest"
-msgstr "Invité"
-
 msgid "A translator added chapter"
 msgstr "Un traducteur a ajouté un chapitre"
 
@@ -13796,9 +13920,6 @@ msgstr "Ce travail n'est pas disponible pour vous."
 
 msgid "The job is scheduled to start shortly."
 msgstr "Le travail doit commencer sous peu."
-
-msgid "User resources"
-msgstr "Ressources de l'utilisateur"
 
 msgid "Please enter a name for the new user-defined resource"
 msgstr ""
@@ -14361,11 +14482,11 @@ msgstr "Yosadaq"
 msgid "The priest Joshua son of Jozadak."
 msgstr "Le prêtre Josué fils de Yosadaq."
 
-msgid "Who's Nebuchadnezzar?"
-msgstr "Qui est Nabucodonosor ?"
+msgid "Who's the king of Babylonia, that captures Israel?"
+msgstr "Qui est le roi de Babylone qui s’empara d’Israël ?"
 
-msgid "The king of Babylonia"
-msgstr "Le roi de Babylone"
+msgid "Nebuchadnezzar"
+msgstr "Nabuchodonozzor"
 
 msgid ""
 "We were told that their people had made God angry, and he let them be "
@@ -14374,33 +14495,31 @@ msgstr ""
 "On nous a dit que leur peuple avait mis Dieu en colère et qu’il les avait "
 "laissés capturer par Nabucodonosor, le roi de Babylone."
 
-msgid "Who's Cyrus?"
-msgstr "Qui est Cyrus ?"
-
-msgid "King of Babylonia"
-msgstr "Roi de Babylone"
+msgid ""
+"Who prospered in the reign of Darius, and in the reign of Cyrus the Persian?"
+msgstr ""
+"Qui a prospéré sous le règne de Darius et sous le règne de Cyrus roi des "
+"Perses ?"
 
 msgid ""
-"They also said that during the first year Cyrus was king of Babylonia."
+"So this Daniel prospered in the reign of Darius, and in the reign of Cyrus "
+"the Persian."
 msgstr ""
-"Ils ont aussi dit que pendant la première année, Cyrus était roi de Babylone."
+"Ce Daniel prospéra sous le règne de Darius et sous celui de Cyrus roi des "
+"Perses."
+
+msgid "Who's Abram's brother's son?"
+msgstr "Qui est le fils du frère d’Abram ?"
+
+msgid "Lot"
+msgstr "Lot"
 
 msgid ""
-"For how many days does Jesus appeared to the disciples after he rose from "
-"the dead?"
+"And they took Lot, Abram's brother's son, who dwelt in Sodom, and his goods, "
+"and departed."
 msgstr ""
-"Pendant combien de jours Jésus est-il apparu aux disciples après sa "
-"résurrection des morts ?"
-
-msgid "40"
-msgstr "40"
-
-msgid ""
-"For 40 days after Jesus had suffered and died, he proved in many ways that "
-"he had been raised from death."
-msgstr ""
-"Pendant 40 jours après avoir souffert et être mort, Jésus a prouvé de "
-"plusieurs manières qu’il était ressuscité d’entre les morts."
+"Ils prirent Lot, fils du frère d’Abram, qui habitait Sodome, avec ses biens, "
+"et ils partirent."
 
 msgid "Who wrote Song of Songs?"
 msgstr "Qui a écrit le Cantique des Cantiques ?"

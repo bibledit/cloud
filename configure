@@ -653,6 +653,8 @@ LTLIBOBJS
 LIBOBJS
 COMPILERWARNINGS_FALSE
 COMPILERWARNINGS_TRUE
+MACFLAGS_FALSE
+MACFLAGS_TRUE
 COMPILERCLANG_FALSE
 COMPILERCLANG_TRUE
 COMPILERGCC_FALSE
@@ -7656,6 +7658,14 @@ ENABLEMAC=yes
 
 fi
 
+ if test $ENABLEMAC = yes; then
+  MACFLAGS_TRUE=
+  MACFLAGS_FALSE='#'
+else
+  MACFLAGS_TRUE='#'
+  MACFLAGS_FALSE=
+fi
+
 
 # Linux.
 ENABLELINUX=no
@@ -7854,6 +7864,10 @@ Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${COMPILERCLANG_TRUE}" && test -z "${COMPILERCLANG_FALSE}"; then
   as_fn_error $? "conditional \"COMPILERCLANG\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${MACFLAGS_TRUE}" && test -z "${MACFLAGS_FALSE}"; then
+  as_fn_error $? "conditional \"MACFLAGS\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${COMPILERWARNINGS_TRUE}" && test -z "${COMPILERWARNINGS_FALSE}"; then

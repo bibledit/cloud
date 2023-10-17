@@ -199,6 +199,7 @@ AC_DEFINE([HAVE_MAC], [1], [Define whether to compile for Mac])
 ENABLEMAC=yes
 ]
 )
+AM_CONDITIONAL([MACFLAGS],[test $ENABLEMAC = yes])
 
 # Linux.
 ENABLELINUX=no

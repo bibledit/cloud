@@ -642,6 +642,15 @@ AM_CXXFLAGS += $(GUMBO_CFLAGS)
 AM_CXXFLAGS += $(PUGIXML_CFLAGS)
 AM_CXXFLAGS += $(GTEST_CFLAGS)
 
+if MACFLAGS
+# Building Bibledit for macOS for two architectures
+# due to the switch from macOS from the x86_64 to the arm64 architecture.
+# Additionally it uses the includes and libraries from the macOS SDK.
+# Generate the macOS SDK path: $ xcrun --show-sdk-path
+AM_CXXFLAGS += -mmacosx-version-min=10.10 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -arch x86_64 -arch arm64
+AM_CFLAGS += -mmacosx-version-min=10.10 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -arch x86_64 -arch arm64
+endif
+
 LIBS = -Wall -lpthread -L. -g -rdynamic -ldl
 LIBS += $(CURL_LIBS)
 LIBS += $(OPENSSL_LIBS)

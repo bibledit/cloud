@@ -92,6 +92,10 @@ bin_PROGRAMS = server$(EXEEXT) unittest$(EXEEXT) generate$(EXEEXT)
 @COMPILERWARNINGS_TRUE@am__append_1 = -Wall -Wno-unknown-pragmas -Wextra -pedantic -Wno-pragmas
 @COMPILERWARNINGS_TRUE@am__append_2 = -Wall -Wno-unknown-pragmas -Wextra -pedantic -Wshadow -Warray-bounds -Wcast-align -Wcast-qual -Wconversion -Wctor-dtor-privacy -Wdelete-non-virtual-dtor -Weffc++ -Wextra-semi -Wfloat-equal -Wformat=2 -Wmissing-include-dirs -Wmissing-noreturn -Wnull-dereference -Wold-style-cast -Woverloaded-virtual  -Wredundant-decls -Wsign-promo -Wsuggest-override -Wswitch-default -Wswitch-enum -Wundef -Wuninitialized -Wunused-but-set-parameter -Wunused-macros -Wunused-parameter -Wvla -Wzero-as-null-pointer-constant -Wmismatched-tags
 @COMPILERGCC_TRUE@@COMPILERWARNINGS_TRUE@am__append_3 = -Wcatch-value=2 -Wconditionally-supported -Wduplicated-branches -Wduplicated-cond -Wformat-overflow=2 -Wlogical-op -Wnoexcept -Wno-non-template-friend -Wrestrict -Wstrict-null-sentinel -Wuseless-cast -Wcomma-subscript -Wredundant-tags -Wvolatile
+
+# Generate the macOS SDK path: $ xcrun --show-sdk-path
+@MACFLAGS_TRUE@am__append_4 = -mmacosx-version-min=10.10 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -arch x86_64 -arch arm64
+@MACFLAGS_TRUE@am__append_5 = -mmacosx-version-min=10.10 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk -arch x86_64 -arch arm64
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/configure.ac
@@ -1648,13 +1652,13 @@ generate_SOURCES = \
 	sources/styles.cpp
 
 generate_LDADD = libbibledit.a
-AM_CFLAGS = -g $(OPENSSL_CFLAGS) $(am__append_1)
+AM_CFLAGS = -g $(OPENSSL_CFLAGS) $(am__append_1) $(am__append_5)
 # AM_CXXFLAGS += $(TIDY_CFLAGS) -I/usr/include/tidy
 AM_CXXFLAGS = -fno-var-tracking -g $(am__append_2) $(am__append_3) \
 	$(CURL_CFLAGS) $(OPENSSL_CFLAGS) $(GTK_CFLAGS) \
 	$(WEBKIT2GTK_CFLAGS) $(ICU_CFLAGS) $(XML2_CFLAGS) \
 	$(UTF8PROC_CFLAGS) $(GUMBO_CFLAGS) $(PUGIXML_CFLAGS) \
-	$(GTEST_CFLAGS)
+	$(GTEST_CFLAGS) $(am__append_4)
 
 # The core library compiles and embeds the mbedtls library.
 # On Debian this gives a lintian error:

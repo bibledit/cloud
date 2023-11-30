@@ -71,7 +71,6 @@ int filter_shell_run ([[maybe_unused]] string directory,
   string standarderr = pipe + ".err";
   command.append (" > " + standardout);
   command.append (" 2> " + standarderr);
-  Database_Logs::log(command); // Todo
   int result = system (command.c_str());
   string contents = filter_url_file_get_contents (standardout);
   if (output) {

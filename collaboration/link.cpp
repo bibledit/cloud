@@ -43,9 +43,9 @@ void collaboration_link ([[maybe_unused]] const std::string& object,
   const std::string& path = filter_git_directory (object);
   bool result = true;
   std::vector <std::string> success {};
-  std::string error;
-  const bool takeme = (direction == "bibledit");
-  const bool takerepo = (direction == "repository");
+  std::string error {};
+  const bool take_me = (direction == "bibledit");
+  const bool take_repo = (direction == "repository");
 
   Database_Jobs database_jobs {};
 
@@ -54,8 +54,8 @@ void collaboration_link ([[maybe_unused]] const std::string& object,
   Assets_View view {};
   view.set_variable ("object", object);
   view.set_variable ("url", url);
-  if (takeme) view.enable_zone ("takeme");
-  if (takerepo) view.enable_zone ("takerepo");
+  if (take_me) view.enable_zone ("takeme");
+  if (take_repo) view.enable_zone ("takerepo");
   page.append (view.render ("collaboration", "link"));
   database_jobs.set_start (jobid, page);
 
@@ -67,7 +67,7 @@ void collaboration_link ([[maybe_unused]] const std::string& object,
     }
   }
   if (result) {
-    if (!takeme && !takerepo) {
+    if (!take_me && !take_repo) {
       error = translate ("It is unclear which data to copy to where");
       result = false;
     }
@@ -199,7 +199,7 @@ void collaboration_link ([[maybe_unused]] const std::string& object,
   // and store it in Bibledit's Bible given in $object,
   // overwriting the whole Bible that was there before.
   database_jobs.set_progress (jobid, translate ("Copying"));
- if (takerepo && result) {
+ if (take_repo && result) {
     success.push_back (translate ("Copying the data from the repository and storing it in Bibledit."));
    Webserver_Request request {};
     filter_git_sync_git_to_bible (std::addressof(request), path, object);
@@ -210,7 +210,7 @@ void collaboration_link ([[maybe_unused]] const std::string& object,
   // copy the data from Bibledit to the local cloned repository,
   // and then push it to the remote repository,
   // so that the data in the repository matches with Bibledit's local data.
-  if (takeme && result) {
+  if (take_me && result) {
 
     // Bibledit's data goes into the local repository.
     Webserver_Request request {};
@@ -265,8 +265,8 @@ void collaboration_link ([[maybe_unused]] const std::string& object,
   view = Assets_View ();
   view.set_variable ("object", object);
   view.set_variable ("url", url);
-  if (takeme) view.enable_zone ("takeme");
-  if (takerepo) view.enable_zone ("takerepo");
+  if (take_me) view.enable_zone ("takeme");
+  if (take_repo) view.enable_zone ("takerepo");
   if (result) view.enable_zone ("okay");
   else view.enable_zone ("error");
   view.set_variable ("success", filter::strings::implode (success, "<br>\n"));

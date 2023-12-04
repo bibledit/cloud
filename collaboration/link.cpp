@@ -31,33 +31,32 @@
 #include <database/config/bible.h>
 #include <database/config/general.h>
 #include <database/jobs.h>
-using namespace std;
 
 
-void collaboration_link ([[maybe_unused]] string object,
-                         [[maybe_unused]] int jobid,
-                         [[maybe_unused]] string direction)
+void collaboration_link ([[maybe_unused]] const std::string& object,
+                         [[maybe_unused]] const int jobid,
+                         [[maybe_unused]] const std::string& direction)
 {
 #ifdef HAVE_CLOUD
   // Repository details for local and remote.
-  string url = Database_Config_Bible::getRemoteRepositoryUrl (object);
-  string path = filter_git_directory (object);
+  const std::string& url = Database_Config_Bible::getRemoteRepositoryUrl (object);
+  const std::string& path = filter_git_directory (object);
   bool result = true;
-  vector <string> success;
-  string error;
-  bool takeme = (direction == "bibledit");
-  bool takerepo = (direction == "repository");
+  std::vector <std::string> success {};
+  std::string error;
+  const bool takeme = (direction == "bibledit");
+  const bool takerepo = (direction == "repository");
 
-  Database_Jobs database_jobs;
+  Database_Jobs database_jobs {};
 
   // Generate the initial page.
-  string page = collaboration_link_header ();
-  Assets_View view;
+  std::string page = collaboration_link_header ();
+  Assets_View view {};
   view.set_variable ("object", object);
   view.set_variable ("url", url);
   if (takeme) view.enable_zone ("takeme");
   if (takerepo) view.enable_zone ("takerepo");
-  page += view.render ("collaboration", "link");
+  page.append (view.render ("collaboration", "link"));
   database_jobs.set_start (jobid, page);
 
   // Some checks on input values.
@@ -71,7 +70,6 @@ void collaboration_link ([[maybe_unused]] string object,
     if (!takeme && !takerepo) {
       error = translate ("It is unclear which data to copy to where");
       result = false;
-      if (result) {};
     }
   }
 
@@ -103,7 +101,7 @@ void collaboration_link ([[maybe_unused]] string object,
   
   // Store a temporal file for trying whether Bibledit has write access.
   database_jobs.set_progress (jobid, translate ("Writing"));
-  string temporal_file_name = filter_url_create_path ({path, "test_repository_writable"});
+  const std::string& temporal_file_name = filter_url_create_path ({path, "test_repository_writable"});
   if (result) {
     filter_url_file_put_contents (temporal_file_name, "contents");
   }
@@ -123,7 +121,7 @@ void collaboration_link ([[maybe_unused]] string object,
   // Commit the file locally.
   database_jobs.set_progress (jobid, translate ("Committing"));
   if (result) {
-    vector <string> messages;
+    std::vector <std::string> messages {};
     result = filter_git_commit (path, "", "Write test 1", messages, error);
     if (result) {
       success.push_back (translate("The file was committed successfully."));
@@ -138,7 +136,7 @@ void collaboration_link ([[maybe_unused]] string object,
   // because in such cases the exit code is undefined.
   database_jobs.set_progress (jobid, translate ("Pulling"));
   if (result) {
-    vector <string> messages;
+    std::vector <std::string> messages {};
     filter_git_pull (path, messages);
     success.insert (success.end(), messages.begin(), messages.end());
     success.push_back (translate("Changes were pulled from the repository successfully."));
@@ -149,7 +147,7 @@ void collaboration_link ([[maybe_unused]] string object,
   // The --all switch is needed for when the remote repository is empty.
   database_jobs.set_progress (jobid, translate ("Pushing"));
   if (result) {
-    vector <string> messages;
+    std::vector <std::string> messages {};
     result = filter_git_push (path, messages, true);
     success.insert (success.end(), messages.begin(), messages.end());
     if (result) {
@@ -172,7 +170,7 @@ void collaboration_link ([[maybe_unused]] string object,
     }
   }
   if (result) {
-    vector <string> messages;
+    std::vector <std::string> messages {};
     result = filter_git_commit (path, "", "Write test 2", messages, error);
     if (result) {
       success.push_back (translate("The removed temporal file was committed successfully."));
@@ -185,7 +183,7 @@ void collaboration_link ([[maybe_unused]] string object,
   // Push changes to the remote repository.
   database_jobs.set_progress (jobid, translate ("Pushing"));
   if (result) {
-    vector <string> messages;
+    std::vector <std::string> messages {};
     result = filter_git_push (path, messages);
     success.insert (success.end(), messages.begin(), messages.end());
     if (result) {
@@ -203,8 +201,8 @@ void collaboration_link ([[maybe_unused]] string object,
   database_jobs.set_progress (jobid, translate ("Copying"));
  if (takerepo && result) {
     success.push_back (translate ("Copying the data from the repository and storing it in Bibledit."));
-    Webserver_Request request;
-    filter_git_sync_git_to_bible (&request, path, object);
+   Webserver_Request request {};
+    filter_git_sync_git_to_bible (std::addressof(request), path, object);
   }
   database_jobs.set_percentage (jobid, 88);
   
@@ -215,9 +213,9 @@ void collaboration_link ([[maybe_unused]] string object,
   if (takeme && result) {
 
     // Bibledit's data goes into the local repository.
-    Webserver_Request request;
+    Webserver_Request request {};
     success.push_back (translate("Storing the local Bible data to the staging area."));
-    filter_git_sync_bible_to_git (&request, object, path);
+    filter_git_sync_bible_to_git (std::addressof(request), object, path);
 
     // Stage the data: add and remove it as needed.
     if (result) {
@@ -229,13 +227,13 @@ void collaboration_link ([[maybe_unused]] string object,
       }
     }
     if (result) {
-      vector <string> messages;
+      std::vector <std::string> messages {};
       result = filter_git_commit (path, "", "Write test 3", messages, error);
       if (result) {
         success.push_back (translate("The local Bible data was committed successfully."));
       } else {
         error.append (" " + translate("Failure committing the local Bible data."));
-        for (auto msg : messages) {
+        for (const auto& msg : messages) {
           error.append (" ");
           error.append (msg);
         }
@@ -245,7 +243,7 @@ void collaboration_link ([[maybe_unused]] string object,
     // Push changes to the remote repository.
     database_jobs.set_progress (jobid, translate ("Pushing"));
     if (result) {
-      vector <string> messages;
+      std::vector <std::string> messages {};
       result = filter_git_push (path, messages);
       success.insert (success.end(), messages.begin(), messages.end());
       if (result) {
@@ -273,14 +271,14 @@ void collaboration_link ([[maybe_unused]] string object,
   else view.enable_zone ("error");
   view.set_variable ("success", filter::strings::implode (success, "<br>\n"));
   view.set_variable ("error", error);
-  page += view.render ("collaboration", "link");
-  page += assets_page::footer ();
+  page.append (view.render ("collaboration", "link"));
+  page.append (assets_page::footer ());
   database_jobs.set_result (jobid, page);
 #endif
 }
 
 
-string collaboration_link_header ()
+std::string collaboration_link_header ()
 {
   return "<h1>" + translate ("Link repository") + "</h1>\n";
 }

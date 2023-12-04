@@ -21,5 +21,5 @@
 
 #include <config/libraries.h>
 
-void collaboration_link (std::string object, int jobid, std::string direction);
+void collaboration_link (const std::string& object, const int jobid, const std::string& direction);
 std::string collaboration_link_header ();

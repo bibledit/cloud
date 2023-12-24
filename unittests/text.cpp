@@ -1175,7 +1175,7 @@ TEST (filter_text, plain_text_notes_export)
 
 
 // Test incorrect \vp markup.
-TEST (filter_text, incorrect_vp_markup) // Todo fix this one, weird now.
+TEST (filter_text, incorrect_vp_markup)
 {
   setup();
   const std::string usfm = R"(

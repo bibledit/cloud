@@ -6791,7 +6791,7 @@ style_record styles_table [] =
     /* userstring3 */ "",
     /* backgroundcolor */ "#FFFFFF",
   },
-  // https://ubsicap.github.io/usfm/characters/index.html?highlight=sup#sup-sup Todo check this.
+  // https://ubsicap.github.io/usfm/characters/index.html?highlight=sup#sup-sup
   {
     /* marker */ "sup",
     /* name */ "Superscript text",

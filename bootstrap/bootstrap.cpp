@@ -215,7 +215,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <images/index.h>
 #include <images/view.h>
 #include <images/fetch.h>
-using namespace std;
 
 
 // Check whether a request coming from the browser is considered secure enough.
@@ -243,9 +242,9 @@ bool browser_request_security_okay (Webserver_Request& webserver_request)
 // it decides which functions to call to obtain the response.
 void bootstrap_index (Webserver_Request& webserver_request)
 {
-  shared_ptr<Developer_Logic_Tracer> developer_logic_tracer {nullptr};
+  std::shared_ptr<Developer_Logic_Tracer> developer_logic_tracer {nullptr};
   if (config_globals_log_network) {
-    developer_logic_tracer = make_shared<Developer_Logic_Tracer>(std::addressof(webserver_request));
+    developer_logic_tracer = std::make_shared<Developer_Logic_Tracer>(std::addressof(webserver_request));
   }
   
   // Record the POST request made to the web server.
@@ -273,8 +272,8 @@ void bootstrap_index (Webserver_Request& webserver_request)
   }
   */
   
-  string extension = filter_url_get_extension (webserver_request.get);
-  string url = webserver_request.get.substr (1);
+  const std::string extension = filter_url_get_extension (webserver_request.get);
+  const std::string url = webserver_request.get.substr (1);
   
   
   // Serve graphics, stylesheets, JavaScript, fonts, and so on.
@@ -300,7 +299,7 @@ void bootstrap_index (Webserver_Request& webserver_request)
   }
 
   // Serve resource downloads.
-  if ((extension == "sqlite") && (webserver_request.get.find (Database_Cache::fragment ()) != string::npos)) {
+  if ((extension == "sqlite") && (webserver_request.get.find (Database_Cache::fragment ()) != std::string::npos)) {
     http_stream_file (std::addressof(webserver_request), false);
     return;
   }

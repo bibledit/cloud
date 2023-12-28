@@ -167,7 +167,7 @@ void webserver_process_request (const int connfd, const string& clientaddress)
           http_parse_post (postdata, &request);
           
           // Assemble response.
-          bootstrap_index (&request);
+          bootstrap_index (request);
           http_assemble_response (&request);
           
           // Send response to browser.
@@ -615,7 +615,7 @@ void secure_webserver_process_request (mbedtls_ssl_config * conf, mbedtls_net_co
       
       // Assemble response.
       if (connection_healthy) {
-        bootstrap_index (&request);
+        bootstrap_index (request);
         http_assemble_response (&request);
       }
       

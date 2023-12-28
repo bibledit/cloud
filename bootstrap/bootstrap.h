@@ -21,4 +21,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <config/libraries.h>
 
-void bootstrap_index (void * webserver_request);
+class Webserver_Request;
+
+void bootstrap_index (Webserver_Request& webserver_request);

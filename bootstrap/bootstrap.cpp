@@ -241,14 +241,14 @@ bool browser_request_security_okay (Webserver_Request * request)
 // This function is the first function to be called after a client requests a page or file.
 // Based on the request from the client,
 // it decides which functions to call to obtain the response.
-void bootstrap_index (void * webserver_request)
+void bootstrap_index (Webserver_Request& webserver_request)
 {
+  Webserver_Request * request = std::addressof(webserver_request);
+
   shared_ptr<Developer_Logic_Tracer> developer_logic_tracer = nullptr;
   if (config_globals_log_network) {
-    developer_logic_tracer = make_shared<Developer_Logic_Tracer>(webserver_request);
+    developer_logic_tracer = make_shared<Developer_Logic_Tracer>(request);
   }
-
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   
   // Record the POST request made to the web server.
   // This can be used for debugging.

@@ -35,10 +35,9 @@
 #include <sendreceive/logic.h>
 #include <assets/external.h>
 #include <bb/logic.h>
-using namespace std;
 
 
-string client_index_url ()
+std::string client_index_url ()
 {
   return "client/index";
 }
@@ -53,14 +52,14 @@ bool client_index_acl (void * webserver_request)
 void client_index_remove_all_users (void * webserver_request)
 {
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  vector <string> existingusers {request->database_users()->get_users ()};
-  for (const auto & existinguser : existingusers) {
-    request->database_users()->removeUser (existinguser);
+  const std::vector <std::string> existing_users {request->database_users()->get_users ()};
+  for (const auto& existing_user : existing_users) {
+    request->database_users()->removeUser (existing_user);
   }
 }
 
 
-void client_index_enable_client (void * webserver_request, const string & username, const string & password, int level)
+void client_index_enable_client (void* webserver_request, const std::string& username, const std::string& password, const int level)
 {
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
 
@@ -69,7 +68,7 @@ void client_index_enable_client (void * webserver_request, const string & userna
   
   // Remove all users from the database, and add the current one.
   client_index_remove_all_users (request);
-  request->database_users ()->add_user (username, password, level, string());
+  request->database_users ()->add_user (username, password, level, std::string());
   
   // Update the username and the level in the current session.
   request->session_logic ()->set_username (username);
@@ -103,7 +102,7 @@ void client_index_enable_client (void * webserver_request, const string & userna
 }
 
 
-string client_index (void * webserver_request)
+std::string client_index (void* webserver_request)
 {
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   
@@ -124,15 +123,16 @@ string client_index (void * webserver_request)
 
     bool proceed {true};
     
-    string address {};
+    std::string address {};
     if (proceed) address = request->post ["address"];
     if (demo) address = demo_address ();
     // If there's not something like "http" in the server address, then add it.
-    if (address.find ("http") == string::npos) address = filter_url_set_scheme (address, false);
+    if (address.find ("http") == std::string::npos)
+      address = filter_url_set_scheme (address, false);
     if (proceed) {
       // Get schema, host and port.
-      string scheme {};
-      string host {};
+      std::string scheme {};
+      std::string host {};
       int port {0};
       filter_url_get_scheme_host_port (address, scheme, host, port);
       // If no address given, then that's an error.
@@ -158,7 +158,7 @@ string client_index (void * webserver_request)
     }
     Database_Config_General::setServerPort (port);
     
-    string user {};
+    std::string user {};
     if (proceed) user = request->post ["user"];
     if (demo) user = session_admin_credentials ();
     if (proceed) if (user.empty()) {
@@ -166,7 +166,7 @@ string client_index (void * webserver_request)
       proceed = false;
     }
     
-    string pass {};
+    std::string pass {};
     if (proceed) pass = request->post ["pass"];
     if (demo) pass = session_admin_credentials ();
     if (proceed) if (pass.empty()) {
@@ -175,8 +175,8 @@ string client_index (void * webserver_request)
     }
 
     if (proceed) {
-      string response = client_logic_connection_setup (user, md5 (pass));
-      int iresponse = filter::strings::convert_to_int (response);
+      const std::string response = client_logic_connection_setup (user, md5 (pass));
+      const int iresponse = filter::strings::convert_to_int (response);
       if ((iresponse >= Filter_Roles::guest ()) && (iresponse <= Filter_Roles::admin ())) {
         // Enable client mode upon a successful connection.
         client_index_enable_client (request, user, pass, iresponse);
@@ -191,17 +191,17 @@ string client_index (void * webserver_request)
   if (client_logic_client_enabled ()) view.enable_zone ("clienton");
   else view.enable_zone ("clientoff");
   
-  string address {Database_Config_General::getServerAddress ()};
+  const std::string address {Database_Config_General::getServerAddress ()};
   view.set_variable ("address", address);
   
-  int port {Database_Config_General::getServerPort ()};
+  const int port {Database_Config_General::getServerPort ()};
   view.set_variable ("port", filter::strings::convert_to_string (port));
   
   view.set_variable ("url", client_logic_link_to_cloud ("", ""));
   
-  vector <string> users {request->database_users ()->get_users ()};
-  for (const auto & user : users) {
-    int level = request->database_users()->get_level (user);
+  const std::vector <std::string> users {request->database_users ()->get_users ()};
+  for (const auto& user : users) {
+    const int level = request->database_users()->get_level (user);
     view.set_variable ("role", Filter_Roles::text (level));
   }
   
@@ -213,10 +213,10 @@ string client_index (void * webserver_request)
     view.enable_zone ("info");
   }
   
-  bool basic_mode {config::logic::basic_mode (request)};
+  const bool basic_mode {config::logic::basic_mode (request)};
   if (basic_mode) view.enable_zone("basicmode");
   
-  string page {};
+  std::string page {};
 
   // Since the role of the user may change after a successful connection to the server,
   // the menu generation in the header should be postponed till when the actual role is known.

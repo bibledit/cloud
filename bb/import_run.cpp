@@ -30,13 +30,13 @@
 #include <styles/logic.h>
 
 
-void bible_import_run (string location, string bible, int book, int chapter)
+void bible_import_run (std::string location, const std::string& bible, int book, int chapter)
 {
   Database_Logs::log ("Importing Bible data from location " + location + " into Bible " + bible);
 
-  string folder = filter_archive_uncompress (location);
+  const std::string folder = filter_archive_uncompress (location);
   if (!folder.empty ()) location = folder;
-  vector <string> files {};
+  std::vector <std::string> files {};
   if (filter_url_is_dir (location)) {
     filter_url_recursive_scandir (location, files);
   } else {
@@ -46,16 +46,16 @@ void bible_import_run (string location, string bible, int book, int chapter)
   for (const auto & file : files) {
     if (filter_url_is_dir (file)) continue;
     Database_Logs::log ("Examining file for import: " + file);
-    string success_message {};
-    string error_message {};
-    string data = filter_url_file_get_contents (file);
+    std::string success_message {};
+    std::string error_message {};
+    const std::string data = filter_url_file_get_contents (file);
     if (!data.empty()) {
       if (filter::strings::unicode_string_is_valid (data)) {
         
         // Check whether this is USFM data.
-        bool id = data.find ("\\id ") != string::npos;
-        bool c = data.find ("\\c ") != string::npos;
-        bool xml = data.find ("<?xml") != string::npos;
+        bool id = data.find ("\\id ") != std::string::npos;
+        bool c = data.find ("\\c ") != std::string::npos;
+        bool xml = data.find ("<?xml") != std::string::npos;
         if (!xml) {
           if (id || c) {
             bible_import_usfm (data, bible, book, chapter);
@@ -78,19 +78,19 @@ void bible_import_run (string location, string bible, int book, int chapter)
 
 
 // Import the USFM in $data into $bible.
-void bible_import_usfm (string data, string bible, int book, int chapter)
+void bible_import_usfm (const std::string& data, const std::string& bible, int book, int chapter)
 {
   (void) book;
   (void) chapter;
-  string stylesheet = styles_logic_standard_sheet ();
-  vector <filter::usfm::BookChapterData> book_chapter_text = filter::usfm::usfm_import (data, stylesheet);
-  for (auto & data2 : book_chapter_text) {
-    int book_number = data2.m_book;
-    int chapter_number = data2.m_chapter;
-    string chapter_data = data2.m_data;
+  const std::string stylesheet = styles_logic_standard_sheet ();
+  const std::vector <filter::usfm::BookChapterData> book_chapter_text = filter::usfm::usfm_import (data, stylesheet);
+  for (const auto& data2 : book_chapter_text) {
+    const int book_number = data2.m_book;
+    const int chapter_number = data2.m_chapter;
+    const std::string chapter_data = data2.m_data;
     if (book_number > 0) {
       bible_logic::store_chapter (bible, book_number, chapter_number, chapter_data);
-      string book_name = database::books::get_usfm_from_id (static_cast<book_id>(book_number));
+      const std::string book_name = database::books::get_usfm_from_id (static_cast<book_id>(book_number));
       Database_Logs::log ("Imported " + book_name + " " + filter::strings::convert_to_string (chapter_number));
     } else {
       Database_Logs::log ("Could not import this data: " + chapter_data.substr (0, 1000));
@@ -100,13 +100,13 @@ void bible_import_usfm (string data, string bible, int book, int chapter)
 
 
 // Import raw $text into $bible $book $chapter.
-void bible_import_text (string text, string bible, int book, int chapter)
+void bible_import_text (const std::string& text, const std::string& bible, int book, int chapter)
 {
   // Consecutive discoveries.
   bool discoveries_passed {true};
   
   // Split the input text into separate lines.
-  vector <string> lines = filter::strings::explode (text, '\n');
+  std::vector <std::string> lines = filter::strings::explode (text, '\n');
   
   // Go through the lines.
   for (size_t i = 0; i < lines.size(); i++) {
@@ -119,7 +119,7 @@ void bible_import_text (string text, string bible, int book, int chapter)
       continue;
     
     // Remove chapter markup.
-    if (lines[i].find("\\c") != string::npos) {
+    if (lines[i].find("\\c") != std::string::npos) {
       lines[i].clear();
       continue;
     }
@@ -132,12 +132,12 @@ void bible_import_text (string text, string bible, int book, int chapter)
     // that was set, it silently removes this line. But if it differs, an error comes up.
     if (discoveries_passed) {
       if (filter::strings::number_in_string(lines[i]) == lines[i]) {
-        int number = filter::strings::convert_to_int (filter::strings::number_in_string (lines[i]));
+        const int number = filter::strings::convert_to_int (filter::strings::number_in_string (lines[i]));
         if (number == chapter) {
           lines[i].clear();
           continue;
         }
-        string msg = "The line that contains " + lines[i] + " looks like a chapter number, but the number differs from the chapter that was set";
+        const std::string msg = "The line that contains " + lines[i] + " looks like a chapter number, but the number differs from the chapter that was set";
         Database_Logs::log (msg);
         discoveries_passed = false;
       }
@@ -149,7 +149,7 @@ void bible_import_text (string text, string bible, int book, int chapter)
     // If no punctuation at the end, it is a section heading.
     if (discoveries_passed) {
       if (filter::strings::number_in_string(lines[i]).empty()) {
-        string last_character = lines[i].substr(lines[i].length() -1, 1);
+        const std::string last_character = lines[i].substr(lines[i].length() -1, 1);
         if (filter::strings::unicode_string_is_punctuation (last_character)) {
           lines[i].insert(0, "\\p ");
         } else {
@@ -163,8 +163,8 @@ void bible_import_text (string text, string bible, int book, int chapter)
     // The first time a number is found, a \p is prefixed.
     bool paragraph_open = false;
     if (discoveries_passed) {
-      string output {};
-      string number = filter::strings::number_in_string(lines[i]);
+      std::string output {};
+      std::string number = filter::strings::number_in_string(lines[i]);
       // Setting for having the number only at the start of the line.
       bool treat_as_normal_paragraph {false};
       bool verses_at_start {true};
@@ -213,7 +213,7 @@ void bible_import_text (string text, string bible, int book, int chapter)
   }
   
   // Make one block of text.
-  string newtext {};
+  std::string newtext {};
   for (unsigned int i = 0; i < lines.size(); i++) {
     if (lines[i].empty())
       continue;
@@ -224,12 +224,12 @@ void bible_import_text (string text, string bible, int book, int chapter)
   }
   
   // If no chapter marker is found, insert it at the top.
-  if (newtext.find("\\c") == string::npos) {
+  if (newtext.find("\\c") == std::string::npos) {
     newtext.insert(0, "\\c " + filter::strings::convert_to_string(chapter) + "\n");
   }
 
   // Import the text as USFM.
   bible_logic::store_chapter (bible, book, chapter, newtext);
-  string book_name = database::books::get_usfm_from_id (static_cast<book_id>(book));
+  const std::string book_name = database::books::get_usfm_from_id (static_cast<book_id>(book));
   Database_Logs::log ("Imported " + book_name + " " + filter::strings::convert_to_string (chapter) + ": " + text);
 }

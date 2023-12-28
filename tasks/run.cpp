@@ -77,51 +77,51 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/google.h>
 
 
-atomic <int> running_tasks (0);
+std::atomic <int> running_tasks (0);
 
 
-void tasks_run_one (string filename)
+void tasks_run_one (const std::string& filename)
 {
   // Increase running tasks count.
   running_tasks++;
 
   // Read the task from disk and erase the file.
-  string path = filter_url_create_path ({tasks_logic_folder (), filename});
-  vector <string> lines = filter::strings::explode (filter_url_file_get_contents (path), '\n');
+  const std::string path = filter_url_create_path ({tasks_logic_folder (), filename});
+  std::vector <std::string> lines = filter::strings::explode (filter_url_file_get_contents (path), '\n');
   filter_url_unlink (path);
   
   // Interpret the task's command and its parameters, if any.
-  string command = "";
+  std::string command {};
   if (!lines.empty ()) {
     command = lines [0];
     lines.erase (lines.begin ());
   }
-  string parameter1;
+  std::string parameter1 {};
   if (!lines.empty ()) {
     parameter1 = lines [0];
     lines.erase (lines.begin ());
   }
-  string parameter2;
+  std::string parameter2 {};
   if (!lines.empty ()) {
     parameter2 = lines [0];
     lines.erase (lines.begin ());
   }
-  string parameter3;
+  std::string parameter3 {};
   if (!lines.empty ()) {
     parameter3 = lines [0];
     lines.erase (lines.begin ());
   }
-  string parameter4;
+  std::string parameter4 {};
   if (!lines.empty ()) {
     parameter4 = lines [0];
     lines.erase (lines.begin ());
   }
-  string parameter5;
+  std::string parameter5 {};
   if (!lines.empty ()) {
     parameter5 = lines [0];
     lines.erase (lines.begin ());
   }
-  string parameter6;
+  std::string parameter6 {};
   if (!lines.empty ()) {
     parameter6 = lines [0];
     lines.erase (lines.begin ());
@@ -335,12 +335,14 @@ void tasks_run_one (string filename)
 void tasks_run_check ()
 {
   // Don't run more than so many tasks.
-  if (tasks_run_active_count () >= MAX_PARALLEL_TASKS) return;
+  if (tasks_run_active_count () >= MAX_PARALLEL_TASKS)
+    return;
   // Get and start first available task.
-  vector <string> tasks = filter_url_scandir (tasks_logic_folder ());
-  if (tasks.empty ()) return;
-  thread task_thread = thread (tasks_run_one, tasks [0]);
-  // Detach the thread to the thread continues to run independently,
+  const std::vector <std::string> tasks = filter_url_scandir (tasks_logic_folder ());
+  if (tasks.empty ())
+    return;
+  std::thread task_thread = std::thread (tasks_run_one, tasks [0]);
+  // Detach the thread so the thread continues to run independently,
   // when the thread object goes out of scope, and no memory is leaked this way.
   task_thread.detach ();
 }
@@ -348,8 +350,7 @@ void tasks_run_check ()
 
 int tasks_run_active_count ()
 {
-  int taskscount = 0;
-  taskscount = running_tasks;
+  const int taskscount = running_tasks;
   return taskscount;
 }
 

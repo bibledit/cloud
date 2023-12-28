@@ -20,8 +20,7 @@
 #pragma once
 
 #include <config/libraries.h>
-using namespace std;
 
-void bible_import_run (string location, string bible, int book, int chapter);
-void bible_import_usfm (string data, string bible, int book, int chapter);
-void bible_import_text (string text, string bible, int book, int chapter);
+void bible_import_run (std::string location, const std::string& bible, int book, int chapter);
+void bible_import_usfm (const std::string& data, const std::string& bible, int book, int chapter);
+void bible_import_text (const std::string& text, const std::string& bible, int book, int chapter);

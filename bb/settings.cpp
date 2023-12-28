@@ -58,7 +58,6 @@
 #endif
 #pragma GCC diagnostic pop
 using namespace std;
-using namespace pugi;
 
 
 string bible_settings_url ()
@@ -203,12 +202,12 @@ string bible_settings (void * webserver_request)
 
   
   // Available books.
-  xml_document book_document {};
+  pugi::xml_document book_document {};
   vector <int> book_ids = filter_passage_get_ordered_books (bible);
   for (const auto book: book_ids) {
     string book_name = database::books::get_english_from_id (static_cast<book_id>(book));
     book_name = translate(book_name);
-    xml_node a_or_span_node;
+    pugi::xml_node a_or_span_node;
     if (manager_level) {
       a_or_span_node = book_document.append_child("a");
       string href = filter_url_build_http_query ("book", "bible", bible);
@@ -218,11 +217,11 @@ string bible_settings (void * webserver_request)
       a_or_span_node = book_document.append_child("span");
     }
     a_or_span_node.text().set(book_name.c_str());
-    xml_node space_node = book_document.append_child("span");
+    pugi::xml_node space_node = book_document.append_child("span");
     space_node.text().set(" ");
   }
   stringstream bookblock2 {};
-  book_document.print (bookblock2, "", format_raw);
+  book_document.print (bookblock2, "", pugi::format_raw);
   view.set_variable ("bookblock", bookblock2.str());
   view.set_variable ("book_count", filter::strings::convert_to_string (static_cast<int>(book_ids.size())));
 

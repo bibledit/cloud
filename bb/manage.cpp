@@ -49,27 +49,25 @@
 #include <pugixml.hpp>
 #endif
 #pragma GCC diagnostic pop
-using namespace std;
-using namespace pugi;
 
 
-string bible_manage_url ()
+std::string bible_manage_url ()
 {
   return "bible/manage";
 }
 
 
-bool bible_manage_acl (void * webserver_request)
+bool bible_manage_acl (void* webserver_request)
 {
   return Filter_Roles::access_control (webserver_request, Filter_Roles::translator ());
 }
 
 
-string bible_manage (void * webserver_request)
+std::string bible_manage (void* webserver_request)
 {
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   
-  string page {};
+  std::string page {};
   
   Assets_Header header = Assets_Header (translate("Bibles"), webserver_request);
   header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());
@@ -77,8 +75,8 @@ string bible_manage (void * webserver_request)
   
   Assets_View view {};
   
-  string success_message {};
-  string error_message {};
+  std::string success_message {};
+  std::string error_message {};
   
   // New Bible handler.
   if (request->query.count ("new")) {
@@ -87,17 +85,17 @@ string bible_manage (void * webserver_request)
     return page;
   }
   if (request->post.count ("new")) {
-    string bible = request->post ["entry"];
+    std::string bible = request->post ["entry"];
     // No underscrore ( _ ) in the name of a Bible because the underscores are used in the searches to separate data.
     bible = filter::strings::replace ("_", "", bible);
-    vector <string> bibles = request->database_bibles()->get_bibles ();
+    const std::vector <std::string> bibles = request->database_bibles()->get_bibles ();
     if (find (bibles.begin(), bibles.end(), bible) != bibles.end()) {
       error_message = translate("This Bible already exists");
     } else {
       request->database_bibles()->create_bible (bible);
       // Check / grant access.
       if (!access_bible::write (request, bible)) {
-        string me = request->session_logic ()->currentUser ();
+        std::string me = request->session_logic()->currentUser ();
         DatabasePrivileges::set_bible (me, bible, true);
       }
       success_message = translate("The Bible was created");
@@ -111,26 +109,26 @@ string bible_manage (void * webserver_request)
   
   // Copy Bible handler.
   if (request->query.count ("copy")) {
-    string copy = request->query["copy"];
+    const std::string copy = request->query["copy"];
     Dialog_Entry dialog_entry = Dialog_Entry ("manage", translate("Please enter a name for where to copy the Bible to"), "", "", "A new Bible will be created with the given name, and the current Bible copied to it");
     dialog_entry.add_query ("origin", copy);
     page += dialog_entry.run ();
     return page;
   }
   if (request->query.count ("origin")) {
-    string origin = request->query["origin"];
+    const std::string origin = request->query["origin"];
     if (request->post.count ("entry")) {
-      string destination = request->post["entry"];
+      std::string destination = request->post["entry"];
       destination = filter::strings::replace ("_", "", destination); // No underscores in the name.
-      vector <string> bibles = request->database_bibles()->get_bibles ();
+      const std::vector <std::string> bibles = request->database_bibles()->get_bibles ();
       if (find (bibles.begin(), bibles.end(), destination) != bibles.end()) {
         error_message = translate("Cannot copy the Bible because the destination Bible already exists.");
       } else {
         // User needs read access to the original.
         if (access_bible::read (request, origin)) {
           // Copy the Bible data.
-          string origin_folder = request->database_bibles()->bible_folder (origin);
-          string destination_folder = request->database_bibles()->bible_folder (destination);
+          const std::string origin_folder = request->database_bibles()->bible_folder (origin);
+          const std::string destination_folder = request->database_bibles()->bible_folder (destination);
           filter_url_dir_cp (origin_folder, destination_folder);
           // Copy the Bible search index.
           search_logic_copy_bible (origin, destination);
@@ -138,7 +136,7 @@ string bible_manage (void * webserver_request)
           success_message = translate("The Bible was copied.");
           // Check / grant access to destination Bible.
           if (!access_bible::write (request, destination)) {
-            string me = request->session_logic ()->currentUser ();
+            const std::string me = request->session_logic ()->currentUser ();
             DatabasePrivileges::set_bible (me, destination, true);
           }
           // Creating a Bible removes any Sample Bible that might have been there.
@@ -153,8 +151,8 @@ string bible_manage (void * webserver_request)
 
   // Delete Bible handler.
   if (request->query.count ("delete")) {
-    string bible = request->query ["delete"];
-    string confirm = request->query ["confirm"];
+    const std::string bible = request->query ["delete"];
+    const std::string confirm = request->query ["confirm"];
     if (confirm == "yes") {
       // User needs write access for delete operation.
       if (access_bible::write (request, bible)) {
@@ -173,20 +171,21 @@ string bible_manage (void * webserver_request)
 
   view.set_variable ("success_message", success_message);
   view.set_variable ("error_message", error_message);
-  vector <string> bibles = access_bible::bibles (request);
-  xml_document document;
-  for (const auto & bible : bibles) {
-    xml_node li_node = document.append_child ("li");
-    xml_node a_node = li_node.append_child("a");
-    string href = filter_url_build_http_query ("settings", "bible", bible);
+  const std::vector <std::string> bibles = access_bible::bibles (request);
+  pugi::xml_document document{};
+  for (const auto& bible : bibles) {
+    pugi::xml_node li_node = document.append_child ("li");
+    pugi::xml_node a_node = li_node.append_child("a");
+    const std::string href = filter_url_build_http_query ("settings", "bible", bible);
     a_node.append_attribute("href") = href.c_str();
     a_node.text().set(bible.c_str());
   }
-  stringstream bibleblock {};
-  document.print(bibleblock, "", format_raw);
+  std::stringstream bibleblock {};
+  document.print(bibleblock, "", pugi::format_raw);
   view.set_variable ("bibleblock", bibleblock.str());
 
-  if (!client_logic_client_enabled ()) view.enable_zone ("server");
+  if (!client_logic_client_enabled ()) 
+    view.enable_zone ("server");
 
   page += view.render ("bb", "manage");
   

@@ -94,6 +94,7 @@ string bible_settings (void * webserver_request)
   if (bible.empty()) bible = request->post ["val1"];
   bible = access_bible::clamp (request, bible);
   view.set_variable ("bible", filter::strings::escape_special_xml_characters (bible));
+  view.set_variable ("urlbible", filter_url_urlencode(filter::strings::escape_special_xml_characters (bible)));
 
   
   // Whether the user has write access to this Bible.
@@ -315,8 +316,6 @@ string bible_settings (void * webserver_request)
   } else {
     view.enable_zone ("server");
   }
-  
-  
 
   
   page += view.render ("bb", "settings");

@@ -176,7 +176,7 @@ std::string bible_manage (void* webserver_request)
   for (const auto& bible : bibles) {
     pugi::xml_node li_node = document.append_child ("li");
     pugi::xml_node a_node = li_node.append_child("a");
-    const std::string href = filter_url_build_http_query ("settings", "bible", bible);
+    const std::string href = filter_url_build_http_query ("settings", "bible", filter_url_urlencode(bible));
     a_node.append_attribute("href") = href.c_str();
     a_node.text().set(bible.c_str());
   }

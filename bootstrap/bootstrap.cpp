@@ -244,7 +244,7 @@ void bootstrap_index (Webserver_Request& webserver_request)
 {
   std::shared_ptr<Developer_Logic_Tracer> developer_logic_tracer {nullptr};
   if (config_globals_log_network) {
-    developer_logic_tracer = std::make_shared<Developer_Logic_Tracer>(std::addressof(webserver_request));
+    developer_logic_tracer = std::make_shared<Developer_Logic_Tracer>(webserver_request);
   }
   
   // Record the POST request made to the web server.
@@ -291,10 +291,8 @@ void bootstrap_index (Webserver_Request& webserver_request)
     return;
   }
 
-  // check_user_localization_preference (std::addressof(webserver_request));
-
-  if ((url == resource_imagefetch_url ()) && resource_imagefetch_acl (std::addressof(webserver_request))) {
-    webserver_request.reply = resource_imagefetch (std::addressof(webserver_request));
+  if ((url == resource_imagefetch_url ()) && resource_imagefetch_acl (webserver_request)) {
+    webserver_request.reply = resource_imagefetch (webserver_request);
     return;
   }
 
@@ -312,29 +310,29 @@ void bootstrap_index (Webserver_Request& webserver_request)
   
   // Force setup.
   if (config::logic::version () != Database_Config_General::getInstalledInterfaceVersion ()) {
-    webserver_request.reply = setup_index (std::addressof(webserver_request));
+    webserver_request.reply = setup_index (webserver_request);
     return;
   }
 
   // Home page and menu.
-  if ((url == index_index_url ()) && browser_request_security_okay (webserver_request) && index_index_acl (std::addressof(webserver_request))) {
-    webserver_request.reply = index_index (std::addressof(webserver_request));
+  if ((url == index_index_url ()) && browser_request_security_okay (webserver_request) && index_index_acl (webserver_request)) {
+    webserver_request.reply = index_index (webserver_request);
     return;
   }
   
-  if ((url == menu_index_url ()) && browser_request_security_okay (webserver_request) && menu_index_acl (std::addressof(webserver_request))) {
-    webserver_request.reply = menu_index (std::addressof(webserver_request));
+  if ((url == menu_index_url ()) && browser_request_security_okay (webserver_request) && menu_index_acl (webserver_request)) {
+    webserver_request.reply = menu_index (webserver_request);
     return;
   }
   
   // Login and logout.
-  if ((url == session_login_url ()) && browser_request_security_okay (webserver_request) && session_login_acl (std::addressof(webserver_request))) {
-    webserver_request.reply = session_login (std::addressof(webserver_request));
+  if ((url == session_login_url ()) && browser_request_security_okay (webserver_request) && session_login_acl (webserver_request)) {
+    webserver_request.reply = session_login (webserver_request);
     return;
   }
   
-  if ((url == session_logout_url ()) && browser_request_security_okay (webserver_request) && session_logout_acl (std::addressof(webserver_request))) {
-    webserver_request.reply = session_logout (std::addressof(webserver_request));
+  if ((url == session_logout_url ()) && browser_request_security_okay (webserver_request) && session_logout_acl (webserver_request)) {
+    webserver_request.reply = session_logout (webserver_request);
     return;
   }
   

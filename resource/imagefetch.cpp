@@ -23,32 +23,29 @@
 #include <filter/url.h>
 #include <webserver/request.h>
 #include <database/imageresources.h>
-using namespace std;
 
 
-string resource_imagefetch_url ()
+std::string resource_imagefetch_url ()
 {
   return "resource/imagefetch";
 }
 
 
-bool resource_imagefetch_acl (void * webserver_request)
+bool resource_imagefetch_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ());
+  return Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::consultant ());
 }
 
 
-string resource_imagefetch (void * webserver_request)
+std::string resource_imagefetch (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  
   // Resource and image names.
-  string name = request->query ["name"];
-  string image = request->query ["image"];
+  const std::string name = webserver_request.query ["name"];
+  const std::string image = webserver_request.query ["image"];
 
   // Set the HTTP GET parameter to the image name,
   // so the server will return the appropriate Mime type for this image.
-  request->get = image;
+  webserver_request.get = image;
 
   // Return the raw image data for sending off to the browser.
   Database_ImageResources database_imageresources;

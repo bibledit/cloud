@@ -25,29 +25,28 @@
 #include <database/logs.h>
 #include <database/books.h>
 #include <filter/usfm.h>
-using namespace std;
 
 
 // Internal function declarations.
-void developer_logic_import_changes_save (string bible, int book, int chapter, int verse, string & text);
+void developer_logic_import_changes_save (std::string bible, int book, int chapter, int verse, std::string& text);
 
 
-mutex log_network_mutex {};
-vector <string> log_network_cache {};
+std::mutex log_network_mutex {};
+std::vector <std::string> log_network_cache {};
 
 
 void developer_logic_log_network_write ()
 {
   if (!log_network_cache.empty ()) {
     log_network_mutex.lock ();
-    string lines {};
-    for (const auto & line : log_network_cache) {
+    std::string lines {};
+    for (const auto& line : log_network_cache) {
       lines.append (line);
       lines.append ("\n");
     }
     log_network_cache.clear ();
     log_network_mutex.unlock ();
-    string path = filter_url_create_root_path ({filter_url_temp_dir(), "log-network.csv"});
+    const std::string path = filter_url_create_root_path ({filter_url_temp_dir(), "log-network.csv"});
     if (!file_or_dir_exists (path)) {
       filter_url_file_put_contents_append (path, "date,IPaddress,URL,query,username\n");
     }
@@ -56,21 +55,20 @@ void developer_logic_log_network_write ()
 }
 
 
-Developer_Logic_Tracer::Developer_Logic_Tracer(void * webserver_request)
+Developer_Logic_Tracer::Developer_Logic_Tracer(Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   seconds1 = filter::date::seconds_since_epoch ();
   microseconds1 = filter::date::numerical_microseconds();
   rfc822 = filter::date::rfc822 (seconds1);
-  remote_address = request->remote_address;
-  request_get = request->get;
-  for (const auto & element : request->query) {
+  remote_address = webserver_request.remote_address;
+  request_get = webserver_request.get;
+  for (const auto& element : webserver_request.query) {
     request_query.append(" ");
     request_query.append(element.first);
     request_query.append("=");
     request_query.append(element.second);
   }
-  username = request->session_logic()->currentUser();
+  username = webserver_request.session_logic()->currentUser();
 }
 
 
@@ -79,15 +77,15 @@ Developer_Logic_Tracer::~Developer_Logic_Tracer()
   int seconds2 = filter::date::seconds_since_epoch();
   int microseconds2 = filter::date::numerical_microseconds();
   int microseconds = (seconds2 - seconds1) * 1000000 + microseconds2 - microseconds1;
-  vector <string> bits = {rfc822, filter::strings::convert_to_string (microseconds), request_get, request_query, username};
-  string entry = filter::strings::implode(bits, ",");
+  std::vector <std::string> bits = {rfc822, filter::strings::convert_to_string (microseconds), request_get, request_query, username};
+  std::string entry = filter::strings::implode(bits, ",");
   log_network_mutex.lock();
   log_network_cache.push_back(entry);
   log_network_mutex.unlock();
 }
 
 
-void developer_logic_import_changes_save (string bible, int book, int chapter, int verse, string & text)
+void developer_logic_import_changes_save (std::string bible, int book, int chapter, int verse, std::string& text)
 {
   std::cout << "saving verse " << verse << std::endl;
   std::cout << text << std::endl;
@@ -96,8 +94,8 @@ void developer_logic_import_changes_save (string bible, int book, int chapter, i
   }
   
   Webserver_Request webserver_request {};
-  string explanation = "import changes";
-  string message = filter::usfm::safely_store_verse (&webserver_request, bible, book, chapter, verse, text, explanation, false);
+  std::string explanation = "import changes";
+  const std::string message = filter::usfm::safely_store_verse (&webserver_request, bible, book, chapter, verse, text, explanation, false);
   if (!message.empty()) Database_Logs::log (message);
   text.clear ();
 }
@@ -105,14 +103,15 @@ void developer_logic_import_changes_save (string bible, int book, int chapter, i
 
 void developer_logic_import_changes ()
 {
-  string home_path = ".";
+  std::string home_path = ".";
   char * home = getenv ("HOME");
-  if (home) home_path = home;
-  string file_path = filter_url_create_path ({home_path, "Desktop", "changes.usfm"});
-  string bible = "test";
+  if (home) 
+    home_path = home;
+  const std::string file_path = filter_url_create_path ({home_path, "Desktop", "changes.usfm"});
+  const std::string bible = "test";
   Database_Logs::log ("Import changes from " + file_path + " into Bible " + bible);
   Database_Bibles database_bibles {};
-  vector <string> bibles = database_bibles.get_bibles ();
+  const std::vector <std::string> bibles = database_bibles.get_bibles ();
   if (!in_array(bible, bibles)) {
     Database_Logs::log ("Cannot locate Bible " + bible);
     return;
@@ -121,13 +120,13 @@ void developer_logic_import_changes ()
     Database_Logs::log ("Cannot locate " + file_path);
     return;
   }
-  string contents = filter_url_file_get_contents(file_path);
-  vector<string> lines = filter::strings::explode(contents, "\n");
+  const std::string contents = filter_url_file_get_contents(file_path);
+  const std::vector<std::string> lines = filter::strings::explode(contents, "\n");
 
-  vector <book_id> book_ids = database::books::get_ids ();
+  const std::vector <book_id> book_ids = database::books::get_ids ();
 
-  Passage passage (bible, 0, 0, string());
-  string text {};
+  Passage passage (bible, 0, 0, std::string());
+  std::string text {};
 
   for (auto line : lines) {
     if (line.empty()) continue;
@@ -137,9 +136,9 @@ void developer_logic_import_changes ()
     int verse {-1};
 
     // Locate and extract the book identifier.
-    for (auto book_num : book_ids) {
-      string s = database::books::get_english_from_id(static_cast<book_id>(book_num));
-      size_t pos = line.find(s);
+    for (const auto book_num : book_ids) {
+      std::string s = database::books::get_english_from_id(static_cast<book_id>(book_num));
+      const size_t pos = line.find(s);
       if (pos != 3) continue;
       book = book_num;
       line.erase (0, pos + s.length());
@@ -151,7 +150,7 @@ void developer_logic_import_changes ()
     if (book != book_id::_unknown) {
       size_t pos = line.find (":");
       if (pos != std::string::npos) {
-        vector <string> bits = filter::strings::explode(line.substr (0, pos), ".");
+        const std::vector <std::string> bits = filter::strings::explode(line.substr (0, pos), ".");
         if (bits.size() == 2) {
           chapter = filter::strings::convert_to_int(filter::strings::trim(bits[0]));
           verse = filter::strings::convert_to_int(filter::strings::trim(bits[1]));

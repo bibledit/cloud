@@ -21,6 +21,8 @@
 
 #include <config/libraries.h>
 
+class Webserver_Request;
+
 std::string menu_index_url ();
-bool menu_index_acl (void * webserver_request);
-std::string menu_index (void * webserver_request);
+bool menu_index_acl (Webserver_Request& webserver_request);
+std::string menu_index (Webserver_Request& webserver_request);

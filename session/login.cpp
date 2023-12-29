@@ -31,7 +31,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <index/index.h>
 #include <ldap/logic.h>
 #include <user/logic.h>
-using namespace std;
 
 
 const char * session_login_url ()
@@ -40,13 +39,13 @@ const char * session_login_url ()
 }
 
 
-bool session_login_acl (void * webserver_request)
+bool session_login_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::guest ());
+  return Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::guest ());
 }
 
 
-string session_login (void * webserver_request)
+std::string session_login (Webserver_Request& webserver_request)
 {
   /*
   This script can have several functions:
@@ -63,24 +62,22 @@ string session_login (void * webserver_request)
   The script is called with a query for where to forward the user to.
   */
 
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
+  std::string page{};
 
-  string page;
-
-  Assets_View view;
+  Assets_View view{};
 
   // Form submission handler.
-  if (request->post["submit"] != "") {
+  if (webserver_request.post["submit"] != "") {
     bool form_is_valid = true;
-    string user = request->post["user"];
-    string pass = request->post["pass"];
+    const std::string user = webserver_request.post["user"];
+    const std::string pass = webserver_request.post["pass"];
     // During login it determines whether the device is a touch enabled device.
     // Research shows that most desktop users move with their mouse over the screen before they click,
     // so we can detect those mouse movements through javascript,
     // and store that information with the user and device.
     // There is also wurfl.io that detects a mobile device in javascript,
     // but this library is of no immediate use at the server side.
-    bool touch_enabled = filter::strings::convert_to_bool (request->post["touch"]);
+    const bool touch_enabled = filter::strings::convert_to_bool (webserver_request.post["touch"]);
     if (user.length () < 2) {
       form_is_valid = false;
       view.set_variable ("username_invalid", translate ("Username should be at least two characters long"));
@@ -91,17 +88,17 @@ string session_login (void * webserver_request)
     }
     if (form_is_valid) {
       // Optionally query the LDAP server and log the response.
-      user_logic_optional_ldap_authentication (webserver_request, user, pass);
+      user_logic_optional_ldap_authentication (std::addressof(webserver_request), user, pass);
       // Authenticate against local database.
-      if (request->session_logic()->attempt_login (user, pass, touch_enabled)) {
+      if (webserver_request.session_logic()->attempt_login (user, pass, touch_enabled)) {
         // Log the login.
-        Database_Logs::log (request->session_logic()->currentUser () + " logged in");
+        Database_Logs::log (webserver_request.session_logic()->currentUser () + " logged in");
         // Store web site's base URL.
-        string siteUrl = get_base_url (request);
-        Database_Config_General::setSiteURL (siteUrl);
+        const std::string site_url = get_base_url (std::addressof(webserver_request));
+        Database_Config_General::setSiteURL (site_url);
       } else {
         view.set_variable ("error_message", translate ("Username or email address or password are not correct"));
-        request->session_logic()->logout();
+        webserver_request.session_logic()->logout();
         // Log the login failure for the Administrator(s) only.
         // Others with lower roles should not be able to reverse engineer a user's password
         // based on the failure information.
@@ -119,17 +116,17 @@ string session_login (void * webserver_request)
   }
 
 
-  string forward = request->query ["request"];
+  const std::string forward = webserver_request.query ["request"];
   
-  if (request->session_logic ()->loggedIn ()) {
-    if (forward != "") {
+  if (webserver_request.session_logic ()->loggedIn ()) {
+    if (!forward.empty()) {
       // After login, the user is forwarded to the originally requested URL, if any.
-      redirect_browser (request, forward);
-      return "";
+      redirect_browser (std::addressof(webserver_request), forward);
+      return std::string();
     }
     // After login, go to the main page.
-    redirect_browser (request, index_index_url ());
-    return "";
+    redirect_browser (std::addressof(webserver_request), index_index_url ());
+    return std::string();
   } else {
     page += session_login_display_header (webserver_request);
     view.set_variable ("forward", forward);
@@ -143,7 +140,7 @@ string session_login (void * webserver_request)
 }
 
 
-string session_login_display_header (void * webserver_request)
+std::string session_login_display_header (Webserver_Request& webserver_request)
 {
   /*
   Postpone displaying the header for two reasons:
@@ -152,7 +149,7 @@ string session_login_display_header (void * webserver_request)
   2. The script may forward the user to another page.
      Therefore no output should be sent so the forward headers work.
   */
-  Assets_Header header = Assets_Header (translate ("Login"), webserver_request);
+  Assets_Header header = Assets_Header (translate ("Login"), std::addressof(webserver_request));
   header.touch_css_on ();
   return header.run ();
 }

@@ -252,7 +252,7 @@ string menu_logic_main_categories (void * webserver_request, string & tooltip)
   // When a user is logged in, and is a guest, put the Logout into the main menu, rather than in a sub menu.
   if (request->session_logic ()->loggedIn ()) {
     if (request->session_logic ()->currentLevel () == Filter_Roles::guest ()) {
-      if (session_logout_acl (webserver_request)) {
+      if (session_logout_acl (*request)) {
         html.push_back (menu_logic_create_item (session_logout_url (), menu_logic_logout_text (), true, "", ""));
         tooltipbits.push_back (menu_logic_logout_text ());
       }
@@ -349,7 +349,7 @@ string menu_logic_basic_categories (void * webserver_request)
 #ifdef HAVE_CLOUD
   if (request->session_logic ()->loggedIn ()) {
     if (request->session_logic ()->currentLevel () == Filter_Roles::guest ()) {
-      if (session_logout_acl (webserver_request)) {
+      if (session_logout_acl (*request)) {
         html.push_back (menu_logic_create_item (session_logout_url (), menu_logic_logout_text (), true, "", ""));
       }
     }
@@ -852,7 +852,7 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
         // If logged in, but not as guest, put the Logout menu here.
         if (request->session_logic ()->loggedIn ()) {
           if (request->session_logic ()->currentLevel () != Filter_Roles::guest ()) {
-            if (session_logout_acl (webserver_request)) {
+            if (session_logout_acl (*request)) {
               html.push_back (menu_logic_create_item (session_logout_url (), menu_logic_logout_text (), true, "", ""));
               tiplabels.push_back (menu_logic_logout_text ());
             }

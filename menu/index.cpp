@@ -22,26 +22,24 @@
 #include <filter/url.h>
 #include <webserver/request.h>
 #include <menu/logic.h>
-using namespace std;
 
 
-string menu_index_url ()
+std::string menu_index_url ()
 {
   return "menu/index";
 }
 
 
-bool menu_index_acl (void * webserver_request)
+bool menu_index_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::guest ());
+  return Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::guest ());
 }
 
 
-string menu_index (void * webserver_request)
+std::string menu_index (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  string item = request->query ["item"];
+  std::string item = webserver_request.query ["item"];
   item = menu_logic_click (item);
-  redirect_browser (request, item);
-  return "";
+  redirect_browser (std::addressof(webserver_request), item);
+  return std::string();
 }

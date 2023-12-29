@@ -21,7 +21,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/roles.h>
 #include <filter/url.h>
 #include <index/index.h>
-using namespace std;
 
 
 const char * session_logout_url ()
@@ -30,18 +29,17 @@ const char * session_logout_url ()
 }
 
 
-bool session_logout_acl (void * webserver_request)
+bool session_logout_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::guest ());
+  return Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::guest ());
 }
 
 
-string session_logout (void * webserver_request)
+std::string session_logout (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  request->session_logic ()->logout ();
-  redirect_browser (request, index_index_url ());
-  return "";
+  webserver_request.session_logic ()->logout ();
+  redirect_browser (std::addressof(webserver_request), index_index_url ());
+  return std::string();
 }
 
 

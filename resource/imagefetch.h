@@ -21,6 +21,8 @@
 
 #include <config/libraries.h>
 
+class Webserver_Request;
+
 std::string resource_imagefetch_url ();
-bool resource_imagefetch_acl (void * webserver_request);
-std::string resource_imagefetch (void * webserver_request);
+bool resource_imagefetch_acl (Webserver_Request& webserver_request);
+std::string resource_imagefetch (Webserver_Request& webserver_request);

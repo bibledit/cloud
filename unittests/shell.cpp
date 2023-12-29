@@ -35,13 +35,13 @@ TEST (filter, shell)
   
   result = filter_shell_vfork (output, "", "ls", "-l");
   EXPECT_EQ (0, result);
-  if (output.find ("unittest") == string::npos) {
+  if (output.find ("unittest") == std::string::npos) {
     EXPECT_EQ ("Supposed to list files", output);
   }
   
   result = filter_shell_vfork (output, "/", "ls", "-l");
   EXPECT_EQ (0, result);
-  if (output.find ("tmp") == string::npos) {
+  if (output.find ("tmp") == std::string::npos) {
     EXPECT_EQ ("Supposed to list folder /", output);
   }
 }

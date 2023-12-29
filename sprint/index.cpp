@@ -109,7 +109,7 @@ string sprint_index ([[maybe_unused]] void * webserver_request)
       int identifier = filter::strings::convert_to_int (id);
       // Find the fragment "box".
       size_t pos = id.find ("box");
-      if (pos != string::npos) {
+      if (pos != std::string::npos) {
         // Remove the fragment "box".
         id.erase (0, pos + 3);
         // Convert the box to an integer.

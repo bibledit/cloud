@@ -85,7 +85,7 @@ void Flate::process_iterations (string & rendering)
   string beginiteration ("<!-- #BEGINITERATION");
   size_t position = rendering.find (beginiteration);
   // Iterate through the rendering till all have been dealt with.
-  while ((position != string::npos) && (iteration_count < 100)) {
+  while ((position != std::string::npos) && (iteration_count < 100)) {
     iteration_count++;
     // Position where the opening tag ends.
     size_t pos = rendering.find ("-->", position);
@@ -99,7 +99,7 @@ void Flate::process_iterations (string & rendering)
     // Locate the ending position.
     size_t iterationendposition = rendering.find (iterationendline);
     // Process if it exists.
-    if (iterationendposition != string::npos) {
+    if (iterationendposition != std::string::npos) {
       // Take the ending line out.
       rendering.erase (iterationendposition, iterationendline.length ());
       // Get and remove the inner contents of this iteration.
@@ -137,7 +137,7 @@ void Flate::process_zones (string& rendering)
   string beginzone ("<!-- #BEGINZONE");
   size_t position = rendering.find (beginzone);
   // Iterate through the file contents till all zones have been dealt with.
-  while ((position != string::npos) && (zone_iteration_count < 1000)) {
+  while ((position != std::string::npos) && (zone_iteration_count < 1000)) {
     zone_iteration_count++;
     // Position where the starting zone ends.
     size_t pos = rendering.find ("-->", position);
@@ -151,7 +151,7 @@ void Flate::process_zones (string& rendering)
     // Locate the ending position.
     size_t zoneendposition = rendering.find (zoneendline);
     // Process if it exists.
-    if (zoneendposition != string::npos) {
+    if (zoneendposition != std::string::npos) {
       // Take the ending line out.
       rendering.erase (zoneendposition, zoneendline.length ());
       // If the zone has not been enabled, remove all its contents within.
@@ -172,7 +172,7 @@ void Flate::process_variables (string& rendering)
   // Start processing variables by locating the first one.
   size_t position = rendering.find ("##");
   // Iterate through the contents till all variables have been dealt with.
-  while ((position != string::npos) && (variable_iteration_count < 1000)) {
+  while ((position != std::string::npos) && (variable_iteration_count < 1000)) {
     variable_iteration_count++;
     bool correct = true;
     // Check that this is a correct position: It should not have hashes nearby.
@@ -184,11 +184,11 @@ void Flate::process_variables (string& rendering)
     }
     // Position where the variable ends.
     size_t pos = rendering.find ("##", position + 1);
-    if (pos == string::npos) pos = position + 4;
+    if (pos == std::string::npos) pos = position + 4;
     // Name for the variable zone.
     string name = rendering.substr (position + 2, pos - position - 2);
     // No new line in the variable name.
-    if (correct) if (name.find ("\n") != string::npos) correct = false;
+    if (correct) if (name.find ("\n") != std::string::npos) correct = false;
     if (correct) {
       // Take the variable out.
       rendering.erase (position, name.length () + 4);
@@ -213,13 +213,13 @@ void Flate::process_translate (string& rendering)
   // Start processing variables by locating the first one.
   size_t position = rendering.find (gettextopen);
   // Iterate through the contents till all gettext calls have been dealt with.
-  while ((position != string::npos) && (iteration_counter < 1000)) {
+  while ((position != std::string::npos) && (iteration_counter < 1000)) {
     iteration_counter++;
     // Remove the gettext opener.
     rendering.erase (position, gettextopen.length());
     // Position where the gettext call ends.
     size_t pos = rendering.find (gettextclose, position);
-    if (pos != string::npos) {
+    if (pos != std::string::npos) {
       // Take the gettext closer out.
       rendering.erase (pos, gettextclose.length());
       // The English string.

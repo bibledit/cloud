@@ -153,7 +153,7 @@ bool string_is_blank(const std::string& s)
 string extractFilename(const string& fqn)
 {
     string::size_type pos;
-    if((pos = fqn.find_last_of(PATH_SEPARATOR)) != string::npos)
+    if((pos = fqn.find_last_of(PATH_SEPARATOR)) != std::string::npos)
     {
         return fqn.substr(++pos);
     } else

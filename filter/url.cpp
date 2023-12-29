@@ -192,7 +192,7 @@ string filter_url_dirname_internal (string url, const char * separator)
       url = url.substr (0, url.length () - 1);
     }
     size_t pos = url.find_last_of (separator);
-    if (pos != string::npos) url = url.substr (0, pos);
+    if (pos != std::string::npos) url = url.substr (0, pos);
     else url = string();
   }
   if (url.empty ()) url = ".";
@@ -241,7 +241,7 @@ string filter_url_dirname_web (string url)
     }
     // Get dirname or empty string.
     size_t pos = url.find_last_of (separator);
-    if (pos != string::npos) url = url.substr (0, pos);
+    if (pos != std::string::npos) url = url.substr (0, pos);
     else url.clear();
   }
   // Done.
@@ -259,7 +259,7 @@ string filter_url_basename_internal (string url, const char * separator)
       url = url.substr (0, url.length () - 1);
     }
     size_t pos = url.find_last_of (separator);
-    if (pos != string::npos) url = url.substr (pos + 1);
+    if (pos != std::string::npos) url = url.substr (pos + 1);
   }
   return url;
 }
@@ -304,7 +304,7 @@ string filter_url_basename_web (string url)
     }
     // Keep last element: the base name.
     size_t pos = url.find_last_of (separator);
-    if (pos != string::npos) url = url.substr (pos + 1);
+    if (pos != std::string::npos) url = url.substr (pos + 1);
   }
   // Done.
   return url;
@@ -446,7 +446,7 @@ string filter_url_get_extension (string url)
 {
   string extension;
   size_t pos = url.find_last_of (".");
-  if (pos != string::npos) {
+  if (pos != std::string::npos) {
     extension = url.substr (pos + 1);
   }
   return extension;
@@ -917,13 +917,13 @@ bool filter_url_email_is_valid (string email)
   string left = atbits [0];
   for (unsigned int i = 0; i < left.size(); i++) {
     char c = left [i];
-    if (valid_set.find (c) == string::npos) return false;
+    if (valid_set.find (c) == std::string::npos) return false;
   }
   // The characters on the right of @ should be from the valid set.
   string right = atbits [1];
   for (unsigned int i = 0; i < right.size(); i++) {
     char c = right [i];
-    if (valid_set.find (c) == string::npos) return false;
+    if (valid_set.find (c) == std::string::npos) return false;
   }
   // The character . should appear at least once to the right of @.
   vector <string> dotbits = filter::strings::explode (right, '.');
@@ -936,7 +936,7 @@ bool filter_url_email_is_valid (string email)
 string filter_url_build_http_query (string url, const string& parameter, const string& value)
 {
   size_t pos = url.find ("?");
-  if (pos == string::npos) url.append ("?");
+  if (pos == std::string::npos) url.append ("?");
   else url.append ("&");
   url.append (parameter);
   url.append ("=");
@@ -1417,10 +1417,10 @@ string filter_url_remove_username_password (string url)
   // Consider the following URL for github:
   // https://username:password@github.com/username/repository.git
   if (filter::strings::replace_between (url, slashes, ":", "")) {
-    if (pos != string::npos) url.insert (pos, slashes);
+    if (pos != std::string::npos) url.insert (pos, slashes);
   }
   if (filter::strings::replace_between (url, slashes, "@", "")) {
-    if (pos != string::npos) url.insert (pos, slashes);
+    if (pos != std::string::npos) url.insert (pos, slashes);
   }
   
   return url;
@@ -1441,20 +1441,20 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
 
 
   // Whether this is a secure http request.
-  bool secure = url.find ("https:") != string::npos;
+  bool secure = url.find ("https:") != std::string::npos;
   
   
   // Remove the scheme: http(s).
   size_t pos = url.find ("://");
-  if (pos != string::npos) {
+  if (pos != std::string::npos) {
     url.erase (0, pos + 3);
   }
 
   
   // Extract the host.
   pos = url.find (":");
-  if (pos == string::npos) pos = url.find ("/");
-  if (pos == string::npos) pos = url.length () + 1;
+  if (pos == std::string::npos) pos = url.find ("/");
+  if (pos == std::string::npos) pos = url.length () + 1;
   string hostname = url.substr (0, pos);
   url.erase (0, hostname.length ());
 
@@ -1464,10 +1464,10 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
   if (secure) port = 443;
   // Extract the port number if any.
   pos = url.find (":");
-  if (pos != string::npos) {
+  if (pos != std::string::npos) {
     url.erase (0, 1);
     size_t pos2 = url.find ("/");
-    if (pos2 == string::npos) pos2 = url.length () + 1;
+    if (pos2 == std::string::npos) pos2 = url.length () + 1;
     string p = url.substr (0, pos2);
     port = filter::strings::convert_to_int (p);
     url.erase (0, p.length ());
@@ -1853,9 +1853,9 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
   vector <string> lines = filter::strings::explode (headers, '\n');
   for (auto & line : lines) {
     if (line.empty ()) continue;
-    if (line.find ("HTTP") != string::npos) {
+    if (line.find ("HTTP") != std::string::npos) {
       size_t pos2 = line.find (" ");
-      if (pos2 != string::npos) {
+      if (pos2 != std::string::npos) {
         line.erase (0, pos2 + 1);
         int response_code = filter::strings::convert_to_int (line);
         if (response_code != 200) {
@@ -1954,7 +1954,7 @@ string filter_url_set_scheme (string url, bool secure)
   url = filter::strings::trim (url);
   // Remove amy existing scheme: http(s) or whatever.
   size_t pos = url.find ("://");
-  if (pos != string::npos) {
+  if (pos != std::string::npos) {
     url.erase (0, pos + 3);
   }
   // Produce the correct scheme.
@@ -2151,24 +2151,24 @@ void filter_url_get_scheme_host_port (string url, string & scheme, string & host
 
   // Extract the scheme: http(s).
   size_t pos = url.find ("://");
-  if (pos != string::npos) {
+  if (pos != std::string::npos) {
     scheme = url.substr(0, pos);
     url.erase (0, pos + 3);
   }
   
   // Extract the host.
   pos = url.find (":");
-  if (pos == string::npos) pos = url.find ("/");
-  if (pos == string::npos) pos = url.length () + 1;
+  if (pos == std::string::npos) pos = url.find ("/");
+  if (pos == std::string::npos) pos = url.length () + 1;
   host = url.substr (0, pos);
   url.erase (0, host.length ());
   
   // Extract the port number if any.
   pos = url.find (":");
-  if (pos != string::npos) {
+  if (pos != std::string::npos) {
     url.erase (0, 1);
     size_t pos2 = url.find ("/");
-    if (pos2 == string::npos) pos2 = url.length () + 1;
+    if (pos2 == std::string::npos) pos2 = url.length () + 1;
     string p = url.substr (0, pos2);
     port = filter::strings::convert_to_int (p);
     url.erase (0, p.length ());

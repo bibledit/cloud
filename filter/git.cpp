@@ -397,7 +397,7 @@ bool filter_git_commit (string repository, string user, string message,
   
   // In case of Your branch is up-to-date with 'origin/master'. nothing to commit, working directory clean,
   // git returns exit code 256. Yet this is not an error.
-  if (out.find ("nothing to commit") != string::npos) result = 0;
+  if (out.find ("nothing to commit") != std::string::npos) result = 0;
   
   return (result == 0);
 }
@@ -455,14 +455,14 @@ Passage filter_git_get_passage (string line)
   vector <string> bits = filter::strings::explode (line, '/');
   if (bits.size () == 3) {
     size_t pos = bits [0].find (":");
-    if (pos != string::npos) bits [0].erase (0, pos + 1);
+    if (pos != std::string::npos) bits [0].erase (0, pos + 1);
     string bookname = filter::strings::trim (bits [0]);
     int book = static_cast<int>(database::books::get_id_from_english (bookname));
     if (book) {
       if (filter::strings::is_numeric (bits [1])) {
         int chapter = filter::strings::convert_to_int (bits [1]);
         string data = bits [2];
-        if (data.find ("data") != string::npos) {
+        if (data.find ("data") != std::string::npos) {
           passage.m_book = book;
           passage.m_chapter = chapter;
         }
@@ -537,7 +537,7 @@ bool filter_git_resolve_conflicts (string repository, vector <string> & paths, s
   vector <string> lines = filter_git_status (repository, true);
   for (auto line : lines) {
     size_t pos = line.find ("UU ");
-    if (pos != string::npos) {
+    if (pos != std::string::npos) {
       line.erase (0, 3);
       line = filter::strings::trim (line);
       unmerged_paths.push_back (line);

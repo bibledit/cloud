@@ -363,9 +363,9 @@ string lexicon_logic_render_strongs_definition (string strong)
       line = filter::strings::replace ("</strongs>", "", line);
       // Get the <greek /> line to extract information from it.
       position = line.find ("<greek ");
-      if (position != string::npos) {
+      if (position != std::string::npos) {
         size_t position2 = line.find ("/>", position);
-        if (position2 != string::npos) {
+        if (position2 != std::string::npos) {
           string greek = line.substr (position, position2 - position + 2);
           string xml = greek;
           // Greek in Unicode.
@@ -378,9 +378,9 @@ string lexicon_logic_render_strongs_definition (string strong)
       }
       // Get the <pronunciation /> line to extract information from it.
       position = line.find ("<pronunciation ");
-      if (position != string::npos) {
+      if (position != std::string::npos) {
         size_t position2 = line.find ("/>", position);
-        if (position2 != string::npos) {
+        if (position2 != std::string::npos) {
           string pronunciation = line.substr (position, position2 - position + 2);
           string xml = pronunciation;
           // Greek in strongs.
@@ -396,9 +396,9 @@ string lexicon_logic_render_strongs_definition (string strong)
         string tag = "see";
         if (i) tag = "strongsref";
         position = line.find ("<" + tag + " ");
-        if (position != string::npos) {
+        if (position != std::string::npos) {
           size_t position2 = line.find ("/>", position);
-          if (position2 != string::npos) {
+          if (position2 != std::string::npos) {
             string see_strongsref = line.substr (position, position2 - position + 2);
             string xml = see_strongsref;
             // Strong's reference.

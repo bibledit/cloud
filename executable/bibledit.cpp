@@ -201,7 +201,7 @@ int main ([[maybe_unused]] int argc, [[maybe_unused]] char **argv)
     for (auto & line : lines) {
       Database_Logs::log (line);
       // Set a flag if the backtrace appears to be caused while sending email.
-      if (line.find ("email_send") != string::npos) config_globals_has_crashed_while_mailing = true;
+      if (line.find ("email_send") != std::string::npos) config_globals_has_crashed_while_mailing = true;
     }
   }
 

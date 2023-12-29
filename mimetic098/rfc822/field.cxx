@@ -107,7 +107,7 @@ Field::Field(const string& line)
 :m_pValue(0)
 {
     string::size_type colon = line.find(':');
-    if(colon != string::npos)
+    if(colon != std::string::npos)
     {
         m_name.assign(line.begin(), line.begin() + colon);
         size_t i;

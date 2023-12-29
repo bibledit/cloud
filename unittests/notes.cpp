@@ -262,7 +262,7 @@ void test_database_notes ()
       EXPECT_EQ ("Should be larger than length + 30", filter::strings::convert_to_string (static_cast<int>(value.length())));
     }
     pos = value.find ("comment2");
-    if (pos == string::npos) {
+    if (pos == std::string::npos) {
       EXPECT_EQ ("Should contain 'comment2'", value);
     }
     // Universal method to add comment.
@@ -272,7 +272,7 @@ void test_database_notes ()
       EXPECT_EQ ("Should be larger than length + 30", filter::strings::convert_to_string (static_cast<int>(value.length())));
     }
     pos = value.find ("comment5");
-    if (pos == string::npos) {
+    if (pos == std::string::npos) {
       EXPECT_EQ ("Should contain 'comment5'", value);
     }
   }
@@ -1719,10 +1719,10 @@ void test_database_notes ()
     database_notes.set_contents (identifier1, contents1);
     database_notes.set_contents (identifier2, contents2);
     string contents = database_notes.get_contents (identifier1);
-    EXPECT_EQ (true, contents.find (contents1) != string::npos);
+    EXPECT_EQ (true, contents.find (contents1) != std::string::npos);
     EXPECT_EQ (contents, database_notes.get_contents (identifier1));
     contents = database_notes.get_contents (identifier2);
-    EXPECT_EQ (true, contents.find (contents2) != string::npos);
+    EXPECT_EQ (true, contents.find (contents2) != std::string::npos);
     EXPECT_EQ (contents, database_notes.get_contents (identifier2));
     
     // Test the method to get the subscribers.

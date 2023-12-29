@@ -85,7 +85,7 @@ string resource_translated9edit (void * webserver_request)
     // This word flags the translated resource as being one of that category.
     string new_resource = request->post ["entry"];
     size_t pos = new_resource.find (resource_logic_translated_resource ());
-    if (pos != string::npos) {
+    if (pos != std::string::npos) {
       new_resource.erase (pos, resource_logic_translated_resource ().length());
     }
     new_resource.insert (0, resource_logic_translated_resource ());

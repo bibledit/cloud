@@ -43,7 +43,7 @@ void refresh_sandbox (bool displayjournal, vector <string> allowed)
       string contents = filter_url_file_get_contents (filter_url_create_path ({directory, files [i]}));
       bool display = true;
       for (auto & allow : allowed) {
-        if (contents.find (allow) != string::npos) display = false;
+        if (contents.find (allow) != std::string::npos) display = false;
       }
       if (display) {
         cout << contents << endl;

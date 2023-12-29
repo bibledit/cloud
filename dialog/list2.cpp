@@ -41,7 +41,7 @@ string Options_To_Select::mark_selected (string value, string html)
     size_t new_pos = html.find (new_value) + new_value.length ();
     string mark = " selected";
 
-    if (html.find (mark) != string::npos) {
+    if (html.find (mark) != std::string::npos) {
         html.erase (html.find (mark), mark.length ());
     }
 

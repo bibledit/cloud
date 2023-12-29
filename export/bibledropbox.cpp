@@ -154,7 +154,7 @@ void export_bibledropbox (string user, string bible)
     email_schedule (user, "Error submitting to the Bible Drop Box", error);
   }
   size_t pos = response.find ("<head>");
-  if (pos != string::npos) {
+  if (pos != std::string::npos) {
     response.insert (pos + 6, R"(<base href="http://freely-given.org/Software/BibleDropBox/">)");
   }
   email_schedule (user, "Result of your submission to the Bible Drop Box", response);

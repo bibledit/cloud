@@ -555,10 +555,10 @@ bool Notes_Logic::handleEmailComment (string from, string subject, string body)
   // Check whether the Consultation Notes Identifier in the subject exists in the notes database.
   // The CNID looks like: (CNID123456789)
   size_t pos = subject.find ("(CNID");
-  if (pos == string::npos) return false;
+  if (pos == std::string::npos) return false;
   subject = subject.substr (pos + 5);
   pos = subject.find (")");
-  if (pos == string::npos) return false;
+  if (pos == std::string::npos) return false;
   subject = subject.substr (0, pos);
   // Webserver request.
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
@@ -617,7 +617,7 @@ bool Notes_Logic::handleEmailNew (string from, string subject, string body)
   string originalSubject = subject;
   // Check that the subject indicates that a new consultation note is to be created.
   size_t pos = filter::strings::unicode_string_casefold (subject).find ("new note");
-  if (pos == string::npos) return false;
+  if (pos == std::string::npos) return false;
   // There is a new note. Remove that bit from the subject.
   if (pos > 0) subject.erase (0, pos + 8);
   // Clean the subject line.

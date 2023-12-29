@@ -84,7 +84,7 @@ string resource_comparative9edit (void * webserver_request)
     // This word flags the comparative resource as being one of that category.
     string new_resource = request->post ["entry"];
     size_t pos = new_resource.find (resource_logic_comparative_resource ());
-    if (pos != string::npos) {
+    if (pos != std::string::npos) {
       new_resource.erase (pos, resource_logic_comparative_resource ().length());
     }
     new_resource.insert (0, resource_logic_comparative_resource ());

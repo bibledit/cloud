@@ -36,7 +36,7 @@ vector <string> Database_UserResources::names ()
   vector <string> names;
   vector <string> files = filter_url_scandir (folder ());
   for (auto name : files) {
-    if (name.find (fragment ()) != string::npos) {
+    if (name.find (fragment ()) != std::string::npos) {
       name.erase (0, fragment ().size ());
       name = filter_url_filename_unclean (name);
       names.push_back (name);

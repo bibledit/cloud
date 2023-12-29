@@ -169,14 +169,14 @@ void Checks_Usfm::new_line_in_usfm (const string & usfm)
 {
   size_t position {string::npos};
   size_t pos = usfm.find ("\\\n");
-  if (pos != string::npos) {
+  if (pos != std::string::npos) {
     position = pos;
   }
   pos = usfm.find ("\\ \n");
-  if (pos != string::npos) {
+  if (pos != std::string::npos) {
     position = pos;
   }
-  if (position != string::npos) {
+  if (position != std::string::npos) {
     if (position == 0) position = 1;
     string bit = usfm.substr (position - 1, 10);
     bit = filter::strings::replace ("\n", " ", bit);
@@ -229,15 +229,15 @@ void Checks_Usfm::forward_slash (const string & usfm)
   string code = filter::strings::replace ("\n", " ", usfm);
   size_t pos = code.find ("/");
   string bit {};
-  if (pos != string::npos) {
+  if (pos != std::string::npos) {
     size_t pos2 = code.find (" ", pos);
-    if (pos2 != string::npos) {
+    if (pos2 != std::string::npos) {
       bit = code.substr (pos, pos2 - pos);
     } else {
       bit = code.substr (pos, 100);
     }
     pos2 = bit.find ("*");
-    if (pos2 != string::npos) {
+    if (pos2 != std::string::npos) {
       bit = bit.substr (0, pos2);
     }
     string marker = bit.substr (1, 100);
@@ -346,9 +346,9 @@ void Checks_Usfm::toc (string usfm)
   if ((type == book_type::old_testament) || (type == book_type::new_testament)) {
 
     // Check on the presence of the table of contents markers in this chapter.
-    bool toc1_present = usfm.find (filter::usfm::get_opening_usfm (long_toc1_marker)) != string::npos;
-    bool toc2_present = usfm.find (filter::usfm::get_opening_usfm (short_toc2_marker)) != string::npos;
-    bool toc3_present = usfm.find (filter::usfm::get_opening_usfm (abbrev_toc3_marker)) != string::npos;
+    bool toc1_present = usfm.find (filter::usfm::get_opening_usfm (long_toc1_marker)) != std::string::npos;
+    bool toc2_present = usfm.find (filter::usfm::get_opening_usfm (short_toc2_marker)) != std::string::npos;
+    bool toc3_present = usfm.find (filter::usfm::get_opening_usfm (abbrev_toc3_marker)) != std::string::npos;
 
     // The markers should be on chapter 0 only.
     if (chapter_number == 0) {
@@ -394,7 +394,7 @@ void Checks_Usfm::figure ()
       }
     }
     size_t pos = usfm.find("“");
-    if (pos != string::npos) {
+    if (pos != std::string::npos) {
       add_result (translate ("Unusual quotation mark found:") + " " + usfm, display_nothing);
     }
   }

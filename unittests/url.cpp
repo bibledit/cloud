@@ -140,7 +140,7 @@ TEST (filter, url)
   {
     string unsafe (" <>#{}|\\^~[]`");
     string unsafe_encoded = filter_url_urlencode (unsafe);
-    EXPECT_EQ (true, unsafe_encoded.find_first_of (unsafe) == string::npos);
+    EXPECT_EQ (true, unsafe_encoded.find_first_of (unsafe) == std::string::npos);
     EXPECT_EQ (unsafe, filter_url_urldecode (unsafe_encoded));
   }
   
@@ -203,19 +203,19 @@ TEST (filter, url)
   {
     string result, error;
     result = filter_url_http_request_mbed ("http://185.87.186.229", error, {}, "", false);
-    EXPECT_EQ (true, result.find ("Home") != string::npos);
-    EXPECT_EQ (true, result.find ("Ndebele Bible") != string::npos);
-    EXPECT_EQ (true, result.find ("Shona Bible") != string::npos);
-    EXPECT_EQ (true, result.find ("Downloads") != string::npos);
+    EXPECT_EQ (true, result.find ("Home") != std::string::npos);
+    EXPECT_EQ (true, result.find ("Ndebele Bible") != std::string::npos);
+    EXPECT_EQ (true, result.find ("Shona Bible") != std::string::npos);
+    EXPECT_EQ (true, result.find ("Downloads") != std::string::npos);
     EXPECT_EQ ("", error);
   }
   {
     string result, error;
     result = filter_url_http_request_mbed ("https://bibledit.org", error, {}, "", false);
-    EXPECT_EQ (true, result.find ("Bibledit") != string::npos);
-    EXPECT_EQ (true, result.find ("Linux") != string::npos);
-    EXPECT_EQ (true, result.find ("Cloud") != string::npos);
-    EXPECT_EQ (true, result.find ("Android") != string::npos);
+    EXPECT_EQ (true, result.find ("Bibledit") != std::string::npos);
+    EXPECT_EQ (true, result.find ("Linux") != std::string::npos);
+    EXPECT_EQ (true, result.find ("Cloud") != std::string::npos);
+    EXPECT_EQ (true, result.find ("Android") != std::string::npos);
     EXPECT_EQ ("", error);
   }
 
@@ -252,15 +252,15 @@ TEST (filter, url)
     EXPECT_EQ ("https://localhost", url);
     
     result = filter_url_http_request_mbed ("http://www.google.nl", error, {}, "", false);
-    EXPECT_EQ (true, result.find ("google") != string::npos);
-    EXPECT_EQ (true, result.find ("search") != string::npos);
-    EXPECT_EQ (true, result.find ("background") != string::npos);
+    EXPECT_EQ (true, result.find ("google") != std::string::npos);
+    EXPECT_EQ (true, result.find ("search") != std::string::npos);
+    EXPECT_EQ (true, result.find ("background") != std::string::npos);
     EXPECT_EQ ("", error);
     
     result = filter_url_http_request_mbed ("https://www.google.nl", error, {}, "", false);
-    EXPECT_EQ (true, result.find ("google") != string::npos);
-    EXPECT_EQ (true, result.find ("search") != string::npos);
-    EXPECT_EQ (true, result.find ("background") != string::npos);
+    EXPECT_EQ (true, result.find ("google") != std::string::npos);
+    EXPECT_EQ (true, result.find ("search") != std::string::npos);
+    EXPECT_EQ (true, result.find ("background") != std::string::npos);
     EXPECT_EQ ("", error);
     
     result = filter_url_http_request_mbed ("https://bibledit.org:8091", error, {}, "", false);

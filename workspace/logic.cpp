@@ -582,10 +582,10 @@ map <int, int> workspace_add_bible_editor_number (map <int, string> & urls)
     bool is_bible_editor = false;
     string url = element.second;
     if (url.empty()) continue;
-    if (url.find (edit_index_url ()) != string::npos) is_bible_editor = true;
-    if (url.find (editone_index_url ()) != string::npos) is_bible_editor = true;
-    if (url.find (editone2_index_url ()) != string::npos) is_bible_editor = true;
-    if (url.find (editusfm_index_url ()) != string::npos) is_bible_editor = true;
+    if (url.find (edit_index_url ()) != std::string::npos) is_bible_editor = true;
+    if (url.find (editone_index_url ()) != std::string::npos) is_bible_editor = true;
+    if (url.find (editone2_index_url ()) != std::string::npos) is_bible_editor = true;
+    if (url.find (editusfm_index_url ()) != std::string::npos) is_bible_editor = true;
     if (is_bible_editor) {
       bible_editor_count++;
       if (bible_editor_count > 1) {

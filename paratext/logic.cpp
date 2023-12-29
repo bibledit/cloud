@@ -52,7 +52,7 @@ string Paratext_Logic::searchProjectsFolder ()
   if (homedir) {
     vector <string> files = filter_url_scandir (homedir);
     for (auto file : files) {
-      if (file.find ("Paratext") != string::npos) {
+      if (file.find ("Paratext") != std::string::npos) {
         return filter_url_create_path ({homedir, file});
       }
     }
@@ -63,7 +63,7 @@ string Paratext_Logic::searchProjectsFolder ()
   homedir = "C:\\";
   vector <string> files = filter_url_scandir (homedir);
   for (auto file : files) {
-    if (file.find ("Paratext") != string::npos) {
+    if (file.find ("Paratext") != std::string::npos) {
       string path = filter_url_create_path ({homedir, file});
       path = filter::strings::replace ("\\\\", "\\", path);
       return path;
@@ -96,8 +96,8 @@ map <int, string> Paratext_Logic::searchBooks (string project_path)
   map <int, string> books;
   vector <string> files = filter_url_scandir (project_path);
   for (auto file : files) {
-    if (file.find (".BAK") != string::npos) continue;
-    if (file.find ("~") != string::npos) continue;
+    if (file.find (".BAK") != std::string::npos) continue;
+    if (file.find ("~") != std::string::npos) continue;
     string path = filter_url_create_path ({project_path, file});
     int id = getBook (path);
     if (id) books [id] = file;
@@ -122,7 +122,7 @@ int Paratext_Logic::getBook (string filename)
   string fragment (buffer);
 
   // Check for "\id "
-  if (fragment.find ("\\id ") == string::npos) return 0;
+  if (fragment.find ("\\id ") == std::string::npos) return 0;
   fragment.erase (0, 4);
   
   // Get book from the USFM id.
@@ -306,7 +306,7 @@ void Paratext_Logic::synchronize (tasks::enums::paratext_sync method)
   bool paratext_running = false;
   vector <string> processes = filter_shell_active_processes ();
   for (auto p : processes) {
-    if (p.find ("Paratext") != string::npos)
+    if (p.find ("Paratext") != std::string::npos)
       paratext_running = true;
   }
   if (paratext_running) {

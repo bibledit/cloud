@@ -58,8 +58,8 @@ string filter_mail_remove_headers_internal (string contents)
   vector <string> cleaned;
   vector <string> inputlines = filter::strings::explode (contents, '\n');
   for (auto line : inputlines) {
-    if (line.find ("Content-Type") != string::npos) continue;
-    if (line.find ("Content-Transfer-Encoding") != string::npos) continue;
+    if (line.find ("Content-Type") != std::string::npos) continue;
+    if (line.find ("Content-Transfer-Encoding") != std::string::npos) continue;
     if (empty_line_encountered) cleaned.push_back (line);
     if (filter::strings::trim (line).empty ()) empty_line_encountered = true;
   }

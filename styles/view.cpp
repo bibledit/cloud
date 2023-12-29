@@ -535,7 +535,7 @@ string styles_view (void * webserver_request)
   string color = marker_data.color;
   if (request->query.count ("fgcolor")) {
     color = request->query["fgcolor"];
-    if (color.find ("#") == string::npos) color.insert (0, "#");
+    if (color.find ("#") == std::string::npos) color.insert (0, "#");
     if (color.length () != 7) color = "#000000";
     if (write) {
       database_styles.updateColor (sheet, style, color);
@@ -549,7 +549,7 @@ string styles_view (void * webserver_request)
   string backgroundcolor {marker_data.backgroundcolor};
   if (request->query.count ("bgcolor")) {
     color = request->query["bgcolor"];
-    if (color.find ("#") == string::npos) color.insert (0, "#");
+    if (color.find ("#") == std::string::npos) color.insert (0, "#");
     if (color.length () != 7) color = "#FFFFFF";
     if (write) {
       database_styles.updateBackgroundColor (sheet, style, color);

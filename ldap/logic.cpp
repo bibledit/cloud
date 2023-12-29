@@ -183,7 +183,7 @@ bool ldap_logic_fetch (const string& user, const string& password, bool& access,
       if (line.find (ldap_logic_role + ":") == 0) {
         const string fragment = filter::strings::unicode_string_casefold (filter::strings::trim (line.substr (3)));
         for (int r = Filter_Roles::lowest (); r <= Filter_Roles::highest (); r++) {
-          if (fragment.find (filter::strings::unicode_string_casefold (Filter_Roles::english (r))) != string::npos) {
+          if (fragment.find (filter::strings::unicode_string_casefold (Filter_Roles::english (r))) != std::string::npos) {
             role = r;
           }
         }

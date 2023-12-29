@@ -36,7 +36,7 @@ void sources_morphgnt_parse ()
   dirent * direntry;
   while ((direntry = readdir (dir)) != nullptr) {
     string name = direntry->d_name;
-    if (name.find ("morphgnt.txt") == string::npos) continue;
+    if (name.find ("morphgnt.txt") == std::string::npos) continue;
     files.push_back (name);
   }
   closedir (dir);

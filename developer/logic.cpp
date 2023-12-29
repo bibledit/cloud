@@ -150,7 +150,7 @@ void developer_logic_import_changes ()
     bool passage_found {false};
     if (book != book_id::_unknown) {
       size_t pos = line.find (":");
-      if (pos != string::npos) {
+      if (pos != std::string::npos) {
         vector <string> bits = filter::strings::explode(line.substr (0, pos), ".");
         if (bits.size() == 2) {
           chapter = filter::strings::convert_to_int(filter::strings::trim(bits[0]));

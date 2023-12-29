@@ -33,7 +33,7 @@ string help_index_html (const string& url)
 {
   string path (url);
   size_t pos = url.find ("/");
-  if (pos != string::npos) path.erase (0, ++pos);
+  if (pos != std::string::npos) path.erase (0, ++pos);
   path.append (".html");
   path = filter_url_create_root_path ({"help", path});
   return path;
@@ -71,7 +71,7 @@ string help_index (void * webserver_request, const string& url)
   
   string filename (url);
   size_t pos = url.find ("/");
-  if (pos != string::npos) filename.erase (0, ++pos);
+  if (pos != std::string::npos) filename.erase (0, ++pos);
  
   page += view.render ("help", filename);
 

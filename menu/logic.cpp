@@ -380,7 +380,7 @@ string menu_logic_workspace_category (void * webserver_request, string * tooltip
       // Adds an active class if it is the current workspace.
       if (workspaces[i] == activeWorkspace) {
         size_t startIndex = item.find(R"("><a)");
-        if (startIndex != string::npos) item.insert (startIndex, " active");
+        if (startIndex != std::string::npos) item.insert (startIndex, " active");
       }
       html.push_back (item);
       labels.push_back (workspaces [i]);

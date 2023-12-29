@@ -91,7 +91,7 @@ string implode (vector <string>& values, string delimiter)
 string str_replace (string search, string replace, string subject)
 {
   size_t offposition = subject.find (search);
-  while (offposition != string::npos) {
+  while (offposition != std::string::npos) {
     subject.replace (offposition, search.length (), replace);
     offposition = subject.find (search, offposition + replace.length ());
   }
@@ -129,7 +129,7 @@ int main ()
     size_t position = contents.find (gettextopen);
     
     // Iterate through the contents till all gettext calls have been dealt with.
-    while ((position != string::npos) && (iterations < 1000)) {
+    while ((position != std::string::npos) && (iterations < 1000)) {
       iterations++;
       
       // Remove the gettext opener.
@@ -137,7 +137,7 @@ int main ()
       
       // Position where the gettext call ends.
       size_t pos = contents.find (gettextclose, position);
-      if (pos != string::npos) {
+      if (pos != std::string::npos) {
         
         // Take the gettext closer out.
         contents.erase (pos, gettextclose.length());

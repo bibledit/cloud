@@ -134,7 +134,7 @@ void webserver_process_request (const int connfd, const string& clientaddress)
         bytes_read = get_line (connfd, buffer, BUFFERSIZE);
         if (bytes_read <= 0) connection_healthy = false;
         // Parse the browser's request's headers.
-        header_parsed = http_parse_header (buffer, &request);
+        header_parsed = http_parse_header (buffer, request);
       } while (header_parsed);
 
       if (connection_healthy) {
@@ -164,11 +164,11 @@ void webserver_process_request (const int connfd, const string& clientaddress)
         
         if (connection_healthy) {
           
-          http_parse_post (postdata, &request);
+          http_parse_post (postdata, request);
           
           // Assemble response.
           bootstrap_index (request);
-          http_assemble_response (&request);
+          http_assemble_response (request);
           
           // Send response to browser.
           const char * output = request.reply.c_str();
@@ -573,7 +573,7 @@ void secure_webserver_process_request (mbedtls_ssl_config * conf, mbedtls_net_co
           if (c == '\r') continue;
           // At a new line, parse the received header line.
           if (c == '\n') {
-            header_parsed = http_parse_header (header_line, &request);
+            header_parsed = http_parse_header (header_line, request);
             header_line.clear ();
           } else {
             header_line += c;
@@ -609,14 +609,14 @@ void secure_webserver_process_request (mbedtls_ssl_config * conf, mbedtls_net_co
         if (total_bytes_read < request.content_length) connection_healthy = false;
         // Parse the POSTed data.
         if (connection_healthy) {
-          http_parse_post (postdata, &request);
+          http_parse_post (postdata, request);
         }
       }
       
       // Assemble response.
       if (connection_healthy) {
         bootstrap_index (request);
-        http_assemble_response (&request);
+        http_assemble_response (request);
       }
       
       // Write the response to the browser.

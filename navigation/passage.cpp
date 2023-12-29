@@ -703,7 +703,7 @@ void Navigation_Passage::go_history (void * webserver_request, string message)
   // Check that the fragment "apply" occurs in the message.
   // If so, remove it. If not, do nothing.
   size_t pos = message.find("apply");
-  if (pos == string::npos) return;
+  if (pos == std::string::npos) return;
   message.erase (pos);
   
   // Check that the length of the remaining message is at least 2.

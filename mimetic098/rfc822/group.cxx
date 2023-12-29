@@ -136,7 +136,7 @@ void Group::set(const string& text)
 {
     m_text = text;
     size_type colon = find_not_in_quote(m_text, ':');
-    if(colon == string::npos)
+    if(colon == std::string::npos)
         return; // empty or invalid
     bool in_dquote = false;
     int in_par = 0, in_angle = 0;

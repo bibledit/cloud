@@ -91,7 +91,7 @@ map <string, string> locale_logic_localizations ()
       string language = translate ("Unknown");
       vector <string> lines = filter::strings::explode (contents, '\n');
       for (auto line : lines) {
-        if (line.find ("translation for bibledit") != string::npos) {
+        if (line.find ("translation for bibledit") != std::string::npos) {
           line.erase (0, 2);
           line.erase (line.length () - 25);
           language = line;
@@ -292,13 +292,13 @@ void locale_logic_obfuscate_initialize ()
     
     // Skip lines that start with the number sign #.
     size_t pos = line.find ("#");
-    if (pos != string::npos) if (pos < 3) continue;
+    if (pos != std::string::npos) if (pos < 3) continue;
     
     // Apart from texts to obfuscate,
     // the settings can also contain a line to hide the Bible resources.
     // Deal with it here.
     pos = line.find ("HideBibleResources");
-    if (pos != string::npos) {
+    if (pos != std::string::npos) {
       config_globals_hide_bible_resources = true;
       continue;
     }

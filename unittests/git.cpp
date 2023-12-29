@@ -389,10 +389,10 @@ TEST (git, basic)
     filter_git_config_set_int (repository, "bar.baz", 11);
     string path = filter_url_create_path ({repository, ".git", "config"});
     string contents = filter_url_file_get_contents (path);
-    EXPECT_EQ (true, contents.find ("[foo]") != string::npos);
-    EXPECT_EQ (true, contents.find ("[bar]") != string::npos);
-    EXPECT_EQ (true, contents.find ("bar = false") != string::npos);
-    EXPECT_EQ (true, contents.find ("baz = 11") != string::npos);
+    EXPECT_EQ (true, contents.find ("[foo]") != std::string::npos);
+    EXPECT_EQ (true, contents.find ("[bar]") != std::string::npos);
+    EXPECT_EQ (true, contents.find ("bar = false") != std::string::npos);
+    EXPECT_EQ (true, contents.find ("baz = 11") != std::string::npos);
     refresh_sandbox (false);
   }
   
@@ -820,9 +820,9 @@ TEST (git, basic)
     // Check the elaborate log.
     // Disable color codes in the output for easier parsing.
     filter_shell_run ("cd " + repository + " && git log -p --color=never", out_err);
-    EXPECT_EQ (true, out_err.find ("+Praise Jesus forever.") != string::npos);
-    EXPECT_EQ (true, out_err.find ("Author: user1 <bibledit@bibledit.org>") != string::npos);
-    EXPECT_EQ (true, out_err.find ("User modification") != string::npos);
+    EXPECT_EQ (true, out_err.find ("+Praise Jesus forever.") != std::string::npos);
+    EXPECT_EQ (true, out_err.find ("Author: user1 <bibledit@bibledit.org>") != std::string::npos);
+    EXPECT_EQ (true, out_err.find ("User modification") != std::string::npos);
     
     // Remove journal entries.
     refresh_sandbox (false);
@@ -864,12 +864,12 @@ TEST (git, basic)
     Database_Git::store_chapter (user1, bible, psalms, 11, oldusfm1, newusfm1);
     filter_git_sync_modifications_to_git (bible, repository);
     filter_shell_run ("cd " + repository + " && git log -p --color=never", out_err);
-    EXPECT_EQ (true, out_err.find ("+Praise Jesus forever.") != string::npos);
-    EXPECT_EQ (true, out_err.find ("Author: user1 <bibledit@bibledit.org>") != string::npos);
-    EXPECT_EQ (true, out_err.find ("Author: user2 <bibledit@bibledit.org>") != string::npos);
-    EXPECT_EQ (true, out_err.find ("User modification") != string::npos);
-    EXPECT_EQ (true, out_err.find ("System-generated to clearly display user modification in next commit") != string::npos);
-    EXPECT_EQ (true, out_err.find ("+Praise Jesus xxx") != string::npos);
+    EXPECT_EQ (true, out_err.find ("+Praise Jesus forever.") != std::string::npos);
+    EXPECT_EQ (true, out_err.find ("Author: user1 <bibledit@bibledit.org>") != std::string::npos);
+    EXPECT_EQ (true, out_err.find ("Author: user2 <bibledit@bibledit.org>") != std::string::npos);
+    EXPECT_EQ (true, out_err.find ("User modification") != std::string::npos);
+    EXPECT_EQ (true, out_err.find ("System-generated to clearly display user modification in next commit") != std::string::npos);
+    EXPECT_EQ (true, out_err.find ("+Praise Jesus xxx") != std::string::npos);
     
     // Remove journal entries.
     refresh_sandbox (false);

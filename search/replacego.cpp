@@ -115,7 +115,7 @@ string search_replacego (void * webserver_request)
   // Get the updated chapter USFM as a string.
   string new_chapter_usfm = old_chapter_usfm;
   size_t pos = new_chapter_usfm.find (old_verse_usfm);
-  if (pos != string::npos) {
+  if (pos != std::string::npos) {
     size_t length = old_verse_usfm.length ();
     new_chapter_usfm.erase (pos, length);
     new_chapter_usfm.insert (pos, new_verse_usfm);

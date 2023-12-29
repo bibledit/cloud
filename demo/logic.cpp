@@ -244,7 +244,7 @@ void demo_create_sample_bible ()
     // * it means that Bibledit uses a different name for the Sample Bible,
     // * and the file needs an update.
     size_t pos = file.find(demo_sample_bible_name());
-    if (pos == string::npos) {
+    if (pos == std::string::npos) {
       string filename = "Sample";
       file = filter::strings::replace(filename, demo_sample_bible_name(), file);
     }
@@ -312,7 +312,7 @@ void demo_prepare_sample_bible ()
   files.clear ();
   filter_url_recursive_scandir (directory, files);
   for (const auto & file : files) {
-    if (file.find (demo_sample_bible_name ()) != string::npos) {
+    if (file.find (demo_sample_bible_name ()) != std::string::npos) {
       string data = filter_url_file_get_contents (file);
       Database_Sample::store (file, data);
     }

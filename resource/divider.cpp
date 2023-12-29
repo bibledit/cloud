@@ -150,7 +150,7 @@ string resource_divider (void * webserver_request)
     string color = request->query["color"];
     if (!color.empty()) {
       foreground = color;
-      if (foreground.find ("#") == string::npos) foreground.insert (0, "#");
+      if (foreground.find ("#") == std::string::npos) foreground.insert (0, "#");
       if (foreground.length () != 7) foreground = "#000000";
       divider_edited = true;
     }
@@ -169,7 +169,7 @@ string resource_divider (void * webserver_request)
     string color = request->query["color"];
     if (!color.empty()) {
       background = color;
-      if (background.find ("#") == string::npos) background.insert (0, "#");
+      if (background.find ("#") == std::string::npos) background.insert (0, "#");
       if (background.length () != 7) background = "#FFFFFF";
       divider_edited = true;
     }

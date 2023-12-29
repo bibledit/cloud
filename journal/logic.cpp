@@ -48,22 +48,22 @@ using namespace pugi;
 // This returns true if the $entry can be filtered out from the Journal.
 bool journal_logic_filter_entry (const string& entry)
 {
-  if (entry.find (sendreceive_notes_sendreceive_text ()) != string::npos) return true;
-  if (entry.find (sendreceive_notes_up_to_date_text ()) != string::npos) return true;
-  if (entry.find (sendreceive_bibles_sendreceive_text ()) != string::npos) return true;
-  if (entry.find (sendreceive_bibles_up_to_date_text ()) != string::npos) return true;
-  if (entry.find (sendreceive_settings_sendreceive_text ()) != string::npos) return true;
-  if (entry.find (sendreceive_settings_up_to_date_text ()) != string::npos) return true;
-  if (entry.find (Paratext_Logic::synchronizeStartText ()) != string::npos) return true;
-  if (entry.find (Paratext_Logic::synchronizeReadyText ()) != string::npos) return true;
-  if (entry.find (sendreceive_changes_sendreceive_text ()) != string::npos) return true;
-  if (entry.find (sendreceive_changes_up_to_date_text ()) != string::npos) return true;
-  if (entry.find (sendreceive_files_sendreceive_text ()) != string::npos) return true;
-  if (entry.find (sendreceive_files_up_to_date_text ()) != string::npos) return true;
-  if (entry.find (sendreceive_sendreceive_sendreceive_text ()) != string::npos) return true;
-  if (entry.find (sendreceive_sendreceive_send_text ()) != string::npos) return true;
-  if (entry.find (sendreceive_sendreceive_sendreceive_ready_text ()) != string::npos) return true;
-  if (entry.find (sendreceive_sendreceive_send_ready_text ()) != string::npos) return true;
+  if (entry.find (sendreceive_notes_sendreceive_text ()) != std::string::npos) return true;
+  if (entry.find (sendreceive_notes_up_to_date_text ()) != std::string::npos) return true;
+  if (entry.find (sendreceive_bibles_sendreceive_text ()) != std::string::npos) return true;
+  if (entry.find (sendreceive_bibles_up_to_date_text ()) != std::string::npos) return true;
+  if (entry.find (sendreceive_settings_sendreceive_text ()) != std::string::npos) return true;
+  if (entry.find (sendreceive_settings_up_to_date_text ()) != std::string::npos) return true;
+  if (entry.find (Paratext_Logic::synchronizeStartText ()) != std::string::npos) return true;
+  if (entry.find (Paratext_Logic::synchronizeReadyText ()) != std::string::npos) return true;
+  if (entry.find (sendreceive_changes_sendreceive_text ()) != std::string::npos) return true;
+  if (entry.find (sendreceive_changes_up_to_date_text ()) != std::string::npos) return true;
+  if (entry.find (sendreceive_files_sendreceive_text ()) != std::string::npos) return true;
+  if (entry.find (sendreceive_files_up_to_date_text ()) != std::string::npos) return true;
+  if (entry.find (sendreceive_sendreceive_sendreceive_text ()) != std::string::npos) return true;
+  if (entry.find (sendreceive_sendreceive_send_text ()) != std::string::npos) return true;
+  if (entry.find (sendreceive_sendreceive_sendreceive_ready_text ()) != std::string::npos) return true;
+  if (entry.find (sendreceive_sendreceive_send_ready_text ()) != std::string::npos) return true;
   return false;
 }
 

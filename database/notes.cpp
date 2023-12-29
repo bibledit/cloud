@@ -269,7 +269,7 @@ void Database_Notes::sync ()
           }
         }
         // New JSON storage mechanism, e.g. file "894093.json".
-        if ((bit2.length () == 11) && bit2.find (".json") != string::npos) {
+        if ((bit2.length () == 11) && bit2.find (".json") != std::string::npos) {
           int identifier = filter::strings::convert_to_int (bit1 + bit2.substr (0,6));
           identifiers.push_back (identifier);
           update_database (identifier);

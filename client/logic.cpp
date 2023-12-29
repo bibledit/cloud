@@ -104,7 +104,7 @@ string client_logic_connection_setup (string user, string hash)
     // https://github.com/bibledit/cloud/issues/829.
     string upgrade_required = filter_url_http_response_code_text (426);
     size_t pos = error.find (upgrade_required);
-    if (pos != string::npos) {
+    if (pos != std::string::npos) {
       // Since the error code ends without a full stop, add a full stop to it first.
       error.append (". ");
       // Add a good explanation to the error code so the user knows what to do if this error occurs.

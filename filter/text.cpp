@@ -824,7 +824,7 @@ void Filter_Text::process_usfm ()
               // put the remainder back into the object, and update the pointer.
               if (!text_following_v_marker.empty()) {
                 size_t pos = text_following_v_marker.find (v_number);
-                if (pos != string::npos) {
+                if (pos != std::string::npos) {
                   text_following_v_marker = text_following_v_marker.substr (pos + v_number.length ());
                 }
                 // If a verse number was put, do this:

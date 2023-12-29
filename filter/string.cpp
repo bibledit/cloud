@@ -2022,7 +2022,7 @@ static std::string pretty_print(GumboNode* node, int lvl, const std::string& ind
   std::string attributes {};
   std::string tagname {get_tag_name(node)};
   std::string key {"|" + tagname + "|"};
-  //bool need_special_handling {special_handling.find(key) != string::npos};
+  //bool need_special_handling {special_handling.find(key) != std::string::npos};
   const bool is_empty_tag {empty_tags.find(key) != std::string::npos};
   const bool no_entity_substitution {no_entity_substitution_tags.find(key) != std::string::npos};
   const bool keep_whitespace {preserve_whitespace_tags.find(key) != std::string::npos};

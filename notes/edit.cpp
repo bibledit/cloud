@@ -79,7 +79,7 @@ string notes_edit (void * webserver_request)
       for (size_t i = 0; i < lines.size (); i++) {
         lines[i] = filter::strings::trim (lines[i]);
         size_t pos = lines[i].find (">");
-        if (pos != string::npos) lines[i].erase (0, pos + 1);
+        if (pos != std::string::npos) lines[i].erase (0, pos + 1);
         if (lines[i].length () >= 6) lines[i].erase (lines[i].length () - 6);
       }
       noteData = filter::strings::implode (lines, "\n");
@@ -119,14 +119,14 @@ string notes_edit (void * webserver_request)
               }
               // Second bit should contain colon plus b or p closing element.
               size_t pos = bits[1].find (":</");
-              if (pos != string::npos) {
+              if (pos != std::string::npos) {
                 bits[1].erase (pos);
                 // It should also contain ( and ).
                 pos = bits[1].find ("(");
-                if (pos != string::npos) {
+                if (pos != std::string::npos) {
                   bits[1].erase (pos, 1);
                   pos = bits[1].find (")");
-                  if (pos != string::npos) {
+                  if (pos != std::string::npos) {
                     bits[1].erase (pos, 1);
                     // Now deal with the data consisting of two slashes and three numbers.
                     vector <string> date = filter::strings::explode (bits[1], '/');

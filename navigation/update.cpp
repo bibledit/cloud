@@ -82,7 +82,7 @@ string navigation_update (void * webserver_request)
   
   else if (request->query.count ("applybook")) {
     string msg = request->query ["applybook"];
-    if (msg.find ("cancel") == string::npos) {
+    if (msg.find ("cancel") == std::string::npos) {
       int apply_book = filter::strings::convert_to_int (msg);
       if (apply_book) Navigation_Passage::set_book (request, apply_book);
     }
@@ -98,12 +98,12 @@ string navigation_update (void * webserver_request)
   // Select a chapter, go to previous or next chapter, or cancel.
   else if (request->query.count ("applychapter")) {
     string msg = request->query ["applychapter"];
-    if (msg.find ("previous") != string::npos) {
+    if (msg.find ("previous") != std::string::npos) {
       Navigation_Passage::goto_previous_chapter (webserver_request, bible);
-    } else if (msg.find ("next") != string::npos) {
+    } else if (msg.find ("next") != std::string::npos) {
       Navigation_Passage::goto_next_chapter (webserver_request, bible);
     }
-    else if (msg.find ("cancel") != string::npos) {
+    else if (msg.find ("cancel") != std::string::npos) {
     } else {
       int apply_chapter = filter::strings::convert_to_int (msg);
       Navigation_Passage::set_chapter (request, apply_chapter);
@@ -120,12 +120,12 @@ string navigation_update (void * webserver_request)
   // Select a verse, go to the previous or next verse, or cancel.
   else if (request->query.count ("applyverse")) {
     string msg = request->query ["applyverse"];
-    if (msg.find ("previous") != string::npos) {
+    if (msg.find ("previous") != std::string::npos) {
       Navigation_Passage::goto_previous_verse (webserver_request, bible);
-    } else if (msg.find ("next") != string::npos) {
+    } else if (msg.find ("next") != std::string::npos) {
       Navigation_Passage::goto_next_verse (webserver_request, bible);
     }
-    else if (msg.find ("cancel") != string::npos) {
+    else if (msg.find ("cancel") != std::string::npos) {
     } else {
       int apply_verse = filter::strings::convert_to_int (msg);
       Navigation_Passage::set_verse (request, apply_verse);
@@ -171,7 +171,7 @@ string navigation_update (void * webserver_request)
   // Apply the selected history items to the navigation system.
   else if (request->query.count ("applyhistory")) {
     string message = request->query ["applyhistory"];
-    if (message.find ("cancel") == string::npos) {
+    if (message.find ("cancel") == std::string::npos) {
       Navigation_Passage::go_history(request, message);
     }
   }

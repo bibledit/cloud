@@ -130,7 +130,7 @@ ostream& operator<<(ostream& os, const FieldParam& p)
 {
     os << p.name() << "=";
     const string& val = p.value();
-    if(val.find_first_of("()\\<>\"@,;:/[]?=") != string::npos)
+    if(val.find_first_of("()\\<>\"@,;:/[]?=") != std::string::npos)
         return os << "\"" << val << "\"";
     else
         return os << val;

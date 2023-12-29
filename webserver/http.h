@@ -21,8 +21,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <config/libraries.h>
 
-bool http_parse_header (std::string header, void * webserver_request);
-void http_parse_post (std::string content, void * webserver_request);
-void http_assemble_response (void * webserver_request);
-void http_stream_file (void * webserver_request, bool enable_cache);
+class Webserver_Request;
+
+bool http_parse_header (std::string header, Webserver_Request& webserver_request);
+void http_parse_post (std::string content, Webserver_Request& webserver_request);
+void http_assemble_response (Webserver_Request& webserver_request);
+void http_stream_file (Webserver_Request& webserver_request, bool enable_cache);
 std::string http_parse_host (const std::string & line);

@@ -64,7 +64,7 @@ void checks_verses::patterns (const string & bible, int book, int chapter,
     const string text = element.second;
     for (const auto & pattern : patterns) {
       if (pattern.empty ()) continue;
-      if (text.find (pattern) != string::npos) {
+      if (text.find (pattern) != std::string::npos) {
         database_check.recordOutput (bible, book, chapter, verse, translate ("Pattern found in text:") + " " + pattern);
       }
     }

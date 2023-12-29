@@ -317,8 +317,8 @@ string database_filebased_cache_name_by_ip (string address, string id)
   id = "_" + id;
   string ipv4_sp = "::ffff:";
   const unsigned long pos = address.find (ipv4_sp);
-  if (address.find (ipv4_sp) != string::npos) address.erase (pos, ipv4_sp.length ());
-  if (address.find (id) == string::npos) address.append (id);
+  if (address.find (ipv4_sp) != std::string::npos) address.erase (pos, ipv4_sp.length ());
+  if (address.find (id) == std::string::npos) address.append (id);
   return address;
 }
 
@@ -328,7 +328,7 @@ string database_filebased_cache_name_by_ip (string address, string id)
 string database_filebased_cache_name_by_session_id (string sid, string id)
 {
   id = "_" + id;
-  if (sid.find (id) == string::npos) sid.append (id);
+  if (sid.find (id) == std::string::npos) sid.append (id);
   return sid;
 }
 
@@ -424,7 +424,7 @@ void database_cache_trim (bool clear)
   {
     vector<string> bits = filter::strings::explode(output, ' ');
     for (auto bit : bits) {
-      if (bit.find ("%") != string::npos) {
+      if (bit.find ("%") != std::string::npos) {
         percentage_disk_in_use = filter::strings::convert_to_int(bit);
         // If a real percentage was found, other than 0, then skip the remainder.
         // On macOS the first percentage found is %iused, so will be skipped.
@@ -515,7 +515,7 @@ bool database_cache_can_cache (const string & error, const string & html)
 
   // Do not cache the data if Cloudflare does DDoS protection.
   // https://github.com/bibledit/cloud/issues/693.
-  if (html.find ("Cloudflare") != string::npos) cache = false;
+  if (html.find ("Cloudflare") != std::string::npos) cache = false;
 
   return cache;
 }

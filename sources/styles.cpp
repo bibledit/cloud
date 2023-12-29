@@ -47,7 +47,7 @@ bool sources_style_parse_cpp_element (string & line, string signature)
 {
   signature = sources_style_parse_create_c_comment (signature);
   size_t pos = line.find (signature);
-  if (pos == string::npos) return false;
+  if (pos == std::string::npos) return false;
   line.erase (0, pos + signature.length ());
   line = filter::strings::trim (line);
   if (line [line.size () - 1] == ',') line = line.erase (line.size () - 1);
@@ -67,13 +67,13 @@ void sources_styles_parse ()
   string cpp_start = "style_record styles_table [] =";
   string cpp_end = "};";
   size_t pos = contents.find (cpp_start);
-  if (pos == string::npos) {
+  if (pos == std::string::npos) {
     cout << "Cannot find default styles signature: " << cpp_start << endl;
     return;
   }
   contents.erase (0, pos + cpp_start.size() + 1);
   pos = contents.find (cpp_end);
-  if (pos == string::npos) {
+  if (pos == std::string::npos) {
     cout << "Cannot find default styles signature: " << cpp_end << endl;
     return;
   }
@@ -404,12 +404,12 @@ void sources_styles_parse ()
   bool updating = false;
   for (auto source_line : source_lines) {
     if (updating) {
-      if (source_line.find (cpp_end) != string::npos) updating = false;
+      if (source_line.find (cpp_end) != std::string::npos) updating = false;
     }
     if (!updating) {
       updated_lines.push_back (source_line);
     }
-    if (source_line.find (cpp_start) != string::npos) {
+    if (source_line.find (cpp_start) != std::string::npos) {
       for (auto line : cpp_lines) {
         updated_lines.push_back (line);
       }

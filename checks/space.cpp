@@ -31,7 +31,7 @@ namespace checks::space {
 void double_space_usfm (const string & bible, int book, int chapter, int verse, const string & data)
 {
   const size_t pos = data.find ("  ");
-  if (pos != string::npos) {
+  if (pos != std::string::npos) {
     int start = static_cast<int>(pos) - 10;
     if (start < 0) start = 0;
     string fragment = data.substr (static_cast <size_t> (start), 20);
@@ -47,22 +47,22 @@ void space_before_punctuation (const string & bible, int book, int chapter, cons
   for (const auto & element : texts) {
     const int verse = element.first;
     string text = element.second;
-    if (text.find (" ,") != string::npos) {
+    if (text.find (" ,") != std::string::npos) {
       database_check.recordOutput (bible, book, chapter, verse, translate ("Space before a comma"));
     }
-    if (text.find (" ;") != string::npos) {
+    if (text.find (" ;") != std::string::npos) {
       database_check.recordOutput (bible, book, chapter, verse, translate ("Space before a semicolon"));
     }
-    if (text.find (" :") != string::npos) {
+    if (text.find (" :") != std::string::npos) {
       database_check.recordOutput (bible, book, chapter, verse, translate ("Space before a colon"));
     }
-    if (text.find (" .") != string::npos) {
+    if (text.find (" .") != std::string::npos) {
       database_check.recordOutput (bible, book, chapter, verse, translate ("Space before a full stop"));
     }
-    if (text.find (" ?") != string::npos) {
+    if (text.find (" ?") != std::string::npos) {
       database_check.recordOutput (bible, book, chapter, verse, translate ("Space before a question mark"));
     }
-    if (text.find (" !") != string::npos) {
+    if (text.find (" !") != std::string::npos) {
       database_check.recordOutput (bible, book, chapter, verse, translate ("Space before an exclamation mark"));
     }
   }
@@ -102,7 +102,7 @@ bool transpose_note_space (string & usfm)
 
   bool transposed {false};
   const size_t pos = usfm.find("  ");
-  if (pos != string::npos) {
+  if (pos != std::string::npos) {
     map <string, string> data = {
       pair (R"(\fk  )", R"( \fk )"),
       pair (R"(\ft  )", R"( \ft )"),
@@ -121,13 +121,13 @@ bool transpose_note_space (string & usfm)
 void space_before_final_note_markup (const string & bible, int book, int chapter, int verse, const string & data)
 {
   Database_Check database_check {};
-  if (data.find (R"( \f*)") != string::npos) {
+  if (data.find (R"( \f*)") != std::string::npos) {
     database_check.recordOutput (bible, book, chapter, verse, translate ("Space before final note markup"));
   }
-  if (data.find (R"( \fe*)") != string::npos) {
+  if (data.find (R"( \fe*)") != std::string::npos) {
     database_check.recordOutput (bible, book, chapter, verse, translate ("Space before final note markup"));
   }
-  if (data.find (R"( \x*)") != string::npos) {
+  if (data.find (R"( \x*)") != std::string::npos) {
     database_check.recordOutput (bible, book, chapter, verse, translate ("Space before final cross reference markup"));
   }
 }

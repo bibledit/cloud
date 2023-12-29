@@ -287,7 +287,7 @@ void bootstrap_index (Webserver_Request& webserver_request)
       || (extension == "map")
       || (extension == "webmanifest")
       ) {
-    http_stream_file (std::addressof(webserver_request), true);
+    http_stream_file (webserver_request, true);
     return;
   }
 
@@ -300,7 +300,7 @@ void bootstrap_index (Webserver_Request& webserver_request)
 
   // Serve resource downloads.
   if ((extension == "sqlite") && (webserver_request.get.find (Database_Cache::fragment ()) != std::string::npos)) {
-    http_stream_file (std::addressof(webserver_request), false);
+    http_stream_file (webserver_request, false);
     return;
   }
   
@@ -961,7 +961,7 @@ void bootstrap_index (Webserver_Request& webserver_request)
   }
   if (extension == "sqlite") {
     if (filter_url_dirname (url) == filter_url_temp_dir ()) {
-      http_stream_file (std::addressof(webserver_request), false);
+      http_stream_file (webserver_request, false);
       return;
     }
   }

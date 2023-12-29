@@ -104,11 +104,11 @@ vector <string> get_markers_and_text (string code)
       // whichever comes first.
       vector <size_t> positions;
       pos = code.find (" ");
-      if (pos != string::npos) positions.push_back (pos + 1);
+      if (pos != std::string::npos) positions.push_back (pos + 1);
       pos = code.find ("*");
-      if (pos != string::npos) positions.push_back (pos + 1);
+      if (pos != std::string::npos) positions.push_back (pos + 1);
       pos = code.find ("\\", 1);
-      if (pos != string::npos) positions.push_back (pos);
+      if (pos != std::string::npos) positions.push_back (pos);
       positions.push_back (code.length());
       sort (positions.begin (), positions.end());
       pos = positions[0];
@@ -118,7 +118,7 @@ vector <string> get_markers_and_text (string code)
     } else {
       // Text found. It ends at the next backslash or at the end of the string.
       pos = code.find ("\\");
-      if (pos == string::npos) pos = code.length();
+      if (pos == std::string::npos) pos = code.length();
       string text = code.substr (0, pos);
       markers_and_text.push_back (text);
       code = code.substr (pos);
@@ -153,11 +153,11 @@ string get_marker (string usfm)
     // whichever comes first.
     vector <size_t> positions;
     pos = usfm.find (" ");
-    if (pos != string::npos) positions.push_back (pos);
+    if (pos != std::string::npos) positions.push_back (pos);
     pos = usfm.find ("*");
-    if (pos != string::npos) positions.push_back (pos);
+    if (pos != std::string::npos) positions.push_back (pos);
     pos = usfm.find ("\\");
-    if (pos != string::npos) positions.push_back (pos);
+    if (pos != std::string::npos) positions.push_back (pos);
     positions.push_back (usfm.length());
     sort (positions.begin(), positions.end());
     pos = positions[0];
@@ -450,21 +450,21 @@ string get_chapter_text (string usfm, int chapter_number)
     string marker = get_opening_usfm ("c", false) + filter::strings::convert_to_string (chapter_number) + "\n";
     size_t pos = usfm.find (marker);
     // Was the chapter found?
-    if (pos != string::npos) {
+    if (pos != std::string::npos) {
       found = true;
       usfm.erase (0, pos);
     }
     // Unusual chapter marker (space after the number).
     marker = get_opening_usfm ("c", false) + filter::strings::convert_to_string (chapter_number) + " ";
     pos = usfm.find (marker);
-    if (pos != string::npos) {
+    if (pos != std::string::npos) {
       found = true;
       usfm.erase (0, pos);
     }
     // Another observed unusual situation: A non-breaking space after the chapter number.
     marker = get_opening_usfm ("c", false) + filter::strings::convert_to_string (chapter_number) + filter::strings::non_breaking_space_u00A0 ();
     pos = usfm.find (marker);
-    if (pos != string::npos) {
+    if (pos != std::string::npos) {
       found = true;
       usfm.erase (0, pos);
     }
@@ -475,7 +475,7 @@ string get_chapter_text (string usfm, int chapter_number)
 
   // Look for any next chapter marker.
   size_t pos = usfm.find (get_opening_usfm ("c", false), 1);
-  if (pos != string::npos) {
+  if (pos != std::string::npos) {
     usfm.erase (pos);
   }
   
@@ -503,15 +503,15 @@ string get_verse_range_text (string usfm, int verse_from, int verse_to, const st
     // Do not include repeating USFM in the case of combined verse numbers in the input USFM code.
     if (verse_usfm == previous_usfm) continue;
     if (!verse_usfm.empty () && !previous_usfm.empty ()) {
-      if (verse_usfm.find (previous_usfm) != string::npos) continue;
-      if (previous_usfm.find (verse_usfm) != string::npos) continue;
+      if (verse_usfm.find (previous_usfm) != std::string::npos) continue;
+      if (previous_usfm.find (verse_usfm) != std::string::npos) continue;
     }
     previous_usfm = verse_usfm;
     // In case of combined verses, the excluded USFM should not be included in the result.
     if (verse_usfm == exclude_usfm) continue;
     if (!verse_usfm.empty () && !exclude_usfm.empty ()) {
-      if (verse_usfm.find (exclude_usfm) != string::npos) continue;
-      if (exclude_usfm.find (verse_usfm) != string::npos) continue;
+      if (verse_usfm.find (exclude_usfm) != std::string::npos) continue;
+      if (exclude_usfm.find (verse_usfm) != std::string::npos) continue;
     }
     bits.push_back (verse_usfm);
   }
@@ -533,7 +533,7 @@ bool is_usfm_marker (string code)
 // Else it returns false.
 bool is_opening_marker (string usfm)
 {
-  return usfm.find ("*") == string::npos;
+  return usfm.find ("*") == std::string::npos;
 }
 
 
@@ -541,7 +541,7 @@ bool is_opening_marker (string usfm)
 // Else it returns false.
 bool is_embedded_marker (string usfm)
 {
-  return usfm.find ( "+") != string::npos;
+  return usfm.find ( "+") != std::string::npos;
 }
 
 
@@ -820,7 +820,7 @@ string safely_store_verse (void * webserver_request,
   // Store the new verse USFM in the existing chapter USFM.
   size_t pos = chapter_usfm.find (existing_verse_usfm);
   size_t length = existing_verse_usfm.length ();
-  if (pos == string::npos) {
+  if (pos == std::string::npos) {
     explanation = "Cannot find the exact location in the chapter where to save this USFM fragment";
     Database_Logs::log (explanation + ": " + usfm);
     return translate ("Doesn't know where to save");
@@ -852,9 +852,9 @@ bool contains_empty_verses (string usfm)
   usfm = filter::strings::replace (" ", "", usfm);
   if (usfm.empty ()) return false;
   size_t pos = usfm.find ("\\v\\v");
-  if (pos != string::npos) return true;
+  if (pos != std::string::npos) return true;
   pos = usfm.find ("\\v \\v");
-  if (pos != string::npos) return true;
+  if (pos != std::string::npos) return true;
   pos = usfm.find_last_of (marker_v ());
   if (pos == usfm.length () - 1) return true;
   return false;
@@ -865,7 +865,7 @@ bool contains_empty_verses (string usfm)
 // If so, it puts the all of the verses in $verses, and returns true.
 bool handle_verse_range (string verse, vector <int> & verses)
 {
-  if (verse.find ("-") != string::npos) {
+  if (verse.find ("-") != std::string::npos) {
     size_t position;
     position = verse.find ("-");
     string start_range, end_range;
@@ -892,7 +892,7 @@ bool handle_verse_range (string verse, vector <int> & verses)
 // If so, it puts the all of the verses in $verses, and returns true.
 bool handle_verse_sequence (string verse, vector <int> & verses)
 {
-  if (verse.find (",") != string::npos) {
+  if (verse.find (",") != std::string::npos) {
     int iterations = 0;
     do {
       // In case of an unusual range formation, do not hang.
@@ -902,7 +902,7 @@ bool handle_verse_sequence (string verse, vector <int> & verses)
       }
       size_t position = verse.find (",");
       string vs;
-      if (position == string::npos) {
+      if (position == std::string::npos) {
         vs = verse;
         verse.clear ();
       } else {
@@ -957,7 +957,7 @@ void remove_word_level_attributes (const string & marker,
   
   // Look for the vertical bar. If it's not there, bail out.
   size_t bar_position = possible_markup.find("|");
-  if (bar_position == string::npos) return;
+  if (bar_position == std::string::npos) return;
   
   // Remove the fragment and store the remainder back into the object.
   possible_markup.erase(bar_position);
@@ -983,13 +983,13 @@ string extract_fig (string usfm, string & caption, string & alt, string& src, st
   // If the opener is there, it means the \fig markup could be there.
   string opener = get_opening_usfm (marker);
   size_t pos1 = usfm.find (opener);
-  if (pos1 != string::npos) {
+  if (pos1 != std::string::npos) {
     usfm_out.append(usfm.substr(0, pos1));
     usfm.erase (0, pos1 + opener.length());
     // Erase the \fig* closing markup.
     string closer = get_closing_usfm(marker);
     size_t pos2 = usfm.find(closer);
-    if (pos2 != string::npos) {
+    if (pos2 != std::string::npos) {
       usfm_out.append(usfm.substr(pos2 + closer.length()));
       usfm.erase(pos2);
     }

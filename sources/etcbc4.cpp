@@ -109,7 +109,7 @@ void sources_etcbc4_download ()
           Database_Logs::log (error);
           continue;
         }
-        if (response.find ("does not exist") != string::npos) {
+        if (response.find ("does not exist") != std::string::npos) {
           if (verse == 1) book_done = true;
           break;
         }
@@ -194,24 +194,24 @@ void sources_etcbc4_parse ()
                 // The class of the <span> element indicates what kind of grammatical tag it has.
                 string clazz = span.attribute ("class").value ();
                 if (clazz == "ht") word = value;
-                if (clazz.find ("hl_hlv") != string::npos) vocalized_lexeme = value;
-                if (clazz.find ("hl_hlc") != string::npos) consonantal_lexeme = value;
+                if (clazz.find ("hl_hlv") != std::string::npos) vocalized_lexeme = value;
+                if (clazz.find ("hl_hlc") != std::string::npos) consonantal_lexeme = value;
                 if (clazz == "gl") gloss = value;
-                if (clazz.find ("_pos") != string::npos) pos = value;
-                if (clazz.find ("_subpos") != string::npos) subpos = value;
-                if (clazz.find ("_gender") != string::npos) gender = value;
-                if (clazz.find ("_gnumber") != string::npos) number = value;
-                if (clazz.find ("_person") != string::npos) person = value;
-                if (clazz.find ("_state") != string::npos) state = value;
-                if (clazz.find ("_tense") != string::npos) tense = value;
-                if (clazz.find ("_stem") != string::npos) stem = value;
-                if (clazz.find ("ph_fun") != string::npos) phrase_function = value;
-                if (clazz.find ("ph_typ") != string::npos) phrase_type = value;
-                if (clazz.find ("ph_rela") != string::npos) phrase_relation = value;
-                if (clazz.find ("ph_arela") != string::npos) phrase_a_relation = value;
-                if (clazz.find ("cl_txt") != string::npos) clause_text_type = value;
-                if (clazz.find ("cl_typ") != string::npos) clause_type = value;
-                if (clazz.find ("cl_rela") != string::npos) clause_relation = value;
+                if (clazz.find ("_pos") != std::string::npos) pos = value;
+                if (clazz.find ("_subpos") != std::string::npos) subpos = value;
+                if (clazz.find ("_gender") != std::string::npos) gender = value;
+                if (clazz.find ("_gnumber") != std::string::npos) number = value;
+                if (clazz.find ("_person") != std::string::npos) person = value;
+                if (clazz.find ("_state") != std::string::npos) state = value;
+                if (clazz.find ("_tense") != std::string::npos) tense = value;
+                if (clazz.find ("_stem") != std::string::npos) stem = value;
+                if (clazz.find ("ph_fun") != std::string::npos) phrase_function = value;
+                if (clazz.find ("ph_typ") != std::string::npos) phrase_type = value;
+                if (clazz.find ("ph_rela") != std::string::npos) phrase_relation = value;
+                if (clazz.find ("ph_arela") != std::string::npos) phrase_a_relation = value;
+                if (clazz.find ("cl_txt") != std::string::npos) clause_text_type = value;
+                if (clazz.find ("cl_typ") != std::string::npos) clause_type = value;
+                if (clazz.find ("cl_rela") != std::string::npos) clause_relation = value;
               }
             }
           }

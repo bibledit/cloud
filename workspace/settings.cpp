@@ -87,8 +87,8 @@ string workspace_settings (void * webserver_request)
     if (!workspacewidth.empty()) {
       size_t pos_px = workspacewidth.find ("px");
       size_t pos_pct = workspacewidth.find ("%");
-      if (pos_px == string::npos) {
-        if (pos_pct == string::npos) {
+      if (pos_px == std::string::npos) {
+        if (pos_pct == std::string::npos) {
           workspacewidth.append("%");
         }
       }

@@ -155,7 +155,7 @@ void system_logic_import_bibles_file (string tarball)
     // The name of the Bible this file is to be imported into.
     string bible (file);
     size_t pos = bible.find_last_of ("_");
-    if (pos != string::npos) bible.erase (pos);
+    if (pos != std::string::npos) bible.erase (pos);
     
     // Get details about the USFM to import.
     string stylesheet = styles_logic_standard_sheet ();
@@ -315,7 +315,7 @@ void system_logic_produce_resources_file (int jobid)
   vector <string> resources;
   vector <string> rawfiles = filter_url_scandir (directory);
   for (auto filename : rawfiles) {
-    if (filename.find (Database_Cache::fragment()) != string::npos) {
+    if (filename.find (Database_Cache::fragment()) != std::string::npos) {
       resources.push_back (filename);
     }
   }
@@ -331,9 +331,9 @@ void system_logic_produce_resources_file (int jobid)
     // Sample filename: cache_resource_[CrossWire][LXX]_62.sqlite
     // Look for the last underscore.
     // This indicates which resource it is, by leaving the book number out.
-    if (filename.find (Database_Cache::fragment()) != string::npos) {
+    if (filename.find (Database_Cache::fragment()) != std::string::npos) {
       size_t pos = filename.find_last_of ("_");
-      if (pos != string::npos) {
+      if (pos != std::string::npos) {
         string resource = filename.substr (0, pos);
         single_resources[resource].push_back (filename);
       }

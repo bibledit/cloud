@@ -100,7 +100,7 @@ string mapping_index (void * webserver_request)
     mappingsblock << mapping;
     mappingsblock << " ";
     mappingsblock << "<a href=" << quoted("map?name=" + mapping) << ">[translate(" << quoted("edit") << "]</a>";
-    mappingsblock << "</p>" << endl;
+    mappingsblock << "</p>" << std::endl;
   }
   view.set_variable ("mappingsblock", mappingsblock.str());
   

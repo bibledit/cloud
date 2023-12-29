@@ -149,25 +149,25 @@ string workspace_organize (void * webserver_request)
   vector <string> workspaces = workspace_get_names (request, false);
   for (size_t i = 0; i < workspaces.size (); i++) {
     string workspace = workspaces [i];
-    workspaceblock << "<p>" << endl;
-    workspaceblock << "<a href=" << quoted ("?remove=" + workspace) << " title=" << quoted (translate("Delete workspace")) << ">" << filter::strings::emoji_wastebasket () << "</a>" << endl;
-    workspaceblock << "|" << endl;
-    workspaceblock << "<a href=" << quoted ("?up=" + filter::strings::convert_to_string (i)) << " title=" << quoted (translate("Move workspace up")) << "> " << filter::strings::unicode_black_up_pointing_triangle () << " </a>" << endl;
-    workspaceblock << "|" << endl;
-    workspaceblock << "<a href=" << quoted ("?down=" + filter::strings::convert_to_string (i)) << " title=" << quoted (translate("Move workspace down")) << "> " << filter::strings::unicode_black_down_pointing_triangle () << " </a>" << endl;
-    workspaceblock << "|" << endl;
-    workspaceblock << "<a href=" << quoted ("settings?name=" + workspace) << " title=" << quoted (translate("Edit workspace")) << "> ✎ </a>" << endl;
+    workspaceblock << "<p>" << std::endl;
+    workspaceblock << "<a href=" << quoted ("?remove=" + workspace) << " title=" << quoted (translate("Delete workspace")) << ">" << filter::strings::emoji_wastebasket () << "</a>" << std::endl;
+    workspaceblock << "|" << std::endl;
+    workspaceblock << "<a href=" << quoted ("?up=" + filter::strings::convert_to_string (i)) << " title=" << quoted (translate("Move workspace up")) << "> " << filter::strings::unicode_black_up_pointing_triangle () << " </a>" << std::endl;
+    workspaceblock << "|" << std::endl;
+    workspaceblock << "<a href=" << quoted ("?down=" + filter::strings::convert_to_string (i)) << " title=" << quoted (translate("Move workspace down")) << "> " << filter::strings::unicode_black_down_pointing_triangle () << " </a>" << std::endl;
+    workspaceblock << "|" << std::endl;
+    workspaceblock << "<a href=" << quoted ("settings?name=" + workspace) << " title=" << quoted (translate("Edit workspace")) << "> ✎ </a>" << std::endl;
     workspaceblock << "|";
-    workspaceblock << "<a href=" << quoted ("?copy=" + workspace) << " title=" << quoted (translate("Copy workspace")) << "> ⎘ </a>" << endl;
+    workspaceblock << "<a href=" << quoted ("?copy=" + workspace) << " title=" << quoted (translate("Copy workspace")) << "> ⎘ </a>" << std::endl;
 #ifndef HAVE_CLIENT
     // In the Cloud, one can send the workspace configuration to other users.
     // On a client, sending a workspace to other users does not work.
-    workspaceblock << "|" << endl;
-    workspaceblock << "<a href=" << quoted ("?send=" + workspace) << " title=" << quoted (translate("Send workspace to all users")) << "> ✉ </a>" << endl;
+    workspaceblock << "|" << std::endl;
+    workspaceblock << "<a href=" << quoted ("?send=" + workspace) << " title=" << quoted (translate("Send workspace to all users")) << "> ✉ </a>" << std::endl;
 #endif
-    workspaceblock << "|" << endl;
-    workspaceblock << "<span>" << workspace << "</span>" << endl;
-    workspaceblock << "</p>" << endl;
+    workspaceblock << "|" << std::endl;
+    workspaceblock << "<span>" << workspace << "</span>" << std::endl;
+    workspaceblock << "</p>" << std::endl;
   }
   view.set_variable ("workspaceblock", workspaceblock.str());
 

@@ -492,7 +492,7 @@ void Notes_Logic::emailUsers (int identifier, const string& label, string bible,
   contents << database_notes.get_contents (identifier);
 
   // Include links to the Cloud: One to the note, and one to the active workspace.
-  contents << "<br>" << endl;
+  contents << "<br>" << std::endl;
   contents << "<p>";
   contents << "<a href=";
   string notelink = config::logic::site_url (webserver_request) + notes_note_url () + "?id=" + filter::strings::convert_to_string (identifier);
@@ -509,11 +509,11 @@ void Notes_Logic::emailUsers (int identifier, const string& label, string bible,
   contents << translate ("open the workspace online");
   contents << "</a>";
 
-  contents << "</p>" << endl;
+  contents << "</p>" << std::endl;
   string mailto = "mailto:" + Database_Config_General::getSiteMailAddress () + "?subject=(CNID" + filter::strings::convert_to_string (identifier) + ")";
   contents << "<p><a href=";
   contents << quoted (mailto);
-  contents << ">Respond by email</a></p>" << endl;
+  contents << ">Respond by email</a></p>" << std::endl;
 
   // Deal with possible postponing email till 9 PM.
   int timestamp = filter::date::seconds_since_epoch ();

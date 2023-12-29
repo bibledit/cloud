@@ -63,7 +63,7 @@ void statistics_statistics ()
       string any_bible = string();
       vector <int> ids = database_modifications.getNotificationIdentifiers (user, any_bible);
       change_notificatons_count = ids.size();
-      body << "<p><a href=" << quoted (siteUrl + changes_changes_url ()) << ">" << translate("Number of change notifications") << "</a>: " << ids.size() << "</p>" << endl;
+      body << "<p><a href=" << quoted (siteUrl + changes_changes_url ()) << ">" << translate("Number of change notifications") << "</a>: " << ids.size() << "</p>" << std::endl;
     }
     
 
@@ -86,14 +86,14 @@ void statistics_statistics ()
                                                      "",     // Search text.
                                                      -1);     // Limit.
       assigned_notes_count = ids.size();
-      body << "<p><a href=" << quoted (siteUrl + notes_index_url () + "?presetselection=assigned") << ">" << translate("Number of consultation notes assigned to you awaiting your response") << "</a>: " << ids.size() << "</p>" << endl;
+      body << "<p><a href=" << quoted (siteUrl + notes_index_url () + "?presetselection=assigned") << ">" << translate("Number of consultation notes assigned to you awaiting your response") << "</a>: " << ids.size() << "</p>" << std::endl;
     }
     
 
     size_t subscribed_notes_count = 0;
     if (request.database_config_user()->getUserSubscribedNotesStatisticsNotification (user)) {
-      body << "<p>" << translate("Number of consultation notes you are subscribed to") << ":</p>" << endl;
-      body << "<ul>" << endl;
+      body << "<p>" << translate("Number of consultation notes you are subscribed to") << ":</p>" << std::endl;
+      body << "<ul>" << std::endl;
       request.session_logic ()->set_username (user);
       
       vector <int> ids = database_notes.select_notes (
@@ -113,7 +113,7 @@ void statistics_statistics ()
                                                      "",     // Search text.
                                                      -1);     // Limit.
       subscribed_notes_count = ids.size();
-      body << "<li><a href=" << quoted (siteUrl + notes_index_url () + "?presetselection=subscribed") << ">" << translate("Total") << "</a>: " << ids.size () << "</li>" << endl;
+      body << "<li><a href=" << quoted (siteUrl + notes_index_url () + "?presetselection=subscribed") << ">" << translate("Total") << "</a>: " << ids.size () << "</li>" << std::endl;
       ids = database_notes.select_notes (
                                                      bibles, // Bible.
                                                      0,      // Book
@@ -130,7 +130,7 @@ void statistics_statistics ()
                                                      0,      // Text selector.
                                                      "",     // Search text.
                                                      -1);     // Limit.
-      body << "<li><a href=" << quoted (siteUrl + notes_index_url () + "?presetselection=subscribeddayidle") << ">" << translate("Inactive for a day") << "</a>: " << ids.size() << "</li>" << endl;
+      body << "<li><a href=" << quoted (siteUrl + notes_index_url () + "?presetselection=subscribeddayidle") << ">" << translate("Inactive for a day") << "</a>: " << ids.size() << "</li>" << std::endl;
       ids = database_notes.select_notes (
                                                      bibles, // Bible.
                                                      0,      // Book
@@ -147,8 +147,8 @@ void statistics_statistics ()
                                                      0,      // Text selector.
                                                      "",     // Search text.
                                                      -1);     // Limit.
-      body << "<li><a href=" << quoted (siteUrl + notes_index_url () + "?presetselection=subscribedweekidle") << ">" << translate("Inactive for a week") << "</a>: " << ids.size() << "</li>" << endl;
-      body << "</ul>" << endl;
+      body << "<li><a href=" << quoted (siteUrl + notes_index_url () + "?presetselection=subscribedweekidle") << ">" << translate("Inactive for a week") << "</a>: " << ids.size() << "</li>" << std::endl;
+      body << "</ul>" << std::endl;
       request.session_logic ()->set_username ("");
     }
 

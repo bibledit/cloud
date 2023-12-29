@@ -65,7 +65,7 @@ string notes_unassign_n (void * webserver_request)
   vector <string> bibles = access_bible::bibles (webserver_request);
   vector <string> users = database_notes.get_all_assignees (bibles);
   for (auto & user : users) {
-    userblock << "<li><a href=" << quoted ("bulk?unassign=" + user) << ">" << user << "</a></li>" << endl;
+    userblock << "<li><a href=" << quoted ("bulk?unassign=" + user) << ">" << user << "</a></li>" << std::endl;
   }
   view.set_variable ("userblock", userblock.str());
   

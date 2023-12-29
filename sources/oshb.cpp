@@ -39,7 +39,7 @@ using namespace pugi;
 
 void sources_oshb_parse ()
 {
-  cout << "Starting" << endl;
+  std::cout << "Starting" << std::endl;
 
   Database_OsHb database_oshb;
   database_oshb.create ();
@@ -47,7 +47,7 @@ void sources_oshb_parse ()
 
   string file = "sources/oshb.xml";
   unlink (file.c_str());
-  cout << file << endl;
+  std::cout << file << std::endl;
 
   string command = "gunzip sources/oshb.xml.gz";
 #ifndef HAVE_IOS
@@ -173,7 +173,7 @@ void sources_oshb_parse ()
     }
     if (book != previous_book) {
       previous_book = book;
-      cout << database::books::get_english_from_id (book) << endl;
+      std::cout << database::books::get_english_from_id (book) << std::endl;
     }
     word = filter::strings::replace ("/", "", word);
     database_oshb.store (static_cast<int>(book), chapter, verse, lemma, word, morph);
@@ -182,5 +182,5 @@ void sources_oshb_parse ()
 
   database_oshb.optimize ();
 
-  cout << "Completed" << endl;
+  std::cout << "Completed" << std::endl;
 }

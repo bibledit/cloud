@@ -82,7 +82,7 @@ string lexicon_logic_get_html ([[maybe_unused]] void * webserver_request, string
     stringstream ss;
     if (!rowids.empty ()) {
       string id = "lexicontxt" + prefix;
-      ss << "<div id=" << quoted(id) << ">" << endl;
+      ss << "<div id=" << quoted(id) << ">" << std::endl;
       for (auto rowid : rowids) {
         ss << "<table class='interlinear rtl'>";
         ss << "<tr>";
@@ -113,7 +113,7 @@ string lexicon_logic_get_html ([[maybe_unused]] void * webserver_request, string
     if (!rowids.empty ()) {
       stringstream ss;
       string id = "lexicontxt" + prefix;
-      ss << "<div id=" << quoted(id) << ">" << endl;
+      ss << "<div id=" << quoted(id) << ">" << std::endl;
       for (size_t i = 0; i < rowids.size (); i++) {
         int rowid = rowids[i];
         string english = database_kjv.english (rowid);
@@ -132,7 +132,7 @@ string lexicon_logic_get_html ([[maybe_unused]] void * webserver_request, string
     if (!rowids.empty ()) {
       stringstream ss;
       string id = "lexicontxt" + prefix;
-      ss << "<div id=" << quoted(id) << " class=" << quoted("hebrew") << ">" << endl;
+      ss << "<div id=" << quoted(id) << " class=" << quoted("hebrew") << ">" << std::endl;
       for (size_t i = 0; i < rowids.size (); i++) {
         int rowid = rowids[i];
         string word = database_oshb.word (rowid);
@@ -153,7 +153,7 @@ string lexicon_logic_get_html ([[maybe_unused]] void * webserver_request, string
     if (!rowids.empty ()) {
       stringstream ss;
       string id = "lexicontxt" + prefix;
-      ss << "<div id=" << quoted(id) << " class=" << quoted("greek") << ">" << endl;
+      ss << "<div id=" << quoted(id) << " class=" << quoted("greek") << ">" << std::endl;
       for (size_t i = 0; i < rowids.size (); i++) {
         if (i) ss << " ";
         int rowid = rowids[i];

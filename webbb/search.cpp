@@ -108,7 +108,7 @@ string webbible_search (void * webserver_request)
     
     
     // Output title and URL.
-    hitsblock << "<p style=" << quoted ("margin-top: 0.75em; margin-bottom: 0em") << "><a href=" << quoted (url) << ">" << title << "</a></p>" << endl;
+    hitsblock << "<p style=" << quoted ("margin-top: 0.75em; margin-bottom: 0em") << "><a href=" << quoted (url) << ">" << title << "</a></p>" << std::endl;
     
     
     // The excerpt.
@@ -119,7 +119,7 @@ string webbible_search (void * webserver_request)
       string markedLine = filter::strings::markup_words (queryWords, line);
       if (markedLine != line) {
         // Store this bit of the excerpt.
-        hitsblock << "<p style=" << quoted ("margin-top: 0em; margin-bottom: 0em") << ">" << markedLine << "</p>" << endl;
+        hitsblock << "<p style=" << quoted ("margin-top: 0em; margin-bottom: 0em") << ">" << markedLine << "</p>" << std::endl;
       }
     }
   }

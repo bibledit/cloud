@@ -102,7 +102,7 @@ void bibledit_initialize_library (const char * package, const char * webroot)
   // Initialize SQLite: Full thread safety: https://www.sqlite.org/c3ref/threadsafe.html.
   // This is supported to prevent "database locked" errors.
   if (!sqlite3_threadsafe ()) {
-    cerr << "SQLite is not threadsafe" << endl;
+    std::cerr << "SQLite is not threadsafe" << std::endl;
   }
   sqlite3_config (SQLITE_CONFIG_SERIALIZED);
 

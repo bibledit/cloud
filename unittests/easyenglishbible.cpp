@@ -192,7 +192,7 @@ TEST (easy_english_bible, logic)
           text = filter::strings::html2text (text);
           if (text.empty()) {
             empty_passage_counter++;
-            //cout << filter_passage_display (book, chapter, filter::strings::convert_to_string (verse)) << endl;
+            //cout << filter_passage_display (book, chapter, filter::strings::convert_to_string (verse)) << std::endl;
           }
         }
       }
@@ -529,9 +529,9 @@ TEST (easy_english_bible, logic)
           EXPECT_EQ (17, empty_passage_counter);
           break;
         default:
-          cout << "book " << book << " " << filter_passage_display (book, 1, "1") << endl;
-          cout << "total " << total_passage_counter << endl;
-          cout << "empty " << empty_passage_counter << endl;
+          std::cout << "book " << book << " " << filter_passage_display (book, 1, "1") << std::endl;
+          std::cout << "total " << total_passage_counter << std::endl;
+          std::cout << "empty " << empty_passage_counter << std::endl;
           break;
       }
     }

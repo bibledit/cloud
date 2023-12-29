@@ -23,7 +23,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <webserver/request.h>
 #include <config/globals.h>
 #include <database/logs.h>
-#include <webserver/io.h>
 #include <filter/string.h>
 #include <filter/url.h>
 #include <filter/date.h>
@@ -44,12 +43,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #ifdef HAVE_WINDOWS
 #include <io.h>
 #endif
-using namespace std;
 
 
 // Internal function declarations.
 int get_line (const int sock, char *buf, const int size);
-void webserver_process_request (const int connfd, const string& clientaddress);
+void webserver_process_request (const int connfd, const std::string& clientaddress);
 void secure_webserver_process_request (mbedtls_ssl_config * conf, mbedtls_net_context client_fd);
 
 
@@ -98,7 +96,7 @@ int get_line (const int sock, char *buf, const int size)
 
 
 // Processes a single request from a web client.
-void webserver_process_request (const int connfd, const string& clientaddress)
+void webserver_process_request (const int connfd, const std::string& clientaddress)
 {
   // The environment for this request.
   // A pointer to it gets passed around from function to function during the entire request.
@@ -142,7 +140,7 @@ void webserver_process_request (const int connfd, const string& clientaddress)
         // In the case of a POST request, more data follows: The POST request itself.
         // The length of that data is indicated in the header's Content-Length line.
         // Read that data, and parse it.
-        string postdata {};
+        std::string postdata {};
         if (request.is_post) {
           bool done_reading {false};
           int total_bytes_read {0};
@@ -215,15 +213,18 @@ void webserver_process_request (const int connfd, const string& clientaddress)
         }
       }
     }
-  } catch (const exception & e) {
-    string message ("Internal error: ");
+  } 
+  catch (const std::exception& e) {
+    std::string message ("Internal error: ");
     message.append (e.what ());
     Database_Logs::log (message);
-  } catch (const exception * e) {
-    string message ("Internal error: ");
+  } 
+  catch (const std::exception* e) {
+    std::string message ("Internal error: ");
     message.append (e->what ());
     Database_Logs::log (message);
-  } catch (...) {
+  } 
+  catch (...) {
     Database_Logs::log ("A general internal error occurred");
   }
   
@@ -256,9 +257,9 @@ void http_server ()
   const int listenfd = socket (AF_INET6, SOCK_STREAM, 0);
 #endif
   if (listenfd < 0) {
-    string error = "Error opening socket: ";
+    std::string error = "Error opening socket: ";
     error.append (strerror (errno));
-    cerr << error << endl;
+    std::cerr << error << std::endl;
     Database_Logs::log (error);
     listener_healthy = false;
   }
@@ -269,9 +270,9 @@ void http_server ()
   int optval {1};
   int result = setsockopt (listenfd, SOL_SOCKET, SO_REUSEADDR, reinterpret_cast<const char *> ( &optval), sizeof (int));
   if (result != 0) {
-    string error = "Error setting socket option: ";
+    std::string error = "Error setting socket option: ";
     error.append (strerror (errno));
-    cerr << error << endl;
+    std::cerr << error << std::endl;
     Database_Logs::log (error);
   }
 
@@ -294,11 +295,11 @@ void http_server ()
   serveraddr.sin6_addr = in6addr_any;
   serveraddr.sin6_port = htons (static_cast<uint16_t>(filter::strings::convert_to_int (config::logic::http_network_port ())));
 #endif
-  result = mybind (listenfd, reinterpret_cast<sockaddr *>(&serveraddr), sizeof (serveraddr));
+  result = ::bind (listenfd, reinterpret_cast<sockaddr *>(&serveraddr), sizeof (serveraddr));
   if (result != 0) {
-    string error = "Error binding server to socket: ";
+    std::string error = "Error binding server to socket: ";
     error.append (strerror (errno));
-    cerr << error << endl;
+    std::cerr << error << std::endl;
     Database_Logs::log (error);
     listener_healthy = false;
   }
@@ -307,9 +308,9 @@ void http_server ()
   // before the system starts rejecting the incoming requests.
   result = listen (listenfd, 100);
   if (result != 0) {
-    string error = "Error listening on socket: ";
+    std::string error = "Error listening on socket: ";
     error.append (strerror (errno));
-    cerr << error << endl;
+    std::cerr << error << std::endl;
     Database_Logs::log (error);
     listener_healthy = false;
   }
@@ -333,17 +334,17 @@ void http_server ()
       // IPv4 addresses are mapped to IPv6 addresses.
       char remote_address[256];
       inet_ntop (AF_INET6, &clientaddr6.sin6_addr, remote_address, sizeof (remote_address));
-      const string clientaddress = remote_address;
+      const std::string clientaddress = remote_address;
       
       // Handle this request in a thread, enabling parallel requests.
-      thread request_thread = thread (webserver_process_request, connfd, clientaddress);
+      std::thread request_thread = std::thread (webserver_process_request, connfd, clientaddress);
       // Detach and delete thread object.
       request_thread.detach ();
       
     } else {
-      string error = "Error accepting connection on socket: ";
+      std::string error = "Error accepting connection on socket: ";
       error.append (strerror (errno));
-      cerr << error << endl;
+      std::cerr << error << std::endl;
       Database_Logs::log (error);
     }
   }
@@ -408,14 +409,14 @@ void http_server ()
   result = WSAStartup(MAKEWORD(2, 2), &wsa_data);
   if (result != 0) {
     string error = "Could not initialize Windows Sockets with error " + filter::strings::convert_to_string (result);
-    cerr << error << endl;
+    std::cerr << error << std::endl;
     Database_Logs::log (error);
     listener_healthy = false;
   }
   // Check for the correct requested Windows Sockets interface version.
   if (LOBYTE(wsa_data.wVersion) != 2 || HIBYTE(wsa_data.wVersion) != 2) {
     string error = "Incorrect Windows Sockets version";
-    cerr << error << endl;
+    std::cerr << error << std::endl;
     Database_Logs::log (error);
     listener_healthy = false;
   }
@@ -424,7 +425,7 @@ void http_server ()
   SOCKET listen_socket = socket(AF_INET, SOCK_STREAM, 0);
   if (listen_socket == INVALID_SOCKET) {
     string error = "Socket failed with error " + filter::strings::convert_to_string (WSAGetLastError());
-    cerr << error << endl;
+    std::cerr << error << std::endl;
     Database_Logs::log (error);
     listener_healthy = false;
   }
@@ -437,10 +438,10 @@ void http_server ()
   serveraddr.sin_family = AF_INET;
   serveraddr.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
   serveraddr.sin_port = htons(filter::strings::convert_to_int(config::logic::http_network_port()));
-  result = mybind(listen_socket, (SA *)&serveraddr, sizeof(serveraddr));
+  result = ::bind(listen_socket, (SA *)&serveraddr, sizeof(serveraddr));
   if (result == SOCKET_ERROR) {
 	  string error = "Error binding server to socket";
-    cerr << error << endl;
+    std::cerr << error << std::endl;
     Database_Logs::log (error);
 	  listener_healthy = false;
   }
@@ -449,7 +450,7 @@ void http_server ()
   result = listen(listen_socket, SOMAXCONN);
   if (result == SOCKET_ERROR) {
     string error = "Listen failed with error " + filter::strings::convert_to_string (WSAGetLastError());
-    cerr << error << endl;
+    std::cerr << error << std::endl;
     Database_Logs::log (error);
     listener_healthy = false;
   }
@@ -548,7 +549,7 @@ void secure_webserver_process_request (mbedtls_ssl_config * conf, mbedtls_net_co
       
       // Read the HTTP headers.
       bool header_parsed = true;
-      string header_line {};
+      std::string header_line {};
       while (connection_healthy && header_parsed) {
         // Read the client's request.
         // With the HTTP protocol it is not possible to read the request till EOF,
@@ -587,7 +588,7 @@ void secure_webserver_process_request (mbedtls_ssl_config * conf, mbedtls_net_co
         // The POST request itself.
         // The length of that data is indicated in the header's Content-Length line.
         // Read that data.
-        string postdata;
+        std::string postdata{};
         bool done_reading = false;
         int total_bytes_read = 0;
         while (connection_healthy && !done_reading) {
@@ -715,15 +716,18 @@ void secure_webserver_process_request (mbedtls_ssl_config * conf, mbedtls_net_co
       }
       
     }
-  } catch (const exception & e) {
-    string message ("Internal error: ");
+  } 
+  catch (const std::exception& e) {
+    std::string message ("Internal error: ");
     message.append (e.what ());
     Database_Logs::log (message);
-  } catch (const exception * e) {
-    string message ("Internal error: ");
+  } 
+  catch (const std::exception * e) {
+    std::string message ("Internal error: ");
     message.append (e->what ());
     Database_Logs::log (message);
-  } catch (...) {
+  } 
+  catch (...) {
     Database_Logs::log ("A general internal error occurred");
   }
   
@@ -744,16 +748,16 @@ void https_server ()
 
   // The https network port to listen on.
   // Port 0..9 means this:: Don't run the secure web server.
-  const string network_port = config::logic::https_network_port ();
+  const std::string network_port = config::logic::https_network_port ();
   if (network_port.length() <= 1) return;
   
   // Check whether all the certificates are there and can be read.
   // If not, log some feedback and don't run the secure web server.
-  const string server_key_path {config::logic::server_key_path (false)};
-  const string server_certificate_path {config::logic::server_certificate_path (false)};
-  const string authorities_certificates_path {config::logic::authorities_certificates_path (false)};
+  const std::string server_key_path {config::logic::server_key_path (false)};
+  const std::string server_certificate_path {config::logic::server_certificate_path (false)};
+  const std::string authorities_certificates_path {config::logic::authorities_certificates_path (false)};
   if (!server_key_path.empty()) {
-    const string contents {filter_url_file_get_contents (server_key_path)};
+    const std::string contents {filter_url_file_get_contents (server_key_path)};
     if (contents.empty()) {
       Database_Logs::log("Cannot read " + server_key_path + " so not running secure server");
       return;
@@ -763,7 +767,7 @@ void https_server ()
     return;
   }
   if (!server_certificate_path.empty()) {
-    const string contents {filter_url_file_get_contents (server_certificate_path)};
+    const std::string contents {filter_url_file_get_contents (server_certificate_path)};
     if (contents.empty()) {
       Database_Logs::log("Cannot read " + server_certificate_path + " so not running secure server");
       return;
@@ -773,7 +777,7 @@ void https_server ()
     return;
   }
   if (!authorities_certificates_path.empty()) {
-    string contents {filter_url_file_get_contents (authorities_certificates_path)};
+    std::string contents {filter_url_file_get_contents (authorities_certificates_path)};
     if (contents.empty()) {
       Database_Logs::log("Cannot read " + authorities_certificates_path + " so not running secure server");
       return;
@@ -869,7 +873,7 @@ void https_server ()
   config_globals_enforce_https_browser = config::logic::enforce_https_browser ();
   config_globals_enforce_https_client = config::logic::enforce_https_client ();
 
-  cout << "Listening on https://localhost:" << network_port << endl;
+  std::cout << "Listening on https://localhost:" << network_port << std::endl;
   
   // Keep preparing for, accepting, and processing client connections.
   while (config_globals_webserver_running) {
@@ -886,7 +890,7 @@ void https_server ()
     }
     
     // Handle this request in a thread, enabling parallel requests.
-    thread request_thread = thread (secure_webserver_process_request, &conf, client_fd);
+    std::thread request_thread = std::thread (secure_webserver_process_request, &conf, client_fd);
     // Detach and delete thread object.
     request_thread.detach ();
   }
@@ -894,7 +898,7 @@ void https_server ()
   // Wait shortly to give sufficient time to let the connection fail,
   // before the local SSL/TLS variables get out of scope,
   // which would lead to a segmentation fault if those variables were still in use.
-  this_thread::sleep_for (chrono::milliseconds (5));
+  std::this_thread::sleep_for (std::chrono::milliseconds (5));
 
   // Close listening socket, freeing it for a possible subsequent server process.
   mbedtls_net_free (&listen_fd);

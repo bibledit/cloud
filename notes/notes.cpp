@@ -158,10 +158,10 @@ string notes_notes (void * webserver_request)
       content = database_notes.get_contents (identifier);
     }
 
-    notesblock << "<a name=" << quoted ("note" + filter::strings::convert_to_string (identifier)) << "></a>" << endl;
-    notesblock << "<p><a href=" << quoted ("note?id=" + filter::strings::convert_to_string (identifier)) << ">" << summary << "</a></p>" << endl;
-    if (!verse_text.empty ()) notesblock << "<p>" << verse_text << "</p>" << endl;
-    if (!content.empty ()) notesblock << "<p>" << content << "</p>" << endl;
+    notesblock << "<a name=" << quoted ("note" + filter::strings::convert_to_string (identifier)) << "></a>" << std::endl;
+    notesblock << "<p><a href=" << quoted ("note?id=" + filter::strings::convert_to_string (identifier)) << ">" << summary << "</a></p>" << std::endl;
+    if (!verse_text.empty ()) notesblock << "<p>" << verse_text << "</p>" << std::endl;
+    if (!content.empty ()) notesblock << "<p>" << content << "</p>" << std::endl;
   }
 
   

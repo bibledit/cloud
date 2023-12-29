@@ -109,7 +109,7 @@ void filter_memory_print_back_trace ()
   int size = backtrace(array, 1024);
   strings = backtrace_symbols(array, size);
   for (int i = 0; i < size; i++)
-    cout << strings[i] << endl;
+    std::cout << strings[i] << std::endl;
   puts("");
   free(strings);
 #endif

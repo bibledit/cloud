@@ -76,7 +76,7 @@ TEST (DISABLED_memory, basic)
     test_memory_run = false;
     recorder->join ();
     delete recorder;
-    cout << max_memory_usage - basic_usage << " search_reindex_bibles" << endl;
+    std::cout << max_memory_usage - basic_usage << " search_reindex_bibles" << std::endl;
   }
 
   // Creating search index consultation notes.
@@ -96,7 +96,7 @@ TEST (DISABLED_memory, basic)
     test_memory_run = false;
     recorder->join ();
     delete recorder;
-    cout << max_memory_usage - basic_usage << " search_reindex_notes" << endl;
+    std::cout << max_memory_usage - basic_usage << " search_reindex_notes" << std::endl;
   }
   
   // Generating change notifications.
@@ -133,7 +133,7 @@ TEST (DISABLED_memory, basic)
     recorder->join ();
     delete recorder;
     uint64_t after_usage = filter_memory_total_usage ();
-    cout << max_memory_usage - basic_usage << " changes_modifications, leakage " << after_usage - basic_usage << endl;
+    std::cout << max_memory_usage - basic_usage << " changes_modifications, leakage " << after_usage - basic_usage << std::endl;
   }
 
   // Running checks.
@@ -168,7 +168,7 @@ TEST (DISABLED_memory, basic)
     test_memory_run = false;
     recorder->join ();
     delete recorder;
-    cout << max_memory_usage - basic_usage << " checks_run" << endl;
+    std::cout << max_memory_usage - basic_usage << " checks_run" << std::endl;
   }
 
   // Exporting Bible to USFM.
@@ -185,7 +185,7 @@ TEST (DISABLED_memory, basic)
     test_memory_run = false;
     recorder->join ();
     delete recorder;
-    cout << max_memory_usage - basic_usage << " export_usfm" << endl;
+    std::cout << max_memory_usage - basic_usage << " export_usfm" << std::endl;
   }
 
   // Exporting Bible book to USFM and plain text.
@@ -202,7 +202,7 @@ TEST (DISABLED_memory, basic)
     test_memory_run = false;
     recorder->join ();
     delete recorder;
-    cout << max_memory_usage - basic_usage << " export_text_usfm_book" << endl;
+    std::cout << max_memory_usage - basic_usage << " export_text_usfm_book" << std::endl;
   }
 
   // Exporting Bible book to Open Document.
@@ -219,7 +219,7 @@ TEST (DISABLED_memory, basic)
     test_memory_run = false;
     recorder->join ();
     delete recorder;
-    cout << max_memory_usage - basic_usage << " export_odt_book" << endl;
+    std::cout << max_memory_usage - basic_usage << " export_odt_book" << std::endl;
   }
 
   // Exporting Bible to eSword.
@@ -236,7 +236,7 @@ TEST (DISABLED_memory, basic)
     test_memory_run = false;
     recorder->join ();
     delete recorder;
-    cout << max_memory_usage - basic_usage << " export_esword" << endl;
+    std::cout << max_memory_usage - basic_usage << " export_esword" << std::endl;
   }
 
   // Exporting Bible to Online Bible.
@@ -253,7 +253,7 @@ TEST (DISABLED_memory, basic)
     test_memory_run = false;
     recorder->join ();
     delete recorder;
-    cout << max_memory_usage - basic_usage << " export_onlinebible" << endl;
+    std::cout << max_memory_usage - basic_usage << " export_onlinebible" << std::endl;
   }
 
   // Refreshing SWORD module list.
@@ -267,7 +267,7 @@ TEST (DISABLED_memory, basic)
     test_memory_run = false;
     recorder->join ();
     delete recorder;
-    cout << max_memory_usage - basic_usage << " sword_logic_refresh_module_list" << endl;
+    std::cout << max_memory_usage - basic_usage << " sword_logic_refresh_module_list" << std::endl;
   }
   
   [[maybe_unused]] auto available = filter_memory_percentage_available ();

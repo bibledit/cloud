@@ -2014,10 +2014,8 @@
 		CADE451A24F174C0003165BB /* Catholic1.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = Catholic1.txt; sourceTree = "<group>"; };
 		CADE451C24F174C0003165BB /* http.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = http.h; sourceTree = "<group>"; };
 		CADE451E24F174C0003165BB /* webserver.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = webserver.h; sourceTree = "<group>"; };
-		CADE452024F174C0003165BB /* io.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = io.c; sourceTree = "<group>"; };
 		CADE452124F174C0003165BB /* request.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = request.cpp; sourceTree = "<group>"; };
 		CADE452224F174C0003165BB /* webserver.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = webserver.cpp; sourceTree = "<group>"; };
-		CADE452424F174C0003165BB /* io.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = io.h; sourceTree = "<group>"; };
 		CADE452524F174C0003165BB /* http.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = http.cpp; sourceTree = "<group>"; };
 		CADE452624F174C0003165BB /* request.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = request.h; sourceTree = "<group>"; };
 		CADE453024F174C1003165BB /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
@@ -5192,8 +5190,6 @@
 			children = (
 				CADE452524F174C0003165BB /* http.cpp */,
 				CADE451C24F174C0003165BB /* http.h */,
-				CADE452024F174C0003165BB /* io.c */,
-				CADE452424F174C0003165BB /* io.h */,
 				CADE452124F174C0003165BB /* request.cpp */,
 				CADE452624F174C0003165BB /* request.h */,
 				CADE452224F174C0003165BB /* webserver.cpp */,
@@ -5286,7 +5282,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
-				LastUpgradeCheck = 1500;
+				LastUpgradeCheck = 1510;
 				ORGANIZATIONNAME = Bibledit;
 				TargetAttributes = {
 					CAA877B22A63DC440059B211 = {

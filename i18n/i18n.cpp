@@ -104,7 +104,7 @@ int main ()
   // Read all html files to process.
   string contents = file_get_contents ("i18n.html");
   vector <string> files = explode (contents, '\n');
-  cout << "Processing " << files.size () << " html files" << endl;
+  std::cout << "Processing " << files.size () << " html files" << std::endl;
   
   // Store the translatable strings.
   vector <string> translatables;

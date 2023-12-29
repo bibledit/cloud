@@ -108,7 +108,7 @@ void sources_abbott_smith_parse_entry_element (Database_AbbottSmith * database_a
 
 void sources_abbott_smith_parse ()
 {
-  cout << "Starting" << endl;
+  std::cout << "Starting" << std::endl;
   Database_AbbottSmith database_abbottsmith;
   database_abbottsmith.create ();
     
@@ -136,7 +136,7 @@ void sources_abbott_smith_parse ()
       }
     }
   }
-  cout << entry_element_count << " entry elements parsed" << endl;
+  std::cout << entry_element_count << " entry elements parsed" << std::endl;
   database_abbottsmith.optimize ();
-  cout << "Completed" << endl;
+  std::cout << "Completed" << std::endl;
 }

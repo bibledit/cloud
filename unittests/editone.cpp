@@ -31,7 +31,7 @@ using namespace std;
 
 void test_editone_logic_verse_indicator (int verse)
 {
-  cerr << "The above is about verse " << verse << endl << endl;
+  std::cerr << "The above is about verse " << verse << std::endl << std::endl;
 }
 
 

@@ -127,23 +127,23 @@ am__dirstamp = $(am__leading_dot)dirstamp
 am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	library/locks.$(OBJEXT) webserver/webserver.$(OBJEXT) \
 	webserver/http.$(OBJEXT) webserver/request.$(OBJEXT) \
-	webserver/io.$(OBJEXT) bootstrap/bootstrap.$(OBJEXT) \
-	filter/url.$(OBJEXT) filter/string.$(OBJEXT) \
-	filter/roles.$(OBJEXT) filter/md5.$(OBJEXT) \
-	filter/usfm.$(OBJEXT) filter/archive.$(OBJEXT) \
-	filter/text.$(OBJEXT) filter/passage.$(OBJEXT) \
-	filter/css.$(OBJEXT) filter/git.$(OBJEXT) \
-	filter/html.$(OBJEXT) filter/diff.$(OBJEXT) \
-	filter/shell.$(OBJEXT) filter/merge.$(OBJEXT) \
-	filter/date.$(OBJEXT) filter/memory.$(OBJEXT) \
-	filter/webview.$(OBJEXT) filter/mail.$(OBJEXT) \
-	filter/note.$(OBJEXT) flate/flate.$(OBJEXT) \
-	assets/view.$(OBJEXT) assets/page.$(OBJEXT) \
-	assets/header.$(OBJEXT) assets/external.$(OBJEXT) \
-	index/index.$(OBJEXT) index/listing.$(OBJEXT) \
-	config/globals.$(OBJEXT) menu/logic.$(OBJEXT) \
-	menu/index.$(OBJEXT) locale/translate.$(OBJEXT) \
-	locale/logic.$(OBJEXT) database/config/general.$(OBJEXT) \
+	bootstrap/bootstrap.$(OBJEXT) filter/url.$(OBJEXT) \
+	filter/string.$(OBJEXT) filter/roles.$(OBJEXT) \
+	filter/md5.$(OBJEXT) filter/usfm.$(OBJEXT) \
+	filter/archive.$(OBJEXT) filter/text.$(OBJEXT) \
+	filter/passage.$(OBJEXT) filter/css.$(OBJEXT) \
+	filter/git.$(OBJEXT) filter/html.$(OBJEXT) \
+	filter/diff.$(OBJEXT) filter/shell.$(OBJEXT) \
+	filter/merge.$(OBJEXT) filter/date.$(OBJEXT) \
+	filter/memory.$(OBJEXT) filter/webview.$(OBJEXT) \
+	filter/mail.$(OBJEXT) filter/note.$(OBJEXT) \
+	flate/flate.$(OBJEXT) assets/view.$(OBJEXT) \
+	assets/page.$(OBJEXT) assets/header.$(OBJEXT) \
+	assets/external.$(OBJEXT) index/index.$(OBJEXT) \
+	index/listing.$(OBJEXT) config/globals.$(OBJEXT) \
+	menu/logic.$(OBJEXT) menu/index.$(OBJEXT) \
+	locale/translate.$(OBJEXT) locale/logic.$(OBJEXT) \
+	database/config/general.$(OBJEXT) \
 	database/config/bible.$(OBJEXT) database/config/user.$(OBJEXT) \
 	database/users.$(OBJEXT) database/logs.$(OBJEXT) \
 	database/sqlite.$(OBJEXT) database/styles.$(OBJEXT) \
@@ -804,8 +804,7 @@ am__depfiles_remade = access/$(DEPDIR)/bible.Po \
 	versification/$(DEPDIR)/index.Po \
 	versification/$(DEPDIR)/logic.Po \
 	versification/$(DEPDIR)/system.Po webbb/$(DEPDIR)/search.Po \
-	webserver/$(DEPDIR)/http.Po webserver/$(DEPDIR)/io.Po \
-	webserver/$(DEPDIR)/request.Po \
+	webserver/$(DEPDIR)/http.Po webserver/$(DEPDIR)/request.Po \
 	webserver/$(DEPDIR)/webserver.Po workspace/$(DEPDIR)/index.Po \
 	workspace/$(DEPDIR)/logic.Po workspace/$(DEPDIR)/organize.Po \
 	workspace/$(DEPDIR)/settings.Po
@@ -1050,7 +1049,6 @@ libbibledit_a_SOURCES = \
 	webserver/webserver.cpp \
 	webserver/http.cpp \
 	webserver/request.cpp \
-	webserver/io.c \
 	bootstrap/bootstrap.cpp \
 	filter/url.cpp \
 	filter/string.cpp \
@@ -1792,8 +1790,6 @@ webserver/webserver.$(OBJEXT): webserver/$(am__dirstamp) \
 webserver/http.$(OBJEXT): webserver/$(am__dirstamp) \
 	webserver/$(DEPDIR)/$(am__dirstamp)
 webserver/request.$(OBJEXT): webserver/$(am__dirstamp) \
-	webserver/$(DEPDIR)/$(am__dirstamp)
-webserver/io.$(OBJEXT): webserver/$(am__dirstamp) \
 	webserver/$(DEPDIR)/$(am__dirstamp)
 bootstrap/$(am__dirstamp):
 	@$(MKDIR_P) bootstrap
@@ -4251,7 +4247,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@versification/$(DEPDIR)/system.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@webbb/$(DEPDIR)/search.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@webserver/$(DEPDIR)/http.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@webserver/$(DEPDIR)/io.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@webserver/$(DEPDIR)/request.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@webserver/$(DEPDIR)/webserver.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@workspace/$(DEPDIR)/index.Po@am__quote@ # am--include-marker
@@ -5419,7 +5414,6 @@ distclean: distclean-am
 	-rm -f versification/$(DEPDIR)/system.Po
 	-rm -f webbb/$(DEPDIR)/search.Po
 	-rm -f webserver/$(DEPDIR)/http.Po
-	-rm -f webserver/$(DEPDIR)/io.Po
 	-rm -f webserver/$(DEPDIR)/request.Po
 	-rm -f webserver/$(DEPDIR)/webserver.Po
 	-rm -f workspace/$(DEPDIR)/index.Po
@@ -6069,7 +6063,6 @@ maintainer-clean: maintainer-clean-am
 	-rm -f versification/$(DEPDIR)/system.Po
 	-rm -f webbb/$(DEPDIR)/search.Po
 	-rm -f webserver/$(DEPDIR)/http.Po
-	-rm -f webserver/$(DEPDIR)/io.Po
 	-rm -f webserver/$(DEPDIR)/request.Po
 	-rm -f webserver/$(DEPDIR)/webserver.Po
 	-rm -f workspace/$(DEPDIR)/index.Po

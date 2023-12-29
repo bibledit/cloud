@@ -34,21 +34,21 @@ using namespace std;
 
 int main (int argc, char **argv)
 {
-  cout << "Data Generator " << config::logic::version () << endl;
+  std::cout << "Data Generator " << config::logic::version () << std::endl;
   
   if (argc < 2) {
-    cerr << "Please pass the document root folder as the first argument" << endl;
+    std::cerr << "Please pass the document root folder as the first argument" << std::endl;
     return EXIT_FAILURE;
   }
   config_globals_document_root = argv [1];
-  cout << "Document root folder: " << config_globals_document_root << endl;
+  std::cout << "Document root folder: " << config_globals_document_root << std::endl;
   if (!file_or_dir_exists (config_globals_document_root)) {
-    cerr << "Please pass an existing document root folder" << endl;
+    std::cerr << "Please pass an existing document root folder" << std::endl;
     return EXIT_FAILURE;
   }
   
   if (argc < 3) {
-    cerr << "Please pass a command as the second argument" << endl;
+    std::cerr << "Please pass a command as the second argument" << std::endl;
     return EXIT_FAILURE;
   }
   string command = argv [2];
@@ -65,62 +65,62 @@ int main (int argc, char **argv)
 
   if (command == i18n_command) {
 
-    cout << "Translating untranslated GUI texts through Google Translate" << endl;
+    std::cout << "Translating untranslated GUI texts through Google Translate" << std::endl;
     i18n_logic_augment_via_google_translate ();
 
   } else if (command == locale_command) {
   
-    cout << "Generating locale databases from the *.po files in folder locale" << endl;
+    std::cout << "Generating locale databases from the *.po files in folder locale" << std::endl;
     setup_generate_locale_databases (true);
     
   } else if (command == sample_bible_command) {
 
-    cout << "Generating the sample Bible" << endl;
+    std::cout << "Generating the sample Bible" << std::endl;
     demo_prepare_sample_bible ();
 
   } else if (command == mappings_command) {
 
-    cout << "Generating the verse mappings database" << endl;
+    std::cout << "Generating the verse mappings database" << std::endl;
     setup_generate_verse_mapping_databases ();
 
   } else if (command == versifications_command) {
     
-    cout << "Generating the versifications database" << endl;
+    std::cout << "Generating the versifications database" << std::endl;
     setup_generate_versification_databases ();
     
   } else if (command == morphhb_command) {
     
-    cout << "Parsing Open Scriptures Hebrew with limited morphology into the morphhb database" << endl;
+    std::cout << "Parsing Open Scriptures Hebrew with limited morphology into the morphhb database" << std::endl;
     sources_morphhb_parse ();
     
   } else if (command == oshb_command) {
     
-    cout << "Parsing Open Scriptures Hebrew Bible with morphology into the oshb database" << endl;
+    std::cout << "Parsing Open Scriptures Hebrew Bible with morphology into the oshb database" << std::endl;
     sources_oshb_parse ();
     
   } else if (command == stylesheet_command) {
     
-    cout << "Parsing style values and importing them into the default styles" << endl;
+    std::cout << "Parsing style values and importing them into the default styles" << std::endl;
     sources_styles_parse ();
 
   } else if (command == abbott_smith_command) {
 
-    cout << "Parsing Abbott-Smith's Manual Greek Lexicon into the abbottsmith database" << endl;
+    std::cout << "Parsing Abbott-Smith's Manual Greek Lexicon into the abbottsmith database" << std::endl;
     sources_abbott_smith_parse ();
     
   } else {
     
-    cerr << "This command is unknown" << endl;
-    cerr << "The following commands are supported:" << endl;
-    cerr << i18n_command << ": Translate untranslated GUI texts through Google Translate" << endl;
-    cerr << locale_command << ": Generate locale databases from the *.po files in folder locale" << endl;
-    cerr << sample_bible_command << ": Generate the sample Bible" << endl;
-    cerr << mappings_command << ": Generate the default verse mappings database" << endl;
-    cerr << versifications_command << ": Generate the default versifications database" << endl;
-    cerr << morphhb_command << ": Parse Open Scriptures Hebrew with limited morphology into the morphhb database" << endl;
-    cerr << oshb_command << ": Parse Open Scriptures Hebrew Bible with morphology into the oshb database" << endl;
-    cerr << stylesheet_command << ": Parse style values and import them into the default styles" << endl;
-    cout << abbott_smith_command << ": Parse Abbott-Smith's Manual Greek Lexicon into the abbottsmith database" << endl;
+    std::cerr << "This command is unknown" << std::endl;
+    std::cerr << "The following commands are supported:" << std::endl;
+    std::cerr << i18n_command << ": Translate untranslated GUI texts through Google Translate" << std::endl;
+    std::cerr << locale_command << ": Generate locale databases from the *.po files in folder locale" << std::endl;
+    std::cerr << sample_bible_command << ": Generate the sample Bible" << std::endl;
+    std::cerr << mappings_command << ": Generate the default verse mappings database" << std::endl;
+    std::cerr << versifications_command << ": Generate the default versifications database" << std::endl;
+    std::cerr << morphhb_command << ": Parse Open Scriptures Hebrew with limited morphology into the morphhb database" << std::endl;
+    std::cerr << oshb_command << ": Parse Open Scriptures Hebrew Bible with morphology into the oshb database" << std::endl;
+    std::cerr << stylesheet_command << ": Parse style values and import them into the default styles" << std::endl;
+    std::cout << abbott_smith_command << ": Parse Abbott-Smith's Manual Greek Lexicon into the abbottsmith database" << std::endl;
     
     return EXIT_FAILURE;
     

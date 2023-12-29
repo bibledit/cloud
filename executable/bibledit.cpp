@@ -44,7 +44,7 @@ static void sigint_handler ([[maybe_unused]] int s)
 {
   // When pressing Ctrl-C, the system outputs a "^C".
   // It is cleaner to write a new line after that.
-  cout << endl;
+  std::cout << std::endl;
   // Initiate server(s) shutdown.
   bibledit_stop_library ();
 }
@@ -63,7 +63,7 @@ static string backtrace_path ()
 static void sigsegv_handler ([[maybe_unused]] int sig)
 {
   // Information.
-  cout << "Segmentation fault, writing backtrace to " << backtrace_path () << endl;
+  std::cout << "Segmentation fault, writing backtrace to " << backtrace_path () << std::endl;
   
   // Get void*'s for all entries on the stack
   void *array[20];
@@ -188,8 +188,8 @@ int main ([[maybe_unused]] int argc, [[maybe_unused]] char **argv)
   // Start the Bibledit library.
   bibledit_start_library ();
   bibledit_log ("The server started");
-  cout << "Listening on http://localhost:" << config::logic::http_network_port () << endl;
-  cout << "Press Ctrl-C to quit" << endl;
+  std::cout << "Listening on http://localhost:" << config::logic::http_network_port () << std::endl;
+  std::cout << "Press Ctrl-C to quit" << std::endl;
 
   
   // Log possible backtrace from a previous crash.

@@ -78,7 +78,7 @@ string notes_status_1 (void * webserver_request)
   stringstream statusblock;
   vector <Database_Notes_Text> statuses = database_notes.get_possible_statuses ();
   for (auto & status : statuses) {
-    statusblock << "<li><a href=" << quoted ("status-1?id=" + filter::strings::convert_to_string (id) + "&status=" + status.raw) << ">" << status.localized + "</a></li>" << endl;
+    statusblock << "<li><a href=" << quoted ("status-1?id=" + filter::strings::convert_to_string (id) + "&status=" + status.raw) << ">" << status.localized + "</a></li>" << std::endl;
   }
   view.set_variable ("statusblock", statusblock.str());
   

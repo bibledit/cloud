@@ -27,15 +27,15 @@ using namespace std;
 
 void i18n_logic_augment_via_google_translate ()
 {
-  cout << "Not implemented yet" << endl;
+  std::cout << "Not implemented yet" << std::endl;
   
   return;
   
   // The following assumes that Google Translate has been set up already.
   // Run $ gcloud auth application-default print-access-token.
   auto [ google_translate_ok, google_translate_output ] = filter::google::print_store_access_token ();
-  cout << "Store Google Translate access token: " << (google_translate_ok?"Ok":"Fail") << endl;
-  cout << google_translate_output << endl;
+  std::cout << "Store Google Translate access token: " << (google_translate_ok?"Ok":"Fail") << std::endl;
+  std::cout << google_translate_output << std::endl;
   if (!google_translate_ok) return;
   
   // Get the available localizations in the "locale" folder.
@@ -50,7 +50,7 @@ void i18n_logic_augment_via_google_translate ()
     string po_path = filter_url_create_root_path ({"locale", language_abbrev + ".po"});
 
     // Read the current .po file.
-    cout << "Reading current " << language_name << " definitions from " << po_path << endl;
+    std::cout << "Reading current " << language_name << " definitions from " << po_path << std::endl;
     unordered_map <string, string> current_msgid_msgstr_map = locale_logic_read_msgid_msgstr (po_path);
     
     // Find the number of defined strings, and how many have been translated already.
@@ -58,7 +58,7 @@ void i18n_logic_augment_via_google_translate ()
     for (const auto & message : current_msgid_msgstr_map) {
       if (!message.second.empty ()) translated_messages++;
     }
-    cout << "Translated definitions " << translated_messages << " out of total " << current_msgid_msgstr_map.size() << endl;
+    std::cout << "Translated definitions " << translated_messages << " out of total " << current_msgid_msgstr_map.size() << std::endl;
 
     // The suffix for the Google translate generated content.
     string google_suffix {"_po_google.txt"};
@@ -89,8 +89,8 @@ void i18n_logic_augment_via_google_translate ()
       }
       
       // Add the translation to the updated po file.
-      updated_po_contents << R"(msgid ")" << msgid << R"(")" << endl;
-      updated_po_contents << R"(msgstr ")" << msgstr << R"(")" << endl;
+      updated_po_contents << R"(msgid ")" << msgid << R"(")" << std::endl;
+      updated_po_contents << R"(msgstr ")" << msgstr << R"(")" << std::endl;
     }
     
     // Write the updated .po file to the desktop.

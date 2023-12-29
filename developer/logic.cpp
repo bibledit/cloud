@@ -89,8 +89,8 @@ Developer_Logic_Tracer::~Developer_Logic_Tracer()
 
 void developer_logic_import_changes_save (string bible, int book, int chapter, int verse, string & text)
 {
-  cout << "saving verse " << verse << endl;
-  cout << text << endl;
+  std::cout << "saving verse " << verse << std::endl;
+  std::cout << text << std::endl;
   if (text.empty()) {
     return;
   }

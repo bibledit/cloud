@@ -6,7 +6,6 @@ libbibledit_a_SOURCES = \
 	webserver/webserver.cpp \
 	webserver/http.cpp \
 	webserver/request.cpp \
-	webserver/io.c \
 	bootstrap/bootstrap.cpp \
 	filter/url.cpp \
 	filter/string.cpp \

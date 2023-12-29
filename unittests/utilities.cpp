@@ -46,7 +46,7 @@ void refresh_sandbox (bool displayjournal, vector <string> allowed)
         if (contents.find (allow) != std::string::npos) display = false;
       }
       if (display) {
-        cout << contents << endl;
+        std::cout << contents << std::endl;
         output = true;
       }
     }
@@ -56,7 +56,7 @@ void refresh_sandbox (bool displayjournal, vector <string> allowed)
   string command = "rsync . -a --delete " + testing_directory;
   int status = system (command.c_str());
   if (status != 0) {
-    cout << "Error while running " + command << endl;
+    std::cout << "Error while running " + command << std::endl;
     exit (status);
   }
   

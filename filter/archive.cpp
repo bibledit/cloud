@@ -187,7 +187,7 @@ string filter_archive_unzip_miniz_internal (string zipfile)
         } else {
           /* Code that extracts file contents memory, if needed.
           size_t filesize = file_stat.m_uncomp_size;
-          cout << filename << " " << filesize << endl;
+          std::cout << filename << " " << filesize << std::endl;
           void * buff = operator new (filesize);
           if (buff) {
             status = mz_zip_reader_extract_to_mem (&zip_archive, i, buff, filesize, 0);

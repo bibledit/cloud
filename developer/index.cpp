@@ -55,7 +55,7 @@ string developer_index (void * webserver_request)
   
   if (request->query.count ("log")) {
     string message = request->query ["log"];
-    cerr << message << endl;
+    std::cerr << message << std::endl;
     return string();
   }
   

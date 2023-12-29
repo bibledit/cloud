@@ -2155,11 +2155,11 @@ std::string fix_invalid_html_tidy (std::string html)
   
   if (rc >= 0) {
     if (rc > 0) {
-      //      cerr << "Html tidy diagnostics:" << endl;
-      //      cerr << errbuf.bp << endl;
+      //      std::cerr << "Html tidy diagnostics:" << std::endl;
+      //      std::cerr << errbuf.bp << std::endl;
     }
-    //    cout << "Html tidy result:" << endl;
-    //    cout << output.bp << endl;
+    //    std::cout << "Html tidy result:" << std::endl;
+    //    std::cout << output.bp << std::endl;
     html = std::string (reinterpret_cast<char const*>(output.bp));
   }
   else {

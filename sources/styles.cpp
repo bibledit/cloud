@@ -68,13 +68,13 @@ void sources_styles_parse ()
   string cpp_end = "};";
   size_t pos = contents.find (cpp_start);
   if (pos == std::string::npos) {
-    cout << "Cannot find default styles signature: " << cpp_start << endl;
+    std::cout << "Cannot find default styles signature: " << cpp_start << std::endl;
     return;
   }
   contents.erase (0, pos + cpp_start.size() + 1);
   pos = contents.find (cpp_end);
   if (pos == std::string::npos) {
-    cout << "Cannot find default styles signature: " << cpp_end << endl;
+    std::cout << "Cannot find default styles signature: " << cpp_end << std::endl;
     return;
   }
   contents.erase (pos);
@@ -260,7 +260,7 @@ void sources_styles_parse ()
     // Check whether the marker in usfm.sty exists in C++.
     if (style_definitions.count (paratext_marker) == 0) {
       if (in_array (paratext_marker, non_existing_markers)) continue;
-      cout << "Marker " << paratext_marker << " exists in usfm.sty but not in Bibledit" << endl;
+      std::cout << "Marker " << paratext_marker << " exists in usfm.sty but not in Bibledit" << std::endl;
       non_existing_markers.push_back (paratext_marker);
       continue;
     }
@@ -421,6 +421,6 @@ void sources_styles_parse ()
   contents = filter::strings::implode (updated_lines, "\n");
   filter_url_file_put_contents (cpp_path, contents);
   
-  cout << "Finished parsing style values from the usfm.sty file" << endl;
+  std::cout << "Finished parsing style values from the usfm.sty file" << std::endl;
 
 }

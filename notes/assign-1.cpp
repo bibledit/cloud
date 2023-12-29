@@ -84,7 +84,7 @@ string notes_assign_1 (void * webserver_request)
   stringstream userblock;
   vector <string> assignees = database_noteassignment.assignees (user);
   for (auto & assignee : assignees) {
-    userblock << "<li><a href=" << quoted ("assign-1?id=" + filter::strings::convert_to_string (id) + "&assign=" + assignee) << ">" << assignee << "</a></li>" << endl;
+    userblock << "<li><a href=" << quoted ("assign-1?id=" + filter::strings::convert_to_string (id) + "&assign=" + assignee) << ">" << assignee << "</a></li>" << std::endl;
   }
   view.set_variable ("userblock", userblock.str());
   

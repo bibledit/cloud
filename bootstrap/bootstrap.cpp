@@ -336,13 +336,13 @@ void bootstrap_index (Webserver_Request& webserver_request)
     return;
   }
   
-  if ((url == session_password_url ()) && browser_request_security_okay (webserver_request) && session_password_acl (std::addressof(webserver_request))) {
-    webserver_request.reply = session_password (std::addressof(webserver_request));
+  if ((url == session_password_url ()) && browser_request_security_okay (webserver_request) && session_password_acl (webserver_request)) {
+    webserver_request.reply = session_password (webserver_request);
     return;
   }
   
-  if ((url == session_signup_url ()) && browser_request_security_okay (webserver_request) && session_signup_acl (std::addressof(webserver_request))) {
-    webserver_request.reply = session_signup (std::addressof(webserver_request));
+  if ((url == session_signup_url ()) && browser_request_security_okay (webserver_request) && session_signup_acl (webserver_request)) {
+    webserver_request.reply = session_signup (webserver_request);
     return;
   }
   

@@ -27,7 +27,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 #include <filter/md5.h>
 #include <email/send.h>
-using namespace std;
 
 
 const char * session_password_url ()
@@ -36,38 +35,36 @@ const char * session_password_url ()
 }
 
 
-bool session_password_acl (void * webserver_request)
+bool session_password_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::guest ());
+  return Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::guest ());
 }
 
 
-string session_password (void * webserver_request)
+std::string session_password (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
+  std::string page{};
 
-  string page;
-
-  Assets_Header header = Assets_Header (translate ("Password"), webserver_request);
+  Assets_Header header = Assets_Header (translate ("Password"), std::addressof(webserver_request));
   header.touch_css_on ();
   page += header.run ();
 
-  Assets_View view;
+  Assets_View view{};
 
   // Form submission handler.
-  if (request->post["submit"] != "") {
+  if (!webserver_request.post["submit"].empty()) {
     bool form_is_valid = true;
-    string user = request->post["user"];
+    const std::string user = webserver_request.post["user"];
     if (user.length () < 4) {
       view.set_variable ("error_message", translate("Username or email address is too short"));
       form_is_valid = false;
     }
-    string email;
+    std::string email{};
     Database_Users database_users;
     if (form_is_valid) {
       form_is_valid = false;
       email = database_users.get_email (user);
-      if (email != "") {
+      if (!email.empty()) {
         form_is_valid = true;
       }
       if (!form_is_valid) {
@@ -79,13 +76,13 @@ string session_password (void * webserver_request)
     }
     if (form_is_valid) {
       // Generate and store a new password.
-      string generated_password = md5 (filter::strings::convert_to_string (filter::strings::rand (0, 1'000'000)));
+      std::string generated_password = md5 (filter::strings::convert_to_string (filter::strings::rand (0, 1'000'000)));
       generated_password = generated_password.substr (0, 15);
-      string username = database_users.getEmailToUser (email);
+      const std::string username = database_users.getEmailToUser (email);
       database_users.set_password (username, generated_password);
       // Send the new password to the user.
-      string subject = translate("Account changed");
-      string body = translate("Somebody requested a new password for your account.");
+      const std::string subject = translate("Account changed");
+      std::string body = translate("Somebody requested a new password for your account.");
       body += "\n\n";
       body += translate("Here is the new password:");
       body += "\n\n";

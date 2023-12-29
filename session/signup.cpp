@@ -43,15 +43,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #endif
 #pragma GCC diagnostic pop
 #include <tasks/logic.h>
-using namespace std;
-using namespace pugi;
 
 
 struct Verification
 {
-  string question {};
-  string answer {};
-  string passage {};
+  std::string question {};
+  std::string answer {};
+  std::string passage {};
 };
 
 
@@ -61,28 +59,26 @@ const char * session_signup_url ()
 }
 
 
-bool session_signup_acl (void * webserver_request)
+bool session_signup_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::guest ());
+  return Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::guest ());
 }
 
 
-string session_signup ([[maybe_unused]] void * webserver_request)
+std::string session_signup ([[maybe_unused]] Webserver_Request& webserver_request)
 {
-  string page;
+  std::string page{};
 
 #ifdef HAVE_CLOUD
 
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  
-  Assets_Header header = Assets_Header (translate ("Signup"), webserver_request);
+  Assets_Header header = Assets_Header (translate ("Signup"), std::addressof(webserver_request));
   header.touch_css_on ();
   page += header.run ();
   
   Assets_View view;
 
   // Some security questions.
-  vector <Verification> verifications;
+  std::vector <Verification> verifications;
   Verification verification;
 
   verification.question = translate("To which city was Paul travelling when a light from heaven shone round about him?");
@@ -200,13 +196,13 @@ string session_signup ([[maybe_unused]] void * webserver_request)
   
   // Form submission handler.
   bool signed_up = false;
-  if (request->post["submit"] != "") {
+  if (!webserver_request.post["submit"].empty()) {
     bool form_is_valid = true;
-    string user     = request->post["user"];
-    string pass     = request->post["pass"];
-    string mail     = request->post["mail"];
-    string answer   = request->post["answer"];
-    string standard = request->post["standard"];
+    const std::string user = webserver_request.post["user"];
+    const std::string pass = webserver_request.post["pass"];
+    const std::string mail = webserver_request.post["mail"];
+    const std::string answer = webserver_request.post["answer"];
+    const std::string standard = webserver_request.post["standard"];
     if (user.length () < 4) {
       form_is_valid = false;
       view.set_variable ("username_invalid_message", translate("Username should be at least four characters long"));
@@ -226,70 +222,70 @@ string session_signup ([[maybe_unused]] void * webserver_request)
     Database_Users database_users;
     if (form_is_valid) {
       if (database_users.usernameExists (user)) {
-        string message = translate("The username that you have chosen has already been taken.") + " " + translate("Please choose another one.");
+        const std::string message = translate("The username that you have chosen has already been taken.") + " " + translate("Please choose another one.");
         view.set_variable ("error_message", message);
         form_is_valid = false;
       }
     }
     if (form_is_valid) {
       if (database_users.emailExists (mail)) {
-        string message = translate("The email address that you have chosen has already been taken.") + " " + translate("Please choose another one.");
+        const std::string message = translate("The email address that you have chosen has already been taken.") + " " + translate("Please choose another one.");
         view.set_variable ("error_message", message);
         form_is_valid = false;
       }
     }
     if (form_is_valid) {
-      Confirm_Worker confirm_worker = Confirm_Worker (webserver_request);
-      string initial_subject = translate("Signup verification");
+      Confirm_Worker confirm_worker = Confirm_Worker (std::addressof(webserver_request));
+      const std::string initial_subject = translate("Signup verification");
       // Create the initial body of the email to send to the new user.
-      xml_node node;
-      xml_document initial_document;
+      pugi::xml_node node;
+      pugi::xml_document initial_document;
       node = initial_document.append_child ("h3");
       node.text ().set (initial_subject.c_str());
-      string information;
+      std::string information;
       if (config::logic::default_bibledit_configuration ()) {
         node = initial_document.append_child ("p");
         information = translate("There is a request to open an account with this email address.");
         node.text ().set (information.c_str());
       }
-      string initial_body {};
+      std::string initial_body {};
       {
-        stringstream output {};
-        initial_document.print (output, "", format_raw);
+        std::stringstream output {};
+        initial_document.print (output, "", pugi::format_raw);
         initial_body = output.str ();
       }
 
       // Set the role of the new signing up user, it is set as member if no
       // default has been set by an administrator.
-      int role = Database_Config_General::getDefaultNewUserAccessLevel ();
+      const int role = Database_Config_General::getDefaultNewUserAccessLevel ();
 
-      string query = database_users.add_userQuery (user, pass, role, mail);
+      const std::string query = database_users.add_userQuery (user, pass, role, mail);
 
       // Set default privileges on new signing up user.
-      set <string> defusers = access_logic::default_privilege_usernames ();
-      vector <int> privileges = {PRIVILEGE_VIEW_RESOURCES, PRIVILEGE_VIEW_NOTES, PRIVILEGE_CREATE_COMMENT_NOTES};
+      const std::set <std::string> defusers = access_logic::default_privilege_usernames ();
+      const std::vector <int> privileges = {PRIVILEGE_VIEW_RESOURCES, PRIVILEGE_VIEW_NOTES, PRIVILEGE_CREATE_COMMENT_NOTES};
       auto default_username = next(defusers.begin(), (unsigned)(long)(unsigned)role + 1);
-      for (auto & privilege : privileges) {
-        bool state = DatabasePrivileges::get_feature (*default_username, privilege);
+      for (const auto& privilege : privileges) {
+        const bool state = DatabasePrivileges::get_feature (*default_username, privilege);
         DatabasePrivileges::set_feature (user, privilege, state);
       }
 
-      bool deletenotes = request->database_config_user ()->getPrivilegeDeleteConsultationNotesForUser (*default_username);
-      bool useadvancedmode = request->database_config_user ()->getPrivilegeUseAdvancedModeForUser (*default_username);
-      bool editstylesheets = request->database_config_user ()->getPrivilegeSetStylesheetsForUser (*default_username);
+      const bool deletenotes = webserver_request.database_config_user ()->getPrivilegeDeleteConsultationNotesForUser (*default_username);
+      const bool useadvancedmode = webserver_request.database_config_user ()->getPrivilegeUseAdvancedModeForUser (*default_username);
+      const bool editstylesheets = webserver_request.database_config_user ()->getPrivilegeSetStylesheetsForUser (*default_username);
 
-      if (deletenotes) request->database_config_user ()->setPrivilegeDeleteConsultationNotesForUser (user, 1);
-      if (useadvancedmode) request->database_config_user ()->setPrivilegeUseAdvancedModeForUser (user, 1);
-      if (editstylesheets) request->database_config_user ()->setPrivilegeSetStylesheetsForUser (user, 1);
+      if (deletenotes) webserver_request.database_config_user ()->setPrivilegeDeleteConsultationNotesForUser (user, 1);
+      if (useadvancedmode) webserver_request.database_config_user ()->setPrivilegeUseAdvancedModeForUser (user, 1);
+      if (editstylesheets) webserver_request.database_config_user ()->setPrivilegeSetStylesheetsForUser (user, 1);
 
-      if (request->database_config_user ()->getPrivilegeDeleteConsultationNotesForUser (*default_username)) request->database_config_user ()->setPrivilegeDeleteConsultationNotesForUser (user, 1);
-      if (request->database_config_user ()->getPrivilegeUseAdvancedModeForUser (*default_username)) request->database_config_user ()->setPrivilegeUseAdvancedModeForUser (user, 1);
-      if (request->database_config_user ()->getPrivilegeSetStylesheetsForUser (*default_username)) request->database_config_user ()->setPrivilegeSetStylesheetsForUser (user, 1);
+      if (webserver_request.database_config_user ()->getPrivilegeDeleteConsultationNotesForUser (*default_username)) webserver_request.database_config_user ()->setPrivilegeDeleteConsultationNotesForUser (user, 1);
+      if (webserver_request.database_config_user ()->getPrivilegeUseAdvancedModeForUser (*default_username)) webserver_request.database_config_user ()->setPrivilegeUseAdvancedModeForUser (user, 1);
+      if (webserver_request.database_config_user ()->getPrivilegeSetStylesheetsForUser (*default_username)) webserver_request.database_config_user ()->setPrivilegeSetStylesheetsForUser (user, 1);
 
       // Create the contents for the confirmation email
       // that will be sent after the account has been verified.
-      string subsequent_subject {translate("Account opened")};
-      xml_document subsequent_document {};
+      const std::string subsequent_subject {translate("Account opened")};
+      pugi::xml_document subsequent_document {};
       node = subsequent_document.append_child ("h3");
       node.text ().set (subsequent_subject.c_str());
       node = subsequent_document.append_child ("p");
@@ -298,10 +294,10 @@ string session_signup ([[maybe_unused]] void * webserver_request)
       node = subsequent_document.append_child ("p");
       information = translate("Your account is now active and you have logged in.");
       node.text ().set (information.c_str());
-      string subsequent_body {};
+      std::string subsequent_body {};
       {
-        stringstream output;
-        subsequent_document.print (output, "", format_raw);
+        std::stringstream output{};
+        subsequent_document.print (output, "", pugi::format_raw);
         subsequent_body = output.str ();
       }
       // Store the confirmation information in the database.

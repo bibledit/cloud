@@ -26,7 +26,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/roles.h>
 #include <filter/string.h>
 #include <filter/url.h>
-using namespace std;
 
 
 const char * session_switch_url ()
@@ -35,24 +34,22 @@ const char * session_switch_url ()
 }
 
 
-bool session_switch_acl (void * webserver_request)
+bool session_switch_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::guest ());
+  return Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::guest ());
 }
 
 
-string session_switch (void * webserver_request)
+std::string session_switch (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-
-  string page;
+  std::string page{};
   
-  Assets_Header header = Assets_Header (translate ("Switch user"), webserver_request);
+  Assets_Header header = Assets_Header (translate ("Switch user"), std::addressof(webserver_request));
   page += header.run ();
   
-  Assets_View view;
+  Assets_View view{};
   
-  string user = request->session_logic ()->currentUser ();
+  const std::string user = webserver_request.session_logic ()->currentUser ();
   view.set_variable ("user", user);
 
   page += view.render ("session", "switch");

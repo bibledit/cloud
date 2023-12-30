@@ -346,24 +346,24 @@ void bootstrap_index (Webserver_Request& webserver_request)
     return;
   }
   
-  if ((url == session_switch_url ()) && browser_request_security_okay (webserver_request) && session_switch_acl (std::addressof(webserver_request))) {
-    webserver_request.reply = session_switch (std::addressof(webserver_request));
+  if ((url == session_switch_url ()) && browser_request_security_okay (webserver_request) && session_switch_acl (webserver_request)) {
+    webserver_request.reply = session_switch (webserver_request);
     return;
   }
   
   // Bible menu.
-  if ((url == bible_manage_url ()) && browser_request_security_okay (webserver_request) && bible_manage_acl (std::addressof(webserver_request))) {
-    webserver_request.reply = bible_manage (std::addressof(webserver_request));
+  if ((url == bible_manage_url ()) && browser_request_security_okay (webserver_request) && bible_manage_acl (webserver_request)) {
+    webserver_request.reply = bible_manage (webserver_request);
     return;
   }
   
-  if ((url == bible_settings_url ()) && browser_request_security_okay (webserver_request) && bible_settings_acl (std::addressof(webserver_request))) {
-    webserver_request.reply = bible_settings (std::addressof(webserver_request));
+  if ((url == bible_settings_url ()) && browser_request_security_okay (webserver_request) && bible_settings_acl (webserver_request)) {
+    webserver_request.reply = bible_settings (webserver_request);
     return;
   }
   
-  if ((url == bible_book_url ()) && browser_request_security_okay (webserver_request) && bible_book_acl (std::addressof(webserver_request))) {
-    webserver_request.reply = bible_book (std::addressof(webserver_request));
+  if ((url == bible_book_url ()) && browser_request_security_okay (webserver_request) && bible_book_acl (webserver_request)) {
+    webserver_request.reply = bible_book (webserver_request);
     return;
   }
   

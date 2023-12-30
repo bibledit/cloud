@@ -21,6 +21,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <config/libraries.h>
 
+class Webserver_Request;
+
 const char * session_switch_url ();
-bool session_switch_acl (void * webserver_request);
-std::string session_switch (void * webserver_request);
+bool session_switch_acl (Webserver_Request& webserver_request);
+std::string session_switch (Webserver_Request& webserver_request);

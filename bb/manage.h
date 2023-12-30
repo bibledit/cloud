@@ -21,6 +21,8 @@
 
 #include <config/libraries.h>
 
+class Webserver_Request;
+
 std::string bible_manage_url ();
-bool bible_manage_acl (void * webserver_request);
-std::string bible_manage (void * webserver_request);
+bool bible_manage_acl (Webserver_Request& webserver_request);
+std::string bible_manage (Webserver_Request& webserver_request);

@@ -660,7 +660,7 @@ string menu_logic_tools_category (void * webserver_request, string * tooltip)
 
 string menu_logic_settings_category (void * webserver_request, string * tooltip)
 {
-  [[maybe_unused]] Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
 
   [[maybe_unused]] bool demo = config::logic::demo_enabled ();
   
@@ -717,7 +717,7 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
   for (auto & label : labels) {
   
     if (label == bibles) {
-      if (bible_manage_acl (webserver_request)) {
+      if (bible_manage_acl (*request)) {
         html.push_back (menu_logic_create_item (bible_manage_url (), menu_logic_bible_manage_text (), true, "", ""));
         tiplabels.push_back (menu_logic_bible_manage_text ());
       }

@@ -57,19 +57,17 @@ std::string bible_manage_url ()
 }
 
 
-bool bible_manage_acl (void* webserver_request)
+bool bible_manage_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::translator ());
+  return Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::translator ());
 }
 
 
-std::string bible_manage (void* webserver_request)
+std::string bible_manage (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  
   std::string page {};
   
-  Assets_Header header = Assets_Header (translate("Bibles"), webserver_request);
+  Assets_Header header = Assets_Header (translate("Bibles"), std::addressof(webserver_request));
   header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   page = header.run ();
   
@@ -79,69 +77,69 @@ std::string bible_manage (void* webserver_request)
   std::string error_message {};
   
   // New Bible handler.
-  if (request->query.count ("new")) {
+  if (webserver_request.query.count ("new")) {
     Dialog_Entry dialog_entry = Dialog_Entry ("manage", translate("Please enter a name for the new empty Bible"), "", "new", "");
     page += dialog_entry.run ();
     return page;
   }
-  if (request->post.count ("new")) {
-    std::string bible = request->post ["entry"];
+  if (webserver_request.post.count ("new")) {
+    std::string bible = webserver_request.post ["entry"];
     // No underscrore ( _ ) in the name of a Bible because the underscores are used in the searches to separate data.
     bible = filter::strings::replace ("_", "", bible);
-    const std::vector <std::string> bibles = request->database_bibles()->get_bibles ();
+    const std::vector <std::string> bibles = webserver_request.database_bibles()->get_bibles ();
     if (find (bibles.begin(), bibles.end(), bible) != bibles.end()) {
       error_message = translate("This Bible already exists");
     } else {
-      request->database_bibles()->create_bible (bible);
+      webserver_request.database_bibles()->create_bible (bible);
       // Check / grant access.
-      if (!access_bible::write (request, bible)) {
-        std::string me = request->session_logic()->currentUser ();
+      if (!access_bible::write (std::addressof(webserver_request), bible)) {
+        std::string me = webserver_request.session_logic()->currentUser ();
         DatabasePrivileges::set_bible (me, bible, true);
       }
       success_message = translate("The Bible was created");
       // Creating a Bible removes any Sample Bible that might have been there.
       if (!config::logic::demo_enabled ()) {
-        request->database_bibles()->delete_bible (demo_sample_bible_name ());
+        webserver_request.database_bibles()->delete_bible (demo_sample_bible_name ());
         search_logic_delete_bible (demo_sample_bible_name ());
       }
     }
   }
   
   // Copy Bible handler.
-  if (request->query.count ("copy")) {
-    const std::string copy = request->query["copy"];
+  if (webserver_request.query.count ("copy")) {
+    const std::string copy = webserver_request.query["copy"];
     Dialog_Entry dialog_entry = Dialog_Entry ("manage", translate("Please enter a name for where to copy the Bible to"), "", "", "A new Bible will be created with the given name, and the current Bible copied to it");
     dialog_entry.add_query ("origin", copy);
     page += dialog_entry.run ();
     return page;
   }
-  if (request->query.count ("origin")) {
-    const std::string origin = request->query["origin"];
-    if (request->post.count ("entry")) {
-      std::string destination = request->post["entry"];
+  if (webserver_request.query.count ("origin")) {
+    const std::string origin = webserver_request.query["origin"];
+    if (webserver_request.post.count ("entry")) {
+      std::string destination = webserver_request.post["entry"];
       destination = filter::strings::replace ("_", "", destination); // No underscores in the name.
-      const std::vector <std::string> bibles = request->database_bibles()->get_bibles ();
+      const std::vector <std::string> bibles = webserver_request.database_bibles()->get_bibles ();
       if (find (bibles.begin(), bibles.end(), destination) != bibles.end()) {
         error_message = translate("Cannot copy the Bible because the destination Bible already exists.");
       } else {
         // User needs read access to the original.
-        if (access_bible::read (request, origin)) {
+        if (access_bible::read (std::addressof(webserver_request), origin)) {
           // Copy the Bible data.
-          const std::string origin_folder = request->database_bibles()->bible_folder (origin);
-          const std::string destination_folder = request->database_bibles()->bible_folder (destination);
+          const std::string origin_folder = webserver_request.database_bibles()->bible_folder (origin);
+          const std::string destination_folder = webserver_request.database_bibles()->bible_folder (destination);
           filter_url_dir_cp (origin_folder, destination_folder);
           // Copy the Bible search index.
           search_logic_copy_bible (origin, destination);
           // Feedback.
           success_message = translate("The Bible was copied.");
           // Check / grant access to destination Bible.
-          if (!access_bible::write (request, destination)) {
-            const std::string me = request->session_logic ()->currentUser ();
+          if (!access_bible::write (std::addressof(webserver_request), destination)) {
+            const std::string me = webserver_request.session_logic ()->currentUser ();
             DatabasePrivileges::set_bible (me, destination, true);
           }
           // Creating a Bible removes any Sample Bible that might have been there.
           if (!config::logic::demo_enabled ()) {
-            request->database_bibles()->delete_bible (demo_sample_bible_name ());
+            webserver_request.database_bibles()->delete_bible (demo_sample_bible_name ());
             search_logic_delete_bible (demo_sample_bible_name ());
           }
         }
@@ -150,12 +148,12 @@ std::string bible_manage (void* webserver_request)
   }
 
   // Delete Bible handler.
-  if (request->query.count ("delete")) {
-    const std::string bible = request->query ["delete"];
-    const std::string confirm = request->query ["confirm"];
+  if (webserver_request.query.count ("delete")) {
+    const std::string bible = webserver_request.query ["delete"];
+    const std::string confirm = webserver_request.query ["confirm"];
     if (confirm == "yes") {
       // User needs write access for delete operation.
-      if (access_bible::write (request, bible)) {
+      if (access_bible::write (std::addressof(webserver_request), bible)) {
         bible_logic::delete_bible (bible);
       } else {
         page += assets_page::error ("Insufficient privileges to complete action");
@@ -171,7 +169,7 @@ std::string bible_manage (void* webserver_request)
 
   view.set_variable ("success_message", success_message);
   view.set_variable ("error_message", error_message);
-  const std::vector <std::string> bibles = access_bible::bibles (request);
+  const std::vector <std::string> bibles = access_bible::bibles (std::addressof(webserver_request));
   pugi::xml_document document{};
   for (const auto& bible : bibles) {
     pugi::xml_node li_node = document.append_child ("li");

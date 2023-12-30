@@ -39,55 +39,52 @@
 #include <assets/header.h>
 #include <menu/logic.h>
 #include <bb/manage.h>
-using namespace std;
 
 
-string bible_book_url ()
+std::string bible_book_url ()
 {
   return "bible/book";
 }
 
 
-bool bible_book_acl (void * webserver_request)
+bool bible_book_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::manager ());
+  return Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::manager ());
 }
 
 
-string bible_book (void * webserver_request)
+std::string bible_book (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
+  std::string page {};
   
-  string page {};
-  
-  Assets_Header header = Assets_Header (translate("Book"), webserver_request);
+  Assets_Header header = Assets_Header (translate("Book"), std::addressof(webserver_request));
   header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   header.add_bread_crumb (bible_manage_url (), menu_logic_bible_manage_text ());
   page = header.run ();
   
   Assets_View view {};
   
-  string success_message {};
-  string error_message {};
+  std::string success_message {};
+  std::string error_message {};
   
   // The name of the Bible.
-  string bible = access_bible::clamp (request, request->query["bible"]);
+  const std::string bible = access_bible::clamp (std::addressof(webserver_request), webserver_request.query["bible"]);
   view.set_variable ("bible", filter::strings::escape_special_xml_characters (bible));
   
   // The book.
-  int book = filter::strings::convert_to_int (request->query ["book"]);
+  const int book = filter::strings::convert_to_int (webserver_request.query ["book"]);
   view.set_variable ("book", filter::strings::convert_to_string (book));
-  string book_name = database::books::get_english_from_id (static_cast<book_id>(book));
+  const std::string book_name = database::books::get_english_from_id (static_cast<book_id>(book));
   view.set_variable ("book_name", filter::strings::escape_special_xml_characters (book_name));
   
   // Whether the user has write access to this Bible book.
-  bool write_access = access_bible::book_write (request, string(), bible, book);
+  const bool write_access = access_bible::book_write (std::addressof(webserver_request), std::string(), bible, book);
   if (write_access) view.enable_zone ("write_access");
   
   // Delete chapter.
-  string deletechapter = request->query ["deletechapter"];
+  const std::string deletechapter = webserver_request.query ["deletechapter"];
   if (!deletechapter.empty()) {
-    string confirm = request->query ["confirm"];
+    const std::string confirm = webserver_request.query ["confirm"];
     if (confirm.empty()) {
       Dialog_Yes dialog_yes = Dialog_Yes ("book", translate("Would you like to delete this chapter?"));
       dialog_yes.add_query ("bible", bible);
@@ -101,22 +98,22 @@ string bible_book (void * webserver_request)
   }
   
   // Add chapter.
-  if (request->query.count ("createchapter")) {
+  if (webserver_request.query.count ("createchapter")) {
     Dialog_Entry dialog_entry = Dialog_Entry ("book", translate("Please enter the number for the new chapter"), "", "createchapter", "");
     dialog_entry.add_query ("bible", bible);
     dialog_entry.add_query ("book", filter::strings::convert_to_string (book));
     page += dialog_entry.run ();
     return page;
   }
-  if (request->post.count ("createchapter")) {
-    int createchapter = filter::strings::convert_to_int (request->post ["entry"]);
-    vector <int> chapters = request->database_bibles()->get_chapters (bible, book);
+  if (webserver_request.post.count ("createchapter")) {
+    const int createchapter = filter::strings::convert_to_int (webserver_request.post ["entry"]);
+    const std::vector <int> chapters = webserver_request.database_bibles()->get_chapters (bible, book);
     // Only create the chapters if it does not yet exist.
     if (find (chapters.begin(), chapters.end(), createchapter) == chapters.end()) {
-      vector <string> feedback;
+      std::vector <std::string> feedback{};
       bool result {true};
       if (write_access) result = book_create (bible, static_cast<book_id>(book), createchapter, feedback);
-      string message = filter::strings::implode (feedback, " ");
+      const std::string message = filter::strings::implode (feedback, " ");
       if (result) success_message = message;
       else error_message = message;
     } else {
@@ -125,9 +122,9 @@ string bible_book (void * webserver_request)
   }
   
   // Available chapters.
-  vector <int> chapters = request->database_bibles()->get_chapters (bible, book);
-  string chapterblock {};
-  for (auto & chapter : chapters) {
+  const std::vector <int> chapters = webserver_request.database_bibles()->get_chapters (bible, book);
+  std::string chapterblock {};
+  for (const auto& chapter : chapters) {
     chapterblock.append (R"(<a href="chapter?bible=)");
     chapterblock.append (bible);
     chapterblock.append ("&book=");

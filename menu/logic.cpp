@@ -394,7 +394,7 @@ string menu_logic_workspace_category (void * webserver_request, string * tooltip
 
 string menu_logic_translate_category (void * webserver_request, string * tooltip)
 {
-  [[maybe_unused]] Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
 
   vector <string> html;
   vector <string> labels;
@@ -414,7 +414,7 @@ string menu_logic_translate_category (void * webserver_request, string * tooltip
   }
 
   // USFM (chapter) editor.
-  if (editusfm_index_acl (webserver_request)) {
+  if (editusfm_index_acl (*request)) {
     string label = menu_logic_editor_menu_text (false, true);
     html.push_back (menu_logic_create_item (editusfm_index_url (), label, true, "", ""));
     labels.push_back (label);

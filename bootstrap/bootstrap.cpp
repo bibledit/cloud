@@ -397,8 +397,8 @@ void bootstrap_index (Webserver_Request& webserver_request)
     return;
   }
   
-  if ((url == editusfm_index_url ()) && browser_request_security_okay (webserver_request) && editusfm_index_acl (std::addressof(webserver_request))) {
-    webserver_request.reply = editusfm_index (std::addressof(webserver_request));
+  if ((url == editusfm_index_url ()) && browser_request_security_okay (webserver_request) && editusfm_index_acl (webserver_request)) {
+    webserver_request.reply = editusfm_index (webserver_request);
     return;
   }
   

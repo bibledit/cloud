@@ -76,7 +76,7 @@ string editor_select (void * webserver_request)
     }
   }
   
-  if (editusfm_index_acl (webserver_request)) {
+  if (editusfm_index_acl (*request)) {
     if (menu_logic_editor_enabled (webserver_request, false, true)) {
       string label = menu_logic_editor_menu_text (false, true);
       string url = editusfm_index_url ();

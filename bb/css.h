@@ -21,6 +21,8 @@
 
 #include <config/libraries.h>
 
+class Webserver_Request;
+
 std::string bible_css_url ();
-bool bible_css_acl (void * webserver_request);
-std::string bible_css (void * webserver_request);
+bool bible_css_acl (Webserver_Request& webserver_request);
+std::string bible_css (Webserver_Request& webserver_request);

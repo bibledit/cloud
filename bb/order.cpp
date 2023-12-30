@@ -30,28 +30,25 @@
 #include <access/bible.h>
 #include <menu/logic.h>
 #include <bb/manage.h>
-using namespace std;
 
 
-string bible_order_url ()
+std::string bible_order_url ()
 {
   return "bible/order";
 }
 
 
-bool bible_order_acl (void * webserver_request)
+bool bible_order_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::translator ());
+  return Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::translator ());
 }
 
 
-string bible_order (void * webserver_request)
+std::string bible_order (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  
-  string page {};
+  std::string page {};
 
-  Assets_Header header = Assets_Header (translate("Order"), request);
+  Assets_Header header = Assets_Header (translate("Order"), std::addressof(webserver_request));
   header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   header.add_bread_crumb (bible_manage_url (), menu_logic_bible_manage_text ());
   page = header.run ();
@@ -59,15 +56,15 @@ string bible_order (void * webserver_request)
   Assets_View view {};
   
   // The name of the Bible.
-  string bible = access_bible::clamp (request, request->query ["bible"]);
+  const std::string bible = access_bible::clamp (std::addressof(webserver_request), webserver_request.query ["bible"]);
   view.set_variable ("bible", filter::strings::escape_special_xml_characters (bible));
 
   // The order the user wants for the Bibles.
-  string order = request->query ["order"];
+  const std::string order = webserver_request.query ["order"];
   
   // Deuterocanonicals or Apocrypha interspersed among the books of the Hebrew Bible.
   if (order == "interspersed") {
-    vector <book_id> interspersed = {
+    const  std::vector <book_id> interspersed = {
       book_id::_front_matter,
       book_id::_introduction_matter,
       book_id::_genesis,
@@ -117,16 +114,16 @@ string bible_order (void * webserver_request)
       book_id::_zechariah,
       book_id::_malachi,
     };
-    vector <string> v_book_order {};
+    std::vector <std::string> v_book_order {};
     for (const auto book : interspersed) v_book_order.push_back (filter::strings::convert_to_string (static_cast<int>(book)));
-    string s_book_order = filter::strings::implode (v_book_order, " ");
+    const std::string s_book_order = filter::strings::implode (v_book_order, " ");
     Database_Config_Bible::setBookOrder (bible, s_book_order);
   }
 
   
   // Deuterocanonicals or Apocrypha between the Hebrew Bible and the New Testament.
   if (order == "between") {
-    vector <book_id> interspersed = {
+    const std::vector <book_id> interspersed = {
       book_id::_front_matter,
       book_id::_introduction_matter,
       book_id::_genesis,
@@ -176,36 +173,37 @@ string bible_order (void * webserver_request)
       book_id::_sirach,
       book_id::_baruch,
     };
-    vector <string> v_book_order {};
+    std::vector <std::string> v_book_order {};
     for (const auto book : interspersed) v_book_order.push_back (filter::strings::convert_to_string (static_cast<int>(book)));
-    string s_book_order = filter::strings::implode (v_book_order, " ");
+    const std::string s_book_order = filter::strings::implode (v_book_order, " ");
     Database_Config_Bible::setBookOrder (bible, s_book_order);
   }
 
   
   // Deuterocanonicals or Apocrypha at the end of the entire Bible.
   if (order == "end") {
-    Database_Config_Bible::setBookOrder (bible, string());
+    Database_Config_Bible::setBookOrder (bible, std::string());
   }
 
   // Handle updates to the custom book order.
-  string moveup = request->query ["moveup"];
-  string movedown = request->query ["movedown"];
+  const std::string moveup = webserver_request.query ["moveup"];
+  const std::string movedown = webserver_request.query ["movedown"];
   if (!moveup.empty () || !movedown.empty ()) {
     size_t move = static_cast<size_t>(filter::strings::convert_to_int (moveup + movedown));
-    vector <int> books = filter_passage_get_ordered_books (bible);
-    vector <string> s_books;
-    for (auto & book : books) s_books.push_back (filter::strings::convert_to_string (book));
+    const std::vector <int> books = filter_passage_get_ordered_books (bible);
+    std::vector <std::string> s_books;
+    for (const auto& book : books)
+      s_books.push_back (filter::strings::convert_to_string (book));
     filter::strings::array_move_up_down (s_books, move, !moveup.empty ());
-    string s_order = filter::strings::implode (s_books, " ");
+    const std::string s_order = filter::strings::implode (s_books, " ");
     Database_Config_Bible::setBookOrder (bible, s_order);
   }
   
-  vector <int> books = filter_passage_get_ordered_books (bible);
+  const std::vector <int> books = filter_passage_get_ordered_books (bible);
   for (size_t i = 0; i < books.size (); i++) {
-    string bookname = database::books::get_english_from_id (static_cast<book_id>(books[i]));
+    std::string bookname = database::books::get_english_from_id (static_cast<book_id>(books[i]));
     bookname = translate (bookname);
-    view.add_iteration ("order", { pair ("offset", filter::strings::convert_to_string (i)), pair ("bookname", bookname) } );
+    view.add_iteration ("order", { std::pair ("offset", filter::strings::convert_to_string (i)), std::pair ("bookname", bookname) } );
   }
 
   view.set_variable ("uparrow", filter::strings::unicode_black_up_pointing_triangle ());

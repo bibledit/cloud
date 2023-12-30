@@ -35,50 +35,45 @@
 #include <access/bible.h>
 #include <book/create.h>
 #include <client/logic.h>
-using namespace std;
 
 
-string bible_chapter_url ()
+std::string bible_chapter_url ()
 {
   return "bible/chapter";
 }
 
 
-bool bible_chapter_acl (void * webserver_request)
+bool bible_chapter_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::manager ());
+  return Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::manager ());
 }
 
 
-string bible_chapter (void * webserver_request)
+std::string bible_chapter (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  
-  string page {};
-  
-  page = assets_page::header (translate ("Chapter"), webserver_request);
+  std::string page = assets_page::header (translate ("Chapter"), std::addressof(webserver_request));
   
   Assets_View view {};
   
-  string success_message {};
-  string error_message {};
+  std::string success_message {};
+  std::string error_message {};
   
   // The name of the Bible.
-  string bible = access_bible::clamp (request, request->query["bible"]);
+  const std::string bible = access_bible::clamp (std::addressof(webserver_request), webserver_request.query["bible"]);
   view.set_variable ("bible", filter::strings::escape_special_xml_characters (bible));
   
   // The book.
-  int book = filter::strings::convert_to_int (request->query ["book"]);
+  const int book = filter::strings::convert_to_int (webserver_request.query ["book"]);
   view.set_variable ("book", filter::strings::convert_to_string (book));
-  string book_name = database::books::get_english_from_id (static_cast<book_id>(book));
+  const std::string book_name = database::books::get_english_from_id (static_cast<book_id>(book));
   view.set_variable ("book_name", filter::strings::escape_special_xml_characters (book_name));
   
   // The chapter.
-  string chapter = request->query ["chapter"];
+  const std::string chapter = webserver_request.query ["chapter"];
   view.set_variable ("chapter", filter::strings::escape_special_xml_characters (chapter));
   
   // Whether the user has write access to this Bible book.
-  if (bool write_access = access_bible::book_write (request, string(), bible, book); write_access) view.enable_zone ("write_access");
+  if (bool write_access = access_bible::book_write (std::addressof(webserver_request), std::string(), bible, book); write_access) view.enable_zone ("write_access");
   
   view.set_variable ("success_message", success_message);
   view.set_variable ("error_message", error_message);

@@ -44,69 +44,63 @@
 #include <pugixml.hpp>
 #endif
 #pragma GCC diagnostic pop
-using namespace std;
-using namespace pugi;
 
 
-string compare_index_url ()
+std::string compare_index_url ()
 {
   return "compare/index";
 }
 
 
-bool compare_index_acl (void * webserver_request)
+bool compare_index_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ());
+  return Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::consultant ());
 }
 
 
-string compare_index (void * webserver_request)
+std::string compare_index (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
+  std::string page{};
   
-  string page;
-  
-  Assets_Header header = Assets_Header (translate("Compare"), webserver_request);
+  Assets_Header header = Assets_Header (translate("Compare"), std::addressof(webserver_request));
   header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   header.add_bread_crumb (bible_manage_url (), menu_logic_bible_manage_text ());
   page = header.run ();
   
   Assets_View view;
   
-  string bible = request->query ["bible"];
+  const std::string bible = webserver_request.query ["bible"];
   view.set_variable ("bible", bible);
   
-  if (request->query.count ("compare")) {
-    string compare = request->query ["compare"];
+  if (webserver_request.query.count ("compare")) {
+    const std::string compare = webserver_request.query ["compare"];
     Database_Jobs database_jobs = Database_Jobs ();
-    int jobId = database_jobs.get_new_id ();
-    database_jobs.set_level (jobId, Filter_Roles::consultant ());
-    tasks_logic_queue (COMPAREUSFM, {bible, compare, filter::strings::convert_to_string (jobId)});
-    redirect_browser (request, jobs_index_url () + "?id=" + filter::strings::convert_to_string (jobId));
-    return "";
+    const int job_id = database_jobs.get_new_id ();
+    database_jobs.set_level (job_id, Filter_Roles::consultant ());
+    tasks_logic_queue (COMPAREUSFM, {bible, compare, filter::strings::convert_to_string (job_id)});
+    redirect_browser (std::addressof(webserver_request), jobs_index_url () + "?id=" + filter::strings::convert_to_string (job_id));
+    return std::string();
   }
 
   // Names of the Bibles and the USFM Resources.
-  vector <string> names;
-  
-  names = request->database_bibles()->get_bibles ();
+  std::vector <std::string> names = webserver_request.database_bibles()->get_bibles ();
 
   Database_UsfmResources database_usfmresources;
-  vector <string> usfm_resources = database_usfmresources.getResources ();
+  std::vector <std::string> usfm_resources = database_usfmresources.getResources ();
   names.insert (names.end (), usfm_resources.begin(), usfm_resources.end ());
 
   sort (names.begin (), names.end ());
   
   names = filter::strings::array_diff (names, {bible});
-  xml_document document;
-  for (auto & name : names) {
-    xml_node li_node = document.append_child("li");
-    xml_node a_node = li_node.append_child("a");
+  pugi::xml_document document;
+  for (const auto& name : names) {
+    pugi::xml_node li_node = document.append_child("li");
+    pugi::xml_node a_node = li_node.append_child("a");
     a_node.append_attribute("href") = ("index?bible=" + bible + "&compare=" + name).c_str();
     a_node.text().set(name.c_str());
   }
-  stringstream ss;
-  document.print(ss, "", format_raw);
+  std::stringstream ss{};
+  document.print(ss, "", pugi::format_raw);
   view.set_variable ("bibleblock", ss.str());
 
   page += view.render ("compare", "index");

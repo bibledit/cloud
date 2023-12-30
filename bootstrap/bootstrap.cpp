@@ -367,33 +367,33 @@ void bootstrap_index (Webserver_Request& webserver_request)
     return;
   }
   
-  if ((url == bible_chapter_url ()) && browser_request_security_okay (webserver_request) && bible_chapter_acl (std::addressof(webserver_request))) {
-    webserver_request.reply = bible_chapter (std::addressof(webserver_request));
+  if ((url == bible_chapter_url ()) && browser_request_security_okay (webserver_request) && bible_chapter_acl (webserver_request)) {
+    webserver_request.reply = bible_chapter (webserver_request);
     return;
   }
   
-  if ((url == bible_import_url ()) && browser_request_security_okay (webserver_request) && bible_import_acl (std::addressof(webserver_request))) {
-    webserver_request.reply = bible_import (std::addressof(webserver_request));
+  if ((url == bible_import_url ()) && browser_request_security_okay (webserver_request) && bible_import_acl (webserver_request)) {
+    webserver_request.reply = bible_import (webserver_request);
     return;
   }
   
-  if ((url == compare_index_url ()) && browser_request_security_okay (webserver_request) && compare_index_acl (std::addressof(webserver_request))) {
-    webserver_request.reply = compare_index (std::addressof(webserver_request));
+  if ((url == compare_index_url ()) && browser_request_security_okay (webserver_request) && compare_index_acl (webserver_request)) {
+    webserver_request.reply = compare_index (webserver_request);
     return;
   }
   
-  if ((url == bible_order_url ()) && browser_request_security_okay (webserver_request) && bible_order_acl (std::addressof(webserver_request))) {
-    webserver_request.reply = bible_order (std::addressof(webserver_request));
+  if ((url == bible_order_url ()) && browser_request_security_okay (webserver_request) && bible_order_acl (webserver_request)) {
+    webserver_request.reply = bible_order (webserver_request);
     return;
   }
   
-  if ((url == bible_css_url ()) && browser_request_security_okay (webserver_request) && bible_css_acl (std::addressof(webserver_request))) {
-    webserver_request.reply = bible_css (std::addressof(webserver_request));
+  if ((url == bible_css_url ()) && browser_request_security_okay (webserver_request) && bible_css_acl (webserver_request)) {
+    webserver_request.reply = bible_css (webserver_request);
     return;
   }
   
   if ((url == editone_index_url ()) && browser_request_security_okay (webserver_request) && editone_index_acl ()) {
-    webserver_request.reply = editone_index (std::addressof(webserver_request));
+    webserver_request.reply = editone_index (webserver_request);
     return;
   }
   

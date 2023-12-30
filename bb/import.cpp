@@ -34,28 +34,25 @@
 #include <bb/manage.h>
 #include <assets/external.h>
 #include <journal/logic.h>
-using namespace std;
 
 
-string bible_import_url ()
+std::string bible_import_url ()
 {
   return "bible/import";
 }
 
 
-bool bible_import_acl (void * webserver_request)
+bool bible_import_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::manager ());
+  return Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::manager ());
 }
 
 
-string bible_import (void * webserver_request)
+std::string bible_import (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
+  std::string page {};
   
-  string page {};
-  
-  Assets_Header header = Assets_Header (translate("Import"), webserver_request);
+  Assets_Header header = Assets_Header (translate("Import"), std::addressof(webserver_request));
   header.set_navigator ();
   header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   header.add_bread_crumb (bible_manage_url (), menu_logic_bible_manage_text ());
@@ -63,30 +60,30 @@ string bible_import (void * webserver_request)
   
   Assets_View view {};
   
-  string success_message {};
-  string error_message {};
+  std::string success_message {};
+  std::string error_message {};
   
   // The name of the Bible.
-  string bible = access_bible::clamp (request, request->query["bible"]);
+  const std::string bible = access_bible::clamp (std::addressof(webserver_request), webserver_request.query["bible"]);
   view.set_variable ("bible", filter::strings::escape_special_xml_characters (bible));
   
-  int book = Ipc_Focus::getBook (webserver_request);
-  int chapter = Ipc_Focus::getChapter (webserver_request);
+  const int book = Ipc_Focus::getBook (std::addressof(webserver_request));
+  const int chapter = Ipc_Focus::getChapter (std::addressof(webserver_request));
 
   // Whether the user has write access to this Bible.
-  if (bool write_access = access_bible::write (request, bible); write_access) {
+  if (bool write_access = access_bible::write (std::addressof(webserver_request), bible); write_access) {
     view.enable_zone ("write_access");
   }
 
   // USFM data submission.
-  if (request->post.count ("submit")) {
+  if (webserver_request.post.count ("submit")) {
     // Submission may take long if there's a lot of data or the network is slow.
-    string data = request->post ["data"];
+    std::string data = webserver_request.post ["data"];
     data = filter_url_tag_to_plus (data);
     data = filter::strings::trim (data);
     if (!data.empty()) {
       if (filter::strings::unicode_string_is_valid (data)) {
-        string datafile = filter_url_tempfile ();
+        const std::string datafile = filter_url_tempfile ();
         filter_url_file_put_contents (datafile, data);
         success_message = translate("Import has started.");
         view.set_variable ("journal", journal_logic_see_journal_for_progress ());
@@ -98,13 +95,13 @@ string bible_import (void * webserver_request)
       success_message = translate("Nothing was imported.");
     }
     // User imported something into this Bible: Set it as the default Bible.
-    request->database_config_user()->setBible (bible);
+    webserver_request.database_config_user()->setBible (bible);
   }
 
   // File upload.
-  if (request->post.count ("upload")) {
-    string datafile = filter_url_tempfile () + request->post ["filename"];
-    string data = request->post ["data"];
+  if (webserver_request.post.count ("upload")) {
+    const std::string datafile = filter_url_tempfile () + webserver_request.post ["filename"];
+    const std::string data = webserver_request.post ["data"];
     if (!data.empty ()) {
       filter_url_file_put_contents (datafile, data);
       success_message = translate("Import has started.");
@@ -114,7 +111,7 @@ string bible_import (void * webserver_request)
       error_message = translate ("Nothing was uploaded");
     }
     // User imported something into this Bible: Set it as the default Bible.
-    request->database_config_user()->setBible (bible);
+    webserver_request.database_config_user()->setBible (bible);
   }
   
 #ifdef HAVE_UPLOAD
@@ -134,4 +131,3 @@ string bible_import (void * webserver_request)
   
   return page;
 }
-

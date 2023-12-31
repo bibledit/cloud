@@ -432,13 +432,13 @@ void bootstrap_index (Webserver_Request& webserver_request)
     return;
   }
   
-  if ((url == resource_bible2resource_url ()) && browser_request_security_okay (webserver_request) && resource_bible2resource_acl (std::addressof(webserver_request))) {
-    webserver_request.reply = resource_bible2resource (std::addressof(webserver_request));
+  if ((url == resource_bible2resource_url ()) && browser_request_security_okay (webserver_request) && resource_bible2resource_acl (webserver_request)) {
+    webserver_request.reply = resource_bible2resource (webserver_request);
     return;
   }
   
-  if ((url == checks_index_url ()) && browser_request_security_okay (webserver_request) && checks_index_acl (std::addressof(webserver_request))) {
-    webserver_request.reply = checks_index (std::addressof(webserver_request));
+  if ((url == checks_index_url ()) && browser_request_security_okay (webserver_request) && checks_index_acl (webserver_request)) {
+    webserver_request.reply = checks_index (webserver_request);
     return;
   }
   

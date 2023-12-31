@@ -541,6 +541,8 @@ string menu_logic_search_category (void * webserver_request, string * tooltip)
 
 string menu_logic_tools_category (void * webserver_request, string * tooltip)
 {
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
+
   // The labels that may end up in the menu.
   string checks = translate ("Checks");
   string consistency = translate ("Consistency");
@@ -575,7 +577,7 @@ string menu_logic_tools_category (void * webserver_request, string * tooltip)
   for (auto & label : labels) {
 
     if (label == checks) {
-      if (checks_index_acl (webserver_request)) {
+      if (checks_index_acl (*request)) {
         html.push_back (menu_logic_create_item (checks_index_url (), label, true, "", ""));
         tiplabels.push_back (label);
       }

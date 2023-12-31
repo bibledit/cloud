@@ -34,54 +34,52 @@
 #include <resource/external.h>
 #include <menu/logic.h>
 #include <bb/manage.h>
-using namespace std;
 
 
-string resource_bible2resource_url ()
+std::string resource_bible2resource_url ()
 {
   return "resource/bb2resource";
 }
 
 
-bool resource_bible2resource_acl (void * webserver_request)
+bool resource_bible2resource_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::manager ());
+  return Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::manager ());
 }
 
 
-string resource_bible2resource (void * webserver_request)
+std::string resource_bible2resource (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   Database_UsfmResources database_usfmresources = Database_UsfmResources ();
 
   
-  string page;
-  Assets_Header header = Assets_Header (translate("Convert"), request);
+  std::string page;
+  Assets_Header header = Assets_Header (translate("Convert"), std::addressof(webserver_request));
   header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   header.add_bread_crumb (bible_manage_url (), menu_logic_bible_manage_text ());
   page = header.run ();
   Assets_View view;
 
   
-  string bible = request->query["bible"];
+  const std::string bible = webserver_request.query["bible"];
   view.set_variable ("bible", bible);
                       
   
-  vector <string> usfmResources = database_usfmresources.getResources ();
-  if (find (usfmResources.begin(), usfmResources.end (), bible) != usfmResources.end ()) {
+  const std::vector <std::string> usfm_resources = database_usfmresources.getResources ();
+  if (find (usfm_resources.begin(), usfm_resources.end (), bible) != usfm_resources.end ()) {
     view.set_variable ("error", translate("A USFM Resource with this name already exists"));
   }
-  vector <string> externalResources = resource_external_names ();
-  if (find (externalResources.begin(), externalResources.end (), bible) != externalResources.end ()) {
+  const std::vector <std::string> external_resources = resource_external_names ();
+  if (find (external_resources.begin(), external_resources.end (), bible) != external_resources.end ()) {
     view.set_variable ("error", translate("An external resource with this name already exists"));
   }
   
   
-  if (request->query.count ("convert")) {
-    if (access_bible::write (request, bible)) {
+  if (webserver_request.query.count ("convert")) {
+    if (access_bible::write (std::addressof(webserver_request), bible)) {
       tasks_logic_queue (CONVERTBIBLE2RESOURCE, {bible});
-      redirect_browser (request, journal_index_url ());
-      return "";
+      redirect_browser (std::addressof(webserver_request), journal_index_url ());
+      return std::string();
     } else {
       assets_page::error (translate("Insufficient privileges to complete operation."));
     }

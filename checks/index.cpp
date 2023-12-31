@@ -34,72 +34,70 @@
 #include <access/bible.h>
 #include <menu/logic.h>
 #include <checks/settings.h>
-using namespace std;
 
 
-string checks_index_url ()
+std::string checks_index_url ()
 {
   return "checks/index";
 }
 
 
-bool checks_index_acl (void * webserver_request)
+bool checks_index_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::translator ());
+  return Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::translator ());
 }
 
 
-string checks_index (void * webserver_request)
+std::string checks_index (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   Database_Check database_check {};
 
   
-  string page {};
-  Assets_Header header = Assets_Header (translate("Checks"), webserver_request);
+  std::string page {};
+  Assets_Header header = Assets_Header (translate("Checks"), std::addressof(webserver_request));
   header.add_bread_crumb (menu_logic_tools_menu (), menu_logic_tools_text ());
   page = header.run ();
   Assets_View view {};
   
 
-  if (request->query.count ("approve")) {
-    int approve = filter::strings::convert_to_int (request->query["approve"]);
+  if (webserver_request.query.count ("approve")) {
+    const int approve = filter::strings::convert_to_int (webserver_request.query["approve"]);
     database_check.approve (approve);
     view.set_variable ("success", translate("The entry was suppressed."));
   }
   
                         
-  if (request->query.count ("delete")) {
-    int erase = filter::strings::convert_to_int (request->query["delete"]);
+  if (webserver_request.query.count ("delete")) {
+    const int erase = filter::strings::convert_to_int (webserver_request.query["delete"]);
     database_check.erase (erase);
     view.set_variable ("success", translate("The entry was deleted for just now."));
   }
 
   
   // Get the Bibles the user has write-access to.
-  vector <string> bibles {};
+  std::vector <std::string> bibles {};
   {
-    const vector <string> & all_bibles = request->database_bibles()->get_bibles ();
-    for (const auto & bible : all_bibles) {
-      if (access_bible::write (webserver_request, bible)) {
+    const std::vector <std::string>& all_bibles = webserver_request.database_bibles()->get_bibles ();
+    for (const auto& bible : all_bibles) {
+      if (access_bible::write (std::addressof(webserver_request), bible)) {
         bibles.push_back (bible);
       }
     }
   }
   
   
-  stringstream resultblock {};
-  const vector <Database_Check_Hit> & hits = database_check.getHits ();
-  for (const auto & hit : hits) {
-    string bible = hit.bible;
+  std::stringstream resultblock {};
+  const std::vector <Database_Check_Hit>& hits = database_check.getHits ();
+  for (const auto& hit : hits) {
+    std::string bible = hit.bible;
     if (find (bibles.begin(), bibles.end (), bible) != bibles.end ()) {
-      int id = hit.rowid;
+      const int id = hit.rowid;
       bible = filter::strings::escape_special_xml_characters (bible);
       int book = hit.book;
       int chapter = hit.chapter;
       int verse = hit.verse;
-      string link = filter_passage_link_for_opening_editor_at (book, chapter, filter::strings::convert_to_string (verse));
-      string information = filter::strings::escape_special_xml_characters (hit.data);
+      const std::string link = filter_passage_link_for_opening_editor_at (book, chapter, filter::strings::convert_to_string (verse));
+      const std::string information = filter::strings::escape_special_xml_characters (hit.data);
       resultblock << "<p>\n";
       resultblock << "<a href=" << quoted("index?approve=" + filter::strings::convert_to_string (id)) << "> ✔ </a>\n";
       resultblock << "<a href=" << quoted ("index?delete=" + filter::strings::convert_to_string (id)) << ">" << filter::strings::emoji_wastebasket () << "</a>\n";
@@ -114,7 +112,7 @@ string checks_index (void * webserver_request)
   view.set_variable ("resultblock", resultblock.str());
 
   
-  if (checks_settings_acl (webserver_request)) {
+  if (checks_settings_acl (std::addressof(webserver_request))) {
     view.enable_zone ("can_enable");
   } else {
     view.enable_zone ("cannot_enable");

@@ -26,31 +26,28 @@
 #include <editor/usfm2html.h>
 #include <access/bible.h>
 #include <database/config/bible.h>
-using namespace std;
 
 
-string edit_navigate_url ()
+std::string edit_navigate_url ()
 {
   return "edit/navigate";
 }
 
 
-bool edit_navigate_acl (void * webserver_request)
+bool edit_navigate_acl (Webserver_Request& webserver_request)
 {
-  if (Filter_Roles::access_control (webserver_request, Filter_Roles::translator ())) return true;
-  auto [ read, write ] = access_bible::any (webserver_request);
+  if (Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::translator ()))
+    return true;
+  auto [ read, write ] = access_bible::any (std::addressof(webserver_request));
   return write;
 }
 
 
-string edit_navigate (void * webserver_request)
+std::string edit_navigate (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-
-  
-  string bible = request->query ["bible"];
-  int book = filter::strings::convert_to_int (request->query ["book"]);
-  int chapter = filter::strings::convert_to_int (request->query ["chapter"]);
+  const std::string bible = webserver_request.query ["bible"];
+  const int book = filter::strings::convert_to_int (webserver_request.query ["book"]);
+  const int chapter = filter::strings::convert_to_int (webserver_request.query ["chapter"]);
 
   
   // At first the browser used the rangy library to get the offset of the caret.
@@ -58,11 +55,11 @@ string edit_navigate (void * webserver_request)
   // not relative to the main editor element.
   // Therefore a pure Javascript implementation was Googled for and implemented.
   // This provides the offset of the caret relative to the <div id="editor">.
-  size_t offset = static_cast<size_t> (filter::strings::convert_to_int (request->query ["offset"]));
+  const size_t offset = static_cast<size_t> (filter::strings::convert_to_int (webserver_request.query ["offset"]));
 
   
-  string stylesheet = Database_Config_Bible::getEditorStylesheet (bible);
-  string usfm = request->database_bibles()->get_chapter (bible, book, chapter);
+  const std::string stylesheet = Database_Config_Bible::getEditorStylesheet (bible);
+  const std::string usfm = webserver_request.database_bibles()->get_chapter (bible, book, chapter);
   
   
   Editor_Usfm2Html editor_usfm2html;
@@ -79,7 +76,7 @@ string edit_navigate (void * webserver_request)
   // Get the number of verses in the USFM.
   // This covers combined verses also.
   int last_offset {0};
-  vector <int> verses = filter::usfm::get_verse_numbers (usfm);
+  const std::vector <int> verses = filter::usfm::get_verse_numbers (usfm);
   for (int i = 0; i < static_cast<int>(verses.size ()); i++) {
     if (editor_usfm2html.m_verse_start_offsets.count (i)) {
       last_offset = editor_usfm2html.m_verse_start_offsets [i];
@@ -90,7 +87,7 @@ string edit_navigate (void * webserver_request)
   
   
   // Get the starting offsets for each verse.
-  vector <size_t> starting_offsets;
+  std::vector <size_t> starting_offsets{};
   for (int i = 0; i < static_cast<int> (verses.size ()); i++) {
     starting_offsets.push_back (static_cast<size_t>(editor_usfm2html.m_verse_start_offsets [i]));
   }
@@ -98,7 +95,7 @@ string edit_navigate (void * webserver_request)
 
   
   // Get the ending offsets for each verse.
-  vector <size_t> ending_offsets;
+  std::vector <size_t> ending_offsets;
   for (size_t i = 0; i < verses.size (); i++) {
     size_t offset2 = starting_offsets [i];
     for (size_t i2 = 0; i2 < starting_offsets.size (); i2++) {
@@ -112,12 +109,12 @@ string edit_navigate (void * webserver_request)
   
   
   // If the offset is between the focused verse's min and max values, then do nothing.
-  int verse = Ipc_Focus::getVerse (request);
+  int verse = Ipc_Focus::getVerse (std::addressof(webserver_request));
   for (size_t i = 0; i < verses.size (); i++) {
     if (verse == verses[i]) {
       if (offset >= starting_offsets [i]) {
         if (offset <= ending_offsets [i]) {
-          return string();
+          return std::string();
         }
       }
     }
@@ -140,8 +137,8 @@ string edit_navigate (void * webserver_request)
   if (verse >= 0) {
     // Only update navigation in case the verse changed.
     // This avoids unnecessary focus operations in the clients.
-    if (verse != Ipc_Focus::getVerse (request)) {
-      Ipc_Focus::set (request, book, chapter, verse);
+    if (verse != Ipc_Focus::getVerse (std::addressof(webserver_request))) {
+      Ipc_Focus::set (std::addressof(webserver_request), book, chapter, verse);
     }
     // The editor should scroll the verse into view,
     // because the caret is in the Bible text.
@@ -151,5 +148,5 @@ string edit_navigate (void * webserver_request)
   }
   
   
-  return "";
+  return std::string();
 }

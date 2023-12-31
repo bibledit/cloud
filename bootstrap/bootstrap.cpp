@@ -402,18 +402,18 @@ void bootstrap_index (Webserver_Request& webserver_request)
     return;
   }
   
-  if ((url == edit_index_url ()) && browser_request_security_okay (webserver_request) && edit_index_acl (std::addressof(webserver_request))) {
-    webserver_request.reply = edit_index (std::addressof(webserver_request));
+  if ((url == edit_index_url ()) && browser_request_security_okay (webserver_request) && edit_index_acl (webserver_request)) {
+    webserver_request.reply = edit_index (webserver_request);
     return;
   }
   
-  if ((url == edit_position_url ()) && browser_request_security_okay (webserver_request) && edit_position_acl (std::addressof(webserver_request))) {
-    webserver_request.reply = edit_position (std::addressof(webserver_request));
+  if ((url == edit_position_url ()) && browser_request_security_okay (webserver_request) && edit_position_acl (webserver_request)) {
+    webserver_request.reply = edit_position (webserver_request);
     return;
   }
 
-  if ((url == edit_navigate_url ()) && browser_request_security_okay (webserver_request) && edit_navigate_acl (std::addressof(webserver_request))) {
-    webserver_request.reply = edit_navigate (std::addressof(webserver_request));
+  if ((url == edit_navigate_url ()) && browser_request_security_okay (webserver_request) && edit_navigate_acl (webserver_request)) {
+    webserver_request.reply = edit_navigate (webserver_request);
     return;
   }
   
@@ -1141,21 +1141,6 @@ void bootstrap_index (Webserver_Request& webserver_request)
     return;
   }
 
-  if ((url == edit_index_url ()) && browser_request_security_okay (webserver_request) && edit_index_acl (std::addressof(webserver_request))) {
-    webserver_request.reply = edit_index (std::addressof(webserver_request));
-    return;
-  }
-  
-  if ((url == edit_position_url ()) && browser_request_security_okay (webserver_request) && edit_position_acl (std::addressof(webserver_request))) {
-    webserver_request.reply = edit_position (std::addressof(webserver_request));
-    return;
-  }
-
-  if ((url == edit_navigate_url ()) && browser_request_security_okay (webserver_request) && edit_navigate_acl (std::addressof(webserver_request))) {
-    webserver_request.reply = edit_navigate (std::addressof(webserver_request));
-    return;
-  }
-  
   if ((url == edit_preview_url ()) && browser_request_security_okay (webserver_request) && edit_preview_acl (std::addressof(webserver_request))) {
     webserver_request.reply = edit_preview (std::addressof(webserver_request));
     return;

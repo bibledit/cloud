@@ -400,7 +400,7 @@ string menu_logic_translate_category (void * webserver_request, string * tooltip
   vector <string> labels;
   
   // Visual chapter editor.
-  if (edit_index_acl (webserver_request)) {
+  if (edit_index_acl (*request)) {
     string label = menu_logic_editor_menu_text (true, true);
     html.push_back (menu_logic_create_item (edit_index_url (), label, true, "", ""));
     labels.push_back (label);

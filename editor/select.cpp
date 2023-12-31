@@ -58,7 +58,7 @@ string editor_select (void * webserver_request)
   
   vector <string> urls;
   
-  if (edit_index_acl (webserver_request)) {
+  if (edit_index_acl (*request)) {
     if (menu_logic_editor_enabled (webserver_request, true, true)) {
       string label = menu_logic_editor_menu_text (true, true);
       string url = edit_index_url ();

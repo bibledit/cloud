@@ -21,6 +21,8 @@
 
 #include <config/libraries.h>
 
+class Webserver_Request;
+
 std::string edit_navigate_url ();
-bool edit_navigate_acl (void * webserver_request);
-std::string edit_navigate (void * webserver_request);
+bool edit_navigate_acl (Webserver_Request& webserver_request);
+std::string edit_navigate (Webserver_Request& webserver_request);

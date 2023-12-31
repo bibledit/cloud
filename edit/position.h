@@ -21,6 +21,8 @@
 
 #include <config/libraries.h>
 
+class Webserver_Request;
+
 std::string edit_position_url ();
-bool edit_position_acl (void * webserver_request);
-std::string edit_position (void * webserver_request);
+bool edit_position_acl (Webserver_Request& webserver_request);
+std::string edit_position (Webserver_Request& webserver_request);

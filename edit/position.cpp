@@ -26,41 +26,39 @@
 #include <editor/usfm2html.h>
 #include <access/bible.h>
 #include <database/config/bible.h>
-using namespace std;
 
 
-string edit_position_url ()
+std::string edit_position_url ()
 {
   return "edit/position";
 }
 
 
-bool edit_position_acl (void * webserver_request)
+bool edit_position_acl (Webserver_Request& webserver_request)
 {
-  if (Filter_Roles::access_control (webserver_request, Filter_Roles::translator ())) return true;
-  auto [ read, write ] = access_bible::any (webserver_request);
+  if (Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::translator ())) 
+    return true;
+  auto [ read, write ] = access_bible::any (std::addressof(webserver_request));
   return write;
 }
 
 
-string edit_position (void * webserver_request)
+std::string edit_position (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
- 
-  
   // Get Bible: If an empty Bible is given, bail out.
-  string bible = request->query ["bible"];
-  if (bible.empty ()) return "";
+  const std::string bible = webserver_request.query ["bible"];
+  if (bible.empty ())
+    return std::string();
   // Get book: If no book is given: Bail out.
-  int book = filter::strings::convert_to_int (request->query ["book"]);
-  if (!book) return "";
+  const int book = filter::strings::convert_to_int (webserver_request.query ["book"]);
+  if (!book) return std::string();
   // Get chapter.
-  int chapter = filter::strings::convert_to_int (request->query ["chapter"]);
+  const int chapter = filter::strings::convert_to_int (webserver_request.query ["chapter"]);
   
   
-  string stylesheet = Database_Config_Bible::getEditorStylesheet (bible);
-  string usfm = request->database_bibles()->get_chapter (bible, book, chapter);
-  int verse = Ipc_Focus::getVerse (request);
+  const std::string stylesheet = Database_Config_Bible::getEditorStylesheet (bible);
+  const std::string usfm = webserver_request.database_bibles()->get_chapter (bible, book, chapter);
+  const int verse = Ipc_Focus::getVerse (std::addressof(webserver_request));
 
 
   Editor_Usfm2Html editor_usfm2html;
@@ -68,31 +66,32 @@ string edit_position (void * webserver_request)
   editor_usfm2html.stylesheet (stylesheet);
   editor_usfm2html.run ();
   
-  int startingOffset = 0;
-  int endingOffset = 0;
+  int starting_offset = 0;
+  int ending_offset = 0;
   // To deal with a combined verse, go through the offsets, and pick the correct one.
   for (auto element : editor_usfm2html.m_verse_start_offsets) {
-    int vs = element.first;
-    int offset = element.second;
-    if (vs <= verse) startingOffset = offset;
-    if (endingOffset == 0) {
+    const int vs = element.first;
+    const int offset = element.second;
+    if (vs <= verse)
+      starting_offset = offset;
+    if (ending_offset == 0) {
       if (vs > verse) {
-        endingOffset = offset;
+        ending_offset = offset;
       }
     }
   }
   if (verse) {
-    startingOffset += static_cast<int> (filter::strings::convert_to_string (verse).length () + 1);
+    starting_offset += static_cast<int> (filter::strings::convert_to_string (verse).length () + 1);
   }
-  if (endingOffset) {
-    endingOffset--;
+  if (ending_offset) {
+    ending_offset--;
   } else {
-    endingOffset = static_cast<int>(editor_usfm2html.m_text_tength);
+    ending_offset = static_cast<int>(editor_usfm2html.m_text_tength);
   }
   
-  string data = filter::strings::convert_to_string (startingOffset);
+  std::string data = filter::strings::convert_to_string (starting_offset);
   data.append ("\n");
-  data.append (filter::strings::convert_to_string (endingOffset));
+  data.append (filter::strings::convert_to_string (ending_offset));
   
   return data;
 }

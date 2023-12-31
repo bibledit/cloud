@@ -21,6 +21,8 @@
 
 #include <config/libraries.h>
 
+class Webserver_Request;
+
 std::string edit_index_url ();
-bool edit_index_acl (void * webserver_request);
-std::string edit_index (void * webserver_request);
+bool edit_index_acl (Webserver_Request& webserver_request);
+std::string edit_index (Webserver_Request& webserver_request);

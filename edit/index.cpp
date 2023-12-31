@@ -40,61 +40,59 @@
 #include <bb/logic.h>
 #include <config/globals.h>
 #include <workspace/logic.h>
-using namespace std;
 
 
-string edit_index_url ()
+std::string edit_index_url ()
 {
   return "edit/index";
 }
 
 
-bool edit_index_acl (void * webserver_request)
+bool edit_index_acl (Webserver_Request& webserver_request)
 {
-  if (Filter_Roles::access_control (webserver_request, Filter_Roles::translator ())) return true;
-  auto [ read, write ] = access_bible::any (webserver_request);
+  if (Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::translator ())) 
+    return true;
+  auto [ read, write ] = access_bible::any (std::addressof(webserver_request));
   return write;
 }
 
 
-string edit_index (void * webserver_request)
+std::string edit_index (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  
-  
-  bool touch = request->session_logic ()->touchEnabled ();
+  const bool touch = webserver_request.session_logic ()->touchEnabled ();
 
   
-  if (request->query.count ("switchbook") && request->query.count ("switchchapter")) {
-    int switchbook = filter::strings::convert_to_int (request->query ["switchbook"]);
-    int switchchapter = filter::strings::convert_to_int (request->query ["switchchapter"]);
+  if (webserver_request.query.count ("switchbook") && webserver_request.query.count ("switchchapter")) {
+    const int switchbook = filter::strings::convert_to_int (webserver_request.query ["switchbook"]);
+    const int switchchapter = filter::strings::convert_to_int (webserver_request.query ["switchchapter"]);
     int switchverse = 1;
-    if (request->query.count ("switchverse")) switchverse = filter::strings::convert_to_int (request->query ["switchverse"]);
-    Ipc_Focus::set (request, switchbook, switchchapter, switchverse);
-    Navigation_Passage::record_history (request, switchbook, switchchapter, switchverse);
+    if (webserver_request.query.count ("switchverse")) 
+      switchverse = filter::strings::convert_to_int (webserver_request.query ["switchverse"]);
+    Ipc_Focus::set (std::addressof(webserver_request), switchbook, switchchapter, switchverse);
+    Navigation_Passage::record_history (std::addressof(webserver_request), switchbook, switchchapter, switchverse);
   }
 
 
   // Set the user chosen Bible as the current Bible.
-  if (request->post.count ("bibleselect")) {
-    string bibleselect = request->post ["bibleselect"];
-    request->database_config_user ()->setBible (bibleselect);
+  if (webserver_request.post.count ("bibleselect")) {
+    const std::string bibleselect = webserver_request.post ["bibleselect"];
+    webserver_request.database_config_user ()->setBible (bibleselect);
     // Going to another Bible, ensure that the focused book exists there.
-    int book = Ipc_Focus::getBook (request);
-    vector <int> books = request->database_bibles()->get_books (bibleselect);
+    int book = Ipc_Focus::getBook (std::addressof(webserver_request));
+    const std::vector <int> books = webserver_request.database_bibles()->get_books (bibleselect);
     if (find (books.begin(), books.end(), book) == books.end()) {
       if (!books.empty ()) book = books [0];
       else book = 0;
-      Ipc_Focus::set (request, book, 1, 1);
+      Ipc_Focus::set (std::addressof(webserver_request), book, 1, 1);
     }
-    return string();
+    return std::string();
   }
 
   
-  string page;
+  std::string page{};
   
   
-  Assets_Header header = Assets_Header (translate("Edit"), request);
+  Assets_Header header = Assets_Header (translate("Edit"), std::addressof(webserver_request));
   header.set_navigator ();
   header.set_editor_stylesheet ();
   if (touch) header.jquery_touch_on ();
@@ -103,17 +101,18 @@ string edit_index (void * webserver_request)
   page = header.run ();
   
   
-  Assets_View view;
+  Assets_View view{};
   
   
   // Active Bible, and check access.
   // Or if the user have used query to preset the active Bible, get the preset Bible.
   // Set the chosen Bible on the option HTML tag.
-  string bible = access_bible::clamp (request, request->database_config_user()->getBible ());
-  if (request->query.count ("bible")) bible = access_bible::clamp (request, request->query ["bible"]);
-  string bible_html;
-  vector <string> bibles = access_bible::bibles (request);
-  for (auto selectable_bible : bibles) {
+  std::string bible = access_bible::clamp (std::addressof(webserver_request), webserver_request.database_config_user()->getBible ());
+  if (webserver_request.query.count ("bible"))
+    bible = access_bible::clamp (std::addressof(webserver_request), webserver_request.query ["bible"]);
+  std::string bible_html{};
+  const std::vector <std::string> bibles = access_bible::bibles (std::addressof(webserver_request));
+  for (const auto& selectable_bible : bibles) {
     bible_html = Options_To_Select::add_selection (selectable_bible, selectable_bible, bible_html);
   }
   view.set_variable ("bibleoptags", Options_To_Select::mark_selected (bible, bible_html));
@@ -127,7 +126,7 @@ string edit_index (void * webserver_request)
   // Create the script.
   // Quote the text to be sure it's a legal Javascript string.
   // https://github.com/bibledit/cloud/issues/900
-  stringstream script_stream {};
+  std::stringstream script_stream {};
   script_stream << "var editorChapterLoaded = " << quoted(locale_logic_text_loaded ()) << ";\n";
   script_stream << "var editorChapterUpdating = " << quoted(locale_logic_text_updating ()) << ";\n";
   script_stream << "var editorChapterUpdated = " << quoted(locale_logic_text_updated ()) << ";\n";
@@ -136,46 +135,44 @@ string edit_index (void * webserver_request)
   script_stream << "var editorChapterSaved = " << quoted(locale_logic_text_saved ()) << ";\n";
   script_stream << "var editorChapterRetrying = " << quoted(locale_logic_text_retrying ()) << ";\n";
   script_stream << "var editorChapterVerseUpdatedLoaded = " << quoted(locale_logic_text_reload ()) << ";\n";
-  script_stream << "var verticalCaretPosition = " << request->database_config_user ()->getVerticalCaretPosition () << ";\n";
+  script_stream << "var verticalCaretPosition = " << webserver_request.database_config_user ()->getVerticalCaretPosition () << ";\n";
   script_stream << "var verseSeparator = " << quoted(Database_Config_General::getNotesVerseSeparator ()) << ";\n";
-  string script = script_stream.str();
-  config::logic::swipe_enabled (webserver_request, script);
+  std::string script = script_stream.str();
+  config::logic::swipe_enabled (std::addressof(webserver_request), script);
   view.set_variable ("script", script);
   
   
-  string clss = Filter_Css::getClass (bible);
-  string font = fonts::logic::get_text_font (bible);
-  int current_theme_index = request->database_config_user ()->getCurrentTheme ();
-  int direction = Database_Config_Bible::getTextDirection (bible);
-  int lineheight = Database_Config_Bible::getLineHeight (bible);
-  int letterspacing = Database_Config_Bible::getLetterSpacing (bible);
-  string versebeam_current_theme = Filter_Css::theme_picker (current_theme_index, 5);
-  if (versebeam_current_theme == "") versebeam_current_theme = "versebeam";
+  const std::string clss = Filter_Css::getClass (bible);
+  const std::string font = fonts::logic::get_text_font (bible);
+  const int current_theme_index = webserver_request.database_config_user ()->getCurrentTheme ();
+  const int direction = Database_Config_Bible::getTextDirection (bible);
+  const int lineheight = Database_Config_Bible::getLineHeight (bible);
+  const int letterspacing = Database_Config_Bible::getLetterSpacing (bible);
+  std::string versebeam_current_theme = Filter_Css::theme_picker (current_theme_index, 5);
+  if (versebeam_current_theme.empty())
+    versebeam_current_theme = "versebeam";
   view.set_variable ("versebeam_theme_color", versebeam_current_theme);
   view.set_variable ("editor_theme_color", Filter_Css::theme_picker (current_theme_index, 2));
   view.set_variable ("active_editor_theme_color", Filter_Css::theme_picker (current_theme_index, 3));
   view.set_variable ("custom_class", clss);
-  view.set_variable ("custom_css", Filter_Css::get_css (clss,
-                                                       fonts::logic::get_font_path (font),
-                                                       direction,
-                                                       lineheight,
-                                                       letterspacing));
+  view.set_variable ("custom_css", Filter_Css::get_css (clss, fonts::logic::get_font_path (font),
+                                                        direction, lineheight, letterspacing));
   
  
   // In basic mode the editor has no controls and fewer indicators.
   // In basic mode, the user can just edit text, and cannot style it.
-  bool basic_mode = config::logic::basic_mode (webserver_request);
+  const bool basic_mode = config::logic::basic_mode (std::addressof(webserver_request));
   if (!basic_mode) view.enable_zone ("advancedmode");
   
   
   // Whether to enable fast Bible editor switching.
-  if (!basic_mode && request->database_config_user ()->getFastEditorSwitchingAvailable ()) {
+  if (!basic_mode && webserver_request.database_config_user ()->getFastEditorSwitchingAvailable ()) {
     view.enable_zone ("fastswitcheditor");
   }
 
   
   // Whether to enable the styles button.
-  if (request->database_config_user ()->getEnableStylesButtonVisualEditors ()) {
+  if (webserver_request.database_config_user ()->getEnableStylesButtonVisualEditors ()) {
     view.enable_zone ("stylesbutton");
   }
   

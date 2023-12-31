@@ -43,26 +43,25 @@ string notes_note_url ()
 }
 
 
-bool notes_note_acl (void * webserver_request)
+bool notes_note_acl (Webserver_Request& webserver_request)
 {
-  return access_logic::privilege_view_notes (webserver_request);
+  return access_logic::privilege_view_notes (std::addressof(webserver_request));
 }
 
 
-string notes_note (void * webserver_request)
+string notes_note (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  Database_Notes database_notes (webserver_request);
+  Database_Notes database_notes (std::addressof(webserver_request));
   
   
   string page;
-  Assets_Header header = Assets_Header (translate("Note"), request);
+  Assets_Header header = Assets_Header (translate("Note"), std::addressof(webserver_request));
   header.set_navigator ();
 
   
   // After adding a comment to a note, when doing nothing for several seconds,
   // the browser then returns to the list of notes.
-  if (request->query.count ("temporal")) {
+  if (webserver_request.query.count ("temporal")) {
     header.refresh (5, "index");
   }
 
@@ -72,16 +71,16 @@ string notes_note (void * webserver_request)
   string success;
 
   
-  int id = filter::strings::convert_to_int (request->query ["id"]);
+  int id = filter::strings::convert_to_int (webserver_request.query ["id"]);
   
   
   // When a note is opened, then the passage navigator should go to the passage that belongs to that note.
   vector <Passage> passages = database_notes.get_passages (id);
   if (!passages.empty ()) {
     Passage focused_passage;
-    focused_passage.m_book = Ipc_Focus::getBook (webserver_request);
-    focused_passage.m_chapter = Ipc_Focus::getChapter (webserver_request);
-    focused_passage.m_verse = filter::strings::convert_to_string (Ipc_Focus::getVerse (webserver_request));
+    focused_passage.m_book = Ipc_Focus::getBook (std::addressof(webserver_request));
+    focused_passage.m_chapter = Ipc_Focus::getChapter (std::addressof(webserver_request));
+    focused_passage.m_verse = filter::strings::convert_to_string (Ipc_Focus::getVerse (std::addressof(webserver_request)));
     // Only set passage and track history if the focused passage
     // differs from all of the passages of the note.
     // If the focused passage is already at any of the passages belonging to the note,
@@ -94,8 +93,8 @@ string notes_note (void * webserver_request)
       int desired_book = passages[0].m_book;
       int desired_chapter = passages[0].m_chapter;
       int desired_verse = filter::strings::convert_to_int (passages[0].m_verse);
-      Ipc_Focus::set (webserver_request, desired_book, desired_chapter, desired_verse);
-      Navigation_Passage::record_history (webserver_request, desired_book, desired_chapter, desired_verse);
+      Ipc_Focus::set (std::addressof(webserver_request), desired_book, desired_chapter, desired_verse);
+      Navigation_Passage::record_history (std::addressof(webserver_request), desired_book, desired_chapter, desired_verse);
     }
   }
   
@@ -110,14 +109,14 @@ string notes_note (void * webserver_request)
   view.set_variable ("summary", summary);
 
   
-  bool show_note_status = request->database_config_user ()->getShowNoteStatus ();
+  bool show_note_status = webserver_request.database_config_user ()->getShowNoteStatus ();
   if (show_note_status) {
     string status = database_notes.get_status (id);
     view.set_variable ("status", status);
   }
   
   
-  if (request->session_logic ()->currentLevel () >= Filter_Roles::translator ()) {
+  if (webserver_request.session_logic ()->currentLevel () >= Filter_Roles::translator ()) {
     view.enable_zone ("editlevel");
   }
   
@@ -133,15 +132,15 @@ string notes_note (void * webserver_request)
   view.set_variable ("brs", filter_html_android_brs ());
   
 
-  if (request->database_config_user ()->getQuickNoteEditLink ()) {
+  if (webserver_request.database_config_user ()->getQuickNoteEditLink ()) {
     view.enable_zone ("editcontent");
   }
     
   
-  if (Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ())) {
+  if (Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::consultant ())) {
     view.enable_zone ("consultant");
   }
-  if (access_logic::privilege_create_comment_notes (webserver_request)) {
+  if (access_logic::privilege_create_comment_notes (std::addressof(webserver_request))) {
     view.enable_zone ("comment");
   }
   

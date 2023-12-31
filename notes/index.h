@@ -24,5 +24,5 @@
 class Webserver_Request;
 
 std::string notes_index_url ();
-bool notes_index_acl (void * webserver_request);
-std::string notes_index (void * webserver_request);
+bool notes_index_acl (Webserver_Request& webserver_request);
+std::string notes_index (Webserver_Request& webserver_request);

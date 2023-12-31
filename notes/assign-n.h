@@ -24,5 +24,5 @@
 class Webserver_Request;
 
 std::string notes_assign_n_url ();
-bool notes_assign_n_acl (void * webserver_request);
-std::string notes_assign_n (void * webserver_request);
+bool notes_assign_n_acl (Webserver_Request& webserver_request);
+std::string notes_assign_n (Webserver_Request& webserver_request);

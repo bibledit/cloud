@@ -33,41 +33,39 @@
 #include <ipc/focus.h>
 #include <navigation/passage.h>
 #include <notes/actions.h>
-using namespace std;
 
 
-string notes_assign_n_url ()
+std::string notes_assign_n_url ()
 {
   return "notes/assign-n";
 }
 
 
-bool notes_assign_n_acl (void * webserver_request)
+bool notes_assign_n_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::manager ());
+  return Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::manager ());
 }
 
 
-string notes_assign_n (void * webserver_request)
+std::string notes_assign_n (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  Database_Notes database_notes (webserver_request);
+  Database_Notes database_notes (std::addressof(webserver_request));
   Database_NoteAssignment database_noteassignment;
 
   
-  string page;
-  Assets_Header header = Assets_Header (translate("Assign notes"), request);
+  std::string page{};
+  Assets_Header header = Assets_Header (translate("Assign notes"), std::addressof(webserver_request));
   page += header.run ();
   Assets_View view;
 
   
-  string user = request->session_logic ()->currentUser ();
+  const std::string user = webserver_request.session_logic ()->currentUser ();
  
   
   // Notes can be assigned to the assignees.
-  stringstream userblock;
-  vector <string> assignees = database_noteassignment.assignees (user);
-  for (auto & assignee : assignees) {
+  std::stringstream userblock{};
+  const std::vector <std::string> assignees = database_noteassignment.assignees (user);
+  for (const auto& assignee : assignees) {
     userblock << "<li><a href=" << quoted ("bulk?assign=" + assignee) << ">" << assignee << "</a></li>" << std::endl;
   }
   view.set_variable ("userblock", userblock.str());

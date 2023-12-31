@@ -24,5 +24,5 @@
 class Webserver_Request;
 
 std::string notes_create_url ();
-bool notes_create_acl (void * webserver_request);
-std::string notes_create (void * webserver_request);
+bool notes_create_acl (Webserver_Request& webserver_request);
+std::string notes_create (Webserver_Request& webserver_request);

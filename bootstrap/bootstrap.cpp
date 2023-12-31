@@ -442,34 +442,34 @@ void bootstrap_index (Webserver_Request& webserver_request)
     return;
   }
   
-  if ((url == checks_settings_url ()) && browser_request_security_okay (webserver_request) && checks_settings_acl (std::addressof(webserver_request))) {
-    webserver_request.reply = checks_settings (std::addressof(webserver_request));
+  if ((url == checks_settings_url ()) && browser_request_security_okay (webserver_request) && checks_settings_acl (webserver_request)) {
+    webserver_request.reply = checks_settings (webserver_request);
     return;
   }
   
-  if ((url == consistency_index_url ()) && browser_request_security_okay (webserver_request) && consistency_index_acl (std::addressof(webserver_request))) {
-    webserver_request.reply = consistency_index (std::addressof(webserver_request));
+  if ((url == consistency_index_url ()) && browser_request_security_okay (webserver_request) && consistency_index_acl (webserver_request)) {
+    webserver_request.reply = consistency_index (webserver_request);
     return;
   }
   
   // Notes menu.
-  if ((url == notes_index_url ()) && browser_request_security_okay (webserver_request) && notes_index_acl (std::addressof(webserver_request))) {
-    webserver_request.reply = notes_index (std::addressof(webserver_request));
+  if ((url == notes_index_url ()) && browser_request_security_okay (webserver_request) && notes_index_acl (webserver_request)) {
+    webserver_request.reply = notes_index (webserver_request);
     return;
   }
   
-  if ((url == notes_create_url ()) && browser_request_security_okay (webserver_request) && notes_create_acl (std::addressof(webserver_request))) {
-    webserver_request.reply = notes_create (std::addressof(webserver_request));
+  if ((url == notes_create_url ()) && browser_request_security_okay (webserver_request) && notes_create_acl (webserver_request)) {
+    webserver_request.reply = notes_create (webserver_request);
     return;
   }
   
-  if ((url == notes_select_url ()) && browser_request_security_okay (webserver_request) && notes_select_acl (std::addressof(webserver_request))) {
-    webserver_request.reply = notes_select (std::addressof(webserver_request));
+  if ((url == notes_select_url ()) && browser_request_security_okay (webserver_request) && notes_select_acl (webserver_request)) {
+    webserver_request.reply = notes_select (webserver_request);
     return;
   }
   
-  if ((url == notes_note_url ()) && browser_request_security_okay (webserver_request) && notes_note_acl (std::addressof(webserver_request))) {
-    webserver_request.reply = notes_note (std::addressof(webserver_request));
+  if ((url == notes_note_url ()) && browser_request_security_okay (webserver_request) && notes_note_acl (webserver_request)) {
+    webserver_request.reply = notes_note (webserver_request);
     return;
   }
   
@@ -483,13 +483,13 @@ void bootstrap_index (Webserver_Request& webserver_request)
     return;
   }
   
-  if ((url == notes_assign_1_url ()) && browser_request_security_okay (webserver_request) && notes_assign_1_acl (std::addressof(webserver_request))) {
-    webserver_request.reply = notes_assign_1 (std::addressof(webserver_request));
+  if ((url == notes_assign_1_url ()) && browser_request_security_okay (webserver_request) && notes_assign_1_acl (webserver_request)) {
+    webserver_request.reply = notes_assign_1 (webserver_request);
     return;
   }
   
-  if ((url == notes_assign_n_url ()) && browser_request_security_okay (webserver_request) && notes_assign_n_acl (std::addressof(webserver_request))) {
-    webserver_request.reply = notes_assign_n (std::addressof(webserver_request));
+  if ((url == notes_assign_n_url ()) && browser_request_security_okay (webserver_request) && notes_assign_n_acl (webserver_request)) {
+    webserver_request.reply = notes_assign_n (webserver_request);
     return;
   }
   

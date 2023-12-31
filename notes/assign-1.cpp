@@ -42,40 +42,39 @@ string notes_assign_1_url ()
 }
 
 
-bool notes_assign_1_acl (void * webserver_request)
+bool notes_assign_1_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::manager ());
+  return Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::manager ());
 }
 
 
-string notes_assign_1 (void * webserver_request)
+string notes_assign_1 (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  Database_Notes database_notes (webserver_request);
-  Notes_Logic notes_logic = Notes_Logic (webserver_request);
+  Database_Notes database_notes (std::addressof(webserver_request));
+  Notes_Logic notes_logic = Notes_Logic (std::addressof(webserver_request));
   Database_NoteAssignment database_noteassignment;
   
   
   string page;
-  Assets_Header header = Assets_Header (translate("Assign note"), request);
+  Assets_Header header = Assets_Header (translate("Assign note"), std::addressof(webserver_request));
   page += header.run ();
   Assets_View view;
   string success, error;
 
   
-  string user = request->session_logic ()->currentUser ();
+  string user = webserver_request.session_logic ()->currentUser ();
 
   
-  int id = filter::strings::convert_to_int (request->query ["id"]);
+  int id = filter::strings::convert_to_int (webserver_request.query ["id"]);
   view.set_variable ("id", filter::strings::convert_to_string (id));
 
   
-  if (request->query.count ("assign")) {
-    string assign = request->query ["assign"];
+  if (webserver_request.query.count ("assign")) {
+    string assign = webserver_request.query ["assign"];
     if (database_noteassignment.exists (user, assign)) {
       notes_logic.assignUser (id, assign);
     }
-    redirect_browser (request, notes_actions_url () + "?id=" + filter::strings::convert_to_string (id));
+    redirect_browser (std::addressof(webserver_request), notes_actions_url () + "?id=" + filter::strings::convert_to_string (id));
     return "";
   }
 

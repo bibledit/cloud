@@ -46,54 +46,51 @@ string checks_settings_url ()
 }
 
 
-bool checks_settings_acl ([[maybe_unused]] void * webserver_request)
+bool checks_settings_acl ([[maybe_unused]] Webserver_Request& webserver_request)
 {
 #ifdef HAVE_CLIENT
   return true;
 #else
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::manager ());
+  return Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::manager ());
 #endif
 }
 
 
-string checks_settings (void * webserver_request)
+string checks_settings (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  
-  
   string page {};
-  Assets_Header header = Assets_Header (translate("Manage Checks"), webserver_request);
+  Assets_Header header = Assets_Header (translate("Manage Checks"), std::addressof(webserver_request));
   header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   page = header.run ();
   Assets_View view {};
   
   
-  if (request->query.count ("bible")) {
-    string bible = request->query["bible"];
+  if (webserver_request.query.count ("bible")) {
+    string bible = webserver_request.query["bible"];
     if (bible.empty()) {
       Dialog_List dialog_list = Dialog_List ("settings", translate("Select which Bible to manage"), string(), string());
-      vector <string> bibles = access_bible::bibles (webserver_request);
+      vector <string> bibles = access_bible::bibles (std::addressof(webserver_request));
       for (const auto & selectable_bible : bibles) {
         dialog_list.add_row (selectable_bible, "bible", selectable_bible);
       }
       page += dialog_list.run ();
       return page;
     } else {
-      request->database_config_user()->setBible (bible);
+      webserver_request.database_config_user()->setBible (bible);
     }
   }
-  string bible = access_bible::clamp (webserver_request, request->database_config_user()->getBible ());
+  string bible = access_bible::clamp (std::addressof(webserver_request), webserver_request.database_config_user()->getBible ());
 
   
-  if (request->query.count ("run")) {
+  if (webserver_request.query.count ("run")) {
     checks_logic_start (bible);
     view.set_variable ("success", translate("Will run the checks."));
     view.set_variable ("journal", journal_logic_see_journal_for_progress ());
   }
   
   
-  string checkbox = request->post ["checkbox"];
-  bool checked = filter::strings::convert_to_bool (request->post ["checked"]);
+  string checkbox = webserver_request.post ["checkbox"];
+  bool checked = filter::strings::convert_to_bool (webserver_request.post ["checked"]);
   
                         
   if (checkbox == "doublespacesusfm") {

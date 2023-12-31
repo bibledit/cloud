@@ -24,5 +24,5 @@
 class Webserver_Request;
 
 std::string checks_settings_url ();
-bool checks_settings_acl (void * webserver_request);
-std::string checks_settings (void * webserver_request);
+bool checks_settings_acl (Webserver_Request& webserver_request);
+std::string checks_settings (Webserver_Request& webserver_request);

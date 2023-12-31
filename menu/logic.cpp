@@ -316,7 +316,7 @@ string menu_logic_basic_categories (void * webserver_request)
     }
   }
 
-  if (notes_index_acl (webserver_request)) {
+  if (notes_index_acl (*request)) {
     html.push_back (menu_logic_create_item (notes_index_url (), menu_logic_consultation_notes_text (), true, "", color));
   }
   
@@ -422,7 +422,7 @@ string menu_logic_translate_category (void * webserver_request, string * tooltip
     labels.push_back (label);
   }
     
-  if (notes_index_acl (webserver_request)) {
+  if (notes_index_acl (*request)) {
     html.push_back (menu_logic_create_item (notes_index_url (), menu_logic_consultation_notes_text (), true, "", ""));
     labels.push_back (menu_logic_consultation_notes_text ());
   }
@@ -584,7 +584,7 @@ string menu_logic_tools_category (void * webserver_request, string * tooltip)
     }
 
     if (label == consistency) {
-      if (consistency_index_acl (webserver_request)) {
+      if (consistency_index_acl (*request)) {
         html.push_back (menu_logic_create_item (consistency_index_url (), label, true, "", ""));
         tiplabels.push_back (label);
       }
@@ -737,7 +737,7 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
     }
     
     if (label == checks) {
-      if (checks_settings_acl (webserver_request)) {
+      if (checks_settings_acl (*request)) {
         html.push_back (menu_logic_create_item (checks_settings_url (), menu_logic_checks_settings_text (), true, "", ""));
         tiplabels.push_back (menu_logic_checks_settings_text ());
       }

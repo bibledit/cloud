@@ -112,7 +112,7 @@ std::string checks_index (Webserver_Request& webserver_request)
   view.set_variable ("resultblock", resultblock.str());
 
   
-  if (checks_settings_acl (std::addressof(webserver_request))) {
+  if (checks_settings_acl (webserver_request)) {
     view.enable_zone ("can_enable");
   } else {
     view.enable_zone ("cannot_enable");

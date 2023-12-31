@@ -70,7 +70,7 @@ bool Passage::equal (Passage & passage)
 // This method converts the passage of the object into text, like e.g. so:
 // "hexadecimal Bible _1_2_3".
 // First the hexadecimal Bible comes, then the book identifier, then the chapter number, and finally the verse number.
-string Passage::encode ()
+string Passage::encode () const
 {
   string text;
   // The encoded passage can be used as an attribute in the HTML DOM.

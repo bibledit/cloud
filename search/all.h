@@ -21,6 +21,8 @@
 
 #include <config/libraries.h>
 
+class Webserver_Request;
+
 std::string search_all_url ();
 bool search_all_acl (void * webserver_request);
 std::string search_all (void * webserver_request);

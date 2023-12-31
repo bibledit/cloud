@@ -21,6 +21,8 @@
 
 #include <config/libraries.h>
 
+class Webserver_Request;
+
 std::string resource_index_url ();
 bool resource_index_acl (void * webserver_request);
 std::string resource_index (void * webserver_request);

@@ -21,6 +21,8 @@
 
 #include <config/libraries.h>
 
+class Webserver_Request;
+
 std::string notes_poll_url ();
 bool notes_poll_acl (void * webserver_request);
 std::string notes_poll (void * webserver_request);

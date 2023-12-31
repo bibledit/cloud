@@ -30,75 +30,71 @@
 #include <dialog/yes.h>
 #include <dialog/entry.h>
 #include <menu/logic.h>
-using namespace std;
 
 
-string workspace_organize_url ()
+std::string workspace_organize_url ()
 {
   return "workspace/organize";
 }
 
 
-bool workspace_organize_acl (void * webserver_request)
+bool workspace_organize_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ());
+  return Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::consultant ());
 }
 
 
-string workspace_organize (void * webserver_request)
+std::string workspace_organize (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  
-  
-  string success;
-  string error;
+  std::string success;
+  std::string error;
 
   
-  if (request->post.count ("add")) {
-    string add = request->post["add"];
-    request->database_config_user()->setActiveWorkspace (add);
-    workspace_set_urls    (request, workspace_get_default_urls (0));
-    workspace_set_widths  (request, workspace_get_default_widths (0));
-    workspace_set_heights (request, workspace_get_default_heights (0));
+  if (webserver_request.post.count ("add")) {
+    const std::string add = webserver_request.post["add"];
+    webserver_request.database_config_user()->setActiveWorkspace (add);
+    workspace_set_urls (std::addressof(webserver_request), workspace_get_default_urls (0));
+    workspace_set_widths (std::addressof(webserver_request), workspace_get_default_widths (0));
+    workspace_set_heights (std::addressof(webserver_request), workspace_get_default_heights (0));
     success = translate ("The workspace was added");
   }
   
   
   // Re-ordering workspaces.
-  if (request->query.count ("up")) {
-    size_t item = static_cast<size_t>(filter::strings::convert_to_int (request->query ["up"]));
-    vector <string> workspaces = workspace_get_names (request);
+  if (webserver_request.query.count ("up")) {
+    const size_t item = static_cast<size_t>(filter::strings::convert_to_int (webserver_request.query ["up"]));
+    std::vector <std::string> workspaces = workspace_get_names (std::addressof(webserver_request));
     filter::strings::array_move_up_down (workspaces, item, true);
-    workspace_reorder (request, workspaces);
+    workspace_reorder (std::addressof(webserver_request), workspaces);
     success = translate ("The workspace was moved up");
   }
-  if (request->query.count ("down")) {
-    size_t item = static_cast<size_t>(filter::strings::convert_to_int (request->query ["down"]));
-    vector <string> workspaces = workspace_get_names (request);
+  if (webserver_request.query.count ("down")) {
+    const size_t item = static_cast<size_t>(filter::strings::convert_to_int (webserver_request.query ["down"]));
+    std::vector <std::string> workspaces = workspace_get_names (std::addressof(webserver_request));
     filter::strings::array_move_up_down (workspaces, item, false);
-    workspace_reorder (request, workspaces);
+    workspace_reorder (std::addressof(webserver_request), workspaces);
     success = translate ("The workspace was moved down");
   }
   
   
   // Create and reset all default workspaces.
-  if (request->query.count ("defaults")) {
-    workspace_create_defaults (webserver_request);
+  if (webserver_request.query.count ("defaults")) {
+    workspace_create_defaults (std::addressof(webserver_request));
     success = translate ("The default workspaces were created");
   }
   
   
-  string page;
+  std::string page {};
   
   
-  Assets_Header header = Assets_Header (translate("Workspaces"), request);
+  Assets_Header header = Assets_Header (translate("Workspaces"), std::addressof(webserver_request));
   header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   page = header.run ();
   
   
-  if (request->query.count ("remove")) {
-    string remove = request->query["remove"];
-    string confirm = request->query["confirm"];
+  if (webserver_request.query.count ("remove")) {
+    const std::string remove = webserver_request.query["remove"];
+    const std::string confirm = webserver_request.query["confirm"];
     if (confirm.empty ()) {
       Dialog_Yes dialog_yes = Dialog_Yes ("organize", translate("Would you like to delete this workspace configuration?"));
       dialog_yes.add_query ("remove", remove);
@@ -106,36 +102,36 @@ string workspace_organize (void * webserver_request)
       return page;
     }
     if (confirm == "yes") {
-      workspace_delete (request, remove);
+      workspace_delete (std::addressof(webserver_request), remove);
       success = translate ("The workspace was removed");
     }
   }
   
   
   // Copy workspace.
-  if (request->query.count ("copy")) {
-    string workspace = request->query ["copy"];
+  if (webserver_request.query.count ("copy")) {
+    const std::string workspace = webserver_request.query ["copy"];
     Dialog_Entry dialog_entry ("organize", translate("Please enter a name for the new workspace"), "", "destination", "");
     dialog_entry.add_query ("source", workspace);
     page.append (dialog_entry.run ());
     return page;
   }
-  if (request->query.count ("source")) {
-    string source = request->query ["source"];
-    string destination = request->post ["entry"];
-    workspace_copy (webserver_request, source, destination);
+  if (webserver_request.query.count ("source")) {
+    const std::string source = webserver_request.query ["source"];
+    const std::string destination = webserver_request.post ["entry"];
+    workspace_copy (std::addressof(webserver_request), source, destination);
     success = translate ("The workspace was copied");
   }
 
   
   // Send workspace to all users.
-  string send = request->query ["send"];
+  const std::string send = webserver_request.query ["send"];
   if (!send.empty ()) {
-    string me = request->session_logic ()->currentUser ();
-    vector <string> users = request->database_users ()->get_users ();
-    for (auto user : users) {
+    const std::string me = webserver_request.session_logic ()->currentUser ();
+    const std::vector <std::string> users = webserver_request.database_users ()->get_users ();
+    for (const auto& user : users) {
       if (user != me) {
-        workspace_send (webserver_request, send, user);
+        workspace_send (std::addressof(webserver_request), send, user);
       }
     }
     success = translate ("The workspace was sent to all users");
@@ -145,10 +141,10 @@ string workspace_organize (void * webserver_request)
   Assets_View view;
   
   
-  stringstream workspaceblock;
-  vector <string> workspaces = workspace_get_names (request, false);
+  std::stringstream workspaceblock;
+  const std::vector <std::string> workspaces = workspace_get_names (std::addressof(webserver_request), false);
   for (size_t i = 0; i < workspaces.size (); i++) {
-    string workspace = workspaces [i];
+    const std::string workspace = workspaces [i];
     workspaceblock << "<p>" << std::endl;
     workspaceblock << "<a href=" << quoted ("?remove=" + workspace) << " title=" << quoted (translate("Delete workspace")) << ">" << filter::strings::emoji_wastebasket () << "</a>" << std::endl;
     workspaceblock << "|" << std::endl;

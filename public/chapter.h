@@ -21,6 +21,8 @@
 
 #include <config/libraries.h>
 
+class Webserver_Request;
+
 std::string public_chapter_url ();
 bool public_chapter_acl (void * webserver_request);
 std::string public_chapter (void * webserver_request);

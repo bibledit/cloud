@@ -21,6 +21,8 @@
 
 #include <config/libraries.h>
 
+class Webserver_Request;
+
 std::string edit_load_url ();
 bool edit_load_acl (void * webserver_request);
 std::string edit_load (void * webserver_request);

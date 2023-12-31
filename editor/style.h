@@ -21,6 +21,8 @@
 
 #include <config/libraries.h>
 
+class Webserver_Request;
+
 std::string editor_style_url ();
 bool editor_style_acl (void * webserver_request);
 std::string editor_style (void * webserver_request);

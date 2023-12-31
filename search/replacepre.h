@@ -21,6 +21,8 @@
 
 #include <config/libraries.h>
 
+class Webserver_Request;
+
 std::string search_replacepre_url ();
 bool search_replacepre_acl (void * webserver_request);
 std::string search_replacepre (void * webserver_request);

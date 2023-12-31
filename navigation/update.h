@@ -21,6 +21,8 @@
 
 #include <config/libraries.h>
 
+class Webserver_Request;
+
 std::string navigation_update_url ();
 bool navigation_update_acl (void * webserver_request);
 std::string navigation_update (void * webserver_request);

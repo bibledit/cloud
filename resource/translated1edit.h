@@ -21,6 +21,8 @@
 
 #include <config/libraries.h>
 
+class Webserver_Request;
+
 std::string resource_translated1edit_url ();
 bool resource_translated1edit_acl (void * webserver_request);
 std::string resource_translated1edit (void * webserver_request);

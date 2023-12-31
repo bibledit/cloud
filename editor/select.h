@@ -21,6 +21,8 @@
 
 #include <config/libraries.h>
 
+class Webserver_Request;
+
 std::string editor_select_url ();
 bool editor_select_acl (void * webserver_request);
 std::string editor_select (void * webserver_request);

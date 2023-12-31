@@ -21,6 +21,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <config/libraries.h>
 
+class Webserver_Request;
+
 std::string system_googletranslate_url ();
 bool system_googletranslate_acl (void * webserver_request);
 std::string system_googletranslate (void * webserver_request);

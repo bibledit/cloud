@@ -21,6 +21,8 @@
 
 #include <config/libraries.h>
 
+class Webserver_Request;
+
 std::string search_index_url ();
-bool search_index_acl (void * webserver_request);
-std::string search_index (void * webserver_request);
+bool search_index_acl (Webserver_Request& webserver_request);
+std::string search_index (Webserver_Request& webserver_request);

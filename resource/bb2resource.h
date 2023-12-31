@@ -21,6 +21,8 @@
 
 #include <config/libraries.h>
 
+class Webserver_Request;
+
 std::string resource_bible2resource_url ();
 bool resource_bible2resource_acl (void * webserver_request);
 std::string resource_bible2resource (void * webserver_request);

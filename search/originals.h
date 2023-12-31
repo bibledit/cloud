@@ -21,6 +21,8 @@
 
 #include <config/libraries.h>
 
+class Webserver_Request;
+
 std::string search_originals_url ();
 bool search_originals_acl (void * webserver_request);
 std::string search_originals (void * webserver_request);

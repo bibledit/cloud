@@ -21,6 +21,8 @@
 
 #include <config/libraries.h>
 
+class Webserver_Request;
+
 std::string notes_edit_url ();
 bool notes_edit_acl (void * webserver_request);
 std::string notes_edit (void * webserver_request);

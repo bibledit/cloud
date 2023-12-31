@@ -34,7 +34,7 @@ public:
   int m_chapter {};
   std::string m_verse {};
   bool equal (Passage & passage);
-  std::string encode ();
+  std::string encode () const;
   static Passage decode (const std::string& encoded);
 };
 

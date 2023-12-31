@@ -21,6 +21,8 @@
 
 #include <config/libraries.h>
 
+class Webserver_Request;
+
 std::string resource_studylight_url ();
 bool resource_studylight_acl (void * webserver_request);
 std::string resource_studylight (void * webserver_request);

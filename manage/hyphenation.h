@@ -21,6 +21,8 @@
 
 #include <config/libraries.h>
 
+class Webserver_Request;
+
 const char * manage_hyphenation_url ();
 bool manage_hyphenation_acl (void * webserver_request);
 std::string manage_hyphenation (void * webserver_request);

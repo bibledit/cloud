@@ -21,6 +21,8 @@
 
 #include <config/libraries.h>
 
+class Webserver_Request;
+
 std::string jobs_index_url ();
 bool jobs_index_acl (void * webserver_request);
 std::string jobs_index (void * webserver_request);

@@ -21,6 +21,8 @@
 
 #include <config/libraries.h>
 
+class Webserver_Request;
+
 std::string styles_indexm_url ();
 bool styles_indexm_acl (void * webserver_request);
 std::string styles_indexm (void * webserver_request);

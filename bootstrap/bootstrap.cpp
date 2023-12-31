@@ -417,18 +417,18 @@ void bootstrap_index (Webserver_Request& webserver_request)
     return;
   }
   
-  if ((url == search_index_url ()) && browser_request_security_okay (webserver_request) && search_index_acl (std::addressof(webserver_request))) {
-    webserver_request.reply = search_index (std::addressof(webserver_request));
+  if ((url == search_index_url ()) && browser_request_security_okay (webserver_request) && search_index_acl (webserver_request)) {
+    webserver_request.reply = search_index (webserver_request);
     return;
   }
   
-  if ((url == workspace_index_url ()) && browser_request_security_okay (webserver_request) && workspace_index_acl (std::addressof(webserver_request))) {
-    webserver_request.reply = workspace_index (std::addressof(webserver_request));
+  if ((url == workspace_index_url ()) && browser_request_security_okay (webserver_request) && workspace_index_acl (webserver_request)) {
+    webserver_request.reply = workspace_index (webserver_request);
     return;
   }
   
-  if ((url == workspace_organize_url ()) && browser_request_security_okay (webserver_request) && workspace_organize_acl (std::addressof(webserver_request))) {
-    webserver_request.reply = workspace_organize (std::addressof(webserver_request));
+  if ((url == workspace_organize_url ()) && browser_request_security_okay (webserver_request) && workspace_organize_acl (webserver_request)) {
+    webserver_request.reply = workspace_organize (webserver_request);
     return;
   }
   

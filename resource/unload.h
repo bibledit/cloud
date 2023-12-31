@@ -21,6 +21,8 @@
 
 #include <config/libraries.h>
 
+class Webserver_Request;
+
 std::string resource_unload_url ();
 bool resource_unload_acl (void * webserver_request);
 std::string resource_unload (void * webserver_request);

@@ -21,6 +21,8 @@
 
 #include <config/libraries.h>
 
+class Webserver_Request;
+
 std::string checks_settings_url ();
 bool checks_settings_acl (void * webserver_request);
 std::string checks_settings (void * webserver_request);

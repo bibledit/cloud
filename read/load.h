@@ -21,6 +21,8 @@
 
 #include <config/libraries.h>
 
+class Webserver_Request;
+
 std::string read_load_url ();
 bool read_load_acl (void * webserver_request);
 std::string read_load (void * webserver_request);

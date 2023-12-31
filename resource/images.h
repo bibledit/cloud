@@ -21,6 +21,8 @@
 
 #include <config/libraries.h>
 
+class Webserver_Request;
+
 std::string resource_images_url ();
 bool resource_images_acl (void * webserver_request);
 std::string resource_images (void * webserver_request);

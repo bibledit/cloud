@@ -21,6 +21,8 @@
 
 #include <config/libraries.h>
 
+class Webserver_Request;
+
 std::string resource_user9view_url ();
 bool resource_user9view_acl (void * webserver_request);
 std::string resource_user9view (void * webserver_request);

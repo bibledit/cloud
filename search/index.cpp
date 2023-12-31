@@ -30,55 +30,52 @@
 #include <menu/logic.h>
 #include <access/bible.h>
 #include <dialog/list2.h>
-using namespace std;
 
 
-string search_index_url ()
+std::string search_index_url ()
 {
   return "search/index";
 }
 
 
-bool search_index_acl (void * webserver_request)
+bool search_index_acl (Webserver_Request& webserver_request)
 {
-  if (Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ())) return true;
-  auto [ read, write ] = access_bible::any (webserver_request);
+  if (Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::consultant ())) 
+    return true;
+  auto [ read, write ] = access_bible::any (std::addressof(webserver_request));
   return read;
 }
 
 
-string search_index (void * webserver_request)
+std::string search_index (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  
-  
-  string bible = request->database_config_user()->getBible ();
-  if (request->query.count ("b")) {
-    bible = request->query ["b"];
+  std::string bible = webserver_request.database_config_user()->getBible ();
+  if (webserver_request.query.count ("b")) {
+    bible = webserver_request.query ["b"];
   }
  
 
-  bool q_is_set = request->query.count ("q");
-  string q = request->query ["q"];
+  const bool q_is_set = webserver_request.query.count ("q");
+  const std::string q = webserver_request.query ["q"];
   
 
-  if (request->query.count ("id")) {
-    string id = request->query ["id"];
+  if (webserver_request.query.count ("id")) {
+    const std::string id = webserver_request.query ["id"];
 
     // Get the Bible and passage for this identifier.
-    Passage passage = Passage::decode (id);
-    string bible2 = passage.m_bible;
-    int book = passage.m_book;
-    int chapter = passage.m_chapter;
-    string verse = passage.m_verse;
+    const Passage passage = Passage::decode (id);
+    const std::string bible2 = passage.m_bible;
+    const int book = passage.m_book;
+    const int chapter = passage.m_chapter;
+    const std::string verse = passage.m_verse;
     
     // Get the plain text.
-    string text = search_logic_get_bible_verse_text (bible2, book, chapter, filter::strings::convert_to_int (verse));
+    std::string text = search_logic_get_bible_verse_text (bible2, book, chapter, filter::strings::convert_to_int (verse));
     
     // Format it.
-    string link = filter_passage_link_for_opening_editor_at (book, chapter, verse);
-    text =  filter::strings::markup_words ({q}, text);
-    string output = "<div>" + link + " " + text + "</div>";
+    const std::string link = filter_passage_link_for_opening_editor_at (book, chapter, verse);
+    text = filter::strings::markup_words ({q}, text);
+    const std::string output = "<div>" + link + " " + text + "</div>";
     
     // Output to browser.
     return output;
@@ -87,11 +84,12 @@ string search_index (void * webserver_request)
 
   if (q_is_set) {
     // Search in the active Bible.
-    vector <Passage> passages = search_logic_search_bible_text (bible, q);
+    const std::vector <Passage> passages = search_logic_search_bible_text (bible, q);
     // Output results.
-    string output;
-    for (auto & passage : passages) {
-      if (!output.empty ()) output.append ("\n");
+    std::string output;
+    for (const auto& passage : passages) {
+      if (!output.empty ())
+        output.append ("\n");
       output.append (passage.encode ());
     }
     return output;
@@ -99,33 +97,32 @@ string search_index (void * webserver_request)
   
   
   // Set the user chosen Bible as the current Bible.
-  if (request->post.count ("bibleselect")) {
-    string bibleselect = request->post ["bibleselect"];
-    request->database_config_user ()->setBible (bibleselect);
-    return string();
+  if (webserver_request.post.count ("bibleselect")) {
+    const std::string bibleselect = webserver_request.post ["bibleselect"];
+    webserver_request.database_config_user ()->setBible (bibleselect);
+    return std::string();
   }
 
-
   
-  string page;
+  std::string page{};
 
-  Assets_Header header = Assets_Header (translate("Search"), request);
+  Assets_Header header = Assets_Header (translate("Search"), std::addressof(webserver_request));
   header.add_bread_crumb (menu_logic_search_menu (), menu_logic_search_text ());
   page = header.run ();
   
-  Assets_View view;
+  Assets_View view{};
   
   {
-    string bible_html;
-    vector <string> accessible_bibles = access_bible::bibles (request);
-    for (auto selectable_bible : accessible_bibles) {
+    std::string bible_html;
+    const std::vector <std::string> accessible_bibles = access_bible::bibles (std::addressof(webserver_request));
+    for (const auto& selectable_bible : accessible_bibles) {
       bible_html = Options_To_Select::add_selection (selectable_bible, selectable_bible, bible_html);
     }
     view.set_variable ("bibleoptags", Options_To_Select::mark_selected (bible, bible_html));
   }
   view.set_variable ("bible", bible);
   
-  stringstream script {};
+  std::stringstream script {};
   script << "var searchBible = " << quoted(bible) << ";";
   view.set_variable ("script", script.str());
   

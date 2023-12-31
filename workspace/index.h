@@ -21,6 +21,8 @@
 
 #include <config/libraries.h>
 
+class Webserver_Request;
+
 std::string workspace_index_url ();
-bool workspace_index_acl (void * webserver_request);
-std::string workspace_index (void * webserver_request);
+bool workspace_index_acl (Webserver_Request& webserver_request);
+std::string workspace_index (Webserver_Request& webserver_request);

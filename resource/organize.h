@@ -21,6 +21,8 @@
 
 #include <config/libraries.h>
 
+class Webserver_Request;
+
 std::string resource_organize_url ();
 bool resource_organize_acl (void * webserver_request);
 std::string resource_organize (void * webserver_request);

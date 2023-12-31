@@ -21,6 +21,8 @@
 
 #include <config/libraries.h>
 
+class Webserver_Request;
+
 std::string changes_changes_url ();
 bool changes_changes_acl (void * webserver_request);
 std::string changes_changes (void * webserver_request);

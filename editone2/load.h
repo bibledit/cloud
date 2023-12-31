@@ -21,6 +21,8 @@
 
 #include <config/libraries.h>
 
+class Webserver_Request;
+
 std::string editone2_load_url ();
 bool editone2_load_acl (void * webserver_request);
 std::string editone2_load (void * webserver_request);

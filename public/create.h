@@ -21,6 +21,8 @@
 
 #include <config/libraries.h>
 
+class Webserver_Request;
+
 std::string public_create_url ();
 bool public_create_acl (void * webserver_request);
 std::string public_create (void * webserver_request);

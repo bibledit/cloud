@@ -32,42 +32,40 @@
 #include <menu/logic.h>
 #include <ipc/focus.h>
 #include <navigation/passage.h>
-using namespace std;
 
 
-string workspace_index_url ()
+std::string workspace_index_url ()
 {
   return "workspace/index";
 }
 
 
-bool workspace_index_acl (void * webserver_request)
+bool workspace_index_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ());
+  return Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::consultant ());
 }
 
 
-string workspace_index (void * webserver_request)
+std::string workspace_index (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  vector <string> workspaces = workspace_get_names (request);
+  const std::vector <std::string> workspaces = workspace_get_names (std::addressof(webserver_request));
 
   // Set the requested workspace as the active one.
-  if (request->query.count ("bench")) {
-    size_t bench = static_cast <size_t> (filter::strings::convert_to_int (request->query ["bench"]));
+  if (webserver_request.query.count ("bench")) {
+    const size_t bench = static_cast <size_t> (filter::strings::convert_to_int (webserver_request.query ["bench"]));
     if (bench < workspaces.size ()) {
-      string workspace = workspaces [bench];
-      request->database_config_user()->setActiveWorkspace (workspace);
+      const std::string workspace = workspaces [bench];
+      webserver_request.database_config_user()->setActiveWorkspace (workspace);
     }
   }
   
   
   // Check that the active workspace exists, else set the first available workspace as the active one.
   {
-    string workspace = request->database_config_user ()->getActiveWorkspace ();
+    const std::string workspace = webserver_request.database_config_user ()->getActiveWorkspace ();
     if (!in_array (workspace, workspaces)) {
       if (!workspaces.empty ()) {
-        request->database_config_user ()->setActiveWorkspace (workspaces [0]);
+        webserver_request.database_config_user ()->setActiveWorkspace (workspaces [0]);
       }
     }
   }
@@ -79,62 +77,64 @@ string workspace_index (void * webserver_request)
     create = (workspaces [0] == workspace_get_default_name ());
   }
   if (create) {
-    workspace_create_defaults (webserver_request);
+    workspace_create_defaults (std::addressof(webserver_request));
   }
 
   
   // In case the workspace is opened from a consultation note email,
   // read the note, and set the active passage to the passage the note refers to.
-  int noteid = filter::strings::convert_to_int (request->query ["note"]);
-  if (noteid) {
-    Database_Notes database_notes (webserver_request);
-    vector <Passage> passages = database_notes.get_passages (noteid);
+  const int note_id = filter::strings::convert_to_int (webserver_request.query ["note"]);
+  if (note_id) {
+    Database_Notes database_notes (std::addressof(webserver_request));
+    const std::vector <Passage> passages = database_notes.get_passages (note_id);
     if (!passages.empty ()) {
-      Ipc_Focus::set (webserver_request, passages[0].m_book, passages[0].m_chapter, filter::strings::convert_to_int (passages[0].m_verse));
-      Navigation_Passage::record_history (webserver_request, passages[0].m_book, passages[0].m_chapter, filter::strings::convert_to_int (passages[0].m_verse));
+      Ipc_Focus::set (std::addressof(webserver_request), passages[0].m_book, passages[0].m_chapter, filter::strings::convert_to_int (passages[0].m_verse));
+      Navigation_Passage::record_history (std::addressof(webserver_request), passages[0].m_book, passages[0].m_chapter, filter::strings::convert_to_int (passages[0].m_verse));
     }
   }
   
   
-  string page;
-  Assets_Header header = Assets_Header (translate("Workspace"), request);
+  std::string page{};
+  Assets_Header header = Assets_Header (translate("Workspace"), std::addressof(webserver_request));
   header.set_navigator ();
-  header.set_fading_menu (menu_logic_workspace_category (webserver_request));
+  header.set_fading_menu (menu_logic_workspace_category (std::addressof(webserver_request)));
   page = header.run ();
   Assets_View view;
 
   
-  map <int, string> urls = workspace_get_urls (request, true);
-  map <int, string> widths = workspace_get_widths (request);
+  std::map <int, std::string> urls = workspace_get_urls (std::addressof(webserver_request), true);
+  std::map <int, std::string> widths = workspace_get_widths (std::addressof(webserver_request));
   // The Bible editor number, starting from 1, going up.
-  map <int, int> editor_numbers = workspace_add_bible_editor_number (urls);
+  std::map <int, int> editor_numbers = workspace_add_bible_editor_number (urls);
   for (int key = 0; key < 15; key++) {
-    string url = urls [key];
-    string width = widths [key];
-    int editor_number = editor_numbers [key];
-    int row = static_cast<int> (round (key / 5)) + 1;
-    int column = key % 5 + 1;
-    string variable = "url" + filter::strings::convert_to_string (row) + filter::strings::convert_to_string (column);
+    const std::string url = urls [key];
+    const std::string width = widths [key];
+    const int editor_number = editor_numbers [key];
+    const int row = static_cast<int> (round (key / 5)) + 1;
+    const int column = key % 5 + 1;
+    std::string variable = "url" + filter::strings::convert_to_string (row) + filter::strings::convert_to_string (column);
     view.set_variable (variable, url);
     variable = "width" + filter::strings::convert_to_string (row) + filter::strings::convert_to_string (column);
     view.set_variable (variable, width);
-    if (filter::strings::convert_to_int (width) > 0) view.enable_zone (variable);
+    if (filter::strings::convert_to_int (width) > 0) 
+      view.enable_zone (variable);
     variable = "editorno" + filter::strings::convert_to_string (row) + filter::strings::convert_to_string (column);
     view.set_variable (variable, filter::strings::convert_to_string (editor_number));
   }
   
   
-  map <int, string> heights = workspace_get_heights (request);
+  std::map <int, std::string> heights = workspace_get_heights (std::addressof(webserver_request));
   for (int key = 0; key < 3; key++) {
-    string height = heights [key];
-    int row = key + 1;
-    string variable = "height" + filter::strings::convert_to_string (row);
+    const std::string height = heights [key];
+    const int row = key + 1;
+    const std::string variable = "height" + filter::strings::convert_to_string (row);
     view.set_variable (variable, height);
-    if (filter::strings::convert_to_int (height) > 0) view.enable_zone (variable);
+    if (filter::strings::convert_to_int (height) > 0) 
+      view.enable_zone (variable);
   }
   
   
-  string workspacewidth = workspace_get_entire_width (request);
+  std::string workspacewidth = workspace_get_entire_width (std::addressof(webserver_request));
   if (!workspacewidth.empty ()) {
     workspacewidth.insert (0, "width: ");
     workspacewidth.append (";");

@@ -21,6 +21,8 @@
 
 #include <config/libraries.h>
 
+class Webserver_Request;
+
 std::string resource_download_url ();
 bool resource_download_acl (void * webserver_request);
 std::string resource_download (void * webserver_request);

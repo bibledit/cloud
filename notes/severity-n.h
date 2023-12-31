@@ -21,6 +21,8 @@
 
 #include <config/libraries.h>
 
+class Webserver_Request;
+
 std::string notes_severity_n_url ();
 bool notes_severity_n_acl (void * webserver_request);
 std::string notes_severity_n (void * webserver_request);

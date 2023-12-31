@@ -21,6 +21,8 @@
 
 #include <config/libraries.h>
 
+class Webserver_Request;
+
 std::string edit_preview_url ();
 bool edit_preview_acl (void * webserver_request);
 std::string edit_preview (void * webserver_request);

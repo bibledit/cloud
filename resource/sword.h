@@ -21,6 +21,8 @@
 
 #include <config/libraries.h>
 
+class Webserver_Request;
+
 std::string resource_sword_url ();
 bool resource_sword_acl (void * webserver_request);
 std::string resource_sword (void * webserver_request);

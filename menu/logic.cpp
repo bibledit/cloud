@@ -188,7 +188,7 @@ string menu_logic_main_categories (void * webserver_request, string & tooltip)
   vector <string> tooltipbits;
 
   // Deal with a situation the user has access to the workspaces.
-  if (workspace_index_acl (webserver_request)) {
+  if (workspace_index_acl (*request)) {
     if (config::logic::default_bibledit_configuration ()) {
       string label = translate ("Workspace");
       string tooltip2;
@@ -364,12 +364,14 @@ string menu_logic_basic_categories (void * webserver_request)
 // Plus the tooltip for it.
 string menu_logic_workspace_category (void * webserver_request, string * tooltip)
 {
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
+
   vector <string> html;
   vector <string> labels;
 
   // Add the available configured workspaces to the menu.
   // The user's role should be sufficiently high.
-  if (workspace_organize_acl (webserver_request)) {
+  if (workspace_organize_acl (*request)) {
     Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
 
     string activeWorkspace = request->database_config_user()->getActiveWorkspace ();
@@ -469,10 +471,12 @@ string menu_logic_translate_category (void * webserver_request, string * tooltip
 
 string menu_logic_search_category (void * webserver_request, string * tooltip)
 {
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
+
   vector <string> html;
   vector <string> labels;
 
-  if (search_index_acl (webserver_request)) {
+  if (search_index_acl (*request)) {
     string label = translate ("Search");
     html.push_back (menu_logic_create_item (search_index_url (), label, true, "", ""));
     labels.push_back (label);
@@ -724,7 +728,7 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
     }
     
     if (label == workspaces) {
-      if (workspace_organize_acl (webserver_request)) {
+      if (workspace_organize_acl (*request)) {
         html.push_back (menu_logic_create_item (workspace_organize_url (), menu_logic_workspace_organize_text (), true, "", ""));
         tiplabels.push_back (menu_logic_workspace_organize_text ());
       }

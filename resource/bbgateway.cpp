@@ -52,25 +52,22 @@ string resource_biblegateway_url ()
 }
 
 
-bool resource_biblegateway_acl (void * webserver_request)
+bool resource_biblegateway_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ());
+  return Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::consultant ());
 }
 
 
-string resource_biblegateway (void * webserver_request)
+string resource_biblegateway (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-
-  
   string page;
-  Assets_Header header = Assets_Header (translate("Resources"), request);
+  Assets_Header header = Assets_Header (translate("Resources"), std::addressof(webserver_request));
   header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   page = header.run ();
   Assets_View view;
 
   
-  if (request->query.count ("refresh")) {
+  if (webserver_request.query.count ("refresh")) {
     string error = resource_logic_bible_gateway_module_list_refresh ();
     if (error.empty ()) {
       view.set_variable ("success", translate ("The list was updated"));

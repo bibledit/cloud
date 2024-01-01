@@ -24,5 +24,5 @@
 class Webserver_Request;
 
 std::string resource_biblegateway_url ();
-bool resource_biblegateway_acl (void * webserver_request);
-std::string resource_biblegateway (void * webserver_request);
+bool resource_biblegateway_acl (Webserver_Request& webserver_request);
+std::string resource_biblegateway (Webserver_Request& webserver_request);

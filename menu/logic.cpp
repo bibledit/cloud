@@ -647,7 +647,7 @@ string menu_logic_tools_category (void * webserver_request, string * tooltip)
     }
     
     if (label == journal) {
-      if (journal_index_acl (webserver_request)) {
+      if (journal_index_acl (*request)) {
         html.push_back (menu_logic_create_item (journal_index_url (), label, true, "", ""));
         tiplabels.push_back (label);
       }
@@ -955,7 +955,7 @@ string menu_logic_settings_resources_category ([[maybe_unused]] void * webserver
 
 #ifdef HAVE_CLOUD
   if (!config_globals_hide_bible_resources) {
-    if (resource_biblegateway_acl (webserver_request)) {
+    if (resource_biblegateway_acl (*request)) {
       html.push_back (menu_logic_create_item (resource_biblegateway_url (), "BibleGateway", true, "", ""));
     }
   }
@@ -963,7 +963,7 @@ string menu_logic_settings_resources_category ([[maybe_unused]] void * webserver
 
 #ifdef HAVE_CLOUD
   if (!config_globals_hide_bible_resources) {
-    if (resource_studylight_acl (webserver_request)) {
+    if (resource_studylight_acl (*request)) {
       html.push_back (menu_logic_create_item (resource_studylight_url (), "StudyLight", true, "", ""));
     }
   }

@@ -24,5 +24,5 @@
 class Webserver_Request;
 
 std::string resource_studylight_url ();
-bool resource_studylight_acl (void * webserver_request);
-std::string resource_studylight (void * webserver_request);
+bool resource_studylight_acl (Webserver_Request& webserver_request);
+std::string resource_studylight (Webserver_Request& webserver_request);

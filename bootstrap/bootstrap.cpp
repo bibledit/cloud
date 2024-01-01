@@ -614,19 +614,18 @@ void bootstrap_index (Webserver_Request& webserver_request)
     return;
   }
 
-  if ((url == resource_biblegateway_url ()) && browser_request_security_okay (webserver_request) && resource_biblegateway_acl (std::addressof(webserver_request))) {
-    webserver_request.reply = resource_biblegateway (std::addressof(webserver_request));
+  if ((url == resource_biblegateway_url ()) && browser_request_security_okay (webserver_request) && resource_biblegateway_acl (webserver_request)) {
+    webserver_request.reply = resource_biblegateway (webserver_request);
     return;
   }
 
-  if ((url == resource_studylight_url ()) && browser_request_security_okay (webserver_request) && resource_studylight_acl (std::addressof(webserver_request))) {
-    webserver_request.reply = resource_studylight (std::addressof(webserver_request));
+  if ((url == resource_studylight_url ()) && browser_request_security_okay (webserver_request) && resource_studylight_acl (webserver_request)) {
+    webserver_request.reply = resource_studylight (webserver_request);
     return;
   }
   
-  // Changes menu.
-  if ((url == journal_index_url ()) && browser_request_security_okay (webserver_request) && journal_index_acl (std::addressof(webserver_request))) {
-    webserver_request.reply = journal_index (std::addressof(webserver_request));
+  if ((url == journal_index_url ()) && browser_request_security_okay (webserver_request) && journal_index_acl (webserver_request)) {
+    webserver_request.reply = journal_index (webserver_request);
     return;
   }
   

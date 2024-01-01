@@ -433,7 +433,7 @@ string menu_logic_translate_category (void * webserver_request, string * tooltip
     labels.push_back (label);
   }
 
-  if (resource_user9view_acl (webserver_request)) {
+  if (resource_user9view_acl (*request)) {
     // Only display user-defined resources if they are there.
     if (!Database_UserResources::names ().empty ()) {
       string label = translate ("User resources");
@@ -941,14 +941,14 @@ string menu_logic_settings_resources_category ([[maybe_unused]] void * webserver
   
 #ifdef HAVE_CLOUD
   if (!config_globals_hide_bible_resources) {
-    if (resource_sword_acl (webserver_request)) {
+    if (resource_sword_acl (*request)) {
       html.push_back (menu_logic_create_item (resource_sword_url (), translate ("SWORD"), true, "", ""));
     }
   }
 #endif
 
 #ifdef HAVE_CLOUD
-  if (resource_user9edit_acl (webserver_request)) {
+  if (resource_user9edit_acl (*request)) {
     html.push_back (menu_logic_create_item (resource_user9edit_url (), translate ("User-defined"), true, "", ""));
   }
 #endif

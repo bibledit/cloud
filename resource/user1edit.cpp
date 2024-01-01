@@ -45,31 +45,28 @@ string resource_user1edit_url ()
 }
 
 
-bool resource_user1edit_acl (void * webserver_request)
+bool resource_user1edit_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::manager ());
+  return Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::manager ());
 }
 
 
-string resource_user1edit (void * webserver_request)
+string resource_user1edit (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-
-  
   string page {};
-  Assets_Header header = Assets_Header (translate("User-defined resources"), request);
+  Assets_Header header = Assets_Header (translate("User-defined resources"), std::addressof(webserver_request));
   header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   page = header.run ();
   Assets_View view {};
   string error, success;
   
   
-  string name = request->query ["name"];
+  string name = webserver_request.query ["name"];
   view.set_variable ("name", name);
   
 
-  if (request->post.count ("submit")) {
-    string data = request->post["data"];
+  if (webserver_request.post.count ("submit")) {
+    string data = webserver_request.post["data"];
     vector <string> lines = filter::strings::explode (data, '\n');
     int count = 0;
     int bookcount = 0;

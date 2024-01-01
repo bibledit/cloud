@@ -24,5 +24,5 @@
 class Webserver_Request;
 
 std::string resource_sword_url ();
-bool resource_sword_acl (void * webserver_request);
-std::string resource_sword (void * webserver_request);
+bool resource_sword_acl (Webserver_Request& webserver_request);
+std::string resource_sword (Webserver_Request& webserver_request);

@@ -24,5 +24,5 @@
 class Webserver_Request;
 
 std::string resource_select_url ();
-bool resource_select_acl (void * webserver_request);
-std::string resource_select (void * webserver_request);
+bool resource_select_acl (Webserver_Request& webserver_request);
+std::string resource_select (Webserver_Request& webserver_request);

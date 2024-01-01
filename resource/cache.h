@@ -24,5 +24,5 @@
 class Webserver_Request;
 
 std::string resource_cache_url ();
-bool resource_cache_acl (void * webserver_request);
-std::string resource_cache (void * webserver_request);
+bool resource_cache_acl (Webserver_Request& webserver_request);
+std::string resource_cache (Webserver_Request& webserver_request);

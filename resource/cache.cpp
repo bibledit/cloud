@@ -47,28 +47,25 @@ string resource_cache_url ()
 }
 
 
-bool resource_cache_acl (void * webserver_request)
+bool resource_cache_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::member ());
+  return Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::member ());
 }
 
 
-string resource_cache (void * webserver_request)
+string resource_cache (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-
-  
-  string resource = request->query ["resource"];
+  string resource = webserver_request.query ["resource"];
   
   
   string page;
-  Assets_Header header = Assets_Header (menu_logic_resources_text (), request);
+  Assets_Header header = Assets_Header (menu_logic_resources_text (), std::addressof(webserver_request));
   header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   page = header.run ();
   Assets_View view;
 
   
-  if (request->query.count ("clear")) {
+  if (webserver_request.query.count ("clear")) {
     sendreceive_resources_clear_all ();
   }
   vector <string> resources = Database_Config_General::getResourcesToCache ();
@@ -97,7 +94,7 @@ string resource_cache (void * webserver_request)
   
 
   vector <string> active_resources;
-  resources = request->database_config_user()->getActiveResources ();
+  resources = webserver_request.database_config_user()->getActiveResources ();
   for (auto & resource2 : resources) {
     active_resources.push_back (resource2);
   }
@@ -157,7 +154,7 @@ string resource_cache (void * webserver_request)
   
   
   // Generate html block with the resources.
-  vector <string> bibles = request->database_bibles()->get_bibles ();
+  vector <string> bibles = webserver_request.database_bibles()->get_bibles ();
   string block;
   for (auto & resource2 : listed_resources) {
     // Skip internal Bibles and dividers.

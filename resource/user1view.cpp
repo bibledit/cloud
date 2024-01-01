@@ -42,26 +42,23 @@ string resource_user1view_url ()
 }
 
 
-bool resource_user1view_acl (void * webserver_request)
+bool resource_user1view_acl (Webserver_Request& webserver_request)
 {
-  return access_logic::privilege_view_resources (webserver_request);
+  return access_logic::privilege_view_resources (std::addressof(webserver_request));
 }
 
 
-string resource_user1view (void * webserver_request)
+string resource_user1view (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  
-  
   string page {};
-  Assets_Header header = Assets_Header (translate("Resources"), request);
+  Assets_Header header = Assets_Header (translate("Resources"), std::addressof(webserver_request));
   header.set_navigator ();
   header.add_bread_crumb (menu_logic_translate_menu (), menu_logic_translate_text ());
   page = header.run ();
   Assets_View view {};
   
 
-  string name = request->query ["name"];
+  string name = webserver_request.query ["name"];
 
   
   vector <string> code {};
@@ -78,7 +75,7 @@ string resource_user1view (void * webserver_request)
     }
   }
   string script = filter::strings::implode (code, "\n");
-  config::logic::swipe_enabled (webserver_request, script);
+  config::logic::swipe_enabled (std::addressof(webserver_request), script);
   view.set_variable ("script", script);
   
   

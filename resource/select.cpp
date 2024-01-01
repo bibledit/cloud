@@ -52,28 +52,25 @@ string resource_select_url ()
 }
 
 
-bool resource_select_acl (void * webserver_request)
+bool resource_select_acl (Webserver_Request& webserver_request)
 {
-  return access_logic::privilege_view_resources (webserver_request);
+  return access_logic::privilege_view_resources (std::addressof(webserver_request));
 }
 
 
-string resource_select (void * webserver_request)
+string resource_select (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-
-  
   string page {};
-  Assets_Header header = Assets_Header (translate("Resources"), request);
+  Assets_Header header = Assets_Header (translate("Resources"), std::addressof(webserver_request));
   page = header.run ();
   Assets_View view {};
 
   
-  view.set_variable ("page", resource_logic_selector_page (webserver_request));
+  view.set_variable ("page", resource_logic_selector_page (std::addressof(webserver_request)));
   bool is_def = false;
-  if (request->query["type"] == "def") is_def = true;
+  if (webserver_request.query["type"] == "def") is_def = true;
   if (is_def) view.set_variable ("type", "def");
-  string caller = resource_logic_selector_caller (webserver_request);
+  string caller = resource_logic_selector_caller (std::addressof(webserver_request));
   view.set_variable ("caller", caller);
   
 
@@ -85,14 +82,14 @@ string resource_select (void * webserver_request)
 #endif
 
   
-  if (request->query.count ("bible")) {
+  if (webserver_request.query.count ("bible")) {
     // Any resources added is POSTed because when it was still done through GET,
     // the crawlers of the search engines kept clicking links and so adding resources on the public demo.
     // The POST method is supposed to be immune to that.
     Dialog_List dialog_list = Dialog_List (caller, translate("Select a Bible"), "", "", true);
-    dialog_list.add_query ("page", request->query["page"]);
-    if (is_def) dialog_list.add_query ("type", request->query["type"]);
-    vector <string> bibles = access_bible::bibles (webserver_request);
+    dialog_list.add_query ("page", webserver_request.query["page"]);
+    if (is_def) dialog_list.add_query ("type", webserver_request.query["type"]);
+    vector <string> bibles = access_bible::bibles (std::addressof(webserver_request));
     for (const auto & bible : bibles) {
       dialog_list.add_row (bible, "add", bible);
     }
@@ -101,10 +98,10 @@ string resource_select (void * webserver_request)
   }
   
 
-  if (request->query.count ("usfm")) {
+  if (webserver_request.query.count ("usfm")) {
     Dialog_List dialog_list = Dialog_List (caller, translate("Select a USFM resource"), "", "", true);
-    dialog_list.add_query ("page", request->query["page"]);
-    if (is_def) dialog_list.add_query ("type", request->query["type"]);
+    dialog_list.add_query ("page", webserver_request.query["page"]);
+    if (is_def) dialog_list.add_query ("type", webserver_request.query["type"]);
     vector <string> resources;
 #ifdef HAVE_CLIENT
     // Client takes resources available from the Cloud.
@@ -122,10 +119,10 @@ string resource_select (void * webserver_request)
   }
   
 
-  if (request->query.count ("web_orig")) {
+  if (webserver_request.query.count ("web_orig")) {
     Dialog_List dialog_list = Dialog_List (caller, translate("Select an original language text"), disconnected_info, "", true);
-    dialog_list.add_query ("page", request->query["page"]);
-    if (is_def) dialog_list.add_query ("type", request->query["type"]);
+    dialog_list.add_query ("page", webserver_request.query["page"]);
+    if (is_def) dialog_list.add_query ("type", webserver_request.query["type"]);
     vector <string> resources = resource_external_get_original_language_resources ();
     for (const auto & resource : resources) {
       dialog_list.add_row (resource, "add", resource);
@@ -135,10 +132,10 @@ string resource_select (void * webserver_request)
   }
   
   
-  if (request->query.count ("web_bibles")) {
+  if (webserver_request.query.count ("web_bibles")) {
     Dialog_List dialog_list = Dialog_List (caller, translate("Select a Bible translation"), disconnected_info, "", true);
-    dialog_list.add_query ("page", request->query["page"]);
-    if (is_def) dialog_list.add_query ("type", request->query["type"]);
+    dialog_list.add_query ("page", webserver_request.query["page"]);
+    if (is_def) dialog_list.add_query ("type", webserver_request.query["type"]);
     vector <string> resources = resource_external_get_bibles ();
     for (const auto & resource : resources) {
       dialog_list.add_row (resource, "add", resource);
@@ -148,10 +145,10 @@ string resource_select (void * webserver_request)
   }
   
   
-  if (request->query.count ("image")) {
+  if (webserver_request.query.count ("image")) {
     Dialog_List dialog_list = Dialog_List (caller, translate("Select an image resource"), "", "", true);
-    dialog_list.add_query ("page", request->query["page"]);
-    if (is_def) dialog_list.add_query ("type", request->query["type"]);
+    dialog_list.add_query ("page", webserver_request.query["page"]);
+    if (is_def) dialog_list.add_query ("type", webserver_request.query["type"]);
     Database_ImageResources database_imageresources;
     vector <string> resources = database_imageresources.names ();
     for (const auto & resource : resources) {
@@ -162,10 +159,10 @@ string resource_select (void * webserver_request)
   }
   
 
-  if (request->query.count ("lexicon")) {
+  if (webserver_request.query.count ("lexicon")) {
     Dialog_List dialog_list = Dialog_List (caller, translate("Select a lexicon resource"), "", "", true);
-    dialog_list.add_query ("page", request->query["page"]);
-    if (is_def) dialog_list.add_query ("type", request->query["type"]);
+    dialog_list.add_query ("page", webserver_request.query["page"]);
+    if (is_def) dialog_list.add_query ("type", webserver_request.query["type"]);
     vector <string> resources = lexicon_logic_resource_names ();
     for (const auto & resource : resources) {
       dialog_list.add_row (resource, "add", resource);
@@ -175,10 +172,10 @@ string resource_select (void * webserver_request)
   }
   
   
-  if (request->query.count ("sword")) {
+  if (webserver_request.query.count ("sword")) {
     Dialog_List dialog_list = Dialog_List (caller, translate("Select a SWORD resource"), disconnected_info, "", true);
-    dialog_list.add_query ("page", request->query["page"]);
-    if (is_def) dialog_list.add_query ("type", request->query["type"]);
+    dialog_list.add_query ("page", webserver_request.query["page"]);
+    if (is_def) dialog_list.add_query ("type", webserver_request.query["type"]);
     vector <string> resources = sword_logic_get_available ();
     for (const auto & resource : resources) {
       dialog_list.add_row (resource, "add", resource);
@@ -188,10 +185,10 @@ string resource_select (void * webserver_request)
   }
   
   
-  if (request->query.count ("divider")) {
+  if (webserver_request.query.count ("divider")) {
     Dialog_List dialog_list = Dialog_List (caller, translate("Select a divider"), "", "", true);
-    dialog_list.add_query ("page", request->query["page"]);
-    if (is_def) dialog_list.add_query ("type", request->query["type"]);
+    dialog_list.add_query ("page", webserver_request.query["page"]);
+    if (is_def) dialog_list.add_query ("type", webserver_request.query["type"]);
     vector <string> resources = {
       resource_logic_yellow_divider (),
       resource_logic_green_divider (),
@@ -209,10 +206,10 @@ string resource_select (void * webserver_request)
   }
 
   
-  if (request->query.count ("biblegateway")) {
+  if (webserver_request.query.count ("biblegateway")) {
     Dialog_List dialog_list = Dialog_List (caller, translate("Select a BibleGateway resource"), disconnected_info, "", true);
-    dialog_list.add_query ("page", request->query["page"]);
-    if (is_def) dialog_list.add_query ("type", request->query["type"]);
+    dialog_list.add_query ("page", webserver_request.query["page"]);
+    if (is_def) dialog_list.add_query ("type", webserver_request.query["type"]);
     vector <string> resources = resource_logic_bible_gateway_module_list_get ();
     for (const auto & resource : resources) {
       dialog_list.add_row (resource, "add", resource);
@@ -222,10 +219,10 @@ string resource_select (void * webserver_request)
   }
   
   
-  if (request->query.count ("studylight")) {
+  if (webserver_request.query.count ("studylight")) {
     Dialog_List dialog_list = Dialog_List (caller, translate("Select a StudyLight resource"), disconnected_info, "", true);
-    dialog_list.add_query ("page", request->query["page"]);
-    if (is_def) dialog_list.add_query ("type", request->query["type"]);
+    dialog_list.add_query ("page", webserver_request.query["page"]);
+    if (is_def) dialog_list.add_query ("type", webserver_request.query["type"]);
     vector <string> resources = resource_logic_study_light_module_list_get ();
     for (const auto & resource : resources) {
       dialog_list.add_row (resource, "add", resource);
@@ -239,10 +236,10 @@ string resource_select (void * webserver_request)
   // The line contains multiple properties of the resource.
   // One of those properties is the title.
   // This selection mechanism here shows that title only.
-  if (request->query.count ("comparative")) {
+  if (webserver_request.query.count ("comparative")) {
     Dialog_List dialog_list = Dialog_List (caller, translate("Select a Comparative resource"), disconnected_info, string(), true);
-    dialog_list.add_query ("page", request->query["page"]);
-    if (is_def) dialog_list.add_query ("type", request->query["type"]);
+    dialog_list.add_query ("page", webserver_request.query["page"]);
+    if (is_def) dialog_list.add_query ("type", webserver_request.query["type"]);
     vector <string> resources;
     vector<string> raw_resources =
 #ifdef HAVE_CLOUD
@@ -268,10 +265,10 @@ string resource_select (void * webserver_request)
   // The line contains multiple properties of the resource.
   // One of those properties is the title.
   // This selection mechanism here shows that title only.
-  if (request->query.count ("translated")) {
+  if (webserver_request.query.count ("translated")) {
     Dialog_List dialog_list = Dialog_List (caller, translate("Select a Translated resource"), disconnected_info, string(), true);
-    dialog_list.add_query ("page", request->query["page"]);
-    if (is_def) dialog_list.add_query ("type", request->query["type"]);
+    dialog_list.add_query ("page", webserver_request.query["page"]);
+    if (is_def) dialog_list.add_query ("type", webserver_request.query["type"]);
     vector <string> resources;
     vector<string> raw_resources =
 #ifdef HAVE_CLOUD

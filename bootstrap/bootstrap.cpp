@@ -686,53 +686,53 @@ void bootstrap_index (Webserver_Request& webserver_request)
     return;
   }
 
-  if ((url == manage_accounts_url ()) && browser_request_security_okay (webserver_request) && manage_accounts_acl (std::addressof(webserver_request))) {
-    webserver_request.reply = manage_accounts (std::addressof(webserver_request));
+  if ((url == manage_accounts_url ()) && browser_request_security_okay (webserver_request) && manage_accounts_acl (webserver_request)) {
+    webserver_request.reply = manage_accounts (webserver_request);
     return;
   }
 
-  if ((url == manage_index_url ()) && browser_request_security_okay (webserver_request) && manage_index_acl (std::addressof(webserver_request))) {
-    webserver_request.reply = manage_index (std::addressof(webserver_request));
+  if ((url == manage_index_url ()) && browser_request_security_okay (webserver_request) && manage_index_acl (webserver_request)) {
+    webserver_request.reply = manage_index (webserver_request);
     return;
   }
   
-  if ((url == system_index_url ()) && browser_request_security_okay (webserver_request) && system_index_acl (std::addressof(webserver_request))) {
-    webserver_request.reply = system_index (std::addressof(webserver_request));
+  if ((url == system_index_url ()) && browser_request_security_okay (webserver_request) && system_index_acl (webserver_request)) {
+    webserver_request.reply = system_index (webserver_request);
     return;
   }
 
-  if ((url == system_googletranslate_url ()) && browser_request_security_okay (webserver_request) && system_googletranslate_acl (std::addressof(webserver_request))) {
-    webserver_request.reply = system_googletranslate (std::addressof(webserver_request));
+  if ((url == system_googletranslate_url ()) && browser_request_security_okay (webserver_request) && system_googletranslate_acl (webserver_request)) {
+    webserver_request.reply = system_googletranslate (webserver_request);
     return;
   }
 
-  if ((url == email_index_url ()) && browser_request_security_okay (webserver_request) && email_index_acl (std::addressof(webserver_request))) {
-    webserver_request.reply = email_index (std::addressof(webserver_request));
+  if ((url == email_index_url ()) && browser_request_security_okay (webserver_request) && email_index_acl (webserver_request)) {
+    webserver_request.reply = email_index (webserver_request);
     return;
   }
   
-  if ((url == styles_indexm_url ()) && browser_request_security_okay (webserver_request) && styles_indexm_acl (std::addressof(webserver_request))) {
-    webserver_request.reply = styles_indexm (std::addressof(webserver_request));
+  if ((url == styles_indexm_url ()) && browser_request_security_okay (webserver_request) && styles_indexm_acl (webserver_request)) {
+    webserver_request.reply = styles_indexm (webserver_request);
     return;
   }
   
-  if ((url == styles_sheetm_url ()) && browser_request_security_okay (webserver_request) && styles_sheetm_acl (std::addressof(webserver_request))) {
-    webserver_request.reply = styles_sheetm (std::addressof(webserver_request));
+  if ((url == styles_sheetm_url ()) && browser_request_security_okay (webserver_request) && styles_sheetm_acl (webserver_request)) {
+    webserver_request.reply = styles_sheetm (webserver_request);
     return;
   }
   
-  if ((url == styles_view_url ()) && browser_request_security_okay (webserver_request) && styles_view_acl (std::addressof(webserver_request))) {
-    webserver_request.reply = styles_view (std::addressof(webserver_request));
+  if ((url == styles_view_url ()) && browser_request_security_okay (webserver_request) && styles_view_acl (webserver_request)) {
+    webserver_request.reply = styles_view (webserver_request);
     return;
   }
   
-  if ((url == versification_index_url ()) && browser_request_security_okay (webserver_request) && versification_index_acl (std::addressof(webserver_request))) {
-    webserver_request.reply = versification_index (std::addressof(webserver_request));
+  if ((url == versification_index_url ()) && browser_request_security_okay (webserver_request) && versification_index_acl (webserver_request)) {
+    webserver_request.reply = versification_index (webserver_request);
     return;
   }
   
-  if ((url == versification_system_url ()) && browser_request_security_okay (webserver_request) && versification_system_acl (std::addressof(webserver_request))) {
-    webserver_request.reply = versification_system (std::addressof(webserver_request));
+  if ((url == versification_system_url ()) && browser_request_security_okay (webserver_request) && versification_system_acl (webserver_request)) {
+    webserver_request.reply = versification_system (webserver_request);
     return;
   }
   

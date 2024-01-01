@@ -788,7 +788,7 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
     
     if (label == mail) {
 #ifndef HAVE_CLIENT
-      if (email_index_acl (webserver_request)) {
+      if (email_index_acl (*request)) {
         html.push_back (menu_logic_create_item (email_index_url (), label, true, "", ""));
         tiplabels.push_back (label);
       }
@@ -796,14 +796,14 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
     }
     
     if (label == styles) {
-      if (styles_indexm_acl (webserver_request)) {
+      if (styles_indexm_acl (*request)) {
         html.push_back (menu_logic_create_item (styles_indexm_url (), menu_logic_styles_text (), true, "", ""));
         tiplabels.push_back (menu_logic_styles_text ());
       }
     }
     
     if (label == versifications) {
-      if (versification_index_acl (webserver_request)) {
+      if (versification_index_acl (*request)) {
         html.push_back (menu_logic_create_item (versification_index_url (), menu_logic_versification_index_text (), true, "", ""));
         tiplabels.push_back (menu_logic_versification_index_text ());
       }
@@ -896,7 +896,7 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
     }
     
     if (label == system) {
-      if (system_index_acl (webserver_request)) {
+      if (system_index_acl (*request)) {
         html.push_back (menu_logic_create_item (system_index_url (), label, true, "", ""));
         tiplabels.push_back (label);
       }

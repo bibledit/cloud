@@ -46,19 +46,17 @@ string styles_indexm_url ()
 }
 
 
-bool styles_indexm_acl (void * webserver_request)
+bool styles_indexm_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::translator ());
+  return Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::translator ());
 }
 
 
-string styles_indexm (void * webserver_request)
+string styles_indexm (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  
   string page {};
   
-  Assets_Header header = Assets_Header (translate("Styles"), webserver_request);
+  Assets_Header header = Assets_Header (translate("Styles"), std::addressof(webserver_request));
   header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   page = header.run ();
   
@@ -66,11 +64,11 @@ string styles_indexm (void * webserver_request)
   
   Database_Styles database_styles {};
   
-  string username {request->session_logic ()->currentUser ()};
-  int userlevel {request->session_logic ()->currentLevel ()};
+  string username {webserver_request.session_logic ()->currentUser ()};
+  int userlevel {webserver_request.session_logic ()->currentLevel ()};
   
-  if (request->post.count ("new")) {
-    string name {request->post["entry"]};
+  if (webserver_request.post.count ("new")) {
+    string name {webserver_request.post["entry"]};
     // Remove spaces at the ends of the name for the new stylesheet.
     // Because predictive keyboards can add a space to the name,
     // and the stylesheet system is not built for whitespace at the start / end of the name of the stylesheet.
@@ -85,16 +83,16 @@ string styles_indexm (void * webserver_request)
       page += assets_page::success (translate("The stylesheet has been created"));
     }
   }
-  if (request->query.count ("new")) {
+  if (webserver_request.query.count ("new")) {
     Dialog_Entry dialog_entry = Dialog_Entry ("indexm", translate("Please enter the name for the new stylesheet"), string(), "new", string());
     page += dialog_entry.run();
     return page;
   }
   
-  if (request->query.count ("delete")) {
-    string del {request->query ["delete"]};
+  if (webserver_request.query.count ("delete")) {
+    string del {webserver_request.query ["delete"]};
     if (!del.empty()) {
-      string confirm {request->query ["confirm"]};
+      string confirm {webserver_request.query ["confirm"]};
       if (confirm == "yes") {
         bool write = database_styles.hasWriteAccess (username, del);
         if (userlevel >= Filter_Roles::admin ()) write = true;

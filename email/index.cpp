@@ -39,29 +39,27 @@ string email_index_url ()
 }
 
 
-bool email_index_acl (void * webserver_request)
+bool email_index_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::admin ());
+  return Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::admin ());
 }
 
 
-string email_index (void * webserver_request)
+string email_index (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  
   string page;
 
-  Assets_Header header = Assets_Header (translate("Mail"), webserver_request);
+  Assets_Header header = Assets_Header (translate("Mail"), std::addressof(webserver_request));
   header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   page = header.run ();
 
   Assets_View view;
 
   // Site name and email.
-  if (request->post ["email"] != "") {
+  if (webserver_request.post ["email"] != "") {
     bool form_is_valid = true;
-    string sitename = request->post ["sitename"];
-    string sitemail = request->post ["sitemail"];
+    string sitename = webserver_request.post ["sitename"];
+    string sitemail = webserver_request.post ["sitemail"];
     if (sitemail.length () > 0) {
       if (!filter_url_email_is_valid (sitemail)) {
         form_is_valid = false;
@@ -78,12 +76,12 @@ string email_index (void * webserver_request)
   view.set_variable ("sitemail", Database_Config_General::getSiteMailAddress ());
 
   // Email retrieval.
-  if (request->post ["retrieve"] != "") {
-    string storagehost = request->post ["storagehost"];
-    string storageusername = request->post ["storageusername"];
-    string storagepassword = request->post ["storagepassword"];
-    string storagesecurity = request->post ["storagesecurity"];
-    string storageport = request->post ["storageport"];
+  if (webserver_request.post ["retrieve"] != "") {
+    string storagehost = webserver_request.post ["storagehost"];
+    string storageusername = webserver_request.post ["storageusername"];
+    string storagepassword = webserver_request.post ["storagepassword"];
+    string storagesecurity = webserver_request.post ["storagesecurity"];
+    string storageport = webserver_request.post ["storageport"];
     Database_Config_General::setMailStorageHost (storagehost);
     Database_Config_General::setMailStorageUsername (storageusername);
     Database_Config_General::setMailStoragePassword (storagepassword);
@@ -111,13 +109,13 @@ string email_index (void * webserver_request)
   view.set_variable ("storageport", Database_Config_General::getMailStoragePort ());
   
   // Sending email.
-  if (request->post ["send"] != "") {
-    string sendhost = request->post ["sendhost"];
-    string sendauthentication = request->post ["sendauthentication"];
-    string sendusername = request->post ["sendusername"];
-    string sendpassword = request->post ["sendpassword"];
-    string sendsecurity = request->post ["sendsecurity"];
-    string sendport  = request->post ["sendport"];
+  if (webserver_request.post ["send"] != "") {
+    string sendhost = webserver_request.post ["sendhost"];
+    string sendauthentication = webserver_request.post ["sendauthentication"];
+    string sendusername = webserver_request.post ["sendusername"];
+    string sendpassword = webserver_request.post ["sendpassword"];
+    string sendsecurity = webserver_request.post ["sendsecurity"];
+    string sendport  = webserver_request.post ["sendport"];
     Database_Config_General::setMailSendHost (sendhost);
     Database_Config_General::setMailSendUsername (sendusername);
     Database_Config_General::setMailSendPassword (sendpassword);

@@ -38,22 +38,20 @@ string system_googletranslate_url ()
 }
 
 
-bool system_googletranslate_acl ([[maybe_unused]] void * webserver_request)
+bool system_googletranslate_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::manager ());
+  return Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::manager ());
 }
 
 
-string system_googletranslate (void * webserver_request)
+string system_googletranslate (Webserver_Request& webserver_request)
 {
-//  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  
   string page {};
   string success {};
   string error {};
   
   // The header.
-  Assets_Header header = Assets_Header (translate("Google Translate"), webserver_request);
+  Assets_Header header = Assets_Header (translate("Google Translate"), std::addressof(webserver_request));
   header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   page = header.run ();
   

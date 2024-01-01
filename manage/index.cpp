@@ -33,16 +33,16 @@ string manage_index_url ()
 }
 
 
-bool manage_index_acl (void * webserver_request)
+bool manage_index_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::manager ());
+  return Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::manager ());
 }
 
 
-string manage_index (void * webserver_request)
+string manage_index (Webserver_Request& webserver_request)
 {
   string page;
-  Assets_Header header = Assets_Header (translate("Manage"), webserver_request);
+  Assets_Header header = Assets_Header (translate("Manage"), std::addressof(webserver_request));
   header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   page = header.run ();
   Assets_View view;

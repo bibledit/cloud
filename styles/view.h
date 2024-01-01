@@ -24,5 +24,5 @@
 class Webserver_Request;
 
 std::string styles_view_url ();
-bool styles_view_acl (void * webserver_request);
-std::string styles_view (void * webserver_request);
+bool styles_view_acl (Webserver_Request& webserver_request);
+std::string styles_view (Webserver_Request& webserver_request);

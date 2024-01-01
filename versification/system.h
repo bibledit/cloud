@@ -24,5 +24,5 @@
 class Webserver_Request;
 
 std::string versification_system_url ();
-bool versification_system_acl (void * webserver_request);
-std::string versification_system (void * webserver_request);
+bool versification_system_acl (Webserver_Request& webserver_request);
+std::string versification_system (Webserver_Request& webserver_request);

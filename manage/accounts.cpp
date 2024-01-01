@@ -50,36 +50,34 @@ string manage_accounts_url ()
 }
 
 
-bool manage_accounts_acl (void * webserver_request)
+bool manage_accounts_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::manager ());
+  return Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::manager ());
 }
 
 
-string manage_accounts (void * webserver_request)
+string manage_accounts (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  
   bool user_updated = false;
   bool privileges_updated = false;
   
   string page;
-  Assets_Header header = Assets_Header (translate("Accounts"), webserver_request);
+  Assets_Header header = Assets_Header (translate("Accounts"), std::addressof(webserver_request));
   header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   page = header.run ();
   
   Assets_View view;
 
   // The user to act on.
-  string objectUsername = request->query["user"];
-  int user_level = request->database_users ()->get_level (objectUsername);
+  string objectUsername = webserver_request.query["user"];
+  int user_level = webserver_request.database_users ()->get_level (objectUsername);
   
   // Delete a user.
-  if (request->query.count ("delete")) {
+  if (webserver_request.query.count ("delete")) {
     string role = Filter_Roles::text (user_level);
-    string email = request->database_users ()->get_email (objectUsername);
-    vector <string> users = request->database_users ()->get_users ();
-    vector <string> administrators = request->database_users ()->getAdministrators ();
+    string email = webserver_request.database_users ()->get_email (objectUsername);
+    vector <string> users = webserver_request.database_users ()->get_users ();
+    vector <string> administrators = webserver_request.database_users ()->getAdministrators ();
     if (users.size () == 1) {
       page += assets_page::error (translate("Cannot remove the last user"));
     } else if ((user_level >= Filter_Roles::admin ()) && (administrators.size () == 1)) {
@@ -108,15 +106,15 @@ string manage_accounts (void * webserver_request)
   }
   
   // Retrieve assigned users.
-  vector <string> users = access_user::assignees (webserver_request);
-  for (auto & username : users) {
+  const vector <string> users = access_user::assignees (std::addressof(webserver_request));
+  for (const auto& username : users) {
     
     // Gather details for this user account.
-    user_level = request->database_users ()->get_level (username);
-    string role = Filter_Roles::text (user_level);
-    string email = request->database_users ()->get_email (username);
-    int seconds = filter::date::seconds_since_epoch() - account_creation_times[username];
-    string days = filter::strings::convert_to_string (seconds / (3600 * 24));
+    user_level = webserver_request.database_users ()->get_level (username);
+    const string role = Filter_Roles::text (user_level);
+    const string email = webserver_request.database_users ()->get_email (username);
+    const int seconds = filter::date::seconds_since_epoch() - account_creation_times[username];
+    const string days = filter::strings::convert_to_string (seconds / (3600 * 24));
     
     // Pass information about this user to the flate engine for display.
     view.add_iteration ("tbody", {

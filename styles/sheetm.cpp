@@ -46,37 +46,35 @@ string styles_sheetm_url ()
 }
 
 
-bool styles_sheetm_acl (void * webserver_request)
+bool styles_sheetm_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::translator ());
+  return Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::translator ());
 }
 
 
-string styles_sheetm (void * webserver_request)
+string styles_sheetm (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  
   string page;
   
-  Assets_Header header = Assets_Header (translate("Stylesheet"), webserver_request);
+  Assets_Header header = Assets_Header (translate("Stylesheet"), std::addressof(webserver_request));
   header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   header.add_bread_crumb (styles_indexm_url (), menu_logic_styles_indexm_text ());
   page = header.run ();
 
   Assets_View view;
   
-  string name = request->query["name"];
+  string name = webserver_request.query["name"];
   view.set_variable ("name", filter::strings::escape_special_xml_characters (name));
 
   Database_Styles database_styles;
   
-  string username = request->session_logic ()->currentUser ();
-  int userlevel = request->session_logic ()->currentLevel ();
+  string username = webserver_request.session_logic ()->currentUser ();
+  int userlevel = webserver_request.session_logic ()->currentLevel ();
   bool write = database_styles.hasWriteAccess (username, name);
   if (userlevel >= Filter_Roles::admin ()) write = true;
 
-  if (request->post.count ("new")) {
-    string newstyle = request->post["entry"];
+  if (webserver_request.post.count ("new")) {
+    string newstyle = webserver_request.post["entry"];
     vector <string> existing_markers = database_styles.getMarkers (name);
     if (find (existing_markers.begin(), existing_markers.end(), newstyle) != existing_markers.end()) {
       page += assets_page::error (translate("This style already exists"));
@@ -86,14 +84,14 @@ string styles_sheetm (void * webserver_request)
       page += assets_page::success (translate("The style has been created"));
     }
   }
-  if (request->query.count("new")) {
+  if (webserver_request.query.count("new")) {
     Dialog_Entry dialog_entry = Dialog_Entry ("sheetm", translate("Please enter the name for the new style"), "", "new", "");
     dialog_entry.add_query ("name", name);
     page += dialog_entry.run ();
     return page;
   }
   
-  string del = request->query["delete"];
+  string del = webserver_request.query["delete"];
   if (del != "") {
     if (write) database_styles.deleteMarker (name, del);
   }

@@ -24,5 +24,5 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 class Webserver_Request;
 
 std::string manage_accounts_url ();
-bool manage_accounts_acl (void * webserver_request);
-std::string manage_accounts (void * webserver_request);
+bool manage_accounts_acl (Webserver_Request& webserver_request);
+std::string manage_accounts (Webserver_Request& webserver_request);

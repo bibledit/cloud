@@ -24,5 +24,5 @@
 class Webserver_Request;
 
 std::string styles_sheetm_url ();
-bool styles_sheetm_acl (void * webserver_request);
-std::string styles_sheetm (void * webserver_request);
+bool styles_sheetm_acl (Webserver_Request& webserver_request);
+std::string styles_sheetm (Webserver_Request& webserver_request);

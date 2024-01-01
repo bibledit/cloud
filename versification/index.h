@@ -24,5 +24,5 @@
 class Webserver_Request;
 
 std::string versification_index_url ();
-bool versification_index_acl (void * webserver_request);
-std::string versification_index (void * webserver_request);
+bool versification_index_acl (Webserver_Request& webserver_request);
+std::string versification_index (Webserver_Request& webserver_request);

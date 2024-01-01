@@ -24,5 +24,5 @@
 class Webserver_Request;
 
 std::string notes_status_n_url ();
-bool notes_status_n_acl (void * webserver_request);
-std::string notes_status_n (void * webserver_request);
+bool notes_status_n_acl (Webserver_Request& webserver_request);
+std::string notes_status_n (Webserver_Request& webserver_request);

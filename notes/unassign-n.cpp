@@ -41,20 +41,19 @@ string notes_unassign_n_url ()
 }
 
 
-bool notes_unassign_n_acl (void * webserver_request)
+bool notes_unassign_n_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::manager ());
+  return Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::manager ());
 }
 
 
-string notes_unassign_n (void * webserver_request)
+string notes_unassign_n (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  Database_Notes database_notes (webserver_request);
+  Database_Notes database_notes (std::addressof(webserver_request));
   
   
   string page;
-  Assets_Header header = Assets_Header (translate("Unassign notes"), request);
+  Assets_Header header = Assets_Header (translate("Unassign notes"), std::addressof(webserver_request));
   page += header.run ();
   Assets_View view;
 
@@ -62,9 +61,9 @@ string notes_unassign_n (void * webserver_request)
   // Notes can be unassigned from users who have access to the Bibles
   // the currently logged-in user has access to, and who have notes assigned.
   stringstream userblock;
-  vector <string> bibles = access_bible::bibles (webserver_request);
+  vector <string> bibles = access_bible::bibles (std::addressof(webserver_request));
   vector <string> users = database_notes.get_all_assignees (bibles);
-  for (auto & user : users) {
+  for (const auto& user : users) {
     userblock << "<li><a href=" << quoted ("bulk?unassign=" + user) << ">" << user << "</a></li>" << std::endl;
   }
   view.set_variable ("userblock", userblock.str());

@@ -302,7 +302,7 @@ string menu_logic_basic_categories (void * webserver_request)
     html.push_back (menu_logic_create_item (read_index_url (), translate ("Read"), true, "", color));
   }
 
-  if (resource_index_acl (webserver_request)) {
+  if (resource_index_acl (*request)) {
     html.push_back (menu_logic_create_item (resource_index_url (), menu_logic_resources_text (), true, "", color));
   }
 
@@ -427,7 +427,7 @@ string menu_logic_translate_category (void * webserver_request, string * tooltip
     labels.push_back (menu_logic_consultation_notes_text ());
   }
 
-  if (resource_index_acl (webserver_request)) {
+  if (resource_index_acl (*request)) {
     string label = menu_logic_resources_text ();
     html.push_back (menu_logic_create_item (resource_index_url (), label, true, "", ""));
     labels.push_back (label);
@@ -592,7 +592,7 @@ string menu_logic_tools_category (void * webserver_request, string * tooltip)
 
     if (label == print) {
 #ifndef HAVE_CLIENT
-      if (resource_print_acl (webserver_request)) {
+      if (resource_print_acl (*request)) {
         html.push_back (menu_logic_create_item (resource_print_url (), label, true, "", ""));
         tiplabels.push_back (label);
       }
@@ -923,16 +923,18 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
 
 string menu_logic_settings_resources_category ([[maybe_unused]] void * webserver_request)
 {
+  [[maybe_unused]] Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
+
   vector <string> html;
   
 #ifdef HAVE_CLOUD
-  if (resource_manage_acl (webserver_request)) {
+  if (resource_manage_acl (*request)) {
     html.push_back (menu_logic_create_item (resource_manage_url (), translate ("USFM"), true, "", ""));
   }
 #endif
   
 #ifdef HAVE_CLOUD
-  if (resource_images_acl (webserver_request)) {
+  if (resource_images_acl (*request)) {
     html.push_back (menu_logic_create_item (resource_images_url (), translate ("Images"), true, "", ""));
   }
 #endif

@@ -41,29 +41,28 @@ string notes_bible_n_url ()
 }
 
 
-bool notes_bible_n_acl (void * webserver_request)
+bool notes_bible_n_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ());
+  return Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::consultant ());
 }
 
 
-string notes_bible_n (void * webserver_request)
+string notes_bible_n (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  Database_Notes database_notes (webserver_request);
-  Notes_Logic notes_logic = Notes_Logic (webserver_request);
+  Database_Notes database_notes (std::addressof(webserver_request));
+  Notes_Logic notes_logic = Notes_Logic (std::addressof(webserver_request));
 
   
   string page;
-  Assets_Header header = Assets_Header (translate("Bibles"), request);
+  Assets_Header header = Assets_Header (translate("Bibles"), std::addressof(webserver_request));
   page += header.run ();
   Assets_View view;
   
   
   stringstream bibleblock;
-  vector <string> bibles = access_bible::bibles (webserver_request);
+  vector <string> bibles = access_bible::bibles (std::addressof(webserver_request));
   bibles.push_back (notes_logic.generalBibleName ());
-  for (auto & bible : bibles) {
+  for (const auto & bible : bibles) {
     bibleblock << "<li><a href=" << quoted("bulk?bible=" + bible) << ">" << bible << "</a></li>" << std::endl;
   }
   view.set_variable ("bibleblock", bibleblock.str());

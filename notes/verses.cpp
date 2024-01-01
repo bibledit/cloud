@@ -41,32 +41,31 @@ string notes_verses_url ()
 }
 
 
-bool notes_verses_acl (void * webserver_request)
+bool notes_verses_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ());
+  return Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::consultant ());
 }
 
 
-string notes_verses (void * webserver_request)
+string notes_verses (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  Database_Notes database_notes (webserver_request);
-  Notes_Logic notes_logic = Notes_Logic (webserver_request);
+  Database_Notes database_notes (std::addressof(webserver_request));
+  Notes_Logic notes_logic = Notes_Logic (std::addressof(webserver_request));
 
 
   string page;
-  Assets_Header header = Assets_Header (translate("Passages"), request);
+  Assets_Header header = Assets_Header (translate("Passages"), std::addressof(webserver_request));
   page += header.run ();
   Assets_View view;
   string success, error;
   
   
-  int id = filter::strings::convert_to_int (request->query ["id"]);
+  int id = filter::strings::convert_to_int (webserver_request.query ["id"]);
   view.set_variable ("id", filter::strings::convert_to_string (id));
 
 
-  if (request->post.count ("submit")) {
-    vector <string> verses = filter::strings::explode (request->post["verses"], '\n');
+  if (webserver_request.post.count ("submit")) {
+    vector <string> verses = filter::strings::explode (webserver_request.post["verses"], '\n');
     vector <Passage> passages;
     Passage previousPassage = Passage ("", 1, 1, "1");
     for (auto & line : verses) {
@@ -83,7 +82,7 @@ string notes_verses (void * webserver_request)
       error = translate ("The note should have one or more passages assigned.");
     } else {
       notes_logic.setPassages (id, passages);
-      redirect_browser (request, notes_actions_url () + "?id=" + filter::strings::convert_to_string (id));
+      redirect_browser (std::addressof(webserver_request), notes_actions_url () + "?id=" + filter::strings::convert_to_string (id));
       return "";
     }
   }

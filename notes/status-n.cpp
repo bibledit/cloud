@@ -41,20 +41,19 @@ string notes_status_n_url ()
 }
 
 
-bool notes_status_n_acl (void * webserver_request)
+bool notes_status_n_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::manager ());
+  return Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::manager ());
 }
 
 
-string notes_status_n (void * webserver_request)
+string notes_status_n (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  Database_Notes database_notes (webserver_request);
+  Database_Notes database_notes (std::addressof(webserver_request));
   
   
   string page;
-  Assets_Header header = Assets_Header (translate("Notes status"), request);
+  Assets_Header header = Assets_Header (translate("Notes status"), std::addressof(webserver_request));
   page += header.run ();
   Assets_View view;
   

@@ -41,19 +41,16 @@ string resource_images_url ()
 }
 
 
-bool resource_images_acl (void * webserver_request)
+bool resource_images_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::manager ());
+  return Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::manager ());
 }
 
 
-string resource_images (void * webserver_request)
+string resource_images (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-
-  
   string page;
-  Assets_Header header = Assets_Header (translate("Image resources"), request);
+  Assets_Header header = Assets_Header (translate("Image resources"), std::addressof(webserver_request));
   header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   page = header.run ();
   Assets_View view;
@@ -64,13 +61,13 @@ string resource_images (void * webserver_request)
   
   
   // New image resource handler.
-  if (request->query.count ("new")) {
+  if (webserver_request.query.count ("new")) {
     Dialog_Entry dialog_entry = Dialog_Entry ("images", translate("Please enter a name for the new empty image resource"), "", "new", "");
     page += dialog_entry.run ();
     return page;
   }
-  if (request->post.count ("new")) {
-    string resource = request->post ["entry"];
+  if (webserver_request.post.count ("new")) {
+    string resource = webserver_request.post ["entry"];
     vector <string> resources = database_imageresources.names ();
     if (in_array (resource, resources)) {
       error = translate("This image resource already exists");
@@ -84,9 +81,9 @@ string resource_images (void * webserver_request)
 
   
   // Delete resource.
-  string remove = request->query ["delete"];
+  string remove = webserver_request.query ["delete"];
   if (remove != "") {
-    string confirm = request->query ["confirm"];
+    string confirm = webserver_request.query ["confirm"];
     if (confirm == "") {
       Dialog_Yes dialog_yes = Dialog_Yes ("images", translate("Would you like to delete this resource?"));
       dialog_yes.add_query ("delete", remove);

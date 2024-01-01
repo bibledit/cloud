@@ -42,38 +42,37 @@ string notes_edit_url ()
 }
 
 
-bool notes_edit_acl (void * webserver_request)
+bool notes_edit_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ());
+  return Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::consultant ());
 }
 
 
-string notes_edit (void * webserver_request)
+string notes_edit (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  Database_Notes database_notes (webserver_request);
-  Notes_Logic notes_logic = Notes_Logic (webserver_request);
+  Database_Notes database_notes (std::addressof(webserver_request));
+  Notes_Logic notes_logic = Notes_Logic (std::addressof(webserver_request));
   
   
   string page;
-  Assets_Header header = Assets_Header (translate("Edit Note Source"), request);
+  Assets_Header header = Assets_Header (translate("Edit Note Source"), std::addressof(webserver_request));
   page += header.run ();
   Assets_View view;
   
   
-  string myusername = request->session_logic ()->currentUser ();
+  string myusername = webserver_request.session_logic ()->currentUser ();
   
   
   int identifier;
   const char * identifier_label = "identifier";
-  if (request->query.count (identifier_label)) identifier = filter::strings::convert_to_int (request->query [identifier_label]);
-  else identifier = filter::strings::convert_to_int (request->post [identifier_label]);
+  if (webserver_request.query.count (identifier_label)) identifier = filter::strings::convert_to_int (webserver_request.query [identifier_label]);
+  else identifier = filter::strings::convert_to_int (webserver_request.post [identifier_label]);
   if (identifier) view.set_variable (identifier_label, filter::strings::convert_to_string (identifier));
   
   
-  if (request->post.count ("data")) {
+  if (webserver_request.post.count ("data")) {
     // Save note.
-    string noteData = request->post["data"];
+    string noteData = webserver_request.post["data"];
     if (database_notes.identifier_exists (identifier)) {
       vector <string> lines = filter::strings::explode (noteData, '\n');
       for (size_t i = 0; i < lines.size (); i++) {
@@ -86,7 +85,7 @@ string notes_edit (void * webserver_request)
       notes_logic.setContent (identifier, noteData);
       string url = filter_url_build_http_query (notes_note_url (), "id", filter::strings::convert_to_string (identifier));
       // View the updated note.
-      redirect_browser (request, url);
+      redirect_browser (std::addressof(webserver_request), url);
       return "";
     }
   }

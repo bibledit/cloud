@@ -45,37 +45,36 @@ string resource_download_url ()
 }
 
 
-bool resource_download_acl (void * webserver_request)
+bool resource_download_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::member ());
+  return Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::member ());
 }
 
 
-string resource_download (void * webserver_request)
+string resource_download (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   Database_UsfmResources database_usfmresources;
   
   
   string page;
-  Assets_Header header = Assets_Header (translate("Download resource"), request);
+  Assets_Header header = Assets_Header (translate("Download resource"), std::addressof(webserver_request));
   header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   header.add_bread_crumb (resource_cache_url (), menu_logic_resources_text ());
   page = header.run ();
   Assets_View view;
 
   
-  string name = request->query["name"];
+  string name = webserver_request.query["name"];
   view.set_variable ("name", name);
 
   
-  if (request->query.count ("clear")) {
+  if (webserver_request.query.count ("clear")) {
     // The client clears the installed resource.
     Database_Cache::remove (name);
   }
   
   
-  if (request->query.count ("download")) {
+  if (webserver_request.query.count ("download")) {
     // Trigger caching the resource.
     // Add the resource to the general configuration to be cached, if it is not already there.
     vector <string> resources = Database_Config_General::getResourcesToCache ();
@@ -84,7 +83,7 @@ string resource_download (void * webserver_request)
       Database_Config_General::setResourcesToCache (resources);
     }
     tasks_logic_queue (SYNCRESOURCES);
-    redirect_browser (request, journal_index_url ());
+    redirect_browser (std::addressof(webserver_request), journal_index_url ());
     return "";
   }
   
@@ -98,7 +97,8 @@ string resource_download (void * webserver_request)
       count += static_cast<int>(20 * chapters.size());
     }
   }
-  if (count == 0) count = Database_Cache::count (name);
+  if (count == 0) 
+    count = Database_Cache::count (name);
   view.set_variable ("count", filter::strings::convert_to_string (count));
   
   

@@ -24,5 +24,5 @@
 class Webserver_Request;
 
 std::string resource_organize_url ();
-bool resource_organize_acl (void * webserver_request);
-std::string resource_organize (void * webserver_request);
+bool resource_organize_acl (Webserver_Request& webserver_request);
+std::string resource_organize (Webserver_Request& webserver_request);

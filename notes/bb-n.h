@@ -24,5 +24,5 @@
 class Webserver_Request;
 
 std::string notes_bible_n_url ();
-bool notes_bible_n_acl (void * webserver_request);
-std::string notes_bible_n (void * webserver_request);
+bool notes_bible_n_acl (Webserver_Request& webserver_request);
+std::string notes_bible_n (Webserver_Request& webserver_request);

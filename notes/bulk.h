@@ -24,5 +24,5 @@
 class Webserver_Request;
 
 std::string notes_bulk_url ();
-bool notes_bulk_acl (void * webserver_request);
-std::string notes_bulk (void * webserver_request);
+bool notes_bulk_acl (Webserver_Request& webserver_request);
+std::string notes_bulk (Webserver_Request& webserver_request);

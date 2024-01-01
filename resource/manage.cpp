@@ -42,19 +42,16 @@ string resource_manage_url ()
 }
 
 
-bool resource_manage_acl (void * webserver_request)
+bool resource_manage_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::manager ());
+  return Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::manager ());
 }
 
 
-string resource_manage (void * webserver_request)
+string resource_manage (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-
-  
   string page;
-  Assets_Header header = Assets_Header (translate("USFM Resources"), request);
+  Assets_Header header = Assets_Header (translate("USFM Resources"), std::addressof(webserver_request));
   header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   page = header.run ();
   Assets_View view;
@@ -64,16 +61,16 @@ string resource_manage (void * webserver_request)
 
   
   // Delete resource.
-  string remove = request->query ["delete"];
+  string remove = webserver_request.query ["delete"];
   if (remove != "") {
-    string confirm = request->query ["confirm"];
+    string confirm = webserver_request.query ["confirm"];
     if (confirm == "") {
       Dialog_Yes dialog_yes = Dialog_Yes ("manage", translate("Would you like to delete this resource?"));
       dialog_yes.add_query ("delete", remove);
       page += dialog_yes.run ();
       return page;
     } if (confirm == "yes") {
-      if (access_bible::write (request, remove)) {
+      if (access_bible::write (std::addressof(webserver_request), remove)) {
         database_usfmresources.deleteResource (remove);
         // The Cloud updates the list of available USFM resources for the clients.
         tasks_logic_queue (LISTUSFMRESOURCES);
@@ -85,18 +82,18 @@ string resource_manage (void * webserver_request)
   
   
   // Convert resource.
-  string convert = request->query ["convert"];
+  string convert = webserver_request.query ["convert"];
   if (convert != "") {
-    string confirm = request->query ["confirm"];
+    string confirm = webserver_request.query ["confirm"];
     if (confirm == "") {
       Dialog_Yes dialog_yes = Dialog_Yes ("manage", translate("Would you like to convert this resource to a Bible?"));
       dialog_yes.add_query ("convert", convert);
       page += dialog_yes.run ();
       return page;
     } if (confirm == "yes") {
-      if (access_bible::write (request, convert)) {
+      if (access_bible::write (std::addressof(webserver_request), convert)) {
         tasks_logic_queue (CONVERTRESOURCE2BIBLE, {convert});
-        redirect_browser (request, journal_index_url ());
+        redirect_browser (std::addressof(webserver_request), journal_index_url ());
         return "";
       } else {
         view.set_variable ("error", translate("Insufficient privileges"));

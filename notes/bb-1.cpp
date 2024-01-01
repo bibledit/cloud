@@ -41,43 +41,42 @@ string notes_bible_1_url ()
 }
 
 
-bool notes_bible_1_acl (void * webserver_request)
+bool notes_bible_1_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ());
+  return Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::consultant ());
 }
 
 
-string notes_bible_1 (void * webserver_request)
+string notes_bible_1 (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  Database_Notes database_notes (webserver_request);
-  Notes_Logic notes_logic = Notes_Logic (webserver_request);
+  Database_Notes database_notes (std::addressof(webserver_request));
+  Notes_Logic notes_logic = Notes_Logic (std::addressof(webserver_request));
   
   
   string page;
-  Assets_Header header = Assets_Header (translate("Bibles"), request);
+  Assets_Header header = Assets_Header (translate("Bibles"), std::addressof(webserver_request));
   page += header.run ();
   Assets_View view;
   string success, error;
   
   
-  int id = filter::strings::convert_to_int (request->query ["id"]);
+  int id = filter::strings::convert_to_int (webserver_request.query ["id"]);
   view.set_variable ("id", filter::strings::convert_to_string (id));
   
   
-  if (request->query.count ("bible")) {
-    string bible = request->query["bible"];
-    if (bible == notes_logic.generalBibleName ()) bible = "";
+  if (webserver_request.query.count ("bible")) {
+    string bible = webserver_request.query["bible"];
+    if (bible == notes_logic.generalBibleName ()) bible.clear();
     notes_logic.setBible (id, bible);
-    redirect_browser (request, notes_actions_url () + "?id=" + filter::strings::convert_to_string (id));
+    redirect_browser (std::addressof(webserver_request), notes_actions_url () + "?id=" + filter::strings::convert_to_string (id));
     return "";
   }
   
   
   stringstream bibleblock;
-  vector <string> bibles = access_bible::bibles (webserver_request);
+  vector <string> bibles = access_bible::bibles (std::addressof(webserver_request));
   bibles.push_back (notes_logic.generalBibleName ());
-  for (auto & bible : bibles) {
+  for (const auto& bible : bibles) {
     bibleblock << "<li><a href=" << quoted("bb-1?id=" + filter::strings::convert_to_string (id) + "&bible=" + bible) << ">" << bible << "</a></li>" << std::endl;
   }
   view.set_variable ("bibleblock", bibleblock.str());

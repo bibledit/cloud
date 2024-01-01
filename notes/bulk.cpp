@@ -46,23 +46,22 @@ string notes_bulk_url ()
 }
 
 
-bool notes_bulk_acl (void * webserver_request)
+bool notes_bulk_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::translator ());
+  return Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::translator ());
 }
 
 
-string notes_bulk (void * webserver_request)
+string notes_bulk (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  Database_Notes database_notes (webserver_request);
-  Notes_Logic notes_logic = Notes_Logic (webserver_request);
+  Database_Notes database_notes (std::addressof(webserver_request));
+  Notes_Logic notes_logic = Notes_Logic (std::addressof(webserver_request));
   Database_NoteAssignment database_noteassignment;
 
   
   string page;
   
-  Assets_Header header = Assets_Header (translate("Bulk update"), request);
+  Assets_Header header = Assets_Header (translate("Bulk update"), std::addressof(webserver_request));
   header.add_bread_crumb (menu_logic_translate_menu (), menu_logic_translate_text ());
   header.add_bread_crumb (notes_index_url (), menu_logic_consultation_notes_text ());
   page = header.run();
@@ -71,40 +70,40 @@ string notes_bulk (void * webserver_request)
   string success, error;
 
   
-  vector <string> bibles = access_bible::bibles (webserver_request);
-  int book = Ipc_Focus::getBook (webserver_request);
-  int chapter = Ipc_Focus::getChapter (webserver_request);
-  int verse = Ipc_Focus::getVerse (webserver_request);
-  int passage_selector = request->database_config_user()->getConsultationNotesPassageSelector();
-  int edit_selector = request->database_config_user()->getConsultationNotesEditSelector();
-  int non_edit_selector = request->database_config_user()->getConsultationNotesNonEditSelector();
-  string status_selector = request->database_config_user()->getConsultationNotesStatusSelector();
-  string bible_selector = request->database_config_user()->getConsultationNotesBibleSelector();
-  string assignment_selector = request->database_config_user()->getConsultationNotesAssignmentSelector();
-  bool subscription_selector = request->database_config_user()->getConsultationNotesSubscriptionSelector();
-  int severity_selector = request->database_config_user()->getConsultationNotesSeveritySelector();
-  int text_selector = request->database_config_user()->getConsultationNotesTextSelector();
-  string search_text = request->database_config_user()->getConsultationNotesSearchText();
+  vector <string> bibles = access_bible::bibles (std::addressof(webserver_request));
+  int book = Ipc_Focus::getBook (std::addressof(webserver_request));
+  int chapter = Ipc_Focus::getChapter (std::addressof(webserver_request));
+  int verse = Ipc_Focus::getVerse (std::addressof(webserver_request));
+  int passage_selector = webserver_request.database_config_user()->getConsultationNotesPassageSelector();
+  int edit_selector = webserver_request.database_config_user()->getConsultationNotesEditSelector();
+  int non_edit_selector = webserver_request.database_config_user()->getConsultationNotesNonEditSelector();
+  string status_selector = webserver_request.database_config_user()->getConsultationNotesStatusSelector();
+  string bible_selector = webserver_request.database_config_user()->getConsultationNotesBibleSelector();
+  string assignment_selector = webserver_request.database_config_user()->getConsultationNotesAssignmentSelector();
+  bool subscription_selector = webserver_request.database_config_user()->getConsultationNotesSubscriptionSelector();
+  int severity_selector = webserver_request.database_config_user()->getConsultationNotesSeveritySelector();
+  int text_selector = webserver_request.database_config_user()->getConsultationNotesTextSelector();
+  string search_text = webserver_request.database_config_user()->getConsultationNotesSearchText();
   
   
-  int userid = filter::strings::user_identifier (webserver_request);
+  int userid = filter::strings::user_identifier (std::addressof(webserver_request));
   
   
   // The admin disables notes selection on Bibles, so the admin sees all notes, even notes referring to non-existing Bibles.
-  if (request->session_logic ()->currentLevel () == Filter_Roles::admin ()) bibles.clear ();
+  if (webserver_request.session_logic ()->currentLevel () == Filter_Roles::admin ()) bibles.clear ();
 
   
   
   // Action to take.
-  bool subscribe = request->query.count ("subscribe");
-  bool unsubscribe = request->query.count ("unsubscribe");
-  bool assign = request->query.count ("assign");
-  bool unassign = request->query.count ("unassign");
-  bool unassignme = request->query.count ("unassignme");
-  bool status = request->query.count ("status");
-  bool severity = request->query.count ("severity");
-  bool bible = request->query.count ("bible");
-  bool erase = request->query.count ("delete");
+  bool subscribe = webserver_request.query.count ("subscribe");
+  bool unsubscribe = webserver_request.query.count ("unsubscribe");
+  bool assign = webserver_request.query.count ("assign");
+  bool unassign = webserver_request.query.count ("unassign");
+  bool unassignme = webserver_request.query.count ("unassignme");
+  bool status = webserver_request.query.count ("status");
+  bool severity = webserver_request.query.count ("severity");
+  bool bible = webserver_request.query.count ("bible");
+  bool erase = webserver_request.query.count ("delete");
   
   
   // In case there is no relevant GET action yet,
@@ -168,8 +167,8 @@ string notes_bulk (void * webserver_request)
   
   
   if (assign) {
-    string assignee = request->query["assign"];
-    string user = request->session_logic ()->currentUser ();
+    string assignee = webserver_request.query["assign"];
+    string user = webserver_request.session_logic ()->currentUser ();
     vector <string> assignees = database_noteassignment.assignees (user);
     if (in_array (assignee, assignees)) {
       for (auto identifier : identifiers) {
@@ -184,7 +183,7 @@ string notes_bulk (void * webserver_request)
   
   
   if (unassign) {
-    string unassignee = request->query["unassign"];
+    string unassignee = webserver_request.query["unassign"];
     for (auto identifier : identifiers) {
       if (database_notes.is_assigned (identifier, unassignee)) {
         notes_logic.unassignUser (identifier, unassignee);
@@ -196,7 +195,7 @@ string notes_bulk (void * webserver_request)
 
   
   if (unassignme) {
-    string username = request->session_logic()->currentUser ();
+    string username = webserver_request.session_logic()->currentUser ();
     for (auto identifier : identifiers) {
       if (database_notes.is_assigned (identifier, username)) {
         notes_logic.unassignUser (identifier, username);
@@ -208,7 +207,7 @@ string notes_bulk (void * webserver_request)
 
   
   if (status) {
-    string new_status = request->query["status"];
+    string new_status = webserver_request.query["status"];
     for (auto identifier : identifiers) {
       if (database_notes.get_raw_status (identifier) != new_status) {
         notes_logic.setStatus (identifier, new_status);
@@ -220,7 +219,7 @@ string notes_bulk (void * webserver_request)
   
   
   if (severity) {
-    int new_severity = filter::strings::convert_to_int (request->query["severity"]);
+    int new_severity = filter::strings::convert_to_int (webserver_request.query["severity"]);
     for (auto identifier : identifiers) {
       if (database_notes.get_raw_severity (identifier) != new_severity) {
         notes_logic.setRawSeverity (identifier, new_severity);
@@ -232,7 +231,7 @@ string notes_bulk (void * webserver_request)
   
   
   if (bible) {
-    string new_bible = request->query["bible"];
+    string new_bible = webserver_request.query["bible"];
     if (new_bible == notes_logic.generalBibleName ()) new_bible.clear();
     for (auto identifier : identifiers) {
       if (database_notes.get_bible (identifier) != new_bible) {
@@ -245,7 +244,7 @@ string notes_bulk (void * webserver_request)
   
   
   if (erase) {
-    string confirm = request->query["confirm"];
+    string confirm = webserver_request.query["confirm"];
     if (confirm != "yes") {
       Dialog_Yes dialog_yes = Dialog_Yes ("bulk", translate("Would you like to delete the notes?"));
       dialog_yes.add_query ("delete", "");
@@ -263,7 +262,7 @@ string notes_bulk (void * webserver_request)
   view.set_variable ("notescount", filter::strings::convert_to_string (identifiers.size()));
 
   
-  bool manager = Filter_Roles::access_control (webserver_request, Filter_Roles::manager ());
+  bool manager = Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::manager ());
   if (manager) {
     view.enable_zone ("manager");
   }

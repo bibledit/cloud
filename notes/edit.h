@@ -24,5 +24,5 @@
 class Webserver_Request;
 
 std::string notes_edit_url ();
-bool notes_edit_acl (void * webserver_request);
-std::string notes_edit (void * webserver_request);
+bool notes_edit_acl (Webserver_Request& webserver_request);
+std::string notes_edit (Webserver_Request& webserver_request);

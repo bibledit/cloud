@@ -24,5 +24,5 @@
 class Webserver_Request;
 
 std::string notes_verses_url ();
-bool notes_verses_acl (void * webserver_request);
-std::string notes_verses (void * webserver_request);
+bool notes_verses_acl (Webserver_Request& webserver_request);
+std::string notes_verses (Webserver_Request& webserver_request);

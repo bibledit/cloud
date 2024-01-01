@@ -40,33 +40,32 @@ string notes_summary_url ()
 }
 
 
-bool notes_summary_acl (void * webserver_request)
+bool notes_summary_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::translator ());
+  return Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::translator ());
 }
 
 
-string notes_summary (void * webserver_request)
+string notes_summary (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  Database_Notes database_notes (webserver_request);
-  Notes_Logic notes_logic = Notes_Logic (webserver_request);
+  Database_Notes database_notes (std::addressof(webserver_request));
+  Notes_Logic notes_logic = Notes_Logic (std::addressof(webserver_request));
 
   
   string page;
-  Assets_Header header = Assets_Header (translate("Note summary"), request);
+  Assets_Header header = Assets_Header (translate("Note summary"), std::addressof(webserver_request));
   page += header.run ();
   Assets_View view;
 
 
-  int id = filter::strings::convert_to_int (request->query ["id"]);
+  int id = filter::strings::convert_to_int (webserver_request.query ["id"]);
   view.set_variable ("id", filter::strings::convert_to_string (id));
   
   
-  if (request->post.count ("submit")) {
-    string summary = request->post["entry"];
+  if (webserver_request.post.count ("submit")) {
+    string summary = webserver_request.post["entry"];
     notes_logic.set_summary (id, summary);
-    redirect_browser (request, notes_note_url () + "?id=" + filter::strings::convert_to_string (id));
+    redirect_browser (std::addressof(webserver_request), notes_note_url () + "?id=" + filter::strings::convert_to_string (id));
     return "";
   }
   

@@ -41,35 +41,34 @@ string notes_severity_1_url ()
 }
 
 
-bool notes_severity_1_acl (void * webserver_request)
+bool notes_severity_1_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ());
+  return Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::consultant ());
 }
 
 
-string notes_severity_1 (void * webserver_request)
+string notes_severity_1 (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  Database_Notes database_notes (webserver_request);
-  Notes_Logic notes_logic = Notes_Logic (webserver_request);
+  Database_Notes database_notes (std::addressof(webserver_request));
+  Notes_Logic notes_logic = Notes_Logic (std::addressof(webserver_request));
   
   
   string page;
-  Assets_Header header = Assets_Header (translate("Severity"), request);
+  Assets_Header header = Assets_Header (translate("Severity"), std::addressof(webserver_request));
   page += header.run ();
   Assets_View view;
   string success, error;
   
   
-  int id = filter::strings::convert_to_int (request->query ["id"]);
+  int id = filter::strings::convert_to_int (webserver_request.query ["id"]);
   view.set_variable ("id", filter::strings::convert_to_string (id));
   
   
-  if (request->query.count ("severity")) {
-    int severity = filter::strings::convert_to_int (request->query["severity"]);
+  if (webserver_request.query.count ("severity")) {
+    int severity = filter::strings::convert_to_int (webserver_request.query["severity"]);
     notes_logic.setRawSeverity (id, severity);
-    redirect_browser (request, notes_actions_url () + "?id=" + filter::strings::convert_to_string (id));
-    return "";
+    redirect_browser (std::addressof(webserver_request), notes_actions_url () + "?id=" + filter::strings::convert_to_string (id));
+    return std::string();
   }
   
   

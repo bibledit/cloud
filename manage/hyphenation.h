@@ -24,5 +24,5 @@
 class Webserver_Request;
 
 const char * manage_hyphenation_url ();
-bool manage_hyphenation_acl (void * webserver_request);
-std::string manage_hyphenation (void * webserver_request);
+bool manage_hyphenation_acl (Webserver_Request& webserver_request);
+std::string manage_hyphenation (Webserver_Request& webserver_request);

@@ -43,25 +43,23 @@ const char * developer_index_url ()
 }
 
 
-bool developer_index_acl (void * webserver_request)
+bool developer_index_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::admin ());
+  return Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::admin ());
 }
 
 
-string developer_index (void * webserver_request)
+string developer_index (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  
-  if (request->query.count ("log")) {
-    string message = request->query ["log"];
+  if (webserver_request.query.count ("log")) {
+    string message = webserver_request.query ["log"];
     std::cerr << message << std::endl;
     return string();
   }
   
   string page {};
 
-  Assets_Header header = Assets_Header ("Development", webserver_request);
+  Assets_Header header = Assets_Header ("Development", std::addressof(webserver_request));
   header.notify_it_on ();
   page = header.run ();
 
@@ -69,7 +67,7 @@ string developer_index (void * webserver_request)
 
   string code {};
   
-  string debug = request->query ["debug"];
+  string debug = webserver_request.query ["debug"];
   
   // It is cleaner and easier to move the following task to the binary ./generate.
   if (debug == "etcbc4download") {

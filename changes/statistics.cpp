@@ -41,13 +41,13 @@ string changes_statistics_url ()
 }
 
 
-bool changes_statistics_acl (void * webserver_request)
+bool changes_statistics_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ());
+  return Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::consultant ());
 }
 
 
-void changes_statistics_add (Assets_View & view, const string & date, int count)
+void changes_statistics_add (Assets_View& view, const string& date, int count)
 {
   if (count) {
     map <string, string> values;
@@ -58,7 +58,7 @@ void changes_statistics_add (Assets_View & view, const string & date, int count)
 }
 
 
-string changes_statistics ([[maybe_unused]] void * webserver_request)
+string changes_statistics ([[maybe_unused]] Webserver_Request& webserver_request)
 {
 #ifdef HAVE_CLIENT
   return string();
@@ -66,17 +66,14 @@ string changes_statistics ([[maybe_unused]] void * webserver_request)
 
 #ifdef HAVE_CLOUD
 
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  
-
   string page {};
-  Assets_Header header = Assets_Header (translate("Change statistics"), request);
+  Assets_Header header = Assets_Header (translate("Change statistics"), std::addressof(webserver_request));
   page += header.run ();
   Assets_View view {};
   
   
   string everyone = translate ("Everyone");
-  string user = request->query["user"];
+  string user = webserver_request.query["user"];
   if (user == everyone) user.clear ();
 
   

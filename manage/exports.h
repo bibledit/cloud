@@ -24,5 +24,5 @@
 class Webserver_Request;
 
 const char * manage_exports_url ();
-bool manage_exports_acl (void * webserver_request);
-std::string manage_exports (void * webserver_request);
+bool manage_exports_acl (Webserver_Request& webserver_request);
+std::string manage_exports (Webserver_Request& webserver_request);

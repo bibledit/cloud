@@ -42,49 +42,49 @@ string notes_comment_url ()
 }
 
 
-bool notes_comment_acl (void * webserver_request)
+bool notes_comment_acl (Webserver_Request& webserver_request)
 {
-  return access_logic::privilege_create_comment_notes (webserver_request);
+  return access_logic::privilege_create_comment_notes (std::addressof(webserver_request));
 }
 
 
-string notes_comment (void * webserver_request)
+string notes_comment (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  Database_Notes database_notes (webserver_request);
-  Notes_Logic notes_logic = Notes_Logic (webserver_request);
+  Database_Notes database_notes (std::addressof(webserver_request));
+  Notes_Logic notes_logic = Notes_Logic (std::addressof(webserver_request));
 
   
   string page;
-  Assets_Header header = Assets_Header (translate("Comment"), request);
+  Assets_Header header = Assets_Header (translate("Comment"), std::addressof(webserver_request));
   page += header.run ();
   Assets_View view;
   string success;
   
   
   int id;
-  if (request->query.count ("id")) id = filter::strings::convert_to_int (request->query ["id"]);
-  else id = filter::strings::convert_to_int (request->post ["id"]);
+  if (webserver_request.query.count ("id")) 
+    id = filter::strings::convert_to_int (webserver_request.query ["id"]);
+  else 
+    id = filter::strings::convert_to_int (webserver_request.post ["id"]);
   
   
-  if (request->post.count ("body")) {
-    string comment = filter::strings::trim (request->post ["body"]);
+  if (webserver_request.post.count ("body")) {
+    string comment = filter::strings::trim (webserver_request.post ["body"]);
     comment = filter_url_tag_to_plus (comment);
     notes_logic.addComment (id, comment);
-    redirect_browser (request, notes_note_url () + "?id=" + filter::strings::convert_to_string (id) + "&temporal=");
+    redirect_browser (std::addressof(webserver_request), notes_note_url () + "?id=" + filter::strings::convert_to_string (id) + "&temporal=");
     return "";
   }
   
   
-  if (request->post.count ("cancel")) {
-    redirect_browser (request, notes_note_url () + "?id=" + filter::strings::convert_to_string (id));
+  if (webserver_request.post.count ("cancel")) {
+    redirect_browser (std::addressof(webserver_request), notes_note_url () + "?id=" + filter::strings::convert_to_string (id));
     return "";
   }
   
   
   view.set_variable ("id", filter::strings::convert_to_string (id));
-  string script =
-  "var noteId = '" + filter::strings::convert_to_string (id) + "';\n";
+  string script = "var noteId = '" + filter::strings::convert_to_string (id) + "';\n";
   view.set_variable ("script", script);
 
 
@@ -96,7 +96,7 @@ string notes_comment (void * webserver_request)
   view.set_variable ("summary", summary);
 
   
-  bool show_note_status = request->database_config_user ()->getShowNoteStatus ();
+  bool show_note_status = webserver_request.database_config_user ()->getShowNoteStatus ();
   if (show_note_status) {
     string status = database_notes.get_status (id);
     view.set_variable ("status", status);

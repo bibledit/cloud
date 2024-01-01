@@ -48,14 +48,14 @@ string sendreceive_index_url ()
 }
 
 
-bool sendreceive_index_acl (void * webserver_request)
+bool sendreceive_index_acl (Webserver_Request& webserver_request)
 {
   // In Client mode, also a Consultant can send/receive.
   if (client_logic_client_enabled ()) {
     return true;
   }
   // The role of Translator or higher enables send/receive.
-  if (Filter_Roles::access_control (webserver_request, Filter_Roles::translator ())) {
+  if (Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::translator ())) {
     return true;
   }
   // No access.
@@ -63,12 +63,9 @@ bool sendreceive_index_acl (void * webserver_request)
 }
 
 
-string sendreceive_index (void * webserver_request)
+string sendreceive_index (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-
-  
-  if (request->query.count ("status")) {
+  if (webserver_request.query.count ("status")) {
     vector <string> bits;
     if (config_globals_syncing_bibles)    bits.push_back (translate ("Bibles"));
     if (config_globals_syncing_notes)     bits.push_back (translate ("Notes"));
@@ -83,33 +80,33 @@ string sendreceive_index (void * webserver_request)
   
   
   string page;
-  Assets_Header header = Assets_Header (translate("Send/Receive"), request);
+  Assets_Header header = Assets_Header (translate("Send/Receive"), std::addressof(webserver_request));
   header.add_bread_crumb (menu_logic_tools_menu (), menu_logic_tools_text ());
   page = header.run ();
   Assets_View view;
   
   
   string bible;
-  if (request->query.count ("bible")) {
-    bible = request->query["bible"];
+  if (webserver_request.query.count ("bible")) {
+    bible = webserver_request.query["bible"];
     if (bible.empty()) {
       Dialog_List dialog_list = Dialog_List ("index", translate("Select a Bible"), "", "");
-      vector <string> bibles = access_bible::bibles (request);
+      vector <string> bibles = access_bible::bibles (std::addressof(webserver_request));
       for (auto & selectable_bible : bibles) {
         // Select Bibles the user has write access to.
-        if (access_bible::write (request, selectable_bible)) {
+        if (access_bible::write (std::addressof(webserver_request), selectable_bible)) {
           dialog_list.add_row (selectable_bible, "bible", selectable_bible);
         }
       }
       page += dialog_list.run ();
       return page;
     } else {
-      request->database_config_user()->setBible (bible);
+      webserver_request.database_config_user()->setBible (bible);
     }
   }
   
   
-  bible = access_bible::clamp (request, request->database_config_user()->getBible ());
+  bible = access_bible::clamp (std::addressof(webserver_request), webserver_request.database_config_user()->getBible ());
   view.set_variable ("bible", bible);
 
 
@@ -121,14 +118,14 @@ string sendreceive_index (void * webserver_request)
   }
   
   
-  if (request->query.count ("runbible")) {
+  if (webserver_request.query.count ("runbible")) {
     sendreceive_queue_bible (bible);
     view.set_variable ("successbible", starting_to_sync);
   }
   
   
-  string checkbox = request->post ["checkbox"];
-  bool checked = filter::strings::convert_to_bool (request->post ["checked"]);
+  string checkbox = webserver_request.post ["checkbox"];
+  bool checked = filter::strings::convert_to_bool (webserver_request.post ["checked"]);
   if (checkbox == "repeatbible") {
     Database_Config_Bible::setRepeatSendReceive (bible, checked);
     return "";
@@ -145,7 +142,7 @@ string sendreceive_index (void * webserver_request)
   }
   
   
-  if (request->query.count ("runsync")) {
+  if (webserver_request.query.count ("runsync")) {
     if (sendreceive_sync_queued ()) {
       view.set_variable ("error", translate("Still sending and receiving from the last time."));
     }
@@ -156,13 +153,13 @@ string sendreceive_index (void * webserver_request)
 
   {
     auto sync_method = tasks::enums::paratext_sync::none;
-    if (request->query.count ("syncparatext")) {
+    if (webserver_request.query.count ("syncparatext")) {
       sync_method = tasks::enums::paratext_sync::bi_directional;
     }
-    if (request->query.count ("bibledit2paratext")) {
+    if (webserver_request.query.count ("bibledit2paratext")) {
       sync_method = tasks::enums::paratext_sync::bibledit_to_paratext;
     }
-    if (request->query.count ("paratext2bibledit")) {
+    if (webserver_request.query.count ("paratext2bibledit")) {
       sync_method = tasks::enums::paratext_sync::paratext_to_bibledit;
     }
     if (sync_method != tasks::enums::paratext_sync::none) {
@@ -187,8 +184,8 @@ string sendreceive_index (void * webserver_request)
 #endif
 
   
-  if (request->query.count ("repeatsync")) {
-    int repeatsync = filter::strings::convert_to_int (request->query["repeatsync"]);
+  if (webserver_request.query.count ("repeatsync")) {
+    int repeatsync = filter::strings::convert_to_int (webserver_request.query["repeatsync"]);
     // Clamp the values.
     if (repeatsync < 0) repeatsync = 0;
     if (repeatsync > 2) repeatsync = 2;
@@ -222,7 +219,7 @@ string sendreceive_index (void * webserver_request)
   }
 
   
-  bool basic_mode = config::logic::basic_mode (request);
+  bool basic_mode = config::logic::basic_mode (std::addressof(webserver_request));
   if (basic_mode) view.enable_zone("basicmode");
   
   page += view.render ("sendreceive", "index");

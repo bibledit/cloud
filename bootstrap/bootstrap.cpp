@@ -473,13 +473,13 @@ void bootstrap_index (Webserver_Request& webserver_request)
     return;
   }
   
-  if ((url == notes_comment_url ()) && browser_request_security_okay (webserver_request) && notes_comment_acl (std::addressof(webserver_request))) {
-    webserver_request.reply = notes_comment (std::addressof(webserver_request));
+  if ((url == notes_comment_url ()) && browser_request_security_okay (webserver_request) && notes_comment_acl (webserver_request)) {
+    webserver_request.reply = notes_comment (webserver_request);
     return;
   }
   
-  if ((url == notes_actions_url ()) && browser_request_security_okay (webserver_request) && notes_actions_acl (std::addressof(webserver_request))) {
-    webserver_request.reply = notes_actions (std::addressof(webserver_request));
+  if ((url == notes_actions_url ()) && browser_request_security_okay (webserver_request) && notes_actions_acl (webserver_request)) {
+    webserver_request.reply = notes_actions (webserver_request);
     return;
   }
   
@@ -629,23 +629,23 @@ void bootstrap_index (Webserver_Request& webserver_request)
     return;
   }
   
-  if ((url == changes_changes_url ()) && browser_request_security_okay (webserver_request) && changes_changes_acl (std::addressof(webserver_request))) {
-    webserver_request.reply = changes_changes (std::addressof(webserver_request));
+  if ((url == changes_changes_url ()) && browser_request_security_okay (webserver_request) && changes_changes_acl (webserver_request)) {
+    webserver_request.reply = changes_changes (webserver_request);
     return;
   }
   
-  if ((url == changes_change_url ()) && browser_request_security_okay (webserver_request) && changes_change_acl (std::addressof(webserver_request))) {
-    webserver_request.reply = changes_change (std::addressof(webserver_request));
+  if ((url == changes_change_url ()) && browser_request_security_okay (webserver_request) && changes_change_acl (webserver_request)) {
+    webserver_request.reply = changes_change (webserver_request);
     return;
   }
   
-  if ((url == changes_manage_url ()) && browser_request_security_okay (webserver_request) && changes_manage_acl (std::addressof(webserver_request))) {
-    webserver_request.reply = changes_manage (std::addressof(webserver_request));
+  if ((url == changes_manage_url ()) && browser_request_security_okay (webserver_request) && changes_manage_acl (webserver_request)) {
+    webserver_request.reply = changes_manage (webserver_request);
     return;
   }
   
-  if ((url == changes_statistics_url ()) && browser_request_security_okay (webserver_request) && changes_statistics_acl (std::addressof(webserver_request))) {
-    webserver_request.reply = changes_statistics (std::addressof(webserver_request));
+  if ((url == changes_statistics_url ()) && browser_request_security_okay (webserver_request) && changes_statistics_acl (webserver_request)) {
+    webserver_request.reply = changes_statistics (webserver_request);
     return;
   }
 
@@ -656,34 +656,33 @@ void bootstrap_index (Webserver_Request& webserver_request)
   }
   
   // Tools menu.
-  if ((url == sendreceive_index_url ()) && browser_request_security_okay (webserver_request) && sendreceive_index_acl (std::addressof(webserver_request))) {
-    webserver_request.reply = sendreceive_index (std::addressof(webserver_request));
+  if ((url == sendreceive_index_url ()) && browser_request_security_okay (webserver_request) && sendreceive_index_acl (webserver_request)) {
+    webserver_request.reply = sendreceive_index (webserver_request);
     return;
   }
   
-  if ((url == manage_exports_url ()) && browser_request_security_okay (webserver_request) && manage_exports_acl (std::addressof(webserver_request))) {
-    webserver_request.reply = manage_exports (std::addressof(webserver_request));
+  if ((url == manage_exports_url ()) && browser_request_security_okay (webserver_request) && manage_exports_acl (webserver_request)) {
+    webserver_request.reply = manage_exports (webserver_request);
     return;
   }
   
-  if ((url == manage_hyphenation_url ()) && browser_request_security_okay (webserver_request) && manage_hyphenation_acl (std::addressof(webserver_request))) {
-    webserver_request.reply = manage_hyphenation (std::addressof(webserver_request));
+  if ((url == manage_hyphenation_url ()) && browser_request_security_okay (webserver_request) && manage_hyphenation_acl (webserver_request)) {
+    webserver_request.reply = manage_hyphenation (webserver_request);
     return;
   }
   
-  if ((url == developer_index_url ()) && browser_request_security_okay (webserver_request) && developer_index_acl (std::addressof(webserver_request))) {
-    webserver_request.reply = developer_index (std::addressof(webserver_request));
+  if ((url == developer_index_url ()) && browser_request_security_okay (webserver_request) && developer_index_acl (webserver_request)) {
+    webserver_request.reply = developer_index (webserver_request);
     return;
   }
   
-  // Settings menu.
-  if ((url == personalize_index_url ()) && browser_request_security_okay (webserver_request) && personalize_index_acl (std::addressof(webserver_request))) {
-    webserver_request.reply = personalize_index (std::addressof(webserver_request));
+  if ((url == personalize_index_url ()) && browser_request_security_okay (webserver_request) && personalize_index_acl (webserver_request)) {
+    webserver_request.reply = personalize_index (webserver_request);
     return;
   }
   
-  if ((url == manage_users_url ()) && browser_request_security_okay (webserver_request) && manage_users_acl (std::addressof(webserver_request))) {
-    webserver_request.reply = manage_users (std::addressof(webserver_request));
+  if ((url == manage_users_url ()) && browser_request_security_okay (webserver_request) && manage_users_acl (webserver_request)) {
+    webserver_request.reply = manage_users (webserver_request);
     return;
   }
 
@@ -934,7 +933,7 @@ void bootstrap_index (Webserver_Request& webserver_request)
   
 #ifdef HAVE_CLIENT
   if (extension == "tar") {
-    http_stream_file (request, false);
+    http_stream_file (webserver_request, false);
     return;
   }
 #endif

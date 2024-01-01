@@ -24,5 +24,5 @@
 class Webserver_Request;
 
 std::string sendreceive_index_url ();
-bool sendreceive_index_acl (void * webserver_request);
-std::string sendreceive_index (void * webserver_request);
+bool sendreceive_index_acl (Webserver_Request& webserver_request);
+std::string sendreceive_index (Webserver_Request& webserver_request);

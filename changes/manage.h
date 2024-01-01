@@ -24,5 +24,5 @@
 class Webserver_Request;
 
 std::string changes_manage_url ();
-bool changes_manage_acl (void * webserver_request);
-std::string changes_manage (void * webserver_request);
+bool changes_manage_acl (Webserver_Request& webserver_request);
+std::string changes_manage (Webserver_Request& webserver_request);

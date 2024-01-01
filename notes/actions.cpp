@@ -45,74 +45,73 @@ string notes_actions_url ()
 }
 
 
-bool notes_actions_acl (void * webserver_request)
+bool notes_actions_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ());
+  return Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::consultant ());
 }
 
 
-string notes_actions (void * webserver_request)
+string notes_actions (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  Database_Notes database_notes (webserver_request);
-  Notes_Logic notes_logic = Notes_Logic (webserver_request);
+  Database_Notes database_notes (std::addressof(webserver_request));
+  Notes_Logic notes_logic = Notes_Logic (std::addressof(webserver_request));
 
   
   string page;
-  Assets_Header header = Assets_Header (translate("Actions"), request);
+  Assets_Header header = Assets_Header (translate("Actions"), std::addressof(webserver_request));
   header.set_navigator ();
   page += header.run ();
   Assets_View view;
   string success, error;
 
   
-  string user = request->session_logic()->currentUser ();
-  int level = request->session_logic()->currentLevel ();
+  string user = webserver_request.session_logic()->currentUser ();
+  int level = webserver_request.session_logic()->currentLevel ();
 
   
-  int id = filter::strings::convert_to_int (request->query ["id"]);
-  if (!id) id = filter::strings::convert_to_int (request->post ["val1"]);
+  int id = filter::strings::convert_to_int (webserver_request.query ["id"]);
+  if (!id) id = filter::strings::convert_to_int (webserver_request.post ["val1"]);
 
   
-  string checkbox = request->post ["checkbox"];
-  bool checked = filter::strings::convert_to_bool (request->post ["checked"]);
+  string checkbox = webserver_request.post ["checkbox"];
+  bool checked = filter::strings::convert_to_bool (webserver_request.post ["checked"]);
 
 
-  if (request->query.count ("unsubscribe")) {
+  if (webserver_request.query.count ("unsubscribe")) {
     notes_logic.unsubscribe (id);
   }
   
   
-  if (request->query.count ("subscribe")) {
+  if (webserver_request.query.count ("subscribe")) {
     notes_logic.subscribe (id);
   }
   
   
-  if (request->query.count ("unassign")) {
-    string unassign = request->query["unassign"];
+  if (webserver_request.query.count ("unassign")) {
+    string unassign = webserver_request.query["unassign"];
     notes_logic.unassignUser (id, unassign);
   }
   
   
-  if (request->query.count ("done")) {
+  if (webserver_request.query.count ("done")) {
     notes_logic.unassignUser (id, user);
   }
   
   
-  if (request->query.count ("markdel")) {
+  if (webserver_request.query.count ("markdel")) {
     notes_logic.markForDeletion (id);
     success = translate("The note will be deleted after a week.") + " " + translate ("Adding a comment to the note cancels the deletion.");
   }
   
   
-  if (request->query.count ("unmarkdel")) {
+  if (webserver_request.query.count ("unmarkdel")) {
     notes_logic.unmarkForDeletion (id);
   }
   
   
-  if (request->query.count ("delete")) {
+  if (webserver_request.query.count ("delete")) {
     notes_logic.erase (id);
-    redirect_browser (request, notes_index_url ());
+    redirect_browser (std::addressof(webserver_request), notes_index_url ());
     return "";
   }
   
@@ -174,7 +173,7 @@ string notes_actions (void * webserver_request)
   if (level >= Filter_Roles::manager ()) view.enable_zone ("rawedit");
   
 
-  if (access_logic::privilege_delete_consultation_notes (webserver_request))
+  if (access_logic::privilege_delete_consultation_notes (std::addressof(webserver_request)))
     view.enable_zone ("deletenote");
   bool marked = database_notes.is_marked_for_deletion (id);
   if (marked) view.enable_zone ("marked");

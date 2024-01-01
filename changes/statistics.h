@@ -24,5 +24,5 @@
 class Webserver_Request;
 
 std::string changes_statistics_url ();
-bool changes_statistics_acl (void * webserver_request);
-std::string changes_statistics (void * webserver_request);
+bool changes_statistics_acl (Webserver_Request& webserver_request);
+std::string changes_statistics (Webserver_Request& webserver_request);

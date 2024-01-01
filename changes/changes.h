@@ -24,5 +24,5 @@
 class Webserver_Request;
 
 std::string changes_changes_url ();
-bool changes_changes_acl (void * webserver_request);
-std::string changes_changes (void * webserver_request);
+bool changes_changes_acl (Webserver_Request& webserver_request);
+std::string changes_changes (Webserver_Request& webserver_request);

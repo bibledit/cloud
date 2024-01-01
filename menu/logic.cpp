@@ -310,7 +310,7 @@ string menu_logic_basic_categories (void * webserver_request)
     html.push_back (menu_logic_create_item (editone2_index_url (), menu_logic_translate_text (), true, "", color));
   }
   
-  if (changes_changes_acl (webserver_request)) {
+  if (changes_changes_acl (*request)) {
     if (request->database_config_user ()->getMenuChangesInBasicMode ()) {
       html.push_back (menu_logic_create_item (changes_changes_url (), menu_logic_changes_text (), true, "", color));
     }
@@ -320,7 +320,7 @@ string menu_logic_basic_categories (void * webserver_request)
     html.push_back (menu_logic_create_item (notes_index_url (), menu_logic_consultation_notes_text (), true, "", color));
   }
   
-  if (personalize_index_acl (webserver_request)) {
+  if (personalize_index_acl (*request)) {
     html.push_back (menu_logic_create_item (personalize_index_url (), "⋮", true, "", color));
   }
 
@@ -442,7 +442,7 @@ string menu_logic_translate_category (void * webserver_request, string * tooltip
     }
   }
   
-  if (changes_changes_acl (webserver_request)) {
+  if (changes_changes_acl (*request)) {
     html.push_back (menu_logic_create_item (changes_changes_url (), menu_logic_changes_text (), true, "", ""));
     labels.push_back (menu_logic_changes_text ());
   }
@@ -619,28 +619,28 @@ string menu_logic_tools_category (void * webserver_request, string * tooltip)
     }
     
     if (label == send_receive) {
-      if (sendreceive_index_acl (webserver_request)) {
+      if (sendreceive_index_acl (*request)) {
         html.push_back (menu_logic_create_item (sendreceive_index_url (), label, true, "", ""));
         tiplabels.push_back (label);
       }
     }
     
     if (label == hyphenation) {
-      if (manage_hyphenation_acl (webserver_request)) {
+      if (manage_hyphenation_acl (*request)) {
         html.push_back (menu_logic_create_item (manage_hyphenation_url (), label, true, "", ""));
         tiplabels.push_back (label);
       }
     }
     
     if (label == develop) {
-      if (developer_index_acl (webserver_request)) {
+      if (developer_index_acl (*request)) {
         html.push_back (menu_logic_create_item (developer_index_url (), label, true, "", ""));
         tiplabels.push_back (label);
       }
     }
     
     if (label == exporting) {
-      if (manage_exports_acl (webserver_request)) {
+      if (manage_exports_acl (*request)) {
         html.push_back (menu_logic_create_item (manage_exports_url (), label, true, "", ""));
         tiplabels.push_back (label);
       }
@@ -752,8 +752,8 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
       // Only client can cache resources.
       // The Cloud is always online, with a fast connection, and can easily fetch a resource from the web.
       // Many Cloud instances may run on one server, and if the Cloud were to cache resources,
-      /// it was going to use a huge amount of disk space.
-      if (resource_cache_acl (webserver_request)) {
+      // it would be going to use a huge amount of disk space.
+      if (resource_cache_acl (*request)) {
         html.push_back (menu_logic_create_item (resource_cache_url (), menu_logic_resources_text (), true, "", ""));
         tiplabels.push_back (menu_logic_resources_text ());
       }
@@ -763,7 +763,7 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
     if (label == changes) {
 #ifndef HAVE_CLIENT
       // Managing change notifications only on server, not on client.
-      if (changes_manage_acl (webserver_request)) {
+      if (changes_manage_acl (*request)) {
         html.push_back (menu_logic_create_item (changes_manage_url (), menu_logic_changes_text (), true, "", ""));
         tiplabels.push_back (menu_logic_changes_text ());
       }
@@ -771,7 +771,7 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
     }
     
     if (label == preferences) {
-      if (personalize_index_acl (webserver_request)) {
+      if (personalize_index_acl (*request)) {
         html.push_back (menu_logic_create_item (personalize_index_url (), label, true, "", ""));
         tiplabels.push_back (label);
       }
@@ -779,7 +779,7 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
     
     if (label == users) {
 #ifndef HAVE_CLIENT
-      if (manage_users_acl (webserver_request)) {
+      if (manage_users_acl (*request)) {
         html.push_back (menu_logic_create_item (manage_users_url (), menu_logic_manage_users_text (), true, "", ""));
         tiplabels.push_back (menu_logic_manage_users_text ());
       }

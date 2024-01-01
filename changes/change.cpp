@@ -47,7 +47,6 @@
 #endif
 #pragma GCC diagnostic pop
 using namespace std;
-using namespace pugi;
 
 
 string changes_change_url ()
@@ -56,23 +55,22 @@ string changes_change_url ()
 }
 
 
-bool changes_change_acl (void * webserver_request)
+bool changes_change_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ());
+  return Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::consultant ());
 }
 
 
-string changes_change (void * webserver_request)
+string changes_change (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   Database_Modifications database_modifications {};
-  Database_Notes database_notes = Database_Notes (request);
-  Notes_Logic notes_logic = Notes_Logic (request);
+  Database_Notes database_notes = Database_Notes (std::addressof(webserver_request));
+  Notes_Logic notes_logic = Notes_Logic (std::addressof(webserver_request));
 
   
   // Note unsubscribe handler.
-  if (request->post.count ("unsubscribe")) {
-    string unsubscribe = request->post["unsubscribe"];
+  if (webserver_request.post.count ("unsubscribe")) {
+    string unsubscribe = webserver_request.post["unsubscribe"];
     unsubscribe.erase (0, 11);
     notes_logic.unsubscribe (filter::strings::convert_to_int (unsubscribe));
     return string();
@@ -80,17 +78,17 @@ string changes_change (void * webserver_request)
   
   
   // Note unassign handler.
-  if (request->post.count ("unassign")) {
-    string unassign = request->post["unassign"];
+  if (webserver_request.post.count ("unassign")) {
+    string unassign = webserver_request.post["unassign"];
     unassign.erase (0, 8);
-    notes_logic.unassignUser (filter::strings::convert_to_int (unassign), request->session_logic()->currentUser ());
+    notes_logic.unassignUser (filter::strings::convert_to_int (unassign), webserver_request.session_logic()->currentUser ());
     return string();
   }
   
   
   // Note mark for deletion handler.
-  if (request->post.count("delete")) {
-    string erase = request->post["delete"];
+  if (webserver_request.post.count("delete")) {
+    string erase = webserver_request.post["delete"];
     erase.erase (0, 6);
     const int identifier {filter::strings::convert_to_int (erase)};
     notes_logic.markForDeletion (identifier);
@@ -100,12 +98,12 @@ string changes_change (void * webserver_request)
   
   // From here on the script will produce output.
   Assets_View view {};
-  const string username {request->session_logic()->currentUser ()};
-  const int level {request->session_logic ()->currentLevel ()};
+  const string username {webserver_request.session_logic()->currentUser ()};
+  const int level {webserver_request.session_logic ()->currentLevel ()};
   
                       
   // The identifier of the change notification.
-  const int id {filter::strings::convert_to_int (request->query ["get"])};
+  const int id {filter::strings::convert_to_int (webserver_request.query ["get"])};
   view.set_variable ("id", filter::strings::convert_to_string (id));
                       
                       
@@ -122,7 +120,7 @@ string changes_change (void * webserver_request)
 
   // Bibles and passage.
   const Passage passage {database_modifications.getNotificationPassage (id)};
-  const vector <string> bibles {access_bible::bibles (request)};
+  const vector <string> bibles {access_bible::bibles (std::addressof(webserver_request))};
   
   
   // Get notes for the passage.
@@ -162,21 +160,23 @@ string changes_change (void * webserver_request)
   
   
   // Whether there"s a live notes editor available.
-  bool live_notes_editor = Ipc_Notes::alive (webserver_request, false);
-  if (live_notes_editor) view.enable_zone ("alive");
-  else view.enable_zone ("dead");
+  bool live_notes_editor = Ipc_Notes::alive (std::addressof(webserver_request), false);
+  if (live_notes_editor)
+    view.enable_zone ("alive");
+  else 
+    view.enable_zone ("dead");
 
 
   // Details for the notes.
-  xml_document notes_document {};
+  pugi::xml_document notes_document {};
   for (const auto note : notes) {
     string summary = database_notes.get_summary (note);
     summary = filter::strings::escape_special_xml_characters (summary);
     bool subscription = database_notes.is_subscribed (note, username);
     bool assignment = database_notes.is_assigned (note, username);
-    xml_node tr_node = notes_document.append_child("tr");
-    xml_node td_node = tr_node.append_child("td");
-    xml_node a_node = td_node.append_child("a");
+    pugi::xml_node tr_node = notes_document.append_child("tr");
+    pugi::xml_node td_node = tr_node.append_child("td");
+    pugi::xml_node a_node = td_node.append_child("a");
     string href {};
     if (live_notes_editor) {
       a_node.append_attribute("class") = "opennote";
@@ -188,25 +188,25 @@ string changes_change (void * webserver_request)
     a_node.text().set(summary.c_str());
     td_node = tr_node.append_child("td");
     if (subscription) {
-      xml_node a_node2 = td_node.append_child("a");
+      pugi::xml_node a_node2 = td_node.append_child("a");
       a_node2.append_attribute("href") = ("unsubscribe" + filter::strings::convert_to_string (note)).c_str();
       a_node2.text().set(("[" + translate("unsubscribe") + "]").c_str());
     }
     td_node = tr_node.append_child("td");
     if (assignment) {
-      xml_node a_node2 = td_node.append_child("a");
+      pugi::xml_node a_node2 = td_node.append_child("a");
       a_node2.append_attribute("href") = ("unassign" + filter::strings::convert_to_string (note)).c_str();
       a_node2.text().set(("[" + translate("I have done my part on it") + "]").c_str());
     }
     td_node = tr_node.append_child("td");
     if (level >= Filter_Roles::manager ()) {
-      xml_node a_node2 = td_node.append_child("a");
+      pugi::xml_node a_node2 = td_node.append_child("a");
       a_node2.append_attribute("href") = ("delete" + filter::strings::convert_to_string (note)).c_str();
       a_node2.text().set(("[" + translate("mark for deletion") + "]").c_str());
     }
   }
   stringstream notesblock {};
-  notes_document.print(notesblock, "", format_raw);
+  notes_document.print(notesblock, "", pugi::format_raw);
   view.set_variable ("notesblock", notesblock.str());
 
   

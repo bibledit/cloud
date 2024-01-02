@@ -24,5 +24,5 @@
 class Webserver_Request;
 
 std::string paratext_index_url ();
-bool paratext_index_acl (void * webserver_request);
-std::string paratext_index (void * webserver_request);
+bool paratext_index_acl (Webserver_Request& webserver_request);
+std::string paratext_index (Webserver_Request& webserver_request);

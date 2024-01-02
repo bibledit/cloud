@@ -24,5 +24,5 @@
 class Webserver_Request;
 
 std::string client_index_url ();
-bool client_index_acl (void * webserver_request);
-std::string client_index (void * webserver_request);
+bool client_index_acl (Webserver_Request& webserver_request);
+std::string client_index (Webserver_Request& webserver_request);

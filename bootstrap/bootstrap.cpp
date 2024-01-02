@@ -736,28 +736,28 @@ void bootstrap_index (Webserver_Request& webserver_request)
     return;
   }
   
-  if ((url == collaboration_index_url ()) && browser_request_security_okay (webserver_request) && collaboration_index_acl (std::addressof(webserver_request))) {
-    webserver_request.reply = collaboration_index (std::addressof(webserver_request));
+  if ((url == collaboration_index_url ()) && browser_request_security_okay (webserver_request) && collaboration_index_acl (webserver_request)) {
+    webserver_request.reply = collaboration_index (webserver_request);
     return;
   }
   
-  if ((url == client_index_url ()) && browser_request_security_okay (webserver_request) && client_index_acl (std::addressof(webserver_request))) {
-    webserver_request.reply = client_index (std::addressof(webserver_request));
+  if ((url == client_index_url ()) && browser_request_security_okay (webserver_request) && client_index_acl (webserver_request)) {
+    webserver_request.reply = client_index (webserver_request);
     return;
   }
   
-  if ((url == mapping_index_url ()) && browser_request_security_okay (webserver_request) && mapping_index_acl (std::addressof(webserver_request))) {
-    webserver_request.reply = mapping_index (std::addressof(webserver_request));
+  if ((url == mapping_index_url ()) && browser_request_security_okay (webserver_request) && mapping_index_acl (webserver_request)) {
+    webserver_request.reply = mapping_index (webserver_request);
     return;
   }
   
-  if ((url == mapping_map_url ()) && browser_request_security_okay (webserver_request) && mapping_map_acl (std::addressof(webserver_request))) {
-    webserver_request.reply = mapping_map (std::addressof(webserver_request));
+  if ((url == mapping_map_url ()) && browser_request_security_okay (webserver_request) && mapping_map_acl (webserver_request)) {
+    webserver_request.reply = mapping_map (webserver_request);
     return;
   }
   
-  if ((url == paratext_index_url ()) && browser_request_security_okay (webserver_request) && paratext_index_acl (std::addressof(webserver_request))) {
-    webserver_request.reply = paratext_index (std::addressof(webserver_request));
+  if ((url == paratext_index_url ()) && browser_request_security_okay (webserver_request) && paratext_index_acl (webserver_request)) {
+    webserver_request.reply = paratext_index (webserver_request);
     return;
   }
   

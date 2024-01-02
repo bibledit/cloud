@@ -24,5 +24,5 @@
 class Webserver_Request;
 
 std::string mapping_map_url ();
-bool mapping_map_acl (void * webserver_request);
-std::string mapping_map (void * webserver_request);
+bool mapping_map_acl (Webserver_Request& webserver_request);
+std::string mapping_map (Webserver_Request& webserver_request);

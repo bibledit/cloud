@@ -24,5 +24,5 @@
 class Webserver_Request;
 
 std::string collaboration_index_url ();
-bool collaboration_index_acl (void * webserver_request);
-std::string collaboration_index (void * webserver_request);
+bool collaboration_index_acl (Webserver_Request& webserver_request);
+std::string collaboration_index (Webserver_Request& webserver_request);

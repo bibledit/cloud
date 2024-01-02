@@ -40,18 +40,16 @@ std::string collaboration_index_url ()
 }
 
 
-bool collaboration_index_acl (void * webserver_request)
+bool collaboration_index_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::admin ());
+  return Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::admin ());
 }
 
 
-std::string collaboration_index (void * webserver_request)
+std::string collaboration_index (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  
   std::string page {};
-  Assets_Header header = Assets_Header (translate("Repository"), request);
+  Assets_Header header = Assets_Header (translate("Repository"), std::addressof(webserver_request));
   header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   page = header.run ();
   Assets_View view;
@@ -60,13 +58,13 @@ std::string collaboration_index (void * webserver_request)
 #ifdef HAVE_CLOUD
 
   
-  std::string object = request->query ["object"];
-  if (request->query.count ("select")) {
-    const std::string& select = request->query["select"];
+  std::string object = webserver_request.query ["object"];
+  if (webserver_request.query.count ("select")) {
+    const std::string& select = webserver_request.query["select"];
     if (select.empty()) {
       Dialog_List dialog_list = Dialog_List ("index", translate("Which Bible are you going to use?"), "", "");
       dialog_list.add_query ("object", object);
-      const std::vector <std::string>& bibles = request->database_bibles()->get_bibles();
+      const std::vector <std::string>& bibles = webserver_request.database_bibles()->get_bibles();
       for (const auto& value : bibles) {
         dialog_list.add_row (value, "select", value);
       }
@@ -83,7 +81,7 @@ std::string collaboration_index (void * webserver_request)
   const std::string& repositoryfolder = filter_git_directory (object);
 
   
-  if (request->query.count ("disable")) {
+  if (webserver_request.query.count ("disable")) {
     Database_Config_Bible::setRemoteRepositoryUrl (object, "");
     filter_url_rmdir (repositoryfolder);
   }

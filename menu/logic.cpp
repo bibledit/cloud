@@ -810,7 +810,7 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
     }
     
     if (label == mappings) {
-      if (mapping_index_acl (webserver_request)) {
+      if (mapping_index_acl (*request)) {
         html.push_back (menu_logic_create_item (mapping_index_url (), menu_logic_mapping_index_text (), true, "", ""));
         tiplabels.push_back (menu_logic_mapping_index_text ());
       }
@@ -818,7 +818,7 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
     
 #ifndef HAVE_CLIENT
     if (label == repository) {
-      if (collaboration_index_acl (webserver_request)) {
+      if (collaboration_index_acl (*request)) {
         html.push_back (menu_logic_create_item (collaboration_index_url (), label, true, "", ""));
         tiplabels.push_back (label);
       }
@@ -828,13 +828,13 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
     if (label == cloud) {
       // If the installation is not prepared for Client mode, disable the Cloud menu item.
       // But keep the menu item in an open installation.
-      bool cloud_menu = client_index_acl (webserver_request);
+      bool cloud_menu = client_index_acl (*request);
 #ifndef HAVE_CLIENT
       cloud_menu = false;
 #endif
       if (config::logic::demo_enabled ()) cloud_menu = true;
       if (cloud_menu) {
-        if (client_index_acl (webserver_request)) {
+        if (client_index_acl (*request)) {
           html.push_back (menu_logic_create_item (client_index_url (), label, true, "", ""));
           tiplabels.push_back (client_index_url ());
         }

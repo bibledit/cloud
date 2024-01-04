@@ -24,5 +24,5 @@
 class Webserver_Request;
 
 std::string search_search2_url ();
-bool search_search2_acl (void * webserver_request);
-std::string search_search2 (void * webserver_request);
+bool search_search2_acl (Webserver_Request& webserver_request);
+std::string search_search2 (Webserver_Request& webserver_request);

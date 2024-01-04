@@ -34,28 +34,27 @@ string public_notes_url ()
 }
 
 
-bool public_notes_acl (void * webserver_request)
+bool public_notes_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::guest ());
+  return Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::guest ());
 }
 
 
-string public_notes (void * webserver_request)
+string public_notes (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  Database_Notes database_notes (webserver_request);
+  Database_Notes database_notes (std::addressof(webserver_request));
 
   
-  string bible = request->query ["bible"];
-  int book = filter::strings::convert_to_int (request->query ["book"]);
-  int chapter = filter::strings::convert_to_int (request->query ["chapter"]);
+  const string bible = webserver_request.query ["bible"];
+  const int book = filter::strings::convert_to_int (webserver_request.query ["book"]);
+  const int chapter = filter::strings::convert_to_int (webserver_request.query ["chapter"]);
   
   
-  vector <int> identifiers = database_notes.select_notes ({bible}, book, chapter, 0, 1, 0, 0, "", "", "", false, -1, 0, "", -1);
+  const vector <int> identifiers = database_notes.select_notes ({bible}, book, chapter, 0, 1, 0, 0, "", "", "", false, -1, 0, "", -1);
 
   
   stringstream notesblock;
-  for (auto & identifier : identifiers) {
+  for (const auto identifier : identifiers) {
     // Display only public notes.
     if (database_notes.get_public (identifier)) {
       notesblock << "<p class=" << quoted ("nowrap") << ">";

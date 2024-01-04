@@ -24,5 +24,5 @@
 class Webserver_Request;
 
 std::string public_notes_url ();
-bool public_notes_acl (void * webserver_request);
-std::string public_notes (void * webserver_request);
+bool public_notes_acl (Webserver_Request& webserver_request);
+std::string public_notes (Webserver_Request& webserver_request);

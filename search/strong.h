@@ -24,5 +24,5 @@
 class Webserver_Request;
 
 std::string search_strong_url ();
-bool search_strong_acl (void * webserver_request);
-std::string search_strong (void * webserver_request);
+bool search_strong_acl (Webserver_Request& webserver_request);
+std::string search_strong (Webserver_Request& webserver_request);

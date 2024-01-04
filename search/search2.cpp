@@ -43,31 +43,29 @@ string search_search2_url ()
 }
 
 
-bool search_search2_acl (void * webserver_request)
+bool search_search2_acl (Webserver_Request& webserver_request)
 {
-  if (Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ())) return true;
-  auto [ read, write ] = access_bible::any (webserver_request);
+  if (Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::consultant ()))
+    return true;
+  auto [ read, write ] = access_bible::any (std::addressof(webserver_request));
   return read;
 }
 
 
-string search_search2 (void * webserver_request)
+string search_search2 (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
+  string siteUrl = config::logic::site_url (std::addressof(webserver_request));
+  
+  
+  string bible = webserver_request.database_config_user()->getBible ();
+  if (webserver_request.query.count ("bible")) bible = webserver_request.query ["bible"];
 
   
-  string siteUrl = config::logic::site_url (webserver_request);
-  
-  
-  string bible = request->database_config_user()->getBible ();
-  if (request->query.count ("bible")) bible = request->query ["bible"];
-
-  
-  bool hit_is_set = request->query.count ("h");
-  bool query_is_set = request->query.count ("q");
-  int identifier = filter::strings::convert_to_int (request->query ["i"]);
-  string query = request->query ["q"];
-  string hit = request->query ["h"];
+  bool hit_is_set = webserver_request.query.count ("h");
+  bool query_is_set = webserver_request.query.count ("q");
+  int identifier = filter::strings::convert_to_int (webserver_request.query ["i"]);
+  string query = webserver_request.query ["q"];
+  string hit = webserver_request.query ["h"];
 
   
   // Get one search hit.
@@ -113,10 +111,10 @@ string search_search2 (void * webserver_request)
     
     
     // Get extra search parameters and store them all in the volatile database.
-    bool casesensitive = (request->query ["c"] == "true");
-    bool plaintext = (request->query ["p"] == "true");
-    string books = request->query ["b"];
-    string sharing = request->query ["s"];
+    bool casesensitive = (webserver_request.query ["c"] == "true");
+    bool plaintext = (webserver_request.query ["p"] == "true");
+    string books = webserver_request.query ["b"];
+    string sharing = webserver_request.query ["s"];
     Database_Volatile::setValue (identifier, "query", query);
     Database_Volatile::setValue (identifier, "casesensitive", filter::strings::convert_to_string (casesensitive));
     Database_Volatile::setValue (identifier, "plaintext", filter::strings::convert_to_string (plaintext));
@@ -143,7 +141,7 @@ string search_search2 (void * webserver_request)
     
     // Deal with possible searching in the current book only.
     if (books == "currentbook") {
-      int book = Ipc_Focus::getBook (request);
+      int book = Ipc_Focus::getBook (std::addressof(webserver_request));
       vector <Passage> bookpassages;
       for (auto & passage : passages) {
         if (book == passage.m_book) {
@@ -203,22 +201,22 @@ string search_search2 (void * webserver_request)
 
   
   // Set the user chosen Bible as the current Bible.
-  if (request->post.count ("bibleselect")) {
-    string bibleselect = request->post ["bibleselect"];
-    request->database_config_user ()->setBible (bibleselect);
+  if (webserver_request.post.count ("bibleselect")) {
+    string bibleselect = webserver_request.post ["bibleselect"];
+    webserver_request.database_config_user ()->setBible (bibleselect);
     return string();
   }
   
   // Build the advanced search page.
   string page;
-  Assets_Header header = Assets_Header (translate("Search"), request);
+  Assets_Header header = Assets_Header (translate("Search"), std::addressof(webserver_request));
   header.set_navigator ();
   header.add_bread_crumb (menu_logic_search_menu (), menu_logic_search_text ());
   page = header.run ();
   Assets_View view;
   {
     string bible_html;
-    vector <string> accessible_bibles = access_bible::bibles (request);
+    vector <string> accessible_bibles = access_bible::bibles (std::addressof(webserver_request));
     for (auto selectable_bible : accessible_bibles) {
       bible_html = Options_To_Select::add_selection (selectable_bible, selectable_bible, bible_html);
     }

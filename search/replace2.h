@@ -24,5 +24,5 @@
 class Webserver_Request;
 
 std::string search_replace2_url ();
-bool search_replace2_acl (void * webserver_request);
-std::string search_replace2 (void * webserver_request);
+bool search_replace2_acl (Webserver_Request& webserver_request);
+std::string search_replace2 (Webserver_Request& webserver_request);

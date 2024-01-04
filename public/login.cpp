@@ -29,7 +29,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/logs.h>
 #include <database/config/general.h>
 #include <public/index.h>
-using namespace std;
 
 
 const char * public_login_url ()
@@ -38,36 +37,33 @@ const char * public_login_url ()
 }
 
 
-bool public_login_acl (void * webserver_request)
+bool public_login_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::guest ());
+  return Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::guest ());
 }
 
 
-string public_login (void * webserver_request)
+std::string public_login (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-
-  
-  string page;
-  Assets_Header header = Assets_Header (translate ("Public login"), request);
+  std::string page;
+  Assets_Header header = Assets_Header (translate ("Public login"), std::addressof(webserver_request));
   header.touch_css_on ();
   page = header.run ();
   Assets_View view;
 
   
   // Form submission handler.
-  if (!request->post["submit"].empty ()) {
+  if (!webserver_request.post["submit"].empty ()) {
 
     bool form_is_valid = true;
-    string name = request->post["name"];
-    string email = request->post["email"];
+    std::string name = webserver_request.post["name"];
+    const std::string email = webserver_request.post["email"];
     
     // During login it determines whether the device is a touch enabled device.
     // Research shows that most desktop users move with their mouse over the screen before they click,
     // so we can detect those mouse movements through javascript,
     // and store that information with the user and device.
-    bool touch_enabled = filter::strings::convert_to_bool (request->post["touch"]);
+    const bool touch_enabled = filter::strings::convert_to_bool (webserver_request.post["touch"]);
     
     if (name.length () < 2) {
       form_is_valid = false;
@@ -79,11 +75,11 @@ string public_login (void * webserver_request)
       view.set_variable ("email_invalid", translate("The email address is not valid"));
     }
     
-    string other_login = translate ("This account needs a password.") + " " + translate("Please login the other way, through Menu / Login.");
+    std::string other_login = translate ("This account needs a password.") + " " + translate("Please login the other way, through Menu / Login.");
     
     // If the username exists with a level higher than guest, that would not be right.
     if (form_is_valid) {
-      int level = request->database_users ()->get_level (name);
+      const int level = webserver_request.database_users ()->get_level (name);
       if (level > Filter_Roles::guest ()) {
         form_is_valid = false;
         view.set_variable ("error", other_login);
@@ -92,9 +88,9 @@ string public_login (void * webserver_request)
     
     // If the email address exists with a level higher than guest, that would not be right.
     if (form_is_valid) {
-      if (request->database_users ()->emailExists (email)) {
-        string username = request->database_users ()->getEmailToUser (email);
-        int level = request->database_users ()->get_level (username);
+      if (webserver_request.database_users ()->emailExists (email)) {
+        const std::string username = webserver_request.database_users ()->getEmailToUser (email);
+        const  int level = webserver_request.database_users ()->get_level (username);
         if (level > Filter_Roles::guest ()) {
           form_is_valid = false;
           view.set_variable ("error", other_login);
@@ -105,9 +101,9 @@ string public_login (void * webserver_request)
     // If the email address exists with a guest role,
     // update the username to be matching with this email address.
     if (form_is_valid) {
-      if (request->database_users ()->emailExists (email)) {
-        string username = request->database_users ()->getEmailToUser (email);
-        int level = request->database_users ()->get_level (username);
+      if (webserver_request.database_users ()->emailExists (email)) {
+        const std::string username = webserver_request.database_users ()->getEmailToUser (email);
+        const int level = webserver_request.database_users ()->get_level (username);
         if (level == Filter_Roles::guest ()) {
           name = username;
         }
@@ -116,22 +112,22 @@ string public_login (void * webserver_request)
 
     if (form_is_valid) {
       // For public login, the password is taken to be the same as the username.
-      if (request->session_logic()->attempt_login (name, name, touch_enabled)) {
+      if (webserver_request.session_logic()->attempt_login (name, name, touch_enabled)) {
         // Log the login.
-        Database_Logs::log ("User " + request->session_logic()->currentUser () + " logged in");
+        Database_Logs::log ("User " + webserver_request.session_logic()->currentUser () + " logged in");
       } else {
         // Add a new user and login.
-        request->database_users ()->add_user(name, name, Filter_Roles::guest (), email);
-        request->session_logic()->attempt_login (name, name, touch_enabled);
-        Database_Logs::log ("Public account created for user " + request->session_logic()->currentUser () + " with email " + email);
+        webserver_request.database_users ()->add_user(name, name, Filter_Roles::guest (), email);
+        webserver_request.session_logic()->attempt_login (name, name, touch_enabled);
+        Database_Logs::log ("Public account created for user " + webserver_request.session_logic()->currentUser () + " with email " + email);
       }
     }
   }
 
 
-  if (request->session_logic ()->loggedIn ()) {
-    redirect_browser (request, public_index_url ());
-    return "";
+  if (webserver_request.session_logic ()->loggedIn ()) {
+    redirect_browser (std::addressof(webserver_request), public_index_url ());
+    return std::string();
   }
 
   
@@ -141,5 +137,3 @@ string public_login (void * webserver_request)
   
   return page;
 }
-
-

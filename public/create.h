@@ -24,5 +24,5 @@
 class Webserver_Request;
 
 std::string public_create_url ();
-bool public_create_acl (void * webserver_request);
-std::string public_create (void * webserver_request);
+bool public_create_acl (Webserver_Request& webserver_request);
+std::string public_create (Webserver_Request& webserver_request);

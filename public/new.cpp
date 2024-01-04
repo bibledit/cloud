@@ -40,24 +40,21 @@ string public_new_url ()
 }
 
 
-bool public_new_acl (void * webserver_request)
+bool public_new_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::guest ());
+  return Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::guest ());
 }
 
 
-string public_new (void * webserver_request)
+string public_new (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
+  if (!webserver_request.query.empty ()) {
+    string bible = webserver_request.query ["bible"];
+    int book = filter::strings::convert_to_int (webserver_request.query ["book"]);
+    int chapter = filter::strings::convert_to_int (webserver_request.query ["chapter"]);
+    int verse = filter::strings::convert_to_int (webserver_request.query ["verse"]);
 
-
-  if (!request->query.empty ()) {
-    string bible = request->query ["bible"];
-    int book = filter::strings::convert_to_int (request->query ["book"]);
-    int chapter = filter::strings::convert_to_int (request->query ["chapter"]);
-    int verse = filter::strings::convert_to_int (request->query ["verse"]);
-
-    string chapter_usfm = request->database_bibles()->get_chapter (bible, book, chapter);
+    string chapter_usfm = webserver_request.database_bibles()->get_chapter (bible, book, chapter);
     string verse_usfm = filter::usfm::get_verse_text (chapter_usfm, verse);
     string stylesheet = Database_Config_Bible::getExportStylesheet (bible);
     Filter_Text filter_text = Filter_Text (bible);
@@ -69,7 +66,7 @@ string public_new (void * webserver_request)
 
   
   string page;
-  Assets_Header header = Assets_Header (translate ("New feedback"), request);
+  Assets_Header header = Assets_Header (translate ("New feedback"), std::addressof(webserver_request));
   header.set_navigator ();
   header.set_stylesheet ();
   page = header.run ();

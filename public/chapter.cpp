@@ -25,32 +25,29 @@
 #include <filter/css.h>
 #include <webserver/request.h>
 #include <database/config/bible.h>
-using namespace std;
 
 
-string public_chapter_url ()
+std::string public_chapter_url ()
 {
   return "public/chapter";
 }
 
 
-bool public_chapter_acl (void * webserver_request)
+bool public_chapter_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::guest ());
+  return Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::guest ());
 }
 
 
-string public_chapter (void * webserver_request)
+std::string public_chapter (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
- 
-  string bible = request->query ["bible"];
-  int book = filter::strings::convert_to_int (request->query ["book"]);
-  int chapter = filter::strings::convert_to_int (request->query ["chapter"]);
+  const std::string bible = webserver_request.query ["bible"];
+  const int book = filter::strings::convert_to_int (webserver_request.query ["book"]);
+  const int chapter = filter::strings::convert_to_int (webserver_request.query ["chapter"]);
   
-  string stylesheet = Database_Config_Bible::getExportStylesheet (bible);
+  const std::string stylesheet = Database_Config_Bible::getExportStylesheet (bible);
   
-  string usfm = request->database_bibles()->get_chapter (bible, book, chapter);
+  const std::string usfm = webserver_request.database_bibles()->get_chapter (bible, book, chapter);
   
   Filter_Text filter_text = Filter_Text (bible);
   filter_text.html_text_standard = new HtmlText (bible);
@@ -58,7 +55,7 @@ string public_chapter (void * webserver_request)
   filter_text.add_usfm_code (usfm);
   filter_text.run (stylesheet);
 
-  string html = filter_text.html_text_standard->get_inner_html ();
+  const std::string html = filter_text.html_text_standard->get_inner_html ();
   
   return html;
 }

@@ -439,6 +439,8 @@
 /jsonxx/LICENSE
 /ldap
 /lexicon
+/libbibledit.a.MpBesj
+/libbibledit.a.onYIWR
 /library
 /livetest
 /livetest/initialize.sh
@@ -613,6 +615,7 @@
 /pix/splash.jpg
 /pkgdata
 /pkgdata/.!16152!files.txt
+/pkgdata/.!62802!files.txt
 /pkgdata/create.sh
 /pkgdata/files.txt
 /pkgdata/install.sh

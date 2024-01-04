@@ -24,5 +24,5 @@
 class Webserver_Request;
 
 std::string search_similar_url ();
-bool search_similar_acl (void * webserver_request);
-std::string search_similar (void * webserver_request);
+bool search_similar_acl (Webserver_Request& webserver_request);
+std::string search_similar (Webserver_Request& webserver_request);

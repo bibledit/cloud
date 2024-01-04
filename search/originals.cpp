@@ -43,34 +43,32 @@ string search_originals_url ()
 }
 
 
-bool search_originals_acl (void * webserver_request)
+bool search_originals_acl (Webserver_Request& webserver_request)
 {
-  if (Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ())) return true;
-  auto [ read, write ] = access_bible::any (webserver_request);
+  if (Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::consultant ()))
+    return true;
+  auto [ read, write ] = access_bible::any (std::addressof(webserver_request));
   return read;
 }
 
 
-string search_originals (void * webserver_request)
+string search_originals (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-
-
   Database_OsHb database_oshb = Database_OsHb ();
   Database_Sblgnt database_sblgnt = Database_Sblgnt ();
   
   
-  string bible = request->database_config_user()->getBible ();
-  if (request->query.count ("b")) {
-    bible = request->query ["b"];
+  string bible = webserver_request.database_config_user()->getBible ();
+  if (webserver_request.query.count ("b")) {
+    bible = webserver_request.query ["b"];
   }
   
 
-  if (request->query.count ("load")) {
+  if (webserver_request.query.count ("load")) {
     
-    book_id book = static_cast<book_id>(Ipc_Focus::getBook (request));
-    int chapter = Ipc_Focus::getChapter (request);
-    int verse = Ipc_Focus::getVerse (request);
+    book_id book = static_cast<book_id>(Ipc_Focus::getBook (std::addressof(webserver_request)));
+    int chapter = Ipc_Focus::getChapter (std::addressof(webserver_request));
+    int verse = Ipc_Focus::getVerse (std::addressof(webserver_request));
     
     book_type type = database::books::get_type (book);
     
@@ -94,13 +92,13 @@ string search_originals (void * webserver_request)
   }
   
   
-  if (request->query.count ("words")) {
-    string words = request->query ["words"];
+  if (webserver_request.query.count ("words")) {
+    string words = webserver_request.query ["words"];
     
     words = filter::strings::trim (words);
     vector <string> v_words = filter::strings::explode (words, ' ');
     
-    book_id book = static_cast<book_id>(Ipc_Focus::getBook (request));
+    book_id book = static_cast<book_id>(Ipc_Focus::getBook (std::addressof(webserver_request)));
     book_type type = database::books::get_type (book);
     
     // Include items if there are no more search hits
@@ -166,8 +164,8 @@ string search_originals (void * webserver_request)
   }
   
   
-  if (request->query.count ("id")) {
-    int id = filter::strings::convert_to_int (request->query ["id"]);
+  if (webserver_request.query.count ("id")) {
+    int id = filter::strings::convert_to_int (webserver_request.query ["id"]);
     
     // Get the and passage for this identifier.
     Passage passage = filter_integer_to_passage (id);
@@ -189,7 +187,7 @@ string search_originals (void * webserver_request)
   
   string page;
   
-  Assets_Header header = Assets_Header (translate("Search"), request);
+  Assets_Header header = Assets_Header (translate("Search"), std::addressof(webserver_request));
   header.set_navigator ();
   header.add_bread_crumb (menu_logic_search_menu (), menu_logic_search_text ());
   page = header.run ();

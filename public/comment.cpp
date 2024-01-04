@@ -41,39 +41,38 @@ string public_comment_url ()
 }
 
 
-bool public_comment_acl (void * webserver_request)
+bool public_comment_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::guest ());
+  return Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::guest ());
 }
 
 
-string public_comment (void * webserver_request)
+string public_comment (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  Database_Notes database_notes (webserver_request);
-  Notes_Logic notes_logic = Notes_Logic (webserver_request);
+  Database_Notes database_notes (std::addressof(webserver_request));
+  Notes_Logic notes_logic = Notes_Logic (std::addressof(webserver_request));
 
   
   string page;
-  Assets_Header header = Assets_Header (translate("Feedback"), request);
+  Assets_Header header = Assets_Header (translate("Feedback"), std::addressof(webserver_request));
   page += header.run ();
   Assets_View view;
   
   
-  int id = filter::strings::convert_to_int (request->query ["id"]);
+  int id = filter::strings::convert_to_int (webserver_request.query ["id"]);
   view.set_variable ("id", filter::strings::convert_to_string (id));
   
   
-  if (request->post.count ("submit")) {
-    string comment = filter::strings::trim (request->post ["comment"]);
+  if (webserver_request.post.count ("submit")) {
+    string comment = filter::strings::trim (webserver_request.post ["comment"]);
     notes_logic.addComment (id, comment);
-    redirect_browser (request, public_note_url () + "?id=" + filter::strings::convert_to_string (id));
+    redirect_browser (std::addressof(webserver_request), public_note_url () + "?id=" + filter::strings::convert_to_string (id));
     return "";
   }
   
   
-  if (request->post.count ("cancel")) {
-    redirect_browser (request, public_note_url () + "?id=" + filter::strings::convert_to_string (id));
+  if (webserver_request.post.count ("cancel")) {
+    redirect_browser (std::addressof(webserver_request), public_note_url () + "?id=" + filter::strings::convert_to_string (id));
     return "";
   }
   

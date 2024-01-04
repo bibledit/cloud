@@ -38,35 +38,33 @@ string jobs_index_url ()
 }
 
 
-bool jobs_index_acl (void * webserver_request)
+bool jobs_index_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ());
+  return Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::consultant ());
 }
 
 
-string jobs_index (void * webserver_request)
+string jobs_index (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  
   string page;
   
-  Assets_Header header = Assets_Header (translate ("Job"), request);
+  Assets_Header header = Assets_Header (translate ("Job"), std::addressof(webserver_request));
   
   Assets_View view;
 
-  int id = filter::strings::convert_to_int (request->query ["id"]);
+  const int id = filter::strings::convert_to_int (webserver_request.query ["id"]);
 
   // Get information about this job.
   Database_Jobs database_jobs = Database_Jobs ();
-  bool exists = database_jobs.id_exists (id);
-  int level = database_jobs.get_level (id);
-  string start = database_jobs.get_start (id);
-  string percentage = database_jobs.get_percentage (id);
-  string progress = database_jobs.get_progress (id);
-  string result = database_jobs.get_result (id);
+  const bool exists = database_jobs.id_exists (id);
+  const int level = database_jobs.get_level (id);
+  const string start = database_jobs.get_start (id);
+  const string percentage = database_jobs.get_percentage (id);
+  const string progress = database_jobs.get_progress (id);
+  const string result = database_jobs.get_result (id);
 
   // Access control for the user.
-  int userlevel = request->session_logic()->currentLevel ();
+  const int userlevel = webserver_request.session_logic()->currentLevel ();
 
   string contents;
   if (!exists) {

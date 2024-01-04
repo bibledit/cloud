@@ -37,39 +37,37 @@ string user_account_url ()
 }
 
 
-bool user_account_acl (void * webserver_request)
+bool user_account_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::member ());
+  return Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::member ());
 }
 
 
-string user_account ([[maybe_unused]] void * webserver_request)
+string user_account ([[maybe_unused]] Webserver_Request& webserver_request)
 {
   string page;
 
 #ifdef HAVE_CLOUD
 
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-
-  Assets_Header header = Assets_Header (translate("Account"), webserver_request);
+  Assets_Header header = Assets_Header (translate("Account"), std::addressof(webserver_request));
   header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   page = header.run ();
 
   Assets_View view;
 
-  string username = request->session_logic()->currentUser ();
-  string email = request->database_users()->get_email (username);
+  const string username = webserver_request.session_logic()->currentUser ();
+  const string email = webserver_request.database_users()->get_email (username);
 
   bool actions_taken = false;
   vector <string> success_messages;
 
   // Form submission handler.
-  if (request->post.count ("submit")) {
+  if (webserver_request.post.count ("submit")) {
     bool form_is_valid = true;
-    string currentpassword = request->post ["currentpassword"];
-    string newpassword     = request->post ["newpassword"];
-    string newpassword2    = request->post ["newpassword2"];
-    string newemail        = request->post ["newemail"];
+    string currentpassword = webserver_request.post ["currentpassword"];
+    string newpassword     = webserver_request.post ["newpassword"];
+    string newpassword2    = webserver_request.post ["newpassword2"];
+    string newemail        = webserver_request.post ["newemail"];
   
     if ((newpassword != "") || (newpassword2 != "")) {
       if (newpassword.length () < 4) {
@@ -84,12 +82,12 @@ string user_account ([[maybe_unused]] void * webserver_request)
         form_is_valid = false;
         view.set_variable ("new_password2_invalid_message", translate("Passwords do not match"));
       }
-      if (!request->database_users()->matchUserPassword (username, currentpassword)) {
+      if (!webserver_request.database_users()->matchUserPassword (username, currentpassword)) {
         form_is_valid = false;
         view.set_variable ("current_password_invalid_message", translate("Current password is not valid"));
       }
       if (form_is_valid) {
-        request->database_users()->set_password (username, newpassword);
+        webserver_request.database_users()->set_password (username, newpassword);
         actions_taken = true;
         success_messages.push_back (translate("The new password was saved"));
       }
@@ -100,15 +98,15 @@ string user_account ([[maybe_unused]] void * webserver_request)
         form_is_valid = false;
         view.set_variable ("new_email_invalid_message", translate("Email address is not valid"));
       }
-      if (!request->database_users()->matchUserPassword (username, currentpassword)) {
+      if (!webserver_request.database_users()->matchUserPassword (username, currentpassword)) {
         form_is_valid = false;
         view.set_variable ("current_password_invalid_message", translate("Current password is not valid"));
       }
       if (form_is_valid) {
-        Confirm_Worker confirm_worker = Confirm_Worker (webserver_request);
+        Confirm_Worker confirm_worker = Confirm_Worker (std::addressof(webserver_request));
         string initial_subject = translate("Email address verification");
         string initial_body = translate("Somebody requested to change the email address that belongs to your account.");
-        string query = request->database_users()->updateEmailQuery (username, newemail);
+        string query = webserver_request.database_users()->updateEmailQuery (username, newemail);
         string subsequent_subject = translate("Email address change");
         string subsequent_body = translate("The email address that belongs to your account has been changed successfully.");
         confirm_worker.setup (newemail, string(), initial_subject, initial_body, query, subsequent_subject, subsequent_body);

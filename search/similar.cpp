@@ -41,32 +41,30 @@ string search_similar_url ()
 }
 
 
-bool search_similar_acl (void * webserver_request)
+bool search_similar_acl (Webserver_Request& webserver_request)
 {
-  if (Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ())) return true;
-  auto [ read, write ] = access_bible::any (webserver_request);
+  if (Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::consultant ()))
+    return true;
+  auto [ read, write ] = access_bible::any (std::addressof(webserver_request));
   return read;
 }
 
 
-string search_similar (void * webserver_request)
+string search_similar (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-
- 
-  int myIdentifier = filter::strings::user_identifier (request);
+  int myIdentifier = filter::strings::user_identifier (std::addressof(webserver_request));
   
   
-  string bible = request->database_config_user()->getBible ();
-  if (request->query.count ("b")) {
-    bible = request->query ["b"];
+  string bible = webserver_request.database_config_user()->getBible ();
+  if (webserver_request.query.count ("b")) {
+    bible = webserver_request.query ["b"];
   }
 
 
-  if (request->query.count ("load")) {
-    int book = Ipc_Focus::getBook (request);
-    int chapter = Ipc_Focus::getChapter (request);
-    int verse = Ipc_Focus::getVerse (request);
+  if (webserver_request.query.count ("load")) {
+    const int book = Ipc_Focus::getBook (std::addressof(webserver_request));
+    const int chapter = Ipc_Focus::getChapter (std::addressof(webserver_request));
+    const int verse = Ipc_Focus::getVerse (std::addressof(webserver_request));
     // Text of the focused verse in the active Bible.
     // Remove all punctuation from it.
     string versetext = search_logic_get_bible_verse_text (bible, book, chapter, verse);
@@ -84,9 +82,9 @@ string search_similar (void * webserver_request)
   }
   
   
-  if (request->query.count ("words")) {
+  if (webserver_request.query.count ("words")) {
     
-    string words = request->query ["words"];
+    string words = webserver_request.query ["words"];
     words = filter::strings::trim (words);
     Database_Volatile::setValue (myIdentifier, "searchsimilar", words);
     vector <string> vwords = filter::strings::explode (words, ' ');
@@ -138,12 +136,12 @@ string search_similar (void * webserver_request)
   }
   
   
-  if (request->query.count ("id")) {
-    int id = filter::strings::convert_to_int (request->query ["id"]);
+  if (webserver_request.query.count ("id")) {
+    int id = filter::strings::convert_to_int (webserver_request.query ["id"]);
     
     // Get the Bible and passage for this identifier.
     Passage passage = filter_integer_to_passage (id);
-    string bible2 = request->database_config_user()->getBible ();
+    string bible2 = webserver_request.database_config_user()->getBible ();
     // string bible = passage.bible;
     int book = passage.m_book;
     int chapter = passage.m_chapter;
@@ -167,7 +165,7 @@ string search_similar (void * webserver_request)
   
   string page;
   
-  Assets_Header header = Assets_Header (translate("Search"), request);
+  Assets_Header header = Assets_Header (translate("Search"), std::addressof(webserver_request));
   header.set_navigator ();
   header.add_bread_crumb (menu_logic_search_menu (), menu_logic_search_text ());
   page = header.run ();

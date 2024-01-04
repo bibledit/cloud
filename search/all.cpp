@@ -41,21 +41,19 @@ string search_all_url ()
 }
 
 
-bool search_all_acl (void * webserver_request)
+bool search_all_acl (Webserver_Request& webserver_request)
 {
-  if (Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ())) return true;
-  auto [ read, write ] =  access_bible::any (webserver_request);
+  if (Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::consultant ())) 
+    return true;
+  auto [ read, write ] =  access_bible::any (std::addressof(webserver_request));
   return read;
 }
 
 
-string search_all (void * webserver_request)
+string search_all (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-
-  
   string page;
-  Assets_Header header = Assets_Header (translate("Search"), request);
+  Assets_Header header = Assets_Header (translate("Search"), std::addressof(webserver_request));
   header.add_bread_crumb (menu_logic_search_menu (), menu_logic_search_text ());
   page = header.run ();
 
@@ -66,8 +64,8 @@ string search_all (void * webserver_request)
   // The query: The word or string to search for.
   // Put the query string into the search box.
   string queryString;
-  if (request->query.count ("q")) {
-    queryString = request->query ["q"];
+  if (webserver_request.query.count ("q")) {
+    queryString = webserver_request.query ["q"];
   }
   
   
@@ -82,13 +80,13 @@ string search_all (void * webserver_request)
   vector <string> queryWords = filter::strings::explode (queryString, ' ');
   
   
-  Database_Notes database_notes = Database_Notes (request);
+  Database_Notes database_notes = Database_Notes (std::addressof(webserver_request));
 
   
-  string siteUrl = config::logic::site_url (webserver_request);
+  const string site_url = config::logic::site_url (std::addressof(webserver_request));
 
   
-  vector <string> bibles = access_bible::bibles (request);
+  vector <string> bibles = access_bible::bibles (std::addressof(webserver_request));
 
 
   // Search the notes.
@@ -110,7 +108,7 @@ string search_all (void * webserver_request)
     title = filter::strings::escape_special_xml_characters (title);
     
     // The url.
-    string url = siteUrl + notes_note_url () + "?id=" + filter::strings::convert_to_string (identifier);
+    string url = site_url + notes_note_url () + "?id=" + filter::strings::convert_to_string (identifier);
     
     // The excerpt.
     string stext = database_notes.get_search_field (identifier);

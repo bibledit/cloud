@@ -24,5 +24,5 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 class Webserver_Request;
 
 const char * public_login_url ();
-bool public_login_acl (void * webserver_request);
-std::string public_login (void * webserver_request);
+bool public_login_acl (Webserver_Request& webserver_request);
+std::string public_login (Webserver_Request& webserver_request);

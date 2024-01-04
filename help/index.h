@@ -25,5 +25,5 @@ class Webserver_Request;
 
 std::string help_index_html (const std::string& url);
 bool help_index_url (const std::string& url);
-bool help_index_acl (void * webserver_request);
-std::string help_index (void * webserver_request, const std::string& url);
+bool help_index_acl (Webserver_Request& webserver_request);
+std::string help_index (Webserver_Request& webserver_request, const std::string& url);

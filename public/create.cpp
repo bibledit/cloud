@@ -44,32 +44,31 @@ string public_create_url ()
 }
 
 
-bool public_create_acl (void * webserver_request)
+bool public_create_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::guest ());
+  return Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::guest ());
 }
 
 
-string public_create (void * webserver_request)
+string public_create (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  Database_Notes database_notes (webserver_request);
-  Notes_Logic notes_logic = Notes_Logic (webserver_request);
+  Database_Notes database_notes (std::addressof(webserver_request));
+  Notes_Logic notes_logic = Notes_Logic (std::addressof(webserver_request));
   
   
   string page;
-  Assets_Header header = Assets_Header (translate("Create note"), request);
+  Assets_Header header = Assets_Header (translate("Create note"), std::addressof(webserver_request));
   page += header.run ();
   Assets_View view;
 
   
-  string bible = request->database_config_user()->getBible ();
-  int book = Ipc_Focus::getBook (webserver_request);
-  int chapter = Ipc_Focus::getChapter (webserver_request);
-  int verse = Ipc_Focus::getVerse (webserver_request);
+  string bible = webserver_request.database_config_user()->getBible ();
+  const int book = Ipc_Focus::getBook (std::addressof(webserver_request));
+  const int chapter = Ipc_Focus::getChapter (std::addressof(webserver_request));
+  const int verse = Ipc_Focus::getVerse (std::addressof(webserver_request));
 
   
-  string chapter_usfm = request->database_bibles()->get_chapter (bible, book, chapter);
+  string chapter_usfm = webserver_request.database_bibles()->get_chapter (bible, book, chapter);
   string verse_usfm = filter::usfm::get_verse_text (chapter_usfm, verse);
   string stylesheet = Database_Config_Bible::getExportStylesheet (bible);
   Filter_Text filter_text = Filter_Text (bible);
@@ -80,10 +79,10 @@ string public_create (void * webserver_request)
   view.set_variable ("versetext", versetext);
 
  
-  if (request->post.count ("submit")) {
-    string summary = filter::strings::trim (request->post["summary"]);
+  if (webserver_request.post.count ("submit")) {
+    string summary = filter::strings::trim (webserver_request.post["summary"]);
     if (summary.empty ()) summary = translate ("Feedback");
-    string contents = "<p>" + versetext + "</p>" + filter::strings::trim (request->post["contents"]);
+    string contents = "<p>" + versetext + "</p>" + filter::strings::trim (webserver_request.post["contents"]);
     int identifier = notes_logic.createNote (bible, book, chapter, verse, summary, contents, false);
     // A note created by a public user is made public to all.
     database_notes.set_public (identifier, true);
@@ -92,17 +91,17 @@ string public_create (void * webserver_request)
     database_notes.subscribe (identifier);
     // Go to the main public notes page.
     if (config::logic::default_bibledit_configuration ()) {
-      redirect_browser (request, public_index_url ());
+      redirect_browser (std::addressof(webserver_request), public_index_url ());
     }
-    return "";
+    return std::string();
   }
 
   
-  if (request->post.count ("cancel")) {
+  if (webserver_request.post.count ("cancel")) {
     if (config::logic::default_bibledit_configuration ()) {
-      redirect_browser (request, public_index_url ());
+      redirect_browser (std::addressof(webserver_request), public_index_url ());
     }
-    return "";
+    return std::string();
   }
   
   

@@ -24,5 +24,5 @@
 class Webserver_Request;
 
 std::string jobs_index_url ();
-bool jobs_index_acl (void * webserver_request);
-std::string jobs_index (void * webserver_request);
+bool jobs_index_acl (Webserver_Request& webserver_request);
+std::string jobs_index (Webserver_Request& webserver_request);

@@ -482,49 +482,49 @@ string menu_logic_search_category (void * webserver_request, string * tooltip)
     labels.push_back (label);
   }
   
-  if (search_replace_acl (webserver_request)) {
+  if (search_replace_acl (*request)) {
     string label = translate ("Replace");
     html.push_back (menu_logic_create_item (search_replace_url (), label, true, "", ""));
     labels.push_back (label);
   }
   
-  if (search_search2_acl (webserver_request)) {
+  if (search_search2_acl (*request)) {
     string label = translate ("Advanced search");
     html.push_back (menu_logic_create_item (search_search2_url (), translate ("Advanced search"), true, "", ""));
     labels.push_back (label);
   }
   
-  if (search_replace2_acl (webserver_request)) {
+  if (search_replace2_acl (*request)) {
     string label = translate ("Advanced replace");
     html.push_back (menu_logic_create_item (search_replace2_url (), label, true, "", ""));
     labels.push_back (label);
   }
   
-  if (search_all_acl (webserver_request)) {
+  if (search_all_acl (*request)) {
     string label = translate ("Search all Bibles and notes");
     html.push_back (menu_logic_create_item (search_all_url (), label, true, "", ""));
     labels.push_back (label);
   }
 
-  if (search_similar_acl (webserver_request)) {
+  if (search_similar_acl (*request)) {
     string label = translate ("Search Bible for similar verses");
     html.push_back (menu_logic_create_item (search_similar_url (), label, true, "", ""));
     labels.push_back (label);
   }
 
-  if (search_strongs_acl (webserver_request)) {
+  if (search_strongs_acl (*request)) {
     string label = translate ("Search Bible for similar Strong's numbers");
     html.push_back (menu_logic_create_item (search_strongs_url (), label, true, "", ""));
     labels.push_back (label);
   }
 
-  if (search_strong_acl (webserver_request)) {
+  if (search_strong_acl (*request)) {
     string label = translate ("Search Bible for Strong's number");
     html.push_back (menu_logic_create_item (search_strong_url (), label, true, "", ""));
     labels.push_back (label);
   }
 
-  if (search_originals_acl (webserver_request)) {
+  if (search_originals_acl (*request)) {
     string label = translate ("Search Bible for similar Hebrew or Greek words");
     html.push_back (menu_logic_create_item (search_originals_url (), label, true, "", ""));
     labels.push_back (label);
@@ -869,7 +869,7 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
 #endif
     
     if (label == notifications) {
-      if (user_notifications_acl (webserver_request)) {
+      if (user_notifications_acl (*request)) {
         html.push_back (menu_logic_create_item (user_notifications_url (), label, true, "", ""));
         tiplabels.push_back (label);
       }
@@ -879,7 +879,7 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
     if (label == account) {
       if (!demo) {
         if (!ldap_logic_is_on ()) {
-          if (user_account_acl (webserver_request)) {
+          if (user_account_acl (*request)) {
             html.push_back (menu_logic_create_item (user_account_url (), label, true, "", ""));
             tiplabels.push_back (label);
           }

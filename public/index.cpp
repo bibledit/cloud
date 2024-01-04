@@ -43,56 +43,53 @@ string public_index_url ()
 }
 
 
-bool public_index_acl (void * webserver_request)
+bool public_index_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::guest ());
+  return Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::guest ());
 }
 
 
-string public_index (void * webserver_request)
+string public_index (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-
-
   // If the person providing public feedback is not logged in, foward to the page for entering details.
-  if (!request->session_logic ()->loggedIn ()) {
-    redirect_browser (request, public_login_url ());
+  if (!webserver_request.session_logic ()->loggedIn ()) {
+    redirect_browser (std::addressof(webserver_request), public_login_url ());
     return "";
   }
 
   
   // Take the Bible for this user, and ensure that it is one of the Bibles that have public feedback enabled.
-  string bible = request->database_config_user()->getBible ();
-  vector <string> public_bibles = public_logic_bibles (webserver_request);
+  string bible = webserver_request.database_config_user()->getBible ();
+  const vector <string> public_bibles = public_logic_bibles (std::addressof(webserver_request));
   if (!in_array (bible, public_bibles)) {
     bible.clear ();
     if (!public_bibles.empty ()) {
       bible = public_bibles [0];
     }
-    request->database_config_user()->setBible (bible);
+    webserver_request.database_config_user()->setBible (bible);
   }
   
   
   // Switch Bible before displaying the passage navigator because the navigator contains the active Bible.
-  if (request->query.count ("bible")) {
-    bible = request->query ["bible"];
+  if (webserver_request.query.count ("bible")) {
+    bible = webserver_request.query ["bible"];
     if (bible == "") {
       Dialog_List dialog_list = Dialog_List ("index", translate("Select which Bible to display"), "", "");
       for (auto & public_bible : public_bibles) {
         dialog_list.add_row (public_bible, "bible", public_bible);
       }
-      Assets_Header header = Assets_Header ("", request);
+      Assets_Header header = Assets_Header ("", std::addressof(webserver_request));
       string page = header.run ();
       page += dialog_list.run ();
       return page;
     } else {
-      request->database_config_user()->setBible (bible);
+      webserver_request.database_config_user()->setBible (bible);
     }
   }
   
   
   string page;
-  Assets_Header header = Assets_Header (translate ("Public feedback"), request);
+  Assets_Header header = Assets_Header (translate ("Public feedback"), std::addressof(webserver_request));
   header.set_navigator ();
   header.set_stylesheet ();
   page = header.run ();
@@ -102,7 +99,7 @@ string public_index (void * webserver_request)
   string stylesheet = Database_Config_Bible::getExportStylesheet (bible);
 
   
-  bible = request->database_config_user()->getBible ();
+  bible = webserver_request.database_config_user()->getBible ();
   view.set_variable ("bible", bible);
   
   
@@ -118,13 +115,10 @@ string public_index (void * webserver_request)
   int lineheight = Database_Config_Bible::getLineHeight (bible);
   int letterspacing = Database_Config_Bible::getLetterSpacing (bible);
   view.set_variable ("custom_class", clss);
-  view.set_variable ("custom_css", Filter_Css::get_css (clss,
-                                                       fonts::logic::get_font_path (font),
-                                                       direction,
-                                                       lineheight,
-                                                       letterspacing));
+  view.set_variable ("custom_css", Filter_Css::get_css (clss, fonts::logic::get_font_path (font),
+                                                        direction, lineheight, letterspacing));
   
-  Styles_Css styles_css = Styles_Css (request, stylesheet);
+  Styles_Css styles_css = Styles_Css (std::addressof(webserver_request), stylesheet);
   styles_css.exports ();
   styles_css.generate ();
   string css = styles_css.css ();

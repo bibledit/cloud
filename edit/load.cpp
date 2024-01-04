@@ -39,29 +39,28 @@ string edit_load_url ()
 }
 
 
-bool edit_load_acl (void * webserver_request)
+bool edit_load_acl (Webserver_Request& webserver_request)
 {
-  if (Filter_Roles::access_control (webserver_request, Filter_Roles::translator ())) return true;
-  auto [ read, write ] = access_bible::any (webserver_request);
+  if (Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::translator ()))
+    return true;
+  auto [ read, write ] = access_bible::any (std::addressof(webserver_request));
   return write;
 }
 
 
-string edit_load (void * webserver_request)
+string edit_load (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  
-  string bible = request->query ["bible"];
-  int book = filter::strings::convert_to_int (request->query ["book"]);
-  int chapter = filter::strings::convert_to_int (request->query ["chapter"]);
-  string unique_id = request->query ["id"];
+  string bible = webserver_request.query ["bible"];
+  int book = filter::strings::convert_to_int (webserver_request.query ["book"]);
+  int chapter = filter::strings::convert_to_int (webserver_request.query ["chapter"]);
+  string unique_id = webserver_request.query ["id"];
 
   // Store a copy of the USFM loaded in the editor for later reference.
-  storeLoadedUsfm2 (webserver_request, bible, book, chapter, unique_id);
+  storeLoadedUsfm2 (std::addressof(webserver_request), bible, book, chapter, unique_id);
   
   string stylesheet = Database_Config_Bible::getEditorStylesheet (bible);
   
-  string usfm = request->database_bibles()->get_chapter (bible, book, chapter);
+  string usfm = webserver_request.database_bibles()->get_chapter (bible, book, chapter);
   
   Editor_Usfm2Html editor_usfm2html;
   editor_usfm2html.load (usfm);
@@ -77,8 +76,8 @@ string edit_load (void * webserver_request)
     html = filter::strings::replace (search, replace, html);
   }
   
-  string user = request->session_logic ()->currentUser ();
-  bool write = access_bible::book_write (webserver_request, user, bible, book);
+  string user = webserver_request.session_logic ()->currentUser ();
+  bool write = access_bible::book_write (std::addressof(webserver_request), user, bible, book);
   
   return checksum_logic::send (html, write);
 }

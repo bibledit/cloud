@@ -24,5 +24,5 @@
 class Webserver_Request;
 
 std::string lexicon_definition_url ();
-bool lexicon_definition_acl (void * webserver_request);
-std::string lexicon_definition (void * webserver_request);
+bool lexicon_definition_acl (Webserver_Request& webserver_request);
+std::string lexicon_definition (Webserver_Request& webserver_request);

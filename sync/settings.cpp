@@ -39,14 +39,13 @@ string sync_settings_url ()
 }
 
 
-string sync_settings (void * webserver_request)
+string sync_settings (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  Sync_Logic sync_logic = Sync_Logic (webserver_request);
+  Sync_Logic sync_logic = Sync_Logic (std::addressof(webserver_request));
 
   if (!sync_logic.security_okay ()) {
     // When the Cloud enforces https, inform the client to upgrade.
-    request->response_code = 426;
+    webserver_request.response_code = 426;
     return "";
   }
 
@@ -57,10 +56,10 @@ string sync_settings (void * webserver_request)
   sync_logic.prioritized_ip_address_record ();
 
   // Get the relevant parameters the client POSTed to us, the server.
-  int action = filter::strings::convert_to_int (request->post ["a"]);
-  string value = request->post ["v"];
+  int action = filter::strings::convert_to_int (webserver_request.post ["a"]);
+  string value = webserver_request.post ["v"];
   // The value can be all Bibles, or one Bible.
-  string bible_s = request->post ["b"];
+  string bible_s = webserver_request.post ["b"];
 
   switch (action) {
     case Sync_Logic::settings_get_total_checksum:
@@ -69,40 +68,40 @@ string sync_settings (void * webserver_request)
     }
     case Sync_Logic::settings_send_workspace_urls:
     {
-      request->database_config_user()->setWorkspaceURLs (value);
+      webserver_request.database_config_user()->setWorkspaceURLs (value);
       return string();
     }
     case Sync_Logic::settings_get_workspace_urls:
     {
-      return request->database_config_user()->getWorkspaceURLs ();
+      return webserver_request.database_config_user()->getWorkspaceURLs ();
     }
     case Sync_Logic::settings_send_workspace_widths:
     {
-      request->database_config_user()->setWorkspaceWidths (value);
+      webserver_request.database_config_user()->setWorkspaceWidths (value);
       return string();
     }
     case Sync_Logic::settings_get_workspace_widths:
     {
-      return request->database_config_user()->getWorkspaceWidths ();
+      return webserver_request.database_config_user()->getWorkspaceWidths ();
     }
     case Sync_Logic::settings_send_workspace_heights:
     {
-      request->database_config_user()->setWorkspaceHeights (value);
+      webserver_request.database_config_user()->setWorkspaceHeights (value);
       return string();
     }
     case Sync_Logic::settings_get_workspace_heights:
     {
-      return request->database_config_user()->getWorkspaceHeights ();
+      return webserver_request.database_config_user()->getWorkspaceHeights ();
     }
     case Sync_Logic::settings_send_resources_organization:
     {
       vector <string> resources = filter::strings::explode (value, '\n');
-      request->database_config_user()->setActiveResources (resources);
+      webserver_request.database_config_user()->setActiveResources (resources);
       return string();
     }
     case Sync_Logic::settings_get_resources_organization:
     {
-      vector <string> resources = request->database_config_user()->getActiveResources ();
+      vector <string> resources = webserver_request.database_config_user()->getActiveResources ();
       return filter::strings::implode (resources, "\n");
     }
     case Sync_Logic::settings_get_bible_id:
@@ -121,7 +120,7 @@ string sync_settings (void * webserver_request)
     }
     case Sync_Logic::settings_get_privilege_delete_consultation_notes:
     {
-      return filter::strings::convert_to_string (request->database_config_user()->getPrivilegeDeleteConsultationNotes ());
+      return filter::strings::convert_to_string (webserver_request.database_config_user()->getPrivilegeDeleteConsultationNotes ());
     }
     default:
     {
@@ -131,6 +130,6 @@ string sync_settings (void * webserver_request)
   // Bad request.
   // Delay a while to obstruct a flood of bad requests.
   this_thread::sleep_for (chrono::seconds (1));
-  request->response_code = 400;
+  webserver_request.response_code = 400;
   return "";
 }

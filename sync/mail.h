@@ -21,5 +21,7 @@
 
 #include <config/libraries.h>
 
+class Webserver_Request;
+
 std::string sync_mail_url ();
-std::string sync_mail (void * webserver_request);
+std::string sync_mail (Webserver_Request& webserver_request);

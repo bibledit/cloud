@@ -24,5 +24,5 @@
 class Webserver_Request;
 
 std::string webbible_search_url ();
-bool webbible_search_acl (void * webserver_request);
-std::string webbible_search (void * webserver_request);
+bool webbible_search_acl (Webserver_Request& webserver_request);
+std::string webbible_search (Webserver_Request& webserver_request);

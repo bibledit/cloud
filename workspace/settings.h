@@ -24,5 +24,5 @@
 class Webserver_Request;
 
 std::string workspace_settings_url ();
-bool workspace_settings_acl (void * webserver_request);
-std::string workspace_settings (void * webserver_request);
+bool workspace_settings_acl (Webserver_Request& webserver_request);
+std::string workspace_settings (Webserver_Request& webserver_request);

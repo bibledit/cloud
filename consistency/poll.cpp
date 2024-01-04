@@ -32,18 +32,17 @@ string consistency_poll_url ()
 }
 
 
-bool consistency_poll_acl (void * webserver_request)
+bool consistency_poll_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::translator ());
+  return Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::translator ());
 }
 
 
-string consistency_poll (void * webserver_request)
+string consistency_poll (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  int id = filter::strings::convert_to_int (request->query ["id"]);
-  Consistency_Logic consistency_logic = Consistency_Logic (webserver_request, id);
-  string response = consistency_logic.response ();
+  const int id = filter::strings::convert_to_int (webserver_request.query ["id"]);
+  Consistency_Logic consistency_logic = Consistency_Logic (std::addressof(webserver_request), id);
+  const string response = consistency_logic.response ();
   if (response != Database_Volatile::getValue (id, "response")) {
     Database_Volatile::setValue (id, "response", response);
     return response;

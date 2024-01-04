@@ -46,22 +46,21 @@ string sync_usfmresources_url ()
 }
 
 
-string sync_usfmresources (void * webserver_request)
+string sync_usfmresources (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  Sync_Logic sync_logic = Sync_Logic (webserver_request);
+  Sync_Logic sync_logic = Sync_Logic (std::addressof(webserver_request));
   Database_UsfmResources database_usfmresources = Database_UsfmResources ();
 
   if (!sync_logic.security_okay ()) {
     // When the Cloud enforces https, inform the client to upgrade.
-    request->response_code = 426;
+    webserver_request.response_code = 426;
     return "";
   }
 
-  int action = filter::strings::convert_to_int (request->post ["a"]);
-  string resource = request->post ["r"];
-  int book = filter::strings::convert_to_int (request->post ["b"]);
-  int chapter = filter::strings::convert_to_int (request->post ["c"]);
+  int action = filter::strings::convert_to_int (webserver_request.post ["a"]);
+  string resource = webserver_request.post ["r"];
+  int book = filter::strings::convert_to_int (webserver_request.post ["b"]);
+  int chapter = filter::strings::convert_to_int (webserver_request.post ["c"]);
   
   if (action == Sync_Logic::usfmresources_get_total_checksum) {
     return Sync_Logic::usfm_resources_checksum ();
@@ -104,7 +103,7 @@ string sync_usfmresources (void * webserver_request)
 
   // Bad request. Delay flood of bad requests.
   this_thread::sleep_for (chrono::seconds (1));
-  request->response_code = 400;
+  webserver_request.response_code = 400;
   return "";
 }
 

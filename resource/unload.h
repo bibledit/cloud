@@ -24,5 +24,5 @@
 class Webserver_Request;
 
 std::string resource_unload_url ();
-bool resource_unload_acl (void * webserver_request);
-std::string resource_unload (void * webserver_request);
+bool resource_unload_acl (Webserver_Request& webserver_request);
+std::string resource_unload (Webserver_Request& webserver_request);

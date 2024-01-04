@@ -36,14 +36,13 @@ string sync_resources_url ()
 
 
 // Serves general resource content to a client.
-string sync_resources (void * webserver_request)
+string sync_resources (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  Sync_Logic sync_logic = Sync_Logic (webserver_request);
+  Sync_Logic sync_logic = Sync_Logic (std::addressof(webserver_request));
 
   if (!sync_logic.security_okay ()) {
     // When the Cloud enforces https, inform the client to upgrade.
-    request->response_code = 426;
+    webserver_request.response_code = 426;
     return string();
   }
 
@@ -55,11 +54,11 @@ string sync_resources (void * webserver_request)
     this_thread::sleep_for (chrono::seconds (5));
   }
 
-  int action = filter::strings::convert_to_int (request->query ["a"]);
-  string resource = request->query ["r"];
-  int book = filter::strings::convert_to_int (request->query ["b"]);
-  int chapter = filter::strings::convert_to_int (request->query ["c"]);
-  int verse = filter::strings::convert_to_int (request->query ["v"]);
+  int action = filter::strings::convert_to_int (webserver_request.query ["a"]);
+  string resource = webserver_request.query ["r"];
+  int book = filter::strings::convert_to_int (webserver_request.query ["b"]);
+  int chapter = filter::strings::convert_to_int (webserver_request.query ["c"]);
+  int verse = filter::strings::convert_to_int (webserver_request.query ["v"]);
   
   bool request_ok = true;
   if (book <= 0) request_ok = false;
@@ -108,6 +107,6 @@ string sync_resources (void * webserver_request)
     
   // Bad request. Delay flood of bad requests.
   this_thread::sleep_for (chrono::seconds (1));
-  request->response_code = 400;
+  webserver_request.response_code = 400;
   return string();
 }

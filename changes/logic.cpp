@@ -92,7 +92,7 @@ string changes_interlinks (void * webserver_request, string my_url)
 
   string revisions = "revisions";
   if (index_listing_url (revisions) != my_url) {
-    if (index_listing_acl (webserver_request, revisions)) {
+    if (index_listing_acl (*request, revisions)) {
       urls.push_back (index_listing_url (revisions));
       labels.push_back (translate ("Download"));
     }

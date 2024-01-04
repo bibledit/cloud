@@ -24,5 +24,5 @@
 class Webserver_Request;
 
 std::string checks_suppress_url ();
-bool checks_suppress_acl (void * webserver_request);
-std::string checks_suppress (void * webserver_request);
+bool checks_suppress_acl (Webserver_Request& webserver_request);
+std::string checks_suppress (Webserver_Request& webserver_request);

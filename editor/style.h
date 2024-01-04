@@ -24,5 +24,5 @@
 class Webserver_Request;
 
 std::string editor_style_url ();
-bool editor_style_acl (void * webserver_request);
-std::string editor_style (void * webserver_request);
+bool editor_style_acl (Webserver_Request& webserver_request);
+std::string editor_style (Webserver_Request& webserver_request);

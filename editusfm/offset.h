@@ -24,5 +24,5 @@
 class Webserver_Request;
 
 std::string editusfm_offset_url ();
-bool editusfm_offset_acl (void * webserver_request);
-std::string editusfm_offset (void * webserver_request);
+bool editusfm_offset_acl (Webserver_Request& webserver_request);
+std::string editusfm_offset (Webserver_Request& webserver_request);

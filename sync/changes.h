@@ -21,5 +21,7 @@
 
 #include <config/libraries.h>
 
+class Webserver_Request;
+
 std::string sync_changes_url ();
-std::string sync_changes (void * webserver_request);
+std::string sync_changes (Webserver_Request& webserver_request);

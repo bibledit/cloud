@@ -45,13 +45,13 @@ string sprint_index_url ()
 }
 
 
-bool sprint_index_acl (void * webserver_request)
+bool sprint_index_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::translator ());
+  return Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::translator ());
 }
 
 
-string sprint_index ([[maybe_unused]] void * webserver_request)
+string sprint_index ([[maybe_unused]] Webserver_Request& webserver_request)
 {
 #ifdef HAVE_CLIENT
   return string();
@@ -59,49 +59,48 @@ string sprint_index ([[maybe_unused]] void * webserver_request)
 
 #ifdef HAVE_CLOUD
   
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   Database_Sprint database_sprint;
 
   
   string page;
-  Assets_Header header = Assets_Header (translate("Sprint"), request);
+  Assets_Header header = Assets_Header (translate("Sprint"), std::addressof(webserver_request));
   header.add_bread_crumb (menu_logic_tools_menu (), menu_logic_tools_text ());
   page = header.run ();
   Assets_View view;
   
   
-  if (request->query.count ("previoussprint")) {
-    int month = request->database_config_user()->getSprintMonth ();
-    int year = request->database_config_user()->getSprintYear ();
+  if (webserver_request.query.count ("previoussprint")) {
+    int month = webserver_request.database_config_user()->getSprintMonth ();
+    int year = webserver_request.database_config_user()->getSprintYear ();
     filter::date::get_previous_month (month, year);
-    request->database_config_user()->setSprintMonth (month);
-    request->database_config_user()->setSprintYear (year);
+    webserver_request.database_config_user()->setSprintMonth (month);
+    webserver_request.database_config_user()->setSprintYear (year);
   }
   
   
-  if (request->query.count ("currentprint")) {
-    request->database_config_user()->setSprintMonth (filter::date::numerical_month (filter::date::seconds_since_epoch ()));
-    request->database_config_user()->setSprintYear (filter::date::numerical_year (filter::date::seconds_since_epoch ()));
+  if (webserver_request.query.count ("currentprint")) {
+    webserver_request.database_config_user()->setSprintMonth (filter::date::numerical_month (filter::date::seconds_since_epoch ()));
+    webserver_request.database_config_user()->setSprintYear (filter::date::numerical_year (filter::date::seconds_since_epoch ()));
   }
   
   
-  if (request->query.count ("nextsprint")) {
-    int month = request->database_config_user()->getSprintMonth ();
-    int year = request->database_config_user()->getSprintYear ();
+  if (webserver_request.query.count ("nextsprint")) {
+    int month = webserver_request.database_config_user()->getSprintMonth ();
+    int year = webserver_request.database_config_user()->getSprintYear ();
     filter::date::get_next_month (month, year);
-    request->database_config_user()->setSprintMonth (month);
-    request->database_config_user()->setSprintYear (year);
+    webserver_request.database_config_user()->setSprintMonth (month);
+    webserver_request.database_config_user()->setSprintYear (year);
   }
   
   
-  string bible = access_bible::clamp (webserver_request, request->database_config_user()->getBible ());
-  int month = request->database_config_user()->getSprintMonth ();
-  int year = request->database_config_user()->getSprintYear ();
+  string bible = access_bible::clamp (std::addressof(webserver_request), webserver_request.database_config_user()->getBible ());
+  int month = webserver_request.database_config_user()->getSprintMonth ();
+  int year = webserver_request.database_config_user()->getSprintYear ();
   
 
-  if (request->post.count ("id")) {
-    string id = request->post ["id"];
-    string checked = request->post ["checked"];
+  if (webserver_request.post.count ("id")) {
+    string id = webserver_request.post ["id"];
+    string checked = webserver_request.post ["checked"];
     if (id.length () >= 9) {
       // Remove "task".
       id.erase (0, 4);
@@ -129,8 +128,8 @@ string sprint_index ([[maybe_unused]] void * webserver_request)
   }
   
   
-  if (request->post.count ("add")) {
-    string title = request->post ["add"];
+  if (webserver_request.post.count ("add")) {
+    string title = webserver_request.post ["add"];
     database_sprint.storeTask (bible, year, month, title);
     view.set_variable ("success", translate("New task added"));
     // Focus the entry for adding tasks only in case a new task was added.
@@ -138,62 +137,62 @@ string sprint_index ([[maybe_unused]] void * webserver_request)
   }
   
   
-  if (request->query.count ("mail")) {
-    int mail_year = request->database_config_user()->getSprintYear ();
-    int mail_month = request->database_config_user()->getSprintMonth ();
+  if (webserver_request.query.count ("mail")) {
+    int mail_year = webserver_request.database_config_user()->getSprintYear ();
+    int mail_month = webserver_request.database_config_user()->getSprintMonth ();
     sprint_burndown (bible, mail_year, mail_month);
     view.set_variable ("success", translate("The information was mailed to the subscribers"));
   }
   
   
-  if (request->query.count ("bible")) {
-    bible = request->query ["bible"];
+  if (webserver_request.query.count ("bible")) {
+    bible = webserver_request.query ["bible"];
     if (bible.empty()) {
       Dialog_List dialog_list = Dialog_List ("index", translate("Select which Bible to display the Sprint for"), "", "");
-      vector <string> bibles = access_bible::bibles (request);
+      vector <string> bibles = access_bible::bibles (std::addressof(webserver_request));
       for (auto & selection_bible : bibles) {
         dialog_list.add_row (selection_bible, "bible", selection_bible);
       }
       page += dialog_list.run ();
       return page;
     } else {
-      request->database_config_user()->setBible (bible);
+      webserver_request.database_config_user()->setBible (bible);
     }
   }
   
   
-  bible = access_bible::clamp (webserver_request, request->database_config_user()->getBible ());
+  bible = access_bible::clamp (std::addressof(webserver_request), webserver_request.database_config_user()->getBible ());
   
   
-  int id = filter::strings::convert_to_int (request->query ["id"]);
+  int id = filter::strings::convert_to_int (webserver_request.query ["id"]);
   
   
-  if (request->query.count ("remove")) {
+  if (webserver_request.query.count ("remove")) {
     database_sprint.deleteTask (id);
     view.set_variable ("success", translate("The task was removed"));
   }
   
   
-  if (request->query.count ("moveback")) {
+  if (webserver_request.query.count ("moveback")) {
     filter::date::get_previous_month (month, year);
     database_sprint.updateMonthYear (id, month, year);
     view.set_variable ("success", translate("The task was moved to the previous sprint"));
-    request->database_config_user()->setSprintMonth (month);
-    request->database_config_user()->setSprintYear (year);
+    webserver_request.database_config_user()->setSprintMonth (month);
+    webserver_request.database_config_user()->setSprintYear (year);
   }
                         
                         
-  if (request->query.count ("moveforward")) {
+  if (webserver_request.query.count ("moveforward")) {
     filter::date::get_next_month (month, year);
     database_sprint.updateMonthYear (id, month, year);
     view.set_variable ("success", translate("The task was moved to the next sprint"));
-    request->database_config_user()->setSprintMonth (month);
-    request->database_config_user()->setSprintYear (year);
+    webserver_request.database_config_user()->setSprintMonth (month);
+    webserver_request.database_config_user()->setSprintYear (year);
   }
 
   
-  if (request->post.count ("categories")) {
-    string categories = request->post ["categories"];
+  if (webserver_request.post.count ("categories")) {
+    string categories = webserver_request.post ["categories"];
     vector <string> categories2;
     categories = filter::strings::trim (categories);
     vector <string> vcategories = filter::strings::explode (categories, '\n');

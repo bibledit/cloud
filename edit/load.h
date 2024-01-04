@@ -24,5 +24,5 @@
 class Webserver_Request;
 
 std::string edit_load_url ();
-bool edit_load_acl (void * webserver_request);
-std::string edit_load (void * webserver_request);
+bool edit_load_acl (Webserver_Request& webserver_request);
+std::string edit_load (Webserver_Request& webserver_request);

@@ -39,27 +39,26 @@ string editone2_load_url ()
 }
 
 
-bool editone2_load_acl (void * webserver_request)
+bool editone2_load_acl (Webserver_Request& webserver_request)
 {
-  if (Filter_Roles::access_control (webserver_request, Filter_Roles::translator ())) return true;
-  auto [ read, write ] = access_bible::any (webserver_request);
+  if (Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::translator ()))
+    return true;
+  auto [ read, write ] = access_bible::any (std::addressof(webserver_request));
   return read;
 }
 
 
-string editone2_load (void * webserver_request)
+string editone2_load (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  
-  string bible = request->query ["bible"];
-  int book = filter::strings::convert_to_int (request->query ["book"]);
-  int chapter = filter::strings::convert_to_int (request->query ["chapter"]);
-  int verse = filter::strings::convert_to_int (request->query ["verse"]);
-  string unique_id = request->query ["id"];
+  string bible = webserver_request.query ["bible"];
+  int book = filter::strings::convert_to_int (webserver_request.query ["book"]);
+  int chapter = filter::strings::convert_to_int (webserver_request.query ["chapter"]);
+  int verse = filter::strings::convert_to_int (webserver_request.query ["verse"]);
+  string unique_id = webserver_request.query ["id"];
   
   string stylesheet = Database_Config_Bible::getEditorStylesheet (bible);
 
-  string chapter_usfm = request->database_bibles()->get_chapter (bible, book, chapter);
+  string chapter_usfm = webserver_request.database_bibles()->get_chapter (bible, book, chapter);
 
   vector <int> verses = filter::usfm::get_verse_numbers (chapter_usfm);
   int highest_verse = 0;
@@ -80,7 +79,7 @@ string editone2_load (void * webserver_request)
   // 2. It updates the chapter snapshot.
   // 3. It loads the other verse.
   // 4. It updates the chapter snapshot.
-  storeLoadedUsfm2 (webserver_request, bible, book, chapter, unique_id);
+  storeLoadedUsfm2 (std::addressof(webserver_request), bible, book, chapter, unique_id);
   
   string prefix_html;
   string not_used;
@@ -117,8 +116,8 @@ string editone2_load (void * webserver_request)
   data.append ("#_be_#");
   data.append (suffix_html);
   
-  string user = request->session_logic ()->currentUser ();
-  bool write = access_bible::book_write (webserver_request, user, bible, book);
+  string user = webserver_request.session_logic ()->currentUser ();
+  bool write = access_bible::book_write (std::addressof(webserver_request), user, bible, book);
   data = checksum_logic::send (data, write);
 
   return data;

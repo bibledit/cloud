@@ -33,10 +33,11 @@ string editusfm_offset_url ()
 }
 
 
-bool editusfm_offset_acl (void * webserver_request)
+bool editusfm_offset_acl (Webserver_Request& webserver_request)
 {
-  if (Filter_Roles::access_control (webserver_request, Filter_Roles::translator ())) return true;
-  auto [ read, write ] = access_bible::any (webserver_request);
+  if (Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::translator ()))
+    return true;
+  auto [ read, write ] = access_bible::any (std::addressof(webserver_request));
   return read;
 }
 
@@ -44,20 +45,19 @@ bool editusfm_offset_acl (void * webserver_request)
 // This receives the position of the caret in the editor,
 // and translates that to a verse number,
 // and focuses that verse number.
-string editusfm_offset (void * webserver_request)
+string editusfm_offset (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  string bible = request->query ["bible"];
-  int book = filter::strings::convert_to_int (request->query ["book"]);
-  int chapter = filter::strings::convert_to_int (request->query ["chapter"]);
-  unsigned int offset = static_cast<unsigned> (filter::strings::convert_to_int (request->query ["offset"]));
-  string usfm = request->database_bibles()->get_chapter (bible, book, chapter);
+  string bible = webserver_request.query ["bible"];
+  int book = filter::strings::convert_to_int (webserver_request.query ["book"]);
+  int chapter = filter::strings::convert_to_int (webserver_request.query ["chapter"]);
+  unsigned int offset = static_cast<unsigned> (filter::strings::convert_to_int (webserver_request.query ["offset"]));
+  string usfm = webserver_request.database_bibles()->get_chapter (bible, book, chapter);
   vector <int> verses = filter::usfm::offset_to_versenumber (usfm, offset);
   // Only update navigation in case the verse differs.
   // This avoids unnecessary focus operations in the clients.
-  if (!in_array (Ipc_Focus::getVerse (request), verses)) {
+  if (!in_array (Ipc_Focus::getVerse (std::addressof(webserver_request)), verses)) {
     if (!verses.empty ()) {
-      Ipc_Focus::set (request, book, chapter, verses[0]);
+      Ipc_Focus::set (std::addressof(webserver_request), book, chapter, verses[0]);
     }
   }
   return "";

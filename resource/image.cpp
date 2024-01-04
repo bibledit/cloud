@@ -46,20 +46,19 @@ string resource_image_url ()
 }
 
 
-bool resource_image_acl (void * webserver_request)
+bool resource_image_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::manager ());
+  return Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::manager ());
 }
 
 
-string resource_image (void * webserver_request)
+string resource_image (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   Database_ImageResources database_imageresources;
 
   
   string page;
-  Assets_Header header = Assets_Header (translate("Image resources"), request);
+  Assets_Header header = Assets_Header (translate("Image resources"), std::addressof(webserver_request));
   header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   header.add_bread_crumb (resource_images_url (), menu_logic_resource_images_text ());
   page = header.run ();
@@ -67,16 +66,16 @@ string resource_image (void * webserver_request)
   string error, success;
   
   
-  string name = request->query ["name"];
+  string name = webserver_request.query ["name"];
   view.set_variable ("name", name);
   
 
   // File upload.
-  if (request->post.count ("upload")) {
+  if (webserver_request.post.count ("upload")) {
     string folder = filter_url_tempfile ();
     filter_url_mkdir (folder);
-    string file =  filter_url_create_path ({folder, request->post ["filename"]});
-    string data = request->post ["data"];
+    string file =  filter_url_create_path ({folder, webserver_request.post ["filename"]});
+    string data = webserver_request.post ["data"];
     if (!data.empty ()) {
       filter_url_file_put_contents (file, data);
       bool background_import = false;
@@ -94,7 +93,7 @@ string resource_image (void * webserver_request)
         // Immediately open the uploaded image.
         string url = filter_url_build_http_query (resource_img_url (), "name", name);
         url = filter_url_build_http_query (url, "image", image);
-        redirect_browser (request, url);
+        redirect_browser (std::addressof(webserver_request), url);
         return "";
       }
     } else {
@@ -104,9 +103,9 @@ string resource_image (void * webserver_request)
   
   
   // Delete image.
-  string remove = request->query ["delete"];
+  string remove = webserver_request.query ["delete"];
   if (remove != "") {
-    string confirm = request->query ["confirm"];
+    string confirm = webserver_request.query ["confirm"];
     if (confirm == "") {
       Dialog_Yes dialog_yes = Dialog_Yes ("image", translate("Would you like to delete this image?"));
       dialog_yes.add_query ("name", name);

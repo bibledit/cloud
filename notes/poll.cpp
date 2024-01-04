@@ -38,26 +38,25 @@ string notes_poll_url ()
 }
 
 
-bool notes_poll_acl (void * webserver_request)
+bool notes_poll_acl (Webserver_Request& webserver_request)
 {
-  return access_logic::privilege_view_notes (webserver_request);
+  return access_logic::privilege_view_notes (std::addressof(webserver_request));
 }
 
 
-string notes_poll (void * webserver_request)
+string notes_poll (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  string action = request->query ["action"];
+  string action = webserver_request.query ["action"];
   if (action == "alive") {
-    Ipc_Notes::alive (webserver_request, true, true);
-    int identifier = Ipc_Notes::get (webserver_request);
+    Ipc_Notes::alive (std::addressof(webserver_request), true, true);
+    int identifier = Ipc_Notes::get (std::addressof(webserver_request));
     if (identifier) {
-      Ipc_Notes::erase (webserver_request);
+      Ipc_Notes::erase (std::addressof(webserver_request));
       string url = "note?id=" + filter::strings::convert_to_string (identifier);
       return url;
     }
   } else if (action == "unload") {
-    Ipc_Notes::alive (webserver_request, true, false);
+    Ipc_Notes::alive (std::addressof(webserver_request), true, false);
   }
   return "";
 }

@@ -34,27 +34,24 @@ string webbible_search_url ()
 }
 
 
-bool webbible_search_acl (void * webserver_request)
+bool webbible_search_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::guest ());
+  return Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::guest ());
 }
 
 
-string webbible_search (void * webserver_request)
+string webbible_search (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-
-  
   Assets_View view;
   
   
   // Get the URL and the text for the backlink.
-  string backlinkUrl = request->query.count ("url") ? request->query["url"] : "";
-  string backlinkText = request->query.count ("text") ? request->query["text"] : "";
+  string backlinkUrl = webserver_request.query.count ("url") ? webserver_request.query["url"] : "";
+  string backlinkText = webserver_request.query.count ("text") ? webserver_request.query["text"] : "";
   
   
   // The query: The word or string to search for.
-  string queryString = request->query.count ("q") ? request->query["q"] : "";
+  string queryString = webserver_request.query.count ("q") ? webserver_request.query["q"] : "";
   
   
   // Put the search query and the backlink into the search box.

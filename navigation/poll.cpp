@@ -31,18 +31,17 @@ string navigation_poll_url ()
 }
 
 
-bool navigation_poll_acl (void * webserver_request)
+bool navigation_poll_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::guest ());
+  return Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::guest ());
 }
 
 
-string navigation_poll (void * webserver_request)
+string navigation_poll (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  int book = Ipc_Focus::getBook (request);
-  int chapter = Ipc_Focus::getChapter (request);
-  int verse = Ipc_Focus::getVerse (request);
+  int book = Ipc_Focus::getBook (std::addressof(webserver_request));
+  int chapter = Ipc_Focus::getChapter (std::addressof(webserver_request));
+  int verse = Ipc_Focus::getVerse (std::addressof(webserver_request));
   vector <string> passage;
   passage.push_back (filter::strings::convert_to_string (book));
   passage.push_back (filter::strings::convert_to_string (chapter));

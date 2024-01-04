@@ -24,5 +24,5 @@
 class Webserver_Request;
 
 std::string consistency_poll_url ();
-bool consistency_poll_acl (void * webserver_request);
-std::string consistency_poll (void * webserver_request);
+bool consistency_poll_acl (Webserver_Request& webserver_request);
+std::string consistency_poll (Webserver_Request& webserver_request);

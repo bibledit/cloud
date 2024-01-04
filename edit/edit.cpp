@@ -39,30 +39,28 @@ string edit_edit_url ()
 }
 
 
-bool edit_edit_acl (void * webserver_request)
+bool edit_edit_acl (Webserver_Request& webserver_request)
 {
-  if (Filter_Roles::access_control (webserver_request, Filter_Roles::translator ())) return true;
-  auto [read, write] = access_bible::any (webserver_request);
+  if (Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::translator ()))
+    return true;
+  auto [read, write] = access_bible::any (std::addressof(webserver_request));
   return read;
 }
 
 
-string edit_edit (void * webserver_request)
+string edit_edit (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  
-  
-  string passage_query = request->query ["passage"];
+  string passage_query = webserver_request.query ["passage"];
   Passage passage = filter_integer_to_passage (filter::strings::convert_to_int (passage_query));
-  Ipc_Focus::set (request, passage.m_book, passage.m_chapter, filter::strings::convert_to_int (passage.m_verse));
-  Navigation_Passage::record_history (request, passage.m_book, passage.m_chapter, filter::strings::convert_to_int (passage.m_verse));
-  
+  Ipc_Focus::set (std::addressof(webserver_request), passage.m_book, passage.m_chapter, filter::strings::convert_to_int (passage.m_verse));
+  Navigation_Passage::record_history (std::addressof(webserver_request), passage.m_book, passage.m_chapter, filter::strings::convert_to_int (passage.m_verse));
   
   // Check whether a Bible editor is alive.
-  int timestamp = request->database_config_user()->getLiveBibleEditor ();
+  int timestamp = webserver_request.database_config_user()->getLiveBibleEditor ();
   bool alive = (timestamp > (filter::date::seconds_since_epoch () - 5));
   
+  if (alive) 
+    return translate ("The passage has been opened in the existing Bible editor");
   
-  if (alive) return translate ("The passage has been opened in the existing Bible editor");
   return R"(<a href="../editone2/index">)" + translate ("Open a Bible editor to edit the passage") + "</a>";
 }

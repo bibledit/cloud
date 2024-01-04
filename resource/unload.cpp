@@ -32,22 +32,21 @@ string resource_unload_url ()
 }
 
 
-bool resource_unload_acl (void * webserver_request)
+bool resource_unload_acl (Webserver_Request& webserver_request)
 {
-  return access_logic::privilege_view_resources (webserver_request);
+  return access_logic::privilege_view_resources (std::addressof(webserver_request));
 }
 
 
-string resource_unload (void * webserver_request)
+string resource_unload (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   // The scroll position of the resource window.
-  int position = filter::strings::convert_to_int (request->post ["position"]);
+  int position = filter::strings::convert_to_int (webserver_request.post ["position"]);
   if (position < 0) position = 0;
   if (position > 5000) position = 5000;
   // Store the position in volatile memory so it gets retained while the app is on,
   // and gets reset after app startup.
-  string username = request->session_logic()->currentUser ();
+  string username = webserver_request.session_logic()->currentUser ();
   config_globals_resource_window_positions [username] = position;
   return "";
 }

@@ -30,18 +30,17 @@ string rss_feed_url ()
 }
 
 
-bool rss_feed_acl ([[maybe_unused]] void * webserver_request)
+bool rss_feed_acl ([[maybe_unused]] Webserver_Request& webserver_request)
 {
   return true;
 }
 
 
-string rss_feed ([[maybe_unused]] void * webserver_request)
+string rss_feed ([[maybe_unused]] Webserver_Request& webserver_request)
 {
   string xml;
 #ifdef HAVE_CLOUD
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  request->response_content_type = "application/rss+xml";
+  webserver_request.response_content_type = "application/rss+xml";
   string path = rss_logic_xml_path ();
   xml = filter_url_file_get_contents (path);
 #endif

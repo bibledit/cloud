@@ -44,32 +44,31 @@ string notes_click_url ()
 }
 
 
-bool notes_click_acl (void * webserver_request)
+bool notes_click_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ());
+  return Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::consultant ());
 }
 
 
 // This function is called from click.js.
-string notes_click (void * webserver_request)
+string notes_click (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  Database_Notes database_notes (webserver_request);
-  Notes_Logic notes_logic = Notes_Logic (webserver_request);
+  Database_Notes database_notes (std::addressof(webserver_request));
+  Notes_Logic notes_logic = Notes_Logic (std::addressof(webserver_request));
   
   
-  if (request->query.count ("open")) {
-    string open = request->query ["open"];
+  if (webserver_request.query.count ("open")) {
+    string open = webserver_request.query ["open"];
     open = filter_url_basename_web (open);
     int iopen = filter::strings::convert_to_int (open);
     if (database_notes.identifier_exists (iopen)) {
-      Ipc_Notes::open (request, iopen);
+      Ipc_Notes::open (std::addressof(webserver_request), iopen);
     }
   }
   
   
-  if (request->query.count ("new")) {
-    string snew = request->query ["new"];
+  if (webserver_request.query.count ("new")) {
+    string snew = webserver_request.query ["new"];
     snew = filter_url_basename_web (snew);
     int inew = filter::strings::convert_to_int (snew);
     Database_Modifications database_modifications;
@@ -83,7 +82,7 @@ string notes_click (void * webserver_request)
     contents += database_modifications.getNotificationNewText (inew);
     Passage passage = database_modifications.getNotificationPassage (inew);
     int identifier = notes_logic.createNote (bible, passage.m_book, passage.m_chapter, filter::strings::convert_to_int (passage.m_verse), summary, contents, false);
-    Ipc_Notes::open (request, identifier);
+    Ipc_Notes::open (std::addressof(webserver_request), identifier);
   }
   
 

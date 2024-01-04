@@ -34,24 +34,21 @@ string resource_get_url ()
 }
 
 
-bool resource_get_acl (void * webserver_request)
+bool resource_get_acl (Webserver_Request& webserver_request)
 {
-  return access_logic::privilege_view_resources (webserver_request);
+  return access_logic::privilege_view_resources (std::addressof(webserver_request));
 }
 
 
-string resource_get (void * webserver_request)
+string resource_get (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-
-  
   vector <string> bits;
 
   
-  string s_resource = request->query["resource"];
-  string s_book = request->query["book"];
-  string s_chapter = request->query["chapter"];
-  string s_verse = request->query["verse"];
+  string s_resource = webserver_request.query["resource"];
+  string s_book = webserver_request.query["book"];
+  string s_chapter = webserver_request.query["chapter"];
+  string s_verse = webserver_request.query["verse"];
 
   
   if (!s_resource.empty () && !s_book.empty () && !s_chapter.empty () && !s_verse.empty ()) {
@@ -66,7 +63,7 @@ string resource_get (void * webserver_request)
     // In JavaScript the resource identifier starts at 1.
     // In the C++ Bibledit kernel it starts at 0.
     resource--;
-    vector <string> resources = request->database_config_user()->getActiveResources ();
+    vector <string> resources = webserver_request.database_config_user()->getActiveResources ();
     if (resource < resources.size ()) {
       s_resource = resources [resource];
 
@@ -78,7 +75,7 @@ string resource_get (void * webserver_request)
       }
       
       
-      string bible = request->database_config_user ()->getBible ();
+      string bible = webserver_request.database_config_user ()->getBible ();
       string versification = Database_Config_Bible::getVersificationSystem (bible);
       Database_Versifications database_versifications;
       vector <int> chapters = database_versifications.getChapters (versification, book);
@@ -86,9 +83,9 @@ string resource_get (void * webserver_request)
       
       // Whether to add extra verse numbers, for clarity in case of viewing more than one verse.
       bool add_verse_numbers = false;
-      int context_before = request->database_config_user ()->getResourceVersesBefore ();
+      int context_before = webserver_request.database_config_user ()->getResourceVersesBefore ();
       if (context_before) add_verse_numbers = true;
-      int context_after = request->database_config_user ()->getResourceVersesAfter ();
+      int context_after = webserver_request.database_config_user ()->getResourceVersesAfter ();
       if (context_after) add_verse_numbers = true;
       
       
@@ -116,12 +113,12 @@ string resource_get (void * webserver_request)
         }
       }
       for (unsigned int i = 0; i < chapters_before.size (); i++) {
-        bits.push_back (resource_logic_get_html (request, s_resource, book, chapters_before[i], verses_before[i], add_verse_numbers));
+        bits.push_back (resource_logic_get_html (std::addressof(webserver_request), s_resource, book, chapters_before[i], verses_before[i], add_verse_numbers));
       }
       
 
       // Focused verse.
-      bits.push_back (resource_logic_get_html (request, s_resource, book, chapter, verse, add_verse_numbers));
+      bits.push_back (resource_logic_get_html (std::addressof(webserver_request), s_resource, book, chapter, verse, add_verse_numbers));
 
     
       // Context after the focused verse.
@@ -148,7 +145,7 @@ string resource_get (void * webserver_request)
         }
       }
       for (unsigned int i = 0; i < chapters_after.size (); i++) {
-        bits.push_back (resource_logic_get_html (request, s_resource, book, chapters_after[i], verses_after[i], add_verse_numbers));
+        bits.push_back (resource_logic_get_html (std::addressof(webserver_request), s_resource, book, chapters_after[i], verses_after[i], add_verse_numbers));
       }
     }
   }

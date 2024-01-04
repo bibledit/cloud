@@ -24,5 +24,5 @@
 class Webserver_Request;
 
 std::string edit_id_url ();
-bool edit_id_acl (void * webserver_request);
-std::string edit_id (void * webserver_request);
+bool edit_id_acl (Webserver_Request& webserver_request);
+std::string edit_id (Webserver_Request& webserver_request);

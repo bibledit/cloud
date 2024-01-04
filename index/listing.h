@@ -21,6 +21,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <config/libraries.h>
 
+class Webserver_Request;
+
 std::string index_listing_url (std::string url);
-bool index_listing_acl (void * webserver_request, std::string url);
-std::string index_listing (void * webserver_request, std::string url);
+bool index_listing_acl (Webserver_Request& webserver_request, std::string url);
+std::string index_listing (Webserver_Request& webserver_request, std::string url);

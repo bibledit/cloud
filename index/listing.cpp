@@ -55,21 +55,21 @@ string index_listing_url (string url)
 }
 
 
-bool index_listing_acl (void * webserver_request, string url)
+bool index_listing_acl (Webserver_Request& webserver_request, string url)
 {
   // Bible exports are public.
   if (url.find ("exports") == 0) {
-    return Filter_Roles::access_control (webserver_request, Filter_Roles::guest ());
+    return Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::guest ());
   }
   // Any other files are for people with at least a member role.
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::member ());
+  return Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::member ());
 }
 
 
-string index_listing (void * webserver_request, string url)
+string index_listing (Webserver_Request& webserver_request, string url)
 {
   string page;
-  page = assets_page::header (translate ("Bibledit"), webserver_request);
+  page = assets_page::header (translate ("Bibledit"), std::addressof(webserver_request));
   // No breadcrumbs because the user can arrive here from more than one place.
   Assets_View view;
   url = filter_url_urldecode (url);

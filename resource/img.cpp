@@ -43,20 +43,19 @@ string resource_img_url ()
 }
 
 
-bool resource_img_acl (void * webserver_request)
+bool resource_img_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::manager ());
+  return Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::manager ());
 }
 
 
-string resource_img (void * webserver_request)
+string resource_img (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   Database_ImageResources database_imageresources;
 
   
   string page {};
-  Assets_Header header = Assets_Header (translate("Image resources"), request);
+  Assets_Header header = Assets_Header (translate("Image resources"), std::addressof(webserver_request));
   page = header.run ();
   Assets_View view {};
   string error, success;
@@ -65,42 +64,42 @@ string resource_img (void * webserver_request)
   int chapter1, verse1, chapter2, verse2;
   
   
-  string name = request->query ["name"];
+  string name = webserver_request.query ["name"];
   view.set_variable ("name", name);
 
   
-  string image = request->query ["image"];
+  string image = webserver_request.query ["image"];
   view.set_variable ("image", image);
 
   
-  int userid = filter::strings::user_identifier (webserver_request);
+  int userid = filter::strings::user_identifier (std::addressof(webserver_request));
 
   
-  if (request->post.count ("submit")) {
+  if (webserver_request.post.count ("submit")) {
     
     vector <string> errors {};
     
-    string book = request->post ["book1"];
+    string book = webserver_request.post ["book1"];
     book1 = filter_passage_interpret_book_v2 (book);
     if (book1 == book_id::_unknown) errors.push_back (translate ("Unknown starting book."));
 
-    chapter1 = filter::strings::convert_to_int (request->post ["chapter1"]);
+    chapter1 = filter::strings::convert_to_int (webserver_request.post ["chapter1"]);
     if (chapter1 < 0) errors.push_back (translate ("Negative starting chapter."));
     if (chapter1 > 200) errors.push_back (translate ("High starting chapter."));
     
-    verse1 = filter::strings::convert_to_int (request->post ["verse1"]);
+    verse1 = filter::strings::convert_to_int (webserver_request.post ["verse1"]);
     if (chapter1 < 0) errors.push_back (translate ("Negative starting verse."));
     if (chapter1 > 200) errors.push_back (translate ("High starting verse."));
     
-    book = request->post ["book2"];
+    book = webserver_request.post ["book2"];
     book2 = filter_passage_interpret_book_v2 (book);
     if (book2 == book_id::_unknown) errors.push_back (translate ("Unknown ending book."));
     
-    chapter2 = filter::strings::convert_to_int (request->post ["chapter2"]);
+    chapter2 = filter::strings::convert_to_int (webserver_request.post ["chapter2"]);
     if (chapter2 < 0) errors.push_back (translate ("Negative ending chapter."));
     if (chapter2 > 200) errors.push_back (translate ("High ending chapter."));
     
-    verse2 = filter::strings::convert_to_int (request->post ["verse2"]);
+    verse2 = filter::strings::convert_to_int (webserver_request.post ["verse2"]);
     if (chapter2 < 0) errors.push_back (translate ("Negative ending verse."));
     if (chapter2 > 200) errors.push_back (translate ("High ending verse."));
     
@@ -116,7 +115,7 @@ string resource_img (void * webserver_request)
 
     error = filter::strings::implode (errors, " ");
     if (errors.empty ()) {
-      redirect_browser (request, filter_url_build_http_query (resource_image_url (), "name", name));
+      redirect_browser (std::addressof(webserver_request), filter_url_build_http_query (resource_image_url (), "name", name));
       return "";
     }
   }

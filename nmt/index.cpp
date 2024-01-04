@@ -38,33 +38,31 @@ const char * nmt_index_url ()
 }
 
 
-bool nmt_index_acl (void * webserver_request)
+bool nmt_index_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::guest ());
+  return Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::guest ());
 }
 
 
-string nmt_index (void * webserver_request)
+string nmt_index (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  
-  Assets_Header header = Assets_Header (translate ("Bibledit"), webserver_request);
+  Assets_Header header = Assets_Header (translate ("Bibledit"), std::addressof(webserver_request));
   
   string page = header.run ();
 
   Assets_View view;
 
-  int userid = filter::strings::user_identifier (webserver_request);
+  int userid = filter::strings::user_identifier (std::addressof(webserver_request));
   
   string referencebible = Database_Volatile::getValue (userid, "nmt-ref-bible");
   string translatingbible = Database_Volatile::getValue (userid, "nmt-trans-bible");
 
 
-  if (request->query.count ("reference")) {
-    referencebible = request->query["reference"];
+  if (webserver_request.query.count ("reference")) {
+    referencebible = webserver_request.query["reference"];
     if (referencebible.empty()) {
       Dialog_List dialog_list = Dialog_List ("index", translate("Which Bible would you like to use as a reference for producing the neural machine translation suggestions?"), "", "");
-      vector <string> bibles = request->database_bibles()->get_bibles ();
+      vector <string> bibles = webserver_request.database_bibles()->get_bibles ();
       bibles = filter::strings::array_diff (bibles, {translatingbible});
       for (auto bible : bibles) {
         dialog_list.add_row (bible, "reference", bible);
@@ -79,11 +77,11 @@ string nmt_index (void * webserver_request)
   view.set_variable ("reference", referencebible);
 
   
-  if (request->query.count ("translating")) {
-    translatingbible = request->query["translating"];
+  if (webserver_request.query.count ("translating")) {
+    translatingbible = webserver_request.query["translating"];
     if (translatingbible.empty()) {
       Dialog_List dialog_list = Dialog_List ("index", translate("Which Bible would you like to use as the one now being translated for getting the neural machine translation suggestions?"), "", "");
-      vector <string> bibles = request->database_bibles()->get_bibles ();
+      vector <string> bibles = webserver_request.database_bibles()->get_bibles ();
       bibles = filter::strings::array_diff (bibles, {referencebible});
       for (auto bible : bibles) {
         dialog_list.add_row (bible, "translating", bible);
@@ -98,9 +96,9 @@ string nmt_index (void * webserver_request)
   view.set_variable ("translating", translatingbible);
 
   
-  if (request->query.count ("export")) {
+  if (webserver_request.query.count ("export")) {
     tasks_logic_queue (EXPORT2NMT, {referencebible, translatingbible});
-    redirect_browser (request, journal_index_url ());
+    redirect_browser (std::addressof(webserver_request), journal_index_url ());
     return "";
   }
 

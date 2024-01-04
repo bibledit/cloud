@@ -24,5 +24,5 @@
 class Webserver_Request;
 
 std::string sprint_index_url ();
-bool sprint_index_acl (void * webserver_request);
-std::string sprint_index (void * webserver_request);
+bool sprint_index_acl (Webserver_Request& webserver_request);
+std::string sprint_index (Webserver_Request& webserver_request);

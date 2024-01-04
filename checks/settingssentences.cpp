@@ -44,70 +44,67 @@ string checks_settingssentences_url ()
 }
 
 
-bool checks_settingssentences_acl ([[maybe_unused]] void * webserver_request)
+bool checks_settingssentences_acl ([[maybe_unused]] Webserver_Request& webserver_request)
 {
 #ifdef HAVE_CLIENT
   return true;
 #else
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::manager ());
+  return Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::manager ());
 #endif
 }
 
 
-string checks_settingssentences (void * webserver_request)
+string checks_settingssentences (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  
-  
   string page {};
-  Assets_Header header = Assets_Header (translate ("Sentence Structure"), webserver_request);
+  Assets_Header header = Assets_Header (translate ("Sentence Structure"), std::addressof(webserver_request));
   header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   header.add_bread_crumb (checks_settings_url (), menu_logic_checks_settings_text ());
   page = header.run ();
   Assets_View view {};
   
   
-  string bible = access_bible::clamp (webserver_request, request->database_config_user()->getBible ());
+  string bible = access_bible::clamp (std::addressof(webserver_request), webserver_request.database_config_user()->getBible ());
   
   
-  if (request->post.count ("capitals")) {
-    Database_Config_Bible::setSentenceStructureCapitals (bible, request->post["capitals"]);
+  if (webserver_request.post.count ("capitals")) {
+    Database_Config_Bible::setSentenceStructureCapitals (bible, webserver_request.post["capitals"]);
     view.set_variable ("success", translate("The capitals were stored"));
   }
   
   
-  if (request->post.count ("smallletters")) {
-    Database_Config_Bible::setSentenceStructureSmallLetters (bible, request->post["smallletters"]);
+  if (webserver_request.post.count ("smallletters")) {
+    Database_Config_Bible::setSentenceStructureSmallLetters (bible, webserver_request.post["smallletters"]);
     view.set_variable ("success", translate("The small letters were stored"));
   }
   
   
-  if (request->post.count ("endpunctuationmarks")) {
-    Database_Config_Bible::setSentenceStructureEndPunctuation (bible, request->post["endpunctuationmarks"]);
+  if (webserver_request.post.count ("endpunctuationmarks")) {
+    Database_Config_Bible::setSentenceStructureEndPunctuation (bible, webserver_request.post["endpunctuationmarks"]);
     view.set_variable ("success", translate("The punctuation marks at the ends of sentences were stored"));
   }
   
   
-  if (request->post.count ("middlepunctuationmarks")) {
-    Database_Config_Bible::setSentenceStructureMiddlePunctuation (bible, request->post["middlepunctuationmarks"]);
+  if (webserver_request.post.count ("middlepunctuationmarks")) {
+    Database_Config_Bible::setSentenceStructureMiddlePunctuation (bible, webserver_request.post["middlepunctuationmarks"]);
     view.set_variable ("success", translate("The punctuation marks within the sentences were stored"));
   }
   
   
-  if (request->post.count ("disregards")) {
-    Database_Config_Bible::setSentenceStructureDisregards (bible, request->post["disregards"]);
+  if (webserver_request.post.count ("disregards")) {
+    Database_Config_Bible::setSentenceStructureDisregards (bible, webserver_request.post["disregards"]);
     view.set_variable ("success", translate("The characters that should be disregarded within the sentences were stored"));
   }
   
   
-  if (request->post.count ("names")) {
-    Database_Config_Bible::setSentenceStructureNames (bible, request->post["names"]);
+  if (webserver_request.post.count ("names")) {
+    Database_Config_Bible::setSentenceStructureNames (bible, webserver_request.post["names"]);
     view.set_variable ("success", translate("The names that may occur after mid-sentence punctuation were stored"));
   }
 
   
-  if (request->post.count ("within_sentence_paragraph_markers")) {
-    Database_Config_Bible::setSentenceStructureWithinSentenceMarkers (bible, request->post["within_sentence_paragraph_markers"]);
+  if (webserver_request.post.count ("within_sentence_paragraph_markers")) {
+    Database_Config_Bible::setSentenceStructureWithinSentenceMarkers (bible, webserver_request.post["within_sentence_paragraph_markers"]);
     view.set_variable ("success", translate("The markers that start a new line but not necessarily a new sentence were saved"));
   }
 

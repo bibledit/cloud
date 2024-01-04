@@ -35,14 +35,13 @@ std::string sync_files_url ()
 }
 
 
-std::string sync_files (void * webserver_request)
+std::string sync_files (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  Sync_Logic sync_logic = Sync_Logic (webserver_request);
+  Sync_Logic sync_logic = Sync_Logic (std::addressof(webserver_request));
 
   if (!sync_logic.security_okay ()) {
     // When the Cloud enforces https, inform the client to upgrade.
-    request->response_code = 426;
+    webserver_request.response_code = 426;
     return std::string();
   }
 
@@ -54,20 +53,20 @@ std::string sync_files (void * webserver_request)
     std::this_thread::sleep_for (std::chrono::seconds (5));
   }
   
-  if (request->post.empty ()) {
-    request->post = request->query;
+  if (webserver_request.post.empty ()) {
+    webserver_request.post = webserver_request.query;
   }
-  const std::string user = filter::strings::hex2bin (request->post ["u"]);
-  const int action = filter::strings::convert_to_int (request->post ["a"]);
-  const int version = filter::strings::convert_to_int (request->post ["v"]);
-  const size_t d = static_cast<size_t>(filter::strings::convert_to_int (request->post ["d"]));
-  const std::string file = request->post ["f"];
+  const std::string user = filter::strings::hex2bin (webserver_request.post ["u"]);
+  const int action = filter::strings::convert_to_int (webserver_request.post ["a"]);
+  const int version = filter::strings::convert_to_int (webserver_request.post ["v"]);
+  const size_t d = static_cast<size_t>(filter::strings::convert_to_int (webserver_request.post ["d"]));
+  const std::string file = webserver_request.post ["f"];
 
   // For security reasons a client does not specify the directory of the file to be downloaded.
   // Rather it specifies the offset within the list of allowed directories for the version.
   const std::vector <std::string> directories = Sync_Logic::files_get_directories (version, user);
   if (d >= directories.size ()) {
-    request->response_code = 400;
+    webserver_request.response_code = 400;
     return std::string();
   }
   const std::string directory = directories [d];
@@ -93,7 +92,7 @@ std::string sync_files (void * webserver_request)
   
   else if (action == Sync_Logic::files_file_download) {
     // This triggers the correct mime type.
-    request->get = "file.download";
+    webserver_request.get = "file.download";
     // Return the file's contents.
     const std::string path = filter_url_create_root_path ({directory, file});
     return filter_url_file_get_contents (path);
@@ -101,7 +100,7 @@ std::string sync_files (void * webserver_request)
   
   // Bad request. Delay flood of bad requests.
   std::this_thread::sleep_for (std::chrono::seconds (1));
-  request->response_code = 400;
+  webserver_request.response_code = 400;
   return "";
 }
 

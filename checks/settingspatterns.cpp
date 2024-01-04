@@ -37,34 +37,31 @@ string checks_settingspatterns_url ()
 }
 
 
-bool checks_settingspatterns_acl ([[maybe_unused]] void * webserver_request)
+bool checks_settingspatterns_acl ([[maybe_unused]] Webserver_Request& webserver_request)
 {
 #ifdef HAVE_CLIENT
   return true;
 #else
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::manager ());
+  return Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::manager ());
 #endif
 }
 
 
-string checks_settingspatterns (void * webserver_request)
+string checks_settingspatterns (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  
-  
   string page {};
-  Assets_Header header = Assets_Header (translate ("Patterns"), webserver_request);
+  Assets_Header header = Assets_Header (translate ("Patterns"), std::addressof(webserver_request));
   header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   header.add_bread_crumb (checks_settings_url (), menu_logic_checks_settings_text ());
   page = header.run ();
   Assets_View view {};
   
   
-  string bible = access_bible::clamp (webserver_request, request->database_config_user()->getBible ());
+  string bible = access_bible::clamp (std::addressof(webserver_request), webserver_request.database_config_user()->getBible ());
   
   
-  if (request->post.count ("patterns")) {
-    string patterns = request->post ["patterns"];
+  if (webserver_request.post.count ("patterns")) {
+    string patterns = webserver_request.post ["patterns"];
     if (!bible.empty ()) Database_Config_Bible::setCheckingPatterns (bible, patterns);
     view.set_variable ("success", translate("The patterns were saved"));
   }

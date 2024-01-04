@@ -22,5 +22,7 @@
 #include <config/libraries.h>
 #include <filter/string.hpp>
 
+class Webserver_Request;
+
 std::string sync_settings_url ();
-std::string sync_settings (void * webserver_request);
+std::string sync_settings (Webserver_Request& webserver_request);

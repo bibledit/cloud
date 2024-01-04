@@ -24,5 +24,5 @@
 class Webserver_Request;
 
 std::string consistency_input_url ();
-bool consistency_input_acl (void * webserver_request);
-std::string consistency_input (void * webserver_request);
+bool consistency_input_acl (Webserver_Request& webserver_request);
+std::string consistency_input (Webserver_Request& webserver_request);

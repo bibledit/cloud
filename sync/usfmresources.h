@@ -21,5 +21,7 @@
 
 #include <config/libraries.h>
 
+class Webserver_Request;
+
 std::string sync_usfmresources_url ();
-std::string sync_usfmresources (void * webserver_request);
+std::string sync_usfmresources (Webserver_Request& webserver_request);

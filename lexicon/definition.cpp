@@ -36,17 +36,16 @@ string lexicon_definition_url ()
 }
 
 
-bool lexicon_definition_acl (void * webserver_request)
+bool lexicon_definition_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ());
+  return Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::consultant ());
 }
 
 
-string lexicon_definition (void * webserver_request)
+string lexicon_definition (Webserver_Request& webserver_request)
 {
   // Retrieve the id: It may contain a Strong's number or a lemma.
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  string id = request->query["id"];
+  string id = webserver_request.query["id"];
   
   vector <string> renderings;
   

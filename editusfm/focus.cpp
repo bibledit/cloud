@@ -33,10 +33,11 @@ string editusfm_focus_url ()
 }
 
 
-bool editusfm_focus_acl (void * webserver_request)
+bool editusfm_focus_acl (Webserver_Request& webserver_request)
 {
-  if (Filter_Roles::access_control (webserver_request, Filter_Roles::translator ())) return true;
-  auto [ read, write ] = access_bible::any (webserver_request);
+  if (Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::translator ()))
+    return true;
+  auto [ read, write ] = access_bible::any (std::addressof(webserver_request));
   return read;
 }
 
@@ -44,14 +45,13 @@ bool editusfm_focus_acl (void * webserver_request)
 // Returns two numerical positions: A starting one, and an ending one.
 // These two are for positioning the caret in the editor.
 // The caret should be at or be moved to a position between these two.
-string editusfm_focus (void * webserver_request)
+string editusfm_focus (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  string bible = request->query ["bible"];
-  int book = filter::strings::convert_to_int (request->query ["book"]);
-  int chapter = filter::strings::convert_to_int (request->query ["chapter"]);
-  string usfm = request->database_bibles()->get_chapter (bible, book, chapter);
-  int verse = Ipc_Focus::getVerse (request);
+  string bible = webserver_request.query ["bible"];
+  int book = filter::strings::convert_to_int (webserver_request.query ["book"]);
+  int chapter = filter::strings::convert_to_int (webserver_request.query ["chapter"]);
+  string usfm = webserver_request.database_bibles()->get_chapter (bible, book, chapter);
+  int verse = Ipc_Focus::getVerse (std::addressof(webserver_request));
   int startingOffset = filter::usfm::versenumber_to_offset (usfm, verse);
   int endingOffset = startingOffset;
   // The following deals with a combined verse.

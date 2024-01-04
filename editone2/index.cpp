@@ -50,39 +50,38 @@ string editone2_index_url ()
 }
 
 
-bool editone2_index_acl (void * webserver_request)
+bool editone2_index_acl (Webserver_Request& webserver_request)
 {
   // Default minimum role for getting access.
   int minimum_role = Filter_Roles::translator ();
-  if (Filter_Roles::access_control (webserver_request, minimum_role)) return true;
-  auto [ read, write ] = access_bible::any (webserver_request);
+  if (Filter_Roles::access_control (std::addressof(webserver_request), minimum_role))
+    return true;
+  auto [ read, write ] = access_bible::any (std::addressof(webserver_request));
   return read;
 }
 
 
-string editone2_index (void * webserver_request)
+string editone2_index (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
+  bool touch = webserver_request.session_logic ()->touchEnabled ();
   
-  bool touch = request->session_logic ()->touchEnabled ();
-  
-  if (request->query.count ("switchbook") && request->query.count ("switchchapter")) {
-    int switchbook = filter::strings::convert_to_int (request->query ["switchbook"]);
-    int switchchapter = filter::strings::convert_to_int (request->query ["switchchapter"]);
-    Ipc_Focus::set (request, switchbook, switchchapter, 1);
-    Navigation_Passage::record_history (request, switchbook, switchchapter, 1);
+  if (webserver_request.query.count ("switchbook") && webserver_request.query.count ("switchchapter")) {
+    int switchbook = filter::strings::convert_to_int (webserver_request.query ["switchbook"]);
+    int switchchapter = filter::strings::convert_to_int (webserver_request.query ["switchchapter"]);
+    Ipc_Focus::set (std::addressof(webserver_request), switchbook, switchchapter, 1);
+    Navigation_Passage::record_history (std::addressof(webserver_request), switchbook, switchchapter, 1);
   }
 
   // Set the user chosen Bible as the current Bible.
-  if (request->post.count ("bibleselect")) {
-    string bibleselect = request->post ["bibleselect"];
-    request->database_config_user ()->setBible (bibleselect);
+  if (webserver_request.post.count ("bibleselect")) {
+    string bibleselect = webserver_request.post ["bibleselect"];
+    webserver_request.database_config_user ()->setBible (bibleselect);
     return string();
   }
 
   string page;
   
-  Assets_Header header = Assets_Header (translate("Edit verse"), request);
+  Assets_Header header = Assets_Header (translate("Edit verse"), std::addressof(webserver_request));
   header.set_navigator ();
   header.set_editor_stylesheet ();
   if (touch) header.jquery_touch_on ();
@@ -96,10 +95,10 @@ string editone2_index (void * webserver_request)
   // Or if the user have used query to preset the active Bible, get the preset Bible.
   // If needed, change Bible to one it has read access to.
   // Set the chosen Bible on the option HTML tag.
-  string bible = access_bible::clamp (request, request->database_config_user()->getBible ());
-  if (request->query.count ("bible")) bible = access_bible::clamp (request, request->query ["bible"]);
+  string bible = access_bible::clamp (std::addressof(webserver_request), webserver_request.database_config_user()->getBible ());
+  if (webserver_request.query.count ("bible")) bible = access_bible::clamp (std::addressof(webserver_request), webserver_request.query ["bible"]);
   string bible_html;
-  vector <string> bibles = access_bible::bibles (request);
+  vector <string> bibles = access_bible::bibles (std::addressof(webserver_request));
   for (auto selectable_bible : bibles) {
     bible_html = Options_To_Select::add_selection (selectable_bible, selectable_bible, bible_html);
   }
@@ -119,16 +118,16 @@ string editone2_index (void * webserver_request)
   script_stream << "var oneverseEditorVerseSaved = " << quoted(locale_logic_text_saved ()) << ";\n";
   script_stream << "var oneverseEditorVerseRetrying = " << quoted(locale_logic_text_retrying ()) << ";\n";
   script_stream << "var oneverseEditorVerseUpdatedLoaded = " << quoted(locale_logic_text_reload ()) << ";\n";
-  int verticalCaretPosition = request->database_config_user ()->getVerticalCaretPosition ();
+  int verticalCaretPosition = webserver_request.database_config_user ()->getVerticalCaretPosition ();
   script_stream << "var verticalCaretPosition = " << verticalCaretPosition << ";\n";
   script_stream << "var verseSeparator = " << quoted(Database_Config_General::getNotesVerseSeparator ()) << ";\n";
   string script {script_stream.str()};
-  config::logic::swipe_enabled (webserver_request, script);
-  view.set_variable ("script", script); 
+  config::logic::swipe_enabled (std::addressof(webserver_request), script);
+  view.set_variable ("script", script);
 
   string custom_class = Filter_Css::getClass (bible);
   string font = fonts::logic::get_text_font (bible);
-  int current_theme_index = request->database_config_user ()->getCurrentTheme ();
+  int current_theme_index = webserver_request.database_config_user ()->getCurrentTheme ();
   int direction = Database_Config_Bible::getTextDirection (bible);
   int lineheight = Database_Config_Bible::getLineHeight (bible);
   int letterspacing = Database_Config_Bible::getLetterSpacing (bible);
@@ -142,12 +141,12 @@ string editone2_index (void * webserver_request)
 
   
   // Whether to enable fast Bible editor switching.
-  if (request->database_config_user ()->getFastEditorSwitchingAvailable ()) {
+  if (webserver_request.database_config_user ()->getFastEditorSwitchingAvailable ()) {
     view.enable_zone ("fastswitcheditor");
   }
 
   // Whether to enable the styles button.
-  if (request->database_config_user ()->getEnableStylesButtonVisualEditors ()) {
+  if (webserver_request.database_config_user ()->getEnableStylesButtonVisualEditors ()) {
     view.enable_zone ("stylesbutton");
   }
   

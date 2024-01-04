@@ -24,5 +24,5 @@
 class Webserver_Request;
 
 std::string rss_feed_url ();
-bool rss_feed_acl (void * webserver_request);
-std::string rss_feed (void * webserver_request);
+bool rss_feed_acl (Webserver_Request& webserver_request);
+std::string rss_feed (Webserver_Request& webserver_request);

@@ -21,5 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <config/libraries.h>
 
+class Webserver_Request;
+
 std::string navigation_paratext_url ();
-std::string navigation_paratext (void * webserver_request);
+std::string navigation_paratext (Webserver_Request& webserver_request);

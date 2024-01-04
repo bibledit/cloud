@@ -41,15 +41,14 @@ string sync_changes_url ()
 }
 
 
-string sync_changes (void * webserver_request)
+string sync_changes (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  Sync_Logic sync_logic = Sync_Logic (webserver_request);
+  Sync_Logic sync_logic = Sync_Logic (std::addressof(webserver_request));
   Database_Modifications database_modifications;
 
   if (!sync_logic.security_okay ()) {
     // When the Cloud enforces https, inform the client to upgrade.
-    request->response_code = 426;
+    webserver_request.response_code = 426;
     return "";
   }
   
@@ -58,7 +57,7 @@ string sync_changes (void * webserver_request)
 
   // Bail out if the change notifications are not now available to clients.
   if (!config_globals_change_notifications_available) {
-    request->response_code = 503;
+    webserver_request.response_code = 503;
     return "";
   }
   
@@ -66,9 +65,9 @@ string sync_changes (void * webserver_request)
   sync_logic.prioritized_ip_address_record ();
 
   // Get the relevant parameters the client may have POSTed to us, the server.
-  string user = filter::strings::hex2bin (request->post ["u"]);
-  int action = filter::strings::convert_to_int (request->post ["a"]);
-  int id = filter::strings::convert_to_int (request->post ["i"]);
+  string user = filter::strings::hex2bin (webserver_request.post ["u"]);
+  int action = filter::strings::convert_to_int (webserver_request.post ["a"]);
+  int id = filter::strings::convert_to_int (webserver_request.post ["i"]);
 
   switch (action) {
     case Sync_Logic::changes_delete_modification:
@@ -76,16 +75,16 @@ string sync_changes (void * webserver_request)
       // The server deletes the change notification.
       database_modifications.deleteNotification (id);
       Database_Logs::log ("Client deletes change notification from server: " + filter::strings::convert_to_string (id), Filter_Roles::translator ());
-      request->database_config_user ()->setChangeNotificationsChecksum ("");
+      webserver_request.database_config_user ()->setChangeNotificationsChecksum ("");
       return "";
     }
     case Sync_Logic::changes_get_checksum:
     {
       // The server responds with the possibly cached total checksum for the user's change notifications.
-      string checksum = request->database_config_user ()->getChangeNotificationsChecksum ();
+      string checksum = webserver_request.database_config_user ()->getChangeNotificationsChecksum ();
       if (checksum.empty ()) {
         checksum = Sync_Logic::changes_checksum (user);
-        request->database_config_user ()->setChangeNotificationsChecksum (checksum);
+        webserver_request.database_config_user ()->setChangeNotificationsChecksum (checksum);
       }
       return checksum;
     }
@@ -138,6 +137,6 @@ string sync_changes (void * webserver_request)
   // Bad request.
   // Delay a while to obstruct a flood of bad requests.
   this_thread::sleep_for (chrono::seconds (1));
-  request->response_code = 400;
+  webserver_request.response_code = 400;
   return "";
 }

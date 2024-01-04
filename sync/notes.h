@@ -21,5 +21,7 @@
 
 #include <config/libraries.h>
 
+class Webserver_Request;
+
 std::string sync_notes_url ();
-std::string sync_notes (void * webserver_request);
+std::string sync_notes (Webserver_Request& webserver_request);

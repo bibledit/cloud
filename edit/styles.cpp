@@ -33,32 +33,30 @@ string edit_styles_url ()
 }
 
 
-bool edit_styles_acl (void * webserver_request)
+bool edit_styles_acl (Webserver_Request& webserver_request)
 {
-  if (Filter_Roles::access_control (webserver_request, Filter_Roles::translator ())) return true;
-  auto [ read, write ] = access_bible::any (webserver_request);
+  if (Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::translator ()))
+    return true;
+  auto [ read, write ] = access_bible::any (std::addressof(webserver_request));
   return read;
 }
 
 
-string edit_styles (void * webserver_request)
+string edit_styles (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-
-  
-  if (request->query.count ("style")) {
-    string style = request->query["style"];
-    Editor_Styles::recordUsage (request, style);
-    string action = Editor_Styles::getAction (request, style);
+  if (webserver_request.query.count ("style")) {
+    string style = webserver_request.query["style"];
+    Editor_Styles::recordUsage (std::addressof(webserver_request), style);
+    string action = Editor_Styles::getAction (std::addressof(webserver_request), style);
     return style + "\n" + action;
   }
   
   
-  if (request->query.count ("all")) {
-    return Editor_Styles::getAll (request);
+  if (webserver_request.query.count ("all")) {
+    return Editor_Styles::getAll (std::addressof(webserver_request));
   }
   
   
-  return Editor_Styles::getRecentlyUsed (request);
+  return Editor_Styles::getRecentlyUsed (std::addressof(webserver_request));
 }
 

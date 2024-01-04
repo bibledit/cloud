@@ -24,5 +24,5 @@
 class Webserver_Request;
 
 std::string editusfm_load_url ();
-bool editusfm_load_acl (void * webserver_request);
-std::string editusfm_load (void * webserver_request);
+bool editusfm_load_acl (Webserver_Request& webserver_request);
+std::string editusfm_load (Webserver_Request& webserver_request);

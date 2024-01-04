@@ -43,39 +43,37 @@ string collaboration_settings_url ()
 }
 
 
-bool collaboration_settings_acl (void * webserver_request)
+bool collaboration_settings_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::admin ());
+  return Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::admin ());
 }
 
 
-string collaboration_settings (void * webserver_request)
+string collaboration_settings (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  
   string page;
-  Assets_Header header = Assets_Header (translate("Collaboration"), request);
+  Assets_Header header = Assets_Header (translate("Collaboration"), std::addressof(webserver_request));
   page = header.run ();
   Assets_View view;
   
   
-  string object = request->query ["object"];
+  string object = webserver_request.query ["object"];
   view.set_variable ("object", object);
 
   
-  if (request->post.count ("url")) {
+  if (webserver_request.post.count ("url")) {
     if (!object.empty ()) {
-      string url = request->post["url"];
+      string url = webserver_request.post["url"];
       Database_Config_Bible::setRemoteRepositoryUrl (object, url);
-      string source = request->post["source"];
-      string readwrite = request->post["readwrite"];
+      string source = webserver_request.post["source"];
+      string readwrite = webserver_request.post["readwrite"];
       Database_Config_Bible::setReadFromGit (object, readwrite == "sendreceive");
       Database_Jobs database_jobs = Database_Jobs ();
       int jobId = database_jobs.get_new_id ();
       database_jobs.set_level (jobId, Filter_Roles::admin ());
       database_jobs.set_start (jobId, collaboration_link_header ());
       tasks_logic_queue (LINKGITREPOSITORY, {object, filter::strings::convert_to_string (jobId), source});
-      redirect_browser (request, jobs_index_url () + "?id=" + filter::strings::convert_to_string (jobId));
+      redirect_browser (std::addressof(webserver_request), jobs_index_url () + "?id=" + filter::strings::convert_to_string (jobId));
       return "";
     }
   }

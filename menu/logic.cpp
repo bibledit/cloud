@@ -306,7 +306,7 @@ string menu_logic_basic_categories (void * webserver_request)
     html.push_back (menu_logic_create_item (resource_index_url (), menu_logic_resources_text (), true, "", color));
   }
 
-  if (editone2_index_acl (webserver_request)) {
+  if (editone2_index_acl (*request)) {
     html.push_back (menu_logic_create_item (editone2_index_url (), menu_logic_translate_text (), true, "", color));
   }
   
@@ -409,7 +409,7 @@ string menu_logic_translate_category (void * webserver_request, string * tooltip
   }
 
   // Visual verse editor.
-  if (editone2_index_acl (webserver_request)) {
+  if (editone2_index_acl (*request)) {
     string label = menu_logic_editor_menu_text (true, false);
     html.push_back (menu_logic_create_item (editone2_index_url (), label, true, "", ""));
     labels.push_back (label);
@@ -602,7 +602,7 @@ string menu_logic_tools_category (void * webserver_request, string * tooltip)
     if (label == changes) {
       // Downloading revisions only on server, not on client.
 #ifndef HAVE_CLIENT
-      if (index_listing_acl (webserver_request, "revisions")) {
+      if (index_listing_acl (*request, "revisions")) {
         html.push_back (menu_logic_create_item (index_listing_url ("revisions"), menu_logic_changes_text (), true, "", ""));
         tiplabels.push_back (menu_logic_changes_text ());
       }
@@ -611,7 +611,7 @@ string menu_logic_tools_category (void * webserver_request, string * tooltip)
     
     if (label == planning) {
 #ifndef HAVE_CLIENT
-      if (sprint_index_acl (webserver_request)) {
+      if (sprint_index_acl (*request)) {
         html.push_back (menu_logic_create_item (sprint_index_url (), label, true, "", ""));
         tiplabels.push_back (label);
       }

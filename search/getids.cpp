@@ -35,22 +35,21 @@ string search_getids_url ()
 }
 
 
-bool search_getids_acl (void * webserver_request)
+bool search_getids_acl (Webserver_Request& webserver_request)
 {
-  if (Filter_Roles::access_control (webserver_request, Filter_Roles::translator ())) return true;
-  auto [ read, write ] = access_bible::any (webserver_request);
+  if (Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::translator ()))
+    return true;
+  auto [ read, write ] = access_bible::any (std::addressof(webserver_request));
   return write;
 }
 
 
-string search_getids (void * webserver_request)
+string search_getids (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-
   // Get search variables from the query.
-  string bible = request->query ["b"];
-  string searchfor = request->query ["q"];
-  bool casesensitive = (request->query ["c"] == "true");
+  string bible = webserver_request.query ["b"];
+  string searchfor = webserver_request.query ["q"];
+  bool casesensitive = (webserver_request.query ["c"] == "true");
 
   // Do the search.
   vector <Passage> passages;
@@ -62,7 +61,7 @@ string search_getids (void * webserver_request)
 
   // Output identifiers of the search results.
   string output;
-  for (auto & passage : passages) {
+  for (const auto& passage : passages) {
     if (!output.empty ()) output.append ("\n");
     output.append (passage.encode ());
   }

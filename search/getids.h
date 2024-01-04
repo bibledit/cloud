@@ -24,5 +24,5 @@
 class Webserver_Request;
 
 std::string search_getids_url ();
-bool search_getids_acl (void * webserver_request);
-std::string search_getids (void * webserver_request);
+bool search_getids_acl (Webserver_Request& webserver_request);
+std::string search_getids (Webserver_Request& webserver_request);

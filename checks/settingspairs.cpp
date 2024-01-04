@@ -44,35 +44,32 @@ string checks_settingspairs_url ()
 }
 
 
-bool checks_settingspairs_acl ([[maybe_unused]] void * webserver_request)
+bool checks_settingspairs_acl ([[maybe_unused]] Webserver_Request& webserver_request)
 {
 #ifdef HAVE_CLIENT
   return true;
 #else
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::manager ());
+  return Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::manager ());
 #endif
 }
 
 
-string checks_settingspairs (void * webserver_request)
+string checks_settingspairs (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  
-  
   string page {};
-  Assets_Header header = Assets_Header (translate ("Matching pairs"), webserver_request);
+  Assets_Header header = Assets_Header (translate ("Matching pairs"), std::addressof(webserver_request));
   header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   header.add_bread_crumb (checks_settings_url (), menu_logic_checks_settings_text ());
   page = header.run ();
   Assets_View view {};
   
   
-  string bible = access_bible::clamp (webserver_request, request->database_config_user()->getBible ());
+  string bible = access_bible::clamp (std::addressof(webserver_request), webserver_request.database_config_user()->getBible ());
   view.set_variable ("bible", bible);
   
   
-  if (request->post.count ("pairs")) {
-    string fragment = request->post["pairs"];
+  if (webserver_request.post.count ("pairs")) {
+    string fragment = webserver_request.post["pairs"];
     vector <string> errors {};
     vector <string> pairs = filter::strings::explode (fragment, ' ');
     bool okay {true};

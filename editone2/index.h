@@ -24,5 +24,5 @@
 class Webserver_Request;
 
 std::string editone2_index_url ();
-bool editone2_index_acl (void * webserver_request);
-std::string editone2_index (void * webserver_request);
+bool editone2_index_acl (Webserver_Request& webserver_request);
+std::string editone2_index (Webserver_Request& webserver_request);

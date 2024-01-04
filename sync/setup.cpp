@@ -34,31 +34,30 @@ string sync_setup_url ()
 }
 
 
-string sync_setup (void * webserver_request)
+string sync_setup (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  Sync_Logic sync_logic = Sync_Logic (webserver_request);
+  Sync_Logic sync_logic = Sync_Logic (std::addressof(webserver_request));
   
   if (!sync_logic.security_okay ()) {
     // When the Cloud enforces https, inform the client to upgrade.
-    request->response_code = 426;
+    webserver_request.response_code = 426;
     return "";
   }
   
   string page;
   
-  string username = request->query ["user"];
+  string username = webserver_request.query ["user"];
   username = filter::strings::hex2bin (username);
-  string password = request->query ["pass"];
+  string password = webserver_request.query ["pass"];
 
   // Check the credentials of the client.
-  if (request->database_users ()->usernameExists (username)) {
-    string md5 = request->database_users ()->get_md5 (username);
+  if (webserver_request.database_users ()->usernameExists (username)) {
+    string md5 = webserver_request.database_users ()->get_md5 (username);
     if (password == md5) {
       // Check brute force attack mitigation.
       if (user_logic_login_failure_check_okay ()) {
         // Return the level to the client.
-        return filter::strings::convert_to_string (request->database_users ()->get_level (username));
+        return filter::strings::convert_to_string (webserver_request.database_users ()->get_level (username));
       }
     }
   }

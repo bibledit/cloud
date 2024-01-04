@@ -24,5 +24,5 @@
 class Webserver_Request;
 
 std::string editor_id_url ();
-bool editor_id_acl (void * webserver_request);
-std::string editor_id (void * webserver_request);
+bool editor_id_acl (Webserver_Request& webserver_request);
+std::string editor_id (Webserver_Request& webserver_request);

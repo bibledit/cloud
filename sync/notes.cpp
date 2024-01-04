@@ -47,17 +47,16 @@ string sync_notes_url ()
 }
 
 
-string sync_notes (void * webserver_request)
+string sync_notes (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  Sync_Logic sync_logic = Sync_Logic (webserver_request);
-  Database_Notes database_notes (webserver_request);
-  Notes_Logic notes_logic = Notes_Logic (webserver_request);
+  Sync_Logic sync_logic = Sync_Logic (std::addressof(webserver_request));
+  Database_Notes database_notes (std::addressof(webserver_request));
+  Notes_Logic notes_logic = Notes_Logic (std::addressof(webserver_request));
 
   
   if (!sync_logic.security_okay ()) {
     // When the Cloud enforces https, inform the client to upgrade.
-    request->response_code = 426;
+    webserver_request.response_code = 426;
     return string();
   }
 
@@ -68,7 +67,7 @@ string sync_notes (void * webserver_request)
   if (!database_notes.checksums_healthy ()) available = false;
   if (!database_notes.available ()) available = false;
   if (!available) {
-    request->response_code = 503;
+    webserver_request.response_code = 503;
     return string();
   }
 
@@ -78,7 +77,7 @@ string sync_notes (void * webserver_request)
 
   
   // What action does the client request from us?
-  int action = filter::strings::convert_to_int (request->post ["a"]);
+  int action = filter::strings::convert_to_int (webserver_request.post ["a"]);
 
   
   // Check on the credentials when the clients sends data to the server to be stored there.
@@ -88,28 +87,28 @@ string sync_notes (void * webserver_request)
 
 
   // Check on username only, without password or level.
-  string user = filter::strings::hex2bin (request->post ["u"]);
+  string user = filter::strings::hex2bin (webserver_request.post ["u"]);
   if ((action == Sync_Logic::notes_get_total) || (action == Sync_Logic::notes_get_identifiers)) {
-    if (!request->database_users ()->usernameExists (user)) {
+    if (!webserver_request.database_users ()->usernameExists (user)) {
       Database_Logs::log ("A client passes a non-existing user " + user, Filter_Roles::manager ());
       return string();
     }
   }
-  request->session_logic ()->set_username (user);
+  webserver_request.session_logic ()->set_username (user);
   
   
   // Note lower and upper limits.
-  int lowId = filter::strings::convert_to_int (request->post ["l"]);
-  int highId = filter::strings::convert_to_int (request->post ["h"]);
+  int lowId = filter::strings::convert_to_int (webserver_request.post ["l"]);
+  int highId = filter::strings::convert_to_int (webserver_request.post ["h"]);
 
   
-  int identifier = filter::strings::convert_to_int (request->post ["i"]);
-  string content = request->post ["c"];
+  int identifier = filter::strings::convert_to_int (webserver_request.post ["i"]);
+  string content = webserver_request.post ["c"];
   
   switch (action) {
     case Sync_Logic::notes_get_total:
     {
-      vector <string> bibles = access_bible::bibles (webserver_request, user);
+      vector <string> bibles = access_bible::bibles (std::addressof(webserver_request), user);
       vector <int> identifiers = database_notes.get_notes_in_range_for_bibles (lowId, highId, bibles, false);
       // Checksum cache to speed things up in case of thousands of notes.
       // Else the server would run at 100% CPU usage for some time to get the total checksums of notes.
@@ -123,7 +122,7 @@ string sync_notes (void * webserver_request)
     }
     case Sync_Logic::notes_get_identifiers:
     {
-      vector <string> bibles = access_bible::bibles (webserver_request, user);
+      vector <string> bibles = access_bible::bibles (std::addressof(webserver_request), user);
       vector <int> identifiers = database_notes.get_notes_in_range_for_bibles (lowId, highId, bibles, false);
       string response;
       for (auto id : identifiers) {
@@ -338,7 +337,7 @@ string sync_notes (void * webserver_request)
     case Sync_Logic::notes_get_bulk:
     {
       // Get the note identifiers the client requests.
-      vector <string> notes = filter::strings::explode (request->post ["b"], '\n');
+      vector <string> notes = filter::strings::explode (webserver_request.post ["b"], '\n');
       vector <int> identifiers;
       for (auto note : notes) identifiers.push_back (filter::strings::convert_to_int (note));
       // Return the JSON that contains all the requested notes.
@@ -351,6 +350,6 @@ string sync_notes (void * webserver_request)
   // Bad request.
   // Delay a while to obstruct a flood of bad requests.
   this_thread::sleep_for (chrono::seconds (1));
-  request->response_code = 400;
+  webserver_request.response_code = 400;
   return string();
 }

@@ -24,5 +24,5 @@
 class Webserver_Request;
 
 std::string resource_img_url ();
-bool resource_img_acl (void * webserver_request);
-std::string resource_img (void * webserver_request);
+bool resource_img_acl (Webserver_Request& webserver_request);
+std::string resource_img (Webserver_Request& webserver_request);

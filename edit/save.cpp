@@ -49,32 +49,31 @@ string edit_save_url ()
 }
 
 
-bool edit_save_acl (void * webserver_request)
+bool edit_save_acl (Webserver_Request& webserver_request)
 {
-  if (Filter_Roles::access_control (webserver_request, Filter_Roles::translator ())) return true;
-  auto [ read, write ] = access_bible::any (webserver_request);
+  if (Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::translator ()))
+    return true;
+  auto [ read, write ] = access_bible::any (std::addressof(webserver_request));
   return read;
 }
 
 
-string edit_save (void * webserver_request)
+string edit_save (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-
-  bool post_complete = (request->post.count ("bible") && request->post.count ("book") && request->post.count ("chapter") && request->post.count ("html") && request->post.count ("checksum"));
+  bool post_complete = (webserver_request.post.count ("bible") && webserver_request.post.count ("book") && webserver_request.post.count ("chapter") && webserver_request.post.count ("html") && webserver_request.post.count ("checksum"));
   if (!post_complete) {
     return translate("Insufficient information");
   }
 
-  string bible = request->post["bible"];
-  int book = filter::strings::convert_to_int (request->post["book"]);
-  int chapter = filter::strings::convert_to_int (request->post["chapter"]);
-  string html = request->post["html"];
-  string checksum = request->post["checksum"];
-  string unique_id = request->post ["id"];
+  string bible = webserver_request.post["bible"];
+  int book = filter::strings::convert_to_int (webserver_request.post["book"]);
+  int chapter = filter::strings::convert_to_int (webserver_request.post["chapter"]);
+  string html = webserver_request.post["html"];
+  string checksum = webserver_request.post["checksum"];
+  string unique_id = webserver_request.post ["id"];
 
   if (checksum_logic::get (html) != checksum) {
-    request->response_code = 409;
+    webserver_request.response_code = 409;
     return translate("Checksum error");
   }
 
@@ -91,7 +90,7 @@ string edit_save (void * webserver_request)
     return translate("Save failure");
   }
   
-  if (!access_bible::book_write (request, string(), bible, book)) {
+  if (!access_bible::book_write (std::addressof(webserver_request), string(), bible, book)) {
     return translate("No write access");
   }
 
@@ -103,7 +102,7 @@ string edit_save (void * webserver_request)
   editor_export.run ();
   string user_usfm = editor_export.get ();
   
-  string ancestor_usfm = getLoadedUsfm2 (webserver_request, bible, book, chapter, unique_id);
+  string ancestor_usfm = getLoadedUsfm2 (std::addressof(webserver_request), bible, book, chapter, unique_id);
   
   vector <filter::usfm::BookChapterData> book_chapter_text = filter::usfm::usfm_import (user_usfm, stylesheet);
   if (book_chapter_text.size () != 1) {
@@ -121,9 +120,9 @@ string edit_save (void * webserver_request)
   
   // Collect some data about the changes for this user
   // and for a possible merge of the user's data with the server's data.
-  string username = request->session_logic()->currentUser ();
-  [[maybe_unused]] int oldID = request->database_bibles()->get_chapter_id (bible, book, chapter);
-  string server_usfm = request->database_bibles()->get_chapter (bible, book, chapter);
+  string username = webserver_request.session_logic()->currentUser ();
+  [[maybe_unused]] int oldID = webserver_request.database_bibles()->get_chapter_id (bible, book, chapter);
+  string server_usfm = webserver_request.database_bibles()->get_chapter (bible, book, chapter);
   string newText = user_usfm;
   string oldText = ancestor_usfm;
   
@@ -158,7 +157,7 @@ string edit_save (void * webserver_request)
 
   // Safely store the chapter.
   string explanation;
-  string message = filter::usfm::safely_store_chapter (request, bible, book, chapter, user_usfm, explanation);
+  string message = filter::usfm::safely_store_chapter (std::addressof(webserver_request), bible, book, chapter, user_usfm, explanation);
   bible_logic::unsafe_save_mail (message, explanation, username, user_usfm, book, chapter);
 
   // If an error message was given, then return that message to the browser.
@@ -166,7 +165,7 @@ string edit_save (void * webserver_request)
 
   // In server configuration, store details for the user's changes.
 #ifdef HAVE_CLOUD
-  int newID = request->database_bibles()->get_chapter_id (bible, book, chapter);
+  int newID = webserver_request.database_bibles()->get_chapter_id (bible, book, chapter);
   Database_Modifications database_modifications;
   database_modifications.recordUserSave (username, bible, book, chapter, oldID, oldText, newID, newText);
   if (sendreceive_git_repository_linked (bible)) {
@@ -176,7 +175,7 @@ string edit_save (void * webserver_request)
 #endif
 
   // Store a copy of the USFM loaded in the editor for later reference.
-  storeLoadedUsfm2 (webserver_request, bible, book, chapter, unique_id);
+  storeLoadedUsfm2 (std::addressof(webserver_request), bible, book, chapter, unique_id);
 
   // Convert the stored USFM to html.
   // This converted html should be the same as the saved html.

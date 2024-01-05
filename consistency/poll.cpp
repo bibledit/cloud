@@ -34,7 +34,7 @@ string consistency_poll_url ()
 
 bool consistency_poll_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::translator ());
+  return Filter_Roles::access_control (webserver_request, Filter_Roles::translator ());
 }
 
 

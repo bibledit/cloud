@@ -54,7 +54,7 @@ bool editone2_index_acl (Webserver_Request& webserver_request)
 {
   // Default minimum role for getting access.
   int minimum_role = Filter_Roles::translator ();
-  if (Filter_Roles::access_control (std::addressof(webserver_request), minimum_role))
+  if (Filter_Roles::access_control (webserver_request, minimum_role))
     return true;
   auto [ read, write ] = access_bible::any (std::addressof(webserver_request));
   return read;

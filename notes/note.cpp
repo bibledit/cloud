@@ -137,7 +137,7 @@ string notes_note (Webserver_Request& webserver_request)
   }
     
   
-  if (Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::consultant ())) {
+  if (Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ())) {
     view.enable_zone ("consultant");
   }
   if (access_logic::privilege_create_comment_notes (std::addressof(webserver_request))) {

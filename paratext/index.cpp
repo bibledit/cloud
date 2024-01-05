@@ -43,7 +43,7 @@ string paratext_index_url ()
 
 bool paratext_index_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::translator ());
+  return Filter_Roles::access_control (webserver_request, Filter_Roles::translator ());
 }
 
 

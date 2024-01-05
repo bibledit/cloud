@@ -33,7 +33,7 @@ std::string resource_imagefetch_url ()
 
 bool resource_imagefetch_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::consultant ());
+  return Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ());
 }
 
 

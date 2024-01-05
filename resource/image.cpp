@@ -48,7 +48,7 @@ string resource_image_url ()
 
 bool resource_image_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::manager ());
+  return Filter_Roles::access_control (webserver_request, Filter_Roles::manager ());
 }
 
 

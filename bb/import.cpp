@@ -44,7 +44,7 @@ std::string bible_import_url ()
 
 bool bible_import_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::manager ());
+  return Filter_Roles::access_control (webserver_request, Filter_Roles::manager ());
 }
 
 

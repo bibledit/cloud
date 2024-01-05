@@ -34,7 +34,7 @@ string read_verse_url ()
 
 bool read_verse_acl (Webserver_Request& webserver_request)
 {
-  if (Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::translator ()))
+  if (Filter_Roles::access_control (webserver_request, Filter_Roles::translator ()))
     return true;
   auto [ read, write ] = access_bible::any (std::addressof(webserver_request));
   return read;

@@ -42,7 +42,7 @@ string manage_write_url ()
 
 bool manage_write_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::manager ());
+  return Filter_Roles::access_control (webserver_request, Filter_Roles::manager ());
 }
 
 

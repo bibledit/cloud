@@ -51,7 +51,7 @@ bool checks_settings_acl ([[maybe_unused]] Webserver_Request& webserver_request)
 #ifdef HAVE_CLIENT
   return true;
 #else
-  return Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::manager ());
+  return Filter_Roles::access_control (webserver_request, Filter_Roles::manager ());
 #endif
 }
 

@@ -55,7 +55,7 @@ bool sendreceive_index_acl (Webserver_Request& webserver_request)
     return true;
   }
   // The role of Translator or higher enables send/receive.
-  if (Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::translator ())) {
+  if (Filter_Roles::access_control (webserver_request, Filter_Roles::translator ())) {
     return true;
   }
   // No access.

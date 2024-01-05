@@ -20,7 +20,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #pragma once
 
 #include <config/libraries.h>
-#include <webserver/request.h>
+
+class Webserver_Request;
 
 class Filter_Roles
 {
@@ -35,6 +36,6 @@ public:
   static int highest ();
   static std::string english (int role);
   static std::string text (int role);
-  static bool access_control (void * webserver_request, int role);
+  static bool access_control (Webserver_Request& webserver_request, int role);
 private:
 };

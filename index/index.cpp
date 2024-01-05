@@ -35,6 +35,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/webview.h>
 #include <menu/logic.h>
 #include <read/index.h>
+#include <webserver/request.h>
 
 
 const char * index_index_url ()
@@ -45,7 +46,7 @@ const char * index_index_url ()
 
 bool index_index_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::guest ());
+  return Filter_Roles::access_control (webserver_request, Filter_Roles::guest ());
 }
 
 

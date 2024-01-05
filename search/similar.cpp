@@ -43,7 +43,7 @@ string search_similar_url ()
 
 bool search_similar_acl (Webserver_Request& webserver_request)
 {
-  if (Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::consultant ()))
+  if (Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ()))
     return true;
   auto [ read, write ] = access_bible::any (std::addressof(webserver_request));
   return read;

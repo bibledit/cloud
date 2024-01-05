@@ -48,7 +48,7 @@ string notes_bulk_url ()
 
 bool notes_bulk_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::translator ());
+  return Filter_Roles::access_control (webserver_request, Filter_Roles::translator ());
 }
 
 
@@ -262,7 +262,7 @@ string notes_bulk (Webserver_Request& webserver_request)
   view.set_variable ("notescount", filter::strings::convert_to_string (identifiers.size()));
 
   
-  bool manager = Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::manager ());
+  bool manager = Filter_Roles::access_control (webserver_request, Filter_Roles::manager ());
   if (manager) {
     view.enable_zone ("manager");
   }

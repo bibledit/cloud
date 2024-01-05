@@ -30,6 +30,7 @@
 #include <edit/index.h>
 #include <editone2/index.h>
 #include <editusfm/index.h>
+#include <webserver/request.h>
 using namespace std;
 
 
@@ -41,7 +42,7 @@ string editor_select_url ()
 
 bool editor_select_acl (Webserver_Request& webserver_request)
 {
-  if (Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::translator ())) return true;
+  if (Filter_Roles::access_control (webserver_request, Filter_Roles::translator ())) return true;
   auto [ read, write ] = access_bible::any (std::addressof(webserver_request));
   return write;
 }

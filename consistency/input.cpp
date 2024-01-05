@@ -34,7 +34,7 @@ string consistency_input_url ()
 
 bool consistency_input_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::translator ());
+  return Filter_Roles::access_control (webserver_request, Filter_Roles::translator ());
 }
 
 

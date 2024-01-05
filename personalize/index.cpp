@@ -56,7 +56,7 @@ string personalize_index_url ()
 
 bool personalize_index_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::member ());
+  return Filter_Roles::access_control (webserver_request, Filter_Roles::member ());
 }
 
 
@@ -449,7 +449,7 @@ string personalize_index (Webserver_Request& webserver_request)
   // Enable the sections with settings relevant to the user and device.
   bool resources = access_logic::privilege_view_resources (std::addressof(webserver_request));
   if (resources) view.enable_zone ("resources");
-  bool bibles = Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::translator ());
+  bool bibles = Filter_Roles::access_control (webserver_request, Filter_Roles::translator ());
   auto [ read, write ] = access_bible::any (std::addressof(webserver_request));
   if (read || write) bibles = true;
   if (bibles) view.enable_zone ("bibles");

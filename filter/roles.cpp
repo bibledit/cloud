@@ -19,6 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <filter/roles.h>
 #include <locale/translate.h>
+#include <webserver/request.h>
 using namespace std;
 
 
@@ -94,10 +95,9 @@ string Filter_Roles::text (int role)
 
 // This is for access control.
 // The "role" is the role required for the user to have access.
-bool Filter_Roles::access_control (void * webserver_request, int role)
+bool Filter_Roles::access_control (Webserver_Request& webserver_request, int role)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  int level = request->session_logic ()->currentLevel ();
+  int level = webserver_request.session_logic ()->currentLevel ();
   return level >= role;
 }
 

@@ -24,5 +24,5 @@
 class Webserver_Request;
 
 std::string read_verse_url ();
-bool read_verse_acl (void * webserver_request);
-std::string read_verse (void * webserver_request);
+bool read_verse_acl (Webserver_Request& webserver_request);
+std::string read_verse (Webserver_Request& webserver_request);

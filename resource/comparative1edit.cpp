@@ -48,32 +48,29 @@ string resource_comparative1edit_url ()
 }
 
 
-bool resource_comparative1edit_acl (void * webserver_request)
+bool resource_comparative1edit_acl (Webserver_Request& webserver_request)
 {
-  return access_logic::privilege_view_resources (webserver_request);
+  return access_logic::privilege_view_resources (std::addressof(webserver_request));
 }
 
 
-string resource_comparative1edit (void * webserver_request)
+string resource_comparative1edit (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-
-  
   string page;
-  Assets_Header header = Assets_Header (translate("Comparative resource"), request);
+  Assets_Header header = Assets_Header (translate("Comparative resource"), std::addressof(webserver_request));
   header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   page = header.run ();
   Assets_View view;
   string error, success;
   
   
-  string name = request->query ["name"];
-  if (name.empty()) name = request->post ["val1"];
+  string name = webserver_request.query ["name"];
+  if (name.empty()) name = webserver_request.post ["val1"];
   view.set_variable ("name", name);
 
   
-  string checkbox = request->post ["checkbox"];
-  bool checked = filter::strings::convert_to_bool (request->post ["checked"]);
+  string checkbox = webserver_request.post ["checkbox"];
+  bool checked = filter::strings::convert_to_bool (webserver_request.post ["checked"]);
 
   
   bool resource_edited = false;
@@ -91,12 +88,12 @@ string resource_comparative1edit (void * webserver_request)
 
   
   // The comparative resource's base resource.
-  if (request->query.count ("base")) {
-    string value = request->query["base"];
+  if (webserver_request.query.count ("base")) {
+    string value = webserver_request.query["base"];
     if (value.empty()) {
       Dialog_List dialog_list = Dialog_List ("comparative1edit", translate("Select a resource to be used as a base resource"), translate ("The base resource is used as a starting point for the comparison."), "");
       dialog_list.add_query ("name", name);
-      vector <string> resources = resource_logic_get_names (webserver_request, true);
+      vector <string> resources = resource_logic_get_names (std::addressof(webserver_request), true);
       for (auto & resource : resources) {
         dialog_list.add_row (resource, "base", resource);
       }
@@ -110,12 +107,12 @@ string resource_comparative1edit (void * webserver_request)
   
   
   // The comparative resource's updated resource.
-  if (request->query.count ("update")) {
-    string value = request->query["update"];
+  if (webserver_request.query.count ("update")) {
+    string value = webserver_request.query["update"];
     if (value.empty()) {
       Dialog_List dialog_list = Dialog_List ("comparative1edit", translate("Select a resource to be used as the updated resource."), translate ("The updated resource will be compared with the base resource."), "");
       dialog_list.add_query ("name", name);
-      vector <string> resources = resource_logic_get_names (webserver_request, true);
+      vector <string> resources = resource_logic_get_names (std::addressof(webserver_request), true);
       for (auto & resource : resources) {
         dialog_list.add_row (resource, "update", resource);
       }
@@ -129,27 +126,27 @@ string resource_comparative1edit (void * webserver_request)
   
   
   // The characters to remove from both resources before doing a comparison.
-  if (request->query.count ("remove")) {
+  if (webserver_request.query.count ("remove")) {
     Dialog_Entry dialog_entry = Dialog_Entry ("comparative1edit", translate("Enter or edit the characters to remove from the resources"), remove, "remove", "");
     dialog_entry.add_query ("name", name);
     page += dialog_entry.run ();
     return page;
   }
-  if (request->post.count ("remove")) {
-    remove = request->post ["entry"];
+  if (webserver_request.post.count ("remove")) {
+    remove = webserver_request.post ["entry"];
     resource_edited = true;
   }
 
   
   // The characters to search for and replace in both resources before doing a comparison.
-  if (request->query.count ("replace")) {
+  if (webserver_request.query.count ("replace")) {
     Dialog_Entry dialog_entry = Dialog_Entry ("comparative1edit", translate("Enter or edit the search and replace sets"), replace, "replace", "");
     dialog_entry.add_query ("name", name);
     page += dialog_entry.run ();
     return page;
   }
-  if (request->post.count ("replace")) {
-    replace = request->post ["entry"];
+  if (webserver_request.post.count ("replace")) {
+    replace = webserver_request.post ["entry"];
     resource_edited = true;
   }
 

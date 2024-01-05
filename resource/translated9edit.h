@@ -24,5 +24,5 @@
 class Webserver_Request;
 
 std::string resource_translated9edit_url ();
-bool resource_translated9edit_acl (void * webserver_request);
-std::string resource_translated9edit (void * webserver_request);
+bool resource_translated9edit_acl (Webserver_Request& webserver_request);
+std::string resource_translated9edit (Webserver_Request& webserver_request);

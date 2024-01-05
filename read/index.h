@@ -24,5 +24,5 @@
 class Webserver_Request;
 
 std::string read_index_url ();
-bool read_index_acl (void * webserver_request);
-std::string read_index (void * webserver_request);
+bool read_index_acl (Webserver_Request& webserver_request);
+std::string read_index (Webserver_Request& webserver_request);

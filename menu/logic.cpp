@@ -298,7 +298,7 @@ string menu_logic_basic_categories (void * webserver_request)
   string filename = current_theme_filebased_cache_filename (request->session_identifier);
   string color = Filter_Css::theme_picker (current_theme_index, 1);
 
-  if (read_index_acl (webserver_request)) {
+  if (read_index_acl (*request)) {
     html.push_back (menu_logic_create_item (read_index_url (), translate ("Read"), true, "", color));
   }
 
@@ -903,7 +903,7 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
     }
 
     if (label == images) {
-      if (images_index_acl (webserver_request)) {
+      if (images_index_acl (*request)) {
         html.push_back (menu_logic_create_item (images_index_url (), label, true, "", ""));
         tiplabels.push_back (label);
       }
@@ -970,13 +970,13 @@ string menu_logic_settings_resources_category ([[maybe_unused]] void * webserver
 #endif
 
 #ifdef HAVE_CLOUD
-  if (resource_comparative9edit_acl (webserver_request)) {
+  if (resource_comparative9edit_acl (*request)) {
     html.push_back (menu_logic_create_item (resource_comparative9edit_url (), translate ("Comparative"), true, "", ""));
   }
 #endif
 
 #ifdef HAVE_CLOUD
-  if (resource_translated9edit_acl (webserver_request)) {
+  if (resource_translated9edit_acl (*request)) {
     html.push_back (menu_logic_create_item (resource_translated9edit_url (), translate ("Translated"), true, "", ""));
   }
 #endif

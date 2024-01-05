@@ -439,10 +439,6 @@
 /jsonxx/LICENSE
 /ldap
 /lexicon
-/libbibledit.a.LvituV
-/libbibledit.a.MpBesj
-/libbibledit.a.onYIWR
-/libbibledit.a.YrUTw4
 /library
 /livetest
 /livetest/initialize.sh

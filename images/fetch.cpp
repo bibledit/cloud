@@ -32,22 +32,20 @@ string images_fetch_url ()
 }
 
 
-bool images_fetch_acl (void * webserver_request)
+bool images_fetch_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ());
+  return Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::consultant ());
 }
 
 
-string images_fetch (void * webserver_request)
+string images_fetch (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  
   // Image name.
-  string image = request->query ["image"];
+  string image = webserver_request.query ["image"];
 
   // Set the HTTP GET parameter to the image name,
   // so the server will return the appropriate Mime type for this image.
-  request->get = image;
+  webserver_request.get = image;
 
   // Return the raw image data for sending off to the browser.
   Database_BibleImages database_bibleimages;

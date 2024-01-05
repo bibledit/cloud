@@ -1160,83 +1160,83 @@ void bootstrap_index (Webserver_Request& webserver_request)
     return;
   }
   
-  if ((url == editone2_save_url ()) && browser_request_security_okay (webserver_request) && editone2_save_acl (std::addressof(webserver_request))) {
-    webserver_request.reply = editone2_save (std::addressof(webserver_request));
+  if ((url == editone2_save_url ()) && browser_request_security_okay (webserver_request) && editone2_save_acl (webserver_request)) {
+    webserver_request.reply = editone2_save (webserver_request);
     return;
   }
   
-  if ((url == editone2_verse_url ()) && browser_request_security_okay (webserver_request) && editone2_verse_acl (std::addressof(webserver_request))) {
-    webserver_request.reply = editone2_verse (std::addressof(webserver_request));
+  if ((url == editone2_verse_url ()) && browser_request_security_okay (webserver_request) && editone2_verse_acl (webserver_request)) {
+    webserver_request.reply = editone2_verse (webserver_request);
     return;
   }
   
-  if ((url == editone2_update_url ()) && browser_request_security_okay (webserver_request) && editone2_update_acl (std::addressof(webserver_request))) {
-    webserver_request.reply = editone2_update (std::addressof(webserver_request));
+  if ((url == editone2_update_url ()) && browser_request_security_okay (webserver_request) && editone2_update_acl (webserver_request)) {
+    webserver_request.reply = editone2_update (webserver_request);
     return;
   }
 
-  if ((url == read_index_url ()) && browser_request_security_okay (webserver_request) && read_index_acl (std::addressof(webserver_request))) {
-    webserver_request.reply = read_index (std::addressof(webserver_request));
+  if ((url == read_index_url ()) && browser_request_security_okay (webserver_request) && read_index_acl (webserver_request)) {
+    webserver_request.reply = read_index (webserver_request);
     return;
   }
 
-  if ((url == read_load_url ()) && browser_request_security_okay (webserver_request) && read_load_acl (std::addressof(webserver_request))) {
-    webserver_request.reply = read_load (std::addressof(webserver_request));
+  if ((url == read_load_url ()) && browser_request_security_okay (webserver_request) && read_load_acl (webserver_request)) {
+    webserver_request.reply = read_load (webserver_request);
     return;
   }
 
-  if ((url == read_verse_url ()) && browser_request_security_okay (webserver_request) && read_verse_acl (std::addressof(webserver_request))) {
-    webserver_request.reply = read_verse (std::addressof(webserver_request));
+  if ((url == read_verse_url ()) && browser_request_security_okay (webserver_request) && read_verse_acl (webserver_request)) {
+    webserver_request.reply = read_verse (webserver_request);
     return;
   }
 
-  if ((url == resource_divider_url ()) && browser_request_security_okay (webserver_request) && resource_divider_acl (std::addressof(webserver_request))) {
-    webserver_request.reply = resource_divider (std::addressof(webserver_request));
+  if ((url == resource_divider_url ()) && browser_request_security_okay (webserver_request) && resource_divider_acl (webserver_request)) {
+    webserver_request.reply = resource_divider (webserver_request);
     return;
   }
 
-  if ((url == session_confirm_url ()) && browser_request_security_okay (webserver_request) && session_confirm_acl (std::addressof(webserver_request))) {
-    webserver_request.reply = session_confirm (std::addressof(webserver_request));
+  if ((url == session_confirm_url ()) && browser_request_security_okay (webserver_request) && session_confirm_acl (webserver_request)) {
+    webserver_request.reply = session_confirm (webserver_request);
     return;
   }
   
-  if ((url == resource_comparative9edit_url ()) && browser_request_security_okay (webserver_request) && resource_comparative9edit_acl (std::addressof(webserver_request))) {
-    webserver_request.reply = resource_comparative9edit (std::addressof(webserver_request));
+  if ((url == resource_comparative9edit_url ()) && browser_request_security_okay (webserver_request) && resource_comparative9edit_acl (webserver_request)) {
+    webserver_request.reply = resource_comparative9edit (webserver_request);
     return;
   }
 
-  if ((url == resource_comparative1edit_url ()) && browser_request_security_okay (webserver_request) && resource_comparative1edit_acl (std::addressof(webserver_request))) {
-    webserver_request.reply = resource_comparative1edit (std::addressof(webserver_request));
+  if ((url == resource_comparative1edit_url ()) && browser_request_security_okay (webserver_request) && resource_comparative1edit_acl (webserver_request)) {
+    webserver_request.reply = resource_comparative1edit (webserver_request);
     return;
   }
 
-  if ((url == resource_translated9edit_url ()) && browser_request_security_okay (webserver_request) && resource_translated9edit_acl (std::addressof(webserver_request))) {
-    webserver_request.reply = resource_translated9edit (std::addressof(webserver_request));
+  if ((url == resource_translated9edit_url ()) && browser_request_security_okay (webserver_request) && resource_translated9edit_acl (webserver_request)) {
+    webserver_request.reply = resource_translated9edit (webserver_request);
     return;
   }
   
-  if ((url == resource_translated1edit_url ()) && browser_request_security_okay (webserver_request) && resource_translated1edit_acl (std::addressof(webserver_request))) {
-    webserver_request.reply = resource_translated1edit (std::addressof(webserver_request));
+  if ((url == resource_translated1edit_url ()) && browser_request_security_okay (webserver_request) && resource_translated1edit_acl (webserver_request)) {
+    webserver_request.reply = resource_translated1edit (webserver_request);
     return;
   }
 
-  if ((url == developer_delay_url ()) && developer_delay_acl (std::addressof(webserver_request))) {
-    webserver_request.reply = developer_delay (std::addressof(webserver_request));
+  if ((url == developer_delay_url ()) && developer_delay_acl (webserver_request)) {
+    webserver_request.reply = developer_delay (webserver_request);
     return;
   }
 
-  if ((url == images_index_url ()) && browser_request_security_okay (webserver_request) && images_index_acl (std::addressof(webserver_request))) {
-    webserver_request.reply = images_index (std::addressof(webserver_request));
+  if ((url == images_index_url ()) && browser_request_security_okay (webserver_request) && images_index_acl (webserver_request)) {
+    webserver_request.reply = images_index (webserver_request);
     return;
   }
 
-  if ((url == images_view_url ()) && browser_request_security_okay (webserver_request) && images_view_acl (std::addressof(webserver_request))) {
-    webserver_request.reply = images_view (std::addressof(webserver_request));
+  if ((url == images_view_url ()) && browser_request_security_okay (webserver_request) && images_view_acl (webserver_request)) {
+    webserver_request.reply = images_view (webserver_request);
     return;
   }
 
-  if ((url == images_fetch_url ()) && browser_request_security_okay (webserver_request) && images_fetch_acl (std::addressof(webserver_request))) {
-    webserver_request.reply = images_fetch (std::addressof(webserver_request));
+  if ((url == images_fetch_url ()) && browser_request_security_okay (webserver_request) && images_fetch_acl (webserver_request)) {
+    webserver_request.reply = images_fetch (webserver_request);
     return;
   }
 

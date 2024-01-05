@@ -32,29 +32,28 @@ string read_verse_url ()
 }
 
 
-bool read_verse_acl (void * webserver_request)
+bool read_verse_acl (Webserver_Request& webserver_request)
 {
-  if (Filter_Roles::access_control (webserver_request, Filter_Roles::translator ())) return true;
-  auto [ read, write ] = access_bible::any (webserver_request);
+  if (Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::translator ()))
+    return true;
+  auto [ read, write ] = access_bible::any (std::addressof(webserver_request));
   return read;
 }
 
 
-string read_verse (void * webserver_request)
+string read_verse (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-
   // Only act if a verse was found
-  string sverse = request->query ["verse"];
+  string sverse = webserver_request.query ["verse"];
   if (!sverse.empty ()) {
     
     // Only update navigation in case the verse changed.
     // This avoids unnecessary focus operations in the clients.
     int iverse = filter::strings::convert_to_int (sverse);
-    if (iverse != Ipc_Focus::getVerse (request)) {
-      int book = Ipc_Focus::getBook (request);
-      int chapter = Ipc_Focus::getChapter (request);
-      Ipc_Focus::set (request, book, chapter, iverse);
+    if (iverse != Ipc_Focus::getVerse (std::addressof(webserver_request))) {
+      int book = Ipc_Focus::getBook (std::addressof(webserver_request));
+      int chapter = Ipc_Focus::getChapter (std::addressof(webserver_request));
+      Ipc_Focus::set (std::addressof(webserver_request), book, chapter, iverse);
     }
   }
   

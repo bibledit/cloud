@@ -53,19 +53,16 @@ string resource_comparative9edit_url ()
 }
 
 
-bool resource_comparative9edit_acl (void * webserver_request)
+bool resource_comparative9edit_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::manager ());
+  return Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::manager ());
 }
 
 
-string resource_comparative9edit (void * webserver_request)
+string resource_comparative9edit (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-
-  
   string page;
-  Assets_Header header = Assets_Header (translate("Comparative resources"), request);
+  Assets_Header header = Assets_Header (translate("Comparative resources"), std::addressof(webserver_request));
   header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   page = header.run ();
   Assets_View view;
@@ -73,16 +70,16 @@ string resource_comparative9edit (void * webserver_request)
   
 
   // New comparative resource handler.
-  if (request->query.count ("new")) {
+  if (webserver_request.query.count ("new")) {
     Dialog_Entry dialog_entry = Dialog_Entry ("comparative9edit", translate("Please enter a name for the new comparative resource"), "", "new", "");
     page += dialog_entry.run ();
     return page;
   }
-  if (request->post.count ("new")) {
+  if (webserver_request.post.count ("new")) {
     // The title for the new resource as entered by the user.
     // Clean the title up and ensure it always starts with "Comparative ".
     // This word flags the comparative resource as being one of that category.
-    string new_resource = request->post ["entry"];
+    string new_resource = webserver_request.post ["entry"];
     size_t pos = new_resource.find (resource_logic_comparative_resource ());
     if (pos != std::string::npos) {
       new_resource.erase (pos, resource_logic_comparative_resource ().length());
@@ -111,16 +108,16 @@ string resource_comparative9edit (void * webserver_request)
       client_logic_no_cache_resource_add (new_resource);
       // Redirect the user to the place where to edit that new resource.
       string url = resource_comparative1edit_url () + "?name=" + new_resource;
-      redirect_browser (webserver_request, url);
+      redirect_browser (std::addressof(webserver_request), url);
       return "";
     }
   }
 
   
   // Delete resource.
-  string title2remove = request->query ["delete"];
+  string title2remove = webserver_request.query ["delete"];
   if (!title2remove.empty()) {
-    string confirm = request->query ["confirm"];
+    string confirm = webserver_request.query ["confirm"];
     if (confirm == "") {
       Dialog_Yes dialog_yes = Dialog_Yes ("comparative9edit", translate("Would you like to delete this resource?"));
       dialog_yes.add_query ("delete", title2remove);

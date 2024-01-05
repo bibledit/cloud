@@ -30,13 +30,13 @@ const char * developer_delay_url ()
 }
 
 
-bool developer_delay_acl ([[maybe_unused]] void * webserver_request)
+bool developer_delay_acl ([[maybe_unused]] Webserver_Request& webserver_request)
 {
   return true;
 }
 
 
-string developer_delay ([[maybe_unused]] void * webserver_request)
+string developer_delay ([[maybe_unused]] Webserver_Request& webserver_request)
 {
   // Here is a delay routine that waits multiple seconds before sending the reponse.
   // The purpose is to test timeouts of the website live monitors.

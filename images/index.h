@@ -24,5 +24,5 @@
 class Webserver_Request;
 
 std::string images_index_url ();
-bool images_index_acl (void * webserver_request);
-std::string images_index (void * webserver_request);
+bool images_index_acl (Webserver_Request& webserver_request);
+std::string images_index (Webserver_Request& webserver_request);

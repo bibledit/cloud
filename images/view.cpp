@@ -41,25 +41,23 @@ string images_view_url ()
 }
 
 
-bool images_view_acl (void * webserver_request)
+bool images_view_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::translator ());
+  return Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::translator ());
 }
 
 
-string images_view (void * webserver_request)
+string images_view (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  
   string page;
-  Assets_Header header = Assets_Header (translate("Bible image"), request);
+  Assets_Header header = Assets_Header (translate("Bible image"), std::addressof(webserver_request));
   header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   header.add_bread_crumb (images_view_url (), menu_logic_images_index_text ());
   page = header.run ();
   Assets_View view;
   string error, success;
   
-  string image = request->query ["image"];
+  string image = webserver_request.query ["image"];
 
   view.set_variable ("image", image);
   view.set_variable ("success", success);

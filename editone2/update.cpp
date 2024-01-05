@@ -49,19 +49,17 @@ string editone2_update_url ()
 }
 
 
-bool editone2_update_acl (void * webserver_request)
+bool editone2_update_acl (Webserver_Request& webserver_request)
 {
-  if (Filter_Roles::access_control (webserver_request, Filter_Roles::translator ())) return true;
-  auto [ read, write ] = access_bible::any (webserver_request);
+  if (Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::translator ()))
+    return true;
+  auto [ read, write ] = access_bible::any (std::addressof(webserver_request));
   return read;
 }
 
 
-string editone2_update (void * webserver_request)
+string editone2_update (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-
-
   // Whether the update is good to go.
   bool good2go = true;
   
@@ -73,12 +71,12 @@ string editone2_update (void * webserver_request)
   // Check the relevant bits of information.
   if (good2go) {
     bool parameters_ok = true;
-    if (!request->post.count ("bible")) parameters_ok = false;
-    if (!request->post.count ("book")) parameters_ok = false;
-    if (!request->post.count ("chapter")) parameters_ok = false;
-    if (!request->post.count ("verse")) parameters_ok = false;
-    if (!request->post.count ("loaded")) parameters_ok = false;
-    if (!request->post.count ("edited")) parameters_ok = false;
+    if (!webserver_request.post.count ("bible")) parameters_ok = false;
+    if (!webserver_request.post.count ("book")) parameters_ok = false;
+    if (!webserver_request.post.count ("chapter")) parameters_ok = false;
+    if (!webserver_request.post.count ("verse")) parameters_ok = false;
+    if (!webserver_request.post.count ("loaded")) parameters_ok = false;
+    if (!webserver_request.post.count ("edited")) parameters_ok = false;
     if (!parameters_ok) {
       messages.push_back (translate("Don't know what to update"));
       good2go = false;
@@ -97,29 +95,29 @@ string editone2_update (void * webserver_request)
   string checksum2;
   string unique_id;
   if (good2go) {
-    bible = request->post["bible"];
-    book = filter::strings::convert_to_int (request->post["book"]);
-    chapter = filter::strings::convert_to_int (request->post["chapter"]);
-    verse = filter::strings::convert_to_int (request->post["verse"]);
-    loaded_html = request->post["loaded"];
-    edited_html = request->post["edited"];
-    checksum1 = request->post["checksum1"];
-    checksum2 = request->post["checksum2"];
-    unique_id = request->post ["id"];
+    bible = webserver_request.post["bible"];
+    book = filter::strings::convert_to_int (webserver_request.post["book"]);
+    chapter = filter::strings::convert_to_int (webserver_request.post["chapter"]);
+    verse = filter::strings::convert_to_int (webserver_request.post["verse"]);
+    loaded_html = webserver_request.post["loaded"];
+    edited_html = webserver_request.post["edited"];
+    checksum1 = webserver_request.post["checksum1"];
+    checksum2 = webserver_request.post["checksum2"];
+    unique_id = webserver_request.post ["id"];
   }
 
   
   // Checksums of the loaded and edited html.
   if (good2go) {
     if (checksum_logic::get (loaded_html) != checksum1) {
-      request->response_code = 409;
+      webserver_request.response_code = 409;
       messages.push_back (translate ("Checksum error"));
       good2go = false;
     }
   }
   if (good2go) {
     if (checksum_logic::get (edited_html) != checksum2) {
-      request->response_code = 409;
+      webserver_request.response_code = 409;
       messages.push_back (translate ("Checksum error"));
       good2go = false;
     }
@@ -144,7 +142,7 @@ string editone2_update (void * webserver_request)
 
   bool bible_write_access = false;
   if (good2go) {
-    bible_write_access = access_bible::book_write (request, string(), bible, book);
+    bible_write_access = access_bible::book_write (std::addressof(webserver_request), string(), bible, book);
   }
 
 
@@ -155,13 +153,13 @@ string editone2_update (void * webserver_request)
 
   
   // Collect some data about the changes for this user.
-  string username = request->session_logic()->currentUser ();
+  string username = webserver_request.session_logic()->currentUser ();
 #ifdef HAVE_CLOUD
   int oldID = 0;
-  if (good2go) oldID = request->database_bibles()->get_chapter_id (bible, book, chapter);
+  if (good2go) oldID = webserver_request.database_bibles()->get_chapter_id (bible, book, chapter);
 #endif
   string old_chapter_usfm;
-  if (good2go) old_chapter_usfm = request->database_bibles()->get_chapter (bible, book, chapter);
+  if (good2go) old_chapter_usfm = webserver_request.database_bibles()->get_chapter (bible, book, chapter);
 
   
   // Determine what (composed) version of USFM to save to the chapter.
@@ -214,16 +212,16 @@ string editone2_update (void * webserver_request)
   string explanation;
   string message;
   if (good2go && bible_write_access && text_was_edited) {
-    message = filter::usfm::safely_store_verse (request, bible, book, chapter, verse, edited_verse_usfm, explanation, true);
+    message = filter::usfm::safely_store_verse (std::addressof(webserver_request), bible, book, chapter, verse, edited_verse_usfm, explanation, true);
     bible_logic::unsafe_save_mail (message, explanation, username, edited_verse_usfm, book, chapter);
   }
 
   
   // The new chapter identifier and new chapter USFM.
-  int newID = request->database_bibles()->get_chapter_id (bible, book, chapter);
+  int newID = webserver_request.database_bibles()->get_chapter_id (bible, book, chapter);
   string new_chapter_usfm;
   if (good2go) {
-    new_chapter_usfm = request->database_bibles()->get_chapter (bible, book, chapter);
+    new_chapter_usfm = webserver_request.database_bibles()->get_chapter (bible, book, chapter);
   }
 
   
@@ -345,7 +343,7 @@ string editone2_update (void * webserver_request)
 
   // Test using the Cloud together with client devices with send and receive.
   
-  bool write = access_bible::book_write (webserver_request, username, bible, book);
+  bool write = access_bible::book_write (std::addressof(webserver_request), username, bible, book);
   response = checksum_logic::send (response, write);
 
   // Ready.

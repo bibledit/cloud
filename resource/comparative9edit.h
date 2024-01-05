@@ -24,5 +24,5 @@
 class Webserver_Request;
 
 std::string resource_comparative9edit_url ();
-bool resource_comparative9edit_acl (void * webserver_request);
-std::string resource_comparative9edit (void * webserver_request);
+bool resource_comparative9edit_acl (Webserver_Request& webserver_request);
+std::string resource_comparative9edit (Webserver_Request& webserver_request);

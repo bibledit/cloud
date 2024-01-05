@@ -24,5 +24,5 @@
 class Webserver_Request;
 
 std::string editone2_verse_url ();
-bool editone2_verse_acl (void * webserver_request);
-std::string editone2_verse (void * webserver_request);
+bool editone2_verse_acl (Webserver_Request& webserver_request);
+std::string editone2_verse (Webserver_Request& webserver_request);

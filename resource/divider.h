@@ -24,5 +24,5 @@
 class Webserver_Request;
 
 std::string resource_divider_url ();
-bool resource_divider_acl (void * webserver_request);
-std::string resource_divider (void * webserver_request);
+bool resource_divider_acl (Webserver_Request& webserver_request);
+std::string resource_divider (Webserver_Request& webserver_request);

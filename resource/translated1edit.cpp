@@ -49,19 +49,16 @@ string resource_translated1edit_url ()
 }
 
 
-bool resource_translated1edit_acl (void * webserver_request)
+bool resource_translated1edit_acl (Webserver_Request& webserver_request)
 {
-  return access_logic::privilege_view_resources (webserver_request);
+  return access_logic::privilege_view_resources (std::addressof(webserver_request));
 }
 
 
-string resource_translated1edit (void * webserver_request)
+string resource_translated1edit (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-
-  
   string page {};
-  Assets_Header header = Assets_Header (translate("Translated resource"), request);
+  Assets_Header header = Assets_Header (translate("Translated resource"), std::addressof(webserver_request));
   header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   page = header.run ();
   Assets_View view {};
@@ -69,13 +66,13 @@ string resource_translated1edit (void * webserver_request)
   string success {};
   
   
-  string name = request->query ["name"];
-  if (name.empty()) name = request->post ["val1"];
+  string name = webserver_request.query ["name"];
+  if (name.empty()) name = webserver_request.post ["val1"];
   view.set_variable ("name", name);
 
   
-  string checkbox = request->post ["checkbox"];
-  bool checked = filter::strings::convert_to_bool (request->post ["checked"]);
+  string checkbox = webserver_request.post ["checkbox"];
+  bool checked = filter::strings::convert_to_bool (webserver_request.post ["checked"]);
 
   
   bool resource_edited {false};
@@ -96,12 +93,12 @@ string resource_translated1edit (void * webserver_request)
 
   
   // The translated resource's original resource.
-  if (request->query.count ("original")) {
-    string value = request->query["original"];
+  if (webserver_request.query.count ("original")) {
+    string value = webserver_request.query["original"];
     if (value.empty()) {
       Dialog_List dialog_list = Dialog_List ("translated1edit", translate("Select a resource to be used as the original resource"), translate ("The original resource will be translated from the source language to the target language."), string());
       dialog_list.add_query ("name", name);
-      vector <string> resources = resource_logic_get_names (webserver_request, true);
+      vector <string> resources = resource_logic_get_names (std::addressof(webserver_request), true);
       for (const auto & resource : resources) {
         dialog_list.add_row (resource, "original", resource);
       }
@@ -115,8 +112,8 @@ string resource_translated1edit (void * webserver_request)
 
   
   // The language of the original resource.
-  if (request->query.count ("source")) {
-    string value = request->query["source"];
+  if (webserver_request.query.count ("source")) {
+    string value = webserver_request.query["source"];
     if (value.empty()) {
       Dialog_List dialog_list = Dialog_List ("translated1edit", translate("Select the language of the original resource"), translate ("The language the original resource is written in."), string());
       dialog_list.add_query ("name", name);
@@ -134,8 +131,8 @@ string resource_translated1edit (void * webserver_request)
   
   
   // The language to translate the resource into.
-  if (request->query.count ("target")) {
-    string value = request->query["target"];
+  if (webserver_request.query.count ("target")) {
+    string value = webserver_request.query["target"];
     if (value.empty()) {
       Dialog_List dialog_list = Dialog_List ("translated1edit", translate("Select the language to translate the resource into"), translate ("The language the resource will be translated into."), string());
       dialog_list.add_query ("name", name);

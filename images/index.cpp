@@ -42,20 +42,19 @@ string images_index_url ()
 }
 
 
-bool images_index_acl (void * webserver_request)
+bool images_index_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::translator ());
+  return Filter_Roles::access_control (std::addressof(webserver_request), Filter_Roles::translator ());
 }
 
 
-string images_index (void * webserver_request)
+string images_index (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   Database_BibleImages database_bibleimages;
 
   
   string page;
-  Assets_Header header = Assets_Header (translate("Bible images"), request);
+  Assets_Header header = Assets_Header (translate("Bible images"), std::addressof(webserver_request));
   header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   header.add_bread_crumb (images_index_url (), menu_logic_images_index_text ());
   page = header.run ();
@@ -64,11 +63,11 @@ string images_index (void * webserver_request)
 
   
   // File upload.
-  if (request->post.count ("upload")) {
+  if (webserver_request.post.count ("upload")) {
     string folder = filter_url_tempfile ();
     filter_url_mkdir (folder);
-    string file = filter_url_create_path ({folder, request->post ["filename"]});
-    string data = request->post ["data"];
+    string file = filter_url_create_path ({folder, webserver_request.post ["filename"]});
+    string data = webserver_request.post ["data"];
     if (!data.empty ()) {
       filter_url_file_put_contents (file, data);
       bool background_import = filter_archive_is_archive (file);
@@ -89,9 +88,9 @@ string images_index (void * webserver_request)
 
 
   // Delete image.
-  string remove = request->query ["delete"];
+  string remove = webserver_request.query ["delete"];
   if (!remove.empty()) {
-    string confirm = request->query ["confirm"];
+    string confirm = webserver_request.query ["confirm"];
     if (confirm.empty()) {
       Dialog_Yes dialog_yes = Dialog_Yes ("index", translate("Would you like to delete this image?"));
       dialog_yes.add_query ("delete", remove);

@@ -24,5 +24,5 @@
 class Webserver_Request;
 
 std::string read_load_url ();
-bool read_load_acl (void * webserver_request);
-std::string read_load (void * webserver_request);
+bool read_load_acl (Webserver_Request& webserver_request);
+std::string read_load (Webserver_Request& webserver_request);

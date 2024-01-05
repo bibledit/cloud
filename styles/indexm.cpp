@@ -56,7 +56,7 @@ string styles_indexm (Webserver_Request& webserver_request)
 {
   string page {};
   
-  Assets_Header header = Assets_Header (translate("Styles"), std::addressof(webserver_request));
+  Assets_Header header = Assets_Header (translate("Styles"), webserver_request);
   header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   page = header.run ();
   

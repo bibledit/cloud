@@ -50,7 +50,7 @@ string public_note (Webserver_Request& webserver_request)
   
   
   string page;
-  Assets_Header header = Assets_Header (translate("Note"), std::addressof(webserver_request));
+  Assets_Header header = Assets_Header (translate("Note"), webserver_request);
 
   
   // After adding a comment to a note, when doing nothing for several seconds,

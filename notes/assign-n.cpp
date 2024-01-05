@@ -54,7 +54,7 @@ std::string notes_assign_n (Webserver_Request& webserver_request)
 
   
   std::string page{};
-  Assets_Header header = Assets_Header (translate("Assign notes"), std::addressof(webserver_request));
+  Assets_Header header = Assets_Header (translate("Assign notes"), webserver_request);
   page += header.run ();
   Assets_View view;
 

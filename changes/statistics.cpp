@@ -67,7 +67,7 @@ string changes_statistics ([[maybe_unused]] Webserver_Request& webserver_request
 #ifdef HAVE_CLOUD
 
   string page {};
-  Assets_Header header = Assets_Header (translate("Change statistics"), std::addressof(webserver_request));
+  Assets_Header header = Assets_Header (translate("Change statistics"), webserver_request);
   page += header.run ();
   Assets_View view {};
   

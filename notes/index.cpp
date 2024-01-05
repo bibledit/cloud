@@ -48,7 +48,7 @@ string notes_index (Webserver_Request& webserver_request)
   
   string page;
   
-  Assets_Header header = Assets_Header (translate("Consultation Notes"), std::addressof(webserver_request));
+  Assets_Header header = Assets_Header (translate("Consultation Notes"), webserver_request);
   header.set_navigator ();
   header.add_bread_crumb (menu_logic_translate_menu (), menu_logic_translate_text ());
   page = header.run();

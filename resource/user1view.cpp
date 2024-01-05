@@ -51,7 +51,7 @@ bool resource_user1view_acl (Webserver_Request& webserver_request)
 string resource_user1view (Webserver_Request& webserver_request)
 {
   string page {};
-  Assets_Header header = Assets_Header (translate("Resources"), std::addressof(webserver_request));
+  Assets_Header header = Assets_Header (translate("Resources"), webserver_request);
   header.set_navigator ();
   header.add_bread_crumb (menu_logic_translate_menu (), menu_logic_translate_text ());
   page = header.run ();

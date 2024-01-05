@@ -22,10 +22,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/libraries.h>
 #include <assets/view.h>
 
+class Webserver_Request;
+
 class Assets_Header
 {
 public:
-  Assets_Header (std::string title, void * webserver_request_in);
+  Assets_Header (std::string title, Webserver_Request& webserver_request_in);
   ~Assets_Header ();
   Assets_Header(const Assets_Header&) = delete;
   Assets_Header operator=(const Assets_Header&) = delete;
@@ -49,7 +51,7 @@ private:
   bool m_display_navigator {false};
   std::string m_included_stylesheet {};
   std::string m_included_editor_stylesheet {};
-  void * m_webserver_request {nullptr};
+  Webserver_Request& m_webserver_request;
   std::string m_fading_menu {};
   std::vector <std::pair <std::string, std::string> > m_bread_crumbs {};
 };

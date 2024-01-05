@@ -67,7 +67,7 @@ string user_notifications (Webserver_Request& webserver_request)
 
   string page;
   
-  Assets_Header header = Assets_Header (translate("Notifications"), std::addressof(webserver_request));
+  Assets_Header header = Assets_Header (translate("Notifications"), webserver_request);
   header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   page = header.run ();
   

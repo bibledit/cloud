@@ -58,7 +58,7 @@ std::string help_index (Webserver_Request& webserver_request, const std::string&
 {
   std::string page {};
 
-  Assets_Header header = Assets_Header (translate("Help"), std::addressof(webserver_request));
+  Assets_Header header = Assets_Header (translate("Help"), webserver_request);
   page = header.run ();
 
   Assets_View view {};

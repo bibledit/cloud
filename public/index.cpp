@@ -78,7 +78,7 @@ string public_index (Webserver_Request& webserver_request)
       for (auto & public_bible : public_bibles) {
         dialog_list.add_row (public_bible, "bible", public_bible);
       }
-      Assets_Header header = Assets_Header ("", std::addressof(webserver_request));
+      Assets_Header header = Assets_Header ("", webserver_request);
       string page = header.run ();
       page += dialog_list.run ();
       return page;
@@ -89,7 +89,7 @@ string public_index (Webserver_Request& webserver_request)
   
   
   string page;
-  Assets_Header header = Assets_Header (translate ("Public feedback"), std::addressof(webserver_request));
+  Assets_Header header = Assets_Header (translate ("Public feedback"), webserver_request);
   header.set_navigator ();
   header.set_stylesheet ();
   page = header.run ();

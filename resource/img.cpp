@@ -55,7 +55,7 @@ string resource_img (Webserver_Request& webserver_request)
 
   
   string page {};
-  Assets_Header header = Assets_Header (translate("Image resources"), std::addressof(webserver_request));
+  Assets_Header header = Assets_Header (translate("Image resources"), webserver_request);
   page = header.run ();
   Assets_View view {};
   string error, success;

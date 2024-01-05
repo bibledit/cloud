@@ -55,7 +55,7 @@ string notes_note (Webserver_Request& webserver_request)
   
   
   string page;
-  Assets_Header header = Assets_Header (translate("Note"), std::addressof(webserver_request));
+  Assets_Header header = Assets_Header (translate("Note"), webserver_request);
   header.set_navigator ();
 
   

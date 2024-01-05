@@ -149,7 +149,7 @@ std::string session_login_display_header (Webserver_Request& webserver_request)
   2. The script may forward the user to another page.
      Therefore no output should be sent so the forward headers work.
   */
-  Assets_Header header = Assets_Header (translate ("Login"), std::addressof(webserver_request));
+  Assets_Header header = Assets_Header (translate ("Login"), webserver_request);
   header.touch_css_on ();
   return header.run ();
 }

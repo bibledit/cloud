@@ -34,9 +34,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 using namespace std;
 
 
-Assets_Header::Assets_Header (string title, void * webserver_request)
+Assets_Header::Assets_Header (string title, Webserver_Request& webserver_request) :
+m_webserver_request (webserver_request)
 {
-  m_webserver_request = webserver_request;
   m_view = new Assets_View ();
   m_view->set_variable ("title", title);
 }
@@ -76,9 +76,8 @@ void Assets_Header::set_navigator ()
 // Display the user's basic stylesheet.css.
 void Assets_Header::set_stylesheet ()
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(m_webserver_request);
-  string bible = request->database_config_user()->getBible ();
-  string stylesheet = Database_Config_Bible::getEditorStylesheet (bible);
+  const string bible = m_webserver_request.database_config_user()->getBible ();
+  const string stylesheet = Database_Config_Bible::getEditorStylesheet (bible);
   m_included_stylesheet = stylesheet;
 }
 
@@ -86,9 +85,8 @@ void Assets_Header::set_stylesheet ()
 // Display the user's editor stylesheet.css.
 void Assets_Header::set_editor_stylesheet ()
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(m_webserver_request);
-  string bible = request->database_config_user()->getBible ();
-  string stylesheet = Database_Config_Bible::getEditorStylesheet (bible);
+  const string bible = m_webserver_request.database_config_user()->getBible ();
+  const string stylesheet = Database_Config_Bible::getEditorStylesheet (bible);
   m_included_editor_stylesheet = stylesheet;
 }
 
@@ -96,9 +94,8 @@ void Assets_Header::set_editor_stylesheet ()
 // Whether to display the topbar.
 bool Assets_Header::display_topbar ()
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(m_webserver_request);
   // If the topbar is in the query: Don't display the top bar.
-  if (request->query.count ("topbar")) {
+  if (m_webserver_request.query.count ("topbar")) {
     return false;
   }
   // Display the topbar.
@@ -134,8 +131,6 @@ void Assets_Header::add_bread_crumb (string item, string text)
 // Runs the header.
 string Assets_Header::run ()
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(m_webserver_request);
-
   string page;
   
   // Include the software version number in the stylesheet and javascript URL
@@ -146,10 +141,10 @@ string Assets_Header::run ()
     m_view->enable_zone ("include_jquery_touch");
   }
 
-  if (request->session_logic ()->touchEnabled ()) {
+  if (m_webserver_request.session_logic ()->touchEnabled ()) {
     touch_css_on();
   }
-  if (!request->session_logic ()->loggedIn ()) {
+  if (!m_webserver_request.session_logic ()->loggedIn ()) {
     touch_css_on();
   }
   if (m_touch_css_on) {
@@ -178,7 +173,7 @@ string Assets_Header::run ()
     m_view->set_variable ("included_editor_stylesheet", m_included_editor_stylesheet);
   }
 
-  bool basic_mode = config::logic::basic_mode (m_webserver_request);
+  bool basic_mode = config::logic::basic_mode (std::addressof(m_webserver_request));
   string basicadvanced;
   if (basic_mode) basicadvanced = "basic";
   else basicadvanced = "advanced";
@@ -199,10 +194,10 @@ string Assets_Header::run ()
     bool tabbed_mode_on = menu_logic_can_do_tabbed_mode () && Database_Config_General::getMenuInTabbedViewOn ();
     
     string menublock;
-    string item = request->query ["item"];
+    string item = m_webserver_request.query ["item"];
     bool main_menu_always_on = false;
     if (item.empty ())
-      if (request->database_config_user ()->getMainMenuAlwaysVisible ()) {
+      if (m_webserver_request.database_config_user ()->getMainMenuAlwaysVisible ()) {
         main_menu_always_on = true;
         // Add the main menu status as a Javascript variable.
         m_view->set_variable ("mainmenualwayson", filter::strings::convert_to_string (main_menu_always_on));
@@ -211,25 +206,25 @@ string Assets_Header::run ()
       if (basic_mode) {
         // Basic mode gives basic menu, but nothing in tabbed mode.
         if (!tabbed_mode_on) {
-          menublock = menu_logic_basic_categories (m_webserver_request);
+          menublock = menu_logic_basic_categories (std::addressof(m_webserver_request));
         }
       } else {
         string devnull;
-        menublock = menu_logic_main_categories (m_webserver_request, devnull);
+        menublock = menu_logic_main_categories (std::addressof(m_webserver_request), devnull);
       }
       start_button = false;
     } else if (item == menu_logic_translate_menu ()) {
-      menublock = menu_logic_translate_category (m_webserver_request);
+      menublock = menu_logic_translate_category (std::addressof(m_webserver_request));
     } else if (item == menu_logic_search_menu ()) {
-      menublock = menu_logic_search_category (m_webserver_request);
+      menublock = menu_logic_search_category (std::addressof(m_webserver_request));
     } else if (item == menu_logic_tools_menu ()) {
-      menublock = menu_logic_tools_category (m_webserver_request);
+      menublock = menu_logic_tools_category (std::addressof(m_webserver_request));
     } else if (item == menu_logic_settings_menu ()) {
-      menublock = menu_logic_settings_category (m_webserver_request);
+      menublock = menu_logic_settings_category (std::addressof(m_webserver_request));
     } else if (item == menu_logic_settings_resources_menu ()) {
-      menublock = menu_logic_settings_resources_category (m_webserver_request);
+      menublock = menu_logic_settings_resources_category (std::addressof(m_webserver_request));
     } else if (item == "help") {
-      menublock = menu_logic_help_category (m_webserver_request);
+      menublock = menu_logic_help_category (std::addressof(m_webserver_request));
     }
     m_view->set_variable ("mainmenu", menublock);
 
@@ -240,52 +235,52 @@ string Assets_Header::run ()
     if (start_button) {
       m_view->enable_zone ("start_button");
       string tooltip;
-      menu_logic_main_categories (m_webserver_request, tooltip);
+      menu_logic_main_categories (std::addressof(m_webserver_request), tooltip);
       m_view->set_variable ("starttooltip", tooltip);
     }
     
     if (!m_fading_menu.empty ()) {
       m_view->enable_zone ("fading_menu");
       m_view->set_variable ("fadingmenu", m_fading_menu);
-      string delay = filter::strings::convert_to_string (request->database_config_user ()->getWorkspaceMenuFadeoutDelay ()) + "000";
+      string delay = filter::strings::convert_to_string (m_webserver_request.database_config_user ()->getWorkspaceMenuFadeoutDelay ()) + "000";
       m_view->set_variable ("fadingmenudelay", delay);
       m_fading_menu.clear ();
     }
 
     if (m_display_navigator) {
       m_view->enable_zone ("display_navigator");
-      // string bible = access_bible::clamp (request, request->database_config_user()->getBible ());
+      // string bible = access_bible::clamp (request, m_webserver_request.database_config_user()->getBible ());
       // The clamping above does not work for public feedback as it would reset the Bible always.
-      string bible = request->database_config_user()->getBible ();
+      string bible = m_webserver_request.database_config_user()->getBible ();
       m_view->set_variable ("navigation_code", Navigation_Passage::code (bible));
     }
   }
 
   vector <string> embedded_css;
-  int fontsize = request->database_config_user ()->getGeneralFontSize ();
+  int fontsize = m_webserver_request.database_config_user ()->getGeneralFontSize ();
   if (fontsize != 100) {
     embedded_css.push_back ("body { font-size: " + filter::strings::convert_to_string (fontsize) + "%; }");
   }
-  fontsize = request->database_config_user ()->getMenuFontSize ();
-  string filename = menu_font_size_filebased_cache_filename (request->session_identifier);
+  fontsize = m_webserver_request.database_config_user ()->getMenuFontSize ();
+  string filename = menu_font_size_filebased_cache_filename (m_webserver_request.session_identifier);
   if (fontsize != 100) {
     embedded_css.push_back (".menu-advanced, .menu-basic { font-size: " + filter::strings::convert_to_string (fontsize) + "%; }");
   }
-  fontsize = request->database_config_user ()->getBibleEditorsFontSize ();
+  fontsize = m_webserver_request.database_config_user ()->getBibleEditorsFontSize ();
   if (fontsize != 100) {
     embedded_css.push_back (".bibleeditor { font-size: " + filter::strings::convert_to_string (fontsize) + "% !important; }");
   }
-  fontsize = request->database_config_user ()->getResourcesFontSize ();
-  filename = resource_font_size_filebased_cache_filename (request->session_identifier);
+  fontsize = m_webserver_request.database_config_user ()->getResourcesFontSize ();
+  filename = resource_font_size_filebased_cache_filename (m_webserver_request.session_identifier);
   if (fontsize != 100) {
     embedded_css.push_back (".resource { font-size: " + filter::strings::convert_to_string (fontsize) + "% !important; }");
   }
-  fontsize = request->database_config_user ()->getHebrewFontSize ();
+  fontsize = m_webserver_request.database_config_user ()->getHebrewFontSize ();
   if (fontsize != 100) {
     embedded_css.push_back (".hebrew { font-size: " + filter::strings::convert_to_string (fontsize) + "%!important; }");
   }
-  fontsize = request->database_config_user ()->getGreekFontSize ();
-  filename = greek_font_size_filebased_cache_filename (request->session_identifier);
+  fontsize = m_webserver_request.database_config_user ()->getGreekFontSize ();
+  filename = greek_font_size_filebased_cache_filename (m_webserver_request.session_identifier);
   if (fontsize != 100) {
     embedded_css.push_back (".greek { font-size: " + filter::strings::convert_to_string (fontsize) + "%!important; }");
   }
@@ -293,8 +288,8 @@ string Assets_Header::run ()
     m_view->set_variable ("embedded_css", filter::strings::implode (embedded_css, "\n"));
   }
 
-  int current_theme_index = request->database_config_user ()->getCurrentTheme ();
-  filename = current_theme_filebased_cache_filename (request->session_identifier);
+  int current_theme_index = m_webserver_request.database_config_user ()->getCurrentTheme ();
+  filename = current_theme_filebased_cache_filename (m_webserver_request.session_identifier);
   // Add the theme color css class selector name on the body element,..
   m_view->set_variable ("body_theme_color", Filter_Css::theme_picker (current_theme_index, 0));
   // ..workspacewrapper div element..
@@ -302,11 +297,11 @@ string Assets_Header::run ()
   // ..and as a variable for JavaScript.
   m_view->set_variable ("themecolorfortabs", Filter_Css::theme_picker (current_theme_index, 1));
 
-  if (request->database_config_user ()->getDisplayBreadcrumbs ()) {
+  if (m_webserver_request.database_config_user ()->getDisplayBreadcrumbs ()) {
     if (!m_bread_crumbs.empty ()) {
       // No bread crumbs in basic mode.
       // The crumbs would be incorrect anyway, because they show the trail of advanced mode.
-      if (!config::logic::basic_mode (m_webserver_request)) {
+      if (!config::logic::basic_mode (std::addressof(m_webserver_request))) {
         stringstream track;
         track << "<a href=" << quoted(index_index_url ()) << ">";
         track << menu_logic_menu_text ("") << "</a>";

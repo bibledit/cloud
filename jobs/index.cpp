@@ -48,7 +48,7 @@ string jobs_index (Webserver_Request& webserver_request)
 {
   string page;
   
-  Assets_Header header = Assets_Header (translate ("Job"), std::addressof(webserver_request));
+  Assets_Header header = Assets_Header (translate ("Job"), webserver_request);
   
   Assets_View view;
 

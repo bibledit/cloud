@@ -50,7 +50,7 @@ bool images_view_acl (Webserver_Request& webserver_request)
 string images_view (Webserver_Request& webserver_request)
 {
   string page;
-  Assets_Header header = Assets_Header (translate("Bible image"), std::addressof(webserver_request));
+  Assets_Header header = Assets_Header (translate("Bible image"), webserver_request);
   header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   header.add_bread_crumb (images_view_url (), menu_logic_images_index_text ());
   page = header.run ();

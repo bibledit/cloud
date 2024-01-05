@@ -51,7 +51,7 @@ bool editor_select_acl (Webserver_Request& webserver_request)
 string editor_select (Webserver_Request& webserver_request)
 {
   string page;
-  Assets_Header header = Assets_Header (translate("Select editor"), std::addressof(webserver_request));
+  Assets_Header header = Assets_Header (translate("Select editor"), webserver_request);
   page = header.run();
   Assets_View view;
   

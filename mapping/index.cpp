@@ -49,7 +49,7 @@ string mapping_index (Webserver_Request& webserver_request)
   
   string page;
   
-  Assets_Header header = Assets_Header (translate("Verse Mappings"), std::addressof(webserver_request));
+  Assets_Header header = Assets_Header (translate("Verse Mappings"), webserver_request);
   header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   page = header.run ();
   

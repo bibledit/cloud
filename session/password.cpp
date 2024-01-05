@@ -45,7 +45,7 @@ std::string session_password (Webserver_Request& webserver_request)
 {
   std::string page{};
 
-  Assets_Header header = Assets_Header (translate ("Password"), std::addressof(webserver_request));
+  Assets_Header header = Assets_Header (translate ("Password"), webserver_request);
   header.touch_css_on ();
   page += header.run ();
 

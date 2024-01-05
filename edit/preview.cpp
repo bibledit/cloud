@@ -62,7 +62,7 @@ string edit_preview (Webserver_Request& webserver_request)
 
   string page;
   
-  Assets_Header header = Assets_Header (translate("Preview"), std::addressof(webserver_request));
+  Assets_Header header = Assets_Header (translate("Preview"), webserver_request);
   header.set_navigator ();
   header.set_editor_stylesheet ();
   if (touch) header.jquery_touch_on ();

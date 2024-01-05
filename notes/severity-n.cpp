@@ -53,7 +53,7 @@ string notes_severity_n (Webserver_Request& webserver_request)
   
   
   string page;
-  Assets_Header header = Assets_Header (translate("Severity"), std::addressof(webserver_request));
+  Assets_Header header = Assets_Header (translate("Severity"), webserver_request);
   page += header.run ();
   Assets_View view;
   

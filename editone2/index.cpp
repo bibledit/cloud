@@ -81,7 +81,7 @@ string editone2_index (Webserver_Request& webserver_request)
 
   string page;
   
-  Assets_Header header = Assets_Header (translate("Edit verse"), std::addressof(webserver_request));
+  Assets_Header header = Assets_Header (translate("Edit verse"), webserver_request);
   header.set_navigator ();
   header.set_editor_stylesheet ();
   if (touch) header.jquery_touch_on ();

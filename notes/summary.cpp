@@ -53,7 +53,7 @@ string notes_summary (Webserver_Request& webserver_request)
 
   
   string page;
-  Assets_Header header = Assets_Header (translate("Note summary"), std::addressof(webserver_request));
+  Assets_Header header = Assets_Header (translate("Note summary"), webserver_request);
   page += header.run ();
   Assets_View view;
 

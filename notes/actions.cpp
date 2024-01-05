@@ -58,7 +58,7 @@ string notes_actions (Webserver_Request& webserver_request)
 
   
   string page;
-  Assets_Header header = Assets_Header (translate("Actions"), std::addressof(webserver_request));
+  Assets_Header header = Assets_Header (translate("Actions"), webserver_request);
   header.set_navigator ();
   page += header.run ();
   Assets_View view;

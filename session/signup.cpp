@@ -71,7 +71,7 @@ std::string session_signup ([[maybe_unused]] Webserver_Request& webserver_reques
 
 #ifdef HAVE_CLOUD
 
-  Assets_Header header = Assets_Header (translate ("Signup"), std::addressof(webserver_request));
+  Assets_Header header = Assets_Header (translate ("Signup"), webserver_request);
   header.touch_css_on ();
   page += header.run ();
   

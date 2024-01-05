@@ -58,7 +58,7 @@ string notes_create (Webserver_Request& webserver_request)
   
   string page;
   
-  Assets_Header header = Assets_Header (translate("Create note"), std::addressof(webserver_request));
+  Assets_Header header = Assets_Header (translate("Create note"), webserver_request);
   header.add_bread_crumb (menu_logic_translate_menu (), menu_logic_translate_text ());
   header.add_bread_crumb (notes_index_url (), menu_logic_consultation_notes_text ());
   page = header.run();

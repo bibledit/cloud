@@ -49,7 +49,7 @@ bool manage_privileges_acl (Webserver_Request& webserver_request)
 string manage_privileges (Webserver_Request& webserver_request)
 {
   string page {};
-  Assets_Header header = Assets_Header (translate("Read/write"), std::addressof(webserver_request));
+  Assets_Header header = Assets_Header (translate("Read/write"), webserver_request);
   header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   header.add_bread_crumb (manage_users_url (), menu_logic_manage_users_text ());
   page = header.run ();

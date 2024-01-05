@@ -57,7 +57,7 @@ string public_create (Webserver_Request& webserver_request)
   
   
   string page;
-  Assets_Header header = Assets_Header (translate("Create note"), std::addressof(webserver_request));
+  Assets_Header header = Assets_Header (translate("Create note"), webserver_request);
   page += header.run ();
   Assets_View view;
 

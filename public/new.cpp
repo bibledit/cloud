@@ -66,7 +66,7 @@ string public_new (Webserver_Request& webserver_request)
 
   
   string page;
-  Assets_Header header = Assets_Header (translate ("New feedback"), std::addressof(webserver_request));
+  Assets_Header header = Assets_Header (translate ("New feedback"), webserver_request);
   header.set_navigator ();
   header.set_stylesheet ();
   page = header.run ();

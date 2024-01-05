@@ -47,7 +47,7 @@ bool nmt_index_acl (Webserver_Request& webserver_request)
 
 string nmt_index (Webserver_Request& webserver_request)
 {
-  Assets_Header header = Assets_Header (translate ("Bibledit"), std::addressof(webserver_request));
+  Assets_Header header = Assets_Header (translate ("Bibledit"), webserver_request);
   
   string page = header.run ();
 

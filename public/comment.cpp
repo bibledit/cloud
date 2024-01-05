@@ -54,7 +54,7 @@ string public_comment (Webserver_Request& webserver_request)
 
   
   string page;
-  Assets_Header header = Assets_Header (translate("Feedback"), std::addressof(webserver_request));
+  Assets_Header header = Assets_Header (translate("Feedback"), webserver_request);
   page += header.run ();
   Assets_View view;
   

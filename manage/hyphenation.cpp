@@ -50,7 +50,7 @@ bool manage_hyphenation_acl (Webserver_Request& webserver_request)
 string manage_hyphenation (Webserver_Request& webserver_request)
 {
   string page;
-  Assets_Header header = Assets_Header (translate ("Hyphenation"), std::addressof(webserver_request));
+  Assets_Header header = Assets_Header (translate ("Hyphenation"), webserver_request);
   header.add_bread_crumb (menu_logic_tools_menu (), menu_logic_tools_text ());
   page = header.run ();
   Assets_View view;

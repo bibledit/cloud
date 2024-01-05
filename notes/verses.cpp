@@ -54,7 +54,7 @@ string notes_verses (Webserver_Request& webserver_request)
 
 
   string page;
-  Assets_Header header = Assets_Header (translate("Passages"), std::addressof(webserver_request));
+  Assets_Header header = Assets_Header (translate("Passages"), webserver_request);
   page += header.run ();
   Assets_View view;
   string success, error;

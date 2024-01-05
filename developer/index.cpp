@@ -60,7 +60,7 @@ string developer_index (Webserver_Request& webserver_request)
   
   string page {};
 
-  Assets_Header header = Assets_Header ("Development", std::addressof(webserver_request));
+  Assets_Header header = Assets_Header ("Development", webserver_request);
   header.notify_it_on ();
   page = header.run ();
 

@@ -55,7 +55,7 @@ string notes_edit (Webserver_Request& webserver_request)
   
   
   string page;
-  Assets_Header header = Assets_Header (translate("Edit Note Source"), std::addressof(webserver_request));
+  Assets_Header header = Assets_Header (translate("Edit Note Source"), webserver_request);
   page += header.run ();
   Assets_View view;
   

@@ -54,7 +54,7 @@ std::string index_index (Webserver_Request& webserver_request)
 {
   filter_webview_log_user_agent (webserver_request.user_agent);
   
-  Assets_Header header = Assets_Header (translate ("Bibledit"), std::addressof(webserver_request));
+  Assets_Header header = Assets_Header (translate ("Bibledit"), webserver_request);
   
   // Basic or advanced mode setting.
   const std::string mode = webserver_request.query ["mode"];

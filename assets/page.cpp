@@ -28,10 +28,9 @@ using namespace std;
 namespace assets_page {
 
 
-string header (const string & title, void * webserver_request)
+string header (const string & title, Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  Assets_Header header = Assets_Header (title, *request);
+  Assets_Header header = Assets_Header (title, webserver_request);
   string page = header.run ();
   return page;
 }

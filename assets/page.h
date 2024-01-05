@@ -21,9 +21,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <config/libraries.h>
 
+class Webserver_Request;
+
 namespace assets_page {
 
-std::string header (const std::string & title, void * webserver_request);
+std::string header (const std::string & title, Webserver_Request& webserver_request);
 std::string success (const std::string & message);
 std::string error (const std::string & message);
 std::string message (const std::string & message);

@@ -51,7 +51,7 @@ bool bible_chapter_acl (Webserver_Request& webserver_request)
 
 std::string bible_chapter (Webserver_Request& webserver_request)
 {
-  std::string page = assets_page::header (translate ("Chapter"), std::addressof(webserver_request));
+  std::string page = assets_page::header (translate ("Chapter"), webserver_request);
   
   Assets_View view {};
   

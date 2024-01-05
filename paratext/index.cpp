@@ -50,7 +50,7 @@ bool paratext_index_acl (Webserver_Request& webserver_request)
 string paratext_index (Webserver_Request& webserver_request)
 {
   string page;
-  page = assets_page::header (translate ("Paratext"), std::addressof(webserver_request));
+  page = assets_page::header (translate ("Paratext"), webserver_request);
   Assets_View view;
   string success;
   string error;

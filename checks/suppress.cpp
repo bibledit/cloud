@@ -52,7 +52,7 @@ string checks_suppress (Webserver_Request& webserver_request)
   
   
   string page {};
-  page = assets_page::header (translate ("Suppressed checking results"), std::addressof(webserver_request));
+  page = assets_page::header (translate ("Suppressed checking results"), webserver_request);
   Assets_View view {};
   
   

@@ -112,22 +112,22 @@ void demo_clean_data ()
   Database_Logs::log ("Cleaning up the demo data");
   
   
-  Webserver_Request request {};
+  Webserver_Request webserver_request {};
   
   
   // Set user to the demo credentials (admin).
   // This is the user who is always logged-in in a demo installation.
-  request.session_logic ()->set_username (session_admin_credentials ());
+  webserver_request.session_logic ()->set_username (session_admin_credentials ());
   
   
   // Delete empty stylesheet that may have been there.
-  request.database_styles()->revokeWriteAccess ("", styles_logic_standard_sheet ());
-  request.database_styles()->deleteSheet ("");
+  webserver_request.database_styles()->revokeWriteAccess ("", styles_logic_standard_sheet ());
+  webserver_request.database_styles()->deleteSheet ("");
   styles_sheets_create_all ();
   
   
   // Set both stylesheets to "Standard" for all Bibles.
-  vector <string> bibles = request.database_bibles()->get_bibles ();
+  vector <string> bibles = webserver_request.database_bibles()->get_bibles ();
   for (const auto & bible : bibles) {
     Database_Config_Bible::setExportStylesheet (bible, styles_logic_standard_sheet ());
     Database_Config_Bible::setEditorStylesheet (bible, styles_logic_standard_sheet ());
@@ -152,10 +152,10 @@ void demo_clean_data ()
     pair (session_admin_credentials (), Filter_Roles::admin ())
   };
   for (const auto & element : users) {
-    if (!request.database_users ()->usernameExists (element.first)) {
-      request.database_users ()->add_user(element.first, element.first, element.second, "");
+    if (!webserver_request.database_users ()->usernameExists (element.first)) {
+      webserver_request.database_users ()->add_user(element.first, element.first, element.second, "");
     }
-    request.database_users ()->set_level (element.first, element.second);
+    webserver_request.database_users ()->set_level (element.first, element.second);
   }
   
   
@@ -167,25 +167,25 @@ void demo_clean_data ()
 
   // Create sample notes.
   if (config::logic::default_bibledit_configuration ()) {
-    demo_create_sample_notes (&request);
+    demo_create_sample_notes (&webserver_request);
   }
 
 
   // Create samples for the workspaces.
   if (config::logic::default_bibledit_configuration ()) {
-    demo_create_sample_workspaces (&request);
+    demo_create_sample_workspaces (&webserver_request);
   }
   
   
   // Set navigator to John 3:16.
   if (config::logic::default_bibledit_configuration ()) {
-    Ipc_Focus::set (&request, 43, 3, 16);
+    Ipc_Focus::set (webserver_request, 43, 3, 16);
   }
 
 
   // Set and/or trim resources to display.
   // Too many resources crash the demo: Limit the amount.
-  vector <string> resources = request.database_config_user()->getActiveResources ();
+  vector <string> resources = webserver_request.database_config_user()->getActiveResources ();
   bool reset_resources {false};
   size_t max_resource {25};
   if (resources.size () > max_resource) reset_resources = true;
@@ -196,12 +196,12 @@ void demo_clean_data ()
   }
   if (reset_resources) {
     resources = demo_logic_default_resources ();
-    request.database_config_user()->setActiveResources (resources);
+    webserver_request.database_config_user()->setActiveResources (resources);
   }
   
   
   // No flipped basic <> advanded mode.
-  request.database_config_user ()->setBasicInterfaceMode (false);
+  webserver_request.database_config_user ()->setBasicInterfaceMode (false);
 }
 
 

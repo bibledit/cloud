@@ -39,9 +39,9 @@ bool navigation_poll_acl (Webserver_Request& webserver_request)
 
 string navigation_poll (Webserver_Request& webserver_request)
 {
-  int book = Ipc_Focus::getBook (std::addressof(webserver_request));
-  int chapter = Ipc_Focus::getChapter (std::addressof(webserver_request));
-  int verse = Ipc_Focus::getVerse (std::addressof(webserver_request));
+  int book = Ipc_Focus::getBook (webserver_request);
+  int chapter = Ipc_Focus::getChapter (webserver_request);
+  int verse = Ipc_Focus::getVerse (webserver_request);
   vector <string> passage;
   passage.push_back (filter::strings::convert_to_string (book));
   passage.push_back (filter::strings::convert_to_string (chapter));

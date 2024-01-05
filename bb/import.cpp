@@ -67,8 +67,8 @@ std::string bible_import (Webserver_Request& webserver_request)
   const std::string bible = access_bible::clamp (webserver_request, webserver_request.query["bible"]);
   view.set_variable ("bible", filter::strings::escape_special_xml_characters (bible));
   
-  const int book = Ipc_Focus::getBook (std::addressof(webserver_request));
-  const int chapter = Ipc_Focus::getChapter (std::addressof(webserver_request));
+  const int book = Ipc_Focus::getBook (webserver_request);
+  const int chapter = Ipc_Focus::getChapter (webserver_request);
 
   // Whether the user has write access to this Bible.
   if (bool write_access = access_bible::write (webserver_request, bible); write_access) {

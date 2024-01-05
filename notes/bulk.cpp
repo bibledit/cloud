@@ -71,9 +71,9 @@ string notes_bulk (Webserver_Request& webserver_request)
 
   
   vector <string> bibles = access_bible::bibles (webserver_request);
-  int book = Ipc_Focus::getBook (std::addressof(webserver_request));
-  int chapter = Ipc_Focus::getChapter (std::addressof(webserver_request));
-  int verse = Ipc_Focus::getVerse (std::addressof(webserver_request));
+  int book = Ipc_Focus::getBook (webserver_request);
+  int chapter = Ipc_Focus::getChapter (webserver_request);
+  int verse = Ipc_Focus::getVerse (webserver_request);
   int passage_selector = webserver_request.database_config_user()->getConsultationNotesPassageSelector();
   int edit_selector = webserver_request.database_config_user()->getConsultationNotesEditSelector();
   int non_edit_selector = webserver_request.database_config_user()->getConsultationNotesNonEditSelector();

@@ -416,15 +416,15 @@ const char * bibledit_get_reference_for_accordance ()
   string user = client_logic_get_username ();
 
   // Get the active Bible and its versification system.
-  Webserver_Request request;
-  request.session_logic()->set_username(user);
-  Database_Config_User database_config_user (&request);
-  string bible = request.database_config_user ()->getBible ();
+  Webserver_Request webserver_request;
+  webserver_request.session_logic()->set_username(user);
+  Database_Config_User database_config_user (&webserver_request);
+  string bible = webserver_request.database_config_user ()->getBible ();
   string versification = Database_Config_Bible::getVersificationSystem (bible);
 
-  int book = Ipc_Focus::getBook (&request);
-  int chapter = Ipc_Focus::getChapter (&request);
-  int verse = Ipc_Focus::getVerse (&request);
+  int book = Ipc_Focus::getBook (webserver_request);
+  int chapter = Ipc_Focus::getChapter (webserver_request);
+  int verse = Ipc_Focus::getVerse (webserver_request);
 
   // Accordance expects a verse reference in the English versification system.
   vector <Passage> passages;
@@ -456,11 +456,11 @@ void bibledit_put_reference_from_accordance (const char * reference)
 {
   // Get and set the user name on this client device.
   string user = client_logic_get_username ();
-  Webserver_Request request;
-  request.session_logic()->set_username(user);
+  Webserver_Request webserver_request;
+  webserver_request.session_logic()->set_username(user);
 
   // Setting whether to enable receiving verse references from Accordance.
-  bool enabled  = request.database_config_user ()->getReceiveFocusedReferenceFromAccordance ();
+  bool enabled = webserver_request.database_config_user ()->getReceiveFocusedReferenceFromAccordance ();
   if (!enabled) return;
   
   // Interpret the passage from Accordance, e.g. MAT 1:1.
@@ -474,8 +474,8 @@ void bibledit_put_reference_from_accordance (const char * reference)
   int verse = filter::strings::convert_to_int(chapter_verse[1]);
 
   // Get the active Bible and its versification system.
-  Database_Config_User database_config_user (&request);
-  string bible = request.database_config_user ()->getBible ();
+  Database_Config_User database_config_user (&webserver_request);
+  string bible = webserver_request.database_config_user ()->getBible ();
   string versification = Database_Config_Bible::getVersificationSystem (bible);
 
   // Accordance expects a verse reference in the English versification system.
@@ -492,5 +492,5 @@ void bibledit_put_reference_from_accordance (const char * reference)
   book = passages[0].m_book;
   chapter = passages[0].m_chapter;
   string verse_s = passages[0].m_verse;
-  Ipc_Focus::set (&request, book, chapter, verse);
+  Ipc_Focus::set (webserver_request, book, chapter, verse);
 }

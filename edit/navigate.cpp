@@ -109,7 +109,7 @@ std::string edit_navigate (Webserver_Request& webserver_request)
   
   
   // If the offset is between the focused verse's min and max values, then do nothing.
-  int verse = Ipc_Focus::getVerse (std::addressof(webserver_request));
+  int verse = Ipc_Focus::getVerse (webserver_request);
   for (size_t i = 0; i < verses.size (); i++) {
     if (verse == verses[i]) {
       if (offset >= starting_offsets [i]) {
@@ -137,8 +137,8 @@ std::string edit_navigate (Webserver_Request& webserver_request)
   if (verse >= 0) {
     // Only update navigation in case the verse changed.
     // This avoids unnecessary focus operations in the clients.
-    if (verse != Ipc_Focus::getVerse (std::addressof(webserver_request))) {
-      Ipc_Focus::set (std::addressof(webserver_request), book, chapter, verse);
+    if (verse != Ipc_Focus::getVerse (webserver_request)) {
+      Ipc_Focus::set (webserver_request, book, chapter, verse);
     }
     // The editor should scroll the verse into view,
     // because the caret is in the Bible text.

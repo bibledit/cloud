@@ -101,7 +101,7 @@ string Navigation_Passage::get_mouse_navigator (void * webserver_request, string
     }
   }
 
-  int book = Ipc_Focus::getBook (request);
+  int book = Ipc_Focus::getBook (*request);
   
   // The book should exist in the Bible.
   if (bible != "") {
@@ -125,7 +125,7 @@ string Navigation_Passage::get_mouse_navigator (void * webserver_request, string
     a_node.text() = bookName.c_str();
   }
 
-  int chapter = Ipc_Focus::getChapter (request);
+  int chapter = Ipc_Focus::getChapter (*request);
   
   // The chapter should exist in the book.
   if (bible != "") {
@@ -146,7 +146,7 @@ string Navigation_Passage::get_mouse_navigator (void * webserver_request, string
     a_node.text() = filter::strings::convert_to_string (chapter).c_str();
   }
   
-  int verse = Ipc_Focus::getVerse (request);
+  int verse = Ipc_Focus::getVerse (*request);
   
   bool next_verse_is_available = true;
   
@@ -206,7 +206,7 @@ string Navigation_Passage::get_mouse_navigator (void * webserver_request, string
 
   // Store book / chapter / verse if they were clipped.
   if (passage_clipped) {
-    Ipc_Focus::set (request, book, chapter, verse);
+    Ipc_Focus::set (*request, book, chapter, verse);
   }
 
   // The result.
@@ -220,7 +220,7 @@ string Navigation_Passage::get_mouse_navigator (void * webserver_request, string
 string Navigation_Passage::get_books_fragment (void * webserver_request, string bible)
 {
   Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  book_id active_book = static_cast<book_id>(Ipc_Focus::getBook (request));
+  book_id active_book = static_cast<book_id>(Ipc_Focus::getBook (*request));
   // Take standard books in case of no Bible.
   vector <book_id> books;
   if (bible.empty()) {
@@ -307,33 +307,37 @@ string Navigation_Passage::code (string bible)
 
 void Navigation_Passage::set_book (void * webserver_request, int book)
 {
-  Ipc_Focus::set (webserver_request, book, 1, 1);
-  record_history (webserver_request, book, 1, 1);
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
+  Ipc_Focus::set (*request, book, 1, 1);
+  record_history (request, book, 1, 1);
 }
 
 
 void Navigation_Passage::set_chapter (void * webserver_request, int chapter)
 {
-  int book = Ipc_Focus::getBook (webserver_request);
-  Ipc_Focus::set (webserver_request, book, chapter, 1);
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
+  int book = Ipc_Focus::getBook (*request);
+  Ipc_Focus::set (*request, book, chapter, 1);
   record_history (webserver_request, book, chapter, 1);
 }
 
 
 void Navigation_Passage::set_verse (void * webserver_request, int verse)
 {
-  int book = Ipc_Focus::getBook (webserver_request);
-  int chapter = Ipc_Focus::getChapter (webserver_request);
-  Ipc_Focus::set (webserver_request, book, chapter, verse);
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
+  int book = Ipc_Focus::getBook (*request);
+  int chapter = Ipc_Focus::getChapter (*request);
+  Ipc_Focus::set (*request, book, chapter, verse);
   record_history (webserver_request, book, chapter, verse);
 }
 
 
 void Navigation_Passage::set_passage (void * webserver_request, string bible, string passage)
 {
-  int currentBook = Ipc_Focus::getBook (webserver_request);
-  int currentChapter = Ipc_Focus::getChapter (webserver_request);
-  int currentVerse = Ipc_Focus::getVerse (webserver_request);
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
+  int currentBook = Ipc_Focus::getBook (*request);
+  int currentChapter = Ipc_Focus::getChapter (*request);
+  int currentVerse = Ipc_Focus::getVerse (*request);
   passage = filter::strings::trim (passage);
   Passage passage_to_set;
   if ((passage == "") || (passage == "+")) {
@@ -345,7 +349,7 @@ void Navigation_Passage::set_passage (void * webserver_request, string bible, st
     passage_to_set = filter_passage_interpret_passage (inputpassage, passage);
   }
   if (passage_to_set.m_book != 0) {
-    Ipc_Focus::set (webserver_request, passage_to_set.m_book, passage_to_set.m_chapter, filter::strings::convert_to_int (passage_to_set.m_verse));
+    Ipc_Focus::set (*request, passage_to_set.m_book, passage_to_set.m_chapter, filter::strings::convert_to_int (passage_to_set.m_verse));
     Navigation_Passage::record_history (webserver_request, passage_to_set.m_book, passage_to_set.m_chapter, filter::strings::convert_to_int (passage_to_set.m_verse));
   }
 }
@@ -383,11 +387,12 @@ Passage Navigation_Passage::get_previous_chapter (void * webserver_request, stri
 
 void Navigation_Passage::goto_next_chapter (void * webserver_request, string bible)
 {
-  int currentBook = Ipc_Focus::getBook (webserver_request);
-  int currentChapter = Ipc_Focus::getChapter (webserver_request);
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
+  int currentBook = Ipc_Focus::getBook (*request);
+  int currentChapter = Ipc_Focus::getChapter (*request);
   Passage passage = Navigation_Passage::get_next_chapter (webserver_request, bible, currentBook, currentChapter);
   if (passage.m_book != 0) {
-    Ipc_Focus::set (webserver_request, passage.m_book, passage.m_chapter, filter::strings::convert_to_int (passage.m_verse));
+    Ipc_Focus::set (*request, passage.m_book, passage.m_chapter, filter::strings::convert_to_int (passage.m_verse));
     Navigation_Passage::record_history (webserver_request, passage.m_book, passage.m_chapter, filter::strings::convert_to_int (passage.m_verse));
   }
 }
@@ -395,11 +400,12 @@ void Navigation_Passage::goto_next_chapter (void * webserver_request, string bib
 
 void Navigation_Passage::goto_previous_chapter (void * webserver_request, string bible)
 {
-  int currentBook = Ipc_Focus::getBook (webserver_request);
-  int currentChapter = Ipc_Focus::getChapter (webserver_request);
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
+  int currentBook = Ipc_Focus::getBook (*request);
+  int currentChapter = Ipc_Focus::getChapter (*request);
   Passage passage = Navigation_Passage::get_previous_chapter (webserver_request, bible, currentBook, currentChapter);
   if (passage.m_book != 0) {
-    Ipc_Focus::set (webserver_request, passage.m_book, passage.m_chapter, filter::strings::convert_to_int (passage.m_verse));
+    Ipc_Focus::set (*request, passage.m_book, passage.m_chapter, filter::strings::convert_to_int (passage.m_verse));
     Navigation_Passage::record_history (webserver_request, passage.m_book, passage.m_chapter, filter::strings::convert_to_int (passage.m_verse));
   }
 }
@@ -437,12 +443,13 @@ Passage Navigation_Passage::get_previous_verse (void * webserver_request, string
 
 void Navigation_Passage::goto_next_verse (void * webserver_request, string bible)
 {
-  int currentBook = Ipc_Focus::getBook (webserver_request);
-  int currentChapter = Ipc_Focus::getChapter (webserver_request);
-  int currentVerse = Ipc_Focus::getVerse (webserver_request);
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
+  int currentBook = Ipc_Focus::getBook (*request);
+  int currentChapter = Ipc_Focus::getChapter (*request);
+  int currentVerse = Ipc_Focus::getVerse (*request);
   Passage passage = Navigation_Passage::get_next_verse (webserver_request, bible, currentBook, currentChapter, currentVerse);
   if (passage.m_book != 0) {
-    Ipc_Focus::set (webserver_request, passage.m_book, passage.m_chapter, filter::strings::convert_to_int (passage.m_verse));
+    Ipc_Focus::set (*request, passage.m_book, passage.m_chapter, filter::strings::convert_to_int (passage.m_verse));
     Navigation_Passage::record_history (webserver_request, passage.m_book, passage.m_chapter, filter::strings::convert_to_int (passage.m_verse));
   }
 }
@@ -450,12 +457,13 @@ void Navigation_Passage::goto_next_verse (void * webserver_request, string bible
 
 void Navigation_Passage::goto_previous_verse (void * webserver_request, string bible)
 {
-  int currentBook = Ipc_Focus::getBook (webserver_request);
-  int currentChapter = Ipc_Focus::getChapter (webserver_request);
-  int currentVerse = Ipc_Focus::getVerse (webserver_request);
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
+  int currentBook = Ipc_Focus::getBook (*request);
+  int currentChapter = Ipc_Focus::getChapter (*request);
+  int currentVerse = Ipc_Focus::getVerse (*request);
   Passage passage = Navigation_Passage::get_previous_verse (webserver_request, bible, currentBook, currentChapter, currentVerse);
   if (passage.m_book != 0) {
-    Ipc_Focus::set (webserver_request, passage.m_book, passage.m_chapter, filter::strings::convert_to_int (passage.m_verse));
+    Ipc_Focus::set (*request, passage.m_book, passage.m_chapter, filter::strings::convert_to_int (passage.m_verse));
     Navigation_Passage::record_history (webserver_request, passage.m_book, passage.m_chapter, filter::strings::convert_to_int (passage.m_verse));
   }
 }
@@ -477,7 +485,7 @@ void Navigation_Passage::go_back (void * webserver_request)
   string user = request->session_logic()->currentUser ();
   Passage passage = database_navigation.get_previous (user);
   if (passage.m_book) {
-    Ipc_Focus::set (webserver_request, passage.m_book, passage.m_chapter, filter::strings::convert_to_int (passage.m_verse));
+    Ipc_Focus::set (*request, passage.m_book, passage.m_chapter, filter::strings::convert_to_int (passage.m_verse));
   }
 }
 
@@ -489,7 +497,7 @@ void Navigation_Passage::go_forward (void * webserver_request)
   string user = request->session_logic()->currentUser ();
   Passage passage = database_navigation.get_next (user);
   if (passage.m_book) {
-    Ipc_Focus::set (webserver_request, passage.m_book, passage.m_chapter, filter::strings::convert_to_int (passage.m_verse));
+    Ipc_Focus::set (*request, passage.m_book, passage.m_chapter, filter::strings::convert_to_int (passage.m_verse));
   }
 }
 
@@ -533,7 +541,7 @@ string Navigation_Passage::get_keyboard_navigator (void * webserver_request, str
   
   string fragment;
   
-  int book = Ipc_Focus::getBook (request);
+  int book = Ipc_Focus::getBook (*request);
   
   // The book should exist in the Bible.
   if (bible != "") {
@@ -545,7 +553,7 @@ string Navigation_Passage::get_keyboard_navigator (void * webserver_request, str
     }
   }
   
-  int chapter = Ipc_Focus::getChapter (request);
+  int chapter = Ipc_Focus::getChapter (*request);
   
   // The chapter should exist in the book.
   if (bible != "") {
@@ -557,7 +565,7 @@ string Navigation_Passage::get_keyboard_navigator (void * webserver_request, str
     }
   }
 
-  int verse = Ipc_Focus::getVerse (request);
+  int verse = Ipc_Focus::getVerse (*request);
   
   // The verse should exist in the chapter.
   if (bible != "") {
@@ -586,7 +594,7 @@ string Navigation_Passage::get_keyboard_navigator (void * webserver_request, str
 
   // Store book / chapter / verse if they were clipped.
   if (passage_clipped) {
-    Ipc_Focus::set (request, book, chapter, verse);
+    Ipc_Focus::set (*request, book, chapter, verse);
   }
   
   // The result.
@@ -600,7 +608,7 @@ void Navigation_Passage::interpret_keyboard_navigator (void * webserver_request,
 
   string user = request->session_logic()->currentUser ();
   
-  int book = Ipc_Focus::getBook (request);
+  int book = Ipc_Focus::getBook (*request);
   
   // The book should exist in the Bible.
   if (bible != "") {
@@ -611,7 +619,7 @@ void Navigation_Passage::interpret_keyboard_navigator (void * webserver_request,
     }
   }
   
-  int chapter = Ipc_Focus::getChapter (request);
+  int chapter = Ipc_Focus::getChapter (*request);
   
   // The chapter should exist in the book.
   if (bible != "") {
@@ -622,7 +630,7 @@ void Navigation_Passage::interpret_keyboard_navigator (void * webserver_request,
     }
   }
 
-  int verse = Ipc_Focus::getVerse (request);
+  int verse = Ipc_Focus::getVerse (*request);
   
   // The verse should exist in the chapter.
   if (bible != "") {
@@ -639,7 +647,7 @@ void Navigation_Passage::interpret_keyboard_navigator (void * webserver_request,
   Passage new_passage = filter_passage_interpret_passage (current_passage, passage);
   
   // Store book / chapter / verse.
-  Ipc_Focus::set (request, new_passage.m_book, new_passage.m_chapter, filter::strings::convert_to_int (new_passage.m_verse));
+  Ipc_Focus::set (*request, new_passage.m_book, new_passage.m_chapter, filter::strings::convert_to_int (new_passage.m_verse));
   Navigation_Passage::record_history (request, new_passage.m_book, new_passage.m_chapter, filter::strings::convert_to_int (new_passage.m_verse));
 }
 

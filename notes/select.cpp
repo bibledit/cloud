@@ -248,9 +248,9 @@ string notes_select (Webserver_Request& webserver_request)
   if (webserver_request.session_logic ()->currentLevel () == Filter_Roles::admin ()) bibles.clear ();
   
   
-  const int book = Ipc_Focus::getBook (std::addressof(webserver_request));
-  const int chapter = Ipc_Focus::getChapter (std::addressof(webserver_request));
-  const int verse = Ipc_Focus::getVerse (std::addressof(webserver_request));
+  const int book = Ipc_Focus::getBook (webserver_request);
+  const int chapter = Ipc_Focus::getChapter (webserver_request);
+  const int verse = Ipc_Focus::getVerse (webserver_request);
   const vector <int> identifiers = database_notes.select_notes (bibles, book, chapter, verse,
                                                                 passage_selector, edit_selector, non_edit_selector,
                                                                 status_selector, bible_selector, assignment_selector,

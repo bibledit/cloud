@@ -78,7 +78,7 @@ string navigation_paratext (Webserver_Request& webserver_request)
           chapter = passages[0].m_chapter;
           verse = filter::strings::convert_to_int (passages[0].m_verse);
           // Set the focused passage for Bibledit.
-          Ipc_Focus::set (std::addressof(webserver_request), book, chapter, verse);
+          Ipc_Focus::set (webserver_request, book, chapter, verse);
         }
       }
     }

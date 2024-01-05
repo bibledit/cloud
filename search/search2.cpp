@@ -141,7 +141,7 @@ string search_search2 (Webserver_Request& webserver_request)
     
     // Deal with possible searching in the current book only.
     if (books == "currentbook") {
-      int book = Ipc_Focus::getBook (std::addressof(webserver_request));
+      int book = Ipc_Focus::getBook (webserver_request);
       vector <Passage> bookpassages;
       for (auto & passage : passages) {
         if (book == passage.m_book) {

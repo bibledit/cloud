@@ -66,9 +66,9 @@ string search_originals (Webserver_Request& webserver_request)
 
   if (webserver_request.query.count ("load")) {
     
-    book_id book = static_cast<book_id>(Ipc_Focus::getBook (std::addressof(webserver_request)));
-    int chapter = Ipc_Focus::getChapter (std::addressof(webserver_request));
-    int verse = Ipc_Focus::getVerse (std::addressof(webserver_request));
+    book_id book = static_cast<book_id>(Ipc_Focus::getBook (webserver_request));
+    int chapter = Ipc_Focus::getChapter (webserver_request);
+    int verse = Ipc_Focus::getVerse (webserver_request);
     
     book_type type = database::books::get_type (book);
     
@@ -98,7 +98,7 @@ string search_originals (Webserver_Request& webserver_request)
     words = filter::strings::trim (words);
     vector <string> v_words = filter::strings::explode (words, ' ');
     
-    book_id book = static_cast<book_id>(Ipc_Focus::getBook (std::addressof(webserver_request)));
+    book_id book = static_cast<book_id>(Ipc_Focus::getBook (webserver_request));
     book_type type = database::books::get_type (book);
     
     // Include items if there are no more search hits

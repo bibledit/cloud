@@ -63,9 +63,9 @@ string public_create (Webserver_Request& webserver_request)
 
   
   string bible = webserver_request.database_config_user()->getBible ();
-  const int book = Ipc_Focus::getBook (std::addressof(webserver_request));
-  const int chapter = Ipc_Focus::getChapter (std::addressof(webserver_request));
-  const int verse = Ipc_Focus::getVerse (std::addressof(webserver_request));
+  const int book = Ipc_Focus::getBook (webserver_request);
+  const int chapter = Ipc_Focus::getChapter (webserver_request);
+  const int verse = Ipc_Focus::getVerse (webserver_request);
 
   
   string chapter_usfm = webserver_request.database_bibles()->get_chapter (bible, book, chapter);

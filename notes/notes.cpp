@@ -52,9 +52,9 @@ string notes_notes (Webserver_Request& webserver_request)
 
   
   string bible = access_bible::clamp (webserver_request, webserver_request.database_config_user()->getBible());
-  int book = Ipc_Focus::getBook (std::addressof(webserver_request));
-  int chapter = Ipc_Focus::getChapter (std::addressof(webserver_request));
-  int verse = Ipc_Focus::getVerse (std::addressof(webserver_request));
+  int book = Ipc_Focus::getBook (webserver_request);
+  int chapter = Ipc_Focus::getChapter (webserver_request);
+  int verse = Ipc_Focus::getVerse (webserver_request);
 
   
   int passage_selector = webserver_request.database_config_user()->getConsultationNotesPassageSelector();

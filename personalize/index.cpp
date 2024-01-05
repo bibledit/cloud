@@ -306,12 +306,12 @@ string personalize_index (Webserver_Request& webserver_request)
     } else {
       webserver_request.database_config_user()->setBible (changebible);
       // Going to another Bible, ensure that the focused book exists there.
-      int book = Ipc_Focus::getBook (std::addressof(webserver_request));
+      int book = Ipc_Focus::getBook (webserver_request);
       vector <int> books = webserver_request.database_bibles()->get_books (changebible);
       if (find (books.begin(), books.end(), book) == books.end()) {
         if (!books.empty ()) book = books [0];
         else book = 0;
-        Ipc_Focus::set (std::addressof(webserver_request), book, 1, 1);
+        Ipc_Focus::set (webserver_request, book, 1, 1);
       }
     }
   }

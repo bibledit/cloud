@@ -108,7 +108,7 @@ string sync_notes (Webserver_Request& webserver_request)
   switch (action) {
     case Sync_Logic::notes_get_total:
     {
-      vector <string> bibles = access_bible::bibles (std::addressof(webserver_request), user);
+      vector <string> bibles = access_bible::bibles (webserver_request, user);
       vector <int> identifiers = database_notes.get_notes_in_range_for_bibles (lowId, highId, bibles, false);
       // Checksum cache to speed things up in case of thousands of notes.
       // Else the server would run at 100% CPU usage for some time to get the total checksums of notes.
@@ -122,7 +122,7 @@ string sync_notes (Webserver_Request& webserver_request)
     }
     case Sync_Logic::notes_get_identifiers:
     {
-      vector <string> bibles = access_bible::bibles (std::addressof(webserver_request), user);
+      vector <string> bibles = access_bible::bibles (webserver_request, user);
       vector <int> identifiers = database_notes.get_notes_in_range_for_bibles (lowId, highId, bibles, false);
       string response;
       for (auto id : identifiers) {

@@ -47,7 +47,7 @@ bool search_search2_acl (Webserver_Request& webserver_request)
 {
   if (Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ()))
     return true;
-  auto [ read, write ] = access_bible::any (std::addressof(webserver_request));
+  auto [ read, write ] = access_bible::any (webserver_request);
   return read;
 }
 
@@ -216,7 +216,7 @@ string search_search2 (Webserver_Request& webserver_request)
   Assets_View view;
   {
     string bible_html;
-    vector <string> accessible_bibles = access_bible::bibles (std::addressof(webserver_request));
+    vector <string> accessible_bibles = access_bible::bibles (webserver_request);
     for (auto selectable_bible : accessible_bibles) {
       bible_html = Options_To_Select::add_selection (selectable_bible, selectable_bible, bible_html);
     }

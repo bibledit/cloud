@@ -88,13 +88,13 @@ std::string bible_settings (Webserver_Request& webserver_request)
   // The Bible.
   std::string bible = webserver_request.query["bible"];
   if (bible.empty()) bible = webserver_request.post ["val1"];
-  bible = access_bible::clamp (std::addressof(webserver_request), bible);
+  bible = access_bible::clamp (webserver_request, bible);
   view.set_variable ("bible", filter::strings::escape_special_xml_characters (bible));
   view.set_variable ("urlbible", filter_url_urlencode(filter::strings::escape_special_xml_characters (bible)));
 
   
   // Whether the user has write access to this Bible.
-  bool write_access = access_bible::write (std::addressof(webserver_request), bible);
+  bool write_access = access_bible::write (webserver_request, bible);
   if (write_access) view.enable_zone ("write_access");
   
   

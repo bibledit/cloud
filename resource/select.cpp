@@ -89,7 +89,7 @@ string resource_select (Webserver_Request& webserver_request)
     Dialog_List dialog_list = Dialog_List (caller, translate("Select a Bible"), "", "", true);
     dialog_list.add_query ("page", webserver_request.query["page"]);
     if (is_def) dialog_list.add_query ("type", webserver_request.query["type"]);
-    vector <string> bibles = access_bible::bibles (std::addressof(webserver_request));
+    vector <string> bibles = access_bible::bibles (webserver_request);
     for (const auto & bible : bibles) {
       dialog_list.add_row (bible, "add", bible);
     }

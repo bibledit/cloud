@@ -53,7 +53,7 @@ bool editone2_update_acl (Webserver_Request& webserver_request)
 {
   if (Filter_Roles::access_control (webserver_request, Filter_Roles::translator ()))
     return true;
-  auto [ read, write ] = access_bible::any (std::addressof(webserver_request));
+  auto [ read, write ] = access_bible::any (webserver_request);
   return read;
 }
 
@@ -142,7 +142,7 @@ string editone2_update (Webserver_Request& webserver_request)
 
   bool bible_write_access = false;
   if (good2go) {
-    bible_write_access = access_bible::book_write (std::addressof(webserver_request), string(), bible, book);
+    bible_write_access = access_bible::book_write (webserver_request, string(), bible, book);
   }
 
 
@@ -343,7 +343,7 @@ string editone2_update (Webserver_Request& webserver_request)
 
   // Test using the Cloud together with client devices with send and receive.
   
-  bool write = access_bible::book_write (std::addressof(webserver_request), username, bible, book);
+  bool write = access_bible::book_write (webserver_request, username, bible, book);
   response = checksum_logic::send (response, write);
 
   // Ready.

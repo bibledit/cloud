@@ -45,7 +45,7 @@ bool search_all_acl (Webserver_Request& webserver_request)
 {
   if (Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ())) 
     return true;
-  auto [ read, write ] =  access_bible::any (std::addressof(webserver_request));
+  auto [ read, write ] =  access_bible::any (webserver_request);
   return read;
 }
 
@@ -86,7 +86,7 @@ string search_all (Webserver_Request& webserver_request)
   const string site_url = config::logic::site_url (std::addressof(webserver_request));
 
   
-  vector <string> bibles = access_bible::bibles (std::addressof(webserver_request));
+  vector <string> bibles = access_bible::bibles (webserver_request);
 
 
   // Search the notes.

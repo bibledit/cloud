@@ -120,7 +120,7 @@ string changes_change (Webserver_Request& webserver_request)
 
   // Bibles and passage.
   const Passage passage {database_modifications.getNotificationPassage (id)};
-  const vector <string> bibles {access_bible::bibles (std::addressof(webserver_request))};
+  const vector <string> bibles {access_bible::bibles (webserver_request)};
   
   
   // Get notes for the passage.

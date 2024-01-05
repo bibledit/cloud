@@ -51,7 +51,7 @@ using namespace std;
 
 void checks_run (string bible)
 {
-  Webserver_Request request {};
+  Webserver_Request webserver_request {};
   Database_Check database_check {};
 #ifndef HAVE_CLIENT
   Database_Modifications database_modifications {};
@@ -117,19 +117,19 @@ void checks_run (string bible)
   bool check_valid_utf8_text = Database_Config_Bible::getCheckValidUTF8Text (bible);
 
   
-  vector <int> books = request.database_bibles()->get_books (bible);
+  vector <int> books = webserver_request.database_bibles()->get_books (bible);
   if (check_books_versification) checks_versification::books (bible, books);
   
   
   for (auto book : books) {
     
     
-    vector <int> chapters = request.database_bibles()->get_chapters (bible, book);
+    vector <int> chapters = webserver_request.database_bibles()->get_chapters (bible, book);
     if (check_chapters_verses_versification) checks_versification::chapters (bible, book, chapters);
     
     
     for (auto chapter : chapters) {
-      string chapterUsfm = request.database_bibles()->get_chapter (bible, book, chapter);
+      string chapterUsfm = webserver_request.database_bibles()->get_chapter (bible, book, chapter);
     
       
       // Transpose and fix spacing around certain markers in footnotes and cross references.
@@ -138,11 +138,11 @@ void checks_run (string bible)
         bool transposed = checks::space::transpose_note_space (chapterUsfm);
         if (transposed) {
 #ifndef HAVE_CLIENT
-          int oldID = request.database_bibles()->get_chapter_id (bible, book, chapter);
+          int oldID = webserver_request.database_bibles()->get_chapter_id (bible, book, chapter);
 #endif
-          request.database_bibles()->store_chapter(bible, book, chapter, chapterUsfm);
+          webserver_request.database_bibles()->store_chapter(bible, book, chapter, chapterUsfm);
 #ifndef HAVE_CLIENT
-          int newID = request.database_bibles()->get_chapter_id (bible, book, chapter);
+          int newID = webserver_request.database_bibles()->get_chapter_id (bible, book, chapter);
           string username = "Bibledit";
           database_modifications.recordUserSave (username, bible, book, chapter, oldID, old_usfm, newID, chapterUsfm);
           if (sendreceive_git_repository_linked (bible)) {
@@ -277,10 +277,10 @@ void checks_run (string bible)
   if (!emailBody.empty ()) {
     string subject = translate("Bible Checks") + " " + bible;
     string body = filter::strings::implode (emailBody, "\n");
-    vector <string> users = request.database_users ()->get_users ();
+    vector <string> users = webserver_request.database_users ()->get_users ();
     for (auto user : users) {
-      if (request.database_config_user()->getUserBibleChecksNotification (user)) {
-        if (access_bible::read (&request, bible, user)) {
+      if (webserver_request.database_config_user()->getUserBibleChecksNotification (user)) {
+        if (access_bible::read (webserver_request, bible, user)) {
           if (!client_logic_client_enabled ()) {
             email_schedule (user, subject, body);
           }

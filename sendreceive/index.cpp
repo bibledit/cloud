@@ -91,10 +91,10 @@ string sendreceive_index (Webserver_Request& webserver_request)
     bible = webserver_request.query["bible"];
     if (bible.empty()) {
       Dialog_List dialog_list = Dialog_List ("index", translate("Select a Bible"), "", "");
-      vector <string> bibles = access_bible::bibles (std::addressof(webserver_request));
+      vector <string> bibles = access_bible::bibles (webserver_request);
       for (auto & selectable_bible : bibles) {
         // Select Bibles the user has write access to.
-        if (access_bible::write (std::addressof(webserver_request), selectable_bible)) {
+        if (access_bible::write (webserver_request, selectable_bible)) {
           dialog_list.add_row (selectable_bible, "bible", selectable_bible);
         }
       }
@@ -106,7 +106,7 @@ string sendreceive_index (Webserver_Request& webserver_request)
   }
   
   
-  bible = access_bible::clamp (std::addressof(webserver_request), webserver_request.database_config_user()->getBible ());
+  bible = access_bible::clamp (webserver_request, webserver_request.database_config_user()->getBible ());
   view.set_variable ("bible", bible);
 
 

@@ -297,7 +297,7 @@ string personalize_index (Webserver_Request& webserver_request)
     string changebible = webserver_request.query ["changebible"];
     if (changebible == "") {
       Dialog_List dialog_list = Dialog_List ("index", translate("Select which Bible to make the active one for editing"), "", "");
-      vector <string> bibles = access_bible::bibles (std::addressof(webserver_request));
+      vector <string> bibles = access_bible::bibles (webserver_request);
       for (auto & bible : bibles) {
         dialog_list.add_row (bible, "changebible", bible);
       }
@@ -315,7 +315,7 @@ string personalize_index (Webserver_Request& webserver_request)
       }
     }
   }
-  string bible = access_bible::clamp (std::addressof(webserver_request), webserver_request.database_config_user()->getBible ());
+  string bible = access_bible::clamp (webserver_request, webserver_request.database_config_user()->getBible ());
   view.set_variable ("bible", bible);
 
   
@@ -450,7 +450,7 @@ string personalize_index (Webserver_Request& webserver_request)
   bool resources = access_logic::privilege_view_resources (std::addressof(webserver_request));
   if (resources) view.enable_zone ("resources");
   bool bibles = Filter_Roles::access_control (webserver_request, Filter_Roles::translator ());
-  auto [ read, write ] = access_bible::any (std::addressof(webserver_request));
+  auto [ read, write ] = access_bible::any (webserver_request);
   if (read || write) bibles = true;
   if (bibles) view.enable_zone ("bibles");
   if (webserver_request.session_logic ()->touchEnabled ()) {

@@ -52,7 +52,7 @@ bool user_notifications_acl (Webserver_Request& webserver_request)
   if (access_logic::privilege_view_notes (std::addressof(webserver_request)))
     return true;
   // Whoever has access to a Bible has access to this page.
-  auto [ read, write ] = access_bible::any (std::addressof(webserver_request));
+  auto [ read, write ] = access_bible::any (webserver_request);
   if (read)
     return true;
   // No access.
@@ -202,7 +202,7 @@ string user_notifications (Webserver_Request& webserver_request)
   // The set of Bibles the user can choose
   // is limited to those Bibles the user has read access to.
   {
-    vector <string> bibles = access_bible::bibles (std::addressof(webserver_request));
+    vector <string> bibles = access_bible::bibles (webserver_request);
     for (const auto& bible : bibles) {
       if (checkbox == "changenotificationbible" + bible) {
         vector <string> currentbibles = database_config_user.getChangeNotificationsBibles();
@@ -244,7 +244,7 @@ string user_notifications (Webserver_Request& webserver_request)
   view.set_variable ("url", client_logic_link_to_cloud (user_notifications_url (), translate("You can set the notifications in Bibledit Cloud.")));
 
   // The bits accessible to the user depends on the user's privileges.
-  auto [ read_bible, write_bible ] = access_bible::any (std::addressof(webserver_request));
+  auto [ read_bible, write_bible ] = access_bible::any (webserver_request);
   if (read_bible)
     view.enable_zone ("readbible");
   if (write_bible) 

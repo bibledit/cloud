@@ -68,7 +68,7 @@ std::string bible_book (Webserver_Request& webserver_request)
   std::string error_message {};
   
   // The name of the Bible.
-  const std::string bible = access_bible::clamp (std::addressof(webserver_request), webserver_request.query["bible"]);
+  const std::string bible = access_bible::clamp (webserver_request, webserver_request.query["bible"]);
   view.set_variable ("bible", filter::strings::escape_special_xml_characters (bible));
   
   // The book.
@@ -78,7 +78,7 @@ std::string bible_book (Webserver_Request& webserver_request)
   view.set_variable ("book_name", filter::strings::escape_special_xml_characters (book_name));
   
   // Whether the user has write access to this Bible book.
-  const bool write_access = access_bible::book_write (std::addressof(webserver_request), std::string(), bible, book);
+  const bool write_access = access_bible::book_write (webserver_request, std::string(), bible, book);
   if (write_access) view.enable_zone ("write_access");
   
   // Delete chapter.

@@ -39,7 +39,7 @@ bool search_getids_acl (Webserver_Request& webserver_request)
 {
   if (Filter_Roles::access_control (webserver_request, Filter_Roles::translator ()))
     return true;
-  auto [ read, write ] = access_bible::any (std::addressof(webserver_request));
+  auto [ read, write ] = access_bible::any (webserver_request);
   return write;
 }
 

@@ -52,7 +52,7 @@ bool edit_index_acl (Webserver_Request& webserver_request)
 {
   if (Filter_Roles::access_control (webserver_request, Filter_Roles::translator ())) 
     return true;
-  auto [ read, write ] = access_bible::any (std::addressof(webserver_request));
+  auto [ read, write ] = access_bible::any (webserver_request);
   return write;
 }
 
@@ -107,11 +107,11 @@ std::string edit_index (Webserver_Request& webserver_request)
   // Active Bible, and check access.
   // Or if the user have used query to preset the active Bible, get the preset Bible.
   // Set the chosen Bible on the option HTML tag.
-  std::string bible = access_bible::clamp (std::addressof(webserver_request), webserver_request.database_config_user()->getBible ());
+  std::string bible = access_bible::clamp (webserver_request, webserver_request.database_config_user()->getBible ());
   if (webserver_request.query.count ("bible"))
-    bible = access_bible::clamp (std::addressof(webserver_request), webserver_request.query ["bible"]);
+    bible = access_bible::clamp (webserver_request, webserver_request.query ["bible"]);
   std::string bible_html{};
-  const std::vector <std::string> bibles = access_bible::bibles (std::addressof(webserver_request));
+  const std::vector <std::string> bibles = access_bible::bibles (webserver_request);
   for (const auto& selectable_bible : bibles) {
     bible_html = Options_To_Select::add_selection (selectable_bible, selectable_bible, bible_html);
   }

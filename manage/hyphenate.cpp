@@ -69,7 +69,7 @@ void manage_hyphenate (string bible, string user)
   Database_Config_Bible::remove (outputBible);
   database_bibles.create_bible (outputBible);
   Webserver_Request webserver_request;
-  if (!access_bible::write (&webserver_request, outputBible, user)) {
+  if (!access_bible::write (webserver_request, outputBible, user)) {
     // Only grant access if the user does not yet have it.
     // This avoid assigning the Bible to the user in case no Bible was assigned to anyone,
     // in which case assigning this Bible to the user would possible withdraw privileges from other users.

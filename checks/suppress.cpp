@@ -68,7 +68,7 @@ string checks_suppress (Webserver_Request& webserver_request)
   {
     vector <string> all_bibles = webserver_request.database_bibles()->get_bibles ();
     for (const auto & bible : all_bibles) {
-      if (access_bible::write (std::addressof(webserver_request), bible)) {
+      if (access_bible::write (webserver_request, bible)) {
         bibles.push_back (bible);
       }
     }

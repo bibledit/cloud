@@ -93,7 +93,7 @@ string sprint_index ([[maybe_unused]] Webserver_Request& webserver_request)
   }
   
   
-  string bible = access_bible::clamp (std::addressof(webserver_request), webserver_request.database_config_user()->getBible ());
+  string bible = access_bible::clamp (webserver_request, webserver_request.database_config_user()->getBible ());
   int month = webserver_request.database_config_user()->getSprintMonth ();
   int year = webserver_request.database_config_user()->getSprintYear ();
   
@@ -149,7 +149,7 @@ string sprint_index ([[maybe_unused]] Webserver_Request& webserver_request)
     bible = webserver_request.query ["bible"];
     if (bible.empty()) {
       Dialog_List dialog_list = Dialog_List ("index", translate("Select which Bible to display the Sprint for"), "", "");
-      vector <string> bibles = access_bible::bibles (std::addressof(webserver_request));
+      vector <string> bibles = access_bible::bibles (webserver_request);
       for (auto & selection_bible : bibles) {
         dialog_list.add_row (selection_bible, "bible", selection_bible);
       }
@@ -161,7 +161,7 @@ string sprint_index ([[maybe_unused]] Webserver_Request& webserver_request)
   }
   
   
-  bible = access_bible::clamp (std::addressof(webserver_request), webserver_request.database_config_user()->getBible ());
+  bible = access_bible::clamp (webserver_request, webserver_request.database_config_user()->getBible ());
   
   
   int id = filter::strings::convert_to_int (webserver_request.query ["id"]);

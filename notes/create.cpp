@@ -71,7 +71,7 @@ string notes_create (Webserver_Request& webserver_request)
   // If no Bible is passed, it takes the user's active Bible.
   string bible = webserver_request.post ["bible"];
   if (bible.empty ()) {
-    bible = access_bible::clamp (std::addressof(webserver_request), webserver_request.database_config_user()->getBible ());
+    bible = access_bible::clamp (webserver_request, webserver_request.database_config_user()->getBible ());
   }
   
   

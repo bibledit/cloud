@@ -95,10 +95,12 @@ Stages to retrieve resource content and serve it.
 
 std::vector <std::string> resource_logic_get_names (void * webserver_request, bool bibles_only)
 {
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
+
   std::vector <std::string> names {};
   
   // Bibles the user has read access to.
-  std::vector <std::string> bibles = access_bible::bibles (webserver_request);
+  std::vector <std::string> bibles = access_bible::bibles (*request);
   names.insert (names.end(), bibles.begin (), bibles.end());
   
   // USFM resources.

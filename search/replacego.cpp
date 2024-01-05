@@ -45,7 +45,7 @@ bool search_replacego_acl (Webserver_Request& webserver_request)
 {
   if (Filter_Roles::access_control (webserver_request, Filter_Roles::translator ()))
     return true;
-  auto [ read, write ] = access_bible::any (std::addressof(webserver_request));
+  auto [ read, write ] = access_bible::any (webserver_request);
   return write;
 }
 
@@ -72,7 +72,7 @@ string search_replacego (Webserver_Request& webserver_request)
   
   // Check whether the user has write access to the book.
   string user = webserver_request.session_logic ()->currentUser ();
-  bool write = access_bible::book_write (std::addressof(webserver_request), user, bible, book);
+  bool write = access_bible::book_write (webserver_request, user, bible, book);
 
   
   // Get the old chapter and verse USFM.

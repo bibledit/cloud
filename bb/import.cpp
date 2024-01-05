@@ -64,14 +64,14 @@ std::string bible_import (Webserver_Request& webserver_request)
   std::string error_message {};
   
   // The name of the Bible.
-  const std::string bible = access_bible::clamp (std::addressof(webserver_request), webserver_request.query["bible"]);
+  const std::string bible = access_bible::clamp (webserver_request, webserver_request.query["bible"]);
   view.set_variable ("bible", filter::strings::escape_special_xml_characters (bible));
   
   const int book = Ipc_Focus::getBook (std::addressof(webserver_request));
   const int chapter = Ipc_Focus::getChapter (std::addressof(webserver_request));
 
   // Whether the user has write access to this Bible.
-  if (bool write_access = access_bible::write (std::addressof(webserver_request), bible); write_access) {
+  if (bool write_access = access_bible::write (webserver_request, bible); write_access) {
     view.enable_zone ("write_access");
   }
 

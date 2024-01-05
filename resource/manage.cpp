@@ -70,7 +70,7 @@ string resource_manage (Webserver_Request& webserver_request)
       page += dialog_yes.run ();
       return page;
     } if (confirm == "yes") {
-      if (access_bible::write (std::addressof(webserver_request), remove)) {
+      if (access_bible::write (webserver_request, remove)) {
         database_usfmresources.deleteResource (remove);
         // The Cloud updates the list of available USFM resources for the clients.
         tasks_logic_queue (LISTUSFMRESOURCES);
@@ -91,7 +91,7 @@ string resource_manage (Webserver_Request& webserver_request)
       page += dialog_yes.run ();
       return page;
     } if (confirm == "yes") {
-      if (access_bible::write (std::addressof(webserver_request), convert)) {
+      if (access_bible::write (webserver_request, convert)) {
         tasks_logic_queue (CONVERTRESOURCE2BIBLE, {convert});
         redirect_browser (std::addressof(webserver_request), journal_index_url ());
         return "";

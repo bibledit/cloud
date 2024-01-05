@@ -149,7 +149,7 @@ void changes_modifications ()
   
   
   // Data objects.
-  Webserver_Request request {};
+  Webserver_Request webserver_request {};
   Database_Modifications database_modifications {};
 
 
@@ -161,9 +161,9 @@ void changes_modifications ()
   // Get the users who will receive the changes entered by the named contributors.
   vector <string> recipients_named_contributors;
   {
-    vector <string> users = request.database_users ()->get_users ();
+    vector <string> users = webserver_request.database_users ()->get_users ();
     for (const auto & user : users) {
-      if (request.database_config_user ()->getContributorChangesNotificationsOnline (user)) {
+      if (webserver_request.database_config_user ()->getContributorChangesNotificationsOnline (user)) {
         recipients_named_contributors.push_back (user);
       }
     }
@@ -180,9 +180,9 @@ void changes_modifications ()
   // Note: A user will always receive notificatons of changes made by that same user.
   map <string, vector<string> > notification_bibles_per_user {};
   {
-    vector <string> users = request.database_users ()->get_users ();
+    vector <string> users = webserver_request.database_users ()->get_users ();
     for (const auto & user : users) {
-      vector <string> bibles = request.database_config_user ()->getChangeNotificationsBiblesForUser (user);
+      vector <string> bibles = webserver_request.database_config_user ()->getChangeNotificationsBiblesForUser (user);
       notification_bibles_per_user [user] = bibles;
     }
   }
@@ -231,7 +231,7 @@ void changes_modifications ()
             new_id = id_set.newid;
             
             if (restart) {
-              changes_process_identifiers (&request, user, recipients_named_contributors, bible, book, chapter, notification_bibles_per_user, reference_new_id, new_id, email, change_count, modification_time_total, modification_time_count);
+              changes_process_identifiers (&webserver_request, user, recipients_named_contributors, bible, book, chapter, notification_bibles_per_user, reference_new_id, new_id, email, change_count, modification_time_total, modification_time_count);
               reference_new_id = new_id;
               last_new_id = new_id;
               restart = false;
@@ -246,7 +246,7 @@ void changes_modifications ()
           }
           
           // Process the last set of identifiers.
-          changes_process_identifiers (&request, user, recipients_named_contributors, bible, book, chapter, notification_bibles_per_user, reference_new_id, new_id, email, change_count, modification_time_total, modification_time_count);
+          changes_process_identifiers (&webserver_request, user, recipients_named_contributors, bible, book, chapter, notification_bibles_per_user, reference_new_id, new_id, email, change_count, modification_time_total, modification_time_count);
           
         }
       }
@@ -254,7 +254,7 @@ void changes_modifications ()
       // Check whether there's any email to be sent.
       if (email.length () != empty_email_length) {
         // Send the user email with the user's personal changes if the user opted to receive it.
-        if (request.database_config_user()->getUserUserChangesNotification (user)) {
+        if (webserver_request.database_config_user()->getUserUserChangesNotification (user)) {
           string subject = translate("Changes you entered in") + " " + bible;
           if (!client_logic_client_enabled ()) email_schedule (user, subject, email);
         }
@@ -269,7 +269,7 @@ void changes_modifications ()
     
     
     // Clear checksum cache.
-    request.database_config_user ()->setUserChangeNotificationsChecksum (user, "");
+    webserver_request.database_config_user ()->setUserChangeNotificationsChecksum (user, "");
   }
   
   
@@ -284,10 +284,10 @@ void changes_modifications ()
     
     
     vector <string> changeNotificationUsers;
-    vector <string> all_users = request.database_users ()->get_users ();
+    vector <string> all_users = webserver_request.database_users ()->get_users ();
     for (const auto & user : all_users) {
-      if (access_bible::read (&request, bible, user)) {
-        if (request.database_config_user()->getUserGenerateChangeNotifications (user)) {
+      if (access_bible::read (webserver_request, bible, user)) {
+        if (webserver_request.database_config_user()->getUserGenerateChangeNotifications (user)) {
           // The recipient may have set which Bibles to get the change notifications for.
           // This is stored like this:
           // container [user] = list of bibles.
@@ -347,7 +347,7 @@ void changes_modifications ()
       for (auto chapter : chapters) {
         Database_Logs::log ("Change notifications: " + bible + " " + filter_passage_display (book, chapter, ""), Filter_Roles::translator ());
         string old_chapter_usfm = database_modifications.getTeamDiff (bible, book, chapter);
-        string new_chapter_usfm = request.database_bibles()->get_chapter (bible, book, chapter);
+        string new_chapter_usfm = webserver_request.database_bibles()->get_chapter (bible, book, chapter);
         vector <int> old_verse_numbers = filter::usfm::get_verse_numbers (old_chapter_usfm);
         vector <int> new_verse_numbers = filter::usfm::get_verse_numbers (new_chapter_usfm);
         vector <int> verses = old_verse_numbers;
@@ -429,10 +429,10 @@ void changes_modifications ()
         if (bodies.size () > 1) {
           subject.append (" (" + filter::strings::convert_to_string (b + 1) + "/" + filter::strings::convert_to_string (bodies.size ()) + ")");
         }
-        vector <string> all_users_2 = request.database_users ()->get_users ();
+        vector <string> all_users_2 = webserver_request.database_users ()->get_users ();
         for (auto & user : all_users_2) {
-          if (request.database_config_user()->getUserBibleChangesNotification (user)) {
-            if (access_bible::read (&request, bible, user)) {
+          if (webserver_request.database_config_user()->getUserBibleChangesNotification (user)) {
+            if (access_bible::read (webserver_request, bible, user)) {
               if (!client_logic_client_enabled ()) {
                 email_schedule (user, subject, bodies[b]);
               }
@@ -475,9 +475,9 @@ void changes_modifications ()
   
   
   // Clear checksum caches.
-  users = request.database_users ()->get_users ();
+  users = webserver_request.database_users ()->get_users ();
   for (const auto & user : users) {
-    request.database_config_user ()->setUserChangeNotificationsChecksum (user, "");
+    webserver_request.database_config_user ()->setUserChangeNotificationsChecksum (user, "");
   }
   
   

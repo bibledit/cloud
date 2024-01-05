@@ -61,7 +61,7 @@ string notes_unassign_n (Webserver_Request& webserver_request)
   // Notes can be unassigned from users who have access to the Bibles
   // the currently logged-in user has access to, and who have notes assigned.
   stringstream userblock;
-  vector <string> bibles = access_bible::bibles (std::addressof(webserver_request));
+  vector <string> bibles = access_bible::bibles (webserver_request);
   vector <string> users = database_notes.get_all_assignees (bibles);
   for (const auto& user : users) {
     userblock << "<li><a href=" << quoted ("bulk?unassign=" + user) << ">" << user << "</a></li>" << std::endl;

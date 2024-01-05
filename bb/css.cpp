@@ -58,7 +58,7 @@ std::string bible_css (Webserver_Request& webserver_request)
   Assets_View view {};
   
   // The name of the Bible.
-  const std::string bible = access_bible::clamp (std::addressof(webserver_request), webserver_request.query ["bible"]);
+  const std::string bible = access_bible::clamp (webserver_request, webserver_request.query ["bible"]);
   view.set_variable ("bible", filter::strings::escape_special_xml_characters (bible));
   
   // Data submission.

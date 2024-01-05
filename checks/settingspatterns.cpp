@@ -57,7 +57,7 @@ string checks_settingspatterns (Webserver_Request& webserver_request)
   Assets_View view {};
   
   
-  string bible = access_bible::clamp (std::addressof(webserver_request), webserver_request.database_config_user()->getBible ());
+  string bible = access_bible::clamp (webserver_request, webserver_request.database_config_user()->getBible ());
   
   
   if (webserver_request.post.count ("patterns")) {

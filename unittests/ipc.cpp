@@ -31,38 +31,38 @@ TEST (ipc, basic)
 {
   // Initialize.
   refresh_sandbox (false);
-  Webserver_Request request;
-  request.database_users ()->create ();
-  request.session_logic ()->set_username ("phpunit");
+  Webserver_Request webserver_request;
+  webserver_request.database_users ()->create ();
+  webserver_request.session_logic ()->set_username ("phpunit");
   
   // There should be no note identifier.
-  int identifier = Ipc_Notes::get (&request);
+  int identifier = Ipc_Notes::get (webserver_request);
   EXPECT_EQ (0, identifier);
   
   // Test opening note.
-  Ipc_Notes::open (&request, 123456789);
-  identifier = Ipc_Notes::get (&request);
+  Ipc_Notes::open (webserver_request, 123456789);
+  identifier = Ipc_Notes::get (webserver_request);
   EXPECT_EQ (123456789, identifier);
   
   // Test trimming.
-  request.database_ipc()->trim ();
-  identifier = Ipc_Notes::get (&request);
+  webserver_request.database_ipc()->trim ();
+  identifier = Ipc_Notes::get (webserver_request);
   EXPECT_EQ (123456789, identifier);
   
   // Test deleting note once.
-  Ipc_Notes::open (&request, 123456789);
-  Ipc_Notes::erase (&request);
-  identifier = Ipc_Notes::get (&request);
+  Ipc_Notes::open (webserver_request, 123456789);
+  Ipc_Notes::erase (webserver_request);
+  identifier = Ipc_Notes::get (webserver_request);
   EXPECT_EQ (0, identifier);
   
   // Test deleting two notes.
-  Ipc_Notes::open (&request, 123456789);
-  Ipc_Notes::open (&request, 123456789);
-  Ipc_Notes::erase (&request);
-  identifier = Ipc_Notes::get (&request);
+  Ipc_Notes::open (webserver_request, 123456789);
+  Ipc_Notes::open (webserver_request, 123456789);
+  Ipc_Notes::erase (webserver_request);
+  identifier = Ipc_Notes::get (webserver_request);
   EXPECT_EQ (0, identifier);
-  Ipc_Notes::erase (&request);
-  identifier = Ipc_Notes::get (&request);
+  Ipc_Notes::erase (webserver_request);
+  identifier = Ipc_Notes::get (webserver_request);
   EXPECT_EQ (0, identifier);
 }
 
@@ -128,11 +128,11 @@ TEST (database, ipc)
     refresh_sandbox (true);
     Database_Users database_users;
     database_users.create ();
-    Webserver_Request request;
-    Database_Ipc database_ipc = Database_Ipc (&request);
+    Webserver_Request webserver_request;
+    Database_Ipc database_ipc (std::addressof(webserver_request));
     
     string user = "phpunit";
-    request.session_logic ()->set_username (user);
+    webserver_request.session_logic ()->set_username (user);
     string channel = "channel";
     string command = "focus";
     
@@ -155,11 +155,11 @@ TEST (database, ipc)
     refresh_sandbox (true);
     Database_Users database_users;
     database_users.create ();
-    Webserver_Request request;
-    Database_Ipc database_ipc = Database_Ipc (&request);
+    Webserver_Request webserver_request;
+    Database_Ipc database_ipc (std::addressof(webserver_request));
     
     string user = "phpunit";
-    request.session_logic ()->set_username (user);
+    webserver_request.session_logic ()->set_username (user);
     string channel = "channel";
     string command = "opennote";
     
@@ -182,11 +182,11 @@ TEST (database, ipc)
     refresh_sandbox (true);
     Database_Users database_users;
     database_users.create ();
-    Webserver_Request request;
-    Database_Ipc database_ipc = Database_Ipc (&request);
+    Webserver_Request webserver_request;
+    Database_Ipc database_ipc (std::addressof(webserver_request));
     
     string user = "phpunit";
-    request.session_logic ()->set_username (user);
+    webserver_request.session_logic ()->set_username (user);
     string channel = "channel";
     string command = "notesalive";
     

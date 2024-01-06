@@ -48,15 +48,15 @@ string notes_poll (Webserver_Request& webserver_request)
 {
   string action = webserver_request.query ["action"];
   if (action == "alive") {
-    Ipc_Notes::alive (std::addressof(webserver_request), true, true);
-    int identifier = Ipc_Notes::get (std::addressof(webserver_request));
+    Ipc_Notes::alive (webserver_request, true, true);
+    int identifier = Ipc_Notes::get (webserver_request);
     if (identifier) {
-      Ipc_Notes::erase (std::addressof(webserver_request));
+      Ipc_Notes::erase (webserver_request);
       string url = "note?id=" + filter::strings::convert_to_string (identifier);
       return url;
     }
   } else if (action == "unload") {
-    Ipc_Notes::alive (std::addressof(webserver_request), true, false);
+    Ipc_Notes::alive (webserver_request, true, false);
   }
   return "";
 }

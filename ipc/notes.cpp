@@ -28,30 +28,27 @@ using namespace std;
 // Deals with the consultation notes stuff.
 
 
-void Ipc_Notes::open (void * webserver_request, int identifier)
+void Ipc_Notes::open (Webserver_Request& webserver_request, int identifier)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  string user = request->session_logic()->currentUser ();
-  request->database_ipc()->storeMessage (user, "", "opennote", filter::strings::convert_to_string (identifier));
+  string user = webserver_request.session_logic()->currentUser ();
+  webserver_request.database_ipc()->storeMessage (user, "", "opennote", filter::strings::convert_to_string (identifier));
 }
 
 
-int Ipc_Notes::get (void * webserver_request)
+int Ipc_Notes::get (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  Database_Ipc_Message data = request->database_ipc()->getNote ();
+  Database_Ipc_Message data = webserver_request.database_ipc()->getNote ();
   return filter::strings::convert_to_int (data.message);
 }
 
 
-void Ipc_Notes::erase (void * webserver_request)
+void Ipc_Notes::erase (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  Database_Ipc_Message data = request->database_ipc()->getNote ();
+  Database_Ipc_Message data = webserver_request.database_ipc()->getNote ();
   int counter = 0;
   while (data.id && (counter < 100)) {
     int id = data.id;
-    request->database_ipc()->deleteMessage (id);
+    webserver_request.database_ipc()->deleteMessage (id);
     counter++;
   }
 }
@@ -59,15 +56,13 @@ void Ipc_Notes::erase (void * webserver_request)
 
 // If $set is true, it sets the alive status of the notes editor.
 // If $set is false, it returns the alive status.
-bool Ipc_Notes::alive (void * webserver_request, bool set, bool alive)
+bool Ipc_Notes::alive (Webserver_Request& webserver_request, bool set, bool alive)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  string user = request->session_logic()->currentUser ();
+  string user = webserver_request.session_logic()->currentUser ();
   if (set) {
-    request->database_ipc()->storeMessage (user, "", "notesalive", filter::strings::convert_to_string (alive));
+    webserver_request.database_ipc()->storeMessage (user, "", "notesalive", filter::strings::convert_to_string (alive));
   } else {
-    return request->database_ipc()->getNotesAlive ();
+    return webserver_request.database_ipc()->getNotesAlive ();
   }
   return false;
 }
-

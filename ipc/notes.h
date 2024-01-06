@@ -21,12 +21,14 @@
 
 #include <config/libraries.h>
 
+class Webserver_Request;
+
 class Ipc_Notes
 {
 public:
-  static void open (void * webserver_request, int identifier);
-  static int get (void * webserver_request);
-  static void erase (void * webserver_request);
-  static bool alive (void * webserver_request, bool set, bool alive = false);
+  static void open (Webserver_Request& webserver_request, int identifier);
+  static int get (Webserver_Request& webserver_request);
+  static void erase (Webserver_Request& webserver_request);
+  static bool alive (Webserver_Request& webserver_request, bool set, bool alive = false);
 private:
 };

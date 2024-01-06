@@ -69,7 +69,7 @@ std::string edit_index (Webserver_Request& webserver_request)
     if (webserver_request.query.count ("switchverse")) 
       switchverse = filter::strings::convert_to_int (webserver_request.query ["switchverse"]);
     Ipc_Focus::set (webserver_request, switchbook, switchchapter, switchverse);
-    Navigation_Passage::record_history (std::addressof(webserver_request), switchbook, switchchapter, switchverse);
+    Navigation_Passage::record_history (webserver_request, switchbook, switchchapter, switchverse);
   }
 
 

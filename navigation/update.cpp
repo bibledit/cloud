@@ -52,28 +52,28 @@ string navigation_update (Webserver_Request& webserver_request)
   
   // Build the keyboard navigation fragment.
   if (webserver_request.query.count ("keyboard")) {
-    return Navigation_Passage::get_keyboard_navigator (std::addressof(webserver_request), bible);
+    return Navigation_Passage::get_keyboard_navigator (webserver_request, bible);
   }
 
   
   else if (webserver_request.query.count ("passage")) {
     string passage = webserver_request.query["passage"];
-    Navigation_Passage::interpret_keyboard_navigator (std::addressof(webserver_request), bible, passage);
+    Navigation_Passage::interpret_keyboard_navigator (webserver_request, bible, passage);
   }
 
 
   else if (webserver_request.query.count ("goback")) {
-    Navigation_Passage::go_back (std::addressof(webserver_request));
+    Navigation_Passage::go_back (webserver_request);
   }
   
   
   else if (webserver_request.query.count ("goforward")) {
-    Navigation_Passage::go_forward (std::addressof(webserver_request));
+    Navigation_Passage::go_forward (webserver_request);
   }
   
   
   else if (webserver_request.query.count ("getbooks")) {
-    return Navigation_Passage::get_books_fragment (std::addressof(webserver_request), bible);
+    return Navigation_Passage::get_books_fragment (webserver_request, bible);
   }
   
   
@@ -81,14 +81,14 @@ string navigation_update (Webserver_Request& webserver_request)
     string msg = webserver_request.query ["applybook"];
     if (msg.find ("cancel") == std::string::npos) {
       int apply_book = filter::strings::convert_to_int (msg);
-      if (apply_book) Navigation_Passage::set_book (std::addressof(webserver_request), apply_book);
+      if (apply_book) Navigation_Passage::set_book (webserver_request, apply_book);
     }
   }
   
   
   // Get the list of available chapters in the current book.
   else if (webserver_request.query.count ("getchapters")) {
-    return Navigation_Passage::get_chapters_fragment (std::addressof(webserver_request), bible, book, chapter);
+    return Navigation_Passage::get_chapters_fragment (webserver_request, bible, book, chapter);
   }
   
 
@@ -96,21 +96,21 @@ string navigation_update (Webserver_Request& webserver_request)
   else if (webserver_request.query.count ("applychapter")) {
     string msg = webserver_request.query ["applychapter"];
     if (msg.find ("previous") != std::string::npos) {
-      Navigation_Passage::goto_previous_chapter (std::addressof(webserver_request), bible);
+      Navigation_Passage::goto_previous_chapter (webserver_request, bible);
     } else if (msg.find ("next") != std::string::npos) {
-      Navigation_Passage::goto_next_chapter (std::addressof(webserver_request), bible);
+      Navigation_Passage::goto_next_chapter (webserver_request, bible);
     }
     else if (msg.find ("cancel") != std::string::npos) {
     } else {
       int apply_chapter = filter::strings::convert_to_int (msg);
-      Navigation_Passage::set_chapter (std::addressof(webserver_request), apply_chapter);
+      Navigation_Passage::set_chapter (webserver_request, apply_chapter);
     }
   }
   
   
   // Get the list of available verses in the current chapter.
   else if (webserver_request.query.count ("getverses")) {
-    return Navigation_Passage::get_verses_fragment (std::addressof(webserver_request), bible, book, chapter, verse);
+    return Navigation_Passage::get_verses_fragment (webserver_request, bible, book, chapter, verse);
   }
 
   
@@ -118,62 +118,62 @@ string navigation_update (Webserver_Request& webserver_request)
   else if (webserver_request.query.count ("applyverse")) {
     string msg = webserver_request.query ["applyverse"];
     if (msg.find ("previous") != std::string::npos) {
-      Navigation_Passage::goto_previous_verse (std::addressof(webserver_request), bible);
+      Navigation_Passage::goto_previous_verse (webserver_request, bible);
     } else if (msg.find ("next") != std::string::npos) {
-      Navigation_Passage::goto_next_verse (std::addressof(webserver_request), bible);
+      Navigation_Passage::goto_next_verse (webserver_request, bible);
     }
     else if (msg.find ("cancel") != std::string::npos) {
     } else {
       int apply_verse = filter::strings::convert_to_int (msg);
-      Navigation_Passage::set_verse (std::addressof(webserver_request), apply_verse);
+      Navigation_Passage::set_verse (webserver_request, apply_verse);
     }
   }
   
 
   // Go to the previous verse.
   else if (webserver_request.query.count ("previousverse")) {
-    Navigation_Passage::goto_previous_verse (std::addressof(webserver_request), bible);
+    Navigation_Passage::goto_previous_verse (webserver_request, bible);
   }
   
   
   // Go to the next verse.
   else if (webserver_request.query.count ("nextverse")) {
-    Navigation_Passage::goto_next_verse (std::addressof(webserver_request), bible);
+    Navigation_Passage::goto_next_verse (webserver_request, bible);
   }
   
 
   // Go to the previous chapter.
   else if (webserver_request.query.count ("previouschapter")) {
-    Navigation_Passage::goto_previous_chapter (std::addressof(webserver_request), bible);
+    Navigation_Passage::goto_previous_chapter (webserver_request, bible);
   }
   
   
   // Go to the next chapter.
   else if (webserver_request.query.count ("nextchapter")) {
-    Navigation_Passage::goto_next_chapter (std::addressof(webserver_request), bible);
+    Navigation_Passage::goto_next_chapter (webserver_request, bible);
   }
   
   
   // Provide html for history going back.
   else if (webserver_request.query.count ("historyback")) {
-    return Navigation_Passage::get_history_back (std::addressof(webserver_request));
+    return Navigation_Passage::get_history_back (webserver_request);
   }
 
   
   // Provide html for history going forward.
   else if (webserver_request.query.count ("historyforward")) {
-    return Navigation_Passage::get_history_forward (std::addressof(webserver_request));
+    return Navigation_Passage::get_history_forward (webserver_request);
   }
 
   // Apply the selected history items to the navigation system.
   else if (webserver_request.query.count ("applyhistory")) {
     string message = webserver_request.query ["applyhistory"];
     if (message.find ("cancel") == std::string::npos) {
-      Navigation_Passage::go_history(std::addressof(webserver_request), message);
+      Navigation_Passage::go_history(webserver_request, message);
     }
   }
   
   // Build the navigation html fragment.
-  return Navigation_Passage::get_mouse_navigator (std::addressof(webserver_request), bible);
+  return Navigation_Passage::get_mouse_navigator (webserver_request, bible);
 }
 

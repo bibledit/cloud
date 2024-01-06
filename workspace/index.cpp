@@ -89,7 +89,7 @@ std::string workspace_index (Webserver_Request& webserver_request)
     const std::vector <Passage> passages = database_notes.get_passages (note_id);
     if (!passages.empty ()) {
       Ipc_Focus::set (webserver_request, passages[0].m_book, passages[0].m_chapter, filter::strings::convert_to_int (passages[0].m_verse));
-      Navigation_Passage::record_history (std::addressof(webserver_request), passages[0].m_book, passages[0].m_chapter, filter::strings::convert_to_int (passages[0].m_verse));
+      Navigation_Passage::record_history (webserver_request, passages[0].m_book, passages[0].m_chapter, filter::strings::convert_to_int (passages[0].m_verse));
     }
   }
   

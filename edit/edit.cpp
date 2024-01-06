@@ -53,7 +53,7 @@ string edit_edit (Webserver_Request& webserver_request)
   string passage_query = webserver_request.query ["passage"];
   Passage passage = filter_integer_to_passage (filter::strings::convert_to_int (passage_query));
   Ipc_Focus::set (webserver_request, passage.m_book, passage.m_chapter, filter::strings::convert_to_int (passage.m_verse));
-  Navigation_Passage::record_history (std::addressof(webserver_request), passage.m_book, passage.m_chapter, filter::strings::convert_to_int (passage.m_verse));
+  Navigation_Passage::record_history (webserver_request, passage.m_book, passage.m_chapter, filter::strings::convert_to_int (passage.m_verse));
   
   // Check whether a Bible editor is alive.
   int timestamp = webserver_request.database_config_user()->getLiveBibleEditor ();

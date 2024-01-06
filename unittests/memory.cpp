@@ -83,7 +83,8 @@ TEST (DISABLED_memory, basic)
   refresh_sandbox (false);
   {
     Database_State::create ();
-    Database_Notes database_notes (nullptr);
+    Webserver_Request webserver_request;
+    Database_Notes database_notes (webserver_request);
     database_notes.create ();
     for (int i = 0; i < 100; i++) {
       database_notes.store_new_note ("bible", i, i, i, "summary", "contents", true);

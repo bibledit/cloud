@@ -40,13 +40,13 @@ void trash_change_notification (void * webserver_request, int id)
 
 void trash_consultation_note (void * webserver_request, int id)
 {
-  Database_Notes database_notes (webserver_request);
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
+  Database_Notes database_notes (*request);
   vector <Passage> passages = database_notes.get_passages (id);
   string passageText = filter_passage_display_inline (passages);
   string summary = database_notes.get_summary (id);
   string contents = database_notes.get_contents (id);
   contents = filter::strings::html2text (contents);
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   string username = request->session_logic()->currentUser ();
   if (username.empty ()) username = "This app";
   Database_Logs::log (username + " deleted or marked for deletion consultation note " + passageText + " | " + summary + " | " + contents);

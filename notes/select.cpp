@@ -50,7 +50,7 @@ bool notes_select_acl (Webserver_Request& webserver_request)
 
 string notes_select (Webserver_Request& webserver_request)
 {
-  Database_Notes database_notes (std::addressof(webserver_request));
+  Database_Notes database_notes (webserver_request);
   
   string page;
   

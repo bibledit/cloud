@@ -64,7 +64,7 @@ bool changes_change_acl (Webserver_Request& webserver_request)
 string changes_change (Webserver_Request& webserver_request)
 {
   Database_Modifications database_modifications {};
-  Database_Notes database_notes = Database_Notes (std::addressof(webserver_request));
+  Database_Notes database_notes = Database_Notes (webserver_request);
   Notes_Logic notes_logic = Notes_Logic (std::addressof(webserver_request));
 
   

@@ -49,7 +49,7 @@ bool notes_bible_n_acl (Webserver_Request& webserver_request)
 
 string notes_bible_n (Webserver_Request& webserver_request)
 {
-  Database_Notes database_notes (std::addressof(webserver_request));
+  Database_Notes database_notes (webserver_request);
   Notes_Logic notes_logic = Notes_Logic (std::addressof(webserver_request));
 
   

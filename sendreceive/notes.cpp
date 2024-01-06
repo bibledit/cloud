@@ -98,9 +98,9 @@ void sendreceive_notes ()
 // Upload all note actions to the server.
 bool sendreceive_notes_upload ()
 {
-  Webserver_Request request;
-  Sync_Logic sync_logic = Sync_Logic (&request);
-  Database_Notes database_notes (&request);
+  Webserver_Request webserver_request;
+  Sync_Logic sync_logic (std::addressof(webserver_request));
+  Database_Notes database_notes (webserver_request);
   Database_NoteActions database_noteactions = Database_NoteActions ();
   
   
@@ -116,21 +116,21 @@ bool sendreceive_notes_upload ()
   
   
   // Set the correct user in the session: The sole user on the Client.
-  vector <string> users = request.database_users ()->get_users ();
+  vector <string> users = webserver_request.database_users ()->get_users ();
   if (users.empty ()) {
     Database_Logs::log (sendreceive_notes_text () + translate("No local user found"), Filter_Roles::translator ());
     return false;
   }
   string user = users [0];
-  request.session_logic ()->set_username (user);
+  webserver_request.session_logic ()->set_username (user);
   
   
   // The basic request to be POSTed to the server.
   // It contains the user's credentials.
   map <string, string> post;
   post ["u"] = filter::strings::bin2hex (user);
-  post ["p"] = request.database_users ()->get_md5 (user);
-  post ["l"] = filter::strings::convert_to_string (request.database_users ()->get_level (user));
+  post ["p"] = webserver_request.database_users ()->get_md5 (user);
+  post ["l"] = filter::strings::convert_to_string (webserver_request.database_users ()->get_level (user));
   
   
   // Error variable.
@@ -318,10 +318,10 @@ bool sendreceive_notes_upload ()
 // The function is called with the first and last note identifier to deal with.
 bool sendreceive_notes_download (int lowId, int highId)
 {
-  Webserver_Request request;
-  Database_Notes database_notes (&request);
+  Webserver_Request webserver_request;
+  Database_Notes database_notes (webserver_request);
   Database_NoteActions database_noteactions = Database_NoteActions ();
-  Sync_Logic sync_logic = Sync_Logic (&request);
+  Sync_Logic sync_logic (std::addressof(webserver_request));
   
   
   string response = client_logic_connection_setup ("", "");
@@ -338,14 +338,14 @@ bool sendreceive_notes_download (int lowId, int highId)
   // The server will use this user to find out the Bibles this user has access to,
   // so the server can select the correct notes for this user.
   // The client selects all available notes on the system.
-  vector <string> users = request.database_users ()->get_users ();
+  vector <string> users = webserver_request.database_users ()->get_users ();
   if (users.empty ()) {
     Database_Logs::log (sendreceive_notes_text () + translate("No local user found"), Filter_Roles::translator ());
     return false;
   }
   string user = users [0];
-  request.session_logic ()->set_username (user);
-  string password = request.database_users ()->get_md5 (user);
+  webserver_request.session_logic ()->set_username (user);
+  string password = webserver_request.database_users ()->get_md5 (user);
 
   
   // Check for the health of the notes databases and take action if needed.

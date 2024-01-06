@@ -334,7 +334,8 @@ void demo_prepare_sample_bible ()
 // Create sample notes.
 void demo_create_sample_notes (void * webserver_request)
 {
-  Database_Notes database_notes (webserver_request);
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
+  Database_Notes database_notes (*request);
   vector <int> identifiers = database_notes.get_identifiers ();
   if (identifiers.size () < 10) {
     for (int i = 1; i <= 10; i++) {

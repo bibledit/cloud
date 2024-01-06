@@ -49,7 +49,7 @@ bool notes_unassign_n_acl (Webserver_Request& webserver_request)
 
 string notes_unassign_n (Webserver_Request& webserver_request)
 {
-  Database_Notes database_notes (std::addressof(webserver_request));
+  Database_Notes database_notes (webserver_request);
   
   
   string page;

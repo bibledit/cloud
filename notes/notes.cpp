@@ -48,7 +48,7 @@ bool notes_notes_acl (Webserver_Request& webserver_request)
 
 string notes_notes (Webserver_Request& webserver_request)
 {
-  Database_Notes database_notes (std::addressof(webserver_request));
+  Database_Notes database_notes (webserver_request);
 
   
   string bible = access_bible::clamp (webserver_request, webserver_request.database_config_user()->getBible());

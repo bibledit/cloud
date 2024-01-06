@@ -44,7 +44,7 @@ bool notes_index_acl (Webserver_Request& webserver_request)
 
 string notes_index (Webserver_Request& webserver_request)
 {
-  Database_Notes database_notes (std::addressof(webserver_request));
+  Database_Notes database_notes (webserver_request);
   
   string page;
   

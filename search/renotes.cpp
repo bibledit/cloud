@@ -47,11 +47,11 @@ void search_reindex_notes ()
   
   
   // This does not run as a result of a webserver request, so create one.
-  Webserver_Request request;
+  Webserver_Request webserver_request;
 
 
   // Database.
-  Database_Notes database_notes (&request);
+  Database_Notes database_notes (webserver_request);
 
 
   // Set a flag indicating that the notes databases are not available to clients and other parties.

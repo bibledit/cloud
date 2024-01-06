@@ -139,8 +139,8 @@ void test_database_notes ()
   // Database path.
   {
     refresh_sandbox (true);
-    Webserver_Request request;
-    Database_Notes database_notes (&request);
+    Webserver_Request webserver_request;
+    Database_Notes database_notes (webserver_request);
     string path = database_notes.database_path ();
     EXPECT_EQ (filter_url_create_root_path ({"databases", "notes.sqlite"}), path);
     path = database_notes.checksums_database_path ();
@@ -149,8 +149,8 @@ void test_database_notes ()
   
   // Test the note file routine.
   {
-    Webserver_Request request;
-    Database_Notes database_notes (&request);
+    Webserver_Request webserver_request;
+    Database_Notes database_notes (webserver_request);
     string file = database_notes.note_file (123456789);
     EXPECT_EQ (filter_url_create_root_path ({"consultations", "123", "456789.json"}), file);
   }
@@ -162,8 +162,8 @@ void test_database_notes ()
     Database_Login::create ();
     Database_Users database_users;
     database_users.create ();
-    Webserver_Request request;
-    Database_Notes database_notes (&request);
+    Webserver_Request webserver_request;
+    Database_Notes database_notes (webserver_request);
     database_notes.create ();
     database_notes.optimize ();
     int identifier = database_notes.store_new_note ("", 0, 0, 0, "", "", false);
@@ -181,8 +181,8 @@ void test_database_notes ()
     Database_Login::create ();
     Database_Users database_users;
     database_users.create ();
-    Webserver_Request request;
-    Database_Notes database_notes (&request);
+    Webserver_Request webserver_request;
+    Database_Notes database_notes (webserver_request);
     database_notes.create ();
     
     int identifier = Notes_Logic::lowNoteIdentifier;
@@ -213,8 +213,8 @@ void test_database_notes ()
     Database_Login::create ();
     Database_Users database_users;
     database_users.create ();
-    Webserver_Request request;
-    Database_Notes database_notes (&request);
+    Webserver_Request webserver_request;
+    Database_Notes database_notes (webserver_request);
     database_notes.create ();
 
     string value;
@@ -284,30 +284,30 @@ void test_database_notes ()
     Database_Login::create ();
     Database_Users database_users;
     database_users.create ();
-    Webserver_Request request;
-    Database_Notes database_notes (&request);
+    Webserver_Request webserver_request;
+    Database_Notes database_notes (webserver_request);
     database_notes.create ();
-    Notes_Logic notes_logic = Notes_Logic(&request);
-    Database_Mail database_mail = Database_Mail (&request);
+    Notes_Logic notes_logic = Notes_Logic(std::addressof(webserver_request));
+    Database_Mail database_mail = Database_Mail (std::addressof(webserver_request));
     database_mail.create ();
     
     // Normally creating a new note would subscribe the current user to the note.
     // But since this unit test runs without sessions, it would have subscribed an empty user.
-    request.session_logic()->set_username ("");
+    webserver_request.session_logic()->set_username ("");
     int identifier = database_notes.store_new_note ("", 0, 0, 0, "Summary", "Contents", false);
     vector <string> subscribers = database_notes.get_subscribers (identifier);
     EXPECT_EQ (vector <string>{}, subscribers);
     
     // Create a note again, but this time set the session variable to a certain user.
     database_users.add_user ("unittest", "", 5, "");
-    request.session_logic()->set_username ("unittest");
-    request.database_config_user()->setSubscribeToConsultationNotesEditedByMe (true);
+    webserver_request.session_logic()->set_username ("unittest");
+    webserver_request.database_config_user()->setSubscribeToConsultationNotesEditedByMe (true);
     identifier = database_notes.store_new_note ("", 1, 1, 1, "Summary", "Contents", false);
     notes_logic.handlerNewNote (identifier);
     subscribers = database_notes.get_subscribers (identifier);
     EXPECT_EQ (vector <string>{"unittest"}, subscribers);
     EXPECT_EQ (true, database_notes.is_subscribed (identifier, "unittest"));
-    request.database_config_user()->setSubscribeToConsultationNotesEditedByMe (false);
+    webserver_request.database_config_user()->setSubscribeToConsultationNotesEditedByMe (false);
     // Test various other subscription related functions.
     EXPECT_EQ (false, database_notes.is_subscribed (identifier, "unittest_unittest"));
     database_notes.unsubscribe (identifier);
@@ -318,7 +318,7 @@ void test_database_notes ()
     EXPECT_EQ (false, database_notes.is_subscribed (identifier, "unittest_unittest_unittest"));
     
     // With the username still set, test the plan subscribe and unsubscribe mechanisms.
-    request.database_config_user()->setSubscribeToConsultationNotesEditedByMe (false);
+    webserver_request.database_config_user()->setSubscribeToConsultationNotesEditedByMe (false);
     identifier = database_notes.store_new_note ("", 1, 1, 1, "Summary", "Contents", false);
     EXPECT_EQ (false, database_notes.is_subscribed (identifier, "unittest"));
     database_notes.subscribe (identifier);
@@ -352,13 +352,13 @@ void test_database_notes ()
     Database_Login::create ();
     Database_Users database_users;
     database_users.create ();
-    Webserver_Request request;
-    Database_Notes database_notes (&request);
+    Webserver_Request webserver_request;
+    Database_Notes database_notes (webserver_request);
     database_notes.create ();
-    Database_Mail database_mail = Database_Mail (&request);
+    Database_Mail database_mail = Database_Mail (std::addressof(webserver_request));
     database_mail.create ();
     
-    request.session_logic()->set_username ("unittest2");
+    webserver_request.session_logic()->set_username ("unittest2");
     
     // Create a note and check that it was not assigned to anybody.
     int oldidentifier = database_notes.store_new_note ("", 0, 0, 0, "Summary", "Contents", false);
@@ -429,11 +429,11 @@ void test_database_notes ()
     Database_Login::create ();
     Database_Users database_users;
     database_users.create ();
-    Webserver_Request request;
-    Database_Notes database_notes (&request);
+    Webserver_Request webserver_request;
+    Database_Notes database_notes (webserver_request);
     database_notes.create ();
     
-    request.session_logic()->set_username ("unittest");
+    webserver_request.session_logic()->set_username ("unittest");
     int oldidentifier = database_notes.store_new_note ("unittest", 0, 0, 0, "Summary", "Contents", false);
     string bible = database_notes.get_bible (oldidentifier);
     EXPECT_EQ ("unittest", bible);
@@ -461,11 +461,11 @@ void test_database_notes ()
     Database_Login::create ();
     Database_Users database_users;
     database_users.create ();
-    Webserver_Request request;
-    Database_Notes database_notes (&request);
+    Webserver_Request webserver_request;
+    Database_Notes database_notes (webserver_request);
     database_notes.create ();
     
-    request.session_logic()->set_username ("unittest");
+    webserver_request.session_logic()->set_username ("unittest");
     
     // Create notes for certain passages.
     int oldidentifier = database_notes.store_new_note ("", 10, 9, 8, "Summary", "Contents", false);
@@ -501,11 +501,11 @@ void test_database_notes ()
     Database_Login::create ();
     Database_Users database_users;
     database_users.create ();
-    Webserver_Request request;
-    Database_Notes database_notes (&request);
+    Webserver_Request webserver_request;
+    Database_Notes database_notes (webserver_request);
     database_notes.create ();
     
-    request.session_logic()->set_username ("unittest");
+    webserver_request.session_logic()->set_username ("unittest");
     
     // Create notes.
     int oldidentifier = database_notes.store_new_note ("", 0, 0, 0, "Summary", "Contents", false);
@@ -542,11 +542,11 @@ void test_database_notes ()
     Database_Login::create ();
     Database_Users database_users;
     database_users.create ();
-    Webserver_Request request;
-    Database_Notes database_notes (&request);
+    Webserver_Request webserver_request;
+    Database_Notes database_notes (webserver_request);
     database_notes.create ();
     
-    request.session_logic()->set_username ("unittest");
+    webserver_request.session_logic()->set_username ("unittest");
     
     // Create note.
     int oldidentifier = database_notes.store_new_note ("", 0, 0, 0, "Summary", "Contents", false);
@@ -593,11 +593,11 @@ void test_database_notes ()
     Database_Login::create ();
     Database_Users database_users;
     database_users.create ();
-    Webserver_Request request;
-    Database_Notes database_notes (&request);
+    Webserver_Request webserver_request;
+    Database_Notes database_notes (webserver_request);
     database_notes.create ();
     
-    request.session_logic()->set_username ("unittest");
+    webserver_request.session_logic()->set_username ("unittest");
     int time = filter::date::seconds_since_epoch ();
     
     // Create note.
@@ -627,11 +627,11 @@ void test_database_notes ()
     Database_Login::create ();
     Database_Users database_users;
     database_users.create ();
-    Webserver_Request request;
-    Database_Notes database_notes (&request);
+    Webserver_Request webserver_request;
+    Database_Notes database_notes (webserver_request);
     database_notes.create ();
     
-    request.session_logic()->set_username ("unittest");
+    webserver_request.session_logic()->set_username ("unittest");
     
     // Create a few notes.
     vector <int> standardids;
@@ -654,12 +654,12 @@ void test_database_notes ()
     Database_Login::create ();
     Database_Users database_users;
     database_users.create ();
-    Webserver_Request request;
-    Database_Notes database_notes (&request);
+    Webserver_Request webserver_request;
+    Database_Notes database_notes (webserver_request);
     database_notes.create ();
     
     // Create note.
-    request.session_logic()->set_username ("unittest");
+    webserver_request.session_logic()->set_username ("unittest");
     int identifier1 = database_notes.store_new_note ("", 0, 0, 0, "summary", "contents", false);
     int identifier2 = database_notes.store_new_note ("", 0, 0, 0, "summary", "contents", false);
     
@@ -715,8 +715,8 @@ void test_database_notes ()
     Database_Login::create ();
     Database_Users database_users;
     database_users.create ();
-    Webserver_Request request;
-    Database_Notes database_notes (&request);
+    Webserver_Request webserver_request;
+    Database_Notes database_notes (webserver_request);
     database_notes.create ();
     
     int oldidentifier = database_notes.store_new_note ("", 0, 0, 0, "summary", "contents", false);
@@ -765,8 +765,8 @@ void test_database_notes ()
     Database_Login::create ();
     Database_Users database_users;
     database_users.create ();
-    Webserver_Request request;
-    Database_Notes database_notes (&request);
+    Webserver_Request webserver_request;
+    Database_Notes database_notes (webserver_request);
     database_notes.create ();
     
     int oldidentifier = database_notes.store_new_note ("", 0, 0, 0, "summary", "contents", false);
@@ -804,8 +804,8 @@ void test_database_notes ()
     Database_Login::create ();
     Database_Users database_users;
     database_users.create ();
-    Webserver_Request request;
-    Database_Notes database_notes (&request);
+    Webserver_Request webserver_request;
+    Database_Notes database_notes (webserver_request);
     database_notes.create ();
     
     int oldidentifier1 = database_notes.store_new_note ("", 0, 0, 0, "summary", "contents", false);
@@ -866,8 +866,8 @@ void test_database_notes ()
     Database_Login::create ();
     Database_Users database_users;
     database_users.create ();
-    Webserver_Request request;
-    Database_Notes database_notes (&request);
+    Webserver_Request webserver_request;
+    Database_Notes database_notes (webserver_request);
     database_notes.create ();
     
     int oldidentifier1 = database_notes.store_new_note ("", 0, 0, 0, "summary", "contents", false);
@@ -929,8 +929,8 @@ void test_database_notes ()
     Database_Login::create ();
     Database_Users database_users;
     database_users.create ();
-    Webserver_Request request;
-    Database_Notes database_notes (&request);
+    Webserver_Request webserver_request;
+    Database_Notes database_notes (webserver_request);
     database_notes.create ();
     
     // Create note to work with.
@@ -1077,8 +1077,8 @@ void test_database_notes ()
     Database_Login::create ();
     Database_Users database_users;
     database_users.create ();
-    Webserver_Request request;
-    Database_Notes database_notes (&request);
+    Webserver_Request webserver_request;
+    Database_Notes database_notes (webserver_request);
     database_notes.create ();
     
     // Create notes to work with.
@@ -1092,7 +1092,7 @@ void test_database_notes ()
     newidentifiers.push_back (database_notes.store_new_note ("bible6", 6, 7, 8, "summary6", "contents6", false));
     
     // Checksum calculation: slow and fast methods should be the same.
-    Sync_Logic sync_logic = Sync_Logic (&request);
+    Sync_Logic sync_logic = Sync_Logic (std::addressof(webserver_request));
     string oldchecksum1 = sync_logic.checksum (oldidentifiers);
     EXPECT_EQ (32, static_cast<int>(oldchecksum1.length()));
     string oldchecksum2 = database_notes.get_multiple_checksum (oldidentifiers);
@@ -1110,8 +1110,8 @@ void test_database_notes ()
     Database_Login::create ();
     Database_Users database_users;
     database_users.create ();
-    Webserver_Request request;
-    Database_Notes database_notes (&request);
+    Webserver_Request webserver_request;
+    Database_Notes database_notes (webserver_request);
     database_notes.create ();
     
     // Create notes to work with.
@@ -1146,8 +1146,8 @@ void test_database_notes ()
     Database_Login::create ();
     Database_Users database_users;
     database_users.create ();
-    Webserver_Request request;
-    Database_Notes database_notes (&request);
+    Webserver_Request webserver_request;
+    Database_Notes database_notes (webserver_request);
     database_notes.create ();
     
     // Create a couple of notes to work with.
@@ -1183,8 +1183,8 @@ void test_database_notes ()
 
   // Test creating a range of identifiers.
   {
-    Webserver_Request request;
-    Sync_Logic sync_logic = Sync_Logic (&request);
+    Webserver_Request webserver_request;
+    Sync_Logic sync_logic = Sync_Logic (std::addressof(webserver_request));
     
     vector <Sync_Logic_Range> ranges = sync_logic.create_range (100'000'000, 999'999'999);
     EXPECT_EQ (10, static_cast<int>(ranges.size()));
@@ -1240,8 +1240,8 @@ void test_database_notes ()
     Database_Login::create ();
     Database_Users database_users;
     database_users.create ();
-    Webserver_Request request;
-    Database_Notes database_notes (&request);
+    Webserver_Request webserver_request;
+    Database_Notes database_notes (webserver_request);
     database_notes.create ();
     
     // Create a couple of notes to work with.
@@ -1279,8 +1279,8 @@ void test_database_notes ()
     Database_Login::create ();
     Database_Users database_users;
     database_users.create ();
-    Webserver_Request request;
-    Database_Notes database_notes (&request);
+    Webserver_Request webserver_request;
+    Database_Notes database_notes (webserver_request);
     database_notes.create ();
     
     bool healthy = database_notes.healthy ();
@@ -1307,8 +1307,8 @@ void test_database_notes ()
     Database_Login::create ();
     Database_Users database_users;
     database_users.create ();
-    Webserver_Request request;
-    Database_Notes database_notes (&request);
+    Webserver_Request webserver_request;
+    Database_Notes database_notes (webserver_request);
     database_notes.create ();
 
     bool healthy = database_notes.checksums_healthy ();
@@ -1335,8 +1335,8 @@ void test_database_notes ()
     Database_Login::create ();
     Database_Users database_users;
     database_users.create ();
-    Webserver_Request request;
-    Database_Notes database_notes (&request);
+    Webserver_Request webserver_request;
+    Database_Notes database_notes (webserver_request);
     database_notes.create ();
     EXPECT_EQ (true, database_notes.available ());
     database_notes.set_availability (false);
@@ -1352,8 +1352,8 @@ void test_database_notes ()
     Database_Login::create ();
     Database_Users database_users;
     database_users.create ();
-    Webserver_Request request;
-    Database_Notes database_notes (&request);
+    Webserver_Request webserver_request;
+    Database_Notes database_notes (webserver_request);
     database_notes.create ();
     
     // Create a couple of notes to work with.
@@ -1402,8 +1402,8 @@ void test_database_notes ()
     Database_Login::create ();
     Database_Users database_users;
     database_users.create ();
-    Webserver_Request request;
-    Database_Notes database_notes (&request);
+    Webserver_Request webserver_request;
+    Database_Notes database_notes (webserver_request);
     database_notes.create ();
     
     // Keep the stored values for the notes.
@@ -1551,8 +1551,8 @@ void test_database_notes ()
     Database_Login::create ();
     Database_Users database_users;
     database_users.create ();
-    Webserver_Request request;
-    Database_Notes database_notes (&request);
+    Webserver_Request webserver_request;
+    Database_Notes database_notes (webserver_request);
     database_notes.create ();
     
     // Test values for the note.
@@ -1686,8 +1686,8 @@ void test_database_notes ()
     Database_Login::create ();
     Database_Users database_users;
     database_users.create ();
-    Webserver_Request request;
-    Database_Notes database_notes (&request);
+    Webserver_Request webserver_request;
+    Database_Notes database_notes (webserver_request);
     database_notes.create ();
     
     string bible1 = "bible1";

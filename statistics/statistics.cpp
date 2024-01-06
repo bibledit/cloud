@@ -36,9 +36,9 @@ using namespace std;
 
 void statistics_statistics ()
 {
-  Webserver_Request request;
+  Webserver_Request webserver_request;
   Database_Modifications database_modifications;
-  Database_Notes database_notes (&request);
+  Database_Notes database_notes (webserver_request);
   
   
   Database_Logs::log (translate("Sending statistics"), Filter_Roles::manager ());
@@ -47,10 +47,10 @@ void statistics_statistics ()
   string siteUrl = config::logic::site_url (nullptr);
   
   
-  vector <string> bibles = request.database_bibles()->get_bibles ();
+  vector <string> bibles = webserver_request.database_bibles()->get_bibles ();
   
   
-  vector <string> users = request.database_users ()->get_users ();
+  vector <string> users = webserver_request.database_users ()->get_users ();
   for (auto & user : users) {
     
     
@@ -59,7 +59,7 @@ void statistics_statistics ()
     
   
     size_t change_notificatons_count = 0;
-    if (request.database_config_user()->getUserPendingChangesNotification (user)) {
+    if (webserver_request.database_config_user()->getUserPendingChangesNotification (user)) {
       string any_bible = string();
       vector <int> ids = database_modifications.getNotificationIdentifiers (user, any_bible);
       change_notificatons_count = ids.size();
@@ -68,7 +68,7 @@ void statistics_statistics ()
     
 
     size_t assigned_notes_count = 0;
-    if (request.database_config_user()->getUserAssignedNotesStatisticsNotification (user)) {
+    if (webserver_request.database_config_user()->getUserAssignedNotesStatisticsNotification (user)) {
       vector <int> ids = database_notes.select_notes (
                                                      bibles, // Bibles.
                                                      0,      // Book
@@ -91,10 +91,10 @@ void statistics_statistics ()
     
 
     size_t subscribed_notes_count = 0;
-    if (request.database_config_user()->getUserSubscribedNotesStatisticsNotification (user)) {
+    if (webserver_request.database_config_user()->getUserSubscribedNotesStatisticsNotification (user)) {
       body << "<p>" << translate("Number of consultation notes you are subscribed to") << ":</p>" << std::endl;
       body << "<ul>" << std::endl;
-      request.session_logic ()->set_username (user);
+      webserver_request.session_logic ()->set_username (user);
       
       vector <int> ids = database_notes.select_notes (
                                                      bibles, // Bible.
@@ -149,7 +149,7 @@ void statistics_statistics ()
                                                      -1);     // Limit.
       body << "<li><a href=" << quoted (siteUrl + notes_index_url () + "?presetselection=subscribedweekidle") << ">" << translate("Inactive for a week") << "</a>: " << ids.size() << "</li>" << std::endl;
       body << "</ul>" << std::endl;
-      request.session_logic ()->set_username ("");
+      webserver_request.session_logic ()->set_username ("");
     }
 
     

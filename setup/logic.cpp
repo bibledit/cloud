@@ -211,21 +211,21 @@ void setup_wait_till_main_folders_present ()
 void setup_initialize_data ()
 {
   // Do the database setup.
-  Webserver_Request request;
+  Webserver_Request webserver_request;
   // Display progress in text format.
   // That provides feedback to the user during installation.
   // This alerts the user that installation is in progress, and is not stuck,
   // as the user might think when the install takes longer than expected.
   config_globals_setup_message = "users";
-  request.database_users ()->create ();
-  request.database_users ()->upgrade ();
+  webserver_request.database_users ()->create ();
+  webserver_request.database_users ()->upgrade ();
   config_globals_setup_message = "styles";
-  request.database_styles ()->create ();
+  webserver_request.database_styles ()->create ();
   config_globals_setup_message = "bible actions";
   Database_BibleActions database_bibleactions;
   database_bibleactions.create ();
   config_globals_setup_message = "checks";
-  request.database_check ()->create ();
+  webserver_request.database_check ()->create ();
   setup_generate_locale_databases (false);
 #ifdef HAVE_CLOUD
   config_globals_setup_message = "confirmations";
@@ -242,7 +242,7 @@ void setup_initialize_data ()
   database_sprint.create ();
 #endif
   config_globals_setup_message = "mail";
-  Database_Mail database_mail = Database_Mail (&request);
+  Database_Mail database_mail = Database_Mail (std::addressof(webserver_request));
   database_mail.create ();
   config_globals_setup_message = "navigation";
   Database_Navigation database_navigation = Database_Navigation ();
@@ -258,7 +258,7 @@ void setup_initialize_data ()
   Database_Modifications database_modifications;
   database_modifications.create ();
   config_globals_setup_message = "notes";
-  Database_Notes database_notes (&request);
+  Database_Notes database_notes (webserver_request);
   database_notes.create ();
   config_globals_setup_message = "state";
   Database_State::create ();
@@ -288,7 +288,7 @@ void setup_initialize_data ()
   // The installation times were so long that user were tempted to think
   // that the install process was stuck.
   // To make installation fast, the creation of the sample Bible is now done in the background.
-  const std::vector <std::string> bibles = request.database_bibles()->get_bibles ();
+  const std::vector <std::string> bibles = webserver_request.database_bibles()->get_bibles ();
   if (bibles.empty ()) {
     tasks_logic_queue (CREATESAMPLEBIBLE);
   }

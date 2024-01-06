@@ -80,7 +80,7 @@ string search_all (Webserver_Request& webserver_request)
   vector <string> queryWords = filter::strings::explode (queryString, ' ');
   
   
-  Database_Notes database_notes = Database_Notes (std::addressof(webserver_request));
+  Database_Notes database_notes = Database_Notes (webserver_request);
 
   
   const string site_url = config::logic::site_url (std::addressof(webserver_request));

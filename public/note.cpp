@@ -46,7 +46,7 @@ bool public_note_acl (Webserver_Request& webserver_request)
 
 string public_note (Webserver_Request& webserver_request)
 {
-  Database_Notes database_notes (std::addressof(webserver_request));
+  Database_Notes database_notes (webserver_request);
   
   
   string page;

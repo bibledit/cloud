@@ -51,7 +51,7 @@ string sync_notes (Webserver_Request& webserver_request)
 {
   Sync_Logic sync_logic = Sync_Logic (std::addressof(webserver_request));
   Database_Notes database_notes (webserver_request);
-  Notes_Logic notes_logic = Notes_Logic (std::addressof(webserver_request));
+  Notes_Logic notes_logic (webserver_request);
 
   
   if (!sync_logic.security_okay ()) {

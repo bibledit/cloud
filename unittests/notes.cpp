@@ -287,7 +287,7 @@ void test_database_notes ()
     Webserver_Request webserver_request;
     Database_Notes database_notes (webserver_request);
     database_notes.create ();
-    Notes_Logic notes_logic = Notes_Logic(std::addressof(webserver_request));
+    Notes_Logic notes_logic (webserver_request);
     Database_Mail database_mail = Database_Mail (std::addressof(webserver_request));
     database_mail.create ();
     

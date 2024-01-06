@@ -22,10 +22,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/libraries.h>
 #include <filter/passage.h>
 
+class Webserver_Request;
+
 class Notes_Logic
 {
 public:
-  Notes_Logic (void * webserver_request_in);
+  Notes_Logic (Webserver_Request& webserver_request);
   static constexpr int lowNoteIdentifier  = 100000000;
   static constexpr int highNoteIdentifier = 999999999;
   static constexpr int notifyNoteNew = 1;
@@ -56,7 +58,7 @@ public:
   bool handleEmailComment (std::string from, std::string subject, std::string body);
   std::string generalBibleName ();
 private:
-  void * webserver_request {nullptr};
+  Webserver_Request& m_webserver_request;
   void notifyUsers (int identifier, int notification);
   void emailUsers (int identifier, const std::string& label, std::string bible, const std::vector <std::string> & users, bool postpone);
 };

@@ -50,9 +50,9 @@ void email_receive ()
   // Messages start at number 1 instead of 0.
   for (int i = 1; i <= emailcount; i++) {
 
-    Webserver_Request request;
-    Confirm_Worker confirm_worker = Confirm_Worker (&request);
-    Notes_Logic notes_logic = Notes_Logic (&request);
+    Webserver_Request webserver_request;
+    Confirm_Worker confirm_worker = Confirm_Worker (&webserver_request);
+    Notes_Logic notes_logic (webserver_request);
     
     error.clear ();
     string message = email_receive_message (error);

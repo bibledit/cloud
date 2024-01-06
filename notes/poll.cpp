@@ -40,7 +40,7 @@ string notes_poll_url ()
 
 bool notes_poll_acl (Webserver_Request& webserver_request)
 {
-  return access_logic::privilege_view_notes (std::addressof(webserver_request));
+  return access_logic::privilege_view_notes (webserver_request);
 }
 
 

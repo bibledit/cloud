@@ -100,7 +100,7 @@ std::string bible_settings (Webserver_Request& webserver_request)
   
   // Whether the user has the privilege to change the stylesheet.
   const std::string current_user = webserver_request.session_logic()->currentUser ();
-  bool privilege_stylesheet = access_logic::privilege_set_stylesheets (std::addressof(webserver_request), current_user);
+  bool privilege_stylesheet = access_logic::privilege_set_stylesheets (webserver_request, current_user);
   if (privilege_stylesheet) view.enable_zone ("privilege_stylesheet");
 
   

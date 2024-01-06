@@ -61,7 +61,7 @@ string manage_privileges (Webserver_Request& webserver_request)
   if (user.empty()) user = webserver_request.post["val1"];
   view.set_variable ("user", user);
   int level {0};
-  access_logic::user_level (std::addressof(webserver_request), user, level);
+  access_logic::user_level (webserver_request, user, level);
 
 
   // Usernames for setting default new user privilege.
@@ -96,7 +96,7 @@ string manage_privileges (Webserver_Request& webserver_request)
   if (level >= access_logic::view_resources_role () && defusers.find (user) == defusers.end ()) {
     view.set_variable ("viewnotesdisabled", filter::strings::get_disabled (true));
   }
-  state = access_logic::privilege_view_notes (std::addressof(webserver_request), user);
+  state = access_logic::privilege_view_notes (webserver_request, user);
   view.set_variable ("viewnoteschecked", filter::strings::get_checkbox_status (state));
   
   
@@ -109,7 +109,7 @@ string manage_privileges (Webserver_Request& webserver_request)
   if (level >= access_logic::view_resources_role () && defusers.find (user) == defusers.end ()) {
     view.set_variable ("createcommentnotesdisabled", filter::strings::get_disabled (true));
   }
-  state = access_logic::privilege_create_comment_notes (std::addressof(webserver_request), user);
+  state = access_logic::privilege_create_comment_notes (webserver_request, user);
   view.set_variable ("createcommentnoteschecked", filter::strings::get_checkbox_status (state));
 
   
@@ -121,7 +121,7 @@ string manage_privileges (Webserver_Request& webserver_request)
   if (level >= access_logic::delete_consultation_notes_role () && defusers.find (user) == defusers.end ()) {
     view.set_variable ("deletenotesdisabled", filter::strings::get_disabled (true));
   }
-  state = access_logic::privilege_delete_consultation_notes (std::addressof(webserver_request), user);
+  state = access_logic::privilege_delete_consultation_notes (webserver_request, user);
   view.set_variable ("deletenoteschecked", filter::strings::get_checkbox_status (state));
 
   
@@ -132,7 +132,7 @@ string manage_privileges (Webserver_Request& webserver_request)
   if (level >= access_logic::use_advanced_mode_role () && defusers.find (user) == defusers.end ()) {
     view.set_variable ("useadvancedmodedisabled", filter::strings::get_disabled (true));
   }
-  state = access_logic::privilege_use_advanced_mode (std::addressof(webserver_request), user);
+  state = access_logic::privilege_use_advanced_mode (webserver_request, user);
   view.set_variable ("useadvancedmodechecked", filter::strings::get_checkbox_status (state));
 
   
@@ -143,7 +143,7 @@ string manage_privileges (Webserver_Request& webserver_request)
   if (level >= access_logic::set_stylesheets_role () && defusers.find (user) == defusers.end ()) {
     view.set_variable ("editstylesheetsdisabled", filter::strings::get_disabled (true));
   }
-  state = access_logic::privilege_set_stylesheets (std::addressof(webserver_request), user);
+  state = access_logic::privilege_set_stylesheets (webserver_request, user);
   view.set_variable ("editstylesheetschecked", filter::strings::get_checkbox_status (state));
 
   

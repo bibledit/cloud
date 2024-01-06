@@ -447,7 +447,7 @@ string personalize_index (Webserver_Request& webserver_request)
 
   
   // Enable the sections with settings relevant to the user and device.
-  bool resources = access_logic::privilege_view_resources (std::addressof(webserver_request));
+  bool resources = access_logic::privilege_view_resources (webserver_request);
   if (resources) view.enable_zone ("resources");
   bool bibles = Filter_Roles::access_control (webserver_request, Filter_Roles::translator ());
   auto [ read, write ] = access_bible::any (webserver_request);

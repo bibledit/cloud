@@ -54,7 +54,7 @@ string resource_select_url ()
 
 bool resource_select_acl (Webserver_Request& webserver_request)
 {
-  return access_logic::privilege_view_resources (std::addressof(webserver_request));
+  return access_logic::privilege_view_resources (webserver_request);
 }
 
 

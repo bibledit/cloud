@@ -45,7 +45,7 @@ string notes_note_url ()
 
 bool notes_note_acl (Webserver_Request& webserver_request)
 {
-  return access_logic::privilege_view_notes (std::addressof(webserver_request));
+  return access_logic::privilege_view_notes (webserver_request);
 }
 
 
@@ -140,7 +140,7 @@ string notes_note (Webserver_Request& webserver_request)
   if (Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ())) {
     view.enable_zone ("consultant");
   }
-  if (access_logic::privilege_create_comment_notes (std::addressof(webserver_request))) {
+  if (access_logic::privilege_create_comment_notes (webserver_request)) {
     view.enable_zone ("comment");
   }
   

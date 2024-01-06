@@ -21,31 +21,33 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <config/libraries.h>
 
+class Webserver_Request;
+
 #define PRIVILEGE_VIEW_RESOURCES 1
 
 namespace access_logic {
 
 int view_resources_role ();
-bool privilege_view_resources (void * webserver_request, std::string user = std::string());
+bool privilege_view_resources (Webserver_Request& webserver_request, std::string user = std::string());
 
 #define PRIVILEGE_VIEW_NOTES 2
 int view_notes_role ();
-bool privilege_view_notes (void * webserver_request, std::string user = std::string());
+bool privilege_view_notes (Webserver_Request& webserver_request, std::string user = std::string());
 
 #define PRIVILEGE_CREATE_COMMENT_NOTES 3
 int create_comment_notes_role ();
-bool privilege_create_comment_notes (void * webserver_request, std::string user = std::string());
+bool privilege_create_comment_notes (Webserver_Request& webserver_request, std::string user = std::string());
 
 int delete_consultation_notes_role ();
-bool privilege_delete_consultation_notes (void * webserver_request, std::string user = std::string());
+bool privilege_delete_consultation_notes (Webserver_Request& webserver_request, std::string user = std::string());
 
 int use_advanced_mode_role ();
-bool privilege_use_advanced_mode (void * webserver_request, std::string user = std::string());
+bool privilege_use_advanced_mode (Webserver_Request& webserver_request, std::string user = std::string());
 
 int set_stylesheets_role ();
-bool privilege_set_stylesheets (void * webserver_request, std::string user = std::string());
+bool privilege_set_stylesheets (Webserver_Request& webserver_request, std::string user = std::string());
 
-void user_level (void * webserver_request, std::string& user, int& level);
+void user_level (Webserver_Request& webserver_request, std::string& user, int& level);
 void create_client_files ();
 
 std::set <std::string> default_privilege_usernames ();

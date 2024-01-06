@@ -49,7 +49,7 @@ bool user_notifications_acl (Webserver_Request& webserver_request)
   if (Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ()))
     return true;
   // Whoever can view notes has access.
-  if (access_logic::privilege_view_notes (std::addressof(webserver_request)))
+  if (access_logic::privilege_view_notes (webserver_request))
     return true;
   // Whoever has access to a Bible has access to this page.
   auto [ read, write ] = access_bible::any (webserver_request);

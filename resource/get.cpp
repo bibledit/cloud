@@ -36,7 +36,7 @@ string resource_get_url ()
 
 bool resource_get_acl (Webserver_Request& webserver_request)
 {
-  return access_logic::privilege_view_resources (std::addressof(webserver_request));
+  return access_logic::privilege_view_resources (webserver_request);
 }
 
 

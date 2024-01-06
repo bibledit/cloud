@@ -38,7 +38,7 @@ string notes_index_url ()
 
 bool notes_index_acl (Webserver_Request& webserver_request)
 {
-  return access_logic::privilege_view_notes (std::addressof(webserver_request));
+  return access_logic::privilege_view_notes (webserver_request);
 }
 
 
@@ -99,7 +99,7 @@ string notes_index (Webserver_Request& webserver_request)
   }
   
   // Whether the user can create a new note.
-  if (access_logic::privilege_create_comment_notes (std::addressof(webserver_request))) {
+  if (access_logic::privilege_create_comment_notes (webserver_request)) {
     view.enable_zone ("create");
   }
   

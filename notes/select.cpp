@@ -44,7 +44,7 @@ string notes_select_url ()
 
 bool notes_select_acl (Webserver_Request& webserver_request)
 {
-  return access_logic::privilege_view_notes (std::addressof(webserver_request));
+  return access_logic::privilege_view_notes (webserver_request);
 }
 
 

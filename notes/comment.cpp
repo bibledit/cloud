@@ -44,7 +44,7 @@ string notes_comment_url ()
 
 bool notes_comment_acl (Webserver_Request& webserver_request)
 {
-  return access_logic::privilege_create_comment_notes (std::addressof(webserver_request));
+  return access_logic::privilege_create_comment_notes (webserver_request);
 }
 
 

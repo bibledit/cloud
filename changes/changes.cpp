@@ -225,7 +225,7 @@ string changes_changes (Webserver_Request& webserver_request)
   stringstream loading {};
   loading << "var loading = " << quoted(translate("Loading ...")) << ";";
   string script = loading.str();
-  config::logic::swipe_enabled (std::addressof(webserver_request), script);
+  config::logic::swipe_enabled (webserver_request, script);
   view.set_variable ("script", script);
 
   

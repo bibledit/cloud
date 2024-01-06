@@ -99,7 +99,7 @@ string resource_index (Webserver_Request& webserver_request)
   int window_position = config_globals_resource_window_positions [username];
   string script = "var resourceCount = " + filter::strings::convert_to_string (resource_count) + ";\n"
                   "var resourceWindowPosition = " + filter::strings::convert_to_string (window_position) + ";";
-  config::logic::swipe_enabled (std::addressof(webserver_request), script);
+  config::logic::swipe_enabled (webserver_request, script);
   view.set_variable ("script", script);
   
   

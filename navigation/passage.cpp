@@ -63,7 +63,7 @@ string Navigation_Passage::get_mouse_navigator (Webserver_Request& webserver_req
   
   bool passage_clipped = false;
   
-  bool basic_mode = config::logic::basic_mode (std::addressof(webserver_request));
+  bool basic_mode = config::logic::basic_mode (webserver_request);
   
   xml_document document;
   

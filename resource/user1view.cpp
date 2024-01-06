@@ -75,7 +75,7 @@ string resource_user1view (Webserver_Request& webserver_request)
     }
   }
   string script = filter::strings::implode (code, "\n");
-  config::logic::swipe_enabled (std::addressof(webserver_request), script);
+  config::logic::swipe_enabled (webserver_request, script);
   view.set_variable ("script", script);
   
   

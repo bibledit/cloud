@@ -120,7 +120,7 @@ std::string editusfm_index (Webserver_Request& webserver_request)
   ss << "var usfmEditorWriteAccess = true;" << std::endl;
   ss << "var verticalCaretPosition = " << verticalCaretPosition << ";" << std::endl;
   std::string script = ss.str();
-  config::logic::swipe_enabled (std::addressof(webserver_request), script);
+  config::logic::swipe_enabled (webserver_request, script);
   view.set_variable ("script", script);
   
 

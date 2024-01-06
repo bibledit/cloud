@@ -152,7 +152,7 @@ void redirect_browser (Webserver_Request& webserver_request, string path)
   // The absolute location contains the user-facing URL, when the administrator entered it.
   // This is needed in case of a proxy server,
   // where Bibledit may not be able to obtain the user-facing URL of the website.
-  string location = config::logic::site_url (std::addressof(webserver_request));
+  string location = config::logic::site_url (webserver_request);
   
   // If the request was secure, or supposed to be secure,
   // ensure the location contains https rather than plain http,

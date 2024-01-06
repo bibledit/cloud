@@ -479,7 +479,7 @@ void Notes_Logic::emailUsers (int identifier, const string& label, string bible,
   contents << "<br>" << std::endl;
   contents << "<p>";
   contents << "<a href=";
-  string notelink = config::logic::site_url (std::addressof(m_webserver_request)) + notes_note_url () + "?id=" + filter::strings::convert_to_string (identifier);
+  string notelink = config::logic::site_url (m_webserver_request) + notes_note_url () + "?id=" + filter::strings::convert_to_string (identifier);
   contents << quoted (notelink);
   contents << ">";
   contents << translate ("View or respond online");
@@ -487,7 +487,7 @@ void Notes_Logic::emailUsers (int identifier, const string& label, string bible,
   contents << " " << translate ("or") << " ";
 
   contents << "<a href=";
-  string workspacelink = config::logic::site_url (std::addressof(m_webserver_request)) + workspace_index_url () + "?note=" + filter::strings::convert_to_string (identifier);
+  string workspacelink = config::logic::site_url (m_webserver_request) + workspace_index_url () + "?note=" + filter::strings::convert_to_string (identifier);
   contents << quoted (workspacelink);
   contents << ">";
   contents << translate ("open the workspace online");

@@ -75,7 +75,8 @@ void Confirm_Worker::setup (string mailto, string username,
   }
   node.text ().set (information.c_str());
   node = document.append_child ("p");
-  string siteUrl = config::logic::site_url (webserver_request);
+  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
+  string siteUrl = config::logic::site_url (*request);
   string confirmation_url = filter_url_build_http_query (siteUrl + session_confirm_url (), "id", to_string(confirmation_id));
   node.text ().set (confirmation_url.c_str());
   stringstream output;

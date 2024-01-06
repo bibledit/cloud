@@ -47,7 +47,7 @@ bool search_replacepre2_acl (Webserver_Request& webserver_request)
 
 string search_replacepre2 (Webserver_Request& webserver_request)
 {
-  string siteUrl = config::logic::site_url (std::addressof(webserver_request));
+  string siteUrl = config::logic::site_url (webserver_request);
   
   
   // Get search variables from the query.

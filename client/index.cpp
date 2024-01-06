@@ -208,7 +208,7 @@ std::string client_index (Webserver_Request& webserver_request)
     view.enable_zone ("info");
   }
   
-  const bool basic_mode {config::logic::basic_mode (std::addressof(webserver_request))};
+  const bool basic_mode {config::logic::basic_mode (webserver_request)};
   if (basic_mode) view.enable_zone("basicmode");
   
   std::string page {};

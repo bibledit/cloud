@@ -219,7 +219,7 @@ string sendreceive_index (Webserver_Request& webserver_request)
   }
 
   
-  bool basic_mode = config::logic::basic_mode (std::addressof(webserver_request));
+  bool basic_mode = config::logic::basic_mode (webserver_request);
   if (basic_mode) view.enable_zone("basicmode");
   
   page += view.render ("sendreceive", "index");

@@ -54,7 +54,7 @@ bool search_search2_acl (Webserver_Request& webserver_request)
 
 string search_search2 (Webserver_Request& webserver_request)
 {
-  string siteUrl = config::logic::site_url (std::addressof(webserver_request));
+  string siteUrl = config::logic::site_url (webserver_request);
   
   
   string bible = webserver_request.database_config_user()->getBible ();

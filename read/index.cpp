@@ -123,7 +123,7 @@ string read_index (Webserver_Request& webserver_request)
   script_stream << "var verticalCaretPosition = " << verticalCaretPosition << ";\n";
   script_stream << "var verseSeparator = " << quoted(Database_Config_General::getNotesVerseSeparator ()) << ";\n";
   string script {script_stream.str()};
-  config::logic::swipe_enabled (std::addressof(webserver_request), script);
+  config::logic::swipe_enabled (webserver_request, script);
   view.set_variable ("script", script);
 
   string cls = Filter_Css::getClass (bible);

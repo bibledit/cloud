@@ -83,7 +83,7 @@ string search_all (Webserver_Request& webserver_request)
   Database_Notes database_notes = Database_Notes (webserver_request);
 
   
-  const string site_url = config::logic::site_url (std::addressof(webserver_request));
+  const string site_url = config::logic::site_url (webserver_request);
 
   
   vector <string> bibles = access_bible::bibles (webserver_request);

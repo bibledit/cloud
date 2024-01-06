@@ -138,7 +138,7 @@ std::string edit_index (Webserver_Request& webserver_request)
   script_stream << "var verticalCaretPosition = " << webserver_request.database_config_user ()->getVerticalCaretPosition () << ";\n";
   script_stream << "var verseSeparator = " << quoted(Database_Config_General::getNotesVerseSeparator ()) << ";\n";
   std::string script = script_stream.str();
-  config::logic::swipe_enabled (std::addressof(webserver_request), script);
+  config::logic::swipe_enabled (webserver_request, script);
   view.set_variable ("script", script);
   
   
@@ -161,7 +161,7 @@ std::string edit_index (Webserver_Request& webserver_request)
  
   // In basic mode the editor has no controls and fewer indicators.
   // In basic mode, the user can just edit text, and cannot style it.
-  const bool basic_mode = config::logic::basic_mode (std::addressof(webserver_request));
+  const bool basic_mode = config::logic::basic_mode (webserver_request);
   if (!basic_mode) view.enable_zone ("advancedmode");
   
   

@@ -173,7 +173,7 @@ string Assets_Header::run ()
     m_view->set_variable ("included_editor_stylesheet", m_included_editor_stylesheet);
   }
 
-  bool basic_mode = config::logic::basic_mode (std::addressof(m_webserver_request));
+  bool basic_mode = config::logic::basic_mode (m_webserver_request);
   string basicadvanced;
   if (basic_mode) basicadvanced = "basic";
   else basicadvanced = "advanced";
@@ -301,7 +301,7 @@ string Assets_Header::run ()
     if (!m_bread_crumbs.empty ()) {
       // No bread crumbs in basic mode.
       // The crumbs would be incorrect anyway, because they show the trail of advanced mode.
-      if (!config::logic::basic_mode (std::addressof(m_webserver_request))) {
+      if (!config::logic::basic_mode (m_webserver_request)) {
         stringstream track;
         track << "<a href=" << quoted(index_index_url ()) << ">";
         track << menu_logic_menu_text ("") << "</a>";

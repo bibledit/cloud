@@ -52,7 +52,7 @@ bool search_replace_acl (Webserver_Request& webserver_request)
 
 string search_replace (Webserver_Request& webserver_request)
 {
-  const string siteUrl = config::logic::site_url (std::addressof(webserver_request));
+  const string siteUrl = config::logic::site_url (webserver_request);
   
   string bible = webserver_request.database_config_user()->getBible ();
   if (webserver_request.query.count ("b")) {

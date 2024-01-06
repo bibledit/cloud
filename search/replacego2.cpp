@@ -52,7 +52,7 @@ bool search_replacego2_acl (Webserver_Request& webserver_request)
 
 string search_replacego2 (Webserver_Request& webserver_request)
 {
-  string siteUrl = config::logic::site_url (std::addressof(webserver_request));
+  string siteUrl = config::logic::site_url (webserver_request);
   
   
   // Get the action variables from the query.

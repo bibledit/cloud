@@ -228,7 +228,7 @@ void Database_Notes::trim_server ()
   // Deal with new notes storage in JSON.
   identifiers = get_due_for_deletion ();
   for (auto & identifier : identifiers) {
-    trash_consultation_note (std::addressof(m_webserver_request), identifier);
+    trash_consultation_note (m_webserver_request, identifier);
     erase (identifier);
   }
 }
@@ -292,7 +292,7 @@ void Database_Notes::sync ()
   // Any note identifiers in the main index, and not in the filesystem, remove them.
   for (auto id : database_identifiers) {
     if (find (identifiers.begin(), identifiers.end(), id) == identifiers.end()) {
-      trash_consultation_note (std::addressof(m_webserver_request), id);
+      trash_consultation_note (m_webserver_request, id);
       erase (id);
     }
   }

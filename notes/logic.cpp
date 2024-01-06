@@ -259,7 +259,7 @@ void Notes_Logic::markForDeletion (int identifier)
 {
   Database_Notes database_notes (m_webserver_request);
   database_notes.mark_for_deletion (identifier);
-  trash_consultation_note (std::addressof(m_webserver_request), identifier);
+  trash_consultation_note (m_webserver_request, identifier);
   if (client_logic_client_enabled ()) {
     // Client: record the action in the database.
     string user = m_webserver_request.session_logic ()->currentUser ();
@@ -299,7 +299,7 @@ void Notes_Logic::erase (int identifier)
     // Server: notification.
     handlerDeleteNote (identifier);
   }
-  trash_consultation_note (std::addressof(m_webserver_request), identifier);
+  trash_consultation_note (m_webserver_request, identifier);
   database_notes.erase (identifier);
 }
 

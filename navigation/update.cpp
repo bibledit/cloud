@@ -176,4 +176,3 @@ string navigation_update (Webserver_Request& webserver_request)
   // Build the navigation html fragment.
   return Navigation_Passage::get_mouse_navigator (webserver_request, bible);
 }
-

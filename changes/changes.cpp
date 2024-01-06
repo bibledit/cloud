@@ -94,7 +94,7 @@ string changes_changes (Webserver_Request& webserver_request)
   // Handle AJAX call to remove a change notification.
   if (webserver_request.post.count ("remove")) {
     const int remove = filter::strings::convert_to_int (webserver_request.post["remove"]);
-    trash_change_notification (std::addressof(webserver_request), remove);
+    trash_change_notification (webserver_request, remove);
     database_modifications.deleteNotification (remove);
 #ifdef HAVE_CLIENT
     webserver_request.database_config_user ()->addRemovedChange (remove);
@@ -171,7 +171,7 @@ string changes_changes (Webserver_Request& webserver_request)
   if (webserver_request.query.count ("personal")) {
     vector <int> ids = database_modifications.getNotificationTeamIdentifiers (username, changes_personal_category (), selectedbible);
     for (const auto id : ids) {
-      trash_change_notification (std::addressof(webserver_request), id);
+      trash_change_notification (webserver_request, id);
       database_modifications.deleteNotification (id);
 #ifdef HAVE_CLIENT
       webserver_request.database_config_user ()->addRemovedChange (id);
@@ -185,7 +185,7 @@ string changes_changes (Webserver_Request& webserver_request)
   if (webserver_request.query.count ("bible")) {
     vector <int> ids = database_modifications.getNotificationTeamIdentifiers (username, changes_bible_category (), selectedbible);
     for (const auto id : ids) {
-      trash_change_notification (std::addressof(webserver_request), id);
+      trash_change_notification (webserver_request, id);
       database_modifications.deleteNotification (id);
 #ifdef HAVE_CLIENT
       webserver_request.database_config_user ()->addRemovedChange (id);
@@ -200,7 +200,7 @@ string changes_changes (Webserver_Request& webserver_request)
     string user = webserver_request.query ["dismiss"];
     vector <int> ids = database_modifications.getNotificationTeamIdentifiers (username, user, selectedbible);
     for (auto id : ids) {
-      trash_change_notification (std::addressof(webserver_request), id);
+      trash_change_notification (webserver_request, id);
       database_modifications.deleteNotification (id);
 #ifdef HAVE_CLIENT
       webserver_request.database_config_user ()->addRemovedChange (id);

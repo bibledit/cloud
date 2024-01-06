@@ -38,7 +38,7 @@ bool session_logout_acl (Webserver_Request& webserver_request)
 std::string session_logout (Webserver_Request& webserver_request)
 {
   webserver_request.session_logic ()->logout ();
-  redirect_browser (std::addressof(webserver_request), index_index_url ());
+  redirect_browser (webserver_request, index_index_url ());
   return std::string();
 }
 

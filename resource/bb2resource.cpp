@@ -78,7 +78,7 @@ std::string resource_bible2resource (Webserver_Request& webserver_request)
   if (webserver_request.query.count ("convert")) {
     if (access_bible::write (webserver_request, bible)) {
       tasks_logic_queue (CONVERTBIBLE2RESOURCE, {bible});
-      redirect_browser (std::addressof(webserver_request), journal_index_url ());
+      redirect_browser (webserver_request, journal_index_url ());
       return std::string();
     } else {
       assets_page::error (translate("Insufficient privileges to complete operation."));

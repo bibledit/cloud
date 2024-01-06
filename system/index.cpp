@@ -257,7 +257,7 @@ std::string system_index (Webserver_Request& webserver_request)
   if (webserver_request.query ["reindex"] == "bibles") {
     Database_Config_General::setIndexBibles (true);
     tasks_logic_queue (REINDEXBIBLES, {"1"});
-    redirect_browser (std::addressof(webserver_request), journal_index_url ());
+    redirect_browser (webserver_request, journal_index_url ());
     return std::string();
   }
   
@@ -266,7 +266,7 @@ std::string system_index (Webserver_Request& webserver_request)
   if (webserver_request.query ["reindex"] == "notes") {
     Database_Config_General::setIndexNotes (true);
     tasks_logic_queue (REINDEXNOTES);
-    redirect_browser (std::addressof(webserver_request), journal_index_url ());
+    redirect_browser (webserver_request, journal_index_url ());
     return std::string();
   }
 
@@ -316,7 +316,7 @@ std::string system_index (Webserver_Request& webserver_request)
   // Handle the command to clear the web and resources caches.
   if (webserver_request.query.count ("clearcache")) {
     tasks_logic_queue (CLEARCACHES);
-    redirect_browser (std::addressof(webserver_request), journal_index_url ());
+    redirect_browser (webserver_request, journal_index_url ());
     return std::string();
   }
   

@@ -93,7 +93,7 @@ string editor_select (Webserver_Request& webserver_request)
       bool match = false;
       for (auto url : urls) {
         if (match) {
-          redirect_browser (std::addressof(webserver_request), url);
+          redirect_browser (webserver_request, url);
           return "";
         }
         if (url.find (from) == 0) match = true;

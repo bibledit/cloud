@@ -1241,5 +1241,5 @@ void bootstrap_index (Webserver_Request& webserver_request)
   }
 
   // Forward the browser to the default home page.
-  redirect_browser (std::addressof(webserver_request), index_index_url ());
+  redirect_browser (webserver_request, index_index_url ());
 }

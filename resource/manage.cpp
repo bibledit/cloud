@@ -93,7 +93,7 @@ string resource_manage (Webserver_Request& webserver_request)
     } if (confirm == "yes") {
       if (access_bible::write (webserver_request, convert)) {
         tasks_logic_queue (CONVERTRESOURCE2BIBLE, {convert});
-        redirect_browser (std::addressof(webserver_request), journal_index_url ());
+        redirect_browser (webserver_request, journal_index_url ());
         return "";
       } else {
         view.set_variable ("error", translate("Insufficient privileges"));

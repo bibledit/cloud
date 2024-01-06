@@ -97,7 +97,7 @@ string notes_create (Webserver_Request& webserver_request)
 
   
   if (webserver_request.post.count ("cancel")) {
-    redirect_browser (std::addressof(webserver_request), notes_index_url ());
+    redirect_browser (webserver_request, notes_index_url ());
     return string();
   }
   

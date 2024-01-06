@@ -126,41 +126,38 @@ vector <string> filter_url_scandir_internal (string folder)
 
 
 // Gets the base URL of current Bibledit installation.
-string get_base_url (void * webserver_request)
+string get_base_url (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   string scheme;
   string port;
-  if (request->secure || config_globals_enforce_https_browser) {
+  if (webserver_request.secure || config_globals_enforce_https_browser) {
     scheme = "https";
     port = config::logic::https_network_port ();
   } else {
     scheme = "http";
     port = config::logic::http_network_port ();
   }
-  string url = scheme + "://" + request->host + ":" + port + "/";
+  string url = scheme + "://" + webserver_request.host + ":" + port + "/";
   return url;
 }
 
 
 // This function redirects the browser to "path".
 // "path" is an absolute value.
-void redirect_browser (void * webserver_request, string path)
+void redirect_browser (Webserver_Request& webserver_request, string path)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-
   // A location header should contain an absolute url, like http://localhost/some/path.
   // See 14.30 in the specification https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html.
   
   // The absolute location contains the user-facing URL, when the administrator entered it.
   // This is needed in case of a proxy server,
   // where Bibledit may not be able to obtain the user-facing URL of the website.
-  string location = config::logic::site_url (webserver_request);
+  string location = config::logic::site_url (std::addressof(webserver_request));
   
   // If the request was secure, or supposed to be secure,
   // ensure the location contains https rather than plain http,
   // plus the correct secure port.
-  if (request->secure || config_globals_enforce_https_browser) {
+  if (webserver_request.secure || config_globals_enforce_https_browser) {
     location = filter::strings::replace ("http:", "https:", location);
     string plainport = config::logic::http_network_port ();
     string secureport = config::logic::https_network_port ();
@@ -171,14 +168,14 @@ void redirect_browser (void * webserver_request, string path)
 
   // If the page contains the topbar suppressing query,
   // the same query will be appended on the URL of the redirected page.
-  if (request->query.count ("topbar") || request->post.count ("topbar")) {
+  if (webserver_request.query.count ("topbar") || webserver_request.post.count ("topbar")) {
     string new_location = filter_url_build_http_query (location, "topbar", "0");
     location.clear ();
     location.append (new_location);
   }
 
-  request->header = "Location: " + location;
-  request->response_code = 302;
+  webserver_request.header = "Location: " + location;
+  webserver_request.response_code = 302;
 }
 
 

@@ -101,7 +101,7 @@ string manage_hyphenation (Webserver_Request& webserver_request)
       error = translate("No second set of characters given");
     } else {
       tasks_logic_queue (HYPHENATE, {bible, webserver_request.session_logic()->currentUser ()});
-      redirect_browser (std::addressof(webserver_request), journal_index_url ());
+      redirect_browser (webserver_request, journal_index_url ());
       return "";
     }
   }

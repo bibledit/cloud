@@ -72,9 +72,9 @@ string resource_organize (Webserver_Request& webserver_request)
     if (add == resource_logic_rich_divider ()) {
       // Navigate to the page to set up the rich divider.
       if (is_def) 
-        redirect_browser (std::addressof(webserver_request), filter_url_build_http_query (resource_divider_url (), "type", "def"));
+        redirect_browser (webserver_request, filter_url_build_http_query (resource_divider_url (), "type", "def"));
       else
-        redirect_browser (std::addressof(webserver_request), resource_divider_url ());
+        redirect_browser (webserver_request, resource_divider_url ());
       return "";
     } else {
       // Add the new resource to the existing selection of resources for the current user.
@@ -86,7 +86,7 @@ string resource_organize (Webserver_Request& webserver_request)
       if (!is_def) 
         webserver_request.database_config_user()->addUpdatedSetting (Sync_Logic::settings_send_resources_organization);
       else 
-        redirect_browser (std::addressof(webserver_request), resource_organize_url());
+        redirect_browser (webserver_request, resource_organize_url());
     }
   }
   
@@ -103,7 +103,7 @@ string resource_organize (Webserver_Request& webserver_request)
     if (!is_def) 
       webserver_request.database_config_user()->addUpdatedSetting (Sync_Logic::settings_send_resources_organization);
     else 
-      redirect_browser (std::addressof(webserver_request), resource_organize_url());
+      redirect_browser (webserver_request, resource_organize_url());
   }
 
   
@@ -121,7 +121,7 @@ string resource_organize (Webserver_Request& webserver_request)
       if (!is_def) 
         webserver_request.database_config_user()->addUpdatedSetting (Sync_Logic::settings_send_resources_organization);
       else 
-        redirect_browser (std::addressof(webserver_request), resource_organize_url());
+        redirect_browser (webserver_request, resource_organize_url());
     }
     return "";
   }
@@ -219,7 +219,7 @@ string resource_organize (Webserver_Request& webserver_request)
   // by the administrator.
   if (webserver_request.query.count ("applydefaultresources")) {
     webserver_request.database_config_user ()->setActiveResources (default_active_resources);
-    redirect_browser (std::addressof(webserver_request), resource_organize_url ());
+    redirect_browser (webserver_request, resource_organize_url ());
   }
 
 
@@ -229,7 +229,7 @@ string resource_organize (Webserver_Request& webserver_request)
     vector <string> joined_resources = webserver_request.database_config_user ()->getActiveResources ();
     joined_resources.insert(joined_resources.end(), default_active_resources.begin(), default_active_resources.end());
     webserver_request.database_config_user ()->setActiveResources (joined_resources);
-    redirect_browser (std::addressof(webserver_request), resource_organize_url ());
+    redirect_browser (webserver_request, resource_organize_url ());
   }
 
   

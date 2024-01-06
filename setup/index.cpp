@@ -123,10 +123,10 @@ std::string setup_index (Webserver_Request& webserver_request)
         setup_set_admin_details (admin_username, admin_password, admin_email);
         setup_complete_gui ();
         // Store web site's base URL.
-        const std::string site_url = get_base_url (std::addressof(webserver_request));
+        const std::string site_url = get_base_url (webserver_request);
         Database_Config_General::setSiteURL (site_url);
         // Redirect.
-        redirect_browser (std::addressof(webserver_request), index_index_url ());
+        redirect_browser (webserver_request, index_index_url ());
       } else {
         view.enable_zone ("errors");
         view.set_variable ("error", filter::strings::implode (errors, " "));

@@ -189,7 +189,7 @@ string resource_divider (Webserver_Request& webserver_request)
     if (is_def) Database_Config_General::setDefaultActiveResources (resources);
     else webserver_request.database_config_user()->setActiveResources (resources);
     if (!is_def) webserver_request.database_config_user()->addUpdatedSetting (Sync_Logic::settings_send_resources_organization);
-    redirect_browser (std::addressof(webserver_request), resource_organize_url ());
+    redirect_browser (webserver_request, resource_organize_url ());
     return "";
   }
   

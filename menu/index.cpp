@@ -40,6 +40,6 @@ std::string menu_index (Webserver_Request& webserver_request)
 {
   std::string item = webserver_request.query ["item"];
   item = menu_logic_click (item);
-  redirect_browser (std::addressof(webserver_request), item);
+  redirect_browser (webserver_request, item);
   return std::string();
 }

@@ -92,7 +92,7 @@ string workspace_settings (Webserver_Request& webserver_request)
       }
     }
     workspace_set_entire_width (std::addressof(webserver_request), workspacewidth);
-    redirect_browser (std::addressof(webserver_request), workspace_index_url ());
+    redirect_browser (webserver_request, workspace_index_url ());
     return "";
   }
   

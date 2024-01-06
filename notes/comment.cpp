@@ -72,13 +72,13 @@ string notes_comment (Webserver_Request& webserver_request)
     string comment = filter::strings::trim (webserver_request.post ["body"]);
     comment = filter_url_tag_to_plus (comment);
     notes_logic.addComment (id, comment);
-    redirect_browser (std::addressof(webserver_request), notes_note_url () + "?id=" + filter::strings::convert_to_string (id) + "&temporal=");
+    redirect_browser (webserver_request, notes_note_url () + "?id=" + filter::strings::convert_to_string (id) + "&temporal=");
     return "";
   }
   
   
   if (webserver_request.post.count ("cancel")) {
-    redirect_browser (std::addressof(webserver_request), notes_note_url () + "?id=" + filter::strings::convert_to_string (id));
+    redirect_browser (webserver_request, notes_note_url () + "?id=" + filter::strings::convert_to_string (id));
     return "";
   }
   

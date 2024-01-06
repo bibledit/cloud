@@ -165,7 +165,7 @@ string journal_index (Webserver_Request& webserver_request)
     // and then the user activates the screen on the mobile device,
     // the logbook will then again be cleared, because that was the last opened URL.
     // Redirecting the browser to a clean URL fixes this behaviour.
-    redirect_browser (std::addressof(webserver_request), journal_index_url ());
+    redirect_browser (webserver_request, journal_index_url ());
     return "";
   }
 

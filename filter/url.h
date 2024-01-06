@@ -21,8 +21,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <config/libraries.h>
 
-std::string get_base_url (void * webserver_request);
-void redirect_browser (void * webserver_request, std::string url);
+class Webserver_Request;
+
+std::string get_base_url (Webserver_Request& webserver_request);
+void redirect_browser (Webserver_Request& webserver_request, std::string url);
 std::string filter_url_dirname (std::string url);
 std::string filter_url_dirname_web (std::string url);
 std::string filter_url_basename (std::string url);

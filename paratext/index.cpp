@@ -164,7 +164,7 @@ string paratext_index (Webserver_Request& webserver_request)
       }
       view.set_variable ("master", master);
       view.enable_zone ("setuprunning");
-      redirect_browser (std::addressof(webserver_request), journal_index_url ());
+      redirect_browser (webserver_request, journal_index_url ());
       return "";
     }
   }

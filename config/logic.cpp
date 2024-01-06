@@ -162,7 +162,7 @@ string site_url (void * webserver_request)
   if (webserver_request) {
     Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
     if (!request->host.empty ()) {
-      url = get_base_url (request);
+      url = get_base_url (*request);
       return url;
     }
   }

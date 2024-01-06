@@ -74,7 +74,7 @@ string notes_assign_1 (Webserver_Request& webserver_request)
     if (database_noteassignment.exists (user, assign)) {
       notes_logic.assignUser (id, assign);
     }
-    redirect_browser (std::addressof(webserver_request), notes_actions_url () + "?id=" + filter::strings::convert_to_string (id));
+    redirect_browser (webserver_request, notes_actions_url () + "?id=" + filter::strings::convert_to_string (id));
     return "";
   }
 

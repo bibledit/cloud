@@ -94,7 +94,7 @@ std::string session_login (Webserver_Request& webserver_request)
         // Log the login.
         Database_Logs::log (webserver_request.session_logic()->currentUser () + " logged in");
         // Store web site's base URL.
-        const std::string site_url = get_base_url (std::addressof(webserver_request));
+        const std::string site_url = get_base_url (webserver_request);
         Database_Config_General::setSiteURL (site_url);
       } else {
         view.set_variable ("error_message", translate ("Username or email address or password are not correct"));
@@ -121,11 +121,11 @@ std::string session_login (Webserver_Request& webserver_request)
   if (webserver_request.session_logic ()->loggedIn ()) {
     if (!forward.empty()) {
       // After login, the user is forwarded to the originally requested URL, if any.
-      redirect_browser (std::addressof(webserver_request), forward);
+      redirect_browser (webserver_request, forward);
       return std::string();
     }
     // After login, go to the main page.
-    redirect_browser (std::addressof(webserver_request), index_index_url ());
+    redirect_browser (webserver_request, index_index_url ());
     return std::string();
   } else {
     page += session_login_display_header (webserver_request);

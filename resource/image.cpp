@@ -93,7 +93,7 @@ string resource_image (Webserver_Request& webserver_request)
         // Immediately open the uploaded image.
         string url = filter_url_build_http_query (resource_img_url (), "name", name);
         url = filter_url_build_http_query (url, "image", image);
-        redirect_browser (std::addressof(webserver_request), url);
+        redirect_browser (webserver_request, url);
         return "";
       }
     } else {

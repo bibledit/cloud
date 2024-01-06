@@ -261,7 +261,7 @@ string manage_users (Webserver_Request& webserver_request)
   // Login on behalf of another user.
   if (webserver_request.query.count ("login")) {
     webserver_request.session_logic ()->switch_user (objectUsername);
-    redirect_browser (std::addressof(webserver_request), session_switch_url ());
+    redirect_browser (webserver_request, session_switch_url ());
     return string();
   }
   

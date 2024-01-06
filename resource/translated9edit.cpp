@@ -109,7 +109,7 @@ string resource_translated9edit (Webserver_Request& webserver_request)
       client_logic_no_cache_resource_add (new_resource);
       // Redirect the user to the place where to edit that new resource.
       string url = resource_translated1edit_url () + "?name=" + new_resource;
-      redirect_browser (std::addressof(webserver_request), url);
+      redirect_browser (webserver_request, url);
       return string();
     }
   }

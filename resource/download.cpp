@@ -83,7 +83,7 @@ string resource_download (Webserver_Request& webserver_request)
       Database_Config_General::setResourcesToCache (resources);
     }
     tasks_logic_queue (SYNCRESOURCES);
-    redirect_browser (std::addressof(webserver_request), journal_index_url ());
+    redirect_browser (webserver_request, journal_index_url ());
     return "";
   }
   

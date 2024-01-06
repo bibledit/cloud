@@ -51,13 +51,13 @@ string resource_sword (Webserver_Request& webserver_request)
 {
   if (webserver_request.query.count ("refresh")) {
     tasks_logic_queue (REFRESHSWORDMODULES);
-    redirect_browser (std::addressof(webserver_request), journal_index_url ());
+    redirect_browser (webserver_request, journal_index_url ());
   }
 
   
   if (webserver_request.query.count ("update")) {
     tasks_logic_queue (UPDATESWORDMODULES, {});
-    redirect_browser (std::addressof(webserver_request), journal_index_url ());
+    redirect_browser (webserver_request, journal_index_url ());
   }
   
   

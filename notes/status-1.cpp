@@ -69,7 +69,7 @@ string notes_status_1 (Webserver_Request& webserver_request)
   if (webserver_request.query.count ("status")) {
     string status = webserver_request.query["status"];
     notes_logic.setStatus (id, status);
-    redirect_browser (std::addressof(webserver_request), notes_actions_url () + "?id=" + filter::strings::convert_to_string (id));
+    redirect_browser (webserver_request, notes_actions_url () + "?id=" + filter::strings::convert_to_string (id));
     return "";
   }
   

@@ -67,7 +67,7 @@ string notes_severity_1 (Webserver_Request& webserver_request)
   if (webserver_request.query.count ("severity")) {
     int severity = filter::strings::convert_to_int (webserver_request.query["severity"]);
     notes_logic.setRawSeverity (id, severity);
-    redirect_browser (std::addressof(webserver_request), notes_actions_url () + "?id=" + filter::strings::convert_to_string (id));
+    redirect_browser (webserver_request, notes_actions_url () + "?id=" + filter::strings::convert_to_string (id));
     return std::string();
   }
   

@@ -82,7 +82,7 @@ string notes_verses (Webserver_Request& webserver_request)
       error = translate ("The note should have one or more passages assigned.");
     } else {
       notes_logic.setPassages (id, passages);
-      redirect_browser (std::addressof(webserver_request), notes_actions_url () + "?id=" + filter::strings::convert_to_string (id));
+      redirect_browser (webserver_request, notes_actions_url () + "?id=" + filter::strings::convert_to_string (id));
       return "";
     }
   }

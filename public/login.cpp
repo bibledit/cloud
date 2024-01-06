@@ -126,7 +126,7 @@ std::string public_login (Webserver_Request& webserver_request)
 
 
   if (webserver_request.session_logic ()->loggedIn ()) {
-    redirect_browser (std::addressof(webserver_request), public_index_url ());
+    redirect_browser (webserver_request, public_index_url ());
     return std::string();
   }
 

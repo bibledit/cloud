@@ -91,7 +91,7 @@ string public_create (Webserver_Request& webserver_request)
     database_notes.subscribe (identifier);
     // Go to the main public notes page.
     if (config::logic::default_bibledit_configuration ()) {
-      redirect_browser (std::addressof(webserver_request), public_index_url ());
+      redirect_browser (webserver_request, public_index_url ());
     }
     return std::string();
   }
@@ -99,7 +99,7 @@ string public_create (Webserver_Request& webserver_request)
   
   if (webserver_request.post.count ("cancel")) {
     if (config::logic::default_bibledit_configuration ()) {
-      redirect_browser (std::addressof(webserver_request), public_index_url ());
+      redirect_browser (webserver_request, public_index_url ());
     }
     return std::string();
   }

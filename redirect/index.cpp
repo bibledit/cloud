@@ -41,6 +41,6 @@ std::string editone_index (Webserver_Request& webserver_request)
   for (auto query : webserver_request.query) {
     url = filter_url_build_http_query (url, query.first, query.second);
   }
-  redirect_browser (std::addressof(webserver_request), url);
+  redirect_browser (webserver_request, url);
   return std::string();
 }

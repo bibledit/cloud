@@ -77,7 +77,7 @@ string changes_manage (Webserver_Request& webserver_request)
     database_jobs.set_level (jobId, Filter_Roles::manager ());
     database_jobs.set_start (jobId, translate ("Clearing change notifications."));
     tasks_logic_queue (DELETECHANGES, {filter::strings::convert_to_string (jobId), username});
-    redirect_browser (std::addressof(webserver_request), jobs_index_url () + "?id=" + filter::strings::convert_to_string (jobId));
+    redirect_browser (webserver_request, jobs_index_url () + "?id=" + filter::strings::convert_to_string (jobId));
     return string();
   }
   

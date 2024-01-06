@@ -79,7 +79,7 @@ string session_confirm ([[maybe_unused]] Webserver_Request& webserver_request)
       // Log the login.
       Database_Logs::log (webserver_request.session_logic()->currentUser () + " confirmed account and logged in");
       // Store web site's base URL.
-      string siteUrl = get_base_url (std::addressof(webserver_request));
+      string siteUrl = get_base_url (webserver_request);
       Database_Config_General::setSiteURL (siteUrl);
       // Store account creation time.
       user_logic_store_account_creation (webserver_request.session_logic()->currentUser ());
@@ -88,7 +88,7 @@ string session_confirm ([[maybe_unused]] Webserver_Request& webserver_request)
   }
   
   // In all cases, go to the home page.
-  redirect_browser (std::addressof(webserver_request), index_index_url());
+  redirect_browser (webserver_request, index_index_url());
 
 #endif
 

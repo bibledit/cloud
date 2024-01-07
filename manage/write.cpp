@@ -57,7 +57,7 @@ string manage_write (Webserver_Request& webserver_request)
 
   Assets_View view {};
 
-  int userid = filter::strings::user_identifier (std::addressof(webserver_request));
+  int userid = filter::strings::user_identifier (webserver_request);
   
   string user {};
   if (webserver_request.query.count ("user")) {

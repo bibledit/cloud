@@ -1419,10 +1419,9 @@ std::vector <std::string> search_needles (const std::string& search, const std::
 
 
 // Returns an integer identifier based on the name of the current user.
-int user_identifier (void * webserver_request)
+int user_identifier (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  const std::string username = request->session_logic()->currentUser ();
+  const std::string username = webserver_request.session_logic()->currentUser ();
   const std::string hash = md5 (username).substr (0, 5);
   const int identifier = config::logic::my_stoi (hash, nullptr, 36);
   return identifier;

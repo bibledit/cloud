@@ -265,7 +265,7 @@ string edit_update (Webserver_Request& webserver_request)
   string explanation;
   string message;
   if (good2go && bible_write_access && text_was_edited) {
-    message = filter::usfm::safely_store_chapter (std::addressof(webserver_request), bible, book, chapter, edited_chapter_usfm, explanation);
+    message = filter::usfm::safely_store_chapter (webserver_request, bible, book, chapter, edited_chapter_usfm, explanation);
     bible_logic::unsafe_save_mail (message, explanation, username, edited_chapter_usfm, book, chapter);
     if (!message.empty ()) messages.push_back (message);
   }

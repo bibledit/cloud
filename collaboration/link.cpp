@@ -201,8 +201,8 @@ void collaboration_link ([[maybe_unused]] const std::string& object,
   database_jobs.set_progress (jobid, translate ("Copying"));
  if (take_repo && result) {
     success.push_back (translate ("Copying the data from the repository and storing it in Bibledit."));
-   Webserver_Request request {};
-    filter_git_sync_git_to_bible (std::addressof(request), path, object);
+   Webserver_Request webserver_request {};
+    filter_git_sync_git_to_bible (webserver_request, path, object);
   }
   database_jobs.set_percentage (jobid, 88);
   
@@ -213,9 +213,9 @@ void collaboration_link ([[maybe_unused]] const std::string& object,
   if (take_me && result) {
 
     // Bibledit's data goes into the local repository.
-    Webserver_Request request {};
+    Webserver_Request webserver_request {};
     success.push_back (translate("Storing the local Bible data to the staging area."));
-    filter_git_sync_bible_to_git (std::addressof(request), object, path);
+    filter_git_sync_bible_to_git (webserver_request, object, path);
 
     // Stage the data: add and remove it as needed.
     if (result) {

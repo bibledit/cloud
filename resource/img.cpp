@@ -72,7 +72,7 @@ string resource_img (Webserver_Request& webserver_request)
   view.set_variable ("image", image);
 
   
-  int userid = filter::strings::user_identifier (std::addressof(webserver_request));
+  int userid = filter::strings::user_identifier (webserver_request);
 
   
   if (webserver_request.post.count ("submit")) {

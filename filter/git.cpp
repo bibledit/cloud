@@ -152,15 +152,13 @@ void filter_git_sync_modifications_to_git (string bible, string repository)
 // The $git is a git repository, and may contain other data as well.
 // The filter focuses on reading the data in the git repository, and only writes to it if necessary,
 // This speeds up the filter.
-void filter_git_sync_bible_to_git (void * webserver_request, string bible, string repository)
+void filter_git_sync_bible_to_git (Webserver_Request& webserver_request, string bible, string repository)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  
   // First stage.
   // Read the chapters in the git repository,
   // and check if they occur in the database.
   // If a chapter is not in the database, remove it from the repository.
-  vector <int> books = request->database_bibles()->get_books (bible);
+  vector <int> books = webserver_request.database_bibles()->get_books (bible);
   vector <string> bookfiles = filter_url_scandir (repository);
   for (auto & bookname : bookfiles) {
     string path = filter_url_create_path ({repository, bookname});
@@ -169,7 +167,7 @@ void filter_git_sync_bible_to_git (void * webserver_request, string bible, strin
       if (book) {
         if (in_array (book, books)) {
           // Book exists in the database: Check the chapters.
-          vector <int> chapters = request->database_bibles()->get_chapters (bible, book);
+          vector <int> chapters = webserver_request.database_bibles()->get_chapters (bible, book);
           vector <string> chapterfiles = filter_url_scandir (filter_url_create_path ({repository, bookname}));
           for (auto & chaptername : chapterfiles) {
             string chapter_path = filter_url_create_path ({repository, bookname, chaptername});
@@ -198,18 +196,18 @@ void filter_git_sync_bible_to_git (void * webserver_request, string bible, strin
   // Read the books / chapters from the database,
   // and check if they occur in the repository, and the data matches.
   // If necessary, save the chapter to the repository.
-  books = request->database_bibles()->get_books (bible);
+  books = webserver_request.database_bibles()->get_books (bible);
   for (auto & book : books) {
     string bookname = database::books::get_english_from_id (static_cast<book_id>(book));
     string bookdir = filter_url_create_path ({repository, bookname});
     if (!file_or_dir_exists (bookdir)) filter_url_mkdir (bookdir);
-    vector <int> chapters = request->database_bibles()->get_chapters (bible, book);
+    vector <int> chapters = webserver_request.database_bibles()->get_chapters (bible, book);
     for (auto & chapter : chapters) {
       string chapterdir = filter_url_create_path ({bookdir, filter::strings::convert_to_string (chapter)});
       if (!file_or_dir_exists (chapterdir)) filter_url_mkdir (chapterdir);
       string datafile = filter_url_create_path ({chapterdir, "data"});
       string contents = filter_url_file_get_contents (datafile);
-      string usfm = request->database_bibles()->get_chapter (bible, book, chapter);
+      string usfm = webserver_request.database_bibles()->get_chapter (bible, book, chapter);
       if (contents != usfm) filter_url_file_put_contents (datafile, usfm);
     }
   }
@@ -222,10 +220,8 @@ void filter_git_sync_bible_to_git (void * webserver_request, string bible, strin
 // The filter focuses on reading the data in the git repository and the database,
 // and only writes to the database if necessary,
 // This speeds up the filter.
-void filter_git_sync_git_to_bible (void * webserver_request, string repository, string bible)
+void filter_git_sync_git_to_bible (Webserver_Request& webserver_request, string repository, string bible)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-
   // Stage one:
   // Read the chapters in the git repository,
   // and check that they occur in the database.
@@ -238,7 +234,7 @@ void filter_git_sync_git_to_bible (void * webserver_request, string repository, 
       int book = static_cast<int>(database::books::get_id_from_english (bookname));
       if (book) {
         // Check the chapters.
-        vector <int> chapters = request->database_bibles()->get_chapters (bible, book);
+        vector <int> chapters = webserver_request.database_bibles()->get_chapters (bible, book);
         vector <string> chapterfiles = filter_url_scandir (bookpath);
         for (auto & chapterfile : chapterfiles) {
           string chapterpath = filter_url_create_path ({bookpath, chapterfile});
@@ -271,18 +267,18 @@ void filter_git_sync_git_to_bible (void * webserver_request, string repository, 
   // If a chapter matches, check that the contents of the data in the git
   // folder and the contents in the database match.
   // If necessary, update the data in the database.
-  vector <int> books = request->database_bibles()->get_books (bible);
+  vector <int> books = webserver_request.database_bibles()->get_books (bible);
   for (auto & book : books) {
     string bookname = database::books::get_english_from_id (static_cast<book_id>(book));
     string bookdir = filter_url_create_path ({repository, bookname});
     if (file_or_dir_exists (bookdir)) {
-      vector <int> chapters = request->database_bibles()->get_chapters (bible, book);
+      vector <int> chapters = webserver_request.database_bibles()->get_chapters (bible, book);
       for (auto & chapter : chapters) {
         string chapterdir = filter_url_create_path ({bookdir, filter::strings::convert_to_string (chapter)});
         if (file_or_dir_exists (chapterdir)) {
           string datafile = filter_url_create_path ({chapterdir, "data"});
           string contents = filter_url_file_get_contents (datafile);
-          string usfm = request->database_bibles()->get_chapter (bible, book, chapter);
+          string usfm = webserver_request.database_bibles()->get_chapter (bible, book, chapter);
           if (contents != usfm) {
             bible_logic::store_chapter (bible, book, chapter, contents);
             Database_Logs::log (translate("A translator updated chapter") + " " + bible + " " + bookname + " " + filter::strings::convert_to_string (chapter));

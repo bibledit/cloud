@@ -22,12 +22,14 @@
 #include <config/libraries.h>
 #include <filter/passage.h>
 
+class Webserver_Request;
+
 #ifdef HAVE_CLOUD
 std::string filter_git_directory (std::string object);
 bool filter_git_init (std::string directory, bool bare = false);
 void filter_git_sync_modifications_to_git (std::string bible, std::string repository);
-void filter_git_sync_bible_to_git (void * webserver_request, std::string bible, std::string repository);
-void filter_git_sync_git_to_bible (void * webserver_request, std::string repository, std::string bible);
+void filter_git_sync_bible_to_git (Webserver_Request& webserver_request, std::string bible, std::string repository);
+void filter_git_sync_git_to_bible (Webserver_Request& webserver_request, std::string repository, std::string bible);
 void filter_git_sync_git_chapter_to_bible (std::string repository, std::string bible, int book, int chapter);
 bool filter_git_remote_read (std::string url, std::string & error);
 bool filter_git_remote_clone (std::string url, std::string path, int jobid, std::string & error);

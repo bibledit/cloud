@@ -157,7 +157,7 @@ string edit_save (Webserver_Request& webserver_request)
 
   // Safely store the chapter.
   string explanation;
-  string message = filter::usfm::safely_store_chapter (std::addressof(webserver_request), bible, book, chapter, user_usfm, explanation);
+  string message = filter::usfm::safely_store_chapter (webserver_request, bible, book, chapter, user_usfm, explanation);
   bible_logic::unsafe_save_mail (message, explanation, username, user_usfm, book, chapter);
 
   // If an error message was given, then return that message to the browser.

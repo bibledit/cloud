@@ -31,12 +31,12 @@
 TEST (session, users)
 {
   refresh_sandbox (false);
-  Webserver_Request request;
-  request.database_users ()->create ();
-  request.session_logic()->set_username ("phpunit");
-  EXPECT_EQ (13683715, filter::strings::user_identifier (&request));
-  request.session_logic()->set_username ("phpunit2");
-  EXPECT_EQ (13767813, filter::strings::user_identifier (&request));
+  Webserver_Request webserver_request;
+  webserver_request.database_users ()->create ();
+  webserver_request.session_logic()->set_username ("phpunit");
+  EXPECT_EQ (13683715, filter::strings::user_identifier (webserver_request));
+  webserver_request.session_logic()->set_username ("phpunit2");
+  EXPECT_EQ (13767813, filter::strings::user_identifier (webserver_request));
   refresh_sandbox (true);
 }
 

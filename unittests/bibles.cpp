@@ -30,22 +30,22 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <bb/logic.h>
 
 
-void test_store_bible_data_safely_setup (Webserver_Request * request, std::string usfm)
+void test_store_bible_data_safely_setup (Webserver_Request& webserver_request, std::string usfm)
 {
   refresh_sandbox (false);
   Database_State::create ();
   Database_Login::create ();
-  request->database_bibles()->create_bible ("phpunit");
-  request->database_bibles()->store_chapter ("phpunit", 1, 1, usfm);
+  webserver_request.database_bibles()->create_bible ("phpunit");
+  webserver_request.database_bibles()->store_chapter ("phpunit", 1, 1, usfm);
 }
 
 
 TEST (bibles, basic)
 {
-  Webserver_Request request;
-  test_store_bible_data_safely_setup (&request, "");
-  request.database_users ()->create ();
-  request.session_logic ()->set_username ("phpunit");
+  Webserver_Request webserver_request;
+  test_store_bible_data_safely_setup (webserver_request, "");
+  webserver_request.database_users ()->create ();
+  webserver_request.session_logic ()->set_username ("phpunit");
   std::string usfm = R"(
 \c 1
 \p
@@ -60,7 +60,7 @@ TEST (bibles, basic)
 
   // Safely store a chapter.
   {
-    test_store_bible_data_safely_setup (&request, usfm);
+    test_store_bible_data_safely_setup (webserver_request, usfm);
     const std::string data =
     "\\c 1\n"
     "\\p\n"
@@ -70,17 +70,17 @@ TEST (bibles, basic)
     "\\v 4 Verse 4.\n"
     "\\v 5 Verse 5.";
     std::string explanation;
-    std::string stored = filter::usfm::safely_store_chapter (&request, "phpunit", 1, 1, data, explanation);
+    std::string stored = filter::usfm::safely_store_chapter (webserver_request, "phpunit", 1, 1, data, explanation);
     EXPECT_EQ (std::string(), stored);
     EXPECT_EQ (std::string(), explanation);
-    const std::string result = request.database_bibles()->get_chapter ("phpunit", 1, 1);
+    const std::string result = webserver_request.database_bibles()->get_chapter ("phpunit", 1, 1);
     EXPECT_EQ (data, result);
     refresh_sandbox (false);
   }
 
   // Safely store a chapter.
   {
-    test_store_bible_data_safely_setup (&request, usfm);
+    test_store_bible_data_safely_setup (webserver_request, usfm);
     const std::string data =
     "\\c 1\n"
     "\\p\n"
@@ -90,17 +90,17 @@ TEST (bibles, basic)
     "\\v 3 Verse 3.\n"
     "\\v 4 Verse 4.";
     std::string explanation;
-    std::string stored = filter::usfm::safely_store_chapter (&request, "phpunit", 1, 1, data, explanation);
+    std::string stored = filter::usfm::safely_store_chapter (webserver_request, "phpunit", 1, 1, data, explanation);
     EXPECT_EQ (std::string(), stored);
     EXPECT_EQ (std::string(), explanation);
-    const std::string result = request.database_bibles()->get_chapter ("phpunit", 1, 1);
+    const std::string result = webserver_request.database_bibles()->get_chapter ("phpunit", 1, 1);
     EXPECT_EQ (data, result);
     refresh_sandbox (false);
   }
 
   // Safely store chapter with length error
   {
-    test_store_bible_data_safely_setup (&request, usfm);
+    test_store_bible_data_safely_setup (webserver_request, usfm);
     const std::string data =
     "\\c 1\n"
     "\\p\n"
@@ -108,17 +108,17 @@ TEST (bibles, basic)
     "\\v 2 Verse 2.\n"
     "\\v 3 Verse 3.\n";
     std::string explanation;
-    const std::string stored = filter::usfm::safely_store_chapter (&request, "phpunit", 1, 1, data, explanation);
+    const std::string stored = filter::usfm::safely_store_chapter (webserver_request, "phpunit", 1, 1, data, explanation);
     EXPECT_EQ ("Text length differs too much", stored);
     EXPECT_EQ ("The text was not saved for safety reasons. The length differs 50% from the existing text. Make fewer changes at a time and wait till the editor has saved the text. Or relax the restriction in the editing settings. See menu Settings - Preferences.", explanation);
-    const std::string result = request.database_bibles()->get_chapter ("phpunit", 1, 1);
+    const std::string result = webserver_request.database_bibles()->get_chapter ("phpunit", 1, 1);
     EXPECT_EQ (usfm, result);
     refresh_sandbox (false);
   }
 
   // Safely store chapter with text similarity error.
   {
-    test_store_bible_data_safely_setup (&request, usfm);
+    test_store_bible_data_safely_setup (webserver_request, usfm);
     const std::string data =
     "\\c 1\n"
     "\\p\n"
@@ -127,25 +127,25 @@ TEST (bibles, basic)
     "\\v 2 Verse two two two two two two two.\n"
     "\\v 4 Verse 4.\n";
     std::string explanation;
-    const std::string stored = filter::usfm::safely_store_chapter (&request, "phpunit", 1, 1, data, explanation);
+    const std::string stored = filter::usfm::safely_store_chapter (webserver_request, "phpunit", 1, 1, data, explanation);
     EXPECT_EQ ("Text content differs too much", stored);
     EXPECT_EQ ("The text was not saved for safety reasons. The new text is 59% similar to the existing text. Make fewer changes at a time and wait till the editor has saved the text. Or relax the restriction in the editing settings. See menu Settings - Preferences.", explanation);
-    const std::string result = request.database_bibles()->get_chapter ("phpunit", 1, 1);
+    const std::string result = webserver_request.database_bibles()->get_chapter ("phpunit", 1, 1);
     EXPECT_EQ (usfm, result);
     refresh_sandbox (false);
   }
 
   // Safely store a chapter with no change in the text.
   {
-    test_store_bible_data_safely_setup (&request, usfm);
+    test_store_bible_data_safely_setup (webserver_request, usfm);
     std::string explanation;
-    const int currentId = request.database_bibles()->get_chapter_id ("phpunit", 1, 1);
-    const std::string stored = filter::usfm::safely_store_chapter (&request, "phpunit", 1, 1, usfm, explanation);
+    const int currentId = webserver_request.database_bibles()->get_chapter_id ("phpunit", 1, 1);
+    const std::string stored = filter::usfm::safely_store_chapter (webserver_request, "phpunit", 1, 1, usfm, explanation);
     EXPECT_EQ (std::string(), stored);
     EXPECT_EQ (std::string(), explanation);
-    const std::string result = request.database_bibles()->get_chapter ("phpunit", 1, 1);
+    const std::string result = webserver_request.database_bibles()->get_chapter ("phpunit", 1, 1);
     EXPECT_EQ (usfm, result);
-    const int currentId2 = request.database_bibles()->get_chapter_id ("phpunit", 1, 1);
+    const int currentId2 = webserver_request.database_bibles()->get_chapter_id ("phpunit", 1, 1);
     EXPECT_EQ (currentId, currentId2);
     refresh_sandbox (false);
   }
@@ -153,27 +153,27 @@ TEST (bibles, basic)
   // Safely store verse 0 without a change.
   {
     {
-      test_store_bible_data_safely_setup (&request, usfm);
+      test_store_bible_data_safely_setup (webserver_request, usfm);
       const std::string data =
       "\\c 1\n"
       "\\p\n";
       std::string explanation;
-      const std::string stored = filter::usfm::safely_store_verse (&request, "phpunit", 1, 1, 0, data, explanation, false);
+      const std::string stored = filter::usfm::safely_store_verse (webserver_request, "phpunit", 1, 1, 0, data, explanation, false);
       EXPECT_EQ (std::string(), stored);
       EXPECT_EQ (std::string(), explanation);
-      const std::string result = request.database_bibles()->get_chapter ("phpunit", 1, 1);
+      const std::string result = webserver_request.database_bibles()->get_chapter ("phpunit", 1, 1);
       EXPECT_EQ (usfm, result);
       refresh_sandbox (false);
     }
     {
-      test_store_bible_data_safely_setup (&request, usfm);
+      test_store_bible_data_safely_setup (webserver_request, usfm);
       const std::string data =
       "\\c 1\n";
       std::string explanation;
-      const  std::string stored = filter::usfm::safely_store_verse (&request, "phpunit", 1, 1, 0, data, explanation, true);
+      const  std::string stored = filter::usfm::safely_store_verse (webserver_request, "phpunit", 1, 1, 0, data, explanation, true);
       EXPECT_EQ (std::string(), stored);
       EXPECT_EQ (std::string(), explanation);
-      const std::string result = request.database_bibles()->get_chapter ("phpunit", 1, 1);
+      const std::string result = webserver_request.database_bibles()->get_chapter ("phpunit", 1, 1);
       EXPECT_EQ (usfm, result);
       refresh_sandbox (false);
     }
@@ -182,28 +182,28 @@ TEST (bibles, basic)
   // Safely store verse 0 with a change.
   {
     {
-      test_store_bible_data_safely_setup (&request, usfm);
+      test_store_bible_data_safely_setup (webserver_request, usfm);
       const std::string data =
       "\\c 1\n"
       "\\p xx\n";
       std::string explanation;
-      std::string stored = filter::usfm::safely_store_verse (&request, "phpunit", 1, 1, 0, data, explanation, false);
+      std::string stored = filter::usfm::safely_store_verse (webserver_request, "phpunit", 1, 1, 0, data, explanation, false);
       EXPECT_EQ (std::string(), stored);
       EXPECT_EQ (std::string(), explanation);
-      std::string result = request.database_bibles()->get_chapter ("phpunit", 1, 1);
+      std::string result = webserver_request.database_bibles()->get_chapter ("phpunit", 1, 1);
       std::string newusfm = filter::strings::replace ("\\p\n\\v 1", "\\p xx\n\\v 1", usfm);
       EXPECT_EQ (newusfm, result);
       refresh_sandbox (false);
     }
     {
-      test_store_bible_data_safely_setup (&request, usfm);
+      test_store_bible_data_safely_setup (webserver_request, usfm);
       const std::string data =
       "\\c 1x\n";
       std::string explanation;
-      std::string stored = filter::usfm::safely_store_verse (&request, "phpunit", 1, 1, 0, data, explanation, true);
+      std::string stored = filter::usfm::safely_store_verse (webserver_request, "phpunit", 1, 1, 0, data, explanation, true);
       EXPECT_EQ (std::string(), stored);
       EXPECT_EQ (std::string(), explanation);
-      std::string result = request.database_bibles()->get_chapter ("phpunit", 1, 1);
+      std::string result = webserver_request.database_bibles()->get_chapter ("phpunit", 1, 1);
       std::string newusfm = filter::strings::replace ("c 1", "c 1x", usfm);
       EXPECT_EQ (newusfm, result);
       refresh_sandbox (false);
@@ -213,25 +213,25 @@ TEST (bibles, basic)
   // Safely store verse 2 with a change.
   {
     {
-      test_store_bible_data_safely_setup (&request, usfm);
+      test_store_bible_data_safely_setup (webserver_request, usfm);
       const std::string data = "\\v 2 Verse two two two two.\n\\p\n";
       std::string explanation;
-      std::string stored = filter::usfm::safely_store_verse (&request, "phpunit", 1, 1, 2, data, explanation, false);
+      std::string stored = filter::usfm::safely_store_verse (webserver_request, "phpunit", 1, 1, 2, data, explanation, false);
       EXPECT_EQ (std::string(), stored);
       EXPECT_EQ (std::string(), explanation);
-      std::string result = request.database_bibles()->get_chapter ("phpunit", 1, 1);
+      std::string result = webserver_request.database_bibles()->get_chapter ("phpunit", 1, 1);
       std::string newusfm = filter::strings::replace ("two two two two two two", "two two two two", usfm);
       EXPECT_EQ (newusfm, result);
       refresh_sandbox (false);
     }
     {
-      test_store_bible_data_safely_setup (&request, usfm);
+      test_store_bible_data_safely_setup (webserver_request, usfm);
       const std::string data = "\\v 2 Verse two.\n";
       std::string explanation;
-      std::string stored = filter::usfm::safely_store_verse (&request, "phpunit", 1, 1, 2, data, explanation, true);
+      std::string stored = filter::usfm::safely_store_verse (webserver_request, "phpunit", 1, 1, 2, data, explanation, true);
       EXPECT_EQ (std::string(), stored);
       EXPECT_EQ (std::string(), explanation);
-      std::string result = request.database_bibles()->get_chapter ("phpunit", 1, 1);
+      std::string result = webserver_request.database_bibles()->get_chapter ("phpunit", 1, 1);
       std::string newusfm = filter::strings::replace ("two two two two two two", "two", usfm);
       EXPECT_EQ (newusfm, result);
       refresh_sandbox (false);
@@ -241,25 +241,25 @@ TEST (bibles, basic)
   // Safely store verse 3 with a change.
   {
     {
-      test_store_bible_data_safely_setup (&request, usfm);
+      test_store_bible_data_safely_setup (webserver_request, usfm);
       const std::string data = "\\v 3 Verse three.\n";
       std::string explanation;
-      std::string stored = filter::usfm::safely_store_verse (&request, "phpunit", 1, 1, 3, data, explanation, false);
+      std::string stored = filter::usfm::safely_store_verse (webserver_request, "phpunit", 1, 1, 3, data, explanation, false);
       EXPECT_EQ (std::string(), stored);
       EXPECT_EQ (std::string(), explanation);
-      std::string result = request.database_bibles()->get_chapter ("phpunit", 1, 1);
+      std::string result = webserver_request.database_bibles()->get_chapter ("phpunit", 1, 1);
       std::string newusfm = filter::strings::replace ("Verse 3", "Verse three", usfm);
       EXPECT_EQ (newusfm, result);
       refresh_sandbox (false);
     }
     {
-      test_store_bible_data_safely_setup (&request, usfm);
+      test_store_bible_data_safely_setup (webserver_request, usfm);
       const std::string data = "\\p\n\\v 3 Verse three.\n";
       std::string explanation;
-      std::string stored = filter::usfm::safely_store_verse (&request, "phpunit", 1, 1, 3, data, explanation, true);
+      std::string stored = filter::usfm::safely_store_verse (webserver_request, "phpunit", 1, 1, 3, data, explanation, true);
       EXPECT_EQ (std::string(), stored);
       EXPECT_EQ (std::string(), explanation);
-      std::string result = request.database_bibles()->get_chapter ("phpunit", 1, 1);
+      std::string result = webserver_request.database_bibles()->get_chapter ("phpunit", 1, 1);
       std::string newusfm = filter::strings::replace ("Verse 3", "Verse three", usfm);
       EXPECT_EQ (newusfm, result);
       refresh_sandbox (false);
@@ -269,24 +269,24 @@ TEST (bibles, basic)
   // Safely store the USFM for verse two to verse one: Fails.
   {
     {
-      test_store_bible_data_safely_setup (&request, usfm);
+      test_store_bible_data_safely_setup (webserver_request, usfm);
       const std::string data = "\\v 2 Verse 2.\n";
       std::string explanation;
-      std::string stored = filter::usfm::safely_store_verse (&request, "phpunit", 1, 1, 1, data, explanation, false);
+      std::string stored = filter::usfm::safely_store_verse (webserver_request, "phpunit", 1, 1, 1, data, explanation, false);
       EXPECT_EQ ("Verse mismatch", stored);
       EXPECT_EQ ("The USFM contains verse(s) 2 while it wants to save to verse 1", explanation);
-      std::string result = request.database_bibles()->get_chapter ("phpunit", 1, 1);
+      std::string result = webserver_request.database_bibles()->get_chapter ("phpunit", 1, 1);
       EXPECT_EQ (usfm, result);
       refresh_sandbox (false);
     }
     {
-      test_store_bible_data_safely_setup (&request, usfm);
+      test_store_bible_data_safely_setup (webserver_request, usfm);
       const std::string data = "\\v 2 Verse 2.\n";
       std::string explanation;
-      std::string stored = filter::usfm::safely_store_verse (&request, "phpunit", 1, 1, 1, data, explanation, true);
+      std::string stored = filter::usfm::safely_store_verse (webserver_request, "phpunit", 1, 1, 1, data, explanation, true);
       EXPECT_EQ ("Verse mismatch", stored);
       EXPECT_EQ ("The USFM contains verse(s) 2 while it wants to save to verse 1", explanation);
-      std::string result = request.database_bibles()->get_chapter ("phpunit", 1, 1);
+      std::string result = webserver_request.database_bibles()->get_chapter ("phpunit", 1, 1);
       EXPECT_EQ (usfm, result);
       refresh_sandbox (false);
     }
@@ -299,51 +299,51 @@ TEST (bibles, basic)
     bool quill;
     {
       quill = false;
-      test_store_bible_data_safely_setup (&request, usfm);
+      test_store_bible_data_safely_setup (webserver_request, usfm);
       const std::string data = "\\v 2 Verse two two two two two two two two two.\n\\p\n";
       std::string explanation;
-      std::string stored = filter::usfm::safely_store_verse (&request, "phpunit", 1, 1, 2, data, explanation, quill);
+      std::string stored = filter::usfm::safely_store_verse (webserver_request, "phpunit", 1, 1, 2, data, explanation, quill);
       EXPECT_EQ (true, stored.empty());
       EXPECT_EQ (true, explanation.empty());
-      std::string result = request.database_bibles()->get_chapter ("phpunit", 1, 1);
+      std::string result = webserver_request.database_bibles()->get_chapter ("phpunit", 1, 1);
       std::string standard = filter::strings::replace("two two two two two two", "two two two two two two two two two", usfm);
       EXPECT_EQ (standard, result);
       refresh_sandbox (false);
     }
     {
       quill = true;
-      test_store_bible_data_safely_setup (&request, usfm);
+      test_store_bible_data_safely_setup (webserver_request, usfm);
       const std::string data = "\\v 2 Verse two two two two two two two two two.\n";
       std::string explanation;
-      std::string stored = filter::usfm::safely_store_verse (&request, "phpunit", 1, 1, 2, data, explanation, quill);
+      std::string stored = filter::usfm::safely_store_verse (webserver_request, "phpunit", 1, 1, 2, data, explanation, quill);
       EXPECT_EQ (true, stored.empty());
       EXPECT_EQ (true, explanation.empty());
-      std::string result = request.database_bibles()->get_chapter ("phpunit", 1, 1);
+      std::string result = webserver_request.database_bibles()->get_chapter ("phpunit", 1, 1);
       std::string standard = filter::strings::replace("two two two two two two", "two two two two two two two two two", usfm);
       EXPECT_EQ (standard, result);
       refresh_sandbox (false);
     }
     {
       quill = false;
-      test_store_bible_data_safely_setup (&request, usfm);
+      test_store_bible_data_safely_setup (webserver_request, usfm);
       const std::string data = "\\v 2 two";
       std::string explanation;
-      std::string stored = filter::usfm::safely_store_verse (&request, "phpunit", 1, 1, 2, data, explanation, quill);
+      std::string stored = filter::usfm::safely_store_verse (webserver_request, "phpunit", 1, 1, 2, data, explanation, quill);
       EXPECT_EQ ("Text length differs too much", stored);
       EXPECT_EQ ("The text was not saved for safety reasons. The length differs 78% from the existing text. Make fewer changes at a time and wait till the editor has saved the text. Or relax the restriction in the editing settings. See menu Settings - Preferences.", explanation);
-      std::string result = request.database_bibles()->get_chapter ("phpunit", 1, 1);
+      std::string result = webserver_request.database_bibles()->get_chapter ("phpunit", 1, 1);
       EXPECT_EQ (usfm, result);
       refresh_sandbox (false);
     }
     {
       quill = true;
-      test_store_bible_data_safely_setup (&request, usfm);
+      test_store_bible_data_safely_setup (webserver_request, usfm);
       const std::string data = "\\v 2 two";
       std::string explanation;
-      std::string stored = filter::usfm::safely_store_verse (&request, "phpunit", 1, 1, 2, data, explanation, quill);
+      std::string stored = filter::usfm::safely_store_verse (webserver_request, "phpunit", 1, 1, 2, data, explanation, quill);
       EXPECT_EQ ("Text length differs too much", stored);
       EXPECT_EQ ("The text was not saved for safety reasons. The length differs 77% from the existing text. Make fewer changes at a time and wait till the editor has saved the text. Or relax the restriction in the editing settings. See menu Settings - Preferences.", explanation);
-      std::string result = request.database_bibles()->get_chapter ("phpunit", 1, 1);
+      std::string result = webserver_request.database_bibles()->get_chapter ("phpunit", 1, 1);
       EXPECT_EQ (usfm, result);
       refresh_sandbox (false);
     }
@@ -352,26 +352,26 @@ TEST (bibles, basic)
   // Safely store a verse with too much of content difference: Fails.
   {
     {
-      test_store_bible_data_safely_setup (&request, usfm);
-      request.database_config_user ()->setEditingAllowedDifferenceVerse (40);
+      test_store_bible_data_safely_setup (webserver_request, usfm);
+      webserver_request.database_config_user ()->setEditingAllowedDifferenceVerse (40);
       const std::string data = "\\v 2 vERSE TWO TWO two two two two.\n";
       std::string explanation;
-      std::string stored = filter::usfm::safely_store_verse (&request, "phpunit", 1, 1, 2, data, explanation, false);
+      std::string stored = filter::usfm::safely_store_verse (webserver_request, "phpunit", 1, 1, 2, data, explanation, false);
       EXPECT_EQ ("Text content differs too much", stored);
       EXPECT_EQ ("The text was not saved for safety reasons. The new text is 49% similar to the existing text. Make fewer changes at a time and wait till the editor has saved the text. Or relax the restriction in the editing settings. See menu Settings - Preferences.", explanation);
-      std::string result = request.database_bibles()->get_chapter ("phpunit", 1, 1);
+      std::string result = webserver_request.database_bibles()->get_chapter ("phpunit", 1, 1);
       EXPECT_EQ (usfm, result);
       refresh_sandbox (false);
     }
     {
-      test_store_bible_data_safely_setup (&request, usfm);
-      request.database_config_user ()->setEditingAllowedDifferenceVerse (40);
+      test_store_bible_data_safely_setup (webserver_request, usfm);
+      webserver_request.database_config_user ()->setEditingAllowedDifferenceVerse (40);
       const std::string data = "\\v 2 vERSE TWO TWO two two two two.\n";
       std::string explanation;
-      std::string stored = filter::usfm::safely_store_verse (&request, "phpunit", 1, 1, 2, data, explanation, true);
+      std::string stored = filter::usfm::safely_store_verse (webserver_request, "phpunit", 1, 1, 2, data, explanation, true);
       EXPECT_EQ ("Text content differs too much", stored);
       EXPECT_EQ ("The text was not saved for safety reasons. The new text is 52% similar to the existing text. Make fewer changes at a time and wait till the editor has saved the text. Or relax the restriction in the editing settings. See menu Settings - Preferences.", explanation);
-      std::string result = request.database_bibles()->get_chapter ("phpunit", 1, 1);
+      std::string result = webserver_request.database_bibles()->get_chapter ("phpunit", 1, 1);
       EXPECT_EQ (usfm, result);
       refresh_sandbox (false);
     }
@@ -380,26 +380,26 @@ TEST (bibles, basic)
   // Safely store USFM without any verse to verse 2: Fails.
   {
     {
-      test_store_bible_data_safely_setup (&request, usfm);
-      request.database_config_user ()->setEditingAllowedDifferenceVerse (40);
+      test_store_bible_data_safely_setup (webserver_request, usfm);
+      webserver_request.database_config_user ()->setEditingAllowedDifferenceVerse (40);
       const std::string data = "\\p Verse 2.\n";
       std::string explanation;
-      std::string stored = filter::usfm::safely_store_verse (&request, "phpunit", 1, 1, 2, data, explanation, false);
+      std::string stored = filter::usfm::safely_store_verse (webserver_request, "phpunit", 1, 1, 2, data, explanation, false);
       EXPECT_EQ ("Missing verse number", stored);
       EXPECT_EQ ("The USFM contains no verse information", explanation);
-      std::string result = request.database_bibles()->get_chapter ("phpunit", 1, 1);
+      std::string result = webserver_request.database_bibles()->get_chapter ("phpunit", 1, 1);
       EXPECT_EQ (usfm, result);
       refresh_sandbox (false);
     }
     {
-      test_store_bible_data_safely_setup (&request, usfm);
-      request.database_config_user ()->setEditingAllowedDifferenceVerse (40);
+      test_store_bible_data_safely_setup (webserver_request, usfm);
+      webserver_request.database_config_user ()->setEditingAllowedDifferenceVerse (40);
       const std::string data = "\\p Verse 2.\n";
       std::string explanation;
-      std::string stored = filter::usfm::safely_store_verse (&request, "phpunit", 1, 1, 2, data, explanation, true);
+      std::string stored = filter::usfm::safely_store_verse (webserver_request, "phpunit", 1, 1, 2, data, explanation, true);
       EXPECT_EQ ("Missing verse number", stored);
       EXPECT_EQ ("The USFM contains no verse information", explanation);
-      std::string result = request.database_bibles()->get_chapter ("phpunit", 1, 1);
+      std::string result = webserver_request.database_bibles()->get_chapter ("phpunit", 1, 1);
       EXPECT_EQ (usfm, result);
       refresh_sandbox (false);
     }
@@ -408,26 +408,26 @@ TEST (bibles, basic)
   // Safely store USFM with two verses: Fails.
   {
     {
-      test_store_bible_data_safely_setup (&request, usfm);
-      request.database_config_user ()->setEditingAllowedDifferenceVerse (40);
+      test_store_bible_data_safely_setup (webserver_request, usfm);
+      webserver_request.database_config_user ()->setEditingAllowedDifferenceVerse (40);
       const std::string data = "\\v 2 Verse 2.\n\\v 3 3";
       std::string explanation;
-      std::string stored = filter::usfm::safely_store_verse (&request, "phpunit", 1, 1, 2, data, explanation, false);
+      std::string stored = filter::usfm::safely_store_verse (webserver_request, "phpunit", 1, 1, 2, data, explanation, false);
       EXPECT_EQ ("Cannot overwrite another verse", stored);
       EXPECT_EQ ("The USFM contains verse(s) 0 2 3 which would overwrite a fragment that contains verse(s) 0 2", explanation);
-      std::string result = request.database_bibles()->get_chapter ("phpunit", 1, 1);
+      std::string result = webserver_request.database_bibles()->get_chapter ("phpunit", 1, 1);
       EXPECT_EQ (usfm, result);
       refresh_sandbox (false);
     }
     {
-      test_store_bible_data_safely_setup (&request, usfm);
-      request.database_config_user ()->setEditingAllowedDifferenceVerse (40);
+      test_store_bible_data_safely_setup (webserver_request, usfm);
+      webserver_request.database_config_user ()->setEditingAllowedDifferenceVerse (40);
       const std::string data = "\\v 2 Verse 2.\n\\v 3 3";
       std::string explanation;
-      std::string stored = filter::usfm::safely_store_verse (&request, "phpunit", 1, 1, 2, data, explanation, true);
+      std::string stored = filter::usfm::safely_store_verse (webserver_request, "phpunit", 1, 1, 2, data, explanation, true);
       EXPECT_EQ ("Cannot overwrite another verse", stored);
       EXPECT_EQ ("The USFM contains verse(s) 0 2 3 which would overwrite a fragment that contains verse(s) 0 2", explanation);
-      std::string result = request.database_bibles()->get_chapter ("phpunit", 1, 1);
+      std::string result = webserver_request.database_bibles()->get_chapter ("phpunit", 1, 1);
       EXPECT_EQ (usfm, result);
       refresh_sandbox (false);
     }
@@ -445,23 +445,23 @@ TEST (bibles, basic)
   // Safely store combined verse without any change.
   {
     {
-      test_store_bible_data_safely_setup (&request, usfm);
+      test_store_bible_data_safely_setup (webserver_request, usfm);
       const std::string data = "\\v 2-3 Verse 2 and 3.\n\\p\n";
       std::string explanation;
-      std::string stored = filter::usfm::safely_store_verse (&request, "phpunit", 1, 1, 2, data, explanation, false);
+      std::string stored = filter::usfm::safely_store_verse (webserver_request, "phpunit", 1, 1, 2, data, explanation, false);
       EXPECT_EQ ("", stored);
       EXPECT_EQ ("", explanation);
-      std::string result = request.database_bibles()->get_chapter ("phpunit", 1, 1);
+      std::string result = webserver_request.database_bibles()->get_chapter ("phpunit", 1, 1);
       EXPECT_EQ (usfm, result);
     }
     {
-      test_store_bible_data_safely_setup (&request, usfm);
+      test_store_bible_data_safely_setup (webserver_request, usfm);
       const std::string data = "\\v 2-3 Verse 2 and 3.\n";
       std::string explanation;
-      std::string stored = filter::usfm::safely_store_verse (&request, "phpunit", 1, 1, 2, data, explanation, true);
+      std::string stored = filter::usfm::safely_store_verse (webserver_request, "phpunit", 1, 1, 2, data, explanation, true);
       EXPECT_EQ ("", stored);
       EXPECT_EQ ("", explanation);
-      std::string result = request.database_bibles()->get_chapter ("phpunit", 1, 1);
+      std::string result = webserver_request.database_bibles()->get_chapter ("phpunit", 1, 1);
       EXPECT_EQ (usfm, result);
     }
   }
@@ -469,25 +469,25 @@ TEST (bibles, basic)
   // Safely store combined verse before the \p with a change.
   {
     {
-      test_store_bible_data_safely_setup (&request, usfm);
+      test_store_bible_data_safely_setup (webserver_request, usfm);
       const std::string data = "\\v 2-3 Verse 2 andx 3.\n\\p\n";
       std::string explanation;
-      std::string stored = filter::usfm::safely_store_verse (&request, "phpunit", 1, 1, 3, data, explanation, false);
+      std::string stored = filter::usfm::safely_store_verse (webserver_request, "phpunit", 1, 1, 3, data, explanation, false);
       EXPECT_EQ ("", stored);
       EXPECT_EQ ("", explanation);
-      std::string result = request.database_bibles()->get_chapter ("phpunit", 1, 1);
+      std::string result = webserver_request.database_bibles()->get_chapter ("phpunit", 1, 1);
       std::string newusfm = filter::strings::replace ("2 and 3", "2 andx 3", usfm);
       EXPECT_EQ (newusfm, result);
       refresh_sandbox (false);
     }
     {
-      test_store_bible_data_safely_setup (&request, usfm);
+      test_store_bible_data_safely_setup (webserver_request, usfm);
       const std::string data = "\\v 2-3 Verse 2 andx 3.\n";
       std::string explanation;
-      std::string stored = filter::usfm::safely_store_verse (&request, "phpunit", 1, 1, 3, data, explanation, true);
+      std::string stored = filter::usfm::safely_store_verse (webserver_request, "phpunit", 1, 1, 3, data, explanation, true);
       EXPECT_EQ ("", stored);
       EXPECT_EQ ("", explanation);
-      std::string result = request.database_bibles()->get_chapter ("phpunit", 1, 1);
+      std::string result = webserver_request.database_bibles()->get_chapter ("phpunit", 1, 1);
       std::string newusfm = filter::strings::replace ("2 and 3", "2 andx 3", usfm);
       EXPECT_EQ (newusfm, result);
       refresh_sandbox (false);
@@ -497,25 +497,25 @@ TEST (bibles, basic)
   // Safely store combined verse after the \p with a change.
   {
     {
-      test_store_bible_data_safely_setup (&request, usfm);
+      test_store_bible_data_safely_setup (webserver_request, usfm);
       const std::string data = "\\v 4-5 Verse 4 andx 5.\n";
       std::string explanation;
-      std::string stored = filter::usfm::safely_store_verse (&request, "phpunit", 1, 1, 4, data, explanation, false);
+      std::string stored = filter::usfm::safely_store_verse (webserver_request, "phpunit", 1, 1, 4, data, explanation, false);
       EXPECT_EQ ("", stored);
       EXPECT_EQ ("", explanation);
-      std::string result = request.database_bibles()->get_chapter ("phpunit", 1, 1);
+      std::string result = webserver_request.database_bibles()->get_chapter ("phpunit", 1, 1);
       std::string newusfm = filter::strings::replace ("4 and 5", "4 andx 5", usfm);
       EXPECT_EQ (newusfm, result);
       refresh_sandbox (false);
     }
     {
-      test_store_bible_data_safely_setup (&request, usfm);
+      test_store_bible_data_safely_setup (webserver_request, usfm);
       const std::string data = "\\p\n\\v 4-5 Verse 4 andx 5.\n";
       std::string explanation;
-      std::string stored = filter::usfm::safely_store_verse (&request, "phpunit", 1, 1, 4, data, explanation, true);
+      std::string stored = filter::usfm::safely_store_verse (webserver_request, "phpunit", 1, 1, 4, data, explanation, true);
       EXPECT_EQ ("", stored);
       EXPECT_EQ ("", explanation);
-      std::string result = request.database_bibles()->get_chapter ("phpunit", 1, 1);
+      std::string result = webserver_request.database_bibles()->get_chapter ("phpunit", 1, 1);
       std::string newusfm = filter::strings::replace ("4 and 5", "4 andx 5", usfm);
       EXPECT_EQ (newusfm, result);
       refresh_sandbox (false);
@@ -525,24 +525,24 @@ TEST (bibles, basic)
   // Safely store combined verse with a change and wrong verses: Fails.
   {
     {
-      test_store_bible_data_safely_setup (&request, usfm);
+      test_store_bible_data_safely_setup (webserver_request, usfm);
       const std::string data = "\\v 2-4 Verse 2 andx 3.\n";
       std::string explanation;
-      std::string stored = filter::usfm::safely_store_verse (&request, "phpunit", 1, 1, 3, data, explanation, false);
+      std::string stored = filter::usfm::safely_store_verse (webserver_request, "phpunit", 1, 1, 3, data, explanation, false);
       EXPECT_EQ ("Cannot overwrite another verse", stored);
       EXPECT_EQ ("The USFM contains verse(s) 0 2 3 4 which would overwrite a fragment that contains verse(s) 0 2 3", explanation);
-      std::string result = request.database_bibles()->get_chapter ("phpunit", 1, 1);
+      std::string result = webserver_request.database_bibles()->get_chapter ("phpunit", 1, 1);
       EXPECT_EQ (usfm, result);
       refresh_sandbox (false);
     }
     {
-      test_store_bible_data_safely_setup (&request, usfm);
+      test_store_bible_data_safely_setup (webserver_request, usfm);
       const std::string data = "\\v 2-4 Verse 2 andx 3.\n";
       std::string explanation;
-      std::string stored = filter::usfm::safely_store_verse (&request, "phpunit", 1, 1, 3, data, explanation, true);
+      std::string stored = filter::usfm::safely_store_verse (webserver_request, "phpunit", 1, 1, 3, data, explanation, true);
       EXPECT_EQ ("Cannot overwrite another verse", stored);
       EXPECT_EQ ("The USFM contains verse(s) 0 2 3 4 which would overwrite a fragment that contains verse(s) 0 2 3", explanation);
-      std::string result = request.database_bibles()->get_chapter ("phpunit", 1, 1);
+      std::string result = webserver_request.database_bibles()->get_chapter ("phpunit", 1, 1);
       EXPECT_EQ (usfm, result);
       refresh_sandbox (false);
     }

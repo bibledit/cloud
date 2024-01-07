@@ -95,7 +95,7 @@ void developer_logic_import_changes_save (std::string bible, int book, int chapt
   
   Webserver_Request webserver_request {};
   std::string explanation = "import changes";
-  const std::string message = filter::usfm::safely_store_verse (&webserver_request, bible, book, chapter, verse, text, explanation, false);
+  const std::string message = filter::usfm::safely_store_verse (webserver_request, bible, book, chapter, verse, text, explanation, false);
   if (!message.empty()) Database_Logs::log (message);
   text.clear ();
 }

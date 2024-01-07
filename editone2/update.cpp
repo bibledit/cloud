@@ -212,7 +212,7 @@ string editone2_update (Webserver_Request& webserver_request)
   string explanation;
   string message;
   if (good2go && bible_write_access && text_was_edited) {
-    message = filter::usfm::safely_store_verse (std::addressof(webserver_request), bible, book, chapter, verse, edited_verse_usfm, explanation, true);
+    message = filter::usfm::safely_store_verse (webserver_request, bible, book, chapter, verse, edited_verse_usfm, explanation, true);
     bible_logic::unsafe_save_mail (message, explanation, username, edited_verse_usfm, book, chapter);
   }
 

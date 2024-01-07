@@ -41,7 +41,7 @@ string edit2_logic_volatile_key (string bible, int book, int chapter, string edi
 
 void storeLoadedUsfm2 (Webserver_Request& webserver_request, string bible, int book, int chapter, string editor, [[maybe_unused]] const char * message)
 {
-  int userid = filter::strings::user_identifier (std::addressof(webserver_request));
+  int userid = filter::strings::user_identifier (webserver_request);
   
   string key = edit2_logic_volatile_key (bible, book, chapter, editor);
   
@@ -53,7 +53,7 @@ void storeLoadedUsfm2 (Webserver_Request& webserver_request, string bible, int b
 
 string getLoadedUsfm2 (Webserver_Request& webserver_request, string bible, int book, int chapter, string editor)
 {
-  int userid = filter::strings::user_identifier (std::addressof(webserver_request));
+  int userid = filter::strings::user_identifier (webserver_request);
   
   string key = edit2_logic_volatile_key (bible, book, chapter, editor);
   

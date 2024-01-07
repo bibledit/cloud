@@ -636,12 +636,11 @@ string get_closing_usfm (string text, bool embedded)
 // It returns an empty string if the difference is below the limit set for the Bible.
 // It returns a short message specifying the difference if it exceeds that limit.
 // It fills $explanation with a longer message in case saving is not safe.
-string save_is_safe (void * webserver_request, string oldtext, string newtext, bool chapter, string & explanation)
+string save_is_safe (Webserver_Request& webserver_request,
+                     string oldtext, string newtext, bool chapter, string & explanation)
 {
   // Two texts are equal: safe.
   if (newtext == oldtext) return string();
-
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
 
   const char * explanation1 = "The text was not saved for safety reasons.";
   const char * explanation2 = "Make fewer changes at a time and wait till the editor has saved the text. Or relax the restriction in the editing settings. See menu Settings - Preferences.";
@@ -649,9 +648,9 @@ string save_is_safe (void * webserver_request, string oldtext, string newtext, b
   // Allowed percentage difference.
   int allowed_percentage = 0;
   if (chapter)
-    allowed_percentage = request->database_config_user ()->getEditingAllowedDifferenceChapter ();
+    allowed_percentage = webserver_request.database_config_user ()->getEditingAllowedDifferenceChapter ();
   else
-    allowed_percentage = request->database_config_user ()->getEditingAllowedDifferenceVerse ();
+    allowed_percentage = webserver_request.database_config_user ()->getEditingAllowedDifferenceVerse ();
 
   // When the verse editor has an empty verse, it should allow for 100% change.
   // Same for the chapter editor, if it has empty verses, allow for a 100% change.
@@ -718,13 +717,11 @@ string save_is_safe (void * webserver_request, string oldtext, string newtext, b
 // It also is useful in cases where the session is deleted from the server,
 // where the text in the editors would get corrupted.
 // It also is useful in view of an unstable connection between browser and server, to prevent data corruption.
-string safely_store_chapter (void * webserver_request,
-                                  string bible, int book, int chapter, string usfm, string & explanation)
+string safely_store_chapter (Webserver_Request& webserver_request,
+                             string bible, int book, int chapter, string usfm, string & explanation)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  
   // Existing chapter contents.
-  string existing = request->database_bibles()->get_chapter (bible, book, chapter);
+  string existing = webserver_request.database_bibles()->get_chapter (bible, book, chapter);
   
   // Bail out if the existing chapter equals the USFM to be saved.
   if (usfm == existing) return "";
@@ -734,7 +731,7 @@ string safely_store_chapter (void * webserver_request,
   if (!message.empty ()) return message;
 
   // Record the change in the journal.
-  string user = request->session_logic ()->currentUser ();
+  string user = webserver_request.session_logic ()->currentUser ();
   bible_logic::log_change (bible, book, chapter, usfm, user, translate ("Saving chapter"), false);
   
   // Safety checks have passed: Save chapter.
@@ -752,12 +749,10 @@ string safely_store_chapter (void * webserver_request,
  // where the text in the editors would get corrupted.
 // It also is useful in view of an unstable connection between browser and server, to prevent data corruption.
 // It handles combined verses.
-string safely_store_verse (void * webserver_request,
-                                string bible, int book, int chapter, int verse, string usfm,
-                                string & explanation, bool quill)
+string safely_store_verse (Webserver_Request& webserver_request,
+                           string bible, int book, int chapter, int verse, string usfm,
+                           string & explanation, bool quill)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  
   usfm = filter::strings::trim (usfm);
 
   // Check that the USFM to be saved is for the correct verse.
@@ -779,7 +774,7 @@ string safely_store_verse (void * webserver_request,
   }
 
   // Get the existing chapter USFM.
-  string chapter_usfm = request->database_bibles()->get_chapter (bible, book, chapter);
+  string chapter_usfm = webserver_request.database_bibles()->get_chapter (bible, book, chapter);
   
   // Get the existing USFM fragment for the verse to save.
   string existing_verse_usfm;
@@ -829,7 +824,7 @@ string safely_store_verse (void * webserver_request,
   chapter_usfm.insert (pos, usfm);
 
   // Record the change in the journal.
-  string user = request->session_logic ()->currentUser ();
+  string user = webserver_request.session_logic ()->currentUser ();
   bible_logic::log_change (bible, book, chapter, chapter_usfm, user, translate ("Saving verse"), false);
   
   // Safety checks have passed: Save chapter.

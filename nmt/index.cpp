@@ -53,7 +53,7 @@ string nmt_index (Webserver_Request& webserver_request)
 
   Assets_View view;
 
-  int userid = filter::strings::user_identifier (std::addressof(webserver_request));
+  int userid = filter::strings::user_identifier (webserver_request);
   
   string referencebible = Database_Volatile::getValue (userid, "nmt-ref-bible");
   string translatingbible = Database_Volatile::getValue (userid, "nmt-trans-bible");

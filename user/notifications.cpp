@@ -62,7 +62,7 @@ bool user_notifications_acl (Webserver_Request& webserver_request)
 
 string user_notifications (Webserver_Request& webserver_request)
 {
-  Database_Config_User database_config_user = Database_Config_User (std::addressof(webserver_request));
+  Database_Config_User database_config_user (webserver_request);
   Database_NoteAssignment database_noteassignment;
 
   string page;

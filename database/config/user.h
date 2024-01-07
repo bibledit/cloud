@@ -22,10 +22,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/libraries.h>
 #include <filter/passage.h>
 
+class Webserver_Request;
+
 class Database_Config_User
 {
 public:
-  Database_Config_User (void * webserver_request_in);
+  Database_Config_User (Webserver_Request& webserver_request);
   void trim ();
   void remove (std::string username);
   void clear_cache ();
@@ -245,7 +247,7 @@ public:
   std::vector <std::string> getChangeNotificationsBiblesForUser (const std::string & user);
   void setChangeNotificationsBibles (const std::vector <std::string>& values);
 private:
-  void * webserver_request {nullptr};
+  Webserver_Request& m_webserver_request;
   std::string file (std::string user);
   std::string file (std::string user, const char * key);
   std::string mapkey (std::string user, const char * key);

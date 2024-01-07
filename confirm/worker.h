@@ -21,12 +21,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <config/libraries.h>
 
+class Webserver_Request;
+
 #ifdef HAVE_CLOUD
 
 class Confirm_Worker
 {
 public:
-  Confirm_Worker (void * webserver_request_in);
+  Confirm_Worker (Webserver_Request& webserver_request);
   void setup (std::string mailto, std::string username,
               std::string initial_subject, std::string initial_body,
               std::string query,
@@ -34,7 +36,7 @@ public:
   bool handleEmail (std::string from, std::string subject, std::string body);
   bool handleLink (std::string & email);
 private:
-  void * webserver_request {nullptr};
+  Webserver_Request& m_webserver_request;
   void informManagers (std::string email, std::string body);
 };
 

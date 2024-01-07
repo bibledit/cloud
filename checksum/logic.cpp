@@ -62,20 +62,18 @@ string checksum_logic::get (const vector <string>& data)
 
 
 // Returns a proper checksum for the USFM in the chapter.
-string checksum_logic::get_chapter (void * webserver_request, const string & bible, int book, int chapter)
+string checksum_logic::get_chapter (Webserver_Request& webserver_request, const string & bible, int book, int chapter)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  string usfm = request->database_bibles()->get_chapter (bible, book, chapter);
+  string usfm = webserver_request.database_bibles()->get_chapter (bible, book, chapter);
   string checksum = md5 (filter::strings::trim (usfm));
   return checksum;
 }
 
 
 // Returns a proper checksum for the USFM in the book.
-string checksum_logic::get_book (void * webserver_request, const string & bible, int book)
+string checksum_logic::get_book (Webserver_Request& webserver_request, const string & bible, int book)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  vector <int> chapters = request->database_bibles()->get_chapters (bible, book);
+  vector <int> chapters = webserver_request.database_bibles()->get_chapters (bible, book);
   vector <string> checksums;
   for (auto chapter : chapters) {
     checksums.push_back (get_chapter (webserver_request, bible, book, chapter));
@@ -87,10 +85,9 @@ string checksum_logic::get_book (void * webserver_request, const string & bible,
 
 
 // Returns a proper checksum for the USFM in the $bible.
-string checksum_logic::get_bible (void * webserver_request, const string & bible)
+string checksum_logic::get_bible (Webserver_Request& webserver_request, const string & bible)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  vector <int> books = request->database_bibles()->get_books (bible);
+  vector <int> books = webserver_request.database_bibles()->get_books (bible);
   vector <string> checksums;
   for (auto book : books) {
     checksums.push_back (get_book (webserver_request, bible, book));
@@ -102,7 +99,7 @@ string checksum_logic::get_bible (void * webserver_request, const string & bible
 
 
 // Returns a proper checksum for the USFM in the array of $bibles.
-string checksum_logic::get_bibles (void * webserver_request, const vector <string> & bibles)
+string checksum_logic::get_bibles (Webserver_Request& webserver_request, const vector <string> & bibles)
 {
   vector <string> checksums;
   for (const auto & bible : bibles) {

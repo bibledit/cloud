@@ -235,7 +235,7 @@ std::string session_signup ([[maybe_unused]] Webserver_Request& webserver_reques
       }
     }
     if (form_is_valid) {
-      Confirm_Worker confirm_worker = Confirm_Worker (std::addressof(webserver_request));
+      Confirm_Worker confirm_worker (webserver_request);
       const std::string initial_subject = translate("Signup verification");
       // Create the initial body of the email to send to the new user.
       pugi::xml_node node;

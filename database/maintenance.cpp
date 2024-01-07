@@ -121,7 +121,7 @@ void database_maintenance ()
   database_jobs.optimize ();
   
   
-  Database_Config_User database_config_user = Database_Config_User (&webserver_request);
+  Database_Config_User database_config_user (webserver_request);
   database_config_user.trim ();
   
   

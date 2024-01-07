@@ -30,30 +30,26 @@
 using namespace std;
 
 
-Consistency_Logic::Consistency_Logic (void * webserver_request_in, int id_in)
+Consistency_Logic::Consistency_Logic (Webserver_Request& webserver_request, int id) :
+m_webserver_request (webserver_request), m_id (id)
 {
-  webserver_request = webserver_request_in;
-  id = id_in;
 }
 
 
 string Consistency_Logic::response ()
 {
-  // The request.
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  
   // The resources to display in the Consistency tool.
-  vector <string> resources = request->database_config_user()->getConsistencyResources ();
-  string bible = access_bible::clamp (*request, request->database_config_user()->getBible ());
+  vector <string> resources = m_webserver_request.database_config_user()->getConsistencyResources ();
+  string bible = access_bible::clamp (m_webserver_request, m_webserver_request.database_config_user()->getBible ());
   resources.insert (resources.begin (), bible);
   
   // The passages entered in the Consistency tool.
-  string s_passages = Database_Volatile::getValue (id, "passages");
+  string s_passages = Database_Volatile::getValue (m_id, "passages");
   s_passages = filter::strings::trim (s_passages);
   vector <string> passages = filter::strings::explode (s_passages, '\n');
   
   // The translations entered in the Consistency tool.
-  string s_translations = Database_Volatile::getValue (id, "translations");
+  string s_translations = Database_Volatile::getValue (m_id, "translations");
   s_translations = filter::strings::trim (s_translations);
   vector <string> translations = filter::strings::explode (s_translations, '\n');
   
@@ -88,10 +84,10 @@ string Consistency_Logic::response ()
         // If there was no change, then the data can be fetched from the volatile database.
         bool redoPassage = false;
         string passageKey = filter::strings::convert_to_string (book) + "." + filter::strings::convert_to_string (chapter) + "." + verse;
-        int currentChapterId = request->database_bibles()->get_chapter_id (resources [0], book, chapter);
-        int storedChapterId = filter::strings::convert_to_int (Database_Volatile::getValue (id, passageKey + ".id"));
+        int currentChapterId = m_webserver_request.database_bibles()->get_chapter_id (resources [0], book, chapter);
+        int storedChapterId = filter::strings::convert_to_int (Database_Volatile::getValue (m_id, passageKey + ".id"));
         if (currentChapterId != storedChapterId) {
-          Database_Volatile::setValue (id, passageKey + ".id", filter::strings::convert_to_string (currentChapterId));
+          Database_Volatile::setValue (m_id, passageKey + ".id", filter::strings::convert_to_string (currentChapterId));
           redoPassage = true;
         }
         
@@ -111,9 +107,9 @@ string Consistency_Logic::response ()
               text.insert (0, R"(<div style="background-color: yellow;">)");
               text.append ("</div>");
             }
-            Database_Volatile::setValue (id, passageKey + "." + resource, text);
+            Database_Volatile::setValue (m_id, passageKey + "." + resource, text);
           } else {
-            text = Database_Volatile::getValue (id, passageKey + "." + resource);
+            text = Database_Volatile::getValue (m_id, passageKey + "." + resource);
           }
           
           // Formatting.
@@ -140,7 +136,7 @@ string Consistency_Logic::response ()
 
 string Consistency_Logic::verseText (string resource, int book, int chapter, int verse)
 {
-  return resource_logic_get_html (webserver_request, resource, book, chapter, verse, false);
+  return resource_logic_get_html (std::addressof(m_webserver_request), resource, book, chapter, verse, false);
 }
 
 

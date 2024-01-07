@@ -45,7 +45,7 @@ string consistency_input (Webserver_Request& webserver_request)
   const string translations = webserver_request.post ["translations"];
   Database_Volatile::setValue (id, "passages", passages);
   Database_Volatile::setValue (id, "translations", translations);
-  Consistency_Logic consistency_logic (std::addressof(webserver_request), id);
+  Consistency_Logic consistency_logic (webserver_request, id);
   const string response = consistency_logic.response ();
   Database_Volatile::setValue (id, "response", response);
   return response;

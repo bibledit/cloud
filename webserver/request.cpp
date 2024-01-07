@@ -58,7 +58,7 @@ Session_Logic * Webserver_Request::session_logic ()
 Database_Config_User * Webserver_Request::database_config_user ()
 {
   // Single live object during the entire web request.
-  if (!database_config_user_instance) database_config_user_instance = new Database_Config_User (this);
+  if (!database_config_user_instance) database_config_user_instance = new Database_Config_User (*this);
   return database_config_user_instance;
 }
 

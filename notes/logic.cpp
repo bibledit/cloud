@@ -327,7 +327,7 @@ void Notes_Logic::handlerAssignNote (int identifier, const string& user)
   // Take no action in client mode.
   if (client_logic_client_enabled ()) return;
   
-  Database_Config_User database_config_user (std::addressof(m_webserver_request));
+  Database_Config_User database_config_user (m_webserver_request);
   if (database_config_user.getUserAssignedConsultationNoteNotification (user)) {
     // Only email the user if the user was not yet assigned this note.
     Database_Notes database_notes (m_webserver_request);

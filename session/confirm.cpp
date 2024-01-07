@@ -67,7 +67,7 @@ string session_confirm ([[maybe_unused]] Webserver_Request& webserver_request)
 
 #ifdef HAVE_CLOUD
 
-  Confirm_Worker confirm_worker = Confirm_Worker (std::addressof(webserver_request));
+  Confirm_Worker confirm_worker = (webserver_request);
   string email;
   bool is_valid_confirmation = confirm_worker.handleLink (email);
 

@@ -103,7 +103,7 @@ string user_account ([[maybe_unused]] Webserver_Request& webserver_request)
         view.set_variable ("current_password_invalid_message", translate("Current password is not valid"));
       }
       if (form_is_valid) {
-        Confirm_Worker confirm_worker = Confirm_Worker (std::addressof(webserver_request));
+        Confirm_Worker confirm_worker (webserver_request);
         string initial_subject = translate("Email address verification");
         string initial_body = translate("Somebody requested to change the email address that belongs to your account.");
         string query = webserver_request.database_users()->updateEmailQuery (username, newemail);

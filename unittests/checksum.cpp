@@ -59,50 +59,50 @@ TEST (checksum, basic)
   // Setup some data.
   refresh_sandbox (true);
   Database_State::create ();
-  Webserver_Request request;
-  request.database_bibles()->store_chapter ("phpunit1", 1, 2, "data1");
-  request.database_bibles()->store_chapter ("phpunit1", 1, 3, "data2");
-  request.database_bibles()->store_chapter ("phpunit1", 1, 4, "data3");
-  request.database_bibles()->store_chapter ("phpunit2", 2, 5, "data4");
+  Webserver_Request webserver_request;
+  webserver_request.database_bibles()->store_chapter ("phpunit1", 1, 2, "data1");
+  webserver_request.database_bibles()->store_chapter ("phpunit1", 1, 3, "data2");
+  webserver_request.database_bibles()->store_chapter ("phpunit1", 1, 4, "data3");
+  webserver_request.database_bibles()->store_chapter ("phpunit2", 2, 5, "data4");
 
   // GetChapter1
   {
-    const std::string checksum = checksum_logic::get_chapter (&request, "phpunit1", 1, 2);
+    const std::string checksum = checksum_logic::get_chapter (webserver_request, "phpunit1", 1, 2);
     EXPECT_EQ (md5 ("data1"), checksum);
   }
   // GetChapter2
   {
-    const std::string checksum = checksum_logic::get_chapter (&request, "phpunit2", 2, 6);
+    const std::string checksum = checksum_logic::get_chapter (webserver_request, "phpunit2", 2, 6);
     EXPECT_EQ (md5 (""), checksum);
   }
   // GetBook1
   {
-    const std::string checksum = checksum_logic::get_book (&request, "phpunit1", 1);
+    const std::string checksum = checksum_logic::get_book (webserver_request, "phpunit1", 1);
     EXPECT_EQ ("2ab6425924e6cd38b2474c543c5ea602", checksum);
   }
   // GetBook2
   {
-    const std::string checksum = checksum_logic::get_book (&request, "phpunit3", 1);
+    const std::string checksum = checksum_logic::get_book (webserver_request, "phpunit3", 1);
     EXPECT_EQ ("d41d8cd98f00b204e9800998ecf8427e", checksum);
   }
   // GetBible1
   {
-    const std::string checksum = checksum_logic::get_bible (&request, "phpunit1");
+    const std::string checksum = checksum_logic::get_bible (webserver_request, "phpunit1");
     EXPECT_EQ ("f9dc679a8712eb6f65b584e9688e9680", checksum);
   }
   // GetBible2
   {
-    const std::string checksum = checksum_logic::get_bible (&request, "phpunit2");
+    const std::string checksum = checksum_logic::get_bible (webserver_request, "phpunit2");
     EXPECT_EQ ("ee84a85bac14adb35e887c3d89bc80ab", checksum);
   }
   // GetBibles1
   {
-    const std::string checksum = checksum_logic::get_bibles (&request, {"phpunit1", "phpunit2"});
+    const std::string checksum = checksum_logic::get_bibles (webserver_request, {"phpunit1", "phpunit2"});
     EXPECT_EQ ("440b2008993816f0bc8c557b64fbdaf2", checksum);
   }
   // GetBibles2
   {
-    const std::string checksum = checksum_logic::get_bibles (&request, {"phpunit3", "phpunit4"});
+    const std::string checksum = checksum_logic::get_bibles (webserver_request, {"phpunit3", "phpunit4"});
     EXPECT_EQ ("020eb29b524d7ba672d9d48bc72db455", checksum);
   }
 }

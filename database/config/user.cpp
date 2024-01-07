@@ -34,9 +34,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 using namespace std;
 
 
-Database_Config_User::Database_Config_User (void * webserver_request_in)
+Database_Config_User::Database_Config_User (Webserver_Request& webserver_request):
+m_webserver_request (webserver_request)
 {
-  webserver_request = webserver_request_in;
 }
 
 
@@ -70,8 +70,7 @@ string Database_Config_User::mapkey (string user, const char * key)
 
 string Database_Config_User::getValue (const char * key, const char * default_value)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  string user = request->session_logic ()->currentUser ();
+  string user = m_webserver_request.session_logic ()->currentUser ();
   return getValueForUser (user, key, default_value);
 }
 
@@ -125,8 +124,7 @@ int Database_Config_User::getIValueForUser (string user, const char * key, int d
 
 void Database_Config_User::setValue (const char * key, string value)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  string user = request->session_logic ()->currentUser ();
+  string user = m_webserver_request.session_logic ()->currentUser ();
   setValueForUser (user, key, value);
 }
 
@@ -163,8 +161,7 @@ void Database_Config_User::setBValueForUser (string user, const char * key, bool
 
 vector <string> Database_Config_User::getList (const char * key)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  string user = request->session_logic ()->currentUser ();
+  string user = m_webserver_request.session_logic ()->currentUser ();
   return getListForUser (user, key);
 }
 
@@ -193,8 +190,7 @@ vector <string> Database_Config_User::getListForUser (string user, const char * 
 
 void Database_Config_User::setList (const char * key, vector <string> values)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  string user = request->session_logic ()->currentUser ();
+  string user = m_webserver_request.session_logic ()->currentUser ();
   setListForUser (user, key, values);
 }
 
@@ -283,8 +279,7 @@ string Database_Config_User::getBible ()
 {
   string bible = getValue ("bible", "");
   // If the Bible does not exist, take the first one available.
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  Database_Bibles * database_bibles = request->database_bibles ();
+  Database_Bibles * database_bibles = m_webserver_request.database_bibles ();
   vector <string> bibles = database_bibles->get_bibles ();
   if (find (bibles.begin (), bibles.end (), bible) == bibles.end ()) {
     // There may not even be a first Bible: Create sample Bible.
@@ -550,8 +545,7 @@ bool Database_Config_User::defaultBibleChecksNotification ()
 #ifdef HAVE_CLIENT
   return false;
 #else
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  int level = request->session_logic ()->currentLevel ();
+  int level = m_webserver_request.session_logic ()->currentLevel ();
   return (level >= Filter_Roles::translator () && level <= Filter_Roles::manager ());
 #endif
 }
@@ -1176,8 +1170,7 @@ bool Database_Config_User::getBasicInterfaceModeDefault ()
   return true;
 #endif
   // The app running on a workspace or laptop have default to basic mode for a lower role.
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  int level = request->session_logic ()->currentLevel ();
+  int level = m_webserver_request.session_logic ()->currentLevel ();
   if (level <= Filter_Roles::manager ()) return true;
   // Higher role: default to advanced mode.
   return false;

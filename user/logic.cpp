@@ -125,7 +125,8 @@ void user_logic_delete_account (string user, string role, string email, string &
   // Remove any settings for the user.
   // The advantage of this is that when a user is removed, all settings are gone,
   // so when the same user would be created again, all settings will go back to their defaults.
-  Database_Config_User database_config_user (nullptr);
+  Webserver_Request webserver_request;
+  Database_Config_User database_config_user (webserver_request);
   database_config_user.remove (user);
   // Remove note assignments for clients for this user.
   Database_NoteAssignment database_noteassignment;

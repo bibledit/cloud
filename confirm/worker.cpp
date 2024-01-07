@@ -45,9 +45,9 @@ using namespace pugi;
 #ifdef HAVE_CLOUD
 
 
-Confirm_Worker::Confirm_Worker (void * webserver_request_in)
+Confirm_Worker::Confirm_Worker (Webserver_Request& webserver_request):
+m_webserver_request (webserver_request)
 {
-  webserver_request = webserver_request_in;
 }
 
 
@@ -75,8 +75,7 @@ void Confirm_Worker::setup (string mailto, string username,
   }
   node.text ().set (information.c_str());
   node = document.append_child ("p");
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  string siteUrl = config::logic::site_url (*request);
+  string siteUrl = config::logic::site_url (m_webserver_request);
   string confirmation_url = filter_url_build_http_query (siteUrl + session_confirm_url (), "id", to_string(confirmation_id));
   node.text ().set (confirmation_url.c_str());
   stringstream output;
@@ -100,8 +99,7 @@ bool Confirm_Worker::handleEmail ([[maybe_unused]]string from, string subject, s
   }
   // An active ID was found: Execute the associated database query.
   string query = database_confirm.get_query (id);
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  request->database_users()->execute (query);
+  m_webserver_request.database_users()->execute (query);
   // Send confirmation mail.
   string mailto = database_confirm.get_mail_to (id);
   subject = database_confirm.get_subject (id);
@@ -121,8 +119,7 @@ bool Confirm_Worker::handleEmail ([[maybe_unused]]string from, string subject, s
 bool Confirm_Worker::handleLink (string & email)
 {
   // Get the confirmation identifier from the link that was clicked.
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  string web_id = request->query["id"];
+  string web_id = m_webserver_request.query["id"];
   
   // If the identifier was not given, the link was not handled successfully.
   if (web_id.empty()) return false;
@@ -137,7 +134,7 @@ bool Confirm_Worker::handleLink (string & email)
  
   // An active ID was found: Execute the associated database query.
   string query = database_confirm.get_query (id);
-  request->database_users()->execute (query);
+  m_webserver_request.database_users()->execute (query);
 
   // Send confirmation mail.
   string mailto = database_confirm.get_mail_to (id);

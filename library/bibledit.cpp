@@ -418,7 +418,7 @@ const char * bibledit_get_reference_for_accordance ()
   // Get the active Bible and its versification system.
   Webserver_Request webserver_request;
   webserver_request.session_logic()->set_username(user);
-  Database_Config_User database_config_user (&webserver_request);
+  Database_Config_User database_config_user (webserver_request);
   string bible = webserver_request.database_config_user ()->getBible ();
   string versification = Database_Config_Bible::getVersificationSystem (bible);
 
@@ -474,7 +474,7 @@ void bibledit_put_reference_from_accordance (const char * reference)
   int verse = filter::strings::convert_to_int(chapter_verse[1]);
 
   // Get the active Bible and its versification system.
-  Database_Config_User database_config_user (&webserver_request);
+  Database_Config_User database_config_user (webserver_request);
   string bible = webserver_request.database_config_user ()->getBible ();
   string versification = Database_Config_Bible::getVersificationSystem (bible);
 

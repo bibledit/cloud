@@ -45,6 +45,7 @@ TEST (styles, css)
     Styles_Css styles_css = Styles_Css (&request, "testsheet");
     styles_css.generate ();
     string css = styles_css.css ();
+    //filter_url_file_put_contents ("/tmp/css.css", css);
     string standard = filter_url_file_get_contents (filter_url_create_path ({"unittests", "tests", "basic.css"}));
     EXPECT_EQ (standard, css);
   }
@@ -58,6 +59,7 @@ TEST (styles, css)
     styles_css.exports ();
     styles_css.generate ();
     string css = styles_css.css ();
+    //filter_url_file_put_contents ("/tmp/css.css", css);
     string standard = filter::strings::trim (filter_url_file_get_contents (filter_url_create_path ({"unittests", "tests", "exports.css"})));
     EXPECT_EQ (standard, css);
   }
@@ -71,6 +73,7 @@ TEST (styles, css)
     styles_css.editor ();
     styles_css.generate ();
     string css = styles_css.css ();
+    //filter_url_file_put_contents ("/tmp/css.css", css);
     string standard = filter::strings::trim (filter_url_file_get_contents (filter_url_create_path ({"unittests", "tests", "editor.css"})));
     //filter_url_file_put_contents ("editor.css", css);
     EXPECT_EQ (standard, css);
@@ -233,10 +236,10 @@ TEST (styles, css)
     vector <string> markers {};
     
     markers = database_styles.getMarkers (styles_logic_standard_sheet ());
-    EXPECT_EQ (204, static_cast<int>(markers.size ()));
+    EXPECT_EQ (205, static_cast<int>(markers.size ()));
     
     markers = database_styles.getMarkers ("testsheet");
-    EXPECT_EQ (204, static_cast<int>(markers.size ()));
+    EXPECT_EQ (205, static_cast<int>(markers.size ()));
     
     string marker {"p"};
     if (find (markers.begin (), markers.end (), marker) == markers.end ()) EXPECT_EQ (marker, "not found");
@@ -244,7 +247,7 @@ TEST (styles, css)
     if (find (markers.begin (), markers.end (), marker) == markers.end ()) EXPECT_EQ (marker, "not found");
     
     map <string, string> markers_names = database_styles.getMarkersAndNames ("testsheet");
-    EXPECT_EQ (204, static_cast<int>(markers_names.size()));
+    EXPECT_EQ (205, static_cast<int>(markers_names.size()));
     EXPECT_EQ ("Blank line", markers_names ["b"]);
     EXPECT_EQ ("Normal paragraph", markers_names ["p"]);
     EXPECT_EQ ("Translator’s addition", markers_names ["add"]);

@@ -658,6 +658,10 @@ text-align: center;
 margin-bottom: 4mm;
 page-break-inside: avoid;
 }
+.sup, .i-sup {
+font-size: x-small;
+vertical-align: super;
+}
 .tl, .i-tl {
 font-style: italic;
 }

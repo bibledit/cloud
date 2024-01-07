@@ -21,10 +21,12 @@
 
 #include <config/libraries.h>
 
+class Webserver_Request;
+
 class Styles_Css
 {
 public:
-  Styles_Css (void * webserver_request, const std::string & stylesheet);
+  Styles_Css (Webserver_Request& webserver_request, const std::string & stylesheet);
   Styles_Css(const Styles_Css&) = delete;
   Styles_Css operator=(const Styles_Css&) = delete;
   void editor ();
@@ -33,7 +35,7 @@ public:
   std::string css (std::string path = std::string());
   void customize (const std::string& bible);
 private:
-  void * m_webserver_request {nullptr};
+  Webserver_Request& m_webserver_request;
   std::string m_stylesheet {};
   std::vector <std::string> m_code {};
   bool editor_enabled {false}; // Whether to generate CSS for the Bible text editor.

@@ -61,8 +61,8 @@ void Styles_Sheets::recreate ()
 
 void Styles_Sheets::create (string stylesheet, string path, bool editor, string export_bible)
 {
-  Webserver_Request request {};
-  Styles_Css styles_css = Styles_Css (&request, stylesheet);
+  Webserver_Request webserver_request {};
+  Styles_Css styles_css (webserver_request, stylesheet);
   if (editor) {
     styles_css.editor ();
   }

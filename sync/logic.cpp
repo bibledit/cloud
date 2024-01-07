@@ -37,22 +37,22 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 using namespace std;
 
 
+class Webserver_Request;
+
+
 mutex sync_logic_mutex;
 
 
-Sync_Logic::Sync_Logic (void * webserver_request_in)
-{
-  webserver_request = webserver_request_in;
-}
+Sync_Logic::Sync_Logic (Webserver_Request& webserver_request):
+m_webserver_request (webserver_request)
+{ }
 
 
 // Returns true if the request coming from the client is considered secure enough.
 bool Sync_Logic::security_okay ()
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-
   // If the request is made via https, the security is OK.
-  if (request->secure) return true;
+  if (m_webserver_request.secure) return true;
   
   // At this stage the request is made via plain http.
   // If https is not enforced for the client, the security is considered good enough.
@@ -65,36 +65,34 @@ bool Sync_Logic::security_okay ()
 
 bool Sync_Logic::credentials_okay ()
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-
   // Brute force attack mitigating?
   if (!user_logic_login_failure_check_okay ()) {
-    request->response_code = 401;
+    m_webserver_request.response_code = 401;
     return false;
   }
   
   // Get the credentials the client POSTed to the us, the server.
-  string username = filter::strings::hex2bin (request->post ["u"]);
-  string password = request->post ["p"];
-  int level = filter::strings::convert_to_int (request->post ["l"]);
+  string username = filter::strings::hex2bin (m_webserver_request.post ["u"]);
+  string password = m_webserver_request.post ["p"];
+  int level = filter::strings::convert_to_int (m_webserver_request.post ["l"]);
   
   // Check all credentials.
-  bool user_ok = request->database_users ()->usernameExists (username);
+  bool user_ok = m_webserver_request.database_users ()->usernameExists (username);
   if (!user_ok) Database_Logs::log ("Non existing user: " + username, Filter_Roles::manager ());
-  bool pass_ok = (password == request->database_users ()->get_md5 (username));
+  bool pass_ok = (password == m_webserver_request.database_users ()->get_md5 (username));
   if (!pass_ok) Database_Logs::log ("Incorrect password: " + password, Filter_Roles::manager ());
-  bool level_ok = (level == request->database_users ()->get_level (username));
+  bool level_ok = (level == m_webserver_request.database_users ()->get_level (username));
   if (!level_ok) Database_Logs::log ("Incorrect role: " + Filter_Roles::text (level), Filter_Roles::manager ());
   if (!user_ok || !pass_ok || !level_ok) {
     // Register possible brute force attack.
     user_logic_login_failure_register ();
     // Unauthorized.
-    request->response_code = 401;
+    m_webserver_request.response_code = 401;
     return false;
   }
   
   // Set username in session.
-  request->session_logic ()->set_username (username);
+  m_webserver_request.session_logic ()->set_username (username);
   
   // OK.
   return true;
@@ -104,8 +102,7 @@ bool Sync_Logic::credentials_okay ()
 // Calculates the checksum of the array of note identifiers.
 string Sync_Logic::checksum (const vector <int> & identifiers)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  Database_Notes database_notes (*request);
+  Database_Notes database_notes (m_webserver_request);
   vector <string> checksums;
   for (const auto & identifier : identifiers) {
     checksums.push_back (database_notes.get_checksum (identifier));
@@ -161,19 +158,18 @@ string Sync_Logic::post (map <string, string> & post, const string& url, string 
 // Calculates the checksum of all settings to be kept in sync between server and client.
 string Sync_Logic::settings_checksum (const vector <string> & bibles)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   string checksum;
-  checksum.append (request->database_config_user()->getWorkspaceURLs ());
-  checksum.append (request->database_config_user()->getWorkspaceWidths ());
-  checksum.append (request->database_config_user()->getWorkspaceHeights ());
-  vector <string> resources = request->database_config_user()->getActiveResources ();
+  checksum.append (m_webserver_request.database_config_user()->getWorkspaceURLs ());
+  checksum.append (m_webserver_request.database_config_user()->getWorkspaceWidths ());
+  checksum.append (m_webserver_request.database_config_user()->getWorkspaceHeights ());
+  vector <string> resources = m_webserver_request.database_config_user()->getActiveResources ();
   checksum.append (filter::strings::implode (resources, "\n"));
   for (auto & bible : bibles) {
     checksum.append (bible);
     // Download Bible text font name: It is the default name for the clients.
     checksum.append (Database_Config_Bible::getTextFont (bible));
   }
-  checksum.append (filter::strings::convert_to_string (request->database_config_user()->getPrivilegeDeleteConsultationNotes ()));
+  checksum.append (filter::strings::convert_to_string (m_webserver_request.database_config_user()->getPrivilegeDeleteConsultationNotes ()));
   return md5 (checksum);
 }
 
@@ -362,9 +358,8 @@ int Sync_Logic::files_get_file_checksum (string directory, string file)
 // Makes a global record of the IP address of a client that made a prioritized server call.
 void Sync_Logic::prioritized_ip_address_record ()
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   sync_logic_mutex.lock ();
-  config_globals_prioritized_ip_addresses [request->remote_address] = filter::date::seconds_since_epoch ();
+  config_globals_prioritized_ip_addresses [m_webserver_request.remote_address] = filter::date::seconds_since_epoch ();
   sync_logic_mutex.unlock ();
 }
 
@@ -372,8 +367,7 @@ void Sync_Logic::prioritized_ip_address_record ()
 // Checks whether the IP address of the current client has very recently made a prioritized server call.
 bool Sync_Logic::prioritized_ip_address_active ()
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  string ip = request->remote_address;
+  string ip = m_webserver_request.remote_address;
   int time = filter::date::seconds_since_epoch ();
   bool active = false;
   sync_logic_mutex.lock ();

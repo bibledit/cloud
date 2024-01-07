@@ -81,8 +81,8 @@ void sendreceive_changes ()
   Database_Logs::log (sendreceive_changes_sendreceive_text (), Filter_Roles::translator ());
   
 
-  Webserver_Request request;
-  Sync_Logic sync_logic = Sync_Logic (&request);
+  Webserver_Request webserver_request;
+  Sync_Logic sync_logic = Sync_Logic (webserver_request);
   Database_Modifications database_modifications;
   
   
@@ -103,15 +103,15 @@ void sendreceive_changes ()
   
   
   // Set the correct user in the session: The sole user on the Client.
-  vector <string> users = request.database_users ()->get_users ();
+  vector <string> users = webserver_request.database_users ()->get_users ();
   if (users.empty ()) {
     Database_Logs::log (translate("No user found"), Filter_Roles::translator ());
     send_receive_changes_done ();
     return;
   }
   string user = users [0];
-  request.session_logic ()->set_username (user);
-  string password = request.database_users ()->get_md5 (user);
+  webserver_request.session_logic ()->set_username (user);
+  string password = webserver_request.database_users ()->get_md5 (user);
   
   
   // The basic request to be POSTed to the server.
@@ -119,7 +119,7 @@ void sendreceive_changes ()
   map <string, string> post;
   post ["u"] = filter::strings::bin2hex (user);
   post ["p"] = password;
-  post ["l"] = filter::strings::convert_to_string (request.database_users ()->get_level (user));
+  post ["l"] = filter::strings::convert_to_string (webserver_request.database_users ()->get_level (user));
   
   
   // Error variables.
@@ -134,7 +134,7 @@ void sendreceive_changes ()
   
   
   // Send the removed change notifications to the server.
-  vector <int> ids = request.database_config_user ()->getRemovedChanges ();
+  vector <int> ids = webserver_request.database_config_user ()->getRemovedChanges ();
   if (!ids.empty ()) Database_Logs::log (sendreceive_changes_text () + "Sending removed notifications: " + filter::strings::convert_to_string (ids.size()), Filter_Roles::translator ());
   for (auto & id : ids) {
     post ["a"] = filter::strings::convert_to_string (Sync_Logic::changes_delete_modification);
@@ -145,7 +145,7 @@ void sendreceive_changes ()
       Database_Logs::log (sendreceive_changes_text () + "Failure sending removed notification: " + error, Filter_Roles::translator ());
     }
     else {
-      request.database_config_user ()->removeRemovedChange (id);
+      webserver_request.database_config_user ()->removeRemovedChange (id);
     }
   }
   
@@ -160,10 +160,10 @@ void sendreceive_changes ()
   // Compare the total checksum for the change notifications for the active user on client and server.
   // Checksum is cached for future re-use.
   // Take actions based on that.
-  string client_checksum = request.database_config_user ()->getChangeNotificationsChecksum ();
+  string client_checksum = webserver_request.database_config_user ()->getChangeNotificationsChecksum ();
   if (client_checksum.empty ()) {
     client_checksum = Sync_Logic::changes_checksum (user);
-    request.database_config_user ()->setChangeNotificationsChecksum (client_checksum);
+    webserver_request.database_config_user ()->setChangeNotificationsChecksum (client_checksum);
   }
   string server_checksum;
   post ["a"] = filter::strings::convert_to_string (Sync_Logic::changes_get_checksum);
@@ -203,7 +203,7 @@ void sendreceive_changes ()
   vector <int> remove_identifiers = filter::strings::array_diff (client_identifiers, server_identifiers);
   for (auto & id : remove_identifiers) {
     database_modifications.deleteNotification (id);
-    request.database_config_user ()->setChangeNotificationsChecksum ("");
+    webserver_request.database_config_user ()->setChangeNotificationsChecksum ("");
     Database_Logs::log (sendreceive_changes_text () + "Removing notification: " + filter::strings::convert_to_string (id), Filter_Roles::translator ());
   }
 
@@ -263,7 +263,7 @@ void sendreceive_changes ()
         lines.erase (lines.begin ());
       }
       database_modifications.storeClientNotification (id, user, category, bible, book, chapter, verse, oldtext, modification, newtext);
-      request.database_config_user ()->setChangeNotificationsChecksum ("");
+      webserver_request.database_config_user ()->setChangeNotificationsChecksum ("");
     }
   }
   

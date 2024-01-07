@@ -67,9 +67,9 @@ It sets the cookie to expire after a certain time.
 */
 
 
-Session_Logic::Session_Logic (void * webserver_request_in)
+Session_Logic::Session_Logic (Webserver_Request& webserver_request):
+m_webserver_request (webserver_request)
 {
-  webserver_request = webserver_request_in;
   touch_enabled = false;
   open ();
 }
@@ -81,14 +81,12 @@ void Session_Logic::open ()
   if (openAccess ()) return;
   if (clientAccess ()) return;
 
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-
   // Work around a weird bug where the user_agent's size is 140735294083184 leading to a crash.
-  if (request->user_agent.size () > 10'000) return;
+  if (m_webserver_request.user_agent.size () > 10'000) return;
 
   // Discard empty cookies right-away.
   // Don't regard this as something that triggers the brute force attach mitigation mechanism.
-  string cookie = request->session_identifier;
+  string cookie = m_webserver_request.session_identifier;
   if (cookie.empty ()) {
     set_username ("");
     logged_in = false;
@@ -100,7 +98,7 @@ void Session_Logic::open ()
   if (!username_from_cookie.empty ()) {
     set_username (username_from_cookie);
     logged_in = true;
-    if (daily) request->resend_cookie = true;
+    if (daily) m_webserver_request.resend_cookie = true;
     touch_enabled = Database_Login::getTouchEnabled (cookie);
   } else {
     set_username (string());
@@ -131,8 +129,7 @@ bool Session_Logic::openAccess ()
 // Returns IP blocks of remote address.
 string Session_Logic::remoteAddress ()
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  vector <string> blocks = filter::strings::explode (request->remote_address, '.');
+  vector <string> blocks = filter::strings::explode (m_webserver_request.remote_address, '.');
   string address;
   size_t num_blocks = static_cast<size_t> (abs (check_ip_blocks));
   if (num_blocks > blocks.size ()) num_blocks = blocks.size ();
@@ -149,8 +146,7 @@ string Session_Logic::fingerprint ()
   string fingerprint = "";
   // fingerprint += $_SERVER ['HTTP_CONNECTION']; Unstable fingerprint. No use for persistent login.
   // fingerprint += $_SERVER ['HTTP_ACCEPT_ENCODING']; Unstable fingerprint. No use for persistent login.
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  fingerprint += request->accept_language;
+  fingerprint += m_webserver_request.accept_language;
   return fingerprint;
 }
 
@@ -193,8 +189,7 @@ bool Session_Logic::attempt_login (string user_or_email, string password,
     open ();
     set_username (user_or_email);
     logged_in = true;
-    Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-    string cookie = request->session_identifier;
+    string cookie = m_webserver_request.session_identifier;
     Database_Login::setTokens (user_or_email, "", "", "", cookie, touch_enabled_in);
     currentLevel (true);
     return true;
@@ -259,8 +254,7 @@ int Session_Logic::currentLevel (bool force)
 
 void Session_Logic::logout ()
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  string cookie = request->session_identifier;
+  const string cookie = m_webserver_request.session_identifier;
   Database_Login::removeTokens (currentUser (), cookie);
   set_username (string());
   level = Filter_Roles::guest();
@@ -293,8 +287,7 @@ bool Session_Logic::clientAccess ()
 
 void Session_Logic::switch_user (string new_user)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  string cookie = request->session_identifier;
+  string cookie = m_webserver_request.session_identifier;
   Database_Login::removeTokens (new_user, cookie);
   Database_Login::renameTokens (currentUser (), new_user, cookie);
 }

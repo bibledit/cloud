@@ -49,7 +49,8 @@ Webserver_Request::~Webserver_Request ()
 Session_Logic * Webserver_Request::session_logic ()
 {
   // Single live object during the entire web request.
-  if (!session_logic_instance) session_logic_instance = new Session_Logic (this);
+  if (!session_logic_instance) 
+    session_logic_instance = new Session_Logic (*this);
   return session_logic_instance;
 }
 

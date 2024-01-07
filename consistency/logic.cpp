@@ -136,7 +136,7 @@ string Consistency_Logic::response ()
 
 string Consistency_Logic::verseText (string resource, int book, int chapter, int verse)
 {
-  return resource_logic_get_html (std::addressof(m_webserver_request), resource, book, chapter, verse, false);
+  return resource_logic_get_html (m_webserver_request, resource, book, chapter, verse, false);
 }
 
 

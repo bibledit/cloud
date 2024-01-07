@@ -89,8 +89,8 @@ void sendreceive_files ()
   }
   
   
-  Webserver_Request request {};
-  Sync_Logic sync_logic = Sync_Logic (&request);
+  Webserver_Request webserver_request {};
+  Sync_Logic sync_logic = Sync_Logic (webserver_request);
 
   
   Database_Logs::log (sendreceive_files_sendreceive_text (), Filter_Roles::translator ());
@@ -109,7 +109,7 @@ void sendreceive_files ()
 
   
   // The client user is the sole user registered on the system.
-  const std::vector <std::string> users = request.database_users ()->get_users ();
+  const std::vector <std::string> users = webserver_request.database_users ()->get_users ();
   if (users.empty ()) {
     Database_Logs::log (translate("No user found"), Filter_Roles::translator ());
     sendreceive_files_done ();

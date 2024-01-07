@@ -42,7 +42,7 @@ TEST (styles, css)
     refresh_sandbox (true);
     Database_Styles database_styles {};
     database_styles.createSheet ("testsheet");
-    Styles_Css styles_css = Styles_Css (&webserver_request, "testsheet");
+    Styles_Css styles_css (webserver_request, "testsheet");
     styles_css.generate ();
     string css = styles_css.css ();
     //filter_url_file_put_contents ("/tmp/css.css", css);
@@ -55,7 +55,7 @@ TEST (styles, css)
     refresh_sandbox (true);
     Database_Styles database_styles {};
     database_styles.createSheet ("testsheet");
-    Styles_Css styles_css = Styles_Css (&webserver_request, "testsheet");
+    Styles_Css styles_css (webserver_request, "testsheet");
     styles_css.exports ();
     styles_css.generate ();
     string css = styles_css.css ();
@@ -69,7 +69,7 @@ TEST (styles, css)
     refresh_sandbox (true);
     Database_Styles database_styles {};
     database_styles.createSheet ("testsheet");
-    Styles_Css styles_css = Styles_Css (&webserver_request, "testsheet");
+    Styles_Css styles_css (webserver_request, "testsheet");
     styles_css.editor ();
     styles_css.generate ();
     string css = styles_css.css ();

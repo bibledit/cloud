@@ -93,14 +93,12 @@ Stages to retrieve resource content and serve it.
 */
 
 
-std::vector <std::string> resource_logic_get_names (void * webserver_request, bool bibles_only)
+std::vector <std::string> resource_logic_get_names (Webserver_Request& webserver_request, bool bibles_only)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-
   std::vector <std::string> names {};
   
   // Bibles the user has read access to.
-  std::vector <std::string> bibles = access_bible::bibles (*request);
+  std::vector <std::string> bibles = access_bible::bibles (webserver_request);
   names.insert (names.end(), bibles.begin (), bibles.end());
   
   // USFM resources.
@@ -139,12 +137,10 @@ std::vector <std::string> resource_logic_get_names (void * webserver_request, bo
 }
 
 
-std::string resource_logic_get_html (void * webserver_request,
+std::string resource_logic_get_html (Webserver_Request& webserver_request,
                                      std::string resource, int book, int chapter, int verse,
                                      bool add_verse_numbers)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-
   // Determine the type of the resource.
   bool is_bible = resource_logic_is_bible (resource);
   bool is_usfm = resource_logic_is_usfm (resource);
@@ -186,7 +182,7 @@ std::string resource_logic_get_html (void * webserver_request,
   Database_Mappings database_mappings;
 
   // Retrieve versification system of the active Bible.
-  std::string bible = request->database_config_user ()->getBible ();
+  std::string bible = webserver_request.database_config_user ()->getBible ();
   std::string bible_versification = Database_Config_Bible::getVersificationSystem (bible);
 
   // Determine the versification system of the current resource.
@@ -230,7 +226,7 @@ std::string resource_logic_get_html (void * webserver_request,
   bool add_passages_in_full = false;
 
   // Deal with user's preference whether to include related passages.
-  if (request->database_config_user ()->getIncludeRelatedPassages ()) {
+  if (webserver_request.database_config_user ()->getIncludeRelatedPassages ()) {
     
     // Take the Bible's active passage and mapping, and translate that to the original mapping.
     std::vector <Passage> related_passages = database_mappings.translate (bible_versification, database_mappings.original (), book, chapter, verse);
@@ -272,10 +268,8 @@ std::string resource_logic_get_html (void * webserver_request,
 // This is the most basic version that fetches the text of a $resource.
 // It works on server and on client.
 // It uses the cache.
-std::string resource_logic_get_verse (void * webserver_request, std::string resource, int book, int chapter, int verse)
+std::string resource_logic_get_verse (Webserver_Request& webserver_request, std::string resource, int book, int chapter, int verse)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-
   std::string data {};
 
   // Determine the type of the current resource.
@@ -297,7 +291,8 @@ std::string resource_logic_get_verse (void * webserver_request, std::string reso
   
   if (isBible || isLocalUsfm) {
     std::string chapter_usfm {};
-    if (isBible) chapter_usfm = request->database_bibles()->get_chapter (resource, book, chapter);
+    if (isBible) 
+      chapter_usfm = webserver_request.database_bibles()->get_chapter (resource, book, chapter);
     if (isLocalUsfm) chapter_usfm = database_usfmresources.getUsfm (resource, book, chapter);
     std::string verse_usfm = filter::usfm::get_verse_text (chapter_usfm, verse);
     std::string stylesheet = styles_logic_standard_sheet ();
@@ -323,7 +318,7 @@ std::string resource_logic_get_verse (void * webserver_request, std::string reso
       data.append ("<div><img src=\"/resource/imagefetch?name=" + resource + "&image=" + image + "\" alt=\"Image resource\" style=\"width:100%\"></div>");
     }
   } else if (isLexicon) {
-    data = lexicon_logic_get_html (*request, resource, book, chapter, verse);
+    data = lexicon_logic_get_html (webserver_request, resource, book, chapter, verse);
   } else if (isSword) {
     const std::string sword_module = sword_logic_get_remote_module (resource);
     const std::string sword_source = sword_logic_get_source (resource);
@@ -356,7 +351,7 @@ std::string resource_logic_get_verse (void * webserver_request, std::string reso
 }
 
 
-std::string resource_logic_cloud_get_comparison (void * webserver_request,
+std::string resource_logic_cloud_get_comparison (Webserver_Request& webserver_request,
                                                  std::string resource, int book, int chapter, int verse,
                                                  bool add_verse_numbers)
 {
@@ -429,7 +424,7 @@ std::string resource_logic_cloud_get_comparison (void * webserver_request,
 }
 
 
-std::string resource_logic_cloud_get_translation (void * webserver_request,
+std::string resource_logic_cloud_get_translation (Webserver_Request& webserver_request,
                                                   const std::string& resource,
                                                   int book, int chapter, int verse,
                                                   bool add_verse_numbers)
@@ -515,15 +510,15 @@ std::string resource_logic_get_contents_for_client (std::string resource, int bo
     // This type of resource is special.
     // It is not one resource, but made out of two resources.
     // It fetches data from two resources and combines that into one.
-    Webserver_Request request {};
-    return resource_logic_cloud_get_comparison (&request, resource, book, chapter, verse, false);
+    Webserver_Request webserver_request {};
+    return resource_logic_cloud_get_comparison (webserver_request, resource, book, chapter, verse, false);
   }
   
   if (is_translated) {
     // Handle a translated resource.
     // This passes the resource title only
-    Webserver_Request request;
-    return resource_logic_cloud_get_translation (&request, resource, book, chapter, verse, false);
+    Webserver_Request webserver_request;
+    return resource_logic_cloud_get_translation (webserver_request, resource, book, chapter, verse, false);
   }
   
   // Nothing found.
@@ -774,16 +769,15 @@ std::string resource_logic_web_or_cache_get (std::string url, std::string& error
 
 
 // Returns the page type for the resource selector.
-std::string resource_logic_selector_page (void * webserver_request)
+std::string resource_logic_selector_page (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request {static_cast<Webserver_Request *>(webserver_request)};
-  std::string page {request->query["page"]};
+  std::string page {webserver_request.query["page"]};
   return page;
 }
 
 
 // Returns the page which called the resource selector.
-std::string resource_logic_selector_caller (void * webserver_request)
+std::string resource_logic_selector_caller (Webserver_Request& webserver_request)
 {
   std::string caller = resource_logic_selector_page (webserver_request);
   if (caller == "view") caller = "organize";

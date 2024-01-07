@@ -148,7 +148,7 @@ string sync_bibles_receive_chapter (Webserver_Request& webserver_request, string
 
 string sync_bibles (Webserver_Request& webserver_request)
 {
-  Sync_Logic sync_logic = Sync_Logic (std::addressof(webserver_request));
+  Sync_Logic sync_logic = Sync_Logic (webserver_request);
 
   if (!sync_logic.security_okay ()) {
     // When the Cloud enforces https, inform the client to upgrade.

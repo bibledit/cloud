@@ -80,8 +80,8 @@ void sendreceive_settings ()
   
   Database_Logs::log (sendreceive_settings_sendreceive_text (), Filter_Roles::translator ());
   
-  Webserver_Request request;
-  Sync_Logic sync_logic = Sync_Logic (&request);
+  Webserver_Request webserver_request;
+  Sync_Logic sync_logic (webserver_request);
 
   string response = client_logic_connection_setup ("", "");
   int iresponse = filter::strings::convert_to_int (response);
@@ -92,21 +92,21 @@ void sendreceive_settings ()
   }
 
   // Set the correct user in the session: The sole user on the Client.
-  vector <string> users = request.database_users ()->get_users ();
+  vector <string> users = webserver_request.database_users ()->get_users ();
   if (users.empty ()) {
     Database_Logs::log (translate("No user found"), Filter_Roles::translator ());
     sendreceive_settings_done ();
     return;
   }
   string user = users [0];
-  request.session_logic ()->set_username (user);
+  webserver_request.session_logic ()->set_username (user);
   
   string address = Database_Config_General::getServerAddress ();
   int port = Database_Config_General::getServerPort ();
   string url = client_logic_url (address, port, sync_settings_url ());
   
   // Go through all settings flagged as having been updated on this client.
-  vector <int> ids = request.database_config_user()->getUpdatedSettings ();
+  vector <int> ids = webserver_request.database_config_user()->getUpdatedSettings ();
   if (!ids.empty ()) {
     Database_Logs::log (translate("Sending settings"), Filter_Roles::translator ());
   }
@@ -114,8 +114,8 @@ void sendreceive_settings ()
   // The POST request contains the credentials.
   map <string, string> post;
   post ["u"] = filter::strings::bin2hex (user);
-  post ["p"] = request.database_users ()->get_md5 (user);
-  post ["l"] = filter::strings::convert_to_string (request.database_users ()->get_level (user));
+  post ["p"] = webserver_request.database_users ()->get_md5 (user);
+  post ["l"] = filter::strings::convert_to_string (webserver_request.database_users ()->get_level (user));
 
   for (auto id : ids) {
 
@@ -125,17 +125,17 @@ void sendreceive_settings ()
     string value {};
     switch (id) {
       case Sync_Logic::settings_send_workspace_urls:
-        value = request.database_config_user()->getWorkspaceURLs ();
+        value = webserver_request.database_config_user()->getWorkspaceURLs ();
         break;
       case Sync_Logic::settings_send_workspace_widths:
-        value = request.database_config_user()->getWorkspaceWidths ();
+        value = webserver_request.database_config_user()->getWorkspaceWidths ();
         break;
       case Sync_Logic::settings_send_workspace_heights:
-        value = request.database_config_user()->getWorkspaceHeights ();
+        value = webserver_request.database_config_user()->getWorkspaceHeights ();
         break;
       case Sync_Logic::settings_send_resources_organization:
       {
-        vector <string> resources = request.database_config_user()->getActiveResources ();
+        vector <string> resources = webserver_request.database_config_user()->getActiveResources ();
         value = filter::strings::implode (resources, "\n");
         break;
       }
@@ -151,7 +151,7 @@ void sendreceive_settings ()
     if (!error.empty ()) {
       Database_Logs::log ("Failure sending setting to server", Filter_Roles::translator ());
     } else {
-      request.database_config_user()->removeUpdatedSetting (id);
+      webserver_request.database_config_user()->removeUpdatedSetting (id);
     }
   }
   // All changed settings have now been sent to the server.
@@ -174,7 +174,7 @@ void sendreceive_settings ()
   // If it matches, that means that the local settings match the settings on the server.
   // The script is then ready.
   if (post.count ("v")) post.erase (post.find ("v"));
-  vector <string> bibles = request.database_bibles()->get_bibles ();
+  vector <string> bibles = webserver_request.database_bibles()->get_bibles ();
   post ["a"] = filter::strings::convert_to_string (Sync_Logic::settings_get_total_checksum);
   post ["b"] = filter::strings::implode (bibles, "\n");
   string error;
@@ -202,7 +202,7 @@ void sendreceive_settings ()
     sendreceive_settings_done ();
     return;
   }
-  request.database_config_user()->setWorkspaceURLs (response);
+  webserver_request.database_config_user()->setWorkspaceURLs (response);
 
   post ["a"] = filter::strings::convert_to_string (Sync_Logic::settings_get_workspace_widths);
   response = sync_logic.post (post, url, error);
@@ -211,7 +211,7 @@ void sendreceive_settings ()
     sendreceive_settings_done ();
     return;
   }
-  request.database_config_user()->setWorkspaceWidths (response);
+  webserver_request.database_config_user()->setWorkspaceWidths (response);
 
   post ["a"] = filter::strings::convert_to_string (Sync_Logic::settings_get_workspace_heights);
   response = sync_logic.post (post, url, error);
@@ -220,7 +220,7 @@ void sendreceive_settings ()
     sendreceive_settings_done ();
     return;
   }
-  request.database_config_user()->setWorkspaceHeights (response);
+  webserver_request.database_config_user()->setWorkspaceHeights (response);
 
   post ["a"] = filter::strings::convert_to_string (Sync_Logic::settings_get_resources_organization);
   response = sync_logic.post (post, url, error);
@@ -229,7 +229,7 @@ void sendreceive_settings ()
     sendreceive_settings_done ();
     return;
   }
-  request.database_config_user()->setActiveResources (filter::strings::explode (response, '\n'));
+  webserver_request.database_config_user()->setActiveResources (filter::strings::explode (response, '\n'));
   
   // Fetch values for the Bibles.
   for (auto & bible : bibles) {
@@ -256,7 +256,7 @@ void sendreceive_settings ()
     sendreceive_settings_done ();
     return;
   }
-  request.database_config_user()->setPrivilegeDeleteConsultationNotes (filter::strings::convert_to_bool (response));
+  webserver_request.database_config_user()->setPrivilegeDeleteConsultationNotes (filter::strings::convert_to_bool (response));
 
   // Done.
   Database_Logs::log ("Settings: Updated", Filter_Roles::translator ());

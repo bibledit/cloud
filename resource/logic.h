@@ -21,20 +21,22 @@
 
 #include <config/libraries.h>
 
-std::string resource_logic_get_html (void * webserver_request,
+class Webserver_Request;
+
+std::string resource_logic_get_html (Webserver_Request& webserver_request,
                                      std::string resource, int book, int chapter, int verse,
                                      bool add_verse_numbers);
-std::string resource_logic_get_verse (void * webserver_request, std::string resource, int book, int chapter, int verse);
-std::string resource_logic_cloud_get_comparison (void * webserver_request,
+std::string resource_logic_get_verse (Webserver_Request& webserver_request, std::string resource, int book, int chapter, int verse);
+std::string resource_logic_cloud_get_comparison (Webserver_Request& webserver_request,
                                                  std::string resource, int book, int chapter, int verse,
                                                  bool add_verse_numbers);
-std::string resource_logic_cloud_get_translation (void * webserver_request,
+std::string resource_logic_cloud_get_translation (Webserver_Request& webserver_request,
                                                   const std::string & resource, int book, int chapter, int verse,
                                                   bool add_verse_numbers);
 std::string resource_logic_get_contents_for_client (std::string resource, int book, int chapter, int verse);
 std::string resource_logic_client_fetch_cache_from_cloud (std::string resource, int book, int chapter, int verse);
 
-std::vector <std::string> resource_logic_get_names (void * webserver_request, bool bibles_only);
+std::vector <std::string> resource_logic_get_names (Webserver_Request& webserver_request, bool bibles_only);
 
 void resource_logic_import_images (std::string resource, std::string path);
 
@@ -52,8 +54,8 @@ std::string resource_logic_assemble_rich_divider (std::string title, std::string
 
 std::string resource_logic_web_or_cache_get (std::string url, std::string & error);
 
-std::string resource_logic_selector_page (void * webserver_request);
-std::string resource_logic_selector_caller (void * webserver_request);
+std::string resource_logic_selector_page (Webserver_Request& webserver_request);
+std::string resource_logic_selector_caller (Webserver_Request& webserver_request);
 
 std::string resource_logic_default_user_url ();
 

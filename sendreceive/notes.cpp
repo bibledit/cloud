@@ -99,7 +99,7 @@ void sendreceive_notes ()
 bool sendreceive_notes_upload ()
 {
   Webserver_Request webserver_request;
-  Sync_Logic sync_logic (std::addressof(webserver_request));
+  Sync_Logic sync_logic (webserver_request);
   Database_Notes database_notes (webserver_request);
   Database_NoteActions database_noteactions = Database_NoteActions ();
   
@@ -321,7 +321,7 @@ bool sendreceive_notes_download (int lowId, int highId)
   Webserver_Request webserver_request;
   Database_Notes database_notes (webserver_request);
   Database_NoteActions database_noteactions = Database_NoteActions ();
-  Sync_Logic sync_logic (std::addressof(webserver_request));
+  Sync_Logic sync_logic (webserver_request);
   
   
   string response = client_logic_connection_setup ("", "");

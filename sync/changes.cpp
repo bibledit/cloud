@@ -43,7 +43,7 @@ string sync_changes_url ()
 
 string sync_changes (Webserver_Request& webserver_request)
 {
-  Sync_Logic sync_logic = Sync_Logic (std::addressof(webserver_request));
+  Sync_Logic sync_logic (webserver_request);
   Database_Modifications database_modifications;
 
   if (!sync_logic.security_okay ()) {

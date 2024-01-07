@@ -1092,7 +1092,7 @@ void test_database_notes ()
     newidentifiers.push_back (database_notes.store_new_note ("bible6", 6, 7, 8, "summary6", "contents6", false));
     
     // Checksum calculation: slow and fast methods should be the same.
-    Sync_Logic sync_logic = Sync_Logic (std::addressof(webserver_request));
+    Sync_Logic sync_logic (webserver_request);
     string oldchecksum1 = sync_logic.checksum (oldidentifiers);
     EXPECT_EQ (32, static_cast<int>(oldchecksum1.length()));
     string oldchecksum2 = database_notes.get_multiple_checksum (oldidentifiers);
@@ -1184,7 +1184,7 @@ void test_database_notes ()
   // Test creating a range of identifiers.
   {
     Webserver_Request webserver_request;
-    Sync_Logic sync_logic = Sync_Logic (std::addressof(webserver_request));
+    Sync_Logic sync_logic (webserver_request);
     
     vector <Sync_Logic_Range> ranges = sync_logic.create_range (100'000'000, 999'999'999);
     EXPECT_EQ (10, static_cast<int>(ranges.size()));

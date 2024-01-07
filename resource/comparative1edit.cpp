@@ -93,7 +93,7 @@ string resource_comparative1edit (Webserver_Request& webserver_request)
     if (value.empty()) {
       Dialog_List dialog_list = Dialog_List ("comparative1edit", translate("Select a resource to be used as a base resource"), translate ("The base resource is used as a starting point for the comparison."), "");
       dialog_list.add_query ("name", name);
-      vector <string> resources = resource_logic_get_names (std::addressof(webserver_request), true);
+      vector <string> resources = resource_logic_get_names (webserver_request, true);
       for (auto & resource : resources) {
         dialog_list.add_row (resource, "base", resource);
       }
@@ -112,7 +112,7 @@ string resource_comparative1edit (Webserver_Request& webserver_request)
     if (value.empty()) {
       Dialog_List dialog_list = Dialog_List ("comparative1edit", translate("Select a resource to be used as the updated resource."), translate ("The updated resource will be compared with the base resource."), "");
       dialog_list.add_query ("name", name);
-      vector <string> resources = resource_logic_get_names (std::addressof(webserver_request), true);
+      vector <string> resources = resource_logic_get_names (webserver_request, true);
       for (auto & resource : resources) {
         dialog_list.add_row (resource, "update", resource);
       }

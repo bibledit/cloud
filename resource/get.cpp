@@ -113,12 +113,12 @@ string resource_get (Webserver_Request& webserver_request)
         }
       }
       for (unsigned int i = 0; i < chapters_before.size (); i++) {
-        bits.push_back (resource_logic_get_html (std::addressof(webserver_request), s_resource, book, chapters_before[i], verses_before[i], add_verse_numbers));
+        bits.push_back (resource_logic_get_html (webserver_request, s_resource, book, chapters_before[i], verses_before[i], add_verse_numbers));
       }
       
 
       // Focused verse.
-      bits.push_back (resource_logic_get_html (std::addressof(webserver_request), s_resource, book, chapter, verse, add_verse_numbers));
+      bits.push_back (resource_logic_get_html (webserver_request, s_resource, book, chapter, verse, add_verse_numbers));
 
     
       // Context after the focused verse.
@@ -145,7 +145,7 @@ string resource_get (Webserver_Request& webserver_request)
         }
       }
       for (unsigned int i = 0; i < chapters_after.size (); i++) {
-        bits.push_back (resource_logic_get_html (std::addressof(webserver_request), s_resource, book, chapters_after[i], verses_after[i], add_verse_numbers));
+        bits.push_back (resource_logic_get_html (webserver_request, s_resource, book, chapters_after[i], verses_after[i], add_verse_numbers));
       }
     }
   }

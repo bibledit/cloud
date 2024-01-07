@@ -66,11 +66,11 @@ string resource_select (Webserver_Request& webserver_request)
   Assets_View view {};
 
   
-  view.set_variable ("page", resource_logic_selector_page (std::addressof(webserver_request)));
+  view.set_variable ("page", resource_logic_selector_page (webserver_request));
   bool is_def = false;
   if (webserver_request.query["type"] == "def") is_def = true;
   if (is_def) view.set_variable ("type", "def");
-  string caller = resource_logic_selector_caller (std::addressof(webserver_request));
+  string caller = resource_logic_selector_caller (webserver_request);
   view.set_variable ("caller", caller);
   
 

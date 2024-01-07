@@ -98,7 +98,7 @@ string resource_translated1edit (Webserver_Request& webserver_request)
     if (value.empty()) {
       Dialog_List dialog_list = Dialog_List ("translated1edit", translate("Select a resource to be used as the original resource"), translate ("The original resource will be translated from the source language to the target language."), string());
       dialog_list.add_query ("name", name);
-      vector <string> resources = resource_logic_get_names (std::addressof(webserver_request), true);
+      vector <string> resources = resource_logic_get_names (webserver_request, true);
       for (const auto & resource : resources) {
         dialog_list.add_row (resource, "original", resource);
       }

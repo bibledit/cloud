@@ -41,7 +41,7 @@ string sync_settings_url ()
 
 string sync_settings (Webserver_Request& webserver_request)
 {
-  Sync_Logic sync_logic = Sync_Logic (std::addressof(webserver_request));
+  Sync_Logic sync_logic (webserver_request);
 
   if (!sync_logic.security_okay ()) {
     // When the Cloud enforces https, inform the client to upgrade.

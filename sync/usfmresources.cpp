@@ -48,7 +48,7 @@ string sync_usfmresources_url ()
 
 string sync_usfmresources (Webserver_Request& webserver_request)
 {
-  Sync_Logic sync_logic = Sync_Logic (std::addressof(webserver_request));
+  Sync_Logic sync_logic (webserver_request);
   Database_UsfmResources database_usfmresources = Database_UsfmResources ();
 
   if (!sync_logic.security_okay ()) {

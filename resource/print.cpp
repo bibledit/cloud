@@ -322,33 +322,33 @@ string resource_print (Webserver_Request& webserver_request)
 
 void resource_print_job (string jobId, string user, string bible)
 {
-  Webserver_Request request;
-  request.session_logic ()->set_username (user);
+  Webserver_Request webserver_request;
+  webserver_request.session_logic ()->set_username (user);
   
   
   Database_Jobs database_jobs = Database_Jobs ();
   database_jobs.set_progress (filter::strings::convert_to_int (jobId), translate("The document is being created..."));
   
   
-  vector <string> resources = request.database_config_user()->getPrintResourcesForUser (user);
+  vector <string> resources = webserver_request.database_config_user()->getPrintResourcesForUser (user);
   
   
-  Passage from = request.database_config_user()->getPrintPassageFromForUser (user);
+  Passage from = webserver_request.database_config_user()->getPrintPassageFromForUser (user);
   int ifrom = filter_passage_to_integer (from);
   
   
-  Passage to = request.database_config_user()->getPrintPassageToForUser (user);
+  Passage to = webserver_request.database_config_user()->getPrintPassageToForUser (user);
   int ito = filter_passage_to_integer (to);
   
   
   vector <string> result;
   
   
-  vector <int> books = request.database_bibles()->get_books (bible);
+  vector <int> books = webserver_request.database_bibles()->get_books (bible);
   for (auto & book : books) {
-    vector <int> chapters = request.database_bibles()->get_chapters (bible, book);
+    vector <int> chapters = webserver_request.database_bibles()->get_chapters (bible, book);
     for (auto & chapter : chapters) {
-      string usfm = request.database_bibles()->get_chapter (bible, book, chapter);
+      string usfm = webserver_request.database_bibles()->get_chapter (bible, book, chapter);
       vector <int> verses = filter::usfm::get_verse_numbers (usfm);
       for (auto & verse : verses) {
         int passage = filter_passage_to_integer (Passage ("", book, chapter, filter::strings::convert_to_string (verse)));
@@ -360,7 +360,7 @@ void resource_print_job (string jobId, string user, string bible)
           for (auto & resource : resources) {
             result.push_back ("<p>");
             result.push_back (resource);
-            string html = resource_logic_get_html (&request, resource, book, chapter, verse, false);
+            string html = resource_logic_get_html (webserver_request, resource, book, chapter, verse, false);
             result.push_back (html);
             result.push_back ("</p>");
           }

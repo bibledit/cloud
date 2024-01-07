@@ -322,7 +322,7 @@ string personalize_index (Webserver_Request& webserver_request)
   // Whether to have a menu entry for the Changes in basic mode.
   if (checkbox == "showchanges") {
     webserver_request.database_config_user ()->setMenuChangesInBasicMode (checked);
-    menu_logic_tabbed_mode_save_json (std::addressof(webserver_request));
+    menu_logic_tabbed_mode_save_json (webserver_request);
     return filter::strings::get_reload ();
   }
   view.set_variable ("showchanges", filter::strings::get_checkbox_status(webserver_request.database_config_user ()->getMenuChangesInBasicMode ()));
@@ -338,7 +338,7 @@ string personalize_index (Webserver_Request& webserver_request)
   // Setting for whether to show the main menu in tabbed view in basic mode on phones and tablets.
   if (checkbox == "mainmenutabs") {
     Database_Config_General::setMenuInTabbedViewOn (checked);
-    menu_logic_tabbed_mode_save_json (std::addressof(webserver_request));
+    menu_logic_tabbed_mode_save_json (webserver_request);
   }
   if (menu_logic_can_do_tabbed_mode ()) {
     view.enable_zone ("tabs_possible");

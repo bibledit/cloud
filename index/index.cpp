@@ -61,7 +61,7 @@ std::string index_index (Webserver_Request& webserver_request)
   if (!mode.empty ()) {
     const bool basic = (mode == "basic");
     webserver_request.database_config_user ()->setBasicInterfaceMode (basic);
-    menu_logic_tabbed_mode_save_json (std::addressof(webserver_request));
+    menu_logic_tabbed_mode_save_json (webserver_request);
   }
   
   // Upon app start, initialize the JSON for tabbed mode.
@@ -71,7 +71,7 @@ std::string index_index (Webserver_Request& webserver_request)
   static bool tabbed_json_initialized = false;
   if (!tabbed_json_initialized) {
     if (menu_logic_can_do_tabbed_mode ()) {
-      menu_logic_tabbed_mode_save_json (std::addressof(webserver_request));
+      menu_logic_tabbed_mode_save_json (webserver_request);
     }
     tabbed_json_initialized = true;
   }

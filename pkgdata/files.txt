@@ -613,7 +613,6 @@
 /pix/splash.jpg
 /pkgdata
 /pkgdata/.!16152!files.txt
-/pkgdata/.!62802!files.txt
 /pkgdata/create.sh
 /pkgdata/files.txt
 /pkgdata/install.sh

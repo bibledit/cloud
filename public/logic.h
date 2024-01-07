@@ -21,4 +21,6 @@
 
 #include <config/libraries.h>
 
-std::vector <std::string> public_logic_bibles (void * webserver_request);
+class Webserver_Request;
+
+std::vector <std::string> public_logic_bibles (Webserver_Request& webserver_request);

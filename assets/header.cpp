@@ -206,25 +206,25 @@ string Assets_Header::run ()
       if (basic_mode) {
         // Basic mode gives basic menu, but nothing in tabbed mode.
         if (!tabbed_mode_on) {
-          menublock = menu_logic_basic_categories (std::addressof(m_webserver_request));
+          menublock = menu_logic_basic_categories (m_webserver_request);
         }
       } else {
         string devnull;
-        menublock = menu_logic_main_categories (std::addressof(m_webserver_request), devnull);
+        menublock = menu_logic_main_categories (m_webserver_request, devnull);
       }
       start_button = false;
     } else if (item == menu_logic_translate_menu ()) {
-      menublock = menu_logic_translate_category (std::addressof(m_webserver_request));
+      menublock = menu_logic_translate_category (m_webserver_request);
     } else if (item == menu_logic_search_menu ()) {
-      menublock = menu_logic_search_category (std::addressof(m_webserver_request));
+      menublock = menu_logic_search_category (m_webserver_request);
     } else if (item == menu_logic_tools_menu ()) {
-      menublock = menu_logic_tools_category (std::addressof(m_webserver_request));
+      menublock = menu_logic_tools_category (m_webserver_request);
     } else if (item == menu_logic_settings_menu ()) {
-      menublock = menu_logic_settings_category (std::addressof(m_webserver_request));
+      menublock = menu_logic_settings_category (m_webserver_request);
     } else if (item == menu_logic_settings_resources_menu ()) {
-      menublock = menu_logic_settings_resources_category (std::addressof(m_webserver_request));
+      menublock = menu_logic_settings_resources_category (m_webserver_request);
     } else if (item == "help") {
-      menublock = menu_logic_help_category (std::addressof(m_webserver_request));
+      menublock = menu_logic_help_category (m_webserver_request);
     }
     m_view->set_variable ("mainmenu", menublock);
 
@@ -235,7 +235,7 @@ string Assets_Header::run ()
     if (start_button) {
       m_view->enable_zone ("start_button");
       string tooltip;
-      menu_logic_main_categories (std::addressof(m_webserver_request), tooltip);
+      menu_logic_main_categories (m_webserver_request, tooltip);
       m_view->set_variable ("starttooltip", tooltip);
     }
     

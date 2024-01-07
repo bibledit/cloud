@@ -70,7 +70,7 @@ vector <string> lexicon_logic_resource_names ()
 
 
 // Gets the HTMl for displaying the book/chapter/verse of the $lexicon.
-string lexicon_logic_get_html ([[maybe_unused]] void * webserver_request, string lexicon, int book, int chapter, int verse)
+string lexicon_logic_get_html ([[maybe_unused]] Webserver_Request& webserver_request, string lexicon, int book, int chapter, int verse)
 {
   string html;
   

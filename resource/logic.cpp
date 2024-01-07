@@ -323,7 +323,7 @@ std::string resource_logic_get_verse (void * webserver_request, std::string reso
       data.append ("<div><img src=\"/resource/imagefetch?name=" + resource + "&image=" + image + "\" alt=\"Image resource\" style=\"width:100%\"></div>");
     }
   } else if (isLexicon) {
-    data = lexicon_logic_get_html (request, resource, book, chapter, verse);
+    data = lexicon_logic_get_html (*request, resource, book, chapter, verse);
   } else if (isSword) {
     const std::string sword_module = sword_logic_get_remote_module (resource);
     const std::string sword_source = sword_logic_get_source (resource);

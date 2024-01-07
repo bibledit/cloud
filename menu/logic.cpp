@@ -176,11 +176,8 @@ string menu_logic_settings_resources_menu ()
 // Returns the html for the main menu categories.
 // Also fills the $tooltip with an appropriate value for this main menu.
 // This function is called for the main page, that is, the home page.
-string menu_logic_main_categories (void * webserver_request, string & tooltip)
+string menu_logic_main_categories (Webserver_Request& webserver_request, string & tooltip)
 {
-  // Create the object from the void pointer.
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-
   // The sets of html that is going to form the menu.
   vector <string> html;
   
@@ -188,7 +185,7 @@ string menu_logic_main_categories (void * webserver_request, string & tooltip)
   vector <string> tooltipbits;
 
   // Deal with a situation the user has access to the workspaces.
-  if (workspace_index_acl (*request)) {
+  if (workspace_index_acl (webserver_request)) {
     if (config::logic::default_bibledit_configuration ()) {
       string label = translate ("Workspace");
       string tooltip2;
@@ -199,8 +196,8 @@ string menu_logic_main_categories (void * webserver_request, string & tooltip)
   }
 
   string menutooltip;
-  int current_theme_index = request->database_config_user ()->getCurrentTheme ();
-  string filename = current_theme_filebased_cache_filename (request->session_identifier);
+  int current_theme_index = webserver_request.database_config_user ()->getCurrentTheme ();
+  string filename = current_theme_filebased_cache_filename (webserver_request.session_identifier);
   string color = Filter_Css::theme_picker (current_theme_index, 1);
 
   if (!menu_logic_translate_category (webserver_request, &menutooltip).empty ()) {
@@ -250,9 +247,9 @@ string menu_logic_main_categories (void * webserver_request, string & tooltip)
 #endif
 
   // When a user is logged in, and is a guest, put the Logout into the main menu, rather than in a sub menu.
-  if (request->session_logic ()->loggedIn ()) {
-    if (request->session_logic ()->currentLevel () == Filter_Roles::guest ()) {
-      if (session_logout_acl (*request)) {
+  if (webserver_request.session_logic ()->loggedIn ()) {
+    if (webserver_request.session_logic ()->currentLevel () == Filter_Roles::guest ()) {
+      if (session_logout_acl (webserver_request)) {
         html.push_back (menu_logic_create_item (session_logout_url (), menu_logic_logout_text (), true, "", ""));
         tooltipbits.push_back (menu_logic_logout_text ());
       }
@@ -261,7 +258,7 @@ string menu_logic_main_categories (void * webserver_request, string & tooltip)
 
   
   // When not logged in, display Login menu item.
-  if (request->session_logic ()->currentUser ().empty ()) {
+  if (webserver_request.session_logic ()->currentUser ().empty ()) {
     string label = translate ("Login");
     html.push_back (menu_logic_create_item (session_login_url (), label, true, "", ""));
     tooltipbits.push_back (label);
@@ -288,39 +285,37 @@ string menu_logic_main_categories (void * webserver_request, string & tooltip)
  */
 
 
-string menu_logic_basic_categories (void * webserver_request)
+string menu_logic_basic_categories (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-
   vector <string> html;
 
-  int current_theme_index = request->database_config_user ()->getCurrentTheme ();
-  string filename = current_theme_filebased_cache_filename (request->session_identifier);
+  int current_theme_index = webserver_request.database_config_user ()->getCurrentTheme ();
+  string filename = current_theme_filebased_cache_filename (webserver_request.session_identifier);
   string color = Filter_Css::theme_picker (current_theme_index, 1);
 
-  if (read_index_acl (*request)) {
+  if (read_index_acl (webserver_request)) {
     html.push_back (menu_logic_create_item (read_index_url (), translate ("Read"), true, "", color));
   }
 
-  if (resource_index_acl (*request)) {
+  if (resource_index_acl (webserver_request)) {
     html.push_back (menu_logic_create_item (resource_index_url (), menu_logic_resources_text (), true, "", color));
   }
 
-  if (editone2_index_acl (*request)) {
+  if (editone2_index_acl (webserver_request)) {
     html.push_back (menu_logic_create_item (editone2_index_url (), menu_logic_translate_text (), true, "", color));
   }
   
-  if (changes_changes_acl (*request)) {
-    if (request->database_config_user ()->getMenuChangesInBasicMode ()) {
+  if (changes_changes_acl (webserver_request)) {
+    if (webserver_request.database_config_user ()->getMenuChangesInBasicMode ()) {
       html.push_back (menu_logic_create_item (changes_changes_url (), menu_logic_changes_text (), true, "", color));
     }
   }
 
-  if (notes_index_acl (*request)) {
+  if (notes_index_acl (webserver_request)) {
     html.push_back (menu_logic_create_item (notes_index_url (), menu_logic_consultation_notes_text (), true, "", color));
   }
   
-  if (personalize_index_acl (*request)) {
+  if (personalize_index_acl (webserver_request)) {
     html.push_back (menu_logic_create_item (personalize_index_url (), "⋮", true, "", color));
   }
 
@@ -339,7 +334,7 @@ string menu_logic_basic_categories (void * webserver_request)
 #endif
 
   // When not logged in, display Login menu item.
-  if (request->session_logic ()->currentUser ().empty ()) {
+  if (webserver_request.session_logic ()->currentUser ().empty ()) {
     html.push_back (menu_logic_create_item (session_login_url (), translate ("Login"), true, "", ""));
   }
 
@@ -347,9 +342,9 @@ string menu_logic_basic_categories (void * webserver_request)
   // put the Logout into the main menu,
   // rather than in a sub menu.
 #ifdef HAVE_CLOUD
-  if (request->session_logic ()->loggedIn ()) {
-    if (request->session_logic ()->currentLevel () == Filter_Roles::guest ()) {
-      if (session_logout_acl (*request)) {
+  if (webserver_request.session_logic ()->loggedIn ()) {
+    if (webserver_request.session_logic ()->currentLevel () == Filter_Roles::guest ()) {
+      if (session_logout_acl (webserver_request)) {
         html.push_back (menu_logic_create_item (session_logout_url (), menu_logic_logout_text (), true, "", ""));
       }
     }
@@ -362,21 +357,17 @@ string menu_logic_basic_categories (void * webserver_request)
 
 // Generates html for the workspace main menu.
 // Plus the tooltip for it.
-string menu_logic_workspace_category (void * webserver_request, string * tooltip)
+string menu_logic_workspace_category (Webserver_Request& webserver_request, string * tooltip)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-
   vector <string> html;
   vector <string> labels;
 
   // Add the available configured workspaces to the menu.
   // The user's role should be sufficiently high.
-  if (workspace_organize_acl (*request)) {
-    Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
+  if (workspace_organize_acl (webserver_request)) {
+    string activeWorkspace = webserver_request.database_config_user()->getActiveWorkspace ();
 
-    string activeWorkspace = request->database_config_user()->getActiveWorkspace ();
-
-    vector <string> workspaces = workspace_get_names (webserver_request);
+    vector <string> workspaces = workspace_get_names (std::addressof(webserver_request));
     for (size_t i = 0; i < workspaces.size(); i++) {
       string item = menu_logic_create_item (workspace_index_url () + "?bench=" + filter::strings::convert_to_string (i), workspaces[i], true, "", "");
       // Adds an active class if it is the current workspace.
@@ -394,46 +385,44 @@ string menu_logic_workspace_category (void * webserver_request, string * tooltip
 }
 
 
-string menu_logic_translate_category (void * webserver_request, string * tooltip)
+string menu_logic_translate_category (Webserver_Request& webserver_request, string * tooltip)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-
   vector <string> html;
   vector <string> labels;
   
   // Visual chapter editor.
-  if (edit_index_acl (*request)) {
+  if (edit_index_acl (webserver_request)) {
     string label = menu_logic_editor_menu_text (true, true);
     html.push_back (menu_logic_create_item (edit_index_url (), label, true, "", ""));
     labels.push_back (label);
   }
 
   // Visual verse editor.
-  if (editone2_index_acl (*request)) {
+  if (editone2_index_acl (webserver_request)) {
     string label = menu_logic_editor_menu_text (true, false);
     html.push_back (menu_logic_create_item (editone2_index_url (), label, true, "", ""));
     labels.push_back (label);
   }
 
   // USFM (chapter) editor.
-  if (editusfm_index_acl (*request)) {
+  if (editusfm_index_acl (webserver_request)) {
     string label = menu_logic_editor_menu_text (false, true);
     html.push_back (menu_logic_create_item (editusfm_index_url (), label, true, "", ""));
     labels.push_back (label);
   }
     
-  if (notes_index_acl (*request)) {
+  if (notes_index_acl (webserver_request)) {
     html.push_back (menu_logic_create_item (notes_index_url (), menu_logic_consultation_notes_text (), true, "", ""));
     labels.push_back (menu_logic_consultation_notes_text ());
   }
 
-  if (resource_index_acl (*request)) {
+  if (resource_index_acl (webserver_request)) {
     string label = menu_logic_resources_text ();
     html.push_back (menu_logic_create_item (resource_index_url (), label, true, "", ""));
     labels.push_back (label);
   }
 
-  if (resource_user9view_acl (*request)) {
+  if (resource_user9view_acl (webserver_request)) {
     // Only display user-defined resources if they are there.
     if (!Database_UserResources::names ().empty ()) {
       string label = translate ("User resources");
@@ -442,7 +431,7 @@ string menu_logic_translate_category (void * webserver_request, string * tooltip
     }
   }
   
-  if (changes_changes_acl (*request)) {
+  if (changes_changes_acl (webserver_request)) {
     html.push_back (menu_logic_create_item (changes_changes_url (), menu_logic_changes_text (), true, "", ""));
     labels.push_back (menu_logic_changes_text ());
   }
@@ -450,7 +439,7 @@ string menu_logic_translate_category (void * webserver_request, string * tooltip
   // When a user is logged in, but not a guest,
   // put the public feedback into this sub menu, rather than in the main menu.
 #ifndef HAVE_CLIENT
-  if (!request->session_logic ()->currentUser ().empty ()) {
+  if (!webserver_request.session_logic ()->currentUser ().empty ()) {
     if (!menu_logic_public_or_guest (webserver_request)) {
       if (!public_logic_bibles (webserver_request).empty ()) {
         html.push_back (menu_logic_create_item (public_index_url (), menu_logic_public_feedback_text (), true, "", ""));
@@ -469,62 +458,60 @@ string menu_logic_translate_category (void * webserver_request, string * tooltip
 }
 
 
-string menu_logic_search_category (void * webserver_request, string * tooltip)
+string menu_logic_search_category (Webserver_Request& webserver_request, string * tooltip)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-
   vector <string> html;
   vector <string> labels;
 
-  if (search_index_acl (*request)) {
+  if (search_index_acl (webserver_request)) {
     string label = translate ("Search");
     html.push_back (menu_logic_create_item (search_index_url (), label, true, "", ""));
     labels.push_back (label);
   }
   
-  if (search_replace_acl (*request)) {
+  if (search_replace_acl (webserver_request)) {
     string label = translate ("Replace");
     html.push_back (menu_logic_create_item (search_replace_url (), label, true, "", ""));
     labels.push_back (label);
   }
   
-  if (search_search2_acl (*request)) {
+  if (search_search2_acl (webserver_request)) {
     string label = translate ("Advanced search");
     html.push_back (menu_logic_create_item (search_search2_url (), translate ("Advanced search"), true, "", ""));
     labels.push_back (label);
   }
   
-  if (search_replace2_acl (*request)) {
+  if (search_replace2_acl (webserver_request)) {
     string label = translate ("Advanced replace");
     html.push_back (menu_logic_create_item (search_replace2_url (), label, true, "", ""));
     labels.push_back (label);
   }
   
-  if (search_all_acl (*request)) {
+  if (search_all_acl (webserver_request)) {
     string label = translate ("Search all Bibles and notes");
     html.push_back (menu_logic_create_item (search_all_url (), label, true, "", ""));
     labels.push_back (label);
   }
 
-  if (search_similar_acl (*request)) {
+  if (search_similar_acl (webserver_request)) {
     string label = translate ("Search Bible for similar verses");
     html.push_back (menu_logic_create_item (search_similar_url (), label, true, "", ""));
     labels.push_back (label);
   }
 
-  if (search_strongs_acl (*request)) {
+  if (search_strongs_acl (webserver_request)) {
     string label = translate ("Search Bible for similar Strong's numbers");
     html.push_back (menu_logic_create_item (search_strongs_url (), label, true, "", ""));
     labels.push_back (label);
   }
 
-  if (search_strong_acl (*request)) {
+  if (search_strong_acl (webserver_request)) {
     string label = translate ("Search Bible for Strong's number");
     html.push_back (menu_logic_create_item (search_strong_url (), label, true, "", ""));
     labels.push_back (label);
   }
 
-  if (search_originals_acl (*request)) {
+  if (search_originals_acl (webserver_request)) {
     string label = translate ("Search Bible for similar Hebrew or Greek words");
     html.push_back (menu_logic_create_item (search_originals_url (), label, true, "", ""));
     labels.push_back (label);
@@ -539,10 +526,8 @@ string menu_logic_search_category (void * webserver_request, string * tooltip)
 }
 
 
-string menu_logic_tools_category (void * webserver_request, string * tooltip)
+string menu_logic_tools_category (Webserver_Request& webserver_request, string * tooltip)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-
   // The labels that may end up in the menu.
   string checks = translate ("Checks");
   string consistency = translate ("Consistency");
@@ -577,14 +562,14 @@ string menu_logic_tools_category (void * webserver_request, string * tooltip)
   for (auto & label : labels) {
 
     if (label == checks) {
-      if (checks_index_acl (*request)) {
+      if (checks_index_acl (webserver_request)) {
         html.push_back (menu_logic_create_item (checks_index_url (), label, true, "", ""));
         tiplabels.push_back (label);
       }
     }
 
     if (label == consistency) {
-      if (consistency_index_acl (*request)) {
+      if (consistency_index_acl (webserver_request)) {
         html.push_back (menu_logic_create_item (consistency_index_url (), label, true, "", ""));
         tiplabels.push_back (label);
       }
@@ -592,7 +577,7 @@ string menu_logic_tools_category (void * webserver_request, string * tooltip)
 
     if (label == print) {
 #ifndef HAVE_CLIENT
-      if (resource_print_acl (*request)) {
+      if (resource_print_acl (webserver_request)) {
         html.push_back (menu_logic_create_item (resource_print_url (), label, true, "", ""));
         tiplabels.push_back (label);
       }
@@ -602,7 +587,7 @@ string menu_logic_tools_category (void * webserver_request, string * tooltip)
     if (label == changes) {
       // Downloading revisions only on server, not on client.
 #ifndef HAVE_CLIENT
-      if (index_listing_acl (*request, "revisions")) {
+      if (index_listing_acl (webserver_request, "revisions")) {
         html.push_back (menu_logic_create_item (index_listing_url ("revisions"), menu_logic_changes_text (), true, "", ""));
         tiplabels.push_back (menu_logic_changes_text ());
       }
@@ -611,7 +596,7 @@ string menu_logic_tools_category (void * webserver_request, string * tooltip)
     
     if (label == planning) {
 #ifndef HAVE_CLIENT
-      if (sprint_index_acl (*request)) {
+      if (sprint_index_acl (webserver_request)) {
         html.push_back (menu_logic_create_item (sprint_index_url (), label, true, "", ""));
         tiplabels.push_back (label);
       }
@@ -619,35 +604,35 @@ string menu_logic_tools_category (void * webserver_request, string * tooltip)
     }
     
     if (label == send_receive) {
-      if (sendreceive_index_acl (*request)) {
+      if (sendreceive_index_acl (webserver_request)) {
         html.push_back (menu_logic_create_item (sendreceive_index_url (), label, true, "", ""));
         tiplabels.push_back (label);
       }
     }
     
     if (label == hyphenation) {
-      if (manage_hyphenation_acl (*request)) {
+      if (manage_hyphenation_acl (webserver_request)) {
         html.push_back (menu_logic_create_item (manage_hyphenation_url (), label, true, "", ""));
         tiplabels.push_back (label);
       }
     }
     
     if (label == develop) {
-      if (developer_index_acl (*request)) {
+      if (developer_index_acl (webserver_request)) {
         html.push_back (menu_logic_create_item (developer_index_url (), label, true, "", ""));
         tiplabels.push_back (label);
       }
     }
     
     if (label == exporting) {
-      if (manage_exports_acl (*request)) {
+      if (manage_exports_acl (webserver_request)) {
         html.push_back (menu_logic_create_item (manage_exports_url (), label, true, "", ""));
         tiplabels.push_back (label);
       }
     }
     
     if (label == journal) {
-      if (journal_index_acl (*request)) {
+      if (journal_index_acl (webserver_request)) {
         html.push_back (menu_logic_create_item (journal_index_url (), label, true, "", ""));
         tiplabels.push_back (label);
       }
@@ -664,10 +649,8 @@ string menu_logic_tools_category (void * webserver_request, string * tooltip)
 }
 
 
-string menu_logic_settings_category (void * webserver_request, string * tooltip)
+string menu_logic_settings_category (Webserver_Request& webserver_request, string * tooltip)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-
   [[maybe_unused]] bool demo = config::logic::demo_enabled ();
   
   // The labels that may end up in the menu.
@@ -723,21 +706,21 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
   for (auto & label : labels) {
   
     if (label == bibles) {
-      if (bible_manage_acl (*request)) {
+      if (bible_manage_acl (webserver_request)) {
         html.push_back (menu_logic_create_item (bible_manage_url (), menu_logic_bible_manage_text (), true, "", ""));
         tiplabels.push_back (menu_logic_bible_manage_text ());
       }
     }
     
     if (label == workspaces) {
-      if (workspace_organize_acl (*request)) {
+      if (workspace_organize_acl (webserver_request)) {
         html.push_back (menu_logic_create_item (workspace_organize_url (), menu_logic_workspace_organize_text (), true, "", ""));
         tiplabels.push_back (menu_logic_workspace_organize_text ());
       }
     }
     
     if (label == checks) {
-      if (checks_settings_acl (*request)) {
+      if (checks_settings_acl (webserver_request)) {
         html.push_back (menu_logic_create_item (checks_settings_url (), menu_logic_checks_settings_text (), true, "", ""));
         tiplabels.push_back (menu_logic_checks_settings_text ());
       }
@@ -753,7 +736,7 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
       // The Cloud is always online, with a fast connection, and can easily fetch a resource from the web.
       // Many Cloud instances may run on one server, and if the Cloud were to cache resources,
       // it would be going to use a huge amount of disk space.
-      if (resource_cache_acl (*request)) {
+      if (resource_cache_acl (webserver_request)) {
         html.push_back (menu_logic_create_item (resource_cache_url (), menu_logic_resources_text (), true, "", ""));
         tiplabels.push_back (menu_logic_resources_text ());
       }
@@ -763,7 +746,7 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
     if (label == changes) {
 #ifndef HAVE_CLIENT
       // Managing change notifications only on server, not on client.
-      if (changes_manage_acl (*request)) {
+      if (changes_manage_acl (webserver_request)) {
         html.push_back (menu_logic_create_item (changes_manage_url (), menu_logic_changes_text (), true, "", ""));
         tiplabels.push_back (menu_logic_changes_text ());
       }
@@ -771,7 +754,7 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
     }
     
     if (label == preferences) {
-      if (personalize_index_acl (*request)) {
+      if (personalize_index_acl (webserver_request)) {
         html.push_back (menu_logic_create_item (personalize_index_url (), label, true, "", ""));
         tiplabels.push_back (label);
       }
@@ -779,7 +762,7 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
     
     if (label == users) {
 #ifndef HAVE_CLIENT
-      if (manage_users_acl (*request)) {
+      if (manage_users_acl (webserver_request)) {
         html.push_back (menu_logic_create_item (manage_users_url (), menu_logic_manage_users_text (), true, "", ""));
         tiplabels.push_back (menu_logic_manage_users_text ());
       }
@@ -788,7 +771,7 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
     
     if (label == mail) {
 #ifndef HAVE_CLIENT
-      if (email_index_acl (*request)) {
+      if (email_index_acl (webserver_request)) {
         html.push_back (menu_logic_create_item (email_index_url (), label, true, "", ""));
         tiplabels.push_back (label);
       }
@@ -796,21 +779,21 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
     }
     
     if (label == styles) {
-      if (styles_indexm_acl (*request)) {
+      if (styles_indexm_acl (webserver_request)) {
         html.push_back (menu_logic_create_item (styles_indexm_url (), menu_logic_styles_text (), true, "", ""));
         tiplabels.push_back (menu_logic_styles_text ());
       }
     }
     
     if (label == versifications) {
-      if (versification_index_acl (*request)) {
+      if (versification_index_acl (webserver_request)) {
         html.push_back (menu_logic_create_item (versification_index_url (), menu_logic_versification_index_text (), true, "", ""));
         tiplabels.push_back (menu_logic_versification_index_text ());
       }
     }
     
     if (label == mappings) {
-      if (mapping_index_acl (*request)) {
+      if (mapping_index_acl (webserver_request)) {
         html.push_back (menu_logic_create_item (mapping_index_url (), menu_logic_mapping_index_text (), true, "", ""));
         tiplabels.push_back (menu_logic_mapping_index_text ());
       }
@@ -818,7 +801,7 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
     
 #ifndef HAVE_CLIENT
     if (label == repository) {
-      if (collaboration_index_acl (*request)) {
+      if (collaboration_index_acl (webserver_request)) {
         html.push_back (menu_logic_create_item (collaboration_index_url (), label, true, "", ""));
         tiplabels.push_back (label);
       }
@@ -828,13 +811,13 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
     if (label == cloud) {
       // If the installation is not prepared for Client mode, disable the Cloud menu item.
       // But keep the menu item in an open installation.
-      bool cloud_menu = client_index_acl (*request);
+      bool cloud_menu = client_index_acl (webserver_request);
 #ifndef HAVE_CLIENT
       cloud_menu = false;
 #endif
       if (config::logic::demo_enabled ()) cloud_menu = true;
       if (cloud_menu) {
-        if (client_index_acl (*request)) {
+        if (client_index_acl (webserver_request)) {
           html.push_back (menu_logic_create_item (client_index_url (), label, true, "", ""));
           tiplabels.push_back (client_index_url ());
         }
@@ -856,9 +839,9 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
       // Cannot logout in the demo.
       if (!demo) {
         // If logged in, but not as guest, put the Logout menu here.
-        if (request->session_logic ()->loggedIn ()) {
-          if (request->session_logic ()->currentLevel () != Filter_Roles::guest ()) {
-            if (session_logout_acl (*request)) {
+        if (webserver_request.session_logic ()->loggedIn ()) {
+          if (webserver_request.session_logic ()->currentLevel () != Filter_Roles::guest ()) {
+            if (session_logout_acl (webserver_request)) {
               html.push_back (menu_logic_create_item (session_logout_url (), menu_logic_logout_text (), true, "", ""));
               tiplabels.push_back (menu_logic_logout_text ());
             }
@@ -869,7 +852,7 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
 #endif
     
     if (label == notifications) {
-      if (user_notifications_acl (*request)) {
+      if (user_notifications_acl (webserver_request)) {
         html.push_back (menu_logic_create_item (user_notifications_url (), label, true, "", ""));
         tiplabels.push_back (label);
       }
@@ -879,7 +862,7 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
     if (label == account) {
       if (!demo) {
         if (!ldap_logic_is_on ()) {
-          if (user_account_acl (*request)) {
+          if (user_account_acl (webserver_request)) {
             html.push_back (menu_logic_create_item (user_account_url (), label, true, "", ""));
             tiplabels.push_back (label);
           }
@@ -889,21 +872,21 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
 #endif
     
     if (label == basic_mode) {
-      if (request->session_logic ()->currentLevel () > Filter_Roles::guest ()) {
+      if (webserver_request.session_logic ()->currentLevel () > Filter_Roles::guest ()) {
         html.push_back (menu_logic_create_item (index_index_url () + filter::strings::convert_to_string ("?mode=basic"), label, true, "", ""));
         tiplabels.push_back (label);
       }
     }
     
     if (label == system) {
-      if (system_index_acl (*request)) {
+      if (system_index_acl (webserver_request)) {
         html.push_back (menu_logic_create_item (system_index_url (), label, true, "", ""));
         tiplabels.push_back (label);
       }
     }
 
     if (label == images) {
-      if (images_index_acl (*request)) {
+      if (images_index_acl (webserver_request)) {
         html.push_back (menu_logic_create_item (images_index_url (), label, true, "", ""));
         tiplabels.push_back (label);
       }
@@ -912,7 +895,7 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
   }
   
   if (!html.empty ()) {
-    string user = request->session_logic ()->currentUser ();
+    string user = webserver_request.session_logic ()->currentUser ();
     html.insert (html.begin (), menu_logic_settings_text () + " (" + user + "): ");
   }
   
@@ -921,41 +904,39 @@ string menu_logic_settings_category (void * webserver_request, string * tooltip)
 }
 
 
-string menu_logic_settings_resources_category ([[maybe_unused]] void * webserver_request)
+string menu_logic_settings_resources_category ([[maybe_unused]] Webserver_Request& webserver_request)
 {
-  [[maybe_unused]] Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-
   vector <string> html;
   
 #ifdef HAVE_CLOUD
-  if (resource_manage_acl (*request)) {
+  if (resource_manage_acl (webserver_request)) {
     html.push_back (menu_logic_create_item (resource_manage_url (), translate ("USFM"), true, "", ""));
   }
 #endif
   
 #ifdef HAVE_CLOUD
-  if (resource_images_acl (*request)) {
+  if (resource_images_acl (webserver_request)) {
     html.push_back (menu_logic_create_item (resource_images_url (), translate ("Images"), true, "", ""));
   }
 #endif
   
 #ifdef HAVE_CLOUD
   if (!config_globals_hide_bible_resources) {
-    if (resource_sword_acl (*request)) {
+    if (resource_sword_acl (webserver_request)) {
       html.push_back (menu_logic_create_item (resource_sword_url (), translate ("SWORD"), true, "", ""));
     }
   }
 #endif
 
 #ifdef HAVE_CLOUD
-  if (resource_user9edit_acl (*request)) {
+  if (resource_user9edit_acl (webserver_request)) {
     html.push_back (menu_logic_create_item (resource_user9edit_url (), translate ("User-defined"), true, "", ""));
   }
 #endif
 
 #ifdef HAVE_CLOUD
   if (!config_globals_hide_bible_resources) {
-    if (resource_biblegateway_acl (*request)) {
+    if (resource_biblegateway_acl (webserver_request)) {
       html.push_back (menu_logic_create_item (resource_biblegateway_url (), "BibleGateway", true, "", ""));
     }
   }
@@ -963,20 +944,20 @@ string menu_logic_settings_resources_category ([[maybe_unused]] void * webserver
 
 #ifdef HAVE_CLOUD
   if (!config_globals_hide_bible_resources) {
-    if (resource_studylight_acl (*request)) {
+    if (resource_studylight_acl (webserver_request)) {
       html.push_back (menu_logic_create_item (resource_studylight_url (), "StudyLight", true, "", ""));
     }
   }
 #endif
 
 #ifdef HAVE_CLOUD
-  if (resource_comparative9edit_acl (*request)) {
+  if (resource_comparative9edit_acl (webserver_request)) {
     html.push_back (menu_logic_create_item (resource_comparative9edit_url (), translate ("Comparative"), true, "", ""));
   }
 #endif
 
 #ifdef HAVE_CLOUD
-  if (resource_translated9edit_acl (*request)) {
+  if (resource_translated9edit_acl (webserver_request)) {
     html.push_back (menu_logic_create_item (resource_translated9edit_url (), translate ("Translated"), true, "", ""));
   }
 #endif
@@ -989,13 +970,11 @@ string menu_logic_settings_resources_category ([[maybe_unused]] void * webserver
 }
 
 
-string menu_logic_help_category (void * webserver_request)
+string menu_logic_help_category (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  
   vector <string> html;
 
-  if (!request->session_logic ()->currentUser ().empty ()) {
+  if (!webserver_request.session_logic ()->currentUser ().empty ()) {
     html.push_back (menu_logic_create_item ("help/index", translate ("Help and About"), true, "", ""));
   }
 
@@ -1009,11 +988,10 @@ string menu_logic_help_category (void * webserver_request)
 
 // Returns true in case the user is a public user, that is, not logged-in,
 // or when the user has the role of Guest.
-bool menu_logic_public_or_guest (void * webserver_request)
+bool menu_logic_public_or_guest (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  if (request->session_logic ()->currentUser ().empty ()) return true;
-  if (request->session_logic ()->currentLevel () == Filter_Roles::guest ()) return true;
+  if (webserver_request.session_logic ()->currentUser ().empty ()) return true;
+  if (webserver_request.session_logic ()->currentLevel () == Filter_Roles::guest ()) return true;
   return false;
 }
 
@@ -1205,14 +1183,12 @@ string menu_logic_editor_settings_text (bool visual, int selection)
 }
 
 
-bool menu_logic_editor_enabled (void * webserver_request, bool visual, bool chapter)
+bool menu_logic_editor_enabled (Webserver_Request& webserver_request, bool visual, bool chapter)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  
   // Get the user's preference for the visual or USFM editors.
   int selection = 0;
-  if (visual) selection = request->database_config_user ()->getFastSwitchVisualEditors ();
-  else selection = request->database_config_user ()->getFastSwitchUsfmEditors ();
+  if (visual) selection = webserver_request.database_config_user ()->getFastSwitchVisualEditors ();
+  else selection = webserver_request.database_config_user ()->getFastSwitchUsfmEditors ();
 
   if (visual) {
     // Check whether the visual chapter or verse editor is active.
@@ -1264,7 +1240,7 @@ jsonxx::Object menu_logic_tabbed_mode_add_tab (string url, string label)
 
 
 // This looks at the settings, and then generates JSON, and stores that in the general configuration.
-void menu_logic_tabbed_mode_save_json (void * webserver_request)
+void menu_logic_tabbed_mode_save_json (Webserver_Request& webserver_request)
 {
   string json;
 
@@ -1275,8 +1251,7 @@ void menu_logic_tabbed_mode_save_json (void * webserver_request)
     bool generate_json = Database_Config_General::getMenuInTabbedViewOn ();
     
     // Tabbed view not possible in advanced mode.
-    Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-    if (!request->database_config_user ()->getBasicInterfaceMode ()) {
+    if (!webserver_request.database_config_user ()->getBasicInterfaceMode ()) {
       generate_json = false;
     }
     
@@ -1291,7 +1266,7 @@ void menu_logic_tabbed_mode_save_json (void * webserver_request)
       // Add the consultation notes tab.
       json_array << menu_logic_tabbed_mode_add_tab (notes_index_url (), menu_logic_consultation_notes_text ());
       // Add the change notifications, if enabled.
-      if (request->database_config_user ()->getMenuChangesInBasicMode ()) {
+      if (webserver_request.database_config_user ()->getMenuChangesInBasicMode ()) {
         json_array << menu_logic_tabbed_mode_add_tab (changes_changes_url (), menu_logic_changes_text ());
       }
       // Add the preferences tab.

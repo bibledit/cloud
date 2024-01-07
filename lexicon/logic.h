@@ -34,8 +34,11 @@
 #define BDB_PREFIX "b"
 
 
+class Webserver_Request;
+
+
 std::vector <std::string> lexicon_logic_resource_names ();
-std::string lexicon_logic_get_html (void * webserver_request, std::string lexicon, int book, int chapter, int verse);
+std::string lexicon_logic_get_html (Webserver_Request& webserver_request, std::string lexicon, int book, int chapter, int verse);
 std::string lexicon_logic_get_script (std::string prefix);
 std::string lexicon_logic_strong_number_cleanup (std::string strong);
 void lexicon_logic_convert_morphhb_parsing_to_strong (std::string parsing,

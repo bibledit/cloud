@@ -367,7 +367,7 @@ string menu_logic_workspace_category (Webserver_Request& webserver_request, stri
   if (workspace_organize_acl (webserver_request)) {
     string activeWorkspace = webserver_request.database_config_user()->getActiveWorkspace ();
 
-    vector <string> workspaces = workspace_get_names (std::addressof(webserver_request));
+    vector <string> workspaces = workspace_get_names (webserver_request);
     for (size_t i = 0; i < workspaces.size(); i++) {
       string item = menu_logic_create_item (workspace_index_url () + "?bench=" + filter::strings::convert_to_string (i), workspaces[i], true, "", "");
       // Adds an active class if it is the current workspace.

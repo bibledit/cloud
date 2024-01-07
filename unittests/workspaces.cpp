@@ -37,16 +37,16 @@ TEST (workspaces, basic)
   // Initial setup for the tests.
   refresh_sandbox (false);
   {
-    Webserver_Request request;
-    test_workspaces_setup (request);
+    Webserver_Request webserver_request;
+    test_workspaces_setup (webserver_request);
 
     EXPECT_EQ ("100", workspace_process_units ("100"));
     EXPECT_EQ ("1", workspace_process_units ("100 %"));
     EXPECT_EQ ("1", workspace_process_units ("100 px"));
 
-    EXPECT_EQ ("Default", workspace_get_active_name (&request));
-    request.database_config_user()->setActiveWorkspace ("unittest");
-    EXPECT_EQ ("unittest", workspace_get_active_name (&request));
+    EXPECT_EQ ("Default", workspace_get_active_name (webserver_request));
+    webserver_request.database_config_user()->setActiveWorkspace ("unittest");
+    EXPECT_EQ ("unittest", workspace_get_active_name (webserver_request));
 
     std::map <int, std::string> standard = {
       std::pair (0, "editone2/index"),
@@ -59,8 +59,8 @@ TEST (workspaces, basic)
         std::pair (10, "url1"),
         std::pair (2, "url2")
       };
-      workspace_set_urls (&request, urls);
-      std::map <int, std::string> result = workspace_get_urls (&request, false);
+      workspace_set_urls (webserver_request, urls);
+      std::map <int, std::string> result = workspace_get_urls (webserver_request, false);
       EXPECT_EQ (urls, result);
     }
   
@@ -71,47 +71,47 @@ TEST (workspaces, basic)
         std::pair (2, "1"),
         std::pair (3, "1")
       };
-      std::map <int, std::string> result = workspace_get_widths (&request);
+      std::map <int, std::string> result = workspace_get_widths (webserver_request);
       EXPECT_EQ (widths, result);
     }
 
     {
-      std::vector <std::string> workspaces = workspace_get_names (&request);
+      std::vector <std::string> workspaces = workspace_get_names (webserver_request);
       EXPECT_EQ (std::vector<std::string>{"unittest"}, workspaces);
     }
   }
 
   refresh_sandbox (true);
   {
-    Webserver_Request request;
-    test_workspaces_setup (request);
-    request.database_config_user()->setActiveWorkspace ("unittest");
-    workspace_set_urls (&request, {std::pair (10, "url10")});
-    request.database_config_user()->setActiveWorkspace ("unittest2");
+    Webserver_Request webserver_request;
+    test_workspaces_setup (webserver_request);
+    webserver_request.database_config_user()->setActiveWorkspace ("unittest");
+    workspace_set_urls (webserver_request, {std::pair (10, "url10")});
+    webserver_request.database_config_user()->setActiveWorkspace ("unittest2");
     std::map <int, std::string> standard = { std::pair (0, "url0"), std::pair (5, "url5")};
-    workspace_set_urls (&request, standard);
-    std::vector <std::string> workspaces = workspace_get_names (&request);
+    workspace_set_urls (webserver_request, standard);
+    std::vector <std::string> workspaces = workspace_get_names (webserver_request);
     EXPECT_EQ ((std::vector <std::string>{"unittest", "unittest2"}), workspaces);
-    workspace_delete (&request, "unittest3");
-    workspaces = workspace_get_names (&request);
+    workspace_delete (webserver_request, "unittest3");
+    workspaces = workspace_get_names (webserver_request);
     EXPECT_EQ ((std::vector <std::string>{"unittest", "unittest2"}), workspaces);
-    workspace_delete (&request, "unittest2");
-    workspaces = workspace_get_names (&request);
+    workspace_delete (webserver_request, "unittest2");
+    workspaces = workspace_get_names (webserver_request);
     EXPECT_EQ (std::vector <std::string>{"unittest"}, workspaces);
   }
 
   refresh_sandbox (true);
   {
-    Webserver_Request request;
-    test_workspaces_setup (request);
-    request.database_config_user()->setActiveWorkspace ("unittest2");
-    workspace_set_urls (&request, {std::pair (10, "url10")});
-    request.database_config_user()->setActiveWorkspace ("abc32");
-    workspace_set_urls (&request, {std::pair (10, "url10"), std::pair (11, "url11")});
-    request.database_config_user()->setActiveWorkspace ("zzz");
-    workspace_set_urls (&request, {std::pair (120, "url120"), std::pair (121, "url121")});
-    workspace_reorder (&request, {"zzz", "yyy", "unittest2", "abc32"});
-    std::vector <std::string> workspaces = workspace_get_names (&request);
+    Webserver_Request webserver_request;
+    test_workspaces_setup (webserver_request);
+    webserver_request.database_config_user()->setActiveWorkspace ("unittest2");
+    workspace_set_urls (webserver_request, {std::pair (10, "url10")});
+    webserver_request.database_config_user()->setActiveWorkspace ("abc32");
+    workspace_set_urls (webserver_request, {std::pair (10, "url10"), std::pair (11, "url11")});
+    webserver_request.database_config_user()->setActiveWorkspace ("zzz");
+    workspace_set_urls (webserver_request, {std::pair (120, "url120"), std::pair (121, "url121")});
+    workspace_reorder (webserver_request, {"zzz", "yyy", "unittest2", "abc32"});
+    std::vector <std::string> workspaces = workspace_get_names (webserver_request);
     EXPECT_EQ ((std::vector <std::string>{"zzz", "unittest2", "abc32"}), workspaces);
   }
 }

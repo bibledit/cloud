@@ -48,7 +48,7 @@ bool workspace_index_acl (Webserver_Request& webserver_request)
 
 std::string workspace_index (Webserver_Request& webserver_request)
 {
-  const std::vector <std::string> workspaces = workspace_get_names (std::addressof(webserver_request));
+  const std::vector <std::string> workspaces = workspace_get_names (webserver_request);
 
   // Set the requested workspace as the active one.
   if (webserver_request.query.count ("bench")) {
@@ -77,7 +77,7 @@ std::string workspace_index (Webserver_Request& webserver_request)
     create = (workspaces [0] == workspace_get_default_name ());
   }
   if (create) {
-    workspace_create_defaults (std::addressof(webserver_request));
+    workspace_create_defaults (webserver_request);
   }
 
   
@@ -102,8 +102,8 @@ std::string workspace_index (Webserver_Request& webserver_request)
   Assets_View view;
 
   
-  std::map <int, std::string> urls = workspace_get_urls (std::addressof(webserver_request), true);
-  std::map <int, std::string> widths = workspace_get_widths (std::addressof(webserver_request));
+  std::map <int, std::string> urls = workspace_get_urls (webserver_request, true);
+  std::map <int, std::string> widths = workspace_get_widths (webserver_request);
   // The Bible editor number, starting from 1, going up.
   std::map <int, int> editor_numbers = workspace_add_bible_editor_number (urls);
   for (int key = 0; key < 15; key++) {
@@ -123,7 +123,7 @@ std::string workspace_index (Webserver_Request& webserver_request)
   }
   
   
-  std::map <int, std::string> heights = workspace_get_heights (std::addressof(webserver_request));
+  std::map <int, std::string> heights = workspace_get_heights (webserver_request);
   for (int key = 0; key < 3; key++) {
     const std::string height = heights [key];
     const int row = key + 1;
@@ -134,7 +134,7 @@ std::string workspace_index (Webserver_Request& webserver_request)
   }
   
   
-  std::string workspacewidth = workspace_get_entire_width (std::addressof(webserver_request));
+  std::string workspacewidth = workspace_get_entire_width (webserver_request);
   if (!workspacewidth.empty ()) {
     workspacewidth.insert (0, "width: ");
     workspacewidth.append (";");

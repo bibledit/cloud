@@ -21,28 +21,30 @@
 
 #include <config/libraries.h>
 
+class Webserver_Request;
+
 std::vector <std::string> workspace_get_default_names ();
 std::map <int, std::string> workspace_get_default_urls (int id);
 std::map <int, std::string> workspace_get_default_widths (int id);
 std::map <int, std::string> workspace_get_default_heights (int id);
-void workspace_create_defaults (void * webserver_request);
-std::string workspace_get_active_name (void * webserver_request);
+void workspace_create_defaults (Webserver_Request& webserver_request);
+std::string workspace_get_active_name (Webserver_Request& webserver_request);
 std::string workspace_process_units (std::string length);
-void workspace_set_values (void * webserver_request, int selector, const std::map <int, std::string> & values);
-void workspace_set_urls (void * webserver_request, const std::map <int, std::string> & values);
-void workspace_set_widths (void * webserver_request, const std::map <int, std::string> & values);
-void workspace_set_heights (void * webserver_request, const std::map <int, std::string> & values);
-void workspace_set_entire_width (void * webserver_request, std::string value);
-std::map <int, std::string> workspace_get_values (void * webserver_request, int selector, bool use);
-std::map <int, std::string> workspace_get_urls (void * webserver_request, bool use);
-std::map <int, std::string> workspace_get_widths (void * webserver_request);
-std::map <int, std::string> workspace_get_heights (void * webserver_request);
-std::string workspace_get_entire_width (void * webserver_request);
-std::vector <std::string> workspace_get_names (void * webserver_request, bool add_default = true);
-void workspace_delete (void * webserver_request, std::string workspace);
-void workspace_reorder (void * webserver_request, const std::vector <std::string> & workspaces);
-void workspace_copy (void * webserver_request, std::string source, std::string destination);
-void workspace_cache_for_cloud (void * webserver_request, bool urls, bool widths, bool heights);
+void workspace_set_values (Webserver_Request& webserver_request, int selector, const std::map <int, std::string> & values);
+void workspace_set_urls (Webserver_Request& webserver_request, const std::map <int, std::string> & values);
+void workspace_set_widths (Webserver_Request& webserver_request, const std::map <int, std::string> & values);
+void workspace_set_heights (Webserver_Request& webserver_request, const std::map <int, std::string> & values);
+void workspace_set_entire_width (Webserver_Request& webserver_request, std::string value);
+std::map <int, std::string> workspace_get_values (Webserver_Request& webserver_request, int selector, bool use);
+std::map <int, std::string> workspace_get_urls (Webserver_Request& webserver_request, bool use);
+std::map <int, std::string> workspace_get_widths (Webserver_Request& webserver_request);
+std::map <int, std::string> workspace_get_heights (Webserver_Request& webserver_request);
+std::string workspace_get_entire_width (Webserver_Request& webserver_request);
+std::vector <std::string> workspace_get_names (Webserver_Request& webserver_request, bool add_default = true);
+void workspace_delete (Webserver_Request& webserver_request, std::string workspace);
+void workspace_reorder (Webserver_Request& webserver_request, const std::vector <std::string> & workspaces);
+void workspace_copy (Webserver_Request& webserver_request, std::string source, std::string destination);
+void workspace_cache_for_cloud (Webserver_Request& webserver_request, bool urls, bool widths, bool heights);
 std::string workspace_get_default_name ();
-void workspace_send (void * webserver_request, std::string workspace, std::string user);
+void workspace_send (Webserver_Request& webserver_request, std::string workspace, std::string user);
 std::map <int, int> workspace_add_bible_editor_number (std::map <int, std::string> & urls);

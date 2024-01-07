@@ -152,33 +152,29 @@ map <int, string> workspace_get_default_heights (int id)
 }
 
 
-void workspace_create_defaults (void * webserver_request)
+void workspace_create_defaults (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-
   // Save current active workspace.
-  string workspace = request->database_config_user()->getActiveWorkspace ();
+  string workspace = webserver_request.database_config_user()->getActiveWorkspace ();
 
   // Create or update the default workspaces.
   vector <string> names = workspace_get_default_names ();
   for (unsigned int i = 0; i < names.size (); i++) {
-    request->database_config_user()->setActiveWorkspace (names [i]);
+    webserver_request.database_config_user()->setActiveWorkspace (names [i]);
     int bench = static_cast<int>(i + 1);
-    workspace_set_urls (request, workspace_get_default_urls (bench));
-    workspace_set_widths (request, workspace_get_default_widths (bench));
-    workspace_set_heights (request, workspace_get_default_heights (bench));
+    workspace_set_urls (webserver_request, workspace_get_default_urls (bench));
+    workspace_set_widths (webserver_request, workspace_get_default_widths (bench));
+    workspace_set_heights (webserver_request, workspace_get_default_heights (bench));
   }
 
   // Restore current active workspace.
-  request->database_config_user()->setActiveWorkspace (workspace);
+  webserver_request.database_config_user()->setActiveWorkspace (workspace);
 }
 
 
-string workspace_get_active_name (void * webserver_request)
+string workspace_get_active_name (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-
-  string workspace = request->database_config_user()->getActiveWorkspace ();
+  string workspace = webserver_request.database_config_user()->getActiveWorkspace ();
 
   if (workspace.empty ()) {
     workspace = workspace_get_default_name ();
@@ -204,16 +200,15 @@ string workspace_process_units (string length)
 #define ENTIREWIDTH 4
 
 
-void workspace_set_values (void * webserver_request, int selector, const map <int, string> & values)
+void workspace_set_values (Webserver_Request& webserver_request, int selector, const map <int, string> & values)
 {
   // Store values locally, and for a client, store them also for sending to the server.
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  string workspace = workspace_get_active_name (request);
+  string workspace = workspace_get_active_name (webserver_request);
   string rawvalue;
-  if (selector == URLS) rawvalue = request->database_config_user()->getWorkspaceURLs ();
-  if (selector == WIDTHS) rawvalue = request->database_config_user()->getWorkspaceWidths ();
-  if (selector == HEIGHTS) rawvalue = request->database_config_user()->getWorkspaceHeights ();
-  if (selector == ENTIREWIDTH) rawvalue = request->database_config_user()->getEntireWorkspaceWidths ();
+  if (selector == URLS) rawvalue = webserver_request.database_config_user()->getWorkspaceURLs ();
+  if (selector == WIDTHS) rawvalue = webserver_request.database_config_user()->getWorkspaceWidths ();
+  if (selector == HEIGHTS) rawvalue = webserver_request.database_config_user()->getWorkspaceHeights ();
+  if (selector == ENTIREWIDTH) rawvalue = webserver_request.database_config_user()->getEntireWorkspaceWidths ();
   vector <string> currentlines = filter::strings::explode (rawvalue, '\n');
   vector <string> newlines;
   for (auto & line : currentlines) {
@@ -227,25 +222,25 @@ void workspace_set_values (void * webserver_request, int selector, const map <in
   }
   rawvalue = filter::strings::implode (newlines, "\n");
   if (selector == URLS) {
-    request->database_config_user()->setWorkspaceURLs (rawvalue);
-    workspace_cache_for_cloud (request, true, false, false);
+    webserver_request.database_config_user()->setWorkspaceURLs (rawvalue);
+    workspace_cache_for_cloud (webserver_request, true, false, false);
   }
   if (selector == WIDTHS) {
-    request->database_config_user()->setWorkspaceWidths (rawvalue);
-    workspace_cache_for_cloud (request, false, true, false);
+    webserver_request.database_config_user()->setWorkspaceWidths (rawvalue);
+    workspace_cache_for_cloud (webserver_request, false, true, false);
   }
   if (selector == HEIGHTS) {
-    request->database_config_user()->setWorkspaceHeights (rawvalue);
-    workspace_cache_for_cloud (request, false, false, true);
+    webserver_request.database_config_user()->setWorkspaceHeights (rawvalue);
+    workspace_cache_for_cloud (webserver_request, false, false, true);
   }
   if (selector == ENTIREWIDTH) {
-    request->database_config_user()->setEntireWorkspaceWidths (rawvalue);
-    workspace_cache_for_cloud (request, false, true, false);
+    webserver_request.database_config_user()->setEntireWorkspaceWidths (rawvalue);
+    workspace_cache_for_cloud (webserver_request, false, true, false);
   }
 }
 
 
-void workspace_set_urls (void * webserver_request, const map <int, string> & values)
+void workspace_set_urls (Webserver_Request& webserver_request, const map <int, string> & values)
 {
   // Get current order of the workspaces.
   vector <string> order = workspace_get_names (webserver_request);
@@ -256,38 +251,36 @@ void workspace_set_urls (void * webserver_request, const map <int, string> & val
 }
 
 
-void workspace_set_widths (void * webserver_request, const map <int, string> & values)
+void workspace_set_widths (Webserver_Request& webserver_request, const map <int, string> & values)
 {
   workspace_set_values (webserver_request, WIDTHS, values);
 }
 
 
-void workspace_set_heights (void * webserver_request, const map <int, string> & values)
+void workspace_set_heights (Webserver_Request& webserver_request, const map <int, string> & values)
 {
   workspace_set_values (webserver_request, HEIGHTS, values);
 }
 
 
-void workspace_set_entire_width (void * webserver_request, string value)
+void workspace_set_entire_width (Webserver_Request& webserver_request, string value)
 {
   map <int, string> values = {pair (0, value)};
   workspace_set_values (webserver_request, ENTIREWIDTH, values);
 }
 
 
-map <int, string> workspace_get_values (void * webserver_request, int selector, bool use)
+map <int, string> workspace_get_values (Webserver_Request& webserver_request, int selector, bool use)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-
   map <int, string> values;
   
-  string workspace = workspace_get_active_name (request);
+  string workspace = workspace_get_active_name (webserver_request);
   
   string rawvalue;
-  if (selector == URLS) rawvalue = request->database_config_user()->getWorkspaceURLs ();
-  if (selector == WIDTHS) rawvalue = request->database_config_user()->getWorkspaceWidths ();
-  if (selector == HEIGHTS) rawvalue = request->database_config_user()->getWorkspaceHeights ();
-  if (selector == ENTIREWIDTH) rawvalue = request->database_config_user()->getEntireWorkspaceWidths ();
+  if (selector == URLS) rawvalue = webserver_request.database_config_user()->getWorkspaceURLs ();
+  if (selector == WIDTHS) rawvalue = webserver_request.database_config_user()->getWorkspaceWidths ();
+  if (selector == HEIGHTS) rawvalue = webserver_request.database_config_user()->getWorkspaceHeights ();
+  if (selector == ENTIREWIDTH) rawvalue = webserver_request.database_config_user()->getEntireWorkspaceWidths ();
   vector <string> lines = filter::strings::explode (rawvalue, '\n');
   for (auto & line : lines) {
     if (line.find (workspace + "_") == 0) {
@@ -342,25 +335,25 @@ map <int, string> workspace_get_values (void * webserver_request, int selector, 
 }
 
 
-map <int, string> workspace_get_urls (void * webserver_request, bool use)
+map <int, string> workspace_get_urls (Webserver_Request& webserver_request, bool use)
 {
   return workspace_get_values (webserver_request, URLS, use);
 }
 
 
-map <int, string> workspace_get_widths (void * webserver_request)
+map <int, string> workspace_get_widths (Webserver_Request& webserver_request)
 {
   return workspace_get_values (webserver_request, WIDTHS, false);
 }
 
 
-map <int, string> workspace_get_heights (void * webserver_request)
+map <int, string> workspace_get_heights (Webserver_Request& webserver_request)
 {
   return workspace_get_values (webserver_request, HEIGHTS, false);
 }
 
 
-string workspace_get_entire_width (void * webserver_request)
+string workspace_get_entire_width (Webserver_Request& webserver_request)
 {
   map <int, string> values = workspace_get_values (webserver_request, ENTIREWIDTH, false);
   string width;
@@ -373,12 +366,11 @@ string workspace_get_entire_width (void * webserver_request)
 
 // Returns the names of the available workspaces.
 // If $add_default, if there's no workspaces, it adds a default one.
-vector <string> workspace_get_names (void * webserver_request, bool add_default)
+vector <string> workspace_get_names (Webserver_Request& webserver_request, bool add_default)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   vector <string> workspaces;
   // The names and the order of the workspaces is taken from the URLs.
-  string rawvalue = request->database_config_user()->getWorkspaceURLs ();
+  string rawvalue = webserver_request.database_config_user()->getWorkspaceURLs ();
   vector <string> lines = filter::strings::explode (rawvalue, '\n');
   for (auto & line : lines) {
     vector <string> bits = filter::strings::explode (line, '_');
@@ -389,65 +381,61 @@ vector <string> workspace_get_names (void * webserver_request, bool add_default)
     }
   }
   if (workspaces.empty () && add_default) {
-    workspaces.push_back (workspace_get_active_name (request));
+    workspaces.push_back (workspace_get_active_name (webserver_request));
   }
   return workspaces;
 }
 
 
-void workspace_delete (void * webserver_request, string workspace)
+void workspace_delete (Webserver_Request& webserver_request, string workspace)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-
   string rawvalue;
   vector <string> currentlines;
   vector <string> newlines;
   
-  rawvalue = request->database_config_user()->getWorkspaceURLs ();
+  rawvalue = webserver_request.database_config_user()->getWorkspaceURLs ();
   currentlines = filter::strings::explode (rawvalue, '\n');
   newlines.clear ();
   for (auto & line : currentlines) {
     if (line.find (workspace + "_") != 0) newlines.push_back (line);
   }
   rawvalue = filter::strings::implode (newlines, "\n");
-  request->database_config_user()->setWorkspaceURLs (rawvalue);
+  webserver_request.database_config_user()->setWorkspaceURLs (rawvalue);
   
-  rawvalue = request->database_config_user()->getWorkspaceWidths ();
+  rawvalue = webserver_request.database_config_user()->getWorkspaceWidths ();
   currentlines = filter::strings::explode (rawvalue, '\n');
   newlines.clear ();
   for (auto & line : currentlines) {
     if (line.find (workspace + "_") != 0) newlines.push_back (line);
   }
   rawvalue = filter::strings::implode (newlines, "\n");
-  request->database_config_user()->setWorkspaceWidths (rawvalue);
+  webserver_request.database_config_user()->setWorkspaceWidths (rawvalue);
   
-  rawvalue = request->database_config_user()->getWorkspaceHeights ();
+  rawvalue = webserver_request.database_config_user()->getWorkspaceHeights ();
   currentlines = filter::strings::explode (rawvalue, '\n');
   newlines.clear ();
   for (auto & line : currentlines) {
     if (line.find (workspace + "_") != 0) newlines.push_back (line);
   }
   rawvalue = filter::strings::implode (newlines, "\n");
-  request->database_config_user()->setWorkspaceHeights (rawvalue);
+  webserver_request.database_config_user()->setWorkspaceHeights (rawvalue);
   
-  request->database_config_user()->setActiveWorkspace ("");
+  webserver_request.database_config_user()->setActiveWorkspace ("");
   
   // For a client, store the setting for sending to the server.
-  workspace_cache_for_cloud (request, true, true, true);
+  workspace_cache_for_cloud (webserver_request, true, true, true);
 }
 
 
 // This orders the workspaces.
 // It takes the order as in array $workspaces.
-void workspace_reorder (void * webserver_request, const vector <string> & workspaces)
+void workspace_reorder (Webserver_Request& webserver_request, const vector <string> & workspaces)
 {
   // The order of the workspaces is taken from the URLs.
   // Widths and heights are not considered for the order.
   
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-
   // Retrieve the old order of the workspaces, plus their details.
-  string rawvalue = request->database_config_user()->getWorkspaceURLs ();
+  string rawvalue = webserver_request.database_config_user()->getWorkspaceURLs ();
   vector <string> oldlines = filter::strings::explode (rawvalue, '\n');
   
   // Create vector with the sorted workspace definitions.
@@ -470,53 +458,50 @@ void workspace_reorder (void * webserver_request, const vector <string> & worksp
 
   // Save everything.
   rawvalue = filter::strings::implode (newlines, "\n");
-  request->database_config_user()->setWorkspaceURLs (rawvalue);
+  webserver_request.database_config_user()->setWorkspaceURLs (rawvalue);
 
   // Schedule for sending to Cloud.
-  workspace_cache_for_cloud (request, true, false, false);
+  workspace_cache_for_cloud (webserver_request, true, false, false);
 }
 
 
 // Copy workspace $source to $destination
-void workspace_copy (void * webserver_request, string source, string destination)
+void workspace_copy (Webserver_Request& webserver_request, string source, string destination)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-
   // Save current active workspace.
-  string active_workspace = request->database_config_user()->getActiveWorkspace ();
+  string active_workspace = webserver_request.database_config_user()->getActiveWorkspace ();
   
   // Copy source workspace to destination.
-  request->database_config_user()->setActiveWorkspace (source);
+  webserver_request.database_config_user()->setActiveWorkspace (source);
   map <int, string> urls = workspace_get_urls (webserver_request, false);
   map <int, string> widths = workspace_get_widths (webserver_request);
   map <int, string> heights = workspace_get_heights (webserver_request);
   string entire_width = workspace_get_entire_width (webserver_request);
-  request->database_config_user()->setActiveWorkspace (destination);
+  webserver_request.database_config_user()->setActiveWorkspace (destination);
   workspace_set_urls (webserver_request, urls);
   workspace_set_widths (webserver_request, widths);
   workspace_set_heights (webserver_request, heights);
   workspace_set_entire_width (webserver_request, entire_width);
   
   // Restore current active workspace.
-  request->database_config_user()->setActiveWorkspace (active_workspace);
+  webserver_request.database_config_user()->setActiveWorkspace (active_workspace);
 }
 
 
 // Store updated workspace settings for sending to the cloud.
-void workspace_cache_for_cloud ([[maybe_unused]] void * webserver_request,
+void workspace_cache_for_cloud ([[maybe_unused]] Webserver_Request& webserver_request,
                                 [[maybe_unused]] bool urls,
                                 [[maybe_unused]] bool widths,
                                 [[maybe_unused]] bool heights)
 {
 #ifdef HAVE_CLIENT
   // For a client, store the setting for sending to the server.
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
   if (urls)
-    request->database_config_user()->addUpdatedSetting (Sync_Logic::settings_send_workspace_urls);
+    webserver_request.database_config_user()->addUpdatedSetting (Sync_Logic::settings_send_workspace_urls);
   if (widths)
-    request->database_config_user()->addUpdatedSetting (Sync_Logic::settings_send_workspace_widths);
+    webserver_request.database_config_user()->addUpdatedSetting (Sync_Logic::settings_send_workspace_widths);
   if (heights)
-    request->database_config_user()->addUpdatedSetting (Sync_Logic::settings_send_workspace_heights);
+    webserver_request.database_config_user()->addUpdatedSetting (Sync_Logic::settings_send_workspace_heights);
 #endif
 }
 
@@ -528,22 +513,20 @@ string workspace_get_default_name ()
 
 
 // Send the named $workspace to a $user name.
-void workspace_send (void * webserver_request, string workspace, string user)
+void workspace_send (Webserver_Request& webserver_request, string workspace, string user)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-
   // Save current active workspace.
-  string active_workspace = request->database_config_user()->getActiveWorkspace ();
+  string active_workspace = webserver_request.database_config_user()->getActiveWorkspace ();
   
   // Retrieve settings for the $workspace of the current user.
-  request->database_config_user()->setActiveWorkspace (workspace);
+  webserver_request.database_config_user()->setActiveWorkspace (workspace);
   map <int, string> urls = workspace_get_urls (webserver_request, false);
   map <int, string> widths = workspace_get_widths (webserver_request);
   map <int, string> heights = workspace_get_heights (webserver_request);
   string entire_width = workspace_get_entire_width (webserver_request);
   
   // Restore current active workspace.
-  request->database_config_user()->setActiveWorkspace (active_workspace);
+  webserver_request.database_config_user()->setActiveWorkspace (active_workspace);
 
   // New webserver request object for the destination user.
   Webserver_Request destination_request;
@@ -554,13 +537,13 @@ void workspace_send (void * webserver_request, string workspace, string user)
   destination_request.database_config_user()->setActiveWorkspace (workspace);
   
   // Copy source workspace to destination.
-  workspace_set_urls (&destination_request, urls);
-  workspace_set_widths (&destination_request, widths);
-  workspace_set_heights (&destination_request, heights);
-  workspace_set_entire_width (&destination_request, entire_width);
+  workspace_set_urls (destination_request, urls);
+  workspace_set_widths (destination_request, widths);
+  workspace_set_heights (destination_request, heights);
+  workspace_set_entire_width (destination_request, entire_width);
 
   // Restore workspace for the destination user.
-  request->database_config_user()->setActiveWorkspace (active_workspace);
+  webserver_request.database_config_user()->setActiveWorkspace (active_workspace);
 }
 
 

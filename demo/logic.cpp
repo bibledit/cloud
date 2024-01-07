@@ -375,17 +375,17 @@ void demo_create_sample_workspaces (Webserver_Request& webserver_request)
   };
   
   webserver_request.database_config_user()->setActiveWorkspace ("USFM");
-  workspace_set_urls (std::addressof(webserver_request), urls);
-  workspace_set_widths (std::addressof(webserver_request), widths);
-  workspace_set_heights (std::addressof(webserver_request), row_heights);
+  workspace_set_urls (webserver_request, urls);
+  workspace_set_widths (webserver_request, widths);
+  workspace_set_heights (webserver_request, row_heights);
   
   urls[0] = editone2_index_url ();
   urls[1] = resource_index_url ();
   
   webserver_request.database_config_user()->setActiveWorkspace (demo_workspace ());
-  workspace_set_urls (std::addressof(webserver_request), urls);
-  workspace_set_widths (std::addressof(webserver_request), widths);
-  workspace_set_heights (std::addressof(webserver_request), row_heights);
+  workspace_set_urls (webserver_request, urls);
+  workspace_set_widths (webserver_request, widths);
+  workspace_set_heights (webserver_request, row_heights);
 }
 
 

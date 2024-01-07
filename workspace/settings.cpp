@@ -54,9 +54,9 @@ string workspace_settings (Webserver_Request& webserver_request)
   
   if (webserver_request.query.count ("preset")) {
     int preset = filter::strings::convert_to_int (webserver_request.query ["preset"]);
-    workspace_set_urls (std::addressof(webserver_request), workspace_get_default_urls (preset));
-    workspace_set_widths (std::addressof(webserver_request), workspace_get_default_widths (preset));
-    workspace_set_heights (std::addressof(webserver_request), workspace_get_default_heights (preset));
+    workspace_set_urls (webserver_request, workspace_get_default_urls (preset));
+    workspace_set_widths (webserver_request, workspace_get_default_widths (preset));
+    workspace_set_heights (webserver_request, workspace_get_default_heights (preset));
   }
   
   if (webserver_request.post.count ("save")) {
@@ -76,9 +76,9 @@ string workspace_settings (Webserver_Request& webserver_request)
       row_heights [to2] = webserver_request.post ["height" + key];
       to2++;
     }
-    workspace_set_urls (std::addressof(webserver_request), urls);
-    workspace_set_widths (std::addressof(webserver_request), widths);
-    workspace_set_heights (std::addressof(webserver_request), row_heights);
+    workspace_set_urls (webserver_request, urls);
+    workspace_set_widths (webserver_request, widths);
+    workspace_set_heights (webserver_request, row_heights);
     // If no "px" or "%" is given, then default to "%".
     // https://github.com/bibledit/cloud/issues/643
     string workspacewidth = filter::strings::trim(webserver_request.post ["workspacewidth"]);\
@@ -91,7 +91,7 @@ string workspace_settings (Webserver_Request& webserver_request)
         }
       }
     }
-    workspace_set_entire_width (std::addressof(webserver_request), workspacewidth);
+    workspace_set_entire_width (webserver_request, workspacewidth);
     redirect_browser (webserver_request, workspace_index_url ());
     return "";
   }
@@ -105,8 +105,8 @@ string workspace_settings (Webserver_Request& webserver_request)
   
   Assets_View view;
   
-  map <int, string> urls = workspace_get_urls (std::addressof(webserver_request), false);
-  map <int, string> widths = workspace_get_widths (std::addressof(webserver_request));
+  map <int, string> urls = workspace_get_urls (webserver_request, false);
+  map <int, string> widths = workspace_get_widths (webserver_request);
   for (const auto & element : urls) {
     int key = element.first;
     int row = static_cast<int>(round (key / 5)) + 1;
@@ -117,7 +117,7 @@ string workspace_settings (Webserver_Request& webserver_request)
     view.set_variable (variable, widths[key]);
   }
   
-  map <int, string> row_heights = workspace_get_heights (std::addressof(webserver_request));
+  map <int, string> row_heights = workspace_get_heights (webserver_request);
   for (auto & element : row_heights) {
     int key = element.first;
     int row = key + 1;
@@ -125,7 +125,7 @@ string workspace_settings (Webserver_Request& webserver_request)
     view.set_variable (variable, row_heights [key]);
   }
 
-  string workspacewidth = workspace_get_entire_width (std::addressof(webserver_request));
+  string workspacewidth = workspace_get_entire_width (webserver_request);
   view.set_variable ("workspacewidth", workspacewidth);
   
   view.set_variable ("name", name);

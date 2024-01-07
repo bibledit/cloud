@@ -21,7 +21,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <config/libraries.h>
 
-void user_logic_optional_ldap_authentication (void * webserver_request, std::string user, std::string pass);
+class Webserver_Request;
+
+void user_logic_optional_ldap_authentication (Webserver_Request& webserver_request, std::string user, std::string pass);
 
 bool user_logic_login_failure_check_okay ();
 void user_logic_login_failure_register ();

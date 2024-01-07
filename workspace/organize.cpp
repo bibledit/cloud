@@ -53,9 +53,9 @@ std::string workspace_organize (Webserver_Request& webserver_request)
   if (webserver_request.post.count ("add")) {
     const std::string add = webserver_request.post["add"];
     webserver_request.database_config_user()->setActiveWorkspace (add);
-    workspace_set_urls (std::addressof(webserver_request), workspace_get_default_urls (0));
-    workspace_set_widths (std::addressof(webserver_request), workspace_get_default_widths (0));
-    workspace_set_heights (std::addressof(webserver_request), workspace_get_default_heights (0));
+    workspace_set_urls (webserver_request, workspace_get_default_urls (0));
+    workspace_set_widths (webserver_request, workspace_get_default_widths (0));
+    workspace_set_heights (webserver_request, workspace_get_default_heights (0));
     success = translate ("The workspace was added");
   }
   
@@ -63,23 +63,23 @@ std::string workspace_organize (Webserver_Request& webserver_request)
   // Re-ordering workspaces.
   if (webserver_request.query.count ("up")) {
     const size_t item = static_cast<size_t>(filter::strings::convert_to_int (webserver_request.query ["up"]));
-    std::vector <std::string> workspaces = workspace_get_names (std::addressof(webserver_request));
+    std::vector <std::string> workspaces = workspace_get_names (webserver_request);
     filter::strings::array_move_up_down (workspaces, item, true);
-    workspace_reorder (std::addressof(webserver_request), workspaces);
+    workspace_reorder (webserver_request, workspaces);
     success = translate ("The workspace was moved up");
   }
   if (webserver_request.query.count ("down")) {
     const size_t item = static_cast<size_t>(filter::strings::convert_to_int (webserver_request.query ["down"]));
-    std::vector <std::string> workspaces = workspace_get_names (std::addressof(webserver_request));
+    std::vector <std::string> workspaces = workspace_get_names (webserver_request);
     filter::strings::array_move_up_down (workspaces, item, false);
-    workspace_reorder (std::addressof(webserver_request), workspaces);
+    workspace_reorder (webserver_request, workspaces);
     success = translate ("The workspace was moved down");
   }
   
   
   // Create and reset all default workspaces.
   if (webserver_request.query.count ("defaults")) {
-    workspace_create_defaults (std::addressof(webserver_request));
+    workspace_create_defaults (webserver_request);
     success = translate ("The default workspaces were created");
   }
   
@@ -102,7 +102,7 @@ std::string workspace_organize (Webserver_Request& webserver_request)
       return page;
     }
     if (confirm == "yes") {
-      workspace_delete (std::addressof(webserver_request), remove);
+      workspace_delete (webserver_request, remove);
       success = translate ("The workspace was removed");
     }
   }
@@ -119,7 +119,7 @@ std::string workspace_organize (Webserver_Request& webserver_request)
   if (webserver_request.query.count ("source")) {
     const std::string source = webserver_request.query ["source"];
     const std::string destination = webserver_request.post ["entry"];
-    workspace_copy (std::addressof(webserver_request), source, destination);
+    workspace_copy (webserver_request, source, destination);
     success = translate ("The workspace was copied");
   }
 
@@ -131,7 +131,7 @@ std::string workspace_organize (Webserver_Request& webserver_request)
     const std::vector <std::string> users = webserver_request.database_users ()->get_users ();
     for (const auto& user : users) {
       if (user != me) {
-        workspace_send (std::addressof(webserver_request), send, user);
+        workspace_send (webserver_request, send, user);
       }
     }
     success = translate ("The workspace was sent to all users");
@@ -142,7 +142,7 @@ std::string workspace_organize (Webserver_Request& webserver_request)
   
   
   std::stringstream workspaceblock;
-  const std::vector <std::string> workspaces = workspace_get_names (std::addressof(webserver_request), false);
+  const std::vector <std::string> workspaces = workspace_get_names (webserver_request, false);
   for (size_t i = 0; i < workspaces.size (); i++) {
     const std::string workspace = workspaces [i];
     workspaceblock << "<p>" << std::endl;

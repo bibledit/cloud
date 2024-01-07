@@ -88,7 +88,7 @@ std::string session_login (Webserver_Request& webserver_request)
     }
     if (form_is_valid) {
       // Optionally query the LDAP server and log the response.
-      user_logic_optional_ldap_authentication (std::addressof(webserver_request), user, pass);
+      user_logic_optional_ldap_authentication (webserver_request, user, pass);
       // Authenticate against local database.
       if (webserver_request.session_logic()->attempt_login (user, pass, touch_enabled)) {
         // Log the login.

@@ -36,7 +36,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 using namespace std;
 
 
-void user_logic_optional_ldap_authentication (void * webserver_request, string user, string pass)
+void user_logic_optional_ldap_authentication (Webserver_Request& webserver_request, string user, string pass)
 {
   if (ldap_logic_is_on ()) {
     // Query the LDAP server and log the response.
@@ -45,24 +45,23 @@ void user_logic_optional_ldap_authentication (void * webserver_request, string u
     int role;
     ldap_logic_fetch (user, pass, ldap_okay, email, role, true);
     if (ldap_okay) {
-      Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-      if (request->database_users ()->usernameExists (user)) {
+      if (webserver_request.database_users ()->usernameExists (user)) {
         // Verify and/or update the fields for the user in the local database.
-        if (request->database_users ()->get_md5 (user) != md5 (pass)) {
-          request->database_users ()->set_password (user, pass);
+        if (webserver_request.database_users ()->get_md5 (user) != md5 (pass)) {
+          webserver_request.database_users ()->set_password (user, pass);
         }
-        if (request->database_users ()->get_level (user) != role) {
-          request->database_users ()->set_level (user, role);
+        if (webserver_request.database_users ()->get_level (user) != role) {
+          webserver_request.database_users ()->set_level (user, role);
         }
-        if (request->database_users ()->get_email (user) != email) {
-          request->database_users ()->updateUserEmail (user, email);
+        if (webserver_request.database_users ()->get_email (user) != email) {
+          webserver_request.database_users ()->updateUserEmail (user, email);
         }
-        if (!request->database_users ()->get_enabled (user)) {
-          request->database_users ()->set_enabled (user, true);
+        if (!webserver_request.database_users ()->get_enabled (user)) {
+          webserver_request.database_users ()->set_enabled (user, true);
         }
       } else {
         // Enter the user into the database.
-        request->database_users ()->add_user (user, pass, role, email);
+        webserver_request.database_users ()->add_user (user, pass, role, email);
       }
     }
   }

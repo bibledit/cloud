@@ -175,7 +175,7 @@ std::string system_index (Webserver_Request& webserver_request)
     if (producenotes) task = PRODUCERENOTESTRANSFERFILE;
     if (produceresources) task = PRODUCERESOURCESTRANSFERFILE;
     tasks_logic_queue (task, { filter::strings::convert_to_string (jobId) });
-    redirect_browser (request, jobs_index_url () + "?id=" + filter::strings::convert_to_string (jobId));
+    redirect_browser (webserver_request, jobs_index_url () + "?id=" + filter::strings::convert_to_string (jobId));
     return std::string();
   }
 #endif

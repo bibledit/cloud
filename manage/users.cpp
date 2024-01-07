@@ -270,7 +270,7 @@ string manage_users (Webserver_Request& webserver_request)
   stringstream tbody;
   bool ldap_on = ldap_logic_is_on ();
   // Retrieve assigned users.
-  vector <string> users = access_user::assignees (std::addressof(webserver_request));
+  vector <string> users = access_user::assignees (webserver_request);
   for (const auto& username : users) {
     
     // Gather details for this user account.

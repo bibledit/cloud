@@ -21,8 +21,10 @@
 
 #include <config/libraries.h>
 
+class Webserver_Request;
+
 void changes_logic_start ();
 const char * changes_personal_category ();
 const char * changes_bible_category ();
-std::string changes_interlinks (void * webserver_request, std::string my_url);
+std::string changes_interlinks (Webserver_Request& webserver_request, std::string my_url);
 void changes_clear_notifications_user (std::string jobid, std::string username);

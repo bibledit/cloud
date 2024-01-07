@@ -89,7 +89,7 @@ string changes_manage (Webserver_Request& webserver_request)
   
   
   bool notifications {false};
-  vector <string> users = access_user::assignees (std::addressof(webserver_request));
+  vector <string> users = access_user::assignees (webserver_request);
   for (const auto& user : users) {
     string any_bible {};
     vector <int> ids = database_modifications.getNotificationIdentifiers (user, any_bible);
@@ -104,7 +104,7 @@ string changes_manage (Webserver_Request& webserver_request)
   if (notifications) view.enable_zone ("notifications");
 
   
-  view.set_variable ("interlinks", changes_interlinks (std::addressof(webserver_request), changes_manage_url ()));
+  view.set_variable ("interlinks", changes_interlinks (webserver_request, changes_manage_url ()));
 
   
   page += view.render ("changes", "manage");

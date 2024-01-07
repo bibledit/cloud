@@ -305,7 +305,7 @@ string changes_changes (Webserver_Request& webserver_request)
   if (touch) view.enable_zone ("touch");
 
   
-  view.set_variable ("interlinks", changes_interlinks (std::addressof(webserver_request), changes_changes_url ()));
+  view.set_variable ("interlinks", changes_interlinks (webserver_request, changes_changes_url ()));
   
   
   // Create data for the link for how to sort the change notifications.

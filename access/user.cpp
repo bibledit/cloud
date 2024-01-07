@@ -25,22 +25,20 @@ using namespace std;
 
 
 // This function returns users assigned to the logged-in user.
-vector <string> access_user::assignees (void * webserver_request)
+vector <string> access_user::assignees (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-
-  string myuser = request->session_logic ()->currentUser ();
-  int mylevel = request->session_logic ()->currentLevel ();
+  const string myuser = webserver_request.session_logic ()->currentUser ();
+  const int mylevel = webserver_request.session_logic ()->currentLevel ();
 
   // This holds the assignees.
   vector <string> assignees {};
 
   // Process all users.
-  vector <string> users = request->database_users ()->get_users ();
+  vector <string> users = webserver_request.database_users ()->get_users ();
   sort (users.begin(), users.end());
   for (const auto & user : users) {
     // Assignees should have a level less than or equal to mylevel.
-    if (request->database_users ()->get_level (user) <= mylevel) {
+    if (webserver_request.database_users ()->get_level (user) <= mylevel) {
       assignees.push_back (user);
     }
   }

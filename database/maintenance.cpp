@@ -91,7 +91,7 @@ void database_maintenance ()
   database_bibles.optimize ();
 
   
-  Database_Ipc database_ipc = Database_Ipc (&webserver_request);
+  Database_Ipc database_ipc (webserver_request);
   database_ipc.trim ();
   
   

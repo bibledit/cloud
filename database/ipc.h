@@ -23,6 +23,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/libraries.h>
 
 
+class Webserver_Request;
+
+
 struct Database_Ipc_Item
 {
   std::string file {};
@@ -45,7 +48,7 @@ struct Database_Ipc_Message
 class Database_Ipc
 {
 public:
-  Database_Ipc (void * webserver_request_in);
+  Database_Ipc (Webserver_Request& webserver_request);
   void trim ();
   void storeMessage (std::string user, std::string channel, std::string command, std::string message);
   Database_Ipc_Message retrieveMessage (int id, std::string user, std::string channel, std::string command);
@@ -54,7 +57,7 @@ public:
   Database_Ipc_Message getNote ();
   bool getNotesAlive ();
 private:
-  void * webserver_request {nullptr};
+  Webserver_Request& m_webserver_request;
   std::string folder ();
   std::string file (std::string file);
   std::vector <Database_Ipc_Item> readData ();

@@ -30,9 +30,9 @@ using namespace std;
 // Database resilience: Stored in plain file system.
 
 
-Database_Ipc::Database_Ipc (void * webserver_request_in)
+Database_Ipc::Database_Ipc (Webserver_Request& webserver_request):
+m_webserver_request (webserver_request)
 {
-  webserver_request = webserver_request_in;
 }
 
 
@@ -143,8 +143,7 @@ void Database_Ipc::deleteMessage (int id)
 
 string Database_Ipc::getFocus ()
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  string user = request->session_logic ()->currentUser ();
+  string user = m_webserver_request.session_logic ()->currentUser ();
 
   int highestId = 0;
   string hitMessage = "";
@@ -171,8 +170,7 @@ string Database_Ipc::getFocus ()
 
 Database_Ipc_Message Database_Ipc::getNote ()
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  string user = request->session_logic ()->currentUser ();
+  string user = m_webserver_request.session_logic ()->currentUser ();
 
   int highestId = 0;
   string hitMessage = "";
@@ -203,8 +201,7 @@ Database_Ipc_Message Database_Ipc::getNote ()
 
 bool Database_Ipc::getNotesAlive ()
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  string user = request->session_logic ()->currentUser ();
+  string user = m_webserver_request.session_logic ()->currentUser ();
 
   int highestId = 0;
   string hitMessage = "";

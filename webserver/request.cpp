@@ -95,7 +95,8 @@ Database_Check * Webserver_Request::database_check ()
 
 Database_Ipc * Webserver_Request::database_ipc ()
 {
-  if (!database_ipc_instance) database_ipc_instance = new Database_Ipc (this);
+  if (!database_ipc_instance) 
+    database_ipc_instance = new Database_Ipc (*this);
   return database_ipc_instance;
 }
 

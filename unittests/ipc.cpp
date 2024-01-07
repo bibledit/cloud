@@ -72,15 +72,16 @@ TEST (database, ipc)
   // Test trim.
   {
     refresh_sandbox (false);
-    Database_Ipc database_ipc = Database_Ipc (nullptr);
+    Webserver_Request webserver_request;
+    Database_Ipc database_ipc (webserver_request);
     database_ipc.trim ();
   }
 
   // Test store retrieve
   {
     refresh_sandbox (true);
-    Webserver_Request request;
-    Database_Ipc database_ipc = Database_Ipc (&request);
+    Webserver_Request webserver_request;
+    Database_Ipc database_ipc (webserver_request);
     
     int id = 1;
     string user = "phpunit";
@@ -103,8 +104,8 @@ TEST (database, ipc)
   // Test delete
   {
     refresh_sandbox (true);
-    Webserver_Request request;
-    Database_Ipc database_ipc = Database_Ipc (&request);
+    Webserver_Request webserver_request;
+    Database_Ipc database_ipc (webserver_request);
     
     int id = 1;
     string user = "phpunit";
@@ -129,7 +130,7 @@ TEST (database, ipc)
     Database_Users database_users;
     database_users.create ();
     Webserver_Request webserver_request;
-    Database_Ipc database_ipc (std::addressof(webserver_request));
+    Database_Ipc database_ipc (webserver_request);
     
     string user = "phpunit";
     webserver_request.session_logic ()->set_username (user);
@@ -156,7 +157,7 @@ TEST (database, ipc)
     Database_Users database_users;
     database_users.create ();
     Webserver_Request webserver_request;
-    Database_Ipc database_ipc (std::addressof(webserver_request));
+    Database_Ipc database_ipc (webserver_request);
     
     string user = "phpunit";
     webserver_request.session_logic ()->set_username (user);
@@ -183,7 +184,7 @@ TEST (database, ipc)
     Database_Users database_users;
     database_users.create ();
     Webserver_Request webserver_request;
-    Database_Ipc database_ipc (std::addressof(webserver_request));
+    Database_Ipc database_ipc (webserver_request);
     
     string user = "phpunit";
     webserver_request.session_logic ()->set_username (user);

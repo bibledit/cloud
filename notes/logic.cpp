@@ -655,7 +655,7 @@ bool Notes_Logic::handleEmailNew (string from, string subject, string body)
   // Post the note.
   string sessionuser = m_webserver_request.session_logic()->currentUser ();
   m_webserver_request.session_logic()->set_username (username);
-  Database_Notes database_notes = Database_Notes(m_webserver_request);
+  Database_Notes database_notes (m_webserver_request);
   string bible = m_webserver_request.database_config_user()->getBible ();
   int identifier = database_notes.store_new_note (bible, static_cast<int>(book), chapter, verse, summary, body, false);
   handlerNewNote (identifier);

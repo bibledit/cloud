@@ -82,7 +82,7 @@ void sendreceive_changes ()
   
 
   Webserver_Request webserver_request;
-  Sync_Logic sync_logic = Sync_Logic (webserver_request);
+  Sync_Logic sync_logic (webserver_request);
   Database_Modifications database_modifications;
   
   

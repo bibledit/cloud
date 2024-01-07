@@ -95,7 +95,7 @@ void database_maintenance ()
   database_ipc.trim ();
   
   
-  Database_Notes database_notes = Database_Notes (webserver_request);
+  Database_Notes database_notes (webserver_request);
   database_notes.trim ();
   if (!client_mode) database_notes.trim_server ();
   database_notes.optimize ();

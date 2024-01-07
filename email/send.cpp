@@ -192,8 +192,8 @@ string email_send ([[maybe_unused]] string to_mail,
     return "";
   }
 
-  Webserver_Request request;
-  Sync_Logic sync_logic = Sync_Logic (&request);
+  Webserver_Request webserver_request;
+  Sync_Logic sync_logic (webserver_request);
 
   map <string, string> post;
   post ["n"] = filter::strings::bin2hex (to_name);

@@ -37,7 +37,7 @@ public:
 class Sync_Logic
 {
 public:
-  Sync_Logic (Webserver_Request& webserver_request_in);
+  Sync_Logic (Webserver_Request& webserver_request);
 
   static constexpr int settings_get_total_checksum = 1;
   static constexpr int settings_send_workspace_urls = 2;

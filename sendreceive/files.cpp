@@ -90,7 +90,7 @@ void sendreceive_files ()
   
   
   Webserver_Request webserver_request {};
-  Sync_Logic sync_logic = Sync_Logic (webserver_request);
+  Sync_Logic sync_logic (webserver_request);
 
   
   Database_Logs::log (sendreceive_files_sendreceive_text (), Filter_Roles::translator ());

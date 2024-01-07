@@ -46,7 +46,7 @@ using namespace std;
 
 
 // Internal function declarations.
-void changes_process_identifiers (Webserver_Request * request,
+void changes_process_identifiers (Webserver_Request& webserver_request,
                                   const string & user,
                                   const vector <string> & recipients,
                                   const string & bible,
@@ -60,7 +60,7 @@ void changes_process_identifiers (Webserver_Request * request,
 // Helper function.
 // $user: The user whose changes are being processed.
 // $recipients: The users who opted for receiving online notifications of any contributor.
-void changes_process_identifiers (Webserver_Request * request,
+void changes_process_identifiers (Webserver_Request& webserver_request,
                                   const string & user,
                                   const vector <string> & recipients,
                                   const string & bible,
@@ -108,7 +108,7 @@ void changes_process_identifiers (Webserver_Request * request,
           email += " ";
           email += modification;
           email += "</div>";
-          if (request->database_config_user()->getUserUserChangesNotificationsOnline (user)) {
+          if (webserver_request.database_config_user()->getUserUserChangesNotificationsOnline (user)) {
             database_modifications.recordNotification ({user}, changes_personal_category (), bible, book, chapter, verse, old_html, modification, new_html);
           }
           // Go over all the receipients to record the change for them.
@@ -231,7 +231,7 @@ void changes_modifications ()
             new_id = id_set.newid;
             
             if (restart) {
-              changes_process_identifiers (&webserver_request, user, recipients_named_contributors, bible, book, chapter, notification_bibles_per_user, reference_new_id, new_id, email, change_count, modification_time_total, modification_time_count);
+              changes_process_identifiers (webserver_request, user, recipients_named_contributors, bible, book, chapter, notification_bibles_per_user, reference_new_id, new_id, email, change_count, modification_time_total, modification_time_count);
               reference_new_id = new_id;
               last_new_id = new_id;
               restart = false;
@@ -246,7 +246,7 @@ void changes_modifications ()
           }
           
           // Process the last set of identifiers.
-          changes_process_identifiers (&webserver_request, user, recipients_named_contributors, bible, book, chapter, notification_bibles_per_user, reference_new_id, new_id, email, change_count, modification_time_total, modification_time_count);
+          changes_process_identifiers (webserver_request, user, recipients_named_contributors, bible, book, chapter, notification_bibles_per_user, reference_new_id, new_id, email, change_count, modification_time_total, modification_time_count);
           
         }
       }

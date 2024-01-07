@@ -333,7 +333,7 @@ std::string system_index (Webserver_Request& webserver_request)
 
   // Handle display the number of unsent emails and clearing them.
 #ifdef HAVE_CLOUD
-  Database_Mail database_mail (std::addressof(webserver_request));
+  Database_Mail database_mail (webserver_request);
   if (webserver_request.query.count ("clearemails")) {
     const std::vector <int> mails = database_mail.getAllMails ();
     for (auto rowid : mails) {

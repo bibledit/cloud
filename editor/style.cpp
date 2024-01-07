@@ -46,17 +46,17 @@ string editor_style (Webserver_Request& webserver_request)
 {
   if (webserver_request.query.count ("style")) {
     string style = webserver_request.query["style"];
-    Editor_Styles::recordUsage (std::addressof(webserver_request), style);
-    string action = Editor_Styles::getAction (std::addressof(webserver_request), style);
+    Editor_Styles::recordUsage (webserver_request, style);
+    string action = Editor_Styles::getAction (webserver_request, style);
     return style + "\n" + action;
   }
   
   
   if (webserver_request.query.count ("all")) {
-    return Editor_Styles::getAll (std::addressof(webserver_request));
+    return Editor_Styles::getAll (webserver_request);
   }
   
   
-  return Editor_Styles::getRecentlyUsed (std::addressof(webserver_request));
+  return Editor_Styles::getRecentlyUsed (webserver_request);
 }
 

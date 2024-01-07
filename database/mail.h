@@ -21,6 +21,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <config/libraries.h>
 
+class Webserver_Request;
+
 struct Database_Mail_User
 {
   int rowid {0};
@@ -38,7 +40,7 @@ struct Database_Mail_Item
 class Database_Mail
 {
 public:
-  Database_Mail (void * webserver_request_in);
+  Database_Mail (Webserver_Request& webserver_request);
   ~Database_Mail ();
   Database_Mail(const Database_Mail&) = delete;
   Database_Mail operator=(const Database_Mail&) = delete;
@@ -55,5 +57,5 @@ public:
   std::vector <int> getAllMails ();
 private:
   sqlite3 * connect ();
-  void * webserver_request {nullptr};
+  Webserver_Request& m_webserver_request;
 };

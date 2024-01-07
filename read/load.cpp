@@ -79,7 +79,7 @@ string read_load (Webserver_Request& webserver_request)
   // 2. It updates the chapter snapshot.
   // 3. It loads the other verse.
   // 4. It updates the chapter snapshot.
-  storeLoadedUsfm2 (std::addressof(webserver_request), bible, book, chapter, unique_id);
+  storeLoadedUsfm2 (webserver_request, bible, book, chapter, unique_id);
   
   string prefix_html;
   string not_used;

@@ -35,14 +35,14 @@ using namespace std;
 
 TEST (styles, css)
 {
-  Webserver_Request request {};
+  Webserver_Request webserver_request {};
 
   // Create basic stylesheet.
   {
     refresh_sandbox (true);
     Database_Styles database_styles {};
     database_styles.createSheet ("testsheet");
-    Styles_Css styles_css = Styles_Css (&request, "testsheet");
+    Styles_Css styles_css = Styles_Css (&webserver_request, "testsheet");
     styles_css.generate ();
     string css = styles_css.css ();
     //filter_url_file_put_contents ("/tmp/css.css", css);
@@ -55,7 +55,7 @@ TEST (styles, css)
     refresh_sandbox (true);
     Database_Styles database_styles {};
     database_styles.createSheet ("testsheet");
-    Styles_Css styles_css = Styles_Css (&request, "testsheet");
+    Styles_Css styles_css = Styles_Css (&webserver_request, "testsheet");
     styles_css.exports ();
     styles_css.generate ();
     string css = styles_css.css ();
@@ -69,7 +69,7 @@ TEST (styles, css)
     refresh_sandbox (true);
     Database_Styles database_styles {};
     database_styles.createSheet ("testsheet");
-    Styles_Css styles_css = Styles_Css (&request, "testsheet");
+    Styles_Css styles_css = Styles_Css (&webserver_request, "testsheet");
     styles_css.editor ();
     styles_css.generate ();
     string css = styles_css.css ();
@@ -358,11 +358,11 @@ TEST (styles, css)
     database_styles.create ();
     Database_State database_state;
     database_state.create ();
-    string action = Editor_Styles::getAction (&request, "add");
+    string action = Editor_Styles::getAction (webserver_request, "add");
     EXPECT_EQ ("c", action);
-    action = Editor_Styles::getAction (&request, "vp");
+    action = Editor_Styles::getAction (webserver_request, "vp");
     EXPECT_EQ ("c", action);
-    action = Editor_Styles::getAction (&request, "id");
+    action = Editor_Styles::getAction (webserver_request, "id");
     EXPECT_EQ ("m", action);
     refresh_sandbox (true, {"5 Creating sample Bible", "5 Sample Bible was created"});
   }

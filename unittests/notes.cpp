@@ -288,7 +288,7 @@ void test_database_notes ()
     Database_Notes database_notes (webserver_request);
     database_notes.create ();
     Notes_Logic notes_logic (webserver_request);
-    Database_Mail database_mail = Database_Mail (std::addressof(webserver_request));
+    Database_Mail database_mail (webserver_request);
     database_mail.create ();
     
     // Normally creating a new note would subscribe the current user to the note.
@@ -355,7 +355,7 @@ void test_database_notes ()
     Webserver_Request webserver_request;
     Database_Notes database_notes (webserver_request);
     database_notes.create ();
-    Database_Mail database_mail = Database_Mail (std::addressof(webserver_request));
+    Database_Mail database_mail (webserver_request);
     database_mail.create ();
     
     webserver_request.session_logic()->set_username ("unittest2");

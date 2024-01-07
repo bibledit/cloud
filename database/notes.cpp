@@ -507,7 +507,7 @@ vector <int> Database_Notes::get_identifiers ()
 string Database_Notes::assemble_contents (int identifier, string contents)
 {
   string new_contents = get_contents (identifier);
-  string datetime = filter::date::localized_date_format (std::addressof(m_webserver_request));
+  string datetime = filter::date::localized_date_format (m_webserver_request);
   string user = m_webserver_request.session_logic ()->currentUser ();
   // To make the notes more readable, add whitespace between the comments.
   bool is_initial_comment = new_contents.empty ();

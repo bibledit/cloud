@@ -126,7 +126,7 @@ string editone2_save (Webserver_Request& webserver_request)
   // it's worth to check on this.
   // Because the user's editor may not yet have loaded this updated Bible text.
   // https://github.com/bibledit/cloud/issues/340
-  string loaded_usfm = getLoadedUsfm2 (std::addressof(webserver_request), bible, book, chapter, unique_id);
+  string loaded_usfm = getLoadedUsfm2 (webserver_request, bible, book, chapter, unique_id);
   if (loaded_usfm != old_chapter_usfm) {
     bible_logic::recent_save_email (bible, book, chapter, username, loaded_usfm, old_chapter_usfm);
   }
@@ -162,7 +162,7 @@ string editone2_save (Webserver_Request& webserver_request)
     
     
     // Store a copy of the USFM now saved as identical to what's loaded in the editor for later reference.
-    storeLoadedUsfm2 (std::addressof(webserver_request), bible, book, chapter, unique_id);
+    storeLoadedUsfm2 (webserver_request, bible, book, chapter, unique_id);
 
     return locale_logic_text_saved ();
   }

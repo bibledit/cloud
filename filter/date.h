@@ -21,6 +21,8 @@
 
 #include <config/libraries.h>
 
+class Webserver_Request;
+
 namespace filter::date {
 
 int numerical_second (int seconds);
@@ -51,6 +53,6 @@ enum date_format {
   yyyy_mn_dd = 2
 };
 std::string date_format_to_text (date_format format);
-std::string localized_date_format (void * webserver_request);
+std::string localized_date_format (Webserver_Request& webserver_request);
 
 }

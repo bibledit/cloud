@@ -70,7 +70,7 @@ void database_maintenance ()
   database_users.optimize ();
   
   
-  Database_Mail database_mail = Database_Mail (&webserver_request);
+  Database_Mail database_mail (webserver_request);
   database_mail.trim ();
   database_mail.optimize ();
   

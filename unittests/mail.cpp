@@ -38,8 +38,8 @@ TEST (database, mail)
     refresh_sandbox (false);
     Database_Users database_users;
     database_users.create ();
-    Webserver_Request request;
-    Database_Mail database_mail = Database_Mail (&request);
+    Webserver_Request webserver_request;
+    Database_Mail database_mail (webserver_request);
     database_mail.create ();
     database_mail.optimize ();
     database_mail.trim ();
@@ -50,10 +50,10 @@ TEST (database, mail)
     refresh_sandbox (true);
     Database_Users database_users;
     database_users.create ();
-    Webserver_Request request;
-    Database_Mail database_mail = Database_Mail (&request);
+    Webserver_Request webserver_request;
+    Database_Mail database_mail (webserver_request);
     database_mail.create ();
-    request.session_logic ()->set_username ("phpunit");
+    webserver_request.session_logic ()->set_username ("phpunit");
     
     const int count = database_mail.getMailCount ();
     EXPECT_EQ (0, count);
@@ -70,10 +70,10 @@ TEST (database, mail)
     refresh_sandbox (true);
     Database_Users database_users;
     database_users.create ();
-    Webserver_Request request;
-    Database_Mail database_mail = Database_Mail (&request);
+    Webserver_Request webserver_request;
+    Database_Mail database_mail (webserver_request);
     database_mail.create ();
-    request.session_logic ()->set_username ("phpunit");
+    webserver_request.session_logic ()->set_username ("phpunit");
     
     database_mail.send ("phpunit", "subject", "body");
     
@@ -98,10 +98,10 @@ TEST (database, mail)
     refresh_sandbox (true);
     Database_Users database_users;
     database_users.create ();
-    Webserver_Request request;
-    Database_Mail database_mail = Database_Mail (&request);
+    Webserver_Request webserver_request;
+    Database_Mail database_mail (webserver_request);
     database_mail.create ();
-    request.session_logic ()->set_username ("phpunit");
+    webserver_request.session_logic ()->set_username ("phpunit");
     
     database_mail.send ("phpunit", "subject", "body");
     

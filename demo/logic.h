@@ -21,6 +21,8 @@
 
 #include <config/libraries.h>
 
+class Webserver_Request;
+
 bool demo_acl (std::string user, std::string pass);
 
 // Returns the address of the current demo server.
@@ -36,7 +38,7 @@ void demo_clean_data ();
 std::string demo_sample_bible_name ();
 void demo_create_sample_bible ();
 void demo_prepare_sample_bible ();
-void demo_create_sample_notes (void * webserver_request);
+void demo_create_sample_notes (Webserver_Request& webserver_request);
 std::string demo_workspace ();
-void demo_create_sample_workspaces (void * webserver_request);
+void demo_create_sample_workspaces (Webserver_Request& webserver_request);
 std::vector <std::string> demo_logic_default_resources ();

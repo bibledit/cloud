@@ -48,8 +48,8 @@ void email_send ()
   config_globals_mail_send_running = true;
 
   // The databases involved.
-  Webserver_Request request;
-  Database_Mail database_mail = Database_Mail (&request);
+  Webserver_Request webserver_request;
+  Database_Mail database_mail (webserver_request);
   Database_Users database_users;
 
   vector <int> mails = database_mail.getMailsToSend ();
@@ -364,7 +364,8 @@ string email_send ([[maybe_unused]] string to_mail,
 void email_schedule (string to, string subject, string body, int time)
 {
   // Schedule the mail for sending.
-  Database_Mail database_mail (nullptr);
+  Webserver_Request webserver_request;
+  Database_Mail database_mail (webserver_request);
   database_mail.send (to, subject, body, time);
   // Schedule a task to send the scheduled mail right away.
   tasks_logic_queue (SENDEMAIL);

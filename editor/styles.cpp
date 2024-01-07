@@ -39,21 +39,19 @@ using namespace std;
 using namespace pugi;
 
 
-string Editor_Styles::getRecentlyUsed (void * webserver_request)
+string Editor_Styles::getRecentlyUsed (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
- 
-  string bible = request->database_config_user()->getBible ();
+  string bible = webserver_request.database_config_user()->getBible ();
   string stylesheet = Database_Config_Bible::getEditorStylesheet (bible);
   
   // The recent styles.
-  string s_styles = request->database_config_user()->getRecentlyAppliedStyles ();
+  string s_styles = webserver_request.database_config_user()->getRecentlyAppliedStyles ();
   vector <string> styles = filter::strings::explode (s_styles, ' ');
   string fragment = translate("Select style") + ": ";
   for (unsigned int i = 0; i < styles.size(); i++) {
     if (i) fragment += " | ";
     string marker = styles [i];
-    Database_Styles_Item data = request->database_styles()->getMarkerData (stylesheet, marker);
+    Database_Styles_Item data = webserver_request.database_styles()->getMarkerData (stylesheet, marker);
     if (data.marker.empty ()) continue;
     string name = data.name + " (" + marker + ")";
     string info = data.info;
@@ -80,14 +78,13 @@ string Editor_Styles::getRecentlyUsed (void * webserver_request)
 }
 
 
-string Editor_Styles::getAll (void * webserver_request)
+string Editor_Styles::getAll (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  string bible = request->database_config_user()->getBible ();
+  string bible = webserver_request.database_config_user()->getBible ();
   string stylesheet = Database_Config_Bible::getEditorStylesheet (bible);
   
   // The styles.
-  map <string, string> data = request->database_styles()->getMarkersAndNames (stylesheet);
+  map <string, string> data = webserver_request.database_styles()->getMarkersAndNames (stylesheet);
   
   vector <string> lines;
   
@@ -100,7 +97,7 @@ string Editor_Styles::getAll (void * webserver_request)
     string marker = item.first;
     string name = item.second;
     name = translate (name);
-    Database_Styles_Item marker_data = request->database_styles()->getMarkerData (stylesheet, marker);
+    Database_Styles_Item marker_data = webserver_request.database_styles()->getMarkerData (stylesheet, marker);
     string category = marker_data.category;
     category = styles_logic_category_text (category);
     string line2 = marker + " " + name + " (" + category + ")";
@@ -119,11 +116,10 @@ string Editor_Styles::getAll (void * webserver_request)
 }
 
 
-void Editor_Styles::recordUsage (void * webserver_request, string style)
+void Editor_Styles::recordUsage (Webserver_Request& webserver_request, string style)
 {
   if (style == "") return;
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  string s_styles = request->database_config_user()->getRecentlyAppliedStyles ();
+  string s_styles = webserver_request.database_config_user()->getRecentlyAppliedStyles ();
   vector <string> styles = filter::strings::explode (s_styles, ' ');
   // Erase the style.
   styles.erase (remove (styles.begin(), styles.end(), style), styles.end());
@@ -134,16 +130,15 @@ void Editor_Styles::recordUsage (void * webserver_request, string style)
     styles.pop_back ();
   }
   s_styles = filter::strings::implode (styles, " ");
-  request->database_config_user()->setRecentlyAppliedStyles (s_styles);
+  webserver_request.database_config_user()->setRecentlyAppliedStyles (s_styles);
 }
 
 
-string Editor_Styles::getAction (void * webserver_request, string style)
+string Editor_Styles::getAction (Webserver_Request& webserver_request, string style)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  string bible = request->database_config_user()->getBible ();
+  string bible = webserver_request.database_config_user()->getBible ();
   string stylesheet = Database_Config_Bible::getEditorStylesheet (bible);
-  Database_Styles_Item data = request->database_styles()->getMarkerData (stylesheet, style);
+  Database_Styles_Item data = webserver_request.database_styles()->getMarkerData (stylesheet, style);
   int type = data.type;
   int subtype = data.subtype;
   

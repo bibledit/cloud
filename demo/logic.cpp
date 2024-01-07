@@ -167,13 +167,13 @@ void demo_clean_data ()
 
   // Create sample notes.
   if (config::logic::default_bibledit_configuration ()) {
-    demo_create_sample_notes (&webserver_request);
+    demo_create_sample_notes (webserver_request);
   }
 
 
   // Create samples for the workspaces.
   if (config::logic::default_bibledit_configuration ()) {
-    demo_create_sample_workspaces (&webserver_request);
+    demo_create_sample_workspaces (webserver_request);
   }
   
   
@@ -332,10 +332,9 @@ void demo_prepare_sample_bible ()
 
 
 // Create sample notes.
-void demo_create_sample_notes (void * webserver_request)
+void demo_create_sample_notes (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  Database_Notes database_notes (*request);
+  Database_Notes database_notes (webserver_request);
   vector <int> identifiers = database_notes.get_identifiers ();
   if (identifiers.size () < 10) {
     for (int i = 1; i <= 10; i++) {
@@ -351,10 +350,8 @@ string demo_workspace ()
 }
 
 
-void demo_create_sample_workspaces (void * webserver_request)
+void demo_create_sample_workspaces (Webserver_Request& webserver_request)
 {
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  
   map <int, string> urls {};
   map <int, string> widths {};
   for (int i = 0; i < 15; i++) {
@@ -377,18 +374,18 @@ void demo_create_sample_workspaces (void * webserver_request)
     pair (2, "")
   };
   
-  request->database_config_user()->setActiveWorkspace ("USFM");
-  workspace_set_urls (request, urls);
-  workspace_set_widths (request, widths);
-  workspace_set_heights (request, row_heights);
+  webserver_request.database_config_user()->setActiveWorkspace ("USFM");
+  workspace_set_urls (std::addressof(webserver_request), urls);
+  workspace_set_widths (std::addressof(webserver_request), widths);
+  workspace_set_heights (std::addressof(webserver_request), row_heights);
   
   urls[0] = editone2_index_url ();
   urls[1] = resource_index_url ();
   
-  request->database_config_user()->setActiveWorkspace (demo_workspace ());
-  workspace_set_urls (request, urls);
-  workspace_set_widths (request, widths);
-  workspace_set_heights (request, row_heights);
+  webserver_request.database_config_user()->setActiveWorkspace (demo_workspace ());
+  workspace_set_urls (std::addressof(webserver_request), urls);
+  workspace_set_widths (std::addressof(webserver_request), widths);
+  workspace_set_heights (std::addressof(webserver_request), row_heights);
 }
 
 

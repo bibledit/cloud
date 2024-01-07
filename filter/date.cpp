@@ -331,7 +331,7 @@ string date_format_to_text (date_format format)
 }
 
 
-string localized_date_format (void * webserver_request)
+string localized_date_format (Webserver_Request& webserver_request)
 {
   int time = seconds_since_epoch ();
   
@@ -339,8 +339,7 @@ string localized_date_format (void * webserver_request)
   string month = filter::strings::convert_to_string (numerical_month (time));
   string year = filter::strings::convert_to_string (numerical_year (time));
 
-  Webserver_Request * request = static_cast<Webserver_Request *>(webserver_request);
-  date_format df = static_cast<date_format>(request->database_config_user()->getNotesDateFormat());
+  date_format df = static_cast<date_format>(webserver_request.database_config_user()->getNotesDateFormat());
 
   switch (df) {
     case dd_mm_yyyy:

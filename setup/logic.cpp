@@ -242,7 +242,7 @@ void setup_initialize_data ()
   database_sprint.create ();
 #endif
   config_globals_setup_message = "mail";
-  Database_Mail database_mail = Database_Mail (std::addressof(webserver_request));
+  Database_Mail database_mail (webserver_request);
   database_mail.create ();
   config_globals_setup_message = "navigation";
   Database_Navigation database_navigation = Database_Navigation ();

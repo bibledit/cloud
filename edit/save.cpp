@@ -102,7 +102,7 @@ string edit_save (Webserver_Request& webserver_request)
   editor_export.run ();
   string user_usfm = editor_export.get ();
   
-  string ancestor_usfm = getLoadedUsfm2 (std::addressof(webserver_request), bible, book, chapter, unique_id);
+  string ancestor_usfm = getLoadedUsfm2 (webserver_request, bible, book, chapter, unique_id);
   
   vector <filter::usfm::BookChapterData> book_chapter_text = filter::usfm::usfm_import (user_usfm, stylesheet);
   if (book_chapter_text.size () != 1) {
@@ -175,7 +175,7 @@ string edit_save (Webserver_Request& webserver_request)
 #endif
 
   // Store a copy of the USFM loaded in the editor for later reference.
-  storeLoadedUsfm2 (std::addressof(webserver_request), bible, book, chapter, unique_id);
+  storeLoadedUsfm2 (webserver_request, bible, book, chapter, unique_id);
 
   // Convert the stored USFM to html.
   // This converted html should be the same as the saved html.

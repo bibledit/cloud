@@ -76,7 +76,7 @@ void export_web_book (string bible, int book, bool log)
   
   // Web index file for the book.
   HtmlText html_text_rich_book_index (bibleBookText);
-  Html_Header htmlHeader = Html_Header (&html_text_rich_book_index);
+  Html_Header htmlHeader = Html_Header (html_text_rich_book_index);
   htmlHeader.search_back_link (backLinkPath + filter_url_html_file_name_bible ("", book), translate("Go back to") + " " + bibleBookText);
   htmlHeader.create ({
     pair (bible, filter_url_html_file_name_bible ()),
@@ -108,7 +108,7 @@ void export_web_book (string bible, int book, bool log)
     filter_text_chapter.html_text_linked->custom_class = Filter_Css::getClass (bible);
     
     // Create breadcrumbs and navigator for the chapter.
-    Html_Header html_header = Html_Header (filter_text_chapter.html_text_linked);
+    Html_Header html_header = Html_Header (*filter_text_chapter.html_text_linked);
     html_header.search_back_link (backLinkPath + filter_url_html_file_name_bible ("", book, chapter), translate("Go back to") + " " + bibleBookText + " " + filter::strings::convert_to_string (chapter));
     vector <pair <string, string> > breadcrumbs_navigator;
     breadcrumbs_navigator.push_back (pair (bible, filter_url_html_file_name_bible ()));
@@ -190,7 +190,7 @@ void export_web_index (string bible, bool log)
   // Main index file.
   HtmlText html_text_rich_bible_index (bible);
   // On top are the breadcrumbs, starting with a clickable Bible name.
-  Html_Header htmlHeader = Html_Header (&html_text_rich_bible_index);
+  Html_Header htmlHeader = Html_Header (html_text_rich_bible_index);
   htmlHeader.search_back_link (backLinkPath + filter_url_html_file_name_bible (), translate("Go back to Bible"));
   htmlHeader.create ({ pair (bible, filter_url_html_file_name_bible ())});
   

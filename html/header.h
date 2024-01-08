@@ -22,16 +22,18 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/libraries.h>
 #include <database/styles.h>
 
+class HtmlText;
+
 class Html_Header
 {
 public:
-  Html_Header (void * html_text);
+  Html_Header (HtmlText& html_text);
   Html_Header(const Html_Header&) = delete;
   Html_Header operator=(const Html_Header&) = delete;
   void search_back_link (std::string url, std::string text);
   void create (const std::vector <std::pair <std::string, std::string> > & breadcrumbs);
 private:
-  void * m_html_text {nullptr};
+  HtmlText& m_html_text;
   std::string m_search_back_link_url {};
   std::string m_search_back_link_text {};
 };

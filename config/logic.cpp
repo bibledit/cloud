@@ -122,20 +122,6 @@ string admin_email ()
 }
 
 
-// Replacement function for missing "stoi" on platforms like Android.
-int my_stoi (const string& str, void * idx, int base)
-{
-#ifdef HAVE_STOI
-  size_t * index = static_cast<size_t *> (idx);
-  return stoi (str, index, base);
-#else
-  char ** endptr = reinterpret_cast <char **> (idx);
-  int i = strtol (str.c_str(), endptr, base);
-  return i;
-#endif
-}
-
-
 // Returns whether the interface is supposed to be in basic mode.
 bool basic_mode (Webserver_Request& webserver_request)
 {

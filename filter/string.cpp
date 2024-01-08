@@ -1423,7 +1423,7 @@ int user_identifier (Webserver_Request& webserver_request)
 {
   const std::string username = webserver_request.session_logic()->currentUser ();
   const std::string hash = md5 (username).substr (0, 5);
-  const int identifier = config::logic::my_stoi (hash, nullptr, 36);
+  const int identifier = std::stoi (hash, nullptr, 36);
   return identifier;
 }
 
@@ -1453,7 +1453,7 @@ std::string hex2bin (const std::string& hex)
     for (std::string::const_iterator pos = hex.begin(); pos < hex.end(); pos += 2)
     {
       extract.assign (pos, pos+2);
-      out.push_back (static_cast<char> (config::logic::my_stoi (extract, nullptr, 16)));
+      out.push_back (static_cast<char> (std::stoi (extract, nullptr, 16)));
     }
   }
   return out;

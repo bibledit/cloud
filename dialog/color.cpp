@@ -27,17 +27,13 @@ using namespace std;
 
 Dialog_Color::Dialog_Color (string url, string question)
 {
-  Assets_View * view = new Assets_View ();
   base_url = url;
-  view->set_variable ("question", question);
-  assets_view = view;
+  assets_view.set_variable ("question", question);
 }
 
 
 Dialog_Color::~Dialog_Color ()
 {
-  Assets_View * view = static_cast<Assets_View *>(assets_view);
-  delete view;
 }
 
 
@@ -53,9 +49,8 @@ void Dialog_Color::add_query (string parameter, string value)
 
 string Dialog_Color::run ()
 {
-  Assets_View * view = static_cast<Assets_View *>(assets_view);
-  view->set_variable ("base_url", base_url);
-  string page = view->render ("dialog", "color");
+  assets_view.set_variable ("base_url", base_url);
+  string page = assets_view.render ("dialog", "color");
   page += assets_page::footer ();
   return page;
 }

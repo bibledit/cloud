@@ -24,31 +24,26 @@
 #include <filter/url.h>
 #include <filter/string.h>
 #include <database/books.h>
-using namespace std;
 
 
 // Constructs a Bible books selection dialog
 // $action - GET action to take: Will be added to the base url upon selection.
 // $inclusions - vector of book IDs to include, empty vector does nothing.
 // $exclusions - vector of book IDs to exclude, empty vector does nothing.
-Dialog_Books::Dialog_Books (string url, string header, string info_top, string info_bottom, string action, vector <int> inclusions, vector <int> exclusions)
+Dialog_Books::Dialog_Books (std::string url, std::string header, std::string info_top, std::string info_bottom, std::string action, std::vector <int> inclusions, std::vector <int> exclusions)
 {
-  Assets_View * view = new Assets_View ();
   base_url = url;
-  view->set_variable ("header", header);
-  view->set_variable ("info_top", info_top);
-  view->set_variable ("info_bottom", info_bottom);
+  assets_view.set_variable ("header", header);
+  assets_view.set_variable ("info_top", info_top);
+  assets_view.set_variable ("info_bottom", info_bottom);
   selection_action = action;
   include = inclusions;
   exclude = exclusions;
-  assets_view = view;
 }
 
 
 Dialog_Books::~Dialog_Books ()
 {
-  Assets_View * view = static_cast<Assets_View *>(assets_view);
-  delete view;
 }
 
 
@@ -56,28 +51,27 @@ Dialog_Books::~Dialog_Books ()
 // If any $query is passed, if Cancel is clicked in this dialog, it should go go back
 // to the original caller page  with the $query added.
 // Same for when a selection is made: It adds the $query to the page where to go.
-void Dialog_Books::add_query (string parameter, string value)
+void Dialog_Books::add_query (std::string parameter, std::string value)
 {
   base_url = filter_url_build_http_query (base_url, parameter, value);
 }
 
 
-string Dialog_Books::run ()
+std::string Dialog_Books::run ()
 {
-  Assets_View * view = static_cast<Assets_View *>(assets_view);
-  view->set_variable ("base_url", base_url);
+  assets_view.set_variable ("base_url", base_url);
 
-  vector <int> book_ids {};
+  std::vector <int> book_ids {};
   {
-    vector <book_id> book_enums = database::books::get_ids ();
-    for (auto book : book_enums) book_ids.push_back(static_cast<int>(book));
+    std::vector <book_id> book_enums = database::books::get_ids ();
+    for (const auto book : book_enums) book_ids.push_back(static_cast<int>(book));
   }
   if (!include.empty ()) {
     book_ids = include;
   }
   if (!exclude.empty()) {
-    vector <int> ids;
-    for (auto & book_id : book_ids) {
+    std::vector <int> ids;
+    for (const auto & book_id : book_ids) {
       if (find (exclude.begin(), exclude.end(), book_id) == exclude.end ()) {
         ids.push_back (book_id);
       }
@@ -85,15 +79,15 @@ string Dialog_Books::run ()
     book_ids = ids;
   }
 
-  stringstream book_block;
-  for (auto & id : book_ids) {
+  std::stringstream book_block;
+  for (const auto & id : book_ids) {
     book_block << "<a href=";
     book_block << quoted(filter_url_build_http_query (base_url, selection_action, filter::strings::convert_to_string (id)));
     book_block << ">" << database::books::get_english_from_id (static_cast<book_id>(id)) << "</a>\n";
   }
-  view->set_variable ("book_block", book_block.str());
+  assets_view.set_variable ("book_block", book_block.str());
   
-  string page = view->render ("dialog", "books");
+  std::string page = assets_view.render ("dialog", "books");
   page += assets_page::footer ();
   return page;
 }

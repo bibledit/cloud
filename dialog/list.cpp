@@ -33,22 +33,18 @@ using namespace std;
 // $post: causes the result to be sent via the POST method rather than the default GET method.
 Dialog_List::Dialog_List (string url, string question, string info_top, string info_bottom, bool post)
 {
-  Assets_View * view = new Assets_View ();
   base_url = url;
-  view->set_variable ("question", question);
+  assets_view.set_variable ("question", question);
   if (info_top == "") info_top = translate("Here are the various options:");
-  view->set_variable ("info_top", info_top);
+  assets_view.set_variable ("info_top", info_top);
   if (info_bottom == "") info_bottom = translate("Please pick one.");
-  view->set_variable ("info_bottom", info_bottom);
+  assets_view.set_variable ("info_bottom", info_bottom);
   post_result = post;
-  assets_view = view;
 }
 
 
 Dialog_List::~Dialog_List ()
 {
-  Assets_View * view = static_cast<Assets_View *>(assets_view);
-  delete view;
 }
 
 
@@ -82,10 +78,9 @@ void Dialog_List::add_row (string text, string parameter, string value)
 
 string Dialog_List::run ()
 {
-  Assets_View * view = static_cast<Assets_View *>(assets_view);
-  view->set_variable ("base_url", base_url);
-  view->set_variable ("list_block", list_block);
-  string page = view->render ("dialog", "list");
+  assets_view.set_variable ("base_url", base_url);
+  assets_view.set_variable ("list_block", list_block);
+  string page = assets_view.render ("dialog", "list");
   page += assets_page::footer ();
   return page;
 }

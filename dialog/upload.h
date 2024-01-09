@@ -20,6 +20,7 @@
 #pragma once
 
 #include <config/libraries.h>
+#include <assets/view.h>
 
 class Dialog_Upload
 {
@@ -31,7 +32,7 @@ public:
   void add_upload_query (std::string parameter, std::string value);
   std::string run ();
 private:
-  void * assets_view = {nullptr};
+  Assets_View assets_view {};
   std::string base_url {};
   std::map <std::string, std::string> upload_query {};
 };

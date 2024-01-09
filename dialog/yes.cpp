@@ -28,17 +28,13 @@
 // $question: The question to ask.
 Dialog_Yes::Dialog_Yes (std::string url, std::string question)
 {
-  Assets_View * view = new Assets_View ();
   base_url = url;
-  view->set_variable ("question", question);
-  assets_view = view;
+  assets_view.set_variable ("question", question);
 }
 
 
 Dialog_Yes::~Dialog_Yes ()
 {
-  Assets_View * view = static_cast<Assets_View *>(assets_view);
-  delete view;
 }
 
 
@@ -51,12 +47,11 @@ void Dialog_Yes::add_query (std::string parameter, std::string value)
 
 std::string Dialog_Yes::run ()
 {
-  Assets_View * view = static_cast<Assets_View *>(assets_view);
   std::string yes = filter_url_build_http_query (base_url, "confirm", "yes");
   std::string cancel = filter_url_build_http_query (base_url, "confirm", "cancel");
-  view->set_variable ("yes", yes);
-  view->set_variable ("cancel", cancel);
-  std::string page = view->render ("dialog", "yes");
+  assets_view.set_variable ("yes", yes);
+  assets_view.set_variable ("cancel", cancel);
+  std::string page = assets_view.render ("dialog", "yes");
   page += assets_page::footer ();
   return page;
 }

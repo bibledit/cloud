@@ -38,18 +38,15 @@ Dialog_Entry::Dialog_Entry (string url, string question, string value, string su
 {
   Assets_View * view = new Assets_View ();
   base_url =  url;
-  view->set_variable ("question", question);
-  view->set_variable ("value", value);
-  view->set_variable ("submit", submit);
-  view->set_variable ("help", help);
-  assets_view = view;
+  assets_view.set_variable ("question", question);
+  assets_view.set_variable ("value", value);
+  assets_view.set_variable ("submit", submit);
+  assets_view.set_variable ("help", help);
 }
 
 
 Dialog_Entry::~Dialog_Entry ()
 {
-  Assets_View * view = static_cast<Assets_View *>(assets_view);
-  delete view;
 }
 
 
@@ -61,10 +58,8 @@ void Dialog_Entry::add_query (string parameter, string value)
 
 string Dialog_Entry::run ()
 {
-  Assets_View * view = static_cast<Assets_View *>(assets_view);
-  view->set_variable ("base_url", base_url);
-  string page = view->render ("dialog", "entry");
+  assets_view.set_variable ("base_url", base_url);
+  string page =assets_view.render ("dialog", "entry");
   page += assets_page::footer ();
   return page;
 }
-

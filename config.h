@@ -14,16 +14,12 @@
 #define HAVE_GTEST 1
 
 /* Define whether ICU is available */
-#define HAVE_ICU 1
 
 /* Define to 1 if you have the <inttypes.h> header file. */
 #define HAVE_INTTYPES_H 1
 
 /* Define whether to compile for iOS */
 /* #undef HAVE_IOS */
-
-/* Define to 1 if you have the `mbedtls' library (-lmbedtls). */
-/* #undef HAVE_LIBMBEDTLS */
 
 /* Define whether libproc.h is present */
 #define HAVE_LIBPROC 1
@@ -32,7 +28,7 @@
 /* #undef HAVE_LINUX */
 
 /* Define whether to compile for Mac */
-/* #undef HAVE_MAC */
+#define HAVE_MAC 1
 
 /* Define whether mach/mach.h is present */
 #define HAVE_MACH_MACH 1
@@ -41,7 +37,6 @@
 #define HAVE_PTHREAD 1
 
 /* Define whether pugixml is available */
-#define HAVE_PUGIXML 1
 
 /* Define to 1 if you have the <stdint.h> header file. */
 #define HAVE_STDINT_H 1
@@ -74,7 +69,6 @@
 #define HAVE_UNISTD_H 1
 
 /* Define whether utf8proc is available */
-#define HAVE_UTF8PROC 1
 
 /* Define whether to compile on Windows */
 /* #undef HAVE_WINDOWS */

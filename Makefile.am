@@ -513,7 +513,7 @@ libbibledit_a_SOURCES = \
   tidy/tmbstr.c \
   tidy/utf8.c
 
-bin_PROGRAMS = server generate
+bin_PROGRAMS = server unittest generate
 
 server_SOURCES = executable/bibledit.cpp
 
@@ -635,7 +635,11 @@ AM_CXXFLAGS += $(GTK_CFLAGS)
 AM_CXXFLAGS += $(WEBKIT2GTK_CFLAGS)
 AM_CXXFLAGS += $(ICU_CFLAGS)
 AM_CXXFLAGS += $(XML2_CFLAGS)
+AM_CXXFLAGS += $(UTF8PROC_CFLAGS)
+AM_CXXFLAGS += $(GUMBO_CFLAGS)
 # AM_CXXFLAGS += $(TIDY_CFLAGS) -I/usr/include/tidy
+AM_CXXFLAGS += $(PUGIXML_CFLAGS)
+AM_CXXFLAGS += $(GTEST_CFLAGS)
 
 if MACFLAGS
 # Building Bibledit for macOS for two architectures
@@ -653,7 +657,11 @@ LIBS += $(GTK_LIBS)
 LIBS += $(WEBKIT2GTK_LIBS)
 LIBS += $(ICU_LIBS)
 LIBS += $(XML2_LIBS)
+LIBS += $(UTF8PROC_LIBS)
+LIBS += $(GUMBO_LIBS)
 # LIBS += $(TIDY_LIBS)
+LIBS += $(PUGIXML_LIBS)
+LIBS += $(GTEST_LIBS)
 
 # The core library compiles and embeds the mbedtls library.
 # On Debian this gives a lintian error:

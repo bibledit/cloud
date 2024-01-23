@@ -76,6 +76,8 @@ AC_SUBST(XML2_LIBS)
 # linux AC_SUBST(WEBKIT2GTK_LIBS)
 # linux AC_SUBST(WEBKIT2GTK_CFLAGS)
 
+AC_CHECK_LIB([mbedtls], [mbedtls_ssl_init])
+AM_CONDITIONAL([HAVE_LIBMBEDTLS], [test "$ac_cv_lib_mbedtls_ssl_init" = yes])
 
 # Tag1 (leave in place)
 # Tag2 (leave in place)

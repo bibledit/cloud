@@ -1,0 +1,155 @@
+/*
+Copyright (©) 2003-2024 Teus Benschop.
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+*/
+
+
+#include <developer/index.h>
+#include <assets/view.h>
+#include <assets/page.h>
+#include <assets/header.h>
+#include <filter/roles.h>
+#include <filter/url.h>
+#include <tasks/logic.h>
+#ifndef HAVE_CLIENT
+#include <sources/etcbc4.h>
+#include <sources/kjv.h>
+#include <sources/morphgnt.h>
+#include <sources/hebrewlexicon.h>
+#endif
+#include <resource/external.h>
+#include <config/globals.h>
+#include <library/bibledit.h>
+#include <developer/logic.h>
+#include <webserver/request.h>
+using namespace std;
+
+
+const char * developer_index_url ()
+{
+  return "developer/index";
+}
+
+
+bool developer_index_acl (Webserver_Request& webserver_request)
+{
+  return Filter_Roles::access_control (webserver_request, Filter_Roles::admin ());
+}
+
+
+string developer_index (Webserver_Request& webserver_request)
+{
+  if (webserver_request.query.count ("log")) {
+    string message = webserver_request.query ["log"];
+    std::cerr << message << std::endl;
+    return string();
+  }
+  
+  string page {};
+
+  Assets_Header header = Assets_Header ("Development", webserver_request);
+  header.notify_it_on ();
+  page = header.run ();
+
+  Assets_View view {};
+
+  string code {};
+  
+  string debug = webserver_request.query ["debug"];
+  
+  // It is cleaner and easier to move the following task to the binary ./generate.
+  if (debug == "etcbc4download") {
+    // sources_etcbc4_download ();
+    view.set_variable ("success", "Task disabled");
+  }
+  
+  // It is cleaner and easier to move the following task to the binary ./generate.
+  if (debug == "etcbc4parse") {
+    //sources_etcbc4_parse ();
+    view.set_variable ("success", "Task disabled");
+  }
+  
+  // It is cleaner and easier to move the following task to the binary ./generate.
+  if (debug == "parsekjv") {
+    //sources_kjv_parse ();
+    view.set_variable ("success", "Task disabled");
+  }
+  
+  // It is cleaner and easier to move the following task to the binary ./generate.
+  if (debug == "parsemorphgnt") {
+    // sources_morphgnt_parse ();
+    view.set_variable ("success", "Task disabled");
+  }
+
+  // It is cleaner and easier to move the following task to the binary ./generate.
+  if (debug == "parsehebrewlexicon") {
+    //sources_hebrewlexicon_parse ();
+    view.set_variable ("success", "Task disabled");
+    //view.set_variable ("success", "Task running");
+  }
+
+  if (debug == "crash") {
+    // Make a bad pointer.
+    // int *foo = (int*)-1;
+    // Cause segmentation fault.
+    // printf ("%d\n", *foo);
+    view.set_variable ("success", "Task disabled");
+  }
+  
+  if (debug == "receive") {
+    tasks_logic_queue (RECEIVEEMAIL);
+    view.set_variable ("success", "Receiving email and running tasks that send mail");
+  }
+
+  if (debug == "ipv6") {
+    view.set_variable ("success", "Fetching data via IPv6");
+    string error {};
+    string response = filter_url_http_request_mbed ("http://ipv6.google.com", error, {}, "", true);
+    page.append (response);
+    view.set_variable ("error", error);
+  }
+  
+  if (debug == "ipv6s") {
+    view.set_variable ("success", "Securely fetching data via IPv6");
+    string error {};
+    string response = filter_url_http_request_mbed ("https://ipv6.google.com", error, {}, "", true);
+    page.append (response);
+    view.set_variable ("error", error);
+  }
+  
+  if (debug == "maintain") {
+    tasks_logic_queue (MAINTAINDATABASE);
+    view.set_variable ("success", "Starting to maintain the databases");
+  }
+
+  if (debug == "accordance") {
+    string reference = bibledit_get_reference_for_accordance ();
+    view.set_variable ("success", "Accordance reference: " + reference);
+    bibledit_put_reference_from_accordance("PSA 3:2");
+  }
+
+  if (debug == "changes") {
+    developer_logic_import_changes ();
+    view.set_variable ("success", "Task was done see Journal");
+  }
+  
+  view.set_variable ("code", code);
+
+  page += view.render ("developer", "index");
+  page += assets_page::footer ();
+
+  return page;
+}

@@ -669,6 +669,8 @@ UTF8PROC_LIBS
 UTF8PROC_CFLAGS
 ICU_LIBS
 ICU_CFLAGS
+HAVE_LIBMBEDTLS_FALSE
+HAVE_LIBMBEDTLS_TRUE
 XML2_LIBS
 XML2_CFLAGS
 OPENSSL_LIBS
@@ -1695,6 +1697,53 @@ printf "%s\n" "$ac_res" >&6; }
   eval $as_lineno_stack; ${as_lineno_stack:+:} unset as_lineno
 
 } # ac_fn_cxx_check_header_compile
+
+# ac_fn_cxx_try_link LINENO
+# -------------------------
+# Try to link conftest.$ac_ext, and return whether this succeeded.
+ac_fn_cxx_try_link ()
+{
+  as_lineno=${as_lineno-"$1"} as_lineno_stack=as_lineno_stack=$as_lineno_stack
+  rm -f conftest.$ac_objext conftest.beam conftest$ac_exeext
+  if { { ac_try="$ac_link"
+case "(($ac_try" in
+  *\"* | *\`* | *\\*) ac_try_echo=\$ac_try;;
+  *) ac_try_echo=$ac_try;;
+esac
+eval ac_try_echo="\"\$as_me:${as_lineno-$LINENO}: $ac_try_echo\""
+printf "%s\n" "$ac_try_echo"; } >&5
+  (eval "$ac_link") 2>conftest.err
+  ac_status=$?
+  if test -s conftest.err; then
+    grep -v '^ *+' conftest.err >conftest.er1
+    cat conftest.er1 >&5
+    mv -f conftest.er1 conftest.err
+  fi
+  printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
+  test $ac_status = 0; } && {
+	 test -z "$ac_cxx_werror_flag" ||
+	 test ! -s conftest.err
+       } && test -s conftest$ac_exeext && {
+	 test "$cross_compiling" = yes ||
+	 test -x conftest$ac_exeext
+       }
+then :
+  ac_retval=0
+else $as_nop
+  printf "%s\n" "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+	ac_retval=1
+fi
+  # Delete the IPA/IPO (Inter Procedural Analysis/Optimization) information
+  # created by the PGI compiler (conftest_ipa8_conftest.oo), as it would
+  # interfere with the next link command; also delete a directory that is
+  # left behind by Apple's compiler.  We do this before executing the actions.
+  rm -rf conftest.dSYM conftest_ipa8_conftest.oo
+  eval $as_lineno_stack; ${as_lineno_stack:+:} unset as_lineno
+  as_fn_set_status $ac_retval
+
+} # ac_fn_cxx_try_link
 ac_configure_args_raw=
 for ac_arg
 do
@@ -6959,6 +7008,56 @@ fi
 # linux AC_SUBST(WEBKIT2GTK_LIBS)
 # linux AC_SUBST(WEBKIT2GTK_CFLAGS)
 
+{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for mbedtls_ssl_init in -lmbedtls" >&5
+printf %s "checking for mbedtls_ssl_init in -lmbedtls... " >&6; }
+if test ${ac_cv_lib_mbedtls_mbedtls_ssl_init+y}
+then :
+  printf %s "(cached) " >&6
+else $as_nop
+  ac_check_lib_save_LIBS=$LIBS
+LIBS="-lmbedtls  $LIBS"
+cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+namespace conftest {
+  extern "C" int mbedtls_ssl_init ();
+}
+int
+main (void)
+{
+return conftest::mbedtls_ssl_init ();
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_cxx_try_link "$LINENO"
+then :
+  ac_cv_lib_mbedtls_mbedtls_ssl_init=yes
+else $as_nop
+  ac_cv_lib_mbedtls_mbedtls_ssl_init=no
+fi
+rm -f core conftest.err conftest.$ac_objext conftest.beam \
+    conftest$ac_exeext conftest.$ac_ext
+LIBS=$ac_check_lib_save_LIBS
+fi
+{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_mbedtls_mbedtls_ssl_init" >&5
+printf "%s\n" "$ac_cv_lib_mbedtls_mbedtls_ssl_init" >&6; }
+if test "x$ac_cv_lib_mbedtls_mbedtls_ssl_init" = xyes
+then :
+  printf "%s\n" "#define HAVE_LIBMBEDTLS 1" >>confdefs.h
+
+  LIBS="-lmbedtls $LIBS"
+
+fi
+
+ if test "$ac_cv_lib_mbedtls_ssl_init" = yes; then
+  HAVE_LIBMBEDTLS_TRUE=
+  HAVE_LIBMBEDTLS_FALSE='#'
+else
+  HAVE_LIBMBEDTLS_TRUE='#'
+  HAVE_LIBMBEDTLS_FALSE=
+fi
+
 
 # Tag1 (leave in place)
 # Tag2 (leave in place)
@@ -7727,6 +7826,10 @@ Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${am__fastdepCXX_TRUE}" && test -z "${am__fastdepCXX_FALSE}"; then
   as_fn_error $? "conditional \"am__fastdepCXX\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${HAVE_LIBMBEDTLS_TRUE}" && test -z "${HAVE_LIBMBEDTLS_FALSE}"; then
+  as_fn_error $? "conditional \"HAVE_LIBMBEDTLS\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${COMPILERGCC_TRUE}" && test -z "${COMPILERGCC_FALSE}"; then

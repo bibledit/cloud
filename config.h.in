@@ -21,6 +21,9 @@
 /* Define whether to compile for iOS */
 #undef HAVE_IOS
 
+/* Define to 1 if you have the `mbedtls' library (-lmbedtls). */
+#undef HAVE_LIBMBEDTLS
+
 /* Define whether libproc.h is present */
 #undef HAVE_LIBPROC
 

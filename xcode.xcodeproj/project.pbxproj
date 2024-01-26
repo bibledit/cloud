@@ -567,7 +567,7 @@
 		CADE394624F17422003165BB /* passage.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = passage.cpp; sourceTree = "<group>"; };
 		CADE394724F17422003165BB /* shell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = shell.h; sourceTree = "<group>"; };
 		CADE394924F17422003165BB /* html.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = html.h; sourceTree = "<group>"; };
-		CADE394B24F17422003165BB /* UriCodec.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = UriCodec.cpp; sourceTree = "<group>"; };
+		CADE394B24F17422003165BB /* UriCodec.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = UriCodec.hpp; sourceTree = "<group>"; };
 		CADE394D24F17422003165BB /* text.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = text.cpp; sourceTree = "<group>"; };
 		CADE394E24F17422003165BB /* text.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = text.h; sourceTree = "<group>"; };
 		CADE394F24F17422003165BB /* passage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = passage.h; sourceTree = "<group>"; };
@@ -2917,7 +2917,7 @@
 				CADE396E24F17422003165BB /* string.hpp */,
 				CADE394D24F17422003165BB /* text.cpp */,
 				CADE394E24F17422003165BB /* text.h */,
-				CADE394B24F17422003165BB /* UriCodec.cpp */,
+				CADE394B24F17422003165BB /* UriCodec.hpp */,
 				CADE395924F17422003165BB /* url.cpp */,
 				CADE396B24F17422003165BB /* url.h */,
 				CADE397324F17422003165BB /* url.js */,

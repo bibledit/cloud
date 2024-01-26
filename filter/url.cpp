@@ -23,7 +23,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/globals.h>
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wold-style-cast"
-#include <filter/UriCodec.cpp>
+#include <filter/UriCodec.hpp>
 #pragma GCC diagnostic pop
 #include <filter/string.h>
 #include <filter/date.h>

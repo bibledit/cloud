@@ -14,9 +14,9 @@
 #include <mimetic098/mimeentity.h>
 #include <mimetic098/utils.h>
 #include <mimetic098/codec/codec.h>
-#ifdef HAVE_UNISTD_H
+//#ifdef HAVE_UNISTD_H
 #include <unistd.h>
-#endif
+//#endif
 
 namespace mimetic
 {

@@ -90,9 +90,9 @@
 #ifdef HAVE_DIRENT_H
 #include <dirent.h>
 #endif
-#ifdef HAVE_UNISTD_H
+//#ifdef HAVE_UNISTD_H
 #include <unistd.h>
-#endif
+//#endif
 #ifdef HAVE_SYS_TIME_H
 #include <sys/time.h>
 #endif

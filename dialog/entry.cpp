@@ -36,7 +36,6 @@ using namespace std;
 // $help    : Help information explaining to the user what's going on.
 Dialog_Entry::Dialog_Entry (string url, string question, string value, string submit, string help)
 {
-  Assets_View * view = new Assets_View ();
   base_url =  url;
   assets_view.set_variable ("question", question);
   assets_view.set_variable ("value", value);

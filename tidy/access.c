@@ -3171,7 +3171,7 @@ static void CheckForStyleAttribute( TidyDocImpl* doc, Node* node )
 /*****************************************************
 * CheckForListElements
 *
-* Checks document for list elements (<ol>, <ul>, <li>)
+* Checks document for list elements (ol, ul, li)
 *****************************************************/
 
 static void CheckForListElements( TidyDocImpl* doc, Node* node )

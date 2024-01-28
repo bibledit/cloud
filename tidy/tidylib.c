@@ -2601,7 +2601,7 @@ uint TIDY_CALL tidyErrorCodeFromKey(ctmbstr code)
     return TY_(tidyErrorCodeFromKey)( code );
 }
 
-TidyIterator TIDY_CALL getErrorCodeList()
+TidyIterator TIDY_CALL getErrorCodeList(void)
 {
     return TY_(getErrorCodeList)();
 }
@@ -2627,7 +2627,7 @@ Bool TIDY_CALL tidySetLanguage( ctmbstr languageCode )
     return result;
 }
 
-ctmbstr TIDY_CALL tidyGetLanguage()
+ctmbstr TIDY_CALL tidyGetLanguage(void)
 {
     return TY_(tidyGetLanguage)();
 }
@@ -2647,7 +2647,7 @@ ctmbstr TIDY_CALL tidyDefaultString( uint messageType )
     return TY_(tidyDefaultString)( messageType );
 }
 
-TidyIterator TIDY_CALL getStringKeyList()
+TidyIterator TIDY_CALL getStringKeyList(void)
 {
     return TY_(getStringKeyList)();
 }
@@ -2657,7 +2657,7 @@ uint TIDY_CALL getNextStringKey( TidyIterator* iter )
     return TY_(getNextStringKey)( iter );
 }
 
-TidyIterator TIDY_CALL getWindowsLanguageList()
+TidyIterator TIDY_CALL getWindowsLanguageList(void)
 {
     return TY_(getWindowsLanguageList)();
 }
@@ -2687,7 +2687,7 @@ ctmbstr TIDY_CALL TidyLangPosixName( const tidyLocaleMapItem *item )
 }
 
 
-TidyIterator TIDY_CALL getInstalledLanguageList()
+TidyIterator TIDY_CALL getInstalledLanguageList(void)
 {
     return TY_(getInstalledLanguageList)();
 }

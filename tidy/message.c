@@ -1465,7 +1465,7 @@ uint TY_(tidyErrorCodeFromKey)(ctmbstr code)
 /**
  *  Determines the number of error codes used by Tidy.
  */
-static const uint tidyErrorCodeListSize()
+static const uint tidyErrorCodeListSize(void)
 {
     static uint array_size = 0;
     
@@ -1484,7 +1484,7 @@ static const uint tidyErrorCodeListSize()
  *  in Tidy's list of error codes. Individual items must be
  *  retrieved with getNextErrorCode();
  */
-TidyIterator TY_(getErrorCodeList)()
+TidyIterator TY_(getErrorCodeList)(void)
 {
     return (TidyIterator)(size_t)1;
 }

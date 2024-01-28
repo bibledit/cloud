@@ -721,7 +721,7 @@ TIDY_EXPORT Bool TIDY_CALL tidyOptionIsList( TidyOption opt );
 
 /** Is Option read-only? Some options (mainly internal use only options) are
  ** read-only.
- ** @deprecated This is no longer a valid test for the public API; instead
+ ** This is no longer a valid test for the public API; instead
  **   you should test an option's availability using `tidyOptGetCategory()`
  **   against `TidyInternalCategory`. This API will be removed!
  ** @param opt An instance of a TidyOption to query.

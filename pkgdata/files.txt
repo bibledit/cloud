@@ -31,6 +31,8 @@
 /book
 /book/books.js
 /bootstrap
+/bootstrap/loading.css
+/bootstrap/loading.html
 /changes
 /changes/change.html
 /changes/changes.html

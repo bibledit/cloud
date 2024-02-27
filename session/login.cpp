@@ -115,6 +115,10 @@ std::string session_login (Webserver_Request& webserver_request)
     view.enable_zone ("local");
   }
 
+  if (!config::logic::create_no_accounts()) {
+    view.enable_zone("create_accounts");
+  }
+
 
   const std::string forward = webserver_request.query ["request"];
   

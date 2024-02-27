@@ -42,9 +42,10 @@ std::string server_certificate_path (const bool force);
 std::string authorities_certificates_path (const bool force);
 bool enforce_https_browser ();
 bool enforce_https_client ();
-void swipe_enabled (Webserver_Request& webserver_request, std::string & script);
+void swipe_enabled (Webserver_Request& webserver_request, std::string& script);
 bool indonesian_member_cloud ();
 bool default_bibledit_configuration ();
 std::string google_translate_json_key_path ();
+bool create_no_accounts();
 
 } // End of namespace.

@@ -29,6 +29,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/logs.h>
 #include <database/config/general.h>
 #include <public/index.h>
+#include <config/logic.h>
+#include <config/logic.h>
 
 
 const char * public_login_url ()
@@ -39,6 +41,7 @@ const char * public_login_url ()
 
 bool public_login_acl (Webserver_Request& webserver_request)
 {
+  if (config::logic::create_no_accounts()) return false;
   return Filter_Roles::access_control (webserver_request, Filter_Roles::guest ());
 }
 

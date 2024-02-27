@@ -31,10 +31,10 @@
 #include <assets/page.h>
 #include <locale/translate.h>
 #include <read/index.h>
-using namespace std;
+#include <config/logic.h>
 
 
-string public_new_url ()
+std::string public_new_url ()
 {
   return "public/new";
 }
@@ -42,21 +42,22 @@ string public_new_url ()
 
 bool public_new_acl (Webserver_Request& webserver_request)
 {
+  if (config::logic::create_no_accounts()) return false;
   return Filter_Roles::access_control (webserver_request, Filter_Roles::guest ());
 }
 
 
-string public_new (Webserver_Request& webserver_request)
+std::string public_new (Webserver_Request& webserver_request)
 {
   if (!webserver_request.query.empty ()) {
-    string bible = webserver_request.query ["bible"];
-    int book = filter::strings::convert_to_int (webserver_request.query ["book"]);
-    int chapter = filter::strings::convert_to_int (webserver_request.query ["chapter"]);
-    int verse = filter::strings::convert_to_int (webserver_request.query ["verse"]);
+    const std::string bible = webserver_request.query ["bible"];
+    const int book = filter::strings::convert_to_int (webserver_request.query ["book"]);
+    const int chapter = filter::strings::convert_to_int (webserver_request.query ["chapter"]);
+    const int verse = filter::strings::convert_to_int (webserver_request.query ["verse"]);
 
-    string chapter_usfm = webserver_request.database_bibles()->get_chapter (bible, book, chapter);
-    string verse_usfm = filter::usfm::get_verse_text (chapter_usfm, verse);
-    string stylesheet = Database_Config_Bible::getExportStylesheet (bible);
+    const std::string chapter_usfm = webserver_request.database_bibles()->get_chapter (bible, book, chapter);
+    const std::string verse_usfm = filter::usfm::get_verse_text (chapter_usfm, verse);
+    const std::string stylesheet = Database_Config_Bible::getExportStylesheet (bible);
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.html_text_standard = new HtmlText (bible);
     filter_text.add_usfm_code (verse_usfm);
@@ -65,7 +66,7 @@ string public_new (Webserver_Request& webserver_request)
   }
 
   
-  string page;
+  std::string page {};
   Assets_Header header = Assets_Header (translate ("New feedback"), webserver_request);
   header.set_navigator ();
   header.set_stylesheet ();
@@ -73,8 +74,7 @@ string public_new (Webserver_Request& webserver_request)
   Assets_View view;
 
 
-  string cancellation_url = "index";
-
+  const std::string cancellation_url = "index";
   view.set_variable ("cancellation_url", cancellation_url);
 
 

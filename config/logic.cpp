@@ -26,7 +26,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <cstdlib>
 #include <webserver/request.h>
 #include <config/globals.h>
-using namespace std;
 
 
 namespace config::logic {
@@ -49,18 +48,18 @@ const char * version ()
 void load_settings ()
 {
   // Read the setting whether to log network connections.
-  string path = filter_url_create_root_path ({config::logic::config_folder (), "log-network"});
+  const std::string path = filter_url_create_root_path ({config::logic::config_folder (), "log-network"});
   config_globals_log_network = file_or_dir_exists (path);
 }
 
 
 // Return the network port configured for the server.
-string http_network_port ()
+std::string http_network_port ()
 {
   // If a port number is known already, take that.
   if (!config_globals_negotiated_port_number.empty()) return config_globals_negotiated_port_number;
   // Read the port number from file.
-  string path = filter_url_create_root_path ({config::logic::config_folder (), "network-port"});
+  const std::string path = filter_url_create_root_path ({config::logic::config_folder (), "network-port"});
   config_globals_negotiated_port_number = filter_url_file_get_contents (path);
   // Remove white-space, e.g. a new line, that easily makes its way into the configuration file.
   config_globals_negotiated_port_number = filter::strings::trim (config_globals_negotiated_port_number);
@@ -72,11 +71,11 @@ string http_network_port ()
 
 
 // Return the secure network port for the secure server.
-string https_network_port ()
+std::string https_network_port ()
 {
   // Read the port number from file.
-  string path = filter_url_create_root_path ({config::logic::config_folder (), "network-port-secure"});
-  string port = filter_url_file_get_contents (path);
+  const std::string path = filter_url_create_root_path ({config::logic::config_folder (), "network-port-secure"});
+  std::string port = filter_url_file_get_contents (path);
   // Remove white-space, e.g. a new line, that easily makes its way into the configuration file.
   port = filter::strings::trim (port);
   // Default value.
@@ -93,31 +92,31 @@ string https_network_port ()
 // Returns whether demo mode is enabled during configure.
 bool demo_enabled ()
 {
-  string path = filter_url_create_root_path ({config::logic::config_folder (), "demo"});
+  const std::string path = filter_url_create_root_path ({config::logic::config_folder (), "demo"});
   return file_or_dir_exists (path);
 }
 
 
 // The configured admin's username.
-string admin_username ()
+std::string admin_username ()
 {
-  string path = filter_url_create_root_path ({config::logic::config_folder (), "admin-username"});
+  const std::string path = filter_url_create_root_path ({config::logic::config_folder (), "admin-username"});
   return filter::strings::trim (filter_url_file_get_contents (path));
 }
 
 
 // The configured admin's password.
-string admin_password ()
+std::string admin_password ()
 {
-  string path = filter_url_create_root_path ({config::logic::config_folder (), "admin-password"});
+  const std::string path = filter_url_create_root_path ({config::logic::config_folder (), "admin-password"});
   return filter::strings::trim (filter_url_file_get_contents (path));
 }
 
 
 // The configured admin's email.
-string admin_email ()
+std::string admin_email ()
 {
-  string path = filter_url_create_root_path ({config::logic::config_folder (), "admin-email"});
+  const std::string path = filter_url_create_root_path ({config::logic::config_folder (), "admin-email"});
   return filter::strings::trim (filter_url_file_get_contents (path));
 }
 
@@ -125,17 +124,17 @@ string admin_email ()
 // Returns whether the interface is supposed to be in basic mode.
 bool basic_mode (Webserver_Request& webserver_request)
 {
-  bool basic_mode {webserver_request.database_config_user ()->getBasicInterfaceMode ()};
+  const bool basic_mode {webserver_request.database_config_user ()->getBasicInterfaceMode ()};
   return basic_mode;
 }
 
 
 // This returns the URL of Bibledit Cloud that faces the user.
-string site_url (Webserver_Request& webserver_request)
+std::string site_url (Webserver_Request& webserver_request)
 {
   // When the administrator has entered a fixed value for the user-facing URL, take that.
   // It overrides everything.
-  string url = config::logic::manual_user_facing_url ();
+  std::string url = config::logic::manual_user_facing_url ();
   if (!url.empty ()) return url;
   
   // If a webserver request is passed, take the host from there.
@@ -158,14 +157,14 @@ string site_url (Webserver_Request& webserver_request)
 
 
 // This returns the filtered value of file userfacingurl.conf.
-string manual_user_facing_url ()
+std::string manual_user_facing_url ()
 {
 #ifdef HAVE_CLIENT
-  return string();
+  return std::string();
 #else
   // Read the configuration file.
-  string path = filter_url_create_root_path ({config::logic::config_folder (), "userfacingurl.conf"});
-  string url = filter_url_file_get_contents (path);
+  const std::string path = filter_url_create_root_path ({config::logic::config_folder (), "userfacingurl.conf"});
+  std::string url = filter_url_file_get_contents (path);
   // Remove white space.
   url = filter::strings::trim (url);
   // The previous file contained dummy text by default. Remove that.
@@ -179,24 +178,24 @@ string manual_user_facing_url ()
 
 
 // Returns the path to the secure server's private key.
-string server_key_path (const bool force)
+std::string server_key_path (const bool force)
 {
   // Try the correct config file first.
-  string path = filter_url_create_root_path ({config::logic::config_folder (), "privkey.pem"});
+  const std::string path = filter_url_create_root_path ({config::logic::config_folder (), "privkey.pem"});
   if (force || file_or_dir_exists (path)) return path;
   // Nothing found.
-  return string();
+  return std::string();
 }
 
 
 // Returns the path to the secure server's public certificate.
-string server_certificate_path (const bool force)
+std::string server_certificate_path (const bool force)
 {
   // Try the correct config file first.
-  string path = filter_url_create_root_path ({config::logic::config_folder (), "cert.pem"});
+  const std::string path = filter_url_create_root_path ({config::logic::config_folder (), "cert.pem"});
   if (force || file_or_dir_exists (path)) return path;
   // Nothing found.
-  return string();
+  return std::string();
 }
 
 
@@ -205,13 +204,13 @@ string server_certificate_path (const bool force)
 // At the top of the file will be the intermediate authority that issued the server certificate.
 // Next can be more intermediate authorities.
 // At the bottom of the file should be the trusted root certificate.
-string authorities_certificates_path (const bool force)
+std::string authorities_certificates_path (const bool force)
 {
   // Try the correct config file first.
-  string path = filter_url_create_root_path ({config::logic::config_folder (), "chain.pem"});
+  const std::string path = filter_url_create_root_path ({config::logic::config_folder (), "chain.pem"});
   if (force || file_or_dir_exists (path)) return path;
   // Nothing found.
-  return string();
+  return std::string();
 }
 
 
@@ -229,9 +228,9 @@ bool enforce_https_client ()
 }
 
 
-void swipe_enabled (Webserver_Request& webserver_request, string & script)
+void swipe_enabled (Webserver_Request& webserver_request, std::string& script)
 {
-  string true_false {"false"};
+  std::string true_false {"false"};
   if (webserver_request.session_logic ()->touchEnabled ()) {
     if (webserver_request.database_config_user ()->getSwipeActionsAvailable ()) {
       true_false = "true";
@@ -254,7 +253,7 @@ bool indonesian_member_cloud ()
   if (read) return status;
   
   // Read the status from disk and cache it.
-  string path = filter_url_create_root_path ({config::logic::config_folder (), "indonesianmembercloud"});
+  const std::string path = filter_url_create_root_path ({config::logic::config_folder (), "indonesianmembercloud"});
   status = file_or_dir_exists (path);
   read = true;
 
@@ -273,9 +272,15 @@ bool default_bibledit_configuration ()
 }
 
 
-string google_translate_json_key_path ()
+std::string google_translate_json_key_path ()
 {
   return filter_url_create_root_path ({config::logic::config_folder (), "googletranslate.json"});
+}
+
+
+bool create_no_accounts()
+{
+  return file_or_dir_exists (filter_url_create_root_path ({config::logic::config_folder (), "create-no-accounts"}));
 }
 
 

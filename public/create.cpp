@@ -35,10 +35,10 @@
 #include <public/index.h>
 #include <database/config/bible.h>
 #include <read/index.h>
-using namespace std;
+#include <config/logic.h>
 
 
-string public_create_url ()
+std::string public_create_url ()
 {
   return "public/create";
 }
@@ -46,44 +46,45 @@ string public_create_url ()
 
 bool public_create_acl (Webserver_Request& webserver_request)
 {
+  if (config::logic::create_no_accounts()) return false;
   return Filter_Roles::access_control (webserver_request, Filter_Roles::guest ());
 }
 
 
-string public_create (Webserver_Request& webserver_request)
+std::string public_create (Webserver_Request& webserver_request)
 {
   Database_Notes database_notes (webserver_request);
   Notes_Logic notes_logic (webserver_request);
   
   
-  string page;
+  std::string page;
   Assets_Header header = Assets_Header (translate("Create note"), webserver_request);
   page += header.run ();
   Assets_View view;
 
   
-  string bible = webserver_request.database_config_user()->getBible ();
+  const std::string bible = webserver_request.database_config_user()->getBible ();
   const int book = Ipc_Focus::getBook (webserver_request);
   const int chapter = Ipc_Focus::getChapter (webserver_request);
   const int verse = Ipc_Focus::getVerse (webserver_request);
 
   
-  string chapter_usfm = webserver_request.database_bibles()->get_chapter (bible, book, chapter);
-  string verse_usfm = filter::usfm::get_verse_text (chapter_usfm, verse);
-  string stylesheet = Database_Config_Bible::getExportStylesheet (bible);
+  const std::string chapter_usfm = webserver_request.database_bibles()->get_chapter (bible, book, chapter);
+  const std::string verse_usfm = filter::usfm::get_verse_text (chapter_usfm, verse);
+  const std::string stylesheet = Database_Config_Bible::getExportStylesheet (bible);
   Filter_Text filter_text = Filter_Text (bible);
   filter_text.html_text_standard = new HtmlText (bible);
   filter_text.add_usfm_code (verse_usfm);
   filter_text.run (stylesheet);
-  string versetext = filter_text.html_text_standard->get_inner_html ();
+  const std::string versetext = filter_text.html_text_standard->get_inner_html ();
   view.set_variable ("versetext", versetext);
 
  
   if (webserver_request.post.count ("submit")) {
-    string summary = filter::strings::trim (webserver_request.post["summary"]);
+    std::string summary = filter::strings::trim (webserver_request.post["summary"]);
     if (summary.empty ()) summary = translate ("Feedback");
-    string contents = "<p>" + versetext + "</p>" + filter::strings::trim (webserver_request.post["contents"]);
-    int identifier = notes_logic.createNote (bible, book, chapter, verse, summary, contents, false);
+    const std::string contents = "<p>" + versetext + "</p>" + filter::strings::trim (webserver_request.post["contents"]);
+    const int identifier = notes_logic.createNote (bible, book, chapter, verse, summary, contents, false);
     // A note created by a public user is made public to all.
     database_notes.set_public (identifier, true);
     // Subscribe the user to the note.
@@ -105,7 +106,7 @@ string public_create (Webserver_Request& webserver_request)
   }
   
   
-  string passage = filter_passage_display (book, chapter, filter::strings::convert_to_string (verse));
+  const std::string passage = filter_passage_display (book, chapter, filter::strings::convert_to_string (verse));
   view.set_variable ("passage", passage);
                                                                                                       
   

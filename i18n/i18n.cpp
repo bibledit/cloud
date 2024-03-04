@@ -35,7 +35,6 @@
 #include <numeric>
 #include <random>
 #include <limits>
-using namespace std;
 
 
 #include "database/stylesdata.h"
@@ -43,52 +42,52 @@ using namespace std;
 #include "database/booksdata.h"
 
 
-string file_get_contents (string filename)
+std::string file_get_contents (const std::string& filename)
 {
-  ifstream ifs(filename.c_str(), ios::in | ios::binary | ios::ate);
-  streamoff filesize = ifs.tellg();
-  if (filesize == 0) return "";
-  ifs.seekg(0, ios::beg);
-  vector <char> bytes((int)filesize);
+  std::ifstream ifs(filename.c_str(), std::ios::in | std::ios::binary | std::ios::ate);
+  std::streamoff filesize = ifs.tellg();
+  if (filesize == 0) return std::string();
+  ifs.seekg(0, std::ios::beg);
+  std::vector <char> bytes((int)filesize);
   ifs.read(&bytes[0], (int)filesize);
-  return string(&bytes[0], (int)filesize);
+  return std::string(&bytes[0], (int)filesize);
 }
 
 
-void file_put_contents (string filename, string contents)
+void file_put_contents (const std::string& filename, const std::string& contents)
 {
-  ofstream file;
-  file.open(filename, ios::binary | ios::trunc);
+  std::ofstream file;
+  file.open(filename, std::ios::binary | std::ios::trunc);
   file << contents;
   file.close ();
 }
 
 
-vector <string> explode (string value, char delimiter)
+std::vector <std::string> explode (const std::string& value, char delimiter)
 {
-  vector <string> result;
-  istringstream iss (value);
-  for (string token; getline (iss, token, delimiter); )
+  std::vector <std::string> result {};
+  std::istringstream iss (value);
+  for (std::string token; std::getline (iss, token, delimiter); )
   {
-    result.push_back (move (token));
+    result.push_back (std::move (token));
   }
   return result;
 }
 
 
-string implode (vector <string>& values, string delimiter)
+std::string implode (const std::vector <std::string>& values, const std::string delimiter)
 {
-  string full;
-  for (vector<string>::iterator it = values.begin (); it != values.end (); ++it)
+  std::string full {};
+  for (auto iterator = values.begin (); iterator != values.end (); ++iterator)
   {
-    full += (*it);
-    if (it != values.end ()-1) full += delimiter;
+    full += (*iterator);
+    if (iterator != values.end ()-1) full += delimiter;
   }
   return full;
 }
 
 
-string str_replace (string search, string replace, string subject)
+std::string str_replace (const std::string& search, const std::string& replace, std::string subject)
 {
   size_t offposition = subject.find (search);
   while (offposition != std::string::npos) {
@@ -102,15 +101,15 @@ string str_replace (string search, string replace, string subject)
 int main ()
 {
   // Read all html files to process.
-  string contents = file_get_contents ("i18n.html");
-  vector <string> files = explode (contents, '\n');
+  std::string contents = file_get_contents ("i18n.html");
+  const std::vector <std::string> files = explode (contents, '\n');
   std::cout << "Processing " << files.size () << " html files" << std::endl;
   
   // Store the translatable strings.
-  vector <string> translatables;
+  std::vector <std::string> translatables {};
   
   // Go over all html files.
-  for (auto file : files) {
+  for (const auto& file : files) {
    
     // Read the html.
     contents = file_get_contents (file);
@@ -119,8 +118,8 @@ int main ()
     contents = str_replace ("translate (", "translate(", contents);
 
     // Gettext markup.
-    string gettextopen = R"(translate(")";
-    string gettextclose = R"("))";
+    const std::string gettextopen = R"(translate(")";
+    const std::string gettextclose = R"("))";
     
     // Limit gettext iterations.
     int iterations = 0;
@@ -143,7 +142,7 @@ int main ()
         contents.erase (pos, gettextclose.length());
         
         // The English string.
-        string english = contents.substr (position, pos - position);
+        std::string english = contents.substr (position, pos - position);
         
         // If the English string is empty, don't store it.
         if (english.empty()) continue;
@@ -162,7 +161,7 @@ int main ()
   // Go over all USFM styles to internationalize them.
   unsigned int styles_data_count = sizeof (styles_table) / sizeof (*styles_table);
   for (unsigned int i = 0; i < styles_data_count; i++) {
-    string english = styles_table[i].name;
+    std::string english = styles_table[i].name;
     if (!english.empty()) {
       english.insert (0, "translate(\"");
       english.append ("\")");
@@ -179,19 +178,19 @@ int main ()
   // Go over all Bible books to internationalize them.
   unsigned int books_data_count = sizeof (books_table) / sizeof (*books_table);
   for (unsigned int i = 0; i < books_data_count; i++) {
-    string english = books_table[i].english;
+    std::string english = books_table[i].english;
     if (!english.empty()) {
       english.insert (0, "translate(\"");
       english.append ("\")");
       translatables.push_back (english);
     }
-    string osis = books_table[i].osis;
+    std::string osis = books_table[i].osis;
     if (!osis.empty()) {
       osis.insert (0, "translate(\"");
       osis.append ("\")");
       translatables.push_back (osis);
     }
-    string bibleworks = books_table[i].bibleworks;
+    std::string bibleworks = books_table[i].bibleworks;
     if (!bibleworks.empty ()) {
       bibleworks.insert (0, "translate(\"");
       bibleworks.append ("\")");

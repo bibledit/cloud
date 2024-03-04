@@ -7103,7 +7103,7 @@ msgstr ""
 msgid "Bibledit software"
 msgstr ""
 
-msgid "Copyright (©) 2003-2023 Teus Benschop."
+msgid "Copyright (©) 2003-2024 Teus Benschop."
 msgstr ""
 
 msgid ""
@@ -11015,6 +11015,12 @@ msgid "Peripheral"
 msgstr ""
 
 msgid "Divisions for peripheral content."
+msgstr ""
+
+msgid "Superscript text"
+msgstr ""
+
+msgid "Typically for use in critical edition footnotes."
 msgstr ""
 
 msgid "Genesis"

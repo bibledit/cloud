@@ -13,7 +13,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Launchpad (build 620cd5280e3a973662e263ebf9346837ed657a46)\n"
+"X-Generator: Launchpad (build bd6cfd0cfc024dbe1dcd7d5d91165fb4f6a6c596)\n"
 
 msgid "Has been sending and receiving during the past hour"
 msgstr ""
@@ -4240,6 +4240,15 @@ msgid "Number of emails still to be sent:"
 msgstr ""
 
 msgid "Set up automatic translations through Google Translate."
+msgstr ""
+
+msgid ""
+"Display the OSIS content like Strong's numbers in the SWORD resources that "
+"have such content."
+msgstr ""
+
+msgid ""
+"Note that displaying the OSIS content makes the resources hard to read."
 msgstr ""
 
 msgid ""

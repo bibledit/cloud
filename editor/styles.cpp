@@ -94,11 +94,12 @@ std::string Editor_Styles::getAll (Webserver_Request& webserver_request)
   for (const auto& item : data) {
     const std::string& marker = item.first;
     std::string name = item.second;
-    name = translate (name); // Todo check this.
+    name = translate (name);
     Database_Styles_Item marker_data = webserver_request.database_styles()->getMarkerData (stylesheet, marker);
     std::string category = marker_data.category;
     category = styles_logic_category_text (category);
     const std::string line2 = marker + " " + name + " (" + category + ")";
+    std::cout << line2 << std::endl; // Todo
     lines.push_back ("<option>" + line2 + "</option>");
   }
   

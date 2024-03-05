@@ -24,10 +24,9 @@
 #include <webserver/request.h>
 #include <editor/styles.h>
 #include <access/bible.h>
-using namespace std;
 
 
-string editor_style_url ()
+std::string editor_style_url ()
 {
   return "editor/style";
 }
@@ -37,25 +36,23 @@ bool editor_style_acl (Webserver_Request& webserver_request)
 {
   if (Filter_Roles::access_control (webserver_request, Filter_Roles::translator ()))
     return true;
-  auto [ read, write ] = access_bible::any (webserver_request);
+  const auto [ read, write ] = access_bible::any (webserver_request);
   return read;
 }
 
 
-string editor_style (Webserver_Request& webserver_request)
+std::string editor_style (Webserver_Request& webserver_request)
 {
   if (webserver_request.query.count ("style")) {
-    string style = webserver_request.query["style"];
+    const std::string style = webserver_request.query["style"];
     Editor_Styles::recordUsage (webserver_request, style);
-    string action = Editor_Styles::getAction (webserver_request, style);
+    const std::string action = Editor_Styles::getAction (webserver_request, style);
     return style + "\n" + action;
   }
-  
   
   if (webserver_request.query.count ("all")) {
     return Editor_Styles::getAll (webserver_request);
   }
-  
   
   return Editor_Styles::getRecentlyUsed (webserver_request);
 }

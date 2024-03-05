@@ -51,8 +51,8 @@ std::string Editor_Styles::getRecentlyUsed (Webserver_Request& webserver_request
     const std::string& marker = styles.at(i);
     Database_Styles_Item data = webserver_request.database_styles()->getMarkerData (stylesheet, marker);
     if (data.marker.empty ()) continue;
-    const std::string name = data.name + " (" + marker + ")";
-    const std::string info = data.info;
+    const std::string name = translate(data.name) + " (" + marker + ")";
+    const std::string info = translate(data.info);
     pugi::xml_document document;
     pugi::xml_node a_node = document.append_child("a");
     a_node.append_attribute("href") = marker.c_str();

@@ -35,72 +35,70 @@
 #include <pugixml.hpp>
 #endif
 #pragma GCC diagnostic pop
-using namespace std;
-using namespace pugi;
 
 
-string Editor_Styles::getRecentlyUsed (Webserver_Request& webserver_request)
+std::string Editor_Styles::getRecentlyUsed (Webserver_Request& webserver_request)
 {
-  string bible = webserver_request.database_config_user()->getBible ();
-  string stylesheet = Database_Config_Bible::getEditorStylesheet (bible);
+  const std::string bible = webserver_request.database_config_user()->getBible ();
+  const std::string stylesheet = Database_Config_Bible::getEditorStylesheet (bible);
   
   // The recent styles.
-  string s_styles = webserver_request.database_config_user()->getRecentlyAppliedStyles ();
-  vector <string> styles = filter::strings::explode (s_styles, ' ');
-  string fragment = translate("Select style") + ": ";
+  const std::string s_styles = webserver_request.database_config_user()->getRecentlyAppliedStyles ();
+  const std::vector <std::string> styles = filter::strings::explode (s_styles, ' ');
+  std::string fragment = translate("Select style") + ": ";
   for (unsigned int i = 0; i < styles.size(); i++) {
-    if (i) fragment += " | ";
-    string marker = styles [i];
+    if (i) fragment.append (" | ");
+    const std::string& marker = styles.at(i);
     Database_Styles_Item data = webserver_request.database_styles()->getMarkerData (stylesheet, marker);
     if (data.marker.empty ()) continue;
-    string name = data.name + " (" + marker + ")";
-    string info = data.info;
-    xml_document document;
-    xml_node a_node = document.append_child("a");
+    const std::string name = data.name + " (" + marker + ")";
+    const std::string info = data.info;
+    pugi::xml_document document;
+    pugi::xml_node a_node = document.append_child("a");
     a_node.append_attribute("href") = marker.c_str();
     a_node.append_attribute("title") = info.c_str();
     a_node.append_attribute("unselectable") = "on";
     a_node.append_attribute("class") = "unselectable";
     a_node.append_attribute("tabindex") = "-1";
     a_node.text().set(name.c_str());
-    stringstream ss;
-    document.print(ss, "", format_raw);
+    std::stringstream ss {};
+    document.print(ss, "", pugi::format_raw);
     fragment.append (ss.str());
   }
   
   // Links for cancelling and for all styles.
-  fragment += " ";
-  fragment += R"(<a href="cancel">[)" + translate("cancel") + "]</a>";
-  fragment += " ";
-  fragment += R"(<a href="all">[)" + translate("all") + "]</a>";
+  fragment.append(" ");
+  fragment.append(R"(<a href="cancel">[)" + translate("cancel") + "]</a>");
+  fragment.append(" ");
+  fragment.append(R"(<a href="all">[)" + translate("all") + "]</a>");
   
   return fragment;
 }
 
 
-string Editor_Styles::getAll (Webserver_Request& webserver_request)
+std::string Editor_Styles::getAll (Webserver_Request& webserver_request)
 {
-  string bible = webserver_request.database_config_user()->getBible ();
-  string stylesheet = Database_Config_Bible::getEditorStylesheet (bible);
+  const std::string bible = webserver_request.database_config_user()->getBible ();
+  const std::string stylesheet = Database_Config_Bible::getEditorStylesheet (bible);
   
   // The styles.
-  map <string, string> data = webserver_request.database_styles()->getMarkersAndNames (stylesheet);
+  const std::map <std::string, std::string> data = webserver_request.database_styles()->getMarkersAndNames (stylesheet);
   
-  vector <string> lines;
+  std::vector <std::string> lines{};
   
   lines.push_back (R"(<select id="styleslist">)");
   
-  string line = translate("Select style");
+  const std::string line = translate("Select style");
   lines.push_back ("<option>" + line + "</option>");
   
-  for (auto & item : data) {
-    string marker = item.first;
-    string name = item.second;
-    name = translate (name);
+  for (const auto& item : data) {
+    const std::string& marker = item.first;
+    std::string name = item.second;
+    name = translate (name); // Todo check this.
     Database_Styles_Item marker_data = webserver_request.database_styles()->getMarkerData (stylesheet, marker);
-    string category = marker_data.category;
+    std::string category = marker_data.category;
     category = styles_logic_category_text (category);
-    string line2 = marker + " " + name + " (" + category + ")";
+    const std::string line2 = marker + " " + name + " (" + category + ")";
     lines.push_back ("<option>" + line2 + "</option>");
   }
   
@@ -110,17 +108,17 @@ string Editor_Styles::getAll (Webserver_Request& webserver_request)
   lines.push_back (" ");
   lines.push_back (R"(<a href="cancel">[)" + translate("cancel") + "]</a>");
   
-  string html = filter::strings::implode (lines, "\n");
+  const std::string html = filter::strings::implode (lines, "\n");
   
   return html;
 }
 
 
-void Editor_Styles::recordUsage (Webserver_Request& webserver_request, string style)
+void Editor_Styles::recordUsage (Webserver_Request& webserver_request, const std::string& style)
 {
-  if (style == "") return;
-  string s_styles = webserver_request.database_config_user()->getRecentlyAppliedStyles ();
-  vector <string> styles = filter::strings::explode (s_styles, ' ');
+  if (style.empty()) return;
+  std::string s_styles = webserver_request.database_config_user()->getRecentlyAppliedStyles ();
+  std::vector <std::string> styles = filter::strings::explode (s_styles, ' ');
   // Erase the style.
   styles.erase (remove (styles.begin(), styles.end(), style), styles.end());
   // Add the style to he front of the vector.
@@ -134,10 +132,10 @@ void Editor_Styles::recordUsage (Webserver_Request& webserver_request, string st
 }
 
 
-string Editor_Styles::getAction (Webserver_Request& webserver_request, string style)
+std::string Editor_Styles::getAction (Webserver_Request& webserver_request, const std::string& style)
 {
-  string bible = webserver_request.database_config_user()->getBible ();
-  string stylesheet = Database_Config_Bible::getEditorStylesheet (bible);
+  const std::string bible = webserver_request.database_config_user()->getBible ();
+  const std::string stylesheet = Database_Config_Bible::getEditorStylesheet (bible);
   Database_Styles_Item data = webserver_request.database_styles()->getMarkerData (stylesheet, style);
   int type = data.type;
   int subtype = data.subtype;
@@ -227,32 +225,31 @@ string Editor_Styles::getAction (Webserver_Request& webserver_request, string st
 }
 
 
-string Editor_Styles::unknown ()
+std::string Editor_Styles::unknown ()
 {
   return "u";
 }
 
 
-string Editor_Styles::paragraph ()
+std::string Editor_Styles::paragraph ()
 {
   return "p";
 }
 
 
-string Editor_Styles::character ()
+std::string Editor_Styles::character ()
 {
   return "c";
 }
 
 
-string Editor_Styles::mono ()
+std::string Editor_Styles::mono ()
 {
   return "m";
 }
 
 
-string Editor_Styles::note ()
+std::string Editor_Styles::note ()
 {
   return "n";
 }
-

@@ -28,8 +28,8 @@ class Editor_Styles
 public:
   static std::string getRecentlyUsed (Webserver_Request& webserver_request);
   static std::string getAll (Webserver_Request& webserver_request);
-  static void recordUsage (Webserver_Request& webserver_request, std::string style);
-  static std::string getAction (Webserver_Request& webserver_request, std::string style);
+  static void recordUsage (Webserver_Request& webserver_request, const std::string& style);
+  static std::string getAction (Webserver_Request& webserver_request, const std::string& style);
 private:
   static std::string unknown ();
   static std::string paragraph ();

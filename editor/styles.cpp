@@ -46,9 +46,8 @@ std::string Editor_Styles::getRecentlyUsed (Webserver_Request& webserver_request
   const std::string s_styles = webserver_request.database_config_user()->getRecentlyAppliedStyles ();
   const std::vector <std::string> styles = filter::strings::explode (s_styles, ' ');
   std::string fragment = translate("Select style") + ": ";
-  for (unsigned int i = 0; i < styles.size(); i++) {
-    if (i) fragment.append (" | ");
-    const std::string& marker = styles.at(i);
+  for (const auto& marker : styles) {
+    if (!fragment.empty()) fragment.append (" | ");
     Database_Styles_Item data = webserver_request.database_styles()->getMarkerData (stylesheet, marker);
     if (data.marker.empty ()) continue;
     const std::string name = translate(data.name) + " (" + marker + ")";
@@ -99,7 +98,6 @@ std::string Editor_Styles::getAll (Webserver_Request& webserver_request)
     std::string category = marker_data.category;
     category = styles_logic_category_text (category);
     const std::string line2 = marker + " " + name + " (" + category + ")";
-    std::cout << line2 << std::endl; // Todo
     lines.push_back ("<option>" + line2 + "</option>");
   }
   

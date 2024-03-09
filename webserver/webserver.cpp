@@ -526,7 +526,7 @@ void secure_webserver_process_request (mbedtls_ssl_config * conf, mbedtls_net_co
       if (connection_healthy) {
         ret = mbedtls_ssl_setup (&ssl, conf);
         if (ret != 0) {
-          filter_url_display_mbed_tls_error (ret, nullptr, true);
+          filter_url_display_mbed_tls_error (ret, nullptr, true, request.remote_address);
           connection_healthy = false;
         }
       }
@@ -541,7 +541,8 @@ void secure_webserver_process_request (mbedtls_ssl_config * conf, mbedtls_net_co
           if (config_globals_webserver_running) {
             // In case the secure server runs, display the error.
             // And in case the server is interrupted by e.g. Ctrl-C, don't display this error.
-            filter_url_display_mbed_tls_error (ret, nullptr, true);
+            std::cout << __LINE__ << std::endl; // Todo
+            filter_url_display_mbed_tls_error (ret, nullptr, true, request.remote_address);
           }
           connection_healthy = false;
         }
@@ -643,7 +644,7 @@ void secure_webserver_process_request (mbedtls_ssl_config * conf, mbedtls_net_co
           // until it returns a positive value.
           if (ret == MBEDTLS_ERR_SSL_WANT_READ) continue;
           if (ret == MBEDTLS_ERR_SSL_WANT_WRITE) continue;
-          filter_url_display_mbed_tls_error (ret, nullptr, true);
+          filter_url_display_mbed_tls_error (ret, nullptr, true, request.remote_address);
           connection_healthy = false;
         }
       }
@@ -689,7 +690,7 @@ void secure_webserver_process_request (mbedtls_ssl_config * conf, mbedtls_net_co
               // until it returns a positive value.
               if (ret == MBEDTLS_ERR_SSL_WANT_READ) continue;
               if (ret == MBEDTLS_ERR_SSL_WANT_WRITE) continue;
-              filter_url_display_mbed_tls_error (ret, nullptr, true);
+              filter_url_display_mbed_tls_error (ret, nullptr, true, request.remote_address);
               connection_healthy = false;
             }
           }
@@ -708,7 +709,7 @@ void secure_webserver_process_request (mbedtls_ssl_config * conf, mbedtls_net_co
         while ((ret = mbedtls_ssl_close_notify (&ssl)) < 0) {
           if (ret == MBEDTLS_ERR_SSL_WANT_READ) continue;
           if (ret == MBEDTLS_ERR_SSL_WANT_WRITE) continue;
-          filter_url_display_mbed_tls_error (ret, nullptr, true);
+          filter_url_display_mbed_tls_error (ret, nullptr, true, request.remote_address);
           connection_healthy = false;
           if (connection_healthy) {}; // Suppress static analyzer warning about unused code.
           break;
@@ -811,7 +812,7 @@ void https_server ()
   mbedtls_pk_init (&pkey);
   int ret = mbedtls_pk_parse_keyfile (&pkey, server_key_path.c_str (), nullptr);
   if (ret != 0) {
-    filter_url_display_mbed_tls_error (ret, nullptr, true);
+    filter_url_display_mbed_tls_error (ret, nullptr, true, std::string());
     Database_Logs::log("Invalid " + server_key_path + " so not running secure server");
     return;
   }
@@ -823,7 +824,7 @@ void https_server ()
   // Load the server certificate.
   ret = mbedtls_x509_crt_parse_file (&srvcert, server_certificate_path.c_str ());
   if (ret != 0) {
-    filter_url_display_mbed_tls_error (ret, nullptr, true);
+    filter_url_display_mbed_tls_error (ret, nullptr, true, std::string());
     Database_Logs::log("Invalid " + server_certificate_path + " so not running secure server");
     return;
   }
@@ -831,30 +832,30 @@ void https_server ()
   // Load the chain of certificates of the certificate authorities.
   ret = mbedtls_x509_crt_parse_file (&srvcert, authorities_certificates_path.c_str ());
   if (ret != 0) {
-    filter_url_display_mbed_tls_error (ret, nullptr, true);
+    filter_url_display_mbed_tls_error (ret, nullptr, true, std::string());
     Database_Logs::log("Invalid " + authorities_certificates_path + " so not running secure server");
     return;
   }
 
   // Seed the random number generator.
   const char *pers = "Cloud";
-  ret = mbedtls_ctr_drbg_seed( &ctr_drbg, mbedtls_entropy_func, &entropy, reinterpret_cast<const unsigned char *> (pers), strlen (pers));
+  ret = mbedtls_ctr_drbg_seed (&ctr_drbg, mbedtls_entropy_func, &entropy, reinterpret_cast<const unsigned char *> (pers), strlen (pers));
   if (ret != 0) {
-    filter_url_display_mbed_tls_error (ret, nullptr, true);
+    filter_url_display_mbed_tls_error (ret, nullptr, true, std::string());
     return;
   }
   
   // Setup the listening TCP socket.
   ret = mbedtls_net_bind (&listen_fd, nullptr, network_port.c_str (), MBEDTLS_NET_PROTO_TCP);
   if (ret != 0) {
-    filter_url_display_mbed_tls_error (ret, nullptr, true);
+    filter_url_display_mbed_tls_error (ret, nullptr, true, std::string());
     return;
   }
   
   // Setup SSL/TLS default values for the lifetime of the https server.
   ret = mbedtls_ssl_config_defaults (&conf, MBEDTLS_SSL_IS_SERVER, MBEDTLS_SSL_TRANSPORT_STREAM, MBEDTLS_SSL_PRESET_DEFAULT);
   if (ret != 0) {
-    filter_url_display_mbed_tls_error (ret, nullptr, true);
+    filter_url_display_mbed_tls_error (ret, nullptr, true, std::string());
     return;
   }
   mbedtls_ssl_conf_rng (&conf, mbedtls_ctr_drbg_random, &ctr_drbg);
@@ -862,7 +863,7 @@ void https_server ()
   mbedtls_ssl_conf_ca_chain (&conf, srvcert.next, nullptr);
   ret = mbedtls_ssl_conf_own_cert (&conf, &srvcert, &pkey);
   if (ret != 0) {
-    filter_url_display_mbed_tls_error (ret, nullptr, true);
+    filter_url_display_mbed_tls_error (ret, nullptr, true, std::string());
     return;
   }
   
@@ -885,10 +886,10 @@ void https_server ()
     // Wait until a client connects.
     ret = mbedtls_net_accept (&listen_fd, &client_fd, nullptr, 0, nullptr);
     if (ret != 0 ) {
-      filter_url_display_mbed_tls_error (ret, nullptr, true);
+      filter_url_display_mbed_tls_error (ret, nullptr, true, std::string());
       continue;
     }
-    
+
     // Handle this request in a thread, enabling parallel requests.
     std::thread request_thread = std::thread (secure_webserver_process_request, &conf, client_fd);
     // Detach and delete thread object.

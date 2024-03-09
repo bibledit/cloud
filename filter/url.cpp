@@ -1539,7 +1539,7 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
     if (connection_healthy) {
       int ret = mbedtls_ssl_config_defaults (&conf, MBEDTLS_SSL_IS_CLIENT, MBEDTLS_SSL_TRANSPORT_STREAM, MBEDTLS_SSL_PRESET_DEFAULT);
       if (ret != 0) {
-        filter_url_display_mbed_tls_error (ret, &error, false);
+        filter_url_display_mbed_tls_error (ret, &error, false, std::string());
         connection_healthy = false;
       }
       mbedtls_ssl_conf_authmode (&conf, MBEDTLS_SSL_VERIFY_OPTIONAL);
@@ -1547,13 +1547,13 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
       mbedtls_ssl_conf_rng (&conf, mbedtls_ctr_drbg_random, &filter_url_mbed_tls_ctr_drbg);
       ret = mbedtls_ssl_setup (&ssl, &conf);
       if (ret != 0) {
-        filter_url_display_mbed_tls_error (ret, &error, false);
+        filter_url_display_mbed_tls_error (ret, &error, false, std::string());
         connection_healthy = false;
       }
       // The hostname it connects to, and verifies the certificate for.
       ret = mbedtls_ssl_set_hostname (&ssl, hostname.c_str ());
       if (ret != 0) {
-        filter_url_display_mbed_tls_error (ret, &error, false);
+        filter_url_display_mbed_tls_error (ret, &error, false, std::string());
         connection_healthy = false;
       }
       mbedtls_ssl_set_bio (&ssl, &fd, mbedtls_net_send, mbedtls_net_recv, nullptr);
@@ -1567,7 +1567,7 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
       // The code was updated to work around that.
       int ret = mbedtls_net_connect (&fd, hostname.c_str(), filter::strings::convert_to_string (port).c_str (), MBEDTLS_NET_PROTO_TCP);
       if (ret != 0) {
-        filter_url_display_mbed_tls_error (ret, &error, false);
+        filter_url_display_mbed_tls_error (ret, &error, false, std::string());
         connection_healthy = false;
       }
     }
@@ -1668,7 +1668,7 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
     while (connection_healthy && ((ret = mbedtls_ssl_handshake (&ssl)) != 0)) {
       if (ret == MBEDTLS_ERR_SSL_WANT_READ) continue;
       if (ret == MBEDTLS_ERR_SSL_WANT_WRITE) continue;
-      filter_url_display_mbed_tls_error (ret, &error, false);
+      filter_url_display_mbed_tls_error (ret, &error, false, std::string());
       connection_healthy = false;
     }
   }
@@ -1744,7 +1744,7 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
           // until it returns a positive value.
           if (ret == MBEDTLS_ERR_SSL_WANT_READ) continue;
           if (ret == MBEDTLS_ERR_SSL_WANT_WRITE) continue;
-          filter_url_display_mbed_tls_error (ret, &error, false);
+          filter_url_display_mbed_tls_error (ret, &error, false, std::string());
           connection_healthy = false;
         }
       }
@@ -1815,7 +1815,7 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
       } else if (secure && (ret == MBEDTLS_ERR_SSL_WANT_WRITE)) {
       } else if (secure && (ret == MBEDTLS_ERR_SSL_PEER_CLOSE_NOTIFY)) {
       } else if (secure && (ret < 0)) {
-        filter_url_display_mbed_tls_error (ret, &error, false);
+        filter_url_display_mbed_tls_error (ret, &error, false, std::string());
         connection_healthy = false;
       } else {
         // Probably EOF.
@@ -1882,14 +1882,14 @@ void filter_url_ssl_tls_initialize ()
   mbedtls_entropy_init (&filter_url_mbed_tls_entropy);
   const char *pers = "Client";
   ret = mbedtls_ctr_drbg_seed (&filter_url_mbed_tls_ctr_drbg, mbedtls_entropy_func, &filter_url_mbed_tls_entropy, reinterpret_cast <const unsigned char *> (pers), strlen (pers));
-  filter_url_display_mbed_tls_error (ret, nullptr, false);
+  filter_url_display_mbed_tls_error (ret, nullptr, false, std::string());
   // Wait until the trusted root certificates exist.
   // This is necessary as there's cases that the data is still being installed at this point.
   string path = filter_url_create_root_path ({"filter", "cas.crt"});
   while (!file_or_dir_exists (path)) this_thread::sleep_for (chrono::milliseconds (100));
   // Read the trusted root certificates.
   ret = mbedtls_x509_crt_parse_file (&filter_url_mbed_tls_cacert, path.c_str ());
-  filter_url_display_mbed_tls_error (ret, nullptr, false);
+  filter_url_display_mbed_tls_error (ret, nullptr, false, std::string());
 }
 
 
@@ -1905,7 +1905,7 @@ void filter_url_ssl_tls_finalize ()
 // This logs the $ret (return) value, converted to readable text, to the journal.
 // If $error is given, it is stored there instead.
 // It $server is true, it suppresses additional error codes.
-void filter_url_display_mbed_tls_error (int & ret, string * error, bool server)
+void filter_url_display_mbed_tls_error (int& ret, string* error, bool server, const std::string& remote_ip_address) // Todo add IP adddress, or Webserver Request.
 {
   // Local copy of the return value, and clear the original return value.
   int local_return = ret;
@@ -1934,6 +1934,12 @@ void filter_url_display_mbed_tls_error (int & ret, string * error, bool server)
   msg.append (" (");
   msg.append (filter::strings::convert_to_string (local_return));
   msg.append (")");
+  // Add the remote IP address if available.
+  if (!remote_ip_address.empty()) {
+    msg.append (" (IP address ");
+    msg.append (remote_ip_address);
+    msg.append (")");
+  }
   if (error) {
     error->assign (msg);
   } else {

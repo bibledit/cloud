@@ -71,7 +71,7 @@ std::string filter_url_remove_username_password (std::string url);
 std::string filter_url_http_request_mbed (std::string url, std::string& error, const std::map <std::string, std::string>& post, const std::string& filename, bool check_certificate);
 void filter_url_ssl_tls_initialize ();
 void filter_url_ssl_tls_finalize ();
-void filter_url_display_mbed_tls_error (int & ret, std::string * error, bool server);
+void filter_url_display_mbed_tls_error (int& ret, std::string* error, bool server, const std::string& remote_ip_address);
 std::string filter_url_set_scheme (std::string url, bool secure);
 std::string filter_url_clean_filename (std::string name);
 std::string filter_url_filename_clean (std::string name);

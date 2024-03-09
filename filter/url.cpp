@@ -1905,7 +1905,7 @@ void filter_url_ssl_tls_finalize ()
 // This logs the $ret (return) value, converted to readable text, to the journal.
 // If $error is given, it is stored there instead.
 // It $server is true, it suppresses additional error codes.
-void filter_url_display_mbed_tls_error (int& ret, string* error, bool server, const std::string& remote_ip_address) // Todo add IP adddress, or Webserver Request.
+void filter_url_display_mbed_tls_error (int& ret, string* error, bool server, const std::string& remote_ip_address)
 {
   // Local copy of the return value, and clear the original return value.
   int local_return = ret;

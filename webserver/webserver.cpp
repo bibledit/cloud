@@ -541,7 +541,6 @@ void secure_webserver_process_request (mbedtls_ssl_config * conf, mbedtls_net_co
           if (config_globals_webserver_running) {
             // In case the secure server runs, display the error.
             // And in case the server is interrupted by e.g. Ctrl-C, don't display this error.
-            std::cout << __LINE__ << std::endl; // Todo
             filter_url_display_mbed_tls_error (ret, nullptr, true, request.remote_address);
           }
           connection_healthy = false;

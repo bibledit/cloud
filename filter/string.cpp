@@ -1818,6 +1818,7 @@ static std::string substitute_xml_entities_into_text(const std::string& text)
 }
 
 
+#ifdef HAVE_CLOUD
 static std::string substitute_xml_entities_into_attributes(const char quote, const std::string& text)
 {
   std::string result {substitute_xml_entities_into_text (text)};
@@ -1829,6 +1830,7 @@ static std::string substitute_xml_entities_into_attributes(const char quote, con
   }
   return result;
 }
+#endif
 
 
 #ifdef HAVE_CLOUD

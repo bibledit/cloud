@@ -23,7 +23,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/privileges.h>
 #include <client/logic.h>
 #include <filter/roles.h>
-using namespace std;
 
 
 namespace access_bible {
@@ -31,7 +30,7 @@ namespace access_bible {
 
 // Returns true if the $user has read access to the $bible.
 // If no $user is given, it takes the currently logged-in user.
-bool read (Webserver_Request& webserver_request, const string & bible, string user)
+bool read (Webserver_Request& webserver_request, const std::string& bible, std::string user)
 {
   // Client: User has access to all Bibles.
 #ifdef HAVE_CLIENT
@@ -67,7 +66,7 @@ bool read (Webserver_Request& webserver_request, const string & bible, string us
 
   // No Bibles assigned: Consultant can view any Bible.
   if (role_level >= Filter_Roles::consultant ()) {
-    if (int privileges_count = DatabasePrivileges::get_bible_book_count (); privileges_count == 0) {
+    if (const int privileges_count = DatabasePrivileges::get_bible_book_count (); privileges_count == 0) {
       return true;
     }
   }
@@ -79,7 +78,7 @@ bool read (Webserver_Request& webserver_request, const string & bible, string us
 
 
 // Returns true if the user has write access to the $bible.
-bool write (Webserver_Request& webserver_request, const string & bible, string user)
+bool write (Webserver_Request& webserver_request, const std::string& bible, std::string user)
 {
 #ifdef HAVE_CLIENT
   // Client: When not yet connected to the Cloud, the user has access to all Bibles.
@@ -113,7 +112,7 @@ bool write (Webserver_Request& webserver_request, const string & bible, string u
   
   // No Bibles assigned: Translator can write to any bible.
   if (level >= Filter_Roles::translator ()) {
-    if (int privileges_count = DatabasePrivileges::get_bible_book_count (); privileges_count == 0) {
+    if (const int privileges_count = DatabasePrivileges::get_bible_book_count (); privileges_count == 0) {
       return true;
     }
   }
@@ -127,7 +126,7 @@ bool write (Webserver_Request& webserver_request, const string & bible, string u
 // If no user is given, it takes the currently logged-in user.
 // If the user has read-only access to even one book of the $bible,
 // then the user is considered not to have write access to the entire $bible.
-bool book_write (Webserver_Request& webserver_request, string user, const string & bible, int book)
+bool book_write (Webserver_Request& webserver_request, std::string user, const std::string& bible, int book)
 {
 #ifdef HAVE_CLIENT
   // Client: When not yet connected to the Cloud, the user has access to the book.
@@ -164,7 +163,7 @@ bool book_write (Webserver_Request& webserver_request, string user, const string
 
   // No Bibles assigned: Translator can write to any bible.
   if (level >= Filter_Roles::translator ()) {
-    if (int privileges_count = DatabasePrivileges::get_bible_book_count (); privileges_count == 0) {
+    if (const int privileges_count = DatabasePrivileges::get_bible_book_count (); privileges_count == 0) {
       return true;
     }
   }
@@ -176,11 +175,11 @@ bool book_write (Webserver_Request& webserver_request, string user, const string
 
 // Returns an array of Bibles the user has read access to.
 // If no user is given, it takes the currently logged-in user.
-vector <string> bibles (Webserver_Request& webserver_request, string user)
+std::vector <std::string> bibles (Webserver_Request& webserver_request, std::string user)
 {
-  vector <string> allbibles = webserver_request.database_bibles()->get_bibles ();
-  vector <string> bibles;
-  for (auto & bible : allbibles) {
+  std::vector <std::string> allbibles = webserver_request.database_bibles()->get_bibles ();
+  std::vector <std::string> bibles {};
+  for (const auto& bible : allbibles) {
     if (read (webserver_request, bible, user)) {
       bibles.push_back (bible);
     }
@@ -192,11 +191,11 @@ vector <string> bibles (Webserver_Request& webserver_request, string user)
 // This function clamps bible.
 // It returns the $bible if the currently logged-in user has access to it.
 // Else it returns another accessible bible or nothing.
-string clamp (Webserver_Request& webserver_request, string bible)
+std::string clamp (Webserver_Request& webserver_request, std::string bible)
 {
   if (!read (webserver_request, bible)) {
-    bible = string();
-    vector <string> bibles = access_bible::bibles (webserver_request);
+    bible = std::string();
+    std::vector <std::string> bibles = access_bible::bibles (webserver_request);
     if (!bibles.empty ()) bible = bibles [0];
     webserver_request.database_config_user ()->setBible (bible);
   }
@@ -207,17 +206,17 @@ string clamp (Webserver_Request& webserver_request, string bible)
 // This function checks whether the user in the $webserver_request
 // has $read or $write access to one or more Bibles.
 // It returns a tuple <read, write>.
-tuple<bool, bool> any (Webserver_Request& webserver_request)
+std::tuple<bool, bool> any (Webserver_Request& webserver_request)
 {
   bool read {false};
   bool write {false};
-  vector <string> bibles = webserver_request.database_bibles()->get_bibles ();
-  for (auto & bible : bibles) {
+  std::vector <std::string> bibles = webserver_request.database_bibles()->get_bibles ();
+  for (const auto& bible : bibles) {
     if (access_bible::read (webserver_request, bible)) read = true;
     if (access_bible::write (webserver_request, bible)) write = true;
   }
   // The results consists of <read, write>.
-  return make_tuple(read, write);
+  return std::make_tuple(read, write);
 }
 
 

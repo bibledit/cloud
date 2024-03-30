@@ -23,7 +23,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/roles.h>
 #include <database/privileges.h>
 #include <webserver/request.h>
-using namespace std;
 
 
 namespace access_logic {
@@ -35,7 +34,7 @@ int view_resources_role ()
 }
 
 
-bool privilege_view_resources (Webserver_Request& webserver_request, string user)
+bool privilege_view_resources (Webserver_Request& webserver_request, std::string user)
 {
   int level {0};
   user_level (webserver_request, user, level);
@@ -50,7 +49,7 @@ int view_notes_role ()
 }
 
 
-bool privilege_view_notes (Webserver_Request& webserver_request, string user)
+bool privilege_view_notes (Webserver_Request& webserver_request, std::string user)
 {
   int level {0};
   user_level (webserver_request, user, level);
@@ -65,7 +64,7 @@ int create_comment_notes_role ()
 }
 
 
-bool privilege_create_comment_notes (Webserver_Request& webserver_request, string user)
+bool privilege_create_comment_notes (Webserver_Request& webserver_request, std::string user)
 {
   int level {0};
   user_level (webserver_request, user, level);
@@ -80,7 +79,7 @@ int delete_consultation_notes_role ()
 }
 
 
-bool privilege_delete_consultation_notes (Webserver_Request& webserver_request, string user)
+bool privilege_delete_consultation_notes (Webserver_Request& webserver_request, std::string user)
 {
   int level {0};
   user_level (webserver_request, user, level);
@@ -95,7 +94,7 @@ int use_advanced_mode_role ()
 }
 
 
-bool privilege_use_advanced_mode (Webserver_Request& webserver_request, string user)
+bool privilege_use_advanced_mode (Webserver_Request& webserver_request, std::string user)
 {
   int level {0};
   user_level (webserver_request, user, level);
@@ -110,7 +109,7 @@ int set_stylesheets_role ()
 }
 
 
-bool privilege_set_stylesheets (Webserver_Request& webserver_request, string user)
+bool privilege_set_stylesheets (Webserver_Request& webserver_request, std::string user)
 {
   int level {0};
   user_level (webserver_request, user, level);
@@ -119,7 +118,7 @@ bool privilege_set_stylesheets (Webserver_Request& webserver_request, string use
 }
 
 
-void user_level (Webserver_Request& webserver_request, string & user, int & level)
+void user_level (Webserver_Request& webserver_request, std::string& user, int& level)
 {
   if (user.empty ()) {
     // If no user is given, take the user from the session.
@@ -135,8 +134,8 @@ void user_level (Webserver_Request& webserver_request, string & user, int & leve
 void create_client_files ()
 {
   Database_Users database_users;
-  vector <string> users = database_users.get_users ();
-  for (auto & user : users) {
+  std::vector <std::string> users = database_users.get_users ();
+  for (const auto& user : users) {
     // Only maintain the privilege file if it does not yet exist,
     // to avoid unnecessary downloads by the clients.
     database_privileges_client_create (user, false);
@@ -144,7 +143,7 @@ void create_client_files ()
 }
 
 
-set <string> default_privilege_usernames ()
+std::set <std::string> default_privilege_usernames ()
 {
   return {"defaultguest", "defaultmember", "defaultconsultant", "defaulttranslator", "defaultmanager"};
 }

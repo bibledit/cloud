@@ -332,9 +332,16 @@ void http_server ()
       
       // The client's remote IPv6 address in hexadecimal digits separated by colons.
       // IPv4 addresses are mapped to IPv6 addresses.
+      // Example IPv4 address: ::ffff:127.0.0.1
+      // Example IPv6 address: ::1
+      // Clean the IP address up so it's a clear IPv4 or IPv6 notation.
       char remote_address[256];
-      inet_ntop (AF_INET6, &clientaddr6.sin6_addr, remote_address, sizeof (remote_address));
-      const std::string clientaddress = remote_address;
+      inet_ntop (AF_INET6, &clientaddr6.sin6_addr, remote_address, sizeof (remote_address)); // Todo
+      std::string clientaddress = remote_address;
+      if (size_t pos = clientaddress.find("."); pos != std::string::npos) {
+        pos = clientaddress.find_last_of(":");
+        clientaddress.erase (0, ++pos);
+      }
       
       // Handle this request in a thread, enabling parallel requests.
       std::thread request_thread = std::thread (webserver_process_request, connfd, clientaddress);
@@ -513,7 +520,7 @@ void secure_webserver_process_request (mbedtls_ssl_config * conf, mbedtls_net_co
       // Get client's remote IPv4 address in dotted notation and put it in the webserver request object.
       sockaddr_in addr;
       socklen_t addr_size = sizeof(sockaddr_in);
-      getpeername (client_fd.fd, reinterpret_cast<sockaddr *>(&addr), &addr_size);
+      getpeername (client_fd.fd, reinterpret_cast<sockaddr *>(&addr), &addr_size); // Todo
       char remote_address [256];
       inet_ntop (AF_INET, &addr.sin_addr.s_addr, remote_address, sizeof (remote_address));
       request.remote_address = remote_address;

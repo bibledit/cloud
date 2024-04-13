@@ -31,10 +31,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/config/general.h>
 #include <database/config/bible.h>
 #include <database/cache.h>
-using namespace std;
 
 
-Assets_Header::Assets_Header (string title, Webserver_Request& webserver_request) :
+Assets_Header::Assets_Header (const std::string& title, Webserver_Request& webserver_request) :
 m_webserver_request (webserver_request)
 {
   m_view = new Assets_View ();
@@ -76,18 +75,18 @@ void Assets_Header::set_navigator ()
 // Display the user's basic stylesheet.css.
 void Assets_Header::set_stylesheet ()
 {
-  const string bible = m_webserver_request.database_config_user()->getBible ();
-  const string stylesheet = Database_Config_Bible::getEditorStylesheet (bible);
-  m_included_stylesheet = stylesheet;
+  const std::string bible = m_webserver_request.database_config_user()->getBible ();
+  const std::string stylesheet = Database_Config_Bible::getEditorStylesheet (bible);
+  m_included_stylesheet = std::move(stylesheet);
 }
 
 
 // Display the user's editor stylesheet.css.
 void Assets_Header::set_editor_stylesheet ()
 {
-  const string bible = m_webserver_request.database_config_user()->getBible ();
-  const string stylesheet = Database_Config_Bible::getEditorStylesheet (bible);
-  m_included_editor_stylesheet = stylesheet;
+  const std::string bible = m_webserver_request.database_config_user()->getBible ();
+  const std::string stylesheet = Database_Config_Bible::getEditorStylesheet (bible);
+  m_included_editor_stylesheet = std::move(stylesheet);
 }
 
 
@@ -104,34 +103,34 @@ bool Assets_Header::display_topbar ()
 
 
 // Sets the page to refresh after "seconds".
-void Assets_Header::refresh (int seconds, string url)
+void Assets_Header::refresh (int seconds, const std::string& url)
 {
-  string content = filter::strings::convert_to_string (seconds);
+  std::string content = filter::strings::convert_to_string (seconds);
   if (!url.empty ()) content.append (";URL=" + url);
-  stringstream ss;
-  ss << "<META HTTP-EQUIV=" << quoted("refresh") << " CONTENT=" << quoted(content) << ">";
+  std::stringstream ss{};
+  ss << "<META HTTP-EQUIV=" << std::quoted("refresh") << " CONTENT=" << std::quoted(content) << ">";
   m_head_lines.push_back (ss.str());
 }
 
 
 // Adds a menu item to the fading menu.
-void Assets_Header::set_fading_menu (string html)
+void Assets_Header::set_fading_menu (const std::string& html)
 {
   m_fading_menu = html;
 }
 
 
 // Add one breadcrumb $item with $text.
-void Assets_Header::add_bread_crumb (string item, string text)
+void Assets_Header::add_bread_crumb (const std::string& item, const std::string& text)
 {
-  m_bread_crumbs.push_back (pair (item, text));
+  m_bread_crumbs.push_back (std::pair (item, text));
 }
 
 
 // Runs the header.
-string Assets_Header::run ()
+std::string Assets_Header::run ()
 {
-  string page;
+  std::string page {};
   
   // Include the software version number in the stylesheet and javascript URL
   // to refresh the browser's cache after a software upgrade.
@@ -157,8 +156,8 @@ string Assets_Header::run ()
     m_view->enable_zone ("include_notif_it");
   }
   
-  string headlines;
-  for (auto & headline : m_head_lines) {
+  std::string headlines {};
+  for (const auto& headline : m_head_lines) {
     if (!headlines.empty ()) headlines.append ("\n");
     headlines.append (headline);
   }
@@ -173,8 +172,8 @@ string Assets_Header::run ()
     m_view->set_variable ("included_editor_stylesheet", m_included_editor_stylesheet);
   }
 
-  bool basic_mode = config::logic::basic_mode (m_webserver_request);
-  string basicadvanced;
+  const bool basic_mode = config::logic::basic_mode (m_webserver_request);
+  std::string basicadvanced {};
   if (basic_mode) basicadvanced = "basic";
   else basicadvanced = "advanced";
   m_view->set_variable ("basicadvanced", basicadvanced);
@@ -193,8 +192,8 @@ string Assets_Header::run ()
     // Whether tabbed mode is on.
     bool tabbed_mode_on = menu_logic_can_do_tabbed_mode () && Database_Config_General::getMenuInTabbedViewOn ();
     
-    string menublock;
-    string item = m_webserver_request.query ["item"];
+    std::string menublock {};
+    const std::string item = m_webserver_request.query ["item"];
     bool main_menu_always_on = false;
     if (item.empty ())
       if (m_webserver_request.database_config_user ()->getMainMenuAlwaysVisible ()) {
@@ -209,7 +208,7 @@ string Assets_Header::run ()
           menublock = menu_logic_basic_categories (m_webserver_request);
         }
       } else {
-        string devnull;
+        std::string devnull {};
         menublock = menu_logic_main_categories (m_webserver_request, devnull);
       }
       start_button = false;
@@ -234,7 +233,7 @@ string Assets_Header::run ()
 
     if (start_button) {
       m_view->enable_zone ("start_button");
-      string tooltip;
+      std::string tooltip;
       menu_logic_main_categories (m_webserver_request, tooltip);
       m_view->set_variable ("starttooltip", tooltip);
     }
@@ -242,7 +241,7 @@ string Assets_Header::run ()
     if (!m_fading_menu.empty ()) {
       m_view->enable_zone ("fading_menu");
       m_view->set_variable ("fadingmenu", m_fading_menu);
-      string delay = filter::strings::convert_to_string (m_webserver_request.database_config_user ()->getWorkspaceMenuFadeoutDelay ()) + "000";
+      std::string delay = filter::strings::convert_to_string (m_webserver_request.database_config_user ()->getWorkspaceMenuFadeoutDelay ()) + "000";
       m_view->set_variable ("fadingmenudelay", delay);
       m_fading_menu.clear ();
     }
@@ -251,18 +250,18 @@ string Assets_Header::run ()
       m_view->enable_zone ("display_navigator");
       // string bible = access_bible::clamp (request, m_webserver_request.database_config_user()->getBible ());
       // The clamping above does not work for public feedback as it would reset the Bible always.
-      string bible = m_webserver_request.database_config_user()->getBible ();
+      const std::string bible = m_webserver_request.database_config_user()->getBible ();
       m_view->set_variable ("navigation_code", Navigation_Passage::code (bible));
     }
   }
 
-  vector <string> embedded_css;
+  std::vector <std::string> embedded_css {};
   int fontsize = m_webserver_request.database_config_user ()->getGeneralFontSize ();
   if (fontsize != 100) {
     embedded_css.push_back ("body { font-size: " + filter::strings::convert_to_string (fontsize) + "%; }");
   }
   fontsize = m_webserver_request.database_config_user ()->getMenuFontSize ();
-  string filename = menu_font_size_filebased_cache_filename (m_webserver_request.session_identifier);
+  std::string filename = menu_font_size_filebased_cache_filename (m_webserver_request.session_identifier);
   if (fontsize != 100) {
     embedded_css.push_back (".menu-advanced, .menu-basic { font-size: " + filter::strings::convert_to_string (fontsize) + "%; }");
   }
@@ -302,10 +301,10 @@ string Assets_Header::run ()
       // No bread crumbs in basic mode.
       // The crumbs would be incorrect anyway, because they show the trail of advanced mode.
       if (!config::logic::basic_mode (m_webserver_request)) {
-        stringstream track;
-        track << "<a href=" << quoted(index_index_url ()) << ">";
+        std::stringstream track {};
+        track << "<a href=" << std::quoted(index_index_url ()) << ">";
         track << menu_logic_menu_text ("") << "</a>";
-        for (auto & crumb : m_bread_crumbs) {
+        for (const auto& crumb : m_bread_crumbs) {
           track << " » ";
           if (!crumb.first.empty ()) {
             track << "<a href=" << quoted("/" + menu_logic_menu_url (crumb.first)) << ">";

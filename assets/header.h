@@ -27,7 +27,7 @@ class Webserver_Request;
 class Assets_Header
 {
 public:
-  Assets_Header (std::string title, Webserver_Request& webserver_request_in);
+  Assets_Header (const std::string& title, Webserver_Request& webserver_request_in);
   ~Assets_Header ();
   Assets_Header(const Assets_Header&) = delete;
   Assets_Header operator=(const Assets_Header&) = delete;
@@ -38,9 +38,9 @@ public:
   void set_stylesheet ();
   void set_editor_stylesheet ();
   bool display_topbar ();
-  void refresh (int seconds, std::string url = "");
-  void set_fading_menu (std::string html);
-  void add_bread_crumb (std::string item, std::string text);
+  void refresh (int seconds, const std::string& url = "");
+  void set_fading_menu (const std::string& html);
+  void add_bread_crumb (const std::string& item, const std::string& text);
   std::string run ();
 private:
   Assets_View * m_view {nullptr};

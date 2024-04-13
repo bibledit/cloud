@@ -25,11 +25,11 @@ class Assets_View
 {
 public:
   Assets_View ();
-  void set_variable (std::string key, std::string value);
-  void enable_zone (std::string zone);
-  void disable_zone (std::string zone);
-  void add_iteration (std::string key, std::map <std::string, std::string> value);
-  std::string render (std::string tpl1, std::string tpl2);
+  void set_variable (const std::string& key, const std::string& value);
+  void enable_zone (const std::string& zone);
+  void disable_zone (const std::string& zone);
+  void add_iteration (const std::string& key, const std::map <std::string, std::string>& value);
+  std::string render (const std::string& tpl1, const std::string& tpl2);
 private:
   std::map <std::string, std::string> m_variables {};
   std::map <std::string, bool> m_zones {};

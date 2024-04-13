@@ -48,10 +48,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <locale/translate.h>
 #include <editor/html2format.h>
 #include <book/create.h>
-using namespace std;
 
 
-void bible_logic::store_chapter (const string& bible, int book, int chapter, const string& usfm)
+void bible_logic::store_chapter (const std::string& bible, int book, int chapter, const std::string& usfm)
 {
   Database_Bibles database_bibles {};
 
@@ -61,7 +60,7 @@ void bible_logic::store_chapter (const string& bible, int book, int chapter, con
 #ifdef HAVE_CLIENT
 
   // Client stores Bible action.
-  string oldusfm = database_bibles.get_chapter (bible, book, chapter);
+  const std::string oldusfm = database_bibles.get_chapter (bible, book, chapter);
   Database_BibleActions database_bibleactions;
   database_bibleactions.record (bible, book, chapter, oldusfm);
   
@@ -83,7 +82,7 @@ void bible_logic::store_chapter (const string& bible, int book, int chapter, con
 }
 
 
-void bible_logic::delete_chapter (const string& bible, int book, int chapter)
+void bible_logic::delete_chapter (const std::string& bible, int book, int chapter)
 {
   Database_Bibles database_bibles {};
 
@@ -92,7 +91,7 @@ void bible_logic::delete_chapter (const string& bible, int book, int chapter)
 #ifdef HAVE_CLIENT
 
   // Client stores Bible action.
-  string usfm = database_bibles.get_chapter (bible, book, chapter);
+  const std::string usfm = database_bibles.get_chapter (bible, book, chapter);
   Database_BibleActions database_bibleactions;
   database_bibleactions.record (bible, book, chapter, usfm);
   
@@ -114,7 +113,7 @@ void bible_logic::delete_chapter (const string& bible, int book, int chapter)
 }
 
 
-void bible_logic::delete_book (const string& bible, int book)
+void bible_logic::delete_book (const std::string& bible, int book)
 {
   Database_Bibles database_bibles {};
 
@@ -124,9 +123,9 @@ void bible_logic::delete_book (const string& bible, int book)
 
   // Client stores Bible actions.
   Database_BibleActions database_bibleactions;
-  vector <int> chapters = database_bibles.get_chapters (bible, book);
-  for (auto & chapter : chapters) {
-    string usfm = database_bibles.get_chapter (bible, book, chapter);
+  const std::vector <int> chapters = database_bibles.get_chapters (bible, book);
+  for (const auto& chapter : chapters) {
+    const std::string usfm = database_bibles.get_chapter (bible, book, chapter);
     database_bibleactions.record (bible, book, chapter, usfm);
   }
   
@@ -148,7 +147,7 @@ void bible_logic::delete_book (const string& bible, int book)
 }
 
 
-void bible_logic::delete_bible (const string& bible)
+void bible_logic::delete_bible (const std::string& bible)
 {
   Database_Bibles database_bibles {};
 
@@ -158,11 +157,11 @@ void bible_logic::delete_bible (const string& bible)
 
   // Client stores Bible actions.
   Database_BibleActions database_bibleactions {};
-  vector <int> books = database_bibles.get_books (bible);
+  const std::vector <int> books = database_bibles.get_books (bible);
   for (const auto book : books) {
-    vector <int> chapters = database_bibles.get_chapters (bible, book);
-    for (auto chapter : chapters) {
-      string usfm = database_bibles.get_chapter (bible, book, chapter);
+    const std::vector <int> chapters = database_bibles.get_chapters (bible, book);
+    for (const auto chapter : chapters) {
+      const std::string usfm = database_bibles.get_chapter (bible, book, chapter);
       database_bibleactions.record (bible, book, chapter, usfm);
     }
   }
@@ -179,7 +178,7 @@ void bible_logic::delete_bible (const string& bible)
   database_modifications.storeTeamDiffBible (bible);
 
   // Possible git repository.
-  string gitdirectory = filter_git_directory (bible);
+  const std::string gitdirectory = filter_git_directory (bible);
   if (file_or_dir_exists (gitdirectory)) {
     filter_url_rmdir (gitdirectory);
   }
@@ -198,25 +197,25 @@ void bible_logic::delete_bible (const string& bible)
 }
 
 
-void bible_logic::import_resource (string bible, string resource)
+void bible_logic::import_resource (std::string bible, std::string resource)
 {
   Database_Logs::log ("Starting to import resource " + resource + " into Bible " + bible);
   
   Database_Versifications database_versifications {};
   Webserver_Request webserver_request {};
   
-  vector <int> books = database_versifications.getMaximumBooks ();
+  const std::vector <int> books = database_versifications.getMaximumBooks ();
   for (const auto book : books) {
     
-    string bookName = database::books::get_english_from_id (static_cast<book_id>(book));
+    const std::string bookName = database::books::get_english_from_id (static_cast<book_id>(book));
 
-    vector <int> chapters = database_versifications.getMaximumChapters (book);
+    const std::vector <int> chapters = database_versifications.getMaximumChapters (book);
     for (const auto chapter : chapters) {
 
-      string message = "Importing " + resource + " " + bookName + " chapter " + filter::strings::convert_to_string (chapter);
+      const std::string message = "Importing " + resource + " " + bookName + " chapter " + filter::strings::convert_to_string (chapter);
       Database_Logs::log (message, Filter_Roles::translator ());
       
-      vector <string> usfm {};
+      std::vector <std::string> usfm {};
       
       if (chapter == 0) usfm.push_back ("\\id " + database::books::get_usfm_from_id (static_cast<book_id>(book)));
       
@@ -225,22 +224,22 @@ void bible_logic::import_resource (string bible, string resource)
         usfm.push_back ("\\p");
       }
 
-      vector <int> verses = database_versifications.getMaximumVerses (book, chapter);
-      for (auto & verse : verses) {
+      const std::vector <int> verses = database_versifications.getMaximumVerses (book, chapter);
+      for (const auto verse : verses) {
         
         if (verse == 0) continue;
 
         // Fetch the text for the passage.
         bool server_is_installing_module = false;
         int wait_iterations = 0;
-        string html;
+        std::string html;
         do {
           // Fetch this resource from the server.
           html = resource_logic_get_verse (webserver_request, resource, book, chapter, verse);
           server_is_installing_module = (html == sword_logic_installing_module_text ());
           if (server_is_installing_module) {
             Database_Logs::log (translate ("Waiting while Bibledit Cloud installs the requested SWORD module"));
-            this_thread::sleep_for (chrono::seconds (60));
+            std::this_thread::sleep_for (std::chrono::seconds (60));
             wait_iterations++;
           }
         } while (server_is_installing_module && (wait_iterations < 5));
@@ -262,42 +261,42 @@ void bible_logic::import_resource (string bible, string resource)
 
 // This logs the change in the Bible text.
 // When $force is given, it records the change on clients also.
-void bible_logic::log_change (const string& bible,
-                             int book, int chapter,
-                             const string& usfm,
-                             string user,
-                             const string & summary,
-                             [[maybe_unused]] bool force)
+void bible_logic::log_change (const std::string& bible,
+                              int book, int chapter,
+                              const std::string& usfm,
+                              std::string user,
+                              const std::string& summary,
+                              [[maybe_unused]] bool force)
 {
 #ifdef HAVE_CLIENT
   if (!force) return;
 #endif
   
   Database_Bibles database_bibles;
-  string existing_usfm = database_bibles.get_chapter (bible, book, chapter);
+  const std::string existing_usfm = database_bibles.get_chapter (bible, book, chapter);
 
   // It used to calculate the percentage difference, but this took a relatively long time.
   // In particular on low-power devices and on Windows, the time it took was excessive.
 
-  string bookname = database::books::get_english_from_id (static_cast<book_id>(book));
-  string passage = bible + " " + bookname + " " + filter::strings::convert_to_string (chapter);
+  const std::string bookname = database::books::get_english_from_id (static_cast<book_id>(book));
+  const std::string passage = bible + " " + bookname + " " + filter::strings::convert_to_string (chapter);
   
-  string stylesheet = Database_Config_Bible::getExportStylesheet (bible);
+  const std::string stylesheet = Database_Config_Bible::getExportStylesheet (bible);
 
-  vector <int> existing_verse_numbers = filter::usfm::get_verse_numbers (existing_usfm);
-  vector <int> verse_numbers = filter::usfm::get_verse_numbers (usfm);
-  vector <int> verses = existing_verse_numbers;
+  const std::vector <int> existing_verse_numbers = filter::usfm::get_verse_numbers (existing_usfm);
+  const std::vector <int> verse_numbers = filter::usfm::get_verse_numbers (usfm);
+  std::vector <int> verses = existing_verse_numbers;
   verses.insert (verses.end (), verse_numbers.begin (), verse_numbers.end ());
   verses = filter::strings::array_unique (verses);
   sort (verses.begin (), verses.end ());
 
-  vector <string> body;
+  std::vector <std::string> body;
   
   body.push_back ("Changes:");
   
-  for (auto verse : verses) {
-    string existing_verse_usfm = filter::usfm::get_verse_text (existing_usfm, verse);
-    string verse_usfm = filter::usfm::get_verse_text (usfm, verse);
+  for (const auto verse : verses) {
+    const std::string existing_verse_usfm = filter::usfm::get_verse_text (existing_usfm, verse);
+    const std::string verse_usfm = filter::usfm::get_verse_text (usfm, verse);
     if (existing_verse_usfm != verse_usfm) {
       Filter_Text filter_text_old = Filter_Text (bible);
       Filter_Text filter_text_new = Filter_Text (bible);
@@ -307,10 +306,10 @@ void bible_logic::log_change (const string& bible,
       filter_text_new.add_usfm_code (verse_usfm);
       filter_text_old.run (stylesheet);
       filter_text_new.run (stylesheet);
-      string old_text = filter_text_old.text_text->get ();
-      string new_text = filter_text_new.text_text->get ();
+      const std::string old_text = filter_text_old.text_text->get ();
+      const std::string new_text = filter_text_new.text_text->get ();
       if (old_text != new_text) {
-        body.push_back (string());
+        body.push_back (std::string());
         body.push_back (filter_passage_display (book, chapter, filter::strings::convert_to_string (verse)));
         body.push_back ("Old: " + old_text);
         body.push_back ("New: " + new_text);
@@ -318,11 +317,11 @@ void bible_logic::log_change (const string& bible,
     }
   }
 
-  body.push_back (string());
+  body.push_back (std::string());
   body.push_back ("Old USFM:");
   body.push_back (existing_usfm);
 
-  body.push_back (string());
+  body.push_back (std::string());
   body.push_back ("New USFM:");
   body.push_back (usfm);
   
@@ -333,28 +332,29 @@ void bible_logic::log_change (const string& bible,
 
 // This logs the change in the Bible text as a result of a merge operation.
 // This is mostly for diagnostics as at times there's queries on how the merge was done.
-void bible_logic::log_merge (string user, string bible, int book, int chapter,
-                             string base, string change, string prioritized_change, string result)
+void bible_logic::log_merge (const std::string& user, const std::string& bible, int book, int chapter,
+                             const std::string& base, const std::string& change,
+                             const std::string& prioritized_change, const std::string& result)
 {
-  string bookname = database::books::get_english_from_id (static_cast<book_id>(book));
-  string passage = bible + " " + bookname + " " + filter::strings::convert_to_string (chapter);
+  const std::string bookname = database::books::get_english_from_id (static_cast<book_id>(book));
+  const std::string passage = bible + " " + bookname + " " + filter::strings::convert_to_string (chapter);
   
-  vector <string> body {};
+  std::vector <std::string> body {};
 
   body.push_back ("This is a record of a merge operation after receiving an update on a chapter from a client.");
-  body.push_back (string());
+  body.push_back (std::string());
   body.push_back ("Base:");
   body.push_back (base);
   
-  body.push_back (string());
+  body.push_back (std::string());
   body.push_back ("Change:");
   body.push_back (change);
   
-  body.push_back (string());
+  body.push_back (std::string());
   body.push_back ("Existing:");
   body.push_back (prioritized_change);
   
-  body.push_back (string());
+  body.push_back (std::string());
   body.push_back ("Result:");
   body.push_back (result);
   
@@ -381,9 +381,9 @@ void bible_logic::kick_unreceived_data_timer ()
 
 // This returns a warning in case there's old Bible data not yet sent to the Cloud,
 // or in case it has not received data from the Cloud for some days.
-string bible_logic::unsent_unreceived_data_warning ()
+std::string bible_logic::unsent_unreceived_data_warning ()
 {
-  string warning {};
+  std::string warning {};
 
 #ifdef HAVE_CLIENT
 
@@ -391,7 +391,7 @@ string bible_logic::unsent_unreceived_data_warning ()
   int data_time = Database_Config_General::getUnreceivedBibleDataTime ();
   // A value of 0 means that it is not relevant.
   if (data_time) {
-    int now = filter::date::seconds_since_epoch ();
+    const int now = filter::date::seconds_since_epoch ();
     // Unreceived data warning after four days.
     data_time += (4 * 24 * 3600);
     if (now > data_time) {
@@ -408,7 +408,7 @@ string bible_logic::unsent_unreceived_data_warning ()
   data_time = Database_Config_General::getUnsentBibleDataTime ();
   // A value of 0 means that there's no pending data.
   if (data_time) {
-    int now = filter::date::seconds_since_epoch ();
+    const int now = filter::date::seconds_since_epoch ();
     // Unsent data warning after four days.
     data_time += (4 * 24 * 3600);
     if (now > data_time) {
@@ -427,33 +427,33 @@ string bible_logic::unsent_unreceived_data_warning ()
 }
 
 
-void bible_logic::merge_irregularity_mail (vector <string> users, vector <Merge_Conflict> conflicts)
+void bible_logic::merge_irregularity_mail (const std::vector <std::string>& users,
+                                           const std::vector <Merge_Conflict>& conflicts)
 {
   if (conflicts.empty ()) return;
   
-  for (const auto & conflict : conflicts) {
+  for (const auto& conflict : conflicts) {
     
     // Add the passage to the subject.
-    string newsubject = conflict.subject;
-    if (conflict.book) newsubject.append (" | " + filter_passage_display (conflict.book, conflict.chapter, string()));
+    std::string newsubject = conflict.subject;
+    if (conflict.book) newsubject.append (" | " + filter_passage_display (conflict.book, conflict.chapter, std::string()));
     
     // Create the body of the email.
-    xml_document document {};
-    xml_node node {};
-    node = document.append_child ("h3");
+    pugi::xml_document document {};
+    pugi::xml_node node = document.append_child ("h3");
     node.text ().set (newsubject.c_str());
 
     // Storage of the changes the user sent, and the result that was saved, in raw USFM, per verse.
-    vector <string> change_usfm {};
-    vector <string> result_usfm {};
+    std::vector <std::string> change_usfm {};
+    std::vector <std::string> result_usfm {};
 
     // Go through all verses available in the USFM,
     // and make a record for each verse,
     // where the USFM differs between the change that the user made and the result that was saved.
-    vector <int> verses = filter::usfm::get_verse_numbers (conflict.result);
-    for (auto verse : verses) {
-      string change = filter::usfm::get_verse_text (conflict.change, verse);
-      string result = filter::usfm::get_verse_text (conflict.result, verse);
+    const std::vector <int> verses = filter::usfm::get_verse_numbers (conflict.result);
+    for (const auto verse : verses) {
+      const std::string change = filter::usfm::get_verse_text (conflict.change, verse);
+      const std::string result = filter::usfm::get_verse_text (conflict.result, verse);
       // When there's no change in the verse, skip it.
       if (change == result) continue;
       // Record the difference.
@@ -472,7 +472,7 @@ void bible_logic::merge_irregularity_mail (vector <string> users, vector <Merge_
     // and whether and how to correct it.
     for (size_t i = 0; i < change_usfm.size(); i++) {
       node = document.append_child ("p");
-      string modification = filter_diff_diff (change_usfm[i], result_usfm[i]);
+      const std::string modification = filter_diff_diff (change_usfm[i], result_usfm[i]);
       // Add raw html to the email's text buffer.
       node.append_buffer (modification.c_str (), modification.size ());
     }
@@ -517,9 +517,9 @@ void bible_logic::merge_irregularity_mail (vector <string> users, vector <Merge_
     node.text ().set (conflict.result.c_str ());
     
     // Convert the document to a string.
-    stringstream output {};
+    std::stringstream output {};
     document.print (output, "", format_raw);
-    string html = output.str ();
+    const std::string html = output.str ();
     
     // Schedule the mail for sending to the user(s).
     for (const auto & user : users) {
@@ -529,16 +529,16 @@ void bible_logic::merge_irregularity_mail (vector <string> users, vector <Merge_
 }
 
 
-void bible_logic::unsafe_save_mail (string subject, const string & explanation,
-                                    const string & user,
-                                    const string & usfm,
+void bible_logic::unsafe_save_mail (std::string subject, const std::string& explanation,
+                                    const std::string& user,
+                                    const std::string& usfm,
                                     int book, int chapter)
 {
   if (subject.empty ()) return;
 
   // Add the passage to the subject for extra clarity.
   // https://github.com/bibledit/cloud/issues/676
-  subject.append (" | " + filter_passage_display (book, chapter, string()));
+  subject.append (" | " + filter_passage_display (book, chapter, std::string()));
 
   // Create the body of the email.
   xml_document document {};
@@ -558,9 +558,9 @@ void bible_logic::unsafe_save_mail (string subject, const string & explanation,
   node.text ().set (usfm.c_str ());
   
   // Convert the document to a string.
-  stringstream output {};
+  std::stringstream output {};
   document.print (output, "", format_raw);
-  string html = output.str ();
+  const std::string html = output.str ();
   
   // Schedule the mail for sending to the user.
   email_schedule (user, subject, html);
@@ -570,29 +570,29 @@ void bible_logic::unsafe_save_mail (string subject, const string & explanation,
 // This function sends an email
 // if the USFM received from the client
 // does not match the USFM that gets stored on the server.
-void bible_logic::client_receive_merge_mail (const string & bible, int book, int chapter,
-                                             const string & user,
-                                             const string & client_old,
-                                             const string & client_new,
-                                             const string & server)
+void bible_logic::client_receive_merge_mail (const std::string& bible, int book, int chapter,
+                                             const std::string& user,
+                                             const std::string& client_old,
+                                             const std::string& client_new,
+                                             const std::string& server)
 {
   // No difference: Done.
   if (client_old == server) return;
   
-  vector <string> client_diff {};
-  vector <string> server_diff {};
+  std::vector <std::string> client_diff {};
+  std::vector <std::string> server_diff {};
   
   // Go through all verses from the client,
   // and make a record for each verse,
   // where the USFM differs between client and server.
-  vector <int> verses = filter::usfm::get_verse_numbers (client_old);
+  const std::vector <int> verses = filter::usfm::get_verse_numbers (client_old);
   for (const auto verse : verses) {
-    string client_old_verse = filter::usfm::get_verse_text (client_old, verse);
-    string client_new_verse = filter::usfm::get_verse_text (client_new, verse);
+    const std::string client_old_verse = filter::usfm::get_verse_text (client_old, verse);
+    const std::string client_new_verse = filter::usfm::get_verse_text (client_new, verse);
     // When there's no change in the verse as sent by the client, skip further checks.
     if (client_old_verse == client_new_verse) continue;
     // Check whether the client's change made it to the server.
-    string server_verse = filter::usfm::get_verse_text (server, verse);
+    const std::string server_verse = filter::usfm::get_verse_text (server, verse);
     if (client_new_verse == server_verse) continue;
     // Record the difference.
     client_diff.push_back (client_new_verse);
@@ -603,8 +603,8 @@ void bible_logic::client_receive_merge_mail (const string & bible, int book, int
   if (client_diff.empty ()) return;
   
   // Add the passage to the subject.
-  string subject = "Saved Bible text was merged";
-  subject.append (" | " + filter_passage_display (book, chapter, string()));
+  std::string subject = "Saved Bible text was merged";
+  subject.append (" | " + filter_passage_display (book, chapter, std::string()));
 
   // Create the body of the email.
   xml_document document {};
@@ -614,7 +614,7 @@ void bible_logic::client_receive_merge_mail (const string & bible, int book, int
   
   // Add some information for the user.
   node = document.append_child ("p");
-  string information {};
+  std::string information {};
   information.append (translate ("The Cloud already had some changes in this chapter."));
   information.append (" ");
   information.append (translate ("You sent some changes for this chapter too."));
@@ -626,11 +626,10 @@ void bible_logic::client_receive_merge_mail (const string & bible, int book, int
   information.append (translate ("You may want to check the result of the merge, whether it is correct."));
   node.text ().set (information.c_str());
   node = document.append_child ("p");
-  string location = bible + " " + filter_passage_display (book, chapter, "") +  ".";
+  std::string location = bible + " " + filter_passage_display (book, chapter, "") +  ".";
   node.text ().set (location.c_str ());
 
   for (unsigned int i = 0; i < client_diff.size(); i++) {
-
     document.append_child ("br");
     node = document.append_child ("p");
     node.text ().set ("You sent:");
@@ -643,14 +642,14 @@ void bible_logic::client_receive_merge_mail (const string & bible, int book, int
     node = document.append_child ("p");
     node.text ().set ("The difference is:");
     node = document.append_child ("p");
-    string difference = filter_diff_diff (client_diff[i], server_diff[i]);
+    const std::string difference = filter_diff_diff (client_diff[i], server_diff[i]);
     node.append_buffer (difference.c_str (), difference.size ());
   }
   
   // Convert the document to a string.
-  stringstream output {};
+  std::stringstream output {};
   document.print (output, "", format_raw);
-  string html = output.str ();
+  const std::string html = output.str ();
   
   // Schedule the mail for sending to the user.
   email_schedule (user, subject, html);
@@ -658,30 +657,30 @@ void bible_logic::client_receive_merge_mail (const string & bible, int book, int
 
 
 // This emails pending Bible updates to the user.
-void bible_logic::client_mail_pending_bible_updates (string user)
+void bible_logic::client_mail_pending_bible_updates (const std::string& user)
 {
   // Iterate over all the actions stored for all Bible data ready for sending to the Cloud.
   Database_BibleActions database_bibleactions {};
   Database_Bibles database_bibles {};
-  vector <string> bibles = database_bibleactions.getBibles ();
-  for (string bible : bibles) {
+  const std::vector <std::string> bibles = database_bibleactions.getBibles ();
+  for (const auto& bible : bibles) {
     // Skip the Sample Bible, for less clutter.
     if (bible == demo_sample_bible_name ()) continue;
-    vector <int> books = database_bibleactions.getBooks (bible);
+    const std::vector <int> books = database_bibleactions.getBooks (bible);
     for (const int book : books) {
-      vector <int> chapters = database_bibleactions.getChapters (bible, book);
+      const std::vector <int> chapters = database_bibleactions.getChapters (bible, book);
       for (const int chapter : chapters) {
         
         // Get old and new USFM for this chapter.
-        string oldusfm = database_bibleactions.getUsfm (bible, book, chapter);
-        string newusfm = database_bibles.get_chapter (bible, book, chapter);
+        const std::string oldusfm = database_bibleactions.getUsfm (bible, book, chapter);
+        const std::string newusfm = database_bibles.get_chapter (bible, book, chapter);
         // If old USFM and new USFM are the same, or the new USFM is empty, skip it.
         if (newusfm == oldusfm) continue;
         if (newusfm.empty ()) continue;
 
         // Add the passage to the subject.
-        string subject = "Discarded text update";
-        subject.append (" | " + filter_passage_display (book, chapter, string()));
+        std::string subject = "Discarded text update";
+        subject.append (" | " + filter_passage_display (book, chapter, std::string()));
         
         // Create the body of the email.
         xml_document document {};
@@ -691,7 +690,7 @@ void bible_logic::client_mail_pending_bible_updates (string user)
         
         // Add some information for the user.
         node = document.append_child ("p");
-        string information {};
+        std::string information {};
         information.append (translate ("You have now connected to Bibledit Cloud."));
         information.append (" ");
         information.append (translate ("While you were disconnected from Bibledit Cloud, you made some changes in the Bible text on your device."));
@@ -703,7 +702,7 @@ void bible_logic::client_mail_pending_bible_updates (string user)
         
         // Add the passage.
         node = document.append_child ("p");
-        string location = bible + " " + filter_passage_display (book, chapter, "") +  ".";
+        std::string location = bible + " " + filter_passage_display (book, chapter, "") +  ".";
         node.text ().set (location.c_str ());
         
         // Add the text.
@@ -712,9 +711,9 @@ void bible_logic::client_mail_pending_bible_updates (string user)
         node.text ().set (newusfm.c_str ());
         
         // Convert the document to a string.
-        stringstream output;
+        std::stringstream output {};
         document.print (output, "", format_raw);
-        string html = output.str ();
+        const std::string html = output.str ();
         
         // Schedule the mail for sending to the user.
         email_schedule (user, subject, html);
@@ -724,23 +723,23 @@ void bible_logic::client_mail_pending_bible_updates (string user)
 }
 
 
-void bible_logic::client_no_write_access_mail (const string & bible, int book, int chapter,
-                                               const string & user,
-                                               const string & oldusfm, const string & newusfm)
+void bible_logic::client_no_write_access_mail (const std::string& bible, int book, int chapter,
+                                               const std::string& user,
+                                               const std::string& oldusfm, const std::string& newusfm)
 {
   // No difference: Done.
   if (oldusfm == newusfm) return;
   
-  vector <string> client_new_diff {};
-  vector <string> client_old_diff {};
+  std::vector <std::string> client_new_diff {};
+  std::vector <std::string> client_old_diff {};
   
   // Go through all verses from the client,
   // and make a record for each verse,
   // where the USFM differs between client and server.
-  vector <int> verses = filter::usfm::get_verse_numbers (oldusfm);
+  const std::vector <int> verses = filter::usfm::get_verse_numbers (oldusfm);
   for (const auto verse : verses) {
-    string client_old_verse = filter::usfm::get_verse_text (oldusfm, verse);
-    string client_new_verse = filter::usfm::get_verse_text (newusfm, verse);
+    const std::string client_old_verse = filter::usfm::get_verse_text (oldusfm, verse);
+    const std::string client_new_verse = filter::usfm::get_verse_text (newusfm, verse);
     // When there's no change in the verse as sent by the client, skip further checks.
     if (client_old_verse == client_new_verse) continue;
     // Record the difference.
@@ -752,7 +751,7 @@ void bible_logic::client_no_write_access_mail (const string & bible, int book, i
   if (client_new_diff.empty ()) return;
   
   // Add the passage to the subject.
-  string subject = "No write access while sending Bible text";
+  std::string subject = "No write access while sending Bible text";
   subject.append (" | " + filter_passage_display (book, chapter, ""));
 
   // Create the body of the email.
@@ -763,13 +762,13 @@ void bible_logic::client_no_write_access_mail (const string & bible, int book, i
   
   // Add some information for the user.
   node = document.append_child ("p");
-  string information {};
+  std::string information {};
   information.append (translate ("While sending Bible text to Bibledit Cloud, you did not have write access to this chapter."));
   information.append (" ");
   information.append (translate ("You may want to check whether this is correct."));
   node.text ().set (information.c_str());
   node = document.append_child ("p");
-  string location = bible + " " + filter_passage_display (book, chapter, "") +  ".";
+  const std::string location = bible + " " + filter_passage_display (book, chapter, "") +  ".";
   node.text ().set (location.c_str ());
   
   for (unsigned int i = 0; i < client_new_diff.size(); i++) {
@@ -782,35 +781,35 @@ void bible_logic::client_no_write_access_mail (const string & bible, int book, i
     node = document.append_child ("p");
     node.text ().set ("The difference is:");
     node = document.append_child ("p");
-    string difference = filter_diff_diff (client_old_diff[i], client_new_diff[i]);
+    const std::string difference = filter_diff_diff (client_old_diff[i], client_new_diff[i]);
     node.append_buffer (difference.c_str (), difference.size ());
   }
   
   // Convert the document to a string.
-  stringstream output {};
+  std::stringstream output {};
   document.print (output, "", format_raw);
-  string html = output.str ();
+  const std::string html = output.str ();
   
   // Schedule the mail for sending to the user.
   email_schedule (user, subject, html);
 }
 
 
-void bible_logic::recent_save_email (const string & bible,
+void bible_logic::recent_save_email (const std::string& bible,
                                      int book, int chapter,
-                                     const string & user,
-                                     const string & old_usfm, const string & new_usfm)
+                                     const std::string& user,
+                                     const std::string& old_usfm, const std::string& new_usfm)
 {
-  vector <string> old_verses {};
-  vector <string> new_verses {};
+  std::vector <std::string> old_verses {};
+  std::vector <std::string> new_verses {};
 
   // Go through all verses available in the USFM,
   // and make a record for each verse,
   // where the USFM differs between the old and the new USFM.
-  vector <int> verses = filter::usfm::get_verse_numbers (new_usfm);
+  const std::vector <int> verses = filter::usfm::get_verse_numbers (new_usfm);
   for (const auto verse : verses) {
-    string old_verse = filter::usfm::get_verse_text (old_usfm, verse);
-    string new_verse = filter::usfm::get_verse_text (new_usfm, verse);
+    const std::string old_verse = filter::usfm::get_verse_text (old_usfm, verse);
+    const std::string new_verse = filter::usfm::get_verse_text (new_usfm, verse);
     // When there's no change in the verse, skip further checks.
     if (old_verse == new_verse) continue;
     // Record the difference.
@@ -822,7 +821,7 @@ void bible_logic::recent_save_email (const string & bible,
   if (new_verses.empty ()) return;
 
   // Add the passage to the subject.
-  string subject = translate ("Check whether Bible text was saved");
+  std::string subject = translate ("Check whether Bible text was saved");
   subject.append (" | " + filter_passage_display (book, chapter, ""));
 
   // Create the body of the email.
@@ -833,7 +832,7 @@ void bible_logic::recent_save_email (const string & bible,
   
   // Add some information for the user.
   node = document.append_child ("p");
-  string information {};
+  std::string information {};
   information.append (translate ("Bibledit saved the Bible text below."));
   information.append (" ");
   information.append (translate ("But Bibledit is not entirely sure that all went well."));
@@ -845,7 +844,7 @@ void bible_logic::recent_save_email (const string & bible,
   information.append (translate ("The text in strikethrough was removed."));
   node.text ().set (information.c_str());
   node = document.append_child ("p");
-  string location = bible + " " + filter_passage_display (book, chapter, "") +  ".";
+  const std::string location = bible + " " + filter_passage_display (book, chapter, "") +  ".";
   node.text ().set (location.c_str ());
 
   bool differences_found {false};
@@ -860,12 +859,12 @@ void bible_logic::recent_save_email (const string & bible,
     filter_text_new.add_usfm_code (new_verses[i]);
     filter_text_old.run (styles_logic_standard_sheet());
     filter_text_new.run (styles_logic_standard_sheet());
-    string old_text = filter_text_old.text_text->get ();
-    string new_text = filter_text_new.text_text->get ();
+    const std::string old_text = filter_text_old.text_text->get ();
+    const std::string new_text = filter_text_new.text_text->get ();
     if (old_text != new_text) {
       node = document.append_child ("p");
-      string modification = filter_diff_diff (old_text, new_text);
-      string fragment = /* filter::strings::convert_to_string (verse) + " " + */ modification;
+      const std::string modification = filter_diff_diff (old_text, new_text);
+      const std::string fragment = /* filter::strings::convert_to_string (verse) + " " + */ modification;
       node.append_buffer (fragment.c_str (), fragment.size ());
       differences_found = true;
     }
@@ -877,20 +876,20 @@ void bible_logic::recent_save_email (const string & bible,
   if (!differences_found) return;
   
   // Convert the document to a string.
-  stringstream output {};
+  std:: stringstream output {};
   document.print (output, "", format_raw);
-  string html = output.str ();
+  const std::string html = output.str ();
 
   // Schedule the mail for sending to the user.
   email_schedule (user, subject, html);
 }
 
 
-void bible_logic::optional_merge_irregularity_email (const string & bible, int book, int chapter,
-                                                     const string & user,
-                                                     const string & ancestor_usfm,
-                                                     const string & edited_usfm,
-                                                     const string & merged_usfm)
+void bible_logic::optional_merge_irregularity_email (const std::string& bible, int book, int chapter,
+                                                     const std::string& user,
+                                                     const std::string& ancestor_usfm,
+                                                     const std::string& edited_usfm,
+                                                     const std::string& merged_usfm)
 {
   // If the merged edited USFM is the same as the edited USFM,
   // that means that the user's changes will get saved to the chapter.
@@ -899,7 +898,7 @@ void bible_logic::optional_merge_irregularity_email (const string & bible, int b
   // more checks need to be done to be sure that the user's edits made it.
 
   // Add the passage to the subject.
-  string subject = translate ("Check whether Bible text was saved");
+  std::string subject = translate ("Check whether Bible text was saved");
   subject.append (" | " + filter_passage_display (book, chapter, ""));
 
   // Create the body of the email.
@@ -910,7 +909,7 @@ void bible_logic::optional_merge_irregularity_email (const string & bible, int b
   
   // Add some information for the user.
   node = document.append_child ("p");
-  string information {};
+  std::string information {};
   information.append (translate ("Bibledit saved the Bible text below."));
   information.append (" ");
   information.append (translate ("But Bibledit is not entirely sure that all went well."));
@@ -922,30 +921,30 @@ void bible_logic::optional_merge_irregularity_email (const string & bible, int b
   information.append (translate ("The text in strikethrough was removed."));
   node.text ().set (information.c_str());
   node = document.append_child ("p");
-  string location = bible + " " + filter_passage_display (book, chapter, "") +  ".";
+  const std::string location = bible + " " + filter_passage_display (book, chapter, "") +  ".";
   node.text ().set (location.c_str ());
 
   bool anomalies_found {false};
 
   // Go through all verses available in the USFM,
   // and check the differences for each verse.
-  vector <int> verses = filter::usfm::get_verse_numbers (merged_usfm);
+  const std::vector <int> verses = filter::usfm::get_verse_numbers (merged_usfm);
   for (const auto verse : verses) {
-    string ancestor_verse_usfm = filter::usfm::get_verse_text (ancestor_usfm, verse);
-    string edited_verse_usfm = filter::usfm::get_verse_text (edited_usfm, verse);
-    string merged_verse_usfm = filter::usfm::get_verse_text (merged_usfm, verse);
+    const std::string ancestor_verse_usfm = filter::usfm::get_verse_text (ancestor_usfm, verse);
+    const std::string edited_verse_usfm = filter::usfm::get_verse_text (edited_usfm, verse);
+    const std::string merged_verse_usfm = filter::usfm::get_verse_text (merged_usfm, verse);
     // There's going to be a check to find out that all the changes the user made,
     // are available among the changes resulting from the merge.
     // If all the changes are there, all is good.
     // If not, then email the user about this.
     bool anomaly_found {false};
-    vector <string> user_removals, user_additions, merged_removals, merged_additions;
+    std::vector <std::string> user_removals, user_additions, merged_removals, merged_additions;
     filter_diff_diff (ancestor_verse_usfm, edited_verse_usfm, &user_removals, &user_additions);
     filter_diff_diff (ancestor_verse_usfm, merged_verse_usfm, &merged_removals, &merged_additions);
-    for (auto user_removal : user_removals) {
+    for (const auto& user_removal : user_removals) {
       if (!in_array (user_removal, merged_removals)) anomaly_found = true;
     }
-    for (auto user_addition : user_additions) {
+    for (const auto& user_addition : user_additions) {
       if (!in_array (user_addition, merged_additions)) anomaly_found = true;
     }
     if (!anomaly_found) continue;
@@ -964,11 +963,11 @@ void bible_logic::optional_merge_irregularity_email (const string & bible, int b
     filter_text_ancestor.run (styles_logic_standard_sheet());
     filter_text_edited.run (styles_logic_standard_sheet());
     filter_text_merged.run (styles_logic_standard_sheet());
-    string ancestor_text = filter_text_ancestor.text_text->get ();
-    string edited_text = filter_text_edited.text_text->get ();
-    string merged_text = filter_text_merged.text_text->get ();
-    string modification_edited = filter_diff_diff (ancestor_text, edited_text);
-    string modification_saved = filter_diff_diff (ancestor_text, merged_text);
+    const std::string ancestor_text = filter_text_ancestor.text_text->get ();
+    const std::string edited_text = filter_text_edited.text_text->get ();
+    const std::string merged_text = filter_text_merged.text_text->get ();
+    std::string modification_edited = filter_diff_diff (ancestor_text, edited_text);
+    std::string modification_saved = filter_diff_diff (ancestor_text, merged_text);
     // If the edited and saved modifications are the same, do not email this.
     // This keeps changes in footnotes and cross references out from consideration.
     if (modification_saved == modification_edited) continue;
@@ -990,9 +989,9 @@ void bible_logic::optional_merge_irregularity_email (const string & bible, int b
   if (!anomalies_found) return;
   
   // Convert the document to a string.
-  stringstream output {};
+  std::stringstream output {};
   document.print (output, "", format_raw);
-  string html = output.str ();
+  const std::string html = output.str ();
 
   // Schedule the mail for sending to the user.
   email_schedule (user, subject, html);
@@ -1019,14 +1018,14 @@ const char * bible_logic::format_character_operator ()
 // There are three containers with updating information.
 // The function condenses this updating information.
 // This condensed information works better for the Quill editor.
-void bible_logic::condense_editor_updates (const vector <int> & positions_in,
-                                           const vector <int> & sizes_in,
-                                           const vector <bool> & additions_in,
-                                           const vector <string> & content_in,
-                                           vector <int> & positions_out,
-                                           vector <int> & sizes_out,
-                                           vector <string> & operators_out,
-                                           vector <string> & content_out)
+void bible_logic::condense_editor_updates (const std::vector <int>& positions_in,
+                                           const std::vector <int>& sizes_in,
+                                           const std::vector <bool>& additions_in,
+                                           const std::vector <std::string>& content_in,
+                                           std::vector <int>& positions_out,
+                                           std::vector <int>& sizes_out,
+                                           std::vector <std::string>& operators_out,
+                                           std::vector <std::string>& content_out)
 {
   positions_out.clear();
   sizes_out.clear();
@@ -1034,15 +1033,15 @@ void bible_logic::condense_editor_updates (const vector <int> & positions_in,
   content_out.clear();
   
   // https://stackoverflow.com/questions/40492414/why-does-stdnumeric-limitslong-longmax-fail
-  int previous_position = (numeric_limits<int>::min)();
+  int previous_position = (std::numeric_limits<int>::min)();
   bool previous_addition {false};
-  string previous_character {};
+  std::string previous_character {};
   for (size_t i = 0; i < positions_in.size(); i++) {
     const int position = positions_in[i];
     const int size = sizes_in[i];
     const bool addition = additions_in[i];
-    const string character = content_in[i].substr (0, 1);
-    const string format = content_in[i].substr (1);
+    const std::string character = content_in[i].substr (0, 1);
+    const std::string format = content_in[i].substr (1);
 
     // The following situation occurs when changing the style of a paragraph.
     // Like for example changing a paragraph style from "p" to "s".
@@ -1057,7 +1056,7 @@ void bible_logic::condense_editor_updates (const vector <int> & positions_in,
     // 2. Insert the new line before the second line again.
     // 3. Appy formatting to the second line.
     // The net result is that the first line remains with the paragraph format of the second line.
-    bool newlineflag = addition && !previous_addition && (character == "\n") && (character == previous_character) && (position == previous_position);
+    const bool newlineflag = addition && !previous_addition && (character == "\n") && (character == previous_character) && (position == previous_position);
     if (newlineflag) {
       // Remove the previous "delete new line".
       positions_out.pop_back();
@@ -1086,12 +1085,12 @@ void bible_logic::condense_editor_updates (const vector <int> & positions_in,
 }
 
 
-void bible_logic::html_to_editor_updates (const string & editor_html,
-                                          const string & server_html,
-                                          vector <int> & positions,
-                                          vector <int> & sizes,
-                                          vector <string> & operators,
-                                          vector <string> & content)
+void bible_logic::html_to_editor_updates (const std::string& editor_html,
+                                          const std::string& server_html,
+                                          std::vector <int>& positions,
+                                          std::vector <int>& sizes,
+                                          std::vector <std::string>& operators,
+                                          std::vector <std::string>& content)
 {
   // Clear outputs.
   positions.clear();
@@ -1108,34 +1107,34 @@ void bible_logic::html_to_editor_updates (const string & editor_html,
   server_format.run ();
 
   // Convert the formatted text fragments to formatted UTF-8 characters.
-  vector <string> editor_formatted_character_content;
+  std::vector <std::string> editor_formatted_character_content;
   for (size_t i = 0; i < editor_format.texts.size(); i++) {
-    const string & text = editor_format.texts[i];
-    const string & format = editor_format.formats[i];
+    const std::string& text = editor_format.texts[i];
+    const std::string& format = editor_format.formats[i];
     const size_t length = filter::strings::unicode_string_length (text);
     for (size_t pos = 0; pos < length; pos++) {
-      const string utf8_character = filter::strings::unicode_string_substr (text, pos, 1);
+      const std::string utf8_character = filter::strings::unicode_string_substr (text, pos, 1);
       editor_formatted_character_content.push_back (utf8_character + format);
     }
   }
-  vector <string> server_formatted_character_content {};
-  vector <string> server_utf8_characters {};
+  std::vector <std::string> server_formatted_character_content {};
+  std::vector <std::string> server_utf8_characters {};
   for (size_t i = 0; i < server_format.texts.size(); i++) {
-    const string & text = server_format.texts[i];
-    const string & format = server_format.formats[i];
+    const std::string& text = server_format.texts[i];
+    const std::string& format = server_format.formats[i];
     const size_t length = filter::strings::unicode_string_length (text);
     for (size_t pos = 0; pos < length; pos++) {
-      const string utf8_character = filter::strings::unicode_string_substr (text, pos, 1);
+      const std::string utf8_character = filter::strings::unicode_string_substr (text, pos, 1);
       server_formatted_character_content.push_back (utf8_character + format);
       server_utf8_characters.push_back(utf8_character);
     }
   }
 
   // Find the differences between the two sets of content.
-  vector <int> positions_diff {};
-  vector <int> sizes_diff {};
-  vector <bool> additions_diff {};
-  vector <string> content_diff {};
+  std::vector <int> positions_diff {};
+  std::vector <int> sizes_diff {};
+  std::vector <bool> additions_diff {};
+  std::vector <std::string> content_diff {};
   int new_line_diff_count {};
   filter_diff_diff_utf16 (editor_formatted_character_content, server_formatted_character_content,
                           positions_diff, sizes_diff, additions_diff, content_diff, new_line_diff_count);
@@ -1166,7 +1165,7 @@ void bible_logic::html_to_editor_updates (const string & editor_html,
 }
 
 
-void bible_logic::create_empty_bible (const string & name)
+void bible_logic::create_empty_bible (const std::string& name)
 {
   Database_Logs::log (translate("Creating Bible") + " " + name);
   
@@ -1179,11 +1178,11 @@ void bible_logic::create_empty_bible (const string & name)
   search_logic_delete_bible (name);
 
   // Create books with blank verses for the OT and NT.
-  vector <book_id> books = database::books::get_ids ();
+  std::vector <book_id> books = database::books::get_ids ();
   for (const auto book : books) {
     const book_type type = database::books::get_type (book);
     if ((type == book_type::old_testament) || (type == book_type::new_testament)) {
-      vector <string> feedback {};
+      std::vector <std::string> feedback {};
       book_create (name, book, -1, feedback);
     }
   }

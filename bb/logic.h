@@ -30,13 +30,14 @@ void delete_book (const std::string& bible, int book);
 void delete_bible (const std::string& bible);
 void import_resource (std::string bible, std::string resource);
 void log_change (const std::string& bible, int book, int chapter, const std::string& usfm, std::string user, const std::string & summary, bool force);
-void log_merge (std::string user, std::string bible, int book, int chapter,
-                std::string base, std::string change, std::string prioritized_change, std::string result);
+void log_merge (const std::string& user, const std::string& bible, int book, int chapter,
+                const std::string& base, const std::string& change,
+                const std::string& prioritized_change, const std::string& result);
 void kick_unsent_data_timer ();
 void kick_unreceived_data_timer ();
 std::string unsent_unreceived_data_warning ();
-void merge_irregularity_mail (std::vector <std::string> users,
-                              std::vector <Merge_Conflict> conflicts);
+void merge_irregularity_mail (const std::vector <std::string>& users,
+                              const std::vector <Merge_Conflict>& conflicts);
 void unsafe_save_mail (std::string subject, const std::string & explanation,
                        const std::string & user,
                        const std::string & usfm,
@@ -46,7 +47,7 @@ void client_receive_merge_mail (const std::string & bible, int book, int chapter
                                 const std::string & client_old,
                                 const std::string & client_new,
                                 const std::string & server);
-void client_mail_pending_bible_updates (std::string user);
+void client_mail_pending_bible_updates (const std::string& user);
 void client_no_write_access_mail (const std::string & bible, int book, int chapter,
                                   const std::string & user,
                                   const std::string & oldusfm, const std::string & newusfm);

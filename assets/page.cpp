@@ -23,20 +23,19 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <assets/header.h>
 #include <filter/url.h>
 #include <config/globals.h>
-using namespace std;
+
 
 namespace assets_page {
 
 
-string header (const string & title, Webserver_Request& webserver_request)
+std::string header (const std::string& title, Webserver_Request& webserver_request)
 {
   Assets_Header header = Assets_Header (title, webserver_request);
-  string page = header.run ();
-  return page;
+  return header.run ();
 }
 
 
-string success (const string & message)
+std::string success (const std::string& message)
 {
   Assets_View view {};
   view.set_variable ("message", message);
@@ -44,7 +43,7 @@ string success (const string & message)
 }
 
 
-string error (const string & message)
+std::string error (const std::string& message)
 {
   Assets_View view {};
   view.set_variable ("message", message);
@@ -52,7 +51,7 @@ string error (const string & message)
 }
 
 
-string message (const string & message)
+std::string message (const std::string& message)
 {
   Assets_View view {};
   view.set_variable ("message", message);
@@ -60,9 +59,9 @@ string message (const string & message)
 }
 
 
-string footer ()
+std::string footer ()
 {
-  string page {};
+  std::string page {};
   Assets_View view {};
   page += view.render ("assets", "workspacewrapper_finish");
   page += view.render ("assets", "footer");

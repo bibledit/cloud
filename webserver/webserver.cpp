@@ -45,12 +45,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #endif
 
 
-// Internal function declarations.
-int get_line (const int sock, char *buf, const int size);
-void webserver_process_request (const int connfd, const std::string& clientaddress);
-void secure_webserver_process_request (mbedtls_ssl_config * conf, mbedtls_net_context client_fd);
-
-
 // Gets a line from a socket.
 // The line may end with a newline, a carriage return, or a CR-LF combination.
 // It terminates the string read with a null character.
@@ -62,7 +56,7 @@ void secure_webserver_process_request (mbedtls_ssl_config * conf, mbedtls_net_co
 //             the buffer to save the data to
 //             the size of the buffer
 // Returns: the number of bytes stored (excluding null).
-int get_line (const int sock, char *buf, const int size)
+static int get_line (const int sock, char *buf, const int size)
 {
   int i {0};
   char character {'\0'};
@@ -95,8 +89,23 @@ int get_line (const int sock, char *buf, const int size)
 }
 
 
+// This converts an IPv4 address in IPv6 notation to a pure IPv4 notation.
+static void convert_ipv6_notation_to_pure_ipv4_notation (std::string& address)
+{
+  // The client's remote IPv6 address in hexadecimal digits separated by colons.
+  // IPv4 addresses are mapped to IPv6 addresses.
+  // Example IPv4 address: ::ffff:127.0.0.1
+  // Example IPv6 address: ::1
+  // Clean the IP address up so it's a clear IPv4 or IPv6 notation.
+  if (size_t pos = address.find("."); pos != std::string::npos) {
+    pos = address.find_last_of(":");
+    address.erase (0, ++pos);
+  }
+}
+
+
 // Processes a single request from a web client.
-void webserver_process_request (const int connfd, const std::string& clientaddress)
+static void webserver_process_request (const int connfd, const std::string& clientaddress)
 {
   // The environment for this request.
   // A pointer to it gets passed around from function to function during the entire request.
@@ -336,13 +345,10 @@ void http_server ()
       // Example IPv6 address: ::1
       // Clean the IP address up so it's a clear IPv4 or IPv6 notation.
       char remote_address[256];
-      inet_ntop (AF_INET6, &clientaddr6.sin6_addr, remote_address, sizeof (remote_address)); // Todo
+      inet_ntop (AF_INET6, &clientaddr6.sin6_addr, remote_address, sizeof (remote_address));
       std::string clientaddress = remote_address;
-      if (size_t pos = clientaddress.find("."); pos != std::string::npos) {
-        pos = clientaddress.find_last_of(":");
-        clientaddress.erase (0, ++pos);
-      }
-      
+      convert_ipv6_notation_to_pure_ipv4_notation (clientaddress);
+
       // Handle this request in a thread, enabling parallel requests.
       std::thread request_thread = std::thread (webserver_process_request, connfd, clientaddress);
       // Detach and delete thread object.
@@ -491,7 +497,7 @@ void http_server ()
 
 
 // Processes a single request from a web client.
-void secure_webserver_process_request (mbedtls_ssl_config * conf, mbedtls_net_context client_fd)
+static void secure_webserver_process_request (mbedtls_ssl_config * conf, mbedtls_net_context client_fd)
 {
   // Socket receive timeout, secure https.
 #ifndef HAVE_WINDOWS
@@ -517,13 +523,24 @@ void secure_webserver_process_request (mbedtls_ssl_config * conf, mbedtls_net_co
 
     if (config_globals_webserver_running) {
 
-      // Get client's remote IPv4 address in dotted notation and put it in the webserver request object.
-      sockaddr_in addr;
-      socklen_t addr_size = sizeof(sockaddr_in);
-      getpeername (client_fd.fd, reinterpret_cast<sockaddr *>(&addr), &addr_size); // Todo
-      char remote_address [256];
-      inet_ntop (AF_INET, &addr.sin_addr.s_addr, remote_address, sizeof (remote_address));
-      request.remote_address = remote_address;
+      // Get the client's remote IPv4 address in dotted notation,
+      // or the IPv6 address in the proper notation,
+      // and put it in the webserver request object.
+      {
+        sockaddr_storage client_addr;
+        socklen_t socklen = sizeof(client_addr);
+        getpeername(client_fd.fd, reinterpret_cast<sockaddr *>(&client_addr), &socklen);
+        char remote_address [256];
+        if (client_addr.ss_family == AF_INET) {
+          struct sockaddr_in *s = reinterpret_cast<sockaddr_in *>(&client_addr);
+          inet_ntop(AF_INET, &s->sin_addr, remote_address, sizeof remote_address);
+        } else if(client_addr.ss_family == AF_INET6) {
+          struct sockaddr_in6 *s = reinterpret_cast<sockaddr_in6 *>(&client_addr);
+          inet_ntop(AF_INET6, &s->sin6_addr, remote_address, sizeof remote_address);
+        }
+        request.remote_address = remote_address;
+        convert_ipv6_notation_to_pure_ipv4_notation (request.remote_address);
+      }
       
       // This flag indicates a healthy connection: One that can proceed.
       bool connection_healthy = true;

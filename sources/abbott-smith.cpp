@@ -41,7 +41,6 @@
 #endif
 #pragma GCC diagnostic pop
 using namespace std;
-using namespace pugi;
 #ifdef HAVE_ICU
 using namespace icu;
 #endif
@@ -51,7 +50,7 @@ int entry_element_count {0};
 
 
 void sources_abbott_smith_parse_entry_element (Database_AbbottSmith * database_abbottsmith,
-                                               xml_node & node)
+                                               pugi::xml_node & node)
 {
   string entry = "entry";
   if (node.name() != entry) return;
@@ -75,7 +74,7 @@ void sources_abbott_smith_parse_entry_element (Database_AbbottSmith * database_a
 #endif
   string strong = filter::strings::trim (node.attribute ("strong").value ());
   stringstream ss;
-  for (xml_node child : node.children()) child.print(ss, "", format_raw);
+  for (pugi::xml_node child : node.children()) child.print(ss, "", pugi::format_raw);
   string contents = ss.str ();
   
   // If there's no lemma, or no Strong's number, then there's nothing to store.
@@ -114,22 +113,22 @@ void sources_abbott_smith_parse ()
     
   string file = "sources/abbott-smith/abbott-smith.tei_lemma.xml";
   
-  xml_document document;
+  pugi::xml_document document;
   document.load_file (file.c_str());
-  xml_node TEI_node = document.first_child ();
+  pugi::xml_node TEI_node = document.first_child ();
   // Do a deep parsing.
   // The depth as used below was found out empirically in March 2021.
   // The number of <entry> elements was 6153 when counted in a text editor.
   // And this same number of elements was found when parsing as deep as is done below.
-  for (xml_node node1 : TEI_node.children()) {
+  for (pugi::xml_node node1 : TEI_node.children()) {
     sources_abbott_smith_parse_entry_element (&database_abbottsmith, node1);
-    for (xml_node node2 : node1.children()) {
+    for (pugi::xml_node node2 : node1.children()) {
       sources_abbott_smith_parse_entry_element (&database_abbottsmith, node2);
-      for (xml_node node3 : node2.children()) {
+      for (pugi::xml_node node3 : node2.children()) {
         sources_abbott_smith_parse_entry_element (&database_abbottsmith, node3);
-        for (xml_node node4 : node3.children()) {
+        for (pugi::xml_node node4 : node3.children()) {
           sources_abbott_smith_parse_entry_element (&database_abbottsmith, node4);
-          for (xml_node node5 : node4.children()) {
+          for (pugi::xml_node node5 : node4.children()) {
             sources_abbott_smith_parse_entry_element (&database_abbottsmith, node5);
           }
         }

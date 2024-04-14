@@ -41,7 +41,6 @@
 #include <filter/string.h>
 #include <webserver/request.h>
 using namespace std;
-using namespace pugi;
 
 
 void changes_logic_start ()
@@ -106,15 +105,15 @@ string changes_interlinks (Webserver_Request& webserver_request, string my_url)
 #endif
 
   // Generate the links in XML.
-  xml_document document {};
+  pugi::xml_document document {};
   bool first {true};
   for (unsigned int i = 0; i < urls.size (); i++) {
     if (!first) {
-      xml_node node = document.append_child ("span");
+      pugi::xml_node node = document.append_child ("span");
       node.text ().set (" | ");
     }
     first = false;
-    xml_node a = document.append_child ("a");
+    pugi::xml_node a = document.append_child ("a");
     string href = "/" + urls[i];
     a.append_attribute ("href") = href.c_str();
     a.text ().set (labels[i].c_str());
@@ -122,7 +121,7 @@ string changes_interlinks (Webserver_Request& webserver_request, string my_url)
   
   // Convert the document to a string.
   stringstream output {};
-  document.print (output, "", format_raw);
+  document.print (output, "", pugi::format_raw);
   return output.str ();
 }
 

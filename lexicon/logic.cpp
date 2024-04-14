@@ -40,7 +40,6 @@
 #pragma GCC diagnostic pop
 #include <webserver/request.h>
 using namespace std;
-using namespace pugi;
 
 
 #define BETH_STRONG 10000
@@ -1073,16 +1072,16 @@ string lexicon_logic_render_bdb_entry (string code)
 string lexicon_logic_get_remove_attribute (string & xml, const char * key)
 {
   string value;
-  xml_document document;
-  xml_parse_result result = document.load_string (xml.c_str(), parse_ws_pcdata_single);
+  pugi::xml_document document;
+  pugi::xml_parse_result result = document.load_string (xml.c_str(), pugi::parse_ws_pcdata_single);
   if (result) {
-    xml_node child = document.first_child ();
-    xml_attribute attribute = child.attribute (key);
+    pugi::xml_node child = document.first_child ();
+    pugi::xml_attribute attribute = child.attribute (key);
     if (attribute) {
       value = attribute.value ();
       child.remove_attribute (attribute);
       stringstream output;
-      child.print (output, "", format_raw);
+      child.print (output, "", pugi::format_raw);
       xml = output.str ();
     }
   }
@@ -1094,16 +1093,16 @@ string lexicon_logic_get_remove_attribute (string & xml, const char * key)
 string lexicon_logic_get_text (string & xml)
 {
   string value;
-  xml_document document;
-  xml_parse_result result = document.load_string (xml.c_str(), parse_ws_pcdata_single);
+  pugi::xml_document document;
+  pugi::xml_parse_result result = document.load_string (xml.c_str(), pugi::parse_ws_pcdata_single);
   if (result) {
-    xml_node child = document.first_child ();
-    xml_text text = child.text ();
+    pugi::xml_node child = document.first_child ();
+    pugi::xml_text text = child.text ();
     if (text) {
       value = text.get ();
       text.set ("");
       stringstream output;
-      child.print (output, "", format_raw);
+      child.print (output, "", pugi::format_raw);
       xml = output.str ();
     }
   }
@@ -1480,14 +1479,14 @@ string lexicon_logic_hebrew_morphology_render_state (string & value)
 }
 
 
-struct abbott_smith_walker: xml_tree_walker
+struct abbott_smith_walker: pugi::xml_tree_walker
 {
   string text {};
 
   bool text_element_already_handled {false};
   string previous_element_name {};
 
-  virtual bool for_each (xml_node& node) override
+  virtual bool for_each (pugi::xml_node& node) override
   {
     // Details of the current node.
     string clas = node.attribute ("class").value ();
@@ -1539,7 +1538,7 @@ string lexicon_logic_render_abbott_smiths_definition (string lemma, string stron
 
   string definition = database_abbottsmith.get (lemma, lexicon_logic_strong_number_cleanup (strong));
   
-  xml_document document;
+  pugi::xml_document document;
   document.load_string (definition.c_str());
   abbott_smith_walker tree_walker {};
   document.traverse (tree_walker);

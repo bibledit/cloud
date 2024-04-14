@@ -45,7 +45,6 @@
 #include <resource/translated1edit.h>
 #include <client/logic.h>
 using namespace std;
-using namespace pugi;
 
 
 string resource_translated9edit_url ()
@@ -141,19 +140,19 @@ string resource_translated9edit (Webserver_Request& webserver_request)
 
   vector <string> resources = Database_Config_General::getTranslatedResources ();
   {
-    xml_document document;
+    pugi::xml_document document;
     for (auto & resource : resources) {
       string title;
       if (!resource_logic_parse_translated_resource (resource, &title)) continue;
-      xml_node p_node = document.append_child ("p");
-      xml_node a_node = p_node.append_child("a");
+      pugi::xml_node p_node = document.append_child ("p");
+      pugi::xml_node a_node = p_node.append_child("a");
       string href = "translated1edit?name=" + title;
       a_node.append_attribute ("href") = href.c_str();
       title.append (" [" + translate("edit") + "]");
       a_node.text().set (title.c_str());
     }
     stringstream resourceblock;
-    document.print (resourceblock, "", format_raw);
+    document.print (resourceblock, "", pugi::format_raw);
     view.set_variable ("resourceblock", resourceblock.str ());
   }
 

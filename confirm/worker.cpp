@@ -39,7 +39,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #endif
 #pragma GCC diagnostic pop
 using namespace std;
-using namespace pugi;
 
 
 #ifdef HAVE_CLOUD
@@ -67,8 +66,8 @@ void Confirm_Worker::setup (string mailto, string username,
 {
   Database_Confirm database_confirm;
   unsigned int confirmation_id = database_confirm.get_new_id ();
-  xml_document document;
-  xml_node node = document.append_child ("p");
+  pugi::xml_document document;
+  pugi::xml_node node = document.append_child ("p");
   string information;
   if (config::logic::default_bibledit_configuration ()) {
     information = translate ("Please confirm this request by clicking this following link:");
@@ -79,7 +78,7 @@ void Confirm_Worker::setup (string mailto, string username,
   string confirmation_url = filter_url_build_http_query (siteUrl + session_confirm_url (), "id", to_string(confirmation_id));
   node.text ().set (confirmation_url.c_str());
   stringstream output;
-  document.print (output, "", format_raw);
+  document.print (output, "", pugi::format_raw);
   initial_body += output.str ();
   email_schedule (mailto, initial_subject, initial_body);
   database_confirm.store (confirmation_id, query, mailto, subsequent_subject, subsequent_body, username);

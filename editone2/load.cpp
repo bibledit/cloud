@@ -30,7 +30,6 @@
 #include <edit/logic.h>
 #include <database/config/bible.h>
 using namespace std;
-using namespace pugi;
 
 
 string editone2_load_url ()

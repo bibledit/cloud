@@ -35,12 +35,11 @@
 #endif
 #pragma GCC diagnostic pop
 using namespace std;
-using namespace pugi;
 
 
 // Declarations local functions.
 void sources_kjv_store (int book, int chapter, int verse, string lemma, string english);
-void sources_kjv_parse_loop (xml_node element, int & book, int & chapter, int & verse, bool & within_verse, string & lemma);
+void sources_kjv_parse_loop (pugi::xml_node element, int & book, int & chapter, int & verse, bool & within_verse, string & lemma);
 
 
 void sources_kjv_store (int book, int chapter, int verse, string lemma, string english)
@@ -64,7 +63,7 @@ void sources_kjv_store (int book, int chapter, int verse, string lemma, string e
 }
 
 
-void sources_kjv_parse_loop (xml_node element,
+void sources_kjv_parse_loop (pugi::xml_node element,
                              int & book, int & chapter, int & verse,
                              bool & within_verse, string & lemma)
 {
@@ -83,7 +82,7 @@ void sources_kjv_parse_loop (xml_node element,
     if (within_verse) {
       lemma = element.attribute ("lemma").value ();
       lemma = filter::strings::trim (lemma);
-      for (xml_node child : element.children ()) {
+      for (pugi::xml_node child : element.children ()) {
         sources_kjv_parse_loop (child, book, chapter, verse, within_verse, lemma);
       }
     }
@@ -93,46 +92,46 @@ void sources_kjv_parse_loop (xml_node element,
       sources_kjv_store (book, chapter, verse, lemma, english);
     }
   } else if (element_name == "note") {
-    xml_node textnode = element.first_child ();
+    pugi::xml_node textnode = element.first_child ();
     string english = textnode.text ().get ();
     english.insert (0, " [");
     english.append ("]");
     sources_kjv_store (book, chapter, verse, "", english);
   } else if (element_name == "milestone") {
   } else if (element_name == "transChange") {
-    xml_node textnode = element.first_child ();
+    pugi::xml_node textnode = element.first_child ();
     string english = textnode.text ().get ();
     english.insert (0, "<span style=\"font-style:italic;\">");
     english.append ("</span>");
     sources_kjv_store (book, chapter, verse, "", english);
   } else if (element_name == "inscription") {
-    for (xml_node child : element.children ()) {
+    for (pugi::xml_node child : element.children ()) {
       string tmp_lemma;
       sources_kjv_parse_loop (child, book, chapter, verse, within_verse, tmp_lemma);
     }
   } else if (element_name == "q") {
-    for (xml_node child : element.children ()) {
+    for (pugi::xml_node child : element.children ()) {
       string tmp_lemma;
       sources_kjv_parse_loop (child, book, chapter, verse, within_verse, tmp_lemma);
     }
   } else if (element_name == "divineName") {
-    for (xml_node child : element.children ()) {
+    for (pugi::xml_node child : element.children ()) {
       string tmp_lemma;
       sources_kjv_parse_loop (child, book, chapter, verse, within_verse, tmp_lemma);
     }
   } else if (element_name == "title") {
-    for (xml_node child : element.children ()) {
+    for (pugi::xml_node child : element.children ()) {
       string tmp_lemma;
       sources_kjv_parse_loop (child, book, chapter, verse, within_verse, tmp_lemma);
     }
   } else if (element_name == "foreign") {
-    for (xml_node child : element.children ()) {
+    for (pugi::xml_node child : element.children ()) {
       string tmp_lemma;
       sources_kjv_parse_loop (child, book, chapter, verse, within_verse, tmp_lemma);
     }
   } else {
     if (within_verse) {
-      xml_node textnode = element.first_child ();
+      pugi::xml_node textnode = element.first_child ();
       string english = textnode.text ().get ();
       string location = filter_passage_display (book, chapter, filter::strings::convert_to_string (verse));
       Database_Logs::log (location + ": Failed to parse element " + element_name + " with value " + english);
@@ -153,21 +152,21 @@ void sources_kjv_parse ()
   int verse = 0;
   bool within_verse = false;
 
-  xml_document document;
-  document.load_file ("sources/kjv.xml", parse_ws_pcdata);
-  for (xml_node osis : document.children ()) {
-    for (xml_node osisText : osis.children ()) {
-      for (xml_node divbook : osisText.children ()) {
+  pugi::xml_document document;
+  document.load_file ("sources/kjv.xml", pugi::parse_ws_pcdata);
+  for (pugi::xml_node osis : document.children ()) {
+    for (pugi::xml_node osisText : osis.children ()) {
+      for (pugi::xml_node divbook : osisText.children ()) {
         if (strcmp (divbook.name (), "div") == 0) {
           book++;
           Database_Logs::log ("Book " + filter::strings::convert_to_string (book));
           chapter = 0;
-          for (xml_node chapter_element : divbook.children ()) {
+          for (pugi::xml_node chapter_element : divbook.children ()) {
             if (strcmp (chapter_element.name (), "chapter") == 0) {
               chapter++;
               verse = 0;
               within_verse = false;
-              for (xml_node element : chapter_element.children ()) {
+              for (pugi::xml_node element : chapter_element.children ()) {
                 string lemma;
                 sources_kjv_parse_loop (element, book, chapter, verse, within_verse, lemma);
               }

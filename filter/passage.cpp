@@ -38,7 +38,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #endif
 #pragma GCC diagnostic pop
 using namespace std;
-using namespace pugi;
 
 
 Passage::Passage ()
@@ -457,16 +456,16 @@ string filter_passage_link_for_opening_editor_at (int book, int chapter, string 
   string display = filter_passage_display (book, chapter, verse);
   Passage passage = Passage ("", book, chapter, verse);
   string numeric = filter::strings::convert_to_string (filter_passage_to_integer (passage));
-  xml_document document;
-  xml_node a_node = document.append_child ("a");
+  pugi::xml_document document;
+  pugi::xml_node a_node = document.append_child ("a");
   a_node.append_attribute("class") = "starteditor";
   a_node.append_attribute("href") = "nothing";
   a_node.append_attribute("passage") = numeric.c_str();
   a_node.text().set(display.c_str());
-  xml_node span_node = document.append_child("span");
+  pugi::xml_node span_node = document.append_child("span");
   span_node.text().set(" ");
   stringstream output;
-  document.print (output, "", format_raw);
+  document.print (output, "", pugi::format_raw);
   string link = output.str ();
   return link;
 }

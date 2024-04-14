@@ -33,8 +33,6 @@
 #endif
 #pragma GCC diagnostic pop
 
-using namespace pugi;
-
 class Editor_Html2Usfm
 {
 public:
@@ -43,7 +41,7 @@ public:
   void run ();
   std::string get ();
 private:
-  xml_document document {}; // DOMDocument holding the html.
+  pugi::xml_document document {}; // DOMDocument holding the html.
   std::map <std::string, Database_Styles_Item> styles {}; // Style information.
   std::vector <std::string> output {}; // Output USFM.
   std::string currentLine {}; // Growing current USFM line.
@@ -57,13 +55,13 @@ private:
   void flushLine ();
   void postprocess ();
   void process ();
-  void processNode (xml_node node);
-  void openElementNode (xml_node node);
-  void closeElementNode (xml_node node);
+  void processNode (pugi::xml_node node);
+  void openElementNode (pugi::xml_node node);
+  void closeElementNode (pugi::xml_node node);
   void openInline (std::string className);
-  void processNoteCitation (xml_node node);
+  void processNoteCitation (pugi::xml_node node);
   std::string cleanUSFM (std::string usfm);
-  xml_node get_note_pointer (xml_node body, std::string id);
+  pugi::xml_node get_note_pointer (pugi::xml_node body, std::string id);
   std::string update_quill_class (std::string classname);
 };
 

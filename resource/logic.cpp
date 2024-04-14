@@ -944,10 +944,10 @@ std::string resource_logic_bible_gateway_module_list_refresh ()
   if (error.empty ()) {
     std::vector <std::string> resources {};
     html =  filter::strings::html_get_element (html, "select");
-    xml_document document;
+    pugi::xml_document document;
     document.load_string (html.c_str());
-    xml_node select_node = document.first_child ();
-    for (xml_node option_node : select_node.children()) {
+    pugi::xml_node select_node = document.first_child ();
+    for (pugi::xml_node option_node : select_node.children()) {
       std::string cls = option_node.attribute ("class").value ();
       if (cls == "lang") continue;
       if (cls == "spacer") continue;
@@ -1125,14 +1125,14 @@ std::string resource_external_convert_book_studylight (int book)
 }
 
 
-struct bible_gateway_walker: xml_tree_walker
+struct bible_gateway_walker: pugi::xml_tree_walker
 {
   bool skip_next_text = false;
   bool parsing = true;
   std::string text {};
   std::vector <std::string> footnotes {};
 
-  virtual bool for_each (xml_node& node) override
+  virtual bool for_each (pugi::xml_node& node) override
   {
     // Details of the current node.
     std::string classname = node.attribute ("class").value ();
@@ -1204,8 +1204,8 @@ std::string resource_logic_bible_gateway_get (std::string resource, int book, in
         // The parser will also give the location where this mismatch occurs first.
         // The location where the mismatch occurs indicates the end of the relevant verses content.
         {
-          xml_document document;
-          xml_parse_result parse_result = document.load_string (html.c_str(), parse_default | parse_fragment);
+          pugi::xml_document document;
+          pugi::xml_parse_result parse_result = document.load_string (html.c_str(), pugi::parse_default | pugi::parse_fragment);
           if (parse_result.offset > 10) {
             size_t pos2 = static_cast<size_t>(parse_result.offset - 2);
             html.erase (pos2);
@@ -1213,7 +1213,7 @@ std::string resource_logic_bible_gateway_get (std::string resource, int book, in
         }
         // Parse the html fragment into a DOM.
         std::string verse_s = filter::strings::convert_to_string (verse);
-        xml_document document;
+        pugi::xml_document document;
         document.load_string (html.c_str());
         // There can be cross references in the html.
         // These result in e.g. "A" or "B" scattered through the final text.
@@ -1222,13 +1222,13 @@ std::string resource_logic_bible_gateway_get (std::string resource, int book, in
         // <sup class='crossreference' data-cr='#cen-NASB-30388A'  data-link='(&lt;a href=&quot;#cen-NASB-30388A&quot; title=&quot;See cross-reference A&quot;&gt;A&lt;/a&gt;)'>(<a href="#cen-NASB-30388A" title="See cross-reference A">A</a>)</sup>
         {
           std::string selector = "//sup[@class='crossreference']";
-          xpath_node_set nodeset = document.select_nodes(selector.c_str());
+          pugi::xpath_node_set nodeset = document.select_nodes(selector.c_str());
           for (auto xrefnode: nodeset) xrefnode.node().parent().remove_child(xrefnode.node());
         }
         // Start parsing for actual text.
-        xml_node passage_text_node = document.first_child ();
-        xml_node passage_wrap_node = passage_text_node.first_child ();
-        xml_node passage_content_node = passage_wrap_node.first_child ();
+        pugi::xml_node passage_text_node = document.first_child ();
+        pugi::xml_node passage_wrap_node = passage_text_node.first_child ();
+        pugi::xml_node passage_content_node = passage_wrap_node.first_child ();
         bible_gateway_walker walker {};
         passage_content_node.traverse (walker);
         result.append (walker.text);
@@ -1241,10 +1241,10 @@ std::string resource_logic_bible_gateway_get (std::string resource, int book, in
           // XPath selector.
           // <li id="fen-TLB-20531a"><a href="#en-TLB-20531" title="Go to Matthew 1:17">Matthew 1:17</a> <span class='footnote-text'><i>These are fourteen,</i> literally, “So all the generations from Abraham unto David are fourteen.”</span></li>
           std::string selector = "//li[@id='" + footnote_id + "']/span[@class='footnote-text']";
-          xpath_node xpath = document.select_node(selector.c_str());
+          pugi::xpath_node xpath = document.select_node(selector.c_str());
           if (xpath) {
             std::stringstream ss {};
-            xpath.node().print (ss, "", format_raw);
+            xpath.node().print (ss, "", pugi::format_raw);
             std::string selected_html = ss.str ();
             std::string footnote_text = filter::strings::html2text (selected_html);
             result.append ("<br>Note: ");
@@ -1391,7 +1391,7 @@ std::string resource_logic_study_light_get (std::string resource, int book, int 
 
   // Parse the html into a DOM.
   std::string verse_s {filter::strings::convert_to_string (verse)};
-  xml_document document {};
+  pugi::xml_document document {};
   pugi::xml_parse_result parse_result = document.load_string (html.c_str());
   pugixml_utils_error_logger (&parse_result, html);
 
@@ -1401,13 +1401,13 @@ std::string resource_logic_study_light_get (std::string resource, int book, int 
   std::string selector1 = "//a[contains(@name,'verses-" + filter::strings::convert_to_string (verse) + "-')]";
   std::string selector2 = "//a[@name='verse-" + filter::strings::convert_to_string (verse) + "']";
   std::string selector = selector1 + "|" + selector2;
-  xpath_node_set nodeset = document.select_nodes(selector.c_str());
+  pugi::xpath_node_set nodeset = document.select_nodes(selector.c_str());
   nodeset.sort();
-  for (xpath_node xpathnode : nodeset) {
-    xml_node h3_node = xpathnode.node().parent();
-    xml_node div_node = h3_node.parent();
+  for (pugi::xpath_node xpathnode : nodeset) {
+    pugi::xml_node h3_node = xpathnode.node().parent();
+    pugi::xml_node div_node = h3_node.parent();
     std::stringstream ss {};
-    div_node.print (ss, "", format_raw);
+    div_node.print (ss, "", pugi::format_raw);
     result.append(ss.str ());
   }
 #endif
@@ -1551,11 +1551,11 @@ std::vector <std::string> resource_logic_easy_english_bible_pages (int book, int
 }
 
 
-struct easy_english_bible_walker: xml_tree_walker
+struct easy_english_bible_walker: pugi::xml_tree_walker
 {
   std::string text {};
 
-  virtual bool for_each (xml_node& node) override
+  virtual bool for_each (pugi::xml_node& node) override
   {
     // Handle this node if it's a text node.
     if (node.type() == pugi::node_pcdata) {
@@ -1634,7 +1634,7 @@ std::string resource_logic_easy_english_bible_get (int book, int chapter, int ve
     if (pos != std::string::npos) html.erase (0, pos);
     
     // Parse the html into a DOM.
-    xml_document document {};
+    pugi::xml_document document {};
     document.load_string (html.c_str());
     
     // The document has one main div like this:
@@ -1642,8 +1642,8 @@ std::string resource_logic_easy_english_bible_get (int book, int chapter, int ve
     // Or: <div class="WordSection1"> like in Exodus.
     // That secion has many children all containing one paragraph of text.
     std::string selector = "//div[contains(@class, 'Section1')]";
-    xpath_node xnode = document.select_node(selector.c_str());
-    xml_node div_node = xnode.node();
+    pugi::xpath_node xnode = document.select_node(selector.c_str());
+    pugi::xml_node div_node = xnode.node();
 
     // Iterate over the paragraphs of text and process them.
     for (auto paragraph_node : div_node.children()) {

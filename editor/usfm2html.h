@@ -34,8 +34,6 @@
 #pragma GCC diagnostic pop
 #include <filter/text.h>
 
-using namespace pugi;
-
 class Editor_Usfm2Html
 {
 public:
@@ -56,20 +54,20 @@ private:
   std::map <std::string, Database_Styles_Item> m_styles {};
   
   // XML nodes.
-  xml_document m_document {};
-  xml_node m_body_node {};
-  xml_node m_notes_node {};
+  pugi::xml_document m_document {};
+  pugi::xml_node m_body_node {};
+  pugi::xml_node m_notes_node {};
   
   // Standard content markers for notes.
   std::string m_standard_content_marker_foot_end_note {};
   std::string m_standard_content_marker_cross_reference {};
 
-  xml_node m_current_p_node {}; // The current p node.
+  pugi::xml_node m_current_p_node {}; // The current p node.
   bool m_current_p_open {false};
   std::vector <std::string> m_current_text_styles {};
   
   int m_note_count {0};
-  xml_node m_note_p_node {}; // The p DOM element of the current footnote, if any.
+  pugi::xml_node m_note_p_node {}; // The p DOM element of the current footnote, if any.
   bool m_note_p_open {false};
   std::vector <std::string> m_current_note_text_styles {};
   
@@ -97,7 +95,7 @@ private:
   void add_note (std::string citation, std::string style, bool endnote = false);
   void add_note_text (std::string text);
   void close_current_note ();
-  void add_notel_link (xml_node domNode, int identifier, std::string style, std::string text);
+  void add_notel_link (pugi::xml_node domNode, int identifier, std::string style, std::string text);
   
   bool road_is_clear ();
 };

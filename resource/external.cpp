@@ -38,8 +38,7 @@
 #endif
 #pragma GCC diagnostic pop
 using namespace std;
-using namespace jsonxx;
-using namespace pugi;
+using namespace jsonxx; // Tpdo
 
 
 // Local forward declarations:
@@ -98,15 +97,15 @@ resource_record resource_table [] =
 };
 
 
-struct gbs_basic_walker: xml_tree_walker
+struct gbs_basic_walker: pugi::xml_tree_walker
 {
   vector <string> texts {};
   bool canonical_text {true};
 
-  virtual bool for_each (xml_node& node) override
+  virtual bool for_each (pugi::xml_node& node) override
   {
-    xml_node_type nodetype = node.type();
-    if (nodetype == node_pcdata) {
+    pugi::xml_node_type nodetype = node.type();
+    if (nodetype == pugi::node_pcdata) {
       // Handle plain character data.
       string text = node.text().get();
       if (canonical_text) texts.push_back(text);
@@ -189,7 +188,7 @@ string gbs_basic_processor (string url, int verse)
   }
   
   // Parse the html into a DOM.
-  xml_document document;
+  pugi::xml_document document;
   document.load_string (html_fragment.c_str());
 
   // Example verse container within the XML:
@@ -200,8 +199,8 @@ string gbs_basic_processor (string url, int verse)
   string selector;
   if (verse != 0) selector = "//div[contains(@class,'verse-" + filter::strings::convert_to_string (verse) + " ')]";
   else selector = "//p[@class='summary']";
-  xpath_node xpathnode = document.select_node(selector.c_str());
-  xml_node div_node = xpathnode.node();
+  pugi::xpath_node xpathnode = document.select_node(selector.c_str());
+  pugi::xml_node div_node = xpathnode.node();
   
   // Extract relevant information.
   gbs_basic_walker walker {};
@@ -216,17 +215,17 @@ string gbs_basic_processor (string url, int verse)
 }
 
 
-struct gbs_plus_walker: xml_tree_walker
+struct gbs_plus_walker: pugi::xml_tree_walker
 {
   vector <string> texts {};
   bool canonical_text {true};
   bool verse_references {false};
   string reference_number {};
 
-  virtual bool for_each (xml_node& node) override
+  virtual bool for_each (pugi::xml_node& node) override
   {
-    xml_node_type nodetype = node.type();
-    if (nodetype == node_pcdata) {
+    pugi::xml_node_type nodetype = node.type();
+    if (nodetype == pugi::node_pcdata) {
       // Handle plain character data.
       if (canonical_text && !verse_references) {
         string text = node.text().get();
@@ -270,15 +269,15 @@ struct gbs_plus_walker: xml_tree_walker
 };
 
 
-struct gbs_annotation_walker: xml_tree_walker
+struct gbs_annotation_walker: pugi::xml_tree_walker
 {
   vector <string> texts {};
   bool within_annotations {false};
 
-  virtual bool for_each (xml_node& node) override
+  virtual bool for_each (pugi::xml_node& node) override
   {
-    xml_node_type nodetype = node.type();
-    if (nodetype == node_pcdata) {
+    pugi::xml_node_type nodetype = node.type();
+    if (nodetype == pugi::node_pcdata) {
       if (within_annotations) {
         string text = node.text().get();
         texts.push_back(text);
@@ -356,7 +355,7 @@ string gbs_plus_processor (string url, int book, [[maybe_unused]] int chapter, i
   }
   
   // Parse the html fragment into a DOM.
-  xml_document document {};
+  pugi::xml_document document {};
   document.load_string (html_fragment.c_str());
 
   // Example verse container within the XML:
@@ -367,8 +366,8 @@ string gbs_plus_processor (string url, int book, [[maybe_unused]] int chapter, i
   string selector {};
   if (verse != 0) selector = "//div[contains(@class,'verse-" + filter::strings::convert_to_string (verse) + " ')]";
   else selector = "//p[@class='summary']";
-  xpath_node xpathnode = document.select_node(selector.c_str());
-  xml_node div_node = xpathnode.node();
+  pugi::xpath_node xpathnode = document.select_node(selector.c_str());
+  pugi::xml_node div_node = xpathnode.node();
 
   // Example text:
   // <div class="verse verse-1 active size-change bold-change cursive-change align-change" id="1" onclick="i_toggle_annotation('sv','30217','Hebr.','10','1', '1201')"><span class="verse-number">  1</span><div class="verse-text "><p class="text">      WANT<span class="verwijzing"> a</span><span class="kanttekening">1</span>de wet, hebbende <span class="kanttekening"> 2</span>een schaduw <span class="kanttekening"> 3</span>der toekomende goederen, niet <span class="kanttekening"> 4</span>het beeld zelf der zaken, kan met <span class="kanttekening"> 5</span>dezelfde offeranden die zij alle jaar <span class="kanttekening"> 6</span>geduriglijk opofferen, nimmermeer <span class="kanttekening"> 7</span>heiligen degenen die <span class="kanttekening"> 8</span>daar toegaan.    </p><span class="verse-references"><div class="verse-reference"><span class="reference-number">a </span><a href="/statenvertaling/kolossenzen/2/#17" target="_blank" class="reference" data-title="Kol. 2:17" data-content="Welke zijn een schaduw der toekomende dingen, maar het lichaam is van Christus.">Kol. 2:17</a>. <a href="/statenvertaling/hebreeen/8/#5" target="_blank" class="reference" data-title="Hebr. 8:5" data-content="Welke het voorbeeld en de schaduw der hemelse dingen dienen, gelijk Mozes door Goddelijke aanspraak vermaand was, als hij den tabernakel volmaken zou. Want zie, zegt Hij, dat gij het alles maakt naar de afbeelding die u op den berg getoond is.">Hebr. 8:5</a>.        </div></span></div></div>
@@ -398,13 +397,13 @@ string gbs_plus_processor (string url, int book, [[maybe_unused]] int chapter, i
     string annotation_html {filter_url_http_post (annotation_url, string(), post, error, false, false, {})};
     if (error.empty()) {
       annotation_html = filter::strings::fix_invalid_html_gumbo (annotation_html);
-      xml_document annotation_document {};
+      pugi::xml_document annotation_document {};
       annotation_document.load_string (annotation_html.c_str());
       string selector2 {"//body"};
-      xpath_node xpathnode2 {annotation_document.select_node(selector2.c_str())};
-      xml_node body_node {xpathnode2.node()};
+      pugi::xpath_node xpathnode2 {annotation_document.select_node(selector2.c_str())};
+      pugi::xml_node body_node {xpathnode2.node()};
       stringstream ss {};
-      body_node.print (ss, "", format_raw);
+      body_node.print (ss, "", pugi::format_raw);
       gbs_annotation_walker annotation_walker {};
       body_node.traverse (annotation_walker);
       for (auto fragment : annotation_walker.texts) {

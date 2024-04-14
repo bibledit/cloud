@@ -43,7 +43,6 @@
 #endif
 #pragma GCC diagnostic pop
 using namespace std;
-using namespace pugi;
 
 
 string resource_studylight_url ()

@@ -36,7 +36,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #endif
 #pragma GCC diagnostic pop
 using namespace std;
-using namespace pugi;
 
 
 // Class for creating a html Bible header with breadcrumbs and search box.
@@ -56,19 +55,19 @@ void Html_Header::search_back_link (string url, string text)
 
 void Html_Header::create (const vector <pair <string, string> > & breadcrumbs)
 {
-  xml_node table_element = m_html_text.new_table ();
-  xml_node table_row_element = m_html_text.new_table_row (table_element);
-  xml_node table_data_element = m_html_text.new_table_data (table_row_element);
+  pugi::xml_node table_element = m_html_text.new_table ();
+  pugi::xml_node table_row_element = m_html_text.new_table_row (table_element);
+  pugi::xml_node table_data_element = m_html_text.new_table_data (table_row_element);
   for (auto breadcrumb : breadcrumbs) {
     m_html_text.add_link (table_data_element, breadcrumb.second, "", breadcrumb.first, "", ' ' + breadcrumb.first + ' ');
   }
   table_data_element = m_html_text.new_table_data (table_row_element, true);
-  xml_node formElement = table_data_element.append_child ("form");
+  pugi::xml_node formElement = table_data_element.append_child ("form");
   formElement.append_attribute ("action") = "/webbb/search";
   formElement.append_attribute ("method") = "GET";
   formElement.append_attribute ("name") = "search";
   formElement.append_attribute ("id") = "search";
-  xml_node inputElement = formElement.append_child ("input");
+  pugi::xml_node inputElement = formElement.append_child ("input");
   inputElement.append_attribute ("name") = "q";
   inputElement.append_attribute ("type") = "text";
   inputElement.append_attribute ("placeholder") = translate ("Search the Bible").c_str();

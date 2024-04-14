@@ -77,16 +77,16 @@ void editone_logic_suffix_html (string editable_last_p_style, string usfm, strin
   // <p class="q1"><span class="v">7</span><span /><span>For Yahweh knows the way of the righteous,</span></p><p class="q2"><span>but the way of the wicked shall perish.</span></p>
   if (!html.empty ()) {
     if (!editable_last_p_style.empty ()) {
-      xml_document document;
+      pugi::xml_document document;
       html = filter::strings::html2xml (html);
-      document.load_string (html.c_str(), parse_ws_pcdata_single);
-      xml_node p_node = document.first_child ();
+      document.load_string (html.c_str(), pugi::parse_ws_pcdata_single);
+      pugi::xml_node p_node = document.first_child ();
       string p_style = p_node.attribute ("class").value ();
       if (p_style.empty ()) {
         p_node.append_attribute ("class") = editable_last_p_style.c_str ();
       }
       stringstream output;
-      document.print (output, "", format_raw);
+      document.print (output, "", pugi::format_raw);
       html = output.str ();
     }
   }
@@ -125,8 +125,8 @@ void editone_logic_move_notes_v2 (string & prefix, string & suffix)
   prefix = filter::strings::html2xml (prefix);
 
   // Load the prefix.
-  xml_document document;
-  document.load_string (prefix.c_str(), parse_ws_pcdata_single);
+  pugi::xml_document document;
+  document.load_string (prefix.c_str(), pugi::parse_ws_pcdata_single);
 
   // The notes separator class.
   const char * b_notes_class = "b-notes";
@@ -135,9 +135,9 @@ void editone_logic_move_notes_v2 (string & prefix, string & suffix)
   // - the possible notes separator.
   // - any possible subsequent note nodes.
   bool within_notes = false;
-  xml_node prefix_separator_node;
-  vector <xml_node> prefix_note_nodes;
-  for (xml_node p_node : document.children ()) {
+  pugi::xml_node prefix_separator_node;
+  vector <pugi::xml_node> prefix_note_nodes;
+  for (pugi::xml_node p_node : document.children ()) {
     if (within_notes) {
       prefix_note_nodes.push_back (p_node);
     }
@@ -155,9 +155,9 @@ void editone_logic_move_notes_v2 (string & prefix, string & suffix)
   // Remove the note node(s) from the prefix.
   // Remove the notes separator node from the prefix.
   string notes_text;
-  for (xml_node p_node : prefix_note_nodes) {
+  for (pugi::xml_node p_node : prefix_note_nodes) {
     stringstream ss;
-    p_node.print (ss, "", format_raw);
+    p_node.print (ss, "", pugi::format_raw);
     string note = ss.str ();
     notes_text.append (note);
     document.remove_child (p_node);
@@ -167,7 +167,7 @@ void editone_logic_move_notes_v2 (string & prefix, string & suffix)
   // Convert the XML document back to a possibly cleaned prefix without notes.
   {
     stringstream ss;
-    document.print (ss, "", format_raw);
+    document.print (ss, "", pugi::format_raw);
     prefix = ss.str ();
   }
 
@@ -175,11 +175,11 @@ void editone_logic_move_notes_v2 (string & prefix, string & suffix)
   suffix = filter::strings::html2xml (suffix);
 
   // Load the suffix.
-  document.load_string (suffix.c_str(), parse_ws_pcdata_single);
+  document.load_string (suffix.c_str(), pugi::parse_ws_pcdata_single);
 
   // Iterate over the document to find the possible notes separator.
-  xml_node suffix_separator_node;
-  for (xml_node p_node : document.children ()) {
+  pugi::xml_node suffix_separator_node;
+  for (pugi::xml_node p_node : document.children ()) {
     string cls = p_node.attribute ("class").value ();
     if (cls == b_notes_class) {
       suffix_separator_node = p_node;
@@ -199,7 +199,7 @@ void editone_logic_move_notes_v2 (string & prefix, string & suffix)
   // Convert the DOM to suffix text.
   {
     stringstream ss;
-    document.print (ss, "", format_raw);
+    document.print (ss, "", pugi::format_raw);
     suffix = ss.str ();
   }
 }

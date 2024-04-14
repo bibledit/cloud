@@ -34,7 +34,6 @@
 #endif
 #pragma GCC diagnostic pop
 using namespace std;
-using namespace pugi;
 
 
 void sources_etcbc4_download ()
@@ -155,10 +154,10 @@ void sources_etcbc4_parse ()
         if (data.empty ()) continue;
         data = filter::strings::replace (filter::strings::unicode_non_breaking_space_entity (), "", data);
         // Parse the data.
-        xml_document document;
+        pugi::xml_document document;
         document.load_string (data.c_str());
         // Iterate through the <table> elements, one element per word or word fragment.
-        for (xml_node table : document.children()) {
+        for (pugi::xml_node table : document.children()) {
           // The relevant grammatical information to be extracted from the data.
           string word;
           string vocalized_lexeme;
@@ -181,14 +180,14 @@ void sources_etcbc4_parse ()
           string clause_relation;
           // Iterate through the <tr> elements.
           // Each element contains one or more table cells with information.
-          for (xml_node tr : table.children ()) {
+          for (pugi::xml_node tr : table.children ()) {
             // Iterate through the <td> elements.
-            for (xml_node td : tr.children ()) {
+            for (pugi::xml_node td : tr.children ()) {
               // Iterate through the one or more <span> elements within this table cell.
               // Each <span> elements has a grammatical tag.
-              for (xml_node span : td.children ()) {
+              for (pugi::xml_node span : td.children ()) {
                 // Get the text this <span> contains.
-                xml_node txtnode = span.first_child ();
+                pugi::xml_node txtnode = span.first_child ();
                 string value = txtnode.text ().get ();
                 value = sources_etcbc4_clean (value);
                 // The class of the <span> element indicates what kind of grammatical tag it has.

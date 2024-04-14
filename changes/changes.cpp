@@ -48,7 +48,6 @@
 #endif
 #pragma GCC diagnostic pop
 using namespace std;
-using namespace pugi;
 
 
 string changes_changes_url ()

@@ -33,16 +33,15 @@
 #endif
 #pragma GCC diagnostic pop
 using namespace std;
-using namespace pugi;
 
 
 // Local declarations.
-void sources_morphhb_parse_w_element (Database_OsHb * database_oshb, int book, int chapter, int verse, xml_node node);
-void sources_morphhb_parse_unhandled_node (int book, int chapter, int verse, xml_node node);
+void sources_morphhb_parse_w_element (Database_OsHb * database_oshb, int book, int chapter, int verse, pugi::xml_node node);
+void sources_morphhb_parse_unhandled_node (int book, int chapter, int verse, pugi::xml_node node);
 void sources_morphhb_parse ();
 
 
-void sources_morphhb_parse_w_element (Database_OsHb * database_oshb, int book, int chapter, int verse, xml_node node)
+void sources_morphhb_parse_w_element (Database_OsHb * database_oshb, int book, int chapter, int verse, pugi::xml_node node)
 {
   string lemma = node.attribute ("lemma").value ();
   string word = node.child_value ();
@@ -51,7 +50,7 @@ void sources_morphhb_parse_w_element (Database_OsHb * database_oshb, int book, i
 }
 
 
-void sources_morphhb_parse_unhandled_node (int book, int chapter, int verse, xml_node node)
+void sources_morphhb_parse_unhandled_node (int book, int chapter, int verse, pugi::xml_node node)
 {
   string passage = filter_passage_display (book, chapter, filter::strings::convert_to_string (verse));
   string text = node.child_value ();
@@ -114,13 +113,13 @@ void sources_morphhb_parse ()
 
     int book = static_cast<int>(bk + 1);
 
-    xml_document document;
+    pugi::xml_document document;
     document.load_file (file.c_str());
-    xml_node osis_node = document.first_child ();
-    xml_node osisText_node = osis_node.child ("osisText");
-    xml_node div_book_node = osisText_node.child ("div");
-    for (xml_node chapter_node : div_book_node.children()) {
-      for (xml_node verse_node : chapter_node.children ()) {
+    pugi::xml_node osis_node = document.first_child ();
+    pugi::xml_node osisText_node = osis_node.child ("osisText");
+    pugi::xml_node div_book_node = osisText_node.child ("div");
+    for (pugi::xml_node chapter_node : div_book_node.children()) {
+      for (pugi::xml_node verse_node : chapter_node.children ()) {
         string node_name = verse_node.name ();
         if (node_name != "verse") continue;
 
@@ -133,7 +132,7 @@ void sources_morphhb_parse ()
         bool word_stored = false;
         
         // Most of the nodes will be "w" but there's more nodes as well, see the source XML file.
-        for (xml_node node : verse_node.children ()) {
+        for (pugi::xml_node node : verse_node.children ()) {
 
           if (word_stored) database_oshb.store (book, chapter, verse, "", " ", "");
 
@@ -149,12 +148,12 @@ void sources_morphhb_parse ()
           }
           
           else if (child_node_name == "note") {
-            for (xml_node variant_node : node.children ()) {
+            for (pugi::xml_node variant_node : node.children ()) {
               string variant_node_name = variant_node.name ();
               if (variant_node_name == "catchWord") {
                 sources_morphhb_parse_w_element (&database_oshb, book, chapter, verse, node);
               } else if (variant_node_name == "rdg") {
-                for (xml_node w_node : variant_node.children ()) {
+                for (pugi::xml_node w_node : variant_node.children ()) {
                   database_oshb.store (book, chapter, verse, "", "/", "");
                   sources_morphhb_parse_w_element (&database_oshb, book, chapter, verse, w_node);
                 }

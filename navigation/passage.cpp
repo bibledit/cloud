@@ -40,7 +40,6 @@
 #endif
 #pragma GCC diagnostic pop
 using namespace std;
-using namespace pugi;
 
 
 /*
@@ -65,7 +64,7 @@ string Navigation_Passage::get_mouse_navigator (Webserver_Request& webserver_req
   
   bool basic_mode = config::logic::basic_mode (webserver_request);
   
-  xml_document document;
+  pugi::xml_document document;
   
   // Links to go back and forward are available only when there's available history to go to.
   // In basic mode they were not there initially.
@@ -77,9 +76,9 @@ string Navigation_Passage::get_mouse_navigator (Webserver_Request& webserver_req
   // It was tried whether changing the <span> to <button> would improve the situation on Android.
   // But it did not make a difference.
   {
-    xml_node span_node = document.append_child("span");
+    pugi::xml_node span_node = document.append_child("span");
     if (database_navigation.previous_exists (user)) {
-      xml_node span_node_back = span_node.append_child("span");
+      pugi::xml_node span_node_back = span_node.append_child("span");
       span_node_back.append_attribute("id") = "navigateback";
       string title = translate("Go back or long-press to show history");
       span_node_back.append_attribute("title") = title.c_str();
@@ -87,11 +86,11 @@ string Navigation_Passage::get_mouse_navigator (Webserver_Request& webserver_req
     }
   }
   {
-    xml_node span_node = document.append_child("span");
-    xml_node pcdata = span_node.append_child (node_pcdata);
+    pugi::xml_node span_node = document.append_child("span");
+    pugi::xml_node pcdata = span_node.append_child (pugi::node_pcdata);
     pcdata.set_value(" ");
     if (database_navigation.next_exists (user)) {
-      xml_node span_node_back = span_node.append_child("span");
+      pugi::xml_node span_node_back = span_node.append_child("span");
       span_node_back.append_attribute("id") = "navigateforward";
       string title = translate("Go forward or long-press to show history");
       span_node_back.append_attribute("title") = title.c_str();
@@ -115,8 +114,8 @@ string Navigation_Passage::get_mouse_navigator (Webserver_Request& webserver_req
   bookName = translate (bookName);
 
   {
-    xml_node span_node = document.append_child("span");
-    xml_node a_node = span_node.append_child("a");
+    pugi::xml_node span_node = document.append_child("span");
+    pugi::xml_node a_node = span_node.append_child("a");
     a_node.append_attribute("id") = "selectbook";
     a_node.append_attribute("href") = "selectbook";
     a_node.append_attribute("title") = translate("Select book").c_str();
@@ -136,8 +135,8 @@ string Navigation_Passage::get_mouse_navigator (Webserver_Request& webserver_req
   }
 
   {
-    xml_node span_node = document.append_child("span");
-    xml_node a_node = span_node.append_child("a");
+    pugi::xml_node span_node = document.append_child("span");
+    pugi::xml_node a_node = span_node.append_child("a");
     a_node.append_attribute("id") = "selectchapter";
     a_node.append_attribute("href") = "selectchapter";
     a_node.append_attribute("title") = translate("Select chapter").c_str();
@@ -165,8 +164,8 @@ string Navigation_Passage::get_mouse_navigator (Webserver_Request& webserver_req
   }
 
   {
-    xml_node span_node = document.append_child("span");
-    xml_node a_node = span_node.append_child("a");
+    pugi::xml_node span_node = document.append_child("span");
+    pugi::xml_node a_node = span_node.append_child("a");
     if (!basic_mode) {
       a_node.append_attribute("class") = "previousverse";
     }
@@ -179,8 +178,8 @@ string Navigation_Passage::get_mouse_navigator (Webserver_Request& webserver_req
   }
 
   {
-    xml_node span_node = document.append_child("span");
-    xml_node a_node = span_node.append_child("a");
+    pugi::xml_node span_node = document.append_child("span");
+    pugi::xml_node a_node = span_node.append_child("a");
     if (!basic_mode) {
       a_node.append_attribute("class") = "selectverse";
     }
@@ -191,8 +190,8 @@ string Navigation_Passage::get_mouse_navigator (Webserver_Request& webserver_req
   }
 
   if (next_verse_is_available) {
-    xml_node span_node = document.append_child("span");
-    xml_node a_node = span_node.append_child("a");
+    pugi::xml_node span_node = document.append_child("span");
+    pugi::xml_node a_node = span_node.append_child("a");
     if (!basic_mode) {
       a_node.append_attribute("class") = "nextverse";
     }
@@ -209,7 +208,7 @@ string Navigation_Passage::get_mouse_navigator (Webserver_Request& webserver_req
 
   // The result.
   stringstream output;
-  document.print (output, "", format_raw);
+  document.print (output, "", pugi::format_raw);
   string fragment = output.str ();
   return fragment;
 }
@@ -495,17 +494,17 @@ void Navigation_Passage::add_selector_link (string& html, string id, string href
   }
   
   // No wrapping of a book name consisting of more than one word.
-  xml_document document;
-  xml_node span_node = document.append_child("span");
+  pugi::xml_document document;
+  pugi::xml_node span_node = document.append_child("span");
   span_node.append_attribute("class") = ("selector" + class_expansion).c_str();
   {
-    xml_node a_node = span_node.append_child("a");
+    pugi::xml_node a_node = span_node.append_child("a");
     a_node.append_attribute("id") = (id + "apply").c_str();
     a_node.append_attribute("href") = href.c_str();
     a_node.text() = text.c_str();
   }
   stringstream output;
-  document.print (output, "", format_raw);
+  document.print (output, "", pugi::format_raw);
   string fragment = output.str ();
   html.append(output.str());
 }

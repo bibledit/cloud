@@ -42,7 +42,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #endif
 #pragma GCC diagnostic pop
 using namespace std;
-using namespace pugi;
 
 
 namespace filter::usfm {
@@ -1024,9 +1023,9 @@ string extract_fig (string usfm, string & caption, string & alt, string& src, st
   if (bits.size() == 2) {
     caption = bits[0];
     string xml = "<fig " + bits[1] + " ></fig>";
-    xml_document document;
-    document.load_string (xml.c_str(), parse_ws_pcdata_single);
-    xml_node node = document.first_child ();
+    pugi::xml_document document;
+    document.load_string (xml.c_str(), pugi::parse_ws_pcdata_single);
+    pugi::xml_node node = document.first_child ();
     alt = node.attribute ("alt").value ();
     src = node.attribute ("src").value ();
     size = node.attribute ("size").value ();

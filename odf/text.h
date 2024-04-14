@@ -34,8 +34,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #endif
 #pragma GCC diagnostic pop
 
-using namespace pugi;
-
 class odf_text
 {
 public:
@@ -74,17 +72,17 @@ public:
 private:
   std::string m_bible {};
   std::string unpacked_odt_folder {};
-  xml_document content_dom {}; // The content.xml DOMDocument.
-  xml_node office_text_node {}; // The office:text DOMNode.
-  xml_document styles_dom {}; // The styles.xml DOMDocument.
+  pugi::xml_document content_dom {}; // The content.xml DOMDocument.
+  pugi::xml_node office_text_node {}; // The office:text DOMNode.
+  pugi::xml_document styles_dom {}; // The styles.xml DOMDocument.
   std::vector <std::string> created_styles {}; // An array with styles already created in the $stylesDom.
-  xml_node office_styles_node {}; // The office:styles DOMNode.
-  xml_node current_text_p_node {}; // The current text:p DOMElement.
+  pugi::xml_node office_styles_node {}; // The office:styles DOMNode.
+  pugi::xml_node current_text_p_node {}; // The current text:p DOMElement.
   bool m_current_text_p_node_opened {false}; // Whether the text:p element has been opened.
-  xml_attribute current_text_p_node_style_name {}; // The DOMAttr of the name of the style of the current text:p element.
+  pugi::xml_attribute current_text_p_node_style_name {}; // The DOMAttr of the name of the style of the current text:p element.
   int m_frame_count {0};
   int m_note_count {0};
-  xml_node note_text_p_dom_element {}; // The text:p DOMElement of the current footnote, if any.
+  pugi::xml_node note_text_p_dom_element {}; // The text:p DOMElement of the current footnote, if any.
   bool m_note_text_p_opened {false}; // Whether the text:p for notes has been opened.
   std::vector <std::string> m_current_note_text_style {};
   void initialize_content_xml ();

@@ -33,8 +33,6 @@
 #endif
 #pragma GCC diagnostic pop
 
-using namespace pugi;
-
 class Editor_Html2Format
 {
 public:
@@ -43,13 +41,13 @@ public:
   std::vector <std::string> texts {};
   std::vector <std::string> formats {};
 private:
-  xml_document document {}; // DOMDocument holding the html.
+  pugi::xml_document document {}; // DOMDocument holding the html.
   void preprocess ();
   void postprocess ();
   void process ();
-  void processNode (xml_node node);
-  void openElementNode (xml_node node);
-  void closeElementNode (xml_node node);
+  void processNode (pugi::xml_node node);
+  void openElementNode (pugi::xml_node node);
+  void closeElementNode (pugi::xml_node node);
   void openInline (std::string className);
   std::string update_quill_class (std::string classname);
   std::string current_character_format {};

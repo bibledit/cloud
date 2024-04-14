@@ -41,8 +41,7 @@
 #include <email/send.h>
 #include <filter/usfm.h>
 using namespace std;
-using dtl::Diff3;
-using namespace pugi;
+using dtl::Diff3; // Todo
 
 
 static mutex filter_merge_mutex;

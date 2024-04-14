@@ -43,7 +43,7 @@ void Editor_Html2Format::load (string html)
   // See http://pugixml.org/docs/manual.html for more information.
   // It is not enough to only parse with parse_ws_pcdata_single, it really needs parse_ws_pcdata.
   // This is significant for, for example, the space after verse numbers, among other cases.
-  xml_parse_result result = document.load_string (xml.c_str(), parse_ws_pcdata);
+  pugi::xml_parse_result result = document.load_string (xml.c_str(), pugi::parse_ws_pcdata);
   // Log parsing errors.
   pugixml_utils_error_logger (&result, xml);
 }
@@ -60,18 +60,18 @@ void Editor_Html2Format::run ()
 void Editor_Html2Format::process ()
 {
   // Iterate over the children to retrieve the "p" elements, then process them.
-  xml_node body = document.first_child ();
-  for (xml_node node : body.children()) {
+  pugi::xml_node body = document.first_child ();
+  for (pugi::xml_node node : body.children()) {
     // Process the node.
     processNode (node);
   }
 }
 
 
-void Editor_Html2Format::processNode (xml_node node)
+void Editor_Html2Format::processNode (pugi::xml_node node)
 {
   switch (node.type ()) {
-    case node_element:
+    case pugi::node_element:
     {
       // Skip a note with class "ql-cursor" because that is an internal Quill node.
       // The user didn't insert it.
@@ -79,13 +79,13 @@ void Editor_Html2Format::processNode (xml_node node)
       if (classs == "ql-cursor") break;
       // Process node normally.
       openElementNode (node);
-      for (xml_node child : node.children()) {
+      for (pugi::xml_node child : node.children()) {
         processNode (child);
       }
       closeElementNode (node);
       break;
     }
-    case node_pcdata:
+    case pugi::node_pcdata:
     {
       // Add the text with the current character format to the containers.
       string text = node.text ().get ();
@@ -93,13 +93,13 @@ void Editor_Html2Format::processNode (xml_node node)
       formats.push_back(current_character_format);
       break;
     }
-    case node_null:
-    case node_document:
-    case node_cdata:
-    case node_comment:
-    case node_pi:
-    case node_declaration:
-    case node_doctype:
+    case pugi::node_null:
+    case pugi::node_document:
+    case pugi::node_cdata:
+    case pugi::node_comment:
+    case pugi::node_pi:
+    case pugi::node_declaration:
+    case pugi::node_doctype:
     default:
     {
       string nodename = node.name ();
@@ -110,7 +110,7 @@ void Editor_Html2Format::processNode (xml_node node)
 }
 
 
-void Editor_Html2Format::openElementNode (xml_node node)
+void Editor_Html2Format::openElementNode (pugi::xml_node node)
 {
   // The tag and class names of this element node.
   string tagName = node.name ();
@@ -134,7 +134,7 @@ void Editor_Html2Format::openElementNode (xml_node node)
 }
 
 
-void Editor_Html2Format::closeElementNode (xml_node node)
+void Editor_Html2Format::closeElementNode (pugi::xml_node node)
 {
   // The tag and class names of this element node.
   string tagName = node.name ();

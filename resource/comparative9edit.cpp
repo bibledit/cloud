@@ -44,7 +44,6 @@
 #include <resource/comparative1edit.h>
 #include <client/logic.h>
 using namespace std;
-using namespace pugi;
 
 
 string resource_comparative9edit_url ()
@@ -141,19 +140,19 @@ string resource_comparative9edit (Webserver_Request& webserver_request)
   vector <string> resources = Database_Config_General::getComparativeResources ();
   string resourceblock;
   {
-    xml_document document;
+    pugi::xml_document document;
     for (auto & resource : resources) {
       string title;
       if (!resource_logic_parse_comparative_resource (resource, &title)) continue;
-      xml_node p_node = document.append_child ("p");
-      xml_node a_node = p_node.append_child("a");
+      pugi::xml_node p_node = document.append_child ("p");
+      pugi::xml_node a_node = p_node.append_child("a");
       string href = "comparative1edit?name=" + title;
       a_node.append_attribute ("href") = href.c_str();
       title.append (" [" + translate("edit") + "]");
       a_node.text().set (title.c_str());
     }
     stringstream output;
-    document.print (output, "", format_raw);
+    document.print (output, "", pugi::format_raw);
     resourceblock = output.str ();
   }
   view.set_variable ("resourceblock", resourceblock);

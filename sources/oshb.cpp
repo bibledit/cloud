@@ -34,7 +34,6 @@
 #endif
 #pragma GCC diagnostic pop
 using namespace std;
-using namespace pugi;
 
 
 void sources_oshb_parse ()
@@ -147,12 +146,12 @@ void sources_oshb_parse ()
   
   book_id previous_book {book_id::_unknown};
 
-  xml_document document;
-  document.load_file (file.c_str(), parse_ws_pcdata_single);
-  xml_node mysqldump_node = document.first_child ();
-  xml_node database_node = mysqldump_node.first_child ();
-  xml_node table_data_node = database_node.child ("table_data");
-  for (xml_node row_node : table_data_node.children()) {
+  pugi::xml_document document;
+  document.load_file (file.c_str(), pugi::parse_ws_pcdata_single);
+  pugi::xml_node mysqldump_node = document.first_child ();
+  pugi::xml_node database_node = mysqldump_node.first_child ();
+  pugi::xml_node table_data_node = database_node.child ("table_data");
+  for (pugi::xml_node row_node : table_data_node.children()) {
     book_id book {book_id::_unknown};
     int chapter = 0;
     int verse = 0;
@@ -160,7 +159,7 @@ void sources_oshb_parse ()
     string append;
     string lemma;
     string morph;
-    for (xml_node field_node : row_node.children ()) {
+    for (pugi::xml_node field_node : row_node.children ()) {
       string name = field_node.attribute ("name").value ();
       string value = field_node.child_value ();
       if (name == "bookId") book = mapping [filter::strings::convert_to_int (value)];

@@ -480,7 +480,7 @@ void bible_logic::merge_irregularity_mail (const std::vector <std::string>& user
     // Add some information for the user.
     document.append_child ("hr");
     document.append_child ("br");
-    xml_node div_node {};
+    pugi::xml_node div_node {};
     div_node = document.append_child ("div");
     // Disabled: https://github.com/bibledit/cloud/issues/401
     // div_node.append_attribute ("style") = "font-size: 30%";
@@ -518,7 +518,7 @@ void bible_logic::merge_irregularity_mail (const std::vector <std::string>& user
     
     // Convert the document to a string.
     std::stringstream output {};
-    document.print (output, "", format_raw);
+    document.print (output, "", pugi::format_raw);
     const std::string html = output.str ();
     
     // Schedule the mail for sending to the user(s).
@@ -541,8 +541,8 @@ void bible_logic::unsafe_save_mail (std::string subject, const std::string& expl
   subject.append (" | " + filter_passage_display (book, chapter, std::string()));
 
   // Create the body of the email.
-  xml_document document {};
-  xml_node node {};
+  pugi::xml_document document {};
+  pugi::xml_node node {};
   node = document.append_child ("h3");
   node.text ().set (subject.c_str());
   
@@ -559,7 +559,7 @@ void bible_logic::unsafe_save_mail (std::string subject, const std::string& expl
   
   // Convert the document to a string.
   std::stringstream output {};
-  document.print (output, "", format_raw);
+  document.print (output, "", pugi::format_raw);
   const std::string html = output.str ();
   
   // Schedule the mail for sending to the user.
@@ -607,8 +607,8 @@ void bible_logic::client_receive_merge_mail (const std::string& bible, int book,
   subject.append (" | " + filter_passage_display (book, chapter, std::string()));
 
   // Create the body of the email.
-  xml_document document {};
-  xml_node node {};
+  pugi::xml_document document {};
+  pugi::xml_node node {};
   node = document.append_child ("h3");
   node.text ().set (subject.c_str());
   
@@ -648,7 +648,7 @@ void bible_logic::client_receive_merge_mail (const std::string& bible, int book,
   
   // Convert the document to a string.
   std::stringstream output {};
-  document.print (output, "", format_raw);
+  document.print (output, "", pugi::format_raw);
   const std::string html = output.str ();
   
   // Schedule the mail for sending to the user.
@@ -683,8 +683,8 @@ void bible_logic::client_mail_pending_bible_updates (const std::string& user)
         subject.append (" | " + filter_passage_display (book, chapter, std::string()));
         
         // Create the body of the email.
-        xml_document document {};
-        xml_node node {};
+        pugi::xml_document document {};
+        pugi::xml_node node {};
         node = document.append_child ("h3");
         node.text ().set (subject.c_str());
         
@@ -712,7 +712,7 @@ void bible_logic::client_mail_pending_bible_updates (const std::string& user)
         
         // Convert the document to a string.
         std::stringstream output {};
-        document.print (output, "", format_raw);
+        document.print (output, "", pugi::format_raw);
         const std::string html = output.str ();
         
         // Schedule the mail for sending to the user.
@@ -755,8 +755,8 @@ void bible_logic::client_no_write_access_mail (const std::string& bible, int boo
   subject.append (" | " + filter_passage_display (book, chapter, ""));
 
   // Create the body of the email.
-  xml_document document {};
-  xml_node node {};
+  pugi::xml_document document {};
+  pugi::xml_node node {};
   node = document.append_child ("h3");
   node.text ().set (subject.c_str());
   
@@ -787,7 +787,7 @@ void bible_logic::client_no_write_access_mail (const std::string& bible, int boo
   
   // Convert the document to a string.
   std::stringstream output {};
-  document.print (output, "", format_raw);
+  document.print (output, "", pugi::format_raw);
   const std::string html = output.str ();
   
   // Schedule the mail for sending to the user.
@@ -825,8 +825,8 @@ void bible_logic::recent_save_email (const std::string& bible,
   subject.append (" | " + filter_passage_display (book, chapter, ""));
 
   // Create the body of the email.
-  xml_document document {};
-  xml_node node {};
+  pugi::xml_document document {};
+  pugi::xml_node node {};
   node = document.append_child ("h3");
   node.text ().set (subject.c_str());
   
@@ -877,7 +877,7 @@ void bible_logic::recent_save_email (const std::string& bible,
   
   // Convert the document to a string.
   std:: stringstream output {};
-  document.print (output, "", format_raw);
+  document.print (output, "", pugi::format_raw);
   const std::string html = output.str ();
 
   // Schedule the mail for sending to the user.
@@ -902,8 +902,8 @@ void bible_logic::optional_merge_irregularity_email (const std::string& bible, i
   subject.append (" | " + filter_passage_display (book, chapter, ""));
 
   // Create the body of the email.
-  xml_document document {};
-  xml_node node {};
+  pugi::xml_document document {};
+  pugi::xml_node node {};
   node = document.append_child ("h3");
   node.text ().set (subject.c_str());
   
@@ -990,7 +990,7 @@ void bible_logic::optional_merge_irregularity_email (const std::string& bible, i
   
   // Convert the document to a string.
   std::stringstream output {};
-  document.print (output, "", format_raw);
+  document.print (output, "", pugi::format_raw);
   const std::string html = output.str ();
 
   // Schedule the mail for sending to the user.

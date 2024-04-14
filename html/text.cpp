@@ -34,16 +34,16 @@ HtmlText::HtmlText (const std::string& title)
   note_count = 0;
   
   // <html>
-  xml_node root_node = document.append_child ("html");
+  pugi::xml_node root_node = document.append_child ("html");
   
   // <head>
   head_node = root_node.append_child ("head");
   
-  xml_node title_node = head_node.append_child ("title");
+  pugi::xml_node title_node = head_node.append_child ("title");
   title_node.text ().set (title.c_str());
   
   // <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
-  xml_node meta_node = head_node.append_child ("meta");
+  pugi::xml_node meta_node = head_node.append_child ("meta");
   meta_node.append_attribute ("http-equiv") = "content-type";
   meta_node.append_attribute ("content") = "text/html; charset=UTF-8";
 
@@ -55,7 +55,7 @@ HtmlText::HtmlText (const std::string& title)
   meta_node.append_attribute ("content") = "width=device-width, initial-scale=1.0";
 
   // <link rel="stylesheet" type="text/css" href="stylesheet.css">
-  xml_node link_node = head_node.append_child ("link");
+  pugi::xml_node link_node = head_node.append_child ("link");
   link_node.append_attribute ("rel") = "stylesheet";
   link_node.append_attribute ("type") = "text/css";
   link_node.append_attribute ("href") = "stylesheet.css";
@@ -99,7 +99,7 @@ void HtmlText::add_text (const std::string& text)
 {
   if (!text.empty()) {
     if (!current_p_node_open) new_paragraph ();
-    xml_node span = current_p_node.append_child ("span");
+    pugi::xml_node span = current_p_node.append_child ("span");
     span.text().set (text.c_str());
     if (!current_text_style.empty ()) {
       // Take character style(s) as specified in the object.
@@ -207,14 +207,14 @@ void HtmlText::add_note_text (const std::string& text)
 {
   if (text.empty()) return;
   if (!note_p_node_open) add_note ("?", "");
-  xml_node span_node = note_p_node.append_child ("span");
+  pugi::xml_node span_node = note_p_node.append_child ("span");
   span_node.text().set (text.c_str());
   if (!current_note_text_style.empty ()) {
     // Take character style as specified in this object.
     span_node.append_attribute ("class") = filter::strings::implode (current_note_text_style, " ").c_str();
   }
   if (popup_node) {
-    xml_node span_node_2 = popup_node.append_child ("span");
+    pugi::xml_node span_node_2 = popup_node.append_child ("span");
     span_node_2.text().set (text.c_str());
   }
 }
@@ -235,17 +235,17 @@ void HtmlText::close_current_note ()
 // $title: The link's title, to make it accessible, e.g. for screenreaders.
 // $style: The link text's style.
 // $text: The link's text.
-void HtmlText::add_link (xml_node node,
+void HtmlText::add_link (pugi::xml_node node,
                          const std::string& reference, const std::string& identifier,
                          const std::string& title, const std::string& style, const std::string& text,
                          const bool add_popup)
 {
-  xml_node a_node = node.append_child ("a");
+  pugi::xml_node a_node = node.append_child ("a");
   a_node.append_attribute ("href") = reference.c_str();
   a_node.append_attribute ("id") = identifier.c_str();
   if (!title.empty ()) a_node.append_attribute ("title") = title.c_str();
   if (!style.empty()) a_node.append_attribute ("class") = style.c_str();
-  xml_node pcdata = a_node.append_child (node_pcdata);
+  pugi::xml_node pcdata = a_node.append_child (pugi::node_pcdata);
   pcdata.set_value(text.c_str());
   // Whether to add a popup span in a note.
   if (add_popup) {
@@ -269,7 +269,7 @@ std::string HtmlText::get_html ()
 
   // Get the html.
   std::stringstream output {};
-  document.print (output, "", format_raw);
+  document.print (output, "", pugi::format_raw);
   std::string html = output.str ();
   
   // Add html5 doctype.
@@ -306,14 +306,14 @@ void HtmlText::save (std::string name)
 
 // This adds a new table to the html DOM.
 // Returns: The new $tableElement
-xml_node HtmlText::new_table ()
+pugi::xml_node HtmlText::new_table ()
 {
   // Adding subsequent text should create a new paragraph.
   current_p_node_open = false;
   current_paragraph_style.clear();
   current_paragraph_content.clear();
   // Append the table.
-  xml_node table_element = body_node.append_child ("table");
+  pugi::xml_node table_element = body_node.append_child ("table");
   table_element.append_attribute ("width") = "100%";
   return table_element;
 }
@@ -321,18 +321,18 @@ xml_node HtmlText::new_table ()
 
 // This adds a new row to an existing $table_element.
 // Returns: The new $table_row_element.
-xml_node HtmlText::new_table_row (xml_node table_element)
+pugi::xml_node HtmlText::new_table_row (pugi::xml_node table_element)
 {
-  xml_node table_row_element = table_element.append_child ("tr");
+  pugi::xml_node table_row_element = table_element.append_child ("tr");
   return table_row_element;
 }
 
 
 // This adds a new data cell to an existing $table_row_element.
 // Returns: The new $table_data_element.
-xml_node HtmlText::new_table_data (xml_node table_row_element, const bool align_right)
+pugi::xml_node HtmlText::new_table_data (pugi::xml_node table_row_element, const bool align_right)
 {
-  xml_node table_data_element = table_row_element.append_child ("td");
+  pugi::xml_node table_data_element = table_row_element.append_child ("td");
   if (align_right) table_data_element.append_attribute ("align") = "right";
   return table_data_element;
 }
@@ -343,7 +343,7 @@ xml_node HtmlText::new_table_data (xml_node table_row_element, const bool align_
 // $text: Content.
 void HtmlText::new_named_heading (const std::string& style, const std::string& text)
 {
-  xml_node text_h_dom_element = body_node.append_child (style.c_str());
+  pugi::xml_node text_h_dom_element = body_node.append_child (style.c_str());
   text_h_dom_element.text ().set (text.c_str());
   // Make paragraph null, so that adding subsequent text creates a new paragraph.
   current_p_node_open = false;
@@ -365,7 +365,7 @@ void HtmlText::add_image (const std::string& style,
                           const std::string& src,
                           const std::string& caption)
 {
-  xml_node img_node = body_node.append_child ("img");
+  pugi::xml_node img_node = body_node.append_child ("img");
   img_node.append_attribute("alt") = alt.c_str();
   img_node.append_attribute("src") = src.c_str();
   img_node.append_attribute ("width") = "100%";

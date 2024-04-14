@@ -64,7 +64,7 @@ odf_text::~odf_text ()
 // Build the default content.xml for the template.
 void odf_text::initialize_content_xml ()
 {
-  xml_node rootnode = content_dom.append_child ("office:document-content");
+  pugi::xml_node rootnode = content_dom.append_child ("office:document-content");
 
   rootnode.append_attribute ("xmlns:office") = "urn:oasis:names:tc:opendocument:xmlns:office:1.0";
   rootnode.append_attribute ("xmlns:style") = "urn:oasis:names:tc:opendocument:xmlns:style:1.0";
@@ -100,12 +100,12 @@ void odf_text::initialize_content_xml ()
   rootnode.append_attribute ("office:version") = "1.2";
   rootnode.append_attribute ("grddl:transformation") = "http://docs.oasis-open.org/office/1.2/xslt/odf2rdf.xsl";
 
-  xml_node office_scripts = rootnode.append_child ("office:scripts");
+  pugi::xml_node office_scripts = rootnode.append_child ("office:scripts");
   if (office_scripts) {}
 
-  xml_node office_font_face_decls = rootnode.append_child ("office:font-face-decls");
+  pugi::xml_node office_font_face_decls = rootnode.append_child ("office:font-face-decls");
   {
-    xml_node childnode;
+    pugi::xml_node childnode;
 
     childnode = office_font_face_decls.append_child ("style:font-face");
     childnode.append_attribute ("style:name") = "Times New Roman";
@@ -141,19 +141,19 @@ void odf_text::initialize_content_xml ()
     childnode.append_attribute ("style:font-pitch") = "variable";
   }
 
-  xml_node office_automatic_styles = rootnode.append_child ("office:automatic-styles");
+  pugi::xml_node office_automatic_styles = rootnode.append_child ("office:automatic-styles");
   {
-    xml_node style_style;
+    pugi::xml_node style_style;
     style_style = office_automatic_styles.append_child ("style:style");
     style_style.append_attribute ("style:name") = "P1";
     style_style.append_attribute ("style:family") = "paragraph";
     style_style.append_attribute ("style:parent-style-name") = "Header";
     {
-      xml_node style_paragraph_properties = style_style.append_child ("style:paragraph-properties");
+      pugi::xml_node style_paragraph_properties = style_style.append_child ("style:paragraph-properties");
       {
-        xml_node style_tab_stops = style_paragraph_properties.append_child ("style:tab-stops");
+        pugi::xml_node style_tab_stops = style_paragraph_properties.append_child ("style:tab-stops");
         {
-          xml_node style_tab_stop = style_tab_stops.append_child ("style:tab-stop");
+          pugi::xml_node style_tab_stop = style_tab_stops.append_child ("style:tab-stop");
           style_tab_stop.append_attribute ("style:position") = "9.005cm";
           style_tab_stop.append_attribute ("style:type") = "center";
           style_tab_stop = style_tab_stops.append_child ("style:tab-stop");
@@ -167,11 +167,11 @@ void odf_text::initialize_content_xml ()
     style_style.append_attribute ("style:family") = "paragraph";
     style_style.append_attribute ("style:parent-style-name") = "Header_20_left";
     {
-      xml_node style_paragraph_properties = style_style.append_child ("style:paragraph-properties");
+      pugi::xml_node style_paragraph_properties = style_style.append_child ("style:paragraph-properties");
       {
-        xml_node style_tab_stops = style_paragraph_properties.append_child ("style:tab-stops");
+        pugi::xml_node style_tab_stops = style_paragraph_properties.append_child ("style:tab-stops");
         {
-          xml_node style_tab_stop = style_tab_stops.append_child ("style:tab-stop");
+          pugi::xml_node style_tab_stop = style_tab_stops.append_child ("style:tab-stop");
           style_tab_stop.append_attribute ("style:position") = "8.193cm";
           style_tab_stop.append_attribute ("style:type") = "center";
           style_tab_stop = style_tab_stops.append_child ("style:tab-stop");
@@ -190,7 +190,7 @@ void odf_text::initialize_content_xml ()
     style_style.append_attribute ("style:family") = "graphic";
     style_style.append_attribute ("style:parent-style-name") = "Graphics";
     {
-      xml_node style_paragraph_properties = style_style.append_child ("style:paragraph-properties");
+      pugi::xml_node style_paragraph_properties = style_style.append_child ("style:paragraph-properties");
       style_paragraph_properties.append_attribute ("style:mirror") = "none";
       style_paragraph_properties.append_attribute ("fo:clip") = "rect(0mm, 0mm, 0mm, 0mm)";
       style_paragraph_properties.append_attribute ("draw:luminance") = "0%";
@@ -205,13 +205,13 @@ void odf_text::initialize_content_xml ()
     }
   }
 
-  xml_node office_body = rootnode.append_child ("office:body");
+  pugi::xml_node office_body = rootnode.append_child ("office:body");
   {
     office_text_node = office_body.append_child ("office:text");
     {
-      xml_node text_sequence_decls = office_text_node.append_child ("text:sequence-decls");
+      pugi::xml_node text_sequence_decls = office_text_node.append_child ("text:sequence-decls");
       {
-        xml_node text_sequence_decl = text_sequence_decls.append_child ("text:sequence-decl");
+        pugi::xml_node text_sequence_decl = text_sequence_decls.append_child ("text:sequence-decl");
         text_sequence_decl.append_attribute ("text:display-outline-level") = "0";
         text_sequence_decl.append_attribute ("text:name") = "Illustration";
         text_sequence_decl = text_sequence_decls.append_child ("text:sequence-decl");
@@ -233,7 +233,7 @@ void odf_text::initialize_content_xml ()
 // Build the default styles.xml for the template.
 void odf_text::initialize_styles_xml ()
 {
-  xml_node rootnode = styles_dom.append_child ("office:document-styles");
+  pugi::xml_node rootnode = styles_dom.append_child ("office:document-styles");
 
   rootnode.append_attribute ("xmlns:office") = "urn:oasis:names:tc:opendocument:xmlns:office:1.0";
   rootnode.append_attribute ("xmlns:style") = "urn:oasis:names:tc:opendocument:xmlns:style:1.0";
@@ -264,9 +264,9 @@ void odf_text::initialize_styles_xml ()
   rootnode.append_attribute ("office:version") = "1.2";
   rootnode.append_attribute ("grddl:transformation") = "http://docs.oasis-open.org/office/1.2/xslt/odf2rdf.xsl";
 
-  xml_node office_font_face_decls = rootnode.append_child ("office:font-face-decls");
+  pugi::xml_node office_font_face_decls = rootnode.append_child ("office:font-face-decls");
   {
-    xml_node childnode;
+    pugi::xml_node childnode;
 
     childnode = office_font_face_decls.append_child ("style:font-face");
     childnode.append_attribute ("style:name") = "Times New Roman";
@@ -304,67 +304,67 @@ void odf_text::initialize_styles_xml ()
 
   office_styles_node = rootnode.append_child ("office:styles");
   {
-    xml_node style_default_style = office_styles_node.append_child ("style:default-style");
+    pugi::xml_node style_default_style = office_styles_node.append_child ("style:default-style");
     style_default_style.append_attribute ("style:family") = "graphic";
-    xml_node style_paragraph_properties = style_default_style.append_child ("style:paragraph-properties");
+    pugi::xml_node style_paragraph_properties = style_default_style.append_child ("style:paragraph-properties");
     if (style_paragraph_properties) {}
-    xml_node style_text_properties = style_default_style.append_child ("style:text-properties");
+    pugi::xml_node style_text_properties = style_default_style.append_child ("style:text-properties");
     if (style_text_properties) {}
   }
   {
-    xml_node style_default_style = office_styles_node.append_child ("style:default-style");
+    pugi::xml_node style_default_style = office_styles_node.append_child ("style:default-style");
     style_default_style.append_attribute ("style:family") = "paragraph";
-    xml_node style_paragraph_properties = style_default_style.append_child ("style:paragraph-properties");
+    pugi::xml_node style_paragraph_properties = style_default_style.append_child ("style:paragraph-properties");
     if (style_paragraph_properties) {}
-    xml_node style_text_properties = style_default_style.append_child ("style:text-properties");
+    pugi::xml_node style_text_properties = style_default_style.append_child ("style:text-properties");
     if (style_text_properties) {}
   }
   {
-    xml_node style_default_style = office_styles_node.append_child ("style:default-style");
+    pugi::xml_node style_default_style = office_styles_node.append_child ("style:default-style");
     style_default_style.append_attribute ("style:family") = "table";
   }
   {
-    xml_node style_style = office_styles_node.append_child ("style:style");
+    pugi::xml_node style_style = office_styles_node.append_child ("style:style");
     style_style.append_attribute ("style:name") = styles_logic_standard_sheet ().c_str();
     style_style.append_attribute ("style:family") = "paragraph";
     style_style.append_attribute ("style:class") = "text";
   }
   {
-    xml_node style_style = office_styles_node.append_child ("style:style");
+    pugi::xml_node style_style = office_styles_node.append_child ("style:style");
     style_style.append_attribute ("style:name") = "Heading";
     style_style.append_attribute ("style:family") = "paragraph";
     style_style.append_attribute ("style:parent-style-name") = styles_logic_standard_sheet ().c_str();
     style_style.append_attribute ("style:next-style-name") = "Text_20_body";
     style_style.append_attribute ("style:class") = "text";
     {
-      xml_node style_paragraph_properties = style_style.append_child ("style:paragraph-properties");
+      pugi::xml_node style_paragraph_properties = style_style.append_child ("style:paragraph-properties");
       style_paragraph_properties.append_attribute ("fo:margin-top") = "0.423cm";
       style_paragraph_properties.append_attribute ("fo:margin-bottom") = "0.212cm";
       style_paragraph_properties.append_attribute ("fo:keep-with-next") = "always";
     }
   }
   {
-    xml_node style_style = office_styles_node.append_child ("style:style");
+    pugi::xml_node style_style = office_styles_node.append_child ("style:style");
     style_style.append_attribute ("style:name") = "Text_20_body";
     style_style.append_attribute ("style:display-name") = "Text body";
     style_style.append_attribute ("style:family") = "paragraph";
     style_style.append_attribute ("style:parent-style-name") = styles_logic_standard_sheet ().c_str();
     style_style.append_attribute ("style:class") = "text";
     {
-      xml_node style_paragraph_properties = style_style.append_child ("style:paragraph-properties");
+      pugi::xml_node style_paragraph_properties = style_style.append_child ("style:paragraph-properties");
       style_paragraph_properties.append_attribute ("fo:margin-top") = "0cm";
       style_paragraph_properties.append_attribute ("fo:margin-bottom") = "0.212cm";
     }
   }
   {
-    xml_node style_style = office_styles_node.append_child ("style:style");
+    pugi::xml_node style_style = office_styles_node.append_child ("style:style");
     style_style.append_attribute ("style:name") = "Header";
     style_style.append_attribute ("style:family") = "paragraph";
     style_style.append_attribute ("style:parent-style-name") = styles_logic_standard_sheet ().c_str();
     style_style.append_attribute ("style:class") = "extra";
   }
   {
-    xml_node style_style = office_styles_node.append_child ("style:style");
+    pugi::xml_node style_style = office_styles_node.append_child ("style:style");
     style_style.append_attribute ("style:name") = "Header_20_left";
     style_style.append_attribute ("style:display-name") = "Header left";
     style_style.append_attribute ("style:family") = "paragraph";
@@ -375,24 +375,24 @@ void odf_text::initialize_styles_xml ()
   // Update the tab-stops in the header style. The tab stops depend on page and margin dimensions.
   int centerPosition = filter::strings::convert_to_int (Database_Config_Bible::getPageWidth (m_bible)) - filter::strings::convert_to_int (Database_Config_Bible::getInnerMargin (m_bible)) - filter::strings::convert_to_int (Database_Config_Bible::getOuterMargin (m_bible));
 
-  xml_node office_automatic_styles = rootnode.append_child ("office:automatic-styles");
+  pugi::xml_node office_automatic_styles = rootnode.append_child ("office:automatic-styles");
   {
-    xml_node style_style = office_automatic_styles.append_child ("style:style");
+    pugi::xml_node style_style = office_automatic_styles.append_child ("style:style");
     style_style.append_attribute ("style:name") = "MP1";
     style_style.append_attribute ("style:family") = "paragraph";
     style_style.append_attribute ("style:parent-style-name") = "Header";
     {
-      xml_node style_paragraph_properties = style_style.append_child ("style:paragraph-properties");
+      pugi::xml_node style_paragraph_properties = style_style.append_child ("style:paragraph-properties");
       {
-        xml_node style_tab_stops = style_paragraph_properties.append_child ("style:tab-stops");
+        pugi::xml_node style_tab_stops = style_paragraph_properties.append_child ("style:tab-stops");
         centerPosition /= 2;
         {
-          xml_node style_tab_stop = style_tab_stops.append_child ("style:tab-stop");
+          pugi::xml_node style_tab_stop = style_tab_stops.append_child ("style:tab-stop");
           style_tab_stop.append_attribute ("style:position") = filter::strings::convert_to_string (filter::strings::convert_to_string (centerPosition) + "mm").c_str();
           style_tab_stop.append_attribute ("style:type") = "center";
         }
         {
-          xml_node style_tab_stop = style_tab_stops.append_child ("style:tab-stop");
+          pugi::xml_node style_tab_stop = style_tab_stops.append_child ("style:tab-stop");
           style_tab_stop.append_attribute ("style:position") = filter::strings::convert_to_string (filter::strings::convert_to_string (centerPosition * 2) + "mm").c_str();
           style_tab_stop.append_attribute ("style:type") = "right";
         }
@@ -400,21 +400,21 @@ void odf_text::initialize_styles_xml ()
     }
   }
   {
-    xml_node style_style = office_automatic_styles.append_child ("style:style");
+    pugi::xml_node style_style = office_automatic_styles.append_child ("style:style");
     style_style.append_attribute ("style:name") = "MP2";
     style_style.append_attribute ("style:family") = "paragraph";
     style_style.append_attribute ("style:parent-style-name") = "Header_20_left";
     {
-      xml_node style_paragraph_properties = style_style.append_child ("style:paragraph-properties");
+      pugi::xml_node style_paragraph_properties = style_style.append_child ("style:paragraph-properties");
       {
-        xml_node style_tab_stops = style_paragraph_properties.append_child ("style:tab-stops");
+        pugi::xml_node style_tab_stops = style_paragraph_properties.append_child ("style:tab-stops");
         {
-          xml_node style_tab_stop = style_tab_stops.append_child ("style:tab-stop");
+          pugi::xml_node style_tab_stop = style_tab_stops.append_child ("style:tab-stop");
           style_tab_stop.append_attribute ("style:position") = filter::strings::convert_to_string (filter::strings::convert_to_string (centerPosition) + "mm").c_str();
           style_tab_stop.append_attribute ("style:type") = "center";
         }
         {
-          xml_node style_tab_stop = style_tab_stops.append_child ("style:tab-stop");
+          pugi::xml_node style_tab_stop = style_tab_stops.append_child ("style:tab-stop");
           style_tab_stop.append_attribute ("style:position") = filter::strings::convert_to_string (filter::strings::convert_to_string (centerPosition * 2) + "mm").c_str();
           style_tab_stop.append_attribute ("style:type") = "right";
         }
@@ -422,11 +422,11 @@ void odf_text::initialize_styles_xml ()
     }
   }
   {
-    xml_node style_page_layout = office_automatic_styles.append_child ("style:page-layout");
+    pugi::xml_node style_page_layout = office_automatic_styles.append_child ("style:page-layout");
     style_page_layout.append_attribute ("style:name") = "Mpm1";
     style_page_layout.append_attribute ("style:page-usage") = "mirrored";
     {
-      xml_node style_page_layout_properties = style_page_layout.append_child ("style:page-layout-properties");
+      pugi::xml_node style_page_layout_properties = style_page_layout.append_child ("style:page-layout-properties");
       // Take the page size and margins from the Bible's settings.
       style_page_layout_properties.append_attribute ("fo:page-width") = filter::strings::convert_to_string (Database_Config_Bible::getPageWidth (m_bible) + "mm").c_str();
       style_page_layout_properties.append_attribute ("fo:page-height") = filter::strings::convert_to_string (Database_Config_Bible::getPageHeight (m_bible) + "mm").c_str();
@@ -439,7 +439,7 @@ void odf_text::initialize_styles_xml ()
       style_page_layout_properties.append_attribute ("style:writing-mode") = "lr-tb";
       style_page_layout_properties.append_attribute ("style:footnote-max-height") = "0cm";
       {
-        xml_node style_footnote_sep = style_page_layout_properties.append_child ("style:footnote-sep");
+        pugi::xml_node style_footnote_sep = style_page_layout_properties.append_child ("style:footnote-sep");
         style_footnote_sep.append_attribute ("style:width") = "0.018cm";
         style_footnote_sep.append_attribute ("style:distance-before-sep") = "0.101cm";
         style_footnote_sep.append_attribute ("style:distance-after-sep") = "0.101cm";
@@ -449,17 +449,16 @@ void odf_text::initialize_styles_xml ()
       }
     }
     {
-      xml_node style_header_style = style_page_layout.append_child ("style:header-style");
+      pugi::xml_node style_header_style = style_page_layout.append_child ("style:header-style");
       {
-        xml_node style_header_footer_properties = style_header_style.append_child ("style:header-footer-properties");
+        pugi::xml_node style_header_footer_properties = style_header_style.append_child ("style:header-footer-properties");
         style_header_footer_properties.append_attribute ("fo:min-height") = "0.799cm";
         style_header_footer_properties.append_attribute ("fo:margin-left") = "0cm";
         style_header_footer_properties.append_attribute ("fo:margin-right") = "0cm";
         style_header_footer_properties.append_attribute ("fo:margin-bottom") = "0.3cm";
         style_header_footer_properties.append_attribute ("style:dynamic-spacing") = "false";
       }
-      xml_node style_footer_style = style_page_layout.append_child ("style:footer-style");
-      if (style_footer_style) {}
+      [[maybe_unused]] pugi::xml_node style_footer_style = style_page_layout.append_child ("style:footer-style");
     }
   }
   {
@@ -493,18 +492,18 @@ void odf_text::initialize_styles_xml ()
     }
     */
   }
-  xml_node office_master_styles = rootnode.append_child ("office:master-styles");
+  pugi::xml_node office_master_styles = rootnode.append_child ("office:master-styles");
   {
-    xml_node style_master_page = office_master_styles.append_child ("style:master-page");
+    pugi::xml_node style_master_page = office_master_styles.append_child ("style:master-page");
     style_master_page.append_attribute ("style:name") = styles_logic_standard_sheet ().c_str();
     style_master_page.append_attribute ("style:page-layout-name") = "Mpm1";
     {
-      xml_node style_header = style_master_page.append_child ("style:header");
+      pugi::xml_node style_header = style_master_page.append_child ("style:header");
       {
-        xml_node text_p = style_header.append_child ("text:p");
+        pugi::xml_node text_p = style_header.append_child ("text:p");
         text_p.append_attribute ("text:style-name") = "MP1";
         {
-          xml_node node = text_p.append_child ("text:page-number");
+          pugi::xml_node node = text_p.append_child ("text:page-number");
           node.append_attribute ("text:select-page") = "current";
           node.text ().set ("1");
         }
@@ -513,7 +512,7 @@ void odf_text::initialize_styles_xml ()
         }
         // Whether and how to put the date in the running headers.
         if (Database_Config_Bible::getDateInHeader (m_bible)) {
-          xml_node node = text_p.append_child ("text:date");
+          pugi::xml_node node = text_p.append_child ("text:date");
           node.append_attribute ("style:data-style-name") = "N81";
           node.append_attribute ("text:date-value") = "";
           node.text ().set ("");
@@ -522,17 +521,17 @@ void odf_text::initialize_styles_xml ()
           text_p.append_child ("text:tab");
         }
         {
-          xml_node node = text_p.append_child ("text:chapter");
+          pugi::xml_node node = text_p.append_child ("text:chapter");
           node.append_attribute ("text:display") = "name";
           node.append_attribute ("text:outline-level") = "1";
         }
       }
-      xml_node style_header_left = style_master_page.append_child ("style:header-left");
+      pugi::xml_node style_header_left = style_master_page.append_child ("style:header-left");
       {
-        xml_node text_p = style_header_left.append_child ("text:p");
+        pugi::xml_node text_p = style_header_left.append_child ("text:p");
         text_p.append_attribute ("text:style-name") = "MP2";
         {
-          xml_node node = text_p.append_child ("text:chapter");
+          pugi::xml_node node = text_p.append_child ("text:chapter");
           node.append_attribute ("text:display") = "name";
           node.append_attribute ("text:outline-level") = "1";
         }
@@ -541,7 +540,7 @@ void odf_text::initialize_styles_xml ()
         }
         // Whether and how to put the date in the running headers.
         if (Database_Config_Bible::getDateInHeader (m_bible)) {
-          xml_node node = text_p.append_child ("text:date");
+          pugi::xml_node node = text_p.append_child ("text:date");
           node.append_attribute ("style:data-style-name") = "N81";
           node.append_attribute ("text:date-value") = "";
           node.text ().set ("");
@@ -550,7 +549,7 @@ void odf_text::initialize_styles_xml ()
           text_p.append_child ("text:tab");
         }
         {
-          xml_node node = text_p.append_child ("text:page-number");
+          pugi::xml_node node = text_p.append_child ("text:page-number");
           node.append_attribute ("text:select-page") = "current";
           node.text ().set ("1");
         }
@@ -586,9 +585,9 @@ void odf_text::add_text (string text)
   if (styles.empty()) styles.push_back (string());
   
   // Write a text span element, nesting the second and later ones.
-  xml_node dom_node = current_text_p_node;
+  pugi::xml_node dom_node = current_text_p_node;
   for (string style : styles) {
-    xml_node text_span_node = dom_node.append_child ("text:span");
+    pugi::xml_node text_span_node = dom_node.append_child ("text:span");
     if (!style.empty ()) {
       text_span_node.append_attribute ("text:style-name") = convert_style_name (style).c_str();
     }
@@ -621,18 +620,18 @@ void odf_text::create_page_break_style ()
   // <style:paragraph-properties fo:break-after="page" fo:line-height="0.05cm" fo:margin-bottom="0cm" fo:margin-top="0cm"/>
   // <style:text-properties fo:font-size="2pt" style:font-size-asian="2pt" style:font-size-complex="2pt"/>
   // </style:style>
-  xml_node style_dom_element = office_styles_node.append_child ("style:style");
+  pugi::xml_node style_dom_element = office_styles_node.append_child ("style:style");
   style_dom_element.append_attribute ("style:name") = "Page_20_Break";
   style_dom_element.append_attribute ("style:display-name") = "Page Break";
   style_dom_element.append_attribute ("style:family") = "paragraph";
 
-  xml_node style_paragraph_properties_dom_element = style_dom_element.append_child ("style:paragraph-properties");
+  pugi::xml_node style_paragraph_properties_dom_element = style_dom_element.append_child ("style:paragraph-properties");
   style_paragraph_properties_dom_element.append_attribute ("fo:break-after") = "page";
   style_paragraph_properties_dom_element.append_attribute ("fo:line-height") = "0.05cm";
   style_paragraph_properties_dom_element.append_attribute ("fo:margin-bottom") = "0cm";
   style_paragraph_properties_dom_element.append_attribute ("fo:margin-top") = "0cm";
 
-  xml_node style_text_properties_dom_element = style_dom_element.append_child ("style:text-properties");
+  pugi::xml_node style_text_properties_dom_element = style_dom_element.append_child ("style:text-properties");
   style_text_properties_dom_element.append_attribute ("fo:font-size") = "2pt";
   style_text_properties_dom_element.append_attribute ("style:font-size-asian") = "2pt";
   style_text_properties_dom_element.append_attribute ("style:font-size-complex") = "2pt";
@@ -681,14 +680,14 @@ void odf_text::create_paragraph_style (string name,
   //   <style:paragraph-properties>
   //   <style:text-properties fo:font-size="12pt" style:font-size-asian="12pt" style:font-size-complex="12pt"/>
   // </style:style>
-  xml_node style_style_node = office_styles_node.append_child ("style:style");
+  pugi::xml_node style_style_node = office_styles_node.append_child ("style:style");
   style_style_node.append_attribute ("style:name") = convert_style_name (name).c_str();
   style_style_node.append_attribute ("style:display-name") = name.c_str();
   style_style_node.append_attribute ("style:family") = "paragraph";
 
-  xml_node style_paragraph_properties_node = style_style_node.append_child ("style:paragraph-properties");
+  pugi::xml_node style_paragraph_properties_node = style_style_node.append_child ("style:paragraph-properties");
 
-  xml_node style_text_properties_node = style_style_node.append_child ("style:text-properties");
+  pugi::xml_node style_text_properties_node = style_style_node.append_child ("style:text-properties");
 
   style_paragraph_properties_node.append_attribute ("style:font-name") = fontname.c_str();
   fontname.insert (0, "'");
@@ -761,7 +760,7 @@ void odf_text::create_paragraph_style (string name,
   if (dropcaps > 0) {
     // E.g.: <style:drop-cap style:lines="2" style:length="2" style:distance="0.15cm"/>
     string length = filter::strings::convert_to_string (dropcaps);
-    xml_node style_drop_cap_node = style_paragraph_properties_node.append_child ("style:drop-cap");
+    pugi::xml_node style_drop_cap_node = style_paragraph_properties_node.append_child ("style:drop-cap");
     style_drop_cap_node.append_attribute ("style:lines") = "2";
     style_drop_cap_node.append_attribute ("style:length") = length.c_str();
     style_drop_cap_node.append_attribute ("style:distance") = "0.15cm";
@@ -776,10 +775,10 @@ void odf_text::create_paragraph_style (string name,
   // pushing the indent of the first line too deep.
   // See issue https://github.com/bibledit/cloud/issues/671
   if (is_poetry_q_style) {
-    xml_node style_tab_stops = style_paragraph_properties_node.append_child("style:tab-stops");
+    pugi::xml_node style_tab_stops = style_paragraph_properties_node.append_child("style:tab-stops");
     int tab_indent = static_cast<int> (firstlineindent);
     for (int i = 0; i < 10; i++) {
-      xml_node style_tab_stop = style_tab_stops.append_child("style:tab-stop");
+      pugi::xml_node style_tab_stop = style_tab_stops.append_child("style:tab-stop");
       string tab_stop = filter::strings::convert_to_string(tab_indent) + "mm";
       style_tab_stop.append_attribute("style:position") = tab_stop.c_str();
       tab_indent++;
@@ -820,12 +819,12 @@ void odf_text::open_text_style (Database_Styles_Item style, bool note, bool embe
     // <style:style style:name="T1" style:family="text">
     // <style:text-properties fo:font-style="italic" style:font-style-asian="italic" style:font-style-complex="italic"/>
     // </style:style>
-    xml_node style_dom_element = office_styles_node.append_child ("style:style");
+    pugi::xml_node style_dom_element = office_styles_node.append_child ("style:style");
     style_dom_element.append_attribute ("style:name") = convert_style_name (marker).c_str();
     style_dom_element.append_attribute ("style:display-name") = marker.c_str();
     style_dom_element.append_attribute ("style:family") = "text";
 
-    xml_node style_text_properties_dom_element = style_dom_element.append_child ("style:text-properties");
+    pugi::xml_node style_text_properties_dom_element = style_dom_element.append_child ("style:text-properties");
 
     // Italics, bold, underline, small caps can be ooitOff or ooitOn or ooitInherit or ooitToggle.
     // Not all features are implemented.
@@ -914,7 +913,7 @@ void odf_text::place_text_in_frame (string text, string style, float fontsize, i
   //     <text:p text:style-name="c">1</text:p>
   //   </draw:text-box>
   // </draw:frame>
-  xml_node draw_frame_dom_element = current_text_p_node.append_child ("draw:frame");
+  pugi::xml_node draw_frame_dom_element = current_text_p_node.append_child ("draw:frame");
   draw_frame_dom_element.append_attribute ("draw:style-name") = "chapterframe";
   m_frame_count++;
   draw_frame_dom_element.append_attribute ("draw:name") = filter::strings::convert_to_string ("frame" + filter::strings::convert_to_string (m_frame_count)).c_str();
@@ -923,10 +922,10 @@ void odf_text::place_text_in_frame (string text, string style, float fontsize, i
   draw_frame_dom_element.append_attribute ("fo:min-width") = "0.34cm";
   draw_frame_dom_element.append_attribute ("draw:z-index") = "0";
 
-  xml_node draw_text_box_dom_element = draw_frame_dom_element.append_child ("draw:text-box");
+  pugi::xml_node draw_text_box_dom_element = draw_frame_dom_element.append_child ("draw:text-box");
   draw_text_box_dom_element.append_attribute ("fo:min-height") = "0.34cm";
 
-  xml_node text_p_dom_element = draw_text_box_dom_element.append_child ("text:p");
+  pugi::xml_node text_p_dom_element = draw_text_box_dom_element.append_child ("text:p");
   text_p_dom_element.append_attribute ("text:style-name") = convert_style_name (style).c_str();
   text_p_dom_element.text().set( filter::strings::escape_special_xml_characters (text).c_str());
 
@@ -941,15 +940,15 @@ void odf_text::place_text_in_frame (string text, string style, float fontsize, i
       //   <style:paragraph-properties fo:text-align="justify" style:justify-single-word="false"/>
       //   <style:text-properties fo:font-size="24pt" fo:font-weight="bold" style:font-size-asian="24pt" style:font-weight-asian="bold" style:font-size-complex="24pt" style:font-weight-complex="bold"/>
       // </style:style>
-      xml_node style_dom_element = office_styles_node.append_child ("style:style");
+      pugi::xml_node style_dom_element = office_styles_node.append_child ("style:style");
       style_dom_element.append_attribute ("style:name") = convert_style_name (style).c_str();
       style_dom_element.append_attribute ("style:family") = "paragraph";
   
-      xml_node style_paragraph_properties_dom_element = style_dom_element.append_child ("style:paragraph-properties");
+      pugi::xml_node style_paragraph_properties_dom_element = style_dom_element.append_child ("style:paragraph-properties");
       style_paragraph_properties_dom_element.append_attribute ("fo:text-align") = "justify";
       style_paragraph_properties_dom_element.append_attribute ("style:justify-single-word") = "false";
   
-      xml_node style_text_properties_dom_element = style_dom_element.append_child ("style:text-properties");
+      pugi::xml_node style_text_properties_dom_element = style_dom_element.append_child ("style:text-properties");
       string sfontsize = filter::strings::convert_to_string (fontsize) + "pt";
       style_text_properties_dom_element.append_attribute ("fo:font-size") = sfontsize.c_str();
       style_text_properties_dom_element.append_attribute ("style:font-size-asian") = sfontsize.c_str();
@@ -972,11 +971,11 @@ void odf_text::place_text_in_frame (string text, string style, float fontsize, i
       //   <style:background-image/>
       //   </style:graphic-properties>
       // </style:style>
-      xml_node style_dom_element = office_styles_node.append_child ("style:style");
+      pugi::xml_node style_dom_element = office_styles_node.append_child ("style:style");
       style_dom_element.append_attribute ("style:name") = "chapterframe";
       style_dom_element.append_attribute ("style:family") = "graphic";
   
-      xml_node style_graphic_properties_dom_element = style_dom_element.append_child ("style:graphic-properties");
+      pugi::xml_node style_graphic_properties_dom_element = style_dom_element.append_child ("style:graphic-properties");
       style_graphic_properties_dom_element.append_attribute ("fo:margin-left") = "0cm";
       style_graphic_properties_dom_element.append_attribute ("fo:margin-right") = "0.2cm";
       style_graphic_properties_dom_element.append_attribute ("fo:margin-top") = "0cm";
@@ -1004,11 +1003,11 @@ void odf_text::create_superscript_style ()
   // <style:style style:name="superscript" style:family="text">
   //   <style:text-properties style:text-position="super 58%"/>
   // </style:style>
-  xml_node style_dom_element = office_styles_node.append_child ("style:style");
+  pugi::xml_node style_dom_element = office_styles_node.append_child ("style:style");
   style_dom_element.append_attribute ("style:name") = "superscript";
   style_dom_element.append_attribute ("style:family") = "text";
 
-  xml_node style_text_properties_dom_element = style_dom_element.append_child ("style:text-properties");
+  pugi::xml_node style_text_properties_dom_element = style_dom_element.append_child ("style:text-properties");
   //$styleTextPropertiesDomElement->setAttribute ("style:text-position", "super 58%");
   // If the percentage is not specified, an appropriate font height is used.
   style_text_properties_dom_element.append_attribute ("style:text-position") = "super";
@@ -1028,7 +1027,7 @@ void odf_text::add_note (string caller, string style, bool endnote)
   // Ensure that a paragraph is open, so that the note can be added to it.
   if (!m_current_text_p_node_opened) new_paragraph ();
 
-  xml_node text_note_dom_element = current_text_p_node.append_child ("text:note");
+  pugi::xml_node text_note_dom_element = current_text_p_node.append_child ("text:note");
   text_note_dom_element.append_attribute ("text:id") = filter::strings::convert_to_string ("ftn" + filter::strings::convert_to_string (m_note_count)).c_str();
   m_note_count++;
   m_note_text_p_opened = true;
@@ -1041,13 +1040,13 @@ void odf_text::add_note (string caller, string style, bool endnote)
   // The default values of the application are used.
   // The Bibledit stylesheet is not consulted.
   // It handles the setting on the export page for having an automatic note caller.
-  xml_node text_note_citation_dom_element = text_note_dom_element.append_child ("text:note-citation");
+  pugi::xml_node text_note_citation_dom_element = text_note_dom_element.append_child ("text:note-citation");
   if (!automatic_note_caller) {
     text_note_citation_dom_element.append_attribute ("text:label") = filter::strings::escape_special_xml_characters (caller).c_str();
   }
   text_note_citation_dom_element.text().set( filter::strings::escape_special_xml_characters (caller).c_str());
 
-  xml_node text_note_body_dom_element = text_note_dom_element.append_child ("text:note-body");
+  pugi::xml_node text_note_body_dom_element = text_note_dom_element.append_child ("text:note-body");
 
   note_text_p_dom_element = text_note_body_dom_element.append_child ("text:p");
   note_text_p_dom_element.append_attribute ("text:style-name") = convert_style_name (style).c_str();
@@ -1071,9 +1070,9 @@ void odf_text::add_note_text (string text)
   if (styles.empty ()) styles.push_back ("");
 
   // Write a text span element, nesting the second and later ones.
-  xml_node dom_element = note_text_p_dom_element;
+  pugi::xml_node dom_element = note_text_p_dom_element;
   for (string style : styles) {
-    xml_node text_span_dom_element = dom_element.append_child ("text:span");
+    pugi::xml_node text_span_dom_element = dom_element.append_child ("text:span");
     if (!style.empty()) {
       text_span_dom_element.append_attribute ("text:style-name") = convert_style_name (style).c_str();
     }
@@ -1098,7 +1097,7 @@ void odf_text::new_named_heading (string style, string text, bool hide)
 {
   // Heading looks like this in content.xml:
   // <text:h text:style-name="Heading_20_1" text:outline-level="1">Text</text:h>
-  xml_node text_h_dom_element = office_text_node.append_child ("text:h");
+  pugi::xml_node text_h_dom_element = office_text_node.append_child ("text:h");
   text_h_dom_element.append_attribute ("text:style-name") = convert_style_name (style).c_str();
   text_h_dom_element.append_attribute ("text:outline-level") = "1";
   text_h_dom_element.text().set(filter::strings::escape_special_xml_characters (text).c_str());
@@ -1109,7 +1108,7 @@ void odf_text::new_named_heading (string style, string text, bool hide)
   // </style:style>
   // Create the style if it does not yet exist.
   if (find (created_styles.begin(), created_styles.end (), style) == created_styles.end()) {
-    xml_node style_dom_element = office_styles_node.append_child ("style:style");
+    pugi::xml_node style_dom_element = office_styles_node.append_child ("style:style");
     style_dom_element.append_attribute ("style:name") = convert_style_name (style).c_str();
     style_dom_element.append_attribute ("style:display-name") = style.c_str();
     style_dom_element.append_attribute ("style:family") = "paragraph";
@@ -1118,7 +1117,7 @@ void odf_text::new_named_heading (string style, string text, bool hide)
     style_dom_element.append_attribute ("style:default-outline-level") = "1";
     style_dom_element.append_attribute ("style:class") = "text";
     {
-      xml_node style_text_properties_dom_element = style_dom_element.append_child ("style:text-properties");
+      pugi::xml_node style_text_properties_dom_element = style_dom_element.append_child ("style:text-properties");
       style_text_properties_dom_element.append_attribute ("fo:font-size") = "115%";
       style_text_properties_dom_element.append_attribute ("fo:font-weight") = "bold";
       style_text_properties_dom_element.append_attribute ("style:font-size-asian") = "115%";
@@ -1158,14 +1157,14 @@ void odf_text::save (string name)
   // No formatting because some white space is processed.
   string content_xml_path = filter_url_create_path ({unpacked_odt_folder, "content.xml"});
   stringstream content_xml;
-  content_dom.print (content_xml, "", format_raw);
+  content_dom.print (content_xml, "", pugi::format_raw);
   filter_url_file_put_contents (content_xml_path, content_xml.str ());
 
   // Create the styles.xml file.
   // No formatting because some white space is processed.
   string styles_xml_path = filter_url_create_path ({unpacked_odt_folder, "styles.xml"});
   stringstream styles_xml;
-  styles_dom.print (styles_xml, "", format_raw);
+  styles_dom.print (styles_xml, "", pugi::format_raw);
   filter_url_file_put_contents (styles_xml_path, styles_xml.str ());
 
   // Save the OpenDocument file.
@@ -1214,7 +1213,7 @@ void odf_text::add_image (string style, [[maybe_unused]] string alt, string src,
   
   {
     m_image_counter++;
-    xml_node draw_frame_node = current_text_p_node.append_child("draw:frame");
+    pugi::xml_node draw_frame_node = current_text_p_node.append_child("draw:frame");
     draw_frame_node.append_attribute("draw:style-name") = "fr1";
     draw_frame_node.append_attribute("draw:name") = ("Image" + filter::strings::convert_to_string(m_image_counter)).c_str();
     draw_frame_node.append_attribute("text:anchor-type") = "char";
@@ -1224,7 +1223,7 @@ void odf_text::add_image (string style, [[maybe_unused]] string alt, string src,
     // draw_frame_node.append_attribute("style:rel-height") = "scale";
     draw_frame_node.append_attribute("draw:z-index") = "0";
     {
-      xml_node draw_image_node = draw_frame_node.append_child("draw:image");
+      pugi::xml_node draw_image_node = draw_frame_node.append_child("draw:image");
       // draw_image_node.append_attribute("xlink:href") = string("Pictures/" + src).c_str();
       draw_image_node.append_attribute("xlink:href") = ("../" + src).c_str();
       draw_image_node.append_attribute("xlink:type") = "simple";

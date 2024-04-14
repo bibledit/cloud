@@ -34,16 +34,15 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 #include <filter/usfm.h>
 using namespace std;
-using namespace pugi;
 
 
 // Internal function that searches related passages in the XML DOM.
 void related_logic_search_related (const string & bookname, int input_chapter, const string & input_verse,
-                                   const xml_node & node, vector <int> & passages)
+                                   const pugi::xml_node & node, vector <int> & passages)
 {
-  for (xml_node set : node.children ()) {
+  for (pugi::xml_node set : node.children ()) {
     bool match = false;
-    for (xml_node reference : set.children ()) {
+    for (pugi::xml_node reference : set.children ()) {
       
       // If a match was found, skip further processing.
       if (match) continue;
@@ -71,7 +70,7 @@ void related_logic_search_related (const string & bookname, int input_chapter, c
       
       // Store all related passages.
       if (match) {
-        for (xml_node passage_node : set.children ()) {
+        for (pugi::xml_node passage_node : set.children ()) {
           string related_bookname = passage_node.attribute ("book").value ();
           book_id related_book = database::books::get_id_from_english (related_bookname);
           int related_chapter = filter::strings::convert_to_int (passage_node.attribute ("chapter").value ());
@@ -115,8 +114,8 @@ vector <Passage> related_logic_get_verses (const vector <Passage> & input)
     
     
     // Load the parallel passages and the quotations.
-    xml_document parallel_document;
-    xml_document quotation_document;
+    pugi::xml_document parallel_document;
+    pugi::xml_document quotation_document;
     if (is_ot || is_nt) {
       string book_type_name = database::books::book_type_to_string(booktype);
       string path = filter_url_create_root_path ({"related", "parallel-passages-" + book_type_name + ".xml"});
@@ -129,13 +128,13 @@ vector <Passage> related_logic_get_verses (const vector <Passage> & input)
     // Deal with all of the input passages.
     for (auto & input_passage : input) {
       // Search for parallel passages.
-      for (xml_node passages : parallel_document.children ()) {
-        for (xml_node section : passages.children ()) {
+      for (pugi::xml_node passages : parallel_document.children ()) {
+        for (pugi::xml_node section : passages.children ()) {
           related_logic_search_related (bookname, input_passage.m_chapter, input_passage.m_verse, section, related_passages);
         }
       }
       // Search for quotes.
-      for (xml_node passages : quotation_document.children ()) {
+      for (pugi::xml_node passages : quotation_document.children ()) {
         related_logic_search_related (bookname, input_passage.m_chapter, input_passage.m_verse, passages, related_passages);
       }
     }

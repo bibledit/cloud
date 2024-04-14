@@ -84,13 +84,13 @@ std::string Editor_Usfm2Html::get ()
 
   // A Quill-based editor does not work with embedded <p> elements.
   // Move the notes out of their parent and append them to the end of the main body.
-  while (xml_node note = m_notes_node.first_child ().next_sibling ()) {
+  while (pugi::xml_node note = m_notes_node.first_child ().next_sibling ()) {
     m_body_node.append_move (note);
   }
   
   // Get the html code, including body, without head.
   std::stringstream output {};
-  m_body_node.print (output, "", format_raw);
+  m_body_node.print (output, "", pugi::format_raw);
   std::string html = output.str ();
   
   // Remain with the stuff within the <body> elements.
@@ -479,7 +479,7 @@ void Editor_Usfm2Html::add_text (std::string text)
     if (!m_current_p_open) {
       new_paragraph ();
     }
-    xml_node spanDomElement = m_current_p_node.append_child ("span");
+    pugi::xml_node spanDomElement = m_current_p_node.append_child ("span");
     spanDomElement.text ().set (text.c_str());
     if (!m_current_text_styles.empty ()) {
       // Take character style(s) as specified in this object.
@@ -556,7 +556,7 @@ void Editor_Usfm2Html::add_note_text (std::string text)
   if (!m_note_p_open) {
     add_note ("?", "");
   }
-  xml_node spanDomElement = m_note_p_node.append_child ("span");
+  pugi::xml_node spanDomElement = m_note_p_node.append_child ("span");
   spanDomElement.text ().set (text.c_str());
   if (!m_current_note_text_styles.empty()) {
     // Take character style(s) as specified in this object.
@@ -584,9 +584,9 @@ void Editor_Usfm2Html::close_current_note ()
 // $style: A style for the note citation, and one for the note body.
 // $text: The link's text.
 // It also deals with a Quill-based editor, in a slightly different way.
-void Editor_Usfm2Html::add_notel_link (xml_node domNode, int identifier, std::string style, std::string text)
+void Editor_Usfm2Html::add_notel_link (pugi::xml_node domNode, int identifier, std::string style, std::string text)
 {
-  xml_node aDomElement = domNode.append_child ("span");
+  pugi::xml_node aDomElement = domNode.append_child ("span");
   std::string cls = "i-note" + style + filter::strings::convert_to_string (identifier);
   aDomElement.append_attribute ("class") = cls.c_str();
   aDomElement.text ().set (text.c_str());

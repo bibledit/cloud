@@ -41,7 +41,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/logic.h>
 #include <time.h>
 using namespace std;
-using namespace jsonxx;
 
 
 // Database resilience.
@@ -568,7 +567,7 @@ int Database_Notes::store_new_note (const string& bible, int book, int chapter, 
   string path = note_file (identifier);
   string folder = filter_url_dirname (path);
   filter_url_mkdir (folder);
-  Object note;
+  jsonxx::Object note;
   note << bible_key () << bible;
   note << passage_key () << passage;
   note << status_key () << status;
@@ -1833,11 +1832,11 @@ string Database_Notes::notes_order_by_relevance_statement ()
 string Database_Notes::get_bulk (vector <int> identifiers)
 {
   // JSON container for the bulk notes.
-  Array bulk;
+  jsonxx::Array bulk;
   // Go through all the notes.
   for (auto identifier : identifiers) {
     // JSON object for the note.
-    Object note;
+    jsonxx::Object note;
     // Add all the fields of the note.
     string assigned = get_field (identifier, assigned_key ());
     note << "a" << assigned;
@@ -1875,24 +1874,24 @@ vector <string> Database_Notes::set_bulk (string json)
   vector <string> summaries;
   
   // Parse the incoming JSON.
-  Array bulk;
+  jsonxx::Array bulk;
   bulk.parse (json);
   
   // Go through the notes the JSON contains.
   for (size_t i = 0; i < bulk.size (); i++) {
     
     // Get all the different fields for this note.
-    Object note = bulk.get<Object>(static_cast<unsigned>(i));
-    string assigned = note.get<String> ("a");
-    string bible = note.get<String> ("b");
-    string contents = note.get<String> ("c");
-    int identifier = static_cast<int>(note.get<Number> ("i"));
-    int modified = static_cast<int>(note.get<Number> ("m"));
-    string passage = note.get<String> ("p");
-    string subscriptions = note.get<String> ("sb");
-    string summary = note.get<String> ("sm");
-    string status = note.get<String> ("st");
-    int severity = static_cast<int>(note.get<Number> ("sv"));
+    jsonxx::Object note = bulk.get<jsonxx::Object>(static_cast<unsigned>(i));
+    string assigned = note.get<jsonxx::String> ("a");
+    string bible = note.get<jsonxx::String> ("b");
+    string contents = note.get<jsonxx::String> ("c");
+    int identifier = static_cast<int>(note.get<jsonxx::Number> ("i"));
+    int modified = static_cast<int>(note.get<jsonxx::Number> ("m"));
+    string passage = note.get<jsonxx::String> ("p");
+    string subscriptions = note.get<jsonxx::String> ("sb");
+    string summary = note.get<jsonxx::String> ("sm");
+    string status = note.get<jsonxx::String> ("st");
+    int severity = static_cast<int>(note.get<jsonxx::Number> ("sv"));
     
     // Feedback about which note it received in bulk.
     summaries.push_back (summary);
@@ -1901,7 +1900,7 @@ vector <string> Database_Notes::set_bulk (string json)
     string path = note_file (identifier);
     string folder = filter_url_dirname (path);
     filter_url_mkdir (folder);
-    Object note2;
+    jsonxx::Object note2;
     note2 << assigned_key () << assigned;
     note2 << bible_key () << bible;
     note2 << contents_key () << contents;
@@ -1930,10 +1929,10 @@ string Database_Notes::get_field (int identifier, string key)
 {
   string file = note_file (identifier);
   string json = filter_url_file_get_contents (file);
-  Object note;
+  jsonxx::Object note;
   note.parse (json);
   string value;
-  if (note.has<String> (key)) value = note.get<String> (key);
+  if (note.has<jsonxx::String> (key)) value = note.get<jsonxx::String> (key);
   return value;
 }
 
@@ -1943,7 +1942,7 @@ void Database_Notes::set_field (int identifier, string key, string value)
 {
   string file = note_file (identifier);
   string json = filter_url_file_get_contents (file);
-  Object note;
+  jsonxx::Object note;
   note.parse (json);
   note << key << value;
   json = note.json ();

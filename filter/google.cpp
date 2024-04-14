@@ -30,7 +30,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <jsonxx/jsonxx.h>
 #pragma GCC diagnostic pop
 using namespace std;
-using namespace jsonxx;
 
 
 namespace filter::google {
@@ -121,7 +120,7 @@ tuple <bool, string, string> translate (const string text, const char * source, 
   const string url { "https://translation.googleapis.com/language/translate/v2" };
 
   // Create the JSON data to post.
-  Object translation_data;
+  jsonxx::Object translation_data;
   translation_data << "q" << text;
   translation_data << "source" << string (source);
   translation_data << "target" << string (target);
@@ -151,12 +150,12 @@ tuple <bool, string, string> translate (const string text, const char * source, 
   // }
   if (error.empty()) {
     try {
-      Object json_object;
+      jsonxx::Object json_object;
       json_object.parse (translation);
-      Object data = json_object.get<Object> ("data");
-      Array translations = data.get<Array> ("translations");
-      Object translated = translations.get<Object>(0);
-      translation = translated.get<String> ("translatedText");
+      jsonxx::Object data = json_object.get<jsonxx::Object> ("data");
+      jsonxx::Array translations = data.get<jsonxx::Array> ("translations");
+      jsonxx::Object translated = translations.get<jsonxx::Object>(0);
+      translation = translated.get<jsonxx::String> ("translatedText");
     } catch (const exception & exception) {
       error = exception.what();
       error.append (" - ");
@@ -189,7 +188,7 @@ vector <pair <string, string> > get_languages (const string & target)
   const string url { "https://translation.googleapis.com/language/translate/v2/languages" };
   
   // Create the JSON data to post.
-  Object request_data;
+  jsonxx::Object request_data;
   request_data << "target" << target;
   string postdata = request_data.json ();
   
@@ -225,14 +224,14 @@ vector <pair <string, string> > get_languages (const string & target)
   vector <pair <string, string> > language_codes_names;
   if (error.empty()) {
     try {
-      Object json_object;
+      jsonxx::Object json_object;
       json_object.parse (result_json);
-      Object data = json_object.get<Object> ("data");
-      Array languages = data.get<Array> ("languages");
+      jsonxx::Object data = json_object.get<jsonxx::Object> ("data");
+      jsonxx::Array languages = data.get<jsonxx::Array> ("languages");
       for (size_t i = 0; i < languages.size(); i++) {
-        Object language_name = languages.get<Object>(static_cast<unsigned>(i));
-        string language = language_name.get<String>("language");
-        string name = language_name.get<String>("name");
+        jsonxx::Object language_name = languages.get<jsonxx::Object>(static_cast<unsigned>(i));
+        string language = language_name.get<jsonxx::String>("language");
+        string name = language_name.get<jsonxx::String>("name");
         language_codes_names.push_back({language, name});
       }
     } catch (const exception & exception) {

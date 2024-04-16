@@ -46,10 +46,9 @@
 #include <pugixml.hpp>
 #endif
 #pragma GCC diagnostic pop
-using namespace std;
 
 
-string changes_change_url ()
+std::string changes_change_url ()
 {
   return "changes/change";
 }
@@ -61,7 +60,7 @@ bool changes_change_acl (Webserver_Request& webserver_request)
 }
 
 
-string changes_change (Webserver_Request& webserver_request)
+std::string changes_change (Webserver_Request& webserver_request)
 {
   Database_Modifications database_modifications {};
   Database_Notes database_notes (webserver_request);
@@ -70,35 +69,35 @@ string changes_change (Webserver_Request& webserver_request)
   
   // Note unsubscribe handler.
   if (webserver_request.post.count ("unsubscribe")) {
-    string unsubscribe = webserver_request.post["unsubscribe"];
+    std::string unsubscribe = webserver_request.post["unsubscribe"];
     unsubscribe.erase (0, 11);
     notes_logic.unsubscribe (filter::strings::convert_to_int (unsubscribe));
-    return string();
+    return std::string();
   }
   
   
   // Note unassign handler.
   if (webserver_request.post.count ("unassign")) {
-    string unassign = webserver_request.post["unassign"];
+    std::string unassign = webserver_request.post["unassign"];
     unassign.erase (0, 8);
     notes_logic.unassignUser (filter::strings::convert_to_int (unassign), webserver_request.session_logic()->currentUser ());
-    return string();
+    return std::string();
   }
   
   
   // Note mark for deletion handler.
   if (webserver_request.post.count("delete")) {
-    string erase = webserver_request.post["delete"];
+    std::string erase = webserver_request.post["delete"];
     erase.erase (0, 6);
     const int identifier {filter::strings::convert_to_int (erase)};
     notes_logic.markForDeletion (identifier);
-    return string();
+    return std::string();
   }
   
   
   // From here on the script will produce output.
   Assets_View view {};
-  const string username {webserver_request.session_logic()->currentUser ()};
+  const std::string username {webserver_request.session_logic()->currentUser ()};
   const int level {webserver_request.session_logic ()->currentLevel ()};
   
                       
@@ -108,39 +107,39 @@ string changes_change (Webserver_Request& webserver_request)
                       
                       
   // Get old text, modification, new text, date.
-  const string old_text {database_modifications.getNotificationOldText (id)};
+  const std::string old_text {database_modifications.getNotificationOldText (id)};
   view.set_variable ("old_text", old_text);
-  const string modification {database_modifications.getNotificationModification (id)};
+  const std::string modification {database_modifications.getNotificationModification (id)};
   view.set_variable ("modification", modification);
-  const string new_text {database_modifications.getNotificationNewText (id)};
+  const std::string new_text {database_modifications.getNotificationNewText (id)};
   view.set_variable ("new_text", new_text);
-  const string date {locale_logic_date (database_modifications.getNotificationTimeStamp (id))};
+  const std::string date {locale_logic_date (database_modifications.getNotificationTimeStamp (id))};
   view.set_variable ("date", date);
   
 
   // Bibles and passage.
   const Passage passage {database_modifications.getNotificationPassage (id)};
-  const vector <string> bibles {access_bible::bibles (webserver_request)};
+  const std::vector<std::string> bibles {access_bible::bibles (webserver_request)};
   
   
   // Get notes for the passage.
-  vector <int> notes = database_notes.select_notes (bibles, // Bibles.
-                                                    passage.m_book, passage.m_chapter, filter::strings::convert_to_int (passage.m_verse),
-                                                    0,  // Passage selector.
-                                                    0,  // Edit selector.
-                                                    0,  // Non-edit selector.
-                                                    "", // Status selector.
-                                                    "", // Bible selector.
-                                                    "", // Assignment selector.
-                                                    0,  // Subscription selector.
-                                                    -1, // Severity selector.
-                                                    0,  // Text selector.
-                                                    "", // Search text.
-                                                    -1); // Limit.
+  std::vector<int> notes = database_notes.select_notes (bibles, // Bibles.
+                                                        passage.m_book, passage.m_chapter, filter::strings::convert_to_int (passage.m_verse),
+                                                        0,  // Passage selector.
+                                                        0,  // Edit selector.
+                                                        0,  // Non-edit selector.
+                                                        "", // Status selector.
+                                                        "", // Bible selector.
+                                                        "", // Assignment selector.
+                                                        0,  // Subscription selector.
+                                                        -1, // Severity selector.
+                                                        0,  // Text selector.
+                                                        "", // Search text.
+                                                        -1); // Limit.
   
   // Remove the ones marked for deletion.
   {
-    vector <int> notes2;
+    std::vector <int> notes2;
     for (const auto note : notes) {
       if (!database_notes.is_marked_for_deletion (note)) {
         notes2.push_back (note);
@@ -150,9 +149,9 @@ string changes_change (Webserver_Request& webserver_request)
   }
   
   // Sort them, most recent notes first.
-  vector <int> timestamps;
+  std::vector <int> timestamps {};
   for (const auto note : notes) {
-    int timestap = database_notes.get_modified (note);
+    const int timestap = database_notes.get_modified (note);
     timestamps.push_back (timestap);
   }
   filter::strings::quick_sort (timestamps, notes, 0, static_cast <unsigned int> (notes.size ()));
@@ -160,7 +159,7 @@ string changes_change (Webserver_Request& webserver_request)
   
   
   // Whether there"s a live notes editor available.
-  bool live_notes_editor = Ipc_Notes::alive (webserver_request, false);
+  const bool live_notes_editor = Ipc_Notes::alive (webserver_request, false);
   if (live_notes_editor)
     view.enable_zone ("alive");
   else 
@@ -170,14 +169,14 @@ string changes_change (Webserver_Request& webserver_request)
   // Details for the notes.
   pugi::xml_document notes_document {};
   for (const auto note : notes) {
-    string summary = database_notes.get_summary (note);
+    std::string summary = database_notes.get_summary (note);
     summary = filter::strings::escape_special_xml_characters (summary);
-    bool subscription = database_notes.is_subscribed (note, username);
-    bool assignment = database_notes.is_assigned (note, username);
+    const bool subscription = database_notes.is_subscribed (note, username);
+    const bool assignment = database_notes.is_assigned (note, username);
     pugi::xml_node tr_node = notes_document.append_child("tr");
     pugi::xml_node td_node = tr_node.append_child("td");
     pugi::xml_node a_node = td_node.append_child("a");
-    string href {};
+    std::string href {};
     if (live_notes_editor) {
       a_node.append_attribute("class") = "opennote";
       href = filter::strings::convert_to_string (note);
@@ -205,7 +204,7 @@ string changes_change (Webserver_Request& webserver_request)
       a_node2.text().set(("[" + translate("mark for deletion") + "]").c_str());
     }
   }
-  stringstream notesblock {};
+  std::stringstream notesblock {};
   notes_document.print(notesblock, "", pugi::format_raw);
   view.set_variable ("notesblock", notesblock.str());
 

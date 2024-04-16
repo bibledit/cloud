@@ -27,18 +27,18 @@
 #include <locale/translate.h>
 #include <bb/logic.h>
 #include <filter/string.h>
-using namespace std;
 
 
 // Creates book template with ID $book in Bible $bible.
 // If a $chapter is given instead of -1, it creates that chapter only.
 // If the $chapter is -1, it creates all chapters within that book.
-bool book_create (const string & bible, const book_id book, const int chapter, vector <string> & feedback)
+bool book_create (const std::string & bible, const book_id book, const int chapter,
+                  std::vector<std::string>& feedback)
 {
   Database_Bibles database_bibles {};
   Database_Versifications database_versifications {};
 
-  vector <string> bibles = database_bibles.get_bibles ();
+  const std::vector <std::string> bibles = database_bibles.get_bibles ();
   if (!in_array (bible, bibles)) {
     feedback.push_back (translate("Bible bible does not exist: Cannot create book"));
     return false;
@@ -49,10 +49,10 @@ bool book_create (const string & bible, const book_id book, const int chapter, v
   }
   
   // The chapters that have been created.
-  vector <int> chapters_created {};
+  std::vector <int> chapters_created {};
   
   // The USFM created.
-  string data {};
+  std::string data {};
   
   // Chapter 0.
   if (chapter <=  0) {
@@ -65,12 +65,12 @@ bool book_create (const string & bible, const book_id book, const int chapter, v
   
   
   // Subsequent chapters.
-  string versification = Database_Config_Bible::getVersificationSystem (bible);
-  vector <Passage> versification_data = database_versifications.getBooksChaptersVerses (versification);
-  for (const auto & row : versification_data) {
+  const std::string versification = Database_Config_Bible::getVersificationSystem (bible);
+  const std::vector <Passage> versification_data = database_versifications.getBooksChaptersVerses (versification);
+  for (const auto& row : versification_data) {
     if (book == static_cast<book_id>(row.m_book)) {
-      int ch = row.m_chapter;
-      int verse = filter::strings::convert_to_int (row.m_verse);
+      const int ch = row.m_chapter;
+      const int verse = filter::strings::convert_to_int (row.m_verse);
       if ((chapter < 0) || (chapter == ch)) {
         data  = "\\c " + filter::strings::convert_to_string (ch) + "\n";
         data += "\\p\n";
@@ -88,8 +88,8 @@ bool book_create (const string & bible, const book_id book, const int chapter, v
     feedback.push_back (translate("No chapters have been created"));
     return false;
   }
-  string created;
-  for (auto & chapter_created : chapters_created) {
+  std::string created;
+  for (const auto& chapter_created : chapters_created) {
     if (!created.empty ()) created.append (" ");
     created.append (filter::strings::convert_to_string (chapter_created));
   }

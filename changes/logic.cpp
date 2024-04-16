@@ -40,7 +40,6 @@
 #include <database/jobs.h>
 #include <filter/string.h>
 #include <webserver/request.h>
-using namespace std;
 
 
 void changes_logic_start ()
@@ -61,11 +60,11 @@ const char * changes_bible_category ()
 }
 
 
-string changes_interlinks (Webserver_Request& webserver_request, string my_url)
+std::string changes_interlinks (Webserver_Request& webserver_request, std::string my_url)
 {
   // Storage the available links.
-  vector <string> urls {};
-  vector <string> labels {};
+  std::vector <std::string> urls {};
+  std::vector <std::string> labels {};
   
   // Handle situation that the user has permission to view the changes.
   if (changes_changes_acl (webserver_request)) {
@@ -87,7 +86,7 @@ string changes_interlinks (Webserver_Request& webserver_request, string my_url)
     }
   }
 
-  string revisions = "revisions";
+  const std::string revisions = "revisions";
   if (index_listing_url (revisions) != my_url) {
     if (index_listing_acl (webserver_request, revisions)) {
       urls.push_back (index_listing_url (revisions));
@@ -114,19 +113,19 @@ string changes_interlinks (Webserver_Request& webserver_request, string my_url)
     }
     first = false;
     pugi::xml_node a = document.append_child ("a");
-    string href = "/" + urls[i];
+    const std::string href = "/" + urls[i];
     a.append_attribute ("href") = href.c_str();
     a.text ().set (labels[i].c_str());
   }
   
   // Convert the document to a string.
-  stringstream output {};
+  std::stringstream output {};
   document.print (output, "", pugi::format_raw);
   return output.str ();
 }
 
 
-void changes_clear_notifications_user (string jobid, string username)
+void changes_clear_notifications_user (std::string jobid, std::string username)
 {
   Database_Logs::log (translate ("Start clearing change notifications") + " " + username);
   
@@ -134,8 +133,8 @@ void changes_clear_notifications_user (string jobid, string username)
   Database_Jobs database_jobs {};
 
   // Get the total amount of change notifications to clear for the user.
-  string any_bible {};
-  vector <int> identifiers = database_modifications.getNotificationIdentifiers (username, any_bible);
+  std::string any_bible {};
+  std::vector <int> identifiers = database_modifications.getNotificationIdentifiers (username, any_bible);
   
   // Total notes cleared.
   int total_cleared {0};

@@ -39,10 +39,9 @@
 #include <menu/logic.h>
 #include <tasks/logic.h>
 #include <jobs/index.h>
-using namespace std;
 
 
-string changes_manage_url ()
+std::string changes_manage_url ()
 {
   return "changes/manage";
 }
@@ -54,12 +53,12 @@ bool changes_manage_acl (Webserver_Request& webserver_request)
 }
 
 
-string changes_manage (Webserver_Request& webserver_request)
+std::string changes_manage (Webserver_Request& webserver_request)
 {
   Database_Modifications database_modifications {};
   
   
-  string page {};
+  std::string page {};
   Assets_Header header = Assets_Header (translate("Changes"), webserver_request);
   header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   page = header.run ();
@@ -67,18 +66,18 @@ string changes_manage (Webserver_Request& webserver_request)
   
   
   if (webserver_request.query.count("clear")) {
-    string username = webserver_request.query["clear"];
+    const std::string username = webserver_request.query["clear"];
     // This may take time in case there are many change notifications to clear.
     // If there's 2000+ notifications, it takes a considerable time.
     // For that reason, it starts a background job to clear the change notifications.
     // The app will remain responsive to the user.
     Database_Jobs database_jobs {};
-    int jobId = database_jobs.get_new_id ();
+    const int jobId = database_jobs.get_new_id ();
     database_jobs.set_level (jobId, Filter_Roles::manager ());
     database_jobs.set_start (jobId, translate ("Clearing change notifications."));
     tasks_logic_queue (DELETECHANGES, {filter::strings::convert_to_string (jobId), username});
     redirect_browser (webserver_request, jobs_index_url () + "?id=" + filter::strings::convert_to_string (jobId));
-    return string();
+    return std::string();
   }
   
   
@@ -89,13 +88,13 @@ string changes_manage (Webserver_Request& webserver_request)
   
   
   bool notifications {false};
-  vector <string> users = access_user::assignees (webserver_request);
+  std::vector <std::string> users = access_user::assignees (webserver_request);
   for (const auto& user : users) {
-    string any_bible {};
-    vector <int> ids = database_modifications.getNotificationIdentifiers (user, any_bible);
+    std::string any_bible {};
+    const std::vector <int> ids = database_modifications.getNotificationIdentifiers (user, any_bible);
     if (!ids.empty ()) {
       notifications = true;
-      map <string, string> values {};
+      std::map <std::string, std::string> values {};
       values ["user"] = user;
       values ["count"] = filter::strings::convert_to_string (ids.size ());
       view.add_iteration ("notifications", values);

@@ -63,11 +63,11 @@ string resource_print (Webserver_Request& webserver_request)
   Database_Jobs database_jobs = Database_Jobs ();
   
   
-  string bible = webserver_request.database_config_user()->getBible ();
+  std::string bible = webserver_request.database_config_user()->getBible ();
   
 
   if (webserver_request.query.count ("add") || webserver_request.post.count ("add")) {
-    string add = webserver_request.query["add"];
+    std::string add = webserver_request.query["add"];
     if (add.empty ()) add = webserver_request.post ["add"];
     std::vector <std::string> resources = webserver_request.database_config_user()->getPrintResources ();
     resources.push_back (add);
@@ -78,7 +78,7 @@ string resource_print (Webserver_Request& webserver_request)
   if (webserver_request.query.count ("generate")) {
     int jobId = database_jobs.get_new_id ();
     database_jobs.set_level (jobId, Filter_Roles::consultant ());
-    string username = webserver_request.session_logic()->currentUser ();
+    std::string username = webserver_request.session_logic()->currentUser ();
     tasks_logic_queue (PRINTRESOURCES, {filter::strings::convert_to_string (jobId), username, bible});
     redirect_browser (webserver_request, jobs_index_url () + "?id=" + filter::strings::convert_to_string (jobId));
     return "";
@@ -89,15 +89,15 @@ string resource_print (Webserver_Request& webserver_request)
     size_t offset = static_cast<size_t>(abs (filter::strings::convert_to_int (webserver_request.query["remove"])));
     std::vector <std::string> resources = webserver_request.database_config_user()->getPrintResources ();
     if (!resources.empty () && (offset < resources.size ())) {
-      string remove = resources [offset];
+      std::string remove = resources [offset];
       resources = filter::strings::array_diff (resources, {remove});
       webserver_request.database_config_user()->setPrintResources (resources);
     }
   }
   
   
-  string moveup = webserver_request.query ["moveup"];
-  string movedown = webserver_request.query ["movedown"];
+  std::string moveup = webserver_request.query ["moveup"];
+  std::string movedown = webserver_request.query ["movedown"];
   if (!moveup.empty () || !movedown.empty ()) {
     size_t move = static_cast<size_t> (filter::strings::convert_to_int (moveup + movedown));
     std::vector <std::string> resources = webserver_request.database_config_user()->getPrintResources ();
@@ -107,12 +107,12 @@ string resource_print (Webserver_Request& webserver_request)
   
   
   if (webserver_request.query.count ("frombook")) {
-    string frombook = webserver_request.query["frombook"];
+    std::string frombook = webserver_request.query["frombook"];
     if (frombook == "") {
       Dialog_List dialog_list = Dialog_List ("print", translate("Select a book"), "", "");
       std::vector <int> books = webserver_request.database_bibles()->get_books (bible);
       for (auto & book : books) {
-        string bookname = database::books::get_english_from_id (static_cast<book_id>(book));
+        std::string bookname = database::books::get_english_from_id (static_cast<book_id>(book));
         dialog_list.add_row (bookname, "frombook", filter::strings::convert_to_string (book));
       }
       page += dialog_list.run ();
@@ -142,7 +142,7 @@ string resource_print (Webserver_Request& webserver_request)
   
   
   if (webserver_request.query.count ("fromchapter")) {
-    string fromchapter = webserver_request.query["fromchapter"];
+    std::string fromchapter = webserver_request.query["fromchapter"];
     if (fromchapter == "") {
       Dialog_List dialog_list = Dialog_List ("print", translate("Select a chapter"), "", "");
       Passage passage = webserver_request.database_config_user()->getPrintPassageFrom ();
@@ -173,11 +173,11 @@ string resource_print (Webserver_Request& webserver_request)
   
   
   if (webserver_request.query.count("fromverse")) {
-    string fromverse = webserver_request.query["fromverse"];
+    std::string fromverse = webserver_request.query["fromverse"];
     if (fromverse == "") {
       Dialog_List dialog_list = Dialog_List ("print", translate("Select a verse"), "", "");
       Passage passage = webserver_request.database_config_user()->getPrintPassageFrom ();
-      string usfm = webserver_request.database_bibles()->get_chapter (bible, passage.m_book, passage.m_chapter);
+      std::string usfm = webserver_request.database_bibles()->get_chapter (bible, passage.m_book, passage.m_chapter);
       std::vector <int> verses = filter::usfm::get_verse_numbers (usfm);
       for (auto & verse : verses) {
         dialog_list.add_row (filter::strings::convert_to_string (verse), "fromverse", filter::strings::convert_to_string (verse));
@@ -202,12 +202,12 @@ string resource_print (Webserver_Request& webserver_request)
   
   
   if (webserver_request.query.count ("tobook")) {
-    string tobook = webserver_request.query["tobook"];
+    std::string tobook = webserver_request.query["tobook"];
     if (tobook == "") {
       Dialog_List dialog_list = Dialog_List ("print", translate("Select a book"), "", "");
       std::vector <int> books = webserver_request.database_bibles()->get_books (bible);
       for (auto & book : books) {
-        string bookname = database::books::get_english_from_id (static_cast<book_id>(book));
+        std::string bookname = database::books::get_english_from_id (static_cast<book_id>(book));
         dialog_list.add_row (bookname, "tobook", filter::strings::convert_to_string (book));
       }
       page += dialog_list.run ();
@@ -233,7 +233,7 @@ string resource_print (Webserver_Request& webserver_request)
   
   
   if (webserver_request.query.count ("tochapter")) {
-    string tochapter = webserver_request.query["tochapter"];
+    std::string tochapter = webserver_request.query["tochapter"];
     if (tochapter == "") {
       Dialog_List dialog_list = Dialog_List ("print", translate("Select a chapter"), "", "");
       Passage passage = webserver_request.database_config_user()->getPrintPassageTo ();
@@ -263,11 +263,11 @@ string resource_print (Webserver_Request& webserver_request)
   
   
   if (webserver_request.query.count ("toverse")) {
-    string toverse = webserver_request.query["toverse"];
+    std::string toverse = webserver_request.query["toverse"];
     if (toverse == "") {
       Dialog_List dialog_list = Dialog_List ("print", translate("Select a verse"), "", "");
       Passage passage = webserver_request.database_config_user()->getPrintPassageTo ();
-      string usfm = webserver_request.database_bibles()->get_chapter (bible, passage.m_book, passage.m_chapter);
+      std::string usfm = webserver_request.database_bibles()->get_chapter (bible, passage.m_book, passage.m_chapter);
       std::vector <int> verses = filter::usfm::get_verse_numbers (usfm);
       for (auto & verse : verses) {
         dialog_list.add_row (filter::strings::convert_to_string (verse), "toverse", filter::strings::convert_to_string (verse));
@@ -294,8 +294,8 @@ string resource_print (Webserver_Request& webserver_request)
   
   std::vector <std::string> resources = webserver_request.database_config_user()->getPrintResources ();
   for (size_t i = 0; i < resources.size (); i++) {
-    string offset = filter::strings::convert_to_string (i);
-    string name = resources[i];
+    std::string offset = filter::strings::convert_to_string (i);
+    std::string name = resources[i];
     view.add_iteration ("resources", { pair ("offset", offset), pair ("name", name) } );
   }
   view.set_variable ("trash", filter::strings::emoji_wastebasket ());
@@ -348,19 +348,19 @@ void resource_print_job (string jobId, string user, string bible)
   for (auto & book : books) {
     std::vector <int> chapters = webserver_request.database_bibles()->get_chapters (bible, book);
     for (auto & chapter : chapters) {
-      string usfm = webserver_request.database_bibles()->get_chapter (bible, book, chapter);
+      std::string usfm = webserver_request.database_bibles()->get_chapter (bible, book, chapter);
       std::vector <int> verses = filter::usfm::get_verse_numbers (usfm);
       for (auto & verse : verses) {
         int passage = filter_passage_to_integer (Passage ("", book, chapter, filter::strings::convert_to_string (verse)));
         if ((passage >= ifrom) && (passage <= ito)) {
-          string passageText = filter_passage_display (book, chapter, filter::strings::convert_to_string (verse));
+          std::string passageText = filter_passage_display (book, chapter, filter::strings::convert_to_string (verse));
           database_jobs.set_progress (filter::strings::convert_to_int (jobId), passageText);
           result.push_back ("<div class=\"nextresource\">");
           result.push_back ("<p>" + passageText + "</p>");
           for (auto & resource : resources) {
             result.push_back ("<p>");
             result.push_back (resource);
-            string html = resource_logic_get_html (webserver_request, resource, book, chapter, verse, false);
+            std::string html = resource_logic_get_html (webserver_request, resource, book, chapter, verse, false);
             result.push_back (html);
             result.push_back ("</p>");
           }

@@ -47,8 +47,8 @@ bool search_getids_acl (Webserver_Request& webserver_request)
 string search_getids (Webserver_Request& webserver_request)
 {
   // Get search variables from the query.
-  string bible = webserver_request.query ["b"];
-  string searchfor = webserver_request.query ["q"];
+  std::string bible = webserver_request.query ["b"];
+  std::string searchfor = webserver_request.query ["q"];
   bool casesensitive = (webserver_request.query ["c"] == "true");
 
   // Do the search.
@@ -60,7 +60,7 @@ string search_getids (Webserver_Request& webserver_request)
   }
 
   // Output identifiers of the search results.
-  string output;
+  std::string output;
   for (const auto& passage : passages) {
     if (!output.empty ()) output.append ("\n");
     output.append (passage.encode ());

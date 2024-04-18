@@ -40,7 +40,7 @@ sqlite3 * Database_NoteActions::connect ()
 void Database_NoteActions::create ()
 {
   sqlite3 * db = connect ();
-  string sql = 
+  std::string sql = 
     "CREATE TABLE IF NOT EXISTS noteactions ("
     "  username text,"
     "  note integer,"

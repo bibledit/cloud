@@ -56,25 +56,25 @@ string manage_hyphenation (Webserver_Request& webserver_request)
   Assets_View view;
   
   
-  string bible = access_bible::clamp (webserver_request, webserver_request.database_config_user()->getBible ());
+  std::string bible = access_bible::clamp (webserver_request, webserver_request.database_config_user()->getBible ());
   
   
-  string success;
-  string error;
+  std::string success;
+  std::string error;
   
   
   // Character sets submission.
   if (webserver_request.post.count ("sets")) {
-    string firstset = webserver_request.post["firstset"];
+    std::string firstset = webserver_request.post["firstset"];
     Database_Config_Bible::setHyphenationFirstSet (bible, firstset);
-    string secondset = webserver_request.post["secondset"];
+    std::string secondset = webserver_request.post["secondset"];
     Database_Config_Bible::setHyphenationSecondSet (bible, secondset);
     success = translate("The two sets of characters were saved");
   }
   
   
   if (webserver_request.query.count ("bible")) {
-    string bible2 = webserver_request.query ["bible"];
+    std::string bible2 = webserver_request.query ["bible"];
     if (bible2.empty()) {
       Dialog_List dialog_list = Dialog_List ("", translate("Which Bible would you like to take the data from?"), "", "");
       std::vector <std::string> bibles = access_bible::bibles (webserver_request);
@@ -90,8 +90,8 @@ string manage_hyphenation (Webserver_Request& webserver_request)
   bible = access_bible::clamp (webserver_request, webserver_request.database_config_user()->getBible ());
   
   
-  string firstset = Database_Config_Bible::getHyphenationFirstSet (bible);
-  string secondset = Database_Config_Bible::getHyphenationSecondSet (bible);
+  std::string firstset = Database_Config_Bible::getHyphenationFirstSet (bible);
+  std::string secondset = Database_Config_Bible::getHyphenationSecondSet (bible);
   if (webserver_request.query.count ("run")) {
     if (bible == "") {
       error = translate("No Bible given");

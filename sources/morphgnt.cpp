@@ -35,7 +35,7 @@ void sources_morphgnt_parse ()
   DIR * dir = opendir ("sources/morphgnt");
   dirent * direntry;
   while ((direntry = readdir (dir)) != nullptr) {
-    string name = direntry->d_name;
+    std::string name = direntry->d_name;
     if (name.find ("morphgnt.txt") == std::string::npos) continue;
     files.push_back (name);
   }
@@ -46,7 +46,7 @@ void sources_morphgnt_parse ()
   for (auto file : files) {
     file.insert (0, "sources/morphgnt/");
     Database_Logs::log (file);
-    string contents = filter_url_file_get_contents (file);
+    std::string contents = filter_url_file_get_contents (file);
     std::vector <std::string> lines = filter::strings::explode (contents, '\n');
     for (auto line : lines) {
       std::vector <std::string> bits = filter::strings::explode (line, ' ');
@@ -56,15 +56,15 @@ void sources_morphgnt_parse ()
         continue;
       }
 
-      string passage = bits [0];
+      std::string passage = bits [0];
       int book = filter::strings::convert_to_int (passage.substr (0, 2)) + 39;
       int chapter = filter::strings::convert_to_int (passage.substr (2, 2));
       int verse = filter::strings::convert_to_int (passage.substr (4, 2));
-      string pos = bits[1];
-      string parsing = bits[2];
+      std::string pos = bits[1];
+      std::string parsing = bits[2];
       parsings.insert (parsing.substr (7, 1)); // degree
-      string word = bits[3];
-      string lemma = bits[6];
+      std::string word = bits[3];
+      std::string lemma = bits[6];
 
       // Casefold and transliterate the lemma: This enables searching on the lemma.
       lemma = filter::strings::unicode_string_casefold (lemma);

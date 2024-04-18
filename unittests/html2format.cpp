@@ -35,7 +35,7 @@ TEST (html, format)
 
   // Basic test.
   {
-    string html = R"(<p class="p"><span>The earth brought forth.</span></p>)";
+    std::string html = R"(<p class="p"><span>The earth brought forth.</span></p>)";
     vector<string> texts = {"\n", "The earth brought forth."};
     vector<string> formats = {"p", ""};
     {
@@ -59,7 +59,7 @@ TEST (html, format)
 
   // Non-breaking spaces.
   {
-    string html = R"(<p class="p"><span>The&nbsp;earth &nbsp; brought&nbsp;&nbsp;forth.</span></p>)";
+    std::string html = R"(<p class="p"><span>The&nbsp;earth &nbsp; brought&nbsp;&nbsp;forth.</span></p>)";
     vector<string> texts = {"\n", "The earth   brought  forth."};
     vector<string> formats = {"p", ""};
     {
@@ -83,7 +83,7 @@ TEST (html, format)
 
   // Test embedded <span> elements.
   {
-    string html = R"(<p class="p"><span>The </span><span class="add0nd">Lord God</span> is calling you<span>.</span></p>)";
+    std::string html = R"(<p class="p"><span>The </span><span class="add0nd">Lord God</span> is calling you<span>.</span></p>)";
     vector<string> texts = {"\n", "The ", "Lord God", " is calling you", "."};
     vector<string> formats = {"p", "", "add0nd", "", ""};
     {
@@ -105,7 +105,7 @@ TEST (html, format)
   
   // Basic note.
   {
-    string html =
+    std::string html =
     R"(<p class="b-p"><span>The earth brought forth</span><span class="i-notecall1">x</span><span>.</span></p>)"
     R"(<p class="b-notes">)"
     " "
@@ -146,7 +146,7 @@ TEST (html, format)
   
   // Footnote with its body deleted.
   {
-    string html =
+    std::string html =
     R"(<p class="b-p"><span>The earth brought forth</span><span class="i-notecall1">f</span><span>.</span></p>)"
     R"(<p class="b-notes">)"
     " "
@@ -182,7 +182,7 @@ TEST (html, format)
   // Footnote with a deleted citation.
   {
     {
-      string html =
+      std::string html =
       R"(<p class="b-p"><span>The earth brought forth</span><span>.</span></p>)"
       R"(<p class="b-notes">)"
       " "
@@ -229,7 +229,7 @@ TEST (html, format)
   // This tests that it does not do that.
   {
     {
-      string html = R"(<p class="p"><span>Praise </span><span class="add">Yahweh</span><span> <span class="add">all</span> you nations!</span></p>)";
+      std::string html = R"(<p class="p"><span>Praise </span><span class="add">Yahweh</span><span> <span class="add">all</span> you nations!</span></p>)";
       vector<string> texts = {
         "\n",
         "Praise ",
@@ -253,7 +253,7 @@ TEST (html, format)
       EXPECT_EQ (formats, editor_html2format.formats);
     }
     {
-      string html = R"(<p class="b-p"><span>Praise </span><span class="i-add">Yahweh</span><span> <span class="i-add">all</span> you nations!</span></p>)";
+      std::string html = R"(<p class="b-p"><span>Praise </span><span class="i-add">Yahweh</span><span> <span class="i-add">all</span> you nations!</span></p>)";
       vector<string> texts = {
         "\n",
         "Praise ",
@@ -280,7 +280,7 @@ TEST (html, format)
   
   // Test that the converter to formatting removes the Quill caret class.
   {
-    string html = R"(<p class="b-p"><span>Praise </span><span class="i-add">Yahweh</span><span> <span class="i-add">all</span> you na</span><span class="ql-cursor">﻿</span><span>tions!</span></p>)";
+    std::string html = R"(<p class="b-p"><span>Praise </span><span class="i-add">Yahweh</span><span> <span class="i-add">all</span> you na</span><span class="ql-cursor">﻿</span><span>tions!</span></p>)";
     vector<string> texts = {
       "\n",
       "Praise ",
@@ -308,7 +308,7 @@ TEST (html, format)
 
   // Test that it changes three or more spaces in sequence to two spaces.
   {
-    string html = R"(<p class="p"><span>The   earth    brought forth.</span></p>)";
+    std::string html = R"(<p class="p"><span>The   earth    brought forth.</span></p>)";
     vector<string> texts = {"\n", "The   earth    brought forth."};
     vector<string> formats = {"p", ""};
     {

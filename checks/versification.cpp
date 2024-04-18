@@ -29,7 +29,7 @@ using namespace std;
 void checks_versification::books (const std::string& bible, const std::vector <int> & books)
 {
   Database_Versifications database_versifications {};
-  string versification = Database_Config_Bible::getVersificationSystem (bible);
+  std::string versification = Database_Config_Bible::getVersificationSystem (bible);
   if (versification.empty ()) versification = filter::strings::english ();
   const std::vector <int> standardBooks = database_versifications.getBooks (versification);
   const std::vector <int> absentBooks = filter::strings::array_diff (standardBooks, books);
@@ -47,7 +47,7 @@ void checks_versification::books (const std::string& bible, const std::vector <i
 void checks_versification::chapters (const std::string& bible, int book, const std::vector <int> & chapters)
 {
   Database_Versifications database_versifications {};
-  string versification = Database_Config_Bible::getVersificationSystem (bible);
+  std::string versification = Database_Config_Bible::getVersificationSystem (bible);
   if (versification.empty ()) versification = filter::strings::english ();
   const std::vector <int> standardChapters = database_versifications.getChapters (versification, book, true);
   const std::vector <int> absentChapters = filter::strings::array_diff (standardChapters, chapters);
@@ -66,7 +66,7 @@ void checks_versification::verses (const std::string& bible, int book, int chapt
 {
   // Get verses in this chapter according to the versification system for the Bible.
   Database_Versifications database_versifications {};
-  string versification = Database_Config_Bible::getVersificationSystem (bible);
+  std::string versification = Database_Config_Bible::getVersificationSystem (bible);
   if (versification.empty ()) versification = filter::strings::english ();
   const std::vector <int> standardVerses = database_versifications.getVerses (versification, book, chapter);
   // Look for missing and extra verses.

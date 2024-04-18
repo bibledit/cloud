@@ -44,7 +44,7 @@ void statistics_statistics ()
   Database_Logs::log (translate("Sending statistics"), Filter_Roles::manager ());
 
   
-  string siteUrl = config::logic::site_url (webserver_request);
+  std::string siteUrl = config::logic::site_url (webserver_request);
   
   
   std::vector <std::string> bibles = webserver_request.database_bibles()->get_bibles ();
@@ -54,13 +54,13 @@ void statistics_statistics ()
   for (auto & user : users) {
     
     
-    string subject = "Bibledit " + translate("statistics");
+    std::string subject = "Bibledit " + translate("statistics");
     stringstream body;
     
   
     size_t change_notificatons_count = 0;
     if (webserver_request.database_config_user()->getUserPendingChangesNotification (user)) {
-      string any_bible = std::string();
+      std::string any_bible = std::string();
       std::vector <int> ids = database_modifications.getNotificationIdentifiers (user, any_bible);
       change_notificatons_count = ids.size();
       body << "<p><a href=" << quoted (siteUrl + changes_changes_url ()) << ">" << translate("Number of change notifications") << "</a>: " << ids.size() << "</p>" << std::endl;

@@ -70,21 +70,21 @@ string Database_Config_User::mapkey (string user, const char * key)
 
 string Database_Config_User::getValue (const char * key, const char * default_value)
 {
-  string user = m_webserver_request.session_logic ()->currentUser ();
+  std::string user = m_webserver_request.session_logic ()->currentUser ();
   return getValueForUser (user, key, default_value);
 }
 
 
 bool Database_Config_User::getBValue (const char * key, bool default_value)
 {
-  string value = getValue (key, filter::strings::convert_to_string (default_value).c_str());
+  std::string value = getValue (key, filter::strings::convert_to_string (default_value).c_str());
   return filter::strings::convert_to_bool (value);
 }
 
 
 int Database_Config_User::getIValue (const char * key, int default_value)
 {
-  string value = getValue (key, filter::strings::convert_to_string (default_value).c_str());
+  std::string value = getValue (key, filter::strings::convert_to_string (default_value).c_str());
   return filter::strings::convert_to_int (value);
 }
 
@@ -92,13 +92,13 @@ int Database_Config_User::getIValue (const char * key, int default_value)
 string Database_Config_User::getValueForUser (string user, const char * key, const char * default_value)
 {
   // Check the memory cache.
-  string cachekey = mapkey (user, key);
+  std::string cachekey = mapkey (user, key);
   if (database_config_user_cache.count (cachekey)) {
     return database_config_user_cache [cachekey];
   }
   // Read from file.
-  string value;
-  string filename = file (user, key);
+  std::string value;
+  std::string filename = file (user, key);
   if (file_or_dir_exists (filename)) value = filter_url_file_get_contents (filename);
   else value = default_value;
   // Cache it.
@@ -110,21 +110,21 @@ string Database_Config_User::getValueForUser (string user, const char * key, con
 
 bool Database_Config_User::getBValueForUser (string user, const char * key, bool default_value)
 {
-  string value = getValueForUser (user, key, filter::strings::convert_to_string (default_value).c_str());
+  std::string value = getValueForUser (user, key, filter::strings::convert_to_string (default_value).c_str());
   return filter::strings::convert_to_bool (value);
 }
 
 
 int Database_Config_User::getIValueForUser (string user, const char * key, int default_value)
 {
-  string value = getValueForUser (user, key, filter::strings::convert_to_string (default_value).c_str());
+  std::string value = getValueForUser (user, key, filter::strings::convert_to_string (default_value).c_str());
   return filter::strings::convert_to_int (value);
 }
 
 
 void Database_Config_User::setValue (const char * key, string value)
 {
-  string user = m_webserver_request.session_logic ()->currentUser ();
+  std::string user = m_webserver_request.session_logic ()->currentUser ();
   setValueForUser (user, key, value);
 }
 
@@ -146,8 +146,8 @@ void Database_Config_User::setValueForUser (string user, const char * key, strin
   // Store in memory cache.
   database_config_user_cache [mapkey (user, key)] = value;
   // Store on disk.
-  string filename = file (user, key);
-  string directory = filter_url_dirname (filename);
+  std::string filename = file (user, key);
+  std::string directory = filter_url_dirname (filename);
   if (!file_or_dir_exists (directory)) filter_url_mkdir (directory);
   filter_url_file_put_contents (filename, value);
 }
@@ -161,7 +161,7 @@ void Database_Config_User::setBValueForUser (string user, const char * key, bool
 
 vector <std::string> Database_Config_User::getList (const char * key)
 {
-  string user = m_webserver_request.session_logic ()->currentUser ();
+  std::string user = m_webserver_request.session_logic ()->currentUser ();
   return getListForUser (user, key);
 }
 
@@ -169,15 +169,15 @@ vector <std::string> Database_Config_User::getList (const char * key)
 vector <std::string> Database_Config_User::getListForUser (string user, const char * key)
 {
   // Check whether value is in cache.
-  string cachekey = mapkey (user, key);
+  std::string cachekey = mapkey (user, key);
   if (database_config_user_cache.count (cachekey)) {
-    string value = database_config_user_cache [cachekey];
+    std::string value = database_config_user_cache [cachekey];
     return filter::strings::explode (value, '\n');
   }
   // Read setting from disk.
-  string filename = file (user, key);
+  std::string filename = file (user, key);
   if (file_or_dir_exists (filename)) {
-    string value = filter_url_file_get_contents (filename);
+    std::string value = filter_url_file_get_contents (filename);
     // Cache it in memory.
     database_config_user_cache [cachekey] = value;
     // Done.
@@ -190,7 +190,7 @@ vector <std::string> Database_Config_User::getListForUser (string user, const ch
 
 void Database_Config_User::setList (const char * key, std::vector <std::string> values)
 {
-  string user = m_webserver_request.session_logic ()->currentUser ();
+  std::string user = m_webserver_request.session_logic ()->currentUser ();
   setListForUser (user, key, values);
 }
 
@@ -198,13 +198,13 @@ void Database_Config_User::setList (const char * key, std::vector <std::string> 
 void Database_Config_User::setListForUser (string user, const char * key, std::vector <std::string> values)
 {
   // Store it on disk.
-  string filename = file (user, key);
-  string directory = filter_url_dirname (filename);
+  std::string filename = file (user, key);
+  std::string directory = filter_url_dirname (filename);
   if (!file_or_dir_exists (directory)) filter_url_mkdir (directory);
-  string value = filter::strings::implode (values, "\n");
+  std::string value = filter::strings::implode (values, "\n");
   filter_url_file_put_contents (filename, value);
   // Put it in the memory cache.
-  string cachekey = mapkey (user, key);
+  std::string cachekey = mapkey (user, key);
   database_config_user_cache [cachekey] = value;
 }
 
@@ -239,7 +239,7 @@ void Database_Config_User::trim ()
   Database_Users database_users;
   std::vector <std::string> users = database_users.get_users ();
   for (unsigned int i = 0; i < users.size(); i++) {
-    string filename = file (users[i], keySprintMonth ());
+    std::string filename = file (users[i], keySprintMonth ());
     if (file_or_dir_exists (filename)) {
       if (filter_url_file_modification_time (filename) < time) {
         // Remove from disk.
@@ -258,7 +258,7 @@ void Database_Config_User::trim ()
 void Database_Config_User::remove (string username)
 {
   // Remove from disk.
-  string folder = file (username);
+  std::string folder = file (username);
   filter_url_rmdir (folder);
   // Clear cache.
   database_config_user_cache.clear ();
@@ -277,7 +277,7 @@ void Database_Config_User::clear_cache ()
 
 string Database_Config_User::getBible ()
 {
-  string bible = getValue ("bible", "");
+  std::string bible = getValue ("bible", "");
   // If the Bible does not exist, take the first one available.
   Database_Bibles * database_bibles = m_webserver_request.database_bibles ();
   std::vector <std::string> bibles = database_bibles->get_bibles ();
@@ -841,7 +841,7 @@ Passage Database_Config_User::getPrintPassageFromForUser (string user)
 }
 void Database_Config_User::setPrintPassageFrom (Passage value)
 {
-  string s = filter::strings::convert_to_string (value.m_book) + "." + filter::strings::convert_to_string (value.m_chapter) + "." + value.m_verse;
+  std::string s = filter::strings::convert_to_string (value.m_book) + "." + filter::strings::convert_to_string (value.m_chapter) + "." + value.m_verse;
   setValue ("print-passage-from", s);
 }
 
@@ -856,7 +856,7 @@ Passage Database_Config_User::getPrintPassageToForUser (string user)
 }
 void Database_Config_User::setPrintPassageTo (Passage value)
 {
-  string s = filter::strings::convert_to_string (value.m_book) + "." + filter::strings::convert_to_string (value.m_chapter) + "." + value.m_verse;
+  std::string s = filter::strings::convert_to_string (value.m_book) + "." + filter::strings::convert_to_string (value.m_chapter) + "." + value.m_verse;
   setValue ("print-passage-to", s);
 }
 

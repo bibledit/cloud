@@ -29,7 +29,7 @@ TEST (database, strong)
 {
   Database_Strong database;
   
-  string result = database.definition ("G0");
+  std::string result = database.definition ("G0");
   EXPECT_EQ ("", result);
   
   result = database.definition ("G1");

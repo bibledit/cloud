@@ -32,7 +32,7 @@ TEST (javascript, basic)
   // A solution to this is to ensure that minified JavaScript does not assign the source map.
   // This unit test check on regressions in this area.
   {
-    string out_err;
+    std::string out_err;
     int exitcode = filter_shell_run ("grep '//# sourceMappingURL' `find . -name '*.js'`", out_err);
     EXPECT_EQ (0, exitcode);
     EXPECT_EQ (59, out_err.size());

@@ -37,7 +37,7 @@ int main(int argc, char** argv)
     }
 
     unsigned line_count = 1;
-    string line;
+    std::string line;
     // Play with all the lines in the file
     while (getline(fs8, line)) {
         // check for invalid utf-8 (for a simple yes/no check, there is also utf8::is_valid function)
@@ -63,9 +63,9 @@ int main(int argc, char** argv)
 #endif // C++ 11
         // And back to utf-8;
 #if __cplusplus >= 201103L // C++ 11 or later
-        string utf8line = utf8::utf16to8(utf16line);
+        std::string utf8line = utf8::utf16to8(utf16line);
 #else
-        string utf8line; 
+        std::string utf8line; 
         utf8::utf16to8(utf16line.begin(), utf16line.end(), back_inserter(utf8line));
 #endif // C++ 11
         // Confirm that the conversion went OK:
@@ -386,7 +386,7 @@ Example of use:
 
 ```cpp
     u16string utf16string = {0x41, 0x0448, 0x65e5, 0xd834, 0xdd1e};
-    string u = utf16to8(utf16string);
+    std::string u = utf16to8(utf16string);
     assert (u.size() == 10);
 ```
 
@@ -410,7 +410,7 @@ Example of use:
 ```cpp
     u16string utf16string = {0x41, 0x0448, 0x65e5, 0xd834, 0xdd1e};
     u16string_view utf16stringview(u16string);
-    string u = utf16to8(utf16string);
+    std::string u = utf16to8(utf16string);
     assert (u.size() == 10);
 ```
 
@@ -848,7 +848,7 @@ string invalid_sequence = "a\x80\xe0\xa0\xc0\xaf\xed\xa0\x80z";
 string replace_invalid_result = replace_invalid(invalid_sequence, '?');
 bvalid = is_valid(replace_invalid_result);
 assert (bvalid);
-const string fixed_invalid_sequence = "a????z";
+const std::string fixed_invalid_sequence = "a????z";
 assert (fixed_invalid_sequence == replace_invalid_result);
 ```
 
@@ -874,7 +874,7 @@ string_view invalid_sequence = "a\x80\xe0\xa0\xc0\xaf\xed\xa0\x80z";
 string replace_invalid_result = replace_invalid(invalid_sequence, '?');
 bool bvalid = is_valid(replace_invalid_result);
 assert (bvalid);
-const string fixed_invalid_sequence = "a????z";
+const std::string fixed_invalid_sequence = "a????z";
 assert(fixed_invalid_sequence, replace_invalid_result);
 ```
 

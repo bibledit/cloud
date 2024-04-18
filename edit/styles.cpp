@@ -45,9 +45,9 @@ bool edit_styles_acl (Webserver_Request& webserver_request)
 string edit_styles (Webserver_Request& webserver_request)
 {
   if (webserver_request.query.count ("style")) {
-    string style = webserver_request.query["style"];
+    std::string style = webserver_request.query["style"];
     Editor_Styles::recordUsage (webserver_request, style);
-    string action = Editor_Styles::getAction (webserver_request, style);
+    std::string action = Editor_Styles::getAction (webserver_request, style);
     return style + "\n" + action;
   }
   

@@ -63,7 +63,7 @@ string locale_logic_date_time (int seconds)
   // Localize the seconds.
   seconds = filter::date::local_seconds (seconds);
   // Convert the seconds into a human readable date and time.
-  string timestamp;
+  std::string timestamp;
   timestamp.append (locale_logic_date (seconds));
   timestamp.append (" ");
   timestamp.append (filter::strings::fill (filter::strings::convert_to_string (filter::date::numerical_hour (seconds)), 2, '0'));
@@ -79,16 +79,16 @@ string locale_logic_date_time (int seconds)
 // Return the available localizations.
 map <string, std::string> locale_logic_localizations ()
 {
-  string directory = filter_url_create_root_path ({"locale"});
+  std::string directory = filter_url_create_root_path ({"locale"});
   std::vector <std::string> files = filter_url_scandir (directory);
   std::map <string, std::string> localizations = {pair (std::string(), filter::strings::english ())};
   for (auto file : files) {
-    string suffix = filter_url_get_extension (file);
+    std::string suffix = filter_url_get_extension (file);
     if (suffix == "po") {
-      string basename = filter::strings::replace ("." + suffix, "", file);
-      string path = filter_url_create_path ({directory, file});
-      string contents = filter_url_file_get_contents (path);
-      string language = translate ("Unknown");
+      std::string basename = filter::strings::replace ("." + suffix, "", file);
+      std::string path = filter_url_create_path ({directory, file});
+      std::string contents = filter_url_file_get_contents (path);
+      std::string language = translate ("Unknown");
       std::vector <std::string> lines = filter::strings::explode (contents, '\n');
       for (auto line : lines) {
         if (line.find ("translation for bibledit") != std::string::npos) {
@@ -107,14 +107,14 @@ map <string, std::string> locale_logic_localizations ()
 unordered_map <string, std::string> locale_logic_read_msgid_msgstr (string file)
 {
   unordered_map <string, std::string> translations;
-  string contents = filter_url_file_get_contents (file);
+  std::string contents = filter_url_file_get_contents (file);
   std::vector <std::string> lines = filter::strings::explode (contents, '\n');
-  string msgid;
-  string msgstr;
+  std::string msgid;
+  std::string msgstr;
   int stage = 0;
   for (size_t i = 0; i < lines.size (); i++) {
     // Clean the line up.
-    string line = filter::strings::trim (lines[i]);
+    std::string line = filter::strings::trim (lines[i]);
     // Skip a comment.
     if (line.find ("#") == 0) continue;
     // Deal with the messages.
@@ -274,8 +274,8 @@ bool locale_logic_obfuscate_compare_internal (const std::string& a, const std::s
 void locale_logic_obfuscate_initialize ()
 {
   // Load the contents of the obfuscation configuration file
-  string filename = filter_url_create_root_path ({"obfuscate", "texts.txt"});
-  string contents = filter_url_file_get_contents (filename);
+  std::string filename = filter_url_create_root_path ({"obfuscate", "texts.txt"});
+  std::string contents = filter_url_file_get_contents (filename);
   std::vector <std::string> lines = filter::strings::explode (contents, '\n');
   
   // Container to map the original string to the obfuscated version.
@@ -308,7 +308,7 @@ void locale_logic_obfuscate_initialize ()
     if (obfuscation_pair.size () != 2) continue;
 
     // Deobfuscate recognized search terms.
-    string searchfor = locale_logic_deobfuscate (obfuscation_pair[0]);
+    std::string searchfor = locale_logic_deobfuscate (obfuscation_pair[0]);
     
     // Store the unsorted obfuscation data.
     original_to_obfuscated [searchfor] = obfuscation_pair [1];

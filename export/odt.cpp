@@ -42,16 +42,16 @@ using namespace std;
 void export_odt_book (string bible, int book, bool log)
 {
   // Create folders for the OpenDocument export.
-  string directory = filter_url_create_path ({export_logic::bible_directory (bible), "opendocument"});
+  std::string directory = filter_url_create_path ({export_logic::bible_directory (bible), "opendocument"});
   if (!file_or_dir_exists (directory)) filter_url_mkdir (directory);
   
   
   // Filenames for the various types of OpenDocument files.
-  string basename = export_logic::base_book_filename (bible, book);
-  string standardFilename = filter_url_create_path ({directory, basename + "_standard.odt"});
-  string textOnlyFilename = filter_url_create_path ({directory, basename + "_text_only.odt"});
-  string textAndCitationsFilename = filter_url_create_path ({directory, basename + "_text_and_note_citations.odt"});
-  string notesFilename = filter_url_create_path ({directory, basename + "_notes.odt"});
+  std::string basename = export_logic::base_book_filename (bible, book);
+  std::string standardFilename = filter_url_create_path ({directory, basename + "_standard.odt"});
+  std::string textOnlyFilename = filter_url_create_path ({directory, basename + "_text_only.odt"});
+  std::string textAndCitationsFilename = filter_url_create_path ({directory, basename + "_text_and_note_citations.odt"});
+  std::string notesFilename = filter_url_create_path ({directory, basename + "_notes.odt"});
 
   
   Database_Bibles database_bibles;
@@ -74,7 +74,7 @@ void export_odt_book (string bible, int book, bool log)
     for (auto book2 : books) {
       std::vector <int> chapters = database_bibles.get_chapters (bible, book2);
       for (auto chapter : chapters) {
-        string usfm = database_bibles.get_chapter (bible, book2, chapter);
+        std::string usfm = database_bibles.get_chapter (bible, book2, chapter);
         usfm = filter::strings::trim (usfm);
         // Use small chunks of USFM at a time for much better performance.
         filter_text.add_usfm_code (usfm);
@@ -84,7 +84,7 @@ void export_odt_book (string bible, int book, bool log)
     // Load one book.
     std::vector <int> chapters = database_bibles.get_chapters (bible, book);
     for (auto chapter : chapters) {
-      string usfm = database_bibles.get_chapter (bible, book, chapter);
+      std::string usfm = database_bibles.get_chapter (bible, book, chapter);
       usfm = filter::strings::trim (usfm);
       // Use small chunks of USFM at a time for much better performance.
       filter_text.add_usfm_code (usfm);
@@ -102,8 +102,8 @@ void export_odt_book (string bible, int book, bool log)
   filter_text.odf_text_text_and_note_citations->save (textAndCitationsFilename);
   filter_text.odf_text_notes->save (notesFilename);
   for (auto src : filter_text.image_sources) {
-    string contents = database_bibleimages.get(src);
-    string path = filter_url_create_path ({directory, src});
+    std::string contents = database_bibleimages.get(src);
+    std::string path = filter_url_create_path ({directory, src});
     filter_url_file_put_contents(path, contents);
   }
 
@@ -111,8 +111,8 @@ void export_odt_book (string bible, int book, bool log)
   // Securing the OpenDocument export implies that the exported files are zipped and secured with a password.
   // It uses the external zip binary.
   bool secure = Database_Config_Bible::getSecureOdtExport (bible);
-  string password = Database_Config_Bible::getExportPassword (bible);
-  string basefile = filter_url_basename (standardFilename);
+  std::string password = Database_Config_Bible::getExportPassword (bible);
+  std::string basefile = filter_url_basename (standardFilename);
   filter_url_unlink (standardFilename + ".zip");
   if (secure) {
     filter_shell_run (directory, "zip", {"-P", password, basefile + ".zip", basefile}, nullptr, nullptr);
@@ -143,7 +143,7 @@ void export_odt_book (string bible, int book, bool log)
 
   
   if (log) {
-    string bookname;
+    std::string bookname;
     if (book) bookname = database::books::get_english_from_id (static_cast<book_id>(book));
     else bookname = translate ("whole Bible");
     Database_Logs::log (translate("Exported to OpenDocument files") + " " + bible + " " + bookname, Filter_Roles::translator ());

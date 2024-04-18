@@ -58,7 +58,7 @@ string notes_comment (Webserver_Request& webserver_request)
   Assets_Header header = Assets_Header (translate("Comment"), webserver_request);
   page += header.run ();
   Assets_View view;
-  string success;
+  std::string success;
   
   
   int id;
@@ -69,7 +69,7 @@ string notes_comment (Webserver_Request& webserver_request)
   
   
   if (webserver_request.post.count ("body")) {
-    string comment = filter::strings::trim (webserver_request.post ["body"]);
+    std::string comment = filter::strings::trim (webserver_request.post ["body"]);
     comment = filter_url_tag_to_plus (comment);
     notes_logic.addComment (id, comment);
     redirect_browser (webserver_request, notes_note_url () + "?id=" + filter::strings::convert_to_string (id) + "&temporal=");
@@ -84,7 +84,7 @@ string notes_comment (Webserver_Request& webserver_request)
   
   
   view.set_variable ("id", filter::strings::convert_to_string (id));
-  string script = "var noteId = '" + filter::strings::convert_to_string (id) + "';\n";
+  std::string script = "var noteId = '" + filter::strings::convert_to_string (id) + "';\n";
   view.set_variable ("script", script);
 
 
@@ -92,18 +92,18 @@ string notes_comment (Webserver_Request& webserver_request)
   view.set_variable ("passage", filter_passage_display_inline (passages));
   
   
-  string summary = database_notes.get_summary (id);
+  std::string summary = database_notes.get_summary (id);
   view.set_variable ("summary", summary);
 
   
   bool show_note_status = webserver_request.database_config_user ()->getShowNoteStatus ();
   if (show_note_status) {
-    string status = database_notes.get_status (id);
+    std::string status = database_notes.get_status (id);
     view.set_variable ("status", status);
   }
 
   
-  string content = database_notes.get_contents (id);
+  std::string content = database_notes.get_contents (id);
   view.set_variable ("content", content);
   
   

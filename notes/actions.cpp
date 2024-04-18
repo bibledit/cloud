@@ -62,10 +62,10 @@ string notes_actions (Webserver_Request& webserver_request)
   header.set_navigator ();
   page += header.run ();
   Assets_View view;
-  string success, error;
+  std::string success, error;
 
   
-  string user = webserver_request.session_logic()->currentUser ();
+  std::string user = webserver_request.session_logic()->currentUser ();
   int level = webserver_request.session_logic()->currentLevel ();
 
   
@@ -73,7 +73,7 @@ string notes_actions (Webserver_Request& webserver_request)
   if (!id) id = filter::strings::convert_to_int (webserver_request.post ["val1"]);
 
   
-  string checkbox = webserver_request.post ["checkbox"];
+  std::string checkbox = webserver_request.post ["checkbox"];
   bool checked = filter::strings::convert_to_bool (webserver_request.post ["checked"]);
 
 
@@ -88,7 +88,7 @@ string notes_actions (Webserver_Request& webserver_request)
   
   
   if (webserver_request.query.count ("unassign")) {
-    string unassign = webserver_request.query["unassign"];
+    std::string unassign = webserver_request.query["unassign"];
     notes_logic.unassignUser (id, unassign);
   }
   
@@ -125,7 +125,7 @@ string notes_actions (Webserver_Request& webserver_request)
   view.set_variable ("id", filter::strings::convert_to_string (id));
   
                       
-  string summary = database_notes.get_summary (id);
+  std::string summary = database_notes.get_summary (id);
   view.set_variable ("summary", summary);
                                           
                                           
@@ -151,21 +151,21 @@ string notes_actions (Webserver_Request& webserver_request)
   if (assigned) view.enable_zone ("assigned");
   
   
-  string status = database_notes.get_status (id);
+  std::string status = database_notes.get_status (id);
   view.set_variable ("status", status);
   if (Filter_Roles::translator ()) view.enable_zone ("editstatus");
   else view.enable_zone ("viewstatus");
 
   
-  string verses = filter_passage_display_inline (database_notes.get_passages (id));
+  std::string verses = filter_passage_display_inline (database_notes.get_passages (id));
   view.set_variable ("verses", verses);
                                           
                                           
-  string severity = database_notes.get_severity (id);
+  std::string severity = database_notes.get_severity (id);
   view.set_variable ("severity",  severity);
 
   
-  string bible = database_notes.get_bible (id);
+  std::string bible = database_notes.get_bible (id);
   view.set_variable ("bible", bible);
   if (bible.empty ()) view.enable_zone ("nobible");
 

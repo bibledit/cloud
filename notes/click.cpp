@@ -58,7 +58,7 @@ string notes_click (Webserver_Request& webserver_request)
   
   
   if (webserver_request.query.count ("open")) {
-    string open = webserver_request.query ["open"];
+    std::string open = webserver_request.query ["open"];
     open = filter_url_basename_web (open);
     int iopen = filter::strings::convert_to_int (open);
     if (database_notes.identifier_exists (iopen)) {
@@ -68,13 +68,13 @@ string notes_click (Webserver_Request& webserver_request)
   
   
   if (webserver_request.query.count ("new")) {
-    string snew = webserver_request.query ["new"];
+    std::string snew = webserver_request.query ["new"];
     snew = filter_url_basename_web (snew);
     int inew = filter::strings::convert_to_int (snew);
     Database_Modifications database_modifications;
-    string bible = database_modifications.getNotificationBible (inew);
-    string summary = translate("Query about a change in the text");
-    string contents = "<p>" + translate("Old text:") + "</p>";
+    std::string bible = database_modifications.getNotificationBible (inew);
+    std::string summary = translate("Query about a change in the text");
+    std::string contents = "<p>" + translate("Old text:") + "</p>";
     contents += database_modifications.getNotificationOldText (inew);
     contents += "<p>" +  translate("Change:") + "</p>";
     contents += "<p>" + database_modifications.getNotificationModification (inew) + "</p>";

@@ -57,9 +57,9 @@ string sync_settings (Webserver_Request& webserver_request)
 
   // Get the relevant parameters the client POSTed to us, the server.
   int action = filter::strings::convert_to_int (webserver_request.post ["a"]);
-  string value = webserver_request.post ["v"];
+  std::string value = webserver_request.post ["v"];
   // The value can be all Bibles, or one Bible.
-  string bible_s = webserver_request.post ["b"];
+  std::string bible_s = webserver_request.post ["b"];
 
   switch (action) {
     case Sync_Logic::settings_get_total_checksum:

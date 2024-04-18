@@ -50,7 +50,7 @@ TEST (database, jobs)
     
     // Test Start
     id = database_jobs.get_new_id ();
-    string start = database_jobs.get_start (id);
+    std::string start = database_jobs.get_start (id);
     EXPECT_EQ ("", start);
     database_jobs.set_start (id, "start");
     start = database_jobs.get_start (id);
@@ -58,7 +58,7 @@ TEST (database, jobs)
     
     // Test Progress
     id = database_jobs.get_new_id ();
-    string progress = database_jobs.get_progress (id);
+    std::string progress = database_jobs.get_progress (id);
     EXPECT_EQ ("", progress);
     database_jobs.set_progress (id, "progress");
     progress = database_jobs.get_progress (id);
@@ -66,7 +66,7 @@ TEST (database, jobs)
     
     // Test Percentage
     id = database_jobs.get_new_id ();
-    string percentage = database_jobs.get_percentage (id);
+    std::string percentage = database_jobs.get_percentage (id);
     EXPECT_EQ ("", percentage);
     database_jobs.set_percentage (id, 55);
     percentage = database_jobs.get_percentage (id);
@@ -74,7 +74,7 @@ TEST (database, jobs)
     
     // Test Result.
     id = database_jobs.get_new_id ();
-    string result = database_jobs.get_result (id);
+    std::string result = database_jobs.get_result (id);
     EXPECT_EQ ("", result);
     database_jobs.set_result (id, "result");
     result = database_jobs.get_result (id);

@@ -58,7 +58,7 @@ string search_originals (Webserver_Request& webserver_request)
   Database_Sblgnt database_sblgnt = Database_Sblgnt ();
   
   
-  string bible = webserver_request.database_config_user()->getBible ();
+  std::string bible = webserver_request.database_config_user()->getBible ();
   if (webserver_request.query.count ("b")) {
     bible = webserver_request.query ["b"];
   }
@@ -72,10 +72,10 @@ string search_originals (Webserver_Request& webserver_request)
     
     book_type type = database::books::get_type (book);
     
-    string classs{};
+    std::string classs{};
     
     // Get Hebrew or Greek words.
-    string searchtext;
+    std::string searchtext;
     std::vector <std::string> details;
     if (type == book_type::old_testament) {
       details = database_oshb.getVerse (static_cast<int>(book), chapter, verse);
@@ -93,7 +93,7 @@ string search_originals (Webserver_Request& webserver_request)
   
   
   if (webserver_request.query.count ("words")) {
-    string words = webserver_request.query ["words"];
+    std::string words = webserver_request.query ["words"];
     
     words = filter::strings::trim (words);
     std::vector <std::string> v_words = filter::strings::explode (words, ' ');
@@ -155,7 +155,7 @@ string search_originals (Webserver_Request& webserver_request)
 
     
     // Output the passages to the browser.
-    string output;
+    std::string output;
     for (auto & passage : v_passages) {
       if (!output.empty ()) output.append ("\n");
       output.append (filter::strings::convert_to_string (passage));
@@ -171,14 +171,14 @@ string search_originals (Webserver_Request& webserver_request)
     Passage passage = filter_integer_to_passage (id);
     int book = passage.m_book;
     int chapter = passage.m_chapter;
-    string verse = passage.m_verse;
+    std::string verse = passage.m_verse;
     
     // Get the plain text.
-    string text = search_logic_get_bible_verse_text (bible, book, chapter, filter::strings::convert_to_int (verse));
+    std::string text = search_logic_get_bible_verse_text (bible, book, chapter, filter::strings::convert_to_int (verse));
     
     // Format it.
-    string link = filter_passage_link_for_opening_editor_at (book, chapter, verse);
-    string output = "<div>" + link + " " + text + "</div>";
+    std::string link = filter_passage_link_for_opening_editor_at (book, chapter, verse);
+    std::string output = "<div>" + link + " " + text + "</div>";
     
     // Output to browser.
     return output;

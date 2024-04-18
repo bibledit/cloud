@@ -52,7 +52,7 @@ sqlite3 * Database_Mail::connect ()
 void Database_Mail::create ()
 {
   sqlite3 * db = connect ();
-  string sql = 
+  std::string sql = 
     "CREATE TABLE IF NOT EXISTS mail ("
     "  username text,"
     "  timestamp integer,"
@@ -114,7 +114,7 @@ void Database_Mail::send (string to, string subject, string body, int time)
 // Get number of mails for the current user.
 int Database_Mail::getMailCount ()
 {
-  string user = m_webserver_request.session_logic ()->currentUser();
+  std::string user = m_webserver_request.session_logic ()->currentUser();
   SqliteSQL sql = SqliteSQL ();
   sql.add ("SELECT count(*) FROM mail WHERE username =");
   sql.add (user);
@@ -133,7 +133,7 @@ int Database_Mail::getMailCount ()
 vector <Database_Mail_User> Database_Mail::getMails ()
 {
   std::vector <Database_Mail_User> mails;
-  string user = m_webserver_request.session_logic ()->currentUser();
+  std::string user = m_webserver_request.session_logic ()->currentUser();
   SqliteSQL sql = SqliteSQL ();
   sql.add ("SELECT rowid, timestamp, subject FROM mail WHERE username =");
   sql.add (user);

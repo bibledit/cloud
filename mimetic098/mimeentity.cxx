@@ -126,7 +126,7 @@ ostream& MimeEntity::write(ostream& os, const char* eol) const
     // body
     if(ct.isMultipart())
     {
-        string boundary = "--" + ct.param("boundary");
+        std::string boundary = "--" + ct.param("boundary");
         if(body().preamble().length())
             os << crlf << body().preamble();
         // opening boundary

@@ -52,36 +52,36 @@ bool search_replace_acl (Webserver_Request& webserver_request)
 
 string search_replace (Webserver_Request& webserver_request)
 {
-  const string siteUrl = config::logic::site_url (webserver_request);
+  const std::string siteUrl = config::logic::site_url (webserver_request);
   
-  string bible = webserver_request.database_config_user()->getBible ();
+  std::string bible = webserver_request.database_config_user()->getBible ();
   if (webserver_request.query.count ("b")) {
     bible = webserver_request.query ["b"];
   }
   
-  string searchfor = webserver_request.query ["q"];
-  string replacewith = webserver_request.query ["r"];
-  string id = webserver_request.query ["id"];
+  std::string searchfor = webserver_request.query ["q"];
+  std::string replacewith = webserver_request.query ["r"];
+  std::string id = webserver_request.query ["id"];
   
   if (!id.empty ()) {
     
     // Get the Bible and passage for this identifier.
     Passage passage = Passage::decode (id);
-    string bible2 = passage.m_bible;
+    std::string bible2 = passage.m_bible;
     int book = passage.m_book;
     int chapter = passage.m_chapter;
-    string verse = passage.m_verse;
+    std::string verse = passage.m_verse;
     
     // Get the plain text.
-    string text = search_logic_get_bible_verse_text (bible2, book, chapter, filter::strings::convert_to_int (verse));
+    std::string text = search_logic_get_bible_verse_text (bible2, book, chapter, filter::strings::convert_to_int (verse));
     
     // Format it.
-    string link = filter_passage_link_for_opening_editor_at (book, chapter, verse);
-    string oldtext = text;
-    string newtext = filter::strings::replace (searchfor, replacewith, text);
+    std::string link = filter_passage_link_for_opening_editor_at (book, chapter, verse);
+    std::string oldtext = text;
+    std::string newtext = filter::strings::replace (searchfor, replacewith, text);
     if (replacewith != "") newtext = filter::strings::markup_words ({replacewith}, newtext);
     
-    string output =
+    std::string output =
     "<div id=\"" + filter::strings::convert_to_string (id) + "\">\n"
     "<p><a href=\"replace\"> ✔ </a> <a href=\"delete\">" + filter::strings::emoji_wastebasket () + "</a> $link</p>\n"
     "<p>" + oldtext + "</p>\n"
@@ -94,7 +94,7 @@ string search_replace (Webserver_Request& webserver_request)
 
   // Set the user chosen Bible as the current Bible.
   if (webserver_request.post.count ("bibleselect")) {
-    string bibleselect = webserver_request.post ["bibleselect"];
+    std::string bibleselect = webserver_request.post ["bibleselect"];
     webserver_request.database_config_user ()->setBible (bibleselect);
     return std::string();
   }
@@ -108,7 +108,7 @@ string search_replace (Webserver_Request& webserver_request)
   Assets_View view;
 
   {
-    string bible_html;
+    std::string bible_html;
     std::vector <std::string> accessible_bibles = access_bible::bibles (webserver_request);
     for (auto selectable_bible : accessible_bibles) {
       bible_html = Options_To_Select::add_selection (selectable_bible, selectable_bible, bible_html);

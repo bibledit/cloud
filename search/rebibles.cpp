@@ -46,7 +46,7 @@ void search_reindex_bibles (bool force)
   search_reindex_bibles_running = true;
 
   
-  string indexing_bible = translate ("Indexing Bible:");
+  std::string indexing_bible = translate ("Indexing Bible:");
 
   
   // This checks whether the data in the search index exists for all chapters in all Bibles.
@@ -59,9 +59,9 @@ void search_reindex_bibles (bool force)
     for (auto book : books) {
       std::vector <int> chapters = database_bibles.get_chapters (bible, book);
       for (auto chapter : chapters) {
-        string index = search_logic_chapter_file (bible, book, chapter);
+        std::string index = search_logic_chapter_file (bible, book, chapter);
         if (!file_or_dir_exists (index) || force) {
-          string msg = indexing_bible + " " + bible + " " + filter_passage_display (book, chapter, "");
+          std::string msg = indexing_bible + " " + bible + " " + filter_passage_display (book, chapter, "");
           Database_Logs::log (msg, Filter_Roles::manager ());
           search_logic_index_chapter (bible, book, chapter);
         }

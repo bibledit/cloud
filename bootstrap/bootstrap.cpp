@@ -251,22 +251,22 @@ void bootstrap_index (Webserver_Request& webserver_request)
   // This can be used for debugging.
   /*
   if (!webserver_request.post.empty () && config_logic_demo_enabled ()) {
-    string contents;
+    std::string contents;
     int seconds = filter::date::seconds_since_epoch ();
-    string rfc822time = filter::date::rfc822 (seconds);
+    std::string rfc822time = filter::date::rfc822 (seconds);
     contents.append (rfc822time + "\n");
     contents.append (webserver_request.get + "\n");
-    string query;
+    std::string query;
     for (auto element : webserver_request.query) {
       query.append (element.first + "=" + element.second + " and ");
     }
-    string post;
+    std::string post;
     for (auto element : webserver_request.post) {
       post.append (element.first + "=" + element.second + " and ");
     }
     contents.append ("query: " + query + "\n");
     contents.append ("post: " + post + "\n");
-    string filename;
+    std::string filename;
     filename = filter_url_create_root_path (filter_url_temp_dir (), "http-post-trace.txt");
     filter_url_file_put_contents_append (filename, contents);
   }

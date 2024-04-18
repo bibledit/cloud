@@ -121,7 +121,7 @@ static string::size_type find_not_in_quote(const std::string& s, const string::v
 
 std::string Group::str() const
 {
-    string rs = m_name;
+    std::string rs = m_name;
     const_iterator bit = begin(), first = bit, eit = end();
     for(; bit != eit; ++bit)
     {
@@ -140,7 +140,7 @@ void Group::set(const std::string& text)
         return; // empty or invalid
     bool in_dquote = false;
     int in_par = 0, in_angle = 0;
-    string mailbox;
+    std::string mailbox;
     string::iterator p = m_text.begin(), start;
     m_name.assign(m_text, 0, colon);
     m_name = remove_external_blanks(m_name);
@@ -150,7 +150,7 @@ void Group::set(const std::string& text)
         { 
             if(in_dquote || in_par || in_angle)
                 continue;
-            string mbx(start, p);
+            std::string mbx(start, p);
             mbx = remove_external_blanks(mbx);
             push_back(Mailbox(mbx));
             if(*p == ';')

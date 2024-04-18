@@ -56,12 +56,12 @@ bool editusfm_save_acl (Webserver_Request& webserver_request)
 
 string editusfm_save (Webserver_Request& webserver_request)
 {
-  string bible = webserver_request.post["bible"];
+  std::string bible = webserver_request.post["bible"];
   int book = filter::strings::convert_to_int (webserver_request.post["book"]);
   int chapter = filter::strings::convert_to_int (webserver_request.post["chapter"]);
-  string usfm = webserver_request.post["usfm"];
-  string checksum = webserver_request.post["checksum"];
-  string unique_id = webserver_request.post ["id"];
+  std::string usfm = webserver_request.post["usfm"];
+  std::string checksum = webserver_request.post["checksum"];
+  std::string unique_id = webserver_request.post ["id"];
 
   
   if (webserver_request.post.count ("bible") && webserver_request.post.count ("book") && webserver_request.post.count ("chapter") && webserver_request.post.count ("usfm")) {
@@ -79,19 +79,19 @@ string editusfm_save (Webserver_Request& webserver_request)
             filter::usfm::BookChapterData data = book_chapter_text[0];
             int book_number = data.m_book;
             int chapter_number = data.m_chapter;
-            string chapter_data_to_save = data.m_data;
+            std::string chapter_data_to_save = data.m_data;
             if (((book_number == book) || (book_number == 0)) && (chapter_number == chapter)) {
               // The USFM loaded into the editor.
-              string ancestor_usfm = getLoadedUsfm2 (webserver_request, bible, book, chapter, unique_id);
+              std::string ancestor_usfm = getLoadedUsfm2 (webserver_request, bible, book, chapter, unique_id);
               // Collect some data about the changes for this user.
-              string username = webserver_request.session_logic()->currentUser ();
+              std::string username = webserver_request.session_logic()->currentUser ();
               [[maybe_unused]] int oldID = webserver_request.database_bibles()->get_chapter_id (bible, book, chapter);
-              string oldText = ancestor_usfm;
-              string newText = chapter_data_to_save;
+              std::string oldText = ancestor_usfm;
+              std::string newText = chapter_data_to_save;
               // Merge if the ancestor is there and differs from what's in the database.
               std::vector <Merge_Conflict> conflicts;
               // The USFM now on disk.
-              string server_usfm = webserver_request.database_bibles()->get_chapter (bible, book, chapter);
+              std::string server_usfm = webserver_request.database_bibles()->get_chapter (bible, book, chapter);
               if (!ancestor_usfm.empty ()) {
                 if (server_usfm != ancestor_usfm) {
                   // Prioritize the USFM to save.
@@ -120,8 +120,8 @@ string editusfm_save (Webserver_Request& webserver_request)
               // Check on write access.
               if (access_bible::book_write (webserver_request, std::string(), bible, book)) {
                 // Safely store the chapter.
-                string explanation;
-                string message = filter::usfm::safely_store_chapter (webserver_request, bible, book, chapter, chapter_data_to_save, explanation);
+                std::string explanation;
+                std::string message = filter::usfm::safely_store_chapter (webserver_request, bible, book, chapter, chapter_data_to_save, explanation);
                 bible_logic::unsafe_save_mail (message, explanation, username, chapter_data_to_save, book, chapter);
                 if (message.empty()) {
 #ifndef HAVE_CLIENT

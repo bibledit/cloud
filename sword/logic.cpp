@@ -727,7 +727,7 @@ void sword_logic_installmgr_list_remote_sources ([[maybe_unused]] const std::vec
     const std::string caption (it->second->caption);
     sources.push_back (caption);
     /*
-    string description;
+    std::string description;
     description.append (caption);
     description.append (" - ");
     description.append (it->second->type);
@@ -794,7 +794,7 @@ void sword_logic_installmgr_list_remote_modules ([[maybe_unused]] const std::str
       if (it->second & sword::InstallMgr::MODSTAT_NEW) status = "*";
       if (it->second & sword::InstallMgr::MODSTAT_OLDER) status = "-";
       if (it->second & sword::InstallMgr::MODSTAT_UPDATED) status = "+";
-      string module_name (status);
+      std::string module_name (status);
       module_name.append ("[");
       module_name.append (module->getName());
       module_name.append ("]  \t(");
@@ -803,7 +803,7 @@ void sword_logic_installmgr_list_remote_modules ([[maybe_unused]] const std::str
       module_name.append (module->getDescription());
       // Check if the module is a verse-based Bible or commentary.
       bool verse_based = false;
-      string module_type = module->getType ();
+      std::string module_type = module->getType ();
       if (module_type == "Biblical Texts") verse_based = true;
       if (module_type == "Commentaries") verse_based = true;
       if (verse_based) modules.push_back (module_name);
@@ -865,7 +865,7 @@ std::string sword_logic_diatheke ([[maybe_unused]] const std::string& module_nam
   sword::SWModule *module = manager.getModule (module_name.c_str ());
   available = module;
   if (module) {
-    string key = osis + " " + filter::strings::convert_to_string (chapter) + ":" + filter::strings::convert_to_string (verse);
+    std::string key = osis + " " + filter::strings::convert_to_string (chapter) + ":" + filter::strings::convert_to_string (verse);
     module->setKey (key.c_str ());
     rendering = module->renderText();
   }

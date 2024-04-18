@@ -73,7 +73,7 @@ string manage_exports (Webserver_Request& webserver_request)
   
   
   if (webserver_request.query.count ("bible")) {
-    string bible = webserver_request.query["bible"];
+    std::string bible = webserver_request.query["bible"];
     if (bible.empty()) {
       Dialog_List dialog_list = Dialog_List ("exports", translate("Select a Bible"), "", "");
       std::vector <std::string> bibles = access_bible::bibles (webserver_request);
@@ -88,16 +88,16 @@ string manage_exports (Webserver_Request& webserver_request)
   }
   
   
-  string bible = access_bible::clamp (webserver_request, webserver_request.database_config_user()->getBible ());
+  std::string bible = access_bible::clamp (webserver_request, webserver_request.database_config_user()->getBible ());
   view.set_variable ("bible", bible);
   
   
-  string checkbox = webserver_request.post ["checkbox"];
+  std::string checkbox = webserver_request.post ["checkbox"];
   bool checked = filter::strings::convert_to_bool (webserver_request.post ["checked"]);
   
   
   if (webserver_request.query.count ("remove")) {
-    string directory = export_logic::bible_directory (bible);
+    std::string directory = export_logic::bible_directory (bible);
     filter_url_rmdir (directory);
     Database_State::setExport (bible, 0, export_logic::export_needed);
     view.set_variable ("success", translate("The export has been removed."));
@@ -120,7 +120,7 @@ string manage_exports (Webserver_Request& webserver_request)
   
   
   if (webserver_request.post.count ("emailsubmit")) {
-    string email = webserver_request.post["emailentry"];
+    std::string email = webserver_request.post["emailentry"];
     bool save = false;
     if (email.empty ()) {
       save = true;
@@ -314,21 +314,21 @@ string manage_exports (Webserver_Request& webserver_request)
   
   std::vector <std::string> spaces = { " ", filter::strings::non_breaking_space_u00A0 (), filter::strings::en_space_u2002 (), filter::strings::figure_space_u2007 (), filter::strings::narrow_non_breaking_space_u202F () };
   if (webserver_request.query.count ("odtwhitespace")) {
-    string odtwhitespace = webserver_request.query ["odtwhitespace"];
+    std::string odtwhitespace = webserver_request.query ["odtwhitespace"];
     for (auto space : spaces) {
       // Work with non-localized, English, space names.
       // Then it works across localizations.
-      string href = space_href (locale_logic_space_get_name (space, true));
+      std::string href = space_href (locale_logic_space_get_name (space, true));
       if (odtwhitespace == href) {
         Database_Config_Bible::setOdtSpaceAfterVerse (bible, space);
       }
     }
   }
-  string space_setting = Database_Config_Bible::getOdtSpaceAfterVerse (bible);
+  std::string space_setting = Database_Config_Bible::getOdtSpaceAfterVerse (bible);
   for (auto space : spaces) {
-    string name = locale_logic_space_get_name (space, true);
-    string href = space_href (name);
-    string cssclass;
+    std::string name = locale_logic_space_get_name (space, true);
+    std::string href = space_href (name);
+    std::string cssclass;
     if (space == space_setting) {
       cssclass = "active";
     }
@@ -354,7 +354,7 @@ string manage_exports (Webserver_Request& webserver_request)
 
   
   if (webserver_request.post.count ("fontsubmit")) {
-    string font = webserver_request.post["fontentry"];
+    std::string font = webserver_request.post["fontentry"];
     Database_State::setExport (bible, 0, export_logic::export_needed);
     Database_Config_Bible::setExportFont (bible, font);
     view.set_variable ("success", translate("The font for securing exports was saved."));
@@ -409,7 +409,7 @@ string manage_exports (Webserver_Request& webserver_request)
   
                      
   if (webserver_request.post.count ("passwordsubmit")) {
-    string password = webserver_request.post["passwordentry"];
+    std::string password = webserver_request.post["passwordentry"];
     Database_State::setExport (bible, 0, export_logic::export_needed);
     Database_Config_Bible::setExportPassword (bible, password);
     view.set_variable ("success", translate("The password for securing exports was saved."));
@@ -425,9 +425,9 @@ string manage_exports (Webserver_Request& webserver_request)
 
   
   if (webserver_request.query.count ("bibledropboxnow")) {
-    string username = webserver_request.session_logic()->currentUser ();
+    std::string username = webserver_request.session_logic()->currentUser ();
     tasks_logic_queue (SUBMITBIBLEDROPBOX, { username, bible });
-    string msg = translate("The Bible will be submitted to the Bible Drop Box.");
+    std::string msg = translate("The Bible will be submitted to the Bible Drop Box.");
     msg.append (" ");
     msg.append (translate("You will receive email with further details."));
     view.set_variable ("success", msg);

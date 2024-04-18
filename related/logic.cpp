@@ -48,7 +48,7 @@ void related_logic_search_related (const std::string& bookname, int input_chapte
       if (match) continue;
       
       // Match on book.
-      string book = reference.attribute ("book").value ();
+      std::string book = reference.attribute ("book").value ();
       match = (book == bookname);
       
       // Match on chapter.
@@ -59,7 +59,7 @@ void related_logic_search_related (const std::string& bookname, int input_chapte
       
       // Match on verse(s).
       if (match) {
-        string verse = reference.attribute ("verse").value ();
+        std::string verse = reference.attribute ("verse").value ();
         std::vector <int> verses;
         if (filter::usfm::handle_verse_range (verse, verses)) {
           match = in_array (filter::strings::convert_to_int (input_verse), verses);
@@ -71,10 +71,10 @@ void related_logic_search_related (const std::string& bookname, int input_chapte
       // Store all related passages.
       if (match) {
         for (pugi::xml_node passage_node : set.children ()) {
-          string related_bookname = passage_node.attribute ("book").value ();
+          std::string related_bookname = passage_node.attribute ("book").value ();
           book_id related_book = database::books::get_id_from_english (related_bookname);
           int related_chapter = filter::strings::convert_to_int (passage_node.attribute ("chapter").value ());
-          string verse = passage_node.attribute ("verse").value ();
+          std::string verse = passage_node.attribute ("verse").value ();
           std::vector <int> verses {};
           if (filter::usfm::handle_verse_range (verse, verses));
           else verses.push_back (filter::strings::convert_to_int (verse));
@@ -107,7 +107,7 @@ vector <Passage> related_logic_get_verses (const std::vector <Passage> & input)
 
     // Get details about the book in the passage.
     // It assumes all input passages refer to the same book.
-    string bookname = database::books::get_english_from_id (static_cast<book_id>(input[0].m_book));
+    std::string bookname = database::books::get_english_from_id (static_cast<book_id>(input[0].m_book));
     book_type booktype = database::books::get_type (static_cast<book_id>(input[0].m_book));
     bool is_ot = (booktype == book_type::old_testament);
     bool is_nt = (booktype == book_type::new_testament);
@@ -117,8 +117,8 @@ vector <Passage> related_logic_get_verses (const std::vector <Passage> & input)
     pugi::xml_document parallel_document;
     pugi::xml_document quotation_document;
     if (is_ot || is_nt) {
-      string book_type_name = database::books::book_type_to_string(booktype);
-      string path = filter_url_create_root_path ({"related", "parallel-passages-" + book_type_name + ".xml"});
+      std::string book_type_name = database::books::book_type_to_string(booktype);
+      std::string path = filter_url_create_root_path ({"related", "parallel-passages-" + book_type_name + ".xml"});
       parallel_document.load_file (path.c_str());
       path = filter_url_create_root_path ({"related", "ot-quotations-in-nt.xml"});
       quotation_document.load_file (path.c_str());

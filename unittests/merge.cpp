@@ -29,32 +29,32 @@ using namespace std;
 TEST (filter, merge)
 {
   {
-    string ancestor_usfm = R"(\v 30 Yakub menamai tempat tersebut Peniel,\f \fr 32:30 \fk Peniel \ft Nama ini berarti karena dia sudah bertatapan muka dengan Allah secara langsung dan dia masih hidup.)";
-    string server_usfm = R"(\v 30 Yakub menamai tempat tersebut Peniel,\f \fr 32:30 \fk Peniel \ft Nama ini berarti karena dia sudah bertatapan muka dengan Allah secara langsung dan dia masih hidup.)";
-    string user_usfm = R"(\v 30 Yakub menamai tempat tersebut Peniel,\f \fr 32:30 \fk Peniel \ft Nama ini berarti ‘muka Allah’ dalam bahasa Ibrani.\f* karena dia sudah bertatapan muka dengan Allah secara langsung dan dia masih hidup.)";
-    string standard = R"(\v 30 Yakub menamai tempat tersebut Peniel,\f \fr 32:30 \fk Peniel \ft Nama ini berarti ‘muka Allah’ dalam bahasa Ibrani.\f* karena dia sudah bertatapan muka dengan Allah secara langsung dan dia masih hidup.)";
+    std::string ancestor_usfm = R"(\v 30 Yakub menamai tempat tersebut Peniel,\f \fr 32:30 \fk Peniel \ft Nama ini berarti karena dia sudah bertatapan muka dengan Allah secara langsung dan dia masih hidup.)";
+    std::string server_usfm = R"(\v 30 Yakub menamai tempat tersebut Peniel,\f \fr 32:30 \fk Peniel \ft Nama ini berarti karena dia sudah bertatapan muka dengan Allah secara langsung dan dia masih hidup.)";
+    std::string user_usfm = R"(\v 30 Yakub menamai tempat tersebut Peniel,\f \fr 32:30 \fk Peniel \ft Nama ini berarti ‘muka Allah’ dalam bahasa Ibrani.\f* karena dia sudah bertatapan muka dengan Allah secara langsung dan dia masih hidup.)";
+    std::string standard = R"(\v 30 Yakub menamai tempat tersebut Peniel,\f \fr 32:30 \fk Peniel \ft Nama ini berarti ‘muka Allah’ dalam bahasa Ibrani.\f* karena dia sudah bertatapan muka dengan Allah secara langsung dan dia masih hidup.)";
     std::vector <Merge_Conflict> conflicts;
-    string result = filter_merge_run (ancestor_usfm, server_usfm, user_usfm, true, conflicts);
+    std::string result = filter_merge_run (ancestor_usfm, server_usfm, user_usfm, true, conflicts);
     EXPECT_EQ (standard, result);
   }
 
   // Test line merge for simple modifications.
   {
     std::vector <Merge_Conflict> conflicts;
-    string mergeBaseData =
+    std::string mergeBaseData =
     "\\c 28\n"
     "\\s Ukuvuka lokuzibonakalisa kukaJesu\n"
     "\\s Ukuvuka lokuzibonakalisa kukaJesu\n";
-    string userModificationData =
+    std::string userModificationData =
     "\\c 28\n"
     "\\s Ukuvuka lokuzibonakalisa kukaJesu\n"
     "\\s Ukuvuka kukaJesu\n";
-    string serverModificationData =
+    std::string serverModificationData =
     "\\c 29\n"
     "\\s Ukuvuka lokuzibonakalisa kukaJesu\n"
     "\\s Ukuvuka lokuzibonakalisa kukaJesu\n";
-    string output = filter_merge_run (mergeBaseData, userModificationData, serverModificationData, false, conflicts);
-    string standard =
+    std::string output = filter_merge_run (mergeBaseData, userModificationData, serverModificationData, false, conflicts);
+    std::string standard =
     "\\c 29\n"
     "\\s Ukuvuka lokuzibonakalisa kukaJesu\n"
     "\\s Ukuvuka kukaJesu";
@@ -65,20 +65,20 @@ TEST (filter, merge)
   // Test line merge for equal modifications
   {
     std::vector <Merge_Conflict> conflicts;
-    string mergeBaseData =
+    std::string mergeBaseData =
     "\\c 28\n"
     "\\s Ukuvuka lokuzibonakalisa kukaJesu\n"
     "\\s Ukuvuka lokuzibonakalisa kukaJesu\n";
-    string userModificationData =
+    std::string userModificationData =
     "\\c 28\n"
     "\\s Ukuvuka kukaJesu\n"
     "\\s Ukuvuka kukaJesu\n";
-    string serverModificationData =
+    std::string serverModificationData =
     "\\c 28\n"
     "\\s Ukuvuka kukaJesu\n"
     "\\s Ukuvuka kukaJesu\n";
-    string output = filter_merge_run (mergeBaseData, userModificationData, serverModificationData, false, conflicts);
-    string standard =
+    std::string output = filter_merge_run (mergeBaseData, userModificationData, serverModificationData, false, conflicts);
+    std::string standard =
     "\\c 28\n"
     "\\s Ukuvuka kukaJesu\n"
     "\\s Ukuvuka kukaJesu";
@@ -89,7 +89,7 @@ TEST (filter, merge)
   // Test line merge for multiple modifications
   {
     std::vector <Merge_Conflict> conflicts;
-    string mergeBaseData =
+    std::string mergeBaseData =
     "\\c 28\n"
     "\\s Ukuvuka lokuzibonakalisa kukaJesu\n"
     "\\p\n"
@@ -97,7 +97,7 @@ TEST (filter, merge)
     "\\v 2 Futhi khangela, kwaba khona ukuzamazama komhlaba okukhulu\\x + 27.51,54.\\x*; ngoba ingilosi yeNkosi yehla ivela ezulwini\\x + Mark. 16.5. Luka 24.4. Joha. 20.12.\\x*, yasondela yagiqa ilitshe yalisusa emnyango, yahlala phezu kwalo\\x + 27.60,66.\\x*.\n"
     "\\v 3 Lokubonakala kwayo kwakunjengombane\\x + Dan. 10.6. Hlu. 13.6.\\x*, lesembatho sayo sasimhlophe njengeliqhwa elikhithikileyo\\x + Dan. 7.9. Mark. 9.3.\\x*.\n"
     "\\v 4 Abalindi basebethuthumela ngokuyesaba, baba njengabafileyo\\x + 27.65,66.\\x*.\n";
-    string userModificationData =
+    std::string userModificationData =
     "\\c 28\n"
     "\\s Ukuvuka lokuzibonakalisa kukaJesu\n"
     "\\pp\n"
@@ -105,7 +105,7 @@ TEST (filter, merge)
     "\\v 2 Futhi khangela, kwaba khona ukuzamazama komhlaba okukhulu\\x + 27.51,54.\\x*; ngoba ingilosi yeNkosi yehla ivela ezulwini\\x + Mark. 16.5. Luka 24.4. Joha. 20.12.\\x*, yasondela yagiqa ilitshe yalisusa emnyango, yahlala phezu kwalo\\x + 27.60,66.\\x*.\n"
     "\\v 3 Lokubonakala kwayo kwakunjengombane\\x + Dan. 10.6. Hlu. 13.6.\\x*, lesembatho sayo sasimhlophe njengeliqhwa elikhithikileyo\\x + Dan. 7.9. Mark. 9.3.\\x*.\n"
     "\\v 4 Abalindi basebethuthumela ngokuyesaba, baba njengabafileyo\\x + 27.65,66.\\x*.\n";
-    string serverModificationData =
+    std::string serverModificationData =
     "\\c 28\n"
     "\\s Ukuvuka lokuzibonakalisa kukaJesu\n"
     "\\p\n"
@@ -113,8 +113,8 @@ TEST (filter, merge)
     "\\v 2 Futhi khangela, kwaba khona ukuzamazama komhlaba okukhulu\\x + 27.51,54.\\x*; ngoba ingilosi yeNkosi yehla ivela ezulwini\\x + Mark. 16.5. Luka 24.4. Joha. 20.12.\\x*, yasondela yagiqa ilitshe yalisusa emnyango, yahlala phezu kwalo\\x + 27.60,66.\\x*.\n"
     "\\v 3 Lokubonakala kwakunjengombane\\x + Dan. 10.6. Hlu. 13.6.\\x*, lesematho sayo sasimhlophe njengeliqhwa elikhithikileyo\\x + Dan. 7.9. Mark. 9.3.\\x*.\n"
     "\\v 4 Abalindi bathuthumela ngokuyesaba, baba njengabafileyo\\x + 27.65-66.\\x*.\n";
-    string output = filter_merge_run (mergeBaseData, userModificationData, serverModificationData, false, conflicts);
-    string standard =
+    std::string output = filter_merge_run (mergeBaseData, userModificationData, serverModificationData, false, conflicts);
+    std::string standard =
     "\\c 28\n"
     "\\s Ukuvuka lokuzibonakalisa kukaJesu\n"
     "\\pp\n"
@@ -129,17 +129,17 @@ TEST (filter, merge)
   // Test word merge for simple modifications
   {
     std::vector <Merge_Conflict> conflicts;
-    string mergeBaseData =
+    std::string mergeBaseData =
     "\\c 28\n"
     "\\v 4 Abalindi basebethuthumela ngokuyesaba, baba njengabafileyo\\x + 27.65,66.\\x*.\n";
-    string userModificationData =
+    std::string userModificationData =
     "\\c 28\n"
     "\\v 4 Abalindi bathuthumela ngokuyesaba, baba njengabafileyo\\x + 27.65,66.\\x*.\n";
-    string serverModificationData =
+    std::string serverModificationData =
     "\\c 29\n"
     "\\v 4 Abalindi basebethuthumela ngokuyesaba, basebesiba njengabafileyo\\x + 27.65,66.\\x*.\n";
-    string output = filter_merge_run (mergeBaseData, userModificationData, serverModificationData, false, conflicts);
-    string standard =
+    std::string output = filter_merge_run (mergeBaseData, userModificationData, serverModificationData, false, conflicts);
+    std::string standard =
     "\\c 29\n"
     "\\v 4 Abalindi bathuthumela ngokuyesaba, basebesiba njengabafileyo\\x + 27.65,66.\\x*.";
     EXPECT_EQ (standard, output);
@@ -149,17 +149,17 @@ TEST (filter, merge)
   // Test word merge for conflicting modifications.
   {
     std::vector <Merge_Conflict> conflicts;
-    string mergeBaseData =
+    std::string mergeBaseData =
     "\\c 28\n"
     "\\v 4 Abalindi basebethuthumela ngokuyesaba, baba njengabafileyo\\x + 27.65,66.\\x*.\n";
-    string userModificationData =
+    std::string userModificationData =
     "\\c 28\n"
     "\\v 4 Abalindi bathuthumela ngokuyesaba, baba njengabafileyo\\x + 27.65,66.\\x*.\n";
-    string serverModificationData =
+    std::string serverModificationData =
     "\\c 29\n"
     "\\v 4 Abalindi bathuthumela ngokuyesaba, basebesiba njengabafileyo\\x + 27.65,66.\\x*.\n";
-    string output = filter_merge_run (mergeBaseData, userModificationData, serverModificationData, false, conflicts);
-    string standard =
+    std::string output = filter_merge_run (mergeBaseData, userModificationData, serverModificationData, false, conflicts);
+    std::string standard =
     "\\c 29\n"
     "\\v 4 Abalindi bathuthumela ngokuyesaba, basebesiba njengabafileyo\\x + 27.65,66.\\x*.";
     EXPECT_EQ (standard, output);
@@ -169,7 +169,7 @@ TEST (filter, merge)
   // Test word merge for multiple modifications
   {
     std::vector <Merge_Conflict> conflicts;
-    string mergeBaseData =
+    std::string mergeBaseData =
     "\\c 28\n"
     "\\s Ukuvuka lokuzibonakalisa kukaJesu\n"
     "\\p\n"
@@ -177,7 +177,7 @@ TEST (filter, merge)
     "\\v 2 Futhi khangela, kwaba khona ukuzamazama komhlaba okukhulu\\x + 27.51,54.\\x*; ngoba ingilosi yeNkosi yehla ivela ezulwini\\x + Mark. 16.5. Luka 24.4. Joha. 20.12.\\x*, yasondela yagiqa ilitshe yalisusa emnyango, yahlala phezu kwalo\\x + 27.60,66.\\x*.\n"
     "\\v 3 Lokubonakala kwayo kwakunjengombane\\x + Dan. 10.6. Hlu. 13.6.\\x*, lesembatho sayo sasimhlophe njengeliqhwa elikhithikileyo\\x + Dan. 7.9. Mark. 9.3.\\x*.\n"
     "\\v 4 Abalindi basebethuthumela ngokuyesaba, baba njengabafileyo\\x + 27.65,66.\\x*.\n";
-    string userModificationData =
+    std::string userModificationData =
     "\\c 29\n"
     "\\s Ukuvuka lokuzibonakalisa kukaJesu\n"
     "\\p\n"
@@ -185,7 +185,7 @@ TEST (filter, merge)
     "\\v 2 Futhi khangela, kwaba khona ukuzamazama komhlaba okukhulu\\x + 27.51,54.\\x*; ngoba ingilosi yeNkosi yehla ivela ezulwini\\x + Mark. 16.5. Luka 24.4. Joha. 20.12.\\x*, yasondela yagiqa ilitshe yalisusa emnyango, yahlala phezu kwalo\\x + 27.60,66.\\x*.\n"
     "\\v 3 Lokubonakala kwayo kwakunjengombane\\x + Hlu. 13.6.\\x*, lesembatho sayo sasimhlophe njengeliqhwa elikhithikileyo\\x + Dan. 7.9. Mark. 9.3.\\x*.\n"
     "\\v 4 Abalindi basebethuthumela ngokuyesaba, baba njengabafileyo\\x + 27.65,66.\\x*.\n";
-    string serverModificationData =
+    std::string serverModificationData =
     "\\c 28\n"
     "\\s Ukuvuka lokuzibonakaliswa kwaJesu\n"
     "\\p\n"
@@ -193,8 +193,8 @@ TEST (filter, merge)
     "\\v 2 Futhi khangela, kwaba khona ukuzamazama komhlaba okukhulu\\x + 27.51,54.\\x*; ngoba ingilosi yeNkosi yehla ivela ezulwini\\x + Mark. 16.5. Luka 24.4. Joha. 20.12.\\x*, yasondela yagiqa ilitshe yalisusa emnyango, yahlala phezu kwalo\\x + 27.60,66.\\x*.\n"
     "\\v 3 Lokubonakala kwayo kwakunjengombane\\x + Dan. 10.6. Hlu. 13.6.\\x*, njalo isembatho sayo sasimhlophe njengeliqhwa elikhithikileyo\\x + Dan. 7.9. Mark. 9.3.\\x*.\n"
     "\\v 4 Abalindi basebethuthumela ngokuyesaba, baba njengabafileyo\\x + 27.65,66.\\x*.\n";
-    string output = filter_merge_run (mergeBaseData, userModificationData, serverModificationData, false, conflicts);
-    string standard =
+    std::string output = filter_merge_run (mergeBaseData, userModificationData, serverModificationData, false, conflicts);
+    std::string standard =
     "\\c 29\n"
     "\\s Ukuvuka lokuzibonakaliswa kwaJesu\n"
     "\\p\n"
@@ -209,17 +209,17 @@ TEST (filter, merge)
   // Test grapheme merge for simple modifications
   {
     std::vector <Merge_Conflict> conflicts;
-    string mergeBaseData =
+    std::string mergeBaseData =
     "\\c 28\n"
     "\\v 4 Abalindi basebethuthumela ngokuyesaba, baba njengabafileyo\\x + 27.65,66.\\x*.\n";
-    string userModificationData =
+    std::string userModificationData =
     "\\c 28\n"
     "\\v 4 Abalindi bathuthumela ngokuyesaba, baba njengabafileyo\\x + 27.65,66.\\x*.\n";
-    string serverModificationData =
+    std::string serverModificationData =
     "\\c 29\n"
     "\\v 4 Abalindi basebethuthumela besabe baba njengabafileyo\\x + 27.65,66.\\x*.\n";
-    string output = filter_merge_run (mergeBaseData, userModificationData, serverModificationData, false, conflicts);
-    string standard =
+    std::string output = filter_merge_run (mergeBaseData, userModificationData, serverModificationData, false, conflicts);
+    std::string standard =
     "\\c 29\n"
     "\\v 4 Abalindi bathuthumela besabe baba njengabafileyo\\x + 27.65,66.\\x*.";
     EXPECT_EQ (standard, output);
@@ -229,17 +229,17 @@ TEST (filter, merge)
   // Test that in case of a conflict, it takes the server's version.
   {
     std::vector <Merge_Conflict> conflicts;
-    string mergeBaseData =
+    std::string mergeBaseData =
     "\\c 28\n"
     "\\v 4 Abalindi basebethuthumela ngokuyesaba, baba njengabafileyo\\x + 27.65,66.\\x*.\n";
-    string userModificationData =
+    std::string userModificationData =
     "\\c 28\n"
     "\\v 4 Abalindi basebethuthumela ngokuyesaba baba njengabafileyo\\x + 27.65,66.\\x*.\n";
-    string serverModificationData =
+    std::string serverModificationData =
     "\\c 29\n"
     "\\v 4 Abalindi basebethuthumela ngokuyesaba; baba njengabafileyo\\x + 27.65,66.\\x*.\n";
-    string output = filter_merge_run (mergeBaseData, userModificationData, serverModificationData, false, conflicts);
-    string standard =
+    std::string output = filter_merge_run (mergeBaseData, userModificationData, serverModificationData, false, conflicts);
+    std::string standard =
     "\\c 29\n"
     "\\v 4 Abalindi basebethuthumela ngokuyesaba; baba njengabafileyo\\x + 27.65,66.\\x*.";
     EXPECT_EQ (standard, output);
@@ -249,7 +249,7 @@ TEST (filter, merge)
   // Realistic merge example.
   {
     std::vector <Merge_Conflict> conflicts;
-    string mergeBaseData =
+    std::string mergeBaseData =
     "\\c 1\n"
     "\\p\n"
     "\\v 1 This is really the text of the first (1st) verse.\n"
@@ -257,7 +257,7 @@ TEST (filter, merge)
     "\\v 3 The third (3rd) verse.\n"
     "\\v 4 The fourth (4th) verse.\n"
     "\\v 5\n";
-    string userModificationData =
+    std::string userModificationData =
     "\\c 1\n"
     "\\p\n"
     "\\v 1 This is really the text of the first (1st) verse.\n"
@@ -265,7 +265,7 @@ TEST (filter, merge)
     "\\v 3 The third verse.\n"
     "\\v 4 The fourth (4th) verse.\n"
     "\\v 5\n";
-    string serverModificationData =
+    std::string serverModificationData =
     "\\c 1\n"
     "\\p\n"
     "\\v 1 This is really the text of the first verse.\n"
@@ -273,8 +273,8 @@ TEST (filter, merge)
     "\\v 3 The third (3rd) verse.\n"
     "\\v 4 The fourth verse.\n"
     "\\v 5\n";
-    string output = filter_merge_run (mergeBaseData, userModificationData, serverModificationData, false, conflicts);
-    string standard =
+    std::string output = filter_merge_run (mergeBaseData, userModificationData, serverModificationData, false, conflicts);
+    std::string standard =
     "\\c 1\n"
     "\\p\n"
     "\\v 1 This is really the text of the first verse.\n"
@@ -289,17 +289,17 @@ TEST (filter, merge)
   // Merge situation taken from real life.
   {
     std::vector <Merge_Conflict> conflicts;
-    string path;
+    std::string path;
     path = filter_url_create_root_path ({"unittests", "tests", "merge_1_base.usfm"});
-    string mergeBaseData = filter_url_file_get_contents (path);
+    std::string mergeBaseData = filter_url_file_get_contents (path);
     path = filter_url_create_root_path ({"unittests", "tests", "merge_1_modification.usfm"});
-    string userModificationData = filter_url_file_get_contents (path);
+    std::string userModificationData = filter_url_file_get_contents (path);
     path = filter_url_create_root_path ({"unittests", "tests", "merge_1_server.usfm"});
-    string serverModificationData = filter_url_file_get_contents (path);
+    std::string serverModificationData = filter_url_file_get_contents (path);
     path = filter_url_create_root_path ({"unittests", "tests", "merge_1_result.usfm"});
-    string standard = filter_url_file_get_contents (path);
+    std::string standard = filter_url_file_get_contents (path);
     
-    string output = filter_merge_run_clever (mergeBaseData, userModificationData, serverModificationData, conflicts);
+    std::string output = filter_merge_run_clever (mergeBaseData, userModificationData, serverModificationData, conflicts);
     EXPECT_EQ (standard, output);
     EXPECT_EQ (0, conflicts.size ());
     
@@ -312,17 +312,17 @@ TEST (filter, merge)
   // Testing the clever merge routine on chapter 0.
   {
     std::vector <Merge_Conflict> conflicts;
-    string mergeBaseData =
+    std::string mergeBaseData =
     "\\id GEN\n"
     "\\p Some text one.\n";
-    string userModificationData =
+    std::string userModificationData =
     "\\id GEN\n"
     "\\p Some text two.\n";
-    string serverModificationData =
+    std::string serverModificationData =
     "\\id GEN\n"
     "\\p Some text one.\n";
-    string output = filter_merge_run_clever (mergeBaseData, userModificationData, serverModificationData, conflicts);
-    string standard =
+    std::string output = filter_merge_run_clever (mergeBaseData, userModificationData, serverModificationData, conflicts);
+    std::string standard =
     "\\id GEN\n"
     "\\p Some text two.";
     EXPECT_EQ (standard, output);
@@ -337,7 +337,7 @@ TEST (filter, merge)
   // Testing switching from separate verses into a combined verse.
   {
     std::vector <Merge_Conflict> conflicts;
-    string mergeBaseData =
+    std::string mergeBaseData =
     "\\c 1\n"
     "\\p\n"
     "\\v 1 This is really the text of the first (1st) verse.\n"
@@ -345,14 +345,14 @@ TEST (filter, merge)
     "\\v 3 The third (3rd) verse.\n"
     "\\v 4 The fourth (4th) verse.\n"
     "\\v 5\n";
-    string userModificationData =
+    std::string userModificationData =
     "\\c 1\n"
     "\\p\n"
     "\\v 1-2 This is really the text of the first (1st) verse. And this is what the second verse contains.\n"
     "\\v 3 The third verse.\n"
     "\\v 4 The fourth (4th) verse.\n"
     "\\v 5\n";
-    string serverModificationData =
+    std::string serverModificationData =
     "\\c 1\n"
     "\\p\n"
     "\\v 1 This is really the text of the first (1st) verse.\n"
@@ -360,8 +360,8 @@ TEST (filter, merge)
     "\\v 3 The third (3rd) verse.\n"
     "\\v 4 The fourth (4th) verse.\n"
     "\\v 5\n";
-    string output = filter_merge_run (mergeBaseData, userModificationData, serverModificationData, false, conflicts);
-    string standard =
+    std::string output = filter_merge_run (mergeBaseData, userModificationData, serverModificationData, false, conflicts);
+    std::string standard =
     "\\c 1\n"
     "\\p\n"
     "\\v 1-2 This is really the text of the first (1st) verse. And this is what the second verse contains.\n"
@@ -380,14 +380,14 @@ TEST (filter, merge)
   // Testing switching from a combined verse to separate verses.
   {
     std::vector <Merge_Conflict> conflicts;
-    string mergeBaseData =
+    std::string mergeBaseData =
     "\\c 1\n"
     "\\p\n"
     "\\v 1-2 This is really the text of the first (1st) verse. And this is what the second verse contains.\n"
     "\\v 3 The third verse.\n"
     "\\v 4 The fourth (4th) verse.\n"
     "\\v 5\n";
-    string userModificationData =
+    std::string userModificationData =
     "\\c 1\n"
     "\\p\n"
     "\\v 1 This is really the text of the first (1st) verse.\n"
@@ -395,15 +395,15 @@ TEST (filter, merge)
     "\\v 3 The third (3rd) verse.\n"
     "\\v 4 The fourth (4th) verse.\n"
     "\\v 5\n";
-    string serverModificationData =
+    std::string serverModificationData =
     "\\c 1\n"
     "\\p\n"
     "\\v 1-2 This is really the text of the first (1st) verse. And this is what the second verse contains.\n"
     "\\v 3 The third verse.\n"
     "\\v 4 The fourth (4th) verse.\n"
     "\\v 5\n";
-    string output = filter_merge_run (mergeBaseData, userModificationData, serverModificationData, false, conflicts);
-    string standard =
+    std::string output = filter_merge_run (mergeBaseData, userModificationData, serverModificationData, false, conflicts);
+    std::string standard =
     "\\c 1\n"
     "\\p\n"
     "\\v 1 This is really the text of the first (1st) verse.\n"
@@ -423,17 +423,17 @@ TEST (filter, merge)
   // Merge situation taken from real life.
   {
     std::vector <Merge_Conflict> conflicts;
-    string path;
+    std::string path;
     path = filter_url_create_root_path ({"unittests", "tests", "merge_2_base.usfm"});
-    string mergeBaseData = filter_url_file_get_contents (path);
+    std::string mergeBaseData = filter_url_file_get_contents (path);
     path = filter_url_create_root_path ({"unittests", "tests", "merge_2_modification.usfm"});
-    string userModificationData = filter_url_file_get_contents (path);
+    std::string userModificationData = filter_url_file_get_contents (path);
     path = filter_url_create_root_path ({"unittests", "tests", "merge_2_server.usfm"});
-    string serverModificationData = filter_url_file_get_contents (path);
+    std::string serverModificationData = filter_url_file_get_contents (path);
     path = filter_url_create_root_path ({"unittests", "tests", "merge_2_result.usfm"});
-    string standard = filter_url_file_get_contents (path);
+    std::string standard = filter_url_file_get_contents (path);
     
-    string output = filter_merge_run_clever (mergeBaseData, userModificationData, serverModificationData, conflicts);
+    std::string output = filter_merge_run_clever (mergeBaseData, userModificationData, serverModificationData, conflicts);
     EXPECT_EQ (standard, output);
     EXPECT_EQ (3, conflicts.size ());
     
@@ -446,17 +446,17 @@ TEST (filter, merge)
   // Merge situation taken from real life in July 2020.
   {
     std::vector <Merge_Conflict> conflicts;
-    string path;
+    std::string path;
     path = filter_url_create_root_path ({"unittests", "tests", "merge_3_base.usfm"});
-    string mergeBaseData = filter_url_file_get_contents (path);
+    std::string mergeBaseData = filter_url_file_get_contents (path);
     path = filter_url_create_root_path ({"unittests", "tests", "merge_3_modification.usfm"});
-    string userModificationData = filter_url_file_get_contents (path);
+    std::string userModificationData = filter_url_file_get_contents (path);
     path = filter_url_create_root_path ({"unittests", "tests", "merge_3_server.usfm"});
-    string serverModificationData = filter_url_file_get_contents (path);
+    std::string serverModificationData = filter_url_file_get_contents (path);
     path = filter_url_create_root_path ({"unittests", "tests", "merge_3_result.usfm"});
-    string standard = filter_url_file_get_contents (path);
+    std::string standard = filter_url_file_get_contents (path);
     
-    string output = filter_merge_run_clever (mergeBaseData, userModificationData, serverModificationData, conflicts);
+    std::string output = filter_merge_run_clever (mergeBaseData, userModificationData, serverModificationData, conflicts);
     EXPECT_EQ (standard, output);
     EXPECT_EQ (0, conflicts.size ());
     
@@ -469,17 +469,17 @@ TEST (filter, merge)
   // Merge situation taken from issue https://github.com/bibledit/cloud/issues/418
   {
     std::vector <Merge_Conflict> conflicts;
-    string path;
+    std::string path;
     path = filter_url_create_root_path ({"unittests", "tests", "merge_4_base.usfm"});
-    string mergeBaseData = filter_url_file_get_contents (path);
+    std::string mergeBaseData = filter_url_file_get_contents (path);
     path = filter_url_create_root_path ({"unittests", "tests", "merge_4_modification.usfm"});
-    string userModificationData = filter_url_file_get_contents (path);
+    std::string userModificationData = filter_url_file_get_contents (path);
     path = filter_url_create_root_path ({"unittests", "tests", "merge_4_server.usfm"});
-    string serverModificationData = filter_url_file_get_contents (path);
+    std::string serverModificationData = filter_url_file_get_contents (path);
     path = filter_url_create_root_path ({"unittests", "tests", "merge_4_result.usfm"});
-    string standard = filter_url_file_get_contents (path);
+    std::string standard = filter_url_file_get_contents (path);
     
-    string output = filter_merge_run_clever (mergeBaseData, userModificationData, serverModificationData, conflicts);
+    std::string output = filter_merge_run_clever (mergeBaseData, userModificationData, serverModificationData, conflicts);
     EXPECT_EQ (standard, output);
     EXPECT_EQ (0, conflicts.size ());
     

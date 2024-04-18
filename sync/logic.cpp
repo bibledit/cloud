@@ -72,8 +72,8 @@ bool Sync_Logic::credentials_okay ()
   }
   
   // Get the credentials the client POSTed to the us, the server.
-  string username = filter::strings::hex2bin (m_webserver_request.post ["u"]);
-  string password = m_webserver_request.post ["p"];
+  std::string username = filter::strings::hex2bin (m_webserver_request.post ["u"]);
+  std::string password = m_webserver_request.post ["p"];
   int level = filter::strings::convert_to_int (m_webserver_request.post ["l"]);
   
   // Check all credentials.
@@ -107,7 +107,7 @@ string Sync_Logic::checksum (const std::vector <int> & identifiers)
   for (const auto & identifier : identifiers) {
     checksums.push_back (database_notes.get_checksum (identifier));
   }
-  string checksum = filter::strings::implode (checksums, "");
+  std::string checksum = filter::strings::implode (checksums, "");
   checksum = md5 (checksum);
   return checksum;
 }
@@ -145,7 +145,7 @@ vector <Sync_Logic_Range> Sync_Logic::create_range (int start, int end)
 string Sync_Logic::post (map <string, std::string> & post, const std::string& url, string & error, bool burst)
 {
   error.clear ();
-  string response = filter_url_http_post (url, std::string(), post, error, burst, true, {});
+  std::string response = filter_url_http_post (url, std::string(), post, error, burst, true, {});
   if (error.empty ()) {
     // Success: Return response.
     return response;
@@ -158,7 +158,7 @@ string Sync_Logic::post (map <string, std::string> & post, const std::string& ur
 // Calculates the checksum of all settings to be kept in sync between server and client.
 string Sync_Logic::settings_checksum (const std::vector <std::string> & bibles)
 {
-  string checksum;
+  std::string checksum;
   checksum.append (m_webserver_request.database_config_user()->getWorkspaceURLs ());
   checksum.append (m_webserver_request.database_config_user()->getWorkspaceWidths ());
   checksum.append (m_webserver_request.database_config_user()->getWorkspaceHeights ());
@@ -183,7 +183,7 @@ string Sync_Logic::usfm_resources_checksum ()
   for (auto & resource : resources) {
     vchecksum.push_back (usfm_resource_checksum (resource));
   }
-  string checksum = filter::strings::implode (vchecksum, "");
+  std::string checksum = filter::strings::implode (vchecksum, "");
   checksum = md5 (checksum);
   return checksum;
 }
@@ -199,7 +199,7 @@ string Sync_Logic::usfm_resource_checksum (const std::string& name)
     vchecksum.push_back (filter::strings::convert_to_string (book));
     vchecksum.push_back (usfm_resource_book_checksum (name, book));
   }
-  string checksum = filter::strings::implode (vchecksum, "");
+  std::string checksum = filter::strings::implode (vchecksum, "");
   checksum = md5 (checksum);
   return checksum;
 }
@@ -215,7 +215,7 @@ string Sync_Logic::usfm_resource_book_checksum (const std::string& name, int boo
     vchecksum.push_back (filter::strings::convert_to_string (chapter));
     vchecksum.push_back (usfm_resource_chapter_checksum (name, book, chapter));
   }
-  string checksum = filter::strings::implode (vchecksum, "");
+  std::string checksum = filter::strings::implode (vchecksum, "");
   checksum = md5 (checksum);
   return checksum;
 }
@@ -234,9 +234,9 @@ string Sync_Logic::usfm_resource_chapter_checksum (const std::string& name, int 
 string Sync_Logic::changes_checksum (const std::string& username)
 {
   Database_Modifications database_modifications;
-  string any_bible = "";
+  std::string any_bible = "";
   std::vector <int> ids = database_modifications.getNotificationIdentifiers (username, any_bible);
-  string checksum;
+  std::string checksum;
   for (auto & id : ids) {
     checksum.append (filter::strings::convert_to_string (id));
   }
@@ -335,7 +335,7 @@ vector <std::string> Sync_Logic::files_get_files (string directory)
   filter_url_recursive_scandir (directory, paths);
   for (string path : paths) {
     if (filter_url_is_dir (path)) continue;
-    string extension = filter_url_get_extension (path);
+    std::string extension = filter_url_get_extension (path);
     if (extension == "o") continue;
     if (extension == "h") continue;
     if (extension == "cpp") continue;
@@ -349,7 +349,7 @@ vector <std::string> Sync_Logic::files_get_files (string directory)
 // This returns the checksum of a $file in $directory.
 int Sync_Logic::files_get_file_checksum (string directory, string file)
 {
-  string path = filter_url_create_root_path ({directory, file});
+  std::string path = filter_url_create_root_path ({directory, file});
   int checksum = filter_url_filesize (path);
   return checksum;
 }
@@ -367,7 +367,7 @@ void Sync_Logic::prioritized_ip_address_record ()
 // Checks whether the IP address of the current client has very recently made a prioritized server call.
 bool Sync_Logic::prioritized_ip_address_active ()
 {
-  string ip = m_webserver_request.remote_address;
+  std::string ip = m_webserver_request.remote_address;
   int time = filter::date::seconds_since_epoch ();
   bool active = false;
   sync_logic_mutex.lock ();

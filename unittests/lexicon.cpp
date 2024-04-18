@@ -30,73 +30,73 @@ TEST (database, lexicons)
 {
   {
     Database_HebrewLexicon database;
-    string result = database.getaug ("1");
+    std::string result = database.getaug ("1");
     EXPECT_EQ ("aac", result);
   }
 
   {
     Database_HebrewLexicon database;
-    string result = database.getaug ("10");
+    std::string result = database.getaug ("10");
     EXPECT_EQ ("aai", result);
   }
 
   {
     Database_HebrewLexicon database;
-    string result = database.getbdb ("a.aa.aa");
+    std::string result = database.getbdb ("a.aa.aa");
     EXPECT_EQ (160, result.length ());
   }
 
   {
     Database_HebrewLexicon database;
-    string result = database.getbdb ("a.ac.ac");
+    std::string result = database.getbdb ("a.ac.ac");
     EXPECT_EQ (424, result.length ());
   }
 
   {
     Database_HebrewLexicon database;
-    string result = database.getmap ("aaa");
+    std::string result = database.getmap ("aaa");
     EXPECT_EQ ("a.aa.aa", result);
   }
 
   {
     Database_HebrewLexicon database;
-    string result = database.getmap ("aaj");
+    std::string result = database.getmap ("aaj");
     EXPECT_EQ ("a.ac.af", result);
   }
 
   {
     Database_HebrewLexicon database;
-    string result = database.getpos ("a");
+    std::string result = database.getpos ("a");
     EXPECT_EQ ("adjective", result);
   }
 
   {
     Database_HebrewLexicon database;
-    string result = database.getpos ("x");
+    std::string result = database.getpos ("x");
     EXPECT_EQ ("indefinite pronoun", result);
   }
 
   {
     Database_HebrewLexicon database;
-    string result = database.getstrong ("H0");
+    std::string result = database.getstrong ("H0");
     EXPECT_EQ ("", result);
   }
 
   {
     Database_HebrewLexicon database;
-    string result = database.getstrong ("H1");
+    std::string result = database.getstrong ("H1");
     EXPECT_EQ (303, result.length ());
   }
   
   {
     Database_HebrewLexicon database;
-    string result = database.getstrong ("H2");
+    std::string result = database.getstrong ("H2");
     EXPECT_EQ (149, result.length ());
   }
   
   {
-    string result = lexicon_logic_render_strongs_definition ("G5590");
-    string standard = R"(Strong's 5590 ψυχή psychḗ psoo-khay' from <a href="G5594">5594</a> ; breath, i.e. (by implication) spirit, abstractly or concretely (the animal sentient principle only; thus distinguished on the one hand from <a href="G4151">4151</a> , which is the rational and immortal soul; and on the other from <a href="G2222">2222</a> , which is mere vitality, even of plants: these terms thus exactly correspond respectively to the Hebrew <a href="H05315">05315</a> , <a href="H07307">07307</a> and <a href="H02416">02416</a> ); usage in King James Bible:--heart (+ -ily), life, mind, soul, + us, + you.)";
+    std::string result = lexicon_logic_render_strongs_definition ("G5590");
+    std::string standard = R"(Strong's 5590 ψυχή psychḗ psoo-khay' from <a href="G5594">5594</a> ; breath, i.e. (by implication) spirit, abstractly or concretely (the animal sentient principle only; thus distinguished on the one hand from <a href="G4151">4151</a> , which is the rational and immortal soul; and on the other from <a href="G2222">2222</a> , which is mere vitality, even of plants: these terms thus exactly correspond respectively to the Hebrew <a href="H05315">05315</a> , <a href="H07307">07307</a> and <a href="H02416">02416</a> ); usage in King James Bible:--heart (+ -ily), life, mind, soul, + us, + you.)";
     EXPECT_EQ (standard, result);
   }
 }

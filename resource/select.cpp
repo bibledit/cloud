@@ -70,11 +70,11 @@ string resource_select (Webserver_Request& webserver_request)
   bool is_def = false;
   if (webserver_request.query["type"] == "def") is_def = true;
   if (is_def) view.set_variable ("type", "def");
-  string caller = resource_logic_selector_caller (webserver_request);
+  std::string caller = resource_logic_selector_caller (webserver_request);
   view.set_variable ("caller", caller);
   
 
-  string disconnected_info {};
+  std::string disconnected_info {};
 #ifdef HAVE_CLIENT
   if (!client_logic_client_enabled ()) {
     disconnected_info = translate ("Connect to Bibledit Cloud to have access to the full range of available resources.");
@@ -248,7 +248,7 @@ string resource_select (Webserver_Request& webserver_request)
     resource_logic_comparative_resources_get_list_on_client ();
 #endif
     for (const auto & raw_resource : raw_resources) {
-      string title {};
+      std::string title {};
       if (resource_logic_parse_comparative_resource (raw_resource, &title)) {
         resources.push_back(title);
       }
@@ -277,7 +277,7 @@ string resource_select (Webserver_Request& webserver_request)
     resource_logic_translated_resources_get_list_on_client ();
 #endif
     for (const auto & raw_resource : raw_resources) {
-      string title {};
+      std::string title {};
       if (resource_logic_parse_translated_resource (raw_resource, &title)) {
         resources.push_back(title);
       }

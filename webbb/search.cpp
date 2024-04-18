@@ -46,12 +46,12 @@ string webbible_search (Webserver_Request& webserver_request)
   
   
   // Get the URL and the text for the backlink.
-  string backlinkUrl = webserver_request.query.count ("url") ? webserver_request.query["url"] : "";
-  string backlinkText = webserver_request.query.count ("text") ? webserver_request.query["text"] : "";
+  std::string backlinkUrl = webserver_request.query.count ("url") ? webserver_request.query["url"] : "";
+  std::string backlinkText = webserver_request.query.count ("text") ? webserver_request.query["text"] : "";
   
   
   // The query: The word or string to search for.
-  string queryString = webserver_request.query.count ("q") ? webserver_request.query["q"] : "";
+  std::string queryString = webserver_request.query.count ("q") ? webserver_request.query["q"] : "";
   
   
   // Put the search query and the backlink into the search box.
@@ -69,7 +69,7 @@ string webbible_search (Webserver_Request& webserver_request)
   
   
   // Exported Bible.
-  string exportedBible = filter_url_basename_web (filter_url_dirname_web (filter_url_dirname_web (backlinkUrl)));
+  std::string exportedBible = filter_url_basename_web (filter_url_dirname_web (filter_url_dirname_web (backlinkUrl)));
   
   
   // Search the Bible text in the exported Bible.
@@ -89,19 +89,19 @@ string webbible_search (Webserver_Request& webserver_request)
     
     // Get the passage of this search hit.
     if (passage.m_book == 0) continue;
-    string bible = passage.m_bible;
+    std::string bible = passage.m_bible;
     int book = passage.m_book;
     int chapter = passage.m_chapter;
-    string verse = passage.m_verse;
+    std::string verse = passage.m_verse;
     
     
     // The title.
-    string title = bible + " | " + filter_passage_display (book, chapter, verse);
+    std::string title = bible + " | " + filter_passage_display (book, chapter, verse);
     title = filter::strings::escape_special_xml_characters (title);
     
     
     // The URL.
-    string url = "/exports/" + bible + "/web/" + filter_url_html_file_name_bible (string(), book, chapter);
+    std::string url = "/exports/" + bible + "/web/" + filter_url_html_file_name_bible (string(), book, chapter);
     
     
     // Output title and URL.
@@ -109,11 +109,11 @@ string webbible_search (Webserver_Request& webserver_request)
     
     
     // The excerpt.
-    string text = search_logic_get_bible_verse_text (bible, book, chapter, filter::strings::convert_to_int (verse));
+    std::string text = search_logic_get_bible_verse_text (bible, book, chapter, filter::strings::convert_to_int (verse));
     std::vector <std::string> v_text = filter::strings::explode (text, '\n');
     // Go through each line of text separately.
     for (auto line : v_text) {
-      string markedLine = filter::strings::markup_words (queryWords, line);
+      std::string markedLine = filter::strings::markup_words (queryWords, line);
       if (markedLine != line) {
         // Store this bit of the excerpt.
         hitsblock << "<p style=" << quoted ("margin-top: 0em; margin-bottom: 0em") << ">" << markedLine << "</p>" << std::endl;

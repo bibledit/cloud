@@ -51,17 +51,17 @@ int main (int argc, char **argv)
     std::cerr << "Please pass a command as the second argument" << std::endl;
     return EXIT_FAILURE;
   }
-  string command = argv [2];
+  std::string command = argv [2];
 
-  string i18n_command {"i18n"};
-  string locale_command {"locale"};
-  string sample_bible_command {"samplebible"};
-  string mappings_command {"mappings"};
-  string versifications_command {"versifications"};
-  string morphhb_command {"morphhb"};
-  string oshb_command {"oshb"};
-  string stylesheet_command {"styles"};
-  string abbott_smith_command {"abbott-smith"};
+  std::string i18n_command {"i18n"};
+  std::string locale_command {"locale"};
+  std::string sample_bible_command {"samplebible"};
+  std::string mappings_command {"mappings"};
+  std::string versifications_command {"versifications"};
+  std::string morphhb_command {"morphhb"};
+  std::string oshb_command {"oshb"};
+  std::string stylesheet_command {"styles"};
+  std::string abbott_smith_command {"abbott-smith"};
 
   if (command == i18n_command) {
 

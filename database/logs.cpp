@@ -47,9 +47,9 @@ void Database_Logs::log (string description, int level)
     description.append ("... This entry was too large and has been truncated: " + filter::strings::convert_to_string (length) + " bytes");
   }
   // Save this logbook entry to a filename with seconds and microseconds.
-  string seconds = filter::strings::convert_to_string (filter::date::seconds_since_epoch ());
-  string time = seconds + filter::strings::fill (filter::strings::convert_to_string (filter::date::numerical_microseconds ()), 8, '0');
-  string file = filter_url_create_path ({folder (), time});
+  std::string seconds = filter::strings::convert_to_string (filter::date::seconds_since_epoch ());
+  std::string time = seconds + filter::strings::fill (filter::strings::convert_to_string (filter::date::numerical_microseconds ()), 8, '0');
+  std::string file = filter_url_create_path ({folder (), time});
   // The microseconds granularity depends on the platform.
   // On Windows it is lower than on Linux.
   // There may be the rare case of more than one entry per file.
@@ -70,7 +70,7 @@ void Database_Logs::log (string description, int level)
 // Records an extended journal entry.
 void Database_Logs::log (string subject, string body, int level)
 {
-  string description (subject);
+  std::string description (subject);
   description.append ("\n");
   description.append (body);
   log (description, level);
@@ -83,7 +83,7 @@ void Database_Logs::rotate ()
   // The PHP function scandir choked on this or took a very long time.
   // The PHP functions opendir / readdir / closedir handled it better.
   // But now, in C++, with the new journal mechanism, this is no longer relevant.
-  string directory = folder ();
+  std::string directory = folder ();
   std::vector <std::string> files = filter_url_scandir (directory);
 
   
@@ -109,7 +109,7 @@ void Database_Logs::rotate ()
   
   bool filtered_entries = false;
   for (unsigned int i = 0; i < files.size(); i++) {
-    string path = filter_url_create_path ({directory, files [i]});
+    std::string path = filter_url_create_path ({directory, files [i]});
 
     // Limit the number of journal entries.
     if (static_cast<int> (i) < limitfilecount) {
@@ -125,7 +125,7 @@ void Database_Logs::rotate ()
     }
 
     // Filtering of certain entries.
-    string entry = filter_url_file_get_contents (path);
+    std::string entry = filter_url_file_get_contents (path);
     if (journal_logic_filter_entry (entry)) {
       filtered_entries = true;
       filter_url_unlink (path);
@@ -163,7 +163,7 @@ string Database_Logs::next (string &filename)
 {
   std::vector <std::string> files = filter_url_scandir (folder ());
   for (unsigned int i = 0; i < files.size (); i++) {
-    string file = files [i];
+    std::string file = files [i];
     if (file > filename) {
       filename = file;
       return file;
@@ -176,7 +176,7 @@ string Database_Logs::next (string &filename)
 // Clears all journal entries.
 void Database_Logs::clear ()
 {
-  string directory = folder ();
+  std::string directory = folder ();
   std::vector <std::string> files = filter_url_scandir (directory);
   for (auto file : files) {
     filter_url_unlink (filter_url_create_path ({directory, file}));

@@ -73,7 +73,7 @@ string user_notifications (Webserver_Request& webserver_request)
   
   Assets_View view;
 
-  string checkbox = webserver_request.post ["checkbox"];
+  std::string checkbox = webserver_request.post ["checkbox"];
   bool checked = filter::strings::convert_to_bool (webserver_request.post ["checked"]);
 
   if (checkbox == "editednotessubscription") {
@@ -142,7 +142,7 @@ string user_notifications (Webserver_Request& webserver_request)
   }
   view.set_variable ("postponenewnotesmails", filter::strings::get_checkbox_status (database_config_user.getPostponeNewNotesMails ()));
 
-  const string user = webserver_request.session_logic ()->currentUser ();
+  const std::string user = webserver_request.session_logic ()->currentUser ();
   const std::vector <std::string> all_assignees = database_noteassignment.assignees (user);
   std::vector <std::string> current_assignees = database_config_user.getAutomaticNoteAssignment();
   for (const auto& assignee : all_assignees) {

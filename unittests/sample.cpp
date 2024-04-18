@@ -44,9 +44,9 @@ TEST (database, sample)
   
   // Retrieve and check the samples.
   for (int i = 1; i <= 5; i++) {
-    string standard_file = filter::strings::convert_to_string (1000 * i);
-    string standard_data = filter::strings::convert_to_string (10'000 * i);
-    string file, data;
+    std::string standard_file = filter::strings::convert_to_string (1000 * i);
+    std::string standard_data = filter::strings::convert_to_string (10'000 * i);
+    std::string file, data;
     Database_Sample::get (i, file, data);
     EXPECT_EQ (standard_file, file);
     EXPECT_EQ (standard_data, data);

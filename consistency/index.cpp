@@ -59,7 +59,7 @@ string consistency_index (Webserver_Request& webserver_request)
   Assets_View view;
 
   
-  string add = webserver_request.post ["add"];
+  std::string add = webserver_request.post ["add"];
   if (!add.empty ()) {
     std::vector <std::string> resources = webserver_request.database_config_user()->getConsistencyResources ();
     resources.push_back (add);
@@ -67,7 +67,7 @@ string consistency_index (Webserver_Request& webserver_request)
   }
   
   
-  string remove = webserver_request.query ["remove"];
+  std::string remove = webserver_request.query ["remove"];
   if (!remove.empty ()) {
     std::vector <std::string> resources = webserver_request.database_config_user()->getConsistencyResources ();
     resources = filter::strings::array_diff (resources, {remove});

@@ -63,7 +63,7 @@ namespace dtl {
     /**
      * version string
      */
-    const string version = "1.19";
+    const std::string version = "1.19";
 
     /**
      * type of edit for SES

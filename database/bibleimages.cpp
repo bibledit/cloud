@@ -35,7 +35,7 @@ vector <std::string> Database_BibleImages::get ()
   std::vector <std::string> files = filter_url_scandir (folder ());
   std::vector <std::string> images;
   for (auto file : files) {
-    string extension = filter_url_get_extension (file);
+    std::string extension = filter_url_get_extension (file);
     if (extension == "o") continue;
     if (extension == "h") continue;
     if (extension == "cpp") continue;
@@ -48,21 +48,21 @@ vector <std::string> Database_BibleImages::get ()
 
 void Database_BibleImages::store (string file)
 {
-  string image = filter_url_basename (file);
+  std::string image = filter_url_basename (file);
   filter_url_file_cp (file, path (image));
 }
 
 
 string Database_BibleImages::get (string image)
 {
-  string contents = filter_url_file_get_contents (path(image));
+  std::string contents = filter_url_file_get_contents (path(image));
   return contents;
 }
 
 
 void Database_BibleImages::erase (string image)
 {
-  string filepath = path(image);
+  std::string filepath = path(image);
   filter_url_unlink (filepath);
 }
 

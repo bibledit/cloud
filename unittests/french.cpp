@@ -34,9 +34,9 @@ TEST (checks, french)
   refresh_sandbox (false);
   Database_Check database_check;
   database_check.create ();
-  string bible = "unit test";
-  string nbsp = filter::strings::non_breaking_space_u00A0 ();
-  string nnbsp = filter::strings::narrow_non_breaking_space_u202F ();
+  std::string bible = "unit test";
+  std::string nbsp = filter::strings::non_breaking_space_u00A0 ();
+  std::string nnbsp = filter::strings::narrow_non_breaking_space_u202F ();
   
   // Test reporting lacking no-break space at French square brackets and other punctuation.
   {
@@ -54,7 +54,7 @@ TEST (checks, french)
     int hitcount = 6;
     EXPECT_EQ (hitcount, hits.size ());
     if (static_cast<int> (hits.size ()) == hitcount) {
-      string standard;
+      std::string standard;
       standard = "« - Should be followed by a no-break space in French";
       EXPECT_EQ (standard, hits [0].data);
       EXPECT_EQ (1, hits [0].verse);
@@ -80,7 +80,7 @@ TEST (checks, french)
   // Test French citation style.
   {
     database_check.truncateOutput (bible);
-    string usfm = R"(
+    std::string usfm = R"(
 \c 1
 \p
 \v 1 This is a «citation».
@@ -108,8 +108,8 @@ TEST (checks, french)
     int size = 4;
     EXPECT_EQ (size, hits.size ());
     if (static_cast<int> (hits.size ()) == size) {
-      string standard1 = "The previous paragraph contains a citation not closed with a » therefore the current paragraph is expected to start with a « to continue that citation in French";
-      string standard2 = "The paragraph contains more right guillements than needed";
+      std::string standard1 = "The previous paragraph contains a citation not closed with a » therefore the current paragraph is expected to start with a « to continue that citation in French";
+      std::string standard2 = "The paragraph contains more right guillements than needed";
       EXPECT_EQ (6, hits [0].verse);
       EXPECT_EQ (standard1, hits [0].data);
       EXPECT_EQ (6, hits [1].verse);
@@ -125,7 +125,7 @@ TEST (checks, french)
   {
     database_check.truncateOutput (bible);
     // In the example following, there is the « in the beginning of the verse 13, it needs to begin a new paragraph, or be considered as an extra «, but the checks don't find it.
-    string usfm = R"(
+    std::string usfm = R"(
 \p
 \v 9 Yezu taka kingana yai na bantu yankaka vandaka kudisikisa nde bo kele bantu ya masonga na meso ya Nzambi, kansi bo vandaka kuvweza bantu yankaka yonso :
 \v 10 « Bantu zole kwendaka na Tempelo na kusamba. Mosi vandaka mfarizi ; yina yankaka, kalaki ya kitari.
@@ -144,7 +144,7 @@ TEST (checks, french)
     int size = 1;
     EXPECT_EQ (size, hits.size ());
     if (static_cast<int> (hits.size ()) == size) {
-      string standard = "The paragraph contains more left guillements than needed";
+      std::string standard = "The paragraph contains more left guillements than needed";
       EXPECT_EQ (14, hits [0].verse);
       EXPECT_EQ (standard, hits [0].data);
     }

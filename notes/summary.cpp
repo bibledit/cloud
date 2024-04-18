@@ -63,14 +63,14 @@ string notes_summary (Webserver_Request& webserver_request)
   
   
   if (webserver_request.post.count ("submit")) {
-    string summary = webserver_request.post["entry"];
+    std::string summary = webserver_request.post["entry"];
     notes_logic.set_summary (id, summary);
     redirect_browser (webserver_request, notes_note_url () + "?id=" + filter::strings::convert_to_string (id));
     return "";
   }
   
   
-  string summary = database_notes.get_summary (id);
+  std::string summary = database_notes.get_summary (id);
   view.set_variable ("summary", filter::strings::escape_special_xml_characters (summary));
 
   

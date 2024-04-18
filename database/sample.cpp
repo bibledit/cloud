@@ -29,7 +29,7 @@ using namespace std;
 
 void Database_Sample::create ()
 {
-  string path = database_sqlite_file (name ());
+  std::string path = database_sqlite_file (name ());
   filter_url_unlink (path);
   SqliteDatabase sql = SqliteDatabase (name ());
   sql.add ("CREATE TABLE IF NOT EXISTS sample (file text, data text);");

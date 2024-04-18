@@ -107,7 +107,7 @@ bool sendreceive_notes_upload ()
   Database_Logs::log (sendreceive_notes_sendreceive_text (), Filter_Roles::translator ());
   
   
-  string response = client_logic_connection_setup ("", "");
+  std::string response = client_logic_connection_setup ("", "");
   int iresponse = filter::strings::convert_to_int (response);
   if (iresponse < Filter_Roles::guest () || iresponse > Filter_Roles::admin ()) {
     Database_Logs::log (sendreceive_notes_text () + translate("Failure to initiate connection"), Filter_Roles::translator ());
@@ -121,7 +121,7 @@ bool sendreceive_notes_upload ()
     Database_Logs::log (sendreceive_notes_text () + translate("No local user found"), Filter_Roles::translator ());
     return false;
   }
-  string user = users [0];
+  std::string user = users [0];
   webserver_request.session_logic ()->set_username (user);
   
   
@@ -134,13 +134,13 @@ bool sendreceive_notes_upload ()
   
   
   // Error variable.
-  string error;
+  std::string error;
   
   
   // Server URL to call.
-  string address = Database_Config_General::getServerAddress ();
+  std::string address = Database_Config_General::getServerAddress ();
   int port = Database_Config_General::getServerPort ();
-  string url = client_logic_url (address, port, sync_notes_url ());
+  std::string url = client_logic_url (address, port, sync_notes_url ());
   
   
   // Check on communication errors to be careful that there will be no loss of notes data on the client.
@@ -156,7 +156,7 @@ bool sendreceive_notes_upload ()
   for (auto identifier : notes) {
     
 
-    string summary = database_notes.get_summary (identifier);
+    std::string summary = database_notes.get_summary (identifier);
     if (summary.empty ()) summary = "<deleted>";
     Database_Logs::log (sendreceive_notes_text () + translate("Sending note to server") + ": " + summary, Filter_Roles::translator ());
     
@@ -173,10 +173,10 @@ bool sendreceive_notes_upload ()
     for (auto note_action : note_actions) {
       
       int rowid = note_action.rowid;
-      string username = note_action.username;
+      std::string username = note_action.username;
       //int timestamp = note_action.timestamp;
       int action = note_action.action;
-      string content = note_action.content;
+      std::string content = note_action.content;
       
       
       // Generate a POST request.
@@ -324,7 +324,7 @@ bool sendreceive_notes_download (int lowId, int highId)
   Sync_Logic sync_logic (webserver_request);
   
   
-  string response = client_logic_connection_setup ("", "");
+  std::string response = client_logic_connection_setup ("", "");
   int iresponse = filter::strings::convert_to_int (response);
   if (iresponse < Filter_Roles::guest () || iresponse > Filter_Roles::admin ()) {
     Database_Logs::log (sendreceive_notes_text () + translate("Failure to initiate connection"), Filter_Roles::translator ());
@@ -343,9 +343,9 @@ bool sendreceive_notes_download (int lowId, int highId)
     Database_Logs::log (sendreceive_notes_text () + translate("No local user found"), Filter_Roles::translator ());
     return false;
   }
-  string user = users [0];
+  std::string user = users [0];
   webserver_request.session_logic ()->set_username (user);
-  string password = webserver_request.database_users ()->get_md5 (user);
+  std::string password = webserver_request.database_users ()->get_md5 (user);
 
   
   // Check for the health of the notes databases and take action if needed.
@@ -359,9 +359,9 @@ bool sendreceive_notes_download (int lowId, int highId)
   
   
   // Server URL to call.
-  string address = Database_Config_General::getServerAddress ();
+  std::string address = Database_Config_General::getServerAddress ();
   int port = Database_Config_General::getServerPort ();
-  string url = client_logic_url (address, port, sync_notes_url ());
+  std::string url = client_logic_url (address, port, sync_notes_url ());
   
   
   // The basic request to be POSTed to the server.
@@ -372,7 +372,7 @@ bool sendreceive_notes_download (int lowId, int highId)
 
   
   // Error variable.
-  string error;
+  std::string error;
   
   
   // The script requests the total note count from the server, and their total checksum.
@@ -390,12 +390,12 @@ bool sendreceive_notes_download (int lowId, int highId)
   std::vector <std::string> vresponse = filter::strings::explode (response, '\n');
   int server_total = 0;
   if (vresponse.size () >= 1) server_total = filter::strings::convert_to_int (vresponse [0]);
-  string server_checksum;
+  std::string server_checksum;
   if (vresponse.size () >= 2) server_checksum = vresponse [1];
   std::vector <int> identifiers = database_notes.get_notes_in_range_for_bibles (lowId, highId, {}, true);
   int client_total = static_cast<int>(identifiers.size());
   // Checksum cache to speed things up in case of thousands of notes.
-  string client_checksum = Database_State::getNotesChecksum (lowId, highId);
+  std::string client_checksum = Database_State::getNotesChecksum (lowId, highId);
   if (client_checksum.empty ()) {
     client_checksum = database_notes.get_multiple_checksum (identifiers);
     Database_State::putNotesChecksum (lowId, highId, client_checksum);
@@ -469,7 +469,7 @@ bool sendreceive_notes_download (int lowId, int highId)
     // Therefore limit the number of notes a client can delete in one go.
     delete_counter++;
     if (delete_counter > 15) continue;
-    string summary = database_notes.get_summary (identifier);
+    std::string summary = database_notes.get_summary (identifier);
     database_notes.erase (identifier);
     Database_Logs::log (sendreceive_notes_text () + "Deleting because it is not on the server: " + summary, Filter_Roles::translator ());
   }
@@ -487,8 +487,8 @@ bool sendreceive_notes_download (int lowId, int highId)
     // Skip note if it is still to be sent off to the server.
     if (database_noteactions.exists (identifier)) continue;
     
-    string server_checksum_note = server_checksums [i];
-    string client_checksum_note = database_notes.get_checksum (identifier);
+    std::string server_checksum_note = server_checksums [i];
+    std::string client_checksum_note = database_notes.get_checksum (identifier);
     if (client_checksum_note == server_checksum_note) continue;
     
     // Store the identifier to be downloaded as part of a bulk download.
@@ -504,9 +504,9 @@ bool sendreceive_notes_download (int lowId, int highId)
     // Request the JSON from the Cloud: It will contain the requested notes.
     post.clear ();
     post ["a"] = filter::strings::convert_to_string (Sync_Logic::notes_get_bulk);
-    string bulk_identifiers = filter::strings::implode (identifiers_bulk_download, "\n");
+    std::string bulk_identifiers = filter::strings::implode (identifiers_bulk_download, "\n");
     post ["b"] = bulk_identifiers;
-    string json = sync_logic.post (post, url, error);
+    std::string json = sync_logic.post (post, url, error);
     if (!error.empty ()) {
       Database_Logs::log (sendreceive_notes_text () + "Failure requesting multiple notes: " + error, Filter_Roles::consultant ());
       return false;

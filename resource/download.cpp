@@ -64,7 +64,7 @@ string resource_download (Webserver_Request& webserver_request)
   Assets_View view;
 
   
-  string name = webserver_request.query["name"];
+  std::string name = webserver_request.query["name"];
   view.set_variable ("name", name);
 
   

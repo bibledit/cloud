@@ -58,7 +58,7 @@ string edit_preview (Webserver_Request& webserver_request)
 {
   bool touch = webserver_request.session_logic ()->touchEnabled ();
   bool timeout = webserver_request.query.count ("timeout");
-  string caller = webserver_request.query ["caller"];
+  std::string caller = webserver_request.query ["caller"];
 
   std::string page;
   
@@ -74,10 +74,10 @@ string edit_preview (Webserver_Request& webserver_request)
   
   // Get active Bible, and check read access to it.
   // If needed, change Bible to one it has read access to.
-  string bible = access_bible::clamp (webserver_request, webserver_request.database_config_user()->getBible ());
+  std::string bible = access_bible::clamp (webserver_request, webserver_request.database_config_user()->getBible ());
   
-  string cls = Filter_Css::getClass (bible);
-  string font = fonts::logic::get_text_font (bible);
+  std::string cls = Filter_Css::getClass (bible);
+  std::string font = fonts::logic::get_text_font (bible);
   int direction = Database_Config_Bible::getTextDirection (bible);
   int lineheight = Database_Config_Bible::getLineHeight (bible);
   int letterspacing = Database_Config_Bible::getLetterSpacing (bible);
@@ -93,7 +93,7 @@ string edit_preview (Webserver_Request& webserver_request)
   
   const std::string stylesheet = Database_Config_Bible::getEditorStylesheet (bible);
   
-  string usfm = webserver_request.database_bibles()->get_chapter (bible, book, chapter);
+  std::string usfm = webserver_request.database_bibles()->get_chapter (bible, book, chapter);
   
   Editor_Usfm2Html editor_usfm2html;
   editor_usfm2html.load (usfm);
@@ -101,7 +101,7 @@ string edit_preview (Webserver_Request& webserver_request)
   editor_usfm2html.set_preview();
   editor_usfm2html.run ();
   
-  string html = editor_usfm2html.get ();
+  std::string html = editor_usfm2html.get ();
   view.set_variable ("html", html);
  
   if (timeout) {

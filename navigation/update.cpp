@@ -43,7 +43,7 @@ string navigation_update (Webserver_Request& webserver_request)
   // But then, when switching from a Bible that has the NT only, to a Bible that has OT and NT,
   // the navigator would only show the NT books.
   // Now, by taking the Bible from the database, it will show the books of the last selected Bible.
-  string bible = webserver_request.database_config_user()->getBible ();
+  std::string bible = webserver_request.database_config_user()->getBible ();
   int book = filter::strings::convert_to_int (webserver_request.query ["book"]);
   int chapter = filter::strings::convert_to_int (webserver_request.query ["chapter"]);
   int verse = filter::strings::convert_to_int (webserver_request.query ["verse"]);
@@ -57,7 +57,7 @@ string navigation_update (Webserver_Request& webserver_request)
 
   
   else if (webserver_request.query.count ("passage")) {
-    string passage = webserver_request.query["passage"];
+    std::string passage = webserver_request.query["passage"];
     Navigation_Passage::interpret_keyboard_navigator (webserver_request, bible, passage);
   }
 
@@ -78,7 +78,7 @@ string navigation_update (Webserver_Request& webserver_request)
   
   
   else if (webserver_request.query.count ("applybook")) {
-    string msg = webserver_request.query ["applybook"];
+    std::string msg = webserver_request.query ["applybook"];
     if (msg.find ("cancel") == std::string::npos) {
       int apply_book = filter::strings::convert_to_int (msg);
       if (apply_book) Navigation_Passage::set_book (webserver_request, apply_book);
@@ -94,7 +94,7 @@ string navigation_update (Webserver_Request& webserver_request)
 
   // Select a chapter, go to previous or next chapter, or cancel.
   else if (webserver_request.query.count ("applychapter")) {
-    string msg = webserver_request.query ["applychapter"];
+    std::string msg = webserver_request.query ["applychapter"];
     if (msg.find ("previous") != std::string::npos) {
       Navigation_Passage::goto_previous_chapter (webserver_request, bible);
     } else if (msg.find ("next") != std::string::npos) {
@@ -116,7 +116,7 @@ string navigation_update (Webserver_Request& webserver_request)
   
   // Select a verse, go to the previous or next verse, or cancel.
   else if (webserver_request.query.count ("applyverse")) {
-    string msg = webserver_request.query ["applyverse"];
+    std::string msg = webserver_request.query ["applyverse"];
     if (msg.find ("previous") != std::string::npos) {
       Navigation_Passage::goto_previous_verse (webserver_request, bible);
     } else if (msg.find ("next") != std::string::npos) {
@@ -167,7 +167,7 @@ string navigation_update (Webserver_Request& webserver_request)
 
   // Apply the selected history items to the navigation system.
   else if (webserver_request.query.count ("applyhistory")) {
-    string message = webserver_request.query ["applyhistory"];
+    std::string message = webserver_request.query ["applyhistory"];
     if (message.find ("cancel") == std::string::npos) {
       Navigation_Passage::go_history(webserver_request, message);
     }

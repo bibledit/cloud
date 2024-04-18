@@ -44,7 +44,7 @@ bool read_verse_acl (Webserver_Request& webserver_request)
 string read_verse (Webserver_Request& webserver_request)
 {
   // Only act if a verse was found
-  string sverse = webserver_request.query ["verse"];
+  std::string sverse = webserver_request.query ["verse"];
   if (!sverse.empty ()) {
     
     // Only update navigation in case the verse changed.

@@ -36,8 +36,8 @@ void manage_hyphenate (string bible, string user)
   Database_Bibles database_bibles;
 
 
-  string inputBible (bible);
-  string outputBible = inputBible + "-hyphenated";
+  std::string inputBible (bible);
+  std::string outputBible = inputBible + "-hyphenated";
   
   
   Database_Logs::log ("Reading Bible " + inputBible + ", adding soft hyphens, putting it into Bible " + outputBible);
@@ -46,18 +46,18 @@ void manage_hyphenate (string bible, string user)
   // Get the two sets of characters as arrays.
   // The /u switch treats the text as UTF8 Unicode.
   std::vector <std::string> firstset;
-  string s_firstset = Database_Config_Bible::getHyphenationFirstSet (inputBible);
+  std::string s_firstset = Database_Config_Bible::getHyphenationFirstSet (inputBible);
   size_t length = filter::strings::unicode_string_length (s_firstset);
   for (size_t i = 0; i < length; i++) {
-    string s = filter::strings::unicode_string_substr (s_firstset, i, 1);
+    std::string s = filter::strings::unicode_string_substr (s_firstset, i, 1);
     if (s == " ") continue;
     firstset.push_back (s);
   }
   std::vector <std::string> secondset;
-  string s_secondset = Database_Config_Bible::getHyphenationSecondSet (inputBible);
+  std::string s_secondset = Database_Config_Bible::getHyphenationSecondSet (inputBible);
   length = filter::strings::unicode_string_length (s_secondset);
   for (size_t i = 0; i < length; i++) {
-    string s = filter::strings::unicode_string_substr (s_secondset, i, 1);
+    std::string s = filter::strings::unicode_string_substr (s_secondset, i, 1);
     if (s == " ") continue;
     secondset.push_back (s);
   }
@@ -83,7 +83,7 @@ void manage_hyphenate (string bible, string user)
     Database_Logs::log (database::books::get_english_from_id (static_cast<book_id>(book)));
     std::vector <int> chapters = database_bibles.get_chapters (inputBible, book);
     for (auto chapter : chapters) {
-      string data = database_bibles.get_chapter (inputBible, book, chapter);
+      std::string data = database_bibles.get_chapter (inputBible, book, chapter);
       data = hyphenate_at_transition (firstset, secondset, data);
       database_bibles.store_chapter (outputBible, book, chapter, data);
     }
@@ -119,7 +119,7 @@ string hyphenate_at_transition (vector <std::string>& firstset, std::vector <std
     std::vector <std::string> characters;
     size_t length = filter::strings::unicode_string_length (line);
     for (size_t i = 0; i < length; i++) {
-      string s = filter::strings::unicode_string_substr (line, i, 1);
+      std::string s = filter::strings::unicode_string_substr (line, i, 1);
       characters.push_back (s);
     }
     
@@ -131,7 +131,7 @@ string hyphenate_at_transition (vector <std::string>& firstset, std::vector <std
     // Process each character.
     for (unsigned int i = 0; i < characters.size (); i++) {
       
-      string character = characters [i];
+      std::string character = characters [i];
       
       // Skip USFM marker.
       if (character == "\\") isUsfm = true;

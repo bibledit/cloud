@@ -46,7 +46,7 @@ void OnlineBible_Text::newVerse (int bookIdentifier, int chapterNumber, int vers
   storeData ();
   // Store passage and any text only in case the book is valid,
   // and the chapter and verse are non-zero.
-  string book = database::books::get_onlinebible_from_id (static_cast<book_id>(bookIdentifier));
+  std::string book = database::books::get_onlinebible_from_id (static_cast<book_id>(bookIdentifier));
   if (!book.empty()) {
     if (chapterNumber > 0) {
       if (verseNumber > 0) {
@@ -85,6 +85,6 @@ void OnlineBible_Text::close_current_note ()
 void OnlineBible_Text::save (string name)
 {
   storeData ();
-  string data = filter::strings::implode (output, "\n");
+  std::string data = filter::strings::implode (output, "\n");
   filter_url_file_put_contents (name, data);
 }

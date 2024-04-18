@@ -120,16 +120,16 @@ TEST (filter, mail)
 {
 #ifdef HAVE_CLOUD
   
-  const string datafolder = filter_url_create_root_path ({"unittests", "tests", "emails"});
+  const std::string datafolder = filter_url_create_root_path ({"unittests", "tests", "emails"});
   
   // Standard mimetic library's test message.
   {
-    const string msgpath = filter_url_create_path ({datafolder, "email1.msg"});
-    const string msg = filter_url_file_get_contents (msgpath);
-    string from, subject, plaintext;
+    const std::string msgpath = filter_url_create_path ({datafolder, "email1.msg"});
+    const std::string msg = filter_url_file_get_contents (msgpath);
+    std::string from, subject, plaintext;
     filter_mail_dissect (msg, from, subject, plaintext);
-    const string txtpath = filter_url_create_path ({datafolder, "email1.txt"});
-    const string txt = filter_url_file_get_contents (txtpath);
+    const std::string txtpath = filter_url_create_path ({datafolder, "email1.txt"});
+    const std::string txt = filter_url_file_get_contents (txtpath);
     EXPECT_EQ ("stefano@codesink.org", from);
     EXPECT_EQ ("My picture!", subject);
     EXPECT_EQ (txt, plaintext);
@@ -137,12 +137,12 @@ TEST (filter, mail)
    
   // A plain text message, that is, not a MIME message.
   {
-    const string msgpath = filter_url_create_path ({datafolder, "email2.msg"});
-    const string msg = filter_url_file_get_contents (msgpath);
-    string from, subject, plaintext;
+    const std::string msgpath = filter_url_create_path ({datafolder, "email2.msg"});
+    const std::string msg = filter_url_file_get_contents (msgpath);
+    std::string from, subject, plaintext;
     filter_mail_dissect (msg, from, subject, plaintext);
-    const string txtpath = filter_url_create_path ({datafolder, "email2.txt"});
-    const string txt = filter_url_file_get_contents (txtpath);
+    const std::string txtpath = filter_url_create_path ({datafolder, "email2.txt"});
+    const std::string txt = filter_url_file_get_contents (txtpath);
     EXPECT_EQ ("developer@device.localdomain (Developer)", from);
     EXPECT_EQ ("plain text", subject);
     EXPECT_EQ (txt, plaintext);
@@ -150,12 +150,12 @@ TEST (filter, mail)
   
   // A UTF-8 quoted-printable message.
   {
-    const string msgpath = filter_url_create_path ({datafolder, "email3.msg"});
-    const string msg = filter_url_file_get_contents (msgpath);
-    string from, subject, plaintext;
+    const std::string msgpath = filter_url_create_path ({datafolder, "email3.msg"});
+    const std::string msg = filter_url_file_get_contents (msgpath);
+    std::string from, subject, plaintext;
     filter_mail_dissect (msg, from, subject, plaintext);
-    const string txtpath = filter_url_create_path ({datafolder, "email3.txt"});
-    const string txt = filter_url_file_get_contents (txtpath);
+    const std::string txtpath = filter_url_create_path ({datafolder, "email3.txt"});
+    const std::string txt = filter_url_file_get_contents (txtpath);
     EXPECT_EQ ("Sender <sender@domain.net>", from);
     EXPECT_EQ ("Message encoded with quoted-printable", subject);
     EXPECT_EQ (txt, plaintext);
@@ -163,12 +163,12 @@ TEST (filter, mail)
 
   // A UTF-8 base64 encoded message.
   {
-    const string msgpath = filter_url_create_path ({datafolder, "email4.msg"});
-    const string msg = filter_url_file_get_contents (msgpath);
-    string from, subject, plaintext;
+    const std::string msgpath = filter_url_create_path ({datafolder, "email4.msg"});
+    const std::string msg = filter_url_file_get_contents (msgpath);
+    std::string from, subject, plaintext;
     filter_mail_dissect (msg, from, subject, plaintext);
-    const string txtpath = filter_url_create_path ({datafolder, "email4.txt"});
-    const string txt = filter_url_file_get_contents (txtpath);
+    const std::string txtpath = filter_url_create_path ({datafolder, "email4.txt"});
+    const std::string txt = filter_url_file_get_contents (txtpath);
     EXPECT_EQ ("Sender <sender@domain.net>", from);
     EXPECT_EQ ("Message encoded in base64", subject);
     EXPECT_EQ (txt, plaintext);
@@ -180,9 +180,9 @@ TEST (filter, mail)
     for (const auto& messagefile : files) {
       if (messagefile.find ("m") != 0) continue;
       if (filter_url_get_extension (messagefile) != "msg") continue;
-      string path = filter_url_create_path ({datafolder, messagefile});
-      string contents = filter_url_file_get_contents (path);
-      string from, subject, plaintext;
+      std::string path = filter_url_create_path ({datafolder, messagefile});
+      std::string contents = filter_url_file_get_contents (path);
+      std::string from, subject, plaintext;
       filter_mail_dissect (contents, from, subject, plaintext);
       path += ".txt";
       contents = filter_url_file_get_contents (path);

@@ -39,7 +39,7 @@ string navigation_paratext (Webserver_Request& webserver_request)
 {
   // Handle any reference received that was obtained from Paratext.
   static string previous_from;
-  string from = webserver_request.query ["from"];
+  std::string from = webserver_request.query ["from"];
   // Reference should differ from the previous one.
   if (!from.empty () && (from != previous_from)) {
     previous_from = from;
@@ -55,7 +55,7 @@ string navigation_paratext (Webserver_Request& webserver_request)
           int chapter = filter::strings::convert_to_int(chapter_verse[0]);
           int verse = filter::strings::convert_to_int(chapter_verse[1]);
           // Set the user name on this client device.
-          string user = client_logic_get_username ();
+          std::string user = client_logic_get_username ();
           webserver_request.session_logic()->set_username(user);
           // "I believe how SantaFe works on Windows is
           // that it always sends a standardised verse reference.
@@ -65,8 +65,8 @@ string navigation_paratext (Webserver_Request& webserver_request)
           // it means that the reference from Paratext
           // may need to be mapped to the local versification system.
           // Get the active Bible and its versification system.
-          string bible = webserver_request.database_config_user ()->getBible ();
-          string versification = Database_Config_Bible::getVersificationSystem (bible);
+          std::string bible = webserver_request.database_config_user ()->getBible ();
+          std::string versification = Database_Config_Bible::getVersificationSystem (bible);
           std::vector <Passage> passages;
           Database_Mappings database_mappings;
           if ((versification != filter::strings::english()) && !versification.empty ()) {

@@ -85,7 +85,7 @@ void Notes_Logic::setContent (int identifier, const std::string& content)
 
   if (client_logic_client_enabled ()) {
     // Client: record the action in the database.
-    string user = m_webserver_request.session_logic ()->currentUser ();
+    std::string user = m_webserver_request.session_logic ()->currentUser ();
     Database_NoteActions database_noteactions = Database_NoteActions ();
     database_noteactions.record (user, identifier, Sync_Logic::notes_put_contents, content);
   } else {
@@ -105,7 +105,7 @@ void Notes_Logic::addComment (int identifier, const std::string& comment)
   database_notes.add_comment (identifier, comment);
   if (client_logic_client_enabled ()) {
     // Client: record the action in the database.
-    string user = m_webserver_request.session_logic ()->currentUser ();
+    std::string user = m_webserver_request.session_logic ()->currentUser ();
     Database_NoteActions database_noteactions = Database_NoteActions ();
     database_noteactions.record (user, identifier, Sync_Logic::notes_put_comment, comment);
   } else {
@@ -121,7 +121,7 @@ void Notes_Logic::set_summary (int identifier, const std::string& summary)
   database_notes.set_summary (identifier, summary);
   if (client_logic_client_enabled ()) {
     // Client: record the action in the database.
-    string user = m_webserver_request.session_logic ()->currentUser ();
+    std::string user = m_webserver_request.session_logic ()->currentUser ();
     Database_NoteActions database_noteactions = Database_NoteActions ();
     database_noteactions.record (user, identifier, Sync_Logic::notes_put_summary, "");
   } else {
@@ -136,7 +136,7 @@ void Notes_Logic::subscribe (int identifier)
   database_notes.subscribe (identifier);
   if (client_logic_client_enabled ()) {
     // Client: record the action in the database.
-    string user = m_webserver_request.session_logic ()->currentUser ();
+    std::string user = m_webserver_request.session_logic ()->currentUser ();
     Database_NoteActions database_noteactions = Database_NoteActions ();
     database_noteactions.record (user, identifier, Sync_Logic::notes_put_subscribe, "");
   } else {
@@ -151,7 +151,7 @@ void Notes_Logic::unsubscribe (int identifier)
   database_notes.unsubscribe (identifier);
   if (client_logic_client_enabled ()) {
     // Client: record the action in the database.
-    string user = m_webserver_request.session_logic ()->currentUser ();
+    std::string user = m_webserver_request.session_logic ()->currentUser ();
     Database_NoteActions database_noteactions = Database_NoteActions ();
     database_noteactions.record (user, identifier, Sync_Logic::notes_put_unsubscribe, "");
   } else {
@@ -165,7 +165,7 @@ void Notes_Logic::assignUser (int identifier, const std::string& user)
   Database_Notes database_notes (m_webserver_request);
   if (client_logic_client_enabled ()) {
     // Client: record the action in the database.
-    string myuser = m_webserver_request.session_logic ()->currentUser ();
+    std::string myuser = m_webserver_request.session_logic ()->currentUser ();
     Database_NoteActions database_noteactions;
     database_noteactions.record (myuser, identifier, Sync_Logic::notes_put_assign, user);
   } else {
@@ -183,7 +183,7 @@ void Notes_Logic::unassignUser (int identifier, const std::string& user)
   database_notes.unassign_user (identifier, user);
   if (client_logic_client_enabled ()) {
     // Client: record the action in the database.
-    string myuser = m_webserver_request.session_logic ()->currentUser ();
+    std::string myuser = m_webserver_request.session_logic ()->currentUser ();
     Database_NoteActions database_noteactions = Database_NoteActions ();
     database_noteactions.record (myuser, identifier, Sync_Logic::notes_put_unassign, user);
   } else {
@@ -198,7 +198,7 @@ void Notes_Logic::setStatus (int identifier, const std::string& status)
   database_notes.set_status (identifier, status);
   if (client_logic_client_enabled ()) {
     // Client: record the action in the database.
-    string user = m_webserver_request.session_logic ()->currentUser ();
+    std::string user = m_webserver_request.session_logic ()->currentUser ();
     Database_NoteActions database_noteactions = Database_NoteActions ();
     database_noteactions.record (user, identifier, Sync_Logic::notes_put_status, "");
   } else {
@@ -214,7 +214,7 @@ void Notes_Logic::setPassages (int identifier, const std::vector <Passage> & pas
   database_notes.set_passages (identifier, passages);
   if (client_logic_client_enabled ()) {
     // Client: record the action in the database.
-    string user = m_webserver_request.session_logic ()->currentUser ();
+    std::string user = m_webserver_request.session_logic ()->currentUser ();
     Database_NoteActions database_noteactions = Database_NoteActions ();
     database_noteactions.record (user, identifier, Sync_Logic::notes_put_passages, "");
   } else {
@@ -230,7 +230,7 @@ void Notes_Logic::setRawSeverity (int identifier, int severity)
   database_notes.set_raw_severity (identifier, severity);
   if (client_logic_client_enabled ()) {
     // Client: record the action in the database.
-    string user = m_webserver_request.session_logic ()->currentUser ();
+    std::string user = m_webserver_request.session_logic ()->currentUser ();
     Database_NoteActions database_noteactions = Database_NoteActions ();
     database_noteactions.record (user, identifier, Sync_Logic::notes_put_severity, "");
   } else {
@@ -246,7 +246,7 @@ void Notes_Logic::setBible (int identifier, const std::string& bible)
   database_notes.set_bible (identifier, bible);
   if (client_logic_client_enabled ()) {
     // Client: record the action in the database.
-    string user = m_webserver_request.session_logic ()->currentUser ();
+    std::string user = m_webserver_request.session_logic ()->currentUser ();
     Database_NoteActions database_noteactions = Database_NoteActions ();
     database_noteactions.record (user, identifier, Sync_Logic::notes_put_bible, "");
   } else {
@@ -262,7 +262,7 @@ void Notes_Logic::markForDeletion (int identifier)
   trash_consultation_note (m_webserver_request, identifier);
   if (client_logic_client_enabled ()) {
     // Client: record the action in the database.
-    string user = m_webserver_request.session_logic ()->currentUser ();
+    std::string user = m_webserver_request.session_logic ()->currentUser ();
     Database_NoteActions database_noteactions = Database_NoteActions ();
     database_noteactions.record (user, identifier, Sync_Logic::notes_put_mark_delete, "");
   } else {
@@ -278,7 +278,7 @@ void Notes_Logic::unmarkForDeletion (int identifier)
   database_notes.unmark_for_deletion (identifier);
   if (client_logic_client_enabled ()) {
     // Client: record the action in the database.
-    string user = m_webserver_request.session_logic ()->currentUser ();
+    std::string user = m_webserver_request.session_logic ()->currentUser ();
     Database_NoteActions database_noteactions = Database_NoteActions ();
     database_noteactions.record (user, identifier, Sync_Logic::notes_put_unmark_delete, "");
   } else {
@@ -292,7 +292,7 @@ void Notes_Logic::erase (int identifier)
   Database_Notes database_notes (m_webserver_request);
   if (client_logic_client_enabled ()) {
     // Client: record the action in the database.
-    string user = m_webserver_request.session_logic ()->currentUser ();
+    std::string user = m_webserver_request.session_logic ()->currentUser ();
     Database_NoteActions database_noteactions = Database_NoteActions ();
     database_noteactions.record (user, identifier, Sync_Logic::notes_put_delete, "");
   } else {
@@ -315,7 +315,7 @@ void Notes_Logic::handlerAddComment (int identifier)
   notifyUsers (identifier, notifyNoteComment);
   // If the note status was Done, and a comment is added, mark it Reopened.
   Database_Notes database_notes (m_webserver_request);
-  string status = database_notes.get_raw_status (identifier);
+  std::string status = database_notes.get_raw_status (identifier);
   if (status == "Done") {
     database_notes.set_status (identifier, "Reopened");
   }
@@ -363,7 +363,7 @@ void Notes_Logic::notifyUsers (int identifier, int notification)
   Database_Notes database_notes (m_webserver_request);
   
   // This note's Bible.
-  string bible = database_notes.get_bible (identifier);
+  std::string bible = database_notes.get_bible (identifier);
 
   // Subscription and assignment not to be used for notes marked for deletion,
   // because marking notes for deletion is nearly the same as deleting them straightaway.
@@ -430,13 +430,13 @@ void Notes_Logic::notifyUsers (int identifier, int notification)
   recipients.assign (unique.begin (), unique.end());
 
   // Deal with suppressing mail to the user when he made the update himself.
-  string username = m_webserver_request.session_logic ()->currentUser ();
+  std::string username = m_webserver_request.session_logic ()->currentUser ();
   if (m_webserver_request.database_config_user ()->getUserSuppressMailFromYourUpdatesNotes (username)) {
     recipients.erase (remove (recipients.begin(), recipients.end(), username), recipients.end());
   }
 
   // Generate the label prefixed to the subject line of the email.
-  string label = translate("General");
+  std::string label = translate("General");
   switch (notification) {
     case notifyNoteNew             : label = translate("New");                 break;
     case notifyNoteComment         : label = translate("Comment");             break;
@@ -470,8 +470,8 @@ void Notes_Logic::emailUsers (int identifier, const std::string& label, string b
   Database_Notes database_notes (m_webserver_request);
 
   // Send mail to all users.
-  string summary = database_notes.get_summary (identifier);
-  string passages = filter_passage_display_inline (database_notes.get_passages (identifier));
+  std::string summary = database_notes.get_summary (identifier);
+  std::string passages = filter_passage_display_inline (database_notes.get_passages (identifier));
   stringstream contents;
   contents << database_notes.get_contents (identifier);
 
@@ -479,7 +479,7 @@ void Notes_Logic::emailUsers (int identifier, const std::string& label, string b
   contents << "<br>" << std::endl;
   contents << "<p>";
   contents << "<a href=";
-  string notelink = config::logic::site_url (m_webserver_request) + notes_note_url () + "?id=" + filter::strings::convert_to_string (identifier);
+  std::string notelink = config::logic::site_url (m_webserver_request) + notes_note_url () + "?id=" + filter::strings::convert_to_string (identifier);
   contents << quoted (notelink);
   contents << ">";
   contents << translate ("View or respond online");
@@ -487,14 +487,14 @@ void Notes_Logic::emailUsers (int identifier, const std::string& label, string b
   contents << " " << translate ("or") << " ";
 
   contents << "<a href=";
-  string workspacelink = config::logic::site_url (m_webserver_request) + workspace_index_url () + "?note=" + filter::strings::convert_to_string (identifier);
+  std::string workspacelink = config::logic::site_url (m_webserver_request) + workspace_index_url () + "?note=" + filter::strings::convert_to_string (identifier);
   contents << quoted (workspacelink);
   contents << ">";
   contents << translate ("open the workspace online");
   contents << "</a>";
 
   contents << "</p>" << std::endl;
-  string mailto = "mailto:" + Database_Config_General::getSiteMailAddress () + "?subject=(CNID" + filter::strings::convert_to_string (identifier) + ")";
+  std::string mailto = "mailto:" + Database_Config_General::getSiteMailAddress () + "?subject=(CNID" + filter::strings::convert_to_string (identifier) + ")";
   contents << "<p><a href=";
   contents << quoted (mailto);
   contents << ">Respond by email</a></p>" << std::endl;
@@ -513,7 +513,7 @@ void Notes_Logic::emailUsers (int identifier, const std::string& label, string b
   // Send (but not in client mode).
   for (auto & user : users) {
     if (!client_logic_client_enabled ()) {
-      string subject = label;
+      std::string subject = label;
       subject.append (" | ");
       if (!bible.empty ()) {
         subject.append (bible);
@@ -552,7 +552,7 @@ bool Notes_Logic::handleEmailComment (string from, string subject, string body)
   if (!database_notes.identifier_exists (identifier)) return false;
   // Check that the from address of the email belongs to an existing user.
   // Or else use the obfuscated email address as the user name.
-  string username;
+  std::string username;
   from = filter::strings::extract_email (from);
   if (m_webserver_request.database_users()->emailExists (from)) {
     username = m_webserver_request.database_users()->getEmailToUser (from);
@@ -562,21 +562,21 @@ bool Notes_Logic::handleEmailComment (string from, string subject, string body)
     username = filter::strings::replace (".", " ", username);
   }
   // Clean the email's body.
-  string year = filter::strings::convert_to_string (filter::date::numerical_year (filter::date::seconds_since_epoch ()));
-  string sender = Database_Config_General::getSiteMailName();
+  std::string year = filter::strings::convert_to_string (filter::date::numerical_year (filter::date::seconds_since_epoch ()));
+  std::string sender = Database_Config_General::getSiteMailName();
   body = filter::strings::extract_body (body, year, sender);
   // Remove any new lines from the body. This cleans up the email considerably,
   // because some emails that get posted would otherwise look untidy,
   // when the many new lines take up a lot of space.
   body = filter::strings::replace ("\n", " ", body);
   // Make comment on the consultation note.
-  string sessionuser = m_webserver_request.session_logic ()->currentUser ();
+  std::string sessionuser = m_webserver_request.session_logic ()->currentUser ();
   m_webserver_request.session_logic ()->set_username (username);
   addComment (identifier, body);
   m_webserver_request.session_logic ()->set_username (sessionuser);
   // Mail confirmation to the username.
   if (m_webserver_request.database_config_user()->getUserNotifyMeOfMyPosts (username)) {
-    string confirm_subject = translate("Your comment was posted");
+    std::string confirm_subject = translate("Your comment was posted");
     confirm_subject.append (" [CNID");
     confirm_subject.append (filter::strings::convert_to_string (identifier));
     confirm_subject.append ("]");
@@ -595,7 +595,7 @@ bool Notes_Logic::handleEmailComment (string from, string subject, string body)
 bool Notes_Logic::handleEmailNew (string from, string subject, string body)
 {
   // Store the original subject.
-  string originalSubject = subject;
+  std::string originalSubject = subject;
   // Check that the subject indicates that a new consultation note is to be created.
   size_t pos = filter::strings::unicode_string_casefold (subject).find ("new note");
   if (pos == std::string::npos) return false;
@@ -609,12 +609,12 @@ bool Notes_Logic::handleEmailNew (string from, string subject, string body)
   // Check that the from address of the email belongs to an existing user.
   from = filter::strings::extract_email (from);
   if (!m_webserver_request.database_users()->emailExists (from)) return false;
-  string username = m_webserver_request.database_users()->getEmailToUser (from);
+  std::string username = m_webserver_request.database_users()->getEmailToUser (from);
   // Extract book, chapter, verse, and note summary from the subject
   book_id book {book_id::_unknown};
   int chapter {-1};
   int verse {-1};
-  string summary {};
+  std::string summary {};
   std::vector <std::string> subjectlines = filter::strings::explode (subject, ' ');
   if (!subjectlines.empty()) {
     book = filter_passage_interpret_book_v2 (subjectlines[0]);
@@ -630,7 +630,7 @@ bool Notes_Logic::handleEmailNew (string from, string subject, string body)
   }
   summary = filter::strings::implode (subjectlines, " ");
   // Check book, chapter, verse, and summary. Give feedback if there's anything wrong.
-  string noteCheck;
+  std::string noteCheck;
   if (book == book_id::_unknown) noteCheck.append (translate("Unknown book"));
   if (chapter < 0) {
     noteCheck.append (" ");
@@ -653,10 +653,10 @@ bool Notes_Logic::handleEmailNew (string from, string subject, string body)
   // Clean the email's body.
   body = filter::strings::extract_body (body);
   // Post the note.
-  string sessionuser = m_webserver_request.session_logic()->currentUser ();
+  std::string sessionuser = m_webserver_request.session_logic()->currentUser ();
   m_webserver_request.session_logic()->set_username (username);
   Database_Notes database_notes (m_webserver_request);
-  string bible = m_webserver_request.database_config_user()->getBible ();
+  std::string bible = m_webserver_request.database_config_user()->getBible ();
   int identifier = database_notes.store_new_note (bible, static_cast<int>(book), chapter, verse, summary, body, false);
   handlerNewNote (identifier);
   m_webserver_request.session_logic()->set_username (sessionuser);

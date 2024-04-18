@@ -127,7 +127,7 @@ string menu_logic_click (string item)
 
 string menu_logic_create_item (string href, string text, bool history, string title, string colour)
 {
-  string item;
+  std::string item;
   item.append (R"(<span class="nowrap)");
   if (!colour.empty()) item.append (" " + colour);
   item.append (R"("><a href="/)");
@@ -187,18 +187,18 @@ string menu_logic_main_categories (Webserver_Request& webserver_request, string 
   // Deal with a situation the user has access to the workspaces.
   if (workspace_index_acl (webserver_request)) {
     if (config::logic::default_bibledit_configuration ()) {
-      string label = translate ("Workspace");
-      string tooltip2;
+      std::string label = translate ("Workspace");
+      std::string tooltip2;
       menu_logic_workspace_category (webserver_request, &tooltip2);
       html.push_back (menu_logic_create_item (workspace_index_url (), label, true, tooltip2, ""));
       tooltipbits.push_back (label);
     }
   }
 
-  string menutooltip;
+  std::string menutooltip;
   int current_theme_index = webserver_request.database_config_user ()->getCurrentTheme ();
-  string filename = current_theme_filebased_cache_filename (webserver_request.session_identifier);
-  string color = Filter_Css::theme_picker (current_theme_index, 1);
+  std::string filename = current_theme_filebased_cache_filename (webserver_request.session_identifier);
+  std::string color = Filter_Css::theme_picker (current_theme_index, 1);
 
   if (!menu_logic_translate_category (webserver_request, &menutooltip).empty ()) {
     if (config::logic::default_bibledit_configuration ()) {
@@ -261,7 +261,7 @@ string menu_logic_main_categories (Webserver_Request& webserver_request, string 
   
   // When not logged in, display Login menu item.
   if (webserver_request.session_logic ()->currentUser ().empty ()) {
-    string label = translate ("Login");
+    std::string label = translate ("Login");
     html.push_back (menu_logic_create_item (session_login_url (), label, true, "", ""));
     tooltipbits.push_back (label);
   }
@@ -292,8 +292,8 @@ string menu_logic_basic_categories (Webserver_Request& webserver_request)
   std::vector <std::string> html;
 
   int current_theme_index = webserver_request.database_config_user ()->getCurrentTheme ();
-  string filename = current_theme_filebased_cache_filename (webserver_request.session_identifier);
-  string color = Filter_Css::theme_picker (current_theme_index, 1);
+  std::string filename = current_theme_filebased_cache_filename (webserver_request.session_identifier);
+  std::string color = Filter_Css::theme_picker (current_theme_index, 1);
 
   if (read_index_acl (webserver_request)) {
     html.push_back (menu_logic_create_item (read_index_url (), translate ("Read"), true, "", color));
@@ -369,11 +369,11 @@ string menu_logic_workspace_category (Webserver_Request& webserver_request, stri
   // Add the available configured workspaces to the menu.
   // The user's role should be sufficiently high.
   if (workspace_organize_acl (webserver_request)) {
-    string activeWorkspace = webserver_request.database_config_user()->getActiveWorkspace ();
+    std::string activeWorkspace = webserver_request.database_config_user()->getActiveWorkspace ();
 
     std::vector <std::string> workspaces = workspace_get_names (webserver_request);
     for (size_t i = 0; i < workspaces.size(); i++) {
-      string item = menu_logic_create_item (workspace_index_url () + "?bench=" + filter::strings::convert_to_string (i), workspaces[i], true, "", "");
+      std::string item = menu_logic_create_item (workspace_index_url () + "?bench=" + filter::strings::convert_to_string (i), workspaces[i], true, "", "");
       // Adds an active class if it is the current workspace.
       if (workspaces[i] == activeWorkspace) {
         size_t startIndex = item.find(R"("><a)");
@@ -396,21 +396,21 @@ string menu_logic_translate_category (Webserver_Request& webserver_request, stri
   
   // Visual chapter editor.
   if (edit_index_acl (webserver_request)) {
-    string label = menu_logic_editor_menu_text (true, true);
+    std::string label = menu_logic_editor_menu_text (true, true);
     html.push_back (menu_logic_create_item (edit_index_url (), label, true, "", ""));
     labels.push_back (label);
   }
 
   // Visual verse editor.
   if (editone2_index_acl (webserver_request)) {
-    string label = menu_logic_editor_menu_text (true, false);
+    std::string label = menu_logic_editor_menu_text (true, false);
     html.push_back (menu_logic_create_item (editone2_index_url (), label, true, "", ""));
     labels.push_back (label);
   }
 
   // USFM (chapter) editor.
   if (editusfm_index_acl (webserver_request)) {
-    string label = menu_logic_editor_menu_text (false, true);
+    std::string label = menu_logic_editor_menu_text (false, true);
     html.push_back (menu_logic_create_item (editusfm_index_url (), label, true, "", ""));
     labels.push_back (label);
   }
@@ -421,7 +421,7 @@ string menu_logic_translate_category (Webserver_Request& webserver_request, stri
   }
 
   if (resource_index_acl (webserver_request)) {
-    string label = menu_logic_resources_text ();
+    std::string label = menu_logic_resources_text ();
     html.push_back (menu_logic_create_item (resource_index_url (), label, true, "", ""));
     labels.push_back (label);
   }
@@ -429,7 +429,7 @@ string menu_logic_translate_category (Webserver_Request& webserver_request, stri
   if (resource_user9view_acl (webserver_request)) {
     // Only display user-defined resources if they are there.
     if (!Database_UserResources::names ().empty ()) {
-      string label = translate ("User resources");
+      std::string label = translate ("User resources");
       html.push_back (menu_logic_create_item (resource_user9view_url (), label, true, "", ""));
       labels.push_back (label);
     }
@@ -470,55 +470,55 @@ string menu_logic_search_category (Webserver_Request& webserver_request, string 
   std::vector <std::string> labels;
 
   if (search_index_acl (webserver_request)) {
-    string label = translate ("Search");
+    std::string label = translate ("Search");
     html.push_back (menu_logic_create_item (search_index_url (), label, true, "", ""));
     labels.push_back (label);
   }
   
   if (search_replace_acl (webserver_request)) {
-    string label = translate ("Replace");
+    std::string label = translate ("Replace");
     html.push_back (menu_logic_create_item (search_replace_url (), label, true, "", ""));
     labels.push_back (label);
   }
   
   if (search_search2_acl (webserver_request)) {
-    string label = translate ("Advanced search");
+    std::string label = translate ("Advanced search");
     html.push_back (menu_logic_create_item (search_search2_url (), translate ("Advanced search"), true, "", ""));
     labels.push_back (label);
   }
   
   if (search_replace2_acl (webserver_request)) {
-    string label = translate ("Advanced replace");
+    std::string label = translate ("Advanced replace");
     html.push_back (menu_logic_create_item (search_replace2_url (), label, true, "", ""));
     labels.push_back (label);
   }
   
   if (search_all_acl (webserver_request)) {
-    string label = translate ("Search all Bibles and notes");
+    std::string label = translate ("Search all Bibles and notes");
     html.push_back (menu_logic_create_item (search_all_url (), label, true, "", ""));
     labels.push_back (label);
   }
 
   if (search_similar_acl (webserver_request)) {
-    string label = translate ("Search Bible for similar verses");
+    std::string label = translate ("Search Bible for similar verses");
     html.push_back (menu_logic_create_item (search_similar_url (), label, true, "", ""));
     labels.push_back (label);
   }
 
   if (search_strongs_acl (webserver_request)) {
-    string label = translate ("Search Bible for similar Strong's numbers");
+    std::string label = translate ("Search Bible for similar Strong's numbers");
     html.push_back (menu_logic_create_item (search_strongs_url (), label, true, "", ""));
     labels.push_back (label);
   }
 
   if (search_strong_acl (webserver_request)) {
-    string label = translate ("Search Bible for Strong's number");
+    std::string label = translate ("Search Bible for Strong's number");
     html.push_back (menu_logic_create_item (search_strong_url (), label, true, "", ""));
     labels.push_back (label);
   }
 
   if (search_originals_acl (webserver_request)) {
-    string label = translate ("Search Bible for similar Hebrew or Greek words");
+    std::string label = translate ("Search Bible for similar Hebrew or Greek words");
     html.push_back (menu_logic_create_item (search_originals_url (), label, true, "", ""));
     labels.push_back (label);
   }
@@ -535,16 +535,16 @@ string menu_logic_search_category (Webserver_Request& webserver_request, string 
 string menu_logic_tools_category (Webserver_Request& webserver_request, string * tooltip)
 {
   // The labels that may end up in the menu.
-  string checks = translate ("Checks");
-  string consistency = translate ("Consistency");
-  string print = translate ("Print");
-  string changes = menu_logic_changes_text ();
-  string planning = translate ("Planning");
-  string send_receive = translate ("Send/receive");
-  string hyphenation = translate ("Hyphenate");
-  string develop = translate ("Develop");
-  string exporting = translate ("Export");
-  string journal = translate ("Journal");
+  std::string checks = translate ("Checks");
+  std::string consistency = translate ("Consistency");
+  std::string print = translate ("Print");
+  std::string changes = menu_logic_changes_text ();
+  std::string planning = translate ("Planning");
+  std::string send_receive = translate ("Send/receive");
+  std::string hyphenation = translate ("Hyphenate");
+  std::string develop = translate ("Develop");
+  std::string exporting = translate ("Export");
+  std::string journal = translate ("Journal");
   std::vector <std::string> labels = {
     checks,
     consistency,
@@ -660,25 +660,25 @@ string menu_logic_settings_category (Webserver_Request& webserver_request, strin
   [[maybe_unused]] bool demo = config::logic::demo_enabled ();
   
   // The labels that may end up in the menu.
-  string bibles = menu_logic_bible_manage_text ();
-  string workspaces = menu_logic_workspace_organize_text ();
-  string checks = menu_logic_checks_settings_text ();
-  string resources = menu_logic_resources_text ();
-  string changes = menu_logic_changes_text ();
-  string preferences = translate ("Preferences");
-  string users = menu_logic_manage_users_text ();
-  string mail = translate ("Mail");
-  string styles = menu_logic_styles_text ();
-  string versifications = menu_logic_versification_index_text ();
-  string mappings = menu_logic_mapping_index_text ();
-  string repository = translate ("Repository");
-  string cloud = translate ("Cloud");
-  string paratext = translate ("Paratext");
-  string notifications = translate ("Notifications");
-  string account = translate ("Account");
-  string basic_mode = translate ("Basic mode");
-  string system = translate ("System");
-  string images = menu_logic_images_index_text();
+  std::string bibles = menu_logic_bible_manage_text ();
+  std::string workspaces = menu_logic_workspace_organize_text ();
+  std::string checks = menu_logic_checks_settings_text ();
+  std::string resources = menu_logic_resources_text ();
+  std::string changes = menu_logic_changes_text ();
+  std::string preferences = translate ("Preferences");
+  std::string users = menu_logic_manage_users_text ();
+  std::string mail = translate ("Mail");
+  std::string styles = menu_logic_styles_text ();
+  std::string versifications = menu_logic_versification_index_text ();
+  std::string mappings = menu_logic_mapping_index_text ();
+  std::string repository = translate ("Repository");
+  std::string cloud = translate ("Cloud");
+  std::string paratext = translate ("Paratext");
+  std::string notifications = translate ("Notifications");
+  std::string account = translate ("Account");
+  std::string basic_mode = translate ("Basic mode");
+  std::string system = translate ("System");
+  std::string images = menu_logic_images_index_text();
   std::vector <std::string> labels = {
     bibles,
     workspaces,
@@ -901,7 +901,7 @@ string menu_logic_settings_category (Webserver_Request& webserver_request, strin
   }
   
   if (!html.empty ()) {
-    string user = webserver_request.session_logic ()->currentUser ();
+    std::string user = webserver_request.session_logic ()->currentUser ();
     html.insert (html.begin (), menu_logic_settings_text () + " (" + user + "): ");
   }
   
@@ -1248,7 +1248,7 @@ jsonxx::Object menu_logic_tabbed_mode_add_tab (string url, string label)
 // This looks at the settings, and then generates JSON, and stores that in the general configuration.
 void menu_logic_tabbed_mode_save_json (Webserver_Request& webserver_request)
 {
-  string json;
+  std::string json;
 
   // Whether the device can do tabbed mode.
   if (menu_logic_can_do_tabbed_mode ()) {

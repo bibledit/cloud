@@ -1983,7 +1983,7 @@ TIDY_EXPORT ctmbstr TIDY_CALL tidyErrorCodeAsKey(uint code);
  ** represents it.
  **
  ** @remark We establish that for external purposes, the API will ensure that
- **         string keys remain consistent. *Never* count on the integer value
+ **         std::string keys remain consistent. *Never* count on the integer value
  **         of a message code. Always use this function to ensure that the
  **         integer is valid if you need one.
  ** @param code The string representing the error code.

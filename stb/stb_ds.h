@@ -278,13 +278,13 @@ DOCUMENTATION
       sh_new_strdup
         void sh_new_strdup(T*);
           Overwrites the existing pointer with a newly allocated
-          string hashmap which will automatically allocate and free
+          std::string hashmap which will automatically allocate and free
           each string key using realloc/free
 
       sh_new_arena
         void sh_new_arena(T*);
           Overwrites the existing pointer with a newly allocated
-          string hashmap which will automatically allocate each string
+          std::string hashmap which will automatically allocate each string
           key to a string arena. Every string key ever used by this
           hash table remains in the arena until the arena is freed.
           Additionally, any key which is deleted and reinserted will

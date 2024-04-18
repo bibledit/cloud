@@ -58,7 +58,7 @@ TEST (database, etcbc4)
     29711
   }), rowids);
   
-  string result;
+  std::string result;
   
   result = database.word (2);
   EXPECT_EQ ("רֵאשִׁ֖ית", result);

@@ -395,7 +395,7 @@ void http_server_acceptor_processor (SOCKET listen_socket)
     setsockopt (client_socket, SOL_SOCKET, SO_RCVTIMEO, tv, sizeof (tv));
 
     // The client's remote IPv4 address in dotted notation.
-    string clientaddress;
+    std::string clientaddress;
     char remote_address[256];
     inet_ntop (AF_INET, &clientaddr.sin_addr.s_addr, remote_address, sizeof (remote_address));
     clientaddress = remote_address;
@@ -421,14 +421,14 @@ void http_server ()
   WSADATA wsa_data;
   result = WSAStartup(MAKEWORD(2, 2), &wsa_data);
   if (result != 0) {
-    string error = "Could not initialize Windows Sockets with error " + filter::strings::convert_to_string (result);
+    std::string error = "Could not initialize Windows Sockets with error " + filter::strings::convert_to_string (result);
     std::cerr << error << std::endl;
     Database_Logs::log (error);
     listener_healthy = false;
   }
   // Check for the correct requested Windows Sockets interface version.
   if (LOBYTE(wsa_data.wVersion) != 2 || HIBYTE(wsa_data.wVersion) != 2) {
-    string error = "Incorrect Windows Sockets version";
+    std::string error = "Incorrect Windows Sockets version";
     std::cerr << error << std::endl;
     Database_Logs::log (error);
     listener_healthy = false;
@@ -437,7 +437,7 @@ void http_server ()
   // Create a socket for listening for incoming connections.
   SOCKET listen_socket = socket(AF_INET, SOCK_STREAM, 0);
   if (listen_socket == INVALID_SOCKET) {
-    string error = "Socket failed with error " + filter::strings::convert_to_string (WSAGetLastError());
+    std::string error = "Socket failed with error " + filter::strings::convert_to_string (WSAGetLastError());
     std::cerr << error << std::endl;
     Database_Logs::log (error);
     listener_healthy = false;
@@ -453,7 +453,7 @@ void http_server ()
   serveraddr.sin_port = htons(filter::strings::convert_to_int(config::logic::http_network_port()));
   result = ::bind(listen_socket, (SA *)&serveraddr, sizeof(serveraddr));
   if (result == SOCKET_ERROR) {
-	  string error = "Error binding server to socket";
+	  std::string error = "Error binding server to socket";
     std::cerr << error << std::endl;
     Database_Logs::log (error);
 	  listener_healthy = false;
@@ -462,7 +462,7 @@ void http_server ()
   // Listen for multiple connections.
   result = listen(listen_socket, SOMAXCONN);
   if (result == SOCKET_ERROR) {
-    string error = "Listen failed with error " + filter::strings::convert_to_string (WSAGetLastError());
+    std::string error = "Listen failed with error " + filter::strings::convert_to_string (WSAGetLastError());
     std::cerr << error << std::endl;
     Database_Logs::log (error);
     listener_healthy = false;

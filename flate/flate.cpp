@@ -51,7 +51,7 @@ void Flate::add_iteration (string key, std::map <string, std::string> value)
 // Renders the html template.
 string Flate::render (string html)
 {
-  string rendering;
+  std::string rendering;
   try {
     if (file_or_dir_exists (html)) {
       rendering = filter_url_file_get_contents (html);
@@ -82,20 +82,20 @@ void Flate::process_iterations (string & rendering)
   // Limit iteration count.
   int iteration_count = 0;
   // Start processing iterations by locating the first one.
-  string beginiteration ("<!-- #BEGINITERATION");
+  std::string beginiteration ("<!-- #BEGINITERATION");
   size_t position = rendering.find (beginiteration);
   // Iterate through the rendering till all have been dealt with.
   while ((position != std::string::npos) && (iteration_count < 100)) {
     iteration_count++;
     // Position where the opening tag ends.
     size_t pos = rendering.find ("-->", position);
-    string iteration_start_line = rendering.substr (position, pos - position + 3);
+    std::string iteration_start_line = rendering.substr (position, pos - position + 3);
     // Remove the opening tag for the current iteration.
     rendering.erase (position, iteration_start_line.length ());
     // Name for the current iteration.
-    string name = iteration_start_line.substr (21, iteration_start_line.length () - 21 - 4);
+    std::string name = iteration_start_line.substr (21, iteration_start_line.length () - 21 - 4);
     // Assemble the ending line for the current iteration.
-    string iterationendline = "<!-- #ENDITERATION " + name + " -->";
+    std::string iterationendline = "<!-- #ENDITERATION " + name + " -->";
     // Locate the ending position.
     size_t iterationendposition = rendering.find (iterationendline);
     // Process if it exists.
@@ -103,15 +103,15 @@ void Flate::process_iterations (string & rendering)
       // Take the ending line out.
       rendering.erase (iterationendposition, iterationendline.length ());
       // Get and remove the inner contents of this iteration.
-      string iterating_fragment = rendering.substr (position, iterationendposition - position);
+      std::string iterating_fragment = rendering.substr (position, iterationendposition - position);
       rendering.erase (position, iterationendposition - position);
       // The fragment to insert after ready iterating.
-      string iterated_fragment;
+      std::string iterated_fragment;
       // Go through the container for the name of the current iteration.
       std::vector < std::map <string, std::string> > named_iterations = iterations [name];
       for (auto & named_iteration : named_iterations) {
         // Process one iteration.
-        string fragment (iterating_fragment);
+        std::string fragment (iterating_fragment);
         for (auto & element : named_iteration) {
           fragment = filter::strings::replace ("##" + element.first + "##", element.second, fragment);
         }
@@ -134,20 +134,20 @@ void Flate::process_zones (string& rendering)
   // Limit zone iterations.
   int zone_iteration_count = 0;
   // Start processing zones by locating the first one.
-  string beginzone ("<!-- #BEGINZONE");
+  std::string beginzone ("<!-- #BEGINZONE");
   size_t position = rendering.find (beginzone);
   // Iterate through the file contents till all zones have been dealt with.
   while ((position != std::string::npos) && (zone_iteration_count < 1000)) {
     zone_iteration_count++;
     // Position where the starting zone ends.
     size_t pos = rendering.find ("-->", position);
-    string zonestartline = rendering.substr (position, pos - position + 3);
+    std::string zonestartline = rendering.substr (position, pos - position + 3);
     // Remove the opening tag for the current zone.
     rendering.erase (position, zonestartline.length ());
     // Name for the current zone.
-    string name = zonestartline.substr (16, zonestartline.length () - 16 - 4);
+    std::string name = zonestartline.substr (16, zonestartline.length () - 16 - 4);
     // Assemble the ending line for the current zone.
-    string zoneendline = "<!-- #ENDZONE " + name + " -->";
+    std::string zoneendline = "<!-- #ENDZONE " + name + " -->";
     // Locate the ending position.
     size_t zoneendposition = rendering.find (zoneendline);
     // Process if it exists.
@@ -186,7 +186,7 @@ void Flate::process_variables (string& rendering)
     size_t pos = rendering.find ("##", position + 1);
     if (pos == std::string::npos) pos = position + 4;
     // Name for the variable zone.
-    string name = rendering.substr (position + 2, pos - position - 2);
+    std::string name = rendering.substr (position + 2, pos - position - 2);
     // No new line in the variable name.
     if (correct) if (name.find ("\n") != std::string::npos) correct = false;
     if (correct) {
@@ -206,8 +206,8 @@ void Flate::process_translate (string& rendering)
   // Clean up the "translate" (gettext) calls.
   rendering = filter::strings::replace ("translate (", "translate(", rendering);
   // Gettext markup.
-  string gettextopen = R"(translate(")";
-  string gettextclose = R"("))";
+  std::string gettextopen = R"(translate(")";
+  std::string gettextclose = R"("))";
   // Limit gettext iterations.
   int iteration_counter { 0 };
   // Start processing variables by locating the first one.
@@ -223,7 +223,7 @@ void Flate::process_translate (string& rendering)
       // Take the gettext closer out.
       rendering.erase (pos, gettextclose.length());
       // The English string.
-      string english = rendering.substr (position, pos - position);
+      std::string english = rendering.substr (position, pos - position);
       // Take the English out.
       rendering.erase (position, pos - position);
       // Insert the localization.

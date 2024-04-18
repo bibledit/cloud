@@ -92,7 +92,7 @@ FieldParam::FieldParam(const std::string& lpv)
     {
         if(*bit == '=')
         {
-            string n(lpv.begin(), bit), v(++bit, eit);
+            std::string n(lpv.begin(), bit), v(++bit, eit);
             m_name.assign (remove_external_blanks(n));
             m_value = remove_dquote(remove_external_blanks(v));
             break;

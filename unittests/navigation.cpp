@@ -28,7 +28,7 @@ using namespace std;
 
 TEST (database, navigation)
 {
-  const string user = "user";
+  const std::string user = "user";
   
   {
     refresh_sandbox (true);

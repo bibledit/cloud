@@ -41,12 +41,12 @@ void export_bibledropbox (string user, string bible)
   Database_Users database_users;
 
   
-  string tag = translate ("Submit to the Bible Drop Box") + ": ";
+  std::string tag = translate ("Submit to the Bible Drop Box") + ": ";
   Database_Logs::log (tag + bible, Filter_Roles::translator ());
 
   
   // Temporal USFM directory.
-  string directory = filter_url_tempfile ();
+  std::string directory = filter_url_tempfile ();
   filter_url_mkdir (directory);
   
 
@@ -57,14 +57,14 @@ void export_bibledropbox (string user, string bible)
     
     
     // The USFM data of the current book.
-    string bookdata;
+    std::string bookdata;
     
     
     // Collect the USFM for all chapters in this book.
     std::vector <int> chapters = database_bibles.get_chapters (bible, book);
     for (auto chapter : chapters) {
       // Get the USFM code for the current chapter.
-      string usfm = database_bibles.get_chapter (bible, book, chapter);
+      std::string usfm = database_bibles.get_chapter (bible, book, chapter);
       usfm = filter::strings::trim (usfm);
       // Add the chapter USFM code to the book's USFM code.
       bookdata.append (usfm);
@@ -73,8 +73,8 @@ void export_bibledropbox (string user, string bible)
     
     
     // The filename for the USFM for this book.
-    string filename = export_logic::base_book_filename (bible, book);
-    string path = filter_url_create_path ({directory, filename + ".usfm"});
+    std::string filename = export_logic::base_book_filename (bible, book);
+    std::string path = filter_url_create_path ({directory, filename + ".usfm"});
     
     
     // Save.
@@ -83,9 +83,9 @@ void export_bibledropbox (string user, string bible)
   
   
   // Compress USFM files into one zip file.
-  string zipfile = filter_url_create_path ({directory, export_logic::base_book_filename (bible, 0) + ".zip"});
+  std::string zipfile = filter_url_create_path ({directory, export_logic::base_book_filename (bible, 0) + ".zip"});
   
-  string archive = filter_archive_zip_folder (directory);
+  std::string archive = filter_archive_zip_folder (directory);
   filter_url_rename (archive, zipfile);
   
   // Here is the submission form as of July 2018:
@@ -129,7 +129,7 @@ void export_bibledropbox (string user, string bible)
   
   
   // Bible Drop Box submission URL.
-  string url = "http://freely-given.org/Software/BibleDropBox/SubmitAction.phtml";
+  std::string url = "http://freely-given.org/Software/BibleDropBox/SubmitAction.phtml";
   
   
   // Form values to POST.
@@ -147,8 +147,8 @@ void export_bibledropbox (string user, string bible)
   post ["submit"] = "Submit";
   
   // Submission and response.
-  string error;
-  string response = filter_url_http_upload (url, post, zipfile, error);
+  std::string error;
+  std::string response = filter_url_http_upload (url, post, zipfile, error);
   if (!error.empty ()) {
     Database_Logs::log (tag + error, Filter_Roles::translator ());
     email_schedule (user, "Error submitting to the Bible Drop Box", error);

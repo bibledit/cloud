@@ -32,10 +32,10 @@ TEST (database, bible_images)
 
   Database_BibleImages database_bibleimages;
   std::vector <std::string> images;
-  string image_1_name = "bibleimage1.png";
-  string image_2_name = "bibleimage1.jpeg";
-  string image_1_path = filter_url_create_root_path ({"unittests", "tests", image_1_name});
-  string image_2_path = filter_url_create_root_path ({"unittests", "tests", image_2_name});
+  std::string image_1_name = "bibleimage1.png";
+  std::string image_2_name = "bibleimage1.jpeg";
+  std::string image_1_path = filter_url_create_root_path ({"unittests", "tests", image_1_name});
+  std::string image_2_path = filter_url_create_root_path ({"unittests", "tests", image_2_name});
   
   // Initially there's no images yet.
   images = database_bibleimages.get ();
@@ -65,8 +65,8 @@ TEST (database, bible_images)
   }
 
   // Get the contents of the second image.
-  string standard_contents = filter_url_file_get_contents (image_2_path);
-  string contents = database_bibleimages.get (image_2_name);
+  std::string standard_contents = filter_url_file_get_contents (image_2_path);
+  std::string contents = database_bibleimages.get (image_2_name);
   EXPECT_EQ (standard_contents, contents);
 
   // Cleanup.

@@ -33,8 +33,8 @@ TEST (filter, url)
 {
   // Test writing to and reading from files, and whether a file exists.
   {
-    string filename = "/tmp/בוקר טוב";
-    string contents = "בוקר טוב בוקר טוב";
+    std::string filename = "/tmp/בוקר טוב";
+    std::string contents = "בוקר טוב בוקר טוב";
     EXPECT_EQ (false, file_or_dir_exists (filename));
     EXPECT_EQ (false, file_or_dir_exists (filename));
     filter_url_file_put_contents (filename, contents);
@@ -48,7 +48,7 @@ TEST (filter, url)
 
   // Test function to check existence of directory.
   {
-    string folder = "/tmp/בוקר טוב";
+    std::string folder = "/tmp/בוקר טוב";
     EXPECT_EQ (false, file_or_dir_exists (folder));
     filter_url_mkdir (folder);
     EXPECT_EQ (true, file_or_dir_exists (folder));
@@ -58,12 +58,12 @@ TEST (filter, url)
   
   // Test unique filename.
   {
-    string filename = "/tmp/unique";
+    std::string filename = "/tmp/unique";
     filter_url_file_put_contents (filename, "");
-    string filename1 = filter_url_unique_path (filename);
+    std::string filename1 = filter_url_unique_path (filename);
     filter_url_file_put_contents (filename1, "");
     EXPECT_EQ ("/tmp/unique.1", filename1);
-    string filename2 = filter_url_unique_path (filename);
+    std::string filename2 = filter_url_unique_path (filename);
     filter_url_file_put_contents (filename2, "");
     EXPECT_EQ ("/tmp/unique.2", filename2);
     filter_url_unlink (filename);
@@ -86,10 +86,10 @@ TEST (filter, url)
   // Testing mkdir and rmdir including parents.
   {
     // Do test a folder name that starts with a dot.
-    string directory = filter_url_create_path ({testing_directory, "a", ".git"});
+    std::string directory = filter_url_create_path ({testing_directory, "a", ".git"});
     filter_url_mkdir (directory);
-    string path = filter_url_create_path ({directory, "c"});
-    string contents = "unittest";
+    std::string path = filter_url_create_path ({directory, "c"});
+    std::string contents = "unittest";
     filter_url_file_put_contents (path, contents);
     EXPECT_EQ (contents, filter_url_file_get_contents (path));
     
@@ -130,16 +130,16 @@ TEST (filter, url)
 
   // Test encode and decode round trip.
   {
-    string original ("\0\1\2", 3);
-    string encoded ("%00%01%02");
+    std::string original ("\0\1\2", 3);
+    std::string encoded ("%00%01%02");
     EXPECT_EQ (encoded, filter_url_urlencode (original));
     EXPECT_EQ (original, filter_url_urldecode (encoded));
   }
 
   // Test encode and decode unsafe chars, RFC1738.
   {
-    string unsafe (" <>#{}|\\^~[]`");
-    string unsafe_encoded = filter_url_urlencode (unsafe);
+    std::string unsafe (" <>#{}|\\^~[]`");
+    std::string unsafe_encoded = filter_url_urlencode (unsafe);
     EXPECT_EQ (true, unsafe_encoded.find_first_of (unsafe) == std::string::npos);
     EXPECT_EQ (unsafe, filter_url_urldecode (unsafe_encoded));
   }
@@ -169,7 +169,7 @@ TEST (filter, url)
   
   // Test http GET and POST
   {
-    string result, error;
+    std::string result, error;
     result = filter_url_http_get ("http://localhost/none", error, false);
 #ifndef HAVE_CLIENT
     EXPECT_EQ ("Couldn't connect to server", error);
@@ -185,7 +185,7 @@ TEST (filter, url)
   
   // Test low-level http(s) client error for unknown host.
   {
-    string result, error;
+    std::string result, error;
     result = filter_url_http_request_mbed ("http://unknownhost", error, {}, "", false);
     EXPECT_EQ ("", result);
     EXPECT_EQ ("Internet connection failure: unknownhost: nodename nor servname provided, or not known", error);
@@ -193,7 +193,7 @@ TEST (filter, url)
   
   // Test low-level http(s) client error for closed port.
   {
-    string result, error;
+    std::string result, error;
     result = filter_url_http_request_mbed ("http://bibledit.org:8086/non-existing", error, {}, "", false);
     EXPECT_EQ ("", result);
     EXPECT_EQ ("bibledit.org:8086: Connection refused | bibledit.org:8086: Connection refused", error);
@@ -201,7 +201,7 @@ TEST (filter, url)
   
   // Test low-level http(s) client result.
   {
-    string result, error;
+    std::string result, error;
     result = filter_url_http_request_mbed ("http://185.87.186.229", error, {}, "", false);
     EXPECT_EQ (true, result.find ("Home") != std::string::npos);
     EXPECT_EQ (true, result.find ("Ndebele Bible") != std::string::npos);
@@ -210,7 +210,7 @@ TEST (filter, url)
     EXPECT_EQ ("", error);
   }
   {
-    string result, error;
+    std::string result, error;
     result = filter_url_http_request_mbed ("https://bibledit.org", error, {}, "", false);
     EXPECT_EQ (true, result.find ("Bibledit") != std::string::npos);
     EXPECT_EQ (true, result.find ("Linux") != std::string::npos);
@@ -221,18 +221,18 @@ TEST (filter, url)
 
   // Test removing credentials from a URL.
   {
-    string url = "https://username:password@github.com/username/repository.git";
+    std::string url = "https://username:password@github.com/username/repository.git";
     url = filter_url_remove_username_password (url);
     EXPECT_EQ ("https://github.com/username/repository.git", url);
   }
   
   // Test recursively copying a directory.
   {
-    string input = filter_url_create_root_path ({"unittests"});
-    string output = "/tmp/test_copy_directory";
+    std::string input = filter_url_create_root_path ({"unittests"});
+    std::string output = "/tmp/test_copy_directory";
     filter_url_rmdir (output);
     filter_url_dir_cp (input, output);
-    string path = filter_url_create_path ({output, "tests", "basic.css"});
+    std::string path = filter_url_create_path ({output, "tests", "basic.css"});
     EXPECT_EQ (true, file_or_dir_exists (path));
   }
   
@@ -240,9 +240,9 @@ TEST (filter, url)
   {
     filter_url_ssl_tls_initialize ();
     
-    string url;
-    string error;
-    string result;
+    std::string url;
+    std::string error;
+    std::string result;
     
     url = filter_url_set_scheme (" localhost ", false);
     EXPECT_EQ ("http://localhost", url);
@@ -272,7 +272,7 @@ TEST (filter, url)
   
   // Testing is_dir.
   {
-    string path = filter_url_create_root_path ({"git"});
+    std::string path = filter_url_create_root_path ({"git"});
     EXPECT_EQ (true, filter_url_is_dir (path));
     path = filter_url_create_root_path ({"setup", "index.html"});
     EXPECT_EQ (false, filter_url_is_dir (path));
@@ -280,9 +280,9 @@ TEST (filter, url)
   
   // Testing checking for and setting write permissions.
   {
-    string directory = filter_url_create_root_path ({filter_url_temp_dir ()});
-    string file1 = filter_url_create_path ({directory, "1"});
-    string file2 = filter_url_create_path ({directory, "2"});
+    std::string directory = filter_url_create_root_path ({filter_url_temp_dir ()});
+    std::string file1 = filter_url_create_path ({directory, "1"});
+    std::string file2 = filter_url_create_path ({directory, "2"});
     filter_url_file_put_contents (file1, "x");
     filter_url_file_put_contents (file2, "x");
     
@@ -325,10 +325,10 @@ TEST (filter, url)
   
   // Reading the directory content.
   {
-    string directory = filter_url_create_root_path ({filter_url_temp_dir (), "dirtest"});
+    std::string directory = filter_url_create_root_path ({filter_url_temp_dir (), "dirtest"});
     filter_url_mkdir(directory);
-    string file1 = filter_url_create_path ({directory, "1"});
-    string file2 = filter_url_create_path ({directory, "2"});
+    std::string file1 = filter_url_create_path ({directory, "1"});
+    std::string file2 = filter_url_create_path ({directory, "2"});
     filter_url_file_put_contents (file1, "1");
     filter_url_file_put_contents (file2, "2");
     std::vector <std::string> files = filter_url_scandir (directory);
@@ -337,9 +337,9 @@ TEST (filter, url)
   
   // Testing the file modification time.
   {
-    string directory = filter_url_create_root_path ({filter_url_temp_dir (), "timetest"});
+    std::string directory = filter_url_create_root_path ({filter_url_temp_dir (), "timetest"});
     filter_url_mkdir(directory);
-    string file = filter_url_create_path ({directory, "file.txt"});
+    std::string file = filter_url_create_path ({directory, "file.txt"});
     filter_url_file_put_contents (file, "file.txt");
     int mod_time = filter_url_file_modification_time (file);
     int ref_time = filter::date::seconds_since_epoch ();
@@ -349,8 +349,8 @@ TEST (filter, url)
   
   // Testing the splitting of scheme and host and port.
   {
-    string scheme {};
-    string host {};
+    std::string scheme {};
+    std::string host {};
     int port {0};
     
     filter_url_get_scheme_host_port ("https://bibledit.org:8080", scheme, host, port);

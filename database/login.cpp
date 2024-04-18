@@ -172,7 +172,7 @@ string Database_Login::getUsername (string cookie, bool & daily)
   sql.add (";");
   std::map <string, std::vector <std::string> > result = sql.query ();
   if (result.empty()) return "";
-  string username = result ["username"][0];
+  std::string username = result ["username"][0];
   int stamp = filter::strings::convert_to_int (result ["timestamp"] [0]);
   if (stamp != timestamp ()) {
     // Touch the timestamp. This occurs once a day.

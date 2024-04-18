@@ -93,14 +93,14 @@ string sprint_index ([[maybe_unused]] Webserver_Request& webserver_request)
   }
   
   
-  string bible = access_bible::clamp (webserver_request, webserver_request.database_config_user()->getBible ());
+  std::string bible = access_bible::clamp (webserver_request, webserver_request.database_config_user()->getBible ());
   int month = webserver_request.database_config_user()->getSprintMonth ();
   int year = webserver_request.database_config_user()->getSprintYear ();
   
 
   if (webserver_request.post.count ("id")) {
-    string id = webserver_request.post ["id"];
-    string checked = webserver_request.post ["checked"];
+    std::string id = webserver_request.post ["id"];
+    std::string checked = webserver_request.post ["checked"];
     if (id.length () >= 9) {
       // Remove "task".
       id.erase (0, 4);
@@ -113,7 +113,7 @@ string sprint_index ([[maybe_unused]] Webserver_Request& webserver_request)
         id.erase (0, pos + 3);
         // Convert the box to an integer.
         int box = filter::strings::convert_to_int (id);
-        string categorytext = Database_Config_Bible::getSprintTaskCompletionCategories (bible);
+        std::string categorytext = Database_Config_Bible::getSprintTaskCompletionCategories (bible);
         std::vector <std::string> categories = filter::strings::explode (categorytext, '\n');
         size_t category_count = categories.size ();
         float category_percentage = 100.0f / static_cast<float>(category_count);
@@ -129,7 +129,7 @@ string sprint_index ([[maybe_unused]] Webserver_Request& webserver_request)
   
   
   if (webserver_request.post.count ("add")) {
-    string title = webserver_request.post ["add"];
+    std::string title = webserver_request.post ["add"];
     database_sprint.storeTask (bible, year, month, title);
     view.set_variable ("success", translate("New task added"));
     // Focus the entry for adding tasks only in case a new task was added.
@@ -192,7 +192,7 @@ string sprint_index ([[maybe_unused]] Webserver_Request& webserver_request)
 
   
   if (webserver_request.post.count ("categories")) {
-    string categories = webserver_request.post ["categories"];
+    std::string categories = webserver_request.post ["categories"];
     std::vector <std::string> categories2;
     categories = filter::strings::trim (categories);
     std::vector <std::string> vcategories = filter::strings::explode (categories, '\n');
@@ -209,20 +209,20 @@ string sprint_index ([[maybe_unused]] Webserver_Request& webserver_request)
   view.set_variable ("sprint", locale_logic_month (month) + " " + filter::strings::convert_to_string (year));
 
   
-  string categorytext = Database_Config_Bible::getSprintTaskCompletionCategories (bible);
+  std::string categorytext = Database_Config_Bible::getSprintTaskCompletionCategories (bible);
   view.set_variable ("categorytext", categorytext);
   std::vector <std::string> vcategories = filter::strings::explode (categorytext, '\n');
-  string categories;
+  std::string categories;
   for (auto category : vcategories) {
     categories.append ("<td>" + category + "</td>\n");
   }
   view.set_variable ("categories", categories);
   
   
-  string tasks;
+  std::string tasks;
   std::vector <int> v_tasks = database_sprint.getTasks (bible, year, month);
   for (auto & task_id : v_tasks) {
-    string title = filter::strings::escape_special_xml_characters (database_sprint.getTitle (task_id));
+    std::string title = filter::strings::escape_special_xml_characters (database_sprint.getTitle (task_id));
     int percentage = database_sprint.getComplete (task_id);
     tasks.append ("<tr id=\"a" + filter::strings::convert_to_string (task_id) + "\">\n");
     tasks.append ("<td><a href=\"?id=" + filter::strings::convert_to_string (task_id) + "&remove=\">" + filter::strings::emoji_wastebasket () + "</a></td>\n");

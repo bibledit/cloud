@@ -45,7 +45,7 @@ void email_receive ()
   // without clearin this flag.
   
   // Email count.
-  string error;
+  std::string error;
   int emailcount = email_receive_count (error);
   // Messages start at number 1 instead of 0.
   for (int i = 1; i <= emailcount; i++) {
@@ -55,13 +55,13 @@ void email_receive ()
     Notes_Logic notes_logic (webserver_request);
     
     error.clear ();
-    string message = email_receive_message (error);
+    std::string message = email_receive_message (error);
     if (error.empty ()) {
   
       // Extract "from" and subject, and clean body.
-      string from;
-      string subject;
-      string body;
+      std::string from;
+      std::string subject;
+      std::string body;
       filter_mail_dissect (message, from, subject, body);
   
       Database_Logs::log ("Processing email from " + from + " with subject " + subject);
@@ -114,7 +114,7 @@ size_t writefunc(void *ptr, size_t size, size_t nmemb, cstring *s)
 
 string url ()
 {
-  string url;
+  std::string url;
   const char * pop3s = "POP3S";
   if (Database_Config_General::getMailStorageProtocol() == pop3s) url.append (pop3s);
   else url.append ("pop3");
@@ -173,7 +173,7 @@ int email_receive_count (string& error, bool verbose)
   
   if (res == CURLE_OK) {
     if (s.ptr) {
-      string response = s.ptr;
+      std::string response = s.ptr;
       response = filter::strings::trim (response);
       mailcount = static_cast<int>(filter::strings::explode (response, '\n').size());
     }
@@ -209,7 +209,7 @@ string email_receive_message (string& error)
   curl_easy_setopt (curl, CURLOPT_USERNAME, Database_Config_General::getMailStorageUsername ().c_str());
   curl_easy_setopt (curl, CURLOPT_PASSWORD, Database_Config_General::getMailStoragePassword ().c_str());
 
-  string message_url = url () + "/1";
+  std::string message_url = url () + "/1";
   curl_easy_setopt (curl, CURLOPT_URL, message_url.c_str());
 
   curl_easy_setopt (curl, CURLOPT_USE_SSL, static_cast<long>(CURLUSESSL_ALL));
@@ -227,7 +227,7 @@ string email_receive_message (string& error)
   
   res = curl_easy_perform (curl);
 
-  string body {};
+  std::string body {};
   
   if (res == CURLE_OK) {
     if (s.ptr) body = s.ptr;

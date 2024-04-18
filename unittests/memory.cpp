@@ -116,10 +116,10 @@ TEST (DISABLED_memory, basic)
     request.database_config_user ()->setContributorChangesNotificationsOnline (true);
     Database_Bibles database_bibles;
     Database_Modifications database_modifications;
-    string bible = demo_sample_bible_name ();
+    std::string bible = demo_sample_bible_name ();
     for (int book = 1; book <= 1; book++) {
       for (int chapter = 1; chapter <= 1; chapter++) {
-        string usfm = database_bibles.get_chapter (bible, book, chapter);
+        std::string usfm = database_bibles.get_chapter (bible, book, chapter);
         usfm = filter::strings::replace ("the", "THE", usfm);
         database_modifications.storeTeamDiff (bible, book, chapter);
         database_bibles.store_chapter (bible, book, chapter, usfm);
@@ -142,7 +142,7 @@ TEST (DISABLED_memory, basic)
   {
     Database_State::create ();
     demo_create_sample_bible ();
-    string bible = demo_sample_bible_name ();
+    std::string bible = demo_sample_bible_name ();
     Database_Config_Bible::setCheckDoubleSpacesUsfm (bible, true);
     Database_Config_Bible::setCheckFullStopInHeadings (bible, true);
     Database_Config_Bible::setCheckSpaceBeforePunctuation (bible, true);
@@ -177,7 +177,7 @@ TEST (DISABLED_memory, basic)
   {
     Database_State::create ();
     demo_create_sample_bible ();
-    string bible = demo_sample_bible_name ();
+    std::string bible = demo_sample_bible_name ();
     thread * recorder = nullptr;
     uint64_t basic_usage = filter_memory_total_usage ();
     test_memory_run = true;
@@ -194,7 +194,7 @@ TEST (DISABLED_memory, basic)
   {
     Database_State::create ();
     demo_create_sample_bible ();
-    string bible = demo_sample_bible_name ();
+    std::string bible = demo_sample_bible_name ();
     thread * recorder = nullptr;
     uint64_t basic_usage = filter_memory_total_usage ();
     test_memory_run = true;
@@ -211,7 +211,7 @@ TEST (DISABLED_memory, basic)
   {
     Database_State::create ();
     demo_create_sample_bible ();
-    string bible = demo_sample_bible_name ();
+    std::string bible = demo_sample_bible_name ();
     thread * recorder = nullptr;
     uint64_t basic_usage = filter_memory_total_usage ();
     test_memory_run = true;
@@ -228,7 +228,7 @@ TEST (DISABLED_memory, basic)
   {
     Database_State::create ();
     demo_create_sample_bible ();
-    string bible = demo_sample_bible_name ();
+    std::string bible = demo_sample_bible_name ();
     thread * recorder = nullptr;
     uint64_t basic_usage = filter_memory_total_usage ();
     test_memory_run = true;
@@ -245,7 +245,7 @@ TEST (DISABLED_memory, basic)
   {
     Database_State::create ();
     demo_create_sample_bible ();
-    string bible = demo_sample_bible_name ();
+    std::string bible = demo_sample_bible_name ();
     thread * recorder = nullptr;
     uint64_t basic_usage = filter_memory_total_usage ();
     test_memory_run = true;

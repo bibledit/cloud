@@ -62,7 +62,7 @@ void rss_logic_feed_on_off ()
     rss_logic_update_xml ({}, {}, {});
   } else {
     // The RSS feed is disabled: Remove the last trace of it entirely.
-    string path = rss_logic_xml_path ();
+    std::string path = rss_logic_xml_path ();
     if (file_or_dir_exists (path)) {
       filter_url_unlink (path);
     }
@@ -77,7 +77,7 @@ string rss_logic_new_line ()
 
 
 void rss_logic_schedule_update (string user, string bible, int book, int chapter,
-                                string oldusfm, string newusfm)
+                                std::string oldusfm, string newusfm)
 {
   // If the RSS feed system is off, bail out.
   if (!Database_Config_Bible::getSendChangesToRSS (bible)) return;
@@ -99,7 +99,7 @@ void rss_logic_schedule_update (string user, string bible, int book, int chapter
 
 
 void rss_logic_execute_update (string user, string bible, int book, int chapter,
-                               string oldusfm, string newusfm)
+                               std::string oldusfm, string newusfm)
 {
   // Bail out if there's no changes.
   if (oldusfm == newusfm) return;
@@ -129,8 +129,8 @@ void rss_logic_execute_update (string user, string bible, int book, int chapter,
   sort (verses.begin(), verses.end());
 
   for (auto verse : verses) {
-    string old_verse_usfm = filter::usfm::get_verse_text (oldusfm, verse);
-    string new_verse_usfm = filter::usfm::get_verse_text (newusfm, verse);
+    std::string old_verse_usfm = filter::usfm::get_verse_text (oldusfm, verse);
+    std::string new_verse_usfm = filter::usfm::get_verse_text (newusfm, verse);
     if (old_verse_usfm != new_verse_usfm) {
       Filter_Text filter_text_old = Filter_Text (bible);
       Filter_Text filter_text_new = Filter_Text (bible);
@@ -140,10 +140,10 @@ void rss_logic_execute_update (string user, string bible, int book, int chapter,
       filter_text_new.add_usfm_code (new_verse_usfm);
       filter_text_old.run (stylesheet);
       filter_text_new.run (stylesheet);
-      string old_text = filter_text_old.text_text->get ();
-      string new_text = filter_text_new.text_text->get ();
+      std::string old_text = filter_text_old.text_text->get ();
+      std::string new_text = filter_text_new.text_text->get ();
       if (old_text != new_text) {
-        string modification = filter_diff_diff (old_text, new_text);
+        std::string modification = filter_diff_diff (old_text, new_text);
         titles.push_back (filter_passage_display (book, chapter, filter::strings::convert_to_string (verse)));
         authors.push_back (user);
         descriptions.push_back ("<div>" + modification + "</div>");
@@ -165,11 +165,11 @@ string rss_logic_xml_path ()
 void rss_logic_update_xml (vector <std::string> titles, std::vector <std::string> authors, std::vector <std::string> descriptions)
 {
   int seconds = filter::date::seconds_since_epoch ();
-  string rfc822time = filter::date::rfc822 (seconds);
-  string guid = filter::strings::convert_to_string (seconds);
+  std::string rfc822time = filter::date::rfc822 (seconds);
+  std::string guid = filter::strings::convert_to_string (seconds);
   bool document_updated = false;
   pugi::xml_document document;
-  string path = rss_logic_xml_path ();
+  std::string path = rss_logic_xml_path ();
   document.load_file (path.c_str());
   pugi::xml_node rss_node = document.first_child ();
   if (strcmp (rss_node.name (), "rss") != 0) {
@@ -189,7 +189,7 @@ void rss_logic_update_xml (vector <std::string> titles, std::vector <std::string
     node.text () = translate ("Recent changes in the Bible texts").c_str ();
     // Feed's URL.
     node = channel.append_child ("atom:link");
-    string link = Database_Config_General::getSiteURL() + rss_feed_url ();
+    std::string link = Database_Config_General::getSiteURL() + rss_feed_url ();
     node.append_attribute ("href") = link.c_str();
     node.append_attribute ("rel") = "self";
     node.append_attribute ("type") = "application/rss+xml";
@@ -199,7 +199,7 @@ void rss_logic_update_xml (vector <std::string> titles, std::vector <std::string
   pugi::xml_node channel = rss_node.child ("channel");
   for (size_t i = 0; i < titles.size(); i++) {
     pugi::xml_node item = channel.append_child ("item");
-    string guid2 = guid + filter::strings::convert_to_string (i);
+    std::string guid2 = guid + filter::strings::convert_to_string (i);
     pugi::xml_node guid_node = item.append_child ("guid");
     guid_node.append_attribute ("isPermaLink") = "false";
     guid_node.text () = guid2.c_str();

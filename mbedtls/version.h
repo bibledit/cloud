@@ -103,7 +103,7 @@ void mbedtls_version_get_string( char *string );
  * Get the full version string ("mbed TLS x.y.z").
  *
  * \param string    The string that will receive the value. The mbed TLS version
- *                  string will use 18 bytes AT MOST including a terminating
+ *                  std::string will use 18 bytes AT MOST including a terminating
  *                  null byte.
  *                  (So the buffer should be at least 18 bytes to receive this
  *                  version string).

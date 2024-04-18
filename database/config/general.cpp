@@ -49,8 +49,8 @@ string Database_Config_General::getValue (const char * key, const char * default
     return database_config_general_cache [key];
   }
   // Get value from disk.
-  string value;
-  string filename = file (key);
+  std::string value;
+  std::string filename = file (key);
   if (file_or_dir_exists (filename)) value = filter_url_file_get_contents (filename);
   else value = default_value;
   // Cache it.
@@ -65,14 +65,14 @@ void Database_Config_General::setValue (const char * key, string value)
   // Store in memory cache.
   database_config_general_cache [key] = value;
   // Store on disk.
-  string filename = file (key);
+  std::string filename = file (key);
   filter_url_file_put_contents (filename, value);
 }
 
 
 bool Database_Config_General::getBValue (const char * key, bool default_value)
 {
-  string value = getValue (key, filter::strings::convert_to_string (default_value).c_str());
+  std::string value = getValue (key, filter::strings::convert_to_string (default_value).c_str());
   return filter::strings::convert_to_bool (value);
 }
 
@@ -85,7 +85,7 @@ void Database_Config_General::setBValue (const char * key, bool value)
 
 int Database_Config_General::getIValue (const char * key, int default_value)
 {
-  string value = getValue (key, filter::strings::convert_to_string (default_value).c_str());
+  std::string value = getValue (key, filter::strings::convert_to_string (default_value).c_str());
   return filter::strings::convert_to_int (value);
 }
 
@@ -98,14 +98,14 @@ void Database_Config_General::setIValue (const char * key, int value)
 
 vector <std::string> Database_Config_General::getList (const char * key)
 {
-  string contents = getValue (key, "");
+  std::string contents = getValue (key, "");
   return filter::strings::explode (contents, '\n');
 }
 
 
 void Database_Config_General::setList (const char * key, std::vector <std::string> values)
 {
-  string value = filter::strings::implode (values, "\n");
+  std::string value = filter::strings::implode (values, "\n");
   setValue (key, value);
 }
 
@@ -259,7 +259,7 @@ string Database_Config_General::getSiteURL ()
   // Consequently the site URL is never set.
 #ifdef HAVE_CLIENT
   // In case of a client, return a predefined URL.
-  string url = "http://localhost:";
+  std::string url = "http://localhost:";
   url.append (config::logic::http_network_port ());
   url.append ("/");
   return url;

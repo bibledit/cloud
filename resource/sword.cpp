@@ -82,22 +82,22 @@ string resource_sword (Webserver_Request& webserver_request)
   {
     std::vector <std::string> modules = sword_logic_get_installed ();
     for (auto module : modules) {
-      string name = sword_logic_get_installed_module (module);
-      string version = sword_logic_get_version (module);
+      std::string name = sword_logic_get_installed_module (module);
+      std::string version = sword_logic_get_version (module);
       installed_modules [name] = version;
     }
   }
   
   std::vector <std::string> available_modules = sword_logic_get_available ();
-  string moduleblock;
+  std::string moduleblock;
   for (auto & available_module : available_modules) {
-    string source = sword_logic_get_source (available_module);
-    string module = sword_logic_get_remote_module (available_module);
+    std::string source = sword_logic_get_source (available_module);
+    std::string module = sword_logic_get_remote_module (available_module);
     moduleblock.append ("<p>");
     moduleblock.append (available_module);
     if (!installed_modules [module].empty ()) {
       moduleblock.append (" (" + translate ("installed") + ") ");
-      string version = sword_logic_get_version (available_module);
+      std::string version = sword_logic_get_version (available_module);
       if (version != installed_modules[module]) {
         moduleblock.append (" (" + translate ("to be updated") + ")");
       }

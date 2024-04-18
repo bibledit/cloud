@@ -108,7 +108,7 @@ void MailboxList::set(const std::string& value)
 {
     bool in_dquote = false;
     int blanks = 0;
-    string item;
+    std::string item;
     string::const_iterator bit = value.begin(), eit = value.end();
     string::const_iterator p = bit;
     for(; p != eit; ++p)
@@ -129,7 +129,7 @@ void MailboxList::set(const std::string& value)
 
 string MailboxList::str() const
 {
-    string rs;
+    std::string rs;
     const_iterator first = begin();
     const_iterator bit = begin(), eit = end();
     for(; bit != eit; ++bit)

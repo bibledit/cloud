@@ -86,7 +86,7 @@ void Session_Logic::open ()
 
   // Discard empty cookies right-away.
   // Don't regard this as something that triggers the brute force attach mitigation mechanism.
-  string cookie = m_webserver_request.session_identifier;
+  std::string cookie = m_webserver_request.session_identifier;
   if (cookie.empty ()) {
     set_username ("");
     logged_in = false;
@@ -94,7 +94,7 @@ void Session_Logic::open ()
   }
   
   bool daily;
-  string username_from_cookie = Database_Login::getUsername (cookie, daily);
+  std::string username_from_cookie = Database_Login::getUsername (cookie, daily);
   if (!username_from_cookie.empty ()) {
     set_username (username_from_cookie);
     logged_in = true;
@@ -130,7 +130,7 @@ bool Session_Logic::openAccess ()
 string Session_Logic::remoteAddress ()
 {
   std::vector <std::string> blocks = filter::strings::explode (m_webserver_request.remote_address, '.');
-  string address;
+  std::string address;
   size_t num_blocks = static_cast<size_t> (abs (check_ip_blocks));
   if (num_blocks > blocks.size ()) num_blocks = blocks.size ();
   for (unsigned int i = 0; i < num_blocks; i++) {
@@ -143,7 +143,7 @@ string Session_Logic::remoteAddress ()
 // Returns a fingerprint from the user's browser.
 string Session_Logic::fingerprint ()
 {
-  string fingerprint = "";
+  std::string fingerprint = "";
   // fingerprint += $_SERVER ['HTTP_CONNECTION']; Unstable fingerprint. No use for persistent login.
   // fingerprint += $_SERVER ['HTTP_ACCEPT_ENCODING']; Unstable fingerprint. No use for persistent login.
   fingerprint += m_webserver_request.accept_language;
@@ -189,7 +189,7 @@ bool Session_Logic::attempt_login (string user_or_email, string password,
     open ();
     set_username (user_or_email);
     logged_in = true;
-    string cookie = m_webserver_request.session_identifier;
+    std::string cookie = m_webserver_request.session_identifier;
     Database_Login::setTokens (user_or_email, "", "", "", cookie, touch_enabled_in);
     currentLevel (true);
     return true;
@@ -254,7 +254,7 @@ int Session_Logic::currentLevel (bool force)
 
 void Session_Logic::logout ()
 {
-  const string cookie = m_webserver_request.session_identifier;
+  const std::string cookie = m_webserver_request.session_identifier;
   Database_Login::removeTokens (currentUser (), cookie);
   set_username (string());
   level = Filter_Roles::guest();
@@ -269,7 +269,7 @@ bool Session_Logic::clientAccess ()
   if (config_globals_client_prepared) {
     Database_Users database_users;
     std::vector <std::string> users = database_users.get_users ();
-    string user;
+    std::string user;
     if (users.empty ()) {
       user = session_admin_credentials ();
       level = Filter_Roles::admin ();
@@ -287,7 +287,7 @@ bool Session_Logic::clientAccess ()
 
 void Session_Logic::switch_user (string new_user)
 {
-  string cookie = m_webserver_request.session_identifier;
+  std::string cookie = m_webserver_request.session_identifier;
   Database_Login::removeTokens (new_user, cookie);
   Database_Login::renameTokens (currentUser (), new_user, cookie);
 }

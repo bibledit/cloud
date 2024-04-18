@@ -259,7 +259,7 @@ TEST (database, modifications_team)
     database_bibles.create_bible ("phpunit");
     database_bibles.create_bible ("phpunit2");
     
-    string diff = database_modifications.getTeamDiff ("phpunit", 1, 1);
+    std::string diff = database_modifications.getTeamDiff ("phpunit", 1, 1);
     EXPECT_EQ ("", diff);
     
     bible_logic::store_chapter ("phpunit", 3, 1, "chapter text");
@@ -402,8 +402,8 @@ TEST (database, modifications_team)
 
 TEST (database, modifications_notifications)
 {
-  string any_user = "";
-  string any_bible = "";
+  std::string any_user = "";
+  std::string any_bible = "";
   
   // Basics.
   {
@@ -525,7 +525,7 @@ TEST (database, modifications_notifications)
     database_modifications.create ();
     database_modifications.recordNotification ({"phpunit"}, "A", "1", 1, 2, 3, "old1", "mod1", "new1");
     database_modifications.indexTrimAllNotifications ();
-    string category = database_modifications.getNotificationCategory (1);
+    std::string category = database_modifications.getNotificationCategory (1);
     EXPECT_EQ ("A", category);
     category = database_modifications.getNotificationCategory (2);
     EXPECT_EQ ("", category);
@@ -538,7 +538,7 @@ TEST (database, modifications_notifications)
     database_modifications.create ();
     database_modifications.recordNotification ({"phpunit"}, "A", "1", 1, 2, 3, "old1", "mod1", "new1");
     database_modifications.indexTrimAllNotifications ();
-    string bible = database_modifications.getNotificationBible (1);
+    std::string bible = database_modifications.getNotificationBible (1);
     EXPECT_EQ ("1", bible);
     bible = database_modifications.getNotificationBible (3);
     EXPECT_EQ ("", bible);
@@ -568,7 +568,7 @@ TEST (database, modifications_notifications)
     database_modifications.create ();
     database_modifications.recordNotification ({"phpunit"}, "A", "1", 1, 2, 3, "old1", "mod1", "new1");
     database_modifications.indexTrimAllNotifications ();
-    string old = database_modifications.getNotificationOldText (1);
+    std::string old = database_modifications.getNotificationOldText (1);
     EXPECT_EQ ("old1", old);
     old = database_modifications.getNotificationOldText (3);
     EXPECT_EQ ("", old);
@@ -581,7 +581,7 @@ TEST (database, modifications_notifications)
     database_modifications.create ();
     database_modifications.recordNotification ({"phpunit"}, "A", "1", 1, 2, 3, "old1", "mod1", "new1");
     database_modifications.indexTrimAllNotifications ();
-    string modification = database_modifications.getNotificationModification (1);
+    std::string modification = database_modifications.getNotificationModification (1);
     EXPECT_EQ ("mod1", modification);
     modification = database_modifications.getNotificationOldText (3);
     EXPECT_EQ ("", modification);
@@ -594,7 +594,7 @@ TEST (database, modifications_notifications)
     database_modifications.create ();
     database_modifications.recordNotification ({"phpunit"}, "A", "1", 1, 2, 3, "old1", "mod1", "new1");
     database_modifications.indexTrimAllNotifications ();
-    string newtext = database_modifications.getNotificationNewText (1);
+    std::string newtext = database_modifications.getNotificationNewText (1);
     EXPECT_EQ ("new1", newtext);
     newtext = database_modifications.getNotificationNewText (3);
     EXPECT_EQ ("", newtext);

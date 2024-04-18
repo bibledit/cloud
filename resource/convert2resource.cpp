@@ -43,11 +43,11 @@ void convert_bible_to_resource (string bible)
   
   std::vector <int> books = database_bibles.get_books (bible);
   for (auto & book : books) {
-    string bookname = database::books::get_english_from_id (static_cast<book_id>(book));
+    std::string bookname = database::books::get_english_from_id (static_cast<book_id>(book));
     Database_Logs::log (bookname, Filter_Roles::manager ());
     std::vector <int> chapters = database_bibles.get_chapters (bible, book);
     for (auto & chapter : chapters) {
-      string usfm = database_bibles.get_chapter (bible, book, chapter);
+      std::string usfm = database_bibles.get_chapter (bible, book, chapter);
       database_usfmresources.storeChapter (bible, book, chapter, usfm);
       database_bibles.delete_chapter (bible, book, chapter);
     }

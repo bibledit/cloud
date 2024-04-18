@@ -88,9 +88,9 @@ bool demo_acl (string user, string pass)
 // Returns a warning in case the client is connected to the open demo server.
 string demo_client_warning ()
 {
-  string warning {};
+  std::string warning {};
   if (client_logic_client_enabled ()) {
-    string address = Database_Config_General::getServerAddress ();
+    std::string address = Database_Config_General::getServerAddress ();
     if (address == demo_address () || address == demo_address_secure ()) {
       int port = Database_Config_General::getServerPort ();
       if (port == demo_port () || port == demo_port_secure ()) {
@@ -230,8 +230,8 @@ void demo_create_sample_bible ()
   // Copy the sample Bible data and search index into place.
   std::vector <int> rowids = Database_Sample::get ();
   for (auto rowid : rowids) {
-    string file {};
-    string data {};
+    std::string file {};
+    std::string data {};
     Database_Sample::get (rowid, file, data);
     // Remove the "./" from the start.
     file.erase (0, 2);
@@ -245,12 +245,12 @@ void demo_create_sample_bible ()
     // * and the file needs an update.
     size_t pos = file.find(demo_sample_bible_name());
     if (pos == std::string::npos) {
-      string filename = "Sample";
+      std::string filename = "Sample";
       file = filter::strings::replace(filename, demo_sample_bible_name(), file);
     }
     // Proceed with the path.
     file = filter_url_create_root_path ({file});
-    string path = filter_url_dirname (file);
+    std::string path = filter_url_dirname (file);
     if (!file_or_dir_exists (path)) filter_url_mkdir (path);
     filter_url_file_put_contents (file, data);
   }
@@ -273,14 +273,14 @@ void demo_prepare_sample_bible ()
   // Create a new sample Bible.
   database_bibles.create_bible (demo_sample_bible_name ());
   // Location of the source USFM files for the sample Bible.
-  string directory = filter_url_create_root_path ({"demo"});
+  std::string directory = filter_url_create_root_path ({"demo"});
   std::vector <std::string> files = filter_url_scandir (directory);
   for (auto file : files) {
     // Process only USFM files, skipping others.
     if (filter_url_get_extension (file) == "usfm") {
       // Read the USFM and clean it up.
       file = filter_url_create_path ({directory, file});
-      string usfm = filter_url_file_get_contents (file);
+      std::string usfm = filter_url_file_get_contents (file);
       usfm = filter::strings::collapse_whitespace (usfm);
       // Import the USFM into the sample Bible.
       std::vector <filter::usfm::BookChapterData> book_chapter_data = filter::usfm::usfm_import (usfm, styles_logic_standard_sheet ());
@@ -291,7 +291,7 @@ void demo_prepare_sample_bible ()
           // This results in a book with number 0.
           // This book gets skipped here, so the license information is skipped as well.
           int chapter {data.m_chapter};
-          string usfm2 {data.m_data};
+          std::string usfm2 {data.m_data};
           bible_logic::store_chapter (demo_sample_bible_name (), book, chapter, usfm2);
         }
       }
@@ -303,7 +303,7 @@ void demo_prepare_sample_bible ()
   filter_url_recursive_scandir (directory, files);
   for (const auto & file : files) {
     if (!filter_url_is_dir (file)) {
-      string data = filter_url_file_get_contents (file);
+      std::string data = filter_url_file_get_contents (file);
       Database_Sample::store (file, data);
     }
   }
@@ -313,7 +313,7 @@ void demo_prepare_sample_bible ()
   filter_url_recursive_scandir (directory, files);
   for (const auto & file : files) {
     if (file.find (demo_sample_bible_name ()) != std::string::npos) {
-      string data = filter_url_file_get_contents (file);
+      std::string data = filter_url_file_get_contents (file);
       Database_Sample::store (file, data);
     }
   }
@@ -355,8 +355,8 @@ void demo_create_sample_workspaces (Webserver_Request& webserver_request)
   std::map <int, std::string> urls {};
   std::map <int, std::string> widths {};
   for (int i = 0; i < 15; i++) {
-    string url {};
-    string width {};
+    std::string url {};
+    std::string width {};
     if (i == 0) {
       url = editusfm_index_url ();
       width = "45%";

@@ -30,10 +30,10 @@ TEST (filter, image)
 {
   // Test some functions of the image filter.
   {
-    string image_2_name = "bibleimage2.png";
-    string image_3_name = "bibleimage3.png";
-    string image_2_path = filter_url_create_root_path ({"unittests", "tests", image_2_name});
-    string image_3_path = filter_url_create_root_path ({"unittests", "tests", image_3_name});
+    std::string image_2_name = "bibleimage2.png";
+    std::string image_3_name = "bibleimage3.png";
+    std::string image_2_path = filter_url_create_root_path ({"unittests", "tests", image_2_name});
+    std::string image_3_path = filter_url_create_root_path ({"unittests", "tests", image_3_name});
     int width = 0, height = 0;
     filter_image_get_sizes (image_2_path, width, height);
     EXPECT_EQ (860, width);

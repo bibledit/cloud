@@ -145,13 +145,13 @@ void ContentDisposition::param(const std::string& name, const std::string& val)
 
 void ContentDisposition::set(const std::string& val)
 {
-    string type;
+    std::string type;
     StringTokenizer stok(&val, ";");
     if(!stok.next(type))
         return;
     m_type.assign(type);
 
-    string sparam;
+    std::string sparam;
     while(stok.next(sparam))
     {
         Param p(sparam);
@@ -161,7 +161,7 @@ void ContentDisposition::set(const std::string& val)
 
 string ContentDisposition::str() const
 {
-    string ostr = m_type;
+    std::string ostr = m_type;
     ParamList::const_iterator bit, eit;
     bit = m_paramList.begin();
     eit = m_paramList.end();

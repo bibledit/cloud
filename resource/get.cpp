@@ -45,10 +45,10 @@ string resource_get (Webserver_Request& webserver_request)
   std::vector <std::string> bits;
 
   
-  string s_resource = webserver_request.query["resource"];
-  string s_book = webserver_request.query["book"];
-  string s_chapter = webserver_request.query["chapter"];
-  string s_verse = webserver_request.query["verse"];
+  std::string s_resource = webserver_request.query["resource"];
+  std::string s_book = webserver_request.query["book"];
+  std::string s_chapter = webserver_request.query["chapter"];
+  std::string s_verse = webserver_request.query["verse"];
 
   
   if (!s_resource.empty () && !s_book.empty () && !s_chapter.empty () && !s_verse.empty ()) {
@@ -70,13 +70,13 @@ string resource_get (Webserver_Request& webserver_request)
 
       // Handle a divider.
       if (resource_logic_is_divider (s_resource)) {
-        string text = resource_logic_get_divider (s_resource);
+        std::string text = resource_logic_get_divider (s_resource);
         return text;
       }
       
       
-      string bible = webserver_request.database_config_user ()->getBible ();
-      string versification = Database_Config_Bible::getVersificationSystem (bible);
+      std::string bible = webserver_request.database_config_user ()->getBible ();
+      std::string versification = Database_Config_Bible::getVersificationSystem (bible);
       Database_Versifications database_versifications;
       std::vector <int> chapters = database_versifications.getChapters (versification, book);
       

@@ -66,7 +66,7 @@ string resource_translated9edit (Webserver_Request& webserver_request)
   header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   page = header.run ();
   Assets_View view;
-  string error, success;
+  std::string error, success;
   
 
   // New translated resource handler.
@@ -79,7 +79,7 @@ string resource_translated9edit (Webserver_Request& webserver_request)
     // The title for the new resource as entered by the user.
     // Clean the title up and ensure it always starts with "Translated ".
     // This word flags the translated resource as being one of that category.
-    string new_resource = webserver_request.post ["entry"];
+    std::string new_resource = webserver_request.post ["entry"];
     size_t pos = new_resource.find (resource_logic_translated_resource ());
     if (pos != std::string::npos) {
       new_resource.erase (pos, resource_logic_translated_resource ().length());
@@ -88,7 +88,7 @@ string resource_translated9edit (Webserver_Request& webserver_request)
     std::vector <std::string> titles;
     std::vector <std::string> resources = Database_Config_General::getTranslatedResources ();
     for (auto resource : resources) {
-      string title;
+      std::string title;
       if (resource_logic_parse_translated_resource (resource, &title)) {
         titles.push_back (title);
       }
@@ -99,7 +99,7 @@ string resource_translated9edit (Webserver_Request& webserver_request)
       error = translate("Please give a name for the translated resource");
     } else {
       // Store the new resource in the list.
-      string resource = resource_logic_assemble_translated_resource (new_resource);
+      std::string resource = resource_logic_assemble_translated_resource (new_resource);
       resources.push_back (resource);
       Database_Config_General::setTranslatedResources (resources);
       success = translate("The translated resource was created");
@@ -107,7 +107,7 @@ string resource_translated9edit (Webserver_Request& webserver_request)
       // add the resource to the ones not to be cached by the client.
       client_logic_no_cache_resource_add (new_resource);
       // Redirect the user to the place where to edit that new resource.
-      string url = resource_translated1edit_url () + "?name=" + new_resource;
+      std::string url = resource_translated1edit_url () + "?name=" + new_resource;
       redirect_browser (webserver_request, url);
       return std::string();
     }
@@ -115,9 +115,9 @@ string resource_translated9edit (Webserver_Request& webserver_request)
 
   
   // Delete resource. 
-  string title2remove = webserver_request.query ["delete"];
+  std::string title2remove = webserver_request.query ["delete"];
   if (!title2remove.empty()) {
-    string confirm = webserver_request.query ["confirm"];
+    std::string confirm = webserver_request.query ["confirm"];
     if (confirm.empty()) {
       Dialog_Yes dialog_yes = Dialog_Yes ("translated9edit", translate("Would you like to delete this resource?"));
       dialog_yes.add_query ("delete", title2remove);
@@ -127,7 +127,7 @@ string resource_translated9edit (Webserver_Request& webserver_request)
       std::vector <std::string> updated_resources;
       std::vector <std::string> existing_resources = Database_Config_General::getTranslatedResources ();
       for (auto resource : existing_resources) {
-        string title;
+        std::string title;
         resource_logic_parse_translated_resource (resource, &title);
         if (title != title2remove) updated_resources.push_back (resource);
       }
@@ -142,11 +142,11 @@ string resource_translated9edit (Webserver_Request& webserver_request)
   {
     pugi::xml_document document;
     for (auto & resource : resources) {
-      string title;
+      std::string title;
       if (!resource_logic_parse_translated_resource (resource, &title)) continue;
       pugi::xml_node p_node = document.append_child ("p");
       pugi::xml_node a_node = p_node.append_child("a");
-      string href = "translated1edit?name=" + title;
+      std::string href = "translated1edit?name=" + title;
       a_node.append_attribute ("href") = href.c_str();
       title.append (" [" + translate("edit") + "]");
       a_node.text().set (title.c_str());

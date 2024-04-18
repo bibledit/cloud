@@ -55,9 +55,9 @@ string images_view (Webserver_Request& webserver_request)
   header.add_bread_crumb (images_view_url (), menu_logic_images_index_text ());
   page = header.run ();
   Assets_View view;
-  string error, success;
+  std::string error, success;
   
-  string image = webserver_request.query ["image"];
+  std::string image = webserver_request.query ["image"];
 
   view.set_variable ("image", image);
   view.set_variable ("success", success);

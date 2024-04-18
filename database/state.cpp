@@ -37,7 +37,7 @@ void Database_State::create ()
   }
 
   sqlite3 * db = connect ();
-  string sql;
+  std::string sql;
   
   // On Android, this pragma prevents the following error: VACUUM; Unable to open database file.
   sql = "PRAGMA temp_store = MEMORY;";

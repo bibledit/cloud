@@ -55,8 +55,8 @@ string user_account ([[maybe_unused]] Webserver_Request& webserver_request)
 
   Assets_View view;
 
-  const string username = webserver_request.session_logic()->currentUser ();
-  const string email = webserver_request.database_users()->get_email (username);
+  const std::string username = webserver_request.session_logic()->currentUser ();
+  const std::string email = webserver_request.database_users()->get_email (username);
 
   bool actions_taken = false;
   std::vector <std::string> success_messages;
@@ -64,10 +64,10 @@ string user_account ([[maybe_unused]] Webserver_Request& webserver_request)
   // Form submission handler.
   if (webserver_request.post.count ("submit")) {
     bool form_is_valid = true;
-    string currentpassword = webserver_request.post ["currentpassword"];
-    string newpassword     = webserver_request.post ["newpassword"];
-    string newpassword2    = webserver_request.post ["newpassword2"];
-    string newemail        = webserver_request.post ["newemail"];
+    std::string currentpassword = webserver_request.post ["currentpassword"];
+    std::string newpassword     = webserver_request.post ["newpassword"];
+    std::string newpassword2    = webserver_request.post ["newpassword2"];
+    std::string newemail        = webserver_request.post ["newemail"];
   
     if ((newpassword != "") || (newpassword2 != "")) {
       if (newpassword.length () < 4) {
@@ -104,11 +104,11 @@ string user_account ([[maybe_unused]] Webserver_Request& webserver_request)
       }
       if (form_is_valid) {
         Confirm_Worker confirm_worker (webserver_request);
-        string initial_subject = translate("Email address verification");
-        string initial_body = translate("Somebody requested to change the email address that belongs to your account.");
-        string query = webserver_request.database_users()->updateEmailQuery (username, newemail);
-        string subsequent_subject = translate("Email address change");
-        string subsequent_body = translate("The email address that belongs to your account has been changed successfully.");
+        std::string initial_subject = translate("Email address verification");
+        std::string initial_body = translate("Somebody requested to change the email address that belongs to your account.");
+        std::string query = webserver_request.database_users()->updateEmailQuery (username, newemail);
+        std::string subsequent_subject = translate("Email address change");
+        std::string subsequent_body = translate("The email address that belongs to your account has been changed successfully.");
         confirm_worker.setup (newemail, std::string(), initial_subject, initial_body, query, subsequent_subject, subsequent_body);
         actions_taken = true;
         success_messages.push_back (translate("A verification email was sent to") + " " + newemail);
@@ -123,7 +123,7 @@ string user_account ([[maybe_unused]] Webserver_Request& webserver_request)
 
   view.set_variable ("username", filter::strings::escape_special_xml_characters (username));
   view.set_variable ("email", filter::strings::escape_special_xml_characters (email));
-  string success_message = filter::strings::implode (success_messages, "\n");
+  std::string success_message = filter::strings::implode (success_messages, "\n");
   view.set_variable ("success_messages", success_message);
   if (!actions_taken) view.enable_zone ("no_actions_taken");
 

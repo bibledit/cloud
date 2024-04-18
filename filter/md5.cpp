@@ -22,7 +22,7 @@
 using namespace std;
 
 
-string md5 (const string str)
+string md5 (const std::string str)
 {
   unsigned char md5sum[16];
   const unsigned char *input = reinterpret_cast<const unsigned char *>(str.c_str ());

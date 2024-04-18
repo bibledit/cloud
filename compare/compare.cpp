@@ -91,7 +91,7 @@ void compare_compare (string bible, string compare, int jobId)
   for (auto & book : books) {
 
     
-    string bookName = database::books::get_english_from_id (static_cast<book_id>(book));
+    std::string bookName = database::books::get_english_from_id (static_cast<book_id>(book));
     database_jobs.set_progress (jobId, bookName);
     
     
@@ -143,8 +143,8 @@ void compare_compare (string bible, string compare, int jobId)
       
 
       // Get source and compare USFM, and skip them if they are equal.
-      string bible_chapter_usfm = database_bibles.get_chapter (bible, book, chapter);
-      string compare_chapter_usfm = database_bibles.get_chapter (compare, book, chapter);
+      std::string bible_chapter_usfm = database_bibles.get_chapter (bible, book, chapter);
+      std::string compare_chapter_usfm = database_bibles.get_chapter (compare, book, chapter);
       if (compare_chapter_usfm == "") {
         compare_chapter_usfm = database_usfmresources.getUsfm (compare, book, chapter);
       }
@@ -168,8 +168,8 @@ void compare_compare (string bible, string compare, int jobId)
  
 
         // Get the USFM of verse of the Bible and comparison USFM, and skip it if both are the same.
-        string bible_verse_usfm = filter::usfm::get_verse_text (bible_chapter_usfm, verse);
-        string compare_verse_usfm = filter::usfm::get_verse_text (compare_chapter_usfm, verse);
+        std::string bible_verse_usfm = filter::usfm::get_verse_text (bible_chapter_usfm, verse);
+        std::string compare_verse_usfm = filter::usfm::get_verse_text (compare_chapter_usfm, verse);
         if (bible_verse_usfm == compare_verse_usfm) continue;
         
         Filter_Text filter_text_bible = Filter_Text (bible);
@@ -182,16 +182,16 @@ void compare_compare (string bible, string compare, int jobId)
         filter_text_compare.add_usfm_code (compare_verse_usfm);
         filter_text_bible.run (stylesheet);
         filter_text_compare.run (stylesheet);
-        string bible_html = filter_text_bible.html_text_standard->get_inner_html ();
-        string compare_html = filter_text_compare.html_text_standard->get_inner_html ();
-        string bible_text = filter_text_bible.text_text->get ();
-        string compare_text = filter_text_compare.text_text->get ();
+        std::string bible_html = filter_text_bible.html_text_standard->get_inner_html ();
+        std::string compare_html = filter_text_compare.html_text_standard->get_inner_html ();
+        std::string bible_text = filter_text_bible.text_text->get ();
+        std::string compare_text = filter_text_compare.text_text->get ();
         if (bible_text != compare_text) {
-          string modification = filter_diff_diff (compare_text, bible_text);
+          std::string modification = filter_diff_diff (compare_text, bible_text);
           result.push_back (filter_passage_display (book, chapter, filter::strings::convert_to_string (verse)) + " " + modification);
           new_verses.push_back (filter_passage_display (book, chapter, filter::strings::convert_to_string (verse)) + " " + bible_text);
         }
-        string modification = filter_diff_diff (compare_verse_usfm, bible_verse_usfm);
+        std::string modification = filter_diff_diff (compare_verse_usfm, bible_verse_usfm);
         raw.push_back (filter_passage_display (book, chapter, filter::strings::convert_to_string (verse)) + " " + modification);
       }
     }

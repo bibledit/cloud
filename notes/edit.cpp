@@ -60,7 +60,7 @@ string notes_edit (Webserver_Request& webserver_request)
   Assets_View view;
   
   
-  string myusername = webserver_request.session_logic ()->currentUser ();
+  std::string myusername = webserver_request.session_logic ()->currentUser ();
   
   
   int identifier;
@@ -72,7 +72,7 @@ string notes_edit (Webserver_Request& webserver_request)
   
   if (webserver_request.post.count ("data")) {
     // Save note.
-    string noteData = webserver_request.post["data"];
+    std::string noteData = webserver_request.post["data"];
     if (database_notes.identifier_exists (identifier)) {
       std::vector <std::string> lines = filter::strings::explode (noteData, '\n');
       for (size_t i = 0; i < lines.size (); i++) {
@@ -83,7 +83,7 @@ string notes_edit (Webserver_Request& webserver_request)
       }
       noteData = filter::strings::implode (lines, "\n");
       notes_logic.setContent (identifier, noteData);
-      string url = filter_url_build_http_query (notes_note_url (), "id", filter::strings::convert_to_string (identifier));
+      std::string url = filter_url_build_http_query (notes_note_url (), "id", filter::strings::convert_to_string (identifier));
       // View the updated note.
       redirect_browser (webserver_request, url);
       return "";
@@ -93,7 +93,7 @@ string notes_edit (Webserver_Request& webserver_request)
   
   if (identifier) {
     if (database_notes.identifier_exists (identifier)) {
-      string noteData = database_notes.get_contents (identifier);
+      std::string noteData = database_notes.get_contents (identifier);
       bool editable = false;
       std::vector <std::string> lines = filter::strings::explode (noteData, '\n');
       for (size_t i = 0; i < lines.size (); i++) {
@@ -105,7 +105,7 @@ string notes_edit (Webserver_Request& webserver_request)
         // <p>adminusername (8/9/2015):</p>
         // Or:
         // <p><b>adminusername (3/3/2019):</b></p>
-        string username;
+        std::string username;
         {
           // Splitting on space should yield two bits.
           std::vector <std::string> bits = filter::strings::explode (lines[i], ' ');

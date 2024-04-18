@@ -57,7 +57,7 @@ string notes_severity_1 (Webserver_Request& webserver_request)
   Assets_Header header = Assets_Header (translate("Severity"), webserver_request);
   page += header.run ();
   Assets_View view;
-  string success, error;
+  std::string success, error;
   
   
   int id = filter::strings::convert_to_int (webserver_request.query ["id"]);

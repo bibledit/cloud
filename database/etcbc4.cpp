@@ -39,7 +39,7 @@ sqlite3 * Database_Etcbc4::connect ()
 void Database_Etcbc4::create ()
 {
   sqlite3 * db = connect ();
-  string sql;
+  std::string sql;
 
   sql =
   "CREATE TABLE IF NOT EXISTS rawdata (book int, chapter int, verse int, data text);";
@@ -246,12 +246,12 @@ void Database_Etcbc4::store (int book, int chapter, int verse, string data)
 
 
 void Database_Etcbc4::store (int book, int chapter, int verse,
-                            string word, string vocalized_lexeme, string consonantal_lexeme,
-                            string gloss, string pos, string subpos,
-                            string gender, string number, string person,
-                            string state, string tense, string stem,
-                            string phrase_function, string phrase_type, string phrase_relation,
-                            string phrase_a_relation, string clause_text_type, string clause_type, string clause_relation)
+                            std::string word, string vocalized_lexeme, string consonantal_lexeme,
+                            std::string gloss, string pos, string subpos,
+                            std::string gender, string number, string person,
+                            std::string state, string tense, string stem,
+                            std::string phrase_function, string phrase_type, string phrase_relation,
+                            std::string phrase_a_relation, string clause_text_type, string clause_type, string clause_relation)
 {
   sqlite3 * db = connect ();
   SqliteSQL sql = SqliteSQL ();
@@ -533,7 +533,7 @@ string Database_Etcbc4::get_item (const char * item, int rowid)
     if (!result.empty ()) rowid = filter::strings::convert_to_int (result [0]);
   }
   // Retrieve the requested value from the sub table.
-  string value;
+  std::string value;
   {
     SqliteSQL sql = SqliteSQL ();
     sql.add ("SELECT");

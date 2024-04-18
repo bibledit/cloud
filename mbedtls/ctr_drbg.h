@@ -267,7 +267,7 @@ void mbedtls_ctr_drbg_init( mbedtls_ctr_drbg_context *ctx );
  *                      the entropy length relative to the security strength.
  *                      - If the entropy length is at least 1.5 times the
  *                        security strength then the nonce is taken from the
- *                        string obtained with \p f_entropy.
+ *                        std::string obtained with \p f_entropy.
  *                      - If the entropy length is less than the security
  *                        strength, then the nonce is taken from \p custom.
  *                        In this case, for compliance with SP 800-90A,
@@ -313,7 +313,7 @@ void mbedtls_ctr_drbg_init( mbedtls_ctr_drbg_context *ctx );
  * \param p_entropy     The entropy context to pass to \p f_entropy.
  * \param custom        The personalization string.
  *                      This can be \c NULL, in which case the personalization
- *                      string is empty regardless of the value of \p len.
+ *                      std::string is empty regardless of the value of \p len.
  * \param len           The length of the personalization string.
  *                      This must be at most
  *                      #MBEDTLS_CTR_DRBG_MAX_SEED_INPUT

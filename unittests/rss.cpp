@@ -39,10 +39,10 @@ TEST (rss, feed)
   
   Database_State::create ();
   Database_Bibles database_bibles;
-  string bible = "bible";
+  std::string bible = "bible";
   database_bibles.create_bible (bible);
   
-  string path = rss_logic_xml_path ();
+  std::string path = rss_logic_xml_path ();
   Database_Config_General::setSiteURL ("http://localhost:8080/");
   
   // Enable the Bible to send its changes to the RSS feed.

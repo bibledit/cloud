@@ -131,7 +131,7 @@ void sprint_burndown ([[maybe_unused]] string bible,
     if (email) {
       if (task_count) {
         // Only mail if the current sprint contains tasks.
-        string scategories = Database_Config_Bible::getSprintTaskCompletionCategories (bible2);
+        std::string scategories = Database_Config_Bible::getSprintTaskCompletionCategories (bible2);
         std::vector <std::string> categories = filter::strings::explode (scategories, '\n');
         int category_count = static_cast<int>(categories.size());
         int category_percentage = static_cast<int>(round (100 / category_count));
@@ -139,7 +139,7 @@ void sprint_burndown ([[maybe_unused]] string bible,
         for (auto user : users) {
           if (request.database_config_user()->getUserSprintProgressNotification (user)) {
             
-            string subject = translate("Team's progress in Sprint");
+            std::string subject = translate("Team's progress in Sprint");
             if (sprintstart) subject = translate("Sprint has started");
             if (sprintfinish) subject = translate("Sprint has finished");
             subject +=  " | " + bible2;
@@ -153,10 +153,10 @@ void sprint_burndown ([[maybe_unused]] string bible,
             std::vector <int> tasks = database_sprint.getTasks (bible2, year, month);
             for (auto id : tasks) {
               body.push_back ("<tr>");
-              string title = database_sprint.getTitle (id);
+              std::string title = database_sprint.getTitle (id);
               body.push_back ("<td>" + title + "</td>");
               int complete_cnt = database_sprint.getComplete (id);
-              string text;
+              std::string text;
               for (int i = 0; i < round (complete_cnt / category_percentage); i++) text.append ("▓");
               for (int i = 0; i < category_count - round (complete_cnt / category_percentage); i++) text.append ("▁");
               body.push_back ("<td>" + text + "</td>");
@@ -165,11 +165,11 @@ void sprint_burndown ([[maybe_unused]] string bible,
             body.push_back ("</table>");
             
             body.push_back ("<h4>" + translate("Sprint Burndown Chart - Remaining Tasks") + "</h4>");
-            string burndownchart = sprint_create_burndown_chart (bible2, year, month);
+            std::string burndownchart = sprint_create_burndown_chart (bible2, year, month);
             body.push_back ("<p>" + burndownchart + "</p>");
             
             if (!body.empty ()) {
-              string mailbody = filter::strings::implode (body, "\n");
+              std::string mailbody = filter::strings::implode (body, "\n");
               email_schedule (user, subject, mailbody);
             }
             
@@ -233,7 +233,7 @@ string sprint_create_burndown_chart ([[maybe_unused]] string bible,
   lines.push_back ("<tr>");
   for (auto element : data) {
     int tasks = element.second;
-    string text;
+    std::string text;
     for (int i = 0; i < tasks; i++) text.append ("▓<br>");
     lines.push_back ("<td  style=\"vertical-align: bottom;\" class='day'>" + text + "</td>");
   }
@@ -250,13 +250,13 @@ string sprint_create_burndown_chart ([[maybe_unused]] string bible,
   // Write "days" below the X-axis.
   lines.push_back ("<tr>");
   int columncount = static_cast<int>(data.size ());
-  string text = translate("days");
+  std::string text = translate("days");
   lines.push_back ("<td colspan=\"" + filter::strings::convert_to_string (columncount) + "\">" + text + "</td>");
   lines.push_back ("</tr>");
                                     
   lines.push_back ("</table>");
                                                                       
-  string chart = filter::strings::implode (lines, "\n");
+  std::string chart = filter::strings::implode (lines, "\n");
   return chart;
 #endif
 }

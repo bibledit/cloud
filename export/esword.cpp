@@ -39,11 +39,11 @@ using namespace std;
 
 void export_esword (string bible, bool log)
 {
-  string directory = filter_url_create_path ({export_logic::bible_directory (bible), "esword"});
+  std::string directory = filter_url_create_path ({export_logic::bible_directory (bible), "esword"});
   if (!file_or_dir_exists (directory)) filter_url_mkdir (directory);
   
   
-  string filename = filter_url_create_path ({directory, "bible.bblx"});
+  std::string filename = filter_url_create_path ({directory, "bible.bblx"});
 
   
   if (file_or_dir_exists (filename)) filter_url_unlink (filename);
@@ -61,7 +61,7 @@ void export_esword (string bible, bool log)
   for (auto book : books) {
     std::vector <int> chapters = database_bibles.get_chapters (bible, book);
     for (auto chapter : chapters) {
-      string chapter_data = database_bibles.get_chapter (bible, book, chapter);
+      std::string chapter_data = database_bibles.get_chapter (bible, book, chapter);
       filter_text_bible.add_usfm_code (chapter_data);
     }
   }

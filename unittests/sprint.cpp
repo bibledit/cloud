@@ -58,7 +58,7 @@ TEST (database, sprint)
     database.create ();
     database.storeTask ("phpunit", 2014, 1, "xyz");
     std::vector <int> ids = database.getTasks ("phpunit", 2014, 1);
-    string title = database.getTitle (ids[0]);
+    std::string title = database.getTitle (ids[0]);
     EXPECT_EQ ("xyz", title);
   }
   // Complete

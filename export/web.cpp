@@ -42,7 +42,7 @@ using namespace std;
 
 void export_web_book (string bible, int book, bool log)
 {
-  const string directory = export_logic::web_directory (bible);
+  const std::string directory = export_logic::web_directory (bible);
   if (!file_or_dir_exists (directory)) filter_url_mkdir (directory);
   
   
@@ -53,25 +53,25 @@ void export_web_book (string bible, int book, bool log)
   const std::string stylesheet = Database_Config_Bible::getExportStylesheet (bible);
   
   
-  const string feedback_email = Database_Config_Bible::getExportFeedbackEmail (bible);
+  const std::string feedback_email = Database_Config_Bible::getExportFeedbackEmail (bible);
   
   
   // Copy font to the output directory.
-  const string font = fonts::logic::get_text_font (bible);
+  const std::string font = fonts::logic::get_text_font (bible);
   if (!font.empty ()) {
     if (fonts::logic::font_exists (font)) {
-      string fontpath = fonts::logic::get_font_path (font);
-      const string contents = filter_url_file_get_contents (fontpath);
+      std::string fontpath = fonts::logic::get_font_path (font);
+      const std::string contents = filter_url_file_get_contents (fontpath);
       fontpath = filter_url_create_path ({directory, font});
       filter_url_file_put_contents (fontpath, contents);
     }
   }
   
   
-  const string backLinkPath {export_logic::web_back_link_directory (bible)};
+  const std::string backLinkPath {export_logic::web_back_link_directory (bible)};
   
   
-  const string bibleBookText = bible + " " + database::books::get_english_from_id (static_cast<book_id>(book));
+  const std::string bibleBookText = bible + " " + database::books::get_english_from_id (static_cast<book_id>(book));
   
   
   // Web index file for the book.
@@ -97,7 +97,7 @@ void export_web_book (string bible, int book, bool log)
     Filter_Text filter_text_chapter = Filter_Text (bible);
     
     // Get the USFM for the chapter.
-    string usfm = database_bibles.get_chapter (bible, book, chapter);
+    std::string usfm = database_bibles.get_chapter (bible, book, chapter);
     // Trim it.
     usfm = filter::strings::trim (usfm);
     // Use small chunks of USFM at a time for much better performance.
@@ -123,9 +123,9 @@ void export_web_book (string bible, int book, bool log)
     // Optionally add a link for giving feedback by email.
     if (!feedback_email.empty ()) {
       breadcrumbs_navigator.push_back (pair ("|", ""));
-      string subject = translate ("Comment on") + " " + bible + " " + database::books::get_english_from_id (static_cast<book_id>(book)) + " " + filter::strings::convert_to_string (chapter);
+      std::string subject = translate ("Comment on") + " " + bible + " " + database::books::get_english_from_id (static_cast<book_id>(book)) + " " + filter::strings::convert_to_string (chapter);
       subject = filter::strings::replace (" ", "%20", subject);
-      string link = "mailto:" + feedback_email + "?Subject=" + subject;
+      std::string link = "mailto:" + feedback_email + "?Subject=" + subject;
       breadcrumbs_navigator.push_back (pair (translate ("Feedback"), link));
     }
     html_header.create (breadcrumbs_navigator);
@@ -139,8 +139,8 @@ void export_web_book (string bible, int book, bool log)
     
     // Save any images that were included.
     for (auto src : filter_text_chapter.image_sources) {
-      string contents = database_bibleimages.get(src);
-      string filename = filter_url_create_path ({directory, src});
+      std::string contents = database_bibleimages.get(src);
+      std::string filename = filter_url_create_path ({directory, src});
       filter_url_file_put_contents(filename, contents);
     }
   }
@@ -163,14 +163,14 @@ void export_web_book (string bible, int book, bool log)
 void export_web_index (string bible, bool log)
 {
   // Create folders for the web export.
-  string directory = export_logic::web_directory (bible);
+  std::string directory = export_logic::web_directory (bible);
   if (!file_or_dir_exists (directory)) filter_url_mkdir (directory);
   
   
   // Filenames for the web file and stylesheet.
-  string indexFile = filter_url_create_path ({directory, "index.html"});
-  string index00 = filter_url_create_path ({directory, "00_index.html"});
-  string filecss = filter_url_create_path ({directory, "stylesheet.css"});
+  std::string indexFile = filter_url_create_path ({directory, "index.html"});
+  std::string index00 = filter_url_create_path ({directory, "00_index.html"});
+  std::string filecss = filter_url_create_path ({directory, "stylesheet.css"});
   
   
   Database_Bibles database_bibles;
@@ -184,7 +184,7 @@ void export_web_index (string bible, bool log)
   styles_sheets.create (stylesheet, filecss, false, bible);
   
   
-  string backLinkPath = export_logic::web_back_link_directory (bible);
+  std::string backLinkPath = export_logic::web_back_link_directory (bible);
   
   
   // Main index file.
@@ -215,8 +215,8 @@ void export_web_index (string bible, bool log)
   
   
   // Lens image supporting search.
-  string lenspath = filter_url_create_root_path ({"webbb", "lens.png"});
-  string contents = filter_url_file_get_contents (lenspath);
+  std::string lenspath = filter_url_create_root_path ({"webbb", "lens.png"});
+  std::string contents = filter_url_file_get_contents (lenspath);
   lenspath = filter_url_create_path ({directory, "lens.png"});
   filter_url_file_put_contents (lenspath, contents);
 

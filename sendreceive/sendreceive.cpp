@@ -46,7 +46,7 @@ void sendreceive_sendreceive ([[maybe_unused]] string bible)
   
 
   // The git repository directory for this object.
-  string directory = filter_git_directory (bible);
+  std::string directory = filter_git_directory (bible);
   
   
   bool read_from_git = Database_Config_Bible::getReadFromGit (bible);
@@ -54,7 +54,7 @@ void sendreceive_sendreceive ([[maybe_unused]] string bible)
 
   // Check that the repository directory is there.
   if (!file_or_dir_exists (directory)) {
-    string msg = "Cannot send ";
+    std::string msg = "Cannot send ";
     if (read_from_git) msg.append ("and receive ");
     msg.append ("because the local git repository was not found.");
     Database_Logs::log (sendreceive_tag () + msg);
@@ -72,7 +72,7 @@ void sendreceive_sendreceive ([[maybe_unused]] string bible)
   
   Webserver_Request webserver_request;
   bool success = true;
-  string error;
+  std::string error;
   
   
   // Configure the repository to prevent errors, just to be sure.
@@ -150,8 +150,8 @@ void sendreceive_sendreceive ([[maybe_unused]] string bible)
       filter_git_resolve_conflicts (directory, paths_resolved_conflicts, error);
       if (!error.empty ()) Database_Logs::log (error, Filter_Roles::translator ());
       std::vector <std::string> messages;
-      string tmp_error;
-      string no_user {};
+      std::string tmp_error;
+      std::string no_user {};
       filter_git_commit (directory, no_user, translate ("Bibledit resolved the conflicts"), messages, tmp_error);
       for (auto & msg : messages) Database_Logs::log (sendreceive_tag () + "conflict resolution: " + msg, Filter_Roles::translator ());
       // The above "git pull" operation failed due to the conflict(s).
@@ -196,12 +196,12 @@ void sendreceive_sendreceive ([[maybe_unused]] string bible)
   
   // Done.
   if (!success) {
-    string msg = "Failure during sending";
+    std::string msg = "Failure during sending";
     if (read_from_git) msg.append ("and receiving");
     Database_Logs::log (sendreceive_tag () + msg, Filter_Roles::translator ());
   }
   {
-    string msg;
+    std::string msg;
     if (read_from_git) {
       msg = sendreceive_sendreceive_sendreceive_ready_text ();
     } else {

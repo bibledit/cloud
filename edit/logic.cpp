@@ -27,7 +27,7 @@ using namespace std;
 
 string edit2_logic_volatile_key (string bible, int book, int chapter, string editor)
 {
-  string key;
+  std::string key;
   key.append (bible);
   key.append (" ");
   key.append (filter::strings::fill (filter::strings::convert_to_string (book), 2, '0'));
@@ -43,9 +43,9 @@ void storeLoadedUsfm2 (Webserver_Request& webserver_request, string bible, int b
 {
   int userid = filter::strings::user_identifier (webserver_request);
   
-  string key = edit2_logic_volatile_key (bible, book, chapter, editor);
+  std::string key = edit2_logic_volatile_key (bible, book, chapter, editor);
   
-  string usfm = webserver_request.database_bibles()->get_chapter (bible, book, chapter);
+  std::string usfm = webserver_request.database_bibles()->get_chapter (bible, book, chapter);
   
   Database_Volatile::setValue (userid, key, usfm);
 }
@@ -55,9 +55,9 @@ string getLoadedUsfm2 (Webserver_Request& webserver_request, string bible, int b
 {
   int userid = filter::strings::user_identifier (webserver_request);
   
-  string key = edit2_logic_volatile_key (bible, book, chapter, editor);
+  std::string key = edit2_logic_volatile_key (bible, book, chapter, editor);
   
-  string usfm = Database_Volatile::getValue (userid, key);
+  std::string usfm = Database_Volatile::getValue (userid, key);
   
   return usfm;
 }

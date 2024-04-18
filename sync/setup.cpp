@@ -46,13 +46,13 @@ string sync_setup (Webserver_Request& webserver_request)
   
   std::string page;
   
-  string username = webserver_request.query ["user"];
+  std::string username = webserver_request.query ["user"];
   username = filter::strings::hex2bin (username);
-  string password = webserver_request.query ["pass"];
+  std::string password = webserver_request.query ["pass"];
 
   // Check the credentials of the client.
   if (webserver_request.database_users ()->usernameExists (username)) {
-    string md5 = webserver_request.database_users ()->get_md5 (username);
+    std::string md5 = webserver_request.database_users ()->get_md5 (username);
     if (password == md5) {
       // Check brute force attack mitigation.
       if (user_logic_login_failure_check_okay ()) {

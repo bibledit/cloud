@@ -172,7 +172,7 @@ string int2hex(unsigned int n)
     'c', 'd', 'e', 'f'
   };
   size_t sz = sizeof(n), zeros = 0;
-  string r;
+  std::string r;
   char cp;
   for(size_t i = 0; i < sz*2; ++i)
   {

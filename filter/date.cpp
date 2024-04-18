@@ -254,7 +254,7 @@ string month_rfc822 (int month)
 // e.g.: Wed, 02 Oct 2002 15:00:00 +0200.
 string rfc822 (int seconds)
 {
-  string rfc822;
+  std::string rfc822;
   // The feed validator at https://validator.w3.org/feed/ says:
   // <pubDate>Wed, 18 Feb 2017 12:26:39 +0100</pubDate>
   // This feed does not validate: Incorrect day of week: Wed (2 occurrences).
@@ -265,7 +265,7 @@ string rfc822 (int seconds)
   // int weekday = numerical_week_day (seconds);
   // rfc822.append (day_rfc822 (weekday));
   // rfc822.append (", ");
-  string monthday = filter::strings::convert_to_string (numerical_month_day (seconds));
+  std::string monthday = filter::strings::convert_to_string (numerical_month_day (seconds));
   rfc822.append (filter::strings::fill (monthday, 2, '0'));
   rfc822.append (" ");
   int month = numerical_month (seconds);
@@ -274,13 +274,13 @@ string rfc822 (int seconds)
   int year = numerical_year (seconds);
   rfc822.append (filter::strings::convert_to_string (year));
   rfc822.append (" ");
-  string hour = filter::strings::convert_to_string (numerical_hour (seconds));
+  std::string hour = filter::strings::convert_to_string (numerical_hour (seconds));
   rfc822.append (filter::strings::fill (hour, 2, '0'));
   rfc822.append (":");
-  string minute = filter::strings::convert_to_string (numerical_minute (seconds));
+  std::string minute = filter::strings::convert_to_string (numerical_minute (seconds));
   rfc822.append (filter::strings::fill (minute, 2, '0'));
   rfc822.append (":");
-  string second = filter::strings::convert_to_string (numerical_second (seconds));
+  std::string second = filter::strings::convert_to_string (numerical_second (seconds));
   rfc822.append (filter::strings::fill (second, 2, '0'));
   rfc822.append (" ");
   int timezone = Database_Config_General::getTimezone ();
@@ -335,9 +335,9 @@ string localized_date_format (Webserver_Request& webserver_request)
 {
   int time = seconds_since_epoch ();
   
-  string day = filter::strings::convert_to_string (numerical_month_day (time));
-  string month = filter::strings::convert_to_string (numerical_month (time));
-  string year = filter::strings::convert_to_string (numerical_year (time));
+  std::string day = filter::strings::convert_to_string (numerical_month_day (time));
+  std::string month = filter::strings::convert_to_string (numerical_month (time));
+  std::string year = filter::strings::convert_to_string (numerical_year (time));
 
   date_format df = static_cast<date_format>(webserver_request.database_config_user()->getNotesDateFormat());
 

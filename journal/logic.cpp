@@ -77,7 +77,7 @@ string journal_logic_see_journal_for_progress ()
 {
   pugi::xml_document document;
   pugi::xml_node a_node = document.append_child ("a");
-  string href = "../";
+  std::string href = "../";
   href.append (journal_index_url ());
   a_node.append_attribute ("href") = href.c_str ();
   a_node.text () = translate ("See the Journal for progress.").c_str();

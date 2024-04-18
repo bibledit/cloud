@@ -49,19 +49,19 @@ TEST (database, confirm)
   EXPECT_EQ (id, id2);
   
   // Retrieve data for the ID.
-  string query = database_confirm.get_query (id);
+  std::string query = database_confirm.get_query (id);
   EXPECT_EQ ("SELECT x, y, z FROM a;", query);
   
-  string to = database_confirm.get_mail_to (id);
+  std::string to = database_confirm.get_mail_to (id);
   EXPECT_EQ ("email", to);
   
-  string subject = database_confirm.get_subject (id);
+  std::string subject = database_confirm.get_subject (id);
   EXPECT_EQ ("subject", subject);
   
-  string body = database_confirm.get_body (id);
+  std::string body = database_confirm.get_body (id);
   EXPECT_EQ ("body", body);
   
-  string username = database_confirm.get_username(id);
+  std::string username = database_confirm.get_username(id);
   EXPECT_EQ ("username", username);
   username = database_confirm.get_username(id + 1);
   EXPECT_EQ (string(), username);

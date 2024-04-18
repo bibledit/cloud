@@ -34,15 +34,15 @@ TEST (filter, archive)
   
   // Prepare data structure for testing.
   
-  string directory = filter_url_tempfile ();
+  std::string directory = filter_url_tempfile ();
   filter_url_mkdir (directory);
 
-  string file1 = "testarchive1";
-  string file2 = "testarchive2";
-  string path1 = filter_url_create_path ({directory, file1});
-  string path2 = filter_url_create_path ({directory, file2});
-  string data1;
-  string data2;
+  std::string file1 = "testarchive1";
+  std::string file2 = "testarchive2";
+  std::string path1 = filter_url_create_path ({directory, file1});
+  std::string path2 = filter_url_create_path ({directory, file2});
+  std::string data1;
+  std::string data2;
   for (unsigned int i = 0; i < 1000; i++) {
     data1.append ("Data One\n");
     data2.append ("Data Two\n");
@@ -52,8 +52,8 @@ TEST (filter, archive)
   std::vector <std::string> files12 = { file1, file2 };
 
   for (int i = 0; i < 5; i++) {
-    string path = filter_url_create_path ({directory, "testdata" + filter::strings::convert_to_string (i)});
-    string data = filter::strings::convert_to_string (filter::strings::rand (1000000, 2000000));
+    std::string path = filter_url_create_path ({directory, "testdata" + filter::strings::convert_to_string (i)});
+    std::string data = filter::strings::convert_to_string (filter::strings::rand (1000000, 2000000));
     for (int i2 = 0; i2 <= i; i2++) data.append (data);
     filter_url_file_put_contents (path, data);
     path = filter_url_create_path ({directory, filter::strings::convert_to_string (i), filter::strings::convert_to_string (i)});
@@ -65,7 +65,7 @@ TEST (filter, archive)
   // Test zip entire folder.
   {
     // Zip existing folder through the shell.
-    string zipfile = filter_archive_zip_folder_shell_internal (directory);
+    std::string zipfile = filter_archive_zip_folder_shell_internal (directory);
     EXPECT_EQ (true, file_or_dir_exists (zipfile));
     int size = filter_url_filesize (zipfile);
     int min = 3328;
@@ -92,9 +92,9 @@ TEST (filter, archive)
   // Test unzip through the shell.
   {
     // Create zip file through the shell.
-    string zipfile = filter_archive_zip_folder_shell_internal (directory);
+    std::string zipfile = filter_archive_zip_folder_shell_internal (directory);
     // Test unzip through shell.
-    string folder = filter_archive_unzip_shell_internal (zipfile);
+    std::string folder = filter_archive_unzip_shell_internal (zipfile);
     EXPECT_EQ (true, file_or_dir_exists (zipfile));
     EXPECT_EQ (9000, filter_url_filesize (folder + "/testarchive1"));
     // Test that unzipping a non-existing zipfile returns nothing.
@@ -105,11 +105,11 @@ TEST (filter, archive)
   // Test unzip through the miniz library.
   {
     // Create a zipfile with test data through the shell.
-    string zipfile = filter_archive_zip_folder_shell_internal (directory);
+    std::string zipfile = filter_archive_zip_folder_shell_internal (directory);
     // Unzip it through miniz and then check it.
-    string folder = filter_archive_unzip_miniz_internal (zipfile);
+    std::string folder = filter_archive_unzip_miniz_internal (zipfile);
     EXPECT_EQ (false, folder.empty ());
-    string out_err;
+    std::string out_err;
     int result = filter_shell_run ("diff -r " + directory + " " + folder, out_err);
     EXPECT_EQ ("", out_err);
     EXPECT_EQ (0, result);
@@ -120,15 +120,15 @@ TEST (filter, archive)
   
   // Test unzipping OpenDocument file through the miniz library.
   {
-    string zipfile = filter_url_create_root_path ({"odf", "template.odt"});
-    string folder = filter_archive_unzip_miniz_internal (zipfile);
+    std::string zipfile = filter_url_create_root_path ({"odf", "template.odt"});
+    std::string folder = filter_archive_unzip_miniz_internal (zipfile);
     EXPECT_EQ (false, folder.empty ());
   }
 
   // Test tar gzip file.
   {
     // Test gzipped tarball compression.
-    string tarball = filter_archive_tar_gzip_file (path1);
+    std::string tarball = filter_archive_tar_gzip_file (path1);
     EXPECT_EQ (true, file_or_dir_exists (tarball));
     int size = filter_url_filesize (tarball);
     int min = 155;
@@ -142,7 +142,7 @@ TEST (filter, archive)
   // Test tar gzip folder.
   {
     // Test compress.
-    string tarball = filter_archive_tar_gzip_folder (directory);
+    std::string tarball = filter_archive_tar_gzip_folder (directory);
     EXPECT_EQ (true, file_or_dir_exists (tarball));
     int size = filter_url_filesize (tarball);
     int min = 618;
@@ -156,9 +156,9 @@ TEST (filter, archive)
   // Test untargz.
   {
     // Create tarball.
-    string tarball = filter_archive_tar_gzip_file (path1);
+    std::string tarball = filter_archive_tar_gzip_file (path1);
     // Test decompression.
-    string folder = filter_archive_untar_gzip (tarball);
+    std::string folder = filter_archive_untar_gzip (tarball);
     EXPECT_EQ (true, file_or_dir_exists (folder));
     folder = filter_archive_uncompress (tarball);
     EXPECT_EQ (true, file_or_dir_exists (folder));
@@ -170,9 +170,9 @@ TEST (filter, archive)
   
   // Test embedded tar and untar routines.
   {
-    string tarball = filter_url_tempfile () + ".tar";
-    string folder;
-    string result;
+    std::string tarball = filter_url_tempfile () + ".tar";
+    std::string folder;
+    std::string result;
     int exitcode;
 
     // Fail to open empty tarball.
@@ -195,9 +195,9 @@ TEST (filter, archive)
 
     // Check the untarred files.
     for (size_t i = 0; i < files12.size (); i++) {
-      string file = files12 [i];
-      string content = filter_url_file_get_contents (filter_url_create_path ({directory, file}));
-      string data = filter_url_file_get_contents (filter_url_create_path ({folder, file}));
+      std::string file = files12 [i];
+      std::string content = filter_url_file_get_contents (filter_url_create_path ({directory, file}));
+      std::string data = filter_url_file_get_contents (filter_url_create_path ({folder, file}));
       EXPECT_EQ (content, data);
     }
     
@@ -216,7 +216,7 @@ TEST (filter, archive)
     EXPECT_EQ ("", result);
 
     // Check the unpacked result.
-    string out_err;
+    std::string out_err;
     exitcode = filter_shell_run ("diff -r " + directory + " " + folder, out_err);
     EXPECT_EQ ("", out_err);
     EXPECT_EQ (0, exitcode);

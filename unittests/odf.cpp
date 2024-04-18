@@ -31,10 +31,10 @@ using namespace std;
 TEST (filter, odf)
 {
   refresh_sandbox (false);
-  string odf_text_test_odt = "/tmp/test.odt";
-  string Odt2TxtOutput = "/tmp/test.txt";
-  string bible = "testbible";
-  string fontname = "Marker Felt";
+  std::string odf_text_test_odt = "/tmp/test.odt";
+  std::string Odt2TxtOutput = "/tmp/test.txt";
+  std::string bible = "testbible";
+  std::string fontname = "Marker Felt";
   Database_Config_Bible::setExportFont (bible, fontname);
 
   // Test converting paragraphs.
@@ -57,8 +57,8 @@ TEST (filter, odf)
     odf_text.save (odf_text_test_odt);
     int ret = odf2txt (odf_text_test_odt, Odt2TxtOutput);
     EXPECT_EQ (0, ret);
-    string odt = filter_url_file_get_contents (Odt2TxtOutput);
-    string standard = ""
+    std::string odt = filter_url_file_get_contents (Odt2TxtOutput);
+    std::string standard = ""
     "Paragraph One\n"
     "\n"
     "Paragraph Two\n"
@@ -80,8 +80,8 @@ TEST (filter, odf)
     odf_text.save (odf_text_test_odt);
     int ret = odf2txt (odf_text_test_odt, Odt2TxtOutput);
     EXPECT_EQ (0, ret);
-    string odt = filter_url_file_get_contents (Odt2TxtOutput);
-    string standard = ""
+    std::string odt = filter_url_file_get_contents (Odt2TxtOutput);
+    std::string standard = ""
     "Should create new paragraph automatically\n";
     EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (odt));
   }
@@ -99,8 +99,8 @@ TEST (filter, odf)
     odf_text.save (odf_text_test_odt);
     int ret = odf2txt (odf_text_test_odt, Odt2TxtOutput);
     EXPECT_EQ (0, ret);
-    string odt = filter_url_file_get_contents (Odt2TxtOutput);
-    string standard = ""
+    std::string odt = filter_url_file_get_contents (Odt2TxtOutput);
+    std::string standard = ""
     "Text†Note\n"
     "\n"
     ".\n";
@@ -125,8 +125,8 @@ TEST (filter, odf)
     odf_text.save (odf_text_test_odt);
     int ret = odf2txt (odf_text_test_odt, Odt2TxtOutput);
     EXPECT_EQ (0, ret);
-    string odt = filter_url_file_get_contents (Odt2TxtOutput);
-    string standard = "textaddnormal.";
+    std::string odt = filter_url_file_get_contents (Odt2TxtOutput);
+    std::string standard = "textaddnormal.";
     EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (odt));
   }
   filter_url_unlink (odf_text_test_odt);
@@ -149,8 +149,8 @@ TEST (filter, odf)
     odf_text.save (odf_text_test_odt);
     int ret = odf2txt (odf_text_test_odt, Odt2TxtOutput);
     EXPECT_EQ (0, ret);
-    string odt = filter_url_file_get_contents (Odt2TxtOutput);
-    string standard = ""
+    std::string odt = filter_url_file_get_contents (Odt2TxtOutput);
+    std::string standard = ""
     "Text𐌰Addnormal\n"
     "\n"
     ".\n";
@@ -190,8 +190,8 @@ TEST (filter, odf)
     odf_text.save (odf_text_test_odt);
     int ret = odf2txt (odf_text_test_odt, Odt2TxtOutput);
     EXPECT_EQ (0, ret);
-    string odt = filter_url_file_get_contents (Odt2TxtOutput);
-    string standard = "textaddndnormal.";
+    std::string odt = filter_url_file_get_contents (Odt2TxtOutput);
+    std::string standard = "textaddndnormal.";
     EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (odt));
   }
   filter_url_unlink (odf_text_test_odt);
@@ -229,8 +229,8 @@ TEST (filter, odf)
     odf_text.save (odf_text_test_odt);
     int ret = odf2txt (odf_text_test_odt, Odt2TxtOutput);
     EXPECT_EQ (0, ret);
-    string odt = filter_url_file_get_contents (Odt2TxtOutput);
-    string standard = ""
+    std::string odt = filter_url_file_get_contents (Odt2TxtOutput);
+    std::string standard = ""
     "text𐌰addndnormal\n"
     "\n"
     ".\n";
@@ -254,8 +254,8 @@ TEST (filter, odf)
     odf_text.save (odf_text_test_odt);
     int ret = odf2txt (odf_text_test_odt, Odt2TxtOutput);
     EXPECT_EQ (0, ret);
-    string odt = filter_url_file_get_contents (Odt2TxtOutput);
-    string standard = ""
+    std::string odt = filter_url_file_get_contents (Odt2TxtOutput);
+    std::string standard = ""
     "Paragraph with d style\n"
     "\n"
     "Paragraph with d style at first, then Standard\n"
@@ -274,8 +274,8 @@ TEST (filter, odf)
     odf_text.save (odf_text_test_odt);
     int ret = odf2txt (odf_text_test_odt, Odt2TxtOutput);
     EXPECT_EQ (0, ret);
-    string odt = filter_url_file_get_contents (Odt2TxtOutput);
-    string standard = "One apostrophy ' and two more ''.";
+    std::string odt = filter_url_file_get_contents (Odt2TxtOutput);
+    std::string standard = "One apostrophy ' and two more ''.";
     EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (odt));
   }
   
@@ -287,8 +287,8 @@ TEST (filter, odf)
     odf_text.save (odf_text_test_odt);
     int ret = odf2txt (odf_text_test_odt, Odt2TxtOutput);
     EXPECT_EQ (0, ret);
-    string odt = filter_url_file_get_contents (Odt2TxtOutput);
-    string standard = "\t\n\n";
+    std::string odt = filter_url_file_get_contents (Odt2TxtOutput);
+    std::string standard = "\t\n\n";
     EXPECT_EQ (standard, odt);
   }
 

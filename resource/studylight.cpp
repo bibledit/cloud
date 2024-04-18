@@ -67,7 +67,7 @@ string resource_studylight (Webserver_Request& webserver_request)
 
   
   if (webserver_request.query.count ("refresh")) {
-    string error = resource_logic_study_light_module_list_refresh ();
+    std::string error = resource_logic_study_light_module_list_refresh ();
     if (error.empty ()) {
       view.set_variable ("success", translate ("The list was updated"));
     }
@@ -75,8 +75,8 @@ string resource_studylight (Webserver_Request& webserver_request)
   }
   
   
-  string path = resource_logic_study_light_module_list_path ();
-  string moduleblock = filter_url_file_get_contents (path);
+  std::string path = resource_logic_study_light_module_list_path ();
+  std::string moduleblock = filter_url_file_get_contents (path);
   std::vector <std::string> lines = filter::strings::explode (moduleblock, '\n');
   moduleblock.clear ();
   for (auto line : lines) {

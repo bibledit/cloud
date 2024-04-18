@@ -47,27 +47,27 @@ bool search_replacepre2_acl (Webserver_Request& webserver_request)
 
 string search_replacepre2 (Webserver_Request& webserver_request)
 {
-  string siteUrl = config::logic::site_url (webserver_request);
+  std::string siteUrl = config::logic::site_url (webserver_request);
   
   
   // Get search variables from the query.
-  string searchfor = webserver_request.query ["q"];
-  string replacewith = webserver_request.query ["r"];
+  std::string searchfor = webserver_request.query ["q"];
+  std::string replacewith = webserver_request.query ["r"];
   bool casesensitive = (webserver_request.query ["c"] == "true");
-  string id = webserver_request.query ["id"];
+  std::string id = webserver_request.query ["id"];
   bool searchplain = (webserver_request.query ["p"] == "true");
   
   
   // Get the Bible and passage for this identifier.
   Passage details = Passage::decode (id);
-  string bible = details.m_bible;
+  std::string bible = details.m_bible;
   int book = details.m_book;
   int chapter = details.m_chapter;
-  string verse = details.m_verse;
+  std::string verse = details.m_verse;
   
   
   // Get the plain text or the USFM.
-  string text;
+  std::string text;
   if (searchplain) {
     text = search_logic_get_bible_verse_text (bible, book, chapter, filter::strings::convert_to_int (verse));
   } else {
@@ -75,13 +75,13 @@ string search_replacepre2 (Webserver_Request& webserver_request)
   }
   
   // Clickable passage.
-  string link = filter_passage_link_for_opening_editor_at (book, chapter, verse);
+  std::string link = filter_passage_link_for_opening_editor_at (book, chapter, verse);
   
   
-  string oldtext = filter::strings::markup_words ({searchfor}, text);
+  std::string oldtext = filter::strings::markup_words ({searchfor}, text);
   
 
-  string newtext (text);
+  std::string newtext (text);
   if (casesensitive) {
     newtext = filter::strings::replace (searchfor, replacewith, newtext);
   } else {
@@ -94,12 +94,12 @@ string search_replacepre2 (Webserver_Request& webserver_request)
   
   
   // Check whether the user has write access to the book.
-  string user = webserver_request.session_logic ()->currentUser ();
+  std::string user = webserver_request.session_logic ()->currentUser ();
   bool write = access_bible::book_write (webserver_request, user, bible, book);
 
   
   // Create output.
-  string output;
+  std::string output;
   output.append ("<div id=\"" + id + "\">\n");
   output.append ("<p>");
   if (write) output.append ("<a href=\"replace\"> ✔ </a> <a href=\"delete\">" + filter::strings::emoji_wastebasket () + "</a> ");

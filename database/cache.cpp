@@ -51,7 +51,7 @@ string Database_Cache::filename (string resource, int book)
 {
   // Name of the database for this resource.
   resource = filter_url_clean_filename (resource);
-  string book_fragment;
+  std::string book_fragment;
   if (book) {
     book_fragment = "_" + filter::strings::convert_to_string (book);
   }
@@ -83,7 +83,7 @@ void Database_Cache::remove (string resource)
 
 void Database_Cache::remove (string resource, int book)
 {
-  string file = database_sqlite_file (filename (resource, book));
+  std::string file = database_sqlite_file (filename (resource, book));
   if (file_or_dir_exists (file)) {
     filter_url_unlink (file);
   }
@@ -103,7 +103,7 @@ bool Database_Cache::exists (string resource)
 // Returns true if the cache for the $resource $book exists.
 bool Database_Cache::exists (string resource, int book)
 {
-  string file = database_sqlite_file (filename (resource, book));
+  std::string file = database_sqlite_file (filename (resource, book));
   return file_or_dir_exists (file);
 }
 
@@ -249,7 +249,7 @@ void Database_Cache::ready (string resource, int book, bool ready)
 
 int Database_Cache::size (string resource, int book)
 {
-  string file = database_sqlite_file (filename (resource, book));
+  std::string file = database_sqlite_file (filename (resource, book));
   return filter_url_filesize (file);
 }
 
@@ -287,7 +287,7 @@ void database_filebased_cache_put (string schema, string contents)
   schema = filter_url_clean_filename (schema);
   schema = database_cache_split_file (schema);
   schema = database_cache_full_path (schema);
-  string path = filter_url_dirname (schema);
+  std::string path = filter_url_dirname (schema);
   if (!file_or_dir_exists (path)) filter_url_mkdir (path);
   filter_url_file_put_contents (schema, contents);
 }
@@ -315,7 +315,7 @@ void database_filebased_cache_remove (string schema)
 string database_filebased_cache_name_by_ip (string address, string id)
 {
   id = "_" + id;
-  string ipv4_sp = "::ffff:";
+  std::string ipv4_sp = "::ffff:";
   const unsigned long pos = address.find (ipv4_sp);
   if (address.find (ipv4_sp) != std::string::npos) address.erase (pos, ipv4_sp.length ());
   if (address.find (id) == std::string::npos) address.append (id);
@@ -410,10 +410,10 @@ void database_cache_trim (bool clear)
 {
   if (clear) Database_Logs::log ("Clearing cache");
 
-  string output, error;
+  std::string output, error;
 
   // The directory that contains the file-based cache files.
-  string path = database_cache_full_path ("");
+  std::string path = database_cache_full_path ("");
   
   // Get the free space on the file system that contains the cache.
   output.clear ();
@@ -440,7 +440,7 @@ void database_cache_trim (bool clear)
   // Therefore it's good to remove cached files older than a couple of hours
   // in cases where disk space is tight.
   // Two hours.
-  string minutes = "+120";
+  std::string minutes = "+120";
   // One day.
   if (percentage_disk_in_use < 70) minutes = "+1440";
   // One week.
@@ -480,7 +480,7 @@ void database_cache_trim (bool clear)
   // This may lead to errors when the disk runs out of space.
   // Therefore it's good to limit caches more if the space is tight.
   // By default keep the resources cache for 30 days.
-  string days = "+30";
+  std::string days = "+30";
   // If keeping the resources cache for an extended period of time, keep it for a full year.
   if (Database_Config_General::getKeepResourcesCacheForLong()) days = "+365";
   // If free disk space is tighter, keep the caches for a shorter period.

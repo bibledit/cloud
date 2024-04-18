@@ -180,13 +180,13 @@ void database_sqlite_disconnect (sqlite3 * database)
 // Returns true if healthy, false otherwise.
 bool database_sqlite_healthy (string database)
 {
-  string file = database_sqlite_file (database);
+  std::string file = database_sqlite_file (database);
   bool ok = false;
   // Do an integrity check on the database.
   // An empty file appears healthy too, so deal with that.
   if (filter_url_filesize (file) > 0) {
     sqlite3 * db = database_sqlite_connect (database);
-    string query = "PRAGMA integrity_check;";
+    std::string query = "PRAGMA integrity_check;";
     std::map <string, std::vector <std::string> > result = database_sqlite_query (db, query);
     std::vector <std::string> health = result ["integrity_check"];
     if (health.size () == 1) {
@@ -202,7 +202,7 @@ bool database_sqlite_healthy (string database)
 // The error will be prefixed by $prefix.
 void database_sqlite_error (sqlite3 * database, const std::string& prefix, char * error)
 {
-  string message = prefix;
+  std::string message = prefix;
   if (error) {
     message.append (" - ");
     message.append (error);
@@ -210,11 +210,11 @@ void database_sqlite_error (sqlite3 * database, const std::string& prefix, char 
   if (database) {
     int errcode = sqlite3_errcode (database);
     const char * errstr = sqlite3_errstr (errcode);
-    string error_string;
+    std::string error_string;
     if (errstr) error_string.assign (errstr);
     int x_errcode = sqlite3_extended_errcode (database);
     const char * x_errstr = sqlite3_errstr (x_errcode);
-    string extended_error_string;
+    std::string extended_error_string;
     if (x_errstr) extended_error_string.assign (x_errstr);
     if (!error_string.empty ()) {
       message.append (" - ");

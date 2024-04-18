@@ -32,7 +32,7 @@ TEST (checks, pairs)
   Database_Check database_check;
   database_check.create ();
   
-  const string bible = "bible";
+  const std::string bible = "bible";
   const int book = 2;
   const int chapter = 3;
   std::map <int, std::string> verses;

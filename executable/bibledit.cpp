@@ -82,11 +82,11 @@ static void sigsegv_handler ([[maybe_unused]] int sig)
 #ifdef HAVE_WINDOWS
 void my_invalid_parameter_handler(const wchar_t* expression, const wchar_t* function, const wchar_t* file,	unsigned int line, uintptr_t pReserved) {
   wstring wexpression(expression);
-  string sexpression(wexpression.begin(), wexpression.end());
+  std::string sexpression(wexpression.begin(), wexpression.end());
   wstring wfunction(function);
-  string sfunction(wfunction.begin(), wfunction.end());
+  std::string sfunction(wfunction.begin(), wfunction.end());
   wstring wfile (file);
-  string sfile(wfile.begin(), wfile.end());
+  std::string sfile(wfile.begin(), wfile.end());
   Database_Logs::log ("Invalid parameter detected in function " + sfunction + " in file " + sfile + " line " + filter::strings::convert_to_string ((size_t)line) + " expression " + sexpression + ".");
 }
 #endif
@@ -113,7 +113,7 @@ int main ([[maybe_unused]] int argc, [[maybe_unused]] char **argv)
 
   
   // Get the executable path and derive the document root from it.
-  string webroot {};
+  std::string webroot {};
 #ifndef HAVE_WINDOWS
   {
     // The following works on Linux but not on macOS:
@@ -155,10 +155,10 @@ int main ([[maybe_unused]] int argc, [[maybe_unused]] char **argv)
   // The following is for the Cloud configuration only:
   {
     // Get home folder and working directory.
-    string home_folder;
+    std::string home_folder;
     const char * home_env_ptr = getenv ("HOME");
     if (home_env_ptr) home_folder = home_env_ptr;
-    string workingdirectory;
+    std::string workingdirectory;
     char cwd [MAXPATHLEN];
     if (getcwd(cwd, sizeof(cwd)) != nullptr) workingdirectory = cwd;
     // If the web root folder, derived from the binary, is the same as the current directory,
@@ -193,7 +193,7 @@ int main ([[maybe_unused]] int argc, [[maybe_unused]] char **argv)
 
   
   // Log possible backtrace from a previous crash.
-  string backtrace = filter_url_file_get_contents (backtrace_path ());
+  std::string backtrace = filter_url_file_get_contents (backtrace_path ());
   filter_url_unlink (backtrace_path ());
   if (!backtrace.empty ()) {
     Database_Logs::log ("Backtrace of the last segmentation fault:");

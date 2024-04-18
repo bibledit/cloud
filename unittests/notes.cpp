@@ -141,7 +141,7 @@ void test_database_notes ()
     refresh_sandbox (true);
     Webserver_Request webserver_request;
     Database_Notes database_notes (webserver_request);
-    string path = database_notes.database_path ();
+    std::string path = database_notes.database_path ();
     EXPECT_EQ (filter_url_create_root_path ({"databases", "notes.sqlite"}), path);
     path = database_notes.checksums_database_path ();
     EXPECT_EQ (filter_url_create_root_path ({"databases", "notes_checksums.sqlite"}), path);
@@ -151,7 +151,7 @@ void test_database_notes ()
   {
     Webserver_Request webserver_request;
     Database_Notes database_notes (webserver_request);
-    string file = database_notes.note_file (123456789);
+    std::string file = database_notes.note_file (123456789);
     EXPECT_EQ (filter_url_create_root_path ({"consultations", "123", "456789.json"}), file);
   }
 
@@ -217,14 +217,14 @@ void test_database_notes ()
     Database_Notes database_notes (webserver_request);
     database_notes.create ();
 
-    string value;
+    std::string value;
     std::vector <std::string> values;
     size_t length = 0;
     size_t pos = 0;
 
     // Test inserting data for both summary and contents.
-    string summary = "Summary";
-    string contents = "Contents";
+    std::string summary = "Summary";
+    std::string contents = "Contents";
     int newidentifier = database_notes.store_new_note ("", 0, 0, 0, summary, contents, false);
     value = database_notes.get_summary (newidentifier);
     EXPECT_EQ (summary, value);
@@ -435,7 +435,7 @@ void test_database_notes ()
     
     webserver_request.session_logic()->set_username ("unittest");
     int oldidentifier = database_notes.store_new_note ("unittest", 0, 0, 0, "Summary", "Contents", false);
-    string bible = database_notes.get_bible (oldidentifier);
+    std::string bible = database_notes.get_bible (oldidentifier);
     EXPECT_EQ ("unittest", bible);
     int newidentifier = database_notes.store_new_note ("unittest2", 0, 0, 0, "Summary", "Contents", false);
     bible = database_notes.get_bible (newidentifier);
@@ -512,7 +512,7 @@ void test_database_notes ()
     int newidentifier = database_notes.store_new_note ("", 0, 0, 0, "Summary", "Contents", false);
     
     // Test default status = New.
-    string status = database_notes.get_status (oldidentifier);
+    std::string status = database_notes.get_status (oldidentifier);
     EXPECT_EQ ("New", status);
     status = database_notes.get_status (newidentifier);
     EXPECT_EQ ("New", status);
@@ -553,7 +553,7 @@ void test_database_notes ()
     int newidentifier = database_notes.store_new_note ("", 0, 0, 0, "Summary", "Contents", false);
     
     // Test default severity = Normal.
-    string severity = database_notes.get_severity (oldidentifier);
+    std::string severity = database_notes.get_severity (oldidentifier);
     EXPECT_EQ ("Normal", severity);
     severity = database_notes.get_severity (newidentifier);
     EXPECT_EQ ("Normal", severity);
@@ -664,19 +664,19 @@ void test_database_notes ()
     int identifier2 = database_notes.store_new_note ("", 0, 0, 0, "summary", "contents", false);
     
     // Contents of the note.
-    string original_contents1 = database_notes.get_contents (identifier1);
+    std::string original_contents1 = database_notes.get_contents (identifier1);
     if (original_contents1.length () <= 20) {
       EXPECT_EQ ("Should be greater than 20", filter::strings::convert_to_string (static_cast<int>(original_contents1.length ())));
     }
-    string original_contents2 = database_notes.get_contents (identifier2);
+    std::string original_contents2 = database_notes.get_contents (identifier2);
     if (original_contents2.length () <= 20) {
       EXPECT_EQ ("Should be greater than 20", filter::strings::convert_to_string (static_cast<int>(original_contents2.length())));
     }
     
     // Checksum of the notes.
-    string original_checksum1 = database_notes.get_checksum (identifier1);
+    std::string original_checksum1 = database_notes.get_checksum (identifier1);
     EXPECT_EQ (32, static_cast<int>(original_checksum1.length()));
-    string original_checksum2 = database_notes.get_checksum (identifier2);
+    std::string original_checksum2 = database_notes.get_checksum (identifier2);
     EXPECT_EQ (32, static_cast<int>(original_checksum2.length()));
     
     // Change the identifier.
@@ -686,7 +686,7 @@ void test_database_notes ()
     database_notes.set_identifier (identifier2, new_id2);
     
     // Check old and new identifier for v2 and v2.
-    string contents = database_notes.get_contents (identifier1);
+    std::string contents = database_notes.get_contents (identifier1);
     EXPECT_EQ ("", contents);
     contents = database_notes.get_contents (new_id1);
     EXPECT_EQ (original_contents1, contents);
@@ -695,7 +695,7 @@ void test_database_notes ()
     contents = database_notes.get_contents (new_id2);
     EXPECT_EQ (original_contents2, contents);
     
-    string checksum = database_notes.get_checksum (identifier1);
+    std::string checksum = database_notes.get_checksum (identifier1);
     EXPECT_EQ ("", checksum);
     checksum = database_notes.get_checksum (new_id1);
     EXPECT_EQ (original_checksum1, checksum);
@@ -938,17 +938,17 @@ void test_database_notes ()
     int newidentifier = database_notes.store_new_note ("bible", 1, 2, 3, "summary", "contents", false);
     
     // Checksum of new note should be calculated.
-    string good_checksum_old = database_notes.get_checksum (oldidentifier);
+    std::string good_checksum_old = database_notes.get_checksum (oldidentifier);
     EXPECT_EQ (false, good_checksum_old.empty());
-    string good_checksum_new = database_notes.get_checksum (newidentifier);
+    std::string good_checksum_new = database_notes.get_checksum (newidentifier);
     EXPECT_EQ (false, good_checksum_new.empty());
     // The two should match.
     EXPECT_EQ (good_checksum_old, good_checksum_new);
     
     // Clear checksum, and recalculate it.
-    string outdated_checksum = "outdated checksum";
+    std::string outdated_checksum = "outdated checksum";
     database_notes.set_checksum (oldidentifier, outdated_checksum);
-    string checksum = database_notes.get_checksum (oldidentifier);
+    std::string checksum = database_notes.get_checksum (oldidentifier);
     EXPECT_EQ (outdated_checksum, checksum);
     database_notes.set_checksum (newidentifier, outdated_checksum);
     checksum = database_notes.get_checksum (newidentifier);
@@ -1093,13 +1093,13 @@ void test_database_notes ()
     
     // Checksum calculation: slow and fast methods should be the same.
     Sync_Logic sync_logic (webserver_request);
-    string oldchecksum1 = sync_logic.checksum (oldidentifiers);
+    std::string oldchecksum1 = sync_logic.checksum (oldidentifiers);
     EXPECT_EQ (32, static_cast<int>(oldchecksum1.length()));
-    string oldchecksum2 = database_notes.get_multiple_checksum (oldidentifiers);
+    std::string oldchecksum2 = database_notes.get_multiple_checksum (oldidentifiers);
     EXPECT_EQ (oldchecksum1, oldchecksum2);
-    string newchecksum1 = sync_logic.checksum (newidentifiers);
+    std::string newchecksum1 = sync_logic.checksum (newidentifiers);
     EXPECT_EQ (32, static_cast<int>(newchecksum1.length()));
-    string newchecksum2 = database_notes.get_multiple_checksum (newidentifiers);
+    std::string newchecksum2 = database_notes.get_multiple_checksum (newidentifiers);
     EXPECT_EQ (newchecksum1, newchecksum2);
   }
 
@@ -1119,14 +1119,14 @@ void test_database_notes ()
     int newidentifier = database_notes.store_new_note ("bible", 1, 2, 3, "summary", "contents", false);
 
     // Check checksum.
-    string oldchecksum = database_notes.get_checksum (oldidentifier);
+    std::string oldchecksum = database_notes.get_checksum (oldidentifier);
     EXPECT_EQ (32, oldchecksum.length ());
-    string newchecksum = database_notes.get_checksum (newidentifier);
+    std::string newchecksum = database_notes.get_checksum (newidentifier);
     EXPECT_EQ (oldchecksum, newchecksum);
     
     // Clear it and set the checksum again.
     database_notes.delete_checksum (oldidentifier);
-    string checksum = database_notes.get_checksum (oldidentifier);
+    std::string checksum = database_notes.get_checksum (oldidentifier);
     EXPECT_EQ ("", checksum);
     database_notes.update_checksum (oldidentifier);
     checksum = database_notes.get_checksum (oldidentifier);
@@ -1286,8 +1286,8 @@ void test_database_notes ()
     bool healthy = database_notes.healthy ();
     EXPECT_EQ (true, healthy);
     
-    string corrupted_database = filter_url_create_root_path ({"unittests", "tests", "notes.sqlite.damaged"});
-    string path = database_notes.database_path ();
+    std::string corrupted_database = filter_url_create_root_path ({"unittests", "tests", "notes.sqlite.damaged"});
+    std::string path = database_notes.database_path ();
     filter_url_file_put_contents (path, filter_url_file_get_contents (corrupted_database));
     
     healthy = database_notes.healthy ();
@@ -1314,8 +1314,8 @@ void test_database_notes ()
     bool healthy = database_notes.checksums_healthy ();
     EXPECT_EQ (true, healthy);
     
-    string corrupted_database = filter_url_create_root_path ({"unittests", "tests", "notes.sqlite.damaged"});
-    string path = database_notes.checksums_database_path ();
+    std::string corrupted_database = filter_url_create_root_path ({"unittests", "tests", "notes.sqlite.damaged"});
+    std::string path = database_notes.checksums_database_path ();
     filter_url_file_put_contents (path, filter_url_file_get_contents (corrupted_database));
 
     healthy = database_notes.checksums_healthy ();
@@ -1421,25 +1421,25 @@ void test_database_notes ()
     // Create several notes.
     for (int i = 0; i < 5; i++) {
       // Basic fields for the note.
-      string offset = filter::strings::convert_to_string (i);
-      string bible = "bible" + offset;
+      std::string offset = filter::strings::convert_to_string (i);
+      std::string bible = "bible" + offset;
       int book = i;
       int chapter = i + 1;
       int verse = i + 2;
-      string summary = "summary" + offset;
-      string contents = "contents" + offset;
+      std::string summary = "summary" + offset;
+      std::string contents = "contents" + offset;
       int identifier = database_notes.store_new_note (bible, book, chapter, verse, summary, contents, false);
       database_notes.set_contents (identifier, contents);
       // Additional fields for the note.
-      string assigned = "assigned" + offset;
+      std::string assigned = "assigned" + offset;
       database_notes.set_raw_assigned (identifier, assigned);
-      string passage = "passage" + offset;
+      std::string passage = "passage" + offset;
       database_notes.set_raw_passage (identifier, passage);
       int severity = 4 * i;
       database_notes.set_raw_severity (identifier, severity);
-      string status = "status" + offset;
+      std::string status = "status" + offset;
       database_notes.set_status (identifier, status);
-      string subscriptions = "subscriptions" + offset;
+      std::string subscriptions = "subscriptions" + offset;
       database_notes.set_raw_subscriptions (identifier, subscriptions);
       // Store modification time last because the previous functions update it.
       int modified = 2 * i;
@@ -1462,7 +1462,7 @@ void test_database_notes ()
     for (size_t i = 0; i < 5; i++) {
       int identifier = v_identifier [i];
       database_notes.update_checksum (identifier);
-      string checksum = database_notes.get_checksum (identifier);
+      std::string checksum = database_notes.get_checksum (identifier);
       checksums.push_back (checksum);
     }
     
@@ -1471,7 +1471,7 @@ void test_database_notes ()
     search_results = database_notes.select_notes ({"bible2"}, 0, 0, 0, 3, 0, 0, "", "bible1", "", false, -1, 0, "", -1);
     
     // Get the notes in bulk in a database.
-    string json = database_notes.get_bulk (v_identifier);
+    std::string json = database_notes.get_bulk (v_identifier);
     
     // Delete all notes again.
     for (size_t i = 0; i < 5; i++) {
@@ -1496,7 +1496,7 @@ void test_database_notes ()
     // The checksums should now be gone.
     for (size_t i = 0; i < 5; i++) {
       int identifier = v_identifier [i];
-      string checksum = database_notes.get_checksum (identifier);
+      std::string checksum = database_notes.get_checksum (identifier);
       EXPECT_EQ ("", checksum);
     }
     
@@ -1511,30 +1511,30 @@ void test_database_notes ()
     // Check that the notes are back.
     for (size_t i = 0; i < 5; i++) {
       int identifier = v_identifier [i];
-      string assigned = database_notes.get_raw_assigned (identifier);
+      std::string assigned = database_notes.get_raw_assigned (identifier);
       EXPECT_EQ (v_assigned [i], assigned);
-      string bible = database_notes.get_bible (identifier);
+      std::string bible = database_notes.get_bible (identifier);
       EXPECT_EQ (v_bible [i], bible);
-      string contents = database_notes.get_contents (identifier);
+      std::string contents = database_notes.get_contents (identifier);
       EXPECT_EQ (v_contents [i], contents);
       int modified = database_notes.get_modified (identifier);
       EXPECT_EQ (v_modified [i], modified);
-      string passage = database_notes.get_raw_passage (identifier);
+      std::string passage = database_notes.get_raw_passage (identifier);
       EXPECT_EQ (v_passage [i], passage);
       int severity = database_notes.get_raw_severity (identifier);
       EXPECT_EQ (v_severity [i], severity);
-      string status = database_notes.get_raw_status (identifier);
+      std::string status = database_notes.get_raw_status (identifier);
       EXPECT_EQ (v_status [i], status);
-      string subscriptions = database_notes.get_raw_subscriptions (identifier);
+      std::string subscriptions = database_notes.get_raw_subscriptions (identifier);
       EXPECT_EQ (v_subscriptions [i], subscriptions);
-      string summary = database_notes.get_summary (identifier);
+      std::string summary = database_notes.get_summary (identifier);
       EXPECT_EQ (v_summary [i], summary);
     }
     
     // The checksums should be back also.
     for (size_t i = 0; i < 5; i++) {
       int identifier = v_identifier [i];
-      string checksum = database_notes.get_checksum (identifier);
+      std::string checksum = database_notes.get_checksum (identifier);
       EXPECT_EQ (checksums [i], checksum);
     }
     
@@ -1556,7 +1556,7 @@ void test_database_notes ()
     database_notes.create ();
     
     // Test values for the note.
-    string contents ("contents");
+    std::string contents ("contents");
     
     // Create note.
     int identifier = database_notes.store_new_note ("", 0, 0, 0, "", "", false);
@@ -1690,8 +1690,8 @@ void test_database_notes ()
     Database_Notes database_notes (webserver_request);
     database_notes.create ();
     
-    string bible1 = "bible1";
-    string bible2 = "bible2";
+    std::string bible1 = "bible1";
+    std::string bible2 = "bible2";
     Passage passage1 = Passage ("", 1, 2, "3");
     Passage passage2 = Passage ("", 4, 5, "6");
     
@@ -1706,19 +1706,19 @@ void test_database_notes ()
     database_notes.set_identifier (oldidentifier2, identifier2);
     
     // Test the methods to get or to set the summaries.
-    string summary1 = "summary1";
-    string summary2 = "summary2";
+    std::string summary1 = "summary1";
+    std::string summary2 = "summary2";
     database_notes.set_summary (identifier1, summary1);
     database_notes.set_summary (identifier2, summary2);
     EXPECT_EQ (summary1, database_notes.get_summary (identifier1));
     EXPECT_EQ (summary2, database_notes.get_summary (identifier2));
     
     // Test the methods to get and to set the contents.
-    string contents1 = "contents1";
-    string contents2 = "contents2";
+    std::string contents1 = "contents1";
+    std::string contents2 = "contents2";
     database_notes.set_contents (identifier1, contents1);
     database_notes.set_contents (identifier2, contents2);
-    string contents = database_notes.get_contents (identifier1);
+    std::string contents = database_notes.get_contents (identifier1);
     EXPECT_EQ (true, contents.find (contents1) != std::string::npos);
     EXPECT_EQ (contents, database_notes.get_contents (identifier1));
     contents = database_notes.get_contents (identifier2);
@@ -1726,8 +1726,8 @@ void test_database_notes ()
     EXPECT_EQ (contents, database_notes.get_contents (identifier2));
     
     // Test the method to get the subscribers.
-    string subscriber1 = "subscriber1";
-    string subscriber2 = "subscriber2";
+    std::string subscriber1 = "subscriber1";
+    std::string subscriber2 = "subscriber2";
     database_notes.set_subscribers (identifier1, { subscriber1 });
     database_notes.set_subscribers (identifier2, { subscriber2 });
     EXPECT_EQ (vector <std::string>{subscriber1}, database_notes.get_subscribers (identifier1));
@@ -1740,8 +1740,8 @@ void test_database_notes ()
     EXPECT_EQ (false, database_notes.is_subscribed (identifier2, subscriber1));
     
     // Test the methods for the assignees.
-    string assignee1 = "assignee1";
-    string assignee2 = "assignee2";
+    std::string assignee1 = "assignee1";
+    std::string assignee2 = "assignee2";
     database_notes.set_assignees (identifier1, { assignee1 });
     database_notes.set_assignees (identifier2, { assignee2 });
     EXPECT_EQ (vector <std::string>{assignee1}, database_notes.get_assignees (identifier1));
@@ -1767,8 +1767,8 @@ void test_database_notes ()
     EXPECT_EQ (" 4.5.6 ", database_notes.decode_passage (identifier2));
     
     // Test the methods for the status.
-    string status1 = "status1";
-    string status2 = "status2";
+    std::string status1 = "status1";
+    std::string status2 = "status2";
     database_notes.set_status (identifier1, status1);
     database_notes.set_status (identifier2, status2);
     EXPECT_EQ (status1, database_notes.get_raw_status (identifier1));

@@ -38,7 +38,7 @@ void export_index ()
   
   // Go through all sub directories of the exports directory.
   // Remove subdirectories if their corresponding Bible no longer exists in the system.
-  string directory = export_logic::main_directory ();
+  std::string directory = export_logic::main_directory ();
   std::vector <std::string> files = filter_url_scandir (directory);
   for (auto & file : files) {
     if (in_array (file, bibles)) continue;

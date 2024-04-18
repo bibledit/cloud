@@ -80,8 +80,8 @@ void filter_mail_dissect_internal (const MimeEntity& me, string& plaintext)
   
   // Look for content type and subtype.
   // Fold their case as some messages use upper case.
-  string type = filter::strings::unicode_string_casefold (h.contentType().type());
-  string subtype = filter::strings::unicode_string_casefold (h.contentType().subtype());
+  std::string type = filter::strings::unicode_string_casefold (h.contentType().type());
+  std::string subtype = filter::strings::unicode_string_casefold (h.contentType().subtype());
 
   if (type == "text") {
   
@@ -98,7 +98,7 @@ void filter_mail_dissect_internal (const MimeEntity& me, string& plaintext)
       // Get the html text of the message.
       stringstream ss;
       ss << me;
-      string html = ss.str ();
+      std::string html = ss.str ();
       // Remove headers.
       html = filter_mail_remove_headers_internal (html);
       // Convert the html to plain text.
@@ -107,7 +107,7 @@ void filter_mail_dissect_internal (const MimeEntity& me, string& plaintext)
     
     // Get transfer encoding.
     // Fold the case as some email messages use uppercase.
-    string transfer_encoding = filter::strings::unicode_string_casefold (h.contentTransferEncoding().str ());
+    std::string transfer_encoding = filter::strings::unicode_string_casefold (h.contentTransferEncoding().str ());
     
     // Decode quoted-printable text.
     if (transfer_encoding == ContentTransferEncoding::quoted_printable) {

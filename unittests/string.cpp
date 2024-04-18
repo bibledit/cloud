@@ -154,8 +154,8 @@ TEST (filter, string)
   
   // Test hex2bin and filter::strings::bin2hex as equivalents to PHP's functions.
   {
-    string bin = "This is a 123 test.";
-    string hex = "5468697320697320612031323320746573742e";
+    std::string bin = "This is a 123 test.";
+    std::string hex = "5468697320697320612031323320746573742e";
     EXPECT_EQ (hex, filter::strings::bin2hex (bin));
     EXPECT_EQ (bin, filter::strings::hex2bin (hex));
     bin = "סֶ	א	ב	ױ";
@@ -213,7 +213,7 @@ TEST (filter, string)
   // Searching in array.
   {
     std::vector <std::string> haystack = {"needle"};
-    string needle = "needle";
+    std::string needle = "needle";
     EXPECT_EQ (true, in_array (needle, haystack));
     needle.clear ();
     EXPECT_EQ (false, in_array (needle, haystack));
@@ -238,10 +238,10 @@ TEST (filter, string)
 
   // Convert html to plain text.
   {
-    string html =
+    std::string html =
     "<p>author</p>\n"
     "<p>Text 1<div>Text 2</div><div>Text 3</div></p>";
-    string plain =
+    std::string plain =
     "author\n"
     "Text 1\n"
     "Text 2\n"
@@ -249,11 +249,11 @@ TEST (filter, string)
     EXPECT_EQ (plain, filter::strings::html2text (html));
   }
   {
-    string html =
+    std::string html =
     "<p>writer (15 Nov):</p>\n"
     "<p>Second note.<div>Second matter.</div><div>A second round is needed.</div></p>\n"
     R"(<p>Here is <b>bold</b>, and here is <i>italics</i>.<div>Here is <sup>superscript</sup>&nbsp;and here is <sub>subscript</sub>.</div><div style="text-align: center;">Centered</div><div style="text-align: left;">Left justified</div><div style="text-align: left;"><ol><li>Numbered list.</li></ol>No numbered text.</div><div style="text-align: left;">Link to <a href="http://google.nl">http://google.nl</a>.</div><div style="text-align: left;">Here follows an image:&nbsp;<img src="http://localhost/image">.<br></div><h1>Header 1</h1><div>Normal text again below the header.</div></p>)" "\n";
-    string plain =
+    std::string plain =
     "writer (15 Nov):\n"
     "Second note.\n"
     "Second matter.\n"
@@ -273,23 +273,23 @@ TEST (filter, string)
     EXPECT_EQ (filter::strings::trim (plain), filter::strings::trim (html));
   }
   {
-    string html =
+    std::string html =
     "test notes four\n"
     "\n"
     "Logbook:\n"
     "\n";
-    string plain =
+    std::string plain =
     "test notes fourLogbook:";
     EXPECT_EQ (filter::strings::trim (plain), filter::strings::trim (filter::strings::html2text (html)));
   }
   {
-    string html =
+    std::string html =
     "Line one.<BR>\n"
     "\n"
     "Line two.<BR>\n"
     "\n"
     "Line three.<BR>\n";
-    string plain =
+    std::string plain =
     "Line one.\n"
     "Line two.\n"
     "Line three.\n";
@@ -302,7 +302,7 @@ TEST (filter, string)
     EXPECT_EQ ("foo@bar.eu", filter::strings::extract_email ("<foo@bar.eu>"));
     EXPECT_EQ ("foo@bar.eu", filter::strings::extract_email ("foo@bar.eu"));
     
-    string body = "body";
+    std::string body = "body";
     EXPECT_EQ (body, filter::strings::extract_body (body));
     
     body =
@@ -324,14 +324,14 @@ TEST (filter, string)
   
   // Word markup.
   {
-    string text =
+    std::string text =
     "Zvino uchagadzira makumbo uye Makumbo uye maKumbo uye MAKUMBO emuakasia*, ndokuaputira negoridhe.\n"
     "Zvino uchaisa makumbo muzvindori panhivi dzeareka, kuti areka itakurwe nawo.\n"
     "Zvindori zvichava pamupendero kuti zvive nzvimbo dzemakumbo kutakura tafura.\n"
     "Zvino uchaita makumbo nematanda neMatanda nemaTANDA emuAkasia, ugoiputira negoridhe, kuti tafura itakurwe nawo.\n";
     std::vector <std::string> words = { "makumbo", "akasia", "matanda" };
-    string result = filter::strings::markup_words (words, text);
-    string standard =
+    std::string result = filter::strings::markup_words (words, text);
+    std::string standard =
     "Zvino uchagadzira <mark>makumbo</mark> uye <mark>Makumbo</mark> uye <mark>maKumbo</mark> uye <mark>MAKUMBO</mark> emu<mark>akasia</mark>*, ndokuaputira negoridhe.\n"
     "Zvino uchaisa <mark>makumbo</mark> muzvindori panhivi dzeareka, kuti areka itakurwe nawo.\n"
     "Zvindori zvichava pamupendero kuti zvive nzvimbo dze<mark>makumbo</mark> kutakura tafura.\n"
@@ -341,28 +341,28 @@ TEST (filter, string)
 
   // Word markup.
   {
-    string text =
+    std::string text =
     "Zvino uchagadzira makumbo uye Makumbo uye maKumbo uye MAKUMBO emuakasia*, ndokuaputira negoridhe.\n"
     "Zvino uchaisa makumbo muzvindori panhivi dzeareka, kuti areka itakurwe nawo.\n"
     "Zvindori zvichava pamupendero kuti zvive nzvimbo dzemakumbo kutakura tafura.\n"
     "Zvino uchaita makumbo nematanda neMatanda nemaTANDA emuAkasia, ugoiputira negoridhe, kuti tafura itakurwe nawo.\n";
     std::vector <std::string> words;
-    string result = filter::strings::markup_words (words, text);
+    std::string result = filter::strings::markup_words (words, text);
     EXPECT_EQ (text, result);
   }
 
   // Test tidying html.
   {
-    string folder = filter_url_create_root_path ({"unittests", "tests"});
-    string html = filter_url_file_get_contents (filter_url_create_path ({folder, "biblehub-john-1-1.html"}));
+    std::string folder = filter_url_create_root_path ({"unittests", "tests"});
+    std::string html = filter_url_file_get_contents (filter_url_create_path ({folder, "biblehub-john-1-1.html"}));
     std::vector <std::string> tidy = filter::strings::explode (filter::strings::html_tidy (html), '\n');
     EXPECT_EQ (747, static_cast<int>(tidy.size()));
   }
   
   {
-    string input = "<span>Praise the LORD&#xB6;, all &amp; you nations</span>";
-    string output = filter::strings::convert_xml_character_entities_to_characters (input);
-    string standard = filter::strings::replace ("&#xB6;", "¶", input);
+    std::string input = "<span>Praise the LORD&#xB6;, all &amp; you nations</span>";
+    std::string output = filter::strings::convert_xml_character_entities_to_characters (input);
+    std::string standard = filter::strings::replace ("&#xB6;", "¶", input);
     EXPECT_EQ (standard, output);
     
     input = "<span>Praise the LORD &#x5D0; all you nations</span>";
@@ -382,9 +382,9 @@ TEST (filter, string)
   }
   
   {
-    string one = filter::strings::get_new_random_string ();
+    std::string one = filter::strings::get_new_random_string ();
     this_thread::sleep_for (chrono::milliseconds (10));
-    string two = filter::strings::get_new_random_string ();
+    std::string two = filter::strings::get_new_random_string ();
     EXPECT_EQ (32, one.length ());
     EXPECT_EQ (true, one != two);
   }
@@ -395,7 +395,7 @@ TEST (filter, string)
   }
   
   {
-    string hebrew = "אָבּגּדּהּ";
+    std::string hebrew = "אָבּגּדּהּ";
     EXPECT_EQ ("st1234", filter::strings::unicode_string_substr ("test1234", 2));
     EXPECT_EQ ("גּדּהּ", filter::strings::unicode_string_substr (hebrew, 2));
     EXPECT_EQ ("", filter::strings::unicode_string_substr (hebrew, 5));
@@ -407,8 +407,8 @@ TEST (filter, string)
   }
   
   {
-    string hebrew {"אָבּגּדּהּ"};
-    string needle {"דּ"};
+    std::string hebrew {"אָבּגּדּהּ"};
+    std::string needle {"דּ"};
     EXPECT_EQ (3, static_cast<int>(filter::strings::unicode_string_strpos ("012345", "3")));
     EXPECT_EQ (5, static_cast<int>(filter::strings::unicode_string_strpos ("012345", "5")));
     EXPECT_EQ (0, static_cast<int>(filter::strings::unicode_string_strpos ("012345", "0")));
@@ -478,8 +478,8 @@ TEST (filter, string)
   
   {
     // Check that the function to desanitize html no longer corrupts UTF-8.
-    string html = "<p>“Behold”, from “הִנֵּה”, means look at</p>";
-    string desanitized = filter::strings::any_space_to_standard_space (filter::strings::unescape_special_xml_characters (html));
+    std::string html = "<p>“Behold”, from “הִנֵּה”, means look at</p>";
+    std::string desanitized = filter::strings::any_space_to_standard_space (filter::strings::unescape_special_xml_characters (html));
     EXPECT_EQ (html, desanitized);
     // Regression test for fix for corrupting Greek.
     html = "Ada juga seorang pengemis yang ita bernama Lazarus.<span class=i-notecall1>1</span> Setiap hari dia terbaring di pintu gerbang rumah orang kaya itu. Badan Lazarus penuh dengan luka bernanah dan busuk.<span class=i-notecall2>2</span></p><p class=b-notes><br></p><p class=b-f><span class=i-notebody1>1</span> <span class=i-fr>16:20 </span><span class=i-fk>Lazarus </span><span class=i-ft>Orang miskin Lazarus dalam perumpamaan ini berbeda dengan Lazarus— sahabat Isa yang dihidupkan oleh Isa dari kematian (Yoh. 11).</span></p><p class=b-x><span class=i-notebody2>2</span> <span class=i-xo>16:20 </span><span class=i-xt>Πτωχὸς δέ τις ἦν ὀνόματι Λάζαρος, ὃς ἐβέβλητο πρὸς τὸν πυλῶνα αὐτοῦ ἡλκωμένος</span></p>";
@@ -490,14 +490,14 @@ TEST (filter, string)
   // Test whitespace characters, breaking and non-breaking.
   {
     // The "­" below is not an empty string, but the soft hyphen U+00AD.
-    string standard_soft_hyphen = "­";
+    std::string standard_soft_hyphen = "­";
     EXPECT_EQ (standard_soft_hyphen, filter::strings::soft_hyphen_u00AD ());
     EXPECT_EQ ("\u00AD", filter::strings::soft_hyphen_u00AD ());
 
     EXPECT_EQ ("\u00A0", filter::strings::non_breaking_space_u00A0 ());
 
     // The space below is "en space", U+2002.
-    string standard_en_space_u2002 = " ";
+    std::string standard_en_space_u2002 = " ";
     EXPECT_EQ (standard_en_space_u2002, filter::strings::en_space_u2002 ());
     EXPECT_EQ ("\u2002", filter::strings::en_space_u2002 ());
   }
@@ -555,13 +555,13 @@ TEST (filter, string)
   
   // Test tidying invalid html.
   {
-    string path_invalid = filter_url_create_root_path ({"unittests", "tests", "html-invalid-1.html"});
-    string html_invalid = filter_url_file_get_contents(path_invalid);
+    std::string path_invalid = filter_url_create_root_path ({"unittests", "tests", "html-invalid-1.html"});
+    std::string html_invalid = filter_url_file_get_contents(path_invalid);
 
-    string path_valid {};
-    string html_valid {};
+    std::string path_valid {};
+    std::string html_valid {};
 
-    string html_tidied = filter::strings::fix_invalid_html_gumbo (html_invalid);
+    std::string html_tidied = filter::strings::fix_invalid_html_gumbo (html_invalid);
     path_valid = filter_url_create_root_path ({"unittests", "tests", "html-fixed-1-gumbo.html"});
     html_valid = filter_url_file_get_contents(path_valid);
     EXPECT_EQ (html_valid, html_tidied);
@@ -597,8 +597,8 @@ R"(<!DOCTYPE html>
   
   // Test "tidying" empty html.
   {
-    string result = filter::strings::fix_invalid_html_gumbo (string());
-    string standard {
+    std::string result = filter::strings::fix_invalid_html_gumbo (string());
+    std::string standard {
 R"(<html>
  <head>
  </head>
@@ -612,9 +612,9 @@ R"(<html>
   
   // Test tidying html with special XML characters.
   {
-    string html = R"(<p>Paragraph & < > paragraph</p>)";
-    string tidied = filter::strings::fix_invalid_html_gumbo (html);
-    string valid =
+    std::string html = R"(<p>Paragraph & < > paragraph</p>)";
+    std::string tidied = filter::strings::fix_invalid_html_gumbo (html);
+    std::string valid =
 R"(<html>
  <head>
  </head>
@@ -629,8 +629,8 @@ R"(<html>
   
   // Test collapsing double spaces.
   {
-    string standard;
-    string result;
+    std::string standard;
+    std::string result;
 
     standard = "ABC abc";
     result = filter::strings::collapse_whitespace ("ABC abc");
@@ -655,7 +655,7 @@ R"(<html>
 
   // Test escaping and unescaping special XML characters.
   {
-    string standard, result;
+    std::string standard, result;
 
     standard = "&quot; &quot;";
     result = filter::strings::escape_special_xml_characters (R"(" ")");

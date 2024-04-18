@@ -28,7 +28,7 @@ vector <std::string> versification_logic_names ()
 {
   std::vector <std::string> names;
 
-  string directory = filter_url_create_root_path ({"versification"});
+  std::string directory = filter_url_create_root_path ({"versification"});
   std::vector <std::string> files = filter_url_scandir (directory);
   for (auto file : files) {
     if (filter_url_get_extension (file) == "txt") {
@@ -49,6 +49,6 @@ string versification_logic_data (string name)
 {
   name = filter::strings::replace (" ", "_", name);
   name.append (".txt");
-  string file = filter_url_create_root_path ({"versification", name});
+  std::string file = filter_url_create_root_path ({"versification", name});
   return filter_url_file_get_contents (file);
 }

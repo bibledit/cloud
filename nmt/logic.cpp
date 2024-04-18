@@ -43,8 +43,8 @@ void nmt_logic_export (string referencebible, string translatingbible)
   std::vector <std::string> translation_lines;
   
   // Get the versification systems of both Bibles.
-  string reference_versification = Database_Config_Bible::getVersificationSystem (referencebible);
-  string translating_versification = Database_Config_Bible::getVersificationSystem (translatingbible);
+  std::string reference_versification = Database_Config_Bible::getVersificationSystem (referencebible);
+  std::string translating_versification = Database_Config_Bible::getVersificationSystem (translatingbible);
   
   std::vector <int> books = database_bibles.get_books (referencebible);
   for (auto book : books) {
@@ -53,7 +53,7 @@ void nmt_logic_export (string referencebible, string translatingbible)
     book_type type = database::books::get_type (static_cast<book_id>(book));
     if ((type != book_type::old_testament) && (type != book_type::new_testament) && (type != book_type::apocryphal)) continue;
     
-    string bookname = database::books::get_english_from_id (static_cast<book_id>(book));
+    std::string bookname = database::books::get_english_from_id (static_cast<book_id>(book));
     Database_Logs::log ("Exporting " + bookname);
     
     std::vector <int> chapters = database_bibles.get_chapters (referencebible, book);
@@ -84,8 +84,8 @@ void nmt_logic_export (string referencebible, string translatingbible)
         // This mismatch would disturb the neural machine translation training process.
         // So such versea are skipped for that reason.
         if (translation_passages.size() != 1) {
-          string referencetext = filter_passage_display_inline (translation_passages);
-          string message = "Skipping reference Bible verse " + filter::strings::convert_to_string (reference_verse) + " and translated Bible " + referencetext;
+          std::string referencetext = filter_passage_display_inline (translation_passages);
+          std::string message = "Skipping reference Bible verse " + filter::strings::convert_to_string (reference_verse) + " and translated Bible " + referencetext;
           Database_Logs::log (message);
           continue;
         }
@@ -94,9 +94,9 @@ void nmt_logic_export (string referencebible, string translatingbible)
         int translation_verse = filter::strings::convert_to_int (translation_passages[0].m_verse);
 
         // Convert the verse USFM of the reference Bible to plain verse text.
-        string reference_text;
+        std::string reference_text;
         {
-          string chapter_usfm = database_bibles.get_chapter (referencebible, book, reference_chapter);
+          std::string chapter_usfm = database_bibles.get_chapter (referencebible, book, reference_chapter);
           const std::string stylesheet = styles_logic_standard_sheet ();
           Filter_Text filter_text = Filter_Text ("");
           filter_text.initializeHeadingsAndTextPerVerse (false);
@@ -112,9 +112,9 @@ void nmt_logic_export (string referencebible, string translatingbible)
         }
 
         // Convert the verse USFM of the Bible being translated to plain verse text.
-        string translation_text;
+        std::string translation_text;
         {
-          string chapter_usfm = database_bibles.get_chapter (translatingbible, book, translation_chapter);
+          std::string chapter_usfm = database_bibles.get_chapter (translatingbible, book, translation_chapter);
           const std::string stylesheet = styles_logic_standard_sheet ();
           Filter_Text filter_text = Filter_Text ("");
           filter_text.initializeHeadingsAndTextPerVerse (false);
@@ -144,10 +144,10 @@ void nmt_logic_export (string referencebible, string translatingbible)
     }
   }
 
-  string reference_text = filter::strings::implode (reference_lines, "\n");
-  string translation_text = filter::strings::implode (translation_lines, "\n");
-  string reference_path = filter_url_create_root_path ({filter_url_temp_dir (), "reference_bible_nmt_training_text.txt"});
-  string translation_path = filter_url_create_root_path ({filter_url_temp_dir (), "translation_bible_nmt_training_text.txt"});
+  std::string reference_text = filter::strings::implode (reference_lines, "\n");
+  std::string translation_text = filter::strings::implode (translation_lines, "\n");
+  std::string reference_path = filter_url_create_root_path ({filter_url_temp_dir (), "reference_bible_nmt_training_text.txt"});
+  std::string translation_path = filter_url_create_root_path ({filter_url_temp_dir (), "translation_bible_nmt_training_text.txt"});
   filter_url_file_put_contents (reference_path, reference_text);
   filter_url_file_put_contents (translation_path, translation_text);
   Database_Logs::log ("The text of the reference Bible was exported to ", reference_path);

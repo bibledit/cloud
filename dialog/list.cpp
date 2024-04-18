@@ -69,7 +69,7 @@ void Dialog_List::add_row (string text, string parameter, string value)
     list_block.append (R"(<input type="hidden" name="add" value=")" + value + R"(" />)" + "\n");
     list_block.append ("</form>\n");
   } else {
-    string href = filter_url_build_http_query (base_url, parameter, value);
+    std::string href = filter_url_build_http_query (base_url, parameter, value);
     list_block.append (R"(<a href=")" + href + R"(">)" + text + "</a>");
   }
   list_block.append ("</li>");

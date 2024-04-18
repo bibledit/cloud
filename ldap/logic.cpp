@@ -64,17 +64,17 @@ string ldap_logic_role {};
 void ldap_logic_initialize ()
 {
   // Check if the OpenLDAP configuration file exists.
-  const string path = filter_url_create_root_path ({config::logic::config_folder (), "ldap.conf"});
+  const std::string path = filter_url_create_root_path ({config::logic::config_folder (), "ldap.conf"});
   if (file_or_dir_exists (path)) {
     // Parse the configuration file.
-    const string contents = filter_url_file_get_contents (path);
+    const std::string contents = filter_url_file_get_contents (path);
     const std::vector <std::string> lines = filter::strings::explode (contents, '\n');
     for (auto line : lines) {
       line = filter::strings::trim (line);
       if (line.empty ()) continue;
       if (line.substr (0, 1) == "#") continue;
       size_t pos = line.find ("=");
-      const string key = filter::strings::trim (line.substr (0, pos));
+      const std::string key = filter::strings::trim (line.substr (0, pos));
       line.erase (0, ++pos);
       line = filter::strings::trim (line);
       if (key == "uri"   ) ldap_logic_uri    = line;
@@ -148,11 +148,11 @@ bool ldap_logic_fetch (const std::string& user, const std::string& password, boo
   role = Filter_Roles::guest ();
   
   // Insert the user name where appropriate.
-  const string binddn = filter::strings::replace ("[user]", user, ldap_logic_binddn);
-  const string filter = filter::strings::replace ("[user]", user, ldap_logic_filter);
+  const std::string binddn = filter::strings::replace ("[user]", user, ldap_logic_binddn);
+  const std::string filter = filter::strings::replace ("[user]", user, ldap_logic_filter);
   
   // Query the LDAP server.
-  string output {};
+  std::string output {};
   const int result = filter_shell_vfork (output, "", "ldapsearch",
                                          "-H", ldap_logic_uri.c_str (),
                                          "-D", binddn.c_str (),
@@ -163,7 +163,7 @@ bool ldap_logic_fetch (const std::string& user, const std::string& password, boo
   
   // Logging.
   if (log) {
-    const string command = "ldapsearch -H " + ldap_logic_uri + " -D " + binddn + " -w " + password + " -b " + ldap_logic_basedn + " -s " + ldap_logic_scope + " " + filter;
+    const std::string command = "ldapsearch -H " + ldap_logic_uri + " -D " + binddn + " -w " + password + " -b " + ldap_logic_basedn + " -s " + ldap_logic_scope + " " + filter;
     Database_Logs::log ("LDAP query\n" + command + "\n" + output, Filter_Roles::admin ());
   }
   
@@ -181,7 +181,7 @@ bool ldap_logic_fetch (const std::string& user, const std::string& password, boo
         email = filter::strings::trim (line.substr (5));
       }
       if (line.find (ldap_logic_role + ":") == 0) {
-        const string fragment = filter::strings::unicode_string_casefold (filter::strings::trim (line.substr (3)));
+        const std::string fragment = filter::strings::unicode_string_casefold (filter::strings::trim (line.substr (3)));
         for (int r = Filter_Roles::lowest (); r <= Filter_Roles::highest (); r++) {
           if (fragment.find (filter::strings::unicode_string_casefold (Filter_Roles::english (r))) != std::string::npos) {
             role = r;

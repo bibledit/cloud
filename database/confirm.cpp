@@ -104,8 +104,8 @@ bool Database_Confirm::id_exists (unsigned int id)
 
 // Store a confirmation cycle
 void Database_Confirm::store (unsigned int id, string query,
-                              string to, string subject, string body,
-                              string username)
+                              std::string to, string subject, string body,
+                              std::string username)
 {
   SqliteDatabase sql (filename ());
   sql.add ("INSERT INTO confirm VALUES (");

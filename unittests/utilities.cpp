@@ -36,11 +36,11 @@ void refresh_sandbox (bool displayjournal, std::vector <std::string> allowed)
   // Display any old journal entries.
   if (displayjournal) {
     bool output = false;
-    string directory = filter_url_create_path ({testing_directory, "logbook"});
+    std::string directory = filter_url_create_path ({testing_directory, "logbook"});
     std::vector <std::string> files = filter_url_scandir (directory);
     for (unsigned int i = 0; i < files.size (); i++) {
       if (files [i] == "gitflag") continue;
-      string contents = filter_url_file_get_contents (filter_url_create_path ({directory, files [i]}));
+      std::string contents = filter_url_file_get_contents (filter_url_create_path ({directory, files [i]}));
       bool display = true;
       for (auto & allow : allowed) {
         if (contents.find (allow) != std::string::npos) display = false;
@@ -53,7 +53,7 @@ void refresh_sandbox (bool displayjournal, std::vector <std::string> allowed)
   }
   
   // Refresh.
-  string command = "rsync . -a --delete " + testing_directory;
+  std::string command = "rsync . -a --delete " + testing_directory;
   int status = system (command.c_str());
   if (status != 0) {
     std::cout << "Error while running " + command << std::endl;
@@ -78,8 +78,8 @@ void refresh_sandbox (bool displayjournal, std::vector <std::string> allowed)
 // https://github.com/mwoehlke/odf2txt
 int odf2txt (string odf, string txt)
 {
-  string script_path = filter_url_create_root_path ({"unittests", "tests", "odf2txt", "odf2txt.py"});
-  string command = "python2.7 " + script_path + " " + odf + " > " + txt + " 2>&1";
+  std::string script_path = filter_url_create_root_path ({"unittests", "tests", "odf2txt", "odf2txt.py"});
+  std::string command = "python2.7 " + script_path + " " + odf + " > " + txt + " 2>&1";
   int ret = system (command.c_str());
   return ret;
 }

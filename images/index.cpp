@@ -59,19 +59,19 @@ string images_index (Webserver_Request& webserver_request)
   header.add_bread_crumb (images_index_url (), menu_logic_images_index_text ());
   page = header.run ();
   Assets_View view;
-  string error, success;
+  std::string error, success;
 
   
   // File upload.
   if (webserver_request.post.count ("upload")) {
-    string folder = filter_url_tempfile ();
+    std::string folder = filter_url_tempfile ();
     filter_url_mkdir (folder);
-    string file = filter_url_create_path ({folder, webserver_request.post ["filename"]});
-    string data = webserver_request.post ["data"];
+    std::string file = filter_url_create_path ({folder, webserver_request.post ["filename"]});
+    std::string data = webserver_request.post ["data"];
     if (!data.empty ()) {
       filter_url_file_put_contents (file, data);
       bool background_import = filter_archive_is_archive (file);
-      string extension = filter_url_get_extension (file);
+      std::string extension = filter_url_get_extension (file);
       extension = filter::strings::unicode_string_casefold (extension);
       if (background_import) {
         tasks_logic_queue (IMPORTBIBLEIMAGES, { file });
@@ -88,9 +88,9 @@ string images_index (Webserver_Request& webserver_request)
 
 
   // Delete image.
-  string remove = webserver_request.query ["delete"];
+  std::string remove = webserver_request.query ["delete"];
   if (!remove.empty()) {
-    string confirm = webserver_request.query ["confirm"];
+    std::string confirm = webserver_request.query ["confirm"];
     if (confirm.empty()) {
       Dialog_Yes dialog_yes = Dialog_Yes ("index", translate("Would you like to delete this image?"));
       dialog_yes.add_query ("delete", remove);

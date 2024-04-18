@@ -153,7 +153,7 @@ string Version::str() const
 void Version::set(const std::string& s)
 {
     StringTokenizer stok(&s, ".");
-    string tok;
+    std::string tok;
     if(stok.next(tok))
         m_maj = utils::str2int(tok);    
     if(stok.next(tok))

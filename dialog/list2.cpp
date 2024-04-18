@@ -37,9 +37,9 @@ string Options_To_Select::add_selection (string text, string value, string html)
 // Mark the current selected option's option tag.
 string Options_To_Select::mark_selected (string value, string html)
 {
-    string new_value = "value='" + value + "'";
+    std::string new_value = "value='" + value + "'";
     size_t new_pos = html.find (new_value) + new_value.length ();
-    string mark = " selected";
+    std::string mark = " selected";
 
     if (html.find (mark) != std::string::npos) {
         html.erase (html.find (mark), mark.length ());

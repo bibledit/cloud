@@ -27,9 +27,9 @@ using namespace std;
 
 TEST (biblegateway, basic)
 {
-  string resource;
+  std::string resource;
   int book;
-  string text;
+  std::string text;
   
   resource = "Библия, ревизирано издание (BPB)";
   book = 1; // Genesis.

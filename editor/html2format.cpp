@@ -38,7 +38,7 @@ void Editor_Html2Format::load (string html)
   // but the pugixml XML parser needs <hr/> and similar elements.
   html = filter::strings::html2xml (html);
   
-  string xml = "<body>" + html + "</body>";
+  std::string xml = "<body>" + html + "</body>";
   // Parse document such that all whitespace is put in the DOM tree.
   // See http://pugixml.org/docs/manual.html for more information.
   // It is not enough to only parse with parse_ws_pcdata_single, it really needs parse_ws_pcdata.
@@ -75,7 +75,7 @@ void Editor_Html2Format::processNode (pugi::xml_node node)
     {
       // Skip a note with class "ql-cursor" because that is an internal Quill node.
       // The user didn't insert it.
-      string classs = node.attribute("class").value();
+      std::string classs = node.attribute("class").value();
       if (classs == "ql-cursor") break;
       // Process node normally.
       openElementNode (node);
@@ -88,7 +88,7 @@ void Editor_Html2Format::processNode (pugi::xml_node node)
     case pugi::node_pcdata:
     {
       // Add the text with the current character format to the containers.
-      string text = node.text ().get ();
+      std::string text = node.text ().get ();
       texts.push_back(text);
       formats.push_back(current_character_format);
       break;
@@ -102,7 +102,7 @@ void Editor_Html2Format::processNode (pugi::xml_node node)
     case pugi::node_doctype:
     default:
     {
-      string nodename = node.name ();
+      std::string nodename = node.name ();
       Database_Logs::log ("XML node " + nodename + " not handled while saving editor text");
       break;
     }
@@ -113,8 +113,8 @@ void Editor_Html2Format::processNode (pugi::xml_node node)
 void Editor_Html2Format::openElementNode (pugi::xml_node node)
 {
   // The tag and class names of this element node.
-  string tagName = node.name ();
-  string className = update_quill_class (node.attribute ("class").value ());
+  std::string tagName = node.name ();
+  std::string className = update_quill_class (node.attribute ("class").value ());
   
   if (tagName == "p")
   {
@@ -137,8 +137,8 @@ void Editor_Html2Format::openElementNode (pugi::xml_node node)
 void Editor_Html2Format::closeElementNode (pugi::xml_node node)
 {
   // The tag and class names of this element node.
-  string tagName = node.name ();
-  string className = update_quill_class (node.attribute ("class").value ());
+  std::string tagName = node.name ();
+  std::string className = update_quill_class (node.attribute ("class").value ());
 
   if (tagName == "p")
   {

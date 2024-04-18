@@ -40,15 +40,15 @@ using namespace std;
 void export_text_usfm_book (string bible, int book, bool log)
 {
   // Create folders for the clear text and the basic USFM exports.
-  string usfmDirectory = export_logic::usfm_directory (bible, 1);
+  std::string usfmDirectory = export_logic::usfm_directory (bible, 1);
   if (!file_or_dir_exists (usfmDirectory)) filter_url_mkdir (usfmDirectory);
-  string textDirectory = filter_url_create_path ({export_logic::bible_directory (bible), "text"});
+  std::string textDirectory = filter_url_create_path ({export_logic::bible_directory (bible), "text"});
   if (!file_or_dir_exists (textDirectory)) filter_url_mkdir (textDirectory);
   
   
   // Filenames for text and usfm.
-  string usfmFilename = filter_url_create_path ({usfmDirectory, export_logic::base_book_filename (bible, book) + ".usfm"});
-  string textFilename = filter_url_create_path ({textDirectory, export_logic::base_book_filename (bible, book) + ".txt"});
+  std::string usfmFilename = filter_url_create_path ({usfmDirectory, export_logic::base_book_filename (bible, book) + ".usfm"});
+  std::string textFilename = filter_url_create_path ({textDirectory, export_logic::base_book_filename (bible, book) + ".txt"});
   
   
   Database_Bibles database_bibles;
@@ -63,7 +63,7 @@ void export_text_usfm_book (string bible, int book, bool log)
   
   // Basic USFM.
   if (file_or_dir_exists (usfmFilename)) filter_url_unlink (usfmFilename);
-  string basicUsfm = "\\id " + database::books::get_usfm_from_id (static_cast<book_id>(book)) + "\n";
+  std::string basicUsfm = "\\id " + database::books::get_usfm_from_id (static_cast<book_id>(book)) + "\n";
   filter_url_file_put_contents_append (usfmFilename, basicUsfm);
   
   
@@ -80,7 +80,7 @@ void export_text_usfm_book (string bible, int book, bool log)
     
     
     // Get the USFM code for the current chapter.
-    string chapter_data = database_bibles.get_chapter (bible, book, chapter);
+    std::string chapter_data = database_bibles.get_chapter (bible, book, chapter);
     chapter_data = filter::strings::trim (chapter_data);
     
     
@@ -101,7 +101,7 @@ void export_text_usfm_book (string bible, int book, bool log)
       basicUsfm += "\\p\n";
       for (auto element : verses_text) {
         int verse = element.first;
-        string text = element.second;
+        std::string text = element.second;
         basicUsfm += "\\v " + filter::strings::convert_to_string (verse) + " " + text + "\n";
       }
       filter_url_file_put_contents_append (usfmFilename, basicUsfm);

@@ -42,7 +42,7 @@ string consistency_poll (Webserver_Request& webserver_request)
 {
   const int id = filter::strings::convert_to_int (webserver_request.query ["id"]);
   Consistency_Logic consistency_logic = Consistency_Logic (webserver_request, id);
-  const string response = consistency_logic.response ();
+  const std::string response = consistency_logic.response ();
   if (response != Database_Volatile::getValue (id, "response")) {
     Database_Volatile::setValue (id, "response", response);
     return response;

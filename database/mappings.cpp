@@ -48,7 +48,7 @@ sqlite3 * Database_Mappings::connect ()
 void Database_Mappings::create1 ()
 {
   sqlite3 * db = connect ();
-  string sql = 
+  std::string sql = 
     "CREATE TABLE IF NOT EXISTS maps ("
     "name text,"
     "book integer,"
@@ -69,7 +69,7 @@ void Database_Mappings::create1 ()
 
 void Database_Mappings::create2 ()
 {
-  string sql;
+  std::string sql;
   sqlite3 * db = connect ();
   sql = "CREATE INDEX IF NOT EXISTS bible ON maps (name, book, chapter, verse);";
   database_sqlite_exec (db, sql);
@@ -82,16 +82,16 @@ void Database_Mappings::create2 ()
 // Import the default mappings that come with Bibledit.
 void Database_Mappings::defaults ()
 {
-  string folder = filter_url_create_root_path ({"mapping"});
+  std::string folder = filter_url_create_root_path ({"mapping"});
   std::vector <std::string> files = filter_url_scandir (folder);
   for (auto & file : files) {
-    string name (file);
-    string extension = filter_url_get_extension (name);
+    std::string name (file);
+    std::string extension = filter_url_get_extension (name);
     if (extension != "txt") continue;
     name = name.substr (0, strlen (name.c_str()) - 4);
     name = filter::strings::replace ("_", " ", name);
-    string path = filter_url_create_path ({folder, file});
-    string data = filter_url_file_get_contents (path);
+    std::string path = filter_url_create_path ({folder, file});
+    std::string data = filter_url_file_get_contents (path);
     import (name, data);
   }
 }
@@ -129,8 +129,8 @@ void Database_Mappings::import (const std::string& name, const std::string& data
     std::vector <std::string> entry = filter::strings::explode (line, '=');
     if (entry.size() != 2) continue;
     
-    string passage_string = filter::strings::trim (entry [0]);
-    string original_string = filter::strings::trim (entry [1]);
+    std::string passage_string = filter::strings::trim (entry [0]);
+    std::string original_string = filter::strings::trim (entry [1]);
 
     // Storage for further interpretation.
     std::vector <std::string> bits;
@@ -145,7 +145,7 @@ void Database_Mappings::import (const std::string& name, const std::string& data
     int passage_chapter = filter::strings::convert_to_int(bits[bits.size()-1]);
     // Remove the last bit so it remains with the book, and get that book.
     bits.pop_back();
-    string passage_book_string = filter::strings::implode(bits, " ");
+    std::string passage_book_string = filter::strings::implode(bits, " ");
     int passage_book = static_cast<int>(database::books::get_id_from_english(passage_book_string));
 
     // Split the original entry on the colon (:) to get the verse.
@@ -158,7 +158,7 @@ void Database_Mappings::import (const std::string& name, const std::string& data
     int original_chapter = filter::strings::convert_to_int(bits[bits.size()-1]);
     // Remove the last bit so it remains with the book, and get that book.
     bits.pop_back();
-    string original_book_string = filter::strings::implode(bits, " ");
+    std::string original_book_string = filter::strings::implode(bits, " ");
     int original_book = static_cast<int>(database::books::get_id_from_english(original_book_string));
 
     // Store it in the database.
@@ -208,14 +208,14 @@ string Database_Mappings::output (const std::string& name)
 
   for (unsigned int i = 0; i < books.size (); i++) {
     int book = filter::strings::convert_to_int (books [i]);
-    string bookname = database::books::get_english_from_id (static_cast<book_id>(book));
-    string chapter = chapters [i];
-    string verse = verses [i];
+    std::string bookname = database::books::get_english_from_id (static_cast<book_id>(book));
+    std::string chapter = chapters [i];
+    std::string verse = verses [i];
     int origbook = filter::strings::convert_to_int (origbooks[i]);
-    string origbookname = database::books::get_english_from_id (static_cast<book_id>(origbook));
-    string origchapter = origchapters[i];
-    string origverse = origverses [i];
-    string item = bookname + " " + chapter + ":" + verse + " = " + origbookname + " " + origchapter + ":" + origverse;
+    std::string origbookname = database::books::get_english_from_id (static_cast<book_id>(origbook));
+    std::string origchapter = origchapters[i];
+    std::string origverse = origverses [i];
+    std::string item = bookname + " " + chapter + ":" + verse + " = " + origbookname + " " + origchapter + ":" + origverse;
     data.push_back (item);
   }
   return filter::strings::implode (data, "\n");

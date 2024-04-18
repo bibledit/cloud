@@ -46,7 +46,7 @@ sqlite3 * Database_Versifications::connect ()
 void Database_Versifications::create ()
 {
   sqlite3 * db = connect ();
-  string sql;
+  std::string sql;
   sql = 
     "CREATE TABLE IF NOT EXISTS names ("
     " system integer,"
@@ -102,7 +102,7 @@ void Database_Versifications::input (const std::string& contents, const std::str
     int chapter = filter::strings::convert_to_int(bits[bits.size()-1]);
     // Remove the last bit so it remains with the book, and get that book.
     bits.pop_back();
-    string passage_book_string = filter::strings::implode(bits, " ");
+    std::string passage_book_string = filter::strings::implode(bits, " ");
     int book = static_cast<int>(database::books::get_id_from_english(passage_book_string));
     // Check result.
     if ((book == 0) || (chapter == 0)) {
@@ -134,7 +134,7 @@ string Database_Versifications::output (const std::string& name)
   std::vector <std::string> lines;
   std::vector <Passage> versification_data = getBooksChaptersVerses (name);
   for (Passage & passage : versification_data) {
-    string line = database::books::get_english_from_id (static_cast<book_id>(passage.m_book));
+    std::string line = database::books::get_english_from_id (static_cast<book_id>(passage.m_book));
     line.append (" ");
     line.append (filter::strings::convert_to_string (passage.m_chapter));
     line.append (":");
@@ -332,7 +332,7 @@ void Database_Versifications::defaults ()
   std::vector <std::string> names = versification_logic_names ();
   for (auto name : names) {
     // Read the file contents.
-    string contents = versification_logic_data (name);
+    std::string contents = versification_logic_data (name);
     // Due to a need of obfuscating "Bible" and similar,
     // If a versification system is called "Staten Bible",
     // it will be stored in the file system as "Staten Bb",

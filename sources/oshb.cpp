@@ -44,11 +44,11 @@ void sources_oshb_parse ()
   database_oshb.create ();
   database_oshb.optimize ();
 
-  string file = "sources/oshb.xml";
+  std::string file = "sources/oshb.xml";
   unlink (file.c_str());
   std::cout << file << std::endl;
 
-  string command = "gunzip sources/oshb.xml.gz";
+  std::string command = "gunzip sources/oshb.xml.gz";
 #ifndef HAVE_IOS
   [[maybe_unused]] auto result = system (command.c_str ());
 #endif
@@ -155,13 +155,13 @@ void sources_oshb_parse ()
     book_id book {book_id::_unknown};
     int chapter = 0;
     int verse = 0;
-    string word;
-    string append;
-    string lemma;
-    string morph;
+    std::string word;
+    std::string append;
+    std::string lemma;
+    std::string morph;
     for (pugi::xml_node field_node : row_node.children ()) {
-      string name = field_node.attribute ("name").value ();
-      string value = field_node.child_value ();
+      std::string name = field_node.attribute ("name").value ();
+      std::string value = field_node.child_value ();
       if (name == "bookId") book = mapping [filter::strings::convert_to_int (value)];
       if (name == "chapter") chapter = filter::strings::convert_to_int (value);
       if (name == "verse") verse = filter::strings::convert_to_int (value);

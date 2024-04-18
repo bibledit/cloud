@@ -64,11 +64,11 @@ string styles_indexm (Webserver_Request& webserver_request)
   
   Database_Styles database_styles {};
   
-  string username {webserver_request.session_logic ()->currentUser ()};
+  std::string username {webserver_request.session_logic ()->currentUser ()};
   int userlevel {webserver_request.session_logic ()->currentLevel ()};
   
   if (webserver_request.post.count ("new")) {
-    string name {webserver_request.post["entry"]};
+    std::string name {webserver_request.post["entry"]};
     // Remove spaces at the ends of the name for the new stylesheet.
     // Because predictive keyboards can add a space to the name,
     // and the stylesheet system is not built for whitespace at the start / end of the name of the stylesheet.
@@ -90,9 +90,9 @@ string styles_indexm (Webserver_Request& webserver_request)
   }
   
   if (webserver_request.query.count ("delete")) {
-    string del {webserver_request.query ["delete"]};
+    std::string del {webserver_request.query ["delete"]};
     if (!del.empty()) {
-      string confirm {webserver_request.query ["confirm"]};
+      std::string confirm {webserver_request.query ["confirm"]};
       if (confirm == "yes") {
         bool write = database_styles.hasWriteAccess (username, del);
         if (userlevel >= Filter_Roles::admin ()) write = true;

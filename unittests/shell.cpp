@@ -30,7 +30,7 @@ TEST (filter, shell)
   EXPECT_EQ (true, filter_shell_is_present ("zip"));
   EXPECT_EQ (false, filter_shell_is_present ("xxxxx"));
   
-  string output;
+  std::string output;
   int result;
   
   result = filter_shell_vfork (output, "", "ls", "-l");

@@ -40,16 +40,16 @@ string Consistency_Logic::response ()
 {
   // The resources to display in the Consistency tool.
   std::vector <std::string> resources = m_webserver_request.database_config_user()->getConsistencyResources ();
-  string bible = access_bible::clamp (m_webserver_request, m_webserver_request.database_config_user()->getBible ());
+  std::string bible = access_bible::clamp (m_webserver_request, m_webserver_request.database_config_user()->getBible ());
   resources.insert (resources.begin (), bible);
   
   // The passages entered in the Consistency tool.
-  string s_passages = Database_Volatile::getValue (m_id, "passages");
+  std::string s_passages = Database_Volatile::getValue (m_id, "passages");
   s_passages = filter::strings::trim (s_passages);
   std::vector <std::string> passages = filter::strings::explode (s_passages, '\n');
   
   // The translations entered in the Consistency tool.
-  string s_translations = Database_Volatile::getValue (m_id, "translations");
+  std::string s_translations = Database_Volatile::getValue (m_id, "translations");
   s_translations = filter::strings::trim (s_translations);
   std::vector <std::string> translations = filter::strings::explode (s_translations, '\n');
   
@@ -75,7 +75,7 @@ string Consistency_Logic::response ()
       if (passage.m_book != 0) {
         int book = passage.m_book;
         int chapter = passage.m_chapter;
-        string verse = passage.m_verse;
+        std::string verse = passage.m_verse;
         line2 = filter_passage_link_for_opening_editor_at (book, chapter, verse);
         line2 += " ";
         
@@ -83,7 +83,7 @@ string Consistency_Logic::response ()
         // If so, set a flag so the data can be re-assembled for this verse.
         // If there was no change, then the data can be fetched from the volatile database.
         bool redoPassage = false;
-        string passageKey = filter::strings::convert_to_string (book) + "." + filter::strings::convert_to_string (chapter) + "." + verse;
+        std::string passageKey = filter::strings::convert_to_string (book) + "." + filter::strings::convert_to_string (chapter) + "." + verse;
         int currentChapterId = m_webserver_request.database_bibles()->get_chapter_id (resources [0], book, chapter);
         int storedChapterId = filter::strings::convert_to_int (Database_Volatile::getValue (m_id, passageKey + ".id"));
         if (currentChapterId != storedChapterId) {
@@ -95,7 +95,7 @@ string Consistency_Logic::response ()
         for (auto resource : resources) {
           
           // Produce new verse text if the passage is to be redone, or else fetch the existing text.
-          string text;
+          std::string text;
           if (redoPassage) {
             text = verseText (resource, book, chapter, filter::strings::convert_to_int (verse));
             size_t length1 = text.size ();
@@ -126,7 +126,7 @@ string Consistency_Logic::response ()
     }
   }
   
-  string output;
+  std::string output;
   for (auto line : response) {
     output += "<div>" + line + "</div>\n";
   }
@@ -150,7 +150,7 @@ string Consistency_Logic::omit_verse_text (string input)
   size_t length = filter::strings::unicode_string_length (input);
   size_t last_numeral = 0;
   for (size_t i = 0; i < length; i++) {
-    string character = filter::strings::unicode_string_substr (input, i, 1);
+    std::string character = filter::strings::unicode_string_substr (input, i, 1);
     if (filter::strings::is_numeric (character)) {
       last_numeral = i;
     }

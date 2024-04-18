@@ -41,15 +41,15 @@ TEST (database, cache)
   // Copy an old cache database in place.
   // It contains cached data in the old layout.
   // Test that it now exists and contains data.
-  string testdatapath = filter_url_create_root_path ({"unittests", "tests", "cache_resource_test.sqlite"});
-  string databasepath = filter_url_create_root_path ({"databases",  "cache_resource_unittests.sqlite"});
-  string out_err;
+  std::string testdatapath = filter_url_create_root_path ({"unittests", "tests", "cache_resource_test.sqlite"});
+  std::string databasepath = filter_url_create_root_path ({"databases",  "cache_resource_unittests.sqlite"});
+  std::string out_err;
   filter_shell_run ("cp " + testdatapath + " " + databasepath, out_err);
   int count = Database_Cache::count ("unittests");
   EXPECT_EQ (1, count);
   exists = Database_Cache::exists ("unittests", 8, 1, 16);
   EXPECT_EQ (true, exists);
-  string value = Database_Cache::retrieve ("unittests", 8, 1, 16);
+  std::string value = Database_Cache::retrieve ("unittests", 8, 1, 16);
   EXPECT_EQ ("And Ruth said, Entreat me not to leave you, or to return from following you; for wherever you go, I will go, and wherever you lodge, I will lodge; your people shall be my people, and your God my God.", value);
   
   // Now remove the (old) cache and verify that it no longer exists or contains data.
@@ -93,8 +93,8 @@ TEST (database, cache)
   
   // Excercise the file-based cache.
   {
-    string url = "https://netbible.org/bible/1/2/3";
-    string contents = "Bible contents";
+    std::string url = "https://netbible.org/bible/1/2/3";
+    std::string contents = "Bible contents";
     EXPECT_EQ (false, database_filebased_cache_exists (url));
     EXPECT_EQ ("", database_filebased_cache_get (url));
     database_filebased_cache_put (url, contents);
@@ -105,7 +105,7 @@ TEST (database, cache)
   
   // Excercise the ready-flag.
   {
-    string bible = "ready";
+    std::string bible = "ready";
     int book = 11;
     Database_Cache::create (bible, book);
     
@@ -123,7 +123,7 @@ TEST (database, cache)
   
   // Check the file size function.
   {
-    string bible = "size";
+    std::string bible = "size";
     int book = 12;
     Database_Cache::create (bible, book);
     

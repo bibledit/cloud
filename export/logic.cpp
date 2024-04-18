@@ -145,7 +145,7 @@ string export_logic::bible_directory (const std::string& bible)
 // 2: root USFM directory.
 string export_logic::usfm_directory (const std::string& bible, int type)
 {
-  string directory = filter_url_create_path ({bible_directory (bible), "usfm"});
+  std::string directory = filter_url_create_path ({bible_directory (bible), "usfm"});
   switch (type) {
     case 0: directory = filter_url_create_path ({directory, "full"}); break;
     case 1: directory = filter_url_create_path ({directory, "basic"}); break;
@@ -172,7 +172,7 @@ string export_logic::web_back_link_directory (const std::string& bible)
 // Takes in account the order of the books, possibly modified by the user.
 string export_logic::base_book_filename (const std::string& bible, int book)
 {
-  string filename;
+  std::string filename;
   if (book) {
     // The file name has a number that indicates the defined order of the book.
     // See https://github.com/bibledit/cloud/issues/810

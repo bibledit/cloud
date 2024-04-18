@@ -33,7 +33,7 @@ TEST (easy_english_bible, logic)
   {
     bool near_passage {false};
     bool at_passage {false};
-    string paragraph {};
+    std::string paragraph {};
     bool handled {false};
 
     at_passage = false;
@@ -103,14 +103,14 @@ TEST (easy_english_bible, logic)
   // A couple of tests for text extraction.
   {
     const int book {58}; // Hebrews.
-    string text = resource_logic_easy_english_bible_get (book, 10, 14);
+    std::string text = resource_logic_easy_english_bible_get (book, 10, 14);
     text = filter::strings::html2text (text);
     EXPECT_EQ ("Verse 14 Again, the writer makes it clear that Jesus died once for all time and for all *sin. It is most important that we know and believe that this is true. All who trust in Jesus, God will make holy. Jesus makes them perfect, that is, all that God intended them to be in his plan. Jesus has done all that God said was necessary.", text);
   }
 
   {
     const int book {58}; // Hebrews.
-    string text = resource_logic_easy_english_bible_get (book, 8, 8);
+    std::string text = resource_logic_easy_english_bible_get (book, 8, 8);
     text = filter::strings::html2text (text);
     size_t pos = text.find ("Verse 8 From verse 8 to the end of verse 12 the author copies words from Jeremiah 31:31-34. He uses these words to show that the old agreement is no longer in operation. The new agreement, that Jesus brought, has taken its place. It was not that there was a fault with the old agreement. The fault was with people, because nobody could obey the agreement.");
     EXPECT_EQ (0, pos);
@@ -120,7 +120,7 @@ TEST (easy_english_bible, logic)
 
   {
     const int book {1}; // Genesis.
-    string text = resource_logic_easy_english_bible_get (book, 2, 5);
+    std::string text = resource_logic_easy_english_bible_get (book, 2, 5);
     text = filter::strings::html2text (text);
     const size_t pos = text.find ("The plants that man needed for his food were not growing. There were two reasons for this.");
     EXPECT_EQ (8, pos);
@@ -128,7 +128,7 @@ TEST (easy_english_bible, logic)
 
   {
     const int book {2}; // Exodus.
-    string text = resource_logic_easy_english_bible_get (book, 20, 9);
+    std::string text = resource_logic_easy_english_bible_get (book, 20, 9);
     text = filter::strings::html2text (text);
     const size_t pos = text.find ("At the beginning of time, God rested on the 7th day.");
     EXPECT_EQ (451, pos);
@@ -136,7 +136,7 @@ TEST (easy_english_bible, logic)
 
   {
     const int book {5}; // Deuteronomy.
-    string text = resource_logic_easy_english_bible_get (book, 1, 2);
+    std::string text = resource_logic_easy_english_bible_get (book, 1, 2);
     text = filter::strings::html2text (text);
     const size_t pos = text.find ("The journey from Horeb to Kadesh-Barnea would take 11 days.");
     EXPECT_EQ (9, pos);
@@ -144,7 +144,7 @@ TEST (easy_english_bible, logic)
 
   {
     const int book {7}; // Judges
-    string text = resource_logic_easy_english_bible_get (book, 3, 12);
+    std::string text = resource_logic_easy_english_bible_get (book, 3, 12);
     text = filter::strings::html2text (text);
     const size_t pos = text.find ("There the writer says that God uses those that are nothing.");
     EXPECT_EQ (1679, pos);
@@ -152,7 +152,7 @@ TEST (easy_english_bible, logic)
 
   {
     const int book {19}; // Psalms
-    string text = resource_logic_easy_english_bible_get (book, 3, 6);
+    std::string text = resource_logic_easy_english_bible_get (book, 3, 6);
     text = filter::strings::html2text (text);
     const size_t pos = text.find (" The LORD answered David when he prayed.");
     EXPECT_EQ (36, pos);
@@ -160,7 +160,7 @@ TEST (easy_english_bible, logic)
 
   {
     const int book {54}; // 1 Timothy.
-    string text = resource_logic_easy_english_bible_get (book, 5, 3);
+    std::string text = resource_logic_easy_english_bible_get (book, 5, 3);
     text = filter::strings::html2text (text);
     const size_t pos = text.find ("Widows need help and care.");
     EXPECT_EQ (8, pos);
@@ -188,7 +188,7 @@ TEST (easy_english_bible, logic)
         for (auto verse : verses) {
           if (verse == 0) continue;
           total_passage_counter++;
-          string text = resource_logic_easy_english_bible_get (book, chapter, verse);
+          std::string text = resource_logic_easy_english_bible_get (book, chapter, verse);
           text = filter::strings::html2text (text);
           if (text.empty()) {
             empty_passage_counter++;

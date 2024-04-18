@@ -47,7 +47,7 @@ void Database_Ipc::trim ()
   int now = filter::date::seconds_since_epoch ();
   std::vector <std::string> files = filter_url_scandir (folder ());
   for (string item : files) {
-    string path = file(item);
+    std::string path = file(item);
     int time = filter_url_file_modification_time (path);
     int age_seconds = now - time;
     if (age_seconds > 3600) {
@@ -91,22 +91,22 @@ void Database_Ipc::storeMessage (string user, string channel, string command, st
 Database_Ipc_Message Database_Ipc::retrieveMessage (int id, string user, string channel, string command)
 {
   int highestId = 0;
-  string hitChannel = "";
-  string hitCommand = "";
-  string hitMessage = "";
+  std::string hitChannel = "";
+  std::string hitCommand = "";
+  std::string hitMessage = "";
   std::vector <Database_Ipc_Item> data = readData ();
   for (auto & record : data) {
     // Selection condition 1: The database record has a message identifier younger than the calling identifier.
     int recordid = record.rowid;
     if (recordid > id) {
       // Selection condition 2: Channel matches calling channel, or empty channel.
-      string recordchannel = record.channel;
+      std::string recordchannel = record.channel;
       if ((recordchannel == channel) || (recordchannel == "")) {
         // Selection condition 3: Record user matches calling user, or empty user.
-        string recorduser = record.user;
+        std::string recorduser = record.user;
         if ((recorduser == user) || (recorduser == "")) {
           // Selection condition 4: Matching command.
-          string recordcommand = record.command;
+          std::string recordcommand = record.command;
           if (recordcommand == command) {
             if (recordid > highestId) {
               highestId = recordid;
@@ -143,10 +143,10 @@ void Database_Ipc::deleteMessage (int id)
 
 string Database_Ipc::getFocus ()
 {
-  string user = m_webserver_request.session_logic ()->currentUser ();
+  std::string user = m_webserver_request.session_logic ()->currentUser ();
 
   int highestId = 0;
-  string hitMessage = "";
+  std::string hitMessage = "";
   std::vector <Database_Ipc_Item> data = readData ();
   for (auto & record : data) {
     int recordid = record.rowid;
@@ -170,10 +170,10 @@ string Database_Ipc::getFocus ()
 
 Database_Ipc_Message Database_Ipc::getNote ()
 {
-  string user = m_webserver_request.session_logic ()->currentUser ();
+  std::string user = m_webserver_request.session_logic ()->currentUser ();
 
   int highestId = 0;
-  string hitMessage = "";
+  std::string hitMessage = "";
 
   std::vector <Database_Ipc_Item> data = readData ();
   for (auto & record : data) {
@@ -201,10 +201,10 @@ Database_Ipc_Message Database_Ipc::getNote ()
 
 bool Database_Ipc::getNotesAlive ()
 {
-  string user = m_webserver_request.session_logic ()->currentUser ();
+  std::string user = m_webserver_request.session_logic ()->currentUser ();
 
   int highestId = 0;
-  string hitMessage = "";
+  std::string hitMessage = "";
 
   std::vector <Database_Ipc_Item> data = readData ();
   for (auto & record : data) {
@@ -265,7 +265,7 @@ vector <Database_Ipc_Item> Database_Ipc::readData ()
 
 void Database_Ipc::writeRecord (int rowid, string user, string channel, string command, string message)
 {
-  string filename = filter::strings::convert_to_string (rowid) + "__" + user + "__" +  channel + "__" + command;
+  std::string filename = filter::strings::convert_to_string (rowid) + "__" + user + "__" +  channel + "__" + command;
   filename = file (filename);
   filter_url_file_put_contents (filename, message);
 }

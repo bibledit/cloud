@@ -54,8 +54,8 @@ string mapping_index (Webserver_Request& webserver_request)
   page = header.run ();
   
   Assets_View view;
-  string error;
-  string success;
+  std::string error;
+  std::string success;
 
   // Create new verse mapping.
   if (webserver_request.query.count ("new")) {
@@ -64,7 +64,7 @@ string mapping_index (Webserver_Request& webserver_request)
     return page;
   }
   if (webserver_request.post.count ("new")) {
-    string name = webserver_request.post ["entry"];
+    std::string name = webserver_request.post ["entry"];
     std::vector <std::string> mappings = database_mappings.names ();
     if (find (mappings.begin(), mappings.end(), name) != mappings.end ()) {
       error = translate("This verse mapping already exists");
@@ -74,9 +74,9 @@ string mapping_index (Webserver_Request& webserver_request)
   }
 
   // Delete verse mapping.
-  string name = webserver_request.query ["name"];
+  std::string name = webserver_request.query ["name"];
   if (webserver_request.query.count ("delete")) {
-    string confirm = webserver_request.query ["confirm"];
+    std::string confirm = webserver_request.query ["confirm"];
     if (confirm == "") {
       Dialog_Yes dialog_yes = Dialog_Yes ("index", translate("Would you like to delete this verse mapping?"));
       dialog_yes.add_query ("name", name);

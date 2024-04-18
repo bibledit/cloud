@@ -149,7 +149,7 @@ void DatabasePrivileges::load (const std::string& username, const std::string& d
   
   const std::vector <std::string> lines = filter::strings::explode (data, '\n');
   bool loading_bibles {false};
-  string bible_value {};
+  std::string bible_value {};
   int book_value {0};
   bool write_value {false};
   bool loading_features {false};
@@ -449,7 +449,7 @@ string database_privileges_client_path (const std::string& user)
 void database_privileges_client_create (const std::string& user, bool force)
 {
   // The path to the file with privileges for the $user.
-  string path = database_privileges_client_path (user);
+  std::string path = database_privileges_client_path (user);
   
   // Without $force, if the file exists, we're done.
   if (!force) {
@@ -457,11 +457,11 @@ void database_privileges_client_create (const std::string& user, bool force)
   }
   
   // If needed, create the folder.
-  string folder = filter_url_dirname (path);
+  std::string folder = filter_url_dirname (path);
   if (!file_or_dir_exists (folder)) filter_url_mkdir (folder);
   
   // The bits of privileges in human-readable form.
-  string privileges = DatabasePrivileges::save (user);
+  std::string privileges = DatabasePrivileges::save (user);
   
   // Write the privileges to disk.
   filter_url_file_put_contents (path, privileges);
@@ -470,7 +470,7 @@ void database_privileges_client_create (const std::string& user, bool force)
 
 void database_privileges_client_remove (const std::string& user)
 {
-  string path = database_privileges_client_path (user);
+  std::string path = database_privileges_client_path (user);
   path = filter_url_dirname (path);
   filter_url_rmdir (path);
 }

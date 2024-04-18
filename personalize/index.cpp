@@ -62,7 +62,7 @@ bool personalize_index_acl (Webserver_Request& webserver_request)
 
 string personalize_index (Webserver_Request& webserver_request)
 {
-  string checkbox = webserver_request.post ["checkbox"];
+  std::string checkbox = webserver_request.post ["checkbox"];
   bool checked = filter::strings::convert_to_bool (webserver_request.post ["checked"]);
 
 
@@ -91,8 +91,8 @@ string personalize_index (Webserver_Request& webserver_request)
 
   
   std::string page;
-  string success;
-  string error;
+  std::string success;
+  std::string error;
 
 
   // Store new font sizes before displaying the header,
@@ -201,9 +201,9 @@ string personalize_index (Webserver_Request& webserver_request)
 
   
   // Set the chosen theme on the option HTML tag.
-  string theme_key = filter::strings::convert_to_string (webserver_request.database_config_user ()->getCurrentTheme ());
-  string filename = current_theme_filebased_cache_filename (webserver_request.session_identifier);
-  string theme_html;
+  std::string theme_key = filter::strings::convert_to_string (webserver_request.database_config_user ()->getCurrentTheme ());
+  std::string filename = current_theme_filebased_cache_filename (webserver_request.session_identifier);
+  std::string theme_html;
   theme_html = Options_To_Select::add_selection ("Basic", "0", theme_html);
   theme_html = Options_To_Select::add_selection ("Light", "1", theme_html);
   theme_html = Options_To_Select::add_selection ("Dark", "2", theme_html);
@@ -254,7 +254,7 @@ string personalize_index (Webserver_Request& webserver_request)
   
   // Visual editors in the fast Bible editor switcher.
   const char * fastswitchvisualeditors = "fastswitchvisualeditors";
-  string visual_editors_html;
+  std::string visual_editors_html;
   for (int i = 0; i < 3; i++) {
     visual_editors_html = Options_To_Select::add_selection (menu_logic_editor_settings_text (true, i), filter::strings::convert_to_string (i), visual_editors_html);
   }
@@ -263,14 +263,14 @@ string personalize_index (Webserver_Request& webserver_request)
     webserver_request.database_config_user ()->setFastSwitchVisualEditors (visual_editor_key);
     return "";
   }
-  string editor_key = filter::strings::convert_to_string (webserver_request.database_config_user ()->getFastSwitchVisualEditors ());
+  std::string editor_key = filter::strings::convert_to_string (webserver_request.database_config_user ()->getFastSwitchVisualEditors ());
   view.set_variable ("fastswitchvisualeditorsoptags", Options_To_Select::mark_selected (editor_key, visual_editors_html));
   view.set_variable (fastswitchvisualeditors, editor_key);
 
   
   // USFM editors fast Bible editor switcher.
   const char * fastswitchusfmeditors = "fastswitchusfmeditors";
-  string usfm_editors_html;
+  std::string usfm_editors_html;
   for (int i = 0; i < 2; i++) {
     usfm_editors_html = Options_To_Select::add_selection (menu_logic_editor_settings_text (false, i), filter::strings::convert_to_string (i), usfm_editors_html);
   }
@@ -294,7 +294,7 @@ string personalize_index (Webserver_Request& webserver_request)
 
   // Change the active Bible.
   if (webserver_request.query.count ("changebible")) {
-    string changebible = webserver_request.query ["changebible"];
+    std::string changebible = webserver_request.query ["changebible"];
     if (changebible == "") {
       Dialog_List dialog_list = Dialog_List ("index", translate("Select which Bible to make the active one for editing"), "", "");
       std::vector <std::string> bibles = access_bible::bibles (webserver_request);
@@ -315,7 +315,7 @@ string personalize_index (Webserver_Request& webserver_request)
       }
     }
   }
-  string bible = access_bible::clamp (webserver_request, webserver_request.database_config_user()->getBible ());
+  std::string bible = access_bible::clamp (webserver_request, webserver_request.database_config_user()->getBible ());
   view.set_variable ("bible", bible);
 
   
@@ -406,8 +406,8 @@ string personalize_index (Webserver_Request& webserver_request)
     Database_Config_General::setNotesVerseSeparator (webserver_request.post["verseseparator"]);
     return "";
   }
-  string separator_key = Database_Config_General::getNotesVerseSeparator ();
-  string separator_html;
+  std::string separator_key = Database_Config_General::getNotesVerseSeparator ();
+  std::string separator_html;
   separator_html = Options_To_Select::add_selection (menu_logic_verse_separator ("."), ".", separator_html);
   separator_html = Options_To_Select::add_selection (menu_logic_verse_separator (":"), ":", separator_html);
   view.set_variable ("verseseparatoroptags", Options_To_Select::mark_selected (separator_key, separator_html));
@@ -435,8 +435,8 @@ string personalize_index (Webserver_Request& webserver_request)
     webserver_request.database_config_user ()->setNotesDateFormat(date_format_key);
     return std::string();
   }
-  string date_format_key = filter::strings::convert_to_string (webserver_request.database_config_user ()->getNotesDateFormat());
-  string date_format_html;
+  std::string date_format_key = filter::strings::convert_to_string (webserver_request.database_config_user ()->getNotesDateFormat());
+  std::string date_format_html;
   for (filter::date::date_format df = filter::date::dd_mm_yyyy;
        df <= filter::date::yyyy_mn_dd;
        df = static_cast<filter::date::date_format>(df + 1)) {

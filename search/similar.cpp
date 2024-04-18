@@ -55,7 +55,7 @@ string search_similar (Webserver_Request& webserver_request)
   int myIdentifier = filter::strings::user_identifier (webserver_request);
   
   
-  string bible = webserver_request.database_config_user()->getBible ();
+  std::string bible = webserver_request.database_config_user()->getBible ();
   if (webserver_request.query.count ("b")) {
     bible = webserver_request.query ["b"];
   }
@@ -67,7 +67,7 @@ string search_similar (Webserver_Request& webserver_request)
     const int verse = Ipc_Focus::getVerse (webserver_request);
     // Text of the focused verse in the active Bible.
     // Remove all punctuation from it.
-    string versetext = search_logic_get_bible_verse_text (bible, book, chapter, verse);
+    std::string versetext = search_logic_get_bible_verse_text (bible, book, chapter, verse);
     std::vector <std::string> punctuation = filter::strings::explode (Database_Config_Bible::getSentenceStructureEndPunctuation (bible), ' ');
     for (auto & sign : punctuation) {
       versetext = filter::strings::replace (sign, "", versetext);
@@ -84,7 +84,7 @@ string search_similar (Webserver_Request& webserver_request)
   
   if (webserver_request.query.count ("words")) {
     
-    string words = webserver_request.query ["words"];
+    std::string words = webserver_request.query ["words"];
     words = filter::strings::trim (words);
     Database_Volatile::setValue (myIdentifier, "searchsimilar", words);
     std::vector <std::string> vwords = filter::strings::explode (words, ' ');
@@ -127,7 +127,7 @@ string search_similar (Webserver_Request& webserver_request)
     reverse (ids.begin(), ids.end());
 
     // Output the passage identifiers to the browser.
-    string output;
+    std::string output;
     for (auto & id : ids) {
       if (!output.empty ()) output.append ("\n");
       output.append (filter::strings::convert_to_string (id));
@@ -141,22 +141,22 @@ string search_similar (Webserver_Request& webserver_request)
     
     // Get the Bible and passage for this identifier.
     Passage passage = filter_integer_to_passage (id);
-    string bible2 = webserver_request.database_config_user()->getBible ();
+    std::string bible2 = webserver_request.database_config_user()->getBible ();
     // string bible = passage.bible;
     int book = passage.m_book;
     int chapter = passage.m_chapter;
-    string verse = passage.m_verse;
+    std::string verse = passage.m_verse;
     
     // Get the plain text.
-    string text = search_logic_get_bible_verse_text (bible2, book, chapter, filter::strings::convert_to_int (verse));
+    std::string text = search_logic_get_bible_verse_text (bible2, book, chapter, filter::strings::convert_to_int (verse));
     
     // Get search words.
     std::vector <std::string> words = filter::strings::explode (Database_Volatile::getValue (myIdentifier, "searchsimilar"), ' ');
     
     // Format it.
-    string link = filter_passage_link_for_opening_editor_at (book, chapter, verse);
+    std::string link = filter_passage_link_for_opening_editor_at (book, chapter, verse);
     text = filter::strings::markup_words (words, text);
-    string output = "<div>" + link + " " + text + "</div>";
+    std::string output = "<div>" + link + " " + text + "</div>";
     
     // Output to browser.
     return output;

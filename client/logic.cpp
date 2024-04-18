@@ -77,15 +77,15 @@ string client_logic_connection_setup (string user, string hash)
     hash = database_users.get_md5 (user);
   }
   
-  string encoded_user = filter::strings::bin2hex (user);
+  std::string encoded_user = filter::strings::bin2hex (user);
   
-  string address = Database_Config_General::getServerAddress ();
+  std::string address = Database_Config_General::getServerAddress ();
   int port = Database_Config_General::getServerPort ();
   
-  string url = client_logic_url (address, port, sync_setup_url ()) + "?user=" + encoded_user + "&pass=" + hash;
+  std::string url = client_logic_url (address, port, sync_setup_url ()) + "?user=" + encoded_user + "&pass=" + hash;
   
-  string error {};
-  string response = filter_url_http_get (url, error, true);
+  std::string error {};
+  std::string response = filter_url_http_get (url, error, true);
   int iresponse = filter::strings::convert_to_int (response);
   
   if ((iresponse >= Filter_Roles::guest ()) && (iresponse <= Filter_Roles::admin ())) {
@@ -102,7 +102,7 @@ string client_logic_connection_setup (string user, string hash)
     // it will give a response code 426 plus text.
     // So in such a case clarify the meaning of that to the user.
     // https://github.com/bibledit/cloud/issues/829.
-    string upgrade_required = filter_url_http_response_code_text (426);
+    std::string upgrade_required = filter_url_http_response_code_text (426);
     size_t pos = error.find (upgrade_required);
     if (pos != std::string::npos) {
       // Since the error code ends without a full stop, add a full stop to it first.
@@ -170,10 +170,10 @@ void client_logic_create_note_decode (const std::string& data,
 // It displays the $linktext.
 string client_logic_link_to_cloud (string path, string linktext)
 {
-  string url {};
-  string external {};
+  std::string url {};
+  std::string external {};
   if (client_logic_client_enabled ()) {
-    string address = Database_Config_General::getServerAddress ();
+    std::string address = Database_Config_General::getServerAddress ();
     int port = Database_Config_General::getServerPort ();
     url = address + ":" + filter::strings::convert_to_string (port);
     if (!path.empty ()) {
@@ -213,7 +213,7 @@ void client_logic_usfm_resources_update ()
   // The Cloud stores the list of USFM resources.
   // It is stored in the client files area.
   // Clients can access it from there.
-  string path = client_logic_usfm_resources_path ();
+  std::string path = client_logic_usfm_resources_path ();
   Database_UsfmResources database_usfmresources {};
   std::vector <std::string> resources = database_usfmresources.getResources ();
   filter_url_file_put_contents (path, filter::strings::implode (resources, "\n"));
@@ -222,7 +222,7 @@ void client_logic_usfm_resources_update ()
 
 vector <std::string> client_logic_usfm_resources_get ()
 {
-  string contents = filter_url_file_get_contents (client_logic_usfm_resources_path ());
+  std::string contents = filter_url_file_get_contents (client_logic_usfm_resources_path ());
   return filter::strings::explode (contents, '\n');
 }
 
@@ -232,7 +232,7 @@ string client_logic_get_username ()
   // Set the user name to the first one in the database.
   // Or if the database has no users, make the user admin.
   // That happens when disconnected from the Cloud.
-  string user = session_admin_credentials ();
+  std::string user = session_admin_credentials ();
   Database_Users database_users;
   std::vector <std::string> users = database_users.get_users ();
   if (!users.empty()) user = users [0];
@@ -248,8 +248,8 @@ string client_logic_no_cache_resources_path ()
 
 void client_logic_no_cache_resources_save (vector<string> resources)
 {
-  string contents = filter::strings::implode(resources, "\n");
-  string path = client_logic_no_cache_resources_path ();
+  std::string contents = filter::strings::implode(resources, "\n");
+  std::string path = client_logic_no_cache_resources_path ();
   filter_url_file_put_contents(path, contents);
 }
 
@@ -274,7 +274,7 @@ void client_logic_no_cache_resource_remove (string name)
 
 vector <std::string> client_logic_no_cache_resources_get ()
 {
-  string contents = filter_url_file_get_contents (client_logic_no_cache_resources_path());
+  std::string contents = filter_url_file_get_contents (client_logic_no_cache_resources_path());
   vector<string> resources = filter::strings::explode(contents, "\n");
   return resources;
 }

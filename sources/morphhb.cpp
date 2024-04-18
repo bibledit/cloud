@@ -43,8 +43,8 @@ void sources_morphhb_parse ();
 
 void sources_morphhb_parse_w_element (Database_OsHb * database_oshb, int book, int chapter, int verse, pugi::xml_node node)
 {
-  string lemma = node.attribute ("lemma").value ();
-  string word = node.child_value ();
+  std::string lemma = node.attribute ("lemma").value ();
+  std::string word = node.child_value ();
   word = filter::strings::replace ("/", "", word);
   database_oshb->store (book, chapter, verse, lemma, word, "");
 }
@@ -52,8 +52,8 @@ void sources_morphhb_parse_w_element (Database_OsHb * database_oshb, int book, i
 
 void sources_morphhb_parse_unhandled_node (int book, int chapter, int verse, pugi::xml_node node)
 {
-  string passage = filter_passage_display (book, chapter, filter::strings::convert_to_string (verse));
-  string text = node.child_value ();
+  std::string passage = filter_passage_display (book, chapter, filter::strings::convert_to_string (verse));
+  std::string text = node.child_value ();
   std::cerr << "Unhandled " << node.name () << " at " << passage << ": " << text << std::endl;
 }
 
@@ -108,7 +108,7 @@ void sources_morphhb_parse ()
 
   for (size_t bk = 0; bk < books.size (); bk++) {
     
-    string file = "sources/morphhb/" + books[bk] + ".xml";
+    std::string file = "sources/morphhb/" + books[bk] + ".xml";
     std::cout << file << std::endl;
 
     int book = static_cast<int>(bk + 1);
@@ -120,11 +120,11 @@ void sources_morphhb_parse ()
     pugi::xml_node div_book_node = osisText_node.child ("div");
     for (pugi::xml_node chapter_node : div_book_node.children()) {
       for (pugi::xml_node verse_node : chapter_node.children ()) {
-        string node_name = verse_node.name ();
+        std::string node_name = verse_node.name ();
         if (node_name != "verse") continue;
 
         // Get the passage.
-        string osisID = verse_node.attribute ("osisID").value ();
+        std::string osisID = verse_node.attribute ("osisID").value ();
         std::vector <std::string> bits = filter::strings::explode (osisID, '.');
         int chapter = filter::strings::convert_to_int (bits[1]);
         int verse = filter::strings::convert_to_int (bits[2]);
@@ -136,20 +136,20 @@ void sources_morphhb_parse ()
 
           if (word_stored) database_oshb.store (book, chapter, verse, "", " ", "");
 
-          string child_node_name = node.name ();
+          std::string child_node_name = node.name ();
 
           if (child_node_name == "w") {
             sources_morphhb_parse_w_element (&database_oshb, book, chapter, verse, node);
           }
           
           else if (child_node_name == "seg") {
-            string word = node.child_value ();
+            std::string word = node.child_value ();
             database_oshb.store (book, chapter, verse, "", word, "");
           }
           
           else if (child_node_name == "note") {
             for (pugi::xml_node variant_node : node.children ()) {
-              string variant_node_name = variant_node.name ();
+              std::string variant_node_name = variant_node.name ();
               if (variant_node_name == "catchWord") {
                 sources_morphhb_parse_w_element (&database_oshb, book, chapter, verse, node);
               } else if (variant_node_name == "rdg") {

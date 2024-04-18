@@ -50,7 +50,7 @@ string editor_id (Webserver_Request& webserver_request)
   webserver_request.database_config_user()->setLiveBibleEditor (filter::date::seconds_since_epoch ());
 
   
-  string bible = webserver_request.query ["bible"];
+  std::string bible = webserver_request.query ["bible"];
   int book = filter::strings::convert_to_int (webserver_request.query ["book"]);
   int chapter = filter::strings::convert_to_int (webserver_request.query ["chapter"]);
   int id = webserver_request.database_bibles()->get_chapter_id (bible, book, chapter);

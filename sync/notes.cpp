@@ -87,7 +87,7 @@ string sync_notes (Webserver_Request& webserver_request)
 
 
   // Check on username only, without password or level.
-  string user = filter::strings::hex2bin (webserver_request.post ["u"]);
+  std::string user = filter::strings::hex2bin (webserver_request.post ["u"]);
   if ((action == Sync_Logic::notes_get_total) || (action == Sync_Logic::notes_get_identifiers)) {
     if (!webserver_request.database_users ()->usernameExists (user)) {
       Database_Logs::log ("A client passes a non-existing user " + user, Filter_Roles::manager ());
@@ -103,7 +103,7 @@ string sync_notes (Webserver_Request& webserver_request)
 
   
   int identifier = filter::strings::convert_to_int (webserver_request.post ["i"]);
-  string content = webserver_request.post ["c"];
+  std::string content = webserver_request.post ["c"];
   
   switch (action) {
     case Sync_Logic::notes_get_total:
@@ -112,19 +112,19 @@ string sync_notes (Webserver_Request& webserver_request)
       std::vector <int> identifiers = database_notes.get_notes_in_range_for_bibles (lowId, highId, bibles, false);
       // Checksum cache to speed things up in case of thousands of notes.
       // Else the server would run at 100% CPU usage for some time to get the total checksums of notes.
-      string checksum = Database_State::getNotesChecksum (lowId, highId);
+      std::string checksum = Database_State::getNotesChecksum (lowId, highId);
       if (checksum.empty ()) {
         checksum = database_notes.get_multiple_checksum (identifiers);
         Database_State::putNotesChecksum (lowId, highId, checksum);
       }
-      string response = filter::strings::convert_to_string (identifiers.size ()) + "\n" + checksum;
+      std::string response = filter::strings::convert_to_string (identifiers.size ()) + "\n" + checksum;
       return response;
     }
     case Sync_Logic::notes_get_identifiers:
     {
       std::vector <std::string> bibles = access_bible::bibles (webserver_request, user);
       std::vector <int> identifiers = database_notes.get_notes_in_range_for_bibles (lowId, highId, bibles, false);
-      string response;
+      std::string response;
       for (auto id : identifiers) {
         if (!response.empty ()) response.append ("\n");
         response.append (filter::strings::convert_to_string (id));
@@ -141,7 +141,7 @@ string sync_notes (Webserver_Request& webserver_request)
       database_notes.update_search_fields (identifier);
       database_notes.update_checksum (identifier);
       // Return summary.
-      string summary = database_notes.get_summary (identifier);
+      std::string summary = database_notes.get_summary (identifier);
       return summary;
     }
     case Sync_Logic::notes_get_contents:
@@ -341,7 +341,7 @@ string sync_notes (Webserver_Request& webserver_request)
       std::vector <int> identifiers;
       for (auto note : notes) identifiers.push_back (filter::strings::convert_to_int (note));
       // Return the JSON that contains all the requested notes.
-      string json = database_notes.get_bulk (identifiers);
+      std::string json = database_notes.get_bulk (identifiers);
       return json;
     }
     default: {};

@@ -41,7 +41,7 @@ odf_text::odf_text (string bible)
   m_bible = bible;
 
   // Unpack the .odt template.
-  string template_odf = filter_url_create_root_path ({"odf", "template.odt"});
+  std::string template_odf = filter_url_create_root_path ({"odf", "template.odt"});
   unpacked_odt_folder = filter_archive_unzip (template_odf);
   filter_url_rmdir (filter_url_create_path ({unpacked_odt_folder, "Configurations2"}));
   // Create the Pictures folder.
@@ -113,7 +113,7 @@ void odf_text::initialize_content_xml ()
     childnode.append_attribute ("style:font-family-generic") = "roman";
     childnode.append_attribute ("style:font-pitch") = "variable";
     
-    string fontname = Database_Config_Bible::getExportFont (m_bible);
+    std::string fontname = Database_Config_Bible::getExportFont (m_bible);
     childnode = office_font_face_decls.append_child ("style:font-face");
     childnode.append_attribute ("style:name") = fontname.c_str();
     fontname.insert (0, "'");
@@ -274,7 +274,7 @@ void odf_text::initialize_styles_xml ()
     childnode.append_attribute ("style:font-family-generic") = "roman";
     childnode.append_attribute ("style:font-pitch") = "variable";
   
-    string fontname = Database_Config_Bible::getExportFont (m_bible);
+    std::string fontname = Database_Config_Bible::getExportFont (m_bible);
     childnode = office_font_face_decls.append_child ("style:font-face");
     childnode.append_attribute ("style:name") = fontname.c_str();
     fontname.insert (0, "'");
@@ -656,7 +656,7 @@ void odf_text::new_page_break ()
 // $dropcaps: If 0, there are no drop caps.
 //            If greater than 0, it the number of characters in drop caps style.
 void odf_text::create_paragraph_style (string name,
-                                       string fontname,
+                                       std::string fontname,
                                        float fontsize,
                                        int italic, int bold, int underline, int smallcaps,
                                        int alignment,
@@ -694,7 +694,7 @@ void odf_text::create_paragraph_style (string name,
   fontname.append ("'");
   style_text_properties_node.append_attribute ("fo:font-family") = fontname.c_str();
 
-  string sfontsize = filter::strings::convert_to_string (fontsize) + "pt";
+  std::string sfontsize = filter::strings::convert_to_string (fontsize) + "pt";
   style_text_properties_node.append_attribute ("fo:font-size") = sfontsize.c_str();
   style_text_properties_node.append_attribute ("style:font-size-asian") = sfontsize.c_str();
   style_text_properties_node.append_attribute ("style:font-size-complex") = sfontsize.c_str();
@@ -720,7 +720,7 @@ void odf_text::create_paragraph_style (string name,
   }
 
   // Text alignment can be: AlignmentLeft, AlignmentCenter, AlignmentRight, AlignmentJustify.
-  string alignmenttext {};
+  std::string alignmenttext {};
   switch (alignment) {
     case AlignmentLeft:    alignmenttext = "start";   break;
     case AlignmentCenter:  alignmenttext = "center";  break;
@@ -734,13 +734,13 @@ void odf_text::create_paragraph_style (string name,
   // Deal with the paragraph dimensions.
   // The values are given in millimeters.
   // First the top and bottom margins.
-  string space_before_mm = filter::strings::convert_to_string (spacebefore) + "mm";
+  std::string space_before_mm = filter::strings::convert_to_string (spacebefore) + "mm";
   style_paragraph_properties_node.append_attribute ("fo:margin-top") = space_before_mm.c_str();
-  string space_after_mm = filter::strings::convert_to_string (spaceafter) + "mm";
+  std::string space_after_mm = filter::strings::convert_to_string (spaceafter) + "mm";
   style_paragraph_properties_node.append_attribute ("fo:margin-bottom") = space_after_mm.c_str();
-  string left_margin_mm = filter::strings::convert_to_string (leftmargin) + "mm";
+  std::string left_margin_mm = filter::strings::convert_to_string (leftmargin) + "mm";
   style_paragraph_properties_node.append_attribute ("fo:margin-left") = left_margin_mm.c_str();
-  string right_margin_mm = filter::strings::convert_to_string (rightmargin) + "mm";
+  std::string right_margin_mm = filter::strings::convert_to_string (rightmargin) + "mm";
   style_paragraph_properties_node.append_attribute ("fo:margin-right") = right_margin_mm.c_str();
   // In a normal paragraph the first line indent is as given in the stylesheet.
   // In a poetry paragraph the first line indent is the negative left margin.
@@ -749,7 +749,7 @@ void odf_text::create_paragraph_style (string name,
   // (And then a tab puts the text at the desired first line indent space.)
   int millimeters = static_cast<int>(firstlineindent);
   if (is_poetry_q_style) millimeters = static_cast <int> (0 - leftmargin);
-  string first_lineindent_mm = filter::strings::convert_to_string (millimeters) + "mm";
+  std::string first_lineindent_mm = filter::strings::convert_to_string (millimeters) + "mm";
   style_paragraph_properties_node.append_attribute ("fo:text-indent") = first_lineindent_mm.c_str();
 
   if (keep_with_next) {
@@ -759,7 +759,7 @@ void odf_text::create_paragraph_style (string name,
 
   if (dropcaps > 0) {
     // E.g.: <style:drop-cap style:lines="2" style:length="2" style:distance="0.15cm"/>
-    string length = filter::strings::convert_to_string (dropcaps);
+    std::string length = filter::strings::convert_to_string (dropcaps);
     pugi::xml_node style_drop_cap_node = style_paragraph_properties_node.append_child ("style:drop-cap");
     style_drop_cap_node.append_attribute ("style:lines") = "2";
     style_drop_cap_node.append_attribute ("style:length") = length.c_str();
@@ -779,7 +779,7 @@ void odf_text::create_paragraph_style (string name,
     int tab_indent = static_cast<int> (firstlineindent);
     for (int i = 0; i < 10; i++) {
       pugi::xml_node style_tab_stop = style_tab_stops.append_child("style:tab-stop");
-      string tab_stop = filter::strings::convert_to_string(tab_indent) + "mm";
+      std::string tab_stop = filter::strings::convert_to_string(tab_indent) + "mm";
       style_tab_stop.append_attribute("style:position") = tab_stop.c_str();
       tab_indent++;
     }
@@ -804,15 +804,15 @@ void odf_text::update_current_paragraph_style (string name)
 // $embed: boolean: Whether nest $style in an existing character style.
 void odf_text::open_text_style (Database_Styles_Item style, bool note, bool embed)
 {
-  string marker = style.marker;
+  std::string marker = style.marker;
   if (find (created_styles.begin(), created_styles.end(), marker) == created_styles.end()) {
     int italic = style.italic;
     int bold = style.bold;
     int underline = style.underline;
     int smallcaps = style.smallcaps;
     int superscript = style.superscript;
-    string color = style.color;
-    string backgroundcolor = style.backgroundcolor;
+    std::string color = style.color;
+    std::string backgroundcolor = style.backgroundcolor;
     created_styles.push_back (marker);
 
     // The style entry looks like this in styles.xml, e.g., for italic:
@@ -949,7 +949,7 @@ void odf_text::place_text_in_frame (string text, string style, float fontsize, i
       style_paragraph_properties_dom_element.append_attribute ("style:justify-single-word") = "false";
   
       pugi::xml_node style_text_properties_dom_element = style_dom_element.append_child ("style:text-properties");
-      string sfontsize = filter::strings::convert_to_string (fontsize) + "pt";
+      std::string sfontsize = filter::strings::convert_to_string (fontsize) + "pt";
       style_text_properties_dom_element.append_attribute ("fo:font-size") = sfontsize.c_str();
       style_text_properties_dom_element.append_attribute ("style:font-size-asian") = sfontsize.c_str();
       style_text_properties_dom_element.append_attribute ("style:font-size-complex") = sfontsize.c_str();
@@ -1031,7 +1031,7 @@ void odf_text::add_note (string caller, string style, bool endnote)
   text_note_dom_element.append_attribute ("text:id") = filter::strings::convert_to_string ("ftn" + filter::strings::convert_to_string (m_note_count)).c_str();
   m_note_count++;
   m_note_text_p_opened = true;
-  string noteclass;
+  std::string noteclass;
   if (endnote) noteclass = "endnote";
   else noteclass = "footnote";
   text_note_dom_element.append_attribute ("text:note-class") = noteclass.c_str();
@@ -1155,20 +1155,20 @@ void odf_text::save (string name)
 {
   // Create the content.xml file.
   // No formatting because some white space is processed.
-  string content_xml_path = filter_url_create_path ({unpacked_odt_folder, "content.xml"});
+  std::string content_xml_path = filter_url_create_path ({unpacked_odt_folder, "content.xml"});
   stringstream content_xml;
   content_dom.print (content_xml, "", pugi::format_raw);
   filter_url_file_put_contents (content_xml_path, content_xml.str ());
 
   // Create the styles.xml file.
   // No formatting because some white space is processed.
-  string styles_xml_path = filter_url_create_path ({unpacked_odt_folder, "styles.xml"});
+  std::string styles_xml_path = filter_url_create_path ({unpacked_odt_folder, "styles.xml"});
   stringstream styles_xml;
   styles_dom.print (styles_xml, "", pugi::format_raw);
   filter_url_file_put_contents (styles_xml_path, styles_xml.str ());
 
   // Save the OpenDocument file.
-  string zippedfile = filter_archive_zip_folder (unpacked_odt_folder);
+  std::string zippedfile = filter_archive_zip_folder (unpacked_odt_folder);
   filter_url_file_put_contents (name, filter_url_file_get_contents (zippedfile));
   filter_url_unlink (zippedfile);
 }
@@ -1194,8 +1194,8 @@ void odf_text::add_image (string style, [[maybe_unused]] string alt, string src,
   int image_height_pixels {0};
   {
     Database_BibleImages database_bibleimages {};
-    string path = filter_url_create_root_path ({filter_url_temp_dir (), "image_contents"});
-    string contents = database_bibleimages.get(src);
+    std::string path = filter_url_create_root_path ({filter_url_temp_dir (), "image_contents"});
+    std::string contents = database_bibleimages.get(src);
     filter_url_file_put_contents(path, contents);
     filter_image_get_sizes (path, image_width_pixels, image_height_pixels);
   }

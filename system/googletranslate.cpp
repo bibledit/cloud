@@ -47,8 +47,8 @@ bool system_googletranslate_acl (Webserver_Request& webserver_request)
 string system_googletranslate (Webserver_Request& webserver_request)
 {
   std::string page {};
-  string success {};
-  string error {};
+  std::string success {};
+  std::string error {};
   
   // The header.
   Assets_Header header = Assets_Header (translate("Google Translate"), webserver_request);
@@ -90,8 +90,8 @@ string system_googletranslate (Webserver_Request& webserver_request)
   }
 
   // Do a translation.
-  string english_text { "Jesus the Christ the Messiah" };
-  string greek_text;
+  std::string english_text { "Jesus the Christ the Messiah" };
+  std::string greek_text;
   if (error.empty()) {
     auto [ trans_ok, translation, trans_err ] = filter::google::translate (english_text, "en", "el");
     if (!trans_ok) error.assign(trans_err);

@@ -28,8 +28,8 @@ using namespace std;
 
 TEST (nmt, logic)
 {
-  string reference_text;
-  string translating_text;
+  std::string reference_text;
+  std::string translating_text;
   std::vector <std::string> reference_bits, standard_reference_bits;
   std::vector <std::string> translating_bits, standard_translating_bits;
 

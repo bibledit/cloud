@@ -57,7 +57,7 @@ string manage_privileges (Webserver_Request& webserver_request)
 
   
   // Get the user and his/her level.
-  string user {webserver_request.query["user"]};
+  std::string user {webserver_request.query["user"]};
   if (user.empty()) user = webserver_request.post["val1"];
   view.set_variable ("user", user);
   int level {0};
@@ -69,7 +69,7 @@ string manage_privileges (Webserver_Request& webserver_request)
 
   
   bool privileges_updated {false};
-  string checkbox {webserver_request.post ["checkbox"]};
+  std::string checkbox {webserver_request.post ["checkbox"]};
   bool checked {filter::strings::convert_to_bool (webserver_request.post ["checked"])};
   bool state {false};
   

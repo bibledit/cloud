@@ -54,8 +54,8 @@ string notes_index (Webserver_Request& webserver_request)
   page = header.run();
   
   Assets_View view;
-  string error;
-  string success;
+  std::string error;
+  std::string success;
 
   // Presets for notes selectors.
   // This is for the daily statistics and the workspace.
@@ -69,7 +69,7 @@ string notes_index (Webserver_Request& webserver_request)
     webserver_request.database_config_user()->setConsultationNotesSubscriptionSelector (0);
     webserver_request.database_config_user()->setConsultationNotesSeveritySelector (-1);
     webserver_request.database_config_user()->setConsultationNotesTextSelector (0);
-    string preset_selector = webserver_request.query ["presetselection"];
+    std::string preset_selector = webserver_request.query ["presetselection"];
     if (preset_selector == "assigned") {
       webserver_request.database_config_user()->setConsultationNotesAssignmentSelector (webserver_request.session_logic()->currentUser ());
     }

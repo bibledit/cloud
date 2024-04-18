@@ -33,18 +33,18 @@ TEST (ldap, logic)
   refresh_sandbox (false);
   
   // Copy the default LDAP server configuration into place.
-  string ldap_txt = filter_url_create_root_path ({config::logic::config_folder (), "ldap.txt"});
-  string ldap_conf = filter_url_create_root_path ({config::logic::config_folder (), "ldap.conf"});
+  std::string ldap_txt = filter_url_create_root_path ({config::logic::config_folder (), "ldap.txt"});
+  std::string ldap_conf = filter_url_create_root_path ({config::logic::config_folder (), "ldap.conf"});
   filter_url_file_cp (ldap_txt, ldap_conf);
   // Initialize LDAP configuration.
   ldap_logic_initialize ();
   
   // Authenticate a user and check the results.
-  string user = "boyle";
-  string password = "password";
+  std::string user = "boyle";
+  std::string password = "password";
   bool okay;
   bool access;
-  string email;
+  std::string email;
   int role;
   okay = ldap_logic_fetch (user, password, access, email, role, false);
   EXPECT_EQ (true, okay);
@@ -53,7 +53,7 @@ TEST (ldap, logic)
   EXPECT_EQ (Filter_Roles::guest (), role);
   
   // Check there is one journal entry as a result of authenticating a user.
-  string last = "0";
+  std::string last = "0";
   std::vector <std::string> logs = Database_Logs::get (last);
   EXPECT_EQ (1, logs.size ());
   

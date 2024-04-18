@@ -58,13 +58,13 @@ string Database_Config_Bible::mapkey (string bible, const char * key)
 string Database_Config_Bible::getValue (string bible, const char * key, const char * default_value)
 {
   // Check the memory cache.
-  string cachekey = mapkey (bible, key);
+  std::string cachekey = mapkey (bible, key);
   if (database_config_bible_cache.count (cachekey)) {
     return database_config_bible_cache [cachekey];
   }
   // Get the setting from file.
-  string value;
-  string filename = file (bible, key);
+  std::string value;
+  std::string filename = file (bible, key);
   if (file_or_dir_exists (filename)) value = filter_url_file_get_contents (filename);
   else value = default_value;
   // Cache it.
@@ -80,8 +80,8 @@ void Database_Config_Bible::setValue (string bible, const char * key, string val
   // Store in memory cache.
   database_config_bible_cache [mapkey (bible, key)] = value;
   // Store on disk.
-  string filename = file (bible, key);
-  string dirname = filter_url_dirname (filename);
+  std::string filename = file (bible, key);
+  std::string dirname = filter_url_dirname (filename);
   if (!file_or_dir_exists (dirname)) filter_url_mkdir (dirname);
   filter_url_file_put_contents (filename, value);
 }
@@ -114,7 +114,7 @@ void Database_Config_Bible::setIValue (string bible, const char * key, int value
 void Database_Config_Bible::remove (string bible)
 {
   // Remove from disk.
-  string folder = file (bible);
+  std::string folder = file (bible);
   filter_url_rmdir (folder);
   // Clear cache.
   database_config_bible_cache.clear ();

@@ -50,7 +50,7 @@ TEST (filter, passage)
   // Encoding and decoding passages.
   {
     Passage input = Passage ("עברית", 1, 2, "3");
-    string encoded = input.encode ();
+    std::string encoded = input.encode ();
     Passage output = Passage::decode (encoded);
     EXPECT_EQ (true, input.equal (output));
     
@@ -318,7 +318,7 @@ TEST (filter, passage)
     Database_Bibles database_bibles;
     Database_State::create ();
     
-    string bible = "php unit";
+    std::string bible = "php unit";
     
     // No ordering.
     database_bibles.create_bible (bible);

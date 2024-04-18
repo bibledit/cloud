@@ -60,22 +60,22 @@ m_webserver_request (webserver_request)
 // subsequent_subject: The subject of the email to send upon user confirmation.
 // subsequent_body   : The body of the email to send upon user confirmation.
 void Confirm_Worker::setup (string mailto, string username,
-                            string initial_subject, string initial_body,
-                            string query,
-                            string subsequent_subject, string subsequent_body)
+                            std::string initial_subject, string initial_body,
+                            std::string query,
+                            std::string subsequent_subject, string subsequent_body)
 {
   Database_Confirm database_confirm;
   unsigned int confirmation_id = database_confirm.get_new_id ();
   pugi::xml_document document;
   pugi::xml_node node = document.append_child ("p");
-  string information;
+  std::string information;
   if (config::logic::default_bibledit_configuration ()) {
     information = translate ("Please confirm this request by clicking this following link:");
   }
   node.text ().set (information.c_str());
   node = document.append_child ("p");
-  string siteUrl = config::logic::site_url (m_webserver_request);
-  string confirmation_url = filter_url_build_http_query (siteUrl + session_confirm_url (), "id", to_string(confirmation_id));
+  std::string siteUrl = config::logic::site_url (m_webserver_request);
+  std::string confirmation_url = filter_url_build_http_query (siteUrl + session_confirm_url (), "id", to_string(confirmation_id));
   node.text ().set (confirmation_url.c_str());
   stringstream output;
   document.print (output, "", pugi::format_raw);
@@ -97,10 +97,10 @@ bool Confirm_Worker::handleEmail ([[maybe_unused]]string from, string subject, s
     return false;
   }
   // An active ID was found: Execute the associated database query.
-  string query = database_confirm.get_query (id);
+  std::string query = database_confirm.get_query (id);
   m_webserver_request.database_users()->execute (query);
   // Send confirmation mail.
-  string mailto = database_confirm.get_mail_to (id);
+  std::string mailto = database_confirm.get_mail_to (id);
   subject = database_confirm.get_subject (id);
   body = database_confirm.get_body (id);
   email_schedule (mailto, subject, body);
@@ -118,7 +118,7 @@ bool Confirm_Worker::handleEmail ([[maybe_unused]]string from, string subject, s
 bool Confirm_Worker::handleLink (string & email)
 {
   // Get the confirmation identifier from the link that was clicked.
-  string web_id = m_webserver_request.query["id"];
+  std::string web_id = m_webserver_request.query["id"];
   
   // If the identifier was not given, the link was not handled successfully.
   if (web_id.empty()) return false;
@@ -132,13 +132,13 @@ bool Confirm_Worker::handleLink (string & email)
   }
  
   // An active ID was found: Execute the associated database query.
-  string query = database_confirm.get_query (id);
+  std::string query = database_confirm.get_query (id);
   m_webserver_request.database_users()->execute (query);
 
   // Send confirmation mail.
-  string mailto = database_confirm.get_mail_to (id);
-  string subject = database_confirm.get_subject (id);
-  string body = database_confirm.get_body (id);
+  std::string mailto = database_confirm.get_mail_to (id);
+  std::string subject = database_confirm.get_subject (id);
+  std::string body = database_confirm.get_body (id);
   email_schedule (mailto, subject, body);
 
   // Delete the confirmation record.
@@ -163,9 +163,9 @@ void Confirm_Worker::informManagers (string email, string body)
   for (auto & user : users) {
     int level = database_users.get_level (user);
     if (level >= Filter_Roles::manager ()) {
-      string mailto = database_users.get_email (user);
-      string subject = translate ("User account change");
-      string newbody = translate ("A user account was changed.");
+      std::string mailto = database_users.get_email (user);
+      std::string subject = translate ("User account change");
+      std::string newbody = translate ("A user account was changed.");
       newbody.append (" ");
       newbody.append (translate ("Email address:"));
       newbody.append (" ");

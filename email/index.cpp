@@ -58,8 +58,8 @@ string email_index (Webserver_Request& webserver_request)
   // Site name and email.
   if (webserver_request.post ["email"] != "") {
     bool form_is_valid = true;
-    string sitename = webserver_request.post ["sitename"];
-    string sitemail = webserver_request.post ["sitemail"];
+    std::string sitename = webserver_request.post ["sitename"];
+    std::string sitemail = webserver_request.post ["sitemail"];
     if (sitemail.length () > 0) {
       if (!filter_url_email_is_valid (sitemail)) {
         form_is_valid = false;
@@ -77,18 +77,18 @@ string email_index (Webserver_Request& webserver_request)
 
   // Email retrieval.
   if (webserver_request.post ["retrieve"] != "") {
-    string storagehost = webserver_request.post ["storagehost"];
-    string storageusername = webserver_request.post ["storageusername"];
-    string storagepassword = webserver_request.post ["storagepassword"];
-    string storagesecurity = webserver_request.post ["storagesecurity"];
-    string storageport = webserver_request.post ["storageport"];
+    std::string storagehost = webserver_request.post ["storagehost"];
+    std::string storageusername = webserver_request.post ["storageusername"];
+    std::string storagepassword = webserver_request.post ["storagepassword"];
+    std::string storagesecurity = webserver_request.post ["storagesecurity"];
+    std::string storageport = webserver_request.post ["storageport"];
     Database_Config_General::setMailStorageHost (storagehost);
     Database_Config_General::setMailStorageUsername (storageusername);
     Database_Config_General::setMailStoragePassword (storagepassword);
     Database_Config_General::setMailStorageProtocol (storagesecurity);
     Database_Config_General::setMailStoragePort (storageport);
-    string storage_success = translate("The details were saved.");
-    string storage_error;
+    std::string storage_success = translate("The details were saved.");
+    std::string storage_error;
     int mailcount = email_receive_count (storage_error, true);
     if (storage_error.empty ()) {
       storage_success.append (" ");
@@ -110,20 +110,20 @@ string email_index (Webserver_Request& webserver_request)
   
   // Sending email.
   if (webserver_request.post ["send"] != "") {
-    string sendhost = webserver_request.post ["sendhost"];
-    string sendauthentication = webserver_request.post ["sendauthentication"];
-    string sendusername = webserver_request.post ["sendusername"];
-    string sendpassword = webserver_request.post ["sendpassword"];
-    string sendsecurity = webserver_request.post ["sendsecurity"];
-    string sendport  = webserver_request.post ["sendport"];
+    std::string sendhost = webserver_request.post ["sendhost"];
+    std::string sendauthentication = webserver_request.post ["sendauthentication"];
+    std::string sendusername = webserver_request.post ["sendusername"];
+    std::string sendpassword = webserver_request.post ["sendpassword"];
+    std::string sendsecurity = webserver_request.post ["sendsecurity"];
+    std::string sendport  = webserver_request.post ["sendport"];
     Database_Config_General::setMailSendHost (sendhost);
     Database_Config_General::setMailSendUsername (sendusername);
     Database_Config_General::setMailSendPassword (sendpassword);
     Database_Config_General::setMailSendPort (sendport);
-    string send_success  = translate("The details were saved.");
-    string send_error;
-    string send_debug;
-    string result = email_send (Database_Config_General::getSiteMailAddress(), Database_Config_General::getSiteMailName(), "Test", "This is to check sending email.", true);
+    std::string send_success  = translate("The details were saved.");
+    std::string send_error;
+    std::string send_debug;
+    std::string result = email_send (Database_Config_General::getSiteMailAddress(), Database_Config_General::getSiteMailName(), "Test", "This is to check sending email.", true);
     if (result.empty()) {
       send_success.append (" ");
       send_success.append ("For checking sending email, a test email was sent out to the account above:");

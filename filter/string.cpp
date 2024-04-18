@@ -624,7 +624,7 @@ std::string unicode_string_casefold (const std::string& s)
    // Case folding.
    source.foldCase ();
    // UTF-16 UnicodeString -> UTF-8 std::string
-   string result;
+   std::string result;
    source.toUTF8String (result);
    // Ready.
    return result;
@@ -664,7 +664,7 @@ std::string unicode_string_uppercase (const std::string& s)
    How to do the above through the ICU library.
    UnicodeString source = UnicodeString::fromUTF8 (StringPiece (s));
    source.toUpper ();
-   string result;
+   std::string result;
    source.toUTF8String (result);
    return result;
    */
@@ -704,7 +704,7 @@ std::string unicode_string_transliterate (const std::string& s)
    transliterator->transliterate(source);
    
    // UTF-16 UnicodeString -> UTF-8 std::string
-   string result;
+   std::string result;
    source.toUTF8String (result);
    
    // Done.

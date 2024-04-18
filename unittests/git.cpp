@@ -48,8 +48,8 @@ void test_filter_git_setup ([[maybe_unused]] Webserver_Request& webserver_reques
   Database_Git::create ();
   Database_Login::create ();
   
-  string repository = filter_git_directory (bible);
-  string newrepository = filter_git_directory (newbible);
+  std::string repository = filter_git_directory (bible);
+  std::string newrepository = filter_git_directory (newbible);
   
   filter_url_mkdir (repository);
   filter_url_mkdir (newrepository);
@@ -89,22 +89,22 @@ TEST (git, basic)
 {
 #ifdef HAVE_CLOUD
   
-  string bible = "localrepo";
-  string newbible = "newlocalrepo";
-  string repository = filter_git_directory (bible);
-  string newrepository = filter_git_directory (newbible);
-  string remoterepository = filter_git_directory ("remoterepo");
-  string clonedrepository = filter_git_directory ("clonedrepo");
+  std::string bible = "localrepo";
+  std::string newbible = "newlocalrepo";
+  std::string repository = filter_git_directory (bible);
+  std::string newrepository = filter_git_directory (newbible);
+  std::string remoterepository = filter_git_directory ("remoterepo");
+  std::string clonedrepository = filter_git_directory ("clonedrepo");
   Webserver_Request webserver_request;
   
-  string psalms_0_data =
+  std::string psalms_0_data =
   "\\id PSA\n"
   "\\h Izihlabelelo\n"
   "\\toc2 Izihlabelelo\n"
   "\\mt2 UGWALO\n"
   "\\mt LWEZIHLABELELO";
   
-  string psalms_11_data =
+  std::string psalms_11_data =
   "\\c 11\n"
   "\\s IN\\sc KOSI\\sc* iyisiphephelo sabaqotho\n"
   "\\d Kumqondisi wokuhlabelela. EsikaDavida\n"
@@ -118,7 +118,7 @@ TEST (git, basic)
   "\\v 6 Uzanisa phezu kwababi imijibila, umlilo, lesolufa*\\x + Jobe 18.15.\\x*, lomoya otshisayo\\x + Hlab. 119.53. Lilo 5.10.\\x*, kuzakuba yisabelo senkezo yabo\\x + Hlab. 75.8. Jobe 21.20. Hlab. 16.5.\\x*.\n"
   "\\v 7 Ngoba ilungile iN\\sc KOSI\\sc*, iyathanda ukulunga\\x + Hlab. 33.5. 45.7. Hlab. 37.28. 146.8.\\x*; ubuso bayo buyabona oqotho\\x + Hlab. 33.18. Hlab. 17.2.\\x*.";
   
-  string song_of_solomon_2_data =
+  std::string song_of_solomon_2_data =
   "\\c 2\n"
   "\\p\n"
   "\\v 1 Ngilirozi\\x + Isa. 35.1.\\x* leSharoni\\x + Josh. 12.18.\\x*, umduze wezigodi\\x + 2.16. 4.5. 5.13. 6.2,3. 7.2. 2 Lan. 4.5. Hos. 14.5. Hlab. 45.\\x*.\n"
@@ -182,7 +182,7 @@ TEST (git, basic)
     EXPECT_EQ (false, file_or_dir_exists (filter_url_create_path ({repository, "Psalms", "0", "data"})));
     EXPECT_EQ (true, file_or_dir_exists (filter_url_create_path ({repository, "Psalms", "1", "data"})));
     
-    string data = filter_url_file_get_contents (filter_url_create_path ({repository, "Psalms", "1", "data"}));
+    std::string data = filter_url_file_get_contents (filter_url_create_path ({repository, "Psalms", "1", "data"}));
     EXPECT_EQ (song_of_solomon_2_data, data);
     
     // Remove generated journal entries.
@@ -209,7 +209,7 @@ TEST (git, basic)
     EXPECT_EQ (true, file_or_dir_exists (filter_url_create_path ({repository, "Song of Solomon", "2", "data"})));
     EXPECT_EQ (true, file_or_dir_exists (filter_url_create_path ({repository, "Psalms", "11", "data"})));
     
-    string data = filter_url_file_get_contents (filter_url_create_path ({repository, "Song of Solomon", "2", "data"}));
+    std::string data = filter_url_file_get_contents (filter_url_create_path ({repository, "Song of Solomon", "2", "data"}));
     EXPECT_EQ (psalms_11_data, data);
     
     data = filter_url_file_get_contents (filter_url_create_path ({repository, "Psalms", "11", "data"}));
@@ -232,7 +232,7 @@ TEST (git, basic)
     std::vector <int> books = webserver_request.database_bibles()->get_books (bible);
     EXPECT_EQ ((vector <int>{19, 22}), books);
     // Check that the data matches.
-    string usfm = webserver_request.database_bibles()->get_chapter (bible, 19, 0);
+    std::string usfm = webserver_request.database_bibles()->get_chapter (bible, 19, 0);
     EXPECT_EQ (psalms_0_data, usfm);
     usfm = webserver_request.database_bibles()->get_chapter (bible, 19, 11);
     EXPECT_EQ (psalms_11_data, usfm);
@@ -256,7 +256,7 @@ TEST (git, basic)
     std::vector <int> books = webserver_request.database_bibles()->get_books (bible);
     EXPECT_EQ (vector <int>{19}, books);
     // Check that the data matches.
-    string usfm = webserver_request.database_bibles()->get_chapter (bible, 19, 0);
+    std::string usfm = webserver_request.database_bibles()->get_chapter (bible, 19, 0);
     EXPECT_EQ ("", usfm);
     usfm = webserver_request.database_bibles()->get_chapter (bible, 19, 11);
     EXPECT_EQ (psalms_11_data, usfm);
@@ -277,7 +277,7 @@ TEST (git, basic)
     filter_url_file_put_contents (repository + "/Psalms/11/data", "\\c 11");
     filter_url_file_put_contents (repository + "/Song of Solomon/2/data", "\\c 2");
     filter_git_sync_git_to_bible (webserver_request, repository, bible);
-    string usfm = webserver_request.database_bibles()->get_chapter (bible, 19, 0);
+    std::string usfm = webserver_request.database_bibles()->get_chapter (bible, 19, 0);
     EXPECT_EQ (psalms_0_data, usfm);
     usfm = webserver_request.database_bibles()->get_chapter (bible, 19, 11);
     EXPECT_EQ ("\\c 11", usfm);
@@ -293,7 +293,7 @@ TEST (git, basic)
     
     // The git repository has Psalm 0, Psalm 11, and Song of Solomon 2.
     // The Bible has been created, but has no data yet.
-    string usfm = webserver_request.database_bibles()->get_chapter (bible, 19, 0);
+    std::string usfm = webserver_request.database_bibles()->get_chapter (bible, 19, 0);
     EXPECT_EQ ("", usfm);
     usfm = webserver_request.database_bibles()->get_chapter (bible, 19, 11);
     EXPECT_EQ ("", usfm);
@@ -343,7 +343,7 @@ TEST (git, basic)
     EXPECT_EQ ((vector <int>{19, 22}), books);
     
     // Check that the chapter data matches.
-    string usfm = webserver_request.database_bibles()->get_chapter (bible, 19, 0);
+    std::string usfm = webserver_request.database_bibles()->get_chapter (bible, 19, 0);
     EXPECT_EQ ("", usfm);
     usfm = webserver_request.database_bibles()->get_chapter (bible, 19, 11);
     EXPECT_EQ (psalms_11_data, usfm);
@@ -371,7 +371,7 @@ TEST (git, basic)
     filter_git_sync_git_chapter_to_bible (repository, bible, 22, 2);
     
     // Check that the database is updated accordingly.
-    string usfm = webserver_request.database_bibles()->get_chapter (bible, 19, 0);
+    std::string usfm = webserver_request.database_bibles()->get_chapter (bible, 19, 0);
     EXPECT_EQ (psalms_0_data, usfm);
     usfm = webserver_request.database_bibles()->get_chapter (bible, 19, 11);
     EXPECT_EQ ("\\c 11", usfm);
@@ -387,8 +387,8 @@ TEST (git, basic)
     test_filter_git_setup (webserver_request, bible, newbible, psalms_0_data, psalms_11_data, song_of_solomon_2_data);
     filter_git_config_set_bool (repository, "foo.bar", false);
     filter_git_config_set_int (repository, "bar.baz", 11);
-    string path = filter_url_create_path ({repository, ".git", "config"});
-    string contents = filter_url_file_get_contents (path);
+    std::string path = filter_url_create_path ({repository, ".git", "config"});
+    std::string contents = filter_url_file_get_contents (path);
     EXPECT_EQ (true, contents.find ("[foo]") != std::string::npos);
     EXPECT_EQ (true, contents.find ("[bar]") != std::string::npos);
     EXPECT_EQ (true, contents.find ("bar = false") != std::string::npos);
@@ -399,9 +399,9 @@ TEST (git, basic)
   // Test of basic git operations in combination with a remote repository.
   {
     test_filter_git_setup (webserver_request, bible, newbible, psalms_0_data, psalms_11_data, song_of_solomon_2_data);
-    string error;
+    std::string error;
     bool success;
-    string remoteurl = "file://" + remoterepository;
+    std::string remoteurl = "file://" + remoterepository;
     std::vector <std::string> messages;
     
     // Create bare remote reository.
@@ -512,7 +512,7 @@ TEST (git, basic)
     }
 
     // Add the files to the index.
-    string error;
+    std::string error;
     std::vector <std::string> messages;
     filter_git_add_remove_all (repository, error);
     EXPECT_EQ ("", error);
@@ -575,14 +575,14 @@ TEST (git, basic)
   // Test git's internal conflict resolution.
   {
     refresh_sandbox (true);
-    string error;
+    std::string error;
     bool success;
     std::vector <std::string> messages;
     
     // Create remote repository.
     filter_url_mkdir (remoterepository);
     filter_git_init (remoterepository, true);
-    string remoteurl = "file://" + remoterepository;
+    std::string remoteurl = "file://" + remoterepository;
     
     // Clone the remote repository.
     success = filter_git_remote_clone (remoteurl, repository, 0, error);
@@ -615,7 +615,7 @@ TEST (git, basic)
 
     // Set the stage for a conflict that git itself cannot merge:
     // Change something in the new repository, push it to the remote.
-    string newcontents =
+    std::string newcontents =
     "\\id PSA\n"
     "\\h Izihlabelelo\n"
     "\\toc2 Izihlabelelo\n"
@@ -631,7 +631,7 @@ TEST (git, basic)
     success = filter_git_push (newrepository, messages, true);
     // Change something in the repository, and pull from remote:
     // Git fails to merge by itself.
-    string contents =
+    std::string contents =
     "\\id PSALM\n"
     "\\h Izihlabelelo\n"
     "\\toc2 Izihlabelelo\n"
@@ -658,7 +658,7 @@ TEST (git, basic)
     EXPECT_EQ (string(), error);
     EXPECT_EQ (true, success);
     // Check the merge result.
-    string standard =
+    std::string standard =
     "\\id PSALM\n"
     "\\h Izihlabelelo\n"
     "\\toc2 Izihlabelelo\n"
@@ -673,14 +673,14 @@ TEST (git, basic)
 
   {
     refresh_sandbox (true);
-    string error;
+    std::string error;
     bool success;
     std::vector <std::string> messages;
     
     // Create remote repository.
     filter_url_mkdir (remoterepository);
     filter_git_init (remoterepository, true);
-    string remoteurl = "file://" + remoterepository;
+    std::string remoteurl = "file://" + remoterepository;
     
     // Clone the remote repository.
     success = filter_git_remote_clone (remoteurl, repository, 0, error);
@@ -717,7 +717,7 @@ TEST (git, basic)
     
     // Set the stage for a conflict that git itself can merge:
     // Change something in the new repository, push it to the remote.
-    string newcontents =
+    std::string newcontents =
     "Line 1 one one\n"
     "Line two two two\n"
     "Line three three three\n";
@@ -731,7 +731,7 @@ TEST (git, basic)
     success = filter_git_push (newrepository, messages, true);
     // Change something in the repository, and pull from remote:
     // Git fails to merge by itself.
-    string contents =
+    std::string contents =
     "Line one one 1 one\n"
     "Line two 2 two 2 two\n"
     "Line three 3 three 3 three\n";
@@ -755,7 +755,7 @@ TEST (git, basic)
 
     // Verify the resolved contents on correctness.
     contents = filter_url_file_get_contents (filter_url_create_path ({repository, "Psalms", "0", "data"}));
-    string standard =
+    std::string standard =
     "Line 1 one 1 one\n"
     "Line two 2 two 2 two\n"
     "Line three 3 three 3 three";
@@ -786,7 +786,7 @@ TEST (git, basic)
   {
     refresh_sandbox (true);
     
-    string error;
+    std::string error;
     bool success;
     std::vector <std::string> messages;
     
@@ -800,10 +800,10 @@ TEST (git, basic)
     EXPECT_EQ (true, success);
     
     int psalms = 19;
-    string user1 = "user1";
-    string user2 = "user2";
-    string oldusfm1, newusfm1;
-    string out_err;
+    std::string user1 = "user1";
+    std::string user2 = "user2";
+    std::string oldusfm1, newusfm1;
+    std::string out_err;
     
     // Create records of user saving data.
     oldusfm1 = "Psalm 11\n";
@@ -833,7 +833,7 @@ TEST (git, basic)
   {
     refresh_sandbox (true);
     
-    string error;
+    std::string error;
     bool success;
     std::vector <std::string> messages;
     
@@ -846,10 +846,10 @@ TEST (git, basic)
     EXPECT_EQ (true, success);
     
     int psalms = 19;
-    string user1 = "user1";
-    string user2 = "user2";
-    string oldusfm1, newusfm1;
-    string out_err;
+    std::string user1 = "user1";
+    std::string user2 = "user2";
+    std::string oldusfm1, newusfm1;
+    std::string out_err;
     
     // Create records of two users saving data.
     oldusfm1 = "Psalm 11\n";
@@ -887,8 +887,8 @@ TEST (database, git)
   // Create the database.
   Database_Git::create ();
   
-  string user = "user";
-  string bible = "bible";
+  std::string user = "user";
+  std::string bible = "bible";
   
   // Store one chapter, and check there's one rowid as a result.
   Database_Git::store_chapter (user, bible, 1, 2, "old", "new");
@@ -905,9 +905,9 @@ TEST (database, git)
   Database_Git::store_chapter (user, bible, 4, 7, "old4", "new7");
   
   // Retrieve and check a certain rowid whether it has the correct values.
-  string user2, bible2;
+  std::string user2, bible2;
   int book, chapter;
-  string oldusfm, newusfm;
+  std::string oldusfm, newusfm;
   bool get = Database_Git::get_chapter (1, user2, bible2, book, chapter, oldusfm, newusfm);
   EXPECT_EQ (true, get);
   EXPECT_EQ (user, user2);

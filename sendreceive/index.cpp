@@ -74,7 +74,7 @@ string sendreceive_index (Webserver_Request& webserver_request)
     if (config_globals_syncing_files)     bits.push_back (translate ("Files"));
     if (config_globals_syncing_resources) bits.push_back (translate ("Resources"));
     if (bits.empty ()) return "";
-    string status = translate ("Sending and receiving:") + " " + filter::strings::implode (bits, ", ") + " ...";
+    std::string status = translate ("Sending and receiving:") + " " + filter::strings::implode (bits, ", ") + " ...";
     return status;
   }
   
@@ -86,7 +86,7 @@ string sendreceive_index (Webserver_Request& webserver_request)
   Assets_View view;
   
   
-  string bible;
+  std::string bible;
   if (webserver_request.query.count ("bible")) {
     bible = webserver_request.query["bible"];
     if (bible.empty()) {
@@ -110,7 +110,7 @@ string sendreceive_index (Webserver_Request& webserver_request)
   view.set_variable ("bible", bible);
 
 
-  string starting_to_sync;
+  std::string starting_to_sync;
   if (Database_Config_Bible::getReadFromGit (bible)) {
     starting_to_sync = translate ("Starting to send and receive now.");
   } else {
@@ -124,7 +124,7 @@ string sendreceive_index (Webserver_Request& webserver_request)
   }
   
   
-  string checkbox = webserver_request.post ["checkbox"];
+  std::string checkbox = webserver_request.post ["checkbox"];
   bool checked = filter::strings::convert_to_bool (webserver_request.post ["checked"]);
   if (checkbox == "repeatbible") {
     Database_Config_Bible::setRepeatSendReceive (bible, checked);
@@ -135,7 +135,7 @@ string sendreceive_index (Webserver_Request& webserver_request)
     
   if (sendreceive_git_repository_linked (bible)) {
     view.enable_zone ("collab_on");
-    string url = Database_Config_Bible::getRemoteRepositoryUrl (bible);
+    std::string url = Database_Config_Bible::getRemoteRepositoryUrl (bible);
     view.set_variable ("url", filter_url_remove_username_password (url));
   } else {
     view.enable_zone ("collab_off");
@@ -194,7 +194,7 @@ string sendreceive_index (Webserver_Request& webserver_request)
   int repeatsync = Database_Config_General::getRepeatSendReceive ();
   // After removing value 3, if the setting had "3", make it "2".
   if (repeatsync > 2) repeatsync = 2;
-  string repeatsynczone = "repeatsync" + filter::strings::convert_to_string (repeatsync);
+  std::string repeatsynczone = "repeatsync" + filter::strings::convert_to_string (repeatsync);
   view.enable_zone (repeatsynczone);
   
   

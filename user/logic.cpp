@@ -41,7 +41,7 @@ void user_logic_optional_ldap_authentication (Webserver_Request& webserver_reque
   if (ldap_logic_is_on ()) {
     // Query the LDAP server and log the response.
     bool ldap_okay;
-    string email;
+    std::string email;
     int role;
     ldap_logic_fetch (user, pass, ldap_okay, email, role, true);
     if (ldap_okay) {
@@ -99,7 +99,7 @@ void user_logic_login_failure_clear ()
 void user_logic_store_account_creation (string username)
 {
   std::vector <std::string> account_creation_times = Database_Config_General::getAccountCreationTimes ();
-  string account_creation_time = filter::strings::convert_to_string(filter::date::seconds_since_epoch()) + "|" + username;
+  std::string account_creation_time = filter::strings::convert_to_string(filter::date::seconds_since_epoch()) + "|" + username;
   account_creation_times.push_back(account_creation_time);
   Database_Config_General::setAccountCreationTimes(account_creation_times);
 }

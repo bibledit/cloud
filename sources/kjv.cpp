@@ -67,14 +67,14 @@ void sources_kjv_parse_loop (pugi::xml_node element,
                              int & book, int & chapter, int & verse,
                              bool & within_verse, string & lemma)
 {
-  string element_name = element.name ();
+  std::string element_name = element.name ();
   if (element_name == "verse") {
-    string sID = element.attribute ("sID").value ();
+    std::string sID = element.attribute ("sID").value ();
     if (!sID.empty ()) {
       verse++;
       within_verse = true;
     }
-    string eID = element.attribute ("eID").value ();
+    std::string eID = element.attribute ("eID").value ();
     if (!eID.empty ()) {
       within_verse = false;
     }
@@ -88,52 +88,52 @@ void sources_kjv_parse_loop (pugi::xml_node element,
     }
   } else if (element_name.empty ()) {
     if (within_verse) {
-      string english = element.value ();
+      std::string english = element.value ();
       sources_kjv_store (book, chapter, verse, lemma, english);
     }
   } else if (element_name == "note") {
     pugi::xml_node textnode = element.first_child ();
-    string english = textnode.text ().get ();
+    std::string english = textnode.text ().get ();
     english.insert (0, " [");
     english.append ("]");
     sources_kjv_store (book, chapter, verse, "", english);
   } else if (element_name == "milestone") {
   } else if (element_name == "transChange") {
     pugi::xml_node textnode = element.first_child ();
-    string english = textnode.text ().get ();
+    std::string english = textnode.text ().get ();
     english.insert (0, "<span style=\"font-style:italic;\">");
     english.append ("</span>");
     sources_kjv_store (book, chapter, verse, "", english);
   } else if (element_name == "inscription") {
     for (pugi::xml_node child : element.children ()) {
-      string tmp_lemma;
+      std::string tmp_lemma;
       sources_kjv_parse_loop (child, book, chapter, verse, within_verse, tmp_lemma);
     }
   } else if (element_name == "q") {
     for (pugi::xml_node child : element.children ()) {
-      string tmp_lemma;
+      std::string tmp_lemma;
       sources_kjv_parse_loop (child, book, chapter, verse, within_verse, tmp_lemma);
     }
   } else if (element_name == "divineName") {
     for (pugi::xml_node child : element.children ()) {
-      string tmp_lemma;
+      std::string tmp_lemma;
       sources_kjv_parse_loop (child, book, chapter, verse, within_verse, tmp_lemma);
     }
   } else if (element_name == "title") {
     for (pugi::xml_node child : element.children ()) {
-      string tmp_lemma;
+      std::string tmp_lemma;
       sources_kjv_parse_loop (child, book, chapter, verse, within_verse, tmp_lemma);
     }
   } else if (element_name == "foreign") {
     for (pugi::xml_node child : element.children ()) {
-      string tmp_lemma;
+      std::string tmp_lemma;
       sources_kjv_parse_loop (child, book, chapter, verse, within_verse, tmp_lemma);
     }
   } else {
     if (within_verse) {
       pugi::xml_node textnode = element.first_child ();
-      string english = textnode.text ().get ();
-      string location = filter_passage_display (book, chapter, filter::strings::convert_to_string (verse));
+      std::string english = textnode.text ().get ();
+      std::string location = filter_passage_display (book, chapter, filter::strings::convert_to_string (verse));
       Database_Logs::log (location + ": Failed to parse element " + element_name + " with value " + english);
     }
   }
@@ -167,7 +167,7 @@ void sources_kjv_parse ()
               verse = 0;
               within_verse = false;
               for (pugi::xml_node element : chapter_element.children ()) {
-                string lemma;
+                std::string lemma;
                 sources_kjv_parse_loop (element, book, chapter, verse, within_verse, lemma);
               }
             }

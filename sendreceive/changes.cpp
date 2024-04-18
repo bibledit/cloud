@@ -93,7 +93,7 @@ void sendreceive_changes ()
   }
   
   
-  string response = client_logic_connection_setup ("", "");
+  std::string response = client_logic_connection_setup ("", "");
   int iresponse = filter::strings::convert_to_int (response);
   if (iresponse < Filter_Roles::guest () || iresponse > Filter_Roles::admin ()) {
     Database_Logs::log (sendreceive_changes_text () + translate("Failure to initiate connection"), Filter_Roles::translator ());
@@ -109,9 +109,9 @@ void sendreceive_changes ()
     send_receive_changes_done ();
     return;
   }
-  string user = users [0];
+  std::string user = users [0];
   webserver_request.session_logic ()->set_username (user);
-  string password = webserver_request.database_users ()->get_md5 (user);
+  std::string password = webserver_request.database_users ()->get_md5 (user);
   
   
   // The basic request to be POSTed to the server.
@@ -123,14 +123,14 @@ void sendreceive_changes ()
   
   
   // Error variables.
-  string error;
+  std::string error;
   bool communication_errors = false;
   
   
   // Server URL to call.
-  string address = Database_Config_General::getServerAddress ();
+  std::string address = Database_Config_General::getServerAddress ();
   int port = Database_Config_General::getServerPort ();
-  string url = client_logic_url (address, port, sync_changes_url ());
+  std::string url = client_logic_url (address, port, sync_changes_url ());
   
   
   // Send the removed change notifications to the server.
@@ -160,12 +160,12 @@ void sendreceive_changes ()
   // Compare the total checksum for the change notifications for the active user on client and server.
   // Checksum is cached for future re-use.
   // Take actions based on that.
-  string client_checksum = webserver_request.database_config_user ()->getChangeNotificationsChecksum ();
+  std::string client_checksum = webserver_request.database_config_user ()->getChangeNotificationsChecksum ();
   if (client_checksum.empty ()) {
     client_checksum = Sync_Logic::changes_checksum (user);
     webserver_request.database_config_user ()->setChangeNotificationsChecksum (client_checksum);
   }
-  string server_checksum;
+  std::string server_checksum;
   post ["a"] = filter::strings::convert_to_string (Sync_Logic::changes_get_checksum);
   response = sync_logic.post (post, url, error);
   if (!error.empty ()) {
@@ -183,7 +183,7 @@ void sendreceive_changes ()
   
   // Get all identifiers for the notifications on the server for the user.
   // Get the identifiers on the client.
-  string any_bible = "";
+  std::string any_bible = "";
   std::vector <int> client_identifiers = database_modifications.getNotificationIdentifiers (user, any_bible);
   std::vector <int> server_identifiers;
   post ["a"] = filter::strings::convert_to_string (Sync_Logic::changes_get_identifiers);
@@ -222,12 +222,12 @@ void sendreceive_changes ()
     else {
       // The server has put all bits together, one bit per line.
       std::vector <std::string> lines = filter::strings::explode (response, '\n');
-      string category;
+      std::string category;
       if (!lines.empty ()) {
         category = lines [0];
         lines.erase (lines.begin ());
       }
-      string bible;
+      std::string bible;
       if (!lines.empty ()) {
         bible = lines [0];
         lines.erase (lines.begin ());
@@ -247,17 +247,17 @@ void sendreceive_changes ()
         verse = filter::strings::convert_to_int (lines [0]);
         lines.erase (lines.begin ());
       }
-      string oldtext;
+      std::string oldtext;
       if (!lines.empty ()) {
         oldtext = lines [0];
         lines.erase (lines.begin ());
       }
-      string modification;
+      std::string modification;
       if (!lines.empty ()) {
         modification = lines [0];
         lines.erase (lines.begin ());
       }
-      string newtext;
+      std::string newtext;
       if (!lines.empty ()) {
         newtext = lines [0];
         lines.erase (lines.begin ());

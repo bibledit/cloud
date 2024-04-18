@@ -157,7 +157,7 @@ int Filter_Css::writingModeValue (string mode)
 // The function solves that.
 string Filter_Css::getClass (string bible)
 {
-  string classs = md5 (bible);
+  std::string classs = md5 (bible);
   classs = classs.substr (0, 6);
   classs = "custom" + classs;
   return classs;
@@ -195,7 +195,7 @@ string Filter_Css::get_css (string class_, string font, int directionvalue, int 
   int direction = directionvalue % 10;
   
   if (direction > 0) {
-    string line = "direction: ";
+    std::string line = "direction: ";
     if (direction == 2) line += rtl ();
     else line += ltr ();
     line += ";";
@@ -206,7 +206,7 @@ string Filter_Css::get_css (string class_, string font, int directionvalue, int 
   mode = mode % 10;
   
   if (mode > 0) {
-    string line = "writing-mode: ";
+    std::string line = "writing-mode: ";
     switch (mode) {
       case 1: line += tb_lr (); break;
       case 2: line += tb_rl (); break;
@@ -219,13 +219,13 @@ string Filter_Css::get_css (string class_, string font, int directionvalue, int 
   }
   
   if (lineheight != 100) {
-    string line = "line-height: " + filter::strings::convert_to_string (lineheight) + "%;";
+    std::string line = "line-height: " + filter::strings::convert_to_string (lineheight) + "%;";
     css.push_back (line);
   }
   
   if (letterspacing != 0) {
     float value = static_cast <float> (letterspacing / 10);
-    string line = "letter-spacing: " + filter::strings::convert_to_string (value) + "px;";
+    std::string line = "letter-spacing: " + filter::strings::convert_to_string (value) + "px;";
     css.push_back (line);
   }
   
@@ -266,7 +266,7 @@ string Filter_Css::distinction_set_dark (int itemstyleindex)
 
 string Filter_Css::distinction_set_redblue_light (int itemstyleindex)
 {
-  string standard_light = distinction_set_light (itemstyleindex);
+  std::string standard_light = distinction_set_light (itemstyleindex);
   if (itemstyleindex == 1) {
     return standard_light = "redblue-menu-tabs";
   } else {
@@ -277,7 +277,7 @@ string Filter_Css::distinction_set_redblue_light (int itemstyleindex)
 
 string Filter_Css::distinction_set_redblue_dark (int itemstyleindex)
 {
-  string standard_dark = distinction_set_dark (itemstyleindex);
+  std::string standard_dark = distinction_set_dark (itemstyleindex);
   if (itemstyleindex == 1) {
     return standard_dark = "redblue-menu-tabs";
   } else {

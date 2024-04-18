@@ -32,7 +32,7 @@ TEST (database, privileges)
   // Test creation, automatic repair of damages.
   refresh_sandbox (false);
   DatabasePrivileges::create ();
-  string path = database_sqlite_file (DatabasePrivileges::database ());
+  std::string path = database_sqlite_file (DatabasePrivileges::database ());
   filter_url_file_put_contents (path, "damaged database");
   EXPECT_EQ (false, DatabasePrivileges::healthy ());
   DatabasePrivileges::optimize ();
@@ -44,8 +44,8 @@ TEST (database, privileges)
   // Upgrade routine should not give errors.
   DatabasePrivileges::upgrade ();
   
-  string username = "phpunit";
-  string bible = "bible";
+  std::string username = "phpunit";
+  std::string bible = "bible";
   
   // Initially there's no privileges for a Bible book.
   {
@@ -214,7 +214,7 @@ TEST (database, privileges)
     DatabasePrivileges::set_bible_book (username, bible, 1, true);
     DatabasePrivileges::set_feature (username, 1234, true);
     // Check the transfer text file.
-    string privileges =
+    std::string privileges =
     "bibles_start\n"
     "bible\n"
     "1\n"
@@ -225,7 +225,7 @@ TEST (database, privileges)
     "features_start";
     EXPECT_EQ (privileges, DatabasePrivileges::save (username));
     // Transfer the privileges to another user.
-    string clientuser = username + "client";
+    std::string clientuser = username + "client";
     DatabasePrivileges::load (clientuser, privileges);
     // Check the privileges for that other user.
     auto [read, write] = DatabasePrivileges::get_bible (clientuser, bible);

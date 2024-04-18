@@ -57,7 +57,7 @@ string Database_ImageResources::databaseFile ()
 
 sqlite3 * Database_ImageResources::connect (string name)
 {
-  string path = filter_url_create_path ({resourceFolder (name), databaseFile ()});
+  std::string path = filter_url_create_path ({resourceFolder (name), databaseFile ()});
   return database_sqlite_connect (path);
 }
 
@@ -71,13 +71,13 @@ vector <std::string> Database_ImageResources::names ()
 void Database_ImageResources::create (string name)
 {
   // Create folder to store the images.
-  string path = resourceFolder (name);
+  std::string path = resourceFolder (name);
   filter_url_unlink (path);
   filter_url_mkdir (path);
 
   // Create the passages database.
   sqlite3 * db = connect (name);
-  string sql =
+  std::string sql =
   "CREATE TABLE IF NOT EXISTS passages ("
   " start integer,"
   " end integer,"
@@ -90,7 +90,7 @@ void Database_ImageResources::create (string name)
 
 void Database_ImageResources::erase (string name)
 {
-  string path = resourceFolder (name);
+  std::string path = resourceFolder (name);
   // If a folder: Delete it.
   filter_url_rmdir (path);
   // If a file: Delete it.
@@ -116,9 +116,9 @@ void Database_ImageResources::erase (string name, string image)
 // Moves $file (path to an image file) into the database.
 string Database_ImageResources::store (string name, string file)
 {
-  string folder = resourceFolder (name);
-  string image = filter_url_basename (file);
-  string path;
+  std::string folder = resourceFolder (name);
+  std::string image = filter_url_basename (file);
+  std::string path;
   bool exists = false;
   do {
     path = filter_url_create_path ({folder, image});
@@ -240,6 +240,6 @@ void Database_ImageResources::get (string name, string image,
 
 string Database_ImageResources::get (string name, string image)
 {
-  string path = imagePath (name, image);
+  std::string path = imagePath (name, image);
   return filter_url_file_get_contents (path);
 }

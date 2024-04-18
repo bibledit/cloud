@@ -38,7 +38,7 @@ void Editor_Html2Usfm::load (string html)
   // but the pugixml XML parser needs <hr/> and similar elements.
   html = filter::strings::html2xml (html);
 
-  string xml = "<body>" + html + "</body>";
+  std::string xml = "<body>" + html + "</body>";
   // Parse document such that all whitespace is put in the DOM tree.
   // See http://pugixml.org/docs/manual.html for more information.
   // It is not enough to only parse with parse_ws_pcdata_single, it really needs parse_ws_pcdata.
@@ -99,7 +99,7 @@ void Editor_Html2Usfm::process ()
     // Do not process the notes <div> or <p> and beyond
     // because it is at the end of the text body,
     // and note-related data has already been extracted from it.
-    string classs = update_quill_class (node.attribute ("class").value ());
+    std::string classs = update_quill_class (node.attribute ("class").value ());
     if (classs == "notes") break;
     // Process the node.
     processNode (node);
@@ -110,7 +110,7 @@ void Editor_Html2Usfm::process ()
 string Editor_Html2Usfm::get ()
 {
   // Generate the USFM as one string.
-  string usfm = filter::strings::implode (output, "\n");
+  std::string usfm = filter::strings::implode (output, "\n");
   
   usfm = cleanUSFM (usfm);
   
@@ -125,7 +125,7 @@ void Editor_Html2Usfm::processNode (pugi::xml_node node)
     {
       // Skip a note with class "ql-cursor" because that is an internal Quill node.
       // The user didn't insert it.
-      string classs = node.attribute("class").value();
+      std::string classs = node.attribute("class").value();
       if (classs == "ql-cursor") break;
       // Process this node.
       openElementNode (node);
@@ -138,7 +138,7 @@ void Editor_Html2Usfm::processNode (pugi::xml_node node)
     case pugi::node_pcdata:
     {
       // Add the text to the current USFM line.
-      string text = node.text ().get ();
+      std::string text = node.text ().get ();
       currentLine += text;
       break;
     }
@@ -151,7 +151,7 @@ void Editor_Html2Usfm::processNode (pugi::xml_node node)
     case pugi::node_cdata:
     default:
     {
-      string nodename = node.name ();
+      std::string nodename = node.name ();
       Database_Logs::log ("XML node " + nodename + " not handled while saving editor text");
       break;
     }
@@ -162,8 +162,8 @@ void Editor_Html2Usfm::processNode (pugi::xml_node node)
 void Editor_Html2Usfm::openElementNode (pugi::xml_node node)
 {
   // The tag and class names of this element node.
-  string tagName = node.name ();
-  string className = update_quill_class (node.attribute ("class").value ());
+  std::string tagName = node.name ();
+  std::string className = update_quill_class (node.attribute ("class").value ());
   
   if (tagName == "p")
   {
@@ -207,8 +207,8 @@ void Editor_Html2Usfm::openElementNode (pugi::xml_node node)
 void Editor_Html2Usfm::closeElementNode (pugi::xml_node node)
 {
   // The tag and class names of this element node.
-  string tagName = node.name ();
-  string className = update_quill_class (node.attribute ("class").value ());
+  std::string tagName = node.name ();
+  std::string className = update_quill_class (node.attribute ("class").value ());
   
   if (tagName == "p")
   {
@@ -268,7 +268,7 @@ void Editor_Html2Usfm::openInline (string className)
   std::vector <std::string> classes = filter::strings::explode (className, separator);
   for (unsigned int offset = 0; offset < classes.size(); offset++) {
     bool embedded = (characterStyles.size () + offset) > 0;
-    string marker = classes[offset];
+    std::string marker = classes[offset];
     bool add_opener = true;
     if (processingNote) {
       // If the style within the note has already been opened before,
@@ -304,7 +304,7 @@ void Editor_Html2Usfm::processNoteCitation (pugi::xml_node node)
 
   // Get more information about the note to retrieve.
   // <span class="i-notecall1" />
-  string id = node.attribute ("class").value ();
+  std::string id = node.attribute ("class").value ();
   id = filter::strings::replace ("call", "body", id);
 
   // Sample footnote body.
@@ -324,7 +324,7 @@ void Editor_Html2Usfm::processNoteCitation (pugi::xml_node node)
     // <p class="x"><span> </span><span>+ 2 Joh. 1.1</span></p>
     {
       pugi::xml_node node2 = note_p_element.first_child();
-      string name = node2.name ();
+      std::string name = node2.name ();
       if (name != "span") {
         // Normally the <span> is the first child in the <p> that is a note.
         // But the user may have typed some text there.
@@ -362,7 +362,7 @@ string Editor_Html2Usfm::cleanUSFM (string usfm)
 {
   // Replace a double space after a note opener.
   for (string noteOpener : noteOpeners) {
-    string opener = filter::usfm::get_opening_usfm (noteOpener);
+    std::string opener = filter::usfm::get_opening_usfm (noteOpener);
     usfm = filter::strings::replace (opener + " ", opener, usfm);
   }
   
@@ -435,7 +435,7 @@ pugi::xml_node Editor_Html2Usfm::get_note_pointer (pugi::xml_node body, string i
   bool within_matching_p_node = false;
   for (pugi::xml_node p_body_child : body.children ()) {
     pugi::xml_node span_notebody = p_body_child.first_child();
-    string name = span_notebody.name ();
+    std::string name = span_notebody.name ();
     if (name != "span") {
       // Normally the <span> is the first child in the <p> that is a note.
       // But the user may have typed some text there.
@@ -445,7 +445,7 @@ pugi::xml_node Editor_Html2Usfm::get_note_pointer (pugi::xml_node body, string i
       name = span_notebody.name();
     }
     if (name == "span") {
-      string classs = span_notebody.attribute ("class").value ();
+      std::string classs = span_notebody.attribute ("class").value ();
       if (classs.substr (0, 10) == id.substr(0, 10)) {
         if (classs == id) {
           within_matching_p_node = true;
@@ -486,7 +486,7 @@ string editor_export_verse_quill (string stylesheet, string html)
 {
   // When the $html starts with a paragraph without a style,
   // put a recognizable style there.
-  string style = "oneversestyle";
+  std::string style = "oneversestyle";
   size_t pos = html.find ("<p>");
   if (pos == 0) {
     html.insert (2, R"( class=")" + quill_logic_class_prefix_block () + style + R"(")");
@@ -497,7 +497,7 @@ string editor_export_verse_quill (string stylesheet, string html)
   editor_export.load (html);
   editor_export.stylesheet (stylesheet);
   editor_export.run ();
-  string usfm = editor_export.get ();
+  std::string usfm = editor_export.get ();
   
   // Remove that recognizable style converted to USFM.
   usfm = filter::strings::replace (R"(\)" + style, std::string(), usfm);

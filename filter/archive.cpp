@@ -50,18 +50,18 @@ string filter_archive_zip_folder (string folder)
 string filter_archive_zip_folder_shell_internal (string folder)
 {
   if (!file_or_dir_exists (folder)) return std::string();
-  string zippedfile = filter_url_tempfile () + ".zip";
+  std::string zippedfile = filter_url_tempfile () + ".zip";
 #ifdef HAVE_CLOUD
-  string logfile = filter_url_tempfile () + ".log";
+  std::string logfile = filter_url_tempfile () + ".log";
   folder = filter_url_escape_shell_argument (folder);
-  string command = "cd " + folder + " && zip -r " + zippedfile + " * > " + logfile + " 2>&1";
+  std::string command = "cd " + folder + " && zip -r " + zippedfile + " * > " + logfile + " 2>&1";
   int return_var;
   // Run the command.
   return_var = system (command.c_str());
   if (return_var != 0) {
     filter_url_unlink (zippedfile);
     zippedfile.clear();
-    string errors = filter_url_file_get_contents (logfile);
+    std::string errors = filter_url_file_get_contents (logfile);
     Database_Logs::log (errors);
   }
 #endif
@@ -76,12 +76,12 @@ string filter_archive_zip_folder_miniz_internal (string folder)
   if (!file_or_dir_exists (folder)) {
     return "";
   }
-  string zippedfile = filter_url_tempfile () + ".zip";
+  std::string zippedfile = filter_url_tempfile () + ".zip";
   std::vector <std::string> paths;
   filter_url_recursive_scandir (folder, paths);
   for (auto path : paths) {
     bool is_dir = filter_url_is_dir (path);
-    string file = path.substr (folder.size () + 1);
+    std::string file = path.substr (folder.size () + 1);
 #ifdef HAVE_WINDOWS
     // The file names in Windows will be backslashes (\) at this point.
     // But the mzip library, in its current configuration, works with forward slashes (/).
@@ -93,7 +93,7 @@ string filter_archive_zip_folder_miniz_internal (string folder)
       file.append ("/");
       status = mz_zip_add_mem_to_archive_file_in_place(zippedfile.c_str(), file.c_str(), nullptr, 0, "", 0, MZ_DEFAULT_LEVEL);
     } else {
-      string contents = filter_url_file_get_contents (path);
+      std::string contents = filter_url_file_get_contents (path);
       status = mz_zip_add_mem_to_archive_file_in_place (zippedfile.c_str(), file.c_str(), contents.c_str(), contents.size(), "", 0, MZ_DEFAULT_LEVEL);
     }
     if (!status) {
@@ -122,19 +122,19 @@ string filter_archive_unzip (string file)
 // Returns the path to the folder it created.
 string filter_archive_unzip_shell_internal ([[maybe_unused]] string file)
 {
-  string folder = filter_url_tempfile ();
+  std::string folder = filter_url_tempfile ();
 #ifdef HAVE_CLOUD
   filter_url_mkdir (folder);
   folder.append (DIRECTORY_SEPARATOR);
-  string logfile = filter_url_tempfile () + ".log";
+  std::string logfile = filter_url_tempfile () + ".log";
   file = filter_url_escape_shell_argument (file);
-  string command = "unzip -o -d " + folder + " " + file + " > " + logfile + " 2>&1";
+  std::string command = "unzip -o -d " + folder + " " + file + " > " + logfile + " 2>&1";
   // Run the command.
   int return_var = system (command.c_str());
   if (return_var != 0) {
     filter_url_rmdir (folder);
     folder.clear();
-    string errors = filter_url_file_get_contents (logfile);
+    std::string errors = filter_url_file_get_contents (logfile);
     Database_Logs::log (errors);
   } else {
     // Set free permissions after unzipping.
@@ -151,7 +151,7 @@ string filter_archive_unzip_shell_internal ([[maybe_unused]] string file)
 string filter_archive_unzip_miniz_internal (string zipfile)
 {
   // Directory where to unzip the archive.
-  string folder = filter_url_tempfile ();
+  std::string folder = filter_url_tempfile ();
   filter_url_mkdir (folder);
 
   // Covers the entire process.
@@ -176,10 +176,10 @@ string filter_archive_unzip_miniz_internal (string zipfile)
       status = mz_zip_reader_file_stat (&zip_archive, i, &file_stat);
       if (status) {
 
-        string filename = filter_url_create_path ({folder, file_stat.m_filename});
+        std::string filename = filter_url_create_path ({folder, file_stat.m_filename});
         // The miniz library returns Unix directory separators above.
         // So in case of Windows, convert them to Windows ones.
-        string fixed_filename = filter_url_update_directory_separator_if_windows (filename);
+        std::string fixed_filename = filter_url_update_directory_separator_if_windows (filename);
         
         if (mz_zip_reader_is_file_a_directory (&zip_archive, i)) {
           // Create this directory.
@@ -192,7 +192,7 @@ string filter_archive_unzip_miniz_internal (string zipfile)
           if (buff) {
             status = mz_zip_reader_extract_to_mem (&zip_archive, i, buff, filesize, 0);
             if (status) {
-              string contents (static_cast<const char*>(buff), filesize);
+              std::string contents (static_cast<const char*>(buff), filesize);
             } else {
               // "mz_zip_reader_extract_to_mem failure for " + filename + " in " + zipfile;
               error = true;
@@ -205,7 +205,7 @@ string filter_archive_unzip_miniz_internal (string zipfile)
            */
           
           // Ensure this file's folder exists.
-          string dirname = filter_url_dirname (fixed_filename);
+          std::string dirname = filter_url_dirname (fixed_filename);
           if (!file_or_dir_exists (dirname)) filter_url_mkdir (dirname);
           // Extract this file.
           status = mz_zip_reader_extract_to_file (&zip_archive, i, fixed_filename.c_str(), 0);
@@ -241,11 +241,11 @@ string filter_archive_unzip_miniz_internal (string zipfile)
 // Returns the path to the compressed archive it created.
 string filter_archive_tar_gzip_file (string filename)
 {
-  string tarball = filter_url_tempfile () + ".tar.gz";
-  string dirname = filter_url_escape_shell_argument (filter_url_dirname (filename));
-  string basename = filter_url_escape_shell_argument (filter_url_basename (filename));
-  string logfile = filter_url_tempfile () + ".log";
-  string command = "cd " + dirname + " && tar -czf " + tarball + " " + basename + " > " + logfile + " 2>&1";
+  std::string tarball = filter_url_tempfile () + ".tar.gz";
+  std::string dirname = filter_url_escape_shell_argument (filter_url_dirname (filename));
+  std::string basename = filter_url_escape_shell_argument (filter_url_basename (filename));
+  std::string logfile = filter_url_tempfile () + ".log";
+  std::string command = "cd " + dirname + " && tar -czf " + tarball + " " + basename + " > " + logfile + " 2>&1";
   int return_var;
 #ifdef HAVE_IOS
   // Crashes on iOS.
@@ -257,7 +257,7 @@ string filter_archive_tar_gzip_file (string filename)
   if (return_var != 0) {
     filter_url_unlink (tarball);
     tarball.clear();
-    string errors = filter_url_file_get_contents (logfile);
+    std::string errors = filter_url_file_get_contents (logfile);
     Database_Logs::log (errors);
   }
   return tarball;
@@ -268,10 +268,10 @@ string filter_archive_tar_gzip_file (string filename)
 // Returns the path to the compressed archive it created.
 string filter_archive_tar_gzip_folder (string folder)
 {
-  string tarball = filter_url_tempfile () + ".tar.gz";
+  std::string tarball = filter_url_tempfile () + ".tar.gz";
   folder = filter_url_escape_shell_argument (folder);
-  string logfile = filter_url_tempfile () + ".log";
-  string command = "cd " + folder + " && tar -czf " + tarball + " . > " + logfile + " 2>&1";
+  std::string logfile = filter_url_tempfile () + ".log";
+  std::string command = "cd " + folder + " && tar -czf " + tarball + " . > " + logfile + " 2>&1";
   int return_var;
 #ifdef HAVE_IOS
   // Crashes on iOS.
@@ -283,7 +283,7 @@ string filter_archive_tar_gzip_folder (string folder)
   if (return_var != 0) {
     filter_url_unlink (tarball);
     tarball.clear();
-    string errors = filter_url_file_get_contents (logfile);
+    std::string errors = filter_url_file_get_contents (logfile);
     Database_Logs::log (errors);
   }
   return tarball;
@@ -295,11 +295,11 @@ string filter_archive_tar_gzip_folder (string folder)
 string filter_archive_untar_gzip (string file)
 {
   file = filter_url_escape_shell_argument (file);
-  string folder = filter_url_tempfile ();
+  std::string folder = filter_url_tempfile ();
   filter_url_mkdir (folder);
   folder.append (DIRECTORY_SEPARATOR);
-  string logfile = filter_url_tempfile () + ".log";
-  string command = "cd " + folder + " && tar zxf " + file + " > " + logfile + " 2>&1";
+  std::string logfile = filter_url_tempfile () + ".log";
+  std::string command = "cd " + folder + " && tar zxf " + file + " > " + logfile + " 2>&1";
   int return_var;
 #ifdef HAVE_IOS
   // Crashes on iOS.
@@ -311,7 +311,7 @@ string filter_archive_untar_gzip (string file)
   if (return_var != 0) {
     filter_url_rmdir (folder);
     folder.clear();
-    string errors = filter_url_file_get_contents (logfile);
+    std::string errors = filter_url_file_get_contents (logfile);
     Database_Logs::log (errors);
   }
   return folder;
@@ -344,7 +344,7 @@ int filter_archive_is_archive (string file)
   // iso9660 CD images (.iso)
   // Lha archives (.lzh)
   // Single files compressed with gzip (.gz), bzip (.bz), bzip2 (.bz2), compress (.Z), lzop (.lzo) and lzma (.lzma)
-  string suffix = filter_url_get_extension (file);
+  std::string suffix = filter_url_get_extension (file);
   if ((suffix == "tar.gz") || (suffix == "gz") || (suffix == "tgz")) {
     return 1;
   }
@@ -371,11 +371,11 @@ string filter_archive_microtar_pack (string tarpath, string directory, std::vect
   // Iterate over the files.
   for (auto file : files) {
     // Full path.
-    string path = filter_url_create_path ({directory, file});
+    std::string path = filter_url_create_path ({directory, file});
     // Skip directories.
     if (filter_url_is_dir (path)) continue;
     // Read the file's data.
-    string data = filter_url_file_get_contents (path);
+    std::string data = filter_url_file_get_contents (path);
     // Write the file's name to the tarball.
     res = mtar_write_file_header(&tar, file.c_str(), static_cast<unsigned> (data.length ()));
     if (res != MTAR_ESUCCESS) return mtar_strerror (res);
@@ -427,10 +427,10 @@ string filter_archive_microtar_unpack (string tarball, string directory)
     char *p = static_cast<char *> (calloc(1, h.size + 1));
     res = mtar_read_data(&tar, p, h.size);
     if (res != MTAR_ESUCCESS) return mtar_strerror (res);
-    string data (p, h.size);
+    std::string data (p, h.size);
     free(p);
     // If the file contains a directory, ensure that directory exists.
-    string dirname = filter_url_dirname (file);
+    std::string dirname = filter_url_dirname (file);
     if (dirname != ".") {
       dirname = filter_url_create_path ({directory, dirname});
       if (!file_or_dir_exists (dirname)) filter_url_mkdir (dirname);

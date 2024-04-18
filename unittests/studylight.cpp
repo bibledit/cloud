@@ -29,9 +29,9 @@ using namespace std;
 
 TEST (studylight, logic)
 {
-  string resource {};
+  std::string resource {};
   int book {};
-  string text {};
+  std::string text {};
 
   resource = "Albert Barnes' Notes on the Whole Bible (studylight-eng/bnb)";
 

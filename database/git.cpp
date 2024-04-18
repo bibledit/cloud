@@ -79,7 +79,7 @@ void Database_Git::optimize ()
 
 
 void Database_Git::store_chapter (string user, string bible, int book, int chapter,
-                                  string oldusfm, string newusfm)
+                                  std::string oldusfm, string newusfm)
 {
   SqliteDatabase sql = SqliteDatabase (name ());
   sql.add ("INSERT INTO changes VALUES (");
@@ -132,8 +132,8 @@ vector <int> Database_Git::get_rowids (string user, string bible)
 
 
 bool Database_Git::get_chapter (int rowid,
-                                string & user, string & bible, int & book, int & chapter,
-                                string & oldusfm, string & newusfm)
+                                std::string & user, string & bible, int & book, int & chapter,
+                                std::string & oldusfm, string & newusfm)
 {
   SqliteDatabase sql = SqliteDatabase (name ());
   sql.add ("SELECT * FROM changes WHERE rowid =");

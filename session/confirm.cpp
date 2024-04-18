@@ -39,9 +39,9 @@ using namespace std;
 class Verification
 {
 public:
-  string question;
-  string answer;
-  string passage;
+  std::string question;
+  std::string answer;
+  std::string passage;
 };
 
 
@@ -68,7 +68,7 @@ string session_confirm ([[maybe_unused]] Webserver_Request& webserver_request)
 #ifdef HAVE_CLOUD
 
   Confirm_Worker confirm_worker = (webserver_request);
-  string email;
+  std::string email;
   bool is_valid_confirmation = confirm_worker.handleLink (email);
 
   // Handle a valid confirmation.
@@ -79,7 +79,7 @@ string session_confirm ([[maybe_unused]] Webserver_Request& webserver_request)
       // Log the login.
       Database_Logs::log (webserver_request.session_logic()->currentUser () + " confirmed account and logged in");
       // Store web site's base URL.
-      string siteUrl = get_base_url (webserver_request);
+      std::string siteUrl = get_base_url (webserver_request);
       Database_Config_General::setSiteURL (siteUrl);
       // Store account creation time.
       user_logic_store_account_creation (webserver_request.session_logic()->currentUser ());

@@ -41,9 +41,9 @@ void tasks_logic_queue (string command, std::vector <std::string> parameters)
   lines.push_back (command);
   lines.insert (lines.end(), parameters.begin(), parameters.end());
   // The filename to write to contains seconds and microseconds.
-  string seconds = filter::strings::convert_to_string (filter::date::seconds_since_epoch ());
-  string time = seconds + filter::strings::fill (filter::strings::convert_to_string (filter::date::numerical_microseconds ()), 8, '0');
-  string file = filter_url_create_path ({tasks_logic_folder (), time});
+  std::string seconds = filter::strings::convert_to_string (filter::date::seconds_since_epoch ());
+  std::string time = seconds + filter::strings::fill (filter::strings::convert_to_string (filter::date::numerical_microseconds ()), 8, '0');
+  std::string file = filter_url_create_path ({tasks_logic_folder (), time});
   // On Windows the microtime is not fine enough.
   // This leads to one task overwriting a previous one in case it is queued immediately after.
   // Deal with that problem here: Ensure the filename is unique.
@@ -67,7 +67,7 @@ bool tasks_logic_queued (string command, std::vector <std::string> parameters)
   std::vector <std::string> files = filter_url_scandir (tasks_logic_folder ());
   for (auto & file : files) {
     // Read the task's contents.
-    string contents = filter_url_file_get_contents (filter_url_create_path ({tasks_logic_folder (), file}));
+    std::string contents = filter_url_file_get_contents (filter_url_create_path ({tasks_logic_folder (), file}));
     std::vector <std::string> lines = filter::strings::explode (contents, '\n');
     if (lines.empty ()) return false;
     // Look for a match.

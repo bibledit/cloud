@@ -100,10 +100,10 @@ string filter_merge_words2lines (string data)
 string filter_merge_lines2graphemes (string data)
 {
   data = filter::strings::replace ("\n", " new__line ", data);
-  string data2;
+  std::string data2;
   size_t count = filter::strings::unicode_string_length (data);
   for (size_t i = 0; i < count; i++) {
-    string grapheme = filter::strings::unicode_string_substr (data, i, 1);
+    std::string grapheme = filter::strings::unicode_string_substr (data, i, 1);
     data2.append (grapheme);
     data2.append ("\n");
   }
@@ -120,9 +120,9 @@ string filter_merge_graphemes2lines (string data)
 
 
 void filter_merge_detect_conflict (string base,
-                                   string change,
-                                   string prioritized_change,
-                                   string result,
+                                   std::string change,
+                                   std::string prioritized_change,
+                                   std::string result,
                                    std::vector <Merge_Conflict> & conflicts)
 {
   // Clean input.
@@ -132,7 +132,7 @@ void filter_merge_detect_conflict (string base,
   result = filter::strings::trim (result);
 
   bool irregularity = false;
-  string subject;
+  std::string subject;
   
   if (!irregularity) {
     if (base.empty ()) {
@@ -206,44 +206,44 @@ string filter_merge_run (string base, string change, string prioritized_change,
   std::vector <std::string> serverlines = filter::strings::explode (prioritized_change, '\n');
   std::vector <std::string> results = filter_merge_merge (baselines, userlines, serverlines);
   if (!results.empty ()) {
-    string result = filter::strings::implode (results, "\n");
+    std::string result = filter::strings::implode (results, "\n");
     filter_merge_detect_conflict (base, change, prioritized_change, result, conflicts);
     return result;
   }
 
   // Convert the data to one word per line, and try to merge again.
-  string baseWords = filter_merge_lines2words (base);
-  string userWords = filter_merge_lines2words (change);
-  string serverWords = filter_merge_lines2words (prioritized_change);
+  std::string baseWords = filter_merge_lines2words (base);
+  std::string userWords = filter_merge_lines2words (change);
+  std::string serverWords = filter_merge_lines2words (prioritized_change);
   baselines = filter::strings::explode (baseWords, '\n');
   userlines = filter::strings::explode (userWords, '\n');
   serverlines = filter::strings::explode (serverWords, '\n');
   results = filter_merge_merge (baselines, userlines, serverlines);
   if (!results.empty ()) {
-    string mergedWords = filter::strings::implode (results, "\n");
-    string result = filter_merge_words2lines (mergedWords);
+    std::string mergedWords = filter::strings::implode (results, "\n");
+    std::string result = filter_merge_words2lines (mergedWords);
     filter_merge_detect_conflict (base, change, prioritized_change, result, conflicts);
     return result;
   }
 
   // Convert the data so it has one grapheme per line, and try again.
-  string baseGraphemes = filter_merge_lines2graphemes (base);
-  string userGraphemes = filter_merge_lines2graphemes (change);
-  string serverGraphemes = filter_merge_lines2graphemes (prioritized_change);
+  std::string baseGraphemes = filter_merge_lines2graphemes (base);
+  std::string userGraphemes = filter_merge_lines2graphemes (change);
+  std::string serverGraphemes = filter_merge_lines2graphemes (prioritized_change);
   baselines = filter::strings::explode (baseGraphemes, '\n');
   userlines = filter::strings::explode (userGraphemes, '\n');
   serverlines = filter::strings::explode (serverGraphemes, '\n');
   results = filter_merge_merge (baselines, userlines, serverlines);
   if (!results.empty ()) {
-    string mergedGraphemes = filter::strings::implode (results, "\n");
-    string result = filter_merge_graphemes2lines (mergedGraphemes);
+    std::string mergedGraphemes = filter::strings::implode (results, "\n");
+    std::string result = filter_merge_graphemes2lines (mergedGraphemes);
     filter_merge_detect_conflict (base, change, prioritized_change, result, conflicts);
     return result;
   }
 
   if (clever) {
     // It failed to merge: Call a more clever routine to do the merge.
-    string result = filter_merge_run_clever (base, change, prioritized_change, conflicts);
+    std::string result = filter_merge_run_clever (base, change, prioritized_change, conflicts);
     // Check on merge failure.
     filter_merge_detect_conflict (base, change, prioritized_change, result, conflicts);
     // Done.
@@ -271,15 +271,15 @@ string filter_merge_run_clever (string base, string change, string prioritized_c
   
   std::vector <std::string> results;
   
-  string previous_change;
+  std::string previous_change;
 
   // Go through the verses.
   for (auto verse : verses) {
     
     // Gets the texts to merge for this verse.
-    string base_text = filter::usfm::get_verse_text (base, verse);
-    string change_text = filter::usfm::get_verse_text (change, verse);
-    string prioritized_change_text = filter::usfm::get_verse_text (prioritized_change, verse);
+    std::string base_text = filter::usfm::get_verse_text (base, verse);
+    std::string change_text = filter::usfm::get_verse_text (change, verse);
+    std::string prioritized_change_text = filter::usfm::get_verse_text (prioritized_change, verse);
     
     // Check for combined verses.
     if (change_text == previous_change) continue;
@@ -302,7 +302,7 @@ string filter_merge_run_clever (string base, string change, string prioritized_c
     }
     
     // Run the merge, but clear the "clever" flags else it may enter an infinite loop.
-    string result = filter_merge_run (base_text, change_text, prioritized_change_text, false, conflicts);
+    std::string result = filter_merge_run (base_text, change_text, prioritized_change_text, false, conflicts);
 
     // Store it.
     results.push_back (result);

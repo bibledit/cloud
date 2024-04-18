@@ -35,7 +35,7 @@ TEST (editor, usfm2html)
 
   // Test text length for one verse.
   {
-    string usfm =
+    std::string usfm =
     "\\c 2\n"
     "\\p\n"
     "\\v 1 Kwasekuqediswa amazulu lomhlaba lalo lonke ibutho lakho\\x + Dute. 4.19. Hlab. 33.6.\\x*.\n";
@@ -50,7 +50,7 @@ TEST (editor, usfm2html)
 
   // Test text length for several verses.
   {
-    string usfm =
+    std::string usfm =
     "\\c 2\n"
     "\\p\n"
     "\\v 1 Kwasekuqediswa amazulu lomhlaba lalo lonke ibutho lakho\\x + Dute. 4.19. Hlab. 33.6.\\x*.\n"
@@ -81,7 +81,7 @@ TEST (editor, usfm2html)
 
   // Space after starting marker
   {
-    string usfm =
+    std::string usfm =
     "\\c 1\n"
     "\\p\n"
     "\\v 2 Text \\add of the \\add*1st\\add  second verse\\add*.\n";
@@ -90,15 +90,15 @@ TEST (editor, usfm2html)
     editor_usfm2html.load (usfm);
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
     editor_usfm2html.run ();
-    string html = editor_usfm2html.get ();
-    string standard =
+    std::string html = editor_usfm2html.get ();
+    std::string standard =
     R"(<p class="b-c"><span>1</span></p><p class="b-p"><span class="i-v">2</span><span> </span><span>Text </span><span class="i-add">of the </span><span>1st</span><span class="i-add"> second verse</span><span>.</span></p>)";
     EXPECT_EQ (standard, html);
   }
 
   // Apostrophy etc.
   {
-    string usfm =
+    std::string usfm =
     "\\c 1\n"
     "\\p\n"
     "\\v 1 Judha muranda waJesu Kristu, uye munin'ina waJakobho ...\n";
@@ -107,15 +107,15 @@ TEST (editor, usfm2html)
     editor_usfm2html.load (usfm);
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
     editor_usfm2html.run ();
-    string html = editor_usfm2html.get ();
-    string standard =
+    std::string html = editor_usfm2html.get ();
+    std::string standard =
     R"(<p class="b-c"><span>1</span></p><p class="b-p"><span class="i-v">1</span><span> </span><span>Judha muranda waJesu Kristu, uye munin'ina waJakobho ...</span></p>)";
     EXPECT_EQ (standard, html);
   }
 
   // Most recent paragraph style.
   {
-    string usfm =
+    std::string usfm =
     "\\c 2\n"
     "\\p\n"
     "\\v 1 One\n"
@@ -133,7 +133,7 @@ TEST (editor, usfm2html)
 
   // Most recent paragraph style and length 0.
   {
-    string usfm =
+    std::string usfm =
     "\\c 2\n"
     "\\p\n"
     "\\v 1 One\n"
@@ -152,7 +152,7 @@ TEST (editor, usfm2html)
 
   // Convert styles for Quill-based editor.
   {
-    string usfm =
+    std::string usfm =
     "\\c 1\n"
     "\\p\n"
     "\\v 2 Text \\add of the \\add*1st \\add second verse\\add*.\n";
@@ -161,8 +161,8 @@ TEST (editor, usfm2html)
     editor_usfm2html.load (usfm);
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
     editor_usfm2html.run ();
-    string html = editor_usfm2html.get ();
-    string standard =
+    std::string html = editor_usfm2html.get ();
+    std::string standard =
     R"(<p class="b-c"><span>1</span></p>)"
     R"(<p class="b-p"><span class="i-v">2</span><span> </span><span>Text </span><span class="i-add">of the </span><span>1st </span><span class="i-add">second verse</span><span>.</span></p>)";
     EXPECT_EQ (standard, html);

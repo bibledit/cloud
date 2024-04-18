@@ -31,11 +31,11 @@ using namespace std;
 
 TEST (checks, usfm)
 {
-  const string bible = "bible";
+  const std::string bible = "bible";
   
   // Test check on malformed verse.
   {
-    string usfm =
+    std::string usfm =
     "\\c 1\n"
     "\\p\n"
     "\\v 2,He said.\n";
@@ -52,7 +52,7 @@ TEST (checks, usfm)
 
   // Test check on new line in USFM as properly formatted.
   {
-    string usfm =
+    std::string usfm =
     "\\c 1\n"
     "\\p He said.\n"
     "\\v 1 He said.\n"
@@ -69,7 +69,7 @@ TEST (checks, usfm)
 
   // Test check on new line in USFM.
   {
-    string usfm =
+    std::string usfm =
     "\\c 1\n"
     "\\p He said.\n"
     "\\v 1 He said.\n"
@@ -89,7 +89,7 @@ TEST (checks, usfm)
 
   // Test check on new line in USFM.
   {
-    string usfm =
+    std::string usfm =
     "\\c 1\n"
     "\\p He said.\n"
     "\\v 1 He said.\n"
@@ -109,7 +109,7 @@ TEST (checks, usfm)
   
   // Test check on unknown USFM.
   {
-    string usfm =
+    std::string usfm =
     "\\c 1\n"
     "\\p He said to the \\+nd LORD\\+nd*.\n"
     "\\v 1 He said \\add something\\add*.\n"
@@ -128,7 +128,7 @@ TEST (checks, usfm)
 
   // Test check on unknown USFM.
   {
-    string usfm =
+    std::string usfm =
     "\\c 1\n"
     "\\pHe said.\n"
     "\\v 1 He said \\add something\\add*.\n"
@@ -147,7 +147,7 @@ TEST (checks, usfm)
 
   // Test check on \id.
   {
-    string usfm =
+    std::string usfm =
     "\\id GENN\n"
     "\\p He said.\n"
     "\\v 1 He said.\n";
@@ -164,7 +164,7 @@ TEST (checks, usfm)
 
   // Test check on \id.
   {
-    string usfm =
+    std::string usfm =
     "\\id\n"
     "\\p He said.\n"
     "\\v 1 He said.\n";
@@ -181,7 +181,7 @@ TEST (checks, usfm)
 
   // Test check on \id.
   {
-    string usfm =
+    std::string usfm =
     "\\id Gen\n"
     "\\p He said.\n"
     "\\v 1 He said.\n";
@@ -198,7 +198,7 @@ TEST (checks, usfm)
 
   // Test check on forward slash.
   {
-    string usfm =
+    std::string usfm =
     "\\id GEN\n"
     "\\p He said.\n"
     "\\v 1 He said. He said something/add*.\n";
@@ -215,7 +215,7 @@ TEST (checks, usfm)
 
   // Test check on forward slash.
   {
-    string usfm =
+    std::string usfm =
     "\\id GEN\n"
     "\\p He said.\n"
     "\\v 1 /v He said.\n";
@@ -232,7 +232,7 @@ TEST (checks, usfm)
 
   // Test that checking clean USFM has no output.
   {
-    string usfm =
+    std::string usfm =
     "\\id GEN\n"
     "\\c 35\n"
     "\\s UNkulunkulu ubusisa uJakobe eBhetheli\n"
@@ -285,7 +285,7 @@ TEST (checks, usfm)
 
   // Test check on a widow backslash.
   {
-    string usfm =
+    std::string usfm =
     "\\id GEN\n"
     "\\p\n"
     "\\v 1 \\ He said.\n";
@@ -302,7 +302,7 @@ TEST (checks, usfm)
 
   // Test check on matching markers.
   {
-    string usfm =
+    std::string usfm =
     "\\id GEN\n"
     "\\v 1  He said \\add addition\\add*.\n";
     Checks_Usfm check = Checks_Usfm (bible);
@@ -316,7 +316,7 @@ TEST (checks, usfm)
 
   // Test check on matching markers.
   {
-    string usfm =
+    std::string usfm =
     "\\id GEN\n"
     "\\v 1  He said addition\\add*.\n";
     Checks_Usfm check = Checks_Usfm (bible);
@@ -332,7 +332,7 @@ TEST (checks, usfm)
 
   // Test check on matching markers.
   {
-    string usfm =
+    std::string usfm =
     "\\id GEN\n"
     "\\v 1  He said \\add addition\\add .\n";
     Checks_Usfm check = Checks_Usfm (bible);
@@ -349,7 +349,7 @@ TEST (checks, usfm)
 
   // Test check on matching markers.
   {
-    string usfm =
+    std::string usfm =
     "\\id GEN\n"
     "\\v 8 Kodwa uNowa wazuza umusa emehlweni eN\\nd kosi\\x + 19.19.\\nd*\\x*.\n"
     "\\v 9 Kodwa uNowa wazuza umusa emehlweni eN\\nd kosi\\x + 19.19.\\x*\\nd*.\n";
@@ -364,7 +364,7 @@ TEST (checks, usfm)
 
   // Test check on matching markers.
   {
-    string usfm =
+    std::string usfm =
     "\\id GEN\n"
     "\\v 8 Kodwa uNowa wazuza umusa \\add emehlweni eN\\nd kosi\\x + 19.19.\\nd*\\x*.\n";
     Checks_Usfm check = Checks_Usfm (bible);
@@ -382,7 +382,7 @@ TEST (checks, usfm)
 
   // Check on correct \toc[1-3] markers.
   {
-    string usfm =
+    std::string usfm =
     "\\id GEN\n"
     "\\toc1 The book of Genesis\n"
     "\\toc2 Genesis\n"
@@ -397,7 +397,7 @@ TEST (checks, usfm)
 
   // The \toc[1-3] markers are the wrong chapter.
   {
-    string usfm =
+    std::string usfm =
     "\\id GEN\n"
     "\\toc1 The book of Genesis\n"
     "\\toc2 Genesis\n"
@@ -418,7 +418,7 @@ TEST (checks, usfm)
 
   // Lacks \toc# markers.
   {
-    string usfm =
+    std::string usfm =
     "\\id GEN\n";
     Checks_Usfm check ("");
     check.initialize (3, 0);
@@ -435,14 +435,14 @@ TEST (checks, usfm)
   
   // Test converting line number to verse number.
   {
-    string usfm =
+    std::string usfm =
     "\\id MIC";
     EXPECT_EQ (vector <int>{0}, filter::usfm::linenumber_to_versenumber (usfm, 0));
   }
   
   // Test converting line number to verse number.
   {
-    string usfm =
+    std::string usfm =
     "\\id MIC\n"
     "\\v 1 Verse";
     EXPECT_EQ (vector <int>{1}, filter::usfm::linenumber_to_versenumber (usfm, 1));
@@ -450,14 +450,14 @@ TEST (checks, usfm)
   
   // Test converting line number to verse number.
   {
-    string usfm =
+    std::string usfm =
     "\\v 1 Verse";
     EXPECT_EQ (vector <int>{1}, filter::usfm::linenumber_to_versenumber (usfm, 0));
   }
   
   // Test converting line number to verse number.
   {
-    string usfm =
+    std::string usfm =
     "\\p\n"
     "\\v 3 Verse 3 (out of order).\n"
     "\\v 1 Verse 1. \n"
@@ -470,7 +470,7 @@ TEST (checks, usfm)
   
   // Test converting line number to verse number.
   {
-    string usfm =
+    std::string usfm =
     "\\id MIC\n"
     "\\v 1-2 Verse";
     EXPECT_EQ ((vector <int>{1, 2}), filter::usfm::linenumber_to_versenumber (usfm, 1));
@@ -478,7 +478,7 @@ TEST (checks, usfm)
   
   // Test converting offset to verse number.
   {
-    string usfm = "\\id MIC";
+    std::string usfm = "\\id MIC";
     EXPECT_EQ (vector <int>{0}, filter::usfm::offset_to_versenumber (usfm, 0));
     EXPECT_EQ (vector <int>{0}, filter::usfm::offset_to_versenumber (usfm, 7));
     EXPECT_EQ (vector <int>{0}, filter::usfm::offset_to_versenumber (usfm, 17));
@@ -486,7 +486,7 @@ TEST (checks, usfm)
   
   // Test converting offset to verse number.
   {
-    string usfm =
+    std::string usfm =
     "\\id MIC\n"
     "\\v 1 Verse";
     EXPECT_EQ (vector <int>{0}, filter::usfm::offset_to_versenumber (usfm, 7));
@@ -495,7 +495,7 @@ TEST (checks, usfm)
   
   // Test converting offset to verse number.
   {
-    string usfm =
+    std::string usfm =
     "\\id MIC\n"
     "\\v 1-3 Verse";
     EXPECT_EQ (vector <int>{0}, filter::usfm::offset_to_versenumber (usfm, 7));
@@ -504,7 +504,7 @@ TEST (checks, usfm)
   
   // Test converting offset to verse number.
   {
-    string usfm =
+    std::string usfm =
     "\\v 1 Verse";
     EXPECT_EQ (vector <int>{1}, filter::usfm::offset_to_versenumber (usfm, 0));
     EXPECT_EQ (vector <int>{1}, filter::usfm::offset_to_versenumber (usfm, 2));
@@ -512,7 +512,7 @@ TEST (checks, usfm)
   
   // Test converting offset to verse number.
   {
-    string usfm =
+    std::string usfm =
     "\\p\n"
     "\\v 3 Verse 3 (out of order).\n"
     "\\v 1 Verse 1.\n"
@@ -536,7 +536,7 @@ TEST (checks, usfm)
   
   // Test converting verse number to offset.
   {
-    string usfm =
+    std::string usfm =
     "\\p\n"
     "\\v 1 Verse 1.\n"
     "\\v 2 Verse 2.\n"
@@ -553,7 +553,7 @@ TEST (checks, usfm)
 
   // Testing getting USFM for verse, basic and for Quill-based verse editor.
   {
-    string usfm =
+    std::string usfm =
     "\\p\n"
     "\\v 1 One";
     EXPECT_EQ ("\\p", filter::usfm::get_verse_text (usfm, 0));
@@ -566,7 +566,7 @@ TEST (checks, usfm)
   
   // Testing getting USFM for verse, basic and Quill.
   {
-    string usfm =
+    std::string usfm =
     "\\c 1\n"
     "\\s Isibingelelo\n"
     "\\p\n"
@@ -593,7 +593,7 @@ TEST (checks, usfm)
     "\\v 14 kodwa\n"
     "\\p Ukuthula";
     
-    string result =
+    std::string result =
     "\\c 1\n"
     "\\s Isibingelelo\n"
     "\\p";
@@ -668,12 +668,12 @@ TEST (checks, usfm)
  
   // Test getting the verse text from USFM.
   {
-    string usfm =
+    std::string usfm =
     "\\v 1 Verse 1.\n"
     "\\v 2-4 Verse 2, 3, and 4.\n"
     "\\v 5 Verse 5.\n"
     "\\v 6 Verse 6.";
-    string result;
+    std::string result;
     
     result = filter::usfm::get_verse_text (usfm, 2);
     EXPECT_EQ ("\\v 2-4 Verse 2, 3, and 4.", result);
@@ -693,7 +693,7 @@ TEST (checks, usfm)
   
   // Testing USFM extraction for Quill-based visual verse editor with more than one empty paragraph in sequence.
   {
-    string usfm =
+    std::string usfm =
     "\\c 1\n"
     "\\b\n"
     "\\p\n"
@@ -704,7 +704,7 @@ TEST (checks, usfm)
     "\\v 3 Three\n"
     "\\v 4 Four\n"
     "";
-    string result;
+    std::string result;
     
     result =
     "\\c 1\n"
@@ -766,7 +766,7 @@ TEST (checks, usfm)
   
   // Testing USFM extraction for Quill-based visual verse editor with empty verses.
   {
-    string usfm =
+    std::string usfm =
     "\\c 1\n"
     "\\p\n"
     "\\v 1\n"
@@ -775,7 +775,7 @@ TEST (checks, usfm)
     "\\v 3\n"
     "\\v 4\n"
     "";
-    string result;
+    std::string result;
     
     result =
     "\\c 1\n"
@@ -835,9 +835,9 @@ TEST (checks, usfm)
   // It used to get mixed up on those cases.
   // This regression test notices whether it keeps behaving as it should.
   {
-    string path = filter_url_create_root_path ({"unittests", "tests", "usfm01.usfm"});
-    string chapter_usfm = filter_url_file_get_contents (path);
-    string usfm;
+    std::string path = filter_url_create_root_path ({"unittests", "tests", "usfm01.usfm"});
+    std::string chapter_usfm = filter_url_file_get_contents (path);
+    std::string usfm;
     
     usfm = filter::usfm::get_verse_text (chapter_usfm, 1);
     EXPECT_EQ ("\\v 1 Verse 1.", usfm);
@@ -852,14 +852,14 @@ TEST (checks, usfm)
  
   // Test getting text from USFM with a range of verses.
   {
-    string usfm =
+    std::string usfm =
     "\\c 1\n"
     "\\p\n"
     "\\v 1 One\n"
     "\\v 2-3 Two three\n"
     "\\v 4 Four\n"
     "\\v 5 Five";
-    string result;
+    std::string result;
     
     result =
     "\\v 1 One\n"
@@ -939,8 +939,8 @@ TEST (checks, usfm)
 
   // Test on Genesis USFM.
   {
-    string directory = filter_url_create_root_path ({"unittests", "tests"});
-    string bookusfm = filter_url_file_get_contents (filter_url_create_path ({directory, "01GEN.SFM"}));
+    std::string directory = filter_url_create_root_path ({"unittests", "tests"});
+    std::string bookusfm = filter_url_file_get_contents (filter_url_create_path ({directory, "01GEN.SFM"}));
     
     // Test getting all chapter number from USFM.
     std::vector <int> chapters = filter::usfm::get_chapter_numbers (bookusfm);
@@ -949,8 +949,8 @@ TEST (checks, usfm)
     EXPECT_EQ (all_chapters, chapters);
     
     // Test getting contents for chapter 0.
-    string usfm = filter::usfm::get_chapter_text (bookusfm, 0);
-    string standard = filter_url_file_get_contents (filter_url_create_path ({directory, "01GEN-0.SFM"}));
+    std::string usfm = filter::usfm::get_chapter_text (bookusfm, 0);
+    std::string standard = filter_url_file_get_contents (filter_url_create_path ({directory, "01GEN-0.SFM"}));
     EXPECT_EQ (standard, usfm);
     
     chapters = filter::usfm::get_chapter_numbers (usfm);
@@ -980,7 +980,7 @@ TEST (checks, usfm)
     EXPECT_EQ (vector <int>{ 0 }, chapters);
     
     // Test getting text for chapter that has a space after chapter number.
-    string modified_book_usfm = filter::strings::replace ("\\c 10", "\\c 10 ", bookusfm);
+    std::string modified_book_usfm = filter::strings::replace ("\\c 10", "\\c 10 ", bookusfm);
     usfm = filter::usfm::get_chapter_text (modified_book_usfm, 10);
     standard = filter_url_file_get_contents (filter_url_create_path ({directory, "01GEN-10.SFM"}));
     EXPECT_EQ (standard, usfm);
@@ -991,9 +991,9 @@ TEST (checks, usfm)
   
   // Regression text on instance of Nehemia 12 in combination with the Paratext bridge.
   {
-    string directory = filter_url_create_root_path ({"unittests", "tests"});
-    string book_usfm = filter_url_file_get_contents (filter_url_create_path ({directory, "16NEHTSIC.SFM"}));
-    string chapter_usfm = filter::usfm::get_chapter_text (book_usfm, 12);
+    std::string directory = filter_url_create_root_path ({"unittests", "tests"});
+    std::string book_usfm = filter_url_file_get_contents (filter_url_create_path ({directory, "16NEHTSIC.SFM"}));
+    std::string chapter_usfm = filter::usfm::get_chapter_text (book_usfm, 12);
     EXPECT_EQ (7355, chapter_usfm.size());
   }
   
@@ -1004,11 +1004,11 @@ TEST (checks, usfm)
     EXPECT_EQ ("\\v 10 text", filter::usfm::one_string ("\\v 10\ntext"));
     EXPECT_EQ ("\\v 10\\v 11", filter::usfm::one_string ("\\v 10\n\\v 11"));
     EXPECT_EQ ("\\v 10 text\\p\\v 11", filter::usfm::one_string ("\\v 10 text\n\\p\\v 11"));
-    string inputusfm =
+    std::string inputusfm =
     "\\v 9  If we confess our sins, he is faithful and just to forgive\n"
     "us \\add our\\add* sins, and to cleanse us from all unrighteousness.";
-    string outputusfm = filter::usfm::one_string (inputusfm);
-    string standard = filter::strings::replace ("\n", " ", inputusfm);
+    std::string outputusfm = filter::usfm::one_string (inputusfm);
+    std::string standard = filter::strings::replace ("\n", " ", inputusfm);
     EXPECT_EQ (standard, outputusfm);
   }
   
@@ -1061,7 +1061,7 @@ TEST (checks, usfm)
 
   // Test importing USFM with \vp markup.
   {
-    string usfm = R"(
+    std::string usfm = R"(
 \id MIC
 \c 1
 \s Heading
@@ -1069,7 +1069,7 @@ TEST (checks, usfm)
 \v 1 \vp A\vp* Verse one.
 \v 2 \vp B\vp* Verse two.
 )";
-    string standard_chapter = R"(
+    std::string standard_chapter = R"(
 \c 1
 \s Heading
 \p
@@ -1093,7 +1093,7 @@ TEST (checks, usfm)
 
   // Test importing USFM demo chapter.
   {
-    string usfm = filter_url_file_get_contents (filter_url_create_root_path ({"demo", "92-1JNeng-web.usfm"}));
+    std::string usfm = filter_url_file_get_contents (filter_url_create_root_path ({"demo", "92-1JNeng-web.usfm"}));
     std::vector <filter::usfm::BookChapterData> import = filter::usfm::usfm_import (usfm, styles_logic_standard_sheet ());
     // It imports book 0 due to the copyright notices at the top of the USFM file.
     EXPECT_EQ (7, static_cast<int> (import.size ()));
@@ -1117,7 +1117,7 @@ TEST (checks, usfm)
 
   // Test getting verse numbers from USFM.
   {
-    string usfm = "\\c 1\n\\s Isibingelelo\n\\p\n\\v 1 Umdala\n\\p\n\\v 2 Sithandwa\n\\v 3 Ngoba\n\\v 4 Kangilantokozo\n\\s Inkathazo\n\\p\n\\v 5 Sithandwa\n\\v 6 abafakazele\n\\v 7 Ngoba\n\\v 8 Ngakho\n\\p\n\\v 9 Ngabhalela\n\\v 10 Ngakho\n\\p\n\\v 11 Sithandwa\n\\v 12 NgoDemetriyu\n\\s Isicino\n\\p\n\\v 13 Bengilezinto\n\\v 14 kodwa\n\\p Ukuthula";
+    std::string usfm = "\\c 1\n\\s Isibingelelo\n\\p\n\\v 1 Umdala\n\\p\n\\v 2 Sithandwa\n\\v 3 Ngoba\n\\v 4 Kangilantokozo\n\\s Inkathazo\n\\p\n\\v 5 Sithandwa\n\\v 6 abafakazele\n\\v 7 Ngoba\n\\v 8 Ngakho\n\\p\n\\v 9 Ngabhalela\n\\v 10 Ngakho\n\\p\n\\v 11 Sithandwa\n\\v 12 NgoDemetriyu\n\\s Isicino\n\\p\n\\v 13 Bengilezinto\n\\v 14 kodwa\n\\p Ukuthula";
     EXPECT_EQ ((vector<int>{ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 }), filter::usfm::get_verse_numbers (usfm));
     usfm = ""
     "\\c 80\n"
@@ -1154,7 +1154,7 @@ TEST (checks, usfm)
   
   // Test getting verse numbers from USFM.
   {
-    string usfm = "\\v 1-2 Umdala\n\\p\n\\v 3 Ngoba\n";
+    std::string usfm = "\\v 1-2 Umdala\n\\p\n\\v 3 Ngoba\n";
     std::vector <int> verses = filter::usfm::get_verse_numbers (usfm);
     EXPECT_EQ ((vector<int>{ 0, 1, 2, 3 }), verses);
     
@@ -1173,7 +1173,7 @@ TEST (checks, usfm)
   
   // Testing on USFM without verse text.
   {
-    string usfm;
+    std::string usfm;
     
     usfm = "\\v 1 Zvino namazuva\\x + Gen.1.1.\\x* okutonga kwavatongi nzara yakange iripo panyika.";
     EXPECT_EQ (false, filter::usfm::contains_empty_verses (usfm));
@@ -1197,10 +1197,10 @@ TEST (checks, usfm)
   
   // Testing removing fig word-level attributes.
   {
-    string usfm;
-    string result;
-    string dummy;
-    string standard;
+    std::string usfm;
+    std::string result;
+    std::string dummy;
+    std::string standard;
 
     usfm = R"(\v 18 At once they left their nets and went with him. \fig At once they left their nets.|src="avnt016.jpg" size="span" ref="1.18"\fig*)";
     result = filter::usfm::extract_fig (usfm, dummy, dummy, dummy, dummy, dummy, dummy, dummy);
@@ -1215,7 +1215,7 @@ TEST (checks, usfm)
   
   // Test check on embedded markers.
   {
-    string usfm = R"(
+    std::string usfm = R"(
 \id GEN
 \v 1 This is a \w \+add sen\+add*rd3\w* tence.
 \v 2 This is a \w \add sen\add*rd3\w* tence.
@@ -1242,7 +1242,7 @@ TEST (checks, usfm)
 
   // Test on correct or incorrect \vp ...\vp* markup.
   {
-    string usfm = R"(
+    std::string usfm = R"(
 \id GEN
 \c 1
 \v 1 \vp A\vp* Praise God.
@@ -1263,15 +1263,15 @@ TEST (checks, usfm)
   // Test extracting the figure attributes.
   // https://ubsicap.github.io/usfm/characters/index.html#fig-fig
   {
-    string usfm_in;
-    string caption;
-    string alt;
-    string src;
-    string size;
-    string loc;
-    string copy;
-    string ref;
-    string usfm_out;
+    std::string usfm_in;
+    std::string caption;
+    std::string alt;
+    std::string src;
+    std::string size;
+    std::string loc;
+    std::string copy;
+    std::string ref;
+    std::string usfm_out;
 
     // USFM without any figure information.
     usfm_in = R"(Text \fig Empty figure.\fig* text.)";
@@ -1370,7 +1370,7 @@ TEST (checks, usfm)
   
   // Test checking valid USFM of the fig markup.
   {
-    string usfm = R"(\v 31 He went to her, took her by the hand, and helped her up. The fever left her, and she began to wait on them. \fig Took her by the hand, and...the fever left her.|src="avnt017.tif" size="col" ref="1.31"\fig*.)";
+    std::string usfm = R"(\v 31 He went to her, took her by the hand, and helped her up. The fever left her, and she began to wait on them. \fig Took her by the hand, and...the fever left her.|src="avnt017.tif" size="col" ref="1.31"\fig*.)";
     Checks_Usfm check = Checks_Usfm (string());
     check.initialize (0, 0);
     check.check (usfm);
@@ -1382,7 +1382,7 @@ TEST (checks, usfm)
     EXPECT_EQ (standard, results);
   }
   {
-    string usfm = R"(\v 31 He went to her, took her by the hand, and helped her up. The fever left her, and she began to wait on them. \fig Took her by the hand, and...the fever left her.|src=“avnt017.tif“ size="col" ref="1.31"\fig*.)";
+    std::string usfm = R"(\v 31 He went to her, took her by the hand, and helped her up. The fever left her, and she began to wait on them. \fig Took her by the hand, and...the fever left her.|src=“avnt017.tif“ size="col" ref="1.31"\fig*.)";
     Checks_Usfm check = Checks_Usfm (string());
     check.initialize (0, 0);
     check.check (usfm);
@@ -1397,7 +1397,7 @@ TEST (checks, usfm)
 
   // Text detecting markup sequence without intervening text.
   {
-    string usfm = R"(\p \v 1 One \add \add* \v 2 Two)";
+    std::string usfm = R"(\p \v 1 One \add \add* \v 2 Two)";
     Checks_Usfm check = Checks_Usfm (string());
     check.initialize (0, 0);
     check.check (usfm);
@@ -1411,7 +1411,7 @@ TEST (checks, usfm)
 
   // Test that a properly formatted note gives no checking results.
   {
-    string usfm = R"(\v 1 \f + \ft text\f*)";
+    std::string usfm = R"(\v 1 \f + \ft text\f*)";
     Checks_Usfm check = Checks_Usfm (string());
     check.initialize (0, 0);
     check.check (usfm);
@@ -1424,7 +1424,7 @@ TEST (checks, usfm)
   // Test a note consisting of opening markup without text.
   // It should give a checking result.
   {
-    string usfm = R"(\v 2 \fe + \ft \fe*)";
+    std::string usfm = R"(\v 2 \fe + \ft \fe*)";
     Checks_Usfm check = Checks_Usfm (string());
     check.initialize (0, 0);
     check.check (usfm);
@@ -1439,7 +1439,7 @@ TEST (checks, usfm)
   // Test that a correctly formatted note,
   // followed by incorrect markup, is still not flagged.
   {
-    string usfm = R"(\v 3 \x + \xt xref \x* \q \q )";
+    std::string usfm = R"(\v 3 \x + \xt xref \x* \q \q )";
     Checks_Usfm check = Checks_Usfm (string());
     check.initialize (0, 0);
     check.check (usfm);
@@ -1451,7 +1451,7 @@ TEST (checks, usfm)
 
   // Test that a a note e.g. \ft followed by e.g. \add, is not flagged.
   {
-    string usfm = R"(\v 4 \f + \ft \add add\add* \f*)";
+    std::string usfm = R"(\v 4 \f + \ft \add add\add* \f*)";
     Checks_Usfm check = Checks_Usfm (string());
     check.initialize (0, 0);
     check.check (usfm);
@@ -1463,7 +1463,7 @@ TEST (checks, usfm)
 
   // Test a corect cross reference is not flagged.
   {
-    string usfm = R"(\v 5 \x + \xt xref\x*)";
+    std::string usfm = R"(\v 5 \x + \xt xref\x*)";
     Checks_Usfm check = Checks_Usfm (string());
     check.initialize (0, 0);
     check.check (usfm);

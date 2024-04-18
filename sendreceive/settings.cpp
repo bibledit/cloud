@@ -83,7 +83,7 @@ void sendreceive_settings ()
   Webserver_Request webserver_request;
   Sync_Logic sync_logic (webserver_request);
 
-  string response = client_logic_connection_setup ("", "");
+  std::string response = client_logic_connection_setup ("", "");
   int iresponse = filter::strings::convert_to_int (response);
   if (iresponse < Filter_Roles::guest () || iresponse > Filter_Roles::admin ()) {
     Database_Logs::log (translate("Failure sending and receiving Settings"), Filter_Roles::translator ());
@@ -98,12 +98,12 @@ void sendreceive_settings ()
     sendreceive_settings_done ();
     return;
   }
-  string user = users [0];
+  std::string user = users [0];
   webserver_request.session_logic ()->set_username (user);
   
-  string address = Database_Config_General::getServerAddress ();
+  std::string address = Database_Config_General::getServerAddress ();
   int port = Database_Config_General::getServerPort ();
-  string url = client_logic_url (address, port, sync_settings_url ());
+  std::string url = client_logic_url (address, port, sync_settings_url ());
   
   // Go through all settings flagged as having been updated on this client.
   std::vector <int> ids = webserver_request.database_config_user()->getUpdatedSettings ();
@@ -122,7 +122,7 @@ void sendreceive_settings ()
     // What to request for.
     post ["a"] = filter::strings::convert_to_string (id);
 
-    string value {};
+    std::string value {};
     switch (id) {
       case Sync_Logic::settings_send_workspace_urls:
         value = webserver_request.database_config_user()->getWorkspaceURLs ();
@@ -144,7 +144,7 @@ void sendreceive_settings ()
     post ["v"] = value;
     
     // POST the setting to the server.
-    string error;
+    std::string error;
     sync_logic.post (post, url, error);
     
     // Handle server's response.
@@ -162,7 +162,7 @@ void sendreceive_settings ()
     // No longer in use.
     int platform_id = 0;
     post ["v"] = filter::strings::convert_to_string (platform_id);
-    string error;
+    std::string error;
     sync_logic.post (post, url, error);
   }
     
@@ -177,7 +177,7 @@ void sendreceive_settings ()
   std::vector <std::string> bibles = webserver_request.database_bibles()->get_bibles ();
   post ["a"] = filter::strings::convert_to_string (Sync_Logic::settings_get_total_checksum);
   post ["b"] = filter::strings::implode (bibles, "\n");
-  string error;
+  std::string error;
   response = sync_logic.post (post, url, error);
   if (!error.empty ()) {
     Database_Logs::log ("Failure synchronizing Settings while requesting totals", Filter_Roles::translator ());
@@ -185,7 +185,7 @@ void sendreceive_settings ()
     return;
   }
   if (post.count ("b")) post.erase (post.find ("b"));
-  string checksum = sync_logic.settings_checksum (bibles);
+  std::string checksum = sync_logic.settings_checksum (bibles);
   if (response == checksum) {
     Database_Logs::log (sendreceive_settings_up_to_date_text (), Filter_Roles::translator ());
     sendreceive_settings_done ();

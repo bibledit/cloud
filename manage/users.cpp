@@ -86,8 +86,8 @@ string manage_users (Webserver_Request& webserver_request)
 
 
   // Set the chosen default new user role on the option HTML tag.
-  string default_acl = filter::strings::convert_to_string (Database_Config_General::getDefaultNewUserAccessLevel ());
-  string default_acl_html;
+  std::string default_acl = filter::strings::convert_to_string (Database_Config_General::getDefaultNewUserAccessLevel ());
+  std::string default_acl_html;
   default_acl_html = Options_To_Select::add_selection ("Guest", filter::strings::convert_to_string(Filter_Roles::guest()), default_acl_html);
   default_acl_html = Options_To_Select::add_selection ("Member", filter::strings::convert_to_string(Filter_Roles::member()), default_acl_html);
   view.set_variable ("defaultacloptags", Options_To_Select::mark_selected (default_acl, default_acl_html));
@@ -101,7 +101,7 @@ string manage_users (Webserver_Request& webserver_request)
     return page;
   }
   if (webserver_request.post.count ("new")) {
-    string user = webserver_request.post["entry"];
+    std::string user = webserver_request.post["entry"];
     if (webserver_request.database_users ()->usernameExists (user)) {
       page += assets_page::error (translate("User already exists"));
     } else {
@@ -138,14 +138,14 @@ string manage_users (Webserver_Request& webserver_request)
   
   
   // The user to act on.
-  string objectUsername = webserver_request.query["user"];
+  std::string objectUsername = webserver_request.query["user"];
   int objectUserLevel = webserver_request.database_users ()->get_level (objectUsername);
   
   
   // Delete a user.
   if (webserver_request.query.count ("delete")) {
-    string role = Filter_Roles::text (objectUserLevel);
-    string email = webserver_request.database_users ()->get_email (objectUsername);
+    std::string role = Filter_Roles::text (objectUserLevel);
+    std::string email = webserver_request.database_users ()->get_email (objectUsername);
     std::vector <std::string> users = webserver_request.database_users ()->get_users ();
     std::vector <std::string> administrators = webserver_request.database_users ()->getAdministrators ();
     if (users.size () == 1) {
@@ -155,7 +155,7 @@ string manage_users (Webserver_Request& webserver_request)
     } else if (config::logic::demo_enabled () && (objectUsername ==  session_admin_credentials ())) {
       page += assets_page::error (translate("Cannot remove the demo admin"));
     } else {
-      string message;
+      std::string message;
       user_logic_delete_account (objectUsername, role, email, message);
       user_updated = true;
       page += assets_page::success (message);
@@ -165,7 +165,7 @@ string manage_users (Webserver_Request& webserver_request)
   
   // The user's role.
   if (webserver_request.query.count ("level")) {
-    string level = webserver_request.query ["level"];
+    std::string level = webserver_request.query ["level"];
     if (level == "") {
       Dialog_List dialog_list = Dialog_List ("users", translate("Select a role for") + " " + objectUsername, "", "");
       dialog_list.add_query ("user", objectUsername);
@@ -185,10 +185,10 @@ string manage_users (Webserver_Request& webserver_request)
   
   // User's email address.
   if (webserver_request.query.count ("email")) {
-    string email = webserver_request.query ["email"];
+    std::string email = webserver_request.query ["email"];
     if (email == "") {
-      string question = translate("Please enter an email address for") + " " + objectUsername;
-      string value = webserver_request.database_users ()->get_email (objectUsername);
+      std::string question = translate("Please enter an email address for") + " " + objectUsername;
+      std::string value = webserver_request.database_users ()->get_email (objectUsername);
       Dialog_Entry dialog_entry = Dialog_Entry ("users", question, value, "email", "");
       dialog_entry.add_query ("user", objectUsername);
       page += dialog_entry.run ();
@@ -196,7 +196,7 @@ string manage_users (Webserver_Request& webserver_request)
     }
   }
   if (webserver_request.post.count ("email")) {
-    string email = webserver_request.post["entry"];
+    std::string email = webserver_request.post["entry"];
     if (filter_url_email_is_valid (email)) {
       page += assets_page::success (translate("Email address was updated"));
       webserver_request.database_users ()->updateUserEmail (objectUsername, email);
@@ -213,7 +213,7 @@ string manage_users (Webserver_Request& webserver_request)
   
   // Add Bible to user account.
   if (webserver_request.query.count ("addbible")) {
-    string addbible = webserver_request.query["addbible"];
+    std::string addbible = webserver_request.query["addbible"];
     if (addbible == "") {
       Dialog_List dialog_list = Dialog_List ("users", translate("Would you like to grant the user access to a Bible?"), "", "");
       dialog_list.add_query ("user", objectUsername);
@@ -235,7 +235,7 @@ string manage_users (Webserver_Request& webserver_request)
   
   // Remove Bible from user.
   if (webserver_request.query.count ("removebible")) {
-    string removebible = webserver_request.query ["removebible"];
+    std::string removebible = webserver_request.query ["removebible"];
     DatabasePrivileges::remove_bible_book (objectUsername, removebible, 0);
     user_updated = true;
     privileges_updated = true;
@@ -275,8 +275,8 @@ string manage_users (Webserver_Request& webserver_request)
     
     // Gather details for this user account.
     objectUserLevel = webserver_request.database_users ()->get_level (username);
-    string namedrole = Filter_Roles::text (objectUserLevel);
-    string email = webserver_request.database_users ()->get_email (username);
+    std::string namedrole = Filter_Roles::text (objectUserLevel);
+    std::string email = webserver_request.database_users ()->get_email (username);
     if (email.empty()) email = "--";
     bool enabled = webserver_request.database_users ()->get_enabled (username);
     

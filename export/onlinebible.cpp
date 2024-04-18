@@ -40,11 +40,11 @@ using namespace std;
 
 void export_onlinebible (string bible, bool log)
 {
-  string directory = filter_url_create_path ({export_logic::bible_directory (bible), "onlinebible"});
+  std::string directory = filter_url_create_path ({export_logic::bible_directory (bible), "onlinebible"});
   if (!file_or_dir_exists (directory)) filter_url_mkdir (directory);
   
   
-  string filename = filter_url_create_path ({directory, "bible.exp"});
+  std::string filename = filter_url_create_path ({directory, "bible.exp"});
 
   
   Database_Bibles database_bibles;
@@ -59,7 +59,7 @@ void export_onlinebible (string bible, bool log)
   for (auto book : books) {
     std::vector <int> chapters = database_bibles.get_chapters (bible, book);
     for (auto chapter : chapters) {
-      string chapter_data = database_bibles.get_chapter (bible, book, chapter);
+      std::string chapter_data = database_bibles.get_chapter (bible, book, chapter);
       chapter_data = filter::strings::trim (chapter_data);
       filter_text_bible.add_usfm_code (chapter_data);
     }

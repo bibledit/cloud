@@ -41,7 +41,7 @@ void Database_Jobs::create ()
 {
   sqlite3 * db = connect ();
   database_sqlite_exec (db, "DROP TABLE IF EXISTS jobs");
-  string sql = "CREATE TABLE IF NOT EXISTS jobs ("
+  std::string sql = "CREATE TABLE IF NOT EXISTS jobs ("
                " id integer,"
                " timestamp integer,"
                " level integer,"

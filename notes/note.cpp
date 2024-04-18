@@ -68,7 +68,7 @@ string notes_note (Webserver_Request& webserver_request)
   
   page += header.run ();
   Assets_View view;
-  string success;
+  std::string success;
 
   
   int id = filter::strings::convert_to_int (webserver_request.query ["id"]);
@@ -105,13 +105,13 @@ string notes_note (Webserver_Request& webserver_request)
   view.set_variable ("passage", filter_passage_display_inline (passages));
   
 
-  string summary = database_notes.get_summary (id);
+  std::string summary = database_notes.get_summary (id);
   view.set_variable ("summary", summary);
 
   
   bool show_note_status = webserver_request.database_config_user ()->getShowNoteStatus ();
   if (show_note_status) {
-    string status = database_notes.get_status (id);
+    std::string status = database_notes.get_status (id);
     view.set_variable ("status", status);
   }
   
@@ -121,7 +121,7 @@ string notes_note (Webserver_Request& webserver_request)
   }
   
   
-  string content = database_notes.get_contents (id);
+  std::string content = database_notes.get_contents (id);
   view.set_variable ("content", content);
 
   

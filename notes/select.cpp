@@ -60,7 +60,7 @@ string notes_select (Webserver_Request& webserver_request)
   page = header.run();
   
   Assets_View view;
-  string success;
+  std::string success;
   
   
   if (webserver_request.query.count ("passageselector")) {
@@ -85,13 +85,13 @@ string notes_select (Webserver_Request& webserver_request)
   
   
   if (webserver_request.query.count ("statusselector")) {
-    string status_selector = webserver_request.query["statusselector"];
+    std::string status_selector = webserver_request.query["statusselector"];
     webserver_request.database_config_user()->setConsultationNotesStatusSelector (status_selector);
   }
   
   
   if (webserver_request.query.count ("bibleselector")) {
-    string bible_selector = webserver_request.query["bibleselector"];
+    std::string bible_selector = webserver_request.query["bibleselector"];
     webserver_request.database_config_user()->setConsultationNotesBibleSelector (bible_selector);
     // Also set the active Bible for the user.
     if (bible_selector != "") {
@@ -101,7 +101,7 @@ string notes_select (Webserver_Request& webserver_request)
   
   
   if (webserver_request.query.count ("assignmentselector")) {
-    string assignment_selector = webserver_request.query["assignmentselector"];
+    std::string assignment_selector = webserver_request.query["assignmentselector"];
     webserver_request.database_config_user()->setConsultationNotesAssignmentSelector(assignment_selector);
   }
   
@@ -123,7 +123,7 @@ string notes_select (Webserver_Request& webserver_request)
     webserver_request.database_config_user()->setConsultationNotesTextSelector (text_selector);
   }
   if (webserver_request.post.count ("text")) {
-    string search_text = webserver_request.post["text"];
+    std::string search_text = webserver_request.post["text"];
     webserver_request.database_config_user()->setConsultationNotesSearchText (search_text);
     success = translate("Search text saved");
   }
@@ -141,7 +141,7 @@ string notes_select (Webserver_Request& webserver_request)
   }
   
   
-  string active_class = R"(class="active")";
+  std::string active_class = R"(class="active")";
   
   
   int passage_selector = webserver_request.database_config_user()->getConsultationNotesPassageSelector();
@@ -156,7 +156,7 @@ string notes_select (Webserver_Request& webserver_request)
   view.set_variable ("noneditselector" + filter::strings::convert_to_string (non_edit_selector), active_class);
   
   
-  string status_selector = webserver_request.database_config_user()->getConsultationNotesStatusSelector();
+  std::string status_selector = webserver_request.database_config_user()->getConsultationNotesStatusSelector();
   if (status_selector.empty ()) view.set_variable ("anystatus", active_class);
   std::vector <Database_Notes_Text> possible_statuses = database_notes.get_possible_statuses ();
   stringstream statusblock;
@@ -174,7 +174,7 @@ string notes_select (Webserver_Request& webserver_request)
   // The information about available Bibles could be gathered from the notes database.
   // But multiple teams can be hosted, the information about available Bibles
   // is gathered from the Bibles the user has access to.
-  string bible_selector = webserver_request.database_config_user()->getConsultationNotesBibleSelector();
+  std::string bible_selector = webserver_request.database_config_user()->getConsultationNotesBibleSelector();
   if (bible_selector.empty ()) view.set_variable ("anybible", active_class);
   stringstream bibleblock;
   std::vector <std::string> bibles = access_bible::bibles (webserver_request);
@@ -193,7 +193,7 @@ string notes_select (Webserver_Request& webserver_request)
   view.set_variable ("bibleblock", bibleblock.str());
   
 
-  string assignment_selector = webserver_request.database_config_user()->getConsultationNotesAssignmentSelector();
+  std::string assignment_selector = webserver_request.database_config_user()->getConsultationNotesAssignmentSelector();
   if (assignment_selector.empty ()) view.set_variable ("anyassignee", active_class);
   stringstream assigneeblock;
   std::vector <std::string> assignees = database_notes.get_all_assignees (bibles);
@@ -232,7 +232,7 @@ string notes_select (Webserver_Request& webserver_request)
   int text_selector = webserver_request.database_config_user()->getConsultationNotesTextSelector();
   view.set_variable ("textselector" + filter::strings::convert_to_string (text_selector), active_class);
   if (text_selector == 1) view.enable_zone ("textselection");
-  string search_text = webserver_request.database_config_user()->getConsultationNotesSearchText();
+  std::string search_text = webserver_request.database_config_user()->getConsultationNotesSearchText();
   view.set_variable ("searchtext", search_text);
 
 

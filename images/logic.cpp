@@ -42,8 +42,8 @@ void images_logic_import_images (string path)
     // Take the first path and remove it from the container.
     path = paths[0];
     paths.erase (paths.begin());
-    string basename = filter_url_basename (path);
-    string extension = filter_url_get_extension (path);
+    std::string basename = filter_url_basename (path);
+    std::string extension = filter_url_get_extension (path);
     extension = filter::strings::unicode_string_casefold (extension);
 
     // Store images.
@@ -59,7 +59,7 @@ void images_logic_import_images (string path)
     // Uncompress archives.
     else if (filter_archive_is_archive (path)) {
       Database_Logs::log ("Unpacking archive " + basename);
-      string folder = filter_archive_uncompress (path);
+      std::string folder = filter_archive_uncompress (path);
       filter_url_recursive_scandir (folder, paths);
     }
    

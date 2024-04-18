@@ -55,7 +55,7 @@ string sync_resources (Webserver_Request& webserver_request)
   }
 
   int action = filter::strings::convert_to_int (webserver_request.query ["a"]);
-  string resource = webserver_request.query ["r"];
+  std::string resource = webserver_request.query ["r"];
   int book = filter::strings::convert_to_int (webserver_request.query ["b"]);
   int chapter = filter::strings::convert_to_int (webserver_request.query ["c"]);
   int verse = filter::strings::convert_to_int (webserver_request.query ["v"]);
@@ -85,7 +85,7 @@ string sync_resources (Webserver_Request& webserver_request)
         }
         // Schedule this resource for caching if that's not yet the case.
         std::vector <std::string> signatures = Database_Config_General::getResourcesToCache ();
-        string signature = resource + " " + filter::strings::convert_to_string (book);
+        std::string signature = resource + " " + filter::strings::convert_to_string (book);
         if (!in_array (signature, signatures)) {
           signatures.push_back (signature);
           Database_Config_General::setResourcesToCache (signatures);

@@ -58,23 +58,23 @@ string resource_user1view (Webserver_Request& webserver_request)
   Assets_View view {};
   
 
-  string name = webserver_request.query ["name"];
+  std::string name = webserver_request.query ["name"];
 
   
   std::vector <std::string> code {};
-  string url = Database_UserResources::url (name);
+  std::string url = Database_UserResources::url (name);
   code.push_back ("var userResourceUrl = \"" + url + "\";");
   code.push_back ("var userResourceBooks = [];");
   std::vector <book_id> ids = database::books::get_ids ();
   for (auto id : ids) {
     book_type type = database::books::get_type (id);
     if ((type == book_type::old_testament) || (type == book_type::new_testament)) {
-      string book = Database_UserResources::book (name, static_cast<int> (id));
+      std::string book = Database_UserResources::book (name, static_cast<int> (id));
       if (book.empty ()) book = filter::strings::convert_to_string (static_cast<int>(id));
       code.push_back ("userResourceBooks [" + filter::strings::convert_to_string (static_cast<int>(id)) + "] = \"" + book + "\";");
     }
   }
-  string script = filter::strings::implode (code, "\n");
+  std::string script = filter::strings::implode (code, "\n");
   config::logic::swipe_enabled (webserver_request, script);
   view.set_variable ("script", script);
   

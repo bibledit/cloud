@@ -54,7 +54,7 @@ bool resource_organize_acl (Webserver_Request& webserver_request)
 
 string resource_organize (Webserver_Request& webserver_request)
 {
-  string checkbox = webserver_request.post ["checkbox"];
+  std::string checkbox = webserver_request.post ["checkbox"];
   bool checked = filter::strings::convert_to_bool (webserver_request.post ["checked"]);
 
 
@@ -67,7 +67,7 @@ string resource_organize (Webserver_Request& webserver_request)
   
   // Deal with a new added resources.
   if (webserver_request.query.count ("add") || webserver_request.post.count ("add")) {
-    string add = webserver_request.query["add"];
+    std::string add = webserver_request.query["add"];
     if (add.empty ()) add = webserver_request.post ["add"];
     if (add == resource_logic_rich_divider ()) {
       // Navigate to the page to set up the rich divider.
@@ -107,9 +107,9 @@ string resource_organize (Webserver_Request& webserver_request)
   }
 
   
-  string movefrom = webserver_request.post ["movefrom"];
+  std::string movefrom = webserver_request.post ["movefrom"];
   if (!movefrom.empty ()) {
-    string moveto =  webserver_request.post ["moveto"];
+    std::string moveto =  webserver_request.post ["moveto"];
     if (!moveto.empty ()) {
       size_t from = static_cast<size_t> (filter::strings::convert_to_int (movefrom));
       size_t to = static_cast<size_t>(filter::strings::convert_to_int (moveto));
@@ -146,7 +146,7 @@ string resource_organize (Webserver_Request& webserver_request)
 
   // Default active resources.
   if (level == Filter_Roles::admin()) {
-    string defactivesblock;
+    std::string defactivesblock;
     for (size_t i = 0; i < default_active_resources.size (); i++) {
       defactivesblock.append ("<p>&#183; ");
       defactivesblock.append ("<a href=\"?remove=" + filter::strings::convert_to_string (i) + "&type=def\">");
@@ -163,7 +163,7 @@ string resource_organize (Webserver_Request& webserver_request)
   
   // Active resources.
   std::vector <std::string> active_resources = webserver_request.database_config_user()->getActiveResources ();
-  string activesblock;
+  std::string activesblock;
   for (size_t i = 0; i < active_resources.size (); i++) {
     activesblock.append ("<p>&#183; ");
     activesblock.append ("<a href=\"?remove=" + filter::strings::convert_to_string (i) + "\">");

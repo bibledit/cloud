@@ -51,7 +51,7 @@ string notes_notes (Webserver_Request& webserver_request)
   Database_Notes database_notes (webserver_request);
 
   
-  string bible = access_bible::clamp (webserver_request, webserver_request.database_config_user()->getBible());
+  std::string bible = access_bible::clamp (webserver_request, webserver_request.database_config_user()->getBible());
   int book = Ipc_Focus::getBook (webserver_request);
   int chapter = Ipc_Focus::getChapter (webserver_request);
   int verse = Ipc_Focus::getVerse (webserver_request);
@@ -60,13 +60,13 @@ string notes_notes (Webserver_Request& webserver_request)
   int passage_selector = webserver_request.database_config_user()->getConsultationNotesPassageSelector();
   int edit_selector = webserver_request.database_config_user()->getConsultationNotesEditSelector();
   int non_edit_selector = webserver_request.database_config_user()->getConsultationNotesNonEditSelector();
-  string status_selector = webserver_request.database_config_user()->getConsultationNotesStatusSelector();
-  string bible_selector = webserver_request.database_config_user()->getConsultationNotesBibleSelector();
-  string assignment_selector = webserver_request.database_config_user()->getConsultationNotesAssignmentSelector();
+  std::string status_selector = webserver_request.database_config_user()->getConsultationNotesStatusSelector();
+  std::string bible_selector = webserver_request.database_config_user()->getConsultationNotesBibleSelector();
+  std::string assignment_selector = webserver_request.database_config_user()->getConsultationNotesAssignmentSelector();
   bool subscription_selector = webserver_request.database_config_user()->getConsultationNotesSubscriptionSelector();
   int severity_selector = webserver_request.database_config_user()->getConsultationNotesSeveritySelector();
   int text_selector = webserver_request.database_config_user()->getConsultationNotesTextSelector();
-  string search_text = webserver_request.database_config_user()->getConsultationNotesSearchText();
+  std::string search_text = webserver_request.database_config_user()->getConsultationNotesSearchText();
   int passage_inclusion_selector = webserver_request.database_config_user()->getConsultationNotesPassageInclusionSelector();
   int text_inclusion_selector = webserver_request.database_config_user()->getConsultationNotesTextInclusionSelector();
 
@@ -109,19 +109,19 @@ string notes_notes (Webserver_Request& webserver_request)
   stringstream notesblock;
   for (auto & identifier : identifiers) {
 
-    string summary = database_notes.get_summary (identifier);
+    std::string summary = database_notes.get_summary (identifier);
     std::vector <Passage> passages = database_notes.get_passages (identifier);
-    string verses = filter_passage_display_inline (passages);
+    std::string verses = filter_passage_display_inline (passages);
     if (show_note_status) {
-      string status_text = database_notes.get_status (identifier);
-      string raw_status;
+      std::string status_text = database_notes.get_status (identifier);
+      std::string raw_status;
       if (color_note_status) {
         // The class properties are in the stylesheet.
         // Distinct colors were generated through https://mokole.com/palette.html.
         raw_status = database_notes.get_raw_status (identifier);
         raw_status = filter::strings::unicode_string_casefold (raw_status);
         raw_status = filter::strings::replace (" ", "", raw_status);
-        string css_class;
+        std::string css_class;
         if (raw_status == "new") css_class = Filter_Css::distinction_set_notes (0);
         else if (raw_status == "pending") css_class = Filter_Css::distinction_set_notes (1);
         else if (raw_status == "inprogress") css_class = Filter_Css::distinction_set_notes (2);
@@ -134,25 +134,25 @@ string notes_notes (Webserver_Request& webserver_request)
       verses.insert (0, status_text + " ");
     }
     if (show_bible_in_notes_list) {
-      string note_bible = database_notes.get_bible (identifier);
+      std::string note_bible = database_notes.get_bible (identifier);
       verses.insert (0, note_bible + " ");
     }
     // A simple way to make it easier to see the individual notes in the list,
     // when the summaries of some notes are long, is to display the passage first.
     summary.insert (0, verses + " | ");
 
-    string verse_text;
+    std::string verse_text;
     if (passage_inclusion_selector) {
       std::vector <Passage> include_passages = database_notes.get_passages (identifier);
       for (auto & passage : include_passages) {
-        string usfm = webserver_request.database_bibles()->get_chapter (bible, passage.m_book, passage.m_chapter);
-        string text = filter::usfm::get_verse_text (usfm, filter::strings::convert_to_int (passage.m_verse));
+        std::string usfm = webserver_request.database_bibles()->get_chapter (bible, passage.m_book, passage.m_chapter);
+        std::string text = filter::usfm::get_verse_text (usfm, filter::strings::convert_to_int (passage.m_verse));
         if (!verse_text.empty ()) verse_text.append ("<br>");
         verse_text.append (text);
       }
     }
     
-    string content;
+    std::string content;
     if (text_inclusion_selector) {
       content = database_notes.get_contents (identifier);
     }

@@ -57,7 +57,7 @@ string filter_diff_diff (string oldstring, string newstring,
                          std::vector <std::string> * additions)
 {
   // Save the new lines.
-  string newline = " newline_newline_newline ";
+  std::string newline = " newline_newline_newline ";
   oldstring = filter::strings::replace ("\n", newline, oldstring);
   newstring = filter::strings::replace ("\n", newline, newstring);
   
@@ -101,7 +101,7 @@ string filter_diff_diff (string oldstring, string newstring,
   }
   
   // Resulting html.
-  string html = filter::strings::implode (output, " ");
+  std::string html = filter::strings::implode (output, " ");
   
   // Restore the new lines.
   html = filter::strings::replace (filter::strings::trim (newline), "\n", html);
@@ -156,7 +156,7 @@ void filter_diff_diff_utf16 (const std::vector <std::string> & oldinput, const s
   std::vector <std::string> new_sequence = newinput;
 
   // Save the new lines.
-  string newline = "_newline_";
+  std::string newline = "_newline_";
   for (auto & s : old_sequence) {
     s = filter::strings::replace ("\n", newline, s);
   }
@@ -185,7 +185,7 @@ void filter_diff_diff_utf16 (const std::vector <std::string> & oldinput, const s
     char indicator = line.front ();
     line.erase (0, 1);
     // Get the size of the character in UTF-16, whether 1 or 2.
-    string utf8 = filter::strings::unicode_string_substr (line, 0, 1);
+    std::string utf8 = filter::strings::unicode_string_substr (line, 0, 1);
     u16string utf16 = filter::strings::convert_to_u16string (utf8);
     size_t size = utf16.length();
     if (indicator == '+') {
@@ -357,12 +357,12 @@ void filter_diff_produce_verse_level (string bible, string directory)
   
   std::vector <int> books = database_modifications.getTeamDiffBooks (bible);
   for (auto book : books) {
-    string bookname = database::books::get_english_from_id (static_cast<book_id>(book));
+    std::string bookname = database::books::get_english_from_id (static_cast<book_id>(book));
     std::vector <int> chapters = database_modifications.getTeamDiffChapters (bible, book);
     for (auto chapter : chapters) {
       // Go through the combined verse numbers in the old and new chapter.
-      string old_chapter_usfm = database_modifications.getTeamDiff (bible, book, chapter);
-      string new_chapter_usfm = request.database_bibles()->get_chapter (bible, book, chapter);
+      std::string old_chapter_usfm = database_modifications.getTeamDiff (bible, book, chapter);
+      std::string new_chapter_usfm = request.database_bibles()->get_chapter (bible, book, chapter);
       std::vector <int> old_verse_numbers = filter::usfm::get_verse_numbers (old_chapter_usfm);
       std::vector <int> new_verse_numbers = filter::usfm::get_verse_numbers (new_chapter_usfm);
       std::vector <int> verses = old_verse_numbers;
@@ -370,10 +370,10 @@ void filter_diff_produce_verse_level (string bible, string directory)
       verses = filter::strings::array_unique (verses);
       sort (verses.begin(), verses.end());
       for (auto verse : verses) {
-        string old_verse_text = filter::usfm::get_verse_text (old_chapter_usfm, verse);
-        string new_verse_text = filter::usfm::get_verse_text (new_chapter_usfm, verse);
+        std::string old_verse_text = filter::usfm::get_verse_text (old_chapter_usfm, verse);
+        std::string new_verse_text = filter::usfm::get_verse_text (new_chapter_usfm, verse);
         if (old_verse_text != new_verse_text) {
-          string usfmCode = "\\p " + bookname + " " + filter::strings::convert_to_string (chapter) + "." + filter::strings::convert_to_string (verse) + ": " + old_verse_text;
+          std::string usfmCode = "\\p " + bookname + " " + filter::strings::convert_to_string (chapter) + "." + filter::strings::convert_to_string (verse) + ": " + old_verse_text;
           old_vs_usfm.push_back (usfmCode);
           filter_text_old.add_usfm_code (usfmCode);
           usfmCode = "\\p " + bookname + " " + filter::strings::convert_to_string (chapter) + "." + filter::strings::convert_to_string (verse) + ": " + new_verse_text;
@@ -403,10 +403,10 @@ void filter_diff_produce_verse_level (string bible, string directory)
  */
 void filter_diff_run_file (string oldfile, string newfile, string outputfile)
 {
-  string oldstring = filter_url_file_get_contents (oldfile);
-  string newstring = filter_url_file_get_contents (newfile);
+  std::string oldstring = filter_url_file_get_contents (oldfile);
+  std::string newstring = filter_url_file_get_contents (newfile);
 
-  string differences = filter_diff_diff (oldstring, newstring);
+  std::string differences = filter_diff_diff (oldstring, newstring);
   
   std::vector <std::string> lines = filter::strings::explode (differences, '\n');
   for (auto & line : lines) {

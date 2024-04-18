@@ -29,11 +29,11 @@ TEST (hyphenate, basic)
 {
   std::vector <std::string> firstset = {"a", "e", "i", "o", "u"};
   std::vector <std::string> secondset = {"b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z"};
-  string input =
+  std::string input =
   "\\s \\nd UNkulunkulu\\nd* u\\add ba\\add*xwayisa ngokulunga okungokwabantu 文字ab化け\n"
   "\\s Ukulunga okuku\\nd Kristu\\nd* אבabגד kuyinzuzo אבגד ab";
-  string output = hyphenate_at_transition (firstset, secondset, input);
-  string standard =
+  std::string output = hyphenate_at_transition (firstset, secondset, input);
+  std::string standard =
   "\\s \\nd UNku­lu­nku­lu\\nd* u\\add ba\\add*­xwa­yi­sa ngo­ku­lu­nga oku­ngo­kwa­ba­ntu 文字a­b化け\n"
   "\\s Uku­lu­nga oku­ku\\nd Kri­stu\\nd* אבa­bגד ku­yi­nzu­zo אבגד ab";
   EXPECT_EQ (standard, output);

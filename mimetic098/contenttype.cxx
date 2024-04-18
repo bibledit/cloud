@@ -212,12 +212,12 @@ ContentType::ParamList& ContentType::paramList()
 void ContentType::set(const std::string& val)
 {
     StringTokenizer stok(&val, ";");
-    string ct;
+    std::string ct;
     if(!stok.next(ct))
         return;
     
     // parse type/subtype
-    string stype, ssubtype;
+    std::string stype, ssubtype;
     stok.setDelimList("/");
     stok.setSource(&ct);
     stok.next(stype);
@@ -225,10 +225,10 @@ void ContentType::set(const std::string& val)
     set(stype, ssubtype);
 
     // parse field params
-    string params(val, min(val.length(), ct.length() + 1));
+    std::string params(val, min(val.length(), ct.length() + 1));
     if(!params.length())
         return;
-    string paramValue;
+    std::string paramValue;
     stok.setDelimList(";");
     stok.setSource(&params);
     while(stok.next(paramValue))
@@ -240,7 +240,7 @@ void ContentType::set(const std::string& val)
 
 string ContentType::str() const
 {
-    string ostr = m_type + "/" + m_subtype;
+    std::string ostr = m_type + "/" + m_subtype;
     ParamList::const_iterator bit = m_paramList.begin(), 
                 eit = m_paramList.end();
     for(; bit != eit; ++bit)

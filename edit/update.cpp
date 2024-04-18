@@ -86,14 +86,14 @@ string edit_update (Webserver_Request& webserver_request)
 
   
   // Get the relevant bits of information.
-  string bible;
+  std::string bible;
   int book = 0;
   int chapter = 0;
-  string loaded_html;
-  string edited_html;
-  string checksum1;
-  string checksum2;
-  string unique_id;
+  std::string loaded_html;
+  std::string edited_html;
+  std::string checksum1;
+  std::string checksum2;
+  std::string unique_id;
   if (good2go) {
     bible = webserver_request.post["bible"];
     book = filter::strings::convert_to_int (webserver_request.post["book"]);
@@ -145,21 +145,21 @@ string edit_update (Webserver_Request& webserver_request)
   }
 
 
-  string stylesheet;
+  std::string stylesheet;
   if (good2go) {
     stylesheet = Database_Config_Bible::getEditorStylesheet (bible);
   }
 
   
   // Collect some data about the changes for this user.
-  string username = webserver_request.session_logic()->currentUser ();
+  std::string username = webserver_request.session_logic()->currentUser ();
 #ifdef HAVE_CLOUD
   int oldID = 0;
   if (good2go) {
     oldID = webserver_request.database_bibles()->get_chapter_id (bible, book, chapter);
   }
 #endif
-  string old_chapter_usfm;
+  std::string old_chapter_usfm;
   if (good2go) {
     old_chapter_usfm = webserver_request.database_bibles()->get_chapter (bible, book, chapter);
   }
@@ -170,7 +170,7 @@ string edit_update (Webserver_Request& webserver_request)
   // This needs the loaded USFM as the ancestor,
   // the edited USFM as a change-set,
   // and the existing USFM as a prioritized change-set.
-  string loaded_chapter_usfm;
+  std::string loaded_chapter_usfm;
   if (good2go) {
     Editor_Html2Usfm editor_export;
     editor_export.load (loaded_html);
@@ -178,7 +178,7 @@ string edit_update (Webserver_Request& webserver_request)
     editor_export.run ();
     loaded_chapter_usfm = editor_export.get ();
   }
-  string edited_chapter_usfm;
+  std::string edited_chapter_usfm;
   if (good2go) {
     Editor_Html2Usfm editor_export;
     editor_export.load (edited_html);
@@ -186,7 +186,7 @@ string edit_update (Webserver_Request& webserver_request)
     editor_export.run ();
     edited_chapter_usfm = editor_export.get ();
   }
-  string existing_chapter_usfm = filter::strings::trim (old_chapter_usfm);
+  std::string existing_chapter_usfm = filter::strings::trim (old_chapter_usfm);
 
 
   // Check that the edited USFM contains no more than, and exactly the same as,
@@ -223,7 +223,7 @@ string edit_update (Webserver_Request& webserver_request)
     if (loaded_chapter_usfm != existing_chapter_usfm) {
       std::vector <Merge_Conflict> conflicts;
       // Do a merge while giving priority to the USFM already in the chapter.
-      string merged_chapter_usfm = filter_merge_run (loaded_chapter_usfm, edited_chapter_usfm, existing_chapter_usfm, true, conflicts);
+      std::string merged_chapter_usfm = filter_merge_run (loaded_chapter_usfm, edited_chapter_usfm, existing_chapter_usfm, true, conflicts);
       // Mail the user if there is a merge anomaly.
       bible_logic::optional_merge_irregularity_email (bible, book, chapter, username, loaded_chapter_usfm, edited_chapter_usfm, merged_chapter_usfm);
       filter_merge_add_book_chapter (conflicts, book, chapter);
@@ -262,8 +262,8 @@ string edit_update (Webserver_Request& webserver_request)
   }
   
   // Safely store the chapter.
-  string explanation;
-  string message;
+  std::string explanation;
+  std::string message;
   if (good2go && bible_write_access && text_was_edited) {
     message = filter::usfm::safely_store_chapter (webserver_request, bible, book, chapter, edited_chapter_usfm, explanation);
     bible_logic::unsafe_save_mail (message, explanation, username, edited_chapter_usfm, book, chapter);
@@ -273,7 +273,7 @@ string edit_update (Webserver_Request& webserver_request)
   
   // The new chapter identifier and new chapter USFM.
   int newID = webserver_request.database_bibles()->get_chapter_id (bible, book, chapter);
-  string new_chapter_usfm;
+  std::string new_chapter_usfm;
   if (good2go) {
     new_chapter_usfm = webserver_request.database_bibles()->get_chapter (bible, book, chapter);
   }
@@ -305,8 +305,8 @@ string edit_update (Webserver_Request& webserver_request)
   
   
   // The response to send to back to the editor.
-  string response;
-  string separator = "#_be_#";
+  std::string response;
+  std::string separator = "#_be_#";
   // The response starts with the save message(s) if any.
   // The message(s) contain information about save success or failure.
   // Send it to the browser for display to the user.
@@ -327,8 +327,8 @@ string edit_update (Webserver_Request& webserver_request)
   // delete - position
   if (good2go) {
     // Determine the server's current chapter content, and the editor's current chapter content.
-    string editor_html (edited_html);
-    string server_html;
+    std::string editor_html (edited_html);
+    std::string server_html;
     {
       Editor_Usfm2Html editor_usfm2html;
       editor_usfm2html.load (new_chapter_usfm);
@@ -346,15 +346,15 @@ string edit_update (Webserver_Request& webserver_request)
       response.append ("#_be_#");
       response.append (filter::strings::convert_to_string (positions[i]));
       response.append ("#_be_#");
-      string operation = operators[i];
+      std::string operation = operators[i];
       response.append (operation);
       if (operation == bible_logic::insert_operator ()) {
-        string text = content[i];
-        string character = filter::strings::unicode_string_substr (text, 0, 1);
+        std::string text = content[i];
+        std::string character = filter::strings::unicode_string_substr (text, 0, 1);
         response.append ("#_be_#");
         response.append (character);
         size_t length = filter::strings::unicode_string_length (text);
-        string format = filter::strings::unicode_string_substr (text, 1, length - 1);
+        std::string format = filter::strings::unicode_string_substr (text, 1, length - 1);
         response.append ("#_be_#");
         response.append (format);
         // Also add the size of the character in UTF-16 format, 2-bytes or 4 bytes, as size 1 or 2.

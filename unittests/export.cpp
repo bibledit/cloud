@@ -163,7 +163,7 @@ TEST (filter, export)
     Esword_Text esword_text = Esword_Text ("");
     esword_text.add_text ("In the beginning was the Word, and the Word was with God, and the Word was God.");
     esword_text.finalize ();
-    string filename = "/tmp/module.bblx";
+    std::string filename = "/tmp/module.bblx";
     esword_text.createModule (filename);
     int filesize = filter_url_filesize (filename);
     EXPECT_EQ (16384, filesize);
@@ -178,10 +178,10 @@ TEST (filter, export)
     onlinebible_text.add_text ("Text for Exodus 2:2, not verse 2-6a.");
     onlinebible_text.storeData ();
     onlinebible_text.add_text ("Verse was stored, no new verse given, so discard this.");
-    string filename = "/tmp/OLBTextTest1.exp";
+    std::string filename = "/tmp/OLBTextTest1.exp";
     onlinebible_text.save (filename);
-    string standard = filter_url_file_get_contents (filter_url_create_root_path ({"unittests", "tests", "onlinebible1.exp"}));
-    string result = filter_url_file_get_contents (filename);
+    std::string standard = filter_url_file_get_contents (filter_url_create_root_path ({"unittests", "tests", "onlinebible1.exp"}));
+    std::string result = filter_url_file_get_contents (filename);
     EXPECT_EQ (standard, result);
     filter_url_unlink (filename);
   }
@@ -195,10 +195,10 @@ TEST (filter, export)
     onlinebible_text.addNote ();
     onlinebible_text.add_text ("Output this note text.");
     onlinebible_text.close_current_note ();
-    string filename = "/tmp/OLBTextTest2.exp";
+    std::string filename = "/tmp/OLBTextTest2.exp";
     onlinebible_text.save (filename);
-    string standard = filter_url_file_get_contents (filter_url_create_root_path ({"unittests", "tests", "onlinebible2.exp"}));
-    string result = filter_url_file_get_contents (filename);
+    std::string standard = filter_url_file_get_contents (filter_url_create_root_path ({"unittests", "tests", "onlinebible2.exp"}));
+    std::string result = filter_url_file_get_contents (filename);
     EXPECT_EQ (standard, result);
     filter_url_unlink (filename);
   }
@@ -208,7 +208,7 @@ TEST (filter, export)
     Tbsx_Text tbsx;
     tbsx.set_book_id("MAT");
     tbsx.set_book_name("Matthew");
-    string standard =
+    std::string standard =
 R"(###MAT
 ###! Matthew)";
     EXPECT_EQ (standard, tbsx.get_document ());
@@ -219,7 +219,7 @@ R"(###MAT
     Tbsx_Text tbsx;
     tbsx.set_chapter(2);
     tbsx.set_header("Header");
-    string standard =
+    std::string standard =
 R"(##2
 ##! Header)";
     EXPECT_EQ (standard, tbsx.get_document ());
@@ -230,7 +230,7 @@ R"(##2
     Tbsx_Text tbsx;
     tbsx.open_paragraph();
     tbsx.add_text("1 Text contents");
-    string standard =
+    std::string standard =
 R"(#%
 #1 Text contents)";
     EXPECT_EQ (standard, tbsx.get_document ());
@@ -243,7 +243,7 @@ R"(#%
     tbsx.add_text("1 Text ");
     tbsx.add_text("added", true);
     tbsx.add_text(" content");
-    string standard =
+    std::string standard =
 R"(#%
 #1 Text *added* content)";
     EXPECT_EQ (standard, tbsx.get_document ());
@@ -257,7 +257,7 @@ R"(#%
     tbsx.add_text("note");
     tbsx.close_note();
     tbsx.add_text (" of verse.");
-    string standard = R"(#Text[note] of verse.)";
+    std::string standard = R"(#Text[note] of verse.)";
     EXPECT_EQ (standard, tbsx.get_document ());
   }
 }

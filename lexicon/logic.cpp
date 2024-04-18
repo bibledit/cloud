@@ -71,28 +71,28 @@ vector <std::string> lexicon_logic_resource_names ()
 // Gets the HTMl for displaying the book/chapter/verse of the $lexicon.
 string lexicon_logic_get_html ([[maybe_unused]] Webserver_Request& webserver_request, string lexicon, int book, int chapter, int verse)
 {
-  string html;
+  std::string html;
   
   if (lexicon == HEBREW_ETCBC4_NAME) {
-    string prefix = HEBREW_ETCBC4_PREFIX;
+    std::string prefix = HEBREW_ETCBC4_PREFIX;
     Database_Etcbc4 database_etcbc4;
     // Data from the ETCBC4 database.
     std::vector <int> rowids = database_etcbc4.rowids (book, chapter, verse);
     stringstream ss;
     if (!rowids.empty ()) {
-      string id = "lexicontxt" + prefix;
+      std::string id = "lexicontxt" + prefix;
       ss << "<div id=" << quoted(id) << ">" << std::endl;
       for (auto rowid : rowids) {
         ss << "<table class='interlinear rtl'>";
         ss << "<tr>";
         ss << "<td class=" << quoted ("hebrew") << ">";
-        string word = database_etcbc4.word (rowid);
+        std::string word = database_etcbc4.word (rowid);
         ss << "<a href=" << quoted(HEBREW_ETCBC4_PREFIX + filter::strings::convert_to_string (rowid)) << ">" << word << "</a>";
         ss << "</td>";
         ss << "</tr>";
         ss << "<tr>";
         ss << "<td>";
-        string gloss = database_etcbc4.gloss (rowid);
+        std::string gloss = database_etcbc4.gloss (rowid);
         gloss = filter::strings::escape_special_xml_characters (gloss);
         ss << gloss;
         ss << "</td>";
@@ -106,16 +106,16 @@ string lexicon_logic_get_html ([[maybe_unused]] Webserver_Request& webserver_req
   }
 
   if (lexicon == KJV_LEXICON_NAME) {
-    string prefix = KJV_LEXICON_PREFIX;
+    std::string prefix = KJV_LEXICON_PREFIX;
     Database_Kjv database_kjv;
     std::vector <int> rowids = database_kjv.rowids (book, chapter, verse);
     if (!rowids.empty ()) {
       stringstream ss;
-      string id = "lexicontxt" + prefix;
+      std::string id = "lexicontxt" + prefix;
       ss << "<div id=" << quoted(id) << ">" << std::endl;
       for (size_t i = 0; i < rowids.size (); i++) {
         int rowid = rowids[i];
-        string english = database_kjv.english (rowid);
+        std::string english = database_kjv.english (rowid);
         ss << "<a href=" << quoted(KJV_LEXICON_PREFIX + filter::strings::convert_to_string (rowid)) << ">" << english << "</a>";
       }
       ss << "</div>";
@@ -125,16 +125,16 @@ string lexicon_logic_get_html ([[maybe_unused]] Webserver_Request& webserver_req
   }
 
   if (lexicon == OSHB_NAME) {
-    string prefix = OSHB_PREFIX;
+    std::string prefix = OSHB_PREFIX;
     Database_OsHb database_oshb;
     std::vector <int> rowids = database_oshb.rowids (book, chapter, verse);
     if (!rowids.empty ()) {
       stringstream ss;
-      string id = "lexicontxt" + prefix;
+      std::string id = "lexicontxt" + prefix;
       ss << "<div id=" << quoted(id) << " class=" << quoted("hebrew") << ">" << std::endl;
       for (size_t i = 0; i < rowids.size (); i++) {
         int rowid = rowids[i];
-        string word = database_oshb.word (rowid);
+        std::string word = database_oshb.word (rowid);
         // Give more spacing where needed.
         if (word == "׀") word = " ׀ ";
         ss << "<a href=" << quoted(OSHB_PREFIX + filter::strings::convert_to_string (rowid)) << ">" << word << "</a>";
@@ -146,17 +146,17 @@ string lexicon_logic_get_html ([[maybe_unused]] Webserver_Request& webserver_req
   }
   
   if (lexicon == SBLGNT_NAME) {
-    string prefix = SBLGNT_PREFIX;
+    std::string prefix = SBLGNT_PREFIX;
     Database_MorphGnt database_morphgnt;
     std::vector <int> rowids = database_morphgnt.rowids (book, chapter, verse);
     if (!rowids.empty ()) {
       stringstream ss;
-      string id = "lexicontxt" + prefix;
+      std::string id = "lexicontxt" + prefix;
       ss << "<div id=" << quoted(id) << " class=" << quoted("greek") << ">" << std::endl;
       for (size_t i = 0; i < rowids.size (); i++) {
         if (i) ss << " ";
         int rowid = rowids[i];
-        string word = database_morphgnt.word (rowid);
+        std::string word = database_morphgnt.word (rowid);
         ss << "<a href=" << quoted(SBLGNT_PREFIX + filter::strings::convert_to_string (rowid)) << ">" << word << "</a>";
       }
       ss << "</div>";
@@ -172,10 +172,10 @@ string lexicon_logic_get_html ([[maybe_unused]] Webserver_Request& webserver_req
 // The script to put into the html for a lexicon's defined $prefix.
 string lexicon_logic_get_script (string prefix)
 {
-  string defid = "lexicondef" + prefix;
-  string txtid = "lexicontxt" + prefix;
+  std::string defid = "lexicondef" + prefix;
+  std::string txtid = "lexicontxt" + prefix;
 
-  string script = R"(
+  std::string script = R"(
 <div id="defid" style="clear:both"></div>
 <script>
 
@@ -298,7 +298,7 @@ string lexicon_logic_render_strongs_definition (string strong)
   std::vector <std::string> renderings;
   Database_Strong database_strong;
   Database_HebrewLexicon database_hebrewlexicon;
-  string definition = database_strong.definition (lexicon_logic_strong_number_cleanup (strong));
+  std::string definition = database_strong.definition (lexicon_logic_strong_number_cleanup (strong));
   if (definition.empty ()) {
     definition = database_hebrewlexicon.getstrong (lexicon_logic_strong_number_cleanup (strong));
   }
@@ -314,23 +314,23 @@ string lexicon_logic_render_strongs_definition (string strong)
       // Strong's number.
       renderings.push_back ("Strong's " + strong.substr (1));
       // Part of speech.
-      string pos = lexicon_logic_get_remove_attribute (line, "pos");
+      std::string pos = lexicon_logic_get_remove_attribute (line, "pos");
       if (!pos.empty ()) {
         pos = lexicon_logic_render_strongs_part_of_speech (pos);
         renderings.push_back (pos);
       }
       // Pronounciation.
-      string pron = lexicon_logic_get_remove_attribute (line, "pron");
+      std::string pron = lexicon_logic_get_remove_attribute (line, "pron");
       if (!pron.empty ()) {
         renderings.push_back (pron);
       }
       // Transliteration.
-      string xlit = lexicon_logic_get_remove_attribute (line, "xlit");
+      std::string xlit = lexicon_logic_get_remove_attribute (line, "xlit");
       if (!xlit.empty ()) {
         renderings.push_back (xlit);
       }
       // Original word.
-      string word = lexicon_logic_get_text (line);
+      std::string word = lexicon_logic_get_text (line);
       if (!word.empty ()) {
         renderings.push_back (word);
       }
@@ -365,12 +365,12 @@ string lexicon_logic_render_strongs_definition (string strong)
       if (position != std::string::npos) {
         size_t position2 = line.find ("/>", position);
         if (position2 != std::string::npos) {
-          string greek = line.substr (position, position2 - position + 2);
-          string xml = greek;
+          std::string greek = line.substr (position, position2 - position + 2);
+          std::string xml = greek;
           // Greek in Unicode.
-          string unicode = lexicon_logic_get_remove_attribute (xml, "unicode");
+          std::string unicode = lexicon_logic_get_remove_attribute (xml, "unicode");
           // Greek in transliteration.
-          string translit = lexicon_logic_get_remove_attribute (xml, "translit");
+          std::string translit = lexicon_logic_get_remove_attribute (xml, "translit");
           // Put the updated fragment back.
           line = filter::strings::replace (greek, unicode + " " + translit, line);
         }
@@ -380,10 +380,10 @@ string lexicon_logic_render_strongs_definition (string strong)
       if (position != std::string::npos) {
         size_t position2 = line.find ("/>", position);
         if (position2 != std::string::npos) {
-          string pronunciation = line.substr (position, position2 - position + 2);
-          string xml = pronunciation;
+          std::string pronunciation = line.substr (position, position2 - position + 2);
+          std::string xml = pronunciation;
           // Greek in strongs.
-          string strongs = lexicon_logic_get_remove_attribute (xml, "strongs");
+          std::string strongs = lexicon_logic_get_remove_attribute (xml, "strongs");
           // Put the updated fragment back.
           line = filter::strings::replace (pronunciation, strongs, line);
         }
@@ -392,20 +392,20 @@ string lexicon_logic_render_strongs_definition (string strong)
       // Do the same for the <strongsref />.
       // The difference is that the entire <see /> line is removed, and the other one converted.
       for (int i = 0; i <= 1; i++) {
-        string tag = "see";
+        std::string tag = "see";
         if (i) tag = "strongsref";
         position = line.find ("<" + tag + " ");
         if (position != std::string::npos) {
           size_t position2 = line.find ("/>", position);
           if (position2 != std::string::npos) {
-            string see_strongsref = line.substr (position, position2 - position + 2);
-            string xml = see_strongsref;
+            std::string see_strongsref = line.substr (position, position2 - position + 2);
+            std::string xml = see_strongsref;
             // Strong's reference.
-            string strongs = lexicon_logic_get_remove_attribute (xml, "strongs");
+            std::string strongs = lexicon_logic_get_remove_attribute (xml, "strongs");
             // Language.
-            string language = lexicon_logic_get_remove_attribute (xml, "language");
+            std::string language = lexicon_logic_get_remove_attribute (xml, "language");
             // Put the updated fragment back, with a link.
-            string replacement;
+            std::string replacement;
             if (i) {
               replacement = R"(<a href=")" + language.substr (0, 1) + strongs + R"(">)" + strongs + "</a>";
             }
@@ -417,7 +417,7 @@ string lexicon_logic_render_strongs_definition (string strong)
       renderings.push_back (line);
     }
   }
-  string rendering = filter::strings::implode (renderings, " ");
+  std::string rendering = filter::strings::implode (renderings, " ");
   rendering = filter::strings::trim (rendering);
 
   // If no rendering has been found yet, try the user-defined Strong's definitions.
@@ -434,7 +434,7 @@ string lexicon_logic_render_strongs_definition (string strong)
 
 string lexicon_logic_render_part_of_speech_pop_front (vector <std::string> & parts)
 {
-  string part;
+  std::string part;
   if (!parts.empty ()) {
     part = parts[0];
     parts.erase (parts.begin ());
@@ -511,7 +511,7 @@ string lexicon_logic_render_strongs_part_of_speech (string value)
     // Deal with the BDB parsings.
     std::vector <std::string> parts = filter::strings::explode (value, '-');
     value.clear ();
-    string word = lexicon_logic_render_part_of_speech_pop_front (parts);
+    std::string word = lexicon_logic_render_part_of_speech_pop_front (parts);
     value.append (" ");
     // BDB.
     if (word == "A") {
@@ -574,7 +574,7 @@ string lexicon_logic_render_strongs_part_of_speech_state (string abbrev)
 // Define user-defined Strong's numbers.
 string lexicon_logic_define_user_strong (string strong)
 {
-  string definition;
+  std::string definition;
   if (!strong.empty ()) {
     if (strong.substr (0, 1) == "H") {
       strong.erase (0, 1);
@@ -612,7 +612,7 @@ string lexicon_logic_define_user_strong (string strong)
 string lexicon_logic_render_morphgnt_part_of_speech (string pos)
 {
   pos = filter::strings::replace ("-", "", pos);
-  string rendering;
+  std::string rendering;
   if (pos == "N") rendering = "noun";
   if (pos == "V") rendering = "verb";
   if (pos == "RA") rendering = "definite article";
@@ -635,7 +635,7 @@ string lexicon_logic_render_morphgnt_parsing_code (string parsing)
   std::vector <std::string> renderings;
   // person.
   if (!parsing.empty ()) {
-    string p = parsing.substr (0, 1);
+    std::string p = parsing.substr (0, 1);
     parsing = parsing.substr (1);
     if (p == "1") renderings.push_back ("first person");
     if (p == "2") renderings.push_back ("second person");
@@ -643,7 +643,7 @@ string lexicon_logic_render_morphgnt_parsing_code (string parsing)
   }
   // tense
   if (!parsing.empty ()) {
-    string p = parsing.substr (0, 1);
+    std::string p = parsing.substr (0, 1);
     parsing = parsing.substr (1);
     if (p == "A") renderings.push_back ("aorist");
     if (p == "F") renderings.push_back ("future");
@@ -654,7 +654,7 @@ string lexicon_logic_render_morphgnt_parsing_code (string parsing)
   }
   // voice
   if (!parsing.empty ()) {
-    string p = parsing.substr (0, 1);
+    std::string p = parsing.substr (0, 1);
     parsing = parsing.substr (1);
     if (p == "A") renderings.push_back ("active");
     if (p == "M") renderings.push_back ("middle");
@@ -662,7 +662,7 @@ string lexicon_logic_render_morphgnt_parsing_code (string parsing)
   }
   // mood
   if (!parsing.empty ()) {
-    string p = parsing.substr (0, 1);
+    std::string p = parsing.substr (0, 1);
     parsing = parsing.substr (1);
     if (p == "D") renderings.push_back ("imperative");
     if (p == "I") renderings.push_back ("indicative");
@@ -673,7 +673,7 @@ string lexicon_logic_render_morphgnt_parsing_code (string parsing)
   }
   // case
   if (!parsing.empty ()) {
-    string p = parsing.substr (0, 1);
+    std::string p = parsing.substr (0, 1);
     parsing = parsing.substr (1);
     if (p == "A") renderings.push_back ("accusative");
     if (p == "D") renderings.push_back ("dative");
@@ -683,14 +683,14 @@ string lexicon_logic_render_morphgnt_parsing_code (string parsing)
   }
   // number
   if (!parsing.empty ()) {
-    string p = parsing.substr (0, 1);
+    std::string p = parsing.substr (0, 1);
     parsing = parsing.substr (1);
     if (p == "P") renderings.push_back ("plural");
     if (p == "S") renderings.push_back ("singular");
   }
   // gender
   if (!parsing.empty ()) {
-    string p = parsing.substr (0, 1);
+    std::string p = parsing.substr (0, 1);
     parsing = parsing.substr (1);
     if (p == "F") renderings.push_back ("female");
     if (p == "M") renderings.push_back ("male");
@@ -698,7 +698,7 @@ string lexicon_logic_render_morphgnt_parsing_code (string parsing)
   }
   // degree
   if (!parsing.empty ()) {
-    string p = parsing.substr (0, 1);
+    std::string p = parsing.substr (0, 1);
     parsing = parsing.substr (1);
     if (p == "C") renderings.push_back ("comparative");
     if (p == "S") renderings.push_back ("superlative");
@@ -717,7 +717,7 @@ string lexicon_logic_render_etcbc4_morphology (string rowid)
   int row = filter::strings::convert_to_int (rowid.substr (1));
   Database_Etcbc4 database_etcbc4;
 
-  string pos = database_etcbc4.pos (row);
+  std::string pos = database_etcbc4.pos (row);
   if (pos == "art") pos = "article";
   if (pos == "verb") pos = "verb";
   if (pos == "subs") pos = "noun";
@@ -736,7 +736,7 @@ string lexicon_logic_render_etcbc4_morphology (string rowid)
   //renderings.push_back ("part of speech:");
   renderings.push_back (pos);
   
-  string lexical_set = database_etcbc4.subpos (row);
+  std::string lexical_set = database_etcbc4.subpos (row);
   if (lexical_set == "nmdi") lexical_set = "distributive noun";
   if (lexical_set == "nmcp") lexical_set = "copulative noun";
   if (lexical_set == "padv") lexical_set = "potential adverb";
@@ -758,7 +758,7 @@ string lexicon_logic_render_etcbc4_morphology (string rowid)
     renderings.push_back ("(" + lexical_set + ")");
   }
 
-  string stem = database_etcbc4.stem (row);
+  std::string stem = database_etcbc4.stem (row);
   if (stem == "hif") stem = "hif‘il";
   if (stem == "hit") stem = "hitpa“el";
   if (stem == "hof") stem = "hof‘al";
@@ -788,7 +788,7 @@ string lexicon_logic_render_etcbc4_morphology (string rowid)
     renderings.push_back (stem);
   }
   
-  string tense = database_etcbc4.tense (row);
+  std::string tense = database_etcbc4.tense (row);
   if (tense == "perf") tense = "perfect";
   if (tense == "impf") tense = "imperfect";
   if (tense == "wayq") tense = "wayyiqtol";
@@ -804,7 +804,7 @@ string lexicon_logic_render_etcbc4_morphology (string rowid)
     renderings.push_back (tense);
   }
   
-  string person = database_etcbc4.person (row);
+  std::string person = database_etcbc4.person (row);
   if (person == "p1") person = "first person";
   if (person == "p2") person = "second person";
   if (person == "p3") person = "third person";
@@ -816,7 +816,7 @@ string lexicon_logic_render_etcbc4_morphology (string rowid)
     renderings.push_back (person);
   }
   
-  string gender = database_etcbc4.gender (row);
+  std::string gender = database_etcbc4.gender (row);
   if (gender == "m") gender = "masculine";
   if (gender == "f") gender = "feminine";
   if (gender == "NA") gender.clear ();
@@ -827,7 +827,7 @@ string lexicon_logic_render_etcbc4_morphology (string rowid)
     renderings.push_back (gender);
   }
   
-  string number = database_etcbc4.number (row);
+  std::string number = database_etcbc4.number (row);
   if (number == "sg") number = "singular";
   if (number == "du") number = "dual";
   if (number == "pl") number = "plural";
@@ -839,7 +839,7 @@ string lexicon_logic_render_etcbc4_morphology (string rowid)
     renderings.push_back (number);
   }
   
-  string state = database_etcbc4.state (row);
+  std::string state = database_etcbc4.state (row);
   if (state == "a") state = "absolute";
   if (state == "c") state = "construct";
   if (state == "e") state = "emphatic";
@@ -850,7 +850,7 @@ string lexicon_logic_render_etcbc4_morphology (string rowid)
     renderings.push_back (state);
   }
   
-  string gloss = database_etcbc4.gloss (row);
+  std::string gloss = database_etcbc4.gloss (row);
   //renderings.push_back (";");
   //renderings.push_back ("gloss:");
   renderings.push_back ("-");
@@ -858,21 +858,21 @@ string lexicon_logic_render_etcbc4_morphology (string rowid)
   
   renderings.push_back ("<br>");
   
-  string word = database_etcbc4.word (row);
+  std::string word = database_etcbc4.word (row);
   renderings.push_back ("word:");
   renderings.push_back (word);
 
-  string vocalized_lexeme = database_etcbc4.vocalized_lexeme (row);
+  std::string vocalized_lexeme = database_etcbc4.vocalized_lexeme (row);
   renderings.push_back (";");
   renderings.push_back ("vocalized lexeme:");
   renderings.push_back (vocalized_lexeme);
 
-  string consonantal_lexeme = database_etcbc4.consonantal_lexeme (row);
+  std::string consonantal_lexeme = database_etcbc4.consonantal_lexeme (row);
   renderings.push_back (";");
   renderings.push_back ("consonantal lexeme:");
   renderings.push_back (consonantal_lexeme);
 
-  string phrase_function = database_etcbc4.phrase_function (row);
+  std::string phrase_function = database_etcbc4.phrase_function (row);
   if (phrase_function == "Adju") phrase_function = "adjunct";
   if (phrase_function == "Cmpl") phrase_function = "complement";
   if (phrase_function == "Conj") phrase_function = "conjunction";
@@ -909,7 +909,7 @@ string lexicon_logic_render_etcbc4_morphology (string rowid)
     renderings.push_back (phrase_function);
   }
 
-  string phrase_type = database_etcbc4.phrase_type (row);
+  std::string phrase_type = database_etcbc4.phrase_type (row);
   if (phrase_type == "VP") phrase_type = "verbal phrase";
   if (phrase_type == "NP") phrase_type = "nominal phrase";
   if (phrase_type == "PrNP") phrase_type = "proper-noun phrase";
@@ -927,7 +927,7 @@ string lexicon_logic_render_etcbc4_morphology (string rowid)
   renderings.push_back ("phrase type:");
   renderings.push_back (phrase_type);
 
-  string phrase_relation = database_etcbc4.phrase_relation (row);
+  std::string phrase_relation = database_etcbc4.phrase_relation (row);
   if (phrase_relation == "PrAd") phrase_relation = "predicative adjunct";
   if (phrase_relation == "Resu") phrase_relation = "resumption";
   if (phrase_relation == "NA") phrase_relation.clear ();
@@ -937,7 +937,7 @@ string lexicon_logic_render_etcbc4_morphology (string rowid)
     renderings.push_back (phrase_relation);
   }
   
-  string phrase_a_relation = database_etcbc4.phrase_a_relation (row);
+  std::string phrase_a_relation = database_etcbc4.phrase_a_relation (row);
   if (phrase_a_relation == "Appo") phrase_a_relation = "apposition";
   if (phrase_a_relation == "Sfxs") phrase_a_relation = "suffix specification";
   if (phrase_a_relation == "Link") phrase_a_relation = "conjunction";
@@ -950,10 +950,10 @@ string lexicon_logic_render_etcbc4_morphology (string rowid)
     renderings.push_back (phrase_a_relation);
   }
 
-  string clause_text_type = database_etcbc4.clause_text_type (row);
-  string rendering;
+  std::string clause_text_type = database_etcbc4.clause_text_type (row);
+  std::string rendering;
   while (!clause_text_type.empty ()) {
-    string type = clause_text_type.substr (clause_text_type.length () - 1);
+    std::string type = clause_text_type.substr (clause_text_type.length () - 1);
     clause_text_type.erase (clause_text_type.length () - 1, 1);
     if (type == "?") type.clear ();
     if (type == "N") type = "narrative";
@@ -970,7 +970,7 @@ string lexicon_logic_render_etcbc4_morphology (string rowid)
     renderings.push_back (rendering);
   }
 
-  string clause_type = database_etcbc4.clause_type (row);
+  std::string clause_type = database_etcbc4.clause_type (row);
   if (clause_type == "AjCl") clause_type = "adjective clause";
   if (clause_type == "CPen") clause_type = "casus pendens";
   if (clause_type == "Defc") clause_type = "defective clause atom";
@@ -1022,7 +1022,7 @@ string lexicon_logic_render_etcbc4_morphology (string rowid)
     renderings.push_back (clause_type);
   }
 
-  string clause_relation = database_etcbc4.clause_relation (row);
+  std::string clause_relation = database_etcbc4.clause_relation (row);
   if (clause_relation == "Adju") clause_relation = "adjunctive clause";
   if (clause_relation == "Attr") clause_relation = "attributive clause";
   if (clause_relation == "Cmpl") clause_relation = "complement clause";
@@ -1051,11 +1051,11 @@ string lexicon_logic_render_bdb_entry (string code)
 {
   Database_HebrewLexicon database_hebrewlexicon;
   // Get the intermediate map value between the augmented Strong's numbers and the BDB lexicon.
-  string map = database_hebrewlexicon.getaug (code);
+  std::string map = database_hebrewlexicon.getaug (code);
   // Get the BDB entry ID.
-  string bdb = database_hebrewlexicon.getmap (map);
+  std::string bdb = database_hebrewlexicon.getmap (map);
   // Get the BDB definition.
-  string definition = database_hebrewlexicon.getbdb (bdb);
+  std::string definition = database_hebrewlexicon.getbdb (bdb);
   // Remove XML elements.
   filter::strings::replace_between (definition, "<", ">", "");
   // Convert new lines to <br> to retain some formatting.
@@ -1071,7 +1071,7 @@ string lexicon_logic_render_bdb_entry (string code)
 // Returns the attribute.
 string lexicon_logic_get_remove_attribute (string & xml, const char * key)
 {
-  string value;
+  std::string value;
   pugi::xml_document document;
   pugi::xml_parse_result result = document.load_string (xml.c_str(), pugi::parse_ws_pcdata_single);
   if (result) {
@@ -1092,7 +1092,7 @@ string lexicon_logic_get_remove_attribute (string & xml, const char * key)
 // Gets the text contents of the $xml node.
 string lexicon_logic_get_text (string & xml)
 {
-  string value;
+  std::string value;
   pugi::xml_document document;
   pugi::xml_parse_result result = document.load_string (xml.c_str(), pugi::parse_ws_pcdata_single);
   if (result) {
@@ -1117,7 +1117,7 @@ string lexicon_logic_hebrew_morphology_render (string value)
 
   // A morphology item in the Open Scriptures Hebrew Bible starts with a language code.
   // One language code is prefixed to the entire morphological parsing string, including prefixes, main word and suffixes.
-  string language = value.substr (0, 1);
+  std::string language = value.substr (0, 1);
   bool hebrew = (language == "H");
   bool aramaic = (language == "A");
   // At times the parser may have ommitted the language code. Take Hebrew in that case.
@@ -1138,7 +1138,7 @@ string lexicon_logic_hebrew_morphology_render (string value)
     if (!renderings.empty ()) renderings.push_back (" + ");
     
     // Part of Speech
-    string part_of_speech = value2.substr (0, 1);
+    std::string part_of_speech = value2.substr (0, 1);
     value2.erase (0, 1);
     if (part_of_speech == "A") {
       renderings.push_back ("adjective");
@@ -1211,9 +1211,9 @@ string lexicon_logic_hebrew_morphology_render (string value)
 // Verb conjugation types
 string lexicon_logic_hebrew_morphology_render_type_verb_conjugation (string & value)
 {
-  string rendering;
+  std::string rendering;
   if (!value.empty ()) {
-    string code = value.substr (0, 1);
+    std::string code = value.substr (0, 1);
     value.erase (0, 1);
     if      (code == "p") rendering = "perfect (qatal)";
     else if (code == "q") rendering = "sequential perfect (weqatal)";
@@ -1235,9 +1235,9 @@ string lexicon_logic_hebrew_morphology_render_type_verb_conjugation (string & va
 // Adjective types
 string lexicon_logic_hebrew_morphology_render_type_adjective (string & value)
 {
-  string rendering;
+  std::string rendering;
   if (!value.empty ()) {
-    string code = value.substr (0, 1);
+    std::string code = value.substr (0, 1);
     value.erase (0, 1);
     if      (code == "a") rendering = "adjective";
     else if (code == "c") rendering = "cardinal number";
@@ -1252,9 +1252,9 @@ string lexicon_logic_hebrew_morphology_render_type_adjective (string & value)
 // Noun types
 string lexicon_logic_hebrew_morphology_render_type_noun (string & value)
 {
-  string rendering;
+  std::string rendering;
   if (!value.empty ()) {
-    string code = value.substr (0, 1);
+    std::string code = value.substr (0, 1);
     value.erase (0, 1);
     if      (code == "c") rendering = "common";
     else if (code == "g") rendering = "gentilic";
@@ -1268,9 +1268,9 @@ string lexicon_logic_hebrew_morphology_render_type_noun (string & value)
 // Pronoun types
 string lexicon_logic_hebrew_morphology_render_type_pronoun (string & value)
 {
-  string rendering;
+  std::string rendering;
   if (!value.empty ()) {
-    string code = value.substr (0, 1);
+    std::string code = value.substr (0, 1);
     value.erase (0, 1);
     if      (code == "d") rendering = "demonstrative";
     else if (code == "f") rendering = "indefinite";
@@ -1286,9 +1286,9 @@ string lexicon_logic_hebrew_morphology_render_type_pronoun (string & value)
 // Preposition types
 string lexicon_logic_hebrew_morphology_render_type_preposition (string & value)
 {
-  string rendering;
+  std::string rendering;
   if (!value.empty ()) {
-    string code = value.substr (0, 1);
+    std::string code = value.substr (0, 1);
     value.erase (0, 1);
     if (code == "d") rendering = "definite article";
     else             rendering = code;
@@ -1300,9 +1300,9 @@ string lexicon_logic_hebrew_morphology_render_type_preposition (string & value)
 // Suffix types
 string lexicon_logic_hebrew_morphology_render_type_suffix (string & value)
 {
-  string rendering;
+  std::string rendering;
   if (!value.empty ()) {
-    string code = value.substr (0, 1);
+    std::string code = value.substr (0, 1);
     value.erase (0, 1);
     if      (code == "d") rendering = "directional he";
     else if (code == "h") rendering = "paragogic he";
@@ -1317,9 +1317,9 @@ string lexicon_logic_hebrew_morphology_render_type_suffix (string & value)
 // Particle types
 string lexicon_logic_hebrew_morphology_render_type_particle (string & value)
 {
-  string rendering;
+  std::string rendering;
   if (!value.empty ()) {
-    string code = value.substr (0, 1);
+    std::string code = value.substr (0, 1);
     value.erase (0, 1);
     if      (code == "a") rendering = "affirmation";
     else if (code == "d") rendering = "definite article";
@@ -1339,9 +1339,9 @@ string lexicon_logic_hebrew_morphology_render_type_particle (string & value)
 // Render verb stems.
 string lexicon_logic_hebrew_morphology_render_stem (bool hebrew, bool aramaic, string & value)
 {
-  string rendering;
+  std::string rendering;
   if (!value.empty ()) {
-    string code = value.substr (0, 1);
+    std::string code = value.substr (0, 1);
     value.erase (0, 1);
     if (hebrew) {
       // Verb stems (Hebrew)
@@ -1415,9 +1415,9 @@ string lexicon_logic_hebrew_morphology_render_stem (bool hebrew, bool aramaic, s
 // Person
 string lexicon_logic_hebrew_morphology_render_person (string & value)
 {
-  string rendering;
+  std::string rendering;
   if (!value.empty ()) {
-    string code = value.substr (0, 1);
+    std::string code = value.substr (0, 1);
     value.erase (0, 1);
     if      (code == "1") rendering = "first person";
     else if (code == "2") rendering = "second person";
@@ -1433,9 +1433,9 @@ string lexicon_logic_hebrew_morphology_render_person (string & value)
 // Gender
 string lexicon_logic_hebrew_morphology_render_gender (string & value)
 {
-  string rendering;
+  std::string rendering;
   if (!value.empty ()) {
-    string code = value.substr (0, 1);
+    std::string code = value.substr (0, 1);
     value.erase (0, 1);
     if      (code == "b") rendering = "both (noun)";
     else if (code == "c") rendering = "common (verb)";
@@ -1450,9 +1450,9 @@ string lexicon_logic_hebrew_morphology_render_gender (string & value)
 // Number
 string lexicon_logic_hebrew_morphology_render_number (string & value)
 {
-  string rendering;
+  std::string rendering;
   if (!value.empty ()) {
-    string code = value.substr (0, 1);
+    std::string code = value.substr (0, 1);
     value.erase (0, 1);
     if      (code == "d") rendering = "dual";
     else if (code == "p") rendering = "plural";
@@ -1466,9 +1466,9 @@ string lexicon_logic_hebrew_morphology_render_number (string & value)
 // State
 string lexicon_logic_hebrew_morphology_render_state (string & value)
 {
-  string rendering;
+  std::string rendering;
   if (!value.empty ()) {
-    string code = value.substr (0, 1);
+    std::string code = value.substr (0, 1);
     value.erase (0, 1);
     if      (code == "a") rendering = "absolute";
     else if (code == "c") rendering = "construct";
@@ -1481,20 +1481,20 @@ string lexicon_logic_hebrew_morphology_render_state (string & value)
 
 struct abbott_smith_walker: pugi::xml_tree_walker
 {
-  string text {};
+  std::string text {};
 
   bool text_element_already_handled {false};
-  string previous_element_name {};
+  std::string previous_element_name {};
 
   virtual bool for_each (pugi::xml_node& node) override
   {
     // Details of the current node.
-    string clas = node.attribute ("class").value ();
-    string name = node.name ();
+    std::string clas = node.attribute ("class").value ();
+    std::string name = node.name ();
 
     // Handle occurrences count in the New Testament.
     if (name == "note") {
-      string type = node.attribute("type").value();
+      std::string type = node.attribute("type").value();
       if (type == "occurrencesNT") {
         text.append ("occurs ");
         text.append (node.text().get());
@@ -1507,7 +1507,7 @@ struct abbott_smith_walker: pugi::xml_tree_walker
     // Handle sense indicators.
     if (name == "sense") {
       if (previous_element_name != "sense") text.append (" sense ");
-      string n = node.attribute("n").value();
+      std::string n = node.attribute("n").value();
       if (!n.empty()) {
         text.append (n);
         text.append (" ");
@@ -1536,7 +1536,7 @@ string lexicon_logic_render_abbott_smiths_definition (string lemma, string stron
 
   Database_AbbottSmith database_abbottsmith;
 
-  string definition = database_abbottsmith.get (lemma, lexicon_logic_strong_number_cleanup (strong));
+  std::string definition = database_abbottsmith.get (lemma, lexicon_logic_strong_number_cleanup (strong));
   
   pugi::xml_document document;
   document.load_string (definition.c_str());
@@ -1544,7 +1544,7 @@ string lexicon_logic_render_abbott_smiths_definition (string lemma, string stron
   document.traverse (tree_walker);
   renderings.push_back (tree_walker.text);
 
-  string rendering = filter::strings::implode (renderings, " ");
+  std::string rendering = filter::strings::implode (renderings, " ");
   rendering = filter::strings::trim (rendering);
 
   // If any rendering is given, then prefix the name of the lexicon.

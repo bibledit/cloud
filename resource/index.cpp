@@ -77,10 +77,10 @@ string resource_index (Webserver_Request& webserver_request)
   }
 
   
-  string resourceblock;
+  std::string resourceblock;
   for (size_t i = 1; i <= resources.size (); i++) {
     resourceblock.append ("<div id=\"line" + filter::strings::convert_to_string (i) + "\" style=\"clear:both\">\n");
-    string resource = resources[i - 1];
+    std::string resource = resources[i - 1];
     if (!sword_logic_get_remote_module (resource).empty ()) {
       if (!sword_logic_get_installed_module (resource).empty ()) {
         resource = sword_logic_get_name (resource);
@@ -95,9 +95,9 @@ string resource_index (Webserver_Request& webserver_request)
   
   
   size_t resource_count = resources.size ();
-  string username = webserver_request.session_logic()->currentUser ();
+  std::string username = webserver_request.session_logic()->currentUser ();
   int window_position = config_globals_resource_window_positions [username];
-  string script = "var resourceCount = " + filter::strings::convert_to_string (resource_count) + ";\n"
+  std::string script = "var resourceCount = " + filter::strings::convert_to_string (resource_count) + ";\n"
                   "var resourceWindowPosition = " + filter::strings::convert_to_string (window_position) + ";";
   config::logic::swipe_enabled (webserver_request, script);
   view.set_variable ("script", script);

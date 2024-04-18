@@ -59,7 +59,7 @@ string notes_status_1 (Webserver_Request& webserver_request)
   Assets_Header header = Assets_Header (translate("Note status"), webserver_request);
   page += header.run ();
   Assets_View view;
-  string success, error;
+  std::string success, error;
   
   
   int id = filter::strings::convert_to_int (webserver_request.query ["id"]);
@@ -67,7 +67,7 @@ string notes_status_1 (Webserver_Request& webserver_request)
   
   
   if (webserver_request.query.count ("status")) {
-    string status = webserver_request.query["status"];
+    std::string status = webserver_request.query["status"];
     notes_logic.setStatus (id, status);
     redirect_browser (webserver_request, notes_actions_url () + "?id=" + filter::strings::convert_to_string (id));
     return "";

@@ -26,7 +26,7 @@ using namespace std;
 // This function delivers a set of <br> to mitigate the problem.
 string filter_html_android_brs ()
 {
-  string brs;
+  std::string brs;
 #ifdef HAVE_ANDROID
   brs = "<br><br><br><br><br><br><br><br><br><br><br><br><br><br>";
 #endif

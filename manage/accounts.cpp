@@ -69,13 +69,13 @@ string manage_accounts (Webserver_Request& webserver_request)
   Assets_View view;
 
   // The user to act on.
-  string objectUsername = webserver_request.query["user"];
+  std::string objectUsername = webserver_request.query["user"];
   int user_level = webserver_request.database_users ()->get_level (objectUsername);
   
   // Delete a user.
   if (webserver_request.query.count ("delete")) {
-    string role = Filter_Roles::text (user_level);
-    string email = webserver_request.database_users ()->get_email (objectUsername);
+    std::string role = Filter_Roles::text (user_level);
+    std::string email = webserver_request.database_users ()->get_email (objectUsername);
     std::vector <std::string> users = webserver_request.database_users ()->get_users ();
     std::vector <std::string> administrators = webserver_request.database_users ()->getAdministrators ();
     if (users.size () == 1) {
@@ -83,7 +83,7 @@ string manage_accounts (Webserver_Request& webserver_request)
     } else if ((user_level >= Filter_Roles::admin ()) && (administrators.size () == 1)) {
       page += assets_page::error (translate("Cannot remove the last administrator"));
     } else {
-      string message;
+      std::string message;
       user_logic_delete_account (objectUsername, role, email, message);
       user_updated = true;
       message.append (" ");
@@ -100,7 +100,7 @@ string manage_accounts (Webserver_Request& webserver_request)
       std::vector <std::string> bits = filter::strings::explode(line, '|');
       if (bits.size() != 2) continue;
       int seconds = filter::strings::convert_to_int(bits[0]);
-      string user = bits[1];
+      std::string user = bits[1];
       account_creation_times [user] = seconds;
     }
   }
@@ -111,10 +111,10 @@ string manage_accounts (Webserver_Request& webserver_request)
     
     // Gather details for this user account.
     user_level = webserver_request.database_users ()->get_level (username);
-    const string role = Filter_Roles::text (user_level);
-    const string email = webserver_request.database_users ()->get_email (username);
+    const std::string role = Filter_Roles::text (user_level);
+    const std::string email = webserver_request.database_users ()->get_email (username);
     const int seconds = filter::date::seconds_since_epoch() - account_creation_times[username];
-    const string days = filter::strings::convert_to_string (seconds / (3600 * 24));
+    const std::string days = filter::strings::convert_to_string (seconds / (3600 * 24));
     
     // Pass information about this user to the flate engine for display.
     view.add_iteration ("tbody", {

@@ -56,7 +56,7 @@ string versification_index (Webserver_Request& webserver_request)
   Database_Versifications database_versifications = Database_Versifications();
 
   if (webserver_request.post.count ("new")) {
-    string name = webserver_request.post["entry"];
+    std::string name = webserver_request.post["entry"];
     database_versifications.createSystem (name);
   }
   if (webserver_request.query.count ("new")) {
@@ -66,8 +66,8 @@ string versification_index (Webserver_Request& webserver_request)
   }
 
   if (webserver_request.query.count ("delete")) {
-    string name = webserver_request.query ["delete"];
-    string confirm = webserver_request.query ["confirm"];
+    std::string name = webserver_request.query ["delete"];
+    std::string confirm = webserver_request.query ["confirm"];
     if (confirm == "yes") {
       database_versifications.erase (name);
     } else if (confirm == "cancel") {

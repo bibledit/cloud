@@ -29,13 +29,13 @@ using namespace std;
 TEST (database, localization)
 {
   refresh_sandbox (false);
-  string file_po = filter_url_create_root_path ({"unittests", "tests", "nl.po"});
+  std::string file_po = filter_url_create_root_path ({"unittests", "tests", "nl.po"});
   Database_Localization database_localization = Database_Localization ("nl");
   database_localization.create (file_po);
   
-  string msgid = "phpunit";
-  string msgstr = "phpunit";
-  string result = database_localization.translate (msgid);
+  std::string msgid = "phpunit";
+  std::string msgstr = "phpunit";
+  std::string result = database_localization.translate (msgid);
   EXPECT_EQ (msgstr, result);
   result = database_localization.backtranslate (msgstr);
   EXPECT_EQ (msgid, result);

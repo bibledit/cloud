@@ -75,7 +75,7 @@ string read_index (Webserver_Request& webserver_request)
 
   // Set the user chosen Bible as the current Bible.
   if (webserver_request.post.count ("bibleselect")) {
-    string bibleselect = webserver_request.post ["bibleselect"];
+    std::string bibleselect = webserver_request.post ["bibleselect"];
     webserver_request.database_config_user ()->setBible (bibleselect);
     return std::string();
   }
@@ -96,9 +96,9 @@ string read_index (Webserver_Request& webserver_request)
   // Or if the user have used query to preset the active Bible, get the preset Bible.
   // If needed, change Bible to one it has read access to.
   // Set the chosen Bible on the option HTML tag.
-  string bible = access_bible::clamp (webserver_request, webserver_request.database_config_user()->getBible ());
+  std::string bible = access_bible::clamp (webserver_request, webserver_request.database_config_user()->getBible ());
   if (webserver_request.query.count ("bible")) bible = access_bible::clamp (webserver_request, webserver_request.query ["bible"]);
-  string bible_html;
+  std::string bible_html;
   std::vector <std::string> bibles = access_bible::bibles (webserver_request);
   for (auto selectable_bible : bibles) {
     bible_html = Options_To_Select::add_selection (selectable_bible, selectable_bible, bible_html);
@@ -122,14 +122,14 @@ string read_index (Webserver_Request& webserver_request)
   int verticalCaretPosition = webserver_request.database_config_user ()->getVerticalCaretPosition ();
   script_stream << "var verticalCaretPosition = " << verticalCaretPosition << ";\n";
   script_stream << "var verseSeparator = " << quoted(Database_Config_General::getNotesVerseSeparator ()) << ";\n";
-  string script {script_stream.str()};
+  std::string script {script_stream.str()};
   config::logic::swipe_enabled (webserver_request, script);
   view.set_variable ("script", script);
 
-  string cls = Filter_Css::getClass (bible);
-  string font = fonts::logic::get_text_font (bible);
+  std::string cls = Filter_Css::getClass (bible);
+  std::string font = fonts::logic::get_text_font (bible);
   int current_theme_index = webserver_request.database_config_user ()->getCurrentTheme ();
-  string filename = current_theme_filebased_cache_filename (webserver_request.session_identifier);
+  std::string filename = current_theme_filebased_cache_filename (webserver_request.session_identifier);
   int direction = Database_Config_Bible::getTextDirection (bible);
   int lineheight = Database_Config_Bible::getLineHeight (bible);
   int letterspacing = Database_Config_Bible::getLetterSpacing (bible);

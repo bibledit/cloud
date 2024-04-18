@@ -34,7 +34,7 @@ using namespace std;
 // The rest contains the $data.
 string checksum_logic::send (const std::string& data, bool readwrite)
 {
-  string checksum = get (data);
+  std::string checksum = get (data);
   checksum.append ("\n");
   checksum.append (filter::strings::convert_to_string (readwrite));
   checksum.append ("\n");
@@ -64,8 +64,8 @@ string checksum_logic::get (const std::vector <std::string>& data)
 // Returns a proper checksum for the USFM in the chapter.
 string checksum_logic::get_chapter (Webserver_Request& webserver_request, const std::string& bible, int book, int chapter)
 {
-  string usfm = webserver_request.database_bibles()->get_chapter (bible, book, chapter);
-  string checksum = md5 (filter::strings::trim (usfm));
+  std::string usfm = webserver_request.database_bibles()->get_chapter (bible, book, chapter);
+  std::string checksum = md5 (filter::strings::trim (usfm));
   return checksum;
 }
 
@@ -78,7 +78,7 @@ string checksum_logic::get_book (Webserver_Request& webserver_request, const std
   for (auto chapter : chapters) {
     checksums.push_back (get_chapter (webserver_request, bible, book, chapter));
   }
-  string checksum = filter::strings::implode (checksums, std::string());
+  std::string checksum = filter::strings::implode (checksums, std::string());
   checksum = md5 (checksum);
   return checksum;
 }
@@ -92,7 +92,7 @@ string checksum_logic::get_bible (Webserver_Request& webserver_request, const st
   for (auto book : books) {
     checksums.push_back (get_book (webserver_request, bible, book));
   }
-  string checksum = filter::strings::implode (checksums, std::string());
+  std::string checksum = filter::strings::implode (checksums, std::string());
   checksum = md5 (checksum);
   return checksum;
 }
@@ -105,7 +105,7 @@ string checksum_logic::get_bibles (Webserver_Request& webserver_request, const s
   for (const auto & bible : bibles) {
     checksums.push_back (get_bible (webserver_request, bible));
   }
-  string checksum = filter::strings::implode (checksums, std::string());
+  std::string checksum = filter::strings::implode (checksums, std::string());
   checksum = md5 (checksum);
   return checksum;
 }

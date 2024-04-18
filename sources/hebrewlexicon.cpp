@@ -34,14 +34,14 @@ void sources_hebrewlexicon_parse ()
     Database_Logs::log ("AugIndex.xml");
     xmlTextReaderPtr reader = xmlNewTextReaderFilename ("sources/hebrewlexicon/AugIndex.xml");
     
-    string aug;
-    string target;
+    std::string aug;
+    std::string target;
     
     while ((xmlTextReaderRead(reader) == 1)) {
       switch (xmlTextReaderNodeType (reader)) {
         case XML_READER_TYPE_ELEMENT:
         {
-          string element = (char *) xmlTextReaderName (reader);
+          std::string element = (char *) xmlTextReaderName (reader);
           if (element == "w") {
             aug = (char *) xmlTextReaderGetAttribute (reader, BAD_CAST "aug");
             target = (char *) xmlTextReaderReadInnerXml (reader);
@@ -50,9 +50,9 @@ void sources_hebrewlexicon_parse ()
         }
         case XML_READER_TYPE_END_ELEMENT:
         {
-          string element = (char *) xmlTextReaderName(reader);
+          std::string element = (char *) xmlTextReaderName(reader);
           if (element == "w") {
-            string xmlns = " xmlns=\"http://openscriptures.github.com/morphhb/namespace\"";
+            std::string xmlns = " xmlns=\"http://openscriptures.github.com/morphhb/namespace\"";
             target = filter::strings::replace (xmlns, "", target);
             target = filter::strings::trim (target);
             database_hebrewlexicon.setaug (aug, target);
@@ -69,14 +69,14 @@ void sources_hebrewlexicon_parse ()
     Database_Logs::log ("BrownDriverBriggs.xml");
     xmlTextReaderPtr reader = xmlNewTextReaderFilename ("sources/hebrewlexicon/BrownDriverBriggs.xml");
     
-    string id;
-    string definition;
+    std::string id;
+    std::string definition;
     
     while ((xmlTextReaderRead(reader) == 1)) {
       switch (xmlTextReaderNodeType (reader)) {
         case XML_READER_TYPE_ELEMENT:
         {
-          string element = (char *) xmlTextReaderName (reader);
+          std::string element = (char *) xmlTextReaderName (reader);
           if (element == "entry") {
             id = (char *) xmlTextReaderGetAttribute (reader, BAD_CAST "id");
             definition = (char *) xmlTextReaderReadInnerXml (reader);
@@ -85,9 +85,9 @@ void sources_hebrewlexicon_parse ()
         }
         case XML_READER_TYPE_END_ELEMENT:
         {
-          string element = (char *) xmlTextReaderName(reader);
+          std::string element = (char *) xmlTextReaderName(reader);
           if (element == "entry") {
-            string xmlns = " xmlns=\"http://openscriptures.github.com/morphhb/namespace\"";
+            std::string xmlns = " xmlns=\"http://openscriptures.github.com/morphhb/namespace\"";
             definition = filter::strings::replace (xmlns, "", definition);
             definition = filter::strings::convert_xml_character_entities_to_characters (definition);
             std::vector <std::string> lines = filter::strings::explode (definition, '\n');
@@ -111,14 +111,14 @@ void sources_hebrewlexicon_parse ()
     Database_Logs::log ("LexicalIndex.xml");
     xmlTextReaderPtr reader = xmlNewTextReaderFilename ("sources/hebrewlexicon/LexicalIndex.xml");
     
-    string id;
-    string bdb;
+    std::string id;
+    std::string bdb;
     
     while ((xmlTextReaderRead(reader) == 1)) {
       switch (xmlTextReaderNodeType (reader)) {
         case XML_READER_TYPE_ELEMENT:
         {
-          string element = (char *) xmlTextReaderName (reader);
+          std::string element = (char *) xmlTextReaderName (reader);
           if (element == "entry") {
             char * attribute = (char *) xmlTextReaderGetAttribute (reader, BAD_CAST "id");
             if (attribute) id = attribute;
@@ -131,9 +131,9 @@ void sources_hebrewlexicon_parse ()
         }
         case XML_READER_TYPE_END_ELEMENT:
         {
-          string element = (char *) xmlTextReaderName(reader);
+          std::string element = (char *) xmlTextReaderName(reader);
           if (element == "entry") {
-            string xmlns = " xmlns=\"http://openscriptures.github.com/morphhb/namespace\"";
+            std::string xmlns = " xmlns=\"http://openscriptures.github.com/morphhb/namespace\"";
             bdb = filter::strings::replace (xmlns, "", bdb);
             bdb = filter::strings::trim (bdb);
             database_hebrewlexicon.setmap (id, bdb);
@@ -150,14 +150,14 @@ void sources_hebrewlexicon_parse ()
     Database_Logs::log ("HebrewStrong.xml");
     xmlTextReaderPtr reader = xmlNewTextReaderFilename ("sources/hebrewlexicon/HebrewStrong.xml");
     
-    string id;
-    string definition;
+    std::string id;
+    std::string definition;
     
     while ((xmlTextReaderRead(reader) == 1)) {
       switch (xmlTextReaderNodeType (reader)) {
         case XML_READER_TYPE_ELEMENT:
         {
-          string element = (char *) xmlTextReaderName (reader);
+          std::string element = (char *) xmlTextReaderName (reader);
           if (element == "entry") {
             id = (char *) xmlTextReaderGetAttribute (reader, BAD_CAST "id");
             definition = (char *) xmlTextReaderReadInnerXml (reader);
@@ -166,9 +166,9 @@ void sources_hebrewlexicon_parse ()
         }
         case XML_READER_TYPE_END_ELEMENT:
         {
-          string element = (char *) xmlTextReaderName(reader);
+          std::string element = (char *) xmlTextReaderName(reader);
           if (element == "entry") {
-            string xmlns = " xmlns=\"http://openscriptures.github.com/morphhb/namespace\"";
+            std::string xmlns = " xmlns=\"http://openscriptures.github.com/morphhb/namespace\"";
             definition = filter::strings::replace (xmlns, "", definition);
             definition = filter::strings::convert_xml_character_entities_to_characters (definition);
             definition = filter::strings::replace ("'", "''", definition);
@@ -187,14 +187,14 @@ void sources_hebrewlexicon_parse ()
     Database_Logs::log ("PartsOfSpeech.xml");
     xmlTextReaderPtr reader = xmlNewTextReaderFilename ("sources/hebrewlexicon/PartsOfSpeech.xml");
     
-    string code;
-    string name;
+    std::string code;
+    std::string name;
     
     while ((xmlTextReaderRead(reader) == 1)) {
       switch (xmlTextReaderNodeType (reader)) {
         case XML_READER_TYPE_ELEMENT:
         {
-          string element = (char *) xmlTextReaderName (reader);
+          std::string element = (char *) xmlTextReaderName (reader);
           if (element == "Code") {
             code = (char *) xmlTextReaderReadInnerXml (reader);
           }
@@ -205,7 +205,7 @@ void sources_hebrewlexicon_parse ()
         }
         case XML_READER_TYPE_END_ELEMENT:
         {
-          string element = (char *) xmlTextReaderName(reader);
+          std::string element = (char *) xmlTextReaderName(reader);
           if (element == "POS") {
             name = filter::strings::unicode_string_casefold (name);
             database_hebrewlexicon.setpos (code, name);

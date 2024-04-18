@@ -105,7 +105,7 @@ Mailbox::Mailbox(const std::string& text)
 
 std::string Mailbox::str() const
 {
-    string rs;
+    std::string rs;
     bool hasLabel = !m_label.empty(), hasRoute = !m_route.empty();
 
     if(hasLabel)

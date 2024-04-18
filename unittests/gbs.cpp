@@ -29,10 +29,10 @@ using namespace std;
 
 TEST (gbs, logic)
 {
-  string resource {};
+  std::string resource {};
   int book {};
-  string text {};
-  string standard {};
+  std::string text {};
+  std::string standard {};
 
   resource = "Statenbijbel GBS";
   book = 58; // Hebrews.

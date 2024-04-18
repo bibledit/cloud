@@ -29,7 +29,7 @@ using namespace std;
 
 void test_search_setup ()
 {
-  string standardUSFM1 =  "\\c 1\n"
+  std::string standardUSFM1 =  "\\c 1\n"
                           "\\p\n"
                           "\\v 1 Text of the first verse.\n"
                           "\\v 2 \\add Text of the second \\add*verse.\n"
@@ -43,10 +43,10 @@ void test_search_setup ()
                           "\\v 8 Verse eight ✆ ❼ ሯ.\n"
                           "\\v 9 Verse nine nine.\n"
                           "\\v 10 خدا بود و کلمه کلمه خدا بود. در ابتدا کلمه بود و کلمه نزد.\n";
-  string standardUSFM2 =  "\\c 1\n"
+  std::string standardUSFM2 =  "\\c 1\n"
                           "\\p\n"
                           "\\v 3 And he said.\n";
-  string standardUSFM3 =  "\\c 3  \n"
+  std::string standardUSFM3 =  "\\c 3  \n"
                           "\\s1 Manusia pertama berdosa karena tidak mentaati Allah.\n"
                           "\\p\n"
                           "\\v 1 Ular adalah binatang yang paling licik diantara semua binatang buas yang ALLAH ciptajkan. Ular bertanya kepada perempuan itu, “Apakah benar Allah berkata kepada kalian, ‘Jangan memakan satu buah pun dari semua pohon yang ada di taman ini?’ ’’\n"
@@ -151,7 +151,7 @@ TEST (search, logic)
     refresh_sandbox (true);
     test_search_setup ();
     // Plain.
-    string text = search_logic_get_bible_verse_text ("phpunit", 2, 3, 5);
+    std::string text = search_logic_get_bible_verse_text ("phpunit", 2, 3, 5);
     EXPECT_EQ ("Text of the 5th fifth verse is this: Verse five ✆.", text);
     // USFM.
     text = search_logic_get_bible_verse_usfm ("phpunit", 2, 3, 5);

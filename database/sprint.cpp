@@ -44,7 +44,7 @@ void Database_Sprint::create ()
 {
   sqlite3 * db = connect ();
 
-  string sql = 
+  std::string sql = 
     "CREATE TABLE IF NOT EXISTS sprint ("
     "  year integer,"
     "  month integer,"

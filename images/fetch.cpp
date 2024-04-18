@@ -41,7 +41,7 @@ bool images_fetch_acl (Webserver_Request& webserver_request)
 string images_fetch (Webserver_Request& webserver_request)
 {
   // Image name.
-  string image = webserver_request.query ["image"];
+  std::string image = webserver_request.query ["image"];
 
   // Set the HTTP GET parameter to the image name,
   // so the server will return the appropriate Mime type for this image.

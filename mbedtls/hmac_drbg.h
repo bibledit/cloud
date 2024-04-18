@@ -207,7 +207,7 @@ void mbedtls_hmac_drbg_init( mbedtls_hmac_drbg_context *ctx );
  * \param p_entropy     The entropy context to pass to \p f_entropy.
  * \param custom        The personalization string.
  *                      This can be \c NULL, in which case the personalization
- *                      string is empty regardless of the value of \p len.
+ *                      std::string is empty regardless of the value of \p len.
  * \param len           The length of the personalization string.
  *                      This must be at most #MBEDTLS_HMAC_DRBG_MAX_INPUT
  *                      and also at most

@@ -314,7 +314,7 @@ void bibledit_stop_library ()
   // Clear running flag.
   config_globals_webserver_running = false;
   
-  string url, error;
+  std::string url, error;
   
   // Connect to the plain webserver to initiate its shutdown mechanism.
   url = "http://localhost:";
@@ -323,7 +323,7 @@ void bibledit_stop_library ()
 
 #ifdef RUN_SECURE_SERVER
   // If the secure server runs, connect to it to initiate its shutdown mechanism.
-  string https_port = config::logic::https_network_port ();
+  std::string https_port = config::logic::https_network_port ();
   if (https_port.length() > 1) {
     url = "https://localhost:";
     url.append (https_port);
@@ -413,14 +413,14 @@ const char * bibledit_get_reference_for_accordance ()
   if (!config_globals_data_initialized) return reference.c_str();
 
   // Get the username on this client device.
-  string user = client_logic_get_username ();
+  std::string user = client_logic_get_username ();
 
   // Get the active Bible and its versification system.
   Webserver_Request webserver_request;
   webserver_request.session_logic()->set_username(user);
   Database_Config_User database_config_user (webserver_request);
-  string bible = webserver_request.database_config_user ()->getBible ();
-  string versification = Database_Config_Bible::getVersificationSystem (bible);
+  std::string bible = webserver_request.database_config_user ()->getBible ();
+  std::string versification = Database_Config_Bible::getVersificationSystem (bible);
 
   int book = Ipc_Focus::getBook (webserver_request);
   int chapter = Ipc_Focus::getChapter (webserver_request);
@@ -439,8 +439,8 @@ const char * bibledit_get_reference_for_accordance ()
   // Accordance expects for instance, 2 Corinthians 9:2, to be broadcast as "2CO 9:2".
   book = passages[0].m_book;
   chapter = passages[0].m_chapter;
-  string verse_s = passages[0].m_verse;
-  string usfm_id = database::books::get_usfm_from_id (static_cast<book_id>(book));
+  std::string verse_s = passages[0].m_verse;
+  std::string usfm_id = database::books::get_usfm_from_id (static_cast<book_id>(book));
   reference = usfm_id + " " + filter::strings::convert_to_string (chapter) + ":" + filter::strings::convert_to_string (verse_s);
 
   // Return the reference.
@@ -455,7 +455,7 @@ const char * bibledit_get_reference_for_accordance ()
 void bibledit_put_reference_from_accordance (const char * reference)
 {
   // Get and set the user name on this client device.
-  string user = client_logic_get_username ();
+  std::string user = client_logic_get_username ();
   Webserver_Request webserver_request;
   webserver_request.session_logic()->set_username(user);
 
@@ -475,8 +475,8 @@ void bibledit_put_reference_from_accordance (const char * reference)
 
   // Get the active Bible and its versification system.
   Database_Config_User database_config_user (webserver_request);
-  string bible = webserver_request.database_config_user ()->getBible ();
-  string versification = Database_Config_Bible::getVersificationSystem (bible);
+  std::string bible = webserver_request.database_config_user ()->getBible ();
+  std::string versification = Database_Config_Bible::getVersificationSystem (bible);
 
   // Accordance expects a verse reference in the English versification system.
   std::vector <Passage> passages;
@@ -491,6 +491,6 @@ void bibledit_put_reference_from_accordance (const char * reference)
   // Set the focused passage in Bibledit.
   book = passages[0].m_book;
   chapter = passages[0].m_chapter;
-  string verse_s = passages[0].m_verse;
+  std::string verse_s = passages[0].m_verse;
   Ipc_Focus::set (webserver_request, book, chapter, verse);
 }

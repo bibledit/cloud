@@ -62,26 +62,26 @@ string resource_translated1edit (Webserver_Request& webserver_request)
   header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   page = header.run ();
   Assets_View view {};
-  string error {};
-  string success {};
+  std::string error {};
+  std::string success {};
   
   
-  string name = webserver_request.query ["name"];
+  std::string name = webserver_request.query ["name"];
   if (name.empty()) name = webserver_request.post ["val1"];
   view.set_variable ("name", name);
 
   
-  string checkbox = webserver_request.post ["checkbox"];
+  std::string checkbox = webserver_request.post ["checkbox"];
   bool checked = filter::strings::convert_to_bool (webserver_request.post ["checked"]);
 
   
   bool resource_edited {false};
 
 
-  string title {};
-  string original_resource {};
-  string source_language {};
-  string target_language {};
+  std::string title {};
+  std::string original_resource {};
+  std::string source_language {};
+  std::string target_language {};
   bool cache {false};
   {
     std::vector <std::string> resources = Database_Config_General::getTranslatedResources ();
@@ -94,7 +94,7 @@ string resource_translated1edit (Webserver_Request& webserver_request)
   
   // The translated resource's original resource.
   if (webserver_request.query.count ("original")) {
-    string value = webserver_request.query["original"];
+    std::string value = webserver_request.query["original"];
     if (value.empty()) {
       Dialog_List dialog_list = Dialog_List ("translated1edit", translate("Select a resource to be used as the original resource"), translate ("The original resource will be translated from the source language to the target language."), std::string());
       dialog_list.add_query ("name", name);
@@ -113,7 +113,7 @@ string resource_translated1edit (Webserver_Request& webserver_request)
   
   // The language of the original resource.
   if (webserver_request.query.count ("source")) {
-    string value = webserver_request.query["source"];
+    std::string value = webserver_request.query["source"];
     if (value.empty()) {
       Dialog_List dialog_list = Dialog_List ("translated1edit", translate("Select the language of the original resource"), translate ("The language the original resource is written in."), std::string());
       dialog_list.add_query ("name", name);
@@ -132,7 +132,7 @@ string resource_translated1edit (Webserver_Request& webserver_request)
   
   // The language to translate the resource into.
   if (webserver_request.query.count ("target")) {
-    string value = webserver_request.query["target"];
+    std::string value = webserver_request.query["target"];
     if (value.empty()) {
       Dialog_List dialog_list = Dialog_List ("translated1edit", translate("Select the language to translate the resource into"), translate ("The language the resource will be translated into."), std::string());
       dialog_list.add_query ("name", name);
@@ -162,10 +162,10 @@ string resource_translated1edit (Webserver_Request& webserver_request)
     std::vector <std::string> resources = Database_Config_General::getTranslatedResources ();
     error = translate ("Could not save");
     for (size_t i = 0; i < resources.size(); i++) {
-      string title2 {};
+      std::string title2 {};
       resource_logic_parse_translated_resource (resources[i], &title2);
       if (title2 == title) {
-        string resource = resource_logic_assemble_translated_resource (title, original_resource, source_language, target_language, cache);
+        std::string resource = resource_logic_assemble_translated_resource (title, original_resource, source_language, target_language, cache);
         resources[i] = resource;
         success = translate ("Saved");
         error.clear();
@@ -177,7 +177,7 @@ string resource_translated1edit (Webserver_Request& webserver_request)
     else client_logic_no_cache_resource_add(title);
     // Store the list of translated resources for download by the client devices.
     {
-      string path = resource_logic_translated_resources_list_path ();
+      std::string path = resource_logic_translated_resources_list_path ();
       filter_url_file_put_contents (path, filter::strings::implode (resources, "\n"));
     }
   }

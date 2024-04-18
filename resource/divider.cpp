@@ -70,7 +70,7 @@ string resource_divider (Webserver_Request& webserver_request)
 
 
   int userid = filter::strings::user_identifier (webserver_request);
-  string key = "rich divider";
+  std::string key = "rich divider";
 
 
   // For administrator level default resource management purposes.
@@ -93,11 +93,11 @@ string resource_divider (Webserver_Request& webserver_request)
   if (clean_divider) Database_Volatile::setValue (userid, key, resource_logic_rich_divider());
  
 
-  string divider = Database_Volatile::getValue (userid, key);
-  string title;
-  string link;
-  string foreground;
-  string background;
+  std::string divider = Database_Volatile::getValue (userid, key);
+  std::string title;
+  std::string link;
+  std::string foreground;
+  std::string background;
   if (!resource_logic_parse_rich_divider (divider, title, link, foreground, background)) {
     title = "Divider title";
     link = "https://bibledit.org";
@@ -145,7 +145,7 @@ string resource_divider (Webserver_Request& webserver_request)
     return page;
   }
   if (webserver_request.query.count ("foreground2")) {
-    string color = webserver_request.query["color"];
+    std::string color = webserver_request.query["color"];
     if (!color.empty()) {
       foreground = color;
       if (foreground.find ("#") == std::string::npos) foreground.insert (0, "#");
@@ -164,7 +164,7 @@ string resource_divider (Webserver_Request& webserver_request)
     return page;
   }
   if (webserver_request.query.count ("background2")) {
-    string color = webserver_request.query["color"];
+    std::string color = webserver_request.query["color"];
     if (!color.empty()) {
       background = color;
       if (background.find ("#") == std::string::npos) background.insert (0, "#");

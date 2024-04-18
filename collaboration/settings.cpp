@@ -57,16 +57,16 @@ string collaboration_settings (Webserver_Request& webserver_request)
   Assets_View view;
   
   
-  string object = webserver_request.query ["object"];
+  std::string object = webserver_request.query ["object"];
   view.set_variable ("object", object);
 
   
   if (webserver_request.post.count ("url")) {
     if (!object.empty ()) {
-      string url = webserver_request.post["url"];
+      std::string url = webserver_request.post["url"];
       Database_Config_Bible::setRemoteRepositoryUrl (object, url);
-      string source = webserver_request.post["source"];
-      string readwrite = webserver_request.post["readwrite"];
+      std::string source = webserver_request.post["source"];
+      std::string readwrite = webserver_request.post["readwrite"];
       Database_Config_Bible::setReadFromGit (object, readwrite == "sendreceive");
       Database_Jobs database_jobs = Database_Jobs ();
       int jobId = database_jobs.get_new_id ();
@@ -77,7 +77,7 @@ string collaboration_settings (Webserver_Request& webserver_request)
       return "";
     }
   }
-  string url = Database_Config_Bible::getRemoteRepositoryUrl (object);
+  std::string url = Database_Config_Bible::getRemoteRepositoryUrl (object);
   view.set_variable ("url", url);
   
   

@@ -58,15 +58,15 @@ string resource_user1edit (Webserver_Request& webserver_request)
   header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   page = header.run ();
   Assets_View view {};
-  string error, success;
+  std::string error, success;
   
   
-  string name = webserver_request.query ["name"];
+  std::string name = webserver_request.query ["name"];
   view.set_variable ("name", name);
   
 
   if (webserver_request.post.count ("submit")) {
-    string data = webserver_request.post["data"];
+    std::string data = webserver_request.post["data"];
     std::vector <std::string> lines = filter::strings::explode (data, '\n');
     int count = 0;
     int bookcount = 0;
@@ -78,10 +78,10 @@ string resource_user1edit (Webserver_Request& webserver_request)
       } else {
         std::vector <std::string> bits = filter::strings::explode (line, '=');
         if (bits.size () == 2) {
-          string english = filter::strings::trim (bits [0]);
+          std::string english = filter::strings::trim (bits [0]);
           book_id id = database::books::get_id_from_english (english);
           if (id != book_id::_unknown) {
-            string fragment = filter::strings::trim (bits [1]);
+            std::string fragment = filter::strings::trim (bits [1]);
             Database_UserResources::book (name, static_cast<int>(id), fragment);
             bookcount++;
           } else {
@@ -102,8 +102,8 @@ string resource_user1edit (Webserver_Request& webserver_request)
   for (auto id : ids) {
     book_type type = database::books::get_type (id);
     if ((type == book_type::old_testament) || (type == book_type::new_testament)) {
-      string english = database::books::get_english_from_id (id);
-      string book = Database_UserResources::book (name, static_cast<int>(id));
+      std::string english = database::books::get_english_from_id (id);
+      std::string book = Database_UserResources::book (name, static_cast<int>(id));
       lines.push_back (english + " = " + book);
     }
   }

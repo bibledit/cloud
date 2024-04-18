@@ -113,7 +113,7 @@ Field::Field(const std::string& line)
         size_t i;
         for(i = 1 + colon; i < line.length() - 1 && line[i] == ' '; ++i)
             ; // skip spaces before field-body
-        string val(line.begin() +i, line.end());
+        std::string val(line.begin() +i, line.end());
         value(val);
     }
 }
@@ -228,7 +228,7 @@ ostream& Field::write(ostream& os, unsigned int fold) const
   {
     int i;
     int sp;
-    string ostr = name() + ": " + value();
+    std::string ostr = name() + ": " + value();
     
     // skip the "fieldname: " part just on the first inner iteration
     skip = (int)name().length() + 2;

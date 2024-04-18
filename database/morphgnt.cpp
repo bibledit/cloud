@@ -72,7 +72,7 @@ void Database_MorphGnt::optimize ()
 
 
 void Database_MorphGnt::store (int book, int chapter, int verse,
-                               string pos, string parsing, string word, string lemma)
+                               std::string pos, string parsing, string word, string lemma)
 {
   int pos_id = get_id ("pos", pos);
   int parsing_id = get_id ("parsing", parsing);

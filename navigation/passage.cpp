@@ -58,7 +58,7 @@ string Navigation_Passage::get_mouse_navigator (Webserver_Request& webserver_req
 {
   Database_Navigation database_navigation;
   
-  string user = webserver_request.session_logic()->currentUser ();
+  std::string user = webserver_request.session_logic()->currentUser ();
   
   bool passage_clipped = false;
   
@@ -80,7 +80,7 @@ string Navigation_Passage::get_mouse_navigator (Webserver_Request& webserver_req
     if (database_navigation.previous_exists (user)) {
       pugi::xml_node span_node_back = span_node.append_child("span");
       span_node_back.append_attribute("id") = "navigateback";
-      string title = translate("Go back or long-press to show history");
+      std::string title = translate("Go back or long-press to show history");
       span_node_back.append_attribute("title") = title.c_str();
       span_node_back.text() = "↶";
     }
@@ -92,7 +92,7 @@ string Navigation_Passage::get_mouse_navigator (Webserver_Request& webserver_req
     if (database_navigation.next_exists (user)) {
       pugi::xml_node span_node_back = span_node.append_child("span");
       span_node_back.append_attribute("id") = "navigateforward";
-      string title = translate("Go forward or long-press to show history");
+      std::string title = translate("Go forward or long-press to show history");
       span_node_back.append_attribute("title") = title.c_str();
       span_node_back.text() = "↷";
     }
@@ -110,7 +110,7 @@ string Navigation_Passage::get_mouse_navigator (Webserver_Request& webserver_req
     }
   }
   
-  string bookName = database::books::get_english_from_id (static_cast<book_id>(book));
+  std::string bookName = database::books::get_english_from_id (static_cast<book_id>(book));
   bookName = translate (bookName);
 
   {
@@ -149,7 +149,7 @@ string Navigation_Passage::get_mouse_navigator (Webserver_Request& webserver_req
   
   // The verse should exist in the chapter.
   if (bible != "") {
-    string usfm = webserver_request.database_bibles()->get_chapter (bible, book, chapter);
+    std::string usfm = webserver_request.database_bibles()->get_chapter (bible, book, chapter);
     std::vector <int> verses = filter::usfm::get_verse_numbers (usfm);
     if (!in_array (verse, verses)) {
       if (!verses.empty()) verse = verses [0];
@@ -209,7 +209,7 @@ string Navigation_Passage::get_mouse_navigator (Webserver_Request& webserver_req
   // The result.
   stringstream output;
   document.print (output, "", pugi::format_raw);
-  string fragment = output.str ();
+  std::string fragment = output.str ();
   return fragment;
 }
 
@@ -225,12 +225,12 @@ string Navigation_Passage::get_books_fragment (Webserver_Request& webserver_requ
     std::vector <int> book_numbers = filter_passage_get_ordered_books (bible);
     for (auto book_number : book_numbers) books.push_back (static_cast<book_id>(book_number));
   }
-  string html {};
+  std::string html {};
   for (auto book : books) {
-    string book_name = database::books::get_english_from_id (book);
+    std::string book_name = database::books::get_english_from_id (book);
     book_name = translate (book_name);
     bool selected = (book == active_book);
-    string book_type = database::books::book_type_to_string (database::books::get_type (book));
+    std::string book_type = database::books::book_type_to_string (database::books::get_type (book));
     add_selector_link (html, filter::strings::convert_to_string (static_cast<int>(book)), "applybook", book_name, selected, book_type);
   }
   add_selector_link (html, "cancel", "applybook", "[" + translate ("cancel") + "]", false, "");
@@ -249,7 +249,7 @@ string Navigation_Passage::get_chapters_fragment (Webserver_Request& webserver_r
   } else {
     chapters = webserver_request.database_bibles()->get_chapters (bible, book);
   }
-  string html;
+  std::string html;
   html.append (" ");
   for (auto ch : chapters) {
     bool selected = (ch == chapter);
@@ -273,7 +273,7 @@ string Navigation_Passage::get_verses_fragment (Webserver_Request& webserver_req
   } else {
     verses = filter::usfm::get_verse_numbers (webserver_request.database_bibles()->get_chapter (bible, book, chapter));
   }
-  string html;
+  std::string html;
   html.append (" ");
   for (auto vs : verses) {
     bool selected = (verse == vs);
@@ -290,7 +290,7 @@ string Navigation_Passage::get_verses_fragment (Webserver_Request& webserver_req
 
 string Navigation_Passage::code (string bible)
 {
-  string code;
+  std::string code;
   code += R"(<script type="text/javascript">)";
   code += R"(navigationBible = ")" + bible + R"(";)";
   code += "</script>";
@@ -453,7 +453,7 @@ void Navigation_Passage::goto_previous_verse (Webserver_Request& webserver_reque
 
 void Navigation_Passage::record_history (Webserver_Request& webserver_request, int book, int chapter, int verse)
 {
-  string user = webserver_request.session_logic()->currentUser ();
+  std::string user = webserver_request.session_logic()->currentUser ();
   Database_Navigation database_navigation;
   database_navigation.record (filter::date::seconds_since_epoch (), user, book, chapter, verse);
 }
@@ -462,7 +462,7 @@ void Navigation_Passage::record_history (Webserver_Request& webserver_request, i
 void Navigation_Passage::go_back (Webserver_Request& webserver_request)
 {
   Database_Navigation database_navigation;
-  string user = webserver_request.session_logic()->currentUser ();
+  std::string user = webserver_request.session_logic()->currentUser ();
   Passage passage = database_navigation.get_previous (user);
   if (passage.m_book) {
     Ipc_Focus::set (webserver_request, passage.m_book, passage.m_chapter, filter::strings::convert_to_int (passage.m_verse));
@@ -473,7 +473,7 @@ void Navigation_Passage::go_back (Webserver_Request& webserver_request)
 void Navigation_Passage::go_forward (Webserver_Request& webserver_request)
 {
   Database_Navigation database_navigation;
-  string user = webserver_request.session_logic()->currentUser ();
+  std::string user = webserver_request.session_logic()->currentUser ();
   Passage passage = database_navigation.get_next (user);
   if (passage.m_book) {
     Ipc_Focus::set (webserver_request, passage.m_book, passage.m_chapter, filter::strings::convert_to_int (passage.m_verse));
@@ -486,7 +486,7 @@ void Navigation_Passage::add_selector_link (string& html, string id, string href
   // Add a space to cause wrapping between the books or chapters or verses.
   if (!html.empty ()) html.append (" ");
 
-  string class_expansion;
+  std::string class_expansion;
   if (selected) class_expansion.append (" active");
   if (!extra_class.empty()) {
     class_expansion.append (" ");
@@ -505,18 +505,18 @@ void Navigation_Passage::add_selector_link (string& html, string id, string href
   }
   stringstream output;
   document.print (output, "", pugi::format_raw);
-  string fragment = output.str ();
+  std::string fragment = output.str ();
   html.append(output.str());
 }
 
 
 string Navigation_Passage::get_keyboard_navigator (Webserver_Request& webserver_request, string bible)
 {
-  string user = webserver_request.session_logic()->currentUser ();
+  std::string user = webserver_request.session_logic()->currentUser ();
   
   bool passage_clipped = false;
   
-  string fragment;
+  std::string fragment;
   
   int book = Ipc_Focus::getBook (webserver_request);
   
@@ -546,7 +546,7 @@ string Navigation_Passage::get_keyboard_navigator (Webserver_Request& webserver_
   
   // The verse should exist in the chapter.
   if (bible != "") {
-    string usfm = webserver_request.database_bibles()->get_chapter (bible, book, chapter);
+    std::string usfm = webserver_request.database_bibles()->get_chapter (bible, book, chapter);
     std::vector <int> verses = filter::usfm::get_verse_numbers (usfm);
     if (!in_array (verse, verses)) {
       if (!verses.empty()) verse = verses [0];
@@ -555,7 +555,7 @@ string Navigation_Passage::get_keyboard_navigator (Webserver_Request& webserver_
     }
   }
   
-  string current_passage = filter_passage_display (book, chapter, filter::strings::convert_to_string (verse));
+  std::string current_passage = filter_passage_display (book, chapter, filter::strings::convert_to_string (verse));
   fragment.append ("<span>");
   fragment.append (current_passage);
   fragment.append ("</span>");
@@ -581,7 +581,7 @@ string Navigation_Passage::get_keyboard_navigator (Webserver_Request& webserver_
 
 void Navigation_Passage::interpret_keyboard_navigator (Webserver_Request& webserver_request, string bible, string passage)
 {
-  string user = webserver_request.session_logic()->currentUser ();
+  std::string user = webserver_request.session_logic()->currentUser ();
   
   int book = Ipc_Focus::getBook (webserver_request);
   
@@ -609,7 +609,7 @@ void Navigation_Passage::interpret_keyboard_navigator (Webserver_Request& webser
   
   // The verse should exist in the chapter.
   if (bible != "") {
-    string usfm = webserver_request.database_bibles()->get_chapter (bible, book, chapter);
+    std::string usfm = webserver_request.database_bibles()->get_chapter (bible, book, chapter);
     std::vector <int> verses = filter::usfm::get_verse_numbers (usfm);
     if (!in_array (verse, verses)) {
       if (!verses.empty()) verse = verses [0];
@@ -631,14 +631,14 @@ string Navigation_Passage::get_history_back (Webserver_Request& webserver_reques
 {
   // Get the whole history from the database.
   Database_Navigation database_navigation {};
-  string user {webserver_request.session_logic()->currentUser ()};
+  std::string user {webserver_request.session_logic()->currentUser ()};
   vector<Passage> passages = database_navigation.get_history(user, -1);
   // Take the most recent nnn history items and render them.
-  string html {};
+  std::string html {};
   for (size_t i = 0; i < passages.size(); i++) {
     if (i >= 10) continue;
-    string rendering = filter_passage_display(passages[i].m_book, passages[i].m_chapter, passages[i].m_verse);
-    string book_type = database::books::book_type_to_string (database::books::get_type (static_cast <book_id> (passages[i].m_book)));
+    std::string rendering = filter_passage_display(passages[i].m_book, passages[i].m_chapter, passages[i].m_verse);
+    std::string book_type = database::books::book_type_to_string (database::books::get_type (static_cast <book_id> (passages[i].m_book)));
     add_selector_link (html, "b" + filter::strings::convert_to_string (i), "applyhistory", rendering, false, book_type);
   }
   // Add a "cancel" link.
@@ -655,14 +655,14 @@ string Navigation_Passage::get_history_forward (Webserver_Request& webserver_req
 {
   // Get the whole history from the database.
   Database_Navigation database_navigation;
-  string user {webserver_request.session_logic()->currentUser ()};
+  std::string user {webserver_request.session_logic()->currentUser ()};
   vector<Passage> passages {database_navigation.get_history(user, 1)};
   // Take the most recent nnn history items and render them.
-  string html {};
+  std::string html {};
   for (size_t i = 0; i < passages.size(); i++) {
     if (i >= 10) continue;
-    string rendering = filter_passage_display(passages[i].m_book, passages[i].m_chapter, passages[i].m_verse);
-    string book_type = database::books::book_type_to_string (database::books::get_type (static_cast<book_id>(passages[i].m_book)));
+    std::string rendering = filter_passage_display(passages[i].m_book, passages[i].m_chapter, passages[i].m_verse);
+    std::string book_type = database::books::book_type_to_string (database::books::get_type (static_cast<book_id>(passages[i].m_book)));
     add_selector_link (html, "f" + filter::strings::convert_to_string (i), "applyhistory", rendering, false, book_type);
   }
   // Add a "cancel" link.

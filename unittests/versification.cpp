@@ -215,7 +215,7 @@ TEST (database, mappings)
     refresh_sandbox (true);
     Database_Mappings database_mappings;
     database_mappings.create1 ();
-    string import =
+    std::string import =
     "2 Chronicles 14:15 = 2 Chronicles 14:14\n"
     "Nehemiah 4:1 = Nehemiah 3:33\n"
     "Song of Solomon 7:2 = Song of Solomon 7:3\n";
@@ -223,7 +223,7 @@ TEST (database, mappings)
     std::vector <std::string> names = database_mappings.names ();
     std::vector <std::string> standard_names{"Hebrew Greek", "phpunit"};
     EXPECT_EQ (standard_names, names);
-    string output = database_mappings.output ("phpunit");
+    std::string output = database_mappings.output ("phpunit");
     EXPECT_EQ (filter::strings::trim (import), filter::strings::trim (output));
   }
   
@@ -258,7 +258,7 @@ TEST (database, mappings)
     refresh_sandbox (true);
     Database_Mappings database_mappings;
     database_mappings.create1 ();
-    string import =
+    std::string import =
     "2 Chronicles 14:15 = 2 Chronicles 14:14\n"
     "Nehemiah 4:1 = Nehemiah 3:33\n"
     "Song of Solomon 7:2 = Song of Solomon 7:3\n";
@@ -280,7 +280,7 @@ TEST (database, mappings)
     refresh_sandbox (true);
     Database_Mappings database_mappings;
     database_mappings.create1 ();
-    string import =
+    std::string import =
     "2 Chronicles 14:15 = 2 Chronicles 14:14\n"
     "Nehemiah 4:1 = Nehemiah 3:33\n"
     "Song of Solomon 7:2 = Song of Solomon 7:3\n";
@@ -302,7 +302,7 @@ TEST (database, mappings)
     refresh_sandbox (true);
     Database_Mappings database_mappings;
     database_mappings.create1 ();
-    string import =
+    std::string import =
     "2 Chronicles 14:15 = 2 Chronicles 14:14\n"
     "Nehemiah 4:1 = Nehemiah 3:33\n"
     "Song of Solomon 7:2 = Song of Solomon 7:3\n";
@@ -327,7 +327,7 @@ TEST (database, mappings)
     refresh_sandbox (true);
     Database_Mappings database_mappings;
     database_mappings.create1 ();
-    string import = "2 Chronicles 14:12 = 2 Chronicles 14:14";
+    std::string import = "2 Chronicles 14:12 = 2 Chronicles 14:14";
     database_mappings.import ("VVV", import);
     std::vector <Passage> passages = database_mappings.translate ("Hebrew Greek", "VVV", 14, 14, 14);
     Passage standard = Passage ("", 14, 14, "12");
@@ -340,7 +340,7 @@ TEST (database, mappings)
     refresh_sandbox (true);
     Database_Mappings database_mappings;
     database_mappings.create1 ();
-    string import =
+    std::string import =
     "2 Chronicles 14:12 = 2 Chronicles 14:14\n"
     "2 Chronicles 14:13 = 2 Chronicles 14:14\n";
     database_mappings.import ("VVV", import);
@@ -357,7 +357,7 @@ TEST (database, mappings)
     refresh_sandbox (true);
     Database_Mappings database_mappings;
     database_mappings.create1 ();
-    string import = "2 Chronicles 14:12 = 2 Chronicles 14:14";
+    std::string import = "2 Chronicles 14:12 = 2 Chronicles 14:14";
     database_mappings.import ("VVV", import);
     std::vector <Passage> passages = database_mappings.translate ("Hebrew Greek", "VVV", 14, 15, 14);
     EXPECT_EQ (1, static_cast<int>(passages.size ()));
@@ -370,7 +370,7 @@ TEST (database, mappings)
     refresh_sandbox (true);
     Database_Mappings database_mappings;
     database_mappings.create1 ();
-    string import = "2 Chronicles 14:12 = 2 Chronicles 14:14";
+    std::string import = "2 Chronicles 14:12 = 2 Chronicles 14:14";
     database_mappings.import ("ABA", import);
     std::vector <Passage> passages = database_mappings.translate ("ABA", "Hebrew Greek", 14, 14, 12);
     EXPECT_EQ (1, static_cast<int>(passages.size ()));
@@ -383,7 +383,7 @@ TEST (database, mappings)
     refresh_sandbox (true);
     Database_Mappings database_mappings;
     database_mappings.create1 ();
-    string import =
+    std::string import =
     "2 Chronicles 14:12 = 2 Chronicles 14:13\n"
     "2 Chronicles 14:12 = 2 Chronicles 14:14\n";
     database_mappings.import ("ABA", import);
@@ -479,7 +479,7 @@ TEST (database, versifications)
     refresh_sandbox (true);
     Database_Versifications database_versifications;
     database_versifications.create ();
-    string input =
+    std::string input =
     "Genesis 1:31\n"
     "Genesis 2:25\n";
     database_versifications.input (input, "phpunit");
@@ -488,7 +488,7 @@ TEST (database, versifications)
     std::vector <Passage> data = database_versifications.getBooksChaptersVerses ("phpunit");
     EXPECT_EQ (2, static_cast<int> (data.size ()));
     EXPECT_EQ ("25", data [1].m_verse);
-    string output = database_versifications.output ("phpunit");
+    std::string output = database_versifications.output ("phpunit");
     EXPECT_EQ (filter::strings::trim (input), filter::strings::trim (output));
   }
 }

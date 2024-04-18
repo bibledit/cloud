@@ -88,7 +88,7 @@ void sources_etcbc4_download ()
   for (size_t bk = 0; bk < books.size (); bk++) {
 
     int book = static_cast<int>(bk + 1);
-    string bookname = books[bk];
+    std::string bookname = books[bk];
 
     bool book_done = false;
     for (int chapter = 1; chapter <= 150; chapter++) {
@@ -97,13 +97,13 @@ void sources_etcbc4_download ()
       for (int verse = 1; verse < 200; verse++) {
         if (book_done) continue;
 
-        string data = database_etcbc4.raw (book, chapter, verse);
+        std::string data = database_etcbc4.raw (book, chapter, verse);
         if (!data.empty ()) continue;
         
-        string url = "https://shebanq.ancient-data.org/hebrew/verse?version=4b&book=" + bookname + "&chapter=" + filter::strings::convert_to_string (chapter) + "&verse=" + filter::strings::convert_to_string (verse);
+        std::string url = "https://shebanq.ancient-data.org/hebrew/verse?version=4b&book=" + bookname + "&chapter=" + filter::strings::convert_to_string (chapter) + "&verse=" + filter::strings::convert_to_string (verse);
 
-        string error;
-        string response = filter_url_http_get (url, error, false);
+        std::string error;
+        std::string response = filter_url_http_get (url, error, false);
         if (!error.empty ()) {
           Database_Logs::log (error);
           continue;
@@ -150,7 +150,7 @@ void sources_etcbc4_parse ()
       std::vector <int> verses = database_etcbc4.verses (book, chapter);
       for (auto verse : verses) {
         // The raw data for the verse.
-        string data = database_etcbc4.raw (book, chapter, verse);
+        std::string data = database_etcbc4.raw (book, chapter, verse);
         if (data.empty ()) continue;
         data = filter::strings::replace (filter::strings::unicode_non_breaking_space_entity (), "", data);
         // Parse the data.
@@ -159,25 +159,25 @@ void sources_etcbc4_parse ()
         // Iterate through the <table> elements, one element per word or word fragment.
         for (pugi::xml_node table : document.children()) {
           // The relevant grammatical information to be extracted from the data.
-          string word;
-          string vocalized_lexeme;
-          string consonantal_lexeme;
-          string gloss;
-          string pos;
-          string subpos;
-          string gender;
-          string number;
-          string person;
-          string state;
-          string tense;
-          string stem;
-          string phrase_function;
-          string phrase_type;
-          string phrase_relation;
-          string phrase_a_relation;
-          string clause_text_type;
-          string clause_type;
-          string clause_relation;
+          std::string word;
+          std::string vocalized_lexeme;
+          std::string consonantal_lexeme;
+          std::string gloss;
+          std::string pos;
+          std::string subpos;
+          std::string gender;
+          std::string number;
+          std::string person;
+          std::string state;
+          std::string tense;
+          std::string stem;
+          std::string phrase_function;
+          std::string phrase_type;
+          std::string phrase_relation;
+          std::string phrase_a_relation;
+          std::string clause_text_type;
+          std::string clause_type;
+          std::string clause_relation;
           // Iterate through the <tr> elements.
           // Each element contains one or more table cells with information.
           for (pugi::xml_node tr : table.children ()) {
@@ -188,10 +188,10 @@ void sources_etcbc4_parse ()
               for (pugi::xml_node span : td.children ()) {
                 // Get the text this <span> contains.
                 pugi::xml_node txtnode = span.first_child ();
-                string value = txtnode.text ().get ();
+                std::string value = txtnode.text ().get ();
                 value = sources_etcbc4_clean (value);
                 // The class of the <span> element indicates what kind of grammatical tag it has.
-                string clazz = span.attribute ("class").value ();
+                std::string clazz = span.attribute ("class").value ();
                 if (clazz == "ht") word = value;
                 if (clazz.find ("hl_hlv") != std::string::npos) vocalized_lexeme = value;
                 if (clazz.find ("hl_hlc") != std::string::npos) consonantal_lexeme = value;

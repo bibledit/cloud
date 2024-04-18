@@ -38,8 +38,8 @@ TEST (filter, diff)
   // Difference.
   {
     std::vector <std::string> removals, additions;
-    string output = filter_diff_diff ("Old text", "New text", &removals, &additions);
-    string standard = R"(<span style="text-decoration: line-through;"> Old </span> <span style="font-weight: bold;"> New </span> text)";
+    std::string output = filter_diff_diff ("Old text", "New text", &removals, &additions);
+    std::string standard = R"(<span style="text-decoration: line-through;"> Old </span> <span style="font-weight: bold;"> New </span> text)";
     EXPECT_EQ (standard, output);
     EXPECT_EQ (vector <std::string>{"Old"}, removals);
     EXPECT_EQ (vector <std::string>{"New"}, additions);
@@ -48,9 +48,9 @@ TEST (filter, diff)
   // Difference.
   {
     std::vector <std::string> removals, additions;
-    string output = filter_diff_diff ("this is really old text", "and this is new text",
+    std::string output = filter_diff_diff ("this is really old text", "and this is new text",
                                       &removals, &additions);
-    string standard = R"(<span style="font-weight: bold;"> and </span> this is <span style="text-decoration: line-through;"> really </span> <span style="text-decoration: line-through;"> old </span> <span style="font-weight: bold;"> new </span> text)";
+    std::string standard = R"(<span style="font-weight: bold;"> and </span> this is <span style="text-decoration: line-through;"> really </span> <span style="text-decoration: line-through;"> old </span> <span style="font-weight: bold;"> new </span> text)";
     EXPECT_EQ (standard, output);
     EXPECT_EQ ((vector <std::string>{"really", "old"}), removals);
     EXPECT_EQ ((vector <std::string>{"and", "new"}), additions);
@@ -59,20 +59,20 @@ TEST (filter, diff)
   // Diff with new lines in the text.
   {
     std::vector <std::string> removals, additions;
-    string oldtext =
+    std::string oldtext =
     "Genesis 1.1 1 In the beginning God created the heavens and the earth.\n"
     "Genesis 1.2 2 And the earth was without form, and void; and darkness was upon the face of the deep. And the Spirit of God moved upon the face of the waters.\n"
     "Genesis 1.3 3 And God said, Let there be light: and there was light.\n";
     
-    string newtext =
+    std::string newtext =
 R"(Genesis 1.1 1 In the beginning God created the heaven and the earth.
 Genesis 1.2 2 And the earth was without form and void and darkness was upon the face of the deep. And the Spirit of God moved upon the face of the waters.
 Genesis 1.3 3 And God said: "Let there be light". And there was light.
 )";
    
-    string output = filter_diff_diff (oldtext, newtext, &removals, &additions);
+    std::string output = filter_diff_diff (oldtext, newtext, &removals, &additions);
     
-    string standard = filter_url_file_get_contents (filter_url_create_root_path ({"unittests", "tests", "diff.txt"}));
+    std::string standard = filter_url_file_get_contents (filter_url_create_root_path ({"unittests", "tests", "diff.txt"}));
     EXPECT_EQ (standard, output);
     
     EXPECT_EQ ((vector <std::string>{"heavens", "form,", "void;", "said,", "Let", "light:", "and"}),
@@ -166,16 +166,16 @@ Genesis 1.3 3 And God said: "Let there be light". And there was light.
     // After the update it no longer does that.
     // It now splits the strings up into just bytes.
     // So the similarity is now more realistic.
-    string path = filter_url_create_root_path ({"unittests", "tests"});
-    string oldtext = filter_url_file_get_contents (filter_url_create_path ({path, "invalid-utf8-old.txt"}));
-    string newtext = filter_url_file_get_contents (filter_url_create_path ({path, "invalid-utf8-new.txt"}));
+    std::string path = filter_url_create_root_path ({"unittests", "tests"});
+    std::string oldtext = filter_url_file_get_contents (filter_url_create_path ({path, "invalid-utf8-old.txt"}));
+    std::string newtext = filter_url_file_get_contents (filter_url_create_path ({path, "invalid-utf8-new.txt"}));
     int similarity = filter_diff_character_similarity (oldtext, newtext);
     EXPECT_EQ (99, similarity);
   }
   
   // Similarity.
   {
-    string first =
+    std::string first =
     "\\c 29\n"
     "\\s Kugadzwa kwevapristi\n"
     "\\p\n"
@@ -232,7 +232,7 @@ Genesis 1.3 3 And God said: "Let there be light". And there was light.
     "\\v 45 Ndichagara pakati pavana vaIsraeri, kuti ndive Mwari wavo.\n"
     "\\v 46 Vachaziva kuti ndini Jehovha wavo, wakavabudisa panyika kuti ndigare pakati pavo; ndini Jehovha Mwari wavo.\n";
     
-    string second =
+    std::string second =
     "\\c 29\n"
     "\\s Kugadzwa kwevapristi\n"
     "\\p\n"
@@ -307,7 +307,7 @@ Genesis 1.3 3 And God said: "Let there be light". And there was light.
     client_logic_enable_client (false);
     database_modifications.truncateTeams ();
     
-    string temporary_folder = filter_url_tempfile ();
+    std::string temporary_folder = filter_url_tempfile ();
     filter_url_mkdir (temporary_folder);
     
     request.database_bibles()->create_bible ("phpunit");
@@ -317,7 +317,7 @@ Genesis 1.3 3 And God said: "Let there be light". And there was light.
     
     filter_diff_produce_verse_level ("phpunit", temporary_folder);
     
-    string path, standard, output;
+    std::string path, standard, output;
     
     path = filter_url_create_path ({"unittests", "tests", "verses_old.usfm"});
     standard = filter_url_file_get_contents (path);
@@ -343,9 +343,9 @@ Genesis 1.3 3 And God said: "Let there be light". And there was light.
     output = filter_url_file_get_contents (path);
     EXPECT_EQ (standard, output);
     
-    string oldfile = filter_url_create_path ({temporary_folder, "verses_old.usfm"});
-    string newfile = filter_url_create_path ({temporary_folder, "verses_new.usfm"});
-    string outputfile = filter_url_create_path ({temporary_folder, "changed_verses.html"});
+    std::string oldfile = filter_url_create_path ({temporary_folder, "verses_old.usfm"});
+    std::string newfile = filter_url_create_path ({temporary_folder, "verses_new.usfm"});
+    std::string outputfile = filter_url_create_path ({temporary_folder, "changed_verses.html"});
     filter_diff_run_file (oldfile, newfile, outputfile);
     
     path = filter_url_create_path ({"unittests", "tests", "changed_verses.html"});

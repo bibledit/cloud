@@ -45,9 +45,9 @@ void pugixml_utils_error_logger (void * pugi_xml_parse_result, const std::string
   if (result->status == pugi::status_ok) return;
   int start = static_cast<int>(result->offset - 10);
   if (start < 0) start = 0;
-  string fragment = xml.substr (static_cast<size_t>(start), 20);
+  std::string fragment = xml.substr (static_cast<size_t>(start), 20);
   fragment = filter::strings::replace ("\n", "", fragment);
-  string msg;
+  std::string msg;
   msg.append (result->description());
   msg.append (" at offset ");
   msg.append (filter::strings::convert_to_string (static_cast<size_t>(result->offset)));

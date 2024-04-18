@@ -49,7 +49,7 @@ void Database_NoteAssignment::assignees (string user, std::vector <std::string> 
 
 vector <std::string> Database_NoteAssignment::assignees (string user)
 {
-  string contents = filter_url_file_get_contents (path (user));
+  std::string contents = filter_url_file_get_contents (path (user));
   return filter::strings::explode (contents, '\n');
 }
 

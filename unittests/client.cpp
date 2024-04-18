@@ -49,8 +49,8 @@ TEST (client, basic)
 
   // Test create consultation note encoding and decoding.
   {
-    string data = client_logic_create_note_encode ("bible", 1, 2, 3, "summary", "line1\nline2", false);
-    string standard =
+    std::string data = client_logic_create_note_encode ("bible", 1, 2, 3, "summary", "line1\nline2", false);
+    std::string standard =
     "bible\n"
     "1\n"
     "2\n"
@@ -61,9 +61,9 @@ TEST (client, basic)
     "line2";
     EXPECT_EQ (standard, data);
 
-    string bible;
+    std::string bible;
     int book, chapter, verse;
-    string summary, contents;
+    std::string summary, contents;
     bool raw;
     client_logic_create_note_decode (standard, bible, book, chapter, verse, summary, contents, raw);
     EXPECT_EQ ("bible", bible);
@@ -80,15 +80,15 @@ TEST (client, basic)
   
   // Testing logic for resources not to cache.
   {
-    string path = client_logic_no_cache_resources_path ();
-    string standard = filter_url_create_root_path ({"databases", "client", "no_cache_resources.txt"});
+    std::string path = client_logic_no_cache_resources_path ();
+    std::string standard = filter_url_create_root_path ({"databases", "client", "no_cache_resources.txt"});
     EXPECT_EQ (standard, path);
     
     std::vector <std::string> resources = client_logic_no_cache_resources_get ();
     EXPECT_EQ (vector <std::string>{}, resources);
 
-    string name1 = "comparative test";
-    string name2 = "comparative greek";
+    std::string name1 = "comparative test";
+    std::string name2 = "comparative greek";
 
     client_logic_no_cache_resource_add (name1);
     resources = client_logic_no_cache_resources_get ();

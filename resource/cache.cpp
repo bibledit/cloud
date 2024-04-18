@@ -55,7 +55,7 @@ bool resource_cache_acl (Webserver_Request& webserver_request)
 
 string resource_cache (Webserver_Request& webserver_request)
 {
-  string resource = webserver_request.query ["resource"];
+  std::string resource = webserver_request.query ["resource"];
   
   
   std::string page;
@@ -89,8 +89,8 @@ string resource_cache (Webserver_Request& webserver_request)
 
   
   std::map <string, std::string> resource_types;
-  string sword_type = "sword";
-  string old_type = "old";
+  std::string sword_type = "sword";
+  std::string old_type = "old";
   
 
   std::vector <std::string> active_resources;
@@ -145,7 +145,7 @@ string resource_cache (Webserver_Request& webserver_request)
 
   
   // Generate the resources to be listed.
-  string horizontal_line = "-----";
+  std::string horizontal_line = "-----";
   std::vector <std::string> listed_resources = active_resources;
   listed_resources.push_back (horizontal_line);
   for (auto & resource2 : all_resources) {
@@ -155,7 +155,7 @@ string resource_cache (Webserver_Request& webserver_request)
   
   // Generate html block with the resources.
   std::vector <std::string> bibles = webserver_request.database_bibles()->get_bibles ();
-  string block;
+  std::string block;
   for (auto & resource2 : listed_resources) {
     // Skip internal Bibles and dividers.
     if (in_array (resource2, bibles)) continue;
@@ -163,11 +163,11 @@ string resource_cache (Webserver_Request& webserver_request)
     block.append ("<p>");
     if (resource2 == horizontal_line) block.append ("<hr>");
     else {
-      string href (resource2);
-      string query;
+      std::string href (resource2);
+      std::string query;
       if (resource_types [resource2] == sword_type) {
-        string source = sword_logic_get_source (resource2);
-        string module = sword_logic_get_remote_module (resource2);
+        std::string source = sword_logic_get_source (resource2);
+        std::string module = sword_logic_get_remote_module (resource2);
         href = sword_logic_get_resource_name (source, module);
       }
       if (resource_types [resource2] == old_type) {

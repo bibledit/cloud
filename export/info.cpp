@@ -39,13 +39,13 @@ using namespace std;
 void export_info (string bible, bool log)
 {
   // Create folders for the information.
-  string directory = filter_url_create_path ({export_logic::bible_directory (bible), "info"});
+  std::string directory = filter_url_create_path ({export_logic::bible_directory (bible), "info"});
   if (!file_or_dir_exists (directory)) filter_url_mkdir (directory);
   
   
   // Filenames for the various types of OpenDocument files.
-  string informationdFilename = filter_url_create_path ({directory, "information.html"});
-  string falloutFilename = filter_url_create_path ({directory, "fallout.html"});
+  std::string informationdFilename = filter_url_create_path ({directory, "information.html"});
+  std::string falloutFilename = filter_url_create_path ({directory, "fallout.html"});
   
   
   Database_Bibles database_bibles;
@@ -61,7 +61,7 @@ void export_info (string bible, bool log)
   for (auto book : books) {
     std::vector <int> chapters = database_bibles.get_chapters (bible, book);
     for (auto chapter : chapters) {
-      string usfm = database_bibles.get_chapter (bible, book, chapter);
+      std::string usfm = database_bibles.get_chapter (bible, book, chapter);
       usfm = filter::strings::trim (usfm);
       // Use small chunks of USFM at a time for much better performance.
       filter_text.add_usfm_code (usfm);

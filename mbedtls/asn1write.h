@@ -218,7 +218,7 @@ int mbedtls_asn1_write_int( unsigned char **p, unsigned char *start, int val );
 
 /**
  * \brief           Write a string in ASN.1 format using a specific
- *                  string encoding tag.
+ *                  std::string encoding tag.
 
  * \note            This function works backwards in data buffer.
  *
@@ -239,7 +239,7 @@ int mbedtls_asn1_write_tagged_string( unsigned char **p, unsigned char *start,
 
 /**
  * \brief           Write a string in ASN.1 format using the PrintableString
- *                  string encoding tag (#MBEDTLS_ASN1_PRINTABLE_STRING).
+ *                  std::string encoding tag (#MBEDTLS_ASN1_PRINTABLE_STRING).
  *
  * \note            This function works backwards in data buffer.
  *
@@ -258,7 +258,7 @@ int mbedtls_asn1_write_printable_string( unsigned char **p,
 
 /**
  * \brief           Write a UTF8 string in ASN.1 format using the UTF8String
- *                  string encoding tag (#MBEDTLS_ASN1_PRINTABLE_STRING).
+ *                  std::string encoding tag (#MBEDTLS_ASN1_PRINTABLE_STRING).
  *
  * \note            This function works backwards in data buffer.
  *
@@ -276,7 +276,7 @@ int mbedtls_asn1_write_utf8_string( unsigned char **p, unsigned char *start,
 
 /**
  * \brief           Write a string in ASN.1 format using the IA5String
- *                  string encoding tag (#MBEDTLS_ASN1_IA5_STRING).
+ *                  std::string encoding tag (#MBEDTLS_ASN1_IA5_STRING).
  *
  * \note            This function works backwards in data buffer.
  *

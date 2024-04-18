@@ -144,7 +144,7 @@ string Database_Users::add_userQuery (string user, string password, int level, s
   user = database_sqlite_no_sql_injection (user);
   password = md5 (password);
   email = database_sqlite_no_sql_injection (email);
-  string query = "INSERT INTO users (username, password, level, email) VALUES ('" + user + "', '" + password + "', " + filter::strings::convert_to_string (level) + ", '" + email + "');";
+  std::string query = "INSERT INTO users (username, password, level, email) VALUES ('" + user + "', '" + password + "', " + filter::strings::convert_to_string (level) + ", '" + email + "');";
   return query;
 }
 

@@ -57,10 +57,10 @@ void email_send ()
 
     // Get all details of the mail.
     Database_Mail_Item details = database_mail.get (id);
-    string username = details.username;
-    string email = database_users.get_email (username);
-    string subject = details.subject;
-    string body = details.body;
+    std::string username = details.username;
+    std::string email = database_users.get_email (username);
+    std::string subject = details.subject;
+    std::string body = details.body;
     
 #ifdef HAVE_CLIENT
     
@@ -96,7 +96,7 @@ void email_send ()
     }
     
     // Send the email.
-    string result = email_send (email, username, subject, body);
+    std::string result = email_send (email, username, subject, body);
     if (result.empty ()) {
       database_mail.erase (id);
       stringstream ss;
@@ -172,9 +172,9 @@ static size_t payload_source (void *ptr, size_t size, size_t nmemb, void *userp)
 // If all went well, it returns an empty string.
 // In case of failure, it returns the error message.
 string email_send ([[maybe_unused]] string to_mail,
-                   string to_name,
-                   string subject,
-                   string body,
+                   std::string to_name,
+                   std::string subject,
+                   std::string body,
                    [[maybe_unused]] bool verbose)
 {
   // Truncate huge emails because libcurl crashes on it.
@@ -200,12 +200,12 @@ string email_send ([[maybe_unused]] string to_mail,
   post ["s"] = subject;
   post ["b"] = body;
 
-  string address = Database_Config_General::getServerAddress ();
+  std::string address = Database_Config_General::getServerAddress ();
   int port = Database_Config_General::getServerPort ();
-  string url = client_logic_url (address, port, sync_mail_url ());
+  std::string url = client_logic_url (address, port, sync_mail_url ());
 
-  string error;
-  string response = sync_logic.post (post, url, error);
+  std::string error;
+  std::string response = sync_logic.post (post, url, error);
 
   if (!error.empty ()) {
     Database_Logs::log ("Failure sending email: " + error, Filter_Roles::guest ());
@@ -215,8 +215,8 @@ string email_send ([[maybe_unused]] string to_mail,
   
 #else
   
-  string from_mail = Database_Config_General::getSiteMailAddress ();
-  string from_name = Database_Config_General::getSiteMailName ();
+  std::string from_mail = Database_Config_General::getSiteMailAddress ();
+  std::string from_name = Database_Config_General::getSiteMailName ();
   
   CURL *curl;
   CURLcode res = CURLE_OK;
@@ -227,14 +227,14 @@ string email_send ([[maybe_unused]] string to_mail,
 
   int seconds = filter::date::seconds_since_epoch ();
   payload_text.clear();
-  string payload;
+  std::string payload;
   payload = "Date: " + filter::strings::convert_to_string (filter::date::numerical_year (seconds)) + "/" + filter::strings::convert_to_string (filter::date::numerical_month (seconds)) + "/" + filter::strings::convert_to_string (filter::date::numerical_month_day (seconds)) + " " + filter::strings::convert_to_string (filter::date::numerical_hour (seconds)) + ":" + filter::strings::convert_to_string (filter::date::numerical_minute (seconds)) + "\n";
   payload_text.push_back (payload);
   payload = "To: <" + to_mail + "> " + to_name + "\n";
   payload_text.push_back (payload);
   payload = "From: <" + from_mail + "> " + from_name + "\n";
   payload_text.push_back (payload);
-  string site = from_mail;
+  std::string site = from_mail;
   size_t pos = site.find ("@");
   if (pos != std::string::npos) site = site.substr (pos);
   payload = "Message-ID: <" + md5 (filter::strings::convert_to_string (filter::strings::rand (0, 1000000))) + site + ">\n";
@@ -275,8 +275,8 @@ string email_send ([[maybe_unused]] string to_mail,
 
   curl = curl_easy_init();
   /* Set username and password */
-  string username = Database_Config_General::getMailSendUsername();
-  string password = Database_Config_General::getMailSendPassword();
+  std::string username = Database_Config_General::getMailSendUsername();
+  std::string password = Database_Config_General::getMailSendPassword();
   curl_easy_setopt(curl, CURLOPT_USERNAME, username.c_str());
   curl_easy_setopt(curl, CURLOPT_PASSWORD, password.c_str());
 
@@ -284,10 +284,10 @@ string email_send ([[maybe_unused]] string to_mail,
    * instead of the normal SMTP port (25). Port 587 is commonly used for
    * secure mail submission (see RFC4403), but you should use whatever
    * matches your server configuration. */
-  string smtp = "smtp://";
+  std::string smtp = "smtp://";
   smtp.append (Database_Config_General::getMailSendHost());
   smtp.append (":");
-  string port = Database_Config_General::getMailSendPort();
+  std::string port = Database_Config_General::getMailSendPort();
   smtp.append (port);
   curl_easy_setopt(curl, CURLOPT_URL, smtp.c_str());
 
@@ -347,7 +347,7 @@ string email_send ([[maybe_unused]] string to_mail,
   res = curl_easy_perform(curl);
 
   /* Check for errors */
-  string result;
+  std::string result;
   if (res != CURLE_OK) result = curl_easy_strerror (res);
 
   /* Free the list of recipients */
@@ -399,8 +399,8 @@ string email_setup_information (bool require_send, bool require_receive)
     if (Database_Config_General::getMailSendPort ().empty ()) incomplete = true;
   }
   if (incomplete) {
-    string msg1 = translate ("Cannot send email yet.");
-    string msg2 = translate ("The emailer is not yet set up.");
+    std::string msg1 = translate ("Cannot send email yet.");
+    std::string msg2 = translate ("The emailer is not yet set up.");
     return msg1 + R"( <a href="../)" + email_index_url () + + R"(">)" + msg2 + "</a>";
   }
 #endif

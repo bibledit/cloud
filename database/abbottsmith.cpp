@@ -82,7 +82,7 @@ void Database_AbbottSmith::store (string lemma, string lemma_casefold, string st
 
 string Database_AbbottSmith::get (string lemma, string strong)
 {
-  string contents;
+  std::string contents;
   SqliteDatabase sql = SqliteDatabase (filename ());
   sql.add ("SELECT contents FROM entry WHERE");
   if (lemma.empty()) {

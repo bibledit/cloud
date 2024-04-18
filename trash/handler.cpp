@@ -30,9 +30,9 @@ void trash_change_notification (Webserver_Request& webserver_request, int id)
 {
   Database_Modifications database_modifications;
   Passage passage = database_modifications.getNotificationPassage (id);
-  string passageText = filter_passage_display_inline ({passage});
-  string modification = database_modifications.getNotificationModification (id);
-  string username = webserver_request.session_logic()->currentUser ();
+  std::string passageText = filter_passage_display_inline ({passage});
+  std::string modification = database_modifications.getNotificationModification (id);
+  std::string username = webserver_request.session_logic()->currentUser ();
   Database_Logs::log (username + " removed change notification " + passageText + " : " + modification);
 }
 
@@ -41,11 +41,11 @@ void trash_consultation_note (Webserver_Request& webserver_request, int id)
 {
   Database_Notes database_notes (webserver_request);
   std::vector <Passage> passages = database_notes.get_passages (id);
-  string passageText = filter_passage_display_inline (passages);
-  string summary = database_notes.get_summary (id);
-  string contents = database_notes.get_contents (id);
+  std::string passageText = filter_passage_display_inline (passages);
+  std::string summary = database_notes.get_summary (id);
+  std::string contents = database_notes.get_contents (id);
   contents = filter::strings::html2text (contents);
-  string username = webserver_request.session_logic()->currentUser ();
+  std::string username = webserver_request.session_logic()->currentUser ();
   if (username.empty ()) username = "This app";
   Database_Logs::log (username + " deleted or marked for deletion consultation note " + passageText + " | " + summary + " | " + contents);
 }

@@ -140,8 +140,8 @@ void setup_copy_library (const char * package)
   // Therefore there is a list of directories and another one of files in the httpfs.
   size_t package_length = 1;
   // Read all directories and create them in the persistent webroot.
-  string path = filter_url_create_path (package, "package_directories.txt");
-  string contents = filter_url_file_get_contents (path);
+  std::string path = filter_url_create_path (package, "package_directories.txt");
+  std::string contents = filter_url_file_get_contents (path);
   std::vector <std::string> paths = filter::strings::explode (contents, '\n');
   for (auto path : paths) {
     path = config_globals_document_root + path.substr (package_length);
@@ -154,8 +154,8 @@ void setup_copy_library (const char * package)
   contents = filter_url_file_get_contents (path);
   paths = filter::strings::explode (contents, '\n');
   for (auto path : paths) {
-    string package_path = package + path.substr (package_length);
-    string destination_path = config_globals_document_root + path.substr (package_length);
+    std::string package_path = package + path.substr (package_length);
+    std::string destination_path = config_globals_document_root + path.substr (package_length);
     config_globals_setup_message = destination_path;
     filter_url_file_cp (package_path, destination_path);
   }

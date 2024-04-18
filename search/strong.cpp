@@ -55,7 +55,7 @@ string search_strong (Webserver_Request& webserver_request)
   Database_Kjv database_kjv = Database_Kjv ();
   
   
-  string bible = webserver_request.database_config_user()->getBible ();
+  std::string bible = webserver_request.database_config_user()->getBible ();
   if (webserver_request.query.count ("b")) {
     bible = webserver_request.query ["b"];
   }
@@ -68,11 +68,11 @@ string search_strong (Webserver_Request& webserver_request)
     const int verse = Ipc_Focus::getVerse (webserver_request);
     
     // Get Strong's numbers, plus English snippets.
-    string html = "<table>\n";
+    std::string html = "<table>\n";
     std::vector <Database_Kjv_Item> details = database_kjv.getVerse (book, chapter, verse);
     for (auto & detail : details) {
-      string strong = detail.strong;
-      string english = detail.english;
+      std::string strong = detail.strong;
+      std::string english = detail.english;
       html += "<tr><td><a href=\"" + strong + "\">" + strong + "</a></td><td>" + english + "</td></tr>\n";
     }
     html += "</table>\n";
@@ -83,7 +83,7 @@ string search_strong (Webserver_Request& webserver_request)
   
   if (webserver_request.query.count ("strong")) {
     
-    string strong = webserver_request.query ["strong"];
+    std::string strong = webserver_request.query ["strong"];
     strong = filter::strings::trim (strong);
     
     std::vector <int> passages;
@@ -98,7 +98,7 @@ string search_strong (Webserver_Request& webserver_request)
     passages = filter::strings::array_unique (passages);
     sort (passages.begin(), passages.end());
     
-    string output;
+    std::string output;
     for (auto & passage : passages) {
       if (!output.empty()) output.append ("\n");
       output.append (filter::strings::convert_to_string (passage));
@@ -114,14 +114,14 @@ string search_strong (Webserver_Request& webserver_request)
     Passage passage = filter_integer_to_passage (id);
     int book = passage.m_book;
     int chapter = passage.m_chapter;
-    string verse = passage.m_verse;
+    std::string verse = passage.m_verse;
     
     // Get the plain text.
-    string text = search_logic_get_bible_verse_text (bible, book, chapter, filter::strings::convert_to_int (verse));
+    std::string text = search_logic_get_bible_verse_text (bible, book, chapter, filter::strings::convert_to_int (verse));
     
     // Format it.
-    string link = filter_passage_link_for_opening_editor_at (book, chapter, verse);
-    string output = "<div>" + link + " " + text + "</div>";
+    std::string link = filter_passage_link_for_opening_editor_at (book, chapter, verse);
+    std::string output = "<div>" + link + " " + text + "</div>";
     
     // Output to browser.
     return output;

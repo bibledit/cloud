@@ -50,33 +50,33 @@ bool edit_load_acl (Webserver_Request& webserver_request)
 
 string edit_load (Webserver_Request& webserver_request)
 {
-  string bible = webserver_request.query ["bible"];
+  std::string bible = webserver_request.query ["bible"];
   int book = filter::strings::convert_to_int (webserver_request.query ["book"]);
   int chapter = filter::strings::convert_to_int (webserver_request.query ["chapter"]);
-  string unique_id = webserver_request.query ["id"];
+  std::string unique_id = webserver_request.query ["id"];
 
   // Store a copy of the USFM loaded in the editor for later reference.
   storeLoadedUsfm2 (webserver_request, bible, book, chapter, unique_id);
   
   const std::string stylesheet = Database_Config_Bible::getEditorStylesheet (bible);
   
-  string usfm = webserver_request.database_bibles()->get_chapter (bible, book, chapter);
+  std::string usfm = webserver_request.database_bibles()->get_chapter (bible, book, chapter);
   
   Editor_Usfm2Html editor_usfm2html;
   editor_usfm2html.load (usfm);
   editor_usfm2html.stylesheet (stylesheet);
   editor_usfm2html.run ();
   
-  string html = editor_usfm2html.get ();
+  std::string html = editor_usfm2html.get ();
   
   // To make editing empty verses easier, convert spaces to non-breaking spaces, so they appear in the editor.
   if (filter::usfm::contains_empty_verses (usfm)) {
-    string search = "<span> </span>";
-    string replace = "<span>" + filter::strings::unicode_non_breaking_space_entity () + "</span>";
+    std::string search = "<span> </span>";
+    std::string replace = "<span>" + filter::strings::unicode_non_breaking_space_entity () + "</span>";
     html = filter::strings::replace (search, replace, html);
   }
   
-  string user = webserver_request.session_logic ()->currentUser ();
+  std::string user = webserver_request.session_logic ()->currentUser ();
   bool write = access_bible::book_write (webserver_request, user, bible, book);
   
   return checksum_logic::send (html, write);

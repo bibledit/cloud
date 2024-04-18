@@ -31,12 +31,12 @@ TEST (checks, space)
   refresh_sandbox (false);
   Database_Check database_check;
   database_check.create ();
-  string bible = "unit test";
+  std::string bible = "unit test";
   
   // Test reporting space at end of verse: No spaces here.
   {
     database_check.truncateOutput (bible);
-    string usfm =
+    std::string usfm =
     "\\v 2 This is verse 2.\n"
     "\\v 3 This is verse 3.\n"
     ;
@@ -48,7 +48,7 @@ TEST (checks, space)
   // Test reporting space at end of verse: One space here.
   {
     database_check.truncateOutput (bible);
-    string usfm =
+    std::string usfm =
     "\\v 4 This is verse 4. \n"
     ;
     checks::space::space_end_verse (bible, 2, 3, usfm);
@@ -63,7 +63,7 @@ TEST (checks, space)
   // Check that it gets reported.
   {
     database_check.truncateOutput (bible);
-    string usfm =
+    std::string usfm =
     "\\v 5 This is verse \\add 5. \\add*\n"
     ;
     checks::space::space_end_verse (bible, 2, 3, usfm);
@@ -74,7 +74,7 @@ TEST (checks, space)
   // Test there's no space in the cleaned text at the end of the verse.
   {
     database_check.truncateOutput (bible);
-    string usfm =
+    std::string usfm =
     "\\v 6 This is verse \\add 6.\\add*\n"
     ;
     checks::space::space_end_verse (bible, 2, 3, usfm);
@@ -85,7 +85,7 @@ TEST (checks, space)
   // Check that it catches a double space in USFM.
   {
     database_check.truncateOutput (bible);
-    string usfm = R"(\v 1 This contains  a double space.)";
+    std::string usfm = R"(\v 1 This contains  a double space.)";
     checks::space::double_space_usfm (bible, 2, 3, 4, usfm);
     std::vector <Database_Check_Hit> hits = database_check.getHits ();
     EXPECT_EQ (1, hits.size ());
@@ -93,15 +93,15 @@ TEST (checks, space)
   
   // Check that it transposes spaces in notes.
   {
-    string usfm = R"(\v 1 Verse\f + \fr 3.1\fk  keyword\ft  Text.\f* one.)";
-    string standard = R"(\v 1 Verse\f + \fr 3.1 \fk keyword \ft Text.\f* one.)";
+    std::string usfm = R"(\v 1 Verse\f + \fr 3.1\fk  keyword\ft  Text.\f* one.)";
+    std::string standard = R"(\v 1 Verse\f + \fr 3.1 \fk keyword \ft Text.\f* one.)";
     bool transposed = checks::space::transpose_note_space (usfm);
     EXPECT_EQ (true, transposed);
     EXPECT_EQ (standard, usfm);
   }
   {
-    string usfm = R"(\v 2 Verse\x + \xo 3.2\xt  Text.\x* two.)";
-    string standard = R"(\v 2 Verse\x + \xo 3.2 \xt Text.\x* two.)";
+    std::string usfm = R"(\v 2 Verse\x + \xo 3.2\xt  Text.\x* two.)";
+    std::string standard = R"(\v 2 Verse\x + \xo 3.2 \xt Text.\x* two.)";
     bool transposed = checks::space::transpose_note_space (usfm);
     EXPECT_EQ (true, transposed);
     EXPECT_EQ (standard, usfm);
@@ -111,7 +111,7 @@ TEST (checks, space)
   {
     database_check.truncateOutput (bible);
     int verse = 4;
-    string usfm = R"(\v 1 Note \f ... \f*.)";
+    std::string usfm = R"(\v 1 Note \f ... \f*.)";
     checks::space::space_before_final_note_markup (bible, 2, 3, verse, usfm);
     std::vector <Database_Check_Hit> hits = database_check.getHits ();
     EXPECT_EQ (1, hits.size ());
@@ -119,7 +119,7 @@ TEST (checks, space)
   {
     database_check.truncateOutput (bible);
     int verse = 5;
-    string usfm = R"(\v 2 Endnote \fe ... \fe*.)";
+    std::string usfm = R"(\v 2 Endnote \fe ... \fe*.)";
     checks::space::space_before_final_note_markup (bible, 2, 3, verse, usfm);
     std::vector <Database_Check_Hit> hits = database_check.getHits ();
     EXPECT_EQ (1, hits.size ());
@@ -127,7 +127,7 @@ TEST (checks, space)
   {
     database_check.truncateOutput (bible);
     int verse = 6;
-    string usfm = R"(\v 3 Cross reference \x ... \x*.)";
+    std::string usfm = R"(\v 3 Cross reference \x ... \x*.)";
     checks::space::space_before_final_note_markup (bible, 2, 3, verse, usfm);
     std::vector <Database_Check_Hit> hits = database_check.getHits ();
     EXPECT_EQ (1, hits.size ());

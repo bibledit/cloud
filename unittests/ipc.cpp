@@ -84,10 +84,10 @@ TEST (database, ipc)
     Database_Ipc database_ipc (webserver_request);
     
     int id = 1;
-    string user = "phpunit";
-    string channel = "channel";
-    string command = "command";
-    string message = "message";
+    std::string user = "phpunit";
+    std::string channel = "channel";
+    std::string command = "command";
+    std::string message = "message";
     
     database_ipc.storeMessage (user, channel, command, message);
     
@@ -108,10 +108,10 @@ TEST (database, ipc)
     Database_Ipc database_ipc (webserver_request);
     
     int id = 1;
-    string user = "phpunit";
-    string channel = "channel";
-    string command = "command";
-    string message = "message";
+    std::string user = "phpunit";
+    std::string channel = "channel";
+    std::string command = "command";
+    std::string message = "message";
     
     database_ipc.storeMessage (user, channel, command, message);
     
@@ -132,15 +132,15 @@ TEST (database, ipc)
     Webserver_Request webserver_request;
     Database_Ipc database_ipc (webserver_request);
     
-    string user = "phpunit";
+    std::string user = "phpunit";
     webserver_request.session_logic ()->set_username (user);
-    string channel = "channel";
-    string command = "focus";
+    std::string channel = "channel";
+    std::string command = "focus";
     
-    string passage = database_ipc.getFocus ();
+    std::string passage = database_ipc.getFocus ();
     EXPECT_EQ ("1.1.1", passage);
     
-    string message = "2.3.4";
+    std::string message = "2.3.4";
     database_ipc.storeMessage (user, channel, command, message);
     passage = database_ipc.getFocus ();
     EXPECT_EQ (message, passage);
@@ -159,15 +159,15 @@ TEST (database, ipc)
     Webserver_Request webserver_request;
     Database_Ipc database_ipc (webserver_request);
     
-    string user = "phpunit";
+    std::string user = "phpunit";
     webserver_request.session_logic ()->set_username (user);
-    string channel = "channel";
-    string command = "opennote";
+    std::string channel = "channel";
+    std::string command = "opennote";
     
     Database_Ipc_Message note = database_ipc.getNote ();
     EXPECT_EQ (0, note.id);
     
-    string message = "12345";
+    std::string message = "12345";
     database_ipc.storeMessage (user, channel, command, message);
     note = database_ipc.getNote ();
     EXPECT_EQ (message, note.message);
@@ -186,15 +186,15 @@ TEST (database, ipc)
     Webserver_Request webserver_request;
     Database_Ipc database_ipc (webserver_request);
     
-    string user = "phpunit";
+    std::string user = "phpunit";
     webserver_request.session_logic ()->set_username (user);
-    string channel = "channel";
-    string command = "notesalive";
+    std::string channel = "channel";
+    std::string command = "notesalive";
     
     bool alive = database_ipc.getNotesAlive ();
     EXPECT_EQ (false, alive);
     
-    string message = "1";
+    std::string message = "1";
     database_ipc.storeMessage (user, channel, command, message);
     alive = database_ipc.getNotesAlive ();
     EXPECT_EQ (filter::strings::convert_to_bool (message), alive);

@@ -59,7 +59,7 @@ void Database_Styles::create ()
 {
   // Create database.
   sqlite3 * db = connect ();
-  string sql;
+  std::string sql;
   sql = "CREATE TABLE IF NOT EXISTS users ("
         "user text,"
         "sheet text"
@@ -496,7 +496,7 @@ Database_Styles_Item Database_Styles::read_item (string sheet, string marker)
   
   // Read the item.
   bool take_default = sheet.empty ();
-  string filename;
+  std::string filename;
   if (!take_default) {
     filename = stylefile (sheet, marker);
     if (!file_or_dir_exists (filename)) take_default = true;
@@ -521,7 +521,7 @@ Database_Styles_Item Database_Styles::read_item (string sheet, string marker)
     item.info = translate ("Information");
   } else {
     // Read the style from file.
-    string contents = filter_url_file_get_contents (filename);
+    std::string contents = filter_url_file_get_contents (filename);
     std::vector <std::string> lines = filter::strings::explode (contents, '\n');
     for (unsigned int i = 0; i < lines.size(); i++) {
       if (i == 0)  item.marker = lines [i];
@@ -612,7 +612,7 @@ void Database_Styles::write_item (string sheet, Database_Styles_Item & item)
   lines.push_back (item.userstring3);
   lines.push_back (item.backgroundcolor);
   // Save.
-  string data = filter::strings::implode (lines, "\n");
+  std::string data = filter::strings::implode (lines, "\n");
   filter_url_file_put_contents (stylefile (sheet, item.marker), data);
   // Clear cache.
   database_styles_cache_mutex.lock ();

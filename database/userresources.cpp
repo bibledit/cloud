@@ -105,8 +105,8 @@ string Database_UserResources::file (const std::string& name)
 // The value is at line number $offset.
 string Database_UserResources::load (const std::string& name, size_t offset)
 {
-  string path = file (name);
-  string contents = filter_url_file_get_contents (path);
+  std::string path = file (name);
+  std::string contents = filter_url_file_get_contents (path);
   std::vector <std::string> lines = filter::strings::explode (contents, '\n');
   if (offset >= lines.size ()) return std::string();
   return lines [offset];
@@ -117,8 +117,8 @@ string Database_UserResources::load (const std::string& name, size_t offset)
 // It saves the $value to line number $offset.
 void Database_UserResources::save (const std::string& name, size_t offset, const std::string& value)
 {
-  string path = file (name);
-  string contents = filter_url_file_get_contents (path);
+  std::string path = file (name);
+  std::string contents = filter_url_file_get_contents (path);
   std::vector <std::string> lines = filter::strings::explode (contents, '\n');
   while (lines.size () <= offset) lines.push_back ("");
   lines [offset] = value;

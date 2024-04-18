@@ -127,7 +127,7 @@ string Database_BibleActions::getUsfm (string bible, int book, int chapter)
   sql.add (";");
   std::vector <std::string> result = sql.query ()["usfm"];
   if (!result.empty()) {
-    string usfm = result[0];
+    std::string usfm = result[0];
     return usfm;
   };
   return std::string();

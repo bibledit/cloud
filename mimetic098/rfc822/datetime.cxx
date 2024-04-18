@@ -117,7 +117,7 @@ DateTime::Zone::Zone(const std::string& txt)
     }
     if(m_iZone == 0)
     { // check if txt is a numeric timezone (+0200)
-        string tz = txt;
+        std::string tz = txt;
         if(tz[0] == '+' || tz[0] == '-' || (tz[0] >= '0' && tz[0] <= '9'))
         {
             int sign = (tz[0] == '-' ? -1 : 1);
@@ -141,7 +141,7 @@ string DateTime::Zone::name() const
     if(m_iZoneIdx)
         return ms_label[m_iZoneIdx];
     else {
-        string sTz = utils::int2str(m_iZone);
+        std::string sTz = utils::int2str(m_iZone);
         if(m_iZone >= 0)
         {
             sTz.insert(0u, 4-sTz.length(),'0'); // add zeroes
@@ -335,9 +335,9 @@ void DateTime::set(const std::string& input)
 {
     if(input.empty())
         return;
-    string can_input = remove_external_blanks(canonical(input));
+    std::string can_input = remove_external_blanks(canonical(input));
     StringTokenizer stok(&can_input, " ,");
-    string tok; int i = 0;
+    std::string tok; int i = 0;
     if(!stok.next(tok)) return;
     if(!tok.empty() && !isdigit(tok[0]))
         m_iDayOfWeek = DayOfWeek(tok).ordinal();

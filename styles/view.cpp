@@ -65,11 +65,11 @@ string styles_view (Webserver_Request& webserver_request)
   Assets_View view {};
 
 
-  string sheet = webserver_request.query ["sheet"];
+  std::string sheet = webserver_request.query ["sheet"];
   view.set_variable ("sheet", filter::strings::escape_special_xml_characters (sheet));
   
   
-  string style = webserver_request.query ["style"];
+  std::string style = webserver_request.query ["style"];
   view.set_variable ("style", filter::strings::escape_special_xml_characters (style));
 
   
@@ -78,7 +78,7 @@ string styles_view (Webserver_Request& webserver_request)
   
   
   // Whether the logged-in user has write access to the stylesheet.
-  const string username = webserver_request.session_logic ()->currentUser ();
+  const std::string username = webserver_request.session_logic ()->currentUser ();
   const int userlevel = webserver_request.session_logic ()->currentLevel ();
   bool write = database_styles.hasWriteAccess (username, sheet);
   if (userlevel >= Filter_Roles::admin ()) write = true;
@@ -89,7 +89,7 @@ string styles_view (Webserver_Request& webserver_request)
 
   
   // The style's name.
-  string name = marker_data.name;
+  std::string name = marker_data.name;
   if (webserver_request.query.count ("name")) {
     Dialog_Entry dialog_entry = Dialog_Entry ("view", translate("Please enter the name for the style"), name, "name", std::string());
     dialog_entry.add_query ("sheet", sheet);
@@ -108,7 +108,7 @@ string styles_view (Webserver_Request& webserver_request)
   
 
   // The style's info.
-  string info = marker_data.info;
+  std::string info = marker_data.info;
   if (webserver_request.query.count ("info")) {
     Dialog_Entry dialog_entry = Dialog_Entry ("view", translate("Please enter the description for the style"), info, "info", std::string());
     dialog_entry.add_query ("sheet", sheet);
@@ -127,7 +127,7 @@ string styles_view (Webserver_Request& webserver_request)
   
   
   // The style's category.
-  string category = marker_data.category;
+  std::string category = marker_data.category;
   if (webserver_request.query.count("category")) {
     category = webserver_request.query["category"];
     if (category.empty()) {
@@ -168,14 +168,14 @@ string styles_view (Webserver_Request& webserver_request)
   // The style's type.
   int type = marker_data.type;
   if (webserver_request.query.count ("type")) {
-    const string s = webserver_request.query["type"];
+    const std::string s = webserver_request.query["type"];
     type = filter::strings::convert_to_int (s);
     if (s.empty()) {
       Dialog_List dialog_list = Dialog_List ("view", translate("Would you like to change the type of this style?"), translate("Here are the various types:"), translate("Please pick one."));
       dialog_list.add_query ("sheet", sheet);
       dialog_list.add_query ("style", style);
       for (int i = 0; i < 99; i++) {
-        const string text = styles_logic_type_text (i);
+        const std::string text = styles_logic_type_text (i);
         if (text.length () > 2) {
           dialog_list.add_row (text, "type", filter::strings::convert_to_string (i));
         }
@@ -196,7 +196,7 @@ string styles_view (Webserver_Request& webserver_request)
   // The style's subtype.
   int subtype = marker_data.subtype;
   if (webserver_request.query.count ("subtype")) {
-    const string s = webserver_request.query["subtype"];
+    const std::string s = webserver_request.query["subtype"];
     subtype = filter::strings::convert_to_int (s);
     if (s.empty()) {
       Dialog_List dialog_list = Dialog_List ("view", translate("Would you like to change the sub type of this style?"), std::string(), std::string());
@@ -205,7 +205,7 @@ string styles_view (Webserver_Request& webserver_request)
       Database_Styles_Item style_data = database_styles.getMarkerData (sheet, style);
       int type2 = style_data.type;
       for (int i = 0; i < 99; i++) {
-        string text = styles_logic_subtype_text (type2, i);
+        std::string text = styles_logic_subtype_text (type2, i);
         if (text.length () > 2) {
           dialog_list.add_row (text, "subtype", filter::strings::convert_to_string (i));
         }
@@ -220,7 +220,7 @@ string styles_view (Webserver_Request& webserver_request)
     }
   }
   view.set_variable ("subtype",filter::strings::convert_to_string (subtype));
-  string subtype_text = styles_logic_subtype_text (type, subtype);
+  std::string subtype_text = styles_logic_subtype_text (type, subtype);
   view.set_variable ("subtype_text", subtype_text);
   if (subtype_text.length () > 2) view.enable_zone ("subtype_text");
   
@@ -257,7 +257,7 @@ string styles_view (Webserver_Request& webserver_request)
   // Italic.
   int italic = marker_data.italic;
   if (webserver_request.query.count ("italic")) {
-    const string s = webserver_request.query["italic"];
+    const std::string s = webserver_request.query["italic"];
     if (s.empty()) {
       Dialog_List dialog_list = Dialog_List ("view", translate("Would you like to change whether this style is in italics?"), std::string(), std::string());
       dialog_list.add_query ("sheet", sheet);
@@ -285,7 +285,7 @@ string styles_view (Webserver_Request& webserver_request)
   // Bold.
   int bold = marker_data.bold;
   if (webserver_request.query.count ("bold")) {
-    const string s = webserver_request.query["bold"];
+    const std::string s = webserver_request.query["bold"];
     if (s.empty()) {
       Dialog_List dialog_list = Dialog_List ("view", translate("Would you like to change whether this style is in bold?"), std::string(), std::string());
       dialog_list.add_query ("sheet", sheet);
@@ -313,7 +313,7 @@ string styles_view (Webserver_Request& webserver_request)
   // Underline.
   int underline = marker_data.underline;
   if (webserver_request.query.count ("underline")) {
-    const string s = webserver_request.query["underline"];
+    const std::string s = webserver_request.query["underline"];
     if (s.empty()) {
       Dialog_List dialog_list = Dialog_List ("view", translate("Would you like to change whether this style is underlined?"), std::string(), std::string());
       dialog_list.add_query ("sheet", sheet);
@@ -341,7 +341,7 @@ string styles_view (Webserver_Request& webserver_request)
   // Small caps.
   int smallcaps = marker_data.smallcaps;
   if (webserver_request.query.count ("smallcaps")) {
-    const string s = webserver_request.query["smallcaps"];
+    const std::string s = webserver_request.query["smallcaps"];
     if (s.empty()) {
       Dialog_List dialog_list = Dialog_List ("view", translate("Would you like to change whether this style is in small caps?"), std::string(), std::string());
       dialog_list.add_query ("sheet", sheet);
@@ -530,7 +530,7 @@ string styles_view (Webserver_Request& webserver_request)
   // Color.
   if (styles_logic_color_is_relevant (type, subtype)) view.enable_zone ("color_relevant");
   
-  string color = marker_data.color;
+  std::string color = marker_data.color;
   if (webserver_request.query.count ("fgcolor")) {
     color = webserver_request.query["fgcolor"];
     if (color.find ("#") == std::string::npos) color.insert (0, "#");
@@ -544,7 +544,7 @@ string styles_view (Webserver_Request& webserver_request)
   }
   view.set_variable ("color", color);
 
-  string backgroundcolor {marker_data.backgroundcolor};
+  std::string backgroundcolor {marker_data.backgroundcolor};
   if (webserver_request.query.count ("bgcolor")) {
     color = webserver_request.query["bgcolor"];
     if (color.find ("#") == std::string::npos) color.insert (0, "#");
@@ -574,7 +574,7 @@ string styles_view (Webserver_Request& webserver_request)
   
 
   // Userbool1.
-  string userbool1_function = styles_logic_get_userbool1_text (styles_logic_get_userbool1_function (type, subtype));
+  std::string userbool1_function = styles_logic_get_userbool1_text (styles_logic_get_userbool1_function (type, subtype));
   if (userbool1_function.length () > 2) view.enable_zone ("userbool1_relevant");
   view.set_variable ("userbool1_function", userbool1_function);
   bool userbool1 {marker_data.userbool1};
@@ -590,7 +590,7 @@ string styles_view (Webserver_Request& webserver_request)
 
   
   // Userbool2.
-  string userbool2_function = styles_logic_get_userbool2_text (styles_logic_get_userbool2_function (type, subtype));
+  std::string userbool2_function = styles_logic_get_userbool2_text (styles_logic_get_userbool2_function (type, subtype));
   if (userbool2_function.length () > 2) view.enable_zone ("userbool2_relevant");
   view.set_variable ("userbool2_function", userbool2_function);
   bool userbool2 {marker_data.userbool2};
@@ -606,7 +606,7 @@ string styles_view (Webserver_Request& webserver_request)
 
   
   // Userbool3.
-  string userbool3_function = styles_logic_get_userbool3_text (styles_logic_get_userbool3_function (type, subtype));
+  std::string userbool3_function = styles_logic_get_userbool3_text (styles_logic_get_userbool3_function (type, subtype));
   if (userbool3_function.length () > 2) view.enable_zone ("userbool3_relevant");
   view.set_variable ("userbool3_function", userbool3_function);
   bool userbool3 {marker_data.userbool3};
@@ -727,9 +727,9 @@ string styles_view (Webserver_Request& webserver_request)
   
 
   // Userstring1.
-  string userstring1 {marker_data.userstring1};
-  string userstring1_question {};
-  string userstring1_help {};
+  std::string userstring1 {marker_data.userstring1};
+  std::string userstring1_question {};
+  std::string userstring1_help {};
   switch (styles_logic_get_userstring1_function (type, subtype)) {
     case UserString1None :
       break;
@@ -766,9 +766,9 @@ string styles_view (Webserver_Request& webserver_request)
   
 
   // Userstring2
-  string userstring2 {marker_data.userstring2};
-  string userstring2_question {};
-  string userstring2_info {};
+  std::string userstring2 {marker_data.userstring2};
+  std::string userstring2_question {};
+  std::string userstring2_info {};
   switch (styles_logic_get_userstring2_function (type, subtype)) {
     case UserString2None :
       break;

@@ -59,8 +59,8 @@ string editor_select (Webserver_Request& webserver_request)
   
   if (edit_index_acl (webserver_request)) {
     if (menu_logic_editor_enabled (webserver_request, true, true)) {
-      string label = menu_logic_editor_menu_text (true, true);
-      string url = edit_index_url ();
+      std::string label = menu_logic_editor_menu_text (true, true);
+      std::string url = edit_index_url ();
       view.add_iteration ("editor", { pair ("url", url), pair ("label", label) } );
       urls.push_back (url);
     }
@@ -68,8 +68,8 @@ string editor_select (Webserver_Request& webserver_request)
   
   if (editone2_index_acl (webserver_request)) {
     if (menu_logic_editor_enabled (webserver_request, true, false)) {
-      string label = menu_logic_editor_menu_text (true, false);
-      string url = editone2_index_url ();
+      std::string label = menu_logic_editor_menu_text (true, false);
+      std::string url = editone2_index_url ();
       view.add_iteration ("editor", { pair ("url", url), pair ("label", label) } );
       urls.push_back (url);
     }
@@ -77,15 +77,15 @@ string editor_select (Webserver_Request& webserver_request)
   
   if (editusfm_index_acl (webserver_request)) {
     if (menu_logic_editor_enabled (webserver_request, false, true)) {
-      string label = menu_logic_editor_menu_text (false, true);
-      string url = editusfm_index_url ();
+      std::string label = menu_logic_editor_menu_text (false, true);
+      std::string url = editusfm_index_url ();
       view.add_iteration ("editor", { pair ("url", url), pair ("label", label) } );
       urls.push_back (url);
     }
   }
   
   // Checking on whether to switch to another editor, through the keyboard shortcut.
-  string from = webserver_request.query ["from"];
+  std::string from = webserver_request.query ["from"];
   from.append ("/");
   if (!from.empty ()) {
     if (!urls.empty ()) {

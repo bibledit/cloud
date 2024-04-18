@@ -58,7 +58,7 @@ string sync_usfmresources (Webserver_Request& webserver_request)
   }
 
   int action = filter::strings::convert_to_int (webserver_request.post ["a"]);
-  string resource = webserver_request.post ["r"];
+  std::string resource = webserver_request.post ["r"];
   int book = filter::strings::convert_to_int (webserver_request.post ["b"]);
   int chapter = filter::strings::convert_to_int (webserver_request.post ["c"]);
   

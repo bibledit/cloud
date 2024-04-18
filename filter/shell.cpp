@@ -48,7 +48,7 @@ string filter_shell_escape_argument (string argument)
 // If $output and $error are non-nullptr, that is where the output of the shell command goes.
 // If they are nullptr, the output of the shell command goes to the Journal.
 int filter_shell_run ([[maybe_unused]] string directory,
-                      string command,
+                      std::string command,
                       [[maybe_unused]] const std::vector <std::string> parameters,
                       [[maybe_unused]] string * output,
                       [[maybe_unused]] string * error)
@@ -66,13 +66,13 @@ int filter_shell_run ([[maybe_unused]] string directory,
     parameter = filter_shell_escape_argument (parameter);
     command.append (" " + parameter);
   }
-  string pipe = filter_url_tempfile ();
-  string standardout = pipe + ".out";
-  string standarderr = pipe + ".err";
+  std::string pipe = filter_url_tempfile ();
+  std::string standardout = pipe + ".out";
+  std::string standarderr = pipe + ".err";
   command.append (" > " + standardout);
   command.append (" 2> " + standarderr);
   int result = system (command.c_str());
-  string contents = filter_url_file_get_contents (standardout);
+  std::string contents = filter_url_file_get_contents (standardout);
   if (output) {
     output->assign (contents);
   } else {
@@ -102,7 +102,7 @@ int filter_shell_run (string command,
   return 0;
 #else
   // File descriptor for file to write child's stdout to.
-  string path = filter_url_tempfile () + ".txt";
+  std::string path = filter_url_tempfile () + ".txt";
   int fd = open (path.c_str (), O_WRONLY|O_CREAT, 0666);
   
   // Create child process as a duplicate of this process.
@@ -143,7 +143,7 @@ int filter_shell_run (string command, string & out_err)
 #ifdef HAVE_IOS
   return 0;
 #else
-  string pipe = filter_url_tempfile ();
+  std::string pipe = filter_url_tempfile ();
   command.append (" > " + pipe + " 2>&1");
   int result = system (command.c_str());
   out_err = filter_url_file_get_contents (pipe);
@@ -159,7 +159,7 @@ bool filter_shell_is_present (string program)
 #ifdef HAVE_IOS
   return false;
 #else
-  string command = "which " + program + " > /dev/null 2>&1";
+  std::string command = "which " + program + " > /dev/null 2>&1";
   int exitcode = system (command.c_str ());
   return (exitcode == 0);
 #endif
@@ -188,7 +188,7 @@ vector <std::string> filter_shell_active_processes ()
 
 #else
 
-  string output;
+  std::string output;
   filter_shell_run ("ps ax", output);
   processes = filter::strings::explode (output, '\n');
 
@@ -225,7 +225,7 @@ int filter_shell_vfork ([[maybe_unused]] string & output,
 #else
 
   // File descriptors for files to write child's stdout and stderr to.
-  string path = filter_url_tempfile () + ".txt";
+  std::string path = filter_url_tempfile () + ".txt";
   int fd = open (path.c_str (), O_WRONLY|O_CREAT, 0666);
 
   // It seems that waiting very shortly before calling vfork ()

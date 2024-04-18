@@ -81,7 +81,7 @@ void editone_logic_suffix_html (string editable_last_p_style, string usfm, strin
       html = filter::strings::html2xml (html);
       document.load_string (html.c_str(), pugi::parse_ws_pcdata_single);
       pugi::xml_node p_node = document.first_child ();
-      string p_style = p_node.attribute ("class").value ();
+      std::string p_style = p_node.attribute ("class").value ();
       if (p_style.empty ()) {
         p_node.append_attribute ("class") = editable_last_p_style.c_str ();
       }
@@ -108,7 +108,7 @@ string editone_logic_html_to_usfm (string stylesheet, string html)
   html = filter::strings::any_space_to_standard_space (html);
 
   // Convert the html back to USFM in the special way for editing one verse.
-  string usfm = editor_export_verse_quill (stylesheet, html);
+  std::string usfm = editor_export_verse_quill (stylesheet, html);
 
   // Done.
   return usfm;
@@ -141,7 +141,7 @@ void editone_logic_move_notes_v2 (string & prefix, string & suffix)
     if (within_notes) {
       prefix_note_nodes.push_back (p_node);
     }
-    string cls = p_node.attribute ("class").value ();
+    std::string cls = p_node.attribute ("class").value ();
     if (cls == b_notes_class) {
       within_notes = true;
       prefix_separator_node = p_node;
@@ -154,11 +154,11 @@ void editone_logic_move_notes_v2 (string & prefix, string & suffix)
   // Get the note(s) text from the note node(s).
   // Remove the note node(s) from the prefix.
   // Remove the notes separator node from the prefix.
-  string notes_text;
+  std::string notes_text;
   for (pugi::xml_node p_node : prefix_note_nodes) {
     stringstream ss;
     p_node.print (ss, "", pugi::format_raw);
-    string note = ss.str ();
+    std::string note = ss.str ();
     notes_text.append (note);
     document.remove_child (p_node);
   }
@@ -180,7 +180,7 @@ void editone_logic_move_notes_v2 (string & prefix, string & suffix)
   // Iterate over the document to find the possible notes separator.
   pugi::xml_node suffix_separator_node;
   for (pugi::xml_node p_node : document.children ()) {
-    string cls = p_node.attribute ("class").value ();
+    std::string cls = p_node.attribute ("class").value ();
     if (cls == b_notes_class) {
       suffix_separator_node = p_node;
     }

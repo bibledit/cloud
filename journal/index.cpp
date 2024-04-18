@@ -64,8 +64,8 @@ string render_journal_entry (string filename, [[maybe_unused]] int userlevel)
   // followed by the number of microseconds within the current second.
 
   // Get the contents of the file.
-  string path = filter_url_create_path ({Database_Logs::folder (), filename});
-  string entry = filter_url_file_get_contents (path);
+  std::string path = filter_url_create_path ({Database_Logs::folder (), filename});
+  std::string entry = filter_url_file_get_contents (path);
   
   // Deal with the user-level of the entry.
   [[maybe_unused]] int entryLevel = filter::strings::convert_to_int (entry);
@@ -93,9 +93,9 @@ string render_journal_entry (string filename, [[maybe_unused]] int userlevel)
   // Extract the seconds since the Unix epoch from the filename.
   int seconds = filter::strings::convert_to_int (filename.substr (0, 10));
   // Localized date and time stamp.
-  string timestamp = locale_logic_date_time (seconds);
+  std::string timestamp = locale_logic_date_time (seconds);
 
-  string a_open, a_close;
+  std::string a_open, a_close;
   if (limit || lines.size () > 1) {
     a_open = R"(<a href=")" + filename + R"(">)";
     a_close = "</a>";
@@ -110,7 +110,7 @@ string render_journal_entry (string filename, [[maybe_unused]] int userlevel)
 string journal_index_ajax_next (Webserver_Request& webserver_request, string filename)
 {
   int userLevel = webserver_request.session_logic()->currentLevel ();
-  string result = Database_Logs::next (filename);
+  std::string result = Database_Logs::next (filename);
   if (!result.empty()) {
     result = render_journal_entry (result, userLevel);
     result.insert (0, filename + "\n");
@@ -124,17 +124,17 @@ string journal_index (Webserver_Request& webserver_request)
   int userLevel = webserver_request.session_logic()->currentLevel ();
 
   
-  string filename = webserver_request.query ["filename"];
+  std::string filename = webserver_request.query ["filename"];
   if (!filename.empty ()) {
     return journal_index_ajax_next (webserver_request, filename);
   }
   
   
-  string expansion = webserver_request.query ["expansion"];
+  std::string expansion = webserver_request.query ["expansion"];
   if (!expansion.empty ()) {
     // Get file path.
     expansion = filter_url_basename_web (expansion);
-    string path = filter_url_create_path ({Database_Logs::folder (), expansion});
+    std::string path = filter_url_create_path ({Database_Logs::folder (), expansion});
     // Get contents of the record.
     expansion = filter_url_file_get_contents (path);
     // Remove the user's level.
@@ -170,13 +170,13 @@ string journal_index (Webserver_Request& webserver_request)
   }
 
   
-  string lastfilename;
+  std::string lastfilename;
   std::vector <std::string> records = Database_Logs::get (lastfilename);
 
 
-  string lines;
+  std::string lines;
   for (string record : records) {
-    string rendering = render_journal_entry (record, userLevel);
+    std::string rendering = render_journal_entry (record, userLevel);
     if (!rendering.empty ()) {
       lines.append (rendering);
     }

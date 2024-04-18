@@ -58,17 +58,17 @@ string resource_img (Webserver_Request& webserver_request)
   Assets_Header header = Assets_Header (translate("Image resources"), webserver_request);
   page = header.run ();
   Assets_View view {};
-  string error, success;
+  std::string error, success;
   book_id book1 {book_id::_unknown};
   book_id book2 {book_id::_unknown};
   int chapter1, verse1, chapter2, verse2;
   
   
-  string name = webserver_request.query ["name"];
+  std::string name = webserver_request.query ["name"];
   view.set_variable ("name", name);
 
   
-  string image = webserver_request.query ["image"];
+  std::string image = webserver_request.query ["image"];
   view.set_variable ("image", image);
 
   
@@ -79,7 +79,7 @@ string resource_img (Webserver_Request& webserver_request)
     
     std::vector <std::string> errors {};
     
-    string book = webserver_request.post ["book1"];
+    std::string book = webserver_request.post ["book1"];
     book1 = filter_passage_interpret_book_v2 (book);
     if (book1 == book_id::_unknown) errors.push_back (translate ("Unknown starting book."));
 
@@ -130,7 +130,7 @@ string resource_img (Webserver_Request& webserver_request)
     book2 = static_cast<book_id>(ibook2);
   }
   if ((book1 == book_id::_unknown) || (book2 == book_id::_unknown)) {
-    string end = Database_Volatile::getValue (userid, "imageresources");
+    std::string end = Database_Volatile::getValue (userid, "imageresources");
     Passage passage = filter_integer_to_passage (filter::strings::convert_to_int (end));
     book1 = book2 = static_cast<book_id>(passage.m_book);
     chapter1 = chapter2 = passage.m_chapter;

@@ -59,11 +59,11 @@ string versification_system (Webserver_Request& webserver_request)
   
   Database_Versifications database_versifications = Database_Versifications();
 
-  string name = webserver_request.query["name"];
+  std::string name = webserver_request.query["name"];
   view.set_variable ("name", filter::strings::escape_special_xml_characters (name));
 
   if (webserver_request.post.count ("submit")) {
-    string data = webserver_request.post["data"];
+    std::string data = webserver_request.post["data"];
     if (data != "") {
       database_versifications.input (data, name);
     }
@@ -74,8 +74,8 @@ string versification_system (Webserver_Request& webserver_request)
   for (auto & passage : passages) {
     int book = passage.m_book;
     int chapter = passage.m_chapter;
-    string verse = passage.m_verse;
-    string bookname = database::books::get_english_from_id (static_cast<book_id>(book));
+    std::string verse = passage.m_verse;
+    std::string bookname = database::books::get_english_from_id (static_cast<book_id>(book));
     data.push_back ("<tr>");
     data.push_back ("<td>" + bookname + "</td>");
     data.push_back ("<td>" + filter::strings::convert_to_string (chapter) + "</td>");
@@ -84,7 +84,7 @@ string versification_system (Webserver_Request& webserver_request)
   }
   view.set_variable ("data", filter::strings::implode (data, "\n"));
 
-  string output = database_versifications.output (name);
+  std::string output = database_versifications.output (name);
   view.set_variable ("output", output);
 
   page += view.render ("versification", "system");

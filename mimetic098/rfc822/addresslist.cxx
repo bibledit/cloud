@@ -107,7 +107,7 @@ void AddressList::set(const std::string& text)
 {
     bool in_group = false, in_dquote = false;
     int blanks = 0;
-    string item;
+    std::string item;
     string::const_iterator p = text.begin();
     string::const_iterator beg = p;
     for(; p < text.end(); p++)
@@ -134,7 +134,7 @@ void AddressList::set(const std::string& text)
 
 std::string AddressList::str() const
 {
-    string rs;
+    std::string rs;
     const_iterator first = begin(), bit = first, eit = end();
     for(; bit != eit; ++bit)
     {

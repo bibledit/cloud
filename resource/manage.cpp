@@ -61,9 +61,9 @@ string resource_manage (Webserver_Request& webserver_request)
 
   
   // Delete resource.
-  string remove = webserver_request.query ["delete"];
+  std::string remove = webserver_request.query ["delete"];
   if (remove != "") {
-    string confirm = webserver_request.query ["confirm"];
+    std::string confirm = webserver_request.query ["confirm"];
     if (confirm == "") {
       Dialog_Yes dialog_yes = Dialog_Yes ("manage", translate("Would you like to delete this resource?"));
       dialog_yes.add_query ("delete", remove);
@@ -82,9 +82,9 @@ string resource_manage (Webserver_Request& webserver_request)
   
   
   // Convert resource.
-  string convert = webserver_request.query ["convert"];
+  std::string convert = webserver_request.query ["convert"];
   if (convert != "") {
-    string confirm = webserver_request.query ["confirm"];
+    std::string confirm = webserver_request.query ["confirm"];
     if (confirm == "") {
       Dialog_Yes dialog_yes = Dialog_Yes ("manage", translate("Would you like to convert this resource to a Bible?"));
       dialog_yes.add_query ("convert", convert);

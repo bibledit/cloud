@@ -38,7 +38,7 @@ sqlite3 * Database_Navigation::connect ()
 void Database_Navigation::create ()
 {
   sqlite3 * db = connect ();
-  string sql = 
+  std::string sql = 
     "CREATE TABLE IF NOT EXISTS navigation ("
     "  timestamp integer,"
     "  username text,"

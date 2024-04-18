@@ -44,9 +44,9 @@ TEST (styles, css)
     database_styles.createSheet ("testsheet");
     Styles_Css styles_css (webserver_request, "testsheet");
     styles_css.generate ();
-    string css = styles_css.css ();
+    std::string css = styles_css.css ();
     //filter_url_file_put_contents ("/tmp/css.css", css);
-    string standard = filter_url_file_get_contents (filter_url_create_path ({"unittests", "tests", "basic.css"}));
+    std::string standard = filter_url_file_get_contents (filter_url_create_path ({"unittests", "tests", "basic.css"}));
     EXPECT_EQ (standard, css);
   }
   
@@ -58,9 +58,9 @@ TEST (styles, css)
     Styles_Css styles_css (webserver_request, "testsheet");
     styles_css.exports ();
     styles_css.generate ();
-    string css = styles_css.css ();
+    std::string css = styles_css.css ();
     //filter_url_file_put_contents ("/tmp/css.css", css);
-    string standard = filter::strings::trim (filter_url_file_get_contents (filter_url_create_path ({"unittests", "tests", "exports.css"})));
+    std::string standard = filter::strings::trim (filter_url_file_get_contents (filter_url_create_path ({"unittests", "tests", "exports.css"})));
     EXPECT_EQ (standard, css);
   }
   
@@ -72,9 +72,9 @@ TEST (styles, css)
     Styles_Css styles_css (webserver_request, "testsheet");
     styles_css.editor ();
     styles_css.generate ();
-    string css = styles_css.css ();
+    std::string css = styles_css.css ();
     //filter_url_file_put_contents ("/tmp/css.css", css);
-    string standard = filter::strings::trim (filter_url_file_get_contents (filter_url_create_path ({"unittests", "tests", "editor.css"})));
+    std::string standard = filter::strings::trim (filter_url_file_get_contents (filter_url_create_path ({"unittests", "tests", "editor.css"})));
     //filter_url_file_put_contents ("editor.css", css);
     EXPECT_EQ (standard, css);
   }
@@ -115,9 +115,9 @@ TEST (styles, css)
 
   // CSS.
   {
-    string css = Filter_Css::get_css ("class", std::string(), 0);
+    std::string css = Filter_Css::get_css ("class", std::string(), 0);
     
-    string standard =
+    std::string standard =
     ".class\n"
     "{\n"
     "}\n";
@@ -197,7 +197,7 @@ TEST (styles, css)
 
   // Class.
   {
-    string clss = Filter_Css::getClass ("ആഈഘലറ");
+    std::string clss = Filter_Css::getClass ("ആഈഘലറ");
     EXPECT_EQ ("customf86528", clss);
   }
   
@@ -241,7 +241,7 @@ TEST (styles, css)
     markers = database_styles.getMarkers ("testsheet");
     EXPECT_EQ (205, static_cast<int>(markers.size ()));
     
-    string marker {"p"};
+    std::string marker {"p"};
     if (find (markers.begin (), markers.end (), marker) == markers.end ()) EXPECT_EQ (marker, "not found");
     marker = "add";
     if (find (markers.begin (), markers.end (), marker) == markers.end ()) EXPECT_EQ (marker, "not found");
@@ -332,7 +332,7 @@ TEST (styles, css)
     
     // Get markers.
     std::vector <std::string> markers = database_styles.getMarkers ("testsheet");
-    string marker {"zhq"};
+    std::string marker {"zhq"};
     if (find (markers.begin (), markers.end (), marker) != markers.end ()) EXPECT_EQ (marker, "should not be there");
     
     // Add marker.
@@ -347,7 +347,7 @@ TEST (styles, css)
     Database_Styles database_styles {};
     database_styles.create ();
     std::vector <std::string> markers = database_styles.getMarkers ("");
-    string marker {"zhq"};
+    std::string marker {"zhq"};
     if (find (markers.begin (), markers.end (), marker) != markers.end ()) EXPECT_EQ (marker, "should not be there");
   }
   
@@ -358,7 +358,7 @@ TEST (styles, css)
     database_styles.create ();
     Database_State database_state;
     database_state.create ();
-    string action = Editor_Styles::getAction (webserver_request, "add");
+    std::string action = Editor_Styles::getAction (webserver_request, "add");
     EXPECT_EQ ("c", action);
     action = Editor_Styles::getAction (webserver_request, "vp");
     EXPECT_EQ ("c", action);

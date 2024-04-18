@@ -68,7 +68,7 @@ TEST (database, usfmresources)
     refresh_sandbox (true);
     Database_UsfmResources database_usfmresources = Database_UsfmResources ();
     database_usfmresources.storeChapter ("bibledit", 2, 3, "usfm");
-    string usfm = database_usfmresources.getUsfm ("bibledit", 2, 3);
+    std::string usfm = database_usfmresources.getUsfm ("bibledit", 2, 3);
     EXPECT_EQ ("usfm", usfm);
     usfm = database_usfmresources.getUsfm ("bibledit", 2, 4);
     EXPECT_EQ ("", usfm);
@@ -132,7 +132,7 @@ TEST (database, usfmresources)
 TEST (database, imageresources)
 {
   Database_ImageResources database_imageresources;
-  const string image = filter_url_create_root_path ({"unittests", "tests", "Genesis-1-1-18.gif"});
+  const std::string image = filter_url_create_root_path ({"unittests", "tests", "Genesis-1-1-18.gif"});
   
   // Empty.
   {
@@ -167,7 +167,7 @@ TEST (database, imageresources)
     
     database_imageresources.create ("unittest");
     
-    string path = "/tmp/unittest.jpg";
+    std::string path = "/tmp/unittest.jpg";
     filter_url_file_cp (image, path);
     database_imageresources.store ("unittest", path);
     filter_url_file_cp (image, path);
@@ -190,8 +190,8 @@ TEST (database, imageresources)
     database_imageresources.create ("unittest");
     
     for (int i = 10; i < 20; i++) {
-      string image_name = "unittest" + filter::strings::convert_to_string (i) + ".jpg";
-      string image_path = "/tmp/" + image_name;
+      std::string image_name = "unittest" + filter::strings::convert_to_string (i) + ".jpg";
+      std::string image_path = "/tmp/" + image_name;
       filter_url_file_cp (image_name, image_path);
       database_imageresources.store ("unittest", image_path);
       filter_url_unlink (image_path);
@@ -210,8 +210,8 @@ TEST (database, imageresources)
     
     database_imageresources.create ("unittest");
     
-    string image_name = "unittest.jpg";
-    string path_path = "/tmp/" + image_name;
+    std::string image_name = "unittest.jpg";
+    std::string path_path = "/tmp/" + image_name;
     filter_url_file_cp (image_name, path_path);
     database_imageresources.store ("unittest", path_path);
     filter_url_unlink (path_path);
@@ -240,12 +240,12 @@ TEST (database, userresources)
   refresh_sandbox (false);
   
   std::vector <std::string> names;
-  string name = "unit//test";
-  string url = "https://website.org/resources/<book>/<chapter>/<verse>.html";
+  std::string name = "unit//test";
+  std::string url = "https://website.org/resources/<book>/<chapter>/<verse>.html";
   int book = 99;
-  string abbrev = "Book 99";
-  string fragment;
-  string value;
+  std::string abbrev = "Book 99";
+  std::string fragment;
+  std::string value;
   std::vector <std::string> specialnames = { "abc\\def:ghi", name };
   
   names = Database_UserResources::names ();

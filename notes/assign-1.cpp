@@ -59,10 +59,10 @@ string notes_assign_1 (Webserver_Request& webserver_request)
   Assets_Header header = Assets_Header (translate("Assign note"), webserver_request);
   page += header.run ();
   Assets_View view;
-  string success, error;
+  std::string success, error;
 
   
-  string user = webserver_request.session_logic ()->currentUser ();
+  std::string user = webserver_request.session_logic ()->currentUser ();
 
   
   int id = filter::strings::convert_to_int (webserver_request.query ["id"]);
@@ -70,7 +70,7 @@ string notes_assign_1 (Webserver_Request& webserver_request)
 
   
   if (webserver_request.query.count ("assign")) {
-    string assign = webserver_request.query ["assign"];
+    std::string assign = webserver_request.query ["assign"];
     if (database_noteassignment.exists (user, assign)) {
       notes_logic.assignUser (id, assign);
     }

@@ -47,10 +47,10 @@ bool editusfm_focus_acl (Webserver_Request& webserver_request)
 // The caret should be at or be moved to a position between these two.
 string editusfm_focus (Webserver_Request& webserver_request)
 {
-  string bible = webserver_request.query ["bible"];
+  std::string bible = webserver_request.query ["bible"];
   int book = filter::strings::convert_to_int (webserver_request.query ["book"]);
   int chapter = filter::strings::convert_to_int (webserver_request.query ["chapter"]);
-  string usfm = webserver_request.database_bibles()->get_chapter (bible, book, chapter);
+  std::string usfm = webserver_request.database_bibles()->get_chapter (bible, book, chapter);
   int verse = Ipc_Focus::getVerse (webserver_request);
   int startingOffset = filter::usfm::versenumber_to_offset (usfm, verse);
   int endingOffset = startingOffset;
@@ -61,7 +61,7 @@ string editusfm_focus (Webserver_Request& webserver_request)
       if (endingOffset > startingOffset) endingOffset--;
     }
   }
-  string data = filter::strings::convert_to_string (startingOffset) + " " + filter::strings::convert_to_string (endingOffset);
+  std::string data = filter::strings::convert_to_string (startingOffset) + " " + filter::strings::convert_to_string (endingOffset);
   return data;
 }
 

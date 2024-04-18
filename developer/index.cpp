@@ -53,7 +53,7 @@ bool developer_index_acl (Webserver_Request& webserver_request)
 string developer_index (Webserver_Request& webserver_request)
 {
   if (webserver_request.query.count ("log")) {
-    string message = webserver_request.query ["log"];
+    std::string message = webserver_request.query ["log"];
     std::cerr << message << std::endl;
     return std::string();
   }
@@ -66,9 +66,9 @@ string developer_index (Webserver_Request& webserver_request)
 
   Assets_View view {};
 
-  string code {};
+  std::string code {};
   
-  string debug = webserver_request.query ["debug"];
+  std::string debug = webserver_request.query ["debug"];
   
   // It is cleaner and easier to move the following task to the binary ./generate.
   if (debug == "etcbc4download") {
@@ -116,16 +116,16 @@ string developer_index (Webserver_Request& webserver_request)
 
   if (debug == "ipv6") {
     view.set_variable ("success", "Fetching data via IPv6");
-    string error {};
-    string response = filter_url_http_request_mbed ("http://ipv6.google.com", error, {}, "", true);
+    std::string error {};
+    std::string response = filter_url_http_request_mbed ("http://ipv6.google.com", error, {}, "", true);
     page.append (response);
     view.set_variable ("error", error);
   }
   
   if (debug == "ipv6s") {
     view.set_variable ("success", "Securely fetching data via IPv6");
-    string error {};
-    string response = filter_url_http_request_mbed ("https://ipv6.google.com", error, {}, "", true);
+    std::string error {};
+    std::string response = filter_url_http_request_mbed ("https://ipv6.google.com", error, {}, "", true);
     page.append (response);
     view.set_variable ("error", error);
   }
@@ -136,7 +136,7 @@ string developer_index (Webserver_Request& webserver_request)
   }
 
   if (debug == "accordance") {
-    string reference = bibledit_get_reference_for_accordance ();
+    std::string reference = bibledit_get_reference_for_accordance ();
     view.set_variable ("success", "Accordance reference: " + reference);
     bibledit_put_reference_from_accordance("PSA 3:2");
   }

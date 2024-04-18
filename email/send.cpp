@@ -134,7 +134,7 @@ void email_send ()
 }
 
 
-static std::vector <string> payload_text;
+static std::vector <std::string> payload_text;
 
 
 struct upload_status {
@@ -195,7 +195,7 @@ string email_send ([[maybe_unused]] string to_mail,
   Webserver_Request webserver_request;
   Sync_Logic sync_logic (webserver_request);
 
-  std::map <string, string> post;
+  std::map <string, std::string> post;
   post ["n"] = filter::strings::bin2hex (to_name);
   post ["s"] = subject;
   post ["b"] = body;

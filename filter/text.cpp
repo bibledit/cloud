@@ -1514,7 +1514,7 @@ void Filter_Text::addToFallout (string text, bool next)
 // $list: which list to add the text to.
 // The word is extracted from the input USFM. The Usfm pointer points to the current marker,
 // and the text following that marker is added to the word list array.
-void Filter_Text::addToWordList (vector <string>  & list)
+void Filter_Text::addToWordList (vector <std::string>  & list)
 {
   string text = filter::usfm::peek_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
   text.append (" (");
@@ -1708,7 +1708,7 @@ void Filter_Text::initializeHeadingsAndTextPerVerse (bool start_text_now)
 }
 
 
-map <int, string> Filter_Text::getVersesText ()
+map <int, std::string> Filter_Text::getVersesText ()
 {
   // Trim white space at start and end of each line.
   for (auto& element : m_verses_text) {

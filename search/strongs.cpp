@@ -88,7 +88,7 @@ string search_strongs (Webserver_Request& webserver_request)
     
     string s_words {webserver_request.query ["words"]};
     s_words = filter::strings::trim (s_words);
-    const std::vector <string> words {filter::strings::explode (s_words, ' ')};
+    const std::vector <std::string> words {filter::strings::explode (s_words, ' ')};
     
     // Include items if there are no more search hits than 30% of the total number of verses in the KJV.
     const size_t maxcount = static_cast<size_t> (round (0.3 * 31102));

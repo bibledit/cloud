@@ -135,7 +135,7 @@ string filter_diff_diff (string oldstring, string newstring,
 // That means that characters that fit in 2-byte UTF-16 give their positions as 1.
 // Those that fit in 4-byte UTF-16 give their positions as 2.
 // Each differing character is given a size of 1 or 2 accordingly.
-void filter_diff_diff_utf16 (const std::vector <string> & oldinput, const std::vector <string> & newinput,
+void filter_diff_diff_utf16 (const std::vector <std::string> & oldinput, const std::vector <std::string> & newinput,
                              std::vector <int> & positions,
                              std::vector <int> & sizes,
                              std::vector <bool> & additions,

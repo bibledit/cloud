@@ -78,7 +78,7 @@ void Database_BibleActions::record (string bible, int book, int chapter, string 
 }
 
 
-vector <string> Database_BibleActions::getBibles ()
+vector <std::string> Database_BibleActions::getBibles ()
 {
   SqliteDatabase sql (filename ());
   sql.add ("SELECT DISTINCT bible FROM bibleactions ORDER BY bible;");

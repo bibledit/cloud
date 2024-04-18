@@ -97,7 +97,7 @@ string DatabasePrivileges::save (const std::string& username)
   sql.add ("SELECT bible, book, write FROM bibles WHERE username =");
   sql.add (username);
   sql.add (";");
-  std::map <string, std::vector <string> > result = sql.query ();
+  std::map <string, std::vector <std::string> > result = sql.query ();
   std::vector <std::string> bible = result ["bible"];
   std::vector <std::string> book =  result ["book"];
   std::vector <std::string> write = result ["write"];
@@ -121,7 +121,7 @@ string DatabasePrivileges::save (const std::string& username)
   sql.add (username);
   sql.add (";");
   result = sql.query ();
-  const std::vector <string> feature = result ["feature"];
+  const std::vector <std::string> feature = result ["feature"];
   for (size_t i = 0; i < feature.size (); i++) {
     lines.emplace_back (feature [i]);
   }
@@ -147,7 +147,7 @@ void DatabasePrivileges::load (const std::string& username, const std::string& d
     sql.execute ();
   }
   
-  const std::vector <string> lines = filter::strings::explode (data, '\n');
+  const std::vector <std::string> lines = filter::strings::explode (data, '\n');
   bool loading_bibles {false};
   string bible_value {};
   int book_value {0};
@@ -246,7 +246,7 @@ void DatabasePrivileges::get_bible_book (const std::string& username, const std:
   sql.add ("AND book =");
   sql.add (book);
   sql.add (";");
-  const std::vector <string> result = sql.query () ["write"];
+  const std::vector <std::string> result = sql.query () ["write"];
   if (result.empty()) {
     // Not in database: No access.
     read = false;
@@ -287,7 +287,7 @@ int DatabasePrivileges::get_bible_book_count ()
 {
   SqliteDatabase sql (database ());
   sql.add ("SELECT count(*) FROM bibles;");
-  const std::vector <string> result = sql.query () ["count(*)"];
+  const std::vector <std::string> result = sql.query () ["count(*)"];
   if (result.empty ()) return 0;
   return filter::strings::convert_to_int (result [0]);
 }
@@ -307,7 +307,7 @@ bool DatabasePrivileges::get_bible_book_exists (const std::string& username, con
     sql.add (book);
   }
   sql.add (";");
-  const std::vector <string> result = sql.query () ["rowid"];
+  const std::vector <std::string> result = sql.query () ["rowid"];
   return !result.empty();
 }
 
@@ -370,7 +370,7 @@ bool DatabasePrivileges::get_feature (const std::string& username, const int fea
   sql.add ("AND feature =");
   sql.add (feature);
   sql.add (";");
-  const std::vector <string> result = sql.query () ["rowid"];
+  const std::vector <std::string> result = sql.query () ["rowid"];
   if (result.empty()) return false;
   return true;
 }

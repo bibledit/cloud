@@ -53,11 +53,11 @@ using namespace std;
 
 
 // Internal function declarations.
-string lexicon_logic_render_part_of_speech_pop_front (vector <string> & parts);
+string lexicon_logic_render_part_of_speech_pop_front (vector <std::string> & parts);
 
 
 // The names of the available lexicon resources.
-vector <string> lexicon_logic_resource_names ()
+vector <std::string> lexicon_logic_resource_names ()
 {
   return {
     HEBREW_ETCBC4_NAME,
@@ -243,8 +243,8 @@ string lexicon_logic_strong_number_cleanup (string strong)
 // Converts a parsing from the Open Scriptures Hebrew database to Strong's numbers.
 // It also provides the links to call BDB entries.
 void lexicon_logic_convert_morphhb_parsing_to_strong (string parsing,
-                                                      std::vector <string>& strongs,
-                                                      std::vector <string>& bdbs)
+                                                      std::vector <std::string>& strongs,
+                                                      std::vector <std::string>& bdbs)
 {
   strongs.clear ();
   bdbs.clear ();
@@ -432,7 +432,7 @@ string lexicon_logic_render_strongs_definition (string strong)
 }
 
 
-string lexicon_logic_render_part_of_speech_pop_front (vector <string> & parts)
+string lexicon_logic_render_part_of_speech_pop_front (vector <std::string> & parts)
 {
   string part;
   if (!parts.empty ()) {

@@ -102,7 +102,7 @@ void Database_Git::store_chapter (string user, string bible, int book, int chapt
 
 
 // Fetches the distinct users from the database for $bible.
-vector <string> Database_Git::get_users (string bible)
+vector <std::string> Database_Git::get_users (string bible)
 {
   SqliteDatabase sql = SqliteDatabase (name ());
   sql.add ("SELECT DISTINCT user FROM changes WHERE bible =");
@@ -139,7 +139,7 @@ bool Database_Git::get_chapter (int rowid,
   sql.add ("SELECT * FROM changes WHERE rowid =");
   sql.add (rowid);
   sql.add (";");
-  std::map <string, std::vector <string> > result = sql.query ();
+  std::map <string, std::vector <std::string> > result = sql.query ();
   std::vector <std::string> users    = result ["user"];
   std::vector <std::string> bibles   = result ["bible"];
   std::vector <std::string> books    = result ["book"];

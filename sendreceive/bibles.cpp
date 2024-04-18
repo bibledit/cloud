@@ -115,7 +115,7 @@ void sendreceive_bibles ()
   
   // The basic request to be POSTed to the server.
   // It contains the user's credentials.
-  std::map <string, string> post;
+  std::map <string, std::string> post;
   post ["u"] = filter::strings::bin2hex (user);
   post ["p"] = password;
   post ["l"] = filter::strings::convert_to_string (webserver_request.database_users ()->get_level (user));
@@ -166,7 +166,7 @@ void sendreceive_bibles ()
           string checksum = checksum_logic::get (oldusfm + newusfm);
           
           // Generate a POST webserver_request.
-          std::map <string, string> sendpost = post;
+          std::map <string, std::string> sendpost = post;
           sendpost ["a"]  = filter::strings::convert_to_string (Sync_Logic::bibles_send_chapter);
           sendpost ["b"]  = bible;
           sendpost ["bk"] = filter::strings::convert_to_string (book);

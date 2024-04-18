@@ -133,7 +133,7 @@ void export_bibledropbox (string user, string bible)
   
   
   // Form values to POST.
-  std::map <string, string> post;
+  std::map <string, std::string> post;
   post ["nameLine"] = user + " through " PACKAGE_STRING;
   post ["emailLine"] = database_users.get_email (user);
   post ["projectLine"] = bible;

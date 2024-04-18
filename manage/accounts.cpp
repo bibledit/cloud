@@ -106,7 +106,7 @@ string manage_accounts (Webserver_Request& webserver_request)
   }
   
   // Retrieve assigned users.
-  const std::vector <string> users = access_user::assignees (webserver_request);
+  const std::vector <std::string> users = access_user::assignees (webserver_request);
   for (const auto& username : users) {
     
     // Gather details for this user account.

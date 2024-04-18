@@ -21,7 +21,6 @@
 #include <webserver/request.h>
 #include <filter/string.h>
 #include <locale/translate.h>
-using namespace std;
 
 
 void Checks_Sentences::enter_capitals (const std::string& capitals)
@@ -54,7 +53,7 @@ void Checks_Sentences::enter_disregards (const std::string& disregards)
 }
 
 
-void Checks_Sentences::enter_names (string names)
+void Checks_Sentences::enter_names (std::string names)
 {
   m_names.clear ();
   names = filter::strings::replace ("\n", " ", names);
@@ -84,14 +83,14 @@ void Checks_Sentences::initialize ()
 }
 
 
-void Checks_Sentences::check (const std::map <int, string> & texts)
+void Checks_Sentences::check (const std::map <int, std::string> & texts)
 {
   std::vector <int> verse_numbers {};
   std::vector <std::string> characters {};
   int iterations {0};
   for (const auto & element : texts) {
     int verse = element.first;
-    string text = element.second;
+    std::string text = element.second;
     // For the second and subsequent verse_numbers, add a space to the text,
     // because this is what is supposed to happen in USFM.
     if (iterations > 0) {
@@ -181,22 +180,22 @@ void Checks_Sentences::check_character ()
 // The USFM markers that start paragraphs that do not need to start with the correct capitalization.
 // Usually such markers are poetic markers like \q1 and so on.
 // $verses_paragraphs: The entire paragraphs, with verse number as their keys.
-void Checks_Sentences::paragraphs (const std::vector <string> & paragraph_start_markers,
-                                   const std::vector <string> & within_sentence_paragraph_markers,
-                                   const std::vector <map <int, string>> & verses_paragraphs)
+void Checks_Sentences::paragraphs (const std::vector <std::string>& paragraph_start_markers,
+                                   const std::vector <std::string>& within_sentence_paragraph_markers,
+                                   const std::vector <std::map <int, std::string>>& verses_paragraphs)
 {
   // Iterate over the paragraphs.
   for (unsigned int p = 0; p < verses_paragraphs.size (); p++) {
     
     // Container with verse numbers and the whole paragraph.
-    const std::map <int, string> & verses_paragraph = verses_paragraphs [p];
+    const std::map <int, std::string> & verses_paragraph = verses_paragraphs [p];
     
     // Skip empty container.
     if (verses_paragraph.empty ()) continue;
 
     // Get the first character of the paragraph.
     int verse = verses_paragraph.begin()->first;
-    string character2 = verses_paragraph.begin()->second;
+    std::string character2 = verses_paragraph.begin()->second;
     if (!character2.empty ()) {
       character2 = filter::strings::unicode_string_substr (character2, 0, 1);
     }
@@ -206,9 +205,9 @@ void Checks_Sentences::paragraphs (const std::vector <string> & paragraph_start_
     if (!is_capital) {
       const std::string& paragraph_marker = paragraph_start_markers [p];
       if (!in_array (paragraph_marker, within_sentence_paragraph_markers)) {
-        string context = verses_paragraph.begin()->second;
+        std::string context = verses_paragraph.begin()->second;
         context = filter::strings::unicode_string_substr (context, 0, 15);
-        checking_results.push_back (pair (verse, translate ("Paragraph does not start with a capital:") + " " + context));
+        checking_results.push_back (std::pair (verse, translate ("Paragraph does not start with a capital:") + " " + context));
       }
     }
     
@@ -219,9 +218,9 @@ void Checks_Sentences::paragraphs (const std::vector <string> & paragraph_start_
       size_t length = filter::strings::unicode_string_length (character2);
       character2 = filter::strings::unicode_string_substr (character2, length - 1, 1);
     }
-    string previous_character = verses_paragraph.rbegin()->second;
+    std::string previous_character = verses_paragraph.rbegin()->second;
     if (!previous_character.empty ()) {
-      size_t length = filter::strings::unicode_string_length (character2);
+      const size_t length = filter::strings::unicode_string_length (character2);
       if (length >= 2) {
         previous_character = filter::strings::unicode_string_substr (previous_character, length - 2, 1);
       } else {
@@ -234,18 +233,18 @@ void Checks_Sentences::paragraphs (const std::vector <string> & paragraph_start_
     if (!is_end_mark) {
       // If the next paragraph starts with a marker that indicates it should not necessarily be capitalized,
       // then the current paragraph may have punctuation that would be incorrect otherwise.
-      string next_paragraph_marker {};
+      std::string next_paragraph_marker {};
       size_t p2 = p + 1;
       if (p2 < paragraph_start_markers.size ()) {
         next_paragraph_marker = paragraph_start_markers [p2];
       }
       if (next_paragraph_marker.empty () || (!in_array (next_paragraph_marker, within_sentence_paragraph_markers))) {
-        string context = verses_paragraph.rbegin()->second;
+        std::string context = verses_paragraph.rbegin()->second;
         const size_t length = filter::strings::unicode_string_length (character2);
         if (length >= 15) {
           context = filter::strings::unicode_string_substr (context, length - 15, 15);
         }
-        checking_results.push_back (pair (verse, translate ("Paragraph does not end with an end marker:") + " " + context));
+        checking_results.push_back (std::pair (verse, translate ("Paragraph does not end with an end marker:") + " " + context));
       }
     }
     
@@ -253,18 +252,18 @@ void Checks_Sentences::paragraphs (const std::vector <string> & paragraph_start_
 }
 
 
-vector <pair<int, string>> Checks_Sentences::get_results ()
+std::vector <std::pair<int, std::string>> Checks_Sentences::get_results ()
 {
   return checking_results;
 }
 
 
-void Checks_Sentences::add_result (string text, int modifier)
+void Checks_Sentences::add_result (std::string text, int modifier)
 {
   // Get previous and next text fragment.
   int start = current_position - 25;
   if (start < 0) start = 0;
-  string previousFragment = filter::strings::unicode_string_substr (full_text, static_cast <size_t> (start), static_cast <size_t> (current_position - start - 1));
+  std::string previousFragment = filter::strings::unicode_string_substr (full_text, static_cast <size_t> (start), static_cast <size_t> (current_position - start - 1));
   int iterations {5};
   while (iterations) {
     const size_t pos = previousFragment.find (" ");
@@ -275,7 +274,7 @@ void Checks_Sentences::add_result (string text, int modifier)
     }
     iterations--;
   }
-  string nextFragment = filter::strings::unicode_string_substr (full_text, static_cast <size_t> (current_position), 25);
+  std::string nextFragment = filter::strings::unicode_string_substr (full_text, static_cast <size_t> (current_position), 25);
   while (nextFragment.length () > 10) {
     const size_t pos = nextFragment.rfind (" ");
     if (pos == std::string::npos) nextFragment.erase (nextFragment.length () - 1, 1);
@@ -283,8 +282,8 @@ void Checks_Sentences::add_result (string text, int modifier)
   }
   // Check whether the result can be skipped due to a name being involved.
   if (modifier == skip_names) {
-    string haystack = character + nextFragment;
-    for (auto name : m_names) {
+    const std::string haystack = character + nextFragment;
+    for (const auto& name : m_names) {
       if (haystack.find (name) == 0) return;
     }
   }
@@ -296,7 +295,7 @@ void Checks_Sentences::add_result (string text, int modifier)
     text += ": " + previousFragment + character + nextFragment;
   }
   // Store checking result.
-  checking_results.push_back (pair (verse_number, text));
+  checking_results.push_back (std::pair (verse_number, text));
 }
 
 

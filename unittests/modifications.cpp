@@ -46,17 +46,17 @@ TEST (database, modifications_user)
     refresh_sandbox (true);
     Database_Modifications database_modifications;
     std::vector <std::string> users = database_modifications.getUserUsernames ();
-    EXPECT_EQ (vector <string>{}, users);
+    EXPECT_EQ (vector <std::string>{}, users);
     database_modifications.recordUserSave ("phpunit1", "bible", 1, 2, 3, "old", 4, "new");
     users = database_modifications.getUserUsernames ();
-    EXPECT_EQ (vector <string>{"phpunit1"}, users);
+    EXPECT_EQ (vector <std::string>{"phpunit1"}, users);
     database_modifications.recordUserSave ("phpunit2", "bible", 1, 2, 3, "old", 5, "new");
     database_modifications.recordUserSave ("phpunit3", "bible", 1, 2, 3, "old", 6, "new");
     database_modifications.recordUserSave ("phpunit1", "bible", 1, 2, 3, "old", 7, "new");
     database_modifications.recordUserSave ("phpunit2", "bible", 1, 2, 3, "old", 8, "new");
     database_modifications.recordUserSave ("phpunit3", "bible", 1, 2, 3, "old", 9, "new");
     users = database_modifications.getUserUsernames ();
-    EXPECT_EQ ((vector <string>{"phpunit1", "phpunit2", "phpunit3"}), users);
+    EXPECT_EQ ((vector <std::string>{"phpunit1", "phpunit2", "phpunit3"}), users);
   }
 
   // Bibles
@@ -64,13 +64,13 @@ TEST (database, modifications_user)
     refresh_sandbox (true);
     Database_Modifications database_modifications;
     std::vector <std::string> bibles = database_modifications.getUserBibles ("phpunit1");
-    EXPECT_EQ (vector <string>{}, bibles);
+    EXPECT_EQ (vector <std::string>{}, bibles);
     database_modifications.recordUserSave ("phpunit1", "bible1", 1, 2, 3, "old", 4, "new");
     database_modifications.recordUserSave ("phpunit1", "bible1", 1, 2, 3, "old", 5, "new");
     database_modifications.recordUserSave ("phpunit1", "bible1", 1, 2, 3, "old", 6, "new");
     database_modifications.recordUserSave ("phpunit1", "bible1", 1, 2, 3, "old", 7, "new");
     bibles = database_modifications.getUserBibles ("phpunit1");
-    EXPECT_EQ (vector <string>{"bible1"}, bibles);
+    EXPECT_EQ (vector <std::string>{"bible1"}, bibles);
   }
 
   // Books
@@ -317,17 +317,17 @@ TEST (database, modifications_team)
     bible_logic::store_chapter ("phpunit", 3, 5, "chapter text");
     
     std::vector <std::string> bibles = database_modifications.getTeamDiffBibles ();
-    EXPECT_EQ (vector <string>{"phpunit"}, bibles);
+    EXPECT_EQ (vector <std::string>{"phpunit"}, bibles);
     
     database_modifications.deleteTeamDiffBible ("phpunit2");
     
     bibles = database_modifications.getTeamDiffBibles ();
-    EXPECT_EQ (vector <string>{"phpunit"}, bibles);
+    EXPECT_EQ (vector <std::string>{"phpunit"}, bibles);
     
     database_modifications.deleteTeamDiffBible ("phpunit");
     
     bibles = database_modifications.getTeamDiffBibles ();
-    EXPECT_EQ (vector <string>{}, bibles);
+    EXPECT_EQ (vector <std::string>{}, bibles);
   }
 
   // Team diff chapter.
@@ -494,11 +494,11 @@ TEST (database, modifications_notifications)
     
     // Test distinct Bibles.
     std::vector <std::string> bibles = database_modifications.getNotificationDistinctBibles ();
-    EXPECT_EQ ((vector <string>{"bible1", "bible2"}), bibles);
+    EXPECT_EQ ((vector <std::string>{"bible1", "bible2"}), bibles);
     bibles = database_modifications.getNotificationDistinctBibles ("phpunit5");
-    EXPECT_EQ (vector <string>{}, bibles);
+    EXPECT_EQ (vector <std::string>{}, bibles);
     bibles = database_modifications.getNotificationDistinctBibles ("phpunit1");
-    EXPECT_EQ (vector <string>{"bible1"}, bibles);
+    EXPECT_EQ (vector <std::string>{"bible1"}, bibles);
   }
 
   // Timestamps

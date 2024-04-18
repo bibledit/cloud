@@ -117,7 +117,7 @@ string resource_translated1edit (Webserver_Request& webserver_request)
     if (value.empty()) {
       Dialog_List dialog_list = Dialog_List ("translated1edit", translate("Select the language of the original resource"), translate ("The language the original resource is written in."), string());
       dialog_list.add_query ("name", name);
-      std::vector <pair <string, string> > languages = filter::google::get_languages ("en");
+      std::vector <std::pair <string, std::string> > languages = filter::google::get_languages ("en");
       for (const auto & language : languages) {
         dialog_list.add_row (language.second, "source", language.first);
       }
@@ -136,7 +136,7 @@ string resource_translated1edit (Webserver_Request& webserver_request)
     if (value.empty()) {
       Dialog_List dialog_list = Dialog_List ("translated1edit", translate("Select the language to translate the resource into"), translate ("The language the resource will be translated into."), string());
       dialog_list.add_query ("name", name);
-      std::vector <pair <string, string> > languages = filter::google::get_languages ("en");
+      std::vector <std::pair <string, std::string> > languages = filter::google::get_languages ("en");
       for (const auto & language : languages) {
         dialog_list.add_row (language.second, "target", language.first);
       }

@@ -115,7 +115,7 @@ void Esword_Text::createModule (string filename)
 }
 
 
-vector <string> Esword_Text::get_sql ()
+vector <std::string> Esword_Text::get_sql ()
 {
   return sql;
 }

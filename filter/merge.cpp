@@ -58,7 +58,7 @@ static mutex filter_merge_mutex;
 // Merge is useful for combining separate changes to an original.
 // The function normally returns the merged text.
 // If case of conflicts, it returns an empty container.
-vector <string> filter_merge_merge (const std::vector <string>& base, const std::vector <string>& user, const std::vector <string>& server)
+vector <std::string> filter_merge_merge (const std::vector <std::string>& base, const std::vector <std::string>& user, const std::vector <std::string>& server)
 {
   // See issue https://github.com/bibledit/cloud/issues/418
   // It is unclear at this time whether the code below
@@ -70,7 +70,7 @@ vector <string> filter_merge_merge (const std::vector <string>& base, const std:
   std::vector <std::string> base_sequence (base);
   std::vector <std::string> server_sequence (server);
 
-  Diff3 <string, std::vector <string>> diff3 (user_sequence, base_sequence, server_sequence);
+  Diff3 <string, std::vector <std::string>> diff3 (user_sequence, base_sequence, server_sequence);
   diff3.compose ();
   bool merged = diff3.merge ();
   filter_merge_mutex.unlock();

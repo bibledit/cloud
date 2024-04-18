@@ -28,7 +28,7 @@ using namespace std;
 // Cache values in memory for better speed.
 // The speed improvement is supposed to come from reading a value from disk only once,
 // and after that to read the value straight from the memory cache.
-map <string, string> database_config_bible_cache;
+map <string, std::string> database_config_bible_cache;
 
 
 // Functions for getting and setting values or lists of values follow now:

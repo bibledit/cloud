@@ -408,7 +408,7 @@ Passage filter_passage_interpret_passage (Passage currentPassage, string rawPass
 // This deals with sequences and ranges of verses, like the following:
 // Exod. 37:4-5, 14-15, 27-28
 // It puts each verse on a separate line.
-vector <string> filter_passage_handle_sequences_ranges (const std::string& passage)
+vector <std::string> filter_passage_handle_sequences_ranges (const std::string& passage)
 {
   // A passage like Exod. 37:4-5, 14-15, 27-28 will be cut at the comma.
   // The resulting array contains the following:

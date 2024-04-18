@@ -81,7 +81,7 @@ void Database_OsHb::optimize ()
 
 
 // Get Hebrew words for $book $chapter $verse.
-vector <string> Database_OsHb::getVerse (int book, int chapter, int verse)
+vector <std::string> Database_OsHb::getVerse (int book, int chapter, int verse)
 {
   std::vector <std::string> words;
   std::vector <int> rows = rowids (book, chapter, verse);
@@ -101,7 +101,7 @@ vector <Passage> Database_OsHb::searchHebrew (string hebrew)
   sql.add (word_id);
   sql.add ("ORDER BY book, chapter, verse ASC;");
   std::vector <Passage> hits;
-  std::map <string, std::vector <string> > result = sql.query ();
+  std::map <string, std::vector <std::string> > result = sql.query ();
   std::vector <std::string> books = result ["book"];
   std::vector <std::string> chapters = result ["chapter"];
   std::vector <std::string> verses = result ["verse"];

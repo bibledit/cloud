@@ -85,26 +85,26 @@ TEST (client, basic)
     EXPECT_EQ (standard, path);
     
     std::vector <std::string> resources = client_logic_no_cache_resources_get ();
-    EXPECT_EQ (vector <string>{}, resources);
+    EXPECT_EQ (vector <std::string>{}, resources);
 
     string name1 = "comparative test";
     string name2 = "comparative greek";
 
     client_logic_no_cache_resource_add (name1);
     resources = client_logic_no_cache_resources_get ();
-    EXPECT_EQ (vector <string>{name1}, resources);
+    EXPECT_EQ (vector <std::string>{name1}, resources);
 
     client_logic_no_cache_resource_add (name2);
     resources = client_logic_no_cache_resources_get ();
-    EXPECT_EQ ((vector <string>{name1, name2}), resources);
+    EXPECT_EQ ((vector <std::string>{name1, name2}), resources);
 
     client_logic_no_cache_resource_remove (name1);
     resources = client_logic_no_cache_resources_get ();
-    EXPECT_EQ (vector <string>{name2}, resources);
+    EXPECT_EQ (vector <std::string>{name2}, resources);
 
     client_logic_no_cache_resource_remove (name2);
     resources = client_logic_no_cache_resources_get ();
-    EXPECT_EQ (vector <string>{}, resources);
+    EXPECT_EQ (vector <std::string>{}, resources);
   }
   
 }

@@ -218,7 +218,7 @@ int Database_Versifications::createSystem (const std::string& name)
 
 
 // Returns an array of the available versification systems.
-vector <string> Database_Versifications::getSystems ()
+vector <std::string> Database_Versifications::getSystems ()
 {
   sqlite3 * db = connect ();
   std::vector <std::string> systems = database_sqlite_query (db, "SELECT name FROM names ORDER BY name ASC;") ["name"];
@@ -237,7 +237,7 @@ vector <Passage> Database_Versifications::getBooksChaptersVerses (const std::str
   sql.add (id);
   sql.add ("ORDER BY book, chapter, verse ASC;");
   sqlite3 * db = connect ();
-  std::map <string, std::vector <string> > result = database_sqlite_query (db, sql.sql);
+  std::map <string, std::vector <std::string> > result = database_sqlite_query (db, sql.sql);
   database_sqlite_disconnect (db);
   std::vector <std::string> books = result ["book"];
   std::vector <std::string> chapters = result ["chapter"];

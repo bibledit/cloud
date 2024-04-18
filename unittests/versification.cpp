@@ -233,8 +233,8 @@ TEST (database, mappings)
     Database_Mappings database_mappings;
     database_mappings.create1 ();
     database_mappings.create ("phpunit");
-    const std::vector <string> names = database_mappings.names ();
-    const std::vector <string> standard_names {"Hebrew Greek", "phpunit"};
+    const std::vector <std::string> names = database_mappings.names ();
+    const std::vector <std::string> standard_names {"Hebrew Greek", "phpunit"};
     EXPECT_EQ (standard_names, names);
   }
   
@@ -411,10 +411,10 @@ TEST (database, versifications)
     id = database_versifications.getID ("phpunit");
     EXPECT_EQ (1000, id);
     std::vector <std::string> systems = database_versifications.getSystems ();
-    EXPECT_EQ (vector <string>{"phpunit"}, systems);
+    EXPECT_EQ (vector <std::string>{"phpunit"}, systems);
     database_versifications.erase ("phpunit");
     systems = database_versifications.getSystems ();
-    EXPECT_EQ (vector <string>{}, systems);
+    EXPECT_EQ (vector <std::string>{}, systems);
   }
   {
     refresh_sandbox (true);

@@ -62,7 +62,7 @@ sqlite3 * Database_ImageResources::connect (string name)
 }
 
 
-vector <string> Database_ImageResources::names ()
+vector <std::string> Database_ImageResources::names ()
 {
   return filter_url_scandir (mainFolder ());
 }
@@ -159,7 +159,7 @@ void Database_ImageResources::assign (string name, string image,
 }
 
 
-vector <string> Database_ImageResources::get (string name, int book, int chapter, int verse)
+vector <std::string> Database_ImageResources::get (string name, int book, int chapter, int verse)
 {
   int passage = filter_passage_to_integer (Passage ("", book, chapter, filter::strings::convert_to_string (verse)));
   SqliteSQL sql = SqliteSQL ();
@@ -175,7 +175,7 @@ vector <string> Database_ImageResources::get (string name, int book, int chapter
 }
 
 
-vector <string> Database_ImageResources::get (string name)
+vector <std::string> Database_ImageResources::get (string name)
 {
   // Get images from database, sorted on passage.
   SqliteSQL sql = SqliteSQL ();
@@ -217,7 +217,7 @@ void Database_ImageResources::get (string name, string image,
   sql.add (image);
   sql.add ("ORDER by start;");
   sqlite3 * db = connect (name);
-  std::map <string, std::vector <string> > results = database_sqlite_query (db, sql.sql);
+  std::map <string, std::vector <std::string> > results = database_sqlite_query (db, sql.sql);
   database_sqlite_disconnect (db);
   std::vector <std::string> start = results["start"];
   std::vector <std::string> end   = results["end"];

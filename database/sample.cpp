@@ -69,7 +69,7 @@ void Database_Sample::get (int rowid, string & file, string & data)
   sql.add ("SELECT file, data FROM sample WHERE rowid =");
   sql.add (rowid);
   sql.add (";");
-  std::map <string, std::vector <string> > sample = sql.query ();
+  std::map <string, std::vector <std::string> > sample = sql.query ();
   std::vector <std::string> files = sample ["file"];
   if (files.empty ()) file.clear ();
   else file = files [0];

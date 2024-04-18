@@ -245,7 +245,7 @@ vector <int> Database_Modifications::getTeamDiffBooks (const std::string& bible)
 
 
 // Returns an array with the available Bibles that have diff data.
-vector <string> Database_Modifications::getTeamDiffBibles ()
+vector <std::string> Database_Modifications::getTeamDiffBibles ()
 {
   std::vector <std::string> bibles;
   std::vector <std::string> files = filter_url_scandir (teamFolder ());
@@ -358,7 +358,7 @@ void Database_Modifications::clearUserUser (const std::string& username)
 }
 
 
-vector <string> Database_Modifications::getUserUsernames ()
+vector <std::string> Database_Modifications::getUserUsernames ()
 {
   string folder = userMainFolder ();
   std::vector <std::string> usernames = filter_url_scandir (folder);
@@ -366,7 +366,7 @@ vector <string> Database_Modifications::getUserUsernames ()
 }
 
 
-vector <string> Database_Modifications::getUserBibles (const std::string& username)
+vector <std::string> Database_Modifications::getUserBibles (const std::string& username)
 {
   string folder = userUserFolder (username);
   return filter_url_scandir (folder);
@@ -497,7 +497,7 @@ int Database_Modifications::getNextAvailableNotificationIdentifier ()
 }
 
 
-void Database_Modifications::recordNotification (const std::vector <string> & users, const std::string& category, const std::string& bible, int book, int chapter, int verse, const std::string& oldtext, const std::string& modification, const std::string& newtext)
+void Database_Modifications::recordNotification (const std::vector <std::string> & users, const std::string& category, const std::string& bible, int book, int chapter, int verse, const std::string& oldtext, const std::string& modification, const std::string& newtext)
 {
   // Normally this function is called just after midnight.
   // It would then put the current time on changes made the day before.
@@ -569,7 +569,7 @@ void Database_Modifications::indexTrimAllNotifications ()
     string path = notificationIdentifierDatabase (identifier);
     bool valid = !filter_url_is_dir (path);
 
-    std::map <string, std::vector <string> > result;
+    std::map <string, std::vector <std::string> > result;
     if (valid) {
       SqliteDatabase sql (path);
       sql.add ("SELECT * FROM notification;");
@@ -745,7 +745,7 @@ vector <int> Database_Modifications::getNotificationTeamIdentifiers (const std::
 
 
 // This gets the distinct Bibles in the user's notifications.
-vector <string> Database_Modifications::getNotificationDistinctBibles (string username) 
+vector <std::string> Database_Modifications::getNotificationDistinctBibles (string username) 
 {
   SqliteSQL sql = SqliteSQL ();
   sql.add ("SELECT DISTINCT bible FROM notifications WHERE 1");
@@ -841,7 +841,7 @@ Passage Database_Modifications::getNotificationPassage (int id)
   sql.add (id);
   sql.add (";");
   sqlite3 * db = connect ();
-  std::map <string, std::vector <string> > result = database_sqlite_query (db, sql.sql);
+  std::map <string, std::vector <std::string> > result = database_sqlite_query (db, sql.sql);
   database_sqlite_disconnect (db);
   std::vector <std::string> books = result ["book"];
   std::vector <std::string> chapters = result ["chapter"];
@@ -1108,7 +1108,7 @@ void Database_Modifications::deleteNotificationFile (int identifier)
 }
 
 
-vector <string> Database_Modifications::getCategories ()
+vector <std::string> Database_Modifications::getCategories ()
 {
   SqliteDatabase sql (filename ());
   sql.add ("SELECT DISTINCT category FROM notifications ORDER BY category;");

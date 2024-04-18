@@ -464,7 +464,7 @@ void Notes_Logic::notifyUsers (int identifier, int notification)
 // bible: If given, to include in the subject line of the email.
 // users: array of users to be mailed.
 // postpone: whether to postpone sending the email till the evening.
-void Notes_Logic::emailUsers (int identifier, const std::string& label, string bible, const std::vector <string> & users, bool postpone)
+void Notes_Logic::emailUsers (int identifier, const std::string& label, string bible, const std::vector <std::string> & users, bool postpone)
 {
   // Databases.
   Database_Notes database_notes (m_webserver_request);

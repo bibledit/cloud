@@ -35,7 +35,7 @@ using namespace std;
 namespace filter::google {
 
 
-tuple <string, string> get_json_key_value_error ()
+tuple <string, std::string> get_json_key_value_error ()
 {
   string path = config::logic::google_translate_json_key_path ();
 
@@ -54,7 +54,7 @@ tuple <string, string> get_json_key_value_error ()
 // This runs $ gcloud auth activate-service-account --key-file=key.json.
 // It returns whether activation was successful,
 // plus the resulting output of the command.
-tuple <bool, string> activate_service_account ()
+tuple <bool, std::string> activate_service_account ()
 {
   stringstream command;
   command << "gcloud auth activate-service-account --quiet --key-file=";
@@ -70,7 +70,7 @@ string google_access_token {};
 // This runs $ gcloud auth application-default print-access-token.
 // It returns whether the command was successful,
 // plus the resulting output of the command.
-tuple <bool, string> print_store_access_token ()
+tuple <bool, std::string> print_store_access_token ()
 {
   // Set the path to the JSON key in the environment for gcloud to use.
 #ifdef HAVE_CLOUD
@@ -110,7 +110,7 @@ void refresh_access_token ()
 // Pass the text to be translated.
 // Pass the source language code and the target language code.
 // It returns whether the call was successful, plus the translated text, plus the error
-tuple <bool, string, string> translate (const string text, const char * source, const char * target)
+tuple <bool, string, std::string> translate (const string text, const char * source, const char * target)
 {
   // From the shell, run these two commands to translate a string.
   // $ export GOOGLE_APPLICATION_CREDENTIALS=`pwd`"/googletranslate.json"
@@ -130,7 +130,7 @@ tuple <bool, string, string> translate (const string text, const char * source, 
   string error;
   bool burst { false };
   bool check_certificate { false };
-  const std::vector <pair <string, string> > headers {
+  const std::vector <std::pair <string, std::string> > headers {
     { "Content-Type", "application/json" },
     { "Authorization", "Bearer " + google_access_token }
   };
@@ -177,7 +177,7 @@ tuple <bool, string, string> translate (const string text, const char * source, 
 // This asks the Google Translate API for the list of supported languages.
 // It returns a container with a pair of <language code, language name>.
 // The language name is given in the $target language.
-vector <pair <string, string> > get_languages (const std::string& target)
+vector <std::pair <string, std::string> > get_languages (const std::string& target)
 {
 
   // From the shell, run these two commands to translate a string.
@@ -195,7 +195,7 @@ vector <pair <string, string> > get_languages (const std::string& target)
   string error;
   bool burst { false };
   bool check_certificate { false };
-  const std::vector <pair <string, string> > headers {
+  const std::vector <std::pair <string, std::string> > headers {
     { "Content-Type", "application/json; charset=utf-8" },
     { "Authorization", "Bearer " + google_access_token }
   };
@@ -221,7 +221,7 @@ vector <pair <string, string> > get_languages (const std::string& target)
   //     ]
   //   }
   // }
-  std::vector <pair <string, string> > language_codes_names;
+  std::vector <std::pair <string, std::string> > language_codes_names;
   if (error.empty()) {
     try {
       jsonxx::Object json_object;

@@ -220,7 +220,7 @@ void client_logic_usfm_resources_update ()
 }
 
 
-vector <string> client_logic_usfm_resources_get ()
+vector <std::string> client_logic_usfm_resources_get ()
 {
   string contents = filter_url_file_get_contents (client_logic_usfm_resources_path ());
   return filter::strings::explode (contents, '\n');
@@ -272,7 +272,7 @@ void client_logic_no_cache_resource_remove (string name)
 }
 
 
-vector <string> client_logic_no_cache_resources_get ()
+vector <std::string> client_logic_no_cache_resources_get ()
 {
   string contents = filter_url_file_get_contents (client_logic_no_cache_resources_path());
   vector<string> resources = filter::strings::explode(contents, "\n");

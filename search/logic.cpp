@@ -115,12 +115,12 @@ void search_logic_index_chapter (string bible, int book, int chapter)
 
     string raw_plain;
     // Add the clean verse texts.
-    std::map <int, string> texts = filter_text.getVersesText ();
+    std::map <int, std::string> texts = filter_text.getVersesText ();
     for (auto & element : texts) {
       raw_plain.append (element.second + "\n");
     }
     // Add any clean headings.
-    std::map <int, string> headings = filter_text.verses_headings;
+    std::map <int, std::string> headings = filter_text.verses_headings;
     for (auto & element : headings) {
       raw_plain.append (element.second + "\n");
     }
@@ -152,7 +152,7 @@ void search_logic_index_chapter (string bible, int book, int chapter)
 // Returns an array with matching passages.
 // $search: Contains the text to search for.
 // $bibles: Array of Bible names to search in.
-vector <Passage> search_logic_search_text (string search, std::vector <string> bibles)
+vector <Passage> search_logic_search_text (string search, std::vector <std::string> bibles)
 {
   std::vector <Passage> passages;
   
@@ -534,13 +534,13 @@ string search_logic_plain_replace_verse_text (string usfm)
   string plain_text;
 
   // Add the clean verse texts.
-  std::map <int, string> texts = filter_text.getVersesText ();
+  std::map <int, std::string> texts = filter_text.getVersesText ();
   for (auto & element : texts) {
     plain_text.append (element.second + "\n");
   }
 
   // Add any clean headings.
-  std::map <int, string> headings = filter_text.verses_headings;
+  std::map <int, std::string> headings = filter_text.verses_headings;
   for (auto & element : headings) {
     plain_text.append (element.second + "\n");
   }

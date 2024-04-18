@@ -254,7 +254,7 @@ vector <Database_Sprint_Item> Database_Sprint::getHistory (const std::string& bi
   sql.add (month);
   sql.add ("ORDER BY day ASC;");
   sqlite3 * db = connect ();
-  std::map <string, std::vector <string> > result = database_sqlite_query (db, sql.sql);
+  std::map <string, std::vector <std::string> > result = database_sqlite_query (db, sql.sql);
   database_sqlite_disconnect (db);
   std::vector <std::string> days = result ["day"];
   std::vector <std::string> tasks = result ["tasks"];

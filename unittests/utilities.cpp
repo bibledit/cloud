@@ -31,7 +31,7 @@ string testing_directory;
 // Puts a fresh and clean copy of Bibledit into the sandbox in the testing directory.
 // $displayjournal: Whether to display the journal before clearing it.
 // $allowed: Text fragments allowed in the journal: Items containing these won't be displayed.
-void refresh_sandbox (bool displayjournal, std::vector <string> allowed)
+void refresh_sandbox (bool displayjournal, std::vector <std::string> allowed)
 {
   // Display any old journal entries.
   if (displayjournal) {

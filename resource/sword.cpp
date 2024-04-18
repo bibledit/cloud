@@ -78,7 +78,7 @@ string resource_sword (Webserver_Request& webserver_request)
   Assets_View view;
 
   
-  std::map <string, string> installed_modules;
+  std::map <string, std::string> installed_modules;
   {
     std::vector <std::string> modules = sword_logic_get_installed ();
     for (auto module : modules) {

@@ -100,7 +100,7 @@ vector <Passage> Database_Kjv::searchStrong (string strong)
   sql.add (strongid);
   sql.add ("ORDER BY rowid;");
   std::vector <Passage> hits;
-  std::map <string, std::vector <string> > result = sql.query ();
+  std::map <string, std::vector <std::string> > result = sql.query ();
   std::vector <std::string> books = result ["book"];
   std::vector <std::string> chapters = result ["chapter"];
   std::vector <std::string> verses = result ["verse"];

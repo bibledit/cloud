@@ -175,13 +175,13 @@ TEST (database, imageresources)
     filter_url_unlink (path);
     
     std::vector <std::string> images = database_imageresources.get ("unittest");
-    const std::vector <string> standard_images {"unittest.jpg", "unittest0.jpg"};
+    const std::vector <std::string> standard_images {"unittest.jpg", "unittest0.jpg"};
     EXPECT_EQ (standard_images, images);
     
     database_imageresources.erase ("unittest", "unittest.jpg");
     
     images = database_imageresources.get ("unittest");
-    EXPECT_EQ (vector <string>{"unittest0.jpg"}, images);
+    EXPECT_EQ (vector <std::string>{"unittest0.jpg"}, images);
   }
   // Assign passage and get image based on passage.
   {
@@ -199,10 +199,10 @@ TEST (database, imageresources)
     }
     
     std::vector <std::string> images = database_imageresources.get ("unittest", 11, 11, 13);
-    EXPECT_EQ (images, std::vector <string>{"unittest11.jpg"});
+    EXPECT_EQ (images, std::vector <std::string>{"unittest11.jpg"});
     
     images = database_imageresources.get ("unittest", 11, 11, 100);
-    EXPECT_EQ (images, std::vector <string>{});
+    EXPECT_EQ (images, std::vector <std::string>{});
   }
   // Assign passage to image, and retrieve it.
   {
@@ -249,7 +249,7 @@ TEST (database, userresources)
   std::vector <std::string> specialnames = { "abc\\def:ghi", name };
   
   names = Database_UserResources::names ();
-  EXPECT_EQ (vector <string>{}, names);
+  EXPECT_EQ (vector <std::string>{}, names);
   
   Database_UserResources::url (name, url);
   value = Database_UserResources::url (name);
@@ -265,7 +265,7 @@ TEST (database, userresources)
     Database_UserResources::remove (special_name);
   }
   names = Database_UserResources::names ();
-  EXPECT_EQ (vector <string>{}, names);
+  EXPECT_EQ (vector <std::string>{}, names);
   
   Database_UserResources::book (name, book, abbrev);
   fragment = Database_UserResources::book (name, book);

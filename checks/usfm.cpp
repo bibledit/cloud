@@ -401,7 +401,7 @@ void Checks_Usfm::figure ()
 }
 
 
-vector <pair<int, string>> Checks_Usfm::get_results ()
+vector <std::pair<int, std::string>> Checks_Usfm::get_results ()
 {
   return checking_results;
 }

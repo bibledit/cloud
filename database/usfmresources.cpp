@@ -53,7 +53,7 @@ string Database_UsfmResources::chapterFile (const std::string& name, int book, i
 }
 
 
-vector <string> Database_UsfmResources::getResources ()
+vector <std::string> Database_UsfmResources::getResources ()
 {
   return filter_url_scandir (mainFolder ());
 }

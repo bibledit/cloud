@@ -85,7 +85,7 @@ void Database_Styles::createSheet (string sheet)
 
 
 // Returns an array with the available stylesheets.
-vector <string> Database_Styles::getSheets ()
+vector <std::string> Database_Styles::getSheets ()
 {
   std::vector <std::string> sheets = filter_url_scandir (databasefolder ());
   if (find (sheets.begin (), sheets.end (), styles_logic_standard_sheet ()) == sheets.end ()) {
@@ -125,9 +125,9 @@ void Database_Styles::deleteMarker (string sheet, string marker)
 
 
 // Returns a map with all the markers and the names of the styles in the stylesheet.
-map <string, string> Database_Styles::getMarkersAndNames (string sheet)
+map <string, std::string> Database_Styles::getMarkersAndNames (string sheet)
 {
-  std::map <string, string> markers_names;
+  std::map <string, std::string> markers_names;
   std::vector <std::string> markers = getMarkers (sheet);
   for (auto marker : markers) {
     Database_Styles_Item item = read_item (sheet, marker);
@@ -138,7 +138,7 @@ map <string, string> Database_Styles::getMarkersAndNames (string sheet)
 
 
 // Returns an array with all the markers of the styles in the stylesheet.
-vector <string> Database_Styles::getMarkers (string sheet)
+vector <std::string> Database_Styles::getMarkers (string sheet)
 {
   // The markers for this stylesheet.
   std::vector <std::string> markers = filter_url_scandir (sheetfolder (sheet));
@@ -450,7 +450,7 @@ bool Database_Styles::hasWriteAccess (string user, string sheet)
   sql.add (sheet);
   sql.add (";");
   sqlite3 * db = connect ();
-  std::map <string, std::vector <string> > result = database_sqlite_query (db, sql.sql);
+  std::map <string, std::vector <std::string> > result = database_sqlite_query (db, sql.sql);
   database_sqlite_disconnect (db);
   return !result["rowid"].empty ();
 }

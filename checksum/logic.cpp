@@ -53,7 +53,7 @@ string checksum_logic::get (const std::string& data)
 
 // This function gets the checksum for $data, and returns it.
 // It calculates the length of vector 'data' in bytes.
-string checksum_logic::get (const std::vector <string>& data)
+string checksum_logic::get (const std::vector <std::string>& data)
 {
   int length = 0;
   for (auto & bit : data) length += static_cast<int>(bit.length ());
@@ -99,7 +99,7 @@ string checksum_logic::get_bible (Webserver_Request& webserver_request, const st
 
 
 // Returns a proper checksum for the USFM in the array of $bibles.
-string checksum_logic::get_bibles (Webserver_Request& webserver_request, const std::vector <string> & bibles)
+string checksum_logic::get_bibles (Webserver_Request& webserver_request, const std::vector <std::string> & bibles)
 {
   std::vector <std::string> checksums;
   for (const auto & bible : bibles) {

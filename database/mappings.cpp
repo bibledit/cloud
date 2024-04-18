@@ -197,7 +197,7 @@ string Database_Mappings::output (const std::string& name)
   sql.add (name);
   sql.add ("ORDER BY book ASC, chapter ASC, verse ASC;");
   sqlite3 * db = connect ();
-  std::map <string, std::vector <string> > result = database_sqlite_query (db, sql.sql);
+  std::map <string, std::vector <std::string> > result = database_sqlite_query (db, sql.sql);
   database_sqlite_disconnect (db);
   std::vector <std::string> books = result ["book"];
   std::vector <std::string> chapters = result ["chapter"];
@@ -248,7 +248,7 @@ void Database_Mappings::erase (const std::string& name)
 
 
 // Returns the mapping names in the database.
-vector <string> Database_Mappings::names ()
+vector <std::string> Database_Mappings::names ()
 {
   // Get the names from the database.
   sqlite3 * db = connect ();
@@ -301,7 +301,7 @@ vector <Passage> Database_Mappings::translate (const std::string& input, const s
     sql.add (verse);
     sql.add (";");
     sqlite3 * db = connect ();
-    std::map <string, std::vector <string> > result = database_sqlite_query (db, sql.sql);
+    std::map <string, std::vector <std::string> > result = database_sqlite_query (db, sql.sql);
     database_sqlite_disconnect (db);
     std::vector <std::string> origbooks = result ["origbook"];
     std::vector <std::string> origchapters = result ["origchapter"];
@@ -342,7 +342,7 @@ vector <Passage> Database_Mappings::translate (const std::string& input, const s
     sql.add (origverse);
     sql.add (";");
     sqlite3 * db = connect ();
-    std::map <string, std::vector <string> > result = database_sqlite_query (db, sql.sql);
+    std::map <string, std::vector <std::string> > result = database_sqlite_query (db, sql.sql);
     database_sqlite_disconnect (db);
     std::vector <std::string> books = result ["book"];
     std::vector <std::string> chapters = result ["chapter"];

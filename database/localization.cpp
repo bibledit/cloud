@@ -53,7 +53,7 @@ void Database_Localization::create (string po)
   database_sqlite_exec (db, "DROP TABLE IF EXISTS localization;");
   database_sqlite_exec (db, "VACUUM;");
   database_sqlite_exec (db, "CREATE TABLE IF NOT EXISTS localization (msgid text, msgstr text);");
-  unordered_map <string, string> translations = locale_logic_read_msgid_msgstr (po);
+  unordered_map <string, std::string> translations = locale_logic_read_msgid_msgstr (po);
   for (auto & element : translations) {
     SqliteSQL sql = SqliteSQL ();
     sql.add ("INSERT INTO localization VALUES (");

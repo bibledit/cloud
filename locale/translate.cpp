@@ -25,8 +25,8 @@ using namespace std;
 
 
 // Storage for the user interface obfuscation strings.
-vector <string> locale_translate_obfuscation_search;
-vector <string> locale_translate_obfuscation_replace;
+vector <std::string> locale_translate_obfuscation_search;
+vector <std::string> locale_translate_obfuscation_replace;
 
 
 // Translates $english to its localized string.

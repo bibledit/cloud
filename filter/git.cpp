@@ -473,7 +473,7 @@ Passage filter_git_get_passage (string line)
 // Repository: "repository".
 // If $porcelain is given, it adds the --porcelain flag.
 // All changed files will be returned.
-vector <string> filter_git_status (string repository, bool porcelain)
+vector <std::string> filter_git_status (string repository, bool porcelain)
 {
   std::vector <std::string> paths;
   string output, error;
@@ -488,7 +488,7 @@ vector <string> filter_git_status (string repository, bool porcelain)
 
 // Runs "git pull" and returns true if it ran fine.
 // It puts the messages in container "messages".
-bool filter_git_pull (string repository, std::vector <string> & messages)
+bool filter_git_pull (string repository, std::vector <std::string> & messages)
 {
   string out, err;
   int result = filter_shell_run (repository, "git", {"pull"}, &out, &err);
@@ -503,7 +503,7 @@ bool filter_git_pull (string repository, std::vector <string> & messages)
 
 // Runs "git pull" and returns true if it ran fine.
 // It puts the push messages in container "messages".
-bool filter_git_push (string repository, std::vector <string> & messages, bool all)
+bool filter_git_push (string repository, std::vector <std::string> & messages, bool all)
 {
   string out, err;
   std::vector <std::string> parameters = {"push"};
@@ -522,7 +522,7 @@ bool filter_git_push (string repository, std::vector <string> & messages, bool a
 // It fills "paths" with the paths to the files with the resolved merge conflicts.
 // It fills "error" with any error that git generates.
 // It returns true on success, that is, no errors occurred.
-bool filter_git_resolve_conflicts (string repository, std::vector <string> & paths, string & error)
+bool filter_git_resolve_conflicts (string repository, std::vector <std::string> & paths, string & error)
 {
   int result = 0;
   paths.clear();

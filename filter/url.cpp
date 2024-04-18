@@ -52,7 +52,7 @@ using namespace std;
 
 
 // Internal function declarations.
-vector <string> filter_url_scandir_internal (string folder);
+vector <std::string> filter_url_scandir_internal (string folder);
 string filter_url_dirname_internal (string url, const char * separator);
 string filter_url_basename_internal (string url, const char * separator);
 size_t filter_url_curl_write_function (void *ptr, size_t size, size_t count, void *stream);
@@ -68,7 +68,7 @@ mbedtls_ctr_drbg_context filter_url_mbed_tls_ctr_drbg;
 mbedtls_x509_crt filter_url_mbed_tls_cacert;
 
 
-vector <string> filter_url_scandir_internal (string folder)
+vector <std::string> filter_url_scandir_internal (string folder)
 {
   std::vector <std::string> files;
   
@@ -353,7 +353,7 @@ void filter_url_rename (const std::string& oldfilename, const std::string& newfi
 
 
 // Creates a file path out of the components.
-string filter_url_create_path (const std::vector <string>& parts)
+string filter_url_create_path (const std::vector <std::string>& parts)
 {
     // Empty path.
     string path;
@@ -373,7 +373,7 @@ string filter_url_create_path (const std::vector <string>& parts)
 
 // Creates a file path out of the parts.
 // As of February 2022 the std::filesystem does not yet work on Android.
-//string filter_url_create_path (const std::vector <string>& parts)
+//string filter_url_create_path (const std::vector <std::string>& parts)
 //{
 //  // Empty path.
 //  filesystem::path path;
@@ -388,7 +388,7 @@ string filter_url_create_path (const std::vector <string>& parts)
 
 // Creates a file path out of the variable list of components,
 // relative to the server's document root.
-string filter_url_create_root_path (const std::vector <string>& parts)
+string filter_url_create_root_path (const std::vector <std::string>& parts)
 {
   // Construct path from the document root.
   string path (config_globals_document_root);
@@ -415,7 +415,7 @@ string filter_url_create_root_path (const std::vector <string>& parts)
 // Creates a file path out of the variable list of components,
 // relative to the server's document root.
 // As of February 2022 the std::filesystem does not yet work on Android.
-//string filter_url_create_root_path (const std::vector <string>& parts)
+//string filter_url_create_root_path (const std::vector <std::string>& parts)
 //{
 //  // Construct path from the document root.
 //  filesystem::path path (config_globals_document_root);
@@ -774,7 +774,7 @@ int filter_url_filesize (string filename)
 
 
 // Scans the directory for files it contains.
-vector <string> filter_url_scandir (string folder)
+vector <std::string> filter_url_scandir (string folder)
 {
   std::vector <std::string> files = filter_url_scandir_internal (folder);
   files = filter::strings::array_diff (files, {"gitflag"});
@@ -784,7 +784,7 @@ vector <string> filter_url_scandir (string folder)
 
 // Scans the directory for files it contains.
 // As of February 2022 the std::filesystem does not yet work on Android.
-//vector <string> filter_url_scandir (string folder)
+//vector <std::string> filter_url_scandir (string folder)
 //{
 //  std::vector <std::string> files;
 //  try {
@@ -814,7 +814,7 @@ vector <string> filter_url_scandir (string folder)
 
 
 // Recursively scans a directory for directories and files.
-void filter_url_recursive_scandir (string folder, std::vector <string> & paths)
+void filter_url_recursive_scandir (string folder, std::vector <std::string> & paths)
 {
   std::vector <std::string> files = filter_url_scandir (folder);
   for (auto & file : files) {
@@ -1066,7 +1066,7 @@ int filter_url_curl_trace (CURL *handle, curl_infotype type, char *data, size_t 
 // It appends the $values to the post data.
 // It returns the response from the server.
 // It writes any error to $error.
-string filter_url_http_post (const std::string& url, [[maybe_unused]] string post_data, const std::map <string, string> & post_values, string& error, [[maybe_unused]] bool burst, [[maybe_unused]] bool check_certificate, [[maybe_unused]] const std::vector <pair <string, string> > & headers)
+string filter_url_http_post (const std::string& url, [[maybe_unused]] string post_data, const std::map <string, std::string> & post_values, string& error, [[maybe_unused]] bool burst, [[maybe_unused]] bool check_certificate, [[maybe_unused]] const std::vector <std::pair <string, std::string> > & headers)
 {
   string response;
 #ifdef HAVE_CLIENT
@@ -1139,7 +1139,7 @@ string filter_url_http_post (const std::string& url, [[maybe_unused]] string pos
 // It returns the response from the server.
 // It writes any error to $error.
 string filter_url_http_upload ([[maybe_unused]] string url,
-                               [[maybe_unused]] std::map <string, string> values,
+                               [[maybe_unused]] std::map <string, std::string> values,
                                [[maybe_unused]] string filename,
                                string& error)
 {
@@ -1431,7 +1431,7 @@ string filter_url_remove_username_password (string url)
 // $post: Value pairs for a POST request.
 // $filename: The filename to save the data to.
 // $check_certificate: Whether to check the server certificate in case of secure http.
-string filter_url_http_request_mbed (string url, string& error, const std::map <string, string>& post, const std::string& filename, bool check_certificate)
+string filter_url_http_request_mbed (string url, string& error, const std::map <string, std::string>& post, const std::string& filename, bool check_certificate)
 {
   // The "http" scheme is used to locate network resources via the HTTP protocol.
   // $url = "http(s):" "//" host [ ":" port ] [ abs_path [ "?" query ]]
@@ -2105,7 +2105,7 @@ bool filter_url_is_image (string extension)
 // https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types
 string filter_url_get_mime_type (string extension)
 {
-  static std::map <string, string> mime_types = {
+  static std::map <string, std::string> mime_types = {
     {"jar", "application/java-archive"},
     {"js", "application/javascript"},
     {"json", "application/json"},

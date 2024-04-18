@@ -33,7 +33,7 @@ string tasks_logic_folder ()
 
 
 // Queue task $command to run later, with $parameters for that task.
-void tasks_logic_queue (string command, std::vector <string> parameters)
+void tasks_logic_queue (string command, std::vector <std::string> parameters)
 {
   // The file on disk will contain the command on the first line,
   // and any parameters on the following lines, one parameters per line.
@@ -58,7 +58,7 @@ void tasks_logic_queue (string command, std::vector <string> parameters)
 // Else it returns false.
 // It looks for an exact match.
 // Parameters left out are not checked.
-bool tasks_logic_queued (string command, std::vector <string> parameters)
+bool tasks_logic_queued (string command, std::vector <std::string> parameters)
 {
   // The lines to look for consist of the command followed by the parameters.
   std::vector <std::string> search (parameters);

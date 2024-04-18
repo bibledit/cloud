@@ -60,9 +60,9 @@ string workspace_settings (Webserver_Request& webserver_request)
   }
   
   if (webserver_request.post.count ("save")) {
-    std::map <int, string> urls;
-    std::map <int, string> widths;
-    std::map <int, string> row_heights;
+    std::map <int, std::string> urls;
+    std::map <int, std::string> widths;
+    std::map <int, std::string> row_heights;
     int to14 = 0;
     int to2 = 0;
     for (int row = 1; row <= 3; row++) {
@@ -105,8 +105,8 @@ string workspace_settings (Webserver_Request& webserver_request)
   
   Assets_View view;
   
-  std::map <int, string> urls = workspace_get_urls (webserver_request, false);
-  std::map <int, string> widths = workspace_get_widths (webserver_request);
+  std::map <int, std::string> urls = workspace_get_urls (webserver_request, false);
+  std::map <int, std::string> widths = workspace_get_widths (webserver_request);
   for (const auto & element : urls) {
     int key = element.first;
     int row = static_cast<int>(round (key / 5)) + 1;
@@ -117,7 +117,7 @@ string workspace_settings (Webserver_Request& webserver_request)
     view.set_variable (variable, widths[key]);
   }
   
-  std::map <int, string> row_heights = workspace_get_heights (webserver_request);
+  std::map <int, std::string> row_heights = workspace_get_heights (webserver_request);
   for (auto & element : row_heights) {
     int key = element.first;
     int row = key + 1;

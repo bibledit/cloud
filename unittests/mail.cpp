@@ -176,7 +176,7 @@ TEST (filter, mail)
   
   // Test the collection of sample mails.
   {
-    const std::vector <string> files = filter_url_scandir (datafolder);
+    const std::vector <std::string> files = filter_url_scandir (datafolder);
     for (const auto& messagefile : files) {
       if (messagefile.find ("m") != 0) continue;
       if (filter_url_get_extension (messagefile) != "msg") continue;

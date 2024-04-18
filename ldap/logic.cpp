@@ -68,7 +68,7 @@ void ldap_logic_initialize ()
   if (file_or_dir_exists (path)) {
     // Parse the configuration file.
     const string contents = filter_url_file_get_contents (path);
-    const std::vector <string> lines = filter::strings::explode (contents, '\n');
+    const std::vector <std::string> lines = filter::strings::explode (contents, '\n');
     for (auto line : lines) {
       line = filter::strings::trim (line);
       if (line.empty ()) continue;
@@ -175,7 +175,7 @@ bool ldap_logic_fetch (const std::string& user, const std::string& password, boo
   // Parse server response.
   if (result == 0) {
     access = true;
-    const std::vector <string> lines = filter::strings::explode (output, '\n');
+    const std::vector <std::string> lines = filter::strings::explode (output, '\n');
     for (const auto& line : lines) {
       if (line.find ("mail:") == 0) {
         email = filter::strings::trim (line.substr (5));

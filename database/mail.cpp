@@ -139,7 +139,7 @@ vector <Database_Mail_User> Database_Mail::getMails ()
   sql.add (user);
   sql.add ("ORDER BY timestamp DESC;");
   sqlite3 * db = connect ();
-  std::map <string, std::vector <string> > result = database_sqlite_query (db, sql.sql);
+  std::map <string, std::vector <std::string> > result = database_sqlite_query (db, sql.sql);
   database_sqlite_disconnect (db);
   std::vector <std::string> rowids = result ["rowid"];
   std::vector <std::string> timestamps = result ["timestamp"];
@@ -176,7 +176,7 @@ Database_Mail_Item Database_Mail::get (int id)
   sql.add (id);
   sql.add (";");
   sqlite3 * db = connect ();
-  std::map <string, std::vector <string> > result = database_sqlite_query (db, sql.sql);
+  std::map <string, std::vector <std::string> > result = database_sqlite_query (db, sql.sql);
   database_sqlite_disconnect (db);
   Database_Mail_Item item = Database_Mail_Item ();
   if (!result.empty ()) {

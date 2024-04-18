@@ -35,8 +35,8 @@ TEST (checks, pairs)
   const string bible = "bible";
   const int book = 2;
   const int chapter = 3;
-  std::map <int, string> verses;
-  const std::vector <pair <string, string> > pairs = {
+  std::map <int, std::string> verses;
+  const std::vector <std::pair <string, std::string> > pairs = {
     pair ("[", "]"),
     pair ("(", ")"),
     pair ("“", "”"),

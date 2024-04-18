@@ -142,7 +142,7 @@ vector <Sync_Logic_Range> Sync_Logic::create_range (int start, int end)
 // Sends a post request to the url.
 // It returns the server's response, or an empty string on failure.
 // burst: Set the connection timing for a burst response after a relatively long silence.
-string Sync_Logic::post (map <string, string> & post, const std::string& url, string & error, bool burst)
+string Sync_Logic::post (map <string, std::string> & post, const std::string& url, string & error, bool burst)
 {
   error.clear ();
   string response = filter_url_http_post (url, string(), post, error, burst, true, {});
@@ -156,7 +156,7 @@ string Sync_Logic::post (map <string, string> & post, const std::string& url, st
 
 
 // Calculates the checksum of all settings to be kept in sync between server and client.
-string Sync_Logic::settings_checksum (const std::vector <string> & bibles)
+string Sync_Logic::settings_checksum (const std::vector <std::string> & bibles)
 {
   string checksum;
   checksum.append (m_webserver_request.database_config_user()->getWorkspaceURLs ());
@@ -249,7 +249,7 @@ string Sync_Logic::changes_checksum (const std::string& username)
 // The $version influences which root directories to include.
 // The $version is passed by the client to the server,
 // so the server can adapt to the client's capabilities.
-vector <string> Sync_Logic::files_get_directories (int version, const std::string& user)
+vector <std::string> Sync_Logic::files_get_directories (int version, const std::string& user)
 {
   std::vector <std::string> directories;
   switch (version) {
@@ -327,7 +327,7 @@ int Sync_Logic::files_get_directory_checksum (string directory)
 // This returns all the paths of the files within $directory.
 // $directory is relative to the web root.
 // It does a recursive scan for the files.
-vector <string> Sync_Logic::files_get_files (string directory)
+vector <std::string> Sync_Logic::files_get_files (string directory)
 {
   directory = filter_url_create_root_path ({directory});
   std::vector <std::string> result;

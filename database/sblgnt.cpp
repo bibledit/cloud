@@ -45,7 +45,7 @@ sqlite3 * Database_Sblgnt::connect ()
 
 
 // Get Greek words for $book $chapter $verse.
-vector <string> Database_Sblgnt::getVerse (int book, int chapter, int verse)
+vector <std::string> Database_Sblgnt::getVerse (int book, int chapter, int verse)
 {
   SqliteSQL sql = SqliteSQL ();
   sql.add ("SELECT greek FROM sblgnt WHERE book =");
@@ -71,7 +71,7 @@ vector <Passage> Database_Sblgnt::searchGreek (string greek)
   sql.add (";");
   std::vector <Passage> hits;
   sqlite3 * db = connect ();
-  std::map <string, std::vector <string> > result = database_sqlite_query (db, sql.sql);
+  std::map <string, std::vector <std::string> > result = database_sqlite_query (db, sql.sql);
   database_sqlite_disconnect (db);
   std::vector <std::string> books = result ["book"];
   std::vector <std::string> chapters = result ["chapter"];

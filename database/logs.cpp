@@ -141,7 +141,7 @@ void Database_Logs::rotate ()
 
 
 // Get the logbook entries.
-vector <string> Database_Logs::get (string & lastfilename)
+vector <std::string> Database_Logs::get (string & lastfilename)
 {
   lastfilename = "0";
 

@@ -30,7 +30,7 @@ using namespace std;
 // That should be resilient enough.
 
 
-vector <string> Database_BibleImages::get ()
+vector <std::string> Database_BibleImages::get ()
 {
   std::vector <std::string> files = filter_url_scandir (folder ());
   std::vector <std::string> images;

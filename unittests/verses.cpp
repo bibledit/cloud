@@ -33,7 +33,7 @@ TEST (verses, basic)
   database_check.create ();
   // Test Missing Punctuation At End
   {
-    std::map <int, string> verses = {
+    std::map <int, std::string> verses = {
       pair (2, "He said."),
       pair (3, "He didn't say"),
       pair (4, "He said."),
@@ -55,7 +55,7 @@ TEST (verses, basic)
   database_check.truncateOutput ("");
   // Test Pattern
   {
-    std::map <int, string> verses = {
+    std::map <int, std::string> verses = {
       pair (2, "He said."),
       pair (3, "He didn't say"),
       pair (4, "He said.")
@@ -76,7 +76,7 @@ TEST (verses, basic)
   database_check.truncateOutput ("");
   // Test Pattern
   {
-    std::map <int, string> verses = {
+    std::map <int, std::string> verses = {
       pair (2, "He said."),
       pair (3, "He didn't say"),
       pair (4, "He said.")
@@ -88,7 +88,7 @@ TEST (verses, basic)
   database_check.truncateOutput ("");
   // Test Pattern
   {
-    std::map <int, string> verses = {
+    std::map <int, std::string> verses = {
       pair (2, "He said."),
       pair (3, "He didn't say"),
       pair (4, "He said.")

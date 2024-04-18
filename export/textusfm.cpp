@@ -96,7 +96,7 @@ void export_text_usfm_book (string bible, int book, bool log)
     
     // Deal with basic USFM.
     if (chapter > 0) {
-      std::map <int, string> verses_text = filter_text_chapter.getVersesText ();
+      std::map <int, std::string> verses_text = filter_text_chapter.getVersesText ();
       basicUsfm = "\\c " + filter::strings::convert_to_string (chapter) + "\n";
       basicUsfm += "\\p\n";
       for (auto element : verses_text) {

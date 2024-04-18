@@ -296,7 +296,7 @@ void test_database_notes ()
     webserver_request.session_logic()->set_username ("");
     int identifier = database_notes.store_new_note ("", 0, 0, 0, "Summary", "Contents", false);
     std::vector <std::string> subscribers = database_notes.get_subscribers (identifier);
-    EXPECT_EQ (vector <string>{}, subscribers);
+    EXPECT_EQ (vector <std::string>{}, subscribers);
     
     // Create a note again, but this time set the session variable to a certain user.
     database_users.add_user ("unittest", "", 5, "");
@@ -305,7 +305,7 @@ void test_database_notes ()
     identifier = database_notes.store_new_note ("", 1, 1, 1, "Summary", "Contents", false);
     notes_logic.handlerNewNote (identifier);
     subscribers = database_notes.get_subscribers (identifier);
-    EXPECT_EQ (vector <string>{"unittest"}, subscribers);
+    EXPECT_EQ (vector <std::string>{"unittest"}, subscribers);
     EXPECT_EQ (true, database_notes.is_subscribed (identifier, "unittest"));
     webserver_request.database_config_user()->setSubscribeToConsultationNotesEditedByMe (false);
     // Test various other subscription related functions.
@@ -363,26 +363,26 @@ void test_database_notes ()
     // Create a note and check that it was not assigned to anybody.
     int oldidentifier = database_notes.store_new_note ("", 0, 0, 0, "Summary", "Contents", false);
     std::vector <std::string> assignees = database_notes.get_assignees (oldidentifier);
-    EXPECT_EQ (vector <string>{}, assignees);
+    EXPECT_EQ (vector <std::string>{}, assignees);
     int newidentifier = database_notes.store_new_note ("", 0, 0, 0, "Summary2", "Contents2", false);
     assignees = database_notes.get_assignees (newidentifier);
-    EXPECT_EQ (vector <string>{}, assignees);
+    EXPECT_EQ (vector <std::string>{}, assignees);
 
     // Assign the note to a user, and check that this reflects in the list of assignees.
     database_notes.assign_user (oldidentifier, "unittest");
     assignees = database_notes.get_assignees (oldidentifier);
-    EXPECT_EQ (vector <string>{"unittest"}, assignees);
+    EXPECT_EQ (vector <std::string>{"unittest"}, assignees);
     database_notes.assign_user (newidentifier, "unittest");
     assignees = database_notes.get_assignees (newidentifier);
-    EXPECT_EQ (vector <string>{"unittest"}, assignees);
+    EXPECT_EQ (vector <std::string>{"unittest"}, assignees);
     
     // Test the set_assignees function.
     database_notes.set_assignees (oldidentifier, {"unittest"});
     assignees = database_notes.get_assignees (oldidentifier);
-    EXPECT_EQ (vector <string>{"unittest"}, assignees);
+    EXPECT_EQ (vector <std::string>{"unittest"}, assignees);
     database_notes.set_assignees (newidentifier, {"unittest"});
     assignees = database_notes.get_assignees (newidentifier);
-    EXPECT_EQ (vector <string>{"unittest"}, assignees);
+    EXPECT_EQ (vector <std::string>{"unittest"}, assignees);
     
     // Assign note to second user, and check it reflects.
     database_notes.assign_user (oldidentifier, "unittest2");
@@ -1730,8 +1730,8 @@ void test_database_notes ()
     string subscriber2 = "subscriber2";
     database_notes.set_subscribers (identifier1, { subscriber1 });
     database_notes.set_subscribers (identifier2, { subscriber2 });
-    EXPECT_EQ (vector <string>{subscriber1}, database_notes.get_subscribers (identifier1));
-    EXPECT_EQ (vector <string>{subscriber2}, database_notes.get_subscribers (identifier2));
+    EXPECT_EQ (vector <std::string>{subscriber1}, database_notes.get_subscribers (identifier1));
+    EXPECT_EQ (vector <std::string>{subscriber2}, database_notes.get_subscribers (identifier2));
     
     // Test the method to test a subscriber to a note.
     EXPECT_EQ (true, database_notes.is_subscribed (identifier1, subscriber1));
@@ -1744,8 +1744,8 @@ void test_database_notes ()
     string assignee2 = "assignee2";
     database_notes.set_assignees (identifier1, { assignee1 });
     database_notes.set_assignees (identifier2, { assignee2 });
-    EXPECT_EQ (vector <string>{assignee1}, database_notes.get_assignees (identifier1));
-    EXPECT_EQ (vector <string>{assignee2}, database_notes.get_assignees (identifier2));
+    EXPECT_EQ (vector <std::string>{assignee1}, database_notes.get_assignees (identifier1));
+    EXPECT_EQ (vector <std::string>{assignee2}, database_notes.get_assignees (identifier2));
     EXPECT_EQ (true, database_notes.is_assigned (identifier1, assignee1));
     EXPECT_EQ (true, database_notes.is_assigned (identifier2, assignee2));
     EXPECT_EQ (false, database_notes.is_assigned (identifier1, assignee2));
@@ -1822,11 +1822,11 @@ TEST (database, noteassignment)
   EXPECT_EQ (false, exists);
   
   std::vector <std::string> assignees = database.assignees ("unittest");
-  EXPECT_EQ (vector <string>{}, assignees);
+  EXPECT_EQ (vector <std::string>{}, assignees);
   
   database.assignees ("unittest", {"one", "two"});
   assignees = database.assignees ("none-existing");
-  EXPECT_EQ (vector <string>{}, assignees);
+  EXPECT_EQ (vector <std::string>{}, assignees);
   
   exists = database.exists ("unittest");
   EXPECT_EQ (true, exists);

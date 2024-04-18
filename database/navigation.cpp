@@ -134,7 +134,7 @@ Passage Database_Navigation::get_previous (const std::string& user)
   sql2.add (";");
 
   // Read the passage.
-  std::map <string, std::vector <string> > result;
+  std::map <string, std::vector <std::string> > result;
   SqliteSQL sql3 = SqliteSQL ();
   sql3.add ("SELECT book, chapter, verse FROM navigation WHERE rowid =");
   sql3.add (id);
@@ -177,7 +177,7 @@ Passage Database_Navigation::get_next (const std::string& user)
   sql2.add (";");
 
   // Read the passage.
-  std::map <string, std::vector <string> > result;
+  std::map <string, std::vector <std::string> > result;
   SqliteSQL sql3 = SqliteSQL ();
   sql3.add ("SELECT book, chapter, verse FROM navigation WHERE rowid =");
   sql3.add (id);
@@ -294,7 +294,7 @@ vector <Passage> Database_Navigation::get_history (const std::string& user, int 
   if (id) {
 
     // Read the passages history for this user.
-    std::map <string, std::vector <string> > result;
+    std::map <string, std::vector <std::string> > result;
     SqliteSQL sql = SqliteSQL ();
     sql.add ("SELECT book, chapter, verse FROM navigation WHERE rowid");
     if (direction > 0) sql.add (">=");

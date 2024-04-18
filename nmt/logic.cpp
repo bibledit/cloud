@@ -102,7 +102,7 @@ void nmt_logic_export (string referencebible, string translatingbible)
           filter_text.initializeHeadingsAndTextPerVerse (false);
           filter_text.add_usfm_code (chapter_usfm);
           filter_text.run (stylesheet);
-          std::map <int, string> output = filter_text.getVersesText ();
+          std::map <int, std::string> output = filter_text.getVersesText ();
           reference_text = output [reference_verse];
           
           // The text may contain new lines, so remove these,
@@ -120,7 +120,7 @@ void nmt_logic_export (string referencebible, string translatingbible)
           filter_text.initializeHeadingsAndTextPerVerse (false);
           filter_text.add_usfm_code (chapter_usfm);
           filter_text.run (stylesheet);
-          std::map <int, string> output = filter_text.getVersesText ();
+          std::map <int, std::string> output = filter_text.getVersesText ();
           translation_text = output [translation_verse];
 
           // The text may contain new lines, so remove these,
@@ -157,7 +157,7 @@ void nmt_logic_export (string referencebible, string translatingbible)
 
 
 void nmt_logic_split (string reference_text, string translating_text,
-                      std::vector <std::string> & reference_bits, std::vector <string> & translating_bits)
+                      std::vector <std::string> & reference_bits, std::vector <std::string> & translating_bits)
 {
   // Define the punctuation marks to split the texts on.
   // The largest sets of punctuation will be tried first,

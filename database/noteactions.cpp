@@ -111,7 +111,7 @@ vector <Database_Note_Action> Database_NoteActions::getNoteData (int note)
   sql.add (note);
   sql.add ("ORDER BY rowid;");
   sqlite3 * db = connect ();
-  std::map <string, std::vector <string> > result = database_sqlite_query (db, sql.sql);
+  std::map <string, std::vector <std::string> > result = database_sqlite_query (db, sql.sql);
   database_sqlite_disconnect (db);
   std::vector <std::string> rowids = result ["rowid"];
   std::vector <std::string> usernames = result ["username"];
@@ -165,7 +165,7 @@ bool Database_NoteActions::exists (int note)
   sql.add (note);
   sql.add (";");
   sqlite3 * db = connect ();
-  std::map <string, std::vector <string> > result = database_sqlite_query (db, sql.sql);
+  std::map <string, std::vector <std::string> > result = database_sqlite_query (db, sql.sql);
   database_sqlite_disconnect (db);
   return !result.empty ();
 }

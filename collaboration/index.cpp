@@ -96,7 +96,7 @@ std::string collaboration_index (Webserver_Request& webserver_request)
   
   // Get the status of the git repository.
   // This could have been done through the following:
-  // std::vector <string> statuslines = filter_git_status (repositoryfolder);
+  // std::vector <std::string> statuslines = filter_git_status (repositoryfolder);
   // But this function does not capture standard error.
   // And the standard error output is needed in case of failures.
   // So the following is used instead.

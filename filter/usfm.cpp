@@ -84,7 +84,7 @@ string one_string (string usfm)
 //             ...
 // Output would be:     array ("\id ", "GEN", "\c ", "10", ...)
 // If $code does not start with a marker, this becomes visible in the output too.
-vector <string> get_markers_and_text (string code)
+vector <std::string> get_markers_and_text (string code)
 {
   std::vector <std::string> markers_and_text;
   code = filter::strings::replace ("\n\\", "\\", code); // New line followed by backslash: leave new line out.
@@ -547,7 +547,7 @@ bool is_embedded_marker (string usfm)
 // Returns the USFM book identifier.
 // $usfm: array of strings alternating between USFM code and subsequent text.
 // $pointer: if increased by one, it should point to the \id in $usfm.
-string get_book_identifier (const std::vector <string>& usfm, unsigned int pointer)
+string get_book_identifier (const std::vector <std::string>& usfm, unsigned int pointer)
 {
   string identifier = "XXX"; // Fallback value.
   if (++pointer < usfm.size ()) {
@@ -560,7 +560,7 @@ string get_book_identifier (const std::vector <string>& usfm, unsigned int point
 // Returns the text that follows a USFM marker.
 // $usfm: array of strings alternating between USFM code and subsequent text.
 // $pointer: should point to the marker in $usfm. It gets increased by one.
-string get_text_following_marker (const std::vector <string>& usfm, unsigned int & pointer)
+string get_text_following_marker (const std::vector <std::string>& usfm, unsigned int & pointer)
 {
   string text = ""; // Fallback value.
   ++pointer;
@@ -574,7 +574,7 @@ string get_text_following_marker (const std::vector <string>& usfm, unsigned int
 // Returns the text that follows a USFM marker.
 // $usfm: array of strings alternating between USFM code and subsequent text.
 // $pointer: should point to the marker in $usfm. Pointer is left as it is.
-string peek_text_following_marker (const std::vector <string>& usfm, unsigned int pointer)
+string peek_text_following_marker (const std::vector <std::string>& usfm, unsigned int pointer)
 {
   return get_text_following_marker (usfm, pointer);
 }

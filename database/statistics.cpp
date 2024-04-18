@@ -65,7 +65,7 @@ void Database_Statistics::store_changes (int timestamp, string user, int count)
 
 
 // Fetches the distinct users who have been active within the last 365 days.
-vector <string> Database_Statistics::get_users ()
+vector <std::string> Database_Statistics::get_users ()
 {
   SqliteDatabase sql = SqliteDatabase (name ());
   sql.add ("SELECT DISTINCT user FROM changes WHERE timestamp >=");
@@ -77,9 +77,9 @@ vector <string> Database_Statistics::get_users ()
 
 
 // Fetches the change statistics from the database for $user for no more than a year ago.
-vector <pair <int, int>> Database_Statistics::get_changes (string user)
+vector <std::pair <int, int>> Database_Statistics::get_changes (string user)
 {
-  std::vector <pair <int, int>> changes;
+  std::vector <std::pair <int, int>> changes;
   SqliteDatabase sql = SqliteDatabase (name ());
   sql.add ("SELECT timestamp, count FROM changes WHERE timestamp >=");
   sql.add (year_ago ());

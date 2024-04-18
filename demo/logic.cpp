@@ -352,8 +352,8 @@ string demo_workspace ()
 
 void demo_create_sample_workspaces (Webserver_Request& webserver_request)
 {
-  std::map <int, string> urls {};
-  std::map <int, string> widths {};
+  std::map <int, std::string> urls {};
+  std::map <int, std::string> widths {};
   for (int i = 0; i < 15; i++) {
     string url {};
     string width {};
@@ -368,7 +368,7 @@ void demo_create_sample_workspaces (Webserver_Request& webserver_request)
     urls [i] = url;
     widths [i] = width;
   }
-  std::map <int, string> row_heights = {
+  std::map <int, std::string> row_heights = {
     pair (0, "90%"),
     pair (1, ""),
     pair (2, "")
@@ -389,7 +389,7 @@ void demo_create_sample_workspaces (Webserver_Request& webserver_request)
 }
 
 
-vector <string> demo_logic_default_resources ()
+vector <std::string> demo_logic_default_resources ()
 {
   std::vector <std::string> resources {};
   if (config::logic::default_bibledit_configuration ()) {

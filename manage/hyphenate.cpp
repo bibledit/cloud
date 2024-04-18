@@ -104,7 +104,7 @@ void manage_hyphenate (string bible, string user)
  * $text: A string of text to operate on.
  * Returns: The hyphenated text.
  */
-string hyphenate_at_transition (vector <string>& firstset, std::vector <string>& secondset, string text)
+string hyphenate_at_transition (vector <std::string>& firstset, std::vector <std::string>& secondset, string text)
 {
   // Verify the input.
   if (firstset.empty ()) return text;
@@ -173,7 +173,7 @@ string hyphenate_at_transition (vector <string>& firstset, std::vector <string>&
  * in the vector of characters.
  * Returns: true or false.
  */
-bool hyphenate_is_near_white_space (const std::vector <string> & characters, int offset)
+bool hyphenate_is_near_white_space (const std::vector <std::string> & characters, int offset)
 {
   // The constant for the nearness to the start of the word.
   int start = offset - 2;

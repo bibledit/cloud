@@ -450,9 +450,9 @@ TEST (filter, string)
   {
     std::vector <std::string> needles;
     needles = filter::strings::search_needles ("ABC", "one abc two ABc three aBc four");
-    EXPECT_EQ ((vector <string>{ "abc", "ABc", "aBc" }), needles);
+    EXPECT_EQ ((vector <std::string>{ "abc", "ABc", "aBc" }), needles);
     needles = filter::strings::search_needles ("abc", "one abc two ABc three aBc four");
-    EXPECT_EQ ((vector <string>{ "abc", "ABc", "aBc" }), needles);
+    EXPECT_EQ ((vector <std::string>{ "abc", "ABc", "aBc" }), needles);
   }
   
   {
@@ -514,23 +514,23 @@ TEST (filter, string)
 
     // Explode on single delimiter.
     result = filter::strings::explode ("a b c", ' ');
-    EXPECT_EQ ((vector <string>{"a", "b", "c"}), result);
+    EXPECT_EQ ((vector <std::string>{"a", "b", "c"}), result);
 
     // Explode on a single space.
     result = filter::strings::explode ("a b c", " ");
-    EXPECT_EQ ((vector <string>{"a", "b", "c"}), result);
+    EXPECT_EQ ((vector <std::string>{"a", "b", "c"}), result);
 
     // Explode on a set consisting of two spaces.
     result = filter::strings::explode ("a b c", "  ");
-    EXPECT_EQ ((vector <string>{"a", "b", "c"}), result);
+    EXPECT_EQ ((vector <std::string>{"a", "b", "c"}), result);
 
     // Explode on a semicolon, on a comma, and on a full stop.
     result = filter::strings::explode ("aa.bb,cc;", ";,.");
-    EXPECT_EQ ((vector <string>{"aa", "bb", "cc"}), result);
+    EXPECT_EQ ((vector <std::string>{"aa", "bb", "cc"}), result);
 
     // Explode on two punctuation marks, leaving one in the output.
     result = filter::strings::explode ("aa.bb,cc;", ";,");
-    EXPECT_EQ ((vector <string>{"aa.bb", "cc"}), result);
+    EXPECT_EQ ((vector <std::string>{"aa.bb", "cc"}), result);
   }
   
   // Test the array mover function.
@@ -539,7 +539,7 @@ TEST (filter, string)
     
     container = {};
     filter::strings::array_move_up_down (container, 0, false);
-    EXPECT_EQ (vector <string>{}, container);
+    EXPECT_EQ (vector <std::string>{}, container);
   }
   
   // Test UTF-16 number of bytes whether 1 or 2.

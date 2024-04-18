@@ -88,7 +88,7 @@ string resource_cache (Webserver_Request& webserver_request)
   // This makes it faster to spot any of the active resources in the long list.
 
   
-  std::map <string, string> resource_types;
+  std::map <string, std::string> resource_types;
   string sword_type = "sword";
   string old_type = "old";
   

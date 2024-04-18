@@ -175,7 +175,7 @@ TEST (filter, url)
     EXPECT_EQ ("Couldn't connect to server", error);
 #endif
     EXPECT_EQ ("", result);
-    std::map <string, string> values = {pair ("a", "value1"), pair ("b", "value2")};
+    std::map <string, std::string> values = {pair ("a", "value1"), pair ("b", "value2")};
     result = filter_url_http_post ("http://localhost/none", string(), values, error, false, false, {});
 #ifndef HAVE_CLIENT
     EXPECT_EQ ("Couldn't connect to server", error);
@@ -332,7 +332,7 @@ TEST (filter, url)
     filter_url_file_put_contents (file1, "1");
     filter_url_file_put_contents (file2, "2");
     std::vector <std::string> files = filter_url_scandir (directory);
-    EXPECT_EQ ((vector <string>{"1", "2"}), files);
+    EXPECT_EQ ((vector <std::string>{"1", "2"}), files);
   }
   
   // Testing the file modification time.

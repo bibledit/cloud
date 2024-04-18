@@ -97,7 +97,7 @@ string styles_sheetm (Webserver_Request& webserver_request)
   }
 
   stringstream markerblock;
-  std::map <string, string> markers_names = database_styles.getMarkersAndNames (name);
+  std::map <string, std::string> markers_names = database_styles.getMarkersAndNames (name);
   for (auto & item : markers_names) {
     string marker = item.first;
     string marker_name = item.second;

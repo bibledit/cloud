@@ -30,7 +30,7 @@ using namespace std;
 // Cache values in memory for better speed.
 // The speed improvement is supposed to come from reading a value from disk only once,
 // and after that to read the value straight from the memory cache.
-map <string, string> database_config_general_cache;
+map <string, std::string> database_config_general_cache;
 
 
 // Functions for getting and setting values or lists of values follow here:
@@ -96,14 +96,14 @@ void Database_Config_General::setIValue (const char * key, int value)
 }
 
 
-vector <string> Database_Config_General::getList (const char * key)
+vector <std::string> Database_Config_General::getList (const char * key)
 {
   string contents = getValue (key, "");
   return filter::strings::explode (contents, '\n');
 }
 
 
-void Database_Config_General::setList (const char * key, std::vector <string> values)
+void Database_Config_General::setList (const char * key, std::vector <std::string> values)
 {
   string value = filter::strings::implode (values, "\n");
   setValue (key, value);
@@ -403,13 +403,13 @@ void Database_Config_General::setLastMenuClick (string url)
 // Store the resources to be cached.
 // The format is this:
 // <resource title><space><book number>
-vector <string> Database_Config_General::getResourcesToCache ()
+vector <std::string> Database_Config_General::getResourcesToCache ()
 {
   return getList ("resources-to-cache");
 }
 
 
-void Database_Config_General::setResourcesToCache (vector <string> values)
+void Database_Config_General::setResourcesToCache (vector <std::string> values)
 {
   setList ("resources-to-cache", values);
 }
@@ -521,44 +521,44 @@ void Database_Config_General::setNotesVerseSeparator (string value)
 
 
 constexpr const char * comparative_resources_key {"comparative-resources"};
-vector <string> Database_Config_General::getComparativeResources ()
+vector <std::string> Database_Config_General::getComparativeResources ()
 {
   return getList (comparative_resources_key);
 }
-void Database_Config_General::setComparativeResources (vector <string> values)
+void Database_Config_General::setComparativeResources (vector <std::string> values)
 {
   setList (comparative_resources_key, values);
 }
 
 
 constexpr const char * translated_resources_key {"translated-resources"};
-vector <string> Database_Config_General::getTranslatedResources ()
+vector <std::string> Database_Config_General::getTranslatedResources ()
 {
   return getList (translated_resources_key);
 }
-void Database_Config_General::setTranslatedResources (vector <string> values)
+void Database_Config_General::setTranslatedResources (vector <std::string> values)
 {
   setList (translated_resources_key, values);
 }
 
 
 constexpr const char * default_active_resources_key {"default-active-resources"};
-vector <string> Database_Config_General::getDefaultActiveResources ()
+vector <std::string> Database_Config_General::getDefaultActiveResources ()
 {
   return getList (default_active_resources_key);
 }
-void Database_Config_General::setDefaultActiveResources (vector <string> values)
+void Database_Config_General::setDefaultActiveResources (vector <std::string> values)
 {
   setList (default_active_resources_key, values);
 }
 
 
 constexpr const char * account_creation_times_key {"account-creation-times"};
-vector <string> Database_Config_General::getAccountCreationTimes ()
+vector <std::string> Database_Config_General::getAccountCreationTimes ()
 {
   return getList (account_creation_times_key);
 }
-void Database_Config_General::setAccountCreationTimes (vector <string> values)
+void Database_Config_General::setAccountCreationTimes (vector <std::string> values)
 {
   setList (account_creation_times_key, values);
 }

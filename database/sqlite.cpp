@@ -153,7 +153,7 @@ void database_sqlite_exec (sqlite3 * db, string sql)
 }
 
 
-map <string, std::vector <string> > database_sqlite_query (sqlite3 * db, string sql)
+map <string, std::vector <std::string> > database_sqlite_query (sqlite3 * db, string sql)
 {
   char * error = nullptr;
   SqliteReader reader (0);
@@ -187,7 +187,7 @@ bool database_sqlite_healthy (string database)
   if (filter_url_filesize (file) > 0) {
     sqlite3 * db = database_sqlite_connect (database);
     string query = "PRAGMA integrity_check;";
-    std::map <string, std::vector <string> > result = database_sqlite_query (db, query);
+    std::map <string, std::vector <std::string> > result = database_sqlite_query (db, query);
     std::vector <std::string> health = result ["integrity_check"];
     if (health.size () == 1) {
       if (health [0] == "ok") ok = true;
@@ -338,7 +338,7 @@ void SqliteDatabase::execute ()
 }
 
 
-map <string, std::vector <string> > SqliteDatabase::query ()
+map <string, std::vector <std::string> > SqliteDatabase::query ()
 {
   return database_sqlite_query (db, sql);
 }

@@ -99,7 +99,7 @@ string search_replace (Webserver_Request& webserver_request)
     return std::string();
   }
   
-  string page;
+  std::string page;
   
   Assets_Header header = Assets_Header (translate("Replace"), webserver_request);
   header.add_bread_crumb (menu_logic_search_menu (), menu_logic_search_text ());

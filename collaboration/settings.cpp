@@ -51,7 +51,7 @@ bool collaboration_settings_acl (Webserver_Request& webserver_request)
 
 string collaboration_settings (Webserver_Request& webserver_request)
 {
-  string page;
+  std::string page;
   Assets_Header header = Assets_Header (translate("Collaboration"), webserver_request);
   page = header.run ();
   Assets_View view;

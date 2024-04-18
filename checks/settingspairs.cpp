@@ -35,10 +35,9 @@
 #include <access/bible.h>
 #include <menu/logic.h>
 #include <checks/settings.h>
-using namespace std;
 
 
-string checks_settingspairs_url ()
+std::string checks_settingspairs_url ()
 {
   return "checks/settingspairs";
 }
@@ -54,9 +53,9 @@ bool checks_settingspairs_acl ([[maybe_unused]] Webserver_Request& webserver_req
 }
 
 
-string checks_settingspairs (Webserver_Request& webserver_request)
+std::string checks_settingspairs (Webserver_Request& webserver_request)
 {
-  string page {};
+  std::string page {};
   Assets_Header header = Assets_Header (translate ("Matching pairs"), webserver_request);
   header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   header.add_bread_crumb (checks_settings_url (), menu_logic_checks_settings_text ());
@@ -64,16 +63,16 @@ string checks_settingspairs (Webserver_Request& webserver_request)
   Assets_View view {};
   
   
-  string bible = access_bible::clamp (webserver_request, webserver_request.database_config_user()->getBible ());
+  const std::string bible = access_bible::clamp (webserver_request, webserver_request.database_config_user()->getBible ());
   view.set_variable ("bible", bible);
   
   
   if (webserver_request.post.count ("pairs")) {
-    string fragment = webserver_request.post["pairs"];
+    const std::string fragment = webserver_request.post["pairs"];
     std::vector <std::string> errors {};
     std::vector <std::string> pairs = filter::strings::explode (fragment, ' ');
     bool okay {true};
-    for (const auto & pair : pairs) {
+    for (const auto& pair : pairs) {
       const size_t length = filter::strings::unicode_string_length (pair);
       if (length != 2) {
         errors.push_back (translate ("A pair should consist of two characters:") + " " + pair);

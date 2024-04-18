@@ -46,7 +46,7 @@ bool jobs_index_acl (Webserver_Request& webserver_request)
 
 string jobs_index (Webserver_Request& webserver_request)
 {
-  string page;
+  std::string page;
   
   Assets_Header header = Assets_Header (translate ("Job"), webserver_request);
   

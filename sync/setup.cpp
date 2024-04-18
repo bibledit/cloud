@@ -44,7 +44,7 @@ string sync_setup (Webserver_Request& webserver_request)
     return "";
   }
   
-  string page;
+  std::string page;
   
   string username = webserver_request.query ["user"];
   username = filter::strings::hex2bin (username);

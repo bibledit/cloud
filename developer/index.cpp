@@ -58,7 +58,7 @@ string developer_index (Webserver_Request& webserver_request)
     return std::string();
   }
   
-  string page {};
+  std::string page {};
 
   Assets_Header header = Assets_Header ("Development", webserver_request);
   header.notify_it_on ();

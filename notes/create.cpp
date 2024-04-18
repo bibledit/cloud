@@ -56,7 +56,7 @@ string notes_create (Webserver_Request& webserver_request)
   Database_Notes database_notes (webserver_request);
   Notes_Logic notes_logic (webserver_request);
   
-  string page;
+  std::string page;
   
   Assets_Header header = Assets_Header (translate("Create note"), webserver_request);
   header.add_bread_crumb (menu_logic_translate_menu (), menu_logic_translate_text ());

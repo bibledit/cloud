@@ -53,7 +53,7 @@ string images_index (Webserver_Request& webserver_request)
   Database_BibleImages database_bibleimages;
 
   
-  string page;
+  std::string page;
   Assets_Header header = Assets_Header (translate("Bible images"), webserver_request);
   header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   header.add_bread_crumb (images_index_url (), menu_logic_images_index_text ());

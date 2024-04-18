@@ -58,7 +58,7 @@ void Dialog_Entry::add_query (string parameter, string value)
 string Dialog_Entry::run ()
 {
   assets_view.set_variable ("base_url", base_url);
-  string page =assets_view.render ("dialog", "entry");
+  std::string page =assets_view.render ("dialog", "entry");
   page += assets_page::footer ();
   return page;
 }

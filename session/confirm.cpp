@@ -63,7 +63,7 @@ bool session_confirm_acl (Webserver_Request& webserver_request)
 
 string session_confirm ([[maybe_unused]] Webserver_Request& webserver_request)
 {
-  string page;
+  std::string page;
 
 #ifdef HAVE_CLOUD
 

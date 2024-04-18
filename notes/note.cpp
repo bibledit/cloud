@@ -54,7 +54,7 @@ string notes_note (Webserver_Request& webserver_request)
   Database_Notes database_notes (webserver_request);
   
   
-  string page;
+  std::string page;
   Assets_Header header = Assets_Header (translate("Note"), webserver_request);
   header.set_navigator ();
 

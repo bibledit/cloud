@@ -50,7 +50,7 @@ void Dialog_Color::add_query (string parameter, string value)
 string Dialog_Color::run ()
 {
   assets_view.set_variable ("base_url", base_url);
-  string page = assets_view.render ("dialog", "color");
+  std::string page = assets_view.render ("dialog", "color");
   page += assets_page::footer ();
   return page;
 }

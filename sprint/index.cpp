@@ -62,7 +62,7 @@ string sprint_index ([[maybe_unused]] Webserver_Request& webserver_request)
   Database_Sprint database_sprint;
 
   
-  string page;
+  std::string page;
   Assets_Header header = Assets_Header (translate("Sprint"), webserver_request);
   header.add_bread_crumb (menu_logic_tools_menu (), menu_logic_tools_text ());
   page = header.run ();

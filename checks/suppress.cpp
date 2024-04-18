@@ -31,10 +31,9 @@
 #include <demo/logic.h>
 #include <sendreceive/logic.h>
 #include <access/bible.h>
-using namespace std;
 
 
-string checks_suppress_url ()
+std::string checks_suppress_url ()
 {
   return "checks/suppress";
 }
@@ -46,12 +45,12 @@ bool checks_suppress_acl (Webserver_Request& webserver_request)
 }
 
 
-string checks_suppress (Webserver_Request& webserver_request)
+std::string checks_suppress (Webserver_Request& webserver_request)
 {
   Database_Check database_check {};
   
   
-  string page {};
+  std::string page {};
   page = assets_page::header (translate ("Suppressed checking results"), webserver_request);
   Assets_View view {};
   
@@ -75,16 +74,16 @@ string checks_suppress (Webserver_Request& webserver_request)
   }
   
   
-  string block {};
+  std::string block {};
   const std::vector <Database_Check_Hit> suppressions = database_check.getSuppressions ();
   for (const auto & suppression : suppressions) {
-    string bible = suppression.bible;
+    std::string bible = suppression.bible;
     // Only display entries for Bibles the user has write access to.
     if (in_array (bible, bibles)) {
       int id = suppression.rowid;
       bible = filter::strings::escape_special_xml_characters (bible);
-      string passage = filter_passage_display_inline ({Passage ("", suppression.book, suppression.chapter, filter::strings::convert_to_string (suppression.verse))});
-      string result = filter::strings::escape_special_xml_characters (suppression.data);
+      const std::string passage = filter_passage_display_inline ({Passage ("", suppression.book, suppression.chapter, filter::strings::convert_to_string (suppression.verse))});
+      std::string result = filter::strings::escape_special_xml_characters (suppression.data);
       result.insert (0, bible + " " + passage + " ");
       block.append (R"(<p style="color:grey;">)");
       block.append (R"(<a href="suppress?release=)" + filter::strings::convert_to_string (id) + R"(">)");

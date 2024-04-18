@@ -54,7 +54,7 @@ bool styles_sheetm_acl (Webserver_Request& webserver_request)
 
 string styles_sheetm (Webserver_Request& webserver_request)
 {
-  string page;
+  std::string page;
   
   Assets_Header header = Assets_Header (translate("Stylesheet"), webserver_request);
   header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());

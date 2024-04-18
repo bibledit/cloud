@@ -54,7 +54,7 @@ string notes_edit (Webserver_Request& webserver_request)
   Notes_Logic notes_logic (webserver_request);
   
   
-  string page;
+  std::string page;
   Assets_Header header = Assets_Header (translate("Edit Note Source"), webserver_request);
   page += header.run ();
   Assets_View view;

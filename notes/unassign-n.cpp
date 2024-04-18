@@ -52,7 +52,7 @@ string notes_unassign_n (Webserver_Request& webserver_request)
   Database_Notes database_notes (webserver_request);
   
   
-  string page;
+  std::string page;
   Assets_Header header = Assets_Header (translate("Unassign notes"), webserver_request);
   page += header.run ();
   Assets_View view;

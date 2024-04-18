@@ -53,7 +53,7 @@ string resource_index (Webserver_Request& webserver_request)
   const bool touch = webserver_request.session_logic ()->touchEnabled ();
 
   
-  string page;
+  std::string page;
   Assets_Header header = Assets_Header (translate("Resources"), webserver_request);
   header.set_navigator ();
   header.set_stylesheet ();

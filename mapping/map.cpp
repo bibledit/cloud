@@ -48,7 +48,7 @@ string mapping_map (Webserver_Request& webserver_request)
 {
   Database_Mappings database_mappings;
   
-  string page;
+  std::string page;
   
   Assets_Header header = Assets_Header (translate("Verse mappings"), webserver_request);
   header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());

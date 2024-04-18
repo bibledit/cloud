@@ -60,7 +60,7 @@ string edit_preview (Webserver_Request& webserver_request)
   bool timeout = webserver_request.query.count ("timeout");
   string caller = webserver_request.query ["caller"];
 
-  string page;
+  std::string page;
   
   Assets_Header header = Assets_Header (translate("Preview"), webserver_request);
   header.set_navigator ();

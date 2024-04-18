@@ -52,7 +52,7 @@ bool search_all_acl (Webserver_Request& webserver_request)
 
 string search_all (Webserver_Request& webserver_request)
 {
-  string page;
+  std::string page;
   Assets_Header header = Assets_Header (translate("Search"), webserver_request);
   header.add_bread_crumb (menu_logic_search_menu (), menu_logic_search_text ());
   page = header.run ();

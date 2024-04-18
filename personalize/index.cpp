@@ -90,7 +90,7 @@ string personalize_index (Webserver_Request& webserver_request)
   }
 
   
-  string page;
+  std::string page;
   string success;
   string error;
 

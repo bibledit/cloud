@@ -47,7 +47,7 @@ bool resource_user9view_acl (Webserver_Request& webserver_request)
 
 string resource_user9view (Webserver_Request& webserver_request)
 {
-  string page;
+  std::string page;
   Assets_Header header = Assets_Header (translate("User resources"), webserver_request);
   header.add_bread_crumb (menu_logic_translate_menu (), menu_logic_translate_text ());
   page = header.run ();

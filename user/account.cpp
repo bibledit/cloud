@@ -45,7 +45,7 @@ bool user_account_acl (Webserver_Request& webserver_request)
 
 string user_account ([[maybe_unused]] Webserver_Request& webserver_request)
 {
-  string page;
+  std::string page;
 
 #ifdef HAVE_CLOUD
 

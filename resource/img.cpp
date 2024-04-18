@@ -54,7 +54,7 @@ string resource_img (Webserver_Request& webserver_request)
   Database_ImageResources database_imageresources;
 
   
-  string page {};
+  std::string page {};
   Assets_Header header = Assets_Header (translate("Image resources"), webserver_request);
   page = header.run ();
   Assets_View view {};

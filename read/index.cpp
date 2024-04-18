@@ -80,7 +80,7 @@ string read_index (Webserver_Request& webserver_request)
     return std::string();
   }
 
-  string page;
+  std::string page;
   
   Assets_Header header = Assets_Header (translate("Edit verse"), webserver_request);
   header.set_navigator ();

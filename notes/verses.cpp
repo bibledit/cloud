@@ -53,7 +53,7 @@ string notes_verses (Webserver_Request& webserver_request)
   Notes_Logic notes_logic (webserver_request);
 
 
-  string page;
+  std::string page;
   Assets_Header header = Assets_Header (translate("Passages"), webserver_request);
   page += header.run ();
   Assets_View view;

@@ -54,7 +54,7 @@ string notes_comment (Webserver_Request& webserver_request)
   Notes_Logic notes_logic (webserver_request);
 
   
-  string page;
+  std::string page;
   Assets_Header header = Assets_Header (translate("Comment"), webserver_request);
   page += header.run ();
   Assets_View view;

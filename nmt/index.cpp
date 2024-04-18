@@ -49,7 +49,7 @@ string nmt_index (Webserver_Request& webserver_request)
 {
   Assets_Header header = Assets_Header (translate ("Bibledit"), webserver_request);
   
-  string page = header.run ();
+  std::string page = header.run ();
 
   Assets_View view;
 

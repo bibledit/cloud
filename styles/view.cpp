@@ -55,7 +55,7 @@ bool styles_view_acl (Webserver_Request& webserver_request)
 
 string styles_view (Webserver_Request& webserver_request)
 {
-  string page {};
+  std::string page {};
   
   Assets_Header header = Assets_Header (translate("Style"), webserver_request);
   header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());

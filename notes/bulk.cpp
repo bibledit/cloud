@@ -59,7 +59,7 @@ string notes_bulk (Webserver_Request& webserver_request)
   Database_NoteAssignment database_noteassignment;
 
   
-  string page;
+  std::string page;
   
   Assets_Header header = Assets_Header (translate("Bulk update"), webserver_request);
   header.add_bread_crumb (menu_logic_translate_menu (), menu_logic_translate_text ());

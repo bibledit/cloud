@@ -127,7 +127,7 @@ string resource_organize (Webserver_Request& webserver_request)
   }
   
   
-  string page;
+  std::string page;
   Assets_Header header = Assets_Header (translate("Resources"), webserver_request);
   page = header.run ();
   Assets_View view;

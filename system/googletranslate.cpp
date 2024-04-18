@@ -46,7 +46,7 @@ bool system_googletranslate_acl (Webserver_Request& webserver_request)
 
 string system_googletranslate (Webserver_Request& webserver_request)
 {
-  string page {};
+  std::string page {};
   string success {};
   string error {};
   

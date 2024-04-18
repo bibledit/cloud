@@ -41,7 +41,7 @@ bool manage_index_acl (Webserver_Request& webserver_request)
 
 string manage_index (Webserver_Request& webserver_request)
 {
-  string page;
+  std::string page;
   Assets_Header header = Assets_Header (translate("Manage"), webserver_request);
   header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   page = header.run ();

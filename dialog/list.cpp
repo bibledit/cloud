@@ -80,7 +80,7 @@ string Dialog_List::run ()
 {
   assets_view.set_variable ("base_url", base_url);
   assets_view.set_variable ("list_block", list_block);
-  string page = assets_view.render ("dialog", "list");
+  std::string page = assets_view.render ("dialog", "list");
   page += assets_page::footer ();
   return page;
 }

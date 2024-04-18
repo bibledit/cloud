@@ -58,7 +58,7 @@ string resource_cache (Webserver_Request& webserver_request)
   string resource = webserver_request.query ["resource"];
   
   
-  string page;
+  std::string page;
   Assets_Header header = Assets_Header (menu_logic_resources_text (), webserver_request);
   header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   page = header.run ();

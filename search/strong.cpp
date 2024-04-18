@@ -128,7 +128,7 @@ string search_strong (Webserver_Request& webserver_request)
   }
   
   
-  string page;
+  std::string page;
   
   Assets_Header header = Assets_Header (translate("Search"), webserver_request);
   header.set_navigator ();

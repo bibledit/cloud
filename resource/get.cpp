@@ -151,6 +151,6 @@ string resource_get (Webserver_Request& webserver_request)
   }
   
   
-  string page = filter::strings::implode (bits, ""); // <br>
+  std::string page = filter::strings::implode (bits, ""); // <br>
   return page;
 }

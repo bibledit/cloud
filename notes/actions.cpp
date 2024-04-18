@@ -57,7 +57,7 @@ string notes_actions (Webserver_Request& webserver_request)
   Notes_Logic notes_logic = Notes_Logic (webserver_request);
 
   
-  string page;
+  std::string page;
   Assets_Header header = Assets_Header (translate("Actions"), webserver_request);
   header.set_navigator ();
   page += header.run ();

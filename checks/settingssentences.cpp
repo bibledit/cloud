@@ -35,10 +35,9 @@
 #include <access/bible.h>
 #include <menu/logic.h>
 #include <checks/settings.h>
-using namespace std;
 
 
-string checks_settingssentences_url ()
+std::string checks_settingssentences_url ()
 {
   return "checks/settingssentences";
 }
@@ -54,9 +53,9 @@ bool checks_settingssentences_acl ([[maybe_unused]] Webserver_Request& webserver
 }
 
 
-string checks_settingssentences (Webserver_Request& webserver_request)
+std::string checks_settingssentences (Webserver_Request& webserver_request)
 {
-  string page {};
+  std::string page {};
   Assets_Header header = Assets_Header (translate ("Sentence Structure"), webserver_request);
   header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   header.add_bread_crumb (checks_settings_url (), menu_logic_checks_settings_text ());
@@ -64,7 +63,7 @@ string checks_settingssentences (Webserver_Request& webserver_request)
   Assets_View view {};
   
   
-  string bible = access_bible::clamp (webserver_request, webserver_request.database_config_user()->getBible ());
+  const std::string bible = access_bible::clamp (webserver_request, webserver_request.database_config_user()->getBible ());
   
   
   if (webserver_request.post.count ("capitals")) {

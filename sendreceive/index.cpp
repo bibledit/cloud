@@ -79,7 +79,7 @@ string sendreceive_index (Webserver_Request& webserver_request)
   }
   
   
-  string page;
+  std::string page;
   Assets_Header header = Assets_Header (translate("Send/Receive"), webserver_request);
   header.add_bread_crumb (menu_logic_tools_menu (), menu_logic_tools_text ());
   page = header.run ();

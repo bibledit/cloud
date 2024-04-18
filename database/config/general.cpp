@@ -103,7 +103,7 @@ vector <string> Database_Config_General::getList (const char * key)
 }
 
 
-void Database_Config_General::setList (const char * key, vector <string> values)
+void Database_Config_General::setList (const char * key, std::vector <string> values)
 {
   string value = filter::strings::implode (values, "\n");
   setValue (key, value);

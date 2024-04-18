@@ -113,7 +113,7 @@ string manage_users (Webserver_Request& webserver_request)
 
       // Set default privileges on new created user.
       set <string> defusers = access_logic::default_privilege_usernames ();
-      vector <int> privileges = {PRIVILEGE_VIEW_RESOURCES, PRIVILEGE_VIEW_NOTES, PRIVILEGE_CREATE_COMMENT_NOTES};
+      std::vector <int> privileges = {PRIVILEGE_VIEW_RESOURCES, PRIVILEGE_VIEW_NOTES, PRIVILEGE_CREATE_COMMENT_NOTES};
       auto default_username = next(defusers.begin(), (unsigned)(long)(unsigned)role + 1);
       for (auto & privilege : privileges) {
         bool state = DatabasePrivileges::get_feature (*default_username, privilege);
@@ -331,7 +331,7 @@ string manage_users (Webserver_Request& webserver_request)
             tbody << "<a href=" << quoted("/bible/settings?bible=" + bible) << ">" << bible << "</a>";
             tbody << "<a href=" << quoted("write?user=" + username + "&bible=" + bible) << ">";
             int readwritebooks = 0;
-            vector <int> books = webserver_request.database_bibles()->get_books (bible);
+            std::vector <int> books = webserver_request.database_bibles()->get_books (bible);
             for (auto book : books) {
               DatabasePrivileges::get_bible_book (username, bible, book, read, write);
               if (write) readwritebooks++;

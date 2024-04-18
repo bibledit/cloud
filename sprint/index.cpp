@@ -220,7 +220,7 @@ string sprint_index ([[maybe_unused]] Webserver_Request& webserver_request)
   
   
   string tasks;
-  vector <int> v_tasks = database_sprint.getTasks (bible, year, month);
+  std::vector <int> v_tasks = database_sprint.getTasks (bible, year, month);
   for (auto & task_id : v_tasks) {
     string title = filter::strings::escape_special_xml_characters (database_sprint.getTitle (task_id));
     int percentage = database_sprint.getComplete (task_id);

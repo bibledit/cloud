@@ -116,7 +116,7 @@ void sendreceive_changes ()
   
   // The basic request to be POSTed to the server.
   // It contains the user's credentials.
-  map <string, string> post;
+  std::map <string, string> post;
   post ["u"] = filter::strings::bin2hex (user);
   post ["p"] = password;
   post ["l"] = filter::strings::convert_to_string (webserver_request.database_users ()->get_level (user));
@@ -134,7 +134,7 @@ void sendreceive_changes ()
   
   
   // Send the removed change notifications to the server.
-  vector <int> ids = webserver_request.database_config_user ()->getRemovedChanges ();
+  std::vector <int> ids = webserver_request.database_config_user ()->getRemovedChanges ();
   if (!ids.empty ()) Database_Logs::log (sendreceive_changes_text () + "Sending removed notifications: " + filter::strings::convert_to_string (ids.size()), Filter_Roles::translator ());
   for (auto & id : ids) {
     post ["a"] = filter::strings::convert_to_string (Sync_Logic::changes_delete_modification);
@@ -184,8 +184,8 @@ void sendreceive_changes ()
   // Get all identifiers for the notifications on the server for the user.
   // Get the identifiers on the client.
   string any_bible = "";
-  vector <int> client_identifiers = database_modifications.getNotificationIdentifiers (user, any_bible);
-  vector <int> server_identifiers;
+  std::vector <int> client_identifiers = database_modifications.getNotificationIdentifiers (user, any_bible);
+  std::vector <int> server_identifiers;
   post ["a"] = filter::strings::convert_to_string (Sync_Logic::changes_get_identifiers);
   response = sync_logic.post (post, url, error);
   if (!error.empty ()) {
@@ -200,7 +200,7 @@ void sendreceive_changes ()
 
   
   // Any identifiers on the client, but not on the server, remove them from the client.
-  vector <int> remove_identifiers = filter::strings::array_diff (client_identifiers, server_identifiers);
+  std::vector <int> remove_identifiers = filter::strings::array_diff (client_identifiers, server_identifiers);
   for (auto & id : remove_identifiers) {
     database_modifications.deleteNotification (id);
     webserver_request.database_config_user ()->setChangeNotificationsChecksum ("");
@@ -209,7 +209,7 @@ void sendreceive_changes ()
 
   
   // Any identifiers on the server, but not on the client, download them from the server.
-  vector <int> download_identifiers = filter::strings::array_diff (server_identifiers, client_identifiers);
+  std::vector <int> download_identifiers = filter::strings::array_diff (server_identifiers, client_identifiers);
   for (auto & id : download_identifiers) {
     sendreceive_changes_kick_watchdog ();
     Database_Logs::log (sendreceive_changes_text () + "Downloading notification: " + filter::strings::convert_to_string (id), Filter_Roles::translator ());

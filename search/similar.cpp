@@ -95,12 +95,12 @@ string search_similar (Webserver_Request& webserver_request)
     // Store how often a verse occurs in an array.
     // The keys are the identifiers of the search results.
     // The values are how often the identifiers occur in the entire focused verse.
-    map <int, int> identifiers;
+    std::map <int, int> identifiers;
     
     for (auto & word : vwords) {
       
       // Find out how often this word occurs in the Bible. Skip if too often.
-      vector <Passage> passages = search_logic_search_bible_text (bible, word);
+      std::vector <Passage> passages = search_logic_search_bible_text (bible, word);
       if (passages.size () > maxcount) continue;
       
       // Store the identifiers and their count.
@@ -114,8 +114,8 @@ string search_similar (Webserver_Request& webserver_request)
     
     // Sort on occurrence from high to low.
     // Skip identifiers that only occur once.
-    vector <int> ids;
-    vector <int> counts;
+    std::vector <int> ids;
+    std::vector <int> counts;
     for (auto & element : identifiers) {
       int id = element.first;
       int count = element.second;

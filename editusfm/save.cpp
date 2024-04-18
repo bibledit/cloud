@@ -74,7 +74,7 @@ string editusfm_save (Webserver_Request& webserver_request)
       if (!usfm.empty ()) {
         if (filter::strings::unicode_string_is_valid (usfm)) {
           const std::string stylesheet = Database_Config_Bible::getEditorStylesheet (bible);
-          vector <filter::usfm::BookChapterData> book_chapter_text = filter::usfm::usfm_import (usfm, stylesheet);
+          std::vector <filter::usfm::BookChapterData> book_chapter_text = filter::usfm::usfm_import (usfm, stylesheet);
           if (!book_chapter_text.empty()) {
             filter::usfm::BookChapterData data = book_chapter_text[0];
             int book_number = data.m_book;
@@ -89,7 +89,7 @@ string editusfm_save (Webserver_Request& webserver_request)
               string oldText = ancestor_usfm;
               string newText = chapter_data_to_save;
               // Merge if the ancestor is there and differs from what's in the database.
-              vector <Merge_Conflict> conflicts;
+              std::vector <Merge_Conflict> conflicts;
               // The USFM now on disk.
               string server_usfm = webserver_request.database_bibles()->get_chapter (bible, book, chapter);
               if (!ancestor_usfm.empty ()) {

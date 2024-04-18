@@ -79,7 +79,7 @@ vector <string> Database_Statistics::get_users ()
 // Fetches the change statistics from the database for $user for no more than a year ago.
 vector <pair <int, int>> Database_Statistics::get_changes (string user)
 {
-  vector <pair <int, int>> changes;
+  std::vector <pair <int, int>> changes;
   SqliteDatabase sql = SqliteDatabase (name ());
   sql.add ("SELECT timestamp, count FROM changes WHERE timestamp >=");
   sql.add (year_ago ());

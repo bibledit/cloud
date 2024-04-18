@@ -72,14 +72,14 @@ TEST (filter, string)
 
   // Test filter::strings::array_unique, a C++ equivalent for PHP's filter::strings::array_unique function.
   {
-    vector <int> reference;
+    std::vector <int> reference;
     reference.push_back (111);
     reference.push_back (2);
     reference.push_back (999);
     reference.push_back (7);
     reference.push_back (888);
     reference.push_back (5);
-    vector <int> input;
+    std::vector <int> input;
     input.push_back (111);
     input.push_back (2);
     input.push_back (111);
@@ -91,7 +91,7 @@ TEST (filter, string)
     input.push_back (888);
     input.push_back (5);
     input.push_back (5);
-    vector <int> output = filter::strings::array_unique (input);
+    std::vector <int> output = filter::strings::array_unique (input);
     EXPECT_EQ (reference, output);
   }
 
@@ -118,29 +118,29 @@ TEST (filter, string)
 
   // Test filter::strings::array_diff, a C++ equivalent for PHP's filter::strings::array_diff function.
   {
-    vector <int> reference;
+    std::vector <int> reference;
     reference.push_back (111);
     reference.push_back (999);
     reference.push_back (2);
-    vector <int> from;
+    std::vector <int> from;
     from.push_back (111);
     from.push_back (222);
     from.push_back (333);
     from.push_back (999);
     from.push_back (2);
     from.push_back (8);
-    vector <int> against;
+    std::vector <int> against;
     against.push_back (222);
     against.push_back (333);
     against.push_back (8);
-    vector <int> output = filter::strings::array_diff (from, against);
+    std::vector <int> output = filter::strings::array_diff (from, against);
     EXPECT_EQ (reference, output);
   }
 
   // Test for array_intersect, a C++ equivalent for PHP's array_intersect function.
   {
-    vector <int> one;
-    vector <int> two;
+    std::vector <int> one;
+    std::vector <int> two;
     one = {1};
     two = {2};
     EXPECT_EQ (vector <int>{}, array_intersect (one, two));

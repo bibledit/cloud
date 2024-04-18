@@ -36,7 +36,7 @@ constexpr size_t data_count = sizeof (books_table) / sizeof (*books_table);
 
 std::vector <book_id> get_ids ()
 {
-  vector <book_id> ids;
+  std::vector <book_id> ids;
   for (unsigned int i = 0; i < data_count; i++) {
     book_id id = books_table[i].id;
     ids.push_back (id);
@@ -141,8 +141,8 @@ book_id get_id_like_text (const std::string& text)
   // Go through all known book names and abbreviations.
   // Note how much the $text differs from the known names.
   // Then return the best match.
-  vector <int> ids {};
-  vector <int> similarities {};
+  std::vector <int> ids {};
+  std::vector <int> similarities {};
   for (unsigned int i = 0; i < data_count; i++) {
     int id {static_cast<int>(books_table[i].id)};
     ids.push_back (id);

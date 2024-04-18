@@ -192,7 +192,7 @@ string edit_update (Webserver_Request& webserver_request)
   // Check that the edited USFM contains no more than, and exactly the same as,
   // the book and chapter that was loaded in the editor.
   if (good2go && bible_write_access) {
-    vector <filter::usfm::BookChapterData> book_chapter_text = filter::usfm::usfm_import (edited_chapter_usfm, stylesheet);
+    std::vector <filter::usfm::BookChapterData> book_chapter_text = filter::usfm::usfm_import (edited_chapter_usfm, stylesheet);
     if (book_chapter_text.size () != 1) {
       Database_Logs::log (translate ("A user tried to save something different from exactly one chapter"));
       messages.push_back (translate("Incorrect chapter"));
@@ -221,7 +221,7 @@ string edit_update (Webserver_Request& webserver_request)
   // The three-way merge reconciles those differences.
   if (good2go && bible_write_access && text_was_edited) {
     if (loaded_chapter_usfm != existing_chapter_usfm) {
-      vector <Merge_Conflict> conflicts;
+      std::vector <Merge_Conflict> conflicts;
       // Do a merge while giving priority to the USFM already in the chapter.
       string merged_chapter_usfm = filter_merge_run (loaded_chapter_usfm, edited_chapter_usfm, existing_chapter_usfm, true, conflicts);
       // Mail the user if there is a merge anomaly.
@@ -336,8 +336,8 @@ string edit_update (Webserver_Request& webserver_request)
       editor_usfm2html.run ();
       server_html = editor_usfm2html.get ();
     }
-    vector <int> positions;
-    vector <int> sizes;
+    std::vector <int> positions;
+    std::vector <int> sizes;
     std::vector <std::string> operators;
     std::vector <std::string> content;
     bible_logic::html_to_editor_updates (editor_html, server_html, positions, sizes, operators, content);

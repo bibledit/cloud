@@ -80,16 +80,16 @@ string notes_notes (Webserver_Request& webserver_request)
   if (webserver_request.session_logic ()->currentLevel () == Filter_Roles::admin ()) bibles.clear ();
   
   
-  vector <int> identifiers = database_notes.select_notes (bibles, book, chapter, verse, passage_selector, edit_selector, non_edit_selector, status_selector, bible_selector, assignment_selector, subscription_selector, severity_selector, text_selector, search_text, -1);
+  std::vector <int> identifiers = database_notes.select_notes (bibles, book, chapter, verse, passage_selector, edit_selector, non_edit_selector, status_selector, bible_selector, assignment_selector, subscription_selector, severity_selector, text_selector, search_text, -1);
   
   
   // In case there aren't too many notes, there's enough time to sort them in passage order.
   if (identifiers.size () <= 200) {
-    vector <int> passage_sort_keys;
+    std::vector <int> passage_sort_keys;
     for (auto & identifier : identifiers) {
       int passage_sort_key = 0;
-      vector <double> numeric_passages;
-      vector <Passage> passages = database_notes.get_passages (identifier);
+      std::vector <double> numeric_passages;
+      std::vector <Passage> passages = database_notes.get_passages (identifier);
       for (auto & passage : passages) {
         numeric_passages.push_back (filter_passage_to_integer (passage));
       }
@@ -110,7 +110,7 @@ string notes_notes (Webserver_Request& webserver_request)
   for (auto & identifier : identifiers) {
 
     string summary = database_notes.get_summary (identifier);
-    vector <Passage> passages = database_notes.get_passages (identifier);
+    std::vector <Passage> passages = database_notes.get_passages (identifier);
     string verses = filter_passage_display_inline (passages);
     if (show_note_status) {
       string status_text = database_notes.get_status (identifier);
@@ -143,7 +143,7 @@ string notes_notes (Webserver_Request& webserver_request)
 
     string verse_text;
     if (passage_inclusion_selector) {
-      vector <Passage> include_passages = database_notes.get_passages (identifier);
+      std::vector <Passage> include_passages = database_notes.get_passages (identifier);
       for (auto & passage : include_passages) {
         string usfm = webserver_request.database_bibles()->get_chapter (bible, passage.m_book, passage.m_chapter);
         string text = filter::usfm::get_verse_text (usfm, filter::strings::convert_to_int (passage.m_verse));

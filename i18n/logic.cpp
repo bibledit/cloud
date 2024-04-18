@@ -39,7 +39,7 @@ void i18n_logic_augment_via_google_translate ()
   if (!google_translate_ok) return;
   
   // Get the available localizations in the "locale" folder.
-  map <string, string> localizations = locale_logic_localizations ();
+  std::map <string, string> localizations = locale_logic_localizations ();
   for (auto & element : localizations) {
     // The language abbreviation and name, like e.g. "nl" for Dutch.
     string language_abbrev = element.first;

@@ -85,10 +85,10 @@ void system_logic_produce_bibles_file (int jobid)
   // Iterate over the Bibles, the books, the chapters.
   std::vector <std::string> bibles = database_bibles.get_bibles ();
   for (auto bible : bibles) {
-    vector <int> books = database_bibles.get_books (bible);
+    std::vector <int> books = database_bibles.get_books (bible);
     for (auto book : books) {
       string book_usfm;
-      vector <int> chapters = database_bibles.get_chapters (bible, book);
+      std::vector <int> chapters = database_bibles.get_chapters (bible, book);
       for (auto chapter : chapters) {
         string usfm = database_bibles.get_chapter (bible, book, chapter);
         book_usfm.append (filter::strings::trim (usfm));
@@ -159,7 +159,7 @@ void system_logic_import_bibles_file (string tarball)
     
     // Get details about the USFM to import.
     const std::string stylesheet = styles_logic_standard_sheet ();
-    vector <filter::usfm::BookChapterData> book_chapter_text = filter::usfm::usfm_import (data, stylesheet);
+    std::vector <filter::usfm::BookChapterData> book_chapter_text = filter::usfm::usfm_import (data, stylesheet);
     for (auto & book_chapter_data : book_chapter_text) {
       if (book_chapter_data.m_book > 0) {
         // Store the data and log it.
@@ -326,7 +326,7 @@ void system_logic_produce_resources_file (int jobid)
   // Such devices fail to have sufficient memory to handle one tarball with logs and logs of resources.
   // It fails to allocate enough memory on such devices.
   // So that's the reason for doing one resource per tarball.
-  map <string, vector <string> > single_resources;
+  std::map <string, std::vector <string> > single_resources;
   for (auto filename : rawfiles) {
     // Sample filename: cache_resource_[CrossWire][LXX]_62.sqlite
     // Look for the last underscore.

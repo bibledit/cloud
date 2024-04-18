@@ -90,9 +90,9 @@ string resource_download (Webserver_Request& webserver_request)
   
   int count = 0;
   if (count == 0) {
-    vector <int> books = database_usfmresources.getBooks (name);
+    std::vector <int> books = database_usfmresources.getBooks (name);
     for (auto book : books) {
-      vector <int> chapters = database_usfmresources.getChapters (name, book);
+      std::vector <int> chapters = database_usfmresources.getChapters (name, book);
       // Rough average of 20 verses per chapter.
       count += static_cast<int>(20 * chapters.size());
     }

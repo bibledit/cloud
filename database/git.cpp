@@ -123,7 +123,7 @@ vector <int> Database_Git::get_rowids (string user, string bible)
   sql.add (bible);
   sql.add ("ORDER BY rowid;");
   std::vector <std::string> values = sql.query () ["rowid"];
-  vector <int> rowids;
+  std::vector <int> rowids;
   for (auto value : values) {
     rowids.push_back (filter::strings::convert_to_int (value));
   }
@@ -139,7 +139,7 @@ bool Database_Git::get_chapter (int rowid,
   sql.add ("SELECT * FROM changes WHERE rowid =");
   sql.add (rowid);
   sql.add (";");
-  map <string, vector <string> > result = sql.query ();
+  std::map <string, std::vector <string> > result = sql.query ();
   std::vector <std::string> users    = result ["user"];
   std::vector <std::string> bibles   = result ["bible"];
   std::vector <std::string> books    = result ["book"];

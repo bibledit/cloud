@@ -57,9 +57,9 @@ void export_info (string bible, bool log)
   Filter_Text filter_text = Filter_Text (bible);
   
   
-  vector <int> books = database_bibles.get_books (bible);
+  std::vector <int> books = database_bibles.get_books (bible);
   for (auto book : books) {
-    vector <int> chapters = database_bibles.get_chapters (bible, book);
+    std::vector <int> chapters = database_bibles.get_chapters (bible, book);
     for (auto chapter : chapters) {
       string usfm = database_bibles.get_chapter (bible, book, chapter);
       usfm = filter::strings::trim (usfm);

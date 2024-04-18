@@ -132,7 +132,7 @@ void Database_Versifications::input (const std::string& contents, const std::str
 string Database_Versifications::output (const std::string& name)
 {
   std::vector <std::string> lines;
-  vector <Passage> versification_data = getBooksChaptersVerses (name);
+  std::vector <Passage> versification_data = getBooksChaptersVerses (name);
   for (Passage & passage : versification_data) {
     string line = database::books::get_english_from_id (static_cast<book_id>(passage.m_book));
     line.append (" ");
@@ -230,14 +230,14 @@ vector <string> Database_Versifications::getSystems ()
 // Returns the books, chapters, verses for the given versification system.
 vector <Passage> Database_Versifications::getBooksChaptersVerses (const std::string& name)
 {
-  vector <Passage> data;
+  std::vector <Passage> data;
   int id = getID (name);
   SqliteSQL sql = SqliteSQL ();
   sql.add ("SELECT book, chapter, verse FROM data WHERE system =");
   sql.add (id);
   sql.add ("ORDER BY book, chapter, verse ASC;");
   sqlite3 * db = connect ();
-  map <string, vector <string> > result = database_sqlite_query (db, sql.sql);
+  std::map <string, std::vector <string> > result = database_sqlite_query (db, sql.sql);
   database_sqlite_disconnect (db);
   std::vector <std::string> books = result ["book"];
   std::vector <std::string> chapters = result ["chapter"];
@@ -255,7 +255,7 @@ vector <Passage> Database_Versifications::getBooksChaptersVerses (const std::str
 
 vector <int> Database_Versifications::getBooks (const std::string& name)
 {
-  vector <int> books;
+  std::vector <int> books;
   int id = getID (name);
   SqliteSQL sql = SqliteSQL ();
   sql.add ("SELECT DISTINCT book FROM data WHERE system =");
@@ -275,7 +275,7 @@ vector <int> Database_Versifications::getBooks (const std::string& name)
 // include0: Includes chapter 0 also.
 vector <int> Database_Versifications::getChapters (const std::string& name, int book, bool include0)
 {
-  vector <int> chapters;
+  std::vector <int> chapters;
   if (include0) chapters.push_back (0);
   int id = this->getID (name);
   SqliteSQL sql = SqliteSQL ();
@@ -296,7 +296,7 @@ vector <int> Database_Versifications::getChapters (const std::string& name, int 
 
 vector <int> Database_Versifications::getVerses (const std::string& name, int book, int chapter)
 {
-  vector <int> verses;
+  std::vector <int> verses;
   int id = getID (name);
   SqliteSQL sql = SqliteSQL ();
   sql.add ("SELECT DISTINCT verse FROM data WHERE system =");
@@ -349,7 +349,7 @@ void Database_Versifications::defaults ()
 // This returns all possible books in any versification system.
 vector <int> Database_Versifications::getMaximumBooks ()
 {
-  vector <int> books;
+  std::vector <int> books;
   SqliteSQL sql = SqliteSQL ();
   sql.add ("SELECT DISTINCT book FROM data ORDER BY book ASC;");
   sqlite3 * db = connect ();
@@ -365,7 +365,7 @@ vector <int> Database_Versifications::getMaximumBooks ()
 // This returns all possible chapters in a book of any versification system.
 vector <int> Database_Versifications::getMaximumChapters (int book)
 {
-  vector <int> chapters;
+  std::vector <int> chapters;
   chapters.push_back (0);
   SqliteSQL sql = SqliteSQL ();
   sql.add ("SELECT DISTINCT chapter FROM data WHERE book =");
@@ -384,7 +384,7 @@ vector <int> Database_Versifications::getMaximumChapters (int book)
 // This returns all possible verses in a book / chapter of any versification system.
 vector <int> Database_Versifications::getMaximumVerses (int book, int chapter)
 {
-  vector <int> verses;
+  std::vector <int> verses;
   SqliteSQL sql = SqliteSQL ();
   sql.add ("SELECT DISTINCT verse FROM data WHERE book =");
   sql.add (book);

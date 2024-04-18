@@ -92,7 +92,7 @@ void Database_NoteActions::record (const std::string& username, int note, int ac
 
 vector <int> Database_NoteActions::getNotes ()
 {
-  vector <int> notes;
+  std::vector <int> notes;
   sqlite3 * db = connect ();
   std::vector <std::string> result = database_sqlite_query (db, "SELECT DISTINCT note FROM noteactions ORDER BY rowid;") ["note"];
   database_sqlite_disconnect (db);
@@ -105,13 +105,13 @@ vector <int> Database_NoteActions::getNotes ()
 
 vector <Database_Note_Action> Database_NoteActions::getNoteData (int note)
 {
-  vector <Database_Note_Action> data;
+  std::vector <Database_Note_Action> data;
   SqliteSQL sql = SqliteSQL ();
   sql.add ("SELECT rowid, username, timestamp, action, content FROM noteactions WHERE note =");
   sql.add (note);
   sql.add ("ORDER BY rowid;");
   sqlite3 * db = connect ();
-  map <string, vector <string> > result = database_sqlite_query (db, sql.sql);
+  std::map <string, std::vector <string> > result = database_sqlite_query (db, sql.sql);
   database_sqlite_disconnect (db);
   std::vector <std::string> rowids = result ["rowid"];
   std::vector <std::string> usernames = result ["username"];
@@ -165,7 +165,7 @@ bool Database_NoteActions::exists (int note)
   sql.add (note);
   sql.add (";");
   sqlite3 * db = connect ();
-  map <string, vector <string> > result = database_sqlite_query (db, sql.sql);
+  std::map <string, std::vector <string> > result = database_sqlite_query (db, sql.sql);
   database_sqlite_disconnect (db);
   return !result.empty ();
 }

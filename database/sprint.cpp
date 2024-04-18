@@ -141,7 +141,7 @@ vector <int> Database_Sprint::getTasks (const std::string& bible, int year, int 
   sqlite3 * db = connect ();
   std::vector <std::string> rowids = database_sqlite_query (db, sql.sql) ["rowid"];
   database_sqlite_disconnect (db);
-  vector <int> ids;
+  std::vector <int> ids;
   for (auto & id : rowids) {
     ids.push_back (filter::strings::convert_to_int (id));
   }
@@ -244,7 +244,7 @@ void Database_Sprint::logHistory (const std::string& bible, int year, int month,
 
 vector <Database_Sprint_Item> Database_Sprint::getHistory (const std::string& bible, int year, int month)
 {
-  vector <Database_Sprint_Item> history;
+  std::vector <Database_Sprint_Item> history;
   SqliteSQL sql = SqliteSQL ();
   sql.add ("SELECT day, tasks, complete FROM sprinthistory WHERE bible =");
   sql.add (bible);
@@ -254,7 +254,7 @@ vector <Database_Sprint_Item> Database_Sprint::getHistory (const std::string& bi
   sql.add (month);
   sql.add ("ORDER BY day ASC;");
   sqlite3 * db = connect ();
-  map <string, vector <string> > result = database_sqlite_query (db, sql.sql);
+  std::map <string, std::vector <string> > result = database_sqlite_query (db, sql.sql);
   database_sqlite_disconnect (db);
   std::vector <std::string> days = result ["day"];
   std::vector <std::string> tasks = result ["tasks"];

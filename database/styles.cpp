@@ -44,7 +44,7 @@ map <string, Database_Styles_Item> default_styles_cache;
 // Timing a Bibledit setup phase gave this information:
 // * Before the cache was implemented, fetching styles took 30 seconds (38%) of the total setup time.
 // * After the cache was there, it took 17 seconds (25%) of the total setup time.
-map <string, map <string, Database_Styles_Item>> database_styles_cache;
+map <string, std::map <string, Database_Styles_Item>> database_styles_cache;
 // Cache read and write lock.
 mutex database_styles_cache_mutex;
 
@@ -127,7 +127,7 @@ void Database_Styles::deleteMarker (string sheet, string marker)
 // Returns a map with all the markers and the names of the styles in the stylesheet.
 map <string, string> Database_Styles::getMarkersAndNames (string sheet)
 {
-  map <string, string> markers_names;
+  std::map <string, string> markers_names;
   std::vector <std::string> markers = getMarkers (sheet);
   for (auto marker : markers) {
     Database_Styles_Item item = read_item (sheet, marker);
@@ -450,7 +450,7 @@ bool Database_Styles::hasWriteAccess (string user, string sheet)
   sql.add (sheet);
   sql.add (";");
   sqlite3 * db = connect ();
-  map <string, vector <string> > result = database_sqlite_query (db, sql.sql);
+  std::map <string, std::vector <string> > result = database_sqlite_query (db, sql.sql);
   database_sqlite_disconnect (db);
   return !result["rowid"].empty ();
 }

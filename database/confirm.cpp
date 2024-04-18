@@ -149,7 +149,7 @@ vector <int> Database_Confirm::get_ids ()
   SqliteDatabase sql (filename ());
   sql.add ("SELECT id FROM confirm;");
   std::vector <std::string> s_ids = sql.query () ["id"];
-  vector <int> ids;
+  std::vector <int> ids;
   for (auto id : s_ids) ids.push_back(filter::strings::convert_to_int(id));
   return ids;
 }

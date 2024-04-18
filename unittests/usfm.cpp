@@ -43,8 +43,8 @@ TEST (checks, usfm)
     check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
-    vector <pair<int, string>> results = check.get_results ();
-    vector <pair<int, string>> standard = {
+    std::vector <pair<int, string>> results = check.get_results ();
+    std::vector <pair<int, string>> standard = {
       pair (2, "Malformed verse number: \\v 2,He said.")
     };
     EXPECT_EQ (standard, results);
@@ -62,8 +62,8 @@ TEST (checks, usfm)
     check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
-    vector <pair<int, string>> results = check.get_results ();
-    vector <pair<int, string>> standard = { };
+    std::vector <pair<int, string>> results = check.get_results ();
+    std::vector <pair<int, string>> standard = { };
     EXPECT_EQ (standard, results);
   }
 
@@ -80,8 +80,8 @@ TEST (checks, usfm)
     check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
-    vector <pair<int, string>> results = check.get_results ();
-    vector <pair<int, string>> standard = {
+    std::vector <pair<int, string>> results = check.get_results ();
+    std::vector <pair<int, string>> standard = {
       pair (0, "New line within USFM:  \\ \\p He s")
     };
     EXPECT_EQ (standard, results);
@@ -100,8 +100,8 @@ TEST (checks, usfm)
     check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
-    vector <pair<int, string>> results = check.get_results ();
-    vector <pair<int, string>> standard = {
+    std::vector <pair<int, string>> results = check.get_results ();
+    std::vector <pair<int, string>> standard = {
       pair (0, "New line within USFM:  \\ \\p He s")
     };
     EXPECT_EQ (standard, results);
@@ -119,8 +119,8 @@ TEST (checks, usfm)
     check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
-    vector <pair<int, string>> results = check.get_results ();
-    vector <pair<int, string>> standard = {
+    std::vector <pair<int, string>> results = check.get_results ();
+    std::vector <pair<int, string>> standard = {
       pair (1, "Marker not in stylesheet: \\p,p ")
     };
     EXPECT_EQ (standard, results);
@@ -138,8 +138,8 @@ TEST (checks, usfm)
     check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
-    vector <pair<int, string>> results = check.get_results ();
-    vector <pair<int, string>> standard = {
+    std::vector <pair<int, string>> results = check.get_results ();
+    std::vector <pair<int, string>> standard = {
       pair (0, "Marker not in stylesheet: \\pHe ")
     };
     EXPECT_EQ (standard, results);
@@ -155,8 +155,8 @@ TEST (checks, usfm)
     check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
-    vector <pair<int, string>> results = check.get_results ();
-    vector <pair<int, string>> standard = {
+    std::vector <pair<int, string>> results = check.get_results ();
+    std::vector <pair<int, string>> standard = {
       pair (0, "Unknown ID: \\id GENN")
     };
     EXPECT_EQ (standard, results);
@@ -172,8 +172,8 @@ TEST (checks, usfm)
     check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
-    vector <pair<int, string>> results = check.get_results ();
-    vector <pair<int, string>> standard = {
+    std::vector <pair<int, string>> results = check.get_results ();
+    std::vector <pair<int, string>> standard = {
       pair (0, "Unknown ID: \\id\\p ")
     };
     EXPECT_EQ (standard, results);
@@ -189,8 +189,8 @@ TEST (checks, usfm)
     check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
-    vector <pair<int, string>> results = check.get_results ();
-    vector <pair<int, string>> standard = {
+    std::vector <pair<int, string>> results = check.get_results ();
+    std::vector <pair<int, string>> standard = {
       pair (0, "Unknown ID: \\id Gen")
     };
     EXPECT_EQ (standard, results);
@@ -206,8 +206,8 @@ TEST (checks, usfm)
     check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
-    vector <pair<int, string>> results = check.get_results ();
-    vector <pair<int, string>> standard = {
+    std::vector <pair<int, string>> results = check.get_results ();
+    std::vector <pair<int, string>> standard = {
       pair (0, "Forward slash instead of backslash: /add")
     };
     EXPECT_EQ (standard, results);
@@ -223,8 +223,8 @@ TEST (checks, usfm)
     check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
-    vector <pair<int, string>> results = check.get_results ();
-    vector <pair<int, string>> standard = {
+    std::vector <pair<int, string>> results = check.get_results ();
+    std::vector <pair<int, string>> standard = {
       pair (0, "Forward slash instead of backslash: /v")
     };
     EXPECT_EQ (standard, results);
@@ -278,8 +278,8 @@ TEST (checks, usfm)
     check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
-    vector <pair<int, string>> results = check.get_results ();
-    vector <pair<int, string>> standard = {};
+    std::vector <pair<int, string>> results = check.get_results ();
+    std::vector <pair<int, string>> standard = {};
     EXPECT_EQ (standard, results);
   }
 
@@ -293,8 +293,8 @@ TEST (checks, usfm)
     check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
-    vector <pair<int, string>> results = check.get_results ();
-    vector <pair<int, string>> standard = {
+    std::vector <pair<int, string>> results = check.get_results ();
+    std::vector <pair<int, string>> standard = {
       pair (1, "Widow backslash: \\ ")
     };
     EXPECT_EQ (standard, results);
@@ -309,8 +309,8 @@ TEST (checks, usfm)
     check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
-    vector <pair<int, string>> results = check.get_results ();
-    vector <pair<int, string>> standard = {};
+    std::vector <pair<int, string>> results = check.get_results ();
+    std::vector <pair<int, string>> standard = {};
     EXPECT_EQ (standard, results);
   }
 
@@ -323,8 +323,8 @@ TEST (checks, usfm)
     check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
-    vector <pair<int, string>> results = check.get_results ();
-    vector <pair<int, string>> standard = {
+    std::vector <pair<int, string>> results = check.get_results ();
+    std::vector <pair<int, string>> standard = {
       pair (1, "Closing marker does not match opening marker : \\add*")
     };
     EXPECT_EQ (standard, results);
@@ -339,8 +339,8 @@ TEST (checks, usfm)
     check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
-    vector <pair<int, string>> results = check.get_results ();
-    vector <pair<int, string>> standard = {
+    std::vector <pair<int, string>> results = check.get_results ();
+    std::vector <pair<int, string>> standard = {
       pair (1, "Repeating opening marker: \\add "),
       pair (1, "Unclosed markers: add")
     };
@@ -357,8 +357,8 @@ TEST (checks, usfm)
     check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
-    vector <pair<int, string>> results = check.get_results ();
-    vector <pair<int, string>> standard = {};
+    std::vector <pair<int, string>> results = check.get_results ();
+    std::vector <pair<int, string>> standard = {};
     EXPECT_EQ (standard, results);
   }
 
@@ -371,8 +371,8 @@ TEST (checks, usfm)
     check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
-    vector <pair<int, string>> results = check.get_results ();
-    vector <pair<int, string>> standard = {
+    std::vector <pair<int, string>> results = check.get_results ();
+    std::vector <pair<int, string>> standard = {
       pair (8, "Embedded marker requires a plus sign: \\nd kosi"),
       pair (8, "Embedded marker requires a plus sign: \\nd*\\x*"),
       pair (8, "Unclosed markers: add"),
@@ -392,7 +392,7 @@ TEST (checks, usfm)
     check.check (usfm);
     check.finalize ();
     EXPECT_EQ (0, check.get_results ().size ());
-    vector <pair<int, string>> results = check.get_results ();
+    std::vector <pair<int, string>> results = check.get_results ();
   }
 
   // The \toc[1-3] markers are the wrong chapter.
@@ -406,9 +406,9 @@ TEST (checks, usfm)
     check.initialize (1, 2);
     check.check (usfm);
     check.finalize ();
-    vector <pair<int, string>> results = check.get_results ();
+    std::vector <pair<int, string>> results = check.get_results ();
     EXPECT_EQ (3, results.size ());
-    vector <pair<int, string>> standard = {
+    std::vector <pair<int, string>> standard = {
       pair (0, "The following marker belongs in chapter 0: \\toc1 "),
       pair (0, "The following marker belongs in chapter 0: \\toc2 "),
       pair (0, "The following marker belongs in chapter 0: \\toc3 ")
@@ -424,9 +424,9 @@ TEST (checks, usfm)
     check.initialize (3, 0);
     check.check (usfm);
     check.finalize ();
-    vector <pair<int, string>> results = check.get_results ();
+    std::vector <pair<int, string>> results = check.get_results ();
     EXPECT_EQ (2, results.size ());
-    vector <pair<int, string>> standard = {
+    std::vector <pair<int, string>> standard = {
       pair (0, "The book lacks the marker for the verbose book name: \\toc1 "),
       pair (0, "The book lacks the marker for the short book name: \\toc2 ")
     };
@@ -943,8 +943,8 @@ TEST (checks, usfm)
     string bookusfm = filter_url_file_get_contents (filter_url_create_path ({directory, "01GEN.SFM"}));
     
     // Test getting all chapter number from USFM.
-    vector <int> chapters = filter::usfm::get_chapter_numbers (bookusfm);
-    vector <int> all_chapters;
+    std::vector <int> chapters = filter::usfm::get_chapter_numbers (bookusfm);
+    std::vector <int> all_chapters;
     for (int i = 0; i <= 50; i++) all_chapters.push_back (i);
     EXPECT_EQ (all_chapters, chapters);
     
@@ -1043,7 +1043,7 @@ TEST (checks, usfm)
   {
     EXPECT_EQ (0, static_cast<int>(filter::usfm::usfm_import ("", styles_logic_standard_sheet ()).size()));
     
-    vector <filter::usfm::BookChapterData> import = filter::usfm::usfm_import ("\\id MIC\n\\c 1\n\\s Heading\n\\p\n\\v 1 Verse one.", styles_logic_standard_sheet ());
+    std::vector <filter::usfm::BookChapterData> import = filter::usfm::usfm_import ("\\id MIC\n\\c 1\n\\s Heading\n\\p\n\\v 1 Verse one.", styles_logic_standard_sheet ());
     EXPECT_EQ (2, static_cast<int> (import.size ()));
     if (import.size () == 2) {
       EXPECT_EQ (33, import [0].m_book);
@@ -1077,7 +1077,7 @@ TEST (checks, usfm)
 \v 2 \vp B\vp* Verse two.
     )";
     standard_chapter = filter::strings::trim (standard_chapter);
-    vector <filter::usfm::BookChapterData> import = filter::usfm::usfm_import (usfm, styles_logic_standard_sheet ());
+    std::vector <filter::usfm::BookChapterData> import = filter::usfm::usfm_import (usfm, styles_logic_standard_sheet ());
     EXPECT_EQ (2, static_cast<int> (import.size ()));
     if (import.size () == 2) {
       EXPECT_EQ (33, import [0].m_book);
@@ -1094,7 +1094,7 @@ TEST (checks, usfm)
   // Test importing USFM demo chapter.
   {
     string usfm = filter_url_file_get_contents (filter_url_create_root_path ({"demo", "92-1JNeng-web.usfm"}));
-    vector <filter::usfm::BookChapterData> import = filter::usfm::usfm_import (usfm, styles_logic_standard_sheet ());
+    std::vector <filter::usfm::BookChapterData> import = filter::usfm::usfm_import (usfm, styles_logic_standard_sheet ());
     // It imports book 0 due to the copyright notices at the top of the USFM file.
     EXPECT_EQ (7, static_cast<int> (import.size ()));
   }
@@ -1155,7 +1155,7 @@ TEST (checks, usfm)
   // Test getting verse numbers from USFM.
   {
     string usfm = "\\v 1-2 Umdala\n\\p\n\\v 3 Ngoba\n";
-    vector <int> verses = filter::usfm::get_verse_numbers (usfm);
+    std::vector <int> verses = filter::usfm::get_verse_numbers (usfm);
     EXPECT_EQ ((vector<int>{ 0, 1, 2, 3 }), verses);
     
     usfm = "\\v 10-12b Fragment\n\\p\n\\v 13 Fragment\n";
@@ -1228,8 +1228,8 @@ TEST (checks, usfm)
     check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
-    vector <pair<int, string>> results = check.get_results ();
-    vector <pair<int, string>> standard = {
+    std::vector <pair<int, string>> results = check.get_results ();
+    std::vector <pair<int, string>> standard = {
       pair (2, "Embedded marker requires a plus sign: \\add sen"),
       pair (2, "Embedded marker requires a plus sign: \\add*rd3"),
       pair (4, "Embedded marker requires a plus sign: \\add sen"),
@@ -1253,8 +1253,8 @@ TEST (checks, usfm)
     check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
-    vector <pair<int, string>> results = check.get_results ();
-    vector <pair<int, string>> standard = {
+    std::vector <pair<int, string>> results = check.get_results ();
+    std::vector <pair<int, string>> standard = {
       pair (3, "Unclosed markers: vp"),
     };
     EXPECT_EQ (standard, results);
@@ -1375,8 +1375,8 @@ TEST (checks, usfm)
     check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
-    vector <pair<int, string>> results = check.get_results ();
-    vector <pair<int, string>> standard = {
+    std::vector <pair<int, string>> results = check.get_results ();
+    std::vector <pair<int, string>> standard = {
       pair (31,  "Could not find Bible image: avnt017.tif"),
     };
     EXPECT_EQ (standard, results);
@@ -1387,8 +1387,8 @@ TEST (checks, usfm)
     check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
-    vector <pair<int, string>> results = check.get_results ();
-    vector <pair<int, string>> standard = {
+    std::vector <pair<int, string>> results = check.get_results ();
+    std::vector <pair<int, string>> standard = {
       pair (31,  R"(Empty figure source: Took her by the hand, and...the fever left her.|src=“avnt017.tif“ size="col" ref="1.31")"),
       pair (31,  R"(Unusual quotation mark found: Took her by the hand, and...the fever left her.|src=“avnt017.tif“ size="col" ref="1.31")"),
     };
@@ -1402,8 +1402,8 @@ TEST (checks, usfm)
     check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
-    vector <pair<int, string>> results = check.get_results ();
-    vector <pair<int, string>> standard = {
+    std::vector <pair<int, string>> results = check.get_results ();
+    std::vector <pair<int, string>> standard = {
       pair (1,  R"(Opening markup is followed by closing markup without intervening text: \add \add*)")
     };
     EXPECT_EQ (standard, results);
@@ -1416,8 +1416,8 @@ TEST (checks, usfm)
     check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
-    vector <pair<int, string>> results = check.get_results ();
-    vector <pair<int, string>> standard = { };
+    std::vector <pair<int, string>> results = check.get_results ();
+    std::vector <pair<int, string>> standard = { };
     EXPECT_EQ (standard, results);
   }
 
@@ -1429,8 +1429,8 @@ TEST (checks, usfm)
     check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
-    vector <pair<int, string>> results = check.get_results ();
-    vector <pair<int, string>> standard = {
+    std::vector <pair<int, string>> results = check.get_results ();
+    std::vector <pair<int, string>> standard = {
       pair (2,  R"(Opening markup is followed by closing markup without intervening text: \ft \fe*)")
     };
     EXPECT_EQ (standard, results);
@@ -1444,8 +1444,8 @@ TEST (checks, usfm)
     check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
-    vector <pair<int, string>> results = check.get_results ();
-    vector <pair<int, string>> standard = { };
+    std::vector <pair<int, string>> results = check.get_results ();
+    std::vector <pair<int, string>> standard = { };
     EXPECT_EQ (standard, results);
   }
 
@@ -1456,8 +1456,8 @@ TEST (checks, usfm)
     check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
-    vector <pair<int, string>> results = check.get_results ();
-    vector <pair<int, string>> standard = { };
+    std::vector <pair<int, string>> results = check.get_results ();
+    std::vector <pair<int, string>> standard = { };
     EXPECT_EQ (standard, results);
   }
 
@@ -1468,8 +1468,8 @@ TEST (checks, usfm)
     check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
-    vector <pair<int, string>> results = check.get_results ();
-    vector <pair<int, string>> standard = { };
+    std::vector <pair<int, string>> results = check.get_results ();
+    std::vector <pair<int, string>> standard = { };
     EXPECT_EQ (standard, results);
   }
   

@@ -139,7 +139,7 @@ string Database_Modifications::getTeamDiff (const std::string& bible, int book, 
 void Database_Modifications::storeTeamDiffBook (const std::string& bible, int book)
 {
   Database_Bibles database_bibles;
-  vector <int> chapters = database_bibles.get_chapters (bible, book);
+  std::vector <int> chapters = database_bibles.get_chapters (bible, book);
   for (auto & chapter : chapters) {
     storeTeamDiff (bible, book, chapter);
   }
@@ -150,7 +150,7 @@ void Database_Modifications::storeTeamDiffBook (const std::string& bible, int bo
 void Database_Modifications::storeTeamDiffBible (const std::string& bible)
 {
   Database_Bibles database_bibles;
-  vector <int> books = database_bibles.get_books (bible);
+  std::vector <int> books = database_bibles.get_books (bible);
   for (auto & book : books) {
     storeTeamDiffBook (bible, book);
   }
@@ -183,7 +183,7 @@ vector <int> Database_Modifications::getTeamDiffChapters (const std::string& bib
 {
   string pattern = bible + "." + filter::strings::convert_to_string (book) + ".";
   size_t length = pattern.length ();
-  vector <int> chapters;
+  std::vector <int> chapters;
   std::vector <std::string> files = filter_url_scandir (teamFolder ());
   for (auto & file : files) {
     if (file.substr (0, length) != pattern) continue;
@@ -227,7 +227,7 @@ int Database_Modifications::getTeamDiffCount (const std::string& bible)
 // The bible can be a name, or an identifier. This is because the bible identifier may no longer exist.
 vector <int> Database_Modifications::getTeamDiffBooks (const std::string& bible)
 {
-  vector <int> books;
+  std::vector <int> books;
   string pattern = bible + ".";
   size_t length = pattern.length ();
   std::vector <std::string> files = filter_url_scandir (teamFolder ());
@@ -377,7 +377,7 @@ vector <int> Database_Modifications::getUserBooks (const std::string& username, 
 {
   string folder = userBibleFolder (username, bible);
   std::vector <std::string> files = filter_url_scandir (folder);
-  vector <int> books;
+  std::vector <int> books;
   for (auto & file : files) {
     books.push_back (filter::strings::convert_to_int (file));
   }
@@ -390,7 +390,7 @@ vector <int> Database_Modifications::getUserChapters (const std::string& usernam
 {
   string folder = userBookFolder (username, bible, book);
   std::vector <std::string> files = filter_url_scandir (folder);
-  vector <int> chapters;
+  std::vector <int> chapters;
   for (auto & file : files) {
     string path = filter_url_create_path ({folder, file});
     int time = filter_url_file_modification_time (path);
@@ -413,7 +413,7 @@ vector <int> Database_Modifications::getUserChapters (const std::string& usernam
 vector <Database_Modifications_Id> Database_Modifications::getUserIdentifiers (const std::string& username, const std::string& bible, int book, int chapter)
 {
   string folder = userChapterFolder (username, bible, book, chapter);
-  vector <Database_Modifications_Id> ids;
+  std::vector <Database_Modifications_Id> ids;
   std::vector <std::string> newids = filter_url_scandir (folder);
   for (auto & newid : newids) {
     string file = userOldIDFile (username, bible, book, chapter, filter::strings::convert_to_int (newid));
@@ -481,7 +481,7 @@ int Database_Modifications::getNextAvailableNotificationIdentifier ()
   // Read the existing identifiers in the folder.
   std::vector <std::string> files = filter_url_scandir (notificationsMainFolder ());
   // Sort from low to high.
-  vector <int> identifiers;
+  std::vector <int> identifiers;
   for (auto file : files) {
     identifiers.push_back (filter::strings::convert_to_int (file));
   }
@@ -557,7 +557,7 @@ void Database_Modifications::indexTrimAllNotifications ()
   database_sqlite_exec (db, "PRAGMA synchronous = OFF;");
 
   // Go through the notifications on disk.
-  vector <int> identifiers;
+  std::vector <int> identifiers;
   for (auto s : sidentifiers) {
     identifiers.push_back (filter::strings::convert_to_int (s));
   }
@@ -569,7 +569,7 @@ void Database_Modifications::indexTrimAllNotifications ()
     string path = notificationIdentifierDatabase (identifier);
     bool valid = !filter_url_is_dir (path);
 
-    map <string, vector <string> > result;
+    std::map <string, std::vector <string> > result;
     if (valid) {
       SqliteDatabase sql (path);
       sql.add ("SELECT * FROM notification;");
@@ -690,7 +690,7 @@ void Database_Modifications::indexTrimAllNotifications ()
 
 vector <int> Database_Modifications::getNotificationIdentifiers (string username, string bible, bool sort_on_category)
 {
-  vector <int> ids;
+  std::vector <int> ids;
 
   SqliteSQL sql = SqliteSQL ();
   sql.add ("SELECT identifier FROM notifications WHERE 1");
@@ -723,7 +723,7 @@ vector <int> Database_Modifications::getNotificationIdentifiers (string username
 // This gets the identifiers of the team's changes.
 vector <int> Database_Modifications::getNotificationTeamIdentifiers (const std::string& username, const std::string& category, string bible)
 {
-  vector <int> ids;
+  std::vector <int> ids;
   SqliteSQL sql = SqliteSQL ();
   sql.add ("SELECT identifier FROM notifications WHERE username =");
   sql.add (username);
@@ -841,7 +841,7 @@ Passage Database_Modifications::getNotificationPassage (int id)
   sql.add (id);
   sql.add (";");
   sqlite3 * db = connect ();
-  map <string, vector <string> > result = database_sqlite_query (db, sql.sql);
+  std::map <string, std::vector <string> > result = database_sqlite_query (db, sql.sql);
   database_sqlite_disconnect (db);
   std::vector <std::string> books = result ["book"];
   std::vector <std::string> chapters = result ["chapter"];
@@ -899,7 +899,7 @@ int Database_Modifications::clearNotificationsUser (const std::string& username)
 {
   int cleared_counter = 0;
   string any_bible = "";
-  vector <int> identifiers = getNotificationIdentifiers (username, any_bible);
+  std::vector <int> identifiers = getNotificationIdentifiers (username, any_bible);
   sqlite3 * db = connect ();
   // A transaction speeds up the operation.
   database_sqlite_exec (db, "BEGIN;");
@@ -933,14 +933,14 @@ vector <int> Database_Modifications::clearNotificationMatches (string username, 
   }
   sql.add (";");
 
-  vector <int> personals;
+  std::vector <int> personals;
   std::vector <std::string> result = database_sqlite_query (db, sql.sql) ["identifier"];
   for (auto & item : result) {
     personals.push_back (filter::strings::convert_to_int (item));
   }
   
   // Matches to be deleted.
-  vector <int> deletes;
+  std::vector <int> deletes;
 
   // Go through each of the personal changes.
   for (auto & personalID : personals) {
@@ -967,7 +967,7 @@ vector <int> Database_Modifications::clearNotificationMatches (string username, 
     sql2.add ("AND modification =");
     sql2.add (modification);
     sql2.add (";");
-    vector <int> teamMatches;
+    std::vector <int> teamMatches;
     std::vector <std::string> result2 = database_sqlite_query (db, sql2.sql) ["identifier"];
     for (auto & item : result2) {
       teamMatches.push_back (filter::strings::convert_to_int (item));
@@ -978,7 +978,7 @@ vector <int> Database_Modifications::clearNotificationMatches (string username, 
     if (teamMatches.size () == 1) {
       // Check there are only two change notifications for this user / Bible / book / chapter / verse.
       // If there are more, we can't be sure that the personal change was not overwritten somehow.
-      vector <int> passageMatches;
+      std::vector <int> passageMatches;
       SqliteSQL sql3 = SqliteSQL ();
       sql3.add ("SELECT identifier FROM notifications WHERE username =");
       sql3.add (username);

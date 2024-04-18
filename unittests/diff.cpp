@@ -86,9 +86,9 @@ Genesis 1.3 3 And God said: "Let there be light". And there was light.
   {
     std::vector <std::string> oldinput = {"a", "badd", "c",      "e", "f", "g", "\np"     };
     std::vector <std::string> newinput = {"a", "badd", "c", "d", "e", "f",      "\np", "h"};
-    vector <int> positions;
-    vector <int> sizes;
-    vector <bool> additions;
+    std::vector <int> positions;
+    std::vector <int> sizes;
+    std::vector <bool> additions;
     std::vector <std::string> content;
     int new_line_diff_count;
     filter_diff_diff_utf16 (oldinput, newinput, positions, sizes, additions, content, new_line_diff_count);
@@ -101,9 +101,9 @@ Genesis 1.3 3 And God said: "Let there be light". And there was light.
   {
     std::vector <std::string> oldinput = {"a",         "c",      "e", "f", "g", "\np",     "i"};
     std::vector <std::string> newinput = {"a", "badd", "c", "d", "e", "f",      "\np", "h"    };
-    vector <int> positions;
-    vector <int> sizes;
-    vector <bool> additions;
+    std::vector <int> positions;
+    std::vector <int> sizes;
+    std::vector <bool> additions;
     std::vector <std::string> content;
     int new_line_diff_count;
     filter_diff_diff_utf16 (oldinput, newinput, positions, sizes, additions, content, new_line_diff_count);
@@ -116,9 +116,9 @@ Genesis 1.3 3 And God said: "Let there be light". And there was light.
   {
     std::vector <std::string> oldinput = {"\n", "\n", "a", "b", "\n", "\n", "c"      };
     std::vector <std::string> newinput = {"\n",       "a",      "\n", "b",  "c", "\n"};
-    vector <int> positions;
-    vector <int> sizes;
-    vector <bool> additions;
+    std::vector <int> positions;
+    std::vector <int> sizes;
+    std::vector <bool> additions;
     std::vector <std::string> content;
     int new_line_diff_count;
     filter_diff_diff_utf16 (oldinput, newinput, positions, sizes, additions, content, new_line_diff_count);
@@ -132,9 +132,9 @@ Genesis 1.3 3 And God said: "Let there be light". And there was light.
     // Positions                0     1     2    3     4    5     6     7    8
     std::vector <std::string> oldinput = {"\n", "\n", "a", "😀", "b", "\n", "\n", "c"      };
     std::vector <std::string> newinput = {"\n",       "a",            "\n", "😃", "c", "\n"};
-    vector <int> positions;
-    vector <int> sizes;
-    vector <bool> additions;
+    std::vector <int> positions;
+    std::vector <int> sizes;
+    std::vector <bool> additions;
     std::vector <std::string> content;
     int new_line_diff_count;
     filter_diff_diff_utf16 (oldinput, newinput, positions, sizes, additions, content, new_line_diff_count);

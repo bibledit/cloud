@@ -181,10 +181,10 @@ TEST (easy_english_bible, logic)
       std::cout << book << std::endl;
       int total_passage_counter = 0;
       int empty_passage_counter = 0;
-      vector <int> chapters = database_versifications.getChapters (filter::strings::english(), book);
+      std::vector <int> chapters = database_versifications.getChapters (filter::strings::english(), book);
       for (auto chapter : chapters) {
         if (chapter == 0) continue;
-        vector <int> verses = database_versifications.getVerses (filter::strings::english(), book, chapter);
+        std::vector <int> verses = database_versifications.getVerses (filter::strings::english(), book, chapter);
         for (auto verse : verses) {
           if (verse == 0) continue;
           total_passage_counter++;

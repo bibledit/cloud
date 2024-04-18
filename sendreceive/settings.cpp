@@ -106,13 +106,13 @@ void sendreceive_settings ()
   string url = client_logic_url (address, port, sync_settings_url ());
   
   // Go through all settings flagged as having been updated on this client.
-  vector <int> ids = webserver_request.database_config_user()->getUpdatedSettings ();
+  std::vector <int> ids = webserver_request.database_config_user()->getUpdatedSettings ();
   if (!ids.empty ()) {
     Database_Logs::log (translate("Sending settings"), Filter_Roles::translator ());
   }
   
   // The POST request contains the credentials.
-  map <string, string> post;
+  std::map <string, string> post;
   post ["u"] = filter::strings::bin2hex (user);
   post ["p"] = webserver_request.database_users ()->get_md5 (user);
   post ["l"] = filter::strings::convert_to_string (webserver_request.database_users ()->get_level (user));

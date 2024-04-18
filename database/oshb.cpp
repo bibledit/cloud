@@ -84,7 +84,7 @@ void Database_OsHb::optimize ()
 vector <string> Database_OsHb::getVerse (int book, int chapter, int verse)
 {
   std::vector <std::string> words;
-  vector <int> rows = rowids (book, chapter, verse);
+  std::vector <int> rows = rowids (book, chapter, verse);
   for (auto row : rows) {
     words.push_back (word (row));
   }
@@ -100,8 +100,8 @@ vector <Passage> Database_OsHb::searchHebrew (string hebrew)
   sql.add ("SELECT DISTINCT book, chapter, verse FROM oshb WHERE word =");
   sql.add (word_id);
   sql.add ("ORDER BY book, chapter, verse ASC;");
-  vector <Passage> hits;
-  map <string, vector <string> > result = sql.query ();
+  std::vector <Passage> hits;
+  std::map <string, std::vector <string> > result = sql.query ();
   std::vector <std::string> books = result ["book"];
   std::vector <std::string> chapters = result ["chapter"];
   std::vector <std::string> verses = result ["verse"];
@@ -159,7 +159,7 @@ vector <int> Database_OsHb::rowids (int book, int chapter, int verse)
   sql.add (verse);
   sql.add ("ORDER BY rowid;");
   std::vector <std::string> result = sql.query () ["rowid"];
-  vector <int> rowids;
+  std::vector <int> rowids;
   for (auto rowid : result) rowids.push_back (filter::strings::convert_to_int (rowid));
   return rowids;
 }

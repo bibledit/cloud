@@ -79,8 +79,8 @@ const char * Database_Kjv::filename ()
 // Get Strong's numbers and English snippets for book / chapter / verse.
 vector <Database_Kjv_Item> Database_Kjv::getVerse (int book, int chapter, int verse)
 {
-  vector <Database_Kjv_Item> hits;
-  vector <int> rows = rowids (book, chapter, verse);
+  std::vector <Database_Kjv_Item> hits;
+  std::vector <int> rows = rowids (book, chapter, verse);
   for (auto row : rows) {
     Database_Kjv_Item item;
     item.strong = strong (row);
@@ -99,8 +99,8 @@ vector <Passage> Database_Kjv::searchStrong (string strong)
   sql.add ("SELECT DISTINCT book, chapter, verse FROM kjv2 WHERE strong =");
   sql.add (strongid);
   sql.add ("ORDER BY rowid;");
-  vector <Passage> hits;
-  map <string, vector <string> > result = sql.query ();
+  std::vector <Passage> hits;
+  std::map <string, std::vector <string> > result = sql.query ();
   std::vector <std::string> books = result ["book"];
   std::vector <std::string> chapters = result ["chapter"];
   std::vector <std::string> verses = result ["verse"];
@@ -155,7 +155,7 @@ vector <int> Database_Kjv::rowids (int book, int chapter, int verse)
   sql.add (verse);
   sql.add ("ORDER BY rowid;");
   std::vector <std::string> result = sql.query () ["rowid"];
-  vector <int> rowids;
+  std::vector <int> rowids;
   for (auto rowid : result) rowids.push_back (filter::strings::convert_to_int (rowid));
   return rowids;
 }

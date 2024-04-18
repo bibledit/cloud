@@ -176,10 +176,10 @@ void Database_Check::recordOutput (string bible, int book, int chapter, int vers
 
 vector <Database_Check_Hit> Database_Check::getHits ()
 {
-  vector <Database_Check_Hit> hits;
+  std::vector <Database_Check_Hit> hits;
   SqliteDatabase sql (filename ());
   sql.add ("SELECT rowid, bible, book, chapter, verse, data FROM output2;");
-  map <string, vector <string> > result = sql.query ();
+  std::map <string, std::vector <string> > result = sql.query ();
   std::vector <std::string> rowids = result ["rowid"];
   std::vector <std::string> bibles = result ["bible"];
   std::vector <std::string> books = result ["book"];
@@ -232,7 +232,7 @@ Passage Database_Check::getPassage (int id)
   sql.add ("SELECT book, chapter, verse FROM output2 WHERE rowid =");
   sql.add (id);
   sql.add (";");
-  map <string, vector <string> > result = sql.query ();
+  std::map <string, std::vector <string> > result = sql.query ();
   std::vector <std::string> books = result ["book"];
   std::vector <std::string> chapters = result ["chapter"];
   std::vector <std::string> verses = result ["verse"];
@@ -247,9 +247,9 @@ Passage Database_Check::getPassage (int id)
 vector <Database_Check_Hit> Database_Check::getSuppressions ()
 {
   SqliteDatabase sql (filename ());
-  vector <Database_Check_Hit> hits;
+  std::vector <Database_Check_Hit> hits;
   sql.add ("SELECT rowid, bible, book, chapter, verse, data FROM suppress2;");
-  map <string, vector <string> > result = sql.query ();
+  std::map <string, std::vector <string> > result = sql.query ();
   std::vector <std::string> rowids = result ["rowid"];
   std::vector <std::string> bibles = result ["bible"];
   std::vector <std::string> books = result ["book"];

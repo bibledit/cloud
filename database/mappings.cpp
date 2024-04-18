@@ -197,7 +197,7 @@ string Database_Mappings::output (const std::string& name)
   sql.add (name);
   sql.add ("ORDER BY book ASC, chapter ASC, verse ASC;");
   sqlite3 * db = connect ();
-  map <string, vector <string> > result = database_sqlite_query (db, sql.sql);
+  std::map <string, std::vector <string> > result = database_sqlite_query (db, sql.sql);
   database_sqlite_disconnect (db);
   std::vector <std::string> books = result ["book"];
   std::vector <std::string> chapters = result ["chapter"];
@@ -288,7 +288,7 @@ vector <Passage> Database_Mappings::translate (const std::string& input, const s
   // Get the $input mapping for the passage from the database.
   // This maps the $input to the Hebrew/Greek versification system.
   // Skip this phase if the $input mapping is Hebrew / Greek.
-  vector <Passage> origpassage;
+  std::vector <Passage> origpassage;
   if (input != original ()) {
     SqliteSQL sql = SqliteSQL ();
     sql.add ("SELECT origbook, origchapter, origverse FROM maps WHERE name =");
@@ -301,7 +301,7 @@ vector <Passage> Database_Mappings::translate (const std::string& input, const s
     sql.add (verse);
     sql.add (";");
     sqlite3 * db = connect ();
-    map <string, vector <string> > result = database_sqlite_query (db, sql.sql);
+    std::map <string, std::vector <string> > result = database_sqlite_query (db, sql.sql);
     database_sqlite_disconnect (db);
     std::vector <std::string> origbooks = result ["origbook"];
     std::vector <std::string> origchapters = result ["origchapter"];
@@ -326,7 +326,7 @@ vector <Passage> Database_Mappings::translate (const std::string& input, const s
   
   // Get the $output mapping for the passage or two passages from the database.
   // This is a translation from Hebrew/Greek to the $output system.
-  vector <Passage> targetpassage;
+  std::vector <Passage> targetpassage;
   for (Passage & passage : origpassage) {
     int origbook = passage.m_book;
     int origchapter = passage.m_chapter;
@@ -342,7 +342,7 @@ vector <Passage> Database_Mappings::translate (const std::string& input, const s
     sql.add (origverse);
     sql.add (";");
     sqlite3 * db = connect ();
-    map <string, vector <string> > result = database_sqlite_query (db, sql.sql);
+    std::map <string, std::vector <string> > result = database_sqlite_query (db, sql.sql);
     database_sqlite_disconnect (db);
     std::vector <std::string> books = result ["book"];
     std::vector <std::string> chapters = result ["chapter"];

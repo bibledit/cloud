@@ -384,7 +384,7 @@ string gbs_plus_processor (string url, int book, [[maybe_unused]] int chapter, i
   std::vector <std::string> bits {filter::strings::explode(annotation_info, '\'')};
   if (bits.size() >= 13) {
     string annotation_url {"https://bijbel-statenvertaling.com/includes/ajax/kanttekening.php"};
-    map <string, string> post {};
+    std::map <string, string> post {};
     post ["prefix"] = bits[1];
     post ["verse_id"] = bits[3];
     post ["short_bookname"] = bits[5];
@@ -1022,7 +1022,7 @@ string resource_external_cloud_fetch_cache_extract (const std::string& name, int
 string resource_external_convert_book_biblehub (int book)
 {
   // Map Bibledit books to biblehub.com books.
-  map <int, string> mapping = {
+  std::map <int, string> mapping = {
     pair (1, "genesis"),
     pair (2, "exodus"),
     pair (3, "leviticus"),
@@ -1097,7 +1097,7 @@ string resource_external_convert_book_biblehub (int book)
 string resource_external_convert_book_netbible (int book)
 {
   // Map Bibledit books to net.bible.com books as used at the web service.
-  map <int, string> mapping = {
+  std::map <int, string> mapping = {
     pair (1, "Genesis"),
     pair (2, "Exodus"),
     pair (3, "Leviticus"),
@@ -1173,7 +1173,7 @@ string resource_external_convert_book_blueletterbible (int book)
 {
   // This array maps the the book identifiers from Bibledit
   // to the book names as used by the blueletterbible.org web service.
-  map <int, string> mapping = {
+  std::map <int, string> mapping = {
     pair (1, "Gen"),
     pair (2, "Exd"),
     pair (3, "Lev"),
@@ -1248,7 +1248,7 @@ string resource_external_convert_book_blueletterbible (int book)
 string resource_external_convert_book_bibleserver (int book)
 {
   // On bibleserver.com, Genesis is "1.Mose", Exodus is "2.Mose", and so on.
-  map <int, string> mapping = {
+  std::map <int, string> mapping = {
     pair (1, "1.Mose"),
     pair (2, "2.Mose"),
     pair (3, "3.Mose"),

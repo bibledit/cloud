@@ -40,7 +40,7 @@ void trash_change_notification (Webserver_Request& webserver_request, int id)
 void trash_consultation_note (Webserver_Request& webserver_request, int id)
 {
   Database_Notes database_notes (webserver_request);
-  vector <Passage> passages = database_notes.get_passages (id);
+  std::vector <Passage> passages = database_notes.get_passages (id);
   string passageText = filter_passage_display_inline (passages);
   string summary = database_notes.get_summary (id);
   string contents = database_notes.get_contents (id);

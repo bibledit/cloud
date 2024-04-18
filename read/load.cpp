@@ -59,7 +59,7 @@ string read_load (Webserver_Request& webserver_request)
 
   string chapter_usfm = webserver_request.database_bibles()->get_chapter (bible, book, chapter);
 
-  vector <int> verses = filter::usfm::get_verse_numbers (chapter_usfm);
+  std::vector <int> verses = filter::usfm::get_verse_numbers (chapter_usfm);
   int highest_verse = 0;
   if (!verses.empty ()) highest_verse = verses.back ();
   

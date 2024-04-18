@@ -30,7 +30,7 @@ using namespace std;
 
 
 void checks_verses::missing_punctuation_at_end (const std::string& bible, int book, int chapter,
-                                                const map <int, string> & verses,
+                                                const std::map <int, string> & verses,
                                                 const std::string& center_marks, const std::string& end_marks,
                                                 const std::string& disregards)
 {
@@ -56,7 +56,7 @@ void checks_verses::missing_punctuation_at_end (const std::string& bible, int bo
 
 
 void checks_verses::patterns (const std::string& bible, int book, int chapter,
-                              const map <int, string> & verses, const std::vector <string> & patterns)
+                              const std::map <int, string> & verses, const std::vector <string> & patterns)
 {
   Database_Check database_check {};
   for (const auto & element : verses) {

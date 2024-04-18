@@ -73,7 +73,7 @@ string webbible_search (Webserver_Request& webserver_request)
   
   
   // Search the Bible text in the exported Bible.
-  vector <Passage> passages = search_logic_search_text (queryString, {exportedBible});
+  std::vector <Passage> passages = search_logic_search_text (queryString, {exportedBible});
   
   
   // Hit count.

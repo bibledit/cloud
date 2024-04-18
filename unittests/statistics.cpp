@@ -57,7 +57,7 @@ TEST (database, statistics)
     EXPECT_EQ ((vector <string>{"one", "two"}), users);
     
     // The changes for all available users for no more than a year ago.
-    vector <pair <int, int>> changes = Database_Statistics::get_changes ("");
+    std::vector <pair <int, int>> changes = Database_Statistics::get_changes ("");
     EXPECT_EQ (4, changes.size ());
     
     // A known amount of change statistics records for a known user for no more than a year ago.

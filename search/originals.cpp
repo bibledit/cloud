@@ -115,12 +115,12 @@ string search_originals (Webserver_Request& webserver_request)
     // Store how often a verse occurs in an array.
     // The keys are the passages of the search results.
     // The values are how often the passages occur in the search results.
-    map <int, int> passages {};
+    std::map <int, int> passages {};
     
     for (const auto & word : v_words) {
       
       // Find out how often this word occurs in the Hebrew or Greek Bible. Skip if too often.
-      vector <Passage> details {};
+      std::vector <Passage> details {};
       if (type == book_type::old_testament) {
         details = database_oshb.searchHebrew (word);
       }
@@ -141,8 +141,8 @@ string search_originals (Webserver_Request& webserver_request)
     
     // Sort on occurrence from high to low.
     // Skip passages that only occur once.
-    vector <int> v_passages;
-    vector <int> counts;
+    std::vector <int> v_passages;
+    std::vector <int> counts;
     for (auto & element : passages) {
       int passage = element.first;
       int count = element.second;

@@ -80,7 +80,7 @@ TEST (database, mail)
     int count = database_mail.getMailCount ();
     EXPECT_EQ (1, count);
     
-    vector <Database_Mail_User> mails = database_mail.getMails ();
+    std::vector <Database_Mail_User> mails = database_mail.getMails ();
     EXPECT_EQ ("subject", mails [0].subject);
     
     Database_Mail_Item mail = database_mail.get (1);
@@ -105,7 +105,7 @@ TEST (database, mail)
     
     database_mail.send ("phpunit", "subject", "body");
     
-    vector <int> mails = database_mail.getMailsToSend ();
+    std::vector <int> mails = database_mail.getMailsToSend ();
     EXPECT_EQ (1, static_cast <int>(mails.size ()));
     
     database_mail.postpone (1);

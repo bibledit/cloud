@@ -66,7 +66,7 @@ const char * bibledit_get_network_port ()
 
   // On a client device, negotiate a local port number.
 #ifdef HAVE_CLIENT
-  vector <int> ports = { 9876, 9987, 9998 };
+  std::vector <int> ports = { 9876, 9987, 9998 };
   for (auto port : ports) {
     if (!filter_url_port_can_connect ("localhost", port)) {
       config_globals_negotiated_port_number = filter::strings::convert_to_string(port);
@@ -427,7 +427,7 @@ const char * bibledit_get_reference_for_accordance ()
   int verse = Ipc_Focus::getVerse (webserver_request);
 
   // Accordance expects a verse reference in the English versification system.
-  vector <Passage> passages;
+  std::vector <Passage> passages;
   Database_Mappings database_mappings;
   if ((versification != filter::strings::english()) && !versification.empty ()) {
     passages = database_mappings.translate (versification, filter::strings::english (), book, chapter, verse);
@@ -479,7 +479,7 @@ void bibledit_put_reference_from_accordance (const char * reference)
   string versification = Database_Config_Bible::getVersificationSystem (bible);
 
   // Accordance expects a verse reference in the English versification system.
-  vector <Passage> passages;
+  std::vector <Passage> passages;
   Database_Mappings database_mappings;
   if ((versification != filter::strings::english()) && !versification.empty ()) {
     passages = database_mappings.translate (filter::strings::english (), versification, book, chapter, verse);

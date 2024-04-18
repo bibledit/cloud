@@ -70,9 +70,9 @@ void export_odt_book (string bible, int book, bool log)
   
   if (book == 0) {
     // Load entire Bible, ordered.
-    vector <int> books = filter_passage_get_ordered_books (bible);
+    std::vector <int> books = filter_passage_get_ordered_books (bible);
     for (auto book2 : books) {
-      vector <int> chapters = database_bibles.get_chapters (bible, book2);
+      std::vector <int> chapters = database_bibles.get_chapters (bible, book2);
       for (auto chapter : chapters) {
         string usfm = database_bibles.get_chapter (bible, book2, chapter);
         usfm = filter::strings::trim (usfm);
@@ -82,7 +82,7 @@ void export_odt_book (string bible, int book, bool log)
     }
   } else {
     // Load one book.
-    vector <int> chapters = database_bibles.get_chapters (bible, book);
+    std::vector <int> chapters = database_bibles.get_chapters (bible, book);
     for (auto chapter : chapters) {
       string usfm = database_bibles.get_chapter (bible, book, chapter);
       usfm = filter::strings::trim (usfm);

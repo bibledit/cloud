@@ -38,7 +38,7 @@ m_webserver_request (webserver_request)
 
 void Database_Ipc::trim ()
 {
-  vector <Database_Ipc_Item> data = readData ();
+  std::vector <Database_Ipc_Item> data = readData ();
   for (auto & record : data) {
     if (record.user == "") {
       deleteMessage (record.rowid);
@@ -60,10 +60,10 @@ void Database_Ipc::trim ()
 void Database_Ipc::storeMessage (string user, string channel, string command, string message)
 {
   // Load entire database into memory.
-  vector <Database_Ipc_Item> data = readData ();
+  std::vector <Database_Ipc_Item> data = readData ();
 
   // Gather information about records to delete.
-  vector <int> deletes;
+  std::vector <int> deletes;
   if (channel == "") {
     for (auto & record : data) {
       if ((record.user == user) && (record.channel == channel) && (record.command == command)) {
@@ -94,7 +94,7 @@ Database_Ipc_Message Database_Ipc::retrieveMessage (int id, string user, string 
   string hitChannel = "";
   string hitCommand = "";
   string hitMessage = "";
-  vector <Database_Ipc_Item> data = readData ();
+  std::vector <Database_Ipc_Item> data = readData ();
   for (auto & record : data) {
     // Selection condition 1: The database record has a message identifier younger than the calling identifier.
     int recordid = record.rowid;
@@ -132,7 +132,7 @@ Database_Ipc_Message Database_Ipc::retrieveMessage (int id, string user, string 
 
 void Database_Ipc::deleteMessage (int id)
 {
-  vector <Database_Ipc_Item> data = readData ();
+  std::vector <Database_Ipc_Item> data = readData ();
   for (auto & record : data) {
     if (record.rowid == id) {
       filter_url_unlink (file (record.file));
@@ -147,7 +147,7 @@ string Database_Ipc::getFocus ()
 
   int highestId = 0;
   string hitMessage = "";
-  vector <Database_Ipc_Item> data = readData ();
+  std::vector <Database_Ipc_Item> data = readData ();
   for (auto & record : data) {
     int recordid = record.rowid;
     // Conditions: Command is "focus", and matching user.
@@ -175,7 +175,7 @@ Database_Ipc_Message Database_Ipc::getNote ()
   int highestId = 0;
   string hitMessage = "";
 
-  vector <Database_Ipc_Item> data = readData ();
+  std::vector <Database_Ipc_Item> data = readData ();
   for (auto & record : data) {
     int recordid = record.rowid;
     // Conditions: Command is "opennote", and matching user.
@@ -206,7 +206,7 @@ bool Database_Ipc::getNotesAlive ()
   int highestId = 0;
   string hitMessage = "";
 
-  vector <Database_Ipc_Item> data = readData ();
+  std::vector <Database_Ipc_Item> data = readData ();
   for (auto & record : data) {
     int recordid = record.rowid;
     // Conditions: Command is "notesalive", and matching user.
@@ -245,7 +245,7 @@ string Database_Ipc::file (string file)
 // The filename looks like this: rowid__user__channel__command
 vector <Database_Ipc_Item> Database_Ipc::readData ()
 {
-  vector <Database_Ipc_Item> data;
+  std::vector <Database_Ipc_Item> data;
   std::vector <std::string> files = filter_url_scandir (folder ());
   for (string file : files) {
     std::vector <std::string> explosion = filter::strings::explode (file, '_');

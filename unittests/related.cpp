@@ -31,7 +31,7 @@ TEST (related, logic)
 {
   {
     // Test situation of one input passage that has several output passages.
-    vector <Passage> output = related_logic_get_verses ({ Passage ("", 1, 10, "6") });
+    std::vector <Passage> output = related_logic_get_verses ({ Passage ("", 1, 10, "6") });
     int size = 6;
     EXPECT_EQ (size, output.size ());
     if (static_cast<int>(output.size ()) == size) {
@@ -46,13 +46,13 @@ TEST (related, logic)
 
   {
     // Test that an input passage that finds no parallel passages in the XML files results in output equal to the input.
-    vector <Passage> output = related_logic_get_verses ({ Passage ("", 2, 3, "4") });
+    std::vector <Passage> output = related_logic_get_verses ({ Passage ("", 2, 3, "4") });
     EXPECT_EQ (0, output.size ());
   }
 
   {
     // Test input passages that match two entries in the XML files.
-    vector <Passage> output = related_logic_get_verses ({ Passage ("", 1, 10, "29"), Passage ("", 1, 11, "12") });
+    std::vector <Passage> output = related_logic_get_verses ({ Passage ("", 1, 10, "29"), Passage ("", 1, 11, "12") });
     int size = 12;
     EXPECT_EQ (size, output.size ());
     if (static_cast<int>(output.size ()) == size) {
@@ -74,7 +74,7 @@ TEST (related, logic)
   {
     // Test third passage of synoptic parallels whether it also gets the first two passages, and the fourth.
     // At the same time it takes data from the quotations XML.
-    vector <Passage> output = related_logic_get_verses ({ Passage ("", 42, 3, "4") });
+    std::vector <Passage> output = related_logic_get_verses ({ Passage ("", 42, 3, "4") });
     int size = 10;
     EXPECT_EQ (size, output.size ());
     if (static_cast<int>(output.size ()) == size) {

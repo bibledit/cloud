@@ -77,7 +77,7 @@ string lexicon_logic_get_html ([[maybe_unused]] Webserver_Request& webserver_req
     string prefix = HEBREW_ETCBC4_PREFIX;
     Database_Etcbc4 database_etcbc4;
     // Data from the ETCBC4 database.
-    vector <int> rowids = database_etcbc4.rowids (book, chapter, verse);
+    std::vector <int> rowids = database_etcbc4.rowids (book, chapter, verse);
     stringstream ss;
     if (!rowids.empty ()) {
       string id = "lexicontxt" + prefix;
@@ -108,7 +108,7 @@ string lexicon_logic_get_html ([[maybe_unused]] Webserver_Request& webserver_req
   if (lexicon == KJV_LEXICON_NAME) {
     string prefix = KJV_LEXICON_PREFIX;
     Database_Kjv database_kjv;
-    vector <int> rowids = database_kjv.rowids (book, chapter, verse);
+    std::vector <int> rowids = database_kjv.rowids (book, chapter, verse);
     if (!rowids.empty ()) {
       stringstream ss;
       string id = "lexicontxt" + prefix;
@@ -127,7 +127,7 @@ string lexicon_logic_get_html ([[maybe_unused]] Webserver_Request& webserver_req
   if (lexicon == OSHB_NAME) {
     string prefix = OSHB_PREFIX;
     Database_OsHb database_oshb;
-    vector <int> rowids = database_oshb.rowids (book, chapter, verse);
+    std::vector <int> rowids = database_oshb.rowids (book, chapter, verse);
     if (!rowids.empty ()) {
       stringstream ss;
       string id = "lexicontxt" + prefix;
@@ -148,7 +148,7 @@ string lexicon_logic_get_html ([[maybe_unused]] Webserver_Request& webserver_req
   if (lexicon == SBLGNT_NAME) {
     string prefix = SBLGNT_PREFIX;
     Database_MorphGnt database_morphgnt;
-    vector <int> rowids = database_morphgnt.rowids (book, chapter, verse);
+    std::vector <int> rowids = database_morphgnt.rowids (book, chapter, verse);
     if (!rowids.empty ()) {
       stringstream ss;
       string id = "lexicontxt" + prefix;
@@ -243,8 +243,8 @@ string lexicon_logic_strong_number_cleanup (string strong)
 // Converts a parsing from the Open Scriptures Hebrew database to Strong's numbers.
 // It also provides the links to call BDB entries.
 void lexicon_logic_convert_morphhb_parsing_to_strong (string parsing,
-                                                      vector <string>& strongs,
-                                                      vector <string>& bdbs)
+                                                      std::vector <string>& strongs,
+                                                      std::vector <string>& bdbs)
 {
   strongs.clear ();
   bdbs.clear ();

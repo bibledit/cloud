@@ -54,7 +54,7 @@ TEST (database, noteactions)
     Database_NoteActions database = Database_NoteActions ();
     database.create ();
     database.record ("unittest", 2, 3, "content");
-    vector <int> notes = database.getNotes ();
+    std::vector <int> notes = database.getNotes ();
     EXPECT_EQ (vector <int>{2}, notes);
   }
 
@@ -66,8 +66,8 @@ TEST (database, noteactions)
     database.record ("unittest", 2, 3, "content");
     database.record ("unittest", 2, 4, "content");
     database.record ("unittest", 3, 3, "content");
-    vector <int> notes = database.getNotes ();
-    vector <int> standard_notes{2, 3};
+    std::vector <int> notes = database.getNotes ();
+    std::vector <int> standard_notes{2, 3};
     EXPECT_EQ (standard_notes, notes);
   }
 
@@ -79,7 +79,7 @@ TEST (database, noteactions)
     database.record ("phpunit1", 2, 3, "content3");
     database.record ("phpunit2", 2, 4, "content4");
     database.record ("phpunit3", 3, 4, "content5");
-    vector <Database_Note_Action> data = database.getNoteData (2);
+    std::vector <Database_Note_Action> data = database.getNoteData (2);
     EXPECT_EQ (2, static_cast<int>(data.size()));
     int now = filter::date::seconds_since_epoch ();
     EXPECT_EQ (1, data[0].rowid);
@@ -103,7 +103,7 @@ TEST (database, noteactions)
     database.record ("unittest", 2, 4, "content");
     database.record ("unittest", 3, 3, "content");
     database.updateNotes (2, 12345);
-    vector <int> notes = database.getNotes ();
+    std::vector <int> notes = database.getNotes ();
     const std::vector <int> standard_notes{12345, 3};
     EXPECT_EQ (standard_notes, notes);
   }
@@ -116,7 +116,7 @@ TEST (database, noteactions)
     database.record ("phpunit1", 2, 3, "content1");
     database.record ("phpunit2", 4, 5, "content2");
     database.erase (1);
-    vector <int> notes = database.getNotes ();
+    std::vector <int> notes = database.getNotes ();
     EXPECT_EQ (vector <int>{4}, notes);
   }
 
@@ -472,7 +472,7 @@ void test_database_notes ()
     int newidentifier = database_notes.store_new_note ("", 5, 4, 3, "Summary", "Contents", false);
     
     // Test getting passage.
-    vector <Passage> passages = database_notes.get_passages (oldidentifier);
+    std::vector <Passage> passages = database_notes.get_passages (oldidentifier);
     Passage standard = Passage ("", 10, 9, "8");
     EXPECT_EQ (1, static_cast<int> (passages.size()));
     EXPECT_EQ (true, standard.equal (passages [0]));
@@ -526,7 +526,7 @@ void test_database_notes ()
     EXPECT_EQ ("yyyyy", status);
     
     // Test getting all possible statuses.
-    vector <Database_Notes_Text> statuses = database_notes.get_possible_statuses ();
+    std::vector <Database_Notes_Text> statuses = database_notes.get_possible_statuses ();
     std::vector <std::string> rawstatuses;
     for (auto & note_text : statuses) {
       rawstatuses.push_back (note_text.raw);
@@ -573,7 +573,7 @@ void test_database_notes ()
     EXPECT_EQ ("Major", severity);
     
     // Test getting all unique severities.
-    vector <Database_Notes_Text> severities = database_notes.get_possible_severities ();
+    std::vector <Database_Notes_Text> severities = database_notes.get_possible_severities ();
     std::vector <std::string> rawseverities;
     std::vector <std::string> localizedseverities;
     for (auto & note_text : severities) {
@@ -634,14 +634,14 @@ void test_database_notes ()
     webserver_request.session_logic()->set_username ("unittest");
     
     // Create a few notes.
-    vector <int> standardids;
+    std::vector <int> standardids;
     for (unsigned int i = 0; i < 3; i++) {
       int identifier = database_notes.store_new_note ("", 0, 0, 0, "summary", "contents", false);
       standardids.push_back (identifier);
     }
     
     // Get the identifiers.
-    vector <int> identifiers = database_notes.get_identifiers ();
+    std::vector <int> identifiers = database_notes.get_identifiers ();
     sort (standardids.begin(), standardids.end());
     sort (identifiers.begin(), identifiers.end());
     EXPECT_EQ (standardids, identifiers);
@@ -727,7 +727,7 @@ void test_database_notes ()
     database_notes.touch_marked_for_deletion ();
     database_notes.touch_marked_for_deletion ();
     
-    vector <int> identifiers = database_notes.get_due_for_deletion ();
+    std::vector <int> identifiers = database_notes.get_due_for_deletion ();
     EXPECT_EQ (vector <int>{}, identifiers);
     identifiers = database_notes.get_due_for_deletion ();
     EXPECT_EQ (vector <int>{}, identifiers);
@@ -743,7 +743,7 @@ void test_database_notes ()
     
     database_notes.touch_marked_for_deletion ();
     identifiers = database_notes.get_due_for_deletion ();
-    vector <int> standard_identifiers {oldidentifier, newidentifier};
+    std::vector <int> standard_identifiers {oldidentifier, newidentifier};
     EXPECT_EQ (standard_identifiers, identifiers);
     identifiers = database_notes.get_due_for_deletion ();
     EXPECT_EQ (standard_identifiers, identifiers);
@@ -783,7 +783,7 @@ void test_database_notes ()
     database_notes.unmark_for_deletion (oldidentifier);
     database_notes.unmark_for_deletion (newidentifier);
 
-    vector <int> identifiers = database_notes.get_due_for_deletion ();
+    std::vector <int> identifiers = database_notes.get_due_for_deletion ();
     EXPECT_EQ (vector <int>{}, identifiers);
     identifiers = database_notes.get_due_for_deletion ();
     EXPECT_EQ (vector <int>{}, identifiers);
@@ -828,14 +828,14 @@ void test_database_notes ()
     database_notes.touch_marked_for_deletion ();
     database_notes.touch_marked_for_deletion ();
 
-    vector <int> identifiers = database_notes.get_due_for_deletion ();
+    std::vector <int> identifiers = database_notes.get_due_for_deletion ();
     EXPECT_EQ (vector <int>{}, identifiers);
     identifiers = database_notes.get_due_for_deletion ();
     EXPECT_EQ (vector <int>{}, identifiers);
     
     database_notes.touch_marked_for_deletion ();
     identifiers = database_notes.get_due_for_deletion ();
-    vector <int> standard_identifiers {oldidentifier1, newidentifier1};
+    std::vector <int> standard_identifiers {oldidentifier1, newidentifier1};
     EXPECT_EQ (standard_identifiers, identifiers);
     identifiers = database_notes.get_due_for_deletion ();
     EXPECT_EQ (standard_identifiers, identifiers);
@@ -1082,11 +1082,11 @@ void test_database_notes ()
     database_notes.create ();
     
     // Create notes to work with.
-    vector <int> oldidentifiers;
+    std::vector <int> oldidentifiers;
     oldidentifiers.push_back (database_notes.store_new_note ("bible1", 1, 2, 3, "summary1", "contents1", false));
     oldidentifiers.push_back (database_notes.store_new_note ("bible2", 2, 3, 4, "summary2", "contents2", false));
     oldidentifiers.push_back (database_notes.store_new_note ("bible3", 3, 4, 5, "summary3", "contents3", false));
-    vector <int> newidentifiers;
+    std::vector <int> newidentifiers;
     newidentifiers.push_back (database_notes.store_new_note ("bible4", 4, 5, 6, "summary4", "contents4", false));
     newidentifiers.push_back (database_notes.store_new_note ("bible5", 5, 6, 7, "summary5", "contents5", false));
     newidentifiers.push_back (database_notes.store_new_note ("bible6", 6, 7, 8, "summary6", "contents6", false));
@@ -1164,8 +1164,8 @@ void test_database_notes ()
     database_notes.set_identifier (identifier, identifier3);
     
     // Test selection mechanism for certain Bibles.
-    vector <int> identifiers = database_notes.get_notes_in_range_for_bibles (100'000'000, 999'999'999, {"bible1", "bible2"}, false);
-    vector <int> standard_identifiers {100'000'000, 50'0000'000, 99'9999'999};
+    std::vector <int> identifiers = database_notes.get_notes_in_range_for_bibles (100'000'000, 999'999'999, {"bible1", "bible2"}, false);
+    std::vector <int> standard_identifiers {100'000'000, 50'0000'000, 99'9999'999};
     EXPECT_EQ (standard_identifiers, identifiers);
     
     identifiers = database_notes.get_notes_in_range_for_bibles (100'000'000, 999'999'999, {"bible1", "bible3"}, false);
@@ -1186,7 +1186,7 @@ void test_database_notes ()
     Webserver_Request webserver_request;
     Sync_Logic sync_logic (webserver_request);
     
-    vector <Sync_Logic_Range> ranges = sync_logic.create_range (100'000'000, 999'999'999);
+    std::vector <Sync_Logic_Range> ranges = sync_logic.create_range (100'000'000, 999'999'999);
     EXPECT_EQ (10, static_cast<int>(ranges.size()));
     EXPECT_EQ (100'000'000, ranges[0].low);
     EXPECT_EQ (189'999'998, ranges[0].high);
@@ -1250,14 +1250,14 @@ void test_database_notes ()
     int identifier3 = database_notes.store_new_note ("bible3", 1, 2, 3, "summary3", "contents3", false);
     
     // Select notes while varying Bible selection.
-    vector <int> identifiers = database_notes.select_notes ({"bible1"}, 0, 0, 0, 3, 0, 0, "", "bible1", "", false, -1, 0, "", -1);
+    std::vector <int> identifiers = database_notes.select_notes ({"bible1"}, 0, 0, 0, 3, 0, 0, "", "bible1", "", false, -1, 0, "", -1);
     EXPECT_EQ (vector <int>{identifier1}, identifiers);
     
     identifiers = database_notes.select_notes ({"bible1", "bible2"}, 0, 0, 0, 3, 0, 0, "", "bible2", "", false, -1, 0, "", -1);
     EXPECT_EQ (vector <int>{identifier2}, identifiers);
     
     identifiers = database_notes.select_notes ({"bible1", "bible2"}, 0, 0, 0, 3, 0, 0, "", "", "", false, -1, 0, "", -1);
-    vector <int> standard_identifiers {identifier1, identifier2};
+    std::vector <int> standard_identifiers {identifier1, identifier2};
     EXPECT_EQ (standard_identifiers, identifiers);
     
     identifiers = database_notes.select_notes ({"bible1", "bible2", "bible4"}, 0, 0, 0, 3, 0, 0, "", "bible", "", false, -1, 0, "", -1);
@@ -1410,10 +1410,10 @@ void test_database_notes ()
     std::vector <std::string> v_assigned;
     std::vector <std::string> v_bible;
     std::vector <std::string> v_contents;
-    vector <int> v_identifier;
-    vector <int> v_modified;
+    std::vector <int> v_identifier;
+    std::vector <int> v_modified;
     std::vector <std::string> v_passage;
-    vector <int> v_severity;
+    std::vector <int> v_severity;
     std::vector <std::string> v_status;
     std::vector <std::string> v_subscriptions;
     std::vector <std::string> v_summary;
@@ -1467,7 +1467,7 @@ void test_database_notes ()
     }
     
     // Get some search results for later reference.
-    vector <int> search_results;
+    std::vector <int> search_results;
     search_results = database_notes.select_notes ({"bible2"}, 0, 0, 0, 3, 0, 0, "", "bible1", "", false, -1, 0, "", -1);
     
     // Get the notes in bulk in a database.
@@ -1501,7 +1501,7 @@ void test_database_notes ()
     }
     
     // There should be no search results anymore.
-    vector <int> no_search_results;
+    std::vector <int> no_search_results;
     no_search_results = database_notes.select_notes ({"bible2"}, 0, 0, 0, 3, 0, 0, "", "bible1", "", false, -1, 0, "", -1);
     EXPECT_EQ (vector <int>{}, no_search_results);
     
@@ -1539,7 +1539,7 @@ void test_database_notes ()
     }
     
     // The search results should be back too.
-    vector <int> restored_search;
+    std::vector <int> restored_search;
     restored_search = database_notes.select_notes ({"bible2"}, 0, 0, 0, 3, 0, 0, "", "bible1", "", false, -1, 0, "", -1);
     EXPECT_EQ (search_results, restored_search);
   }
@@ -1562,7 +1562,7 @@ void test_database_notes ()
     int identifier = database_notes.store_new_note ("", 0, 0, 0, "", "", false);
     // Creating the note updates the search database.
     // Basic search should work now.
-    vector <int> identifiers;
+    std::vector <int> identifiers;
     
     // Search on the content of the current note.
     identifiers = database_notes.select_notes ({}, // No Bibles given.
@@ -1756,7 +1756,7 @@ void test_database_notes ()
     EXPECT_EQ (bible2, database_notes.get_bible (identifier2));
     
     // Test the methods for the passage.
-    vector <Passage> passages;
+    std::vector <Passage> passages;
     passages = database_notes.get_passages (identifier1);
     EXPECT_EQ (1, passages.size());
     for (auto passage : passages) EXPECT_EQ (true, passage1.equal (passage));

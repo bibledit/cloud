@@ -1722,7 +1722,7 @@ TY_PRIVATE void TY_(ParseInline)( TidyDocImpl* doc, Node *element, GetTokenMode 
             return;
         }
 
-        /* within <dt> or <pre> map <p> to <br> */
+        /* within <dt> or <pre> std::map <p> to <br> */
         if ( nodeIsP(node) &&
              node->type == StartTag &&
              ( (mode & Preformatted) ||

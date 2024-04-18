@@ -113,8 +113,8 @@ void sprint_burndown ([[maybe_unused]] string bible,
     // Get the total number of tasks for this sprint,
     // and the average percentage of completion of them,
     // and store this information in the sprint history table.
-    vector <int> ids = database_sprint.getTasks (bible2, year, month);
-    vector <int> percentages;
+    std::vector <int> ids = database_sprint.getTasks (bible2, year, month);
+    std::vector <int> percentages;
     for (auto id : ids) {
       percentages.push_back (database_sprint.getComplete (id));
     }
@@ -150,7 +150,7 @@ void sprint_burndown ([[maybe_unused]] string bible,
             body.push_back ("<h4>" + locale_logic_month (month) + "</h4>");
             body.push_back ("<h4>" + translate("Sprint Planning and Team's Progress") + "</h4>");
             body.push_back ("<table>");
-            vector <int> tasks = database_sprint.getTasks (bible2, year, month);
+            std::vector <int> tasks = database_sprint.getTasks (bible2, year, month);
             for (auto id : tasks) {
               body.push_back ("<tr>");
               string title = database_sprint.getTitle (id);
@@ -201,7 +201,7 @@ string sprint_create_burndown_chart ([[maybe_unused]] string bible,
   int seconds = filter::date::seconds_since_epoch (year, month, 1);
   
   // The business days in the month for on the X-axis.
-  vector <int> days_in_month;
+  std::vector <int> days_in_month;
   for (int day = 1; day <= 31; day++) {
     int mymonth = filter::date::numerical_month (seconds);
     if (mymonth == month) {
@@ -214,8 +214,8 @@ string sprint_create_burndown_chart ([[maybe_unused]] string bible,
   
   // Assemble history of this sprint.
   Database_Sprint database_sprint = Database_Sprint ();
-  vector <Database_Sprint_Item> history = database_sprint.getHistory (bible, year, month);
-  map <int, int> data;
+  std::vector <Database_Sprint_Item> history = database_sprint.getHistory (bible, year, month);
+  std::map <int, int> data;
   for (auto day : days_in_month) {
     data [day] = 0;
     for (auto item : history) {

@@ -61,7 +61,7 @@ void statistics_statistics ()
     size_t change_notificatons_count = 0;
     if (webserver_request.database_config_user()->getUserPendingChangesNotification (user)) {
       string any_bible = string();
-      vector <int> ids = database_modifications.getNotificationIdentifiers (user, any_bible);
+      std::vector <int> ids = database_modifications.getNotificationIdentifiers (user, any_bible);
       change_notificatons_count = ids.size();
       body << "<p><a href=" << quoted (siteUrl + changes_changes_url ()) << ">" << translate("Number of change notifications") << "</a>: " << ids.size() << "</p>" << std::endl;
     }
@@ -69,7 +69,7 @@ void statistics_statistics ()
 
     size_t assigned_notes_count = 0;
     if (webserver_request.database_config_user()->getUserAssignedNotesStatisticsNotification (user)) {
-      vector <int> ids = database_notes.select_notes (
+      std::vector <int> ids = database_notes.select_notes (
                                                      bibles, // Bibles.
                                                      0,      // Book
                                                      0,      // Chapter
@@ -96,7 +96,7 @@ void statistics_statistics ()
       body << "<ul>" << std::endl;
       webserver_request.session_logic ()->set_username (user);
       
-      vector <int> ids = database_notes.select_notes (
+      std::vector <int> ids = database_notes.select_notes (
                                                      bibles, // Bible.
                                                      0,      // Book
                                                      0,      // Chapter

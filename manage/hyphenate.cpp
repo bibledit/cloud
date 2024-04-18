@@ -78,10 +78,10 @@ void manage_hyphenate (string bible, string user)
   
   
   // Go through the input Bible's books and chapters.
-  vector <int> books = database_bibles.get_books (inputBible);
+  std::vector <int> books = database_bibles.get_books (inputBible);
   for (auto book : books) {
     Database_Logs::log (database::books::get_english_from_id (static_cast<book_id>(book)));
-    vector <int> chapters = database_bibles.get_chapters (inputBible, book);
+    std::vector <int> chapters = database_bibles.get_chapters (inputBible, book);
     for (auto chapter : chapters) {
       string data = database_bibles.get_chapter (inputBible, book, chapter);
       data = hyphenate_at_transition (firstset, secondset, data);
@@ -104,7 +104,7 @@ void manage_hyphenate (string bible, string user)
  * $text: A string of text to operate on.
  * Returns: The hyphenated text.
  */
-string hyphenate_at_transition (vector <string>& firstset, vector <string>& secondset, string text)
+string hyphenate_at_transition (vector <string>& firstset, std::vector <string>& secondset, string text)
 {
   // Verify the input.
   if (firstset.empty ()) return text;

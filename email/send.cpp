@@ -52,7 +52,7 @@ void email_send ()
   Database_Mail database_mail (webserver_request);
   Database_Users database_users;
 
-  vector <int> mails = database_mail.getMailsToSend ();
+  std::vector <int> mails = database_mail.getMailsToSend ();
   for (auto id : mails) {
 
     // Get all details of the mail.
@@ -118,7 +118,7 @@ void email_send ()
       // If the login was denied, then postpone all emails queued for sending,
       // rather than trying to send them all, and have them all cause a 'login denied' error.
       if (login_denied) {
-        vector <int> ids = database_mail.getAllMails ();
+        std::vector <int> ids = database_mail.getAllMails ();
         for (auto id2 : ids) {
           database_mail.postpone (id2);
         }
@@ -134,7 +134,7 @@ void email_send ()
 }
 
 
-static vector <string> payload_text;
+static std::vector <string> payload_text;
 
 
 struct upload_status {
@@ -195,7 +195,7 @@ string email_send ([[maybe_unused]] string to_mail,
   Webserver_Request webserver_request;
   Sync_Logic sync_logic (webserver_request);
 
-  map <string, string> post;
+  std::map <string, string> post;
   post ["n"] = filter::strings::bin2hex (to_name);
   post ["s"] = subject;
   post ["b"] = body;

@@ -187,7 +187,7 @@ string editone2_update (Webserver_Request& webserver_request)
   // The three-way merge reconciles those differences.
   if (good2go && bible_write_access && text_was_edited) {
     if (loaded_verse_usfm != existing_verse_usfm) {
-      vector <Merge_Conflict> conflicts;
+      std::vector <Merge_Conflict> conflicts;
       // Do a merge while giving priority to the USFM already in the chapter.
       string merged_verse_usfm = filter_merge_run (loaded_verse_usfm, edited_verse_usfm, existing_verse_usfm, true, conflicts);
       // Mail the user if there is a merge anomaly.
@@ -279,8 +279,8 @@ string editone2_update (Webserver_Request& webserver_request)
       string verse_usfm = filter::usfm::get_verse_text_quill (new_chapter_usfm, verse);
       editone_logic_editable_html (verse_usfm, stylesheet, server_html);
     }
-    vector <int> positions;
-    vector <int> sizes;
+    std::vector <int> positions;
+    std::vector <int> sizes;
     std::vector <std::string> operators;
     std::vector <std::string> content;
     bible_logic::html_to_editor_updates (editor_html, server_html, positions, sizes, operators, content);

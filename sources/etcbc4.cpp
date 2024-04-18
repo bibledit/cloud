@@ -142,12 +142,12 @@ void sources_etcbc4_parse ()
   Database_Logs::log ("Parsing data from the ETCBC4 database");
   Database_Etcbc4 database_etcbc4;
   database_etcbc4.create ();
-  vector <int> books = database_etcbc4.books ();
+  std::vector <int> books = database_etcbc4.books ();
   for (auto book : books) {
-    vector <int> chapters = database_etcbc4.chapters (book);
+    std::vector <int> chapters = database_etcbc4.chapters (book);
     for (auto chapter : chapters) {
       Database_Logs::log ("Parsing book " + filter::strings::convert_to_string (book) + " chapter " + filter::strings::convert_to_string (chapter));
-      vector <int> verses = database_etcbc4.verses (book, chapter);
+      std::vector <int> verses = database_etcbc4.verses (book, chapter);
       for (auto verse : verses) {
         // The raw data for the verse.
         string data = database_etcbc4.raw (book, chapter, verse);

@@ -217,7 +217,7 @@ void Database_ImageResources::get (string name, string image,
   sql.add (image);
   sql.add ("ORDER by start;");
   sqlite3 * db = connect (name);
-  map <string, vector <string> > results = database_sqlite_query (db, sql.sql);
+  std::map <string, std::vector <string> > results = database_sqlite_query (db, sql.sql);
   database_sqlite_disconnect (db);
   std::vector <std::string> start = results["start"];
   std::vector <std::string> end   = results["end"];

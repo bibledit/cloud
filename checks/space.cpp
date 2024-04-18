@@ -41,7 +41,7 @@ void double_space_usfm (const std::string& bible, int book, int chapter, int ver
 }
 
 
-void space_before_punctuation (const std::string& bible, int book, int chapter, const map <int, string> & texts)
+void space_before_punctuation (const std::string& bible, int book, int chapter, const std::map <int, string> & texts)
 {
   Database_Check database_check {};
   for (const auto & element : texts) {
@@ -72,7 +72,7 @@ void space_before_punctuation (const std::string& bible, int book, int chapter, 
 void space_end_verse (const std::string& bible, int book, int chapter, const std::string& usfm)
 {
   Database_Check database_check {};
-  vector <int> verses = filter::usfm::get_verse_numbers (usfm);
+  std::vector <int> verses = filter::usfm::get_verse_numbers (usfm);
   for (auto verse : verses) {
     if (!verse) continue;
     string text = filter::usfm::get_verse_text (usfm, verse);
@@ -103,7 +103,7 @@ bool transpose_note_space (string & usfm)
   bool transposed {false};
   const size_t pos = usfm.find("  ");
   if (pos != std::string::npos) {
-    map <string, string> data = {
+    std::map <string, string> data = {
       pair (R"(\fk  )", R"( \fk )"),
       pair (R"(\ft  )", R"( \ft )"),
       pair (R"(\xt  )", R"( \xt )")

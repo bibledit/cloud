@@ -359,7 +359,7 @@ int filter_archive_is_archive (string file)
 
 
 // Create a tarball at $tarpath with input $files from $directory.
-string filter_archive_microtar_pack (string tarpath, string directory, vector <string> files)
+string filter_archive_microtar_pack (string tarpath, string directory, std::vector <string> files)
 {
   mtar_t tar;
   int res;

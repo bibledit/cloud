@@ -40,10 +40,10 @@ TEST (versification, basic )
     database_versifications.defaults ();
     Database_Check database_check;
     database_check.create ();
-    vector <int> books = database_versifications.getBooks (filter::strings::english ());
-    vector <int> fault = filter::strings::array_diff (books, {10});
+    std::vector <int> books = database_versifications.getBooks (filter::strings::english ());
+    std::vector <int> fault = filter::strings::array_diff (books, {10});
     checks_versification::books ("Bible", fault);
-    vector <Database_Check_Hit> results = database_check.getHits ();
+    std::vector <Database_Check_Hit> results = database_check.getHits ();
     EXPECT_EQ (1, static_cast<int>(results.size()));
     if (results.size ()) {
       Database_Check_Hit hit = results[0];
@@ -68,12 +68,12 @@ TEST (versification, basic )
     // Ruth.
     int book = 8;
     // One missing and one extra chapter.
-    vector <int> chapters = {0, 2, 3, 4, 5};
+    std::vector <int> chapters = {0, 2, 3, 4, 5};
     // Run check.
     checks_versification::chapters ("Bible", book, chapters);
 
     // Verify results.
-    vector <Database_Check_Hit> results = database_check.getHits ();
+    std::vector <Database_Check_Hit> results = database_check.getHits ();
     EXPECT_EQ (2, static_cast<int>(results.size()));
     if (results.size () == 2) {
       Database_Check_Hit hit = results[0];
@@ -106,13 +106,13 @@ TEST (versification, basic )
     int book = 8;
     int chapter = 1;
     // One missing and one extra verse.
-    vector <int> verses = {0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 24};
+    std::vector <int> verses = {0, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 24};
 
     // Run check.
     checks_versification::verses ("Bible", book, chapter, verses);
 
     // Verify results.
-    vector <Database_Check_Hit> results = database_check.getHits ();
+    std::vector <Database_Check_Hit> results = database_check.getHits ();
     EXPECT_EQ (4, static_cast<int>(results.size()));
     if (results.size () == 4) {
       Database_Check_Hit hit = results[0];
@@ -160,13 +160,13 @@ TEST (versification, basic )
     int chapter = 1;
 
     // Verses out of order.
-    vector <int> verses = {0, 2, 1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22};
+    std::vector <int> verses = {0, 2, 1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22};
     
     // Run check.
     checks_versification::verses ("Bible", book, chapter, verses);
     
     // Verify results.
-    vector <Database_Check_Hit> results = database_check.getHits ();
+    std::vector <Database_Check_Hit> results = database_check.getHits ();
     EXPECT_EQ (3, static_cast<int>(results.size()));
     if (results.size () == 3) {
       Database_Check_Hit hit = results[0];
@@ -243,7 +243,7 @@ TEST (database, mappings)
     refresh_sandbox (true);
     Database_Mappings database_mappings;
     database_mappings.create1 ();
-    vector <Passage> passages = database_mappings.translate ("ABC", "ABC", 14, 14, 15);
+    std::vector <Passage> passages = database_mappings.translate ("ABC", "ABC", 14, 14, 15);
     EXPECT_EQ (1, static_cast<int>(passages.size ()));
     Passage standard = Passage ("", 14, 14, "15");
     EXPECT_EQ (true, passages[0].equal (standard));
@@ -269,7 +269,7 @@ TEST (database, mappings)
     "Song of Solomon 7:2 = Song of Solomon 7:3\n";
     database_mappings.import ("XYZ", import);
     // Test mapping 2 Chronicles.
-    vector <Passage> passages = database_mappings.translate ("ABC", "XYZ", 14, 14, 15);
+    std::vector <Passage> passages = database_mappings.translate ("ABC", "XYZ", 14, 14, 15);
     Passage standard = Passage ("", 14, 14, "15");
     EXPECT_EQ (1, static_cast<int>(passages.size ()));
     EXPECT_EQ (true, passages[0].equal (standard));
@@ -291,7 +291,7 @@ TEST (database, mappings)
     "Song of Solomon 7:2 = Song of Solomon 7:3\n";
     database_mappings.import ("XYZ", import);
     // Test mapping 2 Chronicles.
-    vector <Passage> passages = database_mappings.translate ("ABC", "XYZ", 14, 14, 15);
+    std::vector <Passage> passages = database_mappings.translate ("ABC", "XYZ", 14, 14, 15);
     Passage standard = Passage ("", 14, 14, "13");
     EXPECT_EQ (1, static_cast<int>(passages.size ()));
     EXPECT_EQ (true, passages[0].equal (standard));
@@ -314,7 +314,7 @@ TEST (database, mappings)
     "Song of Solomon 7:2 = Song of Solomon 7:3\n";
     database_mappings.import ("XYZ", import);
     // Test mapping 2 Chronicles.
-    vector <Passage> passages = database_mappings.translate ("ABC", "XYZ", 14, 14, 15);
+    std::vector <Passage> passages = database_mappings.translate ("ABC", "XYZ", 14, 14, 15);
     EXPECT_EQ (2, static_cast<int>(passages.size ()));
     Passage standard = Passage ("", 14, 14, "12");
     EXPECT_EQ (true, passages[0].equal (standard));
@@ -329,7 +329,7 @@ TEST (database, mappings)
     database_mappings.create1 ();
     string import = "2 Chronicles 14:12 = 2 Chronicles 14:14";
     database_mappings.import ("VVV", import);
-    vector <Passage> passages = database_mappings.translate ("Hebrew Greek", "VVV", 14, 14, 14);
+    std::vector <Passage> passages = database_mappings.translate ("Hebrew Greek", "VVV", 14, 14, 14);
     Passage standard = Passage ("", 14, 14, "12");
     EXPECT_EQ (1, static_cast<int>(passages.size ()));
     EXPECT_EQ (true, passages[0].equal (standard));
@@ -344,7 +344,7 @@ TEST (database, mappings)
     "2 Chronicles 14:12 = 2 Chronicles 14:14\n"
     "2 Chronicles 14:13 = 2 Chronicles 14:14\n";
     database_mappings.import ("VVV", import);
-    vector <Passage> passages = database_mappings.translate ("Hebrew Greek", "VVV", 14, 14, 14);
+    std::vector <Passage> passages = database_mappings.translate ("Hebrew Greek", "VVV", 14, 14, 14);
     EXPECT_EQ (2, static_cast<int>(passages.size ()));
     Passage standard = Passage ("", 14, 14, "12");
     EXPECT_EQ (true, passages[0].equal (standard));
@@ -359,7 +359,7 @@ TEST (database, mappings)
     database_mappings.create1 ();
     string import = "2 Chronicles 14:12 = 2 Chronicles 14:14";
     database_mappings.import ("VVV", import);
-    vector <Passage> passages = database_mappings.translate ("Hebrew Greek", "VVV", 14, 15, 14);
+    std::vector <Passage> passages = database_mappings.translate ("Hebrew Greek", "VVV", 14, 15, 14);
     EXPECT_EQ (1, static_cast<int>(passages.size ()));
     Passage standard = Passage ("", 14, 15, "14");
     EXPECT_EQ (true, passages[0].equal (standard));
@@ -372,7 +372,7 @@ TEST (database, mappings)
     database_mappings.create1 ();
     string import = "2 Chronicles 14:12 = 2 Chronicles 14:14";
     database_mappings.import ("ABA", import);
-    vector <Passage> passages = database_mappings.translate ("ABA", "Hebrew Greek", 14, 14, 12);
+    std::vector <Passage> passages = database_mappings.translate ("ABA", "Hebrew Greek", 14, 14, 12);
     EXPECT_EQ (1, static_cast<int>(passages.size ()));
     Passage standard = Passage ("", 14, 14, "14");
     EXPECT_EQ (true, passages[0].equal (standard));
@@ -387,7 +387,7 @@ TEST (database, mappings)
     "2 Chronicles 14:12 = 2 Chronicles 14:13\n"
     "2 Chronicles 14:12 = 2 Chronicles 14:14\n";
     database_mappings.import ("ABA", import);
-    vector <Passage> passages = database_mappings.translate ("ABA", "Hebrew Greek", 14, 14, 12);
+    std::vector <Passage> passages = database_mappings.translate ("ABA", "Hebrew Greek", 14, 14, 12);
     EXPECT_EQ (2, static_cast<int>(passages.size ()));
     Passage standard = Passage ("", 14, 14, "13");
     EXPECT_EQ (true, passages[0].equal (standard));
@@ -427,13 +427,13 @@ TEST (database, versifications)
     EXPECT_EQ (4 , id);
     
     // Test books.
-    vector <int> books = database_versifications.getBooks (filter::strings::english ());
-    vector <int> standard;
+    std::vector <int> books = database_versifications.getBooks (filter::strings::english ());
+    std::vector <int> standard;
     for (int i = 1; i <= 66; i++) standard.push_back (i);
     EXPECT_EQ (standard, books);
     
     // Test chapters.
-    vector <int> chapters = database_versifications.getChapters (filter::strings::english (), 1);
+    std::vector <int> chapters = database_versifications.getChapters (filter::strings::english (), 1);
     standard.clear ();
     for (int i = 1; i <= 50; i++) standard.push_back (i);
     EXPECT_EQ (standard, chapters);
@@ -443,7 +443,7 @@ TEST (database, versifications)
     EXPECT_EQ (standard, chapters);
     
     // Test verses.
-    vector <int> verses = database_versifications.getVerses (filter::strings::english (), 1, 2);
+    std::vector <int> verses = database_versifications.getVerses (filter::strings::english (), 1, 2);
     standard.clear ();
     for (int i = 0; i <= 25; i++) standard.push_back (i);
     EXPECT_EQ (standard, verses);
@@ -453,7 +453,7 @@ TEST (database, versifications)
     EXPECT_EQ (vector <int>{0}, verses);
     
     // Books Chapters Verses.
-    vector <Passage> data = database_versifications.getBooksChaptersVerses (filter::strings::english ());
+    std::vector <Passage> data = database_versifications.getBooksChaptersVerses (filter::strings::english ());
     EXPECT_EQ (1189, static_cast<int>(data.size()));
     EXPECT_EQ ("31", data [0].m_verse);
     
@@ -485,7 +485,7 @@ TEST (database, versifications)
     database_versifications.input (input, "phpunit");
     int id = database_versifications.getID ("phpunit");
     EXPECT_EQ (1000, id);
-    vector <Passage> data = database_versifications.getBooksChaptersVerses ("phpunit");
+    std::vector <Passage> data = database_versifications.getBooksChaptersVerses ("phpunit");
     EXPECT_EQ (2, static_cast<int> (data.size ()));
     EXPECT_EQ ("25", data [1].m_verse);
     string output = database_versifications.output ("phpunit");

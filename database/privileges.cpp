@@ -97,7 +97,7 @@ string DatabasePrivileges::save (const std::string& username)
   sql.add ("SELECT bible, book, write FROM bibles WHERE username =");
   sql.add (username);
   sql.add (";");
-  map <string, vector <string> > result = sql.query ();
+  std::map <string, std::vector <string> > result = sql.query ();
   std::vector <std::string> bible = result ["bible"];
   std::vector <std::string> book =  result ["book"];
   std::vector <std::string> write = result ["write"];

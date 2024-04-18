@@ -223,7 +223,7 @@ void Database_Notes::trim_server ()
   // Notes expiry.
   touch_marked_for_deletion ();
   /// Storage for notes to be deleted.
-  vector <int> identifiers;
+  std::vector <int> identifiers;
   // Deal with new notes storage in JSON.
   identifiers = get_due_for_deletion ();
   for (auto & identifier : identifiers) {
@@ -246,7 +246,7 @@ void Database_Notes::sync ()
   string main_folder = main_folder_path ();
 
   // List of notes in the filesystem.
-  vector <int> identifiers;
+  std::vector <int> identifiers;
 
   std::vector <std::string> bits1 = filter_url_scandir (main_folder);
   for (auto & bit1 : bits1) {
@@ -281,7 +281,7 @@ void Database_Notes::sync ()
 
   // Get all identifiers in the main notes index.
   sqlite3 * db = connect ();
-  vector <int> database_identifiers;
+  std::vector <int> database_identifiers;
   std::vector <std::string> result = database_sqlite_query (db, "SELECT identifier FROM notes;") ["identifier"];
   for (auto & id : result) {
     database_identifiers.push_back (filter::strings::convert_to_int (id));
@@ -346,7 +346,7 @@ void Database_Notes::update_database_internal (int identifier, int modified, str
   sql.add ("SELECT modified, assigned, subscriptions, bible, passage, status, severity, summary, contents FROM notes WHERE identifier =");
   sql.add (identifier);
   sql.add (";");
-  map <string, vector <string> > result = database_sqlite_query (db, sql.sql);
+  std::map <string, std::vector <string> > result = database_sqlite_query (db, sql.sql);
   database_sqlite_disconnect (db);
   std::vector <std::string> vmodified = result ["modified"];
   std::vector <std::string> vassigned = result ["assigned"];
@@ -493,7 +493,7 @@ int Database_Notes::get_new_unique_identifier ()
 vector <int> Database_Notes::get_identifiers ()
 {
   sqlite3 * db = connect ();
-  vector <int> identifiers;
+  std::vector <int> identifiers;
   std::vector <std::string> result = database_sqlite_query (db, "SELECT identifier FROM notes;") ["identifier"];
   for (auto & id : result) {
     identifiers.push_back (filter::strings::convert_to_int (id));
@@ -623,7 +623,7 @@ int Database_Notes::store_new_note (const std::string& bible, int book, int chap
 vector <int> Database_Notes::select_notes (vector <string> bibles, int book, int chapter, int verse, int passage_selector, int edit_selector, int non_edit_selector, const std::string& status_selector, string bible_selector, string assignment_selector, bool subscription_selector, int severity_selector, int text_selector, const std::string& search_text, int limit)
 {
   string username = m_webserver_request.session_logic ()->currentUser ();
-  vector <int> identifiers;
+  std::vector <int> identifiers;
   // SQL SELECT statement.
   string query = notes_select_identifier ();
   // SQL optional fulltext search statement sorted on relevance.
@@ -957,7 +957,7 @@ void Database_Notes::set_raw_subscriptions (int identifier, const std::string& s
 }
 
 
-void Database_Notes::set_subscribers (int identifier, vector <string> subscribers)
+void Database_Notes::set_subscribers (int identifier, std::vector <string> subscribers)
 {
   // Add a space at both sides of the subscriber to allow for easier note selection based on note assignment.
   for (auto & subscriber : subscribers) {
@@ -1085,7 +1085,7 @@ vector <string> Database_Notes::get_assignees_internal (string assignees)
 // Sets the note's assignees.
 // identifier : note identifier.
 // assignees : array of user names.
-void Database_Notes::set_assignees (int identifier, vector <string> assignees)
+void Database_Notes::set_assignees (int identifier, std::vector <string> assignees)
 {
   // Add a space at both sides of the assignee to allow for easier note selection based on note assignment.
   for (auto & assignee : assignees) {
@@ -1161,7 +1161,7 @@ vector <string> Database_Notes::get_all_bibles ()
 {
   std::vector <std::string> bibles;
   sqlite3 * db = connect ();
-  vector <int> identifiers;
+  std::vector <int> identifiers;
   std::vector <std::string> result = database_sqlite_query (db, "SELECT DISTINCT bible FROM notes;") ["bible"];
   for (auto & bible : result) {
     if (bible.empty ()) continue;
@@ -1231,7 +1231,7 @@ vector <Passage> Database_Notes::get_passages (int identifier)
   string contents = get_raw_passage (identifier);
   if (contents.empty()) return {};
   std::vector <std::string> lines = filter::strings::explode (contents, '\n');
-  vector <Passage> passages;
+  std::vector <Passage> passages;
   for (auto & line : lines) {
     if (line.empty()) continue;
     Passage passage = decode_passage (line);
@@ -1354,7 +1354,7 @@ vector <Database_Notes_Text> Database_Notes::get_possible_statuses ()
     }
   }
   // Localize the results.
-  vector <Database_Notes_Text> localized_statuses;
+  std::vector <Database_Notes_Text> localized_statuses;
   for (auto & status : statuses) {
     string localization = translate (status.c_str());
     Database_Notes_Text localized_status;
@@ -1421,7 +1421,7 @@ void Database_Notes::set_raw_severity (int identifier, int severity)
 vector <Database_Notes_Text> Database_Notes::get_possible_severities ()
 {
   std::vector <std::string> standard = standard_severities ();
-  vector <Database_Notes_Text> severities;
+  std::vector <Database_Notes_Text> severities;
   for (size_t i = 0; i < standard.size(); i++) {
     Database_Notes_Text severity;
     severity.raw = filter::strings::convert_to_string (i);
@@ -1525,7 +1525,7 @@ string Database_Notes::get_search_field (int identifier)
 // bibles: Array of Bibles the notes should refer to.
 vector <int> Database_Notes::search_notes (string search, const std::vector <string> & bibles)
 {
-  vector <int> identifiers;
+  std::vector <int> identifiers;
 
   search = filter::strings::trim (search);
   if (search == "") return identifiers;
@@ -1594,7 +1594,7 @@ bool Database_Notes::is_marked_for_deletion (int identifier)
 
 void Database_Notes::touch_marked_for_deletion ()
 {
-  vector <int> identifiers = get_identifiers ();
+  std::vector <int> identifiers = get_identifiers ();
   for (auto & identifier : identifiers) {
     if (is_marked_for_deletion (identifier)) {
       string expiry = get_field (identifier, expiry_key ());
@@ -1608,8 +1608,8 @@ void Database_Notes::touch_marked_for_deletion ()
 
 vector <int> Database_Notes::get_due_for_deletion ()
 {
-  vector <int> deletes;
-  vector <int> identifiers = get_identifiers ();
+  std::vector <int> deletes;
+  std::vector <int> identifiers = get_identifiers ();
   for (auto & identifier : identifiers) {
     if (is_marked_for_deletion (identifier)) {
       string sdays = get_field (identifier, expiry_key ());
@@ -1731,9 +1731,9 @@ string Database_Notes::get_multiple_checksum (const std::vector <int> & identifi
 // within the note identifier range of lowId to highId
 // which refer to any Bible in the array of bibles
 // or refer to no Bible.
-vector <int> Database_Notes::get_notes_in_range_for_bibles (int lowId, int highId, vector <string> bibles, bool anybible)
+vector <int> Database_Notes::get_notes_in_range_for_bibles (int lowId, int highId, std::vector <string> bibles, bool anybible)
 {
-  vector <int> identifiers;
+  std::vector <int> identifiers;
   
   string query = "SELECT identifier FROM notes WHERE identifier >= ";
   query.append (filter::strings::convert_to_string (lowId));

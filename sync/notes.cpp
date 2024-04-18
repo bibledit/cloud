@@ -109,7 +109,7 @@ string sync_notes (Webserver_Request& webserver_request)
     case Sync_Logic::notes_get_total:
     {
       std::vector <std::string> bibles = access_bible::bibles (webserver_request, user);
-      vector <int> identifiers = database_notes.get_notes_in_range_for_bibles (lowId, highId, bibles, false);
+      std::vector <int> identifiers = database_notes.get_notes_in_range_for_bibles (lowId, highId, bibles, false);
       // Checksum cache to speed things up in case of thousands of notes.
       // Else the server would run at 100% CPU usage for some time to get the total checksums of notes.
       string checksum = Database_State::getNotesChecksum (lowId, highId);
@@ -123,7 +123,7 @@ string sync_notes (Webserver_Request& webserver_request)
     case Sync_Logic::notes_get_identifiers:
     {
       std::vector <std::string> bibles = access_bible::bibles (webserver_request, user);
-      vector <int> identifiers = database_notes.get_notes_in_range_for_bibles (lowId, highId, bibles, false);
+      std::vector <int> identifiers = database_notes.get_notes_in_range_for_bibles (lowId, highId, bibles, false);
       string response;
       for (auto id : identifiers) {
         if (!response.empty ()) response.append ("\n");
@@ -338,7 +338,7 @@ string sync_notes (Webserver_Request& webserver_request)
     {
       // Get the note identifiers the client requests.
       std::vector <std::string> notes = filter::strings::explode (webserver_request.post ["b"], '\n');
-      vector <int> identifiers;
+      std::vector <int> identifiers;
       for (auto note : notes) identifiers.push_back (filter::strings::convert_to_int (note));
       // Return the JSON that contains all the requested notes.
       string json = database_notes.get_bulk (identifiers);

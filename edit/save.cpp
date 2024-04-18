@@ -104,7 +104,7 @@ string edit_save (Webserver_Request& webserver_request)
   
   string ancestor_usfm = getLoadedUsfm2 (webserver_request, bible, book, chapter, unique_id);
   
-  vector <filter::usfm::BookChapterData> book_chapter_text = filter::usfm::usfm_import (user_usfm, stylesheet);
+  std::vector <filter::usfm::BookChapterData> book_chapter_text = filter::usfm::usfm_import (user_usfm, stylesheet);
   if (book_chapter_text.size () != 1) {
     Database_Logs::log (translate ("User tried to save something different from exactly one chapter."));
     return translate("Incorrect chapter");
@@ -130,7 +130,7 @@ string edit_save (Webserver_Request& webserver_request)
   string change = user_usfm;
   
   // Merge if the ancestor is there and differs from what's in the database.
-  vector <Merge_Conflict> conflicts;
+  std::vector <Merge_Conflict> conflicts;
   if (!ancestor_usfm.empty ()) {
     if (server_usfm != ancestor_usfm) {
       // Prioritize the user's USFM.

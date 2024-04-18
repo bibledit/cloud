@@ -88,7 +88,7 @@ string notes_comment (Webserver_Request& webserver_request)
   view.set_variable ("script", script);
 
 
-  vector <Passage> passages = database_notes.get_passages (id);
+  std::vector <Passage> passages = database_notes.get_passages (id);
   view.set_variable ("passage", filter_passage_display_inline (passages));
   
   

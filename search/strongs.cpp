@@ -69,7 +69,7 @@ string search_strongs (Webserver_Request& webserver_request)
     
     // Get Strong's numbers, plus English snippets.
     string searchtext {};
-    vector <Database_Kjv_Item> details = database_kjv.getVerse (book, chapter, verse);
+    std::vector <Database_Kjv_Item> details = database_kjv.getVerse (book, chapter, verse);
     for (unsigned int i = 0; i < details.size(); i++) {
       if (i) searchtext += " ";
       searchtext += details[i].strong;
@@ -96,7 +96,7 @@ string search_strongs (Webserver_Request& webserver_request)
     // Store how often a verse occurs in an array.
     // The keys are the passages of the search results.
     // The values are how often the passages occur in the search results.
-    map <int, int> passages {};
+    std::map <int, int> passages {};
     
     for (const auto& strong : words) {
       
@@ -119,8 +119,8 @@ string search_strongs (Webserver_Request& webserver_request)
     
     // Sort on occurrence from high to low.
     // Skip identifiers that only occur once.
-    vector <int> i_passages {};
-    vector <int> counts {};
+    std::vector <int> i_passages {};
+    std::vector <int> counts {};
     for (const auto& element : passages) {
       int i_passage = element.first;
       const int count = element.second;

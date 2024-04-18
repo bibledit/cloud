@@ -799,7 +799,7 @@ static void PPrintChar( TidyDocImpl* doc, uint c, uint mode )
         return;
     }
 
-    /* except in CDATA map < to &lt; etc. */
+    /* except in CDATA std::map < to &lt; etc. */
     if ( !(mode & CDATA) )
     {
         if ( c == '<')

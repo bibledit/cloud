@@ -131,7 +131,7 @@ void sendreceive_resources ()
 
   // Go through all Bible books.
   Database_Versifications database_versifications;
-  vector <int> books = database_versifications.getMaximumBooks ();
+  std::vector <int> books = database_versifications.getMaximumBooks ();
   for (auto & book : books) {
     sendreceive_resources_delay_during_prioritized_tasks ();
     if (sendreceive_resources_interrupt) continue;

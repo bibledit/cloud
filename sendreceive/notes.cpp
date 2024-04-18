@@ -127,7 +127,7 @@ bool sendreceive_notes_upload ()
   
   // The basic request to be POSTed to the server.
   // It contains the user's credentials.
-  map <string, string> post;
+  std::map <string, string> post;
   post ["u"] = filter::strings::bin2hex (user);
   post ["p"] = webserver_request.database_users ()->get_md5 (user);
   post ["l"] = filter::strings::convert_to_string (webserver_request.database_users ()->get_level (user));
@@ -152,7 +152,7 @@ bool sendreceive_notes_upload ()
   // While sending note actions, the database method to retrieve them
   // keeps the sequence of the actions as they occurred,
   // as later updates can undo or affect earlier updates.
-  vector <int> notes = database_noteactions.getNotes ();
+  std::vector <int> notes = database_noteactions.getNotes ();
   for (auto identifier : notes) {
     
 
@@ -162,11 +162,11 @@ bool sendreceive_notes_upload ()
     
     
     // Get all the actions for the current note.
-    vector <Database_Note_Action> note_actions = database_noteactions.getNoteData (identifier);
+    std::vector <Database_Note_Action> note_actions = database_noteactions.getNoteData (identifier);
     
     
     // Due to some updates sent out here, record final actions to get the updated note from the server.
-    map <int, bool> final_get_actions;
+    std::map <int, bool> final_get_actions;
     
     
     // Deal with the note actions for this note.
@@ -284,7 +284,7 @@ bool sendreceive_notes_upload ()
     
     // Deal with the extra, added, note actions.
     for (int action = Sync_Logic::notes_get_total; action <= Sync_Logic::notes_get_modified; action++) {
-      map <string, string> post2;
+      std::map <string, string> post2;
       post2 ["u"] = filter::strings::bin2hex (user);
       post2 ["i"] = filter::strings::convert_to_string (identifier);
       post2 ["a"] = filter::strings::convert_to_string (action);
@@ -365,7 +365,7 @@ bool sendreceive_notes_download (int lowId, int highId)
   
   
   // The basic request to be POSTed to the server.
-  map <string, string> post;
+  std::map <string, string> post;
   post ["u"] = filter::strings::bin2hex (user);
   post ["l"] = filter::strings::convert_to_string (lowId);
   post ["h"] = filter::strings::convert_to_string (highId);
@@ -392,7 +392,7 @@ bool sendreceive_notes_download (int lowId, int highId)
   if (vresponse.size () >= 1) server_total = filter::strings::convert_to_int (vresponse [0]);
   string server_checksum;
   if (vresponse.size () >= 2) server_checksum = vresponse [1];
-  vector <int> identifiers = database_notes.get_notes_in_range_for_bibles (lowId, highId, {}, true);
+  std::vector <int> identifiers = database_notes.get_notes_in_range_for_bibles (lowId, highId, {}, true);
   int client_total = static_cast<int>(identifiers.size());
   // Checksum cache to speed things up in case of thousands of notes.
   string client_checksum = Database_State::getNotesChecksum (lowId, highId);
@@ -416,7 +416,7 @@ bool sendreceive_notes_download (int lowId, int highId)
   // If the total note count is too high, divide the range of notes into smaller ranges,
   // and then deal with each range.
   if (server_total > 20) {
-     vector <Sync_Logic_Range> ranges = sync_logic.create_range (lowId, highId);
+     std::vector <Sync_Logic_Range> ranges = sync_logic.create_range (lowId, highId);
     for (auto range : ranges) {
       sendreceive_notes_download (range.low, range.high);
     }
@@ -440,7 +440,7 @@ bool sendreceive_notes_download (int lowId, int highId)
     Database_Logs::log (sendreceive_notes_text () + "Failure requesting identifiers: " + error, Filter_Roles::translator ());
     return false;
   }
-  vector <int> server_identifiers;
+  std::vector <int> server_identifiers;
   std::vector <std::string> server_checksums;
   vresponse = filter::strings::explode (response, '\n');
   for (size_t i = 0; i < vresponse.size (); i++) {
@@ -453,7 +453,7 @@ bool sendreceive_notes_download (int lowId, int highId)
   
 
   // Get note identifiers as locally on the client.
-  vector <int> client_identifiers = database_notes.get_notes_in_range_for_bibles (lowId, highId, {}, true);
+  std::vector <int> client_identifiers = database_notes.get_notes_in_range_for_bibles (lowId, highId, {}, true);
   
   
   // The client deletes notes no longer on the server.

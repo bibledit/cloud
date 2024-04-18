@@ -96,7 +96,7 @@ void Database_UsfmResources::storeChapter (const std::string& name, int book, in
 
 vector <int> Database_UsfmResources::getBooks (const std::string& name)
 {
-  vector <int> books;
+  std::vector <int> books;
   std::vector <std::string> files = filter_url_scandir (resourceFolder (name));
   for (auto & book : files) books.push_back (filter::strings::convert_to_int (book));
   sort (books.begin (), books.end());
@@ -106,7 +106,7 @@ vector <int> Database_UsfmResources::getBooks (const std::string& name)
 
 vector <int> Database_UsfmResources::getChapters (const std::string& name, int book)
 {
-  vector <int> chapters;
+  std::vector <int> chapters;
   std::vector <std::string> folders = filter_url_scandir (bookFolder (name, book));
   for (auto & chapter : folders) chapters.push_back (filter::strings::convert_to_int (chapter));
   sort (chapters.begin(), chapters.end());

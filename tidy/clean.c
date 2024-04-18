@@ -2022,7 +2022,7 @@ void TY_(CleanWord2000)( TidyDocImpl* doc, Node *node)
                 translate these into <li>
             */
             /* map sequence of <p class="MsoListBullet"> to <ul>...</ul> */
-            /* map <p class="MsoListNumber"> to <ol>...</ol> */
+            /* std::map <p class="MsoListNumber"> to <ol>...</ol> */
             if ( AttrValueIs(attr, "MsoListBullet") ||
                  AttrValueIs(attr, "MsoListNumber") ||
                  AttrContains(atrStyle, "mso-list:") )

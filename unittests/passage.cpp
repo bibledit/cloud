@@ -327,7 +327,7 @@ TEST (filter, passage)
     database_bibles.store_chapter (bible, 3, 1, "data");
     database_bibles.store_chapter (bible, 4, 1, "data");
     database_bibles.store_chapter (bible, 5, 1, "data");
-    vector <int> books = filter_passage_get_ordered_books (bible);
+    std::vector <int> books = filter_passage_get_ordered_books (bible);
     EXPECT_EQ ((vector <int>{1, 2, 3, 4, 5}), books);
     
     // Existing books re-ordered.

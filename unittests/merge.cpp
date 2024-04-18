@@ -33,14 +33,14 @@ TEST (filter, merge)
     string server_usfm = R"(\v 30 Yakub menamai tempat tersebut Peniel,\f \fr 32:30 \fk Peniel \ft Nama ini berarti karena dia sudah bertatapan muka dengan Allah secara langsung dan dia masih hidup.)";
     string user_usfm = R"(\v 30 Yakub menamai tempat tersebut Peniel,\f \fr 32:30 \fk Peniel \ft Nama ini berarti ‘muka Allah’ dalam bahasa Ibrani.\f* karena dia sudah bertatapan muka dengan Allah secara langsung dan dia masih hidup.)";
     string standard = R"(\v 30 Yakub menamai tempat tersebut Peniel,\f \fr 32:30 \fk Peniel \ft Nama ini berarti ‘muka Allah’ dalam bahasa Ibrani.\f* karena dia sudah bertatapan muka dengan Allah secara langsung dan dia masih hidup.)";
-    vector <Merge_Conflict> conflicts;
+    std::vector <Merge_Conflict> conflicts;
     string result = filter_merge_run (ancestor_usfm, server_usfm, user_usfm, true, conflicts);
     EXPECT_EQ (standard, result);
   }
 
   // Test line merge for simple modifications.
   {
-    vector <Merge_Conflict> conflicts;
+    std::vector <Merge_Conflict> conflicts;
     string mergeBaseData =
     "\\c 28\n"
     "\\s Ukuvuka lokuzibonakalisa kukaJesu\n"
@@ -64,7 +64,7 @@ TEST (filter, merge)
   
   // Test line merge for equal modifications
   {
-    vector <Merge_Conflict> conflicts;
+    std::vector <Merge_Conflict> conflicts;
     string mergeBaseData =
     "\\c 28\n"
     "\\s Ukuvuka lokuzibonakalisa kukaJesu\n"
@@ -88,7 +88,7 @@ TEST (filter, merge)
   
   // Test line merge for multiple modifications
   {
-    vector <Merge_Conflict> conflicts;
+    std::vector <Merge_Conflict> conflicts;
     string mergeBaseData =
     "\\c 28\n"
     "\\s Ukuvuka lokuzibonakalisa kukaJesu\n"
@@ -128,7 +128,7 @@ TEST (filter, merge)
   
   // Test word merge for simple modifications
   {
-    vector <Merge_Conflict> conflicts;
+    std::vector <Merge_Conflict> conflicts;
     string mergeBaseData =
     "\\c 28\n"
     "\\v 4 Abalindi basebethuthumela ngokuyesaba, baba njengabafileyo\\x + 27.65,66.\\x*.\n";
@@ -148,7 +148,7 @@ TEST (filter, merge)
   
   // Test word merge for conflicting modifications.
   {
-    vector <Merge_Conflict> conflicts;
+    std::vector <Merge_Conflict> conflicts;
     string mergeBaseData =
     "\\c 28\n"
     "\\v 4 Abalindi basebethuthumela ngokuyesaba, baba njengabafileyo\\x + 27.65,66.\\x*.\n";
@@ -168,7 +168,7 @@ TEST (filter, merge)
   
   // Test word merge for multiple modifications
   {
-    vector <Merge_Conflict> conflicts;
+    std::vector <Merge_Conflict> conflicts;
     string mergeBaseData =
     "\\c 28\n"
     "\\s Ukuvuka lokuzibonakalisa kukaJesu\n"
@@ -208,7 +208,7 @@ TEST (filter, merge)
   
   // Test grapheme merge for simple modifications
   {
-    vector <Merge_Conflict> conflicts;
+    std::vector <Merge_Conflict> conflicts;
     string mergeBaseData =
     "\\c 28\n"
     "\\v 4 Abalindi basebethuthumela ngokuyesaba, baba njengabafileyo\\x + 27.65,66.\\x*.\n";
@@ -228,7 +228,7 @@ TEST (filter, merge)
   
   // Test that in case of a conflict, it takes the server's version.
   {
-    vector <Merge_Conflict> conflicts;
+    std::vector <Merge_Conflict> conflicts;
     string mergeBaseData =
     "\\c 28\n"
     "\\v 4 Abalindi basebethuthumela ngokuyesaba, baba njengabafileyo\\x + 27.65,66.\\x*.\n";
@@ -248,7 +248,7 @@ TEST (filter, merge)
   
   // Realistic merge example.
   {
-    vector <Merge_Conflict> conflicts;
+    std::vector <Merge_Conflict> conflicts;
     string mergeBaseData =
     "\\c 1\n"
     "\\p\n"
@@ -288,7 +288,7 @@ TEST (filter, merge)
   
   // Merge situation taken from real life.
   {
-    vector <Merge_Conflict> conflicts;
+    std::vector <Merge_Conflict> conflicts;
     string path;
     path = filter_url_create_root_path ({"unittests", "tests", "merge_1_base.usfm"});
     string mergeBaseData = filter_url_file_get_contents (path);
@@ -311,7 +311,7 @@ TEST (filter, merge)
   
   // Testing the clever merge routine on chapter 0.
   {
-    vector <Merge_Conflict> conflicts;
+    std::vector <Merge_Conflict> conflicts;
     string mergeBaseData =
     "\\id GEN\n"
     "\\p Some text one.\n";
@@ -336,7 +336,7 @@ TEST (filter, merge)
   
   // Testing switching from separate verses into a combined verse.
   {
-    vector <Merge_Conflict> conflicts;
+    std::vector <Merge_Conflict> conflicts;
     string mergeBaseData =
     "\\c 1\n"
     "\\p\n"
@@ -379,7 +379,7 @@ TEST (filter, merge)
   
   // Testing switching from a combined verse to separate verses.
   {
-    vector <Merge_Conflict> conflicts;
+    std::vector <Merge_Conflict> conflicts;
     string mergeBaseData =
     "\\c 1\n"
     "\\p\n"
@@ -422,7 +422,7 @@ TEST (filter, merge)
   
   // Merge situation taken from real life.
   {
-    vector <Merge_Conflict> conflicts;
+    std::vector <Merge_Conflict> conflicts;
     string path;
     path = filter_url_create_root_path ({"unittests", "tests", "merge_2_base.usfm"});
     string mergeBaseData = filter_url_file_get_contents (path);
@@ -445,7 +445,7 @@ TEST (filter, merge)
 
   // Merge situation taken from real life in July 2020.
   {
-    vector <Merge_Conflict> conflicts;
+    std::vector <Merge_Conflict> conflicts;
     string path;
     path = filter_url_create_root_path ({"unittests", "tests", "merge_3_base.usfm"});
     string mergeBaseData = filter_url_file_get_contents (path);
@@ -468,7 +468,7 @@ TEST (filter, merge)
 
   // Merge situation taken from issue https://github.com/bibledit/cloud/issues/418
   {
-    vector <Merge_Conflict> conflicts;
+    std::vector <Merge_Conflict> conflicts;
     string path;
     path = filter_url_create_root_path ({"unittests", "tests", "merge_4_base.usfm"});
     string mergeBaseData = filter_url_file_get_contents (path);

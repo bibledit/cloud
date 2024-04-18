@@ -77,7 +77,7 @@ TEST (search, logic)
   {
     refresh_sandbox (true);
     test_search_setup ();
-    vector <Passage> passages = search_logic_search_text ("sixth", {"phpunit"});
+    std::vector <Passage> passages = search_logic_search_text ("sixth", {"phpunit"});
     EXPECT_EQ (1, static_cast <int> (passages.size()));
     if (!passages.empty ()) {
       EXPECT_EQ ("phpunit", passages[0].m_bible);
@@ -91,7 +91,7 @@ TEST (search, logic)
   {
     refresh_sandbox (true);
     test_search_setup ();
-    vector <Passage> passages = search_logic_search_text ("ALLAH", {"phpunit3"});
+    std::vector <Passage> passages = search_logic_search_text ("ALLAH", {"phpunit3"});
     EXPECT_EQ (4, static_cast <int> (passages.size()));
     if (passages.size () == 4) {
       EXPECT_EQ ("phpunit3", passages[0].m_bible);
@@ -108,7 +108,7 @@ TEST (search, logic)
   {
     refresh_sandbox (true);
     test_search_setup ();
-    vector <Passage> passages = search_logic_search_bible_text ("phpunit", "sixth");
+    std::vector <Passage> passages = search_logic_search_bible_text ("phpunit", "sixth");
     EXPECT_EQ (1, static_cast<int>(passages.size ()));
     passages = search_logic_search_bible_text ("phpunit2", "sixth");
     EXPECT_EQ (0, static_cast<int>(passages.size ()));
@@ -120,7 +120,7 @@ TEST (search, logic)
   {
     refresh_sandbox (true);
     test_search_setup ();
-    vector <Passage> passages = search_logic_search_bible_text_case_sensitive ("phpunit", "Verse");
+    std::vector <Passage> passages = search_logic_search_bible_text_case_sensitive ("phpunit", "Verse");
     EXPECT_EQ (3, static_cast<int>(passages.size ()));
     passages = search_logic_search_bible_text_case_sensitive ("phpunit", "sixth");
     EXPECT_EQ (1, static_cast<int>(passages.size ()));
@@ -132,7 +132,7 @@ TEST (search, logic)
   {
     refresh_sandbox (true);
     test_search_setup ();
-    vector <Passage> passages = search_logic_search_bible_usfm ("phpunit", "\\Add");
+    std::vector <Passage> passages = search_logic_search_bible_usfm ("phpunit", "\\Add");
     EXPECT_EQ (2, static_cast<int>(passages.size ()));
   }
   
@@ -140,7 +140,7 @@ TEST (search, logic)
   {
     refresh_sandbox (true);
     test_search_setup ();
-    vector <Passage> passages = search_logic_search_bible_usfm_case_sensitive ("phpunit", "\\Add");
+    std::vector <Passage> passages = search_logic_search_bible_usfm_case_sensitive ("phpunit", "\\Add");
     EXPECT_EQ (0, static_cast<int>(passages.size ()));
     passages = search_logic_search_bible_usfm_case_sensitive ("phpunit", "\\add");
     EXPECT_EQ (2, static_cast<int>(passages.size ()));
@@ -164,7 +164,7 @@ TEST (search, logic)
     
     test_search_setup ();
     
-    vector <Passage> passages = search_logic_search_bible_text ("phpunit", "e");
+    std::vector <Passage> passages = search_logic_search_bible_text ("phpunit", "e");
     EXPECT_EQ (10, static_cast <int> (passages.size()));
     search_logic_delete_bible ("phpunit");
     passages = search_logic_search_bible_text ("phpunit", "e");

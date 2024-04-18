@@ -93,7 +93,7 @@ TEST (database, usfmresources)
     database_usfmresources.storeChapter ("bibledit", 3, 4, "usfm");
     database_usfmresources.storeChapter ("bibledit", 1, 1, "usfm");
     database_usfmresources.storeChapter ("bibledit", 1, 2, "usfm");
-    vector <int> chapters = database_usfmresources.getChapters ("bibledit", 1);
+    std::vector <int> chapters = database_usfmresources.getChapters ("bibledit", 1);
     const std::vector <int> standard_chapters {1, 2};
     EXPECT_EQ (standard_chapters, chapters);
     chapters = database_usfmresources.getChapters ("bibledit", 2);
@@ -120,7 +120,7 @@ TEST (database, usfmresources)
     refresh_sandbox (true);
     Database_UsfmResources database_usfmresources = Database_UsfmResources ();
     database_usfmresources.storeChapter ("bibledit", 2, 3, "usfm");
-    vector <int> books = database_usfmresources.getBooks ("bibledit");
+    std::vector <int> books = database_usfmresources.getBooks ("bibledit");
     EXPECT_EQ (vector <int>{2}, books);
     database_usfmresources.deleteBook ("bibledit", 2);
     books = database_usfmresources.getBooks ("bibledit");
@@ -199,10 +199,10 @@ TEST (database, imageresources)
     }
     
     std::vector <std::string> images = database_imageresources.get ("unittest", 11, 11, 13);
-    EXPECT_EQ (images, vector <string>{"unittest11.jpg"});
+    EXPECT_EQ (images, std::vector <string>{"unittest11.jpg"});
     
     images = database_imageresources.get ("unittest", 11, 11, 100);
-    EXPECT_EQ (images, vector <string>{});
+    EXPECT_EQ (images, std::vector <string>{});
   }
   // Assign passage to image, and retrieve it.
   {

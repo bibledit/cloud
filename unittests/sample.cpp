@@ -39,7 +39,7 @@ TEST (database, sample)
   }
 
   // Check amount of stored sample.
-  vector <int> rowids = Database_Sample::get ();
+  std::vector <int> rowids = Database_Sample::get ();
   EXPECT_EQ ((vector <int>{ 1, 2, 3, 4, 5}), rowids);
   
   // Retrieve and check the samples.

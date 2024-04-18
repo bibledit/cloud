@@ -86,7 +86,7 @@ void export_html_book (string bible, int book, bool log)
   
   
   // Load one book.
-  vector <int> chapters = database_bibles.get_chapters (bible, book);
+  std::vector <int> chapters = database_bibles.get_chapters (bible, book);
   for (auto chapter : chapters) {
     // Get the USFM for this chapter.
     string usfm = database_bibles.get_chapter (bible, book, chapter);

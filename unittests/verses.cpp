@@ -33,14 +33,14 @@ TEST (verses, basic)
   database_check.create ();
   // Test Missing Punctuation At End
   {
-    map <int, string> verses = {
+    std::map <int, string> verses = {
       pair (2, "He said."),
       pair (3, "He didn't say"),
       pair (4, "He said."),
       pair (5, "He said: “Jesus.”")
     };
     checks_verses::missing_punctuation_at_end ("1", 1, 1, verses, ", ;", ". ! ? :", "”");
-    vector <Database_Check_Hit> results = database_check.getHits ();
+    std::vector <Database_Check_Hit> results = database_check.getHits ();
     EXPECT_EQ (1, static_cast<int>(results.size()));
     if (results.size ()) {
       Database_Check_Hit hit = results[0];
@@ -55,13 +55,13 @@ TEST (verses, basic)
   database_check.truncateOutput ("");
   // Test Pattern
   {
-    map <int, string> verses = {
+    std::map <int, string> verses = {
       pair (2, "He said."),
       pair (3, "He didn't say"),
       pair (4, "He said.")
     };
     checks_verses::patterns ("1", 1, 1, verses, {"did"});
-    vector <Database_Check_Hit> results = database_check.getHits ();
+    std::vector <Database_Check_Hit> results = database_check.getHits ();
     EXPECT_EQ (1, static_cast<int>(results.size()));
     if (results.size ()) {
       Database_Check_Hit hit = results[0];
@@ -76,25 +76,25 @@ TEST (verses, basic)
   database_check.truncateOutput ("");
   // Test Pattern
   {
-    map <int, string> verses = {
+    std::map <int, string> verses = {
       pair (2, "He said."),
       pair (3, "He didn't say"),
       pair (4, "He said.")
     };
     checks_verses::patterns ("1", 1, 1, verses, {"Did"});
-    vector <Database_Check_Hit> results = database_check.getHits ();
+    std::vector <Database_Check_Hit> results = database_check.getHits ();
     EXPECT_EQ (0, static_cast<int>(results.size()));
   }
   database_check.truncateOutput ("");
   // Test Pattern
   {
-    map <int, string> verses = {
+    std::map <int, string> verses = {
       pair (2, "He said."),
       pair (3, "He didn't say"),
       pair (4, "He said.")
     };
     checks_verses::patterns ("1", 1, 1, verses, {"said"});
-    vector <Database_Check_Hit> results = database_check.getHits ();
+    std::vector <Database_Check_Hit> results = database_check.getHits ();
     EXPECT_EQ (2, static_cast<int>(results.size()));
     if (results.size () == 2) {
       Database_Check_Hit hit = results[0];

@@ -52,7 +52,7 @@ void export_bibledropbox (string user, string bible)
 
   // Take the USFM from the Bible database.
   // Generate one USFM file per book.
-  vector <int> books = database_bibles.get_books (bible);
+  std::vector <int> books = database_bibles.get_books (bible);
   for (auto book : books) {
     
     
@@ -61,7 +61,7 @@ void export_bibledropbox (string user, string bible)
     
     
     // Collect the USFM for all chapters in this book.
-    vector <int> chapters = database_bibles.get_chapters (bible, book);
+    std::vector <int> chapters = database_bibles.get_chapters (bible, book);
     for (auto chapter : chapters) {
       // Get the USFM code for the current chapter.
       string usfm = database_bibles.get_chapter (bible, book, chapter);
@@ -133,7 +133,7 @@ void export_bibledropbox (string user, string bible)
   
   
   // Form values to POST.
-  map <string, string> post;
+  std::map <string, string> post;
   post ["nameLine"] = user + " through " PACKAGE_STRING;
   post ["emailLine"] = database_users.get_email (user);
   post ["projectLine"] = bible;

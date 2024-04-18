@@ -77,7 +77,7 @@ TEST (database, modifications_user)
   {
     refresh_sandbox (true);
     Database_Modifications database_modifications;
-    vector <int> books = database_modifications.getUserBooks ("phpunit1", "bible1");
+    std::vector <int> books = database_modifications.getUserBooks ("phpunit1", "bible1");
     EXPECT_EQ (vector <int>{}, books);
     database_modifications.recordUserSave ("phpunit1", "bible1", 1, 2, 3, "old", 4, "new");
     database_modifications.recordUserSave ("phpunit1", "bible1", 2, 2, 3, "old", 5, "new");
@@ -91,7 +91,7 @@ TEST (database, modifications_user)
   {
     refresh_sandbox (true);
     Database_Modifications database_modifications;
-    vector <int> chapters = database_modifications.getUserChapters ("phpunit1", "bible1", 1);
+    std::vector <int> chapters = database_modifications.getUserChapters ("phpunit1", "bible1", 1);
     EXPECT_EQ (vector <int>{}, chapters);
     database_modifications.recordUserSave ("phpunit1", "bible1", 1, 2, 3, "old", 4, "new");
     database_modifications.recordUserSave ("phpunit1", "bible1", 1, 3, 3, "old", 5, "new");
@@ -107,7 +107,7 @@ TEST (database, modifications_user)
     database_modifications.recordUserSave ("phpunit1", "bible", 1, 2, 3, "old", 4, "new");
     database_modifications.recordUserSave ("phpunit1", "bible", 1, 2, 4, "old", 5, "new");
     database_modifications.recordUserSave ("phpunit1", "bible", 1, 2, 5, "old", 6, "new");
-    vector <Database_Modifications_Id> identifiers = database_modifications.getUserIdentifiers ("phpunit1", "bible", 1, 2);
+    std::vector <Database_Modifications_Id> identifiers = database_modifications.getUserIdentifiers ("phpunit1", "bible", 1, 2);
     EXPECT_EQ (3, static_cast<int>(identifiers.size()));
     EXPECT_EQ (3, identifiers[0].oldid);
     EXPECT_EQ (4, identifiers[0].newid);
@@ -292,7 +292,7 @@ TEST (database, modifications_team)
     bible_logic::store_chapter ("phpunit", 3, 3, "chapter text");
     bible_logic::store_chapter ("phpunit", 3, 5, "chapter text");
     
-    vector <int> chapters = database_modifications.getTeamDiffChapters ("phpunit", 1);
+    std::vector <int> chapters = database_modifications.getTeamDiffChapters ("phpunit", 1);
     EXPECT_EQ (vector <int>{}, chapters);
     
     chapters = database_modifications.getTeamDiffChapters ("phpunit", 3);
@@ -344,7 +344,7 @@ TEST (database, modifications_team)
     bible_logic::store_chapter ("phpunit", 3, 3, "chapter text");
     bible_logic::store_chapter ("phpunit", 3, 5, "chapter text");
     
-    vector <int> chapters = database_modifications.getTeamDiffChapters ("phpunit", 3);
+    std::vector <int> chapters = database_modifications.getTeamDiffChapters ("phpunit", 3);
     EXPECT_EQ ((vector <int>{1, 3, 5}), chapters);
     
     database_modifications.deleteTeamDiffChapter ("phpunit", 3, 1);
@@ -367,7 +367,7 @@ TEST (database, modifications_team)
     bible_logic::store_chapter ("phpunit", 3, 3, "chapter text");
     bible_logic::store_chapter ("phpunit", 4, 5, "chapter text");
     
-    vector <int> books = database_modifications.getTeamDiffBooks ("phpunit");
+    std::vector <int> books = database_modifications.getTeamDiffBooks ("phpunit");
     EXPECT_EQ ((vector <int>{3, 4}), books);
     
     books = database_modifications.getTeamDiffBooks ("phpunit2");
@@ -410,7 +410,7 @@ TEST (database, modifications_notifications)
     refresh_sandbox (true);
     Database_Modifications database_modifications;
     database_modifications.create ();
-    vector <int> ids = database_modifications.getNotificationIdentifiers (any_user, any_bible);
+    std::vector <int> ids = database_modifications.getNotificationIdentifiers (any_user, any_bible);
     for (auto id : ids) {
       database_modifications.deleteNotification (id);
     }
@@ -425,7 +425,7 @@ TEST (database, modifications_notifications)
     // Record two entries.
     database_modifications.recordNotification ({"phpunit1", "phpunit2"}, "A", "1", 1, 2, 3, "old1", "mod1", "new1");
     database_modifications.indexTrimAllNotifications ();
-    vector <int> ids = database_modifications.getNotificationIdentifiers (any_user, any_bible);
+    std::vector <int> ids = database_modifications.getNotificationIdentifiers (any_user, any_bible);
     EXPECT_EQ ((vector <int>{1, 2}), ids);
     
     // After trimming the two entries should still be there.
@@ -463,7 +463,7 @@ TEST (database, modifications_notifications)
     database_modifications.create ();
     
     // Start with no identifiers.
-    vector <int> ids = database_modifications.getNotificationIdentifiers (any_user, any_bible);
+    std::vector <int> ids = database_modifications.getNotificationIdentifiers (any_user, any_bible);
     EXPECT_EQ (vector <int>{}, ids);
     
     // Record three notifications and reindex.
@@ -607,7 +607,7 @@ TEST (database, modifications_notifications)
     database_modifications.create ();
     database_modifications.recordNotification ({"phpunit1", "phpunit2", "phpunit3"}, "A", "1", 1, 2, 3, "old1", "mod1", "new1");
     database_modifications.indexTrimAllNotifications ();
-    vector <int> ids = database_modifications.getNotificationIdentifiers (any_user, any_bible);
+    std::vector <int> ids = database_modifications.getNotificationIdentifiers (any_user, any_bible);
     EXPECT_EQ (3, static_cast <int>(ids.size ()));
     
     database_modifications.clearNotificationsUser ("phpunit2");
@@ -627,7 +627,7 @@ TEST (database, modifications_notifications)
     database_modifications.recordNotification ({"phpunit"}, changes_personal_category (), "1", 2, 3, 4, "old1", "mod1", "new1");
     database_modifications.recordNotification ({"phpunit"}, "T", "1", 2, 3, 4, "old1", "mod1", "new1");
     database_modifications.indexTrimAllNotifications ();
-    vector <int> ids = database_modifications.getNotificationIdentifiers (any_user, any_bible);
+    std::vector <int> ids = database_modifications.getNotificationIdentifiers (any_user, any_bible);
     EXPECT_EQ (2, static_cast <int>(ids.size ()));
     database_modifications.clearNotificationMatches ("phpunit", changes_personal_category (), "T");
     database_modifications.indexTrimAllNotifications ();
@@ -644,7 +644,7 @@ TEST (database, modifications_notifications)
     database_modifications.recordNotification ({"phpunit2", "phpunit1"}, changes_bible_category (), "1", 1, 2, 3, "old2", "mod2", "new2");
     database_modifications.recordNotification ({"phpunit3", "phpunit4"}, changes_bible_category (), "1", 7, 8, 9, "old3", "mod3", "new3");
     database_modifications.indexTrimAllNotifications ();
-    vector <int> ids = database_modifications.getNotificationTeamIdentifiers ("phpunit1", "A");
+    std::vector <int> ids = database_modifications.getNotificationTeamIdentifiers ("phpunit1", "A");
     EXPECT_EQ (vector <int>{1}, ids);
     ids = database_modifications.getNotificationTeamIdentifiers ("phpunit1", changes_bible_category ());
     EXPECT_EQ (vector <int>{4}, ids);
@@ -661,7 +661,7 @@ TEST (database, modifications_notifications)
     database_modifications.create ();
     database_modifications.storeClientNotification (3, "phpunit", "A", "bible", 1, 2, 3, "old1", "mod1", "new1");
     database_modifications.storeClientNotification (5, "phpunit", "A", "bible", 1, 2, 3, "old1", "mod1", "new1");
-    vector <int> ids = database_modifications.getNotificationIdentifiers (any_user, any_bible);
+    std::vector <int> ids = database_modifications.getNotificationIdentifiers (any_user, any_bible);
     EXPECT_EQ ((vector <int>{3, 5}), ids);
   }
 }

@@ -67,7 +67,7 @@ void export_text_usfm_book (string bible, int book, bool log)
   filter_url_file_put_contents_append (usfmFilename, basicUsfm);
   
   
-  vector <int> chapters = database_bibles.get_chapters (bible, book);
+  std::vector <int> chapters = database_bibles.get_chapters (bible, book);
   for (auto chapter : chapters) {
     
     
@@ -96,7 +96,7 @@ void export_text_usfm_book (string bible, int book, bool log)
     
     // Deal with basic USFM.
     if (chapter > 0) {
-      map <int, string> verses_text = filter_text_chapter.getVersesText ();
+      std::map <int, string> verses_text = filter_text_chapter.getVersesText ();
       basicUsfm = "\\c " + filter::strings::convert_to_string (chapter) + "\n";
       basicUsfm += "\\p\n";
       for (auto element : verses_text) {

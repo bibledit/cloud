@@ -136,7 +136,7 @@ void editone_logic_move_notes_v2 (string & prefix, string & suffix)
   // - any possible subsequent note nodes.
   bool within_notes = false;
   pugi::xml_node prefix_separator_node;
-  vector <pugi::xml_node> prefix_note_nodes;
+  std::vector <pugi::xml_node> prefix_note_nodes;
   for (pugi::xml_node p_node : document.children ()) {
     if (within_notes) {
       prefix_note_nodes.push_back (p_node);

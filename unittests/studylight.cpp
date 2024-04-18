@@ -35,7 +35,7 @@ TEST (studylight, logic)
 
   resource = "Albert Barnes' Notes on the Whole Bible (studylight-eng/bnb)";
 
-  vector <book_id> book_ids = database::books::get_ids ();
+  std::vector <book_id> book_ids = database::books::get_ids ();
   for (auto book_id : book_ids) {
     continue;
     std::cout << static_cast <int>(book_id) << std::endl;

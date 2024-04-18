@@ -29,7 +29,7 @@ TEST (database, etcbc4)
 {
   Database_Etcbc4 database;
   
-  vector <int> rowids = database.rowids (1, 1, 1);
+  std::vector <int> rowids = database.rowids (1, 1, 1);
   EXPECT_EQ ((vector <int>{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11}), rowids);
   
   rowids = database.rowids (2, 3, 4);

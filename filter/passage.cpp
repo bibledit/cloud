@@ -213,7 +213,7 @@ book_id filter_passage_interpret_book_v2 (string book)
   string nospacebook = filter::strings::replace (" ", "", book);
 
   // Store all of the available IDs locally.
-  vector <book_id> bookids = database::books::get_ids ();
+  std::vector <book_id> bookids = database::books::get_ids ();
   
   // Check on names entered like "Genesis" or "1 Corinthians", the full English name.
   // A bug was discovered so that "Judges" was interpreted as "Jude",
@@ -349,7 +349,7 @@ Passage filter_passage_interpret_passage (Passage currentPassage, string rawPass
 
   // Go through the array from verse to chapter to book.
   // Check how many numerals it has after the book part.
-  vector <int> numerals;
+  std::vector <int> numerals;
   string book = "";
   std::vector <std::string> invertedInput (input.begin(), input.end ());
   reverse (invertedInput.begin (), invertedInput.end());
@@ -478,14 +478,14 @@ vector <int> filter_passage_get_ordered_books (const std::string& bible)
   Database_Bibles database_bibles;
 
   // The available books from the Bible.
-  vector <int> projectbooks = database_bibles.get_books (bible);
+  std::vector <int> projectbooks = database_bibles.get_books (bible);
 
   // The book order from the settings, if any.
   string s_orderedbooks = Database_Config_Bible::getBookOrder (bible);
   std::vector <std::string> vs_orderedbooks = filter::strings::explode (s_orderedbooks, ' ');
 
   // Keep books available in the Bible.
-  vector <int> orderedbooks;
+  std::vector <int> orderedbooks;
   for (string & book : vs_orderedbooks) {
     int bk = filter::strings::convert_to_int (book);
     if (find (projectbooks.begin(), projectbooks.end(), bk) != projectbooks.end()) {

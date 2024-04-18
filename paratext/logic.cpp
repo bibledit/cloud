@@ -83,7 +83,7 @@ vector <string> Paratext_Logic::searchProjects (string projects_folder)
   for (auto folder : folders) {
     string path = filter_url_create_path ({projects_folder, folder});
     if (filter_url_is_dir (path)) {
-      map <int, string> books = searchBooks (path);
+      std::map <int, string> books = searchBooks (path);
       if (!books.empty ()) projects.push_back (folder);
     }
   }
@@ -93,7 +93,7 @@ vector <string> Paratext_Logic::searchProjects (string projects_folder)
 
 map <int, string> Paratext_Logic::searchBooks (string project_path)
 {
-  map <int, string> books;
+  std::map <int, string> books;
   std::vector <std::string> files = filter_url_scandir (project_path);
   for (auto file : files) {
     if (file.find (".BAK") != std::string::npos) continue;
@@ -160,9 +160,9 @@ void Paratext_Logic::copyBibledit2Paratext (string bible)
   Database_Logs::log (translate ("Bibledit Bible:") + " " + bible);
   Database_Logs::log (translate ("Paratext project:") + " " + paratext_project_folder);
 
-  map <int, string> paratext_books = searchBooks (paratext_project_folder);
+  std::map <int, string> paratext_books = searchBooks (paratext_project_folder);
   
-  vector <int> bibledit_books = database_bibles.get_books (bible);
+  std::vector <int> bibledit_books = database_bibles.get_books (bible);
   for (int book : bibledit_books) {
 
     string bookname = database::books::get_english_from_id (static_cast<book_id>(book));
@@ -170,7 +170,7 @@ void Paratext_Logic::copyBibledit2Paratext (string bible)
     string paratext_book = paratext_books [book];
 
     string usfm;
-    vector <int> chapters = database_bibles.get_chapters (bible, book);
+    std::vector <int> chapters = database_bibles.get_chapters (bible, book);
     for (int chapter : chapters) {
       usfm.append (database_bibles.get_chapter (bible, book, chapter));
       // Add a new line after each chapter.
@@ -215,9 +215,9 @@ void Paratext_Logic::copyParatext2Bibledit (string bible)
   Database_Logs::log (translate ("Paratext project:") + " " + project_folder);
   Database_Logs::log (translate ("Bibledit Bible:") + " " + bible);
 
-  vector <int> bibledit_books = database_bibles.get_books (bible);
+  std::vector <int> bibledit_books = database_bibles.get_books (bible);
 
-  map <int, string> paratext_books = searchBooks (project_folder);
+  std::map <int, string> paratext_books = searchBooks (project_folder);
   for (auto element : paratext_books) {
 
     int book = element.first;
@@ -327,8 +327,8 @@ void Paratext_Logic::synchronize (tasks::enums::paratext_sync method)
     }
 
     
-    vector <int> bibledit_books = database_bibles.get_books (bible);
-    map <int, string> paratext_books = searchBooks (project_folder);
+    std::vector <int> bibledit_books = database_bibles.get_books (bible);
+    std::map <int, string> paratext_books = searchBooks (project_folder);
 
     
     for (auto book : bibledit_books) {
@@ -344,10 +344,10 @@ void Paratext_Logic::synchronize (tasks::enums::paratext_sync method)
       
 
       // Ancestor USFM per chapter.
-      map <int, string> ancestor_usfm;
+      std::map <int, string> ancestor_usfm;
       {
         string book_usfm = ancestor (bible, book);
-        vector <int> chapters = filter::usfm::get_chapter_numbers (book_usfm);
+        std::vector <int> chapters = filter::usfm::get_chapter_numbers (book_usfm);
         for (auto chapter : chapters) {
           string chapter_usfm = filter::usfm::get_chapter_text (book_usfm, chapter);
           ancestor_usfm [chapter] = chapter_usfm;
@@ -357,7 +357,7 @@ void Paratext_Logic::synchronize (tasks::enums::paratext_sync method)
 
       // Paratext USFM per chapter.
       // Remove the carriage return that Paratext stores on both Windows and Linux.
-      map <int, string> paratext_usfm;
+      std::map <int, string> paratext_usfm;
       {
         string path = filter_url_create_path ({projectFolder (bible), paratext_book});
         string book_usfm = filter::strings::crlf2lf (filter_url_file_get_contents (path));
@@ -365,7 +365,7 @@ void Paratext_Logic::synchronize (tasks::enums::paratext_sync method)
         // It does that after syncing with Bibledit and editing the chapter in Paratext.
         // This looks like a bug in Paratext. Remove those empty lines.
         book_usfm = filter::strings::replace ("\n\n", "\n", book_usfm);
-        vector <int> chapters = filter::usfm::get_chapter_numbers (book_usfm);
+        std::vector <int> chapters = filter::usfm::get_chapter_numbers (book_usfm);
         for (auto chapter : chapters) {
           string chapter_usfm = filter::usfm::get_chapter_text (book_usfm, chapter);
           paratext_usfm [chapter] = chapter_usfm;
@@ -376,7 +376,7 @@ void Paratext_Logic::synchronize (tasks::enums::paratext_sync method)
       // Assemble the available chapters in this book
       // by combining the available chapters in the Bible in Bibledit
       // with the available chapters in the relevant Paratext project.
-      vector <int> chapters = database_bibles.get_chapters (bible, book);
+      std::vector <int> chapters = database_bibles.get_chapters (bible, book);
       for (auto element : paratext_usfm) {
         chapters.push_back (element.first);
       }
@@ -395,7 +395,7 @@ void Paratext_Logic::synchronize (tasks::enums::paratext_sync method)
 
         // Results of the merge or copy operations.
         std::vector <std::string> messages;
-        vector <Merge_Conflict> conflicts;
+        std::vector <Merge_Conflict> conflicts;
         string updated_usfm;
         
         // Handle the synchronization method.
@@ -502,7 +502,7 @@ void Paratext_Logic::synchronize (tasks::enums::paratext_sync method)
 
 string Paratext_Logic::synchronize (string ancestor, string bibledit, string paratext,
                                     std::vector <std::string> & messages,
-                                    vector <Merge_Conflict> & conflicts)
+                                    std::vector <Merge_Conflict> & conflicts)
 {
   string resulting_usfm;
 

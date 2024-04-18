@@ -81,7 +81,7 @@ map <string, string> locale_logic_localizations ()
 {
   string directory = filter_url_create_root_path ({"locale"});
   std::vector <std::string> files = filter_url_scandir (directory);
-  map <string, string> localizations = {pair (std::string(), filter::strings::english ())};
+  std::map <string, string> localizations = {pair (std::string(), filter::strings::english ())};
   for (auto file : files) {
     string suffix = filter_url_get_extension (file);
     if (suffix == "po") {
@@ -279,7 +279,7 @@ void locale_logic_obfuscate_initialize ()
   std::vector <std::string> lines = filter::strings::explode (contents, '\n');
   
   // Container to map the original string to the obfuscated version.
-  map <string, string> original_to_obfuscated;
+  std::map <string, string> original_to_obfuscated;
   
   // Iterate over each line.
   for (auto & line : lines) {

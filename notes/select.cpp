@@ -158,7 +158,7 @@ string notes_select (Webserver_Request& webserver_request)
   
   string status_selector = webserver_request.database_config_user()->getConsultationNotesStatusSelector();
   if (status_selector.empty ()) view.set_variable ("anystatus", active_class);
-  vector <Database_Notes_Text> possible_statuses = database_notes.get_possible_statuses ();
+  std::vector <Database_Notes_Text> possible_statuses = database_notes.get_possible_statuses ();
   stringstream statusblock;
   for (Database_Notes_Text possible_status : possible_statuses) {
     statusblock << " | ";
@@ -219,7 +219,7 @@ string notes_select (Webserver_Request& webserver_request)
   int severity_selector = webserver_request.database_config_user()->getConsultationNotesSeveritySelector ();
   if (severity_selector < 0) view.set_variable ("anyseverity", active_class);
   stringstream severityblock;
-  vector <Database_Notes_Text> severities = database_notes.get_possible_severities();
+  std::vector <Database_Notes_Text> severities = database_notes.get_possible_severities();
   for (size_t i = 0; i < severities.size (); i++) {
     severityblock << " | ";
     severityblock << "<a ";

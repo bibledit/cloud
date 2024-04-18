@@ -221,7 +221,7 @@ vector <pair <string, string> > get_languages (const std::string& target)
   //     ]
   //   }
   // }
-  vector <pair <string, string> > language_codes_names;
+  std::vector <pair <string, string> > language_codes_names;
   if (error.empty()) {
     try {
       jsonxx::Object json_object;

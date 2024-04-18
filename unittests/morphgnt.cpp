@@ -29,7 +29,7 @@ TEST (database, morphgnt)
 {
   Database_MorphGnt database;
   
-  vector <int> results;
+  std::vector <int> results;
   
   results = database.rowids (0, 1, 2);
   EXPECT_EQ (0, results.size ());

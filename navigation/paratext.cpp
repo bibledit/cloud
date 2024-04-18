@@ -67,7 +67,7 @@ string navigation_paratext (Webserver_Request& webserver_request)
           // Get the active Bible and its versification system.
           string bible = webserver_request.database_config_user ()->getBible ();
           string versification = Database_Config_Bible::getVersificationSystem (bible);
-          vector <Passage> passages;
+          std::vector <Passage> passages;
           Database_Mappings database_mappings;
           if ((versification != filter::strings::english()) && !versification.empty ()) {
             passages = database_mappings.translate (filter::strings::english (), versification, book, chapter, verse);

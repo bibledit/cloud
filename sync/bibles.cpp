@@ -111,7 +111,7 @@ string sync_bibles_receive_chapter (Webserver_Request& webserver_request, string
     bible_logic::store_chapter (bible, book, chapter, newusfm);
   } else if (newusfm != serverusfm) {
     // Do a merge in case the client sends USFM that differs from what's on the server.
-    vector <Merge_Conflict> conflicts;
+    std::vector <Merge_Conflict> conflicts;
     string mergedusfm = filter_merge_run (oldusfm, newusfm, serverusfm, true, conflicts);
     // Update the server with the new chapter data.
     bible_logic::store_chapter (bible, book, chapter, mergedusfm);
@@ -198,7 +198,7 @@ string sync_bibles (Webserver_Request& webserver_request)
     case Sync_Logic::bibles_get_books:
     {
       // The server responds with a checksum and then the list of books in the Bible.
-      vector <int> server_books = webserver_request.database_bibles()->get_books (bible);
+      std::vector <int> server_books = webserver_request.database_bibles()->get_books (bible);
       std::vector <std::string> v_server_books;
       for (auto server_book : server_books) v_server_books.push_back (filter::strings::convert_to_string (server_book));
       string s_server_books = filter::strings::implode (v_server_books, "\n");
@@ -213,7 +213,7 @@ string sync_bibles (Webserver_Request& webserver_request)
     case Sync_Logic::bibles_get_chapters:
     {
       // The server responds with the list of books in the Bible book.
-      vector <int> server_chapters = webserver_request.database_bibles()->get_chapters (bible, book);
+      std::vector <int> server_chapters = webserver_request.database_bibles()->get_chapters (bible, book);
       std::vector <std::string> v_server_chapters;
       for (auto & server_chapter : server_chapters) v_server_chapters.push_back (filter::strings::convert_to_string (server_chapter));
       string s_server_chapters = filter::strings::implode (v_server_chapters, "\n");

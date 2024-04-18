@@ -143,7 +143,7 @@ void demo_clean_data ()
 
 
   // Ensure the default users are there.
-  map <string, int> users = {
+  std::map <string, int> users = {
     pair ("guest", Filter_Roles::guest ()),
     pair ("member", Filter_Roles::member ()),
     pair ("consultant", Filter_Roles::consultant ()),
@@ -228,7 +228,7 @@ void demo_create_sample_bible ()
   search_logic_delete_bible (demo_sample_bible_name ());
 
   // Copy the sample Bible data and search index into place.
-  vector <int> rowids = Database_Sample::get ();
+  std::vector <int> rowids = Database_Sample::get ();
   for (auto rowid : rowids) {
     string file {};
     string data {};
@@ -283,7 +283,7 @@ void demo_prepare_sample_bible ()
       string usfm = filter_url_file_get_contents (file);
       usfm = filter::strings::collapse_whitespace (usfm);
       // Import the USFM into the sample Bible.
-      vector <filter::usfm::BookChapterData> book_chapter_data = filter::usfm::usfm_import (usfm, styles_logic_standard_sheet ());
+      std::vector <filter::usfm::BookChapterData> book_chapter_data = filter::usfm::usfm_import (usfm, styles_logic_standard_sheet ());
       for (const auto & data : book_chapter_data) {
         int book = data.m_book;
         if (book) {
@@ -335,7 +335,7 @@ void demo_prepare_sample_bible ()
 void demo_create_sample_notes (Webserver_Request& webserver_request)
 {
   Database_Notes database_notes (webserver_request);
-  vector <int> identifiers = database_notes.get_identifiers ();
+  std::vector <int> identifiers = database_notes.get_identifiers ();
   if (identifiers.size () < 10) {
     for (int i = 1; i <= 10; i++) {
       database_notes.store_new_note (demo_sample_bible_name (), i, i, i, "Sample Note " + filter::strings::convert_to_string (i), "Sample Contents for note " + filter::strings::convert_to_string (i), false);
@@ -352,8 +352,8 @@ string demo_workspace ()
 
 void demo_create_sample_workspaces (Webserver_Request& webserver_request)
 {
-  map <int, string> urls {};
-  map <int, string> widths {};
+  std::map <int, string> urls {};
+  std::map <int, string> widths {};
   for (int i = 0; i < 15; i++) {
     string url {};
     string width {};
@@ -368,7 +368,7 @@ void demo_create_sample_workspaces (Webserver_Request& webserver_request)
     urls [i] = url;
     widths [i] = width;
   }
-  map <int, string> row_heights = {
+  std::map <int, string> row_heights = {
     pair (0, "90%"),
     pair (1, ""),
     pair (2, "")

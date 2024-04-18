@@ -312,7 +312,7 @@ vector <int> Database_Etcbc4::books ()
   sqlite3 * db = connect ();
   std::vector <std::string> result = database_sqlite_query (db, sql.sql) ["book"];
   database_sqlite_disconnect (db);
-  vector <int> books;
+  std::vector <int> books;
   for (auto b : result) books.push_back (filter::strings::convert_to_int (b));
   return books;
 }
@@ -327,7 +327,7 @@ vector <int> Database_Etcbc4::chapters (int book)
   sqlite3 * db = connect ();
   std::vector <std::string> result = database_sqlite_query (db, sql.sql) ["chapter"];
   database_sqlite_disconnect (db);
-  vector <int> chapters;
+  std::vector <int> chapters;
   for (auto c : result) chapters.push_back (filter::strings::convert_to_int (c));
   return chapters;
 }
@@ -344,7 +344,7 @@ vector <int> Database_Etcbc4::verses (int book, int chapter)
   sqlite3 * db = connect ();
   std::vector <std::string> result = database_sqlite_query (db, sql.sql) ["verse"];
   database_sqlite_disconnect (db);
-  vector <int> verses;
+  std::vector <int> verses;
   for (auto v : result) verses.push_back (filter::strings::convert_to_int (v));
   return verses;
 }
@@ -363,7 +363,7 @@ vector <int> Database_Etcbc4::rowids (int book, int chapter, int verse)
   sqlite3 * db = connect ();
   std::vector <std::string> result = database_sqlite_query (db, sql.sql) ["rowid"];
   database_sqlite_disconnect (db);
-  vector <int> rowids;
+  std::vector <int> rowids;
   for (auto rowid : result) rowids.push_back (filter::strings::convert_to_int (rowid));
   return rowids;
 }

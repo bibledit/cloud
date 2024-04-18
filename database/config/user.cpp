@@ -188,14 +188,14 @@ vector <string> Database_Config_User::getListForUser (string user, const char * 
 }
 
 
-void Database_Config_User::setList (const char * key, vector <string> values)
+void Database_Config_User::setList (const char * key, std::vector <string> values)
 {
   string user = m_webserver_request.session_logic ()->currentUser ();
   setListForUser (user, key, values);
 }
 
 
-void Database_Config_User::setListForUser (string user, const char * key, vector <string> values)
+void Database_Config_User::setListForUser (string user, const char * key, std::vector <string> values)
 {
   // Store it on disk.
   string filename = file (user, key);
@@ -212,7 +212,7 @@ void Database_Config_User::setListForUser (string user, const char * key, vector
 vector <int> Database_Config_User::getIList (const char * key)
 {
   std::vector <std::string> lines = getList (key);
-  vector <int> result;
+  std::vector <int> result;
   for (auto & line : lines) {
     result.push_back (filter::strings::convert_to_int (line));
   }
@@ -220,7 +220,7 @@ vector <int> Database_Config_User::getIList (const char * key)
 }
 
 
-void Database_Config_User::setIList (const char * key, vector <int> values)
+void Database_Config_User::setIList (const char * key, std::vector <int> values)
 {
   std::vector <std::string> lines;
   for (auto & value : values) {
@@ -901,15 +901,15 @@ void Database_Config_User::setUpdatedSettings (vector <int> values)
 }
 void Database_Config_User::addUpdatedSetting (int value)
 {
-  vector <int> settings = getUpdatedSettings ();
+  std::vector <int> settings = getUpdatedSettings ();
   settings.push_back (value);
   settings = filter::strings::array_unique (settings);
   setUpdatedSettings (settings);
 }
 void Database_Config_User::removeUpdatedSetting (int value)
 {
-  vector <int> settings = getUpdatedSettings ();
-  vector <int> against;
+  std::vector <int> settings = getUpdatedSettings ();
+  std::vector <int> against;
   against.push_back (value);
   settings = filter::strings::array_diff (settings, against);
   setUpdatedSettings (settings);
@@ -926,15 +926,15 @@ void Database_Config_User::setRemovedChanges (vector <int> values)
 }
 void Database_Config_User::addRemovedChange (int value)
 {
-  vector <int> settings = getRemovedChanges ();
+  std::vector <int> settings = getRemovedChanges ();
   settings.push_back (value);
   settings = filter::strings::array_unique (settings);
   setRemovedChanges (settings);
 }
 void Database_Config_User::removeRemovedChange (int value)
 {
-  vector <int> settings = getRemovedChanges ();
-  vector <int> against;
+  std::vector <int> settings = getRemovedChanges ();
+  std::vector <int> against;
   against.push_back (value);
   settings = filter::strings::array_diff (settings, against);
   setRemovedChanges (settings);

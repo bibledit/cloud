@@ -70,7 +70,7 @@ vector <string> filter_merge_merge (const std::vector <string>& base, const std:
   std::vector <std::string> base_sequence (base);
   std::vector <std::string> server_sequence (server);
 
-  Diff3 <string, vector <string>> diff3 (user_sequence, base_sequence, server_sequence);
+  Diff3 <string, std::vector <string>> diff3 (user_sequence, base_sequence, server_sequence);
   diff3.compose ();
   bool merged = diff3.merge ();
   filter_merge_mutex.unlock();
@@ -123,7 +123,7 @@ void filter_merge_detect_conflict (string base,
                                    string change,
                                    string prioritized_change,
                                    string result,
-                                   vector <Merge_Conflict> & conflicts)
+                                   std::vector <Merge_Conflict> & conflicts)
 {
   // Clean input.
   base = filter::strings::trim (base);
@@ -193,7 +193,7 @@ void filter_merge_detect_conflict (string base,
 // If $clever, it calls a more clever routine when it fails to merge.
 string filter_merge_run (string base, string change, string prioritized_change,
                          bool clever,
-                         vector <Merge_Conflict> & conflicts)
+                         std::vector <Merge_Conflict> & conflicts)
 {
   // Trim the input.
   base = filter::strings::trim (base);
@@ -264,10 +264,10 @@ string filter_merge_run (string base, string change, string prioritized_change,
 // $prioritized_change: Data as modified by a user but prioritized.
 // The filter uses a three-way merge algorithm.
 string filter_merge_run_clever (string base, string change, string prioritized_change,
-                                vector <Merge_Conflict> & conflicts)
+                                std::vector <Merge_Conflict> & conflicts)
 {
   // Get the verse numbers in the changed text.
-  vector <int> verses = filter::usfm::get_verse_numbers (change);
+  std::vector <int> verses = filter::usfm::get_verse_numbers (change);
   
   std::vector <std::string> results;
   

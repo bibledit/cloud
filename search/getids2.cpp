@@ -54,7 +54,7 @@ string search_getids2 (Webserver_Request& webserver_request)
   
   
   // Do the search.
-  vector <Passage> passages;
+  std::vector <Passage> passages;
   if (casesensitive) {
     if (searchplain) {
       passages = search_logic_search_bible_text_case_sensitive (bible, searchfor);

@@ -66,7 +66,7 @@ string notes_verses (Webserver_Request& webserver_request)
 
   if (webserver_request.post.count ("submit")) {
     std::vector <std::string> verses = filter::strings::explode (webserver_request.post["verses"], '\n');
-    vector <Passage> passages;
+    std::vector <Passage> passages;
     Passage previousPassage = Passage ("", 1, 1, "1");
     for (auto & line : verses) {
       line = filter::strings::trim (line);

@@ -123,7 +123,7 @@ vector <Sync_Logic_Range> Sync_Logic::create_range (int start, int end)
 {
   int range = end - start;
   range = static_cast<int>(round (range / 10));
-  vector <Sync_Logic_Range> ranges;
+  std::vector <Sync_Logic_Range> ranges;
   for (int i = 0; i <= 9; i++) {
     int first = start + (i * range);
     int last = start + ((i + 1) * range) - 1;
@@ -194,7 +194,7 @@ string Sync_Logic::usfm_resource_checksum (const std::string& name)
 {
   std::vector <std::string> vchecksum;
   Database_UsfmResources database_usfmresources = Database_UsfmResources ();
-  vector <int> books = database_usfmresources.getBooks (name);
+  std::vector <int> books = database_usfmresources.getBooks (name);
   for (auto & book : books) {
     vchecksum.push_back (filter::strings::convert_to_string (book));
     vchecksum.push_back (usfm_resource_book_checksum (name, book));
@@ -210,7 +210,7 @@ string Sync_Logic::usfm_resource_book_checksum (const std::string& name, int boo
 {
   std::vector <std::string> vchecksum;
   Database_UsfmResources database_usfmresources = Database_UsfmResources ();
-  vector <int> chapters = database_usfmresources.getChapters (name, book);
+  std::vector <int> chapters = database_usfmresources.getChapters (name, book);
   for (auto & chapter : chapters) {
     vchecksum.push_back (filter::strings::convert_to_string (chapter));
     vchecksum.push_back (usfm_resource_chapter_checksum (name, book, chapter));
@@ -235,7 +235,7 @@ string Sync_Logic::changes_checksum (const std::string& username)
 {
   Database_Modifications database_modifications;
   string any_bible = "";
-  vector <int> ids = database_modifications.getNotificationIdentifiers (username, any_bible);
+  std::vector <int> ids = database_modifications.getNotificationIdentifiers (username, any_bible);
   string checksum;
   for (auto & id : ids) {
     checksum.append (filter::strings::convert_to_string (id));

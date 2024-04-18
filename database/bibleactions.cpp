@@ -94,7 +94,7 @@ vector <int> Database_BibleActions::getBooks (string bible)
   sql.add (bible);
   sql.add ("ORDER BY book;");
   std::vector <std::string> result = sql.query ()["book"];
-  vector <int> books;
+  std::vector <int> books;
   for (auto book : result) books.push_back (filter::strings::convert_to_int (book));
   return books;
 }
@@ -109,7 +109,7 @@ vector <int> Database_BibleActions::getChapters (string bible, int book)
   sql.add (book);
   sql.add ("ORDER BY chapter;");
   std::vector <std::string> result = sql.query ()["chapter"];
-  vector <int> chapters;
+  std::vector <int> chapters;
   for (auto chapter : result) chapters.push_back (filter::strings::convert_to_int (chapter));
   return chapters;
 }

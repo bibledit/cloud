@@ -42,7 +42,7 @@ void export_logic::schedule_all ()
 void export_logic::schedule_text_and_basic_usfm (const std::string& bible, bool log)
 {
   Database_Bibles database_bibles;
-  vector <int> books = database_bibles.get_books (bible);
+  std::vector <int> books = database_bibles.get_books (bible);
   for (auto book : books) {
     tasks_logic_queue (EXPORTTEXTUSFM, {bible, filter::strings::convert_to_string (book), filter::strings::convert_to_string (log)});
   }
@@ -62,7 +62,7 @@ void export_logic::schedule_open_document (const std::string& bible, bool log)
 {
   // Get the available books in the Bible.
   Database_Bibles database_bibles;
-  vector <int> books = database_bibles.get_books (bible);
+  std::vector <int> books = database_bibles.get_books (bible);
   // Export the books, one OpenDocument file per book.
   for (auto book : books) {
     tasks_logic_queue (EXPORTODT, {bible, filter::strings::convert_to_string (book), filter::strings::convert_to_string (log)});
@@ -85,7 +85,7 @@ void export_logic::schedule_info (const std::string& bible, bool log)
 void export_logic::schedule_html (const std::string& bible, bool log)
 {
   Database_Bibles database_bibles;
-  vector <int> books = database_bibles.get_books (bible);
+  std::vector <int> books = database_bibles.get_books (bible);
   for (auto book : books) {
     tasks_logic_queue (EXPORTHTML, {bible, filter::strings::convert_to_string (book), filter::strings::convert_to_string (log)});
   }
@@ -97,7 +97,7 @@ void export_logic::schedule_html (const std::string& bible, bool log)
 void export_logic::schedule_web (const std::string& bible, bool log)
 {
   Database_Bibles database_bibles;
-  vector <int> books = database_bibles.get_books (bible);
+  std::vector <int> books = database_bibles.get_books (bible);
   for (auto book : books) {
     tasks_logic_queue (EXPORTWEBMAIN, {bible, filter::strings::convert_to_string (book), filter::strings::convert_to_string (log)});
   }
@@ -177,7 +177,7 @@ string export_logic::base_book_filename (const std::string& bible, int book)
     // The file name has a number that indicates the defined order of the book.
     // See https://github.com/bibledit/cloud/issues/810
     // Localize the English book name: https://github.com/bibledit/cloud/issues/241
-    vector <int> ordered_books = filter_passage_get_ordered_books (bible);
+    std::vector <int> ordered_books = filter_passage_get_ordered_books (bible);
     vector<int>::iterator iterator;
     iterator = find(ordered_books.begin(), ordered_books.end(), book);
     if (iterator != ordered_books.end()) {

@@ -55,7 +55,7 @@ vector <string> workspace_get_default_names ()
 
 map <int, string> workspace_get_default_urls (int id)
 {
-  map <int, string> urls {};
+  std::map <int, string> urls {};
   switch (id) {
     case 1:
       urls [0] = editone2_index_url ();
@@ -92,7 +92,7 @@ map <int, string> workspace_get_default_urls (int id)
 
 map <int, string> workspace_get_default_widths (int id)
 {
-  map <int, string> widths;
+  std::map <int, string> widths;
   switch (id) {
     case 1:
       widths [0] = "1";
@@ -129,7 +129,7 @@ map <int, string> workspace_get_default_widths (int id)
 
 map <int, string> workspace_get_default_heights (int id)
 {
-  map <int, string> heights;
+  std::map <int, string> heights;
   switch (id) {
     case 1:
       heights [0] = "1";
@@ -200,7 +200,7 @@ string workspace_process_units (string length)
 #define ENTIREWIDTH 4
 
 
-void workspace_set_values (Webserver_Request& webserver_request, int selector, const map <int, string> & values)
+void workspace_set_values (Webserver_Request& webserver_request, int selector, const std::map <int, string> & values)
 {
   // Store values locally, and for a client, store them also for sending to the server.
   string workspace = workspace_get_active_name (webserver_request);
@@ -240,7 +240,7 @@ void workspace_set_values (Webserver_Request& webserver_request, int selector, c
 }
 
 
-void workspace_set_urls (Webserver_Request& webserver_request, const map <int, string> & values)
+void workspace_set_urls (Webserver_Request& webserver_request, const std::map <int, string> & values)
 {
   // Get current order of the workspaces.
   std::vector <std::string> order = workspace_get_names (webserver_request);
@@ -251,13 +251,13 @@ void workspace_set_urls (Webserver_Request& webserver_request, const map <int, s
 }
 
 
-void workspace_set_widths (Webserver_Request& webserver_request, const map <int, string> & values)
+void workspace_set_widths (Webserver_Request& webserver_request, const std::map <int, string> & values)
 {
   workspace_set_values (webserver_request, WIDTHS, values);
 }
 
 
-void workspace_set_heights (Webserver_Request& webserver_request, const map <int, string> & values)
+void workspace_set_heights (Webserver_Request& webserver_request, const std::map <int, string> & values)
 {
   workspace_set_values (webserver_request, HEIGHTS, values);
 }
@@ -265,14 +265,14 @@ void workspace_set_heights (Webserver_Request& webserver_request, const map <int
 
 void workspace_set_entire_width (Webserver_Request& webserver_request, string value)
 {
-  map <int, string> values = {pair (0, value)};
+  std::map <int, string> values = {pair (0, value)};
   workspace_set_values (webserver_request, ENTIREWIDTH, values);
 }
 
 
 map <int, string> workspace_get_values (Webserver_Request& webserver_request, int selector, bool use)
 {
-  map <int, string> values;
+  std::map <int, string> values;
   
   string workspace = workspace_get_active_name (webserver_request);
   
@@ -355,7 +355,7 @@ map <int, string> workspace_get_heights (Webserver_Request& webserver_request)
 
 string workspace_get_entire_width (Webserver_Request& webserver_request)
 {
-  map <int, string> values = workspace_get_values (webserver_request, ENTIREWIDTH, false);
+  std::map <int, string> values = workspace_get_values (webserver_request, ENTIREWIDTH, false);
   string width;
   for (auto & element : values) {
     width = element.second;
@@ -473,9 +473,9 @@ void workspace_copy (Webserver_Request& webserver_request, string source, string
   
   // Copy source workspace to destination.
   webserver_request.database_config_user()->setActiveWorkspace (source);
-  map <int, string> urls = workspace_get_urls (webserver_request, false);
-  map <int, string> widths = workspace_get_widths (webserver_request);
-  map <int, string> heights = workspace_get_heights (webserver_request);
+  std::map <int, string> urls = workspace_get_urls (webserver_request, false);
+  std::map <int, string> widths = workspace_get_widths (webserver_request);
+  std::map <int, string> heights = workspace_get_heights (webserver_request);
   string entire_width = workspace_get_entire_width (webserver_request);
   webserver_request.database_config_user()->setActiveWorkspace (destination);
   workspace_set_urls (webserver_request, urls);
@@ -520,9 +520,9 @@ void workspace_send (Webserver_Request& webserver_request, string workspace, str
   
   // Retrieve settings for the $workspace of the current user.
   webserver_request.database_config_user()->setActiveWorkspace (workspace);
-  map <int, string> urls = workspace_get_urls (webserver_request, false);
-  map <int, string> widths = workspace_get_widths (webserver_request);
-  map <int, string> heights = workspace_get_heights (webserver_request);
+  std::map <int, string> urls = workspace_get_urls (webserver_request, false);
+  std::map <int, string> widths = workspace_get_widths (webserver_request);
+  std::map <int, string> heights = workspace_get_heights (webserver_request);
   string entire_width = workspace_get_entire_width (webserver_request);
   
   // Restore current active workspace.
@@ -559,7 +559,7 @@ void workspace_send (Webserver_Request& webserver_request, string workspace, str
 // It can then decide to make the editor read-only.
 map <int, int> workspace_add_bible_editor_number (map <int, string> & urls)
 {
-  map <int, int> editor_numbers;
+  std::map <int, int> editor_numbers;
   int bible_editor_count = 0;
   for (auto & element : urls) {
     bool is_bible_editor = false;

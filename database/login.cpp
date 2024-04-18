@@ -170,7 +170,7 @@ string Database_Login::getUsername (string cookie, bool & daily)
   sql.add ("SELECT rowid, timestamp, username FROM logins WHERE cookie =");
   sql.add (cookie);
   sql.add (";");
-  map <string, vector <string> > result = sql.query ();
+  std::map <string, std::vector <string> > result = sql.query ();
   if (result.empty()) return "";
   string username = result ["username"][0];
   int stamp = filter::strings::convert_to_int (result ["timestamp"] [0]);

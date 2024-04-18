@@ -143,7 +143,7 @@ string editone2_save (Webserver_Request& webserver_request)
     // Check whether the text on disk was changed while the user worked with the older copy.
     if (!loaded_usfm.empty () && (loaded_usfm != old_chapter_usfm)) {
       // Do a merge for better editing reliability.
-      vector <Merge_Conflict> conflicts;
+      std::vector <Merge_Conflict> conflicts;
       // Prioritize the USFM already in the chapter.
       new_chapter_usfm = filter_merge_run (loaded_usfm, new_chapter_usfm, old_chapter_usfm, true, conflicts);
       webserver_request.database_bibles()->store_chapter (bible, book, chapter, new_chapter_usfm);

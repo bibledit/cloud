@@ -45,7 +45,7 @@ TEST (database, check)
     Database_Check database_check = Database_Check ();
     database_check.create ();
     
-    vector <Database_Check_Hit> hits = database_check.getHits ();
+    std::vector <Database_Check_Hit> hits = database_check.getHits ();
     EXPECT_EQ (0, static_cast<int> (hits.size()));
     
     database_check.recordOutput ("phpunit", 1, 2, 3, "test");
@@ -66,7 +66,7 @@ TEST (database, check)
     Database_Check database_check = Database_Check ();
     database_check.create ();
     database_check.recordOutput ("phpunit", 5, 2, 3, "test");
-    vector <Database_Check_Hit> hits = database_check.getHits ();
+    std::vector <Database_Check_Hit> hits = database_check.getHits ();
     EXPECT_EQ (1, static_cast<int> (hits.size()));
     EXPECT_EQ ("phpunit", hits [0].bible);
     EXPECT_EQ (5, hits [0].book);
@@ -86,7 +86,7 @@ TEST (database, check)
     database_check.recordOutput ("phpunit", 3, 4, 5, "test1");
     database_check.recordOutput ("phpunit", 3, 4, 5, "test2");
     
-    vector <Database_Check_Hit> hits = database_check.getHits ();
+    std::vector <Database_Check_Hit> hits = database_check.getHits ();
     EXPECT_EQ (2, static_cast<int> (hits.size()));
     
     int id = hits [0].rowid;
@@ -94,7 +94,7 @@ TEST (database, check)
     hits = database_check.getHits ();
     EXPECT_EQ (1, static_cast<int> (hits.size()));
     
-    vector <Database_Check_Hit> suppressions = database_check.getSuppressions ();
+    std::vector <Database_Check_Hit> suppressions = database_check.getSuppressions ();
     EXPECT_EQ (1, static_cast<int>(suppressions.size()));
     
     id = suppressions [0].rowid;
@@ -115,7 +115,7 @@ TEST (database, check)
     database_check.create ();
     database_check.recordOutput ("phpunit", 3, 4, 5, "test1");
     database_check.recordOutput ("phpunit", 3, 4, 5, "test2");
-    vector <Database_Check_Hit> hits = database_check.getHits ();
+    std::vector <Database_Check_Hit> hits = database_check.getHits ();
     EXPECT_EQ (2, static_cast<int> (hits.size()));
     int id = hits [0].rowid;
     database_check.erase (id);
@@ -151,7 +151,7 @@ TEST (database, check)
     for (int i = 0; i < 100; i++) {
       database_check.recordOutput ("phpunit", i, i, i, "multiple");
     }
-    vector <Database_Check_Hit> hits = database_check.getHits ();
+    std::vector <Database_Check_Hit> hits = database_check.getHits ();
     EXPECT_EQ (12, static_cast<int> (hits.size()));
   }
 }

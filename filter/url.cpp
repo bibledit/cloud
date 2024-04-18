@@ -652,7 +652,7 @@ string filter_url_file_get_contents(string filename)
     streamoff filesize = ifs.tellg();
     if (filesize == 0) return std::string();
     ifs.seekg(0, ios::beg);
-    vector <char> bytes(static_cast<size_t> (filesize));
+    std::vector <char> bytes(static_cast<size_t> (filesize));
     ifs.read(&bytes[0], static_cast<int> (filesize));
     return string(&bytes[0], static_cast<size_t> (filesize));
   }
@@ -814,7 +814,7 @@ vector <string> filter_url_scandir (string folder)
 
 
 // Recursively scans a directory for directories and files.
-void filter_url_recursive_scandir (string folder, vector <string> & paths)
+void filter_url_recursive_scandir (string folder, std::vector <string> & paths)
 {
   std::vector <std::string> files = filter_url_scandir (folder);
   for (auto & file : files) {
@@ -1066,7 +1066,7 @@ int filter_url_curl_trace (CURL *handle, curl_infotype type, char *data, size_t 
 // It appends the $values to the post data.
 // It returns the response from the server.
 // It writes any error to $error.
-string filter_url_http_post (const std::string& url, [[maybe_unused]] string post_data, const map <string, string> & post_values, string& error, [[maybe_unused]] bool burst, [[maybe_unused]] bool check_certificate, [[maybe_unused]] const std::vector <pair <string, string> > & headers)
+string filter_url_http_post (const std::string& url, [[maybe_unused]] string post_data, const std::map <string, string> & post_values, string& error, [[maybe_unused]] bool burst, [[maybe_unused]] bool check_certificate, [[maybe_unused]] const std::vector <pair <string, string> > & headers)
 {
   string response;
 #ifdef HAVE_CLIENT
@@ -1139,7 +1139,7 @@ string filter_url_http_post (const std::string& url, [[maybe_unused]] string pos
 // It returns the response from the server.
 // It writes any error to $error.
 string filter_url_http_upload ([[maybe_unused]] string url,
-                               [[maybe_unused]] map <string, string> values,
+                               [[maybe_unused]] std::map <string, string> values,
                                [[maybe_unused]] string filename,
                                string& error)
 {
@@ -1431,7 +1431,7 @@ string filter_url_remove_username_password (string url)
 // $post: Value pairs for a POST request.
 // $filename: The filename to save the data to.
 // $check_certificate: Whether to check the server certificate in case of secure http.
-string filter_url_http_request_mbed (string url, string& error, const map <string, string>& post, const std::string& filename, bool check_certificate)
+string filter_url_http_request_mbed (string url, string& error, const std::map <string, string>& post, const std::string& filename, bool check_certificate)
 {
   // The "http" scheme is used to locate network resources via the HTTP protocol.
   // $url = "http(s):" "//" host [ ":" port ] [ abs_path [ "?" query ]]
@@ -2105,7 +2105,7 @@ bool filter_url_is_image (string extension)
 // https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types
 string filter_url_get_mime_type (string extension)
 {
-  static map <string, string> mime_types = {
+  static std::map <string, string> mime_types = {
     {"jar", "application/java-archive"},
     {"js", "application/javascript"},
     {"json", "application/json"},

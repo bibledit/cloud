@@ -92,7 +92,7 @@ string sync_changes (Webserver_Request& webserver_request)
     {
       // The server responds with the identifiers of all the user's change notifications.
       string any_bible {};
-      vector <int> notification_ids = database_modifications.getNotificationIdentifiers (user, any_bible);
+      std::vector <int> notification_ids = database_modifications.getNotificationIdentifiers (user, any_bible);
       string response;
       for (auto & notif_id : notification_ids) {
         if (!response.empty ()) response.append ("\n");

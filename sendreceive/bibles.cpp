@@ -115,7 +115,7 @@ void sendreceive_bibles ()
   
   // The basic request to be POSTed to the server.
   // It contains the user's credentials.
-  map <string, string> post;
+  std::map <string, string> post;
   post ["u"] = filter::strings::bin2hex (user);
   post ["p"] = password;
   post ["l"] = filter::strings::convert_to_string (webserver_request.database_users ()->get_level (user));
@@ -139,9 +139,9 @@ void sendreceive_bibles ()
   Database_BibleActions database_bibleactions;
   std::vector <std::string> bibles = database_bibleactions.getBibles ();
   for (string bible : bibles) {
-    vector <int> books = database_bibleactions.getBooks (bible);
+    std::vector <int> books = database_bibleactions.getBooks (bible);
     for (int book : books) {
-      vector <int> chapters = database_bibleactions.getChapters (bible, book);
+      std::vector <int> chapters = database_bibleactions.getChapters (bible, book);
       for (int chapter : chapters) {
         
         sendreceive_bibles_kick_watchdog ();
@@ -166,7 +166,7 @@ void sendreceive_bibles ()
           string checksum = checksum_logic::get (oldusfm + newusfm);
           
           // Generate a POST webserver_request.
-          map <string, string> sendpost = post;
+          std::map <string, string> sendpost = post;
           sendpost ["a"]  = filter::strings::convert_to_string (Sync_Logic::bibles_send_chapter);
           sendpost ["b"]  = bible;
           sendpost ["bk"] = filter::strings::convert_to_string (book);
@@ -302,9 +302,9 @@ void sendreceive_bibles ()
     // This would be undesired behaviour. Skip it.
     for (auto bible : bibles) {
       if (bible == demo_sample_bible_name ()) continue;
-      vector <int> books = webserver_request.database_bibles()->get_books (bible);
+      std::vector <int> books = webserver_request.database_bibles()->get_books (bible);
       for (auto book : books) {
-        vector <int> chapters = webserver_request.database_bibles()->get_chapters (bible, book);
+        std::vector <int> chapters = webserver_request.database_bibles()->get_chapters (bible, book);
         for (auto chapter : chapters) {
           database_bibleactions.record (bible, book, chapter, "");
         }
@@ -344,7 +344,7 @@ void sendreceive_bibles ()
     
     
     // Request all books in the $bible on the server.
-    vector <int> client_books = webserver_request.database_bibles()->get_books (bible);
+    std::vector <int> client_books = webserver_request.database_bibles()->get_books (bible);
     post ["a"] = filter::strings::convert_to_string (Sync_Logic::bibles_get_books);
     string server_books = sync_logic.post (post, url, error);
     if (!error.empty () || server_books.empty ()) {
@@ -363,7 +363,7 @@ void sendreceive_bibles ()
       communication_errors = true;
       continue;
     }
-    vector <int> i_server_books;
+    std::vector <int> i_server_books;
     for (auto & book : v_server_books) i_server_books.push_back (filter::strings::convert_to_int (book));
 
 
@@ -374,7 +374,7 @@ void sendreceive_bibles ()
       // any books on the client and not on the server,
       // schedule them for upload to the Cloud.
       for (auto book : client_books) {
-        vector <int> chapters = webserver_request.database_bibles()->get_chapters (bible, book);
+        std::vector <int> chapters = webserver_request.database_bibles()->get_chapters (bible, book);
         for (auto & chapter : chapters) {
           database_bibleactions.record (bible, book, chapter, "");
         }
@@ -414,7 +414,7 @@ void sendreceive_bibles ()
 
 
       // The client requests all chapters per book from the server.
-      vector <int> client_chapters = webserver_request.database_bibles()->get_chapters (bible, book);
+      std::vector <int> client_chapters = webserver_request.database_bibles()->get_chapters (bible, book);
       post ["a"] = filter::strings::convert_to_string (Sync_Logic::bibles_get_chapters);
       string server_chapters = sync_logic.post (post, url, error);
       if (!error.empty () || server_chapters.empty ()) {
@@ -433,7 +433,7 @@ void sendreceive_bibles ()
         communication_errors = true;
         continue;
       }
-      vector <int> i_server_chapters;
+      std::vector <int> i_server_chapters;
       for (auto & chapter : v_server_chapters) i_server_chapters.push_back (filter::strings::convert_to_int (chapter));
       
       
@@ -527,7 +527,7 @@ void sendreceive_bibles ()
         // Store the merged data on the client.
         // It stores through the Bible logic so the changes get staged to be sent.
         // The changes will be sent to the server during the next synchronize action.
-        vector <Merge_Conflict> conflicts;
+        std::vector <Merge_Conflict> conflicts;
         Database_Logs::log (sendreceive_bibles_text () + translate("Merging changes on server and client") + " " + bible + " " + book_name + " " + filter::strings::convert_to_string (chapter), Filter_Roles::translator ());
         string client_usfm = webserver_request.database_bibles()->get_chapter (bible, book, chapter);
         string merged_usfm = filter_merge_run (old_usfm, client_usfm, server_usfm, true, conflicts);

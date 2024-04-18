@@ -59,7 +59,7 @@ void export_usfm (string bible, bool log)
   // Generate one USFM file per book.
   
   
-  vector <int> books = database_bibles.get_books (bible);
+  std::vector <int> books = database_bibles.get_books (bible);
   for (auto book : books) {
 
     
@@ -72,7 +72,7 @@ void export_usfm (string bible, bool log)
     
     
     // Collect the USFM for all chapters in this book.
-    vector <int> chapters = database_bibles.get_chapters (bible, book);
+    std::vector <int> chapters = database_bibles.get_chapters (bible, book);
     for (auto chapter : chapters) {
       // Get the USFM code for the current chapter.
       string chapter_data = database_bibles.get_chapter (bible, book, chapter);

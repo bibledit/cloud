@@ -78,7 +78,7 @@ string resource_get (Webserver_Request& webserver_request)
       string bible = webserver_request.database_config_user ()->getBible ();
       string versification = Database_Config_Bible::getVersificationSystem (bible);
       Database_Versifications database_versifications;
-      vector <int> chapters = database_versifications.getChapters (versification, book);
+      std::vector <int> chapters = database_versifications.getChapters (versification, book);
       
       
       // Whether to add extra verse numbers, for clarity in case of viewing more than one verse.
@@ -90,12 +90,12 @@ string resource_get (Webserver_Request& webserver_request)
       
       
       // Context before the focused verse.
-      vector <int> chapters_before;
-      vector <int> verses_before;
+      std::vector <int> chapters_before;
+      std::vector <int> verses_before;
       if (context_before > 0) {
         for (int ch = chapter - 1; ch <= chapter; ch++) {
           if (in_array (ch, chapters)) {
-            vector <int> verses = database_versifications.getVerses (versification, book, ch);
+            std::vector <int> verses = database_versifications.getVerses (versification, book, ch);
             for (size_t vs = 0; vs < verses.size (); vs++) {
               int vs2 = verses [vs];
               if ((ch < chapter) || (vs2 < verse)) {
@@ -122,12 +122,12 @@ string resource_get (Webserver_Request& webserver_request)
 
     
       // Context after the focused verse.
-      vector <int> chapters_after;
-      vector <int> verses_after;
+      std::vector <int> chapters_after;
+      std::vector <int> verses_after;
       if (context_after > 0) {
         for (int ch = chapter; ch <= chapter + 1; ch++) {
           if (in_array (ch, chapters)) {
-            vector <int> verses = database_versifications.getVerses (versification, book, ch);
+            std::vector <int> verses = database_versifications.getVerses (versification, book, ch);
             for (size_t vs = 0; vs < verses.size (); vs++) {
               int vs2 = verses [vs];
               if ((ch > chapter) || (vs2 > verse)) {

@@ -52,7 +52,7 @@ string search_getids (Webserver_Request& webserver_request)
   bool casesensitive = (webserver_request.query ["c"] == "true");
 
   // Do the search.
-  vector <Passage> passages;
+  std::vector <Passage> passages;
   if (casesensitive) {
     passages = search_logic_search_bible_text_case_sensitive (bible, searchfor);
   } else {

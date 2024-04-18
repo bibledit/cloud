@@ -121,9 +121,9 @@ void rss_logic_execute_update (string user, string bible, int book, int chapter,
   const std::string stylesheet = Database_Config_Bible::getExportStylesheet (bible);
 
   // Get the combined verse numbers in old and new USFM.
-  vector <int> old_verse_numbers = filter::usfm::get_verse_numbers (oldusfm);
-  vector <int> new_verse_numbers = filter::usfm::get_verse_numbers (newusfm);
-  vector <int> verses = old_verse_numbers;
+  std::vector <int> old_verse_numbers = filter::usfm::get_verse_numbers (oldusfm);
+  std::vector <int> new_verse_numbers = filter::usfm::get_verse_numbers (newusfm);
+  std::vector <int> verses = old_verse_numbers;
   verses.insert (verses.end (), new_verse_numbers.begin (), new_verse_numbers.end ());
   verses = filter::strings::array_unique (verses);
   sort (verses.begin(), verses.end());
@@ -162,7 +162,7 @@ string rss_logic_xml_path ()
 }
 
 
-void rss_logic_update_xml (vector <string> titles, vector <string> authors, vector <string> descriptions)
+void rss_logic_update_xml (vector <string> titles, std::vector <string> authors, std::vector <string> descriptions)
 {
   int seconds = filter::date::seconds_since_epoch ();
   string rfc822time = filter::date::rfc822 (seconds);

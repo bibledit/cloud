@@ -38,7 +38,7 @@ using namespace std;
 
 // Internal function that searches related passages in the XML DOM.
 void related_logic_search_related (const std::string& bookname, int input_chapter, const std::string& input_verse,
-                                   const pugi::xml_node & node, vector <int> & passages)
+                                   const pugi::xml_node & node, std::vector <int> & passages)
 {
   for (pugi::xml_node set : node.children ()) {
     bool match = false;
@@ -60,7 +60,7 @@ void related_logic_search_related (const std::string& bookname, int input_chapte
       // Match on verse(s).
       if (match) {
         string verse = reference.attribute ("verse").value ();
-        vector <int> verses;
+        std::vector <int> verses;
         if (filter::usfm::handle_verse_range (verse, verses)) {
           match = in_array (filter::strings::convert_to_int (input_verse), verses);
         } else {
@@ -75,7 +75,7 @@ void related_logic_search_related (const std::string& bookname, int input_chapte
           book_id related_book = database::books::get_id_from_english (related_bookname);
           int related_chapter = filter::strings::convert_to_int (passage_node.attribute ("chapter").value ());
           string verse = passage_node.attribute ("verse").value ();
-          vector <int> verses {};
+          std::vector <int> verses {};
           if (filter::usfm::handle_verse_range (verse, verses));
           else verses.push_back (filter::strings::convert_to_int (verse));
           for (auto related_verse : verses) {
@@ -99,7 +99,7 @@ void related_logic_search_related (const std::string& bookname, int input_chapte
 // It takes the passages from $input, and returns them plus their related passages, if there's any.
 vector <Passage> related_logic_get_verses (const std::vector <Passage> & input)
 {
-  vector <int> related_passages;
+  std::vector <int> related_passages;
   
   
   if (!input.empty ()) {
@@ -142,7 +142,7 @@ vector <Passage> related_logic_get_verses (const std::vector <Passage> & input)
 
   
   // Sort the passages and convert them.
-  vector <Passage> output;
+  std::vector <Passage> output;
   sort (related_passages.begin (), related_passages.end ());
   for (auto & related_passage : related_passages) {
     Passage passage = filter_integer_to_passage (related_passage);

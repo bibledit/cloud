@@ -62,10 +62,10 @@ void compare_compare (string bible, string compare, int jobId)
   
   
   // Get the combined books in both Bibles / Resources.
-  vector <int> bibleBooks = database_bibles.get_books (bible);
-  vector <int> compareBooks = database_bibles.get_books (compare);
-  vector <int> resourceBooks = database_usfmresources.getBooks (compare);
-  vector <int> books;
+  std::vector <int> bibleBooks = database_bibles.get_books (bible);
+  std::vector <int> compareBooks = database_bibles.get_books (compare);
+  std::vector <int> resourceBooks = database_usfmresources.getBooks (compare);
+  std::vector <int> books;
   {
     set <int> bookset;
     bookset.insert (bibleBooks.begin(), bibleBooks.end());
@@ -109,10 +109,10 @@ void compare_compare (string bible, string compare, int jobId)
     
     
     // Get the combined chapters in both Bibles / Resources.
-    vector <int> bibleChapters = database_bibles.get_chapters (bible, book);
-    vector <int> compareChapters = database_bibles.get_chapters (compare, book);
-    vector <int> resourceChapters = database_usfmresources.getChapters (compare, book);
-    vector <int> chapters;
+    std::vector <int> bibleChapters = database_bibles.get_chapters (bible, book);
+    std::vector <int> compareChapters = database_bibles.get_chapters (compare, book);
+    std::vector <int> resourceChapters = database_usfmresources.getChapters (compare, book);
+    std::vector <int> chapters;
     {
       set <int> chapterset;
       chapterset.insert (bibleChapters.begin(), bibleChapters.end());
@@ -152,9 +152,9 @@ void compare_compare (string bible, string compare, int jobId)
       
       
       // Get the combined set of verses in the chapter of the Bible and of the USFM to compare with.
-      vector <int> bible_verse_numbers = filter::usfm::get_verse_numbers (bible_chapter_usfm);
-      vector <int> compare_verse_numbers = filter::usfm::get_verse_numbers (compare_chapter_usfm);
-      vector <int> verses;
+      std::vector <int> bible_verse_numbers = filter::usfm::get_verse_numbers (bible_chapter_usfm);
+      std::vector <int> compare_verse_numbers = filter::usfm::get_verse_numbers (compare_chapter_usfm);
+      std::vector <int> verses;
       {
         set <int> verseset;
         verseset.insert (bible_verse_numbers.begin(), bible_verse_numbers.end());

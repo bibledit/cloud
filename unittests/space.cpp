@@ -41,7 +41,7 @@ TEST (checks, space)
     "\\v 3 This is verse 3.\n"
     ;
     checks::space::space_end_verse (bible, 2, 3, usfm);
-    vector <Database_Check_Hit> hits = database_check.getHits ();
+    std::vector <Database_Check_Hit> hits = database_check.getHits ();
     EXPECT_EQ (0, hits.size ());
   }
 
@@ -52,7 +52,7 @@ TEST (checks, space)
     "\\v 4 This is verse 4. \n"
     ;
     checks::space::space_end_verse (bible, 2, 3, usfm);
-    vector <Database_Check_Hit> hits = database_check.getHits ();
+    std::vector <Database_Check_Hit> hits = database_check.getHits ();
     EXPECT_EQ (1, hits.size ());
   }
 
@@ -67,7 +67,7 @@ TEST (checks, space)
     "\\v 5 This is verse \\add 5. \\add*\n"
     ;
     checks::space::space_end_verse (bible, 2, 3, usfm);
-    vector <Database_Check_Hit> hits = database_check.getHits ();
+    std::vector <Database_Check_Hit> hits = database_check.getHits ();
     EXPECT_EQ (1, hits.size ());
   }
   
@@ -78,7 +78,7 @@ TEST (checks, space)
     "\\v 6 This is verse \\add 6.\\add*\n"
     ;
     checks::space::space_end_verse (bible, 2, 3, usfm);
-    vector <Database_Check_Hit> hits = database_check.getHits ();
+    std::vector <Database_Check_Hit> hits = database_check.getHits ();
     EXPECT_EQ (0, hits.size ());
   }
   
@@ -87,7 +87,7 @@ TEST (checks, space)
     database_check.truncateOutput (bible);
     string usfm = R"(\v 1 This contains  a double space.)";
     checks::space::double_space_usfm (bible, 2, 3, 4, usfm);
-    vector <Database_Check_Hit> hits = database_check.getHits ();
+    std::vector <Database_Check_Hit> hits = database_check.getHits ();
     EXPECT_EQ (1, hits.size ());
   }
   
@@ -113,7 +113,7 @@ TEST (checks, space)
     int verse = 4;
     string usfm = R"(\v 1 Note \f ... \f*.)";
     checks::space::space_before_final_note_markup (bible, 2, 3, verse, usfm);
-    vector <Database_Check_Hit> hits = database_check.getHits ();
+    std::vector <Database_Check_Hit> hits = database_check.getHits ();
     EXPECT_EQ (1, hits.size ());
   }
   {
@@ -121,7 +121,7 @@ TEST (checks, space)
     int verse = 5;
     string usfm = R"(\v 2 Endnote \fe ... \fe*.)";
     checks::space::space_before_final_note_markup (bible, 2, 3, verse, usfm);
-    vector <Database_Check_Hit> hits = database_check.getHits ();
+    std::vector <Database_Check_Hit> hits = database_check.getHits ();
     EXPECT_EQ (1, hits.size ());
   }
   {
@@ -129,7 +129,7 @@ TEST (checks, space)
     int verse = 6;
     string usfm = R"(\v 3 Cross reference \x ... \x*.)";
     checks::space::space_before_final_note_markup (bible, 2, 3, verse, usfm);
-    vector <Database_Check_Hit> hits = database_check.getHits ();
+    std::vector <Database_Check_Hit> hits = database_check.getHits ();
     EXPECT_EQ (1, hits.size ());
   }
 

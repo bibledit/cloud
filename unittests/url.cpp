@@ -175,7 +175,7 @@ TEST (filter, url)
     EXPECT_EQ ("Couldn't connect to server", error);
 #endif
     EXPECT_EQ ("", result);
-    map <string, string> values = {pair ("a", "value1"), pair ("b", "value2")};
+    std::map <string, string> values = {pair ("a", "value1"), pair ("b", "value2")};
     result = filter_url_http_post ("http://localhost/none", string(), values, error, false, false, {});
 #ifndef HAVE_CLIENT
     EXPECT_EQ ("Couldn't connect to server", error);

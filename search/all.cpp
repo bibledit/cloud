@@ -90,7 +90,7 @@ string search_all (Webserver_Request& webserver_request)
 
 
   // Search the notes.
-  vector <int> identifiers = database_notes.search_notes (queryString, bibles);
+  std::vector <int> identifiers = database_notes.search_notes (queryString, bibles);
   
   
   size_t note_count = identifiers.size();
@@ -141,7 +141,7 @@ string search_all (Webserver_Request& webserver_request)
   
   
   // Search the Bible text.
-  vector <Passage> passages = search_logic_search_text (queryString, bibles);
+  std::vector <Passage> passages = search_logic_search_text (queryString, bibles);
   
   
   size_t textCount = passages.size ();

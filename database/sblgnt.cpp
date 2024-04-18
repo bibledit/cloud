@@ -69,9 +69,9 @@ vector <Passage> Database_Sblgnt::searchGreek (string greek)
   sql.add ("SELECT DISTINCT book, chapter, verse FROM sblgnt WHERE greek =");
   sql.add (greek);
   sql.add (";");
-  vector <Passage> hits;
+  std::vector <Passage> hits;
   sqlite3 * db = connect ();
-  map <string, vector <string> > result = database_sqlite_query (db, sql.sql);
+  std::map <string, std::vector <string> > result = database_sqlite_query (db, sql.sql);
   database_sqlite_disconnect (db);
   std::vector <std::string> books = result ["book"];
   std::vector <std::string> chapters = result ["chapter"];

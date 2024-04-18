@@ -101,7 +101,7 @@ vector <string> get_markers_and_text (string code)
       // - at the first backslash (\), or
       // - at the end of the string,
       // whichever comes first.
-      vector <size_t> positions;
+      std::vector <size_t> positions;
       pos = code.find (" ");
       if (pos != std::string::npos) positions.push_back (pos + 1);
       pos = code.find ("*");
@@ -150,7 +150,7 @@ string get_marker (string usfm)
     // - at the first backslash (\), or
     // - at the end of the string,
     // whichever comes first.
-    vector <size_t> positions;
+    std::vector <size_t> positions;
     pos = usfm.find (" ");
     if (pos != std::string::npos) positions.push_back (pos);
     pos = usfm.find ("*");
@@ -173,7 +173,7 @@ string get_marker (string usfm)
 // and returns a vector with objects with book_number, chapter_number, chapter_data.
 vector <BookChapterData> usfm_import (string input, string stylesheet)
 {
-  vector <BookChapterData> result;
+  std::vector <BookChapterData> result;
 
   book_id bookid {0};
   int chapter_number {0};
@@ -244,7 +244,7 @@ vector <BookChapterData> usfm_import (string input, string stylesheet)
 // 10,12
 vector <int> get_verse_numbers (string usfm)
 {
-  vector <int> verse_numbers = { 0 };
+  std::vector <int> verse_numbers = { 0 };
   std::vector <std::string> markers_and_text = get_markers_and_text (usfm);
   bool extract_verse = false;
   for (string marker_or_text : markers_and_text) {
@@ -270,7 +270,7 @@ vector <int> get_verse_numbers (string usfm)
 // Returns the chapter numbers found in $usfm.
 vector <int> get_chapter_numbers (string usfm)
 {
-  vector <int> chapter_numbers = { 0 };
+  std::vector <int> chapter_numbers = { 0 };
   std::vector <std::string> markers_and_text = get_markers_and_text (usfm);
   bool extract_chapter = false;
   for (string marker_or_text : markers_and_text) {
@@ -290,11 +290,11 @@ vector <int> get_chapter_numbers (string usfm)
 // Returns the verse numbers in the string of $usfm code at line number $line_number.
 vector <int> linenumber_to_versenumber (string usfm, unsigned int line_number)
 {
-  vector <int> verse_number = {0}; // Initial verse number.
+  std::vector <int> verse_number = {0}; // Initial verse number.
   std::vector <std::string> lines = filter::strings::explode (usfm, '\n');
   for (unsigned int i = 0; i < lines.size(); i++) {
     if (i <= line_number) {
-      vector <int> verse_numbers = get_verse_numbers (lines[i]);
+      std::vector <int> verse_numbers = get_verse_numbers (lines[i]);
       if (verse_numbers.size() >= 2) {
         verse_number = filter::strings::array_diff (verse_numbers, {0});
       }
@@ -332,7 +332,7 @@ int versenumber_to_offset (string usfm, int verse)
   int totalOffset = 0;
   std::vector <std::string> lines = filter::strings::explode (usfm, '\n');
   for (string line : lines) {
-    vector <int> verses = get_verse_numbers (line);
+    std::vector <int> verses = get_verse_numbers (line);
     for (auto & v : verses) {
       if (v == verse) return totalOffset;
     }
@@ -353,7 +353,7 @@ string get_verse_text (string usfm, int verse_number)
 
   std::vector <std::string> lines = filter::strings::explode (usfm, '\n');
   for (string line : lines) {
-    vector <int> verses = get_verse_numbers (line);
+    std::vector <int> verses = get_verse_numbers (line);
     if (verse_number == 0) {
       if (verses.size () != 1) hit = false;
       if (hit) result.push_back (line);
@@ -755,7 +755,7 @@ string safely_store_verse (Webserver_Request& webserver_request,
   usfm = filter::strings::trim (usfm);
 
   // Check that the USFM to be saved is for the correct verse.
-  vector <int> save_verses = get_verse_numbers (usfm);
+  std::vector <int> save_verses = get_verse_numbers (usfm);
   if ((verse != 0) && !save_verses.empty ()) {
     save_verses.erase (save_verses.begin());
   }
@@ -782,7 +782,7 @@ string safely_store_verse (Webserver_Request& webserver_request,
   existing_verse_usfm = filter::strings::trim (existing_verse_usfm);
 
   // Check that there is a match between the existing verse numbers and the verse numbers to save.
-  vector <int> existing_verses = get_verse_numbers (existing_verse_usfm);
+  std::vector <int> existing_verses = get_verse_numbers (existing_verse_usfm);
   save_verses = get_verse_numbers (usfm);
   bool verses_match = true;
   if (save_verses.size () == existing_verses.size ()) {
@@ -857,7 +857,7 @@ bool contains_empty_verses (string usfm)
 
 // This looks at the $fragment, whether it's a range of verses.
 // If so, it puts the all of the verses in $verses, and returns true.
-bool handle_verse_range (string verse, vector <int> & verses)
+bool handle_verse_range (string verse, std::vector <int> & verses)
 {
   if (verse.find ("-") != std::string::npos) {
     size_t position;
@@ -884,7 +884,7 @@ bool handle_verse_range (string verse, vector <int> & verses)
 
 // This looks at the $fragment, whether it's a sequence of verses.
 // If so, it puts the all of the verses in $verses, and returns true.
-bool handle_verse_sequence (string verse, vector <int> & verses)
+bool handle_verse_sequence (string verse, std::vector <int> & verses)
 {
   if (verse.find (",") != std::string::npos) {
     int iterations = 0;

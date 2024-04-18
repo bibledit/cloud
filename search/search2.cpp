@@ -123,7 +123,7 @@ string search_search2 (Webserver_Request& webserver_request)
     // Deal with case sensitivity.
     // Deal with whether to search the plain text, or the raw USFM.
     // Fetch the initial set of hits.
-    vector <Passage> passages;
+    std::vector <Passage> passages;
     if (plaintext) {
       if (casesensitive) {
         passages = search_logic_search_bible_text_case_sensitive (bible, query);
@@ -142,7 +142,7 @@ string search_search2 (Webserver_Request& webserver_request)
     // Deal with possible searching in the current book only.
     if (books == "currentbook") {
       int book = Ipc_Focus::getBook (webserver_request);
-      vector <Passage> bookpassages;
+      std::vector <Passage> bookpassages;
       for (auto & passage : passages) {
         if (book == passage.m_book) {
           bookpassages.push_back (passage);
@@ -156,7 +156,7 @@ string search_search2 (Webserver_Request& webserver_request)
     bool otbooks = (books == "otbooks");
     bool ntbooks = (books == "ntbooks");
     if (otbooks || ntbooks) {
-      vector <Passage> bookpassages;
+      std::vector <Passage> bookpassages;
       for (auto & passage : passages) {
         book_type type = database::books::get_type (static_cast<book_id>(passage.m_book));
         if (otbooks) if (type != book_type::old_testament) continue;

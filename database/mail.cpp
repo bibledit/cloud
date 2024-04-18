@@ -132,14 +132,14 @@ int Database_Mail::getMailCount ()
 // Get the mails of the current user.
 vector <Database_Mail_User> Database_Mail::getMails ()
 {
-  vector <Database_Mail_User> mails;
+  std::vector <Database_Mail_User> mails;
   string user = m_webserver_request.session_logic ()->currentUser();
   SqliteSQL sql = SqliteSQL ();
   sql.add ("SELECT rowid, timestamp, subject FROM mail WHERE username =");
   sql.add (user);
   sql.add ("ORDER BY timestamp DESC;");
   sqlite3 * db = connect ();
-  map <string, vector <string> > result = database_sqlite_query (db, sql.sql);
+  std::map <string, std::vector <string> > result = database_sqlite_query (db, sql.sql);
   database_sqlite_disconnect (db);
   std::vector <std::string> rowids = result ["rowid"];
   std::vector <std::string> timestamps = result ["timestamp"];
@@ -176,7 +176,7 @@ Database_Mail_Item Database_Mail::get (int id)
   sql.add (id);
   sql.add (";");
   sqlite3 * db = connect ();
-  map <string, vector <string> > result = database_sqlite_query (db, sql.sql);
+  std::map <string, std::vector <string> > result = database_sqlite_query (db, sql.sql);
   database_sqlite_disconnect (db);
   Database_Mail_Item item = Database_Mail_Item ();
   if (!result.empty ()) {
@@ -191,7 +191,7 @@ Database_Mail_Item Database_Mail::get (int id)
 // Get ids of all mails ready for sending.
 vector <int> Database_Mail::getMailsToSend ()
 {
-  vector <int> ids;
+  std::vector <int> ids;
   int timestamp = filter::date::seconds_since_epoch ();
   SqliteSQL sql = SqliteSQL ();
   sql.add ("SELECT rowid FROM mail WHERE timestamp <=");
@@ -230,7 +230,7 @@ void Database_Mail::postpone (int id)
 // Get the row IDs of all mails in the database.
 vector <int> Database_Mail::getAllMails ()
 {
-  vector <int> rowids;
+  std::vector <int> rowids;
   SqliteSQL sql = SqliteSQL ();
   sql.add ("SELECT rowid FROM mail;");
   sqlite3 * db = connect ();

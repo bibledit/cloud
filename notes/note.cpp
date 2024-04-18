@@ -75,7 +75,7 @@ string notes_note (Webserver_Request& webserver_request)
   
   
   // When a note is opened, then the passage navigator should go to the passage that belongs to that note.
-  vector <Passage> passages = database_notes.get_passages (id);
+  std::vector <Passage> passages = database_notes.get_passages (id);
   if (!passages.empty ()) {
     Passage focused_passage;
     focused_passage.m_book = Ipc_Focus::getBook (webserver_request);

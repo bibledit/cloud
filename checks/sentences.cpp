@@ -84,9 +84,9 @@ void Checks_Sentences::initialize ()
 }
 
 
-void Checks_Sentences::check (const map <int, string> & texts)
+void Checks_Sentences::check (const std::map <int, string> & texts)
 {
-  vector <int> verse_numbers {};
+  std::vector <int> verse_numbers {};
   std::vector <std::string> characters {};
   int iterations {0};
   for (const auto & element : texts) {
@@ -189,7 +189,7 @@ void Checks_Sentences::paragraphs (const std::vector <string> & paragraph_start_
   for (unsigned int p = 0; p < verses_paragraphs.size (); p++) {
     
     // Container with verse numbers and the whole paragraph.
-    const map <int, string> & verses_paragraph = verses_paragraphs [p];
+    const std::map <int, string> & verses_paragraph = verses_paragraphs [p];
     
     // Skip empty container.
     if (verses_paragraph.empty ()) continue;

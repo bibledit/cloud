@@ -53,7 +53,7 @@ void sources_oshb_parse ()
   [[maybe_unused]] auto result = system (command.c_str ());
 #endif
   
-  map <int, book_id> mapping = {
+  std::map <int, book_id> mapping = {
     
     // Torah
     

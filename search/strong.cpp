@@ -69,7 +69,7 @@ string search_strong (Webserver_Request& webserver_request)
     
     // Get Strong's numbers, plus English snippets.
     string html = "<table>\n";
-    vector <Database_Kjv_Item> details = database_kjv.getVerse (book, chapter, verse);
+    std::vector <Database_Kjv_Item> details = database_kjv.getVerse (book, chapter, verse);
     for (auto & detail : details) {
       string strong = detail.strong;
       string english = detail.english;
@@ -86,9 +86,9 @@ string search_strong (Webserver_Request& webserver_request)
     string strong = webserver_request.query ["strong"];
     strong = filter::strings::trim (strong);
     
-    vector <int> passages;
+    std::vector <int> passages;
     
-    vector <Passage> details = database_kjv.searchStrong (strong);
+    std::vector <Passage> details = database_kjv.searchStrong (strong);
     
     for (auto & passage : details) {
       int i_passage = filter_passage_to_integer (passage);

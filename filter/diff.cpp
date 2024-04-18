@@ -136,9 +136,9 @@ string filter_diff_diff (string oldstring, string newstring,
 // Those that fit in 4-byte UTF-16 give their positions as 2.
 // Each differing character is given a size of 1 or 2 accordingly.
 void filter_diff_diff_utf16 (const std::vector <string> & oldinput, const std::vector <string> & newinput,
-                             vector <int> & positions,
-                             vector <int> & sizes,
-                             vector <bool> & additions,
+                             std::vector <int> & positions,
+                             std::vector <int> & sizes,
+                             std::vector <bool> & additions,
                              std::vector <std::string> & content,
                              int & new_line_diff_count)
 {
@@ -355,17 +355,17 @@ void filter_diff_produce_verse_level (string bible, string directory)
   filter_text_new.html_text_standard = new HtmlText (translate("Bible"));
   filter_text_new.text_text = new Text_Text ();
   
-  vector <int> books = database_modifications.getTeamDiffBooks (bible);
+  std::vector <int> books = database_modifications.getTeamDiffBooks (bible);
   for (auto book : books) {
     string bookname = database::books::get_english_from_id (static_cast<book_id>(book));
-    vector <int> chapters = database_modifications.getTeamDiffChapters (bible, book);
+    std::vector <int> chapters = database_modifications.getTeamDiffChapters (bible, book);
     for (auto chapter : chapters) {
       // Go through the combined verse numbers in the old and new chapter.
       string old_chapter_usfm = database_modifications.getTeamDiff (bible, book, chapter);
       string new_chapter_usfm = request.database_bibles()->get_chapter (bible, book, chapter);
-      vector <int> old_verse_numbers = filter::usfm::get_verse_numbers (old_chapter_usfm);
-      vector <int> new_verse_numbers = filter::usfm::get_verse_numbers (new_chapter_usfm);
-      vector <int> verses = old_verse_numbers;
+      std::vector <int> old_verse_numbers = filter::usfm::get_verse_numbers (old_chapter_usfm);
+      std::vector <int> new_verse_numbers = filter::usfm::get_verse_numbers (new_chapter_usfm);
+      std::vector <int> verses = old_verse_numbers;
       verses.insert (verses.end (), new_verse_numbers.begin (), new_verse_numbers.end ());
       verses = filter::strings::array_unique (verses);
       sort (verses.begin(), verses.end());

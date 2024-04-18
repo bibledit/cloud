@@ -41,7 +41,7 @@ TEST (checks, french)
   // Test reporting lacking no-break space at French square brackets and other punctuation.
   {
     database_check.truncateOutput (bible);
-    map <int, string> texts;
+    std::map <int, string> texts;
     texts [1] = "This is «French» text.";
     texts [2] = "This is « French » text.";
     texts [3] = "This is «" + nbsp + "French" + nbsp + "» with non-breaking spaces.";
@@ -50,7 +50,7 @@ TEST (checks, french)
     texts [6] = "This is it" + nbsp + ";";
     texts [7] = "This is «" + nnbsp + "French" + nnbsp + "» with narrow non-breaking spaces.";
     checks_french::space_before_after_punctuation (bible, 2, 3, texts);
-    vector <Database_Check_Hit> hits = database_check.getHits ();
+    std::vector <Database_Check_Hit> hits = database_check.getHits ();
     int hitcount = 6;
     EXPECT_EQ (hitcount, hits.size ());
     if (static_cast<int> (hits.size ()) == hitcount) {
@@ -102,9 +102,9 @@ TEST (checks, french)
     filter_text.initializeHeadingsAndTextPerVerse (false);
     filter_text.add_usfm_code (usfm);
     filter_text.run (styles_logic_standard_sheet ());
-    vector <map <int, string>> verses_paragraphs = filter_text.verses_paragraphs;
+    std::vector <map <int, string>> verses_paragraphs = filter_text.verses_paragraphs;
     checks_french::citation_style (bible, 2, 3, verses_paragraphs);
-    vector <Database_Check_Hit> hits = database_check.getHits ();
+    std::vector <Database_Check_Hit> hits = database_check.getHits ();
     int size = 4;
     EXPECT_EQ (size, hits.size ());
     if (static_cast<int> (hits.size ()) == size) {
@@ -138,9 +138,9 @@ TEST (checks, french)
     filter_text.initializeHeadingsAndTextPerVerse (false);
     filter_text.add_usfm_code (usfm);
     filter_text.run (styles_logic_standard_sheet ());
-    vector <map <int, string>> verses_paragraphs = filter_text.verses_paragraphs;
+    std::vector <map <int, string>> verses_paragraphs = filter_text.verses_paragraphs;
     checks_french::citation_style (bible, 2, 3, verses_paragraphs);
-    vector <Database_Check_Hit> hits = database_check.getHits ();
+    std::vector <Database_Check_Hit> hits = database_check.getHits ();
     int size = 1;
     EXPECT_EQ (size, hits.size ());
     if (static_cast<int> (hits.size ()) == size) {

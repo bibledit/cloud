@@ -112,7 +112,7 @@ string notes_bulk (Webserver_Request& webserver_request)
   // This is done to remember them as long as this page is active.
   // Thus erroneous bulk operations on notes can be rectified somewhat easier.
   if (!subscribe && !unsubscribe && !assign && !unassign && !status && !severity && !bible && !erase) {
-    vector <int> identifiers = database_notes.select_notes (bibles,
+    std::vector <int> identifiers = database_notes.select_notes (bibles,
                                               book,
                                               chapter,
                                               verse,
@@ -135,7 +135,7 @@ string notes_bulk (Webserver_Request& webserver_request)
 
   
   // Get the stored note identifiers from the database.
-  vector <int> identifiers;
+  std::vector <int> identifiers;
   {
     std::vector <std::string> sids = filter::strings::explode (Database_Volatile::getValue (userid, "identifiers"), ' ');
     for (auto id : sids) identifiers.push_back (filter::strings::convert_to_int (id));

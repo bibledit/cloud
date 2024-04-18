@@ -118,7 +118,7 @@ vector <int> Database_MorphGnt::rowids (int book, int chapter, int verse)
   sql.add (verse);
   sql.add ("ORDER BY rowid;");
   std::vector <std::string> result = sql.query () ["rowid"];
-  vector <int> rowids;
+  std::vector <int> rowids;
   for (auto rowid : result) rowids.push_back (filter::strings::convert_to_int (rowid));
   return rowids;
 }

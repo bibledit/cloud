@@ -41,7 +41,7 @@ TEST (database, sprint)
     refresh_sandbox (true);
     Database_Sprint database = Database_Sprint ();
     database.create ();
-    vector <int> ids = database.getTasks ("phpunit", 2014, 1);
+    std::vector <int> ids = database.getTasks ("phpunit", 2014, 1);
     EXPECT_EQ (vector <int>{}, ids);
     database.storeTask ("phpunit", 2014, 1, "phpunit");
     ids = database.getTasks ("phpunit", 2014, 1);
@@ -57,7 +57,7 @@ TEST (database, sprint)
     Database_Sprint database = Database_Sprint ();
     database.create ();
     database.storeTask ("phpunit", 2014, 1, "xyz");
-    vector <int> ids = database.getTasks ("phpunit", 2014, 1);
+    std::vector <int> ids = database.getTasks ("phpunit", 2014, 1);
     string title = database.getTitle (ids[0]);
     EXPECT_EQ ("xyz", title);
   }
@@ -67,7 +67,7 @@ TEST (database, sprint)
     Database_Sprint database = Database_Sprint ();
     database.create ();
     database.storeTask ("phpunit", 2014, 1, "phpunit");
-    vector <int> ids = database.getTasks ("phpunit", 2014, 1);
+    std::vector <int> ids = database.getTasks ("phpunit", 2014, 1);
     int id = ids[0];
     int complete = database.getComplete (id);
     EXPECT_EQ (0, complete);
@@ -82,7 +82,7 @@ TEST (database, sprint)
     database.create ();
     
     // Expect no history at all for January 2014.
-    vector <Database_Sprint_Item> history = database.getHistory ("phpunit", 2014, 1);
+    std::vector <Database_Sprint_Item> history = database.getHistory ("phpunit", 2014, 1);
     EXPECT_EQ (0, static_cast<int>(history.size()));
     
     // Log values for January 2014, and check that the database returns those values.

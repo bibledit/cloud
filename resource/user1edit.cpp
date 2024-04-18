@@ -98,7 +98,7 @@ string resource_user1edit (Webserver_Request& webserver_request)
   
   std::vector <std::string> lines;
   lines.push_back (Database_UserResources::url (name));
-  vector <book_id> ids = database::books::get_ids ();
+  std::vector <book_id> ids = database::books::get_ids ();
   for (auto id : ids) {
     book_type type = database::books::get_type (id);
     if ((type == book_type::old_testament) || (type == book_type::new_testament)) {

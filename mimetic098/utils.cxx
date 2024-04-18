@@ -150,7 +150,7 @@ bool string_is_blank(const std::string& s)
 }
 
 /// extract the filename from a fqn
-string extractFilename(const string& fqn)
+string extractFilename(const std::string& fqn)
 {
     string::size_type pos;
     if((pos = fqn.find_last_of(PATH_SEPARATOR)) != std::string::npos)
@@ -196,7 +196,7 @@ string int2str(int n)
     return i;
 }
 
-int str2int(const string& str)
+int str2int(const std::string& str)
 {
     return ::atoi(str.c_str());
 }

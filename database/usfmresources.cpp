@@ -35,19 +35,19 @@ string Database_UsfmResources::mainFolder ()
 }
 
 
-string Database_UsfmResources::resourceFolder (const string& name)
+string Database_UsfmResources::resourceFolder (const std::string& name)
 {
   return filter_url_create_path ({mainFolder (), name});
 }
 
 
-string Database_UsfmResources::bookFolder (const string& name, int book)
+string Database_UsfmResources::bookFolder (const std::string& name, int book)
 {
   return filter_url_create_path ({resourceFolder (name), filter::strings::convert_to_string (book)});
 }
 
 
-string Database_UsfmResources::chapterFile (const string& name, int book, int chapter)
+string Database_UsfmResources::chapterFile (const std::string& name, int book, int chapter)
 {
   return filter_url_create_path ({bookFolder (name, book), filter::strings::convert_to_string (chapter)});
 }
@@ -59,7 +59,7 @@ vector <string> Database_UsfmResources::getResources ()
 }
 
 
-void Database_UsfmResources::deleteResource (const string& name)
+void Database_UsfmResources::deleteResource (const std::string& name)
 {
   string path = resourceFolder (name);
   // If a folder: Delete it.
@@ -69,7 +69,7 @@ void Database_UsfmResources::deleteResource (const string& name)
 }
 
 
-void Database_UsfmResources::deleteBook (const string& name, int book)
+void Database_UsfmResources::deleteBook (const std::string& name, int book)
 {
   string path = bookFolder (name, book);
   // If a folder: Delete it.
@@ -79,13 +79,13 @@ void Database_UsfmResources::deleteBook (const string& name, int book)
 }
 
 
-void Database_UsfmResources::deleteChapter (const string& name, int book, int chapter)
+void Database_UsfmResources::deleteChapter (const std::string& name, int book, int chapter)
 {
   filter_url_unlink (chapterFile (name, book, chapter));
 }
 
 
-void Database_UsfmResources::storeChapter (const string& name, int book, int chapter, const string& usfm)
+void Database_UsfmResources::storeChapter (const std::string& name, int book, int chapter, const std::string& usfm)
 {
   string file = chapterFile (name, book, chapter);
   string folder = filter_url_dirname (file);
@@ -94,7 +94,7 @@ void Database_UsfmResources::storeChapter (const string& name, int book, int cha
 }
 
 
-vector <int> Database_UsfmResources::getBooks (const string& name)
+vector <int> Database_UsfmResources::getBooks (const std::string& name)
 {
   vector <int> books;
   vector <string> files = filter_url_scandir (resourceFolder (name));
@@ -104,7 +104,7 @@ vector <int> Database_UsfmResources::getBooks (const string& name)
 }
 
 
-vector <int> Database_UsfmResources::getChapters (const string& name, int book)
+vector <int> Database_UsfmResources::getChapters (const std::string& name, int book)
 {
   vector <int> chapters;
   vector <string> folders = filter_url_scandir (bookFolder (name, book));
@@ -114,7 +114,7 @@ vector <int> Database_UsfmResources::getChapters (const string& name, int book)
 }
 
 
-string Database_UsfmResources::getUsfm (const string& name, int book, int chapter)
+string Database_UsfmResources::getUsfm (const std::string& name, int book, int chapter)
 {
   string file = chapterFile (name, book, chapter);
   string usfm = filter_url_file_get_contents (file);
@@ -122,7 +122,7 @@ string Database_UsfmResources::getUsfm (const string& name, int book, int chapte
 }
 
 
-int Database_UsfmResources::getSize (const string& name, int book, int chapter)
+int Database_UsfmResources::getSize (const std::string& name, int book, int chapter)
 {
   string file = chapterFile (name, book, chapter);
   return filter_url_filesize (file);

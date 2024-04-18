@@ -505,7 +505,7 @@ void database_cache_trim (bool clear)
 
 
 // This returns true if the $html can be cached.
-bool database_cache_can_cache (const string & error, const string & html)
+bool database_cache_can_cache (const std::string& error, const std::string& html)
 {
   // Normally if everything is fine, then caching is possible.
   bool cache = true;

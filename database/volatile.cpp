@@ -27,13 +27,13 @@ using namespace std;
 // Database resilience: It is stored in the plain filesystem in the temporal location.
 
 
-string Database_Volatile::getValue (int id, const string& key)
+string Database_Volatile::getValue (int id, const std::string& key)
 {
   return filter_url_file_get_contents (filename (id, key));
 }
 
 
-void Database_Volatile::setValue (int id, const string& key, const string& value)
+void Database_Volatile::setValue (int id, const std::string& key, const std::string& value)
 {
   filter_url_file_put_contents (filename (id, key), value);
 }

@@ -37,7 +37,7 @@ using namespace std;
 
 
 // Internal function that searches related passages in the XML DOM.
-void related_logic_search_related (const string & bookname, int input_chapter, const string & input_verse,
+void related_logic_search_related (const std::string& bookname, int input_chapter, const std::string& input_verse,
                                    const pugi::xml_node & node, vector <int> & passages)
 {
   for (pugi::xml_node set : node.children ()) {

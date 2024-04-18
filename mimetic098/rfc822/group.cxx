@@ -99,12 +99,12 @@ Group::Group(const char* cstr)
     set(cstr);
 }
 
-Group::Group(const string& text)
+Group::Group(const std::string& text)
 {
     set(text);
 }
 
-static string::size_type find_not_in_quote(const string& s, const string::value_type& c)
+static string::size_type find_not_in_quote(const std::string& s, const string::value_type& c)
 {
     size_t len = s.length();
     bool in_dquote = false;
@@ -132,7 +132,7 @@ std::string Group::str() const
     return rs + ";";
 }
 
-void Group::set(const string& text)
+void Group::set(const std::string& text)
 {
     m_text = text;
     size_type colon = find_not_in_quote(m_text, ':');
@@ -175,7 +175,7 @@ void Group::set(const string& text)
 string Group::name(int bCanonical) const
 {    return (bCanonical ? canonical(m_name) : m_name);    }
 
-void Group::name(const string& name)
+void Group::name(const std::string& name)
 {    m_name = name;    }
 
 FieldValue* Group::clone() const

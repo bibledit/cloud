@@ -105,7 +105,7 @@ Rfc822Header::~Rfc822Header()
 }
 #endif
 
-bool Rfc822Header::hasField(const string& name) const
+bool Rfc822Header::hasField(const std::string& name) const
 {
     const_iterator it;
     it = find_if(begin(),end(), find_by_name(name));
@@ -273,7 +273,7 @@ Field& Rfc822Header::messageid()
 {
     return getField("Message-ID");
 }
-Field& Rfc822Header::messageid(const string& value)
+Field& Rfc822Header::messageid(const std::string& value)
 {
     return getField("Message-ID", value);
 }

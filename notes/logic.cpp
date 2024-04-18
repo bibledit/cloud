@@ -75,7 +75,7 @@ int Notes_Logic::createNote (string bible, int book, int chapter, int verse, str
 
 
 // Set the $content of an existing note $identifier.
-void Notes_Logic::setContent (int identifier, const string& content)
+void Notes_Logic::setContent (int identifier, const std::string& content)
 {
   // Do nothing if there was no content.
   if (content.empty ()) return;
@@ -96,7 +96,7 @@ void Notes_Logic::setContent (int identifier, const string& content)
 
 
 // Add a comment to an exiting note identified by identifier.
-void Notes_Logic::addComment (int identifier, const string& comment)
+void Notes_Logic::addComment (int identifier, const std::string& comment)
 {
   // Do nothing if there was no content.
   if (comment == "") return;
@@ -115,7 +115,7 @@ void Notes_Logic::addComment (int identifier, const string& comment)
 }
 
 
-void Notes_Logic::set_summary (int identifier, const string& summary)
+void Notes_Logic::set_summary (int identifier, const std::string& summary)
 {
   Database_Notes database_notes (m_webserver_request);
   database_notes.set_summary (identifier, summary);
@@ -160,7 +160,7 @@ void Notes_Logic::unsubscribe (int identifier)
 }
 
 
-void Notes_Logic::assignUser (int identifier, const string& user)
+void Notes_Logic::assignUser (int identifier, const std::string& user)
 {
   Database_Notes database_notes (m_webserver_request);
   if (client_logic_client_enabled ()) {
@@ -177,7 +177,7 @@ void Notes_Logic::assignUser (int identifier, const string& user)
 }
 
 
-void Notes_Logic::unassignUser (int identifier, const string& user)
+void Notes_Logic::unassignUser (int identifier, const std::string& user)
 {
   Database_Notes database_notes (m_webserver_request);
   database_notes.unassign_user (identifier, user);
@@ -192,7 +192,7 @@ void Notes_Logic::unassignUser (int identifier, const string& user)
 }
 
 
-void Notes_Logic::setStatus (int identifier, const string& status)
+void Notes_Logic::setStatus (int identifier, const std::string& status)
 {
   Database_Notes database_notes (m_webserver_request);
   database_notes.set_status (identifier, status);
@@ -240,7 +240,7 @@ void Notes_Logic::setRawSeverity (int identifier, int severity)
 
 
 // Sets the bible for note identifier.
-void Notes_Logic::setBible (int identifier, const string& bible)
+void Notes_Logic::setBible (int identifier, const std::string& bible)
 {
   Database_Notes database_notes (m_webserver_request);
   database_notes.set_bible (identifier, bible);
@@ -322,7 +322,7 @@ void Notes_Logic::handlerAddComment (int identifier)
 }
 
 
-void Notes_Logic::handlerAssignNote (int identifier, const string& user)
+void Notes_Logic::handlerAssignNote (int identifier, const std::string& user)
 {
   // Take no action in client mode.
   if (client_logic_client_enabled ()) return;
@@ -376,7 +376,7 @@ void Notes_Logic::notifyUsers (int identifier, int notification)
 
     // Users to get subscribed to the note, or to whom the note is to be assigned.
     vector <string> users = m_webserver_request.database_users ()->get_users ();
-    for (const string & user : users) {
+    for (const std::string& user : users) {
       if (access_bible::read (m_webserver_request, bible, user)) {
         if (m_webserver_request.database_config_user ()->getNotifyUserOfAnyConsultationNotesEdits (user)) {
           database_notes.subscribe_user (identifier, user);
@@ -397,7 +397,7 @@ void Notes_Logic::notifyUsers (int identifier, int notification)
 
   // Subscribers who receive email.
   vector <string> subscribers = database_notes.get_subscribers (identifier);
-  for (const string & subscriber : subscribers) {
+  for (const std::string& subscriber : subscribers) {
     if (m_webserver_request.database_config_user ()->getUserSubscribedConsultationNoteNotification (subscriber)) {
       recipients.push_back (subscriber);
     }
@@ -405,7 +405,7 @@ void Notes_Logic::notifyUsers (int identifier, int notification)
 
   // Assignees who receive email.
   vector <string> assignees = database_notes.get_assignees (identifier);
-  for (const string & assignee : assignees) {
+  for (const std::string& assignee : assignees) {
     if (m_webserver_request.database_config_user ()->getUserAssignedConsultationNoteNotification (assignee)) {
       recipients.push_back (assignee);
     }
@@ -464,7 +464,7 @@ void Notes_Logic::notifyUsers (int identifier, int notification)
 // bible: If given, to include in the subject line of the email.
 // users: array of users to be mailed.
 // postpone: whether to postpone sending the email till the evening.
-void Notes_Logic::emailUsers (int identifier, const string& label, string bible, const vector <string> & users, bool postpone)
+void Notes_Logic::emailUsers (int identifier, const std::string& label, string bible, const vector <string> & users, bool postpone)
 {
   // Databases.
   Database_Notes database_notes (m_webserver_request);

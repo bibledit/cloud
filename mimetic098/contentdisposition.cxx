@@ -93,12 +93,12 @@ ContentDisposition::ContentDisposition(const char* cstr)
     set(cstr);
 }
 
-ContentDisposition::ContentDisposition(const string& val)
+ContentDisposition::ContentDisposition(const std::string& val)
 {
     set(val);
 }
 
-void ContentDisposition::type(const string& stype)
+void ContentDisposition::type(const std::string& stype)
 {
     m_type.assign(stype);
 }
@@ -118,7 +118,7 @@ ContentDisposition::ParamList& ContentDisposition::paramList()
     return m_paramList;
 }
 
-const string& ContentDisposition::param(const string& field) const
+const std::string& ContentDisposition::param(const std::string& field) const
 {
     ParamList::const_iterator bit = m_paramList.begin(),  eit = m_paramList.end();
     for(; bit != eit; ++bit)
@@ -143,7 +143,7 @@ void ContentDisposition::param(const std::string& name, const std::string& val)
     m_paramList.push_back(Param(name, val));
 }
 
-void ContentDisposition::set(const string& val)
+void ContentDisposition::set(const std::string& val)
 {
     string type;
     StringTokenizer stok(&val, ";");

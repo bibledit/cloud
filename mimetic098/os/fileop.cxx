@@ -91,13 +91,13 @@ namespace mimetic
 {
 
 //static
-bool FileOp::remove(const string& fqn)
+bool FileOp::remove(const std::string& fqn)
 {
     return unlink(fqn.c_str()) == 0;
 }
 
 //static
-bool FileOp::move(const string& oldf, const string& newf)
+bool FileOp::move(const std::string& oldf, const std::string& newf)
 {
 #if defined(CONFIG_UNIX)
     if(link(oldf.c_str(), newf.c_str()) == 0)
@@ -113,14 +113,14 @@ bool FileOp::move(const string& oldf, const string& newf)
 #endif
 }
 //static
-bool FileOp::exists(const string& fqn)
+bool FileOp::exists(const std::string& fqn)
 {
     struct stat st;
     return ::stat(fqn.c_str(), &st) == 0;
 }
 
 //static
-uint FileOp::size(const string& fqn)
+uint FileOp::size(const std::string& fqn)
 {
     struct stat st;
     if(::stat(fqn.c_str(), &st) == 0)
@@ -130,7 +130,7 @@ uint FileOp::size(const string& fqn)
 }
 
 //static
-uint FileOp::ctime(const string& fqn)
+uint FileOp::ctime(const std::string& fqn)
 {
     struct stat st;
     if(::stat(fqn.c_str(), &st) == 0)
@@ -140,7 +140,7 @@ uint FileOp::ctime(const string& fqn)
 }
 
 //static
-uint FileOp::atime(const string& fqn)
+uint FileOp::atime(const std::string& fqn)
 {
     struct stat st;
     if(::stat(fqn.c_str(), &st) == 0)
@@ -150,7 +150,7 @@ uint FileOp::atime(const string& fqn)
 }
 
 //static
-uint FileOp::mtime(const string& fqn)
+uint FileOp::mtime(const std::string& fqn)
 {
     struct stat st;
     if(::stat(fqn.c_str(), &st) == 0)

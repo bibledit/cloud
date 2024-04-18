@@ -102,14 +102,14 @@ Address::Address(const char* text)
     Construct an Address object reading free form text from \p text
     \param text input text
  */
-Address::Address(const string& text)
+Address::Address(const std::string& text)
 : m_isGroup(false)
 {
     set(text);
 }
 
 
-void Address::set(const string& text)
+void Address::set(const std::string& text)
 {
     bool in_dquote = false;
     m_isGroup = false;

@@ -32,7 +32,7 @@ using namespace std;
 // In case of corruption, upgrade Bibledit and it will recreate the database.
 
 
-Database_Localization::Database_Localization (const string& language_in)
+Database_Localization::Database_Localization (const std::string& language_in)
 {
   language = language_in;
 }
@@ -67,7 +67,7 @@ void Database_Localization::create (string po)
 }
 
 
-string Database_Localization::translate (const string& english)
+string Database_Localization::translate (const std::string& english)
 {
   SqliteSQL sql = SqliteSQL ();
   sql.add ("SELECT msgstr FROM localization WHERE msgid =");
@@ -81,7 +81,7 @@ string Database_Localization::translate (const string& english)
 }
 
 
-string Database_Localization::backtranslate (const string& localization)
+string Database_Localization::backtranslate (const std::string& localization)
 {
   SqliteSQL sql = SqliteSQL ();
   sql.add ("SELECT msgid FROM localization WHERE msgstr =");

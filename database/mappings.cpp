@@ -105,7 +105,7 @@ void Database_Mappings::optimize ()
 }
 
 
-void Database_Mappings::import (const string& name, const string& data)
+void Database_Mappings::import (const std::string& name, const std::string& data)
 {
   // Delete existing mapping with this name.
   erase (name);
@@ -189,7 +189,7 @@ void Database_Mappings::import (const string& name, const string& data)
 
 
 // Exports a mapping.
-string Database_Mappings::output (const string& name)
+string Database_Mappings::output (const std::string& name)
 {
   vector <string> data;
   SqliteSQL sql = SqliteSQL ();
@@ -222,7 +222,7 @@ string Database_Mappings::output (const string& name)
 }
 
 
-void Database_Mappings::create (const string & name)
+void Database_Mappings::create (const std::string& name)
 {
   // Insert one entry, so the $name makes it into the database.
   SqliteSQL sql = SqliteSQL ();
@@ -235,7 +235,7 @@ void Database_Mappings::create (const string & name)
 }
 
 
-void Database_Mappings::erase (const string & name)
+void Database_Mappings::erase (const std::string& name)
 {
   SqliteSQL sql = SqliteSQL ();
   sql.add ("DELETE FROM maps WHERE name =");
@@ -277,7 +277,7 @@ string Database_Mappings::original ()
 // It returns an array with one passage in most cases.
 // When the verses in the $input and $output versifications overlap,
 // it may return an array with two passages.
-vector <Passage> Database_Mappings::translate (const string& input, const string& output, int book, int chapter, int verse)
+vector <Passage> Database_Mappings::translate (const std::string& input, const std::string& output, int book, int chapter, int verse)
 {
   // Care for situation that the input and output are the same.
   if (input == output) {

@@ -75,7 +75,7 @@ void Database_Versifications::optimize ()
 
 
 // Import data.
-void Database_Versifications::input (const string& contents, const string& name)
+void Database_Versifications::input (const std::string& contents, const std::string& name)
 {
   // Delete old system if it is there, and create new one.
   erase (name);
@@ -129,7 +129,7 @@ void Database_Versifications::input (const string& contents, const string& name)
 
 
 // Export data.
-string Database_Versifications::output (const string& name)
+string Database_Versifications::output (const std::string& name)
 {
   vector <string> lines;
   vector <Passage> versification_data = getBooksChaptersVerses (name);
@@ -146,7 +146,7 @@ string Database_Versifications::output (const string& name)
 
 
 // Delete a versification system.
-void Database_Versifications::erase (const string& name)
+void Database_Versifications::erase (const std::string& name)
 {
   int id = getID (name);
 
@@ -168,7 +168,7 @@ void Database_Versifications::erase (const string& name)
 
 
 // Returns the ID for a named versification system.
-int Database_Versifications::getID (const string& name)
+int Database_Versifications::getID (const std::string& name)
 {
   SqliteSQL sql = SqliteSQL ();
   sql.add ("SELECT system FROM names WHERE name =");
@@ -187,7 +187,7 @@ int Database_Versifications::getID (const string& name)
 
 // Creates a new empty versification system.
 // Returns the new ID.
-int Database_Versifications::createSystem (const string& name)
+int Database_Versifications::createSystem (const std::string& name)
 {
   // If the versification system already exists, return its ID.
   int id = getID (name);
@@ -228,7 +228,7 @@ vector <string> Database_Versifications::getSystems ()
 
 
 // Returns the books, chapters, verses for the given versification system.
-vector <Passage> Database_Versifications::getBooksChaptersVerses (const string& name)
+vector <Passage> Database_Versifications::getBooksChaptersVerses (const std::string& name)
 {
   vector <Passage> data;
   int id = getID (name);
@@ -253,7 +253,7 @@ vector <Passage> Database_Versifications::getBooksChaptersVerses (const string& 
 }
 
 
-vector <int> Database_Versifications::getBooks (const string& name)
+vector <int> Database_Versifications::getBooks (const std::string& name)
 {
   vector <int> books;
   int id = getID (name);
@@ -273,7 +273,7 @@ vector <int> Database_Versifications::getBooks (const string& name)
 
 // This returns all the chapters in book of versification system name.
 // include0: Includes chapter 0 also.
-vector <int> Database_Versifications::getChapters (const string& name, int book, bool include0)
+vector <int> Database_Versifications::getChapters (const std::string& name, int book, bool include0)
 {
   vector <int> chapters;
   if (include0) chapters.push_back (0);
@@ -294,7 +294,7 @@ vector <int> Database_Versifications::getChapters (const string& name, int book,
 }
 
 
-vector <int> Database_Versifications::getVerses (const string& name, int book, int chapter)
+vector <int> Database_Versifications::getVerses (const std::string& name, int book, int chapter)
 {
   vector <int> verses;
   int id = getID (name);

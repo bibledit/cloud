@@ -91,13 +91,13 @@ ContentDescription::ContentDescription(const char* cstr)
     set(cstr);
 }
 
-ContentDescription::ContentDescription(const string& val)
+ContentDescription::ContentDescription(const std::string& val)
 {
     set(val);
 }
 
 
-void ContentDescription::set(const string& val)
+void ContentDescription::set(const std::string& val)
 {
     m_value = val;
 }

@@ -45,7 +45,7 @@ std::vector <book_id> get_ids ()
 }
 
 
-book_id get_id_from_english (const string & english)
+book_id get_id_from_english (const std::string& english)
 {
   for (unsigned int i = 0; i < data_count; i++) {
     if (english == books_table[i].english) {
@@ -100,7 +100,7 @@ string get_osis_from_id (book_id id)
 }
 
 
-book_id get_id_from_usfm (const string & usfm)
+book_id get_id_from_usfm (const std::string& usfm)
 {
   for (unsigned int i = 0; i < data_count; i++) {
     if (usfm == books_table[i].usfm) {
@@ -111,7 +111,7 @@ book_id get_id_from_usfm (const string & usfm)
 }
 
 
-book_id get_id_from_osis (const string & osis)
+book_id get_id_from_osis (const std::string& osis)
 {
   for (unsigned int i = 0; i < data_count; i++) {
     if (osis == books_table[i].osis) {
@@ -122,7 +122,7 @@ book_id get_id_from_osis (const string & osis)
 }
 
 
-book_id get_id_from_bibleworks (const string & bibleworks)
+book_id get_id_from_bibleworks (const std::string& bibleworks)
 {
   for (unsigned int i = 0; i < data_count; i++) {
     if (bibleworks == books_table[i].bibleworks) {
@@ -136,7 +136,7 @@ book_id get_id_from_bibleworks (const string & bibleworks)
 // Tries to interprete $text as the name of a Bible book.
 // Returns the book's identifier if it succeeds.
 // If it fails, it returns 0.
-book_id get_id_like_text (const string & text)
+book_id get_id_like_text (const std::string& text)
 {
   // Go through all known book names and abbreviations.
   // Note how much the $text differs from the known names.
@@ -162,7 +162,7 @@ book_id get_id_like_text (const string & text)
 }
 
 
-book_id get_id_from_onlinebible (const string & onlinebible)
+book_id get_id_from_onlinebible (const std::string& onlinebible)
 {
   for (unsigned int i = 0; i < data_count; i++) {
     if (onlinebible == books_table[i].onlinebible) {

@@ -96,7 +96,7 @@ Version::Version()
 {
 }
 
-Version::Version(const string& s)
+Version::Version(const std::string& s)
 : m_maj(0), m_min(0), m_build(0)
 {
     set(s);
@@ -150,7 +150,7 @@ string Version::str() const
         (m_build > 0 ? "." + utils::int2str(m_build) : "");
 }
 
-void Version::set(const string& s)
+void Version::set(const std::string& s)
 {
     StringTokenizer stok(&s, ".");
     string tok;

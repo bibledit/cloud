@@ -74,7 +74,7 @@ void i18n_logic_augment_via_google_translate ()
     
     // Iterate over the current messages and assemble translations.
     for (auto & message : current_msgid_msgstr_map) {
-      const string & msgid = element.first;
+      const std::string& msgid = element.first;
       string & msgstr = element.second;
 
       // In case of the en_GB.po file,

@@ -39,7 +39,7 @@ void export_logic::schedule_all ()
 // Schedule a Bible book for export to text and basic USFM format.
 // $bible: Bible.
 // $book: book.
-void export_logic::schedule_text_and_basic_usfm (const string & bible, bool log)
+void export_logic::schedule_text_and_basic_usfm (const std::string& bible, bool log)
 {
   Database_Bibles database_bibles;
   vector <int> books = database_bibles.get_books (bible);
@@ -50,7 +50,7 @@ void export_logic::schedule_text_and_basic_usfm (const string & bible, bool log)
 
 
 // Schedule a Bible for export to USFM format.
-void export_logic::schedule_usfm (const string & bible, bool log)
+void export_logic::schedule_usfm (const std::string& bible, bool log)
 {
   tasks_logic_queue (EXPORTUSFM, {bible, filter::strings::convert_to_string (log)});
 }
@@ -58,7 +58,7 @@ void export_logic::schedule_usfm (const string & bible, bool log)
 
 // Schedule export to OpenDocument.
 // $bible: Bible.
-void export_logic::schedule_open_document (const string & bible, bool log)
+void export_logic::schedule_open_document (const std::string& bible, bool log)
 {
   // Get the available books in the Bible.
   Database_Bibles database_bibles;
@@ -74,7 +74,7 @@ void export_logic::schedule_open_document (const string & bible, bool log)
 
 // Schedule creation info documents.
 // $bible: Bible.
-void export_logic::schedule_info (const string & bible, bool log)
+void export_logic::schedule_info (const std::string& bible, bool log)
 {
   tasks_logic_queue (EXPORTINFO, {bible, filter::strings::convert_to_string (log)});
 }
@@ -82,7 +82,7 @@ void export_logic::schedule_info (const string & bible, bool log)
 
 // Schedule export to html.
 // $bible: Bible.
-void export_logic::schedule_html (const string & bible, bool log)
+void export_logic::schedule_html (const std::string& bible, bool log)
 {
   Database_Bibles database_bibles;
   vector <int> books = database_bibles.get_books (bible);
@@ -94,7 +94,7 @@ void export_logic::schedule_html (const string & bible, bool log)
 
 // Schedule export to web.
 // $bible: Bible.
-void export_logic::schedule_web (const string & bible, bool log)
+void export_logic::schedule_web (const std::string& bible, bool log)
 {
   Database_Bibles database_bibles;
   vector <int> books = database_bibles.get_books (bible);
@@ -106,19 +106,19 @@ void export_logic::schedule_web (const string & bible, bool log)
 
 // Schedule export to web index.
 // $bible: Bible.
-void export_logic::schedule_web_index (const string & bible, bool log)
+void export_logic::schedule_web_index (const std::string& bible, bool log)
 {
   tasks_logic_queue (EXPORTWEBINDEX, {bible, filter::strings::convert_to_string (log)});
 }
 
 
-void export_logic::schedule_online_bible (const string & bible, bool log)
+void export_logic::schedule_online_bible (const std::string& bible, bool log)
 {
   tasks_logic_queue (EXPORTONLINEBIBLE, {bible, filter::strings::convert_to_string (log)});
 }
 
 
-void export_logic::schedule_e_sword (const string & bible, bool log)
+void export_logic::schedule_e_sword (const std::string& bible, bool log)
 {
   tasks_logic_queue (EXPORTESWORD, {bible, filter::strings::convert_to_string (log)});
 }
@@ -132,7 +132,7 @@ string export_logic::main_directory ()
 
 
 // A Bible's export directory.
-string export_logic::bible_directory (const string & bible)
+string export_logic::bible_directory (const std::string& bible)
 {
   return filter_url_create_path ({main_directory (), bible});
 }
@@ -143,7 +143,7 @@ string export_logic::bible_directory (const string & bible)
 // 0: directory for the full USFM.
 // 1: directory for the basic USFM.
 // 2: root USFM directory.
-string export_logic::usfm_directory (const string & bible, int type)
+string export_logic::usfm_directory (const std::string& bible, int type)
 {
   string directory = filter_url_create_path ({bible_directory (bible), "usfm"});
   switch (type) {
@@ -155,13 +155,13 @@ string export_logic::usfm_directory (const string & bible, int type)
 }
 
 
-string export_logic::web_directory (const string & bible)
+string export_logic::web_directory (const std::string& bible)
 {
   return filter_url_create_path ({bible_directory (bible), "web"});
 }
 
 
-string export_logic::web_back_link_directory (const string & bible)
+string export_logic::web_back_link_directory (const std::string& bible)
 {
   return "/exports/" + bible + "/web/";
 }
@@ -170,7 +170,7 @@ string export_logic::web_back_link_directory (const string & bible)
 // Provides the base book file name, e.g. 01_Genesis.
 // Or 00_Bible for an entire Bible when $book = 0;
 // Takes in account the order of the books, possibly modified by the user.
-string export_logic::base_book_filename (const string & bible, int book)
+string export_logic::base_book_filename (const std::string& bible, int book)
 {
   string filename;
   if (book) {

@@ -98,7 +98,7 @@ void Database_Sprint::optimize ()
 }
 
 
-void Database_Sprint::storeTask (const string& bible, int year, int month, const string& title)
+void Database_Sprint::storeTask (const std::string& bible, int year, int month, const std::string& title)
 {
   SqliteSQL sql = SqliteSQL ();
   sql.add ("INSERT INTO sprint VALUES (");
@@ -128,7 +128,7 @@ void Database_Sprint::deleteTask (int id)
 }
 
 
-vector <int> Database_Sprint::getTasks (const string& bible, int year, int month)
+vector <int> Database_Sprint::getTasks (const std::string& bible, int year, int month)
 {
   SqliteSQL sql = SqliteSQL ();
   sql.add ("SELECT rowid FROM sprint WHERE bible =");
@@ -207,7 +207,7 @@ void Database_Sprint::updateMonthYear (int id, int month, int year)
 }
 
 
-void Database_Sprint::logHistory (const string& bible, int year, int month, int day, int tasks, int complete)
+void Database_Sprint::logHistory (const std::string& bible, int year, int month, int day, int tasks, int complete)
 {
   SqliteSQL sql1 = SqliteSQL ();
   sql1.add ("DELETE FROM sprinthistory WHERE bible =");
@@ -242,7 +242,7 @@ void Database_Sprint::logHistory (const string& bible, int year, int month, int 
 }
 
 
-vector <Database_Sprint_Item> Database_Sprint::getHistory (const string& bible, int year, int month)
+vector <Database_Sprint_Item> Database_Sprint::getHistory (const std::string& bible, int year, int month)
 {
   vector <Database_Sprint_Item> history;
   SqliteSQL sql = SqliteSQL ();
@@ -270,7 +270,7 @@ vector <Database_Sprint_Item> Database_Sprint::getHistory (const string& bible, 
 }
 
 
-void Database_Sprint::clearHistory (const string& bible, int year, int month)
+void Database_Sprint::clearHistory (const std::string& bible, int year, int month)
 {
   SqliteSQL sql = SqliteSQL ();
   sql.add ("DELETE FROM sprinthistory WHERE bible =");

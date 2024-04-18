@@ -85,7 +85,7 @@ void Database_State::create ()
 
 
 // Stores a notes checksum for a range of notes.
-void Database_State::putNotesChecksum (int first, int last, const string& checksum)
+void Database_State::putNotesChecksum (int first, int last, const std::string& checksum)
 {
   sqlite3 * db = connect ();
   {
@@ -151,7 +151,7 @@ void Database_State::eraseNoteChecksum (int identifier)
 
 
 // Flag export of $bible $book to $format.
-void Database_State::setExport (const string & bible, int book, int format)
+void Database_State::setExport (const std::string& bible, int book, int format)
 {
   if (getExport (bible, book, format)) return;
   SqliteSQL sql = SqliteSQL ();
@@ -169,7 +169,7 @@ void Database_State::setExport (const string & bible, int book, int format)
 
 
 // Get whether the $bible $book has been flagged for export in format $format.
-bool Database_State::getExport (const string & bible, int book, int format)
+bool Database_State::getExport (const std::string& bible, int book, int format)
 {
   SqliteSQL sql = SqliteSQL ();
   sql.add ("SELECT format FROM export WHERE bible =");
@@ -190,7 +190,7 @@ bool Database_State::getExport (const string & bible, int book, int format)
 
 
 // Clear the export flag for $bible $book to $format
-void Database_State::clearExport (const string & bible, int book, int format)
+void Database_State::clearExport (const std::string& bible, int book, int format)
 {
   sqlite3 * db = connect ();
   SqliteSQL sql = SqliteSQL ();

@@ -32,7 +32,7 @@ using namespace std;
 // The first line contains the checksum.
 // The second line contains the readwrite as 0 or 1.
 // The rest contains the $data.
-string checksum_logic::send (const string & data, bool readwrite)
+string checksum_logic::send (const std::string& data, bool readwrite)
 {
   string checksum = get (data);
   checksum.append ("\n");
@@ -45,7 +45,7 @@ string checksum_logic::send (const string & data, bool readwrite)
 
 // This function gets the checksum for $data, and returns it.
 // It calculates the length of 'data' in bytes.
-string checksum_logic::get (const string & data)
+string checksum_logic::get (const std::string& data)
 {
   return filter::strings::convert_to_string (data.length ());
 }
@@ -62,7 +62,7 @@ string checksum_logic::get (const vector <string>& data)
 
 
 // Returns a proper checksum for the USFM in the chapter.
-string checksum_logic::get_chapter (Webserver_Request& webserver_request, const string & bible, int book, int chapter)
+string checksum_logic::get_chapter (Webserver_Request& webserver_request, const std::string& bible, int book, int chapter)
 {
   string usfm = webserver_request.database_bibles()->get_chapter (bible, book, chapter);
   string checksum = md5 (filter::strings::trim (usfm));
@@ -71,7 +71,7 @@ string checksum_logic::get_chapter (Webserver_Request& webserver_request, const 
 
 
 // Returns a proper checksum for the USFM in the book.
-string checksum_logic::get_book (Webserver_Request& webserver_request, const string & bible, int book)
+string checksum_logic::get_book (Webserver_Request& webserver_request, const std::string& bible, int book)
 {
   vector <int> chapters = webserver_request.database_bibles()->get_chapters (bible, book);
   vector <string> checksums;
@@ -85,7 +85,7 @@ string checksum_logic::get_book (Webserver_Request& webserver_request, const str
 
 
 // Returns a proper checksum for the USFM in the $bible.
-string checksum_logic::get_bible (Webserver_Request& webserver_request, const string & bible)
+string checksum_logic::get_bible (Webserver_Request& webserver_request, const std::string& bible)
 {
   vector <int> books = webserver_request.database_bibles()->get_books (bible);
   vector <string> checksums;

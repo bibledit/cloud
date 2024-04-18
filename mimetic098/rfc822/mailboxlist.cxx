@@ -99,7 +99,7 @@ MailboxList::MailboxList(const char* text)
     set(text);
 }
 
-MailboxList::MailboxList(const string& text)
+MailboxList::MailboxList(const std::string& text)
 {
     set(text);
 }

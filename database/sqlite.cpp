@@ -200,7 +200,7 @@ bool database_sqlite_healthy (string database)
 
 // Logs any error on the database connection,
 // The error will be prefixed by $prefix.
-void database_sqlite_error (sqlite3 * database, const string & prefix, char * error)
+void database_sqlite_error (sqlite3 * database, const std::string& prefix, char * error)
 {
   string message = prefix;
   if (error) {

@@ -115,7 +115,7 @@ ContentType::Boundary::Boundary()
     m_boundary = ms_common_boundary + "=_" + utils::int2hex(ms_i) + "_";
 }
 
-ContentType::Boundary::operator const string&() const
+ContentType::Boundary::operator const std::string&() const
 {
     return m_boundary;
 }
@@ -130,17 +130,17 @@ ContentType::ContentType(const char* cstr)
     set(cstr);
 }
 
-ContentType::ContentType(const string& value)
+ContentType::ContentType(const std::string& value)
 {
     set(value);
 }
 
-ContentType::ContentType(const string& stype, const string& ssubtype)
+ContentType::ContentType(const std::string& stype, const std::string& ssubtype)
 {
     set(stype, ssubtype);
 }
 
-void ContentType::set(const string& stype, const string& ssubtype)
+void ContentType::set(const std::string& stype, const std::string& ssubtype)
 {
     type(stype);
     subtype(ssubtype);
@@ -151,7 +151,7 @@ bool ContentType::isMultipart() const
     return m_type == "multipart";
 }
 
-void ContentType::param(const string& name, const string& value)
+void ContentType::param(const std::string& name, const std::string& value)
 {
     ParamList::iterator bit = m_paramList.begin(),  eit = m_paramList.end();
     for(; bit != eit; ++bit)
@@ -165,7 +165,7 @@ void ContentType::param(const string& name, const string& value)
     m_paramList.push_back(Param(name, value));
 }
 
-const string& ContentType::param(const string& field) const
+const std::string& ContentType::param(const std::string& field) const
 {
     ParamList::const_iterator bit = m_paramList.begin(),  eit = m_paramList.end();
     for(; bit != eit; ++bit)
@@ -176,14 +176,14 @@ const string& ContentType::param(const string& field) const
     return nullstring;
 }
 
-void ContentType::type(const string& v)
+void ContentType::type(const std::string& v)
 {    
     m_type.assign(v);
 //    if(isMultipart())
 //        m_paramList.push_back(ContentType::Param("boundary", Boundary()));            
 }
 
-void ContentType::subtype(const string& v)
+void ContentType::subtype(const std::string& v)
 {    
     m_subtype.assign(v);
 }
@@ -209,7 +209,7 @@ ContentType::ParamList& ContentType::paramList()
 }
 
 
-void ContentType::set(const string& val)
+void ContentType::set(const std::string& val)
 {
     StringTokenizer stok(&val, ";");
     string ct;

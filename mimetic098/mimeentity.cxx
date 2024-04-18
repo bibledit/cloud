@@ -105,7 +105,7 @@ void MimeEntity::load(istream& is, int mask)
     prs.run( it_type(is), it_type());
 }
 
-bool MimeEntity::hasField(const string& name) const
+bool MimeEntity::hasField(const std::string& name) const
 {
     return m_header.hasField(name);
 }

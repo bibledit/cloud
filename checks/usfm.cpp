@@ -30,7 +30,7 @@
 using namespace std;
 
 
-Checks_Usfm::Checks_Usfm (const string & bible)
+Checks_Usfm::Checks_Usfm (const std::string& bible)
 {
   Database_Styles database_styles {};
   string stylesheet = Database_Config_Bible::getExportStylesheet (bible);
@@ -107,7 +107,7 @@ void Checks_Usfm::finalize ()
 }
 
 
-void Checks_Usfm::check (const string & usfm)
+void Checks_Usfm::check (const std::string& usfm)
 {
   new_line_in_usfm (usfm);
   
@@ -165,7 +165,7 @@ void Checks_Usfm::malformed_verse_number ()
 }
 
 
-void Checks_Usfm::new_line_in_usfm (const string & usfm)
+void Checks_Usfm::new_line_in_usfm (const std::string& usfm)
 {
   size_t position {string::npos};
   size_t pos = usfm.find ("\\\n");
@@ -224,7 +224,7 @@ void Checks_Usfm::malformed_id ()
 }
 
 
-void Checks_Usfm::forward_slash (const string & usfm)
+void Checks_Usfm::forward_slash (const std::string& usfm)
 {
   string code = filter::strings::replace ("\n", " ", usfm);
   size_t pos = code.find ("/");

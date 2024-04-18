@@ -85,7 +85,7 @@ using namespace std;
 const string nullstring;
 
 
-string canonical(const string& s, bool no_ws)
+string canonical(const std::string& s, bool no_ws)
 {
     if(s.empty())
         return s;

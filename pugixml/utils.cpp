@@ -39,7 +39,7 @@
 using namespace std;
 
 
-void pugixml_utils_error_logger (void * pugi_xml_parse_result, const string & xml)
+void pugixml_utils_error_logger (void * pugi_xml_parse_result, const std::string& xml)
 {
   pugi::xml_parse_result * result = static_cast<pugi::xml_parse_result *>(pugi_xml_parse_result);
   if (result->status == pugi::status_ok) return;

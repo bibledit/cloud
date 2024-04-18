@@ -29,10 +29,10 @@
 using namespace std;
 
 
-void checks_verses::missing_punctuation_at_end (const string & bible, int book, int chapter,
+void checks_verses::missing_punctuation_at_end (const std::string& bible, int book, int chapter,
                                                 const map <int, string> & verses,
-                                                const string & center_marks, const string & end_marks,
-                                                const string & disregards)
+                                                const std::string& center_marks, const std::string& end_marks,
+                                                const std::string& disregards)
 {
   const vector <string> centermarks = filter::strings::explode (center_marks, ' ');
   const vector <string> endmarks = filter::strings::explode (end_marks, ' ');
@@ -55,7 +55,7 @@ void checks_verses::missing_punctuation_at_end (const string & bible, int book, 
 }
 
 
-void checks_verses::patterns (const string & bible, int book, int chapter,
+void checks_verses::patterns (const std::string& bible, int book, int chapter,
                               const map <int, string> & verses, const vector <string> & patterns)
 {
   Database_Check database_check {};

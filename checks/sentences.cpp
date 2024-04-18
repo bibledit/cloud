@@ -24,31 +24,31 @@
 using namespace std;
 
 
-void Checks_Sentences::enter_capitals (const string & capitals)
+void Checks_Sentences::enter_capitals (const std::string& capitals)
 {
   m_capitals = filter::strings::explode (capitals, ' ');
 }
 
 
-void Checks_Sentences::enter_small_letters (const string & small_letters)
+void Checks_Sentences::enter_small_letters (const std::string& small_letters)
 {
   m_small_letters = filter::strings::explode (small_letters, ' ');
 }
 
 
-void Checks_Sentences::enter_end_marks (const string & end_marks)
+void Checks_Sentences::enter_end_marks (const std::string& end_marks)
 {
   m_end_marks = filter::strings::explode (end_marks, ' ');
 }
 
 
-void Checks_Sentences::enter_center_marks (const string & center_marks)
+void Checks_Sentences::enter_center_marks (const std::string& center_marks)
 {
   m_center_marks = filter::strings::explode (center_marks, ' ');
 }
 
 
-void Checks_Sentences::enter_disregards (const string & disregards)
+void Checks_Sentences::enter_disregards (const std::string& disregards)
 {
   m_disregards = filter::strings::explode (disregards, ' ');
 }
@@ -204,7 +204,7 @@ void Checks_Sentences::paragraphs (const vector <string> & paragraph_start_marke
     // Check that the paragraph starts with a capital.
     is_capital = in_array (character2, m_capitals);
     if (!is_capital) {
-      const string & paragraph_marker = paragraph_start_markers [p];
+      const std::string& paragraph_marker = paragraph_start_markers [p];
       if (!in_array (paragraph_marker, within_sentence_paragraph_markers)) {
         string context = verses_paragraph.begin()->second;
         context = filter::strings::unicode_string_substr (context, 0, 15);

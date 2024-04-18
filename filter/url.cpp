@@ -329,7 +329,7 @@ void filter_url_unlink (string filename)
 //}
 
 
-void filter_url_rename (const string& oldfilename, const string& newfilename)
+void filter_url_rename (const std::string& oldfilename, const std::string& newfilename)
 {
 #ifdef HAVE_WINDOWS
   wstring woldfilename = filter::strings::string2wstring (oldfilename);
@@ -342,7 +342,7 @@ void filter_url_rename (const string& oldfilename, const string& newfilename)
 
 
 // As of February 2022 the std::filesystem does not yet work on Android.
-//void filter_url_rename (const string& oldfilename, const string& newfilename)
+//void filter_url_rename (const std::string& oldfilename, const std::string& newfilename)
 //{
 //  try {
 //    filesystem::path oldpath (oldfilename);
@@ -723,7 +723,7 @@ bool filter_url_file_cp (string input, string output)
 
 // Copies the entire directory $input to a directory named $output.
 // It will recursively copy the inner directories also.
-void filter_url_dir_cp (const string & input, const string & output)
+void filter_url_dir_cp (const std::string& input, const std::string& output)
 {
   // Create the output directory.
   filter_url_mkdir (output);
@@ -930,7 +930,7 @@ bool filter_url_email_is_valid (string email)
 }
 
 
-string filter_url_build_http_query (string url, const string& parameter, const string& value)
+string filter_url_build_http_query (string url, const std::string& parameter, const std::string& value)
 {
   size_t pos = url.find ("?");
   if (pos == std::string::npos) url.append ("?");
@@ -1066,7 +1066,7 @@ int filter_url_curl_trace (CURL *handle, curl_infotype type, char *data, size_t 
 // It appends the $values to the post data.
 // It returns the response from the server.
 // It writes any error to $error.
-string filter_url_http_post (const string & url, [[maybe_unused]] string post_data, const map <string, string> & post_values, string& error, [[maybe_unused]] bool burst, [[maybe_unused]] bool check_certificate, [[maybe_unused]] const vector <pair <string, string> > & headers)
+string filter_url_http_post (const std::string& url, [[maybe_unused]] string post_data, const map <string, string> & post_values, string& error, [[maybe_unused]] bool burst, [[maybe_unused]] bool check_certificate, [[maybe_unused]] const vector <pair <string, string> > & headers)
 {
   string response;
 #ifdef HAVE_CLIENT
@@ -1431,7 +1431,7 @@ string filter_url_remove_username_password (string url)
 // $post: Value pairs for a POST request.
 // $filename: The filename to save the data to.
 // $check_certificate: Whether to check the server certificate in case of secure http.
-string filter_url_http_request_mbed (string url, string& error, const map <string, string>& post, const string& filename, bool check_certificate)
+string filter_url_http_request_mbed (string url, string& error, const map <string, string>& post, const std::string& filename, bool check_certificate)
 {
   // The "http" scheme is used to locate network resources via the HTTP protocol.
   // $url = "http(s):" "//" host [ ":" port ] [ abs_path [ "?" query ]]

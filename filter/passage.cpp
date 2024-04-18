@@ -88,7 +88,7 @@ string Passage::encode () const
 
 // This method converts encoded text into a passage.
 // The text is in the format as its complementary function, "encode", produces.
-Passage Passage::decode (const string& encoded)
+Passage Passage::decode (const std::string& encoded)
 {
   Passage passage;
   vector <string> bits = filter::strings::explode (encoded, '_');
@@ -408,7 +408,7 @@ Passage filter_passage_interpret_passage (Passage currentPassage, string rawPass
 // This deals with sequences and ranges of verses, like the following:
 // Exod. 37:4-5, 14-15, 27-28
 // It puts each verse on a separate line.
-vector <string> filter_passage_handle_sequences_ranges (const string& passage)
+vector <string> filter_passage_handle_sequences_ranges (const std::string& passage)
 {
   // A passage like Exod. 37:4-5, 14-15, 27-28 will be cut at the comma.
   // The resulting array contains the following:
@@ -473,7 +473,7 @@ string filter_passage_link_for_opening_editor_at (int book, int chapter, string 
 
 // A Bible has a standard order for the books, and it can have their books in a custom order.
 // This function returns either the standard order, or a custom order in case it is available for the $bible.
-vector <int> filter_passage_get_ordered_books (const string& bible)
+vector <int> filter_passage_get_ordered_books (const std::string& bible)
 {
   Database_Bibles database_bibles;
 

@@ -85,7 +85,7 @@ FieldParam::FieldParam()
 {
 }
 
-FieldParam::FieldParam(const string& lpv)
+FieldParam::FieldParam(const std::string& lpv)
 {
     string::const_iterator bit = lpv.begin(), eit = lpv.end();
     for( ; bit != eit; ++bit)
@@ -100,7 +100,7 @@ FieldParam::FieldParam(const string& lpv)
     }
 }
 
-FieldParam::FieldParam(const string& n, const string& v)
+FieldParam::FieldParam(const std::string& n, const std::string& v)
 {    
     name(n);    
     value(v);
@@ -111,17 +111,17 @@ const istring& FieldParam::name() const
     return m_name;                
 }
 
-const string& FieldParam::value() const
+const std::string& FieldParam::value() const
 {    
     return m_value;                
 }
 
-void FieldParam::name(const string& n)
+void FieldParam::name(const std::string& n)
 {    
     m_name.assign(n);
 }
 
-void FieldParam::value(const string& v)
+void FieldParam::value(const std::string& v)
 {    
     m_value = v;
 }
@@ -129,7 +129,7 @@ void FieldParam::value(const string& v)
 ostream& operator<<(ostream& os, const FieldParam& p)
 {
     os << p.name() << "=";
-    const string& val = p.value();
+    const std::string& val = p.value();
     if(val.find_first_of("()\\<>\"@,;:/[]?=") != std::string::npos)
         return os << "\"" << val << "\"";
     else

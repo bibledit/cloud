@@ -45,7 +45,7 @@ using namespace std;
 
 
 // This returns true if the $entry can be filtered out from the Journal.
-bool journal_logic_filter_entry (const string& entry)
+bool journal_logic_filter_entry (const std::string& entry)
 {
   if (entry.find (sendreceive_notes_sendreceive_text ()) != std::string::npos) return true;
   if (entry.find (sendreceive_notes_up_to_date_text ()) != std::string::npos) return true;

@@ -87,7 +87,7 @@ bool DatabasePrivileges::healthy ()
 }
 
 
-string DatabasePrivileges::save (const string& username)
+string DatabasePrivileges::save (const std::string& username)
 {
   SqliteDatabase sql (database ());
   
@@ -131,7 +131,7 @@ string DatabasePrivileges::save (const string& username)
 }
 
 
-void DatabasePrivileges::load (const string& username, const string & data)
+void DatabasePrivileges::load (const std::string& username, const std::string& data)
 {
   // Clear all data for the user.
   {
@@ -194,7 +194,7 @@ void DatabasePrivileges::load (const string& username, const string & data)
 
 
 // Give a privilege to a $username to access $bible $book to read it, or also to $write it.
-void DatabasePrivileges::set_bible_book (const string& username, const string& bible, const int book, const bool write)
+void DatabasePrivileges::set_bible_book (const std::string& username, const std::string& bible, const int book, const bool write)
 {
   // First remove any entry.
   remove_bible_book (username, bible, book);
@@ -214,7 +214,7 @@ void DatabasePrivileges::set_bible_book (const string& username, const string& b
 
 
 // Give a privilege to a $username to access $bible to read it, or also to $write it.
-void DatabasePrivileges::set_bible (const string& username, const string& bible, const bool write)
+void DatabasePrivileges::set_bible (const std::string& username, const std::string& bible, const bool write)
 {
   // First remove any entry.
   remove_bible_book (username, bible, 0);
@@ -236,7 +236,7 @@ void DatabasePrivileges::set_bible (const string& username, const string& bible,
 // Read the privilege from the database whether $username has access to $bible $book.
 // The privileges are stored in $read for read-only access,
 // and in $write for write access.
-void DatabasePrivileges::get_bible_book (const string& username, const string& bible, const int book, bool & read, bool & write)
+void DatabasePrivileges::get_bible_book (const std::string& username, const std::string& bible, const int book, bool & read, bool & write)
 {
   SqliteDatabase sql (database ());
   sql.add ("SELECT write FROM bibles WHERE username =");
@@ -261,7 +261,7 @@ void DatabasePrivileges::get_bible_book (const string& username, const string& b
 
 
 // Returns a tuple with <read, write> whether the $username has access to the given $bible.
-tuple <bool, bool> DatabasePrivileges::get_bible (const string& username, const string& bible)
+tuple <bool, bool> DatabasePrivileges::get_bible (const std::string& username, const std::string& bible)
 {
   SqliteDatabase sql (database ());
   sql.add ("SELECT write FROM bibles WHERE username =");
@@ -295,7 +295,7 @@ int DatabasePrivileges::get_bible_book_count ()
 
 // Returns true if a record for $username / $bible / $book exists in the database.
 // When the $book = 0, it takes any book.
-bool DatabasePrivileges::get_bible_book_exists (const string& username, const string& bible, const int book)
+bool DatabasePrivileges::get_bible_book_exists (const std::string& username, const std::string& bible, const int book)
 {
   SqliteDatabase sql (database ());
   sql.add ("SELECT rowid FROM bibles WHERE username =");
@@ -314,7 +314,7 @@ bool DatabasePrivileges::get_bible_book_exists (const string& username, const st
 
 // Remove the privilege of a $username to have access to $bible $book.
 // Removing the privilege for $book 0 removes them for all possible books.
-void DatabasePrivileges::remove_bible_book (const string& username, const string& bible, const int book)
+void DatabasePrivileges::remove_bible_book (const std::string& username, const std::string& bible, const int book)
 {
   SqliteDatabase sql (database ());
   sql.add ("DELETE FROM bibles WHERE username =");
@@ -331,7 +331,7 @@ void DatabasePrivileges::remove_bible_book (const string& username, const string
 
 
 // Remove data for $bible from the database.
-void DatabasePrivileges::remove_bible (const string& bible)
+void DatabasePrivileges::remove_bible (const std::string& bible)
 {
   SqliteDatabase sql (database ());
   sql.add ("DELETE FROM bibles WHERE bible =");
@@ -341,7 +341,7 @@ void DatabasePrivileges::remove_bible (const string& bible)
 }
 
 
-void DatabasePrivileges::set_feature (const string& username, const int feature, const bool enabled)
+void DatabasePrivileges::set_feature (const std::string& username, const int feature, const bool enabled)
 {
   SqliteDatabase sql (database ());
   sql.add ("DELETE FROM features WHERE username =");
@@ -362,7 +362,7 @@ void DatabasePrivileges::set_feature (const string& username, const int feature,
 }
 
 
-bool DatabasePrivileges::get_feature (const string& username, const int feature)
+bool DatabasePrivileges::get_feature (const std::string& username, const int feature)
 {
   SqliteDatabase sql (database ());
   sql.add ("SELECT rowid FROM features WHERE username =");
@@ -377,7 +377,7 @@ bool DatabasePrivileges::get_feature (const string& username, const int feature)
 
 
 // Remove privileges for $username from the entire database.
-void DatabasePrivileges::remove_user (const string& username)
+void DatabasePrivileges::remove_user (const std::string& username)
 {
   SqliteDatabase sql (database ());
   sql.add ("DELETE FROM bibles WHERE username =");
@@ -428,7 +428,7 @@ const char * DatabasePrivileges::off ()
 }
 
 
-string database_privileges_directory (const string & user)
+string database_privileges_directory (const std::string& user)
 {
   return filter_url_create_path ({database_logic_databases (), "clients", user});
 }
@@ -440,13 +440,13 @@ string database_privileges_file ()
 }
 
 
-string database_privileges_client_path (const string & user)
+string database_privileges_client_path (const std::string& user)
 {
   return filter_url_create_root_path ({database_privileges_directory (user), database_privileges_file ()});
 }
 
 
-void database_privileges_client_create (const string & user, bool force)
+void database_privileges_client_create (const std::string& user, bool force)
 {
   // The path to the file with privileges for the $user.
   string path = database_privileges_client_path (user);
@@ -468,7 +468,7 @@ void database_privileges_client_create (const string & user, bool force)
 }
 
 
-void database_privileges_client_remove (const string & user)
+void database_privileges_client_remove (const std::string& user)
 {
   string path = database_privileges_client_path (user);
   path = filter_url_dirname (path);

@@ -111,7 +111,7 @@ const MimeEntity* Body::owner() const
     return m_owner;
 }
 
-bool Body::load(const string& fqn)
+bool Body::load(const std::string& fqn)
 {
     File in(fqn);
     if(!in)
@@ -132,12 +132,12 @@ const MimeEntityList& Body::parts() const
     return m_parts;
 }
 
-void Body::preamble(const string& v)
+void Body::preamble(const std::string& v)
 {
     m_preamble = v;
 }
 
-const string& Body::preamble() const
+const std::string& Body::preamble() const
 {
     return m_preamble;
 }
@@ -147,12 +147,12 @@ string& Body::preamble()
     return m_preamble;
 }
 
-void Body::epilogue(const string& v)
+void Body::epilogue(const std::string& v)
 {
     m_epilogue = v;
 }
 
-const string& Body::epilogue() const
+const std::string& Body::epilogue() const
 {
     return m_epilogue;
 }

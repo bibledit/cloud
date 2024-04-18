@@ -56,7 +56,7 @@ void client_logic_enable_client (bool enable)
 // $address is the website.
 // $port is the port number.
 // $path is the path after the website.
-string client_logic_url (const string & address, int port, const string & path)
+string client_logic_url (const std::string& address, int port, const std::string& path)
 {
   return address + ":" + filter::strings::convert_to_string (port) + "/" + path;
 }
@@ -118,8 +118,8 @@ string client_logic_connection_setup (string user, string hash)
 }
 
 
-string client_logic_create_note_encode (const string & bible, int book, int chapter, int verse,
-                                        const string & summary, const string & contents, bool raw)
+string client_logic_create_note_encode (const std::string& bible, int book, int chapter, int verse,
+                                        const std::string& summary, const std::string& contents, bool raw)
 {
   vector <string> data {};
   data.push_back (bible);
@@ -133,7 +133,7 @@ string client_logic_create_note_encode (const string & bible, int book, int chap
 }
 
 
-void client_logic_create_note_decode (const string & data,
+void client_logic_create_note_decode (const std::string& data,
                                       string& bible, int& book, int& chapter, int& verse,
                                       string& summary, string& contents, bool& raw)
 {

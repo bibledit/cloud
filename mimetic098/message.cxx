@@ -99,13 +99,13 @@ TextEntity::TextEntity()
     header().contentType("text/unknown");
 }
 
-TextEntity::TextEntity(const string& text)
+TextEntity::TextEntity(const std::string& text)
 {
     m_header.contentType("text/unknown");
     m_body.assign(text);
 }
 
-TextEntity::TextEntity(const string& text, const string& charset)
+TextEntity::TextEntity(const std::string& text, const std::string& charset)
 {
     ContentType ct("text", "unknown");
     ct.paramList().push_back(ContentType::Param("charset", charset));
@@ -113,25 +113,25 @@ TextEntity::TextEntity(const string& text, const string& charset)
     m_body.assign(text);
 }
 
-TextPlain::TextPlain(const string& text)
+TextPlain::TextPlain(const std::string& text)
 : TextEntity(text)
 {
     m_header.contentType("text/plain");
 }
 
-TextPlain::TextPlain(const string& text, const string& charset)
+TextPlain::TextPlain(const std::string& text, const std::string& charset)
 : TextEntity(text,charset)
 {
     m_header.contentType("text/plain");
 }
 
 
-TextEnriched::TextEnriched(const string& text)
+TextEnriched::TextEnriched(const std::string& text)
 : TextEntity(text)
 {
     m_header.contentType("text/enriched");
 }
-TextEnriched::TextEnriched(const string& text, const string& charset)
+TextEnriched::TextEnriched(const std::string& text, const std::string& charset)
 : TextEntity(text,charset)
 {
     m_header.contentType("text/enriched");
@@ -200,7 +200,7 @@ string ApplicationOctStream::type() const
     return m_header.contentType().param("type");
 }
 
-void ApplicationOctStream::type(const string& type)
+void ApplicationOctStream::type(const std::string& type)
 {
     ContentType ct = m_header.contentType();
     ct.param("type",type);

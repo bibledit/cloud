@@ -89,7 +89,7 @@ MimeVersion::MimeVersion()
 {
 }
 
-MimeVersion::MimeVersion(const string& s)
+MimeVersion::MimeVersion(const std::string& s)
 : Version(s)
 {
 }
@@ -104,7 +104,7 @@ string MimeVersion::str() const
     return Version::str();
 }
 
-void MimeVersion::set(const string& s)
+void MimeVersion::set(const std::string& s)
 {
     Version::set(s);
 }

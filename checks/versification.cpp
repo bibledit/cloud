@@ -26,7 +26,7 @@
 using namespace std;
 
 
-void checks_versification::books (const string & bible, const vector <int> & books)
+void checks_versification::books (const std::string& bible, const vector <int> & books)
 {
   Database_Versifications database_versifications {};
   string versification = Database_Config_Bible::getVersificationSystem (bible);
@@ -44,7 +44,7 @@ void checks_versification::books (const string & bible, const vector <int> & boo
 }
 
 
-void checks_versification::chapters (const string & bible, int book, const vector <int> & chapters)
+void checks_versification::chapters (const std::string& bible, int book, const vector <int> & chapters)
 {
   Database_Versifications database_versifications {};
   string versification = Database_Config_Bible::getVersificationSystem (bible);
@@ -62,7 +62,7 @@ void checks_versification::chapters (const string & bible, int book, const vecto
 }
 
 
-void checks_versification::verses (const string & bible, int book, int chapter, const vector <int> & verses)
+void checks_versification::verses (const std::string& bible, int book, int chapter, const vector <int> & verses)
 {
   // Get verses in this chapter according to the versification system for the Bible.
   Database_Versifications database_versifications {};

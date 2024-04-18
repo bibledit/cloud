@@ -106,19 +106,19 @@ void Database_Navigation::record (int time, string user, int book, int chapter, 
 }
 
 
-bool Database_Navigation::previous_exists (const string& user)
+bool Database_Navigation::previous_exists (const std::string& user)
 {
   return (get_previous_id (user) != 0);
 }
 
 
-bool Database_Navigation::next_exists (const string& user)
+bool Database_Navigation::next_exists (const std::string& user)
 {
   return (get_next_id (user) != 0);
 }
 
 
-Passage Database_Navigation::get_previous (const string& user)
+Passage Database_Navigation::get_previous (const std::string& user)
 {
   int id = get_previous_id (user);
   if (id == 0) return Passage ();
@@ -161,7 +161,7 @@ Passage Database_Navigation::get_previous (const string& user)
 }
 
 
-Passage Database_Navigation::get_next (const string& user)
+Passage Database_Navigation::get_next (const std::string& user)
 {
   int id = get_next_id (user);
   if (id == 0) return Passage ();
@@ -204,7 +204,7 @@ Passage Database_Navigation::get_next (const string& user)
 }
 
 
-int Database_Navigation::get_previous_id (const string& user)
+int Database_Navigation::get_previous_id (const std::string& user)
 {
   // Get the database row identifier of the active entry for the user.
   int id = 0;
@@ -242,7 +242,7 @@ int Database_Navigation::get_previous_id (const string& user)
 }
 
 
-int Database_Navigation::get_next_id (const string& user)
+int Database_Navigation::get_next_id (const std::string& user)
 {
   // Get the database row identifier of the active entry for the user.
   int id = 0;
@@ -284,7 +284,7 @@ int Database_Navigation::get_next_id (const string& user)
 // The $direction into which to get the history:
 // * negative: Get the past history as if going back.
 // * positive: Get the future history as if going forward.
-vector <Passage> Database_Navigation::get_history (const string& user, int direction)
+vector <Passage> Database_Navigation::get_history (const std::string& user, int direction)
 {
   vector <Passage> passages;
   

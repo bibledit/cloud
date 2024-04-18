@@ -1489,7 +1489,7 @@ vector <string> Database_Config_User::getChangeNotificationsBibles ()
 {
   return getList (change_notifications_bibles_key ());
 }
-vector <string> Database_Config_User::getChangeNotificationsBiblesForUser (const string & user)
+vector <string> Database_Config_User::getChangeNotificationsBiblesForUser (const std::string& user)
 {
   return getListForUser (user, change_notifications_bibles_key ());
 }

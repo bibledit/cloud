@@ -31,7 +31,7 @@ citation::citation ()
   pointer = 0;
 }
 
-void citation::set_sequence (int numbering, const string & usersequence)
+void citation::set_sequence (int numbering, const std::string& usersequence)
 {
   if (numbering == NoteNumbering123) {
     this->sequence.clear();
@@ -86,7 +86,7 @@ string citation::get (string citation_in)
   return citation_in;
 }
 
-void citation::run_restart (const string & moment)
+void citation::run_restart (const std::string& moment)
 {
   if (restart == moment) {
     pointer = 0;
@@ -117,7 +117,7 @@ void citations::evaluate_style (const Database_Styles_Item & style)
 }
 
 
-string citations::get (const string & marker, const string & citation)
+string citations::get (const std::string& marker, const std::string& citation)
 {
   return cache[marker].get(citation);
 }
@@ -126,7 +126,7 @@ string citations::get (const string & marker, const string & citation)
 // This resets the note citations data.
 // Resetting means that the note citations start to count afresh.
 // $moment: what type of reset to apply, e.g. 'chapter' or 'book'.
-void citations::restart (const string & moment)
+void citations::restart (const std::string& moment)
 {
   for (auto & notecitation : cache) {
     notecitation.second.run_restart (moment);

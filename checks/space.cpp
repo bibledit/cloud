@@ -28,7 +28,7 @@ using namespace std;
 namespace checks::space {
 
 
-void double_space_usfm (const string & bible, int book, int chapter, int verse, const string & data)
+void double_space_usfm (const std::string& bible, int book, int chapter, int verse, const std::string& data)
 {
   const size_t pos = data.find ("  ");
   if (pos != std::string::npos) {
@@ -41,7 +41,7 @@ void double_space_usfm (const string & bible, int book, int chapter, int verse, 
 }
 
 
-void space_before_punctuation (const string & bible, int book, int chapter, const map <int, string> & texts)
+void space_before_punctuation (const std::string& bible, int book, int chapter, const map <int, string> & texts)
 {
   Database_Check database_check {};
   for (const auto & element : texts) {
@@ -69,7 +69,7 @@ void space_before_punctuation (const string & bible, int book, int chapter, cons
 }
 
 
-void space_end_verse (const string & bible, int book, int chapter, const string & usfm)
+void space_end_verse (const std::string& bible, int book, int chapter, const std::string& usfm)
 {
   Database_Check database_check {};
   vector <int> verses = filter::usfm::get_verse_numbers (usfm);
@@ -118,7 +118,7 @@ bool transpose_note_space (string & usfm)
 }
 
 
-void space_before_final_note_markup (const string & bible, int book, int chapter, int verse, const string & data)
+void space_before_final_note_markup (const std::string& bible, int book, int chapter, int verse, const std::string& data)
 {
   Database_Check database_check {};
   if (data.find (R"( \f*)") != std::string::npos) {

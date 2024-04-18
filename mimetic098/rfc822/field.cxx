@@ -103,7 +103,7 @@ Field::Field()
     Parses \p line and sets \e name, \e value and \e valueText of *this
     \param line input field string as defined in RFC822 (fieldname: text)
 */
-Field::Field(const string& line)
+Field::Field(const std::string& line)
 :m_pValue(0)
 {
     string::size_type colon = line.find(':');
@@ -124,7 +124,7 @@ Field::Field(const string& line)
     \param n field %name
     \param v content of the %field
 */
-Field::Field(const string& n , const string& v)
+Field::Field(const std::string& n , const std::string& v)
 :m_pValue(0)
 {
     m_name.assign(n);
@@ -170,7 +170,7 @@ Field::~Field()
     Sets the field name to \p n
     \param name new %field %name
 */
-void Field::name(const string& name)
+void Field::name(const std::string& name)
 {
     m_name.assign(name);
     if(m_pValue != 0)
@@ -184,7 +184,7 @@ void Field::name(const string& name)
     Sets the field value to \p v
     \param val new %value %name
 */
-void Field::value(const string& val)
+void Field::value(const std::string& val)
 {
     if(m_pValue == 0)
         m_pValue = new StringFieldValue(val);

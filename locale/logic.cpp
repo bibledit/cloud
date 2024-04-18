@@ -265,7 +265,7 @@ string locale_logic_deobfuscate (string value)
 }
 
 
-bool locale_logic_obfuscate_compare_internal (const string& a, const string& b)
+bool locale_logic_obfuscate_compare_internal (const std::string& a, const std::string& b)
 {
   return (a.size() > b.size());
 }

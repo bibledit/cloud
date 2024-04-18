@@ -101,7 +101,7 @@ DateTime::Zone::Zone(int iZone)
             m_iZoneIdx = i;
         }
 }
-DateTime::Zone::Zone(const string& txt)
+DateTime::Zone::Zone(const std::string& txt)
 : m_iZone(0), m_iZoneIdx(0), m_sZone(txt)
 {
     if(txt.empty())
@@ -126,7 +126,7 @@ DateTime::Zone::Zone(const string& txt)
         }
     }
 }
-bool DateTime::Zone::operator==(const string& mText)
+bool DateTime::Zone::operator==(const std::string& mText)
 {    
     istring txt(mText.begin(), mText.end());
     return txt == ms_label[m_iZoneIdx] ||
@@ -163,7 +163,7 @@ DateTime::Month::Month(int iMonth)
     if(m_iMonth < 1 || m_iMonth > 12)
         m_iMonth = 0;
 }
-DateTime::Month::Month(const string& txt)
+DateTime::Month::Month(const std::string& txt)
 : m_iMonth(0)
 {
     istring iTxt(txt.begin(), txt.end());
@@ -184,7 +184,7 @@ DateTime::Month::Month(const string& txt)
             }
     }
 }
-bool DateTime::Month::operator==(const string& mText) const
+bool DateTime::Month::operator==(const std::string& mText) const
 {    
     istring imText(mText.begin(), mText.end());
     return imText == ms_label[m_iMonth][mnShort] ||
@@ -211,7 +211,7 @@ DateTime::DayOfWeek::DayOfWeek(int iDayOfWeek)
         m_iDayOfWeek = 0;
 }
     
-DateTime::DayOfWeek::DayOfWeek(const string& txt)
+DateTime::DayOfWeek::DayOfWeek(const std::string& txt)
 : m_iDayOfWeek(0)
 {
     istring iTxt(txt.begin(), txt.end());
@@ -232,7 +232,7 @@ DateTime::DayOfWeek::DayOfWeek(const string& txt)
             }
     }
 }
-bool DateTime::DayOfWeek::operator==(const string& mText)
+bool DateTime::DayOfWeek::operator==(const std::string& mText)
 {    
     istring imText(mText.begin(), mText.end());
     return imText == ms_label[m_iDayOfWeek][mnShort] ||
@@ -315,7 +315,7 @@ DateTime::DateTime()
 {
 }
 
-DateTime::DateTime(const string& text)
+DateTime::DateTime(const std::string& text)
 : m_iDayOfWeek(0), m_iDay(1), m_iMonth(1), m_iYear(1970),
   m_iHour(0), m_iMinute(0), m_iSecond(0),
   m_zone("UTC")
@@ -331,7 +331,7 @@ DateTime::DateTime(const char* cstr)
     set(cstr);
 }
 
-void DateTime::set(const string& input)
+void DateTime::set(const std::string& input)
 {
     if(input.empty())
         return;

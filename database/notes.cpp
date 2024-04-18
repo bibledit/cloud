@@ -540,7 +540,7 @@ string Database_Notes::assemble_contents (int identifier, string contents)
 // contents: The note's contents.
 // raw: Import contents as it is.
 // It returns the identifier of this new note.
-int Database_Notes::store_new_note (const string& bible, int book, int chapter, int verse, string summary, string contents, bool raw)
+int Database_Notes::store_new_note (const std::string& bible, int book, int chapter, int verse, string summary, string contents, bool raw)
 {
   // Create a new identifier.
   int identifier = get_new_unique_identifier ();
@@ -620,7 +620,7 @@ int Database_Notes::store_new_note (const string& bible, int book, int chapter, 
 // text_selector: Optionally limits the selection to notes that contains certain text. Used for searching notes.
 // search_text: Works with text_selector, contains the text to search for.
 // limit: If >= 0, it indicates the starting limit for the selection.
-vector <int> Database_Notes::select_notes (vector <string> bibles, int book, int chapter, int verse, int passage_selector, int edit_selector, int non_edit_selector, const string& status_selector, string bible_selector, string assignment_selector, bool subscription_selector, int severity_selector, int text_selector, const string& search_text, int limit)
+vector <int> Database_Notes::select_notes (vector <string> bibles, int book, int chapter, int verse, int passage_selector, int edit_selector, int non_edit_selector, const std::string& status_selector, string bible_selector, string assignment_selector, bool subscription_selector, int severity_selector, int text_selector, const std::string& search_text, int limit)
 {
   string username = m_webserver_request.session_logic ()->currentUser ();
   vector <int> identifiers;
@@ -803,7 +803,7 @@ string Database_Notes::get_summary (int identifier)
 }
 
 
-void Database_Notes::set_summary (int identifier, const string& summary)
+void Database_Notes::set_summary (int identifier, const std::string& summary)
 {
   // Store authoritative copy in the filesystem.
   set_field (identifier, summary_key (), summary);
@@ -830,13 +830,13 @@ string Database_Notes::get_contents (int identifier)
 }
 
 
-void Database_Notes::set_raw_contents (int identifier, const string& contents)
+void Database_Notes::set_raw_contents (int identifier, const std::string& contents)
 {
   set_field (identifier, contents_key (), contents);
 }
 
 
-void Database_Notes::set_contents (int identifier, const string& contents)
+void Database_Notes::set_contents (int identifier, const std::string& contents)
 {
   // Store in file system.
   set_raw_contents (identifier, contents);
@@ -876,7 +876,7 @@ void Database_Notes::erase (int identifier)
 
 
 // Add a comment to an exiting note identified by $identifier.
-void Database_Notes::add_comment (int identifier, const string& comment)
+void Database_Notes::add_comment (int identifier, const std::string& comment)
 {
   // Assemble the new content and store it.
   // This updates the search database also.
@@ -909,7 +909,7 @@ void Database_Notes::subscribe (int identifier)
 
 
 // Subscribe the user to the note identified by identifier.
-void Database_Notes::subscribe_user (int identifier, const string& user)
+void Database_Notes::subscribe_user (int identifier, const std::string& user)
 {
   // If the user already is subscribed to the note, bail out.
   vector <string> subscribers = get_subscribers (identifier);
@@ -939,7 +939,7 @@ string Database_Notes::get_raw_subscriptions (int identifier)
 }
 
 
-void Database_Notes::set_raw_subscriptions (int identifier, const string& subscriptions)
+void Database_Notes::set_raw_subscriptions (int identifier, const std::string& subscriptions)
 {
   // Store them in the filesystem.
   set_field (identifier, subscriptions_key (), subscriptions);
@@ -975,7 +975,7 @@ void Database_Notes::set_subscribers (int identifier, vector <string> subscriber
 
 
 // Returns true if user is subscribed to the note identified by identifier.
-bool Database_Notes::is_subscribed (int identifier, const string& user)
+bool Database_Notes::is_subscribed (int identifier, const std::string& user)
 {
   vector <string> subscribers = get_subscribers (identifier);
   return find (subscribers.begin(), subscribers.end(), user) != subscribers.end();
@@ -991,7 +991,7 @@ void Database_Notes::unsubscribe (int identifier)
 
 
 // Unsubscribes user from the note identified by identifier.
-void Database_Notes::unsubscribe_user (int identifier, const string& user)
+void Database_Notes::unsubscribe_user (int identifier, const std::string& user)
 {
   // If the user is not subscribed to the note, bail out.
   vector <string> subscribers = get_subscribers (identifier);
@@ -1009,7 +1009,7 @@ string Database_Notes::get_raw_assigned (int identifier)
 }
 
 
-void Database_Notes::set_raw_assigned (int identifier, const string& assigned)
+void Database_Notes::set_raw_assigned (int identifier, const std::string& assigned)
 {
   // Store the assignees in the filesystem.
   set_field (identifier, assigned_key (), assigned);
@@ -1099,7 +1099,7 @@ void Database_Notes::set_assignees (int identifier, vector <string> assignees)
 
 
 // Assign the note identified by identifier to user.
-void Database_Notes::assign_user (int identifier, const string& user)
+void Database_Notes::assign_user (int identifier, const std::string& user)
 {
   // If the note already is assigned to the user, bail out.
   vector <string> assignees = get_assignees (identifier);
@@ -1112,7 +1112,7 @@ void Database_Notes::assign_user (int identifier, const string& user)
 
 
 // Returns true if the note identified by identifier has been assigned to user.
-bool Database_Notes::is_assigned (int identifier, const string& user)
+bool Database_Notes::is_assigned (int identifier, const std::string& user)
 {
   vector <string> assignees = get_assignees (identifier);
   return find (assignees.begin(), assignees.end(), user) != assignees.end();
@@ -1120,7 +1120,7 @@ bool Database_Notes::is_assigned (int identifier, const string& user)
 
 
 // Unassigns user from the note identified by identifier.
-void Database_Notes::unassign_user (int identifier, const string& user)
+void Database_Notes::unassign_user (int identifier, const std::string& user)
 {
   // If the note is not assigned to the user, bail out.
   vector <string> assignees = get_assignees (identifier);
@@ -1137,7 +1137,7 @@ string Database_Notes::get_bible (int identifier)
 }
 
 
-void Database_Notes::set_bible (int identifier, const string& bible)
+void Database_Notes::set_bible (int identifier, const std::string& bible)
 {
   // Write the bible to the filesystem.
   set_field (identifier, bible_key (), bible);
@@ -1271,14 +1271,14 @@ void Database_Notes::set_passages (int identifier, const vector <Passage>& passa
 // it should download the exact passage file contents as it is on the server,
 // so as to prevent keeping to download the same notes over and over,
 // due to the above mentioned difference in adding a new line or not.
-void Database_Notes::set_raw_passage (int identifier, const string& passage)
+void Database_Notes::set_raw_passage (int identifier, const std::string& passage)
 {
   // Store the authoritative copy in the filesystem.
   set_field (identifier, passage_key (), passage);
 }
 
 
-void Database_Notes::index_raw_passage (int identifier, const string& passage)
+void Database_Notes::index_raw_passage (int identifier, const std::string& passage)
 {
   // Update the search index database.
   SqliteSQL sql;
@@ -1317,7 +1317,7 @@ string Database_Notes::get_status (int identifier)
 // Sets the status of the note identified by identifier.
 // status is a string.
 // import: Just write the status, and skip any logic.
-void Database_Notes::set_status (int identifier, const string& status, bool import)
+void Database_Notes::set_status (int identifier, const std::string& status, bool import)
 {
   // Store the authoritative copy in the filesystem.
   set_field (identifier, status_key (), status);
@@ -1624,7 +1624,7 @@ vector <int> Database_Notes::get_due_for_deletion ()
 
 
 // Writes the checksum for note identifier in the database.
-void Database_Notes::set_checksum (int identifier, const string & checksum)
+void Database_Notes::set_checksum (int identifier, const std::string& checksum)
 {
   // Do not write the checksum if it is already up to date.
   if (checksum == get_checksum (identifier)) return;

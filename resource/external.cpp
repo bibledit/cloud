@@ -1000,7 +1000,7 @@ string resource_external_type (string name)
 // It fetches data either from the cache or from the web via http(s),
 // while optionally updating the cache with the raw web page content.
 // It extracts the relevant snipped from the larger http(s) content.
-string resource_external_cloud_fetch_cache_extract (const string & name, int book, int chapter, int verse)
+string resource_external_cloud_fetch_cache_extract (const std::string& name, int book, int chapter, int verse)
 {
   string (* function_name) (int, int, int) {nullptr};
 

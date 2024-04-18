@@ -108,13 +108,13 @@ StringFieldValue::StringFieldValue()
     typeChecked(false);
 }
 
-StringFieldValue::StringFieldValue(const string& val)
+StringFieldValue::StringFieldValue(const std::string& val)
 : m_value(val)
 {
     typeChecked(false);
 }
 
-void StringFieldValue::set(const string& val)
+void StringFieldValue::set(const std::string& val)
 {
     m_value = val;
 }

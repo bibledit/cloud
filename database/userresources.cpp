@@ -47,26 +47,26 @@ vector <string> Database_UserResources::names ()
 
 
 // Removes a user-defined resource from disk.
-void Database_UserResources::remove (const string& name)
+void Database_UserResources::remove (const std::string& name)
 {
   filter_url_unlink (file (name));
 }
 
 
-string Database_UserResources::url (const string& name)
+string Database_UserResources::url (const std::string& name)
 {
   return load (name, 0);
 }
 
 
-void Database_UserResources::url (const string& name, const string & value)
+void Database_UserResources::url (const std::string& name, const std::string& value)
 {
   save (name, 0, value);
 }
 
 
 // Returns the text fragent for a Bible book with $id.
-string Database_UserResources::book (const string& name, int id)
+string Database_UserResources::book (const std::string& name, int id)
 {
   if (id < 1) return string();
   return load (name, static_cast<size_t>(id));
@@ -74,7 +74,7 @@ string Database_UserResources::book (const string& name, int id)
 
 
 // Stores the text fragment for a Bible book in the database.
-void Database_UserResources::book (const string& name, int id, const string & fragment)
+void Database_UserResources::book (const std::string& name, int id, const std::string& fragment)
 {
   if (id > 0) save (name, static_cast<size_t>(id), fragment);
 }
@@ -95,7 +95,7 @@ string Database_UserResources::fragment ()
 
 
 // The full path of the definition file.
-string Database_UserResources::file (const string& name)
+string Database_UserResources::file (const std::string& name)
 {
   return filter_url_create_path ({folder (), fragment () + filter_url_filename_clean (name)});
 }
@@ -103,7 +103,7 @@ string Database_UserResources::file (const string& name)
 
 // Load one value from the user-defined resource definition $name.
 // The value is at line number $offset.
-string Database_UserResources::load (const string & name, size_t offset)
+string Database_UserResources::load (const std::string& name, size_t offset)
 {
   string path = file (name);
   string contents = filter_url_file_get_contents (path);
@@ -115,7 +115,7 @@ string Database_UserResources::load (const string & name, size_t offset)
 
 // Save one value to the user-defined resource definition $name.
 // It saves the $value to line number $offset.
-void Database_UserResources::save (const string & name, size_t offset, const string & value)
+void Database_UserResources::save (const std::string& name, size_t offset, const std::string& value)
 {
   string path = file (name);
   string contents = filter_url_file_get_contents (path);

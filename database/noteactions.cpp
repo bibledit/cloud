@@ -70,7 +70,7 @@ void Database_NoteActions::optimize ()
 }
 
 
-void Database_NoteActions::record (const string& username, int note, int action, const string& content)
+void Database_NoteActions::record (const std::string& username, int note, int action, const std::string& content)
 {
   SqliteSQL sql = SqliteSQL ();
   sql.add ("INSERT INTO noteactions VALUES (");

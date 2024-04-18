@@ -97,7 +97,7 @@ Mailbox::Mailbox(const char* cstr)
 {
     set(cstr);    
 }
-Mailbox::Mailbox(const string& text)
+Mailbox::Mailbox(const std::string& text)
 {
     set(text);    
 }
@@ -121,7 +121,7 @@ std::string Mailbox::str() const
     return rs;
 }
 
-void Mailbox::set(const string& input)
+void Mailbox::set(const std::string& input)
 {
     if(!input.size())
         return;
@@ -222,25 +222,25 @@ bool Mailbox::operator!=(const Mailbox& right) const
 
 
 /** Sets the \e mailbox */
-void Mailbox::mailbox(const string& mbx)
+void Mailbox::mailbox(const std::string& mbx)
 {    
     m_mailbox = mbx;
 }
 
 /** Sets the \e domain */
-void Mailbox::domain(const string& dom)
+void Mailbox::domain(const std::string& dom)
 {    
     m_domain = dom;
 }
 
 /** Sets the \e label */
-void Mailbox::label(const string& label)
+void Mailbox::label(const std::string& label)
 {    
     m_label = label;
 }
 
 /** Sets the \e source route */
-void Mailbox::sourceroute(const string& route)
+void Mailbox::sourceroute(const std::string& route)
 {    
     m_route = route;    
 }

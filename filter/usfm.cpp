@@ -491,7 +491,7 @@ string get_chapter_text (string usfm, int chapter_number)
 // It ensures that the $exclude_usfm does not make it to the output of the function.
 // In case of $quill, it uses a routine optimized for a Quill-based editor.
 // This means that empty paragraphs at the end of the extracted USFM fragment are not included.
-string get_verse_range_text (string usfm, int verse_from, int verse_to, const string& exclude_usfm, bool quill)
+string get_verse_range_text (string usfm, int verse_from, int verse_to, const std::string& exclude_usfm, bool quill)
 {
   vector <string> bits;
   string previous_usfm;
@@ -934,7 +934,7 @@ const char * marker_vp ()
 // Example: \+w Lord|strong="H3068"\+w*
 // It will dispose of e.g. this: |strong="H3068"
 // It handles the default attribute: \w gracious|grace\w*
-void remove_word_level_attributes (const string & marker,
+void remove_word_level_attributes (const std::string& marker,
                                    vector <string> & container, unsigned int & pointer)
 {
   // USFM 3.0 has four markers providing attributes.
@@ -1040,7 +1040,7 @@ string extract_fig (string usfm, string & caption, string & alt, string& src, st
 
 
 // Returns true if the marker is a standard "q." marker.
-bool is_standard_q_poetry (const string & marker)
+bool is_standard_q_poetry (const std::string& marker)
 {
   if (marker == "q") return true;
   if (marker == "q1") return true;

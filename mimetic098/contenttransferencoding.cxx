@@ -97,7 +97,7 @@ ContentTransferEncoding::ContentTransferEncoding(const char* cstr)
 }
 
 
-ContentTransferEncoding::ContentTransferEncoding(const string& mechanism)
+ContentTransferEncoding::ContentTransferEncoding(const std::string& mechanism)
 : m_mechanism(mechanism)
 {
 }
@@ -107,12 +107,12 @@ const istring& ContentTransferEncoding::mechanism() const
     return m_mechanism;    
 }
 
-void ContentTransferEncoding::mechanism(const string& mechanism)
+void ContentTransferEncoding::mechanism(const std::string& mechanism)
 {    
     m_mechanism.assign (mechanism);
 }
 
-void ContentTransferEncoding::set(const string& val)
+void ContentTransferEncoding::set(const std::string& val)
 {
     mechanism(val);
 }

@@ -37,7 +37,7 @@ string Database_ImageResources::mainFolder ()
 }
 
 
-string Database_ImageResources::resourceFolder (const string& name)
+string Database_ImageResources::resourceFolder (const std::string& name)
 {
   return filter_url_create_path ({mainFolder (), name});
 }

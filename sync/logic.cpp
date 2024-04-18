@@ -142,7 +142,7 @@ vector <Sync_Logic_Range> Sync_Logic::create_range (int start, int end)
 // Sends a post request to the url.
 // It returns the server's response, or an empty string on failure.
 // burst: Set the connection timing for a burst response after a relatively long silence.
-string Sync_Logic::post (map <string, string> & post, const string& url, string & error, bool burst)
+string Sync_Logic::post (map <string, string> & post, const std::string& url, string & error, bool burst)
 {
   error.clear ();
   string response = filter_url_http_post (url, string(), post, error, burst, true, {});
@@ -190,7 +190,7 @@ string Sync_Logic::usfm_resources_checksum ()
 
 
 // Calculates the checksum of USFM resource name.
-string Sync_Logic::usfm_resource_checksum (const string& name)
+string Sync_Logic::usfm_resource_checksum (const std::string& name)
 {
   vector <string> vchecksum;
   Database_UsfmResources database_usfmresources = Database_UsfmResources ();
@@ -206,7 +206,7 @@ string Sync_Logic::usfm_resource_checksum (const string& name)
 
 
 // Calculates the checksum of USFM resource name book.
-string Sync_Logic::usfm_resource_book_checksum (const string& name, int book)
+string Sync_Logic::usfm_resource_book_checksum (const std::string& name, int book)
 {
   vector <string> vchecksum;
   Database_UsfmResources database_usfmresources = Database_UsfmResources ();
@@ -222,7 +222,7 @@ string Sync_Logic::usfm_resource_book_checksum (const string& name, int book)
 
 
 // Calculates the checksum of USFM resource name book chapter.
-string Sync_Logic::usfm_resource_chapter_checksum (const string& name, int book, int chapter)
+string Sync_Logic::usfm_resource_chapter_checksum (const std::string& name, int book, int chapter)
 {
   Database_UsfmResources database_usfmresources = Database_UsfmResources ();
   int checksum = database_usfmresources.getSize (name, book, chapter);
@@ -231,7 +231,7 @@ string Sync_Logic::usfm_resource_chapter_checksum (const string& name, int book,
 
 
 // Calculates the total checksum for all the changes for $username.
-string Sync_Logic::changes_checksum (const string & username)
+string Sync_Logic::changes_checksum (const std::string& username)
 {
   Database_Modifications database_modifications;
   string any_bible = "";
@@ -249,7 +249,7 @@ string Sync_Logic::changes_checksum (const string & username)
 // The $version influences which root directories to include.
 // The $version is passed by the client to the server,
 // so the server can adapt to the client's capabilities.
-vector <string> Sync_Logic::files_get_directories (int version, const string & user)
+vector <string> Sync_Logic::files_get_directories (int version, const std::string& user)
 {
   vector <string> directories;
   switch (version) {
@@ -300,7 +300,7 @@ vector <string> Sync_Logic::files_get_directories (int version, const string & u
 
 
 // This returns the total checksum for all directories and files relevant to $version and $user.
-int Sync_Logic::files_get_total_checksum (int version, const string & user)
+int Sync_Logic::files_get_total_checksum (int version, const std::string& user)
 {
   int checksum = 0;
   vector <string> directories = files_get_directories (version, user);

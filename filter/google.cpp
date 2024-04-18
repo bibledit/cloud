@@ -177,7 +177,7 @@ tuple <bool, string, string> translate (const string text, const char * source, 
 // This asks the Google Translate API for the list of supported languages.
 // It returns a container with a pair of <language code, language name>.
 // The language name is given in the $target language.
-vector <pair <string, string> > get_languages (const string & target)
+vector <pair <string, string> > get_languages (const std::string& target)
 {
 
   // From the shell, run these two commands to translate a string.

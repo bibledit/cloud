@@ -28,14 +28,13 @@
 #include <locale/translate.h>
 #include <locale/logic.h>
 #include <database/statistics.h>
-using namespace std;
 
 
 // Internal function declarations.
-void changes_statistics_add (Assets_View & view, const string & date, int count);
+void changes_statistics_add (Assets_View& view, const std::string& date, int count);
 
 
-string changes_statistics_url ()
+std::string changes_statistics_url ()
 {
   return "changes/statistics";
 }
@@ -47,10 +46,10 @@ bool changes_statistics_acl (Webserver_Request& webserver_request)
 }
 
 
-void changes_statistics_add (Assets_View& view, const string& date, int count)
+void changes_statistics_add (Assets_View& view, const std::string& date, int count)
 {
   if (count) {
-    map <string, string> values;
+    std::map <std::string, std::string> values;
     values ["date"] = date;
     values ["count"] = filter::strings::convert_to_string (count);
     view.add_iteration ("statistics", values);
@@ -58,30 +57,30 @@ void changes_statistics_add (Assets_View& view, const string& date, int count)
 }
 
 
-string changes_statistics ([[maybe_unused]] Webserver_Request& webserver_request)
+std::string changes_statistics ([[maybe_unused]] Webserver_Request& webserver_request)
 {
 #ifdef HAVE_CLIENT
-  return string();
+  return std::string();
 #endif
 
 #ifdef HAVE_CLOUD
 
-  string page {};
+  std::string page {};
   Assets_Header header = Assets_Header (translate("Change statistics"), webserver_request);
   page += header.run ();
   Assets_View view {};
   
   
-  string everyone = translate ("Everyone");
-  string user = webserver_request.query["user"];
+  const std::string everyone = translate ("Everyone");
+  std::string user = webserver_request.query["user"];
   if (user == everyone) user.clear ();
 
   
-  vector <pair <int, int>> changes = Database_Statistics::get_changes (user);
-  string last_date {};
+  std::vector <std::pair <int, int>> changes = Database_Statistics::get_changes (user);
+  std::string last_date {};
   int last_count {0};
-  for (const auto & element : changes) {
-    const string date = locale_logic_date (element.first);
+  for (const auto& element : changes) {
+    const std::string date = locale_logic_date (element.first);
     const int count = element.second;
     if (date == last_date) {
       last_count += count;
@@ -96,10 +95,10 @@ string changes_statistics ([[maybe_unused]] Webserver_Request& webserver_request
   }
 
   
-  vector <string> users = Database_Statistics::get_users ();
+  std::vector <std::string> users = Database_Statistics::get_users ();
   users.push_back (everyone);
   for (size_t i = 0; i < users.size (); i++) {
-    map <string, string> values;
+    std::map <std::string, std::string> values;
     if (i) values ["divider"] = "|";
     values ["user"] = users[i];
     view.add_iteration ("users", values);

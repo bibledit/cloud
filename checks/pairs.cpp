@@ -23,28 +23,27 @@
 #include <database/check.h>
 #include <locale/translate.h>
 #include <checks/french.h>
-using namespace std;
 
 
-void checks_pairs::run (const string & bible, int book, int chapter,
-                        const map <int, string> & texts,
-                        const vector <pair <string, string> > & pairs,
+void checks_pairs::run (const std::string& bible, int book, int chapter,
+                        const std::map <int, std::string> & texts,
+                        const std::vector <std::pair <std::string, std::string>>& pairs,
                         bool french_citation_style)
 {
   // This holds the opener characters of the pairs which were opened in the text.
   // For example, it may hold the "[".
-  vector <int> verses {};
-  vector <string> opened {};
+  std::vector <int> verses {};
+  std::vector <std::string> opened {};
   
   // Containers with the openers and the closers.
   // If the check on the French citation style is active,
   // skip the French guillemets.
-  vector <string> openers {};
-  vector <string> closers {};
-  for (const auto & element : pairs) {
-    string opener = element.first;
+  std::vector <std::string> openers {};
+  std::vector <std::string> closers {};
+  for (const auto& element : pairs) {
+    const std::string opener = element.first;
     if (french_citation_style && (opener == checks_french::left_guillemet ())) continue;
-    string closer = element.second;
+    const std::string closer = element.second;
     if (french_citation_style && (opener == checks_french::right_guillemet ())) continue;
     openers.push_back (opener);
     closers.push_back (closer);
@@ -55,11 +54,11 @@ void checks_pairs::run (const string & bible, int book, int chapter,
   // Go through the verses with their texts.
   for (const auto & element : texts) {
     int verse = element.first;
-    string text = element.second;
+    std::string text = element.second;
     size_t length = filter::strings::unicode_string_length (text);
     for (size_t pos = 0; pos < length; pos++) {
       
-      string character = filter::strings::unicode_string_substr (text, pos, 1);
+      const std::string character = filter::strings::unicode_string_substr (text, pos, 1);
       
       if (in_array (character, openers)) {
         verses.push_back (verse);
@@ -68,7 +67,7 @@ void checks_pairs::run (const string & bible, int book, int chapter,
       
       if (in_array (character, closers)) {
         
-        string opener = match (character, pairs);
+        const std::string opener = match (character, pairs);
         bool mismatch = false;
         if (opened.empty ()) {
           mismatch = true;
@@ -79,9 +78,9 @@ void checks_pairs::run (const string & bible, int book, int chapter,
           mismatch = true;
         }
         if (mismatch) {
-          string fragment1 = translate ("Closing character");
-          string fragment2 = translate ("without its matching opening character");
-          stringstream message;
+          const std::string fragment1 = translate ("Closing character");
+          const std::string fragment2 = translate ("without its matching opening character");
+          std::stringstream message {};
           message << fragment1 << " " << quoted(character) << " " << fragment2 << " " << quoted(opener);
           database_check.recordOutput (bible, book, chapter, verse, message.str());
         }
@@ -92,22 +91,22 @@ void checks_pairs::run (const string & bible, int book, int chapter,
   // Report unclosed openers.
   for (size_t i = 0; i < verses.size (); i++) {
     int verse = verses [i];
-    string opener = opened [i];
-    string closer = match (opener, pairs);
-    string fragment1 = translate ("Opening character");
-    string fragment2 = translate ("without its matching closing character");
-    stringstream message;
+    const std::string opener = opened [i];
+    const std::string closer = match (opener, pairs);
+    const std::string fragment1 = translate ("Opening character");
+    const std::string fragment2 = translate ("without its matching closing character");
+    std::stringstream message {};
     message << fragment1 << " " << quoted(opener) << " " << fragment2 << " " << quoted(closer);
     database_check.recordOutput (bible, book, chapter, verse, message.str());
   }
 }
 
 
-string checks_pairs::match (const string & character, const vector <pair <string, string> > & pairs)
+std::string checks_pairs::match (const std::string & character, const std::vector <std::pair <std::string, std::string>>& pairs)
 {
-  for (auto & element : pairs) {
+  for (const auto& element : pairs) {
     if (character == element.first) return element.second;
     if (character == element.second) return element.first;
   }
-  return string();
+  return std::string();
 }

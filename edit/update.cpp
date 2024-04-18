@@ -141,7 +141,7 @@ string edit_update (Webserver_Request& webserver_request)
 
   bool bible_write_access = false;
   if (good2go) {
-    bible_write_access = access_bible::book_write (webserver_request, string(), bible, book);
+    bible_write_access = access_bible::book_write (webserver_request, std::string(), bible, book);
   }
 
 

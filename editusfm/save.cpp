@@ -118,7 +118,7 @@ string editusfm_save (Webserver_Request& webserver_request)
               
              
               // Check on write access.
-              if (access_bible::book_write (webserver_request, string(), bible, book)) {
+              if (access_bible::book_write (webserver_request, std::string(), bible, book)) {
                 // Safely store the chapter.
                 string explanation;
                 string message = filter::usfm::safely_store_chapter (webserver_request, bible, book, chapter, chapter_data_to_save, explanation);

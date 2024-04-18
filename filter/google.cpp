@@ -40,7 +40,7 @@ tuple <string, std::string> get_json_key_value_error ()
   string path = config::logic::google_translate_json_key_path ();
 
   if (!file_or_dir_exists (path)) {
-    return { string(), "Cannot find the JSON key to access Google Translate. Looking for this file: " + path };
+    return { std::string(), "Cannot find the JSON key to access Google Translate. Looking for this file: " + path };
   }
   
   string error;

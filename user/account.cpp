@@ -109,7 +109,7 @@ string user_account ([[maybe_unused]] Webserver_Request& webserver_request)
         string query = webserver_request.database_users()->updateEmailQuery (username, newemail);
         string subsequent_subject = translate("Email address change");
         string subsequent_body = translate("The email address that belongs to your account has been changed successfully.");
-        confirm_worker.setup (newemail, string(), initial_subject, initial_body, query, subsequent_subject, subsequent_body);
+        confirm_worker.setup (newemail, std::string(), initial_subject, initial_body, query, subsequent_subject, subsequent_body);
         actions_taken = true;
         success_messages.push_back (translate("A verification email was sent to") + " " + newemail);
       }

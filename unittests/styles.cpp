@@ -115,7 +115,7 @@ TEST (styles, css)
 
   // CSS.
   {
-    string css = Filter_Css::get_css ("class", string(), 0);
+    string css = Filter_Css::get_css ("class", std::string(), 0);
     
     string standard =
     ".class\n"
@@ -123,7 +123,7 @@ TEST (styles, css)
     "}\n";
     EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (css));
     
-    css = Filter_Css::get_css ("class", string(), 101);
+    css = Filter_Css::get_css ("class", std::string(), 101);
     standard =
     ".class\n"
     "{\n"
@@ -131,7 +131,7 @@ TEST (styles, css)
     "}\n";
     EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (css));
     
-    css = Filter_Css::get_css ("class", string(), 102);
+    css = Filter_Css::get_css ("class", std::string(), 102);
     standard =
     ".class\n"
     "{\n"
@@ -139,7 +139,7 @@ TEST (styles, css)
     "}\n";
     EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (css));
     
-    css = Filter_Css::get_css ("class", string(), 110);
+    css = Filter_Css::get_css ("class", std::string(), 110);
     standard =
     ".class\n"
     "{\n"
@@ -147,7 +147,7 @@ TEST (styles, css)
     "}\n";
     EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (css));
     
-    css = Filter_Css::get_css ("CLass", string(), 130);
+    css = Filter_Css::get_css ("CLass", std::string(), 130);
     standard =
     ".CLass\n"
     "{\n"
@@ -155,7 +155,7 @@ TEST (styles, css)
     "}\n";
     EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (css));
     
-    css = Filter_Css::get_css ("CLass", string(), 1322);
+    css = Filter_Css::get_css ("CLass", std::string(), 1322);
     standard =
     ".CLass\n"
     "{\n"

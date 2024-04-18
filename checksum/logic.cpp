@@ -78,7 +78,7 @@ string checksum_logic::get_book (Webserver_Request& webserver_request, const std
   for (auto chapter : chapters) {
     checksums.push_back (get_chapter (webserver_request, bible, book, chapter));
   }
-  string checksum = filter::strings::implode (checksums, string());
+  string checksum = filter::strings::implode (checksums, std::string());
   checksum = md5 (checksum);
   return checksum;
 }
@@ -92,7 +92,7 @@ string checksum_logic::get_bible (Webserver_Request& webserver_request, const st
   for (auto book : books) {
     checksums.push_back (get_book (webserver_request, bible, book));
   }
-  string checksum = filter::strings::implode (checksums, string());
+  string checksum = filter::strings::implode (checksums, std::string());
   checksum = md5 (checksum);
   return checksum;
 }
@@ -105,7 +105,7 @@ string checksum_logic::get_bibles (Webserver_Request& webserver_request, const s
   for (const auto & bible : bibles) {
     checksums.push_back (get_bible (webserver_request, bible));
   }
-  string checksum = filter::strings::implode (checksums, string());
+  string checksum = filter::strings::implode (checksums, std::string());
   checksum = md5 (checksum);
   return checksum;
 }

@@ -90,7 +90,7 @@ string edit_save (Webserver_Request& webserver_request)
     return translate("Save failure");
   }
   
-  if (!access_bible::book_write (webserver_request, string(), bible, book)) {
+  if (!access_bible::book_write (webserver_request, std::string(), bible, book)) {
     return translate("No write access");
   }
 

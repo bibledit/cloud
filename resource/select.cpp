@@ -237,7 +237,7 @@ string resource_select (Webserver_Request& webserver_request)
   // One of those properties is the title.
   // This selection mechanism here shows that title only.
   if (webserver_request.query.count ("comparative")) {
-    Dialog_List dialog_list = Dialog_List (caller, translate("Select a Comparative resource"), disconnected_info, string(), true);
+    Dialog_List dialog_list = Dialog_List (caller, translate("Select a Comparative resource"), disconnected_info, std::string(), true);
     dialog_list.add_query ("page", webserver_request.query["page"]);
     if (is_def) dialog_list.add_query ("type", webserver_request.query["type"]);
     std::vector <std::string> resources;
@@ -266,7 +266,7 @@ string resource_select (Webserver_Request& webserver_request)
   // One of those properties is the title.
   // This selection mechanism here shows that title only.
   if (webserver_request.query.count ("translated")) {
-    Dialog_List dialog_list = Dialog_List (caller, translate("Select a Translated resource"), disconnected_info, string(), true);
+    Dialog_List dialog_list = Dialog_List (caller, translate("Select a Translated resource"), disconnected_info, std::string(), true);
     dialog_list.add_query ("page", webserver_request.query["page"]);
     if (is_def) dialog_list.add_query ("type", webserver_request.query["type"]);
     std::vector <std::string> resources;

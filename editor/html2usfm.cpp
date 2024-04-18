@@ -500,7 +500,7 @@ string editor_export_verse_quill (string stylesheet, string html)
   string usfm = editor_export.get ();
   
   // Remove that recognizable style converted to USFM.
-  usfm = filter::strings::replace (R"(\)" + style, string(), usfm);
+  usfm = filter::strings::replace (R"(\)" + style, std::string(), usfm);
   usfm = filter::strings::trim (usfm);
 
   return usfm;

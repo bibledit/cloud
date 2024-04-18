@@ -44,7 +44,7 @@ void checks_verses::missing_punctuation_at_end (const std::string& bible, int bo
     if (verse == 0) continue;
     if (text.empty ()) continue;
     for (const auto & ignore_text : ignores) {
-      text = filter::strings::replace (ignore_text, string(), text);
+      text = filter::strings::replace (ignore_text, std::string(), text);
     }
     const size_t text_length = filter::strings::unicode_string_length (text);
     const string lastCharacter = filter::strings::unicode_string_substr (text, text_length - 1, 1);

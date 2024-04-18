@@ -9599,7 +9599,7 @@ PUGI__NS_BEGIN
 		ast_func_namespace_uri_1,		// namespace-uri(left)
 		ast_func_name_0,				// name()
 		ast_func_name_1,				// name(left)
-		ast_func_string_0,				// string()
+		ast_func_string_0,				// std::string()
 		ast_func_string_1,				// string(left)
 		ast_func_concat,				// concat(left, right, siblings)
 		ast_func_starts_with,			// starts_with(left, right)

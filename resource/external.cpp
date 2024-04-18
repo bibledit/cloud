@@ -393,7 +393,7 @@ string gbs_plus_processor (string url, int book, [[maybe_unused]] int chapter, i
     post ["slug_id"] = bits[11];
     post ["book_id"] = filter::strings::convert_to_string(book);
     string error {};
-    string annotation_html {filter_url_http_post (annotation_url, string(), post, error, false, false, {})};
+    string annotation_html {filter_url_http_post (annotation_url, std::string(), post, error, false, false, {})};
     if (error.empty()) {
       annotation_html = filter::strings::fix_invalid_html_gumbo (annotation_html);
       pugi::xml_document annotation_document {};

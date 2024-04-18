@@ -91,7 +91,7 @@ string styles_view (Webserver_Request& webserver_request)
   // The style's name.
   string name = marker_data.name;
   if (webserver_request.query.count ("name")) {
-    Dialog_Entry dialog_entry = Dialog_Entry ("view", translate("Please enter the name for the style"), name, "name", string());
+    Dialog_Entry dialog_entry = Dialog_Entry ("view", translate("Please enter the name for the style"), name, "name", std::string());
     dialog_entry.add_query ("sheet", sheet);
     dialog_entry.add_query ("style", style);
     page += dialog_entry.run ();
@@ -110,7 +110,7 @@ string styles_view (Webserver_Request& webserver_request)
   // The style's info.
   string info = marker_data.info;
   if (webserver_request.query.count ("info")) {
-    Dialog_Entry dialog_entry = Dialog_Entry ("view", translate("Please enter the description for the style"), info, "info", string());
+    Dialog_Entry dialog_entry = Dialog_Entry ("view", translate("Please enter the description for the style"), info, "info", std::string());
     dialog_entry.add_query ("sheet", sheet);
     dialog_entry.add_query ("style", style);
     page += dialog_entry.run ();
@@ -199,7 +199,7 @@ string styles_view (Webserver_Request& webserver_request)
     const string s = webserver_request.query["subtype"];
     subtype = filter::strings::convert_to_int (s);
     if (s.empty()) {
-      Dialog_List dialog_list = Dialog_List ("view", translate("Would you like to change the sub type of this style?"), string(), string());
+      Dialog_List dialog_list = Dialog_List ("view", translate("Would you like to change the sub type of this style?"), std::string(), std::string());
       dialog_list.add_query ("sheet", sheet);
       dialog_list.add_query ("style", style);
       Database_Styles_Item style_data = database_styles.getMarkerData (sheet, style);
@@ -259,7 +259,7 @@ string styles_view (Webserver_Request& webserver_request)
   if (webserver_request.query.count ("italic")) {
     const string s = webserver_request.query["italic"];
     if (s.empty()) {
-      Dialog_List dialog_list = Dialog_List ("view", translate("Would you like to change whether this style is in italics?"), string(), string());
+      Dialog_List dialog_list = Dialog_List ("view", translate("Would you like to change whether this style is in italics?"), std::string(), std::string());
       dialog_list.add_query ("sheet", sheet);
       dialog_list.add_query ("style", style);
       Database_Styles_Item style_item = database_styles.getMarkerData (sheet, style);
@@ -287,7 +287,7 @@ string styles_view (Webserver_Request& webserver_request)
   if (webserver_request.query.count ("bold")) {
     const string s = webserver_request.query["bold"];
     if (s.empty()) {
-      Dialog_List dialog_list = Dialog_List ("view", translate("Would you like to change whether this style is in bold?"), string(), string());
+      Dialog_List dialog_list = Dialog_List ("view", translate("Would you like to change whether this style is in bold?"), std::string(), std::string());
       dialog_list.add_query ("sheet", sheet);
       dialog_list.add_query ("style", style);
       Database_Styles_Item style_data = database_styles.getMarkerData (sheet, style);
@@ -315,7 +315,7 @@ string styles_view (Webserver_Request& webserver_request)
   if (webserver_request.query.count ("underline")) {
     const string s = webserver_request.query["underline"];
     if (s.empty()) {
-      Dialog_List dialog_list = Dialog_List ("view", translate("Would you like to change whether this style is underlined?"), string(), string());
+      Dialog_List dialog_list = Dialog_List ("view", translate("Would you like to change whether this style is underlined?"), std::string(), std::string());
       dialog_list.add_query ("sheet", sheet);
       dialog_list.add_query ("style", style);
       Database_Styles_Item style_data = database_styles.getMarkerData (sheet, style);
@@ -343,7 +343,7 @@ string styles_view (Webserver_Request& webserver_request)
   if (webserver_request.query.count ("smallcaps")) {
     const string s = webserver_request.query["smallcaps"];
     if (s.empty()) {
-      Dialog_List dialog_list = Dialog_List ("view", translate("Would you like to change whether this style is in small caps?"), string(), string());
+      Dialog_List dialog_list = Dialog_List ("view", translate("Would you like to change whether this style is in small caps?"), std::string(), std::string());
       dialog_list.add_query ("sheet", sheet);
       dialog_list.add_query ("style", style);
       Database_Styles_Item style_data = database_styles.getMarkerData (sheet, style);
@@ -387,7 +387,7 @@ string styles_view (Webserver_Request& webserver_request)
   // Text alignment.
   int justification = marker_data.justification;
   if (webserver_request.query.count ("alignment")) {
-    Dialog_List dialog_list = Dialog_List ("view", translate("Would you like to change the text alignment of this style?"), string(), string());
+    Dialog_List dialog_list = Dialog_List ("view", translate("Would you like to change the text alignment of this style?"), std::string(), std::string());
     dialog_list.add_query ("sheet", sheet);
     dialog_list.add_query ("style", style);
     for (int i = AlignmentLeft; i <= AlignmentJustify; i++) {
@@ -629,7 +629,7 @@ string styles_view (Webserver_Request& webserver_request)
     case UserInt1NoteNumbering :
       view.enable_zone ("userint1_notenumbering");
       if (webserver_request.query.count ("notenumbering")) {
-        Dialog_List dialog_list = Dialog_List ("view", translate("Would you like to change the numbering of the note?"), string(), string());
+        Dialog_List dialog_list = Dialog_List ("view", translate("Would you like to change the numbering of the note?"), std::string(), std::string());
         dialog_list.add_query ("sheet", sheet);
         dialog_list.add_query ("style", style);
         for (int i = NoteNumbering123; i <= NoteNumberingUser; i++) {
@@ -680,7 +680,7 @@ string styles_view (Webserver_Request& webserver_request)
     case UserInt2NoteNumberingRestart :
       view.enable_zone ("userint2_notenumberingrestart");
       if (webserver_request.query.count ("notenumberingrestart")) {
-        Dialog_List dialog_list = Dialog_List ("view", translate("Would you like to change when the note numbering restarts?"), string(), string());
+        Dialog_List dialog_list = Dialog_List ("view", translate("Would you like to change when the note numbering restarts?"), std::string(), std::string());
         dialog_list.add_query ("sheet", sheet);
         dialog_list.add_query ("style", style);
         for (int i = NoteRestartNumberingNever; i <= NoteRestartNumberingEveryChapter; i++) {
@@ -701,7 +701,7 @@ string styles_view (Webserver_Request& webserver_request)
     case UserInt2EndnotePosition :
       view.enable_zone ("userint2_endnoteposition");
       if (webserver_request.query.count ("endnoteposition")) {
-        Dialog_List dialog_list = Dialog_List ("view", translate("Would you like to change the position where to dump the endnotes?"), string(), string());
+        Dialog_List dialog_list = Dialog_List ("view", translate("Would you like to change the position where to dump the endnotes?"), std::string(), std::string());
         dialog_list.add_query ("sheet", sheet);
         dialog_list.add_query ("style", style);
         for (int i = EndNotePositionAfterBook; i <= EndNotePositionAtMarker; i++) {

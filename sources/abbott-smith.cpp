@@ -100,7 +100,7 @@ void sources_abbott_smith_parse_entry_element (Database_AbbottSmith * database_a
   
   // If there's more Strong's numbers in the entry, store those too, but without any lemma.
   for (auto strong2 : strongs) {
-    database_abbottsmith->store (string(), string(), strong2, contents);
+    database_abbottsmith->store (string(), std::string(), strong2, contents);
   }
 }
 

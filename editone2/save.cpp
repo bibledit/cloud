@@ -99,7 +99,7 @@ string editone2_save (Webserver_Request& webserver_request)
   }
   
   
-  if (!access_bible::book_write (webserver_request, string(), bible, book)) {
+  if (!access_bible::book_write (webserver_request, std::string(), bible, book)) {
     return translate ("No write access");
   }
 

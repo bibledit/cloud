@@ -84,7 +84,7 @@ string styles_indexm (Webserver_Request& webserver_request)
     }
   }
   if (webserver_request.query.count ("new")) {
-    Dialog_Entry dialog_entry = Dialog_Entry ("indexm", translate("Please enter the name for the new stylesheet"), string(), "new", string());
+    Dialog_Entry dialog_entry = Dialog_Entry ("indexm", translate("Please enter the name for the new stylesheet"), std::string(), "new", std::string());
     page += dialog_entry.run();
     return page;
   }

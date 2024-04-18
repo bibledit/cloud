@@ -60,7 +60,7 @@ void statistics_statistics ()
   
     size_t change_notificatons_count = 0;
     if (webserver_request.database_config_user()->getUserPendingChangesNotification (user)) {
-      string any_bible = string();
+      string any_bible = std::string();
       std::vector <int> ids = database_modifications.getNotificationIdentifiers (user, any_bible);
       change_notificatons_count = ids.size();
       body << "<p><a href=" << quoted (siteUrl + changes_changes_url ()) << ">" << translate("Number of change notifications") << "</a>: " << ids.size() << "</p>" << std::endl;

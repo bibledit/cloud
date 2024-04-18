@@ -91,7 +91,7 @@ using namespace std;
 const char ContentType::label[] = "Content-Type";
 
 int ContentType::Boundary::ms_i = 0;
-string ContentType::Boundary::ms_common_boundary = string();
+string ContentType::Boundary::ms_common_boundary = std::string();
 
 
 ContentType::Boundary::Boundary()

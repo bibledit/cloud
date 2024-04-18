@@ -37,10 +37,9 @@
 #include <assets/header.h>
 #include <menu/logic.h>
 #include <journal/logic.h>
-using namespace std;
 
 
-string checks_settings_url ()
+std::string checks_settings_url ()
 {
   return "checks/settings";
 }
@@ -56,9 +55,9 @@ bool checks_settings_acl ([[maybe_unused]] Webserver_Request& webserver_request)
 }
 
 
-string checks_settings (Webserver_Request& webserver_request)
+std::string checks_settings (Webserver_Request& webserver_request)
 {
-  string page {};
+  std::string page {};
   Assets_Header header = Assets_Header (translate("Manage Checks"), webserver_request);
   header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   page = header.run ();
@@ -66,9 +65,9 @@ string checks_settings (Webserver_Request& webserver_request)
   
   
   if (webserver_request.query.count ("bible")) {
-    string bible = webserver_request.query["bible"];
+    const std::string bible = webserver_request.query["bible"];
     if (bible.empty()) {
-      Dialog_List dialog_list = Dialog_List ("settings", translate("Select which Bible to manage"), string(), string());
+      Dialog_List dialog_list = Dialog_List ("settings", translate("Select which Bible to manage"), std::string(), std::string());
       std::vector <std::string> bibles = access_bible::bibles (webserver_request);
       for (const auto & selectable_bible : bibles) {
         dialog_list.add_row (selectable_bible, "bible", selectable_bible);
@@ -79,7 +78,7 @@ string checks_settings (Webserver_Request& webserver_request)
       webserver_request.database_config_user()->setBible (bible);
     }
   }
-  string bible = access_bible::clamp (webserver_request, webserver_request.database_config_user()->getBible ());
+  const std::string bible = access_bible::clamp (webserver_request, webserver_request.database_config_user()->getBible ());
 
   
   if (webserver_request.query.count ("run")) {
@@ -89,8 +88,8 @@ string checks_settings (Webserver_Request& webserver_request)
   }
   
   
-  string checkbox = webserver_request.post ["checkbox"];
-  bool checked = filter::strings::convert_to_bool (webserver_request.post ["checked"]);
+  const std::string checkbox = webserver_request.post ["checkbox"];
+  const bool checked = filter::strings::convert_to_bool (webserver_request.post ["checked"]);
   
                         
   if (checkbox == "doublespacesusfm") {

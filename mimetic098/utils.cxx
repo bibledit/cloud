@@ -129,7 +129,7 @@ struct Int
         return m_i;
     }
 
-    operator string() const
+    operator std::string() const
     {
         return m_si;
     }

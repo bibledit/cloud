@@ -190,7 +190,7 @@ string filter_url_dirname_internal (string url, const char * separator)
     }
     size_t pos = url.find_last_of (separator);
     if (pos != std::string::npos) url = url.substr (0, pos);
-    else url = string();
+    else url = std::string();
   }
   if (url.empty ()) url = ".";
   return url;

@@ -59,7 +59,7 @@ string search_replace2 (Webserver_Request& webserver_request)
   if (webserver_request.post.count ("bibleselect")) {
     string bibleselect = webserver_request.post ["bibleselect"];
     webserver_request.database_config_user ()->setBible (bibleselect);
-    return string();
+    return std::string();
   }
 
   string page;
@@ -70,7 +70,7 @@ string search_replace2 (Webserver_Request& webserver_request)
 
   {
     string bible_html;
-    vector <string> bibles = access_bible::bibles (webserver_request);
+    std::vector <std::string> bibles = access_bible::bibles (webserver_request);
     for (auto selectable_bible : bibles) {
       bible_html = Options_To_Select::add_selection (selectable_bible, selectable_bible, bible_html);
     }

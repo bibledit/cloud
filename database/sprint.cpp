@@ -72,7 +72,7 @@ void Database_Sprint::create ()
 
   // Upgrade the two tables: Add a column for the Bible.
   sql = "PRAGMA table_info (sprint);";
-  vector <string> columns = database_sqlite_query (db, sql) ["name"];
+  std::vector <std::string> columns = database_sqlite_query (db, sql) ["name"];
   if (find (columns.begin(), columns.end(), "bible") == columns.end()) {
     sql = "ALTER TABLE sprint ADD COLUMN bible text;";
     database_sqlite_exec (db, sql);
@@ -139,7 +139,7 @@ vector <int> Database_Sprint::getTasks (const std::string& bible, int year, int 
   sql.add (month);
   sql.add ("ORDER BY rowid ASC;");
   sqlite3 * db = connect ();
-  vector <string> rowids = database_sqlite_query (db, sql.sql) ["rowid"];
+  std::vector <std::string> rowids = database_sqlite_query (db, sql.sql) ["rowid"];
   database_sqlite_disconnect (db);
   vector <int> ids;
   for (auto & id : rowids) {
@@ -156,7 +156,7 @@ string Database_Sprint::getTitle (int id)
   sql.add (id);
   sql.add (";");
   sqlite3 * db = connect ();
-  vector <string> title = database_sqlite_query (db, sql.sql) ["title"];
+  std::vector <std::string> title = database_sqlite_query (db, sql.sql) ["title"];
   database_sqlite_disconnect (db);
   if (!title.empty ()) return title [0];
   return "";
@@ -184,7 +184,7 @@ int Database_Sprint::getComplete (int id)
   sql.add (id);
   sql.add (";");
   sqlite3 * db = connect ();
-  vector <string> complete = database_sqlite_query (db, sql.sql) ["complete"];
+  std::vector <std::string> complete = database_sqlite_query (db, sql.sql) ["complete"];
   database_sqlite_disconnect (db);
   if (!complete.empty ()) return filter::strings::convert_to_int (complete [0]);
   return 0;
@@ -256,9 +256,9 @@ vector <Database_Sprint_Item> Database_Sprint::getHistory (const std::string& bi
   sqlite3 * db = connect ();
   map <string, vector <string> > result = database_sqlite_query (db, sql.sql);
   database_sqlite_disconnect (db);
-  vector <string> days = result ["day"];
-  vector <string> tasks = result ["tasks"];
-  vector <string> completes = result ["complete"];
+  std::vector <std::string> days = result ["day"];
+  std::vector <std::string> tasks = result ["tasks"];
+  std::vector <std::string> completes = result ["complete"];
   for (unsigned int i = 0; i < days.size(); i++) {
     Database_Sprint_Item item = Database_Sprint_Item ();
     item.day = filter::strings::convert_to_int (days [i]);

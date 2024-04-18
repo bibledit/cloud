@@ -262,7 +262,7 @@ string email_send ([[maybe_unused]] string to_mail,
   payload_text.push_back ("<meta charset=\"utf-8\" />\n");
   payload_text.push_back ("</head>\n");
   payload_text.push_back ("<body>\n");
-  vector <string> bodylines = filter::strings::explode (body, '\n');
+  std::vector <std::string> bodylines = filter::strings::explode (body, '\n');
   for (auto & line : bodylines) {
     if (filter::strings::trim (line).empty ()) payload_text.push_back (" ");
     else payload_text.push_back (line);
@@ -404,5 +404,5 @@ string email_setup_information (bool require_send, bool require_receive)
     return msg1 + R"( <a href="../)" + email_index_url () + + R"(">)" + msg2 + "</a>";
   }
 #endif
-  return string();
+  return std::string();
 }

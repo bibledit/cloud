@@ -72,13 +72,13 @@ string render_journal_entry (string filename, [[maybe_unused]] int userlevel)
   // Cloud: Only render journal entries of a sufficiently high level.
   // Client: Render journal entries of any level.
 #ifndef HAVE_CLIENT
-  if (entryLevel > userlevel) return string();
+  if (entryLevel > userlevel) return std::string();
 #endif
   // Remove the user's level.
   entry.erase (0, 2);
   
   // Split entry into lines.
-  vector <string> lines = filter::strings::explode (entry, '\n');
+  std::vector <std::string> lines = filter::strings::explode (entry, '\n');
   if (!lines.empty ()) entry = lines [0];
   
   // Sanitize HTML.
@@ -171,7 +171,7 @@ string journal_index (Webserver_Request& webserver_request)
 
   
   string lastfilename;
-  vector <string> records = Database_Logs::get (lastfilename);
+  std::vector <std::string> records = Database_Logs::get (lastfilename);
 
 
   string lines;

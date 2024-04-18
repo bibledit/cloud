@@ -247,7 +247,7 @@ string personalize_index (Webserver_Request& webserver_request)
   // Whether to enable fast Bible editor switching.
   if (checkbox == "fasteditorswitch") {
     webserver_request.database_config_user ()->setFastEditorSwitchingAvailable (checked);
-    return string();
+    return std::string();
   }
   view.set_variable ("fasteditorswitch", filter::strings::get_checkbox_status(webserver_request.database_config_user ()->getFastEditorSwitchingAvailable ()));
 
@@ -287,7 +287,7 @@ string personalize_index (Webserver_Request& webserver_request)
   // Whether to enable editing styles in the visual editors.
   if (checkbox == "enablestylesbutton") {
     webserver_request.database_config_user ()->setEnableStylesButtonVisualEditors (checked);
-    return string();
+    return std::string();
   }
   view.set_variable ("enablestylesbutton", filter::strings::get_checkbox_status(webserver_request.database_config_user ()->getEnableStylesButtonVisualEditors ()));
   
@@ -297,7 +297,7 @@ string personalize_index (Webserver_Request& webserver_request)
     string changebible = webserver_request.query ["changebible"];
     if (changebible == "") {
       Dialog_List dialog_list = Dialog_List ("index", translate("Select which Bible to make the active one for editing"), "", "");
-      vector <string> bibles = access_bible::bibles (webserver_request);
+      std::vector <std::string> bibles = access_bible::bibles (webserver_request);
       for (auto & bible : bibles) {
         dialog_list.add_row (bible, "changebible", bible);
       }
@@ -433,7 +433,7 @@ string personalize_index (Webserver_Request& webserver_request)
   if (webserver_request.post.count (dateformat)) {
     int date_format_key = filter::strings::convert_to_int (webserver_request.post [dateformat]);
     webserver_request.database_config_user ()->setNotesDateFormat(date_format_key);
-    return string();
+    return std::string();
   }
   string date_format_key = filter::strings::convert_to_string (webserver_request.database_config_user ()->getNotesDateFormat());
   string date_format_html;

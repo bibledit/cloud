@@ -30,8 +30,8 @@ TEST (nmt, logic)
 {
   string reference_text;
   string translating_text;
-  vector <string> reference_bits, standard_reference_bits;
-  vector <string> translating_bits, standard_translating_bits;
+  std::vector <std::string> reference_bits, standard_reference_bits;
+  std::vector <std::string> translating_bits, standard_translating_bits;
 
   reference_text = "Reference text one. Ref two.";
   standard_reference_bits = { "Reference text one", "Ref two" };

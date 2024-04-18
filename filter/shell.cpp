@@ -49,7 +49,7 @@ string filter_shell_escape_argument (string argument)
 // If they are nullptr, the output of the shell command goes to the Journal.
 int filter_shell_run ([[maybe_unused]] string directory,
                       string command,
-                      [[maybe_unused]] const vector <string> parameters,
+                      [[maybe_unused]] const std::vector <string> parameters,
                       [[maybe_unused]] string * output,
                       [[maybe_unused]] string * error)
 {
@@ -169,7 +169,7 @@ bool filter_shell_is_present (string program)
 // Lists the running processes.
 vector <string> filter_shell_active_processes ()
 {
-  vector <string> processes;
+  std::vector <std::string> processes;
 
 #ifdef HAVE_WINDOWS
 

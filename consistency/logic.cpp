@@ -39,22 +39,22 @@ m_webserver_request (webserver_request), m_id (id)
 string Consistency_Logic::response ()
 {
   // The resources to display in the Consistency tool.
-  vector <string> resources = m_webserver_request.database_config_user()->getConsistencyResources ();
+  std::vector <std::string> resources = m_webserver_request.database_config_user()->getConsistencyResources ();
   string bible = access_bible::clamp (m_webserver_request, m_webserver_request.database_config_user()->getBible ());
   resources.insert (resources.begin (), bible);
   
   // The passages entered in the Consistency tool.
   string s_passages = Database_Volatile::getValue (m_id, "passages");
   s_passages = filter::strings::trim (s_passages);
-  vector <string> passages = filter::strings::explode (s_passages, '\n');
+  std::vector <std::string> passages = filter::strings::explode (s_passages, '\n');
   
   // The translations entered in the Consistency tool.
   string s_translations = Database_Volatile::getValue (m_id, "translations");
   s_translations = filter::strings::trim (s_translations);
-  vector <string> translations = filter::strings::explode (s_translations, '\n');
+  std::vector <std::string> translations = filter::strings::explode (s_translations, '\n');
   
   // Contains the response to display.
-  vector <string> response;
+  std::vector <std::string> response;
   
   // Go through the passages interpreting them.
   Passage previousPassage = Passage ("", 1, 1, "1");
@@ -69,7 +69,7 @@ string Consistency_Logic::response ()
     // Remove verse text remaining with the passage(s) only.
     line = omit_verse_text (line);
     
-    vector <string> range_sequence = filter_passage_handle_sequences_ranges (line);
+    std::vector <std::string> range_sequence = filter_passage_handle_sequences_ranges (line);
     for (auto line2 : range_sequence) {
       Passage passage = filter_passage_interpret_passage (previousPassage, line2);
       if (passage.m_book != 0) {

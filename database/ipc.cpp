@@ -45,7 +45,7 @@ void Database_Ipc::trim ()
     }
   }
   int now = filter::date::seconds_since_epoch ();
-  vector <string> files = filter_url_scandir (folder ());
+  std::vector <std::string> files = filter_url_scandir (folder ());
   for (string item : files) {
     string path = file(item);
     int time = filter_url_file_modification_time (path);
@@ -246,9 +246,9 @@ string Database_Ipc::file (string file)
 vector <Database_Ipc_Item> Database_Ipc::readData ()
 {
   vector <Database_Ipc_Item> data;
-  vector <string> files = filter_url_scandir (folder ());
+  std::vector <std::string> files = filter_url_scandir (folder ());
   for (string file : files) {
-    vector <string> explosion = filter::strings::explode (file, '_');
+    std::vector <std::string> explosion = filter::strings::explode (file, '_');
     if (explosion.size () == 7) {
       Database_Ipc_Item item = Database_Ipc_Item ();
       item.file = file;
@@ -272,7 +272,7 @@ void Database_Ipc::writeRecord (int rowid, string user, string channel, string c
 
 
 // Returns the next available row identifier.
-int Database_Ipc::getNextId (const vector <Database_Ipc_Item> & data)
+int Database_Ipc::getNextId (const std::vector <Database_Ipc_Item> & data)
 {
   int id = 0;
   for (auto & record : data) {

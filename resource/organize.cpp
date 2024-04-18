@@ -62,7 +62,7 @@ string resource_organize (Webserver_Request& webserver_request)
   int level = webserver_request.session_logic()->currentLevel ();
   bool is_def = false;
   if (webserver_request.query["type"] == "def" | webserver_request.post["type"] == "def") is_def = true;
-  vector <string> default_active_resources = Database_Config_General::getDefaultActiveResources ();
+  std::vector <std::string> default_active_resources = Database_Config_General::getDefaultActiveResources ();
 
   
   // Deal with a new added resources.
@@ -78,7 +78,7 @@ string resource_organize (Webserver_Request& webserver_request)
       return "";
     } else {
       // Add the new resource to the existing selection of resources for the current user.
-      vector <string> resources = webserver_request.database_config_user()->getActiveResources ();
+      std::vector <std::string> resources = webserver_request.database_config_user()->getActiveResources ();
       if (is_def) resources = default_active_resources;
       resources.push_back (add);
       if (is_def) Database_Config_General::setDefaultActiveResources (resources);
@@ -93,7 +93,7 @@ string resource_organize (Webserver_Request& webserver_request)
   
   if (webserver_request.query.count ("remove")) {
     int remove = filter::strings::convert_to_int (webserver_request.query["remove"]);
-    vector <string> resources = webserver_request.database_config_user()->getActiveResources ();
+    std::vector <std::string> resources = webserver_request.database_config_user()->getActiveResources ();
     if (is_def) resources = default_active_resources;
     if (remove < static_cast<int>(resources.size ())) {
       resources.erase (resources.begin () + remove);
@@ -113,7 +113,7 @@ string resource_organize (Webserver_Request& webserver_request)
     if (!moveto.empty ()) {
       size_t from = static_cast<size_t> (filter::strings::convert_to_int (movefrom));
       size_t to = static_cast<size_t>(filter::strings::convert_to_int (moveto));
-      vector <string> resources = webserver_request.database_config_user()->getActiveResources ();
+      std::vector <std::string> resources = webserver_request.database_config_user()->getActiveResources ();
       if (is_def) resources = default_active_resources;
       filter::strings::array_move_from_to (resources, from, to);
       if (is_def) Database_Config_General::setDefaultActiveResources (resources);
@@ -162,7 +162,7 @@ string resource_organize (Webserver_Request& webserver_request)
 
   
   // Active resources.
-  vector <string> active_resources = webserver_request.database_config_user()->getActiveResources ();
+  std::vector <std::string> active_resources = webserver_request.database_config_user()->getActiveResources ();
   string activesblock;
   for (size_t i = 0; i < active_resources.size (); i++) {
     activesblock.append ("<p>&#183; ");
@@ -226,7 +226,7 @@ string resource_organize (Webserver_Request& webserver_request)
   // The same with above, but add the recommended resources to their current
   // list instead of replacing it.
   if (webserver_request.query.count ("adddefaultresources")) {
-    vector <string> joined_resources = webserver_request.database_config_user ()->getActiveResources ();
+    std::vector <std::string> joined_resources = webserver_request.database_config_user ()->getActiveResources ();
     joined_resources.insert(joined_resources.end(), default_active_resources.begin(), default_active_resources.end());
     webserver_request.database_config_user ()->setActiveResources (joined_resources);
     redirect_browser (webserver_request, resource_organize_url ());
@@ -234,8 +234,8 @@ string resource_organize (Webserver_Request& webserver_request)
 
   
   if (webserver_request.query.count ("install")) {
-    vector <string> installing_resources = Database_Config_General::getResourcesToCache ();
-    vector <string> active_resources_2 = webserver_request.database_config_user()->getActiveResources ();
+    std::vector <std::string> installing_resources = Database_Config_General::getResourcesToCache ();
+    std::vector <std::string> active_resources_2 = webserver_request.database_config_user()->getActiveResources ();
     for (auto & resource : active_resources_2) {
       if (resource_logic_can_cache (resource)) {
         if (!in_array (resource, installing_resources)) {

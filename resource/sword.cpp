@@ -80,7 +80,7 @@ string resource_sword (Webserver_Request& webserver_request)
   
   map <string, string> installed_modules;
   {
-    vector <string> modules = sword_logic_get_installed ();
+    std::vector <std::string> modules = sword_logic_get_installed ();
     for (auto module : modules) {
       string name = sword_logic_get_installed_module (module);
       string version = sword_logic_get_version (module);
@@ -88,7 +88,7 @@ string resource_sword (Webserver_Request& webserver_request)
     }
   }
   
-  vector <string> available_modules = sword_logic_get_available ();
+  std::vector <std::string> available_modules = sword_logic_get_available ();
   string moduleblock;
   for (auto & available_module : available_modules) {
     string source = sword_logic_get_source (available_module);

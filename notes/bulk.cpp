@@ -70,7 +70,7 @@ string notes_bulk (Webserver_Request& webserver_request)
   string success, error;
 
   
-  vector <string> bibles = access_bible::bibles (webserver_request);
+  std::vector <std::string> bibles = access_bible::bibles (webserver_request);
   int book = Ipc_Focus::getBook (webserver_request);
   int chapter = Ipc_Focus::getChapter (webserver_request);
   int verse = Ipc_Focus::getVerse (webserver_request);
@@ -127,7 +127,7 @@ string notes_bulk (Webserver_Request& webserver_request)
                                               text_selector,
                                               search_text,
                                               -1);
-    vector <string> sids;
+    std::vector <std::string> sids;
     for (auto id : identifiers) sids.push_back (filter::strings::convert_to_string (id));
     Database_Volatile::setValue (userid, "identifiers", filter::strings::implode (sids, " "));
   }
@@ -137,7 +137,7 @@ string notes_bulk (Webserver_Request& webserver_request)
   // Get the stored note identifiers from the database.
   vector <int> identifiers;
   {
-    vector <string> sids = filter::strings::explode (Database_Volatile::getValue (userid, "identifiers"), ' ');
+    std::vector <std::string> sids = filter::strings::explode (Database_Volatile::getValue (userid, "identifiers"), ' ');
     for (auto id : sids) identifiers.push_back (filter::strings::convert_to_int (id));
   }
   
@@ -169,7 +169,7 @@ string notes_bulk (Webserver_Request& webserver_request)
   if (assign) {
     string assignee = webserver_request.query["assign"];
     string user = webserver_request.session_logic ()->currentUser ();
-    vector <string> assignees = database_noteassignment.assignees (user);
+    std::vector <std::string> assignees = database_noteassignment.assignees (user);
     if (in_array (assignee, assignees)) {
       for (auto identifier : identifiers) {
         if (!database_notes.is_assigned (identifier, assignee)) {

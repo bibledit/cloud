@@ -50,7 +50,7 @@ string Paratext_Logic::searchProjectsFolder ()
 #endif
   }
   if (homedir) {
-    vector <string> files = filter_url_scandir (homedir);
+    std::vector <std::string> files = filter_url_scandir (homedir);
     for (auto file : files) {
       if (file.find ("Paratext") != std::string::npos) {
         return filter_url_create_path ({homedir, file});
@@ -61,7 +61,7 @@ string Paratext_Logic::searchProjectsFolder ()
 #ifdef HAVE_WINDOWS
   // Try Windows.
   homedir = "C:\\";
-  vector <string> files = filter_url_scandir (homedir);
+  std::vector <std::string> files = filter_url_scandir (homedir);
   for (auto file : files) {
     if (file.find ("Paratext") != std::string::npos) {
       string path = filter_url_create_path ({homedir, file});
@@ -78,8 +78,8 @@ string Paratext_Logic::searchProjectsFolder ()
 
 vector <string> Paratext_Logic::searchProjects (string projects_folder)
 {
-  vector <string> projects;
-  vector <string> folders = filter_url_scandir (projects_folder);
+  std::vector <std::string> projects;
+  std::vector <std::string> folders = filter_url_scandir (projects_folder);
   for (auto folder : folders) {
     string path = filter_url_create_path ({projects_folder, folder});
     if (filter_url_is_dir (path)) {
@@ -94,7 +94,7 @@ vector <string> Paratext_Logic::searchProjects (string projects_folder)
 map <int, string> Paratext_Logic::searchBooks (string project_path)
 {
   map <int, string> books;
-  vector <string> files = filter_url_scandir (project_path);
+  std::vector <std::string> files = filter_url_scandir (project_path);
   for (auto file : files) {
     if (file.find (".BAK") != std::string::npos) continue;
     if (file.find ("~") != std::string::npos) continue;
@@ -271,9 +271,9 @@ string Paratext_Logic::ancestorPath (string bible, int book)
 
 vector <string> Paratext_Logic::enabledBibles ()
 {
-  vector <string> enabled;
+  std::vector <std::string> enabled;
   Database_Bibles database_bibles;
-  vector <string> bibles = database_bibles.get_bibles ();
+  std::vector <std::string> bibles = database_bibles.get_bibles ();
   for (auto bible : bibles) {
     if (Database_Config_Bible::getParatextCollaborationEnabled (bible)) {
       enabled.push_back (bible);
@@ -286,7 +286,7 @@ vector <string> Paratext_Logic::enabledBibles ()
 void Paratext_Logic::synchronize (tasks::enums::paratext_sync method)
 {
   // The Bibles for which Paratext synchronization has been enabled.
-  vector <string> bibles = enabledBibles ();
+  std::vector <std::string> bibles = enabledBibles ();
   if (bibles.empty ()) return;
 
   
@@ -304,7 +304,7 @@ void Paratext_Logic::synchronize (tasks::enums::paratext_sync method)
   // Thus Bibledit may overwrite changes made by others in the loaded chapter in Paratext.
   // Therefore only update the USFM files when Paratext does not run.
   bool paratext_running = false;
-  vector <string> processes = filter_shell_active_processes ();
+  std::vector <std::string> processes = filter_shell_active_processes ();
   for (auto p : processes) {
     if (p.find ("Paratext") != std::string::npos)
       paratext_running = true;
@@ -394,7 +394,7 @@ void Paratext_Logic::synchronize (tasks::enums::paratext_sync method)
         string paratext = paratext_usfm [chapter];
 
         // Results of the merge or copy operations.
-        vector <string> messages;
+        std::vector <std::string> messages;
         vector <Merge_Conflict> conflicts;
         string updated_usfm;
         
@@ -501,7 +501,7 @@ void Paratext_Logic::synchronize (tasks::enums::paratext_sync method)
 
 
 string Paratext_Logic::synchronize (string ancestor, string bibledit, string paratext,
-                                    vector <string> & messages,
+                                    std::vector <std::string> & messages,
                                     vector <Merge_Conflict> & conflicts)
 {
   string resulting_usfm;

@@ -26,10 +26,10 @@ using namespace std;
 // Get the names of the available versification systems that come with Bibledit.
 vector <string> versification_logic_names ()
 {
-  vector <string> names;
+  std::vector <std::string> names;
 
   string directory = filter_url_create_root_path ({"versification"});
-  vector <string> files = filter_url_scandir (directory);
+  std::vector <std::string> files = filter_url_scandir (directory);
   for (auto file : files) {
     if (filter_url_get_extension (file) == "txt") {
       // Remove the dot and extension.

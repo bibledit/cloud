@@ -90,7 +90,7 @@ void sources_hebrewlexicon_parse ()
             string xmlns = " xmlns=\"http://openscriptures.github.com/morphhb/namespace\"";
             definition = filter::strings::replace (xmlns, "", definition);
             definition = filter::strings::convert_xml_character_entities_to_characters (definition);
-            vector <string> lines = filter::strings::explode (definition, '\n');
+            std::vector <std::string> lines = filter::strings::explode (definition, '\n');
             for (auto & line : lines) {
               if (line.find ("</status>") != std::string::npos) line.clear ();
               line = filter::strings::trim (line);

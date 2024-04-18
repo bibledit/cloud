@@ -58,10 +58,10 @@ TEST (database, mail)
     const int count = database_mail.getMailCount ();
     EXPECT_EQ (0, count);
     
-    const vector <Database_Mail_User> mails = database_mail.getMails ();
+    const std::vector <Database_Mail_User> mails = database_mail.getMails ();
     EXPECT_EQ (0, static_cast<int>(mails.size()));
     
-    const vector <int> mails_to_send = database_mail.getMailsToSend ();
+    const std::vector <int> mails_to_send = database_mail.getMailsToSend ();
     EXPECT_EQ (vector <int>{}, mails_to_send);
   }
   
@@ -176,7 +176,7 @@ TEST (filter, mail)
   
   // Test the collection of sample mails.
   {
-    const vector <string> files = filter_url_scandir (datafolder);
+    const std::vector <string> files = filter_url_scandir (datafolder);
     for (const auto& messagefile : files) {
       if (messagefile.find ("m") != 0) continue;
       if (filter_url_get_extension (messagefile) != "msg") continue;

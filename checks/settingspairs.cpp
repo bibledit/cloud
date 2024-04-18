@@ -70,8 +70,8 @@ string checks_settingspairs (Webserver_Request& webserver_request)
   
   if (webserver_request.post.count ("pairs")) {
     string fragment = webserver_request.post["pairs"];
-    vector <string> errors {};
-    vector <string> pairs = filter::strings::explode (fragment, ' ');
+    std::vector <std::string> errors {};
+    std::vector <std::string> pairs = filter::strings::explode (fragment, ' ');
     bool okay {true};
     for (const auto & pair : pairs) {
       const size_t length = filter::strings::unicode_string_length (pair);

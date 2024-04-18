@@ -129,7 +129,7 @@ bool Session_Logic::openAccess ()
 // Returns IP blocks of remote address.
 string Session_Logic::remoteAddress ()
 {
-  vector <string> blocks = filter::strings::explode (m_webserver_request.remote_address, '.');
+  std::vector <std::string> blocks = filter::strings::explode (m_webserver_request.remote_address, '.');
   string address;
   size_t num_blocks = static_cast<size_t> (abs (check_ip_blocks));
   if (num_blocks > blocks.size ()) num_blocks = blocks.size ();
@@ -268,7 +268,7 @@ bool Session_Logic::clientAccess ()
   // or as the admin in case no user has been set up yet.
   if (config_globals_client_prepared) {
     Database_Users database_users;
-    vector <string> users = database_users.get_users ();
+    std::vector <std::string> users = database_users.get_users ();
     string user;
     if (users.empty ()) {
       user = session_admin_credentials ();

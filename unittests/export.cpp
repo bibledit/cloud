@@ -64,7 +64,7 @@ TEST (filter, export)
   // Test export title via the e-Sword tool.
   {
     Esword_Text esword_text = Esword_Text ("The Word of the Lord Jesus Christ");
-    vector <string> sql = {
+    std::vector <std::string> sql = {
       {"PRAGMA foreign_keys=OFF;"},
       {"PRAGMA synchronous=OFF;"},
       {"CREATE TABLE Details (Description NVARCHAR(255), Abbreviation NVARCHAR(50), Comments TEXT, Version INT, Font NVARCHAR(50), Unicode BOOL, RightToLeft BOOL, OT BOOL, NT BOOL, Apocrypha BOOL, Strong BOOL);"},
@@ -79,7 +79,7 @@ TEST (filter, export)
     Esword_Text esword_text = Esword_Text ("");
     esword_text.add_text ("The Word of God");
     esword_text.finalize ();
-    vector <string> sql = {
+    std::vector <std::string> sql = {
       {"PRAGMA foreign_keys=OFF;"},
       {"PRAGMA synchronous=OFF;"},
       {"CREATE TABLE Details (Description NVARCHAR(255), Abbreviation NVARCHAR(50), Comments TEXT, Version INT, Font NVARCHAR(50), Unicode BOOL, RightToLeft BOOL, OT BOOL, NT BOOL, Apocrypha BOOL, Strong BOOL);"},
@@ -99,7 +99,7 @@ TEST (filter, export)
     esword_text.newVerse (3);
     esword_text.add_text ("In the beginning was the Word, and the Word was with God, and the Word was God.");
     esword_text.finalize ();
-    vector <string> sql = {
+    std::vector <std::string> sql = {
       {"PRAGMA foreign_keys=OFF;"},
       {"PRAGMA synchronous=OFF;"},
       {"CREATE TABLE Details (Description NVARCHAR(255), Abbreviation NVARCHAR(50), Comments TEXT, Version INT, Font NVARCHAR(50), Unicode BOOL, RightToLeft BOOL, OT BOOL, NT BOOL, Apocrypha BOOL, Strong BOOL);"},
@@ -121,7 +121,7 @@ TEST (filter, export)
     esword_text.add_text (", and the Word was with God");
     esword_text.add_text (", and the Word was God.");
     esword_text.finalize ();
-    vector <string> sql = {
+    std::vector <std::string> sql = {
       {"PRAGMA foreign_keys=OFF;"},
       {"PRAGMA synchronous=OFF;"},
       {"CREATE TABLE Details (Description NVARCHAR(255), Abbreviation NVARCHAR(50), Comments TEXT, Version INT, Font NVARCHAR(50), Unicode BOOL, RightToLeft BOOL, OT BOOL, NT BOOL, Apocrypha BOOL, Strong BOOL);"},
@@ -145,7 +145,7 @@ TEST (filter, export)
     esword_text.newVerse (6);
     esword_text.add_text ("Which were born, not of blood, nor of the will of the flesh, nor of the will of man, but of God.");
     esword_text.finalize ();
-    vector <string> sql = {
+    std::vector <std::string> sql = {
       {"PRAGMA foreign_keys=OFF;"},
       {"PRAGMA synchronous=OFF;"},
       {"CREATE TABLE Details (Description NVARCHAR(255), Abbreviation NVARCHAR(50), Comments TEXT, Version INT, Font NVARCHAR(50), Unicode BOOL, RightToLeft BOOL, OT BOOL, NT BOOL, Apocrypha BOOL, Strong BOOL);"},

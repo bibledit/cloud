@@ -92,13 +92,13 @@ string notes_create (Webserver_Request& webserver_request)
     string body = filter::strings::trim (webserver_request.post["body"]);
     body = filter_url_tag_to_plus (body);
     notes_logic.createNote (bible, book, chapter, verse, summary, body, false);
-    return string();
+    return std::string();
   }
 
   
   if (webserver_request.post.count ("cancel")) {
     redirect_browser (webserver_request, notes_index_url ());
-    return string();
+    return std::string();
   }
   
 
@@ -130,7 +130,7 @@ string notes_create (Webserver_Request& webserver_request)
     string versetext;
     string chapter_usfm = webserver_request.database_bibles()->get_chapter (bible, book, chapter);
     string verse_usfm = filter::usfm::get_verse_text (chapter_usfm, verse);
-    string stylesheet = styles_logic_standard_sheet ();
+    const std::string stylesheet = styles_logic_standard_sheet ();
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.text_text = new Text_Text ();
     filter_text.add_usfm_code (verse_usfm);

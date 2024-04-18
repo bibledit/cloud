@@ -64,7 +64,7 @@ string paratext_index (Webserver_Request& webserver_request)
     if (select == "") {
       Dialog_List dialog_list = Dialog_List ("index", translate("Which Bible are you going to use?"), "", "");
       dialog_list.add_query ("bible", bible);
-      vector <string> bibles = webserver_request.database_bibles()->get_bibles();
+      std::vector <std::string> bibles = webserver_request.database_bibles()->get_bibles();
       for (auto & value : bibles) {
         dialog_list.add_row (value, "selectbible", value);
       }
@@ -129,7 +129,7 @@ string paratext_index (Webserver_Request& webserver_request)
     if (project == "") {
       Dialog_List dialog_list = Dialog_List ("index", translate("Which Paratext project are you going to use?"), "", "");
       dialog_list.add_query ("bible", bible);
-      vector <string> projects = Paratext_Logic::searchProjects (paratext_folder);
+      std::vector <std::string> projects = Paratext_Logic::searchProjects (paratext_folder);
       for (auto & value : projects) {
         dialog_list.add_row (value, "paratextproject", value);
       }

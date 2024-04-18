@@ -92,7 +92,7 @@ void sendreceive_settings ()
   }
 
   // Set the correct user in the session: The sole user on the Client.
-  vector <string> users = webserver_request.database_users ()->get_users ();
+  std::vector <std::string> users = webserver_request.database_users ()->get_users ();
   if (users.empty ()) {
     Database_Logs::log (translate("No user found"), Filter_Roles::translator ());
     sendreceive_settings_done ();
@@ -135,7 +135,7 @@ void sendreceive_settings ()
         break;
       case Sync_Logic::settings_send_resources_organization:
       {
-        vector <string> resources = webserver_request.database_config_user()->getActiveResources ();
+        std::vector <std::string> resources = webserver_request.database_config_user()->getActiveResources ();
         value = filter::strings::implode (resources, "\n");
         break;
       }
@@ -174,7 +174,7 @@ void sendreceive_settings ()
   // If it matches, that means that the local settings match the settings on the server.
   // The script is then ready.
   if (post.count ("v")) post.erase (post.find ("v"));
-  vector <string> bibles = webserver_request.database_bibles()->get_bibles ();
+  std::vector <std::string> bibles = webserver_request.database_bibles()->get_bibles ();
   post ["a"] = filter::strings::convert_to_string (Sync_Logic::settings_get_total_checksum);
   post ["b"] = filter::strings::implode (bibles, "\n");
   string error;

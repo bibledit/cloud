@@ -34,9 +34,9 @@ void checks_verses::missing_punctuation_at_end (const std::string& bible, int bo
                                                 const std::string& center_marks, const std::string& end_marks,
                                                 const std::string& disregards)
 {
-  const vector <string> centermarks = filter::strings::explode (center_marks, ' ');
-  const vector <string> endmarks = filter::strings::explode (end_marks, ' ');
-  const vector <string> ignores = filter::strings::explode (disregards, ' ');
+  const std::vector <string> centermarks = filter::strings::explode (center_marks, ' ');
+  const std::vector <string> endmarks = filter::strings::explode (end_marks, ' ');
+  const std::vector <string> ignores = filter::strings::explode (disregards, ' ');
   Database_Check database_check {};
   for (const auto & element : verses) {
     int verse = element.first;
@@ -56,7 +56,7 @@ void checks_verses::missing_punctuation_at_end (const std::string& bible, int bo
 
 
 void checks_verses::patterns (const std::string& bible, int book, int chapter,
-                              const map <int, string> & verses, const vector <string> & patterns)
+                              const map <int, string> & verses, const std::vector <string> & patterns)
 {
   Database_Check database_check {};
   for (const auto & element : verses) {

@@ -53,7 +53,7 @@ void Html_Header::search_back_link (string url, string text)
 }
 
 
-void Html_Header::create (const vector <pair <string, string> > & breadcrumbs)
+void Html_Header::create (const std::vector <pair <string, string> > & breadcrumbs)
 {
   pugi::xml_node table_element = m_html_text.new_table ();
   pugi::xml_node table_row_element = m_html_text.new_table_row (table_element);

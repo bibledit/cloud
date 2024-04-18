@@ -85,7 +85,7 @@ void sources_abbott_smith_parse_entry_element (Database_AbbottSmith * database_a
   // It means that a Strong's number is added to the lemma.
   // Such a Strong's number should be parsed too, and put at its proper place in the database.
   // And the lemma should be remove from its attached Strong's number.
-  vector <string> strongs = filter::strings::explode (lemma, '|');
+  std::vector <std::string> strongs = filter::strings::explode (lemma, '|');
   if (strongs.size() >= 2) {
     lemma = strongs[0];
     strongs.erase (strongs.begin());

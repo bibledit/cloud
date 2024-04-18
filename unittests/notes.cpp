@@ -104,7 +104,7 @@ TEST (database, noteactions)
     database.record ("unittest", 3, 3, "content");
     database.updateNotes (2, 12345);
     vector <int> notes = database.getNotes ();
-    const vector <int> standard_notes{12345, 3};
+    const std::vector <int> standard_notes{12345, 3};
     EXPECT_EQ (standard_notes, notes);
   }
 
@@ -218,7 +218,7 @@ void test_database_notes ()
     database_notes.create ();
 
     string value;
-    vector <string> values;
+    std::vector <std::string> values;
     size_t length = 0;
     size_t pos = 0;
 
@@ -295,7 +295,7 @@ void test_database_notes ()
     // But since this unit test runs without sessions, it would have subscribed an empty user.
     webserver_request.session_logic()->set_username ("");
     int identifier = database_notes.store_new_note ("", 0, 0, 0, "Summary", "Contents", false);
-    vector <string> subscribers = database_notes.get_subscribers (identifier);
+    std::vector <std::string> subscribers = database_notes.get_subscribers (identifier);
     EXPECT_EQ (vector <string>{}, subscribers);
     
     // Create a note again, but this time set the session variable to a certain user.
@@ -362,7 +362,7 @@ void test_database_notes ()
     
     // Create a note and check that it was not assigned to anybody.
     int oldidentifier = database_notes.store_new_note ("", 0, 0, 0, "Summary", "Contents", false);
-    vector <string> assignees = database_notes.get_assignees (oldidentifier);
+    std::vector <std::string> assignees = database_notes.get_assignees (oldidentifier);
     EXPECT_EQ (vector <string>{}, assignees);
     int newidentifier = database_notes.store_new_note ("", 0, 0, 0, "Summary2", "Contents2", false);
     assignees = database_notes.get_assignees (newidentifier);
@@ -387,7 +387,7 @@ void test_database_notes ()
     // Assign note to second user, and check it reflects.
     database_notes.assign_user (oldidentifier, "unittest2");
     assignees = database_notes.get_assignees (oldidentifier);
-    vector <string> standard_assignees = {"unittest", "unittest2"};
+    std::vector <std::string> standard_assignees = {"unittest", "unittest2"};
     EXPECT_EQ (standard_assignees, assignees);
     database_notes.assign_user (newidentifier, "unittest3");
     assignees = database_notes.get_assignees (newidentifier);
@@ -527,11 +527,11 @@ void test_database_notes ()
     
     // Test getting all possible statuses.
     vector <Database_Notes_Text> statuses = database_notes.get_possible_statuses ();
-    vector <string> rawstatuses;
+    std::vector <std::string> rawstatuses;
     for (auto & note_text : statuses) {
       rawstatuses.push_back (note_text.raw);
     }
-    vector <string> standard_rawstatuses {"yyyyy", "xxxxx", "New", "Pending", "In progress", "Done", "Reopened"};
+    std::vector <std::string> standard_rawstatuses {"yyyyy", "xxxxx", "New", "Pending", "In progress", "Done", "Reopened"};
     EXPECT_EQ (standard_rawstatuses, rawstatuses);
   }
 
@@ -574,13 +574,13 @@ void test_database_notes ()
     
     // Test getting all unique severities.
     vector <Database_Notes_Text> severities = database_notes.get_possible_severities ();
-    vector <string> rawseverities;
-    vector <string> localizedseverities;
+    std::vector <std::string> rawseverities;
+    std::vector <std::string> localizedseverities;
     for (auto & note_text : severities) {
       rawseverities.push_back (note_text.raw);
       localizedseverities.push_back (note_text.localized);
     }
-    vector <string> standard_severities {"0", "1", "2", "3", "4", "5"};
+    std::vector <std::string> standard_severities {"0", "1", "2", "3", "4", "5"};
     EXPECT_EQ (standard_severities, rawseverities);
     standard_severities = {"Wish", "Minor", "Normal", "Important", "Major", "Critical"};
     EXPECT_EQ (standard_severities, localizedseverities);
@@ -1407,16 +1407,16 @@ void test_database_notes ()
     database_notes.create ();
     
     // Keep the stored values for the notes.
-    vector <string> v_assigned;
-    vector <string> v_bible;
-    vector <string> v_contents;
+    std::vector <std::string> v_assigned;
+    std::vector <std::string> v_bible;
+    std::vector <std::string> v_contents;
     vector <int> v_identifier;
     vector <int> v_modified;
-    vector <string> v_passage;
+    std::vector <std::string> v_passage;
     vector <int> v_severity;
-    vector <string> v_status;
-    vector <string> v_subscriptions;
-    vector <string> v_summary;
+    std::vector <std::string> v_status;
+    std::vector <std::string> v_subscriptions;
+    std::vector <std::string> v_summary;
     
     // Create several notes.
     for (int i = 0; i < 5; i++) {
@@ -1458,7 +1458,7 @@ void test_database_notes ()
     }
     
     // Get the checksums for later reference.
-    vector <string> checksums;
+    std::vector <std::string> checksums;
     for (size_t i = 0; i < 5; i++) {
       int identifier = v_identifier [i];
       database_notes.update_checksum (identifier);
@@ -1779,7 +1779,7 @@ void test_database_notes ()
     // Test the methods for the severity.
     int severity1 = 4;
     int severity2 = 5;
-    vector <string> standard_severities = database_notes.standard_severities ();
+    std::vector <std::string> standard_severities = database_notes.standard_severities ();
     database_notes.set_raw_severity (identifier1, severity1);
     database_notes.set_raw_severity (identifier2, severity2);
     EXPECT_EQ (severity1, database_notes.get_raw_severity (identifier1));
@@ -1821,7 +1821,7 @@ TEST (database, noteassignment)
   bool exists = database.exists ("unittest");
   EXPECT_EQ (false, exists);
   
-  vector <string> assignees = database.assignees ("unittest");
+  std::vector <std::string> assignees = database.assignees ("unittest");
   EXPECT_EQ (vector <string>{}, assignees);
   
   database.assignees ("unittest", {"one", "two"});
@@ -1832,7 +1832,7 @@ TEST (database, noteassignment)
   EXPECT_EQ (true, exists);
   
   assignees = database.assignees ("unittest");
-  vector <string> standard_assignees {"one", "two"};
+  std::vector <std::string> standard_assignees {"one", "two"};
   EXPECT_EQ (standard_assignees, assignees);
   
   database.assignees ("unittest", {"1", "2"});

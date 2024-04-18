@@ -37,7 +37,7 @@ void refresh_sandbox (bool displayjournal, vector <string> allowed)
   if (displayjournal) {
     bool output = false;
     string directory = filter_url_create_path ({testing_directory, "logbook"});
-    vector <string> files = filter_url_scandir (directory);
+    std::vector <std::string> files = filter_url_scandir (directory);
     for (unsigned int i = 0; i < files.size (); i++) {
       if (files [i] == "gitflag") continue;
       string contents = filter_url_file_get_contents (filter_url_create_path ({directory, files [i]}));

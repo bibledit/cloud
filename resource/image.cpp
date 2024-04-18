@@ -119,7 +119,7 @@ string resource_image (Webserver_Request& webserver_request)
   }
   
   
-  vector <string> images = database_imageresources.get (name);
+  std::vector <std::string> images = database_imageresources.get (name);
   string imageblock;
   for (auto & image : images) {
     imageblock.append ("<tr>");

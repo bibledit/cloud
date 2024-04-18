@@ -67,7 +67,7 @@ string resource_user1edit (Webserver_Request& webserver_request)
 
   if (webserver_request.post.count ("submit")) {
     string data = webserver_request.post["data"];
-    vector <string> lines = filter::strings::explode (data, '\n');
+    std::vector <std::string> lines = filter::strings::explode (data, '\n');
     int count = 0;
     int bookcount = 0;
     for (auto line : lines) {
@@ -76,7 +76,7 @@ string resource_user1edit (Webserver_Request& webserver_request)
       if (count == 0) {
         Database_UserResources::url (name, line);
       } else {
-        vector <string> bits = filter::strings::explode (line, '=');
+        std::vector <std::string> bits = filter::strings::explode (line, '=');
         if (bits.size () == 2) {
           string english = filter::strings::trim (bits [0]);
           book_id id = database::books::get_id_from_english (english);
@@ -96,7 +96,7 @@ string resource_user1edit (Webserver_Request& webserver_request)
   }
   
   
-  vector <string> lines;
+  std::vector <std::string> lines;
   lines.push_back (Database_UserResources::url (name));
   vector <book_id> ids = database::books::get_ids ();
   for (auto id : ids) {

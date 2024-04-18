@@ -64,7 +64,7 @@ void sources_morphhb_parse ()
   Database_OsHb database_oshb;
   database_oshb.create ();
 
-  vector <string> books = {
+  std::vector <std::string> books = {
     "Gen",
     "Exod",
     "Lev",
@@ -125,7 +125,7 @@ void sources_morphhb_parse ()
 
         // Get the passage.
         string osisID = verse_node.attribute ("osisID").value ();
-        vector <string> bits = filter::strings::explode (osisID, '.');
+        std::vector <std::string> bits = filter::strings::explode (osisID, '.');
         int chapter = filter::strings::convert_to_int (bits[1]);
         int verse = filter::strings::convert_to_int (bits[2]);
 

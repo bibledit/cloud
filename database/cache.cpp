@@ -119,7 +119,7 @@ bool Database_Cache::exists (string resource, int book, int chapter, int verse)
     sql.add ("AND verse = ");
     sql.add (verse);
     sql.add (";");
-    vector <string> result = sql.query () ["count(*)"];
+    std::vector <std::string> result = sql.query () ["count(*)"];
     int count = 0;
     if (!result.empty ()) count = filter::strings::convert_to_int (result [0]);
     return (count > 0);
@@ -134,7 +134,7 @@ bool Database_Cache::exists (string resource, int book, int chapter, int verse)
     sql.add ("AND verse = ");
     sql.add (verse);
     sql.add (";");
-    vector <string> result = sql.query () ["count(*)"];
+    std::vector <std::string> result = sql.query () ["count(*)"];
     int count = 0;
     if (!result.empty ()) count = filter::strings::convert_to_int (result [0]);
     return (count > 0);
@@ -180,7 +180,7 @@ string Database_Cache::retrieve (string resource, int book, int chapter, int ver
     sql.add ("AND verse = ");
     sql.add (verse);
     sql.add (";");
-    vector <string> result = sql.query () ["value"];
+    std::vector <std::string> result = sql.query () ["value"];
     if (result.empty ()) return "";
     return result [0];
   }
@@ -194,7 +194,7 @@ string Database_Cache::retrieve (string resource, int book, int chapter, int ver
     sql.add ("AND verse = ");
     sql.add (verse);
     sql.add (";");
-    vector <string> result = sql.query () ["value"];
+    std::vector <std::string> result = sql.query () ["value"];
     if (result.empty ()) return "";
     return result [0];
   }
@@ -221,7 +221,7 @@ bool Database_Cache::ready (string resource, int book)
 {
   SqliteDatabase sql = SqliteDatabase (filename (resource, book));
   sql.add ("SELECT ready FROM ready;");
-  vector <string> result = sql.query () ["ready"];
+  std::vector <std::string> result = sql.query () ["ready"];
   if (!result.empty()) {
     auto ready = result[0];
     return filter::strings::convert_to_bool (ready);

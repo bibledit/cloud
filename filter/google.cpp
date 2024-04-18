@@ -130,7 +130,7 @@ tuple <bool, string, string> translate (const string text, const char * source, 
   string error;
   bool burst { false };
   bool check_certificate { false };
-  const vector <pair <string, string> > headers {
+  const std::vector <pair <string, string> > headers {
     { "Content-Type", "application/json" },
     { "Authorization", "Bearer " + google_access_token }
   };
@@ -195,7 +195,7 @@ vector <pair <string, string> > get_languages (const std::string& target)
   string error;
   bool burst { false };
   bool check_certificate { false };
-  const vector <pair <string, string> > headers {
+  const std::vector <pair <string, string> > headers {
     { "Content-Type", "application/json; charset=utf-8" },
     { "Authorization", "Bearer " + google_access_token }
   };

@@ -117,7 +117,7 @@ vector <int> Database_MorphGnt::rowids (int book, int chapter, int verse)
   sql.add ("AND verse =");
   sql.add (verse);
   sql.add ("ORDER BY rowid;");
-  vector <string> result = sql.query () ["rowid"];
+  std::vector <std::string> result = sql.query () ["rowid"];
   vector <int> rowids;
   for (auto rowid : result) rowids.push_back (filter::strings::convert_to_int (rowid));
   return rowids;
@@ -162,7 +162,7 @@ int Database_MorphGnt::get_id (const char * table_row, string item)
     sql.add ("=");
     sql.add (item);
     sql.add (";");
-    vector <string> result = sql.query () ["rowid"];
+    std::vector <std::string> result = sql.query () ["rowid"];
     if (!result.empty ()) return filter::strings::convert_to_int (result [0]);
     // The rowid was not found: Insert the word into the table.
     // The rowid will now be found during the second iteration.
@@ -188,7 +188,7 @@ string Database_MorphGnt::get_item (const char * item, int rowid)
   sql.add ("FROM morphgnt WHERE rowid =");
   sql.add (rowid);
   sql.add (";");
-  vector <string> result = sql.query () [item];
+  std::vector <std::string> result = sql.query () [item];
   rowid = 0;
   if (!result.empty ()) rowid = filter::strings::convert_to_int (result [0]);
   // Retrieve the requested value from the sub table.

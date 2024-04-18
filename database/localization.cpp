@@ -74,7 +74,7 @@ string Database_Localization::translate (const std::string& english)
   sql.add (english);
   sql.add (";");
   sqlite3 * db = connect ();
-  vector <string> msgstrs = database_sqlite_query (db, sql.sql) ["msgstr"];
+  std::vector <std::string> msgstrs = database_sqlite_query (db, sql.sql) ["msgstr"];
   database_sqlite_disconnect (db);
   if (!msgstrs.empty ()) if (!msgstrs[0].empty ()) return msgstrs [0];
   return english;
@@ -88,7 +88,7 @@ string Database_Localization::backtranslate (const std::string& localization)
   sql.add (localization);
   sql.add (";");
   sqlite3 * db = connect ();
-  vector <string> msgids = database_sqlite_query (db, sql.sql) ["msgid"];
+  std::vector <std::string> msgids = database_sqlite_query (db, sql.sql) ["msgid"];
   database_sqlite_disconnect (db);
   if (!msgids.empty ()) if (!msgids[0].empty ()) return msgids [0];
   return localization;

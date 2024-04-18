@@ -90,7 +90,7 @@ string search_replacego (Webserver_Request& webserver_request)
   if (casesensitive) {
     standardPlainText = filter::strings::replace (searchfor, replacewith, standardPlainText, &plain_replacement_count);
   } else {
-    vector <string> needles = filter::strings::search_needles (searchfor, standardPlainText);
+    std::vector <std::string> needles = filter::strings::search_needles (searchfor, standardPlainText);
     for (auto & needle : needles) {
       standardPlainText = filter::strings::replace (needle, replacewith, standardPlainText, &plain_replacement_count);
     }
@@ -103,7 +103,7 @@ string search_replacego (Webserver_Request& webserver_request)
   if (casesensitive) {
     new_verse_usfm = filter::strings::replace (searchfor, replacewith, new_verse_usfm, &usfm_replacement_count);
   } else {
-    vector <string> needles = filter::strings::search_needles (searchfor, old_verse_usfm);
+    std::vector <std::string> needles = filter::strings::search_needles (searchfor, old_verse_usfm);
     for (auto & needle : needles) {
       new_verse_usfm = filter::strings::replace (needle, replacewith, new_verse_usfm, &usfm_replacement_count);
     }

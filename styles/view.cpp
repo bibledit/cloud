@@ -540,7 +540,7 @@ string styles_view (Webserver_Request& webserver_request)
       style_is_edited = true;
       if (style_is_edited) {};
     }
-    return string();
+    return std::string();
   }
   view.set_variable ("color", color);
 
@@ -554,7 +554,7 @@ string styles_view (Webserver_Request& webserver_request)
       style_is_edited = true;
       if (style_is_edited) {};
     }
-    return string();
+    return std::string();
   }
   view.set_variable ("backgroundcolor", backgroundcolor);
 

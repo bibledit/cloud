@@ -58,7 +58,7 @@ void Checks_Sentences::enter_names (string names)
 {
   m_names.clear ();
   names = filter::strings::replace ("\n", " ", names);
-  vector <string> names2 = filter::strings::explode (names, ' ');
+  std::vector <std::string> names2 = filter::strings::explode (names, ' ');
   for (auto name : names2) {
     if (!name.empty()) {
       // Limit the length to the left of the suffix in the test.
@@ -87,7 +87,7 @@ void Checks_Sentences::initialize ()
 void Checks_Sentences::check (const map <int, string> & texts)
 {
   vector <int> verse_numbers {};
-  vector <string> characters {};
+  std::vector <std::string> characters {};
   int iterations {0};
   for (const auto & element : texts) {
     int verse = element.first;
@@ -181,9 +181,9 @@ void Checks_Sentences::check_character ()
 // The USFM markers that start paragraphs that do not need to start with the correct capitalization.
 // Usually such markers are poetic markers like \q1 and so on.
 // $verses_paragraphs: The entire paragraphs, with verse number as their keys.
-void Checks_Sentences::paragraphs (const vector <string> & paragraph_start_markers,
-                                   const vector <string> & within_sentence_paragraph_markers,
-                                   const vector <map <int, string>> & verses_paragraphs)
+void Checks_Sentences::paragraphs (const std::vector <string> & paragraph_start_markers,
+                                   const std::vector <string> & within_sentence_paragraph_markers,
+                                   const std::vector <map <int, string>> & verses_paragraphs)
 {
   // Iterate over the paragraphs.
   for (unsigned int p = 0; p < verses_paragraphs.size (); p++) {

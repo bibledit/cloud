@@ -60,7 +60,7 @@ BookChapterData::BookChapterData (int book, int chapter, string data)
 string one_string (string usfm)
 {
   string long_string = "";
-  vector <string> usfm_lines = filter::strings::explode (usfm, '\n');
+  std::vector <std::string> usfm_lines = filter::strings::explode (usfm, '\n');
   for (string & line : usfm_lines) {
     line = filter::strings::trim (line);
     // Skip empty line.
@@ -86,7 +86,7 @@ string one_string (string usfm)
 // If $code does not start with a marker, this becomes visible in the output too.
 vector <string> get_markers_and_text (string code)
 {
-  vector <string> markers_and_text;
+  std::vector <std::string> markers_and_text;
   code = filter::strings::replace ("\n\\", "\\", code); // New line followed by backslash: leave new line out.
   code = filter::strings::replace ("\n", " ", code); // New line only: change to space, according to the USFM specification.
   // No removal of double spaces, because it would remove an opening marker (which already has its own space), followed by a space.
@@ -180,7 +180,7 @@ vector <BookChapterData> usfm_import (string input, string stylesheet)
   string chapter_data {};
 
   input = one_string (input);
-  vector <string> markers_and_text = get_markers_and_text (input);
+  std::vector <std::string> markers_and_text = get_markers_and_text (input);
   bool retrieve_book_number_on_next_iteration = false;
   bool retrieve_chapter_number_on_next_iteration = false;
 
@@ -245,7 +245,7 @@ vector <BookChapterData> usfm_import (string input, string stylesheet)
 vector <int> get_verse_numbers (string usfm)
 {
   vector <int> verse_numbers = { 0 };
-  vector <string> markers_and_text = get_markers_and_text (usfm);
+  std::vector <std::string> markers_and_text = get_markers_and_text (usfm);
   bool extract_verse = false;
   for (string marker_or_text : markers_and_text) {
     if (extract_verse) {
@@ -271,7 +271,7 @@ vector <int> get_verse_numbers (string usfm)
 vector <int> get_chapter_numbers (string usfm)
 {
   vector <int> chapter_numbers = { 0 };
-  vector <string> markers_and_text = get_markers_and_text (usfm);
+  std::vector <std::string> markers_and_text = get_markers_and_text (usfm);
   bool extract_chapter = false;
   for (string marker_or_text : markers_and_text) {
     if (extract_chapter) {
@@ -291,7 +291,7 @@ vector <int> get_chapter_numbers (string usfm)
 vector <int> linenumber_to_versenumber (string usfm, unsigned int line_number)
 {
   vector <int> verse_number = {0}; // Initial verse number.
-  vector <string> lines = filter::strings::explode (usfm, '\n');
+  std::vector <std::string> lines = filter::strings::explode (usfm, '\n');
   for (unsigned int i = 0; i < lines.size(); i++) {
     if (i <= line_number) {
       vector <int> verse_numbers = get_verse_numbers (lines[i]);
@@ -309,7 +309,7 @@ vector <int> linenumber_to_versenumber (string usfm, unsigned int line_number)
 vector <int> offset_to_versenumber (string usfm, unsigned int offset)
 {
   size_t totalOffset = 0;
-  vector <string> lines = filter::strings::explode (usfm, '\n');
+  std::vector <std::string> lines = filter::strings::explode (usfm, '\n');
   for (unsigned i = 0; i < lines.size(); i++) {
     size_t length = filter::strings::unicode_string_length (lines [i]);
     totalOffset += length;
@@ -330,7 +330,7 @@ int versenumber_to_offset (string usfm, int verse)
   // Verse number 0 starts at offset 0.
   if (verse == 0) return 0;
   int totalOffset = 0;
-  vector <string> lines = filter::strings::explode (usfm, '\n');
+  std::vector <std::string> lines = filter::strings::explode (usfm, '\n');
   for (string line : lines) {
     vector <int> verses = get_verse_numbers (line);
     for (auto & v : verses) {
@@ -348,10 +348,10 @@ int versenumber_to_offset (string usfm, int verse)
 // Handles combined verses.
 string get_verse_text (string usfm, int verse_number)
 {
-  vector <string> result;
+  std::vector <std::string> result;
   bool hit = (verse_number == 0);
 
-  vector <string> lines = filter::strings::explode (usfm, '\n');
+  std::vector <std::string> lines = filter::strings::explode (usfm, '\n');
   for (string line : lines) {
     vector <int> verses = get_verse_numbers (line);
     if (verse_number == 0) {
@@ -393,7 +393,7 @@ string get_verse_text_quill (string usfm, int verse)
   // Omit new paragraphs at the end.
   // In this context it is taken as opening USFM markers without content.
   string verse_usfm (raw_verse_usfm);
-  vector <string> markers_and_text = get_markers_and_text (verse_usfm);
+  std::vector <std::string> markers_and_text = get_markers_and_text (verse_usfm);
   while (true) {
     if (markers_and_text.empty ()) break;
     string code = markers_and_text.back ();
@@ -493,7 +493,7 @@ string get_chapter_text (string usfm, int chapter_number)
 // This means that empty paragraphs at the end of the extracted USFM fragment are not included.
 string get_verse_range_text (string usfm, int verse_from, int verse_to, const std::string& exclude_usfm, bool quill)
 {
-  vector <string> bits;
+  std::vector <std::string> bits;
   string previous_usfm;
   for (int vs = verse_from; vs <= verse_to; vs++) {
     string verse_usfm;
@@ -547,7 +547,7 @@ bool is_embedded_marker (string usfm)
 // Returns the USFM book identifier.
 // $usfm: array of strings alternating between USFM code and subsequent text.
 // $pointer: if increased by one, it should point to the \id in $usfm.
-string get_book_identifier (const vector <string>& usfm, unsigned int pointer)
+string get_book_identifier (const std::vector <string>& usfm, unsigned int pointer)
 {
   string identifier = "XXX"; // Fallback value.
   if (++pointer < usfm.size ()) {
@@ -560,7 +560,7 @@ string get_book_identifier (const vector <string>& usfm, unsigned int pointer)
 // Returns the text that follows a USFM marker.
 // $usfm: array of strings alternating between USFM code and subsequent text.
 // $pointer: should point to the marker in $usfm. It gets increased by one.
-string get_text_following_marker (const vector <string>& usfm, unsigned int & pointer)
+string get_text_following_marker (const std::vector <string>& usfm, unsigned int & pointer)
 {
   string text = ""; // Fallback value.
   ++pointer;
@@ -574,7 +574,7 @@ string get_text_following_marker (const vector <string>& usfm, unsigned int & po
 // Returns the text that follows a USFM marker.
 // $usfm: array of strings alternating between USFM code and subsequent text.
 // $pointer: should point to the marker in $usfm. Pointer is left as it is.
-string peek_text_following_marker (const vector <string>& usfm, unsigned int pointer)
+string peek_text_following_marker (const std::vector <string>& usfm, unsigned int pointer)
 {
   return get_text_following_marker (usfm, pointer);
 }
@@ -639,7 +639,7 @@ string save_is_safe (Webserver_Request& webserver_request,
                      string oldtext, string newtext, bool chapter, string & explanation)
 {
   // Two texts are equal: safe.
-  if (newtext == oldtext) return string();
+  if (newtext == oldtext) return std::string();
 
   const char * explanation1 = "The text was not saved for safety reasons.";
   const char * explanation2 = "Make fewer changes at a time and wait till the editor has saved the text. Or relax the restriction in the editing settings. See menu Settings - Preferences.";
@@ -765,7 +765,7 @@ string safely_store_verse (Webserver_Request& webserver_request,
     return translate ("Missing verse number");
   }
   if (!in_array (verse, save_verses)) {
-    vector <string> vss;
+    std::vector <std::string> vss;
     for (auto vs : save_verses) vss.push_back (filter::strings::convert_to_string (vs));
     explanation = "The USFM contains verse(s) " + filter::strings::implode (vss, " ") + " while it wants to save to verse " + filter::strings::convert_to_string (verse);
     Database_Logs::log (explanation + ": " + usfm);
@@ -794,7 +794,7 @@ string safely_store_verse (Webserver_Request& webserver_request,
     verses_match = false;
   }
   if (!verses_match) {
-    vector <string> existing, save;
+    std::vector <std::string> existing, save;
     for (auto vs : existing_verses) existing.push_back (filter::strings::convert_to_string (vs));
     for (auto vs : save_verses) save.push_back (filter::strings::convert_to_string (vs));
     explanation = "The USFM contains verse(s) " + filter::strings::implode (save, " ") + " which would overwrite a fragment that contains verse(s) " + filter::strings::implode (existing, " ");
@@ -935,7 +935,7 @@ const char * marker_vp ()
 // It will dispose of e.g. this: |strong="H3068"
 // It handles the default attribute: \w gracious|grace\w*
 void remove_word_level_attributes (const std::string& marker,
-                                   vector <string> & container, unsigned int & pointer)
+                                   std::vector <std::string> & container, unsigned int & pointer)
 {
   // USFM 3.0 has four markers providing attributes.
   // https://ubsicap.github.io/usfm/attributes/index.html.

@@ -90,7 +90,7 @@ string manage_write (Webserver_Request& webserver_request)
         database_privileges_client_create (user, true);
       }
     }
-    return string();
+    return std::string();
   }
 
   // Toggle write access to Testament.

@@ -76,7 +76,7 @@ string editone2_index (Webserver_Request& webserver_request)
   if (webserver_request.post.count ("bibleselect")) {
     string bibleselect = webserver_request.post ["bibleselect"];
     webserver_request.database_config_user ()->setBible (bibleselect);
-    return string();
+    return std::string();
   }
 
   string page;
@@ -98,7 +98,7 @@ string editone2_index (Webserver_Request& webserver_request)
   string bible = access_bible::clamp (webserver_request, webserver_request.database_config_user()->getBible ());
   if (webserver_request.query.count ("bible")) bible = access_bible::clamp (webserver_request, webserver_request.query ["bible"]);
   string bible_html;
-  vector <string> bibles = access_bible::bibles (webserver_request);
+  std::vector <std::string> bibles = access_bible::bibles (webserver_request);
   for (auto selectable_bible : bibles) {
     bible_html = Options_To_Select::add_selection (selectable_bible, selectable_bible, bible_html);
   }

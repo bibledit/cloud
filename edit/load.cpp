@@ -58,7 +58,7 @@ string edit_load (Webserver_Request& webserver_request)
   // Store a copy of the USFM loaded in the editor for later reference.
   storeLoadedUsfm2 (webserver_request, bible, book, chapter, unique_id);
   
-  string stylesheet = Database_Config_Bible::getEditorStylesheet (bible);
+  const std::string stylesheet = Database_Config_Bible::getEditorStylesheet (bible);
   
   string usfm = webserver_request.database_bibles()->get_chapter (bible, book, chapter);
   

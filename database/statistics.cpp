@@ -71,7 +71,7 @@ vector <string> Database_Statistics::get_users ()
   sql.add ("SELECT DISTINCT user FROM changes WHERE timestamp >=");
   sql.add (year_ago ());
   sql.add ("ORDER BY user;");
-  vector <string> users = sql.query () ["user"];
+  std::vector <std::string> users = sql.query () ["user"];
   return users;
 }
 
@@ -89,8 +89,8 @@ vector <pair <int, int>> Database_Statistics::get_changes (string user)
     sql.add (user);
   }
   sql.add ("ORDER BY timestamp DESC;");
-  vector <string> timestamps = sql.query () ["timestamp"];
-  vector <string> counts = sql.query () ["count"];
+  std::vector <std::string> timestamps = sql.query () ["timestamp"];
+  std::vector <std::string> counts = sql.query () ["count"];
   for (size_t i = 0; i < timestamps.size (); i++) {
     int timestamp = filter::strings::convert_to_int (timestamps[i]);
     int count = filter::strings::convert_to_int (counts[i]);

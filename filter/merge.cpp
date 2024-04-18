@@ -58,7 +58,7 @@ static mutex filter_merge_mutex;
 // Merge is useful for combining separate changes to an original.
 // The function normally returns the merged text.
 // If case of conflicts, it returns an empty container.
-vector <string> filter_merge_merge (const vector <string>& base, const vector <string>& user, const vector <string>& server)
+vector <string> filter_merge_merge (const std::vector <string>& base, const std::vector <string>& user, const std::vector <string>& server)
 {
   // See issue https://github.com/bibledit/cloud/issues/418
   // It is unclear at this time whether the code below
@@ -66,9 +66,9 @@ vector <string> filter_merge_merge (const vector <string>& base, const vector <s
   // So just to be sure, a mutex is placed around it.
   filter_merge_mutex.lock();
 
-  vector <string> user_sequence (user);
-  vector <string> base_sequence (base);
-  vector <string> server_sequence (server);
+  std::vector <std::string> user_sequence (user);
+  std::vector <std::string> base_sequence (base);
+  std::vector <std::string> server_sequence (server);
 
   Diff3 <string, vector <string>> diff3 (user_sequence, base_sequence, server_sequence);
   diff3.compose ();
@@ -201,10 +201,10 @@ string filter_merge_run (string base, string change, string prioritized_change,
   prioritized_change = filter::strings::trim (prioritized_change);
 
   // Try a standard line-based merge. Should be sufficient for most cases.
-  vector <string> baselines = filter::strings::explode (base, '\n');
-  vector <string> userlines = filter::strings::explode (change, '\n');
-  vector <string> serverlines = filter::strings::explode (prioritized_change, '\n');
-  vector <string> results = filter_merge_merge (baselines, userlines, serverlines);
+  std::vector <std::string> baselines = filter::strings::explode (base, '\n');
+  std::vector <std::string> userlines = filter::strings::explode (change, '\n');
+  std::vector <std::string> serverlines = filter::strings::explode (prioritized_change, '\n');
+  std::vector <std::string> results = filter_merge_merge (baselines, userlines, serverlines);
   if (!results.empty ()) {
     string result = filter::strings::implode (results, "\n");
     filter_merge_detect_conflict (base, change, prioritized_change, result, conflicts);
@@ -269,7 +269,7 @@ string filter_merge_run_clever (string base, string change, string prioritized_c
   // Get the verse numbers in the changed text.
   vector <int> verses = filter::usfm::get_verse_numbers (change);
   
-  vector <string> results;
+  std::vector <std::string> results;
   
   string previous_change;
 

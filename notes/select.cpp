@@ -177,10 +177,10 @@ string notes_select (Webserver_Request& webserver_request)
   string bible_selector = webserver_request.database_config_user()->getConsultationNotesBibleSelector();
   if (bible_selector.empty ()) view.set_variable ("anybible", active_class);
   stringstream bibleblock;
-  vector <string> bibles = access_bible::bibles (webserver_request);
+  std::vector <std::string> bibles = access_bible::bibles (webserver_request);
   // The administrator can select from all Bibles in the notes, even Bibles that do not exist.
   if (webserver_request.session_logic ()->currentLevel () == Filter_Roles::admin ()) {
-    vector <string> notesbibles = database_notes.get_all_bibles ();
+    std::vector <std::string> notesbibles = database_notes.get_all_bibles ();
     bibles.insert (bibles.end (), notesbibles.begin (), notesbibles.end ());
     bibles = filter::strings::array_unique (bibles);
   }
@@ -196,7 +196,7 @@ string notes_select (Webserver_Request& webserver_request)
   string assignment_selector = webserver_request.database_config_user()->getConsultationNotesAssignmentSelector();
   if (assignment_selector.empty ()) view.set_variable ("anyassignee", active_class);
   stringstream assigneeblock;
-  vector <string> assignees = database_notes.get_all_assignees (bibles);
+  std::vector <std::string> assignees = database_notes.get_all_assignees (bibles);
   for (auto assignee : assignees) {
     assigneeblock << " | ";
     assigneeblock << "<a ";
@@ -251,7 +251,7 @@ string notes_select (Webserver_Request& webserver_request)
   const int book = Ipc_Focus::getBook (webserver_request);
   const int chapter = Ipc_Focus::getChapter (webserver_request);
   const int verse = Ipc_Focus::getVerse (webserver_request);
-  const vector <int> identifiers = database_notes.select_notes (bibles, book, chapter, verse,
+  const std::vector <int> identifiers = database_notes.select_notes (bibles, book, chapter, verse,
                                                                 passage_selector, edit_selector, non_edit_selector,
                                                                 status_selector, bible_selector, assignment_selector,
                                                                 subscription_selector, severity_selector, text_selector,

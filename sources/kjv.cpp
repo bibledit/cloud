@@ -45,7 +45,7 @@ void sources_kjv_parse_loop (pugi::xml_node element, int & book, int & chapter, 
 void sources_kjv_store (int book, int chapter, int verse, string lemma, string english)
 {
   Database_Kjv database_kjv;
-  vector <string> lemmas = filter::strings::explode (lemma, ' ');
+  std::vector <std::string> lemmas = filter::strings::explode (lemma, ' ');
   bool output_done = false;
   for (auto & strong : lemmas) {
     if (strong.find ("strong") == std::string::npos) continue;

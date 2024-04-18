@@ -179,10 +179,10 @@ string menu_logic_settings_resources_menu ()
 string menu_logic_main_categories (Webserver_Request& webserver_request, string & tooltip)
 {
   // The sets of html that is going to form the menu.
-  vector <string> html;
+  std::vector <std::string> html;
   
   // The sets of tooltips for the main menu item.
-  vector <string> tooltipbits;
+  std::vector <std::string> tooltipbits;
 
   // Deal with a situation the user has access to the workspaces.
   if (workspace_index_acl (webserver_request)) {
@@ -289,7 +289,7 @@ string menu_logic_main_categories (Webserver_Request& webserver_request, string 
 
 string menu_logic_basic_categories (Webserver_Request& webserver_request)
 {
-  vector <string> html;
+  std::vector <std::string> html;
 
   int current_theme_index = webserver_request.database_config_user ()->getCurrentTheme ();
   string filename = current_theme_filebased_cache_filename (webserver_request.session_identifier);
@@ -363,15 +363,15 @@ string menu_logic_basic_categories (Webserver_Request& webserver_request)
 // Plus the tooltip for it.
 string menu_logic_workspace_category (Webserver_Request& webserver_request, string * tooltip)
 {
-  vector <string> html;
-  vector <string> labels;
+  std::vector <std::string> html;
+  std::vector <std::string> labels;
 
   // Add the available configured workspaces to the menu.
   // The user's role should be sufficiently high.
   if (workspace_organize_acl (webserver_request)) {
     string activeWorkspace = webserver_request.database_config_user()->getActiveWorkspace ();
 
-    vector <string> workspaces = workspace_get_names (webserver_request);
+    std::vector <std::string> workspaces = workspace_get_names (webserver_request);
     for (size_t i = 0; i < workspaces.size(); i++) {
       string item = menu_logic_create_item (workspace_index_url () + "?bench=" + filter::strings::convert_to_string (i), workspaces[i], true, "", "");
       // Adds an active class if it is the current workspace.
@@ -391,8 +391,8 @@ string menu_logic_workspace_category (Webserver_Request& webserver_request, stri
 
 string menu_logic_translate_category (Webserver_Request& webserver_request, string * tooltip)
 {
-  vector <string> html;
-  vector <string> labels;
+  std::vector <std::string> html;
+  std::vector <std::string> labels;
   
   // Visual chapter editor.
   if (edit_index_acl (webserver_request)) {
@@ -466,8 +466,8 @@ string menu_logic_translate_category (Webserver_Request& webserver_request, stri
 
 string menu_logic_search_category (Webserver_Request& webserver_request, string * tooltip)
 {
-  vector <string> html;
-  vector <string> labels;
+  std::vector <std::string> html;
+  std::vector <std::string> labels;
 
   if (search_index_acl (webserver_request)) {
     string label = translate ("Search");
@@ -545,7 +545,7 @@ string menu_logic_tools_category (Webserver_Request& webserver_request, string *
   string develop = translate ("Develop");
   string exporting = translate ("Export");
   string journal = translate ("Journal");
-  vector <string> labels = {
+  std::vector <std::string> labels = {
     checks,
     consistency,
     print,
@@ -562,8 +562,8 @@ string menu_logic_tools_category (Webserver_Request& webserver_request, string *
   // Using the localized labels means that the sorted order of the menu depends on the localization.
   sort (labels.begin (), labels.end ());
   
-  vector <string> html;
-  vector <string> tiplabels;
+  std::vector <std::string> html;
+  std::vector <std::string> tiplabels;
 
   for (auto & label : labels) {
 
@@ -679,7 +679,7 @@ string menu_logic_settings_category (Webserver_Request& webserver_request, strin
   string basic_mode = translate ("Basic mode");
   string system = translate ("System");
   string images = menu_logic_images_index_text();
-  vector <string> labels = {
+  std::vector <std::string> labels = {
     bibles,
     workspaces,
     checks,
@@ -706,8 +706,8 @@ string menu_logic_settings_category (Webserver_Request& webserver_request, strin
   // Using the localized labels means that the sorted order of the menu depends on the localization.
   sort (labels.begin (), labels.end ());
   
-  vector <string> html;
-  vector <string> tiplabels;
+  std::vector <std::string> html;
+  std::vector <std::string> tiplabels;
   
   for (auto & label : labels) {
   
@@ -912,7 +912,7 @@ string menu_logic_settings_category (Webserver_Request& webserver_request, strin
 
 string menu_logic_settings_resources_category ([[maybe_unused]] Webserver_Request& webserver_request)
 {
-  vector <string> html;
+  std::vector <std::string> html;
   
 #ifdef HAVE_CLOUD
   if (resource_manage_acl (webserver_request)) {
@@ -978,7 +978,7 @@ string menu_logic_settings_resources_category ([[maybe_unused]] Webserver_Reques
 
 string menu_logic_help_category (Webserver_Request& webserver_request)
 {
-  vector <string> html;
+  std::vector <std::string> html;
 
   if (!webserver_request.session_logic ()->currentUser ().empty ()) {
     html.push_back (menu_logic_create_item ("help/index", translate ("Help and About"), true, "", ""));

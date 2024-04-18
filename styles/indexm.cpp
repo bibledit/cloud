@@ -73,7 +73,7 @@ string styles_indexm (Webserver_Request& webserver_request)
     // Because predictive keyboards can add a space to the name,
     // and the stylesheet system is not built for whitespace at the start / end of the name of the stylesheet.
     name = filter::strings::trim (name);
-    vector <string> existing {database_styles.getSheets ()};
+    std::vector <std::string> existing {database_styles.getSheets ()};
     if (find (existing.begin(), existing.end (), name) != existing.end ()) {
       page += assets_page::error (translate("This stylesheet already exists"));
     } else {
@@ -113,7 +113,7 @@ string styles_indexm (Webserver_Request& webserver_request)
   // Delete empty sheet that may have been there.
   database_styles.deleteSheet (string());
 
-  vector <string> sheets = database_styles.getSheets();
+  std::vector <std::string> sheets = database_styles.getSheets();
   stringstream sheetblock {};
   for (auto & sheet : sheets) {
     sheetblock << "<p>";

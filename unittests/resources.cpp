@@ -33,7 +33,7 @@ using namespace std;
 TEST (database, resources)
 {
   refresh_sandbox (false);
-  vector <string> names = resource_external_names ();
+  std::vector <std::string> names = resource_external_names ();
   bool hit = false;
   for (const auto& name : names)
     if (name == "Statenbijbel GBS")
@@ -48,7 +48,7 @@ TEST (database, usfmresources)
   {
     refresh_sandbox (false);
     Database_UsfmResources database_usfmresources = Database_UsfmResources ();
-    vector <string> resources = database_usfmresources.getResources ();
+    std::vector <std::string> resources = database_usfmresources.getResources ();
     bool hit = false;
     for (auto & resource : resources) if (resource == "bibledit") hit = true;
     EXPECT_EQ (false, hit);
@@ -58,7 +58,7 @@ TEST (database, usfmresources)
     refresh_sandbox (true);
     Database_UsfmResources database_usfmresources = Database_UsfmResources ();
     database_usfmresources.storeChapter ("bibledit", 2, 3, "");
-    vector <string> resources = database_usfmresources.getResources ();
+    std::vector <std::string> resources = database_usfmresources.getResources ();
     bool hit = false;
     for (auto & resource : resources) if (resource == "bibledit") hit = true;
     EXPECT_EQ (true, hit);
@@ -81,8 +81,8 @@ TEST (database, usfmresources)
     database_usfmresources.storeChapter ("bibledit", 3, 4, "usfm");
     database_usfmresources.storeChapter ("bibledit", 1, 1, "usfm");
     database_usfmresources.storeChapter ("bibledit", 1, 2, "usfm");
-    const vector <int> books = database_usfmresources.getBooks ("bibledit");
-    const vector <int> standard_books {1, 2, 3};
+    const std::vector <int> books = database_usfmresources.getBooks ("bibledit");
+    const std::vector <int> standard_books {1, 2, 3};
     EXPECT_EQ (standard_books, books);
   }
   // Chapters
@@ -94,7 +94,7 @@ TEST (database, usfmresources)
     database_usfmresources.storeChapter ("bibledit", 1, 1, "usfm");
     database_usfmresources.storeChapter ("bibledit", 1, 2, "usfm");
     vector <int> chapters = database_usfmresources.getChapters ("bibledit", 1);
-    const vector <int> standard_chapters {1, 2};
+    const std::vector <int> standard_chapters {1, 2};
     EXPECT_EQ (standard_chapters, chapters);
     chapters = database_usfmresources.getChapters ("bibledit", 2);
     EXPECT_EQ (vector <int>{3}, chapters);
@@ -137,7 +137,7 @@ TEST (database, imageresources)
   // Empty.
   {
     refresh_sandbox (false);
-    vector <string> resources = database_imageresources.names ();
+    std::vector <std::string> resources = database_imageresources.names ();
     EXPECT_EQ (0, resources.size());
   }
   
@@ -146,7 +146,7 @@ TEST (database, imageresources)
     refresh_sandbox (true);
     
     database_imageresources.create ("unittest");
-    vector <string> resources = database_imageresources.names ();
+    std::vector <std::string> resources = database_imageresources.names ();
     EXPECT_EQ (1, resources.size());
     bool hit = false;
     for (auto & resource : resources) if (resource == "unittest") hit = true;
@@ -174,8 +174,8 @@ TEST (database, imageresources)
     database_imageresources.store ("unittest", path);
     filter_url_unlink (path);
     
-    vector <string> images = database_imageresources.get ("unittest");
-    const vector <string> standard_images {"unittest.jpg", "unittest0.jpg"};
+    std::vector <std::string> images = database_imageresources.get ("unittest");
+    const std::vector <string> standard_images {"unittest.jpg", "unittest0.jpg"};
     EXPECT_EQ (standard_images, images);
     
     database_imageresources.erase ("unittest", "unittest.jpg");
@@ -198,7 +198,7 @@ TEST (database, imageresources)
       database_imageresources.assign ("unittest", image_name, i, i, i, i, i, i+10);
     }
     
-    vector <string> images = database_imageresources.get ("unittest", 11, 11, 13);
+    std::vector <std::string> images = database_imageresources.get ("unittest", 11, 11, 13);
     EXPECT_EQ (images, vector <string>{"unittest11.jpg"});
     
     images = database_imageresources.get ("unittest", 11, 11, 100);
@@ -239,14 +239,14 @@ TEST (database, userresources)
 {
   refresh_sandbox (false);
   
-  vector <string> names;
+  std::vector <std::string> names;
   string name = "unit//test";
   string url = "https://website.org/resources/<book>/<chapter>/<verse>.html";
   int book = 99;
   string abbrev = "Book 99";
   string fragment;
   string value;
-  vector <string> specialnames = { "abc\\def:ghi", name };
+  std::vector <std::string> specialnames = { "abc\\def:ghi", name };
   
   names = Database_UserResources::names ();
   EXPECT_EQ (vector <string>{}, names);

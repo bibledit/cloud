@@ -125,12 +125,12 @@ string Database_State::getNotesChecksum (int first, int last)
   sql.add (last);
   sql.add (";");
   sqlite3 * db = connect ();
-  vector <string> values = database_sqlite_query (db, sql.sql)["value"];
+  std::vector <std::string> values = database_sqlite_query (db, sql.sql)["value"];
   database_sqlite_disconnect (db);
   if (!values.empty()) {
     return values[0];
   }
-  return string();
+  return std::string();
 }
 
 
@@ -180,7 +180,7 @@ bool Database_State::getExport (const std::string& bible, int book, int format)
   sql.add (format);
   sql.add (";");
   sqlite3 * db = connect ();
-  vector <string> values = database_sqlite_query (db, sql.sql)["format"];
+  std::vector <std::string> values = database_sqlite_query (db, sql.sql)["format"];
   database_sqlite_disconnect (db);
   if (!values.empty()) {
     return true;

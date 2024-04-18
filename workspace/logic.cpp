@@ -158,7 +158,7 @@ void workspace_create_defaults (Webserver_Request& webserver_request)
   string workspace = webserver_request.database_config_user()->getActiveWorkspace ();
 
   // Create or update the default workspaces.
-  vector <string> names = workspace_get_default_names ();
+  std::vector <std::string> names = workspace_get_default_names ();
   for (unsigned int i = 0; i < names.size (); i++) {
     webserver_request.database_config_user()->setActiveWorkspace (names [i]);
     int bench = static_cast<int>(i + 1);
@@ -209,8 +209,8 @@ void workspace_set_values (Webserver_Request& webserver_request, int selector, c
   if (selector == WIDTHS) rawvalue = webserver_request.database_config_user()->getWorkspaceWidths ();
   if (selector == HEIGHTS) rawvalue = webserver_request.database_config_user()->getWorkspaceHeights ();
   if (selector == ENTIREWIDTH) rawvalue = webserver_request.database_config_user()->getEntireWorkspaceWidths ();
-  vector <string> currentlines = filter::strings::explode (rawvalue, '\n');
-  vector <string> newlines;
+  std::vector <std::string> currentlines = filter::strings::explode (rawvalue, '\n');
+  std::vector <std::string> newlines;
   for (auto & line : currentlines) {
     if (line.find (workspace + "_") != 0) {
       newlines.push_back (line);
@@ -243,7 +243,7 @@ void workspace_set_values (Webserver_Request& webserver_request, int selector, c
 void workspace_set_urls (Webserver_Request& webserver_request, const map <int, string> & values)
 {
   // Get current order of the workspaces.
-  vector <string> order = workspace_get_names (webserver_request);
+  std::vector <std::string> order = workspace_get_names (webserver_request);
   // Update the values: This reorders the workspaces.
   workspace_set_values (webserver_request, URLS, values);
   // Put the workspaces in the original order.
@@ -281,10 +281,10 @@ map <int, string> workspace_get_values (Webserver_Request& webserver_request, in
   if (selector == WIDTHS) rawvalue = webserver_request.database_config_user()->getWorkspaceWidths ();
   if (selector == HEIGHTS) rawvalue = webserver_request.database_config_user()->getWorkspaceHeights ();
   if (selector == ENTIREWIDTH) rawvalue = webserver_request.database_config_user()->getEntireWorkspaceWidths ();
-  vector <string> lines = filter::strings::explode (rawvalue, '\n');
+  std::vector <std::string> lines = filter::strings::explode (rawvalue, '\n');
   for (auto & line : lines) {
     if (line.find (workspace + "_") == 0) {
-      vector <string> bits = filter::strings::explode (line, '_');
+      std::vector <std::string> bits = filter::strings::explode (line, '_');
       if (bits.size() == 3) {
         int key = filter::strings::convert_to_int (bits [1]);
         string value = bits [2];
@@ -310,7 +310,7 @@ map <int, string> workspace_get_values (Webserver_Request& webserver_request, in
       }
       
       // Transform the internal URLs to full ones.
-      vector <string> bits = filter::strings::explode (element.second, '/');
+      std::vector <std::string> bits = filter::strings::explode (element.second, '/');
       if (bits.size() == 2) {
         element.second.insert (0, "/");
       }
@@ -368,12 +368,12 @@ string workspace_get_entire_width (Webserver_Request& webserver_request)
 // If $add_default, if there's no workspaces, it adds a default one.
 vector <string> workspace_get_names (Webserver_Request& webserver_request, bool add_default)
 {
-  vector <string> workspaces;
+  std::vector <std::string> workspaces;
   // The names and the order of the workspaces is taken from the URLs.
   string rawvalue = webserver_request.database_config_user()->getWorkspaceURLs ();
-  vector <string> lines = filter::strings::explode (rawvalue, '\n');
+  std::vector <std::string> lines = filter::strings::explode (rawvalue, '\n');
   for (auto & line : lines) {
-    vector <string> bits = filter::strings::explode (line, '_');
+    std::vector <std::string> bits = filter::strings::explode (line, '_');
     if (bits.size() == 3) {
       if (find (workspaces.begin(), workspaces.end(), bits[0]) == workspaces.end()) {
         workspaces.push_back (bits[0]);
@@ -390,8 +390,8 @@ vector <string> workspace_get_names (Webserver_Request& webserver_request, bool 
 void workspace_delete (Webserver_Request& webserver_request, string workspace)
 {
   string rawvalue;
-  vector <string> currentlines;
-  vector <string> newlines;
+  std::vector <std::string> currentlines;
+  std::vector <std::string> newlines;
   
   rawvalue = webserver_request.database_config_user()->getWorkspaceURLs ();
   currentlines = filter::strings::explode (rawvalue, '\n');
@@ -429,17 +429,17 @@ void workspace_delete (Webserver_Request& webserver_request, string workspace)
 
 // This orders the workspaces.
 // It takes the order as in array $workspaces.
-void workspace_reorder (Webserver_Request& webserver_request, const vector <string> & workspaces)
+void workspace_reorder (Webserver_Request& webserver_request, const std::vector <string> & workspaces)
 {
   // The order of the workspaces is taken from the URLs.
   // Widths and heights are not considered for the order.
   
   // Retrieve the old order of the workspaces, plus their details.
   string rawvalue = webserver_request.database_config_user()->getWorkspaceURLs ();
-  vector <string> oldlines = filter::strings::explode (rawvalue, '\n');
+  std::vector <std::string> oldlines = filter::strings::explode (rawvalue, '\n');
   
   // Create vector with the sorted workspace definitions.
-  vector <string> newlines;
+  std::vector <std::string> newlines;
   for (auto & workspace : workspaces) {
     for (auto & line : oldlines) {
       if (line.find (workspace + "_") == 0) {

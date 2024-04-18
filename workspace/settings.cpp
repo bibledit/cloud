@@ -131,7 +131,7 @@ string workspace_settings (Webserver_Request& webserver_request)
   view.set_variable ("name", name);
   
   
-  vector <string> samples = workspace_get_default_names ();
+  std::vector <std::string> samples = workspace_get_default_names ();
   for (size_t i = 0; i < samples.size (); i++) {
     string sample = "<a href=\"settings?name=##name##&preset=" + filter::strings::convert_to_string (i + 1) + "\">" + samples[i] + "</a>";
     samples [i] = sample;

@@ -77,7 +77,7 @@ string resource_img (Webserver_Request& webserver_request)
   
   if (webserver_request.post.count ("submit")) {
     
-    vector <string> errors {};
+    std::vector <std::string> errors {};
     
     string book = webserver_request.post ["book1"];
     book1 = filter_passage_interpret_book_v2 (book);

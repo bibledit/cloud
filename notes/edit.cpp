@@ -74,7 +74,7 @@ string notes_edit (Webserver_Request& webserver_request)
     // Save note.
     string noteData = webserver_request.post["data"];
     if (database_notes.identifier_exists (identifier)) {
-      vector <string> lines = filter::strings::explode (noteData, '\n');
+      std::vector <std::string> lines = filter::strings::explode (noteData, '\n');
       for (size_t i = 0; i < lines.size (); i++) {
         lines[i] = filter::strings::trim (lines[i]);
         size_t pos = lines[i].find (">");
@@ -95,7 +95,7 @@ string notes_edit (Webserver_Request& webserver_request)
     if (database_notes.identifier_exists (identifier)) {
       string noteData = database_notes.get_contents (identifier);
       bool editable = false;
-      vector <string> lines = filter::strings::explode (noteData, '\n');
+      std::vector <std::string> lines = filter::strings::explode (noteData, '\n');
       for (size_t i = 0; i < lines.size (); i++) {
 
         lines[i] = filter::strings::trim (lines[i]);
@@ -108,7 +108,7 @@ string notes_edit (Webserver_Request& webserver_request)
         string username;
         {
           // Splitting on space should yield two bits.
-          vector <string> bits = filter::strings::explode (lines[i], ' ');
+          std::vector <std::string> bits = filter::strings::explode (lines[i], ' ');
           if (bits.size () == 2) {
             // First bit should contain the <p> and optionally the <b>.
             if (bits[0].find ("<p>") == 0) {
@@ -128,7 +128,7 @@ string notes_edit (Webserver_Request& webserver_request)
                   if (pos != std::string::npos) {
                     bits[1].erase (pos, 1);
                     // Now deal with the data consisting of two slashes and three numbers.
-                    vector <string> date = filter::strings::explode (bits[1], '/');
+                    std::vector <std::string> date = filter::strings::explode (bits[1], '/');
                     if (date.size () == 3) {
                       username = bits[0];
                     }

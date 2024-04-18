@@ -70,7 +70,7 @@ mbedtls_x509_crt filter_url_mbed_tls_cacert;
 
 vector <string> filter_url_scandir_internal (string folder)
 {
-  vector <string> files;
+  std::vector <std::string> files;
   
 #ifdef HAVE_WINDOWS
   
@@ -353,7 +353,7 @@ void filter_url_rename (const std::string& oldfilename, const std::string& newfi
 
 
 // Creates a file path out of the components.
-string filter_url_create_path (const vector<string>& parts)
+string filter_url_create_path (const std::vector <string>& parts)
 {
     // Empty path.
     string path;
@@ -373,7 +373,7 @@ string filter_url_create_path (const vector<string>& parts)
 
 // Creates a file path out of the parts.
 // As of February 2022 the std::filesystem does not yet work on Android.
-//string filter_url_create_path (const vector<string>& parts)
+//string filter_url_create_path (const std::vector <string>& parts)
 //{
 //  // Empty path.
 //  filesystem::path path;
@@ -388,7 +388,7 @@ string filter_url_create_path (const vector<string>& parts)
 
 // Creates a file path out of the variable list of components,
 // relative to the server's document root.
-string filter_url_create_root_path (const vector<string>& parts)
+string filter_url_create_root_path (const std::vector <string>& parts)
 {
   // Construct path from the document root.
   string path (config_globals_document_root);
@@ -415,7 +415,7 @@ string filter_url_create_root_path (const vector<string>& parts)
 // Creates a file path out of the variable list of components,
 // relative to the server's document root.
 // As of February 2022 the std::filesystem does not yet work on Android.
-//string filter_url_create_root_path (const vector<string>& parts)
+//string filter_url_create_root_path (const std::vector <string>& parts)
 //{
 //  // Construct path from the document root.
 //  filesystem::path path (config_globals_document_root);
@@ -505,7 +505,7 @@ void filter_url_mkdir (string directory)
   status = mkdir (directory.c_str(), 0777);
 #endif
   if (status != 0) {
-    vector <string> paths;
+    std::vector <std::string> paths;
     paths.push_back (directory);
     directory = filter_url_dirname (directory);
     while (directory.length () > 2) {
@@ -540,7 +540,7 @@ void filter_url_mkdir (string directory)
 // Removes directory recursively.
 void filter_url_rmdir (string directory)
 {
-  vector <string> files = filter_url_scandir_internal (directory);
+  std::vector <std::string> files = filter_url_scandir_internal (directory);
   for (auto path : files) {
     path = filter_url_create_path ({directory, path});
     if (filter_url_is_dir(path)) {
@@ -641,7 +641,7 @@ void filter_url_set_write_permission (string path)
 // Get and returns the contents of $filename.
 string filter_url_file_get_contents(string filename)
 {
-  if (!file_or_dir_exists (filename)) return string();
+  if (!file_or_dir_exists (filename)) return std::string();
   try {
 #ifdef HAVE_WINDOWS
     wstring wfilename = filter::strings::string2wstring(filename);
@@ -650,14 +650,14 @@ string filter_url_file_get_contents(string filename)
     ifstream ifs(filename.c_str(), ios::in | ios::binary | ios::ate);
 #endif
     streamoff filesize = ifs.tellg();
-    if (filesize == 0) return string();
+    if (filesize == 0) return std::string();
     ifs.seekg(0, ios::beg);
     vector <char> bytes(static_cast<size_t> (filesize));
     ifs.read(&bytes[0], static_cast<int> (filesize));
     return string(&bytes[0], static_cast<size_t> (filesize));
   }
   catch (...) {
-    return string();
+    return std::string();
   }
 }
 
@@ -728,7 +728,7 @@ void filter_url_dir_cp (const std::string& input, const std::string& output)
   // Create the output directory.
   filter_url_mkdir (output);
   // Check on all files in the input directory.
-  vector <string> files = filter_url_scandir (input);
+  std::vector <std::string> files = filter_url_scandir (input);
   for (auto & file : files) {
     string input_path = filter_url_create_path ({input, file});
     string output_path = filter_url_create_path ({output, file});
@@ -776,7 +776,7 @@ int filter_url_filesize (string filename)
 // Scans the directory for files it contains.
 vector <string> filter_url_scandir (string folder)
 {
-  vector <string> files = filter_url_scandir_internal (folder);
+  std::vector <std::string> files = filter_url_scandir_internal (folder);
   files = filter::strings::array_diff (files, {"gitflag"});
   return files;
 }
@@ -786,7 +786,7 @@ vector <string> filter_url_scandir (string folder)
 // As of February 2022 the std::filesystem does not yet work on Android.
 //vector <string> filter_url_scandir (string folder)
 //{
-//  vector <string> files;
+//  std::vector <std::string> files;
 //  try {
 //    filesystem::path dir_path (folder);
 //    for (auto const & directory_entry : filesystem::directory_iterator {dir_path})
@@ -816,7 +816,7 @@ vector <string> filter_url_scandir (string folder)
 // Recursively scans a directory for directories and files.
 void filter_url_recursive_scandir (string folder, vector <string> & paths)
 {
-  vector <string> files = filter_url_scandir (folder);
+  std::vector <std::string> files = filter_url_scandir (folder);
   for (auto & file : files) {
     string path = filter_url_create_path ({folder, file});
     paths.push_back (path);
@@ -908,7 +908,7 @@ bool filter_url_email_is_valid (string email)
 {
   const string valid_set ("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ._-");
   // The @ character should appear only once.
-  vector <string> atbits = filter::strings::explode (email, '@');
+  std::vector <std::string> atbits = filter::strings::explode (email, '@');
   if (atbits.size() != 2) return false;
   // The characters on the left of @ should be from the valid set.
   string left = atbits [0];
@@ -923,7 +923,7 @@ bool filter_url_email_is_valid (string email)
     if (valid_set.find (c) == std::string::npos) return false;
   }
   // The character . should appear at least once to the right of @.
-  vector <string> dotbits = filter::strings::explode (right, '.');
+  std::vector <std::string> dotbits = filter::strings::explode (right, '.');
   if (dotbits.size () < 2) return false;
   // The email address is valid.
   return true;
@@ -1066,7 +1066,7 @@ int filter_url_curl_trace (CURL *handle, curl_infotype type, char *data, size_t 
 // It appends the $values to the post data.
 // It returns the response from the server.
 // It writes any error to $error.
-string filter_url_http_post (const std::string& url, [[maybe_unused]] string post_data, const map <string, string> & post_values, string& error, [[maybe_unused]] bool burst, [[maybe_unused]] bool check_certificate, [[maybe_unused]] const vector <pair <string, string> > & headers)
+string filter_url_http_post (const std::string& url, [[maybe_unused]] string post_data, const map <string, string> & post_values, string& error, [[maybe_unused]] bool burst, [[maybe_unused]] bool check_certificate, [[maybe_unused]] const std::vector <pair <string, string> > & headers)
 {
   string response;
 #ifdef HAVE_CLIENT
@@ -1579,7 +1579,7 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
   if (!secure) {
     
     // Iterate over the list of address structures.
-    vector <string> errors;
+    std::vector <std::string> errors;
     addrinfo * rp {nullptr};
     if (connection_healthy) {
       for (rp = address_results; rp != nullptr; rp = rp->ai_next) {
@@ -1847,7 +1847,7 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
 
   
   // Check the response headers.
-  vector <string> lines = filter::strings::explode (headers, '\n');
+  std::vector <std::string> lines = filter::strings::explode (headers, '\n');
   for (auto & line : lines) {
     if (line.empty ()) continue;
     if (line.find ("HTTP") != std::string::npos) {
@@ -1857,11 +1857,11 @@ string filter_url_http_request_mbed (string url, string& error, const map <strin
         int response_code = filter::strings::convert_to_int (line);
         if (response_code != 200) {
           error = "Response code: " + line;
-          return string();
+          return std::string();
         }
       } else {
         error = "Invalid response: " + line;
-        return string();
+        return std::string();
       }
     }
   }
@@ -2055,7 +2055,7 @@ bool filter_url_port_can_connect (string hostname, int port)
   // Result of the text.
   bool connected {false};
   // Iterate over the list of address structures.
-  vector <string> errors {};
+  std::vector <std::string> errors {};
   addrinfo * rp {nullptr};
   for (rp = address_results; rp != nullptr; rp = rp->ai_next) {
     // Try to get a socket for this address structure.

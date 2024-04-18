@@ -87,13 +87,13 @@ void Database_Versifications::input (const std::string& contents, const std::str
   database_sqlite_exec (db, "PRAGMA journal_mode = OFF;");
   database_sqlite_exec (db, "BEGIN;");
   
-  vector <string> lines = filter::strings::explode (contents, '\n');
+  std::vector <std::string> lines = filter::strings::explode (contents, '\n');
   for (auto line : lines) {
     line = filter::strings::trim (line);
     if (line.empty ()) continue;
     // The line will be something similar to this: 1 Corinthians 1:31
     // Split the passage entry on the colon (:) to get the verse.
-    vector <string> bits = filter::strings::explode(line, ':');
+    std::vector <std::string> bits = filter::strings::explode(line, ':');
     if (bits.size() != 2) continue;
     int verse = filter::strings::convert_to_int(bits[1]);
     // Split the first bit on the spaces and get the last item as the chapter.
@@ -131,7 +131,7 @@ void Database_Versifications::input (const std::string& contents, const std::str
 // Export data.
 string Database_Versifications::output (const std::string& name)
 {
-  vector <string> lines;
+  std::vector <std::string> lines;
   vector <Passage> versification_data = getBooksChaptersVerses (name);
   for (Passage & passage : versification_data) {
     string line = database::books::get_english_from_id (static_cast<book_id>(passage.m_book));
@@ -175,7 +175,7 @@ int Database_Versifications::getID (const std::string& name)
   sql.add (name);
   sql.add (";");
   sqlite3 * db = connect ();
-  vector <string> systems = database_sqlite_query (db, sql.sql) ["system"];
+  std::vector <std::string> systems = database_sqlite_query (db, sql.sql) ["system"];
   database_sqlite_disconnect (db);
   if (!systems.empty()) {
     auto id = systems[0];
@@ -197,7 +197,7 @@ int Database_Versifications::createSystem (const std::string& name)
   // Get the first free ID starting from 1000 (except when creating the default systems).
   id = 0;
   sqlite3 * db = connect ();
-  vector <string> systems = database_sqlite_query (db, "SELECT system FROM names ORDER BY system DESC LIMIT 1;") ["system"];
+  std::vector <std::string> systems = database_sqlite_query (db, "SELECT system FROM names ORDER BY system DESC LIMIT 1;") ["system"];
   for (auto & system : systems) {
     id = filter::strings::convert_to_int (system);
   }
@@ -221,7 +221,7 @@ int Database_Versifications::createSystem (const std::string& name)
 vector <string> Database_Versifications::getSystems ()
 {
   sqlite3 * db = connect ();
-  vector <string> systems = database_sqlite_query (db, "SELECT name FROM names ORDER BY name ASC;") ["name"];
+  std::vector <std::string> systems = database_sqlite_query (db, "SELECT name FROM names ORDER BY name ASC;") ["name"];
   database_sqlite_disconnect (db);
   return systems;
 }
@@ -239,9 +239,9 @@ vector <Passage> Database_Versifications::getBooksChaptersVerses (const std::str
   sqlite3 * db = connect ();
   map <string, vector <string> > result = database_sqlite_query (db, sql.sql);
   database_sqlite_disconnect (db);
-  vector <string> books = result ["book"];
-  vector <string> chapters = result ["chapter"];
-  vector <string> verses = result ["verse"];
+  std::vector <std::string> books = result ["book"];
+  std::vector <std::string> chapters = result ["chapter"];
+  std::vector <std::string> verses = result ["verse"];
   for (unsigned int i = 0; i < books.size (); i++) {
     Passage passage;
     passage.m_book = filter::strings::convert_to_int (books [i]);
@@ -262,7 +262,7 @@ vector <int> Database_Versifications::getBooks (const std::string& name)
   sql.add (id);
   sql.add ("ORDER BY book ASC;");
   sqlite3 * db = connect ();
-  vector <string> sbooks = database_sqlite_query (db, sql.sql) ["book"];
+  std::vector <std::string> sbooks = database_sqlite_query (db, sql.sql) ["book"];
   database_sqlite_disconnect (db);
   for (auto & book : sbooks) {
     books.push_back (filter::strings::convert_to_int (book));
@@ -285,7 +285,7 @@ vector <int> Database_Versifications::getChapters (const std::string& name, int 
   sql.add (book);
   sql.add ("ORDER BY chapter ASC;");
   sqlite3 * db = connect ();
-  vector <string> schapters = database_sqlite_query (db, sql.sql) ["chapter"];
+  std::vector <std::string> schapters = database_sqlite_query (db, sql.sql) ["chapter"];
   database_sqlite_disconnect (db);
   for (auto & chapter : schapters) {
     chapters.push_back (filter::strings::convert_to_int (chapter));
@@ -307,7 +307,7 @@ vector <int> Database_Versifications::getVerses (const std::string& name, int bo
   sql.add (chapter);
   sql.add ("ORDER BY verse ASC;");
   sqlite3 * db = connect ();
-  vector <string> sverses = database_sqlite_query (db, sql.sql) ["verse"];
+  std::vector <std::string> sverses = database_sqlite_query (db, sql.sql) ["verse"];
   database_sqlite_disconnect (db);
   for (auto & verse : sverses) {
     int maxverse = filter::strings::convert_to_int (verse);
@@ -329,7 +329,7 @@ void Database_Versifications::defaults ()
   database_sqlite_disconnect (db);
 
   creating_defaults = true;
-  vector <string> names = versification_logic_names ();
+  std::vector <std::string> names = versification_logic_names ();
   for (auto name : names) {
     // Read the file contents.
     string contents = versification_logic_data (name);
@@ -353,7 +353,7 @@ vector <int> Database_Versifications::getMaximumBooks ()
   SqliteSQL sql = SqliteSQL ();
   sql.add ("SELECT DISTINCT book FROM data ORDER BY book ASC;");
   sqlite3 * db = connect ();
-  vector <string> sbooks = database_sqlite_query (db, sql.sql) ["book"];
+  std::vector <std::string> sbooks = database_sqlite_query (db, sql.sql) ["book"];
   database_sqlite_disconnect (db);
   for (auto & book : sbooks) {
     books.push_back (filter::strings::convert_to_int (book));
@@ -372,7 +372,7 @@ vector <int> Database_Versifications::getMaximumChapters (int book)
   sql.add (book);
   sql.add ("ORDER BY chapter ASC;");
   sqlite3 * db = connect ();
-  vector <string> schapters = database_sqlite_query (db, sql.sql) ["chapter"];
+  std::vector <std::string> schapters = database_sqlite_query (db, sql.sql) ["chapter"];
   database_sqlite_disconnect (db);
   for (auto & chapter : schapters) {
     chapters.push_back (filter::strings::convert_to_int (chapter));
@@ -392,7 +392,7 @@ vector <int> Database_Versifications::getMaximumVerses (int book, int chapter)
   sql.add (chapter);
   sql.add ("ORDER BY verse ASC;");
   sqlite3 * db = connect ();
-  vector <string> sverses = database_sqlite_query (db, sql.sql) ["verse"];
+  std::vector <std::string> sverses = database_sqlite_query (db, sql.sql) ["verse"];
   database_sqlite_disconnect (db);
   for (auto & verse : sverses) {
     int maxverse = filter::strings::convert_to_int (verse);

@@ -31,7 +31,7 @@ TEST (database, bible_images)
   refresh_sandbox (false);
 
   Database_BibleImages database_bibleimages;
-  vector <string> images;
+  std::vector <std::string> images;
   string image_1_name = "bibleimage1.png";
   string image_2_name = "bibleimage1.jpeg";
   string image_1_path = filter_url_create_root_path ({"unittests", "tests", image_1_name});

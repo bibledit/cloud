@@ -61,7 +61,7 @@ string resource_user1view (Webserver_Request& webserver_request)
   string name = webserver_request.query ["name"];
 
   
-  vector <string> code {};
+  std::vector <std::string> code {};
   string url = Database_UserResources::url (name);
   code.push_back ("var userResourceUrl = \"" + url + "\";");
   code.push_back ("var userResourceBooks = [];");

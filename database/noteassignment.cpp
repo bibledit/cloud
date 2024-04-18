@@ -56,7 +56,7 @@ vector <string> Database_NoteAssignment::assignees (string user)
 
 bool Database_NoteAssignment::exists (string user, string assignee)
 {
-  vector <string> users = assignees (user);
+  std::vector <std::string> users = assignees (user);
   return in_array (assignee, users);
 }
 

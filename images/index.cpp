@@ -103,7 +103,7 @@ string images_index (Webserver_Request& webserver_request)
   }
 
   
-  vector <string> images = database_bibleimages.get();
+  std::vector <std::string> images = database_bibleimages.get();
   for (auto image : images) {
     view.add_iteration ("images", {
       pair ("image", image),

@@ -49,7 +49,7 @@ TEST (filter, archive)
   }
   filter_url_file_put_contents (path1, data1);
   filter_url_file_put_contents (path2, data2);
-  vector <string> files12 = { file1, file2 };
+  std::vector <std::string> files12 = { file1, file2 };
 
   for (int i = 0; i < 5; i++) {
     string path = filter_url_create_path ({directory, "testdata" + filter::strings::convert_to_string (i)});
@@ -202,7 +202,7 @@ TEST (filter, archive)
     }
     
     // Pack files in a deep directory structure.
-    vector <string> paths;
+    std::vector <std::string> paths;
     filter_url_recursive_scandir (directory, paths);
     for (auto & path : paths) {
       path.erase (0, directory.length () + 1);

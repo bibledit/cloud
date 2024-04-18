@@ -33,13 +33,13 @@ using namespace std;
 void export_index ()
 {
   Database_Bibles database_bibles;
-  vector <string> bibles = database_bibles.get_bibles ();
+  std::vector <std::string> bibles = database_bibles.get_bibles ();
   
   
   // Go through all sub directories of the exports directory.
   // Remove subdirectories if their corresponding Bible no longer exists in the system.
   string directory = export_logic::main_directory ();
-  vector <string> files = filter_url_scandir (directory);
+  std::vector <std::string> files = filter_url_scandir (directory);
   for (auto & file : files) {
     if (in_array (file, bibles)) continue;
     filter_url_rmdir (filter_url_create_path ({directory, file}));

@@ -1014,7 +1014,7 @@ TEST (checks, usfm)
   
   // Test getting the markers and the text from USFM.
   {
-    vector <string> standard;
+    std::vector <std::string> standard;
     standard = { "\\id ", "GEN", "\\c ", "10" };
     EXPECT_EQ (standard, filter::usfm::get_markers_and_text ("\\id GEN\\c 10"));
     standard = { "noise", "\\id ", "GEN", "\\c ", "10" };

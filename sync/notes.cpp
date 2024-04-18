@@ -57,7 +57,7 @@ string sync_notes (Webserver_Request& webserver_request)
   if (!sync_logic.security_okay ()) {
     // When the Cloud enforces https, inform the client to upgrade.
     webserver_request.response_code = 426;
-    return string();
+    return std::string();
   }
 
   
@@ -68,7 +68,7 @@ string sync_notes (Webserver_Request& webserver_request)
   if (!database_notes.available ()) available = false;
   if (!available) {
     webserver_request.response_code = 503;
-    return string();
+    return std::string();
   }
 
 
@@ -82,7 +82,7 @@ string sync_notes (Webserver_Request& webserver_request)
   
   // Check on the credentials when the clients sends data to the server to be stored there.
   if ((action >= Sync_Logic::notes_put_create_initiate) && (action != Sync_Logic::notes_get_bulk)) {
-    if (!sync_logic.credentials_okay ()) return string();
+    if (!sync_logic.credentials_okay ()) return std::string();
   }
 
 
@@ -91,7 +91,7 @@ string sync_notes (Webserver_Request& webserver_request)
   if ((action == Sync_Logic::notes_get_total) || (action == Sync_Logic::notes_get_identifiers)) {
     if (!webserver_request.database_users ()->usernameExists (user)) {
       Database_Logs::log ("A client passes a non-existing user " + user, Filter_Roles::manager ());
-      return string();
+      return std::string();
     }
   }
   webserver_request.session_logic ()->set_username (user);
@@ -108,7 +108,7 @@ string sync_notes (Webserver_Request& webserver_request)
   switch (action) {
     case Sync_Logic::notes_get_total:
     {
-      vector <string> bibles = access_bible::bibles (webserver_request, user);
+      std::vector <std::string> bibles = access_bible::bibles (webserver_request, user);
       vector <int> identifiers = database_notes.get_notes_in_range_for_bibles (lowId, highId, bibles, false);
       // Checksum cache to speed things up in case of thousands of notes.
       // Else the server would run at 100% CPU usage for some time to get the total checksums of notes.
@@ -122,7 +122,7 @@ string sync_notes (Webserver_Request& webserver_request)
     }
     case Sync_Logic::notes_get_identifiers:
     {
-      vector <string> bibles = access_bible::bibles (webserver_request, user);
+      std::vector <std::string> bibles = access_bible::bibles (webserver_request, user);
       vector <int> identifiers = database_notes.get_notes_in_range_for_bibles (lowId, highId, bibles, false);
       string response;
       for (auto id : identifiers) {
@@ -150,12 +150,12 @@ string sync_notes (Webserver_Request& webserver_request)
     }
     case Sync_Logic::notes_get_subscribers:
     {
-      vector <string> subscribers = database_notes.get_subscribers (identifier);
+      std::vector <std::string> subscribers = database_notes.get_subscribers (identifier);
       return filter::strings::implode (subscribers, "\n");
     }
     case Sync_Logic::notes_get_assignees:
     {
-      vector <string> assignees = database_notes.get_assignees (identifier);
+      std::vector <std::string> assignees = database_notes.get_assignees (identifier);
       return filter::strings::implode (assignees, "\n");
     }
     case Sync_Logic::notes_get_status:
@@ -188,14 +188,14 @@ string sync_notes (Webserver_Request& webserver_request)
       // Update search field.
       database_notes.update_search_fields (identifier);
       // Done.
-      return string();
+      return std::string();
     }
     case Sync_Logic::notes_put_create_complete:
     {
       // Do notifications.
       notes_logic.handlerNewNote (identifier);
       // Done.
-      return string();
+      return std::string();
     }
     case Sync_Logic::notes_put_summary:
     {
@@ -206,7 +206,7 @@ string sync_notes (Webserver_Request& webserver_request)
       // Info.
       Database_Logs::log ("Client created or updated a note on the server: " + content, Filter_Roles::manager ());
       // Done.
-      return string();
+      return std::string();
     }
     case Sync_Logic::notes_put_contents:
     {
@@ -215,7 +215,7 @@ string sync_notes (Webserver_Request& webserver_request)
       // Update search field.
       database_notes.update_search_fields (identifier);
       // Done.
-      return string();
+      return std::string();
     }
     case Sync_Logic::notes_put_comment:
     {
@@ -228,7 +228,7 @@ string sync_notes (Webserver_Request& webserver_request)
       // Notifications.
       notes_logic.handlerAddComment (identifier);
       // Done.
-      return string();
+      return std::string();
     }
     case Sync_Logic::notes_put_subscribe:
     {
@@ -237,7 +237,7 @@ string sync_notes (Webserver_Request& webserver_request)
       // Info.
       Database_Logs::log ("Client subscribed to note on server: " + database_notes.get_summary (identifier), Filter_Roles::manager ());
       // Done.
-      return string();
+      return std::string();
     }
     case Sync_Logic::notes_put_unsubscribe:
     {
@@ -246,7 +246,7 @@ string sync_notes (Webserver_Request& webserver_request)
       // Info.
       Database_Logs::log ("Client unsubscribed from note on server: " + database_notes.get_summary (identifier), Filter_Roles::manager ());
       // Done.
-      return string();
+      return std::string();
     }
     case Sync_Logic::notes_put_assign:
     {
@@ -257,7 +257,7 @@ string sync_notes (Webserver_Request& webserver_request)
       // Notifications.
       notes_logic.handlerAssignNote (identifier, content);
       // Done.
-      return string();
+      return std::string();
     }
     case Sync_Logic::notes_put_unassign:
     {
@@ -266,7 +266,7 @@ string sync_notes (Webserver_Request& webserver_request)
       // Info.
       Database_Logs::log ("Client unassigned a user from the note on server: " + database_notes.get_summary (identifier), Filter_Roles::manager ());
       // Done.
-      return string();
+      return std::string();
     }
     case Sync_Logic::notes_put_status:
     {
@@ -275,7 +275,7 @@ string sync_notes (Webserver_Request& webserver_request)
       // Info.
       Database_Logs::log ("Client set the note status on server: " + database_notes.get_summary (identifier), Filter_Roles::manager ());
       // Done.
-      return string();
+      return std::string();
     }
     case Sync_Logic::notes_put_passages:
     {
@@ -283,7 +283,7 @@ string sync_notes (Webserver_Request& webserver_request)
       database_notes.set_raw_passage (identifier, content);
       database_notes.index_raw_passage (identifier, content);
       // Done.
-      return string();
+      return std::string();
     }
     case Sync_Logic::notes_put_severity:
     {
@@ -292,14 +292,14 @@ string sync_notes (Webserver_Request& webserver_request)
       // Info
       Database_Logs::log ("Client set the severity for a note on server: " + database_notes.get_summary (identifier), Filter_Roles::manager ());
       // Done.
-      return string();
+      return std::string();
     }
     case Sync_Logic::notes_put_bible:
     {
       // Set the Bible for a note on the server.
       notes_logic.setBible (identifier, content);
       // Done.
-      return string();
+      return std::string();
     }
     case Sync_Logic::notes_put_mark_delete:
     {
@@ -310,7 +310,7 @@ string sync_notes (Webserver_Request& webserver_request)
       // Notifications.
       notes_logic.handlerMarkNoteForDeletion (identifier);
       // Done.
-      return string();
+      return std::string();
     }
     case Sync_Logic::notes_put_unmark_delete:
     {
@@ -319,7 +319,7 @@ string sync_notes (Webserver_Request& webserver_request)
       // Info.
       Database_Logs::log ("Client unmarked a note on server for deletion: " + database_notes.get_summary (identifier), Filter_Roles::manager ());
       // Done.
-      return string();
+      return std::string();
     }
     case Sync_Logic::notes_put_delete:
     {
@@ -330,14 +330,14 @@ string sync_notes (Webserver_Request& webserver_request)
       // Delete note on server.
       notes_logic.erase (identifier);
       // Done.
-      return string();
+      return std::string();
     }
     // This method of bulk download was implemented as of September 2016.
     // After a year or so, the logic for the replaced download methods can probably be removed from the Cloud.
     case Sync_Logic::notes_get_bulk:
     {
       // Get the note identifiers the client requests.
-      vector <string> notes = filter::strings::explode (webserver_request.post ["b"], '\n');
+      std::vector <std::string> notes = filter::strings::explode (webserver_request.post ["b"], '\n');
       vector <int> identifiers;
       for (auto note : notes) identifiers.push_back (filter::strings::convert_to_int (note));
       // Return the JSON that contains all the requested notes.
@@ -351,5 +351,5 @@ string sync_notes (Webserver_Request& webserver_request)
   // Delay a while to obstruct a flood of bad requests.
   this_thread::sleep_for (chrono::seconds (1));
   webserver_request.response_code = 400;
-  return string();
+  return std::string();
 }

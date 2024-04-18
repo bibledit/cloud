@@ -77,7 +77,7 @@ string manage_hyphenation (Webserver_Request& webserver_request)
     string bible2 = webserver_request.query ["bible"];
     if (bible2.empty()) {
       Dialog_List dialog_list = Dialog_List ("", translate("Which Bible would you like to take the data from?"), "", "");
-      vector <string> bibles = access_bible::bibles (webserver_request);
+      std::vector <std::string> bibles = access_bible::bibles (webserver_request);
       for (auto list_bible : bibles) {
         dialog_list.add_row (list_bible, "bible", list_bible);
       }

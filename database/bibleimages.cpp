@@ -32,8 +32,8 @@ using namespace std;
 
 vector <string> Database_BibleImages::get ()
 {
-  vector <string> files = filter_url_scandir (folder ());
-  vector <string> images;
+  std::vector <std::string> files = filter_url_scandir (folder ());
+  std::vector <std::string> images;
   for (auto file : files) {
     string extension = filter_url_get_extension (file);
     if (extension == "o") continue;

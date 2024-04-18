@@ -83,7 +83,7 @@ void Database_OsHb::optimize ()
 // Get Hebrew words for $book $chapter $verse.
 vector <string> Database_OsHb::getVerse (int book, int chapter, int verse)
 {
-  vector <string> words;
+  std::vector <std::string> words;
   vector <int> rows = rowids (book, chapter, verse);
   for (auto row : rows) {
     words.push_back (word (row));
@@ -102,9 +102,9 @@ vector <Passage> Database_OsHb::searchHebrew (string hebrew)
   sql.add ("ORDER BY book, chapter, verse ASC;");
   vector <Passage> hits;
   map <string, vector <string> > result = sql.query ();
-  vector <string> books = result ["book"];
-  vector <string> chapters = result ["chapter"];
-  vector <string> verses = result ["verse"];
+  std::vector <std::string> books = result ["book"];
+  std::vector <std::string> chapters = result ["chapter"];
+  std::vector <std::string> verses = result ["verse"];
   for (unsigned int i = 0; i < books.size (); i++) {
     Passage passage;
     passage.m_book = filter::strings::convert_to_int (books [i]);
@@ -158,7 +158,7 @@ vector <int> Database_OsHb::rowids (int book, int chapter, int verse)
   sql.add ("AND verse =");
   sql.add (verse);
   sql.add ("ORDER BY rowid;");
-  vector <string> result = sql.query () ["rowid"];
+  std::vector <std::string> result = sql.query () ["rowid"];
   vector <int> rowids;
   for (auto rowid : result) rowids.push_back (filter::strings::convert_to_int (rowid));
   return rowids;
@@ -197,7 +197,7 @@ int Database_OsHb::get_id (const char * table_row, string item)
     sql.add ("=");
     sql.add (item);
     sql.add (";");
-    vector <string> result = sql.query () ["rowid"];
+    std::vector <std::string> result = sql.query () ["rowid"];
     if (!result.empty ()) return filter::strings::convert_to_int (result [0]);
     // The rowid was not found: Insert the word into the table.
     // The rowid will now be found during the second iteration.
@@ -223,7 +223,7 @@ string Database_OsHb::get_item (const char * item, int rowid)
   sql.add ("FROM oshb WHERE rowid =");
   sql.add (rowid);
   sql.add (";");
-  vector <string> result = sql.query () [item];
+  std::vector <std::string> result = sql.query () [item];
   rowid = 0;
   if (!result.empty ()) rowid = filter::strings::convert_to_int (result [0]);
   // Retrieve the requested value from the sub table.

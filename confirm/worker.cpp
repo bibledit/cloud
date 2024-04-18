@@ -159,7 +159,7 @@ bool Confirm_Worker::handleLink (string & email)
 void Confirm_Worker::informManagers (string email, string body)
 {
   Database_Users database_users;
-  vector <string> users = database_users.get_users ();
+  std::vector <std::string> users = database_users.get_users ();
   for (auto & user : users) {
     int level = database_users.get_level (user);
     if (level >= Filter_Roles::manager ()) {

@@ -64,9 +64,9 @@ string checks_suppress (Webserver_Request& webserver_request)
   
                         
   // Get the Bibles the user has write-access to.
-  vector <string> bibles {};
+  std::vector <std::string> bibles {};
   {
-    vector <string> all_bibles = webserver_request.database_bibles()->get_bibles ();
+    std::vector <std::string> all_bibles = webserver_request.database_bibles()->get_bibles ();
     for (const auto & bible : all_bibles) {
       if (access_bible::write (webserver_request, bible)) {
         bibles.push_back (bible);
@@ -76,7 +76,7 @@ string checks_suppress (Webserver_Request& webserver_request)
   
   
   string block {};
-  const vector <Database_Check_Hit> suppressions = database_check.getSuppressions ();
+  const std::vector <Database_Check_Hit> suppressions = database_check.getSuppressions ();
   for (const auto & suppression : suppressions) {
     string bible = suppression.bible;
     // Only display entries for Bibles the user has write access to.

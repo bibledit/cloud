@@ -41,7 +41,7 @@ TEST (paratext, logic)
 \v 2 verse 2.
     )";
     string paratext;
-    vector <string> messages;
+    std::vector <std::string> messages;
     vector <Merge_Conflict> conflicts;
     string result = Paratext_Logic::synchronize (ancestor, bibledit, paratext, messages, conflicts);
     EXPECT_EQ (bibledit, result);
@@ -60,7 +60,7 @@ TEST (paratext, logic)
 \v 1 verse 1.
 \v 2 verse 2.
     )";
-    vector <string> messages;
+    std::vector <std::string> messages;
     vector <Merge_Conflict> conflicts;
     string result = Paratext_Logic::synchronize (ancestor, bibledit, paratext, messages, conflicts);
     EXPECT_EQ (paratext, result);
@@ -79,7 +79,7 @@ TEST (paratext, logic)
 \v 2 verse 2.
     )";
     string paratext (bibledit);
-    vector <string> messages;
+    std::vector <std::string> messages;
     vector <Merge_Conflict> conflicts;
     string result = Paratext_Logic::synchronize (ancestor, bibledit, paratext, messages, conflicts);
     EXPECT_EQ ("", result);
@@ -108,7 +108,7 @@ TEST (paratext, logic)
     {
       // Test that it takes the changes from Paratext.
       string ancestor (bibledit);
-      vector <string> messages;
+      std::vector <std::string> messages;
       vector <Merge_Conflict> conflicts;
       string result = Paratext_Logic::synchronize (ancestor, bibledit, paratext, messages, conflicts);
       EXPECT_EQ (paratext, result);
@@ -121,7 +121,7 @@ TEST (paratext, logic)
     {
       // Test that it takes the changes from Bibledit.
       string ancestor (paratext);
-      vector <string> messages;
+      std::vector <std::string> messages;
       vector <Merge_Conflict> conflicts;
       string result = Paratext_Logic::synchronize (ancestor, bibledit, paratext, messages, conflicts);
       EXPECT_EQ (bibledit, result);
@@ -150,7 +150,7 @@ TEST (paratext, logic)
 \v 1 paratext.
 \v 2 paratext.
     )";
-    vector <string> messages;
+    std::vector <std::string> messages;
     vector <Merge_Conflict> conflicts;
     string result = Paratext_Logic::synchronize (ancestor, bibledit, paratext, messages, conflicts);
     EXPECT_EQ ("", result);
@@ -184,7 +184,7 @@ TEST (paratext, logic)
 \v 1 paratext.
 \v 2 paratext.
     )";
-    vector <string> messages;
+    std::vector <std::string> messages;
     vector <Merge_Conflict> conflicts;
     string result = Paratext_Logic::synchronize (ancestor, bibledit, paratext, messages, conflicts);
     EXPECT_EQ (filter::strings::trim (paratext), result);
@@ -241,7 +241,7 @@ TEST (paratext, logic)
 \v 11
 \v 12
     )";
-    vector <string> messages;
+    std::vector <std::string> messages;
     vector <Merge_Conflict> conflicts;
     string result = Paratext_Logic::synchronize (ancestor, bibledit, paratext, messages, conflicts);
     EXPECT_EQ (filter::strings::trim (bibledit), filter::strings::trim (result));

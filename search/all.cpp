@@ -77,7 +77,7 @@ string search_all (Webserver_Request& webserver_request)
   
   
   // Generate search words for emphasizing the search passages.
-  vector <string> queryWords = filter::strings::explode (queryString, ' ');
+  std::vector <std::string> queryWords = filter::strings::explode (queryString, ' ');
   
   
   Database_Notes database_notes (webserver_request);
@@ -86,7 +86,7 @@ string search_all (Webserver_Request& webserver_request)
   const string site_url = config::logic::site_url (webserver_request);
 
   
-  vector <string> bibles = access_bible::bibles (webserver_request);
+  std::vector <std::string> bibles = access_bible::bibles (webserver_request);
 
 
   // Search the notes.
@@ -112,7 +112,7 @@ string search_all (Webserver_Request& webserver_request)
     
     // The excerpt.
     string stext = database_notes.get_search_field (identifier);
-    vector <string> vtext = filter::strings::explode (stext, '\n');
+    std::vector <std::string> vtext = filter::strings::explode (stext, '\n');
     string excerpt;
     // Go through each line of text separately.
     for (auto & line : vtext) {
@@ -159,7 +159,7 @@ string search_all (Webserver_Request& webserver_request)
     string link = bible + " | " + filter_passage_link_for_opening_editor_at (book, chapter, verse);
     // The excerpt.
     string stext = search_logic_get_bible_verse_text (bible, book, chapter, filter::strings::convert_to_int (verse));
-    vector <string> vtext = filter::strings::explode (stext, '\n');
+    std::vector <std::string> vtext = filter::strings::explode (stext, '\n');
     string excerpt;
     // Go through each line of text separately.
     for (auto & line : vtext) {

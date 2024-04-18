@@ -79,11 +79,11 @@ void system_logic_produce_bibles_file (int jobid)
 
   
   // The files in the tarball.
-  vector <string> files;
+  std::vector <std::string> files;
   
 
   // Iterate over the Bibles, the books, the chapters.
-  vector <string> bibles = database_bibles.get_bibles ();
+  std::vector <std::string> bibles = database_bibles.get_bibles ();
   for (auto bible : bibles) {
     vector <int> books = database_bibles.get_books (bible);
     for (auto book : books) {
@@ -144,7 +144,7 @@ void system_logic_import_bibles_file (string tarball)
   }
 
   // Iterate over all the files of the tarball.
-  vector <string> files = filter_url_scandir (directory);
+  std::vector <std::string> files = filter_url_scandir (directory);
   for (auto file : files) {
     
     // Get the file's contents for import.
@@ -158,7 +158,7 @@ void system_logic_import_bibles_file (string tarball)
     if (pos != std::string::npos) bible.erase (pos);
     
     // Get details about the USFM to import.
-    string stylesheet = styles_logic_standard_sheet ();
+    const std::string stylesheet = styles_logic_standard_sheet ();
     vector <filter::usfm::BookChapterData> book_chapter_text = filter::usfm::usfm_import (data, stylesheet);
     for (auto & book_chapter_data : book_chapter_text) {
       if (book_chapter_data.m_book > 0) {
@@ -221,7 +221,7 @@ void system_logic_produce_notes_file (int jobid)
 
   
   // The files to include in the tarball.
-  vector <string> files;
+  std::vector <std::string> files;
   filter_url_recursive_scandir (directory, files);
   for (string & file : files) {
     file.erase (0, directory.length () + 1);
@@ -312,8 +312,8 @@ void system_logic_produce_resources_file (int jobid)
   
   
   // The filenames of the cached resources.
-  vector <string> resources;
-  vector <string> rawfiles = filter_url_scandir (directory);
+  std::vector <std::string> resources;
+  std::vector <std::string> rawfiles = filter_url_scandir (directory);
   for (auto filename : rawfiles) {
     if (filename.find (Database_Cache::fragment()) != std::string::npos) {
       resources.push_back (filename);
@@ -362,7 +362,7 @@ void system_logic_produce_resources_file (int jobid)
   for (auto element : single_resources) {
     tarball_counter++;
     string resource_name = element.first;
-    vector <string> v_resources = element.second;
+    std::vector <std::string> v_resources = element.second;
     database_jobs.set_percentage (jobid, 100 * tarball_counter / tarball_count);
     database_jobs.set_progress (jobid, resource_name);
     string resource_tarball = filter_url_create_root_path ({system_logic_resources_file_name (resource_name)});
@@ -428,7 +428,7 @@ void system_logic_import_resources_file (string tarball)
   }
   
   // Iterate over all the files of the tarball.
-  vector <string> files = filter_url_scandir (directory);
+  std::vector <std::string> files = filter_url_scandir (directory);
   for (auto file : files) {
 
     // Get the file's contents for import.

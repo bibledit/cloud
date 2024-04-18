@@ -84,7 +84,7 @@ void Filter_Text::add_usfm_code (string usfm)
   usfm = filter::strings::trim (usfm);
   usfm += "\n";
   // Sort the USFM code out and separate it into markers and text.
-  vector <string> markers_and_text = filter::usfm::get_markers_and_text (usfm);
+  std::vector <std::string> markers_and_text = filter::usfm::get_markers_and_text (usfm);
   // Add the USFM to the object.
   m_usfm_markers_and_text.insert (m_usfm_markers_and_text.end(), markers_and_text.begin(), markers_and_text.end());
 }
@@ -174,7 +174,7 @@ void Filter_Text::get_styles (string stylesheet)
   if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->create_page_break_style ();
   if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->create_superscript_style ();
   Database_Styles database_styles;
-  vector <string> markers = database_styles.getMarkers (stylesheet);
+  std::vector <std::string> markers = database_styles.getMarkers (stylesheet);
   for (auto marker : markers) {
     Database_Styles_Item style = database_styles.getMarkerData (stylesheet, marker);
     styles [marker] = style;
@@ -1161,7 +1161,7 @@ void Filter_Text::processNote ()
                   if (odf_text_standard) odf_text_standard->add_note (citation, marker);
                   // Note citation in superscript in the document with text and note citations.
                   if (odf_text_text_and_note_citations) {
-                    vector <string> current_text_styles = odf_text_text_and_note_citations->m_current_text_style;
+                    std::vector <std::string> current_text_styles = odf_text_text_and_note_citations->m_current_text_style;
                     odf_text_text_and_note_citations->m_current_text_style = {"superscript"};
                     odf_text_text_and_note_citations->add_text (citation);
                     odf_text_text_and_note_citations->m_current_text_style = current_text_styles;
@@ -1197,7 +1197,7 @@ void Filter_Text::processNote ()
                   if (odf_text_standard) odf_text_standard->add_note (citation, marker, true);
                   // Note citation in superscript in the document with text and note citations.
                   if (odf_text_text_and_note_citations) {
-                    vector <string> current_text_styles = odf_text_text_and_note_citations->m_current_text_style;
+                    std::vector <std::string> current_text_styles = odf_text_text_and_note_citations->m_current_text_style;
                     odf_text_text_and_note_citations->m_current_text_style = {"superscript"};
                     odf_text_text_and_note_citations->add_text (citation);
                     odf_text_text_and_note_citations->m_current_text_style = current_text_styles;
@@ -1274,7 +1274,7 @@ void Filter_Text::processNote ()
                   if (odf_text_standard) odf_text_standard->add_note (citation, marker);
                   // Note citation in superscript in the document with text and note citations.
                   if (odf_text_text_and_note_citations) {
-                    vector <string> current_text_styles = odf_text_text_and_note_citations->m_current_text_style;
+                    std::vector <std::string> current_text_styles = odf_text_text_and_note_citations->m_current_text_style;
                     odf_text_text_and_note_citations->m_current_text_style = {"superscript"};
                     odf_text_text_and_note_citations->add_text (citation);
                     odf_text_text_and_note_citations->m_current_text_style = current_text_styles;
@@ -1649,7 +1649,7 @@ void Filter_Text::putChapterNumberInFrame (string chapterText)
 string Filter_Text::getNoteCitation (const Database_Styles_Item & style)
 {
   bool end_of_text_reached = (chapter_usfm_markers_and_text_pointer + 1) >= chapter_usfm_markers_and_text.size ();
-  if (end_of_text_reached) return string();
+  if (end_of_text_reached) return std::string();
 
   // Extract the raw note citation from the USFM. This could be, e.g. '+'.
   string nextText = chapter_usfm_markers_and_text [chapter_usfm_markers_and_text_pointer + 1];

@@ -100,10 +100,10 @@ bool Sync_Logic::credentials_okay ()
 
 
 // Calculates the checksum of the array of note identifiers.
-string Sync_Logic::checksum (const vector <int> & identifiers)
+string Sync_Logic::checksum (const std::vector <int> & identifiers)
 {
   Database_Notes database_notes (m_webserver_request);
-  vector <string> checksums;
+  std::vector <std::string> checksums;
   for (const auto & identifier : identifiers) {
     checksums.push_back (database_notes.get_checksum (identifier));
   }
@@ -156,13 +156,13 @@ string Sync_Logic::post (map <string, string> & post, const std::string& url, st
 
 
 // Calculates the checksum of all settings to be kept in sync between server and client.
-string Sync_Logic::settings_checksum (const vector <string> & bibles)
+string Sync_Logic::settings_checksum (const std::vector <string> & bibles)
 {
   string checksum;
   checksum.append (m_webserver_request.database_config_user()->getWorkspaceURLs ());
   checksum.append (m_webserver_request.database_config_user()->getWorkspaceWidths ());
   checksum.append (m_webserver_request.database_config_user()->getWorkspaceHeights ());
-  vector <string> resources = m_webserver_request.database_config_user()->getActiveResources ();
+  std::vector <std::string> resources = m_webserver_request.database_config_user()->getActiveResources ();
   checksum.append (filter::strings::implode (resources, "\n"));
   for (auto & bible : bibles) {
     checksum.append (bible);
@@ -177,9 +177,9 @@ string Sync_Logic::settings_checksum (const vector <string> & bibles)
 // Calculates the checksum of all USFM resources.
 string Sync_Logic::usfm_resources_checksum ()
 {
-  vector <string> vchecksum;
+  std::vector <std::string> vchecksum;
   Database_UsfmResources database_usfmresources = Database_UsfmResources ();
-  vector <string> resources = database_usfmresources.getResources ();
+  std::vector <std::string> resources = database_usfmresources.getResources ();
   for (auto & resource : resources) {
     vchecksum.push_back (usfm_resource_checksum (resource));
   }
@@ -192,7 +192,7 @@ string Sync_Logic::usfm_resources_checksum ()
 // Calculates the checksum of USFM resource name.
 string Sync_Logic::usfm_resource_checksum (const std::string& name)
 {
-  vector <string> vchecksum;
+  std::vector <std::string> vchecksum;
   Database_UsfmResources database_usfmresources = Database_UsfmResources ();
   vector <int> books = database_usfmresources.getBooks (name);
   for (auto & book : books) {
@@ -208,7 +208,7 @@ string Sync_Logic::usfm_resource_checksum (const std::string& name)
 // Calculates the checksum of USFM resource name book.
 string Sync_Logic::usfm_resource_book_checksum (const std::string& name, int book)
 {
-  vector <string> vchecksum;
+  std::vector <std::string> vchecksum;
   Database_UsfmResources database_usfmresources = Database_UsfmResources ();
   vector <int> chapters = database_usfmresources.getChapters (name, book);
   for (auto & chapter : chapters) {
@@ -251,7 +251,7 @@ string Sync_Logic::changes_checksum (const std::string& username)
 // so the server can adapt to the client's capabilities.
 vector <string> Sync_Logic::files_get_directories (int version, const std::string& user)
 {
-  vector <string> directories;
+  std::vector <std::string> directories;
   switch (version) {
     case 1:
       directories = {
@@ -303,7 +303,7 @@ vector <string> Sync_Logic::files_get_directories (int version, const std::strin
 int Sync_Logic::files_get_total_checksum (int version, const std::string& user)
 {
   int checksum = 0;
-  vector <string> directories = files_get_directories (version, user);
+  std::vector <std::string> directories = files_get_directories (version, user);
   for (auto directory : directories) {
     checksum += files_get_directory_checksum (directory);
   }
@@ -316,7 +316,7 @@ int Sync_Logic::files_get_total_checksum (int version, const std::string& user)
 int Sync_Logic::files_get_directory_checksum (string directory)
 {
   int checksum = 0;
-  vector <string> files = files_get_files (directory);
+  std::vector <std::string> files = files_get_files (directory);
   for (string file : files) {
     checksum += files_get_file_checksum (directory, file);
   }
@@ -330,8 +330,8 @@ int Sync_Logic::files_get_directory_checksum (string directory)
 vector <string> Sync_Logic::files_get_files (string directory)
 {
   directory = filter_url_create_root_path ({directory});
-  vector <string> result;
-  vector <string> paths;
+  std::vector <std::string> result;
+  std::vector <std::string> paths;
   filter_url_recursive_scandir (directory, paths);
   for (string path : paths) {
     if (filter_url_is_dir (path)) continue;

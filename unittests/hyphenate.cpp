@@ -27,8 +27,8 @@ using namespace std;
 
 TEST (hyphenate, basic)
 {
-  vector <string> firstset = {"a", "e", "i", "o", "u"};
-  vector <string> secondset = {"b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z"};
+  std::vector <std::string> firstset = {"a", "e", "i", "o", "u"};
+  std::vector <std::string> secondset = {"b", "c", "d", "f", "g", "h", "j", "k", "l", "m", "n", "p", "q", "r", "s", "t", "v", "w", "x", "y", "z"};
   string input =
   "\\s \\nd UNkulunkulu\\nd* u\\add ba\\add*xwayisa ngokulunga okungokwabantu 文字ab化け\n"
   "\\s Ukulunga okuku\\nd Kristu\\nd* אבabגד kuyinzuzo אבגד ab";

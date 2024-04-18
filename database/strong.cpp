@@ -40,7 +40,7 @@ string Database_Strong::definition (string strong)
     sql.add (strong);
     sql.add (";");
     db = connect ();
-    vector <string> definitions = database_sqlite_query (db, sql.sql) ["definition"];
+    std::vector <std::string> definitions = database_sqlite_query (db, sql.sql) ["definition"];
     database_sqlite_disconnect (db);
     if (!definitions.empty ()) return definitions[0];
   }
@@ -61,7 +61,7 @@ vector <string> Database_Strong::strong (string lemma)
     sql.add (lemma);
     sql.add (";");
     db = connect ();
-    vector <string> ids = database_sqlite_query (db, sql.sql) ["id"];
+    std::vector <std::string> ids = database_sqlite_query (db, sql.sql) ["id"];
     database_sqlite_disconnect (db);
     if (!ids.empty ()) return ids;
   }

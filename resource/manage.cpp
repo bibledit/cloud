@@ -102,8 +102,8 @@ string resource_manage (Webserver_Request& webserver_request)
   }
   
   
-  vector <string> resources = database_usfmresources.getResources ();
-  vector <string> resourceblock;
+  std::vector <std::string> resources = database_usfmresources.getResources ();
+  std::vector <std::string> resourceblock;
   for (auto & resource : resources) {
     resourceblock.push_back ("<p>");
     resourceblock.push_back ("<a href=\"?delete=" + resource + "\" class=\"deleteresource\" title=\"" + translate("Remove") + "\">");

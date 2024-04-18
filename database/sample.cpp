@@ -55,7 +55,7 @@ vector <int> Database_Sample::get ()
 {
   SqliteDatabase sql = SqliteDatabase (name ());
   sql.add ("SELECT rowid FROM sample;");
-  vector <string> rowids = sql.query () ["rowid"];
+  std::vector <std::string> rowids = sql.query () ["rowid"];
   vector <int> ids;
   for (auto rowid : rowids) ids.push_back (filter::strings::convert_to_int (rowid));
   return ids;
@@ -70,10 +70,10 @@ void Database_Sample::get (int rowid, string & file, string & data)
   sql.add (rowid);
   sql.add (";");
   map <string, vector <string> > sample = sql.query ();
-  vector <string> files = sample ["file"];
+  std::vector <std::string> files = sample ["file"];
   if (files.empty ()) file.clear ();
   else file = files [0];
-  vector <string> datas = sample ["data"];
+  std::vector <std::string> datas = sample ["data"];
   if (datas.empty ()) data.clear ();
   else data = datas [0];
 }

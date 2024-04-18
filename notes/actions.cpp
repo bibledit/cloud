@@ -134,7 +134,7 @@ string notes_actions (Webserver_Request& webserver_request)
   else view.enable_zone ("subscribe");
   
 
-  vector <string> assignees = database_notes.get_assignees (id);
+  std::vector <std::string> assignees = database_notes.get_assignees (id);
   stringstream assigneeblock;
   for (auto & assignee : assignees) {
     assigneeblock << assignee;

@@ -116,7 +116,7 @@ bool sendreceive_notes_upload ()
   
   
   // Set the correct user in the session: The sole user on the Client.
-  vector <string> users = webserver_request.database_users ()->get_users ();
+  std::vector <std::string> users = webserver_request.database_users ()->get_users ();
   if (users.empty ()) {
     Database_Logs::log (sendreceive_notes_text () + translate("No local user found"), Filter_Roles::translator ());
     return false;
@@ -297,11 +297,11 @@ bool sendreceive_notes_upload ()
           }
         }
         if (action == Sync_Logic::notes_get_subscribers) {
-          vector <string> subscribers = filter::strings::explode (response, '\n');
+          std::vector <std::string> subscribers = filter::strings::explode (response, '\n');
           database_notes.set_subscribers (identifier, subscribers);
         }
         if (action == Sync_Logic::notes_get_assignees) {
-          vector <string> assignees = filter::strings::explode (response, '\n');
+          std::vector <std::string> assignees = filter::strings::explode (response, '\n');
           database_notes.set_assignees (identifier, assignees);
         }
         if (action == Sync_Logic::notes_get_modified) {
@@ -338,7 +338,7 @@ bool sendreceive_notes_download (int lowId, int highId)
   // The server will use this user to find out the Bibles this user has access to,
   // so the server can select the correct notes for this user.
   // The client selects all available notes on the system.
-  vector <string> users = webserver_request.database_users ()->get_users ();
+  std::vector <std::string> users = webserver_request.database_users ()->get_users ();
   if (users.empty ()) {
     Database_Logs::log (sendreceive_notes_text () + translate("No local user found"), Filter_Roles::translator ());
     return false;
@@ -387,7 +387,7 @@ bool sendreceive_notes_download (int lowId, int highId)
     Database_Logs::log (sendreceive_notes_text () + "Failure requesting totals: " + error, Filter_Roles::translator ());
     return false;
   }
-  vector <string> vresponse = filter::strings::explode (response, '\n');
+  std::vector <std::string> vresponse = filter::strings::explode (response, '\n');
   int server_total = 0;
   if (vresponse.size () >= 1) server_total = filter::strings::convert_to_int (vresponse [0]);
   string server_checksum;
@@ -441,7 +441,7 @@ bool sendreceive_notes_download (int lowId, int highId)
     return false;
   }
   vector <int> server_identifiers;
-  vector <string> server_checksums;
+  std::vector <std::string> server_checksums;
   vresponse = filter::strings::explode (response, '\n');
   for (size_t i = 0; i < vresponse.size (); i++) {
     if (i % 2 == 0) {
@@ -477,7 +477,7 @@ bool sendreceive_notes_download (int lowId, int highId)
 
   // Check whether the local notes on the client match the ones on the server.
   // If needed, download the note from the server.
-  vector <string> identifiers_bulk_download;
+  std::vector <std::string> identifiers_bulk_download;
   for (size_t i = 0; i < server_identifiers.size (); i++) {
 
     if (i >= server_checksums.size ()) continue;
@@ -512,7 +512,7 @@ bool sendreceive_notes_download (int lowId, int highId)
       return false;
     }
     // Store the notes in the file system.
-    vector <string> summaries = database_notes.set_bulk (json);
+    std::vector <std::string> summaries = database_notes.set_bulk (json);
     // More specific feedback in case it downloaded only a few notes, rather than notes in bulk.
     if (identifiers_bulk_download.size () < 3) {
       for (auto & summary : summaries) {

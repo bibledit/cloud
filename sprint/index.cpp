@@ -54,7 +54,7 @@ bool sprint_index_acl (Webserver_Request& webserver_request)
 string sprint_index ([[maybe_unused]] Webserver_Request& webserver_request)
 {
 #ifdef HAVE_CLIENT
-  return string();
+  return std::string();
 #endif
 
 #ifdef HAVE_CLOUD
@@ -114,7 +114,7 @@ string sprint_index ([[maybe_unused]] Webserver_Request& webserver_request)
         // Convert the box to an integer.
         int box = filter::strings::convert_to_int (id);
         string categorytext = Database_Config_Bible::getSprintTaskCompletionCategories (bible);
-        vector <string> categories = filter::strings::explode (categorytext, '\n');
+        std::vector <std::string> categories = filter::strings::explode (categorytext, '\n');
         size_t category_count = categories.size ();
         float category_percentage = 100.0f / static_cast<float>(category_count);
         int percentage {0};
@@ -149,7 +149,7 @@ string sprint_index ([[maybe_unused]] Webserver_Request& webserver_request)
     bible = webserver_request.query ["bible"];
     if (bible.empty()) {
       Dialog_List dialog_list = Dialog_List ("index", translate("Select which Bible to display the Sprint for"), "", "");
-      vector <string> bibles = access_bible::bibles (webserver_request);
+      std::vector <std::string> bibles = access_bible::bibles (webserver_request);
       for (auto & selection_bible : bibles) {
         dialog_list.add_row (selection_bible, "bible", selection_bible);
       }
@@ -193,9 +193,9 @@ string sprint_index ([[maybe_unused]] Webserver_Request& webserver_request)
   
   if (webserver_request.post.count ("categories")) {
     string categories = webserver_request.post ["categories"];
-    vector <string> categories2;
+    std::vector <std::string> categories2;
     categories = filter::strings::trim (categories);
-    vector <string> vcategories = filter::strings::explode (categories, '\n');
+    std::vector <std::string> vcategories = filter::strings::explode (categories, '\n');
     for (auto category : vcategories) {
       category = filter::strings::trim (category);
       if (category != "") categories2.push_back (category);
@@ -211,7 +211,7 @@ string sprint_index ([[maybe_unused]] Webserver_Request& webserver_request)
   
   string categorytext = Database_Config_Bible::getSprintTaskCompletionCategories (bible);
   view.set_variable ("categorytext", categorytext);
-  vector <string> vcategories = filter::strings::explode (categorytext, '\n');
+  std::vector <std::string> vcategories = filter::strings::explode (categorytext, '\n');
   string categories;
   for (auto category : vcategories) {
     categories.append ("<td>" + category + "</td>\n");

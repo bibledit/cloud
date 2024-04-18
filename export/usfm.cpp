@@ -113,7 +113,7 @@ void export_usfm (string bible, bool log)
     // This zip file contains all exported USFM data.
     // All other files will be removed.
     // It uses the external zip binary.
-    vector <string> files = filter_url_scandir (usfmDirectoryFull);
+    std::vector <std::string> files = filter_url_scandir (usfmDirectoryFull);
     for (auto file : files) {
       if (file != zipfile) filter_url_unlink (filter_url_create_path ({usfmDirectoryFull, file}));
     }

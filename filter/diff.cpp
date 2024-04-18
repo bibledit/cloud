@@ -53,8 +53,8 @@ static mutex filter_diff_mutex;
 // If the containers for $removals and $additions are given,
 // they will be filled with the appropriate text fragments.
 string filter_diff_diff (string oldstring, string newstring,
-                         vector <string> * removals,
-                         vector <string> * additions)
+                         std::vector <std::string> * removals,
+                         std::vector <std::string> * additions)
 {
   // Save the new lines.
   string newline = " newline_newline_newline ";
@@ -63,8 +63,8 @@ string filter_diff_diff (string oldstring, string newstring,
   
   // Split the input up into words.
   // It compares with word granularity.
-  vector <string> old_sequence = filter::strings::explode (oldstring, ' ');
-  vector <string> new_sequence = filter::strings::explode (newstring, ' ');
+  std::vector <std::string> old_sequence = filter::strings::explode (oldstring, ' ');
+  std::vector <std::string> new_sequence = filter::strings::explode (newstring, ' ');
   
   // See issue https://github.com/bibledit/cloud/issues/419
   // It is unclear at this time whether the code below
@@ -83,7 +83,7 @@ string filter_diff_diff (string oldstring, string newstring,
   filter_diff_mutex.unlock();
   
   // Add html markup for bold and strikethrough.
-  vector <string> output = filter::strings::explode (result.str (), '\n');
+  std::vector <std::string> output = filter::strings::explode (result.str (), '\n');
   for (auto & line : output) {
     if (line.empty ()) continue;
     char indicator = line.front ();
@@ -135,11 +135,11 @@ string filter_diff_diff (string oldstring, string newstring,
 // That means that characters that fit in 2-byte UTF-16 give their positions as 1.
 // Those that fit in 4-byte UTF-16 give their positions as 2.
 // Each differing character is given a size of 1 or 2 accordingly.
-void filter_diff_diff_utf16 (const vector<string> & oldinput, const vector<string> & newinput,
+void filter_diff_diff_utf16 (const std::vector <string> & oldinput, const std::vector <string> & newinput,
                              vector <int> & positions,
                              vector <int> & sizes,
                              vector <bool> & additions,
-                             vector <string> & content,
+                             std::vector <std::string> & content,
                              int & new_line_diff_count)
 {
   // Clear anything from the output containers just to be sure.
@@ -152,8 +152,8 @@ void filter_diff_diff_utf16 (const vector<string> & oldinput, const vector<strin
   new_line_diff_count = 0;
   
   // The sequences to compare.
-  vector <string> old_sequence = oldinput;
-  vector <string> new_sequence = newinput;
+  std::vector <std::string> old_sequence = oldinput;
+  std::vector <std::string> new_sequence = newinput;
 
   // Save the new lines.
   string newline = "_newline_";
@@ -173,7 +173,7 @@ void filter_diff_diff_utf16 (const vector<string> & oldinput, const vector<strin
   diff.printSES (result);
 
   // Convert the new line place holder back to the original new line.
-  vector <string> differences = filter::strings::explode (result.str (), '\n');
+  std::vector <std::string> differences = filter::strings::explode (result.str (), '\n');
   for (auto & s : differences) {
     s = filter::strings::replace (newline, "\n", s);
   }
@@ -232,8 +232,8 @@ int filter_diff_character_similarity (string oldstring, string newstring)
   try {
    
     // Split the input up into unicode characers.
-    vector <string> old_sequence;
-    vector <string> new_sequence;
+    std::vector <std::string> old_sequence;
+    std::vector <std::string> new_sequence;
     size_t oldlength = oldstring.size();
     for (size_t i = 0; i < oldlength; i++) {
       old_sequence.push_back (oldstring.substr (i, 1));
@@ -262,7 +262,7 @@ int filter_diff_character_similarity (string oldstring, string newstring)
     // Calculate the total elements compared, and the total differences found.
     int element_count = 0;
     int similar_count = 0;
-    vector <string> output = filter::strings::explode (result.str(), '\n');
+    std::vector <std::string> output = filter::strings::explode (result.str(), '\n');
     for (auto & line : output) {
       if (line.empty ()) continue;
       element_count++;
@@ -292,8 +292,8 @@ int filter_diff_character_similarity (string oldstring, string newstring)
 int filter_diff_word_similarity (string oldstring, string newstring)
 {
   // Split the input up into words separated by spaces.
-  vector <string> old_sequence;
-  vector <string> new_sequence;
+  std::vector <std::string> old_sequence;
+  std::vector <std::string> new_sequence;
   oldstring = filter::strings::replace ("\n", " ", oldstring);
   newstring = filter::strings::replace ("\n", " ", newstring);
   old_sequence = filter::strings::explode (oldstring, ' ');
@@ -318,7 +318,7 @@ int filter_diff_word_similarity (string oldstring, string newstring)
   // Calculate the total elements compared, and the total differences found.
   int element_count = 0;
   int similar_count = 0;
-  vector <string> output = filter::strings::explode (result.str(), '\n');
+  std::vector <std::string> output = filter::strings::explode (result.str(), '\n');
   for (auto & line : output) {
     if (line.empty ()) continue;
     element_count++;
@@ -343,10 +343,10 @@ void filter_diff_produce_verse_level (string bible, string directory)
 {
   Webserver_Request request;
   Database_Modifications database_modifications;
-  string stylesheet = Database_Config_Bible::getExportStylesheet (bible);
+  const std::string stylesheet = Database_Config_Bible::getExportStylesheet (bible);
   
-  vector <string> old_vs_usfm;
-  vector <string> new_vs_usfm;
+  std::vector <std::string> old_vs_usfm;
+  std::vector <std::string> new_vs_usfm;
   
   Filter_Text filter_text_old = Filter_Text (bible);
   filter_text_old.html_text_standard = new HtmlText (translate("Bible"));
@@ -408,7 +408,7 @@ void filter_diff_run_file (string oldfile, string newfile, string outputfile)
 
   string differences = filter_diff_diff (oldstring, newstring);
   
-  vector <string> lines = filter::strings::explode (differences, '\n');
+  std::vector <std::string> lines = filter::strings::explode (differences, '\n');
   for (auto & line : lines) {
     line = "<p>" + line + "</p>";
   }

@@ -449,7 +449,7 @@ string styles_logic_get_userbool1_text (int function)
     case UserBool1VerseRestartsParagraph: return translate ("Restart paragraph");
     default: return "--";
   }
-  return string();
+  return std::string();
 }
 
 
@@ -474,9 +474,9 @@ string styles_logic_get_userbool2_text (int function)
     case UserBool2IdStartsOddPage: return translate ("New page starts with an odd number (not implemented due to limitations in OpenDocument)");
     case UserBool2ChapterInLeftRunningHeader: return translate ("Print chapter number in the running header of the left page");
     case UserBool2RunningHeaderLeft: return translate ("Print this in the running header of the left page");
-    default: return string();
+    default: return std::string();
   }
-  return string();
+  return std::string();
 }
 
 
@@ -500,9 +500,9 @@ string styles_logic_get_userbool3_text (int function)
   switch (function) {
     case UserBool3ChapterInRightRunningHeader: return translate ("Print chapter number in the running header of the right page");
     case UserBool3RunningHeaderRight: return translate ("Print this in the running header of the right page");
-    default: return string();
+    default: return std::string();
   }
-  return string();
+  return std::string();
 }
 
 

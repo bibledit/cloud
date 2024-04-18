@@ -59,7 +59,7 @@ string user_account ([[maybe_unused]] Webserver_Request& webserver_request)
   const string email = webserver_request.database_users()->get_email (username);
 
   bool actions_taken = false;
-  vector <string> success_messages;
+  std::vector <std::string> success_messages;
 
   // Form submission handler.
   if (webserver_request.post.count ("submit")) {

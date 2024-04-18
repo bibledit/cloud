@@ -581,7 +581,7 @@ void odf_text::add_text (string text)
   
   // Temporal styles array should have at least one style for the code below to work.
   // So ensure it has at least one style.
-  vector <string> styles (m_current_text_style.begin (), m_current_text_style.end ());
+  std::vector <std::string> styles (m_current_text_style.begin (), m_current_text_style.end ());
   if (styles.empty()) styles.push_back (string());
   
   // Write a text span element, nesting the second and later ones.
@@ -1066,7 +1066,7 @@ void odf_text::add_note_text (string text)
   if (!m_note_text_p_opened) add_note ("?", "");
 
   // Temporal styles array should have at least one style for the code below to work.
-  vector <string> styles (m_current_note_text_style.begin(), m_current_note_text_style.end());
+  std::vector <std::string> styles (m_current_note_text_style.begin(), m_current_note_text_style.end());
   if (styles.empty ()) styles.push_back ("");
 
   // Write a text span element, nesting the second and later ones.

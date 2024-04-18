@@ -77,7 +77,7 @@ string resource_download (Webserver_Request& webserver_request)
   if (webserver_request.query.count ("download")) {
     // Trigger caching the resource.
     // Add the resource to the general configuration to be cached, if it is not already there.
-    vector <string> resources = Database_Config_General::getResourcesToCache ();
+    std::vector <std::string> resources = Database_Config_General::getResourcesToCache ();
     if (!in_array (name, resources)) {
       resources.push_back (name);
       Database_Config_General::setResourcesToCache (resources);

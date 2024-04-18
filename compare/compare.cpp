@@ -48,14 +48,14 @@ void compare_compare (string bible, string compare, int jobId)
   Database_Bibles database_bibles;
   Database_UsfmResources database_usfmresources = Database_UsfmResources ();
 
-  string stylesheet = Database_Config_Bible::getExportStylesheet (bible);
+  const std::string stylesheet = Database_Config_Bible::getExportStylesheet (bible);
   
 
   database_jobs.set_progress (jobId, translate("The Bibles are being compared..."));
   
 
   // The results of the comparison. Will be displayed to the user.
-  vector <string> result;
+  std::vector <std::string> result;
   result.push_back (translate("Bible") + " '" + bible + "' " + translate ("has been compared with") + " '" + compare + "'.");
   result.push_back (translate("Additions are in bold.") + " " + translate ("Removed words are in strikethrough."));
   result.push_back ("");
@@ -77,15 +77,15 @@ void compare_compare (string bible, string compare, int jobId)
   
   
   // Results of comparison of raw USFM.
-  vector <string> raw;
+  std::vector <std::string> raw;
   
   
   // Absent books / chapters.
-  vector <string> absent;
+  std::vector <std::string> absent;
   
   
   // The new verses as in the $bible.
-  vector <string> new_verses;
+  std::vector <std::string> new_verses;
   
   
   for (auto & book : books) {

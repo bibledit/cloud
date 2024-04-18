@@ -108,7 +108,7 @@ vector <string> Database_Git::get_users (string bible)
   sql.add ("SELECT DISTINCT user FROM changes WHERE bible =");
   sql.add (bible);
   sql.add (";");
-  vector <string> users = sql.query () ["user"];
+  std::vector <std::string> users = sql.query () ["user"];
   return users;
 }
 
@@ -122,7 +122,7 @@ vector <int> Database_Git::get_rowids (string user, string bible)
   sql.add ("AND bible =");
   sql.add (bible);
   sql.add ("ORDER BY rowid;");
-  vector <string> values = sql.query () ["rowid"];
+  std::vector <std::string> values = sql.query () ["rowid"];
   vector <int> rowids;
   for (auto value : values) {
     rowids.push_back (filter::strings::convert_to_int (value));
@@ -140,12 +140,12 @@ bool Database_Git::get_chapter (int rowid,
   sql.add (rowid);
   sql.add (";");
   map <string, vector <string> > result = sql.query ();
-  vector <string> users    = result ["user"];
-  vector <string> bibles   = result ["bible"];
-  vector <string> books    = result ["book"];
-  vector <string> chapters = result ["chapter"];
-  vector <string> oldusfms = result ["oldusfm"];
-  vector <string> newusfms = result ["newusfm"];
+  std::vector <std::string> users    = result ["user"];
+  std::vector <std::string> bibles   = result ["bible"];
+  std::vector <std::string> books    = result ["book"];
+  std::vector <std::string> chapters = result ["chapter"];
+  std::vector <std::string> oldusfms = result ["oldusfm"];
+  std::vector <std::string> newusfms = result ["newusfm"];
   if (bibles.empty ()) return false;
   if (!users.empty ())    user    = users [0];
   if (!bibles.empty ())   bible   = bibles [0];

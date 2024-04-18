@@ -103,7 +103,7 @@ void sendreceive_changes ()
   
   
   // Set the correct user in the session: The sole user on the Client.
-  vector <string> users = webserver_request.database_users ()->get_users ();
+  std::vector <std::string> users = webserver_request.database_users ()->get_users ();
   if (users.empty ()) {
     Database_Logs::log (translate("No user found"), Filter_Roles::translator ());
     send_receive_changes_done ();
@@ -194,7 +194,7 @@ void sendreceive_changes ()
     return;
   }
   {
-    vector <string> ids2 = filter::strings::explode (response, '\n');
+    std::vector <std::string> ids2 = filter::strings::explode (response, '\n');
     for (auto & id : ids2) server_identifiers.push_back (filter::strings::convert_to_int (id));
   }
 
@@ -221,7 +221,7 @@ void sendreceive_changes ()
     }
     else {
       // The server has put all bits together, one bit per line.
-      vector <string> lines = filter::strings::explode (response, '\n');
+      std::vector <std::string> lines = filter::strings::explode (response, '\n');
       string category;
       if (!lines.empty ()) {
         category = lines [0];

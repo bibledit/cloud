@@ -45,7 +45,7 @@ void manage_hyphenate (string bible, string user)
   
   // Get the two sets of characters as arrays.
   // The /u switch treats the text as UTF8 Unicode.
-  vector <string> firstset;
+  std::vector <std::string> firstset;
   string s_firstset = Database_Config_Bible::getHyphenationFirstSet (inputBible);
   size_t length = filter::strings::unicode_string_length (s_firstset);
   for (size_t i = 0; i < length; i++) {
@@ -53,7 +53,7 @@ void manage_hyphenate (string bible, string user)
     if (s == " ") continue;
     firstset.push_back (s);
   }
-  vector <string> secondset;
+  std::vector <std::string> secondset;
   string s_secondset = Database_Config_Bible::getHyphenationSecondSet (inputBible);
   length = filter::strings::unicode_string_length (s_secondset);
   for (size_t i = 0; i < length; i++) {
@@ -112,11 +112,11 @@ string hyphenate_at_transition (vector <string>& firstset, vector <string>& seco
   if (text.empty ()) return text;
   
   // Split the text up into lines and go through each one.
-  vector <string> lines = filter::strings::explode (text, '\n');
+  std::vector <std::string> lines = filter::strings::explode (text, '\n');
   for (string & line : lines) {
     
     // Split the line up into an array of UTF8 Unicode characters.
-    vector <string> characters;
+    std::vector <std::string> characters;
     size_t length = filter::strings::unicode_string_length (line);
     for (size_t i = 0; i < length; i++) {
       string s = filter::strings::unicode_string_substr (line, i, 1);
@@ -173,7 +173,7 @@ string hyphenate_at_transition (vector <string>& firstset, vector <string>& seco
  * in the vector of characters.
  * Returns: true or false.
  */
-bool hyphenate_is_near_white_space (const vector <string> & characters, int offset)
+bool hyphenate_is_near_white_space (const std::vector <string> & characters, int offset)
 {
   // The constant for the nearness to the start of the word.
   int start = offset - 2;

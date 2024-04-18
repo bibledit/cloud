@@ -94,7 +94,7 @@ vector <int> Database_NoteActions::getNotes ()
 {
   vector <int> notes;
   sqlite3 * db = connect ();
-  vector <string> result = database_sqlite_query (db, "SELECT DISTINCT note FROM noteactions ORDER BY rowid;") ["note"];
+  std::vector <std::string> result = database_sqlite_query (db, "SELECT DISTINCT note FROM noteactions ORDER BY rowid;") ["note"];
   database_sqlite_disconnect (db);
   for (auto & note : result) {
     notes.push_back (filter::strings::convert_to_int (note));
@@ -113,11 +113,11 @@ vector <Database_Note_Action> Database_NoteActions::getNoteData (int note)
   sqlite3 * db = connect ();
   map <string, vector <string> > result = database_sqlite_query (db, sql.sql);
   database_sqlite_disconnect (db);
-  vector <string> rowids = result ["rowid"];
-  vector <string> usernames = result ["username"];
-  vector <string> timestamps = result ["timestamp"];
-  vector <string> actions = result ["action"];
-  vector <string> contents = result ["content"];
+  std::vector <std::string> rowids = result ["rowid"];
+  std::vector <std::string> usernames = result ["username"];
+  std::vector <std::string> timestamps = result ["timestamp"];
+  std::vector <std::string> actions = result ["action"];
+  std::vector <std::string> contents = result ["content"];
   for (unsigned int i = 0; i < rowids.size (); i++) {
     Database_Note_Action action = Database_Note_Action ();
     action.rowid = filter::strings::convert_to_int (rowids [i]);

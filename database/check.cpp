@@ -117,7 +117,7 @@ void Database_Check::recordOutput (string bible, int book, int chapter, int vers
   sql.add ("AND data = ");
   sql.add (data);
   sql.add (";");
-  vector <string> result = sql.query () ["count(*)"];
+  std::vector <std::string> result = sql.query () ["count(*)"];
   if (!result.empty ()) {
     count = filter::strings::convert_to_int (result [0]);
   }
@@ -129,7 +129,7 @@ void Database_Check::recordOutput (string bible, int book, int chapter, int vers
     sql.add ("AND data = ");
     sql.add (data);
     sql.add (";");
-    vector <string> count_result = sql.query () ["count(*)"];
+    std::vector <std::string> count_result = sql.query () ["count(*)"];
     if (!count_result.empty ()) {
       count = filter::strings::convert_to_int (count_result [0]);
     }
@@ -180,12 +180,12 @@ vector <Database_Check_Hit> Database_Check::getHits ()
   SqliteDatabase sql (filename ());
   sql.add ("SELECT rowid, bible, book, chapter, verse, data FROM output2;");
   map <string, vector <string> > result = sql.query ();
-  vector <string> rowids = result ["rowid"];
-  vector <string> bibles = result ["bible"];
-  vector <string> books = result ["book"];
-  vector <string> chapters = result ["chapter"];
-  vector <string> verses = result ["verse"];
-  vector <string> data = result ["data"];
+  std::vector <std::string> rowids = result ["rowid"];
+  std::vector <std::string> bibles = result ["bible"];
+  std::vector <std::string> books = result ["book"];
+  std::vector <std::string> chapters = result ["chapter"];
+  std::vector <std::string> verses = result ["verse"];
+  std::vector <std::string> data = result ["data"];
   for (unsigned int i = 0; i < rowids.size(); i++) {
     Database_Check_Hit hit = Database_Check_Hit ();
     hit.rowid = filter::strings::convert_to_int (rowids [i]);
@@ -233,9 +233,9 @@ Passage Database_Check::getPassage (int id)
   sql.add (id);
   sql.add (";");
   map <string, vector <string> > result = sql.query ();
-  vector <string> books = result ["book"];
-  vector <string> chapters = result ["chapter"];
-  vector <string> verses = result ["verse"];
+  std::vector <std::string> books = result ["book"];
+  std::vector <std::string> chapters = result ["chapter"];
+  std::vector <std::string> verses = result ["verse"];
   if (!books.empty()) {
     Passage passage = Passage ("", filter::strings::convert_to_int (books[0]), filter::strings::convert_to_int (chapters[0]), verses[0]);
     return passage;
@@ -250,12 +250,12 @@ vector <Database_Check_Hit> Database_Check::getSuppressions ()
   vector <Database_Check_Hit> hits;
   sql.add ("SELECT rowid, bible, book, chapter, verse, data FROM suppress2;");
   map <string, vector <string> > result = sql.query ();
-  vector <string> rowids = result ["rowid"];
-  vector <string> bibles = result ["bible"];
-  vector <string> books = result ["book"];
-  vector <string> chapters = result ["chapter"];
-  vector <string> verses = result ["verse"];
-  vector <string> data = result ["data"];
+  std::vector <std::string> rowids = result ["rowid"];
+  std::vector <std::string> bibles = result ["bible"];
+  std::vector <std::string> books = result ["book"];
+  std::vector <std::string> chapters = result ["chapter"];
+  std::vector <std::string> verses = result ["verse"];
+  std::vector <std::string> data = result ["data"];
   for (unsigned int i = 0; i < rowids.size(); i++) {
     Database_Check_Hit hit = Database_Check_Hit ();
     hit.rowid = filter::strings::convert_to_int (rowids [i]);

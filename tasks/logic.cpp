@@ -37,7 +37,7 @@ void tasks_logic_queue (string command, vector <string> parameters)
 {
   // The file on disk will contain the command on the first line,
   // and any parameters on the following lines, one parameters per line.
-  vector <string> lines;
+  std::vector <std::string> lines;
   lines.push_back (command);
   lines.insert (lines.end(), parameters.begin(), parameters.end());
   // The filename to write to contains seconds and microseconds.
@@ -61,14 +61,14 @@ void tasks_logic_queue (string command, vector <string> parameters)
 bool tasks_logic_queued (string command, vector <string> parameters)
 {
   // The lines to look for consist of the command followed by the parameters.
-  vector <string> search (parameters);
+  std::vector <std::string> search (parameters);
   search.insert (search.begin (), command);
   // Go through all queued tasks.
-  vector <string> files = filter_url_scandir (tasks_logic_folder ());
+  std::vector <std::string> files = filter_url_scandir (tasks_logic_folder ());
   for (auto & file : files) {
     // Read the task's contents.
     string contents = filter_url_file_get_contents (filter_url_create_path ({tasks_logic_folder (), file}));
-    vector <string> lines = filter::strings::explode (contents, '\n');
+    std::vector <std::string> lines = filter::strings::explode (contents, '\n');
     if (lines.empty ()) return false;
     // Look for a match.
     bool match = true;

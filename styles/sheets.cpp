@@ -49,7 +49,7 @@ void styles_sheets_create_all_run ()
 void Styles_Sheets::recreate ()
 {
   Database_Styles database_styles;
-  vector <string> stylesheets = database_styles.getSheets ();
+  std::vector <std::string> stylesheets = database_styles.getSheets ();
   for (const auto & stylesheet : stylesheets) {
     string path = get_location (stylesheet, false);
     create (stylesheet, path, false, string());

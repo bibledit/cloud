@@ -66,7 +66,7 @@ bool sendreceive_index_acl (Webserver_Request& webserver_request)
 string sendreceive_index (Webserver_Request& webserver_request)
 {
   if (webserver_request.query.count ("status")) {
-    vector <string> bits;
+    std::vector <std::string> bits;
     if (config_globals_syncing_bibles)    bits.push_back (translate ("Bibles"));
     if (config_globals_syncing_notes)     bits.push_back (translate ("Notes"));
     if (config_globals_syncing_settings)  bits.push_back (translate ("Settings"));
@@ -91,7 +91,7 @@ string sendreceive_index (Webserver_Request& webserver_request)
     bible = webserver_request.query["bible"];
     if (bible.empty()) {
       Dialog_List dialog_list = Dialog_List ("index", translate("Select a Bible"), "", "");
-      vector <string> bibles = access_bible::bibles (webserver_request);
+      std::vector <std::string> bibles = access_bible::bibles (webserver_request);
       for (auto & selectable_bible : bibles) {
         // Select Bibles the user has write access to.
         if (access_bible::write (webserver_request, selectable_bible)) {
@@ -202,7 +202,7 @@ string sendreceive_index (Webserver_Request& webserver_request)
 
   
 #ifdef HAVE_PARATEXT
-  vector <string> bibles = Paratext_Logic::enabledBibles ();
+  std::vector <std::string> bibles = Paratext_Logic::enabledBibles ();
   if (!bibles.empty ()) {
     view.enable_zone ("paratexton");
     view.set_variable ("paratextbibles", filter::strings::implode (bibles, ", "));

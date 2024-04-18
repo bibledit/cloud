@@ -42,7 +42,7 @@ bool resource_get_acl (Webserver_Request& webserver_request)
 
 string resource_get (Webserver_Request& webserver_request)
 {
-  vector <string> bits;
+  std::vector <std::string> bits;
 
   
   string s_resource = webserver_request.query["resource"];
@@ -63,7 +63,7 @@ string resource_get (Webserver_Request& webserver_request)
     // In JavaScript the resource identifier starts at 1.
     // In the C++ Bibledit kernel it starts at 0.
     resource--;
-    vector <string> resources = webserver_request.database_config_user()->getActiveResources ();
+    std::vector <std::string> resources = webserver_request.database_config_user()->getActiveResources ();
     if (resource < resources.size ()) {
       s_resource = resources [resource];
 

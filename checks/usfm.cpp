@@ -33,7 +33,7 @@ using namespace std;
 Checks_Usfm::Checks_Usfm (const std::string& bible)
 {
   Database_Styles database_styles {};
-  string stylesheet = Database_Config_Bible::getExportStylesheet (bible);
+  const std::string stylesheet = Database_Config_Bible::getExportStylesheet (bible);
   markers_stylesheet = database_styles.getMarkers (stylesheet);
   for (const auto & marker : markers_stylesheet) {
     Database_Styles_Item style = database_styles.getMarkerData (stylesheet, marker);
@@ -155,7 +155,7 @@ void Checks_Usfm::malformed_verse_number ()
   if (usfm_item == "\\v ") {
     string code = filter::usfm::peek_text_following_marker (usfm_markers_and_text, usfm_markers_and_text_pointer);
     string cleanVerseNumber = filter::usfm::peek_verse_number (code);
-    vector <string> v_dirtyVerseNumber = filter::strings::explode (code, ' ');
+    std::vector <std::string> v_dirtyVerseNumber = filter::strings::explode (code, ' ');
     string dirtyVerseNumber;
     if (!v_dirtyVerseNumber.empty ()) dirtyVerseNumber = v_dirtyVerseNumber [0];
     if (cleanVerseNumber != dirtyVerseNumber) {
@@ -209,7 +209,7 @@ void Checks_Usfm::malformed_id ()
   if (item == R"(\id)") {
     string code = filter::usfm::peek_text_following_marker (usfm_markers_and_text, usfm_markers_and_text_pointer);
     string sid = code.substr (0, 3);
-    vector <string> vid = filter::strings::explode (code, ' ');
+    std::vector <std::string> vid = filter::strings::explode (code, ' ');
     string id {};
     if (!vid.empty ()) id = vid [0];
     book_id book = database::books::get_id_from_usfm (id);

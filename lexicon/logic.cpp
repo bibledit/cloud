@@ -248,7 +248,7 @@ void lexicon_logic_convert_morphhb_parsing_to_strong (string parsing,
 {
   strongs.clear ();
   bdbs.clear ();
-  vector <string> bits = filter::strings::explode (parsing, '/');
+  std::vector <std::string> bits = filter::strings::explode (parsing, '/');
   for (auto & bit : bits) {
     // Remove the space that is in the parsings, e.g. change "1254 a" to "1254a".
     bit = filter::strings::replace (" ", "", bit);
@@ -295,7 +295,7 @@ void lexicon_logic_convert_morphhb_parsing_to_strong (string parsing,
 
 string lexicon_logic_render_strongs_definition (string strong)
 {
-  vector <string> renderings;
+  std::vector <std::string> renderings;
   Database_Strong database_strong;
   Database_HebrewLexicon database_hebrewlexicon;
   string definition = database_strong.definition (lexicon_logic_strong_number_cleanup (strong));
@@ -303,7 +303,7 @@ string lexicon_logic_render_strongs_definition (string strong)
     definition = database_hebrewlexicon.getstrong (lexicon_logic_strong_number_cleanup (strong));
   }
   definition = filter::strings::replace ("/>", "/>\n", definition);
-  vector <string> lines = filter::strings::explode (definition, '\n');
+  std::vector <std::string> lines = filter::strings::explode (definition, '\n');
   for (auto & line : lines) {
     line = filter::strings::trim (line);
     line = filter::strings::collapse_whitespace (line);
@@ -448,7 +448,7 @@ string lexicon_logic_render_strongs_part_of_speech (string value)
 {
   if (value == filter::strings::unicode_string_casefold (value)) {
     // Deal with Strong's parsings.
-    vector <string> parts = filter::strings::explode (value, ' ');
+    std::vector <std::string> parts = filter::strings::explode (value, ' ');
     value.clear ();
     for (auto part : parts) {
       value.append (" ");
@@ -509,7 +509,7 @@ string lexicon_logic_render_strongs_part_of_speech (string value)
     
   } else {
     // Deal with the BDB parsings.
-    vector <string> parts = filter::strings::explode (value, '-');
+    std::vector <std::string> parts = filter::strings::explode (value, '-');
     value.clear ();
     string word = lexicon_logic_render_part_of_speech_pop_front (parts);
     value.append (" ");
@@ -632,7 +632,7 @@ string lexicon_logic_render_morphgnt_part_of_speech (string pos)
 
 string lexicon_logic_render_morphgnt_parsing_code (string parsing)
 {
-  vector <string> renderings;
+  std::vector <std::string> renderings;
   // person.
   if (!parsing.empty ()) {
     string p = parsing.substr (0, 1);
@@ -713,7 +713,7 @@ string lexicon_logic_render_etcbc4_morphology (string rowid)
   // that the pieces of information most relevant to the Bible translator come first,
   // and the remaining bits come after.
   
-  vector <string> renderings;
+  std::vector <std::string> renderings;
   int row = filter::strings::convert_to_int (rowid.substr (1));
   Database_Etcbc4 database_etcbc4;
 
@@ -1127,10 +1127,10 @@ string lexicon_logic_hebrew_morphology_render (string value)
   // Description of the Hebrew Morphology Codes:
   // http://openscriptures.github.io/morphhb/parsing/HebrewMorphologyCodes.html
   
-  vector <string> renderings;
+  std::vector <std::string> renderings;
   
   // A slash separates morphology items.
-  vector <string> values = filter::strings::explode (value, '/');
+  std::vector <std::string> values = filter::strings::explode (value, '/');
   for (auto value2 : values) {
 
     if (value2.empty ()) continue;
@@ -1532,7 +1532,7 @@ struct abbott_smith_walker: pugi::xml_tree_walker
 
 string lexicon_logic_render_abbott_smiths_definition (string lemma, string strong)
 {
-  vector <string> renderings;
+  std::vector <std::string> renderings;
 
   Database_AbbottSmith database_abbottsmith;
 

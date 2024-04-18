@@ -75,7 +75,7 @@ string styles_sheetm (Webserver_Request& webserver_request)
 
   if (webserver_request.post.count ("new")) {
     string newstyle = webserver_request.post["entry"];
-    vector <string> existing_markers = database_styles.getMarkers (name);
+    std::vector <std::string> existing_markers = database_styles.getMarkers (name);
     if (find (existing_markers.begin(), existing_markers.end(), newstyle) != existing_markers.end()) {
       page += assets_page::error (translate("This style already exists"));
     } else {

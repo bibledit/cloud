@@ -76,7 +76,7 @@ void space_end_verse (const std::string& bible, int book, int chapter, const std
   for (auto verse : verses) {
     if (!verse) continue;
     string text = filter::usfm::get_verse_text (usfm, verse);
-    vector <string> items = filter::usfm::get_markers_and_text (text);
+    std::vector <std::string> items = filter::usfm::get_markers_and_text (text);
     for (const auto & item : items) {
       if (filter::usfm::is_usfm_marker (item)) {
         text = filter::strings::replace (item, "", text);

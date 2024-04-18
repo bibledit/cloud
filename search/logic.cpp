@@ -77,9 +77,9 @@ void search_logic_index_chapter (string bible, int book, int chapter)
   Database_Bibles database_bibles;
   
   string usfm = database_bibles.get_chapter (bible, book, chapter);
-  string stylesheet = Database_Config_Bible::getExportStylesheet (bible);
+  const std::string stylesheet = Database_Config_Bible::getExportStylesheet (bible);
 
-  vector <string> index;
+  std::vector <std::string> index;
   
   set <string> already_processed;
   
@@ -170,7 +170,7 @@ vector <Passage> search_logic_search_text (string search, vector <string> bibles
         string path = search_logic_chapter_file (bible, book, chapter);
         string index = filter_url_file_get_contents (path);
         if (index.find (search) != std::string::npos) {
-          vector <string> lines = filter::strings::explode (index, '\n');
+          std::vector <std::string> lines = filter::strings::explode (index, '\n');
           int index_verse = 0;
           bool read_index_verse = false;
           int index_item = 0;
@@ -217,7 +217,7 @@ vector <Passage> search_logic_search_bible_text (string bible, string search)
       string path = search_logic_chapter_file (bible, book, chapter);
       string index = filter_url_file_get_contents (path);
       if (index.find (search) != std::string::npos) {
-        vector <string> lines = filter::strings::explode (index, '\n');
+        std::vector <std::string> lines = filter::strings::explode (index, '\n');
         int index_verse = 0;
         bool read_index_verse = false;
         int index_item = 0;
@@ -261,7 +261,7 @@ vector <Passage> search_logic_search_bible_text_case_sensitive (string bible, st
       string path = search_logic_chapter_file (bible, book, chapter);
       string index = filter_url_file_get_contents (path);
       if (index.find (search) != std::string::npos) {
-        vector <string> lines = filter::strings::explode (index, '\n');
+        std::vector <std::string> lines = filter::strings::explode (index, '\n');
         int index_verse = 0;
         bool read_index_verse = false;
         int index_item = 0;
@@ -307,7 +307,7 @@ vector <Passage> search_logic_search_bible_usfm (string bible, string search)
       string path = search_logic_chapter_file (bible, book, chapter);
       string index = filter_url_file_get_contents (path);
       if (index.find (search) != std::string::npos) {
-        vector <string> lines = filter::strings::explode (index, '\n');
+        std::vector <std::string> lines = filter::strings::explode (index, '\n');
         int index_verse = 0;
         bool read_index_verse = false;
         int index_item = 0;
@@ -351,7 +351,7 @@ vector <Passage> search_logic_search_bible_usfm_case_sensitive (string bible, st
       string path = search_logic_chapter_file (bible, book, chapter);
       string index = filter_url_file_get_contents (path);
       if (index.find (search) != std::string::npos) {
-        vector <string> lines = filter::strings::explode (index, '\n');
+        std::vector <std::string> lines = filter::strings::explode (index, '\n');
         int index_verse = 0;
         bool read_index_verse = false;
         int index_item = 0;
@@ -381,10 +381,10 @@ vector <Passage> search_logic_search_bible_usfm_case_sensitive (string bible, st
 // Gets the plain raw text for the bible and passage given.
 string search_logic_get_bible_verse_text (string bible, int book, int chapter, int verse)
 {
-  vector <string> texts;
+  std::vector <std::string> texts;
   string path = search_logic_chapter_file (bible, book, chapter);
   string index = filter_url_file_get_contents (path);
-  vector <string> lines = filter::strings::explode (index, '\n');
+  std::vector <std::string> lines = filter::strings::explode (index, '\n');
   int index_verse = 0;
   bool read_index_verse = false;
   int index_item = 0;
@@ -410,10 +410,10 @@ string search_logic_get_bible_verse_text (string bible, int book, int chapter, i
 // Gets the raw USFM for the bible and passage given.
 string search_logic_get_bible_verse_usfm (string bible, int book, int chapter, int verse)
 {
-  vector <string> texts;
+  std::vector <std::string> texts;
   string path = search_logic_chapter_file (bible, book, chapter);
   string index = filter_url_file_get_contents (path);
-  vector <string> lines = filter::strings::explode (index, '\n');
+  std::vector <std::string> lines = filter::strings::explode (index, '\n');
   int index_verse = 0;
   bool read_index_verse = false;
   int index_item = 0;
@@ -440,7 +440,7 @@ void search_logic_delete_bible (string bible)
 {
   string fragment = search_logic_bible_fragment (bible);
   fragment = filter_url_basename (fragment);
-  vector <string> files = filter_url_scandir (search_logic_index_folder ());
+  std::vector <std::string> files = filter_url_scandir (search_logic_index_folder ());
   for (auto & file : files) {
     if (file.find (fragment) == 0) {
       string path = filter_url_create_path ({search_logic_index_folder (), file});
@@ -454,7 +454,7 @@ void search_logic_delete_book (string bible, int book)
 {
   string fragment = search_logic_book_fragment (bible, book);
   fragment = filter_url_basename (fragment);
-  vector <string> files = filter_url_scandir (search_logic_index_folder ());
+  std::vector <std::string> files = filter_url_scandir (search_logic_index_folder ());
   for (auto & file : files) {
     if (file.find (fragment) == 0) {
       string path = filter_url_create_path ({search_logic_index_folder (), file});
@@ -468,7 +468,7 @@ void search_logic_delete_chapter (string bible, int book, int chapter)
 {
   string fragment = search_logic_chapter_file (bible, book, chapter);
   fragment = filter_url_basename (fragment);
-  vector <string> files = filter_url_scandir (search_logic_index_folder ());
+  std::vector <std::string> files = filter_url_scandir (search_logic_index_folder ());
   for (auto & file : files) {
     if (file.find (fragment) == 0) {
       string path = filter_url_create_path ({search_logic_index_folder (), file});
@@ -489,7 +489,7 @@ int search_logic_get_verse_count (string bible)
     for (auto chapter : chapters) {
       string path = search_logic_chapter_file (bible, book, chapter);
       string index = filter_url_file_get_contents (path);
-      vector <string> lines = filter::strings::explode (index, '\n');
+      std::vector <std::string> lines = filter::strings::explode (index, '\n');
       for (auto & line : lines) {
         if (line == search_logic_verse_separator ()) {
           verse_count++;
@@ -508,7 +508,7 @@ void search_logic_copy_bible (string original, string destination)
   original_fragment = filter_url_basename (original_fragment);
   string destination_fragment = search_logic_bible_fragment (destination);
   destination_fragment = filter_url_basename (destination_fragment);
-  vector <string> files = filter_url_scandir (search_logic_index_folder ());
+  std::vector <std::string> files = filter_url_scandir (search_logic_index_folder ());
   for (auto & file : files) {
     if (file.find (original_fragment) == 0) {
       string original_path = filter_url_create_path ({search_logic_index_folder (), file});

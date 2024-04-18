@@ -77,7 +77,7 @@ string resource_studylight (Webserver_Request& webserver_request)
   
   string path = resource_logic_study_light_module_list_path ();
   string moduleblock = filter_url_file_get_contents (path);
-  vector <string> lines = filter::strings::explode (moduleblock, '\n');
+  std::vector <std::string> lines = filter::strings::explode (moduleblock, '\n');
   moduleblock.clear ();
   for (auto line : lines) {
     moduleblock.append ("<p>");

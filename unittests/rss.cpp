@@ -61,9 +61,9 @@ TEST (rss, feed)
   // Add many entries and clipping their number.
   Database_Config_Bible::setSendChangesToRSS (bible, true);
   rss_logic_feed_on_off ();
-  vector <string> titles;
-  vector <string> authors;
-  vector <string> descriptions;
+  std::vector <std::string> titles;
+  std::vector <std::string> authors;
+  std::vector <std::string> descriptions;
   for (size_t i = 0; i < 300; i++) {
     titles.push_back ("title " + filter::strings::convert_to_string (i));
     authors.push_back ("author " + filter::strings::convert_to_string (i));

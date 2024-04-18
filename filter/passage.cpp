@@ -91,7 +91,7 @@ string Passage::encode () const
 Passage Passage::decode (const std::string& encoded)
 {
   Passage passage;
-  vector <string> bits = filter::strings::explode (encoded, '_');
+  std::vector <std::string> bits = filter::strings::explode (encoded, '_');
   if (!bits.empty ()) {
     string verse = bits.back ();
     if (!verse.empty ()) passage.m_verse = verse;
@@ -307,7 +307,7 @@ Passage filter_passage_explode_passage (string text)
 {
   text = filter_passage_clean_passage (text);
   // Cut the text in its parts.
-  vector <string> bits = filter::strings::explode (text, ' ');
+  std::vector <std::string> bits = filter::strings::explode (text, ' ');
   // Defaults to empty passage.
   Passage passage;
   // Take the bits.
@@ -345,13 +345,13 @@ Passage filter_passage_interpret_passage (Passage currentPassage, string rawPass
   rawPassage = filter_passage_clean_passage (rawPassage);
 
   // Create an array with the bits of the raw input.
-  vector <string> input = filter::strings::explode (rawPassage, ' ');
+  std::vector <std::string> input = filter::strings::explode (rawPassage, ' ');
 
   // Go through the array from verse to chapter to book.
   // Check how many numerals it has after the book part.
   vector <int> numerals;
   string book = "";
-  vector <string> invertedInput (input.begin(), input.end ());
+  std::vector <std::string> invertedInput (input.begin(), input.end ());
   reverse (invertedInput.begin (), invertedInput.end());
   for (string & bit : invertedInput) {
     int integer = filter::strings::convert_to_int (bit);
@@ -416,17 +416,17 @@ vector <string> filter_passage_handle_sequences_ranges (const std::string& passa
   // 14-15
   // 27-28
   // It implies that the first sequence has book and chapter.
-  vector <string> sequences = filter::strings::explode (passage, ',');
+  std::vector <std::string> sequences = filter::strings::explode (passage, ',');
   for (string & line : sequences) line = filter::strings::trim (line);
 
 
   // Store output lines.
-  vector <string> output;
+  std::vector <std::string> output;
 
   // Cut the passages at the hyphen.
   for (unsigned int offset = 0; offset < sequences.size(); offset++) {
     string sequence = sequences [offset];
-    vector <string> range = filter::strings::explode (sequence, '-');
+    std::vector <std::string> range = filter::strings::explode (sequence, '-');
     if (range.size () == 1) {
       output.push_back (filter::strings::trim (range [0]));
     } else {
@@ -482,7 +482,7 @@ vector <int> filter_passage_get_ordered_books (const std::string& bible)
 
   // The book order from the settings, if any.
   string s_orderedbooks = Database_Config_Bible::getBookOrder (bible);
-  vector <string> vs_orderedbooks = filter::strings::explode (s_orderedbooks, ' ');
+  std::vector <std::string> vs_orderedbooks = filter::strings::explode (s_orderedbooks, ' ');
 
   // Keep books available in the Bible.
   vector <int> orderedbooks;

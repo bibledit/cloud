@@ -84,7 +84,7 @@ void Database_Logs::rotate ()
   // The PHP functions opendir / readdir / closedir handled it better.
   // But now, in C++, with the new journal mechanism, this is no longer relevant.
   string directory = folder ();
-  vector <string> files = filter_url_scandir (directory);
+  std::vector <std::string> files = filter_url_scandir (directory);
 
   
   // Timestamp for removing older records, depending on whether it's a tiny journal.
@@ -146,7 +146,7 @@ vector <string> Database_Logs::get (string & lastfilename)
   lastfilename = "0";
 
   // Read the journal records from the filesystem.
-  vector <string> files = filter_url_scandir (folder ());
+  std::vector <std::string> files = filter_url_scandir (folder ());
   for (unsigned int i = 0; i < files.size(); i++) {
     // Last second gets updated based on the filename.
     lastfilename = files [i];
@@ -161,7 +161,7 @@ vector <string> Database_Logs::get (string & lastfilename)
 // Updates "filename" to the item it got.
 string Database_Logs::next (string &filename)
 {
-  vector <string> files = filter_url_scandir (folder ());
+  std::vector <std::string> files = filter_url_scandir (folder ());
   for (unsigned int i = 0; i < files.size (); i++) {
     string file = files [i];
     if (file > filename) {
@@ -177,7 +177,7 @@ string Database_Logs::next (string &filename)
 void Database_Logs::clear ()
 {
   string directory = folder ();
-  vector <string> files = filter_url_scandir (directory);
+  std::vector <std::string> files = filter_url_scandir (directory);
   for (auto file : files) {
     filter_url_unlink (filter_url_create_path ({directory, file}));
   }

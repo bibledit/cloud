@@ -55,8 +55,8 @@ using namespace mimetic;
 string filter_mail_remove_headers_internal (string contents)
 {
   bool empty_line_encountered = false;
-  vector <string> cleaned;
-  vector <string> inputlines = filter::strings::explode (contents, '\n');
+  std::vector <std::string> cleaned;
+  std::vector <std::string> inputlines = filter::strings::explode (contents, '\n');
   for (auto line : inputlines) {
     if (line.find ("Content-Type") != std::string::npos) continue;
     if (line.find ("Content-Transfer-Encoding") != std::string::npos) continue;
@@ -167,8 +167,8 @@ void filter_mail_dissect (string message, string & from, string & subject, strin
   if (plaintext.empty ()) plaintext = me.body ();
 
   // Clean the text body up.
-  vector <string> cleaned;
-  vector <string> inputlines = filter::strings::explode (plaintext, '\n');
+  std::vector <std::string> cleaned;
+  std::vector <std::string> inputlines = filter::strings::explode (plaintext, '\n');
   for (auto line : inputlines) {
     // Remove whitespace and empty lines.
     line = filter::strings::trim (line);

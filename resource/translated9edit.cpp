@@ -85,8 +85,8 @@ string resource_translated9edit (Webserver_Request& webserver_request)
       new_resource.erase (pos, resource_logic_translated_resource ().length());
     }
     new_resource.insert (0, resource_logic_translated_resource ());
-    vector <string> titles;
-    vector <string> resources = Database_Config_General::getTranslatedResources ();
+    std::vector <std::string> titles;
+    std::vector <std::string> resources = Database_Config_General::getTranslatedResources ();
     for (auto resource : resources) {
       string title;
       if (resource_logic_parse_translated_resource (resource, &title)) {
@@ -109,7 +109,7 @@ string resource_translated9edit (Webserver_Request& webserver_request)
       // Redirect the user to the place where to edit that new resource.
       string url = resource_translated1edit_url () + "?name=" + new_resource;
       redirect_browser (webserver_request, url);
-      return string();
+      return std::string();
     }
   }
 
@@ -124,8 +124,8 @@ string resource_translated9edit (Webserver_Request& webserver_request)
       page += dialog_yes.run ();
       return page;
     } if (confirm == "yes") {
-      vector <string> updated_resources;
-      vector <string> existing_resources = Database_Config_General::getTranslatedResources ();
+      std::vector <std::string> updated_resources;
+      std::vector <std::string> existing_resources = Database_Config_General::getTranslatedResources ();
       for (auto resource : existing_resources) {
         string title;
         resource_logic_parse_translated_resource (resource, &title);
@@ -138,7 +138,7 @@ string resource_translated9edit (Webserver_Request& webserver_request)
   }
 
 
-  vector <string> resources = Database_Config_General::getTranslatedResources ();
+  std::vector <std::string> resources = Database_Config_General::getTranslatedResources ();
   {
     pugi::xml_document document;
     for (auto & resource : resources) {

@@ -69,7 +69,7 @@ string sync_settings (Webserver_Request& webserver_request)
     case Sync_Logic::settings_send_workspace_urls:
     {
       webserver_request.database_config_user()->setWorkspaceURLs (value);
-      return string();
+      return std::string();
     }
     case Sync_Logic::settings_get_workspace_urls:
     {
@@ -78,7 +78,7 @@ string sync_settings (Webserver_Request& webserver_request)
     case Sync_Logic::settings_send_workspace_widths:
     {
       webserver_request.database_config_user()->setWorkspaceWidths (value);
-      return string();
+      return std::string();
     }
     case Sync_Logic::settings_get_workspace_widths:
     {
@@ -87,7 +87,7 @@ string sync_settings (Webserver_Request& webserver_request)
     case Sync_Logic::settings_send_workspace_heights:
     {
       webserver_request.database_config_user()->setWorkspaceHeights (value);
-      return string();
+      return std::string();
     }
     case Sync_Logic::settings_get_workspace_heights:
     {
@@ -95,13 +95,13 @@ string sync_settings (Webserver_Request& webserver_request)
     }
     case Sync_Logic::settings_send_resources_organization:
     {
-      vector <string> resources = filter::strings::explode (value, '\n');
+      std::vector <std::string> resources = filter::strings::explode (value, '\n');
       webserver_request.database_config_user()->setActiveResources (resources);
-      return string();
+      return std::string();
     }
     case Sync_Logic::settings_get_resources_organization:
     {
-      vector <string> resources = webserver_request.database_config_user()->getActiveResources ();
+      std::vector <std::string> resources = webserver_request.database_config_user()->getActiveResources ();
       return filter::strings::implode (resources, "\n");
     }
     case Sync_Logic::settings_get_bible_id:
@@ -116,7 +116,7 @@ string sync_settings (Webserver_Request& webserver_request)
     case Sync_Logic::settings_send_platform:
     {
       // No longer in use, just discard this.
-      return string();
+      return std::string();
     }
     case Sync_Logic::settings_get_privilege_delete_consultation_notes:
     {

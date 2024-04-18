@@ -43,7 +43,7 @@ void sources_etcbc4_download ()
   database_etcbc4.create ();
   
   // The book names for downloading data.
-  vector <string> books = {
+  std::vector <std::string> books = {
     "Genesis",
     "Exodus",
     "Leviticus",

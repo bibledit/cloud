@@ -84,8 +84,8 @@ string resource_comparative9edit (Webserver_Request& webserver_request)
       new_resource.erase (pos, resource_logic_comparative_resource ().length());
     }
     new_resource.insert (0, resource_logic_comparative_resource ());
-    vector <string> titles;
-    vector <string> resources = Database_Config_General::getComparativeResources ();
+    std::vector <std::string> titles;
+    std::vector <std::string> resources = Database_Config_General::getComparativeResources ();
     for (auto resource : resources) {
       string title;
       if (resource_logic_parse_comparative_resource (resource, &title)) {
@@ -123,8 +123,8 @@ string resource_comparative9edit (Webserver_Request& webserver_request)
       page += dialog_yes.run ();
       return page;
     } if (confirm == "yes") {
-      vector <string> updated_resources;
-      vector <string> existing_resources = Database_Config_General::getComparativeResources ();
+      std::vector <std::string> updated_resources;
+      std::vector <std::string> existing_resources = Database_Config_General::getComparativeResources ();
       for (auto resource : existing_resources) {
         string title;
         resource_logic_parse_comparative_resource (resource, &title);
@@ -137,7 +137,7 @@ string resource_comparative9edit (Webserver_Request& webserver_request)
   }
 
 
-  vector <string> resources = Database_Config_General::getComparativeResources ();
+  std::vector <std::string> resources = Database_Config_General::getComparativeResources ();
   string resourceblock;
   {
     pugi::xml_document document;

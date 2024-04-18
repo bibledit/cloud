@@ -143,8 +143,8 @@ string user_notifications (Webserver_Request& webserver_request)
   view.set_variable ("postponenewnotesmails", filter::strings::get_checkbox_status (database_config_user.getPostponeNewNotesMails ()));
 
   const string user = webserver_request.session_logic ()->currentUser ();
-  const vector <string> all_assignees = database_noteassignment.assignees (user);
-  vector <string> current_assignees = database_config_user.getAutomaticNoteAssignment();
+  const std::vector <string> all_assignees = database_noteassignment.assignees (user);
+  std::vector <std::string> current_assignees = database_config_user.getAutomaticNoteAssignment();
   for (const auto& assignee : all_assignees) {
     if (checkbox == "autoassign" + assignee) {
       if (checked) {
@@ -202,10 +202,10 @@ string user_notifications (Webserver_Request& webserver_request)
   // The set of Bibles the user can choose
   // is limited to those Bibles the user has read access to.
   {
-    vector <string> bibles = access_bible::bibles (webserver_request);
+    std::vector <std::string> bibles = access_bible::bibles (webserver_request);
     for (const auto& bible : bibles) {
       if (checkbox == "changenotificationbible" + bible) {
-        vector <string> currentbibles = database_config_user.getChangeNotificationsBibles();
+        std::vector <std::string> currentbibles = database_config_user.getChangeNotificationsBibles();
         if (checked) {
           currentbibles.push_back(bible);
         } else {
@@ -214,7 +214,7 @@ string user_notifications (Webserver_Request& webserver_request)
         database_config_user.setChangeNotificationsBibles(currentbibles);
       }
     }
-    const vector <string> currentbibles = database_config_user.getChangeNotificationsBibles();
+    const std::vector <string> currentbibles = database_config_user.getChangeNotificationsBibles();
     for (const auto& bible : bibles) {
       map <string, string> values;
       values ["bible"] = bible;

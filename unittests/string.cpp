@@ -47,14 +47,14 @@ TEST (filter, string)
 
   // Test filter::strings::array_unique, a C++ equivalent for PHP's filter::strings::array_unique function.
   {
-    vector <string> reference;
+    std::vector <std::string> reference;
     reference.push_back ("aaa");
     reference.push_back ("b");
     reference.push_back ("zzz");
     reference.push_back ("x");
     reference.push_back ("yyy");
     reference.push_back ("k");
-    vector <string> input;
+    std::vector <std::string> input;
     input.push_back ("aaa");
     input.push_back ("b");
     input.push_back ("aaa");
@@ -66,7 +66,7 @@ TEST (filter, string)
     input.push_back ("yyy");
     input.push_back ("k");
     input.push_back ("k");
-    vector <string> output = filter::strings::array_unique (input);
+    std::vector <std::string> output = filter::strings::array_unique (input);
     EXPECT_EQ (reference, output);
   }
 
@@ -97,22 +97,22 @@ TEST (filter, string)
 
   // Test filter::strings::array_diff, a C++ equivalent for PHP's filter::strings::array_diff function.
   {
-    vector <string> reference;
+    std::vector <std::string> reference;
     reference.push_back ("aaa");
     reference.push_back ("zzz");
     reference.push_back ("b");
-    vector <string> from;
+    std::vector <std::string> from;
     from.push_back ("aaa");
     from.push_back ("bbb");
     from.push_back ("ccc");
     from.push_back ("zzz");
     from.push_back ("b");
     from.push_back ("x");
-    vector <string> against;
+    std::vector <std::string> against;
     against.push_back ("bbb");
     against.push_back ("ccc");
     against.push_back ("x");
-    vector <string> output = filter::strings::array_diff (from, against);
+    std::vector <std::string> output = filter::strings::array_diff (from, against);
     EXPECT_EQ (reference, output);
   }
 
@@ -212,7 +212,7 @@ TEST (filter, string)
   
   // Searching in array.
   {
-    vector <string> haystack = {"needle"};
+    std::vector <std::string> haystack = {"needle"};
     string needle = "needle";
     EXPECT_EQ (true, in_array (needle, haystack));
     needle.clear ();
@@ -329,7 +329,7 @@ TEST (filter, string)
     "Zvino uchaisa makumbo muzvindori panhivi dzeareka, kuti areka itakurwe nawo.\n"
     "Zvindori zvichava pamupendero kuti zvive nzvimbo dzemakumbo kutakura tafura.\n"
     "Zvino uchaita makumbo nematanda neMatanda nemaTANDA emuAkasia, ugoiputira negoridhe, kuti tafura itakurwe nawo.\n";
-    vector <string> words = { "makumbo", "akasia", "matanda" };
+    std::vector <std::string> words = { "makumbo", "akasia", "matanda" };
     string result = filter::strings::markup_words (words, text);
     string standard =
     "Zvino uchagadzira <mark>makumbo</mark> uye <mark>Makumbo</mark> uye <mark>maKumbo</mark> uye <mark>MAKUMBO</mark> emu<mark>akasia</mark>*, ndokuaputira negoridhe.\n"
@@ -346,7 +346,7 @@ TEST (filter, string)
     "Zvino uchaisa makumbo muzvindori panhivi dzeareka, kuti areka itakurwe nawo.\n"
     "Zvindori zvichava pamupendero kuti zvive nzvimbo dzemakumbo kutakura tafura.\n"
     "Zvino uchaita makumbo nematanda neMatanda nemaTANDA emuAkasia, ugoiputira negoridhe, kuti tafura itakurwe nawo.\n";
-    vector <string> words;
+    std::vector <std::string> words;
     string result = filter::strings::markup_words (words, text);
     EXPECT_EQ (text, result);
   }
@@ -355,7 +355,7 @@ TEST (filter, string)
   {
     string folder = filter_url_create_root_path ({"unittests", "tests"});
     string html = filter_url_file_get_contents (filter_url_create_path ({folder, "biblehub-john-1-1.html"}));
-    vector <string> tidy = filter::strings::explode (filter::strings::html_tidy (html), '\n');
+    std::vector <std::string> tidy = filter::strings::explode (filter::strings::html_tidy (html), '\n');
     EXPECT_EQ (747, static_cast<int>(tidy.size()));
   }
   
@@ -448,7 +448,7 @@ TEST (filter, string)
   }
   
   {
-    vector <string> needles;
+    std::vector <std::string> needles;
     needles = filter::strings::search_needles ("ABC", "one abc two ABc three aBc four");
     EXPECT_EQ ((vector <string>{ "abc", "ABc", "aBc" }), needles);
     needles = filter::strings::search_needles ("abc", "one abc two ABc three aBc four");
@@ -510,7 +510,7 @@ TEST (filter, string)
   
   // Test two explode functions.
   {
-    vector <string> result;
+    std::vector <std::string> result;
 
     // Explode on single delimiter.
     result = filter::strings::explode ("a b c", ' ');
@@ -535,7 +535,7 @@ TEST (filter, string)
   
   // Test the array mover function.
   {
-    vector <string> container;
+    std::vector <std::string> container;
     
     container = {};
     filter::strings::array_move_up_down (container, 0, false);

@@ -91,7 +91,7 @@ string edit_preview (Webserver_Request& webserver_request)
   int book = Ipc_Focus::getBook (webserver_request);
   int chapter = Ipc_Focus::getChapter (webserver_request);
   
-  string stylesheet = Database_Config_Bible::getEditorStylesheet (bible);
+  const std::string stylesheet = Database_Config_Bible::getEditorStylesheet (bible);
   
   string usfm = webserver_request.database_bibles()->get_chapter (bible, book, chapter);
   

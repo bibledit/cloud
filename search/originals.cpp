@@ -76,7 +76,7 @@ string search_originals (Webserver_Request& webserver_request)
     
     // Get Hebrew or Greek words.
     string searchtext;
-    vector <string> details;
+    std::vector <std::string> details;
     if (type == book_type::old_testament) {
       details = database_oshb.getVerse (static_cast<int>(book), chapter, verse);
       classs = "hebrew";
@@ -96,7 +96,7 @@ string search_originals (Webserver_Request& webserver_request)
     string words = webserver_request.query ["words"];
     
     words = filter::strings::trim (words);
-    vector <string> v_words = filter::strings::explode (words, ' ');
+    std::vector <std::string> v_words = filter::strings::explode (words, ' ');
     
     book_id book = static_cast<book_id>(Ipc_Focus::getBook (webserver_request));
     book_type type = database::books::get_type (book);

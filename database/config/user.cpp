@@ -211,7 +211,7 @@ void Database_Config_User::setListForUser (string user, const char * key, vector
 
 vector <int> Database_Config_User::getIList (const char * key)
 {
-  vector <string> lines = getList (key);
+  std::vector <std::string> lines = getList (key);
   vector <int> result;
   for (auto & line : lines) {
     result.push_back (filter::strings::convert_to_int (line));
@@ -222,7 +222,7 @@ vector <int> Database_Config_User::getIList (const char * key)
 
 void Database_Config_User::setIList (const char * key, vector <int> values)
 {
-  vector <string> lines;
+  std::vector <std::string> lines;
   for (auto & value : values) {
     lines.push_back (filter::strings::convert_to_string (value));
   }
@@ -237,7 +237,7 @@ void Database_Config_User::trim ()
   // If the Sprint is not reset, the user may enter new tasks in the wrong sprint.
   int time = filter::date::seconds_since_epoch () - (2 * 24 * 3600);
   Database_Users database_users;
-  vector <string> users = database_users.get_users ();
+  std::vector <std::string> users = database_users.get_users ();
   for (unsigned int i = 0; i < users.size(); i++) {
     string filename = file (users[i], keySprintMonth ());
     if (file_or_dir_exists (filename)) {
@@ -280,7 +280,7 @@ string Database_Config_User::getBible ()
   string bible = getValue ("bible", "");
   // If the Bible does not exist, take the first one available.
   Database_Bibles * database_bibles = m_webserver_request.database_bibles ();
-  vector <string> bibles = database_bibles->get_bibles ();
+  std::vector <std::string> bibles = database_bibles->get_bibles ();
   if (find (bibles.begin (), bibles.end (), bible) == bibles.end ()) {
     // There may not even be a first Bible: Create sample Bible.
     if (bibles.empty ()) {
@@ -824,7 +824,7 @@ void Database_Config_User::setPrintResources (vector <string> values)
 
 Passage database_config_user_fix_passage (string value, const char * fallback)
 {
-  vector <string> values = filter::strings::explode (value, '.');
+  std::vector <std::string> values = filter::strings::explode (value, '.');
   if (values.size () != 3) values = filter::strings::explode (fallback, '.');
   Passage passage = Passage ("", filter::strings::convert_to_int (values[0]), filter::strings::convert_to_int (values[1]), values[2]);
   return passage;
@@ -1493,7 +1493,7 @@ vector <string> Database_Config_User::getChangeNotificationsBiblesForUser (const
 {
   return getListForUser (user, change_notifications_bibles_key ());
 }
-void Database_Config_User::setChangeNotificationsBibles (const vector <string>& values)
+void Database_Config_User::setChangeNotificationsBibles (const std::vector <string>& values)
 {
   setList (change_notifications_bibles_key (), values);
 }

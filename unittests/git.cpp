@@ -402,7 +402,7 @@ TEST (git, basic)
     string error;
     bool success;
     string remoteurl = "file://" + remoterepository;
-    vector <string> messages;
+    std::vector <std::string> messages;
     
     // Create bare remote reository.
     filter_url_mkdir (remoterepository);
@@ -499,7 +499,7 @@ TEST (git, basic)
     // Refresh the repository, and store three chapters in it.
     test_filter_git_setup (webserver_request, bible, newbible, psalms_0_data, psalms_11_data, song_of_solomon_2_data);
 
-    vector <string> paths;
+    std::vector <std::string> paths;
     int size = 0;
 
     // There should be three modified paths.
@@ -513,7 +513,7 @@ TEST (git, basic)
 
     // Add the files to the index.
     string error;
-    vector <string> messages;
+    std::vector <std::string> messages;
     filter_git_add_remove_all (repository, error);
     EXPECT_EQ ("", error);
     
@@ -577,7 +577,7 @@ TEST (git, basic)
     refresh_sandbox (true);
     string error;
     bool success;
-    vector <string> messages;
+    std::vector <std::string> messages;
     
     // Create remote repository.
     filter_url_mkdir (remoterepository);
@@ -653,7 +653,7 @@ TEST (git, basic)
     EXPECT_EQ (true, success);
     success = filter_git_push (repository, messages);
     EXPECT_EQ (false, success);
-    vector <string> paths = { "Psalms/0/data" };
+    std::vector <std::string> paths = { "Psalms/0/data" };
     success = filter_git_resolve_conflicts (repository, paths, error);
     EXPECT_EQ (string(), error);
     EXPECT_EQ (true, success);
@@ -675,7 +675,7 @@ TEST (git, basic)
     refresh_sandbox (true);
     string error;
     bool success;
-    vector <string> messages;
+    std::vector <std::string> messages;
     
     // Create remote repository.
     filter_url_mkdir (remoterepository);
@@ -788,7 +788,7 @@ TEST (git, basic)
     
     string error;
     bool success;
-    vector <string> messages;
+    std::vector <std::string> messages;
     
     test_filter_git_setup (webserver_request, bible, newbible,
                            "Psalm 0\n", "Psalm 11\n", "Song of Solomon 2\n");
@@ -835,7 +835,7 @@ TEST (git, basic)
     
     string error;
     bool success;
-    vector <string> messages;
+    std::vector <std::string> messages;
     
     test_filter_git_setup (webserver_request, bible, newbible, "Psalm 0\n", "Psalm 11\n", "Song of Solomon 2\n");
     
@@ -941,7 +941,7 @@ TEST (database, git)
   Database_Git::store_chapter (user, bible, 2, 5, "old", "new");
   Database_Git::store_chapter (user, bible, 2, 5, "old", "new");
   Database_Git::store_chapter ("user2", bible, 2, 5, "old", "new");
-  vector <string> users = Database_Git::get_users (bible);
+  std::vector <std::string> users = Database_Git::get_users (bible);
   EXPECT_EQ ((vector<string>{user, "user2"}), users);
   
 #endif

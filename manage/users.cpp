@@ -146,8 +146,8 @@ string manage_users (Webserver_Request& webserver_request)
   if (webserver_request.query.count ("delete")) {
     string role = Filter_Roles::text (objectUserLevel);
     string email = webserver_request.database_users ()->get_email (objectUsername);
-    vector <string> users = webserver_request.database_users ()->get_users ();
-    vector <string> administrators = webserver_request.database_users ()->getAdministrators ();
+    std::vector <std::string> users = webserver_request.database_users ()->get_users ();
+    std::vector <std::string> administrators = webserver_request.database_users ()->getAdministrators ();
     if (users.size () == 1) {
       page += assets_page::error (translate("Cannot remove the last user"));
     } else if ((objectUserLevel >= Filter_Roles::admin ()) && (administrators.size () == 1)) {
@@ -208,7 +208,7 @@ string manage_users (Webserver_Request& webserver_request)
   
   
   // Fetch all available Bibles.
-  vector <string> allbibles = webserver_request.database_bibles()->get_bibles ();
+  std::vector <std::string> allbibles = webserver_request.database_bibles()->get_bibles ();
   
   
   // Add Bible to user account.
@@ -262,7 +262,7 @@ string manage_users (Webserver_Request& webserver_request)
   if (webserver_request.query.count ("login")) {
     webserver_request.session_logic ()->switch_user (objectUsername);
     redirect_browser (webserver_request, session_switch_url ());
-    return string();
+    return std::string();
   }
   
   
@@ -270,7 +270,7 @@ string manage_users (Webserver_Request& webserver_request)
   stringstream tbody;
   bool ldap_on = ldap_logic_is_on ();
   // Retrieve assigned users.
-  vector <string> users = access_user::assignees (webserver_request);
+  std::vector <std::string> users = access_user::assignees (webserver_request);
   for (const auto& username : users) {
     
     // Gather details for this user account.

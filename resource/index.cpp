@@ -63,14 +63,14 @@ string resource_index (Webserver_Request& webserver_request)
   Assets_View view;
   
   
-  vector <string> resources = webserver_request.database_config_user()->getActiveResources ();
+  std::vector <std::string> resources = webserver_request.database_config_user()->getActiveResources ();
 
 
   // If no resources are displayed, set a default selection of them.
   // If a default selection hasn't been set by an administrator, use the
   // default set from demo.
   if (resources.empty ()) {
-    vector <string> default_resources = Database_Config_General::getDefaultActiveResources ();
+    std::vector <std::string> default_resources = Database_Config_General::getDefaultActiveResources ();
     if (default_resources.empty ()) resources = demo_logic_default_resources ();
     else resources = default_resources;
     webserver_request.database_config_user()->setActiveResources (resources);

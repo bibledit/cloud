@@ -69,7 +69,7 @@ string checks_settings (Webserver_Request& webserver_request)
     string bible = webserver_request.query["bible"];
     if (bible.empty()) {
       Dialog_List dialog_list = Dialog_List ("settings", translate("Select which Bible to manage"), string(), string());
-      vector <string> bibles = access_bible::bibles (webserver_request);
+      std::vector <std::string> bibles = access_bible::bibles (webserver_request);
       for (const auto & selectable_bible : bibles) {
         dialog_list.add_row (selectable_bible, "bible", selectable_bible);
       }

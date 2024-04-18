@@ -47,7 +47,7 @@ string lexicon_definition (Webserver_Request& webserver_request)
   // Retrieve the id: It may contain a Strong's number or a lemma.
   string id = webserver_request.query["id"];
   
-  vector <string> renderings;
+  std::vector <std::string> renderings;
   
   if (!id.empty ()) {
     
@@ -75,8 +75,8 @@ string lexicon_definition (Webserver_Request& webserver_request)
       string morph = database_oshb.morph (rowid);
       renderings.push_back (lexicon_logic_hebrew_morphology_render (morph));
       string lemma = database_oshb.lemma (rowid);
-      vector <string> strongs;
-      vector <string> bdbs;
+      std::vector <std::string> strongs;
+      std::vector <std::string> bdbs;
       lexicon_logic_convert_morphhb_parsing_to_strong (lemma, strongs, bdbs);
       for (size_t i = 0; i < strongs.size (); i++) {
         string rendering1 = lexicon_logic_render_strongs_definition (strongs[i]);
@@ -102,7 +102,7 @@ string lexicon_definition (Webserver_Request& webserver_request)
       renderings.push_back (rendering);
       // The lemma.
       string lemma = database_morphgnt.lemma (rowid);
-      vector <string> strongs = database_strong.strong (lemma);
+      std::vector <std::string> strongs = database_strong.strong (lemma);
       for (auto & lexicon_id : strongs) {
         rendering = lexicon_logic_render_strongs_definition (lexicon_id);
         if (!rendering.empty ()) renderings.push_back (rendering);

@@ -205,9 +205,9 @@ TEST (styles, css)
   {
     refresh_sandbox (true);
     Database_Styles database_styles;
-    vector <string> standard {};
+    std::vector <std::string> standard {};
     
-    vector <string> sheets = database_styles.getSheets ();
+    std::vector <std::string> sheets = database_styles.getSheets ();
     standard = { styles_logic_standard_sheet () };
     EXPECT_EQ (standard, sheets);
     
@@ -233,7 +233,7 @@ TEST (styles, css)
     Database_Styles database_styles {};
     database_styles.createSheet ("testsheet");
     
-    vector <string> markers {};
+    std::vector <std::string> markers {};
     
     markers = database_styles.getMarkers (styles_logic_standard_sheet ());
     EXPECT_EQ (205, static_cast<int>(markers.size ()));
@@ -331,7 +331,7 @@ TEST (styles, css)
     database_styles.createSheet ("testsheet");
     
     // Get markers.
-    vector <string> markers = database_styles.getMarkers ("testsheet");
+    std::vector <std::string> markers = database_styles.getMarkers ("testsheet");
     string marker {"zhq"};
     if (find (markers.begin (), markers.end (), marker) != markers.end ()) EXPECT_EQ (marker, "should not be there");
     
@@ -346,7 +346,7 @@ TEST (styles, css)
     refresh_sandbox (true);
     Database_Styles database_styles {};
     database_styles.create ();
-    vector <string> markers = database_styles.getMarkers ("");
+    std::vector <std::string> markers = database_styles.getMarkers ("");
     string marker {"zhq"};
     if (find (markers.begin (), markers.end (), marker) != markers.end ()) EXPECT_EQ (marker, "should not be there");
   }

@@ -76,7 +76,7 @@ string Filter_Css::writingModeUnspecified (int value)
   value = value / 10;
   value = value % 10;
   if (value == 0) return "checked";
-  else return string();
+  else return std::string();
 }
 
 
@@ -85,7 +85,7 @@ string Filter_Css::writingModeTopBottomLeftRight (int value)
   value = value / 10;
   value = value % 10;
   if (value == 1) return "checked";
-  else return string();
+  else return std::string();
 }
 
 
@@ -94,7 +94,7 @@ string Filter_Css::writingModeTopBottomRightLeft (int value)
   value = value / 10;
   value = value % 10;
   if (value == 2) return "checked";
-  else return string();
+  else return std::string();
 }
 
 
@@ -103,7 +103,7 @@ string Filter_Css::writingModeBottomTopLeftRight (int value)
   value = value / 10;
   value = value % 10;
   if (value == 3) return "checked";
-  else return string();
+  else return std::string();
 }
 
 
@@ -172,7 +172,7 @@ string Filter_Css::getClass (string bible)
 // $letterspacing: Value multiplied by 10, in pixels.
 string Filter_Css::get_css (string class_, string font, int directionvalue, int lineheight, int letterspacing)
 {
-  vector <string> css;
+  std::vector <std::string> css;
   
   // If the font has a URL, then it is a web font.
   if ((font != filter_url_basename_web (font)) && !font.empty()) {

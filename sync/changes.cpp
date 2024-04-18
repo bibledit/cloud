@@ -103,7 +103,7 @@ string sync_changes (Webserver_Request& webserver_request)
     case Sync_Logic::changes_get_modification:
     {
       // The server responds with the relevant data of the requested modification.
-      vector <string> lines;
+      std::vector <std::string> lines;
       // category
       lines.push_back (database_modifications.getNotificationCategory (id));
       // bible

@@ -69,7 +69,7 @@ string resource_print (Webserver_Request& webserver_request)
   if (webserver_request.query.count ("add") || webserver_request.post.count ("add")) {
     string add = webserver_request.query["add"];
     if (add.empty ()) add = webserver_request.post ["add"];
-    vector <string> resources = webserver_request.database_config_user()->getPrintResources ();
+    std::vector <std::string> resources = webserver_request.database_config_user()->getPrintResources ();
     resources.push_back (add);
     webserver_request.database_config_user()->setPrintResources (resources);
   }
@@ -87,7 +87,7 @@ string resource_print (Webserver_Request& webserver_request)
   
   if (webserver_request.query.count ("remove")) {
     size_t offset = static_cast<size_t>(abs (filter::strings::convert_to_int (webserver_request.query["remove"])));
-    vector <string> resources = webserver_request.database_config_user()->getPrintResources ();
+    std::vector <std::string> resources = webserver_request.database_config_user()->getPrintResources ();
     if (!resources.empty () && (offset < resources.size ())) {
       string remove = resources [offset];
       resources = filter::strings::array_diff (resources, {remove});
@@ -100,7 +100,7 @@ string resource_print (Webserver_Request& webserver_request)
   string movedown = webserver_request.query ["movedown"];
   if (!moveup.empty () || !movedown.empty ()) {
     size_t move = static_cast<size_t> (filter::strings::convert_to_int (moveup + movedown));
-    vector <string> resources = webserver_request.database_config_user()->getPrintResources ();
+    std::vector <std::string> resources = webserver_request.database_config_user()->getPrintResources ();
     filter::strings::array_move_up_down (resources, move, !moveup.empty ());
     webserver_request.database_config_user()->setPrintResources (resources);
   }
@@ -292,7 +292,7 @@ string resource_print (Webserver_Request& webserver_request)
   }
   
   
-  vector <string> resources = webserver_request.database_config_user()->getPrintResources ();
+  std::vector <std::string> resources = webserver_request.database_config_user()->getPrintResources ();
   for (size_t i = 0; i < resources.size (); i++) {
     string offset = filter::strings::convert_to_string (i);
     string name = resources[i];
@@ -330,7 +330,7 @@ void resource_print_job (string jobId, string user, string bible)
   database_jobs.set_progress (filter::strings::convert_to_int (jobId), translate("The document is being created..."));
   
   
-  vector <string> resources = webserver_request.database_config_user()->getPrintResourcesForUser (user);
+  std::vector <std::string> resources = webserver_request.database_config_user()->getPrintResourcesForUser (user);
   
   
   Passage from = webserver_request.database_config_user()->getPrintPassageFromForUser (user);
@@ -341,7 +341,7 @@ void resource_print_job (string jobId, string user, string bible)
   int ito = filter_passage_to_integer (to);
   
   
-  vector <string> result;
+  std::vector <std::string> result;
   
   
   vector <int> books = webserver_request.database_bibles()->get_books (bible);

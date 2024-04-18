@@ -208,7 +208,7 @@ void Notes_Logic::setStatus (int identifier, const std::string& status)
 
 
 // Set the passages for note identifier.
-void Notes_Logic::setPassages (int identifier, const vector <Passage> & passages)
+void Notes_Logic::setPassages (int identifier, const std::vector <Passage> & passages)
 {
   Database_Notes database_notes (m_webserver_request);
   database_notes.set_passages (identifier, passages);
@@ -331,7 +331,7 @@ void Notes_Logic::handlerAssignNote (int identifier, const std::string& user)
   if (database_config_user.getUserAssignedConsultationNoteNotification (user)) {
     // Only email the user if the user was not yet assigned this note.
     Database_Notes database_notes (m_webserver_request);
-    vector <string> assignees = database_notes.get_assignees (identifier);
+    std::vector <std::string> assignees = database_notes.get_assignees (identifier);
     if (find (assignees.begin(), assignees.end(), user) == assignees.end()) {
       emailUsers (identifier, translate("Assigned"), "", {user}, false);
     }
@@ -375,7 +375,7 @@ void Notes_Logic::notifyUsers (int identifier, int notification)
     }
 
     // Users to get subscribed to the note, or to whom the note is to be assigned.
-    vector <string> users = m_webserver_request.database_users ()->get_users ();
+    std::vector <std::string> users = m_webserver_request.database_users ()->get_users ();
     for (const std::string& user : users) {
       if (access_bible::read (m_webserver_request, bible, user)) {
         if (m_webserver_request.database_config_user ()->getNotifyUserOfAnyConsultationNotesEdits (user)) {
@@ -386,17 +386,17 @@ void Notes_Logic::notifyUsers (int identifier, int notification)
         }
       }
     }
-    vector <string> auto_assignees = m_webserver_request.database_config_user ()->getAutomaticNoteAssignment ();
+    std::vector <std::string> auto_assignees = m_webserver_request.database_config_user ()->getAutomaticNoteAssignment ();
     for (auto assignee : auto_assignees) {
       database_notes.assign_user (identifier, assignee);
     }
   }
 
   // The recipients who receive a notification by email.
-  vector <string> recipients;
+  std::vector <std::string> recipients;
 
   // Subscribers who receive email.
-  vector <string> subscribers = database_notes.get_subscribers (identifier);
+  std::vector <std::string> subscribers = database_notes.get_subscribers (identifier);
   for (const std::string& subscriber : subscribers) {
     if (m_webserver_request.database_config_user ()->getUserSubscribedConsultationNoteNotification (subscriber)) {
       recipients.push_back (subscriber);
@@ -404,7 +404,7 @@ void Notes_Logic::notifyUsers (int identifier, int notification)
   }
 
   // Assignees who receive email.
-  vector <string> assignees = database_notes.get_assignees (identifier);
+  std::vector <std::string> assignees = database_notes.get_assignees (identifier);
   for (const std::string& assignee : assignees) {
     if (m_webserver_request.database_config_user ()->getUserAssignedConsultationNoteNotification (assignee)) {
       recipients.push_back (assignee);
@@ -415,7 +415,7 @@ void Notes_Logic::notifyUsers (int identifier, int notification)
   // notify only the users with this specific notification set.
   if ((notification == notifyNoteDelete) || (notification == notifyMarkNoteForDeletion)) {
     recipients.clear ();
-    vector <string> users = m_webserver_request.database_users ()->get_users ();
+    std::vector <std::string> users = m_webserver_request.database_users ()->get_users ();
     for (const auto & user : users) {
       if (m_webserver_request.database_config_user ()->getUserDeletedConsultationNoteNotification (user)) {
         if (access_bible::read (m_webserver_request, bible, user)) {
@@ -464,7 +464,7 @@ void Notes_Logic::notifyUsers (int identifier, int notification)
 // bible: If given, to include in the subject line of the email.
 // users: array of users to be mailed.
 // postpone: whether to postpone sending the email till the evening.
-void Notes_Logic::emailUsers (int identifier, const std::string& label, string bible, const vector <string> & users, bool postpone)
+void Notes_Logic::emailUsers (int identifier, const std::string& label, string bible, const std::vector <string> & users, bool postpone)
 {
   // Databases.
   Database_Notes database_notes (m_webserver_request);
@@ -615,7 +615,7 @@ bool Notes_Logic::handleEmailNew (string from, string subject, string body)
   int chapter {-1};
   int verse {-1};
   string summary {};
-  vector <string> subjectlines = filter::strings::explode (subject, ' ');
+  std::vector <std::string> subjectlines = filter::strings::explode (subject, ' ');
   if (!subjectlines.empty()) {
     book = filter_passage_interpret_book_v2 (subjectlines[0]);
     subjectlines.erase (subjectlines.begin());
@@ -686,7 +686,7 @@ void notes_logic_maintain_note_assignees (bool force)
   Webserver_Request webserver_request;
   
   Database_Users database_users;
-  vector <string> users = database_users.get_users ();
+  std::vector <std::string> users = database_users.get_users ();
 
   // If even one user's assignees are absent, force rebuilding them for all users.
   for (auto & user : users) {
@@ -695,13 +695,13 @@ void notes_logic_maintain_note_assignees (bool force)
   if (!force) return;
 
   Database_Bibles database_bibles;
-  vector <string> bibles = database_bibles.get_bibles ();
+  std::vector <std::string> bibles = database_bibles.get_bibles ();
   
   // A user can assign notes to other users
   // who have access to the Bibles the user has access to.
   for (auto & user : users) {
 
-    vector <string> assignees;
+    std::vector <std::string> assignees;
     
     for (auto & bible : bibles) {
       

@@ -198,7 +198,7 @@ bool Database_Login::getTouchEnabled (string cookie)
   sql.add ("SELECT touch FROM logins WHERE cookie =");
   sql.add (cookie);
   sql.add (";");
-  vector <string> result = sql.query () ["touch"];
+  std::vector <std::string> result = sql.query () ["touch"];
   if (!result.empty()) return filter::strings::convert_to_bool (result [0]);
   return false;
 }

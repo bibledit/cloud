@@ -65,7 +65,7 @@ string resource_user9edit (Webserver_Request& webserver_request)
   }
   if (webserver_request.post.count ("new")) {
     string resource = webserver_request.post ["entry"];
-    vector <string> resources = Database_UserResources::names ();
+    std::vector <std::string> resources = Database_UserResources::names ();
     if (in_array (resource, resources)) {
       error = translate("This user-defined resource already exists");
     } else if (resource.empty ()) {
@@ -93,8 +93,8 @@ string resource_user9edit (Webserver_Request& webserver_request)
   }
 
 
-  vector <string> resources = Database_UserResources::names ();
-  vector <string> resourceblock;
+  std::vector <std::string> resources = Database_UserResources::names ();
+  std::vector <std::string> resourceblock;
   for (auto & resource : resources) {
     resourceblock.push_back ("<p>");
     resourceblock.push_back ("<a href=\"user1edit?name=" + resource + "\">");

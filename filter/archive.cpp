@@ -49,7 +49,7 @@ string filter_archive_zip_folder (string folder)
 // Returns the path to the compressed archive it created.
 string filter_archive_zip_folder_shell_internal (string folder)
 {
-  if (!file_or_dir_exists (folder)) return string();
+  if (!file_or_dir_exists (folder)) return std::string();
   string zippedfile = filter_url_tempfile () + ".zip";
 #ifdef HAVE_CLOUD
   string logfile = filter_url_tempfile () + ".log";
@@ -77,7 +77,7 @@ string filter_archive_zip_folder_miniz_internal (string folder)
     return "";
   }
   string zippedfile = filter_url_tempfile () + ".zip";
-  vector <string> paths;
+  std::vector <std::string> paths;
   filter_url_recursive_scandir (folder, paths);
   for (auto path : paths) {
     bool is_dir = filter_url_is_dir (path);
@@ -409,7 +409,7 @@ string filter_archive_microtar_unpack (string tarball, string directory)
   if (res != MTAR_ESUCCESS) return mtar_strerror (res);
   
   // Read all file names.
-  vector <string> files;
+  std::vector <std::string> files;
   while ((mtar_read_header(&tar, &h)) != MTAR_ENULLRECORD) {
     files.push_back (h.name);
     mtar_next(&tar);

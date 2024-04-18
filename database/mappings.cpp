@@ -83,7 +83,7 @@ void Database_Mappings::create2 ()
 void Database_Mappings::defaults ()
 {
   string folder = filter_url_create_root_path ({"mapping"});
-  vector <string> files = filter_url_scandir (folder);
+  std::vector <std::string> files = filter_url_scandir (folder);
   for (auto & file : files) {
     string name (file);
     string extension = filter_url_get_extension (name);
@@ -115,7 +115,7 @@ void Database_Mappings::import (const std::string& name, const std::string& data
   // Begin a transaction for better speed.
   database_sqlite_exec (db, "BEGIN;");
 
-  vector <string> lines = filter::strings::explode (data, '\n');
+  std::vector <std::string> lines = filter::strings::explode (data, '\n');
   for (string line : lines) {
     
     // Each line looks like this: 
@@ -126,14 +126,14 @@ void Database_Mappings::import (const std::string& name, const std::string& data
     if (line.empty ()) continue;
 
     // Cut the line into two: The two passages.
-    vector <string> entry = filter::strings::explode (line, '=');
+    std::vector <std::string> entry = filter::strings::explode (line, '=');
     if (entry.size() != 2) continue;
     
     string passage_string = filter::strings::trim (entry [0]);
     string original_string = filter::strings::trim (entry [1]);
 
     // Storage for further interpretation.
-    vector <string> bits;
+    std::vector <std::string> bits;
     
     // Split the passage entry on the colon (:) to get the verse.
     bits = filter::strings::explode(passage_string, ':');
@@ -191,7 +191,7 @@ void Database_Mappings::import (const std::string& name, const std::string& data
 // Exports a mapping.
 string Database_Mappings::output (const std::string& name)
 {
-  vector <string> data;
+  std::vector <std::string> data;
   SqliteSQL sql = SqliteSQL ();
   sql.add ("SELECT * FROM maps WHERE name =");
   sql.add (name);
@@ -199,12 +199,12 @@ string Database_Mappings::output (const std::string& name)
   sqlite3 * db = connect ();
   map <string, vector <string> > result = database_sqlite_query (db, sql.sql);
   database_sqlite_disconnect (db);
-  vector <string> books = result ["book"];
-  vector <string> chapters = result ["chapter"];
-  vector <string> verses = result ["verse"];
-  vector <string> origbooks = result ["origbook"];
-  vector <string> origchapters = result ["origchapter"];
-  vector <string> origverses = result ["origverse"];
+  std::vector <std::string> books = result ["book"];
+  std::vector <std::string> chapters = result ["chapter"];
+  std::vector <std::string> verses = result ["verse"];
+  std::vector <std::string> origbooks = result ["origbook"];
+  std::vector <std::string> origchapters = result ["origchapter"];
+  std::vector <std::string> origverses = result ["origverse"];
 
   for (unsigned int i = 0; i < books.size (); i++) {
     int book = filter::strings::convert_to_int (books [i]);
@@ -252,7 +252,7 @@ vector <string> Database_Mappings::names ()
 {
   // Get the names from the database.
   sqlite3 * db = connect ();
-  vector <string> names = database_sqlite_query (db, "SELECT DISTINCT name FROM maps;")["name"];
+  std::vector <std::string> names = database_sqlite_query (db, "SELECT DISTINCT name FROM maps;")["name"];
   database_sqlite_disconnect (db);
   // Ensure the original mapping is there too.
   if (find (names.begin (), names.end (), original ()) == names.end()) {
@@ -303,9 +303,9 @@ vector <Passage> Database_Mappings::translate (const std::string& input, const s
     sqlite3 * db = connect ();
     map <string, vector <string> > result = database_sqlite_query (db, sql.sql);
     database_sqlite_disconnect (db);
-    vector <string> origbooks = result ["origbook"];
-    vector <string> origchapters = result ["origchapter"];
-    vector <string> origverses = result ["origverse"];
+    std::vector <std::string> origbooks = result ["origbook"];
+    std::vector <std::string> origchapters = result ["origchapter"];
+    std::vector <std::string> origverses = result ["origverse"];
     for (unsigned int i = 0; i < origbooks.size (); i++) {
       Passage passage = Passage ("", filter::strings::convert_to_int (origbooks [i]), filter::strings::convert_to_int (origchapters [i]), origverses [i]);
       origpassage.push_back (passage);
@@ -344,9 +344,9 @@ vector <Passage> Database_Mappings::translate (const std::string& input, const s
     sqlite3 * db = connect ();
     map <string, vector <string> > result = database_sqlite_query (db, sql.sql);
     database_sqlite_disconnect (db);
-    vector <string> books = result ["book"];
-    vector <string> chapters = result ["chapter"];
-    vector <string> verses = result ["verse"];
+    std::vector <std::string> books = result ["book"];
+    std::vector <std::string> chapters = result ["chapter"];
+    std::vector <std::string> verses = result ["verse"];
     for (unsigned int i = 0; i < books.size (); i++) {
       Passage passage2 = Passage (string(), filter::strings::convert_to_int (books [i]), filter::strings::convert_to_int (chapters [i]), verses [i]);
       bool passageExists = false;

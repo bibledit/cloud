@@ -65,7 +65,7 @@ string editone2_update (Webserver_Request& webserver_request)
   
   
   // The message(s) to return.
-  vector <string> messages;
+  std::vector <std::string> messages;
 
   
   // Check the relevant bits of information.
@@ -281,8 +281,8 @@ string editone2_update (Webserver_Request& webserver_request)
     }
     vector <int> positions;
     vector <int> sizes;
-    vector <string> operators;
-    vector <string> content;
+    std::vector <std::string> operators;
+    std::vector <std::string> content;
     bible_logic::html_to_editor_updates (editor_html, server_html, positions, sizes, operators, content);
     // Encode the condensed differences for the response to the Javascript editor.
     for (size_t i = 0; i < positions.size(); i++) {

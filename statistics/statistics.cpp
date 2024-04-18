@@ -47,10 +47,10 @@ void statistics_statistics ()
   string siteUrl = config::logic::site_url (webserver_request);
   
   
-  vector <string> bibles = webserver_request.database_bibles()->get_bibles ();
+  std::vector <std::string> bibles = webserver_request.database_bibles()->get_bibles ();
   
   
-  vector <string> users = webserver_request.database_users ()->get_users ();
+  std::vector <std::string> users = webserver_request.database_users ()->get_users ();
   for (auto & user : users) {
     
     

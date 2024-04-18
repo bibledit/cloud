@@ -180,7 +180,7 @@ string get_onlinebible_from_id (book_id id)
       return books_table[i].onlinebible;
     }
   }
-  return string();
+  return std::string();
 }
 
 
@@ -209,15 +209,15 @@ book_type get_type (book_id id)
 std::string book_type_to_string (book_type type)
 {
   switch (type) {
-    case book_type::unknown: return string();
+    case book_type::unknown: return std::string();
     case book_type::old_testament: return "ot";
     case book_type::new_testament: return "nt";
     case book_type::front_back: return "frontback";
     case book_type::other: return "other";
     case book_type::apocryphal: return "ap";
-    default: return string();
+    default: return std::string();
   }
-  return string();
+  return std::string();
 }
 
 

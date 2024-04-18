@@ -188,7 +188,7 @@ bool database_sqlite_healthy (string database)
     sqlite3 * db = database_sqlite_connect (database);
     string query = "PRAGMA integrity_check;";
     map <string, vector <string> > result = database_sqlite_query (db, query);
-    vector <string> health = result ["integrity_check"];
+    std::vector <std::string> health = result ["integrity_check"];
     if (health.size () == 1) {
       if (health [0] == "ok") ok = true;
     }

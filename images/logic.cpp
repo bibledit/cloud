@@ -35,7 +35,7 @@ void images_logic_import_images (string path)
   Database_Logs::log ("Importing: " + filter_url_basename (path));
 
   // To begin with, add the path of the zip file to the main file to the list of paths to be processed.
-  vector <string> paths = {path};
+  std::vector <std::string> paths = {path};
 
   while (!paths.empty ()) {
 

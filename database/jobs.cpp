@@ -84,7 +84,7 @@ bool Database_Jobs::id_exists (int id)
   sql.add (id);
   sql.add (";");
   sqlite3 * db = connect ();
-  vector <string> result = database_sqlite_query (db, sql.sql) ["id"];
+  std::vector <std::string> result = database_sqlite_query (db, sql.sql) ["id"];
   database_sqlite_disconnect (db);
   return !result.empty ();
 }
@@ -135,7 +135,7 @@ int Database_Jobs::get_level (int id)
   sql.add (id);
   sql.add (";");
   sqlite3 * db = connect ();
-  vector <string> levels = database_sqlite_query (db, sql.sql) ["level"];
+  std::vector <std::string> levels = database_sqlite_query (db, sql.sql) ["level"];
   database_sqlite_disconnect (db);
   if (!levels.empty()) {
     return filter::strings::convert_to_int (levels[0]);
@@ -165,7 +165,7 @@ string Database_Jobs::get_start (int id)
   sql.add (id);
   sql.add (";");
   sqlite3 * db = connect ();
-  vector <string> result = database_sqlite_query (db, sql.sql) ["start"];
+  std::vector <std::string> result = database_sqlite_query (db, sql.sql) ["start"];
   database_sqlite_disconnect (db);
   if (!result.empty()) {
     auto start = result[0];
@@ -196,7 +196,7 @@ string Database_Jobs::get_percentage (int id)
   sql.add (id);
   sql.add (";");
   sqlite3 * db = connect ();
-  vector <string> percentages = database_sqlite_query (db, sql.sql) ["percentage"];
+  std::vector <std::string> percentages = database_sqlite_query (db, sql.sql) ["percentage"];
   database_sqlite_disconnect (db);
   if (!percentages.empty()) {
     return percentages[0];
@@ -226,7 +226,7 @@ string Database_Jobs::get_progress (int id)
   sql.add (id);
   sql.add (";");
   sqlite3 * db = connect ();
-  vector <string> progress = database_sqlite_query (db, sql.sql) ["progress"];
+  std::vector <std::string> progress = database_sqlite_query (db, sql.sql) ["progress"];
   database_sqlite_disconnect (db);
   if (!progress.empty()) {
     return progress[0];
@@ -256,12 +256,12 @@ string Database_Jobs::get_result (int id)
   sql.add (id);
   sql.add (";");
   sqlite3 * db = connect ();
-  vector <string> result = database_sqlite_query (db, sql.sql) ["result"];
+  std::vector <std::string> result = database_sqlite_query (db, sql.sql) ["result"];
   database_sqlite_disconnect (db);
   if (!result.empty()) {
     return result[0];
   }
-  return string();
+  return std::string();
 }
 
 

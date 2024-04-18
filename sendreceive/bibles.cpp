@@ -102,7 +102,7 @@ void sendreceive_bibles ()
   
   
   // Set the correct user in the session: The sole user on the Client.
-  vector <string> users = webserver_request.database_users ()->get_users ();
+  std::vector <std::string> users = webserver_request.database_users ()->get_users ();
   if (users.empty ()) {
     Database_Logs::log (translate("No user found"), Filter_Roles::translator ());
     send_receive_bibles_done ();
@@ -137,7 +137,7 @@ void sendreceive_bibles ()
   
   // Go through the Bibles / books / chapters that have actions recorded for them.
   Database_BibleActions database_bibleactions;
-  vector <string> bibles = database_bibleactions.getBibles ();
+  std::vector <std::string> bibles = database_bibleactions.getBibles ();
   for (string bible : bibles) {
     vector <int> books = database_bibleactions.getBooks (bible);
     for (int book : books) {
@@ -269,7 +269,7 @@ void sendreceive_bibles ()
   // The client stores this list for later use.
   post ["a"] = filter::strings::convert_to_string (Sync_Logic::bibles_get_bibles);
   string server_bibles = sync_logic.post (post, url, error);
-  vector <string> v_server_bibles = filter::strings::explode (server_bibles, '\n');
+  std::vector <std::string> v_server_bibles = filter::strings::explode (server_bibles, '\n');
   if (!error.empty () || v_server_bibles.empty ()) {
     Database_Logs::log (sendreceive_bibles_text () + translate("Failure getting list of Bibles"), Filter_Roles::translator ());
     send_receive_bibles_done ();
@@ -354,7 +354,7 @@ void sendreceive_bibles ()
     }
     // Do checksumming on the book list to be sure the data is valid.
     // Invalid data may cause books to be added or deleted on the client.
-    vector <string> v_server_books = filter::strings::explode (server_books, '\n');
+    std::vector <std::string> v_server_books = filter::strings::explode (server_books, '\n');
     server_checksum_bible = v_server_books [0];
     v_server_books.erase (v_server_books.begin());
     string message_checksum_bible = checksum_logic::get (v_server_books);
@@ -422,7 +422,7 @@ void sendreceive_bibles ()
         communication_errors = true;
         continue;
       }
-      vector <string> v_server_chapters = filter::strings::explode (server_chapters, '\n');
+      std::vector <std::string> v_server_chapters = filter::strings::explode (server_chapters, '\n');
       // Do checksumming on the data to be sure the data is valid.
       // Invalid data may cause chapters to be added or deleted on the client.
       server_checksum_book = v_server_chapters [0];
@@ -500,7 +500,7 @@ void sendreceive_bibles ()
 
         
         // Verify the checksum of the chapter on the server, to be sure there's no corruption during transmission.
-        vector <string> v_server_usfm = filter::strings::explode (server_usfm, '\n');
+        std::vector <std::string> v_server_usfm = filter::strings::explode (server_usfm, '\n');
         string checksum = v_server_usfm [0];
         v_server_usfm.erase (v_server_usfm.begin());
         server_usfm = filter::strings::implode (v_server_usfm, "\n");

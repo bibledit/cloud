@@ -69,7 +69,7 @@ string versification_system (Webserver_Request& webserver_request)
     }
   }
 
-  vector <string> data;
+  std::vector <std::string> data;
   vector <Passage> passages = database_versifications.getBooksChaptersVerses (name);
   for (auto & passage : passages) {
     int book = passage.m_book;

@@ -205,8 +205,8 @@ TEST (database, mappings)
     database_mappings.defaults ();
     database_mappings.create2 ();
     database_mappings.optimize ();
-    vector <string> names = database_mappings.names ();
-    vector <string> standard_names{"Dutch Traditional", filter::strings::english (), "French Louise Segond", "Hebrew Greek", "Russian Canonical", "Russian Orthodox", "Russian Protestant", "Spanish", "Vulgate"};
+    std::vector <std::string> names = database_mappings.names ();
+    std::vector <std::string> standard_names{"Dutch Traditional", filter::strings::english (), "French Louise Segond", "Hebrew Greek", "Russian Canonical", "Russian Orthodox", "Russian Protestant", "Spanish", "Vulgate"};
     EXPECT_EQ (standard_names, names);
   }
 
@@ -220,8 +220,8 @@ TEST (database, mappings)
     "Nehemiah 4:1 = Nehemiah 3:33\n"
     "Song of Solomon 7:2 = Song of Solomon 7:3\n";
     database_mappings.import ("phpunit", import);
-    vector <string> names = database_mappings.names ();
-    vector <string> standard_names{"Hebrew Greek", "phpunit"};
+    std::vector <std::string> names = database_mappings.names ();
+    std::vector <std::string> standard_names{"Hebrew Greek", "phpunit"};
     EXPECT_EQ (standard_names, names);
     string output = database_mappings.output ("phpunit");
     EXPECT_EQ (filter::strings::trim (import), filter::strings::trim (output));
@@ -233,8 +233,8 @@ TEST (database, mappings)
     Database_Mappings database_mappings;
     database_mappings.create1 ();
     database_mappings.create ("phpunit");
-    const vector <string> names = database_mappings.names ();
-    const vector <string> standard_names {"Hebrew Greek", "phpunit"};
+    const std::vector <string> names = database_mappings.names ();
+    const std::vector <string> standard_names {"Hebrew Greek", "phpunit"};
     EXPECT_EQ (standard_names, names);
   }
   
@@ -410,7 +410,7 @@ TEST (database, versifications)
     EXPECT_EQ (1000, id);
     id = database_versifications.getID ("phpunit");
     EXPECT_EQ (1000, id);
-    vector <string> systems = database_versifications.getSystems ();
+    std::vector <std::string> systems = database_versifications.getSystems ();
     EXPECT_EQ (vector <string>{"phpunit"}, systems);
     database_versifications.erase ("phpunit");
     systems = database_versifications.getSystems ();

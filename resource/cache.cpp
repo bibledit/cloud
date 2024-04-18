@@ -68,7 +68,7 @@ string resource_cache (Webserver_Request& webserver_request)
   if (webserver_request.query.count ("clear")) {
     sendreceive_resources_clear_all ();
   }
-  vector <string> resources = Database_Config_General::getResourcesToCache ();
+  std::vector <std::string> resources = Database_Config_General::getResourcesToCache ();
   if (!resources.empty ()) {
     view.enable_zone ("scheduled");
     view.set_variable ("scheduled", filter::strings::implode (resources, " | "));
@@ -93,14 +93,14 @@ string resource_cache (Webserver_Request& webserver_request)
   string old_type = "old";
   
 
-  vector <string> active_resources;
+  std::vector <std::string> active_resources;
   resources = webserver_request.database_config_user()->getActiveResources ();
   for (auto & resource2 : resources) {
     active_resources.push_back (resource2);
   }
 
   
-  vector <string> all_resources;
+  std::vector <std::string> all_resources;
   // USFM resources.
   resources = client_logic_usfm_resources_get ();
   for (auto & resource2 : resources) {
@@ -146,7 +146,7 @@ string resource_cache (Webserver_Request& webserver_request)
   
   // Generate the resources to be listed.
   string horizontal_line = "-----";
-  vector <string> listed_resources = active_resources;
+  std::vector <std::string> listed_resources = active_resources;
   listed_resources.push_back (horizontal_line);
   for (auto & resource2 : all_resources) {
     if (!in_array (resource2, listed_resources)) listed_resources.push_back (resource2);
@@ -154,7 +154,7 @@ string resource_cache (Webserver_Request& webserver_request)
   
   
   // Generate html block with the resources.
-  vector <string> bibles = webserver_request.database_bibles()->get_bibles ();
+  std::vector <std::string> bibles = webserver_request.database_bibles()->get_bibles ();
   string block;
   for (auto & resource2 : listed_resources) {
     // Skip internal Bibles and dividers.

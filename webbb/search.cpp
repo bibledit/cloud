@@ -65,7 +65,7 @@ string webbible_search (Webserver_Request& webserver_request)
   
   
   // Generate search words for emphasizing the search hits.
-  vector <string> queryWords = filter::strings::explode (queryString, ' ');
+  std::vector <std::string> queryWords = filter::strings::explode (queryString, ' ');
   
   
   // Exported Bible.
@@ -110,7 +110,7 @@ string webbible_search (Webserver_Request& webserver_request)
     
     // The excerpt.
     string text = search_logic_get_bible_verse_text (bible, book, chapter, filter::strings::convert_to_int (verse));
-    vector <string> v_text = filter::strings::explode (text, '\n');
+    std::vector <std::string> v_text = filter::strings::explode (text, '\n');
     // Go through each line of text separately.
     for (auto line : v_text) {
       string markedLine = filter::strings::markup_words (queryWords, line);

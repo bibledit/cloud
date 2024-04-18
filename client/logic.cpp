@@ -71,8 +71,8 @@ string client_logic_connection_setup (string user, string hash)
   Database_Users database_users {};
   
   if (user.empty ()) {
-    vector <string> users = database_users.get_users ();
-    if (users.empty()) return string();
+    std::vector <std::string> users = database_users.get_users ();
+    if (users.empty()) return std::string();
     user = users [0];
     hash = database_users.get_md5 (user);
   }
@@ -121,7 +121,7 @@ string client_logic_connection_setup (string user, string hash)
 string client_logic_create_note_encode (const std::string& bible, int book, int chapter, int verse,
                                         const std::string& summary, const std::string& contents, bool raw)
 {
-  vector <string> data {};
+  std::vector <std::string> data {};
   data.push_back (bible);
   data.push_back (filter::strings::convert_to_string (book));
   data.push_back (filter::strings::convert_to_string (chapter));
@@ -137,7 +137,7 @@ void client_logic_create_note_decode (const std::string& data,
                                       string& bible, int& book, int& chapter, int& verse,
                                       string& summary, string& contents, bool& raw)
 {
-  vector <string> lines = filter::strings::explode (data, '\n');
+  std::vector <std::string> lines = filter::strings::explode (data, '\n');
   if (!lines.empty ()) {
     bible = lines [0];
     lines.erase (lines.begin());
@@ -215,7 +215,7 @@ void client_logic_usfm_resources_update ()
   // Clients can access it from there.
   string path = client_logic_usfm_resources_path ();
   Database_UsfmResources database_usfmresources {};
-  vector <string> resources = database_usfmresources.getResources ();
+  std::vector <std::string> resources = database_usfmresources.getResources ();
   filter_url_file_put_contents (path, filter::strings::implode (resources, "\n"));
 }
 
@@ -234,7 +234,7 @@ string client_logic_get_username ()
   // That happens when disconnected from the Cloud.
   string user = session_admin_credentials ();
   Database_Users database_users;
-  vector <string> users = database_users.get_users ();
+  std::vector <std::string> users = database_users.get_users ();
   if (!users.empty()) user = users [0];
   return user;
 }
@@ -256,7 +256,7 @@ void client_logic_no_cache_resources_save (vector<string> resources)
 
 void client_logic_no_cache_resource_add (string name)
 {
-  vector <string> resources = client_logic_no_cache_resources_get();
+  std::vector <std::string> resources = client_logic_no_cache_resources_get();
   if (in_array(name, resources)) return;
   resources.push_back(name);
   client_logic_no_cache_resources_save(resources);
@@ -265,7 +265,7 @@ void client_logic_no_cache_resource_add (string name)
 
 void client_logic_no_cache_resource_remove (string name)
 {
-  vector <string> resources = client_logic_no_cache_resources_get();
+  std::vector <std::string> resources = client_logic_no_cache_resources_get();
   if (!in_array(name, resources)) return;
   resources = filter::strings::array_diff(resources, {name});
   client_logic_no_cache_resources_save(resources);

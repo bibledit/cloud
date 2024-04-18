@@ -127,7 +127,7 @@ void demo_clean_data ()
   
   
   // Set both stylesheets to "Standard" for all Bibles.
-  vector <string> bibles = webserver_request.database_bibles()->get_bibles ();
+  std::vector <std::string> bibles = webserver_request.database_bibles()->get_bibles ();
   for (const auto & bible : bibles) {
     Database_Config_Bible::setExportStylesheet (bible, styles_logic_standard_sheet ());
     Database_Config_Bible::setEditorStylesheet (bible, styles_logic_standard_sheet ());
@@ -185,12 +185,12 @@ void demo_clean_data ()
 
   // Set and/or trim resources to display.
   // Too many resources crash the demo: Limit the amount.
-  vector <string> resources = webserver_request.database_config_user()->getActiveResources ();
+  std::vector <std::string> resources = webserver_request.database_config_user()->getActiveResources ();
   bool reset_resources {false};
   size_t max_resource {25};
   if (resources.size () > max_resource) reset_resources = true;
   // Check if all the current resource exists in the default.
-  vector <string> defaults = demo_logic_default_resources ();
+  std::vector <std::string> defaults = demo_logic_default_resources ();
   for (const auto & name : defaults) {
     if (!in_array (name, resources)) reset_resources = true;
   }
@@ -274,7 +274,7 @@ void demo_prepare_sample_bible ()
   database_bibles.create_bible (demo_sample_bible_name ());
   // Location of the source USFM files for the sample Bible.
   string directory = filter_url_create_root_path ({"demo"});
-  vector <string> files = filter_url_scandir (directory);
+  std::vector <std::string> files = filter_url_scandir (directory);
   for (auto file : files) {
     // Process only USFM files, skipping others.
     if (filter_url_get_extension (file) == "usfm") {
@@ -391,7 +391,7 @@ void demo_create_sample_workspaces (Webserver_Request& webserver_request)
 
 vector <string> demo_logic_default_resources ()
 {
-  vector <string> resources {};
+  std::vector <std::string> resources {};
   if (config::logic::default_bibledit_configuration ()) {
     // Add a few resources that are also safe in an obfuscated version.
     resources = {

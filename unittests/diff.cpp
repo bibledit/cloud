@@ -37,7 +37,7 @@ TEST (filter, diff)
 {
   // Difference.
   {
-    vector <string> removals, additions;
+    std::vector <std::string> removals, additions;
     string output = filter_diff_diff ("Old text", "New text", &removals, &additions);
     string standard = R"(<span style="text-decoration: line-through;"> Old </span> <span style="font-weight: bold;"> New </span> text)";
     EXPECT_EQ (standard, output);
@@ -47,7 +47,7 @@ TEST (filter, diff)
 
   // Difference.
   {
-    vector <string> removals, additions;
+    std::vector <std::string> removals, additions;
     string output = filter_diff_diff ("this is really old text", "and this is new text",
                                       &removals, &additions);
     string standard = R"(<span style="font-weight: bold;"> and </span> this is <span style="text-decoration: line-through;"> really </span> <span style="text-decoration: line-through;"> old </span> <span style="font-weight: bold;"> new </span> text)";
@@ -58,7 +58,7 @@ TEST (filter, diff)
   
   // Diff with new lines in the text.
   {
-    vector <string> removals, additions;
+    std::vector <std::string> removals, additions;
     string oldtext =
     "Genesis 1.1 1 In the beginning God created the heavens and the earth.\n"
     "Genesis 1.2 2 And the earth was without form, and void; and darkness was upon the face of the deep. And the Spirit of God moved upon the face of the waters.\n"
@@ -84,12 +84,12 @@ Genesis 1.3 3 And God said: "Let there be light". And there was light.
   
   // Update differing content for use in Quilljs editor.
   {
-    vector <string> oldinput = {"a", "badd", "c",      "e", "f", "g", "\np"     };
-    vector <string> newinput = {"a", "badd", "c", "d", "e", "f",      "\np", "h"};
+    std::vector <std::string> oldinput = {"a", "badd", "c",      "e", "f", "g", "\np"     };
+    std::vector <std::string> newinput = {"a", "badd", "c", "d", "e", "f",      "\np", "h"};
     vector <int> positions;
     vector <int> sizes;
     vector <bool> additions;
-    vector <string> content;
+    std::vector <std::string> content;
     int new_line_diff_count;
     filter_diff_diff_utf16 (oldinput, newinput, positions, sizes, additions, content, new_line_diff_count);
     EXPECT_EQ ((vector <int>{3, 6, 7}), positions);
@@ -99,12 +99,12 @@ Genesis 1.3 3 And God said: "Let there be light". And there was light.
     EXPECT_EQ (0, new_line_diff_count);
   }
   {
-    vector <string> oldinput = {"a",         "c",      "e", "f", "g", "\np",     "i"};
-    vector <string> newinput = {"a", "badd", "c", "d", "e", "f",      "\np", "h"    };
+    std::vector <std::string> oldinput = {"a",         "c",      "e", "f", "g", "\np",     "i"};
+    std::vector <std::string> newinput = {"a", "badd", "c", "d", "e", "f",      "\np", "h"    };
     vector <int> positions;
     vector <int> sizes;
     vector <bool> additions;
-    vector <string> content;
+    std::vector <std::string> content;
     int new_line_diff_count;
     filter_diff_diff_utf16 (oldinput, newinput, positions, sizes, additions, content, new_line_diff_count);
     EXPECT_EQ ((vector <int>{1, 3, 6, 7, 8}), positions);
@@ -114,12 +114,12 @@ Genesis 1.3 3 And God said: "Let there be light". And there was light.
     EXPECT_EQ (0, new_line_diff_count);
   }
   {
-    vector <string> oldinput = {"\n", "\n", "a", "b", "\n", "\n", "c"      };
-    vector <string> newinput = {"\n",       "a",      "\n", "b",  "c", "\n"};
+    std::vector <std::string> oldinput = {"\n", "\n", "a", "b", "\n", "\n", "c"      };
+    std::vector <std::string> newinput = {"\n",       "a",      "\n", "b",  "c", "\n"};
     vector <int> positions;
     vector <int> sizes;
     vector <bool> additions;
-    vector <string> content;
+    std::vector <std::string> content;
     int new_line_diff_count;
     filter_diff_diff_utf16 (oldinput, newinput, positions, sizes, additions, content, new_line_diff_count);
     EXPECT_EQ ((vector <int>{1, 2, 3, 3, 5}), positions);
@@ -130,12 +130,12 @@ Genesis 1.3 3 And God said: "Let there be light". And there was light.
   }
   {
     // Positions                0     1     2    3     4    5     6     7    8
-    vector <string> oldinput = {"\n", "\n", "a", "😀", "b", "\n", "\n", "c"      };
-    vector <string> newinput = {"\n",       "a",            "\n", "😃", "c", "\n"};
+    std::vector <std::string> oldinput = {"\n", "\n", "a", "😀", "b", "\n", "\n", "c"      };
+    std::vector <std::string> newinput = {"\n",       "a",            "\n", "😃", "c", "\n"};
     vector <int> positions;
     vector <int> sizes;
     vector <bool> additions;
-    vector <string> content;
+    std::vector <std::string> content;
     int new_line_diff_count;
     filter_diff_diff_utf16 (oldinput, newinput, positions, sizes, additions, content, new_line_diff_count);
     EXPECT_EQ ((vector <int>{1, 2, 2, 3, 3, 6}), positions);

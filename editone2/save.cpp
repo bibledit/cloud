@@ -104,7 +104,7 @@ string editone2_save (Webserver_Request& webserver_request)
   }
 
   
-  string stylesheet = Database_Config_Bible::getEditorStylesheet (bible);
+  const std::string stylesheet = Database_Config_Bible::getEditorStylesheet (bible);
  
   
   string verse_usfm = editone_logic_html_to_usfm (stylesheet, html);

@@ -53,7 +53,7 @@ TEST (database, statistics)
     Database_Statistics::store_changes (now - two_thousand, "two", 41);
     
     // Check all available users.
-    vector <string> users = Database_Statistics::get_users ();
+    std::vector <std::string> users = Database_Statistics::get_users ();
     EXPECT_EQ ((vector <string>{"one", "two"}), users);
     
     // The changes for all available users for no more than a year ago.

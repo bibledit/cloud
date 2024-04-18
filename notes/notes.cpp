@@ -72,7 +72,7 @@ string notes_notes (Webserver_Request& webserver_request)
 
   
   // The Bibles the current user has access to.
-  vector <string> bibles = access_bible::bibles (webserver_request, webserver_request.session_logic()->currentUser ());
+  std::vector <std::string> bibles = access_bible::bibles (webserver_request, webserver_request.session_logic()->currentUser ());
   
   
   // The admin disables notes selection on Bibles,

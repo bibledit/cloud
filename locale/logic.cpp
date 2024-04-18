@@ -44,7 +44,7 @@ string locale_logic_month (int month)
     case 12: return translate ("December");
     default: translate ("Month") + " " + filter::strings::convert_to_string (month);
   }
-  return string();
+  return std::string();
 }
 
 
@@ -80,7 +80,7 @@ string locale_logic_date_time (int seconds)
 map <string, string> locale_logic_localizations ()
 {
   string directory = filter_url_create_root_path ({"locale"});
-  vector <string> files = filter_url_scandir (directory);
+  std::vector <std::string> files = filter_url_scandir (directory);
   map <string, string> localizations = {pair (std::string(), filter::strings::english ())};
   for (auto file : files) {
     string suffix = filter_url_get_extension (file);
@@ -89,7 +89,7 @@ map <string, string> locale_logic_localizations ()
       string path = filter_url_create_path ({directory, file});
       string contents = filter_url_file_get_contents (path);
       string language = translate ("Unknown");
-      vector <string> lines = filter::strings::explode (contents, '\n');
+      std::vector <std::string> lines = filter::strings::explode (contents, '\n');
       for (auto line : lines) {
         if (line.find ("translation for bibledit") != std::string::npos) {
           line.erase (0, 2);
@@ -108,7 +108,7 @@ unordered_map <string, string> locale_logic_read_msgid_msgstr (string file)
 {
   unordered_map <string, string> translations;
   string contents = filter_url_file_get_contents (file);
-  vector <string> lines = filter::strings::explode (contents, '\n');
+  std::vector <std::string> lines = filter::strings::explode (contents, '\n');
   string msgid;
   string msgstr;
   int stage = 0;
@@ -276,7 +276,7 @@ void locale_logic_obfuscate_initialize ()
   // Load the contents of the obfuscation configuration file
   string filename = filter_url_create_root_path ({"obfuscate", "texts.txt"});
   string contents = filter_url_file_get_contents (filename);
-  vector <string> lines = filter::strings::explode (contents, '\n');
+  std::vector <std::string> lines = filter::strings::explode (contents, '\n');
   
   // Container to map the original string to the obfuscated version.
   map <string, string> original_to_obfuscated;
@@ -304,7 +304,7 @@ void locale_logic_obfuscate_initialize ()
     }
     
     // Lines require the equal sign = once.
-    vector <string> obfuscation_pair = filter::strings::explode (line, '=');
+    std::vector <std::string> obfuscation_pair = filter::strings::explode (line, '=');
     if (obfuscation_pair.size () != 2) continue;
 
     // Deobfuscate recognized search terms.

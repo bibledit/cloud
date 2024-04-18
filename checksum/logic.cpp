@@ -53,7 +53,7 @@ string checksum_logic::get (const std::string& data)
 
 // This function gets the checksum for $data, and returns it.
 // It calculates the length of vector 'data' in bytes.
-string checksum_logic::get (const vector <string>& data)
+string checksum_logic::get (const std::vector <string>& data)
 {
   int length = 0;
   for (auto & bit : data) length += static_cast<int>(bit.length ());
@@ -74,7 +74,7 @@ string checksum_logic::get_chapter (Webserver_Request& webserver_request, const 
 string checksum_logic::get_book (Webserver_Request& webserver_request, const std::string& bible, int book)
 {
   vector <int> chapters = webserver_request.database_bibles()->get_chapters (bible, book);
-  vector <string> checksums;
+  std::vector <std::string> checksums;
   for (auto chapter : chapters) {
     checksums.push_back (get_chapter (webserver_request, bible, book, chapter));
   }
@@ -88,7 +88,7 @@ string checksum_logic::get_book (Webserver_Request& webserver_request, const std
 string checksum_logic::get_bible (Webserver_Request& webserver_request, const std::string& bible)
 {
   vector <int> books = webserver_request.database_bibles()->get_books (bible);
-  vector <string> checksums;
+  std::vector <std::string> checksums;
   for (auto book : books) {
     checksums.push_back (get_book (webserver_request, bible, book));
   }
@@ -99,9 +99,9 @@ string checksum_logic::get_bible (Webserver_Request& webserver_request, const st
 
 
 // Returns a proper checksum for the USFM in the array of $bibles.
-string checksum_logic::get_bibles (Webserver_Request& webserver_request, const vector <string> & bibles)
+string checksum_logic::get_bibles (Webserver_Request& webserver_request, const std::vector <string> & bibles)
 {
-  vector <string> checksums;
+  std::vector <std::string> checksums;
   for (const auto & bible : bibles) {
     checksums.push_back (get_bible (webserver_request, bible));
   }

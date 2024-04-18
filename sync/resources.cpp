@@ -43,7 +43,7 @@ string sync_resources (Webserver_Request& webserver_request)
   if (!sync_logic.security_okay ()) {
     // When the Cloud enforces https, inform the client to upgrade.
     webserver_request.response_code = 426;
-    return string();
+    return std::string();
   }
 
   // If the client's IP address very recently made a prioritized server call,
@@ -84,7 +84,7 @@ string sync_resources (Webserver_Request& webserver_request)
           }
         }
         // Schedule this resource for caching if that's not yet the case.
-        vector <string> signatures = Database_Config_General::getResourcesToCache ();
+        std::vector <std::string> signatures = Database_Config_General::getResourcesToCache ();
         string signature = resource + " " + filter::strings::convert_to_string (book);
         if (!in_array (signature, signatures)) {
           signatures.push_back (signature);
@@ -108,5 +108,5 @@ string sync_resources (Webserver_Request& webserver_request)
   // Bad request. Delay flood of bad requests.
   this_thread::sleep_for (chrono::seconds (1));
   webserver_request.response_code = 400;
-  return string();
+  return std::string();
 }

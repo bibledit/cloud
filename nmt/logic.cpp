@@ -39,8 +39,8 @@ void nmt_logic_export (string referencebible, string translatingbible)
   Database_Versifications database_versifications;
   Database_Mappings database_mappings;
 
-  vector <string> reference_lines;
-  vector <string> translation_lines;
+  std::vector <std::string> reference_lines;
+  std::vector <std::string> translation_lines;
   
   // Get the versification systems of both Bibles.
   string reference_versification = Database_Config_Bible::getVersificationSystem (referencebible);
@@ -97,7 +97,7 @@ void nmt_logic_export (string referencebible, string translatingbible)
         string reference_text;
         {
           string chapter_usfm = database_bibles.get_chapter (referencebible, book, reference_chapter);
-          string stylesheet = styles_logic_standard_sheet ();
+          const std::string stylesheet = styles_logic_standard_sheet ();
           Filter_Text filter_text = Filter_Text ("");
           filter_text.initializeHeadingsAndTextPerVerse (false);
           filter_text.add_usfm_code (chapter_usfm);
@@ -115,7 +115,7 @@ void nmt_logic_export (string referencebible, string translatingbible)
         string translation_text;
         {
           string chapter_usfm = database_bibles.get_chapter (translatingbible, book, translation_chapter);
-          string stylesheet = styles_logic_standard_sheet ();
+          const std::string stylesheet = styles_logic_standard_sheet ();
           Filter_Text filter_text = Filter_Text ("");
           filter_text.initializeHeadingsAndTextPerVerse (false);
           filter_text.add_usfm_code (chapter_usfm);
@@ -134,7 +134,7 @@ void nmt_logic_export (string referencebible, string translatingbible)
         if (translation_text.empty ()) continue;
 
         // Split the texts set on matching punctuation markers.
-        vector <string> reference_bits, translating_bits;
+        std::vector <std::string> reference_bits, translating_bits;
         nmt_logic_split (reference_text, translation_text, reference_bits, translating_bits);
 
         // Store the texts set.
@@ -157,13 +157,13 @@ void nmt_logic_export (string referencebible, string translatingbible)
 
 
 void nmt_logic_split (string reference_text, string translating_text,
-                      vector <string> & reference_bits, vector <string> & translating_bits)
+                      std::vector <std::string> & reference_bits, vector <string> & translating_bits)
 {
   // Define the punctuation marks to split the texts on.
   // The largest sets of punctuation will be tried first,
   // and then the smaller sets.
   // The first set of punctuation that leads to equally split texts is taken.
-  vector <string> punctuations = { ".!?:;", ".!?:", ".!?", ".!?:;,", ".!?:,", ".!?," };
+  std::vector <std::string> punctuations = { ".!?:;", ".!?:", ".!?", ".!?:;,", ".!?:,", ".!?," };
   for (auto punctuation : punctuations) {
     reference_bits = filter::strings::explode (reference_text, punctuation);
     translating_bits = filter::strings::explode (translating_text, punctuation);

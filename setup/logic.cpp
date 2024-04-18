@@ -142,7 +142,7 @@ void setup_copy_library (const char * package)
   // Read all directories and create them in the persistent webroot.
   string path = filter_url_create_path (package, "package_directories.txt");
   string contents = filter_url_file_get_contents (path);
-  vector <string> paths = filter::strings::explode (contents, '\n');
+  std::vector <std::string> paths = filter::strings::explode (contents, '\n');
   for (auto path : paths) {
     path = config_globals_document_root + path.substr (package_length);
     if (path.empty ()) continue;

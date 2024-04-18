@@ -137,7 +137,7 @@ string Database_HebrewLexicon::getaug (string aug)
   sql.add ("SELECT target FROM aug WHERE aug =");
   sql.add (aug);
   sql.add (";");
-  vector <string> result = sql.query () ["target"];
+  std::vector <std::string> result = sql.query () ["target"];
   if (!result.empty ()) return result [0];
   return "";
 }
@@ -149,7 +149,7 @@ string Database_HebrewLexicon::getbdb (string id)
   sql.add ("SELECT definition FROM bdb WHERE id =");
   sql.add (id);
   sql.add (";");
-  vector <string> result = sql.query () ["definition"];
+  std::vector <std::string> result = sql.query () ["definition"];
   if (!result.empty ()) return result [0];
   return "";
 }
@@ -161,7 +161,7 @@ string Database_HebrewLexicon::getmap (string id)
   sql.add ("SELECT bdb FROM map WHERE id =");
   sql.add (id);
   sql.add (";");
-  vector <string> result = sql.query () ["bdb"];
+  std::vector <std::string> result = sql.query () ["bdb"];
   if (!result.empty ()) return result [0];
   return "";
 }
@@ -173,7 +173,7 @@ string Database_HebrewLexicon::getpos (string code)
   sql.add ("SELECT name FROM pos WHERE code =");
   sql.add (code);
   sql.add (";");
-  vector <string> result = sql.query () ["name"];
+  std::vector <std::string> result = sql.query () ["name"];
   if (!result.empty ()) return result [0];
   return "";
 }
@@ -185,7 +185,7 @@ string Database_HebrewLexicon::getstrong (string strong)
   sql.add ("SELECT definition FROM strong WHERE strong =");
   sql.add (strong);
   sql.add (";");
-  vector <string> result = sql.query () ["definition"];
+  std::vector <std::string> result = sql.query () ["definition"];
   if (!result.empty ()) return result [0];
   return "";
 }

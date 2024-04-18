@@ -96,7 +96,7 @@ void sendreceive_resources ()
   sendreceive_resources_interrupt = false;
 
   // If there's nothing to cache, bail out.
-  vector <string> resources = Database_Config_General::getResourcesToCache ();
+  std::vector <std::string> resources = Database_Config_General::getResourcesToCache ();
   if (resources.empty ()) return;
   
   sendreceive_resources_kick_watchdog ();

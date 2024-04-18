@@ -37,7 +37,7 @@ TEST (database, strong)
   
   EXPECT_EQ (true, length_h > 100);
   
-  vector <string> results = database.strong ("χρηστοσ");
+  std::vector <std::string> results = database.strong ("χρηστοσ");
   EXPECT_EQ (1, results.size ());
   if (!results.empty ()) {
     EXPECT_EQ ("G5543", results[0]);

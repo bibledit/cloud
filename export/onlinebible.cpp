@@ -50,7 +50,7 @@ void export_onlinebible (string bible, bool log)
   Database_Bibles database_bibles;
   
   
-  string stylesheet = Database_Config_Bible::getExportStylesheet (bible);
+  const std::string stylesheet = Database_Config_Bible::getExportStylesheet (bible);
   
   
   Filter_Text filter_text_bible = Filter_Text (bible);

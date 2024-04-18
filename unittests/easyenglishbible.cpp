@@ -173,7 +173,7 @@ TEST (easy_english_bible, logic)
     Database_Versifications database_versifications;
     database_versifications.create ();
     database_versifications.defaults ();
-    const vector <int> books = database_versifications.getBooks (filter::strings::english());
+    const std::vector <int> books = database_versifications.getBooks (filter::strings::english());
     for (auto book : books) {
       //if (book < 10) continue;
       //if (book > 9) continue;

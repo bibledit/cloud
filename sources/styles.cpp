@@ -78,7 +78,7 @@ void sources_styles_parse ()
     return;
   }
   contents.erase (pos);
-  vector <string> cpp_lines = filter::strings::explode (contents, '\n');
+  std::vector <std::string> cpp_lines = filter::strings::explode (contents, '\n');
 
   // Parser signatures for the C++ source code.
   const char * marker_key = "marker";
@@ -218,11 +218,11 @@ void sources_styles_parse ()
   // Read the default stylesheet for Paratext projects.
   string path = filter_url_create_root_path ({"sources", "usfm.sty"});
   contents = filter_url_file_get_contents (path);
-  vector <string> paratext_lines = filter::strings::explode (contents, '\n');
+  std::vector <std::string> paratext_lines = filter::strings::explode (contents, '\n');
   
   // Parse state variables.
   string paratext_marker;
-  vector <string> non_existing_markers;
+  std::vector <std::string> non_existing_markers;
 
   // Parser signatures for the Paratext stylesheet usfm.sty.
   string backslash_marker = "\\Marker ";
@@ -399,8 +399,8 @@ void sources_styles_parse ()
   
   // Insert the C++ fragment into the source code.
   contents = filter_url_file_get_contents (cpp_path);
-  vector <string> source_lines = filter::strings::explode (contents, '\n');
-  vector <string> updated_lines;
+  std::vector <std::string> source_lines = filter::strings::explode (contents, '\n');
+  std::vector <std::string> updated_lines;
   bool updating = false;
   for (auto source_line : source_lines) {
     if (updating) {

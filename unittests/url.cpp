@@ -331,7 +331,7 @@ TEST (filter, url)
     string file2 = filter_url_create_path ({directory, "2"});
     filter_url_file_put_contents (file1, "1");
     filter_url_file_put_contents (file2, "2");
-    vector <string> files = filter_url_scandir (directory);
+    std::vector <std::string> files = filter_url_scandir (directory);
     EXPECT_EQ ((vector <string>{"1", "2"}), files);
   }
   

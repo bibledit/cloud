@@ -55,7 +55,7 @@ void Editor_Html2Usfm::stylesheet (string stylesheet)
   noteOpeners.clear ();
   characterStyles.clear ();
   Database_Styles database_styles;
-  vector <string> markers = database_styles.getMarkers (stylesheet);
+  std::vector <std::string> markers = database_styles.getMarkers (stylesheet);
   // Load the style information into the object.
   for (string & marker : markers) {
     Database_Styles_Item style = database_styles.getMarkerData (stylesheet, marker);
@@ -240,7 +240,7 @@ void Editor_Html2Usfm::closeElementNode (pugi::xml_node node)
     if (suppressEndMarkers.find (className) != suppressEndMarkers.end()) return;
     // Add closing USFM, optionally closing embedded tags in reverse order.
     char separator = '0';
-    vector <string> classes = filter::strings::explode (className, separator);
+    std::vector <std::string> classes = filter::strings::explode (className, separator);
     characterStyles = filter::strings::array_diff (characterStyles, classes);
     reverse (classes.begin(), classes.end());
     for (unsigned int offset = 0; offset < classes.size(); offset++) {
@@ -265,7 +265,7 @@ void Editor_Html2Usfm::openInline (string className)
   //   <span class="nd">Lord God</span>
   // is calling</span> you</span><span>.</span>
   char separator = '0';
-  vector <string> classes = filter::strings::explode (className, separator);
+  std::vector <std::string> classes = filter::strings::explode (className, separator);
   for (unsigned int offset = 0; offset < classes.size(); offset++) {
     bool embedded = (characterStyles.size () + offset) > 0;
     string marker = classes[offset];
@@ -337,7 +337,7 @@ void Editor_Html2Usfm::processNoteCitation (pugi::xml_node node)
     }
 
     // Preserve active character styles in the main text, and reset them for the note.
-    vector <string> preservedCharacterStyles = characterStyles;
+    std::vector <std::string> preservedCharacterStyles = characterStyles;
     characterStyles.clear();
     
     // Process this 'p' element.

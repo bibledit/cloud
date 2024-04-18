@@ -176,7 +176,7 @@ string sync_bibles (Webserver_Request& webserver_request)
       // calculate the checksum of all chapters in those Bibles,
       // and returns this checksum to the client.
       string username = webserver_request.session_logic ()->currentUser ();
-      vector <string> bibles = access_bible::bibles (webserver_request, username);
+      std::vector <std::string> bibles = access_bible::bibles (webserver_request, username);
       string server_checksum = checksum_logic::get_bibles (webserver_request, bibles);
       return server_checksum;
     }
@@ -185,7 +185,7 @@ string sync_bibles (Webserver_Request& webserver_request)
       // The server reads the credentials from the client's user,
       // and responds with a list of Bibles this user has access to.
       string username = webserver_request.session_logic ()->currentUser ();
-      vector <string> bibles = access_bible::bibles (webserver_request, username);
+      std::vector <std::string> bibles = access_bible::bibles (webserver_request, username);
       string checksum = checksum_logic::get (bibles);
       string s_bibles = filter::strings::implode (bibles, "\n");
       return checksum + "\n" + s_bibles;
@@ -199,7 +199,7 @@ string sync_bibles (Webserver_Request& webserver_request)
     {
       // The server responds with a checksum and then the list of books in the Bible.
       vector <int> server_books = webserver_request.database_bibles()->get_books (bible);
-      vector <string> v_server_books;
+      std::vector <std::string> v_server_books;
       for (auto server_book : server_books) v_server_books.push_back (filter::strings::convert_to_string (server_book));
       string s_server_books = filter::strings::implode (v_server_books, "\n");
       string checksum = checksum_logic::get (v_server_books);
@@ -214,7 +214,7 @@ string sync_bibles (Webserver_Request& webserver_request)
     {
       // The server responds with the list of books in the Bible book.
       vector <int> server_chapters = webserver_request.database_bibles()->get_chapters (bible, book);
-      vector <string> v_server_chapters;
+      std::vector <std::string> v_server_chapters;
       for (auto & server_chapter : server_chapters) v_server_chapters.push_back (filter::strings::convert_to_string (server_chapter));
       string s_server_chapters = filter::strings::implode (v_server_chapters, "\n");
       string checksum = checksum_logic::get (v_server_chapters);

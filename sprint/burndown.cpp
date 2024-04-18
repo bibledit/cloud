@@ -101,7 +101,7 @@ void sprint_burndown ([[maybe_unused]] string bible,
   }
   
   
-  vector <string> bibles = {bible};
+  std::vector <std::string> bibles = {bible};
   if (bible.empty()) {
     bibles = request.database_bibles()->get_bibles ();
   }
@@ -132,10 +132,10 @@ void sprint_burndown ([[maybe_unused]] string bible,
       if (task_count) {
         // Only mail if the current sprint contains tasks.
         string scategories = Database_Config_Bible::getSprintTaskCompletionCategories (bible2);
-        vector <string> categories = filter::strings::explode (scategories, '\n');
+        std::vector <std::string> categories = filter::strings::explode (scategories, '\n');
         int category_count = static_cast<int>(categories.size());
         int category_percentage = static_cast<int>(round (100 / category_count));
-        vector <string> users = request.database_users ()->get_users ();
+        std::vector <std::string> users = request.database_users ()->get_users ();
         for (auto user : users) {
           if (request.database_config_user()->getUserSprintProgressNotification (user)) {
             
@@ -144,7 +144,7 @@ void sprint_burndown ([[maybe_unused]] string bible,
             if (sprintfinish) subject = translate("Sprint has finished");
             subject +=  " | " + bible2;
             
-            vector <string> body;
+            std::vector <std::string> body;
             
             body.push_back ("<h4>" + bible2 + "</h4>");
             body.push_back ("<h4>" + locale_logic_month (month) + "</h4>");
@@ -192,7 +192,7 @@ string sprint_create_burndown_chart ([[maybe_unused]] string bible,
                                      [[maybe_unused]] int month)
 {
 #ifdef HAVE_CLIENT
-  return string();
+  return std::string();
 #endif
   
 #ifdef HAVE_CLOUD
@@ -228,7 +228,7 @@ string sprint_create_burndown_chart ([[maybe_unused]] string bible,
     }
   }
   
-  vector <string> lines;
+  std::vector <std::string> lines;
   lines.push_back ("<table class='burndown'>");
   lines.push_back ("<tr>");
   for (auto element : data) {

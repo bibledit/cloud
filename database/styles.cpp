@@ -87,7 +87,7 @@ void Database_Styles::createSheet (string sheet)
 // Returns an array with the available stylesheets.
 vector <string> Database_Styles::getSheets ()
 {
-  vector <string> sheets = filter_url_scandir (databasefolder ());
+  std::vector <std::string> sheets = filter_url_scandir (databasefolder ());
   if (find (sheets.begin (), sheets.end (), styles_logic_standard_sheet ()) == sheets.end ()) {
     sheets.push_back (styles_logic_standard_sheet ());
   }
@@ -128,7 +128,7 @@ void Database_Styles::deleteMarker (string sheet, string marker)
 map <string, string> Database_Styles::getMarkersAndNames (string sheet)
 {
   map <string, string> markers_names;
-  vector <string> markers = getMarkers (sheet);
+  std::vector <std::string> markers = getMarkers (sheet);
   for (auto marker : markers) {
     Database_Styles_Item item = read_item (sheet, marker);
     markers_names [marker] = item.name;
@@ -141,7 +141,7 @@ map <string, string> Database_Styles::getMarkersAndNames (string sheet)
 vector <string> Database_Styles::getMarkers (string sheet)
 {
   // The markers for this stylesheet.
-  vector <string> markers = filter_url_scandir (sheetfolder (sheet));
+  std::vector <std::string> markers = filter_url_scandir (sheetfolder (sheet));
   if (markers.empty ()) {
     // Check and/or load defaults.
     if (default_styles_cache.empty ()) cache_defaults ();
@@ -522,7 +522,7 @@ Database_Styles_Item Database_Styles::read_item (string sheet, string marker)
   } else {
     // Read the style from file.
     string contents = filter_url_file_get_contents (filename);
-    vector <string> lines = filter::strings::explode (contents, '\n');
+    std::vector <std::string> lines = filter::strings::explode (contents, '\n');
     for (unsigned int i = 0; i < lines.size(); i++) {
       if (i == 0)  item.marker = lines [i];
       if (i == 1)  item.name = lines [i];
@@ -579,7 +579,7 @@ void Database_Styles::write_item (string sheet, Database_Styles_Item & item)
   item.info = filter::strings::replace ("\n", " ", item.info);
   item.info = filter::strings::replace ("\r", " ", item.info);
   // Load the lines.
-  vector <string> lines;
+  std::vector <std::string> lines;
   lines.push_back (item.marker);
   lines.push_back (item.name);
   lines.push_back (item.info);

@@ -279,36 +279,36 @@ TEST (filter, passage)
 
   // Sequence and range none.
   {
-    vector <string> standard = {"Exod. 30:4"};
-    vector <string> output = filter_passage_handle_sequences_ranges ("Exod. 30:4");
+    std::vector <std::string> standard = {"Exod. 30:4"};
+    std::vector <std::string> output = filter_passage_handle_sequences_ranges ("Exod. 30:4");
     EXPECT_EQ (standard, output);
   }
 
   // Sequence.
   {
-    vector <string> standard = {"Exod. 37:5", "14", "28"};
-    vector <string> output = filter_passage_handle_sequences_ranges ("Exod. 37:5, 14, 28");
+    std::vector <std::string> standard = {"Exod. 37:5", "14", "28"};
+    std::vector <std::string> output = filter_passage_handle_sequences_ranges ("Exod. 37:5, 14, 28");
     EXPECT_EQ (standard, output);
   }
 
   // Range.,
   {
-    vector <string> standard = {"Exod. 37:5", "14", "15", "16"};
-    vector <string> output = filter_passage_handle_sequences_ranges ("Exod. 37:5, 14 - 16");
+    std::vector <std::string> standard = {"Exod. 37:5", "14", "15", "16"};
+    std::vector <std::string> output = filter_passage_handle_sequences_ranges ("Exod. 37:5, 14 - 16");
     EXPECT_EQ (standard, output);
   }
 
   // Sequence and range.
   {
-    vector <string> standard = {"Exod. 37:4", "5", "14", "15", "27", "28", "30", "40"};
-    vector <string> output = filter_passage_handle_sequences_ranges ("Exod. 37:4 - 5, 14 - 15, 27 - 28, 30, 40");
+    std::vector <std::string> standard = {"Exod. 37:4", "5", "14", "15", "27", "28", "30", "40"};
+    std::vector <std::string> output = filter_passage_handle_sequences_ranges ("Exod. 37:4 - 5, 14 - 15, 27 - 28, 30, 40");
     EXPECT_EQ (standard, output);
   }
   
   // Sequence and range.
   {
-    vector <string> standard = {"Exod. 25:13", "14", "27", "28"};
-    vector <string> output = filter_passage_handle_sequences_ranges ("Exod. 25:13-14, 27-28");
+    std::vector <std::string> standard = {"Exod. 25:13", "14", "27", "28"};
+    std::vector <std::string> output = filter_passage_handle_sequences_ranges ("Exod. 25:13-14, 27-28");
     EXPECT_EQ (standard, output);
   }
 

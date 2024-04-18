@@ -102,7 +102,7 @@ string Database_AbbottSmith::get (string lemma, string strong)
     sql.add (strong);
   }
   sql.add (";");
-  vector <string> results = sql.query () ["contents"];
+  std::vector <std::string> results = sql.query () ["contents"];
   for (auto result : results) contents.append (result);
   return contents;
 }

@@ -76,8 +76,8 @@ string manage_accounts (Webserver_Request& webserver_request)
   if (webserver_request.query.count ("delete")) {
     string role = Filter_Roles::text (user_level);
     string email = webserver_request.database_users ()->get_email (objectUsername);
-    vector <string> users = webserver_request.database_users ()->get_users ();
-    vector <string> administrators = webserver_request.database_users ()->getAdministrators ();
+    std::vector <std::string> users = webserver_request.database_users ()->get_users ();
+    std::vector <std::string> administrators = webserver_request.database_users ()->getAdministrators ();
     if (users.size () == 1) {
       page += assets_page::error (translate("Cannot remove the last user"));
     } else if ((user_level >= Filter_Roles::admin ()) && (administrators.size () == 1)) {
@@ -95,9 +95,9 @@ string manage_accounts (Webserver_Request& webserver_request)
   // Get the account creation times.
   map <string, int> account_creation_times;
   {
-    vector <string> lines = Database_Config_General::getAccountCreationTimes ();
+    std::vector <std::string> lines = Database_Config_General::getAccountCreationTimes ();
     for (auto line : lines) {
-      vector <string> bits = filter::strings::explode(line, '|');
+      std::vector <std::string> bits = filter::strings::explode(line, '|');
       if (bits.size() != 2) continue;
       int seconds = filter::strings::convert_to_int(bits[0]);
       string user = bits[1];
@@ -106,7 +106,7 @@ string manage_accounts (Webserver_Request& webserver_request)
   }
   
   // Retrieve assigned users.
-  const vector <string> users = access_user::assignees (webserver_request);
+  const std::vector <string> users = access_user::assignees (webserver_request);
   for (const auto& username : users) {
     
     // Gather details for this user account.

@@ -33,8 +33,8 @@ using namespace std;
 // Returns the names of the available user-defined resources.
 vector <string> Database_UserResources::names ()
 {
-  vector <string> names;
-  vector <string> files = filter_url_scandir (folder ());
+  std::vector <std::string> names;
+  std::vector <std::string> files = filter_url_scandir (folder ());
   for (auto name : files) {
     if (name.find (fragment ()) != std::string::npos) {
       name.erase (0, fragment ().size ());
@@ -68,7 +68,7 @@ void Database_UserResources::url (const std::string& name, const std::string& va
 // Returns the text fragent for a Bible book with $id.
 string Database_UserResources::book (const std::string& name, int id)
 {
-  if (id < 1) return string();
+  if (id < 1) return std::string();
   return load (name, static_cast<size_t>(id));
 }
 
@@ -107,8 +107,8 @@ string Database_UserResources::load (const std::string& name, size_t offset)
 {
   string path = file (name);
   string contents = filter_url_file_get_contents (path);
-  vector <string> lines = filter::strings::explode (contents, '\n');
-  if (offset >= lines.size ()) return string();
+  std::vector <std::string> lines = filter::strings::explode (contents, '\n');
+  if (offset >= lines.size ()) return std::string();
   return lines [offset];
 }
 
@@ -119,7 +119,7 @@ void Database_UserResources::save (const std::string& name, size_t offset, const
 {
   string path = file (name);
   string contents = filter_url_file_get_contents (path);
-  vector <string> lines = filter::strings::explode (contents, '\n');
+  std::vector <std::string> lines = filter::strings::explode (contents, '\n');
   while (lines.size () <= offset) lines.push_back ("");
   lines [offset] = value;
   contents = filter::strings::implode (lines, "\n");

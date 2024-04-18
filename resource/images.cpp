@@ -68,7 +68,7 @@ string resource_images (Webserver_Request& webserver_request)
   }
   if (webserver_request.post.count ("new")) {
     string resource = webserver_request.post ["entry"];
-    vector <string> resources = database_imageresources.names ();
+    std::vector <std::string> resources = database_imageresources.names ();
     if (in_array (resource, resources)) {
       error = translate("This image resource already exists");
     } else if (resource.empty ()) {
@@ -96,8 +96,8 @@ string resource_images (Webserver_Request& webserver_request)
   }
 
 
-  vector <string> resources = database_imageresources.names ();
-  vector <string> resourceblock;
+  std::vector <std::string> resources = database_imageresources.names ();
+  std::vector <std::string> resourceblock;
   for (auto & resource : resources) {
     resourceblock.push_back ("<p>");
     resourceblock.push_back ("<a href=\"image?name=" + resource + "\">");

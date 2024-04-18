@@ -54,8 +54,8 @@ string resource_user9view (Webserver_Request& webserver_request)
   Assets_View view;
   
 
-  vector <string> resources = Database_UserResources::names ();
-  vector <string> resourceblock;
+  std::vector <std::string> resources = Database_UserResources::names ();
+  std::vector <std::string> resourceblock;
   for (auto & resource : resources) {
     resourceblock.push_back ("<p>");
     resourceblock.push_back ("<a href=\"user1view?name=" + resource + "\">");

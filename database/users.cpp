@@ -52,7 +52,7 @@ void Database_Users::upgrade ()
   // if the columns are not yet there.
   SqliteDatabase sql (filename ());
   sql.add ("PRAGMA table_info (users);");
-  vector <string> columns = sql.query () ["name"];
+  std::vector <std::string> columns = sql.query () ["name"];
   if (!in_array (static_cast<string> ("ldap"), columns)) {
     sql.clear ();
     sql.add ("ALTER TABLE users ADD COLUMN ldap boolean;");
@@ -119,7 +119,7 @@ bool Database_Users::matchUserPassword (string user, string password)
   sql.add ("AND password =");
   sql.add (md5 (password));
   sql.add ("AND (disabled IS NULL OR disabled = 0);");
-  vector <string> result = sql.query () ["username"];
+  std::vector <std::string> result = sql.query () ["username"];
   return (!result.empty());
 }
 
@@ -133,7 +133,7 @@ bool Database_Users::matchEmailPassword (string email, string password)
   sql.add ("AND password =");
   sql.add (md5 (password));
   sql.add ("AND (disabled IS NULL OR disabled = 0);");
-  vector <string> result = sql.query () ["username"];
+  std::vector <std::string> result = sql.query () ["username"];
   return (!result.empty());
 }
 
@@ -156,7 +156,7 @@ string Database_Users::getEmailToUser (string email)
   sql.add ("SELECT username FROM users WHERE email =");
   sql.add (email);
   sql.add (";");
-  vector <string> result = sql.query () ["username"];
+  std::vector <std::string> result = sql.query () ["username"];
   if (!result.empty()) return result [0];
   return "";
 }
@@ -169,7 +169,7 @@ string Database_Users::get_email (string user)
   sql.add ("SELECT email FROM users WHERE username = ");
   sql.add (user);
   sql.add (";");
-  vector <string> result = sql.query () ["email"];
+  std::vector <std::string> result = sql.query () ["email"];
   if (!result.empty()) return result [0];
   return "";
 }
@@ -182,7 +182,7 @@ bool Database_Users::usernameExists (string user)
   sql.add ("SELECT username FROM users WHERE username =");
   sql.add (user);
   sql.add (";");
-  vector <string> result = sql.query () ["username"];
+  std::vector <std::string> result = sql.query () ["username"];
   return !result.empty ();
 }
 
@@ -194,7 +194,7 @@ bool Database_Users::emailExists (string email)
   sql.add ("SELECT username FROM users WHERE email = ");
   sql.add (email);
   sql.add (";");
-  vector <string> result = sql.query () ["username"];
+  std::vector <std::string> result = sql.query () ["username"];
   return !result.empty ();
 }
 
@@ -206,7 +206,7 @@ int Database_Users::get_level (string user)
   sql.add ("SELECT level FROM users WHERE username = ");
   sql.add (user);
   sql.add (";");
-  vector <string> result = sql.query () ["level"];
+  std::vector <std::string> result = sql.query () ["level"];
   if (!result.empty()) return filter::strings::convert_to_int (result [0]);
   return Filter_Roles::guest ();
 }
@@ -243,7 +243,7 @@ vector <string> Database_Users::getAdministrators ()
   sql.add ("SELECT username FROM users WHERE level =");
   sql.add (Filter_Roles::admin ());
   sql.add ("AND (disabled IS NULL OR disabled = 0);");
-  vector <string> result = sql.query () ["username"];
+  std::vector <std::string> result = sql.query () ["username"];
   return result;
 }
 
@@ -273,7 +273,7 @@ vector <string> Database_Users::get_users ()
 {
   SqliteDatabase sql (filename ());
   sql.add ("SELECT username FROM users;");
-  vector <string> result = sql.query () ["username"];
+  std::vector <std::string> result = sql.query () ["username"];
   return result;
 }
 
@@ -285,7 +285,7 @@ string Database_Users::get_md5 (string user)
   sql.add ("SELECT password FROM users WHERE username =");
   sql.add (user);
   sql.add (";");
-  vector <string> result = sql.query () ["password"];
+  std::vector <std::string> result = sql.query () ["password"];
   if (!result.empty()) return result [0];
   return "";
 }
@@ -320,7 +320,7 @@ bool Database_Users::get_ldap (string user)
   sql.add ("SELECT ldap FROM users WHERE username =");
   sql.add (user);
   sql.add (";");
-  vector <string> result = sql.query () ["ldap"];
+  std::vector <std::string> result = sql.query () ["ldap"];
   if (!result.empty()) {
     bool ldap_is_on = filter::strings::convert_to_bool (result [0]);
     return ldap_is_on;
@@ -349,7 +349,7 @@ bool Database_Users::get_enabled (string user)
   sql.add ("SELECT disabled FROM users WHERE username =");
   sql.add (user);
   sql.add (";");
-  vector <string> result = sql.query () ["disabled"];
+  std::vector <std::string> result = sql.query () ["disabled"];
   if (!result.empty()) return !filter::strings::convert_to_bool (result [0]);
   return false;
 }

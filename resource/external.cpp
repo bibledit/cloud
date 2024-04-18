@@ -98,7 +98,7 @@ resource_record resource_table [] =
 
 struct gbs_basic_walker: pugi::xml_tree_walker
 {
-  vector <string> texts {};
+  std::vector <std::string> texts {};
   bool canonical_text {true};
 
   virtual bool for_each (pugi::xml_node& node) override
@@ -147,7 +147,7 @@ string gbs_basic_processor (string url, int verse)
   // * Starting from that line, add several more lines, enough to cover the whole verse.
   // * Load the resulting block of text into pugixml.
 
-  vector <string> lines = filter::strings::explode(html, '\n');
+  std::vector <std::string> lines = filter::strings::explode(html, '\n');
   string html_fragment {};
   
   // Example verse container within the html:
@@ -216,7 +216,7 @@ string gbs_basic_processor (string url, int verse)
 
 struct gbs_plus_walker: pugi::xml_tree_walker
 {
-  vector <string> texts {};
+  std::vector <std::string> texts {};
   bool canonical_text {true};
   bool verse_references {false};
   string reference_number {};
@@ -270,7 +270,7 @@ struct gbs_plus_walker: pugi::xml_tree_walker
 
 struct gbs_annotation_walker: pugi::xml_tree_walker
 {
-  vector <string> texts {};
+  std::vector <std::string> texts {};
   bool within_annotations {false};
 
   virtual bool for_each (pugi::xml_node& node) override
@@ -314,7 +314,7 @@ string gbs_plus_processor (string url, int book, [[maybe_unused]] int chapter, i
   // * Starting from that line, add several more lines, enough to cover the whole verse.
   // * Load the resulting block of text into pugixml.
   
-  vector <string> lines {filter::strings::explode(html, '\n')};
+  std::vector <std::string> lines {filter::strings::explode(html, '\n')};
   string html_fragment {};
   
   // Example verse container within the html:
@@ -381,7 +381,7 @@ string gbs_plus_processor (string url, int book, [[maybe_unused]] int chapter, i
   
   // Get the raw annotations html.
   string annotation_info {div_node.attribute("onclick").value()};
-  vector <string> bits {filter::strings::explode(annotation_info, '\'')};
+  std::vector <std::string> bits {filter::strings::explode(annotation_info, '\'')};
   if (bits.size() >= 13) {
     string annotation_url {"https://bijbel-statenvertaling.com/includes/ajax/kanttekening.php"};
     map <string, string> post {};
@@ -430,7 +430,7 @@ string bibleserver_processor (string directory, int book, int chapter, int verse
   string error;
   string text = resource_logic_web_or_cache_get (url, error);
   string tidy = filter::strings::html_tidy (text);
-  vector <string> tidied = filter::strings::explode (tidy, '\n');
+  std::vector <std::string> tidied = filter::strings::explode (tidy, '\n');
 
   text.clear ();
   bool relevant_line = false;
@@ -522,9 +522,9 @@ string resource_external_convert_book_gbs_statenbijbel (int book)
     case 64: return "3-johannes";
     case 65: return "judas";
     case 66: return "openbaring";
-    default: return string();
+    default: return std::string();
   }
-  return string();
+  return std::string();
 }
 
 
@@ -597,9 +597,9 @@ string resource_external_convert_book_gbs_king_james_bible (int book)
     case 64: return "3-john";
     case 65: return "jude";
     case 66: return "revelation";
-    default: return string();
+    default: return std::string();
   }
-  return string();
+  return std::string();
 }
 
 
@@ -653,9 +653,9 @@ string resource_external_get_biblehub_interlinear (int book, int chapter, int ve
   string error;
   string html = resource_logic_web_or_cache_get (url, error);
   string tidy = filter::strings::html_tidy (html);
-  vector <string> tidied = filter::strings::explode (tidy, '\n');
+  std::vector <std::string> tidied = filter::strings::explode (tidy, '\n');
   
-  vector <string> filtered_lines;
+  std::vector <std::string> filtered_lines;
   
   int relevant_line = 0;
   for (auto & line : tidied) {
@@ -689,7 +689,7 @@ string resource_external_get_biblehub_interlinear (int book, int chapter, int ve
   
   // Stylesheet for using web fonts,
   // because installing fonts on some tablets is very hard.
-  string stylesheet =
+  const std::string stylesheet =
   "<style>\n"
   "span[class*='ref'] {\n"
   "display: none;\n"
@@ -716,7 +716,7 @@ string resource_external_get_biblehub_scrivener (int book, int chapter, int vers
   string error;
   string html = resource_logic_web_or_cache_get (url, error);
   string tidy = filter::strings::html_tidy (html);
-  vector <string> tidied = filter::strings::explode (tidy, '\n');
+  std::vector <std::string> tidied = filter::strings::explode (tidy, '\n');
 
   html.clear ();
   int hits = 0;
@@ -741,7 +741,7 @@ string resource_external_get_biblehub_scrivener (int book, int chapter, int vers
   
   if (html.empty ()) return html;
   
-  string stylesheet =
+  const std::string stylesheet =
   "<style>\n"
   "</style>\n";
   
@@ -767,7 +767,7 @@ string resource_external_get_biblehub_westminster (int book, int chapter, int ve
   string error;
   string html = resource_logic_web_or_cache_get (url, error);
   string tidy = filter::strings::html_tidy (html);
-  vector <string> tidied = filter::strings::explode (tidy, '\n');
+  std::vector <std::string> tidied = filter::strings::explode (tidy, '\n');
   
   html.clear ();
   int hits = 0;
@@ -799,7 +799,7 @@ string resource_external_get_biblehub_westminster (int book, int chapter, int ve
   
   // Stylesheet for using web fonts,
   // because installing fonts on some tablets is very hard.
-  string stylesheet =
+  const std::string stylesheet =
   "<style>\n"
   "</style>\n";
 
@@ -916,7 +916,7 @@ unsigned int resource_external_count ()
 // Gets the names of all the known Web resources.
 vector <string> resource_external_names ()
 {
-  vector <string> names;
+  std::vector <std::string> names;
   for (unsigned int i = 0; i < resource_external_count (); i++) {
     names.push_back (resource_table [i].name);
   }
@@ -928,7 +928,7 @@ vector <string> resource_external_names ()
 // Get the names of the Web resources which are original language resources.
 vector <string> resource_external_get_original_language_resources ()
 {
-  vector <string> names;
+  std::vector <std::string> names;
   for (unsigned int i = 0; i < resource_external_count (); i++) {
     if (strcmp (resource_table [i].type, ORIGINAL) == 0) {
       names.push_back (resource_table [i].name);
@@ -942,7 +942,7 @@ vector <string> resource_external_get_original_language_resources ()
 // Get the names of the Web resources which are Bibles and notes.
 vector <string> resource_external_get_bibles ()
 {
-  vector <string> names;
+  std::vector <std::string> names;
   for (unsigned int i = 0; i < resource_external_count (); i++) {
     if (strcmp (resource_table [i].type, BIBLE) == 0) {
       names.push_back (resource_table [i].name);
@@ -1011,7 +1011,7 @@ string resource_external_cloud_fetch_cache_extract (const std::string& name, int
     }
   }
   
-  if (function_name == nullptr) return string();
+  if (function_name == nullptr) return std::string();
 
   string result = function_name (book, chapter, verse);
   

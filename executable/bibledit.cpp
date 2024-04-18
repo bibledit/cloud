@@ -197,7 +197,7 @@ int main ([[maybe_unused]] int argc, [[maybe_unused]] char **argv)
   filter_url_unlink (backtrace_path ());
   if (!backtrace.empty ()) {
     Database_Logs::log ("Backtrace of the last segmentation fault:");
-    vector <string> lines = filter::strings::explode (backtrace, '\n');
+    std::vector <std::string> lines = filter::strings::explode (backtrace, '\n');
     for (auto & line : lines) {
       Database_Logs::log (line);
       // Set a flag if the backtrace appears to be caused while sending email.

@@ -50,7 +50,7 @@ void rss_logic_feed_on_off ()
 {
   // See whether there's Bibles that send their changes to the RSS feed.
   Database_Bibles database_bibles;
-  vector <string> bibles = database_bibles.get_bibles ();
+  std::vector <std::string> bibles = database_bibles.get_bibles ();
   bool rss_enabled = false;
   for (auto bible : bibles) {
     if (Database_Config_Bible::getSendChangesToRSS (bible)) {
@@ -87,7 +87,7 @@ void rss_logic_schedule_update (string user, string bible, int book, int chapter
   newusfm = filter::strings::replace ("\n", rss_logic_new_line (), newusfm);
   
   // Schedule it.
-  vector <string> parameters;
+  std::vector <std::string> parameters;
   parameters.push_back (user);
   parameters.push_back (bible);
   parameters.push_back (filter::strings::convert_to_string (book));
@@ -116,9 +116,9 @@ void rss_logic_execute_update (string user, string bible, int book, int chapter,
   if (!include_author) user.clear ();
   
   // Storage for the feed update.
-  vector <string> titles, authors, descriptions;
+  std::vector <std::string> titles, authors, descriptions;
   
-  string stylesheet = Database_Config_Bible::getExportStylesheet (bible);
+  const std::string stylesheet = Database_Config_Bible::getExportStylesheet (bible);
 
   // Get the combined verse numbers in old and new USFM.
   vector <int> old_verse_numbers = filter::usfm::get_verse_numbers (oldusfm);

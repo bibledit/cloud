@@ -67,7 +67,7 @@ string sync_usfmresources (Webserver_Request& webserver_request)
   }
   
   else if (action == Sync_Logic::usfmresources_get_resources) {
-    vector <string> resources = database_usfmresources.getResources ();
+    std::vector <std::string> resources = database_usfmresources.getResources ();
     return filter::strings::implode (resources, "\n");
   }
   
@@ -77,7 +77,7 @@ string sync_usfmresources (Webserver_Request& webserver_request)
   
   else if (action == Sync_Logic::usfmresources_get_books) {
     vector <int> resource_books = database_usfmresources.getBooks (resource);
-    vector <string> sbooks;
+    std::vector <std::string> sbooks;
     for (auto & resource_book : resource_books) sbooks.push_back (filter::strings::convert_to_string (resource_book));
     return filter::strings::implode (sbooks, "\n");    
   }
@@ -88,7 +88,7 @@ string sync_usfmresources (Webserver_Request& webserver_request)
   
   else if (action == Sync_Logic::usfmresources_get_chapters) {
     vector <int> res_chapters = database_usfmresources.getChapters (resource, book);
-    vector <string> s_chapters;
+    std::vector <std::string> s_chapters;
     for (auto & res_chapter : res_chapters) s_chapters.push_back (filter::strings::convert_to_string (res_chapter));
     return filter::strings::implode (s_chapters, "\n");
   }

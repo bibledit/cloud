@@ -88,7 +88,7 @@ string search_strongs (Webserver_Request& webserver_request)
     
     string s_words {webserver_request.query ["words"]};
     s_words = filter::strings::trim (s_words);
-    const vector <string> words {filter::strings::explode (s_words, ' ')};
+    const std::vector <string> words {filter::strings::explode (s_words, ' ')};
     
     // Include items if there are no more search hits than 30% of the total number of verses in the KJV.
     const size_t maxcount = static_cast<size_t> (round (0.3 * 31102));
@@ -104,7 +104,7 @@ string search_strongs (Webserver_Request& webserver_request)
       if (strong.length () < 2) continue;
       
       // Find out how often this word occurs in the Bible. Skip if too often.
-      const vector <Passage> details {database_kjv.searchStrong (strong)};
+      const std::vector <Passage> details {database_kjv.searchStrong (strong)};
       if (details.size() < 1) continue;
       if (details.size () > maxcount) continue;
       

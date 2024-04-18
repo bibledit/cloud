@@ -76,7 +76,7 @@ string manage_exports (Webserver_Request& webserver_request)
     string bible = webserver_request.query["bible"];
     if (bible.empty()) {
       Dialog_List dialog_list = Dialog_List ("exports", translate("Select a Bible"), "", "");
-      vector <string> bibles = access_bible::bibles (webserver_request);
+      std::vector <std::string> bibles = access_bible::bibles (webserver_request);
       for (const auto& bible2 : bibles) {
         dialog_list.add_row (bible2, "bible", bible2);
       }
@@ -312,7 +312,7 @@ string manage_exports (Webserver_Request& webserver_request)
   view.set_variable ("odtsecure", filter::strings::get_checkbox_status (Database_Config_Bible::getSecureOdtExport (bible)));
 
   
-  vector <string> spaces = { " ", filter::strings::non_breaking_space_u00A0 (), filter::strings::en_space_u2002 (), filter::strings::figure_space_u2007 (), filter::strings::narrow_non_breaking_space_u202F () };
+  std::vector <std::string> spaces = { " ", filter::strings::non_breaking_space_u00A0 (), filter::strings::en_space_u2002 (), filter::strings::figure_space_u2007 (), filter::strings::narrow_non_breaking_space_u202F () };
   if (webserver_request.query.count ("odtwhitespace")) {
     string odtwhitespace = webserver_request.query ["odtwhitespace"];
     for (auto space : spaces) {
@@ -344,8 +344,8 @@ string manage_exports (Webserver_Request& webserver_request)
   view.set_variable ("odtqleft", filter::strings::get_checkbox_status (Database_Config_Bible::getOdtPoetryVersesLeft (bible)));
   {
     Database_Styles database_styles;
-    vector <string> markers = database_styles.getMarkers (styles_logic_standard_sheet ());
-    vector <string> poetry_styles;
+    std::vector <std::string> markers = database_styles.getMarkers (styles_logic_standard_sheet ());
+    std::vector <std::string> poetry_styles;
     for (auto & style : markers) {
       if (filter::usfm::is_standard_q_poetry (style)) poetry_styles.push_back(style);
     }

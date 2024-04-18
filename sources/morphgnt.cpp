@@ -31,7 +31,7 @@ void sources_morphgnt_parse ()
   Database_MorphGnt database_morphgnt;
   database_morphgnt.create ();
 
-  vector <string> files;
+  std::vector <std::string> files;
   DIR * dir = opendir ("sources/morphgnt");
   dirent * direntry;
   while ((direntry = readdir (dir)) != nullptr) {
@@ -47,9 +47,9 @@ void sources_morphgnt_parse ()
     file.insert (0, "sources/morphgnt/");
     Database_Logs::log (file);
     string contents = filter_url_file_get_contents (file);
-    vector <string> lines = filter::strings::explode (contents, '\n');
+    std::vector <std::string> lines = filter::strings::explode (contents, '\n');
     for (auto line : lines) {
-      vector <string> bits = filter::strings::explode (line, ' ');
+      std::vector <std::string> bits = filter::strings::explode (line, ' ');
       if (bits.size () != 7) {
         Database_Logs::log (line);
         Database_Logs::log ("Should be seven bits");

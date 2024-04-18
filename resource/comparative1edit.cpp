@@ -79,7 +79,7 @@ string resource_comparative1edit (Webserver_Request& webserver_request)
   string title, base, update, remove, replace;
   bool diacritics = false, casefold = false, cache = false;
   {
-    vector <string> resources = Database_Config_General::getComparativeResources ();
+    std::vector <std::string> resources = Database_Config_General::getComparativeResources ();
     for (auto resource : resources) {
       resource_logic_parse_comparative_resource (resource, &title, &base, &update, &remove, &replace, &diacritics, &casefold, &cache);
       if (title == name) break;
@@ -93,7 +93,7 @@ string resource_comparative1edit (Webserver_Request& webserver_request)
     if (value.empty()) {
       Dialog_List dialog_list = Dialog_List ("comparative1edit", translate("Select a resource to be used as a base resource"), translate ("The base resource is used as a starting point for the comparison."), "");
       dialog_list.add_query ("name", name);
-      vector <string> resources = resource_logic_get_names (webserver_request, true);
+      std::vector <std::string> resources = resource_logic_get_names (webserver_request, true);
       for (auto & resource : resources) {
         dialog_list.add_row (resource, "base", resource);
       }
@@ -112,7 +112,7 @@ string resource_comparative1edit (Webserver_Request& webserver_request)
     if (value.empty()) {
       Dialog_List dialog_list = Dialog_List ("comparative1edit", translate("Select a resource to be used as the updated resource."), translate ("The updated resource will be compared with the base resource."), "");
       dialog_list.add_query ("name", name);
-      vector <string> resources = resource_logic_get_names (webserver_request, true);
+      std::vector <std::string> resources = resource_logic_get_names (webserver_request, true);
       for (auto & resource : resources) {
         dialog_list.add_row (resource, "update", resource);
       }
@@ -175,7 +175,7 @@ string resource_comparative1edit (Webserver_Request& webserver_request)
   // If the resource was edited, then take a number of steps.
   if (resource_edited) {
     // Save the comparative resource if it was edited.
-    vector <string> resources = Database_Config_General::getComparativeResources ();
+    std::vector <std::string> resources = Database_Config_General::getComparativeResources ();
     error = translate ("Could not save");
     for (size_t i = 0; i < resources.size(); i++) {
       string title2;

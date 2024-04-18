@@ -81,7 +81,7 @@ string search_replacepre (Webserver_Request& webserver_request)
     newtext = filter::strings::replace (searchfor, replacewith, text);
   } else {
     newtext = text;
-    vector <string> needles = filter::strings::search_needles (searchfor, text);
+    std::vector <std::string> needles = filter::strings::search_needles (searchfor, text);
     for (auto & needle : needles) {
       newtext = filter::strings::replace (needle, replacewith, newtext);
     }

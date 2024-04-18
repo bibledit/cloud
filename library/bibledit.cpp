@@ -468,7 +468,7 @@ void bibledit_put_reference_from_accordance (const char * reference)
   vector<string> book_rest = filter::strings::explode (reference, ' ');
   if (book_rest.size() != 2) return;
   int book = static_cast<int>(database::books::get_id_from_usfm (book_rest[0]));
-  vector <string> chapter_verse = filter::strings::explode(book_rest[1], ':');
+  std::vector <std::string> chapter_verse = filter::strings::explode(book_rest[1], ':');
   if (chapter_verse.size() != 2) return;
   int chapter = filter::strings::convert_to_int(chapter_verse[0]);
   int verse = filter::strings::convert_to_int(chapter_verse[1]);

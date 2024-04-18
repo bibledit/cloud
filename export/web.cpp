@@ -50,7 +50,7 @@ void export_web_book (string bible, int book, bool log)
   Database_BibleImages database_bibleimages {};
   
   
-  const string stylesheet = Database_Config_Bible::getExportStylesheet (bible);
+  const const std::string stylesheet = Database_Config_Bible::getExportStylesheet (bible);
   
   
   const string feedback_email = Database_Config_Bible::getExportFeedbackEmail (bible);
@@ -87,7 +87,7 @@ void export_web_book (string bible, int book, bool log)
   
   
   // Go through the chapters of this book.
-  const vector <int> chapters = database_bibles.get_chapters (bible, book);
+  const std::vector <int> chapters = database_bibles.get_chapters (bible, book);
   for (size_t c = 0; c < chapters.size(); c++) {
     const int chapter = chapters [c];
     const bool is_first_chapter = (c == 0);
@@ -176,7 +176,7 @@ void export_web_index (string bible, bool log)
   Database_Bibles database_bibles;
   
   
-  string stylesheet = Database_Config_Bible::getExportStylesheet (bible);
+  const std::string stylesheet = Database_Config_Bible::getExportStylesheet (bible);
   
   
   // Create stylesheet.

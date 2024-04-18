@@ -84,7 +84,7 @@ string resource_translated1edit (Webserver_Request& webserver_request)
   string target_language {};
   bool cache {false};
   {
-    vector <string> resources = Database_Config_General::getTranslatedResources ();
+    std::vector <std::string> resources = Database_Config_General::getTranslatedResources ();
     for (const auto & resource : resources) {
       resource_logic_parse_translated_resource (resource, &title, &original_resource, &source_language, &target_language, &cache);
       if (title == name) break;
@@ -98,7 +98,7 @@ string resource_translated1edit (Webserver_Request& webserver_request)
     if (value.empty()) {
       Dialog_List dialog_list = Dialog_List ("translated1edit", translate("Select a resource to be used as the original resource"), translate ("The original resource will be translated from the source language to the target language."), string());
       dialog_list.add_query ("name", name);
-      vector <string> resources = resource_logic_get_names (webserver_request, true);
+      std::vector <std::string> resources = resource_logic_get_names (webserver_request, true);
       for (const auto & resource : resources) {
         dialog_list.add_row (resource, "original", resource);
       }
@@ -159,7 +159,7 @@ string resource_translated1edit (Webserver_Request& webserver_request)
   // If the resource was edited, then take some steps.
   if (resource_edited) {
     // Save the translated resource.
-    vector <string> resources = Database_Config_General::getTranslatedResources ();
+    std::vector <std::string> resources = Database_Config_General::getTranslatedResources ();
     error = translate ("Could not save");
     for (size_t i = 0; i < resources.size(); i++) {
       string title2 {};

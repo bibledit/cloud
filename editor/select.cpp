@@ -55,7 +55,7 @@ string editor_select (Webserver_Request& webserver_request)
   page = header.run();
   Assets_View view;
   
-  vector <string> urls;
+  std::vector <std::string> urls;
   
   if (edit_index_acl (webserver_request)) {
     if (menu_logic_editor_enabled (webserver_request, true, true)) {

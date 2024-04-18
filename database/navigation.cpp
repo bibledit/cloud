@@ -147,9 +147,9 @@ Passage Database_Navigation::get_previous (const std::string& user)
   result = database_sqlite_query (db, sql3.sql);
   database_sqlite_disconnect (db);
   
-  vector <string> books = result ["book"];
-  vector <string> chapters = result ["chapter"];
-  vector <string> verses = result ["verse"];
+  std::vector <std::string> books = result ["book"];
+  std::vector <std::string> chapters = result ["chapter"];
+  std::vector <std::string> verses = result ["verse"];
   if (!books.empty()) {
     Passage passage;
     passage.m_book = filter::strings::convert_to_int (books [0]);
@@ -190,9 +190,9 @@ Passage Database_Navigation::get_next (const std::string& user)
   result = database_sqlite_query (db, sql3.sql);
   database_sqlite_disconnect (db);
   
-  vector <string> books = result ["book"];
-  vector <string> chapters = result ["chapter"];
-  vector <string> verses = result ["verse"];
+  std::vector <std::string> books = result ["book"];
+  std::vector <std::string> chapters = result ["chapter"];
+  std::vector <std::string> verses = result ["verse"];
   if (!books.empty()) {
     Passage passage;
     passage.m_book = filter::strings::convert_to_int (books [0]);
@@ -214,7 +214,7 @@ int Database_Navigation::get_previous_id (const std::string& user)
     sql.add (user);
     sql.add ("AND active = 1;");
     sqlite3 * db = connect ();
-    vector <string> ids = database_sqlite_query (db, sql.sql) ["rowid"];
+    std::vector <std::string> ids = database_sqlite_query (db, sql.sql) ["rowid"];
     for (auto & s : ids) {
       id = filter::strings::convert_to_int (s);
     }
@@ -231,7 +231,7 @@ int Database_Navigation::get_previous_id (const std::string& user)
   sql.add (user);
   sql.add ("ORDER BY rowid DESC LIMIT 1;");
   sqlite3 * db = connect ();
-  vector <string> ids = database_sqlite_query (db, sql.sql) ["rowid"];
+  std::vector <std::string> ids = database_sqlite_query (db, sql.sql) ["rowid"];
   database_sqlite_disconnect (db);
   if (!ids.empty()) {
     return filter::strings::convert_to_int (ids[0]);
@@ -252,7 +252,7 @@ int Database_Navigation::get_next_id (const std::string& user)
     sql.add (user);
     sql.add ("AND active = 1;");
     sqlite3 * db = connect ();
-    vector <string> ids = database_sqlite_query (db, sql.sql) ["rowid"];
+    std::vector <std::string> ids = database_sqlite_query (db, sql.sql) ["rowid"];
     for (auto & s : ids) {
       id = filter::strings::convert_to_int (s);
     }
@@ -269,7 +269,7 @@ int Database_Navigation::get_next_id (const std::string& user)
   sql.add (user);
   sql.add ("ORDER BY rowid ASC LIMIT 1;");
   sqlite3 * db = connect ();
-  vector <string> ids = database_sqlite_query (db, sql.sql) ["rowid"];
+  std::vector <std::string> ids = database_sqlite_query (db, sql.sql) ["rowid"];
   database_sqlite_disconnect (db);
   if (!ids.empty()) {
     return filter::strings::convert_to_int (ids[0]);
@@ -315,9 +315,9 @@ vector <Passage> Database_Navigation::get_history (const std::string& user, int 
     database_sqlite_disconnect (db);
 
     // Assemble the results.
-    vector <string> books = result ["book"];
-    vector <string> chapters = result ["chapter"];
-    vector <string> verses = result ["verse"];
+    std::vector <std::string> books = result ["book"];
+    std::vector <std::string> chapters = result ["chapter"];
+    std::vector <std::string> verses = result ["verse"];
     for (unsigned int i = 0; i < books.size(); i++) {
       Passage passage;
       passage.m_book = filter::strings::convert_to_int (books [i]);

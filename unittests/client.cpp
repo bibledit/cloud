@@ -84,7 +84,7 @@ TEST (client, basic)
     string standard = filter_url_create_root_path ({"databases", "client", "no_cache_resources.txt"});
     EXPECT_EQ (standard, path);
     
-    vector <string> resources = client_logic_no_cache_resources_get ();
+    std::vector <std::string> resources = client_logic_no_cache_resources_get ();
     EXPECT_EQ (vector <string>{}, resources);
 
     string name1 = "comparative test";

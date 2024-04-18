@@ -60,7 +60,7 @@ void Database_Confirm::upgrade ()
   // Get the existing columns in the database.
   SqliteDatabase sql (filename ());
   sql.add ("PRAGMA table_info (confirm);");
-  vector <string> columns = sql.query () ["name"];
+  std::vector <std::string> columns = sql.query () ["name"];
 
   // Add the column for the username if it's not yet there.
   if (!in_array (static_cast<string> ("username"), columns)) {
@@ -97,7 +97,7 @@ bool Database_Confirm::id_exists (unsigned int id)
   sql.add ("SELECT id FROM confirm WHERE id =");
   sql.add (static_cast<int>(id));
   sql.add (";");
-  vector <string> ids = sql.query () ["id"];
+  std::vector <std::string> ids = sql.query () ["id"];
   return !ids.empty ();
 }
 
@@ -133,7 +133,7 @@ unsigned int Database_Confirm::search_id (string subject)
 {
   SqliteDatabase sql (filename ());
   sql.add ("SELECT id FROM confirm;");
-  vector <string> ids = sql.query () ["id"];
+  std::vector <std::string> ids = sql.query () ["id"];
   for (string id : ids) {
     size_t pos = subject.find (id);
     if (pos != std::string::npos) {
@@ -148,7 +148,7 @@ vector <int> Database_Confirm::get_ids ()
 {
   SqliteDatabase sql (filename ());
   sql.add ("SELECT id FROM confirm;");
-  vector <string> s_ids = sql.query () ["id"];
+  std::vector <std::string> s_ids = sql.query () ["id"];
   vector <int> ids;
   for (auto id : s_ids) ids.push_back(filter::strings::convert_to_int(id));
   return ids;
@@ -162,7 +162,7 @@ string Database_Confirm::get_query (unsigned int id)
   sql.add ("SELECT query FROM confirm WHERE id =");
   sql.add (static_cast<int>(id));
   sql.add (";");
-  vector <string> result = sql.query () ["query"];
+  std::vector <std::string> result = sql.query () ["query"];
   if (!result.empty ()) return result [0];
   return "";
 }
@@ -175,7 +175,7 @@ string Database_Confirm::get_mail_to (unsigned int id)
   sql.add ("SELECT mailto FROM confirm WHERE id =");
   sql.add (static_cast<int>(id));
   sql.add (";");
-  vector <string> result = sql.query () ["mailto"];
+  std::vector <std::string> result = sql.query () ["mailto"];
   if (!result.empty ()) return result [0];
   return "";
 }
@@ -188,7 +188,7 @@ string Database_Confirm::get_subject (unsigned int id)
   sql.add ("SELECT subject FROM confirm WHERE id =");
   sql.add (static_cast<int>(id));
   sql.add (";");
-  vector <string> result = sql.query () ["subject"];
+  std::vector <std::string> result = sql.query () ["subject"];
   if (!result.empty ()) return result [0];
   return "";
 }
@@ -201,7 +201,7 @@ string Database_Confirm::get_body (unsigned int id)
   sql.add ("SELECT body FROM confirm WHERE id =");
   sql.add (static_cast<int>(id));
   sql.add (";");
-  vector <string> result = sql.query () ["body"];
+  std::vector <std::string> result = sql.query () ["body"];
   if (!result.empty ()) return result [0];
   return "";
 }
@@ -214,9 +214,9 @@ string Database_Confirm::get_username (unsigned int id) // Test return valid and
   sql.add ("SELECT username FROM confirm WHERE id =");
   sql.add (static_cast<int>(id));
   sql.add (";");
-  vector <string> result = sql.query () ["username"];
+  std::vector <std::string> result = sql.query () ["username"];
   if (!result.empty ()) return result [0];
-  return string();
+  return std::string();
 }
 
 

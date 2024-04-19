@@ -106,7 +106,7 @@ string notes_notes (Webserver_Request& webserver_request)
   bool show_bible_in_notes_list = webserver_request.database_config_user ()->getShowBibleInNotesList ();
   bool show_note_status = webserver_request.database_config_user ()->getShowNoteStatus ();
   bool color_note_status = webserver_request.database_config_user ()->getUseColoredNoteStatusLabels ();
-  stringstream notesblock;
+  std::stringstream notesblock;
   for (auto & identifier : identifiers) {
 
     std::string summary = database_notes.get_summary (identifier);

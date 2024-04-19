@@ -107,7 +107,7 @@ void Session_Logic::open ()
 }
 
 
-void Session_Logic::set_username (string name)
+void Session_Logic::set_username (std::string name)
 {
   username = name;
 }
@@ -154,7 +154,7 @@ string Session_Logic::fingerprint ()
 // Attempts to log into the system.
 // Records whether the user logged in from a touch-enabled device.
 // Returns boolean success.
-bool Session_Logic::attempt_login (string user_or_email, string password,
+bool Session_Logic::attempt_login (std::string user_or_email, std::string password,
                                    bool touch_enabled_in, bool skip_checks)
 {
   // Brute force attack mitigation.
@@ -285,7 +285,7 @@ bool Session_Logic::clientAccess ()
 }
 
 
-void Session_Logic::switch_user (string new_user)
+void Session_Logic::switch_user (std::string new_user)
 {
   std::string cookie = m_webserver_request.session_identifier;
   Database_Login::removeTokens (new_user, cookie);

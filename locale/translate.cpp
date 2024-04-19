@@ -30,7 +30,7 @@ vector <std::string> locale_translate_obfuscation_replace;
 
 
 // Translates $english to its localized string.
-string translate (string english)
+string translate (std::string english)
 {
   // Start off with the English message.
   std::string result (english);

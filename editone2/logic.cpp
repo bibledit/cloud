@@ -25,7 +25,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 using namespace std;
 
 
-void editone_logic_prefix_html (string usfm, string stylesheet, string& html, string& last_p_style)
+void editone_logic_prefix_html (std::string usfm, std::string stylesheet, std::string& html, std::string& last_p_style)
 {
   if (!usfm.empty ()) {
     Editor_Usfm2Html editor_usfm2html;
@@ -45,7 +45,7 @@ void editone_logic_prefix_html (string usfm, string stylesheet, string& html, st
 }
 
 
-void editone_logic_editable_html (string usfm, string stylesheet, string& html)
+void editone_logic_editable_html (std::string usfm, std::string stylesheet, std::string& html)
 {
   if (!usfm.empty ()) {
     Editor_Usfm2Html editor_usfm2html;
@@ -57,7 +57,7 @@ void editone_logic_editable_html (string usfm, string stylesheet, string& html)
 }
 
 
-void editone_logic_suffix_html (string editable_last_p_style, string usfm, string stylesheet, string& html)
+void editone_logic_suffix_html (std::string editable_last_p_style, std::string usfm, std::string stylesheet, std::string& html)
 {
   if (!usfm.empty ()) {
     Editor_Usfm2Html editor_usfm2html;
@@ -85,7 +85,7 @@ void editone_logic_suffix_html (string editable_last_p_style, string usfm, strin
       if (p_style.empty ()) {
         p_node.append_attribute ("class") = editable_last_p_style.c_str ();
       }
-      stringstream output;
+      std::stringstream output;
       document.print (output, "", pugi::format_raw);
       html = output.str ();
     }
@@ -93,7 +93,7 @@ void editone_logic_suffix_html (string editable_last_p_style, string usfm, strin
 }
 
 
-string editone_logic_html_to_usfm (string stylesheet, string html)
+string editone_logic_html_to_usfm (std::string stylesheet, std::string html)
 {
   // It used to convert XML entities to normal characters.
   // For example, it used to convert "&lt;" to "<".
@@ -116,7 +116,7 @@ string editone_logic_html_to_usfm (string stylesheet, string html)
 
 
 // Move the notes from the $prefix to the $suffix.
-void editone_logic_move_notes_v2 (string & prefix, string & suffix)
+void editone_logic_move_notes_v2 (std::string & prefix, std::string & suffix)
 {
   // No input: Ready.
   if (prefix.empty ()) return;
@@ -156,7 +156,7 @@ void editone_logic_move_notes_v2 (string & prefix, string & suffix)
   // Remove the notes separator node from the prefix.
   std::string notes_text;
   for (pugi::xml_node p_node : prefix_note_nodes) {
-    stringstream ss;
+    std::stringstream ss;
     p_node.print (ss, "", pugi::format_raw);
     std::string note = ss.str ();
     notes_text.append (note);
@@ -166,7 +166,7 @@ void editone_logic_move_notes_v2 (string & prefix, string & suffix)
 
   // Convert the XML document back to a possibly cleaned prefix without notes.
   {
-    stringstream ss;
+    std::stringstream ss;
     document.print (ss, "", pugi::format_raw);
     prefix = ss.str ();
   }
@@ -198,7 +198,7 @@ void editone_logic_move_notes_v2 (string & prefix, string & suffix)
 
   // Convert the DOM to suffix text.
   {
-    stringstream ss;
+    std::stringstream ss;
     document.print (ss, "", pugi::format_raw);
     suffix = ss.str ();
   }

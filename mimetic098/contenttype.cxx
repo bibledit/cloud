@@ -102,7 +102,7 @@ ContentType::Boundary::Boundary()
                 "abcdefghijklmnopqrstuvwxyz"
                 "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
                 "-_."; // "=+,()/"
-        stringstream ss;
+        std::stringstream ss;
         srand((unsigned int)time(0));
         short tbSize = sizeof(tb)-1;
         for(uint i=0; i < 48; ++i)

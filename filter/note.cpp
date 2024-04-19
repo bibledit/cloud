@@ -58,7 +58,7 @@ void citation::set_restart (int setting)
   else this->restart = "chapter";
 }
 
-string citation::get (string citation_in)
+string citation::get (std::string citation_in)
 {
   // Handle USFM automatic note citation.
   if (citation_in == "+") {

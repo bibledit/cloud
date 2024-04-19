@@ -54,7 +54,7 @@ using namespace std;
 */
 
 
-string Navigation_Passage::get_mouse_navigator (Webserver_Request& webserver_request, string bible)
+string Navigation_Passage::get_mouse_navigator (Webserver_Request& webserver_request, std::string bible)
 {
   Database_Navigation database_navigation;
   
@@ -207,14 +207,14 @@ string Navigation_Passage::get_mouse_navigator (Webserver_Request& webserver_req
   }
 
   // The result.
-  stringstream output;
+  std::stringstream output;
   document.print (output, "", pugi::format_raw);
   std::string fragment = output.str ();
   return fragment;
 }
 
 
-string Navigation_Passage::get_books_fragment (Webserver_Request& webserver_request, string bible)
+string Navigation_Passage::get_books_fragment (Webserver_Request& webserver_request, std::string bible)
 {
   book_id active_book = static_cast<book_id>(Ipc_Focus::getBook (webserver_request));
   // Take standard books in case of no Bible.
@@ -240,7 +240,7 @@ string Navigation_Passage::get_books_fragment (Webserver_Request& webserver_requ
 }
 
 
-string Navigation_Passage::get_chapters_fragment (Webserver_Request& webserver_request, string bible, int book, int chapter)
+string Navigation_Passage::get_chapters_fragment (Webserver_Request& webserver_request, std::string bible, int book, int chapter)
 {
   std::vector <int> chapters;
   if (bible.empty ()) {
@@ -264,7 +264,7 @@ string Navigation_Passage::get_chapters_fragment (Webserver_Request& webserver_r
 }
 
 
-string Navigation_Passage::get_verses_fragment (Webserver_Request& webserver_request, string bible, int book, int chapter, int verse)
+string Navigation_Passage::get_verses_fragment (Webserver_Request& webserver_request, std::string bible, int book, int chapter, int verse)
 {
   std::vector <int> verses;
   if (bible == "") {
@@ -288,7 +288,7 @@ string Navigation_Passage::get_verses_fragment (Webserver_Request& webserver_req
 }
 
 
-string Navigation_Passage::code (string bible)
+string Navigation_Passage::code (std::string bible)
 {
   std::string code;
   code += R"(<script type="text/javascript">)";
@@ -323,7 +323,7 @@ void Navigation_Passage::set_verse (Webserver_Request& webserver_request, int ve
 }
 
 
-void Navigation_Passage::set_passage (Webserver_Request& webserver_request, string bible, string passage)
+void Navigation_Passage::set_passage (Webserver_Request& webserver_request, std::string bible, std::string passage)
 {
   int currentBook = Ipc_Focus::getBook (webserver_request);
   int currentChapter = Ipc_Focus::getChapter (webserver_request);
@@ -345,7 +345,7 @@ void Navigation_Passage::set_passage (Webserver_Request& webserver_request, stri
 }
 
 
-Passage Navigation_Passage::get_next_chapter (Webserver_Request& webserver_request, string bible, int book, int chapter)
+Passage Navigation_Passage::get_next_chapter (Webserver_Request& webserver_request, std::string bible, int book, int chapter)
 {
   chapter++;
   if (bible != "") {
@@ -359,7 +359,7 @@ Passage Navigation_Passage::get_next_chapter (Webserver_Request& webserver_reque
 }
 
 
-Passage Navigation_Passage::get_previous_chapter (Webserver_Request& webserver_request, string bible, int book, int chapter)
+Passage Navigation_Passage::get_previous_chapter (Webserver_Request& webserver_request, std::string bible, int book, int chapter)
 {
   chapter--;
   if (bible != "") {
@@ -373,7 +373,7 @@ Passage Navigation_Passage::get_previous_chapter (Webserver_Request& webserver_r
 }
 
 
-void Navigation_Passage::goto_next_chapter (Webserver_Request& webserver_request, string bible)
+void Navigation_Passage::goto_next_chapter (Webserver_Request& webserver_request, std::string bible)
 {
   int currentBook = Ipc_Focus::getBook (webserver_request);
   int currentChapter = Ipc_Focus::getChapter (webserver_request);
@@ -385,7 +385,7 @@ void Navigation_Passage::goto_next_chapter (Webserver_Request& webserver_request
 }
 
 
-void Navigation_Passage::goto_previous_chapter (Webserver_Request& webserver_request, string bible)
+void Navigation_Passage::goto_previous_chapter (Webserver_Request& webserver_request, std::string bible)
 {
   int currentBook = Ipc_Focus::getBook (webserver_request);
   int currentChapter = Ipc_Focus::getChapter (webserver_request);
@@ -397,7 +397,7 @@ void Navigation_Passage::goto_previous_chapter (Webserver_Request& webserver_req
 }
 
 
-Passage Navigation_Passage::get_next_verse (Webserver_Request& webserver_request, string bible, int book, int chapter, int verse)
+Passage Navigation_Passage::get_next_verse (Webserver_Request& webserver_request, std::string bible, int book, int chapter, int verse)
 {
   verse++;
   if (bible != "") {
@@ -411,7 +411,7 @@ Passage Navigation_Passage::get_next_verse (Webserver_Request& webserver_request
 }
 
 
-Passage Navigation_Passage::get_previous_verse (Webserver_Request& webserver_request, string bible, int book, int chapter, int verse)
+Passage Navigation_Passage::get_previous_verse (Webserver_Request& webserver_request, std::string bible, int book, int chapter, int verse)
 {
   verse--;
   if (bible != "") {
@@ -425,7 +425,7 @@ Passage Navigation_Passage::get_previous_verse (Webserver_Request& webserver_req
 }
 
 
-void Navigation_Passage::goto_next_verse (Webserver_Request& webserver_request, string bible)
+void Navigation_Passage::goto_next_verse (Webserver_Request& webserver_request, std::string bible)
 {
   int currentBook = Ipc_Focus::getBook (webserver_request);
   int currentChapter = Ipc_Focus::getChapter (webserver_request);
@@ -438,7 +438,7 @@ void Navigation_Passage::goto_next_verse (Webserver_Request& webserver_request, 
 }
 
 
-void Navigation_Passage::goto_previous_verse (Webserver_Request& webserver_request, string bible)
+void Navigation_Passage::goto_previous_verse (Webserver_Request& webserver_request, std::string bible)
 {
   int currentBook = Ipc_Focus::getBook (webserver_request);
   int currentChapter = Ipc_Focus::getChapter (webserver_request);
@@ -481,7 +481,7 @@ void Navigation_Passage::go_forward (Webserver_Request& webserver_request)
 }
 
 
-void Navigation_Passage::add_selector_link (string& html, string id, string href, string text, bool selected, string extra_class)
+void Navigation_Passage::add_selector_link (string& html, std::string id, std::string href, std::string text, bool selected, std::string extra_class)
 {
   // Add a space to cause wrapping between the books or chapters or verses.
   if (!html.empty ()) html.append (" ");
@@ -503,14 +503,14 @@ void Navigation_Passage::add_selector_link (string& html, string id, string href
     a_node.append_attribute("href") = href.c_str();
     a_node.text() = text.c_str();
   }
-  stringstream output;
+  std::stringstream output;
   document.print (output, "", pugi::format_raw);
   std::string fragment = output.str ();
   html.append(output.str());
 }
 
 
-string Navigation_Passage::get_keyboard_navigator (Webserver_Request& webserver_request, string bible)
+string Navigation_Passage::get_keyboard_navigator (Webserver_Request& webserver_request, std::string bible)
 {
   std::string user = webserver_request.session_logic()->currentUser ();
   
@@ -579,7 +579,7 @@ string Navigation_Passage::get_keyboard_navigator (Webserver_Request& webserver_
 }
 
 
-void Navigation_Passage::interpret_keyboard_navigator (Webserver_Request& webserver_request, string bible, string passage)
+void Navigation_Passage::interpret_keyboard_navigator (Webserver_Request& webserver_request, std::string bible, std::string passage)
 {
   std::string user = webserver_request.session_logic()->currentUser ();
   
@@ -675,7 +675,7 @@ string Navigation_Passage::get_history_forward (Webserver_Request& webserver_req
 }
 
 
-void Navigation_Passage::go_history (Webserver_Request& webserver_request, string message)
+void Navigation_Passage::go_history (Webserver_Request& webserver_request, std::string message)
 {
   // Example messages:
   // * f0apply: The "f" means "go forward". The "0" means item 0, that is, the first item.

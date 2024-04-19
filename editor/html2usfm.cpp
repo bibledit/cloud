@@ -29,7 +29,7 @@
 using namespace std;
 
 
-void Editor_Html2Usfm::load (string html)
+void Editor_Html2Usfm::load (std::string html)
 {
   // The web editor may insert non-breaking spaces. Convert them to normal spaces.
   html = filter::strings::replace (filter::strings::unicode_non_breaking_space_entity (), " ", html);
@@ -49,7 +49,7 @@ void Editor_Html2Usfm::load (string html)
 }
 
 
-void Editor_Html2Usfm::stylesheet (string stylesheet)
+void Editor_Html2Usfm::stylesheet (std::string stylesheet)
 {
   styles.clear ();
   noteOpeners.clear ();
@@ -57,7 +57,7 @@ void Editor_Html2Usfm::stylesheet (string stylesheet)
   Database_Styles database_styles;
   std::vector <std::string> markers = database_styles.getMarkers (stylesheet);
   // Load the style information into the object.
-  for (string & marker : markers) {
+  for (std::string & marker : markers) {
     Database_Styles_Item style = database_styles.getMarkerData (stylesheet, marker);
     styles [marker] = style;
     // Get markers that should not have endmarkers.
@@ -258,7 +258,7 @@ void Editor_Html2Usfm::closeElementNode (pugi::xml_node node)
 }
 
 
-void Editor_Html2Usfm::openInline (string className)
+void Editor_Html2Usfm::openInline (std::string className)
 {
   // It has been observed that the <span> elements of the character styles may be embedded, like so:
   // The <span class="add">
@@ -358,10 +358,10 @@ void Editor_Html2Usfm::processNoteCitation (pugi::xml_node node)
 }
 
 
-string Editor_Html2Usfm::cleanUSFM (string usfm)
+string Editor_Html2Usfm::cleanUSFM (std::string usfm)
 {
   // Replace a double space after a note opener.
-  for (string noteOpener : noteOpeners) {
+  for (std::string noteOpener : noteOpeners) {
     std::string opener = filter::usfm::get_opening_usfm (noteOpener);
     usfm = filter::strings::replace (opener + " ", opener, usfm);
   }
@@ -405,7 +405,7 @@ void Editor_Html2Usfm::postprocess ()
 
 
 // Retrieves a pointer to a relevant footnote element in the XML.
-pugi::xml_node Editor_Html2Usfm::get_note_pointer (pugi::xml_node body, string id)
+pugi::xml_node Editor_Html2Usfm::get_note_pointer (pugi::xml_node body, std::string id)
 {
   // The note wrapper node to look for.
   pugi::xml_node p_note_wrapper;
@@ -471,7 +471,7 @@ pugi::xml_node Editor_Html2Usfm::get_note_pointer (pugi::xml_node body, string i
 }
 
 
-string Editor_Html2Usfm::update_quill_class (string classname)
+string Editor_Html2Usfm::update_quill_class (std::string classname)
 {
   classname = filter::strings::replace (quill_logic_class_prefix_block (), "", classname);
   classname = filter::strings::replace (quill_logic_class_prefix_inline (), "", classname);
@@ -482,7 +482,7 @@ string Editor_Html2Usfm::update_quill_class (string classname)
 // This function takes the html from a Quill-based editor that edits one verse,
 // and converts it to USFM.
 // It properly deals with cases when a verse does not start a new paragraph.
-string editor_export_verse_quill (string stylesheet, string html)
+string editor_export_verse_quill (std::string stylesheet, std::string html)
 {
   // When the $html starts with a paragraph without a style,
   // put a recognizable style there.

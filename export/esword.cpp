@@ -37,7 +37,7 @@
 using namespace std;
 
 
-void export_esword (string bible, bool log)
+void export_esword (std::string bible, bool log)
 {
   std::string directory = filter_url_create_path ({export_logic::bible_directory (bible), "esword"});
   if (!file_or_dir_exists (directory)) filter_url_mkdir (directory);

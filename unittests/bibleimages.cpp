@@ -53,7 +53,7 @@ TEST (database, bible_images)
   database_bibleimages.store (image_2_path);
   images = database_bibleimages.get ();
   EXPECT_EQ (2, images.size());
-  EXPECT_EQ ((vector<string>{image_2_name, image_1_name}), images);
+  EXPECT_EQ ((std::vector<std::string>{image_2_name, image_1_name}), images);
 
   // Erase the first image and a non-existing one, and check the remaining image.
   database_bibleimages.erase (image_1_name);

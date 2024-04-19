@@ -55,7 +55,7 @@ void statistics_statistics ()
     
     
     std::string subject = "Bibledit " + translate("statistics");
-    stringstream body;
+    std::stringstream body;
     
   
     size_t change_notificatons_count = 0;

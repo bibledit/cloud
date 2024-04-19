@@ -31,7 +31,7 @@ using namespace std;
 // $info_top : Information.
 // $info_bottom: Information.
 // $post: causes the result to be sent via the POST method rather than the default GET method.
-Dialog_List::Dialog_List (string url, string question, string info_top, string info_bottom, bool post)
+Dialog_List::Dialog_List (std::string url, std::string question, std::string info_top, std::string info_bottom, bool post)
 {
   base_url = url;
   assets_view.set_variable ("question", question);
@@ -52,13 +52,13 @@ Dialog_List::~Dialog_List ()
 // If any $query is passed, if Cancel is clicked in this dialog, it should go go back
 // to the original caller page  with the $query added.
 // Same for when a selection is made: It adds the $query to the page where to go.
-void Dialog_List::add_query (string parameter, string value)
+void Dialog_List::add_query (std::string parameter, std::string value)
 {
   base_url = filter_url_build_http_query (base_url, parameter, value);
 }
 
 
-void Dialog_List::add_row (string text, string parameter, string value)
+void Dialog_List::add_row (std::string text, std::string parameter, std::string value)
 {
   if (!list_block.empty ()) list_block.append ("\n");
   list_block.append ("<li>");

@@ -92,7 +92,7 @@ string mapping_index (Webserver_Request& webserver_request)
   view.set_variable ("error", error);
   view.set_variable ("success", success);
   
-  stringstream mappingsblock;
+  std::stringstream mappingsblock;
   std::vector <std::string> mappings = database_mappings.names ();
   for (auto & mapping : mappings) {
     mappingsblock << "<p>";

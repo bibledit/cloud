@@ -36,7 +36,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 using namespace std;
 
 
-void user_logic_optional_ldap_authentication (Webserver_Request& webserver_request, string user, string pass)
+void user_logic_optional_ldap_authentication (Webserver_Request& webserver_request, std::string user, std::string pass)
 {
   if (ldap_logic_is_on ()) {
     // Query the LDAP server and log the response.
@@ -96,7 +96,7 @@ void user_logic_login_failure_clear ()
 }
 
 
-void user_logic_store_account_creation (string username)
+void user_logic_store_account_creation (std::string username)
 {
   std::vector <std::string> account_creation_times = Database_Config_General::getAccountCreationTimes ();
   std::string account_creation_time = filter::strings::convert_to_string(filter::date::seconds_since_epoch()) + "|" + username;
@@ -105,7 +105,7 @@ void user_logic_store_account_creation (string username)
 }
 
 
-void user_logic_delete_account (string user, string role, string email, string & feedback)
+void user_logic_delete_account (std::string user, std::string role, std::string email, std::string & feedback)
 {
   feedback = "Deleted user " + user + " with role " + role + " and email " + email;
   Database_Logs::log (feedback, Filter_Roles::admin ());

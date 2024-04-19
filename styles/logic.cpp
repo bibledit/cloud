@@ -32,7 +32,7 @@ string styles_logic_standard_sheet ()
 
 // This contains the styles logic.
 // categoryText - Returns the $category as human readable text.
-string styles_logic_category_text (string category)
+string styles_logic_category_text (std::string category)
 {
   if (category == "id")  return translate ("Identification information");
   if (category == "ith") return translate ("Introduction titles and headings");

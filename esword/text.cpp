@@ -28,7 +28,7 @@ using namespace std;
 // Class for creating e-Sword documents.
 
 
-Esword_Text::Esword_Text (string bible)
+Esword_Text::Esword_Text (std::string bible)
 {
   currentBook = 0;
   currentChapter = 0;
@@ -87,7 +87,7 @@ void Esword_Text::newVerse (int verse)
 }
 
 
-void Esword_Text::add_text (string text)
+void Esword_Text::add_text (std::string text)
 {
   if (text != "") currentText += text;
 }
@@ -104,11 +104,11 @@ void Esword_Text::finalize ()
 
 // This creates the eSword module.
 // $filename: the name of the file to create.
-void Esword_Text::createModule (string filename)
+void Esword_Text::createModule (std::string filename)
 {
   flushCache ();
   sqlite3 * db = database_sqlite_connect_file (filename);
-  for (string statement : sql) {
+  for (std::string statement : sql) {
     database_sqlite_exec (db, statement);
   }
   database_sqlite_disconnect (db);

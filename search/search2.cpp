@@ -223,7 +223,7 @@ string search_search2 (Webserver_Request& webserver_request)
     view.set_variable ("bibleoptags", Options_To_Select::mark_selected (bible, bible_html));
   }
   view.set_variable ("bible", bible);
-  stringstream script {};
+  std::stringstream script {};
   script << "var searchBible = " << quoted(bible) << ";";
   view.set_variable ("script", script.str());
   page += view.render ("search", "search2");

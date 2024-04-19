@@ -74,7 +74,7 @@ string notes_status_1 (Webserver_Request& webserver_request)
   }
   
   
-  stringstream statusblock;
+  std::stringstream statusblock;
   const std::vector <Database_Notes_Text> statuses = database_notes.get_possible_statuses ();
   for (const auto& status : statuses) {
     statusblock << "<li><a href=" << quoted ("status-1?id=" + filter::strings::convert_to_string (id) + "&status=" + status.raw) << ">" << status.localized + "</a></li>" << std::endl;

@@ -47,7 +47,7 @@ Passage::Passage ()
 }
 
 
-Passage::Passage (string bible, int book, int chapter, string verse)
+Passage::Passage (std::string bible, int book, int chapter, std::string verse)
 {
   m_bible = bible;
   m_book = book;
@@ -115,7 +115,7 @@ Passage Passage::decode (const std::string& encoded)
 }
 
 
-string filter_passage_display (int book, int chapter, string verse)
+string filter_passage_display (int book, int chapter, std::string verse)
 {
   std::string display;
   display.append (translate (database::books::get_english_from_id (static_cast<book_id>(book)).c_str()));
@@ -174,7 +174,7 @@ Passage filter_integer_to_passage (int integer)
 // and looks whether it can be interpreted as a valid book in any way.
 // It returns a valid book identifier,
 // or the unknown enum in case no book could be interpreted.
-book_id filter_passage_interpret_book_v2 (string book)
+book_id filter_passage_interpret_book_v2 (std::string book)
 {
   book = filter::strings::trim (book);
   
@@ -283,7 +283,7 @@ book_id filter_passage_interpret_book_v2 (string book)
 }
 
 
-string filter_passage_clean_passage (string text)
+string filter_passage_clean_passage (std::string text)
 {
   // Trim text.
   text = filter::strings::trim (text);
@@ -303,7 +303,7 @@ string filter_passage_clean_passage (string text)
 // Takes the passage in $text, and explodes it into book, chapter, verse.
 // The book is the numerical identifier, not the string, e.g.,
 // it would not return "Genesis", but identifier 1.
-Passage filter_passage_explode_passage (string text)
+Passage filter_passage_explode_passage (std::string text)
 {
   text = filter_passage_clean_passage (text);
   // Cut the text in its parts.
@@ -340,7 +340,7 @@ Passage filter_passage_explode_passage (string text)
 // - Book and two numbers given, e.g. "Song of Solomon 2 3".
 // It deals with these situations.
 // If needed, it bases the interpreted passage on $currentPassage.
-Passage filter_passage_interpret_passage (Passage currentPassage, string rawPassage)
+Passage filter_passage_interpret_passage (Passage currentPassage, std::string rawPassage)
 {
   rawPassage = filter_passage_clean_passage (rawPassage);
 
@@ -353,7 +353,7 @@ Passage filter_passage_interpret_passage (Passage currentPassage, string rawPass
   std::string book = "";
   std::vector <std::string> invertedInput (input.begin(), input.end ());
   reverse (invertedInput.begin (), invertedInput.end());
-  for (string & bit : invertedInput) {
+  for (std::string & bit : invertedInput) {
     int integer = filter::strings::convert_to_int (bit);
     if (bit == filter::strings::convert_to_string (integer)) {
       numerals.push_back (integer);
@@ -417,7 +417,7 @@ vector <std::string> filter_passage_handle_sequences_ranges (const std::string& 
   // 27-28
   // It implies that the first sequence has book and chapter.
   std::vector <std::string> sequences = filter::strings::explode (passage, ',');
-  for (string & line : sequences) line = filter::strings::trim (line);
+  for (std::string & line : sequences) line = filter::strings::trim (line);
 
 
   // Store output lines.
@@ -451,7 +451,7 @@ vector <std::string> filter_passage_handle_sequences_ranges (const std::string& 
 }
 
 
-string filter_passage_link_for_opening_editor_at (int book, int chapter, string verse)
+string filter_passage_link_for_opening_editor_at (int book, int chapter, std::string verse)
 {
   std::string display = filter_passage_display (book, chapter, verse);
   Passage passage = Passage ("", book, chapter, verse);
@@ -464,7 +464,7 @@ string filter_passage_link_for_opening_editor_at (int book, int chapter, string 
   a_node.text().set(display.c_str());
   pugi::xml_node span_node = document.append_child("span");
   span_node.text().set(" ");
-  stringstream output;
+  std::stringstream output;
   document.print (output, "", pugi::format_raw);
   std::string link = output.str ();
   return link;
@@ -486,7 +486,7 @@ vector <int> filter_passage_get_ordered_books (const std::string& bible)
 
   // Keep books available in the Bible.
   std::vector <int> orderedbooks;
-  for (string & book : vs_orderedbooks) {
+  for (std::string & book : vs_orderedbooks) {
     int bk = filter::strings::convert_to_int (book);
     if (find (projectbooks.begin(), projectbooks.end(), bk) != projectbooks.end()) {
       orderedbooks.push_back (bk);

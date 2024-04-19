@@ -70,7 +70,7 @@ void i18n_logic_augment_via_google_translate ()
     // Find the ones in the google file and insert them into the real .po file
    
     // Container for updated .po file contents.
-    stringstream updated_po_contents {};
+    std::stringstream updated_po_contents {};
     
     // Iterate over the current messages and assemble translations.
     for (auto & message : current_msgid_msgstr_map) {

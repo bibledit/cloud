@@ -40,7 +40,7 @@
 using namespace std;
 
 
-void export_web_book (string bible, int book, bool log)
+void export_web_book (std::string bible, int book, bool log)
 {
   const std::string directory = export_logic::web_directory (bible);
   if (!file_or_dir_exists (directory)) filter_url_mkdir (directory);
@@ -160,7 +160,7 @@ void export_web_book (string bible, int book, bool log)
 }
 
 
-void export_web_index (string bible, bool log)
+void export_web_index (std::string bible, bool log)
 {
   // Create folders for the web export.
   std::string directory = export_logic::web_directory (bible);

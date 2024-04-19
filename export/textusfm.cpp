@@ -37,7 +37,7 @@
 using namespace std;
 
 
-void export_text_usfm_book (string bible, int book, bool log)
+void export_text_usfm_book (std::string bible, int book, bool log)
 {
   // Create folders for the clear text and the basic USFM exports.
   std::string usfmDirectory = export_logic::usfm_directory (bible, 1);

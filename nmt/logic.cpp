@@ -31,7 +31,7 @@
 using namespace std;
 
 
-void nmt_logic_export (string referencebible, string translatingbible)
+void nmt_logic_export (std::string referencebible, std::string translatingbible)
 {
   Database_Logs::log (R"(Exporting reference Bible ")" + referencebible + R"(" plus translated Bible ")" + translatingbible + R"(" for a neural machine translation training job)");
   
@@ -156,7 +156,7 @@ void nmt_logic_export (string referencebible, string translatingbible)
 }
 
 
-void nmt_logic_split (string reference_text, string translating_text,
+void nmt_logic_split (std::string reference_text, std::string translating_text,
                       std::vector <std::string> & reference_bits, std::vector <std::string> & translating_bits)
 {
   // Define the punctuation marks to split the texts on.

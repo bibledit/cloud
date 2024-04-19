@@ -26,7 +26,7 @@ using namespace std;
 // Class for creating plain text documents.
 
 
-void Text_Text::paragraph (string text)
+void Text_Text::paragraph (std::string text)
 {
   if (thisline != "") {
     // The filter that converts from USFM to clear texts inserts some stuff
@@ -46,7 +46,7 @@ string Text_Text::line ()
 }
 
 
-void Text_Text::addtext (string text)
+void Text_Text::addtext (std::string text)
 {
   thisline += text;
 }
@@ -59,14 +59,14 @@ string Text_Text::get ()
 }
 
 
-void Text_Text::save (string name)
+void Text_Text::save (std::string name)
 {
   filter_url_file_put_contents (name, get ());
 }
 
 
 // Opens a new clear text note.
-void Text_Text::note (string text)
+void Text_Text::note (std::string text)
 {
   if (!thisnoteline.empty ()) {
     notes.push_back (thisnoteline);
@@ -76,7 +76,7 @@ void Text_Text::note (string text)
 }
 
 
-void Text_Text::addnotetext (string text)
+void Text_Text::addnotetext (std::string text)
 {
   thisnoteline.append (text);
 }

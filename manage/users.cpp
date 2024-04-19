@@ -267,7 +267,7 @@ string manage_users (Webserver_Request& webserver_request)
   
   
   // User accounts to display.
-  stringstream tbody;
+  std::stringstream tbody;
   bool ldap_on = ldap_logic_is_on ();
   // Retrieve assigned users.
   std::vector <std::string> users = access_user::assignees (webserver_request);

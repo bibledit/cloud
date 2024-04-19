@@ -76,8 +76,8 @@ string rss_logic_new_line ()
 }
 
 
-void rss_logic_schedule_update (string user, string bible, int book, int chapter,
-                                std::string oldusfm, string newusfm)
+void rss_logic_schedule_update (std::string user, std::string bible, int book, int chapter,
+                                std::string oldusfm, std::string newusfm)
 {
   // If the RSS feed system is off, bail out.
   if (!Database_Config_Bible::getSendChangesToRSS (bible)) return;
@@ -98,8 +98,8 @@ void rss_logic_schedule_update (string user, string bible, int book, int chapter
 }
 
 
-void rss_logic_execute_update (string user, string bible, int book, int chapter,
-                               std::string oldusfm, string newusfm)
+void rss_logic_execute_update (std::string user, std::string bible, int book, int chapter,
+                               std::string oldusfm, std::string newusfm)
 {
   // Bail out if there's no changes.
   if (oldusfm == newusfm) return;
@@ -227,7 +227,7 @@ void rss_logic_update_xml (vector <std::string> titles, std::vector <std::string
     pugi::xml_node decl = document.prepend_child (pugi::node_declaration);
     decl.append_attribute("version") = "1.0";
     decl.append_attribute("encoding") = "UTF-8";
-    stringstream output;
+    std::stringstream output;
     document.print (output, " ", pugi::format_default);
     filter_url_file_put_contents (path, output.str ());
   }

@@ -104,7 +104,7 @@ map <string, std::string> locale_logic_localizations ()
 }
 
 
-unordered_map <string, std::string> locale_logic_read_msgid_msgstr (string file)
+unordered_map <string, std::string> locale_logic_read_msgid_msgstr (std::string file)
 {
   unordered_map <string, std::string> translations;
   std::string contents = filter_url_file_get_contents (file);
@@ -218,7 +218,7 @@ string locale_logic_text_reload ()
 
 
 // Returns the Unicode name of the $space.
-string locale_logic_space_get_name (string space, bool english)
+string locale_logic_space_get_name (std::string space, bool english)
 {
   if (space == " ") {
     if (english) return "space";
@@ -244,7 +244,7 @@ string locale_logic_space_get_name (string space, bool english)
 }
 
 
-string locale_logic_deobfuscate (string value)
+string locale_logic_deobfuscate (std::string value)
 {
   // Replace longest strings first.
   

@@ -43,7 +43,7 @@ string Database_ImageResources::resourceFolder (const std::string& name)
 }
 
 
-string Database_ImageResources::imagePath (string name, string image)
+string Database_ImageResources::imagePath (std::string name, std::string image)
 {
   return filter_url_create_path ({resourceFolder (name), image});
 }
@@ -55,7 +55,7 @@ string Database_ImageResources::databaseFile ()
 }
 
 
-sqlite3 * Database_ImageResources::connect (string name)
+sqlite3 * Database_ImageResources::connect (std::string name)
 {
   std::string path = filter_url_create_path ({resourceFolder (name), databaseFile ()});
   return database_sqlite_connect (path);
@@ -68,7 +68,7 @@ vector <std::string> Database_ImageResources::names ()
 }
 
 
-void Database_ImageResources::create (string name)
+void Database_ImageResources::create (std::string name)
 {
   // Create folder to store the images.
   std::string path = resourceFolder (name);
@@ -88,7 +88,7 @@ void Database_ImageResources::create (string name)
 }
 
 
-void Database_ImageResources::erase (string name)
+void Database_ImageResources::erase (std::string name)
 {
   std::string path = resourceFolder (name);
   // If a folder: Delete it.
@@ -98,7 +98,7 @@ void Database_ImageResources::erase (string name)
 }
 
 
-void Database_ImageResources::erase (string name, string image)
+void Database_ImageResources::erase (std::string name, std::string image)
 {
   filter_url_unlink (imagePath (name, image));
   sqlite3 * db = connect (name);
@@ -114,7 +114,7 @@ void Database_ImageResources::erase (string name, string image)
 
 
 // Moves $file (path to an image file) into the database.
-string Database_ImageResources::store (string name, string file)
+string Database_ImageResources::store (std::string name, std::string file)
 {
   std::string folder = resourceFolder (name);
   std::string image = filter_url_basename (file);
@@ -132,7 +132,7 @@ string Database_ImageResources::store (string name, string file)
 
 // Assign a passage range to the $image.
 // It means that this image contains text for the passage range.
-void Database_ImageResources::assign (string name, string image,
+void Database_ImageResources::assign (std::string name, std::string image,
                                       int book1, int chapter1, int verse1,
                                       int book2, int chapter2, int verse2)
 {
@@ -159,7 +159,7 @@ void Database_ImageResources::assign (string name, string image,
 }
 
 
-vector <std::string> Database_ImageResources::get (string name, int book, int chapter, int verse)
+vector <std::string> Database_ImageResources::get (std::string name, int book, int chapter, int verse)
 {
   int passage = filter_passage_to_integer (Passage ("", book, chapter, filter::strings::convert_to_string (verse)));
   SqliteSQL sql = SqliteSQL ();
@@ -175,7 +175,7 @@ vector <std::string> Database_ImageResources::get (string name, int book, int ch
 }
 
 
-vector <std::string> Database_ImageResources::get (string name)
+vector <std::string> Database_ImageResources::get (std::string name)
 {
   // Get images from database, sorted on passage.
   SqliteSQL sql = SqliteSQL ();
@@ -201,7 +201,7 @@ vector <std::string> Database_ImageResources::get (string name)
 }
 
 
-void Database_ImageResources::get (string name, string image,
+void Database_ImageResources::get (std::string name, std::string image,
                                    int & book1, int & chapter1, int & verse1,
                                    int & book2, int & chapter2, int & verse2)
 {
@@ -238,7 +238,7 @@ void Database_ImageResources::get (string name, string image,
 }
 
 
-string Database_ImageResources::get (string name, string image)
+string Database_ImageResources::get (std::string name, std::string image)
 {
   std::string path = imagePath (name, image);
   return filter_url_file_get_contents (path);

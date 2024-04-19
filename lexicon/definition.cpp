@@ -81,7 +81,7 @@ string lexicon_definition (Webserver_Request& webserver_request)
       for (size_t i = 0; i < strongs.size (); i++) {
         std::string rendering1 = lexicon_logic_render_strongs_definition (strongs[i]);
         if (!rendering1.empty ()) renderings.push_back (rendering1);
-        stringstream rendering2;
+        std::stringstream rendering2;
         rendering2 << "<a href=" << quoted(BDB_PREFIX + bdbs[i]) << ">Brown Driver Briggs</a>";
         renderings.push_back (rendering2.str());
       }

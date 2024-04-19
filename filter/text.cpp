@@ -32,7 +32,7 @@ using namespace std;
 
 namespace filter::text {
 
-passage_marker_value::passage_marker_value (int book, int chapter, string verse, string marker, string value)
+passage_marker_value::passage_marker_value (int book, int chapter, std::string verse, std::string marker, std::string value)
 {
   m_book = book;
   m_chapter = chapter;
@@ -47,7 +47,7 @@ passage_marker_value::passage_marker_value (int book, int chapter, string verse,
 // This class filters USFM text, converting it into other formats.
 
 
-Filter_Text::Filter_Text (string bible)
+Filter_Text::Filter_Text (std::string bible)
 {
   m_bible = bible;
   space_type_after_verse = Database_Config_Bible::getOdtSpaceAfterVerse (m_bible);
@@ -74,7 +74,7 @@ Filter_Text::~Filter_Text ()
 
 // This function adds USFM code to the class.
 // $code: USFM code.
-void Filter_Text::add_usfm_code (string usfm)
+void Filter_Text::add_usfm_code (std::string usfm)
 {
   // Check that the USFM is valid UTF-8.
   if (!filter::strings::unicode_string_is_valid (usfm)) {
@@ -93,7 +93,7 @@ void Filter_Text::add_usfm_code (string usfm)
 
 // This function runs the filter.
 // $stylesheet - The stylesheet to use.
-void Filter_Text::run (string stylesheet)
+void Filter_Text::run (std::string stylesheet)
 {
   // Get the styles.
   get_styles (stylesheet);
@@ -165,7 +165,7 @@ void Filter_Text::get_usfm_next_chapter ()
 
 // This function gets the styles from the database,
 // and stores them in the object for quicker access.
-void Filter_Text::get_styles (string stylesheet)
+void Filter_Text::get_styles (std::string stylesheet)
 {
   styles.clear();
   // Get the relevant styles information included.
@@ -1381,7 +1381,7 @@ void Filter_Text::processNote ()
 // This creates and saves the information document.
 // It contains formatting information, collected from the USFM code.
 // $path: Path to the document.
-void Filter_Text::produceInfoDocument (string path)
+void Filter_Text::produceInfoDocument (std::string path)
 {
   HtmlText information (translate("Information"));
 
@@ -1484,7 +1484,7 @@ string Filter_Text::getCurrentPassageText ()
 // $text: String to add to the Info array.
 // $next: If true, it also adds the text following the marker to the info,
 // and removes this text from the USFM input stream.
-void Filter_Text::addToInfo (string text, bool next)
+void Filter_Text::addToInfo (std::string text, bool next)
 {
   text = getCurrentPassageText() + " " + text;
   if (next) {
@@ -1499,7 +1499,7 @@ void Filter_Text::addToInfo (string text, bool next)
 // $text: String to add to the Fallout array.
 // $next: If true, it also adds the text following the marker to the fallout,
 // and removes this text from the USFM input stream.
-void Filter_Text::addToFallout (string text, bool next)
+void Filter_Text::addToFallout (std::string text, bool next)
 {
   text = getCurrentPassageText () + " " + text;
   if (next) {
@@ -1527,11 +1527,11 @@ void Filter_Text::addToWordList (vector <std::string>  & list)
 
 // This produces and saves the Fallout document.
 // $path: Path to the document.
-void Filter_Text::produceFalloutDocument (string path)
+void Filter_Text::produceFalloutDocument (std::string path)
 {
   HtmlText html_text (translate("Fallout"));
   html_text.new_heading1 (translate("Fallout"));
-  for (string line : fallout) {
+  for (std::string line : fallout) {
     html_text.new_paragraph ();
     html_text.add_text (line);
   }
@@ -1629,7 +1629,7 @@ void Filter_Text::applyDropCapsToCurrentParagraph (int dropCapsLength)
 // This puts the chapter number in a frame in the current paragraph.
 // This is to put the chapter number in a frame so it looks like drop caps in the OpenDocument.
 // $chapterText: The text of the chapter indicator to put.
-void Filter_Text::putChapterNumberInFrame (string chapterText)
+void Filter_Text::putChapterNumberInFrame (std::string chapterText)
 {
   Database_Styles_Item style = styles[chapterMarker];
   if (odf_text_standard) odf_text_standard->place_text_in_frame (chapterText, this->chapterMarker, style.fontsize, style.italic, style.bold);
@@ -1668,7 +1668,7 @@ string Filter_Text::getNoteCitation (const Database_Styles_Item & style)
 // This function ensures that a certain paragraph style for a note is present in the OpenDocument.
 // $marker: Which note, e.g. 'f' or 'x' or 'fe'.
 // $style: The style to use.
-void Filter_Text::ensureNoteParagraphStyle (string marker, const Database_Styles_Item & style)
+void Filter_Text::ensureNoteParagraphStyle (std::string marker, const Database_Styles_Item & style)
 {
   if (find (createdStyles.begin(), createdStyles.end(), marker) == createdStyles.end()) {
     std::string fontname = Database_Config_Bible::getExportFont (m_bible);

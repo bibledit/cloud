@@ -38,7 +38,7 @@ void Database_Sample::create ()
 
 
 // Store a file and its data the sample.
-void Database_Sample::store (string file, string data)
+void Database_Sample::store (std::string file, std::string data)
 {
   SqliteDatabase sql = SqliteDatabase (name ());
   sql.add ("INSERT INTO sample VALUES (");
@@ -63,7 +63,7 @@ vector <int> Database_Sample::get ()
 
 
 // Get a a file and its contents.
-void Database_Sample::get (int rowid, string & file, string & data)
+void Database_Sample::get (int rowid, std::string & file, std::string & data)
 {
   SqliteDatabase sql = SqliteDatabase (name ());
   sql.add ("SELECT file, data FROM sample WHERE rowid =");

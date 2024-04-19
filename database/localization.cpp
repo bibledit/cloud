@@ -44,7 +44,7 @@ sqlite3 * Database_Localization::connect ()
 }
 
 
-void Database_Localization::create (string po)
+void Database_Localization::create (std::string po)
 {
   sqlite3 * db = connect ();
   database_sqlite_exec (db, "PRAGMA temp_store = MEMORY;");

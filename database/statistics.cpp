@@ -50,7 +50,7 @@ void Database_Statistics::optimize ()
 }
 
 
-void Database_Statistics::store_changes (int timestamp, string user, int count)
+void Database_Statistics::store_changes (int timestamp, std::string user, int count)
 {
   SqliteDatabase sql = SqliteDatabase (name ());
   sql.add ("INSERT INTO changes VALUES (");
@@ -77,7 +77,7 @@ vector <std::string> Database_Statistics::get_users ()
 
 
 // Fetches the change statistics from the database for $user for no more than a year ago.
-vector <std::pair <int, int>> Database_Statistics::get_changes (string user)
+vector <std::pair <int, int>> Database_Statistics::get_changes (std::string user)
 {
   std::vector <std::pair <int, int>> changes;
   SqliteDatabase sql = SqliteDatabase (name ());

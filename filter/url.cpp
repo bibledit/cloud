@@ -52,9 +52,9 @@ using namespace std;
 
 
 // Internal function declarations.
-vector <std::string> filter_url_scandir_internal (string folder);
-string filter_url_dirname_internal (string url, const char * separator);
-string filter_url_basename_internal (string url, const char * separator);
+vector <std::string> filter_url_scandir_internal (std::string folder);
+string filter_url_dirname_internal (std::string url, const char * separator);
+string filter_url_basename_internal (std::string url, const char * separator);
 size_t filter_url_curl_write_function (void *ptr, size_t size, size_t count, void *stream);
 void filter_url_curl_debug_dump (const char *text, FILE *stream, unsigned char *ptr, size_t size);
 #ifdef HAVE_CLOUD
@@ -68,7 +68,7 @@ mbedtls_ctr_drbg_context filter_url_mbed_tls_ctr_drbg;
 mbedtls_x509_crt filter_url_mbed_tls_cacert;
 
 
-vector <std::string> filter_url_scandir_internal (string folder)
+vector <std::string> filter_url_scandir_internal (std::string folder)
 {
   std::vector <std::string> files;
   
@@ -144,7 +144,7 @@ string get_base_url (Webserver_Request& webserver_request)
 
 // This function redirects the browser to "path".
 // "path" is an absolute value.
-void redirect_browser (Webserver_Request& webserver_request, string path)
+void redirect_browser (Webserver_Request& webserver_request, std::string path)
 {
   // A location header should contain an absolute url, like http://localhost/some/path.
   // See 14.30 in the specification https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html.
@@ -181,7 +181,7 @@ void redirect_browser (Webserver_Request& webserver_request, string path)
 
 // C++ replacement for the dirname function, see http://linux.die.net/man/3/dirname.
 // The BSD dirname is not thread-safe, see the implementation notes on $ man 3 dirname.
-string filter_url_dirname_internal (string url, const char * separator)
+string filter_url_dirname_internal (std::string url, const char * separator)
 {
   if (!url.empty ()) {
     if (url.find_last_of (separator) == url.length () - 1) {
@@ -199,7 +199,7 @@ string filter_url_dirname_internal (string url, const char * separator)
 
 // Dirname routine for the operating system.
 // It uses the defined slash as the separator.
-string filter_url_dirname (string url)
+string filter_url_dirname (std::string url)
 {
   return filter_url_dirname_internal (url, DIRECTORY_SEPARATOR);
 }
@@ -208,7 +208,7 @@ string filter_url_dirname (string url)
 // Dirname routine for the filesystem.
 // It uses the automatically defined separator as the directory separator.
 // As of February 2022 the std::filesystem does not yet work on Android.
-//string filter_url_dirname (string url)
+//string filter_url_dirname (std::string url)
 //{
 //  // Remove possible trailing path slash.
 //  if (!url.empty ()) {
@@ -228,7 +228,7 @@ string filter_url_dirname (string url)
 
 // Dirname routine for the web.
 // It uses the forward slash as the separator.
-string filter_url_dirname_web (string url)
+string filter_url_dirname_web (std::string url)
 {
   const char * separator = "/";
   if (!url.empty ()) {
@@ -248,7 +248,7 @@ string filter_url_dirname_web (string url)
 
 // C++ replacement for the basename function, see http://linux.die.net/man/3/basename.
 // The BSD basename is not thread-safe, see the warnings in $ man 3 basename.
-string filter_url_basename_internal (string url, const char * separator)
+string filter_url_basename_internal (std::string url, const char * separator)
 {
   if (!url.empty ()) {
     if (url.find_last_of (separator) == url.length () - 1) {
@@ -264,7 +264,7 @@ string filter_url_basename_internal (string url, const char * separator)
 
 // Basename routine for the operating system.
 // It uses the defined slash as the separator.
-string filter_url_basename (string url)
+string filter_url_basename (std::string url)
 {
   return filter_url_basename_internal (url, DIRECTORY_SEPARATOR);
 }
@@ -273,7 +273,7 @@ string filter_url_basename (string url)
 // Basename routine for the filesystem.
 // It uses the automatically defined separator as the directory separator.
 // As of February 2022 the std::filesystem does not yet work on Android.
-//string filter_url_basename (string url)
+//string filter_url_basename (std::string url)
 //{
 //  // Remove possible trailing path slash.
 //  if (!url.empty ()) {
@@ -291,7 +291,7 @@ string filter_url_basename (string url)
 
 // Basename routine for the web.
 // It uses the forward slash as the separator.
-string filter_url_basename_web (string url)
+string filter_url_basename_web (std::string url)
 {
   if (!url.empty ()) {
     // Remove trailing slash.
@@ -308,7 +308,7 @@ string filter_url_basename_web (string url)
 }
 
 
-void filter_url_unlink (string filename)
+void filter_url_unlink (std::string filename)
 {
 #ifdef HAVE_WINDOWS
   wstring wfilename = filter::strings::string2wstring (filename);
@@ -320,7 +320,7 @@ void filter_url_unlink (string filename)
 
 
 // As of February 2022 the std::filesystem does not yet work on Android.
-//void filter_url_unlink (string filename)
+//void filter_url_unlink (std::string filename)
 //{
 //  try {
 //    filesystem::path path (filename);
@@ -439,7 +439,7 @@ string filter_url_create_root_path (const std::vector <std::string>& parts)
 
 
 // Gets the file / url extension, e.g. /home/joe/file.txt returns "txt".
-string filter_url_get_extension (string url)
+string filter_url_get_extension (std::string url)
 {
   std::string extension;
   size_t pos = url.find_last_of (".");
@@ -452,7 +452,7 @@ string filter_url_get_extension (string url)
 
 // Gets the file / url extension, e.g. /home/joe/file.txt returns "txt".
 // As of February 2022 the std::filesystem does not yet work on Android.
-//string filter_url_get_extension (string url)
+//string filter_url_get_extension (std::string url)
 //{
 //  std::filesystem::path path (url);
 //  std::string extension;
@@ -467,7 +467,7 @@ string filter_url_get_extension (string url)
 
 
 // Returns true if the file at $url exists.
-bool file_or_dir_exists (string url)
+bool file_or_dir_exists (std::string url)
 {
 #ifdef HAVE_WINDOWS
   // Function '_wstat' works with wide characters.
@@ -485,7 +485,7 @@ bool file_or_dir_exists (string url)
 
 // Returns true if the file or directory at $url exists.
 // As of February 2022 the std::filesystem does not yet work on Android.
-//bool file_or_dir_exists (string url)
+//bool file_or_dir_exists (std::string url)
 //{
 //  filesystem::path path (url);
 //  bool exists = filesystem::exists (path);
@@ -495,7 +495,7 @@ bool file_or_dir_exists (string url)
 
 // Makes a directory.
 // Creates parents where needed.
-void filter_url_mkdir (string directory)
+void filter_url_mkdir (std::string directory)
 {
   int status;
 #ifdef HAVE_WINDOWS
@@ -528,7 +528,7 @@ void filter_url_mkdir (string directory)
 // Makes a directory.
 // Creates parents where needed.
 // As of February 2022 the std::filesystem does not yet work on Android.
-//void filter_url_mkdir (string directory)
+//void filter_url_mkdir (std::string directory)
 //{
 //  try {
 //    std::filesystem::path path (directory);
@@ -538,7 +538,7 @@ void filter_url_mkdir (string directory)
 
 
 // Removes directory recursively.
-void filter_url_rmdir (string directory)
+void filter_url_rmdir (std::string directory)
 {
   std::vector <std::string> files = filter_url_scandir_internal (directory);
   for (auto path : files) {
@@ -569,7 +569,7 @@ void filter_url_rmdir (string directory)
 
 // Removes directory recursively.
 // As of February 2022 the std::filesystem does not yet work on Android.
-//void filter_url_rmdir (string directory)
+//void filter_url_rmdir (std::string directory)
 //{
 //  try {
 //    filesystem::path path (directory);
@@ -579,7 +579,7 @@ void filter_url_rmdir (string directory)
 
 
 // Returns true is $path points to a directory.
-bool filter_url_is_dir (string path)
+bool filter_url_is_dir (std::string path)
 {
 #ifdef HAVE_WINDOWS
   // Function '_wstat', on Windows, works with wide characters.
@@ -596,7 +596,7 @@ bool filter_url_is_dir (string path)
 
 // Returns true is $path points to a directory.
 // As of February 2022 the std::filesystem does not yet work on Android.
-//bool filter_url_is_dir (string path)
+//bool filter_url_is_dir (std::string path)
 //{
 //  bool is_dir = false;
 //  try {
@@ -607,7 +607,7 @@ bool filter_url_is_dir (string path)
 //}
 
 
-bool filter_url_get_write_permission (string path)
+bool filter_url_get_write_permission (std::string path)
 {
 #ifdef HAVE_WINDOWS
   wstring wpath = filter::strings::string2wstring (path);
@@ -619,7 +619,7 @@ bool filter_url_get_write_permission (string path)
 }
 
 
-void filter_url_set_write_permission (string path)
+void filter_url_set_write_permission (std::string path)
 {
 #ifdef HAVE_WINDOWS
   wstring wpath = filter::strings::string2wstring (path);
@@ -631,7 +631,7 @@ void filter_url_set_write_permission (string path)
 
 
 // As of February 2022 the std::filesystem does not yet work on Android.
-//void filter_url_set_write_permission (string path)
+//void filter_url_set_write_permission (std::string path)
 //{
 //  filesystem::path p (path);
 //  filesystem::permissions(p, filesystem::perms::owner_all | filesystem::perms::group_all | filesystem::perms::others_all);
@@ -639,7 +639,7 @@ void filter_url_set_write_permission (string path)
 
 
 // Get and returns the contents of $filename.
-string filter_url_file_get_contents(string filename)
+string filter_url_file_get_contents(std::string filename)
 {
   if (!file_or_dir_exists (filename)) return std::string();
   try {
@@ -663,7 +663,7 @@ string filter_url_file_get_contents(string filename)
 
 
 // Puts the $contents into $filename.
-void filter_url_file_put_contents (string filename, string contents)
+void filter_url_file_put_contents (std::string filename, std::string contents)
 {
   try {
     ofstream file;  
@@ -682,7 +682,7 @@ void filter_url_file_put_contents (string filename, string contents)
 
 // C++ rough equivalent for PHP's file_put_contents.
 // Appends the data if the file exists.
-void filter_url_file_put_contents_append (string filename, string contents)
+void filter_url_file_put_contents_append (std::string filename, std::string contents)
 {
   try {
     ofstream file;
@@ -701,7 +701,7 @@ void filter_url_file_put_contents_append (string filename, string contents)
 
 // Copies the contents of file named "input" to file named "output".
 // It is assumed that the folder where "output" will reside exists.
-bool filter_url_file_cp (string input, string output)
+bool filter_url_file_cp (std::string input, std::string output)
 {
   try {
 #ifdef HAVE_WINDOWS
@@ -746,7 +746,7 @@ void filter_url_dir_cp (const std::string& input, const std::string& output)
 
 
 // A C++ equivalent for PHP's filesize function.
-int filter_url_filesize (string filename)
+int filter_url_filesize (std::string filename)
 {
 #ifdef HAVE_WINDOWS
   wstring wfilename = filter::strings::string2wstring (filename);
@@ -762,7 +762,7 @@ int filter_url_filesize (string filename)
 
 // Returns the size of the file at $filename.
 // As of February 2022 the std::filesystem does not yet work on Android.
-//int filter_url_filesize (string filename)
+//int filter_url_filesize (std::string filename)
 //{
 //  uintmax_t filesize = 0;
 //  try {
@@ -774,7 +774,7 @@ int filter_url_filesize (string filename)
 
 
 // Scans the directory for files it contains.
-vector <std::string> filter_url_scandir (string folder)
+vector <std::string> filter_url_scandir (std::string folder)
 {
   std::vector <std::string> files = filter_url_scandir_internal (folder);
   files = filter::strings::array_diff (files, {"gitflag"});
@@ -784,7 +784,7 @@ vector <std::string> filter_url_scandir (string folder)
 
 // Scans the directory for files it contains.
 // As of February 2022 the std::filesystem does not yet work on Android.
-//vector <std::string> filter_url_scandir (string folder)
+//vector <std::string> filter_url_scandir (std::string folder)
 //{
 //  std::vector <std::string> files;
 //  try {
@@ -814,7 +814,7 @@ vector <std::string> filter_url_scandir (string folder)
 
 
 // Recursively scans a directory for directories and files.
-void filter_url_recursive_scandir (string folder, std::vector <std::string> & paths)
+void filter_url_recursive_scandir (std::string folder, std::vector <std::string> & paths)
 {
   std::vector <std::string> files = filter_url_scandir (folder);
   for (auto & file : files) {
@@ -828,7 +828,7 @@ void filter_url_recursive_scandir (string folder, std::vector <std::string> & pa
 
 
 // Gets the file modification time.
-int filter_url_file_modification_time (string filename)
+int filter_url_file_modification_time (std::string filename)
 {
 #ifdef HAVE_WINDOWS
   wstring wfilename = filter::strings::string2wstring (filename);
@@ -843,7 +843,7 @@ int filter_url_file_modification_time (string filename)
 
 
 // A C++ near equivalent for PHP's urldecode function.
-string filter_url_urldecode (string url)
+string filter_url_urldecode (std::string url)
 {
   url = UriDecode (url);
   replace (url.begin (), url.end (), '+', ' ');
@@ -852,7 +852,7 @@ string filter_url_urldecode (string url)
 
 
 // A C++ near equivalent for PHP's urlencode function.
-string filter_url_urlencode (string url)
+string filter_url_urlencode (std::string url)
 {
   url = UriEncode (url);
   return url;
@@ -880,7 +880,7 @@ string filter_url_tempfile (const char * directory)
 
 
 // C++ equivalent for PHP's escapeshellarg function.
-string filter_url_escape_shell_argument (string argument)
+string filter_url_escape_shell_argument (std::string argument)
 {
   argument = filter::strings::replace ("'", "\\'", argument);
   argument.insert (0, "'");
@@ -892,7 +892,7 @@ string filter_url_escape_shell_argument (string argument)
 // The function accepts a $path.
 // The function may add a numerical suffix 
 // to ensure that the $path does not yet exist in the filesystem.
-string filter_url_unique_path (string path)
+string filter_url_unique_path (std::string path)
 {
   if (!file_or_dir_exists (path)) return path;
   for (size_t i = 1; i < 100; i++) {
@@ -904,7 +904,7 @@ string filter_url_unique_path (string path)
 
 
 // Returns true if the email address is valid.
-bool filter_url_email_is_valid (string email)
+bool filter_url_email_is_valid (std::string email)
 {
   const std::string valid_set ("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ._-");
   // The @ character should appear only once.
@@ -930,7 +930,7 @@ bool filter_url_email_is_valid (string email)
 }
 
 
-string filter_url_build_http_query (string url, const std::string& parameter, const std::string& value)
+string filter_url_build_http_query (std::string url, const std::string& parameter, const std::string& value)
 {
   size_t pos = url.find ("?");
   if (pos == std::string::npos) url.append ("?");
@@ -952,7 +952,7 @@ size_t filter_url_curl_write_function (void *ptr, size_t size, size_t count, voi
 // Sends a http GET request to the $url.
 // It returns the response from the server.
 // It writes any error to $error.
-string filter_url_http_get (string url, string& error, [[maybe_unused]] bool check_certificate)
+string filter_url_http_get (std::string url, std::string& error, [[maybe_unused]] bool check_certificate)
 {
   std::string response;
 #ifdef HAVE_CLIENT
@@ -1066,7 +1066,7 @@ int filter_url_curl_trace (CURL *handle, curl_infotype type, char *data, size_t 
 // It appends the $values to the post data.
 // It returns the response from the server.
 // It writes any error to $error.
-string filter_url_http_post (const std::string& url, [[maybe_unused]] string post_data, const std::map <string, std::string> & post_values, string& error, [[maybe_unused]] bool burst, [[maybe_unused]] bool check_certificate, [[maybe_unused]] const std::vector <std::pair <string, std::string> > & headers)
+string filter_url_http_post (const std::string& url, [[maybe_unused]] string post_data, const std::map <string, std::string> & post_values, std::string& error, [[maybe_unused]] bool burst, [[maybe_unused]] bool check_certificate, [[maybe_unused]] const std::vector <std::pair <string, std::string> > & headers)
 {
   std::string response;
 #ifdef HAVE_CLIENT
@@ -1141,7 +1141,7 @@ string filter_url_http_post (const std::string& url, [[maybe_unused]] string pos
 string filter_url_http_upload ([[maybe_unused]] string url,
                                [[maybe_unused]] std::map <string, std::string> values,
                                [[maybe_unused]] string filename,
-                               string& error)
+                               std::string& error)
 {
   std::string response;
 
@@ -1264,7 +1264,7 @@ string filter_url_http_response_code_text (int code)
 
 
 // Downloads the file at $url, and stores it at $filename.
-void filter_url_download_file (string url, string filename, string& error,
+void filter_url_download_file (std::string url, std::string filename, std::string& error,
                                [[maybe_unused]] bool check_certificate)
 {
 #ifdef HAVE_CLIENT
@@ -1302,7 +1302,7 @@ void filter_url_download_file (string url, string filename, string& error,
  * $book    - The book identifier.
  * $chapter - The chapter number.
  */
-string filter_url_html_file_name_bible (string path, int book, int chapter)
+string filter_url_html_file_name_bible (std::string path, int book, int chapter)
 {
   std::string filename;
   
@@ -1389,7 +1389,7 @@ void filter_url_curl_set_timeout (void *curl_handle, bool burst)
 // When the client POSTs + sign to the server,
 // the + sign is replaced with a space in the process.
 // Therefore first convert the + to a TAG before sending it off.
-string filter_url_plus_to_tag (string data)
+string filter_url_plus_to_tag (std::string data)
 {
   return filter::strings::replace ("+", "PLUSSIGN", data);
 }
@@ -1399,14 +1399,14 @@ string filter_url_plus_to_tag (string data)
 // the + sign is replaced with a space in the process.
 // Javascript first converts the + to a TAG before sending it off.
 // This function reverts the TAG to the original + sign.
-string filter_url_tag_to_plus (string data)
+string filter_url_tag_to_plus (std::string data)
 {
   return filter::strings::replace ("PLUSSIGN", "+", data);
 }
 
 
 // This filter removes the username and password components from the $url.
-string filter_url_remove_username_password (string url)
+string filter_url_remove_username_password (std::string url)
 {
   std::string slashes = "//";
   size_t pos = url.find (slashes);
@@ -1431,7 +1431,7 @@ string filter_url_remove_username_password (string url)
 // $post: Value pairs for a POST request.
 // $filename: The filename to save the data to.
 // $check_certificate: Whether to check the server certificate in case of secure http.
-string filter_url_http_request_mbed (string url, string& error, const std::map <string, std::string>& post, const std::string& filename, bool check_certificate)
+string filter_url_http_request_mbed (std::string url, std::string& error, const std::map <string, std::string>& post, const std::string& filename, bool check_certificate)
 {
   // The "http" scheme is used to locate network resources via the HTTP protocol.
   // $url = "http(s):" "//" host [ ":" port ] [ abs_path [ "?" query ]]
@@ -1951,7 +1951,7 @@ void filter_url_display_mbed_tls_error (int& ret, string* error, bool server, co
 // This takes $url, removes any scheme (http / https) it has,
 // then sets the correct scheme based on $secure,
 // and returns the URL, e.g. as http://localhost or https://localhost.
-string filter_url_set_scheme (string url, bool secure)
+string filter_url_set_scheme (std::string url, bool secure)
 {
   // Remove whitespace.
   url = filter::strings::trim (url);
@@ -1972,7 +1972,7 @@ string filter_url_set_scheme (string url, bool secure)
 
 
 // Replace invalid characters in Windows filenames with valid abbreviations.
-string filter_url_clean_filename (string name)
+string filter_url_clean_filename (std::string name)
 {
   name = filter::strings::replace ("\\", "b2", name);
   name = filter::strings::replace ("/",  "sl", name);
@@ -1990,7 +1990,7 @@ string filter_url_clean_filename (string name)
 // Replace invalid characters in Windows filenames with valid abbreviations.
 // In contrast with the above function, the $name in this function can be "uncleaned" again.
 // The next function does the "unclean" operation, to get the original $name back.
-string filter_url_filename_clean (string name)
+string filter_url_filename_clean (std::string name)
 {
   name = filter::strings::replace ("\\", "___b2___", name);
   name = filter::strings::replace ("/",  "___sl___", name);
@@ -2006,7 +2006,7 @@ string filter_url_filename_clean (string name)
 
 
 // Take $name, and undo the "clean" function in the above.
-string filter_url_filename_unclean (string name)
+string filter_url_filename_unclean (std::string name)
 {
   name = filter::strings::replace ("___b2___", "\\", name);
   name = filter::strings::replace ("___sl___", "/",  name);
@@ -2023,7 +2023,7 @@ string filter_url_filename_unclean (string name)
 
 // Changes a Unix directory separator to a Windows one.
 // Works on Windows only.
-string filter_url_update_directory_separator_if_windows (string filename)
+string filter_url_update_directory_separator_if_windows (std::string filename)
 {
 #ifdef HAVE_WINDOWS
   filename = filter::strings::replace ("/", DIRECTORY_SEPARATOR, filename);
@@ -2033,7 +2033,7 @@ string filter_url_update_directory_separator_if_windows (string filename)
 
 
 // Returns true if it is possible to connect to port $port on $hostname.
-bool filter_url_port_can_connect (string hostname, int port)
+bool filter_url_port_can_connect (std::string hostname, int port)
 {
   // Resolve the host.
   addrinfo hints;
@@ -2084,7 +2084,7 @@ bool filter_url_port_can_connect (string hostname, int port)
 }
 
 
-bool filter_url_is_image (string extension)
+bool filter_url_is_image (std::string extension)
 {
   if (extension == "png") return true;
   
@@ -2103,7 +2103,7 @@ bool filter_url_is_image (string extension)
 // https://svn.apache.org/repos/asf/httpd/httpd/trunk/docs/conf/mime.types
 // See also:
 // https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types
-string filter_url_get_mime_type (string extension)
+string filter_url_get_mime_type (std::string extension)
 {
   static std::map <string, std::string> mime_types = {
     {"jar", "application/java-archive"},
@@ -2145,7 +2145,7 @@ string filter_url_get_mime_type (string extension)
 // - bibledit.org
 // - 8080
 // If any of these three parts is not found, then the part is left empty, or the port remains 0.
-void filter_url_get_scheme_host_port (string url, string & scheme, string & host, int & port)
+void filter_url_get_scheme_host_port (std::string url, std::string & scheme, std::string & host, int & port)
 {
   // Clear the values that are going to be detected.
   scheme.clear();

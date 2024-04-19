@@ -29,7 +29,7 @@
 using namespace std;
 
 
-void Editor_Html2Format::load (string html)
+void Editor_Html2Format::load (std::string html)
 {
   // The web editor may insert non-breaking spaces. Convert them to normal spaces.
   html = filter::strings::replace (filter::strings::unicode_non_breaking_space_entity (), " ", html);
@@ -157,7 +157,7 @@ void Editor_Html2Format::closeElementNode (pugi::xml_node node)
 }
 
 
-void Editor_Html2Format::openInline (string className)
+void Editor_Html2Format::openInline (std::string className)
 {
   current_character_format = className;
 }
@@ -175,7 +175,7 @@ void Editor_Html2Format::postprocess ()
 }
 
 
-string Editor_Html2Format::update_quill_class (string classname)
+string Editor_Html2Format::update_quill_class (std::string classname)
 {
   classname = filter::strings::replace (quill_logic_class_prefix_block (), "", classname);
   classname = filter::strings::replace (quill_logic_class_prefix_inline (), "", classname);

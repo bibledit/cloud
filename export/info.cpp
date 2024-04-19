@@ -36,7 +36,7 @@
 using namespace std;
 
 
-void export_info (string bible, bool log)
+void export_info (std::string bible, bool log)
 {
   // Create folders for the information.
   std::string directory = filter_url_create_path ({export_logic::bible_directory (bible), "info"});

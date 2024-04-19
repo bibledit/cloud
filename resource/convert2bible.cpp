@@ -30,7 +30,7 @@
 using namespace std;
 
 
-void convert_resource_to_bible (string resource)
+void convert_resource_to_bible (std::string resource)
 {
   Database_Bibles database_bibles;
   Database_UsfmResources database_usfmresources = Database_UsfmResources ();

@@ -26,21 +26,21 @@ using namespace std;
 
 
 // Sets a variable (key and value) for the html template.
-void Flate::set_variable (string key, string value)
+void Flate::set_variable (std::string key, std::string value)
 {
   variables [key] = value;
 }
 
 
 // Enable a zone in the html template.
-void Flate::enable_zone (string zone)
+void Flate::enable_zone (std::string zone)
 {
   zones [zone] = true;
 }
 
 
 // Add $value-s for one iteration to iterator $key.
-void Flate::add_iteration (string key, std::map <string, std::string> value)
+void Flate::add_iteration (std::string key, std::map <string, std::string> value)
 {
   // The $key is the name for the iteration,
   // where to add $value, which is a map of keys and values.
@@ -49,7 +49,7 @@ void Flate::add_iteration (string key, std::map <string, std::string> value)
 
 
 // Renders the html template.
-string Flate::render (string html)
+string Flate::render (std::string html)
 {
   std::string rendering;
   try {
@@ -77,7 +77,7 @@ string Flate::render (string html)
 }
 
 
-void Flate::process_iterations (string & rendering)
+void Flate::process_iterations (std::string & rendering)
 {
   // Limit iteration count.
   int iteration_count = 0;

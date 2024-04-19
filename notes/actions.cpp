@@ -135,7 +135,7 @@ string notes_actions (Webserver_Request& webserver_request)
   
 
   std::vector <std::string> assignees = database_notes.get_assignees (id);
-  stringstream assigneeblock;
+  std::stringstream assigneeblock;
   for (auto & assignee : assignees) {
     assigneeblock << assignee;
     if (level >= Filter_Roles::manager ()) {

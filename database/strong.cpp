@@ -30,7 +30,7 @@ using namespace std;
 
 
 // Get Strong's definition for the $strong's number.
-string Database_Strong::definition (string strong)
+string Database_Strong::definition (std::string strong)
 {
   sqlite3 * db;
   {
@@ -51,7 +51,7 @@ string Database_Strong::definition (string strong)
 
 // Get Strong's number(s) for the $lemma.
 // Most lemma's refer to one Strong's number, but some lemma's refer to more than one.
-vector <std::string> Database_Strong::strong (string lemma)
+vector <std::string> Database_Strong::strong (std::string lemma)
 {
   sqlite3 * db;
   {

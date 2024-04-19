@@ -96,7 +96,7 @@ string styles_sheetm (Webserver_Request& webserver_request)
     if (write) database_styles.deleteMarker (name, del);
   }
 
-  stringstream markerblock;
+  std::stringstream markerblock;
   std::map <string, std::string> markers_names = database_styles.getMarkersAndNames (name);
   for (auto & item : markers_names) {
     std::string marker = item.first;

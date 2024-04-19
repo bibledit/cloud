@@ -184,7 +184,7 @@ string workspace_get_active_name (Webserver_Request& webserver_request)
 
 
 // This function processes the units for a $length value.
-string workspace_process_units (string length)
+string workspace_process_units (std::string length)
 {
   // If a size factor is found, great, otherwise default to 1
   if (length == filter::strings::convert_to_string (filter::strings::convert_to_int (length))) {
@@ -263,7 +263,7 @@ void workspace_set_heights (Webserver_Request& webserver_request, const std::map
 }
 
 
-void workspace_set_entire_width (Webserver_Request& webserver_request, string value)
+void workspace_set_entire_width (Webserver_Request& webserver_request, std::string value)
 {
   std::map <int, std::string> values = {pair (0, value)};
   workspace_set_values (webserver_request, ENTIREWIDTH, values);
@@ -387,7 +387,7 @@ vector <std::string> workspace_get_names (Webserver_Request& webserver_request, 
 }
 
 
-void workspace_delete (Webserver_Request& webserver_request, string workspace)
+void workspace_delete (Webserver_Request& webserver_request, std::string workspace)
 {
   std::string rawvalue;
   std::vector <std::string> currentlines;
@@ -466,7 +466,7 @@ void workspace_reorder (Webserver_Request& webserver_request, const std::vector 
 
 
 // Copy workspace $source to $destination
-void workspace_copy (Webserver_Request& webserver_request, string source, string destination)
+void workspace_copy (Webserver_Request& webserver_request, std::string source, std::string destination)
 {
   // Save current active workspace.
   std::string active_workspace = webserver_request.database_config_user()->getActiveWorkspace ();
@@ -513,7 +513,7 @@ string workspace_get_default_name ()
 
 
 // Send the named $workspace to a $user name.
-void workspace_send (Webserver_Request& webserver_request, string workspace, string user)
+void workspace_send (Webserver_Request& webserver_request, std::string workspace, std::string user)
 {
   // Save current active workspace.
   std::string active_workspace = webserver_request.database_config_user()->getActiveWorkspace ();

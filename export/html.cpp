@@ -40,7 +40,7 @@
 using namespace std;
 
 
-void export_html_book (string bible, int book, bool log)
+void export_html_book (std::string bible, int book, bool log)
 {
   // Create folders for the html export.
   std::string directory = filter_url_create_path ({export_logic::bible_directory (bible), "html"});

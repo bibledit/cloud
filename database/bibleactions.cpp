@@ -60,7 +60,7 @@ void Database_BibleActions::optimize ()
 }
 
 
-void Database_BibleActions::record (string bible, int book, int chapter, string usfm)
+void Database_BibleActions::record (std::string bible, int book, int chapter, std::string usfm)
 {
   if (getUsfm (bible, book, chapter).empty ()) {
     SqliteDatabase sql (filename ());
@@ -87,7 +87,7 @@ vector <std::string> Database_BibleActions::getBibles ()
 }
 
 
-vector <int> Database_BibleActions::getBooks (string bible)
+vector <int> Database_BibleActions::getBooks (std::string bible)
 {
   SqliteDatabase sql (filename ());
   sql.add ("SELECT DISTINCT book FROM bibleactions WHERE bible =");
@@ -100,7 +100,7 @@ vector <int> Database_BibleActions::getBooks (string bible)
 }
 
 
-vector <int> Database_BibleActions::getChapters (string bible, int book)
+vector <int> Database_BibleActions::getChapters (std::string bible, int book)
 {
   SqliteDatabase sql (filename ());
   sql.add ("SELECT DISTINCT chapter FROM bibleactions WHERE bible =");
@@ -115,7 +115,7 @@ vector <int> Database_BibleActions::getChapters (string bible, int book)
 }
 
 
-string Database_BibleActions::getUsfm (string bible, int book, int chapter)
+string Database_BibleActions::getUsfm (std::string bible, int book, int chapter)
 {
   SqliteDatabase sql (filename ());
   sql.add ("SELECT usfm FROM bibleactions WHERE bible =");
@@ -134,7 +134,7 @@ string Database_BibleActions::getUsfm (string bible, int book, int chapter)
 }
 
 
-void Database_BibleActions::erase (string bible, int book, int chapter)
+void Database_BibleActions::erase (std::string bible, int book, int chapter)
 {
   SqliteDatabase sql (filename ());
   sql.add ("DELETE FROM bibleactions WHERE bible =");

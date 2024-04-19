@@ -140,7 +140,7 @@ bool ldap_logic_is_on (bool log)
 // Parameter $mail returns the email address.
 // Parameter $role returns the user's role.
 // If the query was done successfully, the function returns true.
-bool ldap_logic_fetch (const std::string& user, const std::string& password, bool& access, string& email, int& role, bool log)
+bool ldap_logic_fetch (const std::string& user, const std::string& password, bool& access, std::string& email, int& role, bool log)
 {
   // Initialize result values for the caller.
   access = false;

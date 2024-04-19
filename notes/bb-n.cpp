@@ -59,7 +59,7 @@ string notes_bible_n (Webserver_Request& webserver_request)
   Assets_View view;
   
   
-  stringstream bibleblock;
+  std::stringstream bibleblock;
   std::vector <std::string> bibles = access_bible::bibles (webserver_request);
   bibles.push_back (notes_logic.generalBibleName ());
   for (const auto & bible : bibles) {

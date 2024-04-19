@@ -72,7 +72,7 @@ void Database_MorphGnt::optimize ()
 
 
 void Database_MorphGnt::store (int book, int chapter, int verse,
-                               std::string pos, string parsing, string word, string lemma)
+                               std::string pos, std::string parsing, std::string word, std::string lemma)
 {
   int pos_id = get_id ("pos", pos);
   int parsing_id = get_id ("parsing", parsing);
@@ -148,7 +148,7 @@ string Database_MorphGnt::lemma (int rowid)
 }
 
 
-int Database_MorphGnt::get_id (const char * table_row, string item)
+int Database_MorphGnt::get_id (const char * table_row, std::string item)
 {
   SqliteDatabase sql = SqliteDatabase (filename ());
   // Two iterations to be sure a rowid can be returned.

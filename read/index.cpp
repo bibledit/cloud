@@ -110,7 +110,7 @@ string read_index (Webserver_Request& webserver_request)
   view.set_variable ("navigationCode", Navigation_Passage::code (bible));
   
   // Create a script for Javascript. Quote string to get legal Javascript.
-  stringstream script_stream {};
+  std::stringstream script_stream {};
   script_stream << "var readchooseEditorVerseLoaded = " << quoted(locale_logic_text_loaded ()) << ";\n";
   script_stream << "var readchooseEditorVerseUpdating = " << quoted(locale_logic_text_updating ()) << ";\n";
   script_stream << "var readchooseEditorVerseUpdated = " << quoted(locale_logic_text_updated ()) << ";\n";

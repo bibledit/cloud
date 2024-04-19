@@ -333,7 +333,7 @@ void Database_Notes::update_database (int identifier)
 }
 
 
-void Database_Notes::update_database_internal (int identifier, int modified, string assigned, string subscriptions, string bible, string passage, string status, int severity, string summary, string contents)
+void Database_Notes::update_database_internal (int identifier, int modified, std::string assigned, std::string subscriptions, std::string bible, std::string passage, std::string status, int severity, std::string summary, std::string contents)
 {
   // Read the relevant values from the database.
   // If all the values in the database are the same as the values in the filesystem,
@@ -503,7 +503,7 @@ vector <int> Database_Notes::get_identifiers ()
 }
 
 
-string Database_Notes::assemble_contents (int identifier, string contents)
+string Database_Notes::assemble_contents (int identifier, std::string contents)
 {
   std::string new_contents = get_contents (identifier);
   std::string datetime = filter::date::localized_date_format (m_webserver_request);
@@ -540,7 +540,7 @@ string Database_Notes::assemble_contents (int identifier, string contents)
 // contents: The note's contents.
 // raw: Import contents as it is.
 // It returns the identifier of this new note.
-int Database_Notes::store_new_note (const std::string& bible, int book, int chapter, int verse, string summary, string contents, bool raw)
+int Database_Notes::store_new_note (const std::string& bible, int book, int chapter, int verse, std::string summary, std::string contents, bool raw)
 {
   // Create a new identifier.
   int identifier = get_new_unique_identifier ();
@@ -620,7 +620,7 @@ int Database_Notes::store_new_note (const std::string& bible, int book, int chap
 // text_selector: Optionally limits the selection to notes that contains certain text. Used for searching notes.
 // search_text: Works with text_selector, contains the text to search for.
 // limit: If >= 0, it indicates the starting limit for the selection.
-vector <int> Database_Notes::select_notes (vector <std::string> bibles, int book, int chapter, int verse, int passage_selector, int edit_selector, int non_edit_selector, const std::string& status_selector, string bible_selector, string assignment_selector, bool subscription_selector, int severity_selector, int text_selector, const std::string& search_text, int limit)
+vector <int> Database_Notes::select_notes (vector <std::string> bibles, int book, int chapter, int verse, int passage_selector, int edit_selector, int non_edit_selector, const std::string& status_selector, std::string bible_selector, std::string assignment_selector, bool subscription_selector, int severity_selector, int text_selector, const std::string& search_text, int limit)
 {
   std::string username = m_webserver_request.session_logic ()->currentUser ();
   std::vector <int> identifiers;
@@ -1070,7 +1070,7 @@ vector <std::string> Database_Notes::get_assignees (int identifier)
 }
 
 
-vector <std::string> Database_Notes::get_assignees_internal (string assignees)
+vector <std::string> Database_Notes::get_assignees_internal (std::string assignees)
 {
   if (assignees.empty ()) return {};
   std::vector <std::string> assignees_vector = filter::strings::explode (assignees, '\n');
@@ -1198,7 +1198,7 @@ string Database_Notes::encode_passage (int book, int chapter, int verse)
 
 
 // Takes the passage as a string, and returns an object with book, chapter, and verse.
-Passage Database_Notes::decode_passage (string passage)
+Passage Database_Notes::decode_passage (std::string passage)
 {
   passage = filter::strings::trim (passage);
   Passage decodedpassage = Passage ();
@@ -1523,7 +1523,7 @@ string Database_Notes::get_search_field (int identifier)
 // Returns an array of note identifiers.
 // search: Contains the text to search for.
 // bibles: Array of Bibles the notes should refer to.
-vector <int> Database_Notes::search_notes (string search, const std::vector <std::string> & bibles)
+vector <int> Database_Notes::search_notes (std::string search, const std::vector <std::string> & bibles)
 {
   std::vector <int> identifiers;
 
@@ -1547,7 +1547,7 @@ vector <int> Database_Notes::search_notes (string search, const std::vector <std
   // * A note can be a general one, not referring to any specific Bible.
   //   Select such notes also.
   query.append (" AND (bible = '' ");
-  for (string bible : bibles) {
+  for (std::string bible : bibles) {
     bible = database_sqlite_no_sql_injection (bible);
     query.append (" OR bible = '");
     query.append (bible);
@@ -1796,7 +1796,7 @@ string Database_Notes::notes_select_identifier ()
 }
 
 
-string Database_Notes::notes_optional_fulltext_search_relevance_statement (string search)
+string Database_Notes::notes_optional_fulltext_search_relevance_statement (std::string search)
 {
   if (search == "") return "";
   search = filter::strings::replace (",", "", search);
@@ -1812,7 +1812,7 @@ string Database_Notes::notes_from_where_statement ()
 }
 
 
-string Database_Notes::notes_optional_fulltext_search_statement (string search)
+string Database_Notes::notes_optional_fulltext_search_statement (std::string search)
 {
   if (search == "") return "";
   search = filter::strings::replace (",", "", search);
@@ -1868,7 +1868,7 @@ string Database_Notes::get_bulk (vector <int> identifiers)
 
 
 // This takes $json and stores all the notes it contains in the filesystem.
-vector <std::string> Database_Notes::set_bulk (string json)
+vector <std::string> Database_Notes::set_bulk (std::string json)
 {
   // Container for the summaries that were stored.
   std::vector <std::string> summaries;
@@ -1925,7 +1925,7 @@ vector <std::string> Database_Notes::set_bulk (string json)
 
 
 // Gets a field from a note in JSON format.
-string Database_Notes::get_field (int identifier, string key)
+string Database_Notes::get_field (int identifier, std::string key)
 {
   std::string file = note_file (identifier);
   std::string json = filter_url_file_get_contents (file);
@@ -1938,7 +1938,7 @@ string Database_Notes::get_field (int identifier, string key)
 
 
 // Sets a field in a note in JSON format.
-void Database_Notes::set_field (int identifier, string key, string value)
+void Database_Notes::set_field (int identifier, std::string key, std::string value)
 {
   std::string file = note_file (identifier);
   std::string json = filter_url_file_get_contents (file);

@@ -37,13 +37,13 @@ using namespace std;
 
 
 // This function returns the directory of the git repository belonging to $object.
-string filter_git_directory (string object)
+string filter_git_directory (std::string object)
 {
   return filter_url_create_root_path ({"git", object});
 }
 
 
-void filter_git_check_error (string data)
+void filter_git_check_error (std::string data)
 {
   std::vector <std::string> lines = filter::strings::explode (data, '\n');
   for (auto & line : lines) Database_Logs::log (line);
@@ -51,7 +51,7 @@ void filter_git_check_error (string data)
 
 
 // Runs the equivalent of "git init".
-bool filter_git_init (string directory, bool bare)
+bool filter_git_init (std::string directory, bool bare)
 {
   std::vector <std::string> parameters = {"init"};
   if (bare) parameters.push_back ("--bare");
@@ -64,8 +64,8 @@ bool filter_git_init (string directory, bool bare)
 
 
 // Internal function that commits a user-generated change to the git repository.
-void filter_git_commit_modification_to_git (string repository, string user, int book, int chapter,
-                                            std::string & oldusfm, string & newusfm)
+void filter_git_commit_modification_to_git (std::string repository, std::string user, int book, int chapter,
+                                            std::string & oldusfm, std::string & newusfm)
 {
   std::string bookname = database::books::get_english_from_id (static_cast<book_id>(book));
   std::string bookdir = filter_url_create_path ({repository, bookname});
@@ -91,7 +91,7 @@ void filter_git_commit_modification_to_git (string repository, string user, int 
 // This filter stores the changes made by users on $bible in $repository.
 // This puts commits in the repository, where the author is the user who made the changes.
 // This information in the git repository can then be used for statistical or other purposes.
-void filter_git_sync_modifications_to_git (string bible, string repository)
+void filter_git_sync_modifications_to_git (std::string bible, std::string repository)
 {
   // Go through all the users who saved data to this Bible.
   std::vector <std::string> users = Database_Git::get_users (bible);
@@ -152,7 +152,7 @@ void filter_git_sync_modifications_to_git (string bible, string repository)
 // The $git is a git repository, and may contain other data as well.
 // The filter focuses on reading the data in the git repository, and only writes to it if necessary,
 // This speeds up the filter.
-void filter_git_sync_bible_to_git (Webserver_Request& webserver_request, string bible, string repository)
+void filter_git_sync_bible_to_git (Webserver_Request& webserver_request, std::string bible, std::string repository)
 {
   // First stage.
   // Read the chapters in the git repository,
@@ -220,7 +220,7 @@ void filter_git_sync_bible_to_git (Webserver_Request& webserver_request, string 
 // The filter focuses on reading the data in the git repository and the database,
 // and only writes to the database if necessary,
 // This speeds up the filter.
-void filter_git_sync_git_to_bible (Webserver_Request& webserver_request, string repository, string bible)
+void filter_git_sync_git_to_bible (Webserver_Request& webserver_request, std::string repository, std::string bible)
 {
   // Stage one:
   // Read the chapters in the git repository,
@@ -306,7 +306,7 @@ string filter_git_disabled ()
 // This filter takes one chapter of the Bible data as it is stored in the $git folder,
 // and puts this information into Bibledit's database.
 // The $git is a git repository, and may contain other data as well.
-void filter_git_sync_git_chapter_to_bible (string repository, string bible, int book, int chapter)
+void filter_git_sync_git_chapter_to_bible (std::string repository, std::string bible, int book, int chapter)
 {
   // Filename for the chapter.
   std::string bookname = database::books::get_english_from_id (static_cast<book_id>(book));
@@ -333,7 +333,7 @@ void filter_git_sync_git_chapter_to_bible (string repository, string bible, int 
 
 
 // Returns true if the git repository at "url" is online.
-bool filter_git_remote_read (string url, string & error)
+bool filter_git_remote_read (std::string url, std::string & error)
 {
   std::string output;
   int result = filter_shell_run ("", "git", {"ls-remote", url}, &output, &error);
@@ -343,7 +343,7 @@ bool filter_git_remote_read (string url, string & error)
 }
 
 
-bool filter_git_remote_clone (string url, string path, [[maybe_unused]] int jobid, string & error)
+bool filter_git_remote_clone (std::string url, std::string path, [[maybe_unused]] int jobid, std::string & error)
 {
   // Clear a possible existing git repository directory.
   filter_url_rmdir (path);
@@ -357,7 +357,7 @@ bool filter_git_remote_clone (string url, string path, [[maybe_unused]] int jobi
 }
 
 
-bool filter_git_add_remove_all (string repository, string & error)
+bool filter_git_add_remove_all (std::string repository, std::string & error)
 {
   std::string output;
   int result = filter_shell_run (repository, "git", {"add", "--all", "."}, &output, &error);
@@ -368,12 +368,12 @@ bool filter_git_add_remove_all (string repository, string & error)
 
 
 // This function runs "git commit" through the shell.
-bool filter_git_commit (string repository, string user, string message,
-                        std::vector <std::string> & messages, string & error)
+bool filter_git_commit (std::string repository, std::string user, std::string message,
+                        std::vector <std::string> & messages, std::string & error)
 {
   user = filter_git_user (user);
   std::string email = filter_git_email (user);
-  stringstream author;
+  std::stringstream author;
   author << "--author=" << quoted(user + " <" + email + ">");
   std::string out, err;
   int result = filter_shell_run (repository, "git",
@@ -399,21 +399,21 @@ bool filter_git_commit (string repository, string user, string message,
 }
 
 
-void filter_git_config_set_bool (string repository, string name, bool value)
+void filter_git_config_set_bool (std::string repository, std::string name, bool value)
 {
   std::string svalue = value ? "true" : "false";
   filter_git_config_set_string (repository, name, svalue);
 }
 
 
-void filter_git_config_set_int (string repository, string name, int value)
+void filter_git_config_set_int (std::string repository, std::string name, int value)
 {
   std::string svalue = filter::strings::convert_to_string (value);
   filter_git_config_set_string (repository, name, svalue);
 }
 
 
-void filter_git_config_set_string (string repository, string name, string value)
+void filter_git_config_set_string (std::string repository, std::string name, std::string value)
 {
   std::string output, error;
   filter_shell_run (repository, "git", {"config", name, value}, &output, &error);
@@ -423,7 +423,7 @@ void filter_git_config_set_string (string repository, string name, string value)
 // This filter takes a $line of the output of the git pull command.
 // It tries to interpret it to find a passage that would have been updated.
 // If a valid book and chapter are found, it returns them.
-Passage filter_git_get_passage (string line)
+Passage filter_git_get_passage (std::string line)
 {
   // Sample lines for git pull:
 
@@ -473,7 +473,7 @@ Passage filter_git_get_passage (string line)
 // Repository: "repository".
 // If $porcelain is given, it adds the --porcelain flag.
 // All changed files will be returned.
-vector <std::string> filter_git_status (string repository, bool porcelain)
+vector <std::string> filter_git_status (std::string repository, bool porcelain)
 {
   std::vector <std::string> paths;
   std::string output, error;
@@ -488,7 +488,7 @@ vector <std::string> filter_git_status (string repository, bool porcelain)
 
 // Runs "git pull" and returns true if it ran fine.
 // It puts the messages in container "messages".
-bool filter_git_pull (string repository, std::vector <std::string> & messages)
+bool filter_git_pull (std::string repository, std::vector <std::string> & messages)
 {
   std::string out, err;
   int result = filter_shell_run (repository, "git", {"pull"}, &out, &err);
@@ -503,7 +503,7 @@ bool filter_git_pull (string repository, std::vector <std::string> & messages)
 
 // Runs "git pull" and returns true if it ran fine.
 // It puts the push messages in container "messages".
-bool filter_git_push (string repository, std::vector <std::string> & messages, bool all)
+bool filter_git_push (std::string repository, std::vector <std::string> & messages, bool all)
 {
   std::string out, err;
   std::vector <std::string> parameters = {"push"};
@@ -522,7 +522,7 @@ bool filter_git_push (string repository, std::vector <std::string> & messages, b
 // It fills "paths" with the paths to the files with the resolved merge conflicts.
 // It fills "error" with any error that git generates.
 // It returns true on success, that is, no errors occurred.
-bool filter_git_resolve_conflicts (string repository, std::vector <std::string> & paths, string & error)
+bool filter_git_resolve_conflicts (std::string repository, std::vector <std::string> & paths, std::string & error)
 {
   int result = 0;
   paths.clear();
@@ -576,7 +576,7 @@ bool filter_git_resolve_conflicts (string repository, std::vector <std::string> 
 
 
 // Configure the $repository: Make certain settings.
-void filter_git_config (string repository)
+void filter_git_config (std::string repository)
 {
   // At times there's a stale index.lock file that prevents any collaboration.
   // This is to be removed.
@@ -610,7 +610,7 @@ void filter_git_config (string repository)
 
 
 // This checks $user, and optionally set it, to be sure it always returns a username.
-string filter_git_user (string user)
+string filter_git_user (std::string user)
 {
   if (user.empty ()) {
     user = Database_Config_General::getSiteMailName ();
@@ -625,7 +625,7 @@ string filter_git_user (string user)
 // This takes the email address that belongs to $user,
 // and optionally sets the email address to a valid value,
 // and returns that email address.
-string filter_git_email (string user)
+string filter_git_email (std::string user)
 {
   Database_Users database_users;
   std::string email = database_users.get_email (user);

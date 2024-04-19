@@ -159,7 +159,7 @@ string notes_select (Webserver_Request& webserver_request)
   std::string status_selector = webserver_request.database_config_user()->getConsultationNotesStatusSelector();
   if (status_selector.empty ()) view.set_variable ("anystatus", active_class);
   std::vector <Database_Notes_Text> possible_statuses = database_notes.get_possible_statuses ();
-  stringstream statusblock;
+  std::stringstream statusblock;
   for (Database_Notes_Text possible_status : possible_statuses) {
     statusblock << " | ";
     statusblock << "<a ";
@@ -176,7 +176,7 @@ string notes_select (Webserver_Request& webserver_request)
   // is gathered from the Bibles the user has access to.
   std::string bible_selector = webserver_request.database_config_user()->getConsultationNotesBibleSelector();
   if (bible_selector.empty ()) view.set_variable ("anybible", active_class);
-  stringstream bibleblock;
+  std::stringstream bibleblock;
   std::vector <std::string> bibles = access_bible::bibles (webserver_request);
   // The administrator can select from all Bibles in the notes, even Bibles that do not exist.
   if (webserver_request.session_logic ()->currentLevel () == Filter_Roles::admin ()) {
@@ -195,7 +195,7 @@ string notes_select (Webserver_Request& webserver_request)
 
   std::string assignment_selector = webserver_request.database_config_user()->getConsultationNotesAssignmentSelector();
   if (assignment_selector.empty ()) view.set_variable ("anyassignee", active_class);
-  stringstream assigneeblock;
+  std::stringstream assigneeblock;
   std::vector <std::string> assignees = database_notes.get_all_assignees (bibles);
   for (auto assignee : assignees) {
     assigneeblock << " | ";
@@ -218,7 +218,7 @@ string notes_select (Webserver_Request& webserver_request)
 
   int severity_selector = webserver_request.database_config_user()->getConsultationNotesSeveritySelector ();
   if (severity_selector < 0) view.set_variable ("anyseverity", active_class);
-  stringstream severityblock;
+  std::stringstream severityblock;
   std::vector <Database_Notes_Text> severities = database_notes.get_possible_severities();
   for (size_t i = 0; i < severities.size (); i++) {
     severityblock << " | ";

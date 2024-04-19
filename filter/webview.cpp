@@ -22,7 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 using namespace std;
 
 
-void filter_webview_log_user_agent (string user_agent)
+void filter_webview_log_user_agent (std::string user_agent)
 {
   // Whether the information has been logged.
   static bool filter_webview_logged = false;

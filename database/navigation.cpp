@@ -67,7 +67,7 @@ void Database_Navigation::trim ()
 }
 
 
-void Database_Navigation::record (int time, string user, int book, int chapter, int verse)
+void Database_Navigation::record (int time, std::string user, int book, int chapter, int verse)
 {
   // Clear any 'active' flags.
   SqliteSQL sql1 = SqliteSQL ();

@@ -81,7 +81,7 @@ string journal_logic_see_journal_for_progress ()
   href.append (journal_index_url ());
   a_node.append_attribute ("href") = href.c_str ();
   a_node.text () = translate ("See the Journal for progress.").c_str();
-  stringstream output;
+  std::stringstream output;
   document.print (output, "", pugi::format_default);
   return output.str ();
 }

@@ -28,7 +28,7 @@
 using namespace std;
 
 
-void images_logic_import_images (string path)
+void images_logic_import_images (std::string path)
 {
   Database_BibleImages database_bibleimages;
 

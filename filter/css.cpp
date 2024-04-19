@@ -63,7 +63,7 @@ string Filter_Css::rtl ()
 }
 
 
-int Filter_Css::directionValue (string direction)
+int Filter_Css::directionValue (std::string direction)
 {
   if (direction == ltr ()) return 1;
   if (direction == rtl ()) return 2;
@@ -140,7 +140,7 @@ string Filter_Css::bt_rl ()
 }
 
 
-int Filter_Css::writingModeValue (string mode)
+int Filter_Css::writingModeValue (std::string mode)
 {
   if (mode == tb_lr ()) return 1;
   if (mode == tb_rl ()) return 2;
@@ -155,7 +155,7 @@ int Filter_Css::writingModeValue (string mode)
 // Since a bible can contain any Unicode character,
 // just using the bible as the class identifier will not work.
 // The function solves that.
-string Filter_Css::getClass (string bible)
+string Filter_Css::getClass (std::string bible)
 {
   std::string classs = md5 (bible);
   classs = classs.substr (0, 6);
@@ -170,7 +170,7 @@ string Filter_Css::getClass (string bible)
 // directionvalue: The value for the text direction.
 // $lineheigh: Value in percents.
 // $letterspacing: Value multiplied by 10, in pixels.
-string Filter_Css::get_css (string class_, string font, int directionvalue, int lineheight, int letterspacing)
+string Filter_Css::get_css (std::string class_, std::string font, int directionvalue, int lineheight, int letterspacing)
 {
   std::vector <std::string> css;
   

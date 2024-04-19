@@ -106,7 +106,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 using namespace std;
 
 
-string menu_logic_href (string href)
+string menu_logic_href (std::string href)
 {
   href = filter::strings::replace ("?", "__q__", href);
   href = filter::strings::replace ("&", "__a__", href);
@@ -115,7 +115,7 @@ string menu_logic_href (string href)
 }
 
 
-string menu_logic_click (string item)
+string menu_logic_click (std::string item)
 {
   item = filter::strings::replace ("__q__", "?", item);
   item = filter::strings::replace ("__a__", "&", item);
@@ -125,7 +125,7 @@ string menu_logic_click (string item)
 }
 
 
-string menu_logic_create_item (string href, string text, bool history, string title, string colour)
+string menu_logic_create_item (std::string href, std::string text, bool history, std::string title, std::string colour)
 {
   std::string item;
   item.append (R"(<span class="nowrap)");
@@ -176,7 +176,7 @@ string menu_logic_settings_resources_menu ()
 // Returns the html for the main menu categories.
 // Also fills the $tooltip with an appropriate value for this main menu.
 // This function is called for the main page, that is, the home page.
-string menu_logic_main_categories (Webserver_Request& webserver_request, string & tooltip)
+string menu_logic_main_categories (Webserver_Request& webserver_request, std::string & tooltip)
 {
   // The sets of html that is going to form the menu.
   std::vector <std::string> html;
@@ -361,7 +361,7 @@ string menu_logic_basic_categories (Webserver_Request& webserver_request)
 
 // Generates html for the workspace main menu.
 // Plus the tooltip for it.
-string menu_logic_workspace_category (Webserver_Request& webserver_request, string * tooltip)
+string menu_logic_workspace_category (Webserver_Request& webserver_request, std::string * tooltip)
 {
   std::vector <std::string> html;
   std::vector <std::string> labels;
@@ -389,7 +389,7 @@ string menu_logic_workspace_category (Webserver_Request& webserver_request, stri
 }
 
 
-string menu_logic_translate_category (Webserver_Request& webserver_request, string * tooltip)
+string menu_logic_translate_category (Webserver_Request& webserver_request, std::string * tooltip)
 {
   std::vector <std::string> html;
   std::vector <std::string> labels;
@@ -464,7 +464,7 @@ string menu_logic_translate_category (Webserver_Request& webserver_request, stri
 }
 
 
-string menu_logic_search_category (Webserver_Request& webserver_request, string * tooltip)
+string menu_logic_search_category (Webserver_Request& webserver_request, std::string * tooltip)
 {
   std::vector <std::string> html;
   std::vector <std::string> labels;
@@ -532,7 +532,7 @@ string menu_logic_search_category (Webserver_Request& webserver_request, string 
 }
 
 
-string menu_logic_tools_category (Webserver_Request& webserver_request, string * tooltip)
+string menu_logic_tools_category (Webserver_Request& webserver_request, std::string * tooltip)
 {
   // The labels that may end up in the menu.
   std::string checks = translate ("Checks");
@@ -655,7 +655,7 @@ string menu_logic_tools_category (Webserver_Request& webserver_request, string *
 }
 
 
-string menu_logic_settings_category (Webserver_Request& webserver_request, string * tooltip)
+string menu_logic_settings_category (Webserver_Request& webserver_request, std::string * tooltip)
 {
   [[maybe_unused]] bool demo = config::logic::demo_enabled ();
   
@@ -1003,7 +1003,7 @@ bool menu_logic_public_or_guest (Webserver_Request& webserver_request)
 
 
 // Returns the text that belongs to a certain menu item.
-string menu_logic_menu_text (string menu_item)
+string menu_logic_menu_text (std::string menu_item)
 {
   if (menu_item == menu_logic_translate_menu ()) {
     return menu_logic_translate_text ();
@@ -1025,7 +1025,7 @@ string menu_logic_menu_text (string menu_item)
 
 
 // Returns the URL that belongs to $menu_item.
-string menu_logic_menu_url (string menu_item)
+string menu_logic_menu_url (std::string menu_item)
 {
   if (
       (menu_item == menu_logic_translate_menu ())
@@ -1236,7 +1236,7 @@ bool menu_logic_can_do_tabbed_mode ()
 
 
 // For internal repatitive use.
-jsonxx::Object menu_logic_tabbed_mode_add_tab (string url, string label)
+jsonxx::Object menu_logic_tabbed_mode_add_tab (std::string url, std::string label)
 {
   jsonxx::Object object;
   object << "url" << url;
@@ -1286,7 +1286,7 @@ void menu_logic_tabbed_mode_save_json (Webserver_Request& webserver_request)
 }
 
 
-string menu_logic_verse_separator (string separator)
+string menu_logic_verse_separator (std::string separator)
 {
   if (separator == ".") {
     return translate ("dot") + " ( . )";

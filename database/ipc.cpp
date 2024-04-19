@@ -46,7 +46,7 @@ void Database_Ipc::trim ()
   }
   int now = filter::date::seconds_since_epoch ();
   std::vector <std::string> files = filter_url_scandir (folder ());
-  for (string item : files) {
+  for (std::string item : files) {
     std::string path = file(item);
     int time = filter_url_file_modification_time (path);
     int age_seconds = now - time;
@@ -57,7 +57,7 @@ void Database_Ipc::trim ()
 }
 
 
-void Database_Ipc::storeMessage (string user, string channel, string command, string message)
+void Database_Ipc::storeMessage (std::string user, std::string channel, std::string command, std::string message)
 {
   // Load entire database into memory.
   std::vector <Database_Ipc_Item> data = readData ();
@@ -88,7 +88,7 @@ void Database_Ipc::storeMessage (string user, string channel, string command, st
 // Returns an object with the data.
 // The rowid is 0 if there was nothing,
 // Else the object's properties are set properly.
-Database_Ipc_Message Database_Ipc::retrieveMessage (int id, string user, string channel, string command)
+Database_Ipc_Message Database_Ipc::retrieveMessage (int id, std::string user, std::string channel, std::string command)
 {
   int highestId = 0;
   std::string hitChannel = "";
@@ -232,7 +232,7 @@ string Database_Ipc::folder ()
 }
 
 
-string Database_Ipc::file (string file)
+string Database_Ipc::file (std::string file)
 {
   return filter_url_create_path ({folder (), file});
 }
@@ -247,7 +247,7 @@ vector <Database_Ipc_Item> Database_Ipc::readData ()
 {
   std::vector <Database_Ipc_Item> data;
   std::vector <std::string> files = filter_url_scandir (folder ());
-  for (string file : files) {
+  for (std::string file : files) {
     std::vector <std::string> explosion = filter::strings::explode (file, '_');
     if (explosion.size () == 7) {
       Database_Ipc_Item item = Database_Ipc_Item ();
@@ -263,7 +263,7 @@ vector <Database_Ipc_Item> Database_Ipc::readData ()
 }
   
 
-void Database_Ipc::writeRecord (int rowid, string user, string channel, string command, string message)
+void Database_Ipc::writeRecord (int rowid, std::string user, std::string channel, std::string command, std::string message)
 {
   std::string filename = filter::strings::convert_to_string (rowid) + "__" + user + "__" +  channel + "__" + command;
   filename = file (filename);

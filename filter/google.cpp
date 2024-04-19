@@ -56,7 +56,7 @@ tuple <string, std::string> get_json_key_value_error ()
 // plus the resulting output of the command.
 tuple <bool, std::string> activate_service_account ()
 {
-  stringstream command;
+  std::stringstream command;
   command << "gcloud auth activate-service-account --quiet --key-file=";
   command << quoted(config::logic::google_translate_json_key_path ());
   std::string out_err;

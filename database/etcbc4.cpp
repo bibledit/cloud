@@ -214,7 +214,7 @@ string Database_Etcbc4::raw (int book, int chapter, int verse)
 }
 
 
-void Database_Etcbc4::store (int book, int chapter, int verse, string data)
+void Database_Etcbc4::store (int book, int chapter, int verse, std::string data)
 {
   sqlite3 * db = connect ();
   {
@@ -246,12 +246,12 @@ void Database_Etcbc4::store (int book, int chapter, int verse, string data)
 
 
 void Database_Etcbc4::store (int book, int chapter, int verse,
-                            std::string word, string vocalized_lexeme, string consonantal_lexeme,
-                            std::string gloss, string pos, string subpos,
-                            std::string gender, string number, string person,
-                            std::string state, string tense, string stem,
-                            std::string phrase_function, string phrase_type, string phrase_relation,
-                            std::string phrase_a_relation, string clause_text_type, string clause_type, string clause_relation)
+                            std::string word, std::string vocalized_lexeme, std::string consonantal_lexeme,
+                            std::string gloss, std::string pos, std::string subpos,
+                            std::string gender, std::string number, std::string person,
+                            std::string state, std::string tense, std::string stem,
+                            std::string phrase_function, std::string phrase_type, std::string phrase_relation,
+                            std::string phrase_a_relation, std::string clause_text_type, std::string clause_type, std::string clause_relation)
 {
   sqlite3 * db = connect ();
   SqliteSQL sql = SqliteSQL ();
@@ -483,7 +483,7 @@ string Database_Etcbc4::clause_relation (int rowid)
 }
 
 
-int Database_Etcbc4::get_id (sqlite3 * db, const char * table_row, string item)
+int Database_Etcbc4::get_id (sqlite3 * db, const char * table_row, std::string item)
 {
   // Two iterations to be sure a rowid can be returned.
   for (unsigned int i = 0; i < 2; i++) {

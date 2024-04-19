@@ -320,7 +320,7 @@ string resource_print (Webserver_Request& webserver_request)
 }
 
 
-void resource_print_job (string jobId, string user, string bible)
+void resource_print_job (std::string jobId, std::string user, std::string bible)
 {
   Webserver_Request webserver_request;
   webserver_request.session_logic ()->set_username (user);

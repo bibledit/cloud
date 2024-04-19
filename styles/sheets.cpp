@@ -59,7 +59,7 @@ void Styles_Sheets::recreate ()
 }
 
 
-void Styles_Sheets::create (string stylesheet, string path, bool editor, string export_bible)
+void Styles_Sheets::create (std::string stylesheet, std::string path, bool editor, std::string export_bible)
 {
   Webserver_Request webserver_request {};
   Styles_Css styles_css (webserver_request, stylesheet);
@@ -76,7 +76,7 @@ void Styles_Sheets::create (string stylesheet, string path, bool editor, string 
 }
 
 
-string Styles_Sheets::get_location (string sheet, bool editor)
+string Styles_Sheets::get_location (std::string sheet, bool editor)
 {
   std::string path;
   if (editor) path = "editor";

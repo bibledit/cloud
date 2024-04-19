@@ -76,7 +76,7 @@ string Paratext_Logic::searchProjectsFolder ()
 }
 
 
-vector <std::string> Paratext_Logic::searchProjects (string projects_folder)
+vector <std::string> Paratext_Logic::searchProjects (std::string projects_folder)
 {
   std::vector <std::string> projects;
   std::vector <std::string> folders = filter_url_scandir (projects_folder);
@@ -91,7 +91,7 @@ vector <std::string> Paratext_Logic::searchProjects (string projects_folder)
 }
 
 
-map <int, std::string> Paratext_Logic::searchBooks (string project_path)
+map <int, std::string> Paratext_Logic::searchBooks (std::string project_path)
 {
   std::map <int, std::string> books;
   std::vector <std::string> files = filter_url_scandir (project_path);
@@ -106,7 +106,7 @@ map <int, std::string> Paratext_Logic::searchBooks (string project_path)
 }
 
 
-int Paratext_Logic::getBook (string filename)
+int Paratext_Logic::getBook (std::string filename)
 {
   // A USFM file should not be larger than 4 Mb and not be smaller than 7 bytes.
   int filesize = filter_url_filesize (filename);
@@ -131,7 +131,7 @@ int Paratext_Logic::getBook (string filename)
 }
 
 
-void Paratext_Logic::setup (string bible, string master)
+void Paratext_Logic::setup (std::string bible, std::string master)
 {
   if (bible.empty ()) {
     Database_Logs::log ("No Bible given for Paratext link setup.");
@@ -149,7 +149,7 @@ void Paratext_Logic::setup (string bible, string master)
 }
 
 
-void Paratext_Logic::copyBibledit2Paratext (string bible)
+void Paratext_Logic::copyBibledit2Paratext (std::string bible)
 {
   Database_Bibles database_bibles;
   
@@ -204,7 +204,7 @@ void Paratext_Logic::copyBibledit2Paratext (string bible)
 }
 
 
-void Paratext_Logic::copyParatext2Bibledit (string bible)
+void Paratext_Logic::copyParatext2Bibledit (std::string bible)
 {
   Database_Bibles database_bibles;
 
@@ -240,27 +240,27 @@ void Paratext_Logic::copyParatext2Bibledit (string bible)
 }
 
 
-string Paratext_Logic::projectFolder (string bible)
+string Paratext_Logic::projectFolder (std::string bible)
 {
   return filter_url_create_path ({Database_Config_General::getParatextProjectsFolder (), Database_Config_Bible::getParatextProject (bible)});
 }
 
 
-void Paratext_Logic::ancestor (string bible, int book, string usfm)
+void Paratext_Logic::ancestor (std::string bible, int book, std::string usfm)
 {
   std::string path = ancestorPath (bible, book);
   filter_url_file_put_contents (path, usfm);
 }
 
 
-string Paratext_Logic::ancestor (string bible, int book)
+string Paratext_Logic::ancestor (std::string bible, int book)
 {
   std::string path = ancestorPath (bible, book);
   return filter_url_file_get_contents (path);
 }
 
 
-string Paratext_Logic::ancestorPath (string bible, int book)
+string Paratext_Logic::ancestorPath (std::string bible, int book)
 {
   std::string path = filter_url_create_root_path ({"paratext", "ancestors", bible});
   if (!file_or_dir_exists (path)) filter_url_mkdir (path);
@@ -500,7 +500,7 @@ void Paratext_Logic::synchronize (tasks::enums::paratext_sync method)
 }
 
 
-string Paratext_Logic::synchronize (string ancestor, string bibledit, string paratext,
+string Paratext_Logic::synchronize (std::string ancestor, std::string bibledit, std::string paratext,
                                     std::vector <std::string> & messages,
                                     std::vector <Merge_Conflict> & conflicts)
 {
@@ -569,7 +569,7 @@ string Paratext_Logic::synchronizeReadyText ()
 
 // Create tag for the journal.
 // If chapter is negative, it is left out from the tag.
-string Paratext_Logic::journalTag (string bible, int book, int chapter)
+string Paratext_Logic::journalTag (std::string bible, int book, int chapter)
 {
   std::string bookname = database::books::get_english_from_id (static_cast<book_id>(book));
   std::string project = Database_Config_Bible::getParatextProject (bible);

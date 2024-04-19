@@ -72,7 +72,7 @@ using namespace std;
 
 
 // Returns true if the credentials are correct for a demo installation.
-bool demo_acl (string user, string pass)
+bool demo_acl (std::string user, std::string pass)
 {
   if (config::logic::demo_enabled ()) {
     if (user == session_admin_credentials ()) {

@@ -34,7 +34,7 @@
 using namespace std;
 
 
-void export_bibledropbox (string user, string bible)
+void export_bibledropbox (std::string user, std::string bible)
 {
   Webserver_Request request;
   Database_Bibles database_bibles;

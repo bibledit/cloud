@@ -103,8 +103,8 @@ bool Database_Confirm::id_exists (unsigned int id)
 
 
 // Store a confirmation cycle
-void Database_Confirm::store (unsigned int id, string query,
-                              std::string to, string subject, string body,
+void Database_Confirm::store (unsigned int id, std::string query,
+                              std::string to, std::string subject, std::string body,
                               std::string username)
 {
   SqliteDatabase sql (filename ());
@@ -129,12 +129,12 @@ void Database_Confirm::store (unsigned int id, string query,
 
 // Search the database for an existing ID in $subject.
 // If it exists, it returns the ID number, else it returns 0.
-unsigned int Database_Confirm::search_id (string subject)
+unsigned int Database_Confirm::search_id (std::string subject)
 {
   SqliteDatabase sql (filename ());
   sql.add ("SELECT id FROM confirm;");
   std::vector <std::string> ids = sql.query () ["id"];
-  for (string id : ids) {
+  for (std::string id : ids) {
     size_t pos = subject.find (id);
     if (pos != std::string::npos) {
       return static_cast<unsigned>(filter::strings::convert_to_int (id));

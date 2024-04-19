@@ -47,7 +47,7 @@ string navigation_paratext (Webserver_Request& webserver_request)
     // User should have set to receive references from Paratext.
     if (webserver_request.database_config_user ()->getReceiveFocusedReferenceFromParatext ()) {
       // Parse the reference from Paratext.
-      vector<string> book_rest = filter::strings::explode (from, ' ');
+      vector<std::string> book_rest = filter::strings::explode (from, ' ');
       if (book_rest.size() == 2) {
         int book = static_cast<int>(database::books::get_id_from_usfm (book_rest[0]));
         std::vector <std::string> chapter_verse = filter::strings::explode(book_rest[1], ':');

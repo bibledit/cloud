@@ -51,7 +51,7 @@ m_webserver_request (webserver_request)
 // $contents: The note's contents.
 // $raw: Import $contents as it is.
 // It returns the $identifier of this new note.
-int Notes_Logic::createNote (string bible, int book, int chapter, int verse, string summary, string contents, bool raw)
+int Notes_Logic::createNote (std::string bible, int book, int chapter, int verse, std::string summary, std::string contents, bool raw)
 {
   summary = filter::strings::replace ("\n", "", summary);
   Database_Notes database_notes (m_webserver_request);
@@ -464,7 +464,7 @@ void Notes_Logic::notifyUsers (int identifier, int notification)
 // bible: If given, to include in the subject line of the email.
 // users: array of users to be mailed.
 // postpone: whether to postpone sending the email till the evening.
-void Notes_Logic::emailUsers (int identifier, const std::string& label, string bible, const std::vector <std::string> & users, bool postpone)
+void Notes_Logic::emailUsers (int identifier, const std::string& label, std::string bible, const std::vector <std::string> & users, bool postpone)
 {
   // Databases.
   Database_Notes database_notes (m_webserver_request);
@@ -472,7 +472,7 @@ void Notes_Logic::emailUsers (int identifier, const std::string& label, string b
   // Send mail to all users.
   std::string summary = database_notes.get_summary (identifier);
   std::string passages = filter_passage_display_inline (database_notes.get_passages (identifier));
-  stringstream contents;
+  std::stringstream contents;
   contents << database_notes.get_contents (identifier);
 
   // Include links to the Cloud: One to the note, and one to the active workspace.
@@ -534,7 +534,7 @@ void Notes_Logic::emailUsers (int identifier, const std::string& label, string b
 // handleEmailComment - handles an email received from from with subject subject and body body.
 // Returns true if the mail was processed, else false.
 // The email is considered to have been processed if it comments on an existing Consultation Note.
-bool Notes_Logic::handleEmailComment (string from, string subject, string body)
+bool Notes_Logic::handleEmailComment (std::string from, std::string subject, std::string body)
 {
   // Check whether the Consultation Notes Identifier in the subject exists in the notes database.
   // The CNID looks like: (CNID123456789)
@@ -592,7 +592,7 @@ bool Notes_Logic::handleEmailComment (string from, string subject, string body)
 // handleEmailNew - handles an email received from $from with subject $subject and body $body.
 // Returns true if the mail was processed, else false.
 // The email is considered to have been processed if it created a new Consultation Note.
-bool Notes_Logic::handleEmailNew (string from, string subject, string body)
+bool Notes_Logic::handleEmailNew (std::string from, std::string subject, std::string body)
 {
   // Store the original subject.
   std::string originalSubject = subject;

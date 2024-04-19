@@ -138,7 +138,7 @@ void sendreceive_bibles ()
   // Go through the Bibles / books / chapters that have actions recorded for them.
   Database_BibleActions database_bibleactions;
   std::vector <std::string> bibles = database_bibleactions.getBibles ();
-  for (string bible : bibles) {
+  for (std::string bible : bibles) {
     std::vector <int> books = database_bibleactions.getBooks (bible);
     for (int book : books) {
       std::vector <int> chapters = database_bibleactions.getChapters (bible, book);
@@ -313,7 +313,7 @@ void sendreceive_bibles ()
   } else {
     // The client deletes any local Bible not available from the server.
     // It does not record change Bible actions for this operation.
-    for (string bible : bibles) {
+    for (std::string bible : bibles) {
       webserver_request.database_bibles()->delete_bible (bible);
       DatabasePrivileges::remove_bible (bible);
       Database_Config_Bible::remove (bible);
@@ -323,7 +323,7 @@ void sendreceive_bibles ()
   
   
   // The client goes through all the Bibles, and deals with each of them.
-  for (string bible : v_server_bibles) {
+  for (std::string bible : v_server_bibles) {
     
     
     // Compare the checksum of the whole Bible on client and server

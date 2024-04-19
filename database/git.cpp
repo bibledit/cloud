@@ -78,8 +78,8 @@ void Database_Git::optimize ()
 }
 
 
-void Database_Git::store_chapter (string user, string bible, int book, int chapter,
-                                  std::string oldusfm, string newusfm)
+void Database_Git::store_chapter (std::string user, std::string bible, int book, int chapter,
+                                  std::string oldusfm, std::string newusfm)
 {
   SqliteDatabase sql = SqliteDatabase (name ());
   sql.add ("INSERT INTO changes VALUES (");
@@ -102,7 +102,7 @@ void Database_Git::store_chapter (string user, string bible, int book, int chapt
 
 
 // Fetches the distinct users from the database for $bible.
-vector <std::string> Database_Git::get_users (string bible)
+vector <std::string> Database_Git::get_users (std::string bible)
 {
   SqliteDatabase sql = SqliteDatabase (name ());
   sql.add ("SELECT DISTINCT user FROM changes WHERE bible =");
@@ -114,7 +114,7 @@ vector <std::string> Database_Git::get_users (string bible)
 
 
 // Fetches the rowids from the database for $user and $bible.
-vector <int> Database_Git::get_rowids (string user, string bible)
+vector <int> Database_Git::get_rowids (std::string user, std::string bible)
 {
   SqliteDatabase sql = SqliteDatabase (name ());
   sql.add ("SELECT rowid FROM changes WHERE user =");
@@ -132,8 +132,8 @@ vector <int> Database_Git::get_rowids (string user, string bible)
 
 
 bool Database_Git::get_chapter (int rowid,
-                                std::string & user, string & bible, int & book, int & chapter,
-                                std::string & oldusfm, string & newusfm)
+                                std::string & user, std::string & bible, int & book, int & chapter,
+                                std::string & oldusfm, std::string & newusfm)
 {
   SqliteDatabase sql = SqliteDatabase (name ());
   sql.add ("SELECT * FROM changes WHERE rowid =");

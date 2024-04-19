@@ -31,7 +31,7 @@
 using namespace std;
 
 
-void manage_hyphenate (string bible, string user)
+void manage_hyphenate (std::string bible, std::string user)
 {
   Database_Bibles database_bibles;
 
@@ -104,7 +104,7 @@ void manage_hyphenate (string bible, string user)
  * $text: A string of text to operate on.
  * Returns: The hyphenated text.
  */
-string hyphenate_at_transition (vector <std::string>& firstset, std::vector <std::string>& secondset, string text)
+string hyphenate_at_transition (vector <std::string>& firstset, std::vector <std::string>& secondset, std::string text)
 {
   // Verify the input.
   if (firstset.empty ()) return text;
@@ -113,7 +113,7 @@ string hyphenate_at_transition (vector <std::string>& firstset, std::vector <std
   
   // Split the text up into lines and go through each one.
   std::vector <std::string> lines = filter::strings::explode (text, '\n');
-  for (string & line : lines) {
+  for (std::string & line : lines) {
     
     // Split the line up into an array of UTF8 Unicode characters.
     std::vector <std::string> characters;

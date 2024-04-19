@@ -45,7 +45,7 @@ vector <std::string> versification_logic_names ()
 
 
 // Return the raw data of default versification system $name.
-string versification_logic_data (string name)
+string versification_logic_data (std::string name)
 {
   name = filter::strings::replace (" ", "_", name);
   name.append (".txt");

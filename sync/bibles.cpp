@@ -49,7 +49,7 @@ string sync_bibles_url ()
 }
 
 
-string sync_bibles_receive_chapter (Webserver_Request& webserver_request, string & bible, int book, int chapter)
+string sync_bibles_receive_chapter (Webserver_Request& webserver_request, std::string & bible, int book, int chapter)
 {
   // Convert the tags to plus signs, which the client had converted to tags,
   // for safekeeping the + signs during transit.

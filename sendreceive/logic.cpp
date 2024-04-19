@@ -31,7 +31,7 @@
 using namespace std;
 
 
-void sendreceive_queue_bible (string bible)
+void sendreceive_queue_bible (std::string bible)
 {
   tasks_logic_queue (SENDRECEIVEBIBLES, {bible});
 }
@@ -215,7 +215,7 @@ bool sendreceive_logic_prioritized_task_is_active ()
 
 
 // Returns true if Bibledit Cloud has been linked to an external git repository.
-bool sendreceive_git_repository_linked (string bible)
+bool sendreceive_git_repository_linked (std::string bible)
 {
   std::string url = Database_Config_Bible::getRemoteRepositoryUrl (bible);
   return !url.empty ();

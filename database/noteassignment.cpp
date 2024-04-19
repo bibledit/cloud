@@ -29,39 +29,39 @@ using namespace std;
 // Data is stored in multiple text files.
 
 
-string Database_NoteAssignment::path (string user)
+string Database_NoteAssignment::path (std::string user)
 {
   return filter_url_create_root_path ({database_logic_databases (), "client", "noteassignment_" + user + ".txt"});
 }
 
 
-bool Database_NoteAssignment::exists (string user)
+bool Database_NoteAssignment::exists (std::string user)
 {
   return file_or_dir_exists (path (user));
 }
 
 
-void Database_NoteAssignment::assignees (string user, std::vector <std::string> assignees)
+void Database_NoteAssignment::assignees (std::string user, std::vector <std::string> assignees)
 {
   filter_url_file_put_contents (path (user), filter::strings::implode (assignees, "\n"));
 }
 
 
-vector <std::string> Database_NoteAssignment::assignees (string user)
+vector <std::string> Database_NoteAssignment::assignees (std::string user)
 {
   std::string contents = filter_url_file_get_contents (path (user));
   return filter::strings::explode (contents, '\n');
 }
 
 
-bool Database_NoteAssignment::exists (string user, string assignee)
+bool Database_NoteAssignment::exists (std::string user, std::string assignee)
 {
   std::vector <std::string> users = assignees (user);
   return in_array (assignee, users);
 }
 
 
-void Database_NoteAssignment::remove (string user)
+void Database_NoteAssignment::remove (std::string user)
 {
   filter_url_unlink (path (user));
 }

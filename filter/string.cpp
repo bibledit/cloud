@@ -1748,7 +1748,7 @@ std::string html_get_element (std::string html, std::string element)
 
 
 /*
- string filter_string_tidy_invalid_html_leaking (string html)
+ string filter_string_tidy_invalid_html_leaking (std::string html)
  {
  // Everything in the <head> can be left out: It is not relevant.
  filter::strings::replace_between (html, "<head>", "</head>", "");

@@ -36,7 +36,7 @@ using namespace std;
 // The other thing is that Java is slow compared to the methods below written in C++.
 
 
-odf_text::odf_text (string bible)
+odf_text::odf_text (std::string bible)
 {
   m_bible = bible;
 
@@ -559,7 +559,7 @@ void odf_text::initialize_styles_xml ()
 }
 
 
-void odf_text::new_paragraph (string style)
+void odf_text::new_paragraph (std::string style)
 {
   current_text_p_node = office_text_node.append_child ("text:p");
   current_text_p_node_style_name = current_text_p_node.append_attribute ("text:style-name") = style.c_str();
@@ -571,7 +571,7 @@ void odf_text::new_paragraph (string style)
 
 // This function adds text to the current paragraph.
 // $text: The text to add.
-void odf_text::add_text (string text)
+void odf_text::add_text (std::string text)
 {
   // Bail out if there's no text.
   if (text.empty()) return;
@@ -586,7 +586,7 @@ void odf_text::add_text (string text)
   
   // Write a text span element, nesting the second and later ones.
   pugi::xml_node dom_node = current_text_p_node;
-  for (string style : styles) {
+  for (std::string style : styles) {
     pugi::xml_node text_span_node = dom_node.append_child ("text:span");
     if (!style.empty ()) {
       text_span_node.append_attribute ("text:style-name") = convert_style_name (style).c_str();
@@ -606,7 +606,7 @@ void odf_text::add_text (string text)
 
 // This creates a heading with contents styled "Heading 1".
 // $text: Contents.
-void odf_text::new_heading1 (string text, bool hide)
+void odf_text::new_heading1 (std::string text, bool hide)
 {
   new_named_heading ("Heading 1", text, hide);
 }
@@ -655,7 +655,7 @@ void odf_text::new_page_break ()
 // $name: the name of the style, e.g. 'p'.
 // $dropcaps: If 0, there are no drop caps.
 //            If greater than 0, it the number of characters in drop caps style.
-void odf_text::create_paragraph_style (string name,
+void odf_text::create_paragraph_style (std::string name,
                                        std::string fontname,
                                        float fontsize,
                                        int italic, int bold, int underline, int smallcaps,
@@ -789,7 +789,7 @@ void odf_text::create_paragraph_style (string name,
 
 // This updates the style name of the current paragraph.
 // $name: the name of the style, e.g. 'p'.
-void odf_text::update_current_paragraph_style (string name)
+void odf_text::update_current_paragraph_style (std::string name)
 {
   if (!m_current_text_p_node_opened) new_paragraph ();
   current_text_p_node.remove_attribute (current_text_p_node_style_name);
@@ -898,7 +898,7 @@ void odf_text::close_text_style (bool note, bool embed)
 // $style - the name of the style of the $text.
 // $fontsize - given in points.
 // $italic, $bold - integer values.
-void odf_text::place_text_in_frame (string text, string style, float fontsize, int italic, int bold)
+void odf_text::place_text_in_frame (std::string text, std::string style, float fontsize, int italic, int bold)
 {
   // Empty text is discarded.
   if (text.empty ()) return;
@@ -1022,7 +1022,7 @@ void odf_text::create_superscript_style ()
 // $caller: The text of the note caller, that is, the note citation.
 // $style: Style name for the paragraph in the footnote body.
 // $endnote: Whether this is a footnote and cross reference (false), or an endnote (true).
-void odf_text::add_note (string caller, string style, bool endnote)
+void odf_text::add_note (std::string caller, std::string style, bool endnote)
 {
   // Ensure that a paragraph is open, so that the note can be added to it.
   if (!m_current_text_p_node_opened) new_paragraph ();
@@ -1057,7 +1057,7 @@ void odf_text::add_note (string caller, string style, bool endnote)
 
 // This function adds text to the current footnote.
 // $text: The text to add.
-void odf_text::add_note_text (string text)
+void odf_text::add_note_text (std::string text)
 {
   // Bail out if there's no text.
   if (text == "") return;
@@ -1071,7 +1071,7 @@ void odf_text::add_note_text (string text)
 
   // Write a text span element, nesting the second and later ones.
   pugi::xml_node dom_element = note_text_p_dom_element;
-  for (string style : styles) {
+  for (std::string style : styles) {
     pugi::xml_node text_span_dom_element = dom_element.append_child ("text:span");
     if (!style.empty()) {
       text_span_dom_element.append_attribute ("text:style-name") = convert_style_name (style).c_str();
@@ -1093,7 +1093,7 @@ void odf_text::close_current_note ()
 // This creates a heading with styled content.
 // $style: A style name.
 // $text: Content.
-void odf_text::new_named_heading (string style, string text, bool hide)
+void odf_text::new_named_heading (std::string style, std::string text, bool hide)
 {
   // Heading looks like this in content.xml:
   // <text:h text:style-name="Heading_20_1" text:outline-level="1">Text</text:h>
@@ -1142,7 +1142,7 @@ void odf_text::new_named_heading (string style, string text, bool hide)
 // E.g. 'Heading 1' becomes 'Heading_20_1'
 // $style: Input
 // It returns the converted style name.
-string odf_text::convert_style_name (string style)
+string odf_text::convert_style_name (std::string style)
 {
   style = filter::strings::replace (" ", "_20_", style);
   return style;
@@ -1151,19 +1151,19 @@ string odf_text::convert_style_name (string style)
 
 // This saves the OpenDocument to file
 // $name: the name of the file to save to.
-void odf_text::save (string name)
+void odf_text::save (std::string name)
 {
   // Create the content.xml file.
   // No formatting because some white space is processed.
   std::string content_xml_path = filter_url_create_path ({unpacked_odt_folder, "content.xml"});
-  stringstream content_xml;
+  std::stringstream content_xml;
   content_dom.print (content_xml, "", pugi::format_raw);
   filter_url_file_put_contents (content_xml_path, content_xml.str ());
 
   // Create the styles.xml file.
   // No formatting because some white space is processed.
   std::string styles_xml_path = filter_url_create_path ({unpacked_odt_folder, "styles.xml"});
-  stringstream styles_xml;
+  std::stringstream styles_xml;
   styles_dom.print (styles_xml, "", pugi::format_raw);
   filter_url_file_put_contents (styles_xml_path, styles_xml.str ());
 
@@ -1180,7 +1180,7 @@ void odf_text::save (string name)
 //     <draw:image xlink:href="../bibleimage2.png" xlink:type="simple" xlink:show="embed" xlink:actuate="onLoad" draw:filter-name="&lt;All formats&gt;" draw:mime-type="image/png" />
 //   </draw:frame>
 // </text:p>
-void odf_text::add_image (string style, [[maybe_unused]] string alt, string src, string caption)
+void odf_text::add_image (std::string style, [[maybe_unused]] string alt, std::string src, std::string caption)
 {
   // The parent paragraph for the image has the "p" style.
   current_text_p_node = office_text_node.append_child ("text:p");

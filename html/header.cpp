@@ -46,7 +46,7 @@ m_html_text (html_text)
 { }
 
 
-void Html_Header::search_back_link (string url, string text)
+void Html_Header::search_back_link (std::string url, std::string text)
 {
   m_search_back_link_url = url;
   m_search_back_link_text = text;

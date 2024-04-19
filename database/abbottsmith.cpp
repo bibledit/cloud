@@ -55,7 +55,7 @@ void Database_AbbottSmith::optimize ()
 }
 
 
-void Database_AbbottSmith::store (string lemma, string lemma_casefold, string strong, string contents)
+void Database_AbbottSmith::store (std::string lemma, std::string lemma_casefold, std::string strong, std::string contents)
 {
   SqliteDatabase sql = SqliteDatabase (filename ());
   sql.add ("PRAGMA temp_store = MEMORY;");
@@ -80,7 +80,7 @@ void Database_AbbottSmith::store (string lemma, string lemma_casefold, string st
 }
 
 
-string Database_AbbottSmith::get (string lemma, string strong)
+string Database_AbbottSmith::get (std::string lemma, std::string strong)
 {
   std::string contents;
   SqliteDatabase sql = SqliteDatabase (filename ());

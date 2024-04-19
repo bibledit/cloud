@@ -49,20 +49,20 @@ map <string, std::string> database_config_user_cache;
 // Functions for getting and setting values or lists of values follow here:
 
 
-string Database_Config_User::file (string user)
+string Database_Config_User::file (std::string user)
 {
   return filter_url_create_root_path ({database_logic_databases (), "config", "user", user});
 }
 
 
-string Database_Config_User::file (string user, const char * key)
+string Database_Config_User::file (std::string user, const char * key)
 {
   return filter_url_create_path ({file (user), key});
 }
 
 
 // The key in the cache for this setting.
-string Database_Config_User::mapkey (string user, const char * key)
+string Database_Config_User::mapkey (std::string user, const char * key)
 {
   return user + key;
 }
@@ -89,7 +89,7 @@ int Database_Config_User::getIValue (const char * key, int default_value)
 }
 
 
-string Database_Config_User::getValueForUser (string user, const char * key, const char * default_value)
+string Database_Config_User::getValueForUser (std::string user, const char * key, const char * default_value)
 {
   // Check the memory cache.
   std::string cachekey = mapkey (user, key);
@@ -108,21 +108,21 @@ string Database_Config_User::getValueForUser (string user, const char * key, con
 }
 
 
-bool Database_Config_User::getBValueForUser (string user, const char * key, bool default_value)
+bool Database_Config_User::getBValueForUser (std::string user, const char * key, bool default_value)
 {
   std::string value = getValueForUser (user, key, filter::strings::convert_to_string (default_value).c_str());
   return filter::strings::convert_to_bool (value);
 }
 
 
-int Database_Config_User::getIValueForUser (string user, const char * key, int default_value)
+int Database_Config_User::getIValueForUser (std::string user, const char * key, int default_value)
 {
   std::string value = getValueForUser (user, key, filter::strings::convert_to_string (default_value).c_str());
   return filter::strings::convert_to_int (value);
 }
 
 
-void Database_Config_User::setValue (const char * key, string value)
+void Database_Config_User::setValue (const char * key, std::string value)
 {
   std::string user = m_webserver_request.session_logic ()->currentUser ();
   setValueForUser (user, key, value);
@@ -141,7 +141,7 @@ void Database_Config_User::setIValue (const char * key, int value)
 }
 
 
-void Database_Config_User::setValueForUser (string user, const char * key, string value)
+void Database_Config_User::setValueForUser (std::string user, const char * key, std::string value)
 {
   // Store in memory cache.
   database_config_user_cache [mapkey (user, key)] = value;
@@ -153,7 +153,7 @@ void Database_Config_User::setValueForUser (string user, const char * key, strin
 }
 
 
-void Database_Config_User::setBValueForUser (string user, const char * key, bool value)
+void Database_Config_User::setBValueForUser (std::string user, const char * key, bool value)
 {
   setValueForUser (user, key, filter::strings::convert_to_string (value));
 }
@@ -166,7 +166,7 @@ vector <std::string> Database_Config_User::getList (const char * key)
 }
 
 
-vector <std::string> Database_Config_User::getListForUser (string user, const char * key)
+vector <std::string> Database_Config_User::getListForUser (std::string user, const char * key)
 {
   // Check whether value is in cache.
   std::string cachekey = mapkey (user, key);
@@ -195,7 +195,7 @@ void Database_Config_User::setList (const char * key, std::vector <std::string> 
 }
 
 
-void Database_Config_User::setListForUser (string user, const char * key, std::vector <std::string> values)
+void Database_Config_User::setListForUser (std::string user, const char * key, std::vector <std::string> values)
 {
   // Store it on disk.
   std::string filename = file (user, key);
@@ -255,7 +255,7 @@ void Database_Config_User::trim ()
 
 
 // Remove any configuration setting of $username.
-void Database_Config_User::remove (string username)
+void Database_Config_User::remove (std::string username)
 {
   // Remove from disk.
   std::string folder = file (username);
@@ -294,7 +294,7 @@ string Database_Config_User::getBible ()
   }
   return bible;
 }
-void Database_Config_User::setBible (string bible)
+void Database_Config_User::setBible (std::string bible)
 {
   setValue ("bible", bible);
 }
@@ -314,7 +314,7 @@ bool Database_Config_User::getNotifyMeOfAnyConsultationNotesEdits ()
 {
   return getBValue ("notify-me-of-any-consultation-notes-edits", false);
 }
-bool Database_Config_User::getNotifyUserOfAnyConsultationNotesEdits (string username)
+bool Database_Config_User::getNotifyUserOfAnyConsultationNotesEdits (std::string username)
 {
   return getBValueForUser (username, "notify-me-of-any-consultation-notes-edits", false);
 }
@@ -327,7 +327,7 @@ bool Database_Config_User::getSubscribedConsultationNoteNotification ()
 {
   return getBValue ("subscribed-consultation-note-notification", true);
 }
-bool Database_Config_User::getUserSubscribedConsultationNoteNotification (string username)
+bool Database_Config_User::getUserSubscribedConsultationNoteNotification (std::string username)
 {
   return getBValueForUser (username, "subscribed-consultation-note-notification", true);
 }
@@ -341,7 +341,7 @@ bool Database_Config_User::getAssignedToConsultationNotesChanges ()
 {
   return getBValue ("get-assigned-to-consultation-notes-changes", false);
 }
-bool Database_Config_User::getUserAssignedToConsultationNotesChanges (string username)
+bool Database_Config_User::getUserAssignedToConsultationNotesChanges (std::string username)
 {
   return getBValueForUser (username, "get-assigned-to-consultation-notes-changes", false);
 }
@@ -355,7 +355,7 @@ bool Database_Config_User::getGenerateChangeNotifications ()
 {
   return getBValue ("generate-change-notifications", false);
 }
-bool Database_Config_User::getUserGenerateChangeNotifications (string username)
+bool Database_Config_User::getUserGenerateChangeNotifications (std::string username)
 {
   return getBValueForUser (username, "generate-change-notifications", false);
 }
@@ -369,7 +369,7 @@ bool Database_Config_User::getAssignedConsultationNoteNotification ()
 {
   return getBValue ("assigned-consultation-note-notification", true);
 }
-bool Database_Config_User::getUserAssignedConsultationNoteNotification (string username)
+bool Database_Config_User::getUserAssignedConsultationNoteNotification (std::string username)
 {
   return getBValueForUser (username, "assigned-consultation-note-notification", true);
 }
@@ -423,7 +423,7 @@ string Database_Config_User::getConsultationNotesStatusSelector ()
 {
   return getValue ("consultation-notes-status-selector", "");
 }
-void Database_Config_User::setConsultationNotesStatusSelector (string value)
+void Database_Config_User::setConsultationNotesStatusSelector (std::string value)
 {
   setValue ("consultation-notes-status-selector", value);
 }
@@ -434,7 +434,7 @@ string Database_Config_User::getConsultationNotesBibleSelector ()
 {
   return getValue ("consultation-notes-bible-selector", "");
 }
-void Database_Config_User::setConsultationNotesBibleSelector (string value)
+void Database_Config_User::setConsultationNotesBibleSelector (std::string value)
 {
   setValue ("consultation-notes-bible-selector", value);
 }
@@ -445,7 +445,7 @@ string Database_Config_User::getConsultationNotesAssignmentSelector ()
 {
   return getValue ("consultation-notes-assignment-selector", "");
 }
-void Database_Config_User::setConsultationNotesAssignmentSelector (string value)
+void Database_Config_User::setConsultationNotesAssignmentSelector (std::string value)
 {
   setValue ("consultation-notes-assignment-selector", value);
 }
@@ -486,7 +486,7 @@ string Database_Config_User::getConsultationNotesSearchText ()
 {
   return getValue ("consultation-notes-search-text", "");
 }
-void Database_Config_User::setConsultationNotesSearchText (string value)
+void Database_Config_User::setConsultationNotesSearchText (std::string value)
 {
   setValue ("consultation-notes-search-text", value);
 }
@@ -516,7 +516,7 @@ bool Database_Config_User::getBibleChangesNotification ()
 {
   return getBValue ("bible-changes-notification", false);
 }
-bool Database_Config_User::getUserBibleChangesNotification (string username)
+bool Database_Config_User::getUserBibleChangesNotification (std::string username)
 {
   return getBValueForUser (username, "bible-changes-notification", false);
 }
@@ -530,7 +530,7 @@ bool Database_Config_User::getDeletedConsultationNoteNotification ()
 {
   return getBValue ("deleted-consultation-note-notification", false);
 }
-bool Database_Config_User::getUserDeletedConsultationNoteNotification (string username)
+bool Database_Config_User::getUserDeletedConsultationNoteNotification (std::string username)
 {
   return getBValueForUser (username, "deleted-consultation-note-notification", false);
 }
@@ -553,7 +553,7 @@ bool Database_Config_User::getBibleChecksNotification ()
 {
   return getBValue ("bible-checks-notification", defaultBibleChecksNotification ());
 }
-bool Database_Config_User::getUserBibleChecksNotification (string username)
+bool Database_Config_User::getUserBibleChecksNotification (std::string username)
 {
   return getBValueForUser (username, "bible-checks-notification", defaultBibleChecksNotification ());
 }
@@ -567,7 +567,7 @@ bool Database_Config_User::getPendingChangesNotification ()
 {
   return getBValue ("pending-changes-notification", false);
 }
-bool Database_Config_User::getUserPendingChangesNotification (string username)
+bool Database_Config_User::getUserPendingChangesNotification (std::string username)
 {
   return getBValueForUser (username, "pending-changes-notification", false);
 }
@@ -581,7 +581,7 @@ bool Database_Config_User::getUserChangesNotification ()
 {
   return getBValue ("user-changes-notification", false);
 }
-bool Database_Config_User::getUserUserChangesNotification (string username)
+bool Database_Config_User::getUserUserChangesNotification (std::string username)
 {
   return getBValueForUser (username, "user-changes-notification", false);
 }
@@ -595,7 +595,7 @@ bool Database_Config_User::getAssignedNotesStatisticsNotification ()
 {
   return getBValue ("assigned-notes-statistics-notification", false);
 }
-bool Database_Config_User::getUserAssignedNotesStatisticsNotification (string username)
+bool Database_Config_User::getUserAssignedNotesStatisticsNotification (std::string username)
 {
   return getBValueForUser (username, "assigned-notes-statistics-notification", false);
 }
@@ -609,7 +609,7 @@ bool Database_Config_User::getSubscribedNotesStatisticsNotification ()
 {
   return getBValue ("subscribed-notes-statistics-notification", false);
 }
-bool Database_Config_User::getUserSubscribedNotesStatisticsNotification (string username)
+bool Database_Config_User::getUserSubscribedNotesStatisticsNotification (std::string username)
 {
   return getBValueForUser (username, "subscribed-notes-statistics-notification", false);
 }
@@ -623,7 +623,7 @@ bool Database_Config_User::getNotifyMeOfMyPosts ()
 {
   return getBValue ("notify-me-of-my-posts", true);
 }
-bool Database_Config_User::getUserNotifyMeOfMyPosts (string username)
+bool Database_Config_User::getUserNotifyMeOfMyPosts (std::string username)
 {
   return getBValueForUser (username, "notify-me-of-my-posts", true);
 }
@@ -637,7 +637,7 @@ bool Database_Config_User::getSuppressMailFromYourUpdatesNotes ()
 {
   return getBValue ("suppress-mail-my-updated-notes", false);
 }
-bool Database_Config_User::getUserSuppressMailFromYourUpdatesNotes (string username)
+bool Database_Config_User::getUserSuppressMailFromYourUpdatesNotes (std::string username)
 {
   return getBValueForUser (username, "suppress-mail-my-updated-notes", false);
 }
@@ -700,7 +700,7 @@ bool Database_Config_User::getSprintProgressNotification ()
 {
   return getBValue ("sprint-progress-notification", false);
 }
-bool Database_Config_User::getUserSprintProgressNotification (string username)
+bool Database_Config_User::getUserSprintProgressNotification (std::string username)
 {
   return getBValueForUser (username, "sprint-progress-notification", false);
 }
@@ -714,7 +714,7 @@ bool Database_Config_User::getUserChangesNotificationsOnline ()
 {
   return getBValue ("user-changes-notifications-online", false);
 }
-bool Database_Config_User::getUserUserChangesNotificationsOnline (string username)
+bool Database_Config_User::getUserUserChangesNotificationsOnline (std::string username)
 {
   return getBValueForUser (username, "user-changes-notifications-online", false);
 }
@@ -728,7 +728,7 @@ bool Database_Config_User::getContributorChangesNotificationsOnline ()
 {
   return getBValue ("contributor-changes-notifications-online", false);
 }
-bool Database_Config_User::getContributorChangesNotificationsOnline (string username)
+bool Database_Config_User::getContributorChangesNotificationsOnline (std::string username)
 {
   return getBValueForUser (username, "contributor-changes-notifications-online", false);
 }
@@ -742,7 +742,7 @@ string Database_Config_User::getWorkspaceURLs ()
 {
   return getValue ("workbench-urls", "");
 }
-void Database_Config_User::setWorkspaceURLs (string value)
+void Database_Config_User::setWorkspaceURLs (std::string value)
 {
   setValue ("workbench-urls", value);
 }
@@ -752,7 +752,7 @@ string Database_Config_User::getWorkspaceWidths ()
 {
   return getValue ("workbench-widths", "");
 }
-void Database_Config_User::setWorkspaceWidths (string value)
+void Database_Config_User::setWorkspaceWidths (std::string value)
 {
   setValue ("workbench-widths", value);
 }
@@ -762,7 +762,7 @@ string Database_Config_User::getWorkspaceHeights ()
 {
   return getValue ("workbench-heights", "");
 }
-void Database_Config_User::setWorkspaceHeights (string value)
+void Database_Config_User::setWorkspaceHeights (std::string value)
 {
   setValue ("workbench-heights", value);
 }
@@ -772,7 +772,7 @@ string Database_Config_User::getEntireWorkspaceWidths ()
 {
   return getValue ("entire-workbench-widths", "");
 }
-void Database_Config_User::setEntireWorkspaceWidths (string value)
+void Database_Config_User::setEntireWorkspaceWidths (std::string value)
 {
   setValue ("entire-workbench-widths", value);
 }
@@ -782,7 +782,7 @@ string Database_Config_User::getActiveWorkspace ()
 {
   return getValue ("active-workbench", "");
 }
-void Database_Config_User::setActiveWorkspace (string value)
+void Database_Config_User::setActiveWorkspace (std::string value)
 {
   setValue ("active-workbench", value);
 }
@@ -802,7 +802,7 @@ string Database_Config_User::getRecentlyAppliedStyles ()
 {
   return getValue ("recently-applied-styles", "p s add nd f x v");
 }
-void Database_Config_User::setRecentlyAppliedStyles (string values)
+void Database_Config_User::setRecentlyAppliedStyles (std::string values)
 {
   setValue ("recently-applied-styles", values);
 }
@@ -812,7 +812,7 @@ vector <std::string> Database_Config_User::getPrintResources ()
 {
   return getList ("print-resources");
 }
-vector <std::string> Database_Config_User::getPrintResourcesForUser (string user)
+vector <std::string> Database_Config_User::getPrintResourcesForUser (std::string user)
 {
   return getListForUser (user, "print-resources");
 }
@@ -822,7 +822,7 @@ void Database_Config_User::setPrintResources (vector <std::string> values)
 }
 
 
-Passage database_config_user_fix_passage (string value, const char * fallback)
+Passage database_config_user_fix_passage (std::string value, const char * fallback)
 {
   std::vector <std::string> values = filter::strings::explode (value, '.');
   if (values.size () != 3) values = filter::strings::explode (fallback, '.');
@@ -835,7 +835,7 @@ Passage Database_Config_User::getPrintPassageFrom ()
 {
   return database_config_user_fix_passage (getValue ("print-passage-from", ""), "1.1.1");
 }
-Passage Database_Config_User::getPrintPassageFromForUser (string user)
+Passage Database_Config_User::getPrintPassageFromForUser (std::string user)
 {
   return database_config_user_fix_passage (getValueForUser (user, "print-passage-from", ""), "1.1.1");
 }
@@ -850,7 +850,7 @@ Passage Database_Config_User::getPrintPassageTo ()
 {
   return database_config_user_fix_passage (getValue ("print-passage-to", ""), "1.1.31");
 }
-Passage Database_Config_User::getPrintPassageToForUser (string user)
+Passage Database_Config_User::getPrintPassageToForUser (std::string user)
 {
   return database_config_user_fix_passage (getValueForUser (user, "print-passage-to", ""), "1.1.31");
 }
@@ -945,11 +945,11 @@ string Database_Config_User::getChangeNotificationsChecksum ()
 {
   return getValue ("change-notifications-checksum", "");
 }
-void Database_Config_User::setChangeNotificationsChecksum (string value)
+void Database_Config_User::setChangeNotificationsChecksum (std::string value)
 {
   setValue ("change-notifications-checksum", value);
 }
-void Database_Config_User::setUserChangeNotificationsChecksum (string user, string value)
+void Database_Config_User::setUserChangeNotificationsChecksum (std::string user, std::string value)
 {
   setValueForUser (user, "change-notifications-checksum", value);
 }
@@ -990,7 +990,7 @@ string Database_Config_User::getSyncKey ()
 {
   return getValue ("sync-key", "");
 }
-void Database_Config_User::setSyncKey (string key)
+void Database_Config_User::setSyncKey (std::string key)
 {
   setValue ("sync-key", key);
 }
@@ -1007,7 +1007,7 @@ void Database_Config_User::setSyncKey (string key)
 //  // That means: Take the system setting. The user has no language preference.
 //  return getValue (site_language_key (), "");
 //}
-//void Database_Config_User::setSiteLanguage (string value)
+//void Database_Config_User::setSiteLanguage (std::string value)
 //{
 //  setValue (site_language_key (), value);
 //}
@@ -1281,11 +1281,11 @@ bool Database_Config_User::getPrivilegeUseAdvancedMode ()
 {
   return getBValue (privilege_use_advanced_mode_key (), true);
 }
-bool Database_Config_User::getPrivilegeUseAdvancedModeForUser (string username)
+bool Database_Config_User::getPrivilegeUseAdvancedModeForUser (std::string username)
 {
   return getBValueForUser (username, privilege_use_advanced_mode_key (), true);
 }
-void Database_Config_User::setPrivilegeUseAdvancedModeForUser (string username, bool value)
+void Database_Config_User::setPrivilegeUseAdvancedModeForUser (std::string username, bool value)
 {
   setBValueForUser (username, privilege_use_advanced_mode_key (), value);
 }
@@ -1303,11 +1303,11 @@ void Database_Config_User::setPrivilegeDeleteConsultationNotes (bool value)
 {
   setBValue (privilege_delete_consultation_notes_key (), value);
 }
-bool Database_Config_User::getPrivilegeDeleteConsultationNotesForUser (string username)
+bool Database_Config_User::getPrivilegeDeleteConsultationNotesForUser (std::string username)
 {
   return getBValueForUser (username, privilege_delete_consultation_notes_key (), false);
 }
-void Database_Config_User::setPrivilegeDeleteConsultationNotesForUser (string username, bool value)
+void Database_Config_User::setPrivilegeDeleteConsultationNotesForUser (std::string username, bool value)
 {
   setBValueForUser (username, privilege_delete_consultation_notes_key (), value);
 }
@@ -1321,11 +1321,11 @@ bool Database_Config_User::getPrivilegeSetStylesheets ()
 {
   return getBValue (privilege_set_stylesheets_key (), false);
 }
-bool Database_Config_User::getPrivilegeSetStylesheetsForUser (string username)
+bool Database_Config_User::getPrivilegeSetStylesheetsForUser (std::string username)
 {
   return getBValueForUser (username, privilege_set_stylesheets_key (), false);
 }
-void Database_Config_User::setPrivilegeSetStylesheetsForUser (string username, bool value)
+void Database_Config_User::setPrivilegeSetStylesheetsForUser (std::string username, bool value)
 {
   setBValueForUser (username, privilege_set_stylesheets_key (), value);
 }

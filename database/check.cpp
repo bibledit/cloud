@@ -85,7 +85,7 @@ void Database_Check::optimize ()
 }
 
 
-void Database_Check::truncateOutput (string bible)
+void Database_Check::truncateOutput (std::string bible)
 {
   SqliteDatabase sql (filename ());
   if (bible == "") {
@@ -99,7 +99,7 @@ void Database_Check::truncateOutput (string bible)
 }
 
 
-void Database_Check::recordOutput (string bible, int book, int chapter, int verse, string data)
+void Database_Check::recordOutput (std::string bible, int book, int chapter, int verse, std::string data)
 {
   SqliteDatabase sql (filename ());
   int count = 0;

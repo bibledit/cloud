@@ -36,8 +36,8 @@ TEST (html, format)
   // Basic test.
   {
     std::string html = R"(<p class="p"><span>The earth brought forth.</span></p>)";
-    vector<string> texts = {"\n", "The earth brought forth."};
-    vector<string> formats = {"p", ""};
+    vector<std::string> texts = {"\n", "The earth brought forth."};
+    vector<std::string> formats = {"p", ""};
     {
       Editor_Html2Format editor_html2format;
       editor_html2format.load (html);
@@ -60,8 +60,8 @@ TEST (html, format)
   // Non-breaking spaces.
   {
     std::string html = R"(<p class="p"><span>The&nbsp;earth &nbsp; brought&nbsp;&nbsp;forth.</span></p>)";
-    vector<string> texts = {"\n", "The earth   brought  forth."};
-    vector<string> formats = {"p", ""};
+    vector<std::string> texts = {"\n", "The earth   brought  forth."};
+    vector<std::string> formats = {"p", ""};
     {
       Editor_Html2Format editor_html2format;
       editor_html2format.load (html);
@@ -84,8 +84,8 @@ TEST (html, format)
   // Test embedded <span> elements.
   {
     std::string html = R"(<p class="p"><span>The </span><span class="add0nd">Lord God</span> is calling you<span>.</span></p>)";
-    vector<string> texts = {"\n", "The ", "Lord God", " is calling you", "."};
-    vector<string> formats = {"p", "", "add0nd", "", ""};
+    vector<std::string> texts = {"\n", "The ", "Lord God", " is calling you", "."};
+    vector<std::string> formats = {"p", "", "add0nd", "", ""};
     {
       Editor_Html2Format editor_html2format;
       editor_html2format.load (html);
@@ -111,7 +111,7 @@ TEST (html, format)
     " "
     "</p>"
     R"(<p class="b-x"><span class="i-notebody1">x</span><span> </span><span>+ 2 Joh. 1.1</span></p>)";
-    vector<string> texts = {
+    vector<std::string> texts = {
       "\n",
       "The earth brought forth",
       "x",
@@ -123,7 +123,7 @@ TEST (html, format)
       " ",
       "+ 2 Joh. 1.1"
     };
-    vector<string> formats = {
+    vector<std::string> formats = {
       "p",
       "",
       "notecall1",
@@ -152,7 +152,7 @@ TEST (html, format)
     " "
     R"(<p class="b-f"></p>)"
     "</p>";
-    vector<string> texts = {
+    vector<std::string> texts = {
       "\n",
       "The earth brought forth",
       "f",
@@ -161,7 +161,7 @@ TEST (html, format)
       " ",
       "\n"
     };
-    vector<string> formats = {
+    vector<std::string> formats = {
       "p",
       "",
       "notecall1",
@@ -188,7 +188,7 @@ TEST (html, format)
       " "
       "</p>"
       R"(<p class="b-f"><span class="i-notebody1">f</span><span> </span><span>+ </span><span class="i-fk">brought: </span><span class="i-fl">Heb. </span><span class="i-fq">explanation.</span></p>)";
-      vector<string> texts = {
+      vector<std::string> texts = {
         "\n",
         "The earth brought forth",
         ".",
@@ -202,7 +202,7 @@ TEST (html, format)
         "Heb. ",
         "explanation."
       };
-      vector<string> formats = {
+      vector<std::string> formats = {
         "p",
         "",
         "",
@@ -230,7 +230,7 @@ TEST (html, format)
   {
     {
       std::string html = R"(<p class="p"><span>Praise </span><span class="add">Yahweh</span><span> <span class="add">all</span> you nations!</span></p>)";
-      vector<string> texts = {
+      vector<std::string> texts = {
         "\n",
         "Praise ",
         "Yahweh",
@@ -238,7 +238,7 @@ TEST (html, format)
         "all",
         " you nations!"
       };
-      vector<string> formats = {
+      vector<std::string> formats = {
         "p",
         "",
         "add",
@@ -254,7 +254,7 @@ TEST (html, format)
     }
     {
       std::string html = R"(<p class="b-p"><span>Praise </span><span class="i-add">Yahweh</span><span> <span class="i-add">all</span> you nations!</span></p>)";
-      vector<string> texts = {
+      vector<std::string> texts = {
         "\n",
         "Praise ",
         "Yahweh",
@@ -262,7 +262,7 @@ TEST (html, format)
         "all",
         " you nations!"
       };
-      vector<string> formats = {
+      vector<std::string> formats = {
         "p",
         "",
         "add",
@@ -281,7 +281,7 @@ TEST (html, format)
   // Test that the converter to formatting removes the Quill caret class.
   {
     std::string html = R"(<p class="b-p"><span>Praise </span><span class="i-add">Yahweh</span><span> <span class="i-add">all</span> you na</span><span class="ql-cursor">﻿</span><span>tions!</span></p>)";
-    vector<string> texts = {
+    vector<std::string> texts = {
       "\n",
       "Praise ",
       "Yahweh",
@@ -290,7 +290,7 @@ TEST (html, format)
       " you na",
       "tions!"
     };
-    vector<string> formats = {
+    vector<std::string> formats = {
       "p",
       "",
       "add",
@@ -309,8 +309,8 @@ TEST (html, format)
   // Test that it changes three or more spaces in sequence to two spaces.
   {
     std::string html = R"(<p class="p"><span>The   earth    brought forth.</span></p>)";
-    vector<string> texts = {"\n", "The   earth    brought forth."};
-    vector<string> formats = {"p", ""};
+    vector<std::string> texts = {"\n", "The   earth    brought forth."};
+    vector<std::string> formats = {"p", ""};
     {
       Editor_Html2Format editor_html2format;
       editor_html2format.load (html);

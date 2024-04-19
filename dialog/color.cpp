@@ -25,7 +25,7 @@
 using namespace std;
 
 
-Dialog_Color::Dialog_Color (string url, string question)
+Dialog_Color::Dialog_Color (std::string url, std::string question)
 {
   base_url = url;
   assets_view.set_variable ("question", question);
@@ -41,7 +41,7 @@ Dialog_Color::~Dialog_Color ()
 // If any $query is passed, if Cancel is clicked in this dialog, it should go go back
 // to the original caller page  with the $query added.
 // Same for when a selection is made: It adds the $query to the page where to go.
-void Dialog_Color::add_query (string parameter, string value)
+void Dialog_Color::add_query (std::string parameter, std::string value)
 {
   base_url = filter_url_build_http_query (base_url, parameter, value);
 }

@@ -34,7 +34,7 @@ using namespace std;
 // $value   : The initial value to be put into the entry.
 // $submit  : Name of POST request to submit the information.
 // $help    : Help information explaining to the user what's going on.
-Dialog_Entry::Dialog_Entry (string url, string question, string value, string submit, string help)
+Dialog_Entry::Dialog_Entry (std::string url, std::string question, std::string value, std::string submit, std::string help)
 {
   base_url =  url;
   assets_view.set_variable ("question", question);
@@ -49,7 +49,7 @@ Dialog_Entry::~Dialog_Entry ()
 }
 
 
-void Dialog_Entry::add_query (string parameter, string value)
+void Dialog_Entry::add_query (std::string parameter, std::string value)
 {
   base_url = filter_url_build_http_query (base_url, parameter, value);
 }

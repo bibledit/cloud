@@ -92,7 +92,7 @@ vector <Database_Kjv_Item> Database_Kjv::getVerse (int book, int chapter, int ve
 
 
 // Get all passages that contain a strong's number.
-vector <Passage> Database_Kjv::searchStrong (string strong)
+vector <Passage> Database_Kjv::searchStrong (std::string strong)
 {
   int strongid = get_id ("strong", strong);
   SqliteDatabase sql = SqliteDatabase (filename ());
@@ -115,7 +115,7 @@ vector <Passage> Database_Kjv::searchStrong (string strong)
 }
 
 
-void Database_Kjv::store (int book, int chapter, int verse, string strong, string english)
+void Database_Kjv::store (int book, int chapter, int verse, std::string strong, std::string english)
 {
   int strongid = get_id ("strong", strong);
   int englishid = get_id ("english", english);
@@ -173,7 +173,7 @@ string Database_Kjv::english (int rowid)
 }
 
 
-int Database_Kjv::get_id (const char * table_row, string item)
+int Database_Kjv::get_id (const char * table_row, std::string item)
 {
   SqliteDatabase sql = SqliteDatabase (filename ());
   // Two iterations to be sure a rowid can be returned.

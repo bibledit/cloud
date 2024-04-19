@@ -35,7 +35,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 using namespace std;
 
 
-void filter_image_get_sizes (string image_path, int & width, int & height)
+void filter_image_get_sizes (std::string image_path, int & width, int & height)
 {
   int bpp;
   uint8_t* rgb_image = stbi_load (image_path.c_str(), &width, &height, &bpp, 0);

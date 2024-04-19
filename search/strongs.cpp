@@ -173,7 +173,7 @@ string search_strongs (Webserver_Request& webserver_request)
   
   view.set_variable ("bible", bible);
   
-  stringstream script {};
+  std::stringstream script {};
   script << "var searchBible = " << quoted(bible) << ";";
   view.set_variable ("script", script.str());
 

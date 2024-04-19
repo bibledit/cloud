@@ -128,7 +128,7 @@ void system_logic_produce_bibles_file (int jobid)
 }
 
 
-void system_logic_import_bibles_file (string tarball)
+void system_logic_import_bibles_file (std::string tarball)
 {
   Database_Logs::log ("Importing Bibles from " + tarball);
 
@@ -223,7 +223,7 @@ void system_logic_produce_notes_file (int jobid)
   // The files to include in the tarball.
   std::vector <std::string> files;
   filter_url_recursive_scandir (directory, files);
-  for (string & file : files) {
+  for (std::string & file : files) {
     file.erase (0, directory.length () + 1);
   }
   
@@ -254,7 +254,7 @@ void system_logic_produce_notes_file (int jobid)
 }
 
 
-void system_logic_import_notes_file (string tarball)
+void system_logic_import_notes_file (std::string tarball)
 {
   Database_Logs::log ("Importing Consultation Notes from " + tarball);
   
@@ -280,7 +280,7 @@ void system_logic_import_notes_file (string tarball)
 }
 
 
-string system_logic_resources_file_name (string resourcename)
+string system_logic_resources_file_name (std::string resourcename)
 {
   if (!resourcename.empty ()) resourcename.append ("_");
   return filter_url_create_path ({filter_url_temp_dir (), resourcename + "resources.tar"});
@@ -414,7 +414,7 @@ void system_logic_produce_resources_file (int jobid)
 }
 
 
-void system_logic_import_resources_file (string tarball)
+void system_logic_import_resources_file (std::string tarball)
 {
   Database_Logs::log ("Importing Resources from " + tarball);
   

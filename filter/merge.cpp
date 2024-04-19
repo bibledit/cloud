@@ -81,7 +81,7 @@ vector <std::string> filter_merge_merge (const std::vector <std::string>& base, 
 }
 
 
-string filter_merge_lines2words (string data)
+string filter_merge_lines2words (std::string data)
 {
   data = filter::strings::replace ("\n", " new__line ", data);
   data = filter::strings::replace (" ", "\n", data);
@@ -89,7 +89,7 @@ string filter_merge_lines2words (string data)
 }
 
 
-string filter_merge_words2lines (string data)
+string filter_merge_words2lines (std::string data)
 {
   data = filter::strings::replace ("\n", " ", data);
   data = filter::strings::replace (" new__line ", "\n", data);
@@ -97,7 +97,7 @@ string filter_merge_words2lines (string data)
 }
 
 
-string filter_merge_lines2graphemes (string data)
+string filter_merge_lines2graphemes (std::string data)
 {
   data = filter::strings::replace ("\n", " new__line ", data);
   std::string data2;
@@ -111,7 +111,7 @@ string filter_merge_lines2graphemes (string data)
 }
 
 
-string filter_merge_graphemes2lines (string data)
+string filter_merge_graphemes2lines (std::string data)
 {
   data = filter::strings::replace ("\n", "", data);
   data = filter::strings::replace (" new__line ", "\n", data);
@@ -119,7 +119,7 @@ string filter_merge_graphemes2lines (string data)
 }
 
 
-void filter_merge_detect_conflict (string base,
+void filter_merge_detect_conflict (std::string base,
                                    std::string change,
                                    std::string prioritized_change,
                                    std::string result,
@@ -191,7 +191,7 @@ void filter_merge_detect_conflict (string base,
 // In case of a conflict, it prioritizes changes from $prioritized_change.
 // The filter returns the merged data.
 // If $clever, it calls a more clever routine when it fails to merge.
-string filter_merge_run (string base, string change, string prioritized_change,
+string filter_merge_run (std::string base, std::string change, std::string prioritized_change,
                          bool clever,
                          std::vector <Merge_Conflict> & conflicts)
 {
@@ -263,7 +263,7 @@ string filter_merge_run (string base, string change, string prioritized_change,
 // $change: Data as modified by one user.
 // $prioritized_change: Data as modified by a user but prioritized.
 // The filter uses a three-way merge algorithm.
-string filter_merge_run_clever (string base, string change, string prioritized_change,
+string filter_merge_run_clever (std::string base, std::string change, std::string prioritized_change,
                                 std::vector <Merge_Conflict> & conflicts)
 {
   // Get the verse numbers in the changed text.

@@ -151,7 +151,7 @@ string resource_translated9edit (Webserver_Request& webserver_request)
       title.append (" [" + translate("edit") + "]");
       a_node.text().set (title.c_str());
     }
-    stringstream resourceblock;
+    std::stringstream resourceblock;
     document.print (resourceblock, "", pugi::format_raw);
     view.set_variable ("resourceblock", resourceblock.str ());
   }

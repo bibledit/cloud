@@ -80,7 +80,7 @@ void Database_Users::optimize ()
 
 
 // Add the user details to the database.
-void Database_Users::add_user (string user, string password, int level, string email)
+void Database_Users::add_user (std::string user, std::string password, int level, std::string email)
 {
   {
     SqliteDatabase sql (filename ());
@@ -98,7 +98,7 @@ void Database_Users::add_user (string user, string password, int level, string e
 
 
 // Updates the password for user.
-void Database_Users::set_password (string user, string password)
+void Database_Users::set_password (std::string user, std::string password)
 {
   SqliteDatabase sql (filename ());
   sql.add ("UPDATE users SET password =");
@@ -111,7 +111,7 @@ void Database_Users::set_password (string user, string password)
 
 
 // Returns true if the user and password match.
-bool Database_Users::matchUserPassword (string user, string password)
+bool Database_Users::matchUserPassword (std::string user, std::string password)
 {
   SqliteDatabase sql (filename ());
   sql.add ("SELECT username FROM users WHERE username =");
@@ -125,7 +125,7 @@ bool Database_Users::matchUserPassword (string user, string password)
 
 
 // Returns true if the email and password match.
-bool Database_Users::matchEmailPassword (string email, string password)
+bool Database_Users::matchEmailPassword (std::string email, std::string password)
 {
   SqliteDatabase sql (filename ());
   sql.add ("SELECT username FROM users WHERE email =");
@@ -139,7 +139,7 @@ bool Database_Users::matchEmailPassword (string email, string password)
 
 
 // Returns the query to execute to add a new user.
-string Database_Users::add_userQuery (string user, string password, int level, string email)
+string Database_Users::add_userQuery (std::string user, std::string password, int level, std::string email)
 {
   user = database_sqlite_no_sql_injection (user);
   password = md5 (password);
@@ -150,7 +150,7 @@ string Database_Users::add_userQuery (string user, string password, int level, s
 
 
 // Returns the username that belongs to the email.
-string Database_Users::getEmailToUser (string email)
+string Database_Users::getEmailToUser (std::string email)
 {
   SqliteDatabase sql (filename ());
   sql.add ("SELECT username FROM users WHERE email =");
@@ -163,7 +163,7 @@ string Database_Users::getEmailToUser (string email)
 
 
 // Returns the email address that belongs to user.
-string Database_Users::get_email (string user)
+string Database_Users::get_email (std::string user)
 {
   SqliteDatabase sql (filename ());
   sql.add ("SELECT email FROM users WHERE username = ");
@@ -176,7 +176,7 @@ string Database_Users::get_email (string user)
 
 
 // Returns true if the username exists in the database.
-bool Database_Users::usernameExists (string user)
+bool Database_Users::usernameExists (std::string user)
 {
   SqliteDatabase sql (filename ());
   sql.add ("SELECT username FROM users WHERE username =");
@@ -188,7 +188,7 @@ bool Database_Users::usernameExists (string user)
 
 
 // Returns true if the email address exists in the database.
-bool Database_Users::emailExists (string email)
+bool Database_Users::emailExists (std::string email)
 {
   SqliteDatabase sql (filename ());
   sql.add ("SELECT username FROM users WHERE email = ");
@@ -200,7 +200,7 @@ bool Database_Users::emailExists (string email)
 
 
 // Returns the level that belongs to the user.
-int Database_Users::get_level (string user)
+int Database_Users::get_level (std::string user)
 {
   SqliteDatabase sql (filename ());
   sql.add ("SELECT level FROM users WHERE username = ");
@@ -213,7 +213,7 @@ int Database_Users::get_level (string user)
 
 
 // Updates the level of a given user.
-void Database_Users::set_level (string user, int level)
+void Database_Users::set_level (std::string user, int level)
 {
   SqliteDatabase sql (filename ());
   sql.add ("UPDATE users SET level =");
@@ -226,7 +226,7 @@ void Database_Users::set_level (string user, int level)
 
 
 // Remove a user from the database.
-void Database_Users::removeUser (string user)
+void Database_Users::removeUser (std::string user)
 {
   SqliteDatabase sql (filename ());
   sql.add ("DELETE FROM users WHERE username =");
@@ -249,7 +249,7 @@ vector <std::string> Database_Users::getAdministrators ()
 
 
 // Returns the query to update a user's email address.
-string Database_Users::updateEmailQuery (string user, string email)
+string Database_Users::updateEmailQuery (std::string user, std::string email)
 {
   SqliteDatabase sql (filename ());
   sql.add ("UPDATE users SET email =");
@@ -262,7 +262,7 @@ string Database_Users::updateEmailQuery (string user, string email)
 
 
 // Updates the "email" for "user".
-void Database_Users::updateUserEmail (string user, string email)
+void Database_Users::updateUserEmail (std::string user, std::string email)
 {
   execute (updateEmailQuery (user, email));
 }
@@ -279,7 +279,7 @@ vector <std::string> Database_Users::get_users ()
 
 
 // Returns the md5 hash for the $user's password.
-string Database_Users::get_md5 (string user)
+string Database_Users::get_md5 (std::string user)
 {
   SqliteDatabase sql (filename ());
   sql.add ("SELECT password FROM users WHERE username =");
@@ -292,7 +292,7 @@ string Database_Users::get_md5 (string user)
 
 
 // Executes the SQL fragment.
-void Database_Users::execute (string sqlfragment)
+void Database_Users::execute (std::string sqlfragment)
 {
   SqliteDatabase sql (filename ());
   sql.sql = sqlfragment;
@@ -301,7 +301,7 @@ void Database_Users::execute (string sqlfragment)
 
 
 // Set the LDAP state for the $user account $on or off.
-void Database_Users::set_ldap (string user, bool on)
+void Database_Users::set_ldap (std::string user, bool on)
 {
   SqliteDatabase sql (filename ());
   sql.add ("UPDATE users SET ldap =");
@@ -314,7 +314,7 @@ void Database_Users::set_ldap (string user, bool on)
 
 
 // Get whether the $user account comes from a LDAP server.
-bool Database_Users::get_ldap (string user)
+bool Database_Users::get_ldap (std::string user)
 {
   SqliteDatabase sql (filename ());
   sql.add ("SELECT ldap FROM users WHERE username =");
@@ -330,7 +330,7 @@ bool Database_Users::get_ldap (string user)
 
 
 // Enable the $user account.
-void Database_Users::set_enabled (string user, bool on)
+void Database_Users::set_enabled (std::string user, bool on)
 {
   SqliteDatabase sql (filename ());
   sql.add ("UPDATE users SET disabled =");
@@ -343,7 +343,7 @@ void Database_Users::set_enabled (string user, bool on)
 
 
 // Disable the $user account.
-bool Database_Users::get_enabled (string user)
+bool Database_Users::get_enabled (std::string user)
 {
   SqliteDatabase sql (filename ());
   sql.add ("SELECT disabled FROM users WHERE username =");

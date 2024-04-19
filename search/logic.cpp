@@ -35,19 +35,19 @@ string search_logic_index_folder ()
 }
 
 
-string search_logic_bible_fragment (string bible)
+string search_logic_bible_fragment (std::string bible)
 {
   return filter_url_create_path ({search_logic_index_folder (), bible + "_"});
 }
 
 
-string search_logic_book_fragment (string bible, int book)
+string search_logic_book_fragment (std::string bible, int book)
 {
   return search_logic_bible_fragment (bible) + filter::strings::convert_to_string (book) + "_";
 }
 
 
-string search_logic_chapter_file (string bible, int book, int chapter)
+string search_logic_chapter_file (std::string bible, int book, int chapter)
 {
   return search_logic_book_fragment (bible, book) + filter::strings::convert_to_string (chapter);
 }
@@ -72,7 +72,7 @@ string search_logic_index_separator ()
 
 
 // Indexes a $bible $book $chapter for searching.
-void search_logic_index_chapter (string bible, int book, int chapter)
+void search_logic_index_chapter (std::string bible, int book, int chapter)
 {
   Database_Bibles database_bibles;
   
@@ -152,7 +152,7 @@ void search_logic_index_chapter (string bible, int book, int chapter)
 // Returns an array with matching passages.
 // $search: Contains the text to search for.
 // $bibles: Array of Bible names to search in.
-vector <Passage> search_logic_search_text (string search, std::vector <std::string> bibles)
+vector <Passage> search_logic_search_text (std::string search, std::vector <std::string> bibles)
 {
   std::vector <Passage> passages;
   
@@ -201,7 +201,7 @@ vector <Passage> search_logic_search_text (string search, std::vector <std::stri
 // Performs a case-insensitive search of the text of one $bible.
 // Returns an array with the matching passages.
 // $search: Contains the text to search for.
-vector <Passage> search_logic_search_bible_text (string bible, string search)
+vector <Passage> search_logic_search_bible_text (std::string bible, std::string search)
 {
   std::vector <Passage> passages;
   
@@ -247,7 +247,7 @@ vector <Passage> search_logic_search_bible_text (string bible, string search)
 // Performs a case-sensitive search of the text of one $bible.
 // Returns an array with the rowid's of matching verses.
 // $search: Contains the text to search for.
-vector <Passage> search_logic_search_bible_text_case_sensitive (string bible, string search)
+vector <Passage> search_logic_search_bible_text_case_sensitive (std::string bible, std::string search)
 {
   std::vector <Passage> passages;
   
@@ -291,7 +291,7 @@ vector <Passage> search_logic_search_bible_text_case_sensitive (string bible, st
 // Performs a case-insensitive search of the USFM of one bible.
 // Returns an array with the rowid's of matching verses.
 // search: Contains the text to search for.
-vector <Passage> search_logic_search_bible_usfm (string bible, string search)
+vector <Passage> search_logic_search_bible_usfm (std::string bible, std::string search)
 {
   std::vector <Passage> passages;
   
@@ -337,7 +337,7 @@ vector <Passage> search_logic_search_bible_usfm (string bible, string search)
 // Performs a case-sensitive search of the USFM of one $bible.
 // Returns an array with the rowid's of matching verses.
 // $search: Contains the text to search for.
-vector <Passage> search_logic_search_bible_usfm_case_sensitive (string bible, string search)
+vector <Passage> search_logic_search_bible_usfm_case_sensitive (std::string bible, std::string search)
 {
   std::vector <Passage> passages;
   
@@ -379,7 +379,7 @@ vector <Passage> search_logic_search_bible_usfm_case_sensitive (string bible, st
 
 
 // Gets the plain raw text for the bible and passage given.
-string search_logic_get_bible_verse_text (string bible, int book, int chapter, int verse)
+string search_logic_get_bible_verse_text (std::string bible, int book, int chapter, int verse)
 {
   std::vector <std::string> texts;
   std::string path = search_logic_chapter_file (bible, book, chapter);
@@ -408,7 +408,7 @@ string search_logic_get_bible_verse_text (string bible, int book, int chapter, i
 
 
 // Gets the raw USFM for the bible and passage given.
-string search_logic_get_bible_verse_usfm (string bible, int book, int chapter, int verse)
+string search_logic_get_bible_verse_usfm (std::string bible, int book, int chapter, int verse)
 {
   std::vector <std::string> texts;
   std::string path = search_logic_chapter_file (bible, book, chapter);
@@ -436,7 +436,7 @@ string search_logic_get_bible_verse_usfm (string bible, int book, int chapter, i
 }
 
 
-void search_logic_delete_bible (string bible)
+void search_logic_delete_bible (std::string bible)
 {
   std::string fragment = search_logic_bible_fragment (bible);
   fragment = filter_url_basename (fragment);
@@ -450,7 +450,7 @@ void search_logic_delete_bible (string bible)
 }
 
 
-void search_logic_delete_book (string bible, int book)
+void search_logic_delete_book (std::string bible, int book)
 {
   std::string fragment = search_logic_book_fragment (bible, book);
   fragment = filter_url_basename (fragment);
@@ -464,7 +464,7 @@ void search_logic_delete_book (string bible, int book)
 }
 
 
-void search_logic_delete_chapter (string bible, int book, int chapter)
+void search_logic_delete_chapter (std::string bible, int book, int chapter)
 {
   std::string fragment = search_logic_chapter_file (bible, book, chapter);
   fragment = filter_url_basename (fragment);
@@ -479,7 +479,7 @@ void search_logic_delete_chapter (string bible, int book, int chapter)
 
 
 // Returns the total verse count within a $bible.
-int search_logic_get_verse_count (string bible)
+int search_logic_get_verse_count (std::string bible)
 {
   int verse_count = 0;
   Database_Bibles database_bibles;
@@ -502,7 +502,7 @@ int search_logic_get_verse_count (string bible)
 
 
 // Copies the search index of Bible $original to Bible $destination.
-void search_logic_copy_bible (string original, string destination)
+void search_logic_copy_bible (std::string original, std::string destination)
 {
   std::string original_fragment = search_logic_bible_fragment (original);
   original_fragment = filter_url_basename (original_fragment);
@@ -521,7 +521,7 @@ void search_logic_copy_bible (string original, string destination)
 
 
 // This generated the plain text that can be used as a reference during a replace operation.
-string search_logic_plain_replace_verse_text (string usfm)
+string search_logic_plain_replace_verse_text (std::string usfm)
 {
   // Text filter for getting the plain text.
   Filter_Text filter_text = Filter_Text ("");

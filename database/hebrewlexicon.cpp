@@ -71,7 +71,7 @@ void Database_HebrewLexicon::optimize ()
 }
 
 
-void Database_HebrewLexicon::setaug (string aug, string target)
+void Database_HebrewLexicon::setaug (std::string aug, std::string target)
 {
   SqliteDatabase sql = SqliteDatabase (filename ());
   sql.add ("INSERT INTO aug VALUES (");
@@ -83,7 +83,7 @@ void Database_HebrewLexicon::setaug (string aug, string target)
 }
 
 
-void Database_HebrewLexicon::setbdb (string id, string definition)
+void Database_HebrewLexicon::setbdb (std::string id, std::string definition)
 {
   SqliteDatabase sql = SqliteDatabase (filename ());
   sql.add ("INSERT INTO bdb VALUES (");
@@ -95,7 +95,7 @@ void Database_HebrewLexicon::setbdb (string id, string definition)
 }
 
 
-void Database_HebrewLexicon::setmap (string id, string bdb)
+void Database_HebrewLexicon::setmap (std::string id, std::string bdb)
 {
   SqliteDatabase sql = SqliteDatabase (filename ());
   sql.add ("INSERT INTO map VALUES (");
@@ -107,7 +107,7 @@ void Database_HebrewLexicon::setmap (string id, string bdb)
 }
 
 
-void Database_HebrewLexicon::setpos (string code, string name)
+void Database_HebrewLexicon::setpos (std::string code, std::string name)
 {
   SqliteDatabase sql = SqliteDatabase (filename ());
   sql.add ("INSERT INTO pos VALUES (");
@@ -119,7 +119,7 @@ void Database_HebrewLexicon::setpos (string code, string name)
 }
 
 
-void Database_HebrewLexicon::setstrong (string strong, string definition)
+void Database_HebrewLexicon::setstrong (std::string strong, std::string definition)
 {
   SqliteDatabase sql = SqliteDatabase (filename ());
   sql.add ("INSERT INTO strong VALUES (");
@@ -131,7 +131,7 @@ void Database_HebrewLexicon::setstrong (string strong, string definition)
 }
 
 
-string Database_HebrewLexicon::getaug (string aug)
+string Database_HebrewLexicon::getaug (std::string aug)
 {
   SqliteDatabase sql = SqliteDatabase (filename ());
   sql.add ("SELECT target FROM aug WHERE aug =");
@@ -143,7 +143,7 @@ string Database_HebrewLexicon::getaug (string aug)
 }
 
 
-string Database_HebrewLexicon::getbdb (string id)
+string Database_HebrewLexicon::getbdb (std::string id)
 {
   SqliteDatabase sql = SqliteDatabase (filename ());
   sql.add ("SELECT definition FROM bdb WHERE id =");
@@ -155,7 +155,7 @@ string Database_HebrewLexicon::getbdb (string id)
 }
 
 
-string Database_HebrewLexicon::getmap (string id)
+string Database_HebrewLexicon::getmap (std::string id)
 {
   SqliteDatabase sql = SqliteDatabase (filename ());
   sql.add ("SELECT bdb FROM map WHERE id =");
@@ -167,7 +167,7 @@ string Database_HebrewLexicon::getmap (string id)
 }
 
 
-string Database_HebrewLexicon::getpos (string code)
+string Database_HebrewLexicon::getpos (std::string code)
 {
   SqliteDatabase sql = SqliteDatabase (filename ());
   sql.add ("SELECT name FROM pos WHERE code =");
@@ -179,7 +179,7 @@ string Database_HebrewLexicon::getpos (string code)
 }
 
 
-string Database_HebrewLexicon::getstrong (string strong)
+string Database_HebrewLexicon::getstrong (std::string strong)
 {
   SqliteDatabase sql = SqliteDatabase (filename ());
   sql.add ("SELECT definition FROM strong WHERE strong =");

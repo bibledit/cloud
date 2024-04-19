@@ -1056,7 +1056,7 @@ TEST (checks, usfm)
       EXPECT_EQ (string("executing tests"), string("skipping tests"));
     }
     
-    EXPECT_EQ ((vector<int>{0, 1, 2}), filter::usfm::get_verse_numbers ("\\v 1 test\\v 2 test"));
+    EXPECT_EQ ((std::vector<int>{0, 1, 2}), filter::usfm::get_verse_numbers ("\\v 1 test\\v 2 test"));
   }
 
   // Test importing USFM with \vp markup.
@@ -1118,7 +1118,7 @@ TEST (checks, usfm)
   // Test getting verse numbers from USFM.
   {
     std::string usfm = "\\c 1\n\\s Isibingelelo\n\\p\n\\v 1 Umdala\n\\p\n\\v 2 Sithandwa\n\\v 3 Ngoba\n\\v 4 Kangilantokozo\n\\s Inkathazo\n\\p\n\\v 5 Sithandwa\n\\v 6 abafakazele\n\\v 7 Ngoba\n\\v 8 Ngakho\n\\p\n\\v 9 Ngabhalela\n\\v 10 Ngakho\n\\p\n\\v 11 Sithandwa\n\\v 12 NgoDemetriyu\n\\s Isicino\n\\p\n\\v 13 Bengilezinto\n\\v 14 kodwa\n\\p Ukuthula";
-    EXPECT_EQ ((vector<int>{ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 }), filter::usfm::get_verse_numbers (usfm));
+    EXPECT_EQ ((std::vector<int>{ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 }), filter::usfm::get_verse_numbers (usfm));
     usfm = ""
     "\\c 80\n"
     "\\s Umkhuleko wokusizwa kukaIsrayeli\n"
@@ -1149,26 +1149,26 @@ TEST (checks, usfm)
     "\\v 18 Ngakho kasiyikubuyela emuva sisuke kuwe; sivuselele, khona sizabiza ibizo lakho\\x + Hlab. 71.20.\\x*.\n"
     "\\p\n"
     "\\v 19 \nnd kosi\nd*, Nkulunkulu wamabandla, siphendule, wenze ubuso bakho bukhanye, ngakho sizasindiswa\\x + 80.3,7.\\x*.\n";
-    EXPECT_EQ ((vector<int>{ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19 }), filter::usfm::get_verse_numbers (usfm));
+    EXPECT_EQ ((std::vector<int>{ 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19 }), filter::usfm::get_verse_numbers (usfm));
   }
   
   // Test getting verse numbers from USFM.
   {
     std::string usfm = "\\v 1-2 Umdala\n\\p\n\\v 3 Ngoba\n";
     std::vector <int> verses = filter::usfm::get_verse_numbers (usfm);
-    EXPECT_EQ ((vector<int>{ 0, 1, 2, 3 }), verses);
+    EXPECT_EQ ((std::vector<int>{ 0, 1, 2, 3 }), verses);
     
     usfm = "\\v 10-12b Fragment\n\\p\n\\v 13 Fragment\n";
     verses = filter::usfm::get_verse_numbers (usfm);
-    EXPECT_EQ ((vector<int>{ 0, 10, 11, 12, 13 }), verses);
+    EXPECT_EQ ((std::vector<int>{ 0, 10, 11, 12, 13 }), verses);
     
     usfm = "\\v 10,11a Fragment\n\\p\n\\v 13 Fragment\n";
     verses = filter::usfm::get_verse_numbers (usfm);
-    EXPECT_EQ ((vector<int>{ 0, 10, 11, 13 }), verses);
+    EXPECT_EQ ((std::vector<int>{ 0, 10, 11, 13 }), verses);
     
     usfm = "\\v 10,12 Fragment\n\\p\n\\v 13 Fragment\n";
     verses = filter::usfm::get_verse_numbers (usfm);
-    EXPECT_EQ ((vector<int>{ 0, 10, 12, 13 }), verses);
+    EXPECT_EQ ((std::vector<int>{ 0, 10, 12, 13 }), verses);
   }
   
   // Testing on USFM without verse text.

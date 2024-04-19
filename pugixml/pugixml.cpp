@@ -12042,7 +12042,7 @@ PUGI__NS_BEGIN
 			// PathExpr begins with either LocationPath or FilterExpr.
 			// FilterExpr begins with PrimaryExpr
 			// PrimaryExpr begins with '$' in case of it being a variable reference,
-			// '(' in case of it being an expression, string literal, number constant or
+			// '(' in case of it being an expression, std::string literal, number constant or
 			// function call.
 			if (_lexer.current() == lex_var_ref || _lexer.current() == lex_open_brace ||
 				_lexer.current() == lex_quoted_string || _lexer.current() == lex_number ||

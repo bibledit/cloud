@@ -39,7 +39,7 @@
 using namespace std;
 
 
-void compare_compare (string bible, string compare, int jobId)
+void compare_compare (std::string bible, std::string compare, int jobId)
 {
   Database_Logs::log (translate("Comparing Bibles") + " " + bible + " " + translate ("and") + " " + compare, Filter_Roles::consultant ());
 

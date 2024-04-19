@@ -94,7 +94,7 @@ bool Database_Login::healthy ()
 // Sets the login security tokens for a user.
 // Also store whether the device is touch-enabled.
 // It only writes to the table if the combination of username and tokens differs from what the table already contains.
-void Database_Login::setTokens (string username, string address, string agent, string fingerprint, string cookie, bool touch)
+void Database_Login::setTokens (std::string username, std::string address, std::string agent, std::string fingerprint, std::string cookie, bool touch)
 {
   bool daily;
   if (username == getUsername (cookie, daily)) return;
@@ -122,7 +122,7 @@ void Database_Login::setTokens (string username, string address, string agent, s
 
 
 // Remove the login security tokens for a user.
-void Database_Login::removeTokens (string username)
+void Database_Login::removeTokens (std::string username)
 {
   SqliteDatabase sql (database ());
   sql.add ("DELETE FROM logins WHERE username =");
@@ -133,7 +133,7 @@ void Database_Login::removeTokens (string username)
 
 
 // Remove the login security tokens for a user based on the cookie.
-void Database_Login::removeTokens (string username, string cookie)
+void Database_Login::removeTokens (std::string username, std::string cookie)
 {
   //address = md5 (address);
   //agent = md5 (agent);
@@ -148,7 +148,7 @@ void Database_Login::removeTokens (string username, string cookie)
 }
 
 
-void Database_Login::renameTokens (string username_existing, string username_new, string cookie)
+void Database_Login::renameTokens (std::string username_existing, std::string username_new, std::string cookie)
 {
   SqliteDatabase sql (database ());
   sql.add ("UPDATE logins SET username =");
@@ -164,7 +164,7 @@ void Database_Login::renameTokens (string username_existing, string username_new
 
 // Returns the username that matches the cookie sent by the browser.
 // Once a day, $daily will be set true.
-string Database_Login::getUsername (string cookie, bool & daily)
+string Database_Login::getUsername (std::string cookie, bool & daily)
 {
   SqliteDatabase sql (database ());
   sql.add ("SELECT rowid, timestamp, username FROM logins WHERE cookie =");
@@ -192,7 +192,7 @@ string Database_Login::getUsername (string cookie, bool & daily)
 
 
 // Returns whether the device, that matches the cookie it sent, is touch-enabled.
-bool Database_Login::getTouchEnabled (string cookie)
+bool Database_Login::getTouchEnabled (std::string cookie)
 {
   SqliteDatabase sql (database ());
   sql.add ("SELECT touch FROM logins WHERE cookie =");

@@ -92,7 +92,7 @@ void Database_Mail::trim ()
 // subject: The subject.
 // body: The body.
 // time: Normally not given, but if given, it indicates the time stamp for sending this email.
-void Database_Mail::send (string to, string subject, string body, int time)
+void Database_Mail::send (std::string to, std::string subject, std::string body, int time)
 {
   if (time == 0) time = filter::date::seconds_since_epoch ();
   SqliteSQL sql = SqliteSQL ();

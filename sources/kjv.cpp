@@ -38,11 +38,11 @@ using namespace std;
 
 
 // Declarations local functions.
-void sources_kjv_store (int book, int chapter, int verse, string lemma, string english);
-void sources_kjv_parse_loop (pugi::xml_node element, int & book, int & chapter, int & verse, bool & within_verse, string & lemma);
+void sources_kjv_store (int book, int chapter, int verse, std::string lemma, std::string english);
+void sources_kjv_parse_loop (pugi::xml_node element, int & book, int & chapter, int & verse, bool & within_verse, std::string & lemma);
 
 
-void sources_kjv_store (int book, int chapter, int verse, string lemma, string english)
+void sources_kjv_store (int book, int chapter, int verse, std::string lemma, std::string english)
 {
   Database_Kjv database_kjv;
   std::vector <std::string> lemmas = filter::strings::explode (lemma, ' ');
@@ -65,7 +65,7 @@ void sources_kjv_store (int book, int chapter, int verse, string lemma, string e
 
 void sources_kjv_parse_loop (pugi::xml_node element,
                              int & book, int & chapter, int & verse,
-                             bool & within_verse, string & lemma)
+                             bool & within_verse, std::string & lemma)
 {
   std::string element_name = element.name ();
   if (element_name == "verse") {

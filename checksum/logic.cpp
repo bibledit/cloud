@@ -22,7 +22,6 @@
 #include <filter/md5.h>
 #include <filter/usfm.h>
 #include <webserver/request.h>
-using namespace std;
 
 
 // This function reads $data,
@@ -32,7 +31,7 @@ using namespace std;
 // The first line contains the checksum.
 // The second line contains the readwrite as 0 or 1.
 // The rest contains the $data.
-string checksum_logic::send (const std::string& data, bool readwrite)
+std::string checksum_logic::send (const std::string& data, bool readwrite)
 {
   std::string checksum = get (data);
   checksum.append ("\n");
@@ -45,7 +44,7 @@ string checksum_logic::send (const std::string& data, bool readwrite)
 
 // This function gets the checksum for $data, and returns it.
 // It calculates the length of 'data' in bytes.
-string checksum_logic::get (const std::string& data)
+std::string checksum_logic::get (const std::string& data)
 {
   return filter::strings::convert_to_string (data.length ());
 }
@@ -53,7 +52,7 @@ string checksum_logic::get (const std::string& data)
 
 // This function gets the checksum for $data, and returns it.
 // It calculates the length of vector 'data' in bytes.
-string checksum_logic::get (const std::vector <std::string>& data)
+std::string checksum_logic::get (const std::vector <std::string>& data)
 {
   int length = 0;
   for (auto & bit : data) length += static_cast<int>(bit.length ());
@@ -62,7 +61,7 @@ string checksum_logic::get (const std::vector <std::string>& data)
 
 
 // Returns a proper checksum for the USFM in the chapter.
-string checksum_logic::get_chapter (Webserver_Request& webserver_request, const std::string& bible, int book, int chapter)
+std::string checksum_logic::get_chapter (Webserver_Request& webserver_request, const std::string& bible, int book, int chapter)
 {
   std::string usfm = webserver_request.database_bibles()->get_chapter (bible, book, chapter);
   std::string checksum = md5 (filter::strings::trim (usfm));
@@ -71,7 +70,7 @@ string checksum_logic::get_chapter (Webserver_Request& webserver_request, const 
 
 
 // Returns a proper checksum for the USFM in the book.
-string checksum_logic::get_book (Webserver_Request& webserver_request, const std::string& bible, int book)
+std::string checksum_logic::get_book (Webserver_Request& webserver_request, const std::string& bible, int book)
 {
   std::vector <int> chapters = webserver_request.database_bibles()->get_chapters (bible, book);
   std::vector <std::string> checksums;
@@ -85,7 +84,7 @@ string checksum_logic::get_book (Webserver_Request& webserver_request, const std
 
 
 // Returns a proper checksum for the USFM in the $bible.
-string checksum_logic::get_bible (Webserver_Request& webserver_request, const std::string& bible)
+std::string checksum_logic::get_bible (Webserver_Request& webserver_request, const std::string& bible)
 {
   std::vector <int> books = webserver_request.database_bibles()->get_books (bible);
   std::vector <std::string> checksums;
@@ -99,7 +98,7 @@ string checksum_logic::get_bible (Webserver_Request& webserver_request, const st
 
 
 // Returns a proper checksum for the USFM in the array of $bibles.
-string checksum_logic::get_bibles (Webserver_Request& webserver_request, const std::vector <std::string> & bibles)
+std::string checksum_logic::get_bibles (Webserver_Request& webserver_request, const std::vector <std::string> & bibles)
 {
   std::vector <std::string> checksums;
   for (const auto & bible : bibles) {
@@ -109,4 +108,3 @@ string checksum_logic::get_bibles (Webserver_Request& webserver_request, const s
   checksum = md5 (checksum);
   return checksum;
 }
-

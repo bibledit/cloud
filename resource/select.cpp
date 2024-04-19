@@ -241,7 +241,7 @@ string resource_select (Webserver_Request& webserver_request)
     dialog_list.add_query ("page", webserver_request.query["page"]);
     if (is_def) dialog_list.add_query ("type", webserver_request.query["type"]);
     std::vector <std::string> resources;
-    vector<string> raw_resources =
+    vector<std::string> raw_resources =
 #ifdef HAVE_CLOUD
     Database_Config_General::getComparativeResources ();
 #else
@@ -270,7 +270,7 @@ string resource_select (Webserver_Request& webserver_request)
     dialog_list.add_query ("page", webserver_request.query["page"]);
     if (is_def) dialog_list.add_query ("type", webserver_request.query["type"]);
     std::vector <std::string> resources;
-    vector<string> raw_resources =
+    vector<std::string> raw_resources =
 #ifdef HAVE_CLOUD
     Database_Config_General::getTranslatedResources ();
 #else

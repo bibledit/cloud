@@ -80,7 +80,7 @@ string webbible_search (Webserver_Request& webserver_request)
   view.set_variable ("hitCount", filter::strings::convert_to_string (passages.size ()));
   
   
-  stringstream hitsblock;
+  std::stringstream hitsblock;
   
   
   // Go through the search hits.

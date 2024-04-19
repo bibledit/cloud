@@ -25,7 +25,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 using namespace std;
 
 
-string edit2_logic_volatile_key (string bible, int book, int chapter, string editor)
+string edit2_logic_volatile_key (std::string bible, int book, int chapter, std::string editor)
 {
   std::string key;
   key.append (bible);
@@ -39,7 +39,7 @@ string edit2_logic_volatile_key (string bible, int book, int chapter, string edi
 }
 
 
-void storeLoadedUsfm2 (Webserver_Request& webserver_request, string bible, int book, int chapter, string editor, [[maybe_unused]] const char * message)
+void storeLoadedUsfm2 (Webserver_Request& webserver_request, std::string bible, int book, int chapter, std::string editor, [[maybe_unused]] const char * message)
 {
   int userid = filter::strings::user_identifier (webserver_request);
   
@@ -51,7 +51,7 @@ void storeLoadedUsfm2 (Webserver_Request& webserver_request, string bible, int b
 }
 
 
-string getLoadedUsfm2 (Webserver_Request& webserver_request, string bible, int book, int chapter, string editor)
+string getLoadedUsfm2 (Webserver_Request& webserver_request, std::string bible, int book, int chapter, std::string editor)
 {
   int userid = filter::strings::user_identifier (webserver_request);
   

@@ -45,7 +45,7 @@ using namespace std;
 
 unsigned int resource_external_count ();
 int gbs_digitaal_json_callback (void *userdata, int type, const char *data, uint32_t length);
-string bibleserver_processor (string directory, int book, int chapter, int verse);
+string bibleserver_processor (std::string directory, int book, int chapter, int verse);
 string resource_external_get_statenbijbel_gbs (int book, int chapter, int verse);
 string resource_external_get_statenbijbel_plus_gbs (int book, int chapter, int verse);
 string resource_external_get_king_james_version_gbs (int book, int chapter, int verse);
@@ -132,7 +132,7 @@ struct gbs_basic_walker: pugi::xml_tree_walker
 
 
 // This function displays the canonical text from bijbel-statenvertaling.com.
-string gbs_basic_processor (string url, int verse)
+string gbs_basic_processor (std::string url, int verse)
 {
   std::string text {};
   
@@ -299,7 +299,7 @@ struct gbs_annotation_walker: pugi::xml_tree_walker
 
 
 // This function displays the canonical text from bijbel-statenvertaling.com.
-string gbs_plus_processor (string url, int book, [[maybe_unused]] int chapter, int verse)
+string gbs_plus_processor (std::string url, int book, [[maybe_unused]] int chapter, int verse)
 {
   std::string text {};
   
@@ -401,7 +401,7 @@ string gbs_plus_processor (string url, int book, [[maybe_unused]] int chapter, i
       std::string selector2 {"//body"};
       pugi::xpath_node xpathnode2 {annotation_document.select_node(selector2.c_str())};
       pugi::xml_node body_node {xpathnode2.node()};
-      stringstream ss {};
+      std::stringstream ss {};
       body_node.print (ss, "", pugi::format_raw);
       gbs_annotation_walker annotation_walker {};
       body_node.traverse (annotation_walker);
@@ -421,7 +421,7 @@ string gbs_plus_processor (string url, int book, [[maybe_unused]] int chapter, i
 
 
 // This filters Bibles from www.bibleserver.com.
-string bibleserver_processor (string directory, int book, int chapter, int verse)
+string bibleserver_processor (std::string directory, int book, int chapter, int verse)
 {
   std::string bookname = resource_external_convert_book_bibleserver (book);
   
@@ -954,7 +954,7 @@ vector <std::string> resource_external_get_bibles ()
 
 
 // Returns the versification for the resource.
-string resource_external_versification (string name)
+string resource_external_versification (std::string name)
 {
   std::string versification = filter::strings::english ();
   for (unsigned int i = 0; i < resource_external_count (); i++) {
@@ -968,7 +968,7 @@ string resource_external_versification (string name)
 
 
 // Returns the versification for the resource.
-string resource_external_mapping (string name)
+string resource_external_mapping (std::string name)
 {
   std::string versification = filter::strings::english ();
   for (unsigned int i = 0; i < resource_external_count (); i++) {
@@ -982,7 +982,7 @@ string resource_external_mapping (string name)
 
 
 // Returns what type the Web resource $name is.
-string resource_external_type (string name)
+string resource_external_type (std::string name)
 {
   std::string type = UNKNOWN;
   for (unsigned int i = 0; i < resource_external_count (); i++) {

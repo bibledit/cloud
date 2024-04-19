@@ -59,10 +59,10 @@ m_webserver_request (webserver_request)
 // query             : The query to be executed on the database if the user confirms the email successfully.
 // subsequent_subject: The subject of the email to send upon user confirmation.
 // subsequent_body   : The body of the email to send upon user confirmation.
-void Confirm_Worker::setup (string mailto, string username,
-                            std::string initial_subject, string initial_body,
+void Confirm_Worker::setup (std::string mailto, std::string username,
+                            std::string initial_subject, std::string initial_body,
                             std::string query,
-                            std::string subsequent_subject, string subsequent_body)
+                            std::string subsequent_subject, std::string subsequent_body)
 {
   Database_Confirm database_confirm;
   unsigned int confirmation_id = database_confirm.get_new_id ();
@@ -77,7 +77,7 @@ void Confirm_Worker::setup (string mailto, string username,
   std::string siteUrl = config::logic::site_url (m_webserver_request);
   std::string confirmation_url = filter_url_build_http_query (siteUrl + session_confirm_url (), "id", to_string(confirmation_id));
   node.text ().set (confirmation_url.c_str());
-  stringstream output;
+  std::stringstream output;
   document.print (output, "", pugi::format_raw);
   initial_body += output.str ();
   email_schedule (mailto, initial_subject, initial_body);
@@ -87,7 +87,7 @@ void Confirm_Worker::setup (string mailto, string username,
 
 // Handles a confirmation email received "from" with "subject" and "body".
 // Returns true if the mail was handled, else false.
-bool Confirm_Worker::handleEmail ([[maybe_unused]]string from, string subject, string body)
+bool Confirm_Worker::handleEmail ([[maybe_unused]]string from, std::string subject, std::string body)
 {
   // Find out in the confirmation database whether the subject line contains an active ID.
   // If not, bail out.
@@ -115,7 +115,7 @@ bool Confirm_Worker::handleEmail ([[maybe_unused]]string from, string subject, s
 
 // Handles a confirmation link clicked with a confirmation ID.
 // Returns true if link was valid, else false.
-bool Confirm_Worker::handleLink (string & email)
+bool Confirm_Worker::handleLink (std::string & email)
 {
   // Get the confirmation identifier from the link that was clicked.
   std::string web_id = m_webserver_request.query["id"];
@@ -156,7 +156,7 @@ bool Confirm_Worker::handleLink (string & email)
 
 
 // Inform the managers about an account change.
-void Confirm_Worker::informManagers (string email, string body)
+void Confirm_Worker::informManagers (std::string email, std::string body)
 {
   Database_Users database_users;
   std::vector <std::string> users = database_users.get_users ();

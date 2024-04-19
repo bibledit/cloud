@@ -109,18 +109,18 @@ struct Int
     Int(int n)
     : m_i(n)
     {
-        stringstream ss;
+        std::stringstream ss;
         ss << m_i;
         ss >> m_si;
     }
     Int(const std::string& ns)
     {
-        stringstream ss;
+        std::stringstream ss;
         ss << ns;
         ss >> m_i;
         if(ss.fail())
             m_i = 0;
-        stringstream ss2;
+        std::stringstream ss2;
         ss2 << m_i;
         ss2 >> m_si;
     }

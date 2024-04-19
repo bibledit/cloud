@@ -93,7 +93,7 @@ vector <std::string> Database_OsHb::getVerse (int book, int chapter, int verse)
 
 
 // Get array of book / chapter / verse of all passages that contain a $hebrew word.
-vector <Passage> Database_OsHb::searchHebrew (string hebrew)
+vector <Passage> Database_OsHb::searchHebrew (std::string hebrew)
 {
   int word_id = get_id ("word", hebrew);
   SqliteDatabase sql = SqliteDatabase (filename ());
@@ -116,7 +116,7 @@ vector <Passage> Database_OsHb::searchHebrew (string hebrew)
 }
 
 
-void Database_OsHb::store (int book, int chapter, int verse, string lemma, string word, string morph)
+void Database_OsHb::store (int book, int chapter, int verse, std::string lemma, std::string word, std::string morph)
 {
   int lemma_id = get_id ("lemma", lemma);
   int word_id = get_id ("word", word);
@@ -183,7 +183,7 @@ string Database_OsHb::morph (int rowid)
 }
 
 
-int Database_OsHb::get_id (const char * table_row, string item)
+int Database_OsHb::get_id (const char * table_row, std::string item)
 {
   SqliteDatabase sql = SqliteDatabase (filename ());
   // Two iterations to be sure a rowid can be returned.

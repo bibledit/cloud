@@ -94,7 +94,7 @@ The database errors went away.
 mutex sqlite_execute_mutex;
 
 
-sqlite3 * database_sqlite_connect_file (string filename)
+sqlite3 * database_sqlite_connect_file (std::string filename)
 {
   sqlite3 *db {nullptr};
   int rc = sqlite3_open (filename.c_str(), &db);
@@ -111,7 +111,7 @@ sqlite3 * database_sqlite_connect_file (string filename)
 // The function provides the path to the "database" in the default database folder.
 // It does this in case "database" contains no path.
 // If it has a path, then it returns the path as given.
-string database_sqlite_file (string database)
+string database_sqlite_file (std::string database)
 {
   if (filter_url_dirname (database) == ".") {
     return filter_url_create_root_path ({database_logic_databases (), database + database_sqlite_suffix ()});
@@ -126,19 +126,19 @@ string database_sqlite_suffix ()
 }
 
 
-sqlite3 * database_sqlite_connect (string database)
+sqlite3 * database_sqlite_connect (std::string database)
 {
   return database_sqlite_connect_file (database_sqlite_file (database));
 }
 
 
-string database_sqlite_no_sql_injection (string sql)
+string database_sqlite_no_sql_injection (std::string sql)
 {
   return filter::strings::replace ("'", "''", sql);
 }
 
 
-void database_sqlite_exec (sqlite3 * db, string sql)
+void database_sqlite_exec (sqlite3 * db, std::string sql)
 {
   char *error = nullptr;
   if (db) {
@@ -153,7 +153,7 @@ void database_sqlite_exec (sqlite3 * db, string sql)
 }
 
 
-map <string, std::vector <std::string> > database_sqlite_query (sqlite3 * db, string sql)
+map <string, std::vector <std::string> > database_sqlite_query (sqlite3 * db, std::string sql)
 {
   char * error = nullptr;
   SqliteReader reader (0);
@@ -178,7 +178,7 @@ void database_sqlite_disconnect (sqlite3 * database)
 
 // Does an integrity check on the database.
 // Returns true if healthy, false otherwise.
-bool database_sqlite_healthy (string database)
+bool database_sqlite_healthy (std::string database)
 {
   std::string file = database_sqlite_file (database);
   bool ok = false;
@@ -257,7 +257,7 @@ void SqliteSQL::add (int value)
   sql.append (" ");
 }
 
-void SqliteSQL::add (string value)
+void SqliteSQL::add (std::string value)
 {
   sql.append (" '");
   value = database_sqlite_no_sql_injection (value);
@@ -289,7 +289,7 @@ int SqliteReader::callback (void *userdata, int argc, char **argv, char **column
 }
 
 
-SqliteDatabase::SqliteDatabase (string filename)
+SqliteDatabase::SqliteDatabase (std::string filename)
 {
   db = database_sqlite_connect (filename);
 }
@@ -323,7 +323,7 @@ void SqliteDatabase::add (int value)
 }
 
 
-void SqliteDatabase::add (string value)
+void SqliteDatabase::add (std::string value)
 {
   sql.append (" '");
   value = database_sqlite_no_sql_injection (value);

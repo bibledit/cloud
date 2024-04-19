@@ -32,10 +32,10 @@ using namespace std;
 
 
 // Internal declarations.
-string filter_shell_escape_argument (string argument);
+string filter_shell_escape_argument (std::string argument);
 
 
-string filter_shell_escape_argument (string argument)
+string filter_shell_escape_argument (std::string argument)
 {
   argument = filter::strings::replace ("'", "\\'", argument);
   argument.insert (0, "'");
@@ -62,7 +62,7 @@ int filter_shell_run ([[maybe_unused]] string directory,
     directory = filter_shell_escape_argument (directory);
     command.insert (0, "cd " + directory + "; ");
   }
-  for (string parameter : parameters) {
+  for (std::string parameter : parameters) {
     parameter = filter_shell_escape_argument (parameter);
     command.append (" " + parameter);
   }
@@ -93,7 +93,7 @@ int filter_shell_run ([[maybe_unused]] string directory,
 
 // Runs $command with $parameters.
 // It does not run $command through the shell, but executes it straight.
-int filter_shell_run (string command,
+int filter_shell_run (std::string command,
                       [[maybe_unused]] const char * parameter,
                       [[maybe_unused]] string & output)
 {
@@ -138,7 +138,7 @@ int filter_shell_run (string command,
 // Does not escape anything in the $command.
 // Returns the exit code of the process.
 // The output of the process, both stdout and stderr, go into $out_err.
-int filter_shell_run (string command, string & out_err)
+int filter_shell_run (std::string command, std::string & out_err)
 {
 #ifdef HAVE_IOS
   return 0;
@@ -153,7 +153,7 @@ int filter_shell_run (string command, string & out_err)
 
 
 // Returns true if $program is present on the system.
-bool filter_shell_is_present (string program)
+bool filter_shell_is_present (std::string program)
 {
   // This crashes on iOS, so skip it.
 #ifdef HAVE_IOS

@@ -109,7 +109,7 @@ string editone2_index (Webserver_Request& webserver_request)
   view.set_variable ("navigationCode", Navigation_Passage::code (bible));
   
   // Create the script, quote the strings to ensure it's legal Javascript.
-  stringstream script_stream {};
+  std::stringstream script_stream {};
   script_stream << "var oneverseEditorVerseLoaded = " << quoted(locale_logic_text_loaded ()) << ";\n";
   script_stream << "var oneverseEditorVerseUpdating = " << quoted(locale_logic_text_updating ()) << ";\n";
   script_stream << "var oneverseEditorVerseUpdated = " << quoted(locale_logic_text_updated ()) << ";\n";

@@ -334,11 +334,11 @@ void test_database_notes ()
     database_notes.subscribe_user (identifier, "a");
     database_notes.subscribe_user (identifier, "b");
     subscribers = database_notes.get_subscribers (identifier);
-    vector<string> standard_subscribers {"a", "b"};
+    vector<std::string> standard_subscribers {"a", "b"};
     EXPECT_EQ (standard_subscribers, subscribers);
     database_notes.unsubscribe_user (identifier, "a");
     subscribers = database_notes.get_subscribers (identifier);
-    EXPECT_EQ (vector<string>{"b"}, subscribers);
+    EXPECT_EQ (std::vector<std::string>{"b"}, subscribers);
     database_notes.set_subscribers (identifier, {"aa", "bb"});
     subscribers = database_notes.get_subscribers (identifier);
     standard_subscribers = {"aa", "bb"};
@@ -410,16 +410,16 @@ void test_database_notes ()
     // Based on the above, test the unassign_user function.
     database_notes.unassign_user (oldidentifier, "unittest");
     assignees = database_notes.get_assignees (oldidentifier);
-    EXPECT_EQ (vector<string>{"unittest2"}, assignees);
+    EXPECT_EQ (std::vector<std::string>{"unittest2"}, assignees);
     database_notes.unassign_user (oldidentifier, "unittest2");
     assignees = database_notes.get_assignees (oldidentifier);
-    EXPECT_EQ (vector<string>{}, assignees);
+    EXPECT_EQ (std::vector<std::string>{}, assignees);
     database_notes.unassign_user (newidentifier, "unittest");
     assignees = database_notes.get_assignees (newidentifier);
-    EXPECT_EQ (vector<string>{"unittest3"}, assignees);
+    EXPECT_EQ (std::vector<std::string>{"unittest3"}, assignees);
     database_notes.unassign_user (newidentifier, "unittest3");
     assignees = database_notes.get_assignees (newidentifier);
-    EXPECT_EQ (vector<string>{}, assignees);
+    EXPECT_EQ (std::vector<std::string>{}, assignees);
   }
 
   // Test the getters and the setters for the Bible.
@@ -1173,7 +1173,7 @@ void test_database_notes ()
     EXPECT_EQ (standard_identifiers, identifiers);
     
     identifiers = database_notes.get_notes_in_range_for_bibles (10'0000'000, 999'999'999, {}, false);
-    EXPECT_EQ (vector<int>{99'9999'999}, identifiers);
+    EXPECT_EQ (std::vector<int>{99'9999'999}, identifiers);
     
     // Test selection mechanism for any Bible.
     identifiers = database_notes.get_notes_in_range_for_bibles (100'000'000, 999'999'999, {}, true);

@@ -455,7 +455,7 @@ TEST (git, basic)
     // Pull from remote repository.
     success = filter_git_pull (clonedrepository, messages);
     EXPECT_EQ (true, success);
-    EXPECT_EQ (vector<string>{"Already up to date."}, messages);
+    EXPECT_EQ (std::vector<std::string>{"Already up to date."}, messages);
     
     // Remove journal entries.
     refresh_sandbox (false);
@@ -533,7 +533,7 @@ TEST (git, basic)
     
     // There should be no modified paths now.
     paths = filter_git_status (repository);
-    EXPECT_EQ ((vector<string>{"On branch master", "nothing to commit, working tree clean"}), paths);
+    EXPECT_EQ ((std::vector<std::string>{"On branch master", "nothing to commit, working tree clean"}), paths);
 
     // Remove both Psalms chapters.
     filter_url_rmdir (filter_url_create_path ({repository, "Psalms"}));
@@ -566,7 +566,7 @@ TEST (git, basic)
     
     // There should be no modified paths now.
     paths = filter_git_status (repository);
-    EXPECT_EQ ((vector<string>{"On branch master", "nothing to commit, working tree clean"}), paths);
+    EXPECT_EQ ((std::vector<std::string>{"On branch master", "nothing to commit, working tree clean"}), paths);
 
     // Remove journal entries.
     refresh_sandbox (false);
@@ -751,7 +751,7 @@ TEST (git, basic)
     success = filter_git_resolve_conflicts (repository, messages, error);
     EXPECT_EQ (true, success);
     EXPECT_EQ ("", error);
-    EXPECT_EQ (vector<string>{"Psalms/0/data"}, messages);
+    EXPECT_EQ (std::vector<std::string>{"Psalms/0/data"}, messages);
 
     // Verify the resolved contents on correctness.
     contents = filter_url_file_get_contents (filter_url_create_path ({repository, "Psalms", "0", "data"}));
@@ -920,7 +920,7 @@ TEST (database, git)
   // Erase a rowid, and check that the remaining ones in the database are correct.
   Database_Git::erase_rowid (2);
   rowids = Database_Git::get_rowids (user, bible);
-  EXPECT_EQ ((vector<int>{1, 3, 4}), rowids);
+  EXPECT_EQ ((std::vector<int>{1, 3, 4}), rowids);
   
   // Getting a non-existent rowid should fail.
   get = Database_Git::get_chapter (2, user, bible, book, chapter, oldusfm, newusfm);
@@ -942,7 +942,7 @@ TEST (database, git)
   Database_Git::store_chapter (user, bible, 2, 5, "old", "new");
   Database_Git::store_chapter ("user2", bible, 2, 5, "old", "new");
   std::vector <std::string> users = Database_Git::get_users (bible);
-  EXPECT_EQ ((vector<string>{user, "user2"}), users);
+  EXPECT_EQ ((std::vector<std::string>{user, "user2"}), users);
   
 #endif
 }

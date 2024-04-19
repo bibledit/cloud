@@ -114,7 +114,7 @@ string styles_indexm (Webserver_Request& webserver_request)
   database_styles.deleteSheet (string());
 
   std::vector <std::string> sheets = database_styles.getSheets();
-  stringstream sheetblock {};
+  std::stringstream sheetblock {};
   for (auto & sheet : sheets) {
     sheetblock << "<p>";
     sheetblock << sheet;

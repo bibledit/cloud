@@ -99,7 +99,7 @@ void email_send ()
     std::string result = email_send (email, username, subject, body);
     if (result.empty ()) {
       database_mail.erase (id);
-      stringstream ss;
+      std::stringstream ss;
       ss << "Email to " << email << " with subject " << quoted(subject) << " was ";
       result = ss.str();
 #ifdef HAVE_CLOUD
@@ -361,7 +361,7 @@ string email_send ([[maybe_unused]] string to_mail,
 }
 
 
-void email_schedule (string to, string subject, string body, int time)
+void email_schedule (std::string to, std::string subject, std::string body, int time)
 {
   // Schedule the mail for sending.
   Webserver_Request webserver_request;

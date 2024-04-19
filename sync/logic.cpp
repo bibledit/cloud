@@ -142,7 +142,7 @@ vector <Sync_Logic_Range> Sync_Logic::create_range (int start, int end)
 // Sends a post request to the url.
 // It returns the server's response, or an empty string on failure.
 // burst: Set the connection timing for a burst response after a relatively long silence.
-string Sync_Logic::post (map <string, std::string> & post, const std::string& url, string & error, bool burst)
+string Sync_Logic::post (map <string, std::string> & post, const std::string& url, std::string & error, bool burst)
 {
   error.clear ();
   std::string response = filter_url_http_post (url, std::string(), post, error, burst, true, {});
@@ -313,11 +313,11 @@ int Sync_Logic::files_get_total_checksum (int version, const std::string& user)
 
 // This returns the total checksum for all files in one root directory.
 // It does a recursive scan for the files.
-int Sync_Logic::files_get_directory_checksum (string directory)
+int Sync_Logic::files_get_directory_checksum (std::string directory)
 {
   int checksum = 0;
   std::vector <std::string> files = files_get_files (directory);
-  for (string file : files) {
+  for (std::string file : files) {
     checksum += files_get_file_checksum (directory, file);
   }
   return checksum;
@@ -327,13 +327,13 @@ int Sync_Logic::files_get_directory_checksum (string directory)
 // This returns all the paths of the files within $directory.
 // $directory is relative to the web root.
 // It does a recursive scan for the files.
-vector <std::string> Sync_Logic::files_get_files (string directory)
+vector <std::string> Sync_Logic::files_get_files (std::string directory)
 {
   directory = filter_url_create_root_path ({directory});
   std::vector <std::string> result;
   std::vector <std::string> paths;
   filter_url_recursive_scandir (directory, paths);
-  for (string path : paths) {
+  for (std::string path : paths) {
     if (filter_url_is_dir (path)) continue;
     std::string extension = filter_url_get_extension (path);
     if (extension == "o") continue;
@@ -347,7 +347,7 @@ vector <std::string> Sync_Logic::files_get_files (string directory)
 
 
 // This returns the checksum of a $file in $directory.
-int Sync_Logic::files_get_file_checksum (string directory, string file)
+int Sync_Logic::files_get_file_checksum (std::string directory, std::string file)
 {
   std::string path = filter_url_create_root_path ({directory, file});
   int checksum = filter_url_filesize (path);

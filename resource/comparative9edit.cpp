@@ -151,7 +151,7 @@ string resource_comparative9edit (Webserver_Request& webserver_request)
       title.append (" [" + translate("edit") + "]");
       a_node.text().set (title.c_str());
     }
-    stringstream output;
+    std::stringstream output;
     document.print (output, "", pugi::format_raw);
     resourceblock = output.str ();
   }

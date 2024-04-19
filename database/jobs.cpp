@@ -144,7 +144,7 @@ int Database_Jobs::get_level (int id)
 }
 
 
-void Database_Jobs::set_start (int id, string start)
+void Database_Jobs::set_start (int id, std::string start)
 {
   SqliteSQL sql = SqliteSQL ();
   sql.add ("UPDATE jobs SET start =");
@@ -205,7 +205,7 @@ string Database_Jobs::get_percentage (int id)
 }
 
 
-void Database_Jobs::set_progress (int id, string progress)
+void Database_Jobs::set_progress (int id, std::string progress)
 {
   SqliteSQL sql = SqliteSQL ();
   sql.add ("UPDATE jobs SET progress =");
@@ -235,7 +235,7 @@ string Database_Jobs::get_progress (int id)
 }
 
 
-void Database_Jobs::set_result (int id, string result)
+void Database_Jobs::set_result (int id, std::string result)
 {
   SqliteSQL sql = SqliteSQL ();
   sql.add ("UPDATE jobs SET result =");

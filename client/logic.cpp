@@ -31,7 +31,6 @@
 #include <locale/translate.h>
 #include <assets/external.h>
 #include <database/logic.h>
-using namespace std;
 
 
 // Returns whether Client mode is enabled.
@@ -56,7 +55,7 @@ void client_logic_enable_client (bool enable)
 // $address is the website.
 // $port is the port number.
 // $path is the path after the website.
-string client_logic_url (const std::string& address, int port, const std::string& path)
+std::string client_logic_url (const std::string& address, int port, const std::string& path)
 {
   return address + ":" + filter::strings::convert_to_string (port) + "/" + path;
 }
@@ -66,7 +65,7 @@ string client_logic_url (const std::string& address, int port, const std::string
 // It receives settings from the server and applies them to the client.
 // It returns the level of the user.
 // It returns an empty string in case of failure or the response from the server.
-string client_logic_connection_setup (string user, string hash)
+std::string client_logic_connection_setup (std::string user, std::string hash)
 {
   Database_Users database_users {};
   
@@ -118,8 +117,8 @@ string client_logic_connection_setup (string user, string hash)
 }
 
 
-string client_logic_create_note_encode (const std::string& bible, int book, int chapter, int verse,
-                                        const std::string& summary, const std::string& contents, bool raw)
+std::string client_logic_create_note_encode (const std::string& bible, int book, int chapter, int verse,
+                                             const std::string& summary, const std::string& contents, bool raw)
 {
   std::vector <std::string> data {};
   data.push_back (bible);
@@ -134,8 +133,8 @@ string client_logic_create_note_encode (const std::string& bible, int book, int 
 
 
 void client_logic_create_note_decode (const std::string& data,
-                                      string& bible, int& book, int& chapter, int& verse,
-                                      string& summary, string& contents, bool& raw)
+                                      std::string& bible, int& book, int& chapter, int& verse,
+                                      std::string& summary, std::string& contents, bool& raw)
 {
   std::vector <std::string> lines = filter::strings::explode (data, '\n');
   if (!lines.empty ()) {
@@ -168,7 +167,7 @@ void client_logic_create_note_decode (const std::string& data,
 
 // This provides a html link to Bibledit Cloud / $path.
 // It displays the $linktext.
-string client_logic_link_to_cloud (string path, string linktext)
+std::string client_logic_link_to_cloud (std::string path, std::string linktext)
 {
   std::string url {};
   std::string external {};
@@ -195,14 +194,14 @@ string client_logic_link_to_cloud (string path, string linktext)
     linktext = url;
   }
   
-  stringstream link {};
+  std::stringstream link {};
   link << "<a href=" << quoted(url) << external << ">" << linktext << "</a>";
   return link.str();
 }
 
 
 // Path to the file in the client files area that contains a list of USFM resources on the server.
-string client_logic_usfm_resources_path ()
+std::string client_logic_usfm_resources_path ()
 {
   return filter_url_create_root_path ({database_logic_databases (), "client", "usfm_resources.txt"});
 }
@@ -220,14 +219,14 @@ void client_logic_usfm_resources_update ()
 }
 
 
-vector <std::string> client_logic_usfm_resources_get ()
+std::vector <std::string> client_logic_usfm_resources_get ()
 {
   std::string contents = filter_url_file_get_contents (client_logic_usfm_resources_path ());
   return filter::strings::explode (contents, '\n');
 }
 
 
-string client_logic_get_username ()
+std::string client_logic_get_username ()
 {
   // Set the user name to the first one in the database.
   // Or if the database has no users, make the user admin.
@@ -240,13 +239,13 @@ string client_logic_get_username ()
 }
 
 
-string client_logic_no_cache_resources_path ()
+std::string client_logic_no_cache_resources_path ()
 {
   return filter_url_create_root_path ({database_logic_databases (), "client", "no_cache_resources.txt"});
 }
 
 
-void client_logic_no_cache_resources_save (vector<string> resources)
+void client_logic_no_cache_resources_save (std::vector<std::string> resources)
 {
   std::string contents = filter::strings::implode(resources, "\n");
   std::string path = client_logic_no_cache_resources_path ();
@@ -254,7 +253,7 @@ void client_logic_no_cache_resources_save (vector<string> resources)
 }
 
 
-void client_logic_no_cache_resource_add (string name)
+void client_logic_no_cache_resource_add (std::string name)
 {
   std::vector <std::string> resources = client_logic_no_cache_resources_get();
   if (in_array(name, resources)) return;
@@ -263,7 +262,7 @@ void client_logic_no_cache_resource_add (string name)
 }
 
 
-void client_logic_no_cache_resource_remove (string name)
+void client_logic_no_cache_resource_remove (std::string name)
 {
   std::vector <std::string> resources = client_logic_no_cache_resources_get();
   if (!in_array(name, resources)) return;
@@ -272,9 +271,9 @@ void client_logic_no_cache_resource_remove (string name)
 }
 
 
-vector <std::string> client_logic_no_cache_resources_get ()
+std::vector <std::string> client_logic_no_cache_resources_get ()
 {
   std::string contents = filter_url_file_get_contents (client_logic_no_cache_resources_path());
-  vector<string> resources = filter::strings::explode(contents, "\n");
+  std::vector<std::string> resources = filter::strings::explode(contents, "\n");
   return resources;
 }

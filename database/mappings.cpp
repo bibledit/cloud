@@ -116,7 +116,7 @@ void Database_Mappings::import (const std::string& name, const std::string& data
   database_sqlite_exec (db, "BEGIN;");
 
   std::vector <std::string> lines = filter::strings::explode (data, '\n');
-  for (string line : lines) {
+  for (std::string line : lines) {
     
     // Each line looks like this: 
     // Haggai 2:15 = Haggai 2:14

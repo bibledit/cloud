@@ -38,7 +38,7 @@
 using namespace std;
 
 
-void export_onlinebible (string bible, bool log)
+void export_onlinebible (std::string bible, bool log)
 {
   std::string directory = filter_url_create_path ({export_logic::bible_directory (bible), "onlinebible"});
   if (!file_or_dir_exists (directory)) filter_url_mkdir (directory);

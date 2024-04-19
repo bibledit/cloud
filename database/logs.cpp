@@ -34,7 +34,7 @@ using namespace std;
 
 
 // Records a journal entry.
-void Database_Logs::log (string description, int level)
+void Database_Logs::log (std::string description, int level)
 {
   // Trim spaces.
   description = filter::strings::trim (description);
@@ -68,7 +68,7 @@ void Database_Logs::log (string description, int level)
 
 
 // Records an extended journal entry.
-void Database_Logs::log (string subject, string body, int level)
+void Database_Logs::log (std::string subject, std::string body, int level)
 {
   std::string description (subject);
   description.append ("\n");
@@ -141,7 +141,7 @@ void Database_Logs::rotate ()
 
 
 // Get the logbook entries.
-vector <std::string> Database_Logs::get (string & lastfilename)
+vector <std::string> Database_Logs::get (std::string & lastfilename)
 {
   lastfilename = "0";
 
@@ -159,7 +159,7 @@ vector <std::string> Database_Logs::get (string & lastfilename)
 
 // Gets journal entry more recent than "filename".
 // Updates "filename" to the item it got.
-string Database_Logs::next (string &filename)
+string Database_Logs::next (std::string &filename)
 {
   std::vector <std::string> files = filter_url_scandir (folder ());
   for (unsigned int i = 0; i < files.size (); i++) {

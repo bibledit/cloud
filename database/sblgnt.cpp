@@ -63,7 +63,7 @@ vector <std::string> Database_Sblgnt::getVerse (int book, int chapter, int verse
 
 
 // Get the passages that contain a $greek word.
-vector <Passage> Database_Sblgnt::searchGreek (string greek)
+vector <Passage> Database_Sblgnt::searchGreek (std::string greek)
 {
   SqliteSQL sql = SqliteSQL ();
   sql.add ("SELECT DISTINCT book, chapter, verse FROM sblgnt WHERE greek =");

@@ -39,7 +39,7 @@ void Database_Volatile::setValue (int id, const std::string& key, const std::str
 }
 
 
-string Database_Volatile::filename (int id, string key)
+string Database_Volatile::filename (int id, std::string key)
 {
   std::string identifier = filter_url_clean_filename (filter::strings::convert_to_string (id));
   key = filter_url_clean_filename (key);

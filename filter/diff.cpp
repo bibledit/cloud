@@ -52,7 +52,7 @@ static mutex filter_diff_mutex;
 // The function returns the differences marked.
 // If the containers for $removals and $additions are given,
 // they will be filled with the appropriate text fragments.
-string filter_diff_diff (string oldstring, string newstring,
+string filter_diff_diff (std::string oldstring, std::string newstring,
                          std::vector <std::string> * removals,
                          std::vector <std::string> * additions)
 {
@@ -77,7 +77,7 @@ string filter_diff_diff (string oldstring, string newstring,
   diff.compose();
   
   // Get the shortest edit distance.
-  stringstream result;
+  std::stringstream result;
   diff.printSES (result);
 
   filter_diff_mutex.unlock();
@@ -110,9 +110,9 @@ string filter_diff_diff (string oldstring, string newstring,
 }
 
 
-// This filter returns the diff of two input vector<string>'s.
-// $old: The old vector<string> for input.
-// $new: The new vector<string> for input.
+// This filter returns the diff of two input vector<std::string>'s.
+// $old: The old vector<std::string> for input.
+// $new: The new vector<std::string> for input.
 //
 // The function produces information,
 // that if applied to the old input, will produce the new input.
@@ -169,7 +169,7 @@ void filter_diff_diff_utf16 (const std::vector <std::string> & oldinput, const s
   diff.compose();
   
   // Get the shortest edit distance.
-  stringstream result;
+  std::stringstream result;
   diff.printSES (result);
 
   // Convert the new line place holder back to the original new line.
@@ -227,7 +227,7 @@ void filter_diff_diff_utf16 (const std::vector <std::string> & oldinput, const s
 // 100% means that the text is completely similar.
 // And 0% means that the text is completely different.
 // The output ranges from 0 to 100%.
-int filter_diff_character_similarity (string oldstring, string newstring)
+int filter_diff_character_similarity (std::string oldstring, std::string newstring)
 {
   try {
    
@@ -254,7 +254,7 @@ int filter_diff_character_similarity (string oldstring, string newstring)
     diff.compose();
     
     // Get the shortest edit distance.
-    stringstream result;
+    std::stringstream result;
     diff.printSES (result);
 
     filter_diff_mutex.unlock();
@@ -289,7 +289,7 @@ int filter_diff_character_similarity (string oldstring, string newstring)
 // 100% means that the text is completely similar.
 // And 0% means that the text is completely different.
 // The output ranges from 0 to 100%.
-int filter_diff_word_similarity (string oldstring, string newstring)
+int filter_diff_word_similarity (std::string oldstring, std::string newstring)
 {
   // Split the input up into words separated by spaces.
   std::vector <std::string> old_sequence;
@@ -310,7 +310,7 @@ int filter_diff_word_similarity (string oldstring, string newstring)
   diff.compose();
   
   // Get the shortest edit distance.
-  stringstream result;
+  std::stringstream result;
   diff.printSES (result);
 
   filter_diff_mutex.unlock();
@@ -339,7 +339,7 @@ int filter_diff_word_similarity (string oldstring, string newstring)
 // $directory: The existing directory where to put the files.
 // Two files are created: verses_old.usfm and verses_new.usfm.
 // The book chapter.verse precede each verse.
-void filter_diff_produce_verse_level (string bible, string directory)
+void filter_diff_produce_verse_level (std::string bible, std::string directory)
 {
   Webserver_Request request;
   Database_Modifications database_modifications;
@@ -401,7 +401,7 @@ void filter_diff_produce_verse_level (string bible, string directory)
  * $newfile: The name of the new file for input.
  * $outputfile: The name of the output file
  */
-void filter_diff_run_file (string oldfile, string newfile, string outputfile)
+void filter_diff_run_file (std::string oldfile, std::string newfile, std::string outputfile)
 {
   std::string oldstring = filter_url_file_get_contents (oldfile);
   std::string newstring = filter_url_file_get_contents (newfile);

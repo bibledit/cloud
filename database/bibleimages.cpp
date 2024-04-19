@@ -46,21 +46,21 @@ vector <std::string> Database_BibleImages::get ()
 }
 
 
-void Database_BibleImages::store (string file)
+void Database_BibleImages::store (std::string file)
 {
   std::string image = filter_url_basename (file);
   filter_url_file_cp (file, path (image));
 }
 
 
-string Database_BibleImages::get (string image)
+string Database_BibleImages::get (std::string image)
 {
   std::string contents = filter_url_file_get_contents (path(image));
   return contents;
 }
 
 
-void Database_BibleImages::erase (string image)
+void Database_BibleImages::erase (std::string image)
 {
   std::string filepath = path(image);
   filter_url_unlink (filepath);
@@ -73,7 +73,7 @@ string Database_BibleImages::folder ()
 }
 
 
-string Database_BibleImages::path (string image)
+string Database_BibleImages::path (std::string image)
 {
   return filter_url_create_path ({folder (), image});
 }

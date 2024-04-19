@@ -75,7 +75,7 @@ string consistency_index (Webserver_Request& webserver_request)
   }
   
   
-  stringstream resourceblock;
+  std::stringstream resourceblock;
   std::vector <std::string> resources = webserver_request.database_config_user()->getConsistencyResources ();
   for (auto resource : resources) {
     resourceblock << resource;

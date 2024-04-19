@@ -23,13 +23,13 @@
 using namespace std;
 
 
-string sources_style_parse_create_c_comment (string key)
+string sources_style_parse_create_c_comment (std::string key)
 {
   return "/* " + key + " */";
 }
 
 
-string sources_style_parse_generate_entry (string key, string value, bool quote)
+string sources_style_parse_generate_entry (std::string key, std::string value, bool quote)
 {
   std::string result;
   result.append ("    ");
@@ -43,7 +43,7 @@ string sources_style_parse_generate_entry (string key, string value, bool quote)
 }
 
 
-bool sources_style_parse_cpp_element (string & line, string signature)
+bool sources_style_parse_cpp_element (std::string & line, std::string signature)
 {
   signature = sources_style_parse_create_c_comment (signature);
   size_t pos = line.find (signature);

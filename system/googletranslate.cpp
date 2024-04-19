@@ -100,7 +100,7 @@ string system_googletranslate (Webserver_Request& webserver_request)
   
   // Handle the OK message.
   if (error.empty()) if (json_key.length()) {
-    stringstream ss;
+    std::stringstream ss;
     ss << translate("The connection to Google Translate looks good.");
     ss << " ";
     ss << translate("An example translation was made.");

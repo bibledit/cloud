@@ -73,7 +73,7 @@ void sources_abbott_smith_parse_entry_element (Database_AbbottSmith * database_a
   lemma = filter::strings::icu_string_normalize (lemma, true, true);
 #endif
   std::string strong = filter::strings::trim (node.attribute ("strong").value ());
-  stringstream ss;
+  std::stringstream ss;
   for (pugi::xml_node child : node.children()) child.print(ss, "", pugi::format_raw);
   std::string contents = ss.str ();
   

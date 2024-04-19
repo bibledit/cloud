@@ -55,7 +55,7 @@ bool manage_exports_acl (Webserver_Request& webserver_request)
 }
 
 
-string space_href (string name)
+string space_href (std::string name)
 {
   name = filter::strings::replace ("-", "", name);
   name = filter::strings::replace (" ", "", name);

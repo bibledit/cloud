@@ -26,14 +26,14 @@ using namespace std;
 // Class for creating Trinitarian Bible Society online Bible documents. 
 
 
-void Tbsx_Text::set_book_id (string id)
+void Tbsx_Text::set_book_id (std::string id)
 {
   flush ();
   output.push_back ("###" + id);
 }
 
 
-void Tbsx_Text::set_book_name (string name)
+void Tbsx_Text::set_book_name (std::string name)
 {
   flush ();
   output.push_back ("###! " + name);
@@ -47,7 +47,7 @@ void Tbsx_Text::set_chapter (int chapter)
 }
 
 
-void Tbsx_Text::set_header (string header)
+void Tbsx_Text::set_header (std::string header)
 {
   flush ();
   output.push_back ("##! " + header);
@@ -70,7 +70,7 @@ void Tbsx_Text::open_verse (int verse)
 }
 
 
-void Tbsx_Text::add_text (string text, bool supplied)
+void Tbsx_Text::add_text (std::string text, bool supplied)
 {
   if (supplied) buffer.append ("*");
   buffer.append (text);
@@ -123,7 +123,7 @@ string Tbsx_Text::get_document ()
 }
 
 
-void Tbsx_Text::save_document (string filename)
+void Tbsx_Text::save_document (std::string filename)
 {
   filter_url_file_put_contents (filename, get_document ());
 }

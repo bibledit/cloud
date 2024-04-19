@@ -58,7 +58,7 @@ string notes_status_n (Webserver_Request& webserver_request)
   Assets_View view;
   
   
-  stringstream statusblock;
+  std::stringstream statusblock;
   std::vector <Database_Notes_Text> statuses = database_notes.get_possible_statuses ();
   for (auto & status : statuses) {
     statusblock << "<li><a href=" << quoted ("bulk?status=" + status.raw) << ">" << status.raw << "</a></li>" << std::endl;

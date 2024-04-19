@@ -52,7 +52,7 @@ using namespace std;
 using namespace mimetic;
 
 
-string filter_mail_remove_headers_internal (string contents)
+string filter_mail_remove_headers_internal (std::string contents)
 {
   bool empty_line_encountered = false;
   std::vector <std::string> cleaned;
@@ -69,7 +69,7 @@ string filter_mail_remove_headers_internal (string contents)
 }
 
 
-void filter_mail_dissect_internal (const MimeEntity& me, string& plaintext)
+void filter_mail_dissect_internal (const MimeEntity& me, std::string& plaintext)
 {
   // If the plain text of this email has been found already,
   // there's no need to search any further.
@@ -87,7 +87,7 @@ void filter_mail_dissect_internal (const MimeEntity& me, string& plaintext)
   
     if (subtype== "plain") {
       // Get the plain text of the message.
-      stringstream ss;
+      std::stringstream ss;
       ss << me;
       plaintext = ss.str ();
       // Remove headers.
@@ -96,7 +96,7 @@ void filter_mail_dissect_internal (const MimeEntity& me, string& plaintext)
     
     if (subtype== "html") {
       // Get the html text of the message.
-      stringstream ss;
+      std::stringstream ss;
       ss << me;
       std::string html = ss.str ();
       // Remove headers.
@@ -143,19 +143,19 @@ void filter_mail_dissect_internal (const MimeEntity& me, string& plaintext)
 
 // Dissects an email $message.
 // It extracts the $from address, the $subject, and the plain text body.
-void filter_mail_dissect (string message, string & from, string & subject, string & plaintext)
+void filter_mail_dissect (std::string message, std::string & from, std::string & subject, std::string & plaintext)
 {
   // Load the email message into the mimetic library.
   MimeEntity me;
   me.load (message.begin(), message.end(), 0);
 
   // Get the sender's address.
-  stringstream fromstream;
+  std::stringstream fromstream;
   fromstream << me.header().from();
   from = fromstream.str ();
 
   // Get the subject.
-  stringstream subjectstream;
+  std::stringstream subjectstream;
   subjectstream << me.header().subject();
   subject = subjectstream.str ();
 

@@ -39,7 +39,7 @@
 using namespace std;
 
 
-void export_odt_book (string bible, int book, bool log)
+void export_odt_book (std::string bible, int book, bool log)
 {
   // Create folders for the OpenDocument export.
   std::string directory = filter_url_create_path ({export_logic::bible_directory (bible), "opendocument"});

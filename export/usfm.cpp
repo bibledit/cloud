@@ -36,7 +36,7 @@
 using namespace std;
 
 
-void export_usfm (string bible, bool log)
+void export_usfm (std::string bible, bool log)
 {
   Database_Bibles database_bibles;
   

@@ -124,7 +124,7 @@ void sources_etcbc4_download ()
 }
 
 
-string sources_etcbc4_clean (string item)
+string sources_etcbc4_clean (std::string item)
 {
   item = filter::strings::replace ("/", "", item);
   item = filter::strings::replace ("]", "", item);

@@ -61,7 +61,7 @@ void OnlineBible_Text::newVerse (int bookIdentifier, int chapterNumber, int vers
 
 
 // This function adds $text to the current line.
-void OnlineBible_Text::add_text (string text)
+void OnlineBible_Text::add_text (std::string text)
 {
   if (lineLoaded) currentLine += text;
 }
@@ -82,7 +82,7 @@ void OnlineBible_Text::close_current_note ()
 
 
 // This saves the data to file $name: the name of the file to save to.
-void OnlineBible_Text::save (string name)
+void OnlineBible_Text::save (std::string name)
 {
   storeData ();
   std::string data = filter::strings::implode (output, "\n");

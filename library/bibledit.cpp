@@ -465,7 +465,7 @@ void bibledit_put_reference_from_accordance (const char * reference)
   
   // Interpret the passage from Accordance, e.g. MAT 1:1.
   // Accordance broadcasts for instance, 2 Corinthians 9:2, as "2CO 9:2".
-  vector<string> book_rest = filter::strings::explode (reference, ' ');
+  vector<std::string> book_rest = filter::strings::explode (reference, ' ');
   if (book_rest.size() != 2) return;
   int book = static_cast<int>(database::books::get_id_from_usfm (book_rest[0]));
   std::vector <std::string> chapter_verse = filter::strings::explode(book_rest[1], ':');

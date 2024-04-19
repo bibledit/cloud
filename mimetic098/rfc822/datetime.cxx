@@ -449,7 +449,7 @@ DateTime::Zone DateTime::zone() const
 
 std::string DateTime::str() const
 {
-    stringstream ss;
+    std::stringstream ss;
     ss << *this;
     return ss.str();
 }

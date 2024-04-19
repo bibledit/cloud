@@ -688,7 +688,7 @@ void Database_Modifications::indexTrimAllNotifications ()
 }
 
 
-vector <int> Database_Modifications::getNotificationIdentifiers (string username, string bible, bool sort_on_category)
+vector <int> Database_Modifications::getNotificationIdentifiers (std::string username, std::string bible, bool sort_on_category)
 {
   std::vector <int> ids;
 
@@ -721,7 +721,7 @@ vector <int> Database_Modifications::getNotificationIdentifiers (string username
 
 
 // This gets the identifiers of the team's changes.
-vector <int> Database_Modifications::getNotificationTeamIdentifiers (const std::string& username, const std::string& category, string bible)
+vector <int> Database_Modifications::getNotificationTeamIdentifiers (const std::string& username, const std::string& category, std::string bible)
 {
   std::vector <int> ids;
   SqliteSQL sql = SqliteSQL ();
@@ -745,7 +745,7 @@ vector <int> Database_Modifications::getNotificationTeamIdentifiers (const std::
 
 
 // This gets the distinct Bibles in the user's notifications.
-vector <std::string> Database_Modifications::getNotificationDistinctBibles (string username) 
+vector <std::string> Database_Modifications::getNotificationDistinctBibles (std::string username) 
 {
   SqliteSQL sql = SqliteSQL ();
   sql.add ("SELECT DISTINCT bible FROM notifications WHERE 1");
@@ -917,7 +917,7 @@ int Database_Modifications::clearNotificationsUser (const std::string& username)
 
 // This function deletes personal changes and their matching change notifications.
 // It returns the deleted identifiers.
-vector <int> Database_Modifications::clearNotificationMatches (string username, string personal, string team, string bible)
+vector <int> Database_Modifications::clearNotificationMatches (std::string username, std::string personal, std::string team, std::string bible)
 {
   sqlite3 * db = connect ();
   
@@ -1018,7 +1018,7 @@ vector <int> Database_Modifications::clearNotificationMatches (string username, 
 
 
 // Store a change notification on the client, as received from the server.
-void Database_Modifications::storeClientNotification (int id, string username, string category, string bible, int book, int chapter, int verse, string oldtext, string modification, string newtext)
+void Database_Modifications::storeClientNotification (int id, std::string username, std::string category, std::string bible, int book, int chapter, int verse, std::string oldtext, std::string modification, std::string newtext)
 {
   // Erase any existing database.
   deleteNotificationFile (id);

@@ -24,7 +24,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/sqlite.h>
 #include <filter/date.h>
 #include <journal/logic.h>
-using namespace std;
 
 
 // Bibledit no longer uses a database for storing the journal.
@@ -141,7 +140,7 @@ void Database_Logs::rotate ()
 
 
 // Get the logbook entries.
-vector <std::string> Database_Logs::get (std::string & lastfilename)
+std::vector <std::string> Database_Logs::get (std::string & lastfilename)
 {
   lastfilename = "0";
 
@@ -159,7 +158,7 @@ vector <std::string> Database_Logs::get (std::string & lastfilename)
 
 // Gets journal entry more recent than "filename".
 // Updates "filename" to the item it got.
-string Database_Logs::next (std::string &filename)
+std::string Database_Logs::next (std::string &filename)
 {
   std::vector <std::string> files = filter_url_scandir (folder ());
   for (unsigned int i = 0; i < files.size (); i++) {
@@ -186,7 +185,7 @@ void Database_Logs::clear ()
 
 
 // The folder where to store the records.
-string Database_Logs::folder ()
+std::string Database_Logs::folder ()
 {
   return filter_url_create_root_path ({"logbook"});
 }

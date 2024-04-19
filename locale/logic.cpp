@@ -77,11 +77,11 @@ string locale_logic_date_time (int seconds)
 
 
 // Return the available localizations.
-map <string, std::string> locale_logic_localizations ()
+map <std::string, std::string> locale_logic_localizations ()
 {
   std::string directory = filter_url_create_root_path ({"locale"});
   std::vector <std::string> files = filter_url_scandir (directory);
-  std::map <string, std::string> localizations = {pair (std::string(), filter::strings::english ())};
+  std::map <std::string, std::string> localizations = {pair (std::string(), filter::strings::english ())};
   for (auto file : files) {
     std::string suffix = filter_url_get_extension (file);
     if (suffix == "po") {
@@ -97,16 +97,16 @@ map <string, std::string> locale_logic_localizations ()
           language = line;
         }
       }
-      localizations.insert (pair (basename, language));
+      localizations.insert (std::pair (basename, language));
     }
   }
   return localizations;
 }
 
 
-unordered_map <string, std::string> locale_logic_read_msgid_msgstr (std::string file)
+unordered_map <std::string, std::string> locale_logic_read_msgid_msgstr (std::string file)
 {
-  unordered_map <string, std::string> translations;
+  std::unordered_map <std::string, std::string> translations;
   std::string contents = filter_url_file_get_contents (file);
   std::vector <std::string> lines = filter::strings::explode (contents, '\n');
   std::string msgid;
@@ -279,7 +279,7 @@ void locale_logic_obfuscate_initialize ()
   std::vector <std::string> lines = filter::strings::explode (contents, '\n');
   
   // Container to map the original string to the obfuscated version.
-  std::map <string, std::string> original_to_obfuscated;
+  std::map <std::string, std::string> original_to_obfuscated;
   
   // Iterate over each line.
   for (auto & line : lines) {

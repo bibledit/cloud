@@ -384,7 +384,7 @@ string gbs_plus_processor (std::string url, int book, [[maybe_unused]] int chapt
   std::vector <std::string> bits {filter::strings::explode(annotation_info, '\'')};
   if (bits.size() >= 13) {
     std::string annotation_url {"https://bijbel-statenvertaling.com/includes/ajax/kanttekening.php"};
-    std::map <string, std::string> post {};
+    std::map <std::string, std::string> post {};
     post ["prefix"] = bits[1];
     post ["verse_id"] = bits[3];
     post ["short_bookname"] = bits[5];
@@ -914,7 +914,7 @@ unsigned int resource_external_count ()
 
 
 // Gets the names of all the known Web resources.
-vector <std::string> resource_external_names ()
+std::vector <std::string> resource_external_names ()
 {
   std::vector <std::string> names;
   for (unsigned int i = 0; i < resource_external_count (); i++) {
@@ -926,7 +926,7 @@ vector <std::string> resource_external_names ()
 
 
 // Get the names of the Web resources which are original language resources.
-vector <std::string> resource_external_get_original_language_resources ()
+std::vector <std::string> resource_external_get_original_language_resources ()
 {
   std::vector <std::string> names;
   for (unsigned int i = 0; i < resource_external_count (); i++) {
@@ -940,7 +940,7 @@ vector <std::string> resource_external_get_original_language_resources ()
 
 
 // Get the names of the Web resources which are Bibles and notes.
-vector <std::string> resource_external_get_bibles ()
+std::vector <std::string> resource_external_get_bibles ()
 {
   std::vector <std::string> names;
   for (unsigned int i = 0; i < resource_external_count (); i++) {

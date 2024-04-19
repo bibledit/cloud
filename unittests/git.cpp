@@ -230,7 +230,7 @@ TEST (git, basic)
     // Run the filter, and check that all three chapters are now in the database.
     filter_git_sync_git_to_bible (webserver_request, repository, bible);
     std::vector <int> books = webserver_request.database_bibles()->get_books (bible);
-    EXPECT_EQ ((vector <int>{19, 22}), books);
+    EXPECT_EQ ((std::vector <int>{19, 22}), books);
     // Check that the data matches.
     std::string usfm = webserver_request.database_bibles()->get_chapter (bible, 19, 0);
     EXPECT_EQ (psalms_0_data, usfm);
@@ -254,7 +254,7 @@ TEST (git, basic)
     filter_url_rmdir (repository + "/Psalms/0");
     filter_git_sync_git_to_bible (webserver_request, repository, bible);
     std::vector <int> books = webserver_request.database_bibles()->get_books (bible);
-    EXPECT_EQ (vector <int>{19}, books);
+    EXPECT_EQ (std::vector <int>{19}, books);
     // Check that the data matches.
     std::string usfm = webserver_request.database_bibles()->get_chapter (bible, 19, 0);
     EXPECT_EQ ("", usfm);
@@ -315,7 +315,7 @@ TEST (git, basic)
     
     // Check the two books are there.
     std::vector <int> books = webserver_request.database_bibles()->get_books (bible);
-    EXPECT_EQ ((vector <int>{19, 22}), books);
+    EXPECT_EQ ((std::vector <int>{19, 22}), books);
     
     // Remove the journal entries the test created.
     refresh_sandbox (false);
@@ -340,7 +340,7 @@ TEST (git, basic)
     
     // There should still be two books, although one book would have no chapters.
     std::vector <int> books = webserver_request.database_bibles()->get_books (bible);
-    EXPECT_EQ ((vector <int>{19, 22}), books);
+    EXPECT_EQ ((std::vector <int>{19, 22}), books);
     
     // Check that the chapter data matches.
     std::string usfm = webserver_request.database_bibles()->get_chapter (bible, 19, 0);
@@ -893,11 +893,11 @@ TEST (database, git)
   // Store one chapter, and check there's one rowid as a result.
   Database_Git::store_chapter (user, bible, 1, 2, "old", "new");
   std::vector <int> rowids = Database_Git::get_rowids (user, "");
-  EXPECT_EQ (vector <int>{}, rowids);
+  EXPECT_EQ (std::vector <int>{}, rowids);
   rowids = Database_Git::get_rowids ("", bible);
-  EXPECT_EQ (vector <int>{}, rowids);
+  EXPECT_EQ (std::vector <int>{}, rowids);
   rowids = Database_Git::get_rowids (user, bible);
-  EXPECT_EQ (vector <int>{1}, rowids);
+  EXPECT_EQ (std::vector <int>{1}, rowids);
   
   // Store some more chapters to get more rowids in the database.
   Database_Git::store_chapter (user, bible, 2, 5, "old2", "new5");

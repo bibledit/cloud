@@ -167,7 +167,7 @@ bool filter_shell_is_present (std::string program)
 
 
 // Lists the running processes.
-vector <std::string> filter_shell_active_processes ()
+std::vector <std::string> filter_shell_active_processes ()
 {
   std::vector <std::string> processes;
 

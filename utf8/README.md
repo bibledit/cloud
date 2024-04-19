@@ -518,7 +518,7 @@ Example of use:
 
 ```cpp
 char utf8_with_surrogates[] = "\xe6\x97\xa5\xd1\x88\xf0\x9d\x84\x9e";
-vector <unsigned short> utf16result;
+std::vector <unsigned short> utf16result;
 utf8to16(utf8_with_surrogates, utf8_with_surrogates + 9, back_inserter(utf16result));
 assert (utf16result.size() == 4);
 assert (utf16result[2] == 0xd834);
@@ -1337,7 +1337,7 @@ Example of use:
 
 ```cpp
 char utf8_with_surrogates[] = "\xe6\x97\xa5\xd1\x88\xf0\x9d\x84\x9e";
-vector <unsigned short> utf16result;
+std::vector <unsigned short> utf16result;
 unchecked::utf8to16(utf8_with_surrogates, utf8_with_surrogates + 9, back_inserter(utf16result));
 assert (utf16result.size() == 4);
 assert (utf16result[2] == 0xd834);

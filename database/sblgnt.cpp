@@ -20,7 +20,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/sblgnt.h>
 #include <filter/string.h>
 #include <database/sqlite.h>
-using namespace std;
 
 
 // This is the database for the Greek New Testament.
@@ -45,7 +44,7 @@ sqlite3 * Database_Sblgnt::connect ()
 
 
 // Get Greek words for $book $chapter $verse.
-vector <std::string> Database_Sblgnt::getVerse (int book, int chapter, int verse)
+std::vector <std::string> Database_Sblgnt::getVerse (int book, int chapter, int verse)
 {
   SqliteSQL sql = SqliteSQL ();
   sql.add ("SELECT greek FROM sblgnt WHERE book =");
@@ -63,7 +62,7 @@ vector <std::string> Database_Sblgnt::getVerse (int book, int chapter, int verse
 
 
 // Get the passages that contain a $greek word.
-vector <Passage> Database_Sblgnt::searchGreek (std::string greek)
+std::vector <Passage> Database_Sblgnt::searchGreek (std::string greek)
 {
   SqliteSQL sql = SqliteSQL ();
   sql.add ("SELECT DISTINCT book, chapter, verse FROM sblgnt WHERE greek =");
@@ -71,7 +70,7 @@ vector <Passage> Database_Sblgnt::searchGreek (std::string greek)
   sql.add (";");
   std::vector <Passage> hits;
   sqlite3 * db = connect ();
-  std::map <string, std::vector <std::string> > result = database_sqlite_query (db, sql.sql);
+  std::map <std::string, std::vector <std::string> > result = database_sqlite_query (db, sql.sql);
   database_sqlite_disconnect (db);
   std::vector <std::string> books = result ["book"];
   std::vector <std::string> chapters = result ["chapter"];

@@ -1370,7 +1370,7 @@ void Filter_Text::processNote ()
   if (html_text_linked) html_text_linked->close_current_note ();
   //if ($this->onlinebible_text) $this->onlinebible_text->close_current_note ();
   if (!notes_plain_text_buffer.empty ()) {
-    notes_plain_text.push_back (pair (m_current_verse_number, notes_plain_text_buffer));
+    notes_plain_text.push_back (std::pair (m_current_verse_number, notes_plain_text_buffer));
   }
   note_open_now = false;
   notes_plain_text_buffer.clear ();
@@ -1514,7 +1514,7 @@ void Filter_Text::addToFallout (std::string text, bool next)
 // $list: which list to add the text to.
 // The word is extracted from the input USFM. The Usfm pointer points to the current marker,
 // and the text following that marker is added to the word list array.
-void Filter_Text::addToWordList (vector <std::string>  & list)
+void Filter_Text::addToWordList (std::vector <std::string>  & list)
 {
   std::string text = filter::usfm::peek_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
   text.append (" (");

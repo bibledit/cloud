@@ -22,7 +22,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 #include <config/globals.h>
 #include <database/sqlite.h>
-using namespace std;
 
 
 // This is the database for the Hebrew Bible text plus lemmas and morphology.
@@ -81,7 +80,7 @@ void Database_OsHb::optimize ()
 
 
 // Get Hebrew words for $book $chapter $verse.
-vector <std::string> Database_OsHb::getVerse (int book, int chapter, int verse)
+std::vector <std::string> Database_OsHb::getVerse (int book, int chapter, int verse)
 {
   std::vector <std::string> words;
   std::vector <int> rows = rowids (book, chapter, verse);
@@ -93,7 +92,7 @@ vector <std::string> Database_OsHb::getVerse (int book, int chapter, int verse)
 
 
 // Get array of book / chapter / verse of all passages that contain a $hebrew word.
-vector <Passage> Database_OsHb::searchHebrew (std::string hebrew)
+std::vector <Passage> Database_OsHb::searchHebrew (std::string hebrew)
 {
   int word_id = get_id ("word", hebrew);
   SqliteDatabase sql = SqliteDatabase (filename ());
@@ -101,7 +100,7 @@ vector <Passage> Database_OsHb::searchHebrew (std::string hebrew)
   sql.add (word_id);
   sql.add ("ORDER BY book, chapter, verse ASC;");
   std::vector <Passage> hits;
-  std::map <string, std::vector <std::string> > result = sql.query ();
+  std::map <std::string, std::vector <std::string> > result = sql.query ();
   std::vector <std::string> books = result ["book"];
   std::vector <std::string> chapters = result ["chapter"];
   std::vector <std::string> verses = result ["verse"];
@@ -148,7 +147,7 @@ void Database_OsHb::store (int book, int chapter, int verse, std::string lemma, 
 }
 
 
-vector <int> Database_OsHb::rowids (int book, int chapter, int verse)
+std::vector <int> Database_OsHb::rowids (int book, int chapter, int verse)
 {
   SqliteDatabase sql = SqliteDatabase (filename ());
   sql.add ("SELECT rowid FROM oshb WHERE book =");
@@ -165,19 +164,19 @@ vector <int> Database_OsHb::rowids (int book, int chapter, int verse)
 }
 
 
-string Database_OsHb::lemma (int rowid)
+std::string Database_OsHb::lemma (int rowid)
 {
   return get_item ("lemma", rowid);
 }
 
 
-string Database_OsHb::word (int rowid)
+std::string Database_OsHb::word (int rowid)
 {
   return get_item ("word", rowid);
 }
 
 
-string Database_OsHb::morph (int rowid)
+std::string Database_OsHb::morph (int rowid)
 {
   return get_item ("morph", rowid);
 }
@@ -213,7 +212,7 @@ int Database_OsHb::get_id (const char * table_row, std::string item)
 }
 
 
-string Database_OsHb::get_item (const char * item, int rowid)
+std::string Database_OsHb::get_item (const char * item, int rowid)
 {
   // The $rowid refers to the main table.
   // Update it so it refers to the sub table.

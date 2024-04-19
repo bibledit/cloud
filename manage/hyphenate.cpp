@@ -104,7 +104,7 @@ void manage_hyphenate (std::string bible, std::string user)
  * $text: A string of text to operate on.
  * Returns: The hyphenated text.
  */
-string hyphenate_at_transition (vector <std::string>& firstset, std::vector <std::string>& secondset, std::string text)
+string hyphenate_at_transition (std::vector <std::string>& firstset, std::vector <std::string>& secondset, std::string text)
 {
   // Verify the input.
   if (firstset.empty ()) return text;

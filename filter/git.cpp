@@ -473,7 +473,7 @@ Passage filter_git_get_passage (std::string line)
 // Repository: "repository".
 // If $porcelain is given, it adds the --porcelain flag.
 // All changed files will be returned.
-vector <std::string> filter_git_status (std::string repository, bool porcelain)
+std::vector <std::string> filter_git_status (std::string repository, bool porcelain)
 {
   std::vector <std::string> paths;
   std::string output, error;

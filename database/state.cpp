@@ -22,7 +22,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 #include <filter/memory.h>
 #include <database/sqlite.h>
-using namespace std;
 
 
 // Database resilience: It only contains state information.
@@ -115,7 +114,7 @@ void Database_State::putNotesChecksum (int first, int last, const std::string& c
 
 
 // Retrieves the checksum for a range of notes.
-string Database_State::getNotesChecksum (int first, int last)
+std::string Database_State::getNotesChecksum (int first, int last)
 {
   // Receive the checksum for the exact range.
   SqliteSQL sql = SqliteSQL ();

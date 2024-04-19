@@ -143,7 +143,7 @@ void demo_clean_data ()
 
 
   // Ensure the default users are there.
-  std::map <string, int> users = {
+  std::map <std::string, int> users = {
     pair ("guest", Filter_Roles::guest ()),
     pair ("member", Filter_Roles::member ()),
     pair ("consultant", Filter_Roles::consultant ()),
@@ -389,7 +389,7 @@ void demo_create_sample_workspaces (Webserver_Request& webserver_request)
 }
 
 
-vector <std::string> demo_logic_default_resources ()
+std::vector <std::string> demo_logic_default_resources ()
 {
   std::vector <std::string> resources {};
   if (config::logic::default_bibledit_configuration ()) {

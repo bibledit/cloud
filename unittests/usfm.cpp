@@ -437,7 +437,7 @@ TEST (checks, usfm)
   {
     std::string usfm =
     "\\id MIC";
-    EXPECT_EQ (vector <int>{0}, filter::usfm::linenumber_to_versenumber (usfm, 0));
+    EXPECT_EQ (std::vector <int>{0}, filter::usfm::linenumber_to_versenumber (usfm, 0));
   }
   
   // Test converting line number to verse number.
@@ -445,14 +445,14 @@ TEST (checks, usfm)
     std::string usfm =
     "\\id MIC\n"
     "\\v 1 Verse";
-    EXPECT_EQ (vector <int>{1}, filter::usfm::linenumber_to_versenumber (usfm, 1));
+    EXPECT_EQ (std::vector <int>{1}, filter::usfm::linenumber_to_versenumber (usfm, 1));
   }
   
   // Test converting line number to verse number.
   {
     std::string usfm =
     "\\v 1 Verse";
-    EXPECT_EQ (vector <int>{1}, filter::usfm::linenumber_to_versenumber (usfm, 0));
+    EXPECT_EQ (std::vector <int>{1}, filter::usfm::linenumber_to_versenumber (usfm, 0));
   }
   
   // Test converting line number to verse number.
@@ -462,10 +462,10 @@ TEST (checks, usfm)
     "\\v 3 Verse 3 (out of order).\n"
     "\\v 1 Verse 1. \n"
     "\\v 2 Verse 1.";
-    EXPECT_EQ (vector <int>{0}, filter::usfm::linenumber_to_versenumber (usfm, 0));
-    EXPECT_EQ (vector <int>{3}, filter::usfm::linenumber_to_versenumber (usfm, 1));
-    EXPECT_EQ (vector <int>{1}, filter::usfm::linenumber_to_versenumber (usfm, 2));
-    EXPECT_EQ (vector <int>{2}, filter::usfm::linenumber_to_versenumber (usfm, 3));
+    EXPECT_EQ (std::vector <int>{0}, filter::usfm::linenumber_to_versenumber (usfm, 0));
+    EXPECT_EQ (std::vector <int>{3}, filter::usfm::linenumber_to_versenumber (usfm, 1));
+    EXPECT_EQ (std::vector <int>{1}, filter::usfm::linenumber_to_versenumber (usfm, 2));
+    EXPECT_EQ (std::vector <int>{2}, filter::usfm::linenumber_to_versenumber (usfm, 3));
   }
   
   // Test converting line number to verse number.
@@ -473,15 +473,15 @@ TEST (checks, usfm)
     std::string usfm =
     "\\id MIC\n"
     "\\v 1-2 Verse";
-    EXPECT_EQ ((vector <int>{1, 2}), filter::usfm::linenumber_to_versenumber (usfm, 1));
+    EXPECT_EQ ((std::vector <int>{1, 2}), filter::usfm::linenumber_to_versenumber (usfm, 1));
   }
   
   // Test converting offset to verse number.
   {
     std::string usfm = "\\id MIC";
-    EXPECT_EQ (vector <int>{0}, filter::usfm::offset_to_versenumber (usfm, 0));
-    EXPECT_EQ (vector <int>{0}, filter::usfm::offset_to_versenumber (usfm, 7));
-    EXPECT_EQ (vector <int>{0}, filter::usfm::offset_to_versenumber (usfm, 17));
+    EXPECT_EQ (std::vector <int>{0}, filter::usfm::offset_to_versenumber (usfm, 0));
+    EXPECT_EQ (std::vector <int>{0}, filter::usfm::offset_to_versenumber (usfm, 7));
+    EXPECT_EQ (std::vector <int>{0}, filter::usfm::offset_to_versenumber (usfm, 17));
   }
   
   // Test converting offset to verse number.
@@ -489,8 +489,8 @@ TEST (checks, usfm)
     std::string usfm =
     "\\id MIC\n"
     "\\v 1 Verse";
-    EXPECT_EQ (vector <int>{0}, filter::usfm::offset_to_versenumber (usfm, 7));
-    EXPECT_EQ (vector <int>{1}, filter::usfm::offset_to_versenumber (usfm, 8));
+    EXPECT_EQ (std::vector <int>{0}, filter::usfm::offset_to_versenumber (usfm, 7));
+    EXPECT_EQ (std::vector <int>{1}, filter::usfm::offset_to_versenumber (usfm, 8));
   }
   
   // Test converting offset to verse number.
@@ -498,16 +498,16 @@ TEST (checks, usfm)
     std::string usfm =
     "\\id MIC\n"
     "\\v 1-3 Verse";
-    EXPECT_EQ (vector <int>{0}, filter::usfm::offset_to_versenumber (usfm, 7));
-    EXPECT_EQ ((vector <int>{1, 2, 3}), filter::usfm::offset_to_versenumber (usfm, 8));
+    EXPECT_EQ (std::vector <int>{0}, filter::usfm::offset_to_versenumber (usfm, 7));
+    EXPECT_EQ ((std::vector <int>{1, 2, 3}), filter::usfm::offset_to_versenumber (usfm, 8));
   }
   
   // Test converting offset to verse number.
   {
     std::string usfm =
     "\\v 1 Verse";
-    EXPECT_EQ (vector <int>{1}, filter::usfm::offset_to_versenumber (usfm, 0));
-    EXPECT_EQ (vector <int>{1}, filter::usfm::offset_to_versenumber (usfm, 2));
+    EXPECT_EQ (std::vector <int>{1}, filter::usfm::offset_to_versenumber (usfm, 0));
+    EXPECT_EQ (std::vector <int>{1}, filter::usfm::offset_to_versenumber (usfm, 2));
   }
   
   // Test converting offset to verse number.
@@ -518,20 +518,20 @@ TEST (checks, usfm)
     "\\v 1 Verse 1.\n"
     "\\v 2 Verse 2.";
     
-    EXPECT_EQ (vector <int>{0}, filter::usfm::offset_to_versenumber (usfm, 0));
-    EXPECT_EQ (vector <int>{0}, filter::usfm::offset_to_versenumber (usfm, 1));
+    EXPECT_EQ (std::vector <int>{0}, filter::usfm::offset_to_versenumber (usfm, 0));
+    EXPECT_EQ (std::vector <int>{0}, filter::usfm::offset_to_versenumber (usfm, 1));
     
-    EXPECT_EQ (vector <int>{0}, filter::usfm::offset_to_versenumber (usfm, 2));
-    EXPECT_EQ (vector <int>{3}, filter::usfm::offset_to_versenumber (usfm, 3));
-    EXPECT_EQ (vector <int>{3}, filter::usfm::offset_to_versenumber (usfm, 4));
+    EXPECT_EQ (std::vector <int>{0}, filter::usfm::offset_to_versenumber (usfm, 2));
+    EXPECT_EQ (std::vector <int>{3}, filter::usfm::offset_to_versenumber (usfm, 3));
+    EXPECT_EQ (std::vector <int>{3}, filter::usfm::offset_to_versenumber (usfm, 4));
     
-    EXPECT_EQ (vector <int>{3}, filter::usfm::offset_to_versenumber (usfm, 31));
-    EXPECT_EQ (vector <int>{1}, filter::usfm::offset_to_versenumber (usfm, 32));
-    EXPECT_EQ (vector <int>{1}, filter::usfm::offset_to_versenumber (usfm, 33));
+    EXPECT_EQ (std::vector <int>{3}, filter::usfm::offset_to_versenumber (usfm, 31));
+    EXPECT_EQ (std::vector <int>{1}, filter::usfm::offset_to_versenumber (usfm, 32));
+    EXPECT_EQ (std::vector <int>{1}, filter::usfm::offset_to_versenumber (usfm, 33));
     
-    EXPECT_EQ (vector <int>{1}, filter::usfm::offset_to_versenumber (usfm, 45));
-    EXPECT_EQ (vector <int>{2}, filter::usfm::offset_to_versenumber (usfm, 46));
-    EXPECT_EQ (vector <int>{2}, filter::usfm::offset_to_versenumber (usfm, 47));
+    EXPECT_EQ (std::vector <int>{1}, filter::usfm::offset_to_versenumber (usfm, 45));
+    EXPECT_EQ (std::vector <int>{2}, filter::usfm::offset_to_versenumber (usfm, 46));
+    EXPECT_EQ (std::vector <int>{2}, filter::usfm::offset_to_versenumber (usfm, 47));
   }
   
   // Test converting verse number to offset.
@@ -954,7 +954,7 @@ TEST (checks, usfm)
     EXPECT_EQ (standard, usfm);
     
     chapters = filter::usfm::get_chapter_numbers (usfm);
-    EXPECT_EQ (vector <int>{ 0 }, chapters);
+    EXPECT_EQ (std::vector <int>{ 0 }, chapters);
     
     // Test getting contents for last chapter in USFM.
     usfm = filter::usfm::get_chapter_text (bookusfm, 50);
@@ -962,7 +962,7 @@ TEST (checks, usfm)
     EXPECT_EQ (standard, usfm);
     
     chapters = filter::usfm::get_chapter_numbers (usfm);
-    EXPECT_EQ ((vector <int>{0,50}), chapters);
+    EXPECT_EQ ((std::vector <int>{0,50}), chapters);
     
     // Test getting the text of a chapter somewhere within a block of USFM.
     usfm = filter::usfm::get_chapter_text (bookusfm, 25);
@@ -970,14 +970,14 @@ TEST (checks, usfm)
     EXPECT_EQ (standard, usfm);
     
     chapters = filter::usfm::get_chapter_numbers (usfm);
-    EXPECT_EQ ((vector <int>{ 0, 25 }), chapters);
+    EXPECT_EQ ((std::vector <int>{ 0, 25 }), chapters);
     
     // Test getting non-existing chapter text.
     usfm = filter::usfm::get_chapter_text (bookusfm, 51);
     EXPECT_EQ ("", usfm);
     
     chapters = filter::usfm::get_chapter_numbers (usfm);
-    EXPECT_EQ (vector <int>{ 0 }, chapters);
+    EXPECT_EQ (std::vector <int>{ 0 }, chapters);
     
     // Test getting text for chapter that has a space after chapter number.
     std::string modified_book_usfm = filter::strings::replace ("\\c 10", "\\c 10 ", bookusfm);

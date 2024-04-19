@@ -97,7 +97,7 @@ void related_logic_search_related (const std::string& bookname, int input_chapte
 
 // This fetches related verses.
 // It takes the passages from $input, and returns them plus their related passages, if there's any.
-vector <Passage> related_logic_get_verses (const std::vector <Passage> & input)
+std::vector <Passage> related_logic_get_verses (const std::vector <Passage> & input)
 {
   std::vector <int> related_passages;
   

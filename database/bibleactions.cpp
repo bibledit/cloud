@@ -145,5 +145,4 @@ void Database_BibleActions::erase (std::string bible, int book, int chapter)
   sql.add (";");
   sql.execute ();
 }
- 
- 
+

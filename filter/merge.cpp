@@ -58,7 +58,7 @@ static mutex filter_merge_mutex;
 // Merge is useful for combining separate changes to an original.
 // The function normally returns the merged text.
 // If case of conflicts, it returns an empty container.
-vector <std::string> filter_merge_merge (const std::vector <std::string>& base, const std::vector <std::string>& user, const std::vector <std::string>& server)
+std::vector <std::string> filter_merge_merge (const std::vector <std::string>& base, const std::vector <std::string>& user, const std::vector <std::string>& server)
 {
   // See issue https://github.com/bibledit/cloud/issues/418
   // It is unclear at this time whether the code below
@@ -313,7 +313,7 @@ string filter_merge_run_clever (std::string base, std::string change, std::strin
 }
 
 
-void filter_merge_add_book_chapter (vector <Merge_Conflict> & conflicts, int book, int chapter)
+void filter_merge_add_book_chapter (std::vector <Merge_Conflict> & conflicts, int book, int chapter)
 {
   for (auto & conflict : conflicts) {
     conflict.book = book;

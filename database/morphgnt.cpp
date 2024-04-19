@@ -21,7 +21,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 #include <filter/string.h>
 #include <database/sqlite.h>
-using namespace std;
 
 
 // This is the database for the Greek Bible text morphology.
@@ -107,7 +106,7 @@ void Database_MorphGnt::store (int book, int chapter, int verse,
 }
 
 
-vector <int> Database_MorphGnt::rowids (int book, int chapter, int verse)
+std::vector <int> Database_MorphGnt::rowids (int book, int chapter, int verse)
 {
   SqliteDatabase sql = SqliteDatabase (filename ());
   sql.add ("SELECT rowid FROM morphgnt WHERE book =");
@@ -124,25 +123,25 @@ vector <int> Database_MorphGnt::rowids (int book, int chapter, int verse)
 }
 
 
-string Database_MorphGnt::pos (int rowid)
+std::string Database_MorphGnt::pos (int rowid)
 {
   return get_item ("pos", rowid);
 }
 
 
-string Database_MorphGnt::parsing (int rowid)
+std::string Database_MorphGnt::parsing (int rowid)
 {
   return get_item ("parsing", rowid);
 }
 
 
-string Database_MorphGnt::word (int rowid)
+std::string Database_MorphGnt::word (int rowid)
 {
   return get_item ("word", rowid);
 }
 
 
-string Database_MorphGnt::lemma (int rowid)
+std::string Database_MorphGnt::lemma (int rowid)
 {
   return get_item ("lemma", rowid);
 }
@@ -178,7 +177,7 @@ int Database_MorphGnt::get_id (const char * table_row, std::string item)
 }
 
 
-string Database_MorphGnt::get_item (const char * item, int rowid)
+std::string Database_MorphGnt::get_item (const char * item, int rowid)
 {
   // The $rowid refers to the main table.
   // Update it so it refers to the sub table.

@@ -52,7 +52,7 @@ using namespace std;
 
 
 // Internal function declarations.
-vector <std::string> filter_url_scandir_internal (std::string folder);
+std::vector <std::string> filter_url_scandir_internal (std::string folder);
 string filter_url_dirname_internal (std::string url, const char * separator);
 string filter_url_basename_internal (std::string url, const char * separator);
 size_t filter_url_curl_write_function (void *ptr, size_t size, size_t count, void *stream);
@@ -68,7 +68,7 @@ mbedtls_ctr_drbg_context filter_url_mbed_tls_ctr_drbg;
 mbedtls_x509_crt filter_url_mbed_tls_cacert;
 
 
-vector <std::string> filter_url_scandir_internal (std::string folder)
+std::vector <std::string> filter_url_scandir_internal (std::string folder)
 {
   std::vector <std::string> files;
   
@@ -774,7 +774,7 @@ int filter_url_filesize (std::string filename)
 
 
 // Scans the directory for files it contains.
-vector <std::string> filter_url_scandir (std::string folder)
+std::vector <std::string> filter_url_scandir (std::string folder)
 {
   std::vector <std::string> files = filter_url_scandir_internal (folder);
   files = filter::strings::array_diff (files, {"gitflag"});
@@ -784,7 +784,7 @@ vector <std::string> filter_url_scandir (std::string folder)
 
 // Scans the directory for files it contains.
 // As of February 2022 the std::filesystem does not yet work on Android.
-//vector <std::string> filter_url_scandir (std::string folder)
+//std::vector <std::string> filter_url_scandir (std::string folder)
 //{
 //  std::vector <std::string> files;
 //  try {
@@ -1066,7 +1066,7 @@ int filter_url_curl_trace (CURL *handle, curl_infotype type, char *data, size_t 
 // It appends the $values to the post data.
 // It returns the response from the server.
 // It writes any error to $error.
-string filter_url_http_post (const std::string& url, [[maybe_unused]] string post_data, const std::map <string, std::string> & post_values, std::string& error, [[maybe_unused]] bool burst, [[maybe_unused]] bool check_certificate, [[maybe_unused]] const std::vector <std::pair <string, std::string> > & headers)
+string filter_url_http_post (const std::string& url, [[maybe_unused]] string post_data, const std::map <std::string, std::string> & post_values, std::string& error, [[maybe_unused]] bool burst, [[maybe_unused]] bool check_certificate, [[maybe_unused]] const std::vector <std::pair <string, std::string> > & headers)
 {
   std::string response;
 #ifdef HAVE_CLIENT
@@ -1139,7 +1139,7 @@ string filter_url_http_post (const std::string& url, [[maybe_unused]] string pos
 // It returns the response from the server.
 // It writes any error to $error.
 string filter_url_http_upload ([[maybe_unused]] string url,
-                               [[maybe_unused]] std::map <string, std::string> values,
+                               [[maybe_unused]] std::map <std::string, std::string> values,
                                [[maybe_unused]] string filename,
                                std::string& error)
 {
@@ -1431,7 +1431,7 @@ string filter_url_remove_username_password (std::string url)
 // $post: Value pairs for a POST request.
 // $filename: The filename to save the data to.
 // $check_certificate: Whether to check the server certificate in case of secure http.
-string filter_url_http_request_mbed (std::string url, std::string& error, const std::map <string, std::string>& post, const std::string& filename, bool check_certificate)
+string filter_url_http_request_mbed (std::string url, std::string& error, const std::map <std::string, std::string>& post, const std::string& filename, bool check_certificate)
 {
   // The "http" scheme is used to locate network resources via the HTTP protocol.
   // $url = "http(s):" "//" host [ ":" port ] [ abs_path [ "?" query ]]
@@ -2105,7 +2105,7 @@ bool filter_url_is_image (std::string extension)
 // https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types/Common_types
 string filter_url_get_mime_type (std::string extension)
 {
-  static std::map <string, std::string> mime_types = {
+  static std::map <std::string, std::string> mime_types = {
     {"jar", "application/java-archive"},
     {"js", "application/javascript"},
     {"json", "application/json"},

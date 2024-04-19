@@ -22,14 +22,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 #include <database/sqlite.h>
 #include <database/logic.h>
-using namespace std;
 
 
 // Database resilience:
 // Data is stored in multiple text files.
 
 
-string Database_NoteAssignment::path (std::string user)
+std::string Database_NoteAssignment::path (std::string user)
 {
   return filter_url_create_root_path ({database_logic_databases (), "client", "noteassignment_" + user + ".txt"});
 }
@@ -47,7 +46,7 @@ void Database_NoteAssignment::assignees (std::string user, std::vector <std::str
 }
 
 
-vector <std::string> Database_NoteAssignment::assignees (std::string user)
+std::vector <std::string> Database_NoteAssignment::assignees (std::string user)
 {
   std::string contents = filter_url_file_get_contents (path (user));
   return filter::strings::explode (contents, '\n');

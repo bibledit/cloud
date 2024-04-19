@@ -119,7 +119,7 @@ string Sync_Logic::checksum (const std::vector <int> & identifiers)
 // smaller ranges.
 // It returns an array of array (start, end) with the new ranges 
 // for the note identifiers.
-vector <Sync_Logic_Range> Sync_Logic::create_range (int start, int end)
+std::vector <Sync_Logic_Range> Sync_Logic::create_range (int start, int end)
 {
   int range = end - start;
   range = static_cast<int>(round (range / 10));
@@ -142,7 +142,7 @@ vector <Sync_Logic_Range> Sync_Logic::create_range (int start, int end)
 // Sends a post request to the url.
 // It returns the server's response, or an empty string on failure.
 // burst: Set the connection timing for a burst response after a relatively long silence.
-string Sync_Logic::post (map <string, std::string> & post, const std::string& url, std::string & error, bool burst)
+string Sync_Logic::post (map <std::string, std::string> & post, const std::string& url, std::string & error, bool burst)
 {
   error.clear ();
   std::string response = filter_url_http_post (url, std::string(), post, error, burst, true, {});
@@ -249,7 +249,7 @@ string Sync_Logic::changes_checksum (const std::string& username)
 // The $version influences which root directories to include.
 // The $version is passed by the client to the server,
 // so the server can adapt to the client's capabilities.
-vector <std::string> Sync_Logic::files_get_directories (int version, const std::string& user)
+std::vector <std::string> Sync_Logic::files_get_directories (int version, const std::string& user)
 {
   std::vector <std::string> directories;
   switch (version) {
@@ -327,7 +327,7 @@ int Sync_Logic::files_get_directory_checksum (std::string directory)
 // This returns all the paths of the files within $directory.
 // $directory is relative to the web root.
 // It does a recursive scan for the files.
-vector <std::string> Sync_Logic::files_get_files (std::string directory)
+std::vector <std::string> Sync_Logic::files_get_files (std::string directory)
 {
   directory = filter_url_create_root_path ({directory});
   std::vector <std::string> result;

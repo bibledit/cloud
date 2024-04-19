@@ -24,7 +24,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/md5.h>
 #include <filter/roles.h>
 #include <filter/date.h>
-using namespace std;
 
 
 // This database is resilient.
@@ -164,13 +163,13 @@ void Database_Login::renameTokens (std::string username_existing, std::string us
 
 // Returns the username that matches the cookie sent by the browser.
 // Once a day, $daily will be set true.
-string Database_Login::getUsername (std::string cookie, bool & daily)
+std::string Database_Login::getUsername (std::string cookie, bool & daily)
 {
   SqliteDatabase sql (database ());
   sql.add ("SELECT rowid, timestamp, username FROM logins WHERE cookie =");
   sql.add (cookie);
   sql.add (";");
-  std::map <string, std::vector <std::string> > result = sql.query ();
+  std::map <std::string, std::vector <std::string> > result = sql.query ();
   if (result.empty()) return std::string();
   std::string username = result ["username"][0];
   int stamp = filter::strings::convert_to_int (result ["timestamp"] [0]);

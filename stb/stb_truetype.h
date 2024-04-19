@@ -2532,7 +2532,7 @@ static stbtt_int32 stbtt__GetGlyphGPOSInfoAdvance(const stbtt_fontinfo *info, in
                   stbtt_uint16 pairSetCount = ttUSHORT(table + 8);
                   stbtt_uint16 pairPosOffset = ttUSHORT(table + 10 + 2 * coverageIndex);
                   stbtt_uint8 *pairValueTable = table + pairPosOffset;
-                  stbtt_uint16 pairValueCount = ttUSHORT(pairValueTable);
+                  stbtt_uint16 pairValueCount = ttUSHORT(std::pairValueTable);
                   stbtt_uint8 *pairValueArray = pairValueTable + 2;
 
                   if (coverageIndex >= pairSetCount) return 0;
@@ -2547,14 +2547,14 @@ static stbtt_int32 stbtt__GetGlyphGPOSInfoAdvance(const stbtt_fontinfo *info, in
                      stbtt_uint8 *pairValue;
                      m = (l + r) >> 1;
                      pairValue = pairValueArray + (2 + valueRecordPairSizeInBytes) * m;
-                     secondGlyph = ttUSHORT(pairValue);
+                     secondGlyph = ttUSHORT(std::pairValue);
                      straw = secondGlyph;
                      if (needle < straw)
                         r = m - 1;
                      else if (needle > straw)
                         l = m + 1;
                      else {
-                        stbtt_int16 xAdvance = ttSHORT(pairValue + 2);
+                        stbtt_int16 xAdvance = ttSHORT(std::pairValue + 2);
                         return xAdvance;
                      }
                   }

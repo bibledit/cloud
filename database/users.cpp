@@ -237,7 +237,7 @@ void Database_Users::removeUser (std::string user)
 
 
 // Returns an array with the usernames of the site administrators.
-vector <std::string> Database_Users::getAdministrators ()
+std::vector <std::string> Database_Users::getAdministrators ()
 {
   SqliteDatabase sql (filename ());
   sql.add ("SELECT username FROM users WHERE level =");
@@ -269,7 +269,7 @@ void Database_Users::updateUserEmail (std::string user, std::string email)
 
 
 // Return an array with the available users.
-vector <std::string> Database_Users::get_users ()
+std::vector <std::string> Database_Users::get_users ()
 {
   SqliteDatabase sql (filename ());
   sql.add ("SELECT username FROM users;");

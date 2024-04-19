@@ -23,7 +23,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/date.h>
 #include <config/globals.h>
 #include <database/sqlite.h>
-using namespace std;
 
 
 // Database resilience: 
@@ -158,7 +157,7 @@ void Database_Jobs::set_start (int id, std::string start)
 }
 
 
-string Database_Jobs::get_start (int id)
+std::string Database_Jobs::get_start (int id)
 {
   SqliteSQL sql = SqliteSQL ();
   sql.add ("SELECT start FROM jobs WHERE id =");
@@ -189,7 +188,7 @@ void Database_Jobs::set_percentage (int id, int percentage)
 }
 
 
-string Database_Jobs::get_percentage (int id)
+std::string Database_Jobs::get_percentage (int id)
 {
   SqliteSQL sql = SqliteSQL ();
   sql.add ("SELECT percentage FROM jobs WHERE id =");
@@ -219,7 +218,7 @@ void Database_Jobs::set_progress (int id, std::string progress)
 }
 
 
-string Database_Jobs::get_progress (int id)
+std::string Database_Jobs::get_progress (int id)
 {
   SqliteSQL sql = SqliteSQL ();
   sql.add ("SELECT progress FROM jobs WHERE id =");
@@ -249,7 +248,7 @@ void Database_Jobs::set_result (int id, std::string result)
 }
 
 
-string Database_Jobs::get_result (int id)
+std::string Database_Jobs::get_result (int id)
 {
   SqliteSQL sql = SqliteSQL ();
   sql.add ("SELECT result FROM jobs WHERE id =");
@@ -263,5 +262,3 @@ string Database_Jobs::get_result (int id)
   }
   return std::string();
 }
-
-

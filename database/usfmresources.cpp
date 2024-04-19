@@ -53,7 +53,7 @@ string Database_UsfmResources::chapterFile (const std::string& name, int book, i
 }
 
 
-vector <std::string> Database_UsfmResources::getResources ()
+std::vector <std::string> Database_UsfmResources::getResources ()
 {
   return filter_url_scandir (mainFolder ());
 }
@@ -94,7 +94,7 @@ void Database_UsfmResources::storeChapter (const std::string& name, int book, in
 }
 
 
-vector <int> Database_UsfmResources::getBooks (const std::string& name)
+std::vector <int> Database_UsfmResources::getBooks (const std::string& name)
 {
   std::vector <int> books;
   std::vector <std::string> files = filter_url_scandir (resourceFolder (name));
@@ -104,7 +104,7 @@ vector <int> Database_UsfmResources::getBooks (const std::string& name)
 }
 
 
-vector <int> Database_UsfmResources::getChapters (const std::string& name, int book)
+std::vector <int> Database_UsfmResources::getChapters (const std::string& name, int book)
 {
   std::vector <int> chapters;
   std::vector <std::string> folders = filter_url_scandir (bookFolder (name, book));

@@ -22,7 +22,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 #include <filter/date.h>
 #include <database/sqlite.h>
-using namespace std;
 
 
 // Database resilience: It contains statistical and non-essential data.
@@ -65,7 +64,7 @@ void Database_Statistics::store_changes (int timestamp, std::string user, int co
 
 
 // Fetches the distinct users who have been active within the last 365 days.
-vector <std::string> Database_Statistics::get_users ()
+std::vector <std::string> Database_Statistics::get_users ()
 {
   SqliteDatabase sql = SqliteDatabase (name ());
   sql.add ("SELECT DISTINCT user FROM changes WHERE timestamp >=");
@@ -77,7 +76,7 @@ vector <std::string> Database_Statistics::get_users ()
 
 
 // Fetches the change statistics from the database for $user for no more than a year ago.
-vector <std::pair <int, int>> Database_Statistics::get_changes (std::string user)
+std::vector <std::pair <int, int>> Database_Statistics::get_changes (std::string user)
 {
   std::vector <std::pair <int, int>> changes;
   SqliteDatabase sql = SqliteDatabase (name ());
@@ -94,7 +93,7 @@ vector <std::pair <int, int>> Database_Statistics::get_changes (std::string user
   for (size_t i = 0; i < timestamps.size (); i++) {
     int timestamp = filter::strings::convert_to_int (timestamps[i]);
     int count = filter::strings::convert_to_int (counts[i]);
-    changes.push_back (pair (timestamp, count));
+    changes.push_back (std::pair (timestamp, count));
   }
   return changes;
 }

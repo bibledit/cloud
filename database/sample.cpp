@@ -21,7 +21,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 #include <filter/string.h>
 #include <database/sqlite.h>
-using namespace std;
 
 
 // Database resilience: It is only read from.
@@ -51,7 +50,7 @@ void Database_Sample::store (std::string file, std::string data)
 
 
 // Get the row identifiers in the database.
-vector <int> Database_Sample::get ()
+std::vector <int> Database_Sample::get ()
 {
   SqliteDatabase sql = SqliteDatabase (name ());
   sql.add ("SELECT rowid FROM sample;");
@@ -69,7 +68,7 @@ void Database_Sample::get (int rowid, std::string & file, std::string & data)
   sql.add ("SELECT file, data FROM sample WHERE rowid =");
   sql.add (rowid);
   sql.add (";");
-  std::map <string, std::vector <std::string> > sample = sql.query ();
+  std::map <std::string, std::vector <std::string> > sample = sql.query ();
   std::vector <std::string> files = sample ["file"];
   if (files.empty ()) file.clear ();
   else file = files [0];

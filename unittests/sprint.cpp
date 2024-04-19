@@ -42,7 +42,7 @@ TEST (database, sprint)
     Database_Sprint database = Database_Sprint ();
     database.create ();
     std::vector <int> ids = database.getTasks ("phpunit", 2014, 1);
-    EXPECT_EQ (vector <int>{}, ids);
+    EXPECT_EQ (std::vector <int>{}, ids);
     database.storeTask ("phpunit", 2014, 1, "phpunit");
     ids = database.getTasks ("phpunit", 2014, 1);
     EXPECT_EQ (1, static_cast <int>(ids.size ()));

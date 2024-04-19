@@ -411,10 +411,10 @@ TEST (database, versifications)
     id = database_versifications.getID ("phpunit");
     EXPECT_EQ (1000, id);
     std::vector <std::string> systems = database_versifications.getSystems ();
-    EXPECT_EQ (vector <std::string>{"phpunit"}, systems);
+    EXPECT_EQ (std::vector <std::string>{"phpunit"}, systems);
     database_versifications.erase ("phpunit");
     systems = database_versifications.getSystems ();
-    EXPECT_EQ (vector <std::string>{}, systems);
+    EXPECT_EQ (std::vector <std::string>{}, systems);
   }
   {
     refresh_sandbox (true);
@@ -450,7 +450,7 @@ TEST (database, versifications)
     
     // Verses in chapter 0.
     verses = database_versifications.getVerses (filter::strings::english (), 1, 0);
-    EXPECT_EQ (vector <int>{0}, verses);
+    EXPECT_EQ (std::vector <int>{0}, verses);
     
     // Books Chapters Verses.
     std::vector <Passage> data = database_versifications.getBooksChaptersVerses (filter::strings::english ());

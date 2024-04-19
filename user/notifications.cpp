@@ -156,7 +156,7 @@ string user_notifications (Webserver_Request& webserver_request)
     }
   }
   for (const auto& assignee : all_assignees) {
-    std::map <string, std::string> values;
+    std::map <std::string, std::string> values;
     values ["user"] = assignee;
     values ["assign"] = filter::strings::get_checkbox_status (in_array (assignee, current_assignees));
     view.add_iteration ("autoassign", values);
@@ -216,7 +216,7 @@ string user_notifications (Webserver_Request& webserver_request)
     }
     const std::vector <std::string> currentbibles = database_config_user.getChangeNotificationsBibles();
     for (const auto& bible : bibles) {
-      std::map <string, std::string> values;
+      std::map <std::string, std::string> values;
       values ["bible"] = bible;
       values ["checked"] = filter::strings::get_checkbox_status (in_array (bible, currentbibles));
       view.add_iteration ("changenotificationbible", values);

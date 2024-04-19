@@ -23,7 +23,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/globals.h>
 #include <database/sqlite.h>
 #include <locale/logic.h>
-using namespace std;
 
 
 // Database resilience.
@@ -53,7 +52,7 @@ void Database_Localization::create (std::string po)
   database_sqlite_exec (db, "DROP TABLE IF EXISTS localization;");
   database_sqlite_exec (db, "VACUUM;");
   database_sqlite_exec (db, "CREATE TABLE IF NOT EXISTS localization (msgid text, msgstr text);");
-  unordered_map <string, std::string> translations = locale_logic_read_msgid_msgstr (po);
+  std::unordered_map <std::string, std::string> translations = locale_logic_read_msgid_msgstr (po);
   for (auto & element : translations) {
     SqliteSQL sql = SqliteSQL ();
     sql.add ("INSERT INTO localization VALUES (");
@@ -67,7 +66,7 @@ void Database_Localization::create (std::string po)
 }
 
 
-string Database_Localization::translate (const std::string& english)
+std::string Database_Localization::translate (const std::string& english)
 {
   SqliteSQL sql = SqliteSQL ();
   sql.add ("SELECT msgstr FROM localization WHERE msgid =");
@@ -81,7 +80,7 @@ string Database_Localization::translate (const std::string& english)
 }
 
 
-string Database_Localization::backtranslate (const std::string& localization)
+std::string Database_Localization::backtranslate (const std::string& localization)
 {
   SqliteSQL sql = SqliteSQL ();
   sql.add ("SELECT msgid FROM localization WHERE msgstr =");

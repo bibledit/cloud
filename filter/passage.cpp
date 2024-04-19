@@ -127,7 +127,7 @@ string filter_passage_display (int book, int chapter, std::string verse)
 
 
 // Returns the display string for the $passages as one line.
-string filter_passage_display_inline (vector <Passage> passages)
+string filter_passage_display_inline (std::vector <Passage> passages)
 {
   std::string display;
   for (Passage & passage : passages) {
@@ -140,7 +140,7 @@ string filter_passage_display_inline (vector <Passage> passages)
 
 
 // Returns the display string for the $passages as several lines.
-string filter_passage_display_multiline (vector <Passage> passages)
+string filter_passage_display_multiline (std::vector <Passage> passages)
 {
   std::string display;
   for (Passage & passage : passages) {
@@ -408,7 +408,7 @@ Passage filter_passage_interpret_passage (Passage currentPassage, std::string ra
 // This deals with sequences and ranges of verses, like the following:
 // Exod. 37:4-5, 14-15, 27-28
 // It puts each verse on a separate line.
-vector <std::string> filter_passage_handle_sequences_ranges (const std::string& passage)
+std::vector <std::string> filter_passage_handle_sequences_ranges (const std::string& passage)
 {
   // A passage like Exod. 37:4-5, 14-15, 27-28 will be cut at the comma.
   // The resulting array contains the following:
@@ -473,7 +473,7 @@ string filter_passage_link_for_opening_editor_at (int book, int chapter, std::st
 
 // A Bible has a standard order for the books, and it can have their books in a custom order.
 // This function returns either the standard order, or a custom order in case it is available for the $bible.
-vector <int> filter_passage_get_ordered_books (const std::string& bible)
+std::vector <int> filter_passage_get_ordered_books (const std::string& bible)
 {
   Database_Bibles database_bibles;
 

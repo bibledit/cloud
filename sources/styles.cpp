@@ -114,9 +114,9 @@ void sources_styles_parse ()
   const char * backgroundcolor_key = "backgroundcolor";
   
   // Parse the default style definitions.
-  typedef std::map <string, std::string> definition_type;
+  typedef std::map <std::string, std::string> definition_type;
   definition_type style_definition;
-  std::map <string, definition_type> style_definitions;
+  std::map <std::string, definition_type> style_definitions;
   std::string marker;
   for (auto line : cpp_lines) {
     if (sources_style_parse_cpp_element (line, marker_key)) {

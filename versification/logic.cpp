@@ -24,7 +24,7 @@ using namespace std;
 
 
 // Get the names of the available versification systems that come with Bibledit.
-vector <std::string> versification_logic_names ()
+std::vector <std::string> versification_logic_names ()
 {
   std::vector <std::string> names;
 

@@ -55,7 +55,7 @@ TEST (database, noteactions)
     database.create ();
     database.record ("unittest", 2, 3, "content");
     std::vector <int> notes = database.getNotes ();
-    EXPECT_EQ (vector <int>{2}, notes);
+    EXPECT_EQ (std::vector <int>{2}, notes);
   }
 
   // Get notes
@@ -117,7 +117,7 @@ TEST (database, noteactions)
     database.record ("phpunit2", 4, 5, "content2");
     database.erase (1);
     std::vector <int> notes = database.getNotes ();
-    EXPECT_EQ (vector <int>{4}, notes);
+    EXPECT_EQ (std::vector <int>{4}, notes);
   }
 
   // Exists
@@ -296,7 +296,7 @@ void test_database_notes ()
     webserver_request.session_logic()->set_username ("");
     int identifier = database_notes.store_new_note ("", 0, 0, 0, "Summary", "Contents", false);
     std::vector <std::string> subscribers = database_notes.get_subscribers (identifier);
-    EXPECT_EQ (vector <std::string>{}, subscribers);
+    EXPECT_EQ (std::vector <std::string>{}, subscribers);
     
     // Create a note again, but this time set the session variable to a certain user.
     database_users.add_user ("unittest", "", 5, "");
@@ -305,7 +305,7 @@ void test_database_notes ()
     identifier = database_notes.store_new_note ("", 1, 1, 1, "Summary", "Contents", false);
     notes_logic.handlerNewNote (identifier);
     subscribers = database_notes.get_subscribers (identifier);
-    EXPECT_EQ (vector <std::string>{"unittest"}, subscribers);
+    EXPECT_EQ (std::vector <std::string>{"unittest"}, subscribers);
     EXPECT_EQ (true, database_notes.is_subscribed (identifier, "unittest"));
     webserver_request.database_config_user()->setSubscribeToConsultationNotesEditedByMe (false);
     // Test various other subscription related functions.
@@ -363,26 +363,26 @@ void test_database_notes ()
     // Create a note and check that it was not assigned to anybody.
     int oldidentifier = database_notes.store_new_note ("", 0, 0, 0, "Summary", "Contents", false);
     std::vector <std::string> assignees = database_notes.get_assignees (oldidentifier);
-    EXPECT_EQ (vector <std::string>{}, assignees);
+    EXPECT_EQ (std::vector <std::string>{}, assignees);
     int newidentifier = database_notes.store_new_note ("", 0, 0, 0, "Summary2", "Contents2", false);
     assignees = database_notes.get_assignees (newidentifier);
-    EXPECT_EQ (vector <std::string>{}, assignees);
+    EXPECT_EQ (std::vector <std::string>{}, assignees);
 
     // Assign the note to a user, and check that this reflects in the list of assignees.
     database_notes.assign_user (oldidentifier, "unittest");
     assignees = database_notes.get_assignees (oldidentifier);
-    EXPECT_EQ (vector <std::string>{"unittest"}, assignees);
+    EXPECT_EQ (std::vector <std::string>{"unittest"}, assignees);
     database_notes.assign_user (newidentifier, "unittest");
     assignees = database_notes.get_assignees (newidentifier);
-    EXPECT_EQ (vector <std::string>{"unittest"}, assignees);
+    EXPECT_EQ (std::vector <std::string>{"unittest"}, assignees);
     
     // Test the set_assignees function.
     database_notes.set_assignees (oldidentifier, {"unittest"});
     assignees = database_notes.get_assignees (oldidentifier);
-    EXPECT_EQ (vector <std::string>{"unittest"}, assignees);
+    EXPECT_EQ (std::vector <std::string>{"unittest"}, assignees);
     database_notes.set_assignees (newidentifier, {"unittest"});
     assignees = database_notes.get_assignees (newidentifier);
-    EXPECT_EQ (vector <std::string>{"unittest"}, assignees);
+    EXPECT_EQ (std::vector <std::string>{"unittest"}, assignees);
     
     // Assign note to second user, and check it reflects.
     database_notes.assign_user (oldidentifier, "unittest2");
@@ -728,18 +728,18 @@ void test_database_notes ()
     database_notes.touch_marked_for_deletion ();
     
     std::vector <int> identifiers = database_notes.get_due_for_deletion ();
-    EXPECT_EQ (vector <int>{}, identifiers);
+    EXPECT_EQ (std::vector <int>{}, identifiers);
     identifiers = database_notes.get_due_for_deletion ();
-    EXPECT_EQ (vector <int>{}, identifiers);
+    EXPECT_EQ (std::vector <int>{}, identifiers);
     
     database_notes.touch_marked_for_deletion ();
     database_notes.touch_marked_for_deletion ();
     database_notes.touch_marked_for_deletion ();
     database_notes.touch_marked_for_deletion ();
     identifiers = database_notes.get_due_for_deletion ();
-    EXPECT_EQ (vector <int>{}, identifiers);
+    EXPECT_EQ (std::vector <int>{}, identifiers);
     identifiers = database_notes.get_due_for_deletion ();
-    EXPECT_EQ (vector <int>{}, identifiers);
+    EXPECT_EQ (std::vector <int>{}, identifiers);
     
     database_notes.touch_marked_for_deletion ();
     identifiers = database_notes.get_due_for_deletion ();
@@ -784,15 +784,15 @@ void test_database_notes ()
     database_notes.unmark_for_deletion (newidentifier);
 
     std::vector <int> identifiers = database_notes.get_due_for_deletion ();
-    EXPECT_EQ (vector <int>{}, identifiers);
+    EXPECT_EQ (std::vector <int>{}, identifiers);
     identifiers = database_notes.get_due_for_deletion ();
-    EXPECT_EQ (vector <int>{}, identifiers);
+    EXPECT_EQ (std::vector <int>{}, identifiers);
     
     database_notes.touch_marked_for_deletion ();
     identifiers = database_notes.get_due_for_deletion ();
-    EXPECT_EQ (vector <int>{}, identifiers);
+    EXPECT_EQ (std::vector <int>{}, identifiers);
     identifiers = database_notes.get_due_for_deletion ();
-    EXPECT_EQ (vector <int>{}, identifiers);
+    EXPECT_EQ (std::vector <int>{}, identifiers);
   }
 
   // Test touching several notes marked for deletion.
@@ -829,9 +829,9 @@ void test_database_notes ()
     database_notes.touch_marked_for_deletion ();
 
     std::vector <int> identifiers = database_notes.get_due_for_deletion ();
-    EXPECT_EQ (vector <int>{}, identifiers);
+    EXPECT_EQ (std::vector <int>{}, identifiers);
     identifiers = database_notes.get_due_for_deletion ();
-    EXPECT_EQ (vector <int>{}, identifiers);
+    EXPECT_EQ (std::vector <int>{}, identifiers);
     
     database_notes.touch_marked_for_deletion ();
     identifiers = database_notes.get_due_for_deletion ();
@@ -1251,26 +1251,26 @@ void test_database_notes ()
     
     // Select notes while varying Bible selection.
     std::vector <int> identifiers = database_notes.select_notes ({"bible1"}, 0, 0, 0, 3, 0, 0, "", "bible1", "", false, -1, 0, "", -1);
-    EXPECT_EQ (vector <int>{identifier1}, identifiers);
+    EXPECT_EQ (std::vector <int>{identifier1}, identifiers);
     
     identifiers = database_notes.select_notes ({"bible1", "bible2"}, 0, 0, 0, 3, 0, 0, "", "bible2", "", false, -1, 0, "", -1);
-    EXPECT_EQ (vector <int>{identifier2}, identifiers);
+    EXPECT_EQ (std::vector <int>{identifier2}, identifiers);
     
     identifiers = database_notes.select_notes ({"bible1", "bible2"}, 0, 0, 0, 3, 0, 0, "", "", "", false, -1, 0, "", -1);
     std::vector <int> standard_identifiers {identifier1, identifier2};
     EXPECT_EQ (standard_identifiers, identifiers);
     
     identifiers = database_notes.select_notes ({"bible1", "bible2", "bible4"}, 0, 0, 0, 3, 0, 0, "", "bible", "", false, -1, 0, "", -1);
-    EXPECT_EQ (vector <int>{}, identifiers);
+    EXPECT_EQ (std::vector <int>{}, identifiers);
     
     identifiers = database_notes.select_notes ({}, 0, 0, 0, 3, 0, 0, "", "", "", true, -1, 0, "", -1);
-    EXPECT_EQ (vector <int>{}, identifiers);
+    EXPECT_EQ (std::vector <int>{}, identifiers);
     
     identifiers = database_notes.select_notes ({"bible1", "bible2", "bible3"}, 0, 0, 0, 3, 0, 0, "", "bible3", "", false, -1, 0, "", -1);
-    EXPECT_EQ (vector <int>{identifier3}, identifiers);
+    EXPECT_EQ (std::vector <int>{identifier3}, identifiers);
     
     identifiers = database_notes.select_notes ({}, 0, 0, 0, 3, 0, 0, "", "bible3", "", false, -1, 0, "", -1);
-    EXPECT_EQ (vector <int>{identifier3}, identifiers);
+    EXPECT_EQ (std::vector <int>{identifier3}, identifiers);
   }
 
   // Test the resilience of the notes.
@@ -1503,7 +1503,7 @@ void test_database_notes ()
     // There should be no search results anymore.
     std::vector <int> no_search_results;
     no_search_results = database_notes.select_notes ({"bible2"}, 0, 0, 0, 3, 0, 0, "", "bible1", "", false, -1, 0, "", -1);
-    EXPECT_EQ (vector <int>{}, no_search_results);
+    EXPECT_EQ (std::vector <int>{}, no_search_results);
     
     // Copy the notes from the database back to the filesystem.
     database_notes.set_bulk (json);
@@ -1581,7 +1581,7 @@ void test_database_notes ()
                                                    "", // Search on any contents.
                                                    0); // Don't limit the search results.
     // Search result should be there.
-    EXPECT_EQ (vector <int>{identifier}, identifiers);
+    EXPECT_EQ (std::vector <int>{identifier}, identifiers);
     // Do a raw update of the note. The search database is not updated.
     database_notes.set_raw_contents (identifier, contents);
     // Doing a search now does not give results.
@@ -1600,7 +1600,7 @@ void test_database_notes ()
                                                    1, // Do search on the text following.
                                                    contents, // Search on certain content.
                                                    0); // Don't limit the search results.
-    EXPECT_EQ (vector <int>{}, identifiers);
+    EXPECT_EQ (std::vector <int>{}, identifiers);
     // Update the search index.
     // Search results should be back to normal.
     database_notes.update_database (identifier);
@@ -1620,7 +1620,7 @@ void test_database_notes ()
                                                    1, // Do search on the text following.
                                                    contents, // Search on any contents.
                                                    0); // Don't limit the search results.
-    EXPECT_EQ (vector <int>{identifier}, identifiers);
+    EXPECT_EQ (std::vector <int>{identifier}, identifiers);
     
     // Search on the note's passage.
     identifiers = database_notes.select_notes ({}, // No Bibles given.
@@ -1639,7 +1639,7 @@ void test_database_notes ()
                                                    "", // No text given as being irrelevant.
                                                    0); // Don't limit the search results.
     // Search result should be there.
-    EXPECT_EQ (vector <int>{identifier}, identifiers);
+    EXPECT_EQ (std::vector <int>{identifier}, identifiers);
     // Update the passage of the note without updating the search index.
     database_notes.set_raw_passage (identifier, " 1.2.3 ");
     // There should be no search results yet when searching on the new passage.
@@ -1658,7 +1658,7 @@ void test_database_notes ()
                                                    0, // Do not search on any text.
                                                    "", // No text given as being irrelevant.
                                                    0); // Don't limit the search results.
-    EXPECT_EQ (vector <int>{}, identifiers);
+    EXPECT_EQ (std::vector <int>{}, identifiers);
     // Update the search index. There should be search results now.
     database_notes.update_database (identifier);
     identifiers = database_notes.select_notes ({}, // No Bibles given.
@@ -1676,7 +1676,7 @@ void test_database_notes ()
                                                    0, // Do not search on any text.
                                                    "", // No text given as being irrelevant.
                                                    0); // Don't limit the search results.
-    EXPECT_EQ (vector <int>{identifier}, identifiers);
+    EXPECT_EQ (std::vector <int>{identifier}, identifiers);
   }
 
   // Test methods for getting and setting note properties.
@@ -1730,8 +1730,8 @@ void test_database_notes ()
     std::string subscriber2 = "subscriber2";
     database_notes.set_subscribers (identifier1, { subscriber1 });
     database_notes.set_subscribers (identifier2, { subscriber2 });
-    EXPECT_EQ (vector <std::string>{subscriber1}, database_notes.get_subscribers (identifier1));
-    EXPECT_EQ (vector <std::string>{subscriber2}, database_notes.get_subscribers (identifier2));
+    EXPECT_EQ (std::vector <std::string>{subscriber1}, database_notes.get_subscribers (identifier1));
+    EXPECT_EQ (std::vector <std::string>{subscriber2}, database_notes.get_subscribers (identifier2));
     
     // Test the method to test a subscriber to a note.
     EXPECT_EQ (true, database_notes.is_subscribed (identifier1, subscriber1));
@@ -1744,8 +1744,8 @@ void test_database_notes ()
     std::string assignee2 = "assignee2";
     database_notes.set_assignees (identifier1, { assignee1 });
     database_notes.set_assignees (identifier2, { assignee2 });
-    EXPECT_EQ (vector <std::string>{assignee1}, database_notes.get_assignees (identifier1));
-    EXPECT_EQ (vector <std::string>{assignee2}, database_notes.get_assignees (identifier2));
+    EXPECT_EQ (std::vector <std::string>{assignee1}, database_notes.get_assignees (identifier1));
+    EXPECT_EQ (std::vector <std::string>{assignee2}, database_notes.get_assignees (identifier2));
     EXPECT_EQ (true, database_notes.is_assigned (identifier1, assignee1));
     EXPECT_EQ (true, database_notes.is_assigned (identifier2, assignee2));
     EXPECT_EQ (false, database_notes.is_assigned (identifier1, assignee2));
@@ -1822,11 +1822,11 @@ TEST (database, noteassignment)
   EXPECT_EQ (false, exists);
   
   std::vector <std::string> assignees = database.assignees ("unittest");
-  EXPECT_EQ (vector <std::string>{}, assignees);
+  EXPECT_EQ (std::vector <std::string>{}, assignees);
   
   database.assignees ("unittest", {"one", "two"});
   assignees = database.assignees ("none-existing");
-  EXPECT_EQ (vector <std::string>{}, assignees);
+  EXPECT_EQ (std::vector <std::string>{}, assignees);
   
   exists = database.exists ("unittest");
   EXPECT_EQ (true, exists);

@@ -21,7 +21,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 #include <filter/string.h>
 #include <database/sqlite.h>
-using namespace std;
 
 
 // Database robustness:
@@ -128,7 +127,7 @@ void Database_Sprint::deleteTask (int id)
 }
 
 
-vector <int> Database_Sprint::getTasks (const std::string& bible, int year, int month)
+std::vector <int> Database_Sprint::getTasks (const std::string& bible, int year, int month)
 {
   SqliteSQL sql = SqliteSQL ();
   sql.add ("SELECT rowid FROM sprint WHERE bible =");
@@ -149,7 +148,7 @@ vector <int> Database_Sprint::getTasks (const std::string& bible, int year, int 
 }
 
 
-string Database_Sprint::getTitle (int id)
+std::string Database_Sprint::getTitle (int id)
 {
   SqliteSQL sql = SqliteSQL ();
   sql.add ("SELECT title FROM sprint WHERE rowid =");
@@ -242,7 +241,7 @@ void Database_Sprint::logHistory (const std::string& bible, int year, int month,
 }
 
 
-vector <Database_Sprint_Item> Database_Sprint::getHistory (const std::string& bible, int year, int month)
+std::vector <Database_Sprint_Item> Database_Sprint::getHistory (const std::string& bible, int year, int month)
 {
   std::vector <Database_Sprint_Item> history;
   SqliteSQL sql = SqliteSQL ();
@@ -254,7 +253,7 @@ vector <Database_Sprint_Item> Database_Sprint::getHistory (const std::string& bi
   sql.add (month);
   sql.add ("ORDER BY day ASC;");
   sqlite3 * db = connect ();
-  std::map <string, std::vector <std::string> > result = database_sqlite_query (db, sql.sql);
+  std::map <std::string, std::vector <std::string> > result = database_sqlite_query (db, sql.sql);
   database_sqlite_disconnect (db);
   std::vector <std::string> days = result ["day"];
   std::vector <std::string> tasks = result ["tasks"];

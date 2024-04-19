@@ -326,7 +326,7 @@ void system_logic_produce_resources_file (int jobid)
   // Such devices fail to have sufficient memory to handle one tarball with logs and logs of resources.
   // It fails to allocate enough memory on such devices.
   // So that's the reason for doing one resource per tarball.
-  std::map <string, std::vector <std::string> > single_resources;
+  std::map <std::string, std::vector <std::string> > single_resources;
   for (auto filename : rawfiles) {
     // Sample filename: cache_resource_[CrossWire][LXX]_62.sqlite
     // Look for the last underscore.

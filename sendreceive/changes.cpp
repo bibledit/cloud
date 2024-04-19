@@ -116,7 +116,7 @@ void sendreceive_changes ()
   
   // The basic request to be POSTed to the server.
   // It contains the user's credentials.
-  std::map <string, std::string> post;
+  std::map <std::string, std::string> post;
   post ["u"] = filter::strings::bin2hex (user);
   post ["p"] = password;
   post ["l"] = filter::strings::convert_to_string (webserver_request.database_users ()->get_level (user));

@@ -8933,8 +8933,8 @@ var Clipboard = function (_Module) {
 
       var elementMatchers = [],
           textMatchers = [];
-      this.matchers.forEach(function (pair) {
-        var _pair = _slicedToArray(pair, 2),
+      this.matchers.forEach(function (std::pair) {
+        var _pair = _slicedToArray(std::pair, 2),
             selector = _pair[0],
             matcher = _pair[1];
 
@@ -9406,8 +9406,8 @@ var Toolbar = function (_Module) {
     key: 'update',
     value: function update(range) {
       var formats = range == null ? {} : this.quill.getFormat(range);
-      this.controls.forEach(function (pair) {
-        var _pair = _slicedToArray(pair, 2),
+      this.controls.forEach(function (std::pair) {
+        var _pair = _slicedToArray(std::pair, 2),
             format = _pair[0],
             input = _pair[1];
 

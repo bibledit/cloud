@@ -62,7 +62,7 @@ TEST (database, mail)
     EXPECT_EQ (0, static_cast<int>(mails.size()));
     
     const std::vector <int> mails_to_send = database_mail.getMailsToSend ();
-    EXPECT_EQ (vector <int>{}, mails_to_send);
+    EXPECT_EQ (std::vector <int>{}, mails_to_send);
   }
   
   // Normal cycle.

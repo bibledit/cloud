@@ -111,22 +111,22 @@ void export_web_book (std::string bible, int book, bool log)
     Html_Header html_header = Html_Header (*filter_text_chapter.html_text_linked);
     html_header.search_back_link (backLinkPath + filter_url_html_file_name_bible ("", book, chapter), translate("Go back to") + " " + bibleBookText + " " + filter::strings::convert_to_string (chapter));
     std::vector <std::pair <string, std::string> > breadcrumbs_navigator;
-    breadcrumbs_navigator.push_back (pair (bible, filter_url_html_file_name_bible ()));
-    breadcrumbs_navigator.push_back (pair (translate (database::books::get_english_from_id (static_cast<book_id>(book))), filter_url_html_file_name_bible ()));
+    breadcrumbs_navigator.push_back (std::pair (bible, filter_url_html_file_name_bible ()));
+    breadcrumbs_navigator.push_back (std::pair (translate (database::books::get_english_from_id (static_cast<book_id>(book))), filter_url_html_file_name_bible ()));
     if (!is_first_chapter) {
-      breadcrumbs_navigator.push_back (pair ("«", filter_url_html_file_name_bible ("", book, chapter - 1)));
+      breadcrumbs_navigator.push_back (std::pair ("«", filter_url_html_file_name_bible ("", book, chapter - 1)));
     }
-    breadcrumbs_navigator.push_back (pair (filter::strings::convert_to_string (chapter), filter_url_html_file_name_bible ("", book)));
+    breadcrumbs_navigator.push_back (std::pair (filter::strings::convert_to_string (chapter), filter_url_html_file_name_bible ("", book)));
     if (!is_last_chapter) {
-      breadcrumbs_navigator.push_back (pair ("»", filter_url_html_file_name_bible ("", book, chapter + 1)));
+      breadcrumbs_navigator.push_back (std::pair ("»", filter_url_html_file_name_bible ("", book, chapter + 1)));
     }
     // Optionally add a link for giving feedback by email.
     if (!feedback_email.empty ()) {
-      breadcrumbs_navigator.push_back (pair ("|", ""));
+      breadcrumbs_navigator.push_back (std::pair ("|", ""));
       std::string subject = translate ("Comment on") + " " + bible + " " + database::books::get_english_from_id (static_cast<book_id>(book)) + " " + filter::strings::convert_to_string (chapter);
       subject = filter::strings::replace (" ", "%20", subject);
       std::string link = "mailto:" + feedback_email + "?Subject=" + subject;
-      breadcrumbs_navigator.push_back (pair (translate ("Feedback"), link));
+      breadcrumbs_navigator.push_back (std::pair (translate ("Feedback"), link));
     }
     html_header.create (breadcrumbs_navigator);
     

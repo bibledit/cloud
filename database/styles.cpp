@@ -38,13 +38,13 @@ using namespace std;
 // It used to store the default cache in code.
 // That architecture caused 400+ calls to the localization routines during app startup.
 // This cache does not make those calls during app startup.
-map <string, Database_Styles_Item> default_styles_cache;
+map <std::string, Database_Styles_Item> default_styles_cache;
 // The memory cache to speed up reading style values.
 // Access a style item like this: cache [stylesheet] [marker].
 // Timing a Bibledit setup phase gave this information:
 // * Before the cache was implemented, fetching styles took 30 seconds (38%) of the total setup time.
 // * After the cache was there, it took 17 seconds (25%) of the total setup time.
-map <string, std::map <string, Database_Styles_Item>> database_styles_cache;
+map <std::string, std::map <std::string, Database_Styles_Item>> database_styles_cache;
 // Cache read and write lock.
 mutex database_styles_cache_mutex;
 
@@ -85,7 +85,7 @@ void Database_Styles::createSheet (std::string sheet)
 
 
 // Returns an array with the available stylesheets.
-vector <std::string> Database_Styles::getSheets ()
+std::vector <std::string> Database_Styles::getSheets ()
 {
   std::vector <std::string> sheets = filter_url_scandir (databasefolder ());
   if (find (sheets.begin (), sheets.end (), styles_logic_standard_sheet ()) == sheets.end ()) {
@@ -125,9 +125,9 @@ void Database_Styles::deleteMarker (std::string sheet, std::string marker)
 
 
 // Returns a map with all the markers and the names of the styles in the stylesheet.
-map <string, std::string> Database_Styles::getMarkersAndNames (std::string sheet)
+map <std::string, std::string> Database_Styles::getMarkersAndNames (std::string sheet)
 {
-  std::map <string, std::string> markers_names;
+  std::map <std::string, std::string> markers_names;
   std::vector <std::string> markers = getMarkers (sheet);
   for (auto marker : markers) {
     Database_Styles_Item item = read_item (sheet, marker);
@@ -138,7 +138,7 @@ map <string, std::string> Database_Styles::getMarkersAndNames (std::string sheet
 
 
 // Returns an array with all the markers of the styles in the stylesheet.
-vector <std::string> Database_Styles::getMarkers (std::string sheet)
+std::vector <std::string> Database_Styles::getMarkers (std::string sheet)
 {
   // The markers for this stylesheet.
   std::vector <std::string> markers = filter_url_scandir (sheetfolder (sheet));
@@ -450,7 +450,7 @@ bool Database_Styles::hasWriteAccess (std::string user, std::string sheet)
   sql.add (sheet);
   sql.add (";");
   sqlite3 * db = connect ();
-  std::map <string, std::vector <std::string> > result = database_sqlite_query (db, sql.sql);
+  std::map <std::string, std::vector <std::string> > result = database_sqlite_query (db, sql.sql);
   database_sqlite_disconnect (db);
   return !result["rowid"].empty ();
 }

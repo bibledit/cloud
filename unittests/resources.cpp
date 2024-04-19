@@ -97,7 +97,7 @@ TEST (database, usfmresources)
     const std::vector <int> standard_chapters {1, 2};
     EXPECT_EQ (standard_chapters, chapters);
     chapters = database_usfmresources.getChapters ("bibledit", 2);
-    EXPECT_EQ (vector <int>{3}, chapters);
+    EXPECT_EQ (std::vector <int>{3}, chapters);
   }
   // Sizes
   {
@@ -121,10 +121,10 @@ TEST (database, usfmresources)
     Database_UsfmResources database_usfmresources = Database_UsfmResources ();
     database_usfmresources.storeChapter ("bibledit", 2, 3, "usfm");
     std::vector <int> books = database_usfmresources.getBooks ("bibledit");
-    EXPECT_EQ (vector <int>{2}, books);
+    EXPECT_EQ (std::vector <int>{2}, books);
     database_usfmresources.deleteBook ("bibledit", 2);
     books = database_usfmresources.getBooks ("bibledit");
-    EXPECT_EQ (vector <int>{}, books);
+    EXPECT_EQ (std::vector <int>{}, books);
   }
 }
 
@@ -181,7 +181,7 @@ TEST (database, imageresources)
     database_imageresources.erase ("unittest", "unittest.jpg");
     
     images = database_imageresources.get ("unittest");
-    EXPECT_EQ (vector <std::string>{"unittest0.jpg"}, images);
+    EXPECT_EQ (std::vector <std::string>{"unittest0.jpg"}, images);
   }
   // Assign passage and get image based on passage.
   {
@@ -249,7 +249,7 @@ TEST (database, userresources)
   std::vector <std::string> specialnames = { "abc\\def:ghi", name };
   
   names = Database_UserResources::names ();
-  EXPECT_EQ (vector <std::string>{}, names);
+  EXPECT_EQ (std::vector <std::string>{}, names);
   
   Database_UserResources::url (name, url);
   value = Database_UserResources::url (name);
@@ -265,7 +265,7 @@ TEST (database, userresources)
     Database_UserResources::remove (special_name);
   }
   names = Database_UserResources::names ();
-  EXPECT_EQ (vector <std::string>{}, names);
+  EXPECT_EQ (std::vector <std::string>{}, names);
   
   Database_UserResources::book (name, book, abbrev);
   fragment = Database_UserResources::book (name, book);

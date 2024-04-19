@@ -162,7 +162,7 @@ string rss_logic_xml_path ()
 }
 
 
-void rss_logic_update_xml (vector <std::string> titles, std::vector <std::string> authors, std::vector <std::string> descriptions)
+void rss_logic_update_xml (std::vector <std::string> titles, std::vector <std::string> authors, std::vector <std::string> descriptions)
 {
   int seconds = filter::date::seconds_since_epoch ();
   std::string rfc822time = filter::date::rfc822 (seconds);

@@ -152,7 +152,7 @@ void search_logic_index_chapter (std::string bible, int book, int chapter)
 // Returns an array with matching passages.
 // $search: Contains the text to search for.
 // $bibles: Array of Bible names to search in.
-vector <Passage> search_logic_search_text (std::string search, std::vector <std::string> bibles)
+std::vector <Passage> search_logic_search_text (std::string search, std::vector <std::string> bibles)
 {
   std::vector <Passage> passages;
   
@@ -201,7 +201,7 @@ vector <Passage> search_logic_search_text (std::string search, std::vector <std:
 // Performs a case-insensitive search of the text of one $bible.
 // Returns an array with the matching passages.
 // $search: Contains the text to search for.
-vector <Passage> search_logic_search_bible_text (std::string bible, std::string search)
+std::vector <Passage> search_logic_search_bible_text (std::string bible, std::string search)
 {
   std::vector <Passage> passages;
   
@@ -247,7 +247,7 @@ vector <Passage> search_logic_search_bible_text (std::string bible, std::string 
 // Performs a case-sensitive search of the text of one $bible.
 // Returns an array with the rowid's of matching verses.
 // $search: Contains the text to search for.
-vector <Passage> search_logic_search_bible_text_case_sensitive (std::string bible, std::string search)
+std::vector <Passage> search_logic_search_bible_text_case_sensitive (std::string bible, std::string search)
 {
   std::vector <Passage> passages;
   
@@ -291,7 +291,7 @@ vector <Passage> search_logic_search_bible_text_case_sensitive (std::string bibl
 // Performs a case-insensitive search of the USFM of one bible.
 // Returns an array with the rowid's of matching verses.
 // search: Contains the text to search for.
-vector <Passage> search_logic_search_bible_usfm (std::string bible, std::string search)
+std::vector <Passage> search_logic_search_bible_usfm (std::string bible, std::string search)
 {
   std::vector <Passage> passages;
   
@@ -337,7 +337,7 @@ vector <Passage> search_logic_search_bible_usfm (std::string bible, std::string 
 // Performs a case-sensitive search of the USFM of one $bible.
 // Returns an array with the rowid's of matching verses.
 // $search: Contains the text to search for.
-vector <Passage> search_logic_search_bible_usfm_case_sensitive (std::string bible, std::string search)
+std::vector <Passage> search_logic_search_bible_usfm_case_sensitive (std::string bible, std::string search)
 {
   std::vector <Passage> passages;
   

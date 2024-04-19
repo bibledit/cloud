@@ -53,11 +53,11 @@ using namespace std;
 
 
 // Internal function declarations.
-string lexicon_logic_render_part_of_speech_pop_front (vector <std::string> & parts);
+string lexicon_logic_render_part_of_speech_pop_front (std::vector <std::string> & parts);
 
 
 // The names of the available lexicon resources.
-vector <std::string> lexicon_logic_resource_names ()
+std::vector <std::string> lexicon_logic_resource_names ()
 {
   return {
     HEBREW_ETCBC4_NAME,
@@ -432,7 +432,7 @@ string lexicon_logic_render_strongs_definition (std::string strong)
 }
 
 
-string lexicon_logic_render_part_of_speech_pop_front (vector <std::string> & parts)
+string lexicon_logic_render_part_of_speech_pop_front (std::vector <std::string> & parts)
 {
   std::string part;
   if (!parts.empty ()) {

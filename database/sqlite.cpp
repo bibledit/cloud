@@ -22,7 +22,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 #include <database/logs.h>
 #include <database/logic.h>
-using namespace std;
 
 
 /*
@@ -91,7 +90,7 @@ The database errors went away.
 // INSERT INTO cache VALUES ( 136 , 0 , '' ); - database is locked - database is locked
 // INSERT INTO cache VALUES ( 25 , 21 , '' ); - unrecognized token: "'" - SQL logic error or missing database
 // Therefore here's an extra mutex for our own logic, and that should fix those errors.
-mutex sqlite_execute_mutex;
+std::mutex sqlite_execute_mutex;
 
 
 sqlite3 * database_sqlite_connect_file (std::string filename)
@@ -111,7 +110,7 @@ sqlite3 * database_sqlite_connect_file (std::string filename)
 // The function provides the path to the "database" in the default database folder.
 // It does this in case "database" contains no path.
 // If it has a path, then it returns the path as given.
-string database_sqlite_file (std::string database)
+std::string database_sqlite_file (std::string database)
 {
   if (filter_url_dirname (database) == ".") {
     return filter_url_create_root_path ({database_logic_databases (), database + database_sqlite_suffix ()});
@@ -120,7 +119,7 @@ string database_sqlite_file (std::string database)
 }
 
 
-string database_sqlite_suffix ()
+std::string database_sqlite_suffix ()
 {
   return ".sqlite";
 }
@@ -132,7 +131,7 @@ sqlite3 * database_sqlite_connect (std::string database)
 }
 
 
-string database_sqlite_no_sql_injection (std::string sql)
+std::string database_sqlite_no_sql_injection (std::string sql)
 {
   return filter::strings::replace ("'", "''", sql);
 }
@@ -153,7 +152,7 @@ void database_sqlite_exec (sqlite3 * db, std::string sql)
 }
 
 
-map <string, std::vector <std::string> > database_sqlite_query (sqlite3 * db, std::string sql)
+std::map <std::string, std::vector <std::string> > database_sqlite_query (sqlite3 * db, std::string sql)
 {
   char * error = nullptr;
   SqliteReader reader (0);
@@ -187,7 +186,7 @@ bool database_sqlite_healthy (std::string database)
   if (filter_url_filesize (file) > 0) {
     sqlite3 * db = database_sqlite_connect (database);
     std::string query = "PRAGMA integrity_check;";
-    std::map <string, std::vector <std::string> > result = database_sqlite_query (db, query);
+    std::map <std::string, std::vector <std::string> > result = database_sqlite_query (db, query);
     std::vector <std::string> health = result ["integrity_check"];
     if (health.size () == 1) {
       if (health [0] == "ok") ok = true;
@@ -338,7 +337,7 @@ void SqliteDatabase::execute ()
 }
 
 
-map <string, std::vector <std::string> > SqliteDatabase::query ()
+std::map <std::string, std::vector <std::string> > SqliteDatabase::query ()
 {
   return database_sqlite_query (db, sql);
 }

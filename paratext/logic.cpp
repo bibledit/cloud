@@ -76,7 +76,7 @@ string Paratext_Logic::searchProjectsFolder ()
 }
 
 
-vector <std::string> Paratext_Logic::searchProjects (std::string projects_folder)
+std::vector <std::string> Paratext_Logic::searchProjects (std::string projects_folder)
 {
   std::vector <std::string> projects;
   std::vector <std::string> folders = filter_url_scandir (projects_folder);
@@ -269,7 +269,7 @@ string Paratext_Logic::ancestorPath (std::string bible, int book)
 }
 
 
-vector <std::string> Paratext_Logic::enabledBibles ()
+std::vector <std::string> Paratext_Logic::enabledBibles ()
 {
   std::vector <std::string> enabled;
   Database_Bibles database_bibles;

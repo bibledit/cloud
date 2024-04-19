@@ -112,7 +112,7 @@ void sendreceive_settings ()
   }
   
   // The POST request contains the credentials.
-  std::map <string, std::string> post;
+  std::map <std::string, std::string> post;
   post ["u"] = filter::strings::bin2hex (user);
   post ["p"] = webserver_request.database_users ()->get_md5 (user);
   post ["l"] = filter::strings::convert_to_string (webserver_request.database_users ()->get_level (user));

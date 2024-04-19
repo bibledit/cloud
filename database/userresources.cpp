@@ -31,7 +31,7 @@ using namespace std;
 
 
 // Returns the names of the available user-defined resources.
-vector <std::string> Database_UserResources::names ()
+std::vector <std::string> Database_UserResources::names ()
 {
   std::vector <std::string> names;
   std::vector <std::string> files = filter_url_scandir (folder ());

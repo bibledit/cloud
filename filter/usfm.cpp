@@ -84,7 +84,7 @@ string one_string (std::string usfm)
 //             ...
 // Output would be:     array ("\id ", "GEN", "\c ", "10", ...)
 // If $code does not start with a marker, this becomes visible in the output too.
-vector <std::string> get_markers_and_text (std::string code)
+std::vector <std::string> get_markers_and_text (std::string code)
 {
   std::vector <std::string> markers_and_text;
   code = filter::strings::replace ("\n\\", "\\", code); // New line followed by backslash: leave new line out.
@@ -171,7 +171,7 @@ string get_marker (std::string usfm)
 // This imports USFM $input.
 // It takes raw $input,
 // and returns a vector with objects with book_number, chapter_number, chapter_data.
-vector <BookChapterData> usfm_import (std::string input, std::string stylesheet)
+std::vector <BookChapterData> usfm_import (std::string input, std::string stylesheet)
 {
   std::vector <BookChapterData> result;
 
@@ -242,7 +242,7 @@ vector <BookChapterData> usfm_import (std::string input, std::string stylesheet)
 // 10-12b
 // 10,11a
 // 10,12
-vector <int> get_verse_numbers (std::string usfm)
+std::vector <int> get_verse_numbers (std::string usfm)
 {
   std::vector <int> verse_numbers = { 0 };
   std::vector <std::string> markers_and_text = get_markers_and_text (usfm);
@@ -268,7 +268,7 @@ vector <int> get_verse_numbers (std::string usfm)
 
 
 // Returns the chapter numbers found in $usfm.
-vector <int> get_chapter_numbers (std::string usfm)
+std::vector <int> get_chapter_numbers (std::string usfm)
 {
   std::vector <int> chapter_numbers = { 0 };
   std::vector <std::string> markers_and_text = get_markers_and_text (usfm);
@@ -288,7 +288,7 @@ vector <int> get_chapter_numbers (std::string usfm)
 
 
 // Returns the verse numbers in the string of $usfm code at line number $line_number.
-vector <int> linenumber_to_versenumber (std::string usfm, unsigned int line_number)
+std::vector <int> linenumber_to_versenumber (std::string usfm, unsigned int line_number)
 {
   std::vector <int> verse_number = {0}; // Initial verse number.
   std::vector <std::string> lines = filter::strings::explode (usfm, '\n');
@@ -306,7 +306,7 @@ vector <int> linenumber_to_versenumber (std::string usfm, unsigned int line_numb
 
 // Returns the verse numbers in the string of $usfm code at offset $offset.
 // Offset is calculated with filter::strings::unicode_string_length to support UTF-8.
-vector <int> offset_to_versenumber (std::string usfm, unsigned int offset)
+std::vector <int> offset_to_versenumber (std::string usfm, unsigned int offset)
 {
   size_t totalOffset = 0;
   std::vector <std::string> lines = filter::strings::explode (usfm, '\n');

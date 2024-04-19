@@ -54,7 +54,7 @@ TEST (database, statistics)
     
     // Check all available users.
     std::vector <std::string> users = Database_Statistics::get_users ();
-    EXPECT_EQ ((vector <std::string>{"one", "two"}), users);
+    EXPECT_EQ ((std::vector <std::string>{"one", "two"}), users);
     
     // The changes for all available users for no more than a year ago.
     std::vector <std::pair <int, int>> changes = Database_Statistics::get_changes ("");

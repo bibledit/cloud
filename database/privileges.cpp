@@ -22,7 +22,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 #include <filter/string.h>
 #include <database/logic.h>
-using namespace std;
 
 
 // This database is resilient.
@@ -87,7 +86,7 @@ bool DatabasePrivileges::healthy ()
 }
 
 
-string DatabasePrivileges::save (const std::string& username)
+std::string DatabasePrivileges::save (const std::string& username)
 {
   SqliteDatabase sql (database ());
   
@@ -97,7 +96,7 @@ string DatabasePrivileges::save (const std::string& username)
   sql.add ("SELECT bible, book, write FROM bibles WHERE username =");
   sql.add (username);
   sql.add (";");
-  std::map <string, std::vector <std::string> > result = sql.query ();
+  std::map <std::string, std::vector <std::string> > result = sql.query ();
   std::vector <std::string> bible = result ["bible"];
   std::vector <std::string> book =  result ["book"];
   std::vector <std::string> write = result ["write"];
@@ -261,7 +260,7 @@ void DatabasePrivileges::get_bible_book (const std::string& username, const std:
 
 
 // Returns a tuple with <read, write> whether the $username has access to the given $bible.
-tuple <bool, bool> DatabasePrivileges::get_bible (const std::string& username, const std::string& bible)
+std::tuple <bool, bool> DatabasePrivileges::get_bible (const std::string& username, const std::string& bible)
 {
   SqliteDatabase sql (database ());
   sql.add ("SELECT write FROM bibles WHERE username =");
@@ -279,7 +278,7 @@ tuple <bool, bool> DatabasePrivileges::get_bible (const std::string& username, c
   sql.add ("AND write;");
   result = sql.query () ["write"];
   const bool write = (!result.empty());
-  return make_tuple(read, write);
+  return std::make_tuple(read, write);
 }
 
 
@@ -428,19 +427,19 @@ const char * DatabasePrivileges::off ()
 }
 
 
-string database_privileges_directory (const std::string& user)
+std::string database_privileges_directory (const std::string& user)
 {
   return filter_url_create_path ({database_logic_databases (), "clients", user});
 }
 
 
-string database_privileges_file ()
+std::string database_privileges_file ()
 {
   return "privileges.txt";
 }
 
 
-string database_privileges_client_path (const std::string& user)
+std::string database_privileges_client_path (const std::string& user)
 {
   return filter_url_create_root_path ({database_privileges_directory (user), database_privileges_file ()});
 }

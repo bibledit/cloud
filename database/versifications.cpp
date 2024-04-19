@@ -218,7 +218,7 @@ int Database_Versifications::createSystem (const std::string& name)
 
 
 // Returns an array of the available versification systems.
-vector <std::string> Database_Versifications::getSystems ()
+std::vector <std::string> Database_Versifications::getSystems ()
 {
   sqlite3 * db = connect ();
   std::vector <std::string> systems = database_sqlite_query (db, "SELECT name FROM names ORDER BY name ASC;") ["name"];
@@ -228,7 +228,7 @@ vector <std::string> Database_Versifications::getSystems ()
 
 
 // Returns the books, chapters, verses for the given versification system.
-vector <Passage> Database_Versifications::getBooksChaptersVerses (const std::string& name)
+std::vector <Passage> Database_Versifications::getBooksChaptersVerses (const std::string& name)
 {
   std::vector <Passage> data;
   int id = getID (name);
@@ -237,7 +237,7 @@ vector <Passage> Database_Versifications::getBooksChaptersVerses (const std::str
   sql.add (id);
   sql.add ("ORDER BY book, chapter, verse ASC;");
   sqlite3 * db = connect ();
-  std::map <string, std::vector <std::string> > result = database_sqlite_query (db, sql.sql);
+  std::map <std::string, std::vector <std::string> > result = database_sqlite_query (db, sql.sql);
   database_sqlite_disconnect (db);
   std::vector <std::string> books = result ["book"];
   std::vector <std::string> chapters = result ["chapter"];
@@ -253,7 +253,7 @@ vector <Passage> Database_Versifications::getBooksChaptersVerses (const std::str
 }
 
 
-vector <int> Database_Versifications::getBooks (const std::string& name)
+std::vector <int> Database_Versifications::getBooks (const std::string& name)
 {
   std::vector <int> books;
   int id = getID (name);
@@ -273,7 +273,7 @@ vector <int> Database_Versifications::getBooks (const std::string& name)
 
 // This returns all the chapters in book of versification system name.
 // include0: Includes chapter 0 also.
-vector <int> Database_Versifications::getChapters (const std::string& name, int book, bool include0)
+std::vector <int> Database_Versifications::getChapters (const std::string& name, int book, bool include0)
 {
   std::vector <int> chapters;
   if (include0) chapters.push_back (0);
@@ -294,7 +294,7 @@ vector <int> Database_Versifications::getChapters (const std::string& name, int 
 }
 
 
-vector <int> Database_Versifications::getVerses (const std::string& name, int book, int chapter)
+std::vector <int> Database_Versifications::getVerses (const std::string& name, int book, int chapter)
 {
   std::vector <int> verses;
   int id = getID (name);
@@ -347,7 +347,7 @@ void Database_Versifications::defaults ()
 
 
 // This returns all possible books in any versification system.
-vector <int> Database_Versifications::getMaximumBooks ()
+std::vector <int> Database_Versifications::getMaximumBooks ()
 {
   std::vector <int> books;
   SqliteSQL sql = SqliteSQL ();
@@ -363,7 +363,7 @@ vector <int> Database_Versifications::getMaximumBooks ()
 
 
 // This returns all possible chapters in a book of any versification system.
-vector <int> Database_Versifications::getMaximumChapters (int book)
+std::vector <int> Database_Versifications::getMaximumChapters (int book)
 {
   std::vector <int> chapters;
   chapters.push_back (0);
@@ -382,7 +382,7 @@ vector <int> Database_Versifications::getMaximumChapters (int book)
 
 
 // This returns all possible verses in a book / chapter of any versification system.
-vector <int> Database_Versifications::getMaximumVerses (int book, int chapter)
+std::vector <int> Database_Versifications::getMaximumVerses (int book, int chapter)
 {
   std::vector <int> verses;
   SqliteSQL sql = SqliteSQL ();

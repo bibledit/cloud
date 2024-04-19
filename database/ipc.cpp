@@ -24,7 +24,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/sqlite.h>
 #include <webserver/request.h>
 #include <database/logic.h>
-using namespace std;
 
 
 // Database resilience: Stored in plain file system.
@@ -141,7 +140,7 @@ void Database_Ipc::deleteMessage (int id)
 }
 
 
-string Database_Ipc::getFocus ()
+std::string Database_Ipc::getFocus ()
 {
   std::string user = m_webserver_request.session_logic ()->currentUser ();
 
@@ -226,13 +225,13 @@ bool Database_Ipc::getNotesAlive ()
 }
 
 
-string Database_Ipc::folder ()
+std::string Database_Ipc::folder ()
 {
   return filter_url_create_root_path ({database_logic_databases (), "ipc"});
 }
 
 
-string Database_Ipc::file (std::string file)
+std::string Database_Ipc::file (std::string file)
 {
   return filter_url_create_path ({folder (), file});
 }
@@ -243,7 +242,7 @@ string Database_Ipc::file (std::string file)
 // The fields are those that can be obtained from the name of the files.
 // One file is one entry in the database.
 // The filename looks like this: rowid__user__channel__command
-vector <Database_Ipc_Item> Database_Ipc::readData ()
+std::vector <Database_Ipc_Item> Database_Ipc::readData ()
 {
   std::vector <Database_Ipc_Item> data;
   std::vector <std::string> files = filter_url_scandir (folder ());

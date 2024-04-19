@@ -22,7 +22,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 #include <config/globals.h>
 #include <database/sqlite.h>
-using namespace std;
 
 
 // This is the database for the Strong's numbers and English glosses.
@@ -77,7 +76,7 @@ const char * Database_Kjv::filename ()
 
 
 // Get Strong's numbers and English snippets for book / chapter / verse.
-vector <Database_Kjv_Item> Database_Kjv::getVerse (int book, int chapter, int verse)
+std::vector <Database_Kjv_Item> Database_Kjv::getVerse (int book, int chapter, int verse)
 {
   std::vector <Database_Kjv_Item> hits;
   std::vector <int> rows = rowids (book, chapter, verse);
@@ -92,7 +91,7 @@ vector <Database_Kjv_Item> Database_Kjv::getVerse (int book, int chapter, int ve
 
 
 // Get all passages that contain a strong's number.
-vector <Passage> Database_Kjv::searchStrong (std::string strong)
+std::vector <Passage> Database_Kjv::searchStrong (std::string strong)
 {
   int strongid = get_id ("strong", strong);
   SqliteDatabase sql = SqliteDatabase (filename ());
@@ -100,7 +99,7 @@ vector <Passage> Database_Kjv::searchStrong (std::string strong)
   sql.add (strongid);
   sql.add ("ORDER BY rowid;");
   std::vector <Passage> hits;
-  std::map <string, std::vector <std::string> > result = sql.query ();
+  std::map <std::string, std::vector <std::string> > result = sql.query ();
   std::vector <std::string> books = result ["book"];
   std::vector <std::string> chapters = result ["chapter"];
   std::vector <std::string> verses = result ["verse"];
@@ -144,7 +143,7 @@ void Database_Kjv::store (int book, int chapter, int verse, std::string strong, 
 }
 
 
-vector <int> Database_Kjv::rowids (int book, int chapter, int verse)
+std::vector <int> Database_Kjv::rowids (int book, int chapter, int verse)
 {
   SqliteDatabase sql = SqliteDatabase (filename ());
   sql.add ("SELECT rowid FROM kjv2 WHERE book =");
@@ -161,13 +160,13 @@ vector <int> Database_Kjv::rowids (int book, int chapter, int verse)
 }
 
 
-string Database_Kjv::strong (int rowid)
+std::string Database_Kjv::strong (int rowid)
 {
   return get_item ("strong", rowid);
 }
 
 
-string Database_Kjv::english (int rowid)
+std::string Database_Kjv::english (int rowid)
 {
   return get_item ("english", rowid);
 }
@@ -203,7 +202,7 @@ int Database_Kjv::get_id (const char * table_row, std::string item)
 }
 
 
-string Database_Kjv::get_item (const char * item, int rowid)
+std::string Database_Kjv::get_item (const char * item, int rowid)
 {
   // The $rowid refers to the main table.
   // Update it so it refers to the sub table.

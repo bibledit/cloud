@@ -38,7 +38,7 @@
 using namespace std;
 
 
-vector <std::string> workspace_get_default_names ()
+std::vector <std::string> workspace_get_default_names ()
 {
   // Any of the names below should not contain commas,
   // because the sorting mechanism takes the comma as a separator,
@@ -366,7 +366,7 @@ string workspace_get_entire_width (Webserver_Request& webserver_request)
 
 // Returns the names of the available workspaces.
 // If $add_default, if there's no workspaces, it adds a default one.
-vector <std::string> workspace_get_names (Webserver_Request& webserver_request, bool add_default)
+std::vector <std::string> workspace_get_names (Webserver_Request& webserver_request, bool add_default)
 {
   std::vector <std::string> workspaces;
   // The names and the order of the workspaces is taken from the URLs.

@@ -246,7 +246,7 @@ TEST (styles, css)
     marker = "add";
     if (find (markers.begin (), markers.end (), marker) == markers.end ()) EXPECT_EQ (marker, "not found");
     
-    std::map <string, std::string> markers_names = database_styles.getMarkersAndNames ("testsheet");
+    std::map <std::string, std::string> markers_names = database_styles.getMarkersAndNames ("testsheet");
     EXPECT_EQ (205, static_cast<int>(markers_names.size()));
     EXPECT_EQ ("Blank line", markers_names ["b"]);
     EXPECT_EQ ("Normal paragraph", markers_names ["p"]);

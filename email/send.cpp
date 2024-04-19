@@ -195,7 +195,7 @@ string email_send ([[maybe_unused]] string to_mail,
   Webserver_Request webserver_request;
   Sync_Logic sync_logic (webserver_request);
 
-  std::map <string, std::string> post;
+  std::map <std::string, std::string> post;
   post ["n"] = filter::strings::bin2hex (to_name);
   post ["s"] = subject;
   post ["b"] = body;

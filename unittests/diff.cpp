@@ -41,8 +41,8 @@ TEST (filter, diff)
     std::string output = filter_diff_diff ("Old text", "New text", &removals, &additions);
     std::string standard = R"(<span style="text-decoration: line-through;"> Old </span> <span style="font-weight: bold;"> New </span> text)";
     EXPECT_EQ (standard, output);
-    EXPECT_EQ (vector <std::string>{"Old"}, removals);
-    EXPECT_EQ (vector <std::string>{"New"}, additions);
+    EXPECT_EQ (std::vector <std::string>{"Old"}, removals);
+    EXPECT_EQ (std::vector <std::string>{"New"}, additions);
   }
 
   // Difference.
@@ -52,8 +52,8 @@ TEST (filter, diff)
                                       &removals, &additions);
     std::string standard = R"(<span style="font-weight: bold;"> and </span> this is <span style="text-decoration: line-through;"> really </span> <span style="text-decoration: line-through;"> old </span> <span style="font-weight: bold;"> new </span> text)";
     EXPECT_EQ (standard, output);
-    EXPECT_EQ ((vector <std::string>{"really", "old"}), removals);
-    EXPECT_EQ ((vector <std::string>{"and", "new"}), additions);
+    EXPECT_EQ ((std::vector <std::string>{"really", "old"}), removals);
+    EXPECT_EQ ((std::vector <std::string>{"and", "new"}), additions);
   }
   
   // Diff with new lines in the text.
@@ -75,9 +75,9 @@ Genesis 1.3 3 And God said: "Let there be light". And there was light.
     std::string standard = filter_url_file_get_contents (filter_url_create_root_path ({"unittests", "tests", "diff.txt"}));
     EXPECT_EQ (standard, output);
     
-    EXPECT_EQ ((vector <std::string>{"heavens", "form,", "void;", "said,", "Let", "light:", "and"}),
+    EXPECT_EQ ((std::vector <std::string>{"heavens", "form,", "void;", "said,", "Let", "light:", "and"}),
                removals);
-    EXPECT_EQ ((vector <std::string>{"heaven", "form", "void", "said:", R"("Let)", R"(light".)", "And"}),
+    EXPECT_EQ ((std::vector <std::string>{"heaven", "form", "void", "said:", R"("Let)", R"(light".)", "And"}),
                additions);
   }
 
@@ -92,10 +92,10 @@ Genesis 1.3 3 And God said: "Let there be light". And there was light.
     std::vector <std::string> content;
     int new_line_diff_count;
     filter_diff_diff_utf16 (oldinput, newinput, positions, sizes, additions, content, new_line_diff_count);
-    EXPECT_EQ ((vector <int>{3, 6, 7}), positions);
-    EXPECT_EQ ((vector <int>{1, 1, 1}), sizes);
-    EXPECT_EQ ((vector <bool>{true, false, true}), additions);
-    EXPECT_EQ ((vector <std::string>{"d", "g", "h"}), content);
+    EXPECT_EQ ((std::vector <int>{3, 6, 7}), positions);
+    EXPECT_EQ ((std::vector <int>{1, 1, 1}), sizes);
+    EXPECT_EQ ((std::vector <bool>{true, false, true}), additions);
+    EXPECT_EQ ((std::vector <std::string>{"d", "g", "h"}), content);
     EXPECT_EQ (0, new_line_diff_count);
   }
   {
@@ -107,10 +107,10 @@ Genesis 1.3 3 And God said: "Let there be light". And there was light.
     std::vector <std::string> content;
     int new_line_diff_count;
     filter_diff_diff_utf16 (oldinput, newinput, positions, sizes, additions, content, new_line_diff_count);
-    EXPECT_EQ ((vector <int>{1, 3, 6, 7, 8}), positions);
-    EXPECT_EQ ((vector <int>{1, 1, 1, 1, 1}), sizes);
-    EXPECT_EQ ((vector <bool>{true, true, false, true, false}), additions);
-    EXPECT_EQ ((vector <std::string>{"badd", "d", "g", "h", "i"}), content);
+    EXPECT_EQ ((std::vector <int>{1, 3, 6, 7, 8}), positions);
+    EXPECT_EQ ((std::vector <int>{1, 1, 1, 1, 1}), sizes);
+    EXPECT_EQ ((std::vector <bool>{true, true, false, true, false}), additions);
+    EXPECT_EQ ((std::vector <std::string>{"badd", "d", "g", "h", "i"}), content);
     EXPECT_EQ (0, new_line_diff_count);
   }
   {
@@ -122,10 +122,10 @@ Genesis 1.3 3 And God said: "Let there be light". And there was light.
     std::vector <std::string> content;
     int new_line_diff_count;
     filter_diff_diff_utf16 (oldinput, newinput, positions, sizes, additions, content, new_line_diff_count);
-    EXPECT_EQ ((vector <int>{1, 2, 3, 3, 5}), positions);
-    EXPECT_EQ ((vector <int>{1, 1, 1, 1, 1}), sizes);
-    EXPECT_EQ ((vector <bool>{false, false, false, true, true}), additions);
-    EXPECT_EQ ((vector <std::string>{"\n", "b", "\n", "b", "\n"}), content);
+    EXPECT_EQ ((std::vector <int>{1, 2, 3, 3, 5}), positions);
+    EXPECT_EQ ((std::vector <int>{1, 1, 1, 1, 1}), sizes);
+    EXPECT_EQ ((std::vector <bool>{false, false, false, true, true}), additions);
+    EXPECT_EQ ((std::vector <std::string>{"\n", "b", "\n", "b", "\n"}), content);
     EXPECT_EQ (3, new_line_diff_count);
   }
   {
@@ -138,10 +138,10 @@ Genesis 1.3 3 And God said: "Let there be light". And there was light.
     std::vector <std::string> content;
     int new_line_diff_count;
     filter_diff_diff_utf16 (oldinput, newinput, positions, sizes, additions, content, new_line_diff_count);
-    EXPECT_EQ ((vector <int>{1, 2, 2, 3, 3, 6}), positions);
-    EXPECT_EQ ((vector <int>{1, 2, 1, 1, 2, 1}), sizes);
-    EXPECT_EQ ((vector <bool>{false, false, false, false, true, true}), additions);
-    EXPECT_EQ ((vector <std::string>{"\n", "😀", "b", "\n", "😃", "\n"}), content);
+    EXPECT_EQ ((std::vector <int>{1, 2, 2, 3, 3, 6}), positions);
+    EXPECT_EQ ((std::vector <int>{1, 2, 1, 1, 2, 1}), sizes);
+    EXPECT_EQ ((std::vector <bool>{false, false, false, false, true, true}), additions);
+    EXPECT_EQ ((std::vector <std::string>{"\n", "😀", "b", "\n", "😃", "\n"}), content);
     EXPECT_EQ (3, new_line_diff_count);
   }
 

@@ -40,7 +40,7 @@ void Flate::enable_zone (std::string zone)
 
 
 // Add $value-s for one iteration to iterator $key.
-void Flate::add_iteration (std::string key, std::map <string, std::string> value)
+void Flate::add_iteration (std::string key, std::map <std::string, std::string> value)
 {
   // The $key is the name for the iteration,
   // where to add $value, which is a map of keys and values.
@@ -108,7 +108,7 @@ void Flate::process_iterations (std::string & rendering)
       // The fragment to insert after ready iterating.
       std::string iterated_fragment;
       // Go through the container for the name of the current iteration.
-      std::vector < std::map <string, std::string> > named_iterations = iterations [name];
+      std::vector < std::map <std::string, std::string> > named_iterations = iterations [name];
       for (auto & named_iteration : named_iterations) {
         // Process one iteration.
         std::string fragment (iterating_fragment);

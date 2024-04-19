@@ -36,7 +36,6 @@
 #include <database/books.h>
 #include <database/config/bible.h>
 #include <jobs/index.h>
-using namespace std;
 
 
 void compare_compare (std::string bible, std::string compare, int jobId)
@@ -67,12 +66,12 @@ void compare_compare (std::string bible, std::string compare, int jobId)
   std::vector <int> resourceBooks = database_usfmresources.getBooks (compare);
   std::vector <int> books;
   {
-    set <int> bookset;
+    std::set <int> bookset;
     bookset.insert (bibleBooks.begin(), bibleBooks.end());
     bookset.insert (compareBooks.begin(), compareBooks.end());
     bookset.insert (resourceBooks.begin(), resourceBooks.end());
     books.assign (bookset.begin(), bookset.end ());
-    sort (books.begin(), books.end());
+    std::sort (books.begin(), books.end());
   }
   
   
@@ -114,16 +113,16 @@ void compare_compare (std::string bible, std::string compare, int jobId)
     std::vector <int> resourceChapters = database_usfmresources.getChapters (compare, book);
     std::vector <int> chapters;
     {
-      set <int> chapterset;
+      std::set <int> chapterset;
       chapterset.insert (bibleChapters.begin(), bibleChapters.end());
       chapterset.insert (compareChapters.begin(), compareChapters.end());
       chapterset.insert (resourceChapters.begin(), resourceChapters.end());
       chapters.assign (chapterset.begin(), chapterset.end ());
-      sort (chapters.begin(), chapters.end());
+      std::sort (chapters.begin(), chapters.end());
     }
 
 
-    for (auto & chapter : chapters) {
+    for (const auto & chapter : chapters) {
 
       
       // Look for, report, and skip missing chapters in the source Bible.
@@ -156,15 +155,15 @@ void compare_compare (std::string bible, std::string compare, int jobId)
       std::vector <int> compare_verse_numbers = filter::usfm::get_verse_numbers (compare_chapter_usfm);
       std::vector <int> verses;
       {
-        set <int> verseset;
+        std::set <int> verseset;
         verseset.insert (bible_verse_numbers.begin(), bible_verse_numbers.end());
         verseset.insert (compare_verse_numbers.begin(), compare_verse_numbers.end());
         verses.assign (verseset.begin(), verseset.end ());
-        sort (verses.begin(), verses.end());
+        std::sort (verses.begin(), verses.end());
       }
       
       
-      for (int & verse : verses) {
+      for (const int & verse : verses) {
  
 
         // Get the USFM of verse of the Bible and comparison USFM, and skip it if both are the same.

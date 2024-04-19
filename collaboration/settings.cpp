@@ -34,10 +34,9 @@
 #include <collaboration/link.h>
 #include <tasks/logic.h>
 #include <jobs/index.h>
-using namespace std;
 
 
-string collaboration_settings_url ()
+std::string collaboration_settings_url ()
 {
   return "collaboration/settings";
 }
@@ -49,7 +48,7 @@ bool collaboration_settings_acl (Webserver_Request& webserver_request)
 }
 
 
-string collaboration_settings (Webserver_Request& webserver_request)
+std::string collaboration_settings (Webserver_Request& webserver_request)
 {
   std::string page;
   Assets_Header header = Assets_Header (translate("Collaboration"), webserver_request);

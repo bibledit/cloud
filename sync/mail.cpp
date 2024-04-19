@@ -51,7 +51,7 @@ string sync_mail (Webserver_Request& webserver_request)
   if (!sync_logic.security_okay ()) {
     // When the Cloud enforces https, inform the client to upgrade.
     webserver_request.response_code = 426;
-    return "";
+    return std::string();
   }
   
   // Get the relevant parameters the client may have POSTed to us, the server.
@@ -85,7 +85,7 @@ string sync_mail (Webserver_Request& webserver_request)
         
         // Send the email.
         email_schedule (name, subject, body);
-        return "";
+        return std::string();
       }
     }
   }
@@ -94,5 +94,5 @@ string sync_mail (Webserver_Request& webserver_request)
   // Delay a while to obstruct a flood of bad requests.
   this_thread::sleep_for (chrono::seconds (1));
   webserver_request.response_code = 400;
-  return "";
+  return std::string();
 }

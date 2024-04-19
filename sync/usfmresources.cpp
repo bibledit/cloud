@@ -54,7 +54,7 @@ string sync_usfmresources (Webserver_Request& webserver_request)
   if (!sync_logic.security_okay ()) {
     // When the Cloud enforces https, inform the client to upgrade.
     webserver_request.response_code = 426;
-    return "";
+    return std::string();
   }
 
   int action = filter::strings::convert_to_int (webserver_request.post ["a"]);
@@ -104,6 +104,6 @@ string sync_usfmresources (Webserver_Request& webserver_request)
   // Bad request. Delay flood of bad requests.
   this_thread::sleep_for (chrono::seconds (1));
   webserver_request.response_code = 400;
-  return "";
+  return std::string();
 }
 

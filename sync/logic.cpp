@@ -151,7 +151,7 @@ string Sync_Logic::post (map <string, std::string> & post, const std::string& ur
     return response;
   }
   // Failure.
-  return "";
+  return std::string();
 }
 
 

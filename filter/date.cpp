@@ -227,7 +227,7 @@ string day_rfc822 (int day)
   if (day == 4) return "Thu";
   if (day == 5) return "Fri";
   if (day == 6) return "Sat";
-  return "";
+  return std::string();
 }
 
 
@@ -245,7 +245,7 @@ string month_rfc822 (int month)
   if (month == 10) return "Oct";
   if (month == 11) return "Nov";
   if (month == 12) return "Dec";
-  return "";
+  return std::string();
 }
 
 

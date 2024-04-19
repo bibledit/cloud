@@ -71,13 +71,13 @@ string personalize_index (Webserver_Request& webserver_request)
     int chapterpercentage = filter::strings::convert_to_int (webserver_request.post ["chapterpercentage"]);
     chapterpercentage = clip (chapterpercentage, 10, 100);
     webserver_request.database_config_user ()->setEditingAllowedDifferenceChapter (chapterpercentage);
-    return "";
+    return std::string();
   }
   if (webserver_request.post.count ("versepercentage")) {
     int versepercentage = filter::strings::convert_to_int (webserver_request.post ["versepercentage"]);
     versepercentage = clip (versepercentage, 10, 100);
     webserver_request.database_config_user ()->setEditingAllowedDifferenceVerse (versepercentage);
-    return "";
+    return std::string();
   }
   
 
@@ -103,7 +103,7 @@ string personalize_index (Webserver_Request& webserver_request)
     if (config::logic::default_bibledit_configuration ()) {
       webserver_request.database_config_user ()->setGeneralFontSize (fontsizegeneral);
     }
-    return "";
+    return std::string();
   }
   if (webserver_request.post.count ("fontsizemenu")) {
     int fontsizemenu = filter::strings::convert_to_int (webserver_request.post["fontsizemenu"]);
@@ -111,7 +111,7 @@ string personalize_index (Webserver_Request& webserver_request)
     if (config::logic::default_bibledit_configuration ()) {
       webserver_request.database_config_user ()->setMenuFontSize (fontsizemenu);
     }
-    return "";
+    return std::string();
   }
   
   
@@ -141,7 +141,7 @@ string personalize_index (Webserver_Request& webserver_request)
     fontsizeeditors = clip (fontsizeeditors, 50, 300);
     webserver_request.database_config_user ()->setBibleEditorsFontSize (fontsizeeditors);
     styles_sheets_create_all ();
-    return "";
+    return std::string();
   }
   view.set_variable ("fontsizeeditors", filter::strings::convert_to_string (webserver_request.database_config_user ()->getBibleEditorsFontSize ()));
   
@@ -153,7 +153,7 @@ string personalize_index (Webserver_Request& webserver_request)
     if (config::logic::default_bibledit_configuration ()) {
       webserver_request.database_config_user ()->setResourcesFontSize (fontsizeresources);
     }
-    return "";
+    return std::string();
   }
   view.set_variable ("fontsizeresources", filter::strings::convert_to_string (webserver_request.database_config_user ()->getResourcesFontSize ()));
   
@@ -165,7 +165,7 @@ string personalize_index (Webserver_Request& webserver_request)
     if (config::logic::default_bibledit_configuration ()) {
       webserver_request.database_config_user ()->setHebrewFontSize (fontsizehebrew);
     }
-    return "";
+    return std::string();
   }
   view.set_variable ("fontsizehebrew", filter::strings::convert_to_string (webserver_request.database_config_user ()->getHebrewFontSize ()));
   
@@ -177,7 +177,7 @@ string personalize_index (Webserver_Request& webserver_request)
     if (config::logic::default_bibledit_configuration ()) {
       webserver_request.database_config_user ()->setGreekFontSize (fontsizegreek);
     }
-    return "";
+    return std::string();
   }
   view.set_variable ("fontsizegreek", filter::strings::convert_to_string (webserver_request.database_config_user ()->getGreekFontSize ()));
   
@@ -187,7 +187,7 @@ string personalize_index (Webserver_Request& webserver_request)
     int caretposition = filter::strings::convert_to_int (webserver_request.post["caretposition"]);
     caretposition = clip (caretposition, 20, 80);
     webserver_request.database_config_user ()->setVerticalCaretPosition (caretposition);
-    return "";
+    return std::string();
   }
   view.set_variable ("caretposition", filter::strings::convert_to_string (webserver_request.database_config_user ()->getVerticalCaretPosition ()));
   
@@ -218,7 +218,7 @@ string personalize_index (Webserver_Request& webserver_request)
     int workspacefadeoutdelay = filter::strings::convert_to_int (webserver_request.post["workspacefadeoutdelay"]);
     workspacefadeoutdelay = clip (workspacefadeoutdelay, 0, 100);
     webserver_request.database_config_user ()->setWorkspaceMenuFadeoutDelay (workspacefadeoutdelay);
-    return "";
+    return std::string();
   }
   view.set_variable ("workspacefadeoutdelay", filter::strings::convert_to_string (webserver_request.database_config_user ()->getWorkspaceMenuFadeoutDelay ()));
 
@@ -239,7 +239,7 @@ string personalize_index (Webserver_Request& webserver_request)
   // Whether to enable swipe actions.
   if (checkbox == "swipeactions") {
     webserver_request.database_config_user ()->setSwipeActionsAvailable (checked);
-    return "";
+    return std::string();
   }
   view.set_variable ("swipeactions", filter::strings::get_checkbox_status(webserver_request.database_config_user ()->getSwipeActionsAvailable ()));
   
@@ -261,7 +261,7 @@ string personalize_index (Webserver_Request& webserver_request)
   if (webserver_request.post.count (fastswitchvisualeditors)) {
     int visual_editor_key = filter::strings::convert_to_int (webserver_request.post [fastswitchvisualeditors]);
     webserver_request.database_config_user ()->setFastSwitchVisualEditors (visual_editor_key);
-    return "";
+    return std::string();
   }
   std::string editor_key = filter::strings::convert_to_string (webserver_request.database_config_user ()->getFastSwitchVisualEditors ());
   view.set_variable ("fastswitchvisualeditorsoptags", Options_To_Select::mark_selected (editor_key, visual_editors_html));
@@ -277,7 +277,7 @@ string personalize_index (Webserver_Request& webserver_request)
   if (webserver_request.post.count (fastswitchusfmeditors)) {
     int usfm_editor_key = filter::strings::convert_to_int (webserver_request.post [fastswitchusfmeditors]);
     webserver_request.database_config_user ()->setFastSwitchUsfmEditors (usfm_editor_key);
-    return "";
+    return std::string();
   }
   editor_key = filter::strings::convert_to_string(webserver_request.database_config_user ()->getFastSwitchUsfmEditors ());
   view.set_variable ("fastswitchusfmeditorsoptags", Options_To_Select::mark_selected (editor_key, usfm_editors_html));
@@ -404,7 +404,7 @@ string personalize_index (Webserver_Request& webserver_request)
   // Setting for the verse separator during notes entry.
   if (webserver_request.post.count ("verseseparator")) {
     Database_Config_General::setNotesVerseSeparator (webserver_request.post["verseseparator"]);
-    return "";
+    return std::string();
   }
   std::string separator_key = Database_Config_General::getNotesVerseSeparator ();
   std::string separator_html;

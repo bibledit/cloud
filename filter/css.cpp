@@ -31,7 +31,7 @@ string Filter_Css::directionUnspecified (int value)
 {
   value = value % 10;
   if (value == 0) return "checked";
-  else return "";
+  else return std::string();
 }
 
 
@@ -39,7 +39,7 @@ string Filter_Css::directionLeftToRight (int value)
 {
   value = value % 10;
   if (value == 1) return "checked";
-  else return "";
+  else return std::string();
 }
 
 
@@ -47,7 +47,7 @@ string Filter_Css::directionRightToLeft (int value)
 {
   value = value % 10;
   if (value == 2) return "checked";
-  else return "";
+  else return std::string();
 }
 
 
@@ -112,7 +112,7 @@ string Filter_Css::writingModeBottomTopRightLeft (int value)
   value = (value / 10);
   value = value % 10;
   if (value == 4) return "checked";
-  else return "";
+  else return std::string();
 }
 
 
@@ -248,7 +248,7 @@ string Filter_Css::distinction_set_light (int itemstyleindex)
   if (itemstyleindex == 2) return "light-editor";
   if (itemstyleindex == 3) return "light-active-editor";
   if (itemstyleindex == 4) return "light-workspacewrapper";
-  return "";
+  return std::string();
 }
 
 
@@ -260,7 +260,7 @@ string Filter_Css::distinction_set_dark (int itemstyleindex)
   if (itemstyleindex == 3) return "dark-active-editor";
   if (itemstyleindex == 4) return "dark-workspacewrapper";
   if (itemstyleindex == 5) return "dark-versebeam";
-  return "";
+  return std::string();
 }
 
 
@@ -294,7 +294,7 @@ string Filter_Css::distinction_set_notes (int itemstyleindex)
   if (itemstyleindex == 3) return "note-status-done";
   if (itemstyleindex == 4) return "note-status-reopened";
   if (itemstyleindex == 5) return "note-status-unset";
-  return "";
+  return std::string();
 }
 
 
@@ -305,7 +305,7 @@ string Filter_Css::theme_picker (int indexnumber, int itemstyleindex)
   if (indexnumber == 2) return distinction_set_dark (itemstyleindex);
   if (indexnumber == 3) return distinction_set_redblue_light (itemstyleindex);
   if (indexnumber == 4) return distinction_set_redblue_dark (itemstyleindex);
-  return "";
+  return std::string();
 }
 
 

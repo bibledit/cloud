@@ -60,6 +60,6 @@ string editusfm_offset (Webserver_Request& webserver_request)
       Ipc_Focus::set (webserver_request, book, chapter, verses[0]);
     }
   }
-  return "";
+  return std::string();
 }
 

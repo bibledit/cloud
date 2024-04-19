@@ -72,7 +72,7 @@ string Paratext_Logic::searchProjectsFolder ()
 #endif
 
   // No Paratext projects folder found.
-  return "";
+  return std::string();
 }
 
 

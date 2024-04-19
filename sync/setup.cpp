@@ -41,7 +41,7 @@ string sync_setup (Webserver_Request& webserver_request)
   if (!sync_logic.security_okay ()) {
     // When the Cloud enforces https, inform the client to upgrade.
     webserver_request.response_code = 426;
-    return "";
+    return std::string();
   }
   
   std::string page;

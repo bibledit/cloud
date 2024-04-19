@@ -754,7 +754,7 @@ string resource_external_get_biblehub_westminster (int book, int chapter, int ve
 {
   // No New Testament in the Westminster Leningrad Codex.
   if (book >= 40) {
-    return "";
+    return std::string();
   }
   
   std::string bookname = resource_external_convert_book_biblehub (book);

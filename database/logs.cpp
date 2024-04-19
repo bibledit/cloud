@@ -169,7 +169,7 @@ string Database_Logs::next (std::string &filename)
       return file;
     }
   }
-  return "";
+  return std::string();
 }
 
 

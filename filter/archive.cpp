@@ -74,7 +74,7 @@ string filter_archive_zip_folder_shell_internal (std::string folder)
 string filter_archive_zip_folder_miniz_internal (std::string folder)
 {
   if (!file_or_dir_exists (folder)) {
-    return "";
+    return std::string();
   }
   std::string zippedfile = filter_url_tempfile () + ".zip";
   std::vector <std::string> paths;
@@ -98,7 +98,7 @@ string filter_archive_zip_folder_miniz_internal (std::string folder)
     }
     if (!status) {
       Database_Logs::log ("mz_zip_add_mem_to_archive_file_in_place failed for " + path);
-      return "";
+      return std::string();
     }
   }
   return zippedfile;
@@ -329,7 +329,7 @@ string filter_archive_uncompress (std::string file)
   if (type == 2) {
     return filter_archive_unzip (file);
   }
-  return "";
+  return std::string();
 }
 
 
@@ -393,7 +393,7 @@ string filter_archive_microtar_pack (std::string tarpath, std::string directory,
   if (res != MTAR_ESUCCESS) return mtar_strerror (res);
   
   // OK, done :)
-  return "";
+  return std::string();
 }
 
 
@@ -444,5 +444,5 @@ string filter_archive_microtar_unpack (std::string tarball, std::string director
   if (res != MTAR_ESUCCESS) return mtar_strerror (res);
 
   // Done, hallelujah :)
-  return "";
+  return std::string();
 }

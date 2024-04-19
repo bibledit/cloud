@@ -75,7 +75,7 @@ string resource_organize (Webserver_Request& webserver_request)
         redirect_browser (webserver_request, filter_url_build_http_query (resource_divider_url (), "type", "def"));
       else
         redirect_browser (webserver_request, resource_divider_url ());
-      return "";
+      return std::string();
     } else {
       // Add the new resource to the existing selection of resources for the current user.
       std::vector <std::string> resources = webserver_request.database_config_user()->getActiveResources ();
@@ -123,7 +123,7 @@ string resource_organize (Webserver_Request& webserver_request)
       else 
         redirect_browser (webserver_request, resource_organize_url());
     }
-    return "";
+    return std::string();
   }
   
   
@@ -209,7 +209,7 @@ string resource_organize (Webserver_Request& webserver_request)
   
   if (checkbox == "related") {
     webserver_request.database_config_user ()->setIncludeRelatedPassages (checked);
-    return "";
+    return std::string();
   }
   view.set_variable ("related", filter::strings::get_checkbox_status (webserver_request.database_config_user ()->getIncludeRelatedPassages ()));
 

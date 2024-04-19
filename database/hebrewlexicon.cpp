@@ -150,7 +150,7 @@ std::string Database_HebrewLexicon::getbdb (std::string id)
   sql.add (";");
   std::vector <std::string> result = sql.query () ["definition"];
   if (!result.empty ()) return result [0];
-  return "";
+  return std::string();
 }
 
 
@@ -162,7 +162,7 @@ std::string Database_HebrewLexicon::getmap (std::string id)
   sql.add (";");
   std::vector <std::string> result = sql.query () ["bdb"];
   if (!result.empty ()) return result [0];
-  return "";
+  return std::string();
 }
 
 
@@ -174,7 +174,7 @@ std::string Database_HebrewLexicon::getpos (std::string code)
   sql.add (";");
   std::vector <std::string> result = sql.query () ["name"];
   if (!result.empty ()) return result [0];
-  return "";
+  return std::string();
 }
 
 
@@ -186,5 +186,5 @@ std::string Database_HebrewLexicon::getstrong (std::string strong)
   sql.add (";");
   std::vector <std::string> result = sql.query () ["definition"];
   if (!result.empty ()) return result [0];
-  return "";
+  return std::string();
 }

@@ -164,7 +164,7 @@ string get_marker (std::string usfm)
     return marker;
   }
   // Text found. No marker.
-  return "";
+  return std::string();
 }
 
 
@@ -469,7 +469,7 @@ string get_chapter_text (std::string usfm, int chapter_number)
     }
 
     // Starting chapter markup not found: Non-existing chapter.
-    if (!found) return "";
+    if (!found) return std::string();
   }
 
   // Look for any next chapter marker.
@@ -703,7 +703,7 @@ string save_is_safe (Webserver_Request& webserver_request,
   }
   
   // Safety checks have passed.
-  return "";
+  return std::string();
 }
 
 
@@ -723,7 +723,7 @@ string safely_store_chapter (Webserver_Request& webserver_request,
   std::string existing = webserver_request.database_bibles()->get_chapter (bible, book, chapter);
   
   // Bail out if the existing chapter equals the USFM to be saved.
-  if (usfm == existing) return "";
+  if (usfm == existing) return std::string();
   
   // Safety check.
   std::string message = save_is_safe (webserver_request, existing, usfm, true, explanation);
@@ -735,7 +735,7 @@ string safely_store_chapter (Webserver_Request& webserver_request,
   
   // Safety checks have passed: Save chapter.
   bible_logic::store_chapter (bible, book, chapter, usfm);
-  return "";
+  return std::string();
 }
 
 
@@ -804,7 +804,7 @@ string safely_store_verse (Webserver_Request& webserver_request,
 
   // Bail out if the new USFM is the same as the existing.
   if (usfm == existing_verse_usfm) {
-    return "";
+    return std::string();
   }
 
   // Check maximum difference between new and existing USFM.
@@ -830,7 +830,7 @@ string safely_store_verse (Webserver_Request& webserver_request,
   bible_logic::store_chapter (bible, book, chapter, chapter_usfm);
 
   // Done: OK.
-  return "";
+  return std::string();
 }
 
 

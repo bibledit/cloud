@@ -108,7 +108,7 @@ string resource_comparative9edit (Webserver_Request& webserver_request)
       // Redirect the user to the place where to edit that new resource.
       std::string url = resource_comparative1edit_url () + "?name=" + new_resource;
       redirect_browser (webserver_request, url);
-      return "";
+      return std::string();
     }
   }
 

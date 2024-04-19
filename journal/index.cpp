@@ -166,7 +166,7 @@ string journal_index (Webserver_Request& webserver_request)
     // the logbook will then again be cleared, because that was the last opened URL.
     // Redirecting the browser to a clean URL fixes this behaviour.
     redirect_browser (webserver_request, journal_index_url ());
-    return "";
+    return std::string();
   }
 
   

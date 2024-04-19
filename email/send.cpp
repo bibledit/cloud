@@ -189,7 +189,7 @@ string email_send ([[maybe_unused]] string to_mail,
 #ifdef HAVE_CLIENT
 
   if (!client_logic_client_enabled ()) {
-    return "";
+    return std::string();
   }
 
   Webserver_Request webserver_request;

@@ -1798,7 +1798,7 @@ string Database_Notes::notes_select_identifier ()
 
 string Database_Notes::notes_optional_fulltext_search_relevance_statement (std::string search)
 {
-  if (search == "") return "";
+  if (search == "") return std::string();
   search = filter::strings::replace (",", "", search);
   search = database_sqlite_no_sql_injection (search);
   std::string query = "";
@@ -1814,7 +1814,7 @@ string Database_Notes::notes_from_where_statement ()
 
 string Database_Notes::notes_optional_fulltext_search_statement (std::string search)
 {
-  if (search == "") return "";
+  if (search == "") return std::string();
   search = filter::strings::replace (",", "", search);
   search = database_sqlite_no_sql_injection (search);
   std::string query = " AND cleantext LIKE '%" + search + "%' ";
@@ -1824,7 +1824,7 @@ string Database_Notes::notes_optional_fulltext_search_statement (std::string sea
 
 string Database_Notes::notes_order_by_relevance_statement ()
 {
-  return "";
+  return std::string();
 }
 
 

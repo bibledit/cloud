@@ -81,7 +81,7 @@ string resource_print (Webserver_Request& webserver_request)
     std::string username = webserver_request.session_logic()->currentUser ();
     tasks_logic_queue (PRINTRESOURCES, {filter::strings::convert_to_string (jobId), username, bible});
     redirect_browser (webserver_request, jobs_index_url () + "?id=" + filter::strings::convert_to_string (jobId));
-    return "";
+    return std::string();
   }
   
   

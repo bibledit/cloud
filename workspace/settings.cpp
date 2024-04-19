@@ -93,7 +93,7 @@ string workspace_settings (Webserver_Request& webserver_request)
     }
     workspace_set_entire_width (webserver_request, workspacewidth);
     redirect_browser (webserver_request, workspace_index_url ());
-    return "";
+    return std::string();
   }
   
   std::string page;

@@ -228,5 +228,5 @@ string Database_Kjv::get_item (const char * item, int rowid)
   result = sql.query () [item];
   if (!result.empty ()) return result [0];
   // Not found.
-  return "";
+  return std::string();
 }

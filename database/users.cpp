@@ -158,7 +158,7 @@ string Database_Users::getEmailToUser (std::string email)
   sql.add (";");
   std::vector <std::string> result = sql.query () ["username"];
   if (!result.empty()) return result [0];
-  return "";
+  return std::string();
 }
 
 
@@ -171,7 +171,7 @@ string Database_Users::get_email (std::string user)
   sql.add (";");
   std::vector <std::string> result = sql.query () ["email"];
   if (!result.empty()) return result [0];
-  return "";
+  return std::string();
 }
 
 
@@ -287,7 +287,7 @@ string Database_Users::get_md5 (std::string user)
   sql.add (";");
   std::vector <std::string> result = sql.query () ["password"];
   if (!result.empty()) return result [0];
-  return "";
+  return std::string();
 }
 
 

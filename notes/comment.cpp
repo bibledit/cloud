@@ -73,13 +73,13 @@ string notes_comment (Webserver_Request& webserver_request)
     comment = filter_url_tag_to_plus (comment);
     notes_logic.addComment (id, comment);
     redirect_browser (webserver_request, notes_note_url () + "?id=" + filter::strings::convert_to_string (id) + "&temporal=");
-    return "";
+    return std::string();
   }
   
   
   if (webserver_request.post.count ("cancel")) {
     redirect_browser (webserver_request, notes_note_url () + "?id=" + filter::strings::convert_to_string (id));
-    return "";
+    return std::string();
   }
   
   

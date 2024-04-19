@@ -194,7 +194,7 @@ string email_receive_message (string& error)
 {
 #ifdef HAVE_CLIENT
   error = "Not implemented with embedded http library";
-  return "";
+  return std::string();
 #endif
   
 #ifdef HAVE_CLOUD

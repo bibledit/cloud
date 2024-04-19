@@ -49,16 +49,16 @@ string sync_changes (Webserver_Request& webserver_request)
   if (!sync_logic.security_okay ()) {
     // When the Cloud enforces https, inform the client to upgrade.
     webserver_request.response_code = 426;
-    return "";
+    return std::string();
   }
   
   // Check on the credentials.
-  if (!sync_logic.credentials_okay ()) return "";
+  if (!sync_logic.credentials_okay ()) return std::string();
 
   // Bail out if the change notifications are not now available to clients.
   if (!config_globals_change_notifications_available) {
     webserver_request.response_code = 503;
-    return "";
+    return std::string();
   }
   
   // Client makes a prioritized server call: Record the client's IP address.
@@ -76,7 +76,7 @@ string sync_changes (Webserver_Request& webserver_request)
       database_modifications.deleteNotification (id);
       Database_Logs::log ("Client deletes change notification from server: " + filter::strings::convert_to_string (id), Filter_Roles::translator ());
       webserver_request.database_config_user ()->setChangeNotificationsChecksum ("");
-      return "";
+      return std::string();
     }
     case Sync_Logic::changes_get_checksum:
     {
@@ -138,5 +138,5 @@ string sync_changes (Webserver_Request& webserver_request)
   // Delay a while to obstruct a flood of bad requests.
   this_thread::sleep_for (chrono::seconds (1));
   webserver_request.response_code = 400;
-  return "";
+  return std::string();
 }

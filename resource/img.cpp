@@ -116,7 +116,7 @@ string resource_img (Webserver_Request& webserver_request)
     error = filter::strings::implode (errors, " ");
     if (errors.empty ()) {
       redirect_browser (webserver_request, filter_url_build_http_query (resource_image_url (), "name", name));
-      return "";
+      return std::string();
     }
   }
   

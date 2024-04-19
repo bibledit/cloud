@@ -83,7 +83,7 @@ string notes_verses (Webserver_Request& webserver_request)
     } else {
       notes_logic.setPassages (id, passages);
       redirect_browser (webserver_request, notes_actions_url () + "?id=" + filter::strings::convert_to_string (id));
-      return "";
+      return std::string();
     }
   }
   

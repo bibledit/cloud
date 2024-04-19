@@ -171,7 +171,7 @@ string Database_Login::getUsername (std::string cookie, bool & daily)
   sql.add (cookie);
   sql.add (";");
   std::map <string, std::vector <std::string> > result = sql.query ();
-  if (result.empty()) return "";
+  if (result.empty()) return std::string();
   std::string username = result ["username"][0];
   int stamp = filter::strings::convert_to_int (result ["timestamp"] [0]);
   if (stamp != timestamp ()) {

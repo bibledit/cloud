@@ -86,5 +86,5 @@ string notes_click (Webserver_Request& webserver_request)
   }
   
 
-  return "";
+  return std::string();
 }

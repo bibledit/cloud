@@ -86,7 +86,7 @@ string notes_edit (Webserver_Request& webserver_request)
       std::string url = filter_url_build_http_query (notes_note_url (), "id", filter::strings::convert_to_string (identifier));
       // View the updated note.
       redirect_browser (webserver_request, url);
-      return "";
+      return std::string();
     }
   }
   

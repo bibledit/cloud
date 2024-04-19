@@ -58,5 +58,5 @@ string notes_poll (Webserver_Request& webserver_request)
   } else if (action == "unload") {
     Ipc_Notes::alive (webserver_request, true, false);
   }
-  return "";
+  return std::string();
 }

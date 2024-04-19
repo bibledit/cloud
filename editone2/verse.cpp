@@ -59,5 +59,5 @@ string editone2_verse (Webserver_Request& webserver_request)
   }
   
   
-  return "";
+  return std::string();
 }

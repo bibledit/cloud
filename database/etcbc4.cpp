@@ -209,7 +209,7 @@ std::string Database_Etcbc4::raw (int book, int chapter, int verse)
   std::vector <std::string> result = database_sqlite_query (db, sql.sql) ["data"];
   database_sqlite_disconnect (db);
   if (!result.empty ()) return result [0];
-  return "";
+  return std::string();
 }
 
 

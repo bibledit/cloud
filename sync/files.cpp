@@ -101,6 +101,6 @@ std::string sync_files (Webserver_Request& webserver_request)
   // Bad request. Delay flood of bad requests.
   std::this_thread::sleep_for (std::chrono::seconds (1));
   webserver_request.response_code = 400;
-  return "";
+  return std::string();
 }
 

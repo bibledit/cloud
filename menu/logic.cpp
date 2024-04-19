@@ -1185,7 +1185,7 @@ string menu_logic_editor_settings_text (bool visual, int selection)
     if (selection <= 0) return translate ("Hide");
     if (selection >= 1) return translate ("Show");
   }
-  return "";
+  return std::string();
 }
 
 

@@ -94,7 +94,7 @@ string editor_select (Webserver_Request& webserver_request)
       for (auto url : urls) {
         if (match) {
           redirect_browser (webserver_request, url);
-          return "";
+          return std::string();
         }
         if (url.find (from) == 0) match = true;
       }

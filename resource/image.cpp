@@ -94,7 +94,7 @@ string resource_image (Webserver_Request& webserver_request)
         std::string url = filter_url_build_http_query (resource_img_url (), "name", name);
         url = filter_url_build_http_query (url, "image", image);
         redirect_browser (webserver_request, url);
-        return "";
+        return std::string();
       }
     } else {
       error = translate ("Nothing was uploaded");

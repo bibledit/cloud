@@ -45,7 +45,7 @@ string Database_Strong::definition (std::string strong)
     if (!definitions.empty ()) return definitions[0];
   }
   // Nothing found.
-  return "";
+  return std::string();
 }
 
 

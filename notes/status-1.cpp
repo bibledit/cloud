@@ -70,7 +70,7 @@ string notes_status_1 (Webserver_Request& webserver_request)
     std::string status = webserver_request.query["status"];
     notes_logic.setStatus (id, status);
     redirect_browser (webserver_request, notes_actions_url () + "?id=" + filter::strings::convert_to_string (id));
-    return "";
+    return std::string();
   }
   
   

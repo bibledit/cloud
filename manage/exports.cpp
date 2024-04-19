@@ -107,7 +107,7 @@ string manage_exports (Webserver_Request& webserver_request)
   if (checkbox == "web") {
     Database_Config_Bible::setExportWebDuringNight (bible, checked);
     Database_State::setExport (bible, 0, export_logic::export_needed);
-    return "";
+    return std::string();
   }
   view.set_variable ("web", filter::strings::get_checkbox_status (Database_Config_Bible::getExportWebDuringNight (bible)));
   

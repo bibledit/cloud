@@ -69,7 +69,7 @@ string notes_bible_1 (Webserver_Request& webserver_request)
     if (bible == notes_logic.generalBibleName ()) bible.clear();
     notes_logic.setBible (id, bible);
     redirect_browser (webserver_request, notes_actions_url () + "?id=" + filter::strings::convert_to_string (id));
-    return "";
+    return std::string();
   }
   
   

@@ -180,7 +180,7 @@ std::string Database_Cache::retrieve (std::string resource, int book, int chapte
     sql.add (verse);
     sql.add (";");
     std::vector <std::string> result = sql.query () ["value"];
-    if (result.empty ()) return "";
+    if (result.empty ()) return std::string();
     return result [0];
   }
   // Else if the previous cache layout exists, retrieve it from there.
@@ -194,10 +194,10 @@ std::string Database_Cache::retrieve (std::string resource, int book, int chapte
     sql.add (verse);
     sql.add (";");
     std::vector <std::string> result = sql.query () ["value"];
-    if (result.empty ()) return "";
+    if (result.empty ()) return std::string();
     return result [0];
   }
-  return "";
+  return std::string();
 }
 
 

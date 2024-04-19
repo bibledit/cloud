@@ -1045,7 +1045,7 @@ std::string extract_body (const std::string& input, std::string year, std::strin
 std::string get_checkbox_status (const bool enabled)
 {
   if (enabled) return "checked";
-  return "";
+  return std::string();
 }
 
 

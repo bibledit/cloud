@@ -163,7 +163,7 @@ std::string Database_Confirm::get_query (unsigned int id)
   sql.add (";");
   std::vector <std::string> result = sql.query () ["query"];
   if (!result.empty ()) return result [0];
-  return "";
+  return std::string();
 }
 
 
@@ -176,7 +176,7 @@ std::string Database_Confirm::get_mail_to (unsigned int id)
   sql.add (";");
   std::vector <std::string> result = sql.query () ["mailto"];
   if (!result.empty ()) return result [0];
-  return "";
+  return std::string();
 }
 
 
@@ -189,7 +189,7 @@ std::string Database_Confirm::get_subject (unsigned int id)
   sql.add (";");
   std::vector <std::string> result = sql.query () ["subject"];
   if (!result.empty ()) return result [0];
-  return "";
+  return std::string();
 }
 
 
@@ -202,7 +202,7 @@ std::string Database_Confirm::get_body (unsigned int id)
   sql.add (";");
   std::vector <std::string> result = sql.query () ["body"];
   if (!result.empty ()) return result [0];
-  return "";
+  return std::string();
 }
 
 

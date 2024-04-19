@@ -73,7 +73,7 @@ string sendreceive_index (Webserver_Request& webserver_request)
     if (config_globals_syncing_changes)   bits.push_back (translate ("Changes"));
     if (config_globals_syncing_files)     bits.push_back (translate ("Files"));
     if (config_globals_syncing_resources) bits.push_back (translate ("Resources"));
-    if (bits.empty ()) return "";
+    if (bits.empty ()) return std::string();
     std::string status = translate ("Sending and receiving:") + " " + filter::strings::implode (bits, ", ") + " ...";
     return status;
   }
@@ -128,7 +128,7 @@ string sendreceive_index (Webserver_Request& webserver_request)
   bool checked = filter::strings::convert_to_bool (webserver_request.post ["checked"]);
   if (checkbox == "repeatbible") {
     Database_Config_Bible::setRepeatSendReceive (bible, checked);
-    return "";
+    return std::string();
   }
   view.set_variable ("repeatbible", filter::strings::get_checkbox_status (Database_Config_Bible::getRepeatSendReceive (bible)));
   

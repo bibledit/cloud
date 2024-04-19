@@ -112,13 +112,13 @@ string notes_actions (Webserver_Request& webserver_request)
   if (webserver_request.query.count ("delete")) {
     notes_logic.erase (id);
     redirect_browser (webserver_request, notes_index_url ());
-    return "";
+    return std::string();
   }
   
   
   if (checkbox == "public") {
     database_notes.set_public (id, checked);
-    return "";
+    return std::string();
   }
 
   

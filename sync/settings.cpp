@@ -46,11 +46,11 @@ string sync_settings (Webserver_Request& webserver_request)
   if (!sync_logic.security_okay ()) {
     // When the Cloud enforces https, inform the client to upgrade.
     webserver_request.response_code = 426;
-    return "";
+    return std::string();
   }
 
   // Check on the credentials.
-  if (!sync_logic.credentials_okay ()) return "";
+  if (!sync_logic.credentials_okay ()) return std::string();
   
   // Client makes a prioritized server call: Record the client's IP address.
   sync_logic.prioritized_ip_address_record ();
@@ -131,5 +131,5 @@ string sync_settings (Webserver_Request& webserver_request)
   // Delay a while to obstruct a flood of bad requests.
   this_thread::sleep_for (chrono::seconds (1));
   webserver_request.response_code = 400;
-  return "";
+  return std::string();
 }

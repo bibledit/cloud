@@ -94,7 +94,7 @@ string resource_manage (Webserver_Request& webserver_request)
       if (access_bible::write (webserver_request, convert)) {
         tasks_logic_queue (CONVERTRESOURCE2BIBLE, {convert});
         redirect_browser (webserver_request, journal_index_url ());
-        return "";
+        return std::string();
       } else {
         view.set_variable ("error", translate("Insufficient privileges"));
       }

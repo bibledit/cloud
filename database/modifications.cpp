@@ -858,11 +858,11 @@ Passage Database_Modifications::getNotificationPassage (int id)
 string Database_Modifications::getNotificationOldText (int id)
 {
   std::string path = notificationIdentifierDatabase (id);
-  if (!file_or_dir_exists (path)) return "";
+  if (!file_or_dir_exists (path)) return std::string();
   SqliteDatabase sql (path);
   sql.add ("SELECT oldtext FROM notification;");
   std::vector <std::string> result = sql.query () ["oldtext"];
-  if (result.empty ()) return "";
+  if (result.empty ()) return std::string();
   return result [0];
 }
 
@@ -870,11 +870,11 @@ string Database_Modifications::getNotificationOldText (int id)
 string Database_Modifications::getNotificationModification (int id)
 {
   std::string path = notificationIdentifierDatabase (id);
-  if (!file_or_dir_exists (path)) return "";
+  if (!file_or_dir_exists (path)) return std::string();
   SqliteDatabase sql (path);
   sql.add ("SELECT modification FROM notification;");
   std::vector <std::string> result = sql.query () ["modification"];
-  if (result.empty ()) return "";
+  if (result.empty ()) return std::string();
   return result [0];
 }
 
@@ -882,11 +882,11 @@ string Database_Modifications::getNotificationModification (int id)
 string Database_Modifications::getNotificationNewText (int id)
 {
   std::string path = notificationIdentifierDatabase (id);
-  if (!file_or_dir_exists (path)) return "";
+  if (!file_or_dir_exists (path)) return std::string();
   SqliteDatabase sql (path);
   sql.add ("SELECT newtext FROM notification;");
   std::vector <std::string> result = sql.query () ["newtext"];
-  if (result.empty ()) return "";
+  if (result.empty ()) return std::string();
   return result [0];
 }
 

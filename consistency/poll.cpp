@@ -46,5 +46,5 @@ std::string consistency_poll (Webserver_Request& webserver_request)
     Database_Volatile::setValue (id, "response", response);
     return response;
   }
-  return "";
+  return std::string();
 }

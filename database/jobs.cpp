@@ -171,7 +171,7 @@ string Database_Jobs::get_start (int id)
     auto start = result[0];
     return start;
   }
-  return "";
+  return std::string();
 }
 
 
@@ -201,7 +201,7 @@ string Database_Jobs::get_percentage (int id)
   if (!percentages.empty()) {
     return percentages[0];
   }
-  return "";
+  return std::string();
 }
 
 
@@ -231,7 +231,7 @@ string Database_Jobs::get_progress (int id)
   if (!progress.empty()) {
     return progress[0];
   }
-  return "";
+  return std::string();
 }
 
 

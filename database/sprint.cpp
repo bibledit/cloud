@@ -159,7 +159,7 @@ string Database_Sprint::getTitle (int id)
   std::vector <std::string> title = database_sqlite_query (db, sql.sql) ["title"];
   database_sqlite_disconnect (db);
   if (!title.empty ()) return title [0];
-  return "";
+  return std::string();
 }
 
 

@@ -84,7 +84,7 @@ string resource_download (Webserver_Request& webserver_request)
     }
     tasks_logic_queue (SYNCRESOURCES);
     redirect_browser (webserver_request, journal_index_url ());
-    return "";
+    return std::string();
   }
   
   

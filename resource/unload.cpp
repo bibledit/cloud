@@ -48,5 +48,5 @@ string resource_unload (Webserver_Request& webserver_request)
   // and gets reset after app startup.
   std::string username = webserver_request.session_logic()->currentUser ();
   config_globals_resource_window_positions [username] = position;
-  return "";
+  return std::string();
 }

@@ -124,7 +124,7 @@ string sprint_index ([[maybe_unused]] Webserver_Request& webserver_request)
         database_sprint.updateComplete (identifier, percentage);
       }
     }
-    return "";
+    return std::string();
   }
   
   

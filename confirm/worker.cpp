@@ -38,7 +38,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <pugixml.hpp>
 #endif
 #pragma GCC diagnostic pop
-using namespace std;
 
 
 #ifdef HAVE_CLOUD
@@ -75,7 +74,7 @@ void Confirm_Worker::setup (std::string mailto, std::string username,
   node.text ().set (information.c_str());
   node = document.append_child ("p");
   std::string siteUrl = config::logic::site_url (m_webserver_request);
-  std::string confirmation_url = filter_url_build_http_query (siteUrl + session_confirm_url (), "id", to_string(confirmation_id));
+  std::string confirmation_url = filter_url_build_http_query (siteUrl + session_confirm_url (), "id", std::to_string(confirmation_id));
   node.text ().set (confirmation_url.c_str());
   std::stringstream output;
   document.print (output, "", pugi::format_raw);
@@ -87,7 +86,7 @@ void Confirm_Worker::setup (std::string mailto, std::string username,
 
 // Handles a confirmation email received "from" with "subject" and "body".
 // Returns true if the mail was handled, else false.
-bool Confirm_Worker::handleEmail ([[maybe_unused]]string from, std::string subject, std::string body)
+bool Confirm_Worker::handleEmail ([[maybe_unused]]std::string from, std::string subject, std::string body)
 {
   // Find out in the confirmation database whether the subject line contains an active ID.
   // If not, bail out.

@@ -27,7 +27,6 @@
 #include <webserver/request.h>
 #include <access/bible.h>
 #include <locale/translate.h>
-using namespace std;
 
 
 Consistency_Logic::Consistency_Logic (Webserver_Request& webserver_request, int id) :
@@ -36,7 +35,7 @@ m_webserver_request (webserver_request), m_id (id)
 }
 
 
-string Consistency_Logic::response ()
+std::string Consistency_Logic::response ()
 {
   // The resources to display in the Consistency tool.
   std::vector <std::string> resources = m_webserver_request.database_config_user()->getConsistencyResources ();
@@ -134,14 +133,14 @@ string Consistency_Logic::response ()
 }
 
 
-string Consistency_Logic::verseText (std::string resource, int book, int chapter, int verse)
+std::string Consistency_Logic::verseText (std::string resource, int book, int chapter, int verse)
 {
   return resource_logic_get_html (m_webserver_request, resource, book, chapter, verse, false);
 }
 
 
 // This function omits the verse text from a line of text from the search results.
-string Consistency_Logic::omit_verse_text (std::string input)
+std::string Consistency_Logic::omit_verse_text (std::string input)
 {
   // Imagine the following $input:
   // 1 Peter 4:17 For the time has come for judgment to begin with the household of God. If it begins first with us, what will happen to those who don’t obey the Good News of God?

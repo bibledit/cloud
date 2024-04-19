@@ -22,7 +22,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 #include <filter/date.h>
 #include <database/sqlite.h>
-using namespace std;
 
 
 // Database resilience: It contains statistical and non-essential data.
@@ -102,7 +101,7 @@ void Database_Git::store_chapter (std::string user, std::string bible, int book,
 
 
 // Fetches the distinct users from the database for $bible.
-vector <std::string> Database_Git::get_users (std::string bible)
+std::vector <std::string> Database_Git::get_users (std::string bible)
 {
   SqliteDatabase sql = SqliteDatabase (name ());
   sql.add ("SELECT DISTINCT user FROM changes WHERE bible =");
@@ -114,7 +113,7 @@ vector <std::string> Database_Git::get_users (std::string bible)
 
 
 // Fetches the rowids from the database for $user and $bible.
-vector <int> Database_Git::get_rowids (std::string user, std::string bible)
+std::vector <int> Database_Git::get_rowids (std::string user, std::string bible)
 {
   SqliteDatabase sql = SqliteDatabase (name ());
   sql.add ("SELECT rowid FROM changes WHERE user =");
@@ -139,7 +138,7 @@ bool Database_Git::get_chapter (int rowid,
   sql.add ("SELECT * FROM changes WHERE rowid =");
   sql.add (rowid);
   sql.add (";");
-  std::map <string, std::vector <std::string> > result = sql.query ();
+  std::map <std::string, std::vector <std::string> > result = sql.query ();
   std::vector <std::string> users    = result ["user"];
   std::vector <std::string> bibles   = result ["bible"];
   std::vector <std::string> books    = result ["book"];

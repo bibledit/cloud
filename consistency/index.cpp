@@ -35,10 +35,9 @@
 #include <dialog/list.h>
 #include <resource/logic.h>
 #include <menu/logic.h>
-using namespace std;
 
 
-string consistency_index_url ()
+std::string consistency_index_url ()
 {
   return "consistency/index";
 }
@@ -50,7 +49,7 @@ bool consistency_index_acl (Webserver_Request& webserver_request)
 }
 
 
-string consistency_index (Webserver_Request& webserver_request)
+std::string consistency_index (Webserver_Request& webserver_request)
 {
   std::string page;
   Assets_Header header = Assets_Header (translate("Consistency"), webserver_request);

@@ -23,7 +23,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/date.h>
 #include <config/globals.h>
 #include <database/sqlite.h>
-using namespace std;
 
 
 // Database resilience: 
@@ -196,7 +195,7 @@ void Database_Etcbc4::create ()
 }
 
 
-string Database_Etcbc4::raw (int book, int chapter, int verse)
+std::string Database_Etcbc4::raw (int book, int chapter, int verse)
 {
   SqliteSQL sql = SqliteSQL ();
   sql.add ("SELECT data FROM rawdata WHERE book =");
@@ -305,7 +304,7 @@ void Database_Etcbc4::store (int book, int chapter, int verse,
 }
 
 
-vector <int> Database_Etcbc4::books ()
+std::vector <int> Database_Etcbc4::books ()
 {
   SqliteSQL sql = SqliteSQL ();
   sql.add ("SELECT DISTINCT book FROM rawdata ORDER BY book;");
@@ -318,7 +317,7 @@ vector <int> Database_Etcbc4::books ()
 }
 
 
-vector <int> Database_Etcbc4::chapters (int book)
+std::vector <int> Database_Etcbc4::chapters (int book)
 {
   SqliteSQL sql = SqliteSQL ();
   sql.add ("SELECT DISTINCT chapter FROM rawdata WHERE book =");
@@ -333,7 +332,7 @@ vector <int> Database_Etcbc4::chapters (int book)
 }
 
 
-vector <int> Database_Etcbc4::verses (int book, int chapter)
+std::vector <int> Database_Etcbc4::verses (int book, int chapter)
 {
   SqliteSQL sql = SqliteSQL ();
   sql.add ("SELECT DISTINCT verse FROM rawdata WHERE book =");
@@ -350,7 +349,7 @@ vector <int> Database_Etcbc4::verses (int book, int chapter)
 }
 
 
-vector <int> Database_Etcbc4::rowids (int book, int chapter, int verse)
+std::vector <int> Database_Etcbc4::rowids (int book, int chapter, int verse)
 {
   SqliteSQL sql = SqliteSQL ();
   sql.add ("SELECT rowid FROM data WHERE book =");
@@ -369,115 +368,115 @@ vector <int> Database_Etcbc4::rowids (int book, int chapter, int verse)
 }
 
 
-string Database_Etcbc4::word (int rowid)
+std::string Database_Etcbc4::word (int rowid)
 {
   return get_item ("word", rowid);
 }
 
 
-string Database_Etcbc4::vocalized_lexeme (int rowid)
+std::string Database_Etcbc4::vocalized_lexeme (int rowid)
 {
   return get_item ("vocalized_lexeme", rowid);
 }
 
 
-string Database_Etcbc4::consonantal_lexeme (int rowid)
+std::string Database_Etcbc4::consonantal_lexeme (int rowid)
 {
   return get_item ("consonantal_lexeme", rowid);
 }
 
 
-string Database_Etcbc4::gloss (int rowid)
+std::string Database_Etcbc4::gloss (int rowid)
 {
   return get_item ("gloss", rowid);
 }
 
 
-string Database_Etcbc4::pos (int rowid)
+std::string Database_Etcbc4::pos (int rowid)
 {
   return get_item ("pos", rowid);
 }
 
 
-string Database_Etcbc4::subpos (int rowid)
+std::string Database_Etcbc4::subpos (int rowid)
 {
   return get_item ("subpos", rowid);
 }
 
 
-string Database_Etcbc4::gender (int rowid)
+std::string Database_Etcbc4::gender (int rowid)
 {
   return get_item ("gender", rowid);
 }
 
 
-string Database_Etcbc4::number (int rowid)
+std::string Database_Etcbc4::number (int rowid)
 {
   return get_item ("number", rowid);
 }
 
 
-string Database_Etcbc4::person (int rowid)
+std::string Database_Etcbc4::person (int rowid)
 {
   return get_item ("person", rowid);
 }
 
 
-string Database_Etcbc4::state (int rowid)
+std::string Database_Etcbc4::state (int rowid)
 {
   return get_item ("state", rowid);
 }
 
 
-string Database_Etcbc4::tense (int rowid)
+std::string Database_Etcbc4::tense (int rowid)
 {
   return get_item ("tense", rowid);
 }
 
 
-string Database_Etcbc4::stem (int rowid)
+std::string Database_Etcbc4::stem (int rowid)
 {
   return get_item ("stem", rowid);
 }
 
 
-string Database_Etcbc4::phrase_function (int rowid)
+std::string Database_Etcbc4::phrase_function (int rowid)
 {
   return get_item ("phrase_function", rowid);
 }
 
 
-string Database_Etcbc4::phrase_type (int rowid)
+std::string Database_Etcbc4::phrase_type (int rowid)
 {
   return get_item ("phrase_type", rowid);
 }
 
 
-string Database_Etcbc4::phrase_relation (int rowid)
+std::string Database_Etcbc4::phrase_relation (int rowid)
 {
   return get_item ("phrase_relation", rowid);
 }
 
 
-string Database_Etcbc4::phrase_a_relation (int rowid)
+std::string Database_Etcbc4::phrase_a_relation (int rowid)
 {
   return get_item ("phrase_a_relation", rowid);
 }
 
 
-string Database_Etcbc4::clause_text_type (int rowid)
+std::string Database_Etcbc4::clause_text_type (int rowid)
 {
   return get_item ("clause_text_type", rowid);
 }
 
 
-string Database_Etcbc4::clause_type (int rowid)
+std::string Database_Etcbc4::clause_type (int rowid)
 {
   return get_item ("clause_type", rowid);
 }
 
 
-string Database_Etcbc4::clause_relation (int rowid)
+std::string Database_Etcbc4::clause_relation (int rowid)
 {
   return get_item ("clause_relation", rowid);
 }
@@ -516,7 +515,7 @@ int Database_Etcbc4::get_id (sqlite3 * db, const char * table_row, std::string i
 }
 
 
-string Database_Etcbc4::get_item (const char * item, int rowid)
+std::string Database_Etcbc4::get_item (const char * item, int rowid)
 {
   // The $rowid refers to the main table.
   // Update it so it refers to the sub table.

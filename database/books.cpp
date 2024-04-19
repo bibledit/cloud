@@ -24,7 +24,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/diff.h>
 #include <locale/translate.h>
 #include <database/booksdata.h>
-using namespace std;
 
 
 namespace database::books {
@@ -56,7 +55,7 @@ book_id get_id_from_english (const std::string& english)
 }
 
 
-string get_english_from_id (book_id id)
+std::string get_english_from_id (book_id id)
 {
   for (unsigned int i = 0; i < data_count; i++) {
     if (id == books_table[i].id) {
@@ -67,7 +66,7 @@ string get_english_from_id (book_id id)
 }
 
 
-string get_usfm_from_id (book_id id)
+std::string get_usfm_from_id (book_id id)
 {
   for (unsigned int i = 0; i < data_count; i++) {
     if (id == books_table[i].id) {
@@ -78,7 +77,7 @@ string get_usfm_from_id (book_id id)
 }
 
 
-string get_bibleworks_from_id (book_id id)
+std::string get_bibleworks_from_id (book_id id)
 {
   for (unsigned int i = 0; i < data_count; i++) {
     if (id == books_table[i].id) {
@@ -89,7 +88,7 @@ string get_bibleworks_from_id (book_id id)
 }
 
 
-string get_osis_from_id (book_id id)
+std::string get_osis_from_id (book_id id)
 {
   for (unsigned int i = 0; i < data_count; i++) {
     if (id == books_table[i].id) {
@@ -173,7 +172,7 @@ book_id get_id_from_onlinebible (const std::string& onlinebible)
 }
 
 
-string get_onlinebible_from_id (book_id id)
+std::string get_onlinebible_from_id (book_id id)
 {
   for (unsigned int i = 0; i < data_count; i++) {
     if (id == books_table[i].id) {

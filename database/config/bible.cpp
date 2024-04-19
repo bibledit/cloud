@@ -22,40 +22,39 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 #include <styles/logic.h>
 #include <database/logic.h>
-using namespace std;
 
 
 // Cache values in memory for better speed.
 // The speed improvement is supposed to come from reading a value from disk only once,
 // and after that to read the value straight from the memory cache.
-map <string, std::string> database_config_bible_cache;
+std::map <std::string, std::string> database_config_bible_cache;
 
 
 // Functions for getting and setting values or lists of values follow now:
 
 
 // The path to the folder for storing the settings for the $bible.
-string Database_Config_Bible::file (std::string bible)
+std::string Database_Config_Bible::file (std::string bible)
 {
   return filter_url_create_root_path ({database_logic_databases (), "config", "bible", bible});
 }
 
 
 // The path to the file that contains this setting.
-string Database_Config_Bible::file (std::string bible, const char * key)
+std::string Database_Config_Bible::file (std::string bible, const char * key)
 {
   return filter_url_create_path ({file (bible), key});
 }
 
 
 // The key in the cache for this setting.
-string Database_Config_Bible::mapkey (std::string bible, const char * key)
+std::string Database_Config_Bible::mapkey (std::string bible, const char * key)
 {
   return bible + key;
 }
 
 
-string Database_Config_Bible::getValue (std::string bible, const char * key, const char * default_value)
+std::string Database_Config_Bible::getValue (std::string bible, const char * key, const char * default_value)
 {
   // Check the memory cache.
   std::string cachekey = mapkey (bible, key);
@@ -124,7 +123,7 @@ void Database_Config_Bible::remove (std::string bible)
 // Named configuration functions.
 
 
-string Database_Config_Bible::getRemoteRepositoryUrl (std::string bible)
+std::string Database_Config_Bible::getRemoteRepositoryUrl (std::string bible)
 {
   return getValue (bible, "remote-repo-url", "");
 }
@@ -260,7 +259,7 @@ void Database_Config_Bible::setCheckPatterns (std::string bible, bool value)
 }
 
 
-string Database_Config_Bible::getCheckingPatterns (std::string bible) 
+std::string Database_Config_Bible::getCheckingPatterns (std::string bible)
 {
   return getValue (bible, "checking-patterns", "");
 }
@@ -270,7 +269,7 @@ void Database_Config_Bible::setCheckingPatterns (std::string bible, std::string 
 }
 
 
-string Database_Config_Bible::getSentenceStructureCapitals (std::string bible)
+std::string Database_Config_Bible::getSentenceStructureCapitals (std::string bible)
 {
   return getValue (bible, "sentence-structure-capitals", "A B C D E F G H I J K L M N O P Q R S T U V W X Y Z");
 }
@@ -280,7 +279,7 @@ void Database_Config_Bible::setSentenceStructureCapitals (std::string bible, std
 }
 
 
-string Database_Config_Bible::getSentenceStructureSmallLetters (std::string bible)
+std::string Database_Config_Bible::getSentenceStructureSmallLetters (std::string bible)
 {
   return getValue (bible, "sentence-structure-small-letters", "a b c d e f g h i j k l m n o p q r s t u v w x y z");
 }
@@ -290,7 +289,7 @@ void Database_Config_Bible::setSentenceStructureSmallLetters (std::string bible,
 }
 
 
-string Database_Config_Bible::getSentenceStructureEndPunctuation (std::string bible) 
+std::string Database_Config_Bible::getSentenceStructureEndPunctuation (std::string bible)
 {
   return getValue (bible, "sentence-structure-end-punctuation", ". ! ? :");
 }
@@ -300,7 +299,7 @@ void Database_Config_Bible::setSentenceStructureEndPunctuation (std::string bibl
 }
 
 
-string Database_Config_Bible::getSentenceStructureMiddlePunctuation (std::string bible) 
+std::string Database_Config_Bible::getSentenceStructureMiddlePunctuation (std::string bible)
 {
   return getValue (bible, "sentence-structure-middle-punctuation", ", ;");
 }
@@ -310,7 +309,7 @@ void Database_Config_Bible::setSentenceStructureMiddlePunctuation (std::string b
 }
 
 
-string Database_Config_Bible::getSentenceStructureDisregards (std::string bible) 
+std::string Database_Config_Bible::getSentenceStructureDisregards (std::string bible)
 {
   return getValue (bible, "sentence-structure-disregards", "( ) [ ] { } ' \" * - 0 1 2 3 4 5 6 7 8 9");
 }
@@ -320,7 +319,7 @@ void Database_Config_Bible::setSentenceStructureDisregards (std::string bible, s
 }
 
 
-string Database_Config_Bible::getSentenceStructureNames (std::string bible) 
+std::string Database_Config_Bible::getSentenceStructureNames (std::string bible)
 {
   return getValue (bible, "sentence-structure-names", "");
 }
@@ -330,7 +329,7 @@ void Database_Config_Bible::setSentenceStructureNames (std::string bible, std::s
 }
 
 
-string Database_Config_Bible::getSentenceStructureWithinSentenceMarkers (std::string bible)
+std::string Database_Config_Bible::getSentenceStructureWithinSentenceMarkers (std::string bible)
 {
   return getValue (bible, "sentence-structure-within_sentence-markers", "q q1 q2 q3");
 }
@@ -350,7 +349,7 @@ void Database_Config_Bible::setCheckMatchingPairs (std::string bible, bool value
 }
 
 
-string Database_Config_Bible::getMatchingPairs (std::string bible)
+std::string Database_Config_Bible::getMatchingPairs (std::string bible)
 {
   return getValue (bible, "matching-pairs", "[] () {} “” ‘’ «» ‹›");
 }
@@ -422,7 +421,7 @@ void Database_Config_Bible::setCheckValidUTF8Text (std::string bible, bool value
 }
 
 
-string Database_Config_Bible::getSprintTaskCompletionCategories (std::string bible)
+std::string Database_Config_Bible::getSprintTaskCompletionCategories (std::string bible)
 {
   return getValue (bible, "sprint-task-completion-categories", "Translate\nCheck\nHebrew/Greek\nDiscussions");
 }
@@ -452,7 +451,7 @@ void Database_Config_Bible::setExportChapterDropCapsFrames (std::string bible, b
 }
 
 
-string Database_Config_Bible::getPageWidth (std::string bible) 
+std::string Database_Config_Bible::getPageWidth (std::string bible)
 {
   return getValue (bible, "page-width", "210");
 }
@@ -462,7 +461,7 @@ void Database_Config_Bible::setPageWidth  (std::string bible, std::string value)
 }
 
 
-string Database_Config_Bible::getPageHeight (std::string bible) 
+std::string Database_Config_Bible::getPageHeight (std::string bible)
 {
   return getValue (bible, "page-height", "297");
 }
@@ -472,7 +471,7 @@ void Database_Config_Bible::setPageHeight  (std::string bible, std::string value
 }
 
 
-string Database_Config_Bible::getInnerMargin (std::string bible) 
+std::string Database_Config_Bible::getInnerMargin (std::string bible)
 {
   return getValue (bible, "inner-margin", "20");
 }
@@ -482,7 +481,7 @@ void Database_Config_Bible::setInnerMargin  (std::string bible, std::string valu
 }
 
 
-string Database_Config_Bible::getOuterMargin (std::string bible) 
+std::string Database_Config_Bible::getOuterMargin (std::string bible)
 {
   return getValue (bible, "outer-margin", "10");
 }
@@ -492,7 +491,7 @@ void Database_Config_Bible::setOuterMargin  (std::string bible, std::string valu
 }
 
 
-string Database_Config_Bible::getTopMargin (std::string bible)
+std::string Database_Config_Bible::getTopMargin (std::string bible)
 {
   return getValue (bible, "top-margin", "10");
 }
@@ -502,7 +501,7 @@ void Database_Config_Bible::setTopMargin  (std::string bible, std::string value)
 }
 
 
-string Database_Config_Bible::getBottomMargin (std::string bible) 
+std::string Database_Config_Bible::getBottomMargin (std::string bible)
 {
   return getValue (bible, "bottom-margin", "10");
 }
@@ -522,7 +521,7 @@ void Database_Config_Bible::setDateInHeader  (std::string bible, bool value)
 }
 
 
-string Database_Config_Bible::getHyphenationFirstSet (std::string bible) 
+std::string Database_Config_Bible::getHyphenationFirstSet (std::string bible)
 {
   return getValue (bible, "hyphenation-first-set", "");
 }
@@ -532,7 +531,7 @@ void Database_Config_Bible::setHyphenationFirstSet (std::string bible, std::stri
 }
 
 
-string Database_Config_Bible::getHyphenationSecondSet (std::string bible)
+std::string Database_Config_Bible::getHyphenationSecondSet (std::string bible)
 {
   return getValue (bible, "hyphenation-second-set", "");
 }
@@ -542,7 +541,7 @@ void Database_Config_Bible::setHyphenationSecondSet (std::string bible, std::str
 }
 
 
-string Database_Config_Bible::getEditorStylesheet (std::string bible)
+std::string Database_Config_Bible::getEditorStylesheet (std::string bible)
 {
   return getValue (bible, "editor-stylesheet", styles_logic_standard_sheet ().c_str());
 }
@@ -552,7 +551,7 @@ void Database_Config_Bible::setEditorStylesheet (std::string bible, std::string 
 }
 
 
-string Database_Config_Bible::getExportStylesheet (std::string bible)
+std::string Database_Config_Bible::getExportStylesheet (std::string bible)
 {
   return getValue (bible, "export-stylesheet", styles_logic_standard_sheet ().c_str());
 }
@@ -562,7 +561,7 @@ void Database_Config_Bible::setExportStylesheet (std::string bible, std::string 
 }
 
 
-string Database_Config_Bible::getVersificationSystem (std::string bible)
+std::string Database_Config_Bible::getVersificationSystem (std::string bible)
 {
   return getValue (bible, "versification-system", filter::strings::english ());
 }
@@ -666,7 +665,7 @@ void Database_Config_Bible::setExportOnlineBibleDuringNight (std::string bible, 
 }
 
 
-string Database_Config_Bible::getExportPassword (std::string bible)
+std::string Database_Config_Bible::getExportPassword (std::string bible)
 {
   return getValue (bible, "export-password", "");
 }
@@ -700,7 +699,7 @@ const char * export_font_key ()
 {
   return "export-font";
 }
-string Database_Config_Bible::getExportFont (std::string bible)
+std::string Database_Config_Bible::getExportFont (std::string bible)
 {
   return getValue (bible, export_font_key (), "");
 }
@@ -714,7 +713,7 @@ const char * export_feedback_email_key ()
 {
   return "export-feedback-email";
 }
-string Database_Config_Bible::getExportFeedbackEmail (std::string bible)
+std::string Database_Config_Bible::getExportFeedbackEmail (std::string bible)
 {
   return getValue (bible, export_feedback_email_key (), "");
 }
@@ -724,7 +723,7 @@ void Database_Config_Bible::setExportFeedbackEmail (std::string bible, std::stri
 }
 
 
-string Database_Config_Bible::getBookOrder (std::string bible)
+std::string Database_Config_Bible::getBookOrder (std::string bible)
 {
   return getValue (bible, "book-order", "");
 }
@@ -744,7 +743,7 @@ void Database_Config_Bible::setTextDirection (std::string bible, int value)
 }
 
 
-string Database_Config_Bible::getTextFont (std::string bible)
+std::string Database_Config_Bible::getTextFont (std::string bible)
 {
   return getValue (bible, "text-font", "");
 }
@@ -754,7 +753,7 @@ void Database_Config_Bible::setTextFont (std::string bible, std::string value)
 }
 
 
-string Database_Config_Bible::getTextFontClient (std::string bible)
+std::string Database_Config_Bible::getTextFontClient (std::string bible)
 {
   return getValue (bible, "text-font-client", "");
 }
@@ -764,7 +763,7 @@ void Database_Config_Bible::setTextFontClient (std::string bible, std::string va
 }
 
 
-string Database_Config_Bible::getParatextProject (std::string bible)
+std::string Database_Config_Bible::getParatextProject (std::string bible)
 {
   return getValue (bible, "paratext-project", "");
 }
@@ -842,7 +841,7 @@ const char * odt_space_after_verse_key ()
 {
   return "odt-space-after-verse";
 }
-string Database_Config_Bible::getOdtSpaceAfterVerse (std::string bible)
+std::string Database_Config_Bible::getOdtSpaceAfterVerse (std::string bible)
 {
   return getValue (bible, odt_space_after_verse_key (), " ");
 }

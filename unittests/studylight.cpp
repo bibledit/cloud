@@ -46,7 +46,7 @@ TEST (studylight, logic)
     int book_num = static_cast <int> (book_id);
     text = resource_logic_study_light_get (resource, book_num, 1, 1);
     if (text.empty ()) {
-      EXPECT_EQ (database::books::get_english_from_id (book_id) + " should not be empty - book " + to_string(static_cast<int>(book_id)), std::string());
+      EXPECT_EQ (database::books::get_english_from_id (book_id) + " should not be empty - book " + std::to_string(static_cast<int>(book_id)), std::string());
     }
   }
 

@@ -22,7 +22,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 #include <config/globals.h>
 #include <database/sqlite.h>
-using namespace std;
 
 
 const char * Database_BibleActions::filename ()
@@ -78,7 +77,7 @@ void Database_BibleActions::record (std::string bible, int book, int chapter, st
 }
 
 
-vector <std::string> Database_BibleActions::getBibles ()
+std::vector <std::string> Database_BibleActions::getBibles ()
 {
   SqliteDatabase sql (filename ());
   sql.add ("SELECT DISTINCT bible FROM bibleactions ORDER BY bible;");
@@ -87,7 +86,7 @@ vector <std::string> Database_BibleActions::getBibles ()
 }
 
 
-vector <int> Database_BibleActions::getBooks (std::string bible)
+std::vector <int> Database_BibleActions::getBooks (std::string bible)
 {
   SqliteDatabase sql (filename ());
   sql.add ("SELECT DISTINCT book FROM bibleactions WHERE bible =");
@@ -100,7 +99,7 @@ vector <int> Database_BibleActions::getBooks (std::string bible)
 }
 
 
-vector <int> Database_BibleActions::getChapters (std::string bible, int book)
+std::vector <int> Database_BibleActions::getChapters (std::string bible, int book)
 {
   SqliteDatabase sql (filename ());
   sql.add ("SELECT DISTINCT chapter FROM bibleactions WHERE bible =");
@@ -115,7 +114,7 @@ vector <int> Database_BibleActions::getChapters (std::string bible, int book)
 }
 
 
-string Database_BibleActions::getUsfm (std::string bible, int book, int chapter)
+std::string Database_BibleActions::getUsfm (std::string bible, int book, int chapter)
 {
   SqliteDatabase sql (filename ());
   sql.add ("SELECT usfm FROM bibleactions WHERE bible =");
@@ -147,3 +146,4 @@ void Database_BibleActions::erase (std::string bible, int book, int chapter)
   sql.execute ();
 }
  
+ 

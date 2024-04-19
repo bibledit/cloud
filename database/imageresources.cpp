@@ -23,7 +23,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/sqlite.h>
 #include <webserver/request.h>
 #include <database/logic.h>
-using namespace std;
 
 
 // Database resilience: 
@@ -31,25 +30,25 @@ using namespace std;
 // That should be resilient enough.
 
 
-string Database_ImageResources::mainFolder ()
+std::string Database_ImageResources::mainFolder ()
 {
   return filter_url_create_root_path ({database_logic_databases (), "imageresources"});
 }
 
 
-string Database_ImageResources::resourceFolder (const std::string& name)
+std::string Database_ImageResources::resourceFolder (const std::string& name)
 {
   return filter_url_create_path ({mainFolder (), name});
 }
 
 
-string Database_ImageResources::imagePath (std::string name, std::string image)
+std::string Database_ImageResources::imagePath (std::string name, std::string image)
 {
   return filter_url_create_path ({resourceFolder (name), image});
 }
 
 
-string Database_ImageResources::databaseFile ()
+std::string Database_ImageResources::databaseFile ()
 {
   return "passages.sqlite";
 }
@@ -62,7 +61,7 @@ sqlite3 * Database_ImageResources::connect (std::string name)
 }
 
 
-vector <std::string> Database_ImageResources::names ()
+std::vector <std::string> Database_ImageResources::names ()
 {
   return filter_url_scandir (mainFolder ());
 }
@@ -114,7 +113,7 @@ void Database_ImageResources::erase (std::string name, std::string image)
 
 
 // Moves $file (path to an image file) into the database.
-string Database_ImageResources::store (std::string name, std::string file)
+std::string Database_ImageResources::store (std::string name, std::string file)
 {
   std::string folder = resourceFolder (name);
   std::string image = filter_url_basename (file);
@@ -159,7 +158,7 @@ void Database_ImageResources::assign (std::string name, std::string image,
 }
 
 
-vector <std::string> Database_ImageResources::get (std::string name, int book, int chapter, int verse)
+std::vector <std::string> Database_ImageResources::get (std::string name, int book, int chapter, int verse)
 {
   int passage = filter_passage_to_integer (Passage ("", book, chapter, filter::strings::convert_to_string (verse)));
   SqliteSQL sql = SqliteSQL ();
@@ -175,7 +174,7 @@ vector <std::string> Database_ImageResources::get (std::string name, int book, i
 }
 
 
-vector <std::string> Database_ImageResources::get (std::string name)
+std::vector <std::string> Database_ImageResources::get (std::string name)
 {
   // Get images from database, sorted on passage.
   SqliteSQL sql = SqliteSQL ();
@@ -217,7 +216,7 @@ void Database_ImageResources::get (std::string name, std::string image,
   sql.add (image);
   sql.add ("ORDER by start;");
   sqlite3 * db = connect (name);
-  std::map <string, std::vector <std::string> > results = database_sqlite_query (db, sql.sql);
+  std::map <std::string, std::vector <std::string> > results = database_sqlite_query (db, sql.sql);
   database_sqlite_disconnect (db);
   std::vector <std::string> start = results["start"];
   std::vector <std::string> end   = results["end"];
@@ -238,7 +237,7 @@ void Database_ImageResources::get (std::string name, std::string image,
 }
 
 
-string Database_ImageResources::get (std::string name, std::string image)
+std::string Database_ImageResources::get (std::string name, std::string image)
 {
   std::string path = imagePath (name, image);
   return filter_url_file_get_contents (path);

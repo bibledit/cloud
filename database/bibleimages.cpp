@@ -22,7 +22,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 #include <webserver/request.h>
 #include <database/logic.h>
-using namespace std;
 
 
 // Database resilience: 
@@ -30,7 +29,7 @@ using namespace std;
 // That should be resilient enough.
 
 
-vector <std::string> Database_BibleImages::get ()
+std::vector <std::string> Database_BibleImages::get ()
 {
   std::vector <std::string> files = filter_url_scandir (folder ());
   std::vector <std::string> images;
@@ -53,7 +52,7 @@ void Database_BibleImages::store (std::string file)
 }
 
 
-string Database_BibleImages::get (std::string image)
+std::string Database_BibleImages::get (std::string image)
 {
   std::string contents = filter_url_file_get_contents (path(image));
   return contents;
@@ -67,15 +66,13 @@ void Database_BibleImages::erase (std::string image)
 }
 
 
-string Database_BibleImages::folder ()
+std::string Database_BibleImages::folder ()
 {
   return filter_url_create_root_path ({"images"});
 }
 
 
-string Database_BibleImages::path (std::string image)
+std::string Database_BibleImages::path (std::string image)
 {
   return filter_url_create_path ({folder (), image});
 }
-
-

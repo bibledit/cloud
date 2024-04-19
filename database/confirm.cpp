@@ -23,7 +23,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/sqlite.h>
 #include <filter/date.h>
 #include <config/globals.h>
-using namespace std;
 
 
 // Handles email and web page confirmations.
@@ -63,7 +62,7 @@ void Database_Confirm::upgrade ()
   std::vector <std::string> columns = sql.query () ["name"];
 
   // Add the column for the username if it's not yet there.
-  if (!in_array (static_cast<string> ("username"), columns)) {
+  if (!in_array (static_cast<std::string> ("username"), columns)) {
     sql.clear ();
     sql.add ("ALTER TABLE confirm ADD COLUMN username text;");
     sql.execute ();
@@ -144,7 +143,7 @@ unsigned int Database_Confirm::search_id (std::string subject)
 }
 
 
-vector <int> Database_Confirm::get_ids ()
+std::vector <int> Database_Confirm::get_ids ()
 {
   SqliteDatabase sql (filename ());
   sql.add ("SELECT id FROM confirm;");
@@ -156,7 +155,7 @@ vector <int> Database_Confirm::get_ids ()
 
 
 // Returns the query for $id.
-string Database_Confirm::get_query (unsigned int id)
+std::string Database_Confirm::get_query (unsigned int id)
 {
   SqliteDatabase sql (filename ());
   sql.add ("SELECT query FROM confirm WHERE id =");
@@ -169,7 +168,7 @@ string Database_Confirm::get_query (unsigned int id)
 
 
 // Returns the To: address for $id.
-string Database_Confirm::get_mail_to (unsigned int id)
+std::string Database_Confirm::get_mail_to (unsigned int id)
 {
   SqliteDatabase sql (filename ());
   sql.add ("SELECT mailto FROM confirm WHERE id =");
@@ -182,7 +181,7 @@ string Database_Confirm::get_mail_to (unsigned int id)
 
 
 // Returns the Subject: for $id.
-string Database_Confirm::get_subject (unsigned int id)
+std::string Database_Confirm::get_subject (unsigned int id)
 {
   SqliteDatabase sql (filename ());
   sql.add ("SELECT subject FROM confirm WHERE id =");
@@ -195,7 +194,7 @@ string Database_Confirm::get_subject (unsigned int id)
 
 
 // Returns the email's body for $id.
-string Database_Confirm::get_body (unsigned int id)
+std::string Database_Confirm::get_body (unsigned int id)
 {
   SqliteDatabase sql (filename ());
   sql.add ("SELECT body FROM confirm WHERE id =");
@@ -208,7 +207,7 @@ string Database_Confirm::get_body (unsigned int id)
 
 
 // Returns the username for $id.
-string Database_Confirm::get_username (unsigned int id) // Test return valid and invalid username.
+std::string Database_Confirm::get_username (unsigned int id) // Test return valid and invalid username.
 {
   SqliteDatabase sql (filename ());
   sql.add ("SELECT username FROM confirm WHERE id =");
@@ -234,7 +233,7 @@ void Database_Confirm::erase (unsigned int id)
 void Database_Confirm::trim ()
 {
   // Leave entries for no more than 30 days.
-  int time = filter::date::seconds_since_epoch () - 2592000;
+  const int time = filter::date::seconds_since_epoch () - 2592000;
   SqliteDatabase sql (filename ());
   sql.add ("DELETE FROM confirm WHERE timestamp <");
   sql.add (time);

@@ -23,7 +23,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/globals.h>
 #include <database/sqlite.h>
 #include <locale/translate.h>
-using namespace std;
 
 
 // Database resilience.
@@ -174,12 +173,12 @@ void Database_Check::recordOutput (std::string bible, int book, int chapter, int
 }
 
 
-vector <Database_Check_Hit> Database_Check::getHits ()
+std::vector <Database_Check_Hit> Database_Check::getHits ()
 {
   std::vector <Database_Check_Hit> hits;
   SqliteDatabase sql (filename ());
   sql.add ("SELECT rowid, bible, book, chapter, verse, data FROM output2;");
-  std::map <string, std::vector <std::string> > result = sql.query ();
+  std::map <std::string, std::vector <std::string> > result = sql.query ();
   std::vector <std::string> rowids = result ["rowid"];
   std::vector <std::string> bibles = result ["bible"];
   std::vector <std::string> books = result ["book"];
@@ -232,7 +231,7 @@ Passage Database_Check::getPassage (int id)
   sql.add ("SELECT book, chapter, verse FROM output2 WHERE rowid =");
   sql.add (id);
   sql.add (";");
-  std::map <string, std::vector <std::string> > result = sql.query ();
+  std::map <std::string, std::vector <std::string> > result = sql.query ();
   std::vector <std::string> books = result ["book"];
   std::vector <std::string> chapters = result ["chapter"];
   std::vector <std::string> verses = result ["verse"];
@@ -244,12 +243,12 @@ Passage Database_Check::getPassage (int id)
 }
 
 
-vector <Database_Check_Hit> Database_Check::getSuppressions ()
+std::vector <Database_Check_Hit> Database_Check::getSuppressions ()
 {
   SqliteDatabase sql (filename ());
   std::vector <Database_Check_Hit> hits;
   sql.add ("SELECT rowid, bible, book, chapter, verse, data FROM suppress2;");
-  std::map <string, std::vector <std::string> > result = sql.query ();
+  std::map <std::string, std::vector <std::string> > result = sql.query ();
   std::vector <std::string> rowids = result ["rowid"];
   std::vector <std::string> bibles = result ["bible"];
   std::vector <std::string> books = result ["book"];
@@ -283,4 +282,3 @@ void Database_Check::release (int id)
   sql.add (";");
   sql.execute ();
 }
-

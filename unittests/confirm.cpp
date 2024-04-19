@@ -39,7 +39,7 @@ TEST (database, confirm)
   
   // New ID generation test.
   unsigned int id = database_confirm.get_new_id ();
-  if (id < 10'000) EXPECT_EQ (string("Should be greater than 10000"), to_string(id));
+  if (id < 10'000) EXPECT_EQ (string("Should be greater than 10000"), std::to_string(id));
   
   // Store data for the ID.
   database_confirm.store (id, "SELECT x, y, z FROM a;", "email", "subject", "body", "username");

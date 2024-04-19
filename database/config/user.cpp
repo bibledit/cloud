@@ -31,7 +31,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/logic.h>
 #include <database/config/general.h>
 #include <locale/logic.h>
-using namespace std;
 
 
 Database_Config_User::Database_Config_User (Webserver_Request& webserver_request):
@@ -43,32 +42,32 @@ m_webserver_request (webserver_request)
 // Cache values in memory for better speed.
 // The speed improvement comes from reading a value from disk only once,
 // and after that to read the value straight from the memory cache.
-map <string, std::string> database_config_user_cache;
+std::map <std::string, std::string> database_config_user_cache;
 
 
 // Functions for getting and setting values or lists of values follow here:
 
 
-string Database_Config_User::file (std::string user)
+std::string Database_Config_User::file (std::string user)
 {
   return filter_url_create_root_path ({database_logic_databases (), "config", "user", user});
 }
 
 
-string Database_Config_User::file (std::string user, const char * key)
+std::string Database_Config_User::file (std::string user, const char * key)
 {
   return filter_url_create_path ({file (user), key});
 }
 
 
 // The key in the cache for this setting.
-string Database_Config_User::mapkey (std::string user, const char * key)
+std::string Database_Config_User::mapkey (std::string user, const char * key)
 {
   return user + key;
 }
 
 
-string Database_Config_User::getValue (const char * key, const char * default_value)
+std::string Database_Config_User::getValue (const char * key, const char * default_value)
 {
   std::string user = m_webserver_request.session_logic ()->currentUser ();
   return getValueForUser (user, key, default_value);
@@ -89,7 +88,7 @@ int Database_Config_User::getIValue (const char * key, int default_value)
 }
 
 
-string Database_Config_User::getValueForUser (std::string user, const char * key, const char * default_value)
+std::string Database_Config_User::getValueForUser (std::string user, const char * key, const char * default_value)
 {
   // Check the memory cache.
   std::string cachekey = mapkey (user, key);
@@ -159,14 +158,14 @@ void Database_Config_User::setBValueForUser (std::string user, const char * key,
 }
 
 
-vector <std::string> Database_Config_User::getList (const char * key)
+std::vector <std::string> Database_Config_User::getList (const char * key)
 {
   std::string user = m_webserver_request.session_logic ()->currentUser ();
   return getListForUser (user, key);
 }
 
 
-vector <std::string> Database_Config_User::getListForUser (std::string user, const char * key)
+std::vector <std::string> Database_Config_User::getListForUser (std::string user, const char * key)
 {
   // Check whether value is in cache.
   std::string cachekey = mapkey (user, key);
@@ -209,7 +208,7 @@ void Database_Config_User::setListForUser (std::string user, const char * key, s
 }
 
 
-vector <int> Database_Config_User::getIList (const char * key)
+std::vector <int> Database_Config_User::getIList (const char * key)
 {
   std::vector <std::string> lines = getList (key);
   std::vector <int> result;
@@ -275,7 +274,7 @@ void Database_Config_User::clear_cache ()
 // Named configuration functions.
 
 
-string Database_Config_User::getBible ()
+std::string Database_Config_User::getBible ()
 {
   std::string bible = getValue ("bible", "");
   // If the Bible does not exist, take the first one available.
@@ -419,7 +418,7 @@ void Database_Config_User::setConsultationNotesNonEditSelector (int value)
 
 
 // Status is a string; can be empty as well.
-string Database_Config_User::getConsultationNotesStatusSelector ()
+std::string Database_Config_User::getConsultationNotesStatusSelector ()
 {
   return getValue ("consultation-notes-status-selector", "");
 }
@@ -430,7 +429,7 @@ void Database_Config_User::setConsultationNotesStatusSelector (std::string value
 
 
 // "": any Bible; <bible>: named Bible.
-string Database_Config_User::getConsultationNotesBibleSelector ()
+std::string Database_Config_User::getConsultationNotesBibleSelector ()
 {
   return getValue ("consultation-notes-bible-selector", "");
 }
@@ -441,7 +440,7 @@ void Database_Config_User::setConsultationNotesBibleSelector (std::string value)
 
 
 // "": don't care; "user": notes assigned to "user".
-string Database_Config_User::getConsultationNotesAssignmentSelector ()
+std::string Database_Config_User::getConsultationNotesAssignmentSelector ()
 {
   return getValue ("consultation-notes-assignment-selector", "");
 }
@@ -482,7 +481,7 @@ void Database_Config_User::setConsultationNotesTextSelector (int value)
 }
 
 
-string Database_Config_User::getConsultationNotesSearchText ()
+std::string Database_Config_User::getConsultationNotesSearchText ()
 {
   return getValue ("consultation-notes-search-text", "");
 }
@@ -647,22 +646,22 @@ void Database_Config_User::setSuppressMailFromYourUpdatesNotes (bool value)
 }
 
 
-vector <std::string> Database_Config_User::getActiveResources ()
+std::vector <std::string> Database_Config_User::getActiveResources ()
 {
   // Default values.
   return getList ("active-resources");
 }
-void Database_Config_User::setActiveResources (vector <std::string> values)
+void Database_Config_User::setActiveResources (std::vector <std::string> values)
 {
   setList ("active-resources", values);
 }
 
 
-vector <std::string> Database_Config_User::getConsistencyResources ()
+std::vector <std::string> Database_Config_User::getConsistencyResources ()
 {
   return getList ("consistency-bibles");
 }
-void Database_Config_User::setConsistencyResources (vector <std::string> values)
+void Database_Config_User::setConsistencyResources (std::vector <std::string> values)
 {
   setList ("consistency-bibles", values);
 }
@@ -738,7 +737,7 @@ void Database_Config_User::setContributorChangesNotificationsOnline (bool value)
 }
 
 
-string Database_Config_User::getWorkspaceURLs ()
+std::string Database_Config_User::getWorkspaceURLs ()
 {
   return getValue ("workbench-urls", "");
 }
@@ -748,7 +747,7 @@ void Database_Config_User::setWorkspaceURLs (std::string value)
 }
 
 
-string Database_Config_User::getWorkspaceWidths ()
+std::string Database_Config_User::getWorkspaceWidths ()
 {
   return getValue ("workbench-widths", "");
 }
@@ -758,7 +757,7 @@ void Database_Config_User::setWorkspaceWidths (std::string value)
 }
 
 
-string Database_Config_User::getWorkspaceHeights ()
+std::string Database_Config_User::getWorkspaceHeights ()
 {
   return getValue ("workbench-heights", "");
 }
@@ -768,7 +767,7 @@ void Database_Config_User::setWorkspaceHeights (std::string value)
 }
 
 
-string Database_Config_User::getEntireWorkspaceWidths ()
+std::string Database_Config_User::getEntireWorkspaceWidths ()
 {
   return getValue ("entire-workbench-widths", "");
 }
@@ -778,7 +777,7 @@ void Database_Config_User::setEntireWorkspaceWidths (std::string value)
 }
 
 
-string Database_Config_User::getActiveWorkspace ()
+std::string Database_Config_User::getActiveWorkspace ()
 {
   return getValue ("active-workbench", "");
 }
@@ -798,7 +797,7 @@ void Database_Config_User::setPostponeNewNotesMails (bool value)
 }
 
 
-string Database_Config_User::getRecentlyAppliedStyles ()
+std::string Database_Config_User::getRecentlyAppliedStyles ()
 {
   return getValue ("recently-applied-styles", "p s add nd f x v");
 }
@@ -808,15 +807,15 @@ void Database_Config_User::setRecentlyAppliedStyles (std::string values)
 }
 
 
-vector <std::string> Database_Config_User::getPrintResources ()
+std::vector <std::string> Database_Config_User::getPrintResources ()
 {
   return getList ("print-resources");
 }
-vector <std::string> Database_Config_User::getPrintResourcesForUser (std::string user)
+std::vector <std::string> Database_Config_User::getPrintResourcesForUser (std::string user)
 {
   return getListForUser (user, "print-resources");
 }
-void Database_Config_User::setPrintResources (vector <std::string> values)
+void Database_Config_User::setPrintResources (std::vector <std::string> values)
 {
   setList ("print-resources", values);
 }
@@ -891,11 +890,11 @@ void Database_Config_User::setFocusedVerse (int verse)
 }
 
 
-vector <int> Database_Config_User::getUpdatedSettings ()
+std::vector <int> Database_Config_User::getUpdatedSettings ()
 {
   return getIList ("updated-settings");
 }
-void Database_Config_User::setUpdatedSettings (vector <int> values)
+void Database_Config_User::setUpdatedSettings (std::vector <int> values)
 {
   setIList ("updated-settings", values);
 }
@@ -916,11 +915,11 @@ void Database_Config_User::removeUpdatedSetting (int value)
 }
 
 
-vector <int> Database_Config_User::getRemovedChanges ()
+std::vector <int> Database_Config_User::getRemovedChanges ()
 {
   return getIList ("removed-changes");
 }
-void Database_Config_User::setRemovedChanges (vector <int> values)
+void Database_Config_User::setRemovedChanges (std::vector <int> values)
 {
   setIList ("removed-changes", values);
 }
@@ -941,7 +940,7 @@ void Database_Config_User::removeRemovedChange (int value)
 }
 
 
-string Database_Config_User::getChangeNotificationsChecksum ()
+std::string Database_Config_User::getChangeNotificationsChecksum ()
 {
   return getValue ("change-notifications-checksum", "");
 }
@@ -986,7 +985,7 @@ void Database_Config_User::setResourceVersesAfter (int verses)
 
 
 // Encryption key storage on server.
-string Database_Config_User::getSyncKey ()
+std::string Database_Config_User::getSyncKey ()
 {
   return getValue ("sync-key", "");
 }
@@ -1001,7 +1000,7 @@ void Database_Config_User::setSyncKey (std::string key)
 //{
 //  return "site-language";
 //}
-//string Database_Config_User::getSiteLanguage ()
+//std::string Database_Config_User::getSiteLanguage ()
 //{
 //  // The default value is "default".
 //  // That means: Take the system setting. The user has no language preference.
@@ -1415,11 +1414,11 @@ const char * automatic_note_assignment_key ()
 {
   return "automatic-note-assignment";
 }
-vector <std::string> Database_Config_User::getAutomaticNoteAssignment ()
+std::vector <std::string> Database_Config_User::getAutomaticNoteAssignment ()
 {
   return getList (automatic_note_assignment_key ());
 }
-void Database_Config_User::setAutomaticNoteAssignment (vector <std::string> values)
+void Database_Config_User::setAutomaticNoteAssignment (std::vector <std::string> values)
 {
   setList (automatic_note_assignment_key (), values);
 }
@@ -1485,11 +1484,11 @@ const char * change_notifications_bibles_key ()
 {
   return "change-notifications-bibles";
 }
-vector <std::string> Database_Config_User::getChangeNotificationsBibles ()
+std::vector <std::string> Database_Config_User::getChangeNotificationsBibles ()
 {
   return getList (change_notifications_bibles_key ());
 }
-vector <std::string> Database_Config_User::getChangeNotificationsBiblesForUser (const std::string& user)
+std::vector <std::string> Database_Config_User::getChangeNotificationsBiblesForUser (const std::string& user)
 {
   return getListForUser (user, change_notifications_bibles_key ());
 }

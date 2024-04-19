@@ -26,7 +26,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/logs.h>
 #include <database/logic.h>
 #include <database/config/general.h>
-using namespace std;
 
 
 // Databases resilience:
@@ -35,19 +34,19 @@ using namespace std;
 // Often read from.
 
 
-string Database_Cache::fragment ()
+std::string Database_Cache::fragment ()
 {
   return "cache_resource_";
 }
 
 
-string Database_Cache::path (std::string resource, int book)
+std::string Database_Cache::path (std::string resource, int book)
 {
   return filter_url_create_path ({database_logic_databases (), filename (filter_url_urlencode (resource), book) + database_sqlite_suffix ()});
 }
 
 
-string Database_Cache::filename (std::string resource, int book)
+std::string Database_Cache::filename (std::string resource, int book)
 {
   // Name of the database for this resource.
   resource = filter_url_clean_filename (resource);
@@ -170,7 +169,7 @@ void Database_Cache::cache (std::string resource, int book, int chapter, int ver
 
 
 // Retrieves a cached value.
-string Database_Cache::retrieve (std::string resource, int book, int chapter, int verse)
+std::string Database_Cache::retrieve (std::string resource, int book, int chapter, int verse)
 {
   // If the the book-based cache exists, retrieve it from there.
   if (exists (resource, book)) {
@@ -254,7 +253,7 @@ int Database_Cache::size (std::string resource, int book)
 }
 
 
-string database_cache_full_path (std::string file)
+std::string database_cache_full_path (std::string file)
 {
   return filter_url_create_root_path ({database_logic_databases (), "cache", file});
 }
@@ -263,7 +262,7 @@ string database_cache_full_path (std::string file)
 // The purpose of splitting the file up into paths is
 // to avoid that the cache folder would contain too many files
 // and so would become slow.
-string database_cache_split_file (std::string file)
+std::string database_cache_split_file (std::string file)
 {
   if (file.size () > 9) file.insert (9, "/");
   if (file.size () > 18) file.insert (18, "/");
@@ -293,7 +292,7 @@ void database_filebased_cache_put (std::string schema, std::string contents)
 }
 
 
-string database_filebased_cache_get (std::string schema)
+std::string database_filebased_cache_get (std::string schema)
 {
   schema = filter_url_clean_filename (schema);
   schema = database_cache_split_file (schema);
@@ -312,7 +311,7 @@ void database_filebased_cache_remove (std::string schema)
 
 
 // Create a file name based on the client's IPv4 and a unique data identifier.
-string database_filebased_cache_name_by_ip (std::string address, std::string id)
+std::string database_filebased_cache_name_by_ip (std::string address, std::string id)
 {
   id = "_" + id;
   std::string ipv4_sp = "::ffff:";
@@ -325,7 +324,7 @@ string database_filebased_cache_name_by_ip (std::string address, std::string id)
 
 // Create a file name based on the client's session id and a unique
 // data identifier.
-string database_filebased_cache_name_by_session_id (std::string sid, std::string id)
+std::string database_filebased_cache_name_by_session_id (std::string sid, std::string id)
 {
   id = "_" + id;
   if (sid.find (id) == std::string::npos) sid.append (id);
@@ -335,7 +334,7 @@ string database_filebased_cache_name_by_session_id (std::string sid, std::string
 
 // File name for focused book file based database cache by session id
 // plus abbreviation.
-string focused_book_filebased_cache_filename (std::string sid)
+std::string focused_book_filebased_cache_filename (std::string sid)
 {
   return database_filebased_cache_name_by_session_id (sid, "focbo");
 }
@@ -343,7 +342,7 @@ string focused_book_filebased_cache_filename (std::string sid)
 
 // File name for focused chapter file based database cache by session
 // id plus abbreviation.
-string focused_chapter_filebased_cache_filename (std::string sid)
+std::string focused_chapter_filebased_cache_filename (std::string sid)
 {
   return database_filebased_cache_name_by_session_id (sid, "focch");
 }
@@ -351,7 +350,7 @@ string focused_chapter_filebased_cache_filename (std::string sid)
 
 // File name for focused verse file based database cache by session id
 // plus abbreviation.
-string focused_verse_filebased_cache_filename (std::string sid)
+std::string focused_verse_filebased_cache_filename (std::string sid)
 {
   return database_filebased_cache_name_by_session_id (sid, "focve");
 }
@@ -359,7 +358,7 @@ string focused_verse_filebased_cache_filename (std::string sid)
 
 // File name for general font size file based database cache by
 // session id plus abbreviation.
-string general_font_size_filebased_cache_filename (std::string sid)
+std::string general_font_size_filebased_cache_filename (std::string sid)
 {
   return database_filebased_cache_name_by_session_id (sid, "genfs");
 }
@@ -367,7 +366,7 @@ string general_font_size_filebased_cache_filename (std::string sid)
 
 // File name for menu font size file based database cache by session
 // id plus abbreviation.
-string menu_font_size_filebased_cache_filename (std::string sid)
+std::string menu_font_size_filebased_cache_filename (std::string sid)
 {
   return database_filebased_cache_name_by_session_id (sid, "menfs");
 }
@@ -375,7 +374,7 @@ string menu_font_size_filebased_cache_filename (std::string sid)
 
 // File name for resource font size file based database cache by
 // session id plus abbreviation.
-string resource_font_size_filebased_cache_filename (std::string sid)
+std::string resource_font_size_filebased_cache_filename (std::string sid)
 {
   return database_filebased_cache_name_by_session_id (sid, "resfs");
 }
@@ -383,7 +382,7 @@ string resource_font_size_filebased_cache_filename (std::string sid)
 
 // File name for hebrew font size file based database cache by
 // session id plus abbreviation.
-string hebrew_font_size_filebased_cache_filename (std::string sid)
+std::string hebrew_font_size_filebased_cache_filename (std::string sid)
 {
   return database_filebased_cache_name_by_session_id (sid, "hebfs");
 }
@@ -391,7 +390,7 @@ string hebrew_font_size_filebased_cache_filename (std::string sid)
 
 // File name for greek font size file based database cache by session
 // id plus abbreviation.
-string greek_font_size_filebased_cache_filename (std::string sid)
+std::string greek_font_size_filebased_cache_filename (std::string sid)
 {
   return database_filebased_cache_name_by_session_id (sid, "grefs");
 }
@@ -399,7 +398,7 @@ string greek_font_size_filebased_cache_filename (std::string sid)
 
 // File name for current theme file based database cache by session
 // id plus abbreviation.
-string current_theme_filebased_cache_filename (std::string sid)
+std::string current_theme_filebased_cache_filename (std::string sid)
 {
   return database_filebased_cache_name_by_session_id (sid, "curth");
 }
@@ -422,8 +421,8 @@ void database_cache_trim (bool clear)
   if (!error.empty ()) Database_Logs::log (error);
   int percentage_disk_in_use = 0;
   {
-    vector<std::string> bits = filter::strings::explode(output, ' ');
-    for (auto bit : bits) {
+    std::vector<std::string> bits = filter::strings::explode(output, ' ');
+    for (const auto& bit : bits) {
       if (bit.find ("%") != std::string::npos) {
         percentage_disk_in_use = filter::strings::convert_to_int(bit);
         // If a real percentage was found, other than 0, then skip the remainder.

@@ -21,7 +21,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 #include <filter/string.h>
 #include <database/sqlite.h>
-using namespace std;
 
 
 // This is the database that contains Open Scriptures's Hebrew Lexicon.
@@ -131,7 +130,7 @@ void Database_HebrewLexicon::setstrong (std::string strong, std::string definiti
 }
 
 
-string Database_HebrewLexicon::getaug (std::string aug)
+std::string Database_HebrewLexicon::getaug (std::string aug)
 {
   SqliteDatabase sql = SqliteDatabase (filename ());
   sql.add ("SELECT target FROM aug WHERE aug =");
@@ -139,11 +138,11 @@ string Database_HebrewLexicon::getaug (std::string aug)
   sql.add (";");
   std::vector <std::string> result = sql.query () ["target"];
   if (!result.empty ()) return result [0];
-  return "";
+  return std::string();
 }
 
 
-string Database_HebrewLexicon::getbdb (std::string id)
+std::string Database_HebrewLexicon::getbdb (std::string id)
 {
   SqliteDatabase sql = SqliteDatabase (filename ());
   sql.add ("SELECT definition FROM bdb WHERE id =");
@@ -155,7 +154,7 @@ string Database_HebrewLexicon::getbdb (std::string id)
 }
 
 
-string Database_HebrewLexicon::getmap (std::string id)
+std::string Database_HebrewLexicon::getmap (std::string id)
 {
   SqliteDatabase sql = SqliteDatabase (filename ());
   sql.add ("SELECT bdb FROM map WHERE id =");
@@ -167,7 +166,7 @@ string Database_HebrewLexicon::getmap (std::string id)
 }
 
 
-string Database_HebrewLexicon::getpos (std::string code)
+std::string Database_HebrewLexicon::getpos (std::string code)
 {
   SqliteDatabase sql = SqliteDatabase (filename ());
   sql.add ("SELECT name FROM pos WHERE code =");
@@ -179,7 +178,7 @@ string Database_HebrewLexicon::getpos (std::string code)
 }
 
 
-string Database_HebrewLexicon::getstrong (std::string strong)
+std::string Database_HebrewLexicon::getstrong (std::string strong)
 {
   SqliteDatabase sql = SqliteDatabase (filename ());
   sql.add ("SELECT definition FROM strong WHERE strong =");

@@ -144,7 +144,7 @@ void sendreceive_queue_paratext (tasks::enums::paratext_sync method)
   if (sendreceive_paratext_queued ()) {
     Database_Logs::log ("About to start synchronizing with Paratext");
   } else {
-    tasks_logic_queue (SYNCPARATEXT, { to_string(static_cast<int>(method)) });
+    tasks_logic_queue (SYNCPARATEXT, { std::to_string(static_cast<int>(method)) });
   }
 #endif
   (void) method;

@@ -24,7 +24,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/md5.h>
 #include <filter/roles.h>
 #include <filter/date.h>
-using namespace std;
 
 
 // This database is resilient.
@@ -53,12 +52,12 @@ void Database_Users::upgrade ()
   SqliteDatabase sql (filename ());
   sql.add ("PRAGMA table_info (users);");
   std::vector <std::string> columns = sql.query () ["name"];
-  if (!in_array (static_cast<string> ("ldap"), columns)) {
+  if (!in_array (static_cast<std::string> ("ldap"), columns)) {
     sql.clear ();
     sql.add ("ALTER TABLE users ADD COLUMN ldap boolean;");
     sql.execute ();
   }
-  if (!in_array (static_cast<string> ("disabled"), columns)) {
+  if (!in_array (static_cast<std::string> ("disabled"), columns)) {
     sql.clear ();
     sql.add ("ALTER TABLE users ADD COLUMN disabled boolean;");
     sql.execute ();
@@ -139,7 +138,7 @@ bool Database_Users::matchEmailPassword (std::string email, std::string password
 
 
 // Returns the query to execute to add a new user.
-string Database_Users::add_userQuery (std::string user, std::string password, int level, std::string email)
+std::string Database_Users::add_userQuery (std::string user, std::string password, int level, std::string email)
 {
   user = database_sqlite_no_sql_injection (user);
   password = md5 (password);
@@ -150,7 +149,7 @@ string Database_Users::add_userQuery (std::string user, std::string password, in
 
 
 // Returns the username that belongs to the email.
-string Database_Users::getEmailToUser (std::string email)
+std::string Database_Users::getEmailToUser (std::string email)
 {
   SqliteDatabase sql (filename ());
   sql.add ("SELECT username FROM users WHERE email =");
@@ -163,7 +162,7 @@ string Database_Users::getEmailToUser (std::string email)
 
 
 // Returns the email address that belongs to user.
-string Database_Users::get_email (std::string user)
+std::string Database_Users::get_email (std::string user)
 {
   SqliteDatabase sql (filename ());
   sql.add ("SELECT email FROM users WHERE username = ");
@@ -249,7 +248,7 @@ std::vector <std::string> Database_Users::getAdministrators ()
 
 
 // Returns the query to update a user's email address.
-string Database_Users::updateEmailQuery (std::string user, std::string email)
+std::string Database_Users::updateEmailQuery (std::string user, std::string email)
 {
   SqliteDatabase sql (filename ());
   sql.add ("UPDATE users SET email =");
@@ -279,7 +278,7 @@ std::vector <std::string> Database_Users::get_users ()
 
 
 // Returns the md5 hash for the $user's password.
-string Database_Users::get_md5 (std::string user)
+std::string Database_Users::get_md5 (std::string user)
 {
   SqliteDatabase sql (filename ());
   sql.add ("SELECT password FROM users WHERE username =");

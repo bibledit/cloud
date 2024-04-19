@@ -25,7 +25,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <locale/translate.h>
 #include <styles/logic.h>
 #include <database/logic.h>
-using namespace std;
 
 
 // This is the database for the styles.
@@ -38,15 +37,15 @@ using namespace std;
 // It used to store the default cache in code.
 // That architecture caused 400+ calls to the localization routines during app startup.
 // This cache does not make those calls during app startup.
-map <std::string, Database_Styles_Item> default_styles_cache;
+std::map <std::string, Database_Styles_Item> default_styles_cache;
 // The memory cache to speed up reading style values.
 // Access a style item like this: cache [stylesheet] [marker].
 // Timing a Bibledit setup phase gave this information:
 // * Before the cache was implemented, fetching styles took 30 seconds (38%) of the total setup time.
 // * After the cache was there, it took 17 seconds (25%) of the total setup time.
-map <std::string, std::map <std::string, Database_Styles_Item>> database_styles_cache;
+std::map <std::string, std::map <std::string, Database_Styles_Item>> database_styles_cache;
 // Cache read and write lock.
-mutex database_styles_cache_mutex;
+std::mutex database_styles_cache_mutex;
 
 
 sqlite3 * Database_Styles::connect ()
@@ -125,7 +124,7 @@ void Database_Styles::deleteMarker (std::string sheet, std::string marker)
 
 
 // Returns a map with all the markers and the names of the styles in the stylesheet.
-map <std::string, std::string> Database_Styles::getMarkersAndNames (std::string sheet)
+std::map <std::string, std::string> Database_Styles::getMarkersAndNames (std::string sheet)
 {
   std::map <std::string, std::string> markers_names;
   std::vector <std::string> markers = getMarkers (sheet);
@@ -456,19 +455,19 @@ bool Database_Styles::hasWriteAccess (std::string user, std::string sheet)
 }
 
 
-string Database_Styles::databasefolder ()
+std::string Database_Styles::databasefolder ()
 {
   return filter_url_create_root_path ({database_logic_databases (), "styles"});
 }
 
 
-string Database_Styles::sheetfolder (std::string sheet)
+std::string Database_Styles::sheetfolder (std::string sheet)
 {
   return filter_url_create_path ({databasefolder (), sheet});
 }
 
 
-string Database_Styles::stylefile (std::string sheet, std::string marker)
+std::string Database_Styles::stylefile (std::string sheet, std::string marker)
 {
   return filter_url_create_path ({sheetfolder (sheet), marker});
 }

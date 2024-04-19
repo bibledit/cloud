@@ -21,10 +21,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <assets/view.h>
 #include <assets/page.h>
 #include <filter/url.h>
-using namespace std;
 
 
-// Entry dialog constructor
+// Entry dialog constructor.
 // $url     : The base URL of the page.
 // $query   : A map with query variables, e.g. ("search" => "bibledit").
 //            If any $query is passed, if Cancel is clicked in this dialog, it should go go back
@@ -55,7 +54,7 @@ void Dialog_Entry::add_query (std::string parameter, std::string value)
 }
 
 
-string Dialog_Entry::run ()
+std::string Dialog_Entry::run ()
 {
   assets_view.set_variable ("base_url", base_url);
   std::string page =assets_view.render ("dialog", "entry");

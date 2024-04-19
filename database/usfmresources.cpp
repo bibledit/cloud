@@ -21,7 +21,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 #include <filter/string.h>
 #include <database/logic.h>
-using namespace std;
 
 
 // Database resilience: 
@@ -29,25 +28,25 @@ using namespace std;
 // That is resilient enough.
 
 
-string Database_UsfmResources::mainFolder ()
+std::string Database_UsfmResources::mainFolder ()
 {
   return filter_url_create_root_path ({database_logic_databases (), "usfmresources"});
 }
 
 
-string Database_UsfmResources::resourceFolder (const std::string& name)
+std::string Database_UsfmResources::resourceFolder (const std::string& name)
 {
   return filter_url_create_path ({mainFolder (), name});
 }
 
 
-string Database_UsfmResources::bookFolder (const std::string& name, int book)
+std::string Database_UsfmResources::bookFolder (const std::string& name, int book)
 {
   return filter_url_create_path ({resourceFolder (name), filter::strings::convert_to_string (book)});
 }
 
 
-string Database_UsfmResources::chapterFile (const std::string& name, int book, int chapter)
+std::string Database_UsfmResources::chapterFile (const std::string& name, int book, int chapter)
 {
   return filter_url_create_path ({bookFolder (name, book), filter::strings::convert_to_string (chapter)});
 }
@@ -114,7 +113,7 @@ std::vector <int> Database_UsfmResources::getChapters (const std::string& name, 
 }
 
 
-string Database_UsfmResources::getUsfm (const std::string& name, int book, int chapter)
+std::string Database_UsfmResources::getUsfm (const std::string& name, int book, int chapter)
 {
   std::string file = chapterFile (name, book, chapter);
   std::string usfm = filter_url_file_get_contents (file);

@@ -21,13 +21,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 #include <filter/string.h>
 #include <database/sqlite.h>
-using namespace std;
 
 
 // Database resilience: It is stored in the plain filesystem in the temporal location.
 
 
-string Database_Volatile::getValue (int id, const std::string& key)
+std::string Database_Volatile::getValue (int id, const std::string& key)
 {
   return filter_url_file_get_contents (filename (id, key));
 }
@@ -39,7 +38,7 @@ void Database_Volatile::setValue (int id, const std::string& key, const std::str
 }
 
 
-string Database_Volatile::filename (int id, std::string key)
+std::string Database_Volatile::filename (int id, std::string key)
 {
   std::string identifier = filter_url_clean_filename (filter::strings::convert_to_string (id));
   key = filter_url_clean_filename (key);

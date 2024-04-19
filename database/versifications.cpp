@@ -24,7 +24,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/logs.h>
 #include <versification/logic.h>
 #include <locale/logic.h>
-using namespace std;
 
 
 // This is a database for the versification systems.
@@ -129,7 +128,7 @@ void Database_Versifications::input (const std::string& contents, const std::str
 
 
 // Export data.
-string Database_Versifications::output (const std::string& name)
+std::string Database_Versifications::output (const std::string& name)
 {
   std::vector <std::string> lines;
   std::vector <Passage> versification_data = getBooksChaptersVerses (name);

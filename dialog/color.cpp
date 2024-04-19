@@ -22,7 +22,6 @@
 #include <assets/page.h>
 #include <locale/translate.h>
 #include <filter/url.h>
-using namespace std;
 
 
 Dialog_Color::Dialog_Color (std::string url, std::string question)
@@ -47,7 +46,7 @@ void Dialog_Color::add_query (std::string parameter, std::string value)
 }
 
 
-string Dialog_Color::run ()
+std::string Dialog_Color::run ()
 {
   assets_view.set_variable ("base_url", base_url);
   std::string page = assets_view.render ("dialog", "color");

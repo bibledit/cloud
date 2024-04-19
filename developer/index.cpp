@@ -35,7 +35,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <library/bibledit.h>
 #include <developer/logic.h>
 #include <webserver/request.h>
-using namespace std;
 
 
 const char * developer_index_url ()
@@ -50,7 +49,7 @@ bool developer_index_acl (Webserver_Request& webserver_request)
 }
 
 
-string developer_index (Webserver_Request& webserver_request)
+std::string developer_index (Webserver_Request& webserver_request)
 {
   if (webserver_request.query.count ("log")) {
     std::string message = webserver_request.query ["log"];

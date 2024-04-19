@@ -46,7 +46,6 @@
 #include <search/logic.h>
 #include <book/create.h>
 #include <setup/logic.h>
-using namespace std;
 
 
 /*
@@ -86,7 +85,7 @@ bool demo_acl (std::string user, std::string pass)
 
 
 // Returns a warning in case the client is connected to the open demo server.
-string demo_client_warning ()
+std::string demo_client_warning ()
 {
   std::string warning {};
   if (client_logic_client_enabled ()) {
@@ -139,17 +138,17 @@ void demo_clean_data ()
 
   
   // Set the site language to "Default"
-  Database_Config_General::setSiteLanguage (string());
+  Database_Config_General::setSiteLanguage (std::string());
 
 
   // Ensure the default users are there.
   std::map <std::string, int> users = {
-    pair ("guest", Filter_Roles::guest ()),
-    pair ("member", Filter_Roles::member ()),
-    pair ("consultant", Filter_Roles::consultant ()),
-    pair ("translator", Filter_Roles::translator ()),
-    pair ("manager", Filter_Roles::manager ()),
-    pair (session_admin_credentials (), Filter_Roles::admin ())
+    std::pair ("guest", Filter_Roles::guest ()),
+    std::pair ("member", Filter_Roles::member ()),
+    std::pair ("consultant", Filter_Roles::consultant ()),
+    std::pair ("translator", Filter_Roles::translator ()),
+    std::pair ("manager", Filter_Roles::manager ()),
+    std::pair (session_admin_credentials (), Filter_Roles::admin ())
   };
   for (const auto & element : users) {
     if (!webserver_request.database_users ()->usernameExists (element.first)) {
@@ -206,7 +205,7 @@ void demo_clean_data ()
 
 
 // The name of the sample Bible.
-string demo_sample_bible_name ()
+std::string demo_sample_bible_name ()
 {
   return "Sample";
 }
@@ -344,7 +343,7 @@ void demo_create_sample_notes (Webserver_Request& webserver_request)
 }
 
 
-string demo_workspace ()
+std::string demo_workspace ()
 {
   return "Translation";
 }
@@ -369,9 +368,9 @@ void demo_create_sample_workspaces (Webserver_Request& webserver_request)
     widths [i] = width;
   }
   std::map <int, std::string> row_heights = {
-    pair (0, "90%"),
-    pair (1, ""),
-    pair (2, "")
+    std::pair (0, "90%"),
+    std::pair (1, ""),
+    std::pair (2, "")
   };
   
   webserver_request.database_config_user()->setActiveWorkspace ("USFM");

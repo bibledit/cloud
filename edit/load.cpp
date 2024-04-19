@@ -30,10 +30,9 @@
 #include <database/logs.h>
 #include <quill/logic.h>
 #include <database/config/bible.h>
-using namespace std;
 
 
-string edit_load_url ()
+std::string edit_load_url ()
 {
   return "edit/load";
 }
@@ -48,19 +47,19 @@ bool edit_load_acl (Webserver_Request& webserver_request)
 }
 
 
-string edit_load (Webserver_Request& webserver_request)
+std::string edit_load (Webserver_Request& webserver_request)
 {
-  std::string bible = webserver_request.query ["bible"];
-  int book = filter::strings::convert_to_int (webserver_request.query ["book"]);
-  int chapter = filter::strings::convert_to_int (webserver_request.query ["chapter"]);
-  std::string unique_id = webserver_request.query ["id"];
+  const std::string bible = webserver_request.query ["bible"];
+  const int book = filter::strings::convert_to_int (webserver_request.query ["book"]);
+  const int chapter = filter::strings::convert_to_int (webserver_request.query ["chapter"]);
+  const std::string unique_id = webserver_request.query ["id"];
 
   // Store a copy of the USFM loaded in the editor for later reference.
   storeLoadedUsfm2 (webserver_request, bible, book, chapter, unique_id);
   
   const std::string stylesheet = Database_Config_Bible::getEditorStylesheet (bible);
   
-  std::string usfm = webserver_request.database_bibles()->get_chapter (bible, book, chapter);
+  const std::string usfm = webserver_request.database_bibles()->get_chapter (bible, book, chapter);
   
   Editor_Usfm2Html editor_usfm2html;
   editor_usfm2html.load (usfm);
@@ -71,13 +70,13 @@ string edit_load (Webserver_Request& webserver_request)
   
   // To make editing empty verses easier, convert spaces to non-breaking spaces, so they appear in the editor.
   if (filter::usfm::contains_empty_verses (usfm)) {
-    std::string search = "<span> </span>";
-    std::string replace = "<span>" + filter::strings::unicode_non_breaking_space_entity () + "</span>";
+    const std::string search = "<span> </span>";
+    const std::string replace = "<span>" + filter::strings::unicode_non_breaking_space_entity () + "</span>";
     html = filter::strings::replace (search, replace, html);
   }
   
-  std::string user = webserver_request.session_logic ()->currentUser ();
-  bool write = access_bible::book_write (webserver_request, user, bible, book);
+  const std::string user = webserver_request.session_logic ()->currentUser ();
+  const bool write = access_bible::book_write (webserver_request, user, bible, book);
   
   return checksum_logic::send (html, write);
 }

@@ -30,10 +30,9 @@
 #include <locale/translate.h>
 #include <assets/view.h>
 #include <access/bible.h>
-using namespace std;
 
 
-string edit_edit_url ()
+std::string edit_edit_url ()
 {
   return "edit/edit";
 }
@@ -48,7 +47,7 @@ bool edit_edit_acl (Webserver_Request& webserver_request)
 }
 
 
-string edit_edit (Webserver_Request& webserver_request)
+std::string edit_edit (Webserver_Request& webserver_request)
 {
   std::string passage_query = webserver_request.query ["passage"];
   Passage passage = filter_integer_to_passage (filter::strings::convert_to_int (passage_query));

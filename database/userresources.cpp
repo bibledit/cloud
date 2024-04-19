@@ -22,7 +22,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 #include <database/logic.h>
 #include <database/logic.h>
-using namespace std;
 
 
 // Database resilience: 
@@ -53,7 +52,7 @@ void Database_UserResources::remove (const std::string& name)
 }
 
 
-string Database_UserResources::url (const std::string& name)
+std::string Database_UserResources::url (const std::string& name)
 {
   return load (name, 0);
 }
@@ -66,7 +65,7 @@ void Database_UserResources::url (const std::string& name, const std::string& va
 
 
 // Returns the text fragent for a Bible book with $id.
-string Database_UserResources::book (const std::string& name, int id)
+std::string Database_UserResources::book (const std::string& name, int id)
 {
   if (id < 1) return std::string();
   return load (name, static_cast<size_t>(id));
@@ -81,21 +80,21 @@ void Database_UserResources::book (const std::string& name, int id, const std::s
 
 
 // The folder for storing the user-defined resource definition files.
-string Database_UserResources::folder ()
+std::string Database_UserResources::folder ()
 {
   return filter_url_create_root_path ({database_logic_databases (), "client"});
 }
 
 
 // The fragment that always occurs in the name of a user-defined resource definition file.
-string Database_UserResources::fragment ()
+std::string Database_UserResources::fragment ()
 {
   return "user_resource_";
 }
 
 
 // The full path of the definition file.
-string Database_UserResources::file (const std::string& name)
+std::string Database_UserResources::file (const std::string& name)
 {
   return filter_url_create_path ({folder (), fragment () + filter_url_filename_clean (name)});
 }
@@ -103,7 +102,7 @@ string Database_UserResources::file (const std::string& name)
 
 // Load one value from the user-defined resource definition $name.
 // The value is at line number $offset.
-string Database_UserResources::load (const std::string& name, size_t offset)
+std::string Database_UserResources::load (const std::string& name, size_t offset)
 {
   std::string path = file (name);
   std::string contents = filter_url_file_get_contents (path);

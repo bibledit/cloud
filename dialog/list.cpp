@@ -22,10 +22,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <assets/page.h>
 #include <locale/translate.h>
 #include <filter/url.h>
-using namespace std;
 
 
-// Entry dialog constructor
+// Entry dialog constructor.
 // $url: The base URL of the page.
 // $question: The question to be asked.
 // $info_top : Information.
@@ -76,7 +75,7 @@ void Dialog_List::add_row (std::string text, std::string parameter, std::string 
 }
 
 
-string Dialog_List::run ()
+std::string Dialog_List::run ()
 {
   assets_view.set_variable ("base_url", base_url);
   assets_view.set_variable ("list_block", list_block);

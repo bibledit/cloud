@@ -23,10 +23,9 @@
 #include <filter/url.h>
 #include <webserver/request.h>
 #include <database/bibleimages.h>
-using namespace std;
 
 
-string images_fetch_url ()
+std::string images_fetch_url ()
 {
   return "images/fetch";
 }
@@ -38,7 +37,7 @@ bool images_fetch_acl (Webserver_Request& webserver_request)
 }
 
 
-string images_fetch (Webserver_Request& webserver_request)
+std::string images_fetch (Webserver_Request& webserver_request)
 {
   // Image name.
   std::string image = webserver_request.query ["image"];

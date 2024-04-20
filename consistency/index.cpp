@@ -79,7 +79,7 @@ std::string consistency_index (Webserver_Request& webserver_request)
   for (auto resource : resources) {
     resourceblock << resource;
     resourceblock << "\n";
-    resourceblock << "<a href=" << quoted("?remove=" + resource) << ">[" << translate("remove") << "]</a>";
+    resourceblock << "<a href=" << std::quoted("?remove=" + resource) << ">[" << translate("remove") << "]</a>";
     resourceblock << " | ";
   }
   view.set_variable ("resourceblock", resourceblock.str());

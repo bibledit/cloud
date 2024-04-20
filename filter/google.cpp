@@ -57,7 +57,7 @@ std::tuple <bool, std::string> activate_service_account ()
 {
   std::stringstream command;
   command << "gcloud auth activate-service-account --quiet --key-file=";
-  command << quoted(config::logic::google_translate_json_key_path ());
+  command << std::quoted(config::logic::google_translate_json_key_path ());
   std::string out_err;
   int result = filter_shell_run (command.str(), out_err);
   return { (result == 0), out_err };

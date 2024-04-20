@@ -91,9 +91,6 @@
 //#endif
 
 
-using namespace std;
-
-
 namespace mimetic
 {
 

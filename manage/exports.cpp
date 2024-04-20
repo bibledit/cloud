@@ -40,7 +40,6 @@
 #include <locale/logic.h>
 #include <styles/logic.h>
 #include <webserver/request.h>
-using namespace std;
 
 
 const char * manage_exports_url ()
@@ -55,7 +54,7 @@ bool manage_exports_acl (Webserver_Request& webserver_request)
 }
 
 
-string space_href (std::string name)
+std::string space_href (std::string name)
 {
   name = filter::strings::replace ("-", "", name);
   name = filter::strings::replace (" ", "", name);
@@ -63,7 +62,7 @@ string space_href (std::string name)
 }
 
 
-string manage_exports (Webserver_Request& webserver_request)
+std::string manage_exports (Webserver_Request& webserver_request)
 {
   std::string page;
   Assets_Header header = Assets_Header (translate ("Export"), webserver_request);
@@ -333,7 +332,7 @@ string manage_exports (Webserver_Request& webserver_request)
       cssclass = "active";
     }
     name = locale_logic_space_get_name (space, false);
-    view.add_iteration ("spaces", { pair ("space", href), pair ("class", cssclass), pair ("name", name) } );
+    view.add_iteration ("spaces", { std::pair ("space", href), std::pair ("class", cssclass), std::pair ("name", name) } );
   }
 
   

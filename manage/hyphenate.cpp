@@ -28,7 +28,6 @@
 #include <database/privileges.h>
 #include <database/config/bible.h>
 #include <webserver/request.h>
-using namespace std;
 
 
 void manage_hyphenate (std::string bible, std::string user)
@@ -104,7 +103,7 @@ void manage_hyphenate (std::string bible, std::string user)
  * $text: A string of text to operate on.
  * Returns: The hyphenated text.
  */
-string hyphenate_at_transition (std::vector <std::string>& firstset, std::vector <std::string>& secondset, std::string text)
+std::string hyphenate_at_transition (std::vector <std::string>& firstset, std::vector <std::string>& secondset, std::string text)
 {
   // Verify the input.
   if (firstset.empty ()) return text;

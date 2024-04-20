@@ -33,10 +33,9 @@
 #include <journal/logic.h>
 #include <menu/logic.h>
 #include <database/bibleimages.h>
-using namespace std;
 
 
-string images_index_url ()
+std::string images_index_url ()
 {
   return "images/index";
 }
@@ -48,7 +47,7 @@ bool images_index_acl (Webserver_Request& webserver_request)
 }
 
 
-string images_index (Webserver_Request& webserver_request)
+std::string images_index (Webserver_Request& webserver_request)
 {
   Database_BibleImages database_bibleimages;
 
@@ -106,7 +105,7 @@ string images_index (Webserver_Request& webserver_request)
   std::vector <std::string> images = database_bibleimages.get();
   for (auto image : images) {
     view.add_iteration ("images", {
-      pair ("image", image),
+      std::pair ("image", image),
     } );
   }
   

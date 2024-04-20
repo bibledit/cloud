@@ -75,7 +75,7 @@
  ***************************************************************************/
 #include <mimetic098/codec/qp.h>
 
-using namespace mimetic;
+using  namespace mimetic;
 
 
 char QP::sTb[] = {

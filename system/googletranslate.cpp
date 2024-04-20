@@ -106,10 +106,10 @@ string system_googletranslate (Webserver_Request& webserver_request)
     ss << translate("An example translation was made.");
     ss << " - ";
     ss << translate ("English") << ": ";
-    ss << quoted(english_text);
+    ss << std::quoted(english_text);
     ss << " - ";
     ss << translate ("Greek") << ": ";
-    ss << quoted(greek_text);
+    ss << std::quoted(greek_text);
     success = ss.str();
   }
   

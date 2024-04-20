@@ -21,7 +21,6 @@
 #include <webserver/request.h>
 #include <database/cache.h>
 #include <filter/string.h>
-using namespace std;
 
 
 // Sets the focus.

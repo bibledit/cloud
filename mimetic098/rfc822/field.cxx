@@ -85,8 +85,6 @@
 namespace mimetic
 {
 
-using namespace std;
-
 // static init
 const Field Field::null;
 
@@ -218,7 +216,7 @@ std::ostream& operator<<(std::ostream& os, const Field& f)
     return f.write(os, 0);
 }
 
-ostream& Field::write(ostream& os, unsigned int fold) const
+std::ostream& Field::write(std::ostream& os, unsigned int fold) const
 {
   int in_quote, prev, skip;
   

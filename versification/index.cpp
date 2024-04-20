@@ -82,7 +82,7 @@ string versification_index (Webserver_Request& webserver_request)
   std::stringstream systemblock;
   std::vector <std::string> systems = database_versifications.getSystems();
   for (auto & system : systems) {
-    systemblock << "<p><a href=" << quoted ("system?name=" + system) << ">" << system << "</a></p>" << std::endl;
+    systemblock << "<p><a href=" << std::quoted ("system?name=" + system) << ">" << system << "</a></p>" << std::endl;
   }
   view.set_variable ("systemblock", systemblock.str());
   

@@ -80,7 +80,6 @@
 
 namespace mimetic
 {
-using namespace std;
 
 const std::string nullstring;
 

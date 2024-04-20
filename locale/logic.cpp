@@ -23,11 +23,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 #include <filter/date.h>
 #include <config/globals.h>
-using namespace std;
 
 
 // Takes a month from 1 to 12, and returns its localized name.
-string locale_logic_month (int month)
+std::string locale_logic_month (int month)
 {
   switch (month) {
     case 1:  return translate ("January");
@@ -48,7 +47,7 @@ string locale_logic_month (int month)
 }
 
 
-string locale_logic_date (int seconds)
+std::string locale_logic_date (int seconds)
 {
   seconds = filter::date::local_seconds (seconds);
   int day = filter::date::numerical_month_day (seconds);
@@ -58,7 +57,7 @@ string locale_logic_date (int seconds)
 }
 
 
-string locale_logic_date_time (int seconds)
+std::string locale_logic_date_time (int seconds)
 {
   // Localize the seconds.
   seconds = filter::date::local_seconds (seconds);
@@ -77,11 +76,11 @@ string locale_logic_date_time (int seconds)
 
 
 // Return the available localizations.
-map <std::string, std::string> locale_logic_localizations ()
+std::map <std::string, std::string> locale_logic_localizations ()
 {
   std::string directory = filter_url_create_root_path ({"locale"});
   std::vector <std::string> files = filter_url_scandir (directory);
-  std::map <std::string, std::string> localizations = {pair (std::string(), filter::strings::english ())};
+  std::map <std::string, std::string> localizations = {std::pair (std::string(), filter::strings::english ())};
   for (auto file : files) {
     std::string suffix = filter_url_get_extension (file);
     if (suffix == "po") {
@@ -104,7 +103,7 @@ map <std::string, std::string> locale_logic_localizations ()
 }
 
 
-unordered_map <std::string, std::string> locale_logic_read_msgid_msgstr (std::string file)
+std::unordered_map <std::string, std::string> locale_logic_read_msgid_msgstr (std::string file)
 {
   std::unordered_map <std::string, std::string> translations;
   std::string contents = filter_url_file_get_contents (file);
@@ -157,68 +156,68 @@ unordered_map <std::string, std::string> locale_logic_read_msgid_msgstr (std::st
 }
 
 
-string locale_logic_text_loaded ()
+std::string locale_logic_text_loaded ()
 {
   return translate ("Loaded");
 }
 
 
-string locale_logic_text_will_save ()
+std::string locale_logic_text_will_save ()
 {
   return translate ("Will save...");
 }
 
 
-string locale_logic_text_updating ()
+std::string locale_logic_text_updating ()
 {
   return translate ("Updating...");
 }
 
 
-string locale_logic_text_updated ()
+std::string locale_logic_text_updated ()
 {
   return translate ("Updated");
 }
 
 
-string locale_logic_text_saving ()
+std::string locale_logic_text_saving ()
 {
   return translate ("Saving...");
 }
 
 
-string locale_logic_text_saved ()
+std::string locale_logic_text_saved ()
 {
   return translate ("Saved");
 }
 
 
-string locale_logic_text_retrying ()
+std::string locale_logic_text_retrying ()
 {
   return translate ("Retrying...");
 }
 
 
-string locale_logic_text_reformat ()
+std::string locale_logic_text_reformat ()
 {
   return translate ("Reformat");
 }
 
 
-string locale_logic_text_no_privileges_modify_book ()
+std::string locale_logic_text_no_privileges_modify_book ()
 {
   return translate ("You do not have enough privileges to modify this book.");
 }
 
 
-string locale_logic_text_reload ()
+std::string locale_logic_text_reload ()
 {
   return translate("Updated Bible text was loaded.");
 }
 
 
 // Returns the Unicode name of the $space.
-string locale_logic_space_get_name (std::string space, bool english)
+std::string locale_logic_space_get_name (std::string space, bool english)
 {
   if (space == " ") {
     if (english) return "space";
@@ -244,7 +243,7 @@ string locale_logic_space_get_name (std::string space, bool english)
 }
 
 
-string locale_logic_deobfuscate (std::string value)
+std::string locale_logic_deobfuscate (std::string value)
 {
   // Replace longest strings first.
   

@@ -78,7 +78,6 @@
 
 namespace mimetic
 {
-using namespace std;
 
 const char ContentTransferEncoding::label[] = "Content-Transfer-Encoding";
 const char ContentTransferEncoding::base64[] = "base64";

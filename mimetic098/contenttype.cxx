@@ -86,12 +86,11 @@
 
 namespace mimetic
 {
-using namespace std;
 
 const char ContentType::label[] = "Content-Type";
 
 int ContentType::Boundary::ms_i = 0;
-string ContentType::Boundary::ms_common_boundary = std::string();
+std::string ContentType::Boundary::ms_common_boundary = std::string();
 
 
 ContentType::Boundary::Boundary()
@@ -225,7 +224,7 @@ void ContentType::set(const std::string& val)
     set(stype, ssubtype);
 
     // parse field params
-    std::string params(val, min(val.length(), ct.length() + 1));
+    std::string params(val, std::min(val.length(), ct.length() + 1));
     if(!params.length())
         return;
     std::string paramValue;

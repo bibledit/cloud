@@ -79,7 +79,6 @@
 
 namespace mimetic
 {
-using namespace std;
     
 // find_by_name
 Rfc822Header::find_by_name::find_by_name(const std::string& name)

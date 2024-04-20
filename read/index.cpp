@@ -111,17 +111,17 @@ string read_index (Webserver_Request& webserver_request)
   
   // Create a script for Javascript. Quote string to get legal Javascript.
   std::stringstream script_stream {};
-  script_stream << "var readchooseEditorVerseLoaded = " << quoted(locale_logic_text_loaded ()) << ";\n";
-  script_stream << "var readchooseEditorVerseUpdating = " << quoted(locale_logic_text_updating ()) << ";\n";
-  script_stream << "var readchooseEditorVerseUpdated = " << quoted(locale_logic_text_updated ()) << ";\n";
-  script_stream << "var readchooseEditorWillSave = " << quoted(locale_logic_text_will_save ()) << ";\n";
-  script_stream << "var readchooseEditorVerseSaving = " << quoted(locale_logic_text_saving ()) << ";\n";
-  script_stream << "var readchooseEditorVerseSaved = " << quoted(locale_logic_text_saved ()) << ";\n";
-  script_stream << "var readchooseEditorVerseRetrying = " << quoted(locale_logic_text_retrying ()) << ";\n";
-  script_stream << "var readchooseEditorVerseUpdatedLoaded = " << quoted(locale_logic_text_reload ()) << ";\n";
+  script_stream << "var readchooseEditorVerseLoaded = " << std::quoted(locale_logic_text_loaded ()) << ";\n";
+  script_stream << "var readchooseEditorVerseUpdating = " << std::quoted(locale_logic_text_updating ()) << ";\n";
+  script_stream << "var readchooseEditorVerseUpdated = " << std::quoted(locale_logic_text_updated ()) << ";\n";
+  script_stream << "var readchooseEditorWillSave = " << std::quoted(locale_logic_text_will_save ()) << ";\n";
+  script_stream << "var readchooseEditorVerseSaving = " << std::quoted(locale_logic_text_saving ()) << ";\n";
+  script_stream << "var readchooseEditorVerseSaved = " << std::quoted(locale_logic_text_saved ()) << ";\n";
+  script_stream << "var readchooseEditorVerseRetrying = " << std::quoted(locale_logic_text_retrying ()) << ";\n";
+  script_stream << "var readchooseEditorVerseUpdatedLoaded = " << std::quoted(locale_logic_text_reload ()) << ";\n";
   int verticalCaretPosition = webserver_request.database_config_user ()->getVerticalCaretPosition ();
   script_stream << "var verticalCaretPosition = " << verticalCaretPosition << ";\n";
-  script_stream << "var verseSeparator = " << quoted(Database_Config_General::getNotesVerseSeparator ()) << ";\n";
+  script_stream << "var verseSeparator = " << std::quoted(Database_Config_General::getNotesVerseSeparator ()) << ";\n";
   std::string script {script_stream.str()};
   config::logic::swipe_enabled (webserver_request, script);
   view.set_variable ("script", script);

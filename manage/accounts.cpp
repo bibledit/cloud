@@ -41,10 +41,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <menu/logic.h>
 #include <session/switch.h>
 #include <user/logic.h>
-using namespace std;
 
 
-string manage_accounts_url ()
+std::string manage_accounts_url ()
 {
   return "manage/accounts";
 }
@@ -56,7 +55,7 @@ bool manage_accounts_acl (Webserver_Request& webserver_request)
 }
 
 
-string manage_accounts (Webserver_Request& webserver_request)
+std::string manage_accounts (Webserver_Request& webserver_request)
 {
   bool user_updated = false;
   bool privileges_updated = false;
@@ -118,10 +117,10 @@ string manage_accounts (Webserver_Request& webserver_request)
     
     // Pass information about this user to the flate engine for display.
     view.add_iteration ("tbody", {
-      pair ("user", username),
-      pair ("days", days),
-      pair ("role", role),
-      pair ("email", email),
+      std::pair ("user", username),
+      std::pair ("days", days),
+      std::pair ("role", role),
+      std::pair ("email", email),
     });
   }
   

@@ -82,8 +82,6 @@
 namespace mimetic
 {
 
-using namespace std;
-
 
 /**
  * same as std::endl but NOT flush the buffer

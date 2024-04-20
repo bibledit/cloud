@@ -61,7 +61,7 @@ string notes_severity_n (Webserver_Request& webserver_request)
   std::stringstream severityblock;
   std::vector <Database_Notes_Text> severities = database_notes.get_possible_severities ();
   for (auto & severity : severities) {
-    severityblock << "<li><a href=" << quoted ("bulk?severity=" + severity.raw) << ">" << severity.localized + "</a></li>" << std::endl;
+    severityblock << "<li><a href=" << std::quoted ("bulk?severity=" + severity.raw) << ">" << severity.localized + "</a></li>" << std::endl;
   }
   view.set_variable ("severityblock", severityblock.str());
   

@@ -27,10 +27,9 @@
 #include <database/oshb.h>
 #include <database/morphgnt.h>
 #include <database/strong.h>
-using namespace std;
 
 
-string lexicon_definition_url ()
+std::string lexicon_definition_url ()
 {
   return "lexicon/definition";
 }
@@ -42,7 +41,7 @@ bool lexicon_definition_acl (Webserver_Request& webserver_request)
 }
 
 
-string lexicon_definition (Webserver_Request& webserver_request)
+std::string lexicon_definition (Webserver_Request& webserver_request)
 {
   // Retrieve the id: It may contain a Strong's number or a lemma.
   std::string id = webserver_request.query["id"];
@@ -82,7 +81,7 @@ string lexicon_definition (Webserver_Request& webserver_request)
         std::string rendering1 = lexicon_logic_render_strongs_definition (strongs[i]);
         if (!rendering1.empty ()) renderings.push_back (rendering1);
         std::stringstream rendering2;
-        rendering2 << "<a href=" << quoted(BDB_PREFIX + bdbs[i]) << ">Brown Driver Briggs</a>";
+        rendering2 << "<a href=" << std::quoted(BDB_PREFIX + bdbs[i]) << ">Brown Driver Briggs</a>";
         renderings.push_back (rendering2.str());
       }
     }

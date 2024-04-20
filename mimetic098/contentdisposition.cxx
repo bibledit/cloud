@@ -79,7 +79,6 @@
 
 namespace mimetic
 {
-using namespace std;
 
 const char ContentDisposition::label[] = "Content-Disposition";
 
@@ -171,7 +170,7 @@ string ContentDisposition::str() const
     return ostr;
 }
 
-ostream& ContentDisposition::write(ostream& os, int fold) const
+std::ostream& ContentDisposition::write(std::ostream& os, int fold) const
 {
     os << "Content-Disposition: " << m_type;
     ParamList::const_iterator bit, eit;

@@ -35,7 +35,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <pugixml.hpp>
 #endif
 #pragma GCC diagnostic pop
-using namespace std;
 
 
 // Class for creating a html Bible header with breadcrumbs and search box.
@@ -53,7 +52,7 @@ void Html_Header::search_back_link (std::string url, std::string text)
 }
 
 
-void Html_Header::create (const std::vector <std::pair <string, std::string> > & breadcrumbs)
+void Html_Header::create (const std::vector <std::pair <std::string, std::string> > & breadcrumbs)
 {
   pugi::xml_node table_element = m_html_text.new_table ();
   pugi::xml_node table_row_element = m_html_text.new_table_row (table_element);

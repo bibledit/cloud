@@ -99,7 +99,7 @@ void email_send ()
     if (result.empty ()) {
       database_mail.erase (id);
       std::stringstream ss;
-      ss << "Email to " << email << " with subject " << quoted(subject) << " was ";
+      ss << "Email to " << email << " with subject " << std::quoted(subject) << " was ";
       result = ss.str();
 #ifdef HAVE_CLOUD
       result.append ("sent successfully");

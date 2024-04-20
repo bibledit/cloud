@@ -85,8 +85,6 @@
 #include <sys/stat.h>
 //#endif
 
-using namespace std;
-
 namespace mimetic
 {
 

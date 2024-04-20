@@ -80,9 +80,7 @@
 namespace mimetic 
 {
 
-using namespace std;
-
-ostream& operator<<(ostream& os, const Message& m)
+std::ostream& operator<<(std::ostream& os, const Message& m)
 {
     // header field
     Rfc822Header::const_iterator hbit, heit;

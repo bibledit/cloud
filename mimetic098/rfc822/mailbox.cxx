@@ -81,8 +81,6 @@
 
 namespace mimetic 
 {
-using namespace std;
-
 
 /** Basic constructor */
 Mailbox::Mailbox()

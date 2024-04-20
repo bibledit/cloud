@@ -94,11 +94,9 @@
 namespace mimetic
 {
 
-using namespace std;
-
-void MimeEntity::load(istream& is, int mask)
+void MimeEntity::load(std::istream& is, int mask)
 {
-    typedef istreambuf_iterator<char> it_type;
+    typedef std::istreambuf_iterator<char> it_type;
     typedef it_type::iterator_category it_cat;
     IteratorParser<it_type, it_cat> prs(*this);
     prs.iMask(mask);
@@ -110,7 +108,7 @@ bool MimeEntity::hasField(const std::string& name) const
     return m_header.hasField(name);
 }
 
-ostream& MimeEntity::write(ostream& os, const char* eol) const
+std::ostream& MimeEntity::write(std::ostream& os, const char* eol) const
 {
     enum { max_line_len = 76 };
     if(eol != 0)
@@ -162,7 +160,7 @@ ostream& MimeEntity::write(ostream& os, const char* eol) const
     return os;    
 }
 
-ostream& operator<<(ostream& os, const MimeEntity& m)
+std::ostream& operator<<(std::ostream& os, const MimeEntity& m)
 {
     return m.write(os);
 }
@@ -219,10 +217,10 @@ const Body& MimeEntity::body() const
 
 MimeEntity::size_type MimeEntity::size() const
 {
-    count_streambuf csb;
-    ostream os(&csb);
-    os << *this;
-    return csb.size();
+  count_streambuf csb;
+  std::ostream os(&csb);
+  os << *this;
+  return csb.size();
 }
 
 

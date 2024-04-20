@@ -109,17 +109,17 @@ std::string editone2_index (Webserver_Request& webserver_request)
   
   // Create the script, quote the strings to ensure it's legal Javascript.
   std::stringstream script_stream {};
-  script_stream << "var oneverseEditorVerseLoaded = " << quoted(locale_logic_text_loaded ()) << ";\n";
-  script_stream << "var oneverseEditorVerseUpdating = " << quoted(locale_logic_text_updating ()) << ";\n";
-  script_stream << "var oneverseEditorVerseUpdated = " << quoted(locale_logic_text_updated ()) << ";\n";
-  script_stream << "var oneverseEditorWillSave = " << quoted(locale_logic_text_will_save ()) << ";\n";
-  script_stream << "var oneverseEditorVerseSaving = " << quoted(locale_logic_text_saving ()) << ";\n";
-  script_stream << "var oneverseEditorVerseSaved = " << quoted(locale_logic_text_saved ()) << ";\n";
-  script_stream << "var oneverseEditorVerseRetrying = " << quoted(locale_logic_text_retrying ()) << ";\n";
-  script_stream << "var oneverseEditorVerseUpdatedLoaded = " << quoted(locale_logic_text_reload ()) << ";\n";
+  script_stream << "var oneverseEditorVerseLoaded = " << std::quoted(locale_logic_text_loaded ()) << ";\n";
+  script_stream << "var oneverseEditorVerseUpdating = " << std::quoted(locale_logic_text_updating ()) << ";\n";
+  script_stream << "var oneverseEditorVerseUpdated = " << std::quoted(locale_logic_text_updated ()) << ";\n";
+  script_stream << "var oneverseEditorWillSave = " << std::quoted(locale_logic_text_will_save ()) << ";\n";
+  script_stream << "var oneverseEditorVerseSaving = " << std::quoted(locale_logic_text_saving ()) << ";\n";
+  script_stream << "var oneverseEditorVerseSaved = " << std::quoted(locale_logic_text_saved ()) << ";\n";
+  script_stream << "var oneverseEditorVerseRetrying = " << std::quoted(locale_logic_text_retrying ()) << ";\n";
+  script_stream << "var oneverseEditorVerseUpdatedLoaded = " << std::quoted(locale_logic_text_reload ()) << ";\n";
   int verticalCaretPosition = webserver_request.database_config_user ()->getVerticalCaretPosition ();
   script_stream << "var verticalCaretPosition = " << verticalCaretPosition << ";\n";
-  script_stream << "var verseSeparator = " << quoted(Database_Config_General::getNotesVerseSeparator ()) << ";\n";
+  script_stream << "var verseSeparator = " << std::quoted(Database_Config_General::getNotesVerseSeparator ()) << ";\n";
   std::string script {script_stream.str()};
   config::logic::swipe_enabled (webserver_request, script);
   view.set_variable ("script", script);

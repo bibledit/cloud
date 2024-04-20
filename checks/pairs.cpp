@@ -81,7 +81,7 @@ void checks_pairs::run (const std::string& bible, int book, int chapter,
           const std::string fragment1 = translate ("Closing character");
           const std::string fragment2 = translate ("without its matching opening character");
           std::stringstream message {};
-          message << fragment1 << " " << quoted(character) << " " << fragment2 << " " << quoted(opener);
+          message << fragment1 << " " << std::quoted(character) << " " << fragment2 << " " << std::quoted(opener);
           database_check.recordOutput (bible, book, chapter, verse, message.str());
         }
       }
@@ -96,7 +96,7 @@ void checks_pairs::run (const std::string& bible, int book, int chapter,
     const std::string fragment1 = translate ("Opening character");
     const std::string fragment2 = translate ("without its matching closing character");
     std::stringstream message {};
-    message << fragment1 << " " << quoted(opener) << " " << fragment2 << " " << quoted(closer);
+    message << fragment1 << " " << std::quoted(opener) << " " << fragment2 << " " << std::quoted(closer);
     database_check.recordOutput (bible, book, chapter, verse, message.str());
   }
 }

@@ -123,7 +123,7 @@ string styles_indexm (Webserver_Request& webserver_request)
     // Cannot edit the Standard stylesheet.
     if (sheet == styles_logic_standard_sheet ()) editable = false;
     if (editable) {
-      sheetblock << "<a href=" << quoted ("sheetm?name=" + sheet) << ">[" << translate("edit") << "]</a>";
+      sheetblock << "<a href=" << std::quoted ("sheetm?name=" + sheet) << ">[" << translate("edit") << "]</a>";
     }
     sheetblock << "</p>";
   }

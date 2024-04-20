@@ -373,7 +373,7 @@ bool filter_git_commit (std::string repository, std::string user, std::string me
   user = filter_git_user (user);
   std::string email = filter_git_email (user);
   std::stringstream author;
-  author << "--author=" << quoted(user + " <" + email + ">");
+  author << "--author=" << std::quoted(user + " <" + email + ">");
   std::string out, err;
   int result = filter_shell_run (repository, "git",
                                 {"commit",

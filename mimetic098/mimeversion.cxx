@@ -79,7 +79,6 @@
 
 namespace mimetic
 {
-using namespace std;
 
 const char MimeVersion::label[] = "Mime-Version";
 

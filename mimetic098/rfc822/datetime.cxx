@@ -88,10 +88,6 @@
 namespace mimetic
 {
 
-
-using namespace std;
-using namespace mimetic;
-
 DateTime::Zone::Zone(int iZone)
 : m_iZone(iZone), m_iZoneIdx(0)
 {
@@ -459,17 +455,17 @@ FieldValue* DateTime::clone() const
     return new DateTime(*this);
 }
 
-ostream& operator<<(ostream& os, const DateTime& dt)
+std::ostream& operator<<(std::ostream& os, const DateTime& dt)
 {
     size_t width = os.width(), fill = os.fill();
 
     os << dt.dayOfWeek().name() << ", "
-       << setw(2) << setfill('0') << dt.day() << " "
+       << std::setw(2) << std::setfill('0') << dt.day() << " "
        << dt.month().name() << " "
-       << setw(2) << setfill('0') << dt.year() << " "
-       << setw(2) << setfill('0') << dt.hour() << ":"
-       << setw(2) << setfill('0') << dt.minute() << ":"
-       << setw(2) << setfill('0') << dt.second() << " "
+       << std::setw(2) << std::setfill('0') << dt.year() << " "
+       << std::setw(2) << std::setfill('0') << dt.hour() << ":"
+       << std::setw(2) << std::setfill('0') << dt.minute() << ":"
+       << std::setw(2) << std::setfill('0') << dt.second() << " "
        << dt.zone().name();
 
     os.width(width);

@@ -26,19 +26,18 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 #include <ipc/focus.h>
 #include <client/logic.h>
-using namespace std;
 
 
-string navigation_paratext_url ()
+std::string navigation_paratext_url ()
 {
   return "navigation/paratext";
 }
 
 
-string navigation_paratext (Webserver_Request& webserver_request)
+std::string navigation_paratext (Webserver_Request& webserver_request)
 {
   // Handle any reference received that was obtained from Paratext.
-  static string previous_from;
+  static std::string previous_from;
   std::string from = webserver_request.query ["from"];
   // Reference should differ from the previous one.
   if (!from.empty () && (from != previous_from)) {
@@ -47,7 +46,7 @@ string navigation_paratext (Webserver_Request& webserver_request)
     // User should have set to receive references from Paratext.
     if (webserver_request.database_config_user ()->getReceiveFocusedReferenceFromParatext ()) {
       // Parse the reference from Paratext.
-      vector<std::string> book_rest = filter::strings::explode (from, ' ');
+      std::vector<std::string> book_rest = filter::strings::explode (from, ' ');
       if (book_rest.size() == 2) {
         int book = static_cast<int>(database::books::get_id_from_usfm (book_rest[0]));
         std::vector <std::string> chapter_verse = filter::strings::explode(book_rest[1], ':');

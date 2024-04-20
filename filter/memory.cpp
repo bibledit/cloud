@@ -26,7 +26,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #ifdef HAVE_EXECINFO
 #include <execinfo.h>
 #endif
-using namespace std;
 
 
 // Returns the memory available as a percentage of the total system memory.

@@ -494,23 +494,22 @@ static std::ostream& stream_string(std::ostream& stream,
 }  // namespace jsonxx
 
 std::ostream& operator<<(std::ostream& stream, const jsonxx::Value& v) {
-    using namespace jsonxx;
-    if (v.is<Number>()) {
-        return stream << v.get<Number>();
-    } else if (v.is<String>()) {
-        return stream_string(stream, v.get<std::string>());
-    } else if (v.is<Boolean>()) {
-        if (v.get<Boolean>()) {
+    if (v.is<jsonxx::Number>()) {
+        return stream << v.get<jsonxx::Number>();
+    } else if (v.is<jsonxx::String>()) {
+        return jsonxx::stream_string(stream, v.get<std::string>());
+    } else if (v.is<jsonxx::Boolean>()) {
+        if (v.get<jsonxx::Boolean>()) {
             return stream << "true";
         } else {
             return stream << "false";
         }
-    } else if (v.is<Null>()) {
+    } else if (v.is<jsonxx::Null>()) {
         return stream << "null";
-    } else if (v.is<Object>()) {
-        return stream << v.get<Object>();
-    } else if (v.is<Array>()){
-        return stream << v.get<Array>();
+    } else if (v.is<jsonxx::Object>()) {
+        return stream << v.get<jsonxx::Object>();
+    } else if (v.is<jsonxx::Array>()){
+        return stream << v.get<jsonxx::Array>();
     }
     // Shouldn't reach here.
     return stream;
@@ -873,57 +872,53 @@ const char *defrootattrib[] = {
 } // namespace jsonxx::anon
 
 std::string Object::json() const {
-    using namespace json;
 
     jsonxx::Value v;
     v.object_value_ = const_cast<jsonxx::Object*>(this);
     v.type_ = jsonxx::Value::OBJECT_;
 
-    std::string result = tag( jsonxx::JSON, 0, std::string(), v );
+    std::string result = json::tag( jsonxx::JSON, 0, std::string(), v );
 
     v.object_value_ = 0;
-    return remove_last_comma( result );
+    return json::remove_last_comma( result );
 }
 
 std::string Object::xml( unsigned format, const std::string &header, const std::string &attrib ) const {
-    using namespace xml;
     JSONXX_ASSERT( format == jsonxx::JSONx || format == jsonxx::JXML || format == jsonxx::JXMLex || format == jsonxx::TaggedXML );
 
     jsonxx::Value v;
     v.object_value_ = const_cast<jsonxx::Object*>(this);
     v.type_ = jsonxx::Value::OBJECT_;
 
-    std::string result = tag( format, 0, std::string(), v, attrib.empty() ? std::string(defrootattrib[format]) : attrib );
+    std::string result = xml::tag( format, 0, std::string(), v, attrib.empty() ? std::string(xml::defrootattrib[format]) : attrib );
 
     v.object_value_ = 0;
-    return ( header.empty() ? std::string(defheader[format]) : header ) + result;
+    return ( header.empty() ? std::string(xml::defheader[format]) : header ) + result;
 }
 
 std::string Array::json() const {
-    using namespace json;
 
     jsonxx::Value v;
     v.array_value_ = const_cast<jsonxx::Array*>(this);
     v.type_ = jsonxx::Value::ARRAY_;
 
-    std::string result = tag( jsonxx::JSON, 0, std::string(), v );
+    std::string result = json::tag( jsonxx::JSON, 0, std::string(), v );
 
     v.array_value_ = 0;
-    return remove_last_comma( result );
+    return json::remove_last_comma( result );
 }
 
 std::string Array::xml( unsigned format, const std::string &header, const std::string &attrib ) const {
-    using namespace xml;
     JSONXX_ASSERT( format == jsonxx::JSONx || format == jsonxx::JXML || format == jsonxx::JXMLex || format == jsonxx::TaggedXML );
 
     jsonxx::Value v;
     v.array_value_ = const_cast<jsonxx::Array*>(this);
     v.type_ = jsonxx::Value::ARRAY_;
 
-    std::string result = tag( format, 0, std::string(), v, attrib.empty() ? std::string(defrootattrib[format]) : attrib );
+    std::string result = xml::tag( format, 0, std::string(), v, attrib.empty() ? std::string(xml::defrootattrib[format]) : attrib );
 
     v.array_value_ = 0;
-    return ( header.empty() ? std::string(defheader[format]) : header ) + result;
+    return ( header.empty() ? std::string(xml::defheader[format]) : header ) + result;
 }
 
 bool validate( std::istream &input ) {
@@ -987,7 +982,6 @@ std::string reformat( const std::string &input ) {
 }
 
 std::string xml( std::istream &input, unsigned format ) {
-    using namespace xml;
     JSONXX_ASSERT( format == jsonxx::JSONx || format == jsonxx::JXML || format == jsonxx::JXMLex || format == jsonxx::TaggedXML );
 
     // trim non-printable chars
@@ -1010,7 +1004,7 @@ std::string xml( std::istream &input, unsigned format ) {
     }
 
     // bad json, return empty xml
-    return defheader[format];
+    return xml::defheader[format];
 }
 
 std::string xml( const std::string &input, unsigned format ) {

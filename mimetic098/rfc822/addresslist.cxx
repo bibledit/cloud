@@ -79,8 +79,6 @@
 namespace mimetic 
 {
 
-using namespace std;
-
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 //    Rfc822::AddressList
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * *

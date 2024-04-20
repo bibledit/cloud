@@ -39,7 +39,6 @@
 #endif
 #pragma GCC diagnostic pop
 #include <webserver/request.h>
-using namespace std;
 
 
 #define BETH_STRONG 10000
@@ -53,7 +52,7 @@ using namespace std;
 
 
 // Internal function declarations.
-string lexicon_logic_render_part_of_speech_pop_front (std::vector <std::string> & parts);
+std::string lexicon_logic_render_part_of_speech_pop_front (std::vector <std::string> & parts);
 
 
 // The names of the available lexicon resources.
@@ -69,7 +68,7 @@ std::vector <std::string> lexicon_logic_resource_names ()
 
 
 // Gets the HTMl for displaying the book/chapter/verse of the $lexicon.
-string lexicon_logic_get_html ([[maybe_unused]] Webserver_Request& webserver_request, std::string lexicon, int book, int chapter, int verse)
+std::string lexicon_logic_get_html ([[maybe_unused]] Webserver_Request& webserver_request, std::string lexicon, int book, int chapter, int verse)
 {
   std::string html;
   
@@ -81,13 +80,13 @@ string lexicon_logic_get_html ([[maybe_unused]] Webserver_Request& webserver_req
     std::stringstream ss;
     if (!rowids.empty ()) {
       std::string id = "lexicontxt" + prefix;
-      ss << "<div id=" << quoted(id) << ">" << std::endl;
+      ss << "<div id=" << std::quoted(id) << ">" << std::endl;
       for (auto rowid : rowids) {
         ss << "<table class='interlinear rtl'>";
         ss << "<tr>";
-        ss << "<td class=" << quoted ("hebrew") << ">";
+        ss << "<td class=" << std::quoted ("hebrew") << ">";
         std::string word = database_etcbc4.word (rowid);
-        ss << "<a href=" << quoted(HEBREW_ETCBC4_PREFIX + filter::strings::convert_to_string (rowid)) << ">" << word << "</a>";
+        ss << "<a href=" << std::quoted(HEBREW_ETCBC4_PREFIX + filter::strings::convert_to_string (rowid)) << ">" << word << "</a>";
         ss << "</td>";
         ss << "</tr>";
         ss << "<tr>";
@@ -112,11 +111,11 @@ string lexicon_logic_get_html ([[maybe_unused]] Webserver_Request& webserver_req
     if (!rowids.empty ()) {
       std::stringstream ss;
       std::string id = "lexicontxt" + prefix;
-      ss << "<div id=" << quoted(id) << ">" << std::endl;
+      ss << "<div id=" << std::quoted(id) << ">" << std::endl;
       for (size_t i = 0; i < rowids.size (); i++) {
         int rowid = rowids[i];
         std::string english = database_kjv.english (rowid);
-        ss << "<a href=" << quoted(KJV_LEXICON_PREFIX + filter::strings::convert_to_string (rowid)) << ">" << english << "</a>";
+        ss << "<a href=" << std::quoted(KJV_LEXICON_PREFIX + filter::strings::convert_to_string (rowid)) << ">" << english << "</a>";
       }
       ss << "</div>";
       ss << lexicon_logic_get_script (prefix);
@@ -131,13 +130,13 @@ string lexicon_logic_get_html ([[maybe_unused]] Webserver_Request& webserver_req
     if (!rowids.empty ()) {
       std::stringstream ss;
       std::string id = "lexicontxt" + prefix;
-      ss << "<div id=" << quoted(id) << " class=" << quoted("hebrew") << ">" << std::endl;
+      ss << "<div id=" << std::quoted(id) << " class=" << std::quoted("hebrew") << ">" << std::endl;
       for (size_t i = 0; i < rowids.size (); i++) {
         int rowid = rowids[i];
         std::string word = database_oshb.word (rowid);
         // Give more spacing where needed.
         if (word == "׀") word = " ׀ ";
-        ss << "<a href=" << quoted(OSHB_PREFIX + filter::strings::convert_to_string (rowid)) << ">" << word << "</a>";
+        ss << "<a href=" << std::quoted(OSHB_PREFIX + filter::strings::convert_to_string (rowid)) << ">" << word << "</a>";
       }
       ss << "</div>";
       ss << lexicon_logic_get_script (prefix);
@@ -152,12 +151,12 @@ string lexicon_logic_get_html ([[maybe_unused]] Webserver_Request& webserver_req
     if (!rowids.empty ()) {
       std::stringstream ss;
       std::string id = "lexicontxt" + prefix;
-      ss << "<div id=" << quoted(id) << " class=" << quoted("greek") << ">" << std::endl;
+      ss << "<div id=" << std::quoted(id) << " class=" << std::quoted("greek") << ">" << std::endl;
       for (size_t i = 0; i < rowids.size (); i++) {
         if (i) ss << " ";
         int rowid = rowids[i];
         std::string word = database_morphgnt.word (rowid);
-        ss << "<a href=" << quoted(SBLGNT_PREFIX + filter::strings::convert_to_string (rowid)) << ">" << word << "</a>";
+        ss << "<a href=" << std::quoted(SBLGNT_PREFIX + filter::strings::convert_to_string (rowid)) << ">" << word << "</a>";
       }
       ss << "</div>";
       ss << lexicon_logic_get_script (prefix);
@@ -170,7 +169,7 @@ string lexicon_logic_get_html ([[maybe_unused]] Webserver_Request& webserver_req
 
 
 // The script to put into the html for a lexicon's defined $prefix.
-string lexicon_logic_get_script (std::string prefix)
+std::string lexicon_logic_get_script (std::string prefix)
 {
   std::string defid = "lexicondef" + prefix;
   std::string txtid = "lexicontxt" + prefix;
@@ -231,7 +230,7 @@ string lexicon_logic_get_script (std::string prefix)
 
 
 // Clean up the Strong's number.
-string lexicon_logic_strong_number_cleanup (std::string strong)
+std::string lexicon_logic_strong_number_cleanup (std::string strong)
 {
   // Remove the leading zero from a Hebrew Strong's number.
   strong = filter::strings::replace ("H0", "H", strong);
@@ -293,7 +292,7 @@ void lexicon_logic_convert_morphhb_parsing_to_strong (std::string parsing,
 }
 
 
-string lexicon_logic_render_strongs_definition (std::string strong)
+std::string lexicon_logic_render_strongs_definition (std::string strong)
 {
   std::vector <std::string> renderings;
   Database_Strong database_strong;
@@ -432,7 +431,7 @@ string lexicon_logic_render_strongs_definition (std::string strong)
 }
 
 
-string lexicon_logic_render_part_of_speech_pop_front (std::vector <std::string> & parts)
+std::string lexicon_logic_render_part_of_speech_pop_front (std::vector <std::string> & parts)
 {
   std::string part;
   if (!parts.empty ()) {
@@ -444,7 +443,7 @@ string lexicon_logic_render_part_of_speech_pop_front (std::vector <std::string> 
 
 
 // Render the part of speech.
-string lexicon_logic_render_strongs_part_of_speech (std::string value)
+std::string lexicon_logic_render_strongs_part_of_speech (std::string value)
 {
   if (value == filter::strings::unicode_string_casefold (value)) {
     // Deal with Strong's parsings.
@@ -541,38 +540,38 @@ string lexicon_logic_render_strongs_part_of_speech (std::string value)
 }
 
 
-string lexicon_logic_render_strongs_part_of_speech_stem (std::string abbrev)
+std::string lexicon_logic_render_strongs_part_of_speech_stem (std::string abbrev)
 {
   return abbrev;
 }
 
 
-string lexicon_logic_render_strongs_part_of_speech_person (std::string abbrev)
+std::string lexicon_logic_render_strongs_part_of_speech_person (std::string abbrev)
 {
   return abbrev;
 }
 
 
-string lexicon_logic_render_strongs_part_of_speech_gender (std::string abbrev)
+std::string lexicon_logic_render_strongs_part_of_speech_gender (std::string abbrev)
 {
   return abbrev;
 }
 
 
-string lexicon_logic_render_strongs_part_of_speech_number (std::string abbrev)
+std::string lexicon_logic_render_strongs_part_of_speech_number (std::string abbrev)
 {
   return abbrev;
 }
 
 
-string lexicon_logic_render_strongs_part_of_speech_state (std::string abbrev)
+std::string lexicon_logic_render_strongs_part_of_speech_state (std::string abbrev)
 {
   return abbrev;
 }
 
 
 // Define user-defined Strong's numbers.
-string lexicon_logic_define_user_strong (std::string strong)
+std::string lexicon_logic_define_user_strong (std::string strong)
 {
   std::string definition;
   if (!strong.empty ()) {
@@ -609,7 +608,7 @@ string lexicon_logic_define_user_strong (std::string strong)
 }
 
 
-string lexicon_logic_render_morphgnt_part_of_speech (std::string pos)
+std::string lexicon_logic_render_morphgnt_part_of_speech (std::string pos)
 {
   pos = filter::strings::replace ("-", "", pos);
   std::string rendering;
@@ -630,7 +629,7 @@ string lexicon_logic_render_morphgnt_part_of_speech (std::string pos)
 }
 
 
-string lexicon_logic_render_morphgnt_parsing_code (std::string parsing)
+std::string lexicon_logic_render_morphgnt_parsing_code (std::string parsing)
 {
   std::vector <std::string> renderings;
   // person.
@@ -707,7 +706,7 @@ string lexicon_logic_render_morphgnt_parsing_code (std::string parsing)
 }
 
 
-string lexicon_logic_render_etcbc4_morphology (std::string rowid)
+std::string lexicon_logic_render_etcbc4_morphology (std::string rowid)
 {
   // The order of the rendered morphological information is such
   // that the pieces of information most relevant to the Bible translator come first,
@@ -1047,7 +1046,7 @@ string lexicon_logic_render_etcbc4_morphology (std::string rowid)
 
 
 // Converts a code from MorphHb into a rendered BDB entry from the HebrewLexicon.
-string lexicon_logic_render_bdb_entry (std::string code)
+std::string lexicon_logic_render_bdb_entry (std::string code)
 {
   Database_HebrewLexicon database_hebrewlexicon;
   // Get the intermediate map value between the augmented Strong's numbers and the BDB lexicon.
@@ -1069,7 +1068,7 @@ string lexicon_logic_render_bdb_entry (std::string code)
 
 // Gets and removes an attribute from $xml, and updates $xml.
 // Returns the attribute.
-string lexicon_logic_get_remove_attribute (std::string & xml, const char * key)
+std::string lexicon_logic_get_remove_attribute (std::string & xml, const char * key)
 {
   std::string value;
   pugi::xml_document document;
@@ -1090,7 +1089,7 @@ string lexicon_logic_get_remove_attribute (std::string & xml, const char * key)
 
 
 // Gets the text contents of the $xml node.
-string lexicon_logic_get_text (std::string & xml)
+std::string lexicon_logic_get_text (std::string & xml)
 {
   std::string value;
   pugi::xml_document document;
@@ -1110,7 +1109,7 @@ string lexicon_logic_get_text (std::string & xml)
 }
 
 
-string lexicon_logic_hebrew_morphology_render (std::string value)
+std::string lexicon_logic_hebrew_morphology_render (std::string value)
 {
   // No data: bail out.
   if (value.empty ()) return value;
@@ -1209,7 +1208,7 @@ string lexicon_logic_hebrew_morphology_render (std::string value)
 
 
 // Verb conjugation types
-string lexicon_logic_hebrew_morphology_render_type_verb_conjugation (std::string & value)
+std::string lexicon_logic_hebrew_morphology_render_type_verb_conjugation (std::string & value)
 {
   std::string rendering;
   if (!value.empty ()) {
@@ -1233,7 +1232,7 @@ string lexicon_logic_hebrew_morphology_render_type_verb_conjugation (std::string
 
 
 // Adjective types
-string lexicon_logic_hebrew_morphology_render_type_adjective (std::string & value)
+std::string lexicon_logic_hebrew_morphology_render_type_adjective (std::string & value)
 {
   std::string rendering;
   if (!value.empty ()) {
@@ -1250,7 +1249,7 @@ string lexicon_logic_hebrew_morphology_render_type_adjective (std::string & valu
 
 
 // Noun types
-string lexicon_logic_hebrew_morphology_render_type_noun (std::string & value)
+std::string lexicon_logic_hebrew_morphology_render_type_noun (std::string & value)
 {
   std::string rendering;
   if (!value.empty ()) {
@@ -1266,7 +1265,7 @@ string lexicon_logic_hebrew_morphology_render_type_noun (std::string & value)
 
 
 // Pronoun types
-string lexicon_logic_hebrew_morphology_render_type_pronoun (std::string & value)
+std::string lexicon_logic_hebrew_morphology_render_type_pronoun (std::string & value)
 {
   std::string rendering;
   if (!value.empty ()) {
@@ -1284,7 +1283,7 @@ string lexicon_logic_hebrew_morphology_render_type_pronoun (std::string & value)
 
 
 // Preposition types
-string lexicon_logic_hebrew_morphology_render_type_preposition (std::string & value)
+std::string lexicon_logic_hebrew_morphology_render_type_preposition (std::string & value)
 {
   std::string rendering;
   if (!value.empty ()) {
@@ -1298,7 +1297,7 @@ string lexicon_logic_hebrew_morphology_render_type_preposition (std::string & va
 
 
 // Suffix types
-string lexicon_logic_hebrew_morphology_render_type_suffix (std::string & value)
+std::string lexicon_logic_hebrew_morphology_render_type_suffix (std::string & value)
 {
   std::string rendering;
   if (!value.empty ()) {
@@ -1315,7 +1314,7 @@ string lexicon_logic_hebrew_morphology_render_type_suffix (std::string & value)
 
 
 // Particle types
-string lexicon_logic_hebrew_morphology_render_type_particle (std::string & value)
+std::string lexicon_logic_hebrew_morphology_render_type_particle (std::string & value)
 {
   std::string rendering;
   if (!value.empty ()) {
@@ -1337,7 +1336,7 @@ string lexicon_logic_hebrew_morphology_render_type_particle (std::string & value
 
 
 // Render verb stems.
-string lexicon_logic_hebrew_morphology_render_stem (bool hebrew, bool aramaic, std::string & value)
+std::string lexicon_logic_hebrew_morphology_render_stem (bool hebrew, bool aramaic, std::string & value)
 {
   std::string rendering;
   if (!value.empty ()) {
@@ -1412,8 +1411,8 @@ string lexicon_logic_hebrew_morphology_render_stem (bool hebrew, bool aramaic, s
 }
 
 
-// Person
-string lexicon_logic_hebrew_morphology_render_person (std::string & value)
+// Person.
+std::string lexicon_logic_hebrew_morphology_render_person (std::string & value)
 {
   std::string rendering;
   if (!value.empty ()) {
@@ -1430,8 +1429,8 @@ string lexicon_logic_hebrew_morphology_render_person (std::string & value)
 }
 
 
-// Gender
-string lexicon_logic_hebrew_morphology_render_gender (std::string & value)
+// Gender.
+std::string lexicon_logic_hebrew_morphology_render_gender (std::string & value)
 {
   std::string rendering;
   if (!value.empty ()) {
@@ -1447,8 +1446,8 @@ string lexicon_logic_hebrew_morphology_render_gender (std::string & value)
 }
 
 
-// Number
-string lexicon_logic_hebrew_morphology_render_number (std::string & value)
+// Number.
+std::string lexicon_logic_hebrew_morphology_render_number (std::string & value)
 {
   std::string rendering;
   if (!value.empty ()) {
@@ -1463,8 +1462,8 @@ string lexicon_logic_hebrew_morphology_render_number (std::string & value)
 }
 
 
-// State
-string lexicon_logic_hebrew_morphology_render_state (std::string & value)
+// State.
+std::string lexicon_logic_hebrew_morphology_render_state (std::string & value)
 {
   std::string rendering;
   if (!value.empty ()) {
@@ -1530,7 +1529,7 @@ struct abbott_smith_walker: pugi::xml_tree_walker
 };
 
 
-string lexicon_logic_render_abbott_smiths_definition (std::string lemma, std::string strong)
+std::string lexicon_logic_render_abbott_smiths_definition (std::string lemma, std::string strong)
 {
   std::vector <std::string> renderings;
 

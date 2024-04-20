@@ -82,7 +82,6 @@
 namespace mimetic
 {
 
-using namespace std;
 Attachment::Attachment(const std::string& fqn)
 {
     set(fqn, ContentType("application","octet-stream"),Base64::Encoder());

@@ -195,7 +195,7 @@ std::string client_logic_link_to_cloud (std::string path, std::string linktext)
   }
   
   std::stringstream link {};
-  link << "<a href=" << quoted(url) << external << ">" << linktext << "</a>";
+  link << "<a href=" << std::quoted(url) << external << ">" << linktext << "</a>";
   return link.str();
 }
 

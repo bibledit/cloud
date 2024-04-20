@@ -31,10 +31,9 @@
 #include <access/logic.h>
 #include <menu/logic.h>
 #include <manage/users.h>
-using namespace std;
 
 
-string manage_privileges_url ()
+std::string manage_privileges_url ()
 {
   return "manage/privileges";
 }
@@ -46,7 +45,7 @@ bool manage_privileges_acl (Webserver_Request& webserver_request)
 }
 
 
-string manage_privileges (Webserver_Request& webserver_request)
+std::string manage_privileges (Webserver_Request& webserver_request)
 {
   std::string page {};
   Assets_Header header = Assets_Header (translate("Read/write"), webserver_request);
@@ -65,7 +64,7 @@ string manage_privileges (Webserver_Request& webserver_request)
 
 
   // Usernames for setting default new user privilege.
-  set <string> defusers = access_logic::default_privilege_usernames ();
+  std::set <std::string> defusers = access_logic::default_privilege_usernames ();
 
   
   bool privileges_updated {false};

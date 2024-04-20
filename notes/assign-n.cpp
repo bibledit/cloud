@@ -66,7 +66,7 @@ std::string notes_assign_n (Webserver_Request& webserver_request)
   std::stringstream userblock{};
   const std::vector <std::string> assignees = database_noteassignment.assignees (user);
   for (const auto& assignee : assignees) {
-    userblock << "<li><a href=" << quoted ("bulk?assign=" + assignee) << ">" << assignee << "</a></li>" << std::endl;
+    userblock << "<li><a href=" << std::quoted ("bulk?assign=" + assignee) << ">" << assignee << "</a></li>" << std::endl;
   }
   view.set_variable ("userblock", userblock.str());
   

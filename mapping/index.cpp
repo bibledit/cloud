@@ -28,10 +28,9 @@
 #include <dialog/yes.h>
 #include <assets/header.h>
 #include <menu/logic.h>
-using namespace std;
 
 
-string mapping_index_url ()
+std::string mapping_index_url ()
 {
   return "mapping/index";
 }
@@ -43,7 +42,7 @@ bool mapping_index_acl (Webserver_Request& webserver_request)
 }
 
 
-string mapping_index (Webserver_Request& webserver_request)
+std::string mapping_index (Webserver_Request& webserver_request)
 {
   Database_Mappings database_mappings;
   
@@ -98,7 +97,7 @@ string mapping_index (Webserver_Request& webserver_request)
     mappingsblock << "<p>";
     mappingsblock << mapping;
     mappingsblock << " ";
-    mappingsblock << "<a href=" << quoted("map?name=" + mapping) << ">[translate(" << quoted("edit") << "]</a>";
+    mappingsblock << "<a href=" << std::quoted("map?name=" + mapping) << ">[translate(" << std::quoted("edit") << "]</a>";
     mappingsblock << "</p>" << std::endl;
   }
   view.set_variable ("mappingsblock", mappingsblock.str());

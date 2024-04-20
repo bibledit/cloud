@@ -63,7 +63,7 @@ string notes_bible_n (Webserver_Request& webserver_request)
   std::vector <std::string> bibles = access_bible::bibles (webserver_request);
   bibles.push_back (notes_logic.generalBibleName ());
   for (const auto & bible : bibles) {
-    bibleblock << "<li><a href=" << quoted("bulk?bible=" + bible) << ">" << bible << "</a></li>" << std::endl;
+    bibleblock << "<li><a href=" << std::quoted("bulk?bible=" + bible) << ">" << bible << "</a></li>" << std::endl;
   }
   view.set_variable ("bibleblock", bibleblock.str());
   

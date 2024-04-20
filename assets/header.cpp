@@ -307,7 +307,7 @@ std::string Assets_Header::run ()
         for (const auto& crumb : m_bread_crumbs) {
           track << " » ";
           if (!crumb.first.empty ()) {
-            track << "<a href=" << quoted("/" + menu_logic_menu_url (crumb.first)) << ">";
+            track << "<a href=" << std::quoted("/" + menu_logic_menu_url (crumb.first)) << ">";
           }
           track << crumb.second;
           if (!crumb.first.empty ()) {

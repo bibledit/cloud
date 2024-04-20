@@ -31,7 +31,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <menu/logic.h>
 #include <client/logic.h>
 #include <locale/logic.h>
-using namespace std;
 
 
 const char * journal_index_url ()
@@ -57,7 +56,7 @@ bool journal_index_acl ([[maybe_unused]]Webserver_Request& webserver_request)
 }
 
 
-string render_journal_entry (std::string filename, [[maybe_unused]] int userlevel)
+std::string render_journal_entry (std::string filename, [[maybe_unused]] int userlevel)
 {
   // Sample filename: "146495380700927147".
   // The first 10 characters are the number of seconds past the Unix epoch,
@@ -107,7 +106,7 @@ string render_journal_entry (std::string filename, [[maybe_unused]] int userleve
 
 
 // Deal with AJAX call for a possible new journal entry.
-string journal_index_ajax_next (Webserver_Request& webserver_request, std::string filename)
+std::string journal_index_ajax_next (Webserver_Request& webserver_request, std::string filename)
 {
   int userLevel = webserver_request.session_logic()->currentLevel ();
   std::string result = Database_Logs::next (filename);
@@ -119,7 +118,7 @@ string journal_index_ajax_next (Webserver_Request& webserver_request, std::strin
 }
 
 
-string journal_index (Webserver_Request& webserver_request)
+std::string journal_index (Webserver_Request& webserver_request)
 {
   int userLevel = webserver_request.session_logic()->currentLevel ();
 
@@ -190,7 +189,7 @@ string journal_index (Webserver_Request& webserver_request)
   // Because when it were passed as an Int, JavaScript would round the value off.
   // And rounding it off often led to double journal entries.
   std::stringstream script;
-  script << "var filename = " << quoted(lastfilename) << ";";
+  script << "var filename = " << std::quoted(lastfilename) << ";";
   view.set_variable ("script", script.str());
 
 

@@ -84,7 +84,6 @@
 
 namespace mimetic
 {
-using namespace std;
 
 #define VERSION "0.9.8"
 
@@ -193,7 +192,7 @@ bool Version::operator>=(const Version& r) const
     return m_maj >= r.m_maj || m_min >= r.m_min || m_build >= r.m_build;
 }
 
-ostream& operator<<(ostream& os, const Version& v)
+std::ostream& operator<<(std::ostream& os, const Version& v)
 {
     return os << v.str();
 }

@@ -44,10 +44,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <session/switch.h>
 #include <ldap/logic.h>
 #include <user/logic.h>
-using namespace std;
 
 
-string manage_users_url ()
+std::string manage_users_url ()
 {
   return "manage/users";
 }
@@ -59,7 +58,7 @@ bool manage_users_acl (Webserver_Request& webserver_request)
 }
 
 
-string manage_users (Webserver_Request& webserver_request)
+std::string manage_users (Webserver_Request& webserver_request)
 {
   bool user_updated = false;
   bool privileges_updated = false;
@@ -112,7 +111,7 @@ string manage_users (Webserver_Request& webserver_request)
       webserver_request.database_users ()->add_user(user, user, role, "");
 
       // Set default privileges on new created user.
-      set <string> defusers = access_logic::default_privilege_usernames ();
+      std::set <std::string> defusers = access_logic::default_privilege_usernames ();
       std::vector <int> privileges = {PRIVILEGE_VIEW_RESOURCES, PRIVILEGE_VIEW_NOTES, PRIVILEGE_CREATE_COMMENT_NOTES};
       auto default_username = next(defusers.begin(), (unsigned)(long)(unsigned)role + 1);
       for (auto & privilege : privileges) {
@@ -285,7 +284,7 @@ string manage_users (Webserver_Request& webserver_request)
     
     // Display emoji to delete this account.
     tbody << "<td>";
-    tbody << "<a href=" << quoted("?user=" + username + "&delete") << ">" << filter::strings::emoji_wastebasket () << "</a> " << username;
+    tbody << "<a href=" << std::quoted("?user=" + username + "&delete") << ">" << filter::strings::emoji_wastebasket () << "</a> " << username;
     tbody << "</td>";
 
     // Divider.
@@ -295,7 +294,7 @@ string manage_users (Webserver_Request& webserver_request)
     // Normally the role can be changed, but when an LDAP server is enabled, it cannot be changed here.
     tbody << "<td>";
     if (enabled) {
-      if (!ldap_on) tbody << "<a href=" << quoted ("?user=" + username + "&level") << ">";
+      if (!ldap_on) tbody << "<a href=" << std::quoted ("?user=" + username + "&level") << ">";
       tbody << namedrole << "</a>";
       if (!ldap_on) tbody << "</a>";
     }
@@ -309,7 +308,7 @@ string manage_users (Webserver_Request& webserver_request)
     // but in case of authentication via an LDAP server, it cannot be changed here.
     tbody << "<td>";
     if (enabled) {
-      if (!ldap_on) tbody << "<a href=" << quoted ("?user=" + username + "&email") << ">";
+      if (!ldap_on) tbody << "<a href=" << std::quoted ("?user=" + username + "&email") << ">";
       tbody << email;
       if (!ldap_on) tbody << "</a>";
     }
@@ -327,9 +326,9 @@ string manage_users (Webserver_Request& webserver_request)
           if (exists) {
             auto [ read, write ] = DatabasePrivileges::get_bible (username, bible);
             if  (objectUserLevel >= Filter_Roles::translator ()) write = true;
-            tbody << "<a href=" << quoted ("?user=" + username + "&removebible=" + bible) << ">" << filter::strings::emoji_wastebasket () << "</a>";
-            tbody << "<a href=" << quoted("/bible/settings?bible=" + bible) << ">" << bible << "</a>";
-            tbody << "<a href=" << quoted("write?user=" + username + "&bible=" + bible) << ">";
+            tbody << "<a href=" << std::quoted ("?user=" + username + "&removebible=" + bible) << ">" << filter::strings::emoji_wastebasket () << "</a>";
+            tbody << "<a href=" << std::quoted("/bible/settings?bible=" + bible) << ">" << bible << "</a>";
+            tbody << "<a href=" << std::quoted("write?user=" + username + "&bible=" + bible) << ">";
             int readwritebooks = 0;
             std::vector <int> books = webserver_request.database_bibles()->get_books (bible);
             for (auto book : books) {
@@ -346,7 +345,7 @@ string manage_users (Webserver_Request& webserver_request)
         // Managers and higher roles have access to all Bibles.
         tbody << "(" << translate ("all") << ")";
       } else {
-        tbody << "<a href=" << quoted("?user=" + username + "&addbible=") << ">" << filter::strings::emoji_heavy_plus_sign () << "</a>";
+        tbody << "<a href=" << std::quoted("?user=" + username + "&addbible=") << ">" << filter::strings::emoji_heavy_plus_sign () << "</a>";
       }
     }
     tbody << "</td>";
@@ -361,7 +360,7 @@ string manage_users (Webserver_Request& webserver_request)
         // Managers and higher roles have all privileges.
         tbody << "(" << translate ("all") << ")";
       } else {
-        tbody << "<a href=" << quoted("privileges?user=" + username) << ">" << translate ("edit") << "</a>";
+        tbody << "<a href=" << std::quoted("privileges?user=" + username) << ">" << translate ("edit") << "</a>";
       }
     }
     tbody << "</td>";
@@ -373,9 +372,9 @@ string manage_users (Webserver_Request& webserver_request)
         tbody << "<td>";
         bool account_enabled = webserver_request.database_users ()->get_enabled (username);
         if (account_enabled) {
-          tbody << "<a href=" << quoted("?user=" + username + "&disable") << ">" << translate ("Disable") << "</a>";
+          tbody << "<a href=" << std::quoted("?user=" + username + "&disable") << ">" << translate ("Disable") << "</a>";
         } else {
-          tbody << "<a href=" << quoted("?user=" + username + "&enable") << ">" << translate ("Enable") << "</a>";
+          tbody << "<a href=" << std::quoted("?user=" + username + "&enable") << ">" << translate ("Enable") << "</a>";
         }
         tbody << "</td>";
       }
@@ -386,7 +385,7 @@ string manage_users (Webserver_Request& webserver_request)
       if (myLevel > objectUserLevel) {
         tbody << "<td>│</td>";
         tbody << "<td>";
-        tbody << "<a href=" << quoted ("?user=" + username + "&login") << ">" << translate ("Login") << "</a>";
+        tbody << "<a href=" << std::quoted ("?user=" + username + "&login") << ">" << translate ("Login") << "</a>";
         tbody << "</td>";
       }
     }

@@ -22,7 +22,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 #include <database/logs.h>
 #include <locale/translate.h>
-using namespace std;
 
 
 // Sets a variable (key and value) for the html template.
@@ -49,7 +48,7 @@ void Flate::add_iteration (std::string key, std::map <std::string, std::string> 
 
 
 // Renders the html template.
-string Flate::render (std::string html)
+std::string Flate::render (std::string html)
 {
   std::string rendering;
   try {

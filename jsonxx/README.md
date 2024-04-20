@@ -96,8 +96,8 @@ Default value is `Enabled`.
 The following snippets are from one of the unit tests. They are quite self-descriptive.
 
 ~~~C++
-using namespace std;
-using namespace jsonxx;
+using  namespace std;
+using  namespace jsonxx;
 
 string teststr(
         "{"
@@ -132,8 +132,8 @@ cout << o.xml(JXMLex) << endl;                // JSON to XML conversion (JXMLex 
 
 ~~~C++
 // Generate JSON document dynamically
-using namespace std;
-using namespace jsonxx;
+using  namespace std;
+using  namespace jsonxx;
 Array a;
 a << 123;
 a << "hello world";

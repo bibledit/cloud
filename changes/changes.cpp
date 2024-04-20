@@ -221,7 +221,7 @@ std::string changes_changes (Webserver_Request& webserver_request)
   
   
   std::stringstream loading {};
-  loading << "var loading = " << quoted(translate("Loading ...")) << ";";
+  loading << "var loading = " << std::quoted(translate("Loading ...")) << ";";
   std::string script = loading.str();
   config::logic::swipe_enabled (webserver_request, script);
   view.set_variable ("script", script);

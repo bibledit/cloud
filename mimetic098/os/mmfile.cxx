@@ -87,8 +87,6 @@
 #include <mimetic098/os/mmfile.h>
 #include <cstring>
 
-using namespace std;
-
 namespace mimetic
 {
 

@@ -60,7 +60,7 @@ std::string public_notes (Webserver_Request& webserver_request)
     if (database_notes.get_public (identifier)) {
       notesblock << "<p class=" << std::quoted ("nowrap") << ">";
       const std::string url_to_note = "note?id=" + filter::strings::convert_to_string (identifier);
-      notesblock << "<a href=" << quoted (url_to_note) << ">";
+      notesblock << "<a href=" << std::quoted (url_to_note) << ">";
       std::vector <Passage> passages = database_notes.get_passages (identifier);
       std::string verses;
       for (const auto& passage : passages) {

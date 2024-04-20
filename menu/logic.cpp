@@ -103,10 +103,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <resource/comparative9edit.h>
 #include <resource/translated9edit.h>
 #include <images/index.h>
-using namespace std;
 
 
-string menu_logic_href (std::string href)
+std::string menu_logic_href (std::string href)
 {
   href = filter::strings::replace ("?", "__q__", href);
   href = filter::strings::replace ("&", "__a__", href);
@@ -115,7 +114,7 @@ string menu_logic_href (std::string href)
 }
 
 
-string menu_logic_click (std::string item)
+std::string menu_logic_click (std::string item)
 {
   item = filter::strings::replace ("__q__", "?", item);
   item = filter::strings::replace ("__a__", "&", item);
@@ -125,7 +124,7 @@ string menu_logic_click (std::string item)
 }
 
 
-string menu_logic_create_item (std::string href, std::string text, bool history, std::string title, std::string colour)
+std::string menu_logic_create_item (std::string href, std::string text, bool history, std::string title, std::string colour)
 {
   std::string item;
   item.append (R"(<span class="nowrap)");
@@ -143,31 +142,31 @@ string menu_logic_create_item (std::string href, std::string text, bool history,
 }
 
 
-string menu_logic_translate_menu ()
+std::string menu_logic_translate_menu ()
 {
   return "translate";
 }
 
 
-string menu_logic_search_menu ()
+std::string menu_logic_search_menu ()
 {
   return "search";
 }
 
 
-string menu_logic_tools_menu ()
+std::string menu_logic_tools_menu ()
 {
   return "tools";
 }
 
 
-string menu_logic_settings_menu ()
+std::string menu_logic_settings_menu ()
 {
   return "settings";
 }
 
 
-string menu_logic_settings_resources_menu ()
+std::string menu_logic_settings_resources_menu ()
 {
   return "settings-resources";
 }
@@ -176,7 +175,7 @@ string menu_logic_settings_resources_menu ()
 // Returns the html for the main menu categories.
 // Also fills the $tooltip with an appropriate value for this main menu.
 // This function is called for the main page, that is, the home page.
-string menu_logic_main_categories (Webserver_Request& webserver_request, std::string & tooltip)
+std::string menu_logic_main_categories (Webserver_Request& webserver_request, std::string & tooltip)
 {
   // The sets of html that is going to form the menu.
   std::vector <std::string> html;
@@ -287,7 +286,7 @@ string menu_logic_main_categories (Webserver_Request& webserver_request, std::st
  */
 
 
-string menu_logic_basic_categories (Webserver_Request& webserver_request)
+std::string menu_logic_basic_categories (Webserver_Request& webserver_request)
 {
   std::vector <std::string> html;
 
@@ -361,7 +360,7 @@ string menu_logic_basic_categories (Webserver_Request& webserver_request)
 
 // Generates html for the workspace main menu.
 // Plus the tooltip for it.
-string menu_logic_workspace_category (Webserver_Request& webserver_request, std::string * tooltip)
+std::string menu_logic_workspace_category (Webserver_Request& webserver_request, std::string * tooltip)
 {
   std::vector <std::string> html;
   std::vector <std::string> labels;
@@ -389,7 +388,7 @@ string menu_logic_workspace_category (Webserver_Request& webserver_request, std:
 }
 
 
-string menu_logic_translate_category (Webserver_Request& webserver_request, std::string * tooltip)
+std::string menu_logic_translate_category (Webserver_Request& webserver_request, std::string * tooltip)
 {
   std::vector <std::string> html;
   std::vector <std::string> labels;
@@ -464,7 +463,7 @@ string menu_logic_translate_category (Webserver_Request& webserver_request, std:
 }
 
 
-string menu_logic_search_category (Webserver_Request& webserver_request, std::string * tooltip)
+std::string menu_logic_search_category (Webserver_Request& webserver_request, std::string * tooltip)
 {
   std::vector <std::string> html;
   std::vector <std::string> labels;
@@ -532,7 +531,7 @@ string menu_logic_search_category (Webserver_Request& webserver_request, std::st
 }
 
 
-string menu_logic_tools_category (Webserver_Request& webserver_request, std::string * tooltip)
+std::string menu_logic_tools_category (Webserver_Request& webserver_request, std::string * tooltip)
 {
   // The labels that may end up in the menu.
   std::string checks = translate ("Checks");
@@ -655,7 +654,7 @@ string menu_logic_tools_category (Webserver_Request& webserver_request, std::str
 }
 
 
-string menu_logic_settings_category (Webserver_Request& webserver_request, std::string * tooltip)
+std::string menu_logic_settings_category (Webserver_Request& webserver_request, std::string * tooltip)
 {
   [[maybe_unused]] bool demo = config::logic::demo_enabled ();
   
@@ -910,7 +909,7 @@ string menu_logic_settings_category (Webserver_Request& webserver_request, std::
 }
 
 
-string menu_logic_settings_resources_category ([[maybe_unused]] Webserver_Request& webserver_request)
+std::string menu_logic_settings_resources_category ([[maybe_unused]] Webserver_Request& webserver_request)
 {
   std::vector <std::string> html;
   
@@ -976,7 +975,7 @@ string menu_logic_settings_resources_category ([[maybe_unused]] Webserver_Reques
 }
 
 
-string menu_logic_help_category (Webserver_Request& webserver_request)
+std::string menu_logic_help_category (Webserver_Request& webserver_request)
 {
   std::vector <std::string> html;
 
@@ -1003,7 +1002,7 @@ bool menu_logic_public_or_guest (Webserver_Request& webserver_request)
 
 
 // Returns the text that belongs to a certain menu item.
-string menu_logic_menu_text (std::string menu_item)
+std::string menu_logic_menu_text (std::string menu_item)
 {
   if (menu_item == menu_logic_translate_menu ()) {
     return menu_logic_translate_text ();
@@ -1025,7 +1024,7 @@ string menu_logic_menu_text (std::string menu_item)
 
 
 // Returns the URL that belongs to $menu_item.
-string menu_logic_menu_url (std::string menu_item)
+std::string menu_logic_menu_url (std::string menu_item)
 {
   if (
       (menu_item == menu_logic_translate_menu ())
@@ -1043,139 +1042,139 @@ string menu_logic_menu_url (std::string menu_item)
 }
 
 
-string menu_logic_translate_text ()
+std::string menu_logic_translate_text ()
 {
   return translate ("Translate");
 }
 
 
-string menu_logic_search_text ()
+std::string menu_logic_search_text ()
 {
   return translate ("Search");
 }
 
 
-string menu_logic_tools_text ()
+std::string menu_logic_tools_text ()
 {
   return translate ("Tools");
 }
 
 
-string menu_logic_settings_text ()
+std::string menu_logic_settings_text ()
 {
   return translate ("Settings");
 }
 
 
-string menu_logic_help_text ()
+std::string menu_logic_help_text ()
 {
   return translate ("Help");
 }
 
 
-string menu_logic_public_feedback_text ()
+std::string menu_logic_public_feedback_text ()
 {
   return translate ("Feedback");
 }
 
 
-string menu_logic_logout_text ()
+std::string menu_logic_logout_text ()
 {
   return translate ("Logout");
 }
 
 
-string menu_logic_consultation_notes_text ()
+std::string menu_logic_consultation_notes_text ()
 {
   return translate ("Notes");
 }
 
 
-string menu_logic_bible_manage_text ()
+std::string menu_logic_bible_manage_text ()
 {
   return translate ("Bibles");
 }
 
 
-string menu_logic_workspace_organize_text ()
+std::string menu_logic_workspace_organize_text ()
 {
   return translate ("Workspaces");
 }
 
 
-string menu_logic_checks_settings_text ()
+std::string menu_logic_checks_settings_text ()
 {
   return translate ("Checks");
 }
 
 
-string menu_logic_resources_text ()
+std::string menu_logic_resources_text ()
 {
   return translate ("Resources");
 }
 
 
-string menu_logic_resource_images_text ()
+std::string menu_logic_resource_images_text ()
 {
   return translate ("Image resources");
 }
 
 
-string menu_logic_manage_users_text ()
+std::string menu_logic_manage_users_text ()
 {
   return translate ("Users");
 }
 
 
-string menu_logic_versification_index_text ()
+std::string menu_logic_versification_index_text ()
 {
   return translate ("Versifications");
 }
 
 
-string menu_logic_mapping_index_text ()
+std::string menu_logic_mapping_index_text ()
 {
   return translate ("Verse mappings");
 }
 
 
-string menu_logic_styles_indext_text ()
+std::string menu_logic_styles_indext_text ()
 {
   return translate ("Select stylesheet");
 }
 
 
-string menu_logic_styles_indexm_text ()
+std::string menu_logic_styles_indexm_text ()
 {
   return translate ("Edit stylesheet");
 }
 
 
-string menu_logic_changes_text ()
+std::string menu_logic_changes_text ()
 {
   return translate ("Changes");
 }
 
 
-string menu_logic_styles_text ()
+std::string menu_logic_styles_text ()
 {
   return translate ("Styles");
 }
 
 
-string menu_logic_menu_text ()
+std::string menu_logic_menu_text ()
 {
   return translate ("Menu");
 }
 
 
-string menu_logic_images_index_text ()
+std::string menu_logic_images_index_text ()
 {
   return translate ("Images");
 }
 
 
-string menu_logic_editor_settings_text (bool visual, int selection)
+std::string menu_logic_editor_settings_text (bool visual, int selection)
 {
   if (visual) {
     if (selection == 0) return translate ("Both the visual chapter and visual verse editors");
@@ -1211,7 +1210,7 @@ bool menu_logic_editor_enabled (Webserver_Request& webserver_request, bool visua
 }
 
 
-string menu_logic_editor_menu_text (bool visual, bool chapter)
+std::string menu_logic_editor_menu_text (bool visual, bool chapter)
 {
   // Get the correct menu text.
   if (visual && chapter) return translate ("Chapter editor");
@@ -1286,7 +1285,7 @@ void menu_logic_tabbed_mode_save_json (Webserver_Request& webserver_request)
 }
 
 
-string menu_logic_verse_separator (std::string separator)
+std::string menu_logic_verse_separator (std::string separator)
 {
   if (separator == ".") {
     return translate ("dot") + " ( . )";

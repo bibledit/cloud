@@ -21,7 +21,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/config/general.h>
 #include <database/localization.h>
 #include <filter/string.h>
-using namespace std;
 
 
 // Storage for the user interface obfuscation strings.
@@ -30,7 +29,7 @@ std::vector <std::string> locale_translate_obfuscation_replace;
 
 
 // Translates $english to its localized string.
-string translate (std::string english)
+std::string translate (std::string english)
 {
   // Start off with the English message.
   std::string result (english);
@@ -52,4 +51,3 @@ string translate (std::string english)
   // Ready.
   return result;
 }
-

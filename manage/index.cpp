@@ -24,10 +24,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <locale/translate.h>
 #include <assets/header.h>
 #include <menu/logic.h>
-using namespace std;
 
 
-string manage_index_url ()
+std::string manage_index_url ()
 {
   return "manage/index";
 }
@@ -39,7 +38,7 @@ bool manage_index_acl (Webserver_Request& webserver_request)
 }
 
 
-string manage_index (Webserver_Request& webserver_request)
+std::string manage_index (Webserver_Request& webserver_request)
 {
   std::string page;
   Assets_Header header = Assets_Header (translate("Manage"), webserver_request);

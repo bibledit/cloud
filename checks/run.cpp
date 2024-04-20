@@ -265,10 +265,10 @@ void checks_run (std::string bible)
     Webserver_Request webserver_request;
     const std::string siteUrl = config::logic::site_url (webserver_request);
     std::stringstream body1 {};
-    body1 << "<p><a href=" << quoted (siteUrl + checks_index_url ()) << ">" << translate("Checking results online") << "</a></p>";
+    body1 << "<p><a href=" << std::quoted (siteUrl + checks_index_url ()) << ">" << translate("Checking results online") << "</a></p>";
     emailBody.push_back (body1.str());
     std::stringstream body2 {};
-    body2 << "<p><a href=" << quoted(siteUrl + checks_settings_url ()) << ">" << translate ("Settings") << "</a></p>";
+    body2 << "<p><a href=" << std::quoted(siteUrl + checks_settings_url ()) << ">" << translate ("Settings") << "</a></p>";
     emailBody.push_back (body2.str());
   }
   

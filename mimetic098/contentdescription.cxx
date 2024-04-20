@@ -78,7 +78,6 @@
 
 namespace mimetic
 {
-using namespace std;
 
 const char ContentDescription::label[] = "Content-Description";
 

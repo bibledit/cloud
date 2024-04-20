@@ -41,7 +41,6 @@
 #include <webserver/request.h>
 #include <filter/string.h>
 #include <database/logs.h>
-using namespace std;
 
 
 // This returns true if the $entry can be filtered out from the Journal.
@@ -67,13 +66,13 @@ bool journal_logic_filter_entry (const std::string& entry)
 }
 
 
-string journal_logic_filtered_message ()
+std::string journal_logic_filtered_message ()
 {
   return translate ("Has been sending and receiving during the past hour");
 }
 
 
-string journal_logic_see_journal_for_progress ()
+std::string journal_logic_see_journal_for_progress ()
 {
   pugi::xml_document document;
   pugi::xml_node a_node = document.append_child ("a");

@@ -31,10 +31,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <menu/logic.h>
 #include <manage/users.h>
 #include <database/privileges.h>
-using namespace std;
 
 
-string manage_write_url ()
+std::string manage_write_url ()
 {
   return "manage/write";
 }
@@ -46,7 +45,7 @@ bool manage_write_acl (Webserver_Request& webserver_request)
 }
 
 
-string manage_write (Webserver_Request& webserver_request)
+std::string manage_write (Webserver_Request& webserver_request)
 {
   std::string page {};
 
@@ -129,7 +128,7 @@ string manage_write (Webserver_Request& webserver_request)
     bool read, write;
     DatabasePrivileges::get_bible_book (user, bible, book, read, write);
     std::string checked = filter::strings::get_checkbox_status (write);
-    view.add_iteration ("write", { pair ("bookname", bookname), pair ("checkboxname", checkboxname), pair ("checked", checked) } );
+    view.add_iteration ("write", { std::pair ("bookname", bookname), std::pair ("checkboxname", checkboxname), std::pair ("checked", checked) } );
   }
   
   page += view.render ("manage", "write");

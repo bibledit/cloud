@@ -29,10 +29,9 @@
 #include <access/bible.h>
 #include <tasks/logic.h>
 #include <database/jobs.h>
-using namespace std;
 
 
-string jobs_index_url ()
+std::string jobs_index_url ()
 {
   return "jobs/index";
 }
@@ -44,7 +43,7 @@ bool jobs_index_acl (Webserver_Request& webserver_request)
 }
 
 
-string jobs_index (Webserver_Request& webserver_request)
+std::string jobs_index (Webserver_Request& webserver_request)
 {
   std::string page;
   

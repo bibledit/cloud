@@ -139,7 +139,7 @@ string notes_actions (Webserver_Request& webserver_request)
   for (auto & assignee : assignees) {
     assigneeblock << assignee;
     if (level >= Filter_Roles::manager ()) {
-      assigneeblock << "<a href=" << quoted ("?id=" + filter::strings::convert_to_string (id) + "&unassign=" + assignee) << "> [" << translate("unassign") << "]</a>";
+      assigneeblock << "<a href=" << std::quoted ("?id=" + filter::strings::convert_to_string (id) + "&unassign=" + assignee) << "> [" << translate("unassign") << "]</a>";
       assigneeblock << " | ";
     }
   }

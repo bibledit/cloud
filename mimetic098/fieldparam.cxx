@@ -79,8 +79,6 @@
 namespace mimetic
 {
 
-using namespace std;
-
 FieldParam::FieldParam()
 {
 }
@@ -126,7 +124,7 @@ void FieldParam::value(const std::string& v)
     m_value = v;
 }
 
-ostream& operator<<(ostream& os, const FieldParam& p)
+std::ostream& operator<<(std::ostream& os, const FieldParam& p)
 {
     os << p.name() << "=";
     const std::string& val = p.value();

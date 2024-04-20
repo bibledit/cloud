@@ -23,7 +23,6 @@
 #include <filter/shell.h>
 #include <filter/roles.h>
 #include <database/logs.h>
-using namespace std;
 
 
 /*
@@ -52,12 +51,12 @@ using namespace std;
 
 // These global variables contain the settings for the OpenLDAP server
 // to query for user credentials.
-string ldap_logic_uri {};
-string ldap_logic_binddn {};
-string ldap_logic_basedn {};
-string ldap_logic_scope {};
-string ldap_logic_filter {};
-string ldap_logic_role {};
+std::string ldap_logic_uri {};
+std::string ldap_logic_binddn {};
+std::string ldap_logic_basedn {};
+std::string ldap_logic_scope {};
+std::string ldap_logic_filter {};
+std::string ldap_logic_role {};
 
 
 // Initialize the configuration for accessing an OpenLDAP server.

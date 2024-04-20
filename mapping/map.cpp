@@ -29,10 +29,9 @@
 #include <dialog/yes.h>
 #include <assets/header.h>
 #include <menu/logic.h>
-using namespace std;
 
 
-string mapping_map_url ()
+std::string mapping_map_url ()
 {
   return "mapping/map";
 }
@@ -44,7 +43,7 @@ bool mapping_map_acl (Webserver_Request& webserver_request)
 }
 
 
-string mapping_map (Webserver_Request& webserver_request)
+std::string mapping_map (Webserver_Request& webserver_request)
 {
   Database_Mappings database_mappings;
   

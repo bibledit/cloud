@@ -76,7 +76,6 @@
 #include <mimetic098/rfc822/fieldvalue.h>
 namespace mimetic
 {
-using namespace std;
 
 std::ostream& operator<<(std::ostream& os, const FieldValue& fv)
 {

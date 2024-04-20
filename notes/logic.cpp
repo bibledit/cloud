@@ -480,7 +480,7 @@ void Notes_Logic::emailUsers (int identifier, const std::string& label, std::str
   contents << "<p>";
   contents << "<a href=";
   std::string notelink = config::logic::site_url (m_webserver_request) + notes_note_url () + "?id=" + filter::strings::convert_to_string (identifier);
-  contents << quoted (notelink);
+  contents << std::quoted (notelink);
   contents << ">";
   contents << translate ("View or respond online");
   contents << "</a>";
@@ -488,7 +488,7 @@ void Notes_Logic::emailUsers (int identifier, const std::string& label, std::str
 
   contents << "<a href=";
   std::string workspacelink = config::logic::site_url (m_webserver_request) + workspace_index_url () + "?note=" + filter::strings::convert_to_string (identifier);
-  contents << quoted (workspacelink);
+  contents << std::quoted (workspacelink);
   contents << ">";
   contents << translate ("open the workspace online");
   contents << "</a>";
@@ -496,7 +496,7 @@ void Notes_Logic::emailUsers (int identifier, const std::string& label, std::str
   contents << "</p>" << std::endl;
   std::string mailto = "mailto:" + Database_Config_General::getSiteMailAddress () + "?subject=(CNID" + filter::strings::convert_to_string (identifier) + ")";
   contents << "<p><a href=";
-  contents << quoted (mailto);
+  contents << std::quoted (mailto);
   contents << ">Respond by email</a></p>" << std::endl;
 
   // Deal with possible postponing email till 9 PM.

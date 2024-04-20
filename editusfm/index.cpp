@@ -111,12 +111,12 @@ std::string editusfm_index (Webserver_Request& webserver_request)
   
   const int verticalCaretPosition = webserver_request.database_config_user ()->getVerticalCaretPosition ();
   std::stringstream ss{};
-  ss << "var usfmEditorChapterLoaded = " << quoted(locale_logic_text_loaded ()) << ";" << std::endl;
-  ss << "var usfmEditorWillSave = " << quoted(locale_logic_text_will_save ()) << ";" << std::endl;
-  ss << "var usfmEditorChapterSaving = " << quoted(locale_logic_text_saving ()) << ";" << std::endl;
-  ss << "var usfmEditorChapterSaved = " << quoted(locale_logic_text_saved ()) << ";" << std::endl;
-  ss << "var usfmEditorChapterRetrying = " << quoted(locale_logic_text_retrying ()) << ";" << std::endl;
-  ss << "var usfmEditorVerseUpdatedLoaded = " << quoted(locale_logic_text_reload ()) << ";" << std::endl;
+  ss << "var usfmEditorChapterLoaded = " << std::quoted(locale_logic_text_loaded ()) << ";" << std::endl;
+  ss << "var usfmEditorWillSave = " << std::quoted(locale_logic_text_will_save ()) << ";" << std::endl;
+  ss << "var usfmEditorChapterSaving = " << std::quoted(locale_logic_text_saving ()) << ";" << std::endl;
+  ss << "var usfmEditorChapterSaved = " << std::quoted(locale_logic_text_saved ()) << ";" << std::endl;
+  ss << "var usfmEditorChapterRetrying = " << std::quoted(locale_logic_text_retrying ()) << ";" << std::endl;
+  ss << "var usfmEditorVerseUpdatedLoaded = " << std::quoted(locale_logic_text_reload ()) << ";" << std::endl;
   ss << "var usfmEditorWriteAccess = true;" << std::endl;
   ss << "var verticalCaretPosition = " << verticalCaretPosition << ";" << std::endl;
   std::string script = ss.str();

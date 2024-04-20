@@ -164,7 +164,7 @@ string notes_select (Webserver_Request& webserver_request)
     statusblock << " | ";
     statusblock << "<a ";
     if (status_selector == possible_status.raw) statusblock << active_class;
-    statusblock << " href=" << quoted ("select?statusselector=" + possible_status.raw) << ">";
+    statusblock << " href=" << std::quoted ("select?statusselector=" + possible_status.raw) << ">";
     statusblock << possible_status.localized;
     statusblock << "</a>";
   }
@@ -188,7 +188,7 @@ string notes_select (Webserver_Request& webserver_request)
     bibleblock << " | ";
     bibleblock << "<a ";
     if (bible_selector == bible) bibleblock << active_class;
-    bibleblock << " href=" << quoted ("select?bibleselector=" + bible) << ">" << bible << "</a>";
+    bibleblock << " href=" << std::quoted ("select?bibleselector=" + bible) << ">" << bible << "</a>";
   }
   view.set_variable ("bibleblock", bibleblock.str());
   
@@ -201,7 +201,7 @@ string notes_select (Webserver_Request& webserver_request)
     assigneeblock << " | ";
     assigneeblock << "<a ";
     if (assignment_selector == assignee) assigneeblock << active_class;
-    assigneeblock << " href=" << quoted ("select?assignmentselector=" + assignee) << ">" << assignee << "</a>";
+    assigneeblock << " href=" << std::quoted ("select?assignmentselector=" + assignee) << ">" << assignee << "</a>";
   }
   view.set_variable ("assigneeblock", assigneeblock.str());
   if (assignment_selector != "") {
@@ -224,7 +224,7 @@ string notes_select (Webserver_Request& webserver_request)
     severityblock << " | ";
     severityblock << "<a ";
     if (severity_selector == static_cast<int>(i)) severityblock << active_class;
-    severityblock << "href=" << quoted ("select?severityselector=" + filter::strings::convert_to_string (i)) << ">" << severities[i].localized << "</a>";
+    severityblock << "href=" << std::quoted ("select?severityselector=" + filter::strings::convert_to_string (i)) << ">" << severities[i].localized << "</a>";
   }
   view.set_variable ("severityblock", severityblock.str());
 

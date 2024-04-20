@@ -79,7 +79,7 @@
 
 #include <mimetic098/codec/base64.h>
 
-using namespace mimetic;
+using  namespace mimetic;
 
 const char Base64::sEncTable[] = 
     "ABCDEFGHIJKLMNOPQRSTUVWXYZ"

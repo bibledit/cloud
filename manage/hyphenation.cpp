@@ -32,7 +32,6 @@
 #include <menu/logic.h>
 #include <journal/index.h>
 #include <webserver/request.h>
-using namespace std;
 
 
 const char * manage_hyphenation_url ()
@@ -47,7 +46,7 @@ bool manage_hyphenation_acl (Webserver_Request& webserver_request)
 }
 
 
-string manage_hyphenation (Webserver_Request& webserver_request)
+std::string manage_hyphenation (Webserver_Request& webserver_request)
 {
   std::string page;
   Assets_Header header = Assets_Header (translate ("Hyphenation"), webserver_request);

@@ -28,14 +28,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <tlhelp32.h>
 #endif
 #include <developer/logic.h>
-using namespace std;
 
 
-// Internal declarations.
-string filter_shell_escape_argument (std::string argument);
-
-
-string filter_shell_escape_argument (std::string argument)
+static std::string filter_shell_escape_argument (std::string argument)
 {
   argument = filter::strings::replace ("'", "\\'", argument);
   argument.insert (0, "'");
@@ -230,7 +225,7 @@ int filter_shell_vfork ([[maybe_unused]] std::string & output,
 
   // It seems that waiting very shortly before calling vfork ()
   // enables running threads to continue running.
-  this_thread::sleep_for (chrono::milliseconds (1));
+  std::this_thread::sleep_for (std::chrono::milliseconds (1));
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
   pid_t pid = vfork();

@@ -342,8 +342,6 @@
 /jsonxx/LICENSE
 /ldap
 /lexicon
-/libbibledit.a.8Zx3rs
-/libbibledit.a.hgUmKs
 /library
 /livetest
 /livetest/initialize.sh
@@ -517,7 +515,6 @@
 /pix/safari-pinned-tab.svg
 /pix/splash.jpg
 /pkgdata
-/pkgdata/.!16152!files.txt
 /pkgdata/create.sh
 /pkgdata/files.txt
 /pkgdata/install.sh

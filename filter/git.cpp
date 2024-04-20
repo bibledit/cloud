@@ -30,14 +30,13 @@
 #include <bb/logic.h>
 #include <locale/translate.h>
 #include <rss/logic.h>
-using namespace std;
 
 
 #ifdef HAVE_CLOUD
 
 
 // This function returns the directory of the git repository belonging to $object.
-string filter_git_directory (std::string object)
+std::string filter_git_directory (std::string object)
 {
   return filter_url_create_root_path ({"git", object});
 }
@@ -297,7 +296,7 @@ void filter_git_sync_git_to_bible (Webserver_Request& webserver_request, std::st
 }
 
 
-string filter_git_disabled ()
+std::string filter_git_disabled ()
 {
   return "Git has been disabled on iOS and Android, and can be enabled on Linux, Windows and macOS";
 }
@@ -610,7 +609,7 @@ void filter_git_config (std::string repository)
 
 
 // This checks $user, and optionally set it, to be sure it always returns a username.
-string filter_git_user (std::string user)
+std::string filter_git_user (std::string user)
 {
   if (user.empty ()) {
     user = Database_Config_General::getSiteMailName ();
@@ -625,7 +624,7 @@ string filter_git_user (std::string user)
 // This takes the email address that belongs to $user,
 // and optionally sets the email address to a valid value,
 // and returns that email address.
-string filter_git_email (std::string user)
+std::string filter_git_email (std::string user)
 {
   Database_Users database_users;
   std::string email = database_users.get_email (user);

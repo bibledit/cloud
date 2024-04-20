@@ -39,11 +39,9 @@
 #include <text/text.h>
 #include <locale/translate.h>
 #include <developer/logic.h>
-using namespace std;
-using dtl::Diff;
 
 
-static mutex filter_diff_mutex;
+static std::mutex filter_diff_mutex;
 
 
 // This filter returns the diff of two input strings.
@@ -52,9 +50,9 @@ static mutex filter_diff_mutex;
 // The function returns the differences marked.
 // If the containers for $removals and $additions are given,
 // they will be filled with the appropriate text fragments.
-string filter_diff_diff (std::string oldstring, std::string newstring,
-                         std::vector <std::string> * removals,
-                         std::vector <std::string> * additions)
+std::string filter_diff_diff (std::string oldstring, std::string newstring,
+                              std::vector <std::string> * removals,
+                              std::vector <std::string> * additions)
 {
   // Save the new lines.
   std::string newline = " newline_newline_newline ";
@@ -73,7 +71,7 @@ string filter_diff_diff (std::string oldstring, std::string newstring,
   filter_diff_mutex.lock();
 
   // Run the diff engine.
-  Diff <string> diff (old_sequence, new_sequence);
+  dtl::Diff <std::string> diff (old_sequence, new_sequence);
   diff.compose();
   
   // Get the shortest edit distance.
@@ -165,7 +163,7 @@ void filter_diff_diff_utf16 (const std::vector <std::string> & oldinput, const s
   }
 
   // Run the diff engine.
-  Diff <string> diff (old_sequence, new_sequence);
+  dtl::Diff <std::string> diff (old_sequence, new_sequence);
   diff.compose();
   
   // Get the shortest edit distance.
@@ -186,7 +184,7 @@ void filter_diff_diff_utf16 (const std::vector <std::string> & oldinput, const s
     line.erase (0, 1);
     // Get the size of the character in UTF-16, whether 1 or 2.
     std::string utf8 = filter::strings::unicode_string_substr (line, 0, 1);
-    u16string utf16 = filter::strings::convert_to_u16string (utf8);
+    std::u16string utf16 = filter::strings::convert_to_u16string (utf8);
     size_t size = utf16.length();
     if (indicator == '+') {
       // Something to be inserted into the old sequence to get at the new sequence.
@@ -250,7 +248,7 @@ int filter_diff_character_similarity (std::string oldstring, std::string newstri
     filter_diff_mutex.lock();
 
     // Run the diff engine.
-    Diff <string> diff (old_sequence, new_sequence);
+    dtl::Diff <std::string> diff (old_sequence, new_sequence);
     diff.compose();
     
     // Get the shortest edit distance.
@@ -306,7 +304,7 @@ int filter_diff_word_similarity (std::string oldstring, std::string newstring)
   filter_diff_mutex.lock();
 
   // Run the diff engine.
-  Diff <string> diff (old_sequence, new_sequence);
+  dtl::Diff <std::string> diff (old_sequence, new_sequence);
   diff.compose();
   
   // Get the shortest edit distance.

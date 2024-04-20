@@ -32,7 +32,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <windows.h>
 #endif
 #include <config/globals.h>
-using namespace std;
 
 // Fix for architecture hurd-i386 that does not define MAXPATHLEN.
 #ifndef MAXPATHLEN
@@ -50,7 +49,7 @@ static void sigint_handler ([[maybe_unused]] int s)
 }
 
 
-static string backtrace_path ()
+static std::string backtrace_path ()
 {
   return filter_url_create_root_path ({filter_url_temp_dir (), "backtrace.txt"});
 }

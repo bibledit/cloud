@@ -20,7 +20,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/note.h>
 #include <styles/logic.h>
 #include <filter/string.h>
-using namespace std;
 
 
 namespace filter::note {
@@ -58,14 +57,14 @@ void citation::set_restart (int setting)
   else this->restart = "chapter";
 }
 
-string citation::get (std::string citation_in)
+std::string citation::get (std::string citation_in)
 {
   // Handle USFM automatic note citation.
   if (citation_in == "+") {
     // If the sequence is empty, then the note citation starts at 1 and increases each time.
     if (sequence.empty()) {
       pointer++;
-      citation_in = to_string (pointer);
+      citation_in = std::to_string (pointer);
     }
     // The sequence of note callers is not empty.
     // So take the note citaton from the sequence,
@@ -117,7 +116,7 @@ void citations::evaluate_style (const Database_Styles_Item & style)
 }
 
 
-string citations::get (const std::string& marker, const std::string& citation)
+std::string citations::get (const std::string& marker, const std::string& citation)
 {
   return cache[marker].get(citation);
 }

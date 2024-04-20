@@ -37,7 +37,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <pugixml.hpp>
 #endif
 #pragma GCC diagnostic pop
-using namespace std;
 
 
 Passage::Passage ()
@@ -69,7 +68,7 @@ bool Passage::equal (Passage & passage)
 // This method converts the passage of the object into text, like e.g. so:
 // "hexadecimal Bible _1_2_3".
 // First the hexadecimal Bible comes, then the book identifier, then the chapter number, and finally the verse number.
-string Passage::encode () const
+std::string Passage::encode () const
 {
   std::string text;
   // The encoded passage can be used as an attribute in the HTML DOM.
@@ -115,7 +114,7 @@ Passage Passage::decode (const std::string& encoded)
 }
 
 
-string filter_passage_display (int book, int chapter, std::string verse)
+std::string filter_passage_display (int book, int chapter, std::string verse)
 {
   std::string display;
   display.append (translate (database::books::get_english_from_id (static_cast<book_id>(book)).c_str()));
@@ -127,7 +126,7 @@ string filter_passage_display (int book, int chapter, std::string verse)
 
 
 // Returns the display string for the $passages as one line.
-string filter_passage_display_inline (std::vector <Passage> passages)
+std::string filter_passage_display_inline (std::vector <Passage> passages)
 {
   std::string display;
   for (Passage & passage : passages) {
@@ -138,9 +137,8 @@ string filter_passage_display_inline (std::vector <Passage> passages)
 }
 
 
-
 // Returns the display string for the $passages as several lines.
-string filter_passage_display_multiline (std::vector <Passage> passages)
+std::string filter_passage_display_multiline (std::vector <Passage> passages)
 {
   std::string display;
   for (Passage & passage : passages) {
@@ -161,11 +159,11 @@ int filter_passage_to_integer (Passage passage)
 // This converts the $integer, created above, to a passage.
 Passage filter_integer_to_passage (int integer)
 {
-  int book = static_cast<int> (round (integer / 1000000));
+  const int book = static_cast<int> (round (integer / 1000000));
   integer -= book * 1000000;
-  int chapter = static_cast<int> (round (integer / 1000));
+  const int chapter = static_cast<int> (round (integer / 1000));
   integer -= chapter * 1000;
-  std::string verse = filter::strings::convert_to_string (integer);
+  const std::string verse = filter::strings::convert_to_string (integer);
   return Passage ("", book, chapter, verse);
 }
 
@@ -283,7 +281,7 @@ book_id filter_passage_interpret_book_v2 (std::string book)
 }
 
 
-string filter_passage_clean_passage (std::string text)
+std::string filter_passage_clean_passage (std::string text)
 {
   // Trim text.
   text = filter::strings::trim (text);
@@ -435,9 +433,9 @@ std::vector <std::string> filter_passage_handle_sequences_ranges (const std::str
       if (offset == 0) {
         // Since the first bit contains book / chapter / verse,
         // extract the verse number.
-        start = string (start.rbegin(), start.rend());
+        start = std::string (start.rbegin(), start.rend());
         start = filter::strings::convert_to_string (filter::strings::convert_to_int (start));
-        start = string (start.rbegin(), start.rend());
+        start = std::string (start.rbegin(), start.rend());
       }
       unsigned int end = static_cast <unsigned> (filter::strings::convert_to_int (filter::strings::trim (range [1])));
       for (size_t i = static_cast<size_t> (filter::strings::convert_to_int (start) + 1); i <= end; i++) {
@@ -451,7 +449,7 @@ std::vector <std::string> filter_passage_handle_sequences_ranges (const std::str
 }
 
 
-string filter_passage_link_for_opening_editor_at (int book, int chapter, std::string verse)
+std::string filter_passage_link_for_opening_editor_at (int book, int chapter, std::string verse)
 {
   std::string display = filter_passage_display (book, chapter, verse);
   Passage passage = Passage ("", book, chapter, verse);

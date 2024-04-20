@@ -24,10 +24,9 @@
 #include <config/globals.h>
 #include <webserver/request.h>
 #include <styles/logic.h>
-using namespace std;
 
 
-string Filter_Css::directionUnspecified (int value)
+std::string Filter_Css::directionUnspecified (int value)
 {
   value = value % 10;
   if (value == 0) return "checked";
@@ -35,7 +34,7 @@ string Filter_Css::directionUnspecified (int value)
 }
 
 
-string Filter_Css::directionLeftToRight (int value)
+std::string Filter_Css::directionLeftToRight (int value)
 {
   value = value % 10;
   if (value == 1) return "checked";
@@ -43,7 +42,7 @@ string Filter_Css::directionLeftToRight (int value)
 }
 
 
-string Filter_Css::directionRightToLeft (int value)
+std::string Filter_Css::directionRightToLeft (int value)
 {
   value = value % 10;
   if (value == 2) return "checked";
@@ -51,13 +50,13 @@ string Filter_Css::directionRightToLeft (int value)
 }
 
 
-string Filter_Css::ltr ()
+std::string Filter_Css::ltr ()
 {
   return "ltr";
 }
 
 
-string Filter_Css::rtl ()
+std::string Filter_Css::rtl ()
 {
   return "rtl";
 }
@@ -71,7 +70,7 @@ int Filter_Css::directionValue (std::string direction)
 }
 
 
-string Filter_Css::writingModeUnspecified (int value)
+std::string Filter_Css::writingModeUnspecified (int value)
 {
   value = value / 10;
   value = value % 10;
@@ -80,7 +79,7 @@ string Filter_Css::writingModeUnspecified (int value)
 }
 
 
-string Filter_Css::writingModeTopBottomLeftRight (int value)
+std::string Filter_Css::writingModeTopBottomLeftRight (int value)
 {
   value = value / 10;
   value = value % 10;
@@ -89,7 +88,7 @@ string Filter_Css::writingModeTopBottomLeftRight (int value)
 }
 
 
-string Filter_Css::writingModeTopBottomRightLeft (int value)
+std::string Filter_Css::writingModeTopBottomRightLeft (int value)
 {
   value = value / 10;
   value = value % 10;
@@ -98,7 +97,7 @@ string Filter_Css::writingModeTopBottomRightLeft (int value)
 }
 
 
-string Filter_Css::writingModeBottomTopLeftRight (int value)
+std::string Filter_Css::writingModeBottomTopLeftRight (int value)
 {
   value = value / 10;
   value = value % 10;
@@ -107,7 +106,7 @@ string Filter_Css::writingModeBottomTopLeftRight (int value)
 }
 
 
-string Filter_Css::writingModeBottomTopRightLeft (int value)
+std::string Filter_Css::writingModeBottomTopRightLeft (int value)
 {
   value = (value / 10);
   value = value % 10;
@@ -116,25 +115,25 @@ string Filter_Css::writingModeBottomTopRightLeft (int value)
 }
 
 
-string Filter_Css::tb_lr ()
+std::string Filter_Css::tb_lr ()
 {
   return "tb-lr";
 }
 
 
-string Filter_Css::tb_rl ()
+std::string Filter_Css::tb_rl ()
 {
   return "tb-rl";
 }
 
 
-string Filter_Css::bt_lr ()
+std::string Filter_Css::bt_lr ()
 {
   return "bt-lr";
 }
 
 
-string Filter_Css::bt_rl ()
+std::string Filter_Css::bt_rl ()
 {
   return "bt-rl";
 }
@@ -155,7 +154,7 @@ int Filter_Css::writingModeValue (std::string mode)
 // Since a bible can contain any Unicode character,
 // just using the bible as the class identifier will not work.
 // The function solves that.
-string Filter_Css::getClass (std::string bible)
+std::string Filter_Css::getClass (std::string bible)
 {
   std::string classs = md5 (bible);
   classs = classs.substr (0, 6);
@@ -170,7 +169,7 @@ string Filter_Css::getClass (std::string bible)
 // directionvalue: The value for the text direction.
 // $lineheigh: Value in percents.
 // $letterspacing: Value multiplied by 10, in pixels.
-string Filter_Css::get_css (std::string class_, std::string font, int directionvalue, int lineheight, int letterspacing)
+std::string Filter_Css::get_css (std::string class_, std::string font, int directionvalue, int lineheight, int letterspacing)
 {
   std::vector <std::string> css;
   
@@ -241,7 +240,7 @@ void Filter_Css::distinction_set_basic ()
 }
 
 
-string Filter_Css::distinction_set_light (int itemstyleindex)
+std::string Filter_Css::distinction_set_light (int itemstyleindex)
 {
   if (itemstyleindex == 0) return "light-background";
   if (itemstyleindex == 1) return "light-menu-tabs";
@@ -252,7 +251,7 @@ string Filter_Css::distinction_set_light (int itemstyleindex)
 }
 
 
-string Filter_Css::distinction_set_dark (int itemstyleindex)
+std::string Filter_Css::distinction_set_dark (int itemstyleindex)
 {
   if (itemstyleindex == 0) return "dark-background";
   if (itemstyleindex == 1) return "dark-menu-tabs";
@@ -264,7 +263,7 @@ string Filter_Css::distinction_set_dark (int itemstyleindex)
 }
 
 
-string Filter_Css::distinction_set_redblue_light (int itemstyleindex)
+std::string Filter_Css::distinction_set_redblue_light (int itemstyleindex)
 {
   std::string standard_light = distinction_set_light (itemstyleindex);
   if (itemstyleindex == 1) {
@@ -275,7 +274,7 @@ string Filter_Css::distinction_set_redblue_light (int itemstyleindex)
 }
 
 
-string Filter_Css::distinction_set_redblue_dark (int itemstyleindex)
+std::string Filter_Css::distinction_set_redblue_dark (int itemstyleindex)
 {
   std::string standard_dark = distinction_set_dark (itemstyleindex);
   if (itemstyleindex == 1) {
@@ -286,7 +285,7 @@ string Filter_Css::distinction_set_redblue_dark (int itemstyleindex)
 }
 
 
-string Filter_Css::distinction_set_notes (int itemstyleindex)
+std::string Filter_Css::distinction_set_notes (int itemstyleindex)
 {
   if (itemstyleindex == 0) return "note-status-new";
   if (itemstyleindex == 1) return "note-status-pending";
@@ -298,7 +297,7 @@ string Filter_Css::distinction_set_notes (int itemstyleindex)
 }
 
 
-string Filter_Css::theme_picker (int indexnumber, int itemstyleindex)
+std::string Filter_Css::theme_picker (int indexnumber, int itemstyleindex)
 {
   if (indexnumber == 0) distinction_set_basic ();
   if (indexnumber == 1) return distinction_set_light (itemstyleindex);
@@ -309,7 +308,7 @@ string Filter_Css::theme_picker (int indexnumber, int itemstyleindex)
 }
 
 
-string filter_css_grey_background ()
+std::string filter_css_grey_background ()
 {
   return R"(style="background-color: #CCCCCC")";
 }

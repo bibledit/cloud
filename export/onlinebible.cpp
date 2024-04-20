@@ -35,7 +35,6 @@
 #include <locale/translate.h>
 #include <styles/sheets.h>
 #include <olb/text.h>
-using namespace std;
 
 
 void export_onlinebible (std::string bible, bool log)

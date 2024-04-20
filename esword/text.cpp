@@ -22,7 +22,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 #include <filter/url.h>
 #include <database/sqlite.h>
-using namespace std;
 
 
 // Class for creating e-Sword documents.
@@ -33,7 +32,7 @@ Esword_Text::Esword_Text (std::string bible)
   currentBook = 0;
   currentChapter = 0;
   currentVerse = 0;
-  currentText = "";
+  currentText.clear();
   bible = database_sqlite_no_sql_injection (bible);
   sql.push_back ("PRAGMA foreign_keys=OFF;");
   sql.push_back ("PRAGMA synchronous=OFF;");

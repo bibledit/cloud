@@ -24,7 +24,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/logs.h>
 #include <microtar/microtar.h>
 #include <miniz/miniz.h>
-using namespace std;
 
 
 // Work around old Microsoft macro definitions.
@@ -34,7 +33,7 @@ using namespace std;
 
 // Compresses a $folder into zip format.
 // Returns the path to the compressed archive it created.
-string filter_archive_zip_folder (std::string folder)
+std::string filter_archive_zip_folder (std::string folder)
 {
 #ifdef HAVE_CLOUD
   return filter_archive_zip_folder_shell_internal (folder);
@@ -47,7 +46,7 @@ string filter_archive_zip_folder (std::string folder)
 
 // Compresses a $folder into zip format.
 // Returns the path to the compressed archive it created.
-string filter_archive_zip_folder_shell_internal (std::string folder)
+std::string filter_archive_zip_folder_shell_internal (std::string folder)
 {
   if (!file_or_dir_exists (folder)) return std::string();
   std::string zippedfile = filter_url_tempfile () + ".zip";
@@ -71,7 +70,7 @@ string filter_archive_zip_folder_shell_internal (std::string folder)
 
 // Compresses a $folder into zip format.
 // Returns the path to the compressed archive it created.
-string filter_archive_zip_folder_miniz_internal (std::string folder)
+std::string filter_archive_zip_folder_miniz_internal (std::string folder)
 {
   if (!file_or_dir_exists (folder)) {
     return std::string();
@@ -107,7 +106,7 @@ string filter_archive_zip_folder_miniz_internal (std::string folder)
 
 // Uncompresses a zip archive identified by $file.
 // Returns the path to the folder it created.
-string filter_archive_unzip (std::string file)
+std::string filter_archive_unzip (std::string file)
 {
 #ifdef HAVE_CLOUD
   return filter_archive_unzip_shell_internal (file);
@@ -120,7 +119,7 @@ string filter_archive_unzip (std::string file)
 
 // Uncompresses a zip archive identified by $file.
 // Returns the path to the folder it created.
-string filter_archive_unzip_shell_internal ([[maybe_unused]] std::string file)
+std::string filter_archive_unzip_shell_internal ([[maybe_unused]] std::string file)
 {
   std::string folder = filter_url_tempfile ();
 #ifdef HAVE_CLOUD
@@ -148,7 +147,7 @@ string filter_archive_unzip_shell_internal ([[maybe_unused]] std::string file)
 
 // Uncompresses the $zipfile.
 // Returns the path to the folder it created.
-string filter_archive_unzip_miniz_internal (std::string zipfile)
+std::string filter_archive_unzip_miniz_internal (std::string zipfile)
 {
   // Directory where to unzip the archive.
   std::string folder = filter_url_tempfile ();
@@ -239,7 +238,7 @@ string filter_archive_unzip_miniz_internal (std::string zipfile)
 
 // Compresses a file identified by $filename into gzipped tar format.
 // Returns the path to the compressed archive it created.
-string filter_archive_tar_gzip_file (std::string filename)
+std::string filter_archive_tar_gzip_file (std::string filename)
 {
   std::string tarball = filter_url_tempfile () + ".tar.gz";
   std::string dirname = filter_url_escape_shell_argument (filter_url_dirname (filename));
@@ -266,7 +265,7 @@ string filter_archive_tar_gzip_file (std::string filename)
 
 // Compresses a $folder into gzipped tar format.
 // Returns the path to the compressed archive it created.
-string filter_archive_tar_gzip_folder (std::string folder)
+std::string filter_archive_tar_gzip_folder (std::string folder)
 {
   std::string tarball = filter_url_tempfile () + ".tar.gz";
   folder = filter_url_escape_shell_argument (folder);
@@ -292,7 +291,7 @@ string filter_archive_tar_gzip_folder (std::string folder)
 
 // Uncompresses a .tar.gz archive identified by $file.
 // Returns the path to the folder it created.
-string filter_archive_untar_gzip (std::string file)
+std::string filter_archive_untar_gzip (std::string file)
 {
   file = filter_url_escape_shell_argument (file);
   std::string folder = filter_url_tempfile ();
@@ -320,7 +319,7 @@ string filter_archive_untar_gzip (std::string file)
 
 // Uncompresses a known archive identified by $file.
 // Returns the path to the folder it created.
-string filter_archive_uncompress (std::string file)
+std::string filter_archive_uncompress (std::string file)
 {
   int type = filter_archive_is_archive (file);
   if (type == 1) {
@@ -359,7 +358,7 @@ int filter_archive_is_archive (std::string file)
 
 
 // Create a tarball at $tarpath with input $files from $directory.
-string filter_archive_microtar_pack (std::string tarpath, std::string directory, std::vector <std::string> files)
+std::string filter_archive_microtar_pack (std::string tarpath, std::string directory, std::vector <std::string> files)
 {
   mtar_t tar;
   int res;
@@ -398,7 +397,7 @@ string filter_archive_microtar_pack (std::string tarpath, std::string directory,
 
 
 // Unpack the tarball at $tarpath and store the individual files at $outputpath.
-string filter_archive_microtar_unpack (std::string tarball, std::string directory)
+std::string filter_archive_microtar_unpack (std::string tarball, std::string directory)
 {
   mtar_t tar;
   mtar_header_t h;

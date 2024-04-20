@@ -29,13 +29,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #pragma GCC diagnostic ignored "-Wuseless-cast"
 #include <jsonxx/jsonxx.h>
 #pragma GCC diagnostic pop
-using namespace std;
 
 
 namespace filter::google {
 
 
-tuple <string, std::string> get_json_key_value_error ()
+std::tuple <std::string, std::string> get_json_key_value_error ()
 {
   std::string path = config::logic::google_translate_json_key_path ();
 
@@ -54,7 +53,7 @@ tuple <string, std::string> get_json_key_value_error ()
 // This runs $ gcloud auth activate-service-account --key-file=key.json.
 // It returns whether activation was successful,
 // plus the resulting output of the command.
-tuple <bool, std::string> activate_service_account ()
+std::tuple <bool, std::string> activate_service_account ()
 {
   std::stringstream command;
   command << "gcloud auth activate-service-account --quiet --key-file=";
@@ -65,12 +64,12 @@ tuple <bool, std::string> activate_service_account ()
 }
 
 
-string google_access_token {};
+std::string google_access_token {};
 
 // This runs $ gcloud auth application-default print-access-token.
 // It returns whether the command was successful,
 // plus the resulting output of the command.
-tuple <bool, std::string> print_store_access_token ()
+std::tuple <bool, std::string> print_store_access_token ()
 {
   // Set the path to the JSON key in the environment for gcloud to use.
 #ifdef HAVE_CLOUD
@@ -110,7 +109,7 @@ void refresh_access_token ()
 // Pass the text to be translated.
 // Pass the source language code and the target language code.
 // It returns whether the call was successful, plus the translated text, plus the error
-tuple <bool, string, std::string> translate (const std::string text, const char * source, const char * target)
+std::tuple <bool, std::string, std::string> translate (const std::string text, const char * source, const char * target)
 {
   // From the shell, run these two commands to translate a string.
   // $ export GOOGLE_APPLICATION_CREDENTIALS=`pwd`"/googletranslate.json"
@@ -122,15 +121,15 @@ tuple <bool, string, std::string> translate (const std::string text, const char 
   // Create the JSON data to post.
   jsonxx::Object translation_data;
   translation_data << "q" << text;
-  translation_data << "source" << string (source);
-  translation_data << "target" << string (target);
+  translation_data << "source" << std::string (source);
+  translation_data << "target" << std::string (target);
   translation_data << "format" << "text";
   std::string postdata = translation_data.json ();
   
   std::string error;
   bool burst { false };
   bool check_certificate { false };
-  const std::vector <std::pair <string, std::string> > headers {
+  const std::vector <std::pair <std::string, std::string> > headers {
     { "Content-Type", "application/json" },
     { "Authorization", "Bearer " + google_access_token }
   };
@@ -156,7 +155,7 @@ tuple <bool, string, std::string> translate (const std::string text, const char 
       jsonxx::Array translations = data.get<jsonxx::Array> ("translations");
       jsonxx::Object translated = translations.get<jsonxx::Object>(0);
       translation = translated.get<jsonxx::String> ("translatedText");
-    } catch (const exception & exception) {
+    } catch (const std::exception & exception) {
       error = exception.what();
       error.append (" - ");
       error.append(translation);
@@ -177,7 +176,7 @@ tuple <bool, string, std::string> translate (const std::string text, const char 
 // This asks the Google Translate API for the list of supported languages.
 // It returns a container with a pair of <language code, language name>.
 // The language name is given in the $target language.
-std::vector <std::pair <string, std::string> > get_languages (const std::string& target)
+std::vector <std::pair <std::string, std::string> > get_languages (const std::string& target)
 {
 
   // From the shell, run these two commands to translate a string.
@@ -195,7 +194,7 @@ std::vector <std::pair <string, std::string> > get_languages (const std::string&
   std::string error;
   bool burst { false };
   bool check_certificate { false };
-  const std::vector <std::pair <string, std::string> > headers {
+  const std::vector <std::pair <std::string, std::string> > headers {
     { "Content-Type", "application/json; charset=utf-8" },
     { "Authorization", "Bearer " + google_access_token }
   };
@@ -221,7 +220,7 @@ std::vector <std::pair <string, std::string> > get_languages (const std::string&
   //     ]
   //   }
   // }
-  std::vector <std::pair <string, std::string> > language_codes_names;
+  std::vector <std::pair <std::string, std::string> > language_codes_names;
   if (error.empty()) {
     try {
       jsonxx::Object json_object;
@@ -234,7 +233,7 @@ std::vector <std::pair <string, std::string> > get_languages (const std::string&
         std::string name = language_name.get<jsonxx::String>("name");
         language_codes_names.push_back({language, name});
       }
-    } catch (const exception & exception) {
+    } catch (const std::exception & exception) {
       error = exception.what();
       error.append (" - ");
       error.append(result_json);

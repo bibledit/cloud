@@ -33,7 +33,6 @@
 #include <filter/shell.h>
 #include <locale/translate.h>
 #include <styles/sheets.h>
-using namespace std;
 
 
 void export_usfm (std::string bible, bool log)

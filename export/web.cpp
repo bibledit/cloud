@@ -37,7 +37,6 @@
 #include <html/header.h>
 #include <locale/translate.h>
 #include <styles/sheets.h>
-using namespace std;
 
 
 void export_web_book (std::string bible, int book, bool log)
@@ -79,8 +78,8 @@ void export_web_book (std::string bible, int book, bool log)
   Html_Header htmlHeader = Html_Header (html_text_rich_book_index);
   htmlHeader.search_back_link (backLinkPath + filter_url_html_file_name_bible ("", book), translate("Go back to") + " " + bibleBookText);
   htmlHeader.create ({
-    pair (bible, filter_url_html_file_name_bible ()),
-    pair (translate (database::books::get_english_from_id (static_cast<book_id>(book))), filter_url_html_file_name_bible ())
+    std::pair (bible, filter_url_html_file_name_bible ()),
+    std::pair (translate (database::books::get_english_from_id (static_cast<book_id>(book))), filter_url_html_file_name_bible ())
   });
   html_text_rich_book_index.new_paragraph ("navigationbar");
   html_text_rich_book_index.add_text ("|");
@@ -110,7 +109,7 @@ void export_web_book (std::string bible, int book, bool log)
     // Create breadcrumbs and navigator for the chapter.
     Html_Header html_header = Html_Header (*filter_text_chapter.html_text_linked);
     html_header.search_back_link (backLinkPath + filter_url_html_file_name_bible ("", book, chapter), translate("Go back to") + " " + bibleBookText + " " + filter::strings::convert_to_string (chapter));
-    std::vector <std::pair <string, std::string> > breadcrumbs_navigator;
+    std::vector <std::pair <std::string, std::string> > breadcrumbs_navigator;
     breadcrumbs_navigator.push_back (std::pair (bible, filter_url_html_file_name_bible ()));
     breadcrumbs_navigator.push_back (std::pair (translate (database::books::get_english_from_id (static_cast<book_id>(book))), filter_url_html_file_name_bible ()));
     if (!is_first_chapter) {
@@ -192,7 +191,7 @@ void export_web_index (std::string bible, bool log)
   // On top are the breadcrumbs, starting with a clickable Bible name.
   Html_Header htmlHeader = Html_Header (html_text_rich_bible_index);
   htmlHeader.search_back_link (backLinkPath + filter_url_html_file_name_bible (), translate("Go back to Bible"));
-  htmlHeader.create ({ pair (bible, filter_url_html_file_name_bible ())});
+  htmlHeader.create ({ std::pair (bible, filter_url_html_file_name_bible ())});
   
   
   // Prepare for the list of books in de html index file.

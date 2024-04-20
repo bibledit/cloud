@@ -40,11 +40,9 @@
 #pragma GCC diagnostic pop
 #include <email/send.h>
 #include <filter/usfm.h>
-using namespace std;
-using dtl::Diff3; // Todo
 
 
-static mutex filter_merge_mutex;
+static std::mutex filter_merge_mutex;
 
 
 // This uses the dtl:: library for merge in C++.
@@ -70,7 +68,7 @@ std::vector <std::string> filter_merge_merge (const std::vector <std::string>& b
   std::vector <std::string> base_sequence (base);
   std::vector <std::string> server_sequence (server);
 
-  Diff3 <string, std::vector <std::string>> diff3 (user_sequence, base_sequence, server_sequence);
+  dtl::Diff3 <std::string, std::vector <std::string>> diff3 (user_sequence, base_sequence, server_sequence);
   diff3.compose ();
   bool merged = diff3.merge ();
   filter_merge_mutex.unlock();
@@ -81,7 +79,7 @@ std::vector <std::string> filter_merge_merge (const std::vector <std::string>& b
 }
 
 
-string filter_merge_lines2words (std::string data)
+std::string filter_merge_lines2words (std::string data)
 {
   data = filter::strings::replace ("\n", " new__line ", data);
   data = filter::strings::replace (" ", "\n", data);
@@ -89,7 +87,7 @@ string filter_merge_lines2words (std::string data)
 }
 
 
-string filter_merge_words2lines (std::string data)
+std::string filter_merge_words2lines (std::string data)
 {
   data = filter::strings::replace ("\n", " ", data);
   data = filter::strings::replace (" new__line ", "\n", data);
@@ -97,7 +95,7 @@ string filter_merge_words2lines (std::string data)
 }
 
 
-string filter_merge_lines2graphemes (std::string data)
+std::string filter_merge_lines2graphemes (std::string data)
 {
   data = filter::strings::replace ("\n", " new__line ", data);
   std::string data2;
@@ -111,7 +109,7 @@ string filter_merge_lines2graphemes (std::string data)
 }
 
 
-string filter_merge_graphemes2lines (std::string data)
+std::string filter_merge_graphemes2lines (std::string data)
 {
   data = filter::strings::replace ("\n", "", data);
   data = filter::strings::replace (" new__line ", "\n", data);
@@ -191,9 +189,9 @@ void filter_merge_detect_conflict (std::string base,
 // In case of a conflict, it prioritizes changes from $prioritized_change.
 // The filter returns the merged data.
 // If $clever, it calls a more clever routine when it fails to merge.
-string filter_merge_run (std::string base, std::string change, std::string prioritized_change,
-                         bool clever,
-                         std::vector <Merge_Conflict> & conflicts)
+std::string filter_merge_run (std::string base, std::string change, std::string prioritized_change,
+                              bool clever,
+                              std::vector <Merge_Conflict> & conflicts)
 {
   // Trim the input.
   base = filter::strings::trim (base);
@@ -263,8 +261,8 @@ string filter_merge_run (std::string base, std::string change, std::string prior
 // $change: Data as modified by one user.
 // $prioritized_change: Data as modified by a user but prioritized.
 // The filter uses a three-way merge algorithm.
-string filter_merge_run_clever (std::string base, std::string change, std::string prioritized_change,
-                                std::vector <Merge_Conflict> & conflicts)
+std::string filter_merge_run_clever (std::string base, std::string change, std::string prioritized_change,
+                                     std::vector <Merge_Conflict> & conflicts)
 {
   // Get the verse numbers in the changed text.
   std::vector <int> verses = filter::usfm::get_verse_numbers (change);

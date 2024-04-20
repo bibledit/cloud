@@ -27,7 +27,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/config/bible.h>
 #include <database/logs.h>
 #include <locale/translate.h>
-using namespace std;
 
 
 namespace filter::text {
@@ -1473,7 +1472,7 @@ void Filter_Text::produceInfoDocument (std::string path)
 
 // This function produces the text of the current passage, e.g.: Genesis 1:1.
 // Returns: The passage text
-string Filter_Text::getCurrentPassageText ()
+std::string Filter_Text::getCurrentPassageText ()
 {
   return filter_passage_display (m_current_book_identifier, m_current_chapter_number, m_current_verse_number);
 }
@@ -1646,7 +1645,7 @@ void Filter_Text::putChapterNumberInFrame (std::string chapterText)
 // The note citation is the character that is put in superscript in the main body of Bible text.
 // $style: array with values for the note opening marker.
 // Returns: The character for the note citation.
-string Filter_Text::getNoteCitation (const Database_Styles_Item & style)
+std::string Filter_Text::getNoteCitation (const Database_Styles_Item & style)
 {
   bool end_of_text_reached = (chapter_usfm_markers_and_text_pointer + 1) >= chapter_usfm_markers_and_text.size ();
   if (end_of_text_reached) return std::string();
@@ -1708,7 +1707,7 @@ void Filter_Text::initializeHeadingsAndTextPerVerse (bool start_text_now)
 }
 
 
-map <int, std::string> Filter_Text::getVersesText ()
+std::map <int, std::string> Filter_Text::getVersesText ()
 {
   // Trim white space at start and end of each line.
   for (auto& element : m_verses_text) {

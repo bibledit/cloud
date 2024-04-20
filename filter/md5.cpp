@@ -19,10 +19,9 @@
 
 #include <filter/md5.h>
 #include <mbedtls/md5.h>
-using namespace std;
 
 
-string md5 (const std::string str)
+std::string md5 (const std::string str)
 {
   unsigned char md5sum[16];
   const unsigned char *input = reinterpret_cast<const unsigned char *>(str.c_str ());
@@ -41,5 +40,5 @@ string md5 (const std::string str)
   }
   
   // Resulting hexits.
-  return string (hexits);
+  return std::string (hexits);
 }

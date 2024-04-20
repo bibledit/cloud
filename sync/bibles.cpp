@@ -40,16 +40,15 @@
 #include <bb/logic.h>
 #include <rss/logic.h>
 #include <sendreceive/logic.h>
-using namespace std;
 
 
-string sync_bibles_url ()
+std::string sync_bibles_url ()
 {
   return "sync/bibles";
 }
 
 
-string sync_bibles_receive_chapter (Webserver_Request& webserver_request, std::string & bible, int book, int chapter)
+std::string sync_bibles_receive_chapter (Webserver_Request& webserver_request, std::string & bible, int book, int chapter)
 {
   // Convert the tags to plus signs, which the client had converted to tags,
   // for safekeeping the + signs during transit.
@@ -146,7 +145,7 @@ string sync_bibles_receive_chapter (Webserver_Request& webserver_request, std::s
 }
 
 
-string sync_bibles (Webserver_Request& webserver_request)
+std::string sync_bibles (Webserver_Request& webserver_request)
 {
   Sync_Logic sync_logic (webserver_request);
 
@@ -241,7 +240,7 @@ string sync_bibles (Webserver_Request& webserver_request)
   
   // Bad request.
   // Delay a while to obstruct a flood of bad requests.
-  this_thread::sleep_for (chrono::seconds (1));
+  std::this_thread::sleep_for (std::chrono::seconds (1));
   webserver_request.response_code = 400;
   return std::string();
 }

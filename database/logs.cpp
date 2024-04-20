@@ -61,7 +61,7 @@ void Database_Logs::log (std::string description, int level)
   filter_url_file_put_contents_append (file, description);
 #ifdef HAVE_WINDOWS
   // Delay to cover for lower usec granularity on Windows.
-  this_thread::sleep_for (chrono::milliseconds (1));
+  std::this_thread::sleep_for (std::chrono::milliseconds (1));
 #endif
 }
 

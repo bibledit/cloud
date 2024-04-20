@@ -23,7 +23,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <unittests/utilities.h>
 #include <database/confirm.h>
 #include <filter/string.h>
-using namespace std;
 
 
 TEST (database, confirm)
@@ -39,13 +38,13 @@ TEST (database, confirm)
   
   // New ID generation test.
   unsigned int id = database_confirm.get_new_id ();
-  if (id < 10'000) EXPECT_EQ (string("Should be greater than 10000"), std::to_string(id));
+  if (id < 10'000) EXPECT_EQ (std::string("Should be greater than 10000"), std::to_string(id));
   
   // Store data for the ID.
   database_confirm.store (id, "SELECT x, y, z FROM a;", "email", "subject", "body", "username");
   
   // Search for this ID based on subject.
-  unsigned int id2 = database_confirm.search_id ("Subject line CID" + to_string (id) + " Re:");
+  unsigned int id2 = database_confirm.search_id ("Subject line CID" + std::to_string (id) + " Re:");
   EXPECT_EQ (id, id2);
   
   // Retrieve data for the ID.
@@ -64,7 +63,7 @@ TEST (database, confirm)
   std::string username = database_confirm.get_username(id);
   EXPECT_EQ ("username", username);
   username = database_confirm.get_username(id + 1);
-  EXPECT_EQ (string(), username);
+  EXPECT_EQ (std::string(), username);
 
   std::vector <int> ids = database_confirm.get_ids();
   std::vector <int> standard {static_cast<int>(id)};

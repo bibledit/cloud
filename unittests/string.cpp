@@ -383,7 +383,7 @@ TEST (filter, string)
   
   {
     std::string one = filter::strings::get_new_random_string ();
-    this_thread::sleep_for (chrono::milliseconds (10));
+    std::this_thread::sleep_for (std::chrono::milliseconds (10));
     std::string two = filter::strings::get_new_random_string ();
     EXPECT_EQ (32, one.length ());
     EXPECT_EQ (true, one != two);

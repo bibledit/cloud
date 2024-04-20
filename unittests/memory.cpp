@@ -53,7 +53,7 @@ void test_memory_record ()
   do {
     uint64_t total = filter_memory_total_usage ();
     if (total > maximum) maximum = total;
-    this_thread::sleep_for (chrono::microseconds (10));
+    std::this_thread::sleep_for (std::chrono::microseconds (10));
   } while (test_memory_run);
   max_memory_usage = maximum;
 }

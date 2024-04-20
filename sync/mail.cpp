@@ -35,16 +35,15 @@
 #include <pugixml.hpp>
 #endif
 #pragma GCC diagnostic pop
-using namespace std;
 
 
-string sync_mail_url ()
+std::string sync_mail_url ()
 {
   return "sync/mail";
 }
 
 
-string sync_mail (Webserver_Request& webserver_request)
+std::string sync_mail (Webserver_Request& webserver_request)
 {
   Sync_Logic sync_logic (webserver_request);
 
@@ -92,7 +91,7 @@ string sync_mail (Webserver_Request& webserver_request)
   
   // Bad request.
   // Delay a while to obstruct a flood of bad requests.
-  this_thread::sleep_for (chrono::seconds (1));
+  std::this_thread::sleep_for (std::chrono::seconds (1));
   webserver_request.response_code = 400;
   return std::string();
 }

@@ -23,7 +23,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/logs.h>
 #include <database/notes.h>
 #include <webserver/request.h>
-using namespace std;
 
 
 void trash_change_notification (Webserver_Request& webserver_request, int id)

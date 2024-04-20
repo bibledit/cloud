@@ -26,17 +26,16 @@
 #include <database/cache.h>
 #include <database/config/general.h>
 #include <tasks/logic.h>
-using namespace std;
 
 
-string sync_resources_url ()
+std::string sync_resources_url ()
 {
   return "sync/resources";
 }
 
 
 // Serves general resource content to a client.
-string sync_resources (Webserver_Request& webserver_request)
+std::string sync_resources (Webserver_Request& webserver_request)
 {
   Sync_Logic sync_logic (webserver_request);
 
@@ -51,7 +50,7 @@ string sync_resources (Webserver_Request& webserver_request)
   // This is to give priority to the other calls from the same client:
   // Not clogging that client's internet connection.
   if (sync_logic.prioritized_ip_address_active ()) {
-    this_thread::sleep_for (chrono::seconds (5));
+    std::this_thread::sleep_for (std::chrono::seconds (5));
   }
 
   int action = filter::strings::convert_to_int (webserver_request.query ["a"]);
@@ -106,7 +105,7 @@ string sync_resources (Webserver_Request& webserver_request)
   }
     
   // Bad request. Delay flood of bad requests.
-  this_thread::sleep_for (chrono::seconds (1));
+  std::this_thread::sleep_for (std::chrono::seconds (1));
   webserver_request.response_code = 400;
   return std::string();
 }

@@ -34,7 +34,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <developer/logic.h>
 #include <setup/logic.h>
 #include <journal/logic.h>
-using namespace std;
 
 
 // CPU-intensive actions run at night.
@@ -65,7 +64,7 @@ void timer_index ()
     try {
 
       // Wait shortly.
-      this_thread::sleep_for (chrono::milliseconds (100));
+      std::this_thread::sleep_for (std::chrono::milliseconds (100));
       
       // Wait till the data structures have been initialized.
       setup_wait_till_main_folders_present ();
@@ -273,9 +272,9 @@ void timer_index ()
       }
 #endif
 
-    } catch (exception & e) {
+    } catch (const std::exception & e) {
       Database_Logs::log (e.what ());
-    } catch (exception * e) {
+    } catch (const std::exception * e) {
       Database_Logs::log (e->what ());
     } catch (...) {
       Database_Logs::log ("A general internal error occurred in the timers");

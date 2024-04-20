@@ -20,7 +20,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <tbsx/text.h>
 #include <filter/string.h>
 #include <filter/url.h>
-using namespace std;
 
 
 // Class for creating Trinitarian Bible Society online Bible documents. 
@@ -110,13 +109,13 @@ void Tbsx_Text::flush ()
 }
 
 
-string Tbsx_Text::line ()
+std::string Tbsx_Text::line ()
 {
   return buffer;
 }
 
 
-string Tbsx_Text::get_document ()
+std::string Tbsx_Text::get_document ()
 {
   flush ();
   return filter::strings::implode (output, "\n");

@@ -34,13 +34,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/globals.h>
 #include <trash/handler.h>
 #include <user/logic.h>
-using namespace std;
 
 
 class Webserver_Request;
 
 
-mutex sync_logic_mutex;
+std::mutex sync_logic_mutex;
 
 
 Sync_Logic::Sync_Logic (Webserver_Request& webserver_request):
@@ -100,7 +99,7 @@ bool Sync_Logic::credentials_okay ()
 
 
 // Calculates the checksum of the array of note identifiers.
-string Sync_Logic::checksum (const std::vector <int> & identifiers)
+std::string Sync_Logic::checksum (const std::vector <int> & identifiers)
 {
   Database_Notes database_notes (m_webserver_request);
   std::vector <std::string> checksums;
@@ -142,7 +141,7 @@ std::vector <Sync_Logic_Range> Sync_Logic::create_range (int start, int end)
 // Sends a post request to the url.
 // It returns the server's response, or an empty string on failure.
 // burst: Set the connection timing for a burst response after a relatively long silence.
-string Sync_Logic::post (map <std::string, std::string> & post, const std::string& url, std::string & error, bool burst)
+std::string Sync_Logic::post (std::map <std::string, std::string> & post, const std::string& url, std::string & error, bool burst)
 {
   error.clear ();
   std::string response = filter_url_http_post (url, std::string(), post, error, burst, true, {});
@@ -156,7 +155,7 @@ string Sync_Logic::post (map <std::string, std::string> & post, const std::strin
 
 
 // Calculates the checksum of all settings to be kept in sync between server and client.
-string Sync_Logic::settings_checksum (const std::vector <std::string> & bibles)
+std::string Sync_Logic::settings_checksum (const std::vector <std::string> & bibles)
 {
   std::string checksum;
   checksum.append (m_webserver_request.database_config_user()->getWorkspaceURLs ());
@@ -175,7 +174,7 @@ string Sync_Logic::settings_checksum (const std::vector <std::string> & bibles)
 
 
 // Calculates the checksum of all USFM resources.
-string Sync_Logic::usfm_resources_checksum ()
+std::string Sync_Logic::usfm_resources_checksum ()
 {
   std::vector <std::string> vchecksum;
   Database_UsfmResources database_usfmresources = Database_UsfmResources ();
@@ -190,7 +189,7 @@ string Sync_Logic::usfm_resources_checksum ()
 
 
 // Calculates the checksum of USFM resource name.
-string Sync_Logic::usfm_resource_checksum (const std::string& name)
+std::string Sync_Logic::usfm_resource_checksum (const std::string& name)
 {
   std::vector <std::string> vchecksum;
   Database_UsfmResources database_usfmresources = Database_UsfmResources ();
@@ -206,7 +205,7 @@ string Sync_Logic::usfm_resource_checksum (const std::string& name)
 
 
 // Calculates the checksum of USFM resource name book.
-string Sync_Logic::usfm_resource_book_checksum (const std::string& name, int book)
+std::string Sync_Logic::usfm_resource_book_checksum (const std::string& name, int book)
 {
   std::vector <std::string> vchecksum;
   Database_UsfmResources database_usfmresources = Database_UsfmResources ();
@@ -222,7 +221,7 @@ string Sync_Logic::usfm_resource_book_checksum (const std::string& name, int boo
 
 
 // Calculates the checksum of USFM resource name book chapter.
-string Sync_Logic::usfm_resource_chapter_checksum (const std::string& name, int book, int chapter)
+std::string Sync_Logic::usfm_resource_chapter_checksum (const std::string& name, int book, int chapter)
 {
   Database_UsfmResources database_usfmresources = Database_UsfmResources ();
   int checksum = database_usfmresources.getSize (name, book, chapter);
@@ -231,7 +230,7 @@ string Sync_Logic::usfm_resource_chapter_checksum (const std::string& name, int 
 
 
 // Calculates the total checksum for all the changes for $username.
-string Sync_Logic::changes_checksum (const std::string& username)
+std::string Sync_Logic::changes_checksum (const std::string& username)
 {
   Database_Modifications database_modifications;
   std::string any_bible = "";

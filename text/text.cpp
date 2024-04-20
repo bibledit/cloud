@@ -20,7 +20,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <text/text.h>
 #include <filter/string.h>
 #include <filter/url.h>
-using namespace std;
 
 
 // Class for creating plain text documents.
@@ -40,7 +39,7 @@ void Text_Text::paragraph (std::string text)
 }
 
 
-string Text_Text::line ()
+std::string Text_Text::line ()
 {
   return thisline;
 }
@@ -52,7 +51,7 @@ void Text_Text::addtext (std::string text)
 }
 
 
-string Text_Text::get ()
+std::string Text_Text::get ()
 {
   paragraph ();
   return filter::strings::implode (output, "\n");
@@ -82,10 +81,8 @@ void Text_Text::addnotetext (std::string text)
 }
 
 
-string Text_Text::getnote ()
+std::string Text_Text::getnote ()
 {
   note ();
   return filter::strings::implode (notes, "\n");
 }
-
-

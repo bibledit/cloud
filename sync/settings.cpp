@@ -30,16 +30,15 @@
 #include <locale/translate.h>
 #include <webserver/request.h>
 #include <sync/logic.h>
-using namespace std;
 
 
-string sync_settings_url ()
+std::string sync_settings_url ()
 {
   return "sync/settings";
 }
 
 
-string sync_settings (Webserver_Request& webserver_request)
+std::string sync_settings (Webserver_Request& webserver_request)
 {
   Sync_Logic sync_logic (webserver_request);
 
@@ -129,7 +128,7 @@ string sync_settings (Webserver_Request& webserver_request)
 
   // Bad request.
   // Delay a while to obstruct a flood of bad requests.
-  this_thread::sleep_for (chrono::seconds (1));
+  std::this_thread::sleep_for (std::chrono::seconds (1));
   webserver_request.response_code = 400;
   return std::string();
 }

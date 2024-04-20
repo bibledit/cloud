@@ -38,16 +38,15 @@
 #include <access/bible.h>
 #include <bb/logic.h>
 #include <notes/logic.h>
-using namespace std;
 
 
-string sync_notes_url ()
+std::string sync_notes_url ()
 {
   return "sync/notes";
 }
 
 
-string sync_notes (Webserver_Request& webserver_request)
+std::string sync_notes (Webserver_Request& webserver_request)
 {
   Sync_Logic sync_logic (webserver_request);
   Database_Notes database_notes (webserver_request);
@@ -349,7 +348,7 @@ string sync_notes (Webserver_Request& webserver_request)
   
   // Bad request.
   // Delay a while to obstruct a flood of bad requests.
-  this_thread::sleep_for (chrono::seconds (1));
+  std::this_thread::sleep_for (std::chrono::seconds (1));
   webserver_request.response_code = 400;
   return std::string();
 }

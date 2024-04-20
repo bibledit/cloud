@@ -25,16 +25,15 @@
 #include <database/users.h>
 #include <sync/logic.h>
 #include <user/logic.h>
-using namespace std;
 
 
-string sync_setup_url ()
+std::string sync_setup_url ()
 {
   return "sync/setup";
 }
 
 
-string sync_setup (Webserver_Request& webserver_request)
+std::string sync_setup (Webserver_Request& webserver_request)
 {
   Sync_Logic sync_logic (webserver_request);
   

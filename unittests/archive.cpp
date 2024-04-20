@@ -25,7 +25,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/archive.h>
 #include <filter/string.h>
 #include <filter/shell.h>
-using namespace std;
 
 
 TEST (filter, archive)
@@ -133,7 +132,7 @@ TEST (filter, archive)
     int size = filter_url_filesize (tarball);
     int min = 155;
     int max = 181;
-    if ((size < min) || (size > max)) EXPECT_EQ ("between " + to_string (min) + " and " + to_string (max), filter::strings::convert_to_string (size));
+    if ((size < min) || (size > max)) EXPECT_EQ ("between " + std::to_string (min) + " and " + std::to_string (max), filter::strings::convert_to_string (size));
     // Test that compressing a non-existing file returns NULL.
     tarball = filter_archive_tar_gzip_file ("xxxxx");
     EXPECT_EQ ("", tarball);
@@ -147,7 +146,7 @@ TEST (filter, archive)
     int size = filter_url_filesize (tarball);
     int min = 618;
     int max = 634;
-    if ((size < min) || (size > max)) EXPECT_EQ ("between " + to_string (min) + " and " + to_string (max), filter::strings::convert_to_string (size));
+    if ((size < min) || (size > max)) EXPECT_EQ ("between " + std::to_string (min) + " and " + std::to_string (max), filter::strings::convert_to_string (size));
     // Test that compressing a non-existing folder returns nothing.
     //tarball = filter_archive_tar_gzip_folder (directory + "/x");
     //EXPECT_EQ ("", tarball);

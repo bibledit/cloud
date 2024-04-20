@@ -22,7 +22,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include "gtest/gtest.h"
 #include <unittests/utilities.h>
 #include <database/books.h>
-using namespace std;
 
 
 // Tests for the Database_Books object.

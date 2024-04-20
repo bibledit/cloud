@@ -37,16 +37,15 @@
 #include <checksum/logic.h>
 #include <access/bible.h>
 #include <bb/logic.h>
-using namespace std;
 
 
-string sync_usfmresources_url ()
+std::string sync_usfmresources_url ()
 {
   return "sync/usfmresources";
 }
 
 
-string sync_usfmresources (Webserver_Request& webserver_request)
+std::string sync_usfmresources (Webserver_Request& webserver_request)
 {
   Sync_Logic sync_logic (webserver_request);
   Database_UsfmResources database_usfmresources = Database_UsfmResources ();
@@ -102,7 +101,7 @@ string sync_usfmresources (Webserver_Request& webserver_request)
   }
 
   // Bad request. Delay flood of bad requests.
-  this_thread::sleep_for (chrono::seconds (1));
+  std::this_thread::sleep_for (std::chrono::seconds (1));
   webserver_request.response_code = 400;
   return std::string();
 }

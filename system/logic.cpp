@@ -42,10 +42,9 @@
 #include <email/send.h>
 #include <search/logic.h>
 #include <user/logic.h>
-using namespace std;
 
 
-string system_logic_bibles_file_name ()
+std::string system_logic_bibles_file_name ()
 {
   return filter_url_create_path ({filter_url_temp_dir (), "bibles.tar"});
 }
@@ -189,7 +188,7 @@ void system_logic_import_bibles_file (std::string tarball)
 }
 
 
-string system_logic_notes_file_name ()
+std::string system_logic_notes_file_name ()
 {
   return filter_url_create_path ({filter_url_temp_dir (), "notes.tar"});
 }
@@ -280,7 +279,7 @@ void system_logic_import_notes_file (std::string tarball)
 }
 
 
-string system_logic_resources_file_name (std::string resourcename)
+std::string system_logic_resources_file_name (std::string resourcename)
 {
   if (!resourcename.empty ()) resourcename.append ("_");
   return filter_url_create_path ({filter_url_temp_dir (), resourcename + "resources.tar"});

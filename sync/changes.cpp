@@ -32,16 +32,15 @@
 #include <sync/logic.h>
 #include <checksum/logic.h>
 #include <config/globals.h>
-using namespace std;
 
 
-string sync_changes_url ()
+std::string sync_changes_url ()
 {
   return "sync/changes";
 }
 
 
-string sync_changes (Webserver_Request& webserver_request)
+std::string sync_changes (Webserver_Request& webserver_request)
 {
   Sync_Logic sync_logic (webserver_request);
   Database_Modifications database_modifications;
@@ -136,7 +135,7 @@ string sync_changes (Webserver_Request& webserver_request)
   
   // Bad request.
   // Delay a while to obstruct a flood of bad requests.
-  this_thread::sleep_for (chrono::seconds (1));
+  std::this_thread::sleep_for (std::chrono::seconds (1));
   webserver_request.response_code = 400;
   return std::string();
 }

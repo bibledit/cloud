@@ -22,11 +22,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 #include <filter/url.h>
 #include <filter/date.h>
-using namespace std;
 
 
 // Folder where the tasks are stored.
-string tasks_logic_folder ()
+std::string tasks_logic_folder ()
 {
   return filter_url_create_root_path ({"processes"});
 }

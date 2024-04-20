@@ -40,7 +40,6 @@
 #include <checksum/logic.h>
 #include <bb/logic.h>
 #include <demo/logic.h>
-using namespace std;
 
 
 int sendreceive_bibles_watchdog {0};
@@ -53,19 +52,19 @@ void send_receive_bibles_done ()
 }
 
 
-string sendreceive_bibles_text ()
+std::string sendreceive_bibles_text ()
 {
   return translate("Bibles") + ": ";
 }
 
 
-string sendreceive_bibles_sendreceive_text ()
+std::string sendreceive_bibles_sendreceive_text ()
 {
   return sendreceive_bibles_text () + translate ("Send/receive");
 }
 
 
-string sendreceive_bibles_up_to_date_text ()
+std::string sendreceive_bibles_up_to_date_text ()
 {
   return sendreceive_bibles_text () + translate ("Up to date");
 }

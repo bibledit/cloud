@@ -28,7 +28,6 @@
 #include <database/bibles.h>
 #include <client/logic.h>
 #include <config/globals.h>
-using namespace std;
 
 
 void sendreceive_queue_bible (std::string bible)

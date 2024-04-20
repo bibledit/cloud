@@ -26,10 +26,9 @@
 #include <database/logs.h>
 #include <webserver/request.h>
 #include <locale/translate.h>
-using namespace std;
 
 
-string sendreceive_tag ()
+std::string sendreceive_tag ()
 {
   return "Git repository: ";
 }
@@ -213,25 +212,25 @@ void sendreceive_sendreceive ([[maybe_unused]] std::string bible)
 }
 
 
-string sendreceive_sendreceive_sendreceive_text ()
+std::string sendreceive_sendreceive_sendreceive_text ()
 {
   return "Send/receive Bible ";
 }
 
 
-string sendreceive_sendreceive_send_text ()
+std::string sendreceive_sendreceive_send_text ()
 {
   return "Send Bible ";
 }
 
 
-string sendreceive_sendreceive_sendreceive_ready_text ()
+std::string sendreceive_sendreceive_sendreceive_ready_text ()
 {
   return "Ready sending and receiving Bible";
 }
 
 
-string sendreceive_sendreceive_send_ready_text ()
+std::string sendreceive_sendreceive_send_ready_text ()
 {
   return "Ready sending Bible";
 }

@@ -36,10 +36,9 @@
 #include <sprint/burndown.h>
 #include <menu/logic.h>
 #include <email/send.h>
-using namespace std;
 
 
-string sprint_index_url ()
+std::string sprint_index_url ()
 {
   return "sprint/index";
 }
@@ -51,7 +50,7 @@ bool sprint_index_acl (Webserver_Request& webserver_request)
 }
 
 
-string sprint_index ([[maybe_unused]] Webserver_Request& webserver_request)
+std::string sprint_index ([[maybe_unused]] Webserver_Request& webserver_request)
 {
 #ifdef HAVE_CLIENT
   return std::string();

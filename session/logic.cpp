@@ -27,11 +27,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/roles.h>
 #include <config/globals.h>
 #include <user/logic.h>
-using namespace std;
 
 
 // The username and password for a demo installation, and for a disconnected client installation
-string session_admin_credentials ()
+std::string session_admin_credentials ()
 {
   return "admin";
 }
@@ -101,7 +100,7 @@ void Session_Logic::open ()
     if (daily) m_webserver_request.resend_cookie = true;
     touch_enabled = Database_Login::getTouchEnabled (cookie);
   } else {
-    set_username (string());
+    set_username (std::string());
     logged_in = false;
   }
 }
@@ -127,7 +126,7 @@ bool Session_Logic::openAccess ()
 
 
 // Returns IP blocks of remote address.
-string Session_Logic::remoteAddress ()
+std::string Session_Logic::remoteAddress ()
 {
   std::vector <std::string> blocks = filter::strings::explode (m_webserver_request.remote_address, '.');
   std::string address;
@@ -141,7 +140,7 @@ string Session_Logic::remoteAddress ()
 
 
 // Returns a fingerprint from the user's browser.
-string Session_Logic::fingerprint ()
+std::string Session_Logic::fingerprint ()
 {
   std::string fingerprint = "";
   // fingerprint += $_SERVER ['HTTP_CONNECTION']; Unstable fingerprint. No use for persistent login.
@@ -215,7 +214,7 @@ bool Session_Logic::loggedIn ()
 }
 
 
-string Session_Logic::currentUser ()
+std::string Session_Logic::currentUser ()
 {
   return username;
 }
@@ -256,7 +255,7 @@ void Session_Logic::logout ()
 {
   const std::string cookie = m_webserver_request.session_identifier;
   Database_Login::removeTokens (currentUser (), cookie);
-  set_username (string());
+  set_username (std::string());
   level = Filter_Roles::guest();
 }
 

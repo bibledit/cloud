@@ -32,10 +32,9 @@
 #include <search/logic.h>
 #include <menu/logic.h>
 #include <access/bible.h>
-using namespace std;
 
 
-string search_strong_url ()
+std::string search_strong_url ()
 {
   return "search/strong";
 }
@@ -50,7 +49,7 @@ bool search_strong_acl (Webserver_Request& webserver_request)
 }
 
 
-string search_strong (Webserver_Request& webserver_request)
+std::string search_strong (Webserver_Request& webserver_request)
 {
   Database_Kjv database_kjv = Database_Kjv ();
   

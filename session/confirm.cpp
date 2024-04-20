@@ -33,7 +33,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/logs.h>
 #include <database/config/general.h>
 #include <user/logic.h>
-using namespace std;
 
 
 class Verification
@@ -61,7 +60,7 @@ bool session_confirm_acl (Webserver_Request& webserver_request)
 }
 
 
-string session_confirm ([[maybe_unused]] Webserver_Request& webserver_request)
+std::string session_confirm ([[maybe_unused]] Webserver_Request& webserver_request)
 {
   std::string page;
 

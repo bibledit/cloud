@@ -26,7 +26,6 @@
 #include <database/logs.h>
 #include <styles/css.h>
 #include <webserver/request.h>
-using namespace std;
 
 
 // Recreates all stylesheet.css files through a background process.
@@ -69,14 +68,14 @@ void Styles_Sheets::create (std::string stylesheet, std::string path, bool edito
   if (!export_bible.empty ()) {
     styles_css.exports ();
     styles_css.customize (export_bible);
-    styles_css.customize (string());
+    styles_css.customize (std::string());
   }
   styles_css.generate ();
   styles_css.css (path);
 }
 
 
-string Styles_Sheets::get_location (std::string sheet, bool editor)
+std::string Styles_Sheets::get_location (std::string sheet, bool editor)
 {
   std::string path;
   if (editor) path = "editor";

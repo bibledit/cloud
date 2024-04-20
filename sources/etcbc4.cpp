@@ -33,7 +33,6 @@
 #include <pugixml.hpp>
 #endif
 #pragma GCC diagnostic pop
-using namespace std;
 
 
 void sources_etcbc4_download ()
@@ -115,7 +114,7 @@ void sources_etcbc4_download ()
         Database_Logs::log (bookname + " " + filter::strings::convert_to_string (chapter) + "." + filter::strings::convert_to_string (verse));
         database_etcbc4.store (book, chapter, verse, response);
         // Wait a second: Be polite: Do not overload the website.
-        this_thread::sleep_for (chrono::seconds (1));
+        std::this_thread::sleep_for (std::chrono::seconds (1));
       }
     }
   }
@@ -124,7 +123,7 @@ void sources_etcbc4_download ()
 }
 
 
-string sources_etcbc4_clean (std::string item)
+std::string sources_etcbc4_clean (std::string item)
 {
   item = filter::strings::replace ("/", "", item);
   item = filter::strings::replace ("]", "", item);

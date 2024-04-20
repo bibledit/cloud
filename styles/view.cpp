@@ -38,10 +38,9 @@
 #include <assets/header.h>
 #include <menu/logic.h>
 #include <styles/indexm.h>
-using namespace std;
 
 
-string styles_view_url ()
+std::string styles_view_url ()
 {
   return "styles/view";
 }
@@ -53,7 +52,7 @@ bool styles_view_acl (Webserver_Request& webserver_request)
 }
 
 
-string styles_view (Webserver_Request& webserver_request)
+std::string styles_view (Webserver_Request& webserver_request)
 {
   std::string page {};
   

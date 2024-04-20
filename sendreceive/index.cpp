@@ -39,10 +39,9 @@
 #include <menu/logic.h>
 #include <config/globals.h>
 #include <tasks/enums.h>
-using namespace std;
 
 
-string sendreceive_index_url ()
+std::string sendreceive_index_url ()
 {
   return "sendreceive/index";
 }
@@ -63,7 +62,7 @@ bool sendreceive_index_acl (Webserver_Request& webserver_request)
 }
 
 
-string sendreceive_index (Webserver_Request& webserver_request)
+std::string sendreceive_index (Webserver_Request& webserver_request)
 {
   if (webserver_request.query.count ("status")) {
     std::vector <std::string> bits;

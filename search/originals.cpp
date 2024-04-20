@@ -34,10 +34,9 @@
 #include <search/logic.h>
 #include <menu/logic.h>
 #include <access/bible.h>
-using namespace std;
 
 
-string search_originals_url ()
+std::string search_originals_url ()
 {
   return "search/originals";
 }
@@ -52,7 +51,7 @@ bool search_originals_acl (Webserver_Request& webserver_request)
 }
 
 
-string search_originals (Webserver_Request& webserver_request)
+std::string search_originals (Webserver_Request& webserver_request)
 {
   Database_OsHb database_oshb = Database_OsHb ();
   Database_Sblgnt database_sblgnt = Database_Sblgnt ();

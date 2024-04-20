@@ -34,10 +34,9 @@
 #include <search/logic.h>
 #include <menu/logic.h>
 #include <dialog/list2.h>
-using namespace std;
 
 
-string search_search2_url ()
+std::string search_search2_url ()
 {
   return "search/search2";
 }
@@ -52,7 +51,7 @@ bool search_search2_acl (Webserver_Request& webserver_request)
 }
 
 
-string search_search2 (Webserver_Request& webserver_request)
+std::string search_search2 (Webserver_Request& webserver_request)
 {
   std::string siteUrl = config::logic::site_url (webserver_request);
   

@@ -22,7 +22,6 @@
 #include <database/morphgnt.h>
 #include <filter/string.h>
 #include <filter/url.h>
-using namespace std;
 
 
 void sources_morphgnt_parse ()
@@ -41,7 +40,7 @@ void sources_morphgnt_parse ()
   }
   closedir (dir);
 
-  set <string> parsings;
+  std::set <std::string> parsings;
   
   for (auto file : files) {
     file.insert (0, "sources/morphgnt/");

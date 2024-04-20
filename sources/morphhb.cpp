@@ -32,7 +32,6 @@
 #include <pugixml.hpp>
 #endif
 #pragma GCC diagnostic pop
-using namespace std;
 
 
 // Local declarations.

@@ -32,10 +32,9 @@
 #include <search/logic.h>
 #include <menu/logic.h>
 #include <access/bible.h>
-using namespace std;
 
 
-string search_similar_url ()
+std::string search_similar_url ()
 {
   return "search/similar";
 }
@@ -50,9 +49,9 @@ bool search_similar_acl (Webserver_Request& webserver_request)
 }
 
 
-string search_similar (Webserver_Request& webserver_request)
+std::string search_similar (Webserver_Request& webserver_request)
 {
-  int myIdentifier = filter::strings::user_identifier (webserver_request);
+  const int myIdentifier = filter::strings::user_identifier (webserver_request);
   
   
   std::string bible = webserver_request.database_config_user()->getBible ();

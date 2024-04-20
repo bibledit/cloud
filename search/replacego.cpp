@@ -32,10 +32,9 @@
 #include <bb/logic.h>
 #include <search/logic.h>
 #include <access/bible.h>
-using namespace std;
 
 
-string search_replacego_url ()
+std::string search_replacego_url ()
 {
   return "search/replacego";
 }
@@ -50,7 +49,7 @@ bool search_replacego_acl (Webserver_Request& webserver_request)
 }
 
 
-string search_replacego (Webserver_Request& webserver_request)
+std::string search_replacego (Webserver_Request& webserver_request)
 {
   std::string siteUrl = config::logic::site_url (webserver_request);
   

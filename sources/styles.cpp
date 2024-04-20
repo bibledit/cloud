@@ -20,16 +20,15 @@
 #include <sources/styles.h>
 #include <filter/string.h>
 #include <filter/url.h>
-using namespace std;
 
 
-string sources_style_parse_create_c_comment (std::string key)
+std::string sources_style_parse_create_c_comment (std::string key)
 {
   return "/* " + key + " */";
 }
 
 
-string sources_style_parse_generate_entry (std::string key, std::string value, bool quote)
+std::string sources_style_parse_generate_entry (std::string key, std::string value, bool quote)
 {
   std::string result;
   result.append ("    ");

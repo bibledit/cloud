@@ -37,10 +37,9 @@
 #include <styles/logic.h>
 #include <assets/header.h>
 #include <menu/logic.h>
-using namespace std;
 
 
-string styles_indexm_url ()
+std::string styles_indexm_url ()
 {
   return "styles/indexm";
 }
@@ -52,7 +51,7 @@ bool styles_indexm_acl (Webserver_Request& webserver_request)
 }
 
 
-string styles_indexm (Webserver_Request& webserver_request)
+std::string styles_indexm (Webserver_Request& webserver_request)
 {
   std::string page {};
   
@@ -98,7 +97,7 @@ string styles_indexm (Webserver_Request& webserver_request)
         if (userlevel >= Filter_Roles::admin ()) write = true;
         if (write) {
           database_styles.deleteSheet (del);
-          database_styles.revokeWriteAccess (string(), del);
+          database_styles.revokeWriteAccess (std::string(), del);
           page += assets_page::success (translate("The stylesheet has been deleted"));
         }
       } if (confirm.empty()) {
@@ -111,7 +110,7 @@ string styles_indexm (Webserver_Request& webserver_request)
   }
  
   // Delete empty sheet that may have been there.
-  database_styles.deleteSheet (string());
+  database_styles.deleteSheet (std::string());
 
   std::vector <std::string> sheets = database_styles.getSheets();
   std::stringstream sheetblock {};

@@ -32,10 +32,9 @@
 #include <search/logic.h>
 #include <menu/logic.h>
 #include <dialog/list2.h>
-using namespace std;
 
 
-string search_replace_url ()
+std::string search_replace_url ()
 {
   return "search/replace";
 }
@@ -50,7 +49,7 @@ bool search_replace_acl (Webserver_Request& webserver_request)
 }
 
 
-string search_replace (Webserver_Request& webserver_request)
+std::string search_replace (Webserver_Request& webserver_request)
 {
   const std::string siteUrl = config::logic::site_url (webserver_request);
   

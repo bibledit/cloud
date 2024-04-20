@@ -34,25 +34,24 @@
 #include <sync/logic.h>
 #include <sync/settings.h>
 #include <user/logic.h>
-using namespace std;
 
 
 int sendreceive_settings_watchdog = 0;
 
 
-string sendreceive_settings_text ()
+std::string sendreceive_settings_text ()
 {
   return translate("Settings") + ": ";
 }
 
 
-string sendreceive_settings_sendreceive_text ()
+std::string sendreceive_settings_sendreceive_text ()
 {
   return sendreceive_settings_text () + translate ("Send/receive");
 }
 
 
-string sendreceive_settings_up_to_date_text ()
+std::string sendreceive_settings_up_to_date_text ()
 {
   return sendreceive_settings_text () + translate ("Up to date");
 }

@@ -38,7 +38,6 @@
 #include <sync/resources.h>
 #include <sword/logic.h>
 #include <demo/logic.h>
-using namespace std;
 
 
 int sendreceive_resources_watchdog = 0;
@@ -69,7 +68,7 @@ void sendreceive_resources_delay_during_prioritized_tasks ()
     // and it takes some time to restart the resource installation.
     // Rather it now delays the installation a bit while the priority tasks flag is on.
     // That delay is not visible in the Journal, it just happens silently.
-    this_thread::sleep_for (chrono::seconds (10));
+    std::this_thread::sleep_for (std::chrono::seconds (10));
   }
 }
 
@@ -88,7 +87,7 @@ void sendreceive_resources ()
   // If any of the prioritized synchronization tasks run, postpone the current task and do not start it.
   if (sendreceive_logic_prioritized_task_is_active ()) {
     sendreceive_resources_done ();
-    this_thread::sleep_for (chrono::seconds (5));
+    std::this_thread::sleep_for (std::chrono::seconds (5));
     tasks_logic_queue (SYNCRESOURCES);
     return;
   }
@@ -203,7 +202,7 @@ void sendreceive_resources ()
     if (!sendreceive_resources_interrupt) {
       // Wait a bit so as not to generate too many journal entries
       // when there were errors of when it had to wait for the Cloud.
-      this_thread::sleep_for (chrono::minutes (1));
+      std::this_thread::sleep_for (std::chrono::minutes (1));
       if (!sendreceive_resources_interrupt) {
         re_schedule_download = true;
         Database_Logs::log ("Re-scheduling resource installation", Filter_Roles::consultant ());

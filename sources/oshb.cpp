@@ -33,7 +33,6 @@
 #include <pugixml.hpp>
 #endif
 #pragma GCC diagnostic pop
-using namespace std;
 
 
 void sources_oshb_parse ()
@@ -58,89 +57,89 @@ void sources_oshb_parse ()
     // Torah
     
     // Bereshit Genesis
-    pair (1, book_id::_genesis),
+    std::pair (1, book_id::_genesis),
     // Shemot Exodus
-    pair (2, book_id::_exodus),
+    std::pair (2, book_id::_exodus),
     // Vayikra Leviticus
-    pair (3, book_id::_leviticus),
+    std::pair (3, book_id::_leviticus),
     // Bəmidbar Numbers
-    pair (4, book_id::_numbers),
+    std::pair (4, book_id::_numbers),
     // Devarim Deuteronomy
-    pair (5, book_id::_deuteronomy),
+    std::pair (5, book_id::_deuteronomy),
     
     // Nevi'im
 
     // Yĕhôshúa‘ Joshua
-    pair (6, book_id::_joshua),
+    std::pair (6, book_id::_joshua),
     // Shophtim Judges
-    pair (7, book_id::_judges),
+    std::pair (7, book_id::_judges),
     // 1 Shmû’ēl 1 Samuel
-    pair (8, book_id::_1_samuel),
+    std::pair (8, book_id::_1_samuel),
     // 2 Shmû’ēl 2 Samuel
-    pair (9, book_id::_2_samuel),
+    std::pair (9, book_id::_2_samuel),
     // 1 M'lakhim 1 Kings
-    pair (10, book_id::_1_kings),
+    std::pair (10, book_id::_1_kings),
     // 2 M'lakhim 2 Kings
-    pair (11, book_id::_2_kings),
+    std::pair (11, book_id::_2_kings),
     // Yĕsha‘ăyāhû Isaiah
-    pair (12, book_id::_isaiah),
+    std::pair (12, book_id::_isaiah),
     // Yirmyāhû Jeremiah
-    pair (13, book_id::_jeremiah),
+    std::pair (13, book_id::_jeremiah),
     // Yĕkhezqiēl Ezekiel
-    pair (14, book_id::_ezekiel),
+    std::pair (14, book_id::_ezekiel),
     // Hôshēa‘ Hosea
-    pair (15, book_id::_hosea),
+    std::pair (15, book_id::_hosea),
     // Yô’ēl Joel
-    pair (16, book_id::_joel),
+    std::pair (16, book_id::_joel),
     // Āmôs Amos
-    pair (17, book_id::_amos),
+    std::pair (17, book_id::_amos),
     // Ōvadhyāh Obadiah
-    pair (18, book_id::_obadiah),
+    std::pair (18, book_id::_obadiah),
     // Yônāh Jonah
-    pair (19, book_id::_jonah),
+    std::pair (19, book_id::_jonah),
     // Mîkhāh Micah
-    pair (20, book_id::_micah),
+    std::pair (20, book_id::_micah),
     // Nakḥûm Nahum
-    pair (21, book_id::_nahum),
+    std::pair (21, book_id::_nahum),
     // Khăvhakûk Habakkuk
-    pair (22, book_id::_habakkuk),
+    std::pair (22, book_id::_habakkuk),
     // Tsĕphanyāh Zephaniah
-    pair (23, book_id::_zephaniah),
+    std::pair (23, book_id::_zephaniah),
     // Khaggai Haggai
-    pair (24, book_id::_haggai),
+    std::pair (24, book_id::_haggai),
     // Zkharyāh Zechariah
-    pair (25, book_id::_zechariah),
+    std::pair (25, book_id::_zechariah),
     // Mal’ākhî Malachi
-    pair (26, book_id::_malachi),
+    std::pair (26, book_id::_malachi),
 
     // Ketuvim
     
     // Tehillim (Psalms)
-    pair (27, book_id::_psalms),
+    std::pair (27, book_id::_psalms),
     // Mishlei (Book of Proverbs)
-    pair (28, book_id::_proverbs),
+    std::pair (28, book_id::_proverbs),
     // Iyyôbh (Book of Job)
-    pair (29, book_id::_job),
+    std::pair (29, book_id::_job),
     // Shīr Hashīrīm (Song of Songs) or (Song of Solomon)
-    pair (30, book_id::_song_of_solomon),
+    std::pair (30, book_id::_song_of_solomon),
     // Rūth (Book of Ruth)
-    pair (31, book_id::_ruth),
+    std::pair (31, book_id::_ruth),
     // Eikhah (Lamentations)
-    pair (32, book_id::_lamentations),
+    std::pair (32, book_id::_lamentations),
     // Qōheleth (Ecclesiastes)
-    pair (33, book_id::_ecclesiastes),
+    std::pair (33, book_id::_ecclesiastes),
     // Estēr (Book of Esther)
-    pair (34, book_id::_esther),
+    std::pair (34, book_id::_esther),
     // Dānî’ēl (Book of Daniel)
-    pair (35, book_id::_daniel),
+    std::pair (35, book_id::_daniel),
     // 1 Ezrā (Book of Ezra)
-    pair (36, book_id::_ezra),
+    std::pair (36, book_id::_ezra),
     // 2 Ezrā (Book of Nehemiah)
-    pair (37, book_id::_nehemiah),
+    std::pair (37, book_id::_nehemiah),
     // 1 Divrei ha-Yamim (1 Chronicles)
-    pair (38, book_id::_1_chronicles),
+    std::pair (38, book_id::_1_chronicles),
     // 2 Divrei ha-Yamim (2 Chronicles)
-    pair (39, book_id::_2_chronicles),
+    std::pair (39, book_id::_2_chronicles),
     
   };
   

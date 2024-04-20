@@ -27,10 +27,9 @@
 #include <database/config/general.h>
 #include <search/logic.h>
 #include <access/bible.h>
-using namespace std;
 
 
-string search_replacepre_url ()
+std::string search_replacepre_url ()
 {
   return "search/replacepre";
 }
@@ -45,7 +44,7 @@ bool search_replacepre_acl (Webserver_Request& webserver_request)
 }
 
 
-string search_replacepre (Webserver_Request& webserver_request)
+std::string search_replacepre (Webserver_Request& webserver_request)
 {
   std::string siteUrl = config::logic::site_url (webserver_request);
   

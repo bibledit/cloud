@@ -27,7 +27,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/notes.h>
 #include <database/state.h>
 #include <database/config/general.h>
-using namespace std;
 
 
 bool search_reindex_notes_running = false;
@@ -60,7 +59,7 @@ void search_reindex_notes ()
   
   // Delay shortly to give existing processes a change to complete.
   // Without this delay, "locked database" errors have been seen.
-  this_thread::sleep_for (chrono::seconds (1));
+  std::this_thread::sleep_for (std::chrono::seconds (1));
 
 
   // Check on health of the databases, and optionally recreate them.

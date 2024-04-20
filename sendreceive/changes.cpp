@@ -33,7 +33,6 @@
 #include <sync/logic.h>
 #include <sync/changes.h>
 #include <checksum/logic.h>
-using namespace std;
 
 
 int sendreceive_changes_watchdog {0};
@@ -46,19 +45,19 @@ void send_receive_changes_done ()
 }
 
 
-string sendreceive_changes_text ()
+std::string sendreceive_changes_text ()
 {
   return translate("Changes") + ": ";
 }
 
 
-string sendreceive_changes_sendreceive_text ()
+std::string sendreceive_changes_sendreceive_text ()
 {
   return sendreceive_changes_text () + translate ("Send/receive");
 }
 
 
-string sendreceive_changes_up_to_date_text ()
+std::string sendreceive_changes_up_to_date_text ()
 {
   return sendreceive_changes_text () + translate ("Up to date");
 }

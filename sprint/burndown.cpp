@@ -30,7 +30,6 @@
 #include <database/config/bible.h>
 #include <client/logic.h>
 #include <email/send.h>
-using namespace std;
 
 
 // This function runs the sprint burndown history logger for $bible.
@@ -187,9 +186,9 @@ void sprint_burndown ([[maybe_unused]] std::string bible,
 
 
 // This function creates a text-based burndown chart for sprint $bible / $year / $month.
-string sprint_create_burndown_chart ([[maybe_unused]] std::string bible,
-                                     [[maybe_unused]] int year,
-                                     [[maybe_unused]] int month)
+std::string sprint_create_burndown_chart ([[maybe_unused]] std::string bible,
+                                          [[maybe_unused]] int year,
+                                          [[maybe_unused]] int month)
 {
 #ifdef HAVE_CLIENT
   return std::string();

@@ -32,10 +32,9 @@
 #include <ipc/focus.h>
 #include <menu/logic.h>
 #include <dialog/list2.h>
-using namespace std;
 
 
-string search_replace2_url ()
+std::string search_replace2_url ()
 {
   return "search/replace2";
 }
@@ -50,7 +49,7 @@ bool search_replace2_acl (Webserver_Request& webserver_request)
 }
 
 
-string search_replace2 (Webserver_Request& webserver_request)
+std::string search_replace2 (Webserver_Request& webserver_request)
 {
   // Build the advanced replace page.
   std::string bible = webserver_request.database_config_user()->getBible ();

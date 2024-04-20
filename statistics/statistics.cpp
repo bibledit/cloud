@@ -31,7 +31,6 @@
 #include <client/logic.h>
 #include <changes/changes.h>
 #include <email/send.h>
-using namespace std;
 
 
 void statistics_statistics ()

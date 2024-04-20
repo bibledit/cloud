@@ -40,25 +40,24 @@
 #include <checksum/logic.h>
 #include <bb/logic.h>
 #include <notes/logic.h>
-using namespace std;
 
 
 int sendreceive_notes_watchdog = 0;
 
 
-string sendreceive_notes_text ()
+std::string sendreceive_notes_text ()
 {
   return translate("Notes") + ": ";
 }
 
 
-string sendreceive_notes_sendreceive_text ()
+std::string sendreceive_notes_sendreceive_text ()
 {
   return sendreceive_notes_text () + translate ("Send/receive");
 }
 
 
-string sendreceive_notes_up_to_date_text ()
+std::string sendreceive_notes_up_to_date_text ()
 {
   return sendreceive_notes_text () + translate ("Up to date");
 }

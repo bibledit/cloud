@@ -37,10 +37,9 @@
 #include <menu/logic.h>
 #include <styles/indexm.h>
 #include <database/logic.h>
-using namespace std;
 
 
-string styles_sheetm_url ()
+std::string styles_sheetm_url ()
 {
   return "styles/sheetm";
 }
@@ -52,7 +51,7 @@ bool styles_sheetm_acl (Webserver_Request& webserver_request)
 }
 
 
-string styles_sheetm (Webserver_Request& webserver_request)
+std::string styles_sheetm (Webserver_Request& webserver_request)
 {
   std::string page;
   

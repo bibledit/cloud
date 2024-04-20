@@ -36,10 +36,9 @@
 #include <locale/translate.h>
 #include <bb/logic.h>
 #include <client/logic.h>
-using namespace std;
 
 
-string Paratext_Logic::searchProjectsFolder ()
+std::string Paratext_Logic::searchProjectsFolder ()
 {
   const char *homedir;
 
@@ -91,7 +90,7 @@ std::vector <std::string> Paratext_Logic::searchProjects (std::string projects_f
 }
 
 
-map <int, std::string> Paratext_Logic::searchBooks (std::string project_path)
+std::map <int, std::string> Paratext_Logic::searchBooks (std::string project_path)
 {
   std::map <int, std::string> books;
   std::vector <std::string> files = filter_url_scandir (project_path);
@@ -114,7 +113,7 @@ int Paratext_Logic::getBook (std::string filename)
   if (filesize > 4000000) return 0;
   
   // Read a small portion of the file for higher speed.
-  ifstream fin (filename);
+  std::ifstream fin (filename);
   fin.seekg (0);
   char buffer [128];
   fin.read (buffer, 7);
@@ -240,7 +239,7 @@ void Paratext_Logic::copyParatext2Bibledit (std::string bible)
 }
 
 
-string Paratext_Logic::projectFolder (std::string bible)
+std::string Paratext_Logic::projectFolder (std::string bible)
 {
   return filter_url_create_path ({Database_Config_General::getParatextProjectsFolder (), Database_Config_Bible::getParatextProject (bible)});
 }
@@ -253,14 +252,14 @@ void Paratext_Logic::ancestor (std::string bible, int book, std::string usfm)
 }
 
 
-string Paratext_Logic::ancestor (std::string bible, int book)
+std::string Paratext_Logic::ancestor (std::string bible, int book)
 {
   std::string path = ancestorPath (bible, book);
   return filter_url_file_get_contents (path);
 }
 
 
-string Paratext_Logic::ancestorPath (std::string bible, int book)
+std::string Paratext_Logic::ancestorPath (std::string bible, int book)
 {
   std::string path = filter_url_create_root_path ({"paratext", "ancestors", bible});
   if (!file_or_dir_exists (path)) filter_url_mkdir (path);
@@ -500,9 +499,9 @@ void Paratext_Logic::synchronize (tasks::enums::paratext_sync method)
 }
 
 
-string Paratext_Logic::synchronize (std::string ancestor, std::string bibledit, std::string paratext,
-                                    std::vector <std::string> & messages,
-                                    std::vector <Merge_Conflict> & conflicts)
+std::string Paratext_Logic::synchronize (std::string ancestor, std::string bibledit, std::string paratext,
+                                         std::vector <std::string> & messages,
+                                         std::vector <Merge_Conflict> & conflicts)
 {
   std::string resulting_usfm;
 
@@ -555,13 +554,13 @@ string Paratext_Logic::synchronize (std::string ancestor, std::string bibledit, 
 }
 
 
-string Paratext_Logic::synchronizeStartText ()
+std::string Paratext_Logic::synchronizeStartText ()
 {
   return translate ("Paratext: Send/receive");
 }
 
 
-string Paratext_Logic::synchronizeReadyText ()
+std::string Paratext_Logic::synchronizeReadyText ()
 {
   return translate ("Paratext: Up to date");
 }
@@ -569,7 +568,7 @@ string Paratext_Logic::synchronizeReadyText ()
 
 // Create tag for the journal.
 // If chapter is negative, it is left out from the tag.
-string Paratext_Logic::journalTag (std::string bible, int book, int chapter)
+std::string Paratext_Logic::journalTag (std::string bible, int book, int chapter)
 {
   std::string bookname = database::books::get_english_from_id (static_cast<book_id>(book));
   std::string project = Database_Config_Bible::getParatextProject (bible);

@@ -30,7 +30,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <journal/index.h>
 #include <tasks/logic.h>
 #include <webserver/request.h>
-using namespace std;
 
 
 const char * nmt_index_url ()
@@ -45,7 +44,7 @@ bool nmt_index_acl (Webserver_Request& webserver_request)
 }
 
 
-string nmt_index (Webserver_Request& webserver_request)
+std::string nmt_index (Webserver_Request& webserver_request)
 {
   Assets_Header header = Assets_Header (translate ("Bibledit"), webserver_request);
   

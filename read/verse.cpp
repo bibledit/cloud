@@ -23,10 +23,9 @@
 #include <webserver/request.h>
 #include <ipc/focus.h>
 #include <access/bible.h>
-using namespace std;
 
 
-string read_verse_url ()
+std::string read_verse_url ()
 {
   return "read/verse";
 }
@@ -41,7 +40,7 @@ bool read_verse_acl (Webserver_Request& webserver_request)
 }
 
 
-string read_verse (Webserver_Request& webserver_request)
+std::string read_verse (Webserver_Request& webserver_request)
 {
   // Only act if a verse was found
   std::string sverse = webserver_request.query ["verse"];

@@ -37,10 +37,9 @@
 #include <dialog/yes.h>
 #include <trash/handler.h>
 #include <menu/logic.h>
-using namespace std;
 
 
-string notes_bulk_url ()
+std::string notes_bulk_url ()
 {
   return "notes/bulk";
 }
@@ -52,7 +51,7 @@ bool notes_bulk_acl (Webserver_Request& webserver_request)
 }
 
 
-string notes_bulk (Webserver_Request& webserver_request)
+std::string notes_bulk (Webserver_Request& webserver_request)
 {
   Database_Notes database_notes (webserver_request);
   Notes_Logic notes_logic (webserver_request);

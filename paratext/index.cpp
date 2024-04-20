@@ -32,10 +32,9 @@
 #include <database/config/general.h>
 #include <tasks/logic.h>
 #include <journal/index.h>
-using namespace std;
 
 
-string paratext_index_url ()
+std::string paratext_index_url ()
 {
   return "paratext/index";
 }
@@ -47,7 +46,7 @@ bool paratext_index_acl (Webserver_Request& webserver_request)
 }
 
 
-string paratext_index (Webserver_Request& webserver_request)
+std::string paratext_index (Webserver_Request& webserver_request)
 {
   std::string page;
   page = assets_page::header (translate ("Paratext"), webserver_request);

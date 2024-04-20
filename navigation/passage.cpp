@@ -39,7 +39,6 @@
 #include <pugixml.hpp>
 #endif
 #pragma GCC diagnostic pop
-using namespace std;
 
 
 /*
@@ -54,7 +53,7 @@ using namespace std;
 */
 
 
-string Navigation_Passage::get_mouse_navigator (Webserver_Request& webserver_request, std::string bible)
+std::string Navigation_Passage::get_mouse_navigator (Webserver_Request& webserver_request, std::string bible)
 {
   Database_Navigation database_navigation;
   
@@ -214,7 +213,7 @@ string Navigation_Passage::get_mouse_navigator (Webserver_Request& webserver_req
 }
 
 
-string Navigation_Passage::get_books_fragment (Webserver_Request& webserver_request, std::string bible)
+std::string Navigation_Passage::get_books_fragment (Webserver_Request& webserver_request, std::string bible)
 {
   book_id active_book = static_cast<book_id>(Ipc_Focus::getBook (webserver_request));
   // Take standard books in case of no Bible.
@@ -240,7 +239,7 @@ string Navigation_Passage::get_books_fragment (Webserver_Request& webserver_requ
 }
 
 
-string Navigation_Passage::get_chapters_fragment (Webserver_Request& webserver_request, std::string bible, int book, int chapter)
+std::string Navigation_Passage::get_chapters_fragment (Webserver_Request& webserver_request, std::string bible, int book, int chapter)
 {
   std::vector <int> chapters;
   if (bible.empty ()) {
@@ -264,7 +263,7 @@ string Navigation_Passage::get_chapters_fragment (Webserver_Request& webserver_r
 }
 
 
-string Navigation_Passage::get_verses_fragment (Webserver_Request& webserver_request, std::string bible, int book, int chapter, int verse)
+std::string Navigation_Passage::get_verses_fragment (Webserver_Request& webserver_request, std::string bible, int book, int chapter, int verse)
 {
   std::vector <int> verses;
   if (bible == "") {
@@ -288,7 +287,7 @@ string Navigation_Passage::get_verses_fragment (Webserver_Request& webserver_req
 }
 
 
-string Navigation_Passage::code (std::string bible)
+std::string Navigation_Passage::code (std::string bible)
 {
   std::string code;
   code += R"(<script type="text/javascript">)";
@@ -510,7 +509,7 @@ void Navigation_Passage::add_selector_link (std::string& html, std::string id, s
 }
 
 
-string Navigation_Passage::get_keyboard_navigator (Webserver_Request& webserver_request, std::string bible)
+std::string Navigation_Passage::get_keyboard_navigator (Webserver_Request& webserver_request, std::string bible)
 {
   std::string user = webserver_request.session_logic()->currentUser ();
   
@@ -627,12 +626,12 @@ void Navigation_Passage::interpret_keyboard_navigator (Webserver_Request& webser
 }
 
 
-string Navigation_Passage::get_history_back (Webserver_Request& webserver_request)
+std::string Navigation_Passage::get_history_back (Webserver_Request& webserver_request)
 {
   // Get the whole history from the database.
   Database_Navigation database_navigation {};
   std::string user {webserver_request.session_logic()->currentUser ()};
-  vector<Passage> passages = database_navigation.get_history(user, -1);
+  std::vector<Passage> passages = database_navigation.get_history(user, -1);
   // Take the most recent nnn history items and render them.
   std::string html {};
   for (size_t i = 0; i < passages.size(); i++) {
@@ -651,12 +650,12 @@ string Navigation_Passage::get_history_back (Webserver_Request& webserver_reques
 }
 
 
-string Navigation_Passage::get_history_forward (Webserver_Request& webserver_request)
+std::string Navigation_Passage::get_history_forward (Webserver_Request& webserver_request)
 {
   // Get the whole history from the database.
   Database_Navigation database_navigation;
   std::string user {webserver_request.session_logic()->currentUser ()};
-  vector<Passage> passages {database_navigation.get_history(user, 1)};
+  std::vector<Passage> passages {database_navigation.get_history(user, 1)};
   // Take the most recent nnn history items and render them.
   std::string html {};
   for (size_t i = 0; i < passages.size(); i++) {

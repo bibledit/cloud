@@ -36,10 +36,9 @@
 #include <database/modifications.h>
 #include <menu/logic.h>
 #include <access/logic.h>
-using namespace std;
 
 
-string notes_create_url ()
+std::string notes_create_url ()
 {
   return "notes/create";
 }
@@ -51,7 +50,7 @@ bool notes_create_acl (Webserver_Request& webserver_request)
 }
 
 
-string notes_create (Webserver_Request& webserver_request)
+std::string notes_create (Webserver_Request& webserver_request)
 {
   Database_Notes database_notes (webserver_request);
   Notes_Logic notes_logic (webserver_request);

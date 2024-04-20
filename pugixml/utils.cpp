@@ -36,7 +36,6 @@
 #include <pugixml.hpp>
 #endif
 #pragma GCC diagnostic pop
-using namespace std;
 
 
 void pugixml_utils_error_logger (void * pugi_xml_parse_result, const std::string& xml)

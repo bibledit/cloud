@@ -34,10 +34,9 @@
 #include <navigation/passage.h>
 #include <notes/index.h>
 #include <access/logic.h>
-using namespace std;
 
 
-string notes_note_url ()
+std::string notes_note_url ()
 {
   return "notes/note";
 }
@@ -49,7 +48,7 @@ bool notes_note_acl (Webserver_Request& webserver_request)
 }
 
 
-string notes_note (Webserver_Request& webserver_request)
+std::string notes_note (Webserver_Request& webserver_request)
 {
   Database_Notes database_notes (webserver_request);
   

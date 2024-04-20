@@ -32,10 +32,9 @@
 #include <ipc/focus.h>
 #include <navigation/passage.h>
 #include <notes/actions.h>
-using namespace std;
 
 
-string notes_verses_url ()
+std::string notes_verses_url ()
 {
   return "notes/verses";
 }
@@ -47,7 +46,7 @@ bool notes_verses_acl (Webserver_Request& webserver_request)
 }
 
 
-string notes_verses (Webserver_Request& webserver_request)
+std::string notes_verses (Webserver_Request& webserver_request)
 {
   Database_Notes database_notes (webserver_request);
   Notes_Logic notes_logic (webserver_request);

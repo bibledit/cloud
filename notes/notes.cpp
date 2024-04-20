@@ -31,10 +31,9 @@
 #include <access/bible.h>
 #include <ipc/focus.h>
 #include <access/logic.h>
-using namespace std;
 
 
-string notes_notes_url ()
+std::string notes_notes_url ()
 {
   return "notes/notes";
 }
@@ -46,7 +45,7 @@ bool notes_notes_acl (Webserver_Request& webserver_request)
 }
 
 
-string notes_notes (Webserver_Request& webserver_request)
+std::string notes_notes (Webserver_Request& webserver_request)
 {
   Database_Notes database_notes (webserver_request);
 

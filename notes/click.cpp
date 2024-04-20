@@ -35,10 +35,9 @@
 #include <notes/index.h>
 #include <dialog/yes.h>
 #include <trash/handler.h>
-using namespace std;
 
 
-string notes_click_url ()
+std::string notes_click_url ()
 {
   return "notes/click";
 }
@@ -51,7 +50,7 @@ bool notes_click_acl (Webserver_Request& webserver_request)
 
 
 // This function is called from click.js.
-string notes_click (Webserver_Request& webserver_request)
+std::string notes_click (Webserver_Request& webserver_request)
 {
   Database_Notes database_notes (webserver_request);
   Notes_Logic notes_logic (webserver_request);

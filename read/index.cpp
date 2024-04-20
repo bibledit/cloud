@@ -43,10 +43,9 @@
 #include <workspace/logic.h>
 #include <public/new.h>
 #include <public/notes.h>
-using namespace std;
 
 
-string read_index_url ()
+std::string read_index_url ()
 {
   return "read/index";
 }
@@ -62,7 +61,7 @@ bool read_index_acl (Webserver_Request& webserver_request)
 }
 
 
-string read_index (Webserver_Request& webserver_request)
+std::string read_index (Webserver_Request& webserver_request)
 {
   bool touch = webserver_request.session_logic ()->touchEnabled ();
   

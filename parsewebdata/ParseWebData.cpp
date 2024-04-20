@@ -141,7 +141,7 @@ private:
 
 string_map map_pairs(const std::string& s, const std::string& elemDelim,
 		const std::string& pairDelim) {
-	using namespace map_pairs_helper;
+	using  namespace map_pairs_helper;
 
 	string_list words;
 	string_map result;

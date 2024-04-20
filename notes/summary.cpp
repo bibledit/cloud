@@ -31,10 +31,9 @@
 #include <access/bible.h>
 #include <ipc/focus.h>
 #include <notes/note.h>
-using namespace std;
 
 
-string notes_summary_url ()
+std::string notes_summary_url ()
 {
   return "notes/summary";
 }
@@ -46,7 +45,7 @@ bool notes_summary_acl (Webserver_Request& webserver_request)
 }
 
 
-string notes_summary (Webserver_Request& webserver_request)
+std::string notes_summary (Webserver_Request& webserver_request)
 {
   Database_Notes database_notes (webserver_request);
   Notes_Logic notes_logic (webserver_request);

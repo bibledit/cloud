@@ -27,10 +27,9 @@
 #include <database/notes.h>
 #include <menu/logic.h>
 #include <access/logic.h>
-using namespace std;
 
 
-string notes_index_url ()
+std::string notes_index_url ()
 {
   return "notes/index";
 }
@@ -42,7 +41,7 @@ bool notes_index_acl (Webserver_Request& webserver_request)
 }
 
 
-string notes_index (Webserver_Request& webserver_request)
+std::string notes_index (Webserver_Request& webserver_request)
 {
   Database_Notes database_notes (webserver_request);
   

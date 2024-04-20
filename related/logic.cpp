@@ -33,7 +33,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 #include <filter/string.h>
 #include <filter/usfm.h>
-using namespace std;
 
 
 // Internal function that searches related passages in the XML DOM.
@@ -80,7 +79,7 @@ void related_logic_search_related (const std::string& bookname, int input_chapte
           else verses.push_back (filter::strings::convert_to_int (verse));
           for (auto related_verse : verses) {
             if ((related_book != book_id::_unknown) && related_chapter) {
-              Passage passage (string(), static_cast<int>(related_book), related_chapter, filter::strings::convert_to_string (related_verse));
+              Passage passage (std::string(), static_cast<int>(related_book), related_chapter, filter::strings::convert_to_string (related_verse));
               int i = filter_passage_to_integer (passage);
               // No duplicate passages to be included.
               if (!in_array (i, passages)) {

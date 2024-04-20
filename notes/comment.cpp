@@ -33,10 +33,9 @@
 #include <navigation/passage.h>
 #include <notes/note.h>
 #include <access/logic.h>
-using namespace std;
 
 
-string notes_comment_url ()
+std::string notes_comment_url ()
 {
   return "notes/comment";
 }
@@ -48,7 +47,7 @@ bool notes_comment_acl (Webserver_Request& webserver_request)
 }
 
 
-string notes_comment (Webserver_Request& webserver_request)
+std::string notes_comment (Webserver_Request& webserver_request)
 {
   Database_Notes database_notes (webserver_request);
   Notes_Logic notes_logic (webserver_request);

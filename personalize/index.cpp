@@ -45,10 +45,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <client/logic.h>
 #include <config/globals.h>
 #include <config/logic.h>
-using namespace std;
 
 
-string personalize_index_url ()
+std::string personalize_index_url ()
 {
   return "personalize/index";
 }
@@ -60,7 +59,7 @@ bool personalize_index_acl (Webserver_Request& webserver_request)
 }
 
 
-string personalize_index (Webserver_Request& webserver_request)
+std::string personalize_index (Webserver_Request& webserver_request)
 {
   std::string checkbox = webserver_request.post ["checkbox"];
   bool checked = filter::strings::convert_to_bool (webserver_request.post ["checked"]);

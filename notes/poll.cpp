@@ -29,10 +29,9 @@
 #include <ipc/notes.h>
 #include <access/logic.h>
 #include <developer/logic.h>
-using namespace std;
 
 
-string notes_poll_url ()
+std::string notes_poll_url ()
 {
   return "notes/poll";
 }
@@ -44,7 +43,7 @@ bool notes_poll_acl (Webserver_Request& webserver_request)
 }
 
 
-string notes_poll (Webserver_Request& webserver_request)
+std::string notes_poll (Webserver_Request& webserver_request)
 {
   std::string action = webserver_request.query ["action"];
   if (action == "alive") {

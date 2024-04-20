@@ -29,10 +29,9 @@
 #include <read/logic.h>
 #include <edit/logic.h>
 #include <database/config/bible.h>
-using namespace std;
 
 
-string read_load_url ()
+std::string read_load_url ()
 {
   return "read/load";
 }
@@ -47,7 +46,7 @@ bool read_load_acl (Webserver_Request& webserver_request)
 }
 
 
-string read_load (Webserver_Request& webserver_request)
+std::string read_load (Webserver_Request& webserver_request)
 {
   std::string bible = webserver_request.query ["bible"];
   int book = filter::strings::convert_to_int (webserver_request.query ["book"]);

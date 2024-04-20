@@ -27,7 +27,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/config/bible.h>
 #include <database/bibleimages.h>
 #include <styles/logic.h>
-using namespace std;
 
 
 // Class for creating OpenDocument text documents.
@@ -582,7 +581,7 @@ void odf_text::add_text (std::string text)
   // Temporal styles array should have at least one style for the code below to work.
   // So ensure it has at least one style.
   std::vector <std::string> styles (m_current_text_style.begin (), m_current_text_style.end ());
-  if (styles.empty()) styles.push_back (string());
+  if (styles.empty()) styles.push_back (std::string());
   
   // Write a text span element, nesting the second and later ones.
   pugi::xml_node dom_node = current_text_p_node;
@@ -1142,7 +1141,7 @@ void odf_text::new_named_heading (std::string style, std::string text, bool hide
 // E.g. 'Heading 1' becomes 'Heading_20_1'
 // $style: Input
 // It returns the converted style name.
-string odf_text::convert_style_name (std::string style)
+std::string odf_text::convert_style_name (std::string style)
 {
   style = filter::strings::replace (" ", "_20_", style);
   return style;

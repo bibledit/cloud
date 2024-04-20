@@ -35,7 +35,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <workspace/index.h>
 #include <access/bible.h>
 #include <email/send.h>
-using namespace std;
 
 
 Notes_Logic::Notes_Logic (Webserver_Request& webserver_request):
@@ -426,7 +425,7 @@ void Notes_Logic::notifyUsers (int identifier, int notification)
   }
 
   // Remove duplicates from the recipients.
-  set <string> unique (recipients.begin (), recipients.end ());
+  std::set <std::string> unique (recipients.begin (), recipients.end ());
   recipients.assign (unique.begin (), unique.end());
 
   // Deal with suppressing mail to the user when he made the update himself.
@@ -672,7 +671,7 @@ bool Notes_Logic::handleEmailNew (std::string from, std::string subject, std::st
 }
 
 
-string Notes_Logic::generalBibleName ()
+std::string Notes_Logic::generalBibleName ()
 {
   return "[" + translate("no Bible") + "]";
 }

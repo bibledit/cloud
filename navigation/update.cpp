@@ -22,10 +22,9 @@
 #include <webserver/request.h>
 #include <navigation/passage.h>
 #include <database/books.h>
-using namespace std;
 
 
-string navigation_update_url ()
+std::string navigation_update_url ()
 {
   return "navigation/update";
 }
@@ -37,7 +36,7 @@ bool navigation_update_acl (Webserver_Request& webserver_request)
 }
 
 
-string navigation_update (Webserver_Request& webserver_request)
+std::string navigation_update (Webserver_Request& webserver_request)
 {
   // It used to take the Bible from the Bible variable stored in Javascript.
   // But then, when switching from a Bible that has the NT only, to a Bible that has OT and NT,

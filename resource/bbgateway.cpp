@@ -42,10 +42,9 @@
 #include <pugixml.hpp>
 #endif
 #pragma GCC diagnostic pop
-using namespace std;
 
 
-string resource_biblegateway_url ()
+std::string resource_biblegateway_url ()
 {
   return "resource/bbgateway";
 }
@@ -57,7 +56,7 @@ bool resource_biblegateway_acl (Webserver_Request& webserver_request)
 }
 
 
-string resource_biblegateway (Webserver_Request& webserver_request)
+std::string resource_biblegateway (Webserver_Request& webserver_request)
 {
   std::string page;
   Assets_Header header = Assets_Header (translate("Resources"), webserver_request);

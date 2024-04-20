@@ -34,10 +34,9 @@
 #include <journal/index.h>
 #include <dialog/yes.h>
 #include <dialog/entry.h>
-using namespace std;
 
 
-string resource_img_url ()
+std::string resource_img_url ()
 {
   return "resource/img";
 }
@@ -49,7 +48,7 @@ bool resource_img_acl (Webserver_Request& webserver_request)
 }
 
 
-string resource_img (Webserver_Request& webserver_request)
+std::string resource_img (Webserver_Request& webserver_request)
 {
   Database_ImageResources database_imageresources;
 
@@ -103,8 +102,8 @@ string resource_img (Webserver_Request& webserver_request)
     if (chapter2 < 0) errors.push_back (translate ("Negative ending verse."));
     if (chapter2 > 200) errors.push_back (translate ("High ending verse."));
     
-    int start = filter_passage_to_integer (Passage (string(), static_cast<int>(book1), chapter1, filter::strings::convert_to_string (verse1)));
-    int end = filter_passage_to_integer (Passage (string(), static_cast<int>(book2), chapter2, filter::strings::convert_to_string (verse2)));
+    int start = filter_passage_to_integer (Passage (std::string(), static_cast<int>(book1), chapter1, filter::strings::convert_to_string (verse1)));
+    int end = filter_passage_to_integer (Passage (std::string(), static_cast<int>(book2), chapter2, filter::strings::convert_to_string (verse2)));
     if (start > end) {
       errors.push_back (translate ("The starting passage is beyond the ending passage."));
     }

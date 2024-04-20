@@ -43,10 +43,9 @@
 #include <sword/logic.h>
 #include <access/logic.h>
 #include <config/globals.h>
-using namespace std;
 
 
-string resource_select_url ()
+std::string resource_select_url ()
 {
   return "resource/select";
 }
@@ -58,7 +57,7 @@ bool resource_select_acl (Webserver_Request& webserver_request)
 }
 
 
-string resource_select (Webserver_Request& webserver_request)
+std::string resource_select (Webserver_Request& webserver_request)
 {
   std::string page {};
   Assets_Header header = Assets_Header (translate("Resources"), webserver_request);
@@ -241,7 +240,7 @@ string resource_select (Webserver_Request& webserver_request)
     dialog_list.add_query ("page", webserver_request.query["page"]);
     if (is_def) dialog_list.add_query ("type", webserver_request.query["type"]);
     std::vector <std::string> resources;
-    vector<std::string> raw_resources =
+    std::vector<std::string> raw_resources =
 #ifdef HAVE_CLOUD
     Database_Config_General::getComparativeResources ();
 #else
@@ -270,7 +269,7 @@ string resource_select (Webserver_Request& webserver_request)
     dialog_list.add_query ("page", webserver_request.query["page"]);
     if (is_def) dialog_list.add_query ("type", webserver_request.query["type"]);
     std::vector <std::string> resources;
-    vector<std::string> raw_resources =
+    std:: vector<std::string> raw_resources =
 #ifdef HAVE_CLOUD
     Database_Config_General::getTranslatedResources ();
 #else

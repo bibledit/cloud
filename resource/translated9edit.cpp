@@ -44,10 +44,9 @@
 #pragma GCC diagnostic pop
 #include <resource/translated1edit.h>
 #include <client/logic.h>
-using namespace std;
 
 
-string resource_translated9edit_url ()
+std::string resource_translated9edit_url ()
 {
   return "resource/translated9edit";
 }
@@ -59,7 +58,7 @@ bool resource_translated9edit_acl (Webserver_Request& webserver_request)
 }
 
 
-string resource_translated9edit (Webserver_Request& webserver_request)
+std::string resource_translated9edit (Webserver_Request& webserver_request)
 {
   std::string page;
   Assets_Header header = Assets_Header (translate("Translated resources"), webserver_request);

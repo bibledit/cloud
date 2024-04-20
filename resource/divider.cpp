@@ -43,10 +43,9 @@
 #include <resource/logic.h>
 #include <resource/organize.h>
 #include <sync/logic.h>
-using namespace std;
 
 
-string resource_divider_url ()
+std::string resource_divider_url ()
 {
   return "resource/divider";
 }
@@ -58,7 +57,7 @@ bool resource_divider_acl (Webserver_Request& webserver_request)
 }
 
 
-string resource_divider (Webserver_Request& webserver_request)
+std::string resource_divider (Webserver_Request& webserver_request)
 {
   std::string page;
   
@@ -69,8 +68,8 @@ string resource_divider (Webserver_Request& webserver_request)
   Assets_View view;
 
 
-  int userid = filter::strings::user_identifier (webserver_request);
-  std::string key = "rich divider";
+  const int userid = filter::strings::user_identifier (webserver_request);
+  const std::string key = "rich divider";
 
 
   // For administrator level default resource management purposes.

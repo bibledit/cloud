@@ -23,10 +23,9 @@
 #include <webserver/request.h>
 #include <access/logic.h>
 #include <config/globals.h>
-using namespace std;
 
 
-string resource_unload_url ()
+std::string resource_unload_url ()
 {
   return "resource/unload";
 }
@@ -38,7 +37,7 @@ bool resource_unload_acl (Webserver_Request& webserver_request)
 }
 
 
-string resource_unload (Webserver_Request& webserver_request)
+std::string resource_unload (Webserver_Request& webserver_request)
 {
   // The scroll position of the resource window.
   int position = filter::strings::convert_to_int (webserver_request.post ["position"]);

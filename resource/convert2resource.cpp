@@ -29,7 +29,6 @@
 #include <database/config/bible.h>
 #include <locale/translate.h>
 #include <tasks/logic.h>
-using namespace std;
 
 
 void convert_bible_to_resource (std::string bible)

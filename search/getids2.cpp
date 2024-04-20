@@ -26,10 +26,9 @@
 #include <database/config/general.h>
 #include <search/logic.h>
 #include <access/bible.h>
-using namespace std;
 
 
-string search_getids2_url ()
+std::string search_getids2_url ()
 {
   return "search/getids2";
 }
@@ -44,7 +43,7 @@ bool search_getids2_acl (Webserver_Request& webserver_request)
 }
 
 
-string search_getids2 (Webserver_Request& webserver_request)
+std::string search_getids2 (Webserver_Request& webserver_request)
 {
   // Get search variables from the query.
   std::string bible = webserver_request.query ["b"];

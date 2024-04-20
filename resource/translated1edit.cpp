@@ -40,10 +40,9 @@
 #include <menu/logic.h>
 #include <access/logic.h>
 #include <client/logic.h>
-using namespace std;
 
 
-string resource_translated1edit_url ()
+std::string resource_translated1edit_url ()
 {
   return "resource/translated1edit";
 }
@@ -55,7 +54,7 @@ bool resource_translated1edit_acl (Webserver_Request& webserver_request)
 }
 
 
-string resource_translated1edit (Webserver_Request& webserver_request)
+std::string resource_translated1edit (Webserver_Request& webserver_request)
 {
   std::string page {};
   Assets_Header header = Assets_Header (translate("Translated resource"), webserver_request);

@@ -30,10 +30,9 @@
 #include <menu/logic.h>
 #include <database/userresources.h>
 #include <access/logic.h>
-using namespace std;
 
 
-string resource_user9view_url ()
+std::string resource_user9view_url ()
 {
   return "resource/user9view";
 }
@@ -45,7 +44,7 @@ bool resource_user9view_acl (Webserver_Request& webserver_request)
 }
 
 
-string resource_user9view (Webserver_Request& webserver_request)
+std::string resource_user9view (Webserver_Request& webserver_request)
 {
   std::string page;
   Assets_Header header = Assets_Header (translate("User resources"), webserver_request);

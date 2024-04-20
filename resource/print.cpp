@@ -36,10 +36,9 @@
 #include <jobs/index.h>
 #include <dialog/list.h>
 #include <menu/logic.h>
-using namespace std;
 
 
-string resource_print_url ()
+std::string resource_print_url ()
 {
   return "resource/print";
 }
@@ -51,7 +50,7 @@ bool resource_print_acl (Webserver_Request& webserver_request)
 }
 
 
-string resource_print (Webserver_Request& webserver_request)
+std::string resource_print (Webserver_Request& webserver_request)
 {
   std::string page;
   Assets_Header header = Assets_Header (translate("Print"), webserver_request);
@@ -296,7 +295,7 @@ string resource_print (Webserver_Request& webserver_request)
   for (size_t i = 0; i < resources.size (); i++) {
     std::string offset = filter::strings::convert_to_string (i);
     std::string name = resources[i];
-    view.add_iteration ("resources", { pair ("offset", offset), pair ("name", name) } );
+    view.add_iteration ("resources", { std::pair ("offset", offset), std::pair ("name", name) } );
   }
   view.set_variable ("trash", filter::strings::emoji_wastebasket ());
   view.set_variable ("uparrow", filter::strings::unicode_black_up_pointing_triangle ());

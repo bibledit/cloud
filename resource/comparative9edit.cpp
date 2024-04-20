@@ -43,10 +43,9 @@
 #pragma GCC diagnostic pop
 #include <resource/comparative1edit.h>
 #include <client/logic.h>
-using namespace std;
 
 
-string resource_comparative9edit_url ()
+std::string resource_comparative9edit_url ()
 {
   return "resource/comparative9edit";
 }
@@ -58,7 +57,7 @@ bool resource_comparative9edit_acl (Webserver_Request& webserver_request)
 }
 
 
-string resource_comparative9edit (Webserver_Request& webserver_request)
+std::string resource_comparative9edit (Webserver_Request& webserver_request)
 {
   std::string page;
   Assets_Header header = Assets_Header (translate("Comparative resources"), webserver_request);

@@ -39,10 +39,9 @@
 #include <menu/logic.h>
 #include <access/logic.h>
 #include <client/logic.h>
-using namespace std;
 
 
-string resource_comparative1edit_url ()
+std::string resource_comparative1edit_url ()
 {
   return "resource/comparative1edit";
 }
@@ -54,7 +53,7 @@ bool resource_comparative1edit_acl (Webserver_Request& webserver_request)
 }
 
 
-string resource_comparative1edit (Webserver_Request& webserver_request)
+std::string resource_comparative1edit (Webserver_Request& webserver_request)
 {
   std::string page;
   Assets_Header header = Assets_Header (translate("Comparative resource"), webserver_request);

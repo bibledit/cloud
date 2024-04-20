@@ -36,10 +36,9 @@
 #include <dialog/entry.h>
 #include <tasks/logic.h>
 #include <menu/logic.h>
-using namespace std;
 
 
-string resource_user1edit_url ()
+std::string resource_user1edit_url ()
 {
   return "resource/user1edit";
 }
@@ -51,7 +50,7 @@ bool resource_user1edit_acl (Webserver_Request& webserver_request)
 }
 
 
-string resource_user1edit (Webserver_Request& webserver_request)
+std::string resource_user1edit (Webserver_Request& webserver_request)
 {
   std::string page {};
   Assets_Header header = Assets_Header (translate("User-defined resources"), webserver_request);

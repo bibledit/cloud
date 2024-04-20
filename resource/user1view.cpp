@@ -33,10 +33,9 @@
 #include <access/logic.h>
 #include <database/userresources.h>
 #include <database/books.h>
-using namespace std;
 
 
-string resource_user1view_url ()
+std::string resource_user1view_url ()
 {
   return "resource/user1view";
 }
@@ -48,7 +47,7 @@ bool resource_user1view_acl (Webserver_Request& webserver_request)
 }
 
 
-string resource_user1view (Webserver_Request& webserver_request)
+std::string resource_user1view (Webserver_Request& webserver_request)
 {
   std::string page {};
   Assets_Header header = Assets_Header (translate("Resources"), webserver_request);

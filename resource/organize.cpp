@@ -37,10 +37,9 @@
 #include <access/logic.h>
 #include <tasks/logic.h>
 #include <database/config/general.h>
-using namespace std;
 
 
-string resource_organize_url ()
+std::string resource_organize_url ()
 {
   return "resource/organize";
 }
@@ -52,7 +51,7 @@ bool resource_organize_acl (Webserver_Request& webserver_request)
 }
 
 
-string resource_organize (Webserver_Request& webserver_request)
+std::string resource_organize (Webserver_Request& webserver_request)
 {
   std::string checkbox = webserver_request.post ["checkbox"];
   bool checked = filter::strings::convert_to_bool (webserver_request.post ["checked"]);

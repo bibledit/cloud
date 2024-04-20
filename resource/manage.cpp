@@ -33,10 +33,9 @@
 #include <journal/index.h>
 #include <dialog/yes.h>
 #include <menu/logic.h>
-using namespace std;
 
 
-string resource_manage_url ()
+std::string resource_manage_url ()
 {
   return "resource/manage";
 }
@@ -48,7 +47,7 @@ bool resource_manage_acl (Webserver_Request& webserver_request)
 }
 
 
-string resource_manage (Webserver_Request& webserver_request)
+std::string resource_manage (Webserver_Request& webserver_request)
 {
   std::string page;
   Assets_Header header = Assets_Header (translate("USFM Resources"), webserver_request);

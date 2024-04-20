@@ -40,7 +40,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <locale/translate.h>
 #include <tasks/logic.h>
 #include <rss/feed.h>
-using namespace std;
 
 
 #ifdef HAVE_CLOUD
@@ -70,7 +69,7 @@ void rss_logic_feed_on_off ()
 }
 
 
-string rss_logic_new_line ()
+std::string rss_logic_new_line ()
 {
   return "rss_new_line";
 }
@@ -156,7 +155,7 @@ void rss_logic_execute_update (std::string user, std::string bible, int book, in
 }
 
 
-string rss_logic_xml_path ()
+std::string rss_logic_xml_path ()
 {
   return filter_url_create_root_path ({"rss", "feed.xml"});
 }
@@ -214,7 +213,7 @@ void rss_logic_update_xml (std::vector <std::string> titles, std::vector <std::s
     document_updated = true;
   }
   int rss_size = 100;
-  int count = static_cast<int>(distance (channel.children ().begin (), channel.children ().end ()));
+  int count = static_cast<int>(std::distance (channel.children ().begin (), channel.children ().end ()));
   count -= 3;
   count -= rss_size;
   while (count > 0) {

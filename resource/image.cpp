@@ -37,10 +37,9 @@
 #include <menu/logic.h>
 #include <resource/images.h>
 #include <journal/logic.h>
-using namespace std;
 
 
-string resource_image_url ()
+std::string resource_image_url ()
 {
   return "resource/image";
 }
@@ -52,7 +51,7 @@ bool resource_image_acl (Webserver_Request& webserver_request)
 }
 
 
-string resource_image (Webserver_Request& webserver_request)
+std::string resource_image (Webserver_Request& webserver_request)
 {
   Database_ImageResources database_imageresources;
 

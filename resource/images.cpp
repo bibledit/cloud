@@ -32,10 +32,9 @@
 #include <dialog/yes.h>
 #include <dialog/entry.h>
 #include <menu/logic.h>
-using namespace std;
 
 
-string resource_images_url ()
+std::string resource_images_url ()
 {
   return "resource/images";
 }
@@ -47,7 +46,7 @@ bool resource_images_acl (Webserver_Request& webserver_request)
 }
 
 
-string resource_images (Webserver_Request& webserver_request)
+std::string resource_images (Webserver_Request& webserver_request)
 {
   std::string page;
   Assets_Header header = Assets_Header (translate("Image resources"), webserver_request);

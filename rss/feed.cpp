@@ -21,10 +21,9 @@
 #include <filter/url.h>
 #include <webserver/request.h>
 #include <rss/logic.h>
-using namespace std;
 
 
-string rss_feed_url ()
+std::string rss_feed_url ()
 {
   return "rss/feed";
 }
@@ -36,7 +35,7 @@ bool rss_feed_acl ([[maybe_unused]] Webserver_Request& webserver_request)
 }
 
 
-string rss_feed ([[maybe_unused]] Webserver_Request& webserver_request)
+std::string rss_feed ([[maybe_unused]] Webserver_Request& webserver_request)
 {
   std::string xml;
 #ifdef HAVE_CLOUD

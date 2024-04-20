@@ -25,10 +25,9 @@
 #include <database/config/bible.h>
 #include <database/versifications.h>
 #include <access/logic.h>
-using namespace std;
 
 
-string resource_get_url ()
+std::string resource_get_url ()
 {
   return "resource/get";
 }
@@ -40,7 +39,7 @@ bool resource_get_acl (Webserver_Request& webserver_request)
 }
 
 
-string resource_get (Webserver_Request& webserver_request)
+std::string resource_get (Webserver_Request& webserver_request)
 {
   std::vector <std::string> bits;
 

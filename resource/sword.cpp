@@ -32,10 +32,9 @@
 #include <journal/index.h>
 #include <sword/logic.h>
 #include <menu/logic.h>
-using namespace std;
 
 
-string resource_sword_url ()
+std::string resource_sword_url ()
 {
   return "resource/sword";
 }
@@ -47,7 +46,7 @@ bool resource_sword_acl (Webserver_Request& webserver_request)
 }
 
 
-string resource_sword (Webserver_Request& webserver_request)
+std::string resource_sword (Webserver_Request& webserver_request)
 {
   if (webserver_request.query.count ("refresh")) {
     tasks_logic_queue (REFRESHSWORDMODULES);

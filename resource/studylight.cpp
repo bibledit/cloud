@@ -42,10 +42,9 @@
 #include <pugixml.hpp>
 #endif
 #pragma GCC diagnostic pop
-using namespace std;
 
 
-string resource_studylight_url ()
+std::string resource_studylight_url ()
 {
   return "resource/studylight";
 }
@@ -57,7 +56,7 @@ bool resource_studylight_acl (Webserver_Request& webserver_request)
 }
 
 
-string resource_studylight (Webserver_Request& webserver_request)
+std::string resource_studylight (Webserver_Request& webserver_request)
 {
   std::string page;
   Assets_Header header = Assets_Header (translate("Resources"), webserver_request);

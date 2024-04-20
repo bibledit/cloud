@@ -32,10 +32,9 @@
 #include <notes/note.h>
 #include <search/logic.h>
 #include <menu/logic.h>
-using namespace std;
 
 
-string search_all_url ()
+std::string search_all_url ()
 {
   return "search/all";
 }
@@ -50,7 +49,7 @@ bool search_all_acl (Webserver_Request& webserver_request)
 }
 
 
-string search_all (Webserver_Request& webserver_request)
+std::string search_all (Webserver_Request& webserver_request)
 {
   std::string page;
   Assets_Header header = Assets_Header (translate("Search"), webserver_request);

@@ -26,40 +26,39 @@
 #include <database/bibles.h>
 #include <database/config/bible.h>
 #include <database/logic.h>
-using namespace std;
 
 
-string search_logic_index_folder ()
+std::string search_logic_index_folder ()
 {
   return filter_url_create_root_path ({database_logic_databases (), "search"});
 }
 
 
-string search_logic_bible_fragment (std::string bible)
+std::string search_logic_bible_fragment (std::string bible)
 {
   return filter_url_create_path ({search_logic_index_folder (), bible + "_"});
 }
 
 
-string search_logic_book_fragment (std::string bible, int book)
+std::string search_logic_book_fragment (std::string bible, int book)
 {
   return search_logic_bible_fragment (bible) + filter::strings::convert_to_string (book) + "_";
 }
 
 
-string search_logic_chapter_file (std::string bible, int book, int chapter)
+std::string search_logic_chapter_file (std::string bible, int book, int chapter)
 {
   return search_logic_book_fragment (bible, book) + filter::strings::convert_to_string (chapter);
 }
 
 
-string search_logic_verse_separator ()
+std::string search_logic_verse_separator ()
 {
   return "v#e#r#s#e#s#e#p#a#r#a#t#o#r";
 }
 
 
-string search_logic_index_separator ()
+std::string search_logic_index_separator ()
 {
   return "i#n#d#e#x#s#e#p#a#r#a#t#o#r";
 }
@@ -81,7 +80,7 @@ void search_logic_index_chapter (std::string bible, int book, int chapter)
 
   std::vector <std::string> index;
   
-  set <string> already_processed;
+  std::set <std::string> already_processed;
   
   std::vector <int> verses = filter::usfm::get_verse_numbers (usfm);
   
@@ -379,7 +378,7 @@ std::vector <Passage> search_logic_search_bible_usfm_case_sensitive (std::string
 
 
 // Gets the plain raw text for the bible and passage given.
-string search_logic_get_bible_verse_text (std::string bible, int book, int chapter, int verse)
+std::string search_logic_get_bible_verse_text (std::string bible, int book, int chapter, int verse)
 {
   std::vector <std::string> texts;
   std::string path = search_logic_chapter_file (bible, book, chapter);
@@ -408,7 +407,7 @@ string search_logic_get_bible_verse_text (std::string bible, int book, int chapt
 
 
 // Gets the raw USFM for the bible and passage given.
-string search_logic_get_bible_verse_usfm (std::string bible, int book, int chapter, int verse)
+std::string search_logic_get_bible_verse_usfm (std::string bible, int book, int chapter, int verse)
 {
   std::vector <std::string> texts;
   std::string path = search_logic_chapter_file (bible, book, chapter);
@@ -521,7 +520,7 @@ void search_logic_copy_bible (std::string original, std::string destination)
 
 
 // This generated the plain text that can be used as a reference during a replace operation.
-string search_logic_plain_replace_verse_text (std::string usfm)
+std::string search_logic_plain_replace_verse_text (std::string usfm)
 {
   // Text filter for getting the plain text.
   Filter_Text filter_text = Filter_Text ("");

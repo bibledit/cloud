@@ -38,10 +38,9 @@
 #include <sendreceive/resources.h>
 #include <client/logic.h>
 #include <config/globals.h>
-using namespace std;
 
 
-string resource_cache_url ()
+std::string resource_cache_url ()
 {
   return "resource/cache";
 }
@@ -53,7 +52,7 @@ bool resource_cache_acl (Webserver_Request& webserver_request)
 }
 
 
-string resource_cache (Webserver_Request& webserver_request)
+std::string resource_cache (Webserver_Request& webserver_request)
 {
   std::string resource = webserver_request.query ["resource"];
   

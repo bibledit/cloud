@@ -36,10 +36,9 @@
 #include <menu/logic.h>
 #include <resource/cache.h>
 #include <client/logic.h>
-using namespace std;
 
 
-string resource_download_url ()
+std::string resource_download_url ()
 {
   return "resource/download";
 }
@@ -51,7 +50,7 @@ bool resource_download_acl (Webserver_Request& webserver_request)
 }
 
 
-string resource_download (Webserver_Request& webserver_request)
+std::string resource_download (Webserver_Request& webserver_request)
 {
   Database_UsfmResources database_usfmresources;
   

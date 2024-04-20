@@ -32,10 +32,9 @@
 #include <dialog/entry.h>
 #include <dialog/yes.h>
 #include <database/userresources.h>
-using namespace std;
 
 
-string resource_user9edit_url ()
+std::string resource_user9edit_url ()
 {
   return "resource/user9edit";
 }
@@ -47,7 +46,7 @@ bool resource_user9edit_acl (Webserver_Request& webserver_request)
 }
 
 
-string resource_user9edit (Webserver_Request& webserver_request)
+std::string resource_user9edit (Webserver_Request& webserver_request)
 {
   std::string page;
   Assets_Header header = Assets_Header (translate("User resources"), webserver_request);

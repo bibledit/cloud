@@ -24,10 +24,9 @@
 #include <webserver/request.h>
 #include <ipc/focus.h>
 #include <access/bible.h>
-using namespace std;
 
 
-string editusfm_focus_url ()
+std::string editusfm_focus_url ()
 {
   return "editusfm/focus";
 }
@@ -45,7 +44,7 @@ bool editusfm_focus_acl (Webserver_Request& webserver_request)
 // Returns two numerical positions: A starting one, and an ending one.
 // These two are for positioning the caret in the editor.
 // The caret should be at or be moved to a position between these two.
-string editusfm_focus (Webserver_Request& webserver_request)
+std::string editusfm_focus (Webserver_Request& webserver_request)
 {
   std::string bible = webserver_request.query ["bible"];
   int book = filter::strings::convert_to_int (webserver_request.query ["book"]);

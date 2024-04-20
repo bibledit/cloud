@@ -29,10 +29,9 @@
 #include <editone2/logic.h>
 #include <edit/logic.h>
 #include <database/config/bible.h>
-using namespace std;
 
 
-string editone2_load_url ()
+std::string editone2_load_url ()
 {
   return "editone2/load";
 }
@@ -47,7 +46,7 @@ bool editone2_load_acl (Webserver_Request& webserver_request)
 }
 
 
-string editone2_load (Webserver_Request& webserver_request)
+std::string editone2_load (Webserver_Request& webserver_request)
 {
   std::string bible = webserver_request.query ["bible"];
   int book = filter::strings::convert_to_int (webserver_request.query ["book"]);

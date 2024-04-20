@@ -36,10 +36,9 @@
 #include <menu/logic.h>
 #include <bb/logic.h>
 #include <editor/usfm2html.h>
-using namespace std;
 
 
-string edit_preview_url ()
+std::string edit_preview_url ()
 {
   return "edit/preview";
 }
@@ -54,7 +53,7 @@ bool edit_preview_acl (Webserver_Request& webserver_request)
 }
 
 
-string edit_preview (Webserver_Request& webserver_request)
+std::string edit_preview (Webserver_Request& webserver_request)
 {
   bool touch = webserver_request.session_logic ()->touchEnabled ();
   bool timeout = webserver_request.query.count ("timeout");

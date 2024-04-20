@@ -24,10 +24,9 @@
 #include <checksum/logic.h>
 #include <edit/logic.h>
 #include <access/bible.h>
-using namespace std;
 
 
-string editusfm_load_url ()
+std::string editusfm_load_url ()
 {
   return "editusfm/load";
 }
@@ -42,7 +41,7 @@ bool editusfm_load_acl (Webserver_Request& webserver_request)
 }
 
 
-string editusfm_load (Webserver_Request& webserver_request)
+std::string editusfm_load (Webserver_Request& webserver_request)
 {
   std::string bible = webserver_request.query ["bible"];
   int book = filter::strings::convert_to_int (webserver_request.query ["book"]);

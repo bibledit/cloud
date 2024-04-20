@@ -30,10 +30,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <locale/translate.h>
 #include <assets/header.h>
 #include <menu/logic.h>
-using namespace std;
 
 
-string email_index_url ()
+std::string email_index_url ()
 {
   return "email/index";
 }
@@ -45,7 +44,7 @@ bool email_index_acl (Webserver_Request& webserver_request)
 }
 
 
-string email_index (Webserver_Request& webserver_request)
+std::string email_index (Webserver_Request& webserver_request)
 {
   std::string page;
 

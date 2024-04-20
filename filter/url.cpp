@@ -1066,7 +1066,7 @@ int filter_url_curl_trace (CURL *handle, curl_infotype type, char *data, size_t 
 // It appends the $values to the post data.
 // It returns the response from the server.
 // It writes any error to $error.
-string filter_url_http_post (const std::string& url, [[maybe_unused]] string post_data, const std::map <std::string, std::string> & post_values, std::string& error, [[maybe_unused]] bool burst, [[maybe_unused]] bool check_certificate, [[maybe_unused]] const std::vector <std::pair <string, std::string> > & headers)
+string filter_url_http_post (const std::string& url, [[maybe_unused]] std::string post_data, const std::map <std::string, std::string> & post_values, std::string& error, [[maybe_unused]] bool burst, [[maybe_unused]] bool check_certificate, [[maybe_unused]] const std::vector <std::pair <string, std::string> > & headers)
 {
   std::string response;
 #ifdef HAVE_CLIENT
@@ -1138,9 +1138,9 @@ string filter_url_http_post (const std::string& url, [[maybe_unused]] string pos
 // It uploads $filename.
 // It returns the response from the server.
 // It writes any error to $error.
-string filter_url_http_upload ([[maybe_unused]] string url,
+string filter_url_http_upload ([[maybe_unused]] std::string url,
                                [[maybe_unused]] std::map <std::string, std::string> values,
-                               [[maybe_unused]] string filename,
+                               [[maybe_unused]] std::string filename,
                                std::string& error)
 {
   std::string response;

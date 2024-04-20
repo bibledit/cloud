@@ -120,7 +120,7 @@ string filter_archive_unzip (std::string file)
 
 // Uncompresses a zip archive identified by $file.
 // Returns the path to the folder it created.
-string filter_archive_unzip_shell_internal ([[maybe_unused]] string file)
+string filter_archive_unzip_shell_internal ([[maybe_unused]] std::string file)
 {
   std::string folder = filter_url_tempfile ();
 #ifdef HAVE_CLOUD

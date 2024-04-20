@@ -34,11 +34,11 @@ using namespace std;
 
 
 void test_filter_git_setup ([[maybe_unused]] Webserver_Request& webserver_request,
-                            [[maybe_unused]] string bible,
-                            [[maybe_unused]] string newbible,
-                            [[maybe_unused]] string psalms_0_data,
-                            [[maybe_unused]] string psalms_11_data,
-                            [[maybe_unused]] string song_of_solomon_2_data)
+                            [[maybe_unused]] std::string bible,
+                            [[maybe_unused]] std::string newbible,
+                            [[maybe_unused]] std::string psalms_0_data,
+                            [[maybe_unused]] std::string psalms_11_data,
+                            [[maybe_unused]] std::string song_of_solomon_2_data)
 {
 #ifdef HAVE_CLOUD
 

@@ -1739,7 +1739,7 @@ void Filter_Text::notes_plain_text_handler ()
 }
 
 
-void Filter_Text::set_to_zero (string& value)
+void Filter_Text::set_to_zero (std::string& value)
 {
   value = "0";
 }

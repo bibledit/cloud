@@ -38,7 +38,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <sync/logic.h>
 #include <client/logic.h>
 #include <locale/translate.h>
-using namespace std;
 
 
 void email_send ()
@@ -171,11 +170,11 @@ static size_t payload_source (void *ptr, size_t size, size_t nmemb, void *userp)
 // Sends the email as specified by the parameters.
 // If all went well, it returns an empty string.
 // In case of failure, it returns the error message.
-string email_send ([[maybe_unused]] string to_mail,
-                   std::string to_name,
-                   std::string subject,
-                   std::string body,
-                   [[maybe_unused]] bool verbose)
+std::string email_send ([[maybe_unused]] std::string to_mail,
+                        std::string to_name,
+                        std::string subject,
+                        std::string body,
+                        [[maybe_unused]] bool verbose)
 {
   // Truncate huge emails because libcurl crashes on it.
   size_t length = body.length ();
@@ -375,7 +374,7 @@ void email_schedule (std::string to, std::string subject, std::string body, int 
 // If the email sending and receiving has not yet been (completely) set up,
 // it returns information about that.
 // If everything's OK, it returns nothing.
-string email_setup_information (bool require_send, bool require_receive)
+std::string email_setup_information (bool require_send, bool require_receive)
 {
 #ifdef HAVE_CLIENT
   (void) require_send;

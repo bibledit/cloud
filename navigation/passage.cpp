@@ -481,7 +481,7 @@ void Navigation_Passage::go_forward (Webserver_Request& webserver_request)
 }
 
 
-void Navigation_Passage::add_selector_link (string& html, std::string id, std::string href, std::string text, bool selected, std::string extra_class)
+void Navigation_Passage::add_selector_link (std::string& html, std::string id, std::string href, std::string text, bool selected, std::string extra_class)
 {
   // Add a space to cause wrapping between the books or chapters or verses.
   if (!html.empty ()) html.append (" ");

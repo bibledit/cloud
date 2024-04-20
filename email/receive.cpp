@@ -29,7 +29,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <confirm/worker.h>
 #include <notes/logic.h>
 #include <filter/url.h>
-using namespace std;
 
 
 void email_receive ()
@@ -112,7 +111,7 @@ size_t writefunc(void *ptr, size_t size, size_t nmemb, cstring *s)
 }
 
 
-string url ()
+std::string url ()
 {
   std::string url;
   const char * pop3s = "POP3S";
@@ -127,7 +126,7 @@ string url ()
 
 
 // Returns how many emails are waiting in the mail storage host's POP3 email inbox.
-int email_receive_count (string& error, bool verbose)
+int email_receive_count (std::string& error, bool verbose)
 {
 #ifdef HAVE_CLIENT
   error = "Not implemented with embedded http library";
@@ -190,7 +189,7 @@ int email_receive_count (string& error, bool verbose)
 }
 
 
-string email_receive_message (string& error)
+std::string email_receive_message (std::string& error)
 {
 #ifdef HAVE_CLIENT
   error = "Not implemented with embedded http library";

@@ -129,7 +129,7 @@ void Flate::process_iterations (std::string & rendering)
 }
 
 
-void Flate::process_zones (string& rendering)
+void Flate::process_zones (std::string& rendering)
 {
   // Limit zone iterations.
   int zone_iteration_count = 0;
@@ -165,7 +165,7 @@ void Flate::process_zones (string& rendering)
 }
 
 
-void Flate::process_variables (string& rendering)
+void Flate::process_variables (std::string& rendering)
 {
   // Limit variable iterations.
   int variable_iteration_count = 0;
@@ -201,7 +201,7 @@ void Flate::process_variables (string& rendering)
 }
 
 
-void Flate::process_translate (string& rendering)
+void Flate::process_translate (std::string& rendering)
 {
   // Clean up the "translate" (gettext) calls.
   rendering = filter::strings::replace ("translate (", "translate(", rendering);

@@ -26,7 +26,6 @@
 #include <database/logs.h>
 #include <pugixml/utils.h>
 #include <quill/logic.h>
-using namespace std;
 
 
 void Editor_Html2Usfm::load (std::string html)
@@ -107,7 +106,7 @@ void Editor_Html2Usfm::process ()
 }
 
 
-string Editor_Html2Usfm::get ()
+std::string Editor_Html2Usfm::get ()
 {
   // Generate the USFM as one string.
   std::string usfm = filter::strings::implode (output, "\n");
@@ -358,7 +357,7 @@ void Editor_Html2Usfm::processNoteCitation (pugi::xml_node node)
 }
 
 
-string Editor_Html2Usfm::cleanUSFM (std::string usfm)
+std::string Editor_Html2Usfm::cleanUSFM (std::string usfm)
 {
   // Replace a double space after a note opener.
   for (std::string noteOpener : noteOpeners) {
@@ -414,7 +413,7 @@ pugi::xml_node Editor_Html2Usfm::get_note_pointer (pugi::xml_node body, std::str
   if (!body) return p_note_wrapper;
 
   // Assert that the <body> node is given.
-  if (string(body.name ()) != "body") return p_note_wrapper;
+  if (std::string(body.name ()) != "body") return p_note_wrapper;
 
   // Some of the children of the <body> node will be the note wrappers.
   // Consider this XML:
@@ -471,7 +470,7 @@ pugi::xml_node Editor_Html2Usfm::get_note_pointer (pugi::xml_node body, std::str
 }
 
 
-string Editor_Html2Usfm::update_quill_class (std::string classname)
+std::string Editor_Html2Usfm::update_quill_class (std::string classname)
 {
   classname = filter::strings::replace (quill_logic_class_prefix_block (), "", classname);
   classname = filter::strings::replace (quill_logic_class_prefix_inline (), "", classname);
@@ -482,7 +481,7 @@ string Editor_Html2Usfm::update_quill_class (std::string classname)
 // This function takes the html from a Quill-based editor that edits one verse,
 // and converts it to USFM.
 // It properly deals with cases when a verse does not start a new paragraph.
-string editor_export_verse_quill (std::string stylesheet, std::string html)
+std::string editor_export_verse_quill (std::string stylesheet, std::string html)
 {
   // When the $html starts with a paragraph without a style,
   // put a recognizable style there.

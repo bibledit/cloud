@@ -38,7 +38,7 @@ using namespace std;
 // It may be passed a manual year and manual month.
 // In those cases it will mail the burndown chart to the subscribed users.
 // Else it decides on its own whether to mail the chart to the users.
-void sprint_burndown ([[maybe_unused]] string bible,
+void sprint_burndown ([[maybe_unused]] std::string bible,
                       [[maybe_unused]] int manualyear,
                       [[maybe_unused]] int manualmonth)
 {
@@ -187,7 +187,7 @@ void sprint_burndown ([[maybe_unused]] string bible,
 
 
 // This function creates a text-based burndown chart for sprint $bible / $year / $month.
-string sprint_create_burndown_chart ([[maybe_unused]] string bible,
+string sprint_create_burndown_chart ([[maybe_unused]] std::string bible,
                                      [[maybe_unused]] int year,
                                      [[maybe_unused]] int month)
 {

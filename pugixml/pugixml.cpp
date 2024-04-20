@@ -2386,7 +2386,7 @@ PUGI__NS_BEGIN
 	}
 
 	template <typename String, typename Header>
-	PUGI__FN bool strcpy_insitu(String& dest, Header& header, uintptr_t header_mask, const char_t* source, size_t source_length)
+	PUGI__FN bool strcpy_insitu(std::string& dest, Header& header, uintptr_t header_mask, const char_t* source, size_t source_length)
 	{
 		if (source_length == 0)
 		{
@@ -4420,7 +4420,7 @@ PUGI__NS_BEGIN
 	}
 
 	template <typename String, typename Header>
-	PUGI__FN void node_copy_string(String& dest, Header& header, uintptr_t header_mask, char_t* source, Header& source_header, xml_allocator* alloc)
+	PUGI__FN void node_copy_string(std::string& dest, Header& header, uintptr_t header_mask, char_t* source, Header& source_header, xml_allocator* alloc)
 	{
 		assert(!dest && (header & header_mask) == 0);
 
@@ -4680,7 +4680,7 @@ PUGI__NS_BEGIN
 
 	// set value with conversion functions
 	template <typename String, typename Header>
-	PUGI__FN bool set_value_ascii(String& dest, Header& header, uintptr_t header_mask, char* buf)
+	PUGI__FN bool set_value_ascii(std::string& dest, Header& header, uintptr_t header_mask, char* buf)
 	{
 	#ifdef PUGIXML_WCHAR_MODE
 		char_t wbuf[128];
@@ -4696,7 +4696,7 @@ PUGI__NS_BEGIN
 	}
 
 	template <typename U, typename String, typename Header>
-	PUGI__FN bool set_value_integer(String& dest, Header& header, uintptr_t header_mask, U value, bool negative)
+	PUGI__FN bool set_value_integer(std::string& dest, Header& header, uintptr_t header_mask, U value, bool negative)
 	{
 		char_t buf[64];
 		char_t* end = buf + sizeof(buf) / sizeof(buf[0]);
@@ -4706,7 +4706,7 @@ PUGI__NS_BEGIN
 	}
 
 	template <typename String, typename Header>
-	PUGI__FN bool set_value_convert(String& dest, Header& header, uintptr_t header_mask, float value, int precision)
+	PUGI__FN bool set_value_convert(std::string& dest, Header& header, uintptr_t header_mask, float value, int precision)
 	{
 		char buf[128];
 		PUGI__SNPRINTF(buf, "%.*g", precision, double(value));
@@ -4715,7 +4715,7 @@ PUGI__NS_BEGIN
 	}
 
 	template <typename String, typename Header>
-	PUGI__FN bool set_value_convert(String& dest, Header& header, uintptr_t header_mask, double value, int precision)
+	PUGI__FN bool set_value_convert(std::string& dest, Header& header, uintptr_t header_mask, double value, int precision)
 	{
 		char buf[128];
 		PUGI__SNPRINTF(buf, "%.*g", precision, value);
@@ -4724,7 +4724,7 @@ PUGI__NS_BEGIN
 	}
 
 	template <typename String, typename Header>
-	PUGI__FN bool set_value_bool(String& dest, Header& header, uintptr_t header_mask, bool value)
+	PUGI__FN bool set_value_bool(std::string& dest, Header& header, uintptr_t header_mask, bool value)
 	{
 		return strcpy_insitu(dest, header, header_mask, value ? PUGIXML_TEXT("true") : PUGIXML_TEXT("false"), value ? 4 : 5);
 	}

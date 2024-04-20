@@ -26,10 +26,9 @@
 #include <ipc/focus.h>
 #include <database/ipc.h>
 #include <access/bible.h>
-using namespace std;
 
 
-string editor_id_url ()
+std::string editor_id_url ()
 {
   return "editor/id";
 }
@@ -44,7 +43,7 @@ bool editor_id_acl (Webserver_Request& webserver_request)
 }
 
 
-string editor_id (Webserver_Request& webserver_request)
+std::string editor_id (Webserver_Request& webserver_request)
 {
   // Update the timestamp indicating that the Bible editor is alive.
   webserver_request.database_config_user()->setLiveBibleEditor (filter::date::seconds_since_epoch ());

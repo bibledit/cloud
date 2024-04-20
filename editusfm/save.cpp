@@ -36,10 +36,9 @@
 #include <bb/logic.h>
 #include <rss/logic.h>
 #include <sendreceive/logic.h>
-using namespace std;
 
 
-string editusfm_save_url ()
+std::string editusfm_save_url ()
 {
   return "editusfm/save";
 }
@@ -54,7 +53,7 @@ bool editusfm_save_acl (Webserver_Request& webserver_request)
 }
 
 
-string editusfm_save (Webserver_Request& webserver_request)
+std::string editusfm_save (Webserver_Request& webserver_request)
 {
   std::string bible = webserver_request.post["bible"];
   int book = filter::strings::convert_to_int (webserver_request.post["book"]);

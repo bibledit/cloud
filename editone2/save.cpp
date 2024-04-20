@@ -39,10 +39,9 @@
 #include <developer/logic.h>
 #include <rss/logic.h>
 #include <sendreceive/logic.h>
-using namespace std;
 
 
-string editone2_save_url ()
+std::string editone2_save_url ()
 {
   return "editone2/save";
 }
@@ -57,7 +56,7 @@ bool editone2_save_acl (Webserver_Request& webserver_request)
 }
 
 
-string editone2_save (Webserver_Request& webserver_request)
+std::string editone2_save (Webserver_Request& webserver_request)
 {
   // Check on information about where to save the verse.
   bool save = (webserver_request.post.count ("bible") && webserver_request.post.count ("book") && webserver_request.post.count ("chapter") && webserver_request.post.count ("verse") && webserver_request.post.count ("html"));

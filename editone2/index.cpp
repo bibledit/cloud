@@ -41,10 +41,9 @@
 #include <config/globals.h>
 #include <workspace/logic.h>
 #include <demo/logic.h>
-using namespace std;
 
 
-string editone2_index_url ()
+std::string editone2_index_url ()
 {
   return "editone2/index";
 }
@@ -61,9 +60,9 @@ bool editone2_index_acl (Webserver_Request& webserver_request)
 }
 
 
-string editone2_index (Webserver_Request& webserver_request)
+std::string editone2_index (Webserver_Request& webserver_request)
 {
-  bool touch = webserver_request.session_logic ()->touchEnabled ();
+  const bool touch = webserver_request.session_logic ()->touchEnabled ();
   
   if (webserver_request.query.count ("switchbook") && webserver_request.query.count ("switchchapter")) {
     int switchbook = filter::strings::convert_to_int (webserver_request.query ["switchbook"]);

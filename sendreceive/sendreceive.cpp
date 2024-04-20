@@ -35,7 +35,7 @@ string sendreceive_tag ()
 }
 
 
-void sendreceive_sendreceive ([[maybe_unused]] string bible)
+void sendreceive_sendreceive ([[maybe_unused]] std::string bible)
 {
 #ifdef HAVE_CLOUD
   // Check on Bible.

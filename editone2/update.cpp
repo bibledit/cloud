@@ -40,10 +40,9 @@
 #include <edit/logic.h>
 #include <rss/logic.h>
 #include <sendreceive/logic.h>
-using namespace std;
 
 
-string editone2_update_url ()
+std::string editone2_update_url ()
 {
   return "editone2/update";
 }
@@ -58,7 +57,7 @@ bool editone2_update_acl (Webserver_Request& webserver_request)
 }
 
 
-string editone2_update (Webserver_Request& webserver_request)
+std::string editone2_update (Webserver_Request& webserver_request)
 {
   // Whether the update is good to go.
   bool good2go = true;

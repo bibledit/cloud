@@ -40,10 +40,9 @@
 #include <quill/logic.h>
 #include <rss/logic.h>
 #include <sendreceive/logic.h>
-using namespace std;
 
 
-string edit_save_url ()
+std::string edit_save_url ()
 {
   return "edit/save";
 }
@@ -58,7 +57,7 @@ bool edit_save_acl (Webserver_Request& webserver_request)
 }
 
 
-string edit_save (Webserver_Request& webserver_request)
+std::string edit_save (Webserver_Request& webserver_request)
 {
   bool post_complete = (webserver_request.post.count ("bible") && webserver_request.post.count ("book") && webserver_request.post.count ("chapter") && webserver_request.post.count ("html") && webserver_request.post.count ("checksum"));
   if (!post_complete) {

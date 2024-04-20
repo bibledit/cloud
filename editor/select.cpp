@@ -31,10 +31,9 @@
 #include <editone2/index.h>
 #include <editusfm/index.h>
 #include <webserver/request.h>
-using namespace std;
 
 
-string editor_select_url ()
+std::string editor_select_url ()
 {
   return "editor/select";
 }
@@ -48,7 +47,7 @@ bool editor_select_acl (Webserver_Request& webserver_request)
 }
 
 
-string editor_select (Webserver_Request& webserver_request)
+std::string editor_select (Webserver_Request& webserver_request)
 {
   std::string page;
   Assets_Header header = Assets_Header (translate("Select editor"), webserver_request);
@@ -59,27 +58,27 @@ string editor_select (Webserver_Request& webserver_request)
   
   if (edit_index_acl (webserver_request)) {
     if (menu_logic_editor_enabled (webserver_request, true, true)) {
-      std::string label = menu_logic_editor_menu_text (true, true);
-      std::string url = edit_index_url ();
-      view.add_iteration ("editor", { pair ("url", url), pair ("label", label) } );
+      const std::string label = menu_logic_editor_menu_text (true, true);
+      const std::string url = edit_index_url ();
+      view.add_iteration ("editor", { std::pair ("url", url), std::pair ("label", label) } );
       urls.push_back (url);
     }
   }
   
   if (editone2_index_acl (webserver_request)) {
     if (menu_logic_editor_enabled (webserver_request, true, false)) {
-      std::string label = menu_logic_editor_menu_text (true, false);
-      std::string url = editone2_index_url ();
-      view.add_iteration ("editor", { pair ("url", url), pair ("label", label) } );
+      const std::string label = menu_logic_editor_menu_text (true, false);
+      const std::string url = editone2_index_url ();
+      view.add_iteration ("editor", { std::pair ("url", url), std::pair ("label", label) } );
       urls.push_back (url);
     }
   }
   
   if (editusfm_index_acl (webserver_request)) {
     if (menu_logic_editor_enabled (webserver_request, false, true)) {
-      std::string label = menu_logic_editor_menu_text (false, true);
-      std::string url = editusfm_index_url ();
-      view.add_iteration ("editor", { pair ("url", url), pair ("label", label) } );
+      const std::string label = menu_logic_editor_menu_text (false, true);
+      const std::string url = editusfm_index_url ();
+      view.add_iteration ("editor", { std::pair ("url", url), std::pair ("label", label) } );
       urls.push_back (url);
     }
   }

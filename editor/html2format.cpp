@@ -26,7 +26,6 @@
 #include <database/logs.h>
 #include <pugixml/utils.h>
 #include <quill/logic.h>
-using namespace std;
 
 
 void Editor_Html2Format::load (std::string html)
@@ -175,7 +174,7 @@ void Editor_Html2Format::postprocess ()
 }
 
 
-string Editor_Html2Format::update_quill_class (std::string classname)
+std::string Editor_Html2Format::update_quill_class (std::string classname)
 {
   classname = filter::strings::replace (quill_logic_class_prefix_block (), "", classname);
   classname = filter::strings::replace (quill_logic_class_prefix_inline (), "", classname);

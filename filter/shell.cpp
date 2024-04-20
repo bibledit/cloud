@@ -47,11 +47,11 @@ string filter_shell_escape_argument (std::string argument)
 // Runs shell $command in folder $directory, with $parameters.
 // If $output and $error are non-nullptr, that is where the output of the shell command goes.
 // If they are nullptr, the output of the shell command goes to the Journal.
-int filter_shell_run ([[maybe_unused]] string directory,
+int filter_shell_run ([[maybe_unused]] std::string directory,
                       std::string command,
                       [[maybe_unused]] const std::vector <std::string> parameters,
-                      [[maybe_unused]] string * output,
-                      [[maybe_unused]] string * error)
+                      [[maybe_unused]] std::string * output,
+                      [[maybe_unused]] std::string * error)
 {
 #ifdef HAVE_CLIENT
   Database_Logs::log ("Did not run on client: " + command);
@@ -95,7 +95,7 @@ int filter_shell_run ([[maybe_unused]] string directory,
 // It does not run $command through the shell, but executes it straight.
 int filter_shell_run (std::string command,
                       [[maybe_unused]] const char * parameter,
-                      [[maybe_unused]] string & output)
+                      [[maybe_unused]] std::string & output)
 {
 #ifdef HAVE_CLIENT
   Database_Logs::log ("Did not run on client: " + command);
@@ -202,9 +202,9 @@ std::vector <std::string> filter_shell_active_processes ()
 // If $directory is given, the process changes the working directory to that.
 // It does not run $command through the shell, but executes it through vfork,
 // which is the fastest possibble way to run a child process.
-int filter_shell_vfork ([[maybe_unused]] string & output,
-                        [[maybe_unused]] string directory,
-                        [[maybe_unused]] string command,
+int filter_shell_vfork ([[maybe_unused]] std::string & output,
+                        [[maybe_unused]] std::string directory,
+                        [[maybe_unused]] std::string command,
                         [[maybe_unused]] const char * p01,
                         [[maybe_unused]] const char * p02,
                         [[maybe_unused]] const char * p03,

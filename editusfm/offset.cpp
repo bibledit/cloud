@@ -24,10 +24,9 @@
 #include <webserver/request.h>
 #include <ipc/focus.h>
 #include <access/bible.h>
-using namespace std;
 
 
-string editusfm_offset_url ()
+std::string editusfm_offset_url ()
 {
   return "editusfm/offset";
 }
@@ -45,7 +44,7 @@ bool editusfm_offset_acl (Webserver_Request& webserver_request)
 // This receives the position of the caret in the editor,
 // and translates that to a verse number,
 // and focuses that verse number.
-string editusfm_offset (Webserver_Request& webserver_request)
+std::string editusfm_offset (Webserver_Request& webserver_request)
 {
   std::string bible = webserver_request.query ["bible"];
   int book = filter::strings::convert_to_int (webserver_request.query ["book"]);

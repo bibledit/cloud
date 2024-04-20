@@ -22,7 +22,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <editor/html2usfm.h>
 #include <filter/string.h>
 #include <filter/url.h>
-using namespace std;
 
 
 void editone_logic_prefix_html (std::string usfm, std::string stylesheet, std::string& html, std::string& last_p_style)
@@ -93,7 +92,7 @@ void editone_logic_suffix_html (std::string editable_last_p_style, std::string u
 }
 
 
-string editone_logic_html_to_usfm (std::string stylesheet, std::string html)
+std::string editone_logic_html_to_usfm (std::string stylesheet, std::string html)
 {
   // It used to convert XML entities to normal characters.
   // For example, it used to convert "&lt;" to "<".

@@ -25,10 +25,9 @@
 #include <webserver/request.h>
 #include <locale/translate.h>
 #include <search/logic.h>
-using namespace std;
 
 
-string webbible_search_url ()
+std::string webbible_search_url ()
 {
   return "webbb/search";
 }
@@ -40,7 +39,7 @@ bool webbible_search_acl (Webserver_Request& webserver_request)
 }
 
 
-string webbible_search (Webserver_Request& webserver_request)
+std::string webbible_search (Webserver_Request& webserver_request)
 {
   Assets_View view;
   

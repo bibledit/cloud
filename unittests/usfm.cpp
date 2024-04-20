@@ -26,7 +26,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/usfm.h>
 #include <filter/url.h>
 #include <filter/string.h>
-using namespace std;
 
 
 TEST (checks, usfm)
@@ -45,7 +44,7 @@ TEST (checks, usfm)
     check.finalize ();
     std::vector <std::pair<int, std::string>> results = check.get_results ();
     std::vector <std::pair<int, std::string>> standard = {
-      pair (2, "Malformed verse number: \\v 2,He said.")
+      std::pair (2, "Malformed verse number: \\v 2,He said.")
     };
     EXPECT_EQ (standard, results);
   }
@@ -82,7 +81,7 @@ TEST (checks, usfm)
     check.finalize ();
     std::vector <std::pair<int, std::string>> results = check.get_results ();
     std::vector <std::pair<int, std::string>> standard = {
-      pair (0, "New line within USFM:  \\ \\p He s")
+      std::pair (0, "New line within USFM:  \\ \\p He s")
     };
     EXPECT_EQ (standard, results);
   }
@@ -102,7 +101,7 @@ TEST (checks, usfm)
     check.finalize ();
     std::vector <std::pair<int, std::string>> results = check.get_results ();
     std::vector <std::pair<int, std::string>> standard = {
-      pair (0, "New line within USFM:  \\ \\p He s")
+      std::pair (0, "New line within USFM:  \\ \\p He s")
     };
     EXPECT_EQ (standard, results);
   }
@@ -121,7 +120,7 @@ TEST (checks, usfm)
     check.finalize ();
     std::vector <std::pair<int, std::string>> results = check.get_results ();
     std::vector <std::pair<int, std::string>> standard = {
-      pair (1, "Marker not in stylesheet: \\p,p ")
+      std::pair (1, "Marker not in stylesheet: \\p,p ")
     };
     EXPECT_EQ (standard, results);
   }
@@ -140,7 +139,7 @@ TEST (checks, usfm)
     check.finalize ();
     std::vector <std::pair<int, std::string>> results = check.get_results ();
     std::vector <std::pair<int, std::string>> standard = {
-      pair (0, "Marker not in stylesheet: \\pHe ")
+      std::pair (0, "Marker not in stylesheet: \\pHe ")
     };
     EXPECT_EQ (standard, results);
   }
@@ -157,7 +156,7 @@ TEST (checks, usfm)
     check.finalize ();
     std::vector <std::pair<int, std::string>> results = check.get_results ();
     std::vector <std::pair<int, std::string>> standard = {
-      pair (0, "Unknown ID: \\id GENN")
+      std::pair (0, "Unknown ID: \\id GENN")
     };
     EXPECT_EQ (standard, results);
   }
@@ -174,7 +173,7 @@ TEST (checks, usfm)
     check.finalize ();
     std::vector <std::pair<int, std::string>> results = check.get_results ();
     std::vector <std::pair<int, std::string>> standard = {
-      pair (0, "Unknown ID: \\id\\p ")
+      std::pair (0, "Unknown ID: \\id\\p ")
     };
     EXPECT_EQ (standard, results);
   }
@@ -191,7 +190,7 @@ TEST (checks, usfm)
     check.finalize ();
     std::vector <std::pair<int, std::string>> results = check.get_results ();
     std::vector <std::pair<int, std::string>> standard = {
-      pair (0, "Unknown ID: \\id Gen")
+      std::pair (0, "Unknown ID: \\id Gen")
     };
     EXPECT_EQ (standard, results);
   }
@@ -208,7 +207,7 @@ TEST (checks, usfm)
     check.finalize ();
     std::vector <std::pair<int, std::string>> results = check.get_results ();
     std::vector <std::pair<int, std::string>> standard = {
-      pair (0, "Forward slash instead of backslash: /add")
+      std::pair (0, "Forward slash instead of backslash: /add")
     };
     EXPECT_EQ (standard, results);
   }
@@ -225,7 +224,7 @@ TEST (checks, usfm)
     check.finalize ();
     std::vector <std::pair<int, std::string>> results = check.get_results ();
     std::vector <std::pair<int, std::string>> standard = {
-      pair (0, "Forward slash instead of backslash: /v")
+      std::pair (0, "Forward slash instead of backslash: /v")
     };
     EXPECT_EQ (standard, results);
   }
@@ -295,7 +294,7 @@ TEST (checks, usfm)
     check.finalize ();
     std::vector <std::pair<int, std::string>> results = check.get_results ();
     std::vector <std::pair<int, std::string>> standard = {
-      pair (1, "Widow backslash: \\ ")
+      std::pair (1, "Widow backslash: \\ ")
     };
     EXPECT_EQ (standard, results);
   }
@@ -325,7 +324,7 @@ TEST (checks, usfm)
     check.finalize ();
     std::vector <std::pair<int, std::string>> results = check.get_results ();
     std::vector <std::pair<int, std::string>> standard = {
-      pair (1, "Closing marker does not match opening marker : \\add*")
+      std::pair (1, "Closing marker does not match opening marker : \\add*")
     };
     EXPECT_EQ (standard, results);
   }
@@ -341,8 +340,8 @@ TEST (checks, usfm)
     check.finalize ();
     std::vector <std::pair<int, std::string>> results = check.get_results ();
     std::vector <std::pair<int, std::string>> standard = {
-      pair (1, "Repeating opening marker: \\add "),
-      pair (1, "Unclosed markers: add")
+      std::pair (1, "Repeating opening marker: \\add "),
+      std::pair (1, "Unclosed markers: add")
     };
     EXPECT_EQ (standard, results);
   }
@@ -373,9 +372,9 @@ TEST (checks, usfm)
     check.finalize ();
     std::vector <std::pair<int, std::string>> results = check.get_results ();
     std::vector <std::pair<int, std::string>> standard = {
-      pair (8, "Embedded marker requires a plus sign: \\nd kosi"),
-      pair (8, "Embedded marker requires a plus sign: \\nd*\\x*"),
-      pair (8, "Unclosed markers: add"),
+      std::pair (8, "Embedded marker requires a plus sign: \\nd kosi"),
+      std::pair (8, "Embedded marker requires a plus sign: \\nd*\\x*"),
+      std::pair (8, "Unclosed markers: add"),
     };
     EXPECT_EQ (standard, results);
   }
@@ -409,9 +408,9 @@ TEST (checks, usfm)
     std::vector <std::pair<int, std::string>> results = check.get_results ();
     EXPECT_EQ (3, results.size ());
     std::vector <std::pair<int, std::string>> standard = {
-      pair (0, "The following marker belongs in chapter 0: \\toc1 "),
-      pair (0, "The following marker belongs in chapter 0: \\toc2 "),
-      pair (0, "The following marker belongs in chapter 0: \\toc3 ")
+      std::pair (0, "The following marker belongs in chapter 0: \\toc1 "),
+      std::pair (0, "The following marker belongs in chapter 0: \\toc2 "),
+      std::pair (0, "The following marker belongs in chapter 0: \\toc3 ")
     };
     EXPECT_EQ (standard, results);
   }
@@ -427,8 +426,8 @@ TEST (checks, usfm)
     std::vector <std::pair<int, std::string>> results = check.get_results ();
     EXPECT_EQ (2, results.size ());
     std::vector <std::pair<int, std::string>> standard = {
-      pair (0, "The book lacks the marker for the verbose book name: \\toc1 "),
-      pair (0, "The book lacks the marker for the short book name: \\toc2 ")
+      std::pair (0, "The book lacks the marker for the verbose book name: \\toc1 "),
+      std::pair (0, "The book lacks the marker for the short book name: \\toc2 ")
     };
     EXPECT_EQ (standard, results);
   }
@@ -1053,7 +1052,7 @@ TEST (checks, usfm)
       EXPECT_EQ (1, import [1].m_chapter);
       EXPECT_EQ ("\\c 1\n\\s Heading\n\\p\n\\v 1 Verse one.", import [1].m_data);
     } else {
-      EXPECT_EQ (string("executing tests"), string("skipping tests"));
+      EXPECT_EQ (std::string("executing tests"), std::string("skipping tests"));
     }
     
     EXPECT_EQ ((std::vector<int>{0, 1, 2}), filter::usfm::get_verse_numbers ("\\v 1 test\\v 2 test"));
@@ -1087,7 +1086,7 @@ TEST (checks, usfm)
       EXPECT_EQ (1, import [1].m_chapter);
       EXPECT_EQ (standard_chapter, filter::strings::trim (import [1].m_data));
     } else {
-      EXPECT_EQ (string("executing tests"), string("skipping tests"));
+      EXPECT_EQ (std::string("executing tests"), std::string("skipping tests"));
     }
   }
 
@@ -1230,12 +1229,12 @@ TEST (checks, usfm)
     check.finalize ();
     std::vector <std::pair<int, std::string>> results = check.get_results ();
     std::vector <std::pair<int, std::string>> standard = {
-      pair (2, "Embedded marker requires a plus sign: \\add sen"),
-      pair (2, "Embedded marker requires a plus sign: \\add*rd3"),
-      pair (4, "Embedded marker requires a plus sign: \\add sen"),
-      pair (4, "Embedded marker requires a plus sign: \\add*tence"),
-      pair (6, "Embedded marker requires a plus sign: \\add du"),
-      pair (6, "Embedded marker requires a plus sign: \\add*e"),
+      std::pair (2, "Embedded marker requires a plus sign: \\add sen"),
+      std::pair (2, "Embedded marker requires a plus sign: \\add*rd3"),
+      std::pair (4, "Embedded marker requires a plus sign: \\add sen"),
+      std::pair (4, "Embedded marker requires a plus sign: \\add*tence"),
+      std::pair (6, "Embedded marker requires a plus sign: \\add du"),
+      std::pair (6, "Embedded marker requires a plus sign: \\add*e"),
     };
     EXPECT_EQ (standard, results);
   }
@@ -1255,7 +1254,7 @@ TEST (checks, usfm)
     check.finalize ();
     std::vector <std::pair<int, std::string>> results = check.get_results ();
     std::vector <std::pair<int, std::string>> standard = {
-      pair (3, "Unclosed markers: vp"),
+      std::pair (3, "Unclosed markers: vp"),
     };
     EXPECT_EQ (standard, results);
   }
@@ -1371,26 +1370,26 @@ TEST (checks, usfm)
   // Test checking valid USFM of the fig markup.
   {
     std::string usfm = R"(\v 31 He went to her, took her by the hand, and helped her up. The fever left her, and she began to wait on them. \fig Took her by the hand, and...the fever left her.|src="avnt017.tif" size="col" ref="1.31"\fig*.)";
-    Checks_Usfm check = Checks_Usfm (string());
+    Checks_Usfm check = Checks_Usfm (std::string());
     check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
     std::vector <std::pair<int, std::string>> results = check.get_results ();
     std::vector <std::pair<int, std::string>> standard = {
-      pair (31,  "Could not find Bible image: avnt017.tif"),
+      std::pair (31,  "Could not find Bible image: avnt017.tif"),
     };
     EXPECT_EQ (standard, results);
   }
   {
     std::string usfm = R"(\v 31 He went to her, took her by the hand, and helped her up. The fever left her, and she began to wait on them. \fig Took her by the hand, and...the fever left her.|src=“avnt017.tif“ size="col" ref="1.31"\fig*.)";
-    Checks_Usfm check = Checks_Usfm (string());
+    Checks_Usfm check = Checks_Usfm (std::string());
     check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
     std::vector <std::pair<int, std::string>> results = check.get_results ();
     std::vector <std::pair<int, std::string>> standard = {
-      pair (31,  R"(Empty figure source: Took her by the hand, and...the fever left her.|src=“avnt017.tif“ size="col" ref="1.31")"),
-      pair (31,  R"(Unusual quotation mark found: Took her by the hand, and...the fever left her.|src=“avnt017.tif“ size="col" ref="1.31")"),
+      std::pair (31,  R"(Empty figure source: Took her by the hand, and...the fever left her.|src=“avnt017.tif“ size="col" ref="1.31")"),
+      std::pair (31,  R"(Unusual quotation mark found: Took her by the hand, and...the fever left her.|src=“avnt017.tif“ size="col" ref="1.31")"),
     };
     EXPECT_EQ (standard, results);
   }
@@ -1398,13 +1397,13 @@ TEST (checks, usfm)
   // Text detecting markup sequence without intervening text.
   {
     std::string usfm = R"(\p \v 1 One \add \add* \v 2 Two)";
-    Checks_Usfm check = Checks_Usfm (string());
+    Checks_Usfm check = Checks_Usfm (std::string());
     check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
     std::vector <std::pair<int, std::string>> results = check.get_results ();
     std::vector <std::pair<int, std::string>> standard = {
-      pair (1,  R"(Opening markup is followed by closing markup without intervening text: \add \add*)")
+      std::pair (1,  R"(Opening markup is followed by closing markup without intervening text: \add \add*)")
     };
     EXPECT_EQ (standard, results);
   }
@@ -1412,7 +1411,7 @@ TEST (checks, usfm)
   // Test that a properly formatted note gives no checking results.
   {
     std::string usfm = R"(\v 1 \f + \ft text\f*)";
-    Checks_Usfm check = Checks_Usfm (string());
+    Checks_Usfm check = Checks_Usfm (std::string());
     check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
@@ -1425,13 +1424,13 @@ TEST (checks, usfm)
   // It should give a checking result.
   {
     std::string usfm = R"(\v 2 \fe + \ft \fe*)";
-    Checks_Usfm check = Checks_Usfm (string());
+    Checks_Usfm check = Checks_Usfm (std::string());
     check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
     std::vector <std::pair<int, std::string>> results = check.get_results ();
     std::vector <std::pair<int, std::string>> standard = {
-      pair (2,  R"(Opening markup is followed by closing markup without intervening text: \ft \fe*)")
+      std::pair (2,  R"(Opening markup is followed by closing markup without intervening text: \ft \fe*)")
     };
     EXPECT_EQ (standard, results);
   }
@@ -1440,7 +1439,7 @@ TEST (checks, usfm)
   // followed by incorrect markup, is still not flagged.
   {
     std::string usfm = R"(\v 3 \x + \xt xref \x* \q \q )";
-    Checks_Usfm check = Checks_Usfm (string());
+    Checks_Usfm check = Checks_Usfm (std::string());
     check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
@@ -1452,7 +1451,7 @@ TEST (checks, usfm)
   // Test that a a note e.g. \ft followed by e.g. \add, is not flagged.
   {
     std::string usfm = R"(\v 4 \f + \ft \add add\add* \f*)";
-    Checks_Usfm check = Checks_Usfm (string());
+    Checks_Usfm check = Checks_Usfm (std::string());
     check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();
@@ -1464,7 +1463,7 @@ TEST (checks, usfm)
   // Test a corect cross reference is not flagged.
   {
     std::string usfm = R"(\v 5 \x + \xt xref\x*)";
-    Checks_Usfm check = Checks_Usfm (string());
+    Checks_Usfm check = Checks_Usfm (std::string());
     check.initialize (0, 0);
     check.check (usfm);
     check.finalize ();

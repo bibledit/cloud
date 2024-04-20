@@ -21,7 +21,6 @@ To illustrate the use of the library, let's start with a small but complete prog
 #include <string>
 #include <vector>
 #include "utf8.h"
-using namespace std;
 int main(int argc, char** argv)
 {
     if (argc != 2) {

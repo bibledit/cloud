@@ -28,10 +28,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <locale/translate.h>
 #include <assets/header.h>
 #include <menu/logic.h>
-using namespace std;
 
 
-string user_account_url ()
+std::string user_account_url ()
 {
   return "user/account";
 }
@@ -43,7 +42,7 @@ bool user_account_acl (Webserver_Request& webserver_request)
 }
 
 
-string user_account ([[maybe_unused]] Webserver_Request& webserver_request)
+std::string user_account ([[maybe_unused]] Webserver_Request& webserver_request)
 {
   std::string page;
 

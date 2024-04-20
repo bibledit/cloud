@@ -23,7 +23,6 @@
 #include <unittests/utilities.h>
 #include <filter/string.h>
 #include <nmt/logic.h>
-using namespace std;
 
 
 TEST (nmt, logic)

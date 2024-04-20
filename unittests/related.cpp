@@ -23,7 +23,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <unittests/utilities.h>
 #include <filter/passage.h>
 #include <related/logic.h>
-using namespace std;
 
 
 // Test the related verses feature.

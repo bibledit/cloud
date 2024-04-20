@@ -35,7 +35,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/md5.h>
 #include <filter/usfm.h>
 #include <session/logic.h>
-using namespace std;
 
 
 int main ([[maybe_unused]] int argc, [[maybe_unused]] char **argv)

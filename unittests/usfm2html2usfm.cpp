@@ -26,7 +26,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <styles/logic.h>
 #include <filter/string.h>
 #include <filter/url.h>
-using namespace std;
 
 
 TEST (roundtrip, usfm2html2usfm)

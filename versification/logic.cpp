@@ -20,7 +20,6 @@
 #include <versification/logic.h>
 #include <filter/string.h>
 #include <filter/url.h>
-using namespace std;
 
 
 // Get the names of the available versification systems that come with Bibledit.
@@ -45,7 +44,7 @@ std::vector <std::string> versification_logic_names ()
 
 
 // Return the raw data of default versification system $name.
-string versification_logic_data (std::string name)
+std::string versification_logic_data (std::string name)
 {
   name = filter::strings::replace (" ", "_", name);
   name.append (".txt");

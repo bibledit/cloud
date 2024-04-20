@@ -35,7 +35,6 @@
 #include <database/logs.h>
 #include <database/cache.h>
 #include <read/index.h>
-using namespace std;
 
 
 std::vector <std::string> workspace_get_default_names ()
@@ -53,7 +52,7 @@ std::vector <std::string> workspace_get_default_names ()
 }
 
 
-map <int, std::string> workspace_get_default_urls (int id)
+std::map <int, std::string> workspace_get_default_urls (int id)
 {
   std::map <int, std::string> urls {};
   switch (id) {
@@ -90,7 +89,7 @@ map <int, std::string> workspace_get_default_urls (int id)
 }
 
 
-map <int, std::string> workspace_get_default_widths (int id)
+std::map <int, std::string> workspace_get_default_widths (int id)
 {
   std::map <int, std::string> widths;
   switch (id) {
@@ -127,7 +126,7 @@ map <int, std::string> workspace_get_default_widths (int id)
 }
 
 
-map <int, std::string> workspace_get_default_heights (int id)
+std::map <int, std::string> workspace_get_default_heights (int id)
 {
   std::map <int, std::string> heights;
   switch (id) {
@@ -172,7 +171,7 @@ void workspace_create_defaults (Webserver_Request& webserver_request)
 }
 
 
-string workspace_get_active_name (Webserver_Request& webserver_request)
+std::string workspace_get_active_name (Webserver_Request& webserver_request)
 {
   std::string workspace = webserver_request.database_config_user()->getActiveWorkspace ();
 
@@ -184,7 +183,7 @@ string workspace_get_active_name (Webserver_Request& webserver_request)
 
 
 // This function processes the units for a $length value.
-string workspace_process_units (std::string length)
+std::string workspace_process_units (std::string length)
 {
   // If a size factor is found, great, otherwise default to 1
   if (length == filter::strings::convert_to_string (filter::strings::convert_to_int (length))) {
@@ -265,12 +264,12 @@ void workspace_set_heights (Webserver_Request& webserver_request, const std::map
 
 void workspace_set_entire_width (Webserver_Request& webserver_request, std::string value)
 {
-  std::map <int, std::string> values = {pair (0, value)};
+  std::map <int, std::string> values = {std::pair (0, value)};
   workspace_set_values (webserver_request, ENTIREWIDTH, values);
 }
 
 
-map <int, std::string> workspace_get_values (Webserver_Request& webserver_request, int selector, bool use)
+std::map <int, std::string> workspace_get_values (Webserver_Request& webserver_request, int selector, bool use)
 {
   std::map <int, std::string> values;
   
@@ -335,25 +334,25 @@ map <int, std::string> workspace_get_values (Webserver_Request& webserver_reques
 }
 
 
-map <int, std::string> workspace_get_urls (Webserver_Request& webserver_request, bool use)
+std::map <int, std::string> workspace_get_urls (Webserver_Request& webserver_request, bool use)
 {
   return workspace_get_values (webserver_request, URLS, use);
 }
 
 
-map <int, std::string> workspace_get_widths (Webserver_Request& webserver_request)
+std::map <int, std::string> workspace_get_widths (Webserver_Request& webserver_request)
 {
   return workspace_get_values (webserver_request, WIDTHS, false);
 }
 
 
-map <int, std::string> workspace_get_heights (Webserver_Request& webserver_request)
+std::map <int, std::string> workspace_get_heights (Webserver_Request& webserver_request)
 {
   return workspace_get_values (webserver_request, HEIGHTS, false);
 }
 
 
-string workspace_get_entire_width (Webserver_Request& webserver_request)
+std::string workspace_get_entire_width (Webserver_Request& webserver_request)
 {
   std::map <int, std::string> values = workspace_get_values (webserver_request, ENTIREWIDTH, false);
   std::string width;
@@ -506,7 +505,7 @@ void workspace_cache_for_cloud ([[maybe_unused]] Webserver_Request& webserver_re
 }
 
 
-string workspace_get_default_name ()
+std::string workspace_get_default_name ()
 {
   return "Default";
 }
@@ -557,7 +556,7 @@ void workspace_send (Webserver_Request& webserver_request, std::string workspace
 // The reason is that each editor's Javascript can determine
 // which Bible editor number it is.
 // It can then decide to make the editor read-only.
-map <int, int> workspace_add_bible_editor_number (map <int, std::string> & urls)
+std::map <int, int> workspace_add_bible_editor_number (std::map <int, std::string> & urls)
 {
   std::map <int, int> editor_numbers;
   int bible_editor_count = 0;

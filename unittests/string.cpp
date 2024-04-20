@@ -23,7 +23,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <unittests/utilities.h>
 #include <filter/string.h>
 #include <filter/url.h>
-using namespace std;
 
 
 TEST (filter, string)
@@ -174,14 +173,14 @@ TEST (filter, string)
   // Test string modifiers.
   {
     EXPECT_EQ (std::string(), filter::strings::trim ("  "));
-    EXPECT_EQ (std::string(), filter::strings::trim (string()));
+    EXPECT_EQ (std::string(), filter::strings::trim (std::string()));
     EXPECT_EQ ("xx", filter::strings::trim ("\t\nxx\n\r"));
     EXPECT_EQ (std::string(), filter::strings::ltrim ("  "));
-    EXPECT_EQ (std::string(), filter::strings::ltrim (string()));
+    EXPECT_EQ (std::string(), filter::strings::ltrim (std::string()));
     EXPECT_EQ ("xx\n\r", filter::strings::ltrim ("xx\n\r"));
     EXPECT_EQ ("xx  ", filter::strings::ltrim ("  xx  "));
     EXPECT_EQ (std::string(), filter::strings::rtrim ("  "));
-    EXPECT_EQ (std::string(), filter::strings::rtrim (string()));
+    EXPECT_EQ (std::string(), filter::strings::rtrim (std::string()));
     EXPECT_EQ ("xx", filter::strings::rtrim ("xx\n\r"));
     EXPECT_EQ ("\n\rxx", filter::strings::rtrim ("\n\rxx"));
     EXPECT_EQ ("  xx", filter::strings::rtrim ("  xx  "));
@@ -544,7 +543,7 @@ TEST (filter, string)
   
   // Test UTF-16 number of bytes whether 1 or 2.
   {
-    u16string u16;
+    std::u16string u16;
     u16 = filter::strings::convert_to_u16string ("a");
     EXPECT_EQ (1, static_cast<int> (u16.length()));
     u16 = filter::strings::convert_to_u16string ("ℵ");
@@ -597,7 +596,7 @@ R"(<!DOCTYPE html>
   
   // Test "tidying" empty html.
   {
-    std::string result = filter::strings::fix_invalid_html_gumbo (string());
+    std::string result = filter::strings::fix_invalid_html_gumbo (std::string());
     std::string standard {
 R"(<html>
  <head>

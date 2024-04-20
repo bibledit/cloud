@@ -23,7 +23,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <unittests/utilities.h>
 #include <database/check.h>
 #include <checks/verses.h>
-using namespace std;
 
 
 TEST (verses, basic)
@@ -34,10 +33,10 @@ TEST (verses, basic)
   // Test Missing Punctuation At End
   {
     std::map <int, std::string> verses = {
-      pair (2, "He said."),
-      pair (3, "He didn't say"),
-      pair (4, "He said."),
-      pair (5, "He said: “Jesus.”")
+      std::pair (2, "He said."),
+      std::pair (3, "He didn't say"),
+      std::pair (4, "He said."),
+      std::pair (5, "He said: “Jesus.”")
     };
     checks_verses::missing_punctuation_at_end ("1", 1, 1, verses, ", ;", ". ! ? :", "”");
     std::vector <Database_Check_Hit> results = database_check.getHits ();
@@ -56,9 +55,9 @@ TEST (verses, basic)
   // Test Pattern
   {
     std::map <int, std::string> verses = {
-      pair (2, "He said."),
-      pair (3, "He didn't say"),
-      pair (4, "He said.")
+      std::pair (2, "He said."),
+      std::pair (3, "He didn't say"),
+      std::pair (4, "He said.")
     };
     checks_verses::patterns ("1", 1, 1, verses, {"did"});
     std::vector <Database_Check_Hit> results = database_check.getHits ();
@@ -77,9 +76,9 @@ TEST (verses, basic)
   // Test Pattern
   {
     std::map <int, std::string> verses = {
-      pair (2, "He said."),
-      pair (3, "He didn't say"),
-      pair (4, "He said.")
+      std::pair (2, "He said."),
+      std::pair (3, "He didn't say"),
+      std::pair (4, "He said.")
     };
     checks_verses::patterns ("1", 1, 1, verses, {"Did"});
     std::vector <Database_Check_Hit> results = database_check.getHits ();
@@ -89,9 +88,9 @@ TEST (verses, basic)
   // Test Pattern
   {
     std::map <int, std::string> verses = {
-      pair (2, "He said."),
-      pair (3, "He didn't say"),
-      pair (4, "He said.")
+      std::pair (2, "He said."),
+      std::pair (3, "He didn't say"),
+      std::pair (4, "He said.")
     };
     checks_verses::patterns ("1", 1, 1, verses, {"said"});
     std::vector <Database_Check_Hit> results = database_check.getHits ();

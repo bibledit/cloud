@@ -28,10 +28,9 @@
 #include <dialog/yes.h>
 #include <assets/header.h>
 #include <menu/logic.h>
-using namespace std;
 
 
-string versification_index_url ()
+std::string versification_index_url ()
 {
   return "versification/index";
 }
@@ -43,7 +42,7 @@ bool versification_index_acl (Webserver_Request& webserver_request)
 }
 
 
-string versification_index (Webserver_Request& webserver_request)
+std::string versification_index (Webserver_Request& webserver_request)
 {
   std::string page;
   

@@ -32,10 +32,9 @@
 #include <filter/url.h>
 #include <menu/logic.h>
 #include <workspace/organize.h>
-using namespace std;
 
 
-string workspace_settings_url ()
+std::string workspace_settings_url ()
 {
   return "workspace/settings";
 }
@@ -47,7 +46,7 @@ bool workspace_settings_acl (Webserver_Request& webserver_request)
 }
 
 
-string workspace_settings (Webserver_Request& webserver_request)
+std::string workspace_settings (Webserver_Request& webserver_request)
 {
   std::string name = webserver_request.query ["name"];
   webserver_request.database_config_user()->setActiveWorkspace (name);

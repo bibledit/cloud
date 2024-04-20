@@ -25,7 +25,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/date.h>
 #include <chrono>
 #include <filesystem>
-using namespace std;
 using namespace std::chrono_literals;
 
 
@@ -153,7 +152,7 @@ TEST (filter, url)
     
   // Test dirname and basename functions.
   {
-    EXPECT_EQ (".", filter_url_dirname (string()));
+    EXPECT_EQ (".", filter_url_dirname (std::string()));
     EXPECT_EQ (".", filter_url_dirname ("/"));
     EXPECT_EQ (".", filter_url_dirname ("dir/"));
     // C++17 version: EXPECT_EQ ("/", filter_url_dirname ("/dir"));
@@ -175,7 +174,7 @@ TEST (filter, url)
     EXPECT_EQ ("Couldn't connect to server", error);
 #endif
     EXPECT_EQ ("", result);
-    std::map <std::string, std::string> values = {pair ("a", "value1"), pair ("b", "value2")};
+    std::map <std::string, std::string> values = {std::pair ("a", "value1"), std::pair ("b", "value2")};
     result = filter_url_http_post ("http://localhost/none", std::string(), values, error, false, false, {});
 #ifndef HAVE_CLIENT
     EXPECT_EQ ("Couldn't connect to server", error);

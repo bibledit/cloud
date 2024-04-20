@@ -31,10 +31,9 @@
 #include <dialog/entry.h>
 #include <assets/header.h>
 #include <menu/logic.h>
-using namespace std;
 
 
-string versification_system_url ()
+std::string versification_system_url ()
 {
   return "versification/system";
 }
@@ -46,7 +45,7 @@ bool versification_system_acl (Webserver_Request& webserver_request)
 }
 
 
-string versification_system (Webserver_Request& webserver_request)
+std::string versification_system (Webserver_Request& webserver_request)
 {
   std::string page;
   

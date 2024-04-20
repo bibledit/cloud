@@ -26,7 +26,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <styles/logic.h>
 #include <filter/string.h>
 #include <webserver/request.h>
-using namespace std;
 
 
 TEST (editor, usfm2html)
@@ -44,7 +43,7 @@ TEST (editor, usfm2html)
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
     editor_usfm2html.run ();
     EXPECT_EQ (61, static_cast<int>(editor_usfm2html.m_text_tength));
-    EXPECT_EQ ((std::map <int, int>{ pair (0, 0), pair (1, 2) }), editor_usfm2html.m_verse_start_offsets);
+    EXPECT_EQ ((std::map <int, int>{ std::pair (0, 0), std::pair (1, 2) }), editor_usfm2html.m_verse_start_offsets);
     EXPECT_EQ ("1 Kwasekuqediswa amazulu lomhlaba lalo lonke ibutho lakho.", editor_usfm2html.m_current_paragraph_content);
   }
 
@@ -67,14 +66,14 @@ TEST (editor, usfm2html)
     editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
     editor_usfm2html.run ();
     EXPECT_EQ (913, static_cast<int>(editor_usfm2html.m_text_tength));
-    EXPECT_EQ ((std::map <int, int>{ pair (0, 0),
-      pair (1, 2),
-      pair (2, 62),
-      pair (3, 202),
-      pair (4, 359),
-      pair (5, 469),
-      pair (6, 676),
-      pair (7, 758) }),
+    EXPECT_EQ ((std::map <int, int>{ std::pair (0, 0),
+      std::pair (1, 2),
+      std::pair (2, 62),
+      std::pair (3, 202),
+      std::pair (4, 359),
+      std::pair (5, 469),
+      std::pair (6, 676),
+      std::pair (7, 758) }),
                editor_usfm2html.m_verse_start_offsets);
     EXPECT_EQ (550, static_cast<int>(editor_usfm2html.m_current_paragraph_content.size ()));
   }

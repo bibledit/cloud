@@ -33,7 +33,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <email/send.h>
 #include <ldap/logic.h>
 #include <webserver/request.h>
-using namespace std;
 
 
 void user_logic_optional_ldap_authentication (Webserver_Request& webserver_request, std::string user, std::string pass)

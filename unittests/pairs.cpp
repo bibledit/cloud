@@ -23,7 +23,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <unittests/utilities.h>
 #include <database/check.h>
 #include <checks/pairs.h>
-using namespace std;
 
 
 TEST (checks, pairs)
@@ -37,17 +36,17 @@ TEST (checks, pairs)
   const int chapter = 3;
   std::map <int, std::string> verses;
   const std::vector <std::pair <std::string, std::string> > pairs = {
-    pair ("[", "]"),
-    pair ("(", ")"),
-    pair ("“", "”"),
+    std::pair ("[", "]"),
+    std::pair ("(", ")"),
+    std::pair ("“", "”"),
   };
   std::vector <Database_Check_Hit> results;
   
   {
     verses = {
-      pair (2, "Verse two."),
-      pair (3, "Verse three."),
-      pair (4, "Verse four.")
+      std::pair (2, "Verse two."),
+      std::pair (3, "Verse three."),
+      std::pair (4, "Verse four.")
     };
     checks_pairs::run (bible, book, chapter, verses, pairs, false);
     results = database_check.getHits ();
@@ -57,9 +56,9 @@ TEST (checks, pairs)
 
   {
     verses = {
-      pair (2, "Verse [two."),
-      pair (3, "Verse three]."),
-      pair (4, "Verse four.")
+      std::pair (2, "Verse [two."),
+      std::pair (3, "Verse three]."),
+      std::pair (4, "Verse four.")
     };
     checks_pairs::run (bible, book, chapter, verses, pairs, false);
     results = database_check.getHits ();
@@ -69,9 +68,9 @@ TEST (checks, pairs)
 
   {
     verses = {
-      pair (2, "Verse [two."),
-      pair (3, "Verse (three."),
-      pair (4, "Verse four.")
+      std::pair (2, "Verse [two."),
+      std::pair (3, "Verse (three."),
+      std::pair (4, "Verse four.")
     };
     checks_pairs::run (bible, book, chapter, verses, pairs, false);
     results = database_check.getHits ();
@@ -92,9 +91,9 @@ TEST (checks, pairs)
 
   {
     verses = {
-      pair (2, "Verse [two."),
-      pair (3, "Verse three."),
-      pair (4, "Verse four).")
+      std::pair (2, "Verse [two."),
+      std::pair (3, "Verse three."),
+      std::pair (4, "Verse four).")
     };
     checks_pairs::run (bible, book, chapter, verses, pairs, false);
     results = database_check.getHits ();

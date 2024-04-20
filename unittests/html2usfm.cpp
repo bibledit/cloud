@@ -25,7 +25,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <editor/html2usfm.h>
 #include <styles/logic.h>
 #include <filter/string.h>
-using namespace std;
 
 
 TEST (editor, html2usfm)

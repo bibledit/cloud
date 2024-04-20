@@ -101,7 +101,7 @@ string webbible_search (Webserver_Request& webserver_request)
     
     
     // The URL.
-    std::string url = "/exports/" + bible + "/web/" + filter_url_html_file_name_bible (string(), book, chapter);
+    std::string url = "/exports/" + bible + "/web/" + filter_url_html_file_name_bible (std::string(), book, chapter);
     
     
     // Output title and URL.

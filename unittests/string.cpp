@@ -173,15 +173,15 @@ TEST (filter, string)
 
   // Test string modifiers.
   {
-    EXPECT_EQ (string(), filter::strings::trim ("  "));
-    EXPECT_EQ (string(), filter::strings::trim (string()));
+    EXPECT_EQ (std::string(), filter::strings::trim ("  "));
+    EXPECT_EQ (std::string(), filter::strings::trim (string()));
     EXPECT_EQ ("xx", filter::strings::trim ("\t\nxx\n\r"));
-    EXPECT_EQ (string(), filter::strings::ltrim ("  "));
-    EXPECT_EQ (string(), filter::strings::ltrim (string()));
+    EXPECT_EQ (std::string(), filter::strings::ltrim ("  "));
+    EXPECT_EQ (std::string(), filter::strings::ltrim (string()));
     EXPECT_EQ ("xx\n\r", filter::strings::ltrim ("xx\n\r"));
     EXPECT_EQ ("xx  ", filter::strings::ltrim ("  xx  "));
-    EXPECT_EQ (string(), filter::strings::rtrim ("  "));
-    EXPECT_EQ (string(), filter::strings::rtrim (string()));
+    EXPECT_EQ (std::string(), filter::strings::rtrim ("  "));
+    EXPECT_EQ (std::string(), filter::strings::rtrim (string()));
     EXPECT_EQ ("xx", filter::strings::rtrim ("xx\n\r"));
     EXPECT_EQ ("\n\rxx", filter::strings::rtrim ("\n\rxx"));
     EXPECT_EQ ("  xx", filter::strings::rtrim ("  xx  "));

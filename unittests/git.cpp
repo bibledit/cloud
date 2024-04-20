@@ -30,7 +30,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/shell.h>
 #include <filter/string.h>
 #include <filter/date.h>
-using namespace std;
 
 
 void test_filter_git_setup ([[maybe_unused]] Webserver_Request& webserver_request,
@@ -529,7 +528,7 @@ TEST (git, basic)
     
     // Commit the index.
     filter_git_commit (repository, "user", "unittest", messages, error);
-    EXPECT_EQ (string(), error);
+    EXPECT_EQ (std::string(), error);
     
     // There should be no modified paths now.
     paths = filter_git_status (repository);
@@ -549,7 +548,7 @@ TEST (git, basic)
     
     // Add / remove the files to the index.
     filter_git_add_remove_all (repository, error);
-    EXPECT_EQ (string(), error);
+    EXPECT_EQ (std::string(), error);
     
     // There should still be two paths now.
     paths = filter_git_status (repository);
@@ -601,17 +600,17 @@ TEST (git, basic)
     filter_url_file_put_contents (filter_url_create_path ({repository, "Song of Solomon", "2", "data"}), song_of_solomon_2_data);
     success = filter_git_add_remove_all (repository, error);
     EXPECT_EQ (true, success);
-    EXPECT_EQ (string(), error);
+    EXPECT_EQ (std::string(), error);
     success = filter_git_commit (repository, "test", "test", messages, error);
     EXPECT_EQ (true, success);
-    EXPECT_EQ (string(), error);
+    EXPECT_EQ (std::string(), error);
     success = filter_git_push (repository, messages, true);
     EXPECT_EQ (true, success);
     
     // Clone the remote repository to a new local repository.
     success = filter_git_remote_clone (remoteurl, newrepository, 0, error);
     EXPECT_EQ (true, success);
-    EXPECT_EQ (string(), error);
+    EXPECT_EQ (std::string(), error);
 
     // Set the stage for a conflict that git itself cannot merge:
     // Change something in the new repository, push it to the remote.
@@ -624,7 +623,7 @@ TEST (git, basic)
     filter_url_file_put_contents (filter_url_create_path ({newrepository, "Psalms", "0", "data"}), newcontents);
     success = filter_git_add_remove_all (newrepository, error);
     EXPECT_EQ (true, success);
-    EXPECT_EQ (string(), error);
+    EXPECT_EQ (std::string(), error);
     success = filter_git_commit (newrepository, "test", "test", messages, error);
     EXPECT_EQ (true, success);
     EXPECT_EQ ("", error);
@@ -641,10 +640,10 @@ TEST (git, basic)
     EXPECT_EQ (true, success);
     success = filter_git_add_remove_all (repository, error);
     EXPECT_EQ (true, success);
-    EXPECT_EQ (string(), error);
+    EXPECT_EQ (std::string(), error);
     success = filter_git_commit (repository, "test", "test", messages, error);
     EXPECT_EQ (true, success);
-    EXPECT_EQ (string(), error);
+    EXPECT_EQ (std::string(), error);
     success = filter_git_pull (repository, messages);
     EXPECT_EQ (false, success);
     success = find (messages.begin(), messages.end(), "Auto-merging Psalms/0/data") != messages.end();
@@ -655,7 +654,7 @@ TEST (git, basic)
     EXPECT_EQ (false, success);
     std::vector <std::string> paths = { "Psalms/0/data" };
     success = filter_git_resolve_conflicts (repository, paths, error);
-    EXPECT_EQ (string(), error);
+    EXPECT_EQ (std::string(), error);
     EXPECT_EQ (true, success);
     // Check the merge result.
     std::string standard =

@@ -334,7 +334,7 @@ void test_database_notes ()
     database_notes.subscribe_user (identifier, "a");
     database_notes.subscribe_user (identifier, "b");
     subscribers = database_notes.get_subscribers (identifier);
-    vector<std::string> standard_subscribers {"a", "b"};
+    std::vector<std::string> standard_subscribers {"a", "b"};
     EXPECT_EQ (standard_subscribers, subscribers);
     database_notes.unsubscribe_user (identifier, "a");
     subscribers = database_notes.get_subscribers (identifier);

@@ -42,7 +42,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <export/esword.h>
 #include <export/onlinebible.h>
 #include <sword/logic.h>
-using namespace std;
 
 
 bool test_memory_run = false;
@@ -68,10 +67,10 @@ TEST (DISABLED_memory, basic)
   {
     Database_State::create ();
     demo_create_sample_bible ();
-    thread * recorder = nullptr;
+    std::thread * recorder = nullptr;
     uint64_t basic_usage = filter_memory_total_usage ();
     test_memory_run = true;
-    recorder = new thread (test_memory_record);
+    recorder = new std::thread (test_memory_record);
     search_reindex_bibles (true);
     test_memory_run = false;
     recorder->join ();
@@ -89,10 +88,10 @@ TEST (DISABLED_memory, basic)
     for (int i = 0; i < 100; i++) {
       database_notes.store_new_note ("bible", i, i, i, "summary", "contents", true);
     }
-    thread * recorder = nullptr;
+    std::thread * recorder = nullptr;
     uint64_t basic_usage = filter_memory_total_usage ();
     test_memory_run = true;
-    recorder = new thread (test_memory_record);
+    recorder = new std::thread (test_memory_record);
     search_reindex_notes ();
     test_memory_run = false;
     recorder->join ();
@@ -125,10 +124,10 @@ TEST (DISABLED_memory, basic)
         database_bibles.store_chapter (bible, book, chapter, usfm);
       }
     }
-    thread * recorder = nullptr;
+    std::thread * recorder = nullptr;
     uint64_t basic_usage = filter_memory_total_usage ();
     test_memory_run = true;
-    recorder = new thread (test_memory_record);
+    recorder = new std::thread (test_memory_record);
     changes_modifications ();
     test_memory_run = false;
     recorder->join ();
@@ -161,10 +160,10 @@ TEST (DISABLED_memory, basic)
     Database_Versifications database_versifications;
     database_versifications.create ();
     database_versifications.defaults ();
-    thread * recorder = nullptr;
+    std::thread * recorder = nullptr;
     uint64_t basic_usage = filter_memory_total_usage ();
     test_memory_run = true;
-    recorder = new thread (test_memory_record);
+    recorder = new std::thread (test_memory_record);
     checks_run (bible);
     test_memory_run = false;
     recorder->join ();
@@ -178,10 +177,10 @@ TEST (DISABLED_memory, basic)
     Database_State::create ();
     demo_create_sample_bible ();
     std::string bible = demo_sample_bible_name ();
-    thread * recorder = nullptr;
+    std::thread * recorder = nullptr;
     uint64_t basic_usage = filter_memory_total_usage ();
     test_memory_run = true;
-    recorder = new thread (test_memory_record);
+    recorder = new std::thread (test_memory_record);
     export_usfm (bible, false);
     test_memory_run = false;
     recorder->join ();
@@ -195,10 +194,10 @@ TEST (DISABLED_memory, basic)
     Database_State::create ();
     demo_create_sample_bible ();
     std::string bible = demo_sample_bible_name ();
-    thread * recorder = nullptr;
+    std::thread * recorder = nullptr;
     uint64_t basic_usage = filter_memory_total_usage ();
     test_memory_run = true;
-    recorder = new thread (test_memory_record);
+    recorder = new std::thread (test_memory_record);
     export_text_usfm_book (bible, 1, false);
     test_memory_run = false;
     recorder->join ();
@@ -212,10 +211,10 @@ TEST (DISABLED_memory, basic)
     Database_State::create ();
     demo_create_sample_bible ();
     std::string bible = demo_sample_bible_name ();
-    thread * recorder = nullptr;
+    std::thread * recorder = nullptr;
     uint64_t basic_usage = filter_memory_total_usage ();
     test_memory_run = true;
-    recorder = new thread (test_memory_record);
+    recorder = new std::thread (test_memory_record);
     export_odt_book (bible, 1, false);
     test_memory_run = false;
     recorder->join ();
@@ -229,10 +228,10 @@ TEST (DISABLED_memory, basic)
     Database_State::create ();
     demo_create_sample_bible ();
     std::string bible = demo_sample_bible_name ();
-    thread * recorder = nullptr;
+    std::thread * recorder = nullptr;
     uint64_t basic_usage = filter_memory_total_usage ();
     test_memory_run = true;
-    recorder = new thread (test_memory_record);
+    recorder = new std::thread (test_memory_record);
     export_esword (bible, false);
     test_memory_run = false;
     recorder->join ();
@@ -246,10 +245,10 @@ TEST (DISABLED_memory, basic)
     Database_State::create ();
     demo_create_sample_bible ();
     std::string bible = demo_sample_bible_name ();
-    thread * recorder = nullptr;
+    std::thread * recorder = nullptr;
     uint64_t basic_usage = filter_memory_total_usage ();
     test_memory_run = true;
-    recorder = new thread (test_memory_record);
+    recorder = new std::thread (test_memory_record);
     export_onlinebible (bible, false);
     test_memory_run = false;
     recorder->join ();
@@ -260,10 +259,10 @@ TEST (DISABLED_memory, basic)
   // Refreshing SWORD module list.
   refresh_sandbox (false);
   {
-    thread * recorder = nullptr;
+    std::thread * recorder = nullptr;
     uint64_t basic_usage = filter_memory_total_usage ();
     test_memory_run = true;
-    recorder = new thread (test_memory_record);
+    recorder = new std::thread (test_memory_record);
     sword_logic_refresh_module_list ();
     test_memory_run = false;
     recorder->join ();

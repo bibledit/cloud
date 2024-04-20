@@ -24,7 +24,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <webserver/request.h>
 #include <ipc/notes.h>
 #include <filter/string.h>
-using namespace std;
 
 
 TEST (ipc, basic)

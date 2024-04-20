@@ -26,7 +26,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 #include <filter/usfm.h>
 #include <editone2/logic.h>
-using namespace std;
 
 
 void test_editone_logic_verse_indicator (int verse)

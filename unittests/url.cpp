@@ -318,9 +318,9 @@ TEST (filter, url)
   // Getting the file extension.
   {
     EXPECT_EQ ("txt", filter_url_get_extension ("foo/bar.txt"));
-    // C++17 version: EXPECT_EQ (string(), filter_url_get_extension (".hidden"));
+    // C++17 version: EXPECT_EQ (std::string(), filter_url_get_extension (".hidden"));
     EXPECT_EQ ("hidden", filter_url_get_extension (".hidden"));
-    EXPECT_EQ (string(), filter_url_get_extension (""));
+    EXPECT_EQ (std::string(), filter_url_get_extension (""));
   }
   
   // Reading the directory content.
@@ -359,12 +359,12 @@ TEST (filter, url)
     EXPECT_EQ (8080, port);
     
     filter_url_get_scheme_host_port ("bibledit.org:8080", scheme, host, port);
-    EXPECT_EQ (string(), scheme);
+    EXPECT_EQ (std::string(), scheme);
     EXPECT_EQ ("bibledit.org", host);
     EXPECT_EQ (8080, port);
     
     filter_url_get_scheme_host_port ("bibledit.org", scheme, host, port);
-    EXPECT_EQ (string(), scheme);
+    EXPECT_EQ (std::string(), scheme);
     EXPECT_EQ ("bibledit.org", host);
     EXPECT_EQ (0, port);
   }

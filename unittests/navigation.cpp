@@ -23,7 +23,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <unittests/utilities.h>
 #include <database/navigation.h>
 #include <filter/date.h>
-using namespace std;
 
 
 TEST (database, navigation)
@@ -244,7 +243,7 @@ TEST (database, navigation)
     Database_Navigation database;
     database.create ();
     int time = filter::date::seconds_since_epoch ();
-    vector<Passage> passages;
+    std::vector<Passage> passages;
 
     // Record three entries at an interval for this user.
     // Record different entries for another user.
@@ -320,7 +319,7 @@ TEST (database, navigation)
     Database_Navigation database;
     database.create ();
     int time = filter::date::seconds_since_epoch ();
-    vector<Passage> passages;
+    std::vector<Passage> passages;
     
     // 1. Record several recent passages.
     // 2. Trim the database.
@@ -338,7 +337,7 @@ TEST (database, navigation)
     Database_Navigation database;
     database.create ();
     int time = filter::date::seconds_since_epoch ();
-    vector<Passage> passages;
+    std::vector<Passage> passages;
     
     // 1. Record several old passages.
     // Check the passages are there.

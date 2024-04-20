@@ -22,7 +22,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include "gtest/gtest.h"
 #include <unittests/utilities.h>
 #include <html/text.h>
-using namespace std;
 
 
 TEST (filter_html, paragraph)

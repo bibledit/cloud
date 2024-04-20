@@ -1276,36 +1276,36 @@ TEST (checks, usfm)
     // USFM without any figure information.
     usfm_in = R"(Text \fig Empty figure.\fig* text.)";
     usfm_out = filter::usfm::extract_fig (usfm_in, caption, alt, src, size, loc, copy, ref);
-    EXPECT_EQ (string(), caption);
-    EXPECT_EQ (string(), alt);
-    EXPECT_EQ (string(), src);
-    EXPECT_EQ (string(), size);
-    EXPECT_EQ (string(), loc);
-    EXPECT_EQ (string(), copy);
-    EXPECT_EQ (string(), ref);
+    EXPECT_EQ (std::string(), caption);
+    EXPECT_EQ (std::string(), alt);
+    EXPECT_EQ (std::string(), src);
+    EXPECT_EQ (std::string(), size);
+    EXPECT_EQ (std::string(), loc);
+    EXPECT_EQ (std::string(), copy);
+    EXPECT_EQ (std::string(), ref);
     EXPECT_EQ (R"(Text  text.)", usfm_out);
 
     // USFM 1/2.x with invalid figure information.
     usfm_in = R"(Text \fig DESC|SIZE|LOC|COPY|CAP|REF\fig* text.)";
     usfm_out = filter::usfm::extract_fig (usfm_in, caption, alt, src, size, loc, copy, ref);
-    EXPECT_EQ (string(), caption);
-    EXPECT_EQ (string(), alt);
-    EXPECT_EQ (string(), src);
-    EXPECT_EQ (string(), size);
-    EXPECT_EQ (string(), loc);
-    EXPECT_EQ (string(), copy);
-    EXPECT_EQ (string(), ref);
+    EXPECT_EQ (std::string(), caption);
+    EXPECT_EQ (std::string(), alt);
+    EXPECT_EQ (std::string(), src);
+    EXPECT_EQ (std::string(), size);
+    EXPECT_EQ (std::string(), loc);
+    EXPECT_EQ (std::string(), copy);
+    EXPECT_EQ (std::string(), ref);
     EXPECT_EQ ("Text  text.", usfm_out);
 
     // USFM 2.4 example taken from https://paratext.org/files/documentation/usfmReference2_4.pdf
     usfm_in = R"(Text \fig |avnt016.tif|span|||At once they left their nets.|1.18\fig* text.)";
     usfm_out = filter::usfm::extract_fig (usfm_in, caption, alt, src, size, loc, copy, ref);
     EXPECT_EQ ("At once they left their nets.", caption);
-    EXPECT_EQ (string(), alt);
+    EXPECT_EQ (std::string(), alt);
     EXPECT_EQ ("avnt016.tif", src);
     EXPECT_EQ ("span", size);
-    EXPECT_EQ (string(), loc);
-    EXPECT_EQ (string(), copy);
+    EXPECT_EQ (std::string(), loc);
+    EXPECT_EQ (std::string(), copy);
     EXPECT_EQ ("1.18", ref);
     EXPECT_EQ ("Text  text.", usfm_out);
 
@@ -1313,11 +1313,11 @@ TEST (checks, usfm)
     usfm_in = R"(Text \fig |avnt017.tif|col|||Took her by the hand, and...the fever left her.|1.31\fig* text.)";
     usfm_out = filter::usfm::extract_fig (usfm_in, caption, alt, src, size, loc, copy, ref);
     EXPECT_EQ ("Took her by the hand, and...the fever left her.", caption);
-    EXPECT_EQ (string(), alt);
+    EXPECT_EQ (std::string(), alt);
     EXPECT_EQ ("avnt017.tif", src);
     EXPECT_EQ ("col", size);
-    EXPECT_EQ (string(), loc);
-    EXPECT_EQ (string(), copy);
+    EXPECT_EQ (std::string(), loc);
+    EXPECT_EQ (std::string(), copy);
     EXPECT_EQ ("1.31", ref);
     EXPECT_EQ ("Text  text.", usfm_out);
 
@@ -1337,11 +1337,11 @@ TEST (checks, usfm)
     usfm_in = R"(\v 18 At once they left their nets and went with him. \fig At once they left their nets.|src="avnt016.jpg" size="span" ref="1.18"\fig*.)";
     usfm_out = filter::usfm::extract_fig (usfm_in, caption, alt, src, size, loc, copy, ref);
     EXPECT_EQ ("At once they left their nets.", caption);
-    EXPECT_EQ (string(), alt);
+    EXPECT_EQ (std::string(), alt);
     EXPECT_EQ ("avnt016.jpg", src);
     EXPECT_EQ ("span", size);
-    EXPECT_EQ (string(), loc);
-    EXPECT_EQ (string(), copy);
+    EXPECT_EQ (std::string(), loc);
+    EXPECT_EQ (std::string(), copy);
     EXPECT_EQ ("1.18", ref);
     EXPECT_EQ (R"(\v 18 At once they left their nets and went with him. .)", usfm_out);
 
@@ -1349,11 +1349,11 @@ TEST (checks, usfm)
     usfm_in = R"(\v 31 He went to her, took her by the hand, and helped her up. The fever left her, and she began to wait on them. \fig Took her by the hand, and...the fever left her.|src="avnt017.tif" size="col" ref="1.31"\fig*.)";
     usfm_out = filter::usfm::extract_fig (usfm_in, caption, alt, src, size, loc, copy, ref);
     EXPECT_EQ ("Took her by the hand, and...the fever left her.", caption);
-    EXPECT_EQ (string(), alt);
+    EXPECT_EQ (std::string(), alt);
     EXPECT_EQ ("avnt017.tif", src);
     EXPECT_EQ ("col", size);
-    EXPECT_EQ (string(), loc);
-    EXPECT_EQ (string(), copy);
+    EXPECT_EQ (std::string(), loc);
+    EXPECT_EQ (std::string(), copy);
     EXPECT_EQ ("1.31", ref);
     EXPECT_EQ (R"(\v 31 He went to her, took her by the hand, and helped her up. The fever left her, and she began to wait on them. .)", usfm_out);
   }

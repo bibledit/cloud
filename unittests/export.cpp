@@ -28,7 +28,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <odf/text.h>
 #include <tbsx/text.h>
 #include <filter/url.h>
-using namespace std;
 
 
 TEST (filter, export) 

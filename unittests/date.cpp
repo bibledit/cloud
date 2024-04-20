@@ -23,7 +23,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <unittests/utilities.h>
 #include <filter/date.h>
 #include <filter/string.h>
-using namespace std;
 
 
 TEST (filter, date)

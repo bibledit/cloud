@@ -24,7 +24,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <resource/logic.h>
 #include <filter/string.h>
 #include <database/versifications.h>
-using namespace std;
 
 
 TEST (easy_english_bible, logic)

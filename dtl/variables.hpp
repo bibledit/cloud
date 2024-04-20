@@ -118,8 +118,8 @@ namespace dtl {
     template <typename sesElem>
     struct uniHunk {
         long long a, b, c, d;        // @@ -a,b +c,d @@
-        vector< sesElem > common[2]; // anteroposterior commons on changes
-        vector< sesElem > change;    // changes
+        std::vector< sesElem > common[2]; // anteroposterior commons on changes
+        std::vector< sesElem > change;    // changes
         long long inc_dec_count;     // count of increace and decrease
     };
 

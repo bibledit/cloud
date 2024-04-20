@@ -58,7 +58,7 @@ int main(int argc, char** argv)
 #if __cplusplus >= 201103L // C++ 11 or later
         u16string utf16line = utf8::utf8to16(line);
 #else
-        vector<unsigned short> utf16line;
+        std::vector<unsigned short> utf16line;
         utf8::utf8to16(line.begin(), end_it, back_inserter(utf16line));
 #endif // C++ 11
         // And back to utf-8;
@@ -84,7 +84,7 @@ In the previous code sample, for each line we performed a detection of invalid U
 Note a different pattern of usage for old compilers. For instance, this is how we convert
 a UTF-8 encoded string to a UTF-16 encoded one with a pre - C++11 compiler:
 ```cpp
-    vector<unsigned short> utf16line;
+    std::vector<unsigned short> utf16line;
     utf8::utf8to16(line.begin(), end_it, back_inserter(utf16line));
 ```
 

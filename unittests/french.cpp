@@ -26,7 +26,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 #include <filter/url.h>
 #include <filter/text.h>
-using namespace std;
 
 
 TEST (checks, french)
@@ -102,7 +101,7 @@ TEST (checks, french)
     filter_text.initializeHeadingsAndTextPerVerse (false);
     filter_text.add_usfm_code (usfm);
     filter_text.run (styles_logic_standard_sheet ());
-    std::vector <map <int, std::string>> verses_paragraphs = filter_text.verses_paragraphs;
+    std::vector <std::map <int, std::string>> verses_paragraphs = filter_text.verses_paragraphs;
     checks_french::citation_style (bible, 2, 3, verses_paragraphs);
     std::vector <Database_Check_Hit> hits = database_check.getHits ();
     int size = 4;
@@ -138,7 +137,7 @@ TEST (checks, french)
     filter_text.initializeHeadingsAndTextPerVerse (false);
     filter_text.add_usfm_code (usfm);
     filter_text.run (styles_logic_standard_sheet ());
-    std::vector <map <int, std::string>> verses_paragraphs = filter_text.verses_paragraphs;
+    std::vector <std::map <int, std::string>> verses_paragraphs = filter_text.verses_paragraphs;
     checks_french::citation_style (bible, 2, 3, verses_paragraphs);
     std::vector <Database_Check_Hit> hits = database_check.getHits ();
     int size = 1;

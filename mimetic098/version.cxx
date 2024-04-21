@@ -84,6 +84,7 @@
 
 namespace mimetic
 {
+using namespace std;
 
 #define VERSION "0.9.8"
 
@@ -95,7 +96,7 @@ Version::Version()
 {
 }
 
-Version::Version(const std::string& s)
+Version::Version(const string& s)
 : m_maj(0), m_min(0), m_build(0)
 {
     set(s);
@@ -149,10 +150,10 @@ string Version::str() const
         (m_build > 0 ? "." + utils::int2str(m_build) : "");
 }
 
-void Version::set(const std::string& s)
+void Version::set(const string& s)
 {
     StringTokenizer stok(&s, ".");
-    std::string tok;
+    string tok;
     if(stok.next(tok))
         m_maj = utils::str2int(tok);    
     if(stok.next(tok))
@@ -192,7 +193,7 @@ bool Version::operator>=(const Version& r) const
     return m_maj >= r.m_maj || m_min >= r.m_min || m_build >= r.m_build;
 }
 
-std::ostream& operator<<(std::ostream& os, const Version& v)
+ostream& operator<<(ostream& os, const Version& v)
 {
     return os << v.str();
 }

@@ -81,6 +81,8 @@
 
 namespace mimetic 
 {
+using namespace std;
+
 
 /** Basic constructor */
 Mailbox::Mailbox()
@@ -95,7 +97,7 @@ Mailbox::Mailbox(const char* cstr)
 {
     set(cstr);    
 }
-Mailbox::Mailbox(const std::string& text)
+Mailbox::Mailbox(const string& text)
 {
     set(text);    
 }
@@ -103,7 +105,7 @@ Mailbox::Mailbox(const std::string& text)
 
 std::string Mailbox::str() const
 {
-    std::string rs;
+    string rs;
     bool hasLabel = !m_label.empty(), hasRoute = !m_route.empty();
 
     if(hasLabel)
@@ -119,7 +121,7 @@ std::string Mailbox::str() const
     return rs;
 }
 
-void Mailbox::set(const std::string& input)
+void Mailbox::set(const string& input)
 {
     if(!input.size())
         return;
@@ -220,25 +222,25 @@ bool Mailbox::operator!=(const Mailbox& right) const
 
 
 /** Sets the \e mailbox */
-void Mailbox::mailbox(const std::string& mbx)
+void Mailbox::mailbox(const string& mbx)
 {    
     m_mailbox = mbx;
 }
 
 /** Sets the \e domain */
-void Mailbox::domain(const std::string& dom)
+void Mailbox::domain(const string& dom)
 {    
     m_domain = dom;
 }
 
 /** Sets the \e label */
-void Mailbox::label(const std::string& label)
+void Mailbox::label(const string& label)
 {    
     m_label = label;
 }
 
 /** Sets the \e source route */
-void Mailbox::sourceroute(const std::string& route)
+void Mailbox::sourceroute(const string& route)
 {    
     m_route = route;    
 }

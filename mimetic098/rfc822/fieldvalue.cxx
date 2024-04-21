@@ -76,6 +76,7 @@
 #include <mimetic098/rfc822/fieldvalue.h>
 namespace mimetic
 {
+using namespace std;
 
 std::ostream& operator<<(std::ostream& os, const FieldValue& fv)
 {
@@ -107,13 +108,13 @@ StringFieldValue::StringFieldValue()
     typeChecked(false);
 }
 
-StringFieldValue::StringFieldValue(const std::string& val)
+StringFieldValue::StringFieldValue(const string& val)
 : m_value(val)
 {
     typeChecked(false);
 }
 
-void StringFieldValue::set(const std::string& val)
+void StringFieldValue::set(const string& val)
 {
     m_value = val;
 }

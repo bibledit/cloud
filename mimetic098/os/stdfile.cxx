@@ -91,6 +91,9 @@
 //#endif
 
 
+using namespace std;
+
+
 namespace mimetic
 {
 
@@ -100,7 +103,7 @@ StdFile::StdFile()
 {
 }
 
-StdFile::StdFile(const std::string& fqn, int mode)
+StdFile::StdFile(const string& fqn, int mode)
 : m_fqn(fqn), m_stated(false), m_fd(-1)
 {
     memset(&m_st,0, sizeof(m_st));

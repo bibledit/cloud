@@ -79,6 +79,8 @@
 namespace mimetic
 {
 
+using namespace std;
+
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 //    Rfc822::MailboxList
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -97,7 +99,7 @@ MailboxList::MailboxList(const char* text)
     set(text);
 }
 
-MailboxList::MailboxList(const std::string& text)
+MailboxList::MailboxList(const string& text)
 {
     set(text);
 }
@@ -106,7 +108,7 @@ void MailboxList::set(const std::string& value)
 {
     bool in_dquote = false;
     int blanks = 0;
-    std::string item;
+    string item;
     string::const_iterator bit = value.begin(), eit = value.end();
     string::const_iterator p = bit;
     for(; p != eit; ++p)
@@ -127,7 +129,7 @@ void MailboxList::set(const std::string& value)
 
 string MailboxList::str() const
 {
-    std::string rs;
+    string rs;
     const_iterator first = begin();
     const_iterator bit = begin(), eit = end();
     for(; bit != eit; ++bit)

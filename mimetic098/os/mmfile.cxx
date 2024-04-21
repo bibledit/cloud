@@ -87,6 +87,8 @@
 #include <mimetic098/os/mmfile.h>
 #include <cstring>
 
+using namespace std;
+
 namespace mimetic
 {
 
@@ -95,7 +97,7 @@ MMFile::MMFile()
 {
 }
 
-MMFile::MMFile(const std::string& fqn, int mode)
+MMFile::MMFile(const string& fqn, int mode)
 : m_fqn(fqn), m_stated(false), m_fd(-1), m_beg(0), m_end(0)
 {
     memset(&m_st, 0, sizeof(m_st));

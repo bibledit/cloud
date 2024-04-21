@@ -79,18 +79,20 @@
 namespace mimetic
 {
 
+using namespace std;
+
 FieldParam::FieldParam()
 {
 }
 
-FieldParam::FieldParam(const std::string& lpv)
+FieldParam::FieldParam(const string& lpv)
 {
     string::const_iterator bit = lpv.begin(), eit = lpv.end();
     for( ; bit != eit; ++bit)
     {
         if(*bit == '=')
         {
-            std::string n(lpv.begin(), bit), v(++bit, eit);
+            string n(lpv.begin(), bit), v(++bit, eit);
             m_name.assign (remove_external_blanks(n));
             m_value = remove_dquote(remove_external_blanks(v));
             break;
@@ -98,7 +100,7 @@ FieldParam::FieldParam(const std::string& lpv)
     }
 }
 
-FieldParam::FieldParam(const std::string& n, const std::string& v)
+FieldParam::FieldParam(const string& n, const string& v)
 {    
     name(n);    
     value(v);
@@ -109,25 +111,25 @@ const istring& FieldParam::name() const
     return m_name;                
 }
 
-const std::string& FieldParam::value() const
+const string& FieldParam::value() const
 {    
     return m_value;                
 }
 
-void FieldParam::name(const std::string& n)
+void FieldParam::name(const string& n)
 {    
     m_name.assign(n);
 }
 
-void FieldParam::value(const std::string& v)
+void FieldParam::value(const string& v)
 {    
     m_value = v;
 }
 
-std::ostream& operator<<(std::ostream& os, const FieldParam& p)
+ostream& operator<<(ostream& os, const FieldParam& p)
 {
     os << p.name() << "=";
-    const std::string& val = p.value();
+    const string& val = p.value();
     if(val.find_first_of("()\\<>\"@,;:/[]?=") != std::string::npos)
         return os << "\"" << val << "\"";
     else

@@ -94,21 +94,23 @@
 namespace mimetic
 {
 
-void MimeEntity::load(std::istream& is, int mask)
+using namespace std;
+
+void MimeEntity::load(istream& is, int mask)
 {
-    typedef std::istreambuf_iterator<char> it_type;
+    typedef istreambuf_iterator<char> it_type;
     typedef it_type::iterator_category it_cat;
     IteratorParser<it_type, it_cat> prs(*this);
     prs.iMask(mask);
     prs.run( it_type(is), it_type());
 }
 
-bool MimeEntity::hasField(const std::string& name) const
+bool MimeEntity::hasField(const string& name) const
 {
     return m_header.hasField(name);
 }
 
-std::ostream& MimeEntity::write(std::ostream& os, const char* eol) const
+ostream& MimeEntity::write(ostream& os, const char* eol) const
 {
     enum { max_line_len = 76 };
     if(eol != 0)
@@ -124,7 +126,7 @@ std::ostream& MimeEntity::write(std::ostream& os, const char* eol) const
     // body
     if(ct.isMultipart())
     {
-        std::string boundary = "--" + ct.param("boundary");
+        string boundary = "--" + ct.param("boundary");
         if(body().preamble().length())
             os << crlf << body().preamble();
         // opening boundary
@@ -160,7 +162,7 @@ std::ostream& MimeEntity::write(std::ostream& os, const char* eol) const
     return os;    
 }
 
-std::ostream& operator<<(std::ostream& os, const MimeEntity& m)
+ostream& operator<<(ostream& os, const MimeEntity& m)
 {
     return m.write(os);
 }
@@ -217,10 +219,10 @@ const Body& MimeEntity::body() const
 
 MimeEntity::size_type MimeEntity::size() const
 {
-  count_streambuf csb;
-  std::ostream os(&csb);
-  os << *this;
-  return csb.size();
+    count_streambuf csb;
+    ostream os(&csb);
+    os << *this;
+    return csb.size();
 }
 
 

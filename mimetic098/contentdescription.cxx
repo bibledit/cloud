@@ -78,6 +78,7 @@
 
 namespace mimetic
 {
+using namespace std;
 
 const char ContentDescription::label[] = "Content-Description";
 
@@ -90,13 +91,13 @@ ContentDescription::ContentDescription(const char* cstr)
     set(cstr);
 }
 
-ContentDescription::ContentDescription(const std::string& val)
+ContentDescription::ContentDescription(const string& val)
 {
     set(val);
 }
 
 
-void ContentDescription::set(const std::string& val)
+void ContentDescription::set(const string& val)
 {
     m_value = val;
 }

@@ -85,6 +85,8 @@
 namespace mimetic
 {
 
+using namespace std;
+
 // static init
 const Field Field::null;
 
@@ -101,7 +103,7 @@ Field::Field()
     Parses \p line and sets \e name, \e value and \e valueText of *this
     \param line input field string as defined in RFC822 (fieldname: text)
 */
-Field::Field(const std::string& line)
+Field::Field(const string& line)
 :m_pValue(0)
 {
     string::size_type colon = line.find(':');
@@ -111,7 +113,7 @@ Field::Field(const std::string& line)
         size_t i;
         for(i = 1 + colon; i < line.length() - 1 && line[i] == ' '; ++i)
             ; // skip spaces before field-body
-        std::string val(line.begin() +i, line.end());
+        string val(line.begin() +i, line.end());
         value(val);
     }
 }
@@ -122,7 +124,7 @@ Field::Field(const std::string& line)
     \param n field %name
     \param v content of the %field
 */
-Field::Field(const std::string& n , const std::string& v)
+Field::Field(const string& n , const string& v)
 :m_pValue(0)
 {
     m_name.assign(n);
@@ -168,7 +170,7 @@ Field::~Field()
     Sets the field name to \p n
     \param name new %field %name
 */
-void Field::name(const std::string& name)
+void Field::name(const string& name)
 {
     m_name.assign(name);
     if(m_pValue != 0)
@@ -182,7 +184,7 @@ void Field::name(const std::string& name)
     Sets the field value to \p v
     \param val new %value %name
 */
-void Field::value(const std::string& val)
+void Field::value(const string& val)
 {
     if(m_pValue == 0)
         m_pValue = new StringFieldValue(val);
@@ -216,7 +218,7 @@ std::ostream& operator<<(std::ostream& os, const Field& f)
     return f.write(os, 0);
 }
 
-std::ostream& Field::write(std::ostream& os, unsigned int fold) const
+ostream& Field::write(ostream& os, unsigned int fold) const
 {
   int in_quote, prev, skip;
   
@@ -226,7 +228,7 @@ std::ostream& Field::write(std::ostream& os, unsigned int fold) const
   {
     int i;
     int sp;
-    std::string ostr = name() + ": " + value();
+    string ostr = name() + ": " + value();
     
     // skip the "fieldname: " part just on the first inner iteration
     skip = (int)name().length() + 2;

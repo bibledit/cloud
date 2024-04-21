@@ -82,6 +82,8 @@
 namespace mimetic
 {
 
+using namespace std;
+
 
 /**
  * same as std::endl but NOT flush the buffer
@@ -107,18 +109,18 @@ struct Int
     Int(int n)
     : m_i(n)
     {
-        std::stringstream ss;
+        stringstream ss;
         ss << m_i;
         ss >> m_si;
     }
     Int(const std::string& ns)
     {
-        std::stringstream ss;
+        stringstream ss;
         ss << ns;
         ss >> m_i;
         if(ss.fail())
             m_i = 0;
-        std::stringstream ss2;
+        stringstream ss2;
         ss2 << m_i;
         ss2 >> m_si;
     }
@@ -127,7 +129,7 @@ struct Int
         return m_i;
     }
 
-    operator std::string() const
+    operator string() const
     {
         return m_si;
     }
@@ -148,7 +150,7 @@ bool string_is_blank(const std::string& s)
 }
 
 /// extract the filename from a fqn
-string extractFilename(const std::string& fqn)
+string extractFilename(const string& fqn)
 {
     string::size_type pos;
     if((pos = fqn.find_last_of(PATH_SEPARATOR)) != std::string::npos)
@@ -170,7 +172,7 @@ string int2hex(unsigned int n)
     'c', 'd', 'e', 'f'
   };
   size_t sz = sizeof(n), zeros = 0;
-  std::string r;
+  string r;
   char cp;
   for(size_t i = 0; i < sz*2; ++i)
   {
@@ -194,7 +196,7 @@ string int2str(int n)
     return i;
 }
 
-int str2int(const std::string& str)
+int str2int(const string& str)
 {
     return ::atoi(str.c_str());
 }

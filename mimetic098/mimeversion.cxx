@@ -79,6 +79,7 @@
 
 namespace mimetic
 {
+using namespace std;
 
 const char MimeVersion::label[] = "Mime-Version";
 
@@ -88,7 +89,7 @@ MimeVersion::MimeVersion()
 {
 }
 
-MimeVersion::MimeVersion(const std::string& s)
+MimeVersion::MimeVersion(const string& s)
 : Version(s)
 {
 }
@@ -103,7 +104,7 @@ string MimeVersion::str() const
     return Version::str();
 }
 
-void MimeVersion::set(const std::string& s)
+void MimeVersion::set(const string& s)
 {
     Version::set(s);
 }

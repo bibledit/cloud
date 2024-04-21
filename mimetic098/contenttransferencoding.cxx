@@ -78,6 +78,7 @@
 
 namespace mimetic
 {
+using namespace std;
 
 const char ContentTransferEncoding::label[] = "Content-Transfer-Encoding";
 const char ContentTransferEncoding::base64[] = "base64";
@@ -96,7 +97,7 @@ ContentTransferEncoding::ContentTransferEncoding(const char* cstr)
 }
 
 
-ContentTransferEncoding::ContentTransferEncoding(const std::string& mechanism)
+ContentTransferEncoding::ContentTransferEncoding(const string& mechanism)
 : m_mechanism(mechanism)
 {
 }
@@ -106,12 +107,12 @@ const istring& ContentTransferEncoding::mechanism() const
     return m_mechanism;    
 }
 
-void ContentTransferEncoding::mechanism(const std::string& mechanism)
+void ContentTransferEncoding::mechanism(const string& mechanism)
 {    
     m_mechanism.assign (mechanism);
 }
 
-void ContentTransferEncoding::set(const std::string& val)
+void ContentTransferEncoding::set(const string& val)
 {
     mechanism(val);
 }

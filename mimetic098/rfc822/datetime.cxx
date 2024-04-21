@@ -88,6 +88,10 @@
 namespace mimetic
 {
 
+
+using namespace std;
+using namespace mimetic;
+
 DateTime::Zone::Zone(int iZone)
 : m_iZone(iZone), m_iZoneIdx(0)
 {
@@ -97,7 +101,7 @@ DateTime::Zone::Zone(int iZone)
             m_iZoneIdx = i;
         }
 }
-DateTime::Zone::Zone(const std::string& txt)
+DateTime::Zone::Zone(const string& txt)
 : m_iZone(0), m_iZoneIdx(0), m_sZone(txt)
 {
     if(txt.empty())
@@ -113,7 +117,7 @@ DateTime::Zone::Zone(const std::string& txt)
     }
     if(m_iZone == 0)
     { // check if txt is a numeric timezone (+0200)
-        std::string tz = txt;
+        string tz = txt;
         if(tz[0] == '+' || tz[0] == '-' || (tz[0] >= '0' && tz[0] <= '9'))
         {
             int sign = (tz[0] == '-' ? -1 : 1);
@@ -122,7 +126,7 @@ DateTime::Zone::Zone(const std::string& txt)
         }
     }
 }
-bool DateTime::Zone::operator==(const std::string& mText)
+bool DateTime::Zone::operator==(const string& mText)
 {    
     istring txt(mText.begin(), mText.end());
     return txt == ms_label[m_iZoneIdx] ||
@@ -137,7 +141,7 @@ string DateTime::Zone::name() const
     if(m_iZoneIdx)
         return ms_label[m_iZoneIdx];
     else {
-        std::string sTz = utils::int2str(m_iZone);
+        string sTz = utils::int2str(m_iZone);
         if(m_iZone >= 0)
         {
             sTz.insert(0u, 4-sTz.length(),'0'); // add zeroes
@@ -159,7 +163,7 @@ DateTime::Month::Month(int iMonth)
     if(m_iMonth < 1 || m_iMonth > 12)
         m_iMonth = 0;
 }
-DateTime::Month::Month(const std::string& txt)
+DateTime::Month::Month(const string& txt)
 : m_iMonth(0)
 {
     istring iTxt(txt.begin(), txt.end());
@@ -180,7 +184,7 @@ DateTime::Month::Month(const std::string& txt)
             }
     }
 }
-bool DateTime::Month::operator==(const std::string& mText) const
+bool DateTime::Month::operator==(const string& mText) const
 {    
     istring imText(mText.begin(), mText.end());
     return imText == ms_label[m_iMonth][mnShort] ||
@@ -207,7 +211,7 @@ DateTime::DayOfWeek::DayOfWeek(int iDayOfWeek)
         m_iDayOfWeek = 0;
 }
     
-DateTime::DayOfWeek::DayOfWeek(const std::string& txt)
+DateTime::DayOfWeek::DayOfWeek(const string& txt)
 : m_iDayOfWeek(0)
 {
     istring iTxt(txt.begin(), txt.end());
@@ -228,7 +232,7 @@ DateTime::DayOfWeek::DayOfWeek(const std::string& txt)
             }
     }
 }
-bool DateTime::DayOfWeek::operator==(const std::string& mText)
+bool DateTime::DayOfWeek::operator==(const string& mText)
 {    
     istring imText(mText.begin(), mText.end());
     return imText == ms_label[m_iDayOfWeek][mnShort] ||
@@ -311,7 +315,7 @@ DateTime::DateTime()
 {
 }
 
-DateTime::DateTime(const std::string& text)
+DateTime::DateTime(const string& text)
 : m_iDayOfWeek(0), m_iDay(1), m_iMonth(1), m_iYear(1970),
   m_iHour(0), m_iMinute(0), m_iSecond(0),
   m_zone("UTC")
@@ -327,13 +331,13 @@ DateTime::DateTime(const char* cstr)
     set(cstr);
 }
 
-void DateTime::set(const std::string& input)
+void DateTime::set(const string& input)
 {
     if(input.empty())
         return;
-    std::string can_input = remove_external_blanks(canonical(input));
+    string can_input = remove_external_blanks(canonical(input));
     StringTokenizer stok(&can_input, " ,");
-    std::string tok; int i = 0;
+    string tok; int i = 0;
     if(!stok.next(tok)) return;
     if(!tok.empty() && !isdigit(tok[0]))
         m_iDayOfWeek = DayOfWeek(tok).ordinal();
@@ -445,7 +449,7 @@ DateTime::Zone DateTime::zone() const
 
 std::string DateTime::str() const
 {
-    std::stringstream ss;
+    stringstream ss;
     ss << *this;
     return ss.str();
 }
@@ -455,17 +459,17 @@ FieldValue* DateTime::clone() const
     return new DateTime(*this);
 }
 
-std::ostream& operator<<(std::ostream& os, const DateTime& dt)
+ostream& operator<<(ostream& os, const DateTime& dt)
 {
     size_t width = os.width(), fill = os.fill();
 
     os << dt.dayOfWeek().name() << ", "
-       << std::setw(2) << std::setfill('0') << dt.day() << " "
+       << setw(2) << setfill('0') << dt.day() << " "
        << dt.month().name() << " "
-       << std::setw(2) << std::setfill('0') << dt.year() << " "
-       << std::setw(2) << std::setfill('0') << dt.hour() << ":"
-       << std::setw(2) << std::setfill('0') << dt.minute() << ":"
-       << std::setw(2) << std::setfill('0') << dt.second() << " "
+       << setw(2) << setfill('0') << dt.year() << " "
+       << setw(2) << setfill('0') << dt.hour() << ":"
+       << setw(2) << setfill('0') << dt.minute() << ":"
+       << setw(2) << setfill('0') << dt.second() << " "
        << dt.zone().name();
 
     os.width(width);

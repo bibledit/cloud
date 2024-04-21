@@ -86,11 +86,12 @@
 
 namespace mimetic
 {
+using namespace std;
 
 const char ContentType::label[] = "Content-Type";
 
 int ContentType::Boundary::ms_i = 0;
-std::string ContentType::Boundary::ms_common_boundary = std::string();
+string ContentType::Boundary::ms_common_boundary = string();
 
 
 ContentType::Boundary::Boundary()
@@ -101,7 +102,7 @@ ContentType::Boundary::Boundary()
                 "abcdefghijklmnopqrstuvwxyz"
                 "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
                 "-_."; // "=+,()/"
-        std::stringstream ss;
+        stringstream ss;
         srand((unsigned int)time(0));
         short tbSize = sizeof(tb)-1;
         for(uint i=0; i < 48; ++i)
@@ -114,7 +115,7 @@ ContentType::Boundary::Boundary()
     m_boundary = ms_common_boundary + "=_" + utils::int2hex(ms_i) + "_";
 }
 
-ContentType::Boundary::operator const std::string&() const
+ContentType::Boundary::operator const string&() const
 {
     return m_boundary;
 }
@@ -129,17 +130,17 @@ ContentType::ContentType(const char* cstr)
     set(cstr);
 }
 
-ContentType::ContentType(const std::string& value)
+ContentType::ContentType(const string& value)
 {
     set(value);
 }
 
-ContentType::ContentType(const std::string& stype, const std::string& ssubtype)
+ContentType::ContentType(const string& stype, const string& ssubtype)
 {
     set(stype, ssubtype);
 }
 
-void ContentType::set(const std::string& stype, const std::string& ssubtype)
+void ContentType::set(const string& stype, const string& ssubtype)
 {
     type(stype);
     subtype(ssubtype);
@@ -150,7 +151,7 @@ bool ContentType::isMultipart() const
     return m_type == "multipart";
 }
 
-void ContentType::param(const std::string& name, const std::string& value)
+void ContentType::param(const string& name, const string& value)
 {
     ParamList::iterator bit = m_paramList.begin(),  eit = m_paramList.end();
     for(; bit != eit; ++bit)
@@ -164,7 +165,7 @@ void ContentType::param(const std::string& name, const std::string& value)
     m_paramList.push_back(Param(name, value));
 }
 
-const std::string& ContentType::param(const std::string& field) const
+const string& ContentType::param(const string& field) const
 {
     ParamList::const_iterator bit = m_paramList.begin(),  eit = m_paramList.end();
     for(; bit != eit; ++bit)
@@ -175,14 +176,14 @@ const std::string& ContentType::param(const std::string& field) const
     return nullstring;
 }
 
-void ContentType::type(const std::string& v)
+void ContentType::type(const string& v)
 {    
     m_type.assign(v);
 //    if(isMultipart())
 //        m_paramList.push_back(ContentType::Param("boundary", Boundary()));            
 }
 
-void ContentType::subtype(const std::string& v)
+void ContentType::subtype(const string& v)
 {    
     m_subtype.assign(v);
 }
@@ -208,15 +209,15 @@ ContentType::ParamList& ContentType::paramList()
 }
 
 
-void ContentType::set(const std::string& val)
+void ContentType::set(const string& val)
 {
     StringTokenizer stok(&val, ";");
-    std::string ct;
+    string ct;
     if(!stok.next(ct))
         return;
     
     // parse type/subtype
-    std::string stype, ssubtype;
+    string stype, ssubtype;
     stok.setDelimList("/");
     stok.setSource(&ct);
     stok.next(stype);
@@ -224,10 +225,10 @@ void ContentType::set(const std::string& val)
     set(stype, ssubtype);
 
     // parse field params
-    std::string params(val, std::min(val.length(), ct.length() + 1));
+    string params(val, min(val.length(), ct.length() + 1));
     if(!params.length())
         return;
-    std::string paramValue;
+    string paramValue;
     stok.setDelimList(";");
     stok.setSource(&params);
     while(stok.next(paramValue))
@@ -239,7 +240,7 @@ void ContentType::set(const std::string& val)
 
 string ContentType::str() const
 {
-    std::string ostr = m_type + "/" + m_subtype;
+    string ostr = m_type + "/" + m_subtype;
     ParamList::const_iterator bit = m_paramList.begin(), 
                 eit = m_paramList.end();
     for(; bit != eit; ++bit)

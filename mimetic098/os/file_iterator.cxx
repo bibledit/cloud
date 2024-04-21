@@ -100,6 +100,8 @@
 namespace mimetic
 {
 
+using namespace std;
+
 ifile_iterator::ifile_iterator()
 : m_eof(1), m_buf(0), m_ptr(0), m_count(0), m_pFile(0), m_read(0)
 {

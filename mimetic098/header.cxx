@@ -75,6 +75,7 @@
 
 namespace mimetic
 {
+using namespace std;
 
 // MIME-Version:
 const MimeVersion& Header::mimeVersion() const

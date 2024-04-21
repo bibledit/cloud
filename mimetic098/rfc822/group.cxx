@@ -83,6 +83,9 @@
 namespace mimetic
 {
 
+using namespace std;
+
+
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 //    Rfc822::Group
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -96,12 +99,12 @@ Group::Group(const char* cstr)
     set(cstr);
 }
 
-Group::Group(const std::string& text)
+Group::Group(const string& text)
 {
     set(text);
 }
 
-static string::size_type find_not_in_quote(const std::string& s, const string::value_type& c)
+static string::size_type find_not_in_quote(const string& s, const string::value_type& c)
 {
     size_t len = s.length();
     bool in_dquote = false;
@@ -118,7 +121,7 @@ static string::size_type find_not_in_quote(const std::string& s, const string::v
 
 std::string Group::str() const
 {
-    std::string rs = m_name;
+    string rs = m_name;
     const_iterator bit = begin(), first = bit, eit = end();
     for(; bit != eit; ++bit)
     {
@@ -129,7 +132,7 @@ std::string Group::str() const
     return rs + ";";
 }
 
-void Group::set(const std::string& text)
+void Group::set(const string& text)
 {
     m_text = text;
     size_type colon = find_not_in_quote(m_text, ':');
@@ -137,7 +140,7 @@ void Group::set(const std::string& text)
         return; // empty or invalid
     bool in_dquote = false;
     int in_par = 0, in_angle = 0;
-    std::string mailbox;
+    string mailbox;
     string::iterator p = m_text.begin(), start;
     m_name.assign(m_text, 0, colon);
     m_name = remove_external_blanks(m_name);
@@ -147,7 +150,7 @@ void Group::set(const std::string& text)
         { 
             if(in_dquote || in_par || in_angle)
                 continue;
-            std::string mbx(start, p);
+            string mbx(start, p);
             mbx = remove_external_blanks(mbx);
             push_back(Mailbox(mbx));
             if(*p == ';')
@@ -172,7 +175,7 @@ void Group::set(const std::string& text)
 string Group::name(int bCanonical) const
 {    return (bCanonical ? canonical(m_name) : m_name);    }
 
-void Group::name(const std::string& name)
+void Group::name(const string& name)
 {    m_name = name;    }
 
 FieldValue* Group::clone() const

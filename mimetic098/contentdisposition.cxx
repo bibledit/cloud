@@ -79,6 +79,7 @@
 
 namespace mimetic
 {
+using namespace std;
 
 const char ContentDisposition::label[] = "Content-Disposition";
 
@@ -92,12 +93,12 @@ ContentDisposition::ContentDisposition(const char* cstr)
     set(cstr);
 }
 
-ContentDisposition::ContentDisposition(const std::string& val)
+ContentDisposition::ContentDisposition(const string& val)
 {
     set(val);
 }
 
-void ContentDisposition::type(const std::string& stype)
+void ContentDisposition::type(const string& stype)
 {
     m_type.assign(stype);
 }
@@ -117,7 +118,7 @@ ContentDisposition::ParamList& ContentDisposition::paramList()
     return m_paramList;
 }
 
-const std::string& ContentDisposition::param(const std::string& field) const
+const string& ContentDisposition::param(const string& field) const
 {
     ParamList::const_iterator bit = m_paramList.begin(),  eit = m_paramList.end();
     for(; bit != eit; ++bit)
@@ -142,15 +143,15 @@ void ContentDisposition::param(const std::string& name, const std::string& val)
     m_paramList.push_back(Param(name, val));
 }
 
-void ContentDisposition::set(const std::string& val)
+void ContentDisposition::set(const string& val)
 {
-    std::string type;
+    string type;
     StringTokenizer stok(&val, ";");
     if(!stok.next(type))
         return;
     m_type.assign(type);
 
-    std::string sparam;
+    string sparam;
     while(stok.next(sparam))
     {
         Param p(sparam);
@@ -160,7 +161,7 @@ void ContentDisposition::set(const std::string& val)
 
 string ContentDisposition::str() const
 {
-    std::string ostr = m_type;
+    string ostr = m_type;
     ParamList::const_iterator bit, eit;
     bit = m_paramList.begin();
     eit = m_paramList.end();
@@ -170,7 +171,7 @@ string ContentDisposition::str() const
     return ostr;
 }
 
-std::ostream& ContentDisposition::write(std::ostream& os, int fold) const
+ostream& ContentDisposition::write(ostream& os, int fold) const
 {
     os << "Content-Disposition: " << m_type;
     ParamList::const_iterator bit, eit;

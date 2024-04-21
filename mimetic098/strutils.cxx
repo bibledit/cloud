@@ -80,15 +80,16 @@
 
 namespace mimetic
 {
+using namespace std;
 
-const std::string nullstring;
+const string nullstring;
 
 
-string canonical(const std::string& s, bool no_ws)
+string canonical(const string& s, bool no_ws)
 {
     if(s.empty())
         return s;
-    std::string input = s;
+    string input = s;
     // removes leading spaces
     int idx = 0;
     while(input[idx] == ' ')

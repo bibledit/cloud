@@ -25,12 +25,7 @@
 #pragma GCC diagnostic ignored "-Wsuggest-override"
 #pragma GCC diagnostic ignored "-Wzero-as-null-pointer-constant"
 #ifndef HAVE_PUGIXML
-#ifndef HAVE_PUGIXML
 #include <pugixml/pugixml.hpp>
-#endif
-#ifdef HAVE_PUGIXML
-#include <pugixml.hpp>
-#endif
 #endif
 #ifdef HAVE_PUGIXML
 #include <pugixml.hpp>
@@ -38,7 +33,7 @@
 #pragma GCC diagnostic pop
 
 
-void pugixml_utils_error_logger (void * pugi_xml_parse_result, const std::string& xml)
+void pugixml_utils_error_logger (void * pugi_xml_parse_result, const std::string & xml)
 {
   pugi::xml_parse_result * result = static_cast<pugi::xml_parse_result *>(pugi_xml_parse_result);
   if (result->status == pugi::status_ok) return;

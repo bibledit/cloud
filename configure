@@ -7221,31 +7221,6 @@ fi
 printf "%s\n" "#define PACKAGE_PREFIX_DIR \"${prefix}\"" >>confdefs.h
 
 
-# Check whether function 'stoi' is available
-{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking whether stoi is available" >&5
-printf %s "checking whether stoi is available... " >&6; }
-cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-
-#include <string>
-int i = std::stoi ("string");
-
-_ACEOF
-if ac_fn_cxx_try_compile "$LINENO"
-then :
-
-printf "%s\n" "#define HAVE_STOI 1" >>confdefs.h
-
-   { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
-printf "%s\n" "yes" >&6; }
-else case e in #(
-  e) { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
-printf "%s\n" "no" >&6; }
- ;;
-esac
-fi
-rm -f core conftest.err conftest.$ac_objext conftest.beam conftest.$ac_ext
-
 # Check ICU Unicode library whether available.
 
 pkg_failed=no

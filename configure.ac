@@ -115,18 +115,6 @@ fi
 
 AC_DEFINE_UNQUOTED(PACKAGE_PREFIX_DIR, "${prefix}", [Package prefix directory])
 
-# Check whether function 'stoi' is available
-AC_MSG_CHECKING([whether stoi is available])
-AC_COMPILE_IFELSE(
-[AC_LANG_SOURCE([[
-#include <string>
-int i = std::stoi ("string");
-  ]])],
-  [AC_DEFINE([HAVE_STOI], [1], [Define whether function 'stoi' is available])
-   AC_MSG_RESULT([yes])],
-  [AC_MSG_RESULT([no])]
-)
-
 # Check ICU Unicode library whether available.
 PKG_CHECK_MODULES(ICU, icu-i18n >= 60.0, AC_DEFINE(HAVE_ICU, 1, Define whether ICU is available), AC_MSG_NOTICE(libicui18n development version >= 60.0 is needed for the Cloud.))
 AC_SUBST(ICU_CFLAGS)

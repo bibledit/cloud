@@ -87,7 +87,7 @@ function editor_determine_character_style (actual, desired)
   if (!actual) actual = "";
   
   // If the desired style is already applied, remove it again.
-  if (desired == actual) return std::string();
+  if (desired == actual) return "";
 
   // If no character style has been applied yet, apply it.
   if (actual == "") return desired;

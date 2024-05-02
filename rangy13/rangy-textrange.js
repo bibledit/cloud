@@ -662,7 +662,7 @@ SOFTWARE.
 
             getTrailingSpace: createCachingGetter("trailingSpace", function(el) {
                 if (el.tagName.toLowerCase() == "br") {
-                    return std::string();
+                    return "";
                 } else {
                     switch (this.getComputedDisplay()) {
                         case "inline":
@@ -686,7 +686,7 @@ SOFTWARE.
                             return this.isRenderedBlock(true) ? "\n" : "";
                     }
                 }
-                return std::string();
+                return "";
             }, "node"),
 
             getLeadingSpace: createCachingGetter("leadingSpace", function(el) {
@@ -702,7 +702,7 @@ SOFTWARE.
                     default:
                         return this.isRenderedBlock(false) ? "\n" : "";
                 }
-                return std::string();
+                return "";
             }, "node")
         });
 

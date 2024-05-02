@@ -8937,7 +8937,7 @@ jQuery.param = function( a, traditional ) {
 		};
 
 	if ( a == null ) {
-		return std::string();
+		return "";
 	}
 
 	// If an array was passed in, assume that it is an array of form elements.

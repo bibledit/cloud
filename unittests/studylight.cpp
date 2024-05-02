@@ -26,13 +26,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/books.h>
 
 
-TEST (studylight, logic)
+TEST (studylight, albert_barnet)
 {
-  std::string resource {};
-  int book {};
+  constexpr auto resource {"Albert Barnes' Notes on the Whole Bible (studylight-eng/bnb)"};
   std::string text {};
-
-  resource = "Albert Barnes' Notes on the Whole Bible (studylight-eng/bnb)";
 
   std::vector <book_id> book_ids = database::books::get_ids ();
   for (auto book_id : book_ids) {
@@ -49,42 +46,48 @@ TEST (studylight, logic)
     }
   }
 
-  book = 23; // Isaiah.
-  text = resource_logic_study_light_get (resource, book, 10, 14);
+  constexpr auto isaiah {23};
+  text = resource_logic_study_light_get (resource, isaiah, 10, 14);
   text = filter::strings::html2text (text);
   EXPECT_EQ (361, text.find("parent bird"));
 
-  book = 27; // Daniel.
-  text = resource_logic_study_light_get (resource, book, 10, 14);
+  constexpr auto daniel {27};
+  text = resource_logic_study_light_get (resource, daniel, 10, 14);
   text = filter::strings::html2text (text);
   EXPECT_EQ (293, text.find("For yet the vision is for many days"));
 
-  book = 52; // 1 Thessalonians.
-  text = resource_logic_study_light_get (resource, book, 1, 4);
+  constexpr auto first_thessalonians {52};
+  text = resource_logic_study_light_get (resource, first_thessalonians, 1, 4);
   text = filter::strings::html2text (text);
   EXPECT_EQ (83, text.find("beloved of God, your election"));
 
-  book = 53; // 2 Thessalonians.
-  text = resource_logic_study_light_get (resource, book, 1, 4);
+  constexpr auto second_thessalonians {53};
+  text = resource_logic_study_light_get (resource, second_thessalonians, 1, 4);
   text = filter::strings::html2text (text);
   EXPECT_EQ (354, text.find("You have shownunwavering confidence in God in your afflictions"));
 
-  book = 58; // Hebrews.
-  text = resource_logic_study_light_get (resource, book, 10, 14);
+  constexpr auto hebrews {58};
+  text = resource_logic_study_light_get (resource, hebrews, 10, 14);
   text = filter::strings::html2text (text);
   EXPECT_EQ (2917, text.find("τους ἁγιαζομενους"));
   EXPECT_EQ (3678, text.find("By one offering Christ hath forever justifiedsuch as are purged or cleansed by it"));
+}
 
-  resource = "Expository Notes of Dr. Thomas Constable (studylight-eng/dcc)";
-  book = 58; // Hebrews.
-  text = resource_logic_study_light_get (resource, book, 10, 14);
+
+TEST (studylight, thomas_constable)
+{
+  constexpr auto resource = "Expository Notes of Dr. Thomas Constable (studylight-eng/dcc)";
+  constexpr auto hebrews {58};
+  std::string text {};
+  text = resource_logic_study_light_get (resource, hebrews, 10, 14);
   text = filter::strings::html2text (text);
   EXPECT_EQ (2011, text.find("accomplishment of our high priest"));
   EXPECT_EQ (2485, text.find("distinctive features of the high priestly office of the Son"));
-  EXPECT_EQ (3151, text.find("The one sacrifice ofChrist"));
+  EXPECT_EQ (3151, text.find("The one sacrifice of Christ"));
   EXPECT_EQ (3471, text.find("the finality of Jesus Christ’s offering"));
   EXPECT_EQ (4232, text.find("whom Jesus Christ has"));
 }
+
 
 #endif
 

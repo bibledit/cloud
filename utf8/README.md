@@ -21,6 +21,7 @@ To illustrate the use of the library, let's start with a small but complete prog
 #include <string>
 #include <vector>
 #include "utf8.h"
+using namespace std;
 int main(int argc, char** argv)
 {
     if (argc != 2) {
@@ -36,7 +37,7 @@ int main(int argc, char** argv)
     }
 
     unsigned line_count = 1;
-    std::string line;
+    string line;
     // Play with all the lines in the file
     while (getline(fs8, line)) {
         // check for invalid utf-8 (for a simple yes/no check, there is also utf8::is_valid function)
@@ -57,14 +58,14 @@ int main(int argc, char** argv)
 #if __cplusplus >= 201103L // C++ 11 or later
         u16string utf16line = utf8::utf8to16(line);
 #else
-        std::vector<unsigned short> utf16line;
+        vector<unsigned short> utf16line;
         utf8::utf8to16(line.begin(), end_it, back_inserter(utf16line));
 #endif // C++ 11
         // And back to utf-8;
 #if __cplusplus >= 201103L // C++ 11 or later
-        std::string utf8line = utf8::utf16to8(utf16line);
+        string utf8line = utf8::utf16to8(utf16line);
 #else
-        std::string utf8line; 
+        string utf8line; 
         utf8::utf16to8(utf16line.begin(), utf16line.end(), back_inserter(utf8line));
 #endif // C++ 11
         // Confirm that the conversion went OK:
@@ -83,7 +84,7 @@ In the previous code sample, for each line we performed a detection of invalid U
 Note a different pattern of usage for old compilers. For instance, this is how we convert
 a UTF-8 encoded string to a UTF-16 encoded one with a pre - C++11 compiler:
 ```cpp
-    std::vector<unsigned short> utf16line;
+    vector<unsigned short> utf16line;
     utf8::utf8to16(line.begin(), end_it, back_inserter(utf16line));
 ```
 
@@ -385,7 +386,7 @@ Example of use:
 
 ```cpp
     u16string utf16string = {0x41, 0x0448, 0x65e5, 0xd834, 0xdd1e};
-    std::string u = utf16to8(utf16string);
+    string u = utf16to8(utf16string);
     assert (u.size() == 10);
 ```
 
@@ -409,7 +410,7 @@ Example of use:
 ```cpp
     u16string utf16string = {0x41, 0x0448, 0x65e5, 0xd834, 0xdd1e};
     u16string_view utf16stringview(u16string);
-    std::string u = utf16to8(utf16string);
+    string u = utf16to8(utf16string);
     assert (u.size() == 10);
 ```
 
@@ -517,7 +518,7 @@ Example of use:
 
 ```cpp
 char utf8_with_surrogates[] = "\xe6\x97\xa5\xd1\x88\xf0\x9d\x84\x9e";
-std::vector <unsigned short> utf16result;
+vector <unsigned short> utf16result;
 utf8to16(utf8_with_surrogates, utf8_with_surrogates + 9, back_inserter(utf16result));
 assert (utf16result.size() == 4);
 assert (utf16result[2] == 0xd834);
@@ -847,7 +848,7 @@ string invalid_sequence = "a\x80\xe0\xa0\xc0\xaf\xed\xa0\x80z";
 string replace_invalid_result = replace_invalid(invalid_sequence, '?');
 bvalid = is_valid(replace_invalid_result);
 assert (bvalid);
-const std::string fixed_invalid_sequence = "a????z";
+const string fixed_invalid_sequence = "a????z";
 assert (fixed_invalid_sequence == replace_invalid_result);
 ```
 
@@ -873,7 +874,7 @@ string_view invalid_sequence = "a\x80\xe0\xa0\xc0\xaf\xed\xa0\x80z";
 string replace_invalid_result = replace_invalid(invalid_sequence, '?');
 bool bvalid = is_valid(replace_invalid_result);
 assert (bvalid);
-const std::string fixed_invalid_sequence = "a????z";
+const string fixed_invalid_sequence = "a????z";
 assert(fixed_invalid_sequence, replace_invalid_result);
 ```
 
@@ -1336,7 +1337,7 @@ Example of use:
 
 ```cpp
 char utf8_with_surrogates[] = "\xe6\x97\xa5\xd1\x88\xf0\x9d\x84\x9e";
-std::vector <unsigned short> utf16result;
+vector <unsigned short> utf16result;
 unchecked::utf8to16(utf8_with_surrogates, utf8_with_surrogates + 9, back_inserter(utf16result));
 assert (utf16result.size() == 4);
 assert (utf16result[2] == 0xd834);

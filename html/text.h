@@ -55,7 +55,7 @@ public:
   pugi::xml_node new_table ();
   pugi::xml_node new_table_row (pugi::xml_node table_element);
   pugi::xml_node new_table_data (pugi::xml_node table_row_element, const bool align_right = false);
-  void save (std::string name);
+  void save (const std::string& name);
   pugi::xml_node current_p_node {}; // The current p element.
   std::string current_paragraph_style {};
   std::string current_paragraph_content {};
@@ -69,7 +69,6 @@ public:
                   const std::string& caption);
 private:
   pugi::xml_document document {};
-  pugi::xml_node head_node {};
   pugi::xml_node body_node {};
   pugi::xml_node notes_div_node {};
   bool current_p_node_open {false};

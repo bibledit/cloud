@@ -30,10 +30,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 std::string help_index_html (const std::string& url)
 {
-  std::string path (url);
-  size_t pos = url.find ("/");
-  if (pos != std::string::npos)
-    path.erase (0, ++pos);
+  std::string path {url};
+  if (const auto pos = url.find ("/");
+      pos != std::string::npos)
+    path.erase (0, pos + 1);
   path.append (".html");
   path = filter_url_create_root_path ({"help", path});
   return path;
@@ -42,8 +42,8 @@ std::string help_index_html (const std::string& url)
 
 bool help_index_url (const std::string& url)
 {
-  size_t pos = url.find ("help/");
-  if (pos != 0) return false;
+  if (url.find ("help/"))
+    return false;
   return file_or_dir_exists (help_index_html (url));
 }
 
@@ -56,10 +56,8 @@ bool help_index_acl (Webserver_Request& webserver_request)
 
 std::string help_index (Webserver_Request& webserver_request, const std::string& url)
 {
-  std::string page {};
-
   Assets_Header header = Assets_Header (translate("Help"), webserver_request);
-  page = header.run ();
+  std::string page = header.run ();
 
   Assets_View view {};
 
@@ -70,13 +68,13 @@ std::string help_index (Webserver_Request& webserver_request, const std::string&
   view.set_variable ("config", filter_url_create_root_path ({config::logic::config_folder ()}));
   
   std::string filename (url);
-  size_t pos = url.find ("/");
-  if (pos != std::string::npos) 
-    filename.erase (0, ++pos);
+  if (const auto pos = url.find ("/");
+      pos != std::string::npos)
+    filename.erase (0, pos + 1);
  
-  page += view.render ("help", filename);
+  page.append (view.render ("help", filename));
 
-  page += assets_page::footer ();
+  page.append (assets_page::footer ());
 
   return page;
 }

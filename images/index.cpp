@@ -52,24 +52,23 @@ std::string images_index (Webserver_Request& webserver_request)
   Database_BibleImages database_bibleimages;
 
   
-  std::string page;
   Assets_Header header = Assets_Header (translate("Bible images"), webserver_request);
   header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   header.add_bread_crumb (images_index_url (), menu_logic_images_index_text ());
-  page = header.run ();
+  std::string page = header.run ();
   Assets_View view;
   std::string error, success;
 
   
   // File upload.
   if (webserver_request.post.count ("upload")) {
-    std::string folder = filter_url_tempfile ();
+    const std::string& folder = filter_url_tempfile ();
     filter_url_mkdir (folder);
-    std::string file = filter_url_create_path ({folder, webserver_request.post ["filename"]});
-    std::string data = webserver_request.post ["data"];
+    const std::string& file = filter_url_create_path ({folder, webserver_request.post ["filename"]});
+    const std::string& data = webserver_request.post ["data"];
     if (!data.empty ()) {
       filter_url_file_put_contents (file, data);
-      bool background_import = filter_archive_is_archive (file);
+      const bool background_import = filter_archive_is_archive (file);
       std::string extension = filter_url_get_extension (file);
       extension = filter::strings::unicode_string_casefold (extension);
       if (background_import) {
@@ -87,13 +86,13 @@ std::string images_index (Webserver_Request& webserver_request)
 
 
   // Delete image.
-  std::string remove = webserver_request.query ["delete"];
+  const std::string& remove = webserver_request.query ["delete"];
   if (!remove.empty()) {
-    std::string confirm = webserver_request.query ["confirm"];
+    const std::string& confirm = webserver_request.query ["confirm"];
     if (confirm.empty()) {
       Dialog_Yes dialog_yes = Dialog_Yes ("index", translate("Would you like to delete this image?"));
       dialog_yes.add_query ("delete", remove);
-      page += dialog_yes.run ();
+      page.append(dialog_yes.run ());
       return page;
     } if (confirm == "yes") {
       database_bibleimages.erase (remove);
@@ -102,8 +101,8 @@ std::string images_index (Webserver_Request& webserver_request)
   }
 
   
-  std::vector <std::string> images = database_bibleimages.get();
-  for (auto image : images) {
+  const std::vector <std::string> images = database_bibleimages.get();
+  for (const auto& image : images) {
     view.add_iteration ("images", {
       std::pair ("image", image),
     } );
@@ -111,7 +110,7 @@ std::string images_index (Webserver_Request& webserver_request)
   
   view.set_variable ("success", success);
   view.set_variable ("error", error);
-  page += view.render ("images", "index");
-  page += assets_page::footer ();
+  page.append (view.render ("images", "index"));
+  page.append (assets_page::footer ());
   return page;
 }

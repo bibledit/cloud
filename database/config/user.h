@@ -246,6 +246,8 @@ public:
   std::vector <std::string> getChangeNotificationsBibles ();
   std::vector <std::string> getChangeNotificationsBiblesForUser (const std::string & user);
   void setChangeNotificationsBibles (const std::vector <std::string>& values);
+  bool get_enable_spell_check ();
+  void set_enable_spell_check (bool value);
 private:
   Webserver_Request& m_webserver_request;
   std::string file (std::string user);

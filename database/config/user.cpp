@@ -69,14 +69,14 @@ std::string Database_Config_User::mapkey (std::string user, const char * key)
 
 std::string Database_Config_User::getValue (const char * key, const char * default_value)
 {
-  std::string user = m_webserver_request.session_logic ()->currentUser ();
+  const std::string user = m_webserver_request.session_logic ()->currentUser ();
   return getValueForUser (user, key, default_value);
 }
 
 
 bool Database_Config_User::getBValue (const char * key, bool default_value)
 {
-  std::string value = getValue (key, filter::strings::convert_to_string (default_value).c_str());
+  const std::string value = getValue (key, filter::strings::convert_to_string (default_value).c_str());
   return filter::strings::convert_to_bool (value);
 }
 
@@ -90,18 +90,21 @@ int Database_Config_User::getIValue (const char * key, int default_value)
 
 std::string Database_Config_User::getValueForUser (std::string user, const char * key, const char * default_value)
 {
-  // Check the memory cache.
-  std::string cachekey = mapkey (user, key);
+  // Check the memory cache. If it is there, read it from the memory cache.
+  const std::string cachekey = mapkey (user, key);
   if (database_config_user_cache.count (cachekey)) {
-    return database_config_user_cache [cachekey];
+    return database_config_user_cache.at (cachekey);
   }
   // Read from file.
   std::string value;
-  std::string filename = file (user, key);
-  if (file_or_dir_exists (filename)) value = filter_url_file_get_contents (filename);
-  else value = default_value;
-  // Cache it.
-  database_config_user_cache [cachekey] = value;
+  const std::string filename = file (user, key);
+  if (file_or_dir_exists (filename))
+    value = filter_url_file_get_contents (filename);
+  else 
+    value = default_value;
+  // Cache it, so next time getting when this value,
+  // it does not read it from disk but from memory cache, which will be faster.
+  database_config_user_cache.insert_or_assign (cachekey, value);
   // Done.
   return value;
 }
@@ -123,7 +126,7 @@ int Database_Config_User::getIValueForUser (std::string user, const char * key, 
 
 void Database_Config_User::setValue (const char * key, std::string value)
 {
-  std::string user = m_webserver_request.session_logic ()->currentUser ();
+  const std::string user = m_webserver_request.session_logic ()->currentUser ();
   setValueForUser (user, key, value);
 }
 
@@ -1495,4 +1498,15 @@ std::vector <std::string> Database_Config_User::getChangeNotificationsBiblesForU
 void Database_Config_User::setChangeNotificationsBibles (const std::vector <std::string>& values)
 {
   setList (change_notifications_bibles_key (), values);
+}
+
+
+constexpr const char * enable_spell_check_key {"enable-spell-check"};
+bool Database_Config_User::get_enable_spell_check ()
+{
+  return getBValue (enable_spell_check_key, true);
+}
+void Database_Config_User::set_enable_spell_check (bool value)
+{
+  setBValue (enable_spell_check_key, value);
 }

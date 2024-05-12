@@ -177,6 +177,10 @@ std::string edit_index (Webserver_Request& webserver_request)
   }
   
   
+  // Whether to enable spell check.
+  view.set_variable ("spellcheck", filter::strings::convert_to_true_false(webserver_request.database_config_user ()->get_enable_spell_check()));
+
+  
   page += view.render ("edit", "index");
   
   

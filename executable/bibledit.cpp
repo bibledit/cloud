@@ -80,11 +80,11 @@ static void sigsegv_handler ([[maybe_unused]] int sig)
 
 #ifdef HAVE_WINDOWS
 void my_invalid_parameter_handler(const wchar_t* expression, const wchar_t* function, const wchar_t* file,	unsigned int line, uintptr_t pReserved) {
-  wstring wexpression(expression);
+  std::wstring wexpression(expression);
   std::string sexpression(wexpression.begin(), wexpression.end());
-  wstring wfunction(function);
+  std::wstring wfunction(function);
   std::string sfunction(wfunction.begin(), wfunction.end());
-  wstring wfile (file);
+  std::wstring wfile (file);
   std::string sfile(wfile.begin(), wfile.end());
   Database_Logs::log ("Invalid parameter detected in function " + sfunction + " in file " + sfile + " line " + filter::strings::convert_to_string ((size_t)line) + " expression " + sexpression + ".");
 }

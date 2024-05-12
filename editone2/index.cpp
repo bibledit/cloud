@@ -149,6 +149,8 @@ std::string editone2_index (Webserver_Request& webserver_request)
     view.enable_zone ("stylesbutton");
   }
   
+  view.set_variable ("spellcheck", filter::strings::convert_to_true_false(webserver_request.database_config_user ()->get_enable_spell_check()));
+
   page += view.render ("editone2", "index");
   
   page += assets_page::footer ();

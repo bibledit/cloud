@@ -331,8 +331,8 @@ void filter_url_unlink (std::string filename)
 void filter_url_rename (const std::string& oldfilename, const std::string& newfilename)
 {
 #ifdef HAVE_WINDOWS
-  wstring woldfilename = filter::strings::string2wstring (oldfilename);
-  wstring wnewfilename = filter::strings::string2wstring (newfilename);
+  std::wstring woldfilename = filter::strings::string2wstring (oldfilename);
+  std::wstring wnewfilename = filter::strings::string2wstring (newfilename);
   _wrename (woldfilename.c_str (), wnewfilename.c_str ());
 #else
   rename (oldfilename.c_str (), newfilename.c_str ());
@@ -470,7 +470,7 @@ bool file_or_dir_exists (std::string url)
 {
 #ifdef HAVE_WINDOWS
   // Function '_wstat' works with wide characters.
-  wstring wurl = filter::strings::string2wstring(url);
+  std::wstring wurl = filter::strings::string2wstring(url);
   struct _stat buffer;
   int result = _wstat (wurl.c_str (), &buffer);
   return (result == 0);
@@ -498,7 +498,7 @@ void filter_url_mkdir (std::string directory)
 {
   int status;
 #ifdef HAVE_WINDOWS
-  wstring wdirectory = filter::strings::string2wstring(directory);
+  std::wstring wdirectory = filter::strings::string2wstring(directory);
   status = _wmkdir (wdirectory.c_str());
 #else
   status = mkdir (directory.c_str(), 0777);
@@ -514,7 +514,7 @@ void filter_url_mkdir (std::string directory)
     reverse (paths.begin (), paths.end ());
     for (unsigned int i = 0; i < paths.size (); i++) {
 #ifdef HAVE_WINDOWS
-      wstring wpathsi = filter::strings::string2wstring(paths[i]);
+      std::wstring wpathsi = filter::strings::string2wstring(paths[i]);
       _wmkdir (wpathsi.c_str ());
 #else
       mkdir (paths[i].c_str (), 0777);
@@ -546,18 +546,18 @@ void filter_url_rmdir (std::string directory)
       filter_url_rmdir(path);
     }
 #ifdef HAVE_WINDOWS
-  // Remove directory.
-  wstring wpath = filter::strings::string2wstring(path);
-  _wrmdir(wpath.c_str());
-  // Remove file.
-  filter_url_unlink(path);
+    // Remove directory.
+    std::wstring wpath = filter::strings::string2wstring(path);
+    _wrmdir(wpath.c_str());
+    // Remove file.
+    filter_url_unlink(path);
 #else
-  // On Linux remove the directory or the file.
+    // On Linux remove the directory or the file.
     remove(path.c_str());
 #endif
   }
 #ifdef HAVE_WINDOWS
-  wstring wdirectory = filter::strings::string2wstring(directory);
+  std::wstring wdirectory = filter::strings::string2wstring(directory);
   _wrmdir(wdirectory.c_str());
   filter_url_unlink(directory);
 #else
@@ -582,7 +582,7 @@ bool filter_url_is_dir (std::string path)
 {
 #ifdef HAVE_WINDOWS
   // Function '_wstat', on Windows, works with wide characters.
-  wstring wpath = filter::strings::string2wstring (path);
+  std::wstring wpath = filter::strings::string2wstring (path);
   struct _stat sb;
   _wstat (wpath.c_str (), &sb);
 #else
@@ -609,7 +609,7 @@ bool filter_url_is_dir (std::string path)
 bool filter_url_get_write_permission (std::string path)
 {
 #ifdef HAVE_WINDOWS
-  wstring wpath = filter::strings::string2wstring (path);
+  std::wstring wpath = filter::strings::string2wstring (path);
   int result = _waccess (wpath.c_str (), 06);
 #else
   int result = access (path.c_str(), W_OK);
@@ -621,7 +621,7 @@ bool filter_url_get_write_permission (std::string path)
 void filter_url_set_write_permission (std::string path)
 {
 #ifdef HAVE_WINDOWS
-  wstring wpath = filter::strings::string2wstring (path);
+  std::wstring wpath = filter::strings::string2wstring (path);
   _wchmod (wpath.c_str (), _S_IREAD | _S_IWRITE);
 #else
   chmod (path.c_str (), S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IWGRP | S_IXGRP | S_IROTH | S_IWOTH | S_IXOTH);
@@ -1773,7 +1773,7 @@ std::string filter_url_http_request_mbed (std::string url, std::string& error, c
     FILE * file = nullptr;
     if (!filename.empty ()) {
 #ifdef HAVE_WINDOWS
-      wstring wfilename = filter::strings::string2wstring (filename);
+      std::wstring wfilename = filter::strings::string2wstring (filename);
       file = _wfopen (wfilename.c_str (), L"w");
 #else
       file = fopen (filename.c_str (), "w");

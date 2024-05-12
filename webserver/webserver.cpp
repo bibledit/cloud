@@ -370,7 +370,7 @@ void http_server ()
 
 #ifdef HAVE_WINDOWS
 bool server_accepting_flag {false};
-mutex server_accepting_mutex;
+std::mutex server_accepting_mutex;
 
 
 void http_server_acceptor_processor (SOCKET listen_socket)
@@ -479,7 +479,7 @@ void http_server ()
     server_accepting_mutex.unlock ();
     if (start_acceptor) {
       // Handle waiting for and processing the request in a thread, enabling parallel requests.
-      thread request_thread = thread (http_server_acceptor_processor, listen_socket);
+      std::thread request_thread = std::thread (http_server_acceptor_processor, listen_socket);
       // Detach and delete thread object.
       request_thread.detach ();
     }

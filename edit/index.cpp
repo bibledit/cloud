@@ -52,7 +52,7 @@ bool edit_index_acl (Webserver_Request& webserver_request)
 {
   if (Filter_Roles::access_control (webserver_request, Filter_Roles::translator ())) 
     return true;
-  auto [ read, write ] = access_bible::any (webserver_request);
+  const auto [ read, write ] = access_bible::any (webserver_request);
   return write;
 }
 
@@ -181,10 +181,10 @@ std::string edit_index (Webserver_Request& webserver_request)
   view.set_variable ("spellcheck", filter::strings::convert_to_true_false(webserver_request.database_config_user ()->get_enable_spell_check()));
 
   
-  page += view.render ("edit", "index");
+  page.append (view.render ("edit", "index"));
   
   
-  page += assets_page::footer ();
+  page.append (assets_page::footer ());
   
   
   return page;

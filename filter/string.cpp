@@ -256,7 +256,8 @@ bool convert_to_bool (const std::string& s)
 
 std::string convert_to_true_false (const bool b)
 {
-  if (b) return "true";
+  if (b) 
+    return "true";
   return "false";
 }
 

@@ -230,16 +230,18 @@ bool enforce_https_client ()
 
 void swipe_enabled (Webserver_Request& webserver_request, std::string& script)
 {
+  bool swipe_operations {false};
   std::string true_false {"false"};
   if (webserver_request.session_logic ()->touchEnabled ()) {
     if (webserver_request.database_config_user ()->getSwipeActionsAvailable ()) {
       true_false = "true";
+      swipe_operations = true;
     }
   }
   
   script.append ("\n");
   script.append ("var swipe_operations = ");
-  script.append (true_false);
+  script.append (filter::strings::convert_to_true_false(swipe_operations));
   script.append (";");
 }
 

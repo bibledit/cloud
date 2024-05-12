@@ -445,6 +445,12 @@ std::string personalize_index (Webserver_Request& webserver_request)
   view.set_variable (dateformat, date_format_key);
 
   
+  // Spell check in the Bible editors.
+  if (checkbox == "spellcheck") {
+    webserver_request.database_config_user ()->set_enable_spell_check (checked);
+  }
+  view.set_variable ("spellcheck", filter::strings::get_checkbox_status(webserver_request.database_config_user ()->get_enable_spell_check ()));
+  
   // Enable the sections with settings relevant to the user and device.
   bool resources = access_logic::privilege_view_resources (webserver_request);
   if (resources) view.enable_zone ("resources");

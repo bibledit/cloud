@@ -78,12 +78,12 @@ std::vector <std::string> filter_url_scandir_internal (std::string folder)
       folder = folder.substr(0, folder.size() - 1);
     }
     folder.append("\\*");
-    wstring wfolder = filter::strings::string2wstring(folder);
+    std::wstring wfolder = filter::strings::string2wstring(folder);
     WIN32_FIND_DATA fdata;
     HANDLE hFind = FindFirstFileW(wfolder.c_str(), &fdata);
     if (hFind != INVALID_HANDLE_VALUE) {
       do {
-        wstring wfilename(fdata.cFileName);
+        std::wstring wfilename(fdata.cFileName);
         std::string name = filter::strings::wstring2string (wfilename);
         if (name.substr(0, 1) != ".") {
           files.push_back(name);
@@ -310,7 +310,7 @@ std::string filter_url_basename_web (std::string url)
 void filter_url_unlink (std::string filename)
 {
 #ifdef HAVE_WINDOWS
-  wstring wfilename = filter::strings::string2wstring (filename);
+  std::wstring wfilename = filter::strings::string2wstring (filename);
   _wunlink (wfilename.c_str ());
 #else
   unlink (filename.c_str ());
@@ -830,7 +830,7 @@ void filter_url_recursive_scandir (std::string folder, std::vector <std::string>
 int filter_url_file_modification_time (std::string filename)
 {
 #ifdef HAVE_WINDOWS
-  wstring wfilename = filter::strings::string2wstring (filename);
+  std::wstring wfilename = filter::strings::string2wstring (filename);
   struct _stat attributes;
   _wstat (wfilename.c_str (), &attributes);
 #else

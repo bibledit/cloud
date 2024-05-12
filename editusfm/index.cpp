@@ -140,11 +140,15 @@ std::string editusfm_index (Webserver_Request& webserver_request)
   if (webserver_request.database_config_user ()->getFastEditorSwitchingAvailable ()) {
     view.enable_zone ("fastswitcheditor");
   }
+  
+  // Whether to enable spell check in the editor.
+  view.set_variable ("spellcheck", filter::strings::convert_to_true_false(webserver_request.database_config_user ()->get_enable_spell_check()));
+  
 
-  page += view.render ("editusfm", "index");
+  page.append (view.render ("editusfm", "index"));
   
   
-  page += assets_page::footer ();
+  page.append (assets_page::footer ());
   
   
   return page;

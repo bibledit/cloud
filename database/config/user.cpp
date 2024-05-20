@@ -33,62 +33,62 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <locale/logic.h>
 
 
+// Cache values in memory for better speed.
+// The speed improvement comes from reading a value from disk only once,
+// and after that to read the value straight from the memory cache.
+static std::map <std::string, std::string> database_config_user_cache;
+
+
 Database_Config_User::Database_Config_User (Webserver_Request& webserver_request):
 m_webserver_request (webserver_request)
 {
 }
 
 
-// Cache values in memory for better speed.
-// The speed improvement comes from reading a value from disk only once,
-// and after that to read the value straight from the memory cache.
-std::map <std::string, std::string> database_config_user_cache;
-
-
 // Functions for getting and setting values or lists of values follow here:
 
 
-std::string Database_Config_User::file (std::string user)
+std::string Database_Config_User::file (std::string user) const
 {
   return filter_url_create_root_path ({database_logic_databases (), "config", "user", user});
 }
 
 
-std::string Database_Config_User::file (std::string user, const char * key)
+std::string Database_Config_User::file (std::string user, const char * key) const
 {
   return filter_url_create_path ({file (user), key});
 }
 
 
 // The key in the cache for this setting.
-std::string Database_Config_User::mapkey (std::string user, const char * key)
+std::string Database_Config_User::mapkey (const std::string& user, const char * key) const
 {
   return user + key;
 }
 
 
-std::string Database_Config_User::getValue (const char * key, const char * default_value)
+std::string Database_Config_User::getValue (const char * key, const char * default_value) const
 {
   const std::string user = m_webserver_request.session_logic ()->currentUser ();
   return getValueForUser (user, key, default_value);
 }
 
 
-bool Database_Config_User::getBValue (const char * key, bool default_value)
+bool Database_Config_User::getBValue (const char * key, bool default_value) const
 {
   const std::string value = getValue (key, filter::strings::convert_to_string (default_value).c_str());
   return filter::strings::convert_to_bool (value);
 }
 
 
-int Database_Config_User::getIValue (const char * key, int default_value)
+int Database_Config_User::getIValue (const char * key, int default_value) const
 {
-  std::string value = getValue (key, filter::strings::convert_to_string (default_value).c_str());
+  const std::string value = getValue (key, filter::strings::convert_to_string (default_value).c_str());
   return filter::strings::convert_to_int (value);
 }
 
 
-std::string Database_Config_User::getValueForUser (std::string user, const char * key, const char * default_value)
+std::string Database_Config_User::getValueForUser (const std::string& user, const char * key, const char * default_value) const
 {
   // Check the memory cache. If it is there, read it from the memory cache.
   const std::string cachekey = mapkey (user, key);
@@ -102,84 +102,84 @@ std::string Database_Config_User::getValueForUser (std::string user, const char 
     value = filter_url_file_get_contents (filename);
   else 
     value = default_value;
-  // Cache it, so next time getting when this value,
-  // it does not read it from disk but from memory cache, which will be faster.
+  // Cache it: Improved speed next time getting this value.
   database_config_user_cache.insert_or_assign (cachekey, value);
   // Done.
   return value;
 }
 
 
-bool Database_Config_User::getBValueForUser (std::string user, const char * key, bool default_value)
+bool Database_Config_User::getBValueForUser (std::string user, const char * key, bool default_value) const
 {
-  std::string value = getValueForUser (user, key, filter::strings::convert_to_string (default_value).c_str());
+  const auto value {getValueForUser (user, key, filter::strings::convert_to_string (default_value).c_str())};
   return filter::strings::convert_to_bool (value);
 }
 
 
-int Database_Config_User::getIValueForUser (std::string user, const char * key, int default_value)
+int Database_Config_User::getIValueForUser (std::string user, const char * key, int default_value) const
 {
-  std::string value = getValueForUser (user, key, filter::strings::convert_to_string (default_value).c_str());
+  const auto value {getValueForUser (user, key, filter::strings::convert_to_string (default_value).c_str())};
   return filter::strings::convert_to_int (value);
 }
 
 
-void Database_Config_User::setValue (const char * key, std::string value)
+void Database_Config_User::setValue (const char * key, std::string value) const
 {
   const std::string user = m_webserver_request.session_logic ()->currentUser ();
   setValueForUser (user, key, value);
 }
 
 
-void Database_Config_User::setBValue (const char * key, bool value)
+void Database_Config_User::setBValue (const char * key, bool value) const
 {
   setValue (key, filter::strings::convert_to_string (value));
 }
 
 
-void Database_Config_User::setIValue (const char * key, int value)
+void Database_Config_User::setIValue (const char * key, int value) const
 {
   setValue (key, filter::strings::convert_to_string (value));
 }
 
 
-void Database_Config_User::setValueForUser (std::string user, const char * key, std::string value)
+void Database_Config_User::setValueForUser (std::string user, const char * key, std::string value) const
 {
   // Store in memory cache.
   database_config_user_cache [mapkey (user, key)] = value;
   // Store on disk.
-  std::string filename = file (user, key);
-  std::string directory = filter_url_dirname (filename);
-  if (!file_or_dir_exists (directory)) filter_url_mkdir (directory);
+  const std::string filename {file (user, key)};
+  const std::string directory {filter_url_dirname (filename)};
+  if (!file_or_dir_exists (directory))
+    filter_url_mkdir (directory);
   filter_url_file_put_contents (filename, value);
 }
 
 
-void Database_Config_User::setBValueForUser (std::string user, const char * key, bool value)
+void Database_Config_User::setBValueForUser (std::string user, const char * key, bool value) const
 {
   setValueForUser (user, key, filter::strings::convert_to_string (value));
 }
 
 
-std::vector <std::string> Database_Config_User::getList (const char * key)
+std::vector <std::string> Database_Config_User::getList (const char * key) const
 {
-  std::string user = m_webserver_request.session_logic ()->currentUser ();
+  const std::string user = m_webserver_request.session_logic ()->currentUser ();
   return getListForUser (user, key);
 }
 
 
-std::vector <std::string> Database_Config_User::getListForUser (std::string user, const char * key)
+std::vector <std::string> Database_Config_User::getListForUser (std::string user, const char * key) const
 {
   // Check whether value is in cache.
-  std::string cachekey = mapkey (user, key);
+  const std::string cachekey = mapkey (user, key);
   if (database_config_user_cache.count (cachekey)) {
-    std::string value = database_config_user_cache [cachekey];
+    const std::string value = database_config_user_cache [cachekey];
     return filter::strings::explode (value, '\n');
   }
   // Read setting from disk.
-  std::string filename = file (user, key);
+  const std::string filename = file (user, key);
   if (file_or_dir_exists (filename)) {
-    std::string value = filter_url_file_get_contents (filename);
+    const std::string value = filter_url_file_get_contents (filename);
     // Cache it in memory.
     database_config_user_cache [cachekey] = value;
     // Done.
@@ -190,42 +190,43 @@ std::vector <std::string> Database_Config_User::getListForUser (std::string user
 }
 
 
-void Database_Config_User::setList (const char * key, std::vector <std::string> values)
+void Database_Config_User::setList (const char * key, const std::vector <std::string>& values) const
 {
-  std::string user = m_webserver_request.session_logic ()->currentUser ();
+  const std::string user = m_webserver_request.session_logic ()->currentUser ();
   setListForUser (user, key, values);
 }
 
 
-void Database_Config_User::setListForUser (std::string user, const char * key, std::vector <std::string> values)
+void Database_Config_User::setListForUser (const std::string& user, const char * key, const std::vector <std::string>& values) const
 {
   // Store it on disk.
-  std::string filename = file (user, key);
-  std::string directory = filter_url_dirname (filename);
-  if (!file_or_dir_exists (directory)) filter_url_mkdir (directory);
-  std::string value = filter::strings::implode (values, "\n");
+  const std::string filename = file (user, key);
+  const std::string directory = filter_url_dirname (filename);
+  if (!file_or_dir_exists (directory))
+    filter_url_mkdir (directory);
+  const std::string value = filter::strings::implode (values, "\n");
   filter_url_file_put_contents (filename, value);
   // Put it in the memory cache.
-  std::string cachekey = mapkey (user, key);
+  const std::string cachekey = mapkey (user, key);
   database_config_user_cache [cachekey] = value;
 }
 
 
-std::vector <int> Database_Config_User::getIList (const char * key)
+std::vector <int> Database_Config_User::getIList (const char * key) const
 {
-  std::vector <std::string> lines = getList (key);
+  const std::vector <std::string> lines = getList (key);
   std::vector <int> result;
-  for (auto & line : lines) {
+  for (const auto& line : lines) {
     result.push_back (filter::strings::convert_to_int (line));
   }
   return result;
 }
 
 
-void Database_Config_User::setIList (const char * key, std::vector <int> values)
+void Database_Config_User::setIList (const char * key, const std::vector <int>& values) const
 {
-  std::vector <std::string> lines;
-  for (auto & value : values) {
+  std::vector <std::string> lines {};
+  for (const auto& value : values) {
     lines.push_back (filter::strings::convert_to_string (value));
   }
   setList (key, lines);
@@ -237,16 +238,16 @@ void Database_Config_User::trim ()
   // Reset the sprint month and year after some time.
   // When a user visits the Sprint page after a few days, it will then display the current Sprint.
   // If the Sprint is not reset, the user may enter new tasks in the wrong sprint.
-  int time = filter::date::seconds_since_epoch () - (2 * 24 * 3600);
-  Database_Users database_users;
-  std::vector <std::string> users = database_users.get_users ();
+  const int time = filter::date::seconds_since_epoch () - (2 * 24 * 3600);
+  Database_Users database_users {};
+  const std::vector <std::string> users = database_users.get_users ();
   for (unsigned int i = 0; i < users.size(); i++) {
-    std::string filename = file (users[i], keySprintMonth ());
+    std::string filename = file (users[i], sprint_month_key ());
     if (file_or_dir_exists (filename)) {
       if (filter_url_file_modification_time (filename) < time) {
         // Remove from disk.
         filter_url_unlink (filename);
-        filename = file (users[i], keySprintYear ());
+        filename = file (users[i], sprint_year_key ());
         filter_url_unlink (filename);
         // Clear cache.
         database_config_user_cache.clear ();
@@ -302,85 +303,92 @@ void Database_Config_User::setBible (std::string bible)
 }
 
 
+constexpr const auto subscribe_to_consultation_notes_edited_by_me_key {"subscribe-to-consultation-notes-edited-by-me"};
 bool Database_Config_User::getSubscribeToConsultationNotesEditedByMe ()
 {
-  return getBValue ("subscribe-to-consultation-notes-edited-by-me", false);
+  return getBValue (subscribe_to_consultation_notes_edited_by_me_key, false);
 }
 void Database_Config_User::setSubscribeToConsultationNotesEditedByMe (bool value)
 {
-  setBValue ("subscribe-to-consultation-notes-edited-by-me", value);
+  setBValue (subscribe_to_consultation_notes_edited_by_me_key, value);
 }
 
 
+constexpr const auto notify_me_of_any_consultation_notes_edits_key {"notify-me-of-any-consultation-notes-edits"};
 bool Database_Config_User::getNotifyMeOfAnyConsultationNotesEdits ()
 {
-  return getBValue ("notify-me-of-any-consultation-notes-edits", false);
+  return getBValue (notify_me_of_any_consultation_notes_edits_key, false);
 }
 bool Database_Config_User::getNotifyUserOfAnyConsultationNotesEdits (std::string username)
 {
-  return getBValueForUser (username, "notify-me-of-any-consultation-notes-edits", false);
+  return getBValueForUser (username, notify_me_of_any_consultation_notes_edits_key, false);
 }
 void Database_Config_User::setNotifyMeOfAnyConsultationNotesEdits (bool value){
-  setBValue ("notify-me-of-any-consultation-notes-edits", value);
+  setBValue (notify_me_of_any_consultation_notes_edits_key, value);
 }
 
 
+constexpr const auto subscribed_consultation_note_notification_key {"subscribed-consultation-note-notification"};
 bool Database_Config_User::getSubscribedConsultationNoteNotification ()
 {
-  return getBValue ("subscribed-consultation-note-notification", true);
+  return getBValue (subscribed_consultation_note_notification_key, true);
 }
 bool Database_Config_User::getUserSubscribedConsultationNoteNotification (std::string username)
 {
-  return getBValueForUser (username, "subscribed-consultation-note-notification", true);
+  return getBValueForUser (username, subscribed_consultation_note_notification_key, true);
 }
 void Database_Config_User::setSubscribedConsultationNoteNotification (bool value)
 {
-  setBValue ("subscribed-consultation-note-notification", value);
+  setBValue (subscribed_consultation_note_notification_key, value);
 }
 
 
+constexpr const auto get_assigned_to_consultation_notes_changes_key {"get-assigned-to-consultation-notes-changes"};
 bool Database_Config_User::getAssignedToConsultationNotesChanges ()
 {
-  return getBValue ("get-assigned-to-consultation-notes-changes", false);
+  return getBValue (get_assigned_to_consultation_notes_changes_key, false);
 }
 bool Database_Config_User::getUserAssignedToConsultationNotesChanges (std::string username)
 {
-  return getBValueForUser (username, "get-assigned-to-consultation-notes-changes", false);
+  return getBValueForUser (username, get_assigned_to_consultation_notes_changes_key, false);
 }
 void Database_Config_User::setAssignedToConsultationNotesChanges (bool value)
 {
-  setBValue ("get-assigned-to-consultation-notes-changes", value);
+  setBValue (get_assigned_to_consultation_notes_changes_key, value);
 }
 
 
+constexpr const auto generate_change_notifications_key {"generate-change-notifications"};
 bool Database_Config_User::getGenerateChangeNotifications ()
 {
-  return getBValue ("generate-change-notifications", false);
+  return getBValue (generate_change_notifications_key, false);
 }
 bool Database_Config_User::getUserGenerateChangeNotifications (std::string username)
 {
-  return getBValueForUser (username, "generate-change-notifications", false);
+  return getBValueForUser (username, generate_change_notifications_key, false);
 }
 void Database_Config_User::setGenerateChangeNotifications (bool value)
 {
-  setBValue ("generate-change-notifications", value);
+  setBValue (generate_change_notifications_key, value);
 }
 
 
+constexpr const auto assigned_consultation_note_notification_key {"assigned-consultation-note-notification"};
 bool Database_Config_User::getAssignedConsultationNoteNotification ()
 {
-  return getBValue ("assigned-consultation-note-notification", true);
+  return getBValue (assigned_consultation_note_notification_key, true);
 }
 bool Database_Config_User::getUserAssignedConsultationNoteNotification (std::string username)
 {
-  return getBValueForUser (username, "assigned-consultation-note-notification", true);
+  return getBValueForUser (username, assigned_consultation_note_notification_key, true);
 }
 void Database_Config_User::setAssignedConsultationNoteNotification (bool value)
 {
-  setBValue ("assigned-consultation-note-notification", value);
+  setBValue (assigned_consultation_note_notification_key, value);
 }
 
 
+constexpr const auto consultation_notes_passage_selector_key {"consultation-notes-passage-selector"};
 // 0: current verse; 1: current chapter; 2: current book; 3: any passage.
 int Database_Config_User::getConsultationNotesPassageSelector ()
 {
@@ -390,516 +398,556 @@ int Database_Config_User::getConsultationNotesPassageSelector ()
   // navigated to another verse within the same chapter,
   // and then was confused because the user could not find the note just created.
   // With the updated selection, current chapter, this confusing situation does not occur.
-  return getIValue ("consultation-notes-passage-selector", 1);
+  return getIValue (consultation_notes_passage_selector_key, 1);
 }
 void Database_Config_User::setConsultationNotesPassageSelector (int value)
 {
-  setIValue ("consultation-notes-passage-selector", value);
+  setIValue (consultation_notes_passage_selector_key, value);
 }
 
 
+constexpr const auto consultation_notes_edit_selector_key {"consultation-notes-edit-selector"};
 // 0: any time; 1: last 30 days; 2: last 7 days; 3: since yesterday; 4: today.
 int Database_Config_User::getConsultationNotesEditSelector ()
 {
-  return getIValue ("consultation-notes-edit-selector", 0);
+  return getIValue (consultation_notes_edit_selector_key, 0);
 }
 void Database_Config_User::setConsultationNotesEditSelector (int value)
 {
-  setIValue ("consultation-notes-edit-selector", value);
+  setIValue (consultation_notes_edit_selector_key, value);
 }
 
 
+constexpr const auto consultation_notes_non_edit_selector_key {"consultation-notes-non-edit-selector"};
 // 0: don't care; 1: for last 30 days; 2: for last 7 days; 3: since yesterday; 4: today.
 int Database_Config_User::getConsultationNotesNonEditSelector ()
 {
-  return getIValue ("consultation-notes-non-edit-selector", 0);
+  return getIValue (consultation_notes_non_edit_selector_key, 0);
 }
 void Database_Config_User::setConsultationNotesNonEditSelector (int value)
 {
-  setIValue ("consultation-notes-non-edit-selector", value);
+  setIValue (consultation_notes_non_edit_selector_key, value);
 }
 
 
+constexpr const auto consultation_notes_status_selector_key {"consultation-notes-status-selector"};
 // Status is a string; can be empty as well.
 std::string Database_Config_User::getConsultationNotesStatusSelector ()
 {
-  return getValue ("consultation-notes-status-selector", "");
+  return getValue (consultation_notes_status_selector_key, "");
 }
 void Database_Config_User::setConsultationNotesStatusSelector (std::string value)
 {
-  setValue ("consultation-notes-status-selector", value);
+  setValue (consultation_notes_status_selector_key, value);
 }
 
 
+constexpr const auto consultation_notes_bible_selector_key {"consultation-notes-bible-selector"};
 // "": any Bible; <bible>: named Bible.
 std::string Database_Config_User::getConsultationNotesBibleSelector ()
 {
-  return getValue ("consultation-notes-bible-selector", "");
+  return getValue (consultation_notes_bible_selector_key, "");
 }
 void Database_Config_User::setConsultationNotesBibleSelector (std::string value)
 {
-  setValue ("consultation-notes-bible-selector", value);
+  setValue (consultation_notes_bible_selector_key, value);
 }
 
 
+constexpr const auto consultation_notes_assignment_selector_key {"consultation-notes-assignment-selector"};
 // "": don't care; "user": notes assigned to "user".
 std::string Database_Config_User::getConsultationNotesAssignmentSelector ()
 {
-  return getValue ("consultation-notes-assignment-selector", "");
+  return getValue (consultation_notes_assignment_selector_key, "");
 }
 void Database_Config_User::setConsultationNotesAssignmentSelector (std::string value)
 {
-  setValue ("consultation-notes-assignment-selector", value);
+  setValue (consultation_notes_assignment_selector_key, value);
 }
 
 
+constexpr const auto consultation_notes_subscription_selector_key {"consultation-notes-subscription-selector"};
 // false: don't care; true: subscribed.
 bool Database_Config_User::getConsultationNotesSubscriptionSelector ()
 {
-  return getBValue ("consultation-notes-subscription-selector", false);
+  return getBValue (consultation_notes_subscription_selector_key, false);
 }
 void Database_Config_User::setConsultationNotesSubscriptionSelector (bool value)
 {
-  setBValue ("consultation-notes-subscription-selector", value);
+  setBValue (consultation_notes_subscription_selector_key, value);
 }
 
 
+constexpr const auto consultation_notes_severity_selector_key {"consultation-notes-severity-selector"};
 int Database_Config_User::getConsultationNotesSeveritySelector ()
 {
-  return getIValue ("consultation-notes-severity-selector", -1);
+  return getIValue (consultation_notes_severity_selector_key, -1);
 }
 void Database_Config_User::setConsultationNotesSeveritySelector (int value)
 {
-  setIValue ("consultation-notes-severity-selector", value);
+  setIValue (consultation_notes_severity_selector_key, value);
 }
 
 
+constexpr const auto consultation_notes_text_selector_key {"consultation-notes-text-selector"};
 int Database_Config_User::getConsultationNotesTextSelector ()
 {
-  return getIValue ("consultation-notes-text-selector", 0);
+  return getIValue (consultation_notes_text_selector_key, 0);
 }
 void Database_Config_User::setConsultationNotesTextSelector (int value)
 {
-  setIValue ("consultation-notes-text-selector", value);
+  setIValue (consultation_notes_text_selector_key, value);
 }
 
 
+constexpr const auto consultation_notes_search_text_key {"consultation-notes-search-text"};
 std::string Database_Config_User::getConsultationNotesSearchText ()
 {
-  return getValue ("consultation-notes-search-text", "");
+  return getValue (consultation_notes_search_text_key, "");
 }
 void Database_Config_User::setConsultationNotesSearchText (std::string value)
 {
-  setValue ("consultation-notes-search-text", value);
+  setValue (consultation_notes_search_text_key, value);
 }
 
 
+constexpr const auto consultation_notes_passage_inclusion_selector_key {"consultation-notes-passage-inclusion-selector"};
 int Database_Config_User::getConsultationNotesPassageInclusionSelector ()
 {
-  return getIValue ("consultation-notes-passage-inclusion-selector", 0);
+  return getIValue (consultation_notes_passage_inclusion_selector_key, 0);
 }
 void Database_Config_User::setConsultationNotesPassageInclusionSelector (int value)
 {
-  setIValue ("consultation-notes-passage-inclusion-selector", value);
+  setIValue (consultation_notes_passage_inclusion_selector_key, value);
 }
 
 
+constexpr const auto consultation_notes_text_inclusion_selector_key {"consultation-notes-text-inclusion-selector"};
 int Database_Config_User::getConsultationNotesTextInclusionSelector ()
 {
-  return getIValue ("consultation-notes-text-inclusion-selector", 0);
+  return getIValue (consultation_notes_text_inclusion_selector_key, 0);
 }
 void Database_Config_User::setConsultationNotesTextInclusionSelector (int value)
 {
-  setIValue ("consultation-notes-text-inclusion-selector", value);
+  setIValue (consultation_notes_text_inclusion_selector_key, value);
 }
 
 
+constexpr const auto bible_changes_notification_key {"bible-changes-notification"};
 bool Database_Config_User::getBibleChangesNotification ()
 {
-  return getBValue ("bible-changes-notification", false);
+  return getBValue (bible_changes_notification_key, false);
 }
 bool Database_Config_User::getUserBibleChangesNotification (std::string username)
 {
-  return getBValueForUser (username, "bible-changes-notification", false);
+  return getBValueForUser (username, bible_changes_notification_key, false);
 }
 void Database_Config_User::setBibleChangesNotification (bool value)
 {
-  setBValue ("bible-changes-notification", value);
+  setBValue (bible_changes_notification_key, value);
 }
 
 
+constexpr const auto deleted_consultation_note_notification_key {"deleted-consultation-note-notification"};
 bool Database_Config_User::getDeletedConsultationNoteNotification ()
 {
-  return getBValue ("deleted-consultation-note-notification", false);
+  return getBValue (deleted_consultation_note_notification_key, false);
 }
 bool Database_Config_User::getUserDeletedConsultationNoteNotification (std::string username)
 {
-  return getBValueForUser (username, "deleted-consultation-note-notification", false);
+  return getBValueForUser (username, deleted_consultation_note_notification_key, false);
 }
 void Database_Config_User::setDeletedConsultationNoteNotification (bool value)
 {
-  setBValue ("deleted-consultation-note-notification", value);
+  setBValue (deleted_consultation_note_notification_key, value);
 }
 
 
-bool Database_Config_User::defaultBibleChecksNotification ()
+bool Database_Config_User::default_bible_checks_notification () const
 {
 #ifdef HAVE_CLIENT
   return false;
 #else
-  int level = m_webserver_request.session_logic ()->currentLevel ();
+  const int level = m_webserver_request.session_logic ()->currentLevel ();
   return (level >= Filter_Roles::translator () && level <= Filter_Roles::manager ());
 #endif
 }
+constexpr const auto bible_checks_notification_key {"bible-checks-notification"};
 bool Database_Config_User::getBibleChecksNotification ()
 {
-  return getBValue ("bible-checks-notification", defaultBibleChecksNotification ());
+  return getBValue (bible_checks_notification_key, default_bible_checks_notification ());
 }
 bool Database_Config_User::getUserBibleChecksNotification (std::string username)
 {
-  return getBValueForUser (username, "bible-checks-notification", defaultBibleChecksNotification ());
+  return getBValueForUser (username, bible_checks_notification_key, default_bible_checks_notification ());
 }
 void Database_Config_User::setBibleChecksNotification (bool value)
 {
-  setBValue ("bible-checks-notification", value);
+  setBValue (bible_checks_notification_key, value);
 }
 
 
+constexpr const auto pending_changes_notification_key {"pending-changes-notification"};
 bool Database_Config_User::getPendingChangesNotification ()
 {
-  return getBValue ("pending-changes-notification", false);
+  return getBValue (pending_changes_notification_key, false);
 }
 bool Database_Config_User::getUserPendingChangesNotification (std::string username)
 {
-  return getBValueForUser (username, "pending-changes-notification", false);
+  return getBValueForUser (username, pending_changes_notification_key, false);
 }
 void Database_Config_User::setPendingChangesNotification (bool value)
 {
-  setBValue ("pending-changes-notification", value);
+  setBValue (pending_changes_notification_key, value);
 }
 
 
+constexpr const auto user_changes_notification_key {"user-changes-notification"};
 bool Database_Config_User::getUserChangesNotification ()
 {
-  return getBValue ("user-changes-notification", false);
+  return getBValue (user_changes_notification_key, false);
 }
 bool Database_Config_User::getUserUserChangesNotification (std::string username)
 {
-  return getBValueForUser (username, "user-changes-notification", false);
+  return getBValueForUser (username, user_changes_notification_key, false);
 }
 void Database_Config_User::setUserChangesNotification (bool value)
 {
-  setBValue ("user-changes-notification", value);
+  setBValue (user_changes_notification_key, value);
 }
 
 
+constexpr const auto assigned_notes_statistics_notification_key {"assigned-notes-statistics-notification"};
 bool Database_Config_User::getAssignedNotesStatisticsNotification ()
 {
-  return getBValue ("assigned-notes-statistics-notification", false);
+  return getBValue (assigned_notes_statistics_notification_key, false);
 }
 bool Database_Config_User::getUserAssignedNotesStatisticsNotification (std::string username)
 {
-  return getBValueForUser (username, "assigned-notes-statistics-notification", false);
+  return getBValueForUser (username, assigned_notes_statistics_notification_key, false);
 }
 void Database_Config_User::setAssignedNotesStatisticsNotification (bool value)
 {
-  setBValue ("assigned-notes-statistics-notification", value);
+  setBValue (assigned_notes_statistics_notification_key, value);
 }
 
 
+constexpr const auto subscribed_notes_statistics_notification_key {"subscribed-notes-statistics-notification"};
 bool Database_Config_User::getSubscribedNotesStatisticsNotification ()
 {
-  return getBValue ("subscribed-notes-statistics-notification", false);
+  return getBValue (subscribed_notes_statistics_notification_key, false);
 }
 bool Database_Config_User::getUserSubscribedNotesStatisticsNotification (std::string username)
 {
-  return getBValueForUser (username, "subscribed-notes-statistics-notification", false);
+  return getBValueForUser (username, subscribed_notes_statistics_notification_key, false);
 }
 void Database_Config_User::setSubscribedNotesStatisticsNotification (bool value)
 {
-  setBValue ("subscribed-notes-statistics-notification", value);
+  setBValue (subscribed_notes_statistics_notification_key, value);
 }
 
 
+constexpr const auto notify_me_of_my_posts_key {"notify-me-of-my-posts"};
 bool Database_Config_User::getNotifyMeOfMyPosts ()
 {
-  return getBValue ("notify-me-of-my-posts", true);
+  return getBValue (notify_me_of_my_posts_key, true);
 }
 bool Database_Config_User::getUserNotifyMeOfMyPosts (std::string username)
 {
-  return getBValueForUser (username, "notify-me-of-my-posts", true);
+  return getBValueForUser (username, notify_me_of_my_posts_key, true);
 }
 void Database_Config_User::setNotifyMeOfMyPosts (bool value)
 {
-  setBValue ("notify-me-of-my-posts", value);
+  setBValue (notify_me_of_my_posts_key, value);
 }
 
 
+constexpr const auto suppress_mail_my_updated_notes_key {"suppress-mail-my-updated-notes"};
 bool Database_Config_User::getSuppressMailFromYourUpdatesNotes ()
 {
-  return getBValue ("suppress-mail-my-updated-notes", false);
+  return getBValue (suppress_mail_my_updated_notes_key, false);
 }
 bool Database_Config_User::getUserSuppressMailFromYourUpdatesNotes (std::string username)
 {
-  return getBValueForUser (username, "suppress-mail-my-updated-notes", false);
+  return getBValueForUser (username, suppress_mail_my_updated_notes_key, false);
 }
 void Database_Config_User::setSuppressMailFromYourUpdatesNotes (bool value)
 {
-  setBValue ("suppress-mail-my-updated-notes", value);
+  setBValue (suppress_mail_my_updated_notes_key, value);
 }
 
 
+constexpr const auto active_resources_key {"active-resources"};
 std::vector <std::string> Database_Config_User::getActiveResources ()
 {
   // Default values.
-  return getList ("active-resources");
+  return getList (active_resources_key);
 }
 void Database_Config_User::setActiveResources (std::vector <std::string> values)
 {
-  setList ("active-resources", values);
+  setList (active_resources_key, values);
 }
 
 
+constexpr const auto consistency_bibles_key {"consistency-bibles"};
 std::vector <std::string> Database_Config_User::getConsistencyResources ()
 {
-  return getList ("consistency-bibles");
+  return getList (consistency_bibles_key);
 }
 void Database_Config_User::setConsistencyResources (std::vector <std::string> values)
 {
-  setList ("consistency-bibles", values);
+  setList (consistency_bibles_key, values);
 }
 
 
-const char * Database_Config_User::keySprintMonth ()
+const char * Database_Config_User::sprint_month_key ()
 {
   return "sprint-month";
 }
 int Database_Config_User::getSprintMonth ()
 {
-  return getIValue (keySprintMonth (), filter::date::numerical_month (filter::date::seconds_since_epoch ()));
+  return getIValue (sprint_month_key (), filter::date::numerical_month (filter::date::seconds_since_epoch ()));
 }
 void Database_Config_User::setSprintMonth (int value)
 {
-  setIValue (keySprintMonth (), value);
+  setIValue (sprint_month_key (), value);
 }
 
 
-const char * Database_Config_User::keySprintYear ()
+const char * Database_Config_User::sprint_year_key ()
 {
   return "sprint-year";
 }
 int Database_Config_User::getSprintYear ()
 {
-  return getIValue (keySprintYear (), filter::date::numerical_year (filter::date::seconds_since_epoch ()));
+  return getIValue (sprint_year_key (), filter::date::numerical_year (filter::date::seconds_since_epoch ()));
 }
 void Database_Config_User::setSprintYear (int value)
 {
-  setIValue (keySprintYear (), value);
+  setIValue (sprint_year_key (), value);
 }
 
 
+constexpr const auto sprint_progress_notification_key {"sprint-progress-notification"};
 bool Database_Config_User::getSprintProgressNotification ()
 {
-  return getBValue ("sprint-progress-notification", false);
+  return getBValue (sprint_progress_notification_key, false);
 }
 bool Database_Config_User::getUserSprintProgressNotification (std::string username)
 {
-  return getBValueForUser (username, "sprint-progress-notification", false);
+  return getBValueForUser (username, sprint_progress_notification_key, false);
 }
 void Database_Config_User::setSprintProgressNotification (bool value)
 {
-  setBValue ("sprint-progress-notification", value);
+  setBValue (sprint_progress_notification_key, value);
 }
 
 
+constexpr const auto user_changes_notifications_online_key {"user-changes-notifications-online"};
 bool Database_Config_User::getUserChangesNotificationsOnline ()
 {
-  return getBValue ("user-changes-notifications-online", false);
+  return getBValue (user_changes_notifications_online_key, false);
 }
 bool Database_Config_User::getUserUserChangesNotificationsOnline (std::string username)
 {
-  return getBValueForUser (username, "user-changes-notifications-online", false);
+  return getBValueForUser (username, user_changes_notifications_online_key, false);
 }
 void Database_Config_User::setUserChangesNotificationsOnline (bool value)
 {
-  setBValue ("user-changes-notifications-online", value);
+  setBValue (user_changes_notifications_online_key, value);
 }
 
 
+constexpr const auto contributor_changes_notifications_online_key {"contributor-changes-notifications-online"};
 bool Database_Config_User::getContributorChangesNotificationsOnline ()
 {
-  return getBValue ("contributor-changes-notifications-online", false);
+  return getBValue (contributor_changes_notifications_online_key, false);
 }
 bool Database_Config_User::getContributorChangesNotificationsOnline (std::string username)
 {
-  return getBValueForUser (username, "contributor-changes-notifications-online", false);
+  return getBValueForUser (username, contributor_changes_notifications_online_key, false);
 }
 void Database_Config_User::setContributorChangesNotificationsOnline (bool value)
 {
-  setBValue ("contributor-changes-notifications-online", value);
+  setBValue (contributor_changes_notifications_online_key, value);
 }
 
 
+constexpr const auto workbench_urls_key {"workbench-urls"};
 std::string Database_Config_User::getWorkspaceURLs ()
 {
-  return getValue ("workbench-urls", "");
+  return getValue (workbench_urls_key, "");
 }
 void Database_Config_User::setWorkspaceURLs (std::string value)
 {
-  setValue ("workbench-urls", value);
+  setValue (workbench_urls_key, value);
 }
 
 
+constexpr const auto workbench_widths_key {"workbench-widths"};
 std::string Database_Config_User::getWorkspaceWidths ()
 {
-  return getValue ("workbench-widths", "");
+  return getValue (workbench_widths_key, "");
 }
 void Database_Config_User::setWorkspaceWidths (std::string value)
 {
-  setValue ("workbench-widths", value);
+  setValue (workbench_widths_key, value);
 }
 
 
+constexpr const auto workbench_heights_key {"workbench-heights"};
 std::string Database_Config_User::getWorkspaceHeights ()
 {
-  return getValue ("workbench-heights", "");
+  return getValue (workbench_heights_key, "");
 }
 void Database_Config_User::setWorkspaceHeights (std::string value)
 {
-  setValue ("workbench-heights", value);
+  setValue (workbench_heights_key, value);
 }
 
 
+constexpr const auto entire_workbench_widths_key {"entire-workbench-widths"};
 std::string Database_Config_User::getEntireWorkspaceWidths ()
 {
-  return getValue ("entire-workbench-widths", "");
+  return getValue (entire_workbench_widths_key, "");
 }
 void Database_Config_User::setEntireWorkspaceWidths (std::string value)
 {
-  setValue ("entire-workbench-widths", value);
+  setValue (entire_workbench_widths_key, value);
 }
 
 
+constexpr const auto active_workbench_key {"active-workbench"};
 std::string Database_Config_User::getActiveWorkspace ()
 {
-  return getValue ("active-workbench", "");
+  return getValue (active_workbench_key, "");
 }
 void Database_Config_User::setActiveWorkspace (std::string value)
 {
-  setValue ("active-workbench", value);
+  setValue (active_workbench_key, value);
 }
 
 
+constexpr const auto postpone_new_notes_mails_key {"postpone-new-notes-mails"};
 bool Database_Config_User::getPostponeNewNotesMails ()
 {
-  return getBValue ("postpone-new-notes-mails", false);
+  return getBValue (postpone_new_notes_mails_key, false);
 }
 void Database_Config_User::setPostponeNewNotesMails (bool value)
 {
-  setBValue ("postpone-new-notes-mails", value);
+  setBValue (postpone_new_notes_mails_key, value);
 }
 
 
+constexpr const auto recently_applied_styles_key {"recently-applied-styles"};
 std::string Database_Config_User::getRecentlyAppliedStyles ()
 {
-  return getValue ("recently-applied-styles", "p s add nd f x v");
+  return getValue (recently_applied_styles_key, "p s add nd f x v");
 }
 void Database_Config_User::setRecentlyAppliedStyles (std::string values)
 {
-  setValue ("recently-applied-styles", values);
+  setValue (recently_applied_styles_key, values);
 }
 
 
+constexpr const auto print_resources_key {"print-resources"};
 std::vector <std::string> Database_Config_User::getPrintResources ()
 {
-  return getList ("print-resources");
+  return getList (print_resources_key);
 }
 std::vector <std::string> Database_Config_User::getPrintResourcesForUser (std::string user)
 {
-  return getListForUser (user, "print-resources");
+  return getListForUser (user, print_resources_key);
 }
 void Database_Config_User::setPrintResources (std::vector <std::string> values)
 {
-  setList ("print-resources", values);
+  setList (print_resources_key, values);
 }
 
 
 Passage database_config_user_fix_passage (std::string value, const char * fallback)
 {
   std::vector <std::string> values = filter::strings::explode (value, '.');
-  if (values.size () != 3) values = filter::strings::explode (fallback, '.');
-  Passage passage = Passage ("", filter::strings::convert_to_int (values[0]), filter::strings::convert_to_int (values[1]), values[2]);
+  if (values.size () != 3) 
+    values = filter::strings::explode (fallback, '.');
+  const Passage passage = Passage ("", filter::strings::convert_to_int (values[0]), filter::strings::convert_to_int (values[1]), values[2]);
   return passage;
 }
 
 
+constexpr const auto print_passage_from_key {"print-passage-from"};
 Passage Database_Config_User::getPrintPassageFrom ()
 {
-  return database_config_user_fix_passage (getValue ("print-passage-from", ""), "1.1.1");
+  return database_config_user_fix_passage (getValue (print_passage_from_key, ""), "1.1.1");
 }
 Passage Database_Config_User::getPrintPassageFromForUser (std::string user)
 {
-  return database_config_user_fix_passage (getValueForUser (user, "print-passage-from", ""), "1.1.1");
+  return database_config_user_fix_passage (getValueForUser (user, print_passage_from_key, ""), "1.1.1");
 }
 void Database_Config_User::setPrintPassageFrom (Passage value)
 {
-  std::string s = filter::strings::convert_to_string (value.m_book) + "." + filter::strings::convert_to_string (value.m_chapter) + "." + value.m_verse;
-  setValue ("print-passage-from", s);
+  const std::string s = filter::strings::convert_to_string (value.m_book) + "." + filter::strings::convert_to_string (value.m_chapter) + "." + value.m_verse;
+  setValue (print_passage_from_key, s);
 }
 
 
+constexpr const auto print_passage_to_key {"print-passage-to"};
 Passage Database_Config_User::getPrintPassageTo ()
 {
-  return database_config_user_fix_passage (getValue ("print-passage-to", ""), "1.1.31");
+  return database_config_user_fix_passage (getValue (print_passage_to_key, ""), "1.1.31");
 }
 Passage Database_Config_User::getPrintPassageToForUser (std::string user)
 {
-  return database_config_user_fix_passage (getValueForUser (user, "print-passage-to", ""), "1.1.31");
+  return database_config_user_fix_passage (getValueForUser (user, print_passage_to_key, ""), "1.1.31");
 }
 void Database_Config_User::setPrintPassageTo (Passage value)
 {
-  std::string s = filter::strings::convert_to_string (value.m_book) + "." + filter::strings::convert_to_string (value.m_chapter) + "." + value.m_verse;
-  setValue ("print-passage-to", s);
+  const std::string s = filter::strings::convert_to_string (value.m_book) + "." + filter::strings::convert_to_string (value.m_chapter) + "." + value.m_verse;
+  setValue (print_passage_to_key, s);
 }
 
 
+constexpr const auto focused_book_key {"focused-book"};
 int Database_Config_User::getFocusedBook ()
 {
-  return getIValue ("focused-book", 1);
+  return getIValue (focused_book_key, 1);
 }
 void Database_Config_User::setFocusedBook (int book)
 {
-  setIValue ("focused-book", book);
+  setIValue (focused_book_key, book);
 }
 
 
+constexpr const auto focused_chapter_key {"focused-chapter"};
 int Database_Config_User::getFocusedChapter ()
 {
-  return getIValue ("focused-chapter", 1);
+  return getIValue (focused_chapter_key, 1);
 }
 void Database_Config_User::setFocusedChapter (int chapter)
 {
-  setIValue ("focused-chapter", chapter);
+  setIValue (focused_chapter_key, chapter);
 }
 
 
+constexpr const auto focused_verse_key {"focused-verse"};
 int Database_Config_User::getFocusedVerse ()
 {
-  return getIValue ("focused-verse", 1);
+  return getIValue (focused_verse_key, 1);
 }
 void Database_Config_User::setFocusedVerse (int verse)
 {
-  setIValue ("focused-verse", verse);
+  setIValue (focused_verse_key, verse);
 }
 
 
+constexpr const auto updated_settings_key {"updated-settings"};
 std::vector <int> Database_Config_User::getUpdatedSettings ()
 {
-  return getIList ("updated-settings");
+  return getIList (updated_settings_key);
 }
 void Database_Config_User::setUpdatedSettings (std::vector <int> values)
 {
-  setIList ("updated-settings", values);
+  setIList (updated_settings_key, values);
 }
 void Database_Config_User::addUpdatedSetting (int value)
 {
@@ -918,13 +966,14 @@ void Database_Config_User::removeUpdatedSetting (int value)
 }
 
 
+constexpr const auto removed_changes_key {"removed-changes"};
 std::vector <int> Database_Config_User::getRemovedChanges ()
 {
-  return getIList ("removed-changes");
+  return getIList (removed_changes_key);
 }
 void Database_Config_User::setRemovedChanges (std::vector <int> values)
 {
-  setIList ("removed-changes", values);
+  setIList (removed_changes_key, values);
 }
 void Database_Config_User::addRemovedChange (int value)
 {
@@ -943,222 +992,198 @@ void Database_Config_User::removeRemovedChange (int value)
 }
 
 
+constexpr const auto change_notifications_checksum_key {"change-notifications-checksum"};
 std::string Database_Config_User::getChangeNotificationsChecksum ()
 {
-  return getValue ("change-notifications-checksum", "");
+  return getValue (change_notifications_checksum_key, "");
 }
 void Database_Config_User::setChangeNotificationsChecksum (std::string value)
 {
-  setValue ("change-notifications-checksum", value);
+  setValue (change_notifications_checksum_key, value);
 }
 void Database_Config_User::setUserChangeNotificationsChecksum (std::string user, std::string value)
 {
-  setValueForUser (user, "change-notifications-checksum", value);
+  setValueForUser (user, change_notifications_checksum_key, value);
 }
 
 
+constexpr const auto live_bible_editor_key {"live-bible-editor"};
 int Database_Config_User::getLiveBibleEditor ()
 {
-  return getIValue ("live-bible-editor", 0);
+  return getIValue (live_bible_editor_key, 0);
 }
 void Database_Config_User::setLiveBibleEditor (int time)
 {
-  setIValue ("live-bible-editor", time);
+  setIValue (live_bible_editor_key, time);
 }
 
 
+constexpr const auto resource_verses_before_key {"resource-verses-before"};
 int Database_Config_User::getResourceVersesBefore ()
 {
-  return getIValue ("resource-verses-before", 0);
+  return getIValue (resource_verses_before_key, 0);
 }
 void Database_Config_User::setResourceVersesBefore (int verses)
 {
-  setIValue ("resource-verses-before", verses);
+  setIValue (resource_verses_before_key, verses);
 }
 
 
+constexpr const auto resource_verses_after_key {"resource-verses-after"};
 int Database_Config_User::getResourceVersesAfter ()
 {
-  return getIValue ("resource-verses-after", 0);
+  return getIValue (resource_verses_after_key, 0);
 }
 void Database_Config_User::setResourceVersesAfter (int verses)
 {
-  setIValue ("resource-verses-after", verses);
+  setIValue (resource_verses_after_key, verses);
 }
 
 
+constexpr const auto sync_key_key {"sync-key"};
 // Encryption key storage on server.
 std::string Database_Config_User::getSyncKey ()
 {
-  return getValue ("sync-key", "");
+  return getValue (sync_key_key, "");
 }
 void Database_Config_User::setSyncKey (std::string key)
 {
-  setValue ("sync-key", key);
+  setValue (sync_key_key, key);
 }
 
 
-
-//const char * site_language_key ()
-//{
-//  return "site-language";
-//}
-//std::string Database_Config_User::getSiteLanguage ()
-//{
-//  // The default value is "default".
-//  // That means: Take the system setting. The user has no language preference.
-//  return getValue (site_language_key (), "");
-//}
-//void Database_Config_User::setSiteLanguage (std::string value)
-//{
-//  setValue (site_language_key (), value);
-//}
-
-
-const char * general_font_size_key ()
-{
-  return "general-font-size";
-}
+constexpr const auto general_font_size_key {"general-font-size"};
 int Database_Config_User::getGeneralFontSize ()
 {
   // Default value, see https://github.com/bibledit/cloud/issues/509
-  return getIValue (general_font_size_key (), 112);
+  return getIValue (general_font_size_key, 112);
 }
 void Database_Config_User::setGeneralFontSize (int size)
 {
-  setIValue (general_font_size_key (), size);
+  setIValue (general_font_size_key, size);
 }
 
 
-const char * menu_font_size_key ()
-{
-  return "menu-font-size";
-}
+constexpr const auto menu_font_size_key {"menu-font-size"};
 int Database_Config_User::getMenuFontSize ()
 {
   // Default value, see https://github.com/bibledit/cloud/issues/509
-  return getIValue (menu_font_size_key (), 112);
+  return getIValue (menu_font_size_key, 112);
 }
 void Database_Config_User::setMenuFontSize (int size)
 {
-  setIValue (menu_font_size_key (), size);
+  setIValue (menu_font_size_key, size);
 }
 
 
+constexpr const auto bible_editors_font_size_key {"bible-editors-font-size"};
 int Database_Config_User::getBibleEditorsFontSize ()
 {
-  return getIValue ("bible-editors-font-size", 100);
+  return getIValue (bible_editors_font_size_key, 100);
 }
 void Database_Config_User::setBibleEditorsFontSize (int size)
 {
-  setIValue ("bible-editors-font-size", size);
+  setIValue (bible_editors_font_size_key, size);
 }
 
 
+constexpr const auto resources_font_size_key {"resources-font-size"};
 int Database_Config_User::getResourcesFontSize ()
 {
-  return getIValue ("resources-font-size", 100);
+  return getIValue (resources_font_size_key, 100);
 }
 void Database_Config_User::setResourcesFontSize (int size)
 {
-  setIValue ("resources-font-size", size);
+  setIValue (resources_font_size_key, size);
 }
 
 
+constexpr const auto hebrew_font_size_key {"hebrew-font-size"};
 int Database_Config_User::getHebrewFontSize ()
 {
-  return getIValue ("hebrew-font-size", 100);
+  return getIValue (hebrew_font_size_key, 100);
 }
 void Database_Config_User::setHebrewFontSize (int size)
 {
-  setIValue ("hebrew-font-size", size);
+  setIValue (hebrew_font_size_key, size);
 }
 
 
+constexpr const auto greek_font_size_key {"greek-font-size"};
 int Database_Config_User::getGreekFontSize ()
 {
-  return getIValue ("greek-font-size", 100);
+  return getIValue (greek_font_size_key, 100);
 }
 void Database_Config_User::setGreekFontSize (int size)
 {
-  setIValue ("greek-font-size", size);
+  setIValue (greek_font_size_key, size);
 }
 
 
-const char * vertical_caret_position_key ()
-{
-  return "vertical-caret-position";
-}
+constexpr const auto vertical_caret_position_key {"vertical-caret-position"};
 int Database_Config_User::getVerticalCaretPosition ()
 {
   // Updated default value, see https://github.com/bibledit/cloud/issues/509
-  return getIValue (vertical_caret_position_key (), 30);
+  return getIValue (vertical_caret_position_key, 30);
 }
 void Database_Config_User::setVerticalCaretPosition (int position)
 {
-  setIValue (vertical_caret_position_key (), position);
+  setIValue (vertical_caret_position_key, position);
 }
 
 
-const char * current_theme_style_key ()
-{
-  return "current-theme-style";
-}
+constexpr const auto current_theme_style_key {"current-theme-style"};
 int Database_Config_User::getCurrentTheme ()
 {
-  return getIValue (current_theme_style_key (), 0);
+  return getIValue (current_theme_style_key, 0);
 }
 void Database_Config_User::setCurrentTheme (int index)
 {
-  setIValue (current_theme_style_key (), index);
+  setIValue (current_theme_style_key, index);
 }
 
 
+constexpr const auto display_breadcrumbs_key {"display-breadcrumbs"};
 bool Database_Config_User::getDisplayBreadcrumbs ()
 {
-  return getBValue ("display-breadcrumbs", false);
+  return getBValue (display_breadcrumbs_key, false);
 }
 void Database_Config_User::setDisplayBreadcrumbs (bool value)
 {
-  setBValue ("display-breadcrumbs", value);
+  setBValue (display_breadcrumbs_key, value);
 }
 
 
+constexpr const auto workspace_menu_fadeout_delay_key {"workspace-menu-fadeout-delay"};
 int Database_Config_User::getWorkspaceMenuFadeoutDelay ()
 {
-  return getIValue ("workspace-menu-fadeout-delay", 4);
+  return getIValue (workspace_menu_fadeout_delay_key, 4);
 }
 void Database_Config_User::setWorkspaceMenuFadeoutDelay (int value)
 {
-  setIValue ("workspace-menu-fadeout-delay", value);
+  setIValue (workspace_menu_fadeout_delay_key, value);
 }
 
 
-const char * editing_allowed_difference_chapter_key ()
-{
-  return "editing-allowed-difference-chapter";
-}
+constexpr const auto editing_allowed_difference_chapter_key {"editing-allowed-difference-chapter"};
 int Database_Config_User::getEditingAllowedDifferenceChapter ()
 {
-  return getIValue (editing_allowed_difference_chapter_key (), 20);
+  return getIValue (editing_allowed_difference_chapter_key, 20);
 }
 void Database_Config_User::setEditingAllowedDifferenceChapter (int value)
 {
-  setIValue (editing_allowed_difference_chapter_key (), value);
+  setIValue (editing_allowed_difference_chapter_key, value);
 }
 
 
-const char * editing_allowed_difference_verse_key ()
-{
-  return "editing-allowed-difference-verse";
-}
+constexpr const auto editing_allowed_difference_verse_key {"editing-allowed-difference-verse"};
 int Database_Config_User::getEditingAllowedDifferenceVerse ()
 {
-  return getIValue (editing_allowed_difference_verse_key (), 75);
+  return getIValue (editing_allowed_difference_verse_key, 75);
 }
 void Database_Config_User::setEditingAllowedDifferenceVerse (int value)
 {
-  setIValue (editing_allowed_difference_verse_key (), value);
+  setIValue (editing_allowed_difference_verse_key, value);
 }
 
 
@@ -1172,336 +1197,301 @@ bool Database_Config_User::getBasicInterfaceModeDefault ()
   return true;
 #endif
   // The app running on a workspace or laptop have default to basic mode for a lower role.
-  int level = m_webserver_request.session_logic ()->currentLevel ();
-  if (level <= Filter_Roles::manager ()) return true;
+  const int level = m_webserver_request.session_logic ()->currentLevel ();
+  if (level <= Filter_Roles::manager ())
+    return true;
   // Higher role: default to advanced mode.
   return false;
 }
+constexpr const auto basic_interface_mode_key {"basic-interface-mode"};
 bool Database_Config_User::getBasicInterfaceMode ()
 {
-  return getBValue ("basic-interface-mode", getBasicInterfaceModeDefault ());
+  return getBValue (basic_interface_mode_key, getBasicInterfaceModeDefault ());
 }
 void Database_Config_User::setBasicInterfaceMode (bool value)
 {
-  setBValue ("basic-interface-mode", value);
+  setBValue (basic_interface_mode_key, value);
 }
 
 
+constexpr const auto main_menu_always_visible_key {"main-menu-always-visible"};
 bool Database_Config_User::getMainMenuAlwaysVisible ()
 {
   // Default visible in basic mode.
   // Advanced mode: By default it is not visible.
-  return getBValue ("main-menu-always-visible", getBasicInterfaceModeDefault ());
+  return getBValue (main_menu_always_visible_key, getBasicInterfaceModeDefault ());
 }
 void Database_Config_User::setMainMenuAlwaysVisible (bool value)
 {
-  setBValue ("main-menu-always-visible", value);
+  setBValue (main_menu_always_visible_key, value);
 }
 
 
+constexpr const auto swipe_actions_available_key {"swipe-actions-available"};
 bool Database_Config_User::getSwipeActionsAvailable ()
 {
-  return getBValue ("swipe-actions-available", true);
+  return getBValue (swipe_actions_available_key, true);
 }
 void Database_Config_User::setSwipeActionsAvailable (bool value)
 {
-  setBValue ("swipe-actions-available", value);
+  setBValue (swipe_actions_available_key, value);
 }
 
 
+constexpr const auto fast_editor_switching_available_key {"fast-editor-switching-available"};
 bool Database_Config_User::getFastEditorSwitchingAvailable ()
 {
-  return getBValue ("fast-editor-switching-available", true);
+  return getBValue (fast_editor_switching_available_key, true);
 }
 void Database_Config_User::setFastEditorSwitchingAvailable (bool value)
 {
-  setBValue ("fast-editor-switching-available", value);
+  setBValue (fast_editor_switching_available_key, value);
 }
 
 
+constexpr const auto include_related_passages_key {"include-related-passages"};
 bool Database_Config_User::getIncludeRelatedPassages ()
 {
-  return getBValue ("include-related-passages", false);
+  return getBValue (include_related_passages_key, false);
 }
 void Database_Config_User::setIncludeRelatedPassages (bool value)
 {
-  setBValue ("include-related-passages", value);
+  setBValue (include_related_passages_key, value);
 }
 
 
-const char * enabled_visual_editors_key ()
-{
-  return "enabled-visual-editors";
-}
+constexpr const auto enabled_visual_editors_key {"enabled-visual-editors"};
 int Database_Config_User::getFastSwitchVisualEditors ()
 {
   // Updated default values, see https://github.com/bibledit/cloud/issues/509
-  return getIValue (enabled_visual_editors_key (), 0);
+  return getIValue (enabled_visual_editors_key, 0);
 }
 void Database_Config_User::setFastSwitchVisualEditors (int value)
 {
-  setIValue (enabled_visual_editors_key (), value);
+  setIValue (enabled_visual_editors_key, value);
 }
 
 
+constexpr const auto enabled_usfm_editors_key {"enabled-usfm-editors"};
 int Database_Config_User::getFastSwitchUsfmEditors ()
 {
   // Initially only the USFM chapter editor is enabled.
-  return getIValue ("enabled-usfm-editors", 1);
+  return getIValue (enabled_usfm_editors_key, 1);
 }
 void Database_Config_User::setFastSwitchUsfmEditors (int value)
 {
-  setIValue ("enabled-usfm-editors", value);
+  setIValue (enabled_usfm_editors_key, value);
 }
 
 
+constexpr const auto enable_styles_button_visual_editors_key {"enable-styles-button-visual-editors"};
 bool Database_Config_User::getEnableStylesButtonVisualEditors ()
 {
-  return getBValue ("enable-styles-button-visual-editors", true);
+  return getBValue (enable_styles_button_visual_editors_key, true);
 }
 void Database_Config_User::setEnableStylesButtonVisualEditors (bool value)
 {
-  setBValue ("enable-styles-button-visual-editors", value);
+  setBValue (enable_styles_button_visual_editors_key, value);
 }
 
 
+constexpr const auto menu_changes_in_basic_mode_key {"menu-changes-in-basic-mode"};
 bool Database_Config_User::getMenuChangesInBasicMode ()
 {
-  return getBValue ("menu-changes-in-basic-mode", false);
+  return getBValue (menu_changes_in_basic_mode_key, false);
 }
 void Database_Config_User::setMenuChangesInBasicMode (bool value)
 {
-  setBValue ("menu-changes-in-basic-mode", value);
+  setBValue (menu_changes_in_basic_mode_key, value);
 }
 
 
-const char * privilege_use_advanced_mode_key ()
-{
-  return "privilege-use-advanced-mode";
-}
+constexpr const auto privilege_use_advanced_mode_key {"privilege-use-advanced-mode"};
 bool Database_Config_User::getPrivilegeUseAdvancedMode ()
 {
-  return getBValue (privilege_use_advanced_mode_key (), true);
+  return getBValue (privilege_use_advanced_mode_key, true);
 }
 bool Database_Config_User::getPrivilegeUseAdvancedModeForUser (std::string username)
 {
-  return getBValueForUser (username, privilege_use_advanced_mode_key (), true);
+  return getBValueForUser (username, privilege_use_advanced_mode_key, true);
 }
 void Database_Config_User::setPrivilegeUseAdvancedModeForUser (std::string username, bool value)
 {
-  setBValueForUser (username, privilege_use_advanced_mode_key (), value);
+  setBValueForUser (username, privilege_use_advanced_mode_key, value);
 }
 
 
-const char * privilege_delete_consultation_notes_key ()
-{
-  return "privilege-delete-consultation-notes";
-}
+constexpr const auto privilege_delete_consultation_notes_key {"privilege-delete-consultation-notes"};
 bool Database_Config_User::getPrivilegeDeleteConsultationNotes ()
 {
-  return getBValue (privilege_delete_consultation_notes_key (), false);
+  return getBValue (privilege_delete_consultation_notes_key, false);
 }
 void Database_Config_User::setPrivilegeDeleteConsultationNotes (bool value)
 {
-  setBValue (privilege_delete_consultation_notes_key (), value);
+  setBValue (privilege_delete_consultation_notes_key, value);
 }
 bool Database_Config_User::getPrivilegeDeleteConsultationNotesForUser (std::string username)
 {
-  return getBValueForUser (username, privilege_delete_consultation_notes_key (), false);
+  return getBValueForUser (username, privilege_delete_consultation_notes_key, false);
 }
 void Database_Config_User::setPrivilegeDeleteConsultationNotesForUser (std::string username, bool value)
 {
-  setBValueForUser (username, privilege_delete_consultation_notes_key (), value);
+  setBValueForUser (username, privilege_delete_consultation_notes_key, value);
 }
 
 
-const char * privilege_set_stylesheets_key ()
-{
-  return "privilege-set-stylesheets";
-}
+constexpr const auto privilege_set_stylesheets_key {"privilege-set-stylesheets"};
 bool Database_Config_User::getPrivilegeSetStylesheets ()
 {
-  return getBValue (privilege_set_stylesheets_key (), false);
+  return getBValue (privilege_set_stylesheets_key, false);
 }
 bool Database_Config_User::getPrivilegeSetStylesheetsForUser (std::string username)
 {
-  return getBValueForUser (username, privilege_set_stylesheets_key (), false);
+  return getBValueForUser (username, privilege_set_stylesheets_key, false);
 }
 void Database_Config_User::setPrivilegeSetStylesheetsForUser (std::string username, bool value)
 {
-  setBValueForUser (username, privilege_set_stylesheets_key (), value);
+  setBValueForUser (username, privilege_set_stylesheets_key, value);
 }
 
 
+constexpr const auto dismiss_changes_at_top_key {"dismiss-changes-at-top"};
 bool Database_Config_User::getDismissChangesAtTop ()
 {
-  return getBValue ("dismiss-changes-at-top", false);
+  return getBValue (dismiss_changes_at_top_key, false);
 }
 void Database_Config_User::setDismissChangesAtTop (bool value)
 {
-  setBValue ("dismiss-changes-at-top", value);
+  setBValue (dismiss_changes_at_top_key, value);
 }
 
 
-const char * quick_note_edit_link_key ()
-{
-  return "quick-note-edit-link";
-}
+constexpr const auto quick_note_edit_link_key {"quick-note-edit-link"};
 bool Database_Config_User::getQuickNoteEditLink ()
 {
-  return getBValue (quick_note_edit_link_key (), false);
+  return getBValue (quick_note_edit_link_key, false);
 }
 void Database_Config_User::setQuickNoteEditLink (bool value)
 {
-  setBValue (quick_note_edit_link_key (), value);
+  setBValue (quick_note_edit_link_key, value);
 }
 
 
-const char * show_bible_in_notes_list_key ()
-{
-  return "show-bible-in-notes-list";
-}
+constexpr const auto show_bible_in_notes_list_key {"show-bible-in-notes-list"};
 bool Database_Config_User::getShowBibleInNotesList ()
 {
-  return getBValue (show_bible_in_notes_list_key (), false);
+  return getBValue (show_bible_in_notes_list_key, false);
 }
 void Database_Config_User::setShowBibleInNotesList (bool value)
 {
-  setBValue (show_bible_in_notes_list_key (), value);
+  setBValue (show_bible_in_notes_list_key, value);
 }
 
 
-const char * show_note_status_key ()
-{
-  return "show-note-status";
-}
+constexpr const auto show_note_status_key {"show-note-status"};
 bool Database_Config_User::getShowNoteStatus ()
 {
-  return getBValue (show_note_status_key (), false);
+  return getBValue (show_note_status_key, false);
 }
 void Database_Config_User::setShowNoteStatus (bool value)
 {
-  setBValue (show_note_status_key (), value);
+  setBValue (show_note_status_key, value);
 }
 
 
-const char * show_verse_text_at_create_note_key ()
-{
-  return "show-verse-text-at-create-note";
-}
+constexpr const auto show_verse_text_at_create_note_key {"show-verse-text-at-create-note"};
 bool Database_Config_User::getShowVerseTextAtCreateNote ()
 {
-  return getBValue (show_verse_text_at_create_note_key (), false);
+  return getBValue (show_verse_text_at_create_note_key, false);
 }
 void Database_Config_User::setShowVerseTextAtCreateNote (bool value)
 {
-  setBValue (show_verse_text_at_create_note_key (), value);
+  setBValue (show_verse_text_at_create_note_key, value);
 }
 
 
-const char * order_changes_by_author_key ()
-{
-  return "order-changes-by-author";
-}
+constexpr const auto order_changes_by_author_key {"order-changes-by-author"};
 bool Database_Config_User::getOrderChangesByAuthor ()
 {
-  return getBValue (order_changes_by_author_key (), false);
+  return getBValue (order_changes_by_author_key, false);
 }
 void Database_Config_User::setOrderChangesByAuthor (bool value)
 {
-  setBValue (order_changes_by_author_key (), value);
+  setBValue (order_changes_by_author_key, value);
 }
 
 
-const char * automatic_note_assignment_key ()
-{
-  return "automatic-note-assignment";
-}
+constexpr const char * automatic_note_assignment_key {"automatic-note-assignment"};
 std::vector <std::string> Database_Config_User::getAutomaticNoteAssignment ()
 {
-  return getList (automatic_note_assignment_key ());
+  return getList (automatic_note_assignment_key);
 }
 void Database_Config_User::setAutomaticNoteAssignment (std::vector <std::string> values)
 {
-  setList (automatic_note_assignment_key (), values);
+  setList (automatic_note_assignment_key, values);
 }
 
 
-const char * receive_focused_reference_from_paratext_key ()
-{
-  return "receive-focused-reference-from-paratext";
-}
+constexpr const auto receive_focused_reference_from_paratext_key {"receive-focused-reference-from-paratext"};
 bool Database_Config_User::getReceiveFocusedReferenceFromParatext ()
 {
-  return getBValue (receive_focused_reference_from_paratext_key (), true);
+  return getBValue (receive_focused_reference_from_paratext_key, true);
 }
 void Database_Config_User::setReceiveFocusedReferenceFromParatext (bool value)
 {
-  setBValue (receive_focused_reference_from_paratext_key (), value);
+  setBValue (receive_focused_reference_from_paratext_key, value);
 }
 
 
-const char * receive_focused_reference_from_accordance_key ()
-{
-  return "receive-focused-reference-from-accordance";
-}
+constexpr const auto receive_focused_reference_from_accordance_key {"receive-focused-reference-from-accordance"};
 bool Database_Config_User::getReceiveFocusedReferenceFromAccordance ()
 {
-  return getBValue (receive_focused_reference_from_accordance_key (), true);
+  return getBValue (receive_focused_reference_from_accordance_key, true);
 }
 void Database_Config_User::setReceiveFocusedReferenceFromAccordance (bool value)
 {
-  setBValue (receive_focused_reference_from_accordance_key (), value);
+  setBValue (receive_focused_reference_from_accordance_key, value);
 }
 
 
-const char * use_colored_note_status_labels_key ()
-{
-  return "use-colored-note-status-labels";
-}
+constexpr const auto use_colored_note_status_labels_key {"use-colored-note-status-labels"};
 bool Database_Config_User::getUseColoredNoteStatusLabels ()
 {
-  return getBValue (use_colored_note_status_labels_key (), false);
+  return getBValue (use_colored_note_status_labels_key, false);
 }
 void Database_Config_User::setUseColoredNoteStatusLabels (bool value)
 {
-  setBValue (use_colored_note_status_labels_key (), value);
+  setBValue (use_colored_note_status_labels_key, value);
 }
 
 
-const char * notes_date_format_key ()
-{
-  return "notes_date-format";
-}
+constexpr const auto notes_date_format_key {"notes_date-format"};
 int Database_Config_User::getNotesDateFormat ()
 {
-  return getIValue (notes_date_format_key (), 0);
+  return getIValue (notes_date_format_key, 0);
 }
 void Database_Config_User::setNotesDateFormat (int value)
 {
-  setIValue (notes_date_format_key (), value);
+  setIValue (notes_date_format_key, value);
 }
 
 
-const char * change_notifications_bibles_key ()
-{
-  return "change-notifications-bibles";
-}
+constexpr const auto change_notifications_bibles_key {"change-notifications-bibles"};
 std::vector <std::string> Database_Config_User::getChangeNotificationsBibles ()
 {
-  return getList (change_notifications_bibles_key ());
+  return getList (change_notifications_bibles_key);
 }
 std::vector <std::string> Database_Config_User::getChangeNotificationsBiblesForUser (const std::string& user)
 {
-  return getListForUser (user, change_notifications_bibles_key ());
+  return getListForUser (user, change_notifications_bibles_key);
 }
 void Database_Config_User::setChangeNotificationsBibles (const std::vector <std::string>& values)
 {
-  setList (change_notifications_bibles_key (), values);
+  setList (change_notifications_bibles_key, values);
 }
 
 
-constexpr const char * enable_spell_check_key {"enable-spell-check"};
+constexpr const auto enable_spell_check_key {"enable-spell-check"};
 bool Database_Config_User::get_enable_spell_check ()
 {
   return getBValue (enable_spell_check_key, true);

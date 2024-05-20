@@ -26,9 +26,9 @@ class Webserver_Request;
 
 namespace filter::strings {
 
-std::vector <std::string> explode (std::string value, char delimiter);
-std::vector <std::string> explode (std::string value, std::string delimiters);
-std::string implode (std::vector <std::string>& values, std::string delimiter);
+std::vector <std::string> explode (const std::string& value, char delimiter);
+std::vector <std::string> explode (std::string value, const std::string& delimiters);
+std::string implode (const std::vector <std::string>& values, std::string delimiter);
 std::string replace (const std::string& search, const std::string& replace, std::string subject, int * count = nullptr);
 bool replace_between (std::string& line, const std::string& start, const std::string& end, const std::string& replacement);
 std::string convert_to_string (const size_t i);

@@ -84,7 +84,7 @@ namespace filter::strings {
 
 // Split a string on a delimiter.
 // Return a vector of strings.
-std::vector <std::string> explode (std::string value, char delimiter)
+std::vector <std::string> explode (const std::string& value, char delimiter)
 {
   std::vector <std::string> result;
   std::istringstream iss (value);
@@ -97,7 +97,7 @@ std::vector <std::string> explode (std::string value, char delimiter)
 
 
 // Explodes an input string on multiple delimiters.
-std::vector <std::string> explode (std::string value, std::string delimiters)
+std::vector <std::string> explode (std::string value, const std::string& delimiters)
 {
   std::vector <std::string> result {};
   while (!value.empty ()) {
@@ -106,8 +106,9 @@ std::vector <std::string> explode (std::string value, std::string delimiters)
       result.push_back (value);
       value.clear ();
     } else {
-      std::string s {value.substr (0, pos)};
-      if (!s.empty()) result.push_back (s);
+      const std::string s {value.substr (0, pos)};
+      if (!s.empty())
+        result.push_back (s);
       pos++;
       value.erase (0, pos);
     }
@@ -118,13 +119,14 @@ std::vector <std::string> explode (std::string value, std::string delimiters)
 
 // Join a vector of string, with delimiters, into a string.
 // Return this string.
-std::string implode (std::vector <std::string>& values, std::string delimiter)
+std::string implode (const std::vector <std::string>& values, std::string delimiter)
 {
   std::string full {};
-  for (std::vector<std::string>::iterator it = values.begin (); it != values.end (); ++it)
+  for (auto iter = values.cbegin (); iter != values.cend (); ++iter)
   {
-    full += (*it);
-    if (it != values.end ()-1) full += delimiter;
+    full.append(*iter);
+    if (iter != values.cend ()-1)
+      full.append (delimiter);
   }
   return full;
 }

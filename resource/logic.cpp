@@ -360,7 +360,7 @@ std::string resource_logic_cloud_get_comparison (Webserver_Request& webserver_re
   // And then get the additional properties belonging to this resource.
   std::string title, base, update, remove, replace;
   bool diacritics = false, casefold = false;
-  std::vector <std::string> resources = Database_Config_General::getComparativeResources ();
+  std::vector <std::string> resources = database::config::general::getComparativeResources ();
   for (const auto& s : resources) {
     resource_logic_parse_comparative_resource (s, &title, &base, &update, &remove, &replace, &diacritics, &casefold);
     if (title == resource) break;
@@ -433,7 +433,7 @@ std::string resource_logic_cloud_get_translation (Webserver_Request& webserver_r
   // So get all defined translated resources and look for the one with this title.
   // And then get the additional properties belonging to this resource.
   std::string title, original_resource, source_language, target_language;
-  std::vector <std::string> resources = Database_Config_General::getTranslatedResources ();
+  std::vector <std::string> resources = database::config::general::getTranslatedResources ();
   for (const auto& input : resources) {
     resource_logic_parse_translated_resource (input, &title, &original_resource, &source_language, &target_language);
     if (title == resource) break;
@@ -546,8 +546,8 @@ std::string resource_logic_client_fetch_cache_from_cloud (std::string resource, 
   }
   
   // Fetch this resource from Bibledit Cloud.
-  std::string address = Database_Config_General::getServerAddress ();
-  int port = Database_Config_General::getServerPort ();
+  std::string address = database::config::general::getServerAddress ();
+  int port = database::config::general::getServerPort ();
   if (!client_logic_client_enabled ()) {
     // If the client has not been connected to a cloud instance,
     // fetch the resource from the Bibledit Cloud demo.
@@ -805,7 +805,7 @@ void resource_logic_create_cache ()
   resource_logic_create_cache_running = true;
   
   // Get the signatures of the resources to cache.
-  std::vector <std::string> signatures = Database_Config_General::getResourcesToCache ();
+  std::vector <std::string> signatures = database::config::general::getResourcesToCache ();
   // If there's nothing to cache, bail out.
   if (signatures.empty ()) return;
 
@@ -813,7 +813,7 @@ void resource_logic_create_cache ()
   // Remove this signature and store the remainder back into the configuration.
   std::string signature = signatures [0];
   signatures.erase (signatures.begin ());
-  Database_Config_General::setResourcesToCache (signatures);
+  database::config::general::setResourcesToCache (signatures);
   size_t pos = signature.find_last_of (" ");
   std::string resource = signature.substr (0, pos);
   int book = filter::strings::convert_to_int (signature.substr (pos++));

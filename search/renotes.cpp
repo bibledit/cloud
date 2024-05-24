@@ -34,7 +34,7 @@ bool search_reindex_notes_running = false;
 
 void search_reindex_notes ()
 {
-  if (!Database_Config_General::getIndexNotes ()) return;
+  if (!database::config::general::getIndexNotes ()) return;
   
   
   // One simultaneous instance.
@@ -87,6 +87,6 @@ void search_reindex_notes ()
   
   
   Database_Logs::log ("Updating Consultation Notes databases ready", Filter_Roles::manager ());
-  Database_Config_General::setIndexNotes (false);
+  database::config::general::setIndexNotes (false);
   search_reindex_notes_running = false;
 }

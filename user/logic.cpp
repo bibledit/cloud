@@ -97,10 +97,10 @@ void user_logic_login_failure_clear ()
 
 void user_logic_store_account_creation (std::string username)
 {
-  std::vector <std::string> account_creation_times = Database_Config_General::getAccountCreationTimes ();
+  std::vector <std::string> account_creation_times = database::config::general::getAccountCreationTimes ();
   std::string account_creation_time = filter::strings::convert_to_string(filter::date::seconds_since_epoch()) + "|" + username;
   account_creation_times.push_back(account_creation_time);
-  Database_Config_General::setAccountCreationTimes(account_creation_times);
+  database::config::general::setAccountCreationTimes(account_creation_times);
 }
 
 
@@ -131,12 +131,12 @@ void user_logic_delete_account (std::string user, std::string role, std::string 
   database_noteassignment.remove (user);
   // Remove the account creation time.
   std::vector <std::string> updated;
-  std::vector <std::string> existing = Database_Config_General::getAccountCreationTimes ();
+  std::vector <std::string> existing = database::config::general::getAccountCreationTimes ();
   for (auto line : existing) {
     std::vector <std::string> bits = filter::strings::explode(line, '|');
     if (bits.size() != 2) continue;
     if (bits[1] == user) continue;
     updated.push_back(line);
   }
-  Database_Config_General::setAccountCreationTimes(updated);
+  database::config::general::setAccountCreationTimes(updated);
 }

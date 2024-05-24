@@ -195,7 +195,7 @@ void bibledit_start_library ()
   
 #ifdef HAVE_CLOUD
   // Indicate that the Cloud has started just now.
-  Database_Config_General::setJustStarted (true);
+  database::config::general::setJustStarted (true);
 #endif
 
   
@@ -225,7 +225,7 @@ void bibledit_start_library ()
 // Gets the last page that was opened via the menu.
 const char * bibledit_get_last_page ()
 {
-  static std::string href = Database_Config_General::getLastMenuClick ();
+  static std::string href = database::config::general::getLastMenuClick ();
   return href.c_str();
 }
 
@@ -283,7 +283,7 @@ const char * bibledit_get_external_url ()
 // Returns the pages the calling app should open.
 const char * bibledit_get_pages_to_open ()
 {
-  config_globals_pages_to_open = Database_Config_General::getMenuInTabbedViewJSON ();
+  config_globals_pages_to_open = database::config::general::getMenuInTabbedViewJSON ();
   return config_globals_pages_to_open.c_str ();
 }
 
@@ -389,7 +389,7 @@ void bibledit_run_on_chrome_os ()
 // See https://github.com/bibledit/cloud/issues/282
 const char * bibledit_disable_selection_popup_chrome_os ()
 {
-  if (Database_Config_General::getDisableSelectionPopupChromeOS ()) {
+  if (database::config::general::getDisableSelectionPopupChromeOS ()) {
     return "true";
   }
   return "false";

@@ -586,11 +586,11 @@ void filter_git_config (std::string repository)
   }
 
   // On some machines the mail name and address are not set properly; therefore these are set here.
-  std::string user = Database_Config_General::getSiteMailName ();
+  std::string user = database::config::general::getSiteMailName ();
   if (user.empty ()) user = "Bibledit";
   filter_git_config_set_string (repository, "user.name", user);
   
-  std::string mail = Database_Config_General::getSiteMailAddress ();
+  std::string mail = database::config::general::getSiteMailAddress ();
   if (mail.empty ()) mail = "bibledit@bibledit.org";
   filter_git_config_set_string (repository, "user.email", mail);
 
@@ -612,7 +612,7 @@ void filter_git_config (std::string repository)
 std::string filter_git_user (std::string user)
 {
   if (user.empty ()) {
-    user = Database_Config_General::getSiteMailName ();
+    user = database::config::general::getSiteMailName ();
   }
   if (user.empty ()) {
     user = "Bibledit Cloud";
@@ -629,7 +629,7 @@ std::string filter_git_email (std::string user)
   Database_Users database_users;
   std::string email = database_users.get_email (user);
   if (email.empty ()) {
-    email = Database_Config_General::getSiteMailAddress ();
+    email = database::config::general::getSiteMailAddress ();
   }
   if (email.empty ()) {
     email = "bibledit@bibledit.org";

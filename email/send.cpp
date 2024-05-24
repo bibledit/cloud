@@ -199,8 +199,8 @@ std::string email_send ([[maybe_unused]] std::string to_mail,
   post ["s"] = subject;
   post ["b"] = body;
 
-  std::string address = Database_Config_General::getServerAddress ();
-  int port = Database_Config_General::getServerPort ();
+  std::string address = database::config::general::getServerAddress ();
+  int port = database::config::general::getServerPort ();
   std::string url = client_logic_url (address, port, sync_mail_url ());
 
   std::string error;
@@ -214,8 +214,8 @@ std::string email_send ([[maybe_unused]] std::string to_mail,
   
 #else
   
-  std::string from_mail = Database_Config_General::getSiteMailAddress ();
-  std::string from_name = Database_Config_General::getSiteMailName ();
+  std::string from_mail = database::config::general::getSiteMailAddress ();
+  std::string from_name = database::config::general::getSiteMailName ();
   
   CURL *curl;
   CURLcode res = CURLE_OK;
@@ -274,8 +274,8 @@ std::string email_send ([[maybe_unused]] std::string to_mail,
 
   curl = curl_easy_init();
   /* Set username and password */
-  std::string username = Database_Config_General::getMailSendUsername();
-  std::string password = Database_Config_General::getMailSendPassword();
+  std::string username = database::config::general::getMailSendUsername();
+  std::string password = database::config::general::getMailSendPassword();
   curl_easy_setopt(curl, CURLOPT_USERNAME, username.c_str());
   curl_easy_setopt(curl, CURLOPT_PASSWORD, password.c_str());
 
@@ -284,9 +284,9 @@ std::string email_send ([[maybe_unused]] std::string to_mail,
    * secure mail submission (see RFC4403), but you should use whatever
    * matches your server configuration. */
   std::string smtp = "smtp://";
-  smtp.append (Database_Config_General::getMailSendHost());
+  smtp.append (database::config::general::getMailSendHost());
   smtp.append (":");
-  std::string port = Database_Config_General::getMailSendPort();
+  std::string port = database::config::general::getMailSendPort();
   smtp.append (port);
   curl_easy_setopt(curl, CURLOPT_URL, smtp.c_str());
 
@@ -382,20 +382,20 @@ std::string email_setup_information (bool require_send, bool require_receive)
 #endif
 #ifdef HAVE_CLOUD
   bool incomplete = false;
-  if (Database_Config_General::getSiteMailName ().empty ()) incomplete = true;
-  if (Database_Config_General::getSiteMailAddress ().empty ()) incomplete = true;
+  if (database::config::general::getSiteMailName ().empty ()) incomplete = true;
+  if (database::config::general::getSiteMailAddress ().empty ()) incomplete = true;
   if (require_receive) {
-    if (Database_Config_General::getMailStorageHost ().empty ()) incomplete = true;
-    if (Database_Config_General::getMailStorageUsername ().empty ()) incomplete = true;
-    if (Database_Config_General::getMailStoragePassword ().empty ()) incomplete = true;
-    if (Database_Config_General::getMailStorageProtocol ().empty ()) incomplete = true;
-    if (Database_Config_General::getMailStoragePort ().empty ()) incomplete = true;
+    if (database::config::general::getMailStorageHost ().empty ()) incomplete = true;
+    if (database::config::general::getMailStorageUsername ().empty ()) incomplete = true;
+    if (database::config::general::getMailStoragePassword ().empty ()) incomplete = true;
+    if (database::config::general::getMailStorageProtocol ().empty ()) incomplete = true;
+    if (database::config::general::getMailStoragePort ().empty ()) incomplete = true;
   }
   if (require_send) {
-    if (Database_Config_General::getMailSendHost ().empty ()) incomplete = true;
-    if (Database_Config_General::getMailSendUsername ().empty ()) incomplete = true;
-    if (Database_Config_General::getMailSendPassword ().empty ()) incomplete = true;
-    if (Database_Config_General::getMailSendPort ().empty ()) incomplete = true;
+    if (database::config::general::getMailSendHost ().empty ()) incomplete = true;
+    if (database::config::general::getMailSendUsername ().empty ()) incomplete = true;
+    if (database::config::general::getMailSendPassword ().empty ()) incomplete = true;
+    if (database::config::general::getMailSendPort ().empty ()) incomplete = true;
   }
   if (incomplete) {
     std::string msg1 = translate ("Cannot send email yet.");

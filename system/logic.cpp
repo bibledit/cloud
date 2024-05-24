@@ -180,7 +180,7 @@ void system_logic_import_bibles_file (std::string tarball)
   filter_url_unlink (tarball);
 
   // Since new Bibles may have been imported, index them all.
-  Database_Config_General::setIndexBibles (true);
+  database::config::general::setIndexBibles (true);
   tasks_logic_queue (REINDEXBIBLES, {"1"});
 
   // Ready, hallelujah!
@@ -271,7 +271,7 @@ void system_logic_import_notes_file (std::string tarball)
   filter_url_unlink (tarball);
 
   // Since notes may have been imported or updated, index them all.
-  Database_Config_General::setIndexNotes (true);
+  database::config::general::setIndexNotes (true);
   tasks_logic_queue (REINDEXNOTES);
 
   // Ready, hallelujah!

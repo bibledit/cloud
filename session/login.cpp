@@ -95,7 +95,7 @@ std::string session_login (Webserver_Request& webserver_request)
         Database_Logs::log (webserver_request.session_logic()->currentUser () + " logged in");
         // Store web site's base URL.
         const std::string site_url = get_base_url (webserver_request);
-        Database_Config_General::setSiteURL (site_url);
+        database::config::general::setSiteURL (site_url);
       } else {
         view.set_variable ("error_message", translate ("Username or email address or password are not correct"));
         webserver_request.session_logic()->logout();

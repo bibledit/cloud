@@ -89,9 +89,9 @@ std::string demo_client_warning ()
 {
   std::string warning {};
   if (client_logic_client_enabled ()) {
-    std::string address = Database_Config_General::getServerAddress ();
+    std::string address = database::config::general::getServerAddress ();
     if (address == demo_address () || address == demo_address_secure ()) {
-      int port = Database_Config_General::getServerPort ();
+      int port = database::config::general::getServerPort ();
       if (port == demo_port () || port == demo_port_secure ()) {
         warning.append (translate("You are connected to a public demo of Bibledit Cloud."));
         warning.append (" ");
@@ -138,7 +138,7 @@ void demo_clean_data ()
 
   
   // Set the site language to "Default"
-  Database_Config_General::setSiteLanguage (std::string());
+  database::config::general::setSiteLanguage (std::string());
 
 
   // Ensure the default users are there.

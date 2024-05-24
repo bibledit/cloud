@@ -34,7 +34,7 @@ std::string translate (std::string english)
   // Start off with the English message.
   std::string result (english);
   // Check whether a language has been set on the website or the app.
-  std::string localization = Database_Config_General::getSiteLanguage ();
+  std::string localization = database::config::general::getSiteLanguage ();
   if (!localization.empty ()) {
     // Localize it.
     Database_Localization database_localization = Database_Localization (localization);

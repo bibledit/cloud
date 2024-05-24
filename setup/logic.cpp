@@ -61,7 +61,7 @@ void setup_conditionally (const char * package)
   if (p == config_globals_document_root) setup_wait_till_main_folders_present ();
   
   // Run the setup if the versions differ.
-  if (config::logic::version () != Database_Config_General::getInstalledDatabaseVersion ()) {
+  if (config::logic::version () != database::config::general::getInstalledDatabaseVersion ()) {
     
     std::vector <std::string> messages {};
 
@@ -89,10 +89,10 @@ void setup_conditionally (const char * package)
 #endif
     
     // Update installed version.
-    Database_Config_General::setInstalledDatabaseVersion (config::logic::version ());
+    database::config::general::setInstalledDatabaseVersion (config::logic::version ());
   };
 
-  if (config::logic::version () != Database_Config_General::getInstalledInterfaceVersion ()) {
+  if (config::logic::version () != database::config::general::getInstalledInterfaceVersion ()) {
     
     // In client mode or in demo mode do not display the page for entering the admin's details.
 #ifdef HAVE_CLIENT
@@ -299,7 +299,7 @@ void setup_initialize_data ()
    because it takes quite a while on low power devices,
    and the reason for the re-indexing is not clear.
   config_globals_setup_message = "indexes";
-  Database_Config_General::setIndexBibles (true);
+  database::config::general::setIndexBibles (true);
   tasks_logic_queue (REINDEXBIBLES);
   */
 }
@@ -317,7 +317,7 @@ void setup_set_admin_details (const std::string& username, const std::string& pa
 // Set the GUI setup status as completed.
 void setup_complete_gui ()
 {
-  Database_Config_General::setInstalledInterfaceVersion (config::logic::version ());
+  database::config::general::setInstalledInterfaceVersion (config::logic::version ());
 }
 
 

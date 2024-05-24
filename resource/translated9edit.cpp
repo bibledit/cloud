@@ -85,7 +85,7 @@ std::string resource_translated9edit (Webserver_Request& webserver_request)
     }
     new_resource.insert (0, resource_logic_translated_resource ());
     std::vector <std::string> titles;
-    std::vector <std::string> resources = Database_Config_General::getTranslatedResources ();
+    std::vector <std::string> resources = database::config::general::getTranslatedResources ();
     for (auto resource : resources) {
       std::string title;
       if (resource_logic_parse_translated_resource (resource, &title)) {
@@ -100,7 +100,7 @@ std::string resource_translated9edit (Webserver_Request& webserver_request)
       // Store the new resource in the list.
       std::string resource = resource_logic_assemble_translated_resource (new_resource);
       resources.push_back (resource);
-      Database_Config_General::setTranslatedResources (resources);
+      database::config::general::setTranslatedResources (resources);
       success = translate("The translated resource was created");
       // Since the default for a new resource is not to cache it,
       // add the resource to the ones not to be cached by the client.
@@ -124,20 +124,20 @@ std::string resource_translated9edit (Webserver_Request& webserver_request)
       return page;
     } if (confirm == "yes") {
       std::vector <std::string> updated_resources;
-      std::vector <std::string> existing_resources = Database_Config_General::getTranslatedResources ();
+      std::vector <std::string> existing_resources = database::config::general::getTranslatedResources ();
       for (auto resource : existing_resources) {
         std::string title;
         resource_logic_parse_translated_resource (resource, &title);
         if (title != title2remove) updated_resources.push_back (resource);
       }
-      Database_Config_General::setTranslatedResources (updated_resources);
+      database::config::general::setTranslatedResources (updated_resources);
       client_logic_no_cache_resource_remove (title2remove);
       success = translate ("The resource was deleted");
     }
   }
 
 
-  std::vector <std::string> resources = Database_Config_General::getTranslatedResources ();
+  std::vector <std::string> resources = database::config::general::getTranslatedResources ();
   {
     pugi::xml_document document;
     for (auto & resource : resources) {

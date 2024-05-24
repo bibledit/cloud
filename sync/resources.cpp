@@ -83,11 +83,11 @@ std::string sync_resources (Webserver_Request& webserver_request)
           }
         }
         // Schedule this resource for caching if that's not yet the case.
-        std::vector <std::string> signatures = Database_Config_General::getResourcesToCache ();
+        std::vector <std::string> signatures = database::config::general::getResourcesToCache ();
         std::string signature = resource + " " + filter::strings::convert_to_string (book);
         if (!in_array (signature, signatures)) {
           signatures.push_back (signature);
-          Database_Config_General::setResourcesToCache (signatures);
+          database::config::general::setResourcesToCache (signatures);
         }
         if (!tasks_logic_queued (CACHERESOURCES)) {
           tasks_logic_queue (CACHERESOURCES);

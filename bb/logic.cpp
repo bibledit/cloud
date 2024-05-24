@@ -366,16 +366,16 @@ void bible_logic::kick_unsent_data_timer ()
 {
   // The timer contains the oldest age of Bible data on a client not yet sent to the Cloud.
   // If the timer has been set already, bail out.
-  if (Database_Config_General::getUnsentBibleDataTime () != 0) return;
+  if (database::config::general::getUnsentBibleDataTime () != 0) return;
   
   // Stamp with the current time.
-  Database_Config_General::setUnsentBibleDataTime (filter::date::seconds_since_epoch ());
+  database::config::general::setUnsentBibleDataTime (filter::date::seconds_since_epoch ());
 }
 
 
 void bible_logic::kick_unreceived_data_timer ()
 {
-  Database_Config_General::setUnreceivedBibleDataTime (filter::date::seconds_since_epoch ());
+  database::config::general::setUnreceivedBibleDataTime (filter::date::seconds_since_epoch ());
 }
 
 
@@ -388,7 +388,7 @@ std::string bible_logic::unsent_unreceived_data_warning ()
 #ifdef HAVE_CLIENT
 
   // Time-stamp for oldest unreceived Bible data.
-  int data_time = Database_Config_General::getUnreceivedBibleDataTime ();
+  int data_time = database::config::general::getUnreceivedBibleDataTime ();
   // A value of 0 means that it is not relevant.
   if (data_time) {
     const int now = filter::date::seconds_since_epoch ();
@@ -405,7 +405,7 @@ std::string bible_logic::unsent_unreceived_data_warning ()
   }
   
   // Time-stamp for oldest unsent Bible data.
-  data_time = Database_Config_General::getUnsentBibleDataTime ();
+  data_time = database::config::general::getUnsentBibleDataTime ();
   // A value of 0 means that there's no pending data.
   if (data_time) {
     const int now = filter::date::seconds_since_epoch ();

@@ -78,7 +78,7 @@ std::string system_index (Webserver_Request& webserver_request)
   // This is to be done before displaying the header.
   if (webserver_request.post.count ("languageselection")) {
     std::string languageselection {webserver_request.post ["languageselection"]};
-    Database_Config_General::setSiteLanguage (languageselection);
+    database::config::general::setSiteLanguage (languageselection);
   }
 
   
@@ -107,7 +107,7 @@ std::string system_index (Webserver_Request& webserver_request)
   for (const auto& element : localizations) {
     language_html = Options_To_Select::add_selection (element.second, element.first, language_html);
   }
-  const std::string current_user_preference = Database_Config_General::getSiteLanguage ();
+  const std::string current_user_preference = database::config::general::getSiteLanguage ();
   const std::string language = current_user_preference;
   view.set_variable ("languageselectionoptags", Options_To_Select::mark_selected (language, language_html));
   view.set_variable ("languageselection", language);
@@ -119,10 +119,10 @@ std::string system_index (Webserver_Request& webserver_request)
     input = filter::strings::replace ("UTC", std::string(), input);
     int input_timezone = filter::strings::convert_to_int (input);
     input_timezone = clip (input_timezone, MINIMUM_TIMEZONE, MAXIMUM_TIMEZONE);
-    Database_Config_General::setTimezone (input_timezone);
+    database::config::general::setTimezone (input_timezone);
   }
   // Set the time zone offset in the GUI.
-  const int timezone_setting = Database_Config_General::getTimezone();
+  const int timezone_setting = database::config::general::getTimezone();
   view.set_variable ("timezone", filter::strings::convert_to_string (timezone_setting));
   // Display the section to set the site's timezone only
   // in case the calling program has not yet set this zone in the library.
@@ -137,10 +137,10 @@ std::string system_index (Webserver_Request& webserver_request)
 #ifdef HAVE_CLOUD
   // Whether to include the author with every change in the RSS feed.
   if (checkbox == "rssauthor") {
-    Database_Config_General::setAuthorInRssFeed (checked);
+    database::config::general::setAuthorInRssFeed (checked);
     return std::string();
   }
-  view.set_variable ("rssauthor", filter::strings::get_checkbox_status (Database_Config_General::getAuthorInRssFeed ()));
+  view.set_variable ("rssauthor", filter::strings::get_checkbox_status (database::config::general::getAuthorInRssFeed ()));
   // The location of the RSS feed.
   view.set_variable ("rssfeed", rss_feed_url ());
   // The Bibles that send their changes to the RSS feed.
@@ -255,7 +255,7 @@ std::string system_index (Webserver_Request& webserver_request)
   
   // Force re-index Bibles.
   if (webserver_request.query ["reindex"] == "bibles") {
-    Database_Config_General::setIndexBibles (true);
+    database::config::general::setIndexBibles (true);
     tasks_logic_queue (REINDEXBIBLES, {"1"});
     redirect_browser (webserver_request, journal_index_url ());
     return std::string();
@@ -264,7 +264,7 @@ std::string system_index (Webserver_Request& webserver_request)
   
   // Re-index consultation notes.
   if (webserver_request.query ["reindex"] == "notes") {
-    Database_Config_General::setIndexNotes (true);
+    database::config::general::setIndexNotes (true);
     tasks_logic_queue (REINDEXNOTES);
     redirect_browser (webserver_request, journal_index_url ());
     return std::string();
@@ -324,10 +324,10 @@ std::string system_index (Webserver_Request& webserver_request)
   // Handle the setting whether to keep the resource caches for an extended period of time.
 #ifdef HAVE_CLOUD
   if (checkbox == "keepcache") {
-    Database_Config_General::setKeepResourcesCacheForLong (checked);
+    database::config::general::setKeepResourcesCacheForLong (checked);
     return std::string();
   }
-  view.set_variable ("keepcache", filter::strings::get_checkbox_status (Database_Config_General::getKeepResourcesCacheForLong ()));
+  view.set_variable ("keepcache", filter::strings::get_checkbox_status (database::config::general::getKeepResourcesCacheForLong ()));
 #endif
 
 
@@ -349,10 +349,10 @@ std::string system_index (Webserver_Request& webserver_request)
   // Handle the setting whether to keep the resource caches for an extended period of time.
 #ifdef HAVE_CLOUD
   if (checkbox == "keeposis") {
-    Database_Config_General::setKeepOsisContentInSwordResources (checked);
+    database::config::general::setKeepOsisContentInSwordResources (checked);
     return std::string();
   }
-  view.set_variable ("keeposis", filter::strings::get_checkbox_status (Database_Config_General::getKeepOsisContentInSwordResources ()));
+  view.set_variable ("keeposis", filter::strings::get_checkbox_status (database::config::general::getKeepOsisContentInSwordResources ()));
 #endif
 
   

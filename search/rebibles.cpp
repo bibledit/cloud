@@ -34,7 +34,7 @@ bool search_reindex_bibles_running = false;
 
 void search_reindex_bibles (bool force)
 {
-  if (!Database_Config_General::getIndexBibles ()) return;
+  if (!database::config::general::getIndexBibles ()) return;
   
   
   // One simultaneous instance.
@@ -70,6 +70,6 @@ void search_reindex_bibles (bool force)
   
   
   Database_Logs::log (indexing_bible + " " + translate ("Ready"), Filter_Roles::manager ());
-  Database_Config_General::setIndexBibles (false);
+  database::config::general::setIndexBibles (false);
   search_reindex_bibles_running = false;
 }

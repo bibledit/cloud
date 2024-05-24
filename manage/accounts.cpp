@@ -94,7 +94,7 @@ std::string manage_accounts (Webserver_Request& webserver_request)
   // Get the account creation times.
   std::map <std::string, int> account_creation_times;
   {
-    std::vector <std::string> lines = Database_Config_General::getAccountCreationTimes ();
+    std::vector <std::string> lines = database::config::general::getAccountCreationTimes ();
     for (auto line : lines) {
       std::vector <std::string> bits = filter::strings::explode(line, '|');
       if (bits.size() != 2) continue;

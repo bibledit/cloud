@@ -125,8 +125,8 @@ void sendreceive_bibles ()
   
   
   // Server URL to call.
-  std::string address = Database_Config_General::getServerAddress ();
-  int port = Database_Config_General::getServerPort ();
+  std::string address = database::config::general::getServerAddress ();
+  int port = database::config::general::getServerPort ();
   std::string url = client_logic_url (address, port, sync_bibles_url ());
   
 
@@ -219,7 +219,7 @@ void sendreceive_bibles ()
   
   // After successfully sending all changes to the Cloud, clear the unsent-data timeout warning data.
   if (!communication_errors) {
-    Database_Config_General::setUnsentBibleDataTime (0);
+    database::config::general::setUnsentBibleDataTime (0);
   }
   
   
@@ -237,7 +237,7 @@ void sendreceive_bibles ()
 
   
   // Whether this is the first synchronize action after the user connected to the Cloud.
-  bool first_sync_after_connect = Database_Config_General::getJustConnectedToCloud ();
+  bool first_sync_after_connect = database::config::general::getJustConnectedToCloud ();
   
   
   // Calculate the total checksum of all chapters in all books in all local Bibles.
@@ -542,7 +542,7 @@ void sendreceive_bibles ()
   // Clear the first-run flag in case there's no communication errors.
   if (!communication_errors) {
     if (first_sync_after_connect) {
-      Database_Config_General::setJustConnectedToCloud (false);
+      database::config::general::setJustConnectedToCloud (false);
     }
   }
 

@@ -183,9 +183,9 @@ std::string resource_divider (Webserver_Request& webserver_request)
   // Add it to the existing resources.
   if (webserver_request.query.count ("add")) {
     std::vector <std::string> resources = webserver_request.database_config_user()->getActiveResources ();
-    if (is_def) resources = Database_Config_General::getDefaultActiveResources ();
+    if (is_def) resources = database::config::general::getDefaultActiveResources ();
     resources.push_back (divider);
-    if (is_def) Database_Config_General::setDefaultActiveResources (resources);
+    if (is_def) database::config::general::setDefaultActiveResources (resources);
     else webserver_request.database_config_user()->setActiveResources (resources);
     if (!is_def) webserver_request.database_config_user()->addUpdatedSetting (Sync_Logic::settings_send_resources_organization);
     redirect_browser (webserver_request, resource_organize_url ());

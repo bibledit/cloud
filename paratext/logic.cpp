@@ -241,7 +241,7 @@ void Paratext_Logic::copyParatext2Bibledit (std::string bible)
 
 std::string Paratext_Logic::projectFolder (std::string bible)
 {
-  return filter_url_create_path ({Database_Config_General::getParatextProjectsFolder (), Database_Config_Bible::getParatextProject (bible)});
+  return filter_url_create_path ({database::config::general::getParatextProjectsFolder (), Database_Config_Bible::getParatextProject (bible)});
 }
 
 

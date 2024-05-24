@@ -22,148 +22,137 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/libraries.h>
 #include <webserver/request.h>
 
-class Database_Config_General
-{
-public:
-  static std::string getSiteMailName();
-  static void setSiteMailName (std::string value);
+namespace database::config::general {
 
-  static std::string getSiteMailAddress();
-  static void setSiteMailAddress (std::string value);
-  
-  static std::string getMailStorageHost();
-  static void setMailStorageHost (std::string value);
-  
-  static std::string getMailStorageUsername();
-  static void setMailStorageUsername (std::string value);
-  
-  static std::string getMailStoragePassword();
-  static void setMailStoragePassword (std::string value);
-  
-  static std::string getMailStorageProtocol();
-  static void setMailStorageProtocol (std::string value);
-  
-  static std::string getMailStoragePort();
-  static void setMailStoragePort (std::string value);
-  
-  static std::string getMailSendHost();
-  static void setMailSendHost (std::string value);
-  
-  static std::string getMailSendUsername();
-  static void setMailSendUsername (std::string value);
-  
-  static std::string getMailSendPassword();
-  static void setMailSendPassword (std::string value);
-  
-  static std::string getMailSendPort();
-  static void setMailSendPort (std::string value);
-  
-  static std::string getTimerMinute();
-  static void setTimerMinute (std::string value);
-  
-  static int getTimezone();
-  static void setTimezone (int value);
-  
-  static std::string getSiteURL();
-  static void setSiteURL (std::string value);
-  
-  static std::string getSiteLanguage ();
-  static void setSiteLanguage (std::string value);
-  
-  static bool getClientMode ();
-  static void setClientMode (bool value);
-  
-  static std::string getServerAddress ();
-  static void setServerAddress (std::string value);
-  
-  static int getServerPort ();
-  static void setServerPort (int value);
-  
-  static int getRepeatSendReceive ();
-  static void setRepeatSendReceive (int value);
-  
-  static int getLastSendReceive ();
-  static void setLastSendReceive (int value);
-  
-  static std::string getInstalledInterfaceVersion ();
-  static void setInstalledInterfaceVersion (std::string value);
-  
-  static std::string getInstalledDatabaseVersion ();
-  static void setInstalledDatabaseVersion (std::string value);
-  
-  static bool getJustStarted ();
-  static void setJustStarted (bool value);
-  
-  static std::string getParatextProjectsFolder ();
-  static void setParatextProjectsFolder (std::string value);
-  
-  static std::string getSyncKey ();
-  static void setSyncKey (std::string key);
-  
-  static std::string getLastMenuClick ();
-  static void setLastMenuClick (std::string url);
-  
-  static std::vector <std::string> getResourcesToCache ();
-  static void setResourcesToCache (std::vector <std::string> values);
-  
-  static bool getIndexNotes ();
-  static void setIndexNotes (bool value);
-  
-  static bool getIndexBibles ();
-  static void setIndexBibles (bool value);
-  
-  static int getUnsentBibleDataTime ();
-  static void setUnsentBibleDataTime (int value);
+std::string getSiteMailName();
+void setSiteMailName (std::string value);
 
-  static int getUnreceivedBibleDataTime ();
-  static void setUnreceivedBibleDataTime (int value);
+std::string getSiteMailAddress();
+void setSiteMailAddress (std::string value);
 
-  static bool getAuthorInRssFeed ();
-  static void setAuthorInRssFeed (bool value);
+std::string getMailStorageHost();
+void setMailStorageHost (std::string value);
 
-  static bool getJustConnectedToCloud ();
-  static void setJustConnectedToCloud (bool value);
-  
-  static bool getMenuInTabbedViewOn ();
-  static void setMenuInTabbedViewOn (bool value);
-  static std::string getMenuInTabbedViewJSON ();
-  static void setMenuInTabbedViewJSON (std::string value);
-  
-  static bool getDisableSelectionPopupChromeOS ();
-  static void setDisableSelectionPopupChromeOS (bool value);
+std::string getMailStorageUsername();
+void setMailStorageUsername (std::string value);
 
-  static std::string getNotesVerseSeparator ();
-  static void setNotesVerseSeparator (std::string url);
+std::string getMailStoragePassword();
+void setMailStoragePassword (std::string value);
 
-  static std::vector <std::string> getComparativeResources ();
-  static void setComparativeResources (std::vector <std::string> values);
+std::string getMailStorageProtocol();
+void setMailStorageProtocol (std::string value);
 
-  static std::vector <std::string> getTranslatedResources ();
-  static void setTranslatedResources (std::vector <std::string> values);
+std::string getMailStoragePort();
+void setMailStoragePort (std::string value);
 
-  static std::vector <std::string> getDefaultActiveResources ();
-  static void setDefaultActiveResources (std::vector <std::string> values);
+std::string getMailSendHost();
+void setMailSendHost (std::string value);
 
-  static std::vector <std::string> getAccountCreationTimes ();
-  static void setAccountCreationTimes (std::vector <std::string> values);
+std::string getMailSendUsername();
+void setMailSendUsername (std::string value);
 
-  static bool getKeepResourcesCacheForLong ();
-  static void setKeepResourcesCacheForLong (bool value);
+std::string getMailSendPassword();
+void setMailSendPassword (std::string value);
 
-  static int getDefaultNewUserAccessLevel ();
-  static void setDefaultNewUserAccessLevel (int value);
+std::string getMailSendPort();
+void setMailSendPort (std::string value);
 
-  static bool getKeepOsisContentInSwordResources ();
-  static void setKeepOsisContentInSwordResources (bool value);
+std::string getTimerMinute();
+void setTimerMinute (std::string value);
 
-private:
-  static std::string file (const char * key);
-  static std::string getValue (const char * key, const char * default_value);
-  static void setValue (const char * key, std::string value);
-  static bool getBValue (const char * key, bool default_value);
-  static void setBValue (const char * key, bool value);
-  static int getIValue (const char * key, int default_value);
-  static void setIValue (const char * key, int value);
-  static std::vector <std::string> getList (const char * key);
-  static void setList (const char * key, std::vector <std::string> values);
-};
+int getTimezone();
+void setTimezone (int value);
+
+std::string getSiteURL();
+void setSiteURL (std::string value);
+
+std::string getSiteLanguage ();
+void setSiteLanguage (std::string value);
+
+bool getClientMode ();
+void setClientMode (bool value);
+
+std::string getServerAddress ();
+void setServerAddress (std::string value);
+
+int getServerPort ();
+void setServerPort (int value);
+
+int getRepeatSendReceive ();
+void setRepeatSendReceive (int value);
+
+int getLastSendReceive ();
+void setLastSendReceive (int value);
+
+std::string getInstalledInterfaceVersion ();
+void setInstalledInterfaceVersion (std::string value);
+
+std::string getInstalledDatabaseVersion ();
+void setInstalledDatabaseVersion (std::string value);
+
+bool getJustStarted ();
+void setJustStarted (bool value);
+
+std::string getParatextProjectsFolder ();
+void setParatextProjectsFolder (std::string value);
+
+std::string getSyncKey ();
+void setSyncKey (std::string key);
+
+std::string getLastMenuClick ();
+void setLastMenuClick (std::string url);
+
+std::vector <std::string> getResourcesToCache ();
+void setResourcesToCache (std::vector <std::string> values);
+
+bool getIndexNotes ();
+void setIndexNotes (bool value);
+
+bool getIndexBibles ();
+void setIndexBibles (bool value);
+
+int getUnsentBibleDataTime ();
+void setUnsentBibleDataTime (int value);
+
+int getUnreceivedBibleDataTime ();
+void setUnreceivedBibleDataTime (int value);
+
+bool getAuthorInRssFeed ();
+void setAuthorInRssFeed (bool value);
+
+bool getJustConnectedToCloud ();
+void setJustConnectedToCloud (bool value);
+
+bool getMenuInTabbedViewOn ();
+void setMenuInTabbedViewOn (bool value);
+std::string getMenuInTabbedViewJSON ();
+void setMenuInTabbedViewJSON (std::string value);
+
+bool getDisableSelectionPopupChromeOS ();
+void setDisableSelectionPopupChromeOS (bool value);
+
+std::string getNotesVerseSeparator ();
+void setNotesVerseSeparator (std::string url);
+
+std::vector <std::string> getComparativeResources ();
+void setComparativeResources (std::vector <std::string> values);
+
+std::vector <std::string> getTranslatedResources ();
+void setTranslatedResources (std::vector <std::string> values);
+
+std::vector <std::string> getDefaultActiveResources ();
+void setDefaultActiveResources (std::vector <std::string> values);
+
+std::vector <std::string> getAccountCreationTimes ();
+void setAccountCreationTimes (std::vector <std::string> values);
+
+bool getKeepResourcesCacheForLong ();
+void setKeepResourcesCacheForLong (bool value);
+
+int getDefaultNewUserAccessLevel ();
+void setDefaultNewUserAccessLevel (int value);
+
+bool getKeepOsisContentInSwordResources ();
+void setKeepOsisContentInSwordResources (bool value);
+
+}

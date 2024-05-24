@@ -144,7 +144,7 @@ int seconds_since_epoch (int year, int month, int day)
 // and returns it.
 int local_seconds (int seconds)
 {
-  int offset = Database_Config_General::getTimezone ();
+  int offset = database::config::general::getTimezone ();
   seconds += (offset * 3600);
   return seconds;
 }
@@ -282,7 +282,7 @@ std::string rfc822 (int seconds)
   std::string second = filter::strings::convert_to_string (numerical_second (seconds));
   rfc822.append (filter::strings::fill (second, 2, '0'));
   rfc822.append (" ");
-  int timezone = Database_Config_General::getTimezone ();
+  int timezone = database::config::general::getTimezone ();
   if (timezone >= 0) rfc822.append ("+");
   else rfc822.append ("-");
   if (timezone < 0) timezone = 0 - timezone;

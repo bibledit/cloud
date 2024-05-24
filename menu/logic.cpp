@@ -119,7 +119,7 @@ std::string menu_logic_click (std::string item)
   item = filter::strings::replace ("__q__", "?", item);
   item = filter::strings::replace ("__a__", "&", item);
   item = filter::strings::replace ("__i__", "=", item);
-  Database_Config_General::setLastMenuClick (item);
+  database::config::general::setLastMenuClick (item);
   return item;
 }
 
@@ -1253,7 +1253,7 @@ void menu_logic_tabbed_mode_save_json (Webserver_Request& webserver_request)
   if (menu_logic_can_do_tabbed_mode ()) {
     
     // If the setting is on, generate the JSON.
-    bool generate_json = Database_Config_General::getMenuInTabbedViewOn ();
+    bool generate_json = database::config::general::getMenuInTabbedViewOn ();
     
     // Tabbed view not possible in advanced mode.
     if (!webserver_request.database_config_user ()->getBasicInterfaceMode ()) {
@@ -1281,7 +1281,7 @@ void menu_logic_tabbed_mode_save_json (Webserver_Request& webserver_request)
     }
   }
 
-  Database_Config_General::setMenuInTabbedViewJSON (json);
+  database::config::general::setMenuInTabbedViewJSON (json);
 }
 
 

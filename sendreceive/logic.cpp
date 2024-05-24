@@ -47,7 +47,7 @@ void sendreceive_queue_sync (int minute, int second)
   // Deal with a numerical minute to find out whether it's time to automatically sync.
   if (minute >= 0) {
 
-    int repeat = Database_Config_General::getRepeatSendReceive ();
+    int repeat = database::config::general::getRepeatSendReceive ();
 
     // Sync everything every hour.
     if ((repeat == 1) && (second == 0)) {
@@ -117,7 +117,7 @@ void sendreceive_queue_sync (int minute, int second)
 
     if (sync_bibles || sync_rest) {
       // Store the most recent time that the sync action ran.
-      Database_Config_General::setLastSendReceive (filter::date::seconds_since_epoch ());
+      database::config::general::setLastSendReceive (filter::date::seconds_since_epoch ());
     }
   }
 }
@@ -177,10 +177,10 @@ void sendreceive_queue_all (bool now)
 void sendreceive_queue_startup ()
 {
   // Next second when it is supposed to sync.
-  int next_second = Database_Config_General::getLastSendReceive ();
+  int next_second = database::config::general::getLastSendReceive ();
 
   // Check how often to repeat the sync action.
-  int repeat = Database_Config_General::getRepeatSendReceive ();
+  int repeat = database::config::general::getRepeatSendReceive ();
   if (repeat == 1) {
     // Repeat every hour.
     next_second += 3600;

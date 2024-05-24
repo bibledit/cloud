@@ -69,7 +69,7 @@ std::string resource_index (Webserver_Request& webserver_request)
   // If a default selection hasn't been set by an administrator, use the
   // default set from demo.
   if (resources.empty ()) {
-    std::vector <std::string> default_resources = Database_Config_General::getDefaultActiveResources ();
+    std::vector <std::string> default_resources = database::config::general::getDefaultActiveResources ();
     if (default_resources.empty ()) resources = demo_logic_default_resources ();
     else resources = default_resources;
     webserver_request.database_config_user()->setActiveResources (resources);

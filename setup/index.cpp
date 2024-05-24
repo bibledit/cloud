@@ -124,7 +124,7 @@ std::string setup_index (Webserver_Request& webserver_request)
         setup_complete_gui ();
         // Store web site's base URL.
         const std::string site_url = get_base_url (webserver_request);
-        Database_Config_General::setSiteURL (site_url);
+        database::config::general::setSiteURL (site_url);
         // Redirect.
         redirect_browser (webserver_request, index_index_url ());
       } else {
@@ -158,7 +158,7 @@ std::string setup_index (Webserver_Request& webserver_request)
     view.set_variable ("readonly", "readonly");
     // If the admin's are already there, then the setup has completed.
     // The automatic page refresh will kick in, and navigate to the main screen.
-    Database_Config_General::setInstalledInterfaceVersion (config::logic::version ());
+    database::config::general::setInstalledInterfaceVersion (config::logic::version ());
   }
 
   return view.render ("setup", "index");

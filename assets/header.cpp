@@ -190,7 +190,7 @@ std::string Assets_Header::run ()
     bool start_button = true;
     
     // Whether tabbed mode is on.
-    bool tabbed_mode_on = menu_logic_can_do_tabbed_mode () && Database_Config_General::getMenuInTabbedViewOn ();
+    bool tabbed_mode_on = menu_logic_can_do_tabbed_mode () && database::config::general::getMenuInTabbedViewOn ();
     
     std::string menublock {};
     const std::string item = m_webserver_request.query ["item"];

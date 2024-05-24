@@ -188,9 +188,9 @@ std::string sendreceive_index (Webserver_Request& webserver_request)
     // Clamp the values.
     if (repeatsync < 0) repeatsync = 0;
     if (repeatsync > 2) repeatsync = 2;
-    Database_Config_General::setRepeatSendReceive (repeatsync);
+    database::config::general::setRepeatSendReceive (repeatsync);
   }
-  int repeatsync = Database_Config_General::getRepeatSendReceive ();
+  int repeatsync = database::config::general::getRepeatSendReceive ();
   // After removing value 3, if the setting had "3", make it "2".
   if (repeatsync > 2) repeatsync = 2;
   std::string repeatsynczone = "repeatsync" + filter::strings::convert_to_string (repeatsync);

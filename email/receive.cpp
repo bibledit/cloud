@@ -35,7 +35,7 @@ void email_receive ()
 {
 #ifdef HAVE_CLOUD
   // Bail out when the mail storage host has not been defined, rather than giving an error message.
-  if (Database_Config_General::getMailStorageHost () == "") return;
+  if (database::config::general::getMailStorageHost () == "") return;
   
   // One email receiver runs at a time.
   if (config_globals_mail_receive_running) return;
@@ -115,12 +115,12 @@ std::string url ()
 {
   std::string url;
   const char * pop3s = "POP3S";
-  if (Database_Config_General::getMailStorageProtocol() == pop3s) url.append (pop3s);
+  if (database::config::general::getMailStorageProtocol() == pop3s) url.append (pop3s);
   else url.append ("pop3");
   url.append ("://");
-  url.append (Database_Config_General::getMailStorageHost ());
+  url.append (database::config::general::getMailStorageHost ());
   url.append (":");
-  url.append (Database_Config_General::getMailStoragePort ());
+  url.append (database::config::general::getMailStoragePort ());
   return url;
 }
 
@@ -143,8 +143,8 @@ int email_receive_count (std::string& error, bool verbose)
 
   curl = curl_easy_init ();
 
-  curl_easy_setopt (curl, CURLOPT_USERNAME, Database_Config_General::getMailStorageUsername ().c_str());
-  curl_easy_setopt (curl, CURLOPT_PASSWORD, Database_Config_General::getMailStoragePassword ().c_str());
+  curl_easy_setopt (curl, CURLOPT_USERNAME, database::config::general::getMailStorageUsername ().c_str());
+  curl_easy_setopt (curl, CURLOPT_PASSWORD, database::config::general::getMailStoragePassword ().c_str());
 
   curl_easy_setopt (curl, CURLOPT_URL, url ().c_str());
 
@@ -205,8 +205,8 @@ std::string email_receive_message (std::string& error)
 
   curl = curl_easy_init ();
 
-  curl_easy_setopt (curl, CURLOPT_USERNAME, Database_Config_General::getMailStorageUsername ().c_str());
-  curl_easy_setopt (curl, CURLOPT_PASSWORD, Database_Config_General::getMailStoragePassword ().c_str());
+  curl_easy_setopt (curl, CURLOPT_USERNAME, database::config::general::getMailStorageUsername ().c_str());
+  curl_easy_setopt (curl, CURLOPT_PASSWORD, database::config::general::getMailStoragePassword ().c_str());
 
   std::string message_url = url () + "/1";
   curl_easy_setopt (curl, CURLOPT_URL, message_url.c_str());

@@ -95,7 +95,7 @@ void sendreceive_resources ()
   sendreceive_resources_interrupt = false;
 
   // If there's nothing to cache, bail out.
-  std::vector <std::string> resources = Database_Config_General::getResourcesToCache ();
+  std::vector <std::string> resources = database::config::general::getResourcesToCache ();
   if (resources.empty ()) return;
   
   sendreceive_resources_kick_watchdog ();
@@ -117,8 +117,8 @@ void sendreceive_resources ()
   Database_Logs::log ("Starting to install resource:" " " + resource, Filter_Roles::consultant ());
 
   // Server address and port.
-  std::string address = Database_Config_General::getServerAddress ();
-  int port = Database_Config_General::getServerPort ();
+  std::string address = database::config::general::getServerAddress ();
+  int port = database::config::general::getServerPort ();
   // If the client has not been connected to a cloud instance,
   // fetch the resource from the Bibledit Cloud demo.
   if (!client_logic_client_enabled ()) {
@@ -210,12 +210,12 @@ void sendreceive_resources ()
     }
   }
   // Store new download schedule.
-  resources = Database_Config_General::getResourcesToCache ();
+  resources = database::config::general::getResourcesToCache ();
   resources = filter::strings::array_diff (resources, {resource});
   if (re_schedule_download) {
     resources.push_back (resource);
   }
-  Database_Config_General::setResourcesToCache (resources);
+  database::config::general::setResourcesToCache (resources);
 
   sendreceive_resources_done ();
   
@@ -231,7 +231,7 @@ void sendreceive_resources_clear_all ()
 {
   sendreceive_resources_interrupt = true;
   Database_Logs::log ("Interrupting resource installation", Filter_Roles::consultant ());
-  Database_Config_General::setResourcesToCache ({});
+  database::config::general::setResourcesToCache ({});
 }
 
 

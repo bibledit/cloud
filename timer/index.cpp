@@ -182,9 +182,9 @@ void timer_index ()
       // Only update missing indexes.
       if ((hour == 2) && (minute == 0)) {
         Database_State::create ();
-        Database_Config_General::setIndexBibles (true);
+        database::config::general::setIndexBibles (true);
         tasks_logic_queue (REINDEXBIBLES);
-        Database_Config_General::setIndexNotes (true);
+        database::config::general::setIndexNotes (true);
         tasks_logic_queue (REINDEXNOTES);
       }
       
@@ -211,7 +211,7 @@ void timer_index ()
       // The shell script notices that the binary has quit, and restarts the binary again.
       if (hour == 0) {
         if (minute == 1) {
-          if (!Database_Config_General::getJustStarted ()) {
+          if (!database::config::general::getJustStarted ()) {
             if (tasks_run_active_count ()) {
               Database_Logs::log ("Server is due to restart itself but does not because of active jobs");
             } else {
@@ -224,7 +224,7 @@ void timer_index ()
         // This flag also has the purpose of ensuring the server restarts once during that minute,
         // rather than restarting repeatedly many times during that minute.
         if (minute == 0) {
-          Database_Config_General::setJustStarted (false);
+          database::config::general::setJustStarted (false);
         }
       }
 #endif

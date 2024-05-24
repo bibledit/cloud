@@ -303,13 +303,13 @@ void bootstrap_index (Webserver_Request& webserver_request)
   }
   
   // Serve initialization notice.
-  if (config::logic::version () != Database_Config_General::getInstalledDatabaseVersion ()) {
+  if (config::logic::version () != database::config::general::getInstalledDatabaseVersion ()) {
     webserver_request.reply = setup_initialization_notice ();
     return;
   }
   
   // Force setup.
-  if (config::logic::version () != Database_Config_General::getInstalledInterfaceVersion ()) {
+  if (config::logic::version () != database::config::general::getInstalledInterfaceVersion ()) {
     webserver_request.reply = setup_index (webserver_request);
     return;
   }

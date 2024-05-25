@@ -66,13 +66,13 @@ std::string email_index (Webserver_Request& webserver_request)
       }
     }
     if (form_is_valid) {
-      database::config::general::setSiteMailName (sitename);
-      database::config::general::setSiteMailAddress (sitemail);
+      database::config::general::set_site_mail_name (sitename);
+      database::config::general::set_site_mail_address (sitemail);
       view.set_variable ("site_name_success", translate("The name and email address were saved"));
     }
   }
-  view.set_variable ("sitename", database::config::general::getSiteMailName ());
-  view.set_variable ("sitemail", database::config::general::getSiteMailAddress ());
+  view.set_variable ("sitename", database::config::general::get_site_mail_name ());
+  view.set_variable ("sitemail", database::config::general::get_site_mail_address ());
 
   // Email retrieval.
   if (webserver_request.post ["retrieve"] != "") {
@@ -81,11 +81,11 @@ std::string email_index (Webserver_Request& webserver_request)
     std::string storagepassword = webserver_request.post ["storagepassword"];
     std::string storagesecurity = webserver_request.post ["storagesecurity"];
     std::string storageport = webserver_request.post ["storageport"];
-    database::config::general::setMailStorageHost (storagehost);
-    database::config::general::setMailStorageUsername (storageusername);
-    database::config::general::setMailStoragePassword (storagepassword);
-    database::config::general::setMailStorageProtocol (storagesecurity);
-    database::config::general::setMailStoragePort (storageport);
+    database::config::general::set_mail_storage_host (storagehost);
+    database::config::general::set_mail_storage_username (storageusername);
+    database::config::general::set_mail_storage_password (storagepassword);
+    database::config::general::set_mail_storage_protocol (storagesecurity);
+    database::config::general::set_mail_storage_port (storageport);
     std::string storage_success = translate("The details were saved.");
     std::string storage_error;
     int mailcount = email_receive_count (storage_error, true);
@@ -101,11 +101,11 @@ std::string email_index (Webserver_Request& webserver_request)
     view.set_variable ("storage_success", storage_success);
     view.set_variable ("storage_error", storage_error);
   }
-  view.set_variable ("storagehost", database::config::general::getMailStorageHost ());
-  view.set_variable ("storageusername", database::config::general::getMailStorageUsername ());
-  view.set_variable ("storagepassword", database::config::general::getMailStoragePassword ());
-  if (database::config::general::getMailStorageProtocol () == "POP3S") view.set_variable ("storagepop3s", R"(selected="selected")");
-  view.set_variable ("storageport", database::config::general::getMailStoragePort ());
+  view.set_variable ("storagehost", database::config::general::get_mail_storage_host ());
+  view.set_variable ("storageusername", database::config::general::get_mail_storage_username ());
+  view.set_variable ("storagepassword", database::config::general::get_mail_storage_password ());
+  if (database::config::general::get_mail_storage_protocol () == "POP3S") view.set_variable ("storagepop3s", R"(selected="selected")");
+  view.set_variable ("storageport", database::config::general::get_mail_storage_port ());
   
   // Sending email.
   if (webserver_request.post ["send"] != "") {
@@ -115,19 +115,19 @@ std::string email_index (Webserver_Request& webserver_request)
     std::string sendpassword = webserver_request.post ["sendpassword"];
     std::string sendsecurity = webserver_request.post ["sendsecurity"];
     std::string sendport  = webserver_request.post ["sendport"];
-    database::config::general::setMailSendHost (sendhost);
-    database::config::general::setMailSendUsername (sendusername);
-    database::config::general::setMailSendPassword (sendpassword);
-    database::config::general::setMailSendPort (sendport);
+    database::config::general::set_mail_send_host (sendhost);
+    database::config::general::set_mail_send_username (sendusername);
+    database::config::general::set_mail_send_password (sendpassword);
+    database::config::general::set_mail_send_port (sendport);
     std::string send_success  = translate("The details were saved.");
     std::string send_error;
     std::string send_debug;
-    std::string result = email_send (database::config::general::getSiteMailAddress(), database::config::general::getSiteMailName(), "Test", "This is to check sending email.", true);
+    std::string result = email_send (database::config::general::get_site_mail_address(), database::config::general::get_site_mail_name(), "Test", "This is to check sending email.", true);
     if (result.empty()) {
       send_success.append (" ");
       send_success.append ("For checking sending email, a test email was sent out to the account above:");
       send_success.append (" ");
-      send_success.append (database::config::general::getSiteMailAddress());
+      send_success.append (database::config::general::get_site_mail_address());
     } else {
       send_error = result;
     }
@@ -135,10 +135,10 @@ std::string email_index (Webserver_Request& webserver_request)
     view.set_variable ("send_error", send_error);
     view.set_variable ("send_debug", send_debug);
   }
-  view.set_variable ("sendhost", database::config::general::getMailSendHost ());
-  view.set_variable ("sendusername", database::config::general::getMailSendUsername ());
-  view.set_variable ("sendpassword", database::config::general::getMailSendPassword ());
-  view.set_variable ("sendport", database::config::general::getMailSendPort ());
+  view.set_variable ("sendhost", database::config::general::get_mail_send_host ());
+  view.set_variable ("sendusername", database::config::general::get_mail_send_username ());
+  view.set_variable ("sendpassword", database::config::general::get_mail_send_password ());
+  view.set_variable ("sendport", database::config::general::get_mail_send_port ());
 
   page += view.render ("email", "index");
 

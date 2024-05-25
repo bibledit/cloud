@@ -164,10 +164,10 @@ public:
   int getResourceVersesBefore () const;
   void setResourceVersesAfter (int verses) const;
   int getResourceVersesAfter () const;
-  std::string getSyncKey () const;
-  void setSyncKey (const std::string& key) const;
-//  std::string getSiteLanguage () const;
-//  void setSiteLanguage (const std::string& value) const;
+  std::string get_sync_key () const;
+  void set_sync_key (const std::string& key) const;
+//  std::string get_site_language () const;
+//  void set_site_language (const std::string& value) const;
   void setGeneralFontSize (int size) const;
   int getGeneralFontSize () const;
   void setMenuFontSize (int size) const;

@@ -431,11 +431,11 @@ void Database_Config_Bible::setSprintTaskCompletionCategories (std::string bible
 }
 
 
-int Database_Config_Bible::getRepeatSendReceive (std::string bible)
+int Database_Config_Bible::get_repeat_send_receive (std::string bible)
 {
   return getIValue (bible, "repeat-send-receive", 0);
 }
-void Database_Config_Bible::setRepeatSendReceive (std::string bible, int value)
+void Database_Config_Bible::set_repeat_send_receive (std::string bible, int value)
 {
   setIValue (bible, "repeat-send-receive", value);
 }

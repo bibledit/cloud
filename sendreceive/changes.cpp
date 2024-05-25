@@ -127,8 +127,8 @@ void sendreceive_changes ()
   
   
   // Server URL to call.
-  std::string address = database::config::general::getServerAddress ();
-  int port = database::config::general::getServerPort ();
+  std::string address = database::config::general::get_server_address ();
+  int port = database::config::general::get_server_port ();
   std::string url = client_logic_url (address, port, sync_changes_url ());
   
   

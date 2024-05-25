@@ -79,13 +79,13 @@ std::string manage_users (Webserver_Request& webserver_request)
   // Set the default new user role.
   if (webserver_request.post.count ("defaultacl")) {
     int defaultacl = filter::strings::convert_to_int (webserver_request.post ["defaultacl"]);
-    database::config::general::setDefaultNewUserAccessLevel(defaultacl);
+    database::config::general::set_default_new_user_access_level(defaultacl);
     assets_page::success (translate("The default new user is changed."));
   }
 
 
   // Set the chosen default new user role on the option HTML tag.
-  std::string default_acl = filter::strings::convert_to_string (database::config::general::getDefaultNewUserAccessLevel ());
+  std::string default_acl = filter::strings::convert_to_string (database::config::general::get_default_new_user_access_level ());
   std::string default_acl_html;
   default_acl_html = Options_To_Select::add_selection ("Guest", filter::strings::convert_to_string(Filter_Roles::guest()), default_acl_html);
   default_acl_html = Options_To_Select::add_selection ("Member", filter::strings::convert_to_string(Filter_Roles::member()), default_acl_html);
@@ -107,7 +107,7 @@ std::string manage_users (Webserver_Request& webserver_request)
 
       // Set the role of the new created user, it is set as member if no
       // default has been set by an administrator.
-      int role = database::config::general::getDefaultNewUserAccessLevel ();
+      int role = database::config::general::get_default_new_user_access_level ();
       webserver_request.database_users ()->add_user(user, user, role, "");
 
       // Set default privileges on new created user.

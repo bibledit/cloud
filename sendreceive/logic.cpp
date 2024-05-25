@@ -47,7 +47,7 @@ void sendreceive_queue_sync (int minute, int second)
   // Deal with a numerical minute to find out whether it's time to automatically sync.
   if (minute >= 0) {
 
-    int repeat = database::config::general::getRepeatSendReceive ();
+    int repeat = database::config::general::get_repeat_send_receive ();
 
     // Sync everything every hour.
     if ((repeat == 1) && (second == 0)) {
@@ -117,7 +117,7 @@ void sendreceive_queue_sync (int minute, int second)
 
     if (sync_bibles || sync_rest) {
       // Store the most recent time that the sync action ran.
-      database::config::general::setLastSendReceive (filter::date::seconds_since_epoch ());
+      database::config::general::set_last_send_receive (filter::date::seconds_since_epoch ());
     }
   }
 }
@@ -165,7 +165,7 @@ void sendreceive_queue_all (bool now)
   std::vector <std::string> bibles = database_bibles.get_bibles ();
   for (auto & bible : bibles) {
     if (Database_Config_Bible::getRemoteRepositoryUrl (bible) != "") {
-      if (Database_Config_Bible::getRepeatSendReceive (bible) || now) {
+      if (Database_Config_Bible::get_repeat_send_receive (bible) || now) {
         sendreceive_queue_bible (bible);
       }
     }
@@ -177,10 +177,10 @@ void sendreceive_queue_all (bool now)
 void sendreceive_queue_startup ()
 {
   // Next second when it is supposed to sync.
-  int next_second = database::config::general::getLastSendReceive ();
+  int next_second = database::config::general::get_last_send_receive ();
 
   // Check how often to repeat the sync action.
-  int repeat = database::config::general::getRepeatSendReceive ();
+  int repeat = database::config::general::get_repeat_send_receive ();
   if (repeat == 1) {
     // Repeat every hour.
     next_second += 3600;

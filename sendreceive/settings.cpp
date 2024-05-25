@@ -100,8 +100,8 @@ void sendreceive_settings ()
   std::string user = users [0];
   webserver_request.session_logic ()->set_username (user);
   
-  std::string address = database::config::general::getServerAddress ();
-  int port = database::config::general::getServerPort ();
+  std::string address = database::config::general::get_server_address ();
+  int port = database::config::general::get_server_port ();
   std::string url = client_logic_url (address, port, sync_settings_url ());
   
   // Go through all settings flagged as having been updated on this client.

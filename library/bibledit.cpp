@@ -225,7 +225,7 @@ void bibledit_start_library ()
 // Gets the last page that was opened via the menu.
 const char * bibledit_get_last_page ()
 {
-  static std::string href = database::config::general::getLastMenuClick ();
+  static std::string href = database::config::general::get_last_menu_click ();
   return href.c_str();
 }
 
@@ -283,7 +283,7 @@ const char * bibledit_get_external_url ()
 // Returns the pages the calling app should open.
 const char * bibledit_get_pages_to_open ()
 {
-  config_globals_pages_to_open = database::config::general::getMenuInTabbedViewJSON ();
+  config_globals_pages_to_open = database::config::general::get_menu_in_tabbed_view_json ();
   return config_globals_pages_to_open.c_str ();
 }
 
@@ -389,7 +389,7 @@ void bibledit_run_on_chrome_os ()
 // See https://github.com/bibledit/cloud/issues/282
 const char * bibledit_disable_selection_popup_chrome_os ()
 {
-  if (database::config::general::getDisableSelectionPopupChromeOS ()) {
+  if (database::config::general::get_disable_selection_popup_chrome_os ()) {
     return "true";
   }
   return "false";

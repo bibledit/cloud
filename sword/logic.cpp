@@ -385,8 +385,8 @@ std::string sword_logic_get_text (const std::string& source, const std::string& 
   }
 
   // Fetch this SWORD resource from the server.
-  std::string address = database::config::general::getServerAddress ();
-  int port = database::config::general::getServerPort ();
+  std::string address = database::config::general::get_server_address ();
+  int port = database::config::general::get_server_port ();
   if (!client_logic_client_enabled ()) {
     // If the client has not been connected to a cloud instance,
     // fetch the SWORD content from the Bibledit Cloud demo.
@@ -434,7 +434,7 @@ std::string sword_logic_get_text (const std::string& source, const std::string& 
   // diatheke -b KJV -k Jn 3:16
   // To included, run this instead: $ diatheke -b KJV -o n -k Jn 3:16
   std::vector <std::string> parameters {"-b", module};
-  if (database::config::general::getKeepOsisContentInSwordResources ()) {
+  if (database::config::general::get_keep_osis_content_in_sword_resources ()) {
     parameters.push_back("-o");
     parameters.push_back("n");
   }
@@ -894,7 +894,7 @@ void sword_logic_log (std::string message)
 std::string sword_logic_clean_verse (const std::string& module, int chapter, int verse, std::string text)
 {
   // Remove any OSIS elements or make those elements displayable.
-  if (database::config::general::getKeepOsisContentInSwordResources ()) {
+  if (database::config::general::get_keep_osis_content_in_sword_resources ()) {
     text = filter::strings::escape_special_xml_characters (text);
   } else {
     filter::strings::replace_between (text, "<", ">", "");

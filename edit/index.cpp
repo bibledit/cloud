@@ -136,7 +136,7 @@ std::string edit_index (Webserver_Request& webserver_request)
   script_stream << "var editorChapterRetrying = " << std::quoted(locale_logic_text_retrying ()) << ";\n";
   script_stream << "var editorChapterVerseUpdatedLoaded = " << std::quoted(locale_logic_text_reload ()) << ";\n";
   script_stream << "var verticalCaretPosition = " << webserver_request.database_config_user ()->getVerticalCaretPosition () << ";\n";
-  script_stream << "var verseSeparator = " << std::quoted(database::config::general::getNotesVerseSeparator ()) << ";\n";
+  script_stream << "var verseSeparator = " << std::quoted(database::config::general::get_notes_verse_separator ()) << ";\n";
   std::string script = script_stream.str();
   config::logic::swipe_enabled (webserver_request, script);
   view.set_variable ("script", script);

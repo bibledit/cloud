@@ -493,7 +493,7 @@ void Notes_Logic::emailUsers (int identifier, const std::string& label, std::str
   contents << "</a>";
 
   contents << "</p>" << std::endl;
-  std::string mailto = "mailto:" + database::config::general::getSiteMailAddress () + "?subject=(CNID" + filter::strings::convert_to_string (identifier) + ")";
+  std::string mailto = "mailto:" + database::config::general::get_site_mail_address () + "?subject=(CNID" + filter::strings::convert_to_string (identifier) + ")";
   contents << "<p><a href=";
   contents << std::quoted (mailto);
   contents << ">Respond by email</a></p>" << std::endl;
@@ -562,7 +562,7 @@ bool Notes_Logic::handleEmailComment (std::string from, std::string subject, std
   }
   // Clean the email's body.
   std::string year = filter::strings::convert_to_string (filter::date::numerical_year (filter::date::seconds_since_epoch ()));
-  std::string sender = database::config::general::getSiteMailName();
+  std::string sender = database::config::general::get_site_mail_name();
   body = filter::strings::extract_body (body, year, sender);
   // Remove any new lines from the body. This cleans up the email considerably,
   // because some emails that get posted would otherwise look untidy,

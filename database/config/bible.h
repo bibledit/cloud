@@ -81,8 +81,8 @@ public:
   static void setCheckValidUTF8Text (std::string bible, bool value);
   static std::string getSprintTaskCompletionCategories (std::string bible);
   static void setSprintTaskCompletionCategories (std::string bible, std::string value);
-  static int getRepeatSendReceive (std::string bible);
-  static void setRepeatSendReceive (std::string bible, int value);
+  static int get_repeat_send_receive (std::string bible);
+  static void set_repeat_send_receive (std::string bible, int value);
   static bool getExportChapterDropCapsFrames (std::string bible);
   static void setExportChapterDropCapsFrames (std::string bible, bool value);
   static std::string getPageWidth (std::string bible);

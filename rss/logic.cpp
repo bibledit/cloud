@@ -111,7 +111,7 @@ void rss_logic_execute_update (std::string user, std::string bible, int book, in
   // For security reasons this can be set off.
   // This way the author does not get exposed,
   // and no information is revealed that facilitates a brute-force login attack.
-  bool include_author = database::config::general::getAuthorInRssFeed ();
+  bool include_author = database::config::general::get_author_in_rss_feed ();
   if (!include_author) user.clear ();
   
   // Storage for the feed update.
@@ -182,13 +182,13 @@ void rss_logic_update_xml (std::vector <std::string> titles, std::vector <std::s
     node.text () = translate ("Bibledit").c_str();
     // Link to website.
     node = channel.append_child ("link");
-    node.text () = database::config::general::getSiteURL().c_str();
+    node.text () = database::config::general::get_site_url().c_str();
     // Description.
     node = channel.append_child ("description");
     node.text () = translate ("Recent changes in the Bible texts").c_str ();
     // Feed's URL.
     node = channel.append_child ("atom:link");
-    std::string link = database::config::general::getSiteURL() + rss_feed_url ();
+    std::string link = database::config::general::get_site_url() + rss_feed_url ();
     node.append_attribute ("href") = link.c_str();
     node.append_attribute ("rel") = "self";
     node.append_attribute ("type") = "application/rss+xml";

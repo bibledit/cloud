@@ -24,135 +24,135 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 namespace database::config::general {
 
-std::string getSiteMailName();
-void setSiteMailName (std::string value);
+std::string get_site_mail_name();
+void set_site_mail_name (const std::string& value);
 
-std::string getSiteMailAddress();
-void setSiteMailAddress (std::string value);
+std::string get_site_mail_address();
+void set_site_mail_address (const std::string& value);
 
-std::string getMailStorageHost();
-void setMailStorageHost (std::string value);
+std::string get_mail_storage_host();
+void set_mail_storage_host (const std::string& value);
 
-std::string getMailStorageUsername();
-void setMailStorageUsername (std::string value);
+std::string get_mail_storage_username();
+void set_mail_storage_username (const std::string& value);
 
-std::string getMailStoragePassword();
-void setMailStoragePassword (std::string value);
+std::string get_mail_storage_password();
+void set_mail_storage_password (const std::string& value);
 
-std::string getMailStorageProtocol();
-void setMailStorageProtocol (std::string value);
+std::string get_mail_storage_protocol();
+void set_mail_storage_protocol (const std::string& value);
 
-std::string getMailStoragePort();
-void setMailStoragePort (std::string value);
+std::string get_mail_storage_port();
+void set_mail_storage_port (const std::string& value);
 
-std::string getMailSendHost();
-void setMailSendHost (std::string value);
+std::string get_mail_send_host();
+void set_mail_send_host (const std::string& value);
 
-std::string getMailSendUsername();
-void setMailSendUsername (std::string value);
+std::string get_mail_send_username();
+void set_mail_send_username (const std::string& value);
 
-std::string getMailSendPassword();
-void setMailSendPassword (std::string value);
+std::string get_mail_send_password();
+void set_mail_send_password (const std::string& value);
 
-std::string getMailSendPort();
-void setMailSendPort (std::string value);
+std::string get_mail_send_port();
+void set_mail_send_port (const std::string& value);
 
-std::string getTimerMinute();
-void setTimerMinute (std::string value);
+std::string get_timer_minute();
+void set_timer_minute (const std::string& value);
 
-int getTimezone();
-void setTimezone (int value);
+int get_timezone();
+void set_timezone (int value);
 
-std::string getSiteURL();
-void setSiteURL (std::string value);
+std::string get_site_url();
+void set_site_url (const std::string& value);
 
-std::string getSiteLanguage ();
-void setSiteLanguage (std::string value);
+std::string get_site_language ();
+void set_site_language (const std::string& value);
 
-bool getClientMode ();
-void setClientMode (bool value);
+bool get_client_mode ();
+void set_client_mode (bool value);
 
-std::string getServerAddress ();
-void setServerAddress (std::string value);
+std::string get_server_address ();
+void set_server_address (const std::string& value);
 
-int getServerPort ();
-void setServerPort (int value);
+int get_server_port ();
+void set_server_port (int value);
 
-int getRepeatSendReceive ();
-void setRepeatSendReceive (int value);
+int get_repeat_send_receive ();
+void set_repeat_send_receive (int value);
 
-int getLastSendReceive ();
-void setLastSendReceive (int value);
+int get_last_send_receive ();
+void set_last_send_receive (int value);
 
-std::string getInstalledInterfaceVersion ();
-void setInstalledInterfaceVersion (std::string value);
+std::string get_installed_interface_version ();
+void set_installed_interface_version (const std::string& value);
 
 std::string getInstalledDatabaseVersion ();
-void setInstalledDatabaseVersion (std::string value);
+void setInstalledDatabaseVersion (const std::string& value);
 
 bool getJustStarted ();
 void setJustStarted (bool value);
 
-std::string getParatextProjectsFolder ();
-void setParatextProjectsFolder (std::string value);
+std::string get_paratext_projects_folder ();
+void set_paratext_projects_folder (const std::string& value);
 
-std::string getSyncKey ();
-void setSyncKey (std::string key);
+std::string get_sync_key ();
+void set_sync_key (const std::string& key);
 
-std::string getLastMenuClick ();
-void setLastMenuClick (std::string url);
+std::string get_last_menu_click ();
+void set_last_menu_click (const std::string& url);
 
-std::vector <std::string> getResourcesToCache ();
-void setResourcesToCache (std::vector <std::string> values);
+std::vector <std::string> get_resources_to_cache ();
+void set_resources_to_cache (const std::vector <std::string>& values);
 
 bool getIndexNotes ();
 void setIndexNotes (bool value);
 
-bool getIndexBibles ();
-void setIndexBibles (bool value);
+bool get_index_bibles ();
+void set_index_bibles (bool value);
 
-int getUnsentBibleDataTime ();
-void setUnsentBibleDataTime (int value);
+int get_unsent_bible_data_time ();
+void set_unsent_bible_data_time (int value);
 
-int getUnreceivedBibleDataTime ();
-void setUnreceivedBibleDataTime (int value);
+int get_unreceived_bible_data_time ();
+void set_unreceived_bible_data_time (int value);
 
-bool getAuthorInRssFeed ();
-void setAuthorInRssFeed (bool value);
+bool get_author_in_rss_feed ();
+void set_uuthor_in_rss_feed (bool value);
 
-bool getJustConnectedToCloud ();
-void setJustConnectedToCloud (bool value);
+bool get_just_connected_to_cloud ();
+void set_just_connected_to_cloud (bool value);
 
-bool getMenuInTabbedViewOn ();
-void setMenuInTabbedViewOn (bool value);
-std::string getMenuInTabbedViewJSON ();
-void setMenuInTabbedViewJSON (std::string value);
+bool get_menu_in_tabbed_view_on ();
+void set_menu_in_tabbed_view_on (bool value);
+std::string get_menu_in_tabbed_view_json ();
+void set_menu_in_tabbed_view_json (const std::string& value);
 
-bool getDisableSelectionPopupChromeOS ();
-void setDisableSelectionPopupChromeOS (bool value);
+bool get_disable_selection_popup_chrome_os ();
+void set_disable_selection_popup_chrome_os (bool value);
 
-std::string getNotesVerseSeparator ();
-void setNotesVerseSeparator (std::string url);
+std::string get_notes_verse_separator ();
+void set_notes_verse_separator (const std::string& url);
 
-std::vector <std::string> getComparativeResources ();
-void setComparativeResources (std::vector <std::string> values);
+std::vector <std::string> get_comparative_resources ();
+void set_comparative_resources (const std::vector <std::string>& values);
 
-std::vector <std::string> getTranslatedResources ();
-void setTranslatedResources (std::vector <std::string> values);
+std::vector <std::string> get_translated_resources ();
+void set_translated_resources (const std::vector <std::string>& values);
 
-std::vector <std::string> getDefaultActiveResources ();
-void setDefaultActiveResources (std::vector <std::string> values);
+std::vector <std::string> get_default_active_resources ();
+void set_default_active_resources (const std::vector <std::string>& values);
 
-std::vector <std::string> getAccountCreationTimes ();
-void setAccountCreationTimes (std::vector <std::string> values);
+std::vector <std::string> get_account_creation_times ();
+void set_account_creation_times (const std::vector <std::string>& values);
 
-bool getKeepResourcesCacheForLong ();
-void setKeepResourcesCacheForLong (bool value);
+bool get_keep_resources_cache_for_long ();
+void set_keep_resources_cache_for_long (bool value);
 
-int getDefaultNewUserAccessLevel ();
-void setDefaultNewUserAccessLevel (int value);
+int get_default_new_user_access_level ();
+void set_default_new_user_access_level (int value);
 
-bool getKeepOsisContentInSwordResources ();
-void setKeepOsisContentInSwordResources (bool value);
+bool get_keep_osis_content_in_sword_resources ();
+void set_keep_osis_content_in_sword_resources (bool value);
 
 }

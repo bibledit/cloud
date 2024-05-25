@@ -78,7 +78,7 @@ std::string resource_comparative1edit (Webserver_Request& webserver_request)
   std::string title, base, update, remove, replace;
   bool diacritics = false, casefold = false, cache = false;
   {
-    std::vector <std::string> resources = database::config::general::getComparativeResources ();
+    std::vector <std::string> resources = database::config::general::get_comparative_resources ();
     for (auto resource : resources) {
       resource_logic_parse_comparative_resource (resource, &title, &base, &update, &remove, &replace, &diacritics, &casefold, &cache);
       if (title == name) break;
@@ -174,7 +174,7 @@ std::string resource_comparative1edit (Webserver_Request& webserver_request)
   // If the resource was edited, then take a number of steps.
   if (resource_edited) {
     // Save the comparative resource if it was edited.
-    std::vector <std::string> resources = database::config::general::getComparativeResources ();
+    std::vector <std::string> resources = database::config::general::get_comparative_resources ();
     error = translate ("Could not save");
     for (size_t i = 0; i < resources.size(); i++) {
       std::string title2;
@@ -186,7 +186,7 @@ std::string resource_comparative1edit (Webserver_Request& webserver_request)
         error.clear();
       }
     }
-    database::config::general::setComparativeResources (resources);
+    database::config::general::set_comparative_resources (resources);
     // Possibly update the list of resources not to be cached on the client devices.
     if (cache) client_logic_no_cache_resource_remove(title);
     else client_logic_no_cache_resource_add(title);

@@ -88,7 +88,7 @@ std::string paratext_index (Webserver_Request& webserver_request)
   
   
   // Paratext Projects folder.
-  std::string paratext_folder = database::config::general::getParatextProjectsFolder ();
+  std::string paratext_folder = database::config::general::get_paratext_projects_folder ();
   if (!file_or_dir_exists (paratext_folder)) paratext_folder.clear ();
   
   if (webserver_request.query.count ("paratextfolder")) {
@@ -110,7 +110,7 @@ std::string paratext_index (Webserver_Request& webserver_request)
 
   if (paratext_folder.empty ()) paratext_folder = Paratext_Logic::searchProjectsFolder ();
 
-  database::config::general::setParatextProjectsFolder (paratext_folder);
+  database::config::general::set_paratext_projects_folder (paratext_folder);
   view.set_variable ("paratextfolder", paratext_folder);
   if (paratext_folder.empty ()) {
     view.set_variable ("paratextfolder", translate ("not found"));
@@ -158,8 +158,8 @@ std::string paratext_index (Webserver_Request& webserver_request)
       // Set collaboration up.
       tasks_logic_queue (SETUPPARATEXT, { bible, master });
       success = translate ("The collaboration will be set up");
-      if (database::config::general::getRepeatSendReceive () == 0) {
-        database::config::general::setRepeatSendReceive (2);
+      if (database::config::general::get_repeat_send_receive () == 0) {
+        database::config::general::set_repeat_send_receive (2);
       }
       view.set_variable ("master", master);
       view.enable_zone ("setuprunning");

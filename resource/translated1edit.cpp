@@ -83,7 +83,7 @@ std::string resource_translated1edit (Webserver_Request& webserver_request)
   std::string target_language {};
   bool cache {false};
   {
-    std::vector <std::string> resources = database::config::general::getTranslatedResources ();
+    std::vector <std::string> resources = database::config::general::get_translated_resources ();
     for (const auto & resource : resources) {
       resource_logic_parse_translated_resource (resource, &title, &original_resource, &source_language, &target_language, &cache);
       if (title == name) break;
@@ -158,7 +158,7 @@ std::string resource_translated1edit (Webserver_Request& webserver_request)
   // If the resource was edited, then take some steps.
   if (resource_edited) {
     // Save the translated resource.
-    std::vector <std::string> resources = database::config::general::getTranslatedResources ();
+    std::vector <std::string> resources = database::config::general::get_translated_resources ();
     error = translate ("Could not save");
     for (size_t i = 0; i < resources.size(); i++) {
       std::string title2 {};
@@ -170,7 +170,7 @@ std::string resource_translated1edit (Webserver_Request& webserver_request)
         error.clear();
       }
     }
-    database::config::general::setTranslatedResources (resources);
+    database::config::general::set_translated_resources (resources);
     // Update the list of resources not to be cached on the client devices.
     if (cache) client_logic_no_cache_resource_remove(title);
     else client_logic_no_cache_resource_add(title);

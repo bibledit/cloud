@@ -96,8 +96,8 @@ void sendreceive_files ()
   Database_Logs::log (sendreceive_files_sendreceive_text (), Filter_Roles::translator ());
 
   
-  const std::string address = database::config::general::getServerAddress ();
-  const int port = database::config::general::getServerPort ();
+  const std::string address = database::config::general::get_server_address ();
+  const int port = database::config::general::get_server_port ();
   const std::string url = client_logic_url (address, port, sync_files_url ());
   
   

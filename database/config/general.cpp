@@ -44,7 +44,7 @@ static std::string file (const char * key)
 }
 
 
-static std::string getValue (const char * key, const char * default_value)
+static std::string get_value (const char * key, const char * default_value)
 {
   // Check the memory cache.
   if (database_config_general_cache.count (key)) {
@@ -64,7 +64,7 @@ static std::string getValue (const char * key, const char * default_value)
 }
 
 
-static void setValue (const char * key, const std::string& value)
+static void set_value (const char * key, const std::string& value)
 {
   // Store in memory cache.
   database_config_general_cache [key] = value;
@@ -74,43 +74,43 @@ static void setValue (const char * key, const std::string& value)
 }
 
 
-static bool getBValue (const char * key, bool default_value)
+static bool get_boolean_value (const char * key, bool default_value)
 {
-  const std::string value = getValue (key, filter::strings::convert_to_string (default_value).c_str());
+  const std::string value = get_value (key, filter::strings::convert_to_string (default_value).c_str());
   return filter::strings::convert_to_bool (value);
 }
 
 
-static void setBValue (const char * key, bool value)
+static void set_boolean_value (const char * key, bool value)
 {
-  setValue (key, filter::strings::convert_to_string (value).c_str());
+  set_value (key, filter::strings::convert_to_string (value).c_str());
 }
 
 
-static int getIValue (const char * key, int default_value)
+static int get_integer_value (const char * key, int default_value)
 {
-  const std::string value = getValue (key, filter::strings::convert_to_string (default_value).c_str());
+  const std::string value = get_value (key, filter::strings::convert_to_string (default_value).c_str());
   return filter::strings::convert_to_int (value);
 }
 
 
-static void setIValue (const char * key, int value)
+static void set_integer_value (const char * key, int value)
 {
-  setValue (key, filter::strings::convert_to_string (value).c_str());
+  set_value (key, filter::strings::convert_to_string (value).c_str());
 }
 
 
-static std::vector <std::string> getList (const char * key)
+static std::vector <std::string> get_list (const char * key)
 {
-  const std::string contents = getValue (key, "");
+  const std::string contents = get_value (key, "");
   return filter::strings::explode (contents, '\n');
 }
 
 
-static void setList (const char * key, const std::vector <std::string>& values)
+static void set_list (const char * key, const std::vector <std::string>& values)
 {
   const std::string value = filter::strings::implode (values, "\n");
-  setValue (key, value);
+  set_value (key, value);
 }
 
 
@@ -118,157 +118,157 @@ static void setList (const char * key, const std::vector <std::string>& values)
 
 
 constexpr const auto site_mail_name_key {"site-mail-name"};
-std::string getSiteMailName ()
+std::string get_site_mail_name ()
 {
-  return getValue (site_mail_name_key, "Cloud");
+  return get_value (site_mail_name_key, "Cloud");
 }
-void setSiteMailName (std::string value)
+void set_site_mail_name (const std::string& value)
 {
-  setValue (site_mail_name_key, value);
+  set_value (site_mail_name_key, value);
 }
 
 
 constexpr const auto site_mail_address_key {"site-mail-address"};
-std::string getSiteMailAddress ()
+std::string get_site_mail_address ()
 {
-  return getValue (site_mail_address_key, "");
+  return get_value (site_mail_address_key, "");
 }
-void setSiteMailAddress (std::string value)
+void set_site_mail_address (const std::string& value)
 {
-  setValue (site_mail_address_key, value);
+  set_value (site_mail_address_key, value);
 }
 
 
 constexpr const auto mail_storage_host_key {"mail-storage-host"};
-std::string getMailStorageHost ()
+std::string get_mail_storage_host ()
 {
-  return getValue (mail_storage_host_key, "");
+  return get_value (mail_storage_host_key, "");
 }
-void setMailStorageHost (std::string value)
+void set_mail_storage_host (const std::string& value)
 {
-  setValue (mail_storage_host_key, value);
+  set_value (mail_storage_host_key, value);
 }
 
 
 constexpr const auto mail_storage_username_key {"mail-storage-username"};
-std::string getMailStorageUsername ()
+std::string get_mail_storage_username ()
 {
-  return getValue (mail_storage_username_key, "");
+  return get_value (mail_storage_username_key, "");
 }
-void setMailStorageUsername (std::string value)
+void set_mail_storage_username (const std::string& value)
 {
-  setValue (mail_storage_username_key, value);
+  set_value (mail_storage_username_key, value);
 }
 
 
 constexpr const auto mail_storage_password_key {"mail-storage-password"};
-std::string getMailStoragePassword ()
+std::string get_mail_storage_password ()
 {
-  return getValue (mail_storage_password_key, "");
+  return get_value (mail_storage_password_key, "");
 }
-void setMailStoragePassword (std::string value)
+void set_mail_storage_password (const std::string& value)
 {
-  setValue (mail_storage_password_key, value);
+  set_value (mail_storage_password_key, value);
 }
 
 
 constexpr const auto mail_storage_protocol_key {"mail-storage-protocol"};
-std::string getMailStorageProtocol ()
+std::string get_mail_storage_protocol ()
 {
-  return getValue (mail_storage_protocol_key, "");
+  return get_value (mail_storage_protocol_key, "");
 }
-void setMailStorageProtocol (std::string value)
+void set_mail_storage_protocol (const std::string& value)
 {
-  setValue (mail_storage_protocol_key, value);
+  set_value (mail_storage_protocol_key, value);
 }
 
 
 constexpr const auto mail_storage_port_key {"mail-storage-port"};
-std::string getMailStoragePort ()
+std::string get_mail_storage_port ()
 {
-  return getValue (mail_storage_port_key, "");
+  return get_value (mail_storage_port_key, "");
 }
-void setMailStoragePort (std::string value)
+void set_mail_storage_port (const std::string& value)
 {
-  setValue (mail_storage_port_key, value);
+  set_value (mail_storage_port_key, value);
 }
 
 
 constexpr const auto mail_send_host_key {"mail-send-host"};
-std::string getMailSendHost ()
+std::string get_mail_send_host ()
 {
-  return getValue (mail_send_host_key, "");
+  return get_value (mail_send_host_key, "");
 }
-void setMailSendHost (std::string value)
+void set_mail_send_host (const std::string& value)
 {
-  setValue (mail_send_host_key, value);
+  set_value (mail_send_host_key, value);
 }
 
 
 constexpr const auto mail_send_username_key {"mail-send-username"};
-std::string getMailSendUsername ()
+std::string get_mail_send_username ()
 {
-  return getValue (mail_send_username_key, "");
+  return get_value (mail_send_username_key, "");
 }
-void setMailSendUsername (std::string value)
+void set_mail_send_username (const std::string& value)
 {
-  setValue (mail_send_username_key, value);
+  set_value (mail_send_username_key, value);
 }
 
 
 constexpr const auto mail_send_password_key {"mail-send-password"};
-std::string getMailSendPassword ()
+std::string get_mail_send_password ()
 {
-  return getValue (mail_send_password_key, "");
+  return get_value (mail_send_password_key, "");
 }
-void setMailSendPassword (std::string value)
+void set_mail_send_password (const std::string& value)
 {
-  setValue (mail_send_password_key, value);
+  set_value (mail_send_password_key, value);
 }
 
 
 constexpr const auto mail_send_port_key {"mail-send-port"};
-std::string getMailSendPort ()
+std::string get_mail_send_port ()
 {
-  return getValue (mail_send_port_key, "");
+  return get_value (mail_send_port_key, "");
 }
-void setMailSendPort (std::string value)
+void set_mail_send_port (const std::string& value)
 {
-  setValue (mail_send_port_key, value);
+  set_value (mail_send_port_key, value);
 }
 
 
 constexpr const auto timer_minute_key {"timer-minute"};
-std::string getTimerMinute ()
+std::string get_timer_minute ()
 {
-  return getValue (timer_minute_key, "");
+  return get_value (timer_minute_key, "");
 }
-void setTimerMinute (std::string value)
+void set_timer_minute (const std::string& value)
 {
-  setValue (timer_minute_key, value);
+  set_value (timer_minute_key, value);
 }
 
 
 constexpr const auto timezone_key {"timezone"};
-int getTimezone ()
+int get_timezone ()
 {
   // If the global offset variable is set, that is,
   // within certain limits, then take that.
   if ((config_globals_timezone_offset_utc < MINIMUM_TIMEZONE)
       || (config_globals_timezone_offset_utc > MAXIMUM_TIMEZONE)) {
-    return getIValue (timezone_key, 0);
+    return get_integer_value (timezone_key, 0);
   }
   // Else take variable as set in the configuration.
   return config_globals_timezone_offset_utc;
 }
-void setTimezone (int value)
+void set_timezone (int value)
 {
-  setIValue (timezone_key, value);
+  set_integer_value (timezone_key, value);
 }
 
 
 constexpr const auto site_url_key {"site-url"};
-std::string getSiteURL ()
+std::string get_site_url ()
 {
   // The site URL is set upon login, normally.
   // In a client setup, there is never a login.
@@ -281,335 +281,351 @@ std::string getSiteURL ()
   return url;
 #else
   // Get the URL that was set upon login.
-  return getValue (site_url_key, "");
+  return get_value (site_url_key, "");
 #endif
 }
-void setSiteURL (std::string value)
+void set_site_url (const std::string& value)
 {
-  setValue (site_url_key, value);
+  set_value (site_url_key, value);
 }
 
 
 constexpr const auto general_site_language_key {"site-language"};
-std::string getSiteLanguage ()
+std::string get_site_language ()
 {
   // The default site language is an empty string.
   // It means not to localize the interface.
   // Since the default messages are all in English,
   // the default language for the interface will be English.
-  return getValue (general_site_language_key, "");
+  return get_value (general_site_language_key, "");
 }
-void setSiteLanguage (std::string value)
+void set_site_language (const std::string& value)
 {
-  setValue (general_site_language_key, value);
+  set_value (general_site_language_key, value);
 }
 
 
-bool getClientMode ()
+constexpr const auto client_mode_key {"client-mode"};
+bool get_client_mode ()
 {
-  return getBValue ("client-mode", false);
+  return get_boolean_value (client_mode_key, false);
 }
-void setClientMode (bool value)
+void set_client_mode (bool value)
 {
-  setBValue ("client-mode", value);
+  set_boolean_value (client_mode_key, value);
 }
 
 
-std::string getServerAddress ()
+constexpr const auto server_address_key {"server-address"};
+std::string get_server_address ()
 {
-  return getValue ("server-address", "");
+  return get_value (server_address_key, "");
 }
-void setServerAddress (std::string value)
+void set_server_address (const std::string& value)
 {
-  setValue ("server-address", value);
+  set_value (server_address_key, value);
 }
 
 
-int getServerPort ()
+constexpr const auto server_port_key {"server-port"};
+int get_server_port ()
 {
-  return getIValue ("server-port", 8080);
+  return get_integer_value (server_port_key, 8080);
 }
-void setServerPort (int value)
+void set_server_port (int value)
 {
-  setIValue ("server-port", value);
+  set_integer_value (server_port_key, value);
 }
 
 
-int getRepeatSendReceive ()
+constexpr const auto repeat_send_receive_key {"repeat-send-receive"};
+int get_repeat_send_receive ()
 {
-  return getIValue ("repeat-send-receive", 0);
+  return get_integer_value (repeat_send_receive_key, 0);
 }
-void setRepeatSendReceive (int value)
+void set_repeat_send_receive (int value)
 {
-  setIValue ("repeat-send-receive", value);
+  set_integer_value (repeat_send_receive_key, value);
 }
 
 
-int getLastSendReceive ()
+constexpr const auto last_send_receive_key {"last-send-receive"};
+int get_last_send_receive ()
 {
-  return getIValue ("last-send-receive", 0);
+  return get_integer_value (last_send_receive_key, 0);
 }
-void setLastSendReceive (int value)
+void set_last_send_receive (int value)
 {
-  setIValue ("last-send-receive", value);
+  set_integer_value (last_send_receive_key, value);
 }
 
 
-std::string getInstalledInterfaceVersion ()
+constexpr const auto installed_interface_version_key {"installed-interface-version"};
+std::string get_installed_interface_version ()
 {
-  return getValue ("installed-interface-version", "");
+  return get_value (installed_interface_version_key, "");
 }
-void setInstalledInterfaceVersion (std::string value)
+void set_installed_interface_version (const std::string& value)
 {
-  setValue ("installed-interface-version", value);
+  set_value (installed_interface_version_key, value);
 }
 
 
+constexpr const auto installed_database_version_key {"installed-database-version"};
 std::string getInstalledDatabaseVersion ()
 {
-  return getValue ("installed-database-version", "");
+  return get_value (installed_database_version_key, "");
 }
-void setInstalledDatabaseVersion (std::string value)
+void setInstalledDatabaseVersion (const std::string& value)
 {
-  setValue ("installed-database-version", value);
+  set_value (installed_database_version_key, value);
 }
 
 
+constexpr const auto just_started_key {"just-started"};
 bool getJustStarted ()
 {
-  return getBValue ("just-started", false);
+  return get_boolean_value (just_started_key, false);
 }
 void setJustStarted (bool value)
 {
-  setBValue ("just-started", value);
+  set_boolean_value (just_started_key, value);
 }
 
 
-std::string getParatextProjectsFolder ()
+constexpr const auto paratext_projects_folder_key {"paratext-projects-folder"};
+std::string get_paratext_projects_folder ()
 {
-  return getValue ("paratext-projects-folder", "");
+  return get_value (paratext_projects_folder_key, "");
 }
-void setParatextProjectsFolder (std::string value)
+void set_paratext_projects_folder (const std::string& value)
 {
-  setValue ("paratext-projects-folder", value);
+  set_value (paratext_projects_folder_key, value);
 }
 
 
 // Encryption / decryption key storage on client.
-std::string getSyncKey ()
+constexpr const auto sync_key_key {"sync-key"};
+std::string get_sync_key ()
 {
-  return getValue ("sync-key", "");
+  return get_value (sync_key_key, "");
 }
-void setSyncKey (std::string key)
+void set_sync_key (const std::string& key)
 {
-  setValue ("sync-key", key);
+  set_value (sync_key_key, key);
 }
 
 
-std::string getLastMenuClick ()
+constexpr const auto last_menu_click_key {"last-menu-click"};
+std::string get_last_menu_click ()
 {
-  return getValue ("last-menu-click", "");
+  return get_value (last_menu_click_key, "");
 }
-void setLastMenuClick (std::string url)
+void set_last_menu_click (const std::string& url)
 {
-  setValue ("last-menu-click", url);
+  set_value (last_menu_click_key, url);
 }
 
 
 // Store the resources to be cached.
 // The format is this:
 // <resource title><space><book number>
-std::vector <std::string> getResourcesToCache ()
+constexpr const auto resources_to_cache_key {"resources-to-cache"};
+std::vector <std::string> get_resources_to_cache ()
 {
-  return getList ("resources-to-cache");
+  return get_list (resources_to_cache_key);
+}
+void set_resources_to_cache (const std::vector <std::string>& values)
+{
+  set_list (resources_to_cache_key, values);
 }
 
 
-void setResourcesToCache (std::vector <std::string> values)
-{
-  setList ("resources-to-cache", values);
-}
-
-
+constexpr const auto index_notes_key {"index-notes"};
 bool getIndexNotes ()
 {
-  return getBValue ("index-notes", false);
+  return get_boolean_value (index_notes_key, false);
 }
 void setIndexNotes (bool value)
 {
-  setBValue ("index-notes", value);
+  set_boolean_value (index_notes_key, value);
 }
 
 
-bool getIndexBibles ()
+constexpr const auto index_bibles_key {"index-bibles"};
+bool get_index_bibles ()
 {
-  return getBValue ("index-bibles", false);
+  return get_boolean_value (index_bibles_key, false);
 }
-void setIndexBibles (bool value)
+void set_index_bibles (bool value)
 {
-  setBValue ("index-bibles", value);
-}
-
-
-int getUnsentBibleDataTime ()
-{
-  return getIValue ("unsent-bible-data-time", 0);
-}
-void setUnsentBibleDataTime (int value)
-{
-  setIValue ("unsent-bible-data-time", value);
+  set_boolean_value (index_bibles_key, value);
 }
 
 
-int getUnreceivedBibleDataTime ()
+constexpr const auto unsent_bible_data_time_key {"unsent-bible-data-time"};
+int get_unsent_bible_data_time ()
 {
-  return getIValue ("unreceived-bible-data-time", 0);
+  return get_integer_value (unsent_bible_data_time_key, 0);
 }
-void setUnreceivedBibleDataTime (int value)
+void set_unsent_bible_data_time (int value)
 {
-  setIValue ("unreceived-bible-data-time", value);
-}
-
-
-bool getAuthorInRssFeed ()
-{
-  return getBValue ("author-in-rss-feed", false);
-}
-void setAuthorInRssFeed (bool value)
-{
-  setBValue ("author-in-rss-feed", value);
+  set_integer_value (unsent_bible_data_time_key, value);
 }
 
 
-bool getJustConnectedToCloud ()
+constexpr const auto unreceived_bible_data_time_key {"unreceived-bible-data-time"};
+int get_unreceived_bible_data_time ()
 {
-  return getBValue ("just-connected-to-cloud", false);
+  return get_integer_value (unreceived_bible_data_time_key, 0);
 }
-void setJustConnectedToCloud (bool value)
+void set_unreceived_bible_data_time (int value)
 {
-  setBValue ("just-connected-to-cloud", value);
+  set_integer_value (unreceived_bible_data_time_key, value);
+}
+
+
+constexpr const auto author_in_rss_feed_key {"author-in-rss-feed"};
+bool get_author_in_rss_feed ()
+{
+  return get_boolean_value (author_in_rss_feed_key, false);
+}
+void set_uuthor_in_rss_feed (bool value)
+{
+  set_boolean_value (author_in_rss_feed_key, value);
+}
+
+
+constexpr const auto just_connected_to_cloud_key {"just-connected-to-cloud"};
+bool get_just_connected_to_cloud ()
+{
+  return get_boolean_value (just_connected_to_cloud_key, false);
+}
+void set_just_connected_to_cloud (bool value)
+{
+  set_boolean_value (just_connected_to_cloud_key, value);
 }
 
 
 constexpr const auto menu_in_tabbed_view_on_key {"menu-in-tabbed-view-on"};
-bool getMenuInTabbedViewOn ()
+bool get_menu_in_tabbed_view_on ()
 {
-  return getBValue (menu_in_tabbed_view_on_key, true);
+  return get_boolean_value (menu_in_tabbed_view_on_key, true);
 }
-void setMenuInTabbedViewOn (bool value)
+void set_menu_in_tabbed_view_on (bool value)
 {
-  setBValue (menu_in_tabbed_view_on_key, value);
+  set_boolean_value (menu_in_tabbed_view_on_key, value);
 }
 
 
 constexpr const auto menu_in_tabbed_view_json_key {"menu-in-tabbed-view-json"};
-std::string getMenuInTabbedViewJSON ()
+std::string get_menu_in_tabbed_view_json ()
 {
-  return getValue (menu_in_tabbed_view_json_key, "");
+  return get_value (menu_in_tabbed_view_json_key, "");
 }
-void setMenuInTabbedViewJSON (std::string value)
+void set_menu_in_tabbed_view_json (const std::string& value)
 {
-  setValue (menu_in_tabbed_view_json_key, value);
+  set_value (menu_in_tabbed_view_json_key, value);
 }
 
 
 constexpr const auto disable_selection_popup_chrome_os_key {"disable-selection-popup-chrome-os"};
-bool getDisableSelectionPopupChromeOS ()
+bool get_disable_selection_popup_chrome_os ()
 {
-  return getBValue (disable_selection_popup_chrome_os_key, false);
+  return get_boolean_value (disable_selection_popup_chrome_os_key, false);
 }
-void setDisableSelectionPopupChromeOS (bool value)
+void set_disable_selection_popup_chrome_os (bool value)
 {
-  setBValue (disable_selection_popup_chrome_os_key, value);
+  set_boolean_value (disable_selection_popup_chrome_os_key, value);
 }
 
 
 constexpr const auto notes_verse_separator_key {"notes-verse-separator"};
-std::string getNotesVerseSeparator ()
+std::string get_notes_verse_separator ()
 {
   // The colon is the default value. See https://github.com/bibledit/cloud/issues/509
-  return getValue (notes_verse_separator_key, ":");
+  return get_value (notes_verse_separator_key, ":");
 }
-void setNotesVerseSeparator (std::string value)
+void set_notes_verse_separator (const std::string& value)
 {
-  setValue (notes_verse_separator_key, value);
+  set_value (notes_verse_separator_key, value);
 }
 
 
 constexpr const auto comparative_resources_key {"comparative-resources"};
-std::vector <std::string> getComparativeResources ()
+std::vector <std::string> get_comparative_resources ()
 {
-  return getList (comparative_resources_key);
+  return get_list (comparative_resources_key);
 }
-void setComparativeResources (std::vector <std::string> values)
+void set_comparative_resources (const std::vector <std::string>& values)
 {
-  setList (comparative_resources_key, values);
+  set_list (comparative_resources_key, values);
 }
 
 
 constexpr const auto translated_resources_key {"translated-resources"};
-std::vector <std::string> getTranslatedResources ()
+std::vector <std::string> get_translated_resources ()
 {
-  return getList (translated_resources_key);
+  return get_list (translated_resources_key);
 }
-void setTranslatedResources (std::vector <std::string> values)
+void set_translated_resources (const std::vector <std::string>& values)
 {
-  setList (translated_resources_key, values);
+  set_list (translated_resources_key, values);
 }
 
 
 constexpr const auto default_active_resources_key {"default-active-resources"};
-std::vector <std::string> getDefaultActiveResources ()
+std::vector <std::string> get_default_active_resources ()
 {
-  return getList (default_active_resources_key);
+  return get_list (default_active_resources_key);
 }
-void setDefaultActiveResources (std::vector <std::string> values)
+void set_default_active_resources (const std::vector <std::string>& values)
 {
-  setList (default_active_resources_key, values);
+  set_list (default_active_resources_key, values);
 }
 
 
 constexpr const auto account_creation_times_key {"account-creation-times"};
-std::vector <std::string> getAccountCreationTimes ()
+std::vector <std::string> get_account_creation_times ()
 {
-  return getList (account_creation_times_key);
+  return get_list (account_creation_times_key);
 }
-void setAccountCreationTimes (std::vector <std::string> values)
+void set_account_creation_times (const std::vector <std::string>& values)
 {
-  setList (account_creation_times_key, values);
+  set_list (account_creation_times_key, values);
 }
 
 
 constexpr const auto keep_resources_cache_for_long_key {"keep-resources-cache-for-long"};
-bool getKeepResourcesCacheForLong ()
+bool get_keep_resources_cache_for_long ()
 {
-  return getBValue (keep_resources_cache_for_long_key, false);
+  return get_boolean_value (keep_resources_cache_for_long_key, false);
 }
-void setKeepResourcesCacheForLong (bool value)
+void set_keep_resources_cache_for_long (bool value)
 {
-  setBValue (keep_resources_cache_for_long_key, value);
+  set_boolean_value (keep_resources_cache_for_long_key, value);
 }
 
 
 constexpr const auto default_new_user_access_level_key {"default-new-user-access-level"};
-int getDefaultNewUserAccessLevel ()
+int get_default_new_user_access_level ()
 {
-  return getIValue (default_new_user_access_level_key, Filter_Roles::member ());
+  return get_integer_value (default_new_user_access_level_key, Filter_Roles::member ());
 }
-void setDefaultNewUserAccessLevel (int value)
+void set_default_new_user_access_level (int value)
 {
-  setIValue (default_new_user_access_level_key, value);
+  set_integer_value (default_new_user_access_level_key, value);
 }
 
 
 constexpr const auto keep_osis_content_in_sword_resources_key {"keep-osis-content-in-sword-resources"};
-bool getKeepOsisContentInSwordResources ()
+bool get_keep_osis_content_in_sword_resources ()
 {
-  return getBValue (keep_osis_content_in_sword_resources_key, false);
+  return get_boolean_value (keep_osis_content_in_sword_resources_key, false);
 }
-void setKeepOsisContentInSwordResources (bool value)
+void set_keep_osis_content_in_sword_resources (bool value)
 {
-  setBValue (keep_osis_content_in_sword_resources_key, value);
+  set_boolean_value (keep_osis_content_in_sword_resources_key, value);
 }
 
 }

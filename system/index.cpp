@@ -78,7 +78,7 @@ std::string system_index (Webserver_Request& webserver_request)
   // This is to be done before displaying the header.
   if (webserver_request.post.count ("languageselection")) {
     std::string languageselection {webserver_request.post ["languageselection"]};
-    database::config::general::setSiteLanguage (languageselection);
+    database::config::general::set_site_language (languageselection);
   }
 
   
@@ -107,7 +107,7 @@ std::string system_index (Webserver_Request& webserver_request)
   for (const auto& element : localizations) {
     language_html = Options_To_Select::add_selection (element.second, element.first, language_html);
   }
-  const std::string current_user_preference = database::config::general::getSiteLanguage ();
+  const std::string current_user_preference = database::config::general::get_site_language ();
   const std::string language = current_user_preference;
   view.set_variable ("languageselectionoptags", Options_To_Select::mark_selected (language, language_html));
   view.set_variable ("languageselection", language);
@@ -119,10 +119,10 @@ std::string system_index (Webserver_Request& webserver_request)
     input = filter::strings::replace ("UTC", std::string(), input);
     int input_timezone = filter::strings::convert_to_int (input);
     input_timezone = clip (input_timezone, MINIMUM_TIMEZONE, MAXIMUM_TIMEZONE);
-    database::config::general::setTimezone (input_timezone);
+    database::config::general::set_timezone (input_timezone);
   }
   // Set the time zone offset in the GUI.
-  const int timezone_setting = database::config::general::getTimezone();
+  const int timezone_setting = database::config::general::get_timezone();
   view.set_variable ("timezone", filter::strings::convert_to_string (timezone_setting));
   // Display the section to set the site's timezone only
   // in case the calling program has not yet set this zone in the library.
@@ -137,10 +137,10 @@ std::string system_index (Webserver_Request& webserver_request)
 #ifdef HAVE_CLOUD
   // Whether to include the author with every change in the RSS feed.
   if (checkbox == "rssauthor") {
-    database::config::general::setAuthorInRssFeed (checked);
+    database::config::general::set_uuthor_in_rss_feed (checked);
     return std::string();
   }
-  view.set_variable ("rssauthor", filter::strings::get_checkbox_status (database::config::general::getAuthorInRssFeed ()));
+  view.set_variable ("rssauthor", filter::strings::get_checkbox_status (database::config::general::get_author_in_rss_feed ()));
   // The location of the RSS feed.
   view.set_variable ("rssfeed", rss_feed_url ());
   // The Bibles that send their changes to the RSS feed.
@@ -255,7 +255,7 @@ std::string system_index (Webserver_Request& webserver_request)
   
   // Force re-index Bibles.
   if (webserver_request.query ["reindex"] == "bibles") {
-    database::config::general::setIndexBibles (true);
+    database::config::general::set_index_bibles (true);
     tasks_logic_queue (REINDEXBIBLES, {"1"});
     redirect_browser (webserver_request, journal_index_url ());
     return std::string();
@@ -324,10 +324,10 @@ std::string system_index (Webserver_Request& webserver_request)
   // Handle the setting whether to keep the resource caches for an extended period of time.
 #ifdef HAVE_CLOUD
   if (checkbox == "keepcache") {
-    database::config::general::setKeepResourcesCacheForLong (checked);
+    database::config::general::set_keep_resources_cache_for_long (checked);
     return std::string();
   }
-  view.set_variable ("keepcache", filter::strings::get_checkbox_status (database::config::general::getKeepResourcesCacheForLong ()));
+  view.set_variable ("keepcache", filter::strings::get_checkbox_status (database::config::general::get_keep_resources_cache_for_long ()));
 #endif
 
 
@@ -349,10 +349,10 @@ std::string system_index (Webserver_Request& webserver_request)
   // Handle the setting whether to keep the resource caches for an extended period of time.
 #ifdef HAVE_CLOUD
   if (checkbox == "keeposis") {
-    database::config::general::setKeepOsisContentInSwordResources (checked);
+    database::config::general::set_keep_osis_content_in_sword_resources (checked);
     return std::string();
   }
-  view.set_variable ("keeposis", filter::strings::get_checkbox_status (database::config::general::getKeepOsisContentInSwordResources ()));
+  view.set_variable ("keeposis", filter::strings::get_checkbox_status (database::config::general::get_keep_osis_content_in_sword_resources ()));
 #endif
 
   

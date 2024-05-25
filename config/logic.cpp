@@ -151,7 +151,7 @@ std::string site_url (Webserver_Request& webserver_request)
   // No URL found yet.
   // This occurs during scheduled tasks that require the URL to add it to emails sent out.
   // Take the URL stored on login.
-  url = database::config::general::getSiteURL ();
+  url = database::config::general::get_site_url ();
   return url;
 }
 

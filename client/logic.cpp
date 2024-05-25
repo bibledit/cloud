@@ -39,7 +39,7 @@ bool client_logic_client_enabled ()
 #ifndef HAVE_CLIENT
   return false;
 #endif
-  return database::config::general::getClientMode ();
+  return database::config::general::get_client_mode ();
 }
 
 
@@ -47,7 +47,7 @@ bool client_logic_client_enabled ()
 // $enable: boolean: true or false.
 void client_logic_enable_client (bool enable)
 {
-  database::config::general::setClientMode (enable);
+  database::config::general::set_client_mode (enable);
 }
 
 
@@ -78,8 +78,8 @@ std::string client_logic_connection_setup (std::string user, std::string hash)
   
   std::string encoded_user = filter::strings::bin2hex (user);
   
-  std::string address = database::config::general::getServerAddress ();
-  int port = database::config::general::getServerPort ();
+  std::string address = database::config::general::get_server_address ();
+  int port = database::config::general::get_server_port ();
   
   std::string url = client_logic_url (address, port, sync_setup_url ()) + "?user=" + encoded_user + "&pass=" + hash;
   
@@ -172,8 +172,8 @@ std::string client_logic_link_to_cloud (std::string path, std::string linktext)
   std::string url {};
   std::string external {};
   if (client_logic_client_enabled ()) {
-    std::string address = database::config::general::getServerAddress ();
-    int port = database::config::general::getServerPort ();
+    std::string address = database::config::general::get_server_address ();
+    int port = database::config::general::get_server_port ();
     url = address + ":" + filter::strings::convert_to_string (port);
     if (!path.empty ()) {
       url.append ("/");

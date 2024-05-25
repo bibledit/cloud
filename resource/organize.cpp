@@ -61,7 +61,7 @@ std::string resource_organize (Webserver_Request& webserver_request)
   int level = webserver_request.session_logic()->currentLevel ();
   bool is_def = false;
   if (webserver_request.query["type"] == "def" | webserver_request.post["type"] == "def") is_def = true;
-  std::vector <std::string> default_active_resources = database::config::general::getDefaultActiveResources ();
+  std::vector <std::string> default_active_resources = database::config::general::get_default_active_resources ();
 
   
   // Deal with a new added resources.
@@ -80,7 +80,7 @@ std::string resource_organize (Webserver_Request& webserver_request)
       std::vector <std::string> resources = webserver_request.database_config_user()->getActiveResources ();
       if (is_def) resources = default_active_resources;
       resources.push_back (add);
-      if (is_def) database::config::general::setDefaultActiveResources (resources);
+      if (is_def) database::config::general::set_default_active_resources (resources);
       else webserver_request.database_config_user()->setActiveResources (resources);
       if (!is_def) 
         webserver_request.database_config_user()->addUpdatedSetting (Sync_Logic::settings_send_resources_organization);
@@ -97,7 +97,7 @@ std::string resource_organize (Webserver_Request& webserver_request)
     if (remove < static_cast<int>(resources.size ())) {
       resources.erase (resources.begin () + remove);
     }
-    if (is_def) database::config::general::setDefaultActiveResources (resources);
+    if (is_def) database::config::general::set_default_active_resources (resources);
     else webserver_request.database_config_user()->setActiveResources (resources);
     if (!is_def) 
       webserver_request.database_config_user()->addUpdatedSetting (Sync_Logic::settings_send_resources_organization);
@@ -115,7 +115,7 @@ std::string resource_organize (Webserver_Request& webserver_request)
       std::vector <std::string> resources = webserver_request.database_config_user()->getActiveResources ();
       if (is_def) resources = default_active_resources;
       filter::strings::array_move_from_to (resources, from, to);
-      if (is_def) database::config::general::setDefaultActiveResources (resources);
+      if (is_def) database::config::general::set_default_active_resources (resources);
       else webserver_request.database_config_user()->setActiveResources (resources);
       if (!is_def) 
         webserver_request.database_config_user()->addUpdatedSetting (Sync_Logic::settings_send_resources_organization);
@@ -233,13 +233,13 @@ std::string resource_organize (Webserver_Request& webserver_request)
 
   
   if (webserver_request.query.count ("install")) {
-    std::vector <std::string> installing_resources = database::config::general::getResourcesToCache ();
+    std::vector <std::string> installing_resources = database::config::general::get_resources_to_cache ();
     std::vector <std::string> active_resources_2 = webserver_request.database_config_user()->getActiveResources ();
     for (auto & resource : active_resources_2) {
       if (resource_logic_can_cache (resource)) {
         if (!in_array (resource, installing_resources)) {
           installing_resources.push_back (resource);
-          database::config::general::setResourcesToCache (installing_resources);
+          database::config::general::set_resources_to_cache (installing_resources);
         }
       }
     }

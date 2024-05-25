@@ -309,7 +309,7 @@ void bootstrap_index (Webserver_Request& webserver_request)
   }
   
   // Force setup.
-  if (config::logic::version () != database::config::general::getInstalledInterfaceVersion ()) {
+  if (config::logic::version () != database::config::general::get_installed_interface_version ()) {
     webserver_request.reply = setup_index (webserver_request);
     return;
   }

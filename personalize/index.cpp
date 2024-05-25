@@ -336,12 +336,12 @@ std::string personalize_index (Webserver_Request& webserver_request)
   
   // Setting for whether to show the main menu in tabbed view in basic mode on phones and tablets.
   if (checkbox == "mainmenutabs") {
-    database::config::general::setMenuInTabbedViewOn (checked);
+    database::config::general::set_menu_in_tabbed_view_on (checked);
     menu_logic_tabbed_mode_save_json (webserver_request);
   }
   if (menu_logic_can_do_tabbed_mode ()) {
     view.enable_zone ("tabs_possible");
-    view.set_variable ("mainmenutabs", filter::strings::get_checkbox_status(database::config::general::getMenuInTabbedViewOn ()));
+    view.set_variable ("mainmenutabs", filter::strings::get_checkbox_status(database::config::general::get_menu_in_tabbed_view_on ()));
   }
 
   
@@ -392,9 +392,9 @@ std::string personalize_index (Webserver_Request& webserver_request)
   // This pop-up appears on some Chrome OS devices when selecting text in an editable area.
   // See https://github.com/bibledit/cloud/issues/282 for more information.
   if (checkbox == "disableselectionpopupchromeos") {
-    database::config::general::setDisableSelectionPopupChromeOS (checked);
+    database::config::general::set_disable_selection_popup_chrome_os (checked);
   }
-  view.set_variable ("disableselectionpopupchromeos", filter::strings::get_checkbox_status(database::config::general::getDisableSelectionPopupChromeOS ()));
+  view.set_variable ("disableselectionpopupchromeos", filter::strings::get_checkbox_status(database::config::general::get_disable_selection_popup_chrome_os ()));
   if (config_globals_running_on_chrome_os) {
     view.enable_zone ("chromeos");
   }
@@ -402,10 +402,10 @@ std::string personalize_index (Webserver_Request& webserver_request)
   
   // Setting for the verse separator during notes entry.
   if (webserver_request.post.count ("verseseparator")) {
-    database::config::general::setNotesVerseSeparator (webserver_request.post["verseseparator"]);
+    database::config::general::set_notes_verse_separator (webserver_request.post["verseseparator"]);
     return std::string();
   }
-  std::string separator_key = database::config::general::getNotesVerseSeparator ();
+  std::string separator_key = database::config::general::get_notes_verse_separator ();
   std::string separator_html;
   separator_html = Options_To_Select::add_selection (menu_logic_verse_separator ("."), ".", separator_html);
   separator_html = Options_To_Select::add_selection (menu_logic_verse_separator (":"), ":", separator_html);

@@ -1040,11 +1040,11 @@ void Database_Config_User::setResourceVersesAfter (int verses) const
 
 constexpr const auto sync_key_key {"sync-key"};
 // Encryption key storage on server.
-std::string Database_Config_User::getSyncKey () const
+std::string Database_Config_User::get_sync_key () const
 {
   return getValue (sync_key_key, "");
 }
-void Database_Config_User::setSyncKey (const std::string& key) const
+void Database_Config_User::set_sync_key (const std::string& key) const
 {
   setValue (sync_key_key, key);
 }

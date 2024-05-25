@@ -34,16 +34,16 @@ TEST(database, config_general)
 {
   refresh_sandbox (false);
   
-  EXPECT_EQ ("Cloud", database::config::general::getSiteMailName ());
+  EXPECT_EQ ("Cloud", database::config::general::get_site_mail_name ());
   
   const std::string value {"unittest"};
-  database::config::general::setSiteMailName (value);
-  EXPECT_EQ (value, database::config::general::getSiteMailName ());
+  database::config::general::set_site_mail_name (value);
+  EXPECT_EQ (value, database::config::general::get_site_mail_name ());
   
-  database::config::general::setSiteMailName (std::string());
-  EXPECT_EQ (std::string(), database::config::general::getSiteMailName ());
+  database::config::general::set_site_mail_name (std::string());
+  EXPECT_EQ (std::string(), database::config::general::get_site_mail_name ());
   
-  EXPECT_EQ (std::string(), database::config::general::getMailStorageProtocol ());
+  EXPECT_EQ (std::string(), database::config::general::get_mail_storage_protocol ());
   
   refresh_sandbox (false);
 }

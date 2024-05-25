@@ -126,10 +126,10 @@ std::string sendreceive_index (Webserver_Request& webserver_request)
   std::string checkbox = webserver_request.post ["checkbox"];
   bool checked = filter::strings::convert_to_bool (webserver_request.post ["checked"]);
   if (checkbox == "repeatbible") {
-    Database_Config_Bible::setRepeatSendReceive (bible, checked);
+    Database_Config_Bible::set_repeat_send_receive (bible, checked);
     return std::string();
   }
-  view.set_variable ("repeatbible", filter::strings::get_checkbox_status (Database_Config_Bible::getRepeatSendReceive (bible)));
+  view.set_variable ("repeatbible", filter::strings::get_checkbox_status (Database_Config_Bible::get_repeat_send_receive (bible)));
   
     
   if (sendreceive_git_repository_linked (bible)) {
@@ -188,9 +188,9 @@ std::string sendreceive_index (Webserver_Request& webserver_request)
     // Clamp the values.
     if (repeatsync < 0) repeatsync = 0;
     if (repeatsync > 2) repeatsync = 2;
-    database::config::general::setRepeatSendReceive (repeatsync);
+    database::config::general::set_repeat_send_receive (repeatsync);
   }
-  int repeatsync = database::config::general::getRepeatSendReceive ();
+  int repeatsync = database::config::general::get_repeat_send_receive ();
   // After removing value 3, if the setting had "3", make it "2".
   if (repeatsync > 2) repeatsync = 2;
   std::string repeatsynczone = "repeatsync" + filter::strings::convert_to_string (repeatsync);

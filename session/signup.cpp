@@ -258,7 +258,7 @@ std::string session_signup ([[maybe_unused]] Webserver_Request& webserver_reques
 
       // Set the role of the new signing up user, it is set as member if no
       // default has been set by an administrator.
-      const int role = database::config::general::getDefaultNewUserAccessLevel ();
+      const int role = database::config::general::get_default_new_user_access_level ();
 
       const std::string query = database_users.add_userQuery (user, pass, role, mail);
 

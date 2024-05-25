@@ -182,7 +182,7 @@ void timer_index ()
       // Only update missing indexes.
       if ((hour == 2) && (minute == 0)) {
         Database_State::create ();
-        database::config::general::setIndexBibles (true);
+        database::config::general::set_index_bibles (true);
         tasks_logic_queue (REINDEXBIBLES);
         database::config::general::setIndexNotes (true);
         tasks_logic_queue (REINDEXNOTES);

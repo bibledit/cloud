@@ -83,15 +83,15 @@ void client_index_enable_client (Webserver_Request& webserver_request, const std
   database_bibleactions.create ();
   webserver_request.session_logic ()->set_username (username);
   webserver_request.database_config_user()->setUpdatedSettings ({});
-  database::config::general::setUnsentBibleDataTime (0);
-  database::config::general::setUnreceivedBibleDataTime (filter::date::seconds_since_epoch ());
+  database::config::general::set_unsent_bible_data_time (0);
+  database::config::general::set_unreceived_bible_data_time (filter::date::seconds_since_epoch ());
   
   // Set flag for first run after connecting.
-  database::config::general::setJustConnectedToCloud (true);
+  database::config::general::set_just_connected_to_cloud (true);
   
   // Set it to repeat sync every so often.
-  if (database::config::general::getRepeatSendReceive () == 0) {
-    database::config::general::setRepeatSendReceive (2);
+  if (database::config::general::get_repeat_send_receive () == 0) {
+    database::config::general::set_repeat_send_receive (2);
   }
   
   // Schedule a sync operation straightaway.
@@ -106,10 +106,10 @@ std::string client_index (Webserver_Request& webserver_request)
   if (webserver_request.query.count ("disable")) {
     client_logic_enable_client (false);
     client_index_remove_all_users (webserver_request);
-    database::config::general::setRepeatSendReceive (0);
-    database::config::general::setUnsentBibleDataTime (0);
-    database::config::general::setUnreceivedBibleDataTime (0);
-    database::config::general::setJustConnectedToCloud (false);
+    database::config::general::set_repeat_send_receive (0);
+    database::config::general::set_unsent_bible_data_time (0);
+    database::config::general::set_unreceived_bible_data_time (0);
+    database::config::general::set_just_connected_to_cloud (false);
   }
   
   bool connect = webserver_request.post.count ("connect");
@@ -142,7 +142,7 @@ std::string client_index (Webserver_Request& webserver_request)
       }
     }
     // Store the address.
-    database::config::general::setServerAddress (address);
+    database::config::general::set_server_address (address);
     
     int port = filter::strings::convert_to_int (config::logic::http_network_port ());
     if (proceed) port = filter::strings::convert_to_int (webserver_request.post ["port"]);
@@ -151,7 +151,7 @@ std::string client_index (Webserver_Request& webserver_request)
       view.set_variable ("error", translate ("Supply a port number"));
       proceed = false;
     }
-    database::config::general::setServerPort (port);
+    database::config::general::set_server_port (port);
     
     std::string user {};
     if (proceed) user = webserver_request.post ["user"];
@@ -186,10 +186,10 @@ std::string client_index (Webserver_Request& webserver_request)
   if (client_logic_client_enabled ()) view.enable_zone ("clienton");
   else view.enable_zone ("clientoff");
   
-  const std::string address {database::config::general::getServerAddress ()};
+  const std::string address {database::config::general::get_server_address ()};
   view.set_variable ("address", address);
   
-  const int port {database::config::general::getServerPort ()};
+  const int port {database::config::general::get_server_port ()};
   view.set_variable ("port", filter::strings::convert_to_string (port));
   
   view.set_variable ("url", client_logic_link_to_cloud ("", ""));

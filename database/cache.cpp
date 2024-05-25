@@ -481,7 +481,7 @@ void database_cache_trim (bool clear)
   // By default keep the resources cache for 30 days.
   std::string days = "+30";
   // If keeping the resources cache for an extended period of time, keep it for a full year.
-  if (database::config::general::getKeepResourcesCacheForLong()) days = "+365";
+  if (database::config::general::get_keep_resources_cache_for_long()) days = "+365";
   // If free disk space is tighter, keep the caches for a shorter period.
   if (percentage_disk_in_use > 80) days = "+14";
   if (percentage_disk_in_use > 85) days = "+7";

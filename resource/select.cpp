@@ -242,7 +242,7 @@ std::string resource_select (Webserver_Request& webserver_request)
     std::vector <std::string> resources;
     std::vector<std::string> raw_resources =
 #ifdef HAVE_CLOUD
-    database::config::general::getComparativeResources ();
+    database::config::general::get_comparative_resources ();
 #else
     resource_logic_comparative_resources_get_list_on_client ();
 #endif
@@ -271,7 +271,7 @@ std::string resource_select (Webserver_Request& webserver_request)
     std::vector <std::string> resources;
     std:: vector<std::string> raw_resources =
 #ifdef HAVE_CLOUD
-    database::config::general::getTranslatedResources ();
+    database::config::general::get_translated_resources ();
 #else
     resource_logic_translated_resources_get_list_on_client ();
 #endif

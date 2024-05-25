@@ -79,7 +79,7 @@ std::string session_confirm ([[maybe_unused]] Webserver_Request& webserver_reque
       Database_Logs::log (webserver_request.session_logic()->currentUser () + " confirmed account and logged in");
       // Store web site's base URL.
       std::string siteUrl = get_base_url (webserver_request);
-      database::config::general::setSiteURL (siteUrl);
+      database::config::general::set_site_url (siteUrl);
       // Store account creation time.
       user_logic_store_account_creation (webserver_request.session_logic()->currentUser ());
     }

@@ -92,7 +92,7 @@ void setup_conditionally (const char * package)
     database::config::general::setInstalledDatabaseVersion (config::logic::version ());
   };
 
-  if (config::logic::version () != database::config::general::getInstalledInterfaceVersion ()) {
+  if (config::logic::version () != database::config::general::get_installed_interface_version ()) {
     
     // In client mode or in demo mode do not display the page for entering the admin's details.
 #ifdef HAVE_CLIENT
@@ -299,7 +299,7 @@ void setup_initialize_data ()
    because it takes quite a while on low power devices,
    and the reason for the re-indexing is not clear.
   config_globals_setup_message = "indexes";
-  database::config::general::setIndexBibles (true);
+  database::config::general::set_index_bibles (true);
   tasks_logic_queue (REINDEXBIBLES);
   */
 }
@@ -317,7 +317,7 @@ void setup_set_admin_details (const std::string& username, const std::string& pa
 // Set the GUI setup status as completed.
 void setup_complete_gui ()
 {
-  database::config::general::setInstalledInterfaceVersion (config::logic::version ());
+  database::config::general::set_installed_interface_version (config::logic::version ());
 }
 
 

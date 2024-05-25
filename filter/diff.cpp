@@ -341,7 +341,7 @@ void filter_diff_produce_verse_level (std::string bible, std::string directory)
 {
   Webserver_Request request;
   Database_Modifications database_modifications;
-  const std::string stylesheet = database::config::bible::getExportStylesheet (bible);
+  const std::string stylesheet = database::config::bible::get_export_stylesheet (bible);
   
   std::vector <std::string> old_vs_usfm;
   std::vector <std::string> new_vs_usfm;

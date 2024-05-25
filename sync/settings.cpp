@@ -110,7 +110,7 @@ std::string sync_settings (Webserver_Request& webserver_request)
     }
     case Sync_Logic::settings_get_bible_font:
     {
-      return database::config::bible::getTextFont (bible_s);
+      return database::config::bible::get_text_font (bible_s);
     }
     case Sync_Logic::settings_send_platform:
     {

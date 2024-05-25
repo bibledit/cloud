@@ -63,36 +63,36 @@ void export_index ()
 
       Database_Logs::log ("Exporting Bible " + bible, Filter_Roles::translator ());
 
-      if (database::config::bible::getExportWebDuringNight (bible)) {
+      if (database::config::bible::get_export_web_during_night (bible)) {
         export_logic::schedule_web (bible, false);
         export_logic::schedule_web_index (bible, false);
       }
 
-      if (database::config::bible::getExportHtmlDuringNight (bible)) {
+      if (database::config::bible::get_export_hml_during_night (bible)) {
         export_logic::schedule_html (bible, false);
       }
       
-      if (database::config::bible::getExportUsfmDuringNight (bible)) {
+      if (database::config::bible::get_export_usfm_during_night (bible)) {
         export_logic::schedule_usfm (bible, false);
       }
       
-      if (database::config::bible::getExportTextDuringNight (bible)) {
+      if (database::config::bible::get_export_text_during_night (bible)) {
         export_logic::schedule_text_and_basic_usfm (bible, false);
       }
       
-      if (database::config::bible::getExportOdtDuringNight (bible)) {
+      if (database::config::bible::get_export_odt_during_night (bible)) {
         export_logic::schedule_open_document (bible, false);
       }
       
-      if (database::config::bible::getGenerateInfoDuringNight (bible)) {
+      if (database::config::bible::get_generate_info_during_night (bible)) {
         export_logic::schedule_info (bible, false);
       }
       
-      if (database::config::bible::getExportESwordDuringNight (bible)) {
+      if (database::config::bible::get_export_e_sword_during_night (bible)) {
         export_logic::schedule_e_sword (bible, false);
       }
 
-      if (database::config::bible::getExportOnlineBibleDuringNight (bible)) {
+      if (database::config::bible::get_export_online_bible_during_night (bible)) {
         export_logic::schedule_online_bible (bible, false);
       }
       

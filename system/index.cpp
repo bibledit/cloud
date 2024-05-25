@@ -149,7 +149,7 @@ std::string system_index (Webserver_Request& webserver_request)
     Database_Bibles database_bibles;
     std::vector <std::string> bibles = database_bibles.get_bibles ();
     for (const auto& bible : bibles) {
-      if (database::config::bible::getSendChangesToRSS (bible)) {
+      if (database::config::bible::get_send_changes_to_rss (bible)) {
         if (!rssbibles.empty ()) rssbibles.append (" ");
         rssbibles.append (bible);
       }

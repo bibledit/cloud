@@ -76,7 +76,7 @@ void Assets_Header::set_navigator ()
 void Assets_Header::set_stylesheet ()
 {
   const std::string bible = m_webserver_request.database_config_user()->getBible ();
-  const std::string stylesheet = database::config::bible::getEditorStylesheet (bible);
+  const std::string stylesheet = database::config::bible::get_editor_stylesheet (bible);
   m_included_stylesheet = std::move(stylesheet);
 }
 
@@ -85,7 +85,7 @@ void Assets_Header::set_stylesheet ()
 void Assets_Header::set_editor_stylesheet ()
 {
   const std::string bible = m_webserver_request.database_config_user()->getBible ();
-  const std::string stylesheet = database::config::bible::getEditorStylesheet (bible);
+  const std::string stylesheet = database::config::bible::get_editor_stylesheet (bible);
   m_included_editor_stylesheet = std::move(stylesheet);
 }
 

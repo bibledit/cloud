@@ -57,7 +57,7 @@ void export_odt_book (std::string bible, int book, bool log)
   Database_BibleImages database_bibleimages;
   
   
-  const std::string stylesheet = database::config::bible::getExportStylesheet (bible);
+  const std::string stylesheet = database::config::bible::get_export_stylesheet (bible);
   
   
   Filter_Text filter_text = Filter_Text (bible);
@@ -109,8 +109,8 @@ void export_odt_book (std::string bible, int book, bool log)
     
   // Securing the OpenDocument export implies that the exported files are zipped and secured with a password.
   // It uses the external zip binary.
-  bool secure = database::config::bible::getSecureOdtExport (bible);
-  std::string password = database::config::bible::getExportPassword (bible);
+  bool secure = database::config::bible::get_secure_odt_export (bible);
+  std::string password = database::config::bible::get_export_password (bible);
   std::string basefile = filter_url_basename (standardFilename);
   filter_url_unlink (standardFilename + ".zip");
   if (secure) {

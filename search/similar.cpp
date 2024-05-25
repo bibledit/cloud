@@ -67,11 +67,11 @@ std::string search_similar (Webserver_Request& webserver_request)
     // Text of the focused verse in the active Bible.
     // Remove all punctuation from it.
     std::string versetext = search_logic_get_bible_verse_text (bible, book, chapter, verse);
-    std::vector <std::string> punctuation = filter::strings::explode (database::config::bible::getSentenceStructureEndPunctuation (bible), ' ');
+    std::vector <std::string> punctuation = filter::strings::explode (database::config::bible::get_sentence_structure_end_punctuation (bible), ' ');
     for (auto & sign : punctuation) {
       versetext = filter::strings::replace (sign, "", versetext);
     }
-    punctuation = filter::strings::explode (database::config::bible::getSentenceStructureMiddlePunctuation (bible), ' ');
+    punctuation = filter::strings::explode (database::config::bible::get_sentence_structure_middle_punctuation (bible), ' ');
     for (auto & sign : punctuation) {
       versetext = filter::strings::replace (sign, "", versetext);
     }

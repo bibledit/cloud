@@ -112,7 +112,7 @@ std::string sprint_index ([[maybe_unused]] Webserver_Request& webserver_request)
         id.erase (0, pos + 3);
         // Convert the box to an integer.
         int box = filter::strings::convert_to_int (id);
-        std::string categorytext = database::config::bible::getSprintTaskCompletionCategories (bible);
+        std::string categorytext = database::config::bible::get_sprint_task_completion_categories (bible);
         std::vector <std::string> categories = filter::strings::explode (categorytext, '\n');
         size_t category_count = categories.size ();
         float category_percentage = 100.0f / static_cast<float>(category_count);
@@ -200,7 +200,7 @@ std::string sprint_index ([[maybe_unused]] Webserver_Request& webserver_request)
       if (category != "") categories2.push_back (category);
     }
     categories = filter::strings::implode (categories2, "\n");
-    database::config::bible::setSprintTaskCompletionCategories (bible, categories);
+    database::config::bible::set_sprint_task_completion_categories (bible, categories);
   }
   
   
@@ -208,7 +208,7 @@ std::string sprint_index ([[maybe_unused]] Webserver_Request& webserver_request)
   view.set_variable ("sprint", locale_logic_month (month) + " " + filter::strings::convert_to_string (year));
 
   
-  std::string categorytext = database::config::bible::getSprintTaskCompletionCategories (bible);
+  std::string categorytext = database::config::bible::get_sprint_task_completion_categories (bible);
   view.set_variable ("categorytext", categorytext);
   std::vector <std::string> vcategories = filter::strings::explode (categorytext, '\n');
   std::string categories;

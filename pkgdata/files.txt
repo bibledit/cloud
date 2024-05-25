@@ -271,6 +271,7 @@
 /fonts/Montserrat-SemiBold.ttf
 /fonts/SILEOT.ttf
 /fonts/SIL-Licenses.txt
+/generate
 /git
 /git/gitflag
 /help
@@ -342,6 +343,7 @@
 /ldap
 /lexicon
 /libbibledit.a.au0YSJ
+/libbibledit.a.dlIkBt
 /libbibledit.a.kl74Yc
 /library
 /livetest
@@ -618,6 +620,7 @@
 /sendreceive
 /sendreceive/index.html
 /sendreceive/index.js
+/server
 /session
 /session/login.html
 /session/login.js
@@ -856,6 +859,7 @@
 /tmp/holder
 /trash
 /trash/holder
+/unittest
 /unittests
 /unittests/scripts
 /unittests/scripts/editor1.py

@@ -128,8 +128,8 @@ void demo_clean_data ()
   // Set both stylesheets to "Standard" for all Bibles.
   std::vector <std::string> bibles = webserver_request.database_bibles()->get_bibles ();
   for (const auto & bible : bibles) {
-    database::config::bible::setExportStylesheet (bible, styles_logic_standard_sheet ());
-    database::config::bible::setEditorStylesheet (bible, styles_logic_standard_sheet ());
+    database::config::bible::set_export_stylesheet (bible, styles_logic_standard_sheet ());
+    database::config::bible::set_editor_stylesheet (bible, styles_logic_standard_sheet ());
   }
   
   

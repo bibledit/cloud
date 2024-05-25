@@ -183,12 +183,12 @@ std::string resource_logic_get_html (Webserver_Request& webserver_request,
 
   // Retrieve versification system of the active Bible.
   std::string bible = webserver_request.database_config_user ()->getBible ();
-  std::string bible_versification = database::config::bible::getVersificationSystem (bible);
+  std::string bible_versification = database::config::bible::get_versification_system (bible);
 
   // Determine the versification system of the current resource.
   std::string resource_versification;
   if (is_bible || is_usfm) {
-    resource_versification = database::config::bible::getVersificationSystem (bible);
+    resource_versification = database::config::bible::get_versification_system (bible);
   } else if (is_external) {
     resource_versification = resource_external_mapping (resource);
   } else if (is_image) {

@@ -166,7 +166,7 @@ std::string Sync_Logic::settings_checksum (const std::vector <std::string> & bib
   for (auto & bible : bibles) {
     checksum.append (bible);
     // Download Bible text font name: It is the default name for the clients.
-    checksum.append (database::config::bible::getTextFont (bible));
+    checksum.append (database::config::bible::get_text_font (bible));
   }
   checksum.append (filter::strings::convert_to_string (m_webserver_request.database_config_user()->getPrivilegeDeleteConsultationNotes ()));
   return md5 (checksum);

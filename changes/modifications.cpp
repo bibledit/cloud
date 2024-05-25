@@ -71,7 +71,7 @@ void changes_process_identifiers (Webserver_Request& webserver_request,
 {
   if (oldId != 0) {
     Database_Modifications database_modifications {};
-    const std::string stylesheet = database::config::bible::getExportStylesheet (bible);
+    const std::string stylesheet = database::config::bible::get_export_stylesheet (bible);
     Database_Modifications_Text old_chapter_text = database_modifications.getUserChapter (user, bible, book, chapter, oldId);
     const std::string old_chapter_usfm = old_chapter_text.oldtext;
     Database_Modifications_Text new_chapter_text = database_modifications.getUserChapter (user, bible, book, chapter, newId);
@@ -279,7 +279,7 @@ void changes_modifications ()
   for (const auto & bible : bibles) {
     
     
-    const std::string stylesheet = database::config::bible::getExportStylesheet (bible);
+    const std::string stylesheet = database::config::bible::get_export_stylesheet (bible);
     
     
     std::vector <std::string> changeNotificationUsers;

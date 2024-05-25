@@ -48,7 +48,7 @@ void sendreceive_sendreceive ([[maybe_unused]] std::string bible)
   std::string directory = filter_git_directory (bible);
   
   
-  bool read_from_git = database::config::bible::getReadFromGit (bible);
+  bool read_from_git = database::config::bible::get_read_from_git (bible);
   
 
   // Check that the repository directory is there.
@@ -178,7 +178,7 @@ void sendreceive_sendreceive ([[maybe_unused]] std::string bible)
   // This is normally off due to some race conditions that came up now and then,
   // where a change made by a user was committed was reverted by the system.
   // So having it off by default is the safest thing one can do.
-  if (database::config::bible::getReadFromGit (bible)) {
+  if (database::config::bible::get_read_from_git (bible)) {
     if (success) {
       pull_messages.insert (pull_messages.end (), paths_resolved_conflicts.begin (), paths_resolved_conflicts.end());
       for (auto & pull_message : pull_messages) {

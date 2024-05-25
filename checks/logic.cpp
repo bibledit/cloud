@@ -28,7 +28,7 @@ void checks_logic_start_all ()
   Database_Bibles database_bibles {};
   const std::vector <std::string>& bibles = database_bibles.get_bibles ();
   for (const auto& bible : bibles) {
-    const bool enabled = database::config::bible::getDailyChecksEnabled (bible);
+    const bool enabled = database::config::bible::get_daily_checks_enabled (bible);
     if (enabled) checks_logic_start (bible);
   }
 }

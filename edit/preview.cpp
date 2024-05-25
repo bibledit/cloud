@@ -77,9 +77,9 @@ std::string edit_preview (Webserver_Request& webserver_request)
   
   std::string cls = Filter_Css::getClass (bible);
   std::string font = fonts::logic::get_text_font (bible);
-  int direction = database::config::bible::getTextDirection (bible);
-  int lineheight = database::config::bible::getLineHeight (bible);
-  int letterspacing = database::config::bible::getLetterSpacing (bible);
+  int direction = database::config::bible::get_text_direction (bible);
+  int lineheight = database::config::bible::get_line_height (bible);
+  int letterspacing = database::config::bible::get_letter_spacing (bible);
   view.set_variable ("custom_class", cls);
   view.set_variable ("custom_css", Filter_Css::get_css (cls,
                                                        fonts::logic::get_font_path (font),
@@ -90,7 +90,7 @@ std::string edit_preview (Webserver_Request& webserver_request)
   int book = Ipc_Focus::getBook (webserver_request);
   int chapter = Ipc_Focus::getChapter (webserver_request);
   
-  const std::string stylesheet = database::config::bible::getEditorStylesheet (bible);
+  const std::string stylesheet = database::config::bible::get_editor_stylesheet (bible);
   
   std::string usfm = webserver_request.database_bibles()->get_chapter (bible, book, chapter);
   

@@ -66,38 +66,38 @@ void checks_run (std::string bible)
   database_check.truncateOutput (bible);
   
   
-  const std::string stylesheet = database::config::bible::getExportStylesheet (bible);
+  const std::string stylesheet = database::config::bible::get_export_stylesheet (bible);
   
   
-  bool check_double_spaces_usfm = database::config::bible::getCheckDoubleSpacesUsfm (bible);
-  bool check_full_stop_in_headings = database::config::bible::getCheckFullStopInHeadings (bible);
-  bool check_space_before_punctuation = database::config::bible::getCheckSpaceBeforePunctuation (bible);
-  bool check_space_before_final_note_marker = database::config::bible::getCheckSpaceBeforeFinalNoteMarker (bible);
-  bool check_sentence_structure = database::config::bible::getCheckSentenceStructure (bible);
-  bool check_paragraph_structure = database::config::bible::getCheckParagraphStructure (bible);
+  bool check_double_spaces_usfm = database::config::bible::get_check_double_spaces_usfm (bible);
+  bool check_full_stop_in_headings = database::config::bible::get_check_full_stop_in_headings (bible);
+  bool check_space_before_punctuation = database::config::bible::get_check_space_before_punctuation (bible);
+  bool check_space_before_final_note_marker = database::config::bible::get_check_space_before_final_note_marker (bible);
+  bool check_sentence_structure = database::config::bible::get_check_sentence_structure (bible);
+  bool check_paragraph_structure = database::config::bible::get_check_paragraph_structure (bible);
   Checks_Sentences checks_sentences;
-  checks_sentences.enter_capitals (database::config::bible::getSentenceStructureCapitals (bible));
-  checks_sentences.enter_small_letters (database::config::bible::getSentenceStructureSmallLetters (bible));
-  std::string end_marks = database::config::bible::getSentenceStructureEndPunctuation (bible);
+  checks_sentences.enter_capitals (database::config::bible::get_sentence_structure_capitals (bible));
+  checks_sentences.enter_small_letters (database::config::bible::get_sentence_structure_small_letters (bible));
+  std::string end_marks = database::config::bible::get_sentence_structure_end_punctuation (bible);
   checks_sentences.enter_end_marks (end_marks);
-  std::string center_marks = database::config::bible::getSentenceStructureMiddlePunctuation (bible);
+  std::string center_marks = database::config::bible::get_sentence_structure_middle_punctuation (bible);
   checks_sentences.enter_center_marks (center_marks);
-  std::string disregards = database::config::bible::getSentenceStructureDisregards (bible);
+  std::string disregards = database::config::bible::get_sentence_structure_disregards (bible);
   checks_sentences.enter_disregards (disregards);
-  checks_sentences.enter_names (database::config::bible::getSentenceStructureNames (bible));
-  std::vector <std::string> within_sentence_paragraph_markers = filter::strings::explode (database::config::bible::getSentenceStructureWithinSentenceMarkers (bible), ' ');
-  bool check_books_versification = database::config::bible::getCheckBooksVersification (bible);
-  bool check_chapters_verses_versification = database::config::bible::getCheckChaptesVersesVersification (bible);
-  bool check_well_formed_usfm = database::config::bible::getCheckWellFormedUsfm (bible);
+  checks_sentences.enter_names (database::config::bible::get_sentence_structure_names (bible));
+  std::vector <std::string> within_sentence_paragraph_markers = filter::strings::explode (database::config::bible::get_sentence_structure_within_sentence_markers (bible), ' ');
+  bool check_books_versification = database::config::bible::get_check_books_versification (bible);
+  bool check_chapters_verses_versification = database::config::bible::get_check_chaptes_verses_versification (bible);
+  bool check_well_formed_usfm = database::config::bible::get_check_well_formed_usfm (bible);
   Checks_Usfm checks_usfm = Checks_Usfm (bible);
-  bool check_missing_punctuation_end_verse = database::config::bible::getCheckMissingPunctuationEndVerse (bible);
-  bool check_patterns = database::config::bible::getCheckPatterns (bible);
-  std::string s_checking_patterns = database::config::bible::getCheckingPatterns (bible);
+  bool check_missing_punctuation_end_verse = database::config::bible::get_check_missing_punctuation_end_verse (bible);
+  bool check_patterns = database::config::bible::get_check_patterns (bible);
+  std::string s_checking_patterns = database::config::bible::get_checking_patterns (bible);
   std::vector <std::string> checking_patterns = filter::strings::explode (s_checking_patterns, '\n');
-  bool check_matching_pairs = database::config::bible::getCheckMatchingPairs (bible);
+  bool check_matching_pairs = database::config::bible::get_check_matching_pairs (bible);
   std::vector <std::pair <std::string, std::string> > matching_pairs;
   {
-    const std::string fragment = database::config::bible::getMatchingPairs (bible);
+    const std::string fragment = database::config::bible::get_matching_pairs (bible);
     std::vector <std::string> pairs = filter::strings::explode (fragment, ' ');
     for (auto& pair : pairs) {
       pair = filter::strings::trim (pair);
@@ -109,11 +109,11 @@ void checks_run (std::string bible)
       }
     }
   }
-  bool check_space_end_verse = database::config::bible::getCheckSpaceEndVerse (bible);
-  bool check_french_punctuation = database::config::bible::getCheckFrenchPunctuation (bible);
-  bool check_french_citation_style = database::config::bible::getCheckFrenchCitationStyle (bible);
-  bool transpose_fix_space_in_notes = database::config::bible::getTransposeFixSpacesNotes (bible);
-  bool check_valid_utf8_text = database::config::bible::getCheckValidUTF8Text (bible);
+  bool check_space_end_verse = database::config::bible::get_check_space_end_verse (bible);
+  bool check_french_punctuation = database::config::bible::get_check_french_punctuation (bible);
+  bool check_french_citation_style = database::config::bible::get_check_french_citation_style (bible);
+  bool transpose_fix_space_in_notes = database::config::bible::get_transpose_fix_spaces_notes (bible);
+  bool check_valid_utf8_text = database::config::bible::get_check_valid_utf8_text (bible);
 
   
   const std::vector <int> books = webserver_request.database_bibles()->get_books (bible);

@@ -129,9 +129,9 @@ std::string read_index (Webserver_Request& webserver_request)
   std::string font = fonts::logic::get_text_font (bible);
   int current_theme_index = webserver_request.database_config_user ()->getCurrentTheme ();
   std::string filename = current_theme_filebased_cache_filename (webserver_request.session_identifier);
-  int direction = database::config::bible::getTextDirection (bible);
-  int lineheight = database::config::bible::getLineHeight (bible);
-  int letterspacing = database::config::bible::getLetterSpacing (bible);
+  int direction = database::config::bible::get_text_direction (bible);
+  int lineheight = database::config::bible::get_line_height (bible);
+  int letterspacing = database::config::bible::get_letter_spacing (bible);
   view.set_variable ("editor_theme_color", Filter_Css::theme_picker (current_theme_index, 2));
   view.set_variable ("active_editor_theme_color", Filter_Css::theme_picker (current_theme_index, 3));
   view.set_variable ("custom_class", cls);

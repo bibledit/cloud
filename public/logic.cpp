@@ -27,7 +27,7 @@ std::vector <std::string> public_logic_bibles (Webserver_Request& webserver_requ
   std::vector <std::string> public_bibles;
   const std::vector <std::string> bibles = webserver_request.database_bibles()->get_bibles ();
   for (const auto& bible : bibles) {
-    if (database::config::bible::getPublicFeedbackEnabled (bible)) {
+    if (database::config::bible::get_public_feedback_enabled (bible)) {
       public_bibles.push_back (bible);
     }
   }

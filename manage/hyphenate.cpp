@@ -45,7 +45,7 @@ void manage_hyphenate (std::string bible, std::string user)
   // Get the two sets of characters as arrays.
   // The /u switch treats the text as UTF8 Unicode.
   std::vector <std::string> firstset;
-  std::string s_firstset = database::config::bible::getHyphenationFirstSet (inputBible);
+  std::string s_firstset = database::config::bible::get_hyphenation_first_set (inputBible);
   size_t length = filter::strings::unicode_string_length (s_firstset);
   for (size_t i = 0; i < length; i++) {
     std::string s = filter::strings::unicode_string_substr (s_firstset, i, 1);
@@ -53,7 +53,7 @@ void manage_hyphenate (std::string bible, std::string user)
     firstset.push_back (s);
   }
   std::vector <std::string> secondset;
-  std::string s_secondset = database::config::bible::getHyphenationSecondSet (inputBible);
+  std::string s_secondset = database::config::bible::get_hyphenation_second_set (inputBible);
   length = filter::strings::unicode_string_length (s_secondset);
   for (size_t i = 0; i < length; i++) {
     std::string s = filter::strings::unicode_string_substr (s_secondset, i, 1);

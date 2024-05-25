@@ -49,10 +49,10 @@ void export_web_book (std::string bible, int book, bool log)
   Database_BibleImages database_bibleimages {};
   
   
-  const std::string stylesheet = database::config::bible::getExportStylesheet (bible);
+  const std::string stylesheet = database::config::bible::get_export_stylesheet (bible);
   
   
-  const std::string feedback_email = database::config::bible::getExportFeedbackEmail (bible);
+  const std::string feedback_email = database::config::bible::get_export_feedback_email (bible);
   
   
   // Copy font to the output directory.
@@ -175,7 +175,7 @@ void export_web_index (std::string bible, bool log)
   Database_Bibles database_bibles;
   
   
-  const std::string stylesheet = database::config::bible::getExportStylesheet (bible);
+  const std::string stylesheet = database::config::bible::get_export_stylesheet (bible);
   
   
   // Create stylesheet.

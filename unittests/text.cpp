@@ -37,8 +37,8 @@ static void setup ()
 {
   refresh_sandbox (false);
   // The unittests depend on known settings.
-  database::config::bible::setExportChapterDropCapsFrames (bible, true);
-  database::config::bible::setOdtSpaceAfterVerse (bible, " ");
+  database::config::bible::set_export_chapter_drop_caps_frames (bible, true);
+  database::config::bible::set_odt_space_after_verse (bible, " ");
 }
 
 

@@ -76,8 +76,8 @@ std::string paratext_index (Webserver_Request& webserver_request)
   
   
   if (webserver_request.query.count ("disable")) {
-    database::config::bible::setParatextProject (bible, "");
-    database::config::bible::setParatextCollaborationEnabled (bible, false);
+    database::config::bible::set_paratext_project (bible, "");
+    database::config::bible::set_paratext_collaboration_enabled (bible, false);
     filter_url_rmdir (Paratext_Logic::ancestorPath (bible, 0));
     bible.clear ();
   }
@@ -120,7 +120,7 @@ std::string paratext_index (Webserver_Request& webserver_request)
 
   
   // Paratext Project.
-  std::string paratext_project = database::config::bible::getParatextProject (bible);
+  std::string paratext_project = database::config::bible::get_paratext_project (bible);
   if (!file_or_dir_exists (filter_url_create_path ({paratext_folder, paratext_project}))) paratext_project.clear ();
   
   if (webserver_request.query.count ("paratextproject")) {
@@ -139,7 +139,7 @@ std::string paratext_index (Webserver_Request& webserver_request)
     }
   }
   
-  database::config::bible::setParatextProject (bible, paratext_project);
+  database::config::bible::set_paratext_project (bible, paratext_project);
   view.set_variable ("paratextproject", paratext_project);
   if (!paratext_project.empty ()) view.enable_zone ("paratextprojectactive");
 

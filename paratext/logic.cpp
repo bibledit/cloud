@@ -138,10 +138,10 @@ void Paratext_Logic::setup (std::string bible, std::string master)
   }
   if (master == "bibledit") {
     copyBibledit2Paratext (bible);
-    database::config::bible::setParatextCollaborationEnabled (bible, true);
+    database::config::bible::set_paratext_collaboration_enabled (bible, true);
   } else if (master == "paratext") {
     copyParatext2Bibledit (bible);
-    database::config::bible::setParatextCollaborationEnabled (bible, true);
+    database::config::bible::set_paratext_collaboration_enabled (bible, true);
   } else {
     Database_Logs::log ("Unknown master copy for Paratext link setup.");
   }
@@ -241,7 +241,7 @@ void Paratext_Logic::copyParatext2Bibledit (std::string bible)
 
 std::string Paratext_Logic::projectFolder (std::string bible)
 {
-  return filter_url_create_path ({database::config::general::get_paratext_projects_folder (), database::config::bible::getParatextProject (bible)});
+  return filter_url_create_path ({database::config::general::get_paratext_projects_folder (), database::config::bible::get_paratext_project (bible)});
 }
 
 
@@ -274,7 +274,7 @@ std::vector <std::string> Paratext_Logic::enabledBibles ()
   Database_Bibles database_bibles;
   std::vector <std::string> bibles = database_bibles.get_bibles ();
   for (auto bible : bibles) {
-    if (database::config::bible::getParatextCollaborationEnabled (bible)) {
+    if (database::config::bible::get_paratext_collaboration_enabled (bible)) {
       enabled.push_back (bible);
     }
   }
@@ -571,7 +571,7 @@ std::string Paratext_Logic::synchronizeReadyText ()
 std::string Paratext_Logic::journalTag (std::string bible, int book, int chapter)
 {
   std::string bookname = database::books::get_english_from_id (static_cast<book_id>(book));
-  std::string project = database::config::bible::getParatextProject (bible);
+  std::string project = database::config::bible::get_paratext_project (bible);
   std::string fragment = bible + " <> " + project + " " + bookname;
   if (chapter >= 0) fragment.append (" " + filter::strings::convert_to_string (chapter));
   fragment.append (": ");

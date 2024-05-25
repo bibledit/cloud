@@ -245,7 +245,7 @@ void sendreceive_settings ()
       sendreceive_settings_done ();
       return;
     }
-    database::config::bible::setTextFont (bible, response);
+    database::config::bible::set_text_font (bible, response);
   }
 
   post ["a"] = filter::strings::convert_to_string (Sync_Logic::settings_get_privilege_delete_consultation_notes);

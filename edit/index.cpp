@@ -145,9 +145,9 @@ std::string edit_index (Webserver_Request& webserver_request)
   const std::string clss = Filter_Css::getClass (bible);
   const std::string font = fonts::logic::get_text_font (bible);
   const int current_theme_index = webserver_request.database_config_user ()->getCurrentTheme ();
-  const int direction = database::config::bible::getTextDirection (bible);
-  const int lineheight = database::config::bible::getLineHeight (bible);
-  const int letterspacing = database::config::bible::getLetterSpacing (bible);
+  const int direction = database::config::bible::get_text_direction (bible);
+  const int lineheight = database::config::bible::get_line_height (bible);
+  const int letterspacing = database::config::bible::get_letter_spacing (bible);
   std::string versebeam_current_theme = Filter_Css::theme_picker (current_theme_index, 5);
   if (versebeam_current_theme.empty())
     versebeam_current_theme = "versebeam";

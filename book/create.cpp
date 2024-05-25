@@ -65,7 +65,7 @@ bool book_create (const std::string & bible, const book_id book, const int chapt
   
   
   // Subsequent chapters.
-  const std::string versification = database::config::bible::getVersificationSystem (bible);
+  const std::string versification = database::config::bible::get_versification_system (bible);
   const std::vector <Passage> versification_data = database_versifications.getBooksChaptersVerses (versification);
   for (const auto& row : versification_data) {
     if (book == static_cast<book_id>(row.m_book)) {

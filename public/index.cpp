@@ -97,7 +97,7 @@ std::string public_index (Webserver_Request& webserver_request)
   Assets_View view {};
   
 
-  const std::string stylesheet = database::config::bible::getExportStylesheet (bible);
+  const std::string stylesheet = database::config::bible::get_export_stylesheet (bible);
 
   
   bible = webserver_request.database_config_user()->getBible ();
@@ -112,9 +112,9 @@ std::string public_index (Webserver_Request& webserver_request)
   
   const std::string clss = Filter_Css::getClass (bible);
   const std::string font = fonts::logic::get_text_font (bible);
-  const int direction = database::config::bible::getTextDirection (bible);
-  const int lineheight = database::config::bible::getLineHeight (bible);
-  const int letterspacing = database::config::bible::getLetterSpacing (bible);
+  const int direction = database::config::bible::get_text_direction (bible);
+  const int lineheight = database::config::bible::get_line_height (bible);
+  const int letterspacing = database::config::bible::get_letter_spacing (bible);
   view.set_variable ("custom_class", clss);
   view.set_variable ("custom_css", Filter_Css::get_css (clss, fonts::logic::get_font_path (font),
                                                         direction, lineheight, letterspacing));

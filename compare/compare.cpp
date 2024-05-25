@@ -47,7 +47,7 @@ void compare_compare (std::string bible, std::string compare, int jobId)
   Database_Bibles database_bibles;
   Database_UsfmResources database_usfmresources = Database_UsfmResources ();
 
-  const std::string stylesheet = database::config::bible::getExportStylesheet (bible);
+  const std::string stylesheet = database::config::bible::get_export_stylesheet (bible);
   
 
   database_jobs.set_progress (jobId, translate("The Bibles are being compared..."));

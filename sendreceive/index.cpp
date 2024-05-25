@@ -110,7 +110,7 @@ std::string sendreceive_index (Webserver_Request& webserver_request)
 
 
   std::string starting_to_sync;
-  if (database::config::bible::getReadFromGit (bible)) {
+  if (database::config::bible::get_read_from_git (bible)) {
     starting_to_sync = translate ("Starting to send and receive now.");
   } else {
     starting_to_sync = translate ("Starting to send now.");
@@ -134,7 +134,7 @@ std::string sendreceive_index (Webserver_Request& webserver_request)
     
   if (sendreceive_git_repository_linked (bible)) {
     view.enable_zone ("collab_on");
-    std::string url = database::config::bible::getRemoteRepositoryUrl (bible);
+    std::string url = database::config::bible::get_remote_repository_url (bible);
     view.set_variable ("url", filter_url_remove_username_password (url));
   } else {
     view.enable_zone ("collab_off");
@@ -211,7 +211,7 @@ std::string sendreceive_index (Webserver_Request& webserver_request)
 #endif
 
   
-  if (database::config::bible::getReadFromGit (bible)) {
+  if (database::config::bible::get_read_from_git (bible)) {
     view.enable_zone ("gitreadwrite");
   } else {
     view.enable_zone ("gitwrite");

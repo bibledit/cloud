@@ -47,7 +47,7 @@ std::string public_chapter (Webserver_Request& webserver_request)
   const int book = filter::strings::convert_to_int (webserver_request.query ["book"]);
   const int chapter = filter::strings::convert_to_int (webserver_request.query ["chapter"]);
   
-  const std::string stylesheet = database::config::bible::getExportStylesheet (bible);
+  const std::string stylesheet = database::config::bible::get_export_stylesheet (bible);
   
   const std::string usfm = webserver_request.database_bibles()->get_chapter (bible, book, chapter);
   

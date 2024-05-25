@@ -72,7 +72,7 @@ std::string editusfm_save (Webserver_Request& webserver_request)
       usfm = filter::strings::collapse_whitespace(usfm);
       if (!usfm.empty ()) {
         if (filter::strings::unicode_string_is_valid (usfm)) {
-          const std::string stylesheet = database::config::bible::getEditorStylesheet (bible);
+          const std::string stylesheet = database::config::bible::get_editor_stylesheet (bible);
           std::vector <filter::usfm::BookChapterData> book_chapter_text = filter::usfm::usfm_import (usfm, stylesheet);
           if (!book_chapter_text.empty()) {
             filter::usfm::BookChapterData data = book_chapter_text[0];

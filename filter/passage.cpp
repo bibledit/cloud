@@ -479,7 +479,7 @@ std::vector <int> filter_passage_get_ordered_books (const std::string& bible)
   std::vector <int> projectbooks = database_bibles.get_books (bible);
 
   // The book order from the settings, if any.
-  std::string s_orderedbooks = database::config::bible::getBookOrder (bible);
+  std::string s_orderedbooks = database::config::bible::get_book_order (bible);
   std::vector <std::string> vs_orderedbooks = filter::strings::explode (s_orderedbooks, ' ');
 
   // Keep books available in the Bible.

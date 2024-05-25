@@ -130,7 +130,7 @@ void sprint_burndown ([[maybe_unused]] std::string bible,
     if (email) {
       if (task_count) {
         // Only mail if the current sprint contains tasks.
-        std::string scategories = database::config::bible::getSprintTaskCompletionCategories (bible2);
+        std::string scategories = database::config::bible::get_sprint_task_completion_categories (bible2);
         std::vector <std::string> categories = filter::strings::explode (scategories, '\n');
         int category_count = static_cast<int>(categories.size());
         int category_percentage = static_cast<int>(round (100 / category_count));

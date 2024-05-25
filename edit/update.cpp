@@ -146,7 +146,7 @@ std::string edit_update (Webserver_Request& webserver_request)
 
   std::string stylesheet;
   if (good2go) {
-    stylesheet = database::config::bible::getEditorStylesheet (bible);
+    stylesheet = database::config::bible::get_editor_stylesheet (bible);
   }
 
   

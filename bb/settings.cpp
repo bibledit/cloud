@@ -123,10 +123,10 @@ std::string bible_settings (Webserver_Request& webserver_request)
       page += dialog_list.run ();
       return page;
     } else {
-      if (write_access) database::config::bible::setVersificationSystem (bible, versification);
+      if (write_access) database::config::bible::set_versification_system (bible, versification);
     }
   }
-  const std::string versification = database::config::bible::getVersificationSystem (bible);
+  const std::string versification = database::config::bible::get_versification_system (bible);
   view.set_variable ("versification", versification);
 
   
@@ -228,9 +228,9 @@ std::string bible_settings (Webserver_Request& webserver_request)
 
   // Public feedback.
   if (checkbox == "public") {
-    if (write_access) database::config::bible::setPublicFeedbackEnabled (bible, checked);
+    if (write_access) database::config::bible::set_public_feedback_enabled (bible, checked);
   }
-  view.set_variable ("public", filter::strings::get_checkbox_status (database::config::bible::getPublicFeedbackEnabled (bible)));
+  view.set_variable ("public", filter::strings::get_checkbox_status (database::config::bible::get_public_feedback_enabled (bible)));
 
   
  
@@ -238,11 +238,11 @@ std::string bible_settings (Webserver_Request& webserver_request)
 #ifdef HAVE_CLOUD
   if (checkbox == "rss") {
     if (write_access) {
-      database::config::bible::setSendChangesToRSS (bible, checked);
+      database::config::bible::set_send_changes_to_rss (bible, checked);
       rss_logic_feed_on_off ();
     }
   }
-  view.set_variable ("rss", filter::strings::get_checkbox_status (database::config::bible::getSendChangesToRSS (bible)));
+  view.set_variable ("rss", filter::strings::get_checkbox_status (database::config::bible::get_send_changes_to_rss (bible)));
 #endif
 
   
@@ -260,10 +260,10 @@ std::string bible_settings (Webserver_Request& webserver_request)
       page += dialog_list.run ();
       return page;
     } else {
-      if (write_access) database::config::bible::setEditorStylesheet (bible, stylesheet);
+      if (write_access) database::config::bible::set_editor_stylesheet (bible, stylesheet);
     }
   }
-  std::string stylesheet = database::config::bible::getEditorStylesheet (bible);
+  std::string stylesheet = database::config::bible::get_editor_stylesheet (bible);
   view.set_variable ("stylesheetediting", stylesheet);
 
   
@@ -281,10 +281,10 @@ std::string bible_settings (Webserver_Request& webserver_request)
       page += dialog_list.run ();
       return page;
     } else {
-      if (write_access) database::config::bible::setExportStylesheet (bible, export_stylesheet);
+      if (write_access) database::config::bible::set_export_stylesheet (bible, export_stylesheet);
     }
   }
-  stylesheet = database::config::bible::getExportStylesheet (bible);
+  stylesheet = database::config::bible::get_export_stylesheet (bible);
   view.set_variable ("stylesheetexport", stylesheet);
   
   
@@ -292,7 +292,7 @@ std::string bible_settings (Webserver_Request& webserver_request)
 #ifdef HAVE_CLOUD
   if (checkbox == "checks") {
     if (write_access) {
-      database::config::bible::setDailyChecksEnabled (bible, checked);
+      database::config::bible::set_daily_checks_enabled (bible, checked);
       if (!checked) {
         // If checking is switched off, also remove any existing checking results for this Bible.
         Database_Check database_check;
@@ -300,7 +300,7 @@ std::string bible_settings (Webserver_Request& webserver_request)
       }
     }
   }
-  view.set_variable ("checks", filter::strings::get_checkbox_status (database::config::bible::getDailyChecksEnabled (bible)));
+  view.set_variable ("checks", filter::strings::get_checkbox_status (database::config::bible::get_daily_checks_enabled (bible)));
 #endif
 
   

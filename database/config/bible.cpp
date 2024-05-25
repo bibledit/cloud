@@ -30,7 +30,7 @@ namespace database::config::bible {
 // Cache values in memory for better speed.
 // The speed improvement is supposed to come from reading a value from disk only once,
 // and after that to read the value straight from the memory cache.
-static std::map <std::string, std::string> database_config_bible_cache;
+static std::map <std::string, std::string> cache;
 
 
 // Functions for getting and setting values or lists of values follow now:
@@ -57,12 +57,12 @@ static std::string mapkey (const std::string& bible, const char * key)
 }
 
 
-std::string getValue (const std::string& bible, const char * key, const char * default_value)
+std::string get_value (const std::string& bible, const char * key, const char * default_value)
 {
   // Check the memory cache.
   const std::string cachekey = mapkey (bible, key);
-  if (database_config_bible_cache.count (cachekey)) {
-    return database_config_bible_cache [cachekey];
+  if (cache.count (cachekey)) {
+    return cache [cachekey];
   }
   // Get the setting from file.
   std::string value;
@@ -72,18 +72,18 @@ std::string getValue (const std::string& bible, const char * key, const char * d
   else 
     value = default_value;
   // Cache it.
-  database_config_bible_cache [cachekey] = value;
+  cache [cachekey] = value;
   // Done.
   return value;
 }
 
 
-static void setValue (const std::string& bible, const char * key, const std::string& value)
+static void set_value (const std::string& bible, const char * key, const std::string& value)
 {
   if (bible.empty ()) 
     return;
   // Store in memory cache.
-  database_config_bible_cache [mapkey (bible, key)] = value;
+  cache [mapkey (bible, key)] = value;
   // Store on disk.
   const std::string filename = file (bible, key);
   const std::string dirname = filter_url_dirname (filename);
@@ -93,27 +93,27 @@ static void setValue (const std::string& bible, const char * key, const std::str
 }
 
 
-static bool getBValue (const std::string& bible, const char * key, bool default_value)
+static bool get_boolean_value (const std::string& bible, const char * key, bool default_value)
 {
-  return filter::strings::convert_to_bool (getValue (bible, key, filter::strings::convert_to_string (default_value).c_str()));
+  return filter::strings::convert_to_bool (get_value (bible, key, filter::strings::convert_to_string (default_value).c_str()));
 }
 
 
-static void setBValue (const std::string& bible, const char * key, bool value)
+static void set_boolean_value (const std::string& bible, const char * key, bool value)
 {
-  setValue (bible, key, filter::strings::convert_to_string (value));
+  set_value (bible, key, filter::strings::convert_to_string (value));
 }
 
 
-static int getIValue (const std::string& bible, const char * key, int default_value)
+static int get_integer_value (const std::string& bible, const char * key, int default_value)
 {
-  return filter::strings::convert_to_int (getValue (bible, key, filter::strings::convert_to_string (default_value).c_str()));
+  return filter::strings::convert_to_int (get_value (bible, key, filter::strings::convert_to_string (default_value).c_str()));
 }
 
 
-static void setIValue (const std::string& bible, const char * key, int value)
+static void set_integer_value (const std::string& bible, const char * key, int value)
 {
-  setValue (bible, key, filter::strings::convert_to_string (value));
+  set_value (bible, key, filter::strings::convert_to_string (value));
 }
 
 
@@ -123,24 +123,24 @@ void remove (const std::string& bible)
   const std::string folder = file (bible);
   filter_url_rmdir (folder);
   // Clear cache.
-  database_config_bible_cache.clear ();
+  cache.clear ();
 }
 
 
 // Named configuration functions.
 
 
-std::string getRemoteRepositoryUrl (std::string bible)
+std::string get_remote_repository_url (const std::string& bible)
 {
-  return getValue (bible, "remote-repo-url", "");
+  return get_value (bible, "remote-repo-url", "");
 }
-void setRemoteRepositoryUrl (std::string bible, std::string url)
+void set_remote_repository_url (const std::string& bible, const std::string& url)
 {
-  setValue (bible, "remote-repo-url", url);
+  set_value (bible, "remote-repo-url", url);
 }
 
 
-bool getCheckDoubleSpacesUsfm (std::string bible)
+bool get_check_double_spaces_usfm (const std::string& bible)
 {
   // Check is on by default in the Cloud, and off on a client.
 #ifdef HAVE_CLIENT
@@ -148,31 +148,31 @@ bool getCheckDoubleSpacesUsfm (std::string bible)
 #else
   bool standard = true;
 #endif
-  return getBValue (bible, "double-spaces-usfm", standard);
+  return get_boolean_value (bible, "double-spaces-usfm", standard);
 }
-void setCheckDoubleSpacesUsfm (std::string bible, bool value)
+void set_check_double_spaces_usfm (const std::string& bible, bool value)
 {
-  setBValue (bible, "double-spaces-usfm", value);
-}
-
-
-bool getCheckFullStopInHeadings (std::string bible)
-{
-  return getBValue (bible, "full-stop-headings", false);
-}
-void setCheckFullStopInHeadings (std::string bible, bool value)
-{
-  setBValue (bible, "full-stop-headings", value);
+  set_boolean_value (bible, "double-spaces-usfm", value);
 }
 
 
-bool getCheckSpaceBeforePunctuation (std::string bible)
+bool get_check_full_stop_in_headings (const std::string& bible)
 {
-  return getBValue (bible, "space-before-punctuation", false);
+  return get_boolean_value (bible, "full-stop-headings", false);
 }
-void setCheckSpaceBeforePunctuation (std::string bible, bool value)
+void set_check_full_stop_in_headings (const std::string& bible, bool value)
 {
-  setBValue (bible, "space-before-punctuation", value);
+  set_boolean_value (bible, "full-stop-headings", value);
+}
+
+
+bool get_check_space_before_punctuation (const std::string& bible)
+{
+  return get_boolean_value (bible, "space-before-punctuation", false);
+}
+void set_check_space_before_punctuation (const std::string& bible, bool value)
+{
+  set_boolean_value (bible, "space-before-punctuation", value);
 }
 
 
@@ -180,57 +180,57 @@ const char * space_before_final_note_marker_key ()
 {
   return "space-before-final-note-marker";
 }
-bool getCheckSpaceBeforeFinalNoteMarker (std::string bible)
+bool get_check_space_before_final_note_marker (const std::string& bible)
 {
-  return getBValue (bible, space_before_final_note_marker_key (), false);
+  return get_boolean_value (bible, space_before_final_note_marker_key (), false);
 }
-void setCheckSpaceBeforeFinalNoteMarker (std::string bible, bool value)
+void set_check_space_before_final_note_marker (const std::string& bible, bool value)
 {
-  setBValue (bible, space_before_final_note_marker_key (), value);
-}
-
-
-bool getCheckSentenceStructure (std::string bible)
-{
-  return getBValue (bible, "sentence-structure", false);
-}
-void setCheckSentenceStructure (std::string bible, bool value)
-{
-  setBValue (bible, "sentence-structure", value);
+  set_boolean_value (bible, space_before_final_note_marker_key (), value);
 }
 
 
-bool getCheckParagraphStructure (std::string bible)
+bool get_check_sentence_structure (const std::string& bible)
 {
-  return getBValue (bible, "paragraph-structure", false);
+  return get_boolean_value (bible, "sentence-structure", false);
 }
-void setCheckParagraphStructure (std::string bible, bool value)
+void set_check_sentence_structure (const std::string& bible, bool value)
 {
-  setBValue (bible, "paragraph-structure", value);
-}
-
-
-bool getCheckBooksVersification (std::string bible)
-{
-  return getBValue (bible, "check-books-versification", false);
-}
-void setCheckBooksVersification (std::string bible, bool value)
-{
-  setBValue (bible, "check-books-versification", value);
+  set_boolean_value (bible, "sentence-structure", value);
 }
 
 
-bool getCheckChaptesVersesVersification (std::string bible)
+bool get_check_paragraph_structure (const std::string& bible)
 {
-  return getBValue (bible, "check-chapters-verses-versification", false);
+  return get_boolean_value (bible, "paragraph-structure", false);
 }
-void setCheckChaptesVersesVersification (std::string bible, bool value)
+void set_check_paragraph_structure (const std::string& bible, bool value)
 {
-  setBValue (bible, "check-chapters-verses-versification", value);
+  set_boolean_value (bible, "paragraph-structure", value);
 }
 
 
-bool getCheckWellFormedUsfm (std::string bible)
+bool get_check_books_versification (const std::string& bible)
+{
+  return get_boolean_value (bible, "check-books-versification", false);
+}
+void set_check_books_versification (const std::string& bible, bool value)
+{
+  set_boolean_value (bible, "check-books-versification", value);
+}
+
+
+bool get_check_chaptes_verses_versification (const std::string& bible)
+{
+  return get_boolean_value (bible, "check-chapters-verses-versification", false);
+}
+void set_check_chaptes_verses_versification (const std::string& bible, bool value)
+{
+  set_boolean_value (bible, "check-chapters-verses-versification", value);
+}
+
+
+bool get_check_well_formed_usfm (const std::string& bible)
 {
   // Check is on by default in the Cloud, and off on a client.
 #ifdef HAVE_CLIENT
@@ -238,151 +238,151 @@ bool getCheckWellFormedUsfm (std::string bible)
 #else
   bool standard = true;
 #endif
-  return getBValue (bible, "check-well-formed-usfm", standard);
+  return get_boolean_value (bible, "check-well-formed-usfm", standard);
 }
-void setCheckWellFormedUsfm (std::string bible, bool value)
+void set_check_well_formed_usfm (const std::string& bible, bool value)
 {
-  setBValue (bible, "check-well-formed-usfm", value);
-}
-
-
-bool getCheckMissingPunctuationEndVerse (std::string bible)
-{
-  return getBValue (bible, "missing-punctuation-end-verse", false);
-}
-void setCheckMissingPunctuationEndVerse (std::string bible, bool value)
-{
-  setBValue (bible, "missing-punctuation-end-verse", value);
+  set_boolean_value (bible, "check-well-formed-usfm", value);
 }
 
 
-bool getCheckPatterns (std::string bible)
+bool get_check_missing_punctuation_end_verse (const std::string& bible)
 {
-  return getBValue (bible, "check_patterns", false);
+  return get_boolean_value (bible, "missing-punctuation-end-verse", false);
 }
-void setCheckPatterns (std::string bible, bool value)
+void set_check_missing_punctuation_end_verse (const std::string& bible, bool value)
 {
-  setBValue (bible, "check_patterns", value);
-}
-
-
-std::string getCheckingPatterns (std::string bible)
-{
-  return getValue (bible, "checking-patterns", "");
-}
-void setCheckingPatterns (std::string bible, std::string value)
-{
-  setValue (bible, "checking-patterns", value);
+  set_boolean_value (bible, "missing-punctuation-end-verse", value);
 }
 
 
-std::string getSentenceStructureCapitals (std::string bible)
+bool get_check_patterns (const std::string& bible)
 {
-  return getValue (bible, "sentence-structure-capitals", "A B C D E F G H I J K L M N O P Q R S T U V W X Y Z");
+  return get_boolean_value (bible, "check_patterns", false);
 }
-void setSentenceStructureCapitals (std::string bible, std::string value)
+void set_check_patterns (const std::string& bible, bool value)
 {
-  setValue (bible, "sentence-structure-capitals", value);
-}
-
-
-std::string getSentenceStructureSmallLetters (std::string bible)
-{
-  return getValue (bible, "sentence-structure-small-letters", "a b c d e f g h i j k l m n o p q r s t u v w x y z");
-}
-void setSentenceStructureSmallLetters (std::string bible, std::string value)
-{
-  setValue (bible, "sentence-structure-small-letters", value);
+  set_boolean_value (bible, "check_patterns", value);
 }
 
 
-std::string getSentenceStructureEndPunctuation (std::string bible)
+std::string get_checking_patterns (const std::string& bible)
 {
-  return getValue (bible, "sentence-structure-end-punctuation", ". ! ? :");
+  return get_value (bible, "checking-patterns", "");
 }
-void setSentenceStructureEndPunctuation (std::string bible, std::string value)
+void set_checking_patterns (const std::string& bible, const std::string& value)
 {
-  setValue (bible, "sentence-structure-end-punctuation", value);
-}
-
-
-std::string getSentenceStructureMiddlePunctuation (std::string bible)
-{
-  return getValue (bible, "sentence-structure-middle-punctuation", ", ;");
-}
-void setSentenceStructureMiddlePunctuation (std::string bible, std::string value)
-{
-  setValue (bible, "sentence-structure-middle-punctuation", value);
+  set_value (bible, "checking-patterns", value);
 }
 
 
-std::string getSentenceStructureDisregards (std::string bible)
+std::string get_sentence_structure_capitals (const std::string& bible)
 {
-  return getValue (bible, "sentence-structure-disregards", "( ) [ ] { } ' \" * - 0 1 2 3 4 5 6 7 8 9");
+  return get_value (bible, "sentence-structure-capitals", "A B C D E F G H I J K L M N O P Q R S T U V W X Y Z");
 }
-void setSentenceStructureDisregards (std::string bible, std::string value)
+void set_sentence_structure_capitals (const std::string& bible, const std::string& value)
 {
-  setValue (bible, "sentence-structure-disregards", value);
-}
-
-
-std::string getSentenceStructureNames (std::string bible)
-{
-  return getValue (bible, "sentence-structure-names", "");
-}
-void setSentenceStructureNames (std::string bible, std::string value)
-{
-  setValue (bible, "sentence-structure-names", value);
+  set_value (bible, "sentence-structure-capitals", value);
 }
 
 
-std::string getSentenceStructureWithinSentenceMarkers (std::string bible)
+std::string get_sentence_structure_small_letters (const std::string& bible)
 {
-  return getValue (bible, "sentence-structure-within_sentence-markers", "q q1 q2 q3");
+  return get_value (bible, "sentence-structure-small-letters", "a b c d e f g h i j k l m n o p q r s t u v w x y z");
 }
-void setSentenceStructureWithinSentenceMarkers (std::string bible, std::string value)
+void set_sentence_structure_small_letters (const std::string& bible, const std::string& value)
 {
-  setValue (bible, "sentence-structure-within_sentence-markers", value);
-}
-
-
-bool getCheckMatchingPairs (std::string bible)
-{
-  return getBValue (bible, "check-matching-pairs", false);
-}
-void setCheckMatchingPairs (std::string bible, bool value)
-{
-  setBValue (bible, "check-matching-pairs", value);
+  set_value (bible, "sentence-structure-small-letters", value);
 }
 
 
-std::string getMatchingPairs (std::string bible)
+std::string get_sentence_structure_end_punctuation (const std::string& bible)
 {
-  return getValue (bible, "matching-pairs", "[] () {} “” ‘’ «» ‹›");
+  return get_value (bible, "sentence-structure-end-punctuation", ". ! ? :");
 }
-void setMatchingPairs (std::string bible, std::string value)
+void set_sentence_structure_end_punctuation (const std::string& bible, const std::string& value)
 {
-  setValue (bible, "matching-pairs", value);
-}
-
-
-bool getCheckSpaceEndVerse (std::string bible)
-{
-  return getBValue (bible, "check-space-end-verse", true);
-}
-void setCheckSpaceEndVerse (std::string bible, bool value)
-{
-  setBValue (bible, "check-space-end-verse", value);
+  set_value (bible, "sentence-structure-end-punctuation", value);
 }
 
 
-bool getCheckFrenchPunctuation (std::string bible)
+std::string get_sentence_structure_middle_punctuation (const std::string& bible)
 {
-  return getBValue (bible, "check-french-punctuation", false);
+  return get_value (bible, "sentence-structure-middle-punctuation", ", ;");
 }
-void setCheckFrenchPunctuation (std::string bible, bool value)
+void set_sentence_structure_middle_punctuation (const std::string& bible, const std::string& value)
 {
-  setBValue (bible, "check-french-punctuation", value);
+  set_value (bible, "sentence-structure-middle-punctuation", value);
+}
+
+
+std::string get_sentence_structure_disregards (const std::string& bible)
+{
+  return get_value (bible, "sentence-structure-disregards", "( ) [ ] { } ' \" * - 0 1 2 3 4 5 6 7 8 9");
+}
+void set_sentence_structure_disregards (const std::string& bible, const std::string& value)
+{
+  set_value (bible, "sentence-structure-disregards", value);
+}
+
+
+std::string get_sentence_structure_names (const std::string& bible)
+{
+  return get_value (bible, "sentence-structure-names", "");
+}
+void set_sentence_structure_names (const std::string& bible, const std::string& value)
+{
+  set_value (bible, "sentence-structure-names", value);
+}
+
+
+std::string get_sentence_structure_within_sentence_markers (const std::string& bible)
+{
+  return get_value (bible, "sentence-structure-within_sentence-markers", "q q1 q2 q3");
+}
+void set_sentence_structure_within_sentence_markers (const std::string& bible, const std::string& value)
+{
+  set_value (bible, "sentence-structure-within_sentence-markers", value);
+}
+
+
+bool get_check_matching_pairs (const std::string& bible)
+{
+  return get_boolean_value (bible, "check-matching-pairs", false);
+}
+void set_check_matching_pairs (const std::string& bible, bool value)
+{
+  set_boolean_value (bible, "check-matching-pairs", value);
+}
+
+
+std::string get_matching_pairs (const std::string& bible)
+{
+  return get_value (bible, "matching-pairs", "[] () {} “” ‘’ «» ‹›");
+}
+void set_matching_pairs (const std::string& bible, const std::string& value)
+{
+  set_value (bible, "matching-pairs", value);
+}
+
+
+bool get_check_space_end_verse (const std::string& bible)
+{
+  return get_boolean_value (bible, "check-space-end-verse", true);
+}
+void set_check_space_end_verse (const std::string& bible, bool value)
+{
+  set_boolean_value (bible, "check-space-end-verse", value);
+}
+
+
+bool get_check_french_punctuation (const std::string& bible)
+{
+  return get_boolean_value (bible, "check-french-punctuation", false);
+}
+void set_check_french_punctuation (const std::string& bible, bool value)
+{
+  set_boolean_value (bible, "check-french-punctuation", value);
 }
 
 
@@ -390,13 +390,13 @@ const char * check_french_citation_style_key ()
 {
   return "check-french-citation-style";
 }
-bool getCheckFrenchCitationStyle (std::string bible)
+bool get_check_french_citation_style (const std::string& bible)
 {
-  return getBValue (bible, check_french_citation_style_key (), false);
+  return get_boolean_value (bible, check_french_citation_style_key (), false);
 }
-void setCheckFrenchCitationStyle (std::string bible, bool value)
+void set_check_french_citation_style (const std::string& bible, bool value)
 {
-  setBValue (bible, check_french_citation_style_key (), value);
+  set_boolean_value (bible, check_french_citation_style_key (), value);
 }
 
 
@@ -404,13 +404,13 @@ const char * transpose_fix_spaces_notes_key ()
 {
   return "transpose-fix-spaces-notes";
 }
-bool getTransposeFixSpacesNotes (std::string bible)
+bool get_transpose_fix_spaces_notes (const std::string& bible)
 {
-  return getBValue (bible, transpose_fix_spaces_notes_key (), false);
+  return get_boolean_value (bible, transpose_fix_spaces_notes_key (), false);
 }
-void setTransposeFixSpacesNotes (std::string bible, bool value)
+void set_transpose_fix_spaces_notes (const std::string& bible, bool value)
 {
-  setBValue (bible, transpose_fix_spaces_notes_key (), value);
+  set_boolean_value (bible, transpose_fix_spaces_notes_key (), value);
 }
 
 
@@ -418,183 +418,183 @@ const char * check_valid_utf8_text_key ()
 {
   return "check-valid-utf8-text";
 }
-bool getCheckValidUTF8Text (std::string bible)
+bool get_check_valid_utf8_text (const std::string& bible)
 {
-  return getBValue (bible, check_valid_utf8_text_key (), false);
+  return get_boolean_value (bible, check_valid_utf8_text_key (), false);
 }
-void setCheckValidUTF8Text (std::string bible, bool value)
+void set_check_valid_utf8_text (const std::string& bible, bool value)
 {
-  setBValue (bible, check_valid_utf8_text_key (), value);
-}
-
-
-std::string getSprintTaskCompletionCategories (std::string bible)
-{
-  return getValue (bible, "sprint-task-completion-categories", "Translate\nCheck\nHebrew/Greek\nDiscussions");
-}
-void setSprintTaskCompletionCategories (std::string bible, std::string value)
-{
-  setValue (bible, "sprint-task-completion-categories", value);
+  set_boolean_value (bible, check_valid_utf8_text_key (), value);
 }
 
 
-int get_repeat_send_receive (std::string bible)
+std::string get_sprint_task_completion_categories (const std::string& bible)
 {
-  return getIValue (bible, "repeat-send-receive", 0);
+  return get_value (bible, "sprint-task-completion-categories", "Translate\nCheck\nHebrew/Greek\nDiscussions");
 }
-void set_repeat_send_receive (std::string bible, int value)
+void set_sprint_task_completion_categories (const std::string& bible, const std::string& value)
 {
-  setIValue (bible, "repeat-send-receive", value);
-}
-
-
-bool getExportChapterDropCapsFrames (std::string bible)
-{
-  return getBValue (bible, "export-chapter-drop-caps-frames", false);
-}
-void setExportChapterDropCapsFrames (std::string bible, bool value)
-{
-  setBValue (bible, "export-chapter-drop-caps-frames", value);
+  set_value (bible, "sprint-task-completion-categories", value);
 }
 
 
-std::string getPageWidth (std::string bible)
+int get_repeat_send_receive (const std::string& bible)
 {
-  return getValue (bible, "page-width", "210");
+  return get_integer_value (bible, "repeat-send-receive", 0);
 }
-void setPageWidth  (std::string bible, std::string value)
+void set_repeat_send_receive (const std::string& bible, int value)
 {
-  setValue (bible, "page-width", value);
-}
-
-
-std::string getPageHeight (std::string bible)
-{
-  return getValue (bible, "page-height", "297");
-}
-void setPageHeight  (std::string bible, std::string value)
-{
-  setValue (bible, "page-height", value);
+  set_integer_value (bible, "repeat-send-receive", value);
 }
 
 
-std::string getInnerMargin (std::string bible)
+bool get_export_chapter_drop_caps_frames (const std::string& bible)
 {
-  return getValue (bible, "inner-margin", "20");
+  return get_boolean_value (bible, "export-chapter-drop-caps-frames", false);
 }
-void setInnerMargin  (std::string bible, std::string value)
+void set_export_chapter_drop_caps_frames (const std::string& bible, bool value)
 {
-  setValue (bible, "inner-margin", value);
-}
-
-
-std::string getOuterMargin (std::string bible)
-{
-  return getValue (bible, "outer-margin", "10");
-}
-void setOuterMargin  (std::string bible, std::string value)
-{
-  setValue (bible, "outer-margin", value);
+  set_boolean_value (bible, "export-chapter-drop-caps-frames", value);
 }
 
 
-std::string getTopMargin (std::string bible)
+std::string get_page_width (const std::string& bible)
 {
-  return getValue (bible, "top-margin", "10");
+  return get_value (bible, "page-width", "210");
 }
-void setTopMargin  (std::string bible, std::string value)
+void set_page_width  (const std::string& bible, const std::string& value)
 {
-  setValue (bible, "top-margin", value);
-}
-
-
-std::string getBottomMargin (std::string bible)
-{
-  return getValue (bible, "bottom-margin", "10");
-}
-void setBottomMargin  (std::string bible, std::string value)
-{
-  setValue (bible, "bottom-margin", value);
+  set_value (bible, "page-width", value);
 }
 
 
-bool getDateInHeader (std::string bible)
+std::string get_page_height (const std::string& bible)
 {
-  return getBValue (bible, "date-in-header", false);
+  return get_value (bible, "page-height", "297");
 }
-void setDateInHeader  (std::string bible, bool value)
+void set_page_height  (const std::string& bible, const std::string& value)
 {
-  setBValue (bible, "date-in-header", value);
-}
-
-
-std::string getHyphenationFirstSet (std::string bible)
-{
-  return getValue (bible, "hyphenation-first-set", "");
-}
-void setHyphenationFirstSet (std::string bible, std::string value)
-{
-  setValue (bible, "hyphenation-first-set", value);
+  set_value (bible, "page-height", value);
 }
 
 
-std::string getHyphenationSecondSet (std::string bible)
+std::string get_inner_margin (const std::string& bible)
 {
-  return getValue (bible, "hyphenation-second-set", "");
+  return get_value (bible, "inner-margin", "20");
 }
-void setHyphenationSecondSet (std::string bible, std::string value)
+void set_inner_margin  (const std::string& bible, const std::string& value)
 {
-  setValue (bible, "hyphenation-second-set", value);
-}
-
-
-std::string getEditorStylesheet (std::string bible)
-{
-  return getValue (bible, "editor-stylesheet", styles_logic_standard_sheet ().c_str());
-}
-void setEditorStylesheet (std::string bible, std::string value)
-{
-  setValue (bible, "editor-stylesheet", value);
+  set_value (bible, "inner-margin", value);
 }
 
 
-std::string getExportStylesheet (std::string bible)
+std::string get_outer_margin (const std::string& bible)
 {
-  return getValue (bible, "export-stylesheet", styles_logic_standard_sheet ().c_str());
+  return get_value (bible, "outer-margin", "10");
 }
-void setExportStylesheet (std::string bible, std::string value)
+void set_outer_margin  (const std::string& bible, const std::string& value)
 {
-  setValue (bible, "export-stylesheet", value);
-}
-
-
-std::string getVersificationSystem (std::string bible)
-{
-  return getValue (bible, "versification-system", filter::strings::english ());
-}
-void setVersificationSystem (std::string bible, std::string value)
-{
-  setValue (bible, "versification-system", value);
+  set_value (bible, "outer-margin", value);
 }
 
 
-bool getExportWebDuringNight (std::string bible)
+std::string get_top_margin (const std::string& bible)
 {
-  return getBValue (bible, "export-web-during-night", false);
+  return get_value (bible, "top-margin", "10");
 }
-void setExportWebDuringNight (std::string bible, bool value)
+void set_top_margin  (const std::string& bible, const std::string& value)
 {
-  setBValue (bible, "export-web-during-night", value);
+  set_value (bible, "top-margin", value);
 }
 
 
-bool getExportHtmlDuringNight (std::string bible)
+std::string get_bottom_margin (const std::string& bible)
 {
-  return getBValue (bible, "export-html-during-night", false);
+  return get_value (bible, "bottom-margin", "10");
 }
-void setExportHtmlDuringNight (std::string bible, bool value)
+void set_bottom_margin  (const std::string& bible, const std::string& value)
 {
-  setBValue (bible, "export-html-during-night", value);
+  set_value (bible, "bottom-margin", value);
+}
+
+
+bool get_date_in_header (const std::string& bible)
+{
+  return get_boolean_value (bible, "date-in-header", false);
+}
+void set_date_in_header  (const std::string& bible, bool value)
+{
+  set_boolean_value (bible, "date-in-header", value);
+}
+
+
+std::string get_hyphenation_first_set (const std::string& bible)
+{
+  return get_value (bible, "hyphenation-first-set", "");
+}
+void set_hyphenation_first_set (const std::string& bible, const std::string& value)
+{
+  set_value (bible, "hyphenation-first-set", value);
+}
+
+
+std::string get_hyphenation_second_set (const std::string& bible)
+{
+  return get_value (bible, "hyphenation-second-set", "");
+}
+void set_hyphenation_second_set (const std::string& bible, const std::string& value)
+{
+  set_value (bible, "hyphenation-second-set", value);
+}
+
+
+std::string get_editor_stylesheet (const std::string& bible)
+{
+  return get_value (bible, "editor-stylesheet", styles_logic_standard_sheet ().c_str());
+}
+void set_editor_stylesheet (const std::string& bible, const std::string& value)
+{
+  set_value (bible, "editor-stylesheet", value);
+}
+
+
+std::string get_export_stylesheet (const std::string& bible)
+{
+  return get_value (bible, "export-stylesheet", styles_logic_standard_sheet ().c_str());
+}
+void set_export_stylesheet (const std::string& bible, const std::string& value)
+{
+  set_value (bible, "export-stylesheet", value);
+}
+
+
+std::string get_versification_system (const std::string& bible)
+{
+  return get_value (bible, "versification-system", filter::strings::english ());
+}
+void set_versification_system (const std::string& bible, const std::string& value)
+{
+  set_value (bible, "versification-system", value);
+}
+
+
+bool get_export_web_during_night (const std::string& bible)
+{
+  return get_boolean_value (bible, "export-web-during-night", false);
+}
+void set_export_web_during_night (const std::string& bible, bool value)
+{
+  set_boolean_value (bible, "export-web-during-night", value);
+}
+
+
+bool get_export_hml_during_night (const std::string& bible)
+{
+  return get_boolean_value (bible, "export-html-during-night", false);
+}
+void set_export_hml_during_night (const std::string& bible, bool value)
+{
+  set_boolean_value (bible, "export-html-during-night", value);
 }
 
 
@@ -602,103 +602,103 @@ const char * export_html_notes_on_hover_key ()
 {
   return "export-html-notes-on-hover";
 }
-bool getExportHtmlNotesOnHover (std::string bible)
+bool get_export_html_notes_on_hover (const std::string& bible)
 {
-  return getBValue (bible, export_html_notes_on_hover_key (), false);
+  return get_boolean_value (bible, export_html_notes_on_hover_key (), false);
 }
-void setExportHtmlNotesOnHover (std::string bible, bool value)
+void set_export_html_notes_on_hover (const std::string& bible, bool value)
 {
-  setBValue (bible, export_html_notes_on_hover_key (), value);
-}
-
-
-bool getExportUsfmDuringNight (std::string bible)
-{
-  return getBValue (bible, "export-usfm-during-night", false);
-}
-void setExportUsfmDuringNight (std::string bible, bool value)
-{
-  setBValue (bible, "export-usfm-during-night", value);
+  set_boolean_value (bible, export_html_notes_on_hover_key (), value);
 }
 
 
-bool getExportTextDuringNight (std::string bible)
+bool get_export_usfm_during_night (const std::string& bible)
 {
-  return getBValue (bible, "export-text-during-night", false);
+  return get_boolean_value (bible, "export-usfm-during-night", false);
 }
-void setExportTextDuringNight (std::string bible, bool value)
+void set_export_usfm_during_night (const std::string& bible, bool value)
 {
-  setBValue (bible, "export-text-during-night", value);
-}
-
-
-bool getExportOdtDuringNight (std::string bible)
-{
-  return getBValue (bible, "export-odt-during-night", false);
-}
-void setExportOdtDuringNight (std::string bible, bool value)
-{
-  setBValue (bible, "export-odt-during-night", value);
+  set_boolean_value (bible, "export-usfm-during-night", value);
 }
 
 
-bool getGenerateInfoDuringNight (std::string bible)
+bool get_export_text_during_night (const std::string& bible)
 {
-  return getBValue (bible, "generate-info-during-night", false);
+  return get_boolean_value (bible, "export-text-during-night", false);
 }
-void setGenerateInfoDuringNight (std::string bible, bool value)
+void set_export_text_during_night (const std::string& bible, bool value)
 {
-  setBValue (bible, "generate-info-during-night", value);
-}
-
-
-bool getExportESwordDuringNight (std::string bible)
-{
-  return getBValue (bible, "export-esword-during-night", false);
-}
-void setExportESwordDuringNight (std::string bible, bool value)
-{
-  setBValue (bible, "export-esword-during-night", value);
+  set_boolean_value (bible, "export-text-during-night", value);
 }
 
 
-bool getExportOnlineBibleDuringNight (std::string bible)
+bool get_export_odt_during_night (const std::string& bible)
 {
-  return getBValue (bible, "export-onlinebible-during-night", false);
+  return get_boolean_value (bible, "export-odt-during-night", false);
 }
-void setExportOnlineBibleDuringNight (std::string bible, bool value)
+void set_export_odt_during_night (const std::string& bible, bool value)
 {
-  setBValue (bible, "export-onlinebible-during-night", value);
-}
-
-
-std::string getExportPassword (std::string bible)
-{
-  return getValue (bible, "export-password", "");
-}
-void setExportPassword (std::string bible, std::string value)
-{
-  setValue (bible, "export-password", value);
+  set_boolean_value (bible, "export-odt-during-night", value);
 }
 
 
-bool getSecureUsfmExport (std::string bible)
+bool get_generate_info_during_night (const std::string& bible)
 {
-  return getBValue (bible, "secure-usfm-export", false);
+  return get_boolean_value (bible, "generate-info-during-night", false);
 }
-void setSecureUsfmExport (std::string bible, bool value)
+void set_generate_info_during_night (const std::string& bible, bool value)
 {
-  setBValue (bible, "secure-usfm-export", value);
+  set_boolean_value (bible, "generate-info-during-night", value);
 }
 
 
-bool getSecureOdtExport (std::string bible)
+bool get_export_e_sword_during_night (const std::string& bible)
 {
-  return getBValue (bible, "secure-odt-export", false);
+  return get_boolean_value (bible, "export-esword-during-night", false);
 }
-void setSecureOdtExport (std::string bible, bool value)
+void set_export_e_sword_during_night (const std::string& bible, bool value)
 {
-  setBValue (bible, "secure-odt-export", value);
+  set_boolean_value (bible, "export-esword-during-night", value);
+}
+
+
+bool get_export_online_bible_during_night (const std::string& bible)
+{
+  return get_boolean_value (bible, "export-onlinebible-during-night", false);
+}
+void set_export_online_bible_during_night (const std::string& bible, bool value)
+{
+  set_boolean_value (bible, "export-onlinebible-during-night", value);
+}
+
+
+std::string get_export_password (const std::string& bible)
+{
+  return get_value (bible, "export-password", "");
+}
+void set_export_password (const std::string& bible, const std::string& value)
+{
+  set_value (bible, "export-password", value);
+}
+
+
+bool get_secure_usfm_export (const std::string& bible)
+{
+  return get_boolean_value (bible, "secure-usfm-export", false);
+}
+void set_secure_usfm_export (const std::string& bible, bool value)
+{
+  set_boolean_value (bible, "secure-usfm-export", value);
+}
+
+
+bool get_secure_odt_export (const std::string& bible)
+{
+  return get_boolean_value (bible, "secure-odt-export", false);
+}
+void set_secure_odt_export (const std::string& bible, bool value)
+{
+  set_boolean_value (bible, "secure-odt-export", value);
 }
 
 
@@ -706,13 +706,13 @@ const char * export_font_key ()
 {
   return "export-font";
 }
-std::string getExportFont (std::string bible)
+std::string get_export_font (const std::string& bible)
 {
-  return getValue (bible, export_font_key (), "");
+  return get_value (bible, export_font_key (), "");
 }
-void setExportFont (std::string bible, std::string value)
+void set_export_font (const std::string& bible, const std::string& value)
 {
-  setValue (bible, export_font_key (), value);
+  set_value (bible, export_font_key (), value);
 }
 
 
@@ -720,113 +720,113 @@ const char * export_feedback_email_key ()
 {
   return "export-feedback-email";
 }
-std::string getExportFeedbackEmail (std::string bible)
+std::string get_export_feedback_email (const std::string& bible)
 {
-  return getValue (bible, export_feedback_email_key (), "");
+  return get_value (bible, export_feedback_email_key (), "");
 }
-void setExportFeedbackEmail (std::string bible, std::string value)
+void set_export_feedback_email (const std::string& bible, const std::string& value)
 {
-  setValue (bible, export_feedback_email_key (), value);
-}
-
-
-std::string getBookOrder (std::string bible)
-{
-  return getValue (bible, "book-order", "");
-}
-void setBookOrder (std::string bible, std::string value)
-{
-  setValue (bible, "book-order", value);
+  set_value (bible, export_feedback_email_key (), value);
 }
 
 
-int getTextDirection (std::string bible)
+std::string get_book_order (const std::string& bible)
 {
-  return getIValue (bible, "text-direction", 0);
+  return get_value (bible, "book-order", "");
 }
-void setTextDirection (std::string bible, int value)
+void set_book_order (const std::string& bible, const std::string& value)
 {
-  setIValue (bible, "text-direction", value);
-}
-
-
-std::string getTextFont (std::string bible)
-{
-  return getValue (bible, "text-font", "");
-}
-void setTextFont (std::string bible, std::string value)
-{
-  setValue (bible, "text-font", value);
+  set_value (bible, "book-order", value);
 }
 
 
-std::string getTextFontClient (std::string bible)
+int get_text_direction (const std::string& bible)
 {
-  return getValue (bible, "text-font-client", "");
+  return get_integer_value (bible, "text-direction", 0);
 }
-void setTextFontClient (std::string bible, std::string value)
+void set_text_direction (const std::string& bible, int value)
 {
-  setValue (bible, "text-font-client", value);
-}
-
-
-std::string getParatextProject (std::string bible)
-{
-  return getValue (bible, "paratext-project", "");
-}
-void setParatextProject (std::string bible, std::string value)
-{
-  setValue (bible, "paratext-project", value);
+  set_integer_value (bible, "text-direction", value);
 }
 
 
-bool getParatextCollaborationEnabled (std::string bible)
+std::string get_text_font (const std::string& bible)
 {
-  return getBValue (bible, "paratext-collaboration-enabled", false);
+  return get_value (bible, "text-font", "");
 }
-void setParatextCollaborationEnabled (std::string bible, bool value)
+void set_text_font (const std::string& bible, const std::string& value)
 {
-  setBValue (bible, "paratext-collaboration-enabled", value);
-}
-
-
-int getLineHeight (std::string bible)
-{
-  return getIValue (bible, "line-height", 100);
-}
-void setLineHeight (std::string bible, int value)
-{
-  setIValue (bible, "line-height", value);
+  set_value (bible, "text-font", value);
 }
 
 
-int getLetterSpacing (std::string bible)
+std::string get_text_font_client (const std::string& bible)
 {
-  return getIValue (bible, "letter-spacing", 0);
+  return get_value (bible, "text-font-client", "");
 }
-void setLetterSpacing (std::string bible, int value)
+void set_text_font_client (const std::string& bible, const std::string& value)
 {
-  setIValue (bible, "letter-spacing", value);
-}
-
-
-bool getPublicFeedbackEnabled (std::string bible)
-{
-  return getBValue (bible, "public-feedback-enabled", true);
-}
-void setPublicFeedbackEnabled (std::string bible, bool value)
-{
-  setBValue (bible, "public-feedback-enabled", value);
+  set_value (bible, "text-font-client", value);
 }
 
 
-bool getReadFromGit (std::string bible)
+std::string get_paratext_project (const std::string& bible)
 {
-  return getBValue (bible, "read-from-git", false);
+  return get_value (bible, "paratext-project", "");
 }
-void setReadFromGit (std::string bible, bool value)
+void set_paratext_project (const std::string& bible, const std::string& value)
 {
-  setBValue (bible, "read-from-git", value);
+  set_value (bible, "paratext-project", value);
+}
+
+
+bool get_paratext_collaboration_enabled (const std::string& bible)
+{
+  return get_boolean_value (bible, "paratext-collaboration-enabled", false);
+}
+void set_paratext_collaboration_enabled (const std::string& bible, bool value)
+{
+  set_boolean_value (bible, "paratext-collaboration-enabled", value);
+}
+
+
+int get_line_height (const std::string& bible)
+{
+  return get_integer_value (bible, "line-height", 100);
+}
+void set_line_height (const std::string& bible, int value)
+{
+  set_integer_value (bible, "line-height", value);
+}
+
+
+int get_letter_spacing (const std::string& bible)
+{
+  return get_integer_value (bible, "letter-spacing", 0);
+}
+void set_letter_spacing (const std::string& bible, int value)
+{
+  set_integer_value (bible, "letter-spacing", value);
+}
+
+
+bool get_public_feedback_enabled (const std::string& bible)
+{
+  return get_boolean_value (bible, "public-feedback-enabled", true);
+}
+void set_public_feedback_enabled (const std::string& bible, bool value)
+{
+  set_boolean_value (bible, "public-feedback-enabled", value);
+}
+
+
+bool get_read_from_git (const std::string& bible)
+{
+  return get_boolean_value (bible, "read-from-git", false);
+}
+void set_read_from_git (const std::string& bible, bool value)
+{
+  set_boolean_value (bible, "read-from-git", value);
 }
 
 
@@ -834,13 +834,13 @@ const char * send_changes_to_rss_key ()
 {
   return "send-changes-to-rss";
 }
-bool getSendChangesToRSS (std::string bible)
+bool get_send_changes_to_rss (const std::string& bible)
 {
-  return getBValue (bible, send_changes_to_rss_key (), false);
+  return get_boolean_value (bible, send_changes_to_rss_key (), false);
 }
-void setSendChangesToRSS (std::string bible, bool value)
+void set_send_changes_to_rss (const std::string& bible, bool value)
 {
-  setBValue (bible, send_changes_to_rss_key (), value);
+  set_boolean_value (bible, send_changes_to_rss_key (), value);
 }
 
 
@@ -848,13 +848,13 @@ const char * odt_space_after_verse_key ()
 {
   return "odt-space-after-verse";
 }
-std::string getOdtSpaceAfterVerse (std::string bible)
+std::string get_odt_space_after_verse (const std::string& bible)
 {
-  return getValue (bible, odt_space_after_verse_key (), " ");
+  return get_value (bible, odt_space_after_verse_key (), " ");
 }
-void setOdtSpaceAfterVerse (std::string bible, std::string value)
+void set_odt_space_after_verse (const std::string& bible, const std::string& value)
 {
-  setValue (bible, odt_space_after_verse_key (), value);
+  set_value (bible, odt_space_after_verse_key (), value);
 }
 
 
@@ -862,13 +862,13 @@ const char * daily_checks_enabled_key ()
 {
   return "daily-checks-enabled";
 }
-bool getDailyChecksEnabled (std::string bible)
+bool get_daily_checks_enabled (const std::string& bible)
 {
-  return getBValue (bible, daily_checks_enabled_key (), true);
+  return get_boolean_value (bible, daily_checks_enabled_key (), true);
 }
-void setDailyChecksEnabled (std::string bible, bool value)
+void set_daily_checks_enabled (const std::string& bible, bool value)
 {
-  setBValue (bible, daily_checks_enabled_key (), value);
+  set_boolean_value (bible, daily_checks_enabled_key (), value);
 }
 
 
@@ -876,13 +876,13 @@ const char * odt_poetry_verses_left_key ()
 {
   return "odt-poetry-verses-left";
 }
-bool getOdtPoetryVersesLeft (std::string bible)
+bool get_odt_poetry_verses_left (const std::string& bible)
 {
-  return getBValue (bible, odt_poetry_verses_left_key(), false);
+  return get_boolean_value (bible, odt_poetry_verses_left_key(), false);
 }
-void setOdtPoetryVersesLeft (std::string bible, bool value)
+void set_odt_poetry_verses_left (const std::string& bible, bool value)
 {
-  setBValue (bible, odt_poetry_verses_left_key(), value);
+  set_boolean_value (bible, odt_poetry_verses_left_key(), value);
 }
 
 
@@ -890,13 +890,13 @@ const char * odt_automatic_note_caller_key ()
 {
   return "odt-automatic-note-caller";
 }
-bool getOdtAutomaticNoteCaller (std::string bible)
+bool get_odt_automatic_note_caller (const std::string& bible)
 {
-  return getBValue (bible, odt_automatic_note_caller_key(), false);
+  return get_boolean_value (bible, odt_automatic_note_caller_key(), false);
 }
-void setOdtAutomaticNoteCaller (std::string bible, bool value)
+void set_odt_automatic_note_caller (const std::string& bible, bool value)
 {
-  setBValue (bible, odt_automatic_note_caller_key(), value);
+  set_boolean_value (bible, odt_automatic_note_caller_key(), value);
 }
 
 }

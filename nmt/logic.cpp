@@ -42,8 +42,8 @@ void nmt_logic_export (std::string referencebible, std::string translatingbible)
   std::vector <std::string> translation_lines;
   
   // Get the versification systems of both Bibles.
-  std::string reference_versification = database::config::bible::getVersificationSystem (referencebible);
-  std::string translating_versification = database::config::bible::getVersificationSystem (translatingbible);
+  std::string reference_versification = database::config::bible::get_versification_system (referencebible);
+  std::string translating_versification = database::config::bible::get_versification_system (translatingbible);
   
   std::vector <int> books = database_bibles.get_books (referencebible);
   for (auto book : books) {

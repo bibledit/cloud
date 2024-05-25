@@ -49,8 +49,8 @@ passage_marker_value::passage_marker_value (int book, int chapter, std::string v
 Filter_Text::Filter_Text (std::string bible)
 {
   m_bible = bible;
-  space_type_after_verse = database::config::bible::getOdtSpaceAfterVerse (m_bible);
-  odt_left_align_verse_in_poetry_styles = database::config::bible::getOdtPoetryVersesLeft (m_bible);
+  space_type_after_verse = database::config::bible::get_odt_space_after_verse (m_bible);
+  odt_left_align_verse_in_poetry_styles = database::config::bible::get_odt_poetry_verses_left (m_bible);
 }
 
 
@@ -731,7 +731,7 @@ void Filter_Text::process_usfm ()
               }
               // Deal with the case of a pending chapter number.
               if (!m_output_chapter_text_at_first_verse.empty()) {
-                if (!database::config::bible::getExportChapterDropCapsFrames (m_bible)) {
+                if (!database::config::bible::get_export_chapter_drop_caps_frames (m_bible)) {
                   int dropCapsLength = static_cast<int>( filter::strings::unicode_string_length (m_output_chapter_text_at_first_verse));
                   applyDropCapsToCurrentParagraph (dropCapsLength);
                   if (odf_text_standard) odf_text_standard->add_text (m_output_chapter_text_at_first_verse);
@@ -1545,7 +1545,7 @@ void Filter_Text::create_paragraph_style (const Database_Styles_Item & style, bo
 {
   std::string marker = style.marker;
   if (find (createdStyles.begin(), createdStyles.end(), marker) == createdStyles.end()) {
-    std::string fontname = database::config::bible::getExportFont (m_bible);
+    std::string fontname = database::config::bible::get_export_font (m_bible);
     float fontsize = style.fontsize;
     int italic = style.italic;
     int bold = style.bold;
@@ -1598,7 +1598,7 @@ void Filter_Text::applyDropCapsToCurrentParagraph (int dropCapsLength)
     std::string combined_style = odf_text_standard->m_current_paragraph_style + "_" + chapterMarker + filter::strings::convert_to_string (dropCapsLength);
     if (find (createdStyles.begin(), createdStyles.end(), combined_style) == createdStyles.end()) {
       Database_Styles_Item style = styles[odf_text_standard->m_current_paragraph_style];
-      std::string fontname = database::config::bible::getExportFont (m_bible);
+      std::string fontname = database::config::bible::get_export_font (m_bible);
       float fontsize = style.fontsize;
       int italic = style.italic;
       int bold = style.bold;
@@ -1670,7 +1670,7 @@ std::string Filter_Text::getNoteCitation (const Database_Styles_Item & style)
 void Filter_Text::ensureNoteParagraphStyle (std::string marker, const Database_Styles_Item & style)
 {
   if (find (createdStyles.begin(), createdStyles.end(), marker) == createdStyles.end()) {
-    std::string fontname = database::config::bible::getExportFont (m_bible);
+    std::string fontname = database::config::bible::get_export_font (m_bible);
     float fontsize = style.fontsize;
     int italic = style.italic;
     int bold = style.bold;

@@ -93,7 +93,7 @@ std::string edit_save (Webserver_Request& webserver_request)
     return translate("No write access");
   }
 
-  const std::string stylesheet = database::config::bible::getEditorStylesheet (bible);
+  const std::string stylesheet = database::config::bible::get_editor_stylesheet (bible);
   
   Editor_Html2Usfm editor_export;
   editor_export.load (html);

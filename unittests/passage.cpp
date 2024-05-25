@@ -330,17 +330,17 @@ TEST (filter, passage)
     EXPECT_EQ ((std::vector <int>{1, 2, 3, 4, 5}), books);
     
     // Existing books re-ordered.
-    Database_Config_Bible::setBookOrder (bible, "1 3 2 5 4");
+    database::config::bible::setBookOrder (bible, "1 3 2 5 4");
     books = filter_passage_get_ordered_books (bible);
     EXPECT_EQ ((std::vector <int>{1, 3, 2, 5, 4}), books);
     
     // Some books ordered, and Bible has extra books: These are to be added to the end.
-    Database_Config_Bible::setBookOrder (bible, "1 3 2");
+    database::config::bible::setBookOrder (bible, "1 3 2");
     books = filter_passage_get_ordered_books (bible);
     EXPECT_EQ ((std::vector <int>{1, 3, 2, 4, 5}), books);
     
     // More books ordered than in Bible: Remove the extra ones.
-    Database_Config_Bible::setBookOrder (bible, "1 3 2 5 4 6");
+    database::config::bible::setBookOrder (bible, "1 3 2 5 4 6");
     books = filter_passage_get_ordered_books (bible);
     EXPECT_EQ ((std::vector <int>{1, 3, 2, 5, 4}), books);
   }

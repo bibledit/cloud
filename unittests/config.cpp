@@ -51,29 +51,29 @@ TEST(database, config_general)
 
 TEST(database, config_bible)
 {
-  std::string value = Database_Config_Bible::getVersificationSystem ("phpunit");
+  std::string value = database::config::bible::getVersificationSystem ("phpunit");
   EXPECT_EQ (filter::strings::english (), value);
   
-  value = Database_Config_Bible::getVersificationSystem ("x");
+  value = database::config::bible::getVersificationSystem ("x");
   EXPECT_EQ (filter::strings::english (), value);
 
-  Database_Config_Bible::setVersificationSystem ("phpunit", "VersificatioN");
-  value = Database_Config_Bible::getVersificationSystem ("phpunit");
+  database::config::bible::setVersificationSystem ("phpunit", "VersificatioN");
+  value = database::config::bible::getVersificationSystem ("phpunit");
   EXPECT_EQ ("VersificatioN", value);
 
   // Check default value for Bible.
   std::string bible = "A Bible";
   std::string standard = ", ;";
   std::string suffix = " suffix";
-  value = Database_Config_Bible::getSentenceStructureMiddlePunctuation (bible);
+  value = database::config::bible::getSentenceStructureMiddlePunctuation (bible);
   EXPECT_EQ (standard, value);
   // Change value and check it.
-  Database_Config_Bible::setSentenceStructureMiddlePunctuation (bible, standard + suffix);
-  value = Database_Config_Bible::getSentenceStructureMiddlePunctuation (bible);
+  database::config::bible::setSentenceStructureMiddlePunctuation (bible, standard + suffix);
+  value = database::config::bible::getSentenceStructureMiddlePunctuation (bible);
   EXPECT_EQ (standard + suffix, value);
   // Remove that Bible and check that the value is back to default.
-  Database_Config_Bible::remove (bible);
-  value = Database_Config_Bible::getSentenceStructureMiddlePunctuation (bible);
+  database::config::bible::remove (bible);
+  value = database::config::bible::getSentenceStructureMiddlePunctuation (bible);
   EXPECT_EQ (standard, value);
 }
 

@@ -53,7 +53,7 @@ void export_text_usfm_book (std::string bible, int book, bool log)
   Database_Bibles database_bibles;
   
   
-  const std::string stylesheet = Database_Config_Bible::getExportStylesheet (bible);
+  const std::string stylesheet = database::config::bible::getExportStylesheet (bible);
   
   
   Filter_Text filter_text_book = Filter_Text (bible);

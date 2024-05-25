@@ -110,7 +110,7 @@ std::string sendreceive_index (Webserver_Request& webserver_request)
 
 
   std::string starting_to_sync;
-  if (Database_Config_Bible::getReadFromGit (bible)) {
+  if (database::config::bible::getReadFromGit (bible)) {
     starting_to_sync = translate ("Starting to send and receive now.");
   } else {
     starting_to_sync = translate ("Starting to send now.");
@@ -126,15 +126,15 @@ std::string sendreceive_index (Webserver_Request& webserver_request)
   std::string checkbox = webserver_request.post ["checkbox"];
   bool checked = filter::strings::convert_to_bool (webserver_request.post ["checked"]);
   if (checkbox == "repeatbible") {
-    Database_Config_Bible::set_repeat_send_receive (bible, checked);
+    database::config::bible::set_repeat_send_receive (bible, checked);
     return std::string();
   }
-  view.set_variable ("repeatbible", filter::strings::get_checkbox_status (Database_Config_Bible::get_repeat_send_receive (bible)));
+  view.set_variable ("repeatbible", filter::strings::get_checkbox_status (database::config::bible::get_repeat_send_receive (bible)));
   
     
   if (sendreceive_git_repository_linked (bible)) {
     view.enable_zone ("collab_on");
-    std::string url = Database_Config_Bible::getRemoteRepositoryUrl (bible);
+    std::string url = database::config::bible::getRemoteRepositoryUrl (bible);
     view.set_variable ("url", filter_url_remove_username_password (url));
   } else {
     view.enable_zone ("collab_off");
@@ -211,7 +211,7 @@ std::string sendreceive_index (Webserver_Request& webserver_request)
 #endif
 
   
-  if (Database_Config_Bible::getReadFromGit (bible)) {
+  if (database::config::bible::getReadFromGit (bible)) {
     view.enable_zone ("gitreadwrite");
   } else {
     view.enable_zone ("gitwrite");

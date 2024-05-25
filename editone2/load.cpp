@@ -54,7 +54,7 @@ std::string editone2_load (Webserver_Request& webserver_request)
   int verse = filter::strings::convert_to_int (webserver_request.query ["verse"]);
   std::string unique_id = webserver_request.query ["id"];
   
-  const std::string stylesheet = Database_Config_Bible::getEditorStylesheet (bible);
+  const std::string stylesheet = database::config::bible::getEditorStylesheet (bible);
 
   std::string chapter_usfm = webserver_request.database_bibles()->get_chapter (bible, book, chapter);
 

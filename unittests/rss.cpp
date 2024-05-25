@@ -45,7 +45,7 @@ TEST (rss, feed)
   database::config::general::set_site_url ("http://localhost:8080/");
   
   // Enable the Bible to send its changes to the RSS feed.
-  Database_Config_Bible::setSendChangesToRSS (bible, true);
+  database::config::bible::setSendChangesToRSS (bible, true);
   rss_logic_feed_on_off ();
   
   // Write two items.
@@ -53,12 +53,12 @@ TEST (rss, feed)
   EXPECT_EQ (849, filter_url_filesize (path));
 
   // Disable the Bible: Should remove the file.
-  Database_Config_Bible::setSendChangesToRSS (bible, false);
+  database::config::bible::setSendChangesToRSS (bible, false);
   rss_logic_feed_on_off ();
   EXPECT_EQ (0, filter_url_filesize (path));
 
   // Add many entries and clipping their number.
-  Database_Config_Bible::setSendChangesToRSS (bible, true);
+  database::config::bible::setSendChangesToRSS (bible, true);
   rss_logic_feed_on_off ();
   std::vector <std::string> titles;
   std::vector <std::string> authors;

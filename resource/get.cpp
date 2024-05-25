@@ -75,7 +75,7 @@ std::string resource_get (Webserver_Request& webserver_request)
       
       
       std::string bible = webserver_request.database_config_user ()->getBible ();
-      std::string versification = Database_Config_Bible::getVersificationSystem (bible);
+      std::string versification = database::config::bible::getVersificationSystem (bible);
       Database_Versifications database_versifications;
       std::vector <int> chapters = database_versifications.getChapters (versification, book);
       

@@ -58,7 +58,7 @@ std::string edit_navigate (Webserver_Request& webserver_request)
   const size_t offset = static_cast<size_t> (filter::strings::convert_to_int (webserver_request.query ["offset"]));
 
   
-  const std::string stylesheet = Database_Config_Bible::getEditorStylesheet (bible);
+  const std::string stylesheet = database::config::bible::getEditorStylesheet (bible);
   const std::string usfm = webserver_request.database_bibles()->get_chapter (bible, book, chapter);
   
   

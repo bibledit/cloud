@@ -117,7 +117,7 @@ std::string bible_order (Webserver_Request& webserver_request)
     std::vector <std::string> v_book_order {};
     for (const auto book : interspersed) v_book_order.push_back (filter::strings::convert_to_string (static_cast<int>(book)));
     const std::string s_book_order = filter::strings::implode (v_book_order, " ");
-    Database_Config_Bible::setBookOrder (bible, s_book_order);
+    database::config::bible::setBookOrder (bible, s_book_order);
   }
 
   
@@ -176,13 +176,13 @@ std::string bible_order (Webserver_Request& webserver_request)
     std::vector <std::string> v_book_order {};
     for (const auto book : interspersed) v_book_order.push_back (filter::strings::convert_to_string (static_cast<int>(book)));
     const std::string s_book_order = filter::strings::implode (v_book_order, " ");
-    Database_Config_Bible::setBookOrder (bible, s_book_order);
+    database::config::bible::setBookOrder (bible, s_book_order);
   }
 
   
   // Deuterocanonicals or Apocrypha at the end of the entire Bible.
   if (order == "end") {
-    Database_Config_Bible::setBookOrder (bible, std::string());
+    database::config::bible::setBookOrder (bible, std::string());
   }
 
   // Handle updates to the custom book order.
@@ -196,7 +196,7 @@ std::string bible_order (Webserver_Request& webserver_request)
       s_books.push_back (filter::strings::convert_to_string (book));
     filter::strings::array_move_up_down (s_books, move, !moveup.empty ());
     const std::string s_order = filter::strings::implode (s_books, " ");
-    Database_Config_Bible::setBookOrder (bible, s_order);
+    database::config::bible::setBookOrder (bible, s_order);
   }
   
   const std::vector <int> books = filter_passage_get_ordered_books (bible);

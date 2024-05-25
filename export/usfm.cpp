@@ -107,7 +107,7 @@ void export_usfm (std::string bible, bool log)
   filter_url_rename (archive, zippath);
   
   
-  if (Database_Config_Bible::getSecureUsfmExport (bible)) {
+  if (database::config::bible::getSecureUsfmExport (bible)) {
     // Securing the full USFM export means that there will be one zip file secured with a password.
     // This zip file contains all exported USFM data.
     // All other files will be removed.
@@ -116,7 +116,7 @@ void export_usfm (std::string bible, bool log)
     for (auto file : files) {
       if (file != zipfile) filter_url_unlink (filter_url_create_path ({usfmDirectoryFull, file}));
     }
-    std::string password = Database_Config_Bible::getExportPassword (bible);
+    std::string password = database::config::bible::getExportPassword (bible);
     std::string output, error;
     filter_shell_run (usfmDirectoryFull, "zip", {"-P", password, "bible.zip", zipfile}, &output, &error);
     filter_url_unlink (zippath);

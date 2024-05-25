@@ -164,8 +164,8 @@ void sendreceive_queue_all (bool now)
   Database_Bibles database_bibles;
   std::vector <std::string> bibles = database_bibles.get_bibles ();
   for (auto & bible : bibles) {
-    if (Database_Config_Bible::getRemoteRepositoryUrl (bible) != "") {
-      if (Database_Config_Bible::get_repeat_send_receive (bible) || now) {
+    if (database::config::bible::getRemoteRepositoryUrl (bible) != "") {
+      if (database::config::bible::get_repeat_send_receive (bible) || now) {
         sendreceive_queue_bible (bible);
       }
     }
@@ -216,6 +216,6 @@ bool sendreceive_logic_prioritized_task_is_active ()
 // Returns true if Bibledit Cloud has been linked to an external git repository.
 bool sendreceive_git_repository_linked (std::string bible)
 {
-  std::string url = Database_Config_Bible::getRemoteRepositoryUrl (bible);
+  std::string url = database::config::bible::getRemoteRepositoryUrl (bible);
   return !url.empty ();
 }

@@ -65,9 +65,9 @@ std::string manage_hyphenation (Webserver_Request& webserver_request)
   // Character sets submission.
   if (webserver_request.post.count ("sets")) {
     std::string firstset = webserver_request.post["firstset"];
-    Database_Config_Bible::setHyphenationFirstSet (bible, firstset);
+    database::config::bible::setHyphenationFirstSet (bible, firstset);
     std::string secondset = webserver_request.post["secondset"];
-    Database_Config_Bible::setHyphenationSecondSet (bible, secondset);
+    database::config::bible::setHyphenationSecondSet (bible, secondset);
     success = translate("The two sets of characters were saved");
   }
   
@@ -89,8 +89,8 @@ std::string manage_hyphenation (Webserver_Request& webserver_request)
   bible = access_bible::clamp (webserver_request, webserver_request.database_config_user()->getBible ());
   
   
-  std::string firstset = Database_Config_Bible::getHyphenationFirstSet (bible);
-  std::string secondset = Database_Config_Bible::getHyphenationSecondSet (bible);
+  std::string firstset = database::config::bible::getHyphenationFirstSet (bible);
+  std::string secondset = database::config::bible::getHyphenationSecondSet (bible);
   if (webserver_request.query.count ("run")) {
     if (bible == "") {
       error = translate("No Bible given");

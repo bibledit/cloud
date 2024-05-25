@@ -53,7 +53,7 @@ void convert_bible_to_resource (std::string bible)
   }
   database_bibles.delete_bible (bible);
   DatabasePrivileges::remove_bible (bible);
-  Database_Config_Bible::remove (bible);
+  database::config::bible::remove (bible);
   
   
   // The Cloud updates the list of available USFM resources for the clients.

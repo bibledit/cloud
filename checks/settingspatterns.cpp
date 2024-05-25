@@ -61,13 +61,13 @@ std::string checks_settingspatterns (Webserver_Request& webserver_request)
   
   if (webserver_request.post.count ("patterns")) {
     const std::string patterns = webserver_request.post ["patterns"];
-    if (!bible.empty ()) Database_Config_Bible::setCheckingPatterns (bible, patterns);
+    if (!bible.empty ()) database::config::bible::setCheckingPatterns (bible, patterns);
     view.set_variable ("success", translate("The patterns were saved"));
   }
   
   
   view.set_variable ("bible", bible);
-  view.set_variable ("patterns", Database_Config_Bible::getCheckingPatterns (bible));
+  view.set_variable ("patterns", database::config::bible::getCheckingPatterns (bible));
                                           
                                           
   page += view.render ("checks", "settingspatterns");

@@ -419,7 +419,7 @@ const char * bibledit_get_reference_for_accordance ()
   webserver_request.session_logic()->set_username(user);
   Database_Config_User database_config_user (webserver_request);
   std::string bible = webserver_request.database_config_user ()->getBible ();
-  std::string versification = Database_Config_Bible::getVersificationSystem (bible);
+  std::string versification = database::config::bible::getVersificationSystem (bible);
 
   int book = Ipc_Focus::getBook (webserver_request);
   int chapter = Ipc_Focus::getChapter (webserver_request);
@@ -475,7 +475,7 @@ void bibledit_put_reference_from_accordance (const char * reference)
   // Get the active Bible and its versification system.
   Database_Config_User database_config_user (webserver_request);
   std::string bible = webserver_request.database_config_user ()->getBible ();
-  std::string versification = Database_Config_Bible::getVersificationSystem (bible);
+  std::string versification = database::config::bible::getVersificationSystem (bible);
 
   // Accordance expects a verse reference in the English versification system.
   std::vector <Passage> passages;

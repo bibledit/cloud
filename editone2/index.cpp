@@ -129,9 +129,9 @@ std::string editone2_index (Webserver_Request& webserver_request)
   const std::string custom_class = Filter_Css::getClass (bible);
   const std::string font = fonts::logic::get_text_font (bible);
   const int current_theme_index = webserver_request.database_config_user ()->getCurrentTheme ();
-  const int direction = Database_Config_Bible::getTextDirection (bible);
-  const int lineheight = Database_Config_Bible::getLineHeight (bible);
-  const int letterspacing = Database_Config_Bible::getLetterSpacing (bible);
+  const int direction = database::config::bible::getTextDirection (bible);
+  const int lineheight = database::config::bible::getLineHeight (bible);
+  const int letterspacing = database::config::bible::getLetterSpacing (bible);
   view.set_variable ("editor_theme_color", Filter_Css::theme_picker (current_theme_index, 2));
   view.set_variable ("active_editor_theme_color", Filter_Css::theme_picker (current_theme_index, 3));
   view.set_variable ("custom_class", custom_class);

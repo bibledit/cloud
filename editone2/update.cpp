@@ -147,7 +147,7 @@ std::string editone2_update (Webserver_Request& webserver_request)
 
   std::string stylesheet;
   if (good2go) {
-    stylesheet = Database_Config_Bible::getEditorStylesheet (bible);
+    stylesheet = database::config::bible::getEditorStylesheet (bible);
   }
 
   

@@ -68,10 +68,10 @@ std::string bible_css (Webserver_Request& webserver_request)
     font = filter::strings::trim (font);
 #ifdef HAVE_CLIENT
     // Bibledit client storage.
-    Database_Config_Bible::setTextFontClient (bible, font);
+    database::config::bible::setTextFontClient (bible, font);
 #else
     // Bibledit Cloud storage.
-    Database_Config_Bible::setTextFont (bible, font);
+    database::config::bible::setTextFont (bible, font);
 #endif
     
     const std::string s_direction = webserver_request.post ["direction"];
@@ -80,17 +80,17 @@ std::string bible_css (Webserver_Request& webserver_request)
     const std::string s_mode = webserver_request.post ["mode"];
     const int i_mode = Filter_Css::writingModeValue (s_mode);
     
-    Database_Config_Bible::setTextDirection (bible, i_mode * 10 + i_direction);
+    database::config::bible::setTextDirection (bible, i_mode * 10 + i_direction);
     
     int lineheight = filter::strings::convert_to_int (webserver_request.post["lineheight"]);
     if (lineheight < 50) lineheight = 50;
     if (lineheight > 300) lineheight = 300;
-    Database_Config_Bible::setLineHeight (bible, lineheight);
+    database::config::bible::setLineHeight (bible, lineheight);
 
     float letterspacing = filter::strings::convert_to_float (webserver_request.post["letterspacing"]);
     if (letterspacing < -3) letterspacing = -3;
     if (letterspacing > 3) letterspacing = 3;
-    Database_Config_Bible::setLetterSpacing (bible, static_cast<int>(10 * letterspacing));
+    database::config::bible::setLetterSpacing (bible, static_cast<int>(10 * letterspacing));
     
     page += assets_page::success ("The information was saved.");
   }
@@ -102,7 +102,7 @@ std::string bible_css (Webserver_Request& webserver_request)
   const std::string font = fonts::logic::get_text_font (bible);
   view.set_variable ("font", font);
 
-  const int direction = Database_Config_Bible::getTextDirection (bible);
+  const int direction = database::config::bible::getTextDirection (bible);
   
   view.set_variable ("direction_none", Filter_Css::directionUnspecified (direction));
   view.set_variable ("direction_ltr", Filter_Css::directionLeftToRight (direction));
@@ -114,10 +114,10 @@ std::string bible_css (Webserver_Request& webserver_request)
   view.set_variable ("mode_btlr", Filter_Css::writingModeBottomTopLeftRight (direction));
   view.set_variable ("mode_btrl", Filter_Css::writingModeBottomTopRightLeft (direction));
 
-  const int lineheight = Database_Config_Bible::getLineHeight (bible);
+  const int lineheight = database::config::bible::getLineHeight (bible);
   view.set_variable ("lineheight", filter::strings::convert_to_string (lineheight));
 
-  float letterspacing = static_cast<float> (Database_Config_Bible::getLetterSpacing (bible));
+  float letterspacing = static_cast<float> (database::config::bible::getLetterSpacing (bible));
   letterspacing /= 10;
   view.set_variable ("letterspacing", filter::strings::convert_to_string (letterspacing));
 
@@ -126,7 +126,7 @@ std::string bible_css (Webserver_Request& webserver_request)
   const std::string custom_css = Filter_Css::get_css (custom_class,
                                                       fonts::logic::get_font_path (font), direction,
                                                       lineheight,
-                                                      Database_Config_Bible::getLetterSpacing (bible));
+                                                      database::config::bible::getLetterSpacing (bible));
   view.set_variable ("custom_css", custom_css);
 
   page += view.render ("bb", "css");

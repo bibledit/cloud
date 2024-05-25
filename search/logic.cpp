@@ -76,7 +76,7 @@ void search_logic_index_chapter (std::string bible, int book, int chapter)
   Database_Bibles database_bibles;
   
   std::string usfm = database_bibles.get_chapter (bible, book, chapter);
-  const std::string stylesheet = Database_Config_Bible::getExportStylesheet (bible);
+  const std::string stylesheet = database::config::bible::getExportStylesheet (bible);
 
   std::vector <std::string> index;
   

@@ -315,7 +315,7 @@ void sendreceive_bibles ()
     for (std::string bible : bibles) {
       webserver_request.database_bibles()->delete_bible (bible);
       DatabasePrivileges::remove_bible (bible);
-      Database_Config_Bible::remove (bible);
+      database::config::bible::remove (bible);
       Database_Logs::log (sendreceive_bibles_text () + translate("Deleting Bible because the server did not grant access to it") + ": " + bible, Filter_Roles::translator ());
     }
   }

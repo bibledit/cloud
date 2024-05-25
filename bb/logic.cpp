@@ -193,7 +193,7 @@ void bible_logic::delete_bible (const std::string& bible)
   
   // Delete associated settings and privileges.
   DatabasePrivileges::remove_bible (bible);
-  Database_Config_Bible::remove (bible);
+  database::config::bible::remove (bible);
 }
 
 
@@ -281,7 +281,7 @@ void bible_logic::log_change (const std::string& bible,
   const std::string bookname = database::books::get_english_from_id (static_cast<book_id>(book));
   const std::string passage = bible + " " + bookname + " " + filter::strings::convert_to_string (chapter);
   
-  const std::string stylesheet = Database_Config_Bible::getExportStylesheet (bible);
+  const std::string stylesheet = database::config::bible::getExportStylesheet (bible);
 
   const std::vector <int> existing_verse_numbers = filter::usfm::get_verse_numbers (existing_usfm);
   const std::vector <int> verse_numbers = filter::usfm::get_verse_numbers (usfm);

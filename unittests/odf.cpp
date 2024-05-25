@@ -34,7 +34,7 @@ TEST (filter, odf)
   std::string Odt2TxtOutput = "/tmp/test.txt";
   std::string bible = "testbible";
   std::string fontname = "Marker Felt";
-  Database_Config_Bible::setExportFont (bible, fontname);
+  database::config::bible::setExportFont (bible, fontname);
 
   // Test converting paragraphs.
   {

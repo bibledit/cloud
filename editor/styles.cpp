@@ -40,7 +40,7 @@
 std::string Editor_Styles::getRecentlyUsed (Webserver_Request& webserver_request)
 {
   const std::string bible = webserver_request.database_config_user()->getBible ();
-  const std::string stylesheet = Database_Config_Bible::getEditorStylesheet (bible);
+  const std::string stylesheet = database::config::bible::getEditorStylesheet (bible);
   
   // The recent styles.
   const std::string s_styles = webserver_request.database_config_user()->getRecentlyAppliedStyles ();
@@ -78,7 +78,7 @@ std::string Editor_Styles::getRecentlyUsed (Webserver_Request& webserver_request
 std::string Editor_Styles::getAll (Webserver_Request& webserver_request)
 {
   const std::string bible = webserver_request.database_config_user()->getBible ();
-  const std::string stylesheet = Database_Config_Bible::getEditorStylesheet (bible);
+  const std::string stylesheet = database::config::bible::getEditorStylesheet (bible);
   
   // The styles.
   const std::map <std::string, std::string> data = webserver_request.database_styles()->getMarkersAndNames (stylesheet);
@@ -134,7 +134,7 @@ void Editor_Styles::recordUsage (Webserver_Request& webserver_request, const std
 std::string Editor_Styles::getAction (Webserver_Request& webserver_request, const std::string& style)
 {
   const std::string bible = webserver_request.database_config_user()->getBible ();
-  const std::string stylesheet = Database_Config_Bible::getEditorStylesheet (bible);
+  const std::string stylesheet = database::config::bible::getEditorStylesheet (bible);
   Database_Styles_Item data = webserver_request.database_styles()->getMarkerData (stylesheet, style);
   int type = data.type;
   int subtype = data.subtype;

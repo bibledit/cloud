@@ -63,10 +63,10 @@ std::string collaboration_settings (Webserver_Request& webserver_request)
   if (webserver_request.post.count ("url")) {
     if (!object.empty ()) {
       std::string url = webserver_request.post["url"];
-      Database_Config_Bible::setRemoteRepositoryUrl (object, url);
+      database::config::bible::setRemoteRepositoryUrl (object, url);
       std::string source = webserver_request.post["source"];
       std::string readwrite = webserver_request.post["readwrite"];
-      Database_Config_Bible::setReadFromGit (object, readwrite == "sendreceive");
+      database::config::bible::setReadFromGit (object, readwrite == "sendreceive");
       Database_Jobs database_jobs = Database_Jobs ();
       int jobId = database_jobs.get_new_id ();
       database_jobs.set_level (jobId, Filter_Roles::admin ());
@@ -76,7 +76,7 @@ std::string collaboration_settings (Webserver_Request& webserver_request)
       return std::string();
     }
   }
-  std::string url = Database_Config_Bible::getRemoteRepositoryUrl (object);
+  std::string url = database::config::bible::getRemoteRepositoryUrl (object);
   view.set_variable ("url", url);
   
   

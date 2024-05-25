@@ -56,7 +56,7 @@ void export_html_book (std::string bible, int book, bool log)
   Database_BibleImages database_bibleimages;
 
   
-  const std::string stylesheet = Database_Config_Bible::getExportStylesheet (bible);
+  const std::string stylesheet = database::config::bible::getExportStylesheet (bible);
   
   
   // Create stylesheet.
@@ -79,7 +79,7 @@ void export_html_book (std::string bible, int book, bool log)
   Filter_Text filter_text = Filter_Text (bible);
   filter_text.html_text_standard = new HtmlText (translate("Bible"));
   filter_text.html_text_standard->custom_class = Filter_Css::getClass (bible);
-  if (Database_Config_Bible::getExportHtmlNotesOnHover(bible)) {
+  if (database::config::bible::getExportHtmlNotesOnHover(bible)) {
     filter_text.html_text_standard->have_popup_notes();
   }
   

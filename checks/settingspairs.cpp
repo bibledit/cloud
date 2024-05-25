@@ -80,13 +80,13 @@ std::string checks_settingspairs (Webserver_Request& webserver_request)
       }
     }
     if (okay) {
-      Database_Config_Bible::setMatchingPairs (bible, fragment);
+      database::config::bible::setMatchingPairs (bible, fragment);
       view.set_variable ("success", translate("The pairs were saved"));
     } else {
       view.set_variable ("error", filter::strings::implode (errors, " | "));
     }
   }
-  view.set_variable ("pairs", Database_Config_Bible::getMatchingPairs (bible));
+  view.set_variable ("pairs", database::config::bible::getMatchingPairs (bible));
   
   
   page += view.render ("checks", "settingspairs");

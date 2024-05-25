@@ -82,10 +82,10 @@ std::string collaboration_index (Webserver_Request& webserver_request)
 
   
   if (webserver_request.query.count ("disable")) {
-    Database_Config_Bible::setRemoteRepositoryUrl (object, "");
+    database::config::bible::setRemoteRepositoryUrl (object, "");
     filter_url_rmdir (repositoryfolder);
   }
-  const std::string& url = Database_Config_Bible::getRemoteRepositoryUrl (object);
+  const std::string& url = database::config::bible::getRemoteRepositoryUrl (object);
   view.set_variable ("url", url);
   if (url.empty ()) {
     view.enable_zone ("urlinactive");

@@ -50,7 +50,7 @@ odf_text::odf_text (std::string bible)
   initialize_content_xml ();
   initialize_styles_xml ();
   
-  automatic_note_caller = Database_Config_Bible::getOdtAutomaticNoteCaller(m_bible);
+  automatic_note_caller = database::config::bible::getOdtAutomaticNoteCaller(m_bible);
 }
 
 
@@ -112,7 +112,7 @@ void odf_text::initialize_content_xml ()
     childnode.append_attribute ("style:font-family-generic") = "roman";
     childnode.append_attribute ("style:font-pitch") = "variable";
     
-    std::string fontname = Database_Config_Bible::getExportFont (m_bible);
+    std::string fontname = database::config::bible::getExportFont (m_bible);
     childnode = office_font_face_decls.append_child ("style:font-face");
     childnode.append_attribute ("style:name") = fontname.c_str();
     fontname.insert (0, "'");
@@ -273,7 +273,7 @@ void odf_text::initialize_styles_xml ()
     childnode.append_attribute ("style:font-family-generic") = "roman";
     childnode.append_attribute ("style:font-pitch") = "variable";
   
-    std::string fontname = Database_Config_Bible::getExportFont (m_bible);
+    std::string fontname = database::config::bible::getExportFont (m_bible);
     childnode = office_font_face_decls.append_child ("style:font-face");
     childnode.append_attribute ("style:name") = fontname.c_str();
     fontname.insert (0, "'");
@@ -372,7 +372,7 @@ void odf_text::initialize_styles_xml ()
   }
 
   // Update the tab-stops in the header style. The tab stops depend on page and margin dimensions.
-  int centerPosition = filter::strings::convert_to_int (Database_Config_Bible::getPageWidth (m_bible)) - filter::strings::convert_to_int (Database_Config_Bible::getInnerMargin (m_bible)) - filter::strings::convert_to_int (Database_Config_Bible::getOuterMargin (m_bible));
+  int centerPosition = filter::strings::convert_to_int (database::config::bible::getPageWidth (m_bible)) - filter::strings::convert_to_int (database::config::bible::getInnerMargin (m_bible)) - filter::strings::convert_to_int (database::config::bible::getOuterMargin (m_bible));
 
   pugi::xml_node office_automatic_styles = rootnode.append_child ("office:automatic-styles");
   {
@@ -427,14 +427,14 @@ void odf_text::initialize_styles_xml ()
     {
       pugi::xml_node style_page_layout_properties = style_page_layout.append_child ("style:page-layout-properties");
       // Take the page size and margins from the Bible's settings.
-      style_page_layout_properties.append_attribute ("fo:page-width") = filter::strings::convert_to_string (Database_Config_Bible::getPageWidth (m_bible) + "mm").c_str();
-      style_page_layout_properties.append_attribute ("fo:page-height") = filter::strings::convert_to_string (Database_Config_Bible::getPageHeight (m_bible) + "mm").c_str();
+      style_page_layout_properties.append_attribute ("fo:page-width") = filter::strings::convert_to_string (database::config::bible::getPageWidth (m_bible) + "mm").c_str();
+      style_page_layout_properties.append_attribute ("fo:page-height") = filter::strings::convert_to_string (database::config::bible::getPageHeight (m_bible) + "mm").c_str();
       style_page_layout_properties.append_attribute ("style:num-format") = "1";
       style_page_layout_properties.append_attribute ("style:print-orientation") = "portrait";
-      style_page_layout_properties.append_attribute ("fo:margin-top") = filter::strings::convert_to_string (Database_Config_Bible::getTopMargin (m_bible) + "mm").c_str();
-      style_page_layout_properties.append_attribute ("fo:margin-bottom") = filter::strings::convert_to_string (Database_Config_Bible::getBottomMargin (m_bible) + "mm").c_str();
-      style_page_layout_properties.append_attribute ("fo:margin-left") = filter::strings::convert_to_string (Database_Config_Bible::getInnerMargin (m_bible) + "mm").c_str();
-      style_page_layout_properties.append_attribute ("fo:margin-right") = filter::strings::convert_to_string (Database_Config_Bible::getOuterMargin (m_bible) + "mm").c_str();
+      style_page_layout_properties.append_attribute ("fo:margin-top") = filter::strings::convert_to_string (database::config::bible::getTopMargin (m_bible) + "mm").c_str();
+      style_page_layout_properties.append_attribute ("fo:margin-bottom") = filter::strings::convert_to_string (database::config::bible::getBottomMargin (m_bible) + "mm").c_str();
+      style_page_layout_properties.append_attribute ("fo:margin-left") = filter::strings::convert_to_string (database::config::bible::getInnerMargin (m_bible) + "mm").c_str();
+      style_page_layout_properties.append_attribute ("fo:margin-right") = filter::strings::convert_to_string (database::config::bible::getOuterMargin (m_bible) + "mm").c_str();
       style_page_layout_properties.append_attribute ("style:writing-mode") = "lr-tb";
       style_page_layout_properties.append_attribute ("style:footnote-max-height") = "0cm";
       {
@@ -510,7 +510,7 @@ void odf_text::initialize_styles_xml ()
           text_p.append_child ("text:tab");
         }
         // Whether and how to put the date in the running headers.
-        if (Database_Config_Bible::getDateInHeader (m_bible)) {
+        if (database::config::bible::getDateInHeader (m_bible)) {
           pugi::xml_node node = text_p.append_child ("text:date");
           node.append_attribute ("style:data-style-name") = "N81";
           node.append_attribute ("text:date-value") = "";
@@ -538,7 +538,7 @@ void odf_text::initialize_styles_xml ()
           text_p.append_child ("text:tab");
         }
         // Whether and how to put the date in the running headers.
-        if (Database_Config_Bible::getDateInHeader (m_bible)) {
+        if (database::config::bible::getDateInHeader (m_bible)) {
           pugi::xml_node node = text_p.append_child ("text:date");
           node.append_attribute ("style:data-style-name") = "N81";
           node.append_attribute ("text:date-value") = "";
@@ -668,7 +668,7 @@ void odf_text::create_paragraph_style (std::string name,
   // Whether to align verse numbers in poetry to the left of the margin,
   // and if so, whether this is one of the defined poetry styles.
   bool is_poetry_q_style {false};
-  if (Database_Config_Bible::getOdtPoetryVersesLeft (m_bible)) {
+  if (database::config::bible::getOdtPoetryVersesLeft (m_bible)) {
     is_poetry_q_style = filter::usfm::is_standard_q_poetry (name);
   }
   
@@ -1204,7 +1204,7 @@ void odf_text::add_image (std::string style, [[maybe_unused]] std::string alt, s
   int available_width_mm {0};
   int available_height_mm {50};
   {
-    available_width_mm = filter::strings::convert_to_int (Database_Config_Bible::getPageWidth (m_bible)) - filter::strings::convert_to_int (Database_Config_Bible::getInnerMargin (m_bible)) - filter::strings::convert_to_int (Database_Config_Bible::getOuterMargin (m_bible));
+    available_width_mm = filter::strings::convert_to_int (database::config::bible::getPageWidth (m_bible)) - filter::strings::convert_to_int (database::config::bible::getInnerMargin (m_bible)) - filter::strings::convert_to_int (database::config::bible::getOuterMargin (m_bible));
     if (image_width_pixels && image_height_pixels) {
       available_height_mm = available_width_mm * image_height_pixels / image_width_pixels;
     }

@@ -35,7 +35,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <mbedtls/x509.h>
 #include <mbedtls/x509_crt.h>
 #include <mbedtls/ssl.h>
-// #include <mbedtls/ssl_tls.h>
 #include <mbedtls/net_sockets.h>
 #include <mbedtls/error.h>
 #include <mbedtls/ssl_cache.h>
@@ -62,15 +61,9 @@ static int get_line (const int sock, char *buf, const int size)
   char character {'\0'};
   int n {0};
   while ((i < size - 1) && (character != '\n')) {
-    n = static_cast<int> (recv (sock, &character, 1, 0));
+    n = static_cast<int> (::recv (sock, &character, 1, 0));
     if (n > 0) {
       if (character == '\r') {
-        /*
-        // Work around MSG_PEEK failure in nacl_io library.
-        // On Chrome OS the order is \r\n.
-        // So it's safe to throw the \r away, as we're sure the \n follows.
-        continue;
-        */
         n = static_cast<int> (recv (sock, &character, 1, MSG_PEEK));
         if ((n > 0) && (character == '\n')) {
           recv (sock, &character, 1, 0);
@@ -97,7 +90,8 @@ static void convert_ipv6_notation_to_pure_ipv4_notation (std::string& address)
   // Example IPv4 address: ::ffff:127.0.0.1
   // Example IPv6 address: ::1
   // Clean the IP address up so it's a clear IPv4 or IPv6 notation.
-  if (size_t pos = address.find("."); pos != std::string::npos) {
+  if (size_t pos = address.find(".");
+      pos != std::string::npos) {
     pos = address.find_last_of(":");
     address.erase (0, ++pos);
   }
@@ -108,7 +102,7 @@ static void convert_ipv6_notation_to_pure_ipv4_notation (std::string& address)
 static void webserver_process_request (const int connfd, const std::string& clientaddress)
 {
   // The environment for this request.
-  // A pointer to it gets passed around from function to function during the entire request.
+  // It reference to this object gets passed around from function to function during the entire request.
   // This provides thread-safety to the request.
   Webserver_Request request {};
   

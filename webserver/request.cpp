@@ -35,13 +35,20 @@ Webserver_Request::Webserver_Request ()
 
 Webserver_Request::~Webserver_Request ()
 {
-  if (session_logic_instance) delete session_logic_instance;
-  if (database_config_user_instance) delete database_config_user_instance;
-  if (database_users_instance) delete database_users_instance;
-  if (database_styles_instance) delete database_styles_instance;
-  if (database_bibles_instance) delete database_bibles_instance;
-  if (database_check_instance) delete database_check_instance;
-  if (database_ipc_instance) delete database_ipc_instance;
+  if (session_logic_instance) 
+    delete session_logic_instance;
+  if (database_config_user_instance) 
+    delete database_config_user_instance;
+  if (database_users_instance) 
+    delete database_users_instance;
+  if (database_styles_instance) 
+    delete database_styles_instance;
+  if (database_bibles_instance) 
+    delete database_bibles_instance;
+  if (database_check_instance) 
+    delete database_check_instance;
+  if (database_ipc_instance) 
+    delete database_ipc_instance;
 }
 
 
@@ -59,7 +66,8 @@ Session_Logic * Webserver_Request::session_logic ()
 Database_Config_User * Webserver_Request::database_config_user ()
 {
   // Single live object during the entire web request.
-  if (!database_config_user_instance) database_config_user_instance = new Database_Config_User (*this);
+  if (!database_config_user_instance) 
+    database_config_user_instance = new Database_Config_User (*this);
   return database_config_user_instance;
 }
 
@@ -68,28 +76,32 @@ Database_Config_User * Webserver_Request::database_config_user ()
 Database_Users * Webserver_Request::database_users ()
 {
   // Single live object during the entire web request.
-  if (!database_users_instance) database_users_instance = new Database_Users ();
+  if (!database_users_instance) 
+    database_users_instance = new Database_Users ();
   return database_users_instance;
 }
 
 
 Database_Styles * Webserver_Request::database_styles ()
 {
-  if (!database_styles_instance) database_styles_instance = new Database_Styles ();
+  if (!database_styles_instance) 
+    database_styles_instance = new Database_Styles ();
   return database_styles_instance;
 }
 
 
 Database_Bibles * Webserver_Request::database_bibles ()
 {
-  if (!database_bibles_instance) database_bibles_instance = new Database_Bibles ();
+  if (!database_bibles_instance) 
+    database_bibles_instance = new Database_Bibles ();
   return database_bibles_instance;
 }
 
 
 Database_Check * Webserver_Request::database_check ()
 {
-  if (!database_check_instance) database_check_instance = new Database_Check ();
+  if (!database_check_instance) 
+    database_check_instance = new Database_Check ();
   return database_check_instance;
 }
 

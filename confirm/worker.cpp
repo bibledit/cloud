@@ -43,14 +43,36 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #ifdef HAVE_CLOUD
 
 
-Confirm_Worker::Confirm_Worker (Webserver_Request& webserver_request):
-m_webserver_request (webserver_request)
+namespace confirm::worker {
+
+
+// Inform the managers about an account change.
+static void inform_managers (const std::string& email, const std::string& body)
 {
+  Database_Users database_users {};
+  const std::vector <std::string>& users = database_users.get_users ();
+  for (const auto& user : users) {
+    const int level = database_users.get_level (user);
+    if (level >= Filter_Roles::manager ()) {
+      const std::string mailto = database_users.get_email (user);
+      const std::string subject = translate ("User account change");
+      std::string newbody = translate ("A user account was changed.");
+      newbody.append (" ");
+      newbody.append (translate ("Email address:"));
+      newbody.append (" ");
+      newbody.append (email);
+      newbody.append (". ");
+      newbody.append (translate ("The following email was sent to this user:"));
+      newbody.append (" ");
+      newbody.append (body);
+      email_schedule (mailto, subject, newbody);
+    }
+  }
 }
 
 
 // Sets up a confirmation cycle in order to change something in the database.
-// If for example a user requests the email address to be changed, 
+// If for example a user requests the email address to be changed,
 // an initial email will be sent, which the user should confirm.
 // mailto            : Email address for the initial email and the response.
 // initial_subject   : The subject of the initial email message.
@@ -58,13 +80,14 @@ m_webserver_request (webserver_request)
 // query             : The query to be executed on the database if the user confirms the email successfully.
 // subsequent_subject: The subject of the email to send upon user confirmation.
 // subsequent_body   : The body of the email to send upon user confirmation.
-void Confirm_Worker::setup (std::string mailto, std::string username,
-                            std::string initial_subject, std::string initial_body,
-                            std::string query,
-                            std::string subsequent_subject, std::string subsequent_body)
+void setup (Webserver_Request& webserver_request,
+            const std::string& mailto, const std::string& username,
+            const std::string& initial_subject, std::string initial_body,
+            const std::string& query,
+            const std::string& subsequent_subject, const std::string& subsequent_body)
 {
-  Database_Confirm database_confirm;
-  unsigned int confirmation_id = database_confirm.get_new_id ();
+  Database_Confirm database_confirm {};
+  const unsigned int confirmation_id = database_confirm.get_new_id ();
   pugi::xml_document document;
   pugi::xml_node node = document.append_child ("p");
   std::string information;
@@ -73,20 +96,33 @@ void Confirm_Worker::setup (std::string mailto, std::string username,
   }
   node.text ().set (information.c_str());
   node = document.append_child ("p");
-  std::string siteUrl = config::logic::site_url (m_webserver_request);
-  std::string confirmation_url = filter_url_build_http_query (siteUrl + session_confirm_url (), "id", std::to_string(confirmation_id));
+  const std::string site_url = config::logic::site_url (webserver_request);
+  std::string confirmation_url = filter_url_build_http_query (site_url + session_confirm_url (), "id", std::to_string(confirmation_id));
   node.text ().set (confirmation_url.c_str());
   std::stringstream output;
   document.print (output, "", pugi::format_raw);
-  initial_body += output.str ();
+  initial_body.append (output.str ());
   email_schedule (mailto, initial_subject, initial_body);
   database_confirm.store (confirmation_id, query, mailto, subsequent_subject, subsequent_body, username);
 }
 
 
+} // namespace.
+
+
+
+
+
+
+Confirm_Worker::Confirm_Worker (Webserver_Request& webserver_request):
+m_webserver_request (webserver_request)
+{
+}
+
+
 // Handles a confirmation email received "from" with "subject" and "body".
 // Returns true if the mail was handled, else false.
-bool Confirm_Worker::handleEmail ([[maybe_unused]]std::string from, std::string subject, std::string body)
+bool Confirm_Worker::handle_email ([[maybe_unused]]std::string from, std::string subject, std::string body)
 {
   // Find out in the confirmation database whether the subject line contains an active ID.
   // If not, bail out.
@@ -106,7 +142,7 @@ bool Confirm_Worker::handleEmail ([[maybe_unused]]std::string from, std::string 
   // Delete the confirmation record.
   database_confirm.erase (id);
   // Notify managers.
-  informManagers (mailto, body);
+  confirm::worker::inform_managers (mailto, body);
   // Job done.
   return true;
 }
@@ -114,7 +150,7 @@ bool Confirm_Worker::handleEmail ([[maybe_unused]]std::string from, std::string 
 
 // Handles a confirmation link clicked with a confirmation ID.
 // Returns true if link was valid, else false.
-bool Confirm_Worker::handleLink (std::string & email)
+bool Confirm_Worker::handle_link (std::string & email)
 {
   // Get the confirmation identifier from the link that was clicked.
   std::string web_id = m_webserver_request.query["id"];
@@ -144,38 +180,13 @@ bool Confirm_Worker::handleLink (std::string & email)
   database_confirm.erase (id);
 
   // Notify managers.
-  informManagers (mailto, body);
+  confirm::worker::inform_managers (mailto, body);
 
   // Pass the email address to the caller.
   email = mailto;
   
   // Job done.
   return true;
-}
-
-
-// Inform the managers about an account change.
-void Confirm_Worker::informManagers (std::string email, std::string body)
-{
-  Database_Users database_users;
-  std::vector <std::string> users = database_users.get_users ();
-  for (auto & user : users) {
-    int level = database_users.get_level (user);
-    if (level >= Filter_Roles::manager ()) {
-      std::string mailto = database_users.get_email (user);
-      std::string subject = translate ("User account change");
-      std::string newbody = translate ("A user account was changed.");
-      newbody.append (" ");
-      newbody.append (translate ("Email address:"));
-      newbody.append (" ");
-      newbody.append (email);
-      newbody.append (". ");
-      newbody.append (translate ("The following email was sent to this user:"));
-      newbody.append (" ");
-      newbody.append (body);
-      email_schedule (mailto, subject, newbody);
-    }
-  }
 }
 
 

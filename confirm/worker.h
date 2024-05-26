@@ -25,19 +25,24 @@ class Webserver_Request;
 
 #ifdef HAVE_CLOUD
 
+namespace confirm::worker {
+
+void setup (Webserver_Request& webserver_request,
+            const std::string& mailto, const std::string& username,
+            const std::string& initial_subject, std::string initial_body,
+            const std::string& query,
+            const std::string& subsequent_subject, const std::string& subsequent_body);
+
+}
+
 class Confirm_Worker
 {
 public:
   Confirm_Worker (Webserver_Request& webserver_request);
-  void setup (std::string mailto, std::string username,
-              std::string initial_subject, std::string initial_body,
-              std::string query,
-              std::string subsequent_subject, std::string subsequent_body);
-  bool handleEmail (std::string from, std::string subject, std::string body);
-  bool handleLink (std::string & email);
+  bool handle_email (std::string from, std::string subject, std::string body);
+  bool handle_link (std::string & email);
 private:
   Webserver_Request& m_webserver_request;
-  void informManagers (std::string email, std::string body);
 };
 
 #endif

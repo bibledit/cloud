@@ -65,7 +65,7 @@ void email_receive ()
   
       Database_Logs::log ("Processing email from " + from + " with subject " + subject);
 
-      if (confirm_worker.handleEmail (from, subject, body)) {
+      if (confirm_worker.handle_email (from, subject, body)) {
       }
       else if (notes_logic.handleEmailComment (from, subject, body)) {
       }

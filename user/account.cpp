@@ -102,13 +102,12 @@ std::string user_account ([[maybe_unused]] Webserver_Request& webserver_request)
         view.set_variable ("current_password_invalid_message", translate("Current password is not valid"));
       }
       if (form_is_valid) {
-        Confirm_Worker confirm_worker (webserver_request);
         std::string initial_subject = translate("Email address verification");
         std::string initial_body = translate("Somebody requested to change the email address that belongs to your account.");
         std::string query = webserver_request.database_users()->updateEmailQuery (username, newemail);
         std::string subsequent_subject = translate("Email address change");
         std::string subsequent_body = translate("The email address that belongs to your account has been changed successfully.");
-        confirm_worker.setup (newemail, std::string(), initial_subject, initial_body, query, subsequent_subject, subsequent_body);
+        confirm::worker::setup (webserver_request, newemail, std::string(), initial_subject, initial_body, query, subsequent_subject, subsequent_body);
         actions_taken = true;
         success_messages.push_back (translate("A verification email was sent to") + " " + newemail);
       }

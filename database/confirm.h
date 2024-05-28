@@ -25,26 +25,28 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #ifdef HAVE_CLOUD
 
 
-class Database_Confirm
-{
-public:
-  void create ();
-  void upgrade ();
-  void optimize ();
-  unsigned int get_new_id ();
-  bool id_exists (unsigned int id);
-  void store (unsigned int id, std::string query, std::string to, std::string subject, std::string body, std::string username);
-  unsigned int search_id (std::string subject);
-  std::string get_query (unsigned int id);
-  std::string get_mail_to (unsigned int id);
-  std::string get_subject (unsigned int id);
-  std::string get_body (unsigned int id);
-  std::string get_username (unsigned int id);
-  void erase (unsigned int id);
-  void trim ();
-private:
-  const char * filename ();
-};
+namespace database::confirm {
+
+
+void create ();
+void upgrade ();
+void optimize ();
+unsigned int get_new_id ();
+bool id_exists (unsigned int id);
+void store (unsigned int id, const std::string& query, 
+            const std::string& to, const std::string& subject, const std::string& body,
+            const std::string& username);
+unsigned int search_id (const std::string& subject);
+std::string get_query (unsigned int id);
+std::string get_mail_to (unsigned int id);
+std::string get_subject (unsigned int id);
+std::string get_body (unsigned int id);
+std::string get_username (unsigned int id);
+void erase (unsigned int id);
+void trim ();
+
+
+}
 
 
 #endif

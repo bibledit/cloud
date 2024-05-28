@@ -86,8 +86,7 @@ void setup (Webserver_Request& webserver_request,
             const std::string& query,
             const std::string& subsequent_subject, const std::string& subsequent_body)
 {
-  Database_Confirm database_confirm {};
-  const unsigned int confirmation_id = database_confirm.get_new_id ();
+  const unsigned int confirmation_id = database::confirm::get_new_id ();
   pugi::xml_document document;
   pugi::xml_node node = document.append_child ("p");
   std::string information;
@@ -103,7 +102,7 @@ void setup (Webserver_Request& webserver_request,
   document.print (output, "", pugi::format_raw);
   initial_body.append (output.str ());
   email_schedule (mailto, initial_subject, initial_body);
-  database_confirm.store (confirmation_id, query, mailto, subsequent_subject, subsequent_body, username);
+  database::confirm::store (confirmation_id, query, mailto, subsequent_subject, subsequent_body, username);
 }
 
 
@@ -112,7 +111,7 @@ void setup (Webserver_Request& webserver_request,
 bool handle_link (Webserver_Request& webserver_request, std::string& email)
 {
   // Get the confirmation identifier from the link that was clicked.
-  std::string web_id = webserver_request.query["id"];
+  const std::string web_id = webserver_request.query["id"];
   
   // If the identifier was not given, the link was not handled successfully.
   if (web_id.empty()) 
@@ -120,24 +119,23 @@ bool handle_link (Webserver_Request& webserver_request, std::string& email)
   
   // Find out from the confirmation database whether the subject line contains an active ID.
   // If not, bail out.
-  Database_Confirm database_confirm {};
-  const unsigned int id = database_confirm.search_id (web_id);
+  const unsigned int id = database::confirm::search_id (web_id);
   if (id == 0) {
     return false;
   }
   
   // An active ID was found: Execute the associated database query.
-  const std::string query = database_confirm.get_query (id);
+  const std::string query = database::confirm::get_query (id);
   webserver_request.database_users()->execute (query);
   
   // Send confirmation mail.
-  const std::string mailto = database_confirm.get_mail_to (id);
-  const std::string subject = database_confirm.get_subject (id);
-  const std::string body = database_confirm.get_body (id);
+  const std::string mailto = database::confirm::get_mail_to (id);
+  const std::string subject = database::confirm::get_subject (id);
+  const std::string body = database::confirm::get_body (id);
   email_schedule (mailto, subject, body);
   
   // Delete the confirmation record.
-  database_confirm.erase (id);
+  database::confirm::erase (id);
   
   // Notify the manager(s).
   confirm::worker::inform_managers (mailto, body);

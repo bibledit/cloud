@@ -30,44 +30,43 @@ TEST (database, confirm)
 #ifdef HAVE_CLOUD
   
   refresh_sandbox (false);
-  Database_Confirm database_confirm;
-  database_confirm.create ();
-  database_confirm.upgrade();
-  database_confirm.optimize ();
-  database_confirm.trim ();
+  database::confirm::create ();
+  database::confirm::upgrade();
+  database::confirm::optimize ();
+  database::confirm::trim ();
   
   // New ID generation test.
-  unsigned int id = database_confirm.get_new_id ();
+  unsigned int id = database::confirm::get_new_id ();
   if (id < 10'000) EXPECT_EQ (std::string("Should be greater than 10000"), std::to_string(id));
   
   // Store data for the ID.
-  database_confirm.store (id, "SELECT x, y, z FROM a;", "email", "subject", "body", "username");
+  database::confirm::store (id, "SELECT x, y, z FROM a;", "email", "subject", "body", "username");
   
   // Search for this ID based on subject.
-  unsigned int id2 = database_confirm.search_id ("Subject line CID" + std::to_string (id) + " Re:");
+  unsigned int id2 = database::confirm::search_id ("Subject line CID" + std::to_string (id) + " Re:");
   EXPECT_EQ (id, id2);
   
   // Retrieve data for the ID.
-  std::string query = database_confirm.get_query (id);
+  std::string query = database::confirm::get_query (id);
   EXPECT_EQ ("SELECT x, y, z FROM a;", query);
   
-  std::string to = database_confirm.get_mail_to (id);
+  std::string to = database::confirm::get_mail_to (id);
   EXPECT_EQ ("email", to);
   
-  std::string subject = database_confirm.get_subject (id);
+  std::string subject = database::confirm::get_subject (id);
   EXPECT_EQ ("subject", subject);
   
-  std::string body = database_confirm.get_body (id);
+  std::string body = database::confirm::get_body (id);
   EXPECT_EQ ("body", body);
   
-  std::string username = database_confirm.get_username(id);
+  std::string username = database::confirm::get_username(id);
   EXPECT_EQ ("username", username);
-  username = database_confirm.get_username(id + 1);
+  username = database::confirm::get_username(id + 1);
   EXPECT_EQ (std::string(), username);
 
   // Delete this ID.
-  database_confirm.erase (id);
-  query = database_confirm.get_query (id);
+  database::confirm::erase (id);
+  query = database::confirm::get_query (id);
   EXPECT_EQ ("", query);
 
 #endif

@@ -33,15 +33,15 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #ifdef HAVE_CLOUD
 
 
-const char * Database_Confirm::filename () // Todo no need for a class here.
-{
-  return "confirm";
-}
+constexpr const char * filename ("confirm");
 
 
-void Database_Confirm::create ()
+namespace database::confirm {
+
+
+void create ()
 {
-  SqliteDatabase sql (filename ());
+  SqliteDatabase sql (filename);
   sql.add ("CREATE TABLE IF NOT EXISTS confirm ("
            " id integer,"
            " query text,"
@@ -54,13 +54,13 @@ void Database_Confirm::create ()
 }
 
 
-void Database_Confirm::upgrade ()
+void upgrade ()
 {
   // Get the existing columns in the database.
-  SqliteDatabase sql (filename ());
+  SqliteDatabase sql (filename);
   sql.add ("PRAGMA table_info (confirm);");
-  std::vector <std::string> columns = sql.query () ["name"];
-
+  const std::vector <std::string> columns = sql.query () ["name"];
+  
   // Add the column for the username if it's not yet there.
   if (!in_array (static_cast<std::string> ("username"), columns)) {
     sql.clear ();
@@ -70,16 +70,16 @@ void Database_Confirm::upgrade ()
 }
 
 
-void Database_Confirm::optimize ()
+void optimize ()
 {
-  SqliteDatabase sql (filename ());
+  SqliteDatabase sql (filename);
   sql.add ("VACUUM;");
   sql.execute ();
 }
 
 
-// getNewID - returns a new unique confirmation ID as an integer
-unsigned int Database_Confirm::get_new_id ()
+// Returns a new unique confirmation ID as an integer
+unsigned int get_new_id ()
 {
   unsigned int id = 0;
   do {
@@ -90,23 +90,23 @@ unsigned int Database_Confirm::get_new_id ()
 
 
 // Returns true if the $id exists
-bool Database_Confirm::id_exists (unsigned int id)
+bool id_exists (unsigned int id)
 {
-  SqliteDatabase sql (filename ());
+  SqliteDatabase sql (filename);
   sql.add ("SELECT id FROM confirm WHERE id =");
   sql.add (static_cast<int>(id));
   sql.add (";");
-  std::vector <std::string> ids = sql.query () ["id"];
+  const std::vector <std::string> ids = sql.query () ["id"];
   return !ids.empty ();
 }
 
 
 // Store a confirmation cycle
-void Database_Confirm::store (unsigned int id, std::string query,
-                              std::string to, std::string subject, std::string body,
-                              std::string username)
+void store (unsigned int id, const std::string& query, 
+            const std::string& to, const std::string& subject, const std::string& body,
+            const std::string& username)
 {
-  SqliteDatabase sql (filename ());
+  SqliteDatabase sql (filename);
   sql.add ("INSERT INTO confirm VALUES (");
   sql.add (static_cast<int>(id));
   sql.add (",");
@@ -128,13 +128,13 @@ void Database_Confirm::store (unsigned int id, std::string query,
 
 // Search the database for an existing ID in $subject.
 // If it exists, it returns the ID number, else it returns 0.
-unsigned int Database_Confirm::search_id (std::string subject)
+unsigned int search_id (const std::string& subject)
 {
-  SqliteDatabase sql (filename ());
+  SqliteDatabase sql (filename);
   sql.add ("SELECT id FROM confirm;");
-  std::vector <std::string> ids = sql.query () ["id"];
-  for (std::string id : ids) {
-    size_t pos = subject.find (id);
+  const std::vector <std::string> ids = sql.query () ["id"];
+  for (const auto& id : ids) {
+    const size_t pos = subject.find (id);
     if (pos != std::string::npos) {
       return static_cast<unsigned>(filter::strings::convert_to_int (id));
     }
@@ -144,74 +144,79 @@ unsigned int Database_Confirm::search_id (std::string subject)
 
 
 // Returns the query for $id.
-std::string Database_Confirm::get_query (unsigned int id)
+std::string get_query (unsigned int id)
 {
-  SqliteDatabase sql (filename ());
+  SqliteDatabase sql (filename);
   sql.add ("SELECT query FROM confirm WHERE id =");
   sql.add (static_cast<int>(id));
   sql.add (";");
-  std::vector <std::string> result = sql.query () ["query"];
-  if (!result.empty ()) return result [0];
+  const std::vector <std::string> result = sql.query () ["query"];
+  if (!result.empty ())
+    return result.front();
   return std::string();
 }
 
 
 // Returns the To: address for $id.
-std::string Database_Confirm::get_mail_to (unsigned int id)
+std::string get_mail_to (unsigned int id)
 {
-  SqliteDatabase sql (filename ());
+  SqliteDatabase sql (filename);
   sql.add ("SELECT mailto FROM confirm WHERE id =");
   sql.add (static_cast<int>(id));
   sql.add (";");
-  std::vector <std::string> result = sql.query () ["mailto"];
-  if (!result.empty ()) return result [0];
+  const std::vector <std::string> result = sql.query () ["mailto"];
+  if (!result.empty ())
+    return result.front();
   return std::string();
 }
 
 
 // Returns the Subject: for $id.
-std::string Database_Confirm::get_subject (unsigned int id)
+std::string get_subject (unsigned int id)
 {
-  SqliteDatabase sql (filename ());
+  SqliteDatabase sql (filename);
   sql.add ("SELECT subject FROM confirm WHERE id =");
   sql.add (static_cast<int>(id));
   sql.add (";");
-  std::vector <std::string> result = sql.query () ["subject"];
-  if (!result.empty ()) return result [0];
+  const std::vector <std::string> result = sql.query () ["subject"];
+  if (!result.empty ())
+    return result.front();
   return std::string();
 }
 
 
 // Returns the email's body for $id.
-std::string Database_Confirm::get_body (unsigned int id)
+std::string get_body (unsigned int id)
 {
-  SqliteDatabase sql (filename ());
+  SqliteDatabase sql (filename);
   sql.add ("SELECT body FROM confirm WHERE id =");
   sql.add (static_cast<int>(id));
   sql.add (";");
-  std::vector <std::string> result = sql.query () ["body"];
-  if (!result.empty ()) return result [0];
+  const std::vector <std::string> result = sql.query () ["body"];
+  if (!result.empty ())
+    return result.front();
   return std::string();
 }
 
 
 // Returns the username for $id.
-std::string Database_Confirm::get_username (unsigned int id) // Test return valid and invalid username.
+std::string get_username (unsigned int id) // Test return valid and invalid username.
 {
-  SqliteDatabase sql (filename ());
+  SqliteDatabase sql (filename);
   sql.add ("SELECT username FROM confirm WHERE id =");
   sql.add (static_cast<int>(id));
   sql.add (";");
-  std::vector <std::string> result = sql.query () ["username"];
-  if (!result.empty ()) return result [0];
+  const std::vector <std::string> result = sql.query () ["username"];
+  if (!result.empty ())
+    return result.front();
   return std::string();
 }
 
 
 // Deletes $id from the table.
-void Database_Confirm::erase (unsigned int id)
+void erase (unsigned int id)
 {
-  SqliteDatabase sql (filename ());
+  SqliteDatabase sql (filename);
   sql.add ("DELETE FROM confirm WHERE id =");
   sql.add (static_cast<int>(id));
   sql.add (";");
@@ -219,15 +224,18 @@ void Database_Confirm::erase (unsigned int id)
 }
 
 
-void Database_Confirm::trim ()
+void trim ()
 {
   // Leave entries for no more than 30 days.
   const int time = filter::date::seconds_since_epoch () - 2592000;
-  SqliteDatabase sql (filename ());
+  SqliteDatabase sql (filename);
   sql.add ("DELETE FROM confirm WHERE timestamp <");
   sql.add (time);
   sql.add (";");
   sql.execute ();
+}
+
+
 }
 
 

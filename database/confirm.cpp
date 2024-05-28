@@ -33,7 +33,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #ifdef HAVE_CLOUD
 
 
-const char * Database_Confirm::filename ()
+const char * Database_Confirm::filename () // Todo no need for a class here.
 {
   return "confirm";
 }
@@ -140,17 +140,6 @@ unsigned int Database_Confirm::search_id (std::string subject)
     }
   }
   return 0;
-}
-
-
-std::vector <int> Database_Confirm::get_ids ()
-{
-  SqliteDatabase sql (filename ());
-  sql.add ("SELECT id FROM confirm;");
-  std::vector <std::string> s_ids = sql.query () ["id"];
-  std::vector <int> ids;
-  for (auto id : s_ids) ids.push_back(filter::strings::convert_to_int(id));
-  return ids;
 }
 
 

@@ -65,10 +65,6 @@ TEST (database, confirm)
   username = database_confirm.get_username(id + 1);
   EXPECT_EQ (std::string(), username);
 
-  std::vector <int> ids = database_confirm.get_ids();
-  std::vector <int> standard {static_cast<int>(id)};
-  EXPECT_EQ (standard, ids);
-
   // Delete this ID.
   database_confirm.erase (id);
   query = database_confirm.get_query (id);

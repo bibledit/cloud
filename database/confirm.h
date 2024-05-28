@@ -35,7 +35,6 @@ public:
   bool id_exists (unsigned int id);
   void store (unsigned int id, std::string query, std::string to, std::string subject, std::string body, std::string username);
   unsigned int search_id (std::string subject);
-  std::vector <int> get_ids ();
   std::string get_query (unsigned int id);
   std::string get_mail_to (unsigned int id);
   std::string get_subject (unsigned int id);

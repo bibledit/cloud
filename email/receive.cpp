@@ -26,7 +26,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 #include <filter/mail.h>
 #include <config/globals.h>
-#include <confirm/worker.h>
 #include <notes/logic.h>
 #include <filter/url.h>
 
@@ -50,7 +49,6 @@ void email_receive ()
   for (int i = 1; i <= emailcount; i++) {
 
     Webserver_Request webserver_request;
-    Confirm_Worker confirm_worker = (webserver_request);
     Notes_Logic notes_logic (webserver_request);
     
     error.clear ();
@@ -65,9 +63,7 @@ void email_receive ()
   
       Database_Logs::log ("Processing email from " + from + " with subject " + subject);
 
-      if (confirm_worker.handle_email (from, subject, body)) {
-      }
-      else if (notes_logic.handleEmailComment (from, subject, body)) {
+      if (notes_logic.handleEmailComment (from, subject, body)) {
       }
       else if (notes_logic.handleEmailNew (from, subject, body)) {
       }

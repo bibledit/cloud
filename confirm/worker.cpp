@@ -107,87 +107,50 @@ void setup (Webserver_Request& webserver_request,
 }
 
 
-} // namespace.
-
-
-
-
-
-
-Confirm_Worker::Confirm_Worker (Webserver_Request& webserver_request):
-m_webserver_request (webserver_request)
-{
-}
-
-
-// Handles a confirmation email received "from" with "subject" and "body".
-// Returns true if the mail was handled, else false.
-bool Confirm_Worker::handle_email ([[maybe_unused]]std::string from, std::string subject, std::string body)
-{
-  // Find out in the confirmation database whether the subject line contains an active ID.
-  // If not, bail out.
-  Database_Confirm database_confirm;
-  unsigned int id = database_confirm.search_id (subject);
-  if (id == 0) {
-    return false;
-  }
-  // An active ID was found: Execute the associated database query.
-  std::string query = database_confirm.get_query (id);
-  m_webserver_request.database_users()->execute (query);
-  // Send confirmation mail.
-  std::string mailto = database_confirm.get_mail_to (id);
-  subject = database_confirm.get_subject (id);
-  body = database_confirm.get_body (id);
-  email_schedule (mailto, subject, body);
-  // Delete the confirmation record.
-  database_confirm.erase (id);
-  // Notify managers.
-  confirm::worker::inform_managers (mailto, body);
-  // Job done.
-  return true;
-}
-
-
 // Handles a confirmation link clicked with a confirmation ID.
 // Returns true if link was valid, else false.
-bool Confirm_Worker::handle_link (std::string & email)
+bool handle_link (Webserver_Request& webserver_request, std::string& email)
 {
   // Get the confirmation identifier from the link that was clicked.
-  std::string web_id = m_webserver_request.query["id"];
+  std::string web_id = webserver_request.query["id"];
   
   // If the identifier was not given, the link was not handled successfully.
-  if (web_id.empty()) return false;
-
-  // Find out in the confirmation database whether the subject line contains an active ID.
+  if (web_id.empty()) 
+    return false;
+  
+  // Find out from the confirmation database whether the subject line contains an active ID.
   // If not, bail out.
-  Database_Confirm database_confirm;
-  unsigned int id = database_confirm.search_id (web_id);
+  Database_Confirm database_confirm {};
+  const unsigned int id = database_confirm.search_id (web_id);
   if (id == 0) {
     return false;
   }
- 
+  
   // An active ID was found: Execute the associated database query.
-  std::string query = database_confirm.get_query (id);
-  m_webserver_request.database_users()->execute (query);
-
+  const std::string query = database_confirm.get_query (id);
+  webserver_request.database_users()->execute (query);
+  
   // Send confirmation mail.
-  std::string mailto = database_confirm.get_mail_to (id);
-  std::string subject = database_confirm.get_subject (id);
-  std::string body = database_confirm.get_body (id);
+  const std::string mailto = database_confirm.get_mail_to (id);
+  const std::string subject = database_confirm.get_subject (id);
+  const std::string body = database_confirm.get_body (id);
   email_schedule (mailto, subject, body);
-
+  
   // Delete the confirmation record.
   database_confirm.erase (id);
-
-  // Notify managers.
+  
+  // Notify the manager(s).
   confirm::worker::inform_managers (mailto, body);
-
+  
   // Pass the email address to the caller.
   email = mailto;
   
   // Job done.
   return true;
 }
+
+
+} // namespace.
 
 
 #endif

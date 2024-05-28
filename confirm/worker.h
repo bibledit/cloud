@@ -33,16 +33,8 @@ void setup (Webserver_Request& webserver_request,
             const std::string& query,
             const std::string& subsequent_subject, const std::string& subsequent_body);
 
-}
+bool handle_link (Webserver_Request& webserver_request, std::string& email);
 
-class Confirm_Worker
-{
-public:
-  Confirm_Worker (Webserver_Request& webserver_request);
-  bool handle_email (std::string from, std::string subject, std::string body);
-  bool handle_link (std::string & email);
-private:
-  Webserver_Request& m_webserver_request;
-};
+}
 
 #endif

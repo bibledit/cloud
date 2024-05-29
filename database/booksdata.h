@@ -20,7 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // All data is stored in the code in memory, not in a database on disk.
 
 
-typedef struct
+struct book_record
 {
   const char *english;     // English name.
   const char *osis;        // OSIS abbreviation.
@@ -31,7 +31,7 @@ typedef struct
   short order;             // The order of the books.
   book_type type;          // The type of the book as an enum.
   bool onechapter;         // Whether the book has one chapter.
-} book_record;
+};
 
 
 /*
@@ -51,7 +51,7 @@ A note about this data.
     other     - Other matter
     ap        - Apocrypha
 */
-constexpr book_record books_table [] =
+constexpr const book_record books_table [] =
 {
   {"Genesis", "Gen", "GEN", "Gen", "Ge", book_id::_genesis, 3, book_type::old_testament, false}, // ‘1 Moses’ in some Bibles.
   {"Exodus", "Exod", "EXO", "Exo", "Ex", book_id::_exodus, 4, book_type::old_testament, false}, // ‘2 Moses’ in some Bibles.

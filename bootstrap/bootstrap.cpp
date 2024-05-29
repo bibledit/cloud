@@ -297,7 +297,7 @@ void bootstrap_index (Webserver_Request& webserver_request)
   }
 
   // Serve resource downloads.
-  if ((extension == "sqlite") && (webserver_request.get.find (Database_Cache::fragment ()) != std::string::npos)) {
+  if ((extension == "sqlite") && (webserver_request.get.find (database::cache::fragment ()) != std::string::npos)) {
     http_stream_file (webserver_request, false);
     return;
   }

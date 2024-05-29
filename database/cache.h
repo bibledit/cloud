@@ -21,26 +21,29 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <config/libraries.h>
 
-class Database_Cache
-{
-public:
-  static void create (std::string resource, int book);
-  static void remove (std::string resource);
-  static void remove (std::string resource, int book);
-  static bool exists (std::string resource);
-  static bool exists (std::string resource, int book);
-  static bool exists (std::string resource, int book, int chapter, int verse);
-  static void cache (std::string resource, int book, int chapter, int verse, std::string value);
-  static std::string retrieve (std::string resource, int book, int chapter, int verse);
-  static int count (std::string resource);
-  static bool ready (std::string resource, int book);
-  static void ready (std::string resource, int book, bool ready);
-  static int size (std::string resource, int book);
-  static std::string fragment ();
-  static std::string path (std::string resource, int book);
-private:
-  static std::string filename (std::string resource, int book);
-};
+namespace database::cache {
+
+
+std::string fragment ();
+
+
+void create (std::string resource, int book);
+void remove (std::string resource);
+void remove (std::string resource, int book);
+bool exists (std::string resource);
+bool exists (std::string resource, int book);
+bool exists (std::string resource, int book, int chapter, int verse);
+void cache (std::string resource, int book, int chapter, int verse, std::string value);
+std::string retrieve (std::string resource, int book, int chapter, int verse);
+int count (std::string resource);
+bool ready (std::string resource, int book);
+void ready (std::string resource, int book, bool ready);
+int size (std::string resource, int book);
+std::string path (std::string resource, int book);
+
+
+}
+
 
 
 bool database_filebased_cache_exists (std::string schema);

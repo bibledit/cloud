@@ -536,13 +536,13 @@ std::string resource_logic_client_fetch_cache_from_cloud (std::string resource, 
   bool cache = !in_array(resource, client_logic_no_cache_resources_get ());
   
   // Ensure that the cache for this resource exists on the client.
-  if (cache && !Database_Cache::exists (resource, book)) {
-    Database_Cache::create (resource, book);
+  if (cache && !database::cache::exists (resource, book)) {
+    database::cache::create (resource, book);
   }
   
   // If content is to be cached and the content exists in the cache, return that content.
-  if (cache && Database_Cache::exists (resource, book, chapter, verse)) {
-    return Database_Cache::retrieve (resource, book, chapter, verse);
+  if (cache && database::cache::exists (resource, book, chapter, verse)) {
+    return database::cache::retrieve (resource, book, chapter, verse);
   }
   
   // Fetch this resource from Bibledit Cloud.
@@ -566,7 +566,7 @@ std::string resource_logic_client_fetch_cache_from_cloud (std::string resource, 
   // Cache the content under circumstances.
   if (cache) {
     if (database_cache_can_cache (error, content)) {
-      Database_Cache::cache (resource, book, chapter, verse, content);
+      database::cache::cache (resource, book, chapter, verse, content);
     }
   }
   if (!error.empty ()) {
@@ -839,8 +839,8 @@ void resource_logic_create_cache ()
   }
   
   // Database layout is per book: Create a database for this book.
-  Database_Cache::remove (resource, book);
-  Database_Cache::create (resource, book);
+  database::cache::remove (resource, book);
+  database::cache::create (resource, book);
   
   Database_Versifications database_versifications;
   std::vector <int> chapters = database_versifications.getMaximumChapters (book);
@@ -894,12 +894,12 @@ void resource_logic_create_cache ()
       // after restart, would always continue from that same book, from Leviticus,
       // and never finish. Therefore something should be cached, even if it's an empty string.
       if (server_is_installing_module) html.clear ();
-      Database_Cache::cache (resource, book, chapter, verse, html);
+      database::cache::cache (resource, book, chapter, verse, html);
     }
   }
 
   // Done.
-  Database_Cache::ready (resource, book, true);
+  database::cache::ready (resource, book, true);
   Database_Logs::log ("Completed caching " + resource + " " + bookname, Filter_Roles::consultant ());
   resource_logic_create_cache_running = false;
   

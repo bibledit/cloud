@@ -32,9 +32,9 @@ TEST (database, cache)
   refresh_sandbox (false);
   
   // Initially the database should not exist.
-  bool exists = Database_Cache::exists ("");
+  bool exists = database::cache::exists ("");
   EXPECT_EQ (false, exists);
-  exists = Database_Cache::exists ("unittests");
+  exists = database::cache::exists ("unittests");
   EXPECT_EQ (false, exists);
   
   // Copy an old cache database in place.
@@ -44,50 +44,50 @@ TEST (database, cache)
   std::string databasepath = filter_url_create_root_path ({"databases",  "cache_resource_unittests.sqlite"});
   std::string out_err;
   filter_shell_run ("cp " + testdatapath + " " + databasepath, out_err);
-  int count = Database_Cache::count ("unittests");
+  int count = database::cache::count ("unittests");
   EXPECT_EQ (1, count);
-  exists = Database_Cache::exists ("unittests", 8, 1, 16);
+  exists = database::cache::exists ("unittests", 8, 1, 16);
   EXPECT_EQ (true, exists);
-  std::string value = Database_Cache::retrieve ("unittests", 8, 1, 16);
+  std::string value = database::cache::retrieve ("unittests", 8, 1, 16);
   EXPECT_EQ ("And Ruth said, Entreat me not to leave you, or to return from following you; for wherever you go, I will go, and wherever you lodge, I will lodge; your people shall be my people, and your God my God.", value);
   
   // Now remove the (old) cache and verify that it no longer exists or contains data.
-  Database_Cache::remove ("unittests");
-  exists = Database_Cache::exists ("unittests");
+  database::cache::remove ("unittests");
+  exists = database::cache::exists ("unittests");
   EXPECT_EQ (false, exists);
-  count = Database_Cache::count ("unittests");
+  count = database::cache::count ("unittests");
   EXPECT_EQ (0, count);
   
   // Create a cache for one book.
-  Database_Cache::create ("unittests", 10);
+  database::cache::create ("unittests", 10);
   // It should exists for the correct book, but not for another book.
-  exists = Database_Cache::exists ("unittests", 10);
+  exists = database::cache::exists ("unittests", 10);
   EXPECT_EQ (true, exists);
-  exists = Database_Cache::exists ("unittests", 11);
+  exists = database::cache::exists ("unittests", 11);
   EXPECT_EQ (false, exists);
   // The cache should have one book.
-  count = Database_Cache::count ("unittests");
+  count = database::cache::count ("unittests");
   EXPECT_EQ (1, count);
   
   // Cache and retrieve value.
-  Database_Cache::create ("unittests", 1);
-  Database_Cache::cache ("unittests", 1, 2, 3, "cached");
-  value = Database_Cache::retrieve ("unittests", 1, 2, 3);
+  database::cache::create ("unittests", 1);
+  database::cache::cache ("unittests", 1, 2, 3, "cached");
+  value = database::cache::retrieve ("unittests", 1, 2, 3);
   EXPECT_EQ ("cached", value);
   
   // Book count check.
-  count = Database_Cache::count ("unittests");
+  count = database::cache::count ("unittests");
   EXPECT_EQ (2, count);
   
   // Cache does not exist for one passage, but does exist for the other passage.
-  exists = Database_Cache::exists ("unittests", 1, 2, 4);
+  exists = database::cache::exists ("unittests", 1, 2, 4);
   EXPECT_EQ (false, exists);
-  exists = Database_Cache::exists ("unittests", 1, 2, 3);
+  exists = database::cache::exists ("unittests", 1, 2, 3);
   EXPECT_EQ (true, exists);
   
   // Excercise book cache removal.
-  Database_Cache::remove ("unittests");
-  exists = Database_Cache::exists ("unittests", 1);
+  database::cache::remove ("unittests");
+  exists = database::cache::exists ("unittests", 1);
   EXPECT_EQ (false, exists);
   
   // Excercise the file-based cache.
@@ -106,17 +106,17 @@ TEST (database, cache)
   {
     std::string bible = "ready";
     int book = 11;
-    Database_Cache::create (bible, book);
+    database::cache::create (bible, book);
     
-    bool ready = Database_Cache::ready (bible, book);
+    bool ready = database::cache::ready (bible, book);
     EXPECT_EQ (false, ready);
     
-    Database_Cache::ready (bible, book, false);
-    ready = Database_Cache::ready (bible, book);
+    database::cache::ready (bible, book, false);
+    ready = database::cache::ready (bible, book);
     EXPECT_EQ (false, ready);
     
-    Database_Cache::ready (bible, book, true);
-    ready = Database_Cache::ready (bible, book);
+    database::cache::ready (bible, book, true);
+    ready = database::cache::ready (bible, book);
     EXPECT_EQ (true, ready);
   }
   
@@ -124,21 +124,21 @@ TEST (database, cache)
   {
     std::string bible = "size";
     int book = 12;
-    Database_Cache::create (bible, book);
+    database::cache::create (bible, book);
     
-    int size = Database_Cache::size (bible, book);
+    int size = database::cache::size (bible, book);
     if ((size < 10'000) || (size > 15'000)) {
       EXPECT_EQ ("between 3072 and 5120", filter::strings::convert_to_string (size));
     }
     
-    size = Database_Cache::size (bible, book + 1);
+    size = database::cache::size (bible, book + 1);
     EXPECT_EQ (0, size);
   }
   
   // Check file naming for downloading a cache.
   {
-    EXPECT_EQ ("cache_resource_", Database_Cache::fragment ());
-    EXPECT_EQ ("databases/cache_resource_download_23.sqlite", Database_Cache::path ("download", 23));
+    EXPECT_EQ ("cache_resource_", database::cache::fragment ());
+    EXPECT_EQ ("databases/cache_resource_download_23.sqlite", database::cache::path ("download", 23));
   }
   
   // Remove some logs.

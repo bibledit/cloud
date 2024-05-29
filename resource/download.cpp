@@ -69,7 +69,7 @@ std::string resource_download (Webserver_Request& webserver_request)
   
   if (webserver_request.query.count ("clear")) {
     // The client clears the installed resource.
-    Database_Cache::remove (name);
+    database::cache::remove (name);
   }
   
   
@@ -97,7 +97,7 @@ std::string resource_download (Webserver_Request& webserver_request)
     }
   }
   if (count == 0) 
-    count = Database_Cache::count (name);
+    count = database::cache::count (name);
   view.set_variable ("count", filter::strings::convert_to_string (count));
   
   

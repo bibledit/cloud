@@ -77,9 +77,9 @@ std::string sync_resources (Webserver_Request& webserver_request)
       case Sync_Logic::resources_request_database:
       {
         // If the cache is ready, return its file size.
-        if (Database_Cache::exists (resource, book)) {
-          if (Database_Cache::ready (resource, book)) {
-            return filter::strings::convert_to_string (Database_Cache::size (resource, book));
+        if (database::cache::exists (resource, book)) {
+          if (database::cache::ready (resource, book)) {
+            return filter::strings::convert_to_string (database::cache::size (resource, book));
           }
         }
         // Schedule this resource for caching if that's not yet the case.
@@ -97,7 +97,7 @@ std::string sync_resources (Webserver_Request& webserver_request)
       
       case Sync_Logic::resources_request_download:
       {
-        return Database_Cache::path (resource, book);
+        return database::cache::path (resource, book);
       }
       
       default: {};

@@ -375,13 +375,13 @@ std::string sword_logic_get_text (const std::string& source, const std::string& 
   std::string resource = sword_logic_get_resource_name (source, module);
 
   // Client checks for and optionally creates the cache for this SWORD source/module.
-  if (!Database_Cache::exists (resource, book)) {
-    Database_Cache::create (resource, book);
+  if (!database::cache::exists (resource, book)) {
+    database::cache::create (resource, book);
   }
 
   // If this module/passage exists in the cache, return it (it updates the access days in the cache).
-  if (Database_Cache::exists (resource, book, chapter, verse)) {
-    return Database_Cache::retrieve (resource, book, chapter, verse);
+  if (database::cache::exists (resource, book, chapter, verse)) {
+    return database::cache::retrieve (resource, book, chapter, verse);
   }
 
   // Fetch this SWORD resource from the server.
@@ -408,7 +408,7 @@ std::string sword_logic_get_text (const std::string& source, const std::string& 
   // Except in case of predefined responses from the Cloud.
   if (html != sword_logic_installing_module_text ()) {
     if (html != sword_logic_fetch_failure_text ()) {
-      Database_Cache::cache (resource, book, chapter, verse, html);
+      database::cache::cache (resource, book, chapter, verse, html);
     }
   }
   

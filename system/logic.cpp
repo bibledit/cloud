@@ -314,7 +314,7 @@ void system_logic_produce_resources_file (int jobid)
   std::vector <std::string> resources;
   std::vector <std::string> rawfiles = filter_url_scandir (directory);
   for (auto filename : rawfiles) {
-    if (filename.find (database::cache::fragment()) != std::string::npos) {
+    if (filename.find (database::cache::sql::fragment()) != std::string::npos) {
       resources.push_back (filename);
     }
   }
@@ -330,7 +330,7 @@ void system_logic_produce_resources_file (int jobid)
     // Sample filename: cache_resource_[CrossWire][LXX]_62.sqlite
     // Look for the last underscore.
     // This indicates which resource it is, by leaving the book number out.
-    if (filename.find (database::cache::fragment()) != std::string::npos) {
+    if (filename.find (database::cache::sql::fragment()) != std::string::npos) {
       size_t pos = filename.find_last_of ("_");
       if (pos != std::string::npos) {
         std::string resource = filename.substr (0, pos);

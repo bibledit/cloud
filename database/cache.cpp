@@ -34,8 +34,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // Often read from.
 
 
-namespace database::cache {
+namespace database::cache::sql {
 
+
+constexpr auto max_book {100};
 
 static std::string filename (std::string resource, int book)
 {
@@ -55,15 +57,15 @@ std::string fragment ()
 }
 
 
-std::string path (std::string resource, int book)
+std::string path (const std::string& resource, int book)
 {
   return filter_url_create_path ({database_logic_databases (), filename (filter_url_urlencode (resource), book) + database_sqlite_suffix ()});
 }
 
 
-void create (std::string resource, int book)
+void create (const std::string& resource, int book)
 {
-  SqliteDatabase sql = SqliteDatabase (filename (resource, book));
+  SqliteDatabase sql (filename (resource, book));
   
   sql.add ("CREATE TABLE IF NOT EXISTS cache (chapter integer, verse integer, value text);");
   sql.execute ();
@@ -75,17 +77,17 @@ void create (std::string resource, int book)
 }
 
 
-void remove (std::string resource)
+void remove (const std::string& resource)
 {
-  for (int book = 0; book < 100; book++) {
+  for (int book = 0; book < max_book; book++) {
     remove (resource, book);
   }
 }
 
 
-void remove (std::string resource, int book)
+void remove (const std::string& resource, int book)
 {
-  std::string file = database_sqlite_file (filename (resource, book));
+  const std::string file = database_sqlite_file (filename (resource, book));
   if (file_or_dir_exists (file)) {
     filter_url_unlink (file);
   }
@@ -93,25 +95,26 @@ void remove (std::string resource, int book)
 
 
 // Returns true if the cache for the $resource exists.
-bool exists (std::string resource)
+bool exists (const std::string& resource)
 {
-  for (int book = 0; book < 100; book++) {
-    if (exists (resource, book)) return true;
+  for (int book = 0; book < max_book; book++) {
+    if (exists (resource, book))
+      return true;
   }
   return false;
 }
 
 
 // Returns true if the cache for the $resource $book exists.
-bool exists (std::string resource, int book)
+bool exists (const std::string& resource, int book)
 {
-  std::string file = database_sqlite_file (filename (resource, book));
+  const std::string file = database_sqlite_file (filename (resource, book));
   return file_or_dir_exists (file);
 }
 
 
 // Returns true if a cached value for $resource/book/chapter/verse exists.
-bool exists (std::string resource, int book, int chapter, int verse)
+bool exists (const std::string& resource, int book, int chapter, int verse)
 {
   // If the the book-based cache exists, check existence from there.
   if (exists (resource, book)) {
@@ -123,7 +126,8 @@ bool exists (std::string resource, int book, int chapter, int verse)
     sql.add (";");
     std::vector <std::string> result = sql.query () ["count(*)"];
     int count = 0;
-    if (!result.empty ()) count = filter::strings::convert_to_int (result [0]);
+    if (!result.empty ()) 
+      count = filter::strings::convert_to_int (result.at(0));
     return (count > 0);
   }
   // Else if the previous cache layout exists, check that.
@@ -138,7 +142,8 @@ bool exists (std::string resource, int book, int chapter, int verse)
     sql.add (";");
     std::vector <std::string> result = sql.query () ["count(*)"];
     int count = 0;
-    if (!result.empty ()) count = filter::strings::convert_to_int (result [0]);
+    if (!result.empty ()) 
+      count = filter::strings::convert_to_int (result [0]);
     return (count > 0);
   }
   // Nothing exists.
@@ -147,9 +152,9 @@ bool exists (std::string resource, int book, int chapter, int verse)
 
 
 // Caches a value.
-void cache (std::string resource, int book, int chapter, int verse, std::string value)
+void cache (const std::string& resource, int book, int chapter, int verse, const std::string& value)
 {
-  SqliteDatabase sql = SqliteDatabase (filename (resource, book));
+  SqliteDatabase sql (filename (resource, book));
   
   sql.clear ();
   sql.add ("DELETE FROM cache WHERE chapter = ");
@@ -172,7 +177,7 @@ void cache (std::string resource, int book, int chapter, int verse, std::string 
 
 
 // Retrieves a cached value.
-std::string retrieve (std::string resource, int book, int chapter, int verse)
+std::string retrieve (const std::string& resource, const int book, const int chapter, const int verse)
 {
   // If the the book-based cache exists, retrieve it from there.
   if (exists (resource, book)) {
@@ -182,9 +187,10 @@ std::string retrieve (std::string resource, int book, int chapter, int verse)
     sql.add ("AND verse = ");
     sql.add (verse);
     sql.add (";");
-    std::vector <std::string> result = sql.query () ["value"];
-    if (result.empty ()) return std::string();
-    return result [0];
+    const std::vector <std::string> result = sql.query () ["value"];
+    if (result.empty ())
+      return std::string();
+    return result.at(0);
   }
   // Else if the previous cache layout exists, retrieve it from there.
   if (exists (resource, 0)) {
@@ -196,20 +202,21 @@ std::string retrieve (std::string resource, int book, int chapter, int verse)
     sql.add ("AND verse = ");
     sql.add (verse);
     sql.add (";");
-    std::vector <std::string> result = sql.query () ["value"];
-    if (result.empty ()) return std::string();
-    return result [0];
+    const std::vector <std::string> result = sql.query () ["value"];
+    if (result.empty ())
+      return std::string();
+    return result.at(0);
   }
   return std::string();
 }
 
 
 // Returns how many element are in cache $resource.
-int count (std::string resource)
+int count (const std::string& resource)
 {
   int count = 0;
   // Book 0 is for the old layout. Book 1++ is for the new layout.
-  for (int book = 0; book < 100; book++) {
+  for (int book = 0; book < max_book; book++) {
     if (exists (resource, book)) {
       count ++;
     }
@@ -219,13 +226,13 @@ int count (std::string resource)
 
 
 // Return true if the database has loaded all its expected content.
-bool ready (std::string resource, int book)
+bool ready (const std::string& resource, const int book)
 {
-  SqliteDatabase sql = SqliteDatabase (filename (resource, book));
+  SqliteDatabase sql (filename (resource, book));
   sql.add ("SELECT ready FROM ready;");
-  std::vector <std::string> result = sql.query () ["ready"];
+  const std::vector <std::string> result = sql.query () ["ready"];
   if (!result.empty()) {
-    auto ready = result[0];
+    const auto ready = result.at(0);
     return filter::strings::convert_to_bool (ready);
   }
   return false;
@@ -233,9 +240,9 @@ bool ready (std::string resource, int book)
 
 
 // Sets the 'ready' flag in the database.
-void ready (std::string resource, int book, bool ready)
+void ready (const std::string& resource, const int book, const bool ready)
 {
-  SqliteDatabase sql = SqliteDatabase (filename (resource, book));
+  SqliteDatabase sql (filename (resource, book));
   
   sql.clear ();
   sql.add ("DELETE FROM ready;");
@@ -249,19 +256,17 @@ void ready (std::string resource, int book, bool ready)
 }
 
 
-int size (std::string resource, int book)
+int size (const std::string& resource, const int book)
 {
-  std::string file = database_sqlite_file (filename (resource, book));
+  const std::string file = database_sqlite_file (filename (resource, book));
   return filter_url_filesize (file);
 }
 
 
-
-
 }
 
 
-std::string database_cache_full_path (std::string file)
+std::string database_filebased_cache_full_path (std::string file)
 {
   return filter_url_create_root_path ({database_logic_databases (), "cache", file});
 }
@@ -270,7 +275,7 @@ std::string database_cache_full_path (std::string file)
 // The purpose of splitting the file up into paths is
 // to avoid that the cache folder would contain too many files
 // and so would become slow.
-std::string database_cache_split_file (std::string file)
+std::string database_filebased_cache_split_file (std::string file)
 {
   if (file.size () > 9) file.insert (9, "/");
   if (file.size () > 18) file.insert (18, "/");
@@ -283,8 +288,8 @@ std::string database_cache_split_file (std::string file)
 bool database_filebased_cache_exists (std::string schema)
 {
   schema = filter_url_clean_filename (schema);
-  schema = database_cache_split_file (schema);
-  schema = database_cache_full_path (schema);
+  schema = database_filebased_cache_split_file (schema);
+  schema = database_filebased_cache_full_path (schema);
   return file_or_dir_exists (schema);
 }
 
@@ -292,8 +297,8 @@ bool database_filebased_cache_exists (std::string schema)
 void database_filebased_cache_put (std::string schema, std::string contents)
 {
   schema = filter_url_clean_filename (schema);
-  schema = database_cache_split_file (schema);
-  schema = database_cache_full_path (schema);
+  schema = database_filebased_cache_split_file (schema);
+  schema = database_filebased_cache_full_path (schema);
   std::string path = filter_url_dirname (schema);
   if (!file_or_dir_exists (path)) filter_url_mkdir (path);
   filter_url_file_put_contents (schema, contents);
@@ -303,8 +308,8 @@ void database_filebased_cache_put (std::string schema, std::string contents)
 std::string database_filebased_cache_get (std::string schema)
 {
   schema = filter_url_clean_filename (schema);
-  schema = database_cache_split_file (schema);
-  schema = database_cache_full_path (schema);
+  schema = database_filebased_cache_split_file (schema);
+  schema = database_filebased_cache_full_path (schema);
   return filter_url_file_get_contents (schema);
 }
 
@@ -312,8 +317,8 @@ std::string database_filebased_cache_get (std::string schema)
 void database_filebased_cache_remove (std::string schema)
 {
   schema = filter_url_clean_filename (schema);
-  schema = database_cache_split_file (schema);
-  schema = database_cache_full_path (schema);
+  schema = database_filebased_cache_split_file (schema);
+  schema = database_filebased_cache_full_path (schema);
   filter_url_unlink (schema);
 }
 
@@ -420,7 +425,7 @@ void database_cache_trim (bool clear)
   std::string output, error;
 
   // The directory that contains the file-based cache files.
-  std::string path = database_cache_full_path ("");
+  std::string path = database_filebased_cache_full_path ("");
   
   // Get the free space on the file system that contains the cache.
   output.clear ();
@@ -503,7 +508,7 @@ void database_cache_trim (bool clear)
   // Remove database-based cached files that have not been modified for x days.
   output.clear ();
   error.clear ();
-  filter_shell_run (path, "find", {path, "-name", database::cache::fragment () + "*", "-atime", days, "-delete"}, &output, &error);
+  filter_shell_run (path, "find", {path, "-name", database::cache::sql::fragment () + "*", "-atime", days, "-delete"}, &output, &error);
   if (!output.empty ()) Database_Logs::log (output);
   if (!error.empty ()) Database_Logs::log (error);
   

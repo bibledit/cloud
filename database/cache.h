@@ -21,25 +21,25 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <config/libraries.h>
 
-namespace database::cache {
+namespace database::cache::sql {
 
 
 std::string fragment ();
 
 
-void create (std::string resource, int book);
-void remove (std::string resource);
-void remove (std::string resource, int book);
-bool exists (std::string resource);
-bool exists (std::string resource, int book);
-bool exists (std::string resource, int book, int chapter, int verse);
-void cache (std::string resource, int book, int chapter, int verse, std::string value);
-std::string retrieve (std::string resource, int book, int chapter, int verse);
-int count (std::string resource);
-bool ready (std::string resource, int book);
-void ready (std::string resource, int book, bool ready);
-int size (std::string resource, int book);
-std::string path (std::string resource, int book);
+void create (const std::string& resource, int book);
+void remove (const std::string& resource);
+void remove (const std::string&, int book);
+bool exists (const std::string& resource);
+bool exists (const std::string& resource, int book);
+bool exists (const std::string& resource, int book, int chapter, int verse);
+void cache (const std::string& resource, int book, int chapter, int verse, const std::string& value);
+std::string retrieve (const std::string& resource, const int book, const int chapter, const int verse);
+int count (const std::string& resource);
+bool ready (const std::string& resource, const int book);
+void ready (const std::string& resource, const int book, const bool ready);
+int size (const std::string& resource, const int book);
+std::string path (const std::string& resource, int book);
 
 
 }

@@ -746,8 +746,8 @@ std::string resource_logic_web_or_cache_get (std::string url, std::string& error
 {
 #ifndef HAVE_CLIENT
   // On the Cloud, check if the URL is in the cache.
-  if (database_filebased_cache_exists (url)) {
-    return database_filebased_cache_get (url);
+  if (database::cache::file::exists (url)) {
+    return database::cache::file::get (url);
   }
 #endif
 
@@ -759,7 +759,7 @@ std::string resource_logic_web_or_cache_get (std::string url, std::string& error
   // In the Cloud, cache the response based on certain criteria.
   bool cache = database_cache_can_cache (error, html);
   if (cache) {
-    database_filebased_cache_put (url, html);
+    database::cache::file::put (url, html);
   }
 #endif
 

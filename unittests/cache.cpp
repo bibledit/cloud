@@ -94,11 +94,11 @@ TEST (database, cache)
   {
     std::string url = "https://netbible.org/bible/1/2/3";
     std::string contents = "Bible contents";
-    EXPECT_EQ (false, database_filebased_cache_exists (url));
-    EXPECT_EQ ("", database_filebased_cache_get (url));
-    database_filebased_cache_put (url, contents);
-    EXPECT_EQ (true, database_filebased_cache_exists (url));
-    EXPECT_EQ (contents, database_filebased_cache_get (url));
+    EXPECT_EQ (false, database::cache::file::exists (url));
+    EXPECT_EQ ("", database::cache::file::get (url));
+    database::cache::file::put (url, contents);
+    EXPECT_EQ (true, database::cache::file::exists (url));
+    EXPECT_EQ (contents, database::cache::file::get (url));
     database_cache_trim (false);
   }
   

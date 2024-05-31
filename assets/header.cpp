@@ -261,7 +261,6 @@ std::string Assets_Header::run ()
     embedded_css.push_back ("body { font-size: " + filter::strings::convert_to_string (fontsize) + "%; }");
   }
   fontsize = m_webserver_request.database_config_user ()->getMenuFontSize ();
-  std::string filename = menu_font_size_filebased_cache_filename (m_webserver_request.session_identifier);
   if (fontsize != 100) {
     embedded_css.push_back (".menu-advanced, .menu-basic { font-size: " + filter::strings::convert_to_string (fontsize) + "%; }");
   }
@@ -270,7 +269,6 @@ std::string Assets_Header::run ()
     embedded_css.push_back (".bibleeditor { font-size: " + filter::strings::convert_to_string (fontsize) + "% !important; }");
   }
   fontsize = m_webserver_request.database_config_user ()->getResourcesFontSize ();
-  filename = resource_font_size_filebased_cache_filename (m_webserver_request.session_identifier);
   if (fontsize != 100) {
     embedded_css.push_back (".resource { font-size: " + filter::strings::convert_to_string (fontsize) + "% !important; }");
   }
@@ -279,7 +277,6 @@ std::string Assets_Header::run ()
     embedded_css.push_back (".hebrew { font-size: " + filter::strings::convert_to_string (fontsize) + "%!important; }");
   }
   fontsize = m_webserver_request.database_config_user ()->getGreekFontSize ();
-  filename = greek_font_size_filebased_cache_filename (m_webserver_request.session_identifier);
   if (fontsize != 100) {
     embedded_css.push_back (".greek { font-size: " + filter::strings::convert_to_string (fontsize) + "%!important; }");
   }
@@ -288,7 +285,6 @@ std::string Assets_Header::run ()
   }
 
   int current_theme_index = m_webserver_request.database_config_user ()->getCurrentTheme ();
-  filename = current_theme_filebased_cache_filename (m_webserver_request.session_identifier);
   // Add the theme color css class selector name on the body element,..
   m_view->set_variable ("body_theme_color", Filter_Css::theme_picker (current_theme_index, 0));
   // ..workspacewrapper div element..

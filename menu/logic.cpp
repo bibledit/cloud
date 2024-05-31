@@ -196,7 +196,6 @@ std::string menu_logic_main_categories (Webserver_Request& webserver_request, st
 
   std::string menutooltip;
   int current_theme_index = webserver_request.database_config_user ()->getCurrentTheme ();
-  std::string filename = current_theme_filebased_cache_filename (webserver_request.session_identifier);
   std::string color = Filter_Css::theme_picker (current_theme_index, 1);
 
   if (!menu_logic_translate_category (webserver_request, &menutooltip).empty ()) {
@@ -291,7 +290,6 @@ std::string menu_logic_basic_categories (Webserver_Request& webserver_request)
   std::vector <std::string> html;
 
   int current_theme_index = webserver_request.database_config_user ()->getCurrentTheme ();
-  std::string filename = current_theme_filebased_cache_filename (webserver_request.session_identifier);
   std::string color = Filter_Css::theme_picker (current_theme_index, 1);
 
   if (read_index_acl (webserver_request)) {

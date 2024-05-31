@@ -263,10 +263,13 @@ int size (const std::string& resource, const int book)
 }
 
 
-}
+} // namespace.
 
 
-std::string database_filebased_cache_full_path (std::string file)
+namespace database::cache::file {
+
+
+static std::string full_path (std::string file)
 {
   return filter_url_create_root_path ({database_logic_databases (), "cache", file});
 }
@@ -275,7 +278,7 @@ std::string database_filebased_cache_full_path (std::string file)
 // The purpose of splitting the file up into paths is
 // to avoid that the cache folder would contain too many files
 // and so would become slow.
-std::string database_filebased_cache_split_file (std::string file)
+static std::string split_file (std::string file)
 {
   if (file.size () > 9) file.insert (9, "/");
   if (file.size () > 18) file.insert (18, "/");
@@ -285,136 +288,46 @@ std::string database_filebased_cache_split_file (std::string file)
 }
 
 
-bool database_filebased_cache_exists (std::string schema)
+bool exists (std::string schema)
 {
   schema = filter_url_clean_filename (schema);
-  schema = database_filebased_cache_split_file (schema);
-  schema = database_filebased_cache_full_path (schema);
+  schema = database::cache::file::split_file (schema);
+  schema = database::cache::file::full_path (schema);
   return file_or_dir_exists (schema);
 }
 
 
-void database_filebased_cache_put (std::string schema, std::string contents)
+void put (std::string schema, const std::string& contents)
 {
   schema = filter_url_clean_filename (schema);
-  schema = database_filebased_cache_split_file (schema);
-  schema = database_filebased_cache_full_path (schema);
-  std::string path = filter_url_dirname (schema);
-  if (!file_or_dir_exists (path)) filter_url_mkdir (path);
+  schema = split_file (schema);
+  schema = full_path (schema);
+  const std::string path = filter_url_dirname (schema);
+  if (!file_or_dir_exists (path)) 
+    filter_url_mkdir (path);
   filter_url_file_put_contents (schema, contents);
 }
 
 
-std::string database_filebased_cache_get (std::string schema)
+std::string get (std::string schema)
 {
   schema = filter_url_clean_filename (schema);
-  schema = database_filebased_cache_split_file (schema);
-  schema = database_filebased_cache_full_path (schema);
+  schema = database::cache::file::split_file (schema);
+  schema = database::cache::file::full_path (schema);
   return filter_url_file_get_contents (schema);
 }
 
 
-void database_filebased_cache_remove (std::string schema)
+void remove (std::string schema)
 {
   schema = filter_url_clean_filename (schema);
-  schema = database_filebased_cache_split_file (schema);
-  schema = database_filebased_cache_full_path (schema);
+  schema = split_file (schema);
+  schema = full_path (schema);
   filter_url_unlink (schema);
 }
 
 
-// Create a file name based on the client's IPv4 and a unique data identifier.
-std::string database_filebased_cache_name_by_ip (std::string address, std::string id)
-{
-  id = "_" + id;
-  std::string ipv4_sp = "::ffff:";
-  const unsigned long pos = address.find (ipv4_sp);
-  if (address.find (ipv4_sp) != std::string::npos) address.erase (pos, ipv4_sp.length ());
-  if (address.find (id) == std::string::npos) address.append (id);
-  return address;
-}
-
-
-// Create a file name based on the client's session id and a unique
-// data identifier.
-std::string database_filebased_cache_name_by_session_id (std::string sid, std::string id)
-{
-  id = "_" + id;
-  if (sid.find (id) == std::string::npos) sid.append (id);
-  return sid;
-}
-
-
-// File name for focused book file based database cache by session id
-// plus abbreviation.
-std::string focused_book_filebased_cache_filename (std::string sid)
-{
-  return database_filebased_cache_name_by_session_id (sid, "focbo");
-}
-
-
-// File name for focused chapter file based database cache by session
-// id plus abbreviation.
-std::string focused_chapter_filebased_cache_filename (std::string sid)
-{
-  return database_filebased_cache_name_by_session_id (sid, "focch");
-}
-
-
-// File name for focused verse file based database cache by session id
-// plus abbreviation.
-std::string focused_verse_filebased_cache_filename (std::string sid)
-{
-  return database_filebased_cache_name_by_session_id (sid, "focve");
-}
-
-
-// File name for general font size file based database cache by
-// session id plus abbreviation.
-std::string general_font_size_filebased_cache_filename (std::string sid)
-{
-  return database_filebased_cache_name_by_session_id (sid, "genfs");
-}
-
-
-// File name for menu font size file based database cache by session
-// id plus abbreviation.
-std::string menu_font_size_filebased_cache_filename (std::string sid)
-{
-  return database_filebased_cache_name_by_session_id (sid, "menfs");
-}
-
-
-// File name for resource font size file based database cache by
-// session id plus abbreviation.
-std::string resource_font_size_filebased_cache_filename (std::string sid)
-{
-  return database_filebased_cache_name_by_session_id (sid, "resfs");
-}
-
-
-// File name for hebrew font size file based database cache by
-// session id plus abbreviation.
-std::string hebrew_font_size_filebased_cache_filename (std::string sid)
-{
-  return database_filebased_cache_name_by_session_id (sid, "hebfs");
-}
-
-
-// File name for greek font size file based database cache by session
-// id plus abbreviation.
-std::string greek_font_size_filebased_cache_filename (std::string sid)
-{
-  return database_filebased_cache_name_by_session_id (sid, "grefs");
-}
-
-
-// File name for current theme file based database cache by session
-// id plus abbreviation.
-std::string current_theme_filebased_cache_filename (std::string sid)
-{
-  return database_filebased_cache_name_by_session_id (sid, "curth");
-}
+} // namespace.
 
 
 // Deletes expired cached items.
@@ -425,7 +338,7 @@ void database_cache_trim (bool clear)
   std::string output, error;
 
   // The directory that contains the file-based cache files.
-  std::string path = database_filebased_cache_full_path ("");
+  std::string path = database::cache::file::full_path ("");
   
   // Get the free space on the file system that contains the cache.
   output.clear ();

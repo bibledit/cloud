@@ -201,7 +201,6 @@ std::string personalize_index (Webserver_Request& webserver_request)
   
   // Set the chosen theme on the option HTML tag.
   std::string theme_key = filter::strings::convert_to_string (webserver_request.database_config_user ()->getCurrentTheme ());
-  std::string filename = current_theme_filebased_cache_filename (webserver_request.session_identifier);
   std::string theme_html;
   theme_html = Options_To_Select::add_selection ("Basic", "0", theme_html);
   theme_html = Options_To_Select::add_selection ("Light", "1", theme_html);

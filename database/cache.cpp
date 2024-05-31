@@ -327,16 +327,13 @@ void remove (std::string schema)
 }
 
 
-} // namespace.
-
-
 // Deletes expired cached items.
-void database_cache_trim (bool clear)
+void trim (bool clear)
 {
   if (clear) Database_Logs::log ("Clearing cache");
-
+  
   std::string output, error;
-
+  
   // The directory that contains the file-based cache files.
   std::string path = database::cache::file::full_path ("");
   
@@ -370,7 +367,7 @@ void database_cache_trim (bool clear)
   if (percentage_disk_in_use < 70) minutes = "+1440";
   // One week.
   if (percentage_disk_in_use < 50) minutes = "+10080";
-
+  
   // Handle clearing the cache immediately.
   if (clear) minutes = "+0";
   
@@ -398,7 +395,7 @@ void database_cache_trim (bool clear)
   
   // The directory that contains the database-based cache files.
   path = filter_url_create_root_path ({database_logic_databases ()});
-
+  
   // The number of days to keep cached data depends on the percentage of the disk in use.
   // There have been instances that the cache takes up 4, 5, or 6 Gbytes in the Cloud.
   // This can be even more.
@@ -412,10 +409,10 @@ void database_cache_trim (bool clear)
   if (percentage_disk_in_use > 80) days = "+14";
   if (percentage_disk_in_use > 85) days = "+7";
   if (percentage_disk_in_use > 90) days = "+1";
-
+  
   // Handle clearing the cache immediately.
   if (clear) days = "0";
-
+  
   Database_Logs::log ("Will remove resource caches not accessed for " + days + " days");
   
   // Remove database-based cached files that have not been modified for x days.
@@ -429,18 +426,30 @@ void database_cache_trim (bool clear)
 }
 
 
+} // namespace.
+
+
+namespace database::cache {
+
+
 // This returns true if the $html can be cached.
-bool database_cache_can_cache (const std::string& error, const std::string& html)
+bool can_cache (const std::string& error, const std::string& html)
 {
   // Normally if everything is fine, then caching is possible.
   bool cache = true;
   
   // Do not cache the data in an error situation.
   if (!error.empty()) cache = false;
-
+  
   // Do not cache the data if Cloudflare does DDoS protection.
   // https://github.com/bibledit/cloud/issues/693.
   if (html.find ("Cloudflare") != std::string::npos) cache = false;
-
+  
   return cache;
 }
+
+
+} // namespace.
+
+
+

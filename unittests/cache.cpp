@@ -99,7 +99,7 @@ TEST (database, cache)
     database::cache::file::put (url, contents);
     EXPECT_EQ (true, database::cache::file::exists (url));
     EXPECT_EQ (contents, database::cache::file::get (url));
-    database_cache_trim (false);
+    database::cache::file::trim (false);
   }
   
   // Excercise the ready-flag.

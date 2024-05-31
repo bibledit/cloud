@@ -306,10 +306,10 @@ void tasks_run_one (const std::string& filename)
     changes_clear_notifications_user (parameter1, parameter2);
   }
   else if (command == CLEARCACHES) {
-    database_cache_trim (true);
+    database::cache::file::trim (true);
   }
   else if (command == TRIMCACHES) {
-    database_cache_trim (false);
+    database::cache::file::trim (false);
   }
   else if (command == EXPORT2NMT) {
     nmt_logic_export (parameter1, parameter2);

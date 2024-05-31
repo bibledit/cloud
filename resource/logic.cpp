@@ -565,7 +565,7 @@ std::string resource_logic_client_fetch_cache_from_cloud (std::string resource, 
   
   // Cache the content under circumstances.
   if (cache) {
-    if (database_cache_can_cache (error, content)) {
+    if (database::cache::can_cache (error, content)) {
       database::cache::sql::cache (resource, book, chapter, verse, content);
     }
   }
@@ -757,7 +757,7 @@ std::string resource_logic_web_or_cache_get (std::string url, std::string& error
 
 #ifdef HAVE_CLOUD
   // In the Cloud, cache the response based on certain criteria.
-  bool cache = database_cache_can_cache (error, html);
+  const bool cache = database::cache::can_cache (error, html);
   if (cache) {
     database::cache::file::put (url, html);
   }

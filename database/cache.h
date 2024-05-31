@@ -45,12 +45,12 @@ namespace database::cache::file {
 bool exists (std::string schema);
 void put (std::string schema, const std::string& contents);
 std::string get (std::string schema);
+void trim (bool clear);
 
 }
 
+namespace database::cache {
 
+bool can_cache (const std::string & error, const std::string & html);
 
-void database_cache_trim (bool clear);
-
-
-bool database_cache_can_cache (const std::string & error, const std::string & html);
+}

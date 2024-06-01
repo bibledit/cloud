@@ -46,7 +46,7 @@ void storeLoadedUsfm2 (Webserver_Request& webserver_request, std::string bible, 
   
   const std::string usfm = webserver_request.database_bibles()->get_chapter (bible, book, chapter);
   
-  Database_Volatile::setValue (userid, key, usfm);
+  database::volatile_::set_value (userid, key, usfm);
 }
 
 
@@ -56,7 +56,7 @@ std::string getLoadedUsfm2 (Webserver_Request& webserver_request, std::string bi
   
   const std::string key = edit2_logic_volatile_key (bible, book, chapter, editor);
   
-  const std::string usfm = Database_Volatile::getValue (userid, key);
+  const std::string usfm = database::volatile_::get_value (userid, key);
   
   return usfm;
 }

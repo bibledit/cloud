@@ -54,8 +54,8 @@ std::string nmt_index (Webserver_Request& webserver_request)
 
   int userid = filter::strings::user_identifier (webserver_request);
   
-  std::string referencebible = Database_Volatile::getValue (userid, "nmt-ref-bible");
-  std::string translatingbible = Database_Volatile::getValue (userid, "nmt-trans-bible");
+  std::string referencebible = database::volatile_::get_value (userid, "nmt-ref-bible");
+  std::string translatingbible = database::volatile_::get_value (userid, "nmt-trans-bible");
 
 
   if (webserver_request.query.count ("reference")) {
@@ -70,7 +70,7 @@ std::string nmt_index (Webserver_Request& webserver_request)
       page += dialog_list.run ();
       return page;
     } else {
-      Database_Volatile::setValue (userid, "nmt-ref-bible", referencebible);
+      database::volatile_::set_value (userid, "nmt-ref-bible", referencebible);
     }
   }
   if (referencebible.empty()) referencebible = "[" + translate ("select") + "]";
@@ -89,7 +89,7 @@ std::string nmt_index (Webserver_Request& webserver_request)
       page += dialog_list.run ();
       return page;
     } else {
-      Database_Volatile::setValue (userid, "nmt-trans-bible", translatingbible);
+      database::volatile_::set_value (userid, "nmt-trans-bible", translatingbible);
     }
   }
   if (translatingbible.empty()) translatingbible = "[" + translate ("select") + "]";

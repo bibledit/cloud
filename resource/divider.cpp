@@ -89,10 +89,10 @@ std::string resource_divider (Webserver_Request& webserver_request)
   if (webserver_request.query.count ("background2")) clean_divider = false;
   if (webserver_request.post.count ("entry")) clean_divider = false;
   if (webserver_request.query.count ("add")) clean_divider = false;
-  if (clean_divider) Database_Volatile::setValue (userid, key, resource_logic_rich_divider());
+  if (clean_divider) database::volatile_::set_value (userid, key, resource_logic_rich_divider());
  
 
-  std::string divider = Database_Volatile::getValue (userid, key);
+  std::string divider = database::volatile_::get_value (userid, key);
   std::string title;
   std::string link;
   std::string foreground;
@@ -176,7 +176,7 @@ std::string resource_divider (Webserver_Request& webserver_request)
   // Get and optionally save the new divider.
   divider = resource_logic_assemble_rich_divider (title, link, foreground, background);
   if (divider_edited) {
-    Database_Volatile::setValue (userid, key, divider);
+    database::volatile_::set_value (userid, key, divider);
   }
 
   

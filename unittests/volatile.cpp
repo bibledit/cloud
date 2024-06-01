@@ -27,16 +27,16 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 TEST (database, volatile)
 {
   // No value initially.
-  std::string value = Database_Volatile::getValue (1, "key");
+  std::string value = database::volatile_::get_value (1, "key");
   EXPECT_EQ (std::string(), value);
   
   // Store value and retrieve it.
-  Database_Volatile::setValue (2, "key2", "value2");
-  value = Database_Volatile::getValue (2, "key2");
+  database::volatile_::set_value (2, "key2", "value2");
+  value = database::volatile_::get_value (2, "key2");
   EXPECT_EQ ("value2", value);
   
   // Another key should retrieve nothing.
-  value = Database_Volatile::getValue (2, "key1");
+  value = database::volatile_::get_value (2, "key1");
   EXPECT_EQ (std::string(), value);
 }
 

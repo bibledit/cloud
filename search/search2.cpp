@@ -72,9 +72,9 @@ std::string search_search2 (Webserver_Request& webserver_request)
     
     
     // Retrieve the search parameters from the volatile database.
-    std::string query2 = Database_Volatile::getValue (identifier, "query");
-    //bool casesensitive = filter::strings::convert_to_bool (Database_Volatile::getValue (identifier, "casesensitive"));
-    bool plaintext = filter::strings::convert_to_bool (Database_Volatile::getValue (identifier, "plaintext"));
+    std::string query2 = database::volatile_::get_value (identifier, "query");
+    //bool casesensitive = filter::strings::convert_to_bool (database::volatile_::get_value (identifier, "casesensitive"));
+    bool plaintext = filter::strings::convert_to_bool (database::volatile_::get_value (identifier, "plaintext"));
     
     
     // Get the Bible and passage for this identifier.
@@ -114,9 +114,9 @@ std::string search_search2 (Webserver_Request& webserver_request)
     bool plaintext = (webserver_request.query ["p"] == "true");
     std::string books = webserver_request.query ["b"];
     std::string sharing = webserver_request.query ["s"];
-    Database_Volatile::setValue (identifier, "query", query);
-    Database_Volatile::setValue (identifier, "casesensitive", filter::strings::convert_to_string (casesensitive));
-    Database_Volatile::setValue (identifier, "plaintext", filter::strings::convert_to_string (plaintext));
+    database::volatile_::set_value (identifier, "query", query);
+    database::volatile_::set_value (identifier, "casesensitive", filter::strings::convert_to_string (casesensitive));
+    database::volatile_::set_value (identifier, "plaintext", filter::strings::convert_to_string (plaintext));
     
     
     // Deal with case sensitivity.
@@ -172,7 +172,7 @@ std::string search_search2 (Webserver_Request& webserver_request)
       hits.push_back (passage.encode ());
     }
     if (sharing != "load") {
-      std::vector <std::string> loaded_hits = filter::strings::explode (Database_Volatile::getValue (identifier, "hits"), '\n');
+      std::vector <std::string> loaded_hits = filter::strings::explode (database::volatile_::get_value (identifier, "hits"), '\n');
       if (sharing == "add") {
         hits.insert (hits.end(), loaded_hits.begin(), loaded_hits.end());
       }
@@ -191,7 +191,7 @@ std::string search_search2 (Webserver_Request& webserver_request)
 
 
     // Store search hits in the volatile database.
-    Database_Volatile::setValue (identifier, "hits", output);
+    database::volatile_::set_value (identifier, "hits", output);
 
 
     // Output results.

@@ -26,22 +26,28 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // Database resilience: It is stored in the plain filesystem in the temporal location.
 
 
-std::string Database_Volatile::getValue (int id, const std::string& key)
+namespace database::volatile_ {
+
+
+static std::string filename (int id, std::string key)
+{
+  const std::string identifier = filter_url_clean_filename (filter::strings::convert_to_string (id));
+  key = filter_url_clean_filename (key);
+  const std::string path = filter_url_create_root_path ({filter_url_temp_dir (), "volatile__" + identifier + "__" + key});
+  return path;
+}
+
+
+std::string get_value (int id, const std::string& key)
 {
   return filter_url_file_get_contents (filename (id, key));
 }
 
 
-void Database_Volatile::setValue (int id, const std::string& key, const std::string& value)
+void set_value (int id, const std::string& key, const std::string& value)
 {
   filter_url_file_put_contents (filename (id, key), value);
 }
 
 
-std::string Database_Volatile::filename (int id, std::string key)
-{
-  std::string identifier = filter_url_clean_filename (filter::strings::convert_to_string (id));
-  key = filter_url_clean_filename (key);
-  std::string path = filter_url_create_root_path ({filter_url_temp_dir (), "volatile__" + identifier + "__" + key});
-  return path;
-}
+} // Namespace.

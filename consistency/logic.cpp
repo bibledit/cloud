@@ -43,12 +43,12 @@ std::string Consistency_Logic::response ()
   resources.insert (resources.begin (), bible);
   
   // The passages entered in the Consistency tool.
-  std::string s_passages = Database_Volatile::getValue (m_id, "passages");
+  std::string s_passages = database::volatile_::get_value (m_id, "passages");
   s_passages = filter::strings::trim (s_passages);
   std::vector <std::string> passages = filter::strings::explode (s_passages, '\n');
   
   // The translations entered in the Consistency tool.
-  std::string s_translations = Database_Volatile::getValue (m_id, "translations");
+  std::string s_translations = database::volatile_::get_value (m_id, "translations");
   s_translations = filter::strings::trim (s_translations);
   std::vector <std::string> translations = filter::strings::explode (s_translations, '\n');
   
@@ -84,9 +84,9 @@ std::string Consistency_Logic::response ()
         bool redoPassage = false;
         std::string passageKey = filter::strings::convert_to_string (book) + "." + filter::strings::convert_to_string (chapter) + "." + verse;
         int currentChapterId = m_webserver_request.database_bibles()->get_chapter_id (resources [0], book, chapter);
-        int storedChapterId = filter::strings::convert_to_int (Database_Volatile::getValue (m_id, passageKey + ".id"));
+        int storedChapterId = filter::strings::convert_to_int (database::volatile_::get_value (m_id, passageKey + ".id"));
         if (currentChapterId != storedChapterId) {
-          Database_Volatile::setValue (m_id, passageKey + ".id", filter::strings::convert_to_string (currentChapterId));
+          database::volatile_::set_value (m_id, passageKey + ".id", filter::strings::convert_to_string (currentChapterId));
           redoPassage = true;
         }
         
@@ -106,9 +106,9 @@ std::string Consistency_Logic::response ()
               text.insert (0, R"(<div style="background-color: yellow;">)");
               text.append ("</div>");
             }
-            Database_Volatile::setValue (m_id, passageKey + "." + resource, text);
+            database::volatile_::set_value (m_id, passageKey + "." + resource, text);
           } else {
-            text = Database_Volatile::getValue (m_id, passageKey + "." + resource);
+            text = database::volatile_::get_value (m_id, passageKey + "." + resource);
           }
           
           // Formatting.

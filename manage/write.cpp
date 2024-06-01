@@ -61,17 +61,17 @@ std::string manage_write (Webserver_Request& webserver_request)
   std::string user {};
   if (webserver_request.query.count ("user")) {
     user = webserver_request.query["user"];
-    Database_Volatile::setValue (userid, "manage_write_user", user);
+    database::volatile_::set_value (userid, "manage_write_user", user);
   }
-  user = Database_Volatile::getValue (userid, "manage_write_user");
+  user = database::volatile_::get_value (userid, "manage_write_user");
   view.set_variable ("user", user);
   
   std::string bible {};
   if (webserver_request.query.count ("bible")) {
     bible = webserver_request.query["bible"];
-    Database_Volatile::setValue (userid, "manage_write_bible", bible);
+    database::volatile_::set_value (userid, "manage_write_bible", bible);
   }
-  bible = Database_Volatile::getValue (userid, "manage_write_bible");
+  bible = database::volatile_::get_value (userid, "manage_write_bible");
   view.set_variable ("bible", bible);
 
   auto [ bible_read_access, bible_write_access ] = DatabasePrivileges::get_bible (user, bible);

@@ -21,11 +21,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <config/libraries.h>
 
-class Database_Volatile
-{
-public:
-  static std::string getValue (int id, const std::string& key);
-  static void setValue (int id, const std::string& key, const std::string& value);
-private:
-  static std::string filename (int id, std::string key);
-};
+namespace database::volatile_ {
+  
+std::string get_value (int id, const std::string& key);
+void set_value (int id, const std::string& key, const std::string& value);
+
+}

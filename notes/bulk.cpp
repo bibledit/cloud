@@ -128,7 +128,7 @@ std::string notes_bulk (Webserver_Request& webserver_request)
                                               -1);
     std::vector <std::string> sids;
     for (auto id : identifiers) sids.push_back (filter::strings::convert_to_string (id));
-    Database_Volatile::setValue (userid, "identifiers", filter::strings::implode (sids, " "));
+    database::volatile_::set_value (userid, "identifiers", filter::strings::implode (sids, " "));
   }
 
 
@@ -136,7 +136,7 @@ std::string notes_bulk (Webserver_Request& webserver_request)
   // Get the stored note identifiers from the database.
   std::vector <int> identifiers;
   {
-    std::vector <std::string> sids = filter::strings::explode (Database_Volatile::getValue (userid, "identifiers"), ' ');
+    std::vector <std::string> sids = filter::strings::explode (database::volatile_::get_value (userid, "identifiers"), ' ');
     for (auto id : sids) identifiers.push_back (filter::strings::convert_to_int (id));
   }
   

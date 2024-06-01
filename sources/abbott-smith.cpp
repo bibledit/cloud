@@ -45,11 +45,11 @@
 int entry_element_count {0};
 
 
-void sources_abbott_smith_parse_entry_element (Database_AbbottSmith * database_abbottsmith,
-                                               pugi::xml_node & node)
+void sources_abbott_smith_parse_entry_element (pugi::xml_node & node)
 {
   std::string entry = "entry";
-  if (node.name() != entry) return;
+  if (node.name() != entry) 
+    return;
   entry_element_count++;
   
   // Example <entry> element and its content:
@@ -92,11 +92,11 @@ void sources_abbott_smith_parse_entry_element (Database_AbbottSmith * database_a
   // Store the original lemma, the casefolded lemma, and the Strong's number,
   // together with the entry's raw XML, into the database.
   std::string lemma_case_folded = filter::strings::unicode_string_casefold (lemma);
-  database_abbottsmith->store (lemma, lemma_case_folded, strong, contents);
+  database::abboth_smith::store (lemma, lemma_case_folded, strong, contents);
   
   // If there's more Strong's numbers in the entry, store those too, but without any lemma.
   for (auto strong2 : strongs) {
-    database_abbottsmith->store (std::string(), std::string(), strong2, contents);
+    database::abboth_smith::store (std::string(), std::string(), strong2, contents);
   }
 }
 
@@ -104,8 +104,7 @@ void sources_abbott_smith_parse_entry_element (Database_AbbottSmith * database_a
 void sources_abbott_smith_parse ()
 {
   std::cout << "Starting" << std::endl;
-  Database_AbbottSmith database_abbottsmith;
-  database_abbottsmith.create ();
+  database::abboth_smith::create ();
     
   std::string file = "sources/abbott-smith/abbott-smith.tei_lemma.xml";
   
@@ -117,21 +116,21 @@ void sources_abbott_smith_parse ()
   // The number of <entry> elements was 6153 when counted in a text editor.
   // And this same number of elements was found when parsing as deep as is done below.
   for (pugi::xml_node node1 : TEI_node.children()) {
-    sources_abbott_smith_parse_entry_element (&database_abbottsmith, node1);
+    sources_abbott_smith_parse_entry_element (node1);
     for (pugi::xml_node node2 : node1.children()) {
-      sources_abbott_smith_parse_entry_element (&database_abbottsmith, node2);
+      sources_abbott_smith_parse_entry_element (node2);
       for (pugi::xml_node node3 : node2.children()) {
-        sources_abbott_smith_parse_entry_element (&database_abbottsmith, node3);
+        sources_abbott_smith_parse_entry_element (node3);
         for (pugi::xml_node node4 : node3.children()) {
-          sources_abbott_smith_parse_entry_element (&database_abbottsmith, node4);
+          sources_abbott_smith_parse_entry_element (node4);
           for (pugi::xml_node node5 : node4.children()) {
-            sources_abbott_smith_parse_entry_element (&database_abbottsmith, node5);
+            sources_abbott_smith_parse_entry_element (node5);
           }
         }
       }
     }
   }
   std::cout << entry_element_count << " entry elements parsed" << std::endl;
-  database_abbottsmith.optimize ();
+  database::abboth_smith::optimize ();
   std::cout << "Completed" << std::endl;
 }

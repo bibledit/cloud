@@ -21,13 +21,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <config/libraries.h>
 
-class Database_AbbottSmith
-{
-public:
-  void create ();
-  void optimize ();
-  void store (std::string lemma, std::string lemma_casefold, std::string strong, std::string contents);
-  std::string get (std::string lemma, std::string strong);
-private:
-  const char * filename ();
-};
+namespace database::abboth_smith {
+
+void create ();
+void optimize ();
+void store (const std::string& lemma, const std::string& lemma_casefold, 
+            const std::string& strong, const std::string& contents);
+std::string get (const std::string& lemma, const std::string& strong);
+
+}

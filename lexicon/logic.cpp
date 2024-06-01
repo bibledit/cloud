@@ -1533,9 +1533,7 @@ std::string lexicon_logic_render_abbott_smiths_definition (std::string lemma, st
 {
   std::vector <std::string> renderings;
 
-  Database_AbbottSmith database_abbottsmith;
-
-  std::string definition = database_abbottsmith.get (lemma, lexicon_logic_strong_number_cleanup (strong));
+  const std::string definition = database::abboth_smith::get (lemma, lexicon_logic_strong_number_cleanup (strong));
   
   pugi::xml_document document;
   document.load_string (definition.c_str());

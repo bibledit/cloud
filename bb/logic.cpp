@@ -212,7 +212,7 @@ void bible_logic::import_resource (std::string bible, std::string resource)
     const std::vector <int> chapters = database_versifications.getMaximumChapters (book);
     for (const auto chapter : chapters) {
 
-      const std::string message = "Importing " + resource + " " + bookName + " chapter " + filter::strings::convert_to_string (chapter);
+      const std::string message = "Importing " + resource + " " + bookName + " chapter " + std::to_string (chapter);
       Database_Logs::log (message, Filter_Roles::translator ());
       
       std::vector <std::string> usfm {};
@@ -220,7 +220,7 @@ void bible_logic::import_resource (std::string bible, std::string resource)
       if (chapter == 0) usfm.push_back ("\\id " + database::books::get_usfm_from_id (static_cast<book_id>(book)));
       
       if (chapter) {
-        usfm.push_back ("\\c " + filter::strings::convert_to_string (chapter));
+        usfm.push_back ("\\c " + std::to_string (chapter));
         usfm.push_back ("\\p");
       }
 
@@ -249,7 +249,7 @@ void bible_logic::import_resource (std::string bible, std::string resource)
         html = filter::strings::replace ("\n", " ", html);
 
         // Add the verse to the USFM.
-        usfm.push_back ("\\v " + filter::strings::convert_to_string (verse) + " " + filter::strings::trim (html));
+        usfm.push_back ("\\v " + std::to_string (verse) + " " + filter::strings::trim (html));
       }
       bible_logic::store_chapter (bible, book, chapter, filter::strings::implode (usfm, "\n"));
     }
@@ -279,7 +279,7 @@ void bible_logic::log_change (const std::string& bible,
   // In particular on low-power devices and on Windows, the time it took was excessive.
 
   const std::string bookname = database::books::get_english_from_id (static_cast<book_id>(book));
-  const std::string passage = bible + " " + bookname + " " + filter::strings::convert_to_string (chapter);
+  const std::string passage = bible + " " + bookname + " " + std::to_string (chapter);
   
   const std::string stylesheet = database::config::bible::get_export_stylesheet (bible);
 
@@ -310,7 +310,7 @@ void bible_logic::log_change (const std::string& bible,
       const std::string new_text = filter_text_new.text_text->get ();
       if (old_text != new_text) {
         body.push_back (std::string());
-        body.push_back (filter_passage_display (book, chapter, filter::strings::convert_to_string (verse)));
+        body.push_back (filter_passage_display (book, chapter, std::to_string (verse)));
         body.push_back ("Old: " + old_text);
         body.push_back ("New: " + new_text);
       }
@@ -337,7 +337,7 @@ void bible_logic::log_merge (const std::string& user, const std::string& bible, 
                              const std::string& prioritized_change, const std::string& result)
 {
   const std::string bookname = database::books::get_english_from_id (static_cast<book_id>(book));
-  const std::string passage = bible + " " + bookname + " " + filter::strings::convert_to_string (chapter);
+  const std::string passage = bible + " " + bookname + " " + std::to_string (chapter);
   
   std::vector <std::string> body {};
 

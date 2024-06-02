@@ -64,7 +64,7 @@ std::string bible_chapter (Webserver_Request& webserver_request)
   
   // The book.
   const int book = filter::strings::convert_to_int (webserver_request.query ["book"]);
-  view.set_variable ("book", filter::strings::convert_to_string (book));
+  view.set_variable ("book", std::to_string (book));
   const std::string book_name = database::books::get_english_from_id (static_cast<book_id>(book));
   view.set_variable ("book_name", filter::strings::escape_special_xml_characters (book_name));
   

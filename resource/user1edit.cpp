@@ -91,7 +91,7 @@ std::string resource_user1edit (Webserver_Request& webserver_request)
       }
       count++;
     }
-    success = translate ("Number of defined books:") + " " + filter::strings::convert_to_string (bookcount);
+    success = translate ("Number of defined books:") + " " + std::to_string (bookcount);
   }
   
   

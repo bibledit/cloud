@@ -123,7 +123,7 @@ std::string system_index (Webserver_Request& webserver_request)
   }
   // Set the time zone offset in the GUI.
   const int timezone_setting = database::config::general::get_timezone();
-  view.set_variable ("timezone", filter::strings::convert_to_string (timezone_setting));
+  view.set_variable ("timezone", std::to_string (timezone_setting));
   // Display the section to set the site's timezone only
   // in case the calling program has not yet set this zone in the library.
   // So for example the app for iOS can set the timezone from the device,
@@ -341,7 +341,7 @@ std::string system_index (Webserver_Request& webserver_request)
     }
   }
   const std::vector <int> mails = database_mail.getAllMails ();
-  const std::string mailcount = filter::strings::convert_to_string (mails.size());
+  const std::string mailcount = std::to_string (mails.size());
   view.set_variable ("emailscount", mailcount);
 #endif
 

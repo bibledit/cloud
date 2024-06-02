@@ -387,12 +387,12 @@ void odf_text::initialize_styles_xml ()
         centerPosition /= 2;
         {
           pugi::xml_node style_tab_stop = style_tab_stops.append_child ("style:tab-stop");
-          style_tab_stop.append_attribute ("style:position") = filter::strings::convert_to_string (filter::strings::convert_to_string (centerPosition) + "mm").c_str();
+          style_tab_stop.append_attribute ("style:position") = filter::strings::convert_to_string (std::to_string (centerPosition) + "mm").c_str();
           style_tab_stop.append_attribute ("style:type") = "center";
         }
         {
           pugi::xml_node style_tab_stop = style_tab_stops.append_child ("style:tab-stop");
-          style_tab_stop.append_attribute ("style:position") = filter::strings::convert_to_string (filter::strings::convert_to_string (centerPosition * 2) + "mm").c_str();
+          style_tab_stop.append_attribute ("style:position") = filter::strings::convert_to_string (std::to_string (centerPosition * 2) + "mm").c_str();
           style_tab_stop.append_attribute ("style:type") = "right";
         }
       }
@@ -409,12 +409,12 @@ void odf_text::initialize_styles_xml ()
         pugi::xml_node style_tab_stops = style_paragraph_properties.append_child ("style:tab-stops");
         {
           pugi::xml_node style_tab_stop = style_tab_stops.append_child ("style:tab-stop");
-          style_tab_stop.append_attribute ("style:position") = filter::strings::convert_to_string (filter::strings::convert_to_string (centerPosition) + "mm").c_str();
+          style_tab_stop.append_attribute ("style:position") = filter::strings::convert_to_string (std::to_string (centerPosition) + "mm").c_str();
           style_tab_stop.append_attribute ("style:type") = "center";
         }
         {
           pugi::xml_node style_tab_stop = style_tab_stops.append_child ("style:tab-stop");
-          style_tab_stop.append_attribute ("style:position") = filter::strings::convert_to_string (filter::strings::convert_to_string (centerPosition * 2) + "mm").c_str();
+          style_tab_stop.append_attribute ("style:position") = filter::strings::convert_to_string (std::to_string (centerPosition * 2) + "mm").c_str();
           style_tab_stop.append_attribute ("style:type") = "right";
         }
       }
@@ -748,7 +748,7 @@ void odf_text::create_paragraph_style (std::string name,
   // (And then a tab puts the text at the desired first line indent space.)
   int millimeters = static_cast<int>(firstlineindent);
   if (is_poetry_q_style) millimeters = static_cast <int> (0 - leftmargin);
-  std::string first_lineindent_mm = filter::strings::convert_to_string (millimeters) + "mm";
+  std::string first_lineindent_mm = std::to_string (millimeters) + "mm";
   style_paragraph_properties_node.append_attribute ("fo:text-indent") = first_lineindent_mm.c_str();
 
   if (keep_with_next) {
@@ -758,7 +758,7 @@ void odf_text::create_paragraph_style (std::string name,
 
   if (dropcaps > 0) {
     // E.g.: <style:drop-cap style:lines="2" style:length="2" style:distance="0.15cm"/>
-    std::string length = filter::strings::convert_to_string (dropcaps);
+    std::string length = std::to_string (dropcaps);
     pugi::xml_node style_drop_cap_node = style_paragraph_properties_node.append_child ("style:drop-cap");
     style_drop_cap_node.append_attribute ("style:lines") = "2";
     style_drop_cap_node.append_attribute ("style:length") = length.c_str();
@@ -778,7 +778,7 @@ void odf_text::create_paragraph_style (std::string name,
     int tab_indent = static_cast<int> (firstlineindent);
     for (int i = 0; i < 10; i++) {
       pugi::xml_node style_tab_stop = style_tab_stops.append_child("style:tab-stop");
-      std::string tab_stop = filter::strings::convert_to_string(tab_indent) + "mm";
+      std::string tab_stop = std::to_string(tab_indent) + "mm";
       style_tab_stop.append_attribute("style:position") = tab_stop.c_str();
       tab_indent++;
     }
@@ -915,7 +915,7 @@ void odf_text::place_text_in_frame (std::string text, std::string style, float f
   pugi::xml_node draw_frame_dom_element = current_text_p_node.append_child ("draw:frame");
   draw_frame_dom_element.append_attribute ("draw:style-name") = "chapterframe";
   m_frame_count++;
-  draw_frame_dom_element.append_attribute ("draw:name") = filter::strings::convert_to_string ("frame" + filter::strings::convert_to_string (m_frame_count)).c_str();
+  draw_frame_dom_element.append_attribute ("draw:name") = filter::strings::convert_to_string ("frame" + std::to_string (m_frame_count)).c_str();
   draw_frame_dom_element.append_attribute ("text:anchor-type") = "paragraph";
   draw_frame_dom_element.append_attribute ("svg:y") = "0cm";
   draw_frame_dom_element.append_attribute ("fo:min-width") = "0.34cm";
@@ -1027,7 +1027,7 @@ void odf_text::add_note (std::string caller, std::string style, bool endnote)
   if (!m_current_text_p_node_opened) new_paragraph ();
 
   pugi::xml_node text_note_dom_element = current_text_p_node.append_child ("text:note");
-  text_note_dom_element.append_attribute ("text:id") = filter::strings::convert_to_string ("ftn" + filter::strings::convert_to_string (m_note_count)).c_str();
+  text_note_dom_element.append_attribute ("text:id") = filter::strings::convert_to_string ("ftn" + std::to_string (m_note_count)).c_str();
   m_note_count++;
   m_note_text_p_opened = true;
   std::string noteclass;
@@ -1214,11 +1214,11 @@ void odf_text::add_image (std::string style, [[maybe_unused]] std::string alt, s
     m_image_counter++;
     pugi::xml_node draw_frame_node = current_text_p_node.append_child("draw:frame");
     draw_frame_node.append_attribute("draw:style-name") = "fr1";
-    draw_frame_node.append_attribute("draw:name") = ("Image" + filter::strings::convert_to_string(m_image_counter)).c_str();
+    draw_frame_node.append_attribute("draw:name") = ("Image" + std::to_string(m_image_counter)).c_str();
     draw_frame_node.append_attribute("text:anchor-type") = "char";
-    draw_frame_node.append_attribute("svg:width") = (filter::strings::convert_to_string (available_width_mm) + "mm").c_str();
+    draw_frame_node.append_attribute("svg:width") = (std::to_string (available_width_mm) + "mm").c_str();
     // draw_frame_node.append_attribute("style:rel-width") = "100%";
-    draw_frame_node.append_attribute("svg:height") = (filter::strings::convert_to_string (available_height_mm) + "mm").c_str();
+    draw_frame_node.append_attribute("svg:height") = (std::to_string (available_height_mm) + "mm").c_str();
     // draw_frame_node.append_attribute("style:rel-height") = "scale";
     draw_frame_node.append_attribute("draw:z-index") = "0";
     {

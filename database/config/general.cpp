@@ -89,14 +89,14 @@ static void set_boolean_value (const char * key, bool value)
 
 static int get_integer_value (const char * key, int default_value)
 {
-  const std::string value = get_value (key, filter::strings::convert_to_string (default_value).c_str());
+  const std::string value = get_value (key, std::to_string (default_value).c_str());
   return filter::strings::convert_to_int (value);
 }
 
 
 static void set_integer_value (const char * key, int value)
 {
-  set_value (key, filter::strings::convert_to_string (value).c_str());
+  set_value (key, std::to_string (value).c_str());
 }
 
 

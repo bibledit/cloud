@@ -31,8 +31,6 @@ std::vector <std::string> explode (std::string value, const std::string& delimit
 std::string implode (const std::vector <std::string>& values, std::string delimiter);
 std::string replace (const std::string& search, const std::string& replace, std::string subject, int * count = nullptr);
 bool replace_between (std::string& line, const std::string& start, const std::string& end, const std::string& replacement);
-std::string convert_to_string (const size_t i);
-std::string convert_to_string (const int i);
 std::string convert_to_string (const char * c);
 std::string convert_to_string (const bool b);
 std::string convert_to_string (const std::string& s);

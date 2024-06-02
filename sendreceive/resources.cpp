@@ -136,10 +136,10 @@ void sendreceive_resources ()
     if (sendreceive_resources_interrupt) continue;
 
     // The URL fragment that contains the current book in its query.
-    std::string book_url = filter_url_build_http_query (resource_url, "b", filter::strings::convert_to_string (book));
+    std::string book_url = filter_url_build_http_query (resource_url, "b", std::to_string (book));
     
     // The URL to request the resource database for this book from the Cloud.
-    std::string url = filter_url_build_http_query (book_url, "a", filter::strings::convert_to_string (Sync_Logic::resources_request_database));
+    std::string url = filter_url_build_http_query (book_url, "a", std::to_string (Sync_Logic::resources_request_database));
     std::string error;
     std::string response = filter_url_http_get (url, error, false);
     if (error.empty ()) {
@@ -149,7 +149,7 @@ void sendreceive_resources ()
       if (server_size > 0) {
         // The Cloud has now responded with the file size of the resource database, in bytes.
         // Now request the path to download it.
-        url = filter_url_build_http_query (book_url, "a", filter::strings::convert_to_string (Sync_Logic::resources_request_download));
+        url = filter_url_build_http_query (book_url, "a", std::to_string (Sync_Logic::resources_request_download));
         error.clear ();
         std::string response2 = filter_url_http_get (url, error, false);
         if (error.empty ()) {
@@ -188,10 +188,10 @@ void sendreceive_resources ()
   
   // Done.
   if (error_count) {
-    std::string msg = "Error count while downloading resource: " + filter::strings::convert_to_string (error_count);
+    std::string msg = "Error count while downloading resource: " + std::to_string (error_count);
     Database_Logs::log (msg, Filter_Roles::consultant ());
   } else if (wait_count) {
-    std::string msg = "Waiting for Cloud to prepare resource for download. Remaining books: " + filter::strings::convert_to_string (wait_count);
+    std::string msg = "Waiting for Cloud to prepare resource for download. Remaining books: " + std::to_string (wait_count);
     Database_Logs::log (msg, Filter_Roles::consultant ());
   } else {
     Database_Logs::log ("Completed installing resource:" " " + resource, Filter_Roles::consultant ());

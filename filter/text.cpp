@@ -291,7 +291,7 @@ void Filter_Text::pre_process_usfm ()
               {
                 const std::string fragment = filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
                 const int number = filter::strings::convert_to_int (fragment);
-                m_current_verse_number = filter::strings::convert_to_string (number);
+                m_current_verse_number = std::to_string (number);
                 break;
               }
               case StyleTypeFootEndNote:
@@ -1387,7 +1387,7 @@ void Filter_Text::produceInfoDocument (std::string path)
   // Number of chapters per book.
   information.new_heading1 (translate("Number of chapters per book"));
   for (const auto& element : m_number_of_chapters_per_book) {
-    const std::string line = database::books::get_english_from_id (static_cast<book_id>(element.first)) + " => " + filter::strings::convert_to_string (element.second);
+    const std::string line = database::books::get_english_from_id (static_cast<book_id>(element.first)) + " => " + std::to_string (element.second);
     information.new_paragraph ();
     information.add_text (line);
   }
@@ -1595,7 +1595,7 @@ void Filter_Text::applyDropCapsToCurrentParagraph (int dropCapsLength)
   // To name a style according to the number of characters to put in drop caps,
   // e.g. a style name like p_c1 or p_c2 or p_c3.
   if (odf_text_standard) {
-    std::string combined_style = odf_text_standard->m_current_paragraph_style + "_" + chapterMarker + filter::strings::convert_to_string (dropCapsLength);
+    std::string combined_style = odf_text_standard->m_current_paragraph_style + "_" + chapterMarker + std::to_string (dropCapsLength);
     if (find (createdStyles.begin(), createdStyles.end(), combined_style) == createdStyles.end()) {
       Database_Styles_Item style = styles[odf_text_standard->m_current_paragraph_style];
       std::string fontname = database::config::bible::get_export_font (m_bible);

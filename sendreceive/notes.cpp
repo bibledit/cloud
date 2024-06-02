@@ -129,7 +129,7 @@ bool sendreceive_notes_upload ()
   std::map <std::string, std::string> post;
   post ["u"] = filter::strings::bin2hex (user);
   post ["p"] = webserver_request.database_users ()->get_md5 (user);
-  post ["l"] = filter::strings::convert_to_string (webserver_request.database_users ()->get_level (user));
+  post ["l"] = std::to_string (webserver_request.database_users ()->get_level (user));
   
   
   // Error variable.
@@ -179,8 +179,8 @@ bool sendreceive_notes_upload ()
       
       
       // Generate a POST request.
-      post ["i"] = filter::strings::convert_to_string (identifier);
-      post ["a"] = filter::strings::convert_to_string (action);
+      post ["i"] = std::to_string (identifier);
+      post ["a"] = std::to_string (action);
       switch (action) {
         case Sync_Logic::notes_put_create_initiate: break;
         case Sync_Logic::notes_put_create_complete: break;
@@ -207,7 +207,7 @@ bool sendreceive_notes_upload ()
         }
         case Sync_Logic::notes_put_severity:
         {
-          content = filter::strings::convert_to_string (database_notes.get_raw_severity (identifier));
+          content = std::to_string (database_notes.get_raw_severity (identifier));
           break;
         }
         case Sync_Logic::notes_put_bible:
@@ -285,8 +285,8 @@ bool sendreceive_notes_upload ()
     for (int action = Sync_Logic::notes_get_total; action <= Sync_Logic::notes_get_modified; action++) {
       std::map <std::string, std::string> post2;
       post2 ["u"] = filter::strings::bin2hex (user);
-      post2 ["i"] = filter::strings::convert_to_string (identifier);
-      post2 ["a"] = filter::strings::convert_to_string (action);
+      post2 ["i"] = std::to_string (identifier);
+      post2 ["a"] = std::to_string (action);
       sendreceive_notes_kick_watchdog ();
       response = sync_logic.post (post2, url, error);
       if (error.empty ()) {
@@ -366,8 +366,8 @@ bool sendreceive_notes_download (int lowId, int highId)
   // The basic request to be POSTed to the server.
   std::map <std::string, std::string> post;
   post ["u"] = filter::strings::bin2hex (user);
-  post ["l"] = filter::strings::convert_to_string (lowId);
-  post ["h"] = filter::strings::convert_to_string (highId);
+  post ["l"] = std::to_string (lowId);
+  post ["h"] = std::to_string (highId);
 
   
   // Error variable.
@@ -378,7 +378,7 @@ bool sendreceive_notes_download (int lowId, int highId)
   // It compares this with the local notes.
   // If it matches, that means that the local notes match the notes on the server.
   // The script is then ready.
-  post ["a"] = filter::strings::convert_to_string (Sync_Logic::notes_get_total);
+  post ["a"] = std::to_string (Sync_Logic::notes_get_total);
   // Response comes after a relatively long delay: Enable burst mode timing.
   sendreceive_notes_kick_watchdog ();
   response = sync_logic.post (post, url, error, true);
@@ -432,7 +432,7 @@ bool sendreceive_notes_download (int lowId, int highId)
   
   
   // Get note identifiers and checksums as on the server.
-  post ["a"] = filter::strings::convert_to_string (Sync_Logic::notes_get_identifiers);
+  post ["a"] = std::to_string (Sync_Logic::notes_get_identifiers);
   sendreceive_notes_kick_watchdog ();
   response = sync_logic.post (post, url, error);
   if (!error.empty ()) {
@@ -491,18 +491,18 @@ bool sendreceive_notes_download (int lowId, int highId)
     if (client_checksum_note == server_checksum_note) continue;
     
     // Store the identifier to be downloaded as part of a bulk download.
-    identifiers_bulk_download.push_back (filter::strings::convert_to_string (identifier));
+    identifiers_bulk_download.push_back (std::to_string (identifier));
   }
   
   // Download the notes in bulk from the Cloud, for faster transfer.
   if (!identifiers_bulk_download.empty ()) {
     sendreceive_notes_kick_watchdog ();
     if (identifiers_bulk_download.size () >= 3) {
-      Database_Logs::log (sendreceive_notes_text () + "Receiving multiple notes: " + filter::strings::convert_to_string (identifiers_bulk_download.size ()), Filter_Roles::manager ());
+      Database_Logs::log (sendreceive_notes_text () + "Receiving multiple notes: " + std::to_string (identifiers_bulk_download.size ()), Filter_Roles::manager ());
     }
     // Request the JSON from the Cloud: It will contain the requested notes.
     post.clear ();
-    post ["a"] = filter::strings::convert_to_string (Sync_Logic::notes_get_bulk);
+    post ["a"] = std::to_string (Sync_Logic::notes_get_bulk);
     std::string bulk_identifiers = filter::strings::implode (identifiers_bulk_download, "\n");
     post ["b"] = bulk_identifiers;
     std::string json = sync_logic.post (post, url, error);

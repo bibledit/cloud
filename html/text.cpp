@@ -185,8 +185,8 @@ void HtmlText::add_note (const std::string& citation, const std::string& style, 
   
   // Add the link with all relevant data for the note citation.
   {
-    const std::string reference = "#note" + filter::strings::convert_to_string (note_count);
-    const std::string identifier = "citation" + filter::strings::convert_to_string (note_count);
+    const std::string reference = "#note" + std::to_string (note_count);
+    const std::string identifier = "citation" + std::to_string (note_count);
     add_link (current_p_node, reference, identifier, "", "superscript", citation, add_popup_notes);
   }
   
@@ -199,8 +199,8 @@ void HtmlText::add_note (const std::string& citation, const std::string& style, 
   
   // Add the link with all relevant data for the note body.
   {
-    const std::string reference = "#citation" + filter::strings::convert_to_string (note_count);
-    const std::string identifier = "note" + filter::strings::convert_to_string (note_count);
+    const std::string reference = "#citation" + std::to_string (note_count);
+    const std::string identifier = "note" + std::to_string (note_count);
     add_link (note_p_node, reference, identifier, "", "", citation);
   }
   

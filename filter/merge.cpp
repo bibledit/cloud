@@ -284,7 +284,7 @@ std::string filter_merge_run_clever (std::string base, std::string change, std::
     previous_change = change_text;
     
     // Check whether any of the three text fragments can be considered to be a verse without content.
-    size_t empty_length = 3 + filter::strings::convert_to_string (verse).length () + 1; // "\v n "
+    size_t empty_length = 3 + std::to_string(verse).length() + 1; // "\v n "
     bool base_empty = base_text.length () <= empty_length;
     bool change_empty = change_text.length () <= empty_length;
     bool prioritized_change_empty = prioritized_change_text.length () <= empty_length;

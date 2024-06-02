@@ -49,7 +49,7 @@ void OnlineBible_Text::newVerse (int bookIdentifier, int chapterNumber, int vers
   if (!book.empty()) {
     if (chapterNumber > 0) {
       if (verseNumber > 0) {
-        output.push_back ("$$$ " + book + " " + filter::strings::convert_to_string (chapterNumber) + ":" + filter::strings::convert_to_string (verseNumber));
+        output.push_back ("$$$ " + book + " " + std::to_string (chapterNumber) + ":" + std::to_string (verseNumber));
         currentLine.clear ();
         lineLoaded = true;
       }

@@ -30,9 +30,9 @@ TEST (filter, date)
   // Test the date and time related functions.
   {
     int month = filter::date::numerical_month (filter::date::seconds_since_epoch ());
-    if ((month < 1) || (month > 12)) EXPECT_EQ ("current month", filter::strings::convert_to_string (month));
+    if ((month < 1) || (month > 12)) EXPECT_EQ ("current month", std::to_string (month));
     int year = filter::date::numerical_year (filter::date::seconds_since_epoch ());
-    if ((year < 2014) || (year > 2050)) EXPECT_EQ ("current year", filter::strings::convert_to_string (year));
+    if ((year < 2014) || (year > 2050)) EXPECT_EQ ("current year", std::to_string (year));
     timeval tv;
     gettimeofday (&tv, nullptr);
     int reference_second = static_cast<int>(tv.tv_sec);
@@ -40,7 +40,7 @@ TEST (filter, date)
     if (abs (actual_second - reference_second) > 1) EXPECT_EQ (reference_second, actual_second);
     int usecs = filter::date::numerical_microseconds ();
     if ((usecs < 0) || (usecs > 1'000'000)) {
-      EXPECT_EQ ("0-1000000", filter::strings::convert_to_string (usecs));
+      EXPECT_EQ ("0-1000000", std::to_string (usecs));
     }
   }
   

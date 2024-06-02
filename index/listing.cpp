@@ -123,7 +123,7 @@ std::string index_listing (Webserver_Request& webserver_request, std::string url
         const std::string path = filter_url_create_path ({directory, file});
         if (!filter_url_is_dir (path)) {
           td_node = tr_node.append_child("td");
-          td_node.text().set(filter::strings::convert_to_string (filter_url_filesize (path)).c_str());
+          td_node.text().set(std::to_string (filter_url_filesize (path)).c_str());
         }
       }
     }

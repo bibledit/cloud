@@ -113,7 +113,7 @@ std::string manage_accounts (Webserver_Request& webserver_request)
     const std::string role = Filter_Roles::text (user_level);
     const std::string email = webserver_request.database_users ()->get_email (username);
     const int seconds = filter::date::seconds_since_epoch() - account_creation_times[username];
-    const std::string days = filter::strings::convert_to_string (seconds / (3600 * 24));
+    const std::string days = std::to_string (seconds / (3600 * 24));
     
     // Pass information about this user to the flate engine for display.
     view.add_iteration ("tbody", {

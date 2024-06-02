@@ -82,11 +82,11 @@ std::string Consistency_Logic::response ()
         // If so, set a flag so the data can be re-assembled for this verse.
         // If there was no change, then the data can be fetched from the volatile database.
         bool redoPassage = false;
-        std::string passageKey = filter::strings::convert_to_string (book) + "." + filter::strings::convert_to_string (chapter) + "." + verse;
+        std::string passageKey = std::to_string (book) + "." + std::to_string (chapter) + "." + verse;
         int currentChapterId = m_webserver_request.database_bibles()->get_chapter_id (resources [0], book, chapter);
         int storedChapterId = filter::strings::convert_to_int (database::volatile_::get_value (m_id, passageKey + ".id"));
         if (currentChapterId != storedChapterId) {
-          database::volatile_::set_value (m_id, passageKey + ".id", filter::strings::convert_to_string (currentChapterId));
+          database::volatile_::set_value (m_id, passageKey + ".id", std::to_string (currentChapterId));
           redoPassage = true;
         }
         

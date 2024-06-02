@@ -193,7 +193,7 @@ std::string sendreceive_index (Webserver_Request& webserver_request)
   int repeatsync = database::config::general::get_repeat_send_receive ();
   // After removing value 3, if the setting had "3", make it "2".
   if (repeatsync > 2) repeatsync = 2;
-  std::string repeatsynczone = "repeatsync" + filter::strings::convert_to_string (repeatsync);
+  std::string repeatsynczone = "repeatsync" + std::to_string (repeatsync);
   view.enable_zone (repeatsynczone);
   
   

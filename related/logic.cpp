@@ -79,7 +79,7 @@ void related_logic_search_related (const std::string& bookname, int input_chapte
           else verses.push_back (filter::strings::convert_to_int (verse));
           for (auto related_verse : verses) {
             if ((related_book != book_id::_unknown) && related_chapter) {
-              Passage passage (std::string(), static_cast<int>(related_book), related_chapter, filter::strings::convert_to_string (related_verse));
+              Passage passage (std::string(), static_cast<int>(related_book), related_chapter, std::to_string (related_verse));
               int i = filter_passage_to_integer (passage);
               // No duplicate passages to be included.
               if (!in_array (i, passages)) {

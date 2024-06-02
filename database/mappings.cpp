@@ -280,7 +280,7 @@ std::vector <Passage> Database_Mappings::translate (const std::string& input, co
 {
   // Care for situation that the input and output are the same.
   if (input == output) {
-    Passage passage = Passage ("", book, chapter, filter::strings::convert_to_string (verse));
+    Passage passage = Passage ("", book, chapter, std::to_string (verse));
     return {passage};
   }
 
@@ -314,7 +314,7 @@ std::vector <Passage> Database_Mappings::translate (const std::string& input, co
   // Check that the search yields a passage.
   // If there is none, it means that the $input passage is the same as in Hebrew/Greek.
   if (origpassage.empty ()) {
-    Passage passage = Passage ("", book, chapter, filter::strings::convert_to_string (verse));
+    Passage passage = Passage ("", book, chapter, std::to_string (verse));
     origpassage.push_back (passage);
   }
 

@@ -85,10 +85,10 @@ std::string manage_users (Webserver_Request& webserver_request)
 
 
   // Set the chosen default new user role on the option HTML tag.
-  std::string default_acl = filter::strings::convert_to_string (database::config::general::get_default_new_user_access_level ());
+  std::string default_acl = std::to_string (database::config::general::get_default_new_user_access_level ());
   std::string default_acl_html;
-  default_acl_html = Options_To_Select::add_selection ("Guest", filter::strings::convert_to_string(Filter_Roles::guest()), default_acl_html);
-  default_acl_html = Options_To_Select::add_selection ("Member", filter::strings::convert_to_string(Filter_Roles::member()), default_acl_html);
+  default_acl_html = Options_To_Select::add_selection ("Guest", std::to_string(Filter_Roles::guest()), default_acl_html);
+  default_acl_html = Options_To_Select::add_selection ("Member", std::to_string(Filter_Roles::member()), default_acl_html);
   view.set_variable ("defaultacloptags", Options_To_Select::mark_selected (default_acl, default_acl_html));
   view.set_variable ("defaultacl", default_acl);
   
@@ -170,7 +170,7 @@ std::string manage_users (Webserver_Request& webserver_request)
       dialog_list.add_query ("user", objectUsername);
       for (int i = Filter_Roles::lowest (); i <= Filter_Roles::highest (); i++) {
         if (i <= myLevel) {
-          dialog_list.add_row (Filter_Roles::text (i), "level", filter::strings::convert_to_string (i));
+          dialog_list.add_row (Filter_Roles::text (i), "level", std::to_string (i));
         }
       }
       page += dialog_list.run ();

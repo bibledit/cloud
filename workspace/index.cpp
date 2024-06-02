@@ -112,14 +112,14 @@ std::string workspace_index (Webserver_Request& webserver_request)
     const int editor_number = editor_numbers [key];
     const int row = static_cast<int> (round (key / 5)) + 1;
     const int column = key % 5 + 1;
-    std::string variable = "url" + filter::strings::convert_to_string (row) + filter::strings::convert_to_string (column);
+    std::string variable = "url" + std::to_string (row) + std::to_string (column);
     view.set_variable (variable, url);
-    variable = "width" + filter::strings::convert_to_string (row) + filter::strings::convert_to_string (column);
+    variable = "width" + std::to_string (row) + std::to_string (column);
     view.set_variable (variable, width);
     if (filter::strings::convert_to_int (width) > 0) 
       view.enable_zone (variable);
-    variable = "editorno" + filter::strings::convert_to_string (row) + filter::strings::convert_to_string (column);
-    view.set_variable (variable, filter::strings::convert_to_string (editor_number));
+    variable = "editorno" + std::to_string (row) + std::to_string (column);
+    view.set_variable (variable, std::to_string (editor_number));
   }
   
   
@@ -127,7 +127,7 @@ std::string workspace_index (Webserver_Request& webserver_request)
   for (int key = 0; key < 3; key++) {
     const std::string height = heights [key];
     const int row = key + 1;
-    const std::string variable = "height" + filter::strings::convert_to_string (row);
+    const std::string variable = "height" + std::to_string (row);
     view.set_variable (variable, height);
     if (filter::strings::convert_to_int (height) > 0) 
       view.enable_zone (variable);

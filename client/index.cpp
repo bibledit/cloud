@@ -190,7 +190,7 @@ std::string client_index (Webserver_Request& webserver_request)
   view.set_variable ("address", address);
   
   const int port {database::config::general::get_server_port ()};
-  view.set_variable ("port", filter::strings::convert_to_string (port));
+  view.set_variable ("port", std::to_string (port));
   
   view.set_variable ("url", client_logic_link_to_cloud ("", ""));
   

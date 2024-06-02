@@ -73,7 +73,7 @@ std::string sync_changes (Webserver_Request& webserver_request)
     {
       // The server deletes the change notification.
       database_modifications.deleteNotification (id);
-      Database_Logs::log ("Client deletes change notification from server: " + filter::strings::convert_to_string (id), Filter_Roles::translator ());
+      Database_Logs::log ("Client deletes change notification from server: " + std::to_string (id), Filter_Roles::translator ());
       webserver_request.database_config_user ()->setChangeNotificationsChecksum ("");
       return std::string();
     }
@@ -95,7 +95,7 @@ std::string sync_changes (Webserver_Request& webserver_request)
       std::string response;
       for (auto & notif_id : notification_ids) {
         if (!response.empty ()) response.append ("\n");
-        response.append (filter::strings::convert_to_string (notif_id));
+        response.append (std::to_string (notif_id));
       }
       return response;
     }
@@ -111,8 +111,8 @@ std::string sync_changes (Webserver_Request& webserver_request)
       // chapter
       // verse
       Passage passage = database_modifications.getNotificationPassage (id);
-      lines.push_back (filter::strings::convert_to_string (passage.m_book));
-      lines.push_back (filter::strings::convert_to_string (passage.m_chapter));
+      lines.push_back (std::to_string (passage.m_book));
+      lines.push_back (std::to_string (passage.m_chapter));
       lines.push_back (passage.m_verse);
       // oldtext (ensure it's one line for correct transfer to client)
       std::string oldtext = database_modifications.getNotificationOldText (id);

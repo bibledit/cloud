@@ -89,8 +89,8 @@ void rss_logic_schedule_update (std::string user, std::string bible, int book, i
   std::vector <std::string> parameters;
   parameters.push_back (user);
   parameters.push_back (bible);
-  parameters.push_back (filter::strings::convert_to_string (book));
-  parameters.push_back (filter::strings::convert_to_string (chapter));
+  parameters.push_back (std::to_string (book));
+  parameters.push_back (std::to_string (chapter));
   parameters.push_back (oldusfm);
   parameters.push_back (newusfm);
   tasks_logic_queue (RSSFEEDUPDATECHAPTER, parameters);
@@ -143,7 +143,7 @@ void rss_logic_execute_update (std::string user, std::string bible, int book, in
       std::string new_text = filter_text_new.text_text->get ();
       if (old_text != new_text) {
         std::string modification = filter_diff_diff (old_text, new_text);
-        titles.push_back (filter_passage_display (book, chapter, filter::strings::convert_to_string (verse)));
+        titles.push_back (filter_passage_display (book, chapter, std::to_string (verse)));
         authors.push_back (user);
         descriptions.push_back ("<div>" + modification + "</div>");
       }
@@ -165,7 +165,7 @@ void rss_logic_update_xml (std::vector <std::string> titles, std::vector <std::s
 {
   int seconds = filter::date::seconds_since_epoch ();
   std::string rfc822time = filter::date::rfc822 (seconds);
-  std::string guid = filter::strings::convert_to_string (seconds);
+  std::string guid = std::to_string (seconds);
   bool document_updated = false;
   pugi::xml_document document;
   std::string path = rss_logic_xml_path ();
@@ -198,7 +198,7 @@ void rss_logic_update_xml (std::vector <std::string> titles, std::vector <std::s
   pugi::xml_node channel = rss_node.child ("channel");
   for (size_t i = 0; i < titles.size(); i++) {
     pugi::xml_node item = channel.append_child ("item");
-    std::string guid2 = guid + filter::strings::convert_to_string (i);
+    std::string guid2 = guid + std::to_string (i);
     pugi::xml_node guid_node = item.append_child ("guid");
     guid_node.append_attribute ("isPermaLink") = "false";
     guid_node.text () = guid2.c_str();

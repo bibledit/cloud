@@ -337,7 +337,7 @@ void demo_create_sample_notes (Webserver_Request& webserver_request)
   std::vector <int> identifiers = database_notes.get_identifiers ();
   if (identifiers.size () < 10) {
     for (int i = 1; i <= 10; i++) {
-      database_notes.store_new_note (demo_sample_bible_name (), i, i, i, "Sample Note " + filter::strings::convert_to_string (i), "Sample Contents for note " + filter::strings::convert_to_string (i), false);
+      database_notes.store_new_note (demo_sample_bible_name (), i, i, i, "Sample Note " + std::to_string (i), "Sample Contents for note " + std::to_string (i), false);
     }
   }
 }

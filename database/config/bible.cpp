@@ -107,13 +107,13 @@ static void set_boolean_value (const std::string& bible, const char * key, bool 
 
 static int get_integer_value (const std::string& bible, const char * key, int default_value)
 {
-  return filter::strings::convert_to_int (get_value (bible, key, filter::strings::convert_to_string (default_value).c_str()));
+  return filter::strings::convert_to_int (get_value (bible, key, std::to_string (default_value).c_str()));
 }
 
 
 static void set_integer_value (const std::string& bible, const char * key, int value)
 {
-  set_value (bible, key, filter::strings::convert_to_string (value));
+  set_value (bible, key, std::to_string (value));
 }
 
 

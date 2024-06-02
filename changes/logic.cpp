@@ -141,7 +141,7 @@ void changes_clear_notifications_user (std::string jobid, std::string username)
   
   // Feedback.
   database_jobs.set_percentage (filter::strings::convert_to_int (jobid), 0);
-  database_jobs.set_progress (filter::strings::convert_to_int (jobid), translate ("Total:") + " " + filter::strings::convert_to_string (identifiers.size()));
+  database_jobs.set_progress (filter::strings::convert_to_int (jobid), translate ("Total:") + " " + std::to_string (identifiers.size()));
 
 
   // The amount of notifications it clears in the next iteration.

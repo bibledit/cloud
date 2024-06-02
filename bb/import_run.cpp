@@ -91,7 +91,7 @@ void bible_import_usfm (const std::string& data, const std::string& bible, int b
     if (book_number > 0) {
       bible_logic::store_chapter (bible, book_number, chapter_number, chapter_data);
       const std::string book_name = database::books::get_usfm_from_id (static_cast<book_id>(book_number));
-      Database_Logs::log ("Imported " + book_name + " " + filter::strings::convert_to_string (chapter_number));
+      Database_Logs::log ("Imported " + book_name + " " + std::to_string (chapter_number));
     } else {
       Database_Logs::log ("Could not import this data: " + chapter_data.substr (0, 1000));
     }
@@ -225,11 +225,11 @@ void bible_import_text (const std::string& text, const std::string& bible, int b
   
   // If no chapter marker is found, insert it at the top.
   if (newtext.find("\\c") == std::string::npos) {
-    newtext.insert(0, "\\c " + filter::strings::convert_to_string(chapter) + "\n");
+    newtext.insert(0, "\\c " + std::to_string(chapter) + "\n");
   }
 
   // Import the text as USFM.
   bible_logic::store_chapter (bible, book, chapter, newtext);
   const std::string book_name = database::books::get_usfm_from_id (static_cast<book_id>(book));
-  Database_Logs::log ("Imported " + book_name + " " + filter::strings::convert_to_string (chapter) + ": " + text);
+  Database_Logs::log ("Imported " + book_name + " " + std::to_string (chapter) + ": " + text);
 }

@@ -152,7 +152,7 @@ TEST (editone, logic)
     // Test the range of verses found in the USFM fragment.
     for (int verse = 0; verse <= 4; verse++) {
 
-      std::string number = filter::strings::convert_to_string (verse);
+      std::string number = std::to_string (verse);
       
       // Test the editable USFM fragment.
       std::string editable_usfm = filter::usfm::get_verse_text_quill (chapter_usfm, verse);

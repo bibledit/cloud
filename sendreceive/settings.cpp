@@ -114,12 +114,12 @@ void sendreceive_settings ()
   std::map <std::string, std::string> post;
   post ["u"] = filter::strings::bin2hex (user);
   post ["p"] = webserver_request.database_users ()->get_md5 (user);
-  post ["l"] = filter::strings::convert_to_string (webserver_request.database_users ()->get_level (user));
+  post ["l"] = std::to_string (webserver_request.database_users ()->get_level (user));
 
   for (auto id : ids) {
 
     // What to request for.
-    post ["a"] = filter::strings::convert_to_string (id);
+    post ["a"] = std::to_string (id);
 
     std::string value {};
     switch (id) {
@@ -157,10 +157,10 @@ void sendreceive_settings ()
 
   // Send the platform to the Cloud.
   {
-    post ["a"] = filter::strings::convert_to_string (Sync_Logic::settings_send_platform);
+    post ["a"] = std::to_string (Sync_Logic::settings_send_platform);
     // No longer in use.
     int platform_id = 0;
-    post ["v"] = filter::strings::convert_to_string (platform_id);
+    post ["v"] = std::to_string (platform_id);
     std::string error;
     sync_logic.post (post, url, error);
   }
@@ -174,7 +174,7 @@ void sendreceive_settings ()
   // The script is then ready.
   if (post.count ("v")) post.erase (post.find ("v"));
   std::vector <std::string> bibles = webserver_request.database_bibles()->get_bibles ();
-  post ["a"] = filter::strings::convert_to_string (Sync_Logic::settings_get_total_checksum);
+  post ["a"] = std::to_string (Sync_Logic::settings_get_total_checksum);
   post ["b"] = filter::strings::implode (bibles, "\n");
   std::string error;
   response = sync_logic.post (post, url, error);
@@ -194,7 +194,7 @@ void sendreceive_settings ()
   // At this stage the total checksum of all relevant settings on the client differs from the same on the server.
   // Request all settings from the server.
 
-  post ["a"] = filter::strings::convert_to_string (Sync_Logic::settings_get_workspace_urls);
+  post ["a"] = std::to_string (Sync_Logic::settings_get_workspace_urls);
   response = sync_logic.post (post, url, error);
   if (!error.empty ()) {
     Database_Logs::log ("Failure receiving workspace URLS", Filter_Roles::translator ());
@@ -203,7 +203,7 @@ void sendreceive_settings ()
   }
   webserver_request.database_config_user()->setWorkspaceURLs (response);
 
-  post ["a"] = filter::strings::convert_to_string (Sync_Logic::settings_get_workspace_widths);
+  post ["a"] = std::to_string (Sync_Logic::settings_get_workspace_widths);
   response = sync_logic.post (post, url, error);
   if (!error.empty ()) {
     Database_Logs::log ("Failure receiving workspace widths", Filter_Roles::translator ());
@@ -212,7 +212,7 @@ void sendreceive_settings ()
   }
   webserver_request.database_config_user()->setWorkspaceWidths (response);
 
-  post ["a"] = filter::strings::convert_to_string (Sync_Logic::settings_get_workspace_heights);
+  post ["a"] = std::to_string (Sync_Logic::settings_get_workspace_heights);
   response = sync_logic.post (post, url, error);
   if (!error.empty ()) {
     Database_Logs::log ("Failure receiving workspace heights", Filter_Roles::translator ());
@@ -221,7 +221,7 @@ void sendreceive_settings ()
   }
   webserver_request.database_config_user()->setWorkspaceHeights (response);
 
-  post ["a"] = filter::strings::convert_to_string (Sync_Logic::settings_get_resources_organization);
+  post ["a"] = std::to_string (Sync_Logic::settings_get_resources_organization);
   response = sync_logic.post (post, url, error);
   if (!error.empty ()) {
     Database_Logs::log ("Failure receiving workspace heights", Filter_Roles::translator ());
@@ -238,7 +238,7 @@ void sendreceive_settings ()
     // Request the font for the Bible.
     // Note that it requests the font name from the Cloud.
     // When the font is set by the client, it will override the font setting from the Cloud.
-    post ["a"] = filter::strings::convert_to_string (Sync_Logic::settings_get_bible_font);
+    post ["a"] = std::to_string (Sync_Logic::settings_get_bible_font);
     response = sync_logic.post (post, url, error);
     if (!error.empty ()) {
       Database_Logs::log ("Failure receiving Bible font", Filter_Roles::translator ());
@@ -248,7 +248,7 @@ void sendreceive_settings ()
     database::config::bible::set_text_font (bible, response);
   }
 
-  post ["a"] = filter::strings::convert_to_string (Sync_Logic::settings_get_privilege_delete_consultation_notes);
+  post ["a"] = std::to_string (Sync_Logic::settings_get_privilege_delete_consultation_notes);
   response = sync_logic.post (post, url, error);
   if (!error.empty ()) {
     Database_Logs::log ("Failure receiving privilege delete consultation notes", Filter_Roles::translator ());

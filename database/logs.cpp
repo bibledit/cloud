@@ -43,11 +43,11 @@ void Database_Logs::log (std::string description, int level)
   size_t length = description.length ();
   if (length > 50000) {
     description.erase (50000);
-    description.append ("... This entry was too large and has been truncated: " + filter::strings::convert_to_string (length) + " bytes");
+    description.append ("... This entry was too large and has been truncated: " + std::to_string (length) + " bytes");
   }
   // Save this logbook entry to a filename with seconds and microseconds.
-  std::string seconds = filter::strings::convert_to_string (filter::date::seconds_since_epoch ());
-  std::string time = seconds + filter::strings::fill (filter::strings::convert_to_string (filter::date::numerical_microseconds ()), 8, '0');
+  std::string seconds = std::to_string (filter::date::seconds_since_epoch ());
+  std::string time = seconds + filter::strings::fill (std::to_string (filter::date::numerical_microseconds ()), 8, '0');
   std::string file = filter_url_create_path ({folder (), time});
   // The microseconds granularity depends on the platform.
   // On Windows it is lower than on Linux.
@@ -56,7 +56,7 @@ void Database_Logs::log (std::string description, int level)
   if (file_or_dir_exists (file)) {
     description.insert (0, " | ");
   } else {
-    description.insert (0, filter::strings::convert_to_string (level) + " ");
+    description.insert (0, std::to_string (level) + " ");
   }
   filter_url_file_put_contents_append (file, description);
 #ifdef HAVE_WINDOWS

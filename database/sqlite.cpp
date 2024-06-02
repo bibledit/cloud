@@ -252,7 +252,7 @@ void SqliteSQL::add (const char * fragment)
 void SqliteSQL::add (int value)
 {
   sql.append (" ");
-  sql.append (filter::strings::convert_to_string (value));
+  sql.append (std::to_string (value));
   sql.append (" ");
 }
 
@@ -317,7 +317,7 @@ void SqliteDatabase::add (const char * fragment)
 void SqliteDatabase::add (int value)
 {
   sql.append (" ");
-  sql.append (filter::strings::convert_to_string (value));
+  sql.append (std::to_string (value));
   sql.append (" ");
 }
 

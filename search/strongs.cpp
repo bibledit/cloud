@@ -134,7 +134,7 @@ std::string search_strongs (Webserver_Request& webserver_request)
     std::string output {};
     for (auto & i_passage : i_passages) {
       if (!output.empty ()) output.append ("\n");
-      output.append (filter::strings::convert_to_string (i_passage));
+      output.append (std::to_string (i_passage));
     }
     return output;
   }

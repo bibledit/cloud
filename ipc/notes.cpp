@@ -30,7 +30,7 @@
 void Ipc_Notes::open (Webserver_Request& webserver_request, int identifier)
 {
   std::string user = webserver_request.session_logic()->currentUser ();
-  webserver_request.database_ipc()->storeMessage (user, "", "opennote", filter::strings::convert_to_string (identifier));
+  webserver_request.database_ipc()->storeMessage (user, "", "opennote", std::to_string (identifier));
 }
 
 

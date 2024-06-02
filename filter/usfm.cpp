@@ -445,7 +445,7 @@ std::string get_chapter_text (std::string usfm, int chapter_number)
   if (chapter_number) {
     // Normal chapter marker (new line after the number).
     bool found = false;
-    std::string marker = get_opening_usfm ("c", false) + filter::strings::convert_to_string (chapter_number) + "\n";
+    std::string marker = get_opening_usfm ("c", false) + std::to_string(chapter_number) + "\n";
     size_t pos = usfm.find (marker);
     // Was the chapter found?
     if (pos != std::string::npos) {
@@ -453,14 +453,14 @@ std::string get_chapter_text (std::string usfm, int chapter_number)
       usfm.erase (0, pos);
     }
     // Unusual chapter marker (space after the number).
-    marker = get_opening_usfm ("c", false) + filter::strings::convert_to_string (chapter_number) + " ";
+    marker = get_opening_usfm ("c", false) + std::to_string(chapter_number) + " ";
     pos = usfm.find (marker);
     if (pos != std::string::npos) {
       found = true;
       usfm.erase (0, pos);
     }
     // Another observed unusual situation: A non-breaking space after the chapter number.
-    marker = get_opening_usfm ("c", false) + filter::strings::convert_to_string (chapter_number) + filter::strings::non_breaking_space_u00A0 ();
+    marker = get_opening_usfm ("c", false) + std::to_string(chapter_number) + filter::strings::non_breaking_space_u00A0 ();
     pos = usfm.find (marker);
     if (pos != std::string::npos) {
       found = true;
@@ -672,7 +672,7 @@ std::string save_is_safe (Webserver_Request& webserver_request,
   if (percentage > allowed_percentage) {
     explanation.append (explanation1);
     explanation.append (" ");
-    explanation.append ("The length differs " + filter::strings::convert_to_string (percentage) + "% from the existing text.");
+    explanation.append ("The length differs " + std::to_string(percentage) + "% from the existing text.");
     explanation.append (" ");
     explanation.append (explanation2);
     Database_Logs::log (explanation + "\n" + newtext);
@@ -694,7 +694,7 @@ std::string save_is_safe (Webserver_Request& webserver_request,
   if (percentage < (100 - allowed_percentage)) {
     explanation.append (explanation1);
     explanation.append (" ");
-    explanation.append ("The new text is " + filter::strings::convert_to_string (percentage) + "% similar to the existing text.");
+    explanation.append ("The new text is " + std::to_string(percentage) + "% similar to the existing text.");
     explanation.append (" ");
     explanation.append (explanation2);
     Database_Logs::log (explanation + "\n" + newtext);
@@ -765,8 +765,8 @@ std::string safely_store_verse (Webserver_Request& webserver_request,
   }
   if (!in_array (verse, save_verses)) {
     std::vector <std::string> vss;
-    for (auto vs : save_verses) vss.push_back (filter::strings::convert_to_string (vs));
-    explanation = "The USFM contains verse(s) " + filter::strings::implode (vss, " ") + " while it wants to save to verse " + filter::strings::convert_to_string (verse);
+    for (auto vs : save_verses) vss.push_back (std::to_string(vs));
+    explanation = "The USFM contains verse(s) " + filter::strings::implode (vss, " ") + " while it wants to save to verse " + std::to_string (verse);
     Database_Logs::log (explanation + ": " + usfm);
     return translate ("Verse mismatch");
   }
@@ -794,8 +794,8 @@ std::string safely_store_verse (Webserver_Request& webserver_request,
   }
   if (!verses_match) {
     std::vector <std::string> existing, save;
-    for (auto vs : existing_verses) existing.push_back (filter::strings::convert_to_string (vs));
-    for (auto vs : save_verses) save.push_back (filter::strings::convert_to_string (vs));
+    for (auto vs : existing_verses) existing.push_back (std::to_string(vs));
+    for (auto vs : save_verses) save.push_back (std::to_string(vs));
     explanation = "The USFM contains verse(s) " + filter::strings::implode (save, " ") + " which would overwrite a fragment that contains verse(s) " + filter::strings::implode (existing, " ");
     Database_Logs::log (explanation + ": " + usfm);
     return translate ("Cannot overwrite another verse");
@@ -839,7 +839,7 @@ bool contains_empty_verses (std::string usfm)
   usfm = filter::strings::replace ("\n", "", usfm);
   if (usfm.empty ()) return false;
   for (int i = 0; i <= 9; i++) {
-    usfm = filter::strings::replace (filter::strings::convert_to_string (i), "", usfm);
+    usfm = filter::strings::replace (std::to_string(i), "", usfm);
   }
   if (usfm.empty ()) return false;
   usfm = filter::strings::replace (" ", "", usfm);

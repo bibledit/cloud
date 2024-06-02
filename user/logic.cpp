@@ -98,7 +98,7 @@ void user_logic_login_failure_clear ()
 void user_logic_store_account_creation (std::string username)
 {
   std::vector <std::string> account_creation_times = database::config::general::get_account_creation_times ();
-  std::string account_creation_time = filter::strings::convert_to_string(filter::date::seconds_since_epoch()) + "|" + username;
+  std::string account_creation_time = std::to_string (filter::date::seconds_since_epoch()) + "|" + username;
   account_creation_times.push_back(account_creation_time);
   database::config::general::set_account_creation_times(account_creation_times);
 }

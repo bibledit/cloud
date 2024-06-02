@@ -103,7 +103,7 @@ std::string changes_change (Webserver_Request& webserver_request)
                       
   // The identifier of the change notification.
   const int id {filter::strings::convert_to_int (webserver_request.query ["get"])};
-  view.set_variable ("id", filter::strings::convert_to_string (id));
+  view.set_variable ("id", std::to_string (id));
                       
                       
   // Get old text, modification, new text, date.
@@ -179,28 +179,28 @@ std::string changes_change (Webserver_Request& webserver_request)
     std::string href {};
     if (live_notes_editor) {
       a_node.append_attribute("class") = "opennote";
-      href = filter::strings::convert_to_string (note);
+      href = std::to_string (note);
     } else {
-      href = "/notes/note?id=" + filter::strings::convert_to_string (note);
+      href = "/notes/note?id=" + std::to_string (note);
     }
     a_node.append_attribute("href") = href.c_str();
     a_node.text().set(summary.c_str());
     td_node = tr_node.append_child("td");
     if (subscription) {
       pugi::xml_node a_node2 = td_node.append_child("a");
-      a_node2.append_attribute("href") = ("unsubscribe" + filter::strings::convert_to_string (note)).c_str();
+      a_node2.append_attribute("href") = ("unsubscribe" + std::to_string (note)).c_str();
       a_node2.text().set(("[" + translate("unsubscribe") + "]").c_str());
     }
     td_node = tr_node.append_child("td");
     if (assignment) {
       pugi::xml_node a_node2 = td_node.append_child("a");
-      a_node2.append_attribute("href") = ("unassign" + filter::strings::convert_to_string (note)).c_str();
+      a_node2.append_attribute("href") = ("unassign" + std::to_string (note)).c_str();
       a_node2.text().set(("[" + translate("I have done my part on it") + "]").c_str());
     }
     td_node = tr_node.append_child("td");
     if (level >= Filter_Roles::manager ()) {
       pugi::xml_node a_node2 = td_node.append_child("a");
-      a_node2.append_attribute("href") = ("delete" + filter::strings::convert_to_string (note)).c_str();
+      a_node2.append_attribute("href") = ("delete" + std::to_string (note)).c_str();
       a_node2.text().set(("[" + translate("mark for deletion") + "]").c_str());
     }
   }

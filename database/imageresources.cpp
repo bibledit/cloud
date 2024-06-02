@@ -146,9 +146,9 @@ void Database_ImageResources::assign (std::string name, std::string image,
   {
     SqliteSQL sql = SqliteSQL ();
     sql.add ("INSERT INTO passages VALUES (");
-    sql.add (filter_passage_to_integer (Passage ("", book1, chapter1, filter::strings::convert_to_string (verse1))));
+    sql.add (filter_passage_to_integer (Passage ("", book1, chapter1, std::to_string (verse1))));
     sql.add (",");
-    sql.add (filter_passage_to_integer (Passage ("", book2, chapter2, filter::strings::convert_to_string (verse2))));
+    sql.add (filter_passage_to_integer (Passage ("", book2, chapter2, std::to_string (verse2))));
     sql.add (",");
     sql.add (image);
     sql.add (");");
@@ -160,7 +160,7 @@ void Database_ImageResources::assign (std::string name, std::string image,
 
 std::vector <std::string> Database_ImageResources::get (std::string name, int book, int chapter, int verse)
 {
-  int passage = filter_passage_to_integer (Passage ("", book, chapter, filter::strings::convert_to_string (verse)));
+  int passage = filter_passage_to_integer (Passage ("", book, chapter, std::to_string (verse)));
   SqliteSQL sql = SqliteSQL ();
   sql.add ("SELECT image FROM passages WHERE start <=");
   sql.add (passage);

@@ -116,7 +116,7 @@ std::string sync_notes (Webserver_Request& webserver_request)
         checksum = database_notes.get_multiple_checksum (identifiers);
         Database_State::putNotesChecksum (lowId, highId, checksum);
       }
-      std::string response = filter::strings::convert_to_string (identifiers.size ()) + "\n" + checksum;
+      std::string response = std::to_string (identifiers.size ()) + "\n" + checksum;
       return response;
     }
     case Sync_Logic::notes_get_identifiers:
@@ -126,7 +126,7 @@ std::string sync_notes (Webserver_Request& webserver_request)
       std::string response;
       for (auto id : identifiers) {
         if (!response.empty ()) response.append ("\n");
-        response.append (filter::strings::convert_to_string (id));
+        response.append (std::to_string (id));
         response.append ("\n");
         response.append (database_notes.get_checksum (id));
       }
@@ -168,7 +168,7 @@ std::string sync_notes (Webserver_Request& webserver_request)
     }
     case Sync_Logic::notes_get_severity:
     {
-      return filter::strings::convert_to_string (database_notes.get_raw_severity (identifier));
+      return std::to_string (database_notes.get_raw_severity (identifier));
     }
     case Sync_Logic::notes_get_bible:
     {
@@ -176,7 +176,7 @@ std::string sync_notes (Webserver_Request& webserver_request)
     }
     case Sync_Logic::notes_get_modified:
     {
-      return filter::strings::convert_to_string (database_notes.get_modified (identifier));
+      return std::to_string (database_notes.get_modified (identifier));
     }
     case Sync_Logic::notes_put_create_initiate:
     {

@@ -128,7 +128,7 @@ TEST (database, cache)
     
     int size = database::cache::sql::size (bible, book);
     if ((size < 10'000) || (size > 15'000)) {
-      EXPECT_EQ ("between 3072 and 5120", filter::strings::convert_to_string (size));
+      EXPECT_EQ ("between 3072 and 5120", std::to_string (size));
     }
     
     size = database::cache::sql::size (bible, book + 1);

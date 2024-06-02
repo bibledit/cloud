@@ -45,7 +45,7 @@ static std::string filename (std::string resource, int book)
   resource = filter_url_clean_filename (resource);
   std::string book_fragment;
   if (book) {
-    book_fragment = "_" + filter::strings::convert_to_string (book);
+    book_fragment = "_" + std::to_string (book);
   }
   return fragment () + resource + book_fragment;
 }
@@ -354,7 +354,7 @@ void trim (bool clear)
       }
     }
   }
-  Database_Logs::log ("Disk space in use is " + filter::strings::convert_to_string(percentage_disk_in_use) + "%");
+  Database_Logs::log ("Disk space in use is " + std::to_string(percentage_disk_in_use) + "%");
   
   // There have been instances that the cache takes up 4, 5, or 6 Gbytes in the Cloud.
   // If the cache is left untrimmed, the size can be even larger.

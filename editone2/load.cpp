@@ -96,7 +96,7 @@ std::string editone2_load (Webserver_Request& webserver_request)
   // for easier text entry in the verse.
   std::string plain_text = filter::strings::html2text (focused_verse_html);
   plain_text = filter::strings::trim (plain_text);
-  std::string vs = filter::strings::convert_to_string (verse);
+  std::string vs = std::to_string (verse);
   bool editable_verse_is_empty = plain_text == vs;
   if (editable_verse_is_empty) {
     std::string search = "<span> </span></p>";

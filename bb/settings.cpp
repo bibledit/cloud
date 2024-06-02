@@ -211,7 +211,7 @@ std::string bible_settings (Webserver_Request& webserver_request)
     if (manager_level) {
       a_or_span_node = book_document.append_child("a");
       std::string href = filter_url_build_http_query ("book", "bible", bible);
-      href = filter_url_build_http_query (href, "book", filter::strings::convert_to_string (book));
+      href = filter_url_build_http_query (href, "book", std::to_string (book));
       a_or_span_node.append_attribute("href") = href.c_str();
     } else {
       a_or_span_node = book_document.append_child("span");
@@ -223,7 +223,7 @@ std::string bible_settings (Webserver_Request& webserver_request)
   std::stringstream bookblock2 {};
   book_document.print (bookblock2, "", pugi::format_raw);
   view.set_variable ("bookblock", bookblock2.str());
-  view.set_variable ("book_count", filter::strings::convert_to_string (static_cast<int>(book_ids.size())));
+  view.set_variable ("book_count", std::to_string (static_cast<int>(book_ids.size())));
 
 
   // Public feedback.

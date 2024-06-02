@@ -162,29 +162,6 @@ bool replace_between (std::string& line, const std::string& start, const std::st
 }
 
 
-// On some platforms the sizeof (unsigned int) is equal to the sizeof (size_t).
-// Then compilation would fail if there were two functions "convert_to_string",
-// one taking the unsigned int, and the other taking the size_t.
-// Therefore there is now one function doing both.
-// This may lead to embiguity errors for the C++ compiler.
-// In such case the ambiguity can be removed by changing the type to be passed
-// to this function to "size_t", possibly via a static_cast.
-std::string convert_to_string (const size_t i)
-{
-  std::ostringstream r;
-  r << i;
-  return r.str();
-}
-
-
-std::string convert_to_string (const int i)
-{
-  std::ostringstream r;
-  r << i;
-  return r.str();
-}
-
-
 std::string convert_to_string (const char * c)
 {
   std::string s {c};
@@ -1561,9 +1538,9 @@ std::string encrypt_decrypt (std::string key, std::string data)
 // Gets a new random string for sessions, encryption, you name it.
 std::string get_new_random_string ()
 {
-  const std::string u = filter::strings::convert_to_string (filter::date::numerical_microseconds ());
-  const std::string s = filter::strings::convert_to_string (filter::date::seconds_since_epoch ());
-  const std::string r = filter::strings::convert_to_string (config_globals_int_distribution (config_globals_random_engine));
+  const std::string u = std::to_string (filter::date::numerical_microseconds ());
+  const std::string s = std::to_string (filter::date::seconds_since_epoch ());
+  const std::string r = std::to_string (config_globals_int_distribution (config_globals_random_engine));
   return md5 (u + s + r);
 }
 

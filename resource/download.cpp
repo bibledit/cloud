@@ -98,7 +98,7 @@ std::string resource_download (Webserver_Request& webserver_request)
   }
   if (count == 0) 
     count = database::cache::sql::count (name);
-  view.set_variable ("count", filter::strings::convert_to_string (count));
+  view.set_variable ("count", std::to_string (count));
   
   
   if (resource_logic_can_cache (name)) {

@@ -40,8 +40,8 @@ void tasks_logic_queue (std::string command, std::vector <std::string> parameter
   lines.push_back (command);
   lines.insert (lines.end(), parameters.begin(), parameters.end());
   // The filename to write to contains seconds and microseconds.
-  std::string seconds = filter::strings::convert_to_string (filter::date::seconds_since_epoch ());
-  std::string time = seconds + filter::strings::fill (filter::strings::convert_to_string (filter::date::numerical_microseconds ()), 8, '0');
+  std::string seconds = std::to_string (filter::date::seconds_since_epoch ());
+  std::string time = seconds + filter::strings::fill (std::to_string (filter::date::numerical_microseconds ()), 8, '0');
   std::string file = filter_url_create_path ({tasks_logic_folder (), time});
   // On Windows the microtime is not fine enough.
   // This leads to one task overwriting a previous one in case it is queued immediately after.

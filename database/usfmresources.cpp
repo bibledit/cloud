@@ -42,13 +42,13 @@ std::string Database_UsfmResources::resourceFolder (const std::string& name)
 
 std::string Database_UsfmResources::bookFolder (const std::string& name, int book)
 {
-  return filter_url_create_path ({resourceFolder (name), filter::strings::convert_to_string (book)});
+  return filter_url_create_path ({resourceFolder (name), std::to_string (book)});
 }
 
 
 std::string Database_UsfmResources::chapterFile (const std::string& name, int book, int chapter)
 {
-  return filter_url_create_path ({bookFolder (name, book), filter::strings::convert_to_string (chapter)});
+  return filter_url_create_path ({bookFolder (name, book), std::to_string (chapter)});
 }
 
 

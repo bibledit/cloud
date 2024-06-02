@@ -135,7 +135,7 @@ std::string Database_Versifications::output (const std::string& name)
   for (Passage & passage : versification_data) {
     std::string line = database::books::get_english_from_id (static_cast<book_id>(passage.m_book));
     line.append (" ");
-    line.append (filter::strings::convert_to_string (passage.m_chapter));
+    line.append (std::to_string (passage.m_chapter));
     line.append (":");
     line.append (passage.m_verse);
     lines.push_back (line);

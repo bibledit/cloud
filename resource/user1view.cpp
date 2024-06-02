@@ -69,8 +69,8 @@ std::string resource_user1view (Webserver_Request& webserver_request)
     book_type type = database::books::get_type (id);
     if ((type == book_type::old_testament) || (type == book_type::new_testament)) {
       std::string book = Database_UserResources::book (name, static_cast<int> (id));
-      if (book.empty ()) book = filter::strings::convert_to_string (static_cast<int>(id));
-      code.push_back ("userResourceBooks [" + filter::strings::convert_to_string (static_cast<int>(id)) + "] = \"" + book + "\";");
+      if (book.empty ()) book = std::to_string (static_cast<int>(id));
+      code.push_back ("userResourceBooks [" + std::to_string (static_cast<int>(id)) + "] = \"" + book + "\";");
     }
   }
   std::string script = filter::strings::implode (code, "\n");

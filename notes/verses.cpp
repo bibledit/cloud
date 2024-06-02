@@ -60,7 +60,7 @@ std::string notes_verses (Webserver_Request& webserver_request)
   
   
   int id = filter::strings::convert_to_int (webserver_request.query ["id"]);
-  view.set_variable ("id", filter::strings::convert_to_string (id));
+  view.set_variable ("id", std::to_string (id));
 
 
   if (webserver_request.post.count ("submit")) {
@@ -81,7 +81,7 @@ std::string notes_verses (Webserver_Request& webserver_request)
       error = translate ("The note should have one or more passages assigned.");
     } else {
       notes_logic.setPassages (id, passages);
-      redirect_browser (webserver_request, notes_actions_url () + "?id=" + filter::strings::convert_to_string (id));
+      redirect_browser (webserver_request, notes_actions_url () + "?id=" + std::to_string (id));
       return std::string();
     }
   }

@@ -66,7 +66,7 @@ std::string notes_edit (Webserver_Request& webserver_request)
   const char * identifier_label = "identifier";
   if (webserver_request.query.count (identifier_label)) identifier = filter::strings::convert_to_int (webserver_request.query [identifier_label]);
   else identifier = filter::strings::convert_to_int (webserver_request.post [identifier_label]);
-  if (identifier) view.set_variable (identifier_label, filter::strings::convert_to_string (identifier));
+  if (identifier) view.set_variable (identifier_label, std::to_string (identifier));
   
   
   if (webserver_request.post.count ("data")) {
@@ -82,7 +82,7 @@ std::string notes_edit (Webserver_Request& webserver_request)
       }
       noteData = filter::strings::implode (lines, "\n");
       notes_logic.setContent (identifier, noteData);
-      std::string url = filter_url_build_http_query (notes_note_url (), "id", filter::strings::convert_to_string (identifier));
+      std::string url = filter_url_build_http_query (notes_note_url (), "id", std::to_string (identifier));
       // View the updated note.
       redirect_browser (webserver_request, url);
       return std::string();

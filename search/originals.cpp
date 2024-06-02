@@ -157,7 +157,7 @@ std::string search_originals (Webserver_Request& webserver_request)
     std::string output;
     for (auto & passage : v_passages) {
       if (!output.empty ()) output.append ("\n");
-      output.append (filter::strings::convert_to_string (passage));
+      output.append (std::to_string (passage));
     }
     return output;
   }

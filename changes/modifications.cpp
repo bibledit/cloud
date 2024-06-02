@@ -103,7 +103,7 @@ void changes_process_identifiers (Webserver_Request& webserver_request,
         if (old_text != new_text) {
           const std::string modification = filter_diff_diff (old_text, new_text);
           email += "<div>";
-          email += filter_passage_display (book, chapter, filter::strings::convert_to_string (verse));
+          email += filter_passage_display (book, chapter, std::to_string (verse));
           email += " ";
           email += modification;
           email += "</div>";
@@ -311,17 +311,17 @@ void changes_modifications ()
     // The files get stored at http://site.org:<port>/revisions/<Bible>/<date>
     const int seconds = filter::date::seconds_since_epoch ();
     std::string timepath;
-    timepath.append (filter::strings::convert_to_string (filter::date::numerical_year (seconds)));
+    timepath.append (std::to_string (filter::date::numerical_year (seconds)));
     timepath.append ("-");
-    timepath.append (filter::strings::fill (filter::strings::convert_to_string (filter::date::numerical_month (seconds)), 2, '0'));
+    timepath.append (filter::strings::fill (std::to_string (filter::date::numerical_month (seconds)), 2, '0'));
     timepath.append ("-");
-    timepath.append (filter::strings::fill (filter::strings::convert_to_string (filter::date::numerical_month_day (seconds)), 2, '0'));
+    timepath.append (filter::strings::fill (std::to_string (filter::date::numerical_month_day (seconds)), 2, '0'));
     timepath.append (" ");
-    timepath.append (filter::strings::fill (filter::strings::convert_to_string (filter::date::numerical_hour (seconds)), 2, '0'));
+    timepath.append (filter::strings::fill (std::to_string (filter::date::numerical_hour (seconds)), 2, '0'));
     timepath.append (":");
-    timepath.append (filter::strings::fill (filter::strings::convert_to_string (filter::date::numerical_minute (seconds)), 2, '0'));
+    timepath.append (filter::strings::fill (std::to_string (filter::date::numerical_minute (seconds)), 2, '0'));
     timepath.append (":");
-    timepath.append (filter::strings::fill (filter::strings::convert_to_string (filter::date::numerical_second (seconds)), 2, '0'));
+    timepath.append (filter::strings::fill (std::to_string (filter::date::numerical_second (seconds)), 2, '0'));
     const std::string directory = filter_url_create_root_path ({"revisions", bible, timepath});
     filter_url_mkdir (directory);
     
@@ -381,7 +381,7 @@ void changes_modifications ()
             }
             const std::string modification = filter_diff_diff (old_text, new_text);
             database_modifications.recordNotification (changeNotificationUsers, changes_bible_category (), bible, book, chapter, verse, old_html, modification, new_html);
-            const std::string passage = filter_passage_display (book, chapter, filter::strings::convert_to_string (verse))   + ": ";
+            const std::string passage = filter_passage_display (book, chapter, std::to_string (verse))   + ": ";
             if (old_text != new_text) {
               email_changes.push_back (passage  + modification);
             } else {
@@ -426,7 +426,7 @@ void changes_modifications ()
       for (size_t b = 0; b < bodies.size (); b++) {
         std::string subject = translate("Recent changes:") + " " + bible;
         if (bodies.size () > 1) {
-          subject.append (" (" + filter::strings::convert_to_string (b + 1) + "/" + filter::strings::convert_to_string (bodies.size ()) + ")");
+          subject.append (" (" + std::to_string (b + 1) + "/" + std::to_string (bodies.size ()) + ")");
         }
         const std::vector <std::string> all_users_2 = webserver_request.database_users ()->get_users ();
         for (const auto& user : all_users_2) {

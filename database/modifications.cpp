@@ -97,7 +97,7 @@ std::string Database_Modifications::teamFolder ()
 
 std::string Database_Modifications::teamFile (const std::string& bible, int book, int chapter)
 {
-  return filter_url_create_path ({teamFolder (), bible + "." + filter::strings::convert_to_string (book) + "." + filter::strings::convert_to_string (chapter)});
+  return filter_url_create_path ({teamFolder (), bible + "." + std::to_string (book) + "." + std::to_string (chapter)});
 }
 
 
@@ -180,7 +180,7 @@ void Database_Modifications::deleteTeamDiffChapter (const std::string& bible, in
 // Returns an array with the available chapters that have diff data in a book in a Bible.
 std::vector <int> Database_Modifications::getTeamDiffChapters (const std::string& bible, int book)
 {
-  std::string pattern = bible + "." + filter::strings::convert_to_string (book) + ".";
+  std::string pattern = bible + "." + std::to_string (book) + ".";
   size_t length = pattern.length ();
   std::vector <int> chapters;
   std::vector <std::string> files = filter_url_scandir (teamFolder ());
@@ -293,19 +293,19 @@ std::string Database_Modifications::userBibleFolder (const std::string& username
 
 std::string Database_Modifications::userBookFolder (const std::string& username, const std::string& bible, int book)
 {
-  return filter_url_create_path ({userBibleFolder (username, bible), filter::strings::convert_to_string (book)});
+  return filter_url_create_path ({userBibleFolder (username, bible), std::to_string (book)});
 }
 
 
 std::string Database_Modifications::userChapterFolder (const std::string& username, const std::string& bible, int book, int chapter)
 {
-  return filter_url_create_path ({userBookFolder (username, bible, book), filter::strings::convert_to_string (chapter)});
+  return filter_url_create_path ({userBookFolder (username, bible, book), std::to_string (chapter)});
 }
 
 
 std::string Database_Modifications::userNewIDFolder (const std::string& username, const std::string& bible, int book, int chapter, int newID)
 {
-  return filter_url_create_path ({userChapterFolder (username, bible, book, chapter), filter::strings::convert_to_string (newID)});
+  return filter_url_create_path ({userChapterFolder (username, bible, book, chapter), std::to_string (newID)});
 }
 
 
@@ -340,9 +340,9 @@ void Database_Modifications::recordUserSave (const std::string& username, const 
   if (!file_or_dir_exists (folder)) filter_url_mkdir (folder);
   // The other data is stored in separate files in the newID folder.
   std::string timeFile = userTimeFile (username, bible, book, chapter, newID);
-  filter_url_file_put_contents (timeFile, filter::strings::convert_to_string (filter::date::seconds_since_epoch ()));
+  filter_url_file_put_contents (timeFile, std::to_string (filter::date::seconds_since_epoch ()));
   std::string oldIDFile = userOldIDFile (username, bible, book, chapter, newID);
-  filter_url_file_put_contents (oldIDFile, filter::strings::convert_to_string (oldID));
+  filter_url_file_put_contents (oldIDFile, std::to_string (oldID));
   std::string oldTextFile = userOldTextFile (username, bible, book, chapter, newID);
   filter_url_file_put_contents (oldTextFile, oldText);
   std::string newTextFile = userNewTextFile (username, bible, book, chapter, newID);
@@ -460,7 +460,7 @@ std::string Database_Modifications::notificationsMainFolder ()
 
 std::string Database_Modifications::notificationIdentifierDatabase (int identifier)
 {
-  return filter_url_create_path ({notificationsMainFolder (), filter::strings::convert_to_string (identifier)});
+  return filter_url_create_path ({notificationsMainFolder (), std::to_string (identifier)});
 }
 
 

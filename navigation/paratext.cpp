@@ -71,7 +71,7 @@ std::string navigation_paratext (Webserver_Request& webserver_request)
           if ((versification != filter::strings::english()) && !versification.empty ()) {
             passages = database_mappings.translate (filter::strings::english (), versification, book, chapter, verse);
           } else {
-            passages.push_back (Passage ("", book, chapter, filter::strings::convert_to_string (verse)));
+            passages.push_back (Passage ("", book, chapter, std::to_string (verse)));
           }
           if (passages.empty()) return std::string();
           chapter = passages[0].m_chapter;

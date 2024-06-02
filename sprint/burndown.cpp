@@ -242,7 +242,7 @@ std::string sprint_create_burndown_chart ([[maybe_unused]] std::string bible,
   lines.push_back ("<tr>");
   for (auto element : data) {
     int day = element.first;
-    lines.push_back ("<td class='day'>" + filter::strings::convert_to_string (day) + "</td>");
+    lines.push_back ("<td class='day'>" + std::to_string (day) + "</td>");
   }
   lines.push_back ("</tr>");
                                       
@@ -250,7 +250,7 @@ std::string sprint_create_burndown_chart ([[maybe_unused]] std::string bible,
   lines.push_back ("<tr>");
   int columncount = static_cast<int>(data.size ());
   std::string text = translate("days");
-  lines.push_back ("<td colspan=\"" + filter::strings::convert_to_string (columncount) + "\">" + text + "</td>");
+  lines.push_back ("<td colspan=\"" + std::to_string (columncount) + "\">" + text + "</td>");
   lines.push_back ("</tr>");
                                     
   lines.push_back ("</table>");

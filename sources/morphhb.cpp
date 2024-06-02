@@ -51,7 +51,7 @@ void sources_morphhb_parse_w_element (Database_OsHb * database_oshb, int book, i
 
 void sources_morphhb_parse_unhandled_node (int book, int chapter, int verse, pugi::xml_node node)
 {
-  std::string passage = filter_passage_display (book, chapter, filter::strings::convert_to_string (verse));
+  std::string passage = filter_passage_display (book, chapter, std::to_string (verse));
   std::string text = node.child_value ();
   std::cerr << "Unhandled " << node.name () << " at " << passage << ": " << text << std::endl;
 }

@@ -186,7 +186,7 @@ std::string workspace_get_active_name (Webserver_Request& webserver_request)
 std::string workspace_process_units (std::string length)
 {
   // If a size factor is found, great, otherwise default to 1
-  if (length == filter::strings::convert_to_string (filter::strings::convert_to_int (length))) {
+  if (length == std::to_string (filter::strings::convert_to_int (length))) {
     return length;
   }
   return "1";
@@ -216,7 +216,7 @@ void workspace_set_values (Webserver_Request& webserver_request, int selector, c
     }
   }
   for (auto & element : values) {
-    std::string line = workspace + "_" + filter::strings::convert_to_string (element.first) + "_" + element.second;
+    std::string line = workspace + "_" + std::to_string (element.first) + "_" + element.second;
     newlines.push_back (line);
   }
   rawvalue = filter::strings::implode (newlines, "\n");
@@ -571,7 +571,7 @@ std::map <int, int> workspace_add_bible_editor_number (std::map <int, std::strin
     if (is_bible_editor) {
       bible_editor_count++;
       if (bible_editor_count > 1) {
-        Database_Logs::log ("Setting Bible editor " + url + " as editor number " + filter::strings::convert_to_string (bible_editor_count));
+        Database_Logs::log ("Setting Bible editor " + url + " as editor number " + std::to_string (bible_editor_count));
       }
       editor_numbers [element.first] = bible_editor_count;
     }

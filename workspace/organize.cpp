@@ -148,9 +148,9 @@ std::string workspace_organize (Webserver_Request& webserver_request)
     workspaceblock << "<p>" << std::endl;
     workspaceblock << "<a href=" << std::quoted ("?remove=" + workspace) << " title=" << std::quoted (translate("Delete workspace")) << ">" << filter::strings::emoji_wastebasket () << "</a>" << std::endl;
     workspaceblock << "|" << std::endl;
-    workspaceblock << "<a href=" << std::quoted ("?up=" + filter::strings::convert_to_string (i)) << " title=" << std::quoted (translate("Move workspace up")) << "> " << filter::strings::unicode_black_up_pointing_triangle () << " </a>" << std::endl;
+    workspaceblock << "<a href=" << std::quoted ("?up=" + std::to_string (i)) << " title=" << std::quoted (translate("Move workspace up")) << "> " << filter::strings::unicode_black_up_pointing_triangle () << " </a>" << std::endl;
     workspaceblock << "|" << std::endl;
-    workspaceblock << "<a href=" << std::quoted ("?down=" + filter::strings::convert_to_string (i)) << " title=" << std::quoted (translate("Move workspace down")) << "> " << filter::strings::unicode_black_down_pointing_triangle () << " </a>" << std::endl;
+    workspaceblock << "<a href=" << std::quoted ("?down=" + std::to_string (i)) << " title=" << std::quoted (translate("Move workspace down")) << "> " << filter::strings::unicode_black_down_pointing_triangle () << " </a>" << std::endl;
     workspaceblock << "|" << std::endl;
     workspaceblock << "<a href=" << std::quoted ("settings?name=" + workspace) << " title=" << std::quoted (translate("Edit workspace")) << "> ✎ </a>" << std::endl;
     workspaceblock << "|";

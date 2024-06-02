@@ -96,12 +96,12 @@ void export_text_usfm_book (std::string bible, int book, bool log)
     // Deal with basic USFM.
     if (chapter > 0) {
       std::map <int, std::string> verses_text = filter_text_chapter.getVersesText ();
-      basicUsfm = "\\c " + filter::strings::convert_to_string (chapter) + "\n";
+      basicUsfm = "\\c " + std::to_string (chapter) + "\n";
       basicUsfm += "\\p\n";
       for (auto element : verses_text) {
         int verse = element.first;
         std::string text = element.second;
-        basicUsfm += "\\v " + filter::strings::convert_to_string (verse) + " " + text + "\n";
+        basicUsfm += "\\v " + std::to_string (verse) + " " + text + "\n";
       }
       filter_url_file_put_contents_append (usfmFilename, basicUsfm);
     }

@@ -194,7 +194,7 @@ void Styles_Css::add (void * database_styles_item, bool paragraph, bool keepwith
     float percents {points * 100 / 12};
     int fontsize = filter::strings::convert_to_int (percents);
     if (fontsize != 100) {
-      m_code.push_back ("font-size: " + filter::strings::convert_to_string (fontsize) + "%;");
+      m_code.push_back ("font-size: " + std::to_string (fontsize) + "%;");
     }
   }
   

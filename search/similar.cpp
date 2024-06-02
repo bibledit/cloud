@@ -129,7 +129,7 @@ std::string search_similar (Webserver_Request& webserver_request)
     std::string output;
     for (auto & id : ids) {
       if (!output.empty ()) output.append ("\n");
-      output.append (filter::strings::convert_to_string (id));
+      output.append (std::to_string (id));
     }
     return output;
   }

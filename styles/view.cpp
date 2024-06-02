@@ -176,7 +176,7 @@ std::string styles_view (Webserver_Request& webserver_request)
       for (int i = 0; i < 99; i++) {
         const std::string text = styles_logic_type_text (i);
         if (text.length () > 2) {
-          dialog_list.add_row (text, "type", filter::strings::convert_to_string (i));
+          dialog_list.add_row (text, "type", std::to_string (i));
         }
       }
       page += dialog_list.run ();
@@ -188,7 +188,7 @@ std::string styles_view (Webserver_Request& webserver_request)
       }
     }
   }
-  view.set_variable ("type", filter::strings::convert_to_string (type));
+  view.set_variable ("type", std::to_string (type));
   view.set_variable ("type_text", styles_logic_type_text (type));
   
 
@@ -206,7 +206,7 @@ std::string styles_view (Webserver_Request& webserver_request)
       for (int i = 0; i < 99; i++) {
         std::string text = styles_logic_subtype_text (type2, i);
         if (text.length () > 2) {
-          dialog_list.add_row (text, "subtype", filter::strings::convert_to_string (i));
+          dialog_list.add_row (text, "subtype", std::to_string (i));
         }
       }
       page += dialog_list.run ();
@@ -218,7 +218,7 @@ std::string styles_view (Webserver_Request& webserver_request)
       }
     }
   }
-  view.set_variable ("subtype",filter::strings::convert_to_string (subtype));
+  view.set_variable ("subtype", std::to_string (subtype));
   std::string subtype_text = styles_logic_subtype_text (type, subtype);
   view.set_variable ("subtype_text", subtype_text);
   if (subtype_text.length () > 2) view.enable_zone ("subtype_text");
@@ -266,7 +266,7 @@ std::string styles_view (Webserver_Request& webserver_request)
       if (styles_logic_italic_bold_underline_smallcaps_are_full (style_item.type, style_item.subtype))
         last_value = ooitToggle;
       for (int i = 0; i <= last_value; i++) {
-        dialog_list.add_row (styles_logic_off_on_inherit_toggle_text (i), "italic", filter::strings::convert_to_string (i));
+        dialog_list.add_row (styles_logic_off_on_inherit_toggle_text (i), "italic", std::to_string (i));
       }
       page += dialog_list.run ();
       return page;
@@ -294,7 +294,7 @@ std::string styles_view (Webserver_Request& webserver_request)
       if (styles_logic_italic_bold_underline_smallcaps_are_full (style_data.type, style_data.subtype))
         last_value = ooitToggle;
       for (int i = 0; i <= last_value; i++) {
-        dialog_list.add_row (styles_logic_off_on_inherit_toggle_text (i), "bold", filter::strings::convert_to_string (i));
+        dialog_list.add_row (styles_logic_off_on_inherit_toggle_text (i), "bold", std::to_string (i));
       }
       page += dialog_list.run ();
       return page;
@@ -322,7 +322,7 @@ std::string styles_view (Webserver_Request& webserver_request)
       if (styles_logic_italic_bold_underline_smallcaps_are_full (type, subtype))
         last_value = ooitToggle;
       for (int i = 0; i <= last_value; i++) {
-        dialog_list.add_row (styles_logic_off_on_inherit_toggle_text (i), "underline", filter::strings::convert_to_string (i));
+        dialog_list.add_row (styles_logic_off_on_inherit_toggle_text (i), "underline", std::to_string (i));
       }
       page += dialog_list.run ();
       return page;
@@ -350,7 +350,7 @@ std::string styles_view (Webserver_Request& webserver_request)
       if (styles_logic_italic_bold_underline_smallcaps_are_full (style_data.type, style_data.subtype))
         last_value = ooitToggle;
       for (int i = 0; i <= last_value; i++) {
-        dialog_list.add_row (styles_logic_off_on_inherit_toggle_text (i), "smallcaps", filter::strings::convert_to_string (i));
+        dialog_list.add_row (styles_logic_off_on_inherit_toggle_text (i), "smallcaps", std::to_string (i));
       }
       page += dialog_list.run ();
       return page;
@@ -390,7 +390,7 @@ std::string styles_view (Webserver_Request& webserver_request)
     dialog_list.add_query ("sheet", sheet);
     dialog_list.add_query ("style", style);
     for (int i = AlignmentLeft; i <= AlignmentJustify; i++) {
-      dialog_list.add_row (styles_logic_alignment_text (i), "justification", filter::strings::convert_to_string (i));
+      dialog_list.add_row (styles_logic_alignment_text (i), "justification", std::to_string (i));
     }
     page += dialog_list.run ();
     return page;
@@ -632,7 +632,7 @@ std::string styles_view (Webserver_Request& webserver_request)
         dialog_list.add_query ("sheet", sheet);
         dialog_list.add_query ("style", style);
         for (int i = NoteNumbering123; i <= NoteNumberingUser; i++) {
-          dialog_list.add_row (styles_logic_note_numbering_text (i), "userint1", filter::strings::convert_to_string (i));
+          dialog_list.add_row (styles_logic_note_numbering_text (i), "userint1", std::to_string (i));
         }
         page += dialog_list.run ();
         return page;
@@ -649,7 +649,7 @@ std::string styles_view (Webserver_Request& webserver_request)
     case UserInt1TableColumnNumber :
       view.enable_zone ("userint1_columnnumber");
       if (webserver_request.query.count ("userint1")) {
-        Dialog_Entry dialog_entry = Dialog_Entry ("view", translate("Please enter a column number between 1 and 4"), filter::strings::convert_to_string (userint1), "userint1", translate ("This is the column number for the style. The first columm is number 1."));
+        Dialog_Entry dialog_entry = Dialog_Entry ("view", translate("Please enter a column number between 1 and 4"), std::to_string (userint1), "userint1", translate ("This is the column number for the style. The first columm is number 1."));
         dialog_entry.add_query ("sheet", sheet);
         dialog_entry.add_query ("style", style);
         page += dialog_entry.run ();
@@ -665,7 +665,7 @@ std::string styles_view (Webserver_Request& webserver_request)
           }
         }
       }
-      view.set_variable ("userint1", filter::strings::convert_to_string (userint1));
+      view.set_variable ("userint1", std::to_string (userint1));
       break;
     default: break;
   }
@@ -683,7 +683,7 @@ std::string styles_view (Webserver_Request& webserver_request)
         dialog_list.add_query ("sheet", sheet);
         dialog_list.add_query ("style", style);
         for (int i = NoteRestartNumberingNever; i <= NoteRestartNumberingEveryChapter; i++) {
-          dialog_list.add_row (styles_logic_note_restart_numbering_text (i), "userint2", filter::strings::convert_to_string (i));
+          dialog_list.add_row (styles_logic_note_restart_numbering_text (i), "userint2", std::to_string (i));
         }
         page += dialog_list.run ();
         return page;
@@ -704,7 +704,7 @@ std::string styles_view (Webserver_Request& webserver_request)
         dialog_list.add_query ("sheet", sheet);
         dialog_list.add_query ("style", style);
         for (int i = EndNotePositionAfterBook; i <= EndNotePositionAtMarker; i++) {
-          dialog_list.add_row (styles_logic_end_note_position_text (i), "userint2", filter::strings::convert_to_string(i));
+          dialog_list.add_row (styles_logic_end_note_position_text (i), "userint2", std::to_string(i));
         }
         page += dialog_list.run ();
         return page;

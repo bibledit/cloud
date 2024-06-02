@@ -252,7 +252,7 @@ void checks_run (std::string bible)
   std::vector <Database_Check_Hit> hits = database_check.getHits ();
   for (const auto & hit : hits) {
     if (hit.bible == bible) {
-      const std::string passage = filter_passage_display_inline ({Passage ("", hit.book, hit.chapter, filter::strings::convert_to_string (hit.verse))});
+      const std::string passage = filter_passage_display_inline ({Passage ("", hit.book, hit.chapter, std::to_string (hit.verse))});
       const std::string data = filter::strings::escape_special_xml_characters (hit.data);
       const std::string result = "<p>" + passage + " " + data + "</p>";
       emailBody.push_back (result);

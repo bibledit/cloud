@@ -46,7 +46,7 @@ std::string checksum_logic::send (const std::string& data, bool readwrite)
 // It calculates the length of 'data' in bytes.
 std::string checksum_logic::get (const std::string& data)
 {
-  return filter::strings::convert_to_string (data.length ());
+  return std::to_string (data.length ());
 }
 
 
@@ -56,7 +56,7 @@ std::string checksum_logic::get (const std::vector <std::string>& data)
 {
   int length = 0;
   for (auto & bit : data) length += static_cast<int>(bit.length ());
-  return filter::strings::convert_to_string (length);
+  return std::to_string (length);
 }
 
 

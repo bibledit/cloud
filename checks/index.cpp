@@ -96,11 +96,11 @@ std::string checks_index (Webserver_Request& webserver_request)
       int book = hit.book;
       int chapter = hit.chapter;
       int verse = hit.verse;
-      const std::string link = filter_passage_link_for_opening_editor_at (book, chapter, filter::strings::convert_to_string (verse));
+      const std::string link = filter_passage_link_for_opening_editor_at (book, chapter, std::to_string (verse));
       const std::string information = filter::strings::escape_special_xml_characters (hit.data);
       resultblock << "<p>\n";
-      resultblock << "<a href=" << std::quoted("index?approve=" + filter::strings::convert_to_string (id)) << "> ✔ </a>\n";
-      resultblock << "<a href=" << std::quoted ("index?delete=" + filter::strings::convert_to_string (id)) << ">" << filter::strings::emoji_wastebasket () << "</a>\n";
+      resultblock << "<a href=" << std::quoted("index?approve=" + std::to_string (id)) << "> ✔ </a>\n";
+      resultblock << "<a href=" << std::quoted ("index?delete=" + std::to_string (id)) << ">" << filter::strings::emoji_wastebasket () << "</a>\n";
       resultblock << bible;
       resultblock << " ";
       resultblock << link;

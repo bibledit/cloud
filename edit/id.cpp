@@ -52,5 +52,5 @@ std::string edit_id (Webserver_Request& webserver_request)
   const int book = filter::strings::convert_to_int (webserver_request.query ["book"]);
   const int chapter = filter::strings::convert_to_int (webserver_request.query ["chapter"]);
   const int id = webserver_request.database_bibles()->get_chapter_id (bible, book, chapter);
-  return filter::strings::convert_to_string (id);
+  return std::to_string (id);
 }

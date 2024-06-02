@@ -417,7 +417,7 @@ std::string Database_Notes::note_file (int identifier)
 {
   // The maximum number of folders a folder may contain is constrained by the filesystem.
   // To overcome this, the notes will be stored in a folder structure.
-  std::string sidentifier = filter::strings::convert_to_string (identifier);
+  std::string sidentifier = std::to_string (identifier);
   std::string folder = sidentifier.substr (0, 3);
   std::string file = sidentifier.substr (3, 6) + ".json";
   return filter_url_create_path ({main_folder_path (), folder, file});
@@ -570,7 +570,7 @@ int Database_Notes::store_new_note (const std::string& bible, int book, int chap
   note << bible_key () << bible;
   note << passage_key () << passage;
   note << status_key () << status;
-  note << severity_key () << filter::strings::convert_to_string (severity);
+  note << severity_key () << std::to_string (severity);
   note << summary_key () << summary;
   note << contents_key () << contents;
   std::string json = note.json ();
@@ -684,7 +684,7 @@ std::vector <int> Database_Notes::select_notes (std::vector <std::string> bibles
   }
   if (time != 0) {
     query.append (" AND modified >= ");
-    query.append (filter::strings::convert_to_string (time));
+    query.append (std::to_string (time));
     query.append (" ");
   }
   // Consider non-edit selector.
@@ -718,7 +718,7 @@ std::vector <int> Database_Notes::select_notes (std::vector <std::string> bibles
   }
   if (nonedit != 0) {
     query.append (" AND modified <= ");
-    query.append (filter::strings::convert_to_string (nonedit));
+    query.append (std::to_string (nonedit));
     query.append (" ");
   }
   // Consider status constraint.
@@ -764,7 +764,7 @@ std::vector <int> Database_Notes::select_notes (std::vector <std::string> bibles
   // Consider the note severity.
   if (severity_selector != -1) {
     query.append (" AND severity = ");
-    query.append (filter::strings::convert_to_string (severity_selector));
+    query.append (std::to_string (severity_selector));
     query.append (" ");
   }
   // Consider text contained in notes.
@@ -781,7 +781,7 @@ std::vector <int> Database_Notes::select_notes (std::vector <std::string> bibles
   // Limit the selection if a limit is given.
   if (limit >= 0) {
     query.append (" LIMIT ");
-    query.append (filter::strings::convert_to_string (limit));
+    query.append (std::to_string (limit));
     query.append (", 50 ");
   }
   query.append (";");
@@ -1180,15 +1180,15 @@ std::string Database_Notes::encode_passage (int book, int chapter, int verse)
   // Special way of encoding, as done below, is to enable note selection on book / chapter / verse.
   std::string passage;
   passage.append (" ");
-  passage.append (filter::strings::convert_to_string (book));
+  passage.append (std::to_string (book));
   passage.append (".");
   // Whether to include the chapter number.
   if (chapter >= 0) {
-    passage.append (filter::strings::convert_to_string (chapter));
+    passage.append (std::to_string (chapter));
     passage.append (".");
     // Inclusion of verse, also depends on chapter inclusion.
     if (verse >= 0) {
-      passage.append (filter::strings::convert_to_string (verse));
+      passage.append (std::to_string (verse));
       passage.append (" ");
     }
   }
@@ -1399,7 +1399,7 @@ std::string Database_Notes::get_severity (int identifier)
 void Database_Notes::set_raw_severity (int identifier, int severity)
 {
   // Update the file system.
-  set_field (identifier, severity_key (), filter::strings::convert_to_string (severity));
+  set_field (identifier, severity_key (), std::to_string (severity));
   
   note_modified_actions (identifier);
   
@@ -1423,7 +1423,7 @@ std::vector <Database_Notes_Text> Database_Notes::get_possible_severities ()
   std::vector <Database_Notes_Text> severities;
   for (size_t i = 0; i < standard.size(); i++) {
     Database_Notes_Text severity;
-    severity.raw = filter::strings::convert_to_string (i);
+    severity.raw = std::to_string (i);
     severity.localized = translate (standard[i].c_str());
     severities.push_back (severity);
   }
@@ -1442,7 +1442,7 @@ int Database_Notes::get_modified (int identifier)
 void Database_Notes::set_modified (int identifier, int time)
 {
   // Update the filesystem.
-  set_field (identifier, modified_key (), filter::strings::convert_to_string (time));
+  set_field (identifier, modified_key (), std::to_string (time));
   // Update the database.
   SqliteSQL sql;
   sql.add ("UPDATE notes SET modified =");
@@ -1599,7 +1599,7 @@ void Database_Notes::touch_marked_for_deletion ()
       std::string expiry = get_field (identifier, expiry_key ());
       int days = filter::strings::convert_to_int (expiry);
       days--;
-      set_field (identifier, expiry_key (), filter::strings::convert_to_string (days));
+      set_field (identifier, expiry_key (), std::to_string (days));
     }
   }
 }
@@ -1735,9 +1735,9 @@ std::vector <int> Database_Notes::get_notes_in_range_for_bibles (int lowId, int 
   std::vector <int> identifiers;
   
   std::string query = "SELECT identifier FROM notes WHERE identifier >= ";
-  query.append (filter::strings::convert_to_string (lowId));
+  query.append (std::to_string (lowId));
   query.append (" AND identifier <= ");
-  query.append (filter::strings::convert_to_string (highId));
+  query.append (std::to_string (highId));
   query.append (" ");
   if (!anybible) {
     bibles.push_back (""); // Select general note also
@@ -1903,12 +1903,12 @@ std::vector <std::string> Database_Notes::set_bulk (std::string json)
     note2 << assigned_key () << assigned;
     note2 << bible_key () << bible;
     note2 << contents_key () << contents;
-    note2 << modified_key () << filter::strings::convert_to_string (modified);
+    note2 << modified_key () << std::to_string (modified);
     note2 << passage_key () << passage;
     note2 << subscriptions_key () << subscriptions;
     note2 << summary_key () << summary;
     note2 << status_key () << status;
-    note2 << severity_key () << filter::strings::convert_to_string (severity);
+    note2 << severity_key () << std::to_string (severity);
     std::string json2 = note2.json ();
     filter_url_file_put_contents (path, json2);
     

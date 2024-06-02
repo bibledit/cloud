@@ -82,11 +82,11 @@ std::string checks_suppress (Webserver_Request& webserver_request)
     if (in_array (bible, bibles)) {
       int id = suppression.rowid;
       bible = filter::strings::escape_special_xml_characters (bible);
-      const std::string passage = filter_passage_display_inline ({Passage ("", suppression.book, suppression.chapter, filter::strings::convert_to_string (suppression.verse))});
+      const std::string passage = filter_passage_display_inline ({Passage ("", suppression.book, suppression.chapter, std::to_string (suppression.verse))});
       std::string result = filter::strings::escape_special_xml_characters (suppression.data);
       result.insert (0, bible + " " + passage + " ");
       block.append (R"(<p style="color:grey;">)");
-      block.append (R"(<a href="suppress?release=)" + filter::strings::convert_to_string (id) + R"(">)");
+      block.append (R"(<a href="suppress?release=)" + std::to_string (id) + R"(">)");
       block.append (filter::strings::emoji_wastebasket ());
       block.append ("</a>");
       block.append (result);

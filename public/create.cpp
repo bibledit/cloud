@@ -106,7 +106,7 @@ std::string public_create (Webserver_Request& webserver_request)
   }
   
   
-  const std::string passage = filter_passage_display (book, chapter, filter::strings::convert_to_string (verse));
+  const std::string passage = filter_passage_display (book, chapter, std::to_string (verse));
   view.set_variable ("passage", passage);
                                                                                                       
   

@@ -263,7 +263,7 @@ std::string Paratext_Logic::ancestorPath (std::string bible, int book)
 {
   std::string path = filter_url_create_root_path ({"paratext", "ancestors", bible});
   if (!file_or_dir_exists (path)) filter_url_mkdir (path);
-  if (book) path = filter_url_create_path ({path, filter::strings::convert_to_string (book)});
+  if (book) path = filter_url_create_path ({path, std::to_string (book)});
   return path;
 }
 
@@ -573,7 +573,7 @@ std::string Paratext_Logic::journalTag (std::string bible, int book, int chapter
   std::string bookname = database::books::get_english_from_id (static_cast<book_id>(book));
   std::string project = database::config::bible::get_paratext_project (bible);
   std::string fragment = bible + " <> " + project + " " + bookname;
-  if (chapter >= 0) fragment.append (" " + filter::strings::convert_to_string (chapter));
+  if (chapter >= 0) fragment.append (" " + std::to_string (chapter));
   fragment.append (": ");
   return fragment;
 }

@@ -105,7 +105,7 @@ bool Assets_Header::display_topbar ()
 // Sets the page to refresh after "seconds".
 void Assets_Header::refresh (int seconds, const std::string& url)
 {
-  std::string content = filter::strings::convert_to_string (seconds);
+  std::string content = std::to_string (seconds);
   if (!url.empty ()) content.append (";URL=" + url);
   std::stringstream ss{};
   ss << "<META HTTP-EQUIV=" << std::quoted("refresh") << " CONTENT=" << std::quoted(content) << ">";
@@ -241,7 +241,7 @@ std::string Assets_Header::run ()
     if (!m_fading_menu.empty ()) {
       m_view->enable_zone ("fading_menu");
       m_view->set_variable ("fadingmenu", m_fading_menu);
-      std::string delay = filter::strings::convert_to_string (m_webserver_request.database_config_user ()->getWorkspaceMenuFadeoutDelay ()) + "000";
+      std::string delay = std::to_string (m_webserver_request.database_config_user ()->getWorkspaceMenuFadeoutDelay ()) + "000";
       m_view->set_variable ("fadingmenudelay", delay);
       m_fading_menu.clear ();
     }
@@ -258,27 +258,27 @@ std::string Assets_Header::run ()
   std::vector <std::string> embedded_css {};
   int fontsize = m_webserver_request.database_config_user ()->getGeneralFontSize ();
   if (fontsize != 100) {
-    embedded_css.push_back ("body { font-size: " + filter::strings::convert_to_string (fontsize) + "%; }");
+    embedded_css.push_back ("body { font-size: " + std::to_string (fontsize) + "%; }");
   }
   fontsize = m_webserver_request.database_config_user ()->getMenuFontSize ();
   if (fontsize != 100) {
-    embedded_css.push_back (".menu-advanced, .menu-basic { font-size: " + filter::strings::convert_to_string (fontsize) + "%; }");
+    embedded_css.push_back (".menu-advanced, .menu-basic { font-size: " + std::to_string (fontsize) + "%; }");
   }
   fontsize = m_webserver_request.database_config_user ()->getBibleEditorsFontSize ();
   if (fontsize != 100) {
-    embedded_css.push_back (".bibleeditor { font-size: " + filter::strings::convert_to_string (fontsize) + "% !important; }");
+    embedded_css.push_back (".bibleeditor { font-size: " + std::to_string (fontsize) + "% !important; }");
   }
   fontsize = m_webserver_request.database_config_user ()->getResourcesFontSize ();
   if (fontsize != 100) {
-    embedded_css.push_back (".resource { font-size: " + filter::strings::convert_to_string (fontsize) + "% !important; }");
+    embedded_css.push_back (".resource { font-size: " + std::to_string (fontsize) + "% !important; }");
   }
   fontsize = m_webserver_request.database_config_user ()->getHebrewFontSize ();
   if (fontsize != 100) {
-    embedded_css.push_back (".hebrew { font-size: " + filter::strings::convert_to_string (fontsize) + "%!important; }");
+    embedded_css.push_back (".hebrew { font-size: " + std::to_string (fontsize) + "%!important; }");
   }
   fontsize = m_webserver_request.database_config_user ()->getGreekFontSize ();
   if (fontsize != 100) {
-    embedded_css.push_back (".greek { font-size: " + filter::strings::convert_to_string (fontsize) + "%!important; }");
+    embedded_css.push_back (".greek { font-size: " + std::to_string (fontsize) + "%!important; }");
   }
   if (!embedded_css.empty ()) {
     m_view->set_variable ("embedded_css", filter::strings::implode (embedded_css, "\n"));

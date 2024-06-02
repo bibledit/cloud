@@ -260,7 +260,7 @@ std::string editone2_update (Webserver_Request& webserver_request)
   
   // Add separator and the new chapter identifier to the response.
   response.append (separator);
-  response.append (filter::strings::convert_to_string (newID));
+  response.append (std::to_string (newID));
 
   
   // The main purpose of the following block of code is this:
@@ -286,7 +286,7 @@ std::string editone2_update (Webserver_Request& webserver_request)
     // Encode the condensed differences for the response to the Javascript editor.
     for (size_t i = 0; i < positions.size(); i++) {
       response.append ("#_be_#");
-      response.append (filter::strings::convert_to_string (positions[i]));
+      response.append (std::to_string (positions[i]));
       response.append ("#_be_#");
       std::string operation = operators[i];
       response.append (operation);
@@ -301,14 +301,14 @@ std::string editone2_update (Webserver_Request& webserver_request)
         response.append (format);
         // Also add the size of the character in UTF-16 format, 2-bytes or 4 bytes, as size 1 or 2.
         response.append ("#_be_#");
-        response.append (filter::strings::convert_to_string (sizes[i]));
+        response.append (std::to_string (sizes[i]));
       }
       else if (operation == bible_logic::delete_operator ()) {
         // When deleting a UTF-16 character encoded in 4 bytes,
         // then the size in Quilljs is 2 instead of 1.
         // So always give the size when deleting a character.
         response.append ("#_be_#");
-        response.append (filter::strings::convert_to_string (sizes[i]));
+        response.append (std::to_string (sizes[i]));
       }
       else if (operation == bible_logic::format_paragraph_operator ()) {
         response.append ("#_be_#");

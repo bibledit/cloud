@@ -47,13 +47,13 @@ std::string Database_Bibles::bible_folder (const std::string& bible)
 
 std::string Database_Bibles::book_folder (const std::string& bible, int book)
 {
-  return filter_url_create_path ({bible_folder (bible), filter::strings::convert_to_string (book)});
+  return filter_url_create_path ({bible_folder (bible), std::to_string (book)});
 }
 
 
 std::string Database_Bibles::chapter_folder (const std::string& bible, int book, int chapter)
 {
-  return filter_url_create_path ({book_folder (bible, book), filter::strings::convert_to_string (chapter)});
+  return filter_url_create_path ({book_folder (bible, book), std::to_string (chapter)});
 }
 
 
@@ -103,7 +103,7 @@ void Database_Bibles::store_chapter (const std::string& name, int book, int chap
   // Increase the chapter identifier, and store the chapter data.
   int id = get_chapter_id (name, book, chapter_number);
   id++;
-  const std::string file = filter_url_create_path ({folder, filter::strings::convert_to_string (id)});
+  const std::string file = filter_url_create_path ({folder, std::to_string (id)});
   filter_url_file_put_contents (file, chapter_text);
 
   // Update search fields.

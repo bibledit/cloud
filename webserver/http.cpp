@@ -307,7 +307,7 @@ void http_stream_file (Webserver_Request& webserver_request, bool enable_cache)
   // File size for browser caching.
   if (enable_cache) {
     const int size = filter_url_filesize (filename);
-    webserver_request.etag = "\"" + filter::strings::convert_to_string (size) + "\"";
+    webserver_request.etag = "\"" + std::to_string (size) + "\"";
   }
   
   // Deal with situation that the file in the browser's cache is up to date.

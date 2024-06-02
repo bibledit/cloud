@@ -41,7 +41,7 @@ std::string locale_logic_month (int month)
     case 10: return translate ("October");
     case 11: return translate ("November");
     case 12: return translate ("December");
-    default: translate ("Month") + " " + filter::strings::convert_to_string (month);
+    default: translate ("Month") + " " + std::to_string (month);
   }
   return std::string();
 }
@@ -53,7 +53,7 @@ std::string locale_logic_date (int seconds)
   int day = filter::date::numerical_month_day (seconds);
   int month = filter::date::numerical_month (seconds);
   int year = filter::date::numerical_year (seconds);
-  return filter::strings::convert_to_string (day) + " " + locale_logic_month (month) + " " + filter::strings::convert_to_string (year);
+  return std::to_string (day) + " " + locale_logic_month (month) + " " + std::to_string (year);
 }
 
 
@@ -65,11 +65,11 @@ std::string locale_logic_date_time (int seconds)
   std::string timestamp;
   timestamp.append (locale_logic_date (seconds));
   timestamp.append (" ");
-  timestamp.append (filter::strings::fill (filter::strings::convert_to_string (filter::date::numerical_hour (seconds)), 2, '0'));
+  timestamp.append (filter::strings::fill (std::to_string (filter::date::numerical_hour (seconds)), 2, '0'));
   timestamp.append (":");
-  timestamp.append (filter::strings::fill (filter::strings::convert_to_string (filter::date::numerical_minute (seconds)), 2, '0'));
+  timestamp.append (filter::strings::fill (std::to_string (filter::date::numerical_minute (seconds)), 2, '0'));
   timestamp.append (":");
-  timestamp.append (filter::strings::fill (filter::strings::convert_to_string (filter::date::numerical_second (seconds)), 2, '0'));
+  timestamp.append (filter::strings::fill (std::to_string (filter::date::numerical_second (seconds)), 2, '0'));
   // Done.
   return timestamp;
 }

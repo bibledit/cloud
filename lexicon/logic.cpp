@@ -86,7 +86,7 @@ std::string lexicon_logic_get_html ([[maybe_unused]] Webserver_Request& webserve
         ss << "<tr>";
         ss << "<td class=" << std::quoted ("hebrew") << ">";
         std::string word = database_etcbc4.word (rowid);
-        ss << "<a href=" << std::quoted(HEBREW_ETCBC4_PREFIX + filter::strings::convert_to_string (rowid)) << ">" << word << "</a>";
+        ss << "<a href=" << std::quoted(HEBREW_ETCBC4_PREFIX + std::to_string (rowid)) << ">" << word << "</a>";
         ss << "</td>";
         ss << "</tr>";
         ss << "<tr>";
@@ -115,7 +115,7 @@ std::string lexicon_logic_get_html ([[maybe_unused]] Webserver_Request& webserve
       for (size_t i = 0; i < rowids.size (); i++) {
         int rowid = rowids[i];
         std::string english = database_kjv.english (rowid);
-        ss << "<a href=" << std::quoted(KJV_LEXICON_PREFIX + filter::strings::convert_to_string (rowid)) << ">" << english << "</a>";
+        ss << "<a href=" << std::quoted(KJV_LEXICON_PREFIX + std::to_string (rowid)) << ">" << english << "</a>";
       }
       ss << "</div>";
       ss << lexicon_logic_get_script (prefix);
@@ -136,7 +136,7 @@ std::string lexicon_logic_get_html ([[maybe_unused]] Webserver_Request& webserve
         std::string word = database_oshb.word (rowid);
         // Give more spacing where needed.
         if (word == "׀") word = " ׀ ";
-        ss << "<a href=" << std::quoted(OSHB_PREFIX + filter::strings::convert_to_string (rowid)) << ">" << word << "</a>";
+        ss << "<a href=" << std::quoted(OSHB_PREFIX + std::to_string (rowid)) << ">" << word << "</a>";
       }
       ss << "</div>";
       ss << lexicon_logic_get_script (prefix);
@@ -156,7 +156,7 @@ std::string lexicon_logic_get_html ([[maybe_unused]] Webserver_Request& webserve
         if (i) ss << " ";
         int rowid = rowids[i];
         std::string word = database_morphgnt.word (rowid);
-        ss << "<a href=" << std::quoted(SBLGNT_PREFIX + filter::strings::convert_to_string (rowid)) << ">" << word << "</a>";
+        ss << "<a href=" << std::quoted(SBLGNT_PREFIX + std::to_string (rowid)) << ">" << word << "</a>";
       }
       ss << "</div>";
       ss << lexicon_logic_get_script (prefix);
@@ -287,7 +287,7 @@ void lexicon_logic_convert_morphhb_parsing_to_strong (std::string parsing,
         strong = SHIN_STRONG;
       }
     }
-    strongs.push_back ("H" + filter::strings::convert_to_string (strong));
+    strongs.push_back ("H" + std::to_string (strong));
   }
 }
 

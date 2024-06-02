@@ -74,7 +74,7 @@ TEST (database, logs_3)
   refresh_sandbox (false);
   Database_Logs::log ("description");
   int second = filter::date::seconds_since_epoch ();
-  std::string filename = filter::strings::convert_to_string (second) + "00000000";
+  std::string filename = std::to_string (second) + "00000000";
   // First time: getNext gets the logged entry.
   std::string s = Database_Logs::next (filename);
   EXPECT_NE (std::string(), s);

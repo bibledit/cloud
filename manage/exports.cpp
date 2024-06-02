@@ -217,7 +217,7 @@ std::string manage_exports (Webserver_Request& webserver_request)
     int value = filter::strings::convert_to_int (webserver_request.post["entry"]);
     if ((value >= 30) && (value <= 500)) {
       Database_State::setExport (bible, 0, export_logic::export_needed);
-      database::config::bible::set_page_width (bible, filter::strings::convert_to_string (value));
+      database::config::bible::set_page_width (bible, std::to_string (value));
     }
   }
   view.set_variable ("pagewidth", database::config::bible::get_page_width (bible));
@@ -232,7 +232,7 @@ std::string manage_exports (Webserver_Request& webserver_request)
     int value = filter::strings::convert_to_int (webserver_request.post["entry"]);
     if ((value >= 40) && (value <= 600)) {
       Database_State::setExport (bible, 0, export_logic::export_needed);
-      database::config::bible::set_page_height (bible, filter::strings::convert_to_string (value));
+      database::config::bible::set_page_height (bible, std::to_string (value));
     }
   }
   view.set_variable ("pageheight", database::config::bible::get_page_height (bible));
@@ -247,7 +247,7 @@ std::string manage_exports (Webserver_Request& webserver_request)
     int value = filter::strings::convert_to_int (webserver_request.post["entry"]);
     if ((value >= 0) && (value <= 100)) {
       Database_State::setExport (bible, 0, export_logic::export_needed);
-      database::config::bible::set_inner_margin (bible, filter::strings::convert_to_string (value));
+      database::config::bible::set_inner_margin (bible, std::to_string (value));
     }
   }
   view.set_variable ("innermargin", database::config::bible::get_inner_margin (bible));
@@ -262,7 +262,7 @@ std::string manage_exports (Webserver_Request& webserver_request)
     int value = filter::strings::convert_to_int (webserver_request.post["entry"]);
     if ((value >= 0) && (value <= 100)) {
       Database_State::setExport (bible, 0, export_logic::export_needed);
-      database::config::bible::set_outer_margin (bible, filter::strings::convert_to_string (value));
+      database::config::bible::set_outer_margin (bible, std::to_string (value));
     }
   }
   view.set_variable ("outermargin", database::config::bible::get_outer_margin (bible));
@@ -277,7 +277,7 @@ std::string manage_exports (Webserver_Request& webserver_request)
     int value = filter::strings::convert_to_int (webserver_request.post["entry"]);
     if ((value >= 0) && (value <= 100)) {
       Database_State::setExport (bible, 0, export_logic::export_needed);
-      database::config::bible::set_top_margin (bible, filter::strings::convert_to_string (value));
+      database::config::bible::set_top_margin (bible, std::to_string (value));
     }
   }
   view.set_variable ("topmargin", database::config::bible::get_top_margin (bible));
@@ -292,7 +292,7 @@ std::string manage_exports (Webserver_Request& webserver_request)
     int value = filter::strings::convert_to_int (webserver_request.post["entry"]);
     if ((value >= 0) && (value <= 100)) {
       Database_State::setExport (bible, 0, export_logic::export_needed);
-      database::config::bible::set_bottom_margin (bible, filter::strings::convert_to_string (value));
+      database::config::bible::set_bottom_margin (bible, std::to_string (value));
     }
   }
   view.set_variable ("bottommargin", database::config::bible::get_bottom_margin (bible));

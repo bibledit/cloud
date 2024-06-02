@@ -79,7 +79,7 @@ std::string notes_note (Webserver_Request& webserver_request)
     Passage focused_passage;
     focused_passage.m_book = Ipc_Focus::getBook (webserver_request);
     focused_passage.m_chapter = Ipc_Focus::getChapter (webserver_request);
-    focused_passage.m_verse = filter::strings::convert_to_string (Ipc_Focus::getVerse (webserver_request));
+    focused_passage.m_verse = std::to_string (Ipc_Focus::getVerse (webserver_request));
     // Only set passage and track history if the focused passage
     // differs from all of the passages of the note.
     // If the focused passage is already at any of the passages belonging to the note,
@@ -98,7 +98,7 @@ std::string notes_note (Webserver_Request& webserver_request)
   }
   
   
-  view.set_variable ("id", filter::strings::convert_to_string (id));
+  view.set_variable ("id", std::to_string (id));
 
 
   view.set_variable ("passage", filter_passage_display_inline (passages));

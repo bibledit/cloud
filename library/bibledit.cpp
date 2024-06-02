@@ -431,7 +431,7 @@ const char * bibledit_get_reference_for_accordance ()
   if ((versification != filter::strings::english()) && !versification.empty ()) {
     passages = database_mappings.translate (versification, filter::strings::english (), book, chapter, verse);
   } else {
-    passages.push_back (Passage ("", book, chapter, filter::strings::convert_to_string (verse)));
+    passages.push_back (Passage ("", book, chapter, std::to_string(verse)));
   }
   if (passages.empty()) return "";
 
@@ -440,7 +440,7 @@ const char * bibledit_get_reference_for_accordance ()
   chapter = passages[0].m_chapter;
   std::string verse_s = passages[0].m_verse;
   std::string usfm_id = database::books::get_usfm_from_id (static_cast<book_id>(book));
-  reference = usfm_id + " " + filter::strings::convert_to_string (chapter) + ":" + filter::strings::convert_to_string (verse_s);
+  reference = usfm_id + " " + std::to_string(chapter) + ":" + filter::strings::convert_to_string (verse_s);
 
   // Return the reference.
   return reference.c_str ();
@@ -483,7 +483,7 @@ void bibledit_put_reference_from_accordance (const char * reference)
   if ((versification != filter::strings::english()) && !versification.empty ()) {
     passages = database_mappings.translate (filter::strings::english (), versification, book, chapter, verse);
   } else {
-    passages.push_back (Passage ("", book, chapter, filter::strings::convert_to_string (verse)));
+    passages.push_back (Passage ("", book, chapter, std::to_string(verse)));
   }
   if (passages.empty()) return;
 

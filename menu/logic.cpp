@@ -370,7 +370,7 @@ std::string menu_logic_workspace_category (Webserver_Request& webserver_request,
 
     std::vector <std::string> workspaces = workspace_get_names (webserver_request);
     for (size_t i = 0; i < workspaces.size(); i++) {
-      std::string item = menu_logic_create_item (workspace_index_url () + "?bench=" + filter::strings::convert_to_string (i), workspaces[i], true, "", "");
+      std::string item = menu_logic_create_item (workspace_index_url () + "?bench=" + std::to_string (i), workspaces[i], true, "", "");
       // Adds an active class if it is the current workspace.
       if (workspaces[i] == activeWorkspace) {
         size_t startIndex = item.find(R"("><a)");

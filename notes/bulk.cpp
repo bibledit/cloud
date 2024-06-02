@@ -127,7 +127,7 @@ std::string notes_bulk (Webserver_Request& webserver_request)
                                               search_text,
                                               -1);
     std::vector <std::string> sids;
-    for (auto id : identifiers) sids.push_back (filter::strings::convert_to_string (id));
+    for (auto id : identifiers) sids.push_back (std::to_string (id));
     database::volatile_::set_value (userid, "identifiers", filter::strings::implode (sids, " "));
   }
 
@@ -144,7 +144,7 @@ std::string notes_bulk (Webserver_Request& webserver_request)
   std::string identifierlist;
   for (auto identifier : identifiers) {
     identifierlist.append (" ");
-    identifierlist.append (filter::strings::convert_to_string (identifier));
+    identifierlist.append (std::to_string (identifier));
   }
   
   
@@ -258,7 +258,7 @@ std::string notes_bulk (Webserver_Request& webserver_request)
   }
   
   
-  view.set_variable ("notescount", filter::strings::convert_to_string (identifiers.size()));
+  view.set_variable ("notescount", std::to_string (identifiers.size()));
 
   
   bool manager = Filter_Roles::access_control (webserver_request, Filter_Roles::manager ());

@@ -68,7 +68,7 @@ void filter_git_commit_modification_to_git (std::string repository, std::string 
 {
   std::string bookname = database::books::get_english_from_id (static_cast<book_id>(book));
   std::string bookdir = filter_url_create_path ({repository, bookname});
-  std::string chapterdir = filter_url_create_path ({bookdir, filter::strings::convert_to_string (chapter)});
+  std::string chapterdir = filter_url_create_path ({bookdir, std::to_string (chapter)});
   if (!file_or_dir_exists (chapterdir)) filter_url_mkdir (chapterdir);
   std::string datafile = filter_url_create_path ({chapterdir, "data"});
   std::string contents = filter_url_file_get_contents (datafile);
@@ -202,7 +202,7 @@ void filter_git_sync_bible_to_git (Webserver_Request& webserver_request, std::st
     if (!file_or_dir_exists (bookdir)) filter_url_mkdir (bookdir);
     std::vector <int> chapters = webserver_request.database_bibles()->get_chapters (bible, book);
     for (auto & chapter : chapters) {
-      std::string chapterdir = filter_url_create_path ({bookdir, filter::strings::convert_to_string (chapter)});
+      std::string chapterdir = filter_url_create_path ({bookdir, std::to_string (chapter)});
       if (!file_or_dir_exists (chapterdir)) filter_url_mkdir (chapterdir);
       std::string datafile = filter_url_create_path ({chapterdir, "data"});
       std::string contents = filter_url_file_get_contents (datafile);
@@ -273,19 +273,19 @@ void filter_git_sync_git_to_bible (Webserver_Request& webserver_request, std::st
     if (file_or_dir_exists (bookdir)) {
       std::vector <int> chapters = webserver_request.database_bibles()->get_chapters (bible, book);
       for (auto & chapter : chapters) {
-        std::string chapterdir = filter_url_create_path ({bookdir, filter::strings::convert_to_string (chapter)});
+        std::string chapterdir = filter_url_create_path ({bookdir, std::to_string (chapter)});
         if (file_or_dir_exists (chapterdir)) {
           std::string datafile = filter_url_create_path ({chapterdir, "data"});
           std::string contents = filter_url_file_get_contents (datafile);
           std::string usfm = webserver_request.database_bibles()->get_chapter (bible, book, chapter);
           if (contents != usfm) {
             bible_logic::store_chapter (bible, book, chapter, contents);
-            Database_Logs::log (translate("A translator updated chapter") + " " + bible + " " + bookname + " " + filter::strings::convert_to_string (chapter));
+            Database_Logs::log (translate("A translator updated chapter") + " " + bible + " " + bookname + " " + std::to_string (chapter));
             rss_logic_schedule_update ("collaborator", bible, book, chapter, usfm, contents);
           }
         } else {
           bible_logic::delete_chapter (bible, book, chapter);
-          Database_Logs::log (translate("A translator deleted chapter") + " " + bible + " " + bookname + " " + filter::strings::convert_to_string (chapter));
+          Database_Logs::log (translate("A translator deleted chapter") + " " + bible + " " + bookname + " " + std::to_string (chapter));
         }
       }
     } else {
@@ -309,7 +309,7 @@ void filter_git_sync_git_chapter_to_bible (std::string repository, std::string b
 {
   // Filename for the chapter.
   std::string bookname = database::books::get_english_from_id (static_cast<book_id>(book));
-  std::string filename = filter_url_create_path ({repository, bookname, filter::strings::convert_to_string (chapter), "data"});
+  std::string filename = filter_url_create_path ({repository, bookname, std::to_string (chapter), "data"});
   
   if (file_or_dir_exists (filename)) {
     
@@ -325,7 +325,7 @@ void filter_git_sync_git_chapter_to_bible (std::string repository, std::string b
     
     // Delete chapter from database.
     bible_logic::delete_chapter (bible, book, chapter);
-    Database_Logs::log (translate("A collaborator deleted chapter") + " " + bible + " " + bookname + " " + filter::strings::convert_to_string (chapter));
+    Database_Logs::log (translate("A collaborator deleted chapter") + " " + bible + " " + bookname + " " + std::to_string (chapter));
     
   }
 }
@@ -407,7 +407,7 @@ void filter_git_config_set_bool (std::string repository, std::string name, bool 
 
 void filter_git_config_set_int (std::string repository, std::string name, int value)
 {
-  std::string svalue = filter::strings::convert_to_string (value);
+  std::string svalue = std::to_string (value);
   filter_git_config_set_string (repository, name, svalue);
 }
 

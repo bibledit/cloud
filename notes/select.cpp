@@ -144,15 +144,15 @@ std::string notes_select (Webserver_Request& webserver_request)
   
   
   int passage_selector = webserver_request.database_config_user()->getConsultationNotesPassageSelector();
-  view.set_variable ("passageselector" + filter::strings::convert_to_string (passage_selector), active_class);
+  view.set_variable ("passageselector" + std::to_string (passage_selector), active_class);
 
   
   int edit_selector = webserver_request.database_config_user()->getConsultationNotesEditSelector();
-  view.set_variable ("editselector" + filter::strings::convert_to_string (edit_selector), active_class);
+  view.set_variable ("editselector" + std::to_string (edit_selector), active_class);
   
   
   int non_edit_selector = webserver_request.database_config_user()->getConsultationNotesNonEditSelector();
-  view.set_variable ("noneditselector" + filter::strings::convert_to_string (non_edit_selector), active_class);
+  view.set_variable ("noneditselector" + std::to_string (non_edit_selector), active_class);
   
   
   std::string status_selector = webserver_request.database_config_user()->getConsultationNotesStatusSelector();
@@ -223,24 +223,24 @@ std::string notes_select (Webserver_Request& webserver_request)
     severityblock << " | ";
     severityblock << "<a ";
     if (severity_selector == static_cast<int>(i)) severityblock << active_class;
-    severityblock << "href=" << std::quoted ("select?severityselector=" + filter::strings::convert_to_string (i)) << ">" << severities[i].localized << "</a>";
+    severityblock << "href=" << std::quoted ("select?severityselector=" + std::to_string (i)) << ">" << severities[i].localized << "</a>";
   }
   view.set_variable ("severityblock", severityblock.str());
 
   
   int text_selector = webserver_request.database_config_user()->getConsultationNotesTextSelector();
-  view.set_variable ("textselector" + filter::strings::convert_to_string (text_selector), active_class);
+  view.set_variable ("textselector" + std::to_string (text_selector), active_class);
   if (text_selector == 1) view.enable_zone ("textselection");
   std::string search_text = webserver_request.database_config_user()->getConsultationNotesSearchText();
   view.set_variable ("searchtext", search_text);
 
 
   int passage_inclusion_selector = webserver_request.database_config_user()->getConsultationNotesPassageInclusionSelector();
-  view.set_variable ("passageinclusionselector" + filter::strings::convert_to_string (passage_inclusion_selector), active_class);
+  view.set_variable ("passageinclusionselector" + std::to_string (passage_inclusion_selector), active_class);
                      
                      
   int text_inclusion_selector = webserver_request.database_config_user()->getConsultationNotesTextInclusionSelector();
-  view.set_variable ("textinclusionselector" + filter::strings::convert_to_string (text_inclusion_selector), active_class);
+  view.set_variable ("textinclusionselector" + std::to_string (text_inclusion_selector), active_class);
                                         
 
   // The admin disables notes selection on Bibles, so the admin sees all notes, even notes referring to non-existing Bibles.
@@ -255,7 +255,7 @@ std::string notes_select (Webserver_Request& webserver_request)
                                                                 status_selector, bible_selector, assignment_selector,
                                                                 subscription_selector, severity_selector, text_selector,
                                                                 search_text, -1);
-  view.set_variable ("count", filter::strings::convert_to_string (identifiers.size()));
+  view.set_variable ("count", std::to_string (identifiers.size()));
 
   
   view.set_variable ("success", success);

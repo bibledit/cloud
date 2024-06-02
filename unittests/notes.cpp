@@ -191,7 +191,7 @@ void test_database_notes ()
     EXPECT_EQ (999'999'999, identifier);
     
     identifier = database_notes.get_new_unique_identifier ();
-    if ((identifier < 100'000'000) || (identifier > 999'999'999)) EXPECT_EQ ("Out of bounds", filter::strings::convert_to_string (identifier));
+    if ((identifier < 100'000'000) || (identifier > 999'999'999)) EXPECT_EQ ("Out of bounds", std::to_string (identifier));
     EXPECT_EQ (false, database_notes.identifier_exists (identifier));
     
     identifier = database_notes.store_new_note ("", 0, 0, 0, "", "", false);
@@ -258,7 +258,7 @@ void test_database_notes ()
     database_notes.add_comment (newidentifier, "comment2");
     value = database_notes.get_contents (newidentifier);
     if (value.length () < (length + 30)) {
-      EXPECT_EQ ("Should be larger than length + 30", filter::strings::convert_to_string (static_cast<int>(value.length())));
+      EXPECT_EQ ("Should be larger than length + 30", std::to_string (value.length()));
     }
     pos = value.find ("comment2");
     if (pos == std::string::npos) {
@@ -268,7 +268,7 @@ void test_database_notes ()
     database_notes.add_comment (newidentifier, "comment5");
     value = database_notes.get_contents (newidentifier);
     if (value.length () < (length + 30)) {
-      EXPECT_EQ ("Should be larger than length + 30", filter::strings::convert_to_string (static_cast<int>(value.length())));
+      EXPECT_EQ ("Should be larger than length + 30", std::to_string (value.length()));
     }
     pos = value.find ("comment5");
     if (pos == std::string::npos) {
@@ -665,11 +665,11 @@ void test_database_notes ()
     // Contents of the note.
     std::string original_contents1 = database_notes.get_contents (identifier1);
     if (original_contents1.length () <= 20) {
-      EXPECT_EQ ("Should be greater than 20", filter::strings::convert_to_string (static_cast<int>(original_contents1.length ())));
+      EXPECT_EQ ("Should be greater than 20", std::to_string (original_contents1.length ()));
     }
     std::string original_contents2 = database_notes.get_contents (identifier2);
     if (original_contents2.length () <= 20) {
-      EXPECT_EQ ("Should be greater than 20", filter::strings::convert_to_string (static_cast<int>(original_contents2.length())));
+      EXPECT_EQ ("Should be greater than 20", std::to_string (original_contents2.length()));
     }
     
     // Checksum of the notes.
@@ -1420,7 +1420,7 @@ void test_database_notes ()
     // Create several notes.
     for (int i = 0; i < 5; i++) {
       // Basic fields for the note.
-      std::string offset = filter::strings::convert_to_string (i);
+      std::string offset = std::to_string (i);
       std::string bible = "bible" + offset;
       int book = i;
       int chapter = i + 1;

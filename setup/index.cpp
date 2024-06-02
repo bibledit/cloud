@@ -84,7 +84,7 @@ const char * setup_initialization_notice ()
   // The user will understand that the device is still busy, and not think that it is not stuck.
   config_globals_setup_progress += 5;
   if (config_globals_setup_progress > 90) config_globals_setup_progress = 10;
-  notice.append ("<p><progress value=\"" + filter::strings::convert_to_string (config_globals_setup_progress) + "\" max=\"100\"></progress></p>");
+  notice.append ("<p><progress value=\"" + std::to_string (config_globals_setup_progress) + "\" max=\"100\"></progress></p>");
   
   // Informative text for progress indication.
   notice.append ("<p>... " + config_globals_setup_message + " ...</p>");

@@ -76,7 +76,7 @@ std::string session_password (Webserver_Request& webserver_request)
     }
     if (form_is_valid) {
       // Generate and store a new password.
-      std::string generated_password = md5 (filter::strings::convert_to_string (filter::strings::rand (0, 1'000'000)));
+      std::string generated_password = md5 (std::to_string (filter::strings::rand (0, 1'000'000)));
       generated_password = generated_password.substr (0, 15);
       const std::string username = database_users.getEmailToUser (email);
       database_users.set_password (username, generated_password);

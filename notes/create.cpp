@@ -120,10 +120,10 @@ std::string notes_create (Webserver_Request& webserver_request)
 
   
   view.set_variable ("bible", bible);
-  view.set_variable ("book", filter::strings::convert_to_string (book));
-  view.set_variable ("chapter", filter::strings::convert_to_string (chapter));
-  view.set_variable ("verse", filter::strings::convert_to_string (verse));
-  std::string passage = filter_passage_display (book, chapter, filter::strings::convert_to_string (verse));
+  view.set_variable ("book", std::to_string (book));
+  view.set_variable ("chapter", std::to_string (chapter));
+  view.set_variable ("verse", std::to_string (verse));
+  std::string passage = filter_passage_display (book, chapter, std::to_string (verse));
   view.set_variable ("passage", passage);
   if (webserver_request.database_config_user ()->getShowVerseTextAtCreateNote ()) {
     std::string versetext;

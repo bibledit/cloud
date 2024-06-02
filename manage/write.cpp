@@ -124,7 +124,7 @@ std::string manage_write (Webserver_Request& webserver_request)
   for (size_t i = 0; i < books.size (); i++) {
     int book = books[i];
     std::string bookname = database::books::get_english_from_id (static_cast<book_id>(book));
-    std::string checkboxname = "book" + filter::strings::convert_to_string (book);
+    std::string checkboxname = "book" + std::to_string (book);
     bool read, write;
     DatabasePrivileges::get_bible_book (user, bible, book, read, write);
     std::string checked = filter::strings::get_checkbox_status (write);

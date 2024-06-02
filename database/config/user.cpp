@@ -83,7 +83,7 @@ bool Database_Config_User::getBValue (const char * key, bool default_value) cons
 
 int Database_Config_User::getIValue (const char * key, int default_value) const
 {
-  const std::string value = getValue (key, filter::strings::convert_to_string (default_value).c_str());
+  const std::string value = getValue (key, std::to_string (default_value).c_str());
   return filter::strings::convert_to_int (value);
 }
 
@@ -118,7 +118,7 @@ bool Database_Config_User::getBValueForUser (const std::string& user, const char
 
 int Database_Config_User::getIValueForUser (const std::string& user, const char * key, int default_value) const
 {
-  const auto value {getValueForUser (user, key, filter::strings::convert_to_string (default_value).c_str())};
+  const auto value {getValueForUser (user, key, std::to_string (default_value).c_str())};
   return filter::strings::convert_to_int (value);
 }
 
@@ -138,7 +138,7 @@ void Database_Config_User::setBValue (const char * key, bool value) const
 
 void Database_Config_User::setIValue (const char * key, int value) const
 {
-  setValue (key, filter::strings::convert_to_string (value));
+  setValue (key, std::to_string (value));
 }
 
 
@@ -227,7 +227,7 @@ void Database_Config_User::setIList (const char * key, const std::vector <int>& 
 {
   std::vector <std::string> lines {};
   for (const auto& value : values) {
-    lines.push_back (filter::strings::convert_to_string (value));
+    lines.push_back (std::to_string (value));
   }
   setList (key, lines);
 }
@@ -886,7 +886,7 @@ Passage Database_Config_User::getPrintPassageFromForUser (const std::string& use
 }
 void Database_Config_User::setPrintPassageFrom (Passage value) const
 {
-  const std::string s = filter::strings::convert_to_string (value.m_book) + "." + filter::strings::convert_to_string (value.m_chapter) + "." + value.m_verse;
+  const std::string s = std::to_string (value.m_book) + "." + std::to_string (value.m_chapter) + "." + value.m_verse;
   setValue (print_passage_from_key, s);
 }
 
@@ -902,7 +902,7 @@ Passage Database_Config_User::getPrintPassageToForUser (const std::string& user)
 }
 void Database_Config_User::setPrintPassageTo (const Passage& value) const
 {
-  const std::string s = filter::strings::convert_to_string (value.m_book) + "." + filter::strings::convert_to_string (value.m_chapter) + "." + value.m_verse;
+  const std::string s = std::to_string (value.m_book) + "." + std::to_string (value.m_chapter) + "." + value.m_verse;
   setValue (print_passage_to_key, s);
 }
 

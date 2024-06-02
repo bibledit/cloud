@@ -87,7 +87,7 @@ std::string bible_import (Webserver_Request& webserver_request)
         filter_url_file_put_contents (datafile, data);
         success_message = translate("Import has started.");
         view.set_variable ("journal", journal_logic_see_journal_for_progress ());
-        tasks_logic_queue (IMPORTBIBLE, { datafile, bible, filter::strings::convert_to_string (book), filter::strings::convert_to_string (chapter) });
+        tasks_logic_queue (IMPORTBIBLE, { datafile, bible, std::to_string (book), std::to_string (chapter) });
       } else {
         error_message = translate("Please supply valid Unicode UTF-8 text.");
       }
@@ -106,7 +106,7 @@ std::string bible_import (Webserver_Request& webserver_request)
       filter_url_file_put_contents (datafile, data);
       success_message = translate("Import has started.");
       view.set_variable ("journal", journal_logic_see_journal_for_progress ());
-      tasks_logic_queue (IMPORTBIBLE, { datafile, bible, filter::strings::convert_to_string (book), filter::strings::convert_to_string (chapter) });
+      tasks_logic_queue (IMPORTBIBLE, { datafile, bible, std::to_string (book), std::to_string (chapter) });
     } else {
       error_message = translate ("Nothing was uploaded");
     }

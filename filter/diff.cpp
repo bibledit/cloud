@@ -371,10 +371,10 @@ void filter_diff_produce_verse_level (std::string bible, std::string directory)
         std::string old_verse_text = filter::usfm::get_verse_text (old_chapter_usfm, verse);
         std::string new_verse_text = filter::usfm::get_verse_text (new_chapter_usfm, verse);
         if (old_verse_text != new_verse_text) {
-          std::string usfmCode = "\\p " + bookname + " " + filter::strings::convert_to_string (chapter) + "." + filter::strings::convert_to_string (verse) + ": " + old_verse_text;
+          std::string usfmCode = "\\p " + bookname + " " + std::to_string(chapter) + "." + std::to_string(verse) + ": " + old_verse_text;
           old_vs_usfm.push_back (usfmCode);
           filter_text_old.add_usfm_code (usfmCode);
-          usfmCode = "\\p " + bookname + " " + filter::strings::convert_to_string (chapter) + "." + filter::strings::convert_to_string (verse) + ": " + new_verse_text;
+          usfmCode = "\\p " + bookname + " " + std::to_string(chapter) + "." + std::to_string(verse) + ": " + new_verse_text;
           new_vs_usfm.push_back (usfmCode);
           filter_text_new.add_usfm_code (usfmCode);
         }

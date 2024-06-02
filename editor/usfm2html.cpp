@@ -587,7 +587,7 @@ void Editor_Usfm2Html::close_current_note ()
 void Editor_Usfm2Html::add_notel_link (pugi::xml_node domNode, int identifier, std::string style, std::string text)
 {
   pugi::xml_node aDomElement = domNode.append_child ("span");
-  std::string cls = "i-note" + style + filter::strings::convert_to_string (identifier);
+  std::string cls = "i-note" + style + std::to_string (identifier);
   aDomElement.append_attribute ("class") = cls.c_str();
   aDomElement.text ().set (text.c_str());
 }

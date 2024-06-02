@@ -56,7 +56,7 @@ std::string sync_setup (Webserver_Request& webserver_request)
       // Check brute force attack mitigation.
       if (user_logic_login_failure_check_okay ()) {
         // Return the level to the client.
-        return filter::strings::convert_to_string (webserver_request.database_users ()->get_level (username));
+        return std::to_string (webserver_request.database_users ()->get_level (username));
       }
     }
   }

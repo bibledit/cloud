@@ -60,7 +60,7 @@ std::string editusfm_focus (Webserver_Request& webserver_request)
       if (endingOffset > startingOffset) endingOffset--;
     }
   }
-  std::string data = filter::strings::convert_to_string (startingOffset) + " " + filter::strings::convert_to_string (endingOffset);
+  std::string data = std::to_string (startingOffset) + " " + std::to_string (endingOffset);
   return data;
 }
 

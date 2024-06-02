@@ -78,7 +78,7 @@ std::string changes_changes (Webserver_Request& webserver_request)
     if (category == changes_bible_category ()) 
       category = filter::strings::emoji_open_book ();
     std::string modification = database_modifications.getNotificationModification (identifier);
-    block << "<div id=" << std::quoted("entry" + filter::strings::convert_to_string (identifier)) << + ">\n";
+    block << "<div id=" << std::quoted("entry" + std::to_string (identifier)) << + ">\n";
     block << "<a href=" << std::quoted ("expand") << ">" << filter::strings::emoji_file_folder () << "</a>\n";
     block << "<a href=" << std::quoted("remove") << ">" << filter::strings::emoji_wastebasket () << "</a>\n";
     block << link << "\n";
@@ -215,7 +215,7 @@ std::string changes_changes (Webserver_Request& webserver_request)
   std::string pendingidentifiers {};
   for (const auto id : notification_ids) {
     if (!pendingidentifiers.empty ()) pendingidentifiers.append (" ");
-    pendingidentifiers.append (filter::strings::convert_to_string (id));
+    pendingidentifiers.append (std::to_string (id));
   }
   view.set_variable ("pendingidentifiers", pendingidentifiers);
   
@@ -256,12 +256,12 @@ std::string changes_changes (Webserver_Request& webserver_request)
   std::vector <int> personal_ids = database_modifications.getNotificationTeamIdentifiers (username, changes_personal_category (), selectedbible);
   if (!personal_ids.empty ()) {
     view.enable_zone ("personal");
-    view.set_variable ("personalcount", filter::strings::convert_to_string (personal_ids.size ()));
+    view.set_variable ("personalcount", std::to_string (personal_ids.size ()));
   }
   const std::vector <int> bible_ids = database_modifications.getNotificationTeamIdentifiers (username, changes_bible_category (), selectedbible);
   if (!bible_ids.empty ()) {
     view.enable_zone ("bible");
-    view.set_variable ("teamcount", filter::strings::convert_to_string (bible_ids.size ()));
+    view.set_variable ("teamcount", std::to_string (bible_ids.size ()));
   }
   
   
@@ -276,7 +276,7 @@ std::string changes_changes (Webserver_Request& webserver_request)
       view.add_iteration ("individual", {
         std::pair ("user", user),
         std::pair ("selectedbible", selectedbible),
-        std::pair ("count", filter::strings::convert_to_string(ids.size()))
+        std::pair ("count", std::to_string(ids.size()))
       });
     }
   }

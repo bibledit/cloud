@@ -868,7 +868,7 @@ const char * filter_url_temp_dir ()
 // Returns the name of a temporary file.
 std::string filter_url_tempfile (const char * directory)
 {
-  std::string filename = filter::strings::convert_to_string (filter::date::seconds_since_epoch ()) + filter::strings::convert_to_string (filter::date::numerical_microseconds ()) + filter::strings::convert_to_string (filter::strings::rand (10000000, 99999999));
+  std::string filename = std::to_string (filter::date::seconds_since_epoch ()) + std::to_string (filter::date::numerical_microseconds ()) + std::to_string (filter::strings::rand (10000000, 99999999));
   if (directory) {
     filename = filter_url_create_path ({directory, filename});
   } else {
@@ -895,10 +895,10 @@ std::string filter_url_unique_path (std::string path)
 {
   if (!file_or_dir_exists (path)) return path;
   for (size_t i = 1; i < 100; i++) {
-    std::string uniquepath = path + "." + filter::strings::convert_to_string (i);
+    std::string uniquepath = path + "." + std::to_string (i);
     if (!file_or_dir_exists (uniquepath)) return uniquepath;
   }
-  return path + "." + filter::strings::convert_to_string (filter::strings::rand (100, 1000));
+  return path + "." + std::to_string (filter::strings::rand (100, 1000));
 }
 
 
@@ -973,7 +973,7 @@ std::string filter_url_http_get (std::string url, std::string& error, [[maybe_un
       long http_code = 0;
       curl_easy_getinfo (curl, CURLINFO_RESPONSE_CODE, &http_code);
       if (http_code != 200) {
-        response.append ("http code " + filter::strings::convert_to_string (static_cast<int>(http_code)));
+        response.append ("http code " + std::to_string (http_code));
       }
     } else {
       response.clear ();
@@ -1207,7 +1207,7 @@ std::string filter_url_http_upload ([[maybe_unused]] std::string url,
 
 std::string filter_url_http_response_code_text (int code)
 {
-  std::string text = filter::strings::convert_to_string (code);
+  std::string text = std::to_string (code);
   text.append (" ");
   switch (code) {
     case 100: text += "Continue"; break;
@@ -1283,7 +1283,7 @@ void filter_url_download_file (std::string url, std::string filename, std::strin
       long http_code = 0;
       curl_easy_getinfo (curl, CURLINFO_RESPONSE_CODE, &http_code);
       if (http_code != 200) {
-        error.append ("http code " + filter::strings::convert_to_string (static_cast<int>(http_code)));
+        error.append ("http code " + std::to_string (http_code));
       }
     } else {
       error = curl_easy_strerror (res);
@@ -1317,14 +1317,14 @@ std::string filter_url_html_file_name_bible (std::string path, int book, int cha
   }
   
   // Add the name for the book. No spaces.
-  filename += filter::strings::fill (filter::strings::convert_to_string (book), 2, '0');
+  filename += filter::strings::fill (std::to_string (book), 2, '0');
   std::string sbook = database::books::get_english_from_id (static_cast<book_id>(book));
   sbook = filter::strings::replace (" ", "", sbook);
   filename += '-' + sbook;
   
   // Chapter given: Provide name for the chaper.
   if (chapter >= 0) {
-    filename += '-' + filter::strings::fill (filter::strings::convert_to_string (chapter), 3, '0');
+    filename += '-' + filter::strings::fill (std::to_string (chapter), 3, '0');
   }
   
   filename += ".html";
@@ -1507,7 +1507,7 @@ std::string filter_url_http_request_mbed (std::string url, std::string& error, c
     // Select protocol that matches with the socket type.
     hints.ai_protocol = 0;
     // The 'service' is actually the port number.
-    std::string service = filter::strings::convert_to_string (port);
+    std::string service = std::to_string (port);
     // Get a list of address structures. There can be several of them.
     int res = getaddrinfo (hostname.c_str(), service.c_str (), &hints, &address_results);
     if (res != 0) {
@@ -1564,7 +1564,7 @@ std::string filter_url_http_request_mbed (std::string url, std::string& error, c
       // const char * server_port = filter::strings::convert_to_string (port).c_str ();
       // But MSVC optimized this variable away before it could be passed to that routine.
       // The code was updated to work around that.
-      int ret = mbedtls_net_connect (&fd, hostname.c_str(), filter::strings::convert_to_string (port).c_str (), MBEDTLS_NET_PROTO_TCP);
+      int ret = mbedtls_net_connect (&fd, hostname.c_str(), std::to_string(port).c_str(), MBEDTLS_NET_PROTO_TCP);
       if (ret != 0) {
         filter_url_display_mbed_tls_error (ret, &error, false, std::string());
         connection_healthy = false;
@@ -1595,7 +1595,7 @@ std::string filter_url_http_request_mbed (std::string url, std::string& error, c
         int res = connect (sock, rp->ai_addr, rp->ai_addrlen);
         // Test and record error.
         if (res < 0) {
-          std::string err = hostname + ":" + filter::strings::convert_to_string (port) + ": ";
+          std::string err = hostname + ":" + std::to_string (port) + ": ";
           err.append (strerror (errno));
           errors.push_back (err);
         }
@@ -1713,7 +1713,7 @@ std::string filter_url_http_request_mbed (std::string url, std::string& error, c
     if (!post.empty ()) {
       request.append ("Content-Type: application/x-www-form-urlencoded");
       request.append ("\r\n");
-      request.append ("Content-Length: " + filter::strings::convert_to_string (postdata.length()));
+      request.append ("Content-Length: " + std::to_string (postdata.length()));
       request.append ("\r\n");
     }
     request.append ("\r\n");
@@ -1931,7 +1931,7 @@ void filter_url_display_mbed_tls_error (int& ret, std::string* error, bool serve
   mbedtls_strerror (local_return, error_buf, 100);
   std::string msg = error_buf;
   msg.append (" (");
-  msg.append (filter::strings::convert_to_string (local_return));
+  msg.append (std::to_string (local_return));
   msg.append (")");
   // Add the remote IP address if available.
   if (!remote_ip_address.empty()) {
@@ -2047,7 +2047,7 @@ bool filter_url_port_can_connect (std::string hostname, int port)
   // Select protocol that matches with the socket type.
   hints.ai_protocol = 0;
   // The 'service' is actually the port number.
-  std::string service = filter::strings::convert_to_string (port);
+  std::string service = std::to_string (port);
   // Get a list of address structures. There can be several of them.
   int res = getaddrinfo (hostname.c_str(), service.c_str (), &hints, &address_results);
   if (res != 0) return false;

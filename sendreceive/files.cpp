@@ -119,7 +119,7 @@ void sendreceive_files ()
   post ["u"] = filter::strings::bin2hex (user);
 
   
-  post ["v"] = filter::strings::convert_to_string (version);
+  post ["v"] = std::to_string (version);
   std::string error {};
   std::string response {};
   int iresponse {0};
@@ -128,7 +128,7 @@ void sendreceive_files ()
   // Request the checksum of all relevant files on the server.
   // Compare it with the local checksum for the same set of files.
   // If the two match: Ready.
-  post ["a"] = filter::strings::convert_to_string (Sync_Logic::files_total_checksum);
+  post ["a"] = std::to_string (Sync_Logic::files_total_checksum);
   response = sync_logic.post (post, url, error);
   if (!error.empty ()) {
     Database_Logs::log (sendreceive_files_text () + "Failure requesting total checksum: " + error, Filter_Roles::translator ());
@@ -152,14 +152,14 @@ void sendreceive_files ()
     // The directory name itself is not posted to the server,
     // but rather the index of the directory in the entire list.
     // This is for security reasons.
-    post ["d"] = filter::strings::convert_to_string (d);
+    post ["d"] = std::to_string (d);
     const std::string directory = directories [d];
     
 
     // Request the total checksum of a directory on the server.
     // Compare it with the local checksum for the directory on the client.
     // If the two match: This directory is ready.
-    post ["a"] = filter::strings::convert_to_string (Sync_Logic::files_directory_checksum);
+    post ["a"] = std::to_string (Sync_Logic::files_directory_checksum);
     response = sync_logic.post (post, url, error);
     if (!error.empty ()) {
       Database_Logs::log (sendreceive_files_text () + "Failure requesting directory checksum: " + error, Filter_Roles::translator ());
@@ -174,7 +174,7 @@ void sendreceive_files ()
 
     
     // Retrieve the list of files in a directory on the server.
-    post ["a"] = filter::strings::convert_to_string (Sync_Logic::files_directory_files);
+    post ["a"] = std::to_string (Sync_Logic::files_directory_files);
     response = sync_logic.post (post, url, error);
     if (!error.empty ()) {
       Database_Logs::log (sendreceive_files_text () + "Failure requesting directory files: " + error, Filter_Roles::translator ());
@@ -204,7 +204,7 @@ void sendreceive_files ()
       // Request checksum of this file,
       // compare it with the local checksum,
       // and skip the file if the checksums match.
-      post ["a"] = filter::strings::convert_to_string (Sync_Logic::files_file_checksum);
+      post ["a"] = std::to_string (Sync_Logic::files_file_checksum);
       post ["f"] = file;
       response = sync_logic.post (post, url, error);
       if (!error.empty ()) {
@@ -231,9 +231,9 @@ void sendreceive_files ()
       if (!file_or_dir_exists (dirpath)) {
         filter_url_mkdir (dirpath);
       }
-      std::string download_url = filter_url_build_http_query (url, "a", filter::strings::convert_to_string (Sync_Logic::files_file_download));
-      download_url = filter_url_build_http_query (download_url, "v", filter::strings::convert_to_string (version));
-      download_url = filter_url_build_http_query (download_url, "d", filter::strings::convert_to_string (d));
+      std::string download_url = filter_url_build_http_query (url, "a", std::to_string (Sync_Logic::files_file_download));
+      download_url = filter_url_build_http_query (download_url, "v", std::to_string (version));
+      download_url = filter_url_build_http_query (download_url, "d", std::to_string (d));
       download_url = filter_url_build_http_query (download_url, "u", filter::strings::bin2hex (user));
       download_url = filter_url_build_http_query (download_url, "f", filter_url_urlencode (file));
       // Download and save file locally.

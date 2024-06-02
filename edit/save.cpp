@@ -114,7 +114,7 @@ std::string edit_save (Webserver_Request& webserver_request)
   user_usfm = book_chapter_text[0].m_data;
   bool chapter_ok = (((book_number == book) || (book_number == 0)) && (chapter_number == chapter));
   if (!chapter_ok) {
-    return translate("Incorrect chapter") + " " + filter::strings::convert_to_string (chapter_number);
+    return translate("Incorrect chapter") + " " + std::to_string (chapter_number);
   }
   
   // Collect some data about the changes for this user

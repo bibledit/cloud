@@ -149,7 +149,7 @@ std::string search_replacego (Webserver_Request& webserver_request)
   
   
   // Clickable passage.
-  std::string link = filter_passage_link_for_opening_editor_at (book, chapter, filter::strings::convert_to_string (verse));
+  std::string link = filter_passage_link_for_opening_editor_at (book, chapter, std::to_string (verse));
   
   
   // Success or failure message.

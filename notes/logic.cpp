@@ -478,7 +478,7 @@ void Notes_Logic::emailUsers (int identifier, const std::string& label, std::str
   contents << "<br>" << std::endl;
   contents << "<p>";
   contents << "<a href=";
-  std::string notelink = config::logic::site_url (m_webserver_request) + notes_note_url () + "?id=" + filter::strings::convert_to_string (identifier);
+  std::string notelink = config::logic::site_url (m_webserver_request) + notes_note_url () + "?id=" + std::to_string (identifier);
   contents << std::quoted (notelink);
   contents << ">";
   contents << translate ("View or respond online");
@@ -486,14 +486,14 @@ void Notes_Logic::emailUsers (int identifier, const std::string& label, std::str
   contents << " " << translate ("or") << " ";
 
   contents << "<a href=";
-  std::string workspacelink = config::logic::site_url (m_webserver_request) + workspace_index_url () + "?note=" + filter::strings::convert_to_string (identifier);
+  std::string workspacelink = config::logic::site_url (m_webserver_request) + workspace_index_url () + "?note=" + std::to_string (identifier);
   contents << std::quoted (workspacelink);
   contents << ">";
   contents << translate ("open the workspace online");
   contents << "</a>";
 
   contents << "</p>" << std::endl;
-  std::string mailto = "mailto:" + database::config::general::get_site_mail_address () + "?subject=(CNID" + filter::strings::convert_to_string (identifier) + ")";
+  std::string mailto = "mailto:" + database::config::general::get_site_mail_address () + "?subject=(CNID" + std::to_string (identifier) + ")";
   contents << "<p><a href=";
   contents << std::quoted (mailto);
   contents << ">Respond by email</a></p>" << std::endl;
@@ -522,7 +522,7 @@ void Notes_Logic::emailUsers (int identifier, const std::string& label, std::str
       subject.append (" | ");
       subject.append (summary);
       subject.append (" | (CNID");
-      subject.append (filter::strings::convert_to_string (identifier));
+      subject.append (std::to_string (identifier));
       subject.append (")");
       email_schedule (user, subject, contents.str(), timestamp);
     }
@@ -561,7 +561,7 @@ bool Notes_Logic::handleEmailComment (std::string from, std::string subject, std
     username = filter::strings::replace (".", " ", username);
   }
   // Clean the email's body.
-  std::string year = filter::strings::convert_to_string (filter::date::numerical_year (filter::date::seconds_since_epoch ()));
+  std::string year = std::to_string (filter::date::numerical_year (filter::date::seconds_since_epoch ()));
   std::string sender = database::config::general::get_site_mail_name();
   body = filter::strings::extract_body (body, year, sender);
   // Remove any new lines from the body. This cleans up the email considerably,
@@ -577,7 +577,7 @@ bool Notes_Logic::handleEmailComment (std::string from, std::string subject, std
   if (m_webserver_request.database_config_user()->getUserNotifyMeOfMyPosts (username)) {
     std::string confirm_subject = translate("Your comment was posted");
     confirm_subject.append (" [CNID");
-    confirm_subject.append (filter::strings::convert_to_string (identifier));
+    confirm_subject.append (std::to_string (identifier));
     confirm_subject.append ("]");
     email_schedule (username, confirm_subject, body);
   }

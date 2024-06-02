@@ -42,7 +42,7 @@ void Tbsx_Text::set_book_name (std::string name)
 void Tbsx_Text::set_chapter (int chapter)
 {
   flush ();
-  output.push_back ("##" + filter::strings::convert_to_string (chapter));
+  output.push_back ("##" + std::to_string (chapter));
 }
 
 
@@ -65,7 +65,7 @@ void Tbsx_Text::open_verse (int verse)
 {
   flush ();
   in_note = false;
-  add_text (filter::strings::convert_to_string (verse));
+  add_text (std::to_string (verse));
 }
 
 

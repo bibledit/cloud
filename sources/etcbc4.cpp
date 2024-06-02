@@ -99,7 +99,7 @@ void sources_etcbc4_download ()
         std::string data = database_etcbc4.raw (book, chapter, verse);
         if (!data.empty ()) continue;
         
-        std::string url = "https://shebanq.ancient-data.org/hebrew/verse?version=4b&book=" + bookname + "&chapter=" + filter::strings::convert_to_string (chapter) + "&verse=" + filter::strings::convert_to_string (verse);
+        std::string url = "https://shebanq.ancient-data.org/hebrew/verse?version=4b&book=" + bookname + "&chapter=" + std::to_string (chapter) + "&verse=" + std::to_string (verse);
 
         std::string error;
         std::string response = filter_url_http_get (url, error, false);
@@ -111,7 +111,7 @@ void sources_etcbc4_download ()
           if (verse == 1) book_done = true;
           break;
         }
-        Database_Logs::log (bookname + " " + filter::strings::convert_to_string (chapter) + "." + filter::strings::convert_to_string (verse));
+        Database_Logs::log (bookname + " " + std::to_string (chapter) + "." + std::to_string (verse));
         database_etcbc4.store (book, chapter, verse, response);
         // Wait a second: Be polite: Do not overload the website.
         std::this_thread::sleep_for (std::chrono::seconds (1));
@@ -145,7 +145,7 @@ void sources_etcbc4_parse ()
   for (auto book : books) {
     std::vector <int> chapters = database_etcbc4.chapters (book);
     for (auto chapter : chapters) {
-      Database_Logs::log ("Parsing book " + filter::strings::convert_to_string (book) + " chapter " + filter::strings::convert_to_string (chapter));
+      Database_Logs::log ("Parsing book " + std::to_string (book) + " chapter " + std::to_string (chapter));
       std::vector <int> verses = database_etcbc4.verses (book, chapter);
       for (auto verse : verses) {
         // The raw data for the verse.

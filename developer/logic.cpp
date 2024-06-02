@@ -77,7 +77,7 @@ Developer_Logic_Tracer::~Developer_Logic_Tracer()
   int seconds2 = filter::date::seconds_since_epoch();
   int microseconds2 = filter::date::numerical_microseconds();
   int microseconds = (seconds2 - seconds1) * 1000000 + microseconds2 - microseconds1;
-  std::vector <std::string> bits = {rfc822, filter::strings::convert_to_string (microseconds), request_get, request_query, username};
+  std::vector <std::string> bits = {rfc822, std::to_string (microseconds), request_get, request_query, username};
   std::string entry = filter::strings::implode(bits, ",");
   log_network_mutex.lock();
   log_network_cache.push_back(entry);
@@ -165,7 +165,7 @@ void developer_logic_import_changes ()
     // 2. Update the passage to point to the new one.
     if (passage_found) {
       developer_logic_import_changes_save (passage.m_bible, passage.m_book, passage.m_chapter, filter::strings::convert_to_int (passage.m_verse), text);
-      passage = Passage(bible, static_cast<int>(book), chapter, filter::strings::convert_to_string(verse));
+      passage = Passage(bible, static_cast<int>(book), chapter, std::to_string(verse));
     }
     // Accumulate the text.
     if (!text.empty()) text.append ("\n");

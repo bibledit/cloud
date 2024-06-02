@@ -64,9 +64,9 @@ TEST (rss, feed)
   std::vector <std::string> authors;
   std::vector <std::string> descriptions;
   for (size_t i = 0; i < 300; i++) {
-    titles.push_back ("title " + filter::strings::convert_to_string (i));
-    authors.push_back ("author " + filter::strings::convert_to_string (i));
-    descriptions.push_back ("description " + filter::strings::convert_to_string (i));
+    titles.push_back ("title " + std::to_string (i));
+    authors.push_back ("author " + std::to_string (i));
+    descriptions.push_back ("description " + std::to_string (i));
   }
   rss_logic_update_xml (titles, authors, descriptions);
   EXPECT_EQ (25693, filter_url_filesize (path));

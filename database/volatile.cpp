@@ -31,7 +31,7 @@ namespace database::volatile_ {
 
 static std::string filename (int id, std::string key)
 {
-  const std::string identifier = filter_url_clean_filename (filter::strings::convert_to_string (id));
+  const std::string identifier = filter_url_clean_filename (std::to_string (id));
   key = filter_url_clean_filename (key);
   const std::string path = filter_url_create_root_path ({filter_url_temp_dir (), "volatile__" + identifier + "__" + key});
   return path;

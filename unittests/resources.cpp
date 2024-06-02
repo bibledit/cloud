@@ -189,7 +189,7 @@ TEST (database, imageresources)
     database_imageresources.create ("unittest");
     
     for (int i = 10; i < 20; i++) {
-      std::string image_name = "unittest" + filter::strings::convert_to_string (i) + ".jpg";
+      std::string image_name = "unittest" + std::to_string (i) + ".jpg";
       std::string image_path = "/tmp/" + image_name;
       filter_url_file_cp (image_name, image_path);
       database_imageresources.store ("unittest", image_path);

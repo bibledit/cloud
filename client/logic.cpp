@@ -57,7 +57,7 @@ void client_logic_enable_client (bool enable)
 // $path is the path after the website.
 std::string client_logic_url (const std::string& address, int port, const std::string& path)
 {
-  return address + ":" + filter::strings::convert_to_string (port) + "/" + path;
+  return address + ":" + std::to_string (port) + "/" + path;
 }
 
 
@@ -122,9 +122,9 @@ std::string client_logic_create_note_encode (const std::string& bible, int book,
 {
   std::vector <std::string> data {};
   data.push_back (bible);
-  data.push_back (filter::strings::convert_to_string (book));
-  data.push_back (filter::strings::convert_to_string (chapter));
-  data.push_back (filter::strings::convert_to_string (verse));
+  data.push_back (std::to_string (book));
+  data.push_back (std::to_string (chapter));
+  data.push_back (std::to_string (verse));
   data.push_back (summary);
   data.push_back (filter::strings::convert_to_string (raw));
   data.push_back (contents);
@@ -174,7 +174,7 @@ std::string client_logic_link_to_cloud (std::string path, std::string linktext)
   if (client_logic_client_enabled ()) {
     std::string address = database::config::general::get_server_address ();
     int port = database::config::general::get_server_port ();
-    url = address + ":" + filter::strings::convert_to_string (port);
+    url = address + ":" + std::to_string (port);
     if (!path.empty ()) {
       url.append ("/");
       url.append (path);

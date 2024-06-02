@@ -205,7 +205,7 @@ std::string sprint_index ([[maybe_unused]] Webserver_Request& webserver_request)
   
   
   view.set_variable ("bible", bible);
-  view.set_variable ("sprint", locale_logic_month (month) + " " + filter::strings::convert_to_string (year));
+  view.set_variable ("sprint", locale_logic_month (month) + " " + std::to_string (year));
 
   
   std::string categorytext = database::config::bible::get_sprint_task_completion_categories (bible);
@@ -223,10 +223,10 @@ std::string sprint_index ([[maybe_unused]] Webserver_Request& webserver_request)
   for (auto & task_id : v_tasks) {
     std::string title = filter::strings::escape_special_xml_characters (database_sprint.getTitle (task_id));
     int percentage = database_sprint.getComplete (task_id);
-    tasks.append ("<tr id=\"a" + filter::strings::convert_to_string (task_id) + "\">\n");
-    tasks.append ("<td><a href=\"?id=" + filter::strings::convert_to_string (task_id) + "&remove=\">" + filter::strings::emoji_wastebasket () + "</a></td>\n");
+    tasks.append ("<tr id=\"a" + std::to_string (task_id) + "\">\n");
+    tasks.append ("<td><a href=\"?id=" + std::to_string (task_id) + "&remove=\">" + filter::strings::emoji_wastebasket () + "</a></td>\n");
     tasks.append ("<td></td>\n");
-    tasks.append ("<td><a href=\"?id=" + filter::strings::convert_to_string (task_id) + "&moveback=\"> « </a></td>\n");
+    tasks.append ("<td><a href=\"?id=" + std::to_string (task_id) + "&moveback=\"> « </a></td>\n");
     tasks.append ("<td>" + title + "</td>\n");
     size_t category_count = vcategories.size();
     float category_percentage = 100.0f / static_cast<float>(category_count);
@@ -234,9 +234,9 @@ std::string sprint_index ([[maybe_unused]] Webserver_Request& webserver_request)
       int high = static_cast <int> (round (static_cast<float>(i2 + 1) * category_percentage));
       tasks.append ("<td>\n");
       tasks.append ("<input type=\"checkbox\" id=\"task");
-      tasks.append (filter::strings::convert_to_string (task_id));
+      tasks.append (std::to_string (task_id));
       tasks.append ("box");
-      tasks.append (filter::strings::convert_to_string (i2));
+      tasks.append (std::to_string (i2));
       tasks.append ("\"");
       if (percentage >= high)
         tasks.append (" checked");
@@ -246,7 +246,7 @@ std::string sprint_index ([[maybe_unused]] Webserver_Request& webserver_request)
       
       tasks.append ("</td>\n");
     }
-    tasks.append ("<td><a href=\"?id=" + filter::strings::convert_to_string (task_id) + "&moveforward=\"> » </a></td>\n");
+    tasks.append ("<td><a href=\"?id=" + std::to_string (task_id) + "&moveforward=\"> » </a></td>\n");
     tasks.append ("</tr>\n");
   }
   view.set_variable ("tasks", tasks);

@@ -76,7 +76,7 @@ std::string webbible_search (Webserver_Request& webserver_request)
   
   
   // Hit count.
-  view.set_variable ("hitCount", filter::strings::convert_to_string (passages.size ()));
+  view.set_variable ("hitCount", std::to_string (passages.size ()));
   
   
   std::stringstream hitsblock;

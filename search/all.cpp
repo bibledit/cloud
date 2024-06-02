@@ -93,7 +93,7 @@ std::string search_all (Webserver_Request& webserver_request)
   
   
   size_t note_count = identifiers.size();
-  view.set_variable ("note_count", filter::strings::convert_to_string (note_count));
+  view.set_variable ("note_count", std::to_string (note_count));
   
   
   // Assemble the block of search results for the consultation notes.
@@ -107,7 +107,7 @@ std::string search_all (Webserver_Request& webserver_request)
     title = filter::strings::escape_special_xml_characters (title);
     
     // The url.
-    std::string url = site_url + notes_note_url () + "?id=" + filter::strings::convert_to_string (identifier);
+    std::string url = site_url + notes_note_url () + "?id=" + std::to_string (identifier);
     
     // The excerpt.
     std::string stext = database_notes.get_search_field (identifier);
@@ -144,7 +144,7 @@ std::string search_all (Webserver_Request& webserver_request)
   
   
   size_t textCount = passages.size ();
-  view.set_variable ("textCount", filter::strings::convert_to_string (textCount));
+  view.set_variable ("textCount", std::to_string (textCount));
   
   
   // Assemble the search results for the Bible text.

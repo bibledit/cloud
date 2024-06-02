@@ -51,12 +51,12 @@ void Esword_Text::flushCache ()
     for (size_t pos = 0; pos < length; pos++) {
       std::string s = filter::strings::unicode_string_substr (text, pos, 1);
       int codepoint = filter::strings::unicode_string_convert_to_codepoint (s);
-      unicode.append ("\\u" + filter::strings::convert_to_string (codepoint) + "?");
+      unicode.append ("\\u" + std::to_string (codepoint) + "?");
     }
     int book = currentBook;
     int chapter = currentChapter;
     int verse = currentVerse;
-    std::string statement = "INSERT INTO Bible VALUES (" + filter::strings::convert_to_string (book) + ", " + filter::strings::convert_to_string (chapter) + ", " + filter::strings::convert_to_string (verse) + ", '" + unicode + "');";
+    std::string statement = "INSERT INTO Bible VALUES (" + std::to_string (book) + ", " + std::to_string (chapter) + ", " + std::to_string (verse) + ", '" + unicode + "');";
     sql.push_back (statement);
   }
   currentText.clear ();

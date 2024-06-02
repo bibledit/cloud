@@ -115,7 +115,7 @@ std::string bible_order (Webserver_Request& webserver_request)
       book_id::_malachi,
     };
     std::vector <std::string> v_book_order {};
-    for (const auto book : interspersed) v_book_order.push_back (filter::strings::convert_to_string (static_cast<int>(book)));
+    for (const auto book : interspersed) v_book_order.push_back (std::to_string (static_cast<int>(book)));
     const std::string s_book_order = filter::strings::implode (v_book_order, " ");
     database::config::bible::set_book_order (bible, s_book_order);
   }
@@ -174,7 +174,7 @@ std::string bible_order (Webserver_Request& webserver_request)
       book_id::_baruch,
     };
     std::vector <std::string> v_book_order {};
-    for (const auto book : interspersed) v_book_order.push_back (filter::strings::convert_to_string (static_cast<int>(book)));
+    for (const auto book : interspersed) v_book_order.push_back (std::to_string (static_cast<int>(book)));
     const std::string s_book_order = filter::strings::implode (v_book_order, " ");
     database::config::bible::set_book_order (bible, s_book_order);
   }
@@ -193,7 +193,7 @@ std::string bible_order (Webserver_Request& webserver_request)
     const std::vector <int> books = filter_passage_get_ordered_books (bible);
     std::vector <std::string> s_books;
     for (const auto& book : books)
-      s_books.push_back (filter::strings::convert_to_string (book));
+      s_books.push_back (std::to_string (book));
     filter::strings::array_move_up_down (s_books, move, !moveup.empty ());
     const std::string s_order = filter::strings::implode (s_books, " ");
     database::config::bible::set_book_order (bible, s_order);
@@ -203,7 +203,7 @@ std::string bible_order (Webserver_Request& webserver_request)
   for (size_t i = 0; i < books.size (); i++) {
     std::string bookname = database::books::get_english_from_id (static_cast<book_id>(books[i]));
     bookname = translate (bookname);
-    view.add_iteration ("order", { std::pair ("offset", filter::strings::convert_to_string (i)), std::pair ("bookname", bookname) } );
+    view.add_iteration ("order", { std::pair ("offset", std::to_string (i)), std::pair ("bookname", bookname) } );
   }
 
   view.set_variable ("uparrow", filter::strings::unicode_black_up_pointing_triangle ());

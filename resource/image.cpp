@@ -139,7 +139,7 @@ std::string resource_image (Webserver_Request& webserver_request)
     // From passage ...
     imageblock.append ("<td>");
     if (book1) {
-      imageblock.append (filter_passage_display (book1, chapter1, filter::strings::convert_to_string (verse1)));
+      imageblock.append (filter_passage_display (book1, chapter1, std::to_string (verse1)));
     }
     imageblock.append ("</td>");
 
@@ -148,7 +148,7 @@ std::string resource_image (Webserver_Request& webserver_request)
     // ... to passage.
     imageblock.append ("<td>");
     if (book2) {
-      imageblock.append (filter_passage_display (book2, chapter2, filter::strings::convert_to_string (verse2)));
+      imageblock.append (filter_passage_display (book2, chapter2, std::to_string (verse2)));
     }
     imageblock.append ("</td>");
     

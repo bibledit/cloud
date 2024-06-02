@@ -142,7 +142,7 @@ std::string edit_navigate (Webserver_Request& webserver_request)
     }
     // The editor should scroll the verse into view,
     // because the caret is in the Bible text.
-    return filter::strings::convert_to_string (verse);
+    return std::to_string (verse);
     // If the caret were in the notes area,
     // then the editor should not scroll the verse into view.
   }

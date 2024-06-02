@@ -72,12 +72,12 @@ std::string sync_files (Webserver_Request& webserver_request)
   const std::string directory = directories [d];
   
   if (action == Sync_Logic::files_total_checksum) {
-    return filter::strings::convert_to_string (Sync_Logic::files_get_total_checksum (version, user));
+    return std::to_string (Sync_Logic::files_get_total_checksum (version, user));
   }
   
   else if (action == Sync_Logic::files_directory_checksum) {
     int checksum = Sync_Logic::files_get_directory_checksum (directory);
-    return filter::strings::convert_to_string (checksum);
+    return std::to_string (checksum);
   }
 
   else if (action == Sync_Logic::files_directory_files) {
@@ -87,7 +87,7 @@ std::string sync_files (Webserver_Request& webserver_request)
 
   else if (action == Sync_Logic::files_file_checksum) {
     int checksum = Sync_Logic::files_get_file_checksum (directory, file);
-    return filter::strings::convert_to_string (checksum);
+    return std::to_string (checksum);
   }
   
   else if (action == Sync_Logic::files_file_download) {

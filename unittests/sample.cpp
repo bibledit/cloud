@@ -34,7 +34,7 @@ TEST (database, sample)
   for (int i = 1; i <= 5; i++) {
     int file = (1000 * i);
     int data = (10'000 * i);
-    Database_Sample::store (filter::strings::convert_to_string (file), filter::strings::convert_to_string (data));
+    Database_Sample::store (std::to_string (file), std::to_string (data));
   }
 
   // Check amount of stored sample.
@@ -43,8 +43,8 @@ TEST (database, sample)
   
   // Retrieve and check the samples.
   for (int i = 1; i <= 5; i++) {
-    std::string standard_file = filter::strings::convert_to_string (1000 * i);
-    std::string standard_data = filter::strings::convert_to_string (10'000 * i);
+    std::string standard_file = std::to_string (1000 * i);
+    std::string standard_data = std::to_string (10'000 * i);
     std::string file, data;
     Database_Sample::get (i, file, data);
     EXPECT_EQ (standard_file, file);

@@ -83,7 +83,7 @@ std::string https_network_port ()
     // The secure port is the plain http port plus one.
     int iport = filter::strings::convert_to_int (config::logic::http_network_port ());
     iport++;
-    port = filter::strings::convert_to_string (iport);
+    port = std::to_string (iport);
   }
   return port;
 }

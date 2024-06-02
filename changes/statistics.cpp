@@ -51,7 +51,7 @@ void changes_statistics_add (Assets_View& view, const std::string& date, int cou
   if (count) {
     std::map <std::string, std::string> values;
     values ["date"] = date;
-    values ["count"] = filter::strings::convert_to_string (count);
+    values ["count"] = std::to_string (count);
     view.add_iteration ("statistics", values);
   }
 }

@@ -77,7 +77,7 @@ std::string versification_system (Webserver_Request& webserver_request)
     std::string bookname = database::books::get_english_from_id (static_cast<book_id>(book));
     data.push_back ("<tr>");
     data.push_back ("<td>" + bookname + "</td>");
-    data.push_back ("<td>" + filter::strings::convert_to_string (chapter) + "</td>");
+    data.push_back ("<td>" + std::to_string (chapter) + "</td>");
     data.push_back ("<td>" + filter::strings::convert_to_string (verse) + "</td>");
     data.push_back ("</tr>");
   }

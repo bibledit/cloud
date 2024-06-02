@@ -67,7 +67,7 @@ std::string public_note (Webserver_Request& webserver_request)
 
   
   const int id = filter::strings::convert_to_int (webserver_request.query ["id"]);
-  view.set_variable ("id", filter::strings::convert_to_string (id));
+  view.set_variable ("id", std::to_string (id));
   
   
   if (database_notes.get_public (id)) {

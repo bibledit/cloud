@@ -264,7 +264,7 @@ std::vector <Database_Ipc_Item> Database_Ipc::readData ()
 
 void Database_Ipc::writeRecord (int rowid, std::string user, std::string channel, std::string command, std::string message)
 {
-  std::string filename = filter::strings::convert_to_string (rowid) + "__" + user + "__" +  channel + "__" + command;
+  std::string filename = std::to_string (rowid) + "__" + user + "__" +  channel + "__" + command;
   filename = file (filename);
   filter_url_file_put_contents (filename, message);
 }

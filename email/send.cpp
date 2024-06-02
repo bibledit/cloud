@@ -121,7 +121,7 @@ void email_send ()
         for (auto id2 : ids) {
           database_mail.postpone (id2);
         }
-        Database_Logs::log ("Postponing sending " + filter::strings::convert_to_string (ids.size()) + " emails", Filter_Roles::manager ());
+        Database_Logs::log ("Postponing sending " + std::to_string (ids.size()) + " emails", Filter_Roles::manager ());
         break;
       } else {
         database_mail.postpone (id);
@@ -179,7 +179,7 @@ std::string email_send ([[maybe_unused]] std::string to_mail,
   // Truncate huge emails because libcurl crashes on it.
   size_t length = body.length ();
   if (length > 100000) {
-    body = "This email was " + filter::strings::convert_to_string (length) + " bytes long. It was too long, and could not be sent.";
+    body = "This email was " + std::to_string (length) + " bytes long. It was too long, and could not be sent.";
   }
   
   // Deal with empty subject.
@@ -227,7 +227,7 @@ std::string email_send ([[maybe_unused]] std::string to_mail,
   int seconds = filter::date::seconds_since_epoch ();
   payload_text.clear();
   std::string payload;
-  payload = "Date: " + filter::strings::convert_to_string (filter::date::numerical_year (seconds)) + "/" + filter::strings::convert_to_string (filter::date::numerical_month (seconds)) + "/" + filter::strings::convert_to_string (filter::date::numerical_month_day (seconds)) + " " + filter::strings::convert_to_string (filter::date::numerical_hour (seconds)) + ":" + filter::strings::convert_to_string (filter::date::numerical_minute (seconds)) + "\n";
+  payload = "Date: " + std::to_string (filter::date::numerical_year (seconds)) + "/" + std::to_string (filter::date::numerical_month (seconds)) + "/" + std::to_string (filter::date::numerical_month_day (seconds)) + " " + std::to_string (filter::date::numerical_hour (seconds)) + ":" + std::to_string (filter::date::numerical_minute (seconds)) + "\n";
   payload_text.push_back (payload);
   payload = "To: <" + to_mail + "> " + to_name + "\n";
   payload_text.push_back (payload);
@@ -236,7 +236,7 @@ std::string email_send ([[maybe_unused]] std::string to_mail,
   std::string site = from_mail;
   size_t pos = site.find ("@");
   if (pos != std::string::npos) site = site.substr (pos);
-  payload = "Message-ID: <" + md5 (filter::strings::convert_to_string (filter::strings::rand (0, 1000000))) + site + ">\n";
+  payload = "Message-ID: <" + md5 (std::to_string (filter::strings::rand (0, 1000000))) + site + ">\n";
   payload_text.push_back (payload);
   payload = "Subject: " + subject + "\n";
   payload_text.push_back (payload);

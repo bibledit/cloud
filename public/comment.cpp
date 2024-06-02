@@ -61,19 +61,19 @@ std::string public_comment (Webserver_Request& webserver_request)
   
   
   const int id = filter::strings::convert_to_int (webserver_request.query ["id"]);
-  view.set_variable ("id", filter::strings::convert_to_string (id));
+  view.set_variable ("id", std::to_string (id));
   
   
   if (webserver_request.post.count ("submit")) {
     const std::string comment = filter::strings::trim (webserver_request.post ["comment"]);
     notes_logic.addComment (id, comment);
-    redirect_browser (webserver_request, public_note_url () + "?id=" + filter::strings::convert_to_string (id));
+    redirect_browser (webserver_request, public_note_url () + "?id=" + std::to_string (id));
     return std::string();
   }
   
   
   if (webserver_request.post.count ("cancel")) {
-    redirect_browser (webserver_request, public_note_url () + "?id=" + filter::strings::convert_to_string (id));
+    redirect_browser (webserver_request, public_note_url () + "?id=" + std::to_string (id));
     return std::string();
   }
   

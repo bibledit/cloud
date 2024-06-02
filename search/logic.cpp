@@ -42,13 +42,13 @@ std::string search_logic_bible_fragment (std::string bible)
 
 std::string search_logic_book_fragment (std::string bible, int book)
 {
-  return search_logic_bible_fragment (bible) + filter::strings::convert_to_string (book) + "_";
+  return search_logic_bible_fragment (bible) + std::to_string (book) + "_";
 }
 
 
 std::string search_logic_chapter_file (std::string bible, int book, int chapter)
 {
-  return search_logic_book_fragment (bible, book) + filter::strings::convert_to_string (chapter);
+  return search_logic_book_fragment (bible, book) + std::to_string (chapter);
 }
 
 
@@ -94,7 +94,7 @@ void search_logic_index_chapter (std::string bible, int book, int chapter)
     already_processed.insert (raw_usfm);
 
     index.push_back (search_logic_verse_separator ());
-    index.push_back (filter::strings::convert_to_string (verse));
+    index.push_back (std::to_string (verse));
     index.push_back (search_logic_index_separator ());
 
     index.push_back (raw_usfm);
@@ -184,7 +184,7 @@ std::vector <Passage> search_logic_search_text (std::string search, std::vector 
               index_item++;
             } else if (index_item == PLAIN_LOWER) {
               if (line.find (search) != std::string::npos) {
-                passages.push_back (Passage (bible, book, chapter, filter::strings::convert_to_string (index_verse)));
+                passages.push_back (Passage (bible, book, chapter, std::to_string (index_verse)));
               }
             }
           }
@@ -231,7 +231,7 @@ std::vector <Passage> search_logic_search_bible_text (std::string bible, std::st
             index_item++;
           } else if (index_item == PLAIN_LOWER) {
             if (line.find (search) != std::string::npos) {
-              passages.push_back (Passage (bible, book, chapter, filter::strings::convert_to_string (index_verse)));
+              passages.push_back (Passage (bible, book, chapter, std::to_string (index_verse)));
             }
           }
         }
@@ -275,7 +275,7 @@ std::vector <Passage> search_logic_search_bible_text_case_sensitive (std::string
             index_item++;
           } else if (index_item == PLAIN_RAW) {
             if (line.find (search) != std::string::npos) {
-              passages.push_back (Passage (bible, book, chapter, filter::strings::convert_to_string (index_verse)));
+              passages.push_back (Passage (bible, book, chapter, std::to_string (index_verse)));
             }
           }
         }
@@ -321,7 +321,7 @@ std::vector <Passage> search_logic_search_bible_usfm (std::string bible, std::st
             index_item++;
           } else if (index_item == USFM_LOWER) {
             if (line.find (search) != std::string::npos) {
-              passages.push_back (Passage (bible, book, chapter, filter::strings::convert_to_string (index_verse)));
+              passages.push_back (Passage (bible, book, chapter, std::to_string (index_verse)));
             }
           }
         }
@@ -365,7 +365,7 @@ std::vector <Passage> search_logic_search_bible_usfm_case_sensitive (std::string
             index_item++;
           } else if (index_item == USFM_RAW) {
             if (line.find (search) != std::string::npos) {
-              passages.push_back (Passage (bible, book, chapter, filter::strings::convert_to_string (index_verse)));
+              passages.push_back (Passage (bible, book, chapter, std::to_string (index_verse)));
             }
           }
         }

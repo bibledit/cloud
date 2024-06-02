@@ -66,12 +66,12 @@ std::string workspace_settings (Webserver_Request& webserver_request)
     int to2 = 0;
     for (int row = 1; row <= 3; row++) {
       for (int column = 1; column <= 5; column++) {
-        std::string key = filter::strings::convert_to_string (row) + filter::strings::convert_to_string (column);
+        std::string key = std::to_string (row) + std::to_string (column);
         urls [to14] = webserver_request.post ["url" + key];
         widths [to14] = webserver_request.post ["width" + key];
         to14++;
       }
-      std::string key = filter::strings::convert_to_string (row);
+      std::string key = std::to_string (row);
       row_heights [to2] = webserver_request.post ["height" + key];
       to2++;
     }
@@ -110,9 +110,9 @@ std::string workspace_settings (Webserver_Request& webserver_request)
     int key = element.first;
     int row = static_cast<int>(round (key / 5)) + 1;
     int column = key % 5 + 1;
-    std::string variable = "url" + filter::strings::convert_to_string (row) + filter::strings::convert_to_string (column);
+    std::string variable = "url" + std::to_string (row) + std::to_string (column);
     view.set_variable (variable, urls[key]);
-    variable = "width" + filter::strings::convert_to_string (row) + filter::strings::convert_to_string (column);
+    variable = "width" + std::to_string (row) + std::to_string (column);
     view.set_variable (variable, widths[key]);
   }
   
@@ -120,7 +120,7 @@ std::string workspace_settings (Webserver_Request& webserver_request)
   for (auto & element : row_heights) {
     int key = element.first;
     int row = key + 1;
-    std::string variable = "height" + filter::strings::convert_to_string (row);
+    std::string variable = "height" + std::to_string (row);
     view.set_variable (variable, row_heights [key]);
   }
 
@@ -132,7 +132,7 @@ std::string workspace_settings (Webserver_Request& webserver_request)
   
   std::vector <std::string> samples = workspace_get_default_names ();
   for (size_t i = 0; i < samples.size (); i++) {
-    std::string sample = "<a href=\"settings?name=##name##&preset=" + filter::strings::convert_to_string (i + 1) + "\">" + samples[i] + "</a>";
+    std::string sample = "<a href=\"settings?name=##name##&preset=" + std::to_string (i + 1) + "\">" + samples[i] + "</a>";
     samples [i] = sample;
   }
   view.set_variable ("samples", filter::strings::implode (samples, "\n|\n"));

@@ -218,7 +218,7 @@ std::string Filter_Css::get_css (std::string class_, std::string font, int direc
   }
   
   if (lineheight != 100) {
-    std::string line = "line-height: " + filter::strings::convert_to_string (lineheight) + "%;";
+    std::string line = "line-height: " + std::to_string(lineheight) + "%;";
     css.push_back (line);
   }
   

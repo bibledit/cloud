@@ -81,7 +81,7 @@ std::string edit_position (Webserver_Request& webserver_request)
     }
   }
   if (verse) {
-    starting_offset += static_cast<int> (filter::strings::convert_to_string (verse).length () + 1);
+    starting_offset += static_cast<int> (std::to_string (verse).length () + 1);
   }
   if (ending_offset) {
     ending_offset--;
@@ -89,9 +89,9 @@ std::string edit_position (Webserver_Request& webserver_request)
     ending_offset = static_cast<int>(editor_usfm2html.m_text_tength);
   }
   
-  std::string data = filter::strings::convert_to_string (starting_offset);
+  std::string data = std::to_string (starting_offset);
   data.append ("\n");
-  data.append (filter::strings::convert_to_string (ending_offset));
+  data.append (std::to_string (ending_offset));
   
   return data;
 }

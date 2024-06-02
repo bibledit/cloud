@@ -71,19 +71,19 @@ std::string notes_comment (Webserver_Request& webserver_request)
     std::string comment = filter::strings::trim (webserver_request.post ["body"]);
     comment = filter_url_tag_to_plus (comment);
     notes_logic.addComment (id, comment);
-    redirect_browser (webserver_request, notes_note_url () + "?id=" + filter::strings::convert_to_string (id) + "&temporal=");
+    redirect_browser (webserver_request, notes_note_url () + "?id=" + std::to_string (id) + "&temporal=");
     return std::string();
   }
   
   
   if (webserver_request.post.count ("cancel")) {
-    redirect_browser (webserver_request, notes_note_url () + "?id=" + filter::strings::convert_to_string (id));
+    redirect_browser (webserver_request, notes_note_url () + "?id=" + std::to_string (id));
     return std::string();
   }
   
   
-  view.set_variable ("id", filter::strings::convert_to_string (id));
-  std::string script = "var noteId = '" + filter::strings::convert_to_string (id) + "';\n";
+  view.set_variable ("id", std::to_string (id));
+  std::string script = "var noteId = '" + std::to_string (id) + "';\n";
   view.set_variable ("script", script);
 
 

@@ -58,13 +58,13 @@ std::string notes_summary (Webserver_Request& webserver_request)
 
 
   int id = filter::strings::convert_to_int (webserver_request.query ["id"]);
-  view.set_variable ("id", filter::strings::convert_to_string (id));
+  view.set_variable ("id", std::to_string (id));
   
   
   if (webserver_request.post.count ("submit")) {
     std::string summary = webserver_request.post["entry"];
     notes_logic.set_summary (id, summary);
-    redirect_browser (webserver_request, notes_note_url () + "?id=" + filter::strings::convert_to_string (id));
+    redirect_browser (webserver_request, notes_note_url () + "?id=" + std::to_string (id));
     return std::string();
   }
   

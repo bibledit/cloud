@@ -124,13 +124,13 @@ std::string personalize_index (Webserver_Request& webserver_request)
   
   // Font size for everything.
   if (config::logic::default_bibledit_configuration ()) {
-    view.set_variable ("fontsizegeneral", filter::strings::convert_to_string (webserver_request.database_config_user ()->getGeneralFontSize ()));
+    view.set_variable ("fontsizegeneral", std::to_string (webserver_request.database_config_user ()->getGeneralFontSize ()));
   }
 
   
   // Font size for the menu.
   if (config::logic::default_bibledit_configuration ()) {
-    view.set_variable ("fontsizemenu", filter::strings::convert_to_string (webserver_request.database_config_user ()->getMenuFontSize ()));
+    view.set_variable ("fontsizemenu", std::to_string (webserver_request.database_config_user ()->getMenuFontSize ()));
   }
   
   
@@ -142,7 +142,7 @@ std::string personalize_index (Webserver_Request& webserver_request)
     styles_sheets_create_all ();
     return std::string();
   }
-  view.set_variable ("fontsizeeditors", filter::strings::convert_to_string (webserver_request.database_config_user ()->getBibleEditorsFontSize ()));
+  view.set_variable ("fontsizeeditors", std::to_string (webserver_request.database_config_user ()->getBibleEditorsFontSize ()));
   
   
   // Font size for the resources.
@@ -154,7 +154,7 @@ std::string personalize_index (Webserver_Request& webserver_request)
     }
     return std::string();
   }
-  view.set_variable ("fontsizeresources", filter::strings::convert_to_string (webserver_request.database_config_user ()->getResourcesFontSize ()));
+  view.set_variable ("fontsizeresources", std::to_string (webserver_request.database_config_user ()->getResourcesFontSize ()));
   
   
   // Font size for Hebrew resources.
@@ -166,7 +166,7 @@ std::string personalize_index (Webserver_Request& webserver_request)
     }
     return std::string();
   }
-  view.set_variable ("fontsizehebrew", filter::strings::convert_to_string (webserver_request.database_config_user ()->getHebrewFontSize ()));
+  view.set_variable ("fontsizehebrew", std::to_string (webserver_request.database_config_user ()->getHebrewFontSize ()));
   
   
   // Font size for Greek resources.
@@ -178,7 +178,7 @@ std::string personalize_index (Webserver_Request& webserver_request)
     }
     return std::string();
   }
-  view.set_variable ("fontsizegreek", filter::strings::convert_to_string (webserver_request.database_config_user ()->getGreekFontSize ()));
+  view.set_variable ("fontsizegreek", std::to_string (webserver_request.database_config_user ()->getGreekFontSize ()));
   
   
   // Vertical caret position in chapter editors.
@@ -188,7 +188,7 @@ std::string personalize_index (Webserver_Request& webserver_request)
     webserver_request.database_config_user ()->setVerticalCaretPosition (caretposition);
     return std::string();
   }
-  view.set_variable ("caretposition", filter::strings::convert_to_string (webserver_request.database_config_user ()->getVerticalCaretPosition ()));
+  view.set_variable ("caretposition", std::to_string (webserver_request.database_config_user ()->getVerticalCaretPosition ()));
   
 
   // Whether to display bread crumbs.
@@ -200,7 +200,7 @@ std::string personalize_index (Webserver_Request& webserver_request)
 
   
   // Set the chosen theme on the option HTML tag.
-  std::string theme_key = filter::strings::convert_to_string (webserver_request.database_config_user ()->getCurrentTheme ());
+  std::string theme_key = std::to_string (webserver_request.database_config_user ()->getCurrentTheme ());
   std::string theme_html;
   theme_html = Options_To_Select::add_selection ("Basic", "0", theme_html);
   theme_html = Options_To_Select::add_selection ("Light", "1", theme_html);
@@ -218,12 +218,12 @@ std::string personalize_index (Webserver_Request& webserver_request)
     webserver_request.database_config_user ()->setWorkspaceMenuFadeoutDelay (workspacefadeoutdelay);
     return std::string();
   }
-  view.set_variable ("workspacefadeoutdelay", filter::strings::convert_to_string (webserver_request.database_config_user ()->getWorkspaceMenuFadeoutDelay ()));
+  view.set_variable ("workspacefadeoutdelay", std::to_string (webserver_request.database_config_user ()->getWorkspaceMenuFadeoutDelay ()));
 
   
   // Permissable relative changes in the two to four Bible editors.
-  view.set_variable ("chapterpercentage", filter::strings::convert_to_string (webserver_request.database_config_user ()->getEditingAllowedDifferenceChapter ()));
-  view.set_variable ("versepercentage", filter::strings::convert_to_string (webserver_request.database_config_user ()->getEditingAllowedDifferenceVerse ()));
+  view.set_variable ("chapterpercentage", std::to_string (webserver_request.database_config_user ()->getEditingAllowedDifferenceChapter ()));
+  view.set_variable ("versepercentage", std::to_string (webserver_request.database_config_user ()->getEditingAllowedDifferenceVerse ()));
   
   
   // Whether to keep the main menu always visible.
@@ -254,14 +254,14 @@ std::string personalize_index (Webserver_Request& webserver_request)
   const char * fastswitchvisualeditors = "fastswitchvisualeditors";
   std::string visual_editors_html;
   for (int i = 0; i < 3; i++) {
-    visual_editors_html = Options_To_Select::add_selection (menu_logic_editor_settings_text (true, i), filter::strings::convert_to_string (i), visual_editors_html);
+    visual_editors_html = Options_To_Select::add_selection (menu_logic_editor_settings_text (true, i), std::to_string (i), visual_editors_html);
   }
   if (webserver_request.post.count (fastswitchvisualeditors)) {
     int visual_editor_key = filter::strings::convert_to_int (webserver_request.post [fastswitchvisualeditors]);
     webserver_request.database_config_user ()->setFastSwitchVisualEditors (visual_editor_key);
     return std::string();
   }
-  std::string editor_key = filter::strings::convert_to_string (webserver_request.database_config_user ()->getFastSwitchVisualEditors ());
+  std::string editor_key = std::to_string (webserver_request.database_config_user ()->getFastSwitchVisualEditors ());
   view.set_variable ("fastswitchvisualeditorsoptags", Options_To_Select::mark_selected (editor_key, visual_editors_html));
   view.set_variable (fastswitchvisualeditors, editor_key);
 
@@ -270,14 +270,14 @@ std::string personalize_index (Webserver_Request& webserver_request)
   const char * fastswitchusfmeditors = "fastswitchusfmeditors";
   std::string usfm_editors_html;
   for (int i = 0; i < 2; i++) {
-    usfm_editors_html = Options_To_Select::add_selection (menu_logic_editor_settings_text (false, i), filter::strings::convert_to_string (i), usfm_editors_html);
+    usfm_editors_html = Options_To_Select::add_selection (menu_logic_editor_settings_text (false, i), std::to_string (i), usfm_editors_html);
   }
   if (webserver_request.post.count (fastswitchusfmeditors)) {
     int usfm_editor_key = filter::strings::convert_to_int (webserver_request.post [fastswitchusfmeditors]);
     webserver_request.database_config_user ()->setFastSwitchUsfmEditors (usfm_editor_key);
     return std::string();
   }
-  editor_key = filter::strings::convert_to_string(webserver_request.database_config_user ()->getFastSwitchUsfmEditors ());
+  editor_key = std::to_string(webserver_request.database_config_user ()->getFastSwitchUsfmEditors ());
   view.set_variable ("fastswitchusfmeditorsoptags", Options_To_Select::mark_selected (editor_key, usfm_editors_html));
   view.set_variable (fastswitchusfmeditors, editor_key);
 
@@ -433,12 +433,12 @@ std::string personalize_index (Webserver_Request& webserver_request)
     webserver_request.database_config_user ()->setNotesDateFormat(date_format_key);
     return std::string();
   }
-  std::string date_format_key = filter::strings::convert_to_string (webserver_request.database_config_user ()->getNotesDateFormat());
+  std::string date_format_key = std::to_string (webserver_request.database_config_user ()->getNotesDateFormat());
   std::string date_format_html;
   for (filter::date::date_format df = filter::date::dd_mm_yyyy;
        df <= filter::date::yyyy_mn_dd;
        df = static_cast<filter::date::date_format>(df + 1)) {
-    date_format_html = Options_To_Select::add_selection (filter::date::date_format_to_text (df), filter::strings::convert_to_string(df), date_format_html);
+    date_format_html = Options_To_Select::add_selection (filter::date::date_format_to_text (df), std::to_string(df), date_format_html);
   }
   view.set_variable ("dateformatoptags", Options_To_Select::mark_selected (date_format_key, date_format_html));
   view.set_variable (dateformat, date_format_key);

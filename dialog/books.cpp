@@ -82,7 +82,7 @@ std::string Dialog_Books::run ()
   std::stringstream book_block;
   for (const auto & id : book_ids) {
     book_block << "<a href=";
-    book_block << std::quoted(filter_url_build_http_query (base_url, selection_action, filter::strings::convert_to_string (id)));
+    book_block << std::quoted(filter_url_build_http_query (base_url, selection_action, std::to_string (id)));
     book_block << ">" << database::books::get_english_from_id (static_cast<book_id>(id)) << "</a>\n";
   }
   assets_view.set_variable ("book_block", book_block.str());

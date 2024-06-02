@@ -73,7 +73,7 @@ void nmt_logic_export (std::string referencebible, std::string translatingbible)
         if ((reference_versification != translating_versification) && !translating_versification.empty ()) {
           translation_passages = database_mappings.translate (reference_versification, translating_versification, book, reference_chapter, reference_verse);
         } else {
-          translation_passages.push_back (Passage ("", book, reference_chapter, filter::strings::convert_to_string (reference_verse)));
+          translation_passages.push_back (Passage ("", book, reference_chapter, std::to_string (reference_verse)));
         }
 
         // If the conversion from one versification system to another
@@ -84,7 +84,7 @@ void nmt_logic_export (std::string referencebible, std::string translatingbible)
         // So such versea are skipped for that reason.
         if (translation_passages.size() != 1) {
           std::string referencetext = filter_passage_display_inline (translation_passages);
-          std::string message = "Skipping reference Bible verse " + filter::strings::convert_to_string (reference_verse) + " and translated Bible " + referencetext;
+          std::string message = "Skipping reference Bible verse " + std::to_string (reference_verse) + " and translated Bible " + referencetext;
           Database_Logs::log (message);
           continue;
         }

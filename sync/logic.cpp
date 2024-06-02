@@ -195,7 +195,7 @@ std::string Sync_Logic::usfm_resource_checksum (const std::string& name)
   Database_UsfmResources database_usfmresources = Database_UsfmResources ();
   std::vector <int> books = database_usfmresources.getBooks (name);
   for (auto & book : books) {
-    vchecksum.push_back (filter::strings::convert_to_string (book));
+    vchecksum.push_back (std::to_string (book));
     vchecksum.push_back (usfm_resource_book_checksum (name, book));
   }
   std::string checksum = filter::strings::implode (vchecksum, "");
@@ -211,7 +211,7 @@ std::string Sync_Logic::usfm_resource_book_checksum (const std::string& name, in
   Database_UsfmResources database_usfmresources = Database_UsfmResources ();
   std::vector <int> chapters = database_usfmresources.getChapters (name, book);
   for (auto & chapter : chapters) {
-    vchecksum.push_back (filter::strings::convert_to_string (chapter));
+    vchecksum.push_back (std::to_string (chapter));
     vchecksum.push_back (usfm_resource_chapter_checksum (name, book, chapter));
   }
   std::string checksum = filter::strings::implode (vchecksum, "");
@@ -225,7 +225,7 @@ std::string Sync_Logic::usfm_resource_chapter_checksum (const std::string& name,
 {
   Database_UsfmResources database_usfmresources = Database_UsfmResources ();
   int checksum = database_usfmresources.getSize (name, book, chapter);
-  return filter::strings::convert_to_string (checksum);
+  return std::to_string (checksum);
 }
 
 
@@ -237,7 +237,7 @@ std::string Sync_Logic::changes_checksum (const std::string& username)
   std::vector <int> ids = database_modifications.getNotificationIdentifiers (username, any_bible);
   std::string checksum;
   for (auto & id : ids) {
-    checksum.append (filter::strings::convert_to_string (id));
+    checksum.append (std::to_string (id));
   }
   checksum = md5 (checksum);
   return checksum;

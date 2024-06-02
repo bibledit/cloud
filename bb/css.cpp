@@ -115,7 +115,7 @@ std::string bible_css (Webserver_Request& webserver_request)
   view.set_variable ("mode_btrl", Filter_Css::writingModeBottomTopRightLeft (direction));
 
   const int lineheight = database::config::bible::get_line_height (bible);
-  view.set_variable ("lineheight", filter::strings::convert_to_string (lineheight));
+  view.set_variable ("lineheight", std::to_string (lineheight));
 
   float letterspacing = static_cast<float> (database::config::bible::get_letter_spacing (bible));
   letterspacing /= 10;

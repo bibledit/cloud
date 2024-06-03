@@ -67,7 +67,7 @@ std::string compare_index (Webserver_Request& webserver_request)
   header.add_bread_crumb (bible_manage_url (), menu_logic_bible_manage_text ());
   page = header.run ();
   
-  Assets_View view;
+  Assets_View view {};
   
   const std::string bible = webserver_request.query ["bible"];
   view.set_variable ("bible", bible);
@@ -86,7 +86,7 @@ std::string compare_index (Webserver_Request& webserver_request)
   std::vector <std::string> names = webserver_request.database_bibles()->get_bibles ();
 
   Database_UsfmResources database_usfmresources;
-  std::vector <std::string> usfm_resources = database_usfmresources.getResources ();
+  const std::vector <std::string> usfm_resources = database_usfmresources.getResources ();
   names.insert (names.end (), usfm_resources.begin(), usfm_resources.end ());
 
   sort (names.begin (), names.end ());
@@ -103,9 +103,9 @@ std::string compare_index (Webserver_Request& webserver_request)
   document.print(ss, "", pugi::format_raw);
   view.set_variable ("bibleblock", ss.str());
 
-  page += view.render ("compare", "index");
+  page.append (view.render ("compare", "index"));
   
-  page += assets_page::footer ();
+  page.append (assets_page::footer ());
   
   return page;
 }

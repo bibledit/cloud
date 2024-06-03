@@ -21,4 +21,4 @@
 
 #include <config/libraries.h>
 
-void compare_compare (std::string bible, std::string compare, int jobId);
+void compare_compare (const std::string& bible, const std::string& compare, const int job_id);

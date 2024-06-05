@@ -21,4 +21,4 @@
 
 #include <config/libraries.h>
 
-void export_bibledropbox (std::string user, std::string bible);
+void export_bibledropbox (const std::string& user, const std::string& bible);

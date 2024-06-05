@@ -39,21 +39,22 @@
 #include <styles/sheets.h>
 
 
-void export_html_book (std::string bible, int book, bool log)
+void export_html_book (const std::string& bible, const int book, const bool log)
 {
   // Create folders for the html export.
-  std::string directory = filter_url_create_path ({export_logic::bible_directory (bible), "html"});
-  if (!file_or_dir_exists (directory)) filter_url_mkdir (directory);
+  const std::string directory = filter_url_create_path ({export_logic::bible_directory (bible), "html"});
+  if (!file_or_dir_exists (directory))
+    filter_url_mkdir (directory);
   
   
   // Filename for the html file.
-  std::string basename = export_logic::base_book_filename (bible, book);
-  std::string filename_html = filter_url_create_path ({directory, basename + ".html"});
-  std::string stylesheet_css = filter_url_create_path ({directory, "stylesheet.css"});
+  const std::string basename = export_logic::base_book_filename (bible, book);
+  const std::string filename_html = filter_url_create_path ({directory, basename + ".html"});
+  const std::string stylesheet_css = filter_url_create_path ({directory, "stylesheet.css"});
   
   
-  Database_Bibles database_bibles;
-  Database_BibleImages database_bibleimages;
+  Database_Bibles database_bibles {};
+  Database_BibleImages database_bibleimages {};
 
   
   const std::string stylesheet = database::config::bible::get_export_stylesheet (bible);
@@ -65,11 +66,11 @@ void export_html_book (std::string bible, int book, bool log)
   
   
   // Copy font to the output directory.
-  std::string font = fonts::logic::get_text_font (bible);
+  const std::string font = fonts::logic::get_text_font (bible);
   if (!font.empty ()) {
     if (fonts::logic::font_exists (font)) {
       std::string fontpath = fonts::logic::get_font_path (font);
-      std::string contents = filter_url_file_get_contents (fontpath);
+      const std::string contents = filter_url_file_get_contents (fontpath);
       fontpath = filter_url_create_path ({directory, font});
       filter_url_file_put_contents (fontpath, contents);
     }
@@ -85,8 +86,8 @@ void export_html_book (std::string bible, int book, bool log)
   
   
   // Load one book.
-  std::vector <int> chapters = database_bibles.get_chapters (bible, book);
-  for (auto chapter : chapters) {
+  const std::vector <int> chapters = database_bibles.get_chapters (bible, book);
+  for (const auto chapter : chapters) {
     // Get the USFM for this chapter.
     std::string usfm = database_bibles.get_chapter (bible, book, chapter);
     usfm = filter::strings::trim (usfm);
@@ -104,9 +105,9 @@ void export_html_book (std::string bible, int book, bool log)
   
   
   // Save any images that were included.
-  for (auto src : filter_text.image_sources) {
-    std::string contents = database_bibleimages.get(src);
-    std::string filename = filter_url_create_path ({directory, src});
+  for (const auto src : filter_text.image_sources) {
+    const std::string contents = database_bibleimages.get(src);
+    const std::string filename = filter_url_create_path ({directory, src});
     filter_url_file_put_contents(filename, contents);
   }
 
@@ -115,5 +116,6 @@ void export_html_book (std::string bible, int book, bool log)
   Database_State::clearExport (bible, book, export_logic::export_html);
 
   
-  if (log) Database_Logs::log (translate("Exported to html") + ": " + bible + " " + database::books::get_english_from_id (static_cast<book_id>(book)), Filter_Roles::translator ());
+  if (log) 
+    Database_Logs::log (translate("Exported to html") + ": " + bible + " " + database::books::get_english_from_id (static_cast<book_id>(book)), Filter_Roles::translator ());
 }

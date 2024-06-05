@@ -21,4 +21,4 @@
 
 #include <config/libraries.h>
 
-void export_esword (std::string bible, bool log);
+void export_esword (const std::string& bible, bool log);

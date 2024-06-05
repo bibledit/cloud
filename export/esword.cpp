@@ -36,19 +36,21 @@
 #include <styles/sheets.h>
 
 
-void export_esword (std::string bible, bool log)
+void export_esword (const std::string& bible, bool log)
 {
-  std::string directory = filter_url_create_path ({export_logic::bible_directory (bible), "esword"});
-  if (!file_or_dir_exists (directory)) filter_url_mkdir (directory);
+  const std::string directory = filter_url_create_path ({export_logic::bible_directory (bible), "esword"});
+  if (!file_or_dir_exists (directory))
+    filter_url_mkdir (directory);
   
   
-  std::string filename = filter_url_create_path ({directory, "bible.bblx"});
+  const std::string filename = filter_url_create_path ({directory, "bible.bblx"});
 
   
-  if (file_or_dir_exists (filename)) filter_url_unlink (filename);
+  if (file_or_dir_exists (filename)) 
+    filter_url_unlink (filename);
   
   
-  Database_Bibles database_bibles;
+  Database_Bibles database_bibles {};
   
   
   const std::string stylesheet = database::config::bible::get_export_stylesheet (bible);
@@ -56,11 +58,11 @@ void export_esword (std::string bible, bool log)
   
   Filter_Text filter_text_bible = Filter_Text (bible);
   filter_text_bible.esword_text = new Esword_Text (bible);
-  std::vector <int> books = database_bibles.get_books (bible);
-  for (auto book : books) {
-    std::vector <int> chapters = database_bibles.get_chapters (bible, book);
-    for (auto chapter : chapters) {
-      std::string chapter_data = database_bibles.get_chapter (bible, book, chapter);
+  const std::vector <int> books = database_bibles.get_books (bible);
+  for (const auto book : books) {
+    const std::vector <int> chapters = database_bibles.get_chapters (bible, book);
+    for (const auto chapter : chapters) {
+      const std::string chapter_data = database_bibles.get_chapter (bible, book, chapter);
       filter_text_bible.add_usfm_code (chapter_data);
     }
   }
@@ -72,5 +74,6 @@ void export_esword (std::string bible, bool log)
   Database_State::clearExport (bible, 0, export_logic::export_esword);
 
   
-  if (log) Database_Logs::log (translate("Exported to e-Sword") + " " + bible, Filter_Roles::translator ());
+  if (log) 
+    Database_Logs::log (translate("Exported to e-Sword") + " " + bible, Filter_Roles::translator ());
 }

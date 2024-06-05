@@ -33,26 +33,26 @@
 #include <email/send.h>
 
 
-void export_bibledropbox (std::string user, std::string bible)
+void export_bibledropbox (const std::string& user, const std::string& bible)
 {
-  Webserver_Request request;
-  Database_Bibles database_bibles;
-  Database_Users database_users;
+  Webserver_Request request {};
+  Database_Bibles database_bibles {};
+  Database_Users database_users {};
 
   
-  std::string tag = translate ("Submit to the Bible Drop Box") + ": ";
+  const std::string tag = translate ("Submit to the Bible Drop Box") + ": ";
   Database_Logs::log (tag + bible, Filter_Roles::translator ());
 
   
   // Temporal USFM directory.
-  std::string directory = filter_url_tempfile ();
+  const std::string directory = filter_url_tempfile ();
   filter_url_mkdir (directory);
   
 
   // Take the USFM from the Bible database.
   // Generate one USFM file per book.
-  std::vector <int> books = database_bibles.get_books (bible);
-  for (auto book : books) {
+  const std::vector <int> books = database_bibles.get_books (bible);
+  for (const auto book : books) {
     
     
     // The USFM data of the current book.
@@ -60,7 +60,7 @@ void export_bibledropbox (std::string user, std::string bible)
     
     
     // Collect the USFM for all chapters in this book.
-    std::vector <int> chapters = database_bibles.get_chapters (bible, book);
+    const std::vector <int> chapters = database_bibles.get_chapters (bible, book);
     for (auto chapter : chapters) {
       // Get the USFM code for the current chapter.
       std::string usfm = database_bibles.get_chapter (bible, book, chapter);
@@ -72,8 +72,8 @@ void export_bibledropbox (std::string user, std::string bible)
     
     
     // The filename for the USFM for this book.
-    std::string filename = export_logic::base_book_filename (bible, book);
-    std::string path = filter_url_create_path ({directory, filename + ".usfm"});
+    const std::string filename = export_logic::base_book_filename (bible, book);
+    const std::string path = filter_url_create_path ({directory, filename + ".usfm"});
     
     
     // Save.
@@ -82,9 +82,9 @@ void export_bibledropbox (std::string user, std::string bible)
   
   
   // Compress USFM files into one zip file.
-  std::string zipfile = filter_url_create_path ({directory, export_logic::base_book_filename (bible, 0) + ".zip"});
+  const std::string zipfile = filter_url_create_path ({directory, export_logic::base_book_filename (bible, 0) + ".zip"});
   
-  std::string archive = filter_archive_zip_folder (directory);
+  const std::string archive = filter_archive_zip_folder (directory);
   filter_url_rename (archive, zipfile);
   
   // Here is the submission form as of July 2018:
@@ -128,7 +128,7 @@ void export_bibledropbox (std::string user, std::string bible)
   
   
   // Bible Drop Box submission URL.
-  std::string url = "http://freely-given.org/Software/BibleDropBox/SubmitAction.phtml";
+  const std::string url = "http://freely-given.org/Software/BibleDropBox/SubmitAction.phtml";
   
   
   // Form values to POST.
@@ -152,7 +152,7 @@ void export_bibledropbox (std::string user, std::string bible)
     Database_Logs::log (tag + error, Filter_Roles::translator ());
     email_schedule (user, "Error submitting to the Bible Drop Box", error);
   }
-  size_t pos = response.find ("<head>");
+  const size_t pos = response.find ("<head>");
   if (pos != std::string::npos) {
     response.insert (pos + 6, R"(<base href="http://freely-given.org/Software/BibleDropBox/">)");
   }

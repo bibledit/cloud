@@ -21,4 +21,4 @@
 
 #include <config/libraries.h>
 
-void export_html_book (std::string bible, int book, bool log);
+void export_html_book (const std::string& bible, const int book, const bool log);

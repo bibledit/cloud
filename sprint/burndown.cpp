@@ -102,7 +102,7 @@ void sprint_burndown ([[maybe_unused]] std::string bible,
   
   std::vector <std::string> bibles = {bible};
   if (bible.empty()) {
-    bibles = request.database_bibles()->get_bibles ();
+    bibles = database::bibles::get_bibles ();
   }
   
 

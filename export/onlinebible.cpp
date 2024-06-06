@@ -46,19 +46,16 @@ void export_onlinebible (std::string bible, bool log)
   std::string filename = filter_url_create_path ({directory, "bible.exp"});
 
   
-  Database_Bibles database_bibles;
-  
-  
   const std::string stylesheet = database::config::bible::get_export_stylesheet (bible);
   
   
   Filter_Text filter_text_bible = Filter_Text (bible);
   filter_text_bible.onlinebible_text = new OnlineBible_Text ();
-  std::vector <int> books = database_bibles.get_books (bible);
+  std::vector <int> books = database::bibles::get_books (bible);
   for (auto book : books) {
-    std::vector <int> chapters = database_bibles.get_chapters (bible, book);
+    std::vector <int> chapters = database::bibles::get_chapters (bible, book);
     for (auto chapter : chapters) {
-      std::string chapter_data = database_bibles.get_chapter (bible, book, chapter);
+      std::string chapter_data = database::bibles::get_chapter (bible, book, chapter);
       chapter_data = filter::strings::trim (chapter_data);
       filter_text_bible.add_usfm_code (chapter_data);
     }

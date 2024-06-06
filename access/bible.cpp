@@ -177,7 +177,7 @@ bool book_write (Webserver_Request& webserver_request, std::string user, const s
 // If no user is given, it takes the currently logged-in user.
 std::vector <std::string> bibles (Webserver_Request& webserver_request, std::string user)
 {
-  std::vector <std::string> allbibles = webserver_request.database_bibles()->get_bibles ();
+  std::vector <std::string> allbibles = database::bibles::get_bibles ();
   std::vector <std::string> bibles {};
   for (const auto& bible : allbibles) {
     if (read (webserver_request, bible, user)) {
@@ -210,7 +210,7 @@ std::tuple<bool, bool> any (Webserver_Request& webserver_request)
 {
   bool read {false};
   bool write {false};
-  std::vector <std::string> bibles = webserver_request.database_bibles()->get_bibles ();
+  std::vector <std::string> bibles = database::bibles::get_bibles ();
   for (const auto& bible : bibles) {
     if (access_bible::read (webserver_request, bible)) read = true;
     if (access_bible::write (webserver_request, bible)) write = true;

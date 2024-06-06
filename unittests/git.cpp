@@ -57,7 +57,7 @@ void test_filter_git_setup ([[maybe_unused]] Webserver_Request& webserver_reques
   webserver_request.user_agent = "unittest";
   webserver_request.database_users ()->create ();
   webserver_request.session_logic ()->set_username ("unittest");
-  webserver_request.database_bibles()->create_bible (bible);
+  database::bibles::create_bible (bible);
   
   bool result;
   result = filter_git_init (repository);
@@ -151,7 +151,7 @@ TEST (git, basic)
     EXPECT_EQ (true, file_or_dir_exists (filter_url_create_path ({repository, "Song of Solomon", "2", "data"})));
     EXPECT_EQ (false, file_or_dir_exists (filter_url_create_path ({repository, "Exodus", "1", "data"})));
     
-    webserver_request.database_bibles()->store_chapter (bible, 2, 1, song_of_solomon_2_data);
+    database::bibles::store_chapter (bible, 2, 1, song_of_solomon_2_data);
     filter_git_sync_bible_to_git (webserver_request, bible, repository);
     
     EXPECT_EQ (true, file_or_dir_exists (filter_url_create_path ({repository, ".git"})));
@@ -174,7 +174,7 @@ TEST (git, basic)
     EXPECT_EQ (true, file_or_dir_exists (filter_url_create_path ({repository, "Song of Solomon", "2", "data"})));
     EXPECT_EQ (false, file_or_dir_exists (filter_url_create_path ({repository, "Exodus", "1", "data"})));
     
-    webserver_request.database_bibles()->store_chapter (bible, 19, 1, song_of_solomon_2_data);
+    database::bibles::store_chapter (bible, 19, 1, song_of_solomon_2_data);
     filter_git_sync_bible_to_git (webserver_request, bible, repository);
     
     EXPECT_EQ (true, file_or_dir_exists (filter_url_create_path ({repository, ".git"})));
@@ -198,9 +198,9 @@ TEST (git, basic)
     EXPECT_EQ (true, file_or_dir_exists (filter_url_create_path ({repository, "Song of Solomon", "2", "data"})));
     EXPECT_EQ (false, file_or_dir_exists (filter_url_create_path ({repository, "Exodus", "1", "data"})));
     
-    webserver_request.database_bibles()->store_chapter (bible, 19, 1, song_of_solomon_2_data);
-    webserver_request.database_bibles()->store_chapter (bible, 22, 2, psalms_11_data);
-    webserver_request.database_bibles()->store_chapter (bible, 19, 11, song_of_solomon_2_data);
+    database::bibles::store_chapter (bible, 19, 1, song_of_solomon_2_data);
+    database::bibles::store_chapter (bible, 22, 2, psalms_11_data);
+    database::bibles::store_chapter (bible, 19, 11, song_of_solomon_2_data);
     filter_git_sync_bible_to_git (webserver_request, bible, repository);
     
     EXPECT_EQ (true, file_or_dir_exists (filter_url_create_path ({repository, ".git"})));
@@ -228,14 +228,14 @@ TEST (git, basic)
     // The Bible has been created, but has no data yet.
     // Run the filter, and check that all three chapters are now in the database.
     filter_git_sync_git_to_bible (webserver_request, repository, bible);
-    std::vector <int> books = webserver_request.database_bibles()->get_books (bible);
+    std::vector <int> books = database::bibles::get_books (bible);
     EXPECT_EQ ((std::vector <int>{19, 22}), books);
     // Check that the data matches.
-    std::string usfm = webserver_request.database_bibles()->get_chapter (bible, 19, 0);
+    std::string usfm = database::bibles::get_chapter (bible, 19, 0);
     EXPECT_EQ (psalms_0_data, usfm);
-    usfm = webserver_request.database_bibles()->get_chapter (bible, 19, 11);
+    usfm = database::bibles::get_chapter (bible, 19, 11);
     EXPECT_EQ (psalms_11_data, usfm);
-    usfm = webserver_request.database_bibles()->get_chapter (bible, 22, 2);
+    usfm = database::bibles::get_chapter (bible, 22, 2);
     EXPECT_EQ (song_of_solomon_2_data, usfm);
     // Remove the journal entries the test created.
     refresh_sandbox (false);
@@ -252,14 +252,14 @@ TEST (git, basic)
     filter_url_rmdir (repository + "/Song of Solomon");
     filter_url_rmdir (repository + "/Psalms/0");
     filter_git_sync_git_to_bible (webserver_request, repository, bible);
-    std::vector <int> books = webserver_request.database_bibles()->get_books (bible);
+    std::vector <int> books = database::bibles::get_books (bible);
     EXPECT_EQ (std::vector <int>{19}, books);
     // Check that the data matches.
-    std::string usfm = webserver_request.database_bibles()->get_chapter (bible, 19, 0);
+    std::string usfm = database::bibles::get_chapter (bible, 19, 0);
     EXPECT_EQ ("", usfm);
-    usfm = webserver_request.database_bibles()->get_chapter (bible, 19, 11);
+    usfm = database::bibles::get_chapter (bible, 19, 11);
     EXPECT_EQ (psalms_11_data, usfm);
-    usfm = webserver_request.database_bibles()->get_chapter (bible, 22, 2);
+    usfm = database::bibles::get_chapter (bible, 22, 2);
     EXPECT_EQ ("", usfm);
     // Remove the journal entries the test created.
     refresh_sandbox (false);
@@ -276,11 +276,11 @@ TEST (git, basic)
     filter_url_file_put_contents (repository + "/Psalms/11/data", "\\c 11");
     filter_url_file_put_contents (repository + "/Song of Solomon/2/data", "\\c 2");
     filter_git_sync_git_to_bible (webserver_request, repository, bible);
-    std::string usfm = webserver_request.database_bibles()->get_chapter (bible, 19, 0);
+    std::string usfm = database::bibles::get_chapter (bible, 19, 0);
     EXPECT_EQ (psalms_0_data, usfm);
-    usfm = webserver_request.database_bibles()->get_chapter (bible, 19, 11);
+    usfm = database::bibles::get_chapter (bible, 19, 11);
     EXPECT_EQ ("\\c 11", usfm);
-    usfm = webserver_request.database_bibles()->get_chapter (bible, 22, 2);
+    usfm = database::bibles::get_chapter (bible, 22, 2);
     EXPECT_EQ ("\\c 2", usfm);
     // Remove the journal entries the test created.
     refresh_sandbox (false);
@@ -292,28 +292,28 @@ TEST (git, basic)
     
     // The git repository has Psalm 0, Psalm 11, and Song of Solomon 2.
     // The Bible has been created, but has no data yet.
-    std::string usfm = webserver_request.database_bibles()->get_chapter (bible, 19, 0);
+    std::string usfm = database::bibles::get_chapter (bible, 19, 0);
     EXPECT_EQ ("", usfm);
-    usfm = webserver_request.database_bibles()->get_chapter (bible, 19, 11);
+    usfm = database::bibles::get_chapter (bible, 19, 11);
     EXPECT_EQ ("", usfm);
-    usfm = webserver_request.database_bibles()->get_chapter (bible, 22, 2);
+    usfm = database::bibles::get_chapter (bible, 22, 2);
     EXPECT_EQ ("", usfm);
     
     // Run the filter for each chapter, and check that all three chapters make it into the database.
     filter_git_sync_git_chapter_to_bible (repository, bible, 19, 0);
-    usfm = webserver_request.database_bibles()->get_chapter (bible, 19, 0);
+    usfm = database::bibles::get_chapter (bible, 19, 0);
     EXPECT_EQ (psalms_0_data, usfm);
     
     filter_git_sync_git_chapter_to_bible (repository, bible, 19, 11);
-    usfm = webserver_request.database_bibles()->get_chapter (bible, 19, 11);
+    usfm = database::bibles::get_chapter (bible, 19, 11);
     EXPECT_EQ (psalms_11_data, usfm);
     
     filter_git_sync_git_chapter_to_bible (repository, bible, 22, 2);
-    usfm = webserver_request.database_bibles()->get_chapter (bible, 22, 2);
+    usfm = database::bibles::get_chapter (bible, 22, 2);
     EXPECT_EQ (song_of_solomon_2_data, usfm);
     
     // Check the two books are there.
-    std::vector <int> books = webserver_request.database_bibles()->get_books (bible);
+    std::vector <int> books = database::bibles::get_books (bible);
     EXPECT_EQ ((std::vector <int>{19, 22}), books);
     
     // Remove the journal entries the test created.
@@ -338,15 +338,15 @@ TEST (git, basic)
     filter_git_sync_git_chapter_to_bible (repository, bible, 22, 2);
     
     // There should still be two books, although one book would have no chapters.
-    std::vector <int> books = webserver_request.database_bibles()->get_books (bible);
+    std::vector <int> books = database::bibles::get_books (bible);
     EXPECT_EQ ((std::vector <int>{19, 22}), books);
     
     // Check that the chapter data matches.
-    std::string usfm = webserver_request.database_bibles()->get_chapter (bible, 19, 0);
+    std::string usfm = database::bibles::get_chapter (bible, 19, 0);
     EXPECT_EQ ("", usfm);
-    usfm = webserver_request.database_bibles()->get_chapter (bible, 19, 11);
+    usfm = database::bibles::get_chapter (bible, 19, 11);
     EXPECT_EQ (psalms_11_data, usfm);
-    usfm = webserver_request.database_bibles()->get_chapter (bible, 22, 2);
+    usfm = database::bibles::get_chapter (bible, 22, 2);
     EXPECT_EQ ("", usfm);
     
     // Remove the journal entries the test created.
@@ -370,11 +370,11 @@ TEST (git, basic)
     filter_git_sync_git_chapter_to_bible (repository, bible, 22, 2);
     
     // Check that the database is updated accordingly.
-    std::string usfm = webserver_request.database_bibles()->get_chapter (bible, 19, 0);
+    std::string usfm = database::bibles::get_chapter (bible, 19, 0);
     EXPECT_EQ (psalms_0_data, usfm);
-    usfm = webserver_request.database_bibles()->get_chapter (bible, 19, 11);
+    usfm = database::bibles::get_chapter (bible, 19, 11);
     EXPECT_EQ ("\\c 11", usfm);
-    usfm = webserver_request.database_bibles()->get_chapter (bible, 22, 2);
+    usfm = database::bibles::get_chapter (bible, 22, 2);
     EXPECT_EQ ("\\c 2", usfm);
     
     // Remove the journal entries the test created.

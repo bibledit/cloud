@@ -63,7 +63,7 @@ std::string paratext_index (Webserver_Request& webserver_request)
     if (select == "") {
       Dialog_List dialog_list = Dialog_List ("index", translate("Which Bible are you going to use?"), "", "");
       dialog_list.add_query ("bible", bible);
-      std::vector <std::string> bibles = webserver_request.database_bibles()->get_bibles();
+      std::vector <std::string> bibles = database::bibles::get_bibles();
       for (auto & value : bibles) {
         dialog_list.add_row (value, "selectbible", value);
       }

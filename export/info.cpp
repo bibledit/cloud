@@ -47,20 +47,17 @@ void export_info (std::string bible, bool log)
   std::string falloutFilename = filter_url_create_path ({directory, "fallout.html"});
   
   
-  Database_Bibles database_bibles;
-  
-  
   const std::string stylesheet = database::config::bible::get_export_stylesheet (bible);
   
   
   Filter_Text filter_text = Filter_Text (bible);
   
   
-  std::vector <int> books = database_bibles.get_books (bible);
+  std::vector <int> books = database::bibles::get_books (bible);
   for (auto book : books) {
-    std::vector <int> chapters = database_bibles.get_chapters (bible, book);
+    std::vector <int> chapters = database::bibles::get_chapters (bible, book);
     for (auto chapter : chapters) {
-      std::string usfm = database_bibles.get_chapter (bible, book, chapter);
+      std::string usfm = database::bibles::get_chapter (bible, book, chapter);
       usfm = filter::strings::trim (usfm);
       // Use small chunks of USFM at a time for much better performance.
       filter_text.add_usfm_code (usfm);

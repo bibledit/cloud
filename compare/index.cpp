@@ -83,7 +83,7 @@ std::string compare_index (Webserver_Request& webserver_request)
   }
 
   // Names of the Bibles and the USFM Resources.
-  std::vector <std::string> names = webserver_request.database_bibles()->get_bibles ();
+  std::vector <std::string> names = database::bibles::get_bibles ();
 
   Database_UsfmResources database_usfmresources;
   const std::vector <std::string> usfm_resources = database_usfmresources.getResources ();

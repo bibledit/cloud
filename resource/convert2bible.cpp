@@ -31,14 +31,13 @@
 
 void convert_resource_to_bible (std::string resource)
 {
-  Database_Bibles database_bibles;
   Database_UsfmResources database_usfmresources = Database_UsfmResources ();
   
   
   Database_Logs::log (translate("Converting USFM Resource to Bible") + ": " + resource);
   
   
-  database_bibles.create_bible (resource);
+  database::bibles::create_bible (resource);
   std::vector <int> books = database_usfmresources.getBooks (resource);
   for (auto & book : books) {
     std::string bookname = database::books::get_english_from_id (static_cast<book_id>(book));
@@ -46,7 +45,7 @@ void convert_resource_to_bible (std::string resource)
     std::vector <int> chapters = database_usfmresources.getChapters (resource, book);
     for (auto & chapter : chapters) {
       std::string usfm = database_usfmresources.getUsfm (resource, book, chapter);
-      database_bibles.store_chapter (resource, book, chapter, usfm);
+      database::bibles::store_chapter (resource, book, chapter, usfm);
     }
   }
   database_usfmresources.deleteResource (resource);

@@ -79,7 +79,7 @@ std::string edit_index (Webserver_Request& webserver_request)
     webserver_request.database_config_user ()->setBible (bibleselect);
     // Going to another Bible, ensure that the focused book exists there.
     int book = Ipc_Focus::getBook (webserver_request);
-    const std::vector <int> books = webserver_request.database_bibles()->get_books (bibleselect);
+    const std::vector <int> books = database::bibles::get_books (bibleselect);
     if (find (books.begin(), books.end(), book) == books.end()) {
       if (!books.empty ()) book = books [0];
       else book = 0;

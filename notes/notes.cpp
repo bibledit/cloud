@@ -144,7 +144,7 @@ std::string notes_notes (Webserver_Request& webserver_request)
     if (passage_inclusion_selector) {
       std::vector <Passage> include_passages = database_notes.get_passages (identifier);
       for (auto & passage : include_passages) {
-        std::string usfm = webserver_request.database_bibles()->get_chapter (bible, passage.m_book, passage.m_chapter);
+        std::string usfm = database::bibles::get_chapter (bible, passage.m_book, passage.m_chapter);
         std::string text = filter::usfm::get_verse_text (usfm, filter::strings::convert_to_int (passage.m_verse));
         if (!verse_text.empty ()) verse_text.append ("<br>");
         verse_text.append (text);

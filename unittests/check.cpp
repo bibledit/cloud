@@ -39,8 +39,7 @@ TEST (database, check)
     // Test record get truncate.
     refresh_sandbox (true);
     Database_State::create ();
-    Database_Bibles database_bibles;
-    database_bibles.create_bible ("phpunit");
+    database::bibles::create_bible ("phpunit");
     Database_Check database_check = Database_Check ();
     database_check.create ();
     
@@ -60,8 +59,7 @@ TEST (database, check)
     // Test getting details.
     refresh_sandbox (true);
     Database_State::create ();
-    Database_Bibles database_bibles;
-    database_bibles.create_bible ("phpunit");
+    database::bibles::create_bible ("phpunit");
     Database_Check database_check = Database_Check ();
     database_check.create ();
     database_check.recordOutput ("phpunit", 5, 2, 3, "test");
@@ -77,8 +75,7 @@ TEST (database, check)
     // Test approvals.
     refresh_sandbox (true);
     Database_State::create ();
-    Database_Bibles database_bibles;
-    database_bibles.create_bible ("phpunit");
+    database::bibles::create_bible ("phpunit");
     Database_Check database_check = Database_Check ();
     database_check.create ();
     
@@ -108,8 +105,7 @@ TEST (database, check)
     // Test delete.
     refresh_sandbox (true);
     Database_State::create ();
-    Database_Bibles database_bibles;
-    database_bibles.create_bible ("phpunit");
+    database::bibles::create_bible ("phpunit");
     Database_Check database_check = Database_Check ();
     database_check.create ();
     database_check.recordOutput ("phpunit", 3, 4, 5, "test1");
@@ -126,8 +122,7 @@ TEST (database, check)
     // Test passage.
     refresh_sandbox (true);
     Database_State::create ();
-    Database_Bibles database_bibles;
-    database_bibles.create_bible ("phpunit");
+    database::bibles::create_bible ("phpunit");
     Database_Check database_check = Database_Check ();
     database_check.create ();
     database_check.recordOutput ("phpunit", 3, 4, 5, "test1");
@@ -142,8 +137,7 @@ TEST (database, check)
     // Test same checks overflow.
     refresh_sandbox (true);
     Database_State::create ();
-    Database_Bibles database_bibles;
-    database_bibles.create_bible ("phpunit");
+    database::bibles::create_bible ("phpunit");
     Database_Check database_check = Database_Check ();
     database_check.create ();
     database_check.recordOutput ("phpunit", 3, 4, 5, "once");

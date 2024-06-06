@@ -69,7 +69,7 @@ std::string public_create (Webserver_Request& webserver_request)
   const int verse = Ipc_Focus::getVerse (webserver_request);
 
   
-  const std::string chapter_usfm = webserver_request.database_bibles()->get_chapter (bible, book, chapter);
+  const std::string chapter_usfm = database::bibles::get_chapter (bible, book, chapter);
   const std::string verse_usfm = filter::usfm::get_verse_text (chapter_usfm, verse);
   const std::string stylesheet = database::config::bible::get_export_stylesheet (bible);
   Filter_Text filter_text = Filter_Text (bible);

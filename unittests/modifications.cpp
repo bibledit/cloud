@@ -151,9 +151,8 @@ TEST (database, modifications_team)
     Database_Modifications database_modifications;
     database_modifications.create ();
     Database_State::create ();
-    Database_Bibles database_bibles;
-    database_bibles.create_bible ("phpunit");
-    database_bibles.create_bible ("phpunit2");
+    database::bibles::create_bible ("phpunit");
+    database::bibles::create_bible ("phpunit2");
   }
 
   // Team existence
@@ -162,9 +161,8 @@ TEST (database, modifications_team)
     Database_Modifications database_modifications;
     database_modifications.create ();
     Database_State::create ();
-    Database_Bibles database_bibles;
-    database_bibles.create_bible ("phpunit");
-    database_bibles.create_bible ("phpunit2");
+    database::bibles::create_bible ("phpunit");
+    database::bibles::create_bible ("phpunit2");
     
     // Initially no diff should exist.
     bool exists = database_modifications.teamDiffExists ("phpunit", 1, 2);
@@ -191,9 +189,8 @@ TEST (database, modifications_team)
     Database_Modifications database_modifications;
     database_modifications.create ();
     Database_State::create ();
-    Database_Bibles database_bibles;
-    database_bibles.create_bible ("phpunit");
-    database_bibles.create_bible ("phpunit2");
+    database::bibles::create_bible ("phpunit");
+    database::bibles::create_bible ("phpunit2");
     
     EXPECT_EQ (false, database_modifications.teamDiffExists ("phpunit", 2, 1));
     EXPECT_EQ (false, database_modifications.teamDiffExists ("phpunit", 2, 2));
@@ -222,9 +219,8 @@ TEST (database, modifications_team)
     Database_Modifications database_modifications;
     database_modifications.create ();
     Database_State::create ();
-    Database_Bibles database_bibles;
-    database_bibles.create_bible ("phpunit");
-    database_bibles.create_bible ("phpunit2");
+    database::bibles::create_bible ("phpunit");
+    database::bibles::create_bible ("phpunit2");
     
     EXPECT_EQ (false, database_modifications.teamDiffExists ("phpunit", 3, 1));
     EXPECT_EQ (false, database_modifications.teamDiffExists ("phpunit", 4, 1));
@@ -254,9 +250,8 @@ TEST (database, modifications_team)
     Database_Modifications database_modifications;
     database_modifications.create ();
     Database_State::create ();
-    Database_Bibles database_bibles;
-    database_bibles.create_bible ("phpunit");
-    database_bibles.create_bible ("phpunit2");
+    database::bibles::create_bible ("phpunit");
+    database::bibles::create_bible ("phpunit2");
     
     std::string diff = database_modifications.getTeamDiff ("phpunit", 1, 1);
     EXPECT_EQ ("", diff);
@@ -283,9 +278,8 @@ TEST (database, modifications_team)
     Database_Modifications database_modifications;
     database_modifications.create ();
     Database_State::create ();
-    Database_Bibles database_bibles;
-    database_bibles.create_bible ("phpunit");
-    database_bibles.create_bible ("phpunit2");
+    database::bibles::create_bible ("phpunit");
+    database::bibles::create_bible ("phpunit2");
     
     bible_logic::store_chapter ("phpunit", 3, 1, "chapter text");
     bible_logic::store_chapter ("phpunit", 3, 3, "chapter text");
@@ -307,9 +301,8 @@ TEST (database, modifications_team)
     Database_Modifications database_modifications;
     database_modifications.create ();
     Database_State::create ();
-    Database_Bibles database_bibles;
-    database_bibles.create_bible ("phpunit");
-    database_bibles.create_bible ("phpunit2");
+    database::bibles::create_bible ("phpunit");
+    database::bibles::create_bible ("phpunit2");
     
     bible_logic::store_chapter ("phpunit", 3, 1, "chapter text");
     bible_logic::store_chapter ("phpunit", 3, 3, "chapter text");
@@ -335,9 +328,8 @@ TEST (database, modifications_team)
     Database_Modifications database_modifications;
     database_modifications.create ();
     Database_State::create ();
-    Database_Bibles database_bibles;
-    database_bibles.create_bible ("phpunit");
-    database_bibles.create_bible ("phpunit2");
+    database::bibles::create_bible ("phpunit");
+    database::bibles::create_bible ("phpunit2");
     
     bible_logic::store_chapter ("phpunit", 3, 1, "chapter text");
     bible_logic::store_chapter ("phpunit", 3, 3, "chapter text");
@@ -358,9 +350,8 @@ TEST (database, modifications_team)
     Database_Modifications database_modifications;
     database_modifications.create ();
     Database_State::create ();
-    Database_Bibles database_bibles;
-    database_bibles.create_bible ("phpunit");
-    database_bibles.create_bible ("phpunit2");
+    database::bibles::create_bible ("phpunit");
+    database::bibles::create_bible ("phpunit2");
     
     bible_logic::store_chapter ("phpunit", 3, 1, "chapter text");
     bible_logic::store_chapter ("phpunit", 3, 3, "chapter text");
@@ -379,9 +370,8 @@ TEST (database, modifications_team)
     Database_Modifications database_modifications;
     database_modifications.create ();
     Database_State::create ();
-    Database_Bibles database_bibles;
-    database_bibles.create_bible ("phpunit");
-    database_bibles.create_bible ("phpunit2");
+    database::bibles::create_bible ("phpunit");
+    database::bibles::create_bible ("phpunit2");
     
     bible_logic::store_chapter ("phpunit", 3, 1, "chapter text");
     bible_logic::store_chapter ("phpunit2", 3, 3, "chapter text");

@@ -473,10 +473,8 @@ std::string filter_passage_link_for_opening_editor_at (int book, int chapter, st
 // This function returns either the standard order, or a custom order in case it is available for the $bible.
 std::vector <int> filter_passage_get_ordered_books (const std::string& bible)
 {
-  Database_Bibles database_bibles;
-
   // The available books from the Bible.
-  std::vector <int> projectbooks = database_bibles.get_books (bible);
+  std::vector <int> projectbooks = database::bibles::get_books (bible);
 
   // The book order from the settings, if any.
   std::string s_orderedbooks = database::config::bible::get_book_order (bible);

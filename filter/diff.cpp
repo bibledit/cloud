@@ -360,7 +360,7 @@ void filter_diff_produce_verse_level (std::string bible, std::string directory)
     for (auto chapter : chapters) {
       // Go through the combined verse numbers in the old and new chapter.
       std::string old_chapter_usfm = database_modifications.getTeamDiff (bible, book, chapter);
-      std::string new_chapter_usfm = request.database_bibles()->get_chapter (bible, book, chapter);
+      std::string new_chapter_usfm = database::bibles::get_chapter (bible, book, chapter);
       std::vector <int> old_verse_numbers = filter::usfm::get_verse_numbers (old_chapter_usfm);
       std::vector <int> new_verse_numbers = filter::usfm::get_verse_numbers (new_chapter_usfm);
       std::vector <int> verses = old_verse_numbers;

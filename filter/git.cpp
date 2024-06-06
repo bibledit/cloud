@@ -157,7 +157,7 @@ void filter_git_sync_bible_to_git (Webserver_Request& webserver_request, std::st
   // Read the chapters in the git repository,
   // and check if they occur in the database.
   // If a chapter is not in the database, remove it from the repository.
-  std::vector <int> books = webserver_request.database_bibles()->get_books (bible);
+  std::vector <int> books = database::bibles::get_books (bible);
   std::vector <std::string> bookfiles = filter_url_scandir (repository);
   for (auto & bookname : bookfiles) {
     std::string path = filter_url_create_path ({repository, bookname});
@@ -166,7 +166,7 @@ void filter_git_sync_bible_to_git (Webserver_Request& webserver_request, std::st
       if (book) {
         if (in_array (book, books)) {
           // Book exists in the database: Check the chapters.
-          std::vector <int> chapters = webserver_request.database_bibles()->get_chapters (bible, book);
+          std::vector <int> chapters = database::bibles::get_chapters (bible, book);
           std::vector <std::string> chapterfiles = filter_url_scandir (filter_url_create_path ({repository, bookname}));
           for (auto & chaptername : chapterfiles) {
             std::string chapter_path = filter_url_create_path ({repository, bookname, chaptername});
@@ -195,18 +195,18 @@ void filter_git_sync_bible_to_git (Webserver_Request& webserver_request, std::st
   // Read the books / chapters from the database,
   // and check if they occur in the repository, and the data matches.
   // If necessary, save the chapter to the repository.
-  books = webserver_request.database_bibles()->get_books (bible);
+  books = database::bibles::get_books (bible);
   for (auto & book : books) {
     std::string bookname = database::books::get_english_from_id (static_cast<book_id>(book));
     std::string bookdir = filter_url_create_path ({repository, bookname});
     if (!file_or_dir_exists (bookdir)) filter_url_mkdir (bookdir);
-    std::vector <int> chapters = webserver_request.database_bibles()->get_chapters (bible, book);
+    std::vector <int> chapters = database::bibles::get_chapters (bible, book);
     for (auto & chapter : chapters) {
       std::string chapterdir = filter_url_create_path ({bookdir, std::to_string (chapter)});
       if (!file_or_dir_exists (chapterdir)) filter_url_mkdir (chapterdir);
       std::string datafile = filter_url_create_path ({chapterdir, "data"});
       std::string contents = filter_url_file_get_contents (datafile);
-      std::string usfm = webserver_request.database_bibles()->get_chapter (bible, book, chapter);
+      std::string usfm = database::bibles::get_chapter (bible, book, chapter);
       if (contents != usfm) filter_url_file_put_contents (datafile, usfm);
     }
   }
@@ -233,7 +233,7 @@ void filter_git_sync_git_to_bible (Webserver_Request& webserver_request, std::st
       int book = static_cast<int>(database::books::get_id_from_english (bookname));
       if (book) {
         // Check the chapters.
-        std::vector <int> chapters = webserver_request.database_bibles()->get_chapters (bible, book);
+        std::vector <int> chapters = database::bibles::get_chapters (bible, book);
         std::vector <std::string> chapterfiles = filter_url_scandir (bookpath);
         for (auto & chapterfile : chapterfiles) {
           std::string chapterpath = filter_url_create_path ({bookpath, chapterfile});
@@ -266,18 +266,18 @@ void filter_git_sync_git_to_bible (Webserver_Request& webserver_request, std::st
   // If a chapter matches, check that the contents of the data in the git
   // folder and the contents in the database match.
   // If necessary, update the data in the database.
-  std::vector <int> books = webserver_request.database_bibles()->get_books (bible);
+  std::vector <int> books = database::bibles::get_books (bible);
   for (auto & book : books) {
     std::string bookname = database::books::get_english_from_id (static_cast<book_id>(book));
     std::string bookdir = filter_url_create_path ({repository, bookname});
     if (file_or_dir_exists (bookdir)) {
-      std::vector <int> chapters = webserver_request.database_bibles()->get_chapters (bible, book);
+      std::vector <int> chapters = database::bibles::get_chapters (bible, book);
       for (auto & chapter : chapters) {
         std::string chapterdir = filter_url_create_path ({bookdir, std::to_string (chapter)});
         if (file_or_dir_exists (chapterdir)) {
           std::string datafile = filter_url_create_path ({chapterdir, "data"});
           std::string contents = filter_url_file_get_contents (datafile);
-          std::string usfm = webserver_request.database_bibles()->get_chapter (bible, book, chapter);
+          std::string usfm = database::bibles::get_chapter (bible, book, chapter);
           if (contents != usfm) {
             bible_logic::store_chapter (bible, book, chapter, contents);
             Database_Logs::log (translate("A translator updated chapter") + " " + bible + " " + bookname + " " + std::to_string (chapter));
@@ -314,8 +314,7 @@ void filter_git_sync_git_chapter_to_bible (std::string repository, std::string b
   if (file_or_dir_exists (filename)) {
     
     // Store chapter in database and log it.
-    Database_Bibles database_bibles;
-    std::string existing_usfm = database_bibles.get_chapter (bible, book, chapter);
+    std::string existing_usfm = database::bibles::get_chapter (bible, book, chapter);
     std::string usfm = filter_url_file_get_contents (filename);
     bible_logic::log_change (bible, book, chapter, usfm, "collaborator", "Chapter updated from git repository", false);
     bible_logic::store_chapter (bible, book, chapter, usfm);

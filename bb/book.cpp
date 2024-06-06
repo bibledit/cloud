@@ -107,7 +107,7 @@ std::string bible_book (Webserver_Request& webserver_request)
   }
   if (webserver_request.post.count ("createchapter")) {
     const int createchapter = filter::strings::convert_to_int (webserver_request.post ["entry"]);
-    const std::vector <int> chapters = webserver_request.database_bibles()->get_chapters (bible, book);
+    const std::vector <int> chapters = database::bibles::get_chapters (bible, book);
     // Only create the chapters if it does not yet exist.
     if (find (chapters.begin(), chapters.end(), createchapter) == chapters.end()) {
       std::vector <std::string> feedback{};
@@ -122,7 +122,7 @@ std::string bible_book (Webserver_Request& webserver_request)
   }
   
   // Available chapters.
-  const std::vector <int> chapters = webserver_request.database_bibles()->get_chapters (bible, book);
+  const std::vector <int> chapters = database::bibles::get_chapters (bible, book);
   std::string chapterblock {};
   for (const auto& chapter : chapters) {
     chapterblock.append (R"(<a href="chapter?bible=)");

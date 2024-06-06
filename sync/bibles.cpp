@@ -81,7 +81,7 @@ std::string sync_bibles_receive_chapter (Webserver_Request& webserver_request, s
   }
   
   
-  std::string serverusfm = webserver_request.database_bibles()->get_chapter (bible, book, chapter);
+  std::string serverusfm = database::bibles::get_chapter (bible, book, chapter);
   
   
   // There have been cases like this:
@@ -96,7 +96,7 @@ std::string sync_bibles_receive_chapter (Webserver_Request& webserver_request, s
   
 
   // Gather data for recording the changes made by the user, for the change notifications.
-  int old_id = webserver_request.database_bibles()->get_chapter_id (bible, book, chapter);
+  int old_id = database::bibles::get_chapter_id (bible, book, chapter);
   std::string old_text = serverusfm;
   std::string new_text = newusfm;
   
@@ -123,7 +123,7 @@ std::string sync_bibles_receive_chapter (Webserver_Request& webserver_request, s
   
 
   // If text was saved, record it as a change entered by the user.
-  int new_id = webserver_request.database_bibles()->get_chapter_id (bible, book, chapter);
+  int new_id = database::bibles::get_chapter_id (bible, book, chapter);
   if (new_id != old_id) {
     Database_Modifications database_modifications;
     database_modifications.recordUserSave (username, bible, book, chapter, old_id, old_text, new_id, new_text);
@@ -197,7 +197,7 @@ std::string sync_bibles (Webserver_Request& webserver_request)
     case Sync_Logic::bibles_get_books:
     {
       // The server responds with a checksum and then the list of books in the Bible.
-      std::vector <int> server_books = webserver_request.database_bibles()->get_books (bible);
+      std::vector <int> server_books = database::bibles::get_books (bible);
       std::vector <std::string> v_server_books;
       for (auto server_book : server_books) v_server_books.push_back (std::to_string (server_book));
       std::string s_server_books = filter::strings::implode (v_server_books, "\n");
@@ -212,7 +212,7 @@ std::string sync_bibles (Webserver_Request& webserver_request)
     case Sync_Logic::bibles_get_chapters:
     {
       // The server responds with the list of books in the Bible book.
-      std::vector <int> server_chapters = webserver_request.database_bibles()->get_chapters (bible, book);
+      std::vector <int> server_chapters = database::bibles::get_chapters (bible, book);
       std::vector <std::string> v_server_chapters;
       for (auto & server_chapter : server_chapters) v_server_chapters.push_back (std::to_string (server_chapter));
       std::string s_server_chapters = filter::strings::implode (v_server_chapters, "\n");
@@ -231,7 +231,7 @@ std::string sync_bibles (Webserver_Request& webserver_request)
     case Sync_Logic::bibles_get_chapter:
     {
       // The server responds with the USFM of the chapter, prefixed by a checksum.
-      std::string usfm = filter::strings::trim (webserver_request.database_bibles()->get_chapter (bible, book, chapter));
+      std::string usfm = filter::strings::trim (database::bibles::get_chapter (bible, book, chapter));
       std::string checksum = checksum_logic::get (usfm);
       return checksum + "\n" + usfm;
     }

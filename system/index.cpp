@@ -146,8 +146,7 @@ std::string system_index (Webserver_Request& webserver_request)
   // The Bibles that send their changes to the RSS feed.
   std::string rssbibles {};
   {
-    Database_Bibles database_bibles;
-    std::vector <std::string> bibles = database_bibles.get_bibles ();
+    std::vector <std::string> bibles = database::bibles::get_bibles ();
     for (const auto& bible : bibles) {
       if (database::config::bible::get_send_changes_to_rss (bible)) {
         if (!rssbibles.empty ()) rssbibles.append (" ");
@@ -276,7 +275,7 @@ std::string system_index (Webserver_Request& webserver_request)
   if (!deletefont.empty ()) {
     const std::string font = filter_url_basename_web (deletefont);
     bool font_in_use = false;
-    const std::vector <std::string> bibles = webserver_request.database_bibles()->get_bibles ();
+    const std::vector <std::string> bibles = database::bibles::get_bibles ();
     for (const auto& bible : bibles) {
       if (font == fonts::logic::get_text_font (bible)) font_in_use = true;
     }

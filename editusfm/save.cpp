@@ -84,13 +84,13 @@ std::string editusfm_save (Webserver_Request& webserver_request)
               std::string ancestor_usfm = getLoadedUsfm2 (webserver_request, bible, book, chapter, unique_id);
               // Collect some data about the changes for this user.
               std::string username = webserver_request.session_logic()->currentUser ();
-              [[maybe_unused]] int oldID = webserver_request.database_bibles()->get_chapter_id (bible, book, chapter);
+              [[maybe_unused]] int oldID = database::bibles::get_chapter_id (bible, book, chapter);
               std::string oldText = ancestor_usfm;
               std::string newText = chapter_data_to_save;
               // Merge if the ancestor is there and differs from what's in the database.
               std::vector <Merge_Conflict> conflicts;
               // The USFM now on disk.
-              std::string server_usfm = webserver_request.database_bibles()->get_chapter (bible, book, chapter);
+              std::string server_usfm = database::bibles::get_chapter (bible, book, chapter);
               if (!ancestor_usfm.empty ()) {
                 if (server_usfm != ancestor_usfm) {
                   // Prioritize the USFM to save.
@@ -125,7 +125,7 @@ std::string editusfm_save (Webserver_Request& webserver_request)
                 if (message.empty()) {
 #ifndef HAVE_CLIENT
                   // Server configuration: Store details for the user's changes.
-                  int newID = webserver_request.database_bibles()->get_chapter_id (bible, book, chapter);
+                  int newID = database::bibles::get_chapter_id (bible, book, chapter);
                   Database_Modifications database_modifications;
                   database_modifications.recordUserSave (username, bible, book, chapter, oldID, oldText, newID, newText);
                   if (sendreceive_git_repository_linked (bible)) {

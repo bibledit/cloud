@@ -86,8 +86,7 @@ void database_maintenance ()
   // Database_Styles database_styles;
   
   
-  Database_Bibles database_bibles;
-  database_bibles.optimize ();
+  database::bibles::optimize ();
 
   
   Database_Ipc database_ipc (webserver_request);

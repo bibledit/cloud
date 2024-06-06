@@ -54,7 +54,6 @@ std::string system_logic_bibles_file_name ()
 void system_logic_produce_bibles_file (int jobid)
 {
   Database_Jobs database_jobs;
-  Database_Bibles database_bibles;
 
   
   // Generate the initial page.
@@ -82,14 +81,14 @@ void system_logic_produce_bibles_file (int jobid)
   
 
   // Iterate over the Bibles, the books, the chapters.
-  std::vector <std::string> bibles = database_bibles.get_bibles ();
+  std::vector <std::string> bibles = database::bibles::get_bibles ();
   for (auto bible : bibles) {
-    std::vector <int> books = database_bibles.get_books (bible);
+    std::vector <int> books = database::bibles::get_books (bible);
     for (auto book : books) {
       std::string book_usfm;
-      std::vector <int> chapters = database_bibles.get_chapters (bible, book);
+      std::vector <int> chapters = database::bibles::get_chapters (bible, book);
       for (auto chapter : chapters) {
-        std::string usfm = database_bibles.get_chapter (bible, book, chapter);
+        std::string usfm = database::bibles::get_chapter (bible, book, chapter);
         book_usfm.append (filter::strings::trim (usfm));
         book_usfm.append ("\n");
       }
@@ -131,8 +130,6 @@ void system_logic_import_bibles_file (std::string tarball)
 {
   Database_Logs::log ("Importing Bibles from " + tarball);
 
-  Database_Bibles database_bibles;
-  
   // Unpack the tarball into a directory.
   std::string directory = filter_url_tempfile ();
   filter_url_mkdir (directory);
@@ -165,7 +162,7 @@ void system_logic_import_bibles_file (std::string tarball)
         // This does not trigger the client to send it to the Cloud.
         // Reason is that the Cloud is authoritative,
         // so importing outdated Bibles would not affect the authoritative copy in the Cloud.
-        database_bibles.store_chapter (bible, book_chapter_data.m_book, book_chapter_data.m_chapter, book_chapter_data.m_data);
+        database::bibles::store_chapter (bible, book_chapter_data.m_book, book_chapter_data.m_chapter, book_chapter_data.m_data);
         std::string bookname = database::books::get_english_from_id (static_cast<book_id>(book_chapter_data.m_book));
         Database_Logs::log ("Imported " + bible + " " + bookname + " " + std::to_string (book_chapter_data.m_chapter));
       } else {

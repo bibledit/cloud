@@ -53,7 +53,6 @@ void export_html_book (const std::string& bible, const int book, const bool log)
   const std::string stylesheet_css = filter_url_create_path ({directory, "stylesheet.css"});
   
   
-  Database_Bibles database_bibles {};
   Database_BibleImages database_bibleimages {};
 
   
@@ -86,10 +85,10 @@ void export_html_book (const std::string& bible, const int book, const bool log)
   
   
   // Load one book.
-  const std::vector <int> chapters = database_bibles.get_chapters (bible, book);
+  const std::vector <int> chapters = database::bibles::get_chapters (bible, book);
   for (const auto chapter : chapters) {
     // Get the USFM for this chapter.
-    std::string usfm = database_bibles.get_chapter (bible, book, chapter);
+    std::string usfm = database::bibles::get_chapter (bible, book, chapter);
     usfm = filter::strings::trim (usfm);
     // Use small chunks of USFM at a time for much better performance.
     filter_text.add_usfm_code (usfm);

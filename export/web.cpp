@@ -45,7 +45,6 @@ void export_web_book (std::string bible, int book, bool log)
   if (!file_or_dir_exists (directory)) filter_url_mkdir (directory);
   
   
-  Database_Bibles database_bibles {};
   Database_BibleImages database_bibleimages {};
   
   
@@ -86,7 +85,7 @@ void export_web_book (std::string bible, int book, bool log)
   
   
   // Go through the chapters of this book.
-  const std::vector <int> chapters = database_bibles.get_chapters (bible, book);
+  const std::vector <int> chapters = database::bibles::get_chapters (bible, book);
   for (size_t c = 0; c < chapters.size(); c++) {
     const int chapter = chapters [c];
     const bool is_first_chapter = (c == 0);
@@ -96,7 +95,7 @@ void export_web_book (std::string bible, int book, bool log)
     Filter_Text filter_text_chapter = Filter_Text (bible);
     
     // Get the USFM for the chapter.
-    std::string usfm = database_bibles.get_chapter (bible, book, chapter);
+    std::string usfm = database::bibles::get_chapter (bible, book, chapter);
     // Trim it.
     usfm = filter::strings::trim (usfm);
     // Use small chunks of USFM at a time for much better performance.
@@ -172,9 +171,6 @@ void export_web_index (std::string bible, bool log)
   std::string filecss = filter_url_create_path ({directory, "stylesheet.css"});
   
   
-  Database_Bibles database_bibles;
-  
-  
   const std::string stylesheet = database::config::bible::get_export_stylesheet (bible);
   
   
@@ -200,7 +196,7 @@ void export_web_index (std::string bible, bool log)
   
   
   // Go through the Bible books.
-  std::vector <int> books = database_bibles.get_books (bible);
+  std::vector <int> books = database::bibles::get_books (bible);
   for (auto book : books) {
     // Add this book to the main web index.
     html_text_rich_bible_index.add_link (html_text_rich_bible_index.current_p_node,  filter_url_html_file_name_bible ("", book), "", translate (database::books::get_english_from_id (static_cast<book_id>(book))), "", " " + translate (database::books::get_english_from_id (static_cast<book_id>(book))) + " ");

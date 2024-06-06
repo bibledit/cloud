@@ -50,9 +50,6 @@ void export_text_usfm_book (std::string bible, int book, bool log)
   std::string textFilename = filter_url_create_path ({textDirectory, export_logic::base_book_filename (bible, book) + ".txt"});
   
   
-  Database_Bibles database_bibles;
-  
-  
   const std::string stylesheet = database::config::bible::get_export_stylesheet (bible);
   
   
@@ -66,7 +63,7 @@ void export_text_usfm_book (std::string bible, int book, bool log)
   filter_url_file_put_contents_append (usfmFilename, basicUsfm);
   
   
-  std::vector <int> chapters = database_bibles.get_chapters (bible, book);
+  std::vector <int> chapters = database::bibles::get_chapters (bible, book);
   for (auto chapter : chapters) {
     
     
@@ -79,7 +76,7 @@ void export_text_usfm_book (std::string bible, int book, bool log)
     
     
     // Get the USFM code for the current chapter.
-    std::string chapter_data = database_bibles.get_chapter (bible, book, chapter);
+    std::string chapter_data = database::bibles::get_chapter (bible, book, chapter);
     chapter_data = filter::strings::trim (chapter_data);
     
     

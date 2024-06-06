@@ -127,7 +127,7 @@ std::string notes_create (Webserver_Request& webserver_request)
   view.set_variable ("passage", passage);
   if (webserver_request.database_config_user ()->getShowVerseTextAtCreateNote ()) {
     std::string versetext;
-    std::string chapter_usfm = webserver_request.database_bibles()->get_chapter (bible, book, chapter);
+    std::string chapter_usfm = database::bibles::get_chapter (bible, book, chapter);
     std::string verse_usfm = filter::usfm::get_verse_text (chapter_usfm, verse);
     const std::string stylesheet = styles_logic_standard_sheet ();
     Filter_Text filter_text = Filter_Text (bible);

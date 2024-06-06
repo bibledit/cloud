@@ -86,11 +86,11 @@ std::string bible_manage (Webserver_Request& webserver_request)
     std::string bible = webserver_request.post ["entry"];
     // No underscrore ( _ ) in the name of a Bible because the underscores are used in the searches to separate data.
     bible = filter::strings::replace ("_", "", bible);
-    const std::vector <std::string> bibles = webserver_request.database_bibles()->get_bibles ();
+    const std::vector <std::string> bibles = database::bibles::get_bibles ();
     if (find (bibles.begin(), bibles.end(), bible) != bibles.end()) {
       error_message = translate("This Bible already exists");
     } else {
-      webserver_request.database_bibles()->create_bible (bible);
+      database::bibles::create_bible (bible);
       // Check / grant access.
       if (!access_bible::write (webserver_request, bible)) {
         std::string me = webserver_request.session_logic()->currentUser ();
@@ -99,7 +99,7 @@ std::string bible_manage (Webserver_Request& webserver_request)
       success_message = translate("The Bible was created");
       // Creating a Bible removes any Sample Bible that might have been there.
       if (!config::logic::demo_enabled ()) {
-        webserver_request.database_bibles()->delete_bible (demo_sample_bible_name ());
+        database::bibles::delete_bible (demo_sample_bible_name ());
         search_logic_delete_bible (demo_sample_bible_name ());
       }
     }
@@ -118,15 +118,15 @@ std::string bible_manage (Webserver_Request& webserver_request)
     if (webserver_request.post.count ("entry")) {
       std::string destination = webserver_request.post["entry"];
       destination = filter::strings::replace ("_", "", destination); // No underscores in the name.
-      const std::vector <std::string> bibles = webserver_request.database_bibles()->get_bibles ();
+      const std::vector <std::string> bibles = database::bibles::get_bibles ();
       if (find (bibles.begin(), bibles.end(), destination) != bibles.end()) {
         error_message = translate("Cannot copy the Bible because the destination Bible already exists.");
       } else {
         // User needs read access to the original.
         if (access_bible::read (webserver_request, origin)) {
           // Copy the Bible data.
-          const std::string origin_folder = webserver_request.database_bibles()->bible_folder (origin);
-          const std::string destination_folder = webserver_request.database_bibles()->bible_folder (destination);
+          const std::string origin_folder = database::bibles::bible_folder (origin);
+          const std::string destination_folder = database::bibles::bible_folder (destination);
           filter_url_dir_cp (origin_folder, destination_folder);
           // Copy the Bible search index.
           search_logic_copy_bible (origin, destination);
@@ -139,7 +139,7 @@ std::string bible_manage (Webserver_Request& webserver_request)
           }
           // Creating a Bible removes any Sample Bible that might have been there.
           if (!config::logic::demo_enabled ()) {
-            webserver_request.database_bibles()->delete_bible (demo_sample_bible_name ());
+            database::bibles::delete_bible (demo_sample_bible_name ());
             search_logic_delete_bible (demo_sample_bible_name ());
           }
         }

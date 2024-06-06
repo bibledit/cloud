@@ -49,7 +49,7 @@ std::string public_chapter (Webserver_Request& webserver_request)
   
   const std::string stylesheet = database::config::bible::get_export_stylesheet (bible);
   
-  const std::string usfm = webserver_request.database_bibles()->get_chapter (bible, book, chapter);
+  const std::string usfm = database::bibles::get_chapter (bible, book, chapter);
   
   Filter_Text filter_text = Filter_Text (bible);
   filter_text.html_text_standard = new HtmlText (bible);

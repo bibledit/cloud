@@ -80,7 +80,6 @@ public:
   Database_Config_User * database_config_user ();
   Database_Users * database_users ();
   Database_Styles * database_styles ();
-  Database_Bibles * database_bibles ();
   Database_Check * database_check ();
   Database_Ipc * database_ipc ();
 private:
@@ -88,7 +87,6 @@ private:
   Database_Config_User * database_config_user_instance { nullptr };
   Database_Users * database_users_instance { nullptr };
   Database_Styles * database_styles_instance { nullptr };
-  Database_Bibles * database_bibles_instance { nullptr };
   Database_Check * database_check_instance { nullptr };
   Database_Ipc * database_ipc_instance { nullptr };
 };

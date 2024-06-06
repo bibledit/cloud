@@ -64,7 +64,7 @@ std::string collaboration_index (Webserver_Request& webserver_request)
     if (select.empty()) {
       Dialog_List dialog_list = Dialog_List ("index", translate("Which Bible are you going to use?"), "", "");
       dialog_list.add_query ("object", object);
-      const std::vector <std::string>& bibles = webserver_request.database_bibles()->get_bibles();
+      const std::vector <std::string>& bibles = database::bibles::get_bibles();
       for (const auto& value : bibles) {
         dialog_list.add_row (value, "select", value);
       }

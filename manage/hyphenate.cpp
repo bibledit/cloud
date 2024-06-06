@@ -32,9 +32,6 @@
 
 void manage_hyphenate (std::string bible, std::string user)
 {
-  Database_Bibles database_bibles;
-
-
   std::string inputBible (bible);
   std::string outputBible = inputBible + "-hyphenated";
   
@@ -63,10 +60,10 @@ void manage_hyphenate (std::string bible, std::string user)
  
   
   // Delete and (re)create the hyphenated Bible.
-  database_bibles.delete_bible (outputBible);
+  database::bibles::delete_bible (outputBible);
   DatabasePrivileges::remove_bible (outputBible);
   database::config::bible::remove (outputBible);
-  database_bibles.create_bible (outputBible);
+  database::bibles::create_bible (outputBible);
   Webserver_Request webserver_request;
   if (!access_bible::write (webserver_request, outputBible, user)) {
     // Only grant access if the user does not yet have it.
@@ -77,14 +74,14 @@ void manage_hyphenate (std::string bible, std::string user)
   
   
   // Go through the input Bible's books and chapters.
-  std::vector <int> books = database_bibles.get_books (inputBible);
+  std::vector <int> books = database::bibles::get_books (inputBible);
   for (auto book : books) {
     Database_Logs::log (database::books::get_english_from_id (static_cast<book_id>(book)));
-    std::vector <int> chapters = database_bibles.get_chapters (inputBible, book);
+    std::vector <int> chapters = database::bibles::get_chapters (inputBible, book);
     for (auto chapter : chapters) {
-      std::string data = database_bibles.get_chapter (inputBible, book, chapter);
+      std::string data = database::bibles::get_chapter (inputBible, book, chapter);
       data = hyphenate_at_transition (firstset, secondset, data);
-      database_bibles.store_chapter (outputBible, book, chapter, data);
+      database::bibles::store_chapter (outputBible, book, chapter, data);
     }
   }
 

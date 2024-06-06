@@ -31,8 +31,7 @@
 
 void export_index ()
 {
-  Database_Bibles database_bibles;
-  std::vector <std::string> bibles = database_bibles.get_bibles ();
+  std::vector <std::string> bibles = database::bibles::get_bibles ();
   
   
   // Go through all sub directories of the exports directory.
@@ -52,7 +51,7 @@ void export_index ()
     if (Database_State::getExport (bible, 0, export_logic::export_needed)) {
       
       Database_State::clearExport (bible, 0, export_logic::export_needed);
-      std::vector <int> books = database_bibles.get_books (bible);
+      std::vector <int> books = database::bibles::get_books (bible);
       // Book 0 flags export of the whole Bible (this is not relevant to all export types).
       books.push_back (0);
       for (auto book : books) {

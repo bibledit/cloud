@@ -281,14 +281,13 @@ std::string Database_Config_User::getBible () const
 {
   std::string bible = getValue ("bible", "");
   // If the Bible does not exist, take the first one available.
-  Database_Bibles * database_bibles = m_webserver_request.database_bibles ();
-  std::vector <std::string> bibles = database_bibles->get_bibles ();
+  std::vector <std::string> bibles = database::bibles::get_bibles ();
   if (find (bibles.begin (), bibles.end (), bible) == bibles.end ()) {
     // There may not even be a first Bible: Create sample Bible.
     if (bibles.empty ()) {
       bible = demo_sample_bible_name ();
       demo_create_sample_bible ();
-      database_bibles->create_bible (bible);
+      database::bibles::create_bible (bible);
     } else {
       bible = bibles.at (0);
     }

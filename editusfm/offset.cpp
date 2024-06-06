@@ -50,7 +50,7 @@ std::string editusfm_offset (Webserver_Request& webserver_request)
   int book = filter::strings::convert_to_int (webserver_request.query ["book"]);
   int chapter = filter::strings::convert_to_int (webserver_request.query ["chapter"]);
   unsigned int offset = static_cast<unsigned> (filter::strings::convert_to_int (webserver_request.query ["offset"]));
-  std::string usfm = webserver_request.database_bibles()->get_chapter (bible, book, chapter);
+  std::string usfm = database::bibles::get_chapter (bible, book, chapter);
   std::vector <int> verses = filter::usfm::offset_to_versenumber (usfm, offset);
   // Only update navigation in case the verse differs.
   // This avoids unnecessary focus operations in the clients.

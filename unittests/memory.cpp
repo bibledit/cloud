@@ -113,15 +113,14 @@ TEST (DISABLED_memory, basic)
     request.database_config_user ()->setUserChangesNotification (true);
     request.database_config_user ()->setUserChangesNotificationsOnline (true);
     request.database_config_user ()->setContributorChangesNotificationsOnline (true);
-    Database_Bibles database_bibles;
     Database_Modifications database_modifications;
     std::string bible = demo_sample_bible_name ();
     for (int book = 1; book <= 1; book++) {
       for (int chapter = 1; chapter <= 1; chapter++) {
-        std::string usfm = database_bibles.get_chapter (bible, book, chapter);
+        std::string usfm = database::bibles::get_chapter (bible, book, chapter);
         usfm = filter::strings::replace ("the", "THE", usfm);
         database_modifications.storeTeamDiff (bible, book, chapter);
-        database_bibles.store_chapter (bible, book, chapter, usfm);
+        database::bibles::store_chapter (bible, book, chapter, usfm);
       }
     }
     std::thread * recorder = nullptr;

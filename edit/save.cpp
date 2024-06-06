@@ -120,8 +120,8 @@ std::string edit_save (Webserver_Request& webserver_request)
   // Collect some data about the changes for this user
   // and for a possible merge of the user's data with the server's data.
   std::string username = webserver_request.session_logic()->currentUser ();
-  [[maybe_unused]] int oldID = webserver_request.database_bibles()->get_chapter_id (bible, book, chapter);
-  std::string server_usfm = webserver_request.database_bibles()->get_chapter (bible, book, chapter);
+  [[maybe_unused]] int oldID = database::bibles::get_chapter_id (bible, book, chapter);
+  std::string server_usfm = database::bibles::get_chapter (bible, book, chapter);
   std::string newText = user_usfm;
   std::string oldText = ancestor_usfm;
   
@@ -164,7 +164,7 @@ std::string edit_save (Webserver_Request& webserver_request)
 
   // In server configuration, store details for the user's changes.
 #ifdef HAVE_CLOUD
-  int newID = webserver_request.database_bibles()->get_chapter_id (bible, book, chapter);
+  int newID = database::bibles::get_chapter_id (bible, book, chapter);
   Database_Modifications database_modifications;
   database_modifications.recordUserSave (username, bible, book, chapter, oldID, oldText, newID, newText);
   if (sendreceive_git_repository_linked (bible)) {

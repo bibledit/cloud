@@ -36,7 +36,6 @@
 void export_bibledropbox (const std::string& user, const std::string& bible)
 {
   Webserver_Request request {};
-  Database_Bibles database_bibles {};
   Database_Users database_users {};
 
   
@@ -51,7 +50,7 @@ void export_bibledropbox (const std::string& user, const std::string& bible)
 
   // Take the USFM from the Bible database.
   // Generate one USFM file per book.
-  const std::vector <int> books = database_bibles.get_books (bible);
+  const std::vector <int> books = database::bibles::get_books (bible);
   for (const auto book : books) {
     
     
@@ -60,10 +59,10 @@ void export_bibledropbox (const std::string& user, const std::string& bible)
     
     
     // Collect the USFM for all chapters in this book.
-    const std::vector <int> chapters = database_bibles.get_chapters (bible, book);
+    const std::vector <int> chapters = database::bibles::get_chapters (bible, book);
     for (auto chapter : chapters) {
       // Get the USFM code for the current chapter.
-      std::string usfm = database_bibles.get_chapter (bible, book, chapter);
+      std::string usfm = database::bibles::get_chapter (bible, book, chapter);
       usfm = filter::strings::trim (usfm);
       // Add the chapter USFM code to the book's USFM code.
       bookdata.append (usfm);

@@ -161,8 +161,7 @@ bool sendreceive_paratext_queued ()
 
 void sendreceive_queue_all (bool now)
 {
-  Database_Bibles database_bibles;
-  std::vector <std::string> bibles = database_bibles.get_bibles ();
+  std::vector <std::string> bibles = database::bibles::get_bibles ();
   for (auto & bible : bibles) {
     if (database::config::bible::get_remote_repository_url (bible) != "") {
       if (database::config::bible::get_repeat_send_receive (bible) || now) {

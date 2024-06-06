@@ -92,7 +92,7 @@ std::string edit_preview (Webserver_Request& webserver_request)
   
   const std::string stylesheet = database::config::bible::get_editor_stylesheet (bible);
   
-  std::string usfm = webserver_request.database_bibles()->get_chapter (bible, book, chapter);
+  std::string usfm = database::bibles::get_chapter (bible, book, chapter);
   
   Editor_Usfm2Html editor_usfm2html;
   editor_usfm2html.load (usfm);

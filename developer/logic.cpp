@@ -110,8 +110,7 @@ void developer_logic_import_changes ()
   const std::string file_path = filter_url_create_path ({home_path, "Desktop", "changes.usfm"});
   const std::string bible = "test";
   Database_Logs::log ("Import changes from " + file_path + " into Bible " + bible);
-  Database_Bibles database_bibles {};
-  const std::vector <std::string> bibles = database_bibles.get_bibles ();
+  const std::vector <std::string> bibles = database::bibles::get_bibles ();
   if (!in_array(bible, bibles)) {
     Database_Logs::log ("Cannot locate Bible " + bible);
     return;

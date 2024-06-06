@@ -117,8 +117,7 @@ void Database_Modifications::storeTeamDiff (const std::string& bible, int book, 
   if (teamDiffExists (bible, book, chapter)) return;
 
   // Retrieve current chapter USFM data.
-  Database_Bibles database_bibles;
-  std::string data = database_bibles.get_chapter (bible, book, chapter);
+  std::string data = database::bibles::get_chapter (bible, book, chapter);
 
   // Store.
   std::string file = teamFile (bible, book, chapter);
@@ -137,8 +136,7 @@ std::string Database_Modifications::getTeamDiff (const std::string& bible, int b
 // Stores diff data for all chapters in a "bible" (string) and book (int).
 void Database_Modifications::storeTeamDiffBook (const std::string& bible, int book)
 {
-  Database_Bibles database_bibles;
-  std::vector <int> chapters = database_bibles.get_chapters (bible, book);
+  std::vector <int> chapters = database::bibles::get_chapters (bible, book);
   for (auto & chapter : chapters) {
     storeTeamDiff (bible, book, chapter);
   }
@@ -148,8 +146,7 @@ void Database_Modifications::storeTeamDiffBook (const std::string& bible, int bo
 // Stores diff data for all books in a "bible" (string).
 void Database_Modifications::storeTeamDiffBible (const std::string& bible)
 {
-  Database_Bibles database_bibles;
-  std::vector <int> books = database_bibles.get_books (bible);
+  std::vector <int> books = database::bibles::get_books (bible);
   for (auto & book : books) {
     storeTeamDiffBook (bible, book);
   }

@@ -60,10 +60,10 @@ TEST (checksum, basic)
   refresh_sandbox (true);
   Database_State::create ();
   Webserver_Request webserver_request;
-  webserver_request.database_bibles()->store_chapter ("phpunit1", 1, 2, "data1");
-  webserver_request.database_bibles()->store_chapter ("phpunit1", 1, 3, "data2");
-  webserver_request.database_bibles()->store_chapter ("phpunit1", 1, 4, "data3");
-  webserver_request.database_bibles()->store_chapter ("phpunit2", 2, 5, "data4");
+  database::bibles::store_chapter ("phpunit1", 1, 2, "data1");
+  database::bibles::store_chapter ("phpunit1", 1, 3, "data2");
+  database::bibles::store_chapter ("phpunit1", 1, 4, "data3");
+  database::bibles::store_chapter ("phpunit2", 2, 5, "data4");
 
   // GetChapter1
   {

@@ -56,7 +56,7 @@ std::string editone2_load (Webserver_Request& webserver_request)
   
   const std::string stylesheet = database::config::bible::get_editor_stylesheet (bible);
 
-  std::string chapter_usfm = webserver_request.database_bibles()->get_chapter (bible, book, chapter);
+  std::string chapter_usfm = database::bibles::get_chapter (bible, book, chapter);
 
   std::vector <int> verses = filter::usfm::get_verse_numbers (chapter_usfm);
   int highest_verse = 0;

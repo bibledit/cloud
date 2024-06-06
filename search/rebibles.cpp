@@ -50,13 +50,12 @@ void search_reindex_bibles (bool force)
   
   // This checks whether the data in the search index exists for all chapters in all Bibles.
   // If it does not exist for a certain chapter, the index will be created.
-  Database_Bibles database_bibles;
-  std::vector <std::string> bibles = database_bibles.get_bibles ();
+  std::vector <std::string> bibles = database::bibles::get_bibles ();
   for (auto & bible : bibles) {
     Database_Logs::log (indexing_bible + " " + translate ("Checking") + " " + bible, Filter_Roles::manager ());
-    std::vector <int> books = database_bibles.get_books (bible);
+    std::vector <int> books = database::bibles::get_books (bible);
     for (auto book : books) {
-      std::vector <int> chapters = database_bibles.get_chapters (bible, book);
+      std::vector <int> chapters = database::bibles::get_chapters (bible, book);
       for (auto chapter : chapters) {
         std::string index = search_logic_chapter_file (bible, book, chapter);
         if (!file_or_dir_exists (index) || force) {

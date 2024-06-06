@@ -53,7 +53,6 @@ void export_odt_book (std::string bible, int book, bool log)
   std::string notesFilename = filter_url_create_path ({directory, basename + "_notes.odt"});
 
   
-  Database_Bibles database_bibles;
   Database_BibleImages database_bibleimages;
   
   
@@ -71,9 +70,9 @@ void export_odt_book (std::string bible, int book, bool log)
     // Load entire Bible, ordered.
     std::vector <int> books = filter_passage_get_ordered_books (bible);
     for (auto book2 : books) {
-      std::vector <int> chapters = database_bibles.get_chapters (bible, book2);
+      std::vector <int> chapters = database::bibles::get_chapters (bible, book2);
       for (auto chapter : chapters) {
-        std::string usfm = database_bibles.get_chapter (bible, book2, chapter);
+        std::string usfm = database::bibles::get_chapter (bible, book2, chapter);
         usfm = filter::strings::trim (usfm);
         // Use small chunks of USFM at a time for much better performance.
         filter_text.add_usfm_code (usfm);
@@ -81,9 +80,9 @@ void export_odt_book (std::string bible, int book, bool log)
     }
   } else {
     // Load one book.
-    std::vector <int> chapters = database_bibles.get_chapters (bible, book);
+    std::vector <int> chapters = database::bibles::get_chapters (bible, book);
     for (auto chapter : chapters) {
-      std::string usfm = database_bibles.get_chapter (bible, book, chapter);
+      std::string usfm = database::bibles::get_chapter (bible, book, chapter);
       usfm = filter::strings::trim (usfm);
       // Use small chunks of USFM at a time for much better performance.
       filter_text.add_usfm_code (usfm);

@@ -35,10 +35,9 @@
 bool book_create (const std::string & bible, const book_id book, const int chapter,
                   std::vector<std::string>& feedback)
 {
-  Database_Bibles database_bibles {};
   Database_Versifications database_versifications {};
 
-  const std::vector <std::string> bibles = database_bibles.get_bibles ();
+  const std::vector <std::string> bibles = database::bibles::get_bibles ();
   if (!in_array (bible, bibles)) {
     feedback.push_back (translate("Bible bible does not exist: Cannot create book"));
     return false;

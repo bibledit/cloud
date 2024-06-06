@@ -693,8 +693,7 @@ void notes_logic_maintain_note_assignees (bool force)
   }
   if (!force) return;
 
-  Database_Bibles database_bibles;
-  std::vector <std::string> bibles = database_bibles.get_bibles ();
+  std::vector <std::string> bibles = database::bibles::get_bibles ();
   
   // A user can assign notes to other users
   // who have access to the Bibles the user has access to.

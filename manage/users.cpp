@@ -207,7 +207,7 @@ std::string manage_users (Webserver_Request& webserver_request)
   
   
   // Fetch all available Bibles.
-  std::vector <std::string> allbibles = webserver_request.database_bibles()->get_bibles ();
+  std::vector <std::string> allbibles = database::bibles::get_bibles ();
   
   
   // Add Bible to user account.
@@ -330,7 +330,7 @@ std::string manage_users (Webserver_Request& webserver_request)
             tbody << "<a href=" << std::quoted("/bible/settings?bible=" + bible) << ">" << bible << "</a>";
             tbody << "<a href=" << std::quoted("write?user=" + username + "&bible=" + bible) << ">";
             int readwritebooks = 0;
-            std::vector <int> books = webserver_request.database_bibles()->get_books (bible);
+            std::vector <int> books = database::bibles::get_books (bible);
             for (auto book : books) {
               DatabasePrivileges::get_bible_book (username, bible, book, read, write);
               if (write) readwritebooks++;

@@ -53,13 +53,12 @@ void test_search_setup ()
                           "\\v 4,5 Ular berkata kepada perempuan itu,”Tentu saja kamu tidak akan mati. ALLAH mengatakan hal itu karena tahu kalau kamu makan buah dari pohon yang berada di tengah taman itu, kamu akan memahami sesuatu yang baru yaitu mata dan pikiranmu akan terbuka dan kamu akan menjadi sama seperti Allah. Kamu akan mengetahui apa yang baik yang boleh dilakukan dan yang jahat, yang tidak boleh dilakukan.\n"
                           "\\v 6 Perempuan itu melihat bahwa pohon itu menghasilkan buah yang sangat indah dan enak untuk dimakan. Maka dia menginginkannya karena mengira, akan menjadi perempuan yang bijaksana. Lalu, dipetiklah beberapa buah dan dimakannya. Kemudian, dia memberikan beberapa buah juga kepada suaminya dan suaminya juga memakannya.\n";
   Database_State::create ();
-  Database_Bibles database_bibles;
-  database_bibles.create_bible ("phpunit");
-  database_bibles.store_chapter ("phpunit", 2, 3, standardUSFM1);
-  database_bibles.create_bible ("phpunit2");
-  database_bibles.store_chapter ("phpunit2", 4, 5, standardUSFM2);
-  database_bibles.create_bible ("phpunit3");
-  database_bibles.store_chapter ("phpunit3", 6, 7, standardUSFM3);
+  database::bibles::create_bible ("phpunit");
+  database::bibles::store_chapter ("phpunit", 2, 3, standardUSFM1);
+  database::bibles::create_bible ("phpunit2");
+  database::bibles::store_chapter ("phpunit2", 4, 5, standardUSFM2);
+  database::bibles::create_bible ("phpunit3");
+  database::bibles::store_chapter ("phpunit3", 6, 7, standardUSFM3);
 }
 
 

@@ -52,15 +52,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 void bible_logic::store_chapter (const std::string& bible, int book, int chapter, const std::string& usfm)
 {
-  Database_Bibles database_bibles {};
-
   // Record data of the chapter to be stored prior to storing the new version.
   // Both client and cloud follow this order.
 
 #ifdef HAVE_CLIENT
 
   // Client stores Bible action.
-  const std::string oldusfm = database_bibles.get_chapter (bible, book, chapter);
+  const std::string oldusfm = database::bibles::get_chapter (bible, book, chapter);
   Database_BibleActions database_bibleactions;
   database_bibleactions.record (bible, book, chapter, oldusfm);
   
@@ -78,20 +76,18 @@ void bible_logic::store_chapter (const std::string& bible, int book, int chapter
 #endif
 
   // Store the chapter in the database.
-  database_bibles.store_chapter (bible, book, chapter, usfm);
+  database::bibles::store_chapter (bible, book, chapter, usfm);
 }
 
 
 void bible_logic::delete_chapter (const std::string& bible, int book, int chapter)
 {
-  Database_Bibles database_bibles {};
-
   // Cloud and client record data of the chapter to be deleted prior to deletion.
   
 #ifdef HAVE_CLIENT
 
   // Client stores Bible action.
-  const std::string usfm = database_bibles.get_chapter (bible, book, chapter);
+  const std::string usfm = database::bibles::get_chapter (bible, book, chapter);
   Database_BibleActions database_bibleactions;
   database_bibleactions.record (bible, book, chapter, usfm);
   
@@ -109,23 +105,21 @@ void bible_logic::delete_chapter (const std::string& bible, int book, int chapte
 #endif
 
   // Delete the chapter from the database.
-  database_bibles.delete_chapter (bible, book, chapter);
+  database::bibles::delete_chapter (bible, book, chapter);
 }
 
 
 void bible_logic::delete_book (const std::string& bible, int book)
 {
-  Database_Bibles database_bibles {};
-
   // Both client and cloud record data of the book to be deleted prior to deletion.
   
 #ifdef HAVE_CLIENT
 
   // Client stores Bible actions.
   Database_BibleActions database_bibleactions;
-  const std::vector <int> chapters = database_bibles.get_chapters (bible, book);
+  const std::vector <int> chapters = database::bibles::get_chapters (bible, book);
   for (const auto& chapter : chapters) {
-    const std::string usfm = database_bibles.get_chapter (bible, book, chapter);
+    const std::string usfm = database::bibles::get_chapter (bible, book, chapter);
     database_bibleactions.record (bible, book, chapter, usfm);
   }
   
@@ -143,25 +137,23 @@ void bible_logic::delete_book (const std::string& bible, int book)
 #endif
   
   // Delete the book from the database.
-  database_bibles.delete_book (bible, book);
+  database::bibles::delete_book (bible, book);
 }
 
 
 void bible_logic::delete_bible (const std::string& bible)
 {
-  Database_Bibles database_bibles {};
-
   // The client and the cloud record data of the Bible to be deleted prior to deletion.
   
 #ifdef HAVE_CLIENT
 
   // Client stores Bible actions.
   Database_BibleActions database_bibleactions {};
-  const std::vector <int> books = database_bibles.get_books (bible);
+  const std::vector <int> books = database::bibles::get_books (bible);
   for (const auto book : books) {
-    const std::vector <int> chapters = database_bibles.get_chapters (bible, book);
+    const std::vector <int> chapters = database::bibles::get_chapters (bible, book);
     for (const auto chapter : chapters) {
-      const std::string usfm = database_bibles.get_chapter (bible, book, chapter);
+      const std::string usfm = database::bibles::get_chapter (bible, book, chapter);
       database_bibleactions.record (bible, book, chapter, usfm);
     }
   }
@@ -186,7 +178,7 @@ void bible_logic::delete_bible (const std::string& bible)
 #endif
   
   // Delete the Bible from the database.
-  database_bibles.delete_bible (bible);
+  database::bibles::delete_bible (bible);
   
   // Delete the search index.
   search_logic_delete_bible (bible);
@@ -272,8 +264,7 @@ void bible_logic::log_change (const std::string& bible,
   if (!force) return;
 #endif
   
-  Database_Bibles database_bibles;
-  const std::string existing_usfm = database_bibles.get_chapter (bible, book, chapter);
+  const std::string existing_usfm = database::bibles::get_chapter (bible, book, chapter);
 
   // It used to calculate the percentage difference, but this took a relatively long time.
   // In particular on low-power devices and on Windows, the time it took was excessive.
@@ -661,7 +652,6 @@ void bible_logic::client_mail_pending_bible_updates (const std::string& user)
 {
   // Iterate over all the actions stored for all Bible data ready for sending to the Cloud.
   Database_BibleActions database_bibleactions {};
-  Database_Bibles database_bibles {};
   const std::vector <std::string> bibles = database_bibleactions.getBibles ();
   for (const auto& bible : bibles) {
     // Skip the Sample Bible, for less clutter.
@@ -673,7 +663,7 @@ void bible_logic::client_mail_pending_bible_updates (const std::string& user)
         
         // Get old and new USFM for this chapter.
         const std::string oldusfm = database_bibleactions.getUsfm (bible, book, chapter);
-        const std::string newusfm = database_bibles.get_chapter (bible, book, chapter);
+        const std::string newusfm = database::bibles::get_chapter (bible, book, chapter);
         // If old USFM and new USFM are the same, or the new USFM is empty, skip it.
         if (newusfm == oldusfm) continue;
         if (newusfm.empty ()) continue;
@@ -1170,9 +1160,8 @@ void bible_logic::create_empty_bible (const std::string& name)
   Database_Logs::log (translate("Creating Bible") + " " + name);
   
   // Remove and create the empty Bible.
-  Database_Bibles database_bibles {};
-  database_bibles.delete_bible (name);
-  database_bibles.create_bible (name);
+  database::bibles::delete_bible (name);
+  database::bibles::create_bible (name);
   
   // Remove index for the Bible.
   search_logic_delete_bible (name);

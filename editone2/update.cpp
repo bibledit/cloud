@@ -155,10 +155,10 @@ std::string editone2_update (Webserver_Request& webserver_request)
   std::string username = webserver_request.session_logic()->currentUser ();
 #ifdef HAVE_CLOUD
   int oldID = 0;
-  if (good2go) oldID = webserver_request.database_bibles()->get_chapter_id (bible, book, chapter);
+  if (good2go) oldID = database::bibles::get_chapter_id (bible, book, chapter);
 #endif
   std::string old_chapter_usfm;
-  if (good2go) old_chapter_usfm = webserver_request.database_bibles()->get_chapter (bible, book, chapter);
+  if (good2go) old_chapter_usfm = database::bibles::get_chapter (bible, book, chapter);
 
   
   // Determine what (composed) version of USFM to save to the chapter.
@@ -217,10 +217,10 @@ std::string editone2_update (Webserver_Request& webserver_request)
 
   
   // The new chapter identifier and new chapter USFM.
-  int newID = webserver_request.database_bibles()->get_chapter_id (bible, book, chapter);
+  int newID = database::bibles::get_chapter_id (bible, book, chapter);
   std::string new_chapter_usfm;
   if (good2go) {
-    new_chapter_usfm = webserver_request.database_bibles()->get_chapter (bible, book, chapter);
+    new_chapter_usfm = database::bibles::get_chapter (bible, book, chapter);
   }
 
   

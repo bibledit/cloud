@@ -134,7 +134,7 @@ std::string bible_settings (Webserver_Request& webserver_request)
   if (webserver_request.query.count ("createbook")) {
     const std::string createbook = webserver_request.query["createbook"];
     if (createbook.empty()) {
-      Dialog_Books dialog_books = Dialog_Books ("settings", translate("Create book"), "", "", "createbook", {}, webserver_request.database_bibles()->get_books (bible));
+      Dialog_Books dialog_books = Dialog_Books ("settings", translate("Create book"), "", "", "createbook", {}, database::bibles::get_books (bible));
       dialog_books.add_query ("bible", bible);
       page += dialog_books.run ();
       return page;

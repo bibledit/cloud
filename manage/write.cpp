@@ -97,7 +97,7 @@ std::string manage_write (Webserver_Request& webserver_request)
   if (!testament.empty ()) {
     // Count the majority 'write' access situation for the Bible.
     int majority = 0;
-    std::vector <int> books = webserver_request.database_bibles()->get_books (bible);
+    std::vector <int> books = database::bibles::get_books (bible);
     for (auto & book : books) {
       std::string type = database::books::book_type_to_string (database::books::get_type (static_cast<book_id>(book)));
       if (type == testament) {
@@ -120,7 +120,7 @@ std::string manage_write (Webserver_Request& webserver_request)
   }
   
   // Read or write access to display.
-  std::vector <int> books = webserver_request.database_bibles()->get_books (bible);
+  std::vector <int> books = database::bibles::get_books (bible);
   for (size_t i = 0; i < books.size (); i++) {
     int book = books[i];
     std::string bookname = database::books::get_english_from_id (static_cast<book_id>(book));

@@ -314,18 +314,17 @@ TEST (filter, passage)
   // Test ordered books.
   {
     refresh_sandbox (true);
-    Database_Bibles database_bibles;
     Database_State::create ();
     
     std::string bible = "php unit";
     
     // No ordering.
-    database_bibles.create_bible (bible);
-    database_bibles.store_chapter (bible, 1, 1, "data");
-    database_bibles.store_chapter (bible, 2, 1, "data");
-    database_bibles.store_chapter (bible, 3, 1, "data");
-    database_bibles.store_chapter (bible, 4, 1, "data");
-    database_bibles.store_chapter (bible, 5, 1, "data");
+    database::bibles::create_bible (bible);
+    database::bibles::store_chapter (bible, 1, 1, "data");
+    database::bibles::store_chapter (bible, 2, 1, "data");
+    database::bibles::store_chapter (bible, 3, 1, "data");
+    database::bibles::store_chapter (bible, 4, 1, "data");
+    database::bibles::store_chapter (bible, 5, 1, "data");
     std::vector <int> books = filter_passage_get_ordered_books (bible);
     EXPECT_EQ ((std::vector <int>{1, 2, 3, 4, 5}), books);
     

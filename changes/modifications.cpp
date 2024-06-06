@@ -346,7 +346,7 @@ void changes_modifications ()
       for (auto chapter : chapters) {
         Database_Logs::log ("Change notifications: " + bible + " " + filter_passage_display (book, chapter, ""), Filter_Roles::translator ());
         const std::string old_chapter_usfm = database_modifications.getTeamDiff (bible, book, chapter);
-        const std::string new_chapter_usfm = webserver_request.database_bibles()->get_chapter (bible, book, chapter);
+        const std::string new_chapter_usfm = database::bibles::get_chapter (bible, book, chapter);
         const std::vector <int> old_verse_numbers = filter::usfm::get_verse_numbers (old_chapter_usfm);
         const std::vector <int> new_verse_numbers = filter::usfm::get_verse_numbers (new_chapter_usfm);
         std::vector <int> verses = old_verse_numbers;

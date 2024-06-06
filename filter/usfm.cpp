@@ -719,7 +719,7 @@ std::string safely_store_chapter (Webserver_Request& webserver_request,
                                   std::string bible, int book, int chapter, std::string usfm, std::string & explanation)
 {
   // Existing chapter contents.
-  std::string existing = webserver_request.database_bibles()->get_chapter (bible, book, chapter);
+  std::string existing = database::bibles::get_chapter (bible, book, chapter);
   
   // Bail out if the existing chapter equals the USFM to be saved.
   if (usfm == existing) return std::string();
@@ -772,7 +772,7 @@ std::string safely_store_verse (Webserver_Request& webserver_request,
   }
 
   // Get the existing chapter USFM.
-  std::string chapter_usfm = webserver_request.database_bibles()->get_chapter (bible, book, chapter);
+  std::string chapter_usfm = database::bibles::get_chapter (bible, book, chapter);
   
   // Get the existing USFM fragment for the verse to save.
   std::string existing_verse_usfm;

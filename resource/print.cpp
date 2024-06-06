@@ -109,7 +109,7 @@ std::string resource_print (Webserver_Request& webserver_request)
     std::string frombook = webserver_request.query["frombook"];
     if (frombook == "") {
       Dialog_List dialog_list = Dialog_List ("print", translate("Select a book"), "", "");
-      std::vector <int> books = webserver_request.database_bibles()->get_books (bible);
+      std::vector <int> books = database::bibles::get_books (bible);
       for (auto & book : books) {
         std::string bookname = database::books::get_english_from_id (static_cast<book_id>(book));
         dialog_list.add_row (bookname, "frombook", std::to_string (book));
@@ -128,10 +128,10 @@ std::string resource_print (Webserver_Request& webserver_request)
       if (filter_passage_to_integer (topassage) < filter_passage_to_integer (frompassage)) {
         // Set ending passage to a sensible value.
         topassage.m_book = filter::strings::convert_to_int (frombook);
-        std::vector <int> chapters = webserver_request.database_bibles()->get_chapters (bible, topassage.m_book);
+        std::vector <int> chapters = database::bibles::get_chapters (bible, topassage.m_book);
         topassage.m_chapter = frompassage.m_chapter;
         if (!chapters.empty ()) topassage.m_chapter = chapters.back ();
-        std::vector <int> verses = filter::usfm::get_verse_numbers (webserver_request.database_bibles()->get_chapter (bible, topassage.m_book, topassage.m_chapter));
+        std::vector <int> verses = filter::usfm::get_verse_numbers (database::bibles::get_chapter (bible, topassage.m_book, topassage.m_chapter));
         topassage.m_verse = frompassage.m_verse;
         if (!verses.empty ()) topassage.m_verse = std::to_string (verses.back ());
         webserver_request.database_config_user()->setPrintPassageTo (topassage);
@@ -145,7 +145,7 @@ std::string resource_print (Webserver_Request& webserver_request)
     if (fromchapter == "") {
       Dialog_List dialog_list = Dialog_List ("print", translate("Select a chapter"), "", "");
       Passage passage = webserver_request.database_config_user()->getPrintPassageFrom ();
-      std::vector <int> chapters = webserver_request.database_bibles()->get_chapters (bible, passage.m_book);
+      std::vector <int> chapters = database::bibles::get_chapters (bible, passage.m_book);
       for (auto & chapter : chapters) {
         dialog_list.add_row (std::to_string (chapter), "fromchapter", std::to_string (chapter));
       }
@@ -162,7 +162,7 @@ std::string resource_print (Webserver_Request& webserver_request)
       if (filter_passage_to_integer (topassage) < filter_passage_to_integer (frompassage)) {
         // Set ending chapter / verse to sensible values.
         topassage.m_chapter = filter::strings::convert_to_int (fromchapter);
-        std::vector <int> verses = filter::usfm::get_verse_numbers (webserver_request.database_bibles()->get_chapter (bible, topassage.m_book, topassage.m_chapter));
+        std::vector <int> verses = filter::usfm::get_verse_numbers (database::bibles::get_chapter (bible, topassage.m_book, topassage.m_chapter));
         topassage.m_verse = frompassage.m_verse;
         if (!verses.empty ()) topassage.m_verse = std::to_string (verses.back ());
         webserver_request.database_config_user()->setPrintPassageTo (topassage);
@@ -176,7 +176,7 @@ std::string resource_print (Webserver_Request& webserver_request)
     if (fromverse == "") {
       Dialog_List dialog_list = Dialog_List ("print", translate("Select a verse"), "", "");
       Passage passage = webserver_request.database_config_user()->getPrintPassageFrom ();
-      std::string usfm = webserver_request.database_bibles()->get_chapter (bible, passage.m_book, passage.m_chapter);
+      std::string usfm = database::bibles::get_chapter (bible, passage.m_book, passage.m_chapter);
       std::vector <int> verses = filter::usfm::get_verse_numbers (usfm);
       for (auto & verse : verses) {
         dialog_list.add_row (std::to_string (verse), "fromverse", std::to_string (verse));
@@ -191,7 +191,7 @@ std::string resource_print (Webserver_Request& webserver_request)
       // Sensible matching ending verse.
       Passage topassage = webserver_request.database_config_user()->getPrintPassageTo ();
       if (filter_passage_to_integer (topassage) < filter_passage_to_integer (frompassage)) {
-        std::vector <int> verses = filter::usfm::get_verse_numbers (webserver_request.database_bibles()->get_chapter (bible, topassage.m_book, topassage.m_chapter));
+        std::vector <int> verses = filter::usfm::get_verse_numbers (database::bibles::get_chapter (bible, topassage.m_book, topassage.m_chapter));
         topassage.m_verse = frompassage.m_verse;
         if (!verses.empty ()) topassage.m_verse = std::to_string (verses.back ());
         webserver_request.database_config_user()->setPrintPassageTo (topassage);
@@ -204,7 +204,7 @@ std::string resource_print (Webserver_Request& webserver_request)
     std::string tobook = webserver_request.query["tobook"];
     if (tobook == "") {
       Dialog_List dialog_list = Dialog_List ("print", translate("Select a book"), "", "");
-      std::vector <int> books = webserver_request.database_bibles()->get_books (bible);
+      std::vector <int> books = database::bibles::get_books (bible);
       for (auto & book : books) {
         std::string bookname = database::books::get_english_from_id (static_cast<book_id>(book));
         dialog_list.add_row (bookname, "tobook", std::to_string (book));
@@ -236,7 +236,7 @@ std::string resource_print (Webserver_Request& webserver_request)
     if (tochapter == "") {
       Dialog_List dialog_list = Dialog_List ("print", translate("Select a chapter"), "", "");
       Passage passage = webserver_request.database_config_user()->getPrintPassageTo ();
-      std::vector <int> chapters = webserver_request.database_bibles()->get_chapters (bible, passage.m_book);
+      std::vector <int> chapters = database::bibles::get_chapters (bible, passage.m_book);
       for (auto & chapter : chapters) {
         dialog_list.add_row (std::to_string (chapter), "tochapter", std::to_string (chapter));
       }
@@ -266,7 +266,7 @@ std::string resource_print (Webserver_Request& webserver_request)
     if (toverse == "") {
       Dialog_List dialog_list = Dialog_List ("print", translate("Select a verse"), "", "");
       Passage passage = webserver_request.database_config_user()->getPrintPassageTo ();
-      std::string usfm = webserver_request.database_bibles()->get_chapter (bible, passage.m_book, passage.m_chapter);
+      std::string usfm = database::bibles::get_chapter (bible, passage.m_book, passage.m_chapter);
       std::vector <int> verses = filter::usfm::get_verse_numbers (usfm);
       for (auto & verse : verses) {
         dialog_list.add_row (std::to_string (verse), "toverse", std::to_string (verse));
@@ -343,11 +343,11 @@ void resource_print_job (std::string jobId, std::string user, std::string bible)
   std::vector <std::string> result;
   
   
-  std::vector <int> books = webserver_request.database_bibles()->get_books (bible);
+  std::vector <int> books = database::bibles::get_books (bible);
   for (auto & book : books) {
-    std::vector <int> chapters = webserver_request.database_bibles()->get_chapters (bible, book);
+    std::vector <int> chapters = database::bibles::get_chapters (bible, book);
     for (auto & chapter : chapters) {
-      std::string usfm = webserver_request.database_bibles()->get_chapter (bible, book, chapter);
+      std::string usfm = database::bibles::get_chapter (bible, book, chapter);
       std::vector <int> verses = filter::usfm::get_verse_numbers (usfm);
       for (auto & verse : verses) {
         int passage = filter_passage_to_integer (Passage ("", book, chapter, std::to_string (verse)));

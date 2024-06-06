@@ -76,7 +76,7 @@ std::string search_replacego2 (Webserver_Request& webserver_request)
 
   
   // Get the old chapter and verse USFM.
-  std::string old_chapter_usfm = webserver_request.database_bibles()->get_chapter (bible, book, chapter);
+  std::string old_chapter_usfm = database::bibles::get_chapter (bible, book, chapter);
   std::string old_verse_usfm = filter::usfm::get_verse_text (old_chapter_usfm, verse);
   
   

@@ -173,7 +173,7 @@ void sendreceive_settings ()
   // If it matches, that means that the local settings match the settings on the server.
   // The script is then ready.
   if (post.count ("v")) post.erase (post.find ("v"));
-  std::vector <std::string> bibles = webserver_request.database_bibles()->get_bibles ();
+  std::vector <std::string> bibles = database::bibles::get_bibles ();
   post ["a"] = std::to_string (Sync_Logic::settings_get_total_checksum);
   post ["b"] = filter::strings::implode (bibles, "\n");
   std::string error;

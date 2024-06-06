@@ -153,7 +153,7 @@ std::string resource_cache (Webserver_Request& webserver_request)
   
   
   // Generate html block with the resources.
-  std::vector <std::string> bibles = webserver_request.database_bibles()->get_bibles ();
+  std::vector <std::string> bibles = database::bibles::get_bibles ();
   std::string block;
   for (auto & resource2 : listed_resources) {
     // Skip internal Bibles and dividers.

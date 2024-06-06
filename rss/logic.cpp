@@ -48,8 +48,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 void rss_logic_feed_on_off ()
 {
   // See whether there's Bibles that send their changes to the RSS feed.
-  Database_Bibles database_bibles;
-  std::vector <std::string> bibles = database_bibles.get_bibles ();
+  std::vector <std::string> bibles = database::bibles::get_bibles ();
   bool rss_enabled = false;
   for (auto bible : bibles) {
     if (database::config::bible::get_send_changes_to_rss (bible)) {

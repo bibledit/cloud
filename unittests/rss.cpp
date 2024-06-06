@@ -37,9 +37,8 @@ TEST (rss, feed)
   refresh_sandbox (false);
   
   Database_State::create ();
-  Database_Bibles database_bibles;
   std::string bible = "bible";
-  database_bibles.create_bible (bible);
+  database::bibles::create_bible (bible);
   
   std::string path = rss_logic_xml_path ();
   database::config::general::set_site_url ("http://localhost:8080/");

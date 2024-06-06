@@ -116,19 +116,19 @@ void checks_run (std::string bible)
   bool check_valid_utf8_text = database::config::bible::get_check_valid_utf8_text (bible);
 
   
-  const std::vector <int> books = webserver_request.database_bibles()->get_books (bible);
+  const std::vector <int> books = database::bibles::get_books (bible);
   if (check_books_versification) checks_versification::books (bible, books);
   
   
   for (auto book : books) {
     
     
-    const std::vector <int> chapters = webserver_request.database_bibles()->get_chapters (bible, book);
+    const std::vector <int> chapters = database::bibles::get_chapters (bible, book);
     if (check_chapters_verses_versification) checks_versification::chapters (bible, book, chapters);
     
     
     for (auto chapter : chapters) {
-      std::string chapterUsfm = webserver_request.database_bibles()->get_chapter (bible, book, chapter);
+      std::string chapterUsfm = database::bibles::get_chapter (bible, book, chapter);
     
       
       // Transpose and fix spacing around certain markers in footnotes and cross references.
@@ -137,11 +137,11 @@ void checks_run (std::string bible)
         const bool transposed = checks::space::transpose_note_space (chapterUsfm);
         if (transposed) {
 #ifndef HAVE_CLIENT
-          const int oldID = webserver_request.database_bibles()->get_chapter_id (bible, book, chapter);
+          const int oldID = database::bibles::get_chapter_id (bible, book, chapter);
 #endif
-          webserver_request.database_bibles()->store_chapter(bible, book, chapter, chapterUsfm);
+          database::bibles::store_chapter(bible, book, chapter, chapterUsfm);
 #ifndef HAVE_CLIENT
-          const int newID = webserver_request.database_bibles()->get_chapter_id (bible, book, chapter);
+          const int newID = database::bibles::get_chapter_id (bible, book, chapter);
           const std::string username = "Bibledit";
           database_modifications.recordUserSave (username, bible, book, chapter, oldID, old_usfm, newID, chapterUsfm);
           if (sendreceive_git_repository_linked (bible)) {

@@ -73,9 +73,7 @@ std::string search_logic_index_separator ()
 // Indexes a $bible $book $chapter for searching.
 void search_logic_index_chapter (std::string bible, int book, int chapter)
 {
-  Database_Bibles database_bibles;
-  
-  std::string usfm = database_bibles.get_chapter (bible, book, chapter);
+  std::string usfm = database::bibles::get_chapter (bible, book, chapter);
   const std::string stylesheet = database::config::bible::get_export_stylesheet (bible);
 
   std::vector <std::string> index;
@@ -160,11 +158,10 @@ std::vector <Passage> search_logic_search_text (std::string search, std::vector 
   search = filter::strings::unicode_string_casefold (search);
   search = filter::strings::replace (",", "", search);
   
-  Database_Bibles database_bibles;
   for (auto bible : bibles) {
-    std::vector <int> books = database_bibles.get_books (bible);
+    std::vector <int> books = database::bibles::get_books (bible);
     for (auto book : books) {
-      std::vector <int> chapters = database_bibles.get_chapters (bible, book);
+      std::vector <int> chapters = database::bibles::get_chapters (bible, book);
       for (auto chapter : chapters) {
         std::string path = search_logic_chapter_file (bible, book, chapter);
         std::string index = filter_url_file_get_contents (path);
@@ -208,10 +205,9 @@ std::vector <Passage> search_logic_search_bible_text (std::string bible, std::st
   
   search = filter::strings::unicode_string_casefold (search);
   
-  Database_Bibles database_bibles;
-  std::vector <int> books = database_bibles.get_books (bible);
+  std::vector <int> books = database::bibles::get_books (bible);
   for (auto book : books) {
-    std::vector <int> chapters = database_bibles.get_chapters (bible, book);
+    std::vector <int> chapters = database::bibles::get_chapters (bible, book);
     for (auto chapter : chapters) {
       std::string path = search_logic_chapter_file (bible, book, chapter);
       std::string index = filter_url_file_get_contents (path);
@@ -252,10 +248,9 @@ std::vector <Passage> search_logic_search_bible_text_case_sensitive (std::string
   
   if (search == "") return passages;
   
-  Database_Bibles database_bibles;
-  std::vector <int> books = database_bibles.get_books (bible);
+  std::vector <int> books = database::bibles::get_books (bible);
   for (auto book : books) {
-    std::vector <int> chapters = database_bibles.get_chapters (bible, book);
+    std::vector <int> chapters = database::bibles::get_chapters (bible, book);
     for (auto chapter : chapters) {
       std::string path = search_logic_chapter_file (bible, book, chapter);
       std::string index = filter_url_file_get_contents (path);
@@ -298,10 +293,9 @@ std::vector <Passage> search_logic_search_bible_usfm (std::string bible, std::st
   
   search = filter::strings::unicode_string_casefold (search);
   
-  Database_Bibles database_bibles;
-  std::vector <int> books = database_bibles.get_books (bible);
+  std::vector <int> books = database::bibles::get_books (bible);
   for (auto book : books) {
-    std::vector <int> chapters = database_bibles.get_chapters (bible, book);
+    std::vector <int> chapters = database::bibles::get_chapters (bible, book);
     for (auto chapter : chapters) {
       std::string path = search_logic_chapter_file (bible, book, chapter);
       std::string index = filter_url_file_get_contents (path);
@@ -342,10 +336,9 @@ std::vector <Passage> search_logic_search_bible_usfm_case_sensitive (std::string
   
   if (search == "") return passages;
   
-  Database_Bibles database_bibles;
-  std::vector <int> books = database_bibles.get_books (bible);
+  std::vector <int> books = database::bibles::get_books (bible);
   for (auto book : books) {
-    std::vector <int> chapters = database_bibles.get_chapters (bible, book);
+    std::vector <int> chapters = database::bibles::get_chapters (bible, book);
     for (auto chapter : chapters) {
       std::string path = search_logic_chapter_file (bible, book, chapter);
       std::string index = filter_url_file_get_contents (path);
@@ -481,10 +474,9 @@ void search_logic_delete_chapter (std::string bible, int book, int chapter)
 int search_logic_get_verse_count (std::string bible)
 {
   int verse_count = 0;
-  Database_Bibles database_bibles;
-  std::vector <int> books = database_bibles.get_books (bible);
+  std::vector <int> books = database::bibles::get_books (bible);
   for (auto book : books) {
-    std::vector <int> chapters = database_bibles.get_chapters (bible, book);
+    std::vector <int> chapters = database::bibles::get_chapters (bible, book);
     for (auto chapter : chapters) {
       std::string path = search_logic_chapter_file (bible, book, chapter);
       std::string index = filter_url_file_get_contents (path);

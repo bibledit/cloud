@@ -34,7 +34,6 @@ void nmt_logic_export (std::string referencebible, std::string translatingbible)
 {
   Database_Logs::log (R"(Exporting reference Bible ")" + referencebible + R"(" plus translated Bible ")" + translatingbible + R"(" for a neural machine translation training job)");
   
-  Database_Bibles database_bibles;
   Database_Versifications database_versifications;
   Database_Mappings database_mappings;
 
@@ -45,7 +44,7 @@ void nmt_logic_export (std::string referencebible, std::string translatingbible)
   std::string reference_versification = database::config::bible::get_versification_system (referencebible);
   std::string translating_versification = database::config::bible::get_versification_system (translatingbible);
   
-  std::vector <int> books = database_bibles.get_books (referencebible);
+  std::vector <int> books = database::bibles::get_books (referencebible);
   for (auto book : books) {
   
     // Take books that contain text, leave others, like front matter, out.
@@ -55,7 +54,7 @@ void nmt_logic_export (std::string referencebible, std::string translatingbible)
     std::string bookname = database::books::get_english_from_id (static_cast<book_id>(book));
     Database_Logs::log ("Exporting " + bookname);
     
-    std::vector <int> chapters = database_bibles.get_chapters (referencebible, book);
+    std::vector <int> chapters = database::bibles::get_chapters (referencebible, book);
     for (auto reference_chapter : chapters) {
       
       // Skip chapter 0.
@@ -95,7 +94,7 @@ void nmt_logic_export (std::string referencebible, std::string translatingbible)
         // Convert the verse USFM of the reference Bible to plain verse text.
         std::string reference_text;
         {
-          std::string chapter_usfm = database_bibles.get_chapter (referencebible, book, reference_chapter);
+          std::string chapter_usfm = database::bibles::get_chapter (referencebible, book, reference_chapter);
           const std::string stylesheet = styles_logic_standard_sheet ();
           Filter_Text filter_text = Filter_Text ("");
           filter_text.initializeHeadingsAndTextPerVerse (false);
@@ -113,7 +112,7 @@ void nmt_logic_export (std::string referencebible, std::string translatingbible)
         // Convert the verse USFM of the Bible being translated to plain verse text.
         std::string translation_text;
         {
-          std::string chapter_usfm = database_bibles.get_chapter (translatingbible, book, translation_chapter);
+          std::string chapter_usfm = database::bibles::get_chapter (translatingbible, book, translation_chapter);
           const std::string stylesheet = styles_logic_standard_sheet ();
           Filter_Text filter_text = Filter_Text ("");
           filter_text.initializeHeadingsAndTextPerVerse (false);

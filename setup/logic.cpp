@@ -287,7 +287,7 @@ void setup_initialize_data ()
   // The installation times were so long that user were tempted to think
   // that the install process was stuck.
   // To make installation fast, the creation of the sample Bible is now done in the background.
-  const std::vector <std::string> bibles = webserver_request.database_bibles()->get_bibles ();
+  const std::vector <std::string> bibles = database::bibles::get_bibles ();
   if (bibles.empty ()) {
     tasks_logic_queue (CREATESAMPLEBIBLE);
   }

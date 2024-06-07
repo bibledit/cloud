@@ -73,7 +73,7 @@ std::string manage_users (Webserver_Request& webserver_request)
   Assets_View view;
 
 
-  int myLevel = webserver_request.session_logic ()->currentLevel ();
+  int myLevel = webserver_request.session_logic ()->get_level ();
 
 
   // Set the default new user role.
@@ -400,7 +400,7 @@ std::string manage_users (Webserver_Request& webserver_request)
     view.enable_zone ("local");
   }
 
-  if (webserver_request.session_logic()->currentLevel () == Filter_Roles::highest ()) view.enable_zone ("admin_settings");
+  if (webserver_request.session_logic()->get_level () == Filter_Roles::highest ()) view.enable_zone ("admin_settings");
 
   page += view.render ("manage", "users");
 

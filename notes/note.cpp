@@ -115,7 +115,7 @@ std::string notes_note (Webserver_Request& webserver_request)
   }
   
   
-  if (webserver_request.session_logic ()->currentLevel () >= Filter_Roles::translator ()) {
+  if (webserver_request.session_logic ()->get_level () >= Filter_Roles::translator ()) {
     view.enable_zone ("editlevel");
   }
   

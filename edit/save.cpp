@@ -119,7 +119,7 @@ std::string edit_save (Webserver_Request& webserver_request)
   
   // Collect some data about the changes for this user
   // and for a possible merge of the user's data with the server's data.
-  std::string username = webserver_request.session_logic()->currentUser ();
+  const std::string& username = webserver_request.session_logic ()->get_username ();
   [[maybe_unused]] int oldID = database::bibles::get_chapter_id (bible, book, chapter);
   std::string server_usfm = database::bibles::get_chapter (bible, book, chapter);
   std::string newText = user_usfm;

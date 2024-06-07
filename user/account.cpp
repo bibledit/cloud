@@ -54,7 +54,7 @@ std::string user_account ([[maybe_unused]] Webserver_Request& webserver_request)
 
   Assets_View view;
 
-  const std::string username = webserver_request.session_logic()->currentUser ();
+  const std::string& username = webserver_request.session_logic ()->get_username ();
   const std::string email = webserver_request.database_users()->get_email (username);
 
   bool actions_taken = false;

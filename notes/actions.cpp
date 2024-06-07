@@ -64,8 +64,8 @@ std::string notes_actions (Webserver_Request& webserver_request)
   std::string success, error;
 
   
-  std::string user = webserver_request.session_logic()->currentUser ();
-  int level = webserver_request.session_logic()->currentLevel ();
+  const std::string& user = webserver_request.session_logic ()->get_username ();
+  int level = webserver_request.session_logic()->get_level ();
 
   
   int id = filter::strings::convert_to_int (webserver_request.query ["id"]);

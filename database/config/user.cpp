@@ -69,7 +69,7 @@ std::string Database_Config_User::mapkey (const std::string& user, const char * 
 
 std::string Database_Config_User::getValue (const char * key, const char * default_value) const
 {
-  const std::string user = m_webserver_request.session_logic ()->currentUser ();
+  const std::string& user = m_webserver_request.session_logic ()->get_username ();
   return getValueForUser (user, key, default_value);
 }
 
@@ -125,7 +125,7 @@ int Database_Config_User::getIValueForUser (const std::string& user, const char 
 
 void Database_Config_User::setValue (const char * key, const std::string& value) const
 {
-  const std::string user = m_webserver_request.session_logic ()->currentUser ();
+  const std::string& user = m_webserver_request.session_logic ()->get_username ();
   setValueForUser (user, key, value);
 }
 
@@ -163,7 +163,7 @@ void Database_Config_User::setBValueForUser (const std::string& user, const char
 
 std::vector <std::string> Database_Config_User::getList (const char * key) const
 {
-  const std::string user = m_webserver_request.session_logic ()->currentUser ();
+  const std::string& user = m_webserver_request.session_logic ()->get_username ();
   return getListForUser (user, key);
 }
 
@@ -192,7 +192,7 @@ std::vector <std::string> Database_Config_User::getListForUser (const std::strin
 
 void Database_Config_User::setList (const char * key, const std::vector <std::string>& values) const
 {
-  const std::string user = m_webserver_request.session_logic ()->currentUser ();
+  const std::string& user = m_webserver_request.session_logic ()->get_username ();
   setListForUser (user, key, values);
 }
 
@@ -567,7 +567,7 @@ bool Database_Config_User::default_bible_checks_notification () const
 #ifdef HAVE_CLIENT
   return false;
 #else
-  const int level = m_webserver_request.session_logic ()->currentLevel ();
+  const int level = m_webserver_request.session_logic ()->get_level ();
   return (level >= Filter_Roles::translator () && level <= Filter_Roles::manager ());
 #endif
 }
@@ -1194,7 +1194,7 @@ bool Database_Config_User::getBasicInterfaceModeDefault () const
   return true;
 #endif
   // The app running on a workspace or laptop have default to basic mode for a lower role.
-  const int level = m_webserver_request.session_logic ()->currentLevel ();
+  const int level = m_webserver_request.session_logic ()->get_level ();
   if (level <= Filter_Roles::manager ())
     return true;
   // Higher role: default to advanced mode.

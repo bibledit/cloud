@@ -114,7 +114,7 @@ std::string editone2_load (Webserver_Request& webserver_request)
   data.append ("#_be_#");
   data.append (suffix_html);
   
-  std::string user = webserver_request.session_logic ()->currentUser ();
+  const std::string& user = webserver_request.session_logic ()->get_username ();
   bool write = access_bible::book_write (webserver_request, user, bible, book);
   data = checksum_logic::send (data, write);
 

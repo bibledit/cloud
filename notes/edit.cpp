@@ -59,7 +59,7 @@ std::string notes_edit (Webserver_Request& webserver_request)
   Assets_View view;
   
   
-  std::string myusername = webserver_request.session_logic ()->currentUser ();
+  const std::string& myusername = webserver_request.session_logic ()->get_username ();
   
   
   int identifier;

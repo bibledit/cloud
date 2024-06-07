@@ -61,7 +61,7 @@ std::string notes_assign_1 (Webserver_Request& webserver_request)
   std::string success, error;
 
   
-  std::string user = webserver_request.session_logic ()->currentUser ();
+  const std::string& user = webserver_request.session_logic ()->get_username ();
 
   
   int id = filter::strings::convert_to_int (webserver_request.query ["id"]);

@@ -89,7 +89,7 @@ std::string search_replacepre (Webserver_Request& webserver_request)
   
   
   // Check whether the user has write access to the book.
-  std::string user = webserver_request.session_logic ()->currentUser ();
+  const std::string& user = webserver_request.session_logic ()->get_username ();
   bool write = access_bible::book_write (webserver_request, user, bible, book);
 
   

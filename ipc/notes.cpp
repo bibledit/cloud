@@ -29,7 +29,7 @@
 
 void Ipc_Notes::open (Webserver_Request& webserver_request, int identifier)
 {
-  std::string user = webserver_request.session_logic()->currentUser ();
+  const std::string& user = webserver_request.session_logic ()->get_username ();
   webserver_request.database_ipc()->storeMessage (user, "", "opennote", std::to_string (identifier));
 }
 
@@ -57,7 +57,7 @@ void Ipc_Notes::erase (Webserver_Request& webserver_request)
 // If $set is false, it returns the alive status.
 bool Ipc_Notes::alive (Webserver_Request& webserver_request, bool set, bool alive)
 {
-  std::string user = webserver_request.session_logic()->currentUser ();
+  const std::string& user = webserver_request.session_logic ()->get_username ();
   if (set) {
     webserver_request.database_ipc()->storeMessage (user, "", "notesalive", filter::strings::convert_to_string (alive));
   } else {

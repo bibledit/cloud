@@ -129,8 +129,8 @@ std::string changes_changes (Webserver_Request& webserver_request)
   }
 
   
-  const std::string username = webserver_request.session_logic()->currentUser ();
-  const bool touch = webserver_request.session_logic ()->touchEnabled ();
+  const std::string& username = webserver_request.session_logic ()->get_username ();
+  const bool touch = webserver_request.session_logic ()->get_touch_enabled ();
   
   
   std::string page {};

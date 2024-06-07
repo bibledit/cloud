@@ -46,8 +46,8 @@ bool read (Webserver_Request& webserver_request, const std::string& bible, std::
   int role_level { 0 };
   if (user.empty ()) {
     // Current user.
-    user = webserver_request.session_logic ()->currentUser ();
-    role_level = webserver_request.session_logic ()->currentLevel ();
+    user = webserver_request.session_logic ()->get_username ();
+    role_level = webserver_request.session_logic ()->get_level ();
   } else {
     // Take level belonging to user.
     role_level = webserver_request.database_users ()->get_level (user);
@@ -91,8 +91,8 @@ bool write (Webserver_Request& webserver_request, const std::string& bible, std:
 
   int level {0};
   if (user.empty ()) {
-    user = webserver_request.session_logic ()->currentUser ();
-    level = webserver_request.session_logic ()->currentLevel ();
+    user = webserver_request.session_logic ()->get_username ();
+    level = webserver_request.session_logic ()->get_level ();
   }
   if (level == 0) {
     // Take level belonging to user.
@@ -140,8 +140,8 @@ bool book_write (Webserver_Request& webserver_request, std::string user, const s
   // Get the user level (role).
   int level {0};
   if (user.empty ()) {
-    user = webserver_request.session_logic ()->currentUser ();
-    level = webserver_request.session_logic ()->currentLevel ();
+    user = webserver_request.session_logic ()->get_username ();
+    level = webserver_request.session_logic ()->get_level ();
   }
   if (level == 0) {
     // Take level belonging to user.

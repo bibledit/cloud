@@ -424,7 +424,7 @@ std::string manage_exports (Webserver_Request& webserver_request)
 
   
   if (webserver_request.query.count ("bibledropboxnow")) {
-    std::string username = webserver_request.session_logic()->currentUser ();
+    const std::string& username = webserver_request.session_logic ()->get_username ();
     tasks_logic_queue (SUBMITBIBLEDROPBOX, { username, bible });
     std::string msg = translate("The Bible will be submitted to the Bible Drop Box.");
     msg.append (" ");

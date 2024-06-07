@@ -54,7 +54,7 @@ std::string navigation_paratext (Webserver_Request& webserver_request)
           int chapter = filter::strings::convert_to_int(chapter_verse[0]);
           int verse = filter::strings::convert_to_int(chapter_verse[1]);
           // Set the user name on this client device.
-          std::string user = client_logic_get_username ();
+          const std::string& user = client_logic_get_username ();
           webserver_request.session_logic()->set_username(user);
           // "I believe how SantaFe works on Windows is
           // that it always sends a standardised verse reference.

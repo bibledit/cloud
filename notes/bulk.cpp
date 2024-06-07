@@ -89,7 +89,7 @@ std::string notes_bulk (Webserver_Request& webserver_request)
   
   
   // The admin disables notes selection on Bibles, so the admin sees all notes, even notes referring to non-existing Bibles.
-  if (webserver_request.session_logic ()->currentLevel () == Filter_Roles::admin ()) bibles.clear ();
+  if (webserver_request.session_logic ()->get_level () == Filter_Roles::admin ()) bibles.clear ();
 
   
   
@@ -167,7 +167,7 @@ std::string notes_bulk (Webserver_Request& webserver_request)
   
   if (assign) {
     std::string assignee = webserver_request.query["assign"];
-    std::string user = webserver_request.session_logic ()->currentUser ();
+    const std::string& user = webserver_request.session_logic ()->get_username ();
     std::vector <std::string> assignees = database_noteassignment.assignees (user);
     if (in_array (assignee, assignees)) {
       for (auto identifier : identifiers) {
@@ -194,7 +194,7 @@ std::string notes_bulk (Webserver_Request& webserver_request)
 
   
   if (unassignme) {
-    std::string username = webserver_request.session_logic()->currentUser ();
+    const std::string& username = webserver_request.session_logic ()->get_username ();
     for (auto identifier : identifiers) {
       if (database_notes.is_assigned (identifier, username)) {
         notes_logic.unassignUser (identifier, username);

@@ -57,7 +57,7 @@ std::string Navigation_Passage::get_mouse_navigator (Webserver_Request& webserve
 {
   Database_Navigation database_navigation;
   
-  std::string user = webserver_request.session_logic()->currentUser ();
+  const std::string& user = webserver_request.session_logic ()->get_username ();
   
   bool passage_clipped = false;
   
@@ -452,7 +452,7 @@ void Navigation_Passage::goto_previous_verse (Webserver_Request& webserver_reque
 
 void Navigation_Passage::record_history (Webserver_Request& webserver_request, int book, int chapter, int verse)
 {
-  std::string user = webserver_request.session_logic()->currentUser ();
+  const std::string& user = webserver_request.session_logic ()->get_username ();
   Database_Navigation database_navigation;
   database_navigation.record (filter::date::seconds_since_epoch (), user, book, chapter, verse);
 }
@@ -461,7 +461,7 @@ void Navigation_Passage::record_history (Webserver_Request& webserver_request, i
 void Navigation_Passage::go_back (Webserver_Request& webserver_request)
 {
   Database_Navigation database_navigation;
-  std::string user = webserver_request.session_logic()->currentUser ();
+  const std::string& user = webserver_request.session_logic ()->get_username ();
   Passage passage = database_navigation.get_previous (user);
   if (passage.m_book) {
     Ipc_Focus::set (webserver_request, passage.m_book, passage.m_chapter, filter::strings::convert_to_int (passage.m_verse));
@@ -472,7 +472,7 @@ void Navigation_Passage::go_back (Webserver_Request& webserver_request)
 void Navigation_Passage::go_forward (Webserver_Request& webserver_request)
 {
   Database_Navigation database_navigation;
-  std::string user = webserver_request.session_logic()->currentUser ();
+  const std::string& user = webserver_request.session_logic ()->get_username ();
   Passage passage = database_navigation.get_next (user);
   if (passage.m_book) {
     Ipc_Focus::set (webserver_request, passage.m_book, passage.m_chapter, filter::strings::convert_to_int (passage.m_verse));
@@ -511,7 +511,7 @@ void Navigation_Passage::add_selector_link (std::string& html, std::string id, s
 
 std::string Navigation_Passage::get_keyboard_navigator (Webserver_Request& webserver_request, std::string bible)
 {
-  std::string user = webserver_request.session_logic()->currentUser ();
+  const std::string& user = webserver_request.session_logic ()->get_username ();
   
   bool passage_clipped = false;
   
@@ -580,7 +580,7 @@ std::string Navigation_Passage::get_keyboard_navigator (Webserver_Request& webse
 
 void Navigation_Passage::interpret_keyboard_navigator (Webserver_Request& webserver_request, std::string bible, std::string passage)
 {
-  std::string user = webserver_request.session_logic()->currentUser ();
+  const std::string& user = webserver_request.session_logic ()->get_username ();
   
   int book = Ipc_Focus::getBook (webserver_request);
   
@@ -630,7 +630,7 @@ std::string Navigation_Passage::get_history_back (Webserver_Request& webserver_r
 {
   // Get the whole history from the database.
   Database_Navigation database_navigation {};
-  std::string user {webserver_request.session_logic()->currentUser ()};
+  const std::string& user {webserver_request.session_logic ()->get_username ()};
   std::vector<Passage> passages = database_navigation.get_history(user, -1);
   // Take the most recent nnn history items and render them.
   std::string html {};
@@ -654,7 +654,7 @@ std::string Navigation_Passage::get_history_forward (Webserver_Request& webserve
 {
   // Get the whole history from the database.
   Database_Navigation database_navigation;
-  std::string user {webserver_request.session_logic()->currentUser ()};
+  const std::string& user {webserver_request.session_logic ()->get_username ()};
   std::vector<Passage> passages {database_navigation.get_history(user, 1)};
   // Take the most recent nnn history items and render them.
   std::string html {};

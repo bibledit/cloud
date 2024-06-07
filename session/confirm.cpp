@@ -54,7 +54,7 @@ bool session_confirm_acl (Webserver_Request& webserver_request)
   // Find the level of the user.
   // This confirmation page only allows access if the user is not yet logged in.
   // Such a situation produces level 1, that is the guest level.
-  int level = webserver_request.session_logic ()->currentLevel ();
+  int level = webserver_request.session_logic ()->get_level ();
   return (level == Filter_Roles::guest());
 }
 
@@ -72,12 +72,12 @@ std::string session_confirm ([[maybe_unused]] Webserver_Request& webserver_reque
     // Authenticate against local database, but skipping some checks.
     if (webserver_request.session_logic()->attempt_login (email, std::string(), true, true)) {
       // Log the login.
-      Database_Logs::log (webserver_request.session_logic()->currentUser () + " confirmed account and logged in");
+      Database_Logs::log (webserver_request.session_logic ()->get_username () + " confirmed account and logged in");
       // Store web site's base URL.
       const std::string site_url = get_base_url (webserver_request);
       database::config::general::set_site_url (site_url);
       // Store account creation time.
-      user_logic_store_account_creation (webserver_request.session_logic()->currentUser ());
+      user_logic_store_account_creation (webserver_request.session_logic ()->get_username ());
     }
 
   }

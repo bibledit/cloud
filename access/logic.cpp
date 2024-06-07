@@ -122,8 +122,8 @@ void user_level (Webserver_Request& webserver_request, std::string& user, int& l
 {
   if (user.empty ()) {
     // If no user is given, take the user from the session.
-    user = webserver_request.session_logic ()->currentUser ();
-    level = webserver_request.session_logic ()->currentLevel ();
+    user = webserver_request.session_logic ()->get_username ();
+    level = webserver_request.session_logic ()->get_level ();
   } else {
     // If a user is given, take the matching level from the database.
     level = webserver_request.database_users ()->get_level (user);

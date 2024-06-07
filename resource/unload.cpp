@@ -45,7 +45,7 @@ std::string resource_unload (Webserver_Request& webserver_request)
   if (position > 5000) position = 5000;
   // Store the position in volatile memory so it gets retained while the app is on,
   // and gets reset after app startup.
-  std::string username = webserver_request.session_logic()->currentUser ();
+  const std::string& username = webserver_request.session_logic ()->get_username ();
   config_globals_resource_window_positions [username] = position;
   return std::string();
 }

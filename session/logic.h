@@ -31,25 +31,22 @@ public:
   Session_Logic (Webserver_Request& webserver_request);
   Session_Logic(const Session_Logic&) = delete;
   Session_Logic operator=(const Session_Logic&) = delete;
-  void set_username (std::string name);
-  bool attempt_login (std::string user_or_email, std::string password, bool touch_enabled,
+  void set_username (const std::string& name);
+  bool attempt_login (std::string user_or_email, const std::string& password, bool touch_enabled,
                      bool skip_checks = false);
-  bool loggedIn ();
-  std::string currentUser ();
-  bool touchEnabled ();
-  int currentLevel (bool force = false);
-  std::string remoteAddress ();
+  bool get_logged_in ();
+  const std::string& get_username () const;
+  bool get_touch_enabled ();
+  int get_level (bool force = false);
   void logout ();
   void switch_user (std::string new_user);
 private:
-  int level { 0 };                     // The level of the user.
-  int check_ip_blocks { 3 };           // How many numbers from IP use in fingerprint?
-  bool logged_in { false };            // Whether user is logged in.
-  std::string username {};                  // The username.
-  bool touch_enabled { false };        // Whether user works from a touch-enabled device.
-  Webserver_Request& m_webserver_request;  // Pointer to instance of Webserver_Request.
+  int m_level {0};  // The level of the user.
+  bool m_logged_in {false}; // Whether user is logged in.
+  std::string m_username {}; // The username.
+  bool m_touch_enabled {false}; // Whether user works from a touch-enabled device.
+  Webserver_Request& m_webserver_request;  // Referencee to instance of Webserver_Request.
   void open ();
-  bool openAccess ();
-  std::string fingerprint ();
-  bool clientAccess ();
+  bool open_access ();
+  bool client_access ();
 };

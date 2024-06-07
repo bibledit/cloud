@@ -110,7 +110,7 @@ std::string editone2_save (Webserver_Request& webserver_request)
 
   
   // Collect some data about the changes for this user.
-  std::string username = webserver_request.session_logic()->currentUser ();
+  const std::string& username = webserver_request.session_logic ()->get_username ();
 #ifdef HAVE_CLOUD
   int oldID = database::bibles::get_chapter_id (bible, book, chapter);
 #endif

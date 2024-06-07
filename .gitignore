@@ -19,3 +19,5 @@ server
 *.in~
 *.tar.gz
 configure~
+libbibledit.a.*
+

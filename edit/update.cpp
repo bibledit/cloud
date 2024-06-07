@@ -151,7 +151,7 @@ std::string edit_update (Webserver_Request& webserver_request)
 
   
   // Collect some data about the changes for this user.
-  std::string username = webserver_request.session_logic()->currentUser ();
+  const std::string& username = webserver_request.session_logic ()->get_username ();
 #ifdef HAVE_CLOUD
   int oldID = 0;
   if (good2go) {

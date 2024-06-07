@@ -506,7 +506,7 @@ std::string Database_Notes::assemble_contents (int identifier, std::string conte
 {
   std::string new_contents = get_contents (identifier);
   std::string datetime = filter::date::localized_date_format (m_webserver_request);
-  std::string user = m_webserver_request.session_logic ()->currentUser ();
+  const std::string& user = m_webserver_request.session_logic ()->get_username ();
   // To make the notes more readable, add whitespace between the comments.
   bool is_initial_comment = new_contents.empty ();
   if (!is_initial_comment) {
@@ -621,7 +621,7 @@ int Database_Notes::store_new_note (const std::string& bible, int book, int chap
 // limit: If >= 0, it indicates the starting limit for the selection.
 std::vector <int> Database_Notes::select_notes (std::vector <std::string> bibles, int book, int chapter, int verse, int passage_selector, int edit_selector, int non_edit_selector, const std::string& status_selector, std::string bible_selector, std::string assignment_selector, bool subscription_selector, int severity_selector, int text_selector, const std::string& search_text, int limit)
 {
-  std::string username = m_webserver_request.session_logic ()->currentUser ();
+  const std::string& username = m_webserver_request.session_logic ()->get_username ();
   std::vector <int> identifiers;
   // SQL SELECT statement.
   std::string query = notes_select_identifier ();
@@ -902,7 +902,7 @@ void Database_Notes::add_comment (int identifier, const std::string& comment)
 // Subscribe the current user to the note identified by identifier.
 void Database_Notes::subscribe (int identifier)
 {
-  std::string user = m_webserver_request.session_logic ()->currentUser ();
+  const std::string& user = m_webserver_request.session_logic ()->get_username ();
   subscribe_user (identifier, user);
 }
 
@@ -984,7 +984,7 @@ bool Database_Notes::is_subscribed (int identifier, const std::string& user)
 // Unsubscribes the currently logged in user from the note identified by identifier.
 void Database_Notes::unsubscribe (int identifier)
 {
-  std::string user = m_webserver_request.session_logic ()->currentUser ();
+  const std::string& user = m_webserver_request.session_logic ()->get_username ();
   unsubscribe_user (identifier, user);
 }
 

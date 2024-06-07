@@ -56,7 +56,7 @@ std::string editusfm_load (Webserver_Request& webserver_request)
   // Escape the XML special characters so they load properly in the editor.
   usfm = filter::strings::escape_special_xml_characters (usfm);
 
-  std::string user = webserver_request.session_logic ()->currentUser ();
+  const std::string& user = webserver_request.session_logic ()->get_username ();
   bool write = access_bible::book_write (webserver_request, user, bible, book);
 
   return checksum_logic::send (usfm, write);

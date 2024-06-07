@@ -63,7 +63,7 @@ std::string jobs_index (Webserver_Request& webserver_request)
   const std::string result = database_jobs.get_result (id);
 
   // Access control for the user.
-  const int userlevel = webserver_request.session_logic()->currentLevel ();
+  const int userlevel = webserver_request.session_logic()->get_level ();
 
   std::string contents;
   if (!exists) {

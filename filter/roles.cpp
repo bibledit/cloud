@@ -83,11 +83,16 @@ std::string Filter_Roles::english (int role)
 
 std::string Filter_Roles::text (int role)
 {
-  if (role == admin ()) return translate ("Administrator");
-  if (role == manager ()) return translate ("Manager");
-  if (role == translator ()) return translate ("Translator");
-  if (role == consultant ())return translate ("Consultant");
-  if (role == member ()) return translate ("Member");
+  if (role == admin ()) 
+    return translate ("Administrator");
+  if (role == manager ()) 
+    return translate ("Manager");
+  if (role == translator ()) 
+    return translate ("Translator");
+  if (role == consultant ())
+    return translate ("Consultant");
+  if (role == member ()) 
+    return translate ("Member");
   return translate ("Guest");
 }
 
@@ -96,6 +101,6 @@ std::string Filter_Roles::text (int role)
 // The "role" is the role required for the user to have access.
 bool Filter_Roles::access_control (Webserver_Request& webserver_request, int role)
 {
-  int level = webserver_request.session_logic ()->currentLevel ();
+  int level = webserver_request.session_logic ()->get_level ();
   return level >= role;
 }

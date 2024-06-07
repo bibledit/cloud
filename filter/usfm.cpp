@@ -729,7 +729,7 @@ std::string safely_store_chapter (Webserver_Request& webserver_request,
   if (!message.empty ()) return message;
 
   // Record the change in the journal.
-  std::string user = webserver_request.session_logic ()->currentUser ();
+  const std::string& user = webserver_request.session_logic ()->get_username ();
   bible_logic::log_change (bible, book, chapter, usfm, user, translate ("Saving chapter"), false);
   
   // Safety checks have passed: Save chapter.
@@ -822,7 +822,7 @@ std::string safely_store_verse (Webserver_Request& webserver_request,
   chapter_usfm.insert (pos, usfm);
 
   // Record the change in the journal.
-  std::string user = webserver_request.session_logic ()->currentUser ();
+  const std::string& user = webserver_request.session_logic ()->get_username ();
   bible_logic::log_change (bible, book, chapter, chapter_usfm, user, translate ("Saving verse"), false);
   
   // Safety checks have passed: Save chapter.

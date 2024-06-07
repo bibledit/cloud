@@ -80,7 +80,7 @@ std::string changes_change (Webserver_Request& webserver_request)
   if (webserver_request.post.count ("unassign")) {
     std::string unassign = webserver_request.post["unassign"];
     unassign.erase (0, 8);
-    notes_logic.unassignUser (filter::strings::convert_to_int (unassign), webserver_request.session_logic()->currentUser ());
+    notes_logic.unassignUser (filter::strings::convert_to_int (unassign), webserver_request.session_logic ()->get_username ());
     return std::string();
   }
   
@@ -97,8 +97,8 @@ std::string changes_change (Webserver_Request& webserver_request)
   
   // From here on the script will produce output.
   Assets_View view {};
-  const std::string username {webserver_request.session_logic()->currentUser ()};
-  const int level {webserver_request.session_logic ()->currentLevel ()};
+  const std::string& username {webserver_request.session_logic ()->get_username ()};
+  const int level {webserver_request.session_logic ()->get_level ()};
   
                       
   // The identifier of the change notification.

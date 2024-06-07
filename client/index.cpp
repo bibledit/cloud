@@ -69,7 +69,7 @@ void client_index_enable_client (Webserver_Request& webserver_request, const std
   
   // Update the username and the level in the current session.
   webserver_request.session_logic ()->set_username (username);
-  webserver_request.session_logic ()->currentLevel (true);
+  webserver_request.session_logic ()->get_level (true);
   
   // If there's pending Bible updates, send them off to the user.
   bible_logic::client_mail_pending_bible_updates (username);

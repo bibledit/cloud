@@ -53,7 +53,7 @@ bool public_index_acl (Webserver_Request& webserver_request)
 std::string public_index (Webserver_Request& webserver_request)
 {
   // If the person providing public feedback is not logged in, foward to the page for entering details.
-  if (!webserver_request.session_logic ()->loggedIn ()) {
+  if (!webserver_request.session_logic ()->get_logged_in ()) {
     redirect_browser (webserver_request, public_login_url ());
     return std::string();
   }

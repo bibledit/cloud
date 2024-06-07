@@ -457,7 +457,7 @@ std::string personalize_index (Webserver_Request& webserver_request)
   auto [ read, write ] = access_bible::any (webserver_request);
   if (read || write) bibles = true;
   if (bibles) view.enable_zone ("bibles");
-  if (webserver_request.session_logic ()->touchEnabled ()) {
+  if (webserver_request.session_logic ()->get_touch_enabled ()) {
     view.enable_zone ("touch");
   }
 

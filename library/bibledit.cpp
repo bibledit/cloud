@@ -412,7 +412,7 @@ const char * bibledit_get_reference_for_accordance ()
   if (!config_globals_data_initialized) return reference.c_str();
 
   // Get the username on this client device.
-  std::string user = client_logic_get_username ();
+  const std::string& user = client_logic_get_username ();
 
   // Get the active Bible and its versification system.
   Webserver_Request webserver_request;
@@ -454,7 +454,7 @@ const char * bibledit_get_reference_for_accordance ()
 void bibledit_put_reference_from_accordance (const char * reference)
 {
   // Get and set the user name on this client device.
-  std::string user = client_logic_get_username ();
+  const std::string& user = client_logic_get_username ();
   Webserver_Request webserver_request;
   webserver_request.session_logic()->set_username(user);
 

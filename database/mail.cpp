@@ -113,7 +113,7 @@ void Database_Mail::send (std::string to, std::string subject, std::string body,
 // Get number of mails for the current user.
 int Database_Mail::getMailCount ()
 {
-  std::string user = m_webserver_request.session_logic ()->currentUser();
+  const std::string& user = m_webserver_request.session_logic ()->get_username();
   SqliteSQL sql = SqliteSQL ();
   sql.add ("SELECT count(*) FROM mail WHERE username =");
   sql.add (user);
@@ -132,7 +132,7 @@ int Database_Mail::getMailCount ()
 std::vector <Database_Mail_User> Database_Mail::getMails ()
 {
   std::vector <Database_Mail_User> mails;
-  std::string user = m_webserver_request.session_logic ()->currentUser();
+  const std::string& user = m_webserver_request.session_logic ()->get_username();
   SqliteSQL sql = SqliteSQL ();
   sql.add ("SELECT rowid, timestamp, subject FROM mail WHERE username =");
   sql.add (user);

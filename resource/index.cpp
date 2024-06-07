@@ -49,7 +49,7 @@ bool resource_index_acl (Webserver_Request& webserver_request)
 
 std::string resource_index (Webserver_Request& webserver_request)
 {
-  const bool touch = webserver_request.session_logic ()->touchEnabled ();
+  const bool touch = webserver_request.session_logic ()->get_touch_enabled ();
 
   
   std::string page;
@@ -94,7 +94,7 @@ std::string resource_index (Webserver_Request& webserver_request)
   
   
   size_t resource_count = resources.size ();
-  std::string username = webserver_request.session_logic()->currentUser ();
+  const std::string& username = webserver_request.session_logic ()->get_username ();
   int window_position = config_globals_resource_window_positions [username];
   std::string script = "var resourceCount = " + std::to_string (resource_count) + ";\n"
                   "var resourceWindowPosition = " + std::to_string (window_position) + ";";

@@ -108,7 +108,7 @@ std::string render_journal_entry (std::string filename, [[maybe_unused]] int use
 // Deal with AJAX call for a possible new journal entry.
 std::string journal_index_ajax_next (Webserver_Request& webserver_request, std::string filename)
 {
-  int userLevel = webserver_request.session_logic()->currentLevel ();
+  int userLevel = webserver_request.session_logic()->get_level ();
   std::string result = Database_Logs::next (filename);
   if (!result.empty()) {
     result = render_journal_entry (result, userLevel);
@@ -120,7 +120,7 @@ std::string journal_index_ajax_next (Webserver_Request& webserver_request, std::
 
 std::string journal_index (Webserver_Request& webserver_request)
 {
-  int userLevel = webserver_request.session_logic()->currentLevel ();
+  int userLevel = webserver_request.session_logic()->get_level ();
 
   
   std::string filename = webserver_request.query ["filename"];

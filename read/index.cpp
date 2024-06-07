@@ -63,7 +63,7 @@ bool read_index_acl (Webserver_Request& webserver_request)
 
 std::string read_index (Webserver_Request& webserver_request)
 {
-  bool touch = webserver_request.session_logic ()->touchEnabled ();
+  bool touch = webserver_request.session_logic ()->get_touch_enabled ();
   
   if (webserver_request.query.count ("switchbook") && webserver_request.query.count ("switchchapter")) {
     int switchbook = filter::strings::convert_to_int (webserver_request.query ["switchbook"]);

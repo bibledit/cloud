@@ -67,8 +67,8 @@ std::string styles_sheetm (Webserver_Request& webserver_request)
 
   Database_Styles database_styles;
   
-  std::string username = webserver_request.session_logic ()->currentUser ();
-  int userlevel = webserver_request.session_logic ()->currentLevel ();
+  const std::string& username = webserver_request.session_logic ()->get_username ();
+  int userlevel = webserver_request.session_logic ()->get_level ();
   bool write = database_styles.hasWriteAccess (username, name);
   if (userlevel >= Filter_Roles::admin ()) write = true;
 

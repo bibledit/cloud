@@ -83,7 +83,7 @@ std::string editusfm_save (Webserver_Request& webserver_request)
               // The USFM loaded into the editor.
               std::string ancestor_usfm = getLoadedUsfm2 (webserver_request, bible, book, chapter, unique_id);
               // Collect some data about the changes for this user.
-              std::string username = webserver_request.session_logic()->currentUser ();
+              const std::string& username = webserver_request.session_logic ()->get_username ();
               [[maybe_unused]] int oldID = database::bibles::get_chapter_id (bible, book, chapter);
               std::string oldText = ancestor_usfm;
               std::string newText = chapter_data_to_save;

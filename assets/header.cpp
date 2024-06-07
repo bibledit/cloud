@@ -140,10 +140,10 @@ std::string Assets_Header::run ()
     m_view->enable_zone ("include_jquery_touch");
   }
 
-  if (m_webserver_request.session_logic ()->touchEnabled ()) {
+  if (m_webserver_request.session_logic ()->get_touch_enabled ()) {
     touch_css_on();
   }
-  if (!m_webserver_request.session_logic ()->loggedIn ()) {
+  if (!m_webserver_request.session_logic ()->get_logged_in ()) {
     touch_css_on();
   }
   if (m_touch_css_on) {

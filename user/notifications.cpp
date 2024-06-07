@@ -141,7 +141,7 @@ std::string user_notifications (Webserver_Request& webserver_request)
   }
   view.set_variable ("postponenewnotesmails", filter::strings::get_checkbox_status (database_config_user.getPostponeNewNotesMails ()));
 
-  const std::string user = webserver_request.session_logic ()->currentUser ();
+  const std::string& user = webserver_request.session_logic ()->get_username ();
   const std::vector <std::string> all_assignees = database_noteassignment.assignees (user);
   std::vector <std::string> current_assignees = database_config_user.getAutomaticNoteAssignment();
   for (const auto& assignee : all_assignees) {

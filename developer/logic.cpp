@@ -68,7 +68,7 @@ Developer_Logic_Tracer::Developer_Logic_Tracer(Webserver_Request& webserver_requ
     request_query.append("=");
     request_query.append(element.second);
   }
-  username = webserver_request.session_logic()->currentUser();
+  username = webserver_request.session_logic ()->get_username();
 }
 
 

@@ -344,6 +344,7 @@
 /lexicon
 /libbibledit.a.au0YSJ
 /libbibledit.a.dlIkBt
+/libbibledit.a.EoezUT
 /libbibledit.a.kl74Yc
 /library
 /livetest

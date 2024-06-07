@@ -142,7 +142,7 @@ void Database_Ipc::deleteMessage (int id)
 
 std::string Database_Ipc::getFocus ()
 {
-  std::string user = m_webserver_request.session_logic ()->currentUser ();
+  const std::string& user = m_webserver_request.session_logic ()->get_username ();
 
   int highestId = 0;
   std::string hitMessage = "";
@@ -169,7 +169,7 @@ std::string Database_Ipc::getFocus ()
 
 Database_Ipc_Message Database_Ipc::getNote ()
 {
-  std::string user = m_webserver_request.session_logic ()->currentUser ();
+  const std::string& user = m_webserver_request.session_logic ()->get_username ();
 
   int highestId = 0;
   std::string hitMessage = "";
@@ -200,7 +200,7 @@ Database_Ipc_Message Database_Ipc::getNote ()
 
 bool Database_Ipc::getNotesAlive ()
 {
-  std::string user = m_webserver_request.session_logic ()->currentUser ();
+  const std::string& user = m_webserver_request.session_logic ()->get_username ();
 
   int highestId = 0;
   std::string hitMessage = "";

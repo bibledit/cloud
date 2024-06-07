@@ -93,7 +93,7 @@ std::string bible_manage (Webserver_Request& webserver_request)
       database::bibles::create_bible (bible);
       // Check / grant access.
       if (!access_bible::write (webserver_request, bible)) {
-        std::string me = webserver_request.session_logic()->currentUser ();
+        const std::string& me = webserver_request.session_logic ()->get_username ();
         DatabasePrivileges::set_bible (me, bible, true);
       }
       success_message = translate("The Bible was created");
@@ -134,7 +134,7 @@ std::string bible_manage (Webserver_Request& webserver_request)
           success_message = translate("The Bible was copied.");
           // Check / grant access to destination Bible.
           if (!access_bible::write (webserver_request, destination)) {
-            const std::string me = webserver_request.session_logic ()->currentUser ();
+            const std::string& me = webserver_request.session_logic ()->get_username ();
             DatabasePrivileges::set_bible (me, destination, true);
           }
           // Creating a Bible removes any Sample Bible that might have been there.

@@ -232,7 +232,7 @@ void swipe_enabled (Webserver_Request& webserver_request, std::string& script)
 {
   bool swipe_operations {false};
   std::string true_false {"false"};
-  if (webserver_request.session_logic ()->touchEnabled ()) {
+  if (webserver_request.session_logic ()->get_touch_enabled ()) {
     if (webserver_request.database_config_user ()->getSwipeActionsAvailable ()) {
       true_false = "true";
       swipe_operations = true;

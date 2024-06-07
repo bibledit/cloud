@@ -49,7 +49,7 @@ std::string session_switch (Webserver_Request& webserver_request)
   
   Assets_View view{};
   
-  const std::string user = webserver_request.session_logic ()->currentUser ();
+  const std::string& user = webserver_request.session_logic ()->get_username ();
   view.set_variable ("user", user);
 
   page += view.render ("session", "switch");

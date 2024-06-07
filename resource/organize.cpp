@@ -58,7 +58,7 @@ std::string resource_organize (Webserver_Request& webserver_request)
 
 
   // For administrator level default resource management purposes.
-  int level = webserver_request.session_logic()->currentLevel ();
+  int level = webserver_request.session_logic()->get_level ();
   bool is_def = false;
   if (webserver_request.query["type"] == "def" | webserver_request.post["type"] == "def") is_def = true;
   std::vector <std::string> default_active_resources = database::config::general::get_default_active_resources ();

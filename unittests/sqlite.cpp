@@ -24,13 +24,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/sqlite.h>
 
 
-TEST (sqlite, standard)
+TEST (sqlite, functions)
 {
   refresh_sandbox (false);
 
-  // Tests for SQLite.
   sqlite3 * db = database_sqlite_connect ("sqlite");
-  if (!db) EXPECT_EQ ("pointer", "NULL");
+  EXPECT_NE (db, nullptr);
   database_sqlite_exec (db, "CREATE TABLE test (column1 integer, column2 integer, column3 integer);");
   database_sqlite_exec (db, "INSERT INTO test VALUES (123, 456, 789);");
   database_sqlite_exec (db, "INSERT INTO test VALUES (234, 567, 890);");
@@ -48,6 +47,39 @@ TEST (sqlite, standard)
   
   refresh_sandbox (false);
 }
+
+
+TEST (sqlite, sqlite_database)
+{
+  refresh_sandbox (false);
+
+  SqliteDatabase sql ("sqlite");
+  
+  sql.clear();
+  sql.add ("CREATE TABLE test (column1 integer, column2 integer, column3 integer);");
+  sql.execute();
+  
+  sql.clear();
+  sql.add ("INSERT INTO test VALUES (123, 456, 789);");
+  sql.execute();
+
+  sql.clear();
+  sql.add ("INSERT INTO test VALUES (234, 567, 890);");
+  sql.execute();
+
+  sql.clear();
+  sql.add ("INSERT INTO test VALUES (345, 678, 901);");
+  sql.execute();
+
+  sql.clear();
+  sql.add ("SELECT column1, column2, column3 FROM test;");
+  std::map <std::string, std::vector <std::string> > actual = sql.query ();
+  EXPECT_EQ (3, actual.size());
+  EXPECT_EQ ("567", actual ["column2"] [1]);
+  
+  refresh_sandbox (false);
+}
+
 
 #endif
 

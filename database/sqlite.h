@@ -41,24 +41,12 @@ public:
   void add (int value);
   void add (std::string value);
   std::string sql {};
-private:
-};
-
-// Stores values collected during a reading session of sqlite3.
-class SqliteReader
-{
-public:
-  SqliteReader (int dummy);
-  ~SqliteReader ();
-  std::map <std::string, std::vector <std::string> > result {};
-  static int callback (void *userdata, int argc, char **argv, char **column_names);
-private:
 };
 
 class SqliteDatabase
 {
 public:
-  SqliteDatabase (std::string filename);
+  SqliteDatabase (const std::string& filename);
   ~SqliteDatabase ();
   SqliteDatabase(const SqliteDatabase&) = delete;
   SqliteDatabase operator=(const SqliteDatabase&) = delete;
@@ -66,9 +54,11 @@ public:
   void add (const char * fragment);
   void add (int value);
   void add (std::string value);
-  std::string sql {};
+  const std::string& get_sql();
+  void set_sql (const std::string& sql);
   void execute ();
   std::map <std::string, std::vector <std::string> > query ();
 private:
   sqlite3 * db {nullptr};
+  std::string m_sql {};
 };

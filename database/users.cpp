@@ -256,7 +256,7 @@ std::string Database_Users::updateEmailQuery (std::string user, std::string emai
   sql.add ("WHERE username =");
   sql.add (user);
   sql.add (";");
-  return sql.sql;
+  return sql.get_sql();
 }
 
 
@@ -294,7 +294,7 @@ std::string Database_Users::get_md5 (std::string user)
 void Database_Users::execute (std::string sqlfragment)
 {
   SqliteDatabase sql (filename ());
-  sql.sql = sqlfragment;
+  sql.set_sql (sqlfragment);
   sql.execute ();
 }
 

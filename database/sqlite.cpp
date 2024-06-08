@@ -93,6 +93,18 @@ The database errors went away.
 std::mutex sqlite_execute_mutex;
 
 
+// Stores values collected during a reading session of sqlite3.
+class SqliteReader
+{
+public:
+  SqliteReader (int dummy);
+  ~SqliteReader ();
+  std::map <std::string, std::vector <std::string> > result {};
+  static int callback (void *userdata, int argc, char **argv, char **column_names);
+private:
+};
+
+
 sqlite3 * database_sqlite_connect_file (std::string filename)
 {
   sqlite3 *db {nullptr};
@@ -288,7 +300,7 @@ int SqliteReader::callback (void *userdata, int argc, char **argv, char **column
 }
 
 
-SqliteDatabase::SqliteDatabase (std::string filename)
+SqliteDatabase::SqliteDatabase (const std::string& filename)
 {
   db = database_sqlite_connect (filename);
 }
@@ -296,48 +308,61 @@ SqliteDatabase::SqliteDatabase (std::string filename)
 
 SqliteDatabase::~SqliteDatabase ()
 {
-  database_sqlite_disconnect (db);
+  if (db)
+    database_sqlite_disconnect (db);
 }
 
 
 void SqliteDatabase::clear ()
 {
-  sql.clear ();
+  m_sql.clear ();
 }
 
 
 void SqliteDatabase::add (const char * fragment)
 {
-  sql.append (" ");
-  sql.append (fragment);
-  sql.append (" ");
+  m_sql.append (" ");
+  m_sql.append (fragment);
+  m_sql.append (" ");
 }
 
 
 void SqliteDatabase::add (int value)
 {
-  sql.append (" ");
-  sql.append (std::to_string (value));
-  sql.append (" ");
+  m_sql.append (" ");
+  m_sql.append (std::to_string (value));
+  m_sql.append (" ");
 }
 
 
 void SqliteDatabase::add (std::string value)
 {
-  sql.append (" '");
+  m_sql.append (" '");
   value = database_sqlite_no_sql_injection (value);
-  sql.append (value);
-  sql.append ("' ");
+  m_sql.append (value);
+  m_sql.append ("' ");
+}
+
+
+const std::string& SqliteDatabase::get_sql()
+{
+  return m_sql;
+}
+
+
+void SqliteDatabase::set_sql (const std::string& sql)
+{
+  m_sql = sql;
 }
 
 
 void SqliteDatabase::execute ()
 {
-  database_sqlite_exec (db, sql);
+  database_sqlite_exec (db, m_sql);
 }
 
 
 std::map <std::string, std::vector <std::string> > SqliteDatabase::query ()
 {
-  return database_sqlite_query (db, sql);
+  return database_sqlite_query (db, m_sql);
 }

@@ -30,7 +30,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 sqlite3 * Database_Navigation::connect ()
 {
-  return database_sqlite_connect ("navigation");
+  return database::sqlite::connect ("navigation");
 }
 
 
@@ -46,8 +46,8 @@ void Database_Navigation::create ()
     "  verse integer,"
     "  active boolean"
     ");";
-  database_sqlite_exec (db, sql);
-  database_sqlite_disconnect (db);
+  database::sqlite::exec (db, sql);
+  database::sqlite::disconnect (db);
 }
 
 
@@ -61,8 +61,8 @@ void Database_Navigation::trim ()
   sql.add (time);
   sql.add (";");
   sqlite3 * db = connect ();
-  database_sqlite_exec (db, sql.sql);
-  database_sqlite_disconnect (db);
+  database::sqlite::exec (db, sql.sql);
+  database::sqlite::disconnect (db);
 }
 
 
@@ -98,10 +98,10 @@ void Database_Navigation::record (int time, std::string user, int book, int chap
   sql3.add (", 1);");
 
   sqlite3 * db = connect ();
-  database_sqlite_exec (db, sql1.sql);
-  database_sqlite_exec (db, sql2.sql);
-  database_sqlite_exec (db, sql3.sql);
-  database_sqlite_disconnect (db);
+  database::sqlite::exec (db, sql1.sql);
+  database::sqlite::exec (db, sql2.sql);
+  database::sqlite::exec (db, sql3.sql);
+  database::sqlite::disconnect (db);
 }
 
 
@@ -141,10 +141,10 @@ Passage Database_Navigation::get_previous (const std::string& user)
 
   // Run all of the SQL at once, to minimize the database connection time.
   sqlite3 * db = connect ();
-  database_sqlite_exec (db, sql1.sql);
-  database_sqlite_exec (db, sql2.sql);
-  result = database_sqlite_query (db, sql3.sql);
-  database_sqlite_disconnect (db);
+  database::sqlite::exec (db, sql1.sql);
+  database::sqlite::exec (db, sql2.sql);
+  result = database::sqlite::query (db, sql3.sql);
+  database::sqlite::disconnect (db);
   
   std::vector <std::string> books = result ["book"];
   std::vector <std::string> chapters = result ["chapter"];
@@ -184,10 +184,10 @@ Passage Database_Navigation::get_next (const std::string& user)
 
   // Run all of the SQL at once.
   sqlite3 * db = connect ();
-  database_sqlite_exec (db, sql1.sql);
-  database_sqlite_exec (db, sql2.sql);
-  result = database_sqlite_query (db, sql3.sql);
-  database_sqlite_disconnect (db);
+  database::sqlite::exec (db, sql1.sql);
+  database::sqlite::exec (db, sql2.sql);
+  result = database::sqlite::query (db, sql3.sql);
+  database::sqlite::disconnect (db);
   
   std::vector <std::string> books = result ["book"];
   std::vector <std::string> chapters = result ["chapter"];
@@ -213,11 +213,11 @@ int Database_Navigation::get_previous_id (const std::string& user)
     sql.add (user);
     sql.add ("AND active = 1;");
     sqlite3 * db = connect ();
-    std::vector <std::string> ids = database_sqlite_query (db, sql.sql) ["rowid"];
+    std::vector <std::string> ids = database::sqlite::query (db, sql.sql) ["rowid"];
     for (auto & s : ids) {
       id = filter::strings::convert_to_int (s);
     }
-    database_sqlite_disconnect (db);
+    database::sqlite::disconnect (db);
   }
   // If no active row identifier was found, return zero.
   if (id == 0) return 0;
@@ -230,8 +230,8 @@ int Database_Navigation::get_previous_id (const std::string& user)
   sql.add (user);
   sql.add ("ORDER BY rowid DESC LIMIT 1;");
   sqlite3 * db = connect ();
-  std::vector <std::string> ids = database_sqlite_query (db, sql.sql) ["rowid"];
-  database_sqlite_disconnect (db);
+  std::vector <std::string> ids = database::sqlite::query (db, sql.sql) ["rowid"];
+  database::sqlite::disconnect (db);
   if (!ids.empty()) {
     return filter::strings::convert_to_int (ids[0]);
   }
@@ -251,11 +251,11 @@ int Database_Navigation::get_next_id (const std::string& user)
     sql.add (user);
     sql.add ("AND active = 1;");
     sqlite3 * db = connect ();
-    std::vector <std::string> ids = database_sqlite_query (db, sql.sql) ["rowid"];
+    std::vector <std::string> ids = database::sqlite::query (db, sql.sql) ["rowid"];
     for (auto & s : ids) {
       id = filter::strings::convert_to_int (s);
     }
-    database_sqlite_disconnect (db);
+    database::sqlite::disconnect (db);
   }
   // If no active row identifier was found, return zero.
   if (id == 0) return 0;
@@ -268,8 +268,8 @@ int Database_Navigation::get_next_id (const std::string& user)
   sql.add (user);
   sql.add ("ORDER BY rowid ASC LIMIT 1;");
   sqlite3 * db = connect ();
-  std::vector <std::string> ids = database_sqlite_query (db, sql.sql) ["rowid"];
-  database_sqlite_disconnect (db);
+  std::vector <std::string> ids = database::sqlite::query (db, sql.sql) ["rowid"];
+  database::sqlite::disconnect (db);
   if (!ids.empty()) {
     return filter::strings::convert_to_int (ids[0]);
   }
@@ -310,8 +310,8 @@ std::vector <Passage> Database_Navigation::get_history (const std::string& user,
 
     // Run the query on the database.
     sqlite3 * db = connect ();
-    result = database_sqlite_query (db, sql.sql);
-    database_sqlite_disconnect (db);
+    result = database::sqlite::query (db, sql.sql);
+    database::sqlite::disconnect (db);
 
     // Assemble the results.
     std::vector <std::string> books = result ["book"];

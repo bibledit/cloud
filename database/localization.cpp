@@ -39,19 +39,19 @@ Database_Localization::Database_Localization (const std::string& language_in)
 
 sqlite3 * Database_Localization::connect ()
 {
-  return database_sqlite_connect ("localization_" + language);
+  return database::sqlite::connect ("localization_" + language);
 }
 
 
 void Database_Localization::create (std::string po)
 {
   sqlite3 * db = connect ();
-  database_sqlite_exec (db, "PRAGMA temp_store = MEMORY;");
-  database_sqlite_exec (db, "PRAGMA synchronous = OFF;");
-  database_sqlite_exec (db, "PRAGMA journal_mode = OFF;");
-  database_sqlite_exec (db, "DROP TABLE IF EXISTS localization;");
-  database_sqlite_exec (db, "VACUUM;");
-  database_sqlite_exec (db, "CREATE TABLE IF NOT EXISTS localization (msgid text, msgstr text);");
+  database::sqlite::exec (db, "PRAGMA temp_store = MEMORY;");
+  database::sqlite::exec (db, "PRAGMA synchronous = OFF;");
+  database::sqlite::exec (db, "PRAGMA journal_mode = OFF;");
+  database::sqlite::exec (db, "DROP TABLE IF EXISTS localization;");
+  database::sqlite::exec (db, "VACUUM;");
+  database::sqlite::exec (db, "CREATE TABLE IF NOT EXISTS localization (msgid text, msgstr text);");
   std::unordered_map <std::string, std::string> translations = locale_logic_read_msgid_msgstr (po);
   for (auto & element : translations) {
     SqliteSQL sql = SqliteSQL ();
@@ -60,9 +60,9 @@ void Database_Localization::create (std::string po)
     sql.add (",");
     sql.add (element.second);
     sql.add (");");
-    database_sqlite_exec (db, sql.sql);
+    database::sqlite::exec (db, sql.sql);
   }
-  database_sqlite_disconnect (db);
+  database::sqlite::disconnect (db);
 }
 
 
@@ -73,8 +73,8 @@ std::string Database_Localization::translate (const std::string& english)
   sql.add (english);
   sql.add (";");
   sqlite3 * db = connect ();
-  std::vector <std::string> msgstrs = database_sqlite_query (db, sql.sql) ["msgstr"];
-  database_sqlite_disconnect (db);
+  std::vector <std::string> msgstrs = database::sqlite::query (db, sql.sql) ["msgstr"];
+  database::sqlite::disconnect (db);
   if (!msgstrs.empty ()) if (!msgstrs[0].empty ()) return msgstrs [0];
   return english;
 }
@@ -87,8 +87,8 @@ std::string Database_Localization::backtranslate (const std::string& localizatio
   sql.add (localization);
   sql.add (";");
   sqlite3 * db = connect ();
-  std::vector <std::string> msgids = database_sqlite_query (db, sql.sql) ["msgid"];
-  database_sqlite_disconnect (db);
+  std::vector <std::string> msgids = database::sqlite::query (db, sql.sql) ["msgid"];
+  database::sqlite::disconnect (db);
   if (!msgids.empty ()) if (!msgids[0].empty ()) return msgids [0];
   return localization;
 }

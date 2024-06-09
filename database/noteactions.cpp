@@ -32,7 +32,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 sqlite3 * Database_NoteActions::connect ()
 {
-  return database_sqlite_connect ("noteactions");
+  return database::sqlite::connect ("noteactions");
 }
 
 
@@ -47,16 +47,16 @@ void Database_NoteActions::create ()
     "  action integer,"
     "  content text"
     ");";
-  database_sqlite_exec (db, sql);
-  database_sqlite_disconnect (db);
+  database::sqlite::exec (db, sql);
+  database::sqlite::disconnect (db);
 }
 
 
 void Database_NoteActions::clear ()
 {
   sqlite3 * db = connect ();
-  database_sqlite_exec (db, "DROP TABLE IF EXISTS noteactions;");
-  database_sqlite_disconnect (db);
+  database::sqlite::exec (db, "DROP TABLE IF EXISTS noteactions;");
+  database::sqlite::disconnect (db);
   create ();
 }
 
@@ -64,8 +64,8 @@ void Database_NoteActions::clear ()
 void Database_NoteActions::optimize ()
 {
   sqlite3 * db = connect ();
-  database_sqlite_exec (db, "VACUUM;");
-  database_sqlite_disconnect (db);
+  database::sqlite::exec (db, "VACUUM;");
+  database::sqlite::disconnect (db);
 }
 
 
@@ -84,8 +84,8 @@ void Database_NoteActions::record (const std::string& username, int note, int ac
   sql.add (content);
   sql.add (");");
   sqlite3 * db = connect ();
-  database_sqlite_exec (db, sql.sql);
-  database_sqlite_disconnect (db);
+  database::sqlite::exec (db, sql.sql);
+  database::sqlite::disconnect (db);
 }
 
 
@@ -93,8 +93,8 @@ std::vector <int> Database_NoteActions::getNotes ()
 {
   std::vector <int> notes;
   sqlite3 * db = connect ();
-  std::vector <std::string> result = database_sqlite_query (db, "SELECT DISTINCT note FROM noteactions ORDER BY rowid;") ["note"];
-  database_sqlite_disconnect (db);
+  std::vector <std::string> result = database::sqlite::query (db, "SELECT DISTINCT note FROM noteactions ORDER BY rowid;") ["note"];
+  database::sqlite::disconnect (db);
   for (auto & note : result) {
     notes.push_back (filter::strings::convert_to_int (note));
   }
@@ -110,8 +110,8 @@ std::vector <Database_Note_Action> Database_NoteActions::getNoteData (int note)
   sql.add (note);
   sql.add ("ORDER BY rowid;");
   sqlite3 * db = connect ();
-  std::map <std::string, std::vector <std::string> > result = database_sqlite_query (db, sql.sql);
-  database_sqlite_disconnect (db);
+  std::map <std::string, std::vector <std::string> > result = database::sqlite::query (db, sql.sql);
+  database::sqlite::disconnect (db);
   std::vector <std::string> rowids = result ["rowid"];
   std::vector <std::string> usernames = result ["username"];
   std::vector <std::string> timestamps = result ["timestamp"];
@@ -140,8 +140,8 @@ void Database_NoteActions::updateNotes (int oldId, int newId)
   sql.add (oldId);
   sql.add (";");
   sqlite3 * db = connect ();
-  database_sqlite_exec (db, sql.sql);
-  database_sqlite_disconnect (db);
+  database::sqlite::exec (db, sql.sql);
+  database::sqlite::disconnect (db);
 }
 
 
@@ -152,8 +152,8 @@ void Database_NoteActions::erase (int rowid)
   sql.add (rowid);
   sql.add (";");
   sqlite3 * db = connect ();
-  database_sqlite_exec (db, sql.sql);
-  database_sqlite_disconnect (db);
+  database::sqlite::exec (db, sql.sql);
+  database::sqlite::disconnect (db);
 }
 
 
@@ -164,8 +164,8 @@ bool Database_NoteActions::exists (int note)
   sql.add (note);
   sql.add (";");
   sqlite3 * db = connect ();
-  std::map <std::string, std::vector <std::string> > result = database_sqlite_query (db, sql.sql);
-  database_sqlite_disconnect (db);
+  std::map <std::string, std::vector <std::string> > result = database::sqlite::query (db, sql.sql);
+  database::sqlite::disconnect (db);
   return !result.empty ();
 }
 

@@ -39,8 +39,8 @@ std::string Database_Strong::definition (std::string strong)
     sql.add (strong);
     sql.add (";");
     db = connect ();
-    std::vector <std::string> definitions = database_sqlite_query (db, sql.sql) ["definition"];
-    database_sqlite_disconnect (db);
+    std::vector <std::string> definitions = database::sqlite::query (db, sql.sql) ["definition"];
+    database::sqlite::disconnect (db);
     if (!definitions.empty ()) return definitions[0];
   }
   // Nothing found.
@@ -60,8 +60,8 @@ std::vector <std::string> Database_Strong::strong (std::string lemma)
     sql.add (lemma);
     sql.add (";");
     db = connect ();
-    std::vector <std::string> ids = database_sqlite_query (db, sql.sql) ["id"];
-    database_sqlite_disconnect (db);
+    std::vector <std::string> ids = database::sqlite::query (db, sql.sql) ["id"];
+    database::sqlite::disconnect (db);
     if (!ids.empty ()) return ids;
   }
   // Nothing found.
@@ -71,5 +71,5 @@ std::vector <std::string> Database_Strong::strong (std::string lemma)
 
 sqlite3 * Database_Strong::connect ()
 {
-  return database_sqlite_connect ("greekstrong");
+  return database::sqlite::connect ("greekstrong");
 }

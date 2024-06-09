@@ -30,9 +30,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 void Database_State::create ()
 {
-  bool healthy_database = database_sqlite_healthy (name ());
+  bool healthy_database = database::sqlite::healthy (name ());
   if (!healthy_database) {
-    filter_url_unlink (database_sqlite_file (name ()));
+    filter_url_unlink (database::sqlite::file (name ()));
   }
 
   sqlite3 * db = connect ();
@@ -40,7 +40,7 @@ void Database_State::create ()
   
   // On Android, this pragma prevents the following error: VACUUM; Unable to open database file.
   sql = "PRAGMA temp_store = MEMORY;";
-  database_sqlite_exec (db, sql);
+  database::sqlite::exec (db, sql);
   
   sql =
     "CREATE TABLE IF NOT EXISTS notes ("
@@ -48,10 +48,10 @@ void Database_State::create ()
     " last integer,"
     " value text"
     ");";
-  database_sqlite_exec (db, sql);
+  database::sqlite::exec (db, sql);
   
   sql = "DELETE FROM notes;";
-  database_sqlite_exec (db, sql);
+  database::sqlite::exec (db, sql);
   
   // Here something weird was going on when doing a VACUUM at this stage.
   // On Android, it always would say this: VACUUM; Unable to open database file.
@@ -61,7 +61,7 @@ void Database_State::create ()
   // It now does not VACUUM a newly created database, but only when it was created.
   // Later on, the PRAGMA as above was used to solve the issue.
   sql = "VACUUM;";
-  database_sqlite_exec (db, sql);
+  database::sqlite::exec (db, sql);
 
   sql =
     "CREATE TABLE IF NOT EXISTS export ("
@@ -69,7 +69,7 @@ void Database_State::create ()
     " book integer,"
     " format integer"
   ");";
-  database_sqlite_exec (db, sql);
+  database::sqlite::exec (db, sql);
   
   sql =
     "CREATE TABLE IF NOT EXISTS exported ("
@@ -77,9 +77,9 @@ void Database_State::create ()
     " book integer,"
     " state boolean"
     ");";
-  database_sqlite_exec (db, sql);
+  database::sqlite::exec (db, sql);
   
-  database_sqlite_disconnect (db);
+  database::sqlite::disconnect (db);
 }
 
 
@@ -95,7 +95,7 @@ void Database_State::putNotesChecksum (int first, int last, const std::string& c
     sql.add ("AND last =");
     sql.add (last);
     sql.add (";");
-    database_sqlite_exec (db, sql.sql);
+    database::sqlite::exec (db, sql.sql);
   }
   {
     // Store the new checksum for the range.
@@ -107,9 +107,9 @@ void Database_State::putNotesChecksum (int first, int last, const std::string& c
     sql.add (",");
     sql.add (checksum);
     sql.add (");");
-    database_sqlite_exec (db, sql.sql);
+    database::sqlite::exec (db, sql.sql);
   }
-  database_sqlite_disconnect (db);
+  database::sqlite::disconnect (db);
 }
 
 
@@ -124,8 +124,8 @@ std::string Database_State::getNotesChecksum (int first, int last)
   sql.add (last);
   sql.add (";");
   sqlite3 * db = connect ();
-  std::vector <std::string> values = database_sqlite_query (db, sql.sql)["value"];
-  database_sqlite_disconnect (db);
+  std::vector <std::string> values = database::sqlite::query (db, sql.sql)["value"];
+  database::sqlite::disconnect (db);
   if (!values.empty()) {
     return values[0];
   }
@@ -144,8 +144,8 @@ void Database_State::eraseNoteChecksum (int identifier)
   sql.add ("AND last >=");
   sql.add (identifier);
   sql.add (";");
-  database_sqlite_exec (db, sql.sql);
-  database_sqlite_disconnect (db);
+  database::sqlite::exec (db, sql.sql);
+  database::sqlite::disconnect (db);
 }
 
 
@@ -162,8 +162,8 @@ void Database_State::setExport (const std::string& bible, int book, int format)
   sql.add (format);
   sql.add (");");
   sqlite3 * db = connect ();
-  database_sqlite_exec (db, sql.sql);
-  database_sqlite_disconnect (db);
+  database::sqlite::exec (db, sql.sql);
+  database::sqlite::disconnect (db);
 }
 
 
@@ -179,8 +179,8 @@ bool Database_State::getExport (const std::string& bible, int book, int format)
   sql.add (format);
   sql.add (";");
   sqlite3 * db = connect ();
-  std::vector <std::string> values = database_sqlite_query (db, sql.sql)["format"];
-  database_sqlite_disconnect (db);
+  std::vector <std::string> values = database::sqlite::query (db, sql.sql)["format"];
+  database::sqlite::disconnect (db);
   if (!values.empty()) {
     return true;
   }
@@ -200,8 +200,8 @@ void Database_State::clearExport (const std::string& bible, int book, int format
   sql.add ("AND format =");
   sql.add (format);
   sql.add (";");
-  database_sqlite_exec (db, sql.sql);
-  database_sqlite_disconnect (db);
+  database::sqlite::exec (db, sql.sql);
+  database::sqlite::disconnect (db);
 }
 
 
@@ -213,5 +213,5 @@ const char * Database_State::name ()
 
 sqlite3 * Database_State::connect ()
 {
-  return database_sqlite_connect (name ());
+  return database::sqlite::connect (name ());
 }

@@ -21,16 +21,21 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <config/libraries.h>
 
-sqlite3 * database_sqlite_connect_file (std::string filename);
-std::string database_sqlite_file (std::string database);
-std::string database_sqlite_suffix ();
-sqlite3 * database_sqlite_connect (std::string database);
-std::string database_sqlite_no_sql_injection (std::string sql);
-void database_sqlite_exec (sqlite3 * db, std::string sql);
-std::map <std::string, std::vector <std::string> > database_sqlite_query (sqlite3 * db, std::string sql);
-void database_sqlite_disconnect (sqlite3 * database);
-bool database_sqlite_healthy (std::string database);
-void database_sqlite_error (sqlite3 * database, const std::string & prefix, char * error);
+namespace database::sqlite {
+
+sqlite3 * connect_file (std::string filename);
+std::string file (std::string database);
+std::string suffix ();
+sqlite3 * connect (std::string database);
+std::string no_sql_injection (std::string sql);
+void exec (sqlite3 * db, std::string sql);
+std::map <std::string, std::vector <std::string> > query (sqlite3 * db, std::string sql);
+void disconnect (sqlite3 * database);
+bool healthy (std::string database);
+void error (sqlite3 * database, const std::string & prefix, char * error);
+
+}
+
 
 // Creates a database SQL query.
 class SqliteSQL

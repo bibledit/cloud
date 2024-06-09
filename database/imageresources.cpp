@@ -57,7 +57,7 @@ std::string Database_ImageResources::databaseFile ()
 sqlite3 * Database_ImageResources::connect (std::string name)
 {
   std::string path = filter_url_create_path ({resourceFolder (name), databaseFile ()});
-  return database_sqlite_connect (path);
+  return database::sqlite::connect (path);
 }
 
 
@@ -82,8 +82,8 @@ void Database_ImageResources::create (std::string name)
   " end integer,"
   " image text"
   ");";
-  database_sqlite_exec (db, sql);
-  database_sqlite_disconnect (db);
+  database::sqlite::exec (db, sql);
+  database::sqlite::disconnect (db);
 }
 
 
@@ -106,9 +106,9 @@ void Database_ImageResources::erase (std::string name, std::string image)
     sql.add ("DELETE FROM passages WHERE image =");
     sql.add (image);
     sql.add (";");
-    database_sqlite_exec (db, sql.sql);
+    database::sqlite::exec (db, sql.sql);
   }
-  database_sqlite_disconnect (db);
+  database::sqlite::disconnect (db);
 }
 
 
@@ -141,7 +141,7 @@ void Database_ImageResources::assign (std::string name, std::string image,
     sql.add ("DELETE FROM passages WHERE image =");
     sql.add (image);
     sql.add (";");
-    database_sqlite_exec (db, sql.sql);
+    database::sqlite::exec (db, sql.sql);
   }
   {
     SqliteSQL sql = SqliteSQL ();
@@ -152,9 +152,9 @@ void Database_ImageResources::assign (std::string name, std::string image,
     sql.add (",");
     sql.add (image);
     sql.add (");");
-    database_sqlite_exec (db, sql.sql);
+    database::sqlite::exec (db, sql.sql);
   }
-  database_sqlite_disconnect (db);
+  database::sqlite::disconnect (db);
 }
 
 
@@ -168,8 +168,8 @@ std::vector <std::string> Database_ImageResources::get (std::string name, int bo
   sql.add (passage);
   sql.add ("ORDER BY start;");
   sqlite3 * db = connect (name);
-  std::vector <std::string> images = database_sqlite_query (db, sql.sql) ["image"];
-  database_sqlite_disconnect (db);
+  std::vector <std::string> images = database::sqlite::query (db, sql.sql) ["image"];
+  database::sqlite::disconnect (db);
   return images;
 }
 
@@ -180,8 +180,8 @@ std::vector <std::string> Database_ImageResources::get (std::string name)
   SqliteSQL sql = SqliteSQL ();
   sql.add ("SELECT image FROM passages ORDER by start;");
   sqlite3 * db = connect (name);
-  std::vector <std::string> images = database_sqlite_query (db, sql.sql) ["image"];
-  database_sqlite_disconnect (db);
+  std::vector <std::string> images = database::sqlite::query (db, sql.sql) ["image"];
+  database::sqlite::disconnect (db);
  
   // Get images from the folder.
   std::vector <std::string> files = filter_url_scandir (resourceFolder (name));
@@ -216,8 +216,8 @@ void Database_ImageResources::get (std::string name, std::string image,
   sql.add (image);
   sql.add ("ORDER by start;");
   sqlite3 * db = connect (name);
-  std::map <std::string, std::vector <std::string> > results = database_sqlite_query (db, sql.sql);
-  database_sqlite_disconnect (db);
+  std::map <std::string, std::vector <std::string> > results = database::sqlite::query (db, sql.sql);
+  database::sqlite::disconnect (db);
   std::vector <std::string> start = results["start"];
   std::vector <std::string> end   = results["end"];
 

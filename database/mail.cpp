@@ -44,7 +44,7 @@ Database_Mail::~Database_Mail ()
 
 sqlite3 * Database_Mail::connect ()
 {
-  return database_sqlite_connect ("mail");
+  return database::sqlite::connect ("mail");
 }
 
 
@@ -59,16 +59,16 @@ void Database_Mail::create ()
     "  body text,"
     "  retry integer"
     ");";
-  database_sqlite_exec (db, sql);
-  database_sqlite_disconnect (db);
+  database::sqlite::exec (db, sql);
+  database::sqlite::disconnect (db);
 }
 
 
 void Database_Mail::optimize ()
 {
   sqlite3 * db = connect ();
-  database_sqlite_exec (db, "VACUUM;");
-  database_sqlite_disconnect (db);
+  database::sqlite::exec (db, "VACUUM;");
+  database::sqlite::disconnect (db);
 }
 
 
@@ -80,9 +80,9 @@ void Database_Mail::trim ()
   sql.add (time);
   sql.add (";");
   sqlite3 * db = connect ();
-  database_sqlite_exec (db, sql.sql);
-  database_sqlite_exec (db, "DELETE FROM mail WHERE retry > 10;");
-  database_sqlite_disconnect (db);
+  database::sqlite::exec (db, sql.sql);
+  database::sqlite::exec (db, "DELETE FROM mail WHERE retry > 10;");
+  database::sqlite::disconnect (db);
 }
 
 
@@ -105,8 +105,8 @@ void Database_Mail::send (std::string to, std::string subject, std::string body,
   sql.add (body);
   sql.add (", 0);");
   sqlite3 * db = connect ();
-  database_sqlite_exec (db, sql.sql);
-  database_sqlite_disconnect (db);
+  database::sqlite::exec (db, sql.sql);
+  database::sqlite::disconnect (db);
 }
 
 
@@ -119,8 +119,8 @@ int Database_Mail::getMailCount ()
   sql.add (user);
   sql.add (";");
   sqlite3 * db = connect ();
-  std::vector <std::string> result = database_sqlite_query (db, sql.sql) ["count(*)"];
-  database_sqlite_disconnect (db);
+  std::vector <std::string> result = database::sqlite::query (db, sql.sql) ["count(*)"];
+  database::sqlite::disconnect (db);
   if (!result.empty ()) {
     return filter::strings::convert_to_int (result [0]);
   }
@@ -138,8 +138,8 @@ std::vector <Database_Mail_User> Database_Mail::getMails ()
   sql.add (user);
   sql.add ("ORDER BY timestamp DESC;");
   sqlite3 * db = connect ();
-  std::map <std::string, std::vector <std::string> > result = database_sqlite_query (db, sql.sql);
-  database_sqlite_disconnect (db);
+  std::map <std::string, std::vector <std::string> > result = database::sqlite::query (db, sql.sql);
+  database::sqlite::disconnect (db);
   std::vector <std::string> rowids = result ["rowid"];
   std::vector <std::string> timestamps = result ["timestamp"];
   std::vector <std::string> subjects = result ["subject"];
@@ -162,8 +162,8 @@ void Database_Mail::erase (int id)
   sql.add (id);
   sql.add (";");
   sqlite3 * db = connect ();
-  database_sqlite_exec (db, sql.sql);
-  database_sqlite_disconnect (db);
+  database::sqlite::exec (db, sql.sql);
+  database::sqlite::disconnect (db);
 }
 
 
@@ -175,8 +175,8 @@ Database_Mail_Item Database_Mail::get (int id)
   sql.add (id);
   sql.add (";");
   sqlite3 * db = connect ();
-  std::map <std::string, std::vector <std::string> > result = database_sqlite_query (db, sql.sql);
-  database_sqlite_disconnect (db);
+  std::map <std::string, std::vector <std::string> > result = database::sqlite::query (db, sql.sql);
+  database::sqlite::disconnect (db);
   Database_Mail_Item item = Database_Mail_Item ();
   if (!result.empty ()) {
     item.username = result ["username"] [0];
@@ -197,8 +197,8 @@ std::vector <int> Database_Mail::getMailsToSend ()
   sql.add (timestamp);
   sql.add (";");
   sqlite3 * db = connect ();
-  std::vector <std::string> result = database_sqlite_query (db, sql.sql) ["rowid"];
-  database_sqlite_disconnect (db);
+  std::vector <std::string> result = database::sqlite::query (db, sql.sql) ["rowid"];
+  database::sqlite::disconnect (db);
   for (auto & id : result) {
     ids.push_back (filter::strings::convert_to_int (id));
   }
@@ -219,9 +219,9 @@ void Database_Mail::postpone (int id)
   sql2.add (id);
   sql2.add (";");
   sqlite3 * db = connect ();
-  database_sqlite_exec (db, sql1.sql);
-  database_sqlite_exec (db, sql2.sql);
-  database_sqlite_disconnect (db);
+  database::sqlite::exec (db, sql1.sql);
+  database::sqlite::exec (db, sql2.sql);
+  database::sqlite::disconnect (db);
 
 }
 
@@ -233,8 +233,8 @@ std::vector <int> Database_Mail::getAllMails ()
   SqliteSQL sql = SqliteSQL ();
   sql.add ("SELECT rowid FROM mail;");
   sqlite3 * db = connect ();
-  std::vector <std::string> result = database_sqlite_query (db, sql.sql) ["rowid"];
-  database_sqlite_disconnect (db);
+  std::vector <std::string> result = database::sqlite::query (db, sql.sql) ["rowid"];
+  database::sqlite::disconnect (db);
   for (auto rowid : result) {
     int id = filter::strings::convert_to_int (rowid);
     rowids.push_back (id);

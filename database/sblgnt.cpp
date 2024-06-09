@@ -39,7 +39,7 @@ Database_Sblgnt::~Database_Sblgnt ()
 
 sqlite3 * Database_Sblgnt::connect ()
 {
-  return database_sqlite_connect ("sblgnt");
+  return database::sqlite::connect ("sblgnt");
 }
 
 
@@ -55,8 +55,8 @@ std::vector <std::string> Database_Sblgnt::getVerse (int book, int chapter, int 
   sql.add (verse);
   sql.add (";");
   sqlite3 * db = connect ();
-  std::vector <std::string> words = database_sqlite_query (db, sql.sql) ["greek"];
-  database_sqlite_disconnect (db);
+  std::vector <std::string> words = database::sqlite::query (db, sql.sql) ["greek"];
+  database::sqlite::disconnect (db);
   return words;
 }
 
@@ -70,8 +70,8 @@ std::vector <Passage> Database_Sblgnt::searchGreek (std::string greek)
   sql.add (";");
   std::vector <Passage> hits;
   sqlite3 * db = connect ();
-  std::map <std::string, std::vector <std::string> > result = database_sqlite_query (db, sql.sql);
-  database_sqlite_disconnect (db);
+  std::map <std::string, std::vector <std::string> > result = database::sqlite::query (db, sql.sql);
+  database::sqlite::disconnect (db);
   std::vector <std::string> books = result ["book"];
   std::vector <std::string> chapters = result ["chapter"];
   std::vector <std::string> verses = result ["verse"];

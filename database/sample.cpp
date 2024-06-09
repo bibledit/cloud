@@ -28,7 +28,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 void Database_Sample::create ()
 {
-  std::string path = database_sqlite_file (name ());
+  std::string path = database::sqlite::file (name ());
   filter_url_unlink (path);
   SqliteDatabase sql = SqliteDatabase (name ());
   sql.add ("CREATE TABLE IF NOT EXISTS sample (file text, data text);");

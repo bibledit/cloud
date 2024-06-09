@@ -50,7 +50,7 @@ std::mutex database_styles_cache_mutex;
 
 sqlite3 * Database_Styles::connect ()
 {
-  return database_sqlite_connect ("styles");
+  return database::sqlite::connect ("styles");
 }
 
 
@@ -63,8 +63,8 @@ void Database_Styles::create ()
         "user text,"
         "sheet text"
         ");";
-  database_sqlite_exec (db, sql);
-  database_sqlite_disconnect (db);
+  database::sqlite::exec (db, sql);
+  database::sqlite::disconnect (db);
 }
 
 
@@ -414,8 +414,8 @@ void Database_Styles::grantWriteAccess (std::string user, std::string sheet)
   sql.add (sheet);
   sql.add (");");
   sqlite3 * db = connect ();
-  database_sqlite_exec (db, sql.sql);
-  database_sqlite_disconnect (db);
+  database::sqlite::exec (db, sql.sql);
+  database::sqlite::disconnect (db);
 }
 
 
@@ -434,8 +434,8 @@ void Database_Styles::revokeWriteAccess (std::string user, std::string sheet)
   sql.add (sheet);
   sql.add (";");
   sqlite3 * db = connect ();
-  database_sqlite_exec (db, sql.sql);
-  database_sqlite_disconnect (db);
+  database::sqlite::exec (db, sql.sql);
+  database::sqlite::disconnect (db);
 }
 
 
@@ -449,8 +449,8 @@ bool Database_Styles::hasWriteAccess (std::string user, std::string sheet)
   sql.add (sheet);
   sql.add (";");
   sqlite3 * db = connect ();
-  std::map <std::string, std::vector <std::string> > result = database_sqlite_query (db, sql.sql);
-  database_sqlite_disconnect (db);
+  std::map <std::string, std::vector <std::string> > result = database::sqlite::query (db, sql.sql);
+  database::sqlite::disconnect (db);
   return !result["rowid"].empty ();
 }
 

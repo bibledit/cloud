@@ -31,7 +31,7 @@ TEST (database, privileges)
   // Test creation, automatic repair of damages.
   refresh_sandbox (false);
   DatabasePrivileges::create ();
-  std::string path = database_sqlite_file (DatabasePrivileges::database ());
+  std::string path = database::sqlite::file (DatabasePrivileges::database ());
   filter_url_file_put_contents (path, "damaged database");
   EXPECT_EQ (false, DatabasePrivileges::healthy ());
   DatabasePrivileges::optimize ();

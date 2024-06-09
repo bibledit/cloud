@@ -28,22 +28,22 @@ TEST (sqlite, functions)
 {
   refresh_sandbox (false);
 
-  sqlite3 * db = database_sqlite_connect ("sqlite");
+  sqlite3 * db = database::sqlite::connect ("sqlite");
   EXPECT_NE (db, nullptr);
-  database_sqlite_exec (db, "CREATE TABLE test (column1 integer, column2 integer, column3 integer);");
-  database_sqlite_exec (db, "INSERT INTO test VALUES (123, 456, 789);");
-  database_sqlite_exec (db, "INSERT INTO test VALUES (234, 567, 890);");
-  database_sqlite_exec (db, "INSERT INTO test VALUES (345, 678, 901);");
-  std::map <std::string, std::vector <std::string> > actual = database_sqlite_query (db, "SELECT column1, column2, column3 FROM test;");
+  database::sqlite::exec (db, "CREATE TABLE test (column1 integer, column2 integer, column3 integer);");
+  database::sqlite::exec (db, "INSERT INTO test VALUES (123, 456, 789);");
+  database::sqlite::exec (db, "INSERT INTO test VALUES (234, 567, 890);");
+  database::sqlite::exec (db, "INSERT INTO test VALUES (345, 678, 901);");
+  std::map <std::string, std::vector <std::string> > actual = database::sqlite::query (db, "SELECT column1, column2, column3 FROM test;");
   EXPECT_EQ ("567", actual ["column2"] [1]);
-  database_sqlite_disconnect (db);
-  database_sqlite_disconnect (nullptr);
+  database::sqlite::disconnect (db);
+  database::sqlite::disconnect (nullptr);
 
-  EXPECT_TRUE (database_sqlite_healthy ("sqlite"));
-  unlink (database_sqlite_file ("sqlite").c_str());
-  EXPECT_FALSE (database_sqlite_healthy ("sqlite"));
+  EXPECT_TRUE (database::sqlite::healthy ("sqlite"));
+  unlink (database::sqlite::file ("sqlite").c_str());
+  EXPECT_FALSE (database::sqlite::healthy ("sqlite"));
 
-  EXPECT_EQ ("He''s", database_sqlite_no_sql_injection ("He's"));
+  EXPECT_EQ ("He''s", database::sqlite::no_sql_injection ("He's"));
   
   refresh_sandbox (false);
 }

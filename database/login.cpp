@@ -70,7 +70,7 @@ void Database_Login::optimize ()
 {
   if (!healthy ()) {
     // (Re)create damaged or non-existing database.
-    filter_url_unlink (database_sqlite_file (database ()));
+    filter_url_unlink (database::sqlite::file (database ()));
     create ();
   }
   // Vacuum it.
@@ -86,7 +86,7 @@ void Database_Login::optimize ()
 
 bool Database_Login::healthy ()
 {
-  return database_sqlite_healthy (database ());
+  return database::sqlite::healthy (database ());
 }
 
 

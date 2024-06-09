@@ -31,7 +31,7 @@ TEST (database, login)
   {
     refresh_sandbox (false);
     Database_Login::create ();
-    const std::string path = database_sqlite_file (Database_Login::database ());
+    const std::string path = database::sqlite::file (Database_Login::database ());
     filter_url_file_put_contents (path, "damaged database");
     EXPECT_EQ (false, Database_Login::healthy ());
     Database_Login::optimize ();

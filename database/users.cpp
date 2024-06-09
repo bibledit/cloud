@@ -140,9 +140,9 @@ bool Database_Users::matchEmailPassword (std::string email, std::string password
 // Returns the query to execute to add a new user.
 std::string Database_Users::add_userQuery (std::string user, std::string password, int level, std::string email)
 {
-  user = database_sqlite_no_sql_injection (user);
+  user = database::sqlite::no_sql_injection (user);
   password = md5 (password);
-  email = database_sqlite_no_sql_injection (email);
+  email = database::sqlite::no_sql_injection (email);
   std::string query = "INSERT INTO users (username, password, level, email) VALUES ('" + user + "', '" + password + "', " + std::to_string (level) + ", '" + email + "');";
   return query;
 }

@@ -33,7 +33,7 @@ Esword_Text::Esword_Text (std::string bible)
   currentChapter = 0;
   currentVerse = 0;
   currentText.clear();
-  bible = database_sqlite_no_sql_injection (bible);
+  bible = database::sqlite::no_sql_injection (bible);
   sql.push_back ("PRAGMA foreign_keys=OFF;");
   sql.push_back ("PRAGMA synchronous=OFF;");
   sql.push_back ("CREATE TABLE Details (Description NVARCHAR(255), Abbreviation NVARCHAR(50), Comments TEXT, Version INT, Font NVARCHAR(50), Unicode BOOL, RightToLeft BOOL, OT BOOL, NT BOOL, Apocrypha BOOL, Strong BOOL);");
@@ -106,11 +106,11 @@ void Esword_Text::finalize ()
 void Esword_Text::createModule (std::string filename)
 {
   flushCache ();
-  sqlite3 * db = database_sqlite_connect_file (filename);
+  sqlite3 * db = database::sqlite::connect_file (filename);
   for (std::string statement : sql) {
-    database_sqlite_exec (db, statement);
+    database::sqlite::exec (db, statement);
   }
-  database_sqlite_disconnect (db);
+  database::sqlite::disconnect (db);
 }
 
 

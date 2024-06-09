@@ -26,12 +26,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 TEST (database, etcbc4)
 {
-  Database_Etcbc4 database;
-  
-  std::vector <int> rowids = database.rowids (1, 1, 1);
+  std::vector <int> rowids = database::etcbc4::rowids (1, 1, 1);
   EXPECT_EQ ((std::vector <int>{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11}), rowids);
   
-  rowids = database.rowids (2, 3, 4);
+  rowids = database::etcbc4::rowids (2, 3, 4);
   EXPECT_EQ ((std::vector <int>{
     29690,
     29691,
@@ -59,118 +57,118 @@ TEST (database, etcbc4)
   
   std::string result;
   
-  result = database.word (2);
+  result = database::etcbc4::word (2);
   EXPECT_EQ ("רֵאשִׁ֖ית", result);
   
-  result = database.word (1001);
+  result = database::etcbc4::word (1001);
   EXPECT_EQ ("טֹ֛וב", result);
   
-  result = database.vocalized_lexeme (2);
+  result = database::etcbc4::vocalized_lexeme (2);
   EXPECT_EQ ("רֵאשִׁית", result);
   
-  result = database.vocalized_lexeme (1001);
+  result = database::etcbc4::vocalized_lexeme (1001);
   EXPECT_EQ ("טֹוב", result);
   
-  result = database.consonantal_lexeme (2);
+  result = database::etcbc4::consonantal_lexeme (2);
   EXPECT_EQ ("ראשׁית", result);
   
-  result = database.consonantal_lexeme (1001);
+  result = database::etcbc4::consonantal_lexeme (1001);
   EXPECT_EQ ("טוב", result);
   
-  result = database.gloss (2);
+  result = database::etcbc4::gloss (2);
   EXPECT_EQ ("beginning", result);
   
-  result = database.gloss (1001);
+  result = database::etcbc4::gloss (1001);
   EXPECT_EQ ("good", result);
   
-  result = database.pos (2);
+  result = database::etcbc4::pos (2);
   EXPECT_EQ ("subs", result);
   
-  result = database.pos (1001);
+  result = database::etcbc4::pos (1001);
   EXPECT_EQ ("adjv", result);
   
-  result = database.subpos (2);
+  result = database::etcbc4::subpos (2);
   EXPECT_EQ ("none", result);
   
-  result = database.subpos (1001);
+  result = database::etcbc4::subpos (1001);
   EXPECT_EQ ("none", result);
   
-  result = database.gender (2);
+  result = database::etcbc4::gender (2);
   EXPECT_EQ ("f", result);
   
-  result = database.gender (1001);
+  result = database::etcbc4::gender (1001);
   EXPECT_EQ ("m", result);
   
-  result = database.number (4);
+  result = database::etcbc4::number (4);
   EXPECT_EQ ("pl", result);
   
-  result = database.number (1001);
+  result = database::etcbc4::number (1001);
   EXPECT_EQ ("sg", result);
   
-  result = database.person (3);
+  result = database::etcbc4::person (3);
   EXPECT_EQ ("p3", result);
   
-  result = database.person (1001);
+  result = database::etcbc4::person (1001);
   EXPECT_EQ ("NA", result);
   
-  result = database.state (2);
+  result = database::etcbc4::state (2);
   EXPECT_EQ ("a", result);
   
-  result = database.state (1001);
+  result = database::etcbc4::state (1001);
   EXPECT_EQ ("a", result);
   
-  result = database.tense (3);
+  result = database::etcbc4::tense (3);
   EXPECT_EQ ("perf", result);
   
-  result = database.tense (1001);
+  result = database::etcbc4::tense (1001);
   EXPECT_EQ ("NA", result);
   
-  result = database.stem (3);
+  result = database::etcbc4::stem (3);
   EXPECT_EQ ("qal", result);
   
-  result = database.stem (1001);
+  result = database::etcbc4::stem (1001);
   EXPECT_EQ ("NA", result);
   
-  result = database.phrase_function (2);
+  result = database::etcbc4::phrase_function (2);
   EXPECT_EQ ("Time", result);
   
-  result = database.phrase_function (1001);
+  result = database::etcbc4::phrase_function (1001);
   EXPECT_EQ ("PreC", result);
   
-  result = database.phrase_type (2);
+  result = database::etcbc4::phrase_type (2);
   EXPECT_EQ ("PP", result);
   
-  result = database.phrase_type (1001);
+  result = database::etcbc4::phrase_type (1001);
   EXPECT_EQ ("AdjP", result);
   
-  result = database.phrase_relation (2);
+  result = database::etcbc4::phrase_relation (2);
   EXPECT_EQ ("NA", result);
   
-  result = database.phrase_relation (1001);
+  result = database::etcbc4::phrase_relation (1001);
   EXPECT_EQ ("NA", result);
   
-  result = database.phrase_a_relation (2);
+  result = database::etcbc4::phrase_a_relation (2);
   EXPECT_EQ ("NA", result);
   
-  result = database.phrase_a_relation (1001);
+  result = database::etcbc4::phrase_a_relation (1001);
   EXPECT_EQ ("NA", result);
   
-  result = database.clause_text_type (2);
+  result = database::etcbc4::clause_text_type (2);
   EXPECT_EQ ("?", result);
   
-  result = database.clause_text_type (1001);
+  result = database::etcbc4::clause_text_type (1001);
   EXPECT_EQ ("NQ", result);
   
-  result = database.clause_type (2);
+  result = database::etcbc4::clause_type (2);
   EXPECT_EQ ("xQtX", result);
   
-  result = database.clause_type (1001);
+  result = database::etcbc4::clause_type (1001);
   EXPECT_EQ ("AjCl", result);
   
-  result = database.clause_relation (2);
+  result = database::etcbc4::clause_relation (2);
   EXPECT_EQ ("NA", result);
   
-  result = database.clause_relation (1001);
+  result = database::etcbc4::clause_relation (1001);
   EXPECT_EQ ("NA", result);
 }
 

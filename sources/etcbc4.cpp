@@ -38,8 +38,7 @@
 void sources_etcbc4_download ()
 {
   Database_Logs::log ("Start to download the raw Hebrew morphology data from the ETCBC4 database");
-  Database_Etcbc4 database_etcbc4;
-  database_etcbc4.create ();
+  database::etcbc4::create ();
   
   // The book names for downloading data.
   std::vector <std::string> books = {
@@ -96,7 +95,7 @@ void sources_etcbc4_download ()
       for (int verse = 1; verse < 200; verse++) {
         if (book_done) continue;
 
-        std::string data = database_etcbc4.raw (book, chapter, verse);
+        std::string data = database::etcbc4::raw (book, chapter, verse);
         if (!data.empty ()) continue;
         
         std::string url = "https://shebanq.ancient-data.org/hebrew/verse?version=4b&book=" + bookname + "&chapter=" + std::to_string (chapter) + "&verse=" + std::to_string (verse);
@@ -112,7 +111,7 @@ void sources_etcbc4_download ()
           break;
         }
         Database_Logs::log (bookname + " " + std::to_string (chapter) + "." + std::to_string (verse));
-        database_etcbc4.store (book, chapter, verse, response);
+        database::etcbc4::store (book, chapter, verse, response);
         // Wait a second: Be polite: Do not overload the website.
         std::this_thread::sleep_for (std::chrono::seconds (1));
       }
@@ -139,17 +138,16 @@ std::string sources_etcbc4_clean (std::string item)
 void sources_etcbc4_parse ()
 {
   Database_Logs::log ("Parsing data from the ETCBC4 database");
-  Database_Etcbc4 database_etcbc4;
-  database_etcbc4.create ();
-  std::vector <int> books = database_etcbc4.books ();
+  database::etcbc4::create ();
+  const std::vector <int> books = database::etcbc4::books ();
   for (auto book : books) {
-    std::vector <int> chapters = database_etcbc4.chapters (book);
+    const std::vector <int> chapters = database::etcbc4::chapters (book);
     for (auto chapter : chapters) {
       Database_Logs::log ("Parsing book " + std::to_string (book) + " chapter " + std::to_string (chapter));
-      std::vector <int> verses = database_etcbc4.verses (book, chapter);
+      std::vector <int> verses = database::etcbc4::verses (book, chapter);
       for (auto verse : verses) {
         // The raw data for the verse.
-        std::string data = database_etcbc4.raw (book, chapter, verse);
+        std::string data = database::etcbc4::raw (book, chapter, verse);
         if (data.empty ()) continue;
         data = filter::strings::replace (filter::strings::unicode_non_breaking_space_entity (), "", data);
         // Parse the data.
@@ -214,12 +212,12 @@ void sources_etcbc4_parse ()
             }
           }
           // The table element has been done: Store it.
-          database_etcbc4.store (book, chapter, verse,
-                                 word, vocalized_lexeme, consonantal_lexeme, gloss, pos, subpos,
-                                 gender, number, person,
-                                 state, tense, stem,
-                                 phrase_function, phrase_type, phrase_relation,
-                                 phrase_a_relation, clause_text_type, clause_type, clause_relation);
+          database::etcbc4::store (book, chapter, verse,
+                                   word, vocalized_lexeme, consonantal_lexeme, gloss, pos, subpos,
+                                   gender, number, person,
+                                   state, tense, stem,
+                                   phrase_function, phrase_type, phrase_relation,
+                                   phrase_a_relation, clause_text_type, clause_type, clause_relation);
         }
       }
     }

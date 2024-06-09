@@ -74,9 +74,8 @@ std::string lexicon_logic_get_html ([[maybe_unused]] Webserver_Request& webserve
   
   if (lexicon == HEBREW_ETCBC4_NAME) {
     std::string prefix = HEBREW_ETCBC4_PREFIX;
-    Database_Etcbc4 database_etcbc4;
     // Data from the ETCBC4 database.
-    std::vector <int> rowids = database_etcbc4.rowids (book, chapter, verse);
+    const std::vector <int> rowids = database::etcbc4::rowids (book, chapter, verse);
     std::stringstream ss;
     if (!rowids.empty ()) {
       std::string id = "lexicontxt" + prefix;
@@ -85,13 +84,13 @@ std::string lexicon_logic_get_html ([[maybe_unused]] Webserver_Request& webserve
         ss << "<table class='interlinear rtl'>";
         ss << "<tr>";
         ss << "<td class=" << std::quoted ("hebrew") << ">";
-        std::string word = database_etcbc4.word (rowid);
+        std::string word = database::etcbc4::word (rowid);
         ss << "<a href=" << std::quoted(HEBREW_ETCBC4_PREFIX + std::to_string (rowid)) << ">" << word << "</a>";
         ss << "</td>";
         ss << "</tr>";
         ss << "<tr>";
         ss << "<td>";
-        std::string gloss = database_etcbc4.gloss (rowid);
+        std::string gloss = database::etcbc4::gloss (rowid);
         gloss = filter::strings::escape_special_xml_characters (gloss);
         ss << gloss;
         ss << "</td>";
@@ -714,9 +713,8 @@ std::string lexicon_logic_render_etcbc4_morphology (std::string rowid)
   
   std::vector <std::string> renderings;
   int row = filter::strings::convert_to_int (rowid.substr (1));
-  Database_Etcbc4 database_etcbc4;
 
-  std::string pos = database_etcbc4.pos (row);
+  std::string pos = database::etcbc4::pos (row);
   if (pos == "art") pos = "article";
   if (pos == "verb") pos = "verb";
   if (pos == "subs") pos = "noun";
@@ -735,7 +733,7 @@ std::string lexicon_logic_render_etcbc4_morphology (std::string rowid)
   //renderings.push_back ("part of speech:");
   renderings.push_back (pos);
   
-  std::string lexical_set = database_etcbc4.subpos (row);
+  std::string lexical_set = database::etcbc4::subpos (row);
   if (lexical_set == "nmdi") lexical_set = "distributive noun";
   if (lexical_set == "nmcp") lexical_set = "copulative noun";
   if (lexical_set == "padv") lexical_set = "potential adverb";
@@ -757,7 +755,7 @@ std::string lexicon_logic_render_etcbc4_morphology (std::string rowid)
     renderings.push_back ("(" + lexical_set + ")");
   }
 
-  std::string stem = database_etcbc4.stem (row);
+  std::string stem = database::etcbc4::stem (row);
   if (stem == "hif") stem = "hif‘il";
   if (stem == "hit") stem = "hitpa“el";
   if (stem == "hof") stem = "hof‘al";
@@ -787,7 +785,7 @@ std::string lexicon_logic_render_etcbc4_morphology (std::string rowid)
     renderings.push_back (stem);
   }
   
-  std::string tense = database_etcbc4.tense (row);
+  std::string tense = database::etcbc4::tense (row);
   if (tense == "perf") tense = "perfect";
   if (tense == "impf") tense = "imperfect";
   if (tense == "wayq") tense = "wayyiqtol";
@@ -803,7 +801,7 @@ std::string lexicon_logic_render_etcbc4_morphology (std::string rowid)
     renderings.push_back (tense);
   }
   
-  std::string person = database_etcbc4.person (row);
+  std::string person = database::etcbc4::person (row);
   if (person == "p1") person = "first person";
   if (person == "p2") person = "second person";
   if (person == "p3") person = "third person";
@@ -815,7 +813,7 @@ std::string lexicon_logic_render_etcbc4_morphology (std::string rowid)
     renderings.push_back (person);
   }
   
-  std::string gender = database_etcbc4.gender (row);
+  std::string gender = database::etcbc4::gender (row);
   if (gender == "m") gender = "masculine";
   if (gender == "f") gender = "feminine";
   if (gender == "NA") gender.clear ();
@@ -826,7 +824,7 @@ std::string lexicon_logic_render_etcbc4_morphology (std::string rowid)
     renderings.push_back (gender);
   }
   
-  std::string number = database_etcbc4.number (row);
+  std::string number = database::etcbc4::number (row);
   if (number == "sg") number = "singular";
   if (number == "du") number = "dual";
   if (number == "pl") number = "plural";
@@ -838,7 +836,7 @@ std::string lexicon_logic_render_etcbc4_morphology (std::string rowid)
     renderings.push_back (number);
   }
   
-  std::string state = database_etcbc4.state (row);
+  std::string state = database::etcbc4::state (row);
   if (state == "a") state = "absolute";
   if (state == "c") state = "construct";
   if (state == "e") state = "emphatic";
@@ -849,7 +847,7 @@ std::string lexicon_logic_render_etcbc4_morphology (std::string rowid)
     renderings.push_back (state);
   }
   
-  std::string gloss = database_etcbc4.gloss (row);
+  std::string gloss = database::etcbc4::gloss (row);
   //renderings.push_back (";");
   //renderings.push_back ("gloss:");
   renderings.push_back ("-");
@@ -857,21 +855,21 @@ std::string lexicon_logic_render_etcbc4_morphology (std::string rowid)
   
   renderings.push_back ("<br>");
   
-  std::string word = database_etcbc4.word (row);
+  std::string word = database::etcbc4::word (row);
   renderings.push_back ("word:");
   renderings.push_back (word);
 
-  std::string vocalized_lexeme = database_etcbc4.vocalized_lexeme (row);
+  std::string vocalized_lexeme = database::etcbc4::vocalized_lexeme (row);
   renderings.push_back (";");
   renderings.push_back ("vocalized lexeme:");
   renderings.push_back (vocalized_lexeme);
 
-  std::string consonantal_lexeme = database_etcbc4.consonantal_lexeme (row);
+  std::string consonantal_lexeme = database::etcbc4::consonantal_lexeme (row);
   renderings.push_back (";");
   renderings.push_back ("consonantal lexeme:");
   renderings.push_back (consonantal_lexeme);
 
-  std::string phrase_function = database_etcbc4.phrase_function (row);
+  std::string phrase_function = database::etcbc4::phrase_function (row);
   if (phrase_function == "Adju") phrase_function = "adjunct";
   if (phrase_function == "Cmpl") phrase_function = "complement";
   if (phrase_function == "Conj") phrase_function = "conjunction";
@@ -908,7 +906,7 @@ std::string lexicon_logic_render_etcbc4_morphology (std::string rowid)
     renderings.push_back (phrase_function);
   }
 
-  std::string phrase_type = database_etcbc4.phrase_type (row);
+  std::string phrase_type = database::etcbc4::phrase_type (row);
   if (phrase_type == "VP") phrase_type = "verbal phrase";
   if (phrase_type == "NP") phrase_type = "nominal phrase";
   if (phrase_type == "PrNP") phrase_type = "proper-noun phrase";
@@ -926,7 +924,7 @@ std::string lexicon_logic_render_etcbc4_morphology (std::string rowid)
   renderings.push_back ("phrase type:");
   renderings.push_back (phrase_type);
 
-  std::string phrase_relation = database_etcbc4.phrase_relation (row);
+  std::string phrase_relation = database::etcbc4::phrase_relation (row);
   if (phrase_relation == "PrAd") phrase_relation = "predicative adjunct";
   if (phrase_relation == "Resu") phrase_relation = "resumption";
   if (phrase_relation == "NA") phrase_relation.clear ();
@@ -936,7 +934,7 @@ std::string lexicon_logic_render_etcbc4_morphology (std::string rowid)
     renderings.push_back (phrase_relation);
   }
   
-  std::string phrase_a_relation = database_etcbc4.phrase_a_relation (row);
+  std::string phrase_a_relation = database::etcbc4::phrase_a_relation (row);
   if (phrase_a_relation == "Appo") phrase_a_relation = "apposition";
   if (phrase_a_relation == "Sfxs") phrase_a_relation = "suffix specification";
   if (phrase_a_relation == "Link") phrase_a_relation = "conjunction";
@@ -949,7 +947,7 @@ std::string lexicon_logic_render_etcbc4_morphology (std::string rowid)
     renderings.push_back (phrase_a_relation);
   }
 
-  std::string clause_text_type = database_etcbc4.clause_text_type (row);
+  std::string clause_text_type = database::etcbc4::clause_text_type (row);
   std::string rendering;
   while (!clause_text_type.empty ()) {
     std::string type = clause_text_type.substr (clause_text_type.length () - 1);
@@ -969,7 +967,7 @@ std::string lexicon_logic_render_etcbc4_morphology (std::string rowid)
     renderings.push_back (rendering);
   }
 
-  std::string clause_type = database_etcbc4.clause_type (row);
+  std::string clause_type = database::etcbc4::clause_type (row);
   if (clause_type == "AjCl") clause_type = "adjective clause";
   if (clause_type == "CPen") clause_type = "casus pendens";
   if (clause_type == "Defc") clause_type = "defective clause atom";
@@ -1021,7 +1019,7 @@ std::string lexicon_logic_render_etcbc4_morphology (std::string rowid)
     renderings.push_back (clause_type);
   }
 
-  std::string clause_relation = database_etcbc4.clause_relation (row);
+  std::string clause_relation = database::etcbc4::clause_relation (row);
   if (clause_relation == "Adju") clause_relation = "adjunctive clause";
   if (clause_relation == "Attr") clause_relation = "attributive clause";
   if (clause_relation == "Cmpl") clause_relation = "complement clause";

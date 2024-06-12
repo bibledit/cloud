@@ -30,61 +30,57 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // Re-create it on corruption.
 
 
-sqlite3 * Database_Jobs::connect ()
-{
-  return database::sqlite::connect ("jobs");
-}
+constexpr const auto jobs {"jobs"};
 
 
 void Database_Jobs::create ()
 {
-  sqlite3 * db = connect ();
-  database::sqlite::exec (db, "DROP TABLE IF EXISTS jobs");
-  std::string sql = "CREATE TABLE IF NOT EXISTS jobs ("
-               " id integer,"
-               " timestamp integer,"
-               " level integer,"
-               " start text,"
-               " percentage integer,"
-               " progress text,"
-               " result text"
-               ");";
-  database::sqlite::exec (db, sql);
-  database::sqlite::disconnect (db);
+  SqliteDatabase sql (jobs);
+  
+  sql.add ("DROP TABLE IF EXISTS jobs");
+  sql.execute();
+  
+  sql.clear();
+  sql.add ("CREATE TABLE IF NOT EXISTS jobs ("
+           " id integer,"
+           " timestamp integer,"
+           " level integer,"
+           " start text,"
+           " percentage integer,"
+           " progress text,"
+           " result text"
+           ");");
+  sql.execute ();
 }
 
 
 void Database_Jobs::optimize ()
 {
-  sqlite3 * db = connect ();
-  database::sqlite::exec (db, "VACUUM;");
-  database::sqlite::disconnect (db);
+  SqliteDatabase sql (jobs);
+  sql.add ("VACUUM;");
+  sql.execute();
 }
 
 
 void Database_Jobs::trim ()
 {
   // Delete jobs older than 30 days.
-  int timestamp = filter::date::seconds_since_epoch () - (30 * 24 * 3600);
-  SqliteSQL sql = SqliteSQL ();
+  const int timestamp = filter::date::seconds_since_epoch () - (30 * 24 * 3600);
+  SqliteDatabase sql (jobs);
   sql.add ("DELETE FROM jobs WHERE timestamp <");
   sql.add (timestamp);
   sql.add (";");
-  sqlite3 * db = connect ();
-  database::sqlite::exec (db, sql.sql);
-  database::sqlite::disconnect (db);
+  sql.execute ();
 }
 
 
 bool Database_Jobs::id_exists (int id)
 {
-  SqliteSQL sql = SqliteSQL ();
+  SqliteDatabase sql (jobs);
   sql.add ("SELECT id FROM jobs WHERE id =");
   sql.add (id);
   sql.add (";");
-  sqlite3 * db = connect ();
-  std::vector <std::string> result = database::sqlite::query (db, sql.sql) ["id"];
-  database::sqlite::disconnect (db);
+  const std::vector <std::string> result = sql.query () ["id"];
   return !result.empty ();
 }
 
@@ -99,45 +95,39 @@ int Database_Jobs::get_new_id ()
   } while (id_exists (id));
   // Store the new id so it can't be given out again just now.
   // Also store the timestamp. used for entry expiry.
-  int timestamp = filter::date::seconds_since_epoch ();
-  SqliteSQL sql = SqliteSQL ();
+  const int timestamp = filter::date::seconds_since_epoch ();
+  SqliteDatabase sql (jobs);
   sql.add ("INSERT INTO jobs (id, timestamp) VALUES (");
   sql.add (id);
   sql.add (",");
   sql.add (timestamp);
   sql.add (");");
-  sqlite3 * db = connect ();
-  database::sqlite::exec (db, sql.sql);
-  database::sqlite::disconnect (db);
+  sql.execute ();
   return id;
 }
 
 
 void Database_Jobs::set_level (int id, int level)
 {
-  SqliteSQL sql = SqliteSQL ();
+  SqliteDatabase sql (jobs);
   sql.add ("UPDATE jobs SET level =");
   sql.add (level);
   sql.add ("WHERE id =");
   sql.add (id);
   sql.add (";");
-  sqlite3 * db = connect ();
-  database::sqlite::exec (db, sql.sql);
-  database::sqlite::disconnect (db);
+  sql.execute ();
 }
 
 
 int Database_Jobs::get_level (int id)
 {
-  SqliteSQL sql = SqliteSQL ();
+  SqliteDatabase sql (jobs);
   sql.add ("SELECT level FROM jobs WHERE id =");
   sql.add (id);
   sql.add (";");
-  sqlite3 * db = connect ();
-  std::vector <std::string> levels = database::sqlite::query (db, sql.sql) ["level"];
-  database::sqlite::disconnect (db);
+  const std::vector <std::string> levels = sql.query () ["level"];
   if (!levels.empty()) {
-    return filter::strings::convert_to_int (levels[0]);
+    return filter::strings::convert_to_int (levels.at(0));
   }
   return 0;
 }
@@ -145,29 +135,25 @@ int Database_Jobs::get_level (int id)
 
 void Database_Jobs::set_start (int id, std::string start)
 {
-  SqliteSQL sql = SqliteSQL ();
+  SqliteDatabase sql (jobs);
   sql.add ("UPDATE jobs SET start =");
   sql.add (start);
   sql.add ("WHERE id =");
   sql.add (id);
   sql.add (";");
-  sqlite3 * db = connect ();
-  database::sqlite::exec (db, sql.sql);
-  database::sqlite::disconnect (db);
+  sql.execute ();
 }
 
 
 std::string Database_Jobs::get_start (int id)
 {
-  SqliteSQL sql = SqliteSQL ();
+  SqliteDatabase sql (jobs);
   sql.add ("SELECT start FROM jobs WHERE id =");
   sql.add (id);
   sql.add (";");
-  sqlite3 * db = connect ();
-  std::vector <std::string> result = database::sqlite::query (db, sql.sql) ["start"];
-  database::sqlite::disconnect (db);
+  const std::vector <std::string> result = sql.query () ["start"];
   if (!result.empty()) {
-    auto start = result[0];
+    const auto start = result.at(0);
     return start;
   }
   return std::string();
@@ -176,29 +162,25 @@ std::string Database_Jobs::get_start (int id)
 
 void Database_Jobs::set_percentage (int id, int percentage)
 {
-  SqliteSQL sql = SqliteSQL ();
+  SqliteDatabase sql (jobs);
   sql.add ("UPDATE jobs SET percentage =");
   sql.add (percentage);
   sql.add ("WHERE id =");
   sql.add (id);
   sql.add (";");
-  sqlite3 * db = connect ();
-  database::sqlite::exec (db, sql.sql);
-  database::sqlite::disconnect (db);
+  sql.execute ();
 }
 
 
 std::string Database_Jobs::get_percentage (int id)
 {
-  SqliteSQL sql = SqliteSQL ();
+  SqliteDatabase sql (jobs);
   sql.add ("SELECT percentage FROM jobs WHERE id =");
   sql.add (id);
   sql.add (";");
-  sqlite3 * db = connect ();
-  std::vector <std::string> percentages = database::sqlite::query (db, sql.sql) ["percentage"];
-  database::sqlite::disconnect (db);
+  const std::vector <std::string> percentages = sql.query () ["percentage"];
   if (!percentages.empty()) {
-    return percentages[0];
+    return percentages.at(0);
   }
   return std::string();
 }
@@ -206,29 +188,25 @@ std::string Database_Jobs::get_percentage (int id)
 
 void Database_Jobs::set_progress (int id, std::string progress)
 {
-  SqliteSQL sql = SqliteSQL ();
+  SqliteDatabase sql (jobs);
   sql.add ("UPDATE jobs SET progress =");
   sql.add (progress);
   sql.add ("WHERE id =");
   sql.add (id);
   sql.add (";");
-  sqlite3 * db = connect ();
-  database::sqlite::exec (db, sql.sql);
-  database::sqlite::disconnect (db);
+  sql.execute ();
 }
 
 
 std::string Database_Jobs::get_progress (int id)
 {
-  SqliteSQL sql = SqliteSQL ();
+  SqliteDatabase sql (jobs);
   sql.add ("SELECT progress FROM jobs WHERE id =");
   sql.add (id);
   sql.add (";");
-  sqlite3 * db = connect ();
-  std::vector <std::string> progress = database::sqlite::query (db, sql.sql) ["progress"];
-  database::sqlite::disconnect (db);
+  const std::vector <std::string> progress = sql.query () ["progress"];
   if (!progress.empty()) {
-    return progress[0];
+    return progress.at(0);
   }
   return std::string();
 }
@@ -236,29 +214,25 @@ std::string Database_Jobs::get_progress (int id)
 
 void Database_Jobs::set_result (int id, std::string result)
 {
-  SqliteSQL sql = SqliteSQL ();
+  SqliteDatabase sql (jobs);
   sql.add ("UPDATE jobs SET result =");
   sql.add (result);
   sql.add ("WHERE id =");
   sql.add (id);
   sql.add (";");
-  sqlite3 * db = connect ();
-  database::sqlite::exec (db, sql.sql);
-  database::sqlite::disconnect (db);
+  sql.execute();
 }
 
 
 std::string Database_Jobs::get_result (int id)
 {
-  SqliteSQL sql = SqliteSQL ();
+  SqliteDatabase sql (jobs);
   sql.add ("SELECT result FROM jobs WHERE id =");
   sql.add (id);
   sql.add (";");
-  sqlite3 * db = connect ();
-  std::vector <std::string> result = database::sqlite::query (db, sql.sql) ["result"];
-  database::sqlite::disconnect (db);
+  const std::vector <std::string> result = sql.query () ["result"];
   if (!result.empty()) {
-    return result[0];
+    return result.at(0);
   }
   return std::string();
 }

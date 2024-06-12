@@ -39,6 +39,4 @@ public:
   std::string get_progress (int id);
   void set_result (int id, std::string result);
   std::string get_result (int id);
-private:
-  sqlite3 * connect ();
 };

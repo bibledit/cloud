@@ -100,15 +100,11 @@ void Database_ImageResources::erase (std::string name)
 void Database_ImageResources::erase (std::string name, std::string image)
 {
   filter_url_unlink (imagePath (name, image));
-  sqlite3 * db = connect (name);
-  {
-    SqliteSQL sql = SqliteSQL ();
-    sql.add ("DELETE FROM passages WHERE image =");
-    sql.add (image);
-    sql.add (";");
-    database::sqlite::exec (db, sql.sql);
-  }
-  database::sqlite::disconnect (db);
+  SqliteDatabase sql (name);
+  sql.add ("DELETE FROM passages WHERE image =");
+  sql.add (image);
+  sql.add (";");
+  sql.execute ();
 }
 
 
@@ -135,41 +131,36 @@ void Database_ImageResources::assign (std::string name, std::string image,
                                       int book1, int chapter1, int verse1,
                                       int book2, int chapter2, int verse2)
 {
-  sqlite3 * db = connect (name);
-  {
-    SqliteSQL sql = SqliteSQL ();
-    sql.add ("DELETE FROM passages WHERE image =");
-    sql.add (image);
-    sql.add (";");
-    database::sqlite::exec (db, sql.sql);
-  }
-  {
-    SqliteSQL sql = SqliteSQL ();
-    sql.add ("INSERT INTO passages VALUES (");
-    sql.add (filter_passage_to_integer (Passage ("", book1, chapter1, std::to_string (verse1))));
-    sql.add (",");
-    sql.add (filter_passage_to_integer (Passage ("", book2, chapter2, std::to_string (verse2))));
-    sql.add (",");
-    sql.add (image);
-    sql.add (");");
-    database::sqlite::exec (db, sql.sql);
-  }
-  database::sqlite::disconnect (db);
+  SqliteDatabase sql (name);
+
+  sql.clear();
+  sql.add ("DELETE FROM passages WHERE image =");
+  sql.add (image);
+  sql.add (";");
+  sql.execute ();
+
+  sql.clear();
+  sql.add ("INSERT INTO passages VALUES (");
+  sql.add (filter_passage_to_integer (Passage ("", book1, chapter1, std::to_string (verse1))));
+  sql.add (",");
+  sql.add (filter_passage_to_integer (Passage ("", book2, chapter2, std::to_string (verse2))));
+  sql.add (",");
+  sql.add (image);
+  sql.add (");");
+  sql.execute ();
 }
 
 
 std::vector <std::string> Database_ImageResources::get (std::string name, int book, int chapter, int verse)
 {
-  int passage = filter_passage_to_integer (Passage ("", book, chapter, std::to_string (verse)));
-  SqliteSQL sql = SqliteSQL ();
+  const int passage = filter_passage_to_integer (Passage ("", book, chapter, std::to_string (verse)));
+  SqliteDatabase sql (name);
   sql.add ("SELECT image FROM passages WHERE start <=");
   sql.add (passage);
   sql.add ("AND end >=");
   sql.add (passage);
   sql.add ("ORDER BY start;");
-  sqlite3 * db = connect (name);
-  std::vector <std::string> images = database::sqlite::query (db, sql.sql) ["image"];
-  database::sqlite::disconnect (db);
+  const std::vector <std::string> images = sql.query () ["image"];
   return images;
 }
 
@@ -177,17 +168,15 @@ std::vector <std::string> Database_ImageResources::get (std::string name, int bo
 std::vector <std::string> Database_ImageResources::get (std::string name)
 {
   // Get images from database, sorted on passage.
-  SqliteSQL sql = SqliteSQL ();
+  SqliteDatabase sql (name);
   sql.add ("SELECT image FROM passages ORDER by start;");
-  sqlite3 * db = connect (name);
-  std::vector <std::string> images = database::sqlite::query (db, sql.sql) ["image"];
-  database::sqlite::disconnect (db);
+  std::vector <std::string> images = sql.query () ["image"];
  
   // Get images from the folder.
-  std::vector <std::string> files = filter_url_scandir (resourceFolder (name));
+  const std::vector <std::string> files = filter_url_scandir (resourceFolder (name));
  
   // Files on disk, and not in the list from the database, add them.
-  for (auto & file : files) {
+  for (const auto& file : files) {
     if (!in_array (file, images)) {
       if (file != databaseFile ()) {
         images.push_back (file);
@@ -211,25 +200,23 @@ void Database_ImageResources::get (std::string name, std::string image,
   chapter2 = 0;
   verse2 = 0;
 
-  SqliteSQL sql = SqliteSQL ();
+  SqliteDatabase sql (name);
   sql.add ("SELECT start, end FROM passages WHERE image =");
   sql.add (image);
   sql.add ("ORDER by start;");
-  sqlite3 * db = connect (name);
-  std::map <std::string, std::vector <std::string> > results = database::sqlite::query (db, sql.sql);
-  database::sqlite::disconnect (db);
-  std::vector <std::string> start = results["start"];
-  std::vector <std::string> end   = results["end"];
+  std::map <std::string, std::vector <std::string> > results = sql.query ();
+  const std::vector <std::string> start = results["start"];
+  const std::vector <std::string> end = results["end"];
 
   if (!start.empty ()) {
-    Passage passage = filter_integer_to_passage (filter::strings::convert_to_int (start [0]));
+    const Passage passage = filter_integer_to_passage (filter::strings::convert_to_int (start [0]));
     book1 = passage.m_book;
     chapter1 = passage.m_chapter;
     verse1 = filter::strings::convert_to_int (passage.m_verse);
   }
   
   if (!end.empty ()) {
-    Passage passage = filter_integer_to_passage (filter::strings::convert_to_int (end [0]));
+    const Passage passage = filter_integer_to_passage (filter::strings::convert_to_int (end [0]));
     book2 = passage.m_book;
     chapter2 = passage.m_chapter;
     verse2 = filter::strings::convert_to_int (passage.m_verse);
@@ -239,6 +226,6 @@ void Database_ImageResources::get (std::string name, std::string image,
 
 std::string Database_ImageResources::get (std::string name, std::string image)
 {
-  std::string path = imagePath (name, image);
+  const std::string path = imagePath (name, image);
   return filter_url_file_get_contents (path);
 }

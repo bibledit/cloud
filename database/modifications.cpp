@@ -47,7 +47,7 @@ sqlite3 * Database_Modifications::connect ()
 // Delete the entire database
 void Database_Modifications::erase ()
 {
-  std::string file = database::sqlite::file ("modifications");
+  std::string file = database::sqlite::get_file ("modifications");
   filter_url_unlink (file);
 }
 

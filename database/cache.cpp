@@ -87,7 +87,7 @@ void remove (const std::string& resource)
 
 void remove (const std::string& resource, int book)
 {
-  const std::string file = database::sqlite::file (filename (resource, book));
+  const std::string file = database::sqlite::get_file (filename (resource, book));
   if (file_or_dir_exists (file)) {
     filter_url_unlink (file);
   }
@@ -108,7 +108,7 @@ bool exists (const std::string& resource)
 // Returns true if the cache for the $resource $book exists.
 bool exists (const std::string& resource, int book)
 {
-  const std::string file = database::sqlite::file (filename (resource, book));
+  const std::string file = database::sqlite::get_file (filename (resource, book));
   return file_or_dir_exists (file);
 }
 
@@ -258,7 +258,7 @@ void ready (const std::string& resource, const int book, const bool ready)
 
 int size (const std::string& resource, const int book)
 {
-  const std::string file = database::sqlite::file (filename (resource, book));
+  const std::string file = database::sqlite::get_file (filename (resource, book));
   return filter_url_filesize (file);
 }
 

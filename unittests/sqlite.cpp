@@ -40,7 +40,7 @@ TEST (sqlite, functions)
   database::sqlite::disconnect (nullptr);
 
   EXPECT_TRUE (database::sqlite::healthy ("sqlite"));
-  unlink (database::sqlite::file ("sqlite").c_str());
+  unlink (database::sqlite::get_file ("sqlite").c_str());
   EXPECT_FALSE (database::sqlite::healthy ("sqlite"));
 
   EXPECT_EQ ("He''s", database::sqlite::no_sql_injection ("He's"));

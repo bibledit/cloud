@@ -23,16 +23,16 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 namespace database::sqlite {
 
-sqlite3 * connect_file (std::string filename);
-std::string file (std::string database);
+sqlite3 * connect_file (const std::string& filename);
+std::string get_file (const std::string& database);
 std::string suffix ();
-sqlite3 * connect (std::string database);
-std::string no_sql_injection (std::string sql);
-void exec (sqlite3 * db, std::string sql);
-std::map <std::string, std::vector <std::string> > query (sqlite3 * db, std::string sql);
+sqlite3 * connect (const std::string& database);
+std::string no_sql_injection (const std::string& sql);
+void exec (sqlite3 * db, const std::string& sql);
+std::map <std::string, std::vector <std::string> > query (sqlite3 * db, const std::string& sql);
 void disconnect (sqlite3 * database);
-bool healthy (std::string database);
-void error (sqlite3 * database, const std::string & prefix, char * error);
+bool healthy (const std::string& database);
+void error (sqlite3 * database, const std::string& prefix, char * error);
 
 }
 
@@ -61,9 +61,12 @@ public:
   void add (std::string value);
   const std::string& get_sql();
   void set_sql (const std::string& sql);
+  void save_sql();
+  void restore_sql();
   void execute ();
   std::map <std::string, std::vector <std::string> > query ();
 private:
   sqlite3 * db {nullptr};
   std::string m_sql {};
+  std::string m_save_restore {};
 };

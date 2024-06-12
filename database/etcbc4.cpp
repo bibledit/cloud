@@ -41,7 +41,10 @@ static int get_id (SqliteDatabase& sql, const char* table_row, const std::string
   
   // Two iterations to be sure a rowid can be returned.
   for (unsigned int i = 0; i < 2; i++) {
-    const std::string parent_sql (sql.get_sql());
+
+    // Save the existing SQL just now because the code below puts new SQL into the object.
+    sql.save_sql();
+
     {
       // Check on the rowid and fetch it if it's there.
       sql.clear();
@@ -67,8 +70,9 @@ static int get_id (SqliteDatabase& sql, const char* table_row, const std::string
       sql.add (");");
       sql.execute ();
     }
-    
-    sql.set_sql (parent_sql);
+
+    // Restore the previously saved SQL so the caller can again use it.
+    sql.restore_sql();
     
     if (id)
       return id;

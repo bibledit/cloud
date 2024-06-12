@@ -43,7 +43,7 @@ void Database_Statistics::optimize ()
 {
   bool healthy_database = database::sqlite::healthy (name ());
   if (!healthy_database) {
-    filter_url_unlink (database::sqlite::file (name ()));
+    filter_url_unlink (database::sqlite::get_file (name ()));
     create ();
   }
 }

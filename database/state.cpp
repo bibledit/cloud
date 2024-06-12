@@ -32,7 +32,7 @@ void Database_State::create ()
 {
   bool healthy_database = database::sqlite::healthy (name ());
   if (!healthy_database) {
-    filter_url_unlink (database::sqlite::file (name ()));
+    filter_url_unlink (database::sqlite::get_file (name ()));
   }
 
   sqlite3 * db = connect ();

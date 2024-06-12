@@ -36,7 +36,7 @@ const char * Database_HebrewLexicon::filename ()
 
 void Database_HebrewLexicon::create ()
 {
-  filter_url_unlink (database::sqlite::file (filename ()));
+  filter_url_unlink (database::sqlite::get_file (filename ()));
   
   SqliteDatabase sql = SqliteDatabase (filename ());
 

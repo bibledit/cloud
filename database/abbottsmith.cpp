@@ -36,7 +36,7 @@ constexpr const auto filename {"abbottsmith"};
 
 void create ()
 {
-  filter_url_unlink (database::sqlite::file (filename));
+  filter_url_unlink (database::sqlite::get_file (filename));
   
   SqliteDatabase sql (filename);
   

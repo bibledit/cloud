@@ -56,6 +56,5 @@ public:
   void postpone (int id);
   std::vector <int> getAllMails ();
 private:
-  sqlite3 * connect ();
   Webserver_Request& m_webserver_request;
 };

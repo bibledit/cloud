@@ -31,6 +31,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // The risk of corruption is low and acceptable.
 
 
+constexpr const auto mail {"mail"};
+
+
 Database_Mail::Database_Mail (Webserver_Request& webserver_request):
 m_webserver_request (webserver_request)
 {
@@ -42,47 +45,38 @@ Database_Mail::~Database_Mail ()
 }
 
 
-sqlite3 * Database_Mail::connect ()
-{
-  return database::sqlite::connect ("mail");
-}
-
-
 void Database_Mail::create ()
 {
-  sqlite3 * db = connect ();
-  std::string sql = 
-    "CREATE TABLE IF NOT EXISTS mail ("
-    "  username text,"
-    "  timestamp integer,"
-    "  subject text,"
-    "  body text,"
-    "  retry integer"
-    ");";
-  database::sqlite::exec (db, sql);
-  database::sqlite::disconnect (db);
+  SqliteDatabase sql (mail);
+  sql.add ("CREATE TABLE IF NOT EXISTS mail ("
+           " username text,"
+           " timestamp integer,"
+           " subject text,"
+           " body text,"
+           " retry integer"
+           ");");
+  sql.execute ();
 }
 
 
 void Database_Mail::optimize ()
 {
-  sqlite3 * db = connect ();
-  database::sqlite::exec (db, "VACUUM;");
-  database::sqlite::disconnect (db);
+  SqliteDatabase sql (mail);
+  sql.add ("VACUUM;");
+  sql.execute ();
 }
 
 
 void Database_Mail::trim ()
 {
-  int time = filter::date::seconds_since_epoch () - 2592000; // Remove entries after 30 days.
-  SqliteSQL sql = SqliteSQL ();
+  const int time = filter::date::seconds_since_epoch () - 2592000; // Remove entries after 30 days.
+  SqliteDatabase sql (mail);
   sql.add ("DELETE FROM mail WHERE timestamp <");
   sql.add (time);
   sql.add (";");
-  sqlite3 * db = connect ();
-  database::sqlite::exec (db, sql.sql);
-  database::sqlite::exec (db, "DELETE FROM mail WHERE retry > 10;");
-  database::sqlite::disconnect (db);
+  sql.execute ();
+  sql.set_sql ("DELETE FROM mail WHERE retry > 10;");
+  sql.execute();
 }
 
 
@@ -94,7 +88,7 @@ void Database_Mail::trim ()
 void Database_Mail::send (std::string to, std::string subject, std::string body, int time)
 {
   if (time == 0) time = filter::date::seconds_since_epoch ();
-  SqliteSQL sql = SqliteSQL ();
+  SqliteDatabase sql (mail);
   sql.add ("INSERT INTO mail VALUES (");
   sql.add (to);
   sql.add (",");
@@ -104,9 +98,7 @@ void Database_Mail::send (std::string to, std::string subject, std::string body,
   sql.add (",");
   sql.add (body);
   sql.add (", 0);");
-  sqlite3 * db = connect ();
-  database::sqlite::exec (db, sql.sql);
-  database::sqlite::disconnect (db);
+  sql.execute ();
 }
 
 
@@ -114,15 +106,13 @@ void Database_Mail::send (std::string to, std::string subject, std::string body,
 int Database_Mail::getMailCount ()
 {
   const std::string& user = m_webserver_request.session_logic ()->get_username();
-  SqliteSQL sql = SqliteSQL ();
+  SqliteDatabase sql (mail);
   sql.add ("SELECT count(*) FROM mail WHERE username =");
   sql.add (user);
   sql.add (";");
-  sqlite3 * db = connect ();
-  std::vector <std::string> result = database::sqlite::query (db, sql.sql) ["count(*)"];
-  database::sqlite::disconnect (db);
+  const std::vector <std::string> result = sql.query () ["count(*)"];
   if (!result.empty ()) {
-    return filter::strings::convert_to_int (result [0]);
+    return filter::strings::convert_to_int (result.at(0));
   }
   return 0;
 }
@@ -133,16 +123,14 @@ std::vector <Database_Mail_User> Database_Mail::getMails ()
 {
   std::vector <Database_Mail_User> mails;
   const std::string& user = m_webserver_request.session_logic ()->get_username();
-  SqliteSQL sql = SqliteSQL ();
+  SqliteDatabase sql (mail);
   sql.add ("SELECT rowid, timestamp, subject FROM mail WHERE username =");
   sql.add (user);
   sql.add ("ORDER BY timestamp DESC;");
-  sqlite3 * db = connect ();
-  std::map <std::string, std::vector <std::string> > result = database::sqlite::query (db, sql.sql);
-  database::sqlite::disconnect (db);
-  std::vector <std::string> rowids = result ["rowid"];
-  std::vector <std::string> timestamps = result ["timestamp"];
-  std::vector <std::string> subjects = result ["subject"];
+  std::map <std::string, std::vector <std::string> > result = sql.query ();
+  const std::vector <std::string> rowids = result ["rowid"];
+  const std::vector <std::string> timestamps = result ["timestamp"];
+  const std::vector <std::string> subjects = result ["subject"];
   for (unsigned int i = 0; i < rowids.size(); i++) {
     Database_Mail_User mail = Database_Mail_User ();
     mail.rowid = filter::strings::convert_to_int (rowids [i]);
@@ -157,26 +145,22 @@ std::vector <Database_Mail_User> Database_Mail::getMails ()
 // Delete a mail.
 void Database_Mail::erase (int id)
 {
-  SqliteSQL sql = SqliteSQL ();
+  SqliteDatabase sql (mail);
   sql.add ("DELETE FROM mail WHERE rowid =");
   sql.add (id);
   sql.add (";");
-  sqlite3 * db = connect ();
-  database::sqlite::exec (db, sql.sql);
-  database::sqlite::disconnect (db);
+  sql.execute ();
 }
 
 
 // Get a mail.
 Database_Mail_Item Database_Mail::get (int id)
 {
-  SqliteSQL sql = SqliteSQL ();
+  SqliteDatabase sql (mail);
   sql.add ("SELECT username, subject, body FROM mail WHERE rowid =");
   sql.add (id);
   sql.add (";");
-  sqlite3 * db = connect ();
-  std::map <std::string, std::vector <std::string> > result = database::sqlite::query (db, sql.sql);
-  database::sqlite::disconnect (db);
+  std::map <std::string, std::vector <std::string> > result = sql.query ();
   Database_Mail_Item item = Database_Mail_Item ();
   if (!result.empty ()) {
     item.username = result ["username"] [0];
@@ -191,15 +175,13 @@ Database_Mail_Item Database_Mail::get (int id)
 std::vector <int> Database_Mail::getMailsToSend ()
 {
   std::vector <int> ids;
-  int timestamp = filter::date::seconds_since_epoch ();
-  SqliteSQL sql = SqliteSQL ();
+  const int timestamp = filter::date::seconds_since_epoch ();
+  SqliteDatabase sql (mail);
   sql.add ("SELECT rowid FROM mail WHERE timestamp <=");
   sql.add (timestamp);
   sql.add (";");
-  sqlite3 * db = connect ();
-  std::vector <std::string> result = database::sqlite::query (db, sql.sql) ["rowid"];
-  database::sqlite::disconnect (db);
-  for (auto & id : result) {
+  const std::vector <std::string> result = sql.query () ["rowid"];
+  for (const auto& id : result) {
     ids.push_back (filter::strings::convert_to_int (id));
   }
   return ids;
@@ -210,19 +192,16 @@ std::vector <int> Database_Mail::getMailsToSend ()
 // Used for retrying after failure to send the mail.  
 void Database_Mail::postpone (int id)
 {
-  SqliteSQL sql1 = SqliteSQL ();
-  sql1.add ("UPDATE mail SET retry = retry + 1 WHERE rowid =");
-  sql1.add (id);
-  sql1.add (";");
-  SqliteSQL sql2 = SqliteSQL ();
-  sql2.add ("UPDATE mail SET timestamp = timestamp + retry * 900 WHERE rowid =");
-  sql2.add (id);
-  sql2.add (";");
-  sqlite3 * db = connect ();
-  database::sqlite::exec (db, sql1.sql);
-  database::sqlite::exec (db, sql2.sql);
-  database::sqlite::disconnect (db);
-
+  SqliteDatabase sql (mail);
+  sql.add ("UPDATE mail SET retry = retry + 1 WHERE rowid =");
+  sql.add (id);
+  sql.add (";");
+  sql.execute();
+  sql.clear();
+  sql.add ("UPDATE mail SET timestamp = timestamp + retry * 900 WHERE rowid =");
+  sql.add (id);
+  sql.add (";");
+  sql.execute ();
 }
 
 
@@ -230,13 +209,11 @@ void Database_Mail::postpone (int id)
 std::vector <int> Database_Mail::getAllMails ()
 {
   std::vector <int> rowids {};
-  SqliteSQL sql = SqliteSQL ();
+  SqliteDatabase sql (mail);
   sql.add ("SELECT rowid FROM mail;");
-  sqlite3 * db = connect ();
-  std::vector <std::string> result = database::sqlite::query (db, sql.sql) ["rowid"];
-  database::sqlite::disconnect (db);
-  for (auto rowid : result) {
-    int id = filter::strings::convert_to_int (rowid);
+  const std::vector <std::string> result = sql.query () ["rowid"];
+  for (const auto& rowid : result) {
+    const int id = filter::strings::convert_to_int (rowid);
     rowids.push_back (id);
   }
   return rowids;

@@ -38,6 +38,4 @@ public:
   std::vector <std::string> names ();
   std::string original ();
   std::vector <Passage> translate (const std::string& input, const std::string& output, int book, int chapter, int verse);
-private:
-  sqlite3 * connect ();
 };

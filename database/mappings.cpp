@@ -28,6 +28,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // Resilience: It is normally not written to, so corruption is unlikely.
 
 
+constexpr const auto mappings {"mappings"};
+
+
 Database_Mappings::Database_Mappings ()
 {
 }
@@ -38,59 +41,50 @@ Database_Mappings::~Database_Mappings ()
 }
 
 
-sqlite3 * Database_Mappings::connect ()
-{
-  return database::sqlite::connect ("mappings");
-}
-
-
 void Database_Mappings::create1 ()
 {
-  sqlite3 * db = connect ();
-  std::string sql = 
-    "CREATE TABLE IF NOT EXISTS maps ("
-    "name text,"
-    "book integer,"
-    "chapter integer,"
-    "verse integer,"
-    "origbook integer,"
-    "origchapter integer,"
-    "origverse integer"
-    ");";
-  database::sqlite::exec (db, sql);
-  sql = "DROP INDEX IF EXISTS bible;";
-  database::sqlite::exec (db, sql);
-  sql = "DROP INDEX IF EXISTS original;";
-  database::sqlite::exec (db, sql);
-  database::sqlite::disconnect (db);
+  SqliteDatabase sql (mappings);
+  sql.set_sql ("CREATE TABLE IF NOT EXISTS maps ("
+               "name text,"
+               "book integer,"
+               "chapter integer,"
+               "verse integer,"
+               "origbook integer,"
+               "origchapter integer,"
+               "origverse integer"
+               ");");
+  sql.execute ();
+  sql.set_sql ("DROP INDEX IF EXISTS bible;");
+  sql.execute ();
+  sql.set_sql ("DROP INDEX IF EXISTS original;");
+  sql.execute ();
 }
 
 
 void Database_Mappings::create2 ()
 {
-  std::string sql;
-  sqlite3 * db = connect ();
-  sql = "CREATE INDEX IF NOT EXISTS bible ON maps (name, book, chapter, verse);";
-  database::sqlite::exec (db, sql);
-  sql = "CREATE INDEX IF NOT EXISTS original ON maps (name, book, chapter, verse);";
-  database::sqlite::exec (db, sql);
-  database::sqlite::disconnect (db);
+  SqliteDatabase sql (mappings);
+  sql.set_sql ("CREATE INDEX IF NOT EXISTS bible ON maps (name, book, chapter, verse);");
+  sql.execute ();
+  sql.set_sql ("CREATE INDEX IF NOT EXISTS original ON maps (name, book, chapter, verse);");
+  sql.execute ();
 }
 
 
 // Import the default mappings that come with Bibledit.
 void Database_Mappings::defaults ()
 {
-  std::string folder = filter_url_create_root_path ({"mapping"});
-  std::vector <std::string> files = filter_url_scandir (folder);
-  for (auto & file : files) {
+  const std::string folder = filter_url_create_root_path ({"mapping"});
+  const std::vector <std::string> files = filter_url_scandir (folder);
+  for (const auto& file : files) {
     std::string name (file);
-    std::string extension = filter_url_get_extension (name);
-    if (extension != "txt") continue;
+    const std::string extension = filter_url_get_extension (name);
+    if (extension != "txt")
+      continue;
     name = name.substr (0, strlen (name.c_str()) - 4);
     name = filter::strings::replace ("_", " ", name);
-    std::string path = filter_url_create_path ({folder, file});
-    std::string data = filter_url_file_get_contents (path);
+    const std::string path = filter_url_create_path ({folder, file});
+    const std::string data = filter_url_file_get_contents (path);
     import (name, data);
   }
 }
@@ -98,9 +92,9 @@ void Database_Mappings::defaults ()
 
 void Database_Mappings::optimize ()
 {
-  sqlite3 * db = connect ();
-  database::sqlite::exec (db, "VACUUM;");
-  database::sqlite::disconnect (db);
+  SqliteDatabase sql (mappings);
+  sql.set_sql ("VACUUM;");
+  sql.execute();
 }
 
 
@@ -109,12 +103,13 @@ void Database_Mappings::import (const std::string& name, const std::string& data
   // Delete existing mapping with this name.
   erase (name);
 
-  sqlite3 * db = connect ();
+  SqliteDatabase sql (mappings);
 
   // Begin a transaction for better speed.
-  database::sqlite::exec (db, "BEGIN;");
+  sql.set_sql ("BEGIN;");
+  sql.execute();
 
-  std::vector <std::string> lines = filter::strings::explode (data, '\n');
+  const std::vector <std::string> lines = filter::strings::explode (data, '\n');
   for (std::string line : lines) {
     
     // Each line looks like this: 
@@ -161,7 +156,7 @@ void Database_Mappings::import (const std::string& name, const std::string& data
     int original_book = static_cast<int>(database::books::get_id_from_english(original_book_string));
 
     // Store it in the database.
-    SqliteSQL sql = SqliteSQL ();
+    sql.clear();
     sql.add ("INSERT INTO maps VALUES (");
     sql.add (name);
     sql.add (",");
@@ -177,13 +172,12 @@ void Database_Mappings::import (const std::string& name, const std::string& data
     sql.add (",");
     sql.add (original_verse);
     sql.add (");");
-    database::sqlite::exec (db, sql.sql);
+    sql.execute ();
   }
 
   // Commit the transaction.
-  database::sqlite::exec (db, "COMMIT;");
-
-  database::sqlite::disconnect (db);
+  sql.set_sql ("COMMIT;");
+  sql.execute();
 }
 
 
@@ -191,30 +185,28 @@ void Database_Mappings::import (const std::string& name, const std::string& data
 std::string Database_Mappings::output (const std::string& name)
 {
   std::vector <std::string> data;
-  SqliteSQL sql = SqliteSQL ();
+  SqliteDatabase sql (mappings);
   sql.add ("SELECT * FROM maps WHERE name =");
   sql.add (name);
   sql.add ("ORDER BY book ASC, chapter ASC, verse ASC;");
-  sqlite3 * db = connect ();
-  std::map <std::string, std::vector <std::string> > result = database::sqlite::query (db, sql.sql);
-  database::sqlite::disconnect (db);
-  std::vector <std::string> books = result ["book"];
-  std::vector <std::string> chapters = result ["chapter"];
-  std::vector <std::string> verses = result ["verse"];
-  std::vector <std::string> origbooks = result ["origbook"];
-  std::vector <std::string> origchapters = result ["origchapter"];
-  std::vector <std::string> origverses = result ["origverse"];
+  std::map <std::string, std::vector <std::string> > result = sql.query ();
+  const std::vector <std::string> books = result ["book"];
+  const std::vector <std::string> chapters = result ["chapter"];
+  const std::vector <std::string> verses = result ["verse"];
+  const std::vector <std::string> origbooks = result ["origbook"];
+  const std::vector <std::string> origchapters = result ["origchapter"];
+  const std::vector <std::string> origverses = result ["origverse"];
 
   for (unsigned int i = 0; i < books.size (); i++) {
-    int book = filter::strings::convert_to_int (books [i]);
-    std::string bookname = database::books::get_english_from_id (static_cast<book_id>(book));
-    std::string chapter = chapters [i];
-    std::string verse = verses [i];
-    int origbook = filter::strings::convert_to_int (origbooks[i]);
-    std::string origbookname = database::books::get_english_from_id (static_cast<book_id>(origbook));
-    std::string origchapter = origchapters[i];
-    std::string origverse = origverses [i];
-    std::string item = bookname + " " + chapter + ":" + verse + " = " + origbookname + " " + origchapter + ":" + origverse;
+    const int book = filter::strings::convert_to_int (books [i]);
+    const std::string bookname = database::books::get_english_from_id (static_cast<book_id>(book));
+    const std::string chapter = chapters [i];
+    const std::string verse = verses [i];
+    const int origbook = filter::strings::convert_to_int (origbooks[i]);
+    const std::string origbookname = database::books::get_english_from_id (static_cast<book_id>(origbook));
+    const std::string origchapter = origchapters[i];
+    const std::string origverse = origverses [i];
+    const std::string item = bookname + " " + chapter + ":" + verse + " = " + origbookname + " " + origchapter + ":" + origverse;
     data.push_back (item);
   }
   return filter::strings::implode (data, "\n");
@@ -224,25 +216,21 @@ std::string Database_Mappings::output (const std::string& name)
 void Database_Mappings::create (const std::string& name)
 {
   // Insert one entry, so the $name makes it into the database.
-  SqliteSQL sql = SqliteSQL ();
+  SqliteDatabase sql (mappings);
   sql.add ("INSERT INTO maps VALUES (");
   sql.add (name);
   sql.add (", 1, 1, 1, 1, 1, 1);");
-  sqlite3 * db = connect ();
-  database::sqlite::exec (db, sql.sql);
-  database::sqlite::disconnect (db);
+  sql.execute ();
 }
 
 
 void Database_Mappings::erase (const std::string& name)
 {
-  SqliteSQL sql = SqliteSQL ();
+  SqliteDatabase sql (mappings);
   sql.add ("DELETE FROM maps WHERE name =");
   sql.add (name);
   sql.add (";");
-  sqlite3 * db = connect ();
-  database::sqlite::exec (db, sql.sql);
-  database::sqlite::disconnect (db);
+  sql.execute ();
 }
 
 
@@ -250,9 +238,10 @@ void Database_Mappings::erase (const std::string& name)
 std::vector <std::string> Database_Mappings::names ()
 {
   // Get the names from the database.
-  sqlite3 * db = connect ();
-  std::vector <std::string> names = database::sqlite::query (db, "SELECT DISTINCT name FROM maps;")["name"];
-  database::sqlite::disconnect (db);
+  SqliteDatabase sql (mappings);
+  sql.set_sql ("SELECT DISTINCT name FROM maps;");
+  std::vector <std::string> names = sql.query ()["name"];
+
   // Ensure the original mapping is there too.
   if (find (names.begin (), names.end (), original ()) == names.end()) {
     names.push_back (original ());
@@ -289,7 +278,7 @@ std::vector <Passage> Database_Mappings::translate (const std::string& input, co
   // Skip this phase if the $input mapping is Hebrew / Greek.
   std::vector <Passage> origpassage;
   if (input != original ()) {
-    SqliteSQL sql = SqliteSQL ();
+    SqliteDatabase sql (mappings);
     sql.add ("SELECT origbook, origchapter, origverse FROM maps WHERE name =");
     sql.add (input);
     sql.add ("AND book =");
@@ -299,14 +288,12 @@ std::vector <Passage> Database_Mappings::translate (const std::string& input, co
     sql.add ("AND verse =");
     sql.add (verse);
     sql.add (";");
-    sqlite3 * db = connect ();
-    std::map <std::string, std::vector <std::string> > result = database::sqlite::query (db, sql.sql);
-    database::sqlite::disconnect (db);
-    std::vector <std::string> origbooks = result ["origbook"];
-    std::vector <std::string> origchapters = result ["origchapter"];
-    std::vector <std::string> origverses = result ["origverse"];
+    std::map <std::string, std::vector <std::string> > result = sql.query ();
+    const std::vector <std::string> origbooks = result ["origbook"];
+    const std::vector <std::string> origchapters = result ["origchapter"];
+    const std::vector <std::string> origverses = result ["origverse"];
     for (unsigned int i = 0; i < origbooks.size (); i++) {
-      Passage passage = Passage ("", filter::strings::convert_to_int (origbooks [i]), filter::strings::convert_to_int (origchapters [i]), origverses [i]);
+      const Passage passage ("", filter::strings::convert_to_int (origbooks [i]), filter::strings::convert_to_int (origchapters [i]), origverses [i]);
       origpassage.push_back (passage);
     }
   }
@@ -326,11 +313,11 @@ std::vector <Passage> Database_Mappings::translate (const std::string& input, co
   // Get the $output mapping for the passage or two passages from the database.
   // This is a translation from Hebrew/Greek to the $output system.
   std::vector <Passage> targetpassage;
-  for (Passage & passage : origpassage) {
-    int origbook = passage.m_book;
-    int origchapter = passage.m_chapter;
-    int origverse = filter::strings::convert_to_int (passage.m_verse);
-    SqliteSQL sql = SqliteSQL ();
+  for (const Passage& passage : origpassage) {
+    const int origbook = passage.m_book;
+    const int origchapter = passage.m_chapter;
+    const int origverse = filter::strings::convert_to_int (passage.m_verse);
+    SqliteDatabase sql (mappings);
     sql.add ("SELECT book, chapter, verse FROM maps WHERE name =");
     sql.add (output);
     sql.add ("AND origbook =");
@@ -340,16 +327,14 @@ std::vector <Passage> Database_Mappings::translate (const std::string& input, co
     sql.add ("AND origverse =");
     sql.add (origverse);
     sql.add (";");
-    sqlite3 * db = connect ();
-    std::map <std::string, std::vector <std::string> > result = database::sqlite::query (db, sql.sql);
-    database::sqlite::disconnect (db);
-    std::vector <std::string> books = result ["book"];
-    std::vector <std::string> chapters = result ["chapter"];
-    std::vector <std::string> verses = result ["verse"];
+    std::map <std::string, std::vector <std::string> > result = sql.query ();
+    const std::vector <std::string> books = result ["book"];
+    const std::vector <std::string> chapters = result ["chapter"];
+    const std::vector <std::string> verses = result ["verse"];
     for (unsigned int i = 0; i < books.size (); i++) {
       Passage passage2 = Passage (std::string(), filter::strings::convert_to_int (books [i]), filter::strings::convert_to_int (chapters [i]), verses [i]);
       bool passageExists = false;
-      for (auto & existingpassage : targetpassage) {
+      for (auto& existingpassage : targetpassage) {
         if (existingpassage.equal (passage2)) passageExists = true;
       }
       if (!passageExists) targetpassage.push_back (passage2);

@@ -31,64 +31,69 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // In case of corruption, upgrade Bibledit and it will recreate the database.
 
 
-Database_Localization::Database_Localization (const std::string& language_in)
+Database_Localization::Database_Localization (const std::string& language)
 {
-  language = language_in;
+  m_language = language;
 }
 
 
-sqlite3 * Database_Localization::connect ()
+std::string Database_Localization::database () const
 {
-  return database::sqlite::connect ("localization_" + language);
+  return "localization_" + m_language;
 }
 
 
 void Database_Localization::create (std::string po)
 {
-  sqlite3 * db = connect ();
-  database::sqlite::exec (db, "PRAGMA temp_store = MEMORY;");
-  database::sqlite::exec (db, "PRAGMA synchronous = OFF;");
-  database::sqlite::exec (db, "PRAGMA journal_mode = OFF;");
-  database::sqlite::exec (db, "DROP TABLE IF EXISTS localization;");
-  database::sqlite::exec (db, "VACUUM;");
-  database::sqlite::exec (db, "CREATE TABLE IF NOT EXISTS localization (msgid text, msgstr text);");
-  std::unordered_map <std::string, std::string> translations = locale_logic_read_msgid_msgstr (po);
-  for (auto & element : translations) {
-    SqliteSQL sql = SqliteSQL ();
+  SqliteDatabase sql (database());
+  sql.set_sql ("PRAGMA temp_store = MEMORY;");
+  sql.execute();
+  sql.set_sql ("PRAGMA synchronous = OFF;");
+  sql.execute();
+  sql.set_sql ("PRAGMA journal_mode = OFF;");
+  sql.execute();
+  sql.set_sql ("DROP TABLE IF EXISTS localization;");
+  sql.execute();
+  sql.set_sql ("VACUUM;");
+  sql.execute();
+  sql.set_sql ("CREATE TABLE IF NOT EXISTS localization (msgid text, msgstr text);");
+  sql.execute();
+  const std::unordered_map <std::string, std::string> translations = locale_logic_read_msgid_msgstr (po);
+  for (const auto& element : translations) {
+    sql.clear();
     sql.add ("INSERT INTO localization VALUES (");
     sql.add (element.first);
     sql.add (",");
     sql.add (element.second);
     sql.add (");");
-    database::sqlite::exec (db, sql.sql);
+    sql.execute ();
   }
-  database::sqlite::disconnect (db);
 }
 
 
 std::string Database_Localization::translate (const std::string& english)
 {
-  SqliteSQL sql = SqliteSQL ();
+  SqliteDatabase sql (database());
   sql.add ("SELECT msgstr FROM localization WHERE msgid =");
   sql.add (english);
   sql.add (";");
-  sqlite3 * db = connect ();
-  std::vector <std::string> msgstrs = database::sqlite::query (db, sql.sql) ["msgstr"];
-  database::sqlite::disconnect (db);
-  if (!msgstrs.empty ()) if (!msgstrs[0].empty ()) return msgstrs [0];
+  const std::vector <std::string> msgstrs = sql.query () ["msgstr"];
+  if (!msgstrs.empty ())
+    if (!msgstrs.at(0).empty ())
+      return msgstrs.at(0);
   return english;
 }
 
 
 std::string Database_Localization::backtranslate (const std::string& localization)
 {
-  SqliteSQL sql = SqliteSQL ();
+  SqliteDatabase sql (database());
   sql.add ("SELECT msgid FROM localization WHERE msgstr =");
   sql.add (localization);
   sql.add (";");
-  sqlite3 * db = connect ();
-  std::vector <std::string> msgids = database::sqlite::query (db, sql.sql) ["msgid"];
-  database::sqlite::disconnect (db);
-  if (!msgids.empty ()) if (!msgids[0].empty ()) return msgids [0];
+  const std::vector <std::string> msgids = sql.query () ["msgid"];
+  if (!msgids.empty ())
+    if (!msgids.at(0).empty ())
+      return msgids.at(0);
   return localization;
 }

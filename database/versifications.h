@@ -42,6 +42,5 @@ public:
   std::vector <int> getMaximumChapters (int book);
   std::vector <int> getMaximumVerses (int book, int chapter);
 private:
-  sqlite3 * connect ();
   bool creating_defaults = false;
 };

@@ -31,12 +31,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 constexpr const auto navigation {"navigation"};
 
 
-sqlite3 * Database_Navigation::connect ()
-{
-  return database::sqlite::connect ("navigation");
-}
-
-
 void Database_Navigation::create ()
 {
   SqliteDatabase sql (navigation);
@@ -120,32 +114,32 @@ Passage Database_Navigation::get_previous (const std::string& user)
   if (id == 0) return Passage ();
 
   // Update the 'active' flag.
-  SqliteSQL sql1 = SqliteSQL ();
+  SqliteDatabase sql1 (navigation);
   sql1.add ("UPDATE navigation SET active = 0 WHERE username =");
   sql1.add (user);
   sql1.add (";");
-  SqliteSQL sql2 = SqliteSQL ();
+  SqliteDatabase sql2 (navigation);
   sql2.add ("UPDATE navigation SET active = 1 WHERE rowid =");
   sql2.add (id);
   sql2.add (";");
 
   // Read the passage.
-  std::map <std::string, std::vector <std::string> > result;
-  SqliteSQL sql3 = SqliteSQL ();
+  SqliteDatabase sql3 (navigation);
   sql3.add ("SELECT book, chapter, verse FROM navigation WHERE rowid =");
   sql3.add (id);
   sql3.add (";");
 
   // Run all of the SQL at once, to minimize the database connection time.
-  sqlite3 * db = connect ();
-  database::sqlite::exec (db, sql1.sql);
-  database::sqlite::exec (db, sql2.sql);
-  result = database::sqlite::query (db, sql3.sql);
-  database::sqlite::disconnect (db);
+  sql1.execute ();
+  sql1.disconnect();
+  sql2.execute ();
+  sql2.disconnect();
+  std::map <std::string, std::vector <std::string> > result = sql3.query ();
+  sql3.disconnect();
   
-  std::vector <std::string> books = result ["book"];
-  std::vector <std::string> chapters = result ["chapter"];
-  std::vector <std::string> verses = result ["verse"];
+  const std::vector <std::string> books = result ["book"];
+  const std::vector <std::string> chapters = result ["chapter"];
+  const std::vector <std::string> verses = result ["verse"];
   if (!books.empty()) {
     Passage passage;
     passage.m_book = filter::strings::convert_to_int (books [0]);
@@ -163,32 +157,32 @@ Passage Database_Navigation::get_next (const std::string& user)
   if (id == 0) return Passage ();
 
   // Update the 'active' flag.
-  SqliteSQL sql1 = SqliteSQL ();
+  SqliteDatabase sql1 (navigation);
   sql1.add ("UPDATE navigation SET active = 0 WHERE username =");
   sql1.add (user);
   sql1.add (";");
-  SqliteSQL sql2 = SqliteSQL ();
+  SqliteDatabase sql2 (navigation);
   sql2.add ("UPDATE navigation SET active = 1 WHERE rowid =");
   sql2.add (id);
   sql2.add (";");
 
   // Read the passage.
-  std::map <std::string, std::vector <std::string> > result;
-  SqliteSQL sql3 = SqliteSQL ();
+  SqliteDatabase sql3 (navigation);
   sql3.add ("SELECT book, chapter, verse FROM navigation WHERE rowid =");
   sql3.add (id);
   sql3.add (";");
 
-  // Run all of the SQL at once.
-  sqlite3 * db = connect ();
-  database::sqlite::exec (db, sql1.sql);
-  database::sqlite::exec (db, sql2.sql);
-  result = database::sqlite::query (db, sql3.sql);
-  database::sqlite::disconnect (db);
+  // Run all of the SQL at once, to minimize the database connection time.
+  sql1.execute ();
+  sql1.disconnect();
+  sql2.execute ();
+  sql2.disconnect();
+  std::map <std::string, std::vector <std::string> > result = sql3.query ();
+  sql3.disconnect();
   
-  std::vector <std::string> books = result ["book"];
-  std::vector <std::string> chapters = result ["chapter"];
-  std::vector <std::string> verses = result ["verse"];
+  const std::vector <std::string> books = result ["book"];
+  const std::vector <std::string> chapters = result ["chapter"];
+  const std::vector <std::string> verses = result ["verse"];
   if (!books.empty()) {
     Passage passage;
     passage.m_book = filter::strings::convert_to_int (books [0]);

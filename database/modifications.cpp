@@ -32,15 +32,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // It is re-indexed every night.
 
 
-const char * Database_Modifications::filename ()
-{
-  return "modifications";
-}
+constexpr const char * filename {"modifications"};
 
 
 sqlite3 * Database_Modifications::connect ()
 {
-  return database::sqlite::connect (filename ());
+  return database::sqlite::connect (filename);
 }
 
 
@@ -54,21 +51,19 @@ void Database_Modifications::erase ()
 
 void Database_Modifications::create ()
 {
-  sqlite3 * db = connect ();
-  std::string sql =
-    "CREATE TABLE IF NOT EXISTS notifications ("
-    " identifier integer,"
-    " timestamp integer,"
-    " username text,"
-    " category text,"
-    " bible text,"
-    " book integer,"
-    " chapter integer,"
-    " verse integer,"
-    " modification text"
-    ");";
-  database::sqlite::exec (db, sql);
-  database::sqlite::disconnect (db);
+  SqliteDatabase sql (filename);
+  sql.set_sql ("CREATE TABLE IF NOT EXISTS notifications ("
+               " identifier integer,"
+               " timestamp integer,"
+               " username text,"
+               " category text,"
+               " bible text,"
+               " book integer,"
+               " chapter integer,"
+               " verse integer,"
+               " modification text"
+               ");");
+  sql.execute ();
 }
 
 
@@ -80,9 +75,9 @@ bool Database_Modifications::healthy ()
 
 void Database_Modifications::vacuum ()
 {
-  sqlite3 * db = connect ();
-  database::sqlite::exec (db, "VACUUM;");
-  database::sqlite::disconnect (db);
+  SqliteDatabase sql (filename);
+  sql.set_sql ("VACUUM;");
+  sql.execute ();
 }
 
 
@@ -688,7 +683,7 @@ std::vector <int> Database_Modifications::getNotificationIdentifiers (std::strin
 {
   std::vector <int> ids;
 
-  SqliteSQL sql = SqliteSQL ();
+  SqliteDatabase sql (filename);
   sql.add ("SELECT identifier FROM notifications WHERE 1");
   if (username != "") {
     sql.add ("AND username =");
@@ -705,9 +700,7 @@ std::vector <int> Database_Modifications::getNotificationIdentifiers (std::strin
   if (sort_on_category) sql.add ("category ASC,");
   sql.add ("book ASC, chapter ASC, verse ASC, identifier ASC;");
 
-  sqlite3 * db = connect ();
-  std::vector <std::string> sidentifiers = database::sqlite::query (db, sql.sql) ["identifier"];
-  database::sqlite::disconnect (db);
+  const std::vector <std::string> sidentifiers = sql.query () ["identifier"];
   for (auto & identifier : sidentifiers) {
     ids.push_back (filter::strings::convert_to_int (identifier));
   }
@@ -720,7 +713,7 @@ std::vector <int> Database_Modifications::getNotificationIdentifiers (std::strin
 std::vector <int> Database_Modifications::getNotificationTeamIdentifiers (const std::string& username, const std::string& category, std::string bible)
 {
   std::vector <int> ids;
-  SqliteSQL sql = SqliteSQL ();
+  SqliteDatabase sql (filename);
   sql.add ("SELECT identifier FROM notifications WHERE username =");
   sql.add (username);
   sql.add ("AND category =");
@@ -730,10 +723,8 @@ std::vector <int> Database_Modifications::getNotificationTeamIdentifiers (const 
     sql.add (bible);
   }
   sql.add ("ORDER BY book ASC, chapter ASC, verse ASC, identifier ASC;");
-  sqlite3 * db = connect ();
-  std::vector <std::string> sidentifiers = database::sqlite::query (db, sql.sql) ["identifier"];
-  database::sqlite::disconnect (db);
-  for (auto & sid : sidentifiers) {
+  const std::vector <std::string> sidentifiers = sql.query () ["identifier"];
+  for (const auto& sid : sidentifiers) {
     ids.push_back (filter::strings::convert_to_int (sid));
   }
   return ids;
@@ -743,18 +734,14 @@ std::vector <int> Database_Modifications::getNotificationTeamIdentifiers (const 
 // This gets the distinct Bibles in the user's notifications.
 std::vector <std::string> Database_Modifications::getNotificationDistinctBibles (std::string username)
 {
-  SqliteSQL sql = SqliteSQL ();
+  SqliteDatabase sql (filename);
   sql.add ("SELECT DISTINCT bible FROM notifications WHERE 1");
   if (username != "") {
     sql.add ("AND username =");
     sql.add (username);
   }
   sql.add (";");
-  
-  sqlite3 * db = connect ();
-  std::vector <std::string> bibles = database::sqlite::query (db, sql.sql) ["bible"];
-  database::sqlite::disconnect (db);
-  
+  const std::vector <std::string> bibles = sql.query () ["bible"];
   return bibles;
 }
 
@@ -780,15 +767,13 @@ void Database_Modifications::deleteNotification (int identifier, sqlite3 * db)
 
 int Database_Modifications::getNotificationTimeStamp (int id)
 {
-  SqliteSQL sql = SqliteSQL ();
+  SqliteDatabase sql (filename);
   sql.add ("SELECT timestamp FROM notifications WHERE identifier =");
   sql.add (id);
   sql.add (";");
-  sqlite3 * db = connect ();
-  std::vector <std::string> timestamps = database::sqlite::query (db, sql.sql) ["timestamp"];
-  database::sqlite::disconnect (db);
+  const std::vector <std::string> timestamps = sql.query () ["timestamp"];
   int time = filter::date::seconds_since_epoch ();
-  for (auto & stamp : timestamps) {
+  for (const auto& stamp : timestamps) {
     time = filter::strings::convert_to_int (stamp);
   }
   return time;
@@ -797,15 +782,13 @@ int Database_Modifications::getNotificationTimeStamp (int id)
 
 std::string Database_Modifications::getNotificationCategory (int id)
 {
-  SqliteSQL sql = SqliteSQL ();
+  SqliteDatabase sql (filename);
   sql.add ("SELECT category FROM notifications WHERE identifier =");
   sql.add (id);
   sql.add (";");
-  sqlite3 * db = connect ();
-  std::vector <std::string> categories = database::sqlite::query (db, sql.sql) ["category"];
-  database::sqlite::disconnect (db);
-  std::string category = "";
-  for (auto & row : categories) {
+  const std::vector <std::string> categories = sql.query () ["category"];
+  std::string category {};
+  for (const auto & row : categories) {
     category = row;
   }
   return category;
@@ -814,15 +797,13 @@ std::string Database_Modifications::getNotificationCategory (int id)
 
 std::string Database_Modifications::getNotificationBible (int id)
 {
-  SqliteSQL sql = SqliteSQL ();
+  SqliteDatabase sql (filename);
   sql.add ("SELECT bible FROM notifications WHERE identifier =");
   sql.add (id);
   sql.add (";");
-  sqlite3 * db = connect ();
-  std::vector <std::string> bibles = database::sqlite::query (db, sql.sql) ["bible"];
-  database::sqlite::disconnect (db);
-  std::string bible = "";
-  for (auto & item : bibles) {
+  const std::vector <std::string> bibles = sql.query () ["bible"];
+  std::string bible {};
+  for (const auto& item : bibles) {
     bible = item;
   }
   return bible;
@@ -832,16 +813,14 @@ std::string Database_Modifications::getNotificationBible (int id)
 Passage Database_Modifications::getNotificationPassage (int id)
 {
   Passage passage;
-  SqliteSQL sql = SqliteSQL ();
+  SqliteDatabase sql (filename);
   sql.add ("SELECT book, chapter, verse FROM notifications WHERE identifier =");
   sql.add (id);
   sql.add (";");
-  sqlite3 * db = connect ();
-  std::map <std::string, std::vector <std::string> > result = database::sqlite::query (db, sql.sql);
-  database::sqlite::disconnect (db);
-  std::vector <std::string> books = result ["book"];
-  std::vector <std::string> chapters = result ["chapter"];
-  std::vector <std::string> verses = result ["verse"];
+  std::map <std::string, std::vector <std::string> > result = sql.query ();
+  const std::vector <std::string> books = result ["book"];
+  const std::vector <std::string> chapters = result ["chapter"];
+  const std::vector <std::string> verses = result ["verse"];
   for (unsigned int i = 0; i < books.size (); i++) {
     passage.m_book = filter::strings::convert_to_int (books [i]);
     passage.m_chapter = filter::strings::convert_to_int (chapters [i]);
@@ -1049,8 +1028,7 @@ void Database_Modifications::storeClientNotification (int id, std::string userna
     sql.execute ();
   }
   {
-    sqlite3 * db = connect ();
-    SqliteSQL sql = SqliteSQL ();
+    SqliteDatabase sql (filename);
     sql.add ("INSERT INTO notifications VALUES (");
     sql.add (id);
     sql.add (",");
@@ -1070,8 +1048,7 @@ void Database_Modifications::storeClientNotification (int id, std::string userna
     sql.add (",");
     sql.add (modification);
     sql.add (");");
-    database::sqlite::exec (db, sql.sql);
-    database::sqlite::disconnect (db);
+    sql.execute ();
   }
 }
 
@@ -1106,7 +1083,7 @@ void Database_Modifications::deleteNotificationFile (int identifier)
 
 std::vector <std::string> Database_Modifications::getCategories ()
 {
-  SqliteDatabase sql (filename ());
+  SqliteDatabase sql (filename);
   sql.add ("SELECT DISTINCT category FROM notifications ORDER BY category;");
   std::vector <std::string> categories = sql.query ()["category"];
   return categories;

@@ -82,7 +82,6 @@ public:
   void notificationUpdateTime (int identifier, int timestamp);
   std::vector <std::string> getCategories ();
 private:
-  const char * filename ();
   sqlite3 * connect ();
   std::string teamFolder ();
   std::string teamFile (const std::string& bible, int book, int chapter);

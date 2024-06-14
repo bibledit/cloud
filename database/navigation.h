@@ -34,7 +34,6 @@ public:
   Passage get_next (const std::string& user);
   std::vector <Passage> get_history (const std::string& user, int direction);
 private:
-  sqlite3 * connect ();
   int get_previous_id (const std::string& user);
   int get_next_id (const std::string& user);
 };

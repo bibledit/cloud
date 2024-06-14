@@ -325,6 +325,7 @@ SqliteDatabase::SqliteDatabase (const std::string& filename)
 
 SqliteDatabase::~SqliteDatabase ()
 {
+  // When the object goes out of scope, it disconnects from the SQlite database.
   if (db)
     database::sqlite::disconnect (db);
 }

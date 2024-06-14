@@ -43,6 +43,4 @@ public:
   void updateNotes (int oldId, int newId);
   void erase (int rowid);
   bool exists (int note);
-private:
-  sqlite3 * connect ();
 };

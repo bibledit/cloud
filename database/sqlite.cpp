@@ -317,7 +317,9 @@ int SqliteReader::callback (void *userdata, int argc, char **argv, char **column
 
 SqliteDatabase::SqliteDatabase (const std::string& filename)
 {
-  db = database::sqlite::connect (filename);
+  // Connect to the database lazily, only when first needed,
+  // i.e. just before execution of SQL or querying SQL.
+  m_filename = filename;
 }
 
 
@@ -359,7 +361,7 @@ void SqliteDatabase::add (std::string value)
 }
 
 
-const std::string& SqliteDatabase::get_sql()
+const std::string& SqliteDatabase::get_sql() const
 {
   return m_sql;
 }
@@ -386,11 +388,28 @@ void SqliteDatabase::restore_sql()
 
 void SqliteDatabase::execute ()
 {
+  // Connect to the database if not yet connected, i.e. connect lazily.
+  if (!db)
+    db = database::sqlite::connect (m_filename);
+  // Execute the query.
   database::sqlite::exec (db, m_sql);
 }
 
 
 std::map <std::string, std::vector <std::string> > SqliteDatabase::query ()
 {
+  // Connect to the database if not yet connected, i.e. connect lazily.
+  if (!db)
+    db = database::sqlite::connect (m_filename);
+  // Execute the query.
   return database::sqlite::query (db, m_sql);
+}
+
+
+// Manually disconnect from the database if so required.
+void SqliteDatabase::disconnect ()
+{
+  if (db)
+    database::sqlite::disconnect (db);
+  db = nullptr;
 }

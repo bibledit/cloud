@@ -59,13 +59,15 @@ public:
   void add (const char * fragment);
   void add (int value);
   void add (std::string value);
-  const std::string& get_sql();
+  const std::string& get_sql() const;
   void set_sql (const std::string& sql);
   void save_sql();
   void restore_sql();
   void execute ();
   std::map <std::string, std::vector <std::string> > query ();
+  void disconnect ();
 private:
+  std::string m_filename {};
   sqlite3 * db {nullptr};
   std::string m_sql {};
   std::string m_save_restore {};

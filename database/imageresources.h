@@ -43,5 +43,5 @@ private:
   std::string resourceFolder (const std::string& name);
   std::string imagePath (std::string name, std::string image);
   std::string databaseFile ();
-  sqlite3 * connect (std::string name);
+  std::string database_path (const std::string& name);
 };

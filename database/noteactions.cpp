@@ -30,48 +30,45 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // Remove the database file, and re-run setup to correct the problem.
 
 
-sqlite3 * Database_NoteActions::connect ()
-{
-  return database::sqlite::connect ("noteactions");
-}
+constexpr const auto noteactions {"noteactions"};
 
 
 void Database_NoteActions::create ()
 {
-  sqlite3 * db = connect ();
-  std::string sql = 
-    "CREATE TABLE IF NOT EXISTS noteactions ("
-    "  username text,"
-    "  note integer,"
-    "  timestamp integer,"
-    "  action integer,"
-    "  content text"
-    ");";
-  database::sqlite::exec (db, sql);
-  database::sqlite::disconnect (db);
+  SqliteDatabase sql (noteactions);
+  sql.set_sql ("CREATE TABLE IF NOT EXISTS noteactions ("
+               " username text,"
+               " note integer,"
+               " timestamp integer,"
+               " action integer,"
+               " content text"
+               ");");
+  sql.execute ();
 }
 
 
 void Database_NoteActions::clear ()
 {
-  sqlite3 * db = connect ();
-  database::sqlite::exec (db, "DROP TABLE IF EXISTS noteactions;");
-  database::sqlite::disconnect (db);
+  {
+    SqliteDatabase sql (noteactions);
+    sql.set_sql ("DROP TABLE IF EXISTS noteactions;");
+    sql.execute();
+  }
   create ();
 }
 
 
 void Database_NoteActions::optimize ()
 {
-  sqlite3 * db = connect ();
-  database::sqlite::exec (db, "VACUUM;");
-  database::sqlite::disconnect (db);
+  SqliteDatabase sql (noteactions);
+  sql.set_sql ("VACUUM;");
+  sql.execute ();
 }
 
 
 void Database_NoteActions::record (const std::string& username, int note, int action, const std::string& content)
 {
-  SqliteSQL sql = SqliteSQL ();
+  SqliteDatabase sql (noteactions);
   sql.add ("INSERT INTO noteactions VALUES (");
   sql.add (username);
   sql.add (",");
@@ -83,19 +80,17 @@ void Database_NoteActions::record (const std::string& username, int note, int ac
   sql.add (",");
   sql.add (content);
   sql.add (");");
-  sqlite3 * db = connect ();
-  database::sqlite::exec (db, sql.sql);
-  database::sqlite::disconnect (db);
+  sql.execute ();
 }
 
 
 std::vector <int> Database_NoteActions::getNotes ()
 {
   std::vector <int> notes;
-  sqlite3 * db = connect ();
-  std::vector <std::string> result = database::sqlite::query (db, "SELECT DISTINCT note FROM noteactions ORDER BY rowid;") ["note"];
-  database::sqlite::disconnect (db);
-  for (auto & note : result) {
+  SqliteDatabase sql (noteactions);
+  sql.set_sql ("SELECT DISTINCT note FROM noteactions ORDER BY rowid;");
+  const std::vector <std::string> result = sql.query () ["note"];
+  for (const auto& note : result) {
     notes.push_back (filter::strings::convert_to_int (note));
   }
   return notes;
@@ -105,18 +100,16 @@ std::vector <int> Database_NoteActions::getNotes ()
 std::vector <Database_Note_Action> Database_NoteActions::getNoteData (int note)
 {
   std::vector <Database_Note_Action> data;
-  SqliteSQL sql = SqliteSQL ();
+  SqliteDatabase sql (noteactions);
   sql.add ("SELECT rowid, username, timestamp, action, content FROM noteactions WHERE note =");
   sql.add (note);
   sql.add ("ORDER BY rowid;");
-  sqlite3 * db = connect ();
-  std::map <std::string, std::vector <std::string> > result = database::sqlite::query (db, sql.sql);
-  database::sqlite::disconnect (db);
-  std::vector <std::string> rowids = result ["rowid"];
-  std::vector <std::string> usernames = result ["username"];
-  std::vector <std::string> timestamps = result ["timestamp"];
-  std::vector <std::string> actions = result ["action"];
-  std::vector <std::string> contents = result ["content"];
+  std::map <std::string, std::vector <std::string> > result = sql.query ();
+  const std::vector <std::string> rowids = result ["rowid"];
+  const std::vector <std::string> usernames = result ["username"];
+  const std::vector <std::string> timestamps = result ["timestamp"];
+  const std::vector <std::string> actions = result ["action"];
+  const std::vector <std::string> contents = result ["content"];
   for (unsigned int i = 0; i < rowids.size (); i++) {
     Database_Note_Action action = Database_Note_Action ();
     action.rowid = filter::strings::convert_to_int (rowids [i]);
@@ -133,39 +126,32 @@ std::vector <Database_Note_Action> Database_NoteActions::getNoteData (int note)
 // Update all actions for a note with identifier $old to $new.
 void Database_NoteActions::updateNotes (int oldId, int newId)
 {
-  SqliteSQL sql = SqliteSQL ();
+  SqliteDatabase sql (noteactions);
   sql.add ("UPDATE noteactions SET note =");
   sql.add (newId);
   sql.add ("WHERE note =");
   sql.add (oldId);
   sql.add (";");
-  sqlite3 * db = connect ();
-  database::sqlite::exec (db, sql.sql);
-  database::sqlite::disconnect (db);
+  sql.execute ();
 }
 
 
 void Database_NoteActions::erase (int rowid)
 {
-  SqliteSQL sql = SqliteSQL ();
+  SqliteDatabase sql (noteactions);
   sql.add ("DELETE FROM noteactions where rowid =");
   sql.add (rowid);
   sql.add (";");
-  sqlite3 * db = connect ();
-  database::sqlite::exec (db, sql.sql);
-  database::sqlite::disconnect (db);
+  sql.execute ();
 }
 
 
 bool Database_NoteActions::exists (int note)
 {
-  SqliteSQL sql = SqliteSQL ();
+  SqliteDatabase sql (noteactions);
   sql.add ("SELECT note FROM noteactions where note =");
   sql.add (note);
   sql.add (";");
-  sqlite3 * db = connect ();
-  std::map <std::string, std::vector <std::string> > result = database::sqlite::query (db, sql.sql);
-  database::sqlite::disconnect (db);
+  const std::map <std::string, std::vector <std::string> > result = sql.query ();
   return !result.empty ();
 }
-

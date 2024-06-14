@@ -28,20 +28,21 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // Chances of corruption are nearly zero.
 
 
+constexpr const auto greekstrong {"greekstrong"};
+
+
 // Get Strong's definition for the $strong's number.
 std::string Database_Strong::definition (std::string strong)
 {
   sqlite3 * db;
   {
     // Search Greek lexicon.
-    SqliteSQL sql = SqliteSQL ();
+    SqliteDatabase sql (greekstrong);
     sql.add ("SELECT definition FROM greekstrong WHERE id =");
     sql.add (strong);
     sql.add (";");
-    db = connect ();
-    std::vector <std::string> definitions = database::sqlite::query (db, sql.sql) ["definition"];
-    database::sqlite::disconnect (db);
-    if (!definitions.empty ()) return definitions[0];
+    const std::vector <std::string> definitions = sql.query () ["definition"];
+    if (!definitions.empty ()) return definitions.at(0);
   }
   // Nothing found.
   return std::string();
@@ -52,24 +53,14 @@ std::string Database_Strong::definition (std::string strong)
 // Most lemma's refer to one Strong's number, but some lemma's refer to more than one.
 std::vector <std::string> Database_Strong::strong (std::string lemma)
 {
-  sqlite3 * db;
-  {
-    // Search Greek lexicon.
-    SqliteSQL sql = SqliteSQL ();
-    sql.add ("SELECT id FROM greekstrong WHERE lemma =");
-    sql.add (lemma);
-    sql.add (";");
-    db = connect ();
-    std::vector <std::string> ids = database::sqlite::query (db, sql.sql) ["id"];
-    database::sqlite::disconnect (db);
-    if (!ids.empty ()) return ids;
-  }
+  // Search Greek lexicon.
+  SqliteDatabase sql (greekstrong);
+  sql.add ("SELECT id FROM greekstrong WHERE lemma =");
+  sql.add (lemma);
+  sql.add (";");
+  const std::vector <std::string> ids = sql.query () ["id"];
+  if (!ids.empty ())
+    return ids;
   // Nothing found.
   return {};
-}
-
-
-sqlite3 * Database_Strong::connect ()
-{
-  return database::sqlite::connect ("greekstrong");
 }

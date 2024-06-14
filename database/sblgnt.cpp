@@ -27,6 +27,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // Chances of corruption are nearly zero.
 
 
+constexpr const auto sblgnt {"sblgnt"};
+
+
 Database_Sblgnt::Database_Sblgnt ()
 {
 }
@@ -37,16 +40,10 @@ Database_Sblgnt::~Database_Sblgnt ()
 }
 
 
-sqlite3 * Database_Sblgnt::connect ()
-{
-  return database::sqlite::connect ("sblgnt");
-}
-
-
 // Get Greek words for $book $chapter $verse.
 std::vector <std::string> Database_Sblgnt::getVerse (int book, int chapter, int verse)
 {
-  SqliteSQL sql = SqliteSQL ();
+  SqliteDatabase sql {sblgnt};
   sql.add ("SELECT greek FROM sblgnt WHERE book =");
   sql.add (book);
   sql.add ("AND chapter =");
@@ -54,9 +51,7 @@ std::vector <std::string> Database_Sblgnt::getVerse (int book, int chapter, int 
   sql.add ("AND verse =");
   sql.add (verse);
   sql.add (";");
-  sqlite3 * db = connect ();
-  std::vector <std::string> words = database::sqlite::query (db, sql.sql) ["greek"];
-  database::sqlite::disconnect (db);
+  const std::vector <std::string> words = sql.query () ["greek"];
   return words;
 }
 
@@ -64,17 +59,15 @@ std::vector <std::string> Database_Sblgnt::getVerse (int book, int chapter, int 
 // Get the passages that contain a $greek word.
 std::vector <Passage> Database_Sblgnt::searchGreek (std::string greek)
 {
-  SqliteSQL sql = SqliteSQL ();
+  SqliteDatabase sql {sblgnt};
   sql.add ("SELECT DISTINCT book, chapter, verse FROM sblgnt WHERE greek =");
   sql.add (greek);
   sql.add (";");
   std::vector <Passage> hits;
-  sqlite3 * db = connect ();
-  std::map <std::string, std::vector <std::string> > result = database::sqlite::query (db, sql.sql);
-  database::sqlite::disconnect (db);
-  std::vector <std::string> books = result ["book"];
-  std::vector <std::string> chapters = result ["chapter"];
-  std::vector <std::string> verses = result ["verse"];
+  std::map <std::string, std::vector <std::string> > result = sql.query ();
+  const std::vector <std::string> books = result ["book"];
+  const std::vector <std::string> chapters = result ["chapter"];
+  const std::vector <std::string> verses = result ["verse"];
   for (unsigned int i = 0; i < books.size (); i++) {
     Passage passage;
     passage.m_book = filter::strings::convert_to_int (books [i]);
@@ -84,5 +77,3 @@ std::vector <Passage> Database_Sblgnt::searchGreek (std::string greek)
   }
   return hits;
 }
-
-

@@ -26,6 +26,4 @@ class Database_Strong
 public:
   std::string definition (std::string strong);
   std::vector <std::string> strong (std::string lemma);
-private:
-  sqlite3 * connect ();
 };

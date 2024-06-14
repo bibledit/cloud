@@ -29,6 +29,4 @@ public:
   ~Database_Sblgnt ();
   std::vector <std::string> getVerse (int book, int chapter, int verse);
   std::vector <Passage> searchGreek (std::string greek);
-private:
-  sqlite3 * connect ();
 };

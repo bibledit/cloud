@@ -28,30 +28,31 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // It is checked and optionally recreated every night.
 
 
+constexpr const auto state {"state"};
+
+
 void Database_State::create ()
 {
-  bool healthy_database = database::sqlite::healthy (name ());
+  bool healthy_database = database::sqlite::healthy (state);
   if (!healthy_database) {
-    filter_url_unlink (database::sqlite::get_file (name ()));
+    filter_url_unlink (database::sqlite::get_file (state));
   }
 
-  sqlite3 * db = connect ();
-  std::string sql;
+  SqliteDatabase sql (state);
   
   // On Android, this pragma prevents the following error: VACUUM; Unable to open database file.
-  sql = "PRAGMA temp_store = MEMORY;";
-  database::sqlite::exec (db, sql);
+  sql.set_sql ("PRAGMA temp_store = MEMORY;");
+  sql.execute ();
   
-  sql =
-    "CREATE TABLE IF NOT EXISTS notes ("
-    " first integer,"
-    " last integer,"
-    " value text"
-    ");";
-  database::sqlite::exec (db, sql);
+  sql.set_sql ("CREATE TABLE IF NOT EXISTS notes ("
+               " first integer,"
+               " last integer,"
+               " value text"
+               ");");
+  sql.execute ();
   
-  sql = "DELETE FROM notes;";
-  database::sqlite::exec (db, sql);
+  sql.set_sql ("DELETE FROM notes;");
+  sql.execute ();
   
   // Here something weird was going on when doing a VACUUM at this stage.
   // On Android, it always would say this: VACUUM; Unable to open database file.
@@ -60,56 +61,48 @@ void Database_State::create ()
   // It also was tried to close the connection to the database, then open it again. This made no difference either.
   // It now does not VACUUM a newly created database, but only when it was created.
   // Later on, the PRAGMA as above was used to solve the issue.
-  sql = "VACUUM;";
-  database::sqlite::exec (db, sql);
+  sql.set_sql ("VACUUM;");
+  sql.execute ();
 
-  sql =
-    "CREATE TABLE IF NOT EXISTS export ("
-    " bible text,"
-    " book integer,"
-    " format integer"
-  ");";
-  database::sqlite::exec (db, sql);
+  sql.set_sql ("CREATE TABLE IF NOT EXISTS export ("
+               " bible text,"
+               " book integer,"
+               " format integer"
+               ");");
+  sql.execute ();
   
-  sql =
-    "CREATE TABLE IF NOT EXISTS exported ("
-    " bible text,"
-    " book integer,"
-    " state boolean"
-    ");";
-  database::sqlite::exec (db, sql);
-  
-  database::sqlite::disconnect (db);
+  sql.set_sql ("CREATE TABLE IF NOT EXISTS exported ("
+               " bible text,"
+               " book integer,"
+               " state boolean"
+               ");");
+  sql.execute ();
 }
 
 
 // Stores a notes checksum for a range of notes.
 void Database_State::putNotesChecksum (int first, int last, const std::string& checksum)
 {
-  sqlite3 * db = connect ();
-  {
-    // Remove possible existing range.
-    SqliteSQL sql = SqliteSQL ();
-    sql.add ("DELETE FROM notes WHERE first =");
-    sql.add (first);
-    sql.add ("AND last =");
-    sql.add (last);
-    sql.add (";");
-    database::sqlite::exec (db, sql.sql);
-  }
-  {
-    // Store the new checksum for the range.
-    SqliteSQL sql = SqliteSQL ();
-    sql.add ("INSERT INTO notes VALUES (");
-    sql.add (first);
-    sql.add (",");
-    sql.add (last);
-    sql.add (",");
-    sql.add (checksum);
-    sql.add (");");
-    database::sqlite::exec (db, sql.sql);
-  }
-  database::sqlite::disconnect (db);
+  SqliteDatabase sql (state);
+
+  // Remove possible existing range.
+  sql.add ("DELETE FROM notes WHERE first =");
+  sql.add (first);
+  sql.add ("AND last =");
+  sql.add (last);
+  sql.add (";");
+  sql.execute ();
+  
+  // Store the new checksum for the range.
+  sql.clear();
+  sql.add ("INSERT INTO notes VALUES (");
+  sql.add (first);
+  sql.add (",");
+  sql.add (last);
+  sql.add (",");
+  sql.add (checksum);
+  sql.add (");");
+  sql.execute ();
 }
 
 
@@ -117,17 +110,15 @@ void Database_State::putNotesChecksum (int first, int last, const std::string& c
 std::string Database_State::getNotesChecksum (int first, int last)
 {
   // Receive the checksum for the exact range.
-  SqliteSQL sql = SqliteSQL ();
+  SqliteDatabase sql (state);
   sql.add ("SELECT value FROM notes WHERE first =");
   sql.add (first);
   sql.add ("AND last =");
   sql.add (last);
   sql.add (";");
-  sqlite3 * db = connect ();
-  std::vector <std::string> values = database::sqlite::query (db, sql.sql)["value"];
-  database::sqlite::disconnect (db);
+  const std::vector <std::string> values = sql.query ()["value"];
   if (!values.empty()) {
-    return values[0];
+    return values.at(0);
   }
   return std::string();
 }
@@ -137,15 +128,13 @@ std::string Database_State::getNotesChecksum (int first, int last)
 void Database_State::eraseNoteChecksum (int identifier)
 {
   // Remove ranges that contain the note identifier.
-  sqlite3 * db = connect ();
-  SqliteSQL sql = SqliteSQL ();
+  SqliteDatabase sql (state);
   sql.add ("DELETE FROM notes WHERE first <=");
   sql.add (identifier);
   sql.add ("AND last >=");
   sql.add (identifier);
   sql.add (";");
-  database::sqlite::exec (db, sql.sql);
-  database::sqlite::disconnect (db);
+  sql.execute ();
 }
 
 
@@ -153,7 +142,7 @@ void Database_State::eraseNoteChecksum (int identifier)
 void Database_State::setExport (const std::string& bible, int book, int format)
 {
   if (getExport (bible, book, format)) return;
-  SqliteSQL sql = SqliteSQL ();
+  SqliteDatabase sql (state);
   sql.add ("INSERT INTO export VALUES (");
   sql.add (bible);
   sql.add (",");
@@ -161,16 +150,14 @@ void Database_State::setExport (const std::string& bible, int book, int format)
   sql.add (",");
   sql.add (format);
   sql.add (");");
-  sqlite3 * db = connect ();
-  database::sqlite::exec (db, sql.sql);
-  database::sqlite::disconnect (db);
+  sql.execute ();
 }
 
 
 // Get whether the $bible $book has been flagged for export in format $format.
 bool Database_State::getExport (const std::string& bible, int book, int format)
 {
-  SqliteSQL sql = SqliteSQL ();
+  SqliteDatabase sql (state);
   sql.add ("SELECT format FROM export WHERE bible =");
   sql.add (bible);
   sql.add ("AND book =");
@@ -178,9 +165,7 @@ bool Database_State::getExport (const std::string& bible, int book, int format)
   sql.add ("AND format =");
   sql.add (format);
   sql.add (";");
-  sqlite3 * db = connect ();
-  std::vector <std::string> values = database::sqlite::query (db, sql.sql)["format"];
-  database::sqlite::disconnect (db);
+  const std::vector <std::string> values = sql.query ()["format"];
   if (!values.empty()) {
     return true;
   }
@@ -191,8 +176,7 @@ bool Database_State::getExport (const std::string& bible, int book, int format)
 // Clear the export flag for $bible $book to $format
 void Database_State::clearExport (const std::string& bible, int book, int format)
 {
-  sqlite3 * db = connect ();
-  SqliteSQL sql = SqliteSQL ();
+  SqliteDatabase sql (state);
   sql.add ("DELETE FROM export WHERE bible =");
   sql.add (bible);
   sql.add ("AND book =");
@@ -200,18 +184,5 @@ void Database_State::clearExport (const std::string& bible, int book, int format
   sql.add ("AND format =");
   sql.add (format);
   sql.add (";");
-  database::sqlite::exec (db, sql.sql);
-  database::sqlite::disconnect (db);
-}
-
-
-const char * Database_State::name ()
-{
-  return "state";
-}
-
-
-sqlite3 * Database_State::connect ()
-{
-  return database::sqlite::connect (name ());
+  sql.execute ();
 }

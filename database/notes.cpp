@@ -73,18 +73,6 @@ m_webserver_request (webserver_request)
 }
 
 
-sqlite3 * Database_Notes::connect () // Todo
-{
-  return database::sqlite::connect ("notes");
-}
-
-
-sqlite3 * Database_Notes::connect_checksums () // Todo
-{
-  return database::sqlite::connect ("notes_checksums");
-}
-
-
 void Database_Notes::create ()
 {
   // Create the main database and table.

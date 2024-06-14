@@ -213,10 +213,6 @@ private:
   friend void test_database_notes ();
 
 private:
-  sqlite3 * connect ();
-  sqlite3 * connect_checksums ();
-  
-private:
   std::string get_field (int identifier, std::string key);
   void set_field (int identifier, std::string key, std::string value);
 

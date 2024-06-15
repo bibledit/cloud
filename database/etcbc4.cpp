@@ -43,7 +43,7 @@ static int get_id (SqliteDatabase& sql, const char* table_row, const std::string
   for (unsigned int i = 0; i < 2; i++) {
 
     // Save the existing SQL just now because the code below puts new SQL into the object.
-    sql.save_sql();
+    sql.push_sql();
 
     {
       // Check on the rowid and fetch it if it's there.
@@ -72,7 +72,7 @@ static int get_id (SqliteDatabase& sql, const char* table_row, const std::string
     }
 
     // Restore the previously saved SQL so the caller can again use it.
-    sql.restore_sql();
+    sql.pop_sql();
     
     if (id)
       return id;

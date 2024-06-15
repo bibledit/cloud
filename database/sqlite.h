@@ -61,8 +61,8 @@ public:
   void add (std::string value);
   const std::string& get_sql() const;
   void set_sql (const std::string& sql);
-  void save_sql();
-  void restore_sql();
+  void push_sql();
+  void pop_sql();
   void execute ();
   std::map <std::string, std::vector <std::string> > query ();
   void disconnect ();

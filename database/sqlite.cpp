@@ -374,13 +374,13 @@ void SqliteDatabase::set_sql (const std::string& sql)
 }
 
 
-void SqliteDatabase::save_sql()
+void SqliteDatabase::push_sql()
 {
   m_save_restore = std::move (m_sql);
 }
 
 
-void SqliteDatabase::restore_sql()
+void SqliteDatabase::pop_sql()
 {
   m_sql = std::move (m_save_restore);
 

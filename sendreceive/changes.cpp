@@ -82,13 +82,12 @@ void sendreceive_changes ()
 
   Webserver_Request webserver_request;
   Sync_Logic sync_logic (webserver_request);
-  Database_Modifications database_modifications;
   
   
-  if (!database_modifications.healthy ()) {
+  if (!database::modifications::healthy ()) {
     Database_Logs::log (sendreceive_changes_text () + translate("Recreate damaged modifications database"), Filter_Roles::translator ());
-    database_modifications.erase ();
-    database_modifications.create ();
+    database::modifications::erase ();
+    database::modifications::create ();
   }
   
   
@@ -183,7 +182,7 @@ void sendreceive_changes ()
   // Get all identifiers for the notifications on the server for the user.
   // Get the identifiers on the client.
   std::string any_bible = "";
-  std::vector <int> client_identifiers = database_modifications.getNotificationIdentifiers (user, any_bible);
+  std::vector <int> client_identifiers = database::modifications::getNotificationIdentifiers (user, any_bible);
   std::vector <int> server_identifiers;
   post ["a"] = std::to_string (Sync_Logic::changes_get_identifiers);
   response = sync_logic.post (post, url, error);
@@ -201,7 +200,7 @@ void sendreceive_changes ()
   // Any identifiers on the client, but not on the server, remove them from the client.
   std::vector <int> remove_identifiers = filter::strings::array_diff (client_identifiers, server_identifiers);
   for (auto & id : remove_identifiers) {
-    database_modifications.deleteNotification (id);
+    database::modifications::deleteNotification (id);
     webserver_request.database_config_user ()->setChangeNotificationsChecksum ("");
     Database_Logs::log (sendreceive_changes_text () + "Removing notification: " + std::to_string (id), Filter_Roles::translator ());
   }
@@ -261,7 +260,7 @@ void sendreceive_changes ()
         newtext = lines [0];
         lines.erase (lines.begin ());
       }
-      database_modifications.storeClientNotification (id, user, category, bible, book, chapter, verse, oldtext, modification, newtext);
+      database::modifications::storeClientNotification (id, user, category, bible, book, chapter, verse, oldtext, modification, newtext);
       webserver_request.database_config_user ()->setChangeNotificationsChecksum ("");
     }
   }

@@ -70,8 +70,7 @@ void bible_logic::store_chapter (const std::string& bible, int book, int chapter
 #ifdef HAVE_CLOUD
 
   // Server stores diff data.
-  Database_Modifications database_modifications;
-  database_modifications.storeTeamDiff (bible, book, chapter);
+  database::modifications::storeTeamDiff (bible, book, chapter);
   
 #endif
 
@@ -99,8 +98,7 @@ void bible_logic::delete_chapter (const std::string& bible, int book, int chapte
 #ifdef HAVE_CLOUD
 
   // Server stores diff data.
-  Database_Modifications database_modifications;
-  database_modifications.storeTeamDiff (bible, book, chapter);
+  database::modifications::storeTeamDiff (bible, book, chapter);
   
 #endif
 
@@ -131,8 +129,7 @@ void bible_logic::delete_book (const std::string& bible, int book)
 #ifdef HAVE_CLOUD
 
   // Server stores diff data.
-  Database_Modifications database_modifications;
-  database_modifications.storeTeamDiffBook (bible, book);
+  database::modifications::storeTeamDiffBook (bible, book);
   
 #endif
   
@@ -166,8 +163,7 @@ void bible_logic::delete_bible (const std::string& bible)
 #ifdef HAVE_CLOUD
 
   // Server stores diff data.
-  Database_Modifications database_modifications {};
-  database_modifications.storeTeamDiffBible (bible);
+  database::modifications::storeTeamDiffBible (bible);
 
   // Possible git repository.
   const std::string gitdirectory = filter_git_directory (bible);

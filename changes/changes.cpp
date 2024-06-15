@@ -63,21 +63,18 @@ bool changes_changes_acl (Webserver_Request& webserver_request)
 
 std::string changes_changes (Webserver_Request& webserver_request)
 {
-  Database_Modifications database_modifications;
-  
-  
   // Handle AJAX call to load the summary of a change notification.
   if (webserver_request.query.count ("load")) {
     const int identifier = filter::strings::convert_to_int (webserver_request.query["load"]);
     std::stringstream block {};
-    const Passage passage = database_modifications.getNotificationPassage (identifier);
+    const Passage passage = database::modifications::getNotificationPassage (identifier);
     const std::string link = filter_passage_link_for_opening_editor_at (passage.m_book, passage.m_chapter, passage.m_verse);
-    std::string category = database_modifications.getNotificationCategory (identifier);
+    std::string category = database::modifications::getNotificationCategory (identifier);
     if (category == changes_personal_category ())
       category = filter::strings::emoji_smiling_face_with_smiling_eyes ();
     if (category == changes_bible_category ()) 
       category = filter::strings::emoji_open_book ();
-    std::string modification = database_modifications.getNotificationModification (identifier);
+    std::string modification = database::modifications::getNotificationModification (identifier);
     block << "<div id=" << std::quoted("entry" + std::to_string (identifier)) << + ">\n";
     block << "<a href=" << std::quoted ("expand") << ">" << filter::strings::emoji_file_folder () << "</a>\n";
     block << "<a href=" << std::quoted("remove") << ">" << filter::strings::emoji_wastebasket () << "</a>\n";
@@ -93,7 +90,7 @@ std::string changes_changes (Webserver_Request& webserver_request)
   if (webserver_request.post.count ("remove")) {
     const int remove = filter::strings::convert_to_int (webserver_request.post["remove"]);
     trash_change_notification (webserver_request, remove);
-    database_modifications.deleteNotification (remove);
+    database::modifications::deleteNotification (remove);
 #ifdef HAVE_CLIENT
     webserver_request.database_config_user ()->addRemovedChange (remove);
 #endif
@@ -106,13 +103,13 @@ std::string changes_changes (Webserver_Request& webserver_request)
   if (webserver_request.post.count ("navigate")) {
     const std::string navigate = webserver_request.post["navigate"];
     const int id = filter::strings::convert_to_int (navigate);
-    const Passage passage = database_modifications.getNotificationPassage (id);
+    const Passage passage = database::modifications::getNotificationPassage (id);
     if (passage.m_book) {
       Ipc_Focus::set (webserver_request, passage.m_book, passage.m_chapter, filter::strings::convert_to_int (passage.m_verse));
       Navigation_Passage::record_history (webserver_request, passage.m_book, passage.m_chapter, filter::strings::convert_to_int (passage.m_verse));
     }
     // Set the correct default Bible for the user.
-    const std::string bible = database_modifications.getNotificationBible (id);
+    const std::string bible = database::modifications::getNotificationBible (id);
     if (!bible.empty ())
       webserver_request.database_config_user()->setBible (bible);
     return std::string();
@@ -153,7 +150,7 @@ std::string changes_changes (Webserver_Request& webserver_request)
   // Remove a user's personal changes notifications and their matching change notifications in the Bible.
   const std::string matching = webserver_request.query ["matching"];
   if (!matching.empty ()) {
-    std::vector <int> ids = database_modifications.clearNotificationMatches (username, matching, changes_bible_category (), selectedbible);
+    std::vector <int> ids = database::modifications::clearNotificationMatches (username, matching, changes_bible_category (), selectedbible);
 #ifdef HAVE_CLIENT
     // Client records deletions for sending to the Cloud.
     for (const auto id : ids) {
@@ -167,10 +164,10 @@ std::string changes_changes (Webserver_Request& webserver_request)
   
   // Remove all the personal change notifications.
   if (webserver_request.query.count ("personal")) {
-    std::vector <int> ids = database_modifications.getNotificationTeamIdentifiers (username, changes_personal_category (), selectedbible);
+    std::vector <int> ids = database::modifications::getNotificationTeamIdentifiers (username, changes_personal_category (), selectedbible);
     for (const auto id : ids) {
       trash_change_notification (webserver_request, id);
-      database_modifications.deleteNotification (id);
+      database::modifications::deleteNotification (id);
 #ifdef HAVE_CLIENT
       webserver_request.database_config_user ()->addRemovedChange (id);
 #endif
@@ -181,10 +178,10 @@ std::string changes_changes (Webserver_Request& webserver_request)
   
   // Remove all the Bible change notifications.
   if (webserver_request.query.count ("bible")) {
-    std::vector <int> ids = database_modifications.getNotificationTeamIdentifiers (username, changes_bible_category (), selectedbible);
+    std::vector <int> ids = database::modifications::getNotificationTeamIdentifiers (username, changes_bible_category (), selectedbible);
     for (const auto id : ids) {
       trash_change_notification (webserver_request, id);
-      database_modifications.deleteNotification (id);
+      database::modifications::deleteNotification (id);
 #ifdef HAVE_CLIENT
       webserver_request.database_config_user ()->addRemovedChange (id);
 #endif
@@ -196,10 +193,10 @@ std::string changes_changes (Webserver_Request& webserver_request)
   // Remove all the change notifications made by a certain user.
   if (webserver_request.query.count ("dismiss")) {
     const std::string user = webserver_request.query ["dismiss"];
-    std::vector <int> ids = database_modifications.getNotificationTeamIdentifiers (username, user, selectedbible);
+    std::vector <int> ids = database::modifications::getNotificationTeamIdentifiers (username, user, selectedbible);
     for (auto id : ids) {
       trash_change_notification (webserver_request, id);
-      database_modifications.deleteNotification (id);
+      database::modifications::deleteNotification (id);
 #ifdef HAVE_CLIENT
       webserver_request.database_config_user ()->addRemovedChange (id);
 #endif
@@ -210,7 +207,7 @@ std::string changes_changes (Webserver_Request& webserver_request)
   
   // Read the identifiers, optionally sorted on author (that is, category).
   bool sort_on_author = webserver_request.database_config_user ()->getOrderChangesByAuthor ();
-  const std::vector <int> notification_ids = database_modifications.getNotificationIdentifiers (username, selectedbible, sort_on_author);
+  const std::vector <int> notification_ids = database::modifications::getNotificationIdentifiers (username, selectedbible, sort_on_author);
   // Send the identifiers to the browser for download there.
   std::string pendingidentifiers {};
   for (const auto id : notification_ids) {
@@ -228,7 +225,7 @@ std::string changes_changes (Webserver_Request& webserver_request)
 
   
   // Add links to enable the user to show the change notifications for one Bible or for all Bibles.
-  std::vector <std::string> distinct_bibles = database_modifications.getNotificationDistinctBibles (username);
+  std::vector <std::string> distinct_bibles = database::modifications::getNotificationDistinctBibles (username);
   // Show the Bible selector if there's more than one distinct Bible.
   bool show_bible_selector = distinct_bibles.size () > 1;
   // Also show the Bible selector if there's no change notifications to display, yet there's at least one distinct Bible.
@@ -253,12 +250,12 @@ std::string changes_changes (Webserver_Request& webserver_request)
   
   // Enable links to dismiss categories of notifications depending on whether there's anything to dismiss.
   // And give details about the number of changes.
-  std::vector <int> personal_ids = database_modifications.getNotificationTeamIdentifiers (username, changes_personal_category (), selectedbible);
+  std::vector <int> personal_ids = database::modifications::getNotificationTeamIdentifiers (username, changes_personal_category (), selectedbible);
   if (!personal_ids.empty ()) {
     view.enable_zone ("personal");
     view.set_variable ("personalcount", std::to_string (personal_ids.size ()));
   }
-  const std::vector <int> bible_ids = database_modifications.getNotificationTeamIdentifiers (username, changes_bible_category (), selectedbible);
+  const std::vector <int> bible_ids = database::modifications::getNotificationTeamIdentifiers (username, changes_bible_category (), selectedbible);
   if (!bible_ids.empty ()) {
     view.enable_zone ("bible");
     view.set_variable ("teamcount", std::to_string (bible_ids.size ()));
@@ -266,12 +263,12 @@ std::string changes_changes (Webserver_Request& webserver_request)
   
   
   // Add links to clear the notifications from the individual contributors.
-  const std::vector <std::string> categories = database_modifications.getCategories ();
+  const std::vector <std::string> categories = database::modifications::getCategories ();
   for (const auto & category : categories) {
     if (category == changes_personal_category ()) continue;
     if (category == changes_bible_category ()) continue;
     const std::string& user = category;
-    const std::vector <int> ids = database_modifications.getNotificationTeamIdentifiers (username, user, selectedbible);
+    const std::vector <int> ids = database::modifications::getNotificationTeamIdentifiers (username, user, selectedbible);
     if (!ids.empty ()) {
       view.add_iteration ("individual", {
         std::pair ("user", user),
@@ -286,7 +283,7 @@ std::string changes_changes (Webserver_Request& webserver_request)
   for (const auto& category : categories) {
     if (category == changes_bible_category ()) continue;
     const std::string& user = category;
-    std::vector <int> personal_ids2 = database_modifications.getNotificationTeamIdentifiers (username, user, selectedbible);
+    std::vector <int> personal_ids2 = database::modifications::getNotificationTeamIdentifiers (username, user, selectedbible);
     std::string user_and_icon = translate ("user") + " " + category;
     if (category == changes_personal_category ()) {
       user_and_icon = translate ("me") + " " + filter::strings::emoji_smiling_face_with_smiling_eyes ();

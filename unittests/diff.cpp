@@ -300,18 +300,17 @@ Genesis 1.3 3 And God said: "Let there be light". And there was light.
   {
     refresh_sandbox (true);
     Webserver_Request request;
-    Database_Modifications database_modifications;
     Database_State::create ();
     
     client_logic_enable_client (false);
-    database_modifications.truncateTeams ();
+    database::modifications::truncateTeams ();
     
     std::string temporary_folder = filter_url_tempfile ();
     filter_url_mkdir (temporary_folder);
     
     database::bibles::create_bible ("phpunit");
     bible_logic::store_chapter ("phpunit", 1, 2, "old chapter text");
-    database_modifications.truncateTeams ();
+    database::modifications::truncateTeams ();
     bible_logic::store_chapter ("phpunit", 1, 2, "new chapter text");
     
     filter_diff_produce_verse_level ("phpunit", temporary_folder);

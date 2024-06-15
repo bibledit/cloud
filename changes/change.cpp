@@ -62,7 +62,6 @@ bool changes_change_acl (Webserver_Request& webserver_request)
 
 std::string changes_change (Webserver_Request& webserver_request)
 {
-  Database_Modifications database_modifications {};
   Database_Notes database_notes (webserver_request);
   Notes_Logic notes_logic (webserver_request);
 
@@ -107,18 +106,18 @@ std::string changes_change (Webserver_Request& webserver_request)
                       
                       
   // Get old text, modification, new text, date.
-  const std::string old_text {database_modifications.getNotificationOldText (id)};
+  const std::string old_text {database::modifications::getNotificationOldText (id)};
   view.set_variable ("old_text", old_text);
-  const std::string modification {database_modifications.getNotificationModification (id)};
+  const std::string modification {database::modifications::getNotificationModification (id)};
   view.set_variable ("modification", modification);
-  const std::string new_text {database_modifications.getNotificationNewText (id)};
+  const std::string new_text {database::modifications::getNotificationNewText (id)};
   view.set_variable ("new_text", new_text);
-  const std::string date {locale_logic_date (database_modifications.getNotificationTimeStamp (id))};
+  const std::string date {locale_logic_date (database::modifications::getNotificationTimeStamp (id))};
   view.set_variable ("date", date);
   
 
   // Bibles and passage.
-  const Passage passage {database_modifications.getNotificationPassage (id)};
+  const Passage passage {database::modifications::getNotificationPassage (id)};
   const std::vector<std::string> bibles {access_bible::bibles (webserver_request)};
   
   

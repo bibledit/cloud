@@ -105,15 +105,14 @@ std::string notes_create (Webserver_Request& webserver_request)
   // It will then create a note based on that change notification.
   if (webserver_request.query.count ("fromchange")) {
     int fromchange = filter::strings::convert_to_int (webserver_request.query ["fromchange"]);
-    Database_Modifications database_modifications;
-    //string bible = database_modifications.getNotificationBible (fromchange);
+    //string bible = database::modifications::getNotificationBible (fromchange);
     std::string summary = translate("Query about a change in the text");
     std::string contents = "<p>" + translate("Old text:") + "</p>";
-    contents += database_modifications.getNotificationOldText (fromchange);
+    contents += database::modifications::getNotificationOldText (fromchange);
     contents += "<p>" +  translate("Change:") + "</p>";
-    contents += "<p>" + database_modifications.getNotificationModification (fromchange) + "</p>";
+    contents += "<p>" + database::modifications::getNotificationModification (fromchange) + "</p>";
     contents += "<p>" + translate("New text:") + "</p>";
-    contents += database_modifications.getNotificationNewText (fromchange);
+    contents += database::modifications::getNotificationNewText (fromchange);
     view.set_variable ("summary", summary);
     view.set_variable ("contents", contents);
   }

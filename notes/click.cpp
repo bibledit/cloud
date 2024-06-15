@@ -70,16 +70,15 @@ std::string notes_click (Webserver_Request& webserver_request)
     std::string snew = webserver_request.query ["new"];
     snew = filter_url_basename_web (snew);
     int inew = filter::strings::convert_to_int (snew);
-    Database_Modifications database_modifications;
-    std::string bible = database_modifications.getNotificationBible (inew);
+    std::string bible = database::modifications::getNotificationBible (inew);
     std::string summary = translate("Query about a change in the text");
     std::string contents = "<p>" + translate("Old text:") + "</p>";
-    contents += database_modifications.getNotificationOldText (inew);
+    contents += database::modifications::getNotificationOldText (inew);
     contents += "<p>" +  translate("Change:") + "</p>";
-    contents += "<p>" + database_modifications.getNotificationModification (inew) + "</p>";
+    contents += "<p>" + database::modifications::getNotificationModification (inew) + "</p>";
     contents += "<p>" + translate("New text:") + "</p>";
-    contents += database_modifications.getNotificationNewText (inew);
-    Passage passage = database_modifications.getNotificationPassage (inew);
+    contents += database::modifications::getNotificationNewText (inew);
+    Passage passage = database::modifications::getNotificationPassage (inew);
     int identifier = notes_logic.createNote (bible, passage.m_book, passage.m_chapter, filter::strings::convert_to_int (passage.m_verse), summary, contents, false);
     Ipc_Notes::open (webserver_request, identifier);
   }

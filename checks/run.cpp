@@ -52,9 +52,6 @@ void checks_run (std::string bible)
 {
   Webserver_Request webserver_request {};
   Database_Check database_check {};
-#ifndef HAVE_CLIENT
-  Database_Modifications database_modifications {};
-#endif
 
   
   if (bible.empty()) return;
@@ -143,7 +140,7 @@ void checks_run (std::string bible)
 #ifndef HAVE_CLIENT
           const int newID = database::bibles::get_chapter_id (bible, book, chapter);
           const std::string username = "Bibledit";
-          database_modifications.recordUserSave (username, bible, book, chapter, oldID, old_usfm, newID, chapterUsfm);
+          database::modifications::recordUserSave (username, bible, book, chapter, oldID, old_usfm, newID, chapterUsfm);
           if (sendreceive_git_repository_linked (bible)) {
             Database_Git::store_chapter (username, bible, book, chapter, old_usfm, chapterUsfm);
           }

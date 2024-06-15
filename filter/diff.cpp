@@ -340,7 +340,6 @@ int filter_diff_word_similarity (std::string oldstring, std::string newstring)
 void filter_diff_produce_verse_level (std::string bible, std::string directory)
 {
   Webserver_Request request;
-  Database_Modifications database_modifications;
   const std::string stylesheet = database::config::bible::get_export_stylesheet (bible);
   
   std::vector <std::string> old_vs_usfm;
@@ -353,13 +352,13 @@ void filter_diff_produce_verse_level (std::string bible, std::string directory)
   filter_text_new.html_text_standard = new HtmlText (translate("Bible"));
   filter_text_new.text_text = new Text_Text ();
   
-  std::vector <int> books = database_modifications.getTeamDiffBooks (bible);
+  std::vector <int> books = database::modifications::getTeamDiffBooks (bible);
   for (auto book : books) {
     std::string bookname = database::books::get_english_from_id (static_cast<book_id>(book));
-    std::vector <int> chapters = database_modifications.getTeamDiffChapters (bible, book);
+    std::vector <int> chapters = database::modifications::getTeamDiffChapters (bible, book);
     for (auto chapter : chapters) {
       // Go through the combined verse numbers in the old and new chapter.
-      std::string old_chapter_usfm = database_modifications.getTeamDiff (bible, book, chapter);
+      std::string old_chapter_usfm = database::modifications::getTeamDiff (bible, book, chapter);
       std::string new_chapter_usfm = database::bibles::get_chapter (bible, book, chapter);
       std::vector <int> old_verse_numbers = filter::usfm::get_verse_numbers (old_chapter_usfm);
       std::vector <int> new_verse_numbers = filter::usfm::get_verse_numbers (new_chapter_usfm);

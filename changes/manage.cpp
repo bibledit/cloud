@@ -55,9 +55,6 @@ bool changes_manage_acl (Webserver_Request& webserver_request)
 
 std::string changes_manage (Webserver_Request& webserver_request)
 {
-  Database_Modifications database_modifications {};
-  
-  
   std::string page {};
   Assets_Header header = Assets_Header (translate("Changes"), webserver_request);
   header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());
@@ -91,7 +88,7 @@ std::string changes_manage (Webserver_Request& webserver_request)
   std::vector <std::string> users = access_user::assignees (webserver_request);
   for (const auto& user : users) {
     std::string any_bible {};
-    const std::vector <int> ids = database_modifications.getNotificationIdentifiers (user, any_bible);
+    const std::vector <int> ids = database::modifications::getNotificationIdentifiers (user, any_bible);
     if (!ids.empty ()) {
       notifications = true;
       std::map <std::string, std::string> values {};

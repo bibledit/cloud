@@ -254,8 +254,7 @@ void setup_initialize_data ()
   config_globals_setup_message = "versifications";
   setup_generate_versification_databases ();
   config_globals_setup_message = "modifications";
-  Database_Modifications database_modifications;
-  database_modifications.create ();
+  database::modifications::create ();
   config_globals_setup_message = "notes";
   Database_Notes database_notes (webserver_request);
   database_notes.create ();

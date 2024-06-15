@@ -43,7 +43,6 @@ std::string sync_changes_url ()
 std::string sync_changes (Webserver_Request& webserver_request)
 {
   Sync_Logic sync_logic (webserver_request);
-  Database_Modifications database_modifications;
 
   if (!sync_logic.security_okay ()) {
     // When the Cloud enforces https, inform the client to upgrade.
@@ -72,7 +71,7 @@ std::string sync_changes (Webserver_Request& webserver_request)
     case Sync_Logic::changes_delete_modification:
     {
       // The server deletes the change notification.
-      database_modifications.deleteNotification (id);
+      database::modifications::deleteNotification (id);
       Database_Logs::log ("Client deletes change notification from server: " + std::to_string (id), Filter_Roles::translator ());
       webserver_request.database_config_user ()->setChangeNotificationsChecksum ("");
       return std::string();
@@ -91,7 +90,7 @@ std::string sync_changes (Webserver_Request& webserver_request)
     {
       // The server responds with the identifiers of all the user's change notifications.
       std::string any_bible {};
-      std::vector <int> notification_ids = database_modifications.getNotificationIdentifiers (user, any_bible);
+      std::vector <int> notification_ids = database::modifications::getNotificationIdentifiers (user, any_bible);
       std::string response;
       for (auto & notif_id : notification_ids) {
         if (!response.empty ()) response.append ("\n");
@@ -104,26 +103,26 @@ std::string sync_changes (Webserver_Request& webserver_request)
       // The server responds with the relevant data of the requested modification.
       std::vector <std::string> lines;
       // category
-      lines.push_back (database_modifications.getNotificationCategory (id));
+      lines.push_back (database::modifications::getNotificationCategory (id));
       // bible
-      lines.push_back (database_modifications.getNotificationBible (id));
+      lines.push_back (database::modifications::getNotificationBible (id));
       // book
       // chapter
       // verse
-      Passage passage = database_modifications.getNotificationPassage (id);
+      Passage passage = database::modifications::getNotificationPassage (id);
       lines.push_back (std::to_string (passage.m_book));
       lines.push_back (std::to_string (passage.m_chapter));
       lines.push_back (passage.m_verse);
       // oldtext (ensure it's one line for correct transfer to client)
-      std::string oldtext = database_modifications.getNotificationOldText (id);
+      std::string oldtext = database::modifications::getNotificationOldText (id);
       oldtext = filter::strings::replace ("\n", " ", oldtext);
       lines.push_back (oldtext);
       // modification (ensure it's one line for correct transfer to client)
-      std::string modification = database_modifications.getNotificationModification (id);
+      std::string modification = database::modifications::getNotificationModification (id);
       modification = filter::strings::replace ("\n", " ", modification);
       lines.push_back (modification);
       // newtext (ensure it's one line for correct transfer to client)
-      std::string newtext = database_modifications.getNotificationNewText (id);
+      std::string newtext = database::modifications::getNotificationNewText (id);
       newtext = filter::strings::replace ("\n", " ", newtext);
       lines.push_back (newtext);
       // Result.

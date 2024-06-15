@@ -126,8 +126,7 @@ std::string editusfm_save (Webserver_Request& webserver_request)
 #ifndef HAVE_CLIENT
                   // Server configuration: Store details for the user's changes.
                   int newID = database::bibles::get_chapter_id (bible, book, chapter);
-                  Database_Modifications database_modifications;
-                  database_modifications.recordUserSave (username, bible, book, chapter, oldID, oldText, newID, newText);
+                  database::modifications::recordUserSave (username, bible, book, chapter, oldID, oldText, newID, newText);
                   if (sendreceive_git_repository_linked (bible)) {
                     Database_Git::store_chapter (username, bible, book, chapter, oldText, newText);
                   }

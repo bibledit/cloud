@@ -151,8 +151,7 @@ std::string editone2_save (Webserver_Request& webserver_request)
 #ifdef HAVE_CLOUD
     // The Cloud stores details of the user's changes.
     int newID = database::bibles::get_chapter_id (bible, book, chapter);
-    Database_Modifications database_modifications;
-    database_modifications.recordUserSave (username, bible, book, chapter, oldID, old_chapter_usfm, newID, new_chapter_usfm);
+    database::modifications::recordUserSave (username, bible, book, chapter, oldID, old_chapter_usfm, newID, new_chapter_usfm);
     if (sendreceive_git_repository_linked (bible)) {
       Database_Git::store_chapter (username, bible, book, chapter, old_chapter_usfm, new_chapter_usfm);
     }

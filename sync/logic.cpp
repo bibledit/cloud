@@ -232,9 +232,8 @@ std::string Sync_Logic::usfm_resource_chapter_checksum (const std::string& name,
 // Calculates the total checksum for all the changes for $username.
 std::string Sync_Logic::changes_checksum (const std::string& username)
 {
-  Database_Modifications database_modifications;
   std::string any_bible = "";
-  std::vector <int> ids = database_modifications.getNotificationIdentifiers (username, any_bible);
+  std::vector <int> ids = database::modifications::getNotificationIdentifiers (username, any_bible);
   std::string checksum;
   for (auto & id : ids) {
     checksum.append (std::to_string (id));

@@ -70,11 +70,10 @@ void changes_process_identifiers (Webserver_Request& webserver_request,
                                   int& change_count, float& time_total, int& time_count)
 {
   if (oldId != 0) {
-    Database_Modifications database_modifications {};
     const std::string stylesheet = database::config::bible::get_export_stylesheet (bible);
-    Database_Modifications_Text old_chapter_text = database_modifications.getUserChapter (user, bible, book, chapter, oldId);
+    database::modifications::text_bundle old_chapter_text = database::modifications::getUserChapter (user, bible, book, chapter, oldId);
     const std::string old_chapter_usfm = old_chapter_text.oldtext;
-    Database_Modifications_Text new_chapter_text = database_modifications.getUserChapter (user, bible, book, chapter, newId);
+    database::modifications::text_bundle new_chapter_text = database::modifications::getUserChapter (user, bible, book, chapter, newId);
     const std::string new_chapter_usfm = new_chapter_text.newtext;
     const std::vector <int> old_verse_numbers = filter::usfm::get_verse_numbers (old_chapter_usfm);
     const std::vector <int> new_verse_numbers = filter::usfm::get_verse_numbers (new_chapter_usfm);
@@ -108,7 +107,7 @@ void changes_process_identifiers (Webserver_Request& webserver_request,
           email += modification;
           email += "</div>";
           if (webserver_request.database_config_user()->getUserUserChangesNotificationsOnline (user)) {
-            database_modifications.recordNotification ({user}, changes_personal_category (), bible, book, chapter, verse, old_html, modification, new_html);
+            database::modifications::recordNotification ({user}, changes_personal_category (), bible, book, chapter, verse, old_html, modification, new_html);
           }
           // Go over all the receipients to record the change for them.
           for (const auto& recipient : recipients) {
@@ -124,12 +123,12 @@ void changes_process_identifiers (Webserver_Request& webserver_request,
             } catch (...) {}
             if (!receive) continue;
             // Store the notification.
-            database_modifications.recordNotification ({recipient}, user, bible, book, chapter, verse, old_html, modification, new_html);
+            database::modifications::recordNotification ({recipient}, user, bible, book, chapter, verse, old_html, modification, new_html);
           }
         }
         // Statistics: Count yet another change made by this hard-working user!
         change_count++;
-        int timestamp = database_modifications.getUserTimestamp (user, bible, book, chapter, newId);
+        int timestamp = database::modifications::getUserTimestamp (user, bible, book, chapter, newId);
         time_total += static_cast<float>(timestamp);
         time_count++;
       }
@@ -149,12 +148,11 @@ void changes_modifications ()
   
   // Data objects.
   Webserver_Request webserver_request {};
-  Database_Modifications database_modifications {};
 
 
   // Check on the health of the modifications database and (re)create it if needed.
-  if (!database_modifications.healthy ()) database_modifications.erase ();
-  database_modifications.create ();
+  if (!database::modifications::healthy ()) database::modifications::erase ();
+  database::modifications::create ();
   
   
   // Get the users who will receive the changes entered by the named contributors.
@@ -193,7 +191,7 @@ void changes_modifications ()
   // This produces the desired order of the notifications in the GUI.
   // At the same time, produce change statistics per user.
 
-  std::vector <std::string> users = database_modifications.getUserUsernames ();
+  std::vector <std::string> users = database::modifications::getUserUsernames ();
   if (!users.empty ()) Database_Logs::log ("Change notifications: Per user", Filter_Roles::translator ());
   for (const auto& user : users) {
 
@@ -201,7 +199,7 @@ void changes_modifications ()
     int change_count {0};
     
     // Go through the Bibles changed by the current user.
-    std::vector <std::string> bibles = database_modifications.getUserBibles (user);
+    std::vector <std::string> bibles = database::modifications::getUserBibles (user);
     for (const auto& bible : bibles) {
       
       // Body of the email to be sent.
@@ -209,15 +207,15 @@ void changes_modifications ()
       size_t empty_email_length = email.length ();
       
       // Go through the books in that Bible.
-      const std::vector <int> books = database_modifications.getUserBooks (user, bible);
+      const std::vector <int> books = database::modifications::getUserBooks (user, bible);
       for (auto book : books) {
         
         // Go through the chapters in that book.
-        const std::vector <int> chapters = database_modifications.getUserChapters (user, bible, book);
+        const std::vector <int> chapters = database::modifications::getUserChapters (user, bible, book);
         for (auto chapter : chapters) {
           
           // Get the sets of identifiers for that chapter, and set some variables.
-          const std::vector <Database_Modifications_Id> IdSets = database_modifications.getUserIdentifiers (user, bible, book, chapter);
+          const std::vector <database::modifications::id_bundle> IdSets = database::modifications::getUserIdentifiers (user, bible, book, chapter);
           int reference_new_id {0};
           int new_id {0};
           int last_new_id {0};
@@ -264,7 +262,7 @@ void changes_modifications ()
     user_change_statistics [user] = change_count;
 
     // Clear the user's changes in the database.
-    database_modifications.clearUserUser (user);
+    database::modifications::clearUserUser (user);
     
     
     // Clear checksum cache.
@@ -275,7 +273,7 @@ void changes_modifications ()
   // Generate the notifications, online and by email,
   // for the changes in the Bibles entered by anyone
   // since the previous notifications were generated.
-  std::vector <std::string> bibles = database_modifications.getTeamDiffBibles ();
+  std::vector <std::string> bibles = database::modifications::getTeamDiffBibles ();
   for (const auto & bible : bibles) {
     
     
@@ -340,12 +338,12 @@ void changes_modifications ()
     
     
     // Generate the online change notifications.
-    const std::vector <int> books = database_modifications.getTeamDiffBooks (bible);
+    const std::vector <int> books = database::modifications::getTeamDiffBooks (bible);
     for (auto book : books) {
-      const std::vector <int> chapters = database_modifications.getTeamDiffChapters (bible, book);
+      const std::vector <int> chapters = database::modifications::getTeamDiffChapters (bible, book);
       for (auto chapter : chapters) {
         Database_Logs::log ("Change notifications: " + bible + " " + filter_passage_display (book, chapter, ""), Filter_Roles::translator ());
-        const std::string old_chapter_usfm = database_modifications.getTeamDiff (bible, book, chapter);
+        const std::string old_chapter_usfm = database::modifications::getTeamDiff (bible, book, chapter);
         const std::string new_chapter_usfm = database::bibles::get_chapter (bible, book, chapter);
         const std::vector <int> old_verse_numbers = filter::usfm::get_verse_numbers (old_chapter_usfm);
         const std::vector <int> new_verse_numbers = filter::usfm::get_verse_numbers (new_chapter_usfm);
@@ -380,7 +378,7 @@ void changes_modifications ()
               new_text = filter_text_new.text_text->get ();
             }
             const std::string modification = filter_diff_diff (old_text, new_text);
-            database_modifications.recordNotification (changeNotificationUsers, changes_bible_category (), bible, book, chapter, verse, old_html, modification, new_html);
+            database::modifications::recordNotification (changeNotificationUsers, changes_bible_category (), bible, book, chapter, verse, old_html, modification, new_html);
             const std::string passage = filter_passage_display (book, chapter, std::to_string (verse))   + ": ";
             if (old_text != new_text) {
               email_changes.push_back (passage  + modification);
@@ -396,7 +394,7 @@ void changes_modifications ()
         // 1. New diffs for this chapter can be stored straightaway.
         // 2. In case of large amounts of diff data, and this function gets killed,
         //    then the next time it runs again, it will continue from where it was killed.
-        database_modifications.deleteTeamDiffChapter (bible, book, chapter);
+        database::modifications::deleteTeamDiffChapter (bible, book, chapter);
       }
     }
     
@@ -445,7 +443,7 @@ void changes_modifications ()
   
   // Index the data and remove expired notifications.
   Database_Logs::log ("Change notifications: Indexing", Filter_Roles::translator ());
-  database_modifications.indexTrimAllNotifications ();
+  database::modifications::indexTrimAllNotifications ();
 
   
   // Remove expired downloadable revisions.
@@ -481,7 +479,7 @@ void changes_modifications ()
   
   
   // Vacuum the modifications index, as it might have been updated.
-  database_modifications.vacuum ();
+  database::modifications::vacuum ();
   
   
   // Make the notifications available again to clients.

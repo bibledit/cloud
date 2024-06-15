@@ -263,35 +263,6 @@ void error (sqlite3 * database, const std::string& prefix, char * error)
 } // Namespace.
 
 
-void SqliteSQL::clear ()
-{
-  sql.clear ();
-}
-
-
-void SqliteSQL::add (const char * fragment)
-{
-  sql.append (" ");
-  sql.append (fragment);
-  sql.append (" ");
-}
-
-void SqliteSQL::add (int value)
-{
-  sql.append (" ");
-  sql.append (std::to_string (value));
-  sql.append (" ");
-}
-
-void SqliteSQL::add (std::string value)
-{
-  sql.append (" '");
-  value = database::sqlite::no_sql_injection (value);
-  sql.append (value);
-  sql.append ("' ");
-}
-
-
 SqliteReader::SqliteReader (int dummy)
 {
   if (dummy) {};

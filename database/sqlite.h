@@ -37,17 +37,6 @@ void error (sqlite3 * database, const std::string& prefix, char * error);
 }
 
 
-// Creates a database SQL query.
-class SqliteSQL
-{
-public:
-  void clear ();
-  void add (const char * fragment);
-  void add (int value);
-  void add (std::string value);
-  std::string sql {};
-};
-
 class SqliteDatabase
 {
 public:

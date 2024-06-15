@@ -102,7 +102,6 @@ public:
   void revokeWriteAccess (std::string user, std::string sheet);
   bool hasWriteAccess (std::string user, std::string sheet);
 private:
-  sqlite3 * connect ();
   std::string databasefolder ();
   std::string sheetfolder (std::string sheet);
   std::string stylefile (std::string sheet, std::string marker);

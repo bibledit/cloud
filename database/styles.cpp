@@ -48,23 +48,18 @@ std::map <std::string, std::map <std::string, Database_Styles_Item>> database_st
 std::mutex database_styles_cache_mutex;
 
 
-sqlite3 * Database_Styles::connect ()
-{
-  return database::sqlite::connect ("styles");
-}
+constexpr const auto database_name {"styles"};
 
 
 void Database_Styles::create ()
 {
   // Create database.
-  sqlite3 * db = connect ();
-  std::string sql;
-  sql = "CREATE TABLE IF NOT EXISTS users ("
-        "user text,"
-        "sheet text"
-        ");";
-  database::sqlite::exec (db, sql);
-  database::sqlite::disconnect (db);
+  SqliteDatabase sql (database_name);
+  sql.set_sql ("CREATE TABLE IF NOT EXISTS users ("
+               "user text,"
+               "sheet text"
+               ");");
+  sql.execute ();
 }
 
 
@@ -407,15 +402,13 @@ void Database_Styles::updateBackgroundColor (std::string sheet, std::string mark
 // Grant $user write access to stylesheet $sheet.
 void Database_Styles::grantWriteAccess (std::string user, std::string sheet)
 {
-  SqliteSQL sql;
+  SqliteDatabase sql (database_name);
   sql.add ("INSERT INTO users VALUES (");
   sql.add (user);
   sql.add (",");
   sql.add (sheet);
   sql.add (");");
-  sqlite3 * db = connect ();
-  database::sqlite::exec (db, sql.sql);
-  database::sqlite::disconnect (db);
+  sql.execute ();
 }
 
 
@@ -423,7 +416,7 @@ void Database_Styles::grantWriteAccess (std::string user, std::string sheet)
 // If the $user is empty, then revoke write access of anybody to that $sheet.
 void Database_Styles::revokeWriteAccess (std::string user, std::string sheet)
 {
-  SqliteSQL sql;
+  SqliteDatabase sql (database_name);
   sql.add ("DELETE FROM users WHERE");
   if (!user.empty ()) {
     sql.add ("user =");
@@ -433,24 +426,20 @@ void Database_Styles::revokeWriteAccess (std::string user, std::string sheet)
   sql.add ("sheet =");
   sql.add (sheet);
   sql.add (";");
-  sqlite3 * db = connect ();
-  database::sqlite::exec (db, sql.sql);
-  database::sqlite::disconnect (db);
+  sql.execute ();
 }
 
 
 // Returns true or false depending on whether $user has write access to $sheet.
 bool Database_Styles::hasWriteAccess (std::string user, std::string sheet)
 {
-  SqliteSQL sql;
+  SqliteDatabase sql (database_name);
   sql.add ("SELECT rowid FROM users WHERE user =");
   sql.add (user);
   sql.add ("AND sheet =");
   sql.add (sheet);
   sql.add (";");
-  sqlite3 * db = connect ();
-  std::map <std::string, std::vector <std::string> > result = database::sqlite::query (db, sql.sql);
-  database::sqlite::disconnect (db);
+  std::map <std::string, std::vector <std::string> > result = sql.query ();
   return !result["rowid"].empty ();
 }
 

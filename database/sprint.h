@@ -47,8 +47,6 @@ public:
   void logHistory (const std::string& bible, int year, int month, int day, int tasks, int complete);
   std::vector <Database_Sprint_Item> getHistory (const std::string& bible, int year, int month);
   void clearHistory (const std::string& bible, int year, int month);
-private:
-  sqlite3 * connect ();
 };
 
 #endif

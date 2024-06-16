@@ -31,8 +31,7 @@ TEST (database, check)
   {
     // Test optimize.
     refresh_sandbox (false);
-    Database_Check database_check = Database_Check ();
-    database_check.optimize ();
+    database::check::optimize ();
   }
 
   {
@@ -40,18 +39,17 @@ TEST (database, check)
     refresh_sandbox (true);
     Database_State::create ();
     database::bibles::create_bible ("phpunit");
-    Database_Check database_check = Database_Check ();
-    database_check.create ();
+    database::check::create ();
     
-    std::vector <Database_Check_Hit> hits = database_check.getHits ();
+    std::vector <database::check::Hit> hits = database::check::getHits ();
     EXPECT_EQ (0, static_cast<int> (hits.size()));
     
-    database_check.recordOutput ("phpunit", 1, 2, 3, "test");
-    hits = database_check.getHits ();
+    database::check::recordOutput ("phpunit", 1, 2, 3, "test");
+    hits = database::check::getHits ();
     EXPECT_EQ (1, static_cast<int> (hits.size()));
     
-    database_check.truncateOutput ("");
-    hits = database_check.getHits ();
+    database::check::truncateOutput ("");
+    hits = database::check::getHits ();
     EXPECT_EQ (0, static_cast<int> (hits.size()));
   }
 
@@ -60,10 +58,9 @@ TEST (database, check)
     refresh_sandbox (true);
     Database_State::create ();
     database::bibles::create_bible ("phpunit");
-    Database_Check database_check = Database_Check ();
-    database_check.create ();
-    database_check.recordOutput ("phpunit", 5, 2, 3, "test");
-    std::vector <Database_Check_Hit> hits = database_check.getHits ();
+    database::check::create ();
+    database::check::recordOutput ("phpunit", 5, 2, 3, "test");
+    std::vector <database::check::Hit> hits = database::check::getHits ();
     EXPECT_EQ (1, static_cast<int> (hits.size()));
     EXPECT_EQ ("phpunit", hits [0].bible);
     EXPECT_EQ (5, hits [0].book);
@@ -76,28 +73,27 @@ TEST (database, check)
     refresh_sandbox (true);
     Database_State::create ();
     database::bibles::create_bible ("phpunit");
-    Database_Check database_check = Database_Check ();
-    database_check.create ();
+    database::check::create ();
     
-    database_check.recordOutput ("phpunit", 3, 4, 5, "test1");
-    database_check.recordOutput ("phpunit", 3, 4, 5, "test2");
+    database::check::recordOutput ("phpunit", 3, 4, 5, "test1");
+    database::check::recordOutput ("phpunit", 3, 4, 5, "test2");
     
-    std::vector <Database_Check_Hit> hits = database_check.getHits ();
+    std::vector <database::check::Hit> hits = database::check::getHits ();
     EXPECT_EQ (2, static_cast<int> (hits.size()));
     
     int id = hits [0].rowid;
-    database_check.approve (id);
-    hits = database_check.getHits ();
+    database::check::approve (id);
+    hits = database::check::getHits ();
     EXPECT_EQ (1, static_cast<int> (hits.size()));
     
-    std::vector <Database_Check_Hit> suppressions = database_check.getSuppressions ();
+    std::vector <database::check::Hit> suppressions = database::check::getSuppressions ();
     EXPECT_EQ (1, static_cast<int>(suppressions.size()));
     
     id = suppressions [0].rowid;
     EXPECT_EQ (1, id);
 
-    database_check.release (1);
-    hits = database_check.getHits ();
+    database::check::release (1);
+    hits = database::check::getHits ();
     EXPECT_EQ (2, static_cast<int> (hits.size()));
   }
 
@@ -106,15 +102,14 @@ TEST (database, check)
     refresh_sandbox (true);
     Database_State::create ();
     database::bibles::create_bible ("phpunit");
-    Database_Check database_check = Database_Check ();
-    database_check.create ();
-    database_check.recordOutput ("phpunit", 3, 4, 5, "test1");
-    database_check.recordOutput ("phpunit", 3, 4, 5, "test2");
-    std::vector <Database_Check_Hit> hits = database_check.getHits ();
+    database::check::create ();
+    database::check::recordOutput ("phpunit", 3, 4, 5, "test1");
+    database::check::recordOutput ("phpunit", 3, 4, 5, "test2");
+    std::vector <database::check::Hit> hits = database::check::getHits ();
     EXPECT_EQ (2, static_cast<int> (hits.size()));
     int id = hits [0].rowid;
-    database_check.erase (id);
-    hits = database_check.getHits ();
+    database::check::erase (id);
+    hits = database::check::getHits ();
     EXPECT_EQ (1, static_cast<int> (hits.size()));
   }
 
@@ -123,11 +118,10 @@ TEST (database, check)
     refresh_sandbox (true);
     Database_State::create ();
     database::bibles::create_bible ("phpunit");
-    Database_Check database_check = Database_Check ();
-    database_check.create ();
-    database_check.recordOutput ("phpunit", 3, 4, 5, "test1");
-    database_check.recordOutput ("phpunit", 6, 7, 8, "test2");
-    Passage passage = database_check.getPassage (2);
+    database::check::create ();
+    database::check::recordOutput ("phpunit", 3, 4, 5, "test1");
+    database::check::recordOutput ("phpunit", 6, 7, 8, "test2");
+    Passage passage = database::check::getPassage (2);
     EXPECT_EQ (6, passage.m_book);
     EXPECT_EQ (7, passage.m_chapter);
     EXPECT_EQ ("8", passage.m_verse);
@@ -138,13 +132,12 @@ TEST (database, check)
     refresh_sandbox (true);
     Database_State::create ();
     database::bibles::create_bible ("phpunit");
-    Database_Check database_check = Database_Check ();
-    database_check.create ();
-    database_check.recordOutput ("phpunit", 3, 4, 5, "once");
+    database::check::create ();
+    database::check::recordOutput ("phpunit", 3, 4, 5, "once");
     for (int i = 0; i < 100; i++) {
-      database_check.recordOutput ("phpunit", i, i, i, "multiple");
+      database::check::recordOutput ("phpunit", i, i, i, "multiple");
     }
-    std::vector <Database_Check_Hit> hits = database_check.getHits ();
+    std::vector <database::check::Hit> hits = database::check::getHits ();
     EXPECT_EQ (12, static_cast<int> (hits.size()));
   }
 }

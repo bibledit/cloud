@@ -28,6 +28,7 @@
 #include <database/books.h>
 #include <database/config/bible.h>
 #include <database/mappings.h>
+#include <database/check.h>
 #include <locale/translate.h>
 #include <dialog/entry.h>
 #include <dialog/yes.h>
@@ -295,8 +296,7 @@ std::string bible_settings (Webserver_Request& webserver_request)
       database::config::bible::set_daily_checks_enabled (bible, checked);
       if (!checked) {
         // If checking is switched off, also remove any existing checking results for this Bible.
-        Database_Check database_check;
-        database_check.truncateOutput(bible);
+        database::check::truncateOutput(bible);
       }
     }
   }

@@ -27,6 +27,7 @@
 #include <webserver/request.h>
 #include <locale/translate.h>
 #include <database/config/general.h>
+#include <database/check.h>
 #include <client/logic.h>
 #include <demo/logic.h>
 #include <sendreceive/logic.h>
@@ -47,9 +48,6 @@ bool checks_suppress_acl (Webserver_Request& webserver_request)
 
 std::string checks_suppress (Webserver_Request& webserver_request)
 {
-  Database_Check database_check {};
-  
-  
   std::string page {};
   page = assets_page::header (translate ("Suppressed checking results"), webserver_request);
   Assets_View view {};
@@ -57,7 +55,7 @@ std::string checks_suppress (Webserver_Request& webserver_request)
   
   if (webserver_request.query.count ("release")) {
     int release = filter::strings::convert_to_int (webserver_request.query["release"]);
-    database_check.release (release);
+    database::check::release (release);
     view.set_variable ("success", translate ("The check result is no longer suppressed."));
   }
   
@@ -75,7 +73,7 @@ std::string checks_suppress (Webserver_Request& webserver_request)
   
   
   std::string block {};
-  const std::vector <Database_Check_Hit> suppressions = database_check.getSuppressions ();
+  const std::vector <database::check::Hit> suppressions = database::check::getSuppressions ();
   for (const auto & suppression : suppressions) {
     std::string bible = suppression.bible;
     // Only display entries for Bibles the user has write access to.

@@ -35,6 +35,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <changes/modifications.h>
 #include <database/config/bible.h>
 #include <database/versifications.h>
+#include <database/check.h>
 #include <checks/run.h>
 #include <export/usfm.h>
 #include <export/textusfm.h>
@@ -151,8 +152,7 @@ TEST (DISABLED_memory, basic)
     database::config::bible::set_check_missing_punctuation_end_verse (bible, true);
     database::config::bible::set_check_patterns (bible, true);
     database::config::bible::set_check_matching_pairs (bible, true);
-    Database_Check database_check;
-    database_check.create ();
+    database::check::create ();
     Database_Users database_users;
     database_users.create ();
     Database_Versifications database_versifications;

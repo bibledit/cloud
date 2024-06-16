@@ -31,15 +31,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 TEST (checks, french)
 {
   refresh_sandbox (false);
-  Database_Check database_check;
-  database_check.create ();
+  database::check::create ();
   std::string bible = "unit test";
   std::string nbsp = filter::strings::non_breaking_space_u00A0 ();
   std::string nnbsp = filter::strings::narrow_non_breaking_space_u202F ();
   
   // Test reporting lacking no-break space at French square brackets and other punctuation.
   {
-    database_check.truncateOutput (bible);
+    database::check::truncateOutput (bible);
     std::map <int, std::string> texts;
     texts [1] = "This is «French» text.";
     texts [2] = "This is « French » text.";
@@ -49,7 +48,7 @@ TEST (checks, french)
     texts [6] = "This is it" + nbsp + ";";
     texts [7] = "This is «" + nnbsp + "French" + nnbsp + "» with narrow non-breaking spaces.";
     checks_french::space_before_after_punctuation (bible, 2, 3, texts);
-    std::vector <Database_Check_Hit> hits = database_check.getHits ();
+    std::vector <database::check::Hit> hits = database::check::getHits ();
     int hitcount = 6;
     EXPECT_EQ (hitcount, hits.size ());
     if (static_cast<int> (hits.size ()) == hitcount) {
@@ -78,7 +77,7 @@ TEST (checks, french)
   
   // Test French citation style.
   {
-    database_check.truncateOutput (bible);
+    database::check::truncateOutput (bible);
     std::string usfm = R"(
 \c 1
 \p
@@ -103,7 +102,7 @@ TEST (checks, french)
     filter_text.run (styles_logic_standard_sheet ());
     std::vector <std::map <int, std::string>> verses_paragraphs = filter_text.verses_paragraphs;
     checks_french::citation_style (bible, 2, 3, verses_paragraphs);
-    std::vector <Database_Check_Hit> hits = database_check.getHits ();
+    std::vector <database::check::Hit> hits = database::check::getHits ();
     int size = 4;
     EXPECT_EQ (size, hits.size ());
     if (static_cast<int> (hits.size ()) == size) {
@@ -122,7 +121,7 @@ TEST (checks, french)
   
   // Real-life data, fixed, regression test.
   {
-    database_check.truncateOutput (bible);
+    database::check::truncateOutput (bible);
     // In the example following, there is the « in the beginning of the verse 13, it needs to begin a new paragraph, or be considered as an extra «, but the checks don't find it.
     std::string usfm = R"(
 \p
@@ -139,7 +138,7 @@ TEST (checks, french)
     filter_text.run (styles_logic_standard_sheet ());
     std::vector <std::map <int, std::string>> verses_paragraphs = filter_text.verses_paragraphs;
     checks_french::citation_style (bible, 2, 3, verses_paragraphs);
-    std::vector <Database_Check_Hit> hits = database_check.getHits ();
+    std::vector <database::check::Hit> hits = database::check::getHits ();
     int size = 1;
     EXPECT_EQ (size, hits.size ());
     if (static_cast<int> (hits.size ()) == size) {

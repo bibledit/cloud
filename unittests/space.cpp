@@ -28,30 +28,29 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 TEST (checks, space)
 {
   refresh_sandbox (false);
-  Database_Check database_check;
-  database_check.create ();
+  database::check::create ();
   std::string bible = "unit test";
   
   // Test reporting space at end of verse: No spaces here.
   {
-    database_check.truncateOutput (bible);
+    database::check::truncateOutput (bible);
     std::string usfm =
     "\\v 2 This is verse 2.\n"
     "\\v 3 This is verse 3.\n"
     ;
     checks::space::space_end_verse (bible, 2, 3, usfm);
-    std::vector <Database_Check_Hit> hits = database_check.getHits ();
+    std::vector <database::check::Hit> hits = database::check::getHits ();
     EXPECT_EQ (0, hits.size ());
   }
 
   // Test reporting space at end of verse: One space here.
   {
-    database_check.truncateOutput (bible);
+    database::check::truncateOutput (bible);
     std::string usfm =
     "\\v 4 This is verse 4. \n"
     ;
     checks::space::space_end_verse (bible, 2, 3, usfm);
-    std::vector <Database_Check_Hit> hits = database_check.getHits ();
+    std::vector <database::check::Hit> hits = database::check::getHits ();
     EXPECT_EQ (1, hits.size ());
   }
 
@@ -61,32 +60,32 @@ TEST (checks, space)
   // So in the pure text stream, the space is at the end of a verse.
   // Check that it gets reported.
   {
-    database_check.truncateOutput (bible);
+    database::check::truncateOutput (bible);
     std::string usfm =
     "\\v 5 This is verse \\add 5. \\add*\n"
     ;
     checks::space::space_end_verse (bible, 2, 3, usfm);
-    std::vector <Database_Check_Hit> hits = database_check.getHits ();
+    std::vector <database::check::Hit> hits = database::check::getHits ();
     EXPECT_EQ (1, hits.size ());
   }
   
   // Test there's no space in the cleaned text at the end of the verse.
   {
-    database_check.truncateOutput (bible);
+    database::check::truncateOutput (bible);
     std::string usfm =
     "\\v 6 This is verse \\add 6.\\add*\n"
     ;
     checks::space::space_end_verse (bible, 2, 3, usfm);
-    std::vector <Database_Check_Hit> hits = database_check.getHits ();
+    std::vector <database::check::Hit> hits = database::check::getHits ();
     EXPECT_EQ (0, hits.size ());
   }
   
   // Check that it catches a double space in USFM.
   {
-    database_check.truncateOutput (bible);
+    database::check::truncateOutput (bible);
     std::string usfm = R"(\v 1 This contains  a double space.)";
     checks::space::double_space_usfm (bible, 2, 3, 4, usfm);
-    std::vector <Database_Check_Hit> hits = database_check.getHits ();
+    std::vector <database::check::Hit> hits = database::check::getHits ();
     EXPECT_EQ (1, hits.size ());
   }
   
@@ -108,27 +107,27 @@ TEST (checks, space)
   
   // Check on a space before final note and cross reference markup.
   {
-    database_check.truncateOutput (bible);
+    database::check::truncateOutput (bible);
     int verse = 4;
     std::string usfm = R"(\v 1 Note \f ... \f*.)";
     checks::space::space_before_final_note_markup (bible, 2, 3, verse, usfm);
-    std::vector <Database_Check_Hit> hits = database_check.getHits ();
+    std::vector <database::check::Hit> hits = database::check::getHits ();
     EXPECT_EQ (1, hits.size ());
   }
   {
-    database_check.truncateOutput (bible);
+    database::check::truncateOutput (bible);
     int verse = 5;
     std::string usfm = R"(\v 2 Endnote \fe ... \fe*.)";
     checks::space::space_before_final_note_markup (bible, 2, 3, verse, usfm);
-    std::vector <Database_Check_Hit> hits = database_check.getHits ();
+    std::vector <database::check::Hit> hits = database::check::getHits ();
     EXPECT_EQ (1, hits.size ());
   }
   {
-    database_check.truncateOutput (bible);
+    database::check::truncateOutput (bible);
     int verse = 6;
     std::string usfm = R"(\v 3 Cross reference \x ... \x*.)";
     checks::space::space_before_final_note_markup (bible, 2, 3, verse, usfm);
-    std::vector <Database_Check_Hit> hits = database_check.getHits ();
+    std::vector <database::check::Hit> hits = database::check::getHits ();
     EXPECT_EQ (1, hits.size ());
   }
 

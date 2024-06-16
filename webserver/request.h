@@ -25,7 +25,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/users.h>
 #include <database/styles.h>
 #include <database/bibles.h>
-#include <database/check.h>
 #include <database/ipc.h>
 
 class Webserver_Request
@@ -80,13 +79,11 @@ public:
   Database_Config_User * database_config_user ();
   Database_Users * database_users ();
   Database_Styles * database_styles ();
-  Database_Check * database_check ();
   Database_Ipc * database_ipc ();
 private:
   Session_Logic * session_logic_instance { nullptr };
   Database_Config_User * database_config_user_instance { nullptr };
   Database_Users * database_users_instance { nullptr };
   Database_Styles * database_styles_instance { nullptr };
-  Database_Check * database_check_instance { nullptr };
   Database_Ipc * database_ipc_instance { nullptr };
 };

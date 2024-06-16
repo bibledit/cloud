@@ -51,7 +51,6 @@
 void checks_run (std::string bible)
 {
   Webserver_Request webserver_request {};
-  Database_Check database_check {};
 
   
   if (bible.empty()) return;
@@ -60,7 +59,7 @@ void checks_run (std::string bible)
   Database_Logs::log ("Check " + bible + ": Start", Filter_Roles::translator ());
   
   
-  database_check.truncateOutput (bible);
+  database::check::truncateOutput (bible);
   
   
   const std::string stylesheet = database::config::bible::get_export_stylesheet (bible);
@@ -163,7 +162,7 @@ void checks_run (std::string bible)
         if (check_valid_utf8_text) {
           if (!filter::strings::unicode_string_is_valid (verseUsfm)) {
             const std::string msg = "Invalid UTF-8 Unicode in verse text";
-            database_check.recordOutput (bible, book, chapter, verse, msg);
+            database::check::recordOutput (bible, book, chapter, verse, msg);
           }
         }
         if (check_space_before_final_note_marker) {
@@ -199,7 +198,7 @@ void checks_run (std::string bible)
         for (const auto& result : results) {
           const int verse = result.first;
           const std::string msg = result.second;
-          database_check.recordOutput (bible, book, chapter, verse, msg);
+          database::check::recordOutput (bible, book, chapter, verse, msg);
         }
       }
 
@@ -211,7 +210,7 @@ void checks_run (std::string bible)
         for (const auto& element : results) {
           const int verse = element.first;
           const std::string msg = element.second;
-          database_check.recordOutput (bible, book, chapter, verse, msg);
+          database::check::recordOutput (bible, book, chapter, verse, msg);
         }
       }
 
@@ -246,7 +245,7 @@ void checks_run (std::string bible)
   
   // Create an email with the checking results for this bible.
   std::vector <std::string> emailBody;
-  std::vector <Database_Check_Hit> hits = database_check.getHits ();
+  std::vector <database::check::Hit> hits = database::check::getHits ();
   for (const auto & hit : hits) {
     if (hit.bible == bible) {
       const std::string passage = filter_passage_display_inline ({Passage ("", hit.book, hit.chapter, std::to_string (hit.verse))});

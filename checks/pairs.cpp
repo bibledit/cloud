@@ -49,8 +49,6 @@ void checks_pairs::run (const std::string& bible, int book, int chapter,
     closers.push_back (closer);
   }
 
-  Database_Check database_check {};
-
   // Go through the verses with their texts.
   for (const auto & element : texts) {
     int verse = element.first;
@@ -82,7 +80,7 @@ void checks_pairs::run (const std::string& bible, int book, int chapter,
           const std::string fragment2 = translate ("without its matching opening character");
           std::stringstream message {};
           message << fragment1 << " " << std::quoted(character) << " " << fragment2 << " " << std::quoted(opener);
-          database_check.recordOutput (bible, book, chapter, verse, message.str());
+          database::check::recordOutput (bible, book, chapter, verse, message.str());
         }
       }
     }
@@ -97,7 +95,7 @@ void checks_pairs::run (const std::string& bible, int book, int chapter,
     const std::string fragment2 = translate ("without its matching closing character");
     std::stringstream message {};
     message << fragment1 << " " << std::quoted(opener) << " " << fragment2 << " " << std::quoted(closer);
-    database_check.recordOutput (bible, book, chapter, verse, message.str());
+    database::check::recordOutput (bible, book, chapter, verse, message.str());
   }
 }
 

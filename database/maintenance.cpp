@@ -99,8 +99,7 @@ void database_maintenance ()
   database_notes.optimize ();
   
   
-  Database_Check database_check = Database_Check ();
-  database_check.optimize ();
+  database::check::optimize ();
   
   
 #ifdef HAVE_CLOUD

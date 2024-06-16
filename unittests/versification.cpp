@@ -37,15 +37,14 @@ TEST (versification, basic )
     Database_Versifications database_versifications;
     database_versifications.create ();
     database_versifications.defaults ();
-    Database_Check database_check;
-    database_check.create ();
+    database::check::create ();
     std::vector <int> books = database_versifications.getBooks (filter::strings::english ());
     std::vector <int> fault = filter::strings::array_diff (books, {10});
     checks_versification::books ("Bible", fault);
-    std::vector <Database_Check_Hit> results = database_check.getHits ();
+    std::vector <database::check::Hit> results = database::check::getHits ();
     EXPECT_EQ (1, static_cast<int>(results.size()));
     if (results.size ()) {
-      Database_Check_Hit hit = results[0];
+      database::check::Hit hit = results[0];
       EXPECT_EQ (1, hit.rowid);
       EXPECT_EQ ("Bible", hit.bible);
       EXPECT_EQ (10, hit.book);
@@ -61,8 +60,7 @@ TEST (versification, basic )
     Database_Versifications database_versifications;
     database_versifications.create ();
     database_versifications.defaults ();
-    Database_Check database_check;
-    database_check.create ();
+    database::check::create ();
 
     // Ruth.
     int book = 8;
@@ -72,10 +70,10 @@ TEST (versification, basic )
     checks_versification::chapters ("Bible", book, chapters);
 
     // Verify results.
-    std::vector <Database_Check_Hit> results = database_check.getHits ();
+    std::vector <database::check::Hit> results = database::check::getHits ();
     EXPECT_EQ (2, static_cast<int>(results.size()));
     if (results.size () == 2) {
-      Database_Check_Hit hit = results[0];
+      database::check::Hit hit = results[0];
       EXPECT_EQ (1, hit.rowid);
       EXPECT_EQ ("Bible", hit.bible);
       EXPECT_EQ (8, hit.book);
@@ -98,8 +96,7 @@ TEST (versification, basic )
     Database_Versifications database_versifications;
     database_versifications.create ();
     database_versifications.defaults ();
-    Database_Check database_check;
-    database_check.create ();
+    database::check::create ();
 
     // Ruth 1.
     int book = 8;
@@ -111,10 +108,10 @@ TEST (versification, basic )
     checks_versification::verses ("Bible", book, chapter, verses);
 
     // Verify results.
-    std::vector <Database_Check_Hit> results = database_check.getHits ();
+    std::vector <database::check::Hit> results = database::check::getHits ();
     EXPECT_EQ (4, static_cast<int>(results.size()));
     if (results.size () == 4) {
-      Database_Check_Hit hit = results[0];
+      database::check::Hit hit = results[0];
       EXPECT_EQ (1, hit.rowid);
       EXPECT_EQ ("Bible", hit.bible);
       EXPECT_EQ (8, hit.book);
@@ -151,8 +148,7 @@ TEST (versification, basic )
     Database_Versifications database_versifications;
     database_versifications.create ();
     database_versifications.defaults ();
-    Database_Check database_check;
-    database_check.create ();
+    database::check::create ();
     
     // Ruth 1.
     int book = 8;
@@ -165,10 +161,10 @@ TEST (versification, basic )
     checks_versification::verses ("Bible", book, chapter, verses);
     
     // Verify results.
-    std::vector <Database_Check_Hit> results = database_check.getHits ();
+    std::vector <database::check::Hit> results = database::check::getHits ();
     EXPECT_EQ (3, static_cast<int>(results.size()));
     if (results.size () == 3) {
-      Database_Check_Hit hit = results[0];
+      database::check::Hit hit = results[0];
       EXPECT_EQ (1, hit.rowid);
       EXPECT_EQ ("Bible", hit.bible);
       EXPECT_EQ (8, hit.book);

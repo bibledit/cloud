@@ -28,8 +28,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 TEST (checks, pairs)
 {
   refresh_sandbox (false);
-  Database_Check database_check;
-  database_check.create ();
+  database::check::create ();
   
   const std::string bible = "bible";
   const int book = 2;
@@ -40,7 +39,7 @@ TEST (checks, pairs)
     std::pair ("(", ")"),
     std::pair ("“", "”"),
   };
-  std::vector <Database_Check_Hit> results;
+  std::vector <database::check::Hit> results;
   
   {
     verses = {
@@ -49,9 +48,9 @@ TEST (checks, pairs)
       std::pair (4, "Verse four.")
     };
     checks_pairs::run (bible, book, chapter, verses, pairs, false);
-    results = database_check.getHits ();
+    results = database::check::getHits ();
     EXPECT_EQ (0, results.size());
-    database_check.truncateOutput ("");
+    database::check::truncateOutput ("");
   }
 
   {
@@ -61,9 +60,9 @@ TEST (checks, pairs)
       std::pair (4, "Verse four.")
     };
     checks_pairs::run (bible, book, chapter, verses, pairs, false);
-    results = database_check.getHits ();
+    results = database::check::getHits ();
     EXPECT_EQ (0, results.size());
-    database_check.truncateOutput ("");
+    database::check::truncateOutput ("");
   }
 
   {
@@ -73,10 +72,10 @@ TEST (checks, pairs)
       std::pair (4, "Verse four.")
     };
     checks_pairs::run (bible, book, chapter, verses, pairs, false);
-    results = database_check.getHits ();
+    results = database::check::getHits ();
     EXPECT_EQ (2, results.size());
     if (results.size () == 2) {
-      Database_Check_Hit hit = results[0];
+      database::check::Hit hit = results[0];
       EXPECT_EQ (1, hit.rowid);
       EXPECT_EQ (bible, hit.bible);
       EXPECT_EQ (book, hit.book);
@@ -86,7 +85,7 @@ TEST (checks, pairs)
       hit = results[1];
       EXPECT_EQ ("Opening character \"(\" without its matching closing character \")\"", hit.data);
     }
-    database_check.truncateOutput ("");
+    database::check::truncateOutput ("");
   }
 
   {
@@ -96,10 +95,10 @@ TEST (checks, pairs)
       std::pair (4, "Verse four).")
     };
     checks_pairs::run (bible, book, chapter, verses, pairs, false);
-    results = database_check.getHits ();
+    results = database::check::getHits ();
     EXPECT_EQ (2, results.size());
     if (results.size () == 2) {
-      Database_Check_Hit hit = results[0];
+      database::check::Hit hit = results[0];
       EXPECT_EQ (1, hit.rowid);
       EXPECT_EQ (bible, hit.bible);
       EXPECT_EQ (book, hit.book);
@@ -110,7 +109,7 @@ TEST (checks, pairs)
       EXPECT_EQ (2, hit.verse);
       EXPECT_EQ (R"(Opening character "[" without its matching closing character "]")", hit.data);
     }
-    database_check.truncateOutput ("");
+    database::check::truncateOutput ("");
   }
 }
 

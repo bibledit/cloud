@@ -27,7 +27,6 @@ void checks_headers::no_punctuation_at_end (const std::string& bible, int book, 
                                             const std::map <int, std::string>& headings,
                                             const std::string& centermarks, const std::string& endmarks)
 {
-  Database_Check database_check {};
   for (const auto & element : headings) {
     int verse = element.first;
     const std::string heading = element.second;
@@ -40,7 +39,7 @@ void checks_headers::no_punctuation_at_end (const std::string& bible, int book, 
     if (centermarks.find (last_character) != std::string::npos) message = true;
     if (endmarks.find (last_character) != std::string::npos) message = true;
     if (message) {
-      database_check.recordOutput (bible, book, chapter, verse, translate ("Punctuation at end of heading:") + " " + heading);
+      database::check::recordOutput (bible, book, chapter, verse, translate ("Punctuation at end of heading:") + " " + heading);
     }
   }
 }

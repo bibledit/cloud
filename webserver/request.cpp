@@ -43,9 +43,7 @@ Webserver_Request::~Webserver_Request ()
     delete database_users_instance;
   if (database_styles_instance) 
     delete database_styles_instance;
-  if (database_check_instance) 
-    delete database_check_instance;
-  if (database_ipc_instance) 
+  if (database_ipc_instance)
     delete database_ipc_instance;
 }
 
@@ -85,14 +83,6 @@ Database_Styles * Webserver_Request::database_styles ()
   if (!database_styles_instance) 
     database_styles_instance = new Database_Styles ();
   return database_styles_instance;
-}
-
-
-Database_Check * Webserver_Request::database_check ()
-{
-  if (!database_check_instance) 
-    database_check_instance = new Database_Check ();
-  return database_check_instance;
 }
 
 

@@ -21,11 +21,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <config/libraries.h>
 #include <filter/passage.h>
+#include <database/check.h>
 
+namespace database::check {
 
-class Database_Check_Hit
+struct Hit
 {
-public:
   int rowid {0};
   std::string bible {};
   int book {0};
@@ -35,20 +36,16 @@ public:
 };
 
 
-class Database_Check
-{
-public:
-  void create ();
-  void optimize ();
-  void truncateOutput (std::string bible);
-  void recordOutput (std::string bible, int book, int chapter, int verse, std::string data);
-  std::vector <Database_Check_Hit> getHits ();
-  void approve (int id);
-  void erase (int id);
-  Passage getPassage (int id);
-  std::vector <Database_Check_Hit> getSuppressions ();
-  void release (int id);
-private:
-  const char * filename ();
-};
+void create ();
+void optimize ();
+void truncateOutput (std::string bible);
+void recordOutput (std::string bible, int book, int chapter, int verse, std::string data);
+std::vector <Hit> getHits ();
+void approve (int id);
+void erase (int id);
+Passage getPassage (int id);
+std::vector <Hit> getSuppressions ();
+void release (int id);
 
+
+}

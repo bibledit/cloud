@@ -50,9 +50,6 @@ bool checks_index_acl (Webserver_Request& webserver_request)
 
 std::string checks_index (Webserver_Request& webserver_request)
 {
-  Database_Check database_check {};
-
-  
   std::string page {};
   Assets_Header header = Assets_Header (translate("Checks"), webserver_request);
   header.add_bread_crumb (menu_logic_tools_menu (), menu_logic_tools_text ());
@@ -62,14 +59,14 @@ std::string checks_index (Webserver_Request& webserver_request)
 
   if (webserver_request.query.count ("approve")) {
     const int approve = filter::strings::convert_to_int (webserver_request.query["approve"]);
-    database_check.approve (approve);
+    database::check::approve (approve);
     view.set_variable ("success", translate("The entry was suppressed."));
   }
   
                         
   if (webserver_request.query.count ("delete")) {
     const int erase = filter::strings::convert_to_int (webserver_request.query["delete"]);
-    database_check.erase (erase);
+    database::check::erase (erase);
     view.set_variable ("success", translate("The entry was deleted for just now."));
   }
 
@@ -87,7 +84,7 @@ std::string checks_index (Webserver_Request& webserver_request)
   
   
   std::stringstream resultblock {};
-  const std::vector <Database_Check_Hit>& hits = database_check.getHits ();
+  const std::vector <database::check::Hit>& hits = database::check::getHits ();
   for (const auto& hit : hits) {
     std::string bible = hit.bible;
     if (find (bibles.begin(), bibles.end (), bible) != bibles.end ()) {

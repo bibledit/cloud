@@ -38,6 +38,7 @@
 #include <database/privileges.h>
 #include <database/git.h>
 #include <database/statistics.h>
+#include <database/check.h>
 #include <styles/sheets.h>
 #include <filter/string.h>
 #include <filter/url.h>
@@ -224,7 +225,7 @@ void setup_initialize_data ()
   config_globals_setup_message = "bible actions";
   database::bible_actions::create ();
   config_globals_setup_message = "checks";
-  webserver_request.database_check ()->create ();
+  database::check::create ();
   setup_generate_locale_databases (false);
 #ifdef HAVE_CLOUD
   config_globals_setup_message = "confirmations";

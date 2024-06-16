@@ -21,18 +21,16 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <config/libraries.h>
 
-class Database_BibleActions
-{
-public:
-  void create ();
-  void clear ();
-  void optimize ();
-  void record (std::string bible, int book, int chapter, std::string usfm);
-  std::vector <std::string> getBibles ();
-  std::vector <int> getBooks (std::string bible);
-  std::vector <int> getChapters (std::string bible, int book);
-  std::string getUsfm (std::string bible, int book, int chapter);
-  void erase (std::string bible, int book, int chapter);
-private:
-  const char * filename ();
-};
+namespace database::bible_actions {
+
+void create ();
+void clear ();
+void optimize ();
+void record (std::string bible, int book, int chapter, std::string usfm);
+std::vector <std::string> get_bibles ();
+std::vector <int> get_books (std::string bible);
+std::vector <int> get_chapters (std::string bible, int book);
+std::string get_usfm (std::string bible, int book, int chapter);
+void erase (std::string bible, int book, int chapter);
+
+}

@@ -135,12 +135,11 @@ void sendreceive_bibles ()
 
   
   // Go through the Bibles / books / chapters that have actions recorded for them.
-  Database_BibleActions database_bibleactions;
-  std::vector <std::string> bibles = database_bibleactions.getBibles ();
+  std::vector <std::string> bibles = database::bible_actions::get_bibles ();
   for (std::string bible : bibles) {
-    std::vector <int> books = database_bibleactions.getBooks (bible);
+    std::vector <int> books = database::bible_actions::get_books (bible);
     for (int book : books) {
-      std::vector <int> chapters = database_bibleactions.getChapters (bible, book);
+      std::vector <int> chapters = database::bible_actions::get_chapters (bible, book);
       for (int chapter : chapters) {
         
         sendreceive_bibles_kick_watchdog ();
@@ -149,7 +148,7 @@ void sendreceive_bibles ()
         Database_Logs::log (sendreceive_bibles_text () + translate("Sending to server") + ": " + bible + " " + bookname + " " + std::to_string (chapter), Filter_Roles::translator ());
         
         // Get old and new USFM for this chapter.
-        std::string oldusfm = database_bibleactions.getUsfm (bible, book, chapter);
+        std::string oldusfm = database::bible_actions::get_usfm (bible, book, chapter);
         std::string newusfm = database::bibles::get_chapter (bible, book, chapter);
         
         // Straightaway clear the Bible action for this chapter.
@@ -157,7 +156,7 @@ void sendreceive_bibles ()
         // even during the time that this chapter is still being sent.
         // In the face of a slow network at times, this does occur in practise.
         // Examples have been seen.
-        database_bibleactions.erase (bible, book, chapter);
+        database::bible_actions::erase (bible, book, chapter);
         
         // If old USFM and new USFM differ, and the new USFM is not empty, send it to the server.
         if ((newusfm != oldusfm) && (newusfm != "")) {
@@ -184,8 +183,8 @@ void sendreceive_bibles ()
             communication_errors = true;
             Database_Logs::log (sendreceive_bibles_text () + "Failure sending chapter: " + send_error, Filter_Roles::translator ());
             // Restore the Bible action for this chapter.
-            database_bibleactions.erase (bible, book, chapter);
-            database_bibleactions.record (bible, book, chapter, oldusfm);
+            database::bible_actions::erase (bible, book, chapter);
+            database::bible_actions::record (bible, book, chapter, oldusfm);
             
           } else if (response == checksum) {
             
@@ -197,8 +196,8 @@ void sendreceive_bibles ()
             communication_errors = true;
             Database_Logs::log (sendreceive_bibles_text () + translate ("Failure sending chapter") + ", " + translate ("Bibledit Cloud says:") + " " + response, Filter_Roles::translator ());
             // Restore the Bible action for this chapter.
-            database_bibleactions.erase (bible, book, chapter);
-            database_bibleactions.record (bible, book, chapter, oldusfm);
+            database::bible_actions::erase (bible, book, chapter);
+            database::bible_actions::record (bible, book, chapter, oldusfm);
             
           }
         }
@@ -305,7 +304,7 @@ void sendreceive_bibles ()
       for (auto book : books) {
         std::vector <int> chapters = database::bibles::get_chapters (bible, book);
         for (auto chapter : chapters) {
-          database_bibleactions.record (bible, book, chapter, "");
+          database::bible_actions::record (bible, book, chapter, "");
         }
       }
     }
@@ -375,7 +374,7 @@ void sendreceive_bibles ()
       for (auto book : client_books) {
         std::vector <int> chapters = database::bibles::get_chapters (bible, book);
         for (auto & chapter : chapters) {
-          database_bibleactions.record (bible, book, chapter, "");
+          database::bible_actions::record (bible, book, chapter, "");
         }
       }
     } else {
@@ -442,7 +441,7 @@ void sendreceive_bibles ()
         // First sync after connecting to Cloud:
         // It does not delete any chapters, but rather sends them to the Cloud.
         for (auto chapter : client_chapters) {
-          database_bibleactions.record (bible, book, chapter, "");
+          database::bible_actions::record (bible, book, chapter, "");
         }
       } else {
         // For better robustness, while connected to a very bad network, the client only removes one local chapter.
@@ -512,7 +511,7 @@ void sendreceive_bibles ()
 
         // Check whether the user on the client has made changes in this chapter since the edits were sent to the server.
         // If there are none, then the client stores the chapter as it gets it from the server, and is done.
-        std::string old_usfm = database_bibleactions.getUsfm (bible, book, chapter);
+        std::string old_usfm = database::bible_actions::get_usfm (bible, book, chapter);
         if (old_usfm.empty ()) {
           database::bibles::store_chapter (bible, book, chapter, server_usfm);
           continue;

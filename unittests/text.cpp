@@ -1258,9 +1258,8 @@ TEST (filter_text, convert_image_to_format)
   const std::string image_3_name = "bibleimage3.png";
   const std::string image_2_path = filter_url_create_root_path ({"unittests", "tests", image_2_name});
   const std::string image_3_path = filter_url_create_root_path ({"unittests", "tests", image_3_name});
-  Database_BibleImages database_bibleimages;
-  database_bibleimages.store(image_2_path);
-  database_bibleimages.store(image_3_path);
+  database::bible_images::store(image_2_path);
+  database::bible_images::store(image_3_path);
   const std::string usfm = R"(
 \c 1
 \p
@@ -1278,7 +1277,7 @@ TEST (filter_text, convert_image_to_format)
     EXPECT_EQ (standard_html, html);
     EXPECT_EQ (std::vector<std::string>{image_2_name}, filter_text.image_sources);
     for (const auto src : filter_text.image_sources) {
-      const std::string contents = database_bibleimages.get(src);
+      const std::string contents = database::bible_images::get(src);
       const std::string standard = filter_url_file_get_contents(image_2_path);
       EXPECT_EQ (standard, contents);
     }

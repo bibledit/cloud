@@ -29,35 +29,35 @@ TEST (database, bible_images)
 {
   refresh_sandbox (false);
 
-  Database_BibleImages database_bibleimages;
   std::vector <std::string> images;
-  std::string image_1_name = "bibleimage1.png";
-  std::string image_2_name = "bibleimage1.jpeg";
+ 
+  constexpr const auto image_1_name = "bibleimage1.png";
+  constexpr const auto image_2_name = "bibleimage1.jpeg";
   std::string image_1_path = filter_url_create_root_path ({"unittests", "tests", image_1_name});
   std::string image_2_path = filter_url_create_root_path ({"unittests", "tests", image_2_name});
   
   // Initially there's no images yet.
-  images = database_bibleimages.get ();
+  images = database::bible_images::get ();
   EXPECT_EQ (0, images.size());
 
   // Store one image and check it's there.
-  database_bibleimages.store (image_1_path);
-  images = database_bibleimages.get ();
+  database::bible_images::store (image_1_path);
+  images = database::bible_images::get ();
   EXPECT_EQ (1, images.size());
   if (!images.empty()) {
     EXPECT_EQ (image_1_name, images[0]);
   }
 
   // Store another image and check there are two of them now.
-  database_bibleimages.store (image_2_path);
-  images = database_bibleimages.get ();
+  database::bible_images::store (image_2_path);
+  images = database::bible_images::get ();
   EXPECT_EQ (2, images.size());
   EXPECT_EQ ((std::vector<std::string>{image_2_name, image_1_name}), images);
 
   // Erase the first image and a non-existing one, and check the remaining image.
-  database_bibleimages.erase (image_1_name);
-  database_bibleimages.erase ("non-existing");
-  images = database_bibleimages.get ();
+  database::bible_images::erase (image_1_name);
+  database::bible_images::erase ("non-existing");
+  images = database::bible_images::get ();
   EXPECT_EQ (1, images.size());
   if (!images.empty()) {
     EXPECT_EQ (image_2_name, images[0]);
@@ -65,7 +65,7 @@ TEST (database, bible_images)
 
   // Get the contents of the second image.
   std::string standard_contents = filter_url_file_get_contents (image_2_path);
-  std::string contents = database_bibleimages.get (image_2_name);
+  std::string contents = database::bible_images::get (image_2_name);
   EXPECT_EQ (standard_contents, contents);
 
   // Cleanup.
@@ -73,4 +73,3 @@ TEST (database, bible_images)
 }
 
 #endif
-

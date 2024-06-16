@@ -21,14 +21,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <config/libraries.h>
 
-class Database_BibleImages
-{
-public:
-  std::vector <std::string> get ();
-  void store (std::string file);
-  std::string get (std::string image);
-  void erase (std::string image);
-private:
-  std::string folder ();
-  std::string path (std::string image);
-};
+namespace database::bible_images {
+
+std::vector <std::string> get ();
+void store (const std::string& file);
+std::string get (const std::string& image);
+void erase (const std::string& image);
+
+}

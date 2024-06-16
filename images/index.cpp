@@ -49,9 +49,6 @@ bool images_index_acl (Webserver_Request& webserver_request)
 
 std::string images_index (Webserver_Request& webserver_request)
 {
-  Database_BibleImages database_bibleimages;
-
-  
   Assets_Header header = Assets_Header (translate("Bible images"), webserver_request);
   header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   header.add_bread_crumb (images_index_url (), menu_logic_images_index_text ());
@@ -77,7 +74,7 @@ std::string images_index (Webserver_Request& webserver_request)
         view.set_variable ("journal", journal_logic_see_journal_for_progress ());
       } else {
         // Store image.
-        database_bibleimages.store (file);
+        database::bible_images::store (file);
       }
     } else {
       error = translate ("Nothing was uploaded");
@@ -95,13 +92,13 @@ std::string images_index (Webserver_Request& webserver_request)
       page.append(dialog_yes.run ());
       return page;
     } if (confirm == "yes") {
-      database_bibleimages.erase (remove);
+      database::bible_images::erase (remove);
       success = translate("The image was deleted.");
     }
   }
 
   
-  const std::vector <std::string> images = database_bibleimages.get();
+  const std::vector <std::string> images = database::bible_images::get();
   for (const auto& image : images) {
     view.add_iteration ("images", {
       std::pair ("image", image),

@@ -1192,9 +1192,8 @@ void odf_text::add_image (std::string style, [[maybe_unused]] std::string alt, s
   int image_width_pixels {0};
   int image_height_pixels {0};
   {
-    Database_BibleImages database_bibleimages {};
     std::string path = filter_url_create_root_path ({filter_url_temp_dir (), "image_contents"});
-    std::string contents = database_bibleimages.get(src);
+    std::string contents = database::bible_images::get(src);
     filter_url_file_put_contents(path, contents);
     filter_image_get_sizes (path, image_width_pixels, image_height_pixels);
   }
@@ -1251,8 +1250,7 @@ void odf_text::add_image (std::string style, [[maybe_unused]] std::string alt, s
   // Another advantage of not including the pictures in the opendocument file is:
   // The OpenDocument file without pictures in them would be smaller as it contains only text.
   {
-    //Database_BibleImages database_bibleimages;
-    //string contents = database_bibleimages.get(src);
+    //string contents = database::bible_images::get(src);
     //string path = filter_url_create_path(pictures_folder, src);
     //filter_url_file_put_contents(path, contents);
   }

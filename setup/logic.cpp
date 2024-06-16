@@ -222,8 +222,7 @@ void setup_initialize_data ()
   config_globals_setup_message = "styles";
   webserver_request.database_styles ()->create ();
   config_globals_setup_message = "bible actions";
-  Database_BibleActions database_bibleactions;
-  database_bibleactions.create ();
+  database::bible_actions::create ();
   config_globals_setup_message = "checks";
   webserver_request.database_check ()->create ();
   setup_generate_locale_databases (false);

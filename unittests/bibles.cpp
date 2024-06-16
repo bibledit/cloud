@@ -728,56 +728,55 @@ TEST (bibles, basic)
 TEST (database, bibleactions)
 {
   refresh_sandbox (false);
-  Database_BibleActions database_bibleactions;
-  database_bibleactions.create ();
+  database::bible_actions::create ();
   
-  database_bibleactions.optimize ();
+  database::bible_actions::optimize ();
   
   std::vector <std::string> s_standard{};
-  std::vector <std::string> bibles = database_bibleactions.getBibles ();
+  std::vector <std::string> bibles = database::bible_actions::get_bibles ();
   s_standard = {};
   EXPECT_EQ (s_standard, bibles);
   
-  database_bibleactions.record ("phpunit1", 1, 2, "data112");
-  database_bibleactions.record ("phpunit1", 1, 3, "data113");
-  database_bibleactions.record ("phpunit1", 2, 4, "data124");
-  database_bibleactions.record ("phpunit2", 5, 6, "data256");
-  database_bibleactions.record ("phpunit2", 5, 6, "data256: Not to be stored");
+  database::bible_actions::record ("phpunit1", 1, 2, "data112");
+  database::bible_actions::record ("phpunit1", 1, 3, "data113");
+  database::bible_actions::record ("phpunit1", 2, 4, "data124");
+  database::bible_actions::record ("phpunit2", 5, 6, "data256");
+  database::bible_actions::record ("phpunit2", 5, 6, "data256: Not to be stored");
   
-  bibles = database_bibleactions.getBibles ();
+  bibles = database::bible_actions::get_bibles ();
   s_standard = {"phpunit1", "phpunit2"};
   EXPECT_EQ (s_standard, bibles);
   
   std::vector <int> i_standard{};
   
-  std::vector <int> books = database_bibleactions.getBooks ("phpunit1");
+  std::vector <int> books = database::bible_actions::get_books ("phpunit1");
   i_standard = {1, 2};
   EXPECT_EQ (i_standard, books);
   
-  std::vector <int> chapters = database_bibleactions.getChapters ("phpunit1", 1);
+  std::vector <int> chapters = database::bible_actions::get_chapters ("phpunit1", 1);
   i_standard = {2, 3};
   EXPECT_EQ (i_standard, chapters);
   
-  chapters = database_bibleactions.getChapters ("phpunit1", 2);
+  chapters = database::bible_actions::get_chapters ("phpunit1", 2);
   i_standard = {4};
   EXPECT_EQ (i_standard, chapters);
   
-  database_bibleactions.erase ("phpunit1", 2, 3);
+  database::bible_actions::erase ("phpunit1", 2, 3);
   
-  chapters = database_bibleactions.getChapters ("phpunit1", 2);
+  chapters = database::bible_actions::get_chapters ("phpunit1", 2);
   i_standard = {4};
   EXPECT_EQ (i_standard, chapters);
   
-  database_bibleactions.erase ("phpunit1", 2, 4);
+  database::bible_actions::erase ("phpunit1", 2, 4);
   
-  chapters = database_bibleactions.getChapters ("phpunit1", 2);
+  chapters = database::bible_actions::get_chapters ("phpunit1", 2);
   i_standard = {};
   EXPECT_EQ (i_standard, chapters);
   
-  std::string usfm = database_bibleactions.getUsfm ("phpunit2", 5, 5);
+  std::string usfm = database::bible_actions::get_usfm ("phpunit2", 5, 5);
   EXPECT_EQ ("", usfm);
   
-  usfm = database_bibleactions.getUsfm ("phpunit2", 5, 6);
+  usfm = database::bible_actions::get_usfm ("phpunit2", 5, 6);
   EXPECT_EQ ("data256", usfm);
 }
 

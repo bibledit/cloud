@@ -76,11 +76,10 @@ void client_index_enable_client (Webserver_Request& webserver_request, const std
   
   // Clear all pending note actions and Bible actions and settings updates.
   Database_NoteActions database_noteactions;
-  Database_BibleActions database_bibleactions;
   database_noteactions.clear ();
   database_noteactions.create ();
-  database_bibleactions.clear ();
-  database_bibleactions.create ();
+  database::bible_actions::clear ();
+  database::bible_actions::create ();
   webserver_request.session_logic ()->set_username (username);
   webserver_request.database_config_user()->setUpdatedSettings ({});
   database::config::general::set_unsent_bible_data_time (0);

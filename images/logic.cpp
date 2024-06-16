@@ -29,8 +29,6 @@
 
 void images_logic_import_images (std::string path)
 {
-  Database_BibleImages database_bibleimages;
-
   Database_Logs::log ("Importing: " + filter_url_basename (path));
 
   // To begin with, add the path of the zip file to the main file to the list of paths to be processed.
@@ -49,7 +47,7 @@ void images_logic_import_images (std::string path)
     if (filter_url_is_image (extension)) {
       if (basename.size() > 1) {
         if (basename[0] != '.') {
-          database_bibleimages.store (path);
+          database::bible_images::store (path);
           Database_Logs::log ("Storing image " + basename);
         }
       }

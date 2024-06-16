@@ -53,9 +53,6 @@ void export_odt_book (std::string bible, int book, bool log)
   std::string notesFilename = filter_url_create_path ({directory, basename + "_notes.odt"});
 
   
-  Database_BibleImages database_bibleimages;
-  
-  
   const std::string stylesheet = database::config::bible::get_export_stylesheet (bible);
   
   
@@ -100,7 +97,7 @@ void export_odt_book (std::string bible, int book, bool log)
   filter_text.odf_text_text_and_note_citations->save (textAndCitationsFilename);
   filter_text.odf_text_notes->save (notesFilename);
   for (auto src : filter_text.image_sources) {
-    std::string contents = database_bibleimages.get(src);
+    std::string contents = database::bible_images::get(src);
     std::string path = filter_url_create_path ({directory, src});
     filter_url_file_put_contents(path, contents);
   }

@@ -53,9 +53,6 @@ void export_html_book (const std::string& bible, const int book, const bool log)
   const std::string stylesheet_css = filter_url_create_path ({directory, "stylesheet.css"});
   
   
-  Database_BibleImages database_bibleimages {};
-
-  
   const std::string stylesheet = database::config::bible::get_export_stylesheet (bible);
   
   
@@ -105,7 +102,7 @@ void export_html_book (const std::string& bible, const int book, const bool log)
   
   // Save any images that were included.
   for (const auto src : filter_text.image_sources) {
-    const std::string contents = database_bibleimages.get(src);
+    const std::string contents = database::bible_images::get(src);
     const std::string filename = filter_url_create_path ({directory, src});
     filter_url_file_put_contents(filename, contents);
   }

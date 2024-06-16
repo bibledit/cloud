@@ -45,9 +45,6 @@ void export_web_book (std::string bible, int book, bool log)
   if (!file_or_dir_exists (directory)) filter_url_mkdir (directory);
   
   
-  Database_BibleImages database_bibleimages {};
-  
-  
   const std::string stylesheet = database::config::bible::get_export_stylesheet (bible);
   
   
@@ -137,7 +134,7 @@ void export_web_book (std::string bible, int book, bool log)
     
     // Save any images that were included.
     for (auto src : filter_text_chapter.image_sources) {
-      std::string contents = database_bibleimages.get(src);
+      std::string contents = database::bible_images::get(src);
       std::string filename = filter_url_create_path ({directory, src});
       filter_url_file_put_contents(filename, contents);
     }

@@ -47,6 +47,5 @@ std::string images_fetch (Webserver_Request& webserver_request)
   webserver_request.get = image;
 
   // Return the raw image data for sending off to the browser.
-  Database_BibleImages database_bibleimages;
-  return database_bibleimages.get (image);
+  return database::bible_images::get (image);
 }

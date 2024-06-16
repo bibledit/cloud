@@ -24,15 +24,15 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/sqlite.h>
 
 
-const char * Database_BibleActions::filename ()
-{
-  return "bibleactions";
-}
+constexpr const auto database_name {"bibleactions"};
 
 
-void Database_BibleActions::create ()
+namespace database::bible_actions {
+
+
+void create ()
 {
-  SqliteDatabase sql (filename ());
+  SqliteDatabase sql (database_name);
   sql.add ("CREATE TABLE IF NOT EXISTS bibleactions ("
            " bible text,"
            " book integer,"
@@ -43,26 +43,26 @@ void Database_BibleActions::create ()
 }
 
 
-void Database_BibleActions::clear ()
+void clear ()
 {
-  SqliteDatabase sql (filename ());
+  SqliteDatabase sql (database_name);
   sql.add ("DROP TABLE IF EXISTS bibleactions;");
   sql.execute ();
 }
 
 
-void Database_BibleActions::optimize ()
+void optimize ()
 {
-  SqliteDatabase sql (filename ());
+  SqliteDatabase sql (database_name);
   sql.add ("VACUUM;");
   sql.execute ();
 }
 
 
-void Database_BibleActions::record (std::string bible, int book, int chapter, std::string usfm)
+void record (std::string bible, int book, int chapter, std::string usfm)
 {
-  if (getUsfm (bible, book, chapter).empty ()) {
-    SqliteDatabase sql (filename ());
+  if (get_usfm (bible, book, chapter).empty ()) {
+    SqliteDatabase sql (database_name);
     sql.add ("INSERT INTO bibleactions VALUES (");
     sql.add (bible);
     sql.add (",");
@@ -77,18 +77,18 @@ void Database_BibleActions::record (std::string bible, int book, int chapter, st
 }
 
 
-std::vector <std::string> Database_BibleActions::getBibles ()
+std::vector <std::string> get_bibles ()
 {
-  SqliteDatabase sql (filename ());
+  SqliteDatabase sql (database_name);
   sql.add ("SELECT DISTINCT bible FROM bibleactions ORDER BY bible;");
   std::vector <std::string> notes = sql.query ()["bible"];
   return notes;
 }
 
 
-std::vector <int> Database_BibleActions::getBooks (std::string bible)
+std::vector <int> get_books (std::string bible)
 {
-  SqliteDatabase sql (filename ());
+  SqliteDatabase sql (database_name);
   sql.add ("SELECT DISTINCT book FROM bibleactions WHERE bible =");
   sql.add (bible);
   sql.add ("ORDER BY book;");
@@ -99,9 +99,9 @@ std::vector <int> Database_BibleActions::getBooks (std::string bible)
 }
 
 
-std::vector <int> Database_BibleActions::getChapters (std::string bible, int book)
+std::vector <int> get_chapters (std::string bible, int book)
 {
-  SqliteDatabase sql (filename ());
+  SqliteDatabase sql (database_name);
   sql.add ("SELECT DISTINCT chapter FROM bibleactions WHERE bible =");
   sql.add (bible);
   sql.add ("AND book =");
@@ -114,9 +114,9 @@ std::vector <int> Database_BibleActions::getChapters (std::string bible, int boo
 }
 
 
-std::string Database_BibleActions::getUsfm (std::string bible, int book, int chapter)
+std::string get_usfm (std::string bible, int book, int chapter)
 {
-  SqliteDatabase sql (filename ());
+  SqliteDatabase sql (database_name);
   sql.add ("SELECT usfm FROM bibleactions WHERE bible =");
   sql.add (bible);
   sql.add ("AND book =");
@@ -133,9 +133,9 @@ std::string Database_BibleActions::getUsfm (std::string bible, int book, int cha
 }
 
 
-void Database_BibleActions::erase (std::string bible, int book, int chapter)
+void erase (std::string bible, int book, int chapter)
 {
-  SqliteDatabase sql (filename ());
+  SqliteDatabase sql (database_name);
   sql.add ("DELETE FROM bibleactions WHERE bible =");
   sql.add (bible);
   sql.add ("AND book =");
@@ -145,4 +145,7 @@ void Database_BibleActions::erase (std::string bible, int book, int chapter)
   sql.add (";");
   sql.execute ();
 }
+
+
+} // Namespace.
 

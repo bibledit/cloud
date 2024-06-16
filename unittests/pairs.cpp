@@ -48,9 +48,9 @@ TEST (checks, pairs)
       std::pair (4, "Verse four.")
     };
     checks_pairs::run (bible, book, chapter, verses, pairs, false);
-    results = database::check::getHits ();
+    results = database::check::get_hits ();
     EXPECT_EQ (0, results.size());
-    database::check::truncateOutput ("");
+    database::check::truncate_output ("");
   }
 
   {
@@ -60,9 +60,9 @@ TEST (checks, pairs)
       std::pair (4, "Verse four.")
     };
     checks_pairs::run (bible, book, chapter, verses, pairs, false);
-    results = database::check::getHits ();
+    results = database::check::get_hits ();
     EXPECT_EQ (0, results.size());
-    database::check::truncateOutput ("");
+    database::check::truncate_output ("");
   }
 
   {
@@ -72,7 +72,7 @@ TEST (checks, pairs)
       std::pair (4, "Verse four.")
     };
     checks_pairs::run (bible, book, chapter, verses, pairs, false);
-    results = database::check::getHits ();
+    results = database::check::get_hits ();
     EXPECT_EQ (2, results.size());
     if (results.size () == 2) {
       database::check::Hit hit = results[0];
@@ -85,7 +85,7 @@ TEST (checks, pairs)
       hit = results[1];
       EXPECT_EQ ("Opening character \"(\" without its matching closing character \")\"", hit.data);
     }
-    database::check::truncateOutput ("");
+    database::check::truncate_output ("");
   }
 
   {
@@ -95,7 +95,7 @@ TEST (checks, pairs)
       std::pair (4, "Verse four).")
     };
     checks_pairs::run (bible, book, chapter, verses, pairs, false);
-    results = database::check::getHits ();
+    results = database::check::get_hits ();
     EXPECT_EQ (2, results.size());
     if (results.size () == 2) {
       database::check::Hit hit = results[0];
@@ -109,7 +109,7 @@ TEST (checks, pairs)
       EXPECT_EQ (2, hit.verse);
       EXPECT_EQ (R"(Opening character "[" without its matching closing character "]")", hit.data);
     }
-    database::check::truncateOutput ("");
+    database::check::truncate_output ("");
   }
 }
 

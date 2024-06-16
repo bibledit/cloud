@@ -19,6 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <database/check.h>
 #include <filter/url.h>
+#include <filter/passage.h>
 #include <filter/string.h>
 #include <config/globals.h>
 #include <database/sqlite.h>
@@ -85,7 +86,7 @@ void optimize ()
 }
 
 
-void truncateOutput (std::string bible)
+void truncate_output (const std::string& bible)
 {
   SqliteDatabase sql (database_name);
   if (bible == "") {
@@ -99,7 +100,7 @@ void truncateOutput (std::string bible)
 }
 
 
-void recordOutput (std::string bible, int book, int chapter, int verse, std::string data)
+void record_output (const std::string& bible, int book, int chapter, int verse, std::string data)
 {
   SqliteDatabase sql (database_name);
   int count = 0;
@@ -174,7 +175,7 @@ void recordOutput (std::string bible, int book, int chapter, int verse, std::str
 }
 
 
-std::vector <database::check::Hit> getHits ()
+std::vector <database::check::Hit> get_hits ()
 {
   std::vector <database::check::Hit> hits;
   SqliteDatabase sql (database_name);
@@ -226,7 +227,7 @@ void erase (int id)
 }
 
 
-Passage getPassage (int id)
+Passage get_passage (int id)
 {
   SqliteDatabase sql (database_name);
   sql.add ("SELECT book, chapter, verse FROM output2 WHERE rowid =");
@@ -244,7 +245,7 @@ Passage getPassage (int id)
 }
 
 
-std::vector <database::check::Hit> getSuppressions ()
+std::vector <database::check::Hit> get_suppressions ()
 {
   SqliteDatabase sql (database_name);
   std::vector <database::check::Hit> hits;

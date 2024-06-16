@@ -48,7 +48,7 @@ void checks_verses::missing_punctuation_at_end (const std::string& bible, int bo
     const std::string lastCharacter = filter::strings::unicode_string_substr (text, text_length - 1, 1);
     if (in_array (lastCharacter, centermarks)) continue;
     if (in_array (lastCharacter, endmarks)) continue;
-    database::check::recordOutput (bible, book, chapter, verse, translate ("No punctuation at end of verse:") + " " + lastCharacter);
+    database::check::record_output (bible, book, chapter, verse, translate ("No punctuation at end of verse:") + " " + lastCharacter);
   }
 }
 
@@ -62,7 +62,7 @@ void checks_verses::patterns (const std::string& bible, int book, int chapter,
     for (const auto & pattern : patterns) {
       if (pattern.empty ()) continue;
       if (text.find (pattern) != std::string::npos) {
-        database::check::recordOutput (bible, book, chapter, verse, translate ("Pattern found in text:") + " " + pattern);
+        database::check::record_output (bible, book, chapter, verse, translate ("Pattern found in text:") + " " + pattern);
       }
     }
   }

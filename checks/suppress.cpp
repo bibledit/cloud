@@ -73,7 +73,7 @@ std::string checks_suppress (Webserver_Request& webserver_request)
   
   
   std::string block {};
-  const std::vector <database::check::Hit> suppressions = database::check::getSuppressions ();
+  const std::vector <database::check::Hit> suppressions = database::check::get_suppressions ();
   for (const auto & suppression : suppressions) {
     std::string bible = suppression.bible;
     // Only display entries for Bibles the user has write access to.

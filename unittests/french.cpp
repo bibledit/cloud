@@ -38,7 +38,7 @@ TEST (checks, french)
   
   // Test reporting lacking no-break space at French square brackets and other punctuation.
   {
-    database::check::truncateOutput (bible);
+    database::check::truncate_output (bible);
     std::map <int, std::string> texts;
     texts [1] = "This is «French» text.";
     texts [2] = "This is « French » text.";
@@ -48,7 +48,7 @@ TEST (checks, french)
     texts [6] = "This is it" + nbsp + ";";
     texts [7] = "This is «" + nnbsp + "French" + nnbsp + "» with narrow non-breaking spaces.";
     checks_french::space_before_after_punctuation (bible, 2, 3, texts);
-    std::vector <database::check::Hit> hits = database::check::getHits ();
+    std::vector <database::check::Hit> hits = database::check::get_hits ();
     int hitcount = 6;
     EXPECT_EQ (hitcount, hits.size ());
     if (static_cast<int> (hits.size ()) == hitcount) {
@@ -77,7 +77,7 @@ TEST (checks, french)
   
   // Test French citation style.
   {
-    database::check::truncateOutput (bible);
+    database::check::truncate_output (bible);
     std::string usfm = R"(
 \c 1
 \p
@@ -102,7 +102,7 @@ TEST (checks, french)
     filter_text.run (styles_logic_standard_sheet ());
     std::vector <std::map <int, std::string>> verses_paragraphs = filter_text.verses_paragraphs;
     checks_french::citation_style (bible, 2, 3, verses_paragraphs);
-    std::vector <database::check::Hit> hits = database::check::getHits ();
+    std::vector <database::check::Hit> hits = database::check::get_hits ();
     int size = 4;
     EXPECT_EQ (size, hits.size ());
     if (static_cast<int> (hits.size ()) == size) {
@@ -121,7 +121,7 @@ TEST (checks, french)
   
   // Real-life data, fixed, regression test.
   {
-    database::check::truncateOutput (bible);
+    database::check::truncate_output (bible);
     // In the example following, there is the « in the beginning of the verse 13, it needs to begin a new paragraph, or be considered as an extra «, but the checks don't find it.
     std::string usfm = R"(
 \p
@@ -138,7 +138,7 @@ TEST (checks, french)
     filter_text.run (styles_logic_standard_sheet ());
     std::vector <std::map <int, std::string>> verses_paragraphs = filter_text.verses_paragraphs;
     checks_french::citation_style (bible, 2, 3, verses_paragraphs);
-    std::vector <database::check::Hit> hits = database::check::getHits ();
+    std::vector <database::check::Hit> hits = database::check::get_hits ();
     int size = 1;
     EXPECT_EQ (size, hits.size ());
     if (static_cast<int> (hits.size ()) == size) {

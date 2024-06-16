@@ -34,7 +34,7 @@ void double_space_usfm (const std::string& bible, int book, int chapter, int ver
     int start = static_cast<int>(pos) - 10;
     if (start < 0) start = 0;
     const std::string fragment = data.substr (static_cast <size_t> (start), 20);
-    database::check::recordOutput (bible, book, chapter, verse, translate ("Double space:") + " ... " + fragment + " ...");
+    database::check::record_output (bible, book, chapter, verse, translate ("Double space:") + " ... " + fragment + " ...");
   }
 }
 
@@ -45,22 +45,22 @@ void space_before_punctuation (const std::string& bible, int book, int chapter, 
     const int verse = element.first;
     const std::string text = element.second;
     if (text.find (" ,") != std::string::npos) {
-      database::check::recordOutput (bible, book, chapter, verse, translate ("Space before a comma"));
+      database::check::record_output (bible, book, chapter, verse, translate ("Space before a comma"));
     }
     if (text.find (" ;") != std::string::npos) {
-      database::check::recordOutput (bible, book, chapter, verse, translate ("Space before a semicolon"));
+      database::check::record_output (bible, book, chapter, verse, translate ("Space before a semicolon"));
     }
     if (text.find (" :") != std::string::npos) {
-      database::check::recordOutput (bible, book, chapter, verse, translate ("Space before a colon"));
+      database::check::record_output (bible, book, chapter, verse, translate ("Space before a colon"));
     }
     if (text.find (" .") != std::string::npos) {
-      database::check::recordOutput (bible, book, chapter, verse, translate ("Space before a full stop"));
+      database::check::record_output (bible, book, chapter, verse, translate ("Space before a full stop"));
     }
     if (text.find (" ?") != std::string::npos) {
-      database::check::recordOutput (bible, book, chapter, verse, translate ("Space before a question mark"));
+      database::check::record_output (bible, book, chapter, verse, translate ("Space before a question mark"));
     }
     if (text.find (" !") != std::string::npos) {
-      database::check::recordOutput (bible, book, chapter, verse, translate ("Space before an exclamation mark"));
+      database::check::record_output (bible, book, chapter, verse, translate ("Space before an exclamation mark"));
     }
   }
 }
@@ -85,7 +85,7 @@ void space_end_verse (const std::string& bible, int book, int chapter, const std
       const char lastchar = text.back ();
       if (lastchar == ' ') hit = true;
     }
-    if (hit) database::check::recordOutput (bible, book, chapter, verse, translate ("Space at the end of the verse"));
+    if (hit) database::check::record_output (bible, book, chapter, verse, translate ("Space at the end of the verse"));
   }
 }
 
@@ -117,13 +117,13 @@ bool transpose_note_space (std::string & usfm)
 void space_before_final_note_markup (const std::string& bible, int book, int chapter, int verse, const std::string& data)
 {
   if (data.find (R"( \f*)") != std::string::npos) {
-    database::check::recordOutput (bible, book, chapter, verse, translate ("Space before final note markup"));
+    database::check::record_output (bible, book, chapter, verse, translate ("Space before final note markup"));
   }
   if (data.find (R"( \fe*)") != std::string::npos) {
-    database::check::recordOutput (bible, book, chapter, verse, translate ("Space before final note markup"));
+    database::check::record_output (bible, book, chapter, verse, translate ("Space before final note markup"));
   }
   if (data.find (R"( \x*)") != std::string::npos) {
-    database::check::recordOutput (bible, book, chapter, verse, translate ("Space before final cross reference markup"));
+    database::check::record_output (bible, book, chapter, verse, translate ("Space before final cross reference markup"));
   }
 }
 

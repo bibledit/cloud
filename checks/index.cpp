@@ -84,7 +84,7 @@ std::string checks_index (Webserver_Request& webserver_request)
   
   
   std::stringstream resultblock {};
-  const std::vector <database::check::Hit>& hits = database::check::getHits ();
+  const std::vector <database::check::Hit>& hits = database::check::get_hits ();
   for (const auto& hit : hits) {
     std::string bible = hit.bible;
     if (find (bibles.begin(), bibles.end (), bible) != bibles.end ()) {

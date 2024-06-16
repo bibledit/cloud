@@ -41,7 +41,7 @@ TEST (versification, basic )
     std::vector <int> books = database_versifications.getBooks (filter::strings::english ());
     std::vector <int> fault = filter::strings::array_diff (books, {10});
     checks_versification::books ("Bible", fault);
-    std::vector <database::check::Hit> results = database::check::getHits ();
+    std::vector <database::check::Hit> results = database::check::get_hits ();
     EXPECT_EQ (1, static_cast<int>(results.size()));
     if (results.size ()) {
       database::check::Hit hit = results[0];
@@ -70,7 +70,7 @@ TEST (versification, basic )
     checks_versification::chapters ("Bible", book, chapters);
 
     // Verify results.
-    std::vector <database::check::Hit> results = database::check::getHits ();
+    std::vector <database::check::Hit> results = database::check::get_hits ();
     EXPECT_EQ (2, static_cast<int>(results.size()));
     if (results.size () == 2) {
       database::check::Hit hit = results[0];
@@ -108,7 +108,7 @@ TEST (versification, basic )
     checks_versification::verses ("Bible", book, chapter, verses);
 
     // Verify results.
-    std::vector <database::check::Hit> results = database::check::getHits ();
+    std::vector <database::check::Hit> results = database::check::get_hits ();
     EXPECT_EQ (4, static_cast<int>(results.size()));
     if (results.size () == 4) {
       database::check::Hit hit = results[0];
@@ -161,7 +161,7 @@ TEST (versification, basic )
     checks_versification::verses ("Bible", book, chapter, verses);
     
     // Verify results.
-    std::vector <database::check::Hit> results = database::check::getHits ();
+    std::vector <database::check::Hit> results = database::check::get_hits ();
     EXPECT_EQ (3, static_cast<int>(results.size()));
     if (results.size () == 3) {
       database::check::Hit hit = results[0];

@@ -46,10 +46,10 @@ void checks_french::space_before_after_punctuation (const std::string& bible, in
         bool nnbsp_follows = text.find (nnbsp) == 0;
         if (space_follows) {
           const std::string message = left_guillemet () + " - " + translate ("Should be followed by a no-break space rather than a plain space in French");
-          database::check::recordOutput (bible, book, chapter, verse, message);
+          database::check::record_output (bible, book, chapter, verse, message);
         } else if (!nbsp_follows && !nnbsp_follows)  {
           const std::string message = left_guillemet () + " - " + translate ("Should be followed by a no-break space in French");
-          database::check::recordOutput (bible, book, chapter, verse, message);
+          database::check::record_output (bible, book, chapter, verse, message);
         }
         pos = text.find (left_guillemet ());
       }
@@ -64,13 +64,13 @@ void checks_french::space_before_after_punctuation (const std::string& bible, in
           const std::string preceding_character = filter::strings::unicode_string_substr (text, pos - 1, 1);
           if (preceding_character == " ") {
             const std::string message = punctuation + " - " + translate ("Should be preceded by a no-break space rather than a plain space in French");
-            database::check::recordOutput (bible, book, chapter, verse, message);
+            database::check::record_output (bible, book, chapter, verse, message);
           }
           else if (preceding_character == nbsp) { /* This is OK. */ }
           else if (preceding_character == nnbsp) { /* This is OK. */ }
           else {
             const std::string message = punctuation + " - " + translate ("Should be preceded by a no-break space in French");
-            database::check::recordOutput (bible, book, chapter, verse, message);
+            database::check::record_output (bible, book, chapter, verse, message);
           }
         }
         // Prepare for next iteration.
@@ -115,7 +115,7 @@ void checks_french::citation_style (const std::string & bible, int book, int cha
           const std::string character = filter::strings::unicode_string_substr (text, 0, 1);
           if (character != left_guillemet ()) {
             const std::string message = translate ("The previous paragraph contains a citation not closed with a » therefore the current paragraph is expected to start with a « to continue that citation in French");
-            database::check::recordOutput (bible, book, chapter, verse, message);
+            database::check::record_output (bible, book, chapter, verse, message);
           }
         }
       }
@@ -139,13 +139,13 @@ void checks_french::citation_style (const std::string & bible, int book, int cha
     // Whether there's too many left guillements.
     if (opener_count > (closer_count + 1)) {
       const std::string message = translate ("The paragraph contains more left guillements than needed");
-      database::check::recordOutput (bible, book, chapter, last_verse, message);
+      database::check::record_output (bible, book, chapter, last_verse, message);
     }
     
     // Whether there's too many right guillements.
     if (closer_count > opener_count) {
       const std::string message = translate ("The paragraph contains more right guillements than needed");
-      database::check::recordOutput (bible, book, chapter, last_verse, message);
+      database::check::record_output (bible, book, chapter, last_verse, message);
     }
   }
 }

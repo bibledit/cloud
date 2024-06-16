@@ -24,6 +24,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/check.h>
 #include <database/state.h>
 #include <database/bibles.h>
+#include <filter/passage.h>
 
 
 TEST (database, check)
@@ -41,15 +42,15 @@ TEST (database, check)
     database::bibles::create_bible ("phpunit");
     database::check::create ();
     
-    std::vector <database::check::Hit> hits = database::check::getHits ();
+    std::vector <database::check::Hit> hits = database::check::get_hits ();
     EXPECT_EQ (0, static_cast<int> (hits.size()));
     
-    database::check::recordOutput ("phpunit", 1, 2, 3, "test");
-    hits = database::check::getHits ();
+    database::check::record_output ("phpunit", 1, 2, 3, "test");
+    hits = database::check::get_hits ();
     EXPECT_EQ (1, static_cast<int> (hits.size()));
     
-    database::check::truncateOutput ("");
-    hits = database::check::getHits ();
+    database::check::truncate_output ("");
+    hits = database::check::get_hits ();
     EXPECT_EQ (0, static_cast<int> (hits.size()));
   }
 
@@ -59,8 +60,8 @@ TEST (database, check)
     Database_State::create ();
     database::bibles::create_bible ("phpunit");
     database::check::create ();
-    database::check::recordOutput ("phpunit", 5, 2, 3, "test");
-    std::vector <database::check::Hit> hits = database::check::getHits ();
+    database::check::record_output ("phpunit", 5, 2, 3, "test");
+    std::vector <database::check::Hit> hits = database::check::get_hits ();
     EXPECT_EQ (1, static_cast<int> (hits.size()));
     EXPECT_EQ ("phpunit", hits [0].bible);
     EXPECT_EQ (5, hits [0].book);
@@ -75,25 +76,25 @@ TEST (database, check)
     database::bibles::create_bible ("phpunit");
     database::check::create ();
     
-    database::check::recordOutput ("phpunit", 3, 4, 5, "test1");
-    database::check::recordOutput ("phpunit", 3, 4, 5, "test2");
+    database::check::record_output ("phpunit", 3, 4, 5, "test1");
+    database::check::record_output ("phpunit", 3, 4, 5, "test2");
     
-    std::vector <database::check::Hit> hits = database::check::getHits ();
+    std::vector <database::check::Hit> hits = database::check::get_hits ();
     EXPECT_EQ (2, static_cast<int> (hits.size()));
     
     int id = hits [0].rowid;
     database::check::approve (id);
-    hits = database::check::getHits ();
+    hits = database::check::get_hits ();
     EXPECT_EQ (1, static_cast<int> (hits.size()));
     
-    std::vector <database::check::Hit> suppressions = database::check::getSuppressions ();
+    std::vector <database::check::Hit> suppressions = database::check::get_suppressions ();
     EXPECT_EQ (1, static_cast<int>(suppressions.size()));
     
     id = suppressions [0].rowid;
     EXPECT_EQ (1, id);
 
     database::check::release (1);
-    hits = database::check::getHits ();
+    hits = database::check::get_hits ();
     EXPECT_EQ (2, static_cast<int> (hits.size()));
   }
 
@@ -103,13 +104,13 @@ TEST (database, check)
     Database_State::create ();
     database::bibles::create_bible ("phpunit");
     database::check::create ();
-    database::check::recordOutput ("phpunit", 3, 4, 5, "test1");
-    database::check::recordOutput ("phpunit", 3, 4, 5, "test2");
-    std::vector <database::check::Hit> hits = database::check::getHits ();
+    database::check::record_output ("phpunit", 3, 4, 5, "test1");
+    database::check::record_output ("phpunit", 3, 4, 5, "test2");
+    std::vector <database::check::Hit> hits = database::check::get_hits ();
     EXPECT_EQ (2, static_cast<int> (hits.size()));
     int id = hits [0].rowid;
     database::check::erase (id);
-    hits = database::check::getHits ();
+    hits = database::check::get_hits ();
     EXPECT_EQ (1, static_cast<int> (hits.size()));
   }
 
@@ -119,9 +120,9 @@ TEST (database, check)
     Database_State::create ();
     database::bibles::create_bible ("phpunit");
     database::check::create ();
-    database::check::recordOutput ("phpunit", 3, 4, 5, "test1");
-    database::check::recordOutput ("phpunit", 6, 7, 8, "test2");
-    Passage passage = database::check::getPassage (2);
+    database::check::record_output ("phpunit", 3, 4, 5, "test1");
+    database::check::record_output ("phpunit", 6, 7, 8, "test2");
+    Passage passage = database::check::get_passage (2);
     EXPECT_EQ (6, passage.m_book);
     EXPECT_EQ (7, passage.m_chapter);
     EXPECT_EQ ("8", passage.m_verse);
@@ -133,11 +134,11 @@ TEST (database, check)
     Database_State::create ();
     database::bibles::create_bible ("phpunit");
     database::check::create ();
-    database::check::recordOutput ("phpunit", 3, 4, 5, "once");
+    database::check::record_output ("phpunit", 3, 4, 5, "once");
     for (int i = 0; i < 100; i++) {
-      database::check::recordOutput ("phpunit", i, i, i, "multiple");
+      database::check::record_output ("phpunit", i, i, i, "multiple");
     }
-    std::vector <database::check::Hit> hits = database::check::getHits ();
+    std::vector <database::check::Hit> hits = database::check::get_hits ();
     EXPECT_EQ (12, static_cast<int> (hits.size()));
   }
 }

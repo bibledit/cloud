@@ -39,7 +39,7 @@ void checks_headers::no_punctuation_at_end (const std::string& bible, int book, 
     if (centermarks.find (last_character) != std::string::npos) message = true;
     if (endmarks.find (last_character) != std::string::npos) message = true;
     if (message) {
-      database::check::recordOutput (bible, book, chapter, verse, translate ("Punctuation at end of heading:") + " " + heading);
+      database::check::record_output (bible, book, chapter, verse, translate ("Punctuation at end of heading:") + " " + heading);
     }
   }
 }

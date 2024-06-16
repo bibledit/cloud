@@ -38,7 +38,7 @@ TEST (verses, basic)
       std::pair (5, "He said: “Jesus.”")
     };
     checks_verses::missing_punctuation_at_end ("1", 1, 1, verses, ", ;", ". ! ? :", "”");
-    std::vector <database::check::Hit> results = database::check::getHits ();
+    std::vector <database::check::Hit> results = database::check::get_hits ();
     EXPECT_EQ (1, static_cast<int>(results.size()));
     if (results.size ()) {
       database::check::Hit hit = results[0];
@@ -50,7 +50,7 @@ TEST (verses, basic)
       EXPECT_EQ ("No punctuation at end of verse: y", hit.data);
     }
   }
-  database::check::truncateOutput ("");
+  database::check::truncate_output ("");
   // Test Pattern
   {
     std::map <int, std::string> verses = {
@@ -59,7 +59,7 @@ TEST (verses, basic)
       std::pair (4, "He said.")
     };
     checks_verses::patterns ("1", 1, 1, verses, {"did"});
-    std::vector <database::check::Hit> results = database::check::getHits ();
+    std::vector <database::check::Hit> results = database::check::get_hits ();
     EXPECT_EQ (1, static_cast<int>(results.size()));
     if (results.size ()) {
       database::check::Hit hit = results[0];
@@ -71,7 +71,7 @@ TEST (verses, basic)
       EXPECT_EQ ("Pattern found in text: did", hit.data);
     }
   }
-  database::check::truncateOutput ("");
+  database::check::truncate_output ("");
   // Test Pattern
   {
     std::map <int, std::string> verses = {
@@ -80,10 +80,10 @@ TEST (verses, basic)
       std::pair (4, "He said.")
     };
     checks_verses::patterns ("1", 1, 1, verses, {"Did"});
-    std::vector <database::check::Hit> results = database::check::getHits ();
+    std::vector <database::check::Hit> results = database::check::get_hits ();
     EXPECT_EQ (0, static_cast<int>(results.size()));
   }
-  database::check::truncateOutput ("");
+  database::check::truncate_output ("");
   // Test Pattern
   {
     std::map <int, std::string> verses = {
@@ -92,7 +92,7 @@ TEST (verses, basic)
       std::pair (4, "He said.")
     };
     checks_verses::patterns ("1", 1, 1, verses, {"said"});
-    std::vector <database::check::Hit> results = database::check::getHits ();
+    std::vector <database::check::Hit> results = database::check::get_hits ();
     EXPECT_EQ (2, static_cast<int>(results.size()));
     if (results.size () == 2) {
       database::check::Hit hit = results[0];
@@ -111,7 +111,7 @@ TEST (verses, basic)
       EXPECT_EQ ("Pattern found in text: said", hit.data);
     }
   }
-  database::check::truncateOutput ("");
+  database::check::truncate_output ("");
 }
 
 #endif

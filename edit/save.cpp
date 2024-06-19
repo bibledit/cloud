@@ -167,7 +167,7 @@ std::string edit_save (Webserver_Request& webserver_request)
   int newID = database::bibles::get_chapter_id (bible, book, chapter);
   database::modifications::recordUserSave (username, bible, book, chapter, oldID, oldText, newID, newText);
   if (sendreceive_git_repository_linked (bible)) {
-    Database_Git::store_chapter (username, bible, book, chapter, oldText, newText);
+    database::git::store_chapter (username, bible, book, chapter, oldText, newText);
   }
   rss_logic_schedule_update (username, bible, book, chapter, oldText, newText);
 #endif

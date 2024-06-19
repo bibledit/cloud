@@ -26,23 +26,21 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #ifdef HAVE_CLOUD
 
 
-class Database_Git
-{
-public:
-  static void create ();
-  static void optimize ();
-  static void store_chapter (std::string user, std::string bible, int book, int chapter,
-                             std::string oldusfm, std::string newusfm);
-  static std::vector <std::string> get_users (std::string bible);
-  static std::vector <int> get_rowids (std::string user, std::string bible);
-  static bool get_chapter (int rowid,
-                           std::string & user, std::string & bible, int & book, int & chapter,
-                           std::string & oldusfm, std::string & newusfm);
-  static void erase_rowid (int rowid);
-  static void touch_timestamps (int timestamp);
-private:
-  static const char * name ();
-};
+namespace database::git {
+
+void create ();
+void optimize ();
+void store_chapter (const std::string& user, const std::string& bible, int book, int chapter,
+                    const std::string& oldusfm, const std::string& newusfm);
+std::vector <std::string> get_users (const std::string& bible);
+std::vector <int> get_rowids (const std::string& user, const std::string& bible);
+bool get_chapter (int rowid,
+                  std::string & user, std::string & bible, int & book, int & chapter,
+                  std::string & oldusfm, std::string & newusfm);
+void erase_rowid (int rowid);
+void touch_timestamps (int timestamp);
+
+}
 
 
 #endif

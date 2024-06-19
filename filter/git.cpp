@@ -93,7 +93,7 @@ void filter_git_commit_modification_to_git (std::string repository, std::string 
 void filter_git_sync_modifications_to_git (std::string bible, std::string repository)
 {
   // Go through all the users who saved data to this Bible.
-  std::vector <std::string> users = Database_Git::get_users (bible);
+  std::vector <std::string> users = database::git::get_users (bible);
   for (auto & user : users) {
     
     bool iteration_initialized = false;
@@ -101,13 +101,13 @@ void filter_git_sync_modifications_to_git (std::string bible, std::string reposi
     int overall_book = 0, overall_chapter = 0;
     
     // Go through all the rowids for the user and the Bible.
-    std::vector <int> rowids = Database_Git::get_rowids (user, bible);
+    std::vector <int> rowids = database::git::get_rowids (user, bible);
     for (auto rowid : rowids) {
 
       std::string s;
       std::string oldusfm, newusfm;
       int book, chapter;
-      Database_Git::get_chapter (rowid, s, s, book, chapter, oldusfm, newusfm);
+      database::git::get_chapter (rowid, s, s, book, chapter, oldusfm, newusfm);
       
       if (iteration_initialized) {
         // Look at the sequences of old and new USFM, and join the matching changes together,
@@ -131,7 +131,7 @@ void filter_git_sync_modifications_to_git (std::string bible, std::string reposi
       }
 
       // This record has been processed.
-      Database_Git::erase_rowid (rowid);
+      database::git::erase_rowid (rowid);
 
     }
     

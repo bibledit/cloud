@@ -231,7 +231,7 @@ std::string editone2_update (Webserver_Request& webserver_request)
       // The Cloud stores details of the user's changes.
       database::modifications::recordUserSave (username, bible, book, chapter, oldID, old_chapter_usfm, newID, new_chapter_usfm);
       if (sendreceive_git_repository_linked (bible)) {
-        Database_Git::store_chapter (username, bible, book, chapter, old_chapter_usfm, new_chapter_usfm);
+        database::git::store_chapter (username, bible, book, chapter, old_chapter_usfm, new_chapter_usfm);
       }
       rss_logic_schedule_update (username, bible, book, chapter, old_chapter_usfm, new_chapter_usfm);
 #endif

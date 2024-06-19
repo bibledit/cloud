@@ -128,7 +128,7 @@ std::string sync_bibles_receive_chapter (Webserver_Request& webserver_request, s
     database::modifications::recordUserSave (username, bible, book, chapter, old_id, old_text, new_id, new_text);
 #ifdef HAVE_CLOUD
     if (sendreceive_git_repository_linked (bible)) {
-      Database_Git::store_chapter (username, bible, book, chapter, old_text, new_text);
+      database::git::store_chapter (username, bible, book, chapter, old_text, new_text);
     }
     rss_logic_schedule_update (username, bible, book, chapter, old_text, new_text);
 #endif

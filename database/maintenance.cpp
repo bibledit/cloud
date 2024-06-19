@@ -130,7 +130,7 @@ void database_maintenance ()
   
   
 #ifdef HAVE_CLOUD
-  Database_Git::optimize ();
+  database::git::optimize ();
 #endif
 
   

@@ -44,7 +44,7 @@ void test_filter_git_setup ([[maybe_unused]] Webserver_Request& webserver_reques
   refresh_sandbox (true);
   
   Database_State::create ();
-  Database_Git::create ();
+  database::git::create ();
   Database_Login::create ();
   
   std::string repository = filter_git_directory (bible);
@@ -807,13 +807,13 @@ TEST (git, basic)
     // Create records of user saving data.
     oldusfm1 = "Psalm 11\n";
     newusfm1 = oldusfm1 + "Praise";
-    Database_Git::store_chapter (user1, bible, psalms, 11, oldusfm1, newusfm1);
+    database::git::store_chapter (user1, bible, psalms, 11, oldusfm1, newusfm1);
     oldusfm1 = newusfm1;
     newusfm1.append (" Jesus");
-    Database_Git::store_chapter (user1, bible, psalms, 11, oldusfm1, newusfm1);
+    database::git::store_chapter (user1, bible, psalms, 11, oldusfm1, newusfm1);
     oldusfm1 = newusfm1;
     newusfm1.append (" forever.\n");
-    Database_Git::store_chapter (user1, bible, psalms, 11, oldusfm1, newusfm1);
+    database::git::store_chapter (user1, bible, psalms, 11, oldusfm1, newusfm1);
     filter_git_sync_modifications_to_git (bible, repository);
     
     // Check the elaborate log.
@@ -853,14 +853,14 @@ TEST (git, basic)
     // Create records of two users saving data.
     oldusfm1 = "Psalm 11\n";
     newusfm1 = oldusfm1 + "Praise";
-    Database_Git::store_chapter (user1, bible, psalms, 11, oldusfm1, newusfm1);
+    database::git::store_chapter (user1, bible, psalms, 11, oldusfm1, newusfm1);
     oldusfm1 = newusfm1;
     newusfm1.append (" Jesus");
-    Database_Git::store_chapter (user1, bible, psalms, 11, oldusfm1, newusfm1);
-    Database_Git::store_chapter (user2, bible, psalms, 11, oldusfm1 + " xx\n", newusfm1 + " xxx\n");
+    database::git::store_chapter (user1, bible, psalms, 11, oldusfm1, newusfm1);
+    database::git::store_chapter (user2, bible, psalms, 11, oldusfm1 + " xx\n", newusfm1 + " xxx\n");
     oldusfm1 = newusfm1;
     newusfm1.append (" forever.\n");
-    Database_Git::store_chapter (user1, bible, psalms, 11, oldusfm1, newusfm1);
+    database::git::store_chapter (user1, bible, psalms, 11, oldusfm1, newusfm1);
     filter_git_sync_modifications_to_git (bible, repository);
     filter_shell_run ("cd " + repository + " && git log -p --color=never", out_err);
     EXPECT_EQ (true, out_err.find ("+Praise Jesus forever.") != std::string::npos);
@@ -884,30 +884,30 @@ TEST (database, git)
   refresh_sandbox (false);
   
   // Create the database.
-  Database_Git::create ();
+  database::git::create ();
   
   std::string user = "user";
   std::string bible = "bible";
   
   // Store one chapter, and check there's one rowid as a result.
-  Database_Git::store_chapter (user, bible, 1, 2, "old", "new");
-  std::vector <int> rowids = Database_Git::get_rowids (user, "");
+  database::git::store_chapter (user, bible, 1, 2, "old", "new");
+  std::vector <int> rowids = database::git::get_rowids (user, "");
   EXPECT_EQ (std::vector <int>{}, rowids);
-  rowids = Database_Git::get_rowids ("", bible);
+  rowids = database::git::get_rowids ("", bible);
   EXPECT_EQ (std::vector <int>{}, rowids);
-  rowids = Database_Git::get_rowids (user, bible);
+  rowids = database::git::get_rowids (user, bible);
   EXPECT_EQ (std::vector <int>{1}, rowids);
   
   // Store some more chapters to get more rowids in the database.
-  Database_Git::store_chapter (user, bible, 2, 5, "old2", "new5");
-  Database_Git::store_chapter (user, bible, 3, 6, "old3", "new6");
-  Database_Git::store_chapter (user, bible, 4, 7, "old4", "new7");
+  database::git::store_chapter (user, bible, 2, 5, "old2", "new5");
+  database::git::store_chapter (user, bible, 3, 6, "old3", "new6");
+  database::git::store_chapter (user, bible, 4, 7, "old4", "new7");
   
   // Retrieve and check a certain rowid whether it has the correct values.
   std::string user2, bible2;
   int book, chapter;
   std::string oldusfm, newusfm;
-  bool get = Database_Git::get_chapter (1, user2, bible2, book, chapter, oldusfm, newusfm);
+  bool get = database::git::get_chapter (1, user2, bible2, book, chapter, oldusfm, newusfm);
   EXPECT_EQ (true, get);
   EXPECT_EQ (user, user2);
   EXPECT_EQ (bible, bible2);
@@ -917,30 +917,30 @@ TEST (database, git)
   EXPECT_EQ ("new", newusfm);
   
   // Erase a rowid, and check that the remaining ones in the database are correct.
-  Database_Git::erase_rowid (2);
-  rowids = Database_Git::get_rowids (user, bible);
+  database::git::erase_rowid (2);
+  rowids = database::git::get_rowids (user, bible);
   EXPECT_EQ ((std::vector<int>{1, 3, 4}), rowids);
   
   // Getting a non-existent rowid should fail.
-  get = Database_Git::get_chapter (2, user, bible, book, chapter, oldusfm, newusfm);
+  get = database::git::get_chapter (2, user, bible, book, chapter, oldusfm, newusfm);
   EXPECT_EQ (false, get);
   
   // Update the timestamps and check that expired entries get removed and recent ones remain.
-  rowids = Database_Git::get_rowids ("user", "bible");
+  rowids = database::git::get_rowids ("user", "bible");
   EXPECT_EQ (3, rowids.size ());
-  Database_Git::optimize ();
-  rowids = Database_Git::get_rowids (user, bible);
+  database::git::optimize ();
+  rowids = database::git::get_rowids (user, bible);
   EXPECT_EQ (3, rowids.size ());
-  Database_Git::touch_timestamps (filter::date::seconds_since_epoch () - 432000 - 1);
-  Database_Git::optimize ();
-  rowids = Database_Git::get_rowids (user, bible);
+  database::git::touch_timestamps (filter::date::seconds_since_epoch () - 432000 - 1);
+  database::git::optimize ();
+  rowids = database::git::get_rowids (user, bible);
   EXPECT_EQ (0, rowids.size ());
   
   // Test that it reads distinct users.
-  Database_Git::store_chapter (user, bible, 2, 5, "old", "new");
-  Database_Git::store_chapter (user, bible, 2, 5, "old", "new");
-  Database_Git::store_chapter ("user2", bible, 2, 5, "old", "new");
-  std::vector <std::string> users = Database_Git::get_users (bible);
+  database::git::store_chapter (user, bible, 2, 5, "old", "new");
+  database::git::store_chapter (user, bible, 2, 5, "old", "new");
+  database::git::store_chapter ("user2", bible, 2, 5, "old", "new");
+  std::vector <std::string> users = database::git::get_users (bible);
   EXPECT_EQ ((std::vector<std::string>{user, "user2"}), users);
   
 #endif

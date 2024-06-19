@@ -141,7 +141,7 @@ void checks_run (std::string bible)
           const std::string username = "Bibledit";
           database::modifications::recordUserSave (username, bible, book, chapter, oldID, old_usfm, newID, chapterUsfm);
           if (sendreceive_git_repository_linked (bible)) {
-            Database_Git::store_chapter (username, bible, book, chapter, old_usfm, chapterUsfm);
+            database::git::store_chapter (username, bible, book, chapter, old_usfm, chapterUsfm);
           }
           rss_logic_schedule_update (username, bible, book, chapter, old_usfm, chapterUsfm);
 #endif

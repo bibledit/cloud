@@ -68,7 +68,7 @@ const char * bibledit_get_network_port ()
   std::vector <int> ports = { 9876, 9987, 9998 };
   for (auto port : ports) {
     if (!filter_url_port_can_connect ("localhost", port)) {
-      config_globals_negotiated_port_number = filter::strings::convert_to_string(port);
+      config_globals_negotiated_port_number = std::to_string(port);
       break;
     }
   }
@@ -124,7 +124,7 @@ void bibledit_initialize_library (const char * package, const char * webroot)
 
 #ifdef HAVE_CLIENT
   // Set local timezone offset in the library on Windows.
-  int hours = 0;
+  int hours {0};
 #ifdef HAVE_WINDOWS
   TIME_ZONE_INFORMATION tzi;
   [[maybe_unused]] auto dwRet = GetTimeZoneInformation (&tzi);
@@ -137,7 +137,7 @@ void bibledit_initialize_library (const char * package, const char * webroot)
   hours = static_cast<int>(round (lt.tm_gmtoff / 3600));
 #endif
   config_globals_timezone_offset_utc = hours;
-  Database_Logs::log ("Timezone offset in hours: " + filter::strings::convert_to_string (hours));
+  Database_Logs::log ("Timezone offset in hours: " + std::to_string(hours));
 #endif
 
   // Initialize obfuscation data.

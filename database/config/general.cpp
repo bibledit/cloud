@@ -276,7 +276,7 @@ std::string get_site_url ()
 #ifdef HAVE_CLIENT
   // In case of a client, return a predefined URL.
   std::string url = "http://localhost:";
-  url.append (config::logic::http_network_port ());
+  url.append (::config::logic::http_network_port ());
   url.append ("/");
   return url;
 #else

@@ -395,9 +395,9 @@ std::string sword_logic_get_text (const std::string& source, const std::string& 
   }
   std::string url = client_logic_url (address, port, sync_resources_url ());
   url = filter_url_build_http_query (url, "r", resource);
-  url = filter_url_build_http_query (url, "b", filter::strings::convert_to_string (book));
-  url = filter_url_build_http_query (url, "c", filter::strings::convert_to_string (chapter));
-  url = filter_url_build_http_query (url, "v", filter::strings::convert_to_string (verse));
+  url = filter_url_build_http_query (url, "b", std::to_string(book));
+  url = filter_url_build_http_query (url, "c", std::to_string(chapter));
+  url = filter_url_build_http_query (url, "v", std::to_string(verse));
   std::string error {};
   std::string html = filter_url_http_get (url, error, true);
   

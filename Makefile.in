@@ -303,48 +303,77 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	public/new.$(OBJEXT) public/create.$(OBJEXT) \
 	public/note.$(OBJEXT) public/comment.$(OBJEXT) \
 	utf8proc/utf8proc.$(OBJEXT) search/logic.$(OBJEXT) \
-	mbedtls/aes.$(OBJEXT) mbedtls/arc4.$(OBJEXT) \
+	mbedtls/aes.$(OBJEXT) mbedtls/aesce.$(OBJEXT) \
+	mbedtls/aesni.$(OBJEXT) mbedtls/aria.$(OBJEXT) \
 	mbedtls/asn1parse.$(OBJEXT) mbedtls/asn1write.$(OBJEXT) \
 	mbedtls/base64.$(OBJEXT) mbedtls/bignum.$(OBJEXT) \
-	mbedtls/blowfish.$(OBJEXT) mbedtls/camellia.$(OBJEXT) \
-	mbedtls/ccm.$(OBJEXT) mbedtls/certs.$(OBJEXT) \
-	mbedtls/chacha20.$(OBJEXT) mbedtls/chachapoly.$(OBJEXT) \
-	mbedtls/cipher.$(OBJEXT) mbedtls/cipher_wrap.$(OBJEXT) \
-	mbedtls/ctr_drbg.$(OBJEXT) mbedtls/debug.$(OBJEXT) \
-	mbedtls/des.$(OBJEXT) mbedtls/dhm.$(OBJEXT) \
-	mbedtls/ecdh.$(OBJEXT) mbedtls/ecdsa.$(OBJEXT) \
+	mbedtls/bignum_core.$(OBJEXT) mbedtls/bignum_mod.$(OBJEXT) \
+	mbedtls/bignum_mod_raw.$(OBJEXT) \
+	mbedtls/block_cipher.$(OBJEXT) mbedtls/camellia.$(OBJEXT) \
+	mbedtls/ccm.$(OBJEXT) mbedtls/chacha20.$(OBJEXT) \
+	mbedtls/chachapoly.$(OBJEXT) mbedtls/cipher.$(OBJEXT) \
+	mbedtls/cipher_wrap.$(OBJEXT) mbedtls/cmac.$(OBJEXT) \
+	mbedtls/constant_time.$(OBJEXT) mbedtls/ctr_drbg.$(OBJEXT) \
+	mbedtls/debug.$(OBJEXT) mbedtls/des.$(OBJEXT) \
+	mbedtls/dhm.$(OBJEXT) mbedtls/ecdh.$(OBJEXT) \
+	mbedtls/ecdsa.$(OBJEXT) mbedtls/ecjpake.$(OBJEXT) \
 	mbedtls/ecp.$(OBJEXT) mbedtls/ecp_curves.$(OBJEXT) \
-	mbedtls/entropy.$(OBJEXT) mbedtls/entropy_poll.$(OBJEXT) \
-	mbedtls/error.$(OBJEXT) mbedtls/gcm.$(OBJEXT) \
-	mbedtls/hmac_drbg.$(OBJEXT) mbedtls/md.$(OBJEXT) \
-	mbedtls/md5.$(OBJEXT) mbedtls/md_wrap.$(OBJEXT) \
-	mbedtls/net_sockets.$(OBJEXT) mbedtls/oid.$(OBJEXT) \
+	mbedtls/ecp_curves_new.$(OBJEXT) mbedtls/entropy.$(OBJEXT) \
+	mbedtls/entropy_poll.$(OBJEXT) mbedtls/error.$(OBJEXT) \
+	mbedtls/gcm.$(OBJEXT) mbedtls/hkdf.$(OBJEXT) \
+	mbedtls/hmac_drbg.$(OBJEXT) mbedtls/lmots.$(OBJEXT) \
+	mbedtls/lms.$(OBJEXT) mbedtls/md.$(OBJEXT) \
+	mbedtls/md5.$(OBJEXT) mbedtls/memory_buffer_alloc.$(OBJEXT) \
+	mbedtls/mps_reader.$(OBJEXT) mbedtls/mps_trace.$(OBJEXT) \
+	mbedtls/net_sockets.$(OBJEXT) mbedtls/nist_kw.$(OBJEXT) \
+	mbedtls/oid.$(OBJEXT) mbedtls/padlock.$(OBJEXT) \
 	mbedtls/pem.$(OBJEXT) mbedtls/pk.$(OBJEXT) \
-	mbedtls/pk_wrap.$(OBJEXT) mbedtls/pkcs12.$(OBJEXT) \
-	mbedtls/pkcs5.$(OBJEXT) mbedtls/pkparse.$(OBJEXT) \
-	mbedtls/pkwrite.$(OBJEXT) mbedtls/platform_util.$(OBJEXT) \
-	mbedtls/platform.$(OBJEXT) mbedtls/poly1305.$(OBJEXT) \
+	mbedtls/pk_ecc.$(OBJEXT) mbedtls/pk_wrap.$(OBJEXT) \
+	mbedtls/pkcs12.$(OBJEXT) mbedtls/pkcs5.$(OBJEXT) \
+	mbedtls/pkcs7.$(OBJEXT) mbedtls/pkparse.$(OBJEXT) \
+	mbedtls/pkwrite.$(OBJEXT) mbedtls/platform.$(OBJEXT) \
+	mbedtls/platform_util.$(OBJEXT) mbedtls/poly1305.$(OBJEXT) \
+	mbedtls/psa_crypto.$(OBJEXT) mbedtls/psa_crypto_aead.$(OBJEXT) \
+	mbedtls/psa_crypto_cipher.$(OBJEXT) \
+	mbedtls/psa_crypto_client.$(OBJEXT) \
+	mbedtls/psa_crypto_driver_wrappers_no_static.$(OBJEXT) \
+	mbedtls/psa_crypto_ecp.$(OBJEXT) \
+	mbedtls/psa_crypto_ffdh.$(OBJEXT) \
+	mbedtls/psa_crypto_hash.$(OBJEXT) \
+	mbedtls/psa_crypto_mac.$(OBJEXT) \
+	mbedtls/psa_crypto_pake.$(OBJEXT) \
+	mbedtls/psa_crypto_rsa.$(OBJEXT) \
+	mbedtls/psa_crypto_se.$(OBJEXT) \
+	mbedtls/psa_crypto_slot_management.$(OBJEXT) \
+	mbedtls/psa_crypto_storage.$(OBJEXT) \
+	mbedtls/psa_its_file.$(OBJEXT) mbedtls/psa_util.$(OBJEXT) \
 	mbedtls/ripemd160.$(OBJEXT) mbedtls/rsa.$(OBJEXT) \
-	mbedtls/rsa_internal.$(OBJEXT) mbedtls/sha1.$(OBJEXT) \
-	mbedtls/sha256.$(OBJEXT) mbedtls/sha512.$(OBJEXT) \
-	mbedtls/ssl_cache.$(OBJEXT) mbedtls/ssl_ciphersuites.$(OBJEXT) \
-	mbedtls/ssl_cli.$(OBJEXT) mbedtls/ssl_cookie.$(OBJEXT) \
-	mbedtls/ssl_srv.$(OBJEXT) mbedtls/ssl_ticket.$(OBJEXT) \
-	mbedtls/ssl_tls.$(OBJEXT) mbedtls/threading.$(OBJEXT) \
+	mbedtls/rsa_alt_helpers.$(OBJEXT) mbedtls/sha1.$(OBJEXT) \
+	mbedtls/sha256.$(OBJEXT) mbedtls/sha3.$(OBJEXT) \
+	mbedtls/sha512.$(OBJEXT) mbedtls/ssl_cache.$(OBJEXT) \
+	mbedtls/ssl_ciphersuites.$(OBJEXT) \
+	mbedtls/ssl_client.$(OBJEXT) mbedtls/ssl_cookie.$(OBJEXT) \
+	mbedtls/ssl_debug_helpers_generated.$(OBJEXT) \
+	mbedtls/ssl_msg.$(OBJEXT) mbedtls/ssl_ticket.$(OBJEXT) \
+	mbedtls/ssl_tls.$(OBJEXT) mbedtls/ssl_tls12_client.$(OBJEXT) \
+	mbedtls/ssl_tls12_server.$(OBJEXT) \
+	mbedtls/ssl_tls13_client.$(OBJEXT) \
+	mbedtls/ssl_tls13_generic.$(OBJEXT) \
+	mbedtls/ssl_tls13_keys.$(OBJEXT) \
+	mbedtls/ssl_tls13_server.$(OBJEXT) mbedtls/threading.$(OBJEXT) \
 	mbedtls/timing.$(OBJEXT) mbedtls/version.$(OBJEXT) \
 	mbedtls/version_features.$(OBJEXT) mbedtls/x509.$(OBJEXT) \
 	mbedtls/x509_create.$(OBJEXT) mbedtls/x509_crl.$(OBJEXT) \
 	mbedtls/x509_crt.$(OBJEXT) mbedtls/x509_csr.$(OBJEXT) \
-	mbedtls/x509write_crt.$(OBJEXT) \
-	mbedtls/x509write_csr.$(OBJEXT) mbedtls/xtea.$(OBJEXT) \
-	related/logic.$(OBJEXT) sqlite/sqlite3.$(OBJEXT) \
-	ldap/logic.$(OBJEXT) quill/logic.$(OBJEXT) rss/logic.$(OBJEXT) \
-	rss/feed.$(OBJEXT) microtar/microtar.$(OBJEXT) \
-	miniz/miniz.$(OBJEXT) nmt/index.$(OBJEXT) nmt/logic.$(OBJEXT) \
-	tbsx/text.$(OBJEXT) read/index.$(OBJEXT) read/load.$(OBJEXT) \
-	read/verse.$(OBJEXT) resource/divider.$(OBJEXT) \
-	session/confirm.$(OBJEXT) sources/abbott-smith.$(OBJEXT) \
-	database/abbottsmith.$(OBJEXT) \
+	mbedtls/x509write.$(OBJEXT) mbedtls/x509write_crt.$(OBJEXT) \
+	mbedtls/x509write_csr.$(OBJEXT) related/logic.$(OBJEXT) \
+	sqlite/sqlite3.$(OBJEXT) ldap/logic.$(OBJEXT) \
+	quill/logic.$(OBJEXT) rss/logic.$(OBJEXT) rss/feed.$(OBJEXT) \
+	microtar/microtar.$(OBJEXT) miniz/miniz.$(OBJEXT) \
+	nmt/index.$(OBJEXT) nmt/logic.$(OBJEXT) tbsx/text.$(OBJEXT) \
+	read/index.$(OBJEXT) read/load.$(OBJEXT) read/verse.$(OBJEXT) \
+	resource/divider.$(OBJEXT) session/confirm.$(OBJEXT) \
+	sources/abbott-smith.$(OBJEXT) database/abbottsmith.$(OBJEXT) \
 	resource/comparative9edit.$(OBJEXT) \
 	resource/comparative1edit.$(OBJEXT) \
 	resource/translated9edit.$(OBJEXT) \
@@ -582,44 +611,80 @@ am__depfiles_remade = access/$(DEPDIR)/bible.Po \
 	manage/$(DEPDIR)/privileges.Po manage/$(DEPDIR)/users.Po \
 	manage/$(DEPDIR)/write.Po mapping/$(DEPDIR)/index.Po \
 	mapping/$(DEPDIR)/map.Po mbedtls/$(DEPDIR)/aes.Po \
-	mbedtls/$(DEPDIR)/arc4.Po mbedtls/$(DEPDIR)/asn1parse.Po \
+	mbedtls/$(DEPDIR)/aesce.Po mbedtls/$(DEPDIR)/aesni.Po \
+	mbedtls/$(DEPDIR)/aria.Po mbedtls/$(DEPDIR)/asn1parse.Po \
 	mbedtls/$(DEPDIR)/asn1write.Po mbedtls/$(DEPDIR)/base64.Po \
-	mbedtls/$(DEPDIR)/bignum.Po mbedtls/$(DEPDIR)/blowfish.Po \
+	mbedtls/$(DEPDIR)/bignum.Po mbedtls/$(DEPDIR)/bignum_core.Po \
+	mbedtls/$(DEPDIR)/bignum_mod.Po \
+	mbedtls/$(DEPDIR)/bignum_mod_raw.Po \
+	mbedtls/$(DEPDIR)/block_cipher.Po \
 	mbedtls/$(DEPDIR)/camellia.Po mbedtls/$(DEPDIR)/ccm.Po \
-	mbedtls/$(DEPDIR)/certs.Po mbedtls/$(DEPDIR)/chacha20.Po \
-	mbedtls/$(DEPDIR)/chachapoly.Po mbedtls/$(DEPDIR)/cipher.Po \
-	mbedtls/$(DEPDIR)/cipher_wrap.Po mbedtls/$(DEPDIR)/ctr_drbg.Po \
-	mbedtls/$(DEPDIR)/debug.Po mbedtls/$(DEPDIR)/des.Po \
-	mbedtls/$(DEPDIR)/dhm.Po mbedtls/$(DEPDIR)/ecdh.Po \
-	mbedtls/$(DEPDIR)/ecdsa.Po mbedtls/$(DEPDIR)/ecp.Po \
-	mbedtls/$(DEPDIR)/ecp_curves.Po mbedtls/$(DEPDIR)/entropy.Po \
-	mbedtls/$(DEPDIR)/entropy_poll.Po mbedtls/$(DEPDIR)/error.Po \
-	mbedtls/$(DEPDIR)/gcm.Po mbedtls/$(DEPDIR)/hmac_drbg.Po \
+	mbedtls/$(DEPDIR)/chacha20.Po mbedtls/$(DEPDIR)/chachapoly.Po \
+	mbedtls/$(DEPDIR)/cipher.Po mbedtls/$(DEPDIR)/cipher_wrap.Po \
+	mbedtls/$(DEPDIR)/cmac.Po mbedtls/$(DEPDIR)/constant_time.Po \
+	mbedtls/$(DEPDIR)/ctr_drbg.Po mbedtls/$(DEPDIR)/debug.Po \
+	mbedtls/$(DEPDIR)/des.Po mbedtls/$(DEPDIR)/dhm.Po \
+	mbedtls/$(DEPDIR)/ecdh.Po mbedtls/$(DEPDIR)/ecdsa.Po \
+	mbedtls/$(DEPDIR)/ecjpake.Po mbedtls/$(DEPDIR)/ecp.Po \
+	mbedtls/$(DEPDIR)/ecp_curves.Po \
+	mbedtls/$(DEPDIR)/ecp_curves_new.Po \
+	mbedtls/$(DEPDIR)/entropy.Po mbedtls/$(DEPDIR)/entropy_poll.Po \
+	mbedtls/$(DEPDIR)/error.Po mbedtls/$(DEPDIR)/gcm.Po \
+	mbedtls/$(DEPDIR)/hkdf.Po mbedtls/$(DEPDIR)/hmac_drbg.Po \
+	mbedtls/$(DEPDIR)/lmots.Po mbedtls/$(DEPDIR)/lms.Po \
 	mbedtls/$(DEPDIR)/md.Po mbedtls/$(DEPDIR)/md5.Po \
-	mbedtls/$(DEPDIR)/md_wrap.Po mbedtls/$(DEPDIR)/net_sockets.Po \
-	mbedtls/$(DEPDIR)/oid.Po mbedtls/$(DEPDIR)/pem.Po \
-	mbedtls/$(DEPDIR)/pk.Po mbedtls/$(DEPDIR)/pk_wrap.Po \
+	mbedtls/$(DEPDIR)/memory_buffer_alloc.Po \
+	mbedtls/$(DEPDIR)/mps_reader.Po mbedtls/$(DEPDIR)/mps_trace.Po \
+	mbedtls/$(DEPDIR)/net_sockets.Po mbedtls/$(DEPDIR)/nist_kw.Po \
+	mbedtls/$(DEPDIR)/oid.Po mbedtls/$(DEPDIR)/padlock.Po \
+	mbedtls/$(DEPDIR)/pem.Po mbedtls/$(DEPDIR)/pk.Po \
+	mbedtls/$(DEPDIR)/pk_ecc.Po mbedtls/$(DEPDIR)/pk_wrap.Po \
 	mbedtls/$(DEPDIR)/pkcs12.Po mbedtls/$(DEPDIR)/pkcs5.Po \
-	mbedtls/$(DEPDIR)/pkparse.Po mbedtls/$(DEPDIR)/pkwrite.Po \
-	mbedtls/$(DEPDIR)/platform.Po \
+	mbedtls/$(DEPDIR)/pkcs7.Po mbedtls/$(DEPDIR)/pkparse.Po \
+	mbedtls/$(DEPDIR)/pkwrite.Po mbedtls/$(DEPDIR)/platform.Po \
 	mbedtls/$(DEPDIR)/platform_util.Po \
-	mbedtls/$(DEPDIR)/poly1305.Po mbedtls/$(DEPDIR)/ripemd160.Po \
-	mbedtls/$(DEPDIR)/rsa.Po mbedtls/$(DEPDIR)/rsa_internal.Po \
+	mbedtls/$(DEPDIR)/poly1305.Po mbedtls/$(DEPDIR)/psa_crypto.Po \
+	mbedtls/$(DEPDIR)/psa_crypto_aead.Po \
+	mbedtls/$(DEPDIR)/psa_crypto_cipher.Po \
+	mbedtls/$(DEPDIR)/psa_crypto_client.Po \
+	mbedtls/$(DEPDIR)/psa_crypto_driver_wrappers_no_static.Po \
+	mbedtls/$(DEPDIR)/psa_crypto_ecp.Po \
+	mbedtls/$(DEPDIR)/psa_crypto_ffdh.Po \
+	mbedtls/$(DEPDIR)/psa_crypto_hash.Po \
+	mbedtls/$(DEPDIR)/psa_crypto_mac.Po \
+	mbedtls/$(DEPDIR)/psa_crypto_pake.Po \
+	mbedtls/$(DEPDIR)/psa_crypto_rsa.Po \
+	mbedtls/$(DEPDIR)/psa_crypto_se.Po \
+	mbedtls/$(DEPDIR)/psa_crypto_slot_management.Po \
+	mbedtls/$(DEPDIR)/psa_crypto_storage.Po \
+	mbedtls/$(DEPDIR)/psa_its_file.Po \
+	mbedtls/$(DEPDIR)/psa_util.Po mbedtls/$(DEPDIR)/ripemd160.Po \
+	mbedtls/$(DEPDIR)/rsa.Po mbedtls/$(DEPDIR)/rsa_alt_helpers.Po \
 	mbedtls/$(DEPDIR)/sha1.Po mbedtls/$(DEPDIR)/sha256.Po \
-	mbedtls/$(DEPDIR)/sha512.Po mbedtls/$(DEPDIR)/ssl_cache.Po \
+	mbedtls/$(DEPDIR)/sha3.Po mbedtls/$(DEPDIR)/sha512.Po \
+	mbedtls/$(DEPDIR)/ssl_cache.Po \
 	mbedtls/$(DEPDIR)/ssl_ciphersuites.Po \
-	mbedtls/$(DEPDIR)/ssl_cli.Po mbedtls/$(DEPDIR)/ssl_cookie.Po \
-	mbedtls/$(DEPDIR)/ssl_srv.Po mbedtls/$(DEPDIR)/ssl_ticket.Po \
-	mbedtls/$(DEPDIR)/ssl_tls.Po mbedtls/$(DEPDIR)/threading.Po \
-	mbedtls/$(DEPDIR)/timing.Po mbedtls/$(DEPDIR)/version.Po \
+	mbedtls/$(DEPDIR)/ssl_client.Po \
+	mbedtls/$(DEPDIR)/ssl_cookie.Po \
+	mbedtls/$(DEPDIR)/ssl_debug_helpers_generated.Po \
+	mbedtls/$(DEPDIR)/ssl_msg.Po mbedtls/$(DEPDIR)/ssl_ticket.Po \
+	mbedtls/$(DEPDIR)/ssl_tls.Po \
+	mbedtls/$(DEPDIR)/ssl_tls12_client.Po \
+	mbedtls/$(DEPDIR)/ssl_tls12_server.Po \
+	mbedtls/$(DEPDIR)/ssl_tls13_client.Po \
+	mbedtls/$(DEPDIR)/ssl_tls13_generic.Po \
+	mbedtls/$(DEPDIR)/ssl_tls13_keys.Po \
+	mbedtls/$(DEPDIR)/ssl_tls13_server.Po \
+	mbedtls/$(DEPDIR)/threading.Po mbedtls/$(DEPDIR)/timing.Po \
+	mbedtls/$(DEPDIR)/version.Po \
 	mbedtls/$(DEPDIR)/version_features.Po \
 	mbedtls/$(DEPDIR)/x509.Po mbedtls/$(DEPDIR)/x509_create.Po \
 	mbedtls/$(DEPDIR)/x509_crl.Po mbedtls/$(DEPDIR)/x509_crt.Po \
-	mbedtls/$(DEPDIR)/x509_csr.Po \
+	mbedtls/$(DEPDIR)/x509_csr.Po mbedtls/$(DEPDIR)/x509write.Po \
 	mbedtls/$(DEPDIR)/x509write_crt.Po \
-	mbedtls/$(DEPDIR)/x509write_csr.Po mbedtls/$(DEPDIR)/xtea.Po \
-	menu/$(DEPDIR)/index.Po menu/$(DEPDIR)/logic.Po \
-	microtar/$(DEPDIR)/microtar.Po mimetic098/$(DEPDIR)/body.Po \
+	mbedtls/$(DEPDIR)/x509write_csr.Po menu/$(DEPDIR)/index.Po \
+	menu/$(DEPDIR)/logic.Po microtar/$(DEPDIR)/microtar.Po \
+	mimetic098/$(DEPDIR)/body.Po \
 	mimetic098/$(DEPDIR)/contentdescription.Po \
 	mimetic098/$(DEPDIR)/contentdisposition.Po \
 	mimetic098/$(DEPDIR)/contentid.Po \
@@ -1402,73 +1467,114 @@ libbibledit_a_SOURCES = \
 	public/comment.cpp \
 	utf8proc/utf8proc.c \
 	search/logic.cpp \
-	mbedtls/aes.c \
-	mbedtls/arc4.c \
-	mbedtls/asn1parse.c \
-	mbedtls/asn1write.c \
-	mbedtls/base64.c \
-	mbedtls/bignum.c \
-	mbedtls/blowfish.c \
-	mbedtls/camellia.c \
-	mbedtls/ccm.c \
-	mbedtls/certs.c \
-	mbedtls/chacha20.c \
-	mbedtls/chachapoly.c \
-	mbedtls/cipher.c \
-	mbedtls/cipher_wrap.c \
-	mbedtls/ctr_drbg.c \
-	mbedtls/debug.c \
-	mbedtls/des.c \
-	mbedtls/dhm.c \
-	mbedtls/ecdh.c \
-	mbedtls/ecdsa.c \
-	mbedtls/ecp.c \
-	mbedtls/ecp_curves.c \
-	mbedtls/entropy.c \
-	mbedtls/entropy_poll.c \
-	mbedtls/error.c \
-	mbedtls/gcm.c \
-	mbedtls/hmac_drbg.c \
-	mbedtls/md.c \
-	mbedtls/md5.c \
-	mbedtls/md_wrap.c \
-	mbedtls/net_sockets.c \
-	mbedtls/oid.c \
-	mbedtls/pem.c \
-	mbedtls/pk.c \
-	mbedtls/pk_wrap.c \
-	mbedtls/pkcs12.c \
-	mbedtls/pkcs5.c \
-	mbedtls/pkparse.c \
-	mbedtls/pkwrite.c \
-	mbedtls/platform_util.c \
-	mbedtls/platform.c \
-	mbedtls/poly1305.c \
-	mbedtls/ripemd160.c \
-	mbedtls/rsa.c \
-	mbedtls/rsa_internal.c \
-	mbedtls/sha1.c \
-	mbedtls/sha256.c \
-	mbedtls/sha512.c \
-	mbedtls/ssl_cache.c \
-	mbedtls/ssl_ciphersuites.c \
-	mbedtls/ssl_cli.c \
-	mbedtls/ssl_cookie.c \
-	mbedtls/ssl_srv.c \
-	mbedtls/ssl_ticket.c \
-	mbedtls/ssl_tls.c \
-	mbedtls/threading.c \
-	mbedtls/timing.c \
-	mbedtls/version.c \
-	mbedtls/version_features.c \
-	mbedtls/x509.c \
-	mbedtls/x509_create.c \
-	mbedtls/x509_crl.c \
-	mbedtls/x509_crt.c \
-	mbedtls/x509_csr.c \
-	mbedtls/x509write_crt.c \
-	mbedtls/x509write_csr.c \
-	mbedtls/xtea.c \
+  mbedtls/aes.c \
+  mbedtls/aesce.c \
+  mbedtls/aesni.c \
+  mbedtls/aria.c \
+  mbedtls/asn1parse.c \
+  mbedtls/asn1write.c \
+  mbedtls/base64.c \
+  mbedtls/bignum.c \
+  mbedtls/bignum_core.c \
+  mbedtls/bignum_mod.c \
+  mbedtls/bignum_mod_raw.c \
+  mbedtls/block_cipher.c \
+  mbedtls/camellia.c \
+  mbedtls/ccm.c \
+  mbedtls/chacha20.c \
+  mbedtls/chachapoly.c \
+  mbedtls/cipher.c \
+  mbedtls/cipher_wrap.c \
+  mbedtls/cmac.c \
+  mbedtls/constant_time.c \
+  mbedtls/ctr_drbg.c \
+  mbedtls/debug.c \
+  mbedtls/des.c \
+  mbedtls/dhm.c \
+  mbedtls/ecdh.c \
+  mbedtls/ecdsa.c \
+  mbedtls/ecjpake.c \
+  mbedtls/ecp.c \
+  mbedtls/ecp_curves.c \
+  mbedtls/ecp_curves_new.c \
+  mbedtls/entropy.c \
+  mbedtls/entropy_poll.c \
+  mbedtls/error.c \
+  mbedtls/gcm.c \
+  mbedtls/hkdf.c \
+  mbedtls/hmac_drbg.c \
+  mbedtls/lmots.c \
+  mbedtls/lms.c \
+  mbedtls/md.c \
+  mbedtls/md5.c \
+  mbedtls/memory_buffer_alloc.c \
+  mbedtls/mps_reader.c \
+  mbedtls/mps_trace.c \
+  mbedtls/net_sockets.c \
+  mbedtls/nist_kw.c \
+  mbedtls/oid.c \
+  mbedtls/padlock.c \
+  mbedtls/pem.c \
+  mbedtls/pk.c \
+  mbedtls/pk_ecc.c \
+  mbedtls/pk_wrap.c \
+  mbedtls/pkcs12.c \
+  mbedtls/pkcs5.c \
+  mbedtls/pkcs7.c \
+  mbedtls/pkparse.c \
+  mbedtls/pkwrite.c \
+  mbedtls/platform.c \
+  mbedtls/platform_util.c \
+  mbedtls/poly1305.c \
+  mbedtls/psa_crypto.c \
+  mbedtls/psa_crypto_aead.c \
+  mbedtls/psa_crypto_cipher.c \
+  mbedtls/psa_crypto_client.c \
+  mbedtls/psa_crypto_driver_wrappers_no_static.c \
+  mbedtls/psa_crypto_ecp.c \
+  mbedtls/psa_crypto_ffdh.c \
+  mbedtls/psa_crypto_hash.c \
+  mbedtls/psa_crypto_mac.c \
+  mbedtls/psa_crypto_pake.c \
+  mbedtls/psa_crypto_rsa.c \
+  mbedtls/psa_crypto_se.c \
+  mbedtls/psa_crypto_slot_management.c \
+  mbedtls/psa_crypto_storage.c \
+  mbedtls/psa_its_file.c \
+  mbedtls/psa_util.c \
+  mbedtls/ripemd160.c \
+  mbedtls/rsa.c \
+  mbedtls/rsa_alt_helpers.c \
+  mbedtls/sha1.c \
+  mbedtls/sha256.c \
+  mbedtls/sha3.c \
+  mbedtls/sha512.c \
+  mbedtls/ssl_cache.c \
+  mbedtls/ssl_ciphersuites.c \
+  mbedtls/ssl_client.c \
+  mbedtls/ssl_cookie.c \
+  mbedtls/ssl_debug_helpers_generated.c \
+  mbedtls/ssl_msg.c \
+  mbedtls/ssl_ticket.c \
+  mbedtls/ssl_tls.c \
+  mbedtls/ssl_tls12_client.c \
+  mbedtls/ssl_tls12_server.c \
+  mbedtls/ssl_tls13_client.c \
+  mbedtls/ssl_tls13_generic.c \
+  mbedtls/ssl_tls13_keys.c \
+  mbedtls/ssl_tls13_server.c \
+  mbedtls/threading.c \
+  mbedtls/timing.c \
+  mbedtls/version.c \
+  mbedtls/version_features.c \
+  mbedtls/x509.c \
+  mbedtls/x509_create.c \
+  mbedtls/x509_crl.c \
+  mbedtls/x509_crt.c \
+  mbedtls/x509_csr.c \
+  mbedtls/x509write.c \
+  mbedtls/x509write_crt.c \
+  mbedtls/x509write_csr.c \
 	related/logic.cpp \
 	sqlite/sqlite3.c \
 	ldap/logic.cpp \
@@ -2930,7 +3036,11 @@ mbedtls/$(DEPDIR)/$(am__dirstamp):
 	@: > mbedtls/$(DEPDIR)/$(am__dirstamp)
 mbedtls/aes.$(OBJEXT): mbedtls/$(am__dirstamp) \
 	mbedtls/$(DEPDIR)/$(am__dirstamp)
-mbedtls/arc4.$(OBJEXT): mbedtls/$(am__dirstamp) \
+mbedtls/aesce.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/aesni.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/aria.$(OBJEXT): mbedtls/$(am__dirstamp) \
 	mbedtls/$(DEPDIR)/$(am__dirstamp)
 mbedtls/asn1parse.$(OBJEXT): mbedtls/$(am__dirstamp) \
 	mbedtls/$(DEPDIR)/$(am__dirstamp)
@@ -2940,13 +3050,17 @@ mbedtls/base64.$(OBJEXT): mbedtls/$(am__dirstamp) \
 	mbedtls/$(DEPDIR)/$(am__dirstamp)
 mbedtls/bignum.$(OBJEXT): mbedtls/$(am__dirstamp) \
 	mbedtls/$(DEPDIR)/$(am__dirstamp)
-mbedtls/blowfish.$(OBJEXT): mbedtls/$(am__dirstamp) \
+mbedtls/bignum_core.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/bignum_mod.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/bignum_mod_raw.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/block_cipher.$(OBJEXT): mbedtls/$(am__dirstamp) \
 	mbedtls/$(DEPDIR)/$(am__dirstamp)
 mbedtls/camellia.$(OBJEXT): mbedtls/$(am__dirstamp) \
 	mbedtls/$(DEPDIR)/$(am__dirstamp)
 mbedtls/ccm.$(OBJEXT): mbedtls/$(am__dirstamp) \
-	mbedtls/$(DEPDIR)/$(am__dirstamp)
-mbedtls/certs.$(OBJEXT): mbedtls/$(am__dirstamp) \
 	mbedtls/$(DEPDIR)/$(am__dirstamp)
 mbedtls/chacha20.$(OBJEXT): mbedtls/$(am__dirstamp) \
 	mbedtls/$(DEPDIR)/$(am__dirstamp)
@@ -2955,6 +3069,10 @@ mbedtls/chachapoly.$(OBJEXT): mbedtls/$(am__dirstamp) \
 mbedtls/cipher.$(OBJEXT): mbedtls/$(am__dirstamp) \
 	mbedtls/$(DEPDIR)/$(am__dirstamp)
 mbedtls/cipher_wrap.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/cmac.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/constant_time.$(OBJEXT): mbedtls/$(am__dirstamp) \
 	mbedtls/$(DEPDIR)/$(am__dirstamp)
 mbedtls/ctr_drbg.$(OBJEXT): mbedtls/$(am__dirstamp) \
 	mbedtls/$(DEPDIR)/$(am__dirstamp)
@@ -2968,9 +3086,13 @@ mbedtls/ecdh.$(OBJEXT): mbedtls/$(am__dirstamp) \
 	mbedtls/$(DEPDIR)/$(am__dirstamp)
 mbedtls/ecdsa.$(OBJEXT): mbedtls/$(am__dirstamp) \
 	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/ecjpake.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
 mbedtls/ecp.$(OBJEXT): mbedtls/$(am__dirstamp) \
 	mbedtls/$(DEPDIR)/$(am__dirstamp)
 mbedtls/ecp_curves.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/ecp_curves_new.$(OBJEXT): mbedtls/$(am__dirstamp) \
 	mbedtls/$(DEPDIR)/$(am__dirstamp)
 mbedtls/entropy.$(OBJEXT): mbedtls/$(am__dirstamp) \
 	mbedtls/$(DEPDIR)/$(am__dirstamp)
@@ -2980,21 +3102,37 @@ mbedtls/error.$(OBJEXT): mbedtls/$(am__dirstamp) \
 	mbedtls/$(DEPDIR)/$(am__dirstamp)
 mbedtls/gcm.$(OBJEXT): mbedtls/$(am__dirstamp) \
 	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/hkdf.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
 mbedtls/hmac_drbg.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/lmots.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/lms.$(OBJEXT): mbedtls/$(am__dirstamp) \
 	mbedtls/$(DEPDIR)/$(am__dirstamp)
 mbedtls/md.$(OBJEXT): mbedtls/$(am__dirstamp) \
 	mbedtls/$(DEPDIR)/$(am__dirstamp)
 mbedtls/md5.$(OBJEXT): mbedtls/$(am__dirstamp) \
 	mbedtls/$(DEPDIR)/$(am__dirstamp)
-mbedtls/md_wrap.$(OBJEXT): mbedtls/$(am__dirstamp) \
+mbedtls/memory_buffer_alloc.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/mps_reader.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/mps_trace.$(OBJEXT): mbedtls/$(am__dirstamp) \
 	mbedtls/$(DEPDIR)/$(am__dirstamp)
 mbedtls/net_sockets.$(OBJEXT): mbedtls/$(am__dirstamp) \
 	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/nist_kw.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
 mbedtls/oid.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/padlock.$(OBJEXT): mbedtls/$(am__dirstamp) \
 	mbedtls/$(DEPDIR)/$(am__dirstamp)
 mbedtls/pem.$(OBJEXT): mbedtls/$(am__dirstamp) \
 	mbedtls/$(DEPDIR)/$(am__dirstamp)
 mbedtls/pk.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/pk_ecc.$(OBJEXT): mbedtls/$(am__dirstamp) \
 	mbedtls/$(DEPDIR)/$(am__dirstamp)
 mbedtls/pk_wrap.$(OBJEXT): mbedtls/$(am__dirstamp) \
 	mbedtls/$(DEPDIR)/$(am__dirstamp)
@@ -3002,25 +3140,61 @@ mbedtls/pkcs12.$(OBJEXT): mbedtls/$(am__dirstamp) \
 	mbedtls/$(DEPDIR)/$(am__dirstamp)
 mbedtls/pkcs5.$(OBJEXT): mbedtls/$(am__dirstamp) \
 	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/pkcs7.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
 mbedtls/pkparse.$(OBJEXT): mbedtls/$(am__dirstamp) \
 	mbedtls/$(DEPDIR)/$(am__dirstamp)
 mbedtls/pkwrite.$(OBJEXT): mbedtls/$(am__dirstamp) \
 	mbedtls/$(DEPDIR)/$(am__dirstamp)
-mbedtls/platform_util.$(OBJEXT): mbedtls/$(am__dirstamp) \
-	mbedtls/$(DEPDIR)/$(am__dirstamp)
 mbedtls/platform.$(OBJEXT): mbedtls/$(am__dirstamp) \
 	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/platform_util.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
 mbedtls/poly1305.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/psa_crypto.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/psa_crypto_aead.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/psa_crypto_cipher.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/psa_crypto_client.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/psa_crypto_driver_wrappers_no_static.$(OBJEXT):  \
+	mbedtls/$(am__dirstamp) mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/psa_crypto_ecp.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/psa_crypto_ffdh.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/psa_crypto_hash.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/psa_crypto_mac.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/psa_crypto_pake.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/psa_crypto_rsa.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/psa_crypto_se.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/psa_crypto_slot_management.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/psa_crypto_storage.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/psa_its_file.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/psa_util.$(OBJEXT): mbedtls/$(am__dirstamp) \
 	mbedtls/$(DEPDIR)/$(am__dirstamp)
 mbedtls/ripemd160.$(OBJEXT): mbedtls/$(am__dirstamp) \
 	mbedtls/$(DEPDIR)/$(am__dirstamp)
 mbedtls/rsa.$(OBJEXT): mbedtls/$(am__dirstamp) \
 	mbedtls/$(DEPDIR)/$(am__dirstamp)
-mbedtls/rsa_internal.$(OBJEXT): mbedtls/$(am__dirstamp) \
+mbedtls/rsa_alt_helpers.$(OBJEXT): mbedtls/$(am__dirstamp) \
 	mbedtls/$(DEPDIR)/$(am__dirstamp)
 mbedtls/sha1.$(OBJEXT): mbedtls/$(am__dirstamp) \
 	mbedtls/$(DEPDIR)/$(am__dirstamp)
 mbedtls/sha256.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/sha3.$(OBJEXT): mbedtls/$(am__dirstamp) \
 	mbedtls/$(DEPDIR)/$(am__dirstamp)
 mbedtls/sha512.$(OBJEXT): mbedtls/$(am__dirstamp) \
 	mbedtls/$(DEPDIR)/$(am__dirstamp)
@@ -3028,15 +3202,29 @@ mbedtls/ssl_cache.$(OBJEXT): mbedtls/$(am__dirstamp) \
 	mbedtls/$(DEPDIR)/$(am__dirstamp)
 mbedtls/ssl_ciphersuites.$(OBJEXT): mbedtls/$(am__dirstamp) \
 	mbedtls/$(DEPDIR)/$(am__dirstamp)
-mbedtls/ssl_cli.$(OBJEXT): mbedtls/$(am__dirstamp) \
+mbedtls/ssl_client.$(OBJEXT): mbedtls/$(am__dirstamp) \
 	mbedtls/$(DEPDIR)/$(am__dirstamp)
 mbedtls/ssl_cookie.$(OBJEXT): mbedtls/$(am__dirstamp) \
 	mbedtls/$(DEPDIR)/$(am__dirstamp)
-mbedtls/ssl_srv.$(OBJEXT): mbedtls/$(am__dirstamp) \
+mbedtls/ssl_debug_helpers_generated.$(OBJEXT):  \
+	mbedtls/$(am__dirstamp) mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/ssl_msg.$(OBJEXT): mbedtls/$(am__dirstamp) \
 	mbedtls/$(DEPDIR)/$(am__dirstamp)
 mbedtls/ssl_ticket.$(OBJEXT): mbedtls/$(am__dirstamp) \
 	mbedtls/$(DEPDIR)/$(am__dirstamp)
 mbedtls/ssl_tls.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/ssl_tls12_client.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/ssl_tls12_server.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/ssl_tls13_client.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/ssl_tls13_generic.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/ssl_tls13_keys.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/ssl_tls13_server.$(OBJEXT): mbedtls/$(am__dirstamp) \
 	mbedtls/$(DEPDIR)/$(am__dirstamp)
 mbedtls/threading.$(OBJEXT): mbedtls/$(am__dirstamp) \
 	mbedtls/$(DEPDIR)/$(am__dirstamp)
@@ -3056,11 +3244,11 @@ mbedtls/x509_crt.$(OBJEXT): mbedtls/$(am__dirstamp) \
 	mbedtls/$(DEPDIR)/$(am__dirstamp)
 mbedtls/x509_csr.$(OBJEXT): mbedtls/$(am__dirstamp) \
 	mbedtls/$(DEPDIR)/$(am__dirstamp)
+mbedtls/x509write.$(OBJEXT): mbedtls/$(am__dirstamp) \
+	mbedtls/$(DEPDIR)/$(am__dirstamp)
 mbedtls/x509write_crt.$(OBJEXT): mbedtls/$(am__dirstamp) \
 	mbedtls/$(DEPDIR)/$(am__dirstamp)
 mbedtls/x509write_csr.$(OBJEXT): mbedtls/$(am__dirstamp) \
-	mbedtls/$(DEPDIR)/$(am__dirstamp)
-mbedtls/xtea.$(OBJEXT): mbedtls/$(am__dirstamp) \
 	mbedtls/$(DEPDIR)/$(am__dirstamp)
 related/$(am__dirstamp):
 	@$(MKDIR_P) related
@@ -3867,60 +4055,101 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@mapping/$(DEPDIR)/index.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mapping/$(DEPDIR)/map.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/aes.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/arc4.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/aesce.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/aesni.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/aria.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/asn1parse.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/asn1write.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/base64.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/bignum.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/blowfish.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/bignum_core.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/bignum_mod.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/bignum_mod_raw.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/block_cipher.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/camellia.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/ccm.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/certs.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/chacha20.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/chachapoly.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/cipher.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/cipher_wrap.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/cmac.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/constant_time.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/ctr_drbg.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/debug.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/des.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/dhm.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/ecdh.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/ecdsa.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/ecjpake.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/ecp.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/ecp_curves.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/ecp_curves_new.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/entropy.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/entropy_poll.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/error.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/gcm.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/hkdf.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/hmac_drbg.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/lmots.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/lms.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/md.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/md5.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/md_wrap.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/memory_buffer_alloc.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/mps_reader.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/mps_trace.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/net_sockets.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/nist_kw.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/oid.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/padlock.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/pem.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/pk.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/pk_ecc.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/pk_wrap.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/pkcs12.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/pkcs5.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/pkcs7.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/pkparse.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/pkwrite.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/platform.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/platform_util.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/poly1305.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/psa_crypto.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/psa_crypto_aead.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/psa_crypto_cipher.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/psa_crypto_client.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/psa_crypto_driver_wrappers_no_static.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/psa_crypto_ecp.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/psa_crypto_ffdh.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/psa_crypto_hash.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/psa_crypto_mac.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/psa_crypto_pake.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/psa_crypto_rsa.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/psa_crypto_se.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/psa_crypto_slot_management.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/psa_crypto_storage.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/psa_its_file.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/psa_util.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/ripemd160.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/rsa.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/rsa_internal.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/rsa_alt_helpers.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/sha1.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/sha256.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/sha3.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/sha512.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/ssl_cache.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/ssl_ciphersuites.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/ssl_cli.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/ssl_client.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/ssl_cookie.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/ssl_srv.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/ssl_debug_helpers_generated.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/ssl_msg.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/ssl_ticket.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/ssl_tls.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/ssl_tls12_client.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/ssl_tls12_server.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/ssl_tls13_client.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/ssl_tls13_generic.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/ssl_tls13_keys.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/ssl_tls13_server.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/threading.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/timing.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/version.Po@am__quote@ # am--include-marker
@@ -3930,9 +4159,9 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/x509_crl.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/x509_crt.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/x509_csr.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/x509write.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/x509write_crt.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/x509write_csr.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@mbedtls/$(DEPDIR)/xtea.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@menu/$(DEPDIR)/index.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@menu/$(DEPDIR)/logic.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@microtar/$(DEPDIR)/microtar.Po@am__quote@ # am--include-marker
@@ -5034,60 +5263,101 @@ distclean: distclean-am
 	-rm -f mapping/$(DEPDIR)/index.Po
 	-rm -f mapping/$(DEPDIR)/map.Po
 	-rm -f mbedtls/$(DEPDIR)/aes.Po
-	-rm -f mbedtls/$(DEPDIR)/arc4.Po
+	-rm -f mbedtls/$(DEPDIR)/aesce.Po
+	-rm -f mbedtls/$(DEPDIR)/aesni.Po
+	-rm -f mbedtls/$(DEPDIR)/aria.Po
 	-rm -f mbedtls/$(DEPDIR)/asn1parse.Po
 	-rm -f mbedtls/$(DEPDIR)/asn1write.Po
 	-rm -f mbedtls/$(DEPDIR)/base64.Po
 	-rm -f mbedtls/$(DEPDIR)/bignum.Po
-	-rm -f mbedtls/$(DEPDIR)/blowfish.Po
+	-rm -f mbedtls/$(DEPDIR)/bignum_core.Po
+	-rm -f mbedtls/$(DEPDIR)/bignum_mod.Po
+	-rm -f mbedtls/$(DEPDIR)/bignum_mod_raw.Po
+	-rm -f mbedtls/$(DEPDIR)/block_cipher.Po
 	-rm -f mbedtls/$(DEPDIR)/camellia.Po
 	-rm -f mbedtls/$(DEPDIR)/ccm.Po
-	-rm -f mbedtls/$(DEPDIR)/certs.Po
 	-rm -f mbedtls/$(DEPDIR)/chacha20.Po
 	-rm -f mbedtls/$(DEPDIR)/chachapoly.Po
 	-rm -f mbedtls/$(DEPDIR)/cipher.Po
 	-rm -f mbedtls/$(DEPDIR)/cipher_wrap.Po
+	-rm -f mbedtls/$(DEPDIR)/cmac.Po
+	-rm -f mbedtls/$(DEPDIR)/constant_time.Po
 	-rm -f mbedtls/$(DEPDIR)/ctr_drbg.Po
 	-rm -f mbedtls/$(DEPDIR)/debug.Po
 	-rm -f mbedtls/$(DEPDIR)/des.Po
 	-rm -f mbedtls/$(DEPDIR)/dhm.Po
 	-rm -f mbedtls/$(DEPDIR)/ecdh.Po
 	-rm -f mbedtls/$(DEPDIR)/ecdsa.Po
+	-rm -f mbedtls/$(DEPDIR)/ecjpake.Po
 	-rm -f mbedtls/$(DEPDIR)/ecp.Po
 	-rm -f mbedtls/$(DEPDIR)/ecp_curves.Po
+	-rm -f mbedtls/$(DEPDIR)/ecp_curves_new.Po
 	-rm -f mbedtls/$(DEPDIR)/entropy.Po
 	-rm -f mbedtls/$(DEPDIR)/entropy_poll.Po
 	-rm -f mbedtls/$(DEPDIR)/error.Po
 	-rm -f mbedtls/$(DEPDIR)/gcm.Po
+	-rm -f mbedtls/$(DEPDIR)/hkdf.Po
 	-rm -f mbedtls/$(DEPDIR)/hmac_drbg.Po
+	-rm -f mbedtls/$(DEPDIR)/lmots.Po
+	-rm -f mbedtls/$(DEPDIR)/lms.Po
 	-rm -f mbedtls/$(DEPDIR)/md.Po
 	-rm -f mbedtls/$(DEPDIR)/md5.Po
-	-rm -f mbedtls/$(DEPDIR)/md_wrap.Po
+	-rm -f mbedtls/$(DEPDIR)/memory_buffer_alloc.Po
+	-rm -f mbedtls/$(DEPDIR)/mps_reader.Po
+	-rm -f mbedtls/$(DEPDIR)/mps_trace.Po
 	-rm -f mbedtls/$(DEPDIR)/net_sockets.Po
+	-rm -f mbedtls/$(DEPDIR)/nist_kw.Po
 	-rm -f mbedtls/$(DEPDIR)/oid.Po
+	-rm -f mbedtls/$(DEPDIR)/padlock.Po
 	-rm -f mbedtls/$(DEPDIR)/pem.Po
 	-rm -f mbedtls/$(DEPDIR)/pk.Po
+	-rm -f mbedtls/$(DEPDIR)/pk_ecc.Po
 	-rm -f mbedtls/$(DEPDIR)/pk_wrap.Po
 	-rm -f mbedtls/$(DEPDIR)/pkcs12.Po
 	-rm -f mbedtls/$(DEPDIR)/pkcs5.Po
+	-rm -f mbedtls/$(DEPDIR)/pkcs7.Po
 	-rm -f mbedtls/$(DEPDIR)/pkparse.Po
 	-rm -f mbedtls/$(DEPDIR)/pkwrite.Po
 	-rm -f mbedtls/$(DEPDIR)/platform.Po
 	-rm -f mbedtls/$(DEPDIR)/platform_util.Po
 	-rm -f mbedtls/$(DEPDIR)/poly1305.Po
+	-rm -f mbedtls/$(DEPDIR)/psa_crypto.Po
+	-rm -f mbedtls/$(DEPDIR)/psa_crypto_aead.Po
+	-rm -f mbedtls/$(DEPDIR)/psa_crypto_cipher.Po
+	-rm -f mbedtls/$(DEPDIR)/psa_crypto_client.Po
+	-rm -f mbedtls/$(DEPDIR)/psa_crypto_driver_wrappers_no_static.Po
+	-rm -f mbedtls/$(DEPDIR)/psa_crypto_ecp.Po
+	-rm -f mbedtls/$(DEPDIR)/psa_crypto_ffdh.Po
+	-rm -f mbedtls/$(DEPDIR)/psa_crypto_hash.Po
+	-rm -f mbedtls/$(DEPDIR)/psa_crypto_mac.Po
+	-rm -f mbedtls/$(DEPDIR)/psa_crypto_pake.Po
+	-rm -f mbedtls/$(DEPDIR)/psa_crypto_rsa.Po
+	-rm -f mbedtls/$(DEPDIR)/psa_crypto_se.Po
+	-rm -f mbedtls/$(DEPDIR)/psa_crypto_slot_management.Po
+	-rm -f mbedtls/$(DEPDIR)/psa_crypto_storage.Po
+	-rm -f mbedtls/$(DEPDIR)/psa_its_file.Po
+	-rm -f mbedtls/$(DEPDIR)/psa_util.Po
 	-rm -f mbedtls/$(DEPDIR)/ripemd160.Po
 	-rm -f mbedtls/$(DEPDIR)/rsa.Po
-	-rm -f mbedtls/$(DEPDIR)/rsa_internal.Po
+	-rm -f mbedtls/$(DEPDIR)/rsa_alt_helpers.Po
 	-rm -f mbedtls/$(DEPDIR)/sha1.Po
 	-rm -f mbedtls/$(DEPDIR)/sha256.Po
+	-rm -f mbedtls/$(DEPDIR)/sha3.Po
 	-rm -f mbedtls/$(DEPDIR)/sha512.Po
 	-rm -f mbedtls/$(DEPDIR)/ssl_cache.Po
 	-rm -f mbedtls/$(DEPDIR)/ssl_ciphersuites.Po
-	-rm -f mbedtls/$(DEPDIR)/ssl_cli.Po
+	-rm -f mbedtls/$(DEPDIR)/ssl_client.Po
 	-rm -f mbedtls/$(DEPDIR)/ssl_cookie.Po
-	-rm -f mbedtls/$(DEPDIR)/ssl_srv.Po
+	-rm -f mbedtls/$(DEPDIR)/ssl_debug_helpers_generated.Po
+	-rm -f mbedtls/$(DEPDIR)/ssl_msg.Po
 	-rm -f mbedtls/$(DEPDIR)/ssl_ticket.Po
 	-rm -f mbedtls/$(DEPDIR)/ssl_tls.Po
+	-rm -f mbedtls/$(DEPDIR)/ssl_tls12_client.Po
+	-rm -f mbedtls/$(DEPDIR)/ssl_tls12_server.Po
+	-rm -f mbedtls/$(DEPDIR)/ssl_tls13_client.Po
+	-rm -f mbedtls/$(DEPDIR)/ssl_tls13_generic.Po
+	-rm -f mbedtls/$(DEPDIR)/ssl_tls13_keys.Po
+	-rm -f mbedtls/$(DEPDIR)/ssl_tls13_server.Po
 	-rm -f mbedtls/$(DEPDIR)/threading.Po
 	-rm -f mbedtls/$(DEPDIR)/timing.Po
 	-rm -f mbedtls/$(DEPDIR)/version.Po
@@ -5097,9 +5367,9 @@ distclean: distclean-am
 	-rm -f mbedtls/$(DEPDIR)/x509_crl.Po
 	-rm -f mbedtls/$(DEPDIR)/x509_crt.Po
 	-rm -f mbedtls/$(DEPDIR)/x509_csr.Po
+	-rm -f mbedtls/$(DEPDIR)/x509write.Po
 	-rm -f mbedtls/$(DEPDIR)/x509write_crt.Po
 	-rm -f mbedtls/$(DEPDIR)/x509write_csr.Po
-	-rm -f mbedtls/$(DEPDIR)/xtea.Po
 	-rm -f menu/$(DEPDIR)/index.Po
 	-rm -f menu/$(DEPDIR)/logic.Po
 	-rm -f microtar/$(DEPDIR)/microtar.Po
@@ -5683,60 +5953,101 @@ maintainer-clean: maintainer-clean-am
 	-rm -f mapping/$(DEPDIR)/index.Po
 	-rm -f mapping/$(DEPDIR)/map.Po
 	-rm -f mbedtls/$(DEPDIR)/aes.Po
-	-rm -f mbedtls/$(DEPDIR)/arc4.Po
+	-rm -f mbedtls/$(DEPDIR)/aesce.Po
+	-rm -f mbedtls/$(DEPDIR)/aesni.Po
+	-rm -f mbedtls/$(DEPDIR)/aria.Po
 	-rm -f mbedtls/$(DEPDIR)/asn1parse.Po
 	-rm -f mbedtls/$(DEPDIR)/asn1write.Po
 	-rm -f mbedtls/$(DEPDIR)/base64.Po
 	-rm -f mbedtls/$(DEPDIR)/bignum.Po
-	-rm -f mbedtls/$(DEPDIR)/blowfish.Po
+	-rm -f mbedtls/$(DEPDIR)/bignum_core.Po
+	-rm -f mbedtls/$(DEPDIR)/bignum_mod.Po
+	-rm -f mbedtls/$(DEPDIR)/bignum_mod_raw.Po
+	-rm -f mbedtls/$(DEPDIR)/block_cipher.Po
 	-rm -f mbedtls/$(DEPDIR)/camellia.Po
 	-rm -f mbedtls/$(DEPDIR)/ccm.Po
-	-rm -f mbedtls/$(DEPDIR)/certs.Po
 	-rm -f mbedtls/$(DEPDIR)/chacha20.Po
 	-rm -f mbedtls/$(DEPDIR)/chachapoly.Po
 	-rm -f mbedtls/$(DEPDIR)/cipher.Po
 	-rm -f mbedtls/$(DEPDIR)/cipher_wrap.Po
+	-rm -f mbedtls/$(DEPDIR)/cmac.Po
+	-rm -f mbedtls/$(DEPDIR)/constant_time.Po
 	-rm -f mbedtls/$(DEPDIR)/ctr_drbg.Po
 	-rm -f mbedtls/$(DEPDIR)/debug.Po
 	-rm -f mbedtls/$(DEPDIR)/des.Po
 	-rm -f mbedtls/$(DEPDIR)/dhm.Po
 	-rm -f mbedtls/$(DEPDIR)/ecdh.Po
 	-rm -f mbedtls/$(DEPDIR)/ecdsa.Po
+	-rm -f mbedtls/$(DEPDIR)/ecjpake.Po
 	-rm -f mbedtls/$(DEPDIR)/ecp.Po
 	-rm -f mbedtls/$(DEPDIR)/ecp_curves.Po
+	-rm -f mbedtls/$(DEPDIR)/ecp_curves_new.Po
 	-rm -f mbedtls/$(DEPDIR)/entropy.Po
 	-rm -f mbedtls/$(DEPDIR)/entropy_poll.Po
 	-rm -f mbedtls/$(DEPDIR)/error.Po
 	-rm -f mbedtls/$(DEPDIR)/gcm.Po
+	-rm -f mbedtls/$(DEPDIR)/hkdf.Po
 	-rm -f mbedtls/$(DEPDIR)/hmac_drbg.Po
+	-rm -f mbedtls/$(DEPDIR)/lmots.Po
+	-rm -f mbedtls/$(DEPDIR)/lms.Po
 	-rm -f mbedtls/$(DEPDIR)/md.Po
 	-rm -f mbedtls/$(DEPDIR)/md5.Po
-	-rm -f mbedtls/$(DEPDIR)/md_wrap.Po
+	-rm -f mbedtls/$(DEPDIR)/memory_buffer_alloc.Po
+	-rm -f mbedtls/$(DEPDIR)/mps_reader.Po
+	-rm -f mbedtls/$(DEPDIR)/mps_trace.Po
 	-rm -f mbedtls/$(DEPDIR)/net_sockets.Po
+	-rm -f mbedtls/$(DEPDIR)/nist_kw.Po
 	-rm -f mbedtls/$(DEPDIR)/oid.Po
+	-rm -f mbedtls/$(DEPDIR)/padlock.Po
 	-rm -f mbedtls/$(DEPDIR)/pem.Po
 	-rm -f mbedtls/$(DEPDIR)/pk.Po
+	-rm -f mbedtls/$(DEPDIR)/pk_ecc.Po
 	-rm -f mbedtls/$(DEPDIR)/pk_wrap.Po
 	-rm -f mbedtls/$(DEPDIR)/pkcs12.Po
 	-rm -f mbedtls/$(DEPDIR)/pkcs5.Po
+	-rm -f mbedtls/$(DEPDIR)/pkcs7.Po
 	-rm -f mbedtls/$(DEPDIR)/pkparse.Po
 	-rm -f mbedtls/$(DEPDIR)/pkwrite.Po
 	-rm -f mbedtls/$(DEPDIR)/platform.Po
 	-rm -f mbedtls/$(DEPDIR)/platform_util.Po
 	-rm -f mbedtls/$(DEPDIR)/poly1305.Po
+	-rm -f mbedtls/$(DEPDIR)/psa_crypto.Po
+	-rm -f mbedtls/$(DEPDIR)/psa_crypto_aead.Po
+	-rm -f mbedtls/$(DEPDIR)/psa_crypto_cipher.Po
+	-rm -f mbedtls/$(DEPDIR)/psa_crypto_client.Po
+	-rm -f mbedtls/$(DEPDIR)/psa_crypto_driver_wrappers_no_static.Po
+	-rm -f mbedtls/$(DEPDIR)/psa_crypto_ecp.Po
+	-rm -f mbedtls/$(DEPDIR)/psa_crypto_ffdh.Po
+	-rm -f mbedtls/$(DEPDIR)/psa_crypto_hash.Po
+	-rm -f mbedtls/$(DEPDIR)/psa_crypto_mac.Po
+	-rm -f mbedtls/$(DEPDIR)/psa_crypto_pake.Po
+	-rm -f mbedtls/$(DEPDIR)/psa_crypto_rsa.Po
+	-rm -f mbedtls/$(DEPDIR)/psa_crypto_se.Po
+	-rm -f mbedtls/$(DEPDIR)/psa_crypto_slot_management.Po
+	-rm -f mbedtls/$(DEPDIR)/psa_crypto_storage.Po
+	-rm -f mbedtls/$(DEPDIR)/psa_its_file.Po
+	-rm -f mbedtls/$(DEPDIR)/psa_util.Po
 	-rm -f mbedtls/$(DEPDIR)/ripemd160.Po
 	-rm -f mbedtls/$(DEPDIR)/rsa.Po
-	-rm -f mbedtls/$(DEPDIR)/rsa_internal.Po
+	-rm -f mbedtls/$(DEPDIR)/rsa_alt_helpers.Po
 	-rm -f mbedtls/$(DEPDIR)/sha1.Po
 	-rm -f mbedtls/$(DEPDIR)/sha256.Po
+	-rm -f mbedtls/$(DEPDIR)/sha3.Po
 	-rm -f mbedtls/$(DEPDIR)/sha512.Po
 	-rm -f mbedtls/$(DEPDIR)/ssl_cache.Po
 	-rm -f mbedtls/$(DEPDIR)/ssl_ciphersuites.Po
-	-rm -f mbedtls/$(DEPDIR)/ssl_cli.Po
+	-rm -f mbedtls/$(DEPDIR)/ssl_client.Po
 	-rm -f mbedtls/$(DEPDIR)/ssl_cookie.Po
-	-rm -f mbedtls/$(DEPDIR)/ssl_srv.Po
+	-rm -f mbedtls/$(DEPDIR)/ssl_debug_helpers_generated.Po
+	-rm -f mbedtls/$(DEPDIR)/ssl_msg.Po
 	-rm -f mbedtls/$(DEPDIR)/ssl_ticket.Po
 	-rm -f mbedtls/$(DEPDIR)/ssl_tls.Po
+	-rm -f mbedtls/$(DEPDIR)/ssl_tls12_client.Po
+	-rm -f mbedtls/$(DEPDIR)/ssl_tls12_server.Po
+	-rm -f mbedtls/$(DEPDIR)/ssl_tls13_client.Po
+	-rm -f mbedtls/$(DEPDIR)/ssl_tls13_generic.Po
+	-rm -f mbedtls/$(DEPDIR)/ssl_tls13_keys.Po
+	-rm -f mbedtls/$(DEPDIR)/ssl_tls13_server.Po
 	-rm -f mbedtls/$(DEPDIR)/threading.Po
 	-rm -f mbedtls/$(DEPDIR)/timing.Po
 	-rm -f mbedtls/$(DEPDIR)/version.Po
@@ -5746,9 +6057,9 @@ maintainer-clean: maintainer-clean-am
 	-rm -f mbedtls/$(DEPDIR)/x509_crl.Po
 	-rm -f mbedtls/$(DEPDIR)/x509_crt.Po
 	-rm -f mbedtls/$(DEPDIR)/x509_csr.Po
+	-rm -f mbedtls/$(DEPDIR)/x509write.Po
 	-rm -f mbedtls/$(DEPDIR)/x509write_crt.Po
 	-rm -f mbedtls/$(DEPDIR)/x509write_csr.Po
-	-rm -f mbedtls/$(DEPDIR)/xtea.Po
 	-rm -f menu/$(DEPDIR)/index.Po
 	-rm -f menu/$(DEPDIR)/logic.Po
 	-rm -f microtar/$(DEPDIR)/microtar.Po

@@ -1,252 +1,121 @@
-#pragma GCC system_header
 /**
  * \file rsa_internal.h
  *
- * \brief Context-independent RSA helper functions
+ * \brief Internal-only RSA public-key cryptosystem API.
  *
- *  This module declares some RSA-related helper functions useful when
- *  implementing the RSA interface. These functions are provided in a separate
- *  compilation unit in order to make it easy for designers of alternative RSA
- *  implementations to use them in their own code, as it is conceived that the
- *  functionality they provide will be necessary for most complete
- *  implementations.
- *
- *  End-users of Mbed TLS who are not providing their own alternative RSA
- *  implementations should not use these functions directly, and should instead
- *  use only the functions declared in rsa.h.
- *
- *  The interface provided by this module will be maintained through LTS (Long
- *  Term Support) branches of Mbed TLS, but may otherwise be subject to change,
- *  and must be considered an internal interface of the library.
- *
- *  There are two classes of helper functions:
- *
- *  (1) Parameter-generating helpers. These are:
- *      - mbedtls_rsa_deduce_primes
- *      - mbedtls_rsa_deduce_private_exponent
- *      - mbedtls_rsa_deduce_crt
- *       Each of these functions takes a set of core RSA parameters and
- *       generates some other, or CRT related parameters.
- *
- *  (2) Parameter-checking helpers. These are:
- *      - mbedtls_rsa_validate_params
- *      - mbedtls_rsa_validate_crt
- *      They take a set of core or CRT related RSA parameters and check their
- *      validity.
+ * This file declares RSA-related functions that are to be used
+ * only from within the Mbed TLS library itself.
  *
  */
 /*
  *  Copyright The Mbed TLS Contributors
  *  SPDX-License-Identifier: Apache-2.0 OR GPL-2.0-or-later
- *
- *  This file is provided under the Apache License 2.0, or the
- *  GNU General Public License v2.0 or later.
- *
- *  **********
- *  Apache License 2.0:
- *
- *  Licensed under the Apache License, Version 2.0 (the "License"); you may
- *  not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *  http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- *  WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
- *
- *  **********
- *
- *  **********
- *  GNU General Public License v2.0 or later:
- *
- *  This program is free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License along
- *  with this program; if not, write to the Free Software Foundation, Inc.,
- *  51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
- *
- *  **********
- *
  */
-
 #ifndef MBEDTLS_RSA_INTERNAL_H
 #define MBEDTLS_RSA_INTERNAL_H
 
-#if !defined(MBEDTLS_CONFIG_FILE)
-#include "config.h"
-#else
-#include MBEDTLS_CONFIG_FILE
-#endif
-
-#include "bignum.h"
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-
+#include "mbedtls/rsa.h"
+#include "mbedtls/asn1.h"
 
 /**
- * \brief          Compute RSA prime moduli P, Q from public modulus N=PQ
- *                 and a pair of private and public key.
+ * \brief           Parse a PKCS#1 (ASN.1) encoded private RSA key.
  *
- * \note           This is a 'static' helper function not operating on
- *                 an RSA context. Alternative implementations need not
- *                 overwrite it.
+ * \param rsa       The RSA context where parsed data will be stored.
+ * \param key       The buffer that contains the key.
+ * \param keylen    The length of the key buffer in bytes.
  *
- * \param N        RSA modulus N = PQ, with P, Q to be found
- * \param E        RSA public exponent
- * \param D        RSA private exponent
- * \param P        Pointer to MPI holding first prime factor of N on success
- * \param Q        Pointer to MPI holding second prime factor of N on success
- *
- * \return
- *                 - 0 if successful. In this case, P and Q constitute a
- *                   factorization of N.
- *                 - A non-zero error code otherwise.
- *
- * \note           It is neither checked that P, Q are prime nor that
- *                 D, E are modular inverses wrt. P-1 and Q-1. For that,
- *                 use the helper function \c mbedtls_rsa_validate_params.
- *
+ * \return          0 on success.
+ * \return          MBEDTLS_ERR_ASN1_xxx in case of ASN.1 parsing errors.
+ * \return          MBEDTLS_ERR_RSA_xxx in case of RSA internal failures while
+ *                  parsing data.
+ * \return          MBEDTLS_ERR_RSA_KEY_CHECK_FAILED if validity checks on the
+ *                  provided key fail.
  */
-int mbedtls_rsa_deduce_primes( mbedtls_mpi const *N, mbedtls_mpi const *E,
-                               mbedtls_mpi const *D,
-                               mbedtls_mpi *P, mbedtls_mpi *Q );
+int mbedtls_rsa_parse_key(mbedtls_rsa_context *rsa, const unsigned char *key, size_t keylen);
 
 /**
- * \brief          Compute RSA private exponent from
- *                 prime moduli and public key.
+ * \brief           Parse a PKCS#1 (ASN.1) encoded public RSA key.
  *
- * \note           This is a 'static' helper function not operating on
- *                 an RSA context. Alternative implementations need not
- *                 overwrite it.
+ * \param rsa       The RSA context where parsed data will be stored.
+ * \param key       The buffer that contains the key.
+ * \param keylen    The length of the key buffer in bytes.
  *
- * \param P        First prime factor of RSA modulus
- * \param Q        Second prime factor of RSA modulus
- * \param E        RSA public exponent
- * \param D        Pointer to MPI holding the private exponent on success.
- *
- * \return
- *                 - 0 if successful. In this case, D is set to a simultaneous
- *                   modular inverse of E modulo both P-1 and Q-1.
- *                 - A non-zero error code otherwise.
- *
- * \note           This function does not check whether P and Q are primes.
- *
+ * \return          0 on success.
+ * \return          MBEDTLS_ERR_ASN1_xxx in case of ASN.1 parsing errors.
+ * \return          MBEDTLS_ERR_RSA_xxx in case of RSA internal failures while
+ *                  parsing data.
+ * \return          MBEDTLS_ERR_RSA_KEY_CHECK_FAILED if validity checks on the
+ *                  provided key fail.
  */
-int mbedtls_rsa_deduce_private_exponent( mbedtls_mpi const *P,
-                                         mbedtls_mpi const *Q,
-                                         mbedtls_mpi const *E,
-                                         mbedtls_mpi *D );
-
+int mbedtls_rsa_parse_pubkey(mbedtls_rsa_context *rsa, const unsigned char *key, size_t keylen);
 
 /**
- * \brief          Generate RSA-CRT parameters
+ * \brief           Write a PKCS#1 (ASN.1) encoded private RSA key.
  *
- * \note           This is a 'static' helper function not operating on
- *                 an RSA context. Alternative implementations need not
- *                 overwrite it.
+ * \param rsa       The RSA context which contains the data to be written.
+ * \param start     Beginning of the buffer that will be filled with the
+ *                  private key.
+ * \param p         End of the buffer that will be filled with the private key.
+ *                  On successful return, the referenced pointer will be
+ *                  updated in order to point to the beginning of written data.
  *
- * \param P        First prime factor of N
- * \param Q        Second prime factor of N
- * \param D        RSA private exponent
- * \param DP       Output variable for D modulo P-1
- * \param DQ       Output variable for D modulo Q-1
- * \param QP       Output variable for the modular inverse of Q modulo P.
+ * \return          On success, the number of bytes written to the output buffer
+ *                  (i.e. a value > 0).
+ * \return          MBEDTLS_ERR_RSA_BAD_INPUT_DATA if the RSA context does not
+ *                  contain a valid key pair.
+ * \return          MBEDTLS_ERR_ASN1_xxx in case of failure while writing to the
+ *                  output buffer.
  *
- * \return         0 on success, non-zero error code otherwise.
- *
- * \note           This function does not check whether P, Q are
- *                 prime and whether D is a valid private exponent.
- *
+ * \note            The output buffer is filled backward, i.e. starting from its
+ *                  end and moving toward its start.
  */
-int mbedtls_rsa_deduce_crt( const mbedtls_mpi *P, const mbedtls_mpi *Q,
-                            const mbedtls_mpi *D, mbedtls_mpi *DP,
-                            mbedtls_mpi *DQ, mbedtls_mpi *QP );
-
+int mbedtls_rsa_write_key(const mbedtls_rsa_context *rsa, unsigned char *start,
+                          unsigned char **p);
 
 /**
- * \brief          Check validity of core RSA parameters
+ * \brief           Parse a PKCS#1 (ASN.1) encoded public RSA key.
  *
- * \note           This is a 'static' helper function not operating on
- *                 an RSA context. Alternative implementations need not
- *                 overwrite it.
+ * \param rsa       The RSA context which contains the data to be written.
+ * \param start     Beginning of the buffer that will be filled with the
+ *                  private key.
+ * \param p         End of the buffer that will be filled with the private key.
+ *                  On successful return, the referenced pointer will be
+ *                  updated in order to point to the beginning of written data.
  *
- * \param N        RSA modulus N = PQ
- * \param P        First prime factor of N
- * \param Q        Second prime factor of N
- * \param D        RSA private exponent
- * \param E        RSA public exponent
- * \param f_rng    PRNG to be used for primality check, or NULL
- * \param p_rng    PRNG context for f_rng, or NULL
+ * \return          On success, the number of bytes written to the output buffer
+ *                  (i.e. a value > 0).
+ * \return          MBEDTLS_ERR_RSA_BAD_INPUT_DATA if the RSA context does not
+ *                  contain a valid public key.
+ * \return          MBEDTLS_ERR_ASN1_xxx in case of failure while writing to the
+ *                  output buffer.
  *
- * \return
- *                 - 0 if the following conditions are satisfied
- *                   if all relevant parameters are provided:
- *                    - P prime if f_rng != NULL (%)
- *                    - Q prime if f_rng != NULL (%)
- *                    - 1 < N = P * Q
- *                    - 1 < D, E < N
- *                    - D and E are modular inverses modulo P-1 and Q-1
- *                   (%) This is only done if MBEDTLS_GENPRIME is defined.
- *                 - A non-zero error code otherwise.
- *
- * \note           The function can be used with a restricted set of arguments
- *                 to perform specific checks only. E.g., calling it with
- *                 (-,P,-,-,-) and a PRNG amounts to a primality check for P.
+ * \note            The output buffer is filled backward, i.e. starting from its
+ *                  end and moving toward its start.
  */
-int mbedtls_rsa_validate_params( const mbedtls_mpi *N, const mbedtls_mpi *P,
-                                 const mbedtls_mpi *Q, const mbedtls_mpi *D,
-                                 const mbedtls_mpi *E,
-                                 int (*f_rng)(void *, unsigned char *, size_t),
-                                 void *p_rng );
+int mbedtls_rsa_write_pubkey(const mbedtls_rsa_context *rsa, unsigned char *start,
+                             unsigned char **p);
 
+#if defined(MBEDTLS_PKCS1_V21)
 /**
- * \brief          Check validity of RSA CRT parameters
+ * \brief This function is analogue to \c mbedtls_rsa_rsassa_pss_sign().
+ *        The only difference between them is that this function is more flexible
+ *        on the parameters of \p ctx that are set with \c mbedtls_rsa_set_padding().
  *
- * \note           This is a 'static' helper function not operating on
- *                 an RSA context. Alternative implementations need not
- *                 overwrite it.
+ * \note  Compared to its counterpart, this function:
+ *        - does not check the padding setting of \p ctx.
+ *        - allows the hash_id of \p ctx to be MBEDTLS_MD_NONE,
+ *          in which case it uses \p md_alg as the hash_id.
  *
- * \param P        First prime factor of RSA modulus
- * \param Q        Second prime factor of RSA modulus
- * \param D        RSA private exponent
- * \param DP       MPI to check for D modulo P-1
- * \param DQ       MPI to check for D modulo P-1
- * \param QP       MPI to check for the modular inverse of Q modulo P.
- *
- * \return
- *                 - 0 if the following conditions are satisfied:
- *                    - D = DP mod P-1 if P, D, DP != NULL
- *                    - Q = DQ mod P-1 if P, D, DQ != NULL
- *                    - QP = Q^-1 mod P if P, Q, QP != NULL
- *                 - \c MBEDTLS_ERR_RSA_KEY_CHECK_FAILED if check failed,
- *                   potentially including \c MBEDTLS_ERR_MPI_XXX if some
- *                   MPI calculations failed.
- *                 - \c MBEDTLS_ERR_RSA_BAD_INPUT_DATA if insufficient
- *                   data was provided to check DP, DQ or QP.
- *
- * \note           The function can be used with a restricted set of arguments
- *                 to perform specific checks only. E.g., calling it with the
- *                 parameters (P, -, D, DP, -, -) will check DP = D mod P-1.
+ * \note  Refer to \c mbedtls_rsa_rsassa_pss_sign() for a description
+ *        of the functioning and parameters of this function.
  */
-int mbedtls_rsa_validate_crt( const mbedtls_mpi *P,  const mbedtls_mpi *Q,
-                              const mbedtls_mpi *D,  const mbedtls_mpi *DP,
-                              const mbedtls_mpi *DQ, const mbedtls_mpi *QP );
-
-#ifdef __cplusplus
-}
-#endif
+int mbedtls_rsa_rsassa_pss_sign_no_mode_check(mbedtls_rsa_context *ctx,
+                                              int (*f_rng)(void *, unsigned char *, size_t),
+                                              void *p_rng,
+                                              mbedtls_md_type_t md_alg,
+                                              unsigned int hashlen,
+                                              const unsigned char *hash,
+                                              unsigned char *sig);
+#endif /* MBEDTLS_PKCS1_V21 */
 
 #endif /* rsa_internal.h */

@@ -397,6 +397,8 @@
 /mapping/Vulgate.txt
 /mbedtls
 /mbedtls/0readme.txt
+/mbedtls_2.x
+/mbedtls_2.x/0readme.txt
 /menu
 /microtar
 /microtar/LICENSE
@@ -521,6 +523,7 @@
 /pkgdata/install.sh
 /processes
 /processes/gitflag
+/psa
 /public
 /public/comment.html
 /public/create.html

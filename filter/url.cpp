@@ -42,7 +42,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <mbedtls/entropy.h>
 #include <mbedtls/ctr_drbg.h>
 #include <mbedtls/error.h>
-#include <mbedtls/certs.h>
 #pragma GCC diagnostic pop
 #ifdef HAVE_WINDOWS
 #include <direct.h>
@@ -1913,6 +1912,7 @@ void filter_url_display_mbed_tls_error (int& ret, std::string* error, bool serve
   // Everything OK
   if (local_return == 0) return;
 
+#ifdef Todo
   // The server suppresses a couple of error messages caused by rogue clients or spiders.
   // The reason for suppressing them is to prevent them from flooding the Journal.
   if (server) {
@@ -1944,6 +1944,7 @@ void filter_url_display_mbed_tls_error (int& ret, std::string* error, bool serve
   } else {
     Database_Logs::log (msg);
   }
+#endif // Todo
 }
 
 

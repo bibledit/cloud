@@ -31,7 +31,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #pragma GCC diagnostic ignored "-Wzero-as-null-pointer-constant"
 #include <mbedtls/entropy.h>
 #include <mbedtls/ctr_drbg.h>
-#include <mbedtls/certs.h>
 #include <mbedtls/x509.h>
 #include <mbedtls/x509_crt.h>
 #include <mbedtls/ssl.h>
@@ -762,6 +761,7 @@ void https_server ()
   // On clients, don't run the secure web server.
   // It is not possible to get a https certificate for https://localhost anyway.
   // Not running this secure server saves valuable system resources on low power devices.
+#undef RUN_SECURE_SERVER // Todo
 #ifdef RUN_SECURE_SERVER
 
   // The https network port to listen on.

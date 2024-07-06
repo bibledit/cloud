@@ -25,7 +25,7 @@ std::string md5 (const std::string str)
 {
   unsigned char md5sum[16];
   const unsigned char *input = reinterpret_cast<const unsigned char *>(str.c_str ());
-  // Todo [[maybe_unused]] int ret = mbedtls_md5_ret (input, str.size (), md5sum);
+  mbedtls_md5 (input, str.size (), md5sum);
 
   // Space for 32 bytes of hexits and one terminating null byte.
   char hexits [32+1];

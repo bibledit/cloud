@@ -49,7 +49,7 @@
  *
  * Comment to disable the use of assembly code.
  */
-#define MBEDTLS_HAVE_ASM
+//#define MBEDTLS_HAVE_ASM
 
 /**
  * \def MBEDTLS_NO_UDBL_DIVISION
@@ -2090,7 +2090,7 @@
  *
  * Uncomment this to enable pthread mutexes.
  */
-//#define MBEDTLS_THREADING_PTHREAD
+#define MBEDTLS_THREADING_PTHREAD
 
 /**
  * \def MBEDTLS_USE_PSA_CRYPTO
@@ -2249,7 +2249,7 @@
  *
  * This modules adds support for the AES-NI instructions on x86.
  */
-#define MBEDTLS_AESNI_C
+//#define MBEDTLS_AESNI_C
 
 /**
  * \def MBEDTLS_AESCE_C
@@ -3022,7 +3022,7 @@
  *
  * This modules adds support for the VIA PadLock on x86.
  */
-#define MBEDTLS_PADLOCK_C
+//#define MBEDTLS_PADLOCK_C
 
 /**
  * \def MBEDTLS_PEM_PARSE_C
@@ -3609,7 +3609,7 @@
  *
  * Enable this layer to allow use of mutexes within Mbed TLS
  */
-//#define MBEDTLS_THREADING_C
+#define MBEDTLS_THREADING_C
 
 /**
  * \def MBEDTLS_TIMING_C

@@ -281,6 +281,11 @@
 		CAD8B11626E4E18C00639404 /* view.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = view.cpp; sourceTree = "<group>"; };
 		CAD8B11726E4E18C00639404 /* view.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = view.html; sourceTree = "<group>"; };
 		CAD8B11826E50BF700639404 /* installcloudcentos.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = installcloudcentos.html; sourceTree = "<group>"; };
+		CAD8ED092C3972A8006DF2D6 /* build_info.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = build_info.h; sourceTree = "<group>"; };
+		CAD8ED0A2C3972D4006DF2D6 /* mbedtls_config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = mbedtls_config.h; sourceTree = "<group>"; };
+		CAD8ED0B2C3978BA006DF2D6 /* net_sockets.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = net_sockets.c; sourceTree = "<group>"; };
+		CAD8ED0C2C397957006DF2D6 /* net_sockets.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = net_sockets.h; sourceTree = "<group>"; };
+		CAD8ED0D2C397CED006DF2D6 /* ssl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ssl.h; sourceTree = "<group>"; };
 		CADD5A382630A3F5003AAB27 /* update.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = update.h; sourceTree = "<group>"; };
 		CADD5A392630A3F5003AAB27 /* update.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = update.cpp; sourceTree = "<group>"; };
 		CADE36FC24F1737A003165BB /* aclocal.m4 */ = {isa = PBXFileReference; lastKnownFileType = text; path = aclocal.m4; sourceTree = "<group>"; };
@@ -3580,6 +3585,11 @@
 			isa = PBXGroup;
 			children = (
 				CADE3D7F24F17471003165BB /* 0readme.txt */,
+				CAD8ED092C3972A8006DF2D6 /* build_info.h */,
+				CAD8ED0A2C3972D4006DF2D6 /* mbedtls_config.h */,
+				CAD8ED0C2C397957006DF2D6 /* net_sockets.h */,
+				CAD8ED0B2C3978BA006DF2D6 /* net_sockets.c */,
+				CAD8ED0D2C397CED006DF2D6 /* ssl.h */,
 			);
 			path = mbedtls;
 			sourceTree = "<group>";

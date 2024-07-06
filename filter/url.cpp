@@ -1912,12 +1912,11 @@ void filter_url_display_mbed_tls_error (int& ret, std::string* error, bool serve
   // Everything OK
   if (local_return == 0) return;
 
-#ifdef Todo
   // The server suppresses a couple of error messages caused by rogue clients or spiders.
   // The reason for suppressing them is to prevent them from flooding the Journal.
   if (server) {
     // SSL - Processing of the ClientHello handshake message failed (-30976)
-    if (local_return == MBEDTLS_ERR_SSL_BAD_HS_CLIENT_HELLO) return;
+    // No longer in MbedTLS 3.x if (local_return == MBEDTLS_ERR_SSL_BAD_HS_CLIENT_HELLO) return;
     // SSL - The connection indicated an EOF (-29312)
     if (local_return == MBEDTLS_ERR_SSL_CONN_EOF) return;
     // NET - Reading information from the socket failed (-76)
@@ -1925,7 +1924,7 @@ void filter_url_display_mbed_tls_error (int& ret, std::string* error, bool serve
     // NET - Connection was reset by peer (-80)
     if (local_return == MBEDTLS_ERR_NET_CONN_RESET) return;
   }
-  
+
   // There's an error: Display it.
   char error_buf [100];
   mbedtls_strerror (local_return, error_buf, 100);
@@ -1944,7 +1943,6 @@ void filter_url_display_mbed_tls_error (int& ret, std::string* error, bool serve
   } else {
     Database_Logs::log (msg);
   }
-#endif // Todo
 }
 
 

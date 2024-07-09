@@ -68,7 +68,9 @@ void filter_url_curl_set_timeout (void *curl_handle, bool burst = false);
 std::string filter_url_plus_to_tag (std::string data);
 std::string filter_url_tag_to_plus (std::string data);
 std::string filter_url_remove_username_password (std::string url);
-std::string filter_url_http_request_mbed (std::string url, std::string& error, const std::map <std::string, std::string>& post, const std::string& filename, bool check_certificate);
+std::string filter_url_http_request_mbed (std::string url, std::string& error, 
+                                          const std::map <std::string, std::string>& post,
+                                          const std::string& filename, bool check_certificate);
 void filter_url_ssl_tls_initialize ();
 void filter_url_ssl_tls_finalize ();
 void filter_url_display_mbed_tls_error (int& ret, std::string* error, bool server, const std::string& remote_ip_address);
@@ -81,4 +83,4 @@ bool filter_url_port_can_connect (std::string hostname, int port);
 bool filter_url_is_image (std::string extension);
 std::string filter_url_get_mime_type (std::string extension);
 void filter_url_get_scheme_host_port (std::string url, std::string & scheme, std::string & host, int & port);
-
+void filter_url_mbed_tls_client_dev ();

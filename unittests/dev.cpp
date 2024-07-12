@@ -17,22 +17,16 @@
  */
 
 
-#ifdef HAVE_GTEST
-
 #include <config/libraries.h>
+#ifdef HAVE_GTEST
 #include <unittests/utilities.h>
 #include "gtest/gtest.h"
+#include <webserver/webserver.h>
 
 
-TEST(bibledit, dev)
+TEST(dev, dev)
 {
   refresh_sandbox (true);
-  constexpr int vms_height {25};
-  constexpr int vms_width {200};
-  const unsigned short char_spacing {1};
-  const unsigned short line_spacing {5};
-  const std::string font_path {"UnitTests/Bitmaps/16_23SE1-20-unicode.bdf"};
-  EXPECT_EQ (3, 3);
   refresh_sandbox (true);
 }
 

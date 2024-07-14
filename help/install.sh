@@ -104,6 +104,7 @@ apt --yes --assume-yes install libgtk-3-dev
 apt --yes --assume-yes install libwebkit2gtk-3.0-dev
 apt --yes --assume-yes install libwebkit2gtk-4.0-dev
 apt --yes --assume-yes install libwebkit2gtk-4.1-dev
+apt --yes --assume-yes install libxml2-dev
 apt --yes --assume-yes install curl
 apt --yes --assume-yes install make
 apt --yes --assume-yes install libutf8proc-dev

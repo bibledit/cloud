@@ -397,8 +397,8 @@
 /mapping/Vulgate.txt
 /mbedtls
 /mbedtls/0readme.txt
-/mbedtls_2.x
-/mbedtls_2.x/0readme.txt
+/mbedtls2windows
+/mbedtls2windows/0readme.txt
 /menu
 /microtar
 /microtar/LICENSE

@@ -86,7 +86,7 @@ void my_invalid_parameter_handler(const wchar_t* expression, const wchar_t* func
   std::string sfunction(wfunction.begin(), wfunction.end());
   std::wstring wfile (file);
   std::string sfile(wfile.begin(), wfile.end());
-  Database_Logs::log ("Invalid parameter detected in function " + sfunction + " in file " + sfile + " line " + filter::strings::convert_to_string ((size_t)line) + " expression " + sexpression + ".");
+  Database_Logs::log ("Invalid parameter detected in function " + sfunction + " in file " + sfile + " line " + std::to_string(line) + " expression " + sexpression + ".");
 }
 #endif
 

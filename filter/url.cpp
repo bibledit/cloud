@@ -21,6 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <webserver/http.h>
 #include <webserver/request.h>
 #include <config/globals.h>
+#include <config/config.h>
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wold-style-cast"
 #include <filter/UriCodec.hpp>
@@ -96,6 +97,13 @@ static_assert (false, "MBEDTLS_DEBUG_C should be defined");
 //#endif
 #ifdef MBEDTLS_X509_REMOVE_INFO
 static_assert (false, "MBEDTLS_X509_REMOVE_INFO should not be defined");
+#endif
+
+
+#if defined(HAVE_MBEDTLS2)
+#elif defined(HAVE_MBEDTLS3)
+#else
+static_assert (false, "Both HAVE_MBEDTLS2 and HAVE_MBEDTLS3 are undefined")
 #endif
 
 
@@ -1927,9 +1935,11 @@ void filter_url_ssl_tls_initialize ()
   mbedtls_ctr_drbg_init (&ctr_drbg_context);
   mbedtls_entropy_init (&entropy_context);
 
-  // Initialize the Platform Security Architecture.
+  // Initialize the Platform Security Architecture that MbedTLS version 3 introduces.
+#ifdef HAVE_MBEDTLS3
   psa_status_t status = psa_crypto_init();
   filter_url_display_mbed_tls_error (status, nullptr, false, std::string());
+#endif
 
   // Seed the random number generator.
   constexpr const auto pers = "Client";
@@ -1953,7 +1963,9 @@ void filter_url_ssl_tls_finalize ()
   mbedtls_ctr_drbg_free (&ctr_drbg_context);
   mbedtls_entropy_free (&entropy_context);
   mbedtls_x509_crt_free (&x509_ca_cert);
+#ifdef HAVE_MBEDTLS3
   mbedtls_psa_crypto_free();
+#endif
 }
 
 

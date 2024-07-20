@@ -89,6 +89,13 @@ static_assert (false, "MBEDTLS_X509_REMOVE_INFO should not be defined");
 #endif
 
 
+#if defined(HAVE_MBEDTLS2)
+#elif defined(HAVE_MBEDTLS3)
+#else
+static_assert (false, "Both HAVE_MBEDTLS2 and HAVE_MBEDTLS3 are undefined")
+#endif
+
+
 // Gets a line from a socket.
 // The line may end with a newline, a carriage return, or a CR-LF combination.
 // It terminates the string read with a null character.
@@ -870,16 +877,24 @@ void https_server ()
   mbedtls_ctr_drbg_context ctr_drbg;
   mbedtls_ctr_drbg_init (&ctr_drbg);
 
+#ifdef HAVE_MBEDTLS3
   const psa_status_t psa_status = psa_crypto_init();
   if (psa_status != PSA_SUCCESS) {
     Database_Logs::log("Failure to run PSA crypto initialization: Not running the secure server");
     return;
   }
+#endif
 
   // Load the private RSA server key.
   mbedtls_pk_context pkey;
   mbedtls_pk_init (&pkey);
-  int ret = mbedtls_pk_parse_keyfile (&pkey, server_key_path.c_str (), nullptr, mbedtls_ctr_drbg_random, &ctr_drbg);
+  int ret =
+#ifdef HAVE_MBEDTLS2
+  mbedtls_pk_parse_keyfile (&pkey, server_key_path.c_str (), nullptr);
+#endif
+#ifdef HAVE_MBEDTLS3
+  mbedtls_pk_parse_keyfile (&pkey, server_key_path.c_str (), nullptr, mbedtls_ctr_drbg_random, &ctr_drbg);
+#endif
   if (ret != 0) {
     filter_url_display_mbed_tls_error (ret, nullptr, true, std::string());
     Database_Logs::log("Invalid " + server_key_path + " so not running secure server");
@@ -980,8 +995,11 @@ void https_server ()
   mbedtls_ssl_cache_free (&cache);
   mbedtls_ctr_drbg_free (&ctr_drbg);
   mbedtls_entropy_free (&entropy);
+#ifdef HAVE_MBEDTLS3
   mbedtls_psa_crypto_free();
 #endif
+  
+#endif // ifdef RUN_SECURE_SERVER
 }
 
 

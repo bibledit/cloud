@@ -40,6 +40,11 @@
 #define RUN_SECURE_SERVER 1
 
 
+// Which version of MbedTLS to use.
+//#define HAVE_MBEDTLS2 1
+#define HAVE_MBEDTLS3 1
+
+
 #ifdef HAVE_WINDOWS
 #undef HAVE_CLOUD
 #define HAVE_CLIENT 1
@@ -95,5 +100,3 @@
 #define HAVE_TINY_JOURNAL 1
 #undef RUN_SECURE_SERVER
 #endif
-
-

@@ -20,4 +20,4 @@ server
 *.tar.gz
 configure~
 libbibledit.a.*
-
+pkgdata/.*

@@ -234,6 +234,7 @@
 		CA77114727524BC8003ADD67 /* libicuuc.67.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicuuc.67.1.dylib; path = ../../../../opt/local/lib/libicuuc.67.1.dylib; sourceTree = "<group>"; };
 		CA77114927524BFF003ADD67 /* libicudata.67.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicudata.67.1.dylib; path = ../../../../opt/local/lib/libicudata.67.1.dylib; sourceTree = "<group>"; };
 		CA772E29262F58580097D5C7 /* studylight.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = studylight.cpp; sourceTree = "<group>"; };
+		CA7A057B2C4C067C0087DBE5 /* 0readme.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = 0readme.txt; sourceTree = "<group>"; };
 		CA83A69F289D7C9F0038E298 /* googletranslate.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = googletranslate.cpp; sourceTree = "<group>"; };
 		CA83A6A0289D7C9F0038E298 /* googletranslate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = googletranslate.h; sourceTree = "<group>"; };
 		CA83A6A1289D7C9F0038E298 /* googletranslate.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = googletranslate.html; sourceTree = "<group>"; };
@@ -1907,6 +1908,7 @@
 		CA18ADB624F169DA00FF603C = {
 			isa = PBXGroup;
 			children = (
+				CA7A057B2C4C067C0087DBE5 /* 0readme.txt */,
 				CADE36FD24F1737A003165BB /* access */,
 				CADE36FC24F1737A003165BB /* aclocal.m4 */,
 				CADE370D24F1737A003165BB /* assets */,

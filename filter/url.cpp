@@ -35,7 +35,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #endif
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wc99-extensions"
-#include <mbedtls/build_info.h>
+#include <mbedtls/version.h>
 #include <mbedtls/platform.h>
 #include "mbedtls/net_sockets.h"
 #include "mbedtls/debug.h"
@@ -100,10 +100,10 @@ static_assert (false, "MBEDTLS_X509_REMOVE_INFO should not be defined");
 #endif
 
 
-#if defined(HAVE_MBEDTLS2)
-#elif defined(HAVE_MBEDTLS3)
+#if MBEDTLS_VERSION_MAJOR == 2
+#elif MBEDTLS_VERSION_MAJOR == 3
 #else
-static_assert (false, "Both HAVE_MBEDTLS2 and HAVE_MBEDTLS3 are undefined")
+static_assert (false, "MbedTLS version other than 2 or 3");
 #endif
 
 
@@ -1936,7 +1936,7 @@ void filter_url_ssl_tls_initialize ()
   mbedtls_entropy_init (&entropy_context);
 
   // Initialize the Platform Security Architecture that MbedTLS version 3 introduces.
-#ifdef HAVE_MBEDTLS3
+#if MBEDTLS_VERSION_MAJOR == 3
   psa_status_t status = psa_crypto_init();
   filter_url_display_mbed_tls_error (status, nullptr, false, std::string());
 #endif
@@ -1963,7 +1963,7 @@ void filter_url_ssl_tls_finalize ()
   mbedtls_ctr_drbg_free (&ctr_drbg_context);
   mbedtls_entropy_free (&entropy_context);
   mbedtls_x509_crt_free (&x509_ca_cert);
-#ifdef HAVE_MBEDTLS3
+#if MBEDTLS_VERSION_MAJOR == 3
   mbedtls_psa_crypto_free();
 #endif
 }

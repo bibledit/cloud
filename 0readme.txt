@@ -6,12 +6,11 @@ MbedTLS
 
 The source tree contains two versions of MbedTLS.
 * MbedTLS 2.x in folder mbedtls2.
-* MbedTLS 3.x in folder mbedtls3.
+* MbedTLS 3.x in folder mbedtls.
 
 Switching between the two versions can be done as follows.
-1. Make a soft link from folder mbedtls2 or mbedtls3 to mbedtls:
-   $ rm mbedtls
-   $ ln -s mbedtls3 mbedtls
+1. Put the desired version of MbedTLS in folder "mbedtls".
+   This may involve a rename operation.
 2. Put the relevant source code in Makefile.am.
    The source code is listed below for both versions.
 

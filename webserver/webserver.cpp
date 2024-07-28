@@ -467,7 +467,7 @@ void http_server ()
   WSADATA wsa_data;
   result = WSAStartup(MAKEWORD(2, 2), &wsa_data);
   if (result != 0) {
-    std::string error = "Could not initialize Windows Sockets with error " + filter::strings::convert_to_string (result);
+    std::string error = "Could not initialize Windows Sockets with error " + std::to_string (result);
     std::cerr << error << std::endl;
     Database_Logs::log (error);
     listener_healthy = false;
@@ -483,7 +483,7 @@ void http_server ()
   // Create a socket for listening for incoming connections.
   SOCKET listen_socket = socket(AF_INET, SOCK_STREAM, 0);
   if (listen_socket == INVALID_SOCKET) {
-    std::string error = "Socket failed with error " + filter::strings::convert_to_string (WSAGetLastError());
+    std::string error = "Socket failed with error " + std::to_string (WSAGetLastError());
     std::cerr << error << std::endl;
     Database_Logs::log (error);
     listener_healthy = false;
@@ -508,7 +508,7 @@ void http_server ()
   // Listen for multiple connections.
   result = listen(listen_socket, SOMAXCONN);
   if (result == SOCKET_ERROR) {
-    std::string error = "Listen failed with error " + filter::strings::convert_to_string (WSAGetLastError());
+    std::string error = "Listen failed with error " + std::to_string (WSAGetLastError());
     std::cerr << error << std::endl;
     Database_Logs::log (error);
     listener_healthy = false;

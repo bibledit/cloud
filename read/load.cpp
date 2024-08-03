@@ -114,7 +114,6 @@ std::string read_load (Webserver_Request& webserver_request)
   data.append ("#_be_#");
   data.append (suffix_html);
   
-  const std::string& user = webserver_request.session_logic ()->get_username ();
   bool write = false;
   data = checksum_logic::send (data, write);
 

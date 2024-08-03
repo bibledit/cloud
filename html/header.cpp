@@ -57,7 +57,7 @@ void Html_Header::create (const std::vector <std::pair <std::string, std::string
   pugi::xml_node table_element = m_html_text.new_table ();
   pugi::xml_node table_row_element = m_html_text.new_table_row (table_element);
   pugi::xml_node table_data_element = m_html_text.new_table_data (table_row_element);
-  for (const auto breadcrumb : breadcrumbs) {
+  for (const auto& breadcrumb : breadcrumbs) {
     m_html_text.add_link (table_data_element, breadcrumb.second, "", breadcrumb.first, "", ' ' + breadcrumb.first + ' ');
   }
   table_data_element = m_html_text.new_table_data (table_row_element, true);

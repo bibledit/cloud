@@ -1276,7 +1276,7 @@ TEST (filter_text, convert_image_to_format)
     const std::string html = filter_text.html_text_standard->get_inner_html();
     EXPECT_EQ (standard_html, html);
     EXPECT_EQ (std::vector<std::string>{image_2_name}, filter_text.image_sources);
-    for (const auto src : filter_text.image_sources) {
+    for (const auto& src : filter_text.image_sources) {
       const std::string contents = database::bible_images::get(src);
       const std::string standard = filter_url_file_get_contents(image_2_path);
       EXPECT_EQ (standard, contents);

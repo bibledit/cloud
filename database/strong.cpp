@@ -34,7 +34,6 @@ constexpr const auto greekstrong {"greekstrong"};
 // Get Strong's definition for the $strong's number.
 std::string Database_Strong::definition (std::string strong)
 {
-  sqlite3 * db;
   {
     // Search Greek lexicon.
     SqliteDatabase sql (greekstrong);

@@ -26,7 +26,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // This function returns users assigned to the logged-in user.
 std::vector <std::string> access_user::assignees (Webserver_Request& webserver_request)
 {
-  const std::string& myuser = webserver_request.session_logic ()->get_username ();
   const int mylevel = webserver_request.session_logic ()->get_level ();
 
   // This holds the assignees.

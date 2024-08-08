@@ -74,7 +74,7 @@ std::string jobs_index (Webserver_Request& webserver_request)
     contents = translate("This job is not available to you.");
   } else if (!result.empty ()) {
     contents = result;
-  } else if (!start.empty () | !progress.empty () | !percentage.empty ()) {
+  } else if (!start.empty () || !progress.empty () || !percentage.empty ()) {
     contents = start;
     if (!percentage.empty ()) {
       view.enable_zone ("percentage");

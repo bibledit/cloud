@@ -40,6 +40,10 @@
 #define RUN_SECURE_SERVER 1
 
 
+// Whether to use std::filesystem.
+#define USE_STD_FILESYSTEM 1
+
+
 #ifdef HAVE_WINDOWS
 #undef HAVE_CLOUD
 #define HAVE_CLIENT 1
@@ -51,6 +55,7 @@
 #undef DIRECTORY_SEPARATOR
 #define DIRECTORY_SEPARATOR R"(\)"
 #undef RUN_SECURE_SERVER
+#undef USE_STD_FILESYSTEM
 #endif
 
 
@@ -64,6 +69,7 @@
 #define HAVE_BARE_BROWSER 1
 #define HAVE_TINY_JOURNAL 1
 #undef RUN_SECURE_SERVER
+#undef USE_STD_FILESYSTEM
 #endif
 
 
@@ -72,6 +78,7 @@
 #define HAVE_CLIENT 1
 #define HAVE_BARE_BROWSER 1
 #undef RUN_SECURE_SERVER
+#undef USE_STD_FILESYSTEM
 #endif
 
 
@@ -81,6 +88,7 @@
 #define HAVE_PARATEXT 1
 #define HAVE_BARE_BROWSER 1
 #undef RUN_SECURE_SERVER
+#undef USE_STD_FILESYSTEM
 #endif
 
 
@@ -94,4 +102,5 @@
 #define HAVE_BARE_BROWSER 1
 #define HAVE_TINY_JOURNAL 1
 #undef RUN_SECURE_SERVER
+#undef USE_STD_FILESYSTEM
 #endif

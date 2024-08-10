@@ -277,7 +277,7 @@ TEST_F (filter_url, remove_credentials)
 TEST_F (filter_url, copy_file)
 {
   // Test copying a file.
-  const std::string output = "/tmp/test_copy_file";
+  constexpr auto output {"/tmp/test_copy_file"};
   filter_url_rmdir (output);
   filter_url_unlink (output);
   filter_url_file_cp (__FILE__, output);

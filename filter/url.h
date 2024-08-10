@@ -59,7 +59,6 @@ bool filter_url_email_is_valid (std::string email);
 std::string filter_url_build_http_query (std::string url, const std::string& parameter, const std::string& value);
 std::string filter_url_http_get (std::string url, std::string& error, bool check_certificate);
 std::string filter_url_http_post (const std::string & url, std::string post_data, const std::map <std::string, std::string> & post_values, std::string& error, bool burst, bool check_certificate, const std::vector <std::pair <std::string, std::string> > & headers);
-std::string filter_url_http_upload (std::string url, std::map <std::string, std::string> values, std::string filename, std::string& error);
 std::string filter_url_http_response_code_text (int code);
 void filter_url_download_file (std::string url, std::string filename, std::string& error, bool check_certificate);
 std::string filter_url_html_file_name_bible (std::string path = "", int book = 0, int chapter = -1);

@@ -58,7 +58,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <export/info.h>
 #include <export/esword.h>
 #include <export/onlinebible.h>
-#include <export/bibledropbox.h>
 #include <manage/hyphenate.h>
 #include <paratext/logic.h>
 #include <resource/logic.h>
@@ -248,9 +247,6 @@ void tasks_run_one (const std::string& filename)
     int imethod = filter::strings::convert_to_int(parameter1);
     auto method = static_cast<tasks::enums::paratext_sync>(imethod);
     Paratext_Logic::synchronize (method);
-  }
-  else if (command == SUBMITBIBLEDROPBOX) {
-    export_bibledropbox (parameter1, parameter2);
   }
   else if (command == IMPORTIMAGES) {
     resource_logic_import_images (parameter1, parameter2);

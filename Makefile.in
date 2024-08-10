@@ -288,27 +288,26 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	export/info.$(OBJEXT) export/logic.$(OBJEXT) \
 	export/odt.$(OBJEXT) export/onlinebible.$(OBJEXT) \
 	export/textusfm.$(OBJEXT) export/usfm.$(OBJEXT) \
-	export/web.$(OBJEXT) export/bibledropbox.$(OBJEXT) \
-	webbb/search.$(OBJEXT) developer/index.$(OBJEXT) \
-	developer/logic.$(OBJEXT) paratext/logic.$(OBJEXT) \
-	paratext/index.$(OBJEXT) personalize/index.$(OBJEXT) \
-	lexicon/logic.$(OBJEXT) lexicon/definition.$(OBJEXT) \
-	sources/etcbc4.$(OBJEXT) sources/kjv.$(OBJEXT) \
-	sources/morphhb.$(OBJEXT) sources/morphgnt.$(OBJEXT) \
-	sources/hebrewlexicon.$(OBJEXT) sources/oshb.$(OBJEXT) \
-	sword/logic.$(OBJEXT) pugixml/pugixml.$(OBJEXT) \
-	pugixml/utils.$(OBJEXT) public/index.$(OBJEXT) \
-	public/logic.$(OBJEXT) public/login.$(OBJEXT) \
-	public/chapter.$(OBJEXT) public/notes.$(OBJEXT) \
-	public/new.$(OBJEXT) public/create.$(OBJEXT) \
-	public/note.$(OBJEXT) public/comment.$(OBJEXT) \
-	utf8proc/utf8proc.$(OBJEXT) search/logic.$(OBJEXT) \
-	mbedtls/aes.$(OBJEXT) mbedtls/aesce.$(OBJEXT) \
-	mbedtls/aesni.$(OBJEXT) mbedtls/aria.$(OBJEXT) \
-	mbedtls/asn1parse.$(OBJEXT) mbedtls/asn1write.$(OBJEXT) \
-	mbedtls/base64.$(OBJEXT) mbedtls/bignum.$(OBJEXT) \
-	mbedtls/bignum_core.$(OBJEXT) mbedtls/bignum_mod.$(OBJEXT) \
-	mbedtls/bignum_mod_raw.$(OBJEXT) \
+	export/web.$(OBJEXT) webbb/search.$(OBJEXT) \
+	developer/index.$(OBJEXT) developer/logic.$(OBJEXT) \
+	paratext/logic.$(OBJEXT) paratext/index.$(OBJEXT) \
+	personalize/index.$(OBJEXT) lexicon/logic.$(OBJEXT) \
+	lexicon/definition.$(OBJEXT) sources/etcbc4.$(OBJEXT) \
+	sources/kjv.$(OBJEXT) sources/morphhb.$(OBJEXT) \
+	sources/morphgnt.$(OBJEXT) sources/hebrewlexicon.$(OBJEXT) \
+	sources/oshb.$(OBJEXT) sword/logic.$(OBJEXT) \
+	pugixml/pugixml.$(OBJEXT) pugixml/utils.$(OBJEXT) \
+	public/index.$(OBJEXT) public/logic.$(OBJEXT) \
+	public/login.$(OBJEXT) public/chapter.$(OBJEXT) \
+	public/notes.$(OBJEXT) public/new.$(OBJEXT) \
+	public/create.$(OBJEXT) public/note.$(OBJEXT) \
+	public/comment.$(OBJEXT) utf8proc/utf8proc.$(OBJEXT) \
+	search/logic.$(OBJEXT) mbedtls/aes.$(OBJEXT) \
+	mbedtls/aesce.$(OBJEXT) mbedtls/aesni.$(OBJEXT) \
+	mbedtls/aria.$(OBJEXT) mbedtls/asn1parse.$(OBJEXT) \
+	mbedtls/asn1write.$(OBJEXT) mbedtls/base64.$(OBJEXT) \
+	mbedtls/bignum.$(OBJEXT) mbedtls/bignum_core.$(OBJEXT) \
+	mbedtls/bignum_mod.$(OBJEXT) mbedtls/bignum_mod_raw.$(OBJEXT) \
 	mbedtls/block_cipher.$(OBJEXT) mbedtls/camellia.$(OBJEXT) \
 	mbedtls/ccm.$(OBJEXT) mbedtls/chacha20.$(OBJEXT) \
 	mbedtls/chachapoly.$(OBJEXT) mbedtls/cipher.$(OBJEXT) \
@@ -576,8 +575,7 @@ am__depfiles_remade = access/$(DEPDIR)/bible.Po \
 	editusfm/$(DEPDIR)/save.Po email/$(DEPDIR)/index.Po \
 	email/$(DEPDIR)/receive.Po email/$(DEPDIR)/send.Po \
 	esword/$(DEPDIR)/text.Po executable/$(DEPDIR)/bibledit.Po \
-	executable/$(DEPDIR)/generate.Po \
-	export/$(DEPDIR)/bibledropbox.Po export/$(DEPDIR)/esword.Po \
+	executable/$(DEPDIR)/generate.Po export/$(DEPDIR)/esword.Po \
 	export/$(DEPDIR)/html.Po export/$(DEPDIR)/index.Po \
 	export/$(DEPDIR)/info.Po export/$(DEPDIR)/logic.Po \
 	export/$(DEPDIR)/odt.Po export/$(DEPDIR)/onlinebible.Po \
@@ -1438,7 +1436,6 @@ libbibledit_a_SOURCES = \
 	export/textusfm.cpp \
 	export/usfm.cpp \
 	export/web.cpp \
-	export/bibledropbox.cpp \
 	webbb/search.cpp \
 	developer/index.cpp \
 	developer/logic.cpp \
@@ -2910,8 +2907,6 @@ export/usfm.$(OBJEXT): export/$(am__dirstamp) \
 	export/$(DEPDIR)/$(am__dirstamp)
 export/web.$(OBJEXT): export/$(am__dirstamp) \
 	export/$(DEPDIR)/$(am__dirstamp)
-export/bibledropbox.$(OBJEXT): export/$(am__dirstamp) \
-	export/$(DEPDIR)/$(am__dirstamp)
 webbb/$(am__dirstamp):
 	@$(MKDIR_P) webbb
 	@: > webbb/$(am__dirstamp)
@@ -3987,7 +3982,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@esword/$(DEPDIR)/text.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@executable/$(DEPDIR)/bibledit.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@executable/$(DEPDIR)/generate.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@export/$(DEPDIR)/bibledropbox.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@export/$(DEPDIR)/esword.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@export/$(DEPDIR)/html.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@export/$(DEPDIR)/index.Po@am__quote@ # am--include-marker
@@ -5195,7 +5189,6 @@ distclean: distclean-am
 	-rm -f esword/$(DEPDIR)/text.Po
 	-rm -f executable/$(DEPDIR)/bibledit.Po
 	-rm -f executable/$(DEPDIR)/generate.Po
-	-rm -f export/$(DEPDIR)/bibledropbox.Po
 	-rm -f export/$(DEPDIR)/esword.Po
 	-rm -f export/$(DEPDIR)/html.Po
 	-rm -f export/$(DEPDIR)/index.Po
@@ -5885,7 +5878,6 @@ maintainer-clean: maintainer-clean-am
 	-rm -f esword/$(DEPDIR)/text.Po
 	-rm -f executable/$(DEPDIR)/bibledit.Po
 	-rm -f executable/$(DEPDIR)/generate.Po
-	-rm -f export/$(DEPDIR)/bibledropbox.Po
 	-rm -f export/$(DEPDIR)/esword.Po
 	-rm -f export/$(DEPDIR)/html.Po
 	-rm -f export/$(DEPDIR)/index.Po

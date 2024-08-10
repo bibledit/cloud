@@ -330,7 +330,6 @@ libbibledit_a_SOURCES = \
 	export/textusfm.cpp \
 	export/usfm.cpp \
 	export/web.cpp \
-	export/bibledropbox.cpp \
 	webbb/search.cpp \
 	developer/index.cpp \
 	developer/logic.cpp \

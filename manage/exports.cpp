@@ -421,16 +421,6 @@ std::string manage_exports (Webserver_Request& webserver_request)
     }
   }
   view.set_variable ("password", database::config::bible::get_export_password (bible));
-
-  
-  if (webserver_request.query.count ("bibledropboxnow")) {
-    const std::string& username = webserver_request.session_logic ()->get_username ();
-    tasks_logic_queue (SUBMITBIBLEDROPBOX, { username, bible });
-    std::string msg = translate("The Bible will be submitted to the Bible Drop Box.");
-    msg.append (" ");
-    msg.append (translate("You will receive email with further details."));
-    view.set_variable ("success", msg);
-  }
  
   
 #ifdef HAVE_CLIENT

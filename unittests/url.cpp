@@ -255,8 +255,8 @@ TEST_F (filter_url, client_result_fixed_ip)
 TEST_F (filter_url, client_result_bibledit_org)
 {
   // Test low-level http(s) client result.
-  std::string result, error;
-  result = filter_url_http_request_mbed ("https://bibledit.org", error, {}, "", false);
+  std::string error;
+  const std::string result = filter_url_http_request_mbed ("https://bibledit.org", error, {}, "", false);
   EXPECT_EQ (true, result.find ("Bibledit") != std::string::npos);
   EXPECT_EQ (true, result.find ("Linux") != std::string::npos);
   EXPECT_EQ (true, result.find ("Cloud") != std::string::npos);

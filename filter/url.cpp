@@ -746,7 +746,20 @@ void filter_url_file_put_contents_append (std::string filename, std::string cont
 
 // Copies the contents of file named "input" to file named "output".
 // It is assumed that the folder where "output" will reside exists.
-bool filter_url_file_cp (std::string input, std::string output)
+#ifdef USE_STD_FILESYSTEM
+bool filter_url_file_cp (const std::string& input, const std::string& output) // Todo
+{
+  try {
+    std::filesystem::copy(input, output, std::filesystem::copy_options::overwrite_existing);
+  }
+  catch (const std::exception& exception) {
+    Database_Logs::log (exception.what());
+    return false;
+  }
+  return true;
+}
+#else
+bool filter_url_file_cp (const std::string& input, const std::string& output) // Todo
 {
   try {
 #ifdef HAVE_WINDOWS
@@ -764,6 +777,7 @@ bool filter_url_file_cp (std::string input, std::string output)
   }
   return true;
 }
+#endif
 
 
 // Copies the entire directory $input to a directory named $output.

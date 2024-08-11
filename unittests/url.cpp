@@ -274,15 +274,28 @@ TEST_F (filter_url, remove_credentials)
 }
 
 
-TEST_F (filter_url, copy_file)
+TEST_F (filter_url, copy_file) // Todo
 {
-  // Test copying a file.
-  constexpr auto output {"/tmp/test_copy_file"};
-  filter_url_rmdir (output);
-  filter_url_unlink (output);
-  filter_url_file_cp (__FILE__, output);
-  EXPECT_EQ (true, file_or_dir_exists (output));
-  EXPECT_EQ (filter_url_filesize (__FILE__), filter_url_filesize (output));
+  // Test copying an existing file.
+  {
+    constexpr auto output {"/tmp/test_copy_file"};
+    filter_url_rmdir (output);
+    filter_url_unlink (output);
+    bool success = filter_url_file_cp (__FILE__, output);
+    EXPECT_TRUE (file_or_dir_exists (output));
+    EXPECT_TRUE (success);
+    EXPECT_EQ (filter_url_filesize (__FILE__), filter_url_filesize (output));
+  }
+  // Test copying a non-existing file.
+  {
+    constexpr auto output {"/tmp/test_copy_file"};
+    filter_url_unlink (output);
+    bool success = filter_url_file_cp ("non_existing_file", output);
+    EXPECT_FALSE (file_or_dir_exists (output));
+    EXPECT_FALSE (success);
+    EXPECT_NE (filter_url_filesize (__FILE__), filter_url_filesize (output));
+    refresh_sandbox (false);
+  }
 }
 
 

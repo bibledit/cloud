@@ -113,7 +113,7 @@ static mbedtls_ctr_drbg_context ctr_drbg_context;
 static mbedtls_entropy_context entropy_context;
 
 
-std::vector <std::string> filter_url_scandir_internal (std::string folder)
+std::vector <std::string> filter_url_scandir_internal (std::string folder) // Todo candidate for std::filesystem.
 {
   std::vector <std::string> files;
   
@@ -244,7 +244,7 @@ std::string filter_url_dirname_internal (std::string url, const char * separator
 
 // Dirname routine for the operating system.
 // It uses the defined slash as the separator.
-std::string filter_url_dirname (std::string url)
+std::string filter_url_dirname (std::string url)  // Todo candidate for std::filesystem.
 {
   return filter_url_dirname_internal (url, DIRECTORY_SEPARATOR);
 }
@@ -293,7 +293,7 @@ std::string filter_url_dirname_web (std::string url)
 
 // C++ replacement for the basename function, see http://linux.die.net/man/3/basename.
 // The BSD basename is not thread-safe, see the warnings in $ man 3 basename.
-std::string filter_url_basename_internal (std::string url, const char * separator)
+std::string filter_url_basename_internal (std::string url, const char * separator) // Todo candidate for std::filesystem.
 {
   if (!url.empty ()) {
     if (url.find_last_of (separator) == url.length () - 1) {
@@ -353,7 +353,7 @@ std::string filter_url_basename_web (std::string url)
 }
 
 
-void filter_url_unlink (std::string filename)
+void filter_url_unlink (std::string filename) // Todo candidate for std::filesystem.
 {
 #ifdef HAVE_WINDOWS
   std::wstring wfilename = filter::strings::string2wstring (filename);
@@ -374,7 +374,7 @@ void filter_url_unlink (std::string filename)
 //}
 
 
-void filter_url_rename (const std::string& oldfilename, const std::string& newfilename)
+void filter_url_rename (const std::string& oldfilename, const std::string& newfilename)  // Todo candidate for std::filesystem.
 {
 #ifdef HAVE_WINDOWS
   std::wstring woldfilename = filter::strings::string2wstring (oldfilename);
@@ -398,7 +398,7 @@ void filter_url_rename (const std::string& oldfilename, const std::string& newfi
 
 
 // Creates a file path out of the components.
-std::string filter_url_create_path (const std::vector <std::string>& parts)
+std::string filter_url_create_path (const std::vector <std::string>& parts) // Todo candidate for std::filesystem.
 {
   // Empty path.
   std::string path;
@@ -433,7 +433,7 @@ std::string filter_url_create_path (const std::vector <std::string>& parts)
 
 // Creates a file path out of the variable list of components,
 // relative to the server's document root.
-std::string filter_url_create_root_path (const std::vector <std::string>& parts)
+std::string filter_url_create_root_path (const std::vector <std::string>& parts) // Todo candidate for std::filesystem.
 {
   // Construct path from the document root.
   std::string path (config_globals_document_root);
@@ -484,7 +484,7 @@ std::string filter_url_create_root_path (const std::vector <std::string>& parts)
 
 
 // Gets the file / url extension, e.g. /home/joe/file.txt returns "txt".
-std::string filter_url_get_extension (std::string url)
+std::string filter_url_get_extension (std::string url) // Todo candidate for std::filesystem.
 {
   std::string extension;
   size_t pos = url.find_last_of (".");
@@ -512,7 +512,7 @@ std::string filter_url_get_extension (std::string url)
 
 
 // Returns true if the file at $url exists.
-bool file_or_dir_exists (std::string url)
+bool file_or_dir_exists (std::string url) // Todo candidate for std::filesystem.
 {
 #ifdef HAVE_WINDOWS
   // Function '_wstat' works with wide characters.
@@ -540,7 +540,7 @@ bool file_or_dir_exists (std::string url)
 
 // Makes a directory.
 // Creates parents where needed.
-void filter_url_mkdir (std::string directory)
+void filter_url_mkdir (std::string directory) // Todo candidate for std::filesystem.
 {
   int status;
 #ifdef HAVE_WINDOWS
@@ -583,7 +583,7 @@ void filter_url_mkdir (std::string directory)
 
 
 // Removes directory recursively.
-void filter_url_rmdir (std::string directory)
+void filter_url_rmdir (std::string directory) // Todo candidate for std::filesystem.
 {
   std::vector <std::string> files = filter_url_scandir_internal (directory);
   for (auto path : files) {
@@ -624,7 +624,7 @@ void filter_url_rmdir (std::string directory)
 
 
 // Returns true is $path points to a directory.
-bool filter_url_is_dir (std::string path)
+bool filter_url_is_dir (std::string path) // Todo candidate for std::filesystem.
 {
 #ifdef HAVE_WINDOWS
   // Function '_wstat', on Windows, works with wide characters.
@@ -652,7 +652,7 @@ bool filter_url_is_dir (std::string path)
 //}
 
 
-bool filter_url_get_write_permission (std::string path)
+bool filter_url_get_write_permission (std::string path) // Todo candidate for std::filesystem.
 {
 #ifdef HAVE_WINDOWS
   std::wstring wpath = filter::strings::string2wstring (path);
@@ -664,7 +664,7 @@ bool filter_url_get_write_permission (std::string path)
 }
 
 
-void filter_url_set_write_permission (std::string path)
+void filter_url_set_write_permission (std::string path) // Todo candidate for std::filesystem.
 {
 #ifdef HAVE_WINDOWS
   std::wstring wpath = filter::strings::string2wstring (path);
@@ -805,7 +805,7 @@ void filter_url_dir_cp (const std::string& input, const std::string& output)
 
 
 // A C++ equivalent for PHP's filesize function.
-int filter_url_filesize (std::string filename)
+int filter_url_filesize (std::string filename) // Todo candidate for std::filesystem.
 {
 #ifdef HAVE_WINDOWS
   std::wstring wfilename = filter::strings::string2wstring (filename);
@@ -833,7 +833,7 @@ int filter_url_filesize (std::string filename)
 
 
 // Scans the directory for files it contains.
-std::vector <std::string> filter_url_scandir (std::string folder)
+std::vector <std::string> filter_url_scandir (std::string folder) // Todo candidate for std::filesystem.
 {
   std::vector <std::string> files = filter_url_scandir_internal (folder);
   files = filter::strings::array_diff (files, {"gitflag"});
@@ -873,7 +873,7 @@ std::vector <std::string> filter_url_scandir (std::string folder)
 
 
 // Recursively scans a directory for directories and files.
-void filter_url_recursive_scandir (std::string folder, std::vector <std::string> & paths)
+void filter_url_recursive_scandir (std::string folder, std::vector <std::string> & paths) // Todo candidate for std::filesystem.
 {
   std::vector <std::string> files = filter_url_scandir (folder);
   for (auto & file : files) {
@@ -887,7 +887,7 @@ void filter_url_recursive_scandir (std::string folder, std::vector <std::string>
 
 
 // Gets the file modification time.
-int filter_url_file_modification_time (std::string filename)
+int filter_url_file_modification_time (std::string filename) // Todo candidate for std::filesystem.
 {
 #ifdef HAVE_WINDOWS
   std::wstring wfilename = filter::strings::string2wstring (filename);

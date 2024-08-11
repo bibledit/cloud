@@ -500,11 +500,11 @@ void search_logic_copy_bible (std::string original, std::string destination)
   std::string destination_fragment = search_logic_bible_fragment (destination);
   destination_fragment = filter_url_basename (destination_fragment);
   std::vector <std::string> files = filter_url_scandir (search_logic_index_folder ());
-  for (auto & file : files) {
+  for (const auto& file : files) {
     if (file.find (original_fragment) == 0) {
-      std::string original_path = filter_url_create_path ({search_logic_index_folder (), file});
-      std::string destination_file = destination_fragment + file.substr (original_fragment.length ());
-      std::string destination_path = filter_url_create_path ({search_logic_index_folder (), destination_file});
+      const std::string original_path = filter_url_create_path ({search_logic_index_folder (), file});
+      const std::string destination_file = destination_fragment + file.substr (original_fragment.length ());
+      const std::string destination_path = filter_url_create_path ({search_logic_index_folder (), destination_file});
       filter_url_file_cp (original_path, destination_path);
     }
   }

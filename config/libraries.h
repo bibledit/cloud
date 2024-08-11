@@ -79,7 +79,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <codecvt>
 #include <memory>
 #include <tuple>
-//#include <filesystem>
+#ifdef USE_STD_FILESYSTEM
+#include <filesystem>
+#endif
 
 
 // Headers dependencies.

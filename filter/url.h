@@ -43,7 +43,7 @@ void filter_url_set_write_permission (std::string path);
 std::string filter_url_file_get_contents (std::string filename);
 void filter_url_file_put_contents (std::string filename, std::string contents);
 void filter_url_file_put_contents_append (std::string filename, std::string contents);
-bool filter_url_file_cp (std::string input, std::string output);
+bool filter_url_file_cp (const std::string& input, const std::string& output);
 void filter_url_dir_cp (const std::string & input, const std::string & output);
 int filter_url_filesize (std::string filename);
 std::vector <std::string> filter_url_scandir (std::string folder);

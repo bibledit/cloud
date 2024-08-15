@@ -189,7 +189,6 @@ TEST_F (filter_url, dirname_basename)
   EXPECT_EQ (".", filter_url_dirname (std::string()));
   EXPECT_EQ (".", filter_url_dirname ("/"));
   EXPECT_EQ (".", filter_url_dirname ("dir/"));
-  // C++17 version: EXPECT_EQ ("/", filter_url_dirname ("/dir"));
   EXPECT_EQ (".", filter_url_dirname ("/dir"));
   EXPECT_EQ ("foo", filter_url_dirname ("foo/bar"));
   EXPECT_EQ ("/foo", filter_url_dirname ("/foo/bar"));
@@ -274,7 +273,7 @@ TEST_F (filter_url, remove_credentials)
 }
 
 
-TEST_F (filter_url, copy_file) // Todo
+TEST_F (filter_url, copy_file)
 {
   // Test copying an existing file.
   {
@@ -284,6 +283,7 @@ TEST_F (filter_url, copy_file) // Todo
     bool success = filter_url_file_cp (__FILE__, output);
     EXPECT_TRUE (file_or_dir_exists (output));
     EXPECT_TRUE (success);
+    EXPECT_NE (0, filter_url_filesize (__FILE__));
     EXPECT_EQ (filter_url_filesize (__FILE__), filter_url_filesize (output));
   }
   // Test copying a non-existing file.
@@ -293,6 +293,7 @@ TEST_F (filter_url, copy_file) // Todo
     bool success = filter_url_file_cp ("non_existing_file", output);
     EXPECT_FALSE (file_or_dir_exists (output));
     EXPECT_FALSE (success);
+    EXPECT_NE (0, filter_url_filesize (__FILE__));
     EXPECT_NE (filter_url_filesize (__FILE__), filter_url_filesize (output));
     refresh_sandbox (false);
   }
@@ -402,8 +403,7 @@ TEST_F (filter_url, file_extension)
 {
   // Getting the file extension.
   EXPECT_EQ ("txt", filter_url_get_extension ("foo/bar.txt"));
-  // C++17 version: EXPECT_EQ (std::string(), filter_url_get_extension (".hidden"));
-  EXPECT_EQ ("hidden", filter_url_get_extension (".hidden"));
+  EXPECT_EQ (std::string(), filter_url_get_extension (".hidden"));
   EXPECT_EQ (std::string(), filter_url_get_extension (""));
 }
 
@@ -424,15 +424,18 @@ TEST_F (filter_url, scandir)
 
 TEST_F (filter_url, file_modification_time)
 {
-  // Testing the file modification time.
-  std::string directory = filter_url_create_root_path ({filter_url_temp_dir (), "timetest"});
+  // Test the file modification time.
+  const std::string directory = filter_url_create_root_path ({filter_url_temp_dir (), "timetest"});
   filter_url_mkdir(directory);
-  std::string file = filter_url_create_path ({directory, "file.txt"});
+  const std::string file = filter_url_create_path ({directory, "file.txt"});
   filter_url_file_put_contents (file, "file.txt");
-  int mod_time = filter_url_file_modification_time (file);
-  int ref_time = filter::date::seconds_since_epoch ();
-  bool check = (mod_time < ref_time - 1) || (mod_time > ref_time + 1);
-  if (check) EXPECT_EQ (ref_time, mod_time);
+  const int mod_time = filter_url_file_modification_time (file);
+  const int ref_time = filter::date::seconds_since_epoch ();
+  EXPECT_NEAR (mod_time, ref_time, 1);
+  // Test the modification time returned if the file does not exist.
+  filter_url_unlink (file);
+  const int mod_time_deleted = filter_url_file_modification_time (file);
+  EXPECT_EQ (0, mod_time_deleted);
 }
 
 
@@ -459,5 +462,26 @@ TEST_F (filter_url, split_schem_host_port)
   EXPECT_EQ (0, port);
 }
 
-#endif
 
+TEST_F (filter_url, rename)
+{
+  const std::string filename {"/tmp/בוקר טוב"};
+  const std::string contents {"בוקר טוב בוקר טוב"};
+  filter_url_file_put_contents (filename, contents);
+  EXPECT_TRUE (file_or_dir_exists (filename));
+  const std::string newfile {filename + "abc"};
+  filter_url_rename (filename, newfile);
+  EXPECT_FALSE (file_or_dir_exists (filename));
+  EXPECT_TRUE (file_or_dir_exists (newfile));
+}
+
+
+TEST_F (filter_url, create_path)
+{
+  const std::vector <std::string> parts {"a", "b", "c"};
+  std::string path = filter_url_create_path (parts);
+  EXPECT_EQ ("a/b/c", path);
+}
+
+
+#endif

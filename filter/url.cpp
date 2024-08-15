@@ -50,17 +50,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #endif
 
 
-// Internal function declarations.
-std::vector <std::string> filter_url_scandir_internal (std::string folder);
-std::string filter_url_dirname_internal (std::string url, const char * separator);
-std::string filter_url_basename_internal (std::string url, const char * separator);
-size_t filter_url_curl_write_function (void *ptr, size_t size, size_t count, void *stream);
-void filter_url_curl_debug_dump (const char *text, FILE *stream, unsigned char *ptr, size_t size);
-#ifdef HAVE_CLOUD
-int filter_url_curl_trace (CURL *handle, curl_infotype type, char *data, size_t size, void *userp);
-#endif
-
-
 // Static check on required definitions, taken from the ssl_client1.c example.
 #ifndef MBEDTLS_BIGNUM_C
 static_assert (false, "MBEDTLS_BIGNUM_C should be defined");
@@ -113,7 +102,7 @@ static mbedtls_ctr_drbg_context ctr_drbg_context;
 static mbedtls_entropy_context entropy_context;
 
 
-std::vector <std::string> filter_url_scandir_internal (std::string folder) // Todo candidate for std::filesystem.
+static std::vector <std::string> filter_url_scandir_internal (std::string folder)
 {
   std::vector <std::string> files;
   
@@ -188,7 +177,7 @@ std::string get_base_url (Webserver_Request& webserver_request)
 
 
 // This function redirects the browser to "path".
-// "path" is an absolute value.
+// The "path" is an absolute value.
 void redirect_browser (Webserver_Request& webserver_request, std::string path)
 {
   // A location header should contain an absolute url, like http://localhost/some/path.
@@ -224,85 +213,70 @@ void redirect_browser (Webserver_Request& webserver_request, std::string path)
 }
 
 
-// C++ replacement for the dirname function, see http://linux.die.net/man/3/dirname.
-// The BSD dirname is not thread-safe, see the implementation notes on $ man 3 dirname.
-std::string filter_url_dirname_internal (std::string url, const char * separator)
+// C++ equivalent for the dirname function, see http://linux.die.net/man/3/dirname.
+// The BSD dirname is not thread-safe, see the implementation notes on $ man 3 dirname,
+// therefore it is not used here.
+// It uses the defined slash as the separator.
+// The std::filesystem could be used, but then the behaviour changes, so that is not done.
+std::string filter_url_dirname (std::string url)
+#ifdef USE_STD_FILESYSTEM
+{
+  // Remove trailing slash if there.
+  if (!url.empty ()) {
+    if (url.find_last_of (std::filesystem::path::preferred_separator) == url.length () - 1) {
+      url = url.substr (0, url.length () - 1);
+    }
+  }
+  // Not using the standard library call for getting parent path because of different behaviour.
+  const size_t pos = url.find_last_of (std::filesystem::path::preferred_separator);
+  if (pos != std::string::npos)
+    url = url.substr (0, pos);
+  else
+    url.clear();
+  // The . is important in a few cases rather than an empty string.
+  if (url.empty ())
+    url = ".";
+  // Done.
+  return url;
+}
+#else
 {
   if (!url.empty ()) {
-    if (url.find_last_of (separator) == url.length () - 1) {
+    if (url.find_last_of (DIRECTORY_SEPARATOR) == url.length () - 1) {
       // Remove trailing slash.
       url = url.substr (0, url.length () - 1);
     }
-    size_t pos = url.find_last_of (separator);
-    if (pos != std::string::npos) url = url.substr (0, pos);
-    else url = std::string();
+    const size_t pos = url.find_last_of (DIRECTORY_SEPARATOR);
+    if (pos != std::string::npos)
+      url = url.substr (0, pos);
+    else 
+      url.clear();
   }
-  if (url.empty ()) url = ".";
+  if (url.empty ()) 
+    url = ".";
   return url;
 }
-
-
-// Dirname routine for the operating system.
-// It uses the defined slash as the separator.
-std::string filter_url_dirname (std::string url)  // Todo candidate for std::filesystem.
-{
-  return filter_url_dirname_internal (url, DIRECTORY_SEPARATOR);
-}
-
-
-// Dirname routine for the filesystem.
-// It uses the automatically defined separator as the directory separator.
-// As of February 2022 the std::filesystem does not yet work on Android.
-//string filter_url_dirname (std::string url)
-//{
-//  // Remove possible trailing path slash.
-//  if (!url.empty ()) {
-//    const char separator = filesystem::path::preferred_separator;
-//    if (url.find_last_of (separator) == url.length () - 1) {
-//      url = url.substr (0, url.length () - 1);
-//    }
-//  }
-//  // Standard library call for getting parent path.
-//  url = filesystem::path(url).parent_path().string();
-//  // The . is important in a few cases rather than an empty string.
-//  if (url.empty ()) url = ".";
-//  // Done.
-//  return url;
-//}
+#endif
 
 
 // Dirname routine for the web.
 // It uses the forward slash as the separator.
 std::string filter_url_dirname_web (std::string url)
 {
-  const char * separator = "/";
+  constexpr const auto separator {"/"};
   if (!url.empty ()) {
     // Remove trailing slash.
     if (url.find_last_of (separator) == url.length () - 1) {
       url = url.substr (0, url.length () - 1);
     }
     // Get dirname or empty string.
-    size_t pos = url.find_last_of (separator);
-    if (pos != std::string::npos) url = url.substr (0, pos);
-    else url.clear();
+    const size_t pos = url.find_last_of (separator);
+    if (pos != std::string::npos)
+      url = url.substr (0, pos);
+    else 
+      url.clear();
   }
   // Done.
-  return url;
-}
-
-
-// C++ replacement for the basename function, see http://linux.die.net/man/3/basename.
-// The BSD basename is not thread-safe, see the warnings in $ man 3 basename.
-std::string filter_url_basename_internal (std::string url, const char * separator) // Todo candidate for std::filesystem.
-{
-  if (!url.empty ()) {
-    if (url.find_last_of (separator) == url.length () - 1) {
-      // Remove trailing slash.
-      url = url.substr (0, url.length () - 1);
-    }
-    size_t pos = url.find_last_of (separator);
-    if (pos != std::string::npos) url = url.substr (pos + 1);
-  }
   return url;
 }
 
@@ -310,28 +284,32 @@ std::string filter_url_basename_internal (std::string url, const char * separato
 // Basename routine for the operating system.
 // It uses the defined slash as the separator.
 std::string filter_url_basename (std::string url)
+#ifdef USE_STD_FILESYSTEM
 {
-  return filter_url_basename_internal (url, DIRECTORY_SEPARATOR);
+  // Remove possible trailing path slash.
+  if (!url.empty ()) {
+    if (url.find_last_of (std::filesystem::path::preferred_separator) == url.length () - 1) {
+      url = url.substr (0, url.length () - 1);
+    }
+  }
+  // Standard library call for getting base name path.
+  url = std::filesystem::path(url).filename().string();
+  // Done
+  return url;
 }
-
-
-// Basename routine for the filesystem.
-// It uses the automatically defined separator as the directory separator.
-// As of February 2022 the std::filesystem does not yet work on Android.
-//string filter_url_basename (std::string url)
-//{
-//  // Remove possible trailing path slash.
-//  if (!url.empty ()) {
-//    const char separator = filesystem::path::preferred_separator;
-//    if (url.find_last_of (separator) == url.length () - 1) {
-//      url = url.substr (0, url.length () - 1);
-//    }
-//  }
-//  // Standard library call for getting base name path.
-//  url = filesystem::path(url).filename().string();
-//  // Done.
-//  return url;
-//}
+#else
+{
+  if (!url.empty ()) {
+    if (url.find_last_of (DIRECTORY_SEPARATOR) == url.length () - 1) {
+      // Remove trailing slash.
+      url = url.substr (0, url.length () - 1);
+    }
+    size_t pos = url.find_last_of (DIRECTORY_SEPARATOR);
+    if (pos != std::string::npos) url = url.substr (pos + 1);
+  }
+  return url;
+}
+#endif
 
 
 // Basename routine for the web.
@@ -340,7 +318,7 @@ std::string filter_url_basename_web (std::string url)
 {
   if (!url.empty ()) {
     // Remove trailing slash.
-    const char * separator = "/";
+    constexpr const auto separator {"/"};
     if (url.find_last_of (separator) == url.length () - 1) {
       url = url.substr (0, url.length () - 1);
     }
@@ -353,7 +331,15 @@ std::string filter_url_basename_web (std::string url)
 }
 
 
-void filter_url_unlink (std::string filename) // Todo candidate for std::filesystem.
+void filter_url_unlink (const std::string& filename)
+#ifdef USE_STD_FILESYSTEM
+{
+  try {
+    std::filesystem::path path (filename);
+    std::filesystem::remove (path);
+  } catch (...) { }
+}
+#else
 {
 #ifdef HAVE_WINDOWS
   std::wstring wfilename = filter::strings::string2wstring (filename);
@@ -362,19 +348,19 @@ void filter_url_unlink (std::string filename) // Todo candidate for std::filesys
   unlink (filename.c_str ());
 #endif
 }
+#endif
 
 
-// As of February 2022 the std::filesystem does not yet work on Android.
-//void filter_url_unlink (std::string filename)
-//{
-//  try {
-//    filesystem::path path (filename);
-//    filesystem::remove (path);
-//  } catch (...) { }
-//}
-
-
-void filter_url_rename (const std::string& oldfilename, const std::string& newfilename)  // Todo candidate for std::filesystem.
+void filter_url_rename (const std::string& oldfilename, const std::string& newfilename)
+#ifdef USE_STD_FILESYSTEM
+{
+  try {
+    std::filesystem::path oldpath (oldfilename);
+    std::filesystem::path newpath (newfilename);
+    std::filesystem::rename(oldpath, newpath);
+  } catch (...) { }
+}
+#else
 {
 #ifdef HAVE_WINDOWS
   std::wstring woldfilename = filter::strings::string2wstring (oldfilename);
@@ -384,21 +370,23 @@ void filter_url_rename (const std::string& oldfilename, const std::string& newfi
   rename (oldfilename.c_str (), newfilename.c_str ());
 #endif
 }
-
-
-// As of February 2022 the std::filesystem does not yet work on Android.
-//void filter_url_rename (const std::string& oldfilename, const std::string& newfilename)
-//{
-//  try {
-//    filesystem::path oldpath (oldfilename);
-//    filesystem::path newpath (newfilename);
-//    filesystem::rename(oldpath, newpath);
-//  } catch (...) { }
-//}
+#endif
 
 
 // Creates a file path out of the components.
-std::string filter_url_create_path (const std::vector <std::string>& parts) // Todo candidate for std::filesystem.
+std::string filter_url_create_path (const std::vector <std::string>& parts)
+#ifdef USE_STD_FILESYSTEM
+{
+  // Empty path.
+  std::filesystem::path path;
+  for (size_t i = 0; i < parts.size(); i++) {
+    if (i == 0) path += parts.at(i); // Append the part without directory separator.
+    else path /= parts.at(i); // Append the directory separator and then the part.
+  }
+  // Done.
+  return path.string();
+}
+#else
 {
   // Empty path.
   std::string path;
@@ -414,26 +402,34 @@ std::string filter_url_create_path (const std::vector <std::string>& parts) // T
   // Done.
   return path;
 }
-
-
-// Creates a file path out of the parts.
-// As of February 2022 the std::filesystem does not yet work on Android.
-//string filter_url_create_path (const std::vector <std::string>& parts)
-//{
-//  // Empty path.
-//  filesystem::path path;
-//  for (size_t i = 0; i < parts.size(); i++) {
-//    if (i == 0) path += parts[i]; // Append the part without directory separator.
-//    else path /= parts[i]; // Append the directory separator and then the part.
-//  }
-//  // Done.
-//  return path.string();
-//}
+#endif
 
 
 // Creates a file path out of the variable list of components,
 // relative to the server's document root.
-std::string filter_url_create_root_path (const std::vector <std::string>& parts) // Todo candidate for std::filesystem.
+std::string filter_url_create_root_path (const std::vector <std::string>& parts)
+#ifdef USE_STD_FILESYSTEM
+{
+  // Construct a path from the document root.
+  std::filesystem::path path (config_globals_document_root);
+  // Add the bits.
+  for (size_t i = 0; i < parts.size(); i++) {
+    std::string part = parts[i];
+    // At times a path is created from a URL.
+    // The URL likely starts with a slash, like this: /css/mouse.css
+    // When creating a path out of that, the path will become this: /css/mouse.css
+    // Such a path does not exist.
+    // The path that is wanted is something like this:
+    // /home/foo/bar/bibledit/css/mouse.css
+    // So remove that starting slash.
+    if (!part.empty()) if (part[0] == '/') part = part.erase(0, 1);
+    // Add the part, with a preceding path separator.
+    path /= part;
+  }
+  // Done.
+  return path.string();
+}
+#else
 {
   // Construct path from the document root.
   std::string path (config_globals_document_root);
@@ -455,36 +451,24 @@ std::string filter_url_create_root_path (const std::vector <std::string>& parts)
   // Done.
   return path;
 }
-
-
-// Creates a file path out of the variable list of components,
-// relative to the server's document root.
-// As of February 2022 the std::filesystem does not yet work on Android.
-//string filter_url_create_root_path (const std::vector <std::string>& parts)
-//{
-//  // Construct path from the document root.
-//  filesystem::path path (config_globals_document_root);
-//  // Add the bits.
-//  for (size_t i = 0; i < parts.size(); i++) {
-//    std::string part = parts[i];
-//    // At times a path is created from a URL.
-//    // The URL likely starts with a slash, like this: /css/mouse.css
-//    // When creating a path out of that, the path will become this: /css/mouse.css
-//    // Such a path does not exist.
-//    // The path that is wanted is something like this:
-//    // /home/foo/bar/bibledit/css/mouse.css
-//    // So remove that starting slash.
-//    if (!part.empty()) if (part[0] == '/') part = part.erase(0, 1);
-//    // Add the part, with a preceding path separator.
-//    path /= part;
-//  }
-//  // Done.
-//  return path.string();
-//}
+#endif
 
 
 // Gets the file / url extension, e.g. /home/joe/file.txt returns "txt".
-std::string filter_url_get_extension (std::string url) // Todo candidate for std::filesystem.
+std::string filter_url_get_extension (const std::string& url)
+#ifdef USE_STD_FILESYSTEM
+{
+  std::filesystem::path path (url);
+  std::string extension;
+  if (path.has_extension()) {
+    // Get the extension with the dot, e.g. ".txt".
+    extension = path.extension().string();
+    // Wanted is the extension without the dot, e.g. "txt".
+    extension.erase (0, 1);
+  }
+  return extension;
+}
+#else
 {
   std::string extension;
   size_t pos = url.find_last_of (".");
@@ -493,26 +477,17 @@ std::string filter_url_get_extension (std::string url) // Todo candidate for std
   }
   return extension;
 }
-
-
-// Gets the file / url extension, e.g. /home/joe/file.txt returns "txt".
-// As of February 2022 the std::filesystem does not yet work on Android.
-//string filter_url_get_extension (std::string url)
-//{
-//  std::filesystem::path path (url);
-//  std::string extension;
-//  if (path.has_extension()) {
-//    // Get the extension with the dot, e.g. ".txt".
-//    extension = path.extension().string();
-//    // Wanted is the extension without the dot, e.g. "txt".
-//    extension.erase (0, 1);
-//  }
-//  return extension;
-//}
+#endif
 
 
 // Returns true if the file at $url exists.
-bool file_or_dir_exists (std::string url) // Todo candidate for std::filesystem.
+bool file_or_dir_exists (const std::string& url)
+#ifdef USE_STD_FILESYSTEM
+{
+  std::filesystem::path path (url);
+  return std::filesystem::exists (path);
+}
+#else
 {
 #ifdef HAVE_WINDOWS
   // Function '_wstat' works with wide characters.
@@ -526,21 +501,20 @@ bool file_or_dir_exists (std::string url) // Todo candidate for std::filesystem.
   return (stat (url.c_str(), &buffer) == 0);
 #endif
 }
-
-
-// Returns true if the file or directory at $url exists.
-// As of February 2022 the std::filesystem does not yet work on Android.
-//bool file_or_dir_exists (std::string url)
-//{
-//  filesystem::path path (url);
-//  bool exists = filesystem::exists (path);
-//  return exists;
-//}
+#endif
 
 
 // Makes a directory.
 // Creates parents where needed.
-void filter_url_mkdir (std::string directory) // Todo candidate for std::filesystem.
+void filter_url_mkdir (std::string directory)
+#ifdef USE_STD_FILESYSTEM
+{
+  try {
+    std::filesystem::path path (directory);
+    std::filesystem::create_directories(path);
+  } catch (...) { }
+}
+#else
 {
   int status;
 #ifdef HAVE_WINDOWS
@@ -568,22 +542,23 @@ void filter_url_mkdir (std::string directory) // Todo candidate for std::filesys
     }
   }
 }
-
-
-// Makes a directory.
-// Creates parents where needed.
-// As of February 2022 the std::filesystem does not yet work on Android.
-//void filter_url_mkdir (std::string directory)
-//{
-//  try {
-//    std::filesystem::path path (directory);
-//    std::filesystem::create_directories(path);
-//  } catch (...) { }
-//}
+#endif
 
 
 // Removes directory recursively.
-void filter_url_rmdir (std::string directory) // Todo candidate for std::filesystem.
+void filter_url_rmdir (const std::string& directory)
+#ifdef USE_STD_FILESYSTEM
+{
+  try {
+    std::filesystem::path path (directory);
+    std::filesystem::remove_all(path);
+  } 
+  catch (const std::exception& exception)
+  {
+    Database_Logs::log(exception.what());
+  }
+}
+#else
 {
   std::vector <std::string> files = filter_url_scandir_internal (directory);
   for (auto path : files) {
@@ -610,21 +585,20 @@ void filter_url_rmdir (std::string directory) // Todo candidate for std::filesys
   remove(directory.c_str());
 #endif
 }
-
-
-// Removes directory recursively.
-// As of February 2022 the std::filesystem does not yet work on Android.
-//void filter_url_rmdir (std::string directory)
-//{
-//  try {
-//    filesystem::path path (directory);
-//    filesystem::remove_all(path);
-//  } catch (...) { }
-//}
+#endif
 
 
 // Returns true is $path points to a directory.
-bool filter_url_is_dir (std::string path) // Todo candidate for std::filesystem.
+bool filter_url_is_dir (const std::string& path)
+#ifdef USE_STD_FILESYSTEM
+{
+  try {
+    std::filesystem::path p (path);
+    return std::filesystem::is_directory(p);
+  } catch (...) { }
+  return false;
+}
+#else
 {
 #ifdef HAVE_WINDOWS
   // Function '_wstat', on Windows, works with wide characters.
@@ -637,22 +611,13 @@ bool filter_url_is_dir (std::string path) // Todo candidate for std::filesystem.
 #endif
   return (sb.st_mode & S_IFMT) == S_IFDIR;
 }
+#endif
 
 
-// Returns true is $path points to a directory.
-// As of February 2022 the std::filesystem does not yet work on Android.
-//bool filter_url_is_dir (std::string path)
-//{
-//  bool is_dir = false;
-//  try {
-//    filesystem::path p (path);
-//    is_dir = filesystem::is_directory(p);
-//  } catch (...) { }
-//  return is_dir;
-//}
-
-
-bool filter_url_get_write_permission (std::string path) // Todo candidate for std::filesystem.
+bool filter_url_get_write_permission (const std::string& path)
+// It would be good if std::filesystem could be used to check on write permissions.
+// But currently the std::filesystem does not have this facility.
+// The only known option is to use the "access" call.
 {
 #ifdef HAVE_WINDOWS
   std::wstring wpath = filter::strings::string2wstring (path);
@@ -664,7 +629,13 @@ bool filter_url_get_write_permission (std::string path) // Todo candidate for st
 }
 
 
-void filter_url_set_write_permission (std::string path) // Todo candidate for std::filesystem.
+void filter_url_set_write_permission (const std::string& path)
+#ifdef USE_STD_FILESYSTEM
+{
+  std::filesystem::path p (path);
+  std::filesystem::permissions(p, std::filesystem::perms::owner_all | std::filesystem::perms::group_all | std::filesystem::perms::others_all);
+}
+#else
 {
 #ifdef HAVE_WINDOWS
   std::wstring wpath = filter::strings::string2wstring (path);
@@ -673,18 +644,11 @@ void filter_url_set_write_permission (std::string path) // Todo candidate for st
   chmod (path.c_str (), S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IWGRP | S_IXGRP | S_IROTH | S_IWOTH | S_IXOTH);
 #endif
 }
-
-
-// As of February 2022 the std::filesystem does not yet work on Android.
-//void filter_url_set_write_permission (std::string path)
-//{
-//  filesystem::path p (path);
-//  filesystem::permissions(p, filesystem::perms::owner_all | filesystem::perms::group_all | filesystem::perms::others_all);
-//}
+#endif
 
 
 // Get and returns the contents of $filename.
-std::string filter_url_file_get_contents(std::string filename)
+std::string filter_url_file_get_contents(const std::string& filename)
 {
   if (!file_or_dir_exists (filename)) return std::string();
   try {
@@ -708,7 +672,7 @@ std::string filter_url_file_get_contents(std::string filename)
 
 
 // Puts the $contents into $filename.
-void filter_url_file_put_contents (std::string filename, std::string contents)
+void filter_url_file_put_contents (const std::string& filename, const std::string& contents)
 {
   try {
     std::ofstream file;
@@ -727,7 +691,7 @@ void filter_url_file_put_contents (std::string filename, std::string contents)
 
 // C++ rough equivalent for PHP's file_put_contents.
 // Appends the data if the file exists.
-void filter_url_file_put_contents_append (std::string filename, std::string contents)
+void filter_url_file_put_contents_append (const std::string& filename, const std::string& contents)
 {
   try {
     std::ofstream file;
@@ -746,8 +710,8 @@ void filter_url_file_put_contents_append (std::string filename, std::string cont
 
 // Copies the contents of file named "input" to file named "output".
 // It is assumed that the folder where "output" will reside exists.
+bool filter_url_file_cp (const std::string& input, const std::string& output)
 #ifdef USE_STD_FILESYSTEM
-bool filter_url_file_cp (const std::string& input, const std::string& output) // Todo
 {
   try {
     std::filesystem::copy(input, output, std::filesystem::copy_options::overwrite_existing);
@@ -759,7 +723,6 @@ bool filter_url_file_cp (const std::string& input, const std::string& output) //
   return true;
 }
 #else
-bool filter_url_file_cp (const std::string& input, const std::string& output) // Todo
 {
   try {
 #ifdef HAVE_WINDOWS
@@ -804,8 +767,17 @@ void filter_url_dir_cp (const std::string& input, const std::string& output)
 }
 
 
-// A C++ equivalent for PHP's filesize function.
-int filter_url_filesize (std::string filename) // Todo candidate for std::filesystem.
+// Get the file's size in bytes.
+int filter_url_filesize (const std::string& filename)
+#ifdef USE_STD_FILESYSTEM
+{
+  try {
+    std::filesystem::path p (filename);
+    return std::filesystem::file_size(p);
+  } catch (...) { }
+  return 0;
+}
+#else
 {
 #ifdef HAVE_WINDOWS
   std::wstring wfilename = filter::strings::string2wstring (filename);
@@ -817,67 +789,53 @@ int filter_url_filesize (std::string filename) // Todo candidate for std::filesy
 #endif
   return rc == 0 ? static_cast<int> (buf.st_size) : 0;
 }
-
-
-// Returns the size of the file at $filename.
-// As of February 2022 the std::filesystem does not yet work on Android.
-//int filter_url_filesize (std::string filename)
-//{
-//  uintmax_t filesize = 0;
-//  try {
-//    filesystem::path p (filename);
-//    filesize = filesystem::file_size(p);
-//  } catch (...) { }
-//  return static_cast<int>(filesize);
-//}
+#endif
 
 
 // Scans the directory for files it contains.
-std::vector <std::string> filter_url_scandir (std::string folder) // Todo candidate for std::filesystem.
+std::vector <std::string> filter_url_scandir (const std::string& folder)
+#ifdef USE_STD_FILESYSTEM
+{
+  std::vector <std::string> files;
+  try {
+    std::filesystem::path dir_path (folder);
+    for (const auto& directory_entry : std::filesystem::directory_iterator {dir_path})
+    {
+      // The full path.
+      std::filesystem::path entry_path = directory_entry.path();
+      // Get the path as relative to the directory.
+      std::filesystem::path relative_path = std::filesystem::relative(entry_path, dir_path);
+      // Get the name of the relative path.
+      const std::string name = relative_path.string();
+      // Exclude developer temporal files.
+      if (name == ".deps") continue;
+      if (name == ".dirstamp") continue;
+      // Exclude macOS files.
+      if (name == ".DS_Store") continue;
+      // Exclude non-interesting files.
+      if (name == "gitflag") continue;
+      // Store the name.
+      files.push_back (name);
+    }
+  } catch (...) { }
+  sort (files.begin(), files.end());
+  return files;
+}
+#else
 {
   std::vector <std::string> files = filter_url_scandir_internal (folder);
   files = filter::strings::array_diff (files, {"gitflag"});
   return files;
 }
-
-
-// Scans the directory for files it contains.
-// As of February 2022 the std::filesystem does not yet work on Android.
-//std::vector <std::string> filter_url_scandir (std::string folder)
-//{
-//  std::vector <std::string> files;
-//  try {
-//    filesystem::path dir_path (folder);
-//    for (auto const & directory_entry : filesystem::directory_iterator {dir_path})
-//    {
-//      // The full path.
-//      filesystem::path entry_path = directory_entry.path();
-//      // Get the path as relative to the directory.
-//      filesystem::path relative_path = filesystem::relative(entry_path, dir_path);
-//      // Get the name of the relative path.
-//      std::string name = relative_path.string();
-//      // Exclude developer temporal files.
-//      if (name == ".deps") continue;
-//      if (name == ".dirstamp") continue;
-//      // Exclude macOS files.
-//      if (name == ".DS_Store") continue;
-//      // Exclude non-interesting files.
-//      if (name == "gitflag") continue;
-//      // Store the name.
-//      files.push_back (name);
-//    }
-//  } catch (...) { }
-//  sort (files.begin(), files.end());
-//  return files;
-//}
+#endif
 
 
 // Recursively scans a directory for directories and files.
-void filter_url_recursive_scandir (std::string folder, std::vector <std::string> & paths) // Todo candidate for std::filesystem.
+void filter_url_recursive_scandir (const std::string& folder, std::vector <std::string> & paths)
 {
   std::vector <std::string> files = filter_url_scandir (folder);
-  for (auto & file : files) {
-    std::string path = filter_url_create_path ({folder, file});
+  for (const auto& file : files) {
+    const std::string path = filter_url_create_path ({folder, file});
     paths.push_back (path);
     if (filter_url_is_dir (path)) {
       filter_url_recursive_scandir (path, paths);
@@ -886,8 +844,19 @@ void filter_url_recursive_scandir (std::string folder, std::vector <std::string>
 }
 
 
-// Gets the file modification time.
-int filter_url_file_modification_time (std::string filename) // Todo candidate for std::filesystem.
+// Get the file modification time.
+int filter_url_file_modification_time (std::string filename)
+#ifdef USE_STD_FILESYSTEM
+{
+  try {
+    const std::filesystem::path path (filename);
+    const std::filesystem::file_time_type ftime = std::filesystem::last_write_time(path);
+    const int seconds = std::chrono::duration_cast<std::chrono::seconds>(ftime.time_since_epoch()).count();
+    return seconds;
+  } catch (...) { }
+  return 0;
+}
+#else
 {
 #ifdef HAVE_WINDOWS
   std::wstring wfilename = filter::strings::string2wstring (filename);
@@ -899,13 +868,14 @@ int filter_url_file_modification_time (std::string filename) // Todo candidate f
 #endif
   return (int) attributes.st_mtime;
 }
+#endif
 
 
 // A C++ near equivalent for PHP's urldecode function.
 std::string filter_url_urldecode (std::string url)
 {
   url = UriDecode (url);
-  replace (url.begin (), url.end (), '+', ' ');
+  std::replace (url.begin (), url.end (), '+', ' ');
   return url;
 }
 
@@ -1001,7 +971,7 @@ std::string filter_url_build_http_query (std::string url, const std::string& par
 }
 
 
-size_t filter_url_curl_write_function (void *ptr, size_t size, size_t count, void *stream)
+static size_t filter_url_curl_write_function (void *ptr, size_t size, size_t count, void *stream)
 {
   static_cast<std::string *>(stream)->append (static_cast<char *>(ptr), 0, size * count);
   return size * count;
@@ -1047,7 +1017,7 @@ std::string filter_url_http_get (std::string url, std::string& error, [[maybe_un
 
 
 // The debug function for libcurl, it dumps the data as specified.
-void filter_url_curl_debug_dump (const char *text, FILE *stream, unsigned char *ptr, size_t size)
+static void filter_url_curl_debug_dump (const char *text, FILE *stream, unsigned char *ptr, size_t size)
 {
   size_t i;
   size_t c;
@@ -1078,9 +1048,9 @@ void filter_url_curl_debug_dump (const char *text, FILE *stream, unsigned char *
 
 // The trace function for libcurl.
 #ifdef HAVE_CLOUD
-int filter_url_curl_trace (CURL *handle, curl_infotype type, char *data, size_t size, void *userp)
+static int filter_url_curl_trace (CURL *handle, curl_infotype type, char *data, size_t size, void *userp)
 {
-  const char *text { nullptr };
+  const char* text { nullptr };
 
   // Prevent compiler warnings.
   (void)handle;

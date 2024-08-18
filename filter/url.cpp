@@ -1629,7 +1629,9 @@ std::string filter_url_http_request_mbed (std::string url, std::string& error,
       // The connection requires writing more data.
       if (ret == MBEDTLS_ERR_SSL_WANT_WRITE) continue;
       // Received NewSessionTicket Post Handshake Message.
+#if MBEDTLS_VERSION_MAJOR == 3
       if (ret == MBEDTLS_ERR_SSL_RECEIVED_NEW_SESSION_TICKET) continue;
+#endif
       // Handle all other error codes.
       filter_url_display_mbed_tls_error (ret, &error, false, std::string());
       connection_healthy = false;
@@ -1707,7 +1709,9 @@ std::string filter_url_http_request_mbed (std::string url, std::string& error,
           // until it returns a positive value.
           if (ret == MBEDTLS_ERR_SSL_WANT_READ) continue;
           if (ret == MBEDTLS_ERR_SSL_WANT_WRITE) continue;
+#if MBEDTLS_VERSION_MAJOR == 3
           if (ret == MBEDTLS_ERR_SSL_RECEIVED_NEW_SESSION_TICKET) continue;
+#endif
           filter_url_display_mbed_tls_error (ret, &error, false, std::string());
           connection_healthy = false;
         }
@@ -1777,7 +1781,9 @@ std::string filter_url_http_request_mbed (std::string url, std::string& error,
         connection_healthy = false;
       } else if (secure && (ret == MBEDTLS_ERR_SSL_WANT_READ)) {
       } else if (secure && (ret == MBEDTLS_ERR_SSL_WANT_WRITE)) {
+#if MBEDTLS_VERSION_MAJOR == 3
       } else if (secure && (ret == MBEDTLS_ERR_SSL_RECEIVED_NEW_SESSION_TICKET)) {
+#endif
       } else if (secure && (ret == MBEDTLS_ERR_SSL_PEER_CLOSE_NOTIFY)) {
       } else if (secure && (ret < 0)) {
         filter_url_display_mbed_tls_error (ret, &error, false, std::string());

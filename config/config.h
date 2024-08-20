@@ -69,6 +69,9 @@
 #define HAVE_BARE_BROWSER 1
 #define HAVE_TINY_JOURNAL 1
 #undef RUN_SECURE_SERVER
+// Testing the std::fileystem in August 2024.
+// Results: 5 out of 6 devices tested had crahes in C++.
+// See https://github.com/bibledit/cloud/issues/952 for more info.
 #undef USE_STD_FILESYSTEM
 #endif
 
@@ -88,7 +91,6 @@
 #define HAVE_PARATEXT 1
 #define HAVE_BARE_BROWSER 1
 #undef RUN_SECURE_SERVER
-#undef USE_STD_FILESYSTEM
 #endif
 
 
@@ -102,5 +104,8 @@
 #define HAVE_BARE_BROWSER 1
 #define HAVE_TINY_JOURNAL 1
 #undef RUN_SECURE_SERVER
+// The std::filesystem makes the app so slow in the iOS simulator
+// that it appears to be suck during the setup phase, where it copies files.
+// This was tested in August 2024.
 #undef USE_STD_FILESYSTEM
 #endif

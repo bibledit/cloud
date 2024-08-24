@@ -44,10 +44,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include "mbedtls/ctr_drbg.h"
 #include "mbedtls/error.h"
 #pragma GCC diagnostic pop
-#ifdef HAVE_WINDOWS
-#include <direct.h>
-#include <io.h>
-#endif
 
 
 // Static check on required definitions, taken from the ssl_client1.c example.
@@ -102,7 +98,7 @@ static mbedtls_ctr_drbg_context ctr_drbg_context;
 static mbedtls_entropy_context entropy_context;
 
 
-static std::vector <std::string> filter_url_scandir_internal (std::string folder)
+static std::vector <std::string> filter_url_scandir_internal (std::string folder) // Todo Windows part out?
 {
   std::vector <std::string> files;
   
@@ -341,12 +337,7 @@ void filter_url_unlink (const std::string& filename)
 }
 #else
 {
-#ifdef HAVE_WINDOWS
-  std::wstring wfilename = filter::strings::string2wstring (filename);
-  _wunlink (wfilename.c_str ());
-#else
   unlink (filename.c_str ());
-#endif
 }
 #endif
 
@@ -362,13 +353,7 @@ void filter_url_rename (const std::string& oldfilename, const std::string& newfi
 }
 #else
 {
-#ifdef HAVE_WINDOWS
-  std::wstring woldfilename = filter::strings::string2wstring (oldfilename);
-  std::wstring wnewfilename = filter::strings::string2wstring (newfilename);
-  _wrename (woldfilename.c_str (), wnewfilename.c_str ());
-#else
   rename (oldfilename.c_str (), newfilename.c_str ());
-#endif
 }
 #endif
 
@@ -489,17 +474,9 @@ bool file_or_dir_exists (const std::string& url)
 }
 #else
 {
-#ifdef HAVE_WINDOWS
-  // Function '_wstat' works with wide characters.
-  std::wstring wurl = filter::strings::string2wstring(url);
-  struct _stat buffer;
-  int result = _wstat (wurl.c_str (), &buffer);
-  return (result == 0);
-#else
   // The 'stat' function works as expected on Linux.
   struct stat buffer;
   return (stat (url.c_str(), &buffer) == 0);
-#endif
 }
 #endif
 
@@ -516,13 +493,7 @@ void filter_url_mkdir (std::string directory)
 }
 #else
 {
-  int status;
-#ifdef HAVE_WINDOWS
-  std::wstring wdirectory = filter::strings::string2wstring(directory);
-  status = _wmkdir (wdirectory.c_str());
-#else
-  status = mkdir (directory.c_str(), 0777);
-#endif
+  const int status = mkdir (directory.c_str(), 0777);
   if (status != 0) {
     std::vector <std::string> paths;
     paths.push_back (directory);
@@ -533,12 +504,7 @@ void filter_url_mkdir (std::string directory)
     }
     reverse (paths.begin (), paths.end ());
     for (unsigned int i = 0; i < paths.size (); i++) {
-#ifdef HAVE_WINDOWS
-      std::wstring wpathsi = filter::strings::string2wstring(paths[i]);
-      _wmkdir (wpathsi.c_str ());
-#else
       mkdir (paths[i].c_str (), 0777);
-#endif
     }
   }
 }
@@ -566,24 +532,10 @@ void filter_url_rmdir (const std::string& directory)
     if (filter_url_is_dir(path)) {
       filter_url_rmdir(path);
     }
-#ifdef HAVE_WINDOWS
-    // Remove directory.
-    std::wstring wpath = filter::strings::string2wstring(path);
-    _wrmdir(wpath.c_str());
-    // Remove file.
-    filter_url_unlink(path);
-#else
     // On Linux remove the directory or the file.
     remove(path.c_str());
-#endif
   }
-#ifdef HAVE_WINDOWS
-  std::wstring wdirectory = filter::strings::string2wstring(directory);
-  _wrmdir(wdirectory.c_str());
-  filter_url_unlink(directory);
-#else
   remove(directory.c_str());
-#endif
 }
 #endif
 
@@ -600,15 +552,8 @@ bool filter_url_is_dir (const std::string& path)
 }
 #else
 {
-#ifdef HAVE_WINDOWS
-  // Function '_wstat', on Windows, works with wide characters.
-  std::wstring wpath = filter::strings::string2wstring (path);
-  struct _stat sb;
-  _wstat (wpath.c_str (), &sb);
-#else
   struct stat sb;
   stat (path.c_str (), &sb);
-#endif
   return (sb.st_mode & S_IFMT) == S_IFDIR;
 }
 #endif
@@ -637,12 +582,7 @@ void filter_url_set_write_permission (const std::string& path)
 }
 #else
 {
-#ifdef HAVE_WINDOWS
-  std::wstring wpath = filter::strings::string2wstring (path);
-  _wchmod (wpath.c_str (), _S_IREAD | _S_IWRITE);
-#else
   chmod (path.c_str (), S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IWGRP | S_IXGRP | S_IROTH | S_IWOTH | S_IXOTH);
-#endif
 }
 #endif
 
@@ -725,13 +665,8 @@ bool filter_url_file_cp (const std::string& input, const std::string& output)
 #else
 {
   try {
-#ifdef HAVE_WINDOWS
-    std::ifstream source (filter::strings::string2wstring (input), std::ios::binary);
-    std::ofstream dest (filter::strings::string2wstring (output), std::ios::binary | std::ios::trunc);
-#else
     std::ifstream source (input, std::ios::binary);
     std::ofstream dest (output, std::ios::binary | std::ios::trunc);
-#endif
     dest << source.rdbuf();
     source.close();
     dest.close();
@@ -779,14 +714,8 @@ int filter_url_filesize (const std::string& filename)
 }
 #else
 {
-#ifdef HAVE_WINDOWS
-  std::wstring wfilename = filter::strings::string2wstring (filename);
-  struct _stat buf;
-  const int rc = _wstat (wfilename.c_str (), &buf);
-#else
   struct stat buf;
   const int rc = stat (filename.c_str (), &buf);
-#endif
   return rc == 0 ? static_cast<int> (buf.st_size) : 0;
 }
 #endif
@@ -858,14 +787,8 @@ int filter_url_file_modification_time (std::string filename)
 }
 #else
 {
-#ifdef HAVE_WINDOWS
-  std::wstring wfilename = filter::strings::string2wstring (filename);
-  struct _stat attributes;
-  _wstat (wfilename.c_str (), &attributes);
-#else
   struct stat attributes;
   stat (filename.c_str (), &attributes);
-#endif
   return (int) attributes.st_mtime;
 }
 #endif

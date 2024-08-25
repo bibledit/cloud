@@ -80,7 +80,6 @@
 #define HAVE_CLIENT 1
 #define HAVE_BARE_BROWSER 1
 #undef RUN_SECURE_SERVER
-// Todo #undef USE_STD_FILESYSTEM
 #endif
 
 

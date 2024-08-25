@@ -29,7 +29,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/config/general.h>
 
 
-bool search_reindex_notes_running = false;
+static bool search_reindex_notes_running = false;
 
 
 void search_reindex_notes ()

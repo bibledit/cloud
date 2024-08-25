@@ -213,7 +213,7 @@ private:
   friend void test_database_notes ();
 
 private:
-  std::string get_field (int identifier, std::string key);
+  std::string get_field (int identifier, const std::string& key);
   void set_field (int identifier, std::string key, std::string value);
 
 };

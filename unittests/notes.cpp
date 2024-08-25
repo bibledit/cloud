@@ -953,26 +953,23 @@ void test_database_notes ()
     checksum = database_notes.get_checksum (newidentifier);
     EXPECT_EQ (outdated_checksum, checksum);
     database_notes.sync ();
-    // Sometimes something strange happens:
-    // At times the checksum gets erased as the sync routine cannot find the original note.
-    // The sync (2) call did not make any difference.
     checksum = database_notes.get_checksum (oldidentifier);
-    if (!checksum.empty()) EXPECT_EQ (good_checksum_old, checksum);
+    EXPECT_EQ (good_checksum_old, checksum);
     database_notes.set_checksum (oldidentifier, outdated_checksum);
     checksum = database_notes.get_checksum (newidentifier);
-    if (!checksum.empty()) EXPECT_EQ (good_checksum_new, checksum);
+    EXPECT_EQ (good_checksum_new, checksum);
     database_notes.set_checksum (newidentifier, outdated_checksum);
     
-    // Test that saving a note updates the checksum in most cases.
-    database_notes.set_checksum (oldidentifier, "");
+    // Test that saving a note updates the checksum.
+    database_notes.set_checksum (oldidentifier, std::string());
     checksum = database_notes.get_checksum (oldidentifier);
-    EXPECT_EQ ("", checksum);
+    EXPECT_EQ (std::string(), checksum);
     database_notes.set_modified (oldidentifier, 1234567);
     checksum = database_notes.get_checksum (oldidentifier);
     EXPECT_EQ (false, checksum.empty());
-    database_notes.set_checksum (newidentifier, "");
+    database_notes.set_checksum (newidentifier, std::string());
     checksum = database_notes.get_checksum (newidentifier);
-    EXPECT_EQ ("", checksum);
+    EXPECT_EQ (std::string(), checksum);
     database_notes.set_modified (newidentifier, 1234567);
     checksum = database_notes.get_checksum (newidentifier);
     EXPECT_EQ (false, checksum.empty());

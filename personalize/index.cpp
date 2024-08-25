@@ -490,7 +490,7 @@ std::string personalize_index (Webserver_Request& webserver_request)
 
   
   bool enable_accordance_settings = false;
-#ifdef HAVE_MAC
+#ifdef HAVE_MACOS
   enable_accordance_settings = true;
 #endif
 #ifdef HAVE_WINDOWS

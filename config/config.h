@@ -75,7 +75,7 @@
 #endif
 
 
-#ifdef HAVE_MAC
+#ifdef HAVE_MACOS
 #undef HAVE_CLOUD
 #define HAVE_CLIENT 1
 #define HAVE_BARE_BROWSER 1

@@ -32,7 +32,7 @@
 /* #undef HAVE_LINUX */
 
 /* Define whether to compile for Mac */
-/* #undef HAVE_MAC */
+/* #undef HAVE_MACOS */
 
 /* Define whether mach/mach.h is present */
 #define HAVE_MACH_MACH 1

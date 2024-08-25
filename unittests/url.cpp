@@ -206,13 +206,13 @@ TEST_F (filter_url, get_post)
   std::string result, error;
   result = filter_url_http_get ("http://localhost/none", error, false);
 #ifndef HAVE_CLIENT
-  EXPECT_EQ ("Couldn't connect to server", error);
+  EXPECT_EQ ("Could not connect to server", error);
 #endif
   EXPECT_EQ (std::string(), result);
   const std::map <std::string, std::string> values = {std::pair ("a", "value1"), std::pair ("b", "value2")};
   result = filter_url_http_post ("http://localhost/none", std::string(), values, error, false, false, {});
 #ifndef HAVE_CLIENT
-  EXPECT_EQ ("Couldn't connect to server", error);
+  EXPECT_EQ ("Could not connect to server", error);
 #endif
   EXPECT_EQ (std::string(), result);
 }

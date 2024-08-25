@@ -182,7 +182,7 @@ ENABLEMAC=no
 AC_ARG_ENABLE(mac,
 [  --enable-mac Compile for Mac],
 [
-AC_DEFINE([HAVE_MAC], [1], [Define whether to compile for Mac])
+AC_DEFINE([HAVE_MACOS], [1], [Define whether to compile for macOS])
 ENABLEMAC=yes
 ]
 )

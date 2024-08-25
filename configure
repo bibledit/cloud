@@ -7685,7 +7685,7 @@ if test ${enable_mac+y}
 then :
   enableval=$enable_mac;
 
-printf "%s\n" "#define HAVE_MAC 1" >>confdefs.h
+printf "%s\n" "#define HAVE_MACOS 1" >>confdefs.h
 
 ENABLEMAC=yes
 

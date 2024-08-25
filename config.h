@@ -31,11 +31,11 @@
 /* Define whether to compile for Linux */
 /* #undef HAVE_LINUX */
 
-/* Define whether to compile for Mac */
-/* #undef HAVE_MACOS */
-
 /* Define whether mach/mach.h is present */
 #define HAVE_MACH_MACH 1
+
+/* Define whether to compile for macOS */
+/* #undef HAVE_MACOS */
 
 /* Define whether pthread.h is present */
 #define HAVE_PTHREAD 1

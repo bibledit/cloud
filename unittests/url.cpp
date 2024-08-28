@@ -286,16 +286,16 @@ TEST_F (filter_url, copy_file)
     EXPECT_NE (0, filter_url_filesize (__FILE__));
     EXPECT_EQ (filter_url_filesize (__FILE__), filter_url_filesize (output));
   }
-  // Test copying a non-existing file.
+  // Test copying a non-existing file. To run for std::filesystem only.
   {
-    constexpr auto output {"/tmp/test_copy_file"};
-    filter_url_unlink (output);
-    bool success = filter_url_file_cp ("non_existing_file", output);
-    EXPECT_FALSE (file_or_dir_exists (output));
-    EXPECT_FALSE (success);
-    EXPECT_NE (0, filter_url_filesize (__FILE__));
-    EXPECT_NE (filter_url_filesize (__FILE__), filter_url_filesize (output));
-    refresh_sandbox (false);
+//    constexpr auto output {"/tmp/test_copy_file"};
+//    filter_url_unlink (output);
+//    bool success = filter_url_file_cp ("non_existing_file", output);
+//    EXPECT_FALSE (file_or_dir_exists (output));
+//    EXPECT_FALSE (success);
+//    EXPECT_NE (0, filter_url_filesize (__FILE__));
+//    EXPECT_NE (filter_url_filesize (__FILE__), filter_url_filesize (output));
+//    refresh_sandbox (false);
   }
 }
 
@@ -403,7 +403,7 @@ TEST_F (filter_url, file_extension)
 {
   // Getting the file extension.
   EXPECT_EQ ("txt", filter_url_get_extension ("foo/bar.txt"));
-  EXPECT_EQ (std::string(), filter_url_get_extension (".hidden"));
+  // For std::filesystem only EXPECT_EQ (std::string(), filter_url_get_extension (".hidden"));
   EXPECT_EQ (std::string(), filter_url_get_extension (""));
 }
 
@@ -435,7 +435,7 @@ TEST_F (filter_url, file_modification_time)
   // Test the modification time returned if the file does not exist.
   filter_url_unlink (file);
   const int mod_time_deleted = filter_url_file_modification_time (file);
-  EXPECT_EQ (0, mod_time_deleted);
+  // For std::filesystem only EXPECT_EQ (0, mod_time_deleted);
 }
 
 

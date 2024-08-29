@@ -264,7 +264,7 @@ std::string session_signup ([[maybe_unused]] Webserver_Request& webserver_reques
       // Set default privileges on new signing up user.
       const std::set <std::string> defusers = access_logic::default_privilege_usernames ();
       const std::vector <int> privileges = {PRIVILEGE_VIEW_RESOURCES, PRIVILEGE_VIEW_NOTES, PRIVILEGE_CREATE_COMMENT_NOTES};
-      auto default_username = next(defusers.begin(), (unsigned)(long)(unsigned)role + 1);
+      auto default_username = next(defusers.begin(), role + 1);
       for (const auto& privilege : privileges) {
         const bool state = DatabasePrivileges::get_feature (*default_username, privilege);
         DatabasePrivileges::set_feature (user, privilege, state);

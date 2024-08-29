@@ -28,6 +28,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/date.h>
 #pragma GCC diagnostic push
 #pragma clang diagnostic ignored "-Wc99-extensions"
+#pragma clang diagnostic ignored "-Wzero-as-null-pointer-constant"
+#pragma clang diagnostic ignored "-Wold-style-cast"
+#pragma clang diagnostic ignored "-Wswitch-enum"
 #include <mbedtls/version.h>
 #include <mbedtls/platform.h>
 #include "mbedtls/entropy.h"
@@ -879,7 +882,10 @@ void https_server ()
 
 #if MBEDTLS_VERSION_MAJOR == 3
   const psa_status_t psa_status = psa_crypto_init();
+#pragma GCC diagnostic push
+#pragma clang diagnostic ignored "-Wold-style-cast"
   if (psa_status != PSA_SUCCESS) {
+#pragma GCC diagnostic pop
     Database_Logs::log("Failure to run PSA crypto initialization: Not running the secure server");
     return;
   }

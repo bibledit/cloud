@@ -152,7 +152,7 @@ TEST (git, basic)
     EXPECT_EQ (false, file_or_dir_exists (filter_url_create_path ({repository, "Exodus", "1", "data"})));
     
     database::bibles::store_chapter (bible, 2, 1, song_of_solomon_2_data);
-    filter_git_sync_bible_to_git (webserver_request, bible, repository);
+    filter_git_sync_bible_to_git (bible, repository);
     
     EXPECT_EQ (true, file_or_dir_exists (filter_url_create_path ({repository, ".git"})));
     EXPECT_EQ (false, file_or_dir_exists (filter_url_create_path ({repository, "Psalms", "0", "data"})));
@@ -175,7 +175,7 @@ TEST (git, basic)
     EXPECT_EQ (false, file_or_dir_exists (filter_url_create_path ({repository, "Exodus", "1", "data"})));
     
     database::bibles::store_chapter (bible, 19, 1, song_of_solomon_2_data);
-    filter_git_sync_bible_to_git (webserver_request, bible, repository);
+    filter_git_sync_bible_to_git (bible, repository);
     
     EXPECT_EQ (true, file_or_dir_exists (filter_url_create_path ({repository, ".git"})));
     EXPECT_EQ (false, file_or_dir_exists (filter_url_create_path ({repository, "Psalms", "0", "data"})));
@@ -201,7 +201,7 @@ TEST (git, basic)
     database::bibles::store_chapter (bible, 19, 1, song_of_solomon_2_data);
     database::bibles::store_chapter (bible, 22, 2, psalms_11_data);
     database::bibles::store_chapter (bible, 19, 11, song_of_solomon_2_data);
-    filter_git_sync_bible_to_git (webserver_request, bible, repository);
+    filter_git_sync_bible_to_git (bible, repository);
     
     EXPECT_EQ (true, file_or_dir_exists (filter_url_create_path ({repository, ".git"})));
     EXPECT_EQ (true, file_or_dir_exists (filter_url_create_path ({repository, "Psalms", "1", "data"})));
@@ -227,7 +227,7 @@ TEST (git, basic)
     // The git repository has Psalm 0, Psalm 11, and Song of Solomon 2.
     // The Bible has been created, but has no data yet.
     // Run the filter, and check that all three chapters are now in the database.
-    filter_git_sync_git_to_bible (webserver_request, repository, bible);
+    filter_git_sync_git_to_bible (repository, bible);
     std::vector <int> books = database::bibles::get_books (bible);
     EXPECT_EQ ((std::vector <int>{19, 22}), books);
     // Check that the data matches.
@@ -246,12 +246,12 @@ TEST (git, basic)
     test_filter_git_setup (webserver_request, bible, newbible, psalms_0_data, psalms_11_data, song_of_solomon_2_data);
     // The git repository has Psalm 0, Psalm 11, and Song of Solomon 2.
     // Put that into the database.
-    filter_git_sync_git_to_bible (webserver_request, repository, bible);
+    filter_git_sync_git_to_bible (repository, bible);
     // Remove one book and one chapter from the git repository,
     // and check that after running the filter, the database is updated accordingly.
     filter_url_rmdir (repository + "/Song of Solomon");
     filter_url_rmdir (repository + "/Psalms/0");
-    filter_git_sync_git_to_bible (webserver_request, repository, bible);
+    filter_git_sync_git_to_bible (repository, bible);
     std::vector <int> books = database::bibles::get_books (bible);
     EXPECT_EQ (std::vector <int>{19}, books);
     // Check that the data matches.
@@ -270,12 +270,12 @@ TEST (git, basic)
     test_filter_git_setup (webserver_request, bible, newbible, psalms_0_data, psalms_11_data, song_of_solomon_2_data);
     // The git repository has Psalm 0, Psalm 11, and Song of Solomon 2.
     // Put that into the database.
-    filter_git_sync_git_to_bible (webserver_request, repository, bible);
+    filter_git_sync_git_to_bible (repository, bible);
     // Update some chapters in the git repository,
     // and check that after running the filter, the database is updated accordingly.
     filter_url_file_put_contents (repository + "/Psalms/11/data", "\\c 11");
     filter_url_file_put_contents (repository + "/Song of Solomon/2/data", "\\c 2");
-    filter_git_sync_git_to_bible (webserver_request, repository, bible);
+    filter_git_sync_git_to_bible (repository, bible);
     std::string usfm = database::bibles::get_chapter (bible, 19, 0);
     EXPECT_EQ (psalms_0_data, usfm);
     usfm = database::bibles::get_chapter (bible, 19, 11);
@@ -326,7 +326,7 @@ TEST (git, basic)
     
     // The git repository has Psalm 0, Psalm 11, and Song of Solomon 2.
     // Put that into the database.
-    filter_git_sync_git_to_bible (webserver_request, repository, bible);
+    filter_git_sync_git_to_bible (repository, bible);
     
     // Remove one book and one chapter from the git repository,
     filter_url_rmdir (repository + "/Song of Solomon");
@@ -359,7 +359,7 @@ TEST (git, basic)
     
     // The git repository has Psalm 0, Psalm 11, and Song of Solomon 2.
     // Put that into the Bible database.
-    filter_git_sync_git_to_bible (webserver_request, repository, bible);
+    filter_git_sync_git_to_bible (repository, bible);
     
     // Update some chapters in the git repository.
     filter_url_file_put_contents (repository + "/Psalms/11/data", "\\c 11");

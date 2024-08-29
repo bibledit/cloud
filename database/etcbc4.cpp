@@ -576,4 +576,4 @@ std::string clause_relation (const int rowid)
 }
 
 
-}; // Namespace.
+} // Namespace.

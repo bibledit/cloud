@@ -36,7 +36,10 @@ int filter_memory_percentage_available ()
   struct vm_statistics64 stats;
   mach_port_t host = mach_host_self();
   natural_t count = HOST_VM_INFO64_COUNT;
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wold-style-cast"
   host_statistics64 (host, HOST_VM_INFO64, (host_info64_t)&stats, &count);
+#pragma GCC diagnostic pop
   uint64_t active = stats.active_count;
   uint64_t inactive = stats.inactive_count;
   uint64_t wired = stats.wire_count;
@@ -87,7 +90,10 @@ uint64_t filter_memory_total_usage ()
   // macOS.
   struct task_basic_info t_info;
   mach_msg_type_number_t t_info_count = TASK_BASIC_INFO_COUNT;
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wold-style-cast"
   task_info (mach_task_self(), TASK_BASIC_INFO, (task_info_t)&t_info, &t_info_count);
+#pragma GCC diagnostic pop
   // Total usage consists of resident and virtual memory size.
   uint64_t resident_memory = t_info.resident_size;
   // The resident memory is unrealistically high, so can be left out.

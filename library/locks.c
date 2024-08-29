@@ -53,7 +53,7 @@ static void locking_function(int mode, int n, const char * file, int line)
 }
 
 
-static unsigned long id_function()
+static unsigned long id_function(void)
 {
   return ((unsigned long)THREAD_ID);
 }

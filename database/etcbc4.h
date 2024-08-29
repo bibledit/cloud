@@ -83,5 +83,4 @@ std::string clause_type (const int rowid);
 
 std::string clause_relation (const int rowid);
 
-
-};
+}

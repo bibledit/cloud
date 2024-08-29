@@ -217,15 +217,15 @@ void HtmlText::add_note_text (const std::string& text)
     return;
   if (!note_p_node_open) 
     add_note ("?", "");
-  pugi::xml_node span_node = note_p_node.append_child ("span");
-  span_node.text().set (text.c_str());
+  pugi::xml_node span_node1 = note_p_node.append_child ("span");
+  span_node1.text().set (text.c_str());
   if (!current_note_text_style.empty ()) {
     // Take character style as specified in this object.
-    span_node.append_attribute ("class") = filter::strings::implode (current_note_text_style, " ").c_str();
+    span_node1.append_attribute ("class") = filter::strings::implode (current_note_text_style, " ").c_str();
   }
   if (popup_node) {
-    pugi::xml_node span_node = popup_node.append_child ("span");
-    span_node.text().set (text.c_str());
+    pugi::xml_node span_node2 = popup_node.append_child ("span");
+    span_node2.text().set (text.c_str());
   }
 }
 
@@ -295,12 +295,12 @@ std::string HtmlText::get_html ()
 std::string HtmlText::get_inner_html ()
 {
   std::string page = get_html ();
-  if (const auto pos = page.find ("<body>");
-      pos != std::string::npos) {
-    page = page.substr (pos + 6);
-    if (const auto pos = page.find ("</body>");
-        pos != std::string::npos) {
-      page = page.substr (0, pos);
+  if (const auto pos1 = page.find ("<body>");
+      pos1 != std::string::npos) {
+    page = page.substr (pos1 + 6);
+    if (const auto pos2 = page.find ("</body>");
+        pos2 != std::string::npos) {
+      page = page.substr (0, pos2);
     }
   }
   return page;

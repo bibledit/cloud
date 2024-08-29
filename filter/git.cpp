@@ -151,7 +151,7 @@ void filter_git_sync_modifications_to_git (std::string bible, std::string reposi
 // The $git is a git repository, and may contain other data as well.
 // The filter focuses on reading the data in the git repository, and only writes to it if necessary,
 // This speeds up the filter.
-void filter_git_sync_bible_to_git (Webserver_Request& webserver_request, std::string bible, std::string repository)
+void filter_git_sync_bible_to_git (std::string bible, std::string repository)
 {
   // First stage.
   // Read the chapters in the git repository,
@@ -219,7 +219,7 @@ void filter_git_sync_bible_to_git (Webserver_Request& webserver_request, std::st
 // The filter focuses on reading the data in the git repository and the database,
 // and only writes to the database if necessary,
 // This speeds up the filter.
-void filter_git_sync_git_to_bible (Webserver_Request& webserver_request, std::string repository, std::string bible)
+void filter_git_sync_git_to_bible (std::string repository, std::string bible)
 {
   // Stage one:
   // Read the chapters in the git repository,

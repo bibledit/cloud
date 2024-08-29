@@ -53,6 +53,6 @@ constexpr int export_online_bible { 8 };
 constexpr int export_esword { 9 };
 constexpr int export_end { 10 };
 
-}; // End of namespace.
+} // End of namespace.
 
 

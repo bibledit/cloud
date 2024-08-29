@@ -29,21 +29,23 @@ TEST (filter, shell)
   EXPECT_EQ (true, filter_shell_is_present ("zip"));
   EXPECT_EQ (false, filter_shell_is_present ("xxxxx"));
   
-  std::string output;
-  int result;
-  
-  result = filter_shell_vfork (output, "", "ls", "-l");
-  EXPECT_EQ (0, result);
-  if (output.find ("unittest") == std::string::npos) {
-    EXPECT_EQ ("Supposed to list files", output);
+  {
+    std::string output;
+    const int result = filter_shell_vfork (output, "", "ls", "-l");
+    EXPECT_EQ (0, result);
+    if (output.find ("unittest") == std::string::npos) {
+      EXPECT_EQ ("Supposed to list files", output);
+    }
   }
-  
-  result = filter_shell_vfork (output, "/", "ls", "-l");
-  EXPECT_EQ (0, result);
-  if (output.find ("tmp") == std::string::npos) {
-    EXPECT_EQ ("Supposed to list folder /", output);
+
+  {
+    std::string output;
+    const int result = filter_shell_vfork (output, "/", "ls", "-l");
+    EXPECT_EQ (0, result);
+    if (output.find ("tmp") == std::string::npos) {
+      EXPECT_EQ ("Supposed to list folder /", output);
+    }
   }
 }
 
 #endif
-

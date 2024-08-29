@@ -602,9 +602,9 @@ void indexTrimAllNotifications ()
     
     std::map <std::string, std::vector <std::string> > result;
     if (valid) {
-      SqliteDatabase sql (path);
-      sql.add ("SELECT * FROM notification;");
-      result = sql.query ();
+      SqliteDatabase sql2 (path);
+      sql2.add ("SELECT * FROM notification;");
+      result = sql2.query ();
     }
     if (result.empty ()) valid = false;
     

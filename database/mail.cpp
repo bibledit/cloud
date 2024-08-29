@@ -132,11 +132,11 @@ std::vector <Database_Mail_User> Database_Mail::getMails ()
   const std::vector <std::string> timestamps = result ["timestamp"];
   const std::vector <std::string> subjects = result ["subject"];
   for (unsigned int i = 0; i < rowids.size(); i++) {
-    Database_Mail_User mail = Database_Mail_User ();
-    mail.rowid = filter::strings::convert_to_int (rowids [i]);
-    mail.timestamp = filter::strings::convert_to_int (timestamps [i]);
-    mail.subject = subjects [i];
-    mails.push_back (mail);
+    Database_Mail_User db_mail = Database_Mail_User ();
+    db_mail.rowid = filter::strings::convert_to_int (rowids [i]);
+    db_mail.timestamp = filter::strings::convert_to_int (timestamps [i]);
+    db_mail.subject = subjects [i];
+    mails.push_back (db_mail);
   }
   return mails;
 }

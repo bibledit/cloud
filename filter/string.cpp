@@ -19,9 +19,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 // Suppress errors in Visual Studio 2019.
 // No longer needed since upgrading the UTF8 library?
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-macros"
 #define _SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING 1
 #define _SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING 1
-#pragma GCC diagnostic ignored "-Wunused-macros"
+#pragma GCC diagnostic pop
 
 #include <filter/string.h>
 #pragma GCC diagnostic push
@@ -49,6 +51,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
 #pragma clang diagnostic ignored "-Wdocumentation"
 #pragma clang diagnostic ignored "-Wsign-conversion"
+#pragma clang diagnostic ignored "-Wold-style-cast"
+#pragma clang diagnostic ignored "-Wzero-as-null-pointer-constant"
 #include <unicode/ustdio.h>
 #include <unicode/normlzr.h>
 #include <unicode/utypes.h>
@@ -1817,7 +1821,7 @@ static std::string substitute_xml_entities_into_attributes(const char quote, con
 static std::string handle_unknown_tag(GumboStringPiece *text)
 {
   std::string tagname {};
-  if (text->data == NULL) {
+  if (text->data == nullptr) {
     return tagname;
   }
   // work with copy GumboStringPiece to prevent asserts
@@ -1856,7 +1860,7 @@ static std::string build_doctype(GumboNode *node)
     results.append("<!DOCTYPE ");
     results.append(node->v.document.name);
     std::string pi(node->v.document.public_identifier);
-    if ((node->v.document.public_identifier != NULL) && !pi.empty() ) {
+    if ((node->v.document.public_identifier != nullptr) && !pi.empty() ) {
       results.append(" PUBLIC \"");
       results.append(node->v.document.public_identifier);
       results.append("\" \"");

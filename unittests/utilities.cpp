@@ -34,20 +34,25 @@ void refresh_sandbox (bool displayjournal, std::vector <std::string> allowed)
 {
   // Display any old journal entries.
   if (displayjournal) {
-    bool output = false;
     std::string directory = filter_url_create_path ({testing_directory, "logbook"});
     std::vector <std::string> files = filter_url_scandir (directory);
-    for (unsigned int i = 0; i < files.size (); i++) {
-      if (files [i] == "gitflag") continue;
-      std::string contents = filter_url_file_get_contents (filter_url_create_path ({directory, files [i]}));
-      bool display = true;
-      for (auto & allow : allowed) {
-        if (contents.find (allow) != std::string::npos) display = false;
-      }
-      if (display) {
-        std::cout << contents << std::endl;
-        output = true;
-      }
+    std::string contents;
+    for (const auto& file : files) {
+      if (file == "gitflag") continue;
+      if (!contents.empty())
+        contents.append ("\n");
+      contents.append (filter_url_file_get_contents (filter_url_create_path ({directory, file})));
+    }
+    bool display = false;
+    for (const auto& allow : allowed) {
+      if (contents.find (allow) == std::string::npos) display = true;
+    }
+    if (display) {
+      std::cerr << "Expected log entries:" << std::endl;
+      for (const auto& allow : allowed)
+        std::cerr << allow << std::endl;
+      std::cerr << "Actual log entries:" << std::endl;
+      std::cout << contents << std::endl;
     }
   }
   

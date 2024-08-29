@@ -235,9 +235,10 @@ void Database_Notes::sync () // Todo
 {
   const std::string main_folder = main_folder_path ();
 
-  // List of notes in the filesystem.
-  std::vector <int> identifiers;
+  // The good notes in the filesystem.
+  std::vector <int> good_note_ids;
 
+  // Gather the notes from the filesystem and update indices.
   const std::vector <std::string> bits1 = filter_url_scandir (main_folder);
   for (const auto& bit1 : bits1) {
     // Bit 1 / 2 / 3 may start with a 0, so conversion to int cannot be used, rather use a length of 3.
@@ -252,7 +253,7 @@ void Database_Notes::sync () // Todo
           for (const auto& bit3 : bits3) {
             if (bit3.length () == 3) {
               const int identifier = filter::strings::convert_to_int (bit1 + bit2 + bit3);
-              identifiers.push_back (identifier);
+              good_note_ids.push_back (identifier);
               update_search_fields (identifier);
             }
           }
@@ -260,7 +261,11 @@ void Database_Notes::sync () // Todo
         // New JSON storage mechanism, e.g. file "894093.json". Todo
         if ((bit2.length () == 11) && bit2.find (".json") != std::string::npos) {
           const int identifier = filter::strings::convert_to_int (bit1 + bit2.substr (0,6));
-          identifiers.push_back (identifier);
+          if (get_raw_passage (identifier).empty()) {
+            Database_Logs::log ("Damaged consultation note found");
+            continue;
+          }
+          good_note_ids.push_back (identifier);
           update_database (identifier);
           update_search_fields (identifier);
           update_checksum (identifier);
@@ -279,8 +284,8 @@ void Database_Notes::sync () // Todo
   }
 
   // Any note identifiers in the main index, and not in the filesystem, remove them.
-  for (auto id : database_identifiers) {
-    if (find (identifiers.begin(), identifiers.end(), id) == identifiers.end()) {
+  for (const auto id : database_identifiers) {
+    if (std::find (good_note_ids.cbegin(), good_note_ids.cend(), id) == good_note_ids.cend()) {
       trash_consultation_note (m_webserver_request, id);
       erase (id);
     }
@@ -296,8 +301,8 @@ void Database_Notes::sync () // Todo
   }
 
   // Any note identifiers in the checksums database, and not in the filesystem, remove them.
-  for (auto id : database_identifiers) {
-    if (find (identifiers.begin(), identifiers.end(), id) == identifiers.end()) {
+  for (const auto id : database_identifiers) {
+    if (std::find (good_note_ids.cbegin(), good_note_ids.cend(), id) == good_note_ids.end()) {
       delete_checksum (id);
     }
   }
@@ -307,15 +312,15 @@ void Database_Notes::sync () // Todo
 void Database_Notes::update_database (int identifier)
 {
   // Read the relevant values from the filesystem.
-  int modified = get_modified (identifier);
-  std::string assigned = get_field (identifier, assigned_key ());
-  std::string subscriptions = get_field (identifier, subscriptions_key ());
-  std::string bible = get_bible (identifier);
-  std::string passage = get_raw_passage (identifier);
-  std::string status = get_raw_status (identifier);
-  int severity = get_raw_severity (identifier);
-  std::string summary = get_summary (identifier);
-  std::string contents = get_contents (identifier);
+  const int modified = get_modified (identifier);
+  const std::string assigned = get_field (identifier, assigned_key ());
+  const std::string subscriptions = get_field (identifier, subscriptions_key ());
+  const std::string bible = get_bible (identifier);
+  const std::string passage = get_raw_passage (identifier);
+  const std::string status = get_raw_status (identifier);
+  const int severity = get_raw_severity (identifier);
+  const std::string summary = get_summary (identifier);
+  const std::string contents = get_contents (identifier);
   
   // Sync the values to the database.
   update_database_internal (identifier, modified, assigned, subscriptions, bible, passage, status, severity, summary, contents);

@@ -1842,5 +1842,57 @@ TEST (database, noteassignment)
   EXPECT_EQ (false, exists);
 }
 
-#endif
 
+// Test that notes indexing removes damaged notes.
+void test_indexing_fixes_damaged_note ()
+{
+  refresh_sandbox (false);
+  Database_State::create ();
+  Webserver_Request webserver_request;
+  Database_Notes database_notes (webserver_request);
+  database_notes.create ();
+  
+  const int identifier = database_notes.store_new_note ("", 0, 0, 0, "", "", false);
+  const auto path = database_notes.note_file (identifier);
+  
+  // The note produced above looks like this:
+  // {
+  //   "bible": "",
+  //   "contents": "contents",
+  //   "modified": "1724784992",
+  //   "passage": " 0.0.0 ",
+  //   "severity": "2",
+  //   "status": "New",
+  //   "summary": "summary"
+  // }
+
+  // Save a damaged note to disk.
+  constexpr const auto note_without_passage = R"(
+{
+  "bible": "",
+  "contents": "contents",
+  "modified": "1724784992",
+  "passage": "",
+  "severity": "2",
+  "status": "New",
+  "summary": "summary"
+}
+)";
+  filter_url_file_put_contents (path, note_without_passage);
+ 
+  // Do the indexing of the notes.
+  database_notes.sync();
+
+  // Check that the above generated an appropriate journal entry.
+  refresh_sandbox (true, {
+    "Damaged consultation note found",
+    "This app deleted or marked for deletion consultation note"});
+}
+
+TEST (database, indexing_fixes_damaged_note) // Todo write it.
+{
+  test_indexing_fixes_damaged_note ();
+}
+
+
+#endif

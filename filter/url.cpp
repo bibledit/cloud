@@ -98,7 +98,7 @@ static mbedtls_ctr_drbg_context ctr_drbg_context;
 static mbedtls_entropy_context entropy_context;
 
 
-static std::vector <std::string> filter_url_scandir_internal (std::string folder) // Todo Windows part out?
+static std::vector <std::string> filter_url_scandir_internal (std::string folder)
 {
   std::vector <std::string> files;
   

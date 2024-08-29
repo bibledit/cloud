@@ -231,7 +231,7 @@ void Database_Notes::optimize ()
 }
 
 
-void Database_Notes::sync () // Todo
+void Database_Notes::sync ()
 {
   const std::string main_folder = main_folder_path ();
 
@@ -258,7 +258,7 @@ void Database_Notes::sync () // Todo
             }
           }
         }
-        // New JSON storage mechanism, e.g. file "894093.json". Todo
+        // New JSON storage mechanism, e.g. file "894093.json".
         if ((bit2.length () == 11) && bit2.find (".json") != std::string::npos) {
           const int identifier = filter::strings::convert_to_int (bit1 + bit2.substr (0,6));
           if (get_raw_passage (identifier).empty()) {
@@ -1885,7 +1885,7 @@ std::vector <std::string> Database_Notes::set_bulk (std::string json)
 
 
 // Gets a field from a note in JSON format.
-std::string Database_Notes::get_field (int identifier, const std::string& key) // Todo
+std::string Database_Notes::get_field (int identifier, const std::string& key)
 {
   const std::string file = note_file (identifier);
   const std::string json = filter_url_file_get_contents (file);

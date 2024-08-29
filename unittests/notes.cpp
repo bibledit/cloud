@@ -1889,7 +1889,7 @@ void test_indexing_fixes_damaged_note ()
     "This app deleted or marked for deletion consultation note"});
 }
 
-TEST (database, indexing_fixes_damaged_note) // Todo write it.
+TEST (database, indexing_fixes_damaged_note)
 {
   test_indexing_fixes_damaged_note ();
 }

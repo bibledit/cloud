@@ -23,4 +23,4 @@
 
 class Webserver_Request;
 
-std::vector <std::string> public_logic_bibles (Webserver_Request& webserver_request);
+std::vector <std::string> public_logic_bibles ();

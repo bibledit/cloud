@@ -525,7 +525,6 @@ libbibledit_a_SOURCES = \
   mimetic098/codec/base64.cxx \
   system/googletranslate.cpp \
   filter/google.cpp \
-  i18n/logic.cpp \
   tidy/access.c \
   tidy/alloc.c \
   tidy/attrdict.c \

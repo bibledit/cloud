@@ -1,5 +1,6 @@
 #pragma GCC diagnostic ignored "-Wzero-as-null-pointer-constant"
-
+#pragma GCC diagnostic ignored "-Wunused-but-set-variable"
+  
 #pragma clang diagnostic ignored "-Wunknown-warning-option"
 #pragma clang diagnostic ignored "-Wimplicit-int-conversion"
 #pragma clang diagnostic ignored "-Wsign-conversion"

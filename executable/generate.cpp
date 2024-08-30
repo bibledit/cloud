@@ -28,7 +28,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <sources/oshb.h>
 #include <sources/styles.h>
 #include <sources/abbott-smith.h>
-#include <i18n/logic.h>
 
 
 int main (int argc, char **argv)
@@ -52,7 +51,6 @@ int main (int argc, char **argv)
   }
   std::string command = argv [2];
 
-  std::string i18n_command {"i18n"};
   std::string locale_command {"locale"};
   std::string sample_bible_command {"samplebible"};
   std::string mappings_command {"mappings"};
@@ -62,12 +60,7 @@ int main (int argc, char **argv)
   std::string stylesheet_command {"styles"};
   std::string abbott_smith_command {"abbott-smith"};
 
-  if (command == i18n_command) {
-
-    std::cout << "Translating untranslated GUI texts through Google Translate" << std::endl;
-    i18n_logic_augment_via_google_translate ();
-
-  } else if (command == locale_command) {
+  if (command == locale_command) {
   
     std::cout << "Generating locale databases from the *.po files in folder locale" << std::endl;
     setup_generate_locale_databases (true);
@@ -111,7 +104,6 @@ int main (int argc, char **argv)
     
     std::cerr << "This command is unknown" << std::endl;
     std::cerr << "The following commands are supported:" << std::endl;
-    std::cerr << i18n_command << ": Translate untranslated GUI texts through Google Translate" << std::endl;
     std::cerr << locale_command << ": Generate locale databases from the *.po files in folder locale" << std::endl;
     std::cerr << sample_bible_command << ": Generate the sample Bible" << std::endl;
     std::cerr << mappings_command << ": Generate the default verse mappings database" << std::endl;

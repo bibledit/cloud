@@ -206,7 +206,7 @@ std::string sync_bibles (Webserver_Request& webserver_request)
     case Sync_Logic::bibles_get_book_checksum:
     {
       // The server responds with the checksum of the whole book.
-      return checksum_logic::get_book (webserver_request, bible, book);
+      return checksum_logic::get_book (bible, book);
     }
     case Sync_Logic::bibles_get_chapters:
     {
@@ -221,7 +221,7 @@ std::string sync_bibles (Webserver_Request& webserver_request)
     case Sync_Logic::bibles_get_chapter_checksum:
     {
       // The server responds with the checksum of the whole chapter.
-      return checksum_logic::get_chapter (webserver_request, bible, book, chapter);
+      return checksum_logic::get_chapter (bible, book, chapter);
     }
     case Sync_Logic::bibles_send_chapter:
     {

@@ -40,10 +40,10 @@
 
 std::string Paratext_Logic::searchProjectsFolder ()
 {
-  const char *homedir;
+  const char* homedir {nullptr};
 
   // Try Linux.
-  if ((homedir = getenv("HOME")) == NULL) {
+  if ((homedir = getenv("HOME")) == nullptr) {
 #ifndef HAVE_WINDOWS
     homedir = getpwuid(getuid())->pw_dir;
 #endif

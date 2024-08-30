@@ -239,7 +239,7 @@ std::string Navigation_Passage::get_books_fragment (Webserver_Request& webserver
 }
 
 
-std::string Navigation_Passage::get_chapters_fragment (Webserver_Request& webserver_request, std::string bible, int book, int chapter)
+std::string Navigation_Passage::get_chapters_fragment (std::string bible, int book, int chapter)
 {
   std::vector <int> chapters;
   if (bible.empty ()) {
@@ -263,7 +263,7 @@ std::string Navigation_Passage::get_chapters_fragment (Webserver_Request& webser
 }
 
 
-std::string Navigation_Passage::get_verses_fragment (Webserver_Request& webserver_request, std::string bible, int book, int chapter, int verse)
+std::string Navigation_Passage::get_verses_fragment (std::string bible, int book, int chapter, int verse)
 {
   std::vector <int> verses;
   if (bible == "") {
@@ -330,9 +330,9 @@ void Navigation_Passage::set_passage (Webserver_Request& webserver_request, std:
   passage = filter::strings::trim (passage);
   Passage passage_to_set;
   if ((passage == "") || (passage == "+")) {
-    passage_to_set = Navigation_Passage::get_next_verse (webserver_request, bible, currentBook, currentChapter, currentVerse);
+    passage_to_set = Navigation_Passage::get_next_verse (bible, currentBook, currentChapter, currentVerse);
   } else if (passage == "-") {
-    passage_to_set = Navigation_Passage::get_previous_verse (webserver_request, bible, currentBook, currentChapter, currentVerse);
+    passage_to_set = Navigation_Passage::get_previous_verse (bible, currentBook, currentChapter, currentVerse);
   } else {
     Passage inputpassage = Passage ("", currentBook, currentChapter, std::to_string (currentVerse));
     passage_to_set = filter_passage_interpret_passage (inputpassage, passage);
@@ -344,7 +344,7 @@ void Navigation_Passage::set_passage (Webserver_Request& webserver_request, std:
 }
 
 
-Passage Navigation_Passage::get_next_chapter (Webserver_Request& webserver_request, std::string bible, int book, int chapter)
+Passage Navigation_Passage::get_next_chapter (std::string bible, int book, int chapter)
 {
   chapter++;
   if (bible != "") {
@@ -358,7 +358,7 @@ Passage Navigation_Passage::get_next_chapter (Webserver_Request& webserver_reque
 }
 
 
-Passage Navigation_Passage::get_previous_chapter (Webserver_Request& webserver_request, std::string bible, int book, int chapter)
+Passage Navigation_Passage::get_previous_chapter (std::string bible, int book, int chapter)
 {
   chapter--;
   if (bible != "") {
@@ -376,7 +376,7 @@ void Navigation_Passage::goto_next_chapter (Webserver_Request& webserver_request
 {
   int currentBook = Ipc_Focus::getBook (webserver_request);
   int currentChapter = Ipc_Focus::getChapter (webserver_request);
-  Passage passage = Navigation_Passage::get_next_chapter (webserver_request, bible, currentBook, currentChapter);
+  Passage passage = Navigation_Passage::get_next_chapter (bible, currentBook, currentChapter);
   if (passage.m_book != 0) {
     Ipc_Focus::set (webserver_request, passage.m_book, passage.m_chapter, filter::strings::convert_to_int (passage.m_verse));
     Navigation_Passage::record_history (webserver_request, passage.m_book, passage.m_chapter, filter::strings::convert_to_int (passage.m_verse));
@@ -388,7 +388,7 @@ void Navigation_Passage::goto_previous_chapter (Webserver_Request& webserver_req
 {
   int currentBook = Ipc_Focus::getBook (webserver_request);
   int currentChapter = Ipc_Focus::getChapter (webserver_request);
-  Passage passage = Navigation_Passage::get_previous_chapter (webserver_request, bible, currentBook, currentChapter);
+  Passage passage = Navigation_Passage::get_previous_chapter (bible, currentBook, currentChapter);
   if (passage.m_book != 0) {
     Ipc_Focus::set (webserver_request, passage.m_book, passage.m_chapter, filter::strings::convert_to_int (passage.m_verse));
     Navigation_Passage::record_history (webserver_request, passage.m_book, passage.m_chapter, filter::strings::convert_to_int (passage.m_verse));
@@ -396,7 +396,7 @@ void Navigation_Passage::goto_previous_chapter (Webserver_Request& webserver_req
 }
 
 
-Passage Navigation_Passage::get_next_verse (Webserver_Request& webserver_request, std::string bible, int book, int chapter, int verse)
+Passage Navigation_Passage::get_next_verse (std::string bible, int book, int chapter, int verse)
 {
   verse++;
   if (bible != "") {
@@ -410,7 +410,7 @@ Passage Navigation_Passage::get_next_verse (Webserver_Request& webserver_request
 }
 
 
-Passage Navigation_Passage::get_previous_verse (Webserver_Request& webserver_request, std::string bible, int book, int chapter, int verse)
+Passage Navigation_Passage::get_previous_verse (std::string bible, int book, int chapter, int verse)
 {
   verse--;
   if (bible != "") {
@@ -429,7 +429,7 @@ void Navigation_Passage::goto_next_verse (Webserver_Request& webserver_request, 
   int currentBook = Ipc_Focus::getBook (webserver_request);
   int currentChapter = Ipc_Focus::getChapter (webserver_request);
   int currentVerse = Ipc_Focus::getVerse (webserver_request);
-  Passage passage = Navigation_Passage::get_next_verse (webserver_request, bible, currentBook, currentChapter, currentVerse);
+  Passage passage = Navigation_Passage::get_next_verse (bible, currentBook, currentChapter, currentVerse);
   if (passage.m_book != 0) {
     Ipc_Focus::set (webserver_request, passage.m_book, passage.m_chapter, filter::strings::convert_to_int (passage.m_verse));
     Navigation_Passage::record_history (webserver_request, passage.m_book, passage.m_chapter, filter::strings::convert_to_int (passage.m_verse));
@@ -442,7 +442,7 @@ void Navigation_Passage::goto_previous_verse (Webserver_Request& webserver_reque
   int currentBook = Ipc_Focus::getBook (webserver_request);
   int currentChapter = Ipc_Focus::getChapter (webserver_request);
   int currentVerse = Ipc_Focus::getVerse (webserver_request);
-  Passage passage = Navigation_Passage::get_previous_verse (webserver_request, bible, currentBook, currentChapter, currentVerse);
+  Passage passage = Navigation_Passage::get_previous_verse (bible, currentBook, currentChapter, currentVerse);
   if (passage.m_book != 0) {
     Ipc_Focus::set (webserver_request, passage.m_book, passage.m_chapter, filter::strings::convert_to_int (passage.m_verse));
     Navigation_Passage::record_history (webserver_request, passage.m_book, passage.m_chapter, filter::strings::convert_to_int (passage.m_verse));
@@ -511,8 +511,6 @@ void Navigation_Passage::add_selector_link (std::string& html, std::string id, s
 
 std::string Navigation_Passage::get_keyboard_navigator (Webserver_Request& webserver_request, std::string bible)
 {
-  const std::string& user = webserver_request.session_logic ()->get_username ();
-  
   bool passage_clipped = false;
   
   std::string fragment;
@@ -580,8 +578,6 @@ std::string Navigation_Passage::get_keyboard_navigator (Webserver_Request& webse
 
 void Navigation_Passage::interpret_keyboard_navigator (Webserver_Request& webserver_request, std::string bible, std::string passage)
 {
-  const std::string& user = webserver_request.session_logic ()->get_username ();
-  
   int book = Ipc_Focus::getBook (webserver_request);
   
   // The book should exist in the Bible.

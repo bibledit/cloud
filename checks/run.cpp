@@ -256,9 +256,8 @@ void checks_run (std::string bible)
   }
   
   
-  // Add a link to the online checking results.
+  // Add a link to the online checking results. Todo test this.
   if (!emailBody.empty ()) {
-    Webserver_Request webserver_request;
     const std::string siteUrl = config::logic::site_url (webserver_request);
     std::stringstream body1 {};
     body1 << "<p><a href=" << std::quoted (siteUrl + checks_index_url ()) << ">" << translate("Checking results online") << "</a></p>";

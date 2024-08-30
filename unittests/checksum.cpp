@@ -67,22 +67,22 @@ TEST (checksum, basic)
 
   // GetChapter1
   {
-    const std::string checksum = checksum_logic::get_chapter (webserver_request, "phpunit1", 1, 2);
+    const std::string checksum = checksum_logic::get_chapter ("phpunit1", 1, 2);
     EXPECT_EQ (md5 ("data1"), checksum);
   }
   // GetChapter2
   {
-    const std::string checksum = checksum_logic::get_chapter (webserver_request, "phpunit2", 2, 6);
+    const std::string checksum = checksum_logic::get_chapter ("phpunit2", 2, 6);
     EXPECT_EQ (md5 (""), checksum);
   }
   // GetBook1
   {
-    const std::string checksum = checksum_logic::get_book (webserver_request, "phpunit1", 1);
+    const std::string checksum = checksum_logic::get_book ("phpunit1", 1);
     EXPECT_EQ ("2ab6425924e6cd38b2474c543c5ea602", checksum);
   }
   // GetBook2
   {
-    const std::string checksum = checksum_logic::get_book (webserver_request, "phpunit3", 1);
+    const std::string checksum = checksum_logic::get_book ("phpunit3", 1);
     EXPECT_EQ ("d41d8cd98f00b204e9800998ecf8427e", checksum);
   }
   // GetBible1

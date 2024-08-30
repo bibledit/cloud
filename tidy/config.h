@@ -1,4 +1,7 @@
 #pragma clang diagnostic ignored "-Wunused-parameter"
+#pragma clang diagnostic ignored "-Wignored-qualifiers"
+
+
 #ifndef __CONFIG_H__
 #define __CONFIG_H__
 

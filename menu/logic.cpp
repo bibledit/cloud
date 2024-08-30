@@ -237,7 +237,7 @@ std::string menu_logic_main_categories (Webserver_Request& webserver_request, st
   // When a user is not logged in, or if a guest is logged in,
   // put the public feedback into the main menu, rather than in a sub menu.
   if (menu_logic_public_or_guest (webserver_request)) {
-    if (!public_logic_bibles (webserver_request).empty ()) {
+    if (!public_logic_bibles ().empty ()) {
       if (!config::logic::create_no_accounts()) {
         html.push_back (menu_logic_create_item (public_index_url (), menu_logic_public_feedback_text (), true, "", ""));
         tooltipbits.push_back (menu_logic_public_feedback_text ());
@@ -325,7 +325,7 @@ std::string menu_logic_basic_categories (Webserver_Request& webserver_request)
   bool public_feedback_possible { true };
   if (public_feedback_possible) {
     if (menu_logic_public_or_guest (webserver_request)) {
-      if (!public_logic_bibles (webserver_request).empty ()) {
+      if (!public_logic_bibles ().empty ()) {
         if (!config::logic::create_no_accounts()) {
           html.push_back (menu_logic_create_item (public_index_url (), menu_logic_public_feedback_text (), true, "", ""));
         }
@@ -442,7 +442,7 @@ std::string menu_logic_translate_category (Webserver_Request& webserver_request,
 #ifndef HAVE_CLIENT
   if (!webserver_request.session_logic ()->get_username ().empty ()) {
     if (!menu_logic_public_or_guest (webserver_request)) {
-      if (!public_logic_bibles (webserver_request).empty ()) {
+      if (!public_logic_bibles ().empty ()) {
         if (!config::logic::create_no_accounts()) {
           html.push_back (menu_logic_create_item (public_index_url (), menu_logic_public_feedback_text (), true, "", ""));
           labels.push_back (menu_logic_public_feedback_text ());

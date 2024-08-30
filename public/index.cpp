@@ -61,7 +61,7 @@ std::string public_index (Webserver_Request& webserver_request)
   
   // Take the Bible for this user, and ensure that it is one of the Bibles that have public feedback enabled.
   std::string bible = webserver_request.database_config_user()->getBible ();
-  const std::vector <std::string> public_bibles = public_logic_bibles (webserver_request);
+  const std::vector <std::string> public_bibles = public_logic_bibles ();
   if (!in_array (bible, public_bibles)) {
     bible.clear ();
     if (!public_bibles.empty ()) {

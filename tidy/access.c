@@ -3,6 +3,7 @@
 #pragma clang diagnostic ignored "-Wassign-enum"
 #pragma clang diagnostic ignored "-Wcomma"
 #pragma clang diagnostic ignored "-Wconversion"
+#pragma clang diagnostic ignored "-Warray-parameter"
 /* access.c -- carry out accessibility checks
 
   Copyright University of Toronto

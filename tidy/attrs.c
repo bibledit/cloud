@@ -3,6 +3,10 @@
 #pragma clang diagnostic ignored "-Wassign-enum"
 #pragma clang diagnostic ignored "-Wcomma"
 #pragma clang diagnostic ignored "-Wconversion"
+#pragma clang diagnostic ignored "-Wignored-qualifiers"
+#pragma clang diagnostic ignored "-Wmissing-field-initializers"
+#pragma clang diagnostic ignored "-Wunused-but-set-variable"
+
 /* attrs.c -- recognize HTML attributes
 
   (c) 1998-2009 (W3C) MIT, ERCIM, Keio University

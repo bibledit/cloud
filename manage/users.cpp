@@ -113,7 +113,7 @@ std::string manage_users (Webserver_Request& webserver_request)
       // Set default privileges on new created user.
       std::set <std::string> defusers = access_logic::default_privilege_usernames ();
       std::vector <int> privileges = {PRIVILEGE_VIEW_RESOURCES, PRIVILEGE_VIEW_NOTES, PRIVILEGE_CREATE_COMMENT_NOTES};
-      auto default_username = next(defusers.begin(), (unsigned)(long)(unsigned)role + 1);
+      auto default_username = next(defusers.begin(), static_cast<long>(role + 1));
       for (auto & privilege : privileges) {
         bool state = DatabasePrivileges::get_feature (*default_username, privilege);
         DatabasePrivileges::set_feature (user, privilege, state);

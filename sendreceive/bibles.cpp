@@ -397,7 +397,7 @@ void sendreceive_bibles ()
       
       
       // Compare the checksum for the whole book on the client with the same on the server to see if this book is in sync.
-      std::string client_checksum_book = checksum_logic::get_book (webserver_request, bible, book);
+      std::string client_checksum_book = checksum_logic::get_book (bible, book);
       post ["a"] = std::to_string (Sync_Logic::bibles_get_book_checksum);
       post ["bk"] = std::to_string (book);
       std::string server_checksum_book = sync_logic.post (post, url, error);
@@ -469,7 +469,7 @@ void sendreceive_bibles ()
         
         // Get checksum for the chapter on client and on server.
         // If both are the same, it means the USFM in both is the same, and we're done.
-        std::string client_checksum_chapter = checksum_logic::get_chapter (webserver_request, bible, book, chapter);
+        std::string client_checksum_chapter = checksum_logic::get_chapter (bible, book, chapter);
         post ["a"] = std::to_string (Sync_Logic::bibles_get_chapter_checksum);
         post ["c"] = std::to_string (chapter);
         std::string server_checksum_chapter = sync_logic.post (post, url, error);

@@ -22,7 +22,7 @@
 #include <database/config/bible.h>
 
 
-std::vector <std::string> public_logic_bibles (Webserver_Request& webserver_request)
+std::vector <std::string> public_logic_bibles ()
 {
   std::vector <std::string> public_bibles;
   const std::vector <std::string> bibles = database::bibles::get_bibles ();

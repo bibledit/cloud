@@ -54,5 +54,3 @@ constexpr int export_esword { 9 };
 constexpr int export_end { 10 };
 
 } // End of namespace.
-
-

@@ -1894,8 +1894,6 @@
 		CAECA50825EFDE1E00650B41 /* divider.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = divider.cpp; sourceTree = "<group>"; };
 		CAECA50925EFDE1E00650B41 /* divider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = divider.h; sourceTree = "<group>"; };
 		CAECA50A25EFDE1E00650B41 /* divider.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = divider.html; sourceTree = "<group>"; };
-		CAEF232E28D75DC600618C35 /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logic.h; sourceTree = "<group>"; };
-		CAEF232F28D75DC600618C35 /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = logic.cpp; sourceTree = "<group>"; };
 		CAF563462729364E0093614C /* jquery.longpress.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = jquery.longpress.js; sourceTree = "<group>"; };
 		CAFA33C329269F1100474A52 /* libpugixml.1.12.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libpugixml.1.12.dylib; path = ../../../../opt/local/lib/libpugixml.1.12.dylib; sourceTree = "<group>"; };
 		CAFD9257280DAD2C00345F1D /* coloris */ = {isa = PBXFileReference; lastKnownFileType = folder; path = coloris; sourceTree = "<group>"; };
@@ -3036,8 +3034,6 @@
 			children = (
 				CADE3AAA24F17424003165BB /* i18n.cpp */,
 				CADE3AA924F17424003165BB /* i18n.sh */,
-				CAEF232F28D75DC600618C35 /* logic.cpp */,
-				CAEF232E28D75DC600618C35 /* logic.h */,
 			);
 			path = i18n;
 			sourceTree = "<group>";

@@ -19,7 +19,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <config/libraries.h>
 #ifdef HAVE_GTEST
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wsign-compare"
 #include "gtest/gtest.h"
+#pragma GCC diagnostic pop
 #include <unittests/utilities.h>
 #include <checksum/logic.h>
 #include <database/state.h>
@@ -87,22 +90,22 @@ TEST (checksum, basic)
   }
   // GetBible1
   {
-    const std::string checksum = checksum_logic::get_bible (webserver_request, "phpunit1");
+    const std::string checksum = checksum_logic::get_bible ("phpunit1");
     EXPECT_EQ ("f9dc679a8712eb6f65b584e9688e9680", checksum);
   }
   // GetBible2
   {
-    const std::string checksum = checksum_logic::get_bible (webserver_request, "phpunit2");
+    const std::string checksum = checksum_logic::get_bible ("phpunit2");
     EXPECT_EQ ("ee84a85bac14adb35e887c3d89bc80ab", checksum);
   }
   // GetBibles1
   {
-    const std::string checksum = checksum_logic::get_bibles (webserver_request, {"phpunit1", "phpunit2"});
+    const std::string checksum = checksum_logic::get_bibles ({"phpunit1", "phpunit2"});
     EXPECT_EQ ("440b2008993816f0bc8c557b64fbdaf2", checksum);
   }
   // GetBibles2
   {
-    const std::string checksum = checksum_logic::get_bibles (webserver_request, {"phpunit3", "phpunit4"});
+    const std::string checksum = checksum_logic::get_bibles ({"phpunit3", "phpunit4"});
     EXPECT_EQ ("020eb29b524d7ba672d9d48bc72db455", checksum);
   }
 }

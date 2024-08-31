@@ -3,6 +3,7 @@
 #pragma clang diagnostic ignored "-Wassign-enum"
 #pragma clang diagnostic ignored "-Wcomma"
 #pragma clang diagnostic ignored "-Wconversion"
+#pragma clang diagnostic ignored "-Wmissing-field-initializers"
 /* message.c -- General Message Writing Routines
 
   (c) 1998-2017 (W3C) MIT, ERCIM, Keio University, University of

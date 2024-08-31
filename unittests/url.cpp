@@ -19,7 +19,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <config/libraries.h>
 #ifdef HAVE_GTEST
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wsign-compare"
 #include "gtest/gtest.h"
+#pragma GCC diagnostic pop
 #include <unittests/utilities.h>
 #include <filter/url.h>
 #include <filter/date.h>
@@ -434,7 +437,7 @@ TEST_F (filter_url, file_modification_time)
   EXPECT_NEAR (mod_time, ref_time, 1);
   // Test the modification time returned if the file does not exist.
   filter_url_unlink (file);
-  const int mod_time_deleted = filter_url_file_modification_time (file);
+  // const int mod_time_deleted = filter_url_file_modification_time (file);
   // For std::filesystem only EXPECT_EQ (0, mod_time_deleted);
 }
 

@@ -19,7 +19,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <config/libraries.h>
 #ifdef HAVE_GTEST
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wsign-compare"
 #include "gtest/gtest.h"
+#pragma GCC diagnostic pop
 #include <unittests/utilities.h>
 #include <resource/logic.h>
 #include <filter/string.h>
@@ -37,7 +40,7 @@ TEST (studylight, albert_barnet)
     std::cout << static_cast <int>(book_id) << std::endl;
     book_type type = database::books::get_type (book_id);
     if ((type != book_type::old_testament) && (type != book_type::new_testament)) continue;
-    int verse {1};
+    [[maybe_unused]]int verse {1};
     if (book_id == book_id::_2_chronicles) verse = 2;
     int book_num = static_cast <int> (book_id);
     text = resource_logic_study_light_get (resource, book_num, 1, 1);

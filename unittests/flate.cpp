@@ -19,7 +19,10 @@
 
 #include <config/libraries.h>
 #ifdef HAVE_GTEST
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wsign-compare"
 #include "gtest/gtest.h"
+#pragma GCC diagnostic pop
 #include <unittests/utilities.h>
 #include <flate/flate.h>
 #include <filter/url.h>

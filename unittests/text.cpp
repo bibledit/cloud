@@ -19,7 +19,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <config/libraries.h>
 #ifdef HAVE_GTEST
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wsign-compare"
 #include "gtest/gtest.h"
+#pragma GCC diagnostic pop
 #include <unittests/utilities.h>
 #include <database/config/bible.h>
 #include <database/bibleimages.h>
@@ -30,7 +33,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 constexpr const char* bible {"unittest"};
 
 constexpr const char* text_test_odt {"/tmp/text_test.odt"};
-constexpr const char* text_test_html {"/tmp/text_test.html"};
+//constexpr const char* text_test_html {"/tmp/text_test.html"};
 constexpr const char*  text_test_txt {"/tmp/text_test.txt"};
 
 static void setup ()

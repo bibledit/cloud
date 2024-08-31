@@ -246,7 +246,7 @@ void sendreceive_bibles ()
   // The client compares the two checksums.
   // If they match, it means everything is in sync.
   bibles = database::bibles::get_bibles ();
-  std::string client_checksum = checksum_logic::get_bibles (webserver_request, bibles);
+  std::string client_checksum = checksum_logic::get_bibles (bibles);
   post ["a"] = std::to_string (Sync_Logic::bibles_get_total_checksum);
   std::string server_checksum = sync_logic.post (post, url, error);
   if (!error.empty ()) {
@@ -326,7 +326,7 @@ void sendreceive_bibles ()
     
     // Compare the checksum of the whole Bible on client and server
     // to see if this Bible is in sync.
-    std::string client_checksum_bible = checksum_logic::get_bible (webserver_request, bible);
+    std::string client_checksum_bible = checksum_logic::get_bible (bible);
     post ["a"] = std::to_string (Sync_Logic::bibles_get_bible_checksum);
     post ["b"] = bible;
     std::string server_checksum_bible = sync_logic.post (post, url, error);

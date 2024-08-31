@@ -21,8 +21,6 @@
 
 #include <config/libraries.h>
 
-class Webserver_Request;
-
 namespace checksum_logic {
 
 std::string send (const std::string & data, bool readwrite);
@@ -30,7 +28,7 @@ std::string get (const std::string & data);
 std::string get (const std::vector <std::string>& data);
 std::string get_chapter (const std::string & bible, int book, int chapter);
 std::string get_book (const std::string & bible, int book);
-std::string get_bible (Webserver_Request& webserver_request, const std::string & bible);
-std::string get_bibles (Webserver_Request& webserver_request, const std::vector <std::string> & bibles);
+std::string get_bible (const std::string & bible);
+std::string get_bibles (const std::vector <std::string> & bibles);
 
 }

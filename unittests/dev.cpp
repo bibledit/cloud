@@ -20,7 +20,10 @@
 #include <config/libraries.h>
 #ifdef HAVE_GTEST
 #include <unittests/utilities.h>
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wsign-compare"
 #include "gtest/gtest.h"
+#pragma GCC diagnostic pop
 #include <webserver/webserver.h>
 
 

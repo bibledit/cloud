@@ -21,7 +21,7 @@
 #include <filter/string.h>
 #include <filter/md5.h>
 #include <filter/usfm.h>
-#include <webserver/request.h>
+#include <database/bibles.h>
 
 
 // This function reads $data,
@@ -84,7 +84,7 @@ std::string checksum_logic::get_book (const std::string& bible, int book)
 
 
 // Returns a proper checksum for the USFM in the $bible.
-std::string checksum_logic::get_bible (Webserver_Request& webserver_request, const std::string& bible)
+std::string checksum_logic::get_bible (const std::string& bible)
 {
   std::vector <int> books = database::bibles::get_books (bible);
   std::vector <std::string> checksums;
@@ -98,11 +98,11 @@ std::string checksum_logic::get_bible (Webserver_Request& webserver_request, con
 
 
 // Returns a proper checksum for the USFM in the array of $bibles.
-std::string checksum_logic::get_bibles (Webserver_Request& webserver_request, const std::vector <std::string> & bibles)
+std::string checksum_logic::get_bibles (const std::vector <std::string> & bibles)
 {
   std::vector <std::string> checksums;
   for (const auto & bible : bibles) {
-    checksums.push_back (get_bible (webserver_request, bible));
+    checksums.push_back (get_bible (bible));
   }
   std::string checksum = filter::strings::implode (checksums, std::string());
   checksum = md5 (checksum);

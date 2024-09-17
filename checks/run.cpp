@@ -256,7 +256,7 @@ void checks_run (std::string bible)
   }
   
   
-  // Add a link to the online checking results. Todo test this.
+  // Add a link to the online checking results.
   if (!emailBody.empty ()) {
     const std::string siteUrl = config::logic::site_url (webserver_request);
     std::stringstream body1 {};

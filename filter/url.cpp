@@ -47,7 +47,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include "mbedtls/ctr_drbg.h"
 #include "mbedtls/error.h"
 #pragma GCC diagnostic pop
-
+#ifdef HAVE_WINDOWS
+#pragma comment(lib, "bcrypt.lib")
+#endif
 
 // Static check on required definitions, taken from the ssl_client1.c example.
 #ifndef MBEDTLS_BIGNUM_C

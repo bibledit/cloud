@@ -32,7 +32,7 @@
 // The advantage of this is that the user interface will be more responsive.
 void styles_sheets_create_all ()
 {
-  tasks_logic_queue (CREATECSS);
+  tasks_logic_queue (task::createcss);
 }
 
 

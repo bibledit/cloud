@@ -191,7 +191,7 @@ std::string bible_settings (Webserver_Request& webserver_request)
   const std::string resource = webserver_request.post["add"];
   if (!resource.empty ()) {
     if (write_access) {
-      tasks_logic_queue (IMPORTRESOURCE, { bible, resource });
+      tasks_logic_queue (task::importresource, { bible, resource });
       success_message = translate ("The resource will be imported into the Bible.") + " " + translate ("The journal shows the progress.");
     }
   }

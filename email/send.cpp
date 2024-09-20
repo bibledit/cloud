@@ -367,7 +367,7 @@ void email_schedule (std::string to, std::string subject, std::string body, int 
   Database_Mail database_mail (webserver_request);
   database_mail.send (to, subject, body, time);
   // Schedule a task to send the scheduled mail right away.
-  tasks_logic_queue (SENDEMAIL);
+  tasks_logic_queue (task::sendemail);
 }
 
 

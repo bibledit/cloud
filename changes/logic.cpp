@@ -44,7 +44,7 @@
 
 void changes_logic_start ()
 {
-  tasks_logic_queue (GENERATECHANGES);
+  tasks_logic_queue (task::generatechanges);
 }
 
 

@@ -77,7 +77,7 @@ std::string compare_index (Webserver_Request& webserver_request)
     Database_Jobs database_jobs = Database_Jobs ();
     const int job_id = database_jobs.get_new_id ();
     database_jobs.set_level (job_id, Filter_Roles::consultant ());
-    tasks_logic_queue (COMPAREUSFM, {bible, compare, std::to_string (job_id)});
+    tasks_logic_queue (task::compareusfm, {bible, compare, std::to_string (job_id)});
     redirect_browser (webserver_request, jobs_index_url () + "?id=" + std::to_string (job_id));
     return std::string();
   }

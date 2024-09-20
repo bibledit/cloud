@@ -22,68 +22,70 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/libraries.h>
 
 
-#define ROTATEJOURNAL "rotatejournal"
-#define RECEIVEEMAIL "receiveemail"
-#define SENDEMAIL "sendemail"
-#define REINDEXBIBLES "reindexbibles"
-#define REINDEXNOTES "reindexnotes"
-#define CREATECSS "createcss"
-#define IMPORTBIBLE "importusfm"
-#define IMPORTRESOURCE "importresource"
-#define COMPAREUSFM "compareusfm"
-#define MAINTAINDATABASE "maintaindatabase"
-#define CLEANTMPFILES "cleantmpfiles"
-#define LINKGITREPOSITORY "linkgitrepository"
-#define SENDRECEIVEBIBLES "sendreceivebibles"
-#define SYNCBIBLES "syncbibles"
-#define SYNCNOTES "syncnotes"
-#define SYNCSETTINGS "syncsettings"
-#define SYNCCHANGES "syncchanges"
-#define SYNCFILES "syncfiles"
-#define SYNCRESOURCES "syncresources"
-#define CLEANDEMO "cleandemo"
-#define CONVERTBIBLE2RESOURCE "convertbible2resource"
-#define CONVERTRESOURCE2BIBLE "convertresource2bible"
-#define PRINTRESOURCES "printresources"
-#define NOTESSTATISTICS "notesstatistics"
-#define GENERATECHANGES "generatechanges"
-#define SPRINTBURNDOWN "sprintburndown"
-#define CHECKBIBLE "checkbible"
-#define EXPORTALL "exportall"
-#define EXPORTTEXTUSFM "exporttextusfm"
-#define EXPORTUSFM "exportusfm"
-#define EXPORTODT "exportodt"
-#define EXPORTINFO "exportinfo"
-#define EXPORTHTML "exporthtml"
-#define EXPORTWEBMAIN "exportwebmain"
-#define EXPORTWEBINDEX "exportwebindex"
-#define EXPORTONLINEBIBLE "exportonlinebible"
-#define EXPORTESWORD "exportesword"
-#define HYPHENATE "hyphenate"
-#define SETUPPARATEXT "setupparatext"
-#define SYNCPARATEXT "syncparatext"
-#define IMPORTIMAGES "importimages"
-#define REFRESHSWORDMODULES "refreshswordmodules"
-#define INSTALLSWORDMODULE "installswordmodule"
-#define UPDATESWORDMODULES "updateallswordmodules"
-#define LISTUSFMRESOURCES "listusfmresources"
-#define CREATESAMPLEBIBLE "createsamplebible"
-#define CACHERESOURCES "cacheresources"
-#define REFRESHWEBRESOURCES "refreshwebresources"
-#define RSSFEEDUPDATECHAPTER "rssfeedupdatechapter"
-#define PRODUCEBIBLESTRANSFERFILE "producebiblestransferfile"
-#define IMPORTBIBLESTRANSFERFILE "importbiblestransferfile"
-#define PRODUCERENOTESTRANSFERFILE "producerenotestransferfile"
-#define IMPORTNOTESTRANSFERFILE "importnotestransferfile"
-#define PRODUCERESOURCESTRANSFERFILE "produceresourcestransferfile"
-#define IMPORTRESOURCESTRANSFERFILE "importresourcestransferfile"
-#define DELETECHANGES "deletechanges"
-#define CLEARCACHES "clearcaches"
-#define TRIMCACHES "trimcaches"
-#define EXPORT2NMT "export2nmt"
-#define CREATEEMPTYBIBLE "createemptybible"
-#define IMPORTBIBLEIMAGES "importbibleimages"
-#define GETGOOGLEACCESSTOKEN "getgoogleaccesstoken"
+namespace task {
+constexpr const auto rotatejournal {"rotatejournal"};
+constexpr const auto receiveemail {"receiveemail"};
+constexpr const auto sendemail {"sendemail"};
+constexpr const auto reindexbibles {"reindexbibles"};
+constexpr const auto reindexnotes {"reindexnotes"};
+constexpr const auto createcss {"createcss"};
+constexpr const auto importbible {"importusfm"};
+constexpr const auto importresource {"importresource"};
+constexpr const auto compareusfm {"compareusfm"};
+constexpr const auto maintaindatabase {"maintaindatabase"};
+constexpr const auto cleantmpfiles {"cleantmpfiles"};
+constexpr const auto linkgitrepository {"linkgitrepository"};
+constexpr const auto sendreceivebibles {"sendreceivebibles"};
+constexpr const auto syncbibles {"syncbibles"};
+constexpr const auto syncnotes {"syncnotes"};
+constexpr const auto syncsettings {"syncsettings"};
+constexpr const auto syncchanges {"syncchanges"};
+constexpr const auto syncfiles {"syncfiles"};
+constexpr const auto syncresources {"syncresources"};
+constexpr const auto cleandemo {"cleandemo"};
+constexpr const auto convertbible2resource {"convertbible2resource"};
+constexpr const auto convertresource2bible {"convertresource2bible"};
+constexpr const auto printresources {"printresources"};
+constexpr const auto notesstatistics {"notesstatistics"};
+constexpr const auto generatechanges {"generatechanges"};
+constexpr const auto sprintburndown {"sprintburndown"};
+constexpr const auto checkbible {"checkbible"};
+constexpr const auto exportall {"exportall"};
+constexpr const auto exporttextusfm {"exporttextusfm"};
+constexpr const auto exportusfm {"exportusfm"};
+constexpr const auto exportodt {"exportodt"};
+constexpr const auto exportinfo {"exportinfo"};
+constexpr const auto exporthtml {"exporthtml"};
+constexpr const auto exportwebmain {"exportwebmain"};
+constexpr const auto exportwebindex {"exportwebindex"};
+constexpr const auto exportonlinebible {"exportonlinebible"};
+constexpr const auto exportesword {"exportesword"};
+constexpr const auto hyphenate {"hyphenate"};
+constexpr const auto setupparatext {"setupparatext"};
+constexpr const auto syncparatext {"syncparatext"};
+constexpr const auto importimages {"importimages"};
+constexpr const auto refreshswordmodules {"refreshswordmodules"};
+constexpr const auto installswordmodule {"installswordmodule"};
+constexpr const auto updateswordmodules {"updateallswordmodules"};
+constexpr const auto listusfmresources {"listusfmresources"};
+constexpr const auto createsamplebible {"createsamplebible"};
+constexpr const auto cacheresources {"cacheresources"};
+constexpr const auto refreshwebresources {"refreshwebresources"};
+constexpr const auto rssfeedupdatechapter {"rssfeedupdatechapter"};
+constexpr const auto producebiblestransferfile {"producebiblestransferfile"};
+constexpr const auto importbiblestransferfile {"importbiblestransferfile"};
+constexpr const auto producenotestransferfile {"producenotestransferfile"};
+constexpr const auto importnotestransferfile {"importnotestransferfile"};
+constexpr const auto produceresourcestransferfile {"produceresourcestransferfile"};
+constexpr const auto importresourcestransferfile {"importresourcestransferfile"};
+constexpr const auto deletechanges {"deletechanges"};
+constexpr const auto clearcaches {"clearcaches"};
+constexpr const auto trimcaches {"trimcaches"};
+constexpr const auto export2nmt {"export2nmt"};
+constexpr const auto createemptybible {"createemptybible"};
+constexpr const auto importbibleimages {"importbibleimages"};
+constexpr const auto getgoogleaccesstoken {"getgoogleaccesstoken"};
+}
 
 
 std::string tasks_logic_folder ();

@@ -109,7 +109,7 @@ std::string developer_index (Webserver_Request& webserver_request)
   }
   
   if (debug == "receive") {
-    tasks_logic_queue (RECEIVEEMAIL);
+    tasks_logic_queue (task::receiveemail);
     view.set_variable ("success", "Receiving email and running tasks that send mail");
   }
 
@@ -130,7 +130,7 @@ std::string developer_index (Webserver_Request& webserver_request)
   }
   
   if (debug == "maintain") {
-    tasks_logic_queue (MAINTAINDATABASE);
+    tasks_logic_queue (task::maintaindatabase);
     view.set_variable ("success", "Starting to maintain the databases");
   }
 

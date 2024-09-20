@@ -56,7 +56,7 @@ void timer_index ()
   
 #ifdef HAVE_CLOUD
   // Right after startup, update the Google Translate access token.
-  tasks_logic_queue(GETGOOGLEACCESSTOKEN);
+  tasks_logic_queue(task::getgoogleaccesstoken);
 #endif
   
   while (config_globals_webserver_running) {
@@ -101,13 +101,13 @@ void timer_index ()
       previous_minute = minute;
 
       // Every minute send out queued email.
-      tasks_logic_queue (SENDEMAIL);
+      tasks_logic_queue (task::sendemail);
 
 #ifdef HAVE_CLOUD
       // Check for new mail every five minutes.
       // Do not check more often with gmail else the account may be shut down.
       if ((minute % 5) == 0) {
-        tasks_logic_queue (RECEIVEEMAIL);
+        tasks_logic_queue (task::receiveemail);
       }
 #endif
 
@@ -115,7 +115,7 @@ void timer_index ()
       // The nine is chosen, because the journal rotation will summarize the send/receive messages.
       // In case send/receive happens every five minutes, it is expected that under normal circumstances
       // the whole process of sending/receivning will be over, so summarization can then be done.
-      if (minute == 9) tasks_logic_queue (ROTATEJOURNAL);
+      if (minute == 9) tasks_logic_queue (task::rotatejournal);
       
       // Sending and receiving Bibles to and from the git repository.
       // On a production website running on an inexpensive virtual private server,
@@ -148,7 +148,7 @@ void timer_index ()
       // Database maintenance and trimming.
       // It takes a few minutes on a production machine.
       if ((hour == 0) && (minute == 50)) {
-        tasks_logic_queue (MAINTAINDATABASE);
+        tasks_logic_queue (task::maintaindatabase);
       }
 
 #ifdef HAVE_CLOUD
@@ -159,7 +159,7 @@ void timer_index ()
       // The new way of trimming on the Cloud is to do the trimming every hour.
       // And to leave files in the files cache for only a couple of hours.
       if (minute == 10) {
-        tasks_logic_queue (TRIMCACHES);
+        tasks_logic_queue (task::trimcaches);
       }
 
 #endif
@@ -175,7 +175,7 @@ void timer_index ()
       
       // Delete expired temporal files.
       if ((hour == 2) && (minute == 0)) {
-        tasks_logic_queue (CLEANTMPFILES);
+        tasks_logic_queue (task::cleantmpfiles);
       }
       
       // Re-index Bibles and notes.
@@ -183,15 +183,15 @@ void timer_index ()
       if ((hour == 2) && (minute == 0)) {
         Database_State::create ();
         database::config::general::set_index_bibles (true);
-        tasks_logic_queue (REINDEXBIBLES);
+        tasks_logic_queue (task::reindexbibles);
         database::config::general::setIndexNotes (true);
-        tasks_logic_queue (REINDEXNOTES);
+        tasks_logic_queue (task::reindexnotes);
       }
       
       // Actions for a demo installation.
       if (minute == 10) {
         if (config::logic::demo_enabled ()) {
-          tasks_logic_queue (CLEANDEMO);
+          tasks_logic_queue (task::cleandemo);
         }
       }
       
@@ -200,7 +200,7 @@ void timer_index ()
       // It runs every hour in the Cloud.
       // The script itself determines what to do at which hour of the day or day of the week or day of the month.
       if (minute == 5) {
-        tasks_logic_queue (SPRINTBURNDOWN);
+        tasks_logic_queue (task::sprintburndown);
       }
 #endif
 
@@ -232,7 +232,7 @@ void timer_index ()
 #ifdef HAVE_CLOUD
       // Email notes statistics to the users.
       if ((hour == 3) && (minute == 0)) {
-        tasks_logic_queue (NOTESSTATISTICS);
+        tasks_logic_queue (task::notesstatistics);
       }
 #endif
 
@@ -242,12 +242,12 @@ void timer_index ()
       if (weekday == 1) {
         // Refresh.
         if ((hour == 3) && (minute == 5)) {
-          tasks_logic_queue (REFRESHSWORDMODULES);
-          tasks_logic_queue (REFRESHWEBRESOURCES);
+          tasks_logic_queue (task::refreshswordmodules);
+          tasks_logic_queue (task::refreshwebresources);
         }
         // Update installed SWORD modules, shortly after the module list has been refreshed.
         if ((hour == 3) && (minute == 15)) {
-          tasks_logic_queue (UPDATESWORDMODULES);
+          tasks_logic_queue (task::updateswordmodules);
         }
       }
 #endif
@@ -256,7 +256,7 @@ void timer_index ()
       // The Cloud updates the list of USFM resources once a week.
       if (weekday == 1) {
         if ((hour == 3) && (minute == 10)) {
-          tasks_logic_queue (LISTUSFMRESOURCES);
+          tasks_logic_queue (task::listusfmresources);
         }
       }
 #endif
@@ -267,7 +267,7 @@ void timer_index ()
       // So before the hour has expired, renew the token again.
       google_translate_authentication_token_age_minute++;
       if (google_translate_authentication_token_age_minute > 50) {
-        tasks_logic_queue(GETGOOGLEACCESSTOKEN);
+        tasks_logic_queue(task::getgoogleaccesstoken);
         google_translate_authentication_token_age_minute = 0;
       }
 #endif

@@ -89,8 +89,8 @@ std::string sync_resources (Webserver_Request& webserver_request)
           signatures.push_back (signature);
           database::config::general::set_resources_to_cache (signatures);
         }
-        if (!tasks_logic_queued (CACHERESOURCES)) {
-          tasks_logic_queue (CACHERESOURCES);
+        if (!tasks_logic_queued (task::cacheresources)) {
+          tasks_logic_queue (task::cacheresources);
         }
         return "0";
       }

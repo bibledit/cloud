@@ -904,7 +904,7 @@ void resource_logic_create_cache ()
   resource_logic_create_cache_running = false;
   
   // If there's another resource database waiting to be cached, schedule it for caching.
-  if (!signatures.empty ()) tasks_logic_queue (CACHERESOURCES);
+  if (!signatures.empty ()) tasks_logic_queue (task::cacheresources);
 }
 
 

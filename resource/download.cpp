@@ -81,7 +81,7 @@ std::string resource_download (Webserver_Request& webserver_request)
       resources.push_back (name);
       database::config::general::set_resources_to_cache (resources);
     }
-    tasks_logic_queue (SYNCRESOURCES);
+    tasks_logic_queue (task::syncresources);
     redirect_browser (webserver_request, journal_index_url ());
     return std::string();
   }

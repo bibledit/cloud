@@ -69,7 +69,7 @@ std::string images_index (Webserver_Request& webserver_request)
       std::string extension = filter_url_get_extension (file);
       extension = filter::strings::unicode_string_casefold (extension);
       if (background_import) {
-        tasks_logic_queue (IMPORTBIBLEIMAGES, { file });
+        tasks_logic_queue (task::importbibleimages, { file });
         success = translate("The file was uploaded and is being processed.");
         view.set_variable ("journal", journal_logic_see_journal_for_progress ());
       } else {

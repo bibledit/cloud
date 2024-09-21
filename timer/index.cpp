@@ -101,7 +101,8 @@ void timer_index ()
       previous_minute = minute;
 
       // Every minute send out queued email.
-      tasks_logic_queue (task::send_email);
+      if (!tasks_logic_queued (task::send_email))
+        tasks_logic_queue (task::send_email);
 
 #ifdef HAVE_CLOUD
       // Check for new mail every five minutes.

@@ -84,7 +84,7 @@ void sendreceive_files ()
   if (sendreceive_logic_prioritized_task_is_active ()) {
     sendreceive_files_done ();
     std::this_thread::sleep_for (std::chrono::seconds (5));
-    tasks_logic_queue (task::syncfiles);
+    tasks_logic_queue (task::sync_files);
     return;
   }
   

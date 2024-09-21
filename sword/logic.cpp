@@ -265,10 +265,10 @@ void sword_logic_install_module_schedule (const std::string& source, const std::
   if (module.empty ()) return;
   
   // Check whether the module installation has been scheduled already.
-  if (tasks_logic_queued (task::installswordmodule, {source, module})) return;
+  if (tasks_logic_queued (task::install_sword_module, {source, module})) return;
   
   // Schedule it.
-  tasks_logic_queue (task::installswordmodule, {source, module});
+  tasks_logic_queue (task::install_sword_module, {source, module});
 }
 
 

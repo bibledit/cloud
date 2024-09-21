@@ -97,7 +97,7 @@ std::string nmt_index (Webserver_Request& webserver_request)
 
   
   if (webserver_request.query.count ("export")) {
-    tasks_logic_queue (task::export2nmt, {referencebible, translatingbible});
+    tasks_logic_queue (task::export_to_nmt, {referencebible, translatingbible});
     redirect_browser (webserver_request, journal_index_url ());
     return std::string();
   }

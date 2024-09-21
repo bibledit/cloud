@@ -78,7 +78,7 @@ std::string resource_print (Webserver_Request& webserver_request)
     int jobId = database_jobs.get_new_id ();
     database_jobs.set_level (jobId, Filter_Roles::consultant ());
     const std::string& username = webserver_request.session_logic ()->get_username ();
-    tasks_logic_queue (task::printresources, {std::to_string (jobId), username, bible});
+    tasks_logic_queue (task::print_resources, {std::to_string (jobId), username, bible});
     redirect_browser (webserver_request, jobs_index_url () + "?id=" + std::to_string (jobId));
     return std::string();
   }

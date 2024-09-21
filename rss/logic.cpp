@@ -92,7 +92,7 @@ void rss_logic_schedule_update (std::string user, std::string bible, int book, i
   parameters.push_back (std::to_string (chapter));
   parameters.push_back (oldusfm);
   parameters.push_back (newusfm);
-  tasks_logic_queue (task::rssfeedupdatechapter, parameters);
+  tasks_logic_queue (task::rss_feed_update_chapter, parameters);
 }
 
 

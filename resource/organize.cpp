@@ -242,7 +242,7 @@ std::string resource_organize (Webserver_Request& webserver_request)
         }
       }
     }
-    tasks_logic_queue (task::syncresources);
+    tasks_logic_queue (task::sync_resources);
     view.set_variable ("success", translate ("Will install the resources.") + " " + translate ("The journal displays the progress."));
   }
 

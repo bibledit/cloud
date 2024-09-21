@@ -225,7 +225,7 @@ void Paratext_Logic::copyParatext2Bibledit (std::string bible)
 
     // It is easiest to schedule an import task.
     // The task will take care of everything, including recording what to send to the Cloud.
-    tasks_logic_queue (task::importbible, { path, bible });
+    tasks_logic_queue (task::import_bible, { path, bible });
 
     // Ancestor data needed for future merge.
     // The Paratext files have cr+lf at the end, and the ancestor data should only have lf at the end of each line.

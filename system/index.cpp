@@ -170,9 +170,9 @@ std::string system_index (Webserver_Request& webserver_request)
     const int jobId = database_jobs.get_new_id ();
     database_jobs.set_level (jobId, Filter_Roles::member ());
     std::string task {};
-    if (producebibles) task = task::producebiblestransferfile;
-    if (producenotes) task = task::producenotestransferfile;
-    if (produceresources) task = task::produceresourcestransferfile;
+    if (producebibles) task = task::produce_bibles_transferfile;
+    if (producenotes) task = task::produce_notes_transferfile;
+    if (produceresources) task = task::produce_resources_transferfile;
     tasks_logic_queue (task, { std::to_string(jobId) });
     redirect_browser (webserver_request, jobs_index_url () + "?id=" + std::to_string(jobId));
     return std::string();
@@ -190,7 +190,7 @@ std::string system_index (Webserver_Request& webserver_request)
         filter_url_file_put_contents (datafile, data);
         success = translate("Import has started.");
         view.set_variable ("journal", journal_logic_see_journal_for_progress ());
-        tasks_logic_queue (task::importbiblestransferfile, { datafile });
+        tasks_logic_queue (task::import_bibles_transferfile, { datafile });
       } else {
         error = translate ("Nothing was imported");
       }
@@ -214,7 +214,7 @@ std::string system_index (Webserver_Request& webserver_request)
         filter_url_file_put_contents (datafile, data);
         success = translate("Import has started.");
         view.set_variable ("journal", journal_logic_see_journal_for_progress ());
-        tasks_logic_queue (task::importnotestransferfile, { datafile });
+        tasks_logic_queue (task::import_notes_transferfile, { datafile });
       } else {
         error = translate ("Nothing was imported");
       }
@@ -238,7 +238,7 @@ std::string system_index (Webserver_Request& webserver_request)
         filter_url_file_put_contents (datafile, data);
         success = translate("Import has started.");
         view.set_variable ("journal", journal_logic_see_journal_for_progress ());
-        tasks_logic_queue (task::importresourcestransferfile, { datafile });
+        tasks_logic_queue (task::import_resources_transferfile, { datafile });
       } else {
         error = translate ("Nothing was imported");
       }
@@ -255,7 +255,7 @@ std::string system_index (Webserver_Request& webserver_request)
   // Force re-index Bibles.
   if (webserver_request.query ["reindex"] == "bibles") {
     database::config::general::set_index_bibles (true);
-    tasks_logic_queue (task::reindexbibles, {"1"});
+    tasks_logic_queue (task::reindex_bibles, {"1"});
     redirect_browser (webserver_request, journal_index_url ());
     return std::string();
   }
@@ -264,7 +264,7 @@ std::string system_index (Webserver_Request& webserver_request)
   // Re-index consultation notes.
   if (webserver_request.query ["reindex"] == "notes") {
     database::config::general::setIndexNotes (true);
-    tasks_logic_queue (task::reindexnotes);
+    tasks_logic_queue (task::reindex_notes);
     redirect_browser (webserver_request, journal_index_url ());
     return std::string();
   }
@@ -314,7 +314,7 @@ std::string system_index (Webserver_Request& webserver_request)
   
   // Handle the command to clear the web and resources caches.
   if (webserver_request.query.count ("clearcache")) {
-    tasks_logic_queue (task::clearcaches);
+    tasks_logic_queue (task::clear_caches);
     redirect_browser (webserver_request, journal_index_url ());
     return std::string();
   }

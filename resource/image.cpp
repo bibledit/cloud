@@ -83,7 +83,7 @@ std::string resource_image (Webserver_Request& webserver_request)
       extension = filter::strings::unicode_string_casefold (extension);
       if (extension == "pdf") background_import = true;
       if (background_import) {
-        tasks_logic_queue (task::importimages, { name, file });
+        tasks_logic_queue (task::import_images, { name, file });
         success = translate("The file was uploaded and is being processed.");
         view.set_variable ("journal", journal_logic_see_journal_for_progress ());
       } else {

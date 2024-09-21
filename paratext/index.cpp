@@ -156,7 +156,7 @@ std::string paratext_index (Webserver_Request& webserver_request)
       return page;
     } else {
       // Set collaboration up.
-      tasks_logic_queue (task::setupparatext, { bible, master });
+      tasks_logic_queue (task::setup_paratext, { bible, master });
       success = translate ("The collaboration will be set up");
       if (database::config::general::get_repeat_send_receive () == 0) {
         database::config::general::set_repeat_send_receive (2);

@@ -71,7 +71,7 @@ std::string collaboration_settings (Webserver_Request& webserver_request)
       int jobId = database_jobs.get_new_id ();
       database_jobs.set_level (jobId, Filter_Roles::admin ());
       database_jobs.set_start (jobId, collaboration_link_header ());
-      tasks_logic_queue (task::linkgitrepository, {object, std::to_string (jobId), source});
+      tasks_logic_queue (task::link_git_repository, {object, std::to_string (jobId), source});
       redirect_browser (webserver_request, jobs_index_url () + "?id=" + std::to_string (jobId));
       return std::string();
     }

@@ -49,13 +49,13 @@ bool resource_sword_acl (Webserver_Request& webserver_request)
 std::string resource_sword (Webserver_Request& webserver_request)
 {
   if (webserver_request.query.count ("refresh")) {
-    tasks_logic_queue (task::refreshswordmodules);
+    tasks_logic_queue (task::refresh_sword_modules);
     redirect_browser (webserver_request, journal_index_url ());
   }
 
   
   if (webserver_request.query.count ("update")) {
-    tasks_logic_queue (task::updateswordmodules, {});
+    tasks_logic_queue (task::update_sword_modules, {});
     redirect_browser (webserver_request, journal_index_url ());
   }
   

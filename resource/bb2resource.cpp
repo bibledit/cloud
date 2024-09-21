@@ -77,7 +77,7 @@ std::string resource_bible2resource (Webserver_Request& webserver_request)
   
   if (webserver_request.query.count ("convert")) {
     if (access_bible::write (webserver_request, bible)) {
-      tasks_logic_queue (task::convertbible2resource, {bible});
+      tasks_logic_queue (task::convert_bible_to_resource, {bible});
       redirect_browser (webserver_request, journal_index_url ());
       return std::string();
     } else {

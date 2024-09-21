@@ -35,5 +35,5 @@ void checks_logic_start_all ()
 
 void checks_logic_start (const std::string& bible)
 {
-  tasks_logic_queue (task::checkbible, {bible});
+  tasks_logic_queue (task::check_bible, {bible});
 }

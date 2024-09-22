@@ -192,7 +192,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/date.h>
 #include <filter/string.h>
 #include <journal/logic.h>
-#include <nmt/index.h>
 #include <editor/id.h>
 #include <editor/style.h>
 #include <edit/update.h>
@@ -1127,11 +1126,6 @@ void bootstrap_index (Webserver_Request& webserver_request)
   
   if ((url == rss_feed_url ()) && browser_request_security_okay (webserver_request) && rss_feed_acl (webserver_request)) {
     webserver_request.reply = rss_feed (webserver_request);
-    return;
-  }
-
-  if ((url == nmt_index_url ()) && browser_request_security_okay (webserver_request) && nmt_index_acl (webserver_request)) {
-    webserver_request.reply = nmt_index (webserver_request);
     return;
   }
 

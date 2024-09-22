@@ -70,7 +70,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <notes/logic.h>
 #include <changes/logic.h>
 #include <database/cache.h>
-#include <nmt/logic.h>
 #include <images/logic.h>
 #include <tasks/enums.h>
 #include <filter/google.h>
@@ -306,9 +305,6 @@ void tasks_run_one (const std::string& filename)
   }
   else if (command == task::trim_caches) {
     database::cache::file::trim (false);
-  }
-  else if (command == task::export_to_nmt) {
-    nmt_logic_export (parameter1, parameter2);
   }
   else if (command == task::create_empty_bible) {
     bible_logic::create_empty_bible (parameter1);

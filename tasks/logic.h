@@ -81,7 +81,6 @@ constexpr const auto import_resources_transferfile {"importresourcestransferfile
 constexpr const auto delete_changes {"deletechanges"};
 constexpr const auto clear_caches {"clearcaches"};
 constexpr const auto trim_caches {"trimcaches"};
-constexpr const auto export_to_nmt {"export2nmt"};
 constexpr const auto create_empty_bible {"createemptybible"};
 constexpr const auto import_bible_images {"importbibleimages"};
 constexpr const auto get_google_access_token {"getgoogleaccesstoken"};

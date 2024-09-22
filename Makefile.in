@@ -372,10 +372,10 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	sqlite/sqlite3.$(OBJEXT) ldap/logic.$(OBJEXT) \
 	quill/logic.$(OBJEXT) rss/logic.$(OBJEXT) rss/feed.$(OBJEXT) \
 	microtar/microtar.$(OBJEXT) miniz/miniz.$(OBJEXT) \
-	nmt/index.$(OBJEXT) nmt/logic.$(OBJEXT) tbsx/text.$(OBJEXT) \
-	read/index.$(OBJEXT) read/load.$(OBJEXT) read/verse.$(OBJEXT) \
-	resource/divider.$(OBJEXT) session/confirm.$(OBJEXT) \
-	sources/abbott-smith.$(OBJEXT) database/abbottsmith.$(OBJEXT) \
+	tbsx/text.$(OBJEXT) read/index.$(OBJEXT) read/load.$(OBJEXT) \
+	read/verse.$(OBJEXT) resource/divider.$(OBJEXT) \
+	session/confirm.$(OBJEXT) sources/abbott-smith.$(OBJEXT) \
+	database/abbottsmith.$(OBJEXT) \
 	resource/comparative9edit.$(OBJEXT) \
 	resource/comparative1edit.$(OBJEXT) \
 	resource/translated9edit.$(OBJEXT) \
@@ -471,10 +471,9 @@ am_unittest_OBJECTS = unittests/unittest.$(OBJEXT) \
 	unittests/privileges.$(OBJEXT) unittests/statistics.$(OBJEXT) \
 	unittests/webview.$(OBJEXT) unittests/javascript.$(OBJEXT) \
 	unittests/french.$(OBJEXT) unittests/merge.$(OBJEXT) \
-	unittests/nmt.$(OBJEXT) unittests/html2format.$(OBJEXT) \
-	unittests/studylight.$(OBJEXT) unittests/gbs.$(OBJEXT) \
-	unittests/bibleimages.$(OBJEXT) unittests/image.$(OBJEXT) \
-	unittests/easyenglishbible.$(OBJEXT)
+	unittests/html2format.$(OBJEXT) unittests/studylight.$(OBJEXT) \
+	unittests/gbs.$(OBJEXT) unittests/bibleimages.$(OBJEXT) \
+	unittests/image.$(OBJEXT) unittests/easyenglishbible.$(OBJEXT)
 unittest_OBJECTS = $(am_unittest_OBJECTS)
 unittest_DEPENDENCIES = libbibledit.a
 AM_V_P = $(am__v_P_@AM_V@)
@@ -713,8 +712,7 @@ am__depfiles_remade = access/$(DEPDIR)/bible.Po \
 	mimetic098/rfc822/$(DEPDIR)/messageid.Po \
 	miniz/$(DEPDIR)/miniz.Po navigation/$(DEPDIR)/paratext.Po \
 	navigation/$(DEPDIR)/passage.Po navigation/$(DEPDIR)/poll.Po \
-	navigation/$(DEPDIR)/update.Po nmt/$(DEPDIR)/index.Po \
-	nmt/$(DEPDIR)/logic.Po notes/$(DEPDIR)/actions.Po \
+	navigation/$(DEPDIR)/update.Po notes/$(DEPDIR)/actions.Po \
 	notes/$(DEPDIR)/assign-1.Po notes/$(DEPDIR)/assign-n.Po \
 	notes/$(DEPDIR)/bb-1.Po notes/$(DEPDIR)/bb-n.Po \
 	notes/$(DEPDIR)/bulk.Po notes/$(DEPDIR)/click.Po \
@@ -839,10 +837,10 @@ am__depfiles_remade = access/$(DEPDIR)/bible.Po \
 	unittests/$(DEPDIR)/merge.Po \
 	unittests/$(DEPDIR)/modifications.Po \
 	unittests/$(DEPDIR)/morphgnt.Po \
-	unittests/$(DEPDIR)/navigation.Po unittests/$(DEPDIR)/nmt.Po \
-	unittests/$(DEPDIR)/notes.Po unittests/$(DEPDIR)/odf.Po \
-	unittests/$(DEPDIR)/oshb.Po unittests/$(DEPDIR)/pairs.Po \
-	unittests/$(DEPDIR)/paratext.Po unittests/$(DEPDIR)/passage.Po \
+	unittests/$(DEPDIR)/navigation.Po unittests/$(DEPDIR)/notes.Po \
+	unittests/$(DEPDIR)/odf.Po unittests/$(DEPDIR)/oshb.Po \
+	unittests/$(DEPDIR)/pairs.Po unittests/$(DEPDIR)/paratext.Po \
+	unittests/$(DEPDIR)/passage.Po \
 	unittests/$(DEPDIR)/privileges.Po \
 	unittests/$(DEPDIR)/related.Po \
 	unittests/$(DEPDIR)/resources.Po unittests/$(DEPDIR)/roles.Po \
@@ -1585,9 +1583,7 @@ libbibledit_a_SOURCES = \
 	rss/feed.cpp \
 	microtar/microtar.c \
 	miniz/miniz.c \
-	nmt/index.cpp \
-	nmt/logic.cpp \
-  tbsx/text.cpp \
+	tbsx/text.cpp \
   read/index.cpp \
   read/load.cpp \
   read/verse.cpp \
@@ -1746,7 +1742,6 @@ unittest_SOURCES = \
 	unittests/javascript.cpp \
 	unittests/french.cpp \
   unittests/merge.cpp \
-  unittests/nmt.cpp \
   unittests/html2format.cpp \
   unittests/studylight.cpp \
   unittests/gbs.cpp \
@@ -3305,14 +3300,6 @@ miniz/$(DEPDIR)/$(am__dirstamp):
 	@: >>miniz/$(DEPDIR)/$(am__dirstamp)
 miniz/miniz.$(OBJEXT): miniz/$(am__dirstamp) \
 	miniz/$(DEPDIR)/$(am__dirstamp)
-nmt/$(am__dirstamp):
-	@$(MKDIR_P) nmt
-	@: >>nmt/$(am__dirstamp)
-nmt/$(DEPDIR)/$(am__dirstamp):
-	@$(MKDIR_P) nmt/$(DEPDIR)
-	@: >>nmt/$(DEPDIR)/$(am__dirstamp)
-nmt/index.$(OBJEXT): nmt/$(am__dirstamp) nmt/$(DEPDIR)/$(am__dirstamp)
-nmt/logic.$(OBJEXT): nmt/$(am__dirstamp) nmt/$(DEPDIR)/$(am__dirstamp)
 tbsx/$(am__dirstamp):
 	@$(MKDIR_P) tbsx
 	@: >>tbsx/$(am__dirstamp)
@@ -3711,8 +3698,6 @@ unittests/french.$(OBJEXT): unittests/$(am__dirstamp) \
 	unittests/$(DEPDIR)/$(am__dirstamp)
 unittests/merge.$(OBJEXT): unittests/$(am__dirstamp) \
 	unittests/$(DEPDIR)/$(am__dirstamp)
-unittests/nmt.$(OBJEXT): unittests/$(am__dirstamp) \
-	unittests/$(DEPDIR)/$(am__dirstamp)
 unittests/html2format.$(OBJEXT): unittests/$(am__dirstamp) \
 	unittests/$(DEPDIR)/$(am__dirstamp)
 unittests/studylight.$(OBJEXT): unittests/$(am__dirstamp) \
@@ -3785,7 +3770,6 @@ mostlyclean-compile:
 	-rm -f mimetic098/rfc822/*.$(OBJEXT)
 	-rm -f miniz/*.$(OBJEXT)
 	-rm -f navigation/*.$(OBJEXT)
-	-rm -f nmt/*.$(OBJEXT)
 	-rm -f notes/*.$(OBJEXT)
 	-rm -f odf/*.$(OBJEXT)
 	-rm -f olb/*.$(OBJEXT)
@@ -4186,8 +4170,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@navigation/$(DEPDIR)/passage.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@navigation/$(DEPDIR)/poll.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@navigation/$(DEPDIR)/update.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@nmt/$(DEPDIR)/index.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@nmt/$(DEPDIR)/logic.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/actions.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/assign-1.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@notes/$(DEPDIR)/assign-n.Po@am__quote@ # am--include-marker
@@ -4414,7 +4396,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/modifications.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/morphgnt.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/navigation.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/nmt.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/notes.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/odf.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/oshb.Po@am__quote@ # am--include-marker
@@ -4941,8 +4922,6 @@ distclean-generic:
 	-$(am__rm_f) miniz/$(am__dirstamp)
 	-$(am__rm_f) navigation/$(DEPDIR)/$(am__dirstamp)
 	-$(am__rm_f) navigation/$(am__dirstamp)
-	-$(am__rm_f) nmt/$(DEPDIR)/$(am__dirstamp)
-	-$(am__rm_f) nmt/$(am__dirstamp)
 	-$(am__rm_f) notes/$(DEPDIR)/$(am__dirstamp)
 	-$(am__rm_f) notes/$(am__dirstamp)
 	-$(am__rm_f) odf/$(DEPDIR)/$(am__dirstamp)
@@ -5390,8 +5369,6 @@ distclean: distclean-am
 	-rm -f navigation/$(DEPDIR)/passage.Po
 	-rm -f navigation/$(DEPDIR)/poll.Po
 	-rm -f navigation/$(DEPDIR)/update.Po
-	-rm -f nmt/$(DEPDIR)/index.Po
-	-rm -f nmt/$(DEPDIR)/logic.Po
 	-rm -f notes/$(DEPDIR)/actions.Po
 	-rm -f notes/$(DEPDIR)/assign-1.Po
 	-rm -f notes/$(DEPDIR)/assign-n.Po
@@ -5618,7 +5595,6 @@ distclean: distclean-am
 	-rm -f unittests/$(DEPDIR)/modifications.Po
 	-rm -f unittests/$(DEPDIR)/morphgnt.Po
 	-rm -f unittests/$(DEPDIR)/navigation.Po
-	-rm -f unittests/$(DEPDIR)/nmt.Po
 	-rm -f unittests/$(DEPDIR)/notes.Po
 	-rm -f unittests/$(DEPDIR)/odf.Po
 	-rm -f unittests/$(DEPDIR)/oshb.Po
@@ -6078,8 +6054,6 @@ maintainer-clean: maintainer-clean-am
 	-rm -f navigation/$(DEPDIR)/passage.Po
 	-rm -f navigation/$(DEPDIR)/poll.Po
 	-rm -f navigation/$(DEPDIR)/update.Po
-	-rm -f nmt/$(DEPDIR)/index.Po
-	-rm -f nmt/$(DEPDIR)/logic.Po
 	-rm -f notes/$(DEPDIR)/actions.Po
 	-rm -f notes/$(DEPDIR)/assign-1.Po
 	-rm -f notes/$(DEPDIR)/assign-n.Po
@@ -6306,7 +6280,6 @@ maintainer-clean: maintainer-clean-am
 	-rm -f unittests/$(DEPDIR)/modifications.Po
 	-rm -f unittests/$(DEPDIR)/morphgnt.Po
 	-rm -f unittests/$(DEPDIR)/navigation.Po
-	-rm -f unittests/$(DEPDIR)/nmt.Po
 	-rm -f unittests/$(DEPDIR)/notes.Po
 	-rm -f unittests/$(DEPDIR)/odf.Po
 	-rm -f unittests/$(DEPDIR)/oshb.Po

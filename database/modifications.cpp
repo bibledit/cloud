@@ -430,13 +430,13 @@ std::vector <int> getUserBooks (const std::string& username, const std::string& 
 
 std::vector <int> getUserChapters (const std::string& username, const std::string& bible, int book)
 {
-  std::string folder = userBookFolder (username, bible, book);
-  std::vector <std::string> files = filter_url_scandir (folder);
+  const std::string folder = userBookFolder (username, bible, book);
+  const std::vector <std::string> files = filter_url_scandir (folder);
   std::vector <int> chapters;
-  for (auto & file : files) {
-    std::string path = filter_url_create_path ({folder, file});
-    int time = filter_url_file_modification_time (path);
-    int days = (filter::date::seconds_since_epoch () - time) / 86400;
+  for (const auto& file : files) {
+    const std::string path = filter_url_create_path ({folder, file});
+    const int time = filter_url_file_modification_time (path);
+    const int days = (filter::date::seconds_since_epoch () - time) / 86400;
     if (days > 5) {
       // Unprocessed user changes older than so many days usually indicate a problem.
       // Perhaps the server crashed so it never could process them.
@@ -447,7 +447,7 @@ std::vector <int> getUserChapters (const std::string& username, const std::strin
       chapters.push_back (filter::strings::convert_to_int (file));
     }
   }
-  sort (chapters.begin(), chapters.end());
+  std::sort (chapters.begin(), chapters.end());
   return chapters;
 }
 

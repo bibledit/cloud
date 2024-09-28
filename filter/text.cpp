@@ -92,7 +92,7 @@ void Filter_Text::add_usfm_code (std::string usfm)
 
 // This function runs the filter.
 // $stylesheet - The stylesheet to use.
-void Filter_Text::run (std::string stylesheet) // Todo
+void Filter_Text::run (std::string stylesheet)
 {
   // Get the styles.
   get_styles (stylesheet);

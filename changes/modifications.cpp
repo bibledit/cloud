@@ -137,8 +137,21 @@ void changes_process_identifiers (Webserver_Request& webserver_request,
 }
 
 
+// This mutex ensures that only one single process can generate the changes modifications at any time.
+std::timed_mutex mutex;
+
+
 void changes_modifications ()
 {
+  // Ensure only one process at any time generates the changes,
+  // even if multiple order to generate then were given by the user.
+  std::unique_lock<std::timed_mutex> lock (mutex, std::defer_lock);
+  if (!lock.try_lock_for(std::chrono::milliseconds(200))) {
+    Database_Logs::log ("Change notifications: Skipping just now because another process is already generating them", Filter_Roles::translator ());
+    return;
+  }
+  
+
   Database_Logs::log ("Change notifications: Generating", Filter_Roles::translator ());
 
   

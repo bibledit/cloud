@@ -92,7 +92,7 @@ void Filter_Text::add_usfm_code (std::string usfm)
 
 // This function runs the filter.
 // $stylesheet - The stylesheet to use.
-void Filter_Text::run (std::string stylesheet)
+void Filter_Text::run (std::string stylesheet) // Todo
 {
   // Get the styles.
   get_styles (stylesheet);
@@ -174,7 +174,7 @@ void Filter_Text::get_styles (std::string stylesheet)
   if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->create_superscript_style ();
   Database_Styles database_styles;
   std::vector <std::string> markers = database_styles.getMarkers (stylesheet);
-  for (auto marker : markers) {
+  for (const auto& marker : markers) {
     Database_Styles_Item style = database_styles.getMarkerData (stylesheet, marker);
     styles [marker] = style;
     if (style.type == StyleTypeFootEndNote) {
@@ -406,7 +406,7 @@ void Filter_Text::process_usfm ()
                   // The book starts here.
                   // So create a correct hidden header for displaying in the running header.
                   std::string runningHeader = database::books::get_english_from_id (static_cast<book_id>(m_current_book_identifier));
-                  for (auto item : runningHeaders) {
+                  for (const auto& item : runningHeaders) {
                     if (item.m_book == m_current_book_identifier) {
                       runningHeader = item.m_value;
                     }
@@ -607,7 +607,7 @@ void Filter_Text::process_usfm ()
 
               // Enter text for the running headers.
               std::string running_header = database::books::get_english_from_id (static_cast<book_id>(m_current_book_identifier));
-              for (auto item : runningHeaders) {
+              for (const auto& item : runningHeaders) {
                 if (item.m_book == m_current_book_identifier) {
                   running_header = item.m_value;
                 }
@@ -644,7 +644,7 @@ void Filter_Text::process_usfm ()
                   // (usually done if numbers are being presented as words, not numerals).
                   std::string labelEntireBook {};
                   std::string labelCurrentChapter {};
-                  for (auto pchapterLabel : chapterLabels) {
+                  for (const auto& pchapterLabel : chapterLabels) {
                     if (pchapterLabel.m_book == m_current_book_identifier) {
                       if (pchapterLabel.m_chapter == 0) {
                         labelEntireBook = pchapterLabel.m_value;
@@ -756,7 +756,7 @@ void Filter_Text::process_usfm ()
               m_current_verse_number = v_number;
               // In case there was a published verse marker, use that markup for publishing.
               std::string v_vp_number = v_number;
-              for (auto publishedVerseMarker : publishedVerseMarkers) {
+              for (const auto& publishedVerseMarker : publishedVerseMarkers) {
                 if (publishedVerseMarker.m_book == m_current_book_identifier) {
                   if (publishedVerseMarker.m_chapter == m_current_chapter_number) {
                     if (publishedVerseMarker.m_verse == m_current_verse_number) {
@@ -1394,7 +1394,7 @@ void Filter_Text::produceInfoDocument (std::string path)
 
   // Running headers.
   information.new_heading1 (translate("Running headers"));
-  for (auto item : runningHeaders) {
+  for (const auto& item : runningHeaders) {
     const std::string line = database::books::get_english_from_id (static_cast<book_id>(item.m_book)) + " (USFM " + item.m_marker + ") => " + item.m_value;
     information.new_paragraph ();
     information.add_text (line);
@@ -1402,13 +1402,13 @@ void Filter_Text::produceInfoDocument (std::string path)
 
   // Table of Contents entries.
   information.new_heading1 (translate("Long table of contents entries"));
-  for (auto item : longTOCs) {
+  for (const auto& item : longTOCs) {
     const std::string line = database::books::get_english_from_id (static_cast<book_id>(item.m_book)) + " (USFM " + item.m_marker + ") => " + item.m_value;
     information.new_paragraph ();
     information.add_text (line);
   }
   information.new_heading1 (translate("Short table of contents entries"));
-  for (auto item : shortTOCs) {
+  for (const auto& item : shortTOCs) {
     const std::string line = database::books::get_english_from_id (static_cast<book_id>(item.m_book)) + " (USFM " + item.m_marker + ") => " + item.m_value;
     information.new_paragraph ();
     information.add_text (line);
@@ -1416,7 +1416,7 @@ void Filter_Text::produceInfoDocument (std::string path)
 
   // Book abbreviations.
   information.new_heading1 (translate("Book abbreviations"));
-  for (auto item : bookAbbreviations) {
+  for (const auto& item : bookAbbreviations) {
     const std::string line = database::books::get_english_from_id (static_cast<book_id>(item.m_book)) + " (USFM " + item.m_marker + ") => " + item.m_value;
     information.new_paragraph ();
     information.add_text (line);
@@ -1424,13 +1424,13 @@ void Filter_Text::produceInfoDocument (std::string path)
 
   // Chapter specials.
   information.new_heading1 (translate("Publishing chapter labels"));
-  for (auto item : chapterLabels) {
+  for (const auto& item : chapterLabels) {
     const std::string line = database::books::get_english_from_id (static_cast<book_id>(item.m_book)) + " (USFM " + item.m_marker + ") => " + item.m_value;
     information.new_paragraph ();
     information.add_text (line);
   }
   information.new_heading1 (translate("Publishing alternate chapter numbers"));
-  for (auto item : publishedChapterMarkers) {
+  for (const auto& item : publishedChapterMarkers) {
     const std::string line = database::books::get_english_from_id (static_cast<book_id>(item.m_book)) + " (USFM " + item.m_marker + ") => " + item.m_value;
     information.new_paragraph ();
     information.add_text (line);

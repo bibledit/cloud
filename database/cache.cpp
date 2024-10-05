@@ -441,7 +441,7 @@ bool can_cache (const std::string& error, const std::string& html)
   // Do not cache the data in an error situation.
   if (!error.empty()) cache = false;
   
-  // Do not cache the data if Cloudflare does DDoS protection.
+  // Do not cache the data if Cloudflare does any kind of protection.
   // https://github.com/bibledit/cloud/issues/693.
   if (html.find ("Cloudflare") != std::string::npos) cache = false;
   

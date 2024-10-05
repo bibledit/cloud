@@ -824,7 +824,7 @@ std::string resource_external_get_net_bible (int book, int chapter, int verse)
   
   std::string url = bookname + " " + std::to_string (chapter) + ":" + std::to_string (verse);
   url = filter_url_urlencode (url);
-  url.insert (0, "https://net.bible.org/resource/netTexts/");
+  url.insert (0, "https://netbible.org/resource/netTexts/");
   
   std::string error;
   std::string text = resource_logic_web_or_cache_get (url, error);
@@ -838,7 +838,7 @@ std::string resource_external_get_net_bible (int book, int chapter, int verse)
   
   url = bookname + " " + std::to_string (chapter) + ":" + std::to_string (verse);
   url = filter_url_urlencode (url);
-  url.insert (0, "https://net.bible.org/resource/netNotes/");
+  url.insert (0, "https://netbible.org/resource/netNotes/");
   
   std::string notes = resource_logic_web_or_cache_get (url, error);
   // If notes fail with an error, don't include the note text.

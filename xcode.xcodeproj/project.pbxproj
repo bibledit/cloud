@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXFileReference section */
-		CA05A59826878ACA000D0737 /* gbs.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = gbs.cpp; sourceTree = "<group>"; };
 		CA09D6E52616F089002FDA23 /* quill.notes.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = quill.notes.css; sourceTree = "<group>"; };
 		CA0E0C162A3CC637003CA623 /* libicui18n.73.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicui18n.73.1.dylib; path = ../../../../opt/local/lib/libicui18n.73.1.dylib; sourceTree = "<group>"; };
 		CA0E0C182A3CC66D003CA623 /* libicuuc.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicuuc.dylib; path = ../../../../opt/local/lib/libicuuc.dylib; sourceTree = "<group>"; };
@@ -105,7 +104,7 @@
 		CA47750D260FC720001F50DD /* accounts.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = accounts.html; sourceTree = "<group>"; };
 		CA47750E260FC720001F50DD /* accounts.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = accounts.cpp; sourceTree = "<group>"; };
 		CA47B2C925E8D957001370A4 /* config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
-		CA4A54222742E621009A0343 /* easyenglishbible.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = easyenglishbible.cpp; sourceTree = "<group>"; };
+		CA4AB3E32CB05EFC00071E3E /* scraper.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = scraper.cpp; sourceTree = "<group>"; };
 		CA4CA5432946111900939907 /* libiconv.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.2.dylib; path = ../../../../opt/local/lib/libiconv.2.dylib; sourceTree = "<group>"; };
 		CA60BF2925337938004D6E06 /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
 		CA60BF2B25337938004D6E06 /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
@@ -234,7 +233,6 @@
 		CA77114527524B8B003ADD67 /* libicui18n.67.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicui18n.67.1.dylib; path = ../../../../opt/local/lib/libicui18n.67.1.dylib; sourceTree = "<group>"; };
 		CA77114727524BC8003ADD67 /* libicuuc.67.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicuuc.67.1.dylib; path = ../../../../opt/local/lib/libicuuc.67.1.dylib; sourceTree = "<group>"; };
 		CA77114927524BFF003ADD67 /* libicudata.67.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicudata.67.1.dylib; path = ../../../../opt/local/lib/libicudata.67.1.dylib; sourceTree = "<group>"; };
-		CA772E29262F58580097D5C7 /* studylight.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = studylight.cpp; sourceTree = "<group>"; };
 		CA7A057B2C4C067C0087DBE5 /* 0readme.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = 0readme.txt; sourceTree = "<group>"; };
 		CA83A69F289D7C9F0038E298 /* googletranslate.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = googletranslate.cpp; sourceTree = "<group>"; };
 		CA83A6A0289D7C9F0038E298 /* googletranslate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = googletranslate.h; sourceTree = "<group>"; };
@@ -1803,7 +1801,6 @@
 		CADE445524F174BE003165BB /* bibles.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = bibles.cpp; sourceTree = "<group>"; };
 		CADE445724F174BE003165BB /* check.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = check.cpp; sourceTree = "<group>"; };
 		CADE445924F174BE003165BB /* rss.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = rss.cpp; sourceTree = "<group>"; };
-		CADE44B824F174BF003165BB /* biblegateway.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = biblegateway.cpp; sourceTree = "<group>"; };
 		CADE44BA24F174BF003165BB /* shell.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = shell.cpp; sourceTree = "<group>"; };
 		CADE44BB24F174BF003165BB /* usfm2html.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = usfm2html.cpp; sourceTree = "<group>"; };
 		CADE44BC24F174BF003165BB /* json.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = json.cpp; sourceTree = "<group>"; };
@@ -4480,7 +4477,6 @@
 			isa = PBXGroup;
 			children = (
 				CADE44C824F174BF003165BB /* archive.cpp */,
-				CADE44B824F174BF003165BB /* biblegateway.cpp */,
 				CAD8B11326E4B87600639404 /* bibleimages.cpp */,
 				CADE445524F174BE003165BB /* bibles.cpp */,
 				CADE441A24F174BE003165BB /* books.cpp */,
@@ -4493,14 +4489,12 @@
 				CADE42ED24F174BD003165BB /* date.cpp */,
 				CADE444A24F174BE003165BB /* dev.cpp */,
 				CADE44C624F174BF003165BB /* diff.cpp */,
-				CA4A54222742E621009A0343 /* easyenglishbible.cpp */,
 				CADE44BE24F174BF003165BB /* editone.cpp */,
 				CADE442224F174BE003165BB /* etcbc4.cpp */,
 				CADE441324F174BE003165BB /* export.cpp */,
 				CADE42FA24F174BD003165BB /* flate.cpp */,
 				CAD5E3942791E72F00AE0A28 /* folders.cpp */,
 				CADE44C124F174BF003165BB /* french.cpp */,
-				CA05A59826878ACA000D0737 /* gbs.cpp */,
 				CADE44D224F174BF003165BB /* git.cpp */,
 				CADE440C24F174BE003165BB /* html.cpp */,
 				CA10382A2527A4010021AF25 /* html2format.cpp */,
@@ -4538,6 +4532,7 @@
 				CADE445924F174BE003165BB /* rss.cpp */,
 				CADE43FD24F174BE003165BB /* sample.cpp */,
 				CADE444324F174BE003165BB /* sblgnt.cpp */,
+				CA4AB3E32CB05EFC00071E3E /* scraper.cpp */,
 				CADE443C24F174BE003165BB /* scripts */,
 				CADE442D24F174BE003165BB /* search.cpp */,
 				CADE42FE24F174BD003165BB /* sentences.cpp */,
@@ -4551,7 +4546,6 @@
 				CADE44CC24F174BF003165BB /* stress */,
 				CADE43FA24F174BE003165BB /* string.cpp */,
 				CADE42F324F174BD003165BB /* strong.cpp */,
-				CA772E29262F58580097D5C7 /* studylight.cpp */,
 				CADE444024F174BE003165BB /* styles.cpp */,
 				CADE440F24F174BE003165BB /* tasks.cpp */,
 				CADE430E24F174BD003165BB /* tests */,
@@ -4562,8 +4556,8 @@
 				CADE441224F174BE003165BB /* usfm.cpp */,
 				CADE44BB24F174BF003165BB /* usfm2html.cpp */,
 				CADE44CB24F174BF003165BB /* usfm2html2usfm.cpp */,
-				CADE440924F174BE003165BB /* utilities.cpp */,
 				CADE42FD24F174BD003165BB /* utilities.h */,
+				CADE440924F174BE003165BB /* utilities.cpp */,
 				CADE42F424F174BD003165BB /* verses.cpp */,
 				CADE42AA24F174BD003165BB /* versification.cpp */,
 				CADE42C024F174BD003165BB /* volatile.cpp */,

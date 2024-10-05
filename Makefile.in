@@ -444,36 +444,35 @@ am_unittest_OBJECTS = unittests/unittest.$(OBJEXT) \
 	unittests/search.$(OBJEXT) unittests/json.$(OBJEXT) \
 	unittests/related.$(OBJEXT) unittests/editone.$(OBJEXT) \
 	unittests/http.$(OBJEXT) unittests/memory.$(OBJEXT) \
-	unittests/tasks.$(OBJEXT) unittests/biblegateway.$(OBJEXT) \
-	unittests/rss.$(OBJEXT) unittests/space.$(OBJEXT) \
-	unittests/roles.$(OBJEXT) unittests/md5.$(OBJEXT) \
-	unittests/string.$(OBJEXT) unittests/users.$(OBJEXT) \
-	unittests/date.$(OBJEXT) unittests/export.$(OBJEXT) \
-	unittests/html.$(OBJEXT) unittests/archive.$(OBJEXT) \
-	unittests/odf.$(OBJEXT) unittests/text.$(OBJEXT) \
-	unittests/url.$(OBJEXT) unittests/passage.$(OBJEXT) \
-	unittests/styles.$(OBJEXT) unittests/diff.$(OBJEXT) \
-	unittests/git.$(OBJEXT) unittests/ipc.$(OBJEXT) \
-	unittests/shell.$(OBJEXT) unittests/ldap.$(OBJEXT) \
-	unittests/dev.$(OBJEXT) unittests/sample.$(OBJEXT) \
-	unittests/config.$(OBJEXT) unittests/log.$(OBJEXT) \
-	unittests/books.$(OBJEXT) unittests/check.$(OBJEXT) \
-	unittests/localization.$(OBJEXT) unittests/confirm.$(OBJEXT) \
-	unittests/jobs.$(OBJEXT) unittests/kjv.$(OBJEXT) \
-	unittests/oshb.$(OBJEXT) unittests/sblgnt.$(OBJEXT) \
-	unittests/sprint.$(OBJEXT) unittests/mail.$(OBJEXT) \
-	unittests/navigation.$(OBJEXT) unittests/resources.$(OBJEXT) \
-	unittests/notes.$(OBJEXT) unittests/modifications.$(OBJEXT) \
-	unittests/volatile.$(OBJEXT) unittests/state.$(OBJEXT) \
-	unittests/strong.$(OBJEXT) unittests/morphgnt.$(OBJEXT) \
-	unittests/etcbc4.$(OBJEXT) unittests/lexicon.$(OBJEXT) \
-	unittests/cache.$(OBJEXT) unittests/login.$(OBJEXT) \
-	unittests/privileges.$(OBJEXT) unittests/statistics.$(OBJEXT) \
-	unittests/webview.$(OBJEXT) unittests/javascript.$(OBJEXT) \
-	unittests/french.$(OBJEXT) unittests/merge.$(OBJEXT) \
-	unittests/html2format.$(OBJEXT) unittests/studylight.$(OBJEXT) \
-	unittests/gbs.$(OBJEXT) unittests/bibleimages.$(OBJEXT) \
-	unittests/image.$(OBJEXT) unittests/easyenglishbible.$(OBJEXT)
+	unittests/tasks.$(OBJEXT) unittests/rss.$(OBJEXT) \
+	unittests/space.$(OBJEXT) unittests/roles.$(OBJEXT) \
+	unittests/md5.$(OBJEXT) unittests/string.$(OBJEXT) \
+	unittests/users.$(OBJEXT) unittests/date.$(OBJEXT) \
+	unittests/export.$(OBJEXT) unittests/html.$(OBJEXT) \
+	unittests/archive.$(OBJEXT) unittests/odf.$(OBJEXT) \
+	unittests/text.$(OBJEXT) unittests/url.$(OBJEXT) \
+	unittests/passage.$(OBJEXT) unittests/styles.$(OBJEXT) \
+	unittests/diff.$(OBJEXT) unittests/git.$(OBJEXT) \
+	unittests/ipc.$(OBJEXT) unittests/shell.$(OBJEXT) \
+	unittests/ldap.$(OBJEXT) unittests/dev.$(OBJEXT) \
+	unittests/sample.$(OBJEXT) unittests/config.$(OBJEXT) \
+	unittests/log.$(OBJEXT) unittests/books.$(OBJEXT) \
+	unittests/check.$(OBJEXT) unittests/localization.$(OBJEXT) \
+	unittests/confirm.$(OBJEXT) unittests/jobs.$(OBJEXT) \
+	unittests/kjv.$(OBJEXT) unittests/oshb.$(OBJEXT) \
+	unittests/sblgnt.$(OBJEXT) unittests/sprint.$(OBJEXT) \
+	unittests/mail.$(OBJEXT) unittests/navigation.$(OBJEXT) \
+	unittests/resources.$(OBJEXT) unittests/notes.$(OBJEXT) \
+	unittests/modifications.$(OBJEXT) unittests/volatile.$(OBJEXT) \
+	unittests/state.$(OBJEXT) unittests/strong.$(OBJEXT) \
+	unittests/morphgnt.$(OBJEXT) unittests/etcbc4.$(OBJEXT) \
+	unittests/lexicon.$(OBJEXT) unittests/cache.$(OBJEXT) \
+	unittests/login.$(OBJEXT) unittests/privileges.$(OBJEXT) \
+	unittests/statistics.$(OBJEXT) unittests/webview.$(OBJEXT) \
+	unittests/javascript.$(OBJEXT) unittests/french.$(OBJEXT) \
+	unittests/merge.$(OBJEXT) unittests/html2format.$(OBJEXT) \
+	unittests/bibleimages.$(OBJEXT) unittests/image.$(OBJEXT) \
+	unittests/scraper.$(OBJEXT)
 unittest_OBJECTS = $(am_unittest_OBJECTS)
 unittest_DEPENDENCIES = libbibledit.a
 AM_V_P = $(am__v_P_@AM_V@)
@@ -811,19 +810,16 @@ am__depfiles_remade = access/$(DEPDIR)/bible.Po \
 	tidy/$(DEPDIR)/utf8.Po timer/$(DEPDIR)/index.Po \
 	tmp/$(DEPDIR)/tmp.Po trash/$(DEPDIR)/handler.Po \
 	unittests/$(DEPDIR)/archive.Po \
-	unittests/$(DEPDIR)/biblegateway.Po \
 	unittests/$(DEPDIR)/bibleimages.Po \
 	unittests/$(DEPDIR)/bibles.Po unittests/$(DEPDIR)/books.Po \
 	unittests/$(DEPDIR)/cache.Po unittests/$(DEPDIR)/check.Po \
 	unittests/$(DEPDIR)/checksum.Po unittests/$(DEPDIR)/client.Po \
 	unittests/$(DEPDIR)/config.Po unittests/$(DEPDIR)/confirm.Po \
 	unittests/$(DEPDIR)/date.Po unittests/$(DEPDIR)/dev.Po \
-	unittests/$(DEPDIR)/diff.Po \
-	unittests/$(DEPDIR)/easyenglishbible.Po \
-	unittests/$(DEPDIR)/editone.Po unittests/$(DEPDIR)/etcbc4.Po \
-	unittests/$(DEPDIR)/export.Po unittests/$(DEPDIR)/flate.Po \
-	unittests/$(DEPDIR)/folders.Po unittests/$(DEPDIR)/french.Po \
-	unittests/$(DEPDIR)/gbs.Po unittests/$(DEPDIR)/git.Po \
+	unittests/$(DEPDIR)/diff.Po unittests/$(DEPDIR)/editone.Po \
+	unittests/$(DEPDIR)/etcbc4.Po unittests/$(DEPDIR)/export.Po \
+	unittests/$(DEPDIR)/flate.Po unittests/$(DEPDIR)/folders.Po \
+	unittests/$(DEPDIR)/french.Po unittests/$(DEPDIR)/git.Po \
 	unittests/$(DEPDIR)/html.Po unittests/$(DEPDIR)/html2format.Po \
 	unittests/$(DEPDIR)/html2usfm.Po unittests/$(DEPDIR)/http.Po \
 	unittests/$(DEPDIR)/hyphenate.Po unittests/$(DEPDIR)/image.Po \
@@ -845,14 +841,13 @@ am__depfiles_remade = access/$(DEPDIR)/bible.Po \
 	unittests/$(DEPDIR)/related.Po \
 	unittests/$(DEPDIR)/resources.Po unittests/$(DEPDIR)/roles.Po \
 	unittests/$(DEPDIR)/rss.Po unittests/$(DEPDIR)/sample.Po \
-	unittests/$(DEPDIR)/sblgnt.Po unittests/$(DEPDIR)/search.Po \
-	unittests/$(DEPDIR)/sentences.Po \
+	unittests/$(DEPDIR)/sblgnt.Po unittests/$(DEPDIR)/scraper.Po \
+	unittests/$(DEPDIR)/search.Po unittests/$(DEPDIR)/sentences.Po \
 	unittests/$(DEPDIR)/session.Po unittests/$(DEPDIR)/shell.Po \
 	unittests/$(DEPDIR)/space.Po unittests/$(DEPDIR)/sprint.Po \
 	unittests/$(DEPDIR)/sqlite.Po unittests/$(DEPDIR)/state.Po \
 	unittests/$(DEPDIR)/statistics.Po \
 	unittests/$(DEPDIR)/string.Po unittests/$(DEPDIR)/strong.Po \
-	unittests/$(DEPDIR)/studylight.Po \
 	unittests/$(DEPDIR)/styles.Po unittests/$(DEPDIR)/tasks.Po \
 	unittests/$(DEPDIR)/text.Po unittests/$(DEPDIR)/unittest.Po \
 	unittests/$(DEPDIR)/url.Po unittests/$(DEPDIR)/users.Po \
@@ -1689,7 +1684,6 @@ unittest_SOURCES = \
 	unittests/http.cpp \
 	unittests/memory.cpp \
 	unittests/tasks.cpp \
-	unittests/biblegateway.cpp \
 	unittests/rss.cpp \
 	unittests/space.cpp \
 	unittests/roles.cpp \
@@ -1743,11 +1737,9 @@ unittest_SOURCES = \
 	unittests/french.cpp \
   unittests/merge.cpp \
   unittests/html2format.cpp \
-  unittests/studylight.cpp \
-  unittests/gbs.cpp \
   unittests/bibleimages.cpp \
   unittests/image.cpp \
-  unittests/easyenglishbible.cpp
+  unittests/scraper.cpp
 
 unittest_LDADD = libbibledit.a
 generate_SOURCES = \
@@ -3592,8 +3584,6 @@ unittests/memory.$(OBJEXT): unittests/$(am__dirstamp) \
 	unittests/$(DEPDIR)/$(am__dirstamp)
 unittests/tasks.$(OBJEXT): unittests/$(am__dirstamp) \
 	unittests/$(DEPDIR)/$(am__dirstamp)
-unittests/biblegateway.$(OBJEXT): unittests/$(am__dirstamp) \
-	unittests/$(DEPDIR)/$(am__dirstamp)
 unittests/rss.$(OBJEXT): unittests/$(am__dirstamp) \
 	unittests/$(DEPDIR)/$(am__dirstamp)
 unittests/space.$(OBJEXT): unittests/$(am__dirstamp) \
@@ -3700,15 +3690,11 @@ unittests/merge.$(OBJEXT): unittests/$(am__dirstamp) \
 	unittests/$(DEPDIR)/$(am__dirstamp)
 unittests/html2format.$(OBJEXT): unittests/$(am__dirstamp) \
 	unittests/$(DEPDIR)/$(am__dirstamp)
-unittests/studylight.$(OBJEXT): unittests/$(am__dirstamp) \
-	unittests/$(DEPDIR)/$(am__dirstamp)
-unittests/gbs.$(OBJEXT): unittests/$(am__dirstamp) \
-	unittests/$(DEPDIR)/$(am__dirstamp)
 unittests/bibleimages.$(OBJEXT): unittests/$(am__dirstamp) \
 	unittests/$(DEPDIR)/$(am__dirstamp)
 unittests/image.$(OBJEXT): unittests/$(am__dirstamp) \
 	unittests/$(DEPDIR)/$(am__dirstamp)
-unittests/easyenglishbible.$(OBJEXT): unittests/$(am__dirstamp) \
+unittests/scraper.$(OBJEXT): unittests/$(am__dirstamp) \
 	unittests/$(DEPDIR)/$(am__dirstamp)
 
 unittest$(EXEEXT): $(unittest_OBJECTS) $(unittest_DEPENDENCIES) $(EXTRA_unittest_DEPENDENCIES) 
@@ -4351,7 +4337,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@tmp/$(DEPDIR)/tmp.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@trash/$(DEPDIR)/handler.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/archive.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/biblegateway.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/bibleimages.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/bibles.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/books.Po@am__quote@ # am--include-marker
@@ -4364,14 +4349,12 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/date.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/dev.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/diff.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/easyenglishbible.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/editone.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/etcbc4.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/export.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/flate.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/folders.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/french.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/gbs.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/git.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/html.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/html2format.Po@am__quote@ # am--include-marker
@@ -4409,6 +4392,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/rss.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/sample.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/sblgnt.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/scraper.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/search.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/sentences.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/session.Po@am__quote@ # am--include-marker
@@ -4420,7 +4404,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/statistics.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/string.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/strong.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/studylight.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/styles.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/tasks.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/text.Po@am__quote@ # am--include-marker
@@ -5550,7 +5533,6 @@ distclean: distclean-am
 	-rm -f tmp/$(DEPDIR)/tmp.Po
 	-rm -f trash/$(DEPDIR)/handler.Po
 	-rm -f unittests/$(DEPDIR)/archive.Po
-	-rm -f unittests/$(DEPDIR)/biblegateway.Po
 	-rm -f unittests/$(DEPDIR)/bibleimages.Po
 	-rm -f unittests/$(DEPDIR)/bibles.Po
 	-rm -f unittests/$(DEPDIR)/books.Po
@@ -5563,14 +5545,12 @@ distclean: distclean-am
 	-rm -f unittests/$(DEPDIR)/date.Po
 	-rm -f unittests/$(DEPDIR)/dev.Po
 	-rm -f unittests/$(DEPDIR)/diff.Po
-	-rm -f unittests/$(DEPDIR)/easyenglishbible.Po
 	-rm -f unittests/$(DEPDIR)/editone.Po
 	-rm -f unittests/$(DEPDIR)/etcbc4.Po
 	-rm -f unittests/$(DEPDIR)/export.Po
 	-rm -f unittests/$(DEPDIR)/flate.Po
 	-rm -f unittests/$(DEPDIR)/folders.Po
 	-rm -f unittests/$(DEPDIR)/french.Po
-	-rm -f unittests/$(DEPDIR)/gbs.Po
 	-rm -f unittests/$(DEPDIR)/git.Po
 	-rm -f unittests/$(DEPDIR)/html.Po
 	-rm -f unittests/$(DEPDIR)/html2format.Po
@@ -5608,6 +5588,7 @@ distclean: distclean-am
 	-rm -f unittests/$(DEPDIR)/rss.Po
 	-rm -f unittests/$(DEPDIR)/sample.Po
 	-rm -f unittests/$(DEPDIR)/sblgnt.Po
+	-rm -f unittests/$(DEPDIR)/scraper.Po
 	-rm -f unittests/$(DEPDIR)/search.Po
 	-rm -f unittests/$(DEPDIR)/sentences.Po
 	-rm -f unittests/$(DEPDIR)/session.Po
@@ -5619,7 +5600,6 @@ distclean: distclean-am
 	-rm -f unittests/$(DEPDIR)/statistics.Po
 	-rm -f unittests/$(DEPDIR)/string.Po
 	-rm -f unittests/$(DEPDIR)/strong.Po
-	-rm -f unittests/$(DEPDIR)/studylight.Po
 	-rm -f unittests/$(DEPDIR)/styles.Po
 	-rm -f unittests/$(DEPDIR)/tasks.Po
 	-rm -f unittests/$(DEPDIR)/text.Po
@@ -6235,7 +6215,6 @@ maintainer-clean: maintainer-clean-am
 	-rm -f tmp/$(DEPDIR)/tmp.Po
 	-rm -f trash/$(DEPDIR)/handler.Po
 	-rm -f unittests/$(DEPDIR)/archive.Po
-	-rm -f unittests/$(DEPDIR)/biblegateway.Po
 	-rm -f unittests/$(DEPDIR)/bibleimages.Po
 	-rm -f unittests/$(DEPDIR)/bibles.Po
 	-rm -f unittests/$(DEPDIR)/books.Po
@@ -6248,14 +6227,12 @@ maintainer-clean: maintainer-clean-am
 	-rm -f unittests/$(DEPDIR)/date.Po
 	-rm -f unittests/$(DEPDIR)/dev.Po
 	-rm -f unittests/$(DEPDIR)/diff.Po
-	-rm -f unittests/$(DEPDIR)/easyenglishbible.Po
 	-rm -f unittests/$(DEPDIR)/editone.Po
 	-rm -f unittests/$(DEPDIR)/etcbc4.Po
 	-rm -f unittests/$(DEPDIR)/export.Po
 	-rm -f unittests/$(DEPDIR)/flate.Po
 	-rm -f unittests/$(DEPDIR)/folders.Po
 	-rm -f unittests/$(DEPDIR)/french.Po
-	-rm -f unittests/$(DEPDIR)/gbs.Po
 	-rm -f unittests/$(DEPDIR)/git.Po
 	-rm -f unittests/$(DEPDIR)/html.Po
 	-rm -f unittests/$(DEPDIR)/html2format.Po
@@ -6293,6 +6270,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f unittests/$(DEPDIR)/rss.Po
 	-rm -f unittests/$(DEPDIR)/sample.Po
 	-rm -f unittests/$(DEPDIR)/sblgnt.Po
+	-rm -f unittests/$(DEPDIR)/scraper.Po
 	-rm -f unittests/$(DEPDIR)/search.Po
 	-rm -f unittests/$(DEPDIR)/sentences.Po
 	-rm -f unittests/$(DEPDIR)/session.Po
@@ -6304,7 +6282,6 @@ maintainer-clean: maintainer-clean-am
 	-rm -f unittests/$(DEPDIR)/statistics.Po
 	-rm -f unittests/$(DEPDIR)/string.Po
 	-rm -f unittests/$(DEPDIR)/strong.Po
-	-rm -f unittests/$(DEPDIR)/studylight.Po
 	-rm -f unittests/$(DEPDIR)/styles.Po
 	-rm -f unittests/$(DEPDIR)/tasks.Po
 	-rm -f unittests/$(DEPDIR)/text.Po

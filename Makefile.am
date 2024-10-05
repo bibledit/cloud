@@ -584,7 +584,6 @@ unittest_SOURCES = \
 	unittests/http.cpp \
 	unittests/memory.cpp \
 	unittests/tasks.cpp \
-	unittests/biblegateway.cpp \
 	unittests/rss.cpp \
 	unittests/space.cpp \
 	unittests/roles.cpp \
@@ -638,11 +637,9 @@ unittest_SOURCES = \
 	unittests/french.cpp \
   unittests/merge.cpp \
   unittests/html2format.cpp \
-  unittests/studylight.cpp \
-  unittests/gbs.cpp \
   unittests/bibleimages.cpp \
   unittests/image.cpp \
-  unittests/easyenglishbible.cpp
+  unittests/scraper.cpp
 
 unittest_LDADD = libbibledit.a
 

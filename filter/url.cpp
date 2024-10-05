@@ -925,6 +925,27 @@ std::string filter_url_http_get (std::string url, std::string& error, [[maybe_un
     // Because a Bibledit client should work even over very bad networks,
     // pass some timeout options to curl so it properly deals with such networks.
     filter_url_curl_set_timeout (curl);
+    // Some websites may prevent simple scrapers from getting their content.
+    // If the request comes from a real browser, they may accept the request and give an appropriate response.
+    // Here is how to mimic a request coming from a real browser:
+    // https://stackoverflow.com/questions/28760694/how-to-use-curl-to-get-a-get-request-exactly-same-as-using-chrome
+    // The code below mimics the Chrome browser in October 2024.
+    curl_slist* extra_headers {nullptr};
+    extra_headers = curl_slist_append (extra_headers, "accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7");
+    extra_headers = curl_slist_append (extra_headers, "accept-language: en-US,en;q=0.9");
+    extra_headers = curl_slist_append (extra_headers, "cache-control: max-age=0");
+    extra_headers = curl_slist_append (extra_headers, "cookie: PHPSESSID=9jin0fmqnb03np12o8v5dv4jf1");
+    extra_headers = curl_slist_append (extra_headers, "priority: u=0, i");
+    extra_headers = curl_slist_append (extra_headers, R"(sec-ch-ua: "Google Chrome";v="129", "Not=A?Brand";v="8", "Chromium";v="129")");
+    extra_headers = curl_slist_append (extra_headers, R"(sec-ch-ua-mobile: ?0)");
+    extra_headers = curl_slist_append (extra_headers, R"(sec-ch-ua-platform: "macOS")");
+    extra_headers = curl_slist_append (extra_headers, R"(sec-fetch-dest: document)");
+    extra_headers = curl_slist_append (extra_headers, R"(sec-fetch-mode: navigate)");
+    extra_headers = curl_slist_append (extra_headers, R"(sec-fetch-site: none)");
+    extra_headers = curl_slist_append (extra_headers, R"(sec-fetch-user: ?1)");
+    extra_headers = curl_slist_append (extra_headers, R"(upgrade-insecure-requests: 1)");
+    extra_headers = curl_slist_append (extra_headers, R"(user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36)");
+    curl_easy_setopt(curl, CURLOPT_HTTPHEADER, extra_headers);
     CURLcode res = curl_easy_perform (curl);
     if (res == CURLE_OK) {
       error.clear ();
@@ -937,6 +958,7 @@ std::string filter_url_http_get (std::string url, std::string& error, [[maybe_un
       response.clear ();
       error = curl_easy_strerror (res);
     }
+    curl_slist_free_all (extra_headers);
     curl_easy_cleanup (curl);
   }
 #endif

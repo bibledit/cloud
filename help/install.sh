@@ -132,6 +132,7 @@ dnf --assumeyes install curl
 dnf --assumeyes install make
 dnf --assumeyes install utf8proc-devel
 dnf --assumeyes install pugixml-devel
+dnf --assumeyes install gst-devtools-devel
 fi
 
 # CentOS

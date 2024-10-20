@@ -229,6 +229,9 @@
 		CA7520D12B6965B900C9F032 /* loading.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = loading.css; sourceTree = "<group>"; };
 		CA7520D22B6965BA00C9F032 /* loading.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = loading.html; sourceTree = "<group>"; };
 		CA7520D32B69664500C9F032 /* browserconfig.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = browserconfig.xml; sourceTree = "<group>"; };
+		CA7531A62CC5438E00E2951F /* installcloudlinux.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = installcloudlinux.html; sourceTree = "<group>"; };
+		CA7531A72CC547A400E2951F /* installcloudpackages.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = installcloudpackages.html; sourceTree = "<group>"; };
+		CA7531A82CC547A400E2951F /* installcloudsource.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = installcloudsource.html; sourceTree = "<group>"; };
 		CA7540A8294628EA0043BE37 /* libiconv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.tbd; path = usr/lib/libiconv.tbd; sourceTree = SDKROOT; };
 		CA77114527524B8B003ADD67 /* libicui18n.67.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicui18n.67.1.dylib; path = ../../../../opt/local/lib/libicui18n.67.1.dylib; sourceTree = "<group>"; };
 		CA77114727524BC8003ADD67 /* libicuuc.67.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicuuc.67.1.dylib; path = ../../../../opt/local/lib/libicuuc.67.1.dylib; sourceTree = "<group>"; };
@@ -627,7 +630,6 @@
 		CADE39A424F17423003165BB /* teams.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = teams.html; sourceTree = "<group>"; };
 		CADE39A524F17423003165BB /* typesettingscribus.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = typesettingscribus.html; sourceTree = "<group>"; };
 		CADE39A624F17423003165BB /* tipstricks.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = tipstricks.html; sourceTree = "<group>"; };
-		CADE39A724F17423003165BB /* installcloudubuntu.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = installcloudubuntu.html; sourceTree = "<group>"; };
 		CADE39A824F17423003165BB /* shortcuts.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = shortcuts.html; sourceTree = "<group>"; };
 		CADE39A924F17423003165BB /* scrum.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = scrum.html; sourceTree = "<group>"; };
 		CADE39AA24F17423003165BB /* typesetting.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = typesetting.html; sourceTree = "<group>"; };
@@ -2782,16 +2784,18 @@
 				CADE399D24F17422003165BB /* consultations.html */,
 				CADE399624F17422003165BB /* discussions.html */,
 				CADE399924F17422003165BB /* freebb.html */,
-				CADE39B824F17423003165BB /* index.cpp */,
 				CADE399224F17422003165BB /* index.h */,
+				CADE39B824F17423003165BB /* index.cpp */,
 				CADE399724F17422003165BB /* index.html */,
 				CADE399E24F17422003165BB /* install.sh */,
 				CADE39AD24F17423003165BB /* installandroid.html */,
 				CADE39AE24F17423003165BB /* installation.html */,
 				CADE399524F17422003165BB /* installchromeos.html */,
 				CAD8B11826E50BF700639404 /* installcloudcentos.html */,
+				CA7531A62CC5438E00E2951F /* installcloudlinux.html */,
+				CA7531A72CC547A400E2951F /* installcloudpackages.html */,
+				CA7531A82CC547A400E2951F /* installcloudsource.html */,
 				CADE39B724F17423003165BB /* installcloudsourcedebian.html */,
-				CADE39A724F17423003165BB /* installcloudubuntu.html */,
 				CADE39A324F17423003165BB /* installios.html */,
 				CADE39B424F17423003165BB /* installlinux.html */,
 				CADE39B224F17423003165BB /* installosx.html */,

@@ -289,7 +289,9 @@
 /help/installation.html
 /help/installchromeos.html
 /help/installcloudcentos.html
-/help/installcloudubuntu.html
+/help/installcloudlinux.html
+/help/installcloudpackages.html
+/help/installcloudsource.html
 /help/installios.html
 /help/installlinux.html
 /help/installosx.html

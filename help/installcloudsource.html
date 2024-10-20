@@ -1,58 +1,202 @@
-<h2>translate("Install Bibledit Cloud on Debian and Ubuntu")</h2>
+<h2>translate("Install Bibledit Cloud from source")</h2>
+<p>translate("Follow the steps below to install Bibledit Cloud.")</p>
+<br>
+<table>
+
+  <tr>
+    <th></th>
+    <th>translate("Step")</th>
+    <th>Debian</th>
+    <th>Ubuntu</th>
+    <th>CentOS</th>
+  </tr>
+
+  <tr>
+    <td><br></td>
+  </tr>
+
+  <tr>
+    <td>1.</td>
+    <td>translate("Open a terminal.")</td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+
+  <tr>
+    <td><br></td>
+  </tr>
+
+  <tr>
+    <td>2.</td>
+    <td>translate("Update the software sources:")</td>
+    <td><code>sudo apt update</code></td>
+    <td><code>sudo apt update</code></td>
+    <td><code>sudo dnf update</code></td>
+  </tr>
+
+  <tr>
+    <td><br></td>
+  </tr>
+
+  <tr>
+    <td>3.</td>
+    <td>translate("Install and enable extra package repositories:")</td>
+    <td><code></code></td>
+    <td><code></code></td>
+    <td><code>sudo dnf install epel-release</code></td>
+  </tr>
+
+  <tr>
+    <td><br></td>
+  </tr>
+
+  <tr>
+    <td>4.</td>
+    <td>translate("Install the software Bibledit relies on:")</td>
+    <td><code>sudo apt install build-essential autotools-dev autoconf autoconf-archive git zip pkgconf libcurl4-openssl-dev libssl-dev poppler-utils libsword-utils diatheke ldap-utils libmimetic-dev certbot libxml2-dev libutf8proc-dev libgumbo-dev libtidy-dev libpugixml-dev</code></td>
+    <td><code>sudo apt install build-essential autotools-dev autoconf autoconf-archive git zip pkgconf libcurl4-openssl-dev libssl-dev poppler-utils libsword-utils diatheke ldap-utils libmimetic-dev certbot libxml2-dev libutf8proc-dev libgumbo-dev libtidy-dev libpugixml-dev</code></td>
+    <td><code>sudo dnf install autoconf automake gcc gcc-c++ libtool git zip unzip pkgconfig libcurl-devel openssl-devel curl make poppler-utils libxml2-devel utf8proc gumbo-parser-devel libtidy-devel pugixml-devel</code></td>
+  </tr>
+
+  <tr>
+    <td><br></td>
+  </tr>
+
+  <tr>
+    <td>5.</td>
+    <td>translate("Go to the home directory:")</td>
+    <td><code>cd</code></td>
+    <td><code>cd</code></td>
+    <td><code>cd</code></td>
+  </tr>
+  <tr>
+    <td><br></td>
+  </tr>
+
+  <tr>
+    <td>6.</td>
+    <td>
+      translate("Download a recent version of Bibledit from")
+      <a href="https://github.com/bibledit/cloud/releases">GitHub</a>.
+    </td>
+    <td><code></code></td>
+    <td><code></code></td>
+    <td><code></code></td>
+  </tr>
+  <tr>
+    <td><br></td>
+  </tr>
+
+  <tr>
+    <td>7.</td>
+    <td>translate("Unpack the downloaded Bibledit in folder bibledit:")</td>
+    <td><code>mkdir -p bibledit</code></td>
+    <td><code>mkdir -p bibledit</code></td>
+    <td><code>mkdir -p bibledit</code></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td></td>
+    <td><code>tar xf bibledit-5.1.xxx.tar.gz -C bibledit --strip-components=1</code></td>
+    <td><code>tar xf bibledit-5.1.xxx.tar.gz -C bibledit --strip-components=1</code></td>
+    <td><code>tar xf bibledit-5.1.xxx.tar.gz -C bibledit --strip-components=1</code></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td>translate("Change the xxx above to the version number of Bibledit that was downloaded.")</td>
+    <td><code></code></td>
+    <td><code></code></td>
+    <td><code></code></td>
+  </tr>
+  <tr>
+    <td><br></td>
+  </tr>
+  
+  <tr>
+    <td>8.</td>
+    <td>translate("Change to the directory:")</td>
+    <td><code>cd bibledit</code></td>
+    <td><code>cd bibledit</code></td>
+    <td><code>cd bibledit</code></td>
+  </tr>
+  <tr>
+    <td><br></td>
+  </tr>
+
+  <tr>
+    <td>9.</td>
+    <td>translate("Build Bibledit:")</td>
+    <td><code>./configure</code></td>
+    <td><code>./configure</code></td>
+    <td><code>./configure</code></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td></td>
+    <td><code>make</code></td>
+    <td><code>make</code></td>
+    <td><code>make</code></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td>
+      translate("This takes a while.")
+      translate("There will be many technical messages, but there should be no errors.")
+    </td>
+    <td><code></code></td>
+    <td><code></code></td>
+    <td><code></code></td>
+  </tr>
+  <tr>
+    <td><br></td>
+  </tr>
+
+  <tr>
+    <td>10.</td>
+    <td>translate("Open port 8080 in the firewall:")</td>
+    <td><code></code></td>
+    <td><code></code></td>
+    <td><code>sudo firewall-cmd --zone=public --add-port=8080/tcp --permanent</code></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td></td>
+    <td><code></code></td>
+    <td><code></code></td>
+    <td><code>sudo firewall-cmd --reload</code></td>
+  </tr>
+  <tr>
+    <td><br></td>
+  </tr>
+
+  <tr>
+    <td>11.</td>
+    <td>translate("Start Bibledit:")</td>
+    <td><code>./bibledit &amp;</code></td>
+    <td><code>./bibledit &amp;</code></td>
+    <td><code>./bibledit &amp;</code></td>
+  </tr>
+  <tr>
+    <td><br></td>
+  </tr>
+  
+</table>
+
+<br>
 <p>
-  translate("Follow the steps below to install Bibledit.")
-  translate("It needs basic knowledge about working with Linux servers.")
+translate("Bibledit will be accessible through the IP address port 8080.")
+translate("Examples:")
 </p>
-<ol>
-<li>translate("Open a terminal.")</li>
-<li>
-  <p>translate("Update the software sources:")</p>
-  <p><code>sudo apt update</code></p>
-</li>
-<li>
-  <p>translate("Install the software Bibledit relies on:")</p>
-  <p><code>sudo apt install build-essential autotools-dev autoconf autoconf-archive git zip pkgconf libcurl4-openssl-dev libssl-dev poppler-utils libsword-utils diatheke ldap-utils libmimetic-dev certbot libxml2-dev libutf8proc-dev libgumbo-dev libtidy-dev libpugixml-dev</code></p>
-</li>
-<li>
-  <p>
-  translate("Download a recent version of Bibledit from")
-  <a href="https://github.com/bibledit/cloud/releases">https://github.com/bibledit/cloud/releases</a>.
-  </p>
-</li>
-<li>
-  <p>translate("Unpack the downloaded Bibledit in folder bibledit:")</p>
-  <p><code>mkdir -p bibledit</code></p>
-  <p><code>tar xf bibledit-5.0.9xx.tar.gz -C bibledit --strip-components=1</code></p>
-  <p>
-  translate("Change the 9xx above to the version number of Bibledit that was downloaded.")
-  </p>
-</li>
-<li>
-  <p>translate("Change to the directory:")</p>
-  <p><code>cd bibledit</code></p>
-</li>
-<li>
-  <p>translate("Build Bibledit:")</p>
-  <p><code>./configure</code></p>
-  <p><code>make</code></p>
-  <p>
-  translate("This takes a while.")
-  translate("There will be many technical messages, but there should be no errors.")
-  </p>
-</li>
-<li>
-  <p>translate("Start Bibledit:")</p>
-  <p><code>./bibledit &amp;</code></p>
-</li>
-<li>
-  <p>
-  translate("Bibledit will be accessible through the IP address port 8080.")
-  translate("Examples:")
-  </p>
-  <p>http://website.org:8080</p>
-  <p>http://192.168.2.1:8080</p>
-  <p>http://localhost:8080</p>
-</li>
-<li>translate("Open the web address in the browser, follow the instructions on the screen to configure Bibledit Cloud, and log in.")
-</li>
-</ol>
+<p>http://website.org:8080</p>
+<p>http://192.168.2.1:8080</p>
+<p>http://localhost:8080</p>
+<p>translate("Open the web address in a browser, follow the instructions on the screen to configure Bibledit Cloud, and log in.")</p>
+<br>
+
+<p>
+translate ("Most of Bibledit Cloud will now be working.")
+translate ("To get email services working, connect Bibledit to a gmail or other mail account.")
+translate ("To get SWORD resources working, install the SWORD libraries.")
+http://crosswire.org/sword/develop/index.jsp
+</p>

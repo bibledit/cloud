@@ -288,7 +288,6 @@
 /help/installandroid.html
 /help/installation.html
 /help/installchromeos.html
-/help/installcloudcentos.html
 /help/installcloudlinux.html
 /help/installcloudpackages.html
 /help/installcloudsource.html

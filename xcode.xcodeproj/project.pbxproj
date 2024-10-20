@@ -283,7 +283,6 @@
 		CAD8B11526E4E18C00639404 /* view.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = view.h; sourceTree = "<group>"; };
 		CAD8B11626E4E18C00639404 /* view.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = view.cpp; sourceTree = "<group>"; };
 		CAD8B11726E4E18C00639404 /* view.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = view.html; sourceTree = "<group>"; };
-		CAD8B11826E50BF700639404 /* installcloudcentos.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = installcloudcentos.html; sourceTree = "<group>"; };
 		CAD8ED092C3972A8006DF2D6 /* build_info.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = build_info.h; sourceTree = "<group>"; };
 		CAD8ED0A2C3972D4006DF2D6 /* mbedtls_config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = mbedtls_config.h; sourceTree = "<group>"; };
 		CAD8ED0B2C3978BA006DF2D6 /* net_sockets.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = net_sockets.c; sourceTree = "<group>"; };
@@ -641,7 +640,6 @@
 		CADE39B324F17423003165BB /* swiping.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = swiping.html; sourceTree = "<group>"; };
 		CADE39B424F17423003165BB /* installlinux.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = installlinux.html; sourceTree = "<group>"; };
 		CADE39B524F17423003165BB /* introduction.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = introduction.html; sourceTree = "<group>"; };
-		CADE39B724F17423003165BB /* installcloudsourcedebian.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = installcloudsourcedebian.html; sourceTree = "<group>"; };
 		CADE39B824F17423003165BB /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = index.cpp; sourceTree = "<group>"; };
 		CADE39B924F17423003165BB /* consistency.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = consistency.html; sourceTree = "<group>"; };
 		CADE39BA24F17423003165BB /* navigation.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = navigation.html; sourceTree = "<group>"; };
@@ -2791,11 +2789,9 @@
 				CADE39AD24F17423003165BB /* installandroid.html */,
 				CADE39AE24F17423003165BB /* installation.html */,
 				CADE399524F17422003165BB /* installchromeos.html */,
-				CAD8B11826E50BF700639404 /* installcloudcentos.html */,
 				CA7531A62CC5438E00E2951F /* installcloudlinux.html */,
 				CA7531A72CC547A400E2951F /* installcloudpackages.html */,
 				CA7531A82CC547A400E2951F /* installcloudsource.html */,
-				CADE39B724F17423003165BB /* installcloudsourcedebian.html */,
 				CADE39A324F17423003165BB /* installios.html */,
 				CADE39B424F17423003165BB /* installlinux.html */,
 				CADE39B224F17423003165BB /* installosx.html */,

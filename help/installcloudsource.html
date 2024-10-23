@@ -1,105 +1,104 @@
 <h2>translate("Install Bibledit Cloud from source")</h2>
 
-<p>translate("Follow the steps below to install Bibledit Cloud.")</p>
+<p>translate("Select the Linux distribution for which to show instructions.")</p>
+<p>
+<button id="debian">Debian</button>
+<button id="ubuntu">Ubuntu</button>
+<button id="centos">CentOS</button>
+</p>
+<p>translate("Then follow the steps below to install Bibledit Cloud.")</p>
+
+<script>
+  $(document).ready(function(){
+    $("#debian").click(function(){
+      hide_all();
+      $(".debian").show();
+    });
+    $("#ubuntu").click(function(){
+      hide_all();
+      $(".ubuntu").show();
+    });
+    $("#centos").click(function(){
+      hide_all();
+      $(".centos").show();
+    });
+    hide_all();
+    $(".debian").show();
+  });
+  function hide_all () {
+    $(".debian").hide();
+    $(".ubuntu").hide();
+    $(".centos").hide();
+  };
+</script>
 
 <br>
 
-<p>Step 1. translate("Open a terminal.")</p>
+<p>➤ translate("Open a terminal.")</p>
 
 <br>
 
-<p>Step 2. translate("Update the software sources.")</p>
-<details>
-  <summary>Debian, Ubuntu</summary>
-  <code>sudo apt update</code>
-</details>
-<details>
-  <summary>CentOS</summary>
-  <code>sudo dnf update</code>
-</details>
+<p>➤ translate("Update the software sources.")</p>
+<p class="debian ubuntu"><code>sudo apt update</code></p>
+<p class="centos"><code>sudo dnf update</code></p>
+
+<div class="centos">
+<br>
+<p>➤ translate("Install and enable extra package repositories.")</p>
+<p><code>sudo dnf install epel-release</code></p>
+</div>
 
 <br>
 
-<p>Step 3. translate("Install and enable extra package repositories.")</p>
-<details>
-  <summary>CentOS</summary>
-  <code>sudo dnf install epel-release</code>
-</details>
+<p>➤ translate("Install the software Bibledit relies on:")</p>
+<p class="debian ubuntu"><code>sudo apt install build-essential autotools-dev autoconf autoconf-archive git zip pkgconf libcurl4-openssl-dev libssl-dev poppler-utils libsword-utils diatheke ldap-utils libmimetic-dev certbot libxml2-dev libutf8proc-dev libgumbo-dev libtidy-dev libpugixml-dev</code></p>
+<p class="centos"><code>sudo dnf install autoconf automake gcc gcc-c++ libtool git zip unzip pkgconfig libcurl-devel openssl-devel curl make poppler-utils libxml2-devel utf8proc gumbo-parser-devel libtidy-devel pugixml-devel</code></p>
 
 <br>
 
-<p>Step 4. translate("Install the software Bibledit relies on:")</p>
-<details>
-  <summary>Debian, Ubuntu</summary>
-  <code>sudo apt install build-essential autotools-dev autoconf autoconf-archive git zip pkgconf libcurl4-openssl-dev libssl-dev poppler-utils libsword-utils diatheke ldap-utils libmimetic-dev certbot libxml2-dev libutf8proc-dev libgumbo-dev libtidy-dev libpugixml-dev</code>
-</details>
-<details>
-  <summary>CentOS</summary>
-  <code>sudo dnf install autoconf automake gcc gcc-c++ libtool git zip unzip pkgconfig libcurl-devel openssl-devel curl make poppler-utils libxml2-devel utf8proc gumbo-parser-devel libtidy-devel pugixml-devel</code>
-</details>
-
-<br>
-
-<p>Step 5. translate("Go to the home directory.")</p>
-<details>
-  <summary>Debian, Ubuntu, CentOS</summary>
-  <code>cd</code>
-</details>
+<p>➤ translate("Go to the home directory.")</p>
+<p><code>cd</code></p>
 
 <br>
 
 <p>
-Step 6. translate("Download a recent version of Bibledit from")
+➤ translate("Download a recent version of Bibledit from")
 <a href="https://github.com/bibledit/cloud/releases">GitHub</a>.
 </p>
 
 <br>
 
-<p>Step 7. translate("Unpack the downloaded Bibledit in folder bibledit.")</p>
-<details>
-  <summary>Debian, Ubuntu, CentOS</summary>
-  <p><code>mkdir -p bibledit</code></p>
-  <p><code>tar xf bibledit-5.1.xxx.tar.gz -C bibledit --strip-components=1</code></p>
-  <p>translate("Change the xxx above to the version number of Bibledit that was downloaded.")</p>
-</details>
+<p>➤ translate("Unpack the downloaded Bibledit in folder bibledit.")</p>
+<p><code>mkdir -p bibledit</code></p>
+<p><code>tar xf bibledit-5.1.xxx.tar.gz -C bibledit --strip-components=1</code></p>
+<p>translate("Change the xxx above to the version number of Bibledit that was downloaded.")</p>
 
 <br>
 
-<p>Step 8. translate("Change to the directory.")</p>
-<details>
-  <summary>Debian, Ubuntu, CentOS</summary>
-  <p><code>cd bibledit</code></p>
-</details>
+<p>➤ translate("Change to the directory.")</p>
+<p><code>cd bibledit</code></p>
 
 <br>
 
-<p>Step 9. translate("Build Bibledit.")</p>
-<details>
-  <summary>Debian, Ubuntu, CentOS</summary>
-  <p><code>./configure</code></p>
-  <p><code>make</code></p>
-  <p>
-  translate("This takes a while.")
-  translate("There will be many technical messages, but there should be no errors.")
-  </p>
-</details>
+<p>➤ translate("Build Bibledit.")</p>
+<p><code>./configure</code></p>
+<p><code>make</code></p>
+<p>
+translate("This takes a while.")
+translate("There will be many technical messages, but there should be no errors.")
+</p>
 
-<br>
-
-<p>Step 10. translate("Open port 8080 in the firewall.")</p>
-<details>
-  <summary>CentOS</summary>
+<div class="centos">
+  <br>
+  <p>➤ translate("Open port 8080 in the firewall.")</p>
   <p><code>sudo firewall-cmd --zone=public --add-port=8080/tcp --permanent</code></p>
   <p><code>sudo firewall-cmd --reload</code></p>
-</details>
+</div>
 
 <br>
 
-<p>Step 11. translate("Start Bibledit.")</p>
-<details>
-  <summary>Debian, Ubuntu, CentOS</summary>
-  <p><code>./bibledit &amp;</code></p>
-</details>
+<p>➤ translate("Start Bibledit.")</p>
+<p><code>./bibledit &amp;</code></p>
 
 <br>
 <p>
@@ -118,3 +117,4 @@ translate ("To get email services working, connect Bibledit to a gmail or other 
 translate ("To get SWORD resources working, install the SWORD libraries.")
 http://crosswire.org/sword/develop/index.jsp
 </p>
+

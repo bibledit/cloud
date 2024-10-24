@@ -76,14 +76,13 @@ bool index_listing_acl (Webserver_Request& webserver_request, std::string url)
 }
 
 
-std::string index_listing (Webserver_Request& webserver_request, std::string url) // Todo
+std::string index_listing (Webserver_Request& webserver_request, std::string url)
 {
   std::string page = assets_page::header (translate ("Bibledit"), webserver_request);
   // No breadcrumbs because the user can arrive here from more than one place.
   Assets_View view;
   url = filter_url_urldecode (url);
   url = filter_url_create_path_web ({std::string(), url});
-  url = filter::strings::replace (R"(\)", "/", url); // Todo still needed? Check on Linux and on Windows.
   view.set_variable ("url", url);
   const std::string parent = filter_url_dirname_web (url);
   if (parent.length () > 1) {

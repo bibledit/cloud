@@ -364,7 +364,7 @@ void filter_url_rename (const std::string& oldfilename, const std::string& newfi
 
 
 // Creates a file path out of the components.
-std::string filter_url_create_path (const std::vector <std::string>& parts) // Todo
+std::string filter_url_create_path (const std::vector <std::string>& parts)
 #ifdef USE_STD_FILESYSTEM
 {
   // Empty path.
@@ -396,7 +396,7 @@ std::string filter_url_create_path (const std::vector <std::string>& parts) // T
 
 
 // Creates a web path out of the components.
-std::string filter_url_create_path_web (const std::vector <std::string>& parts) // Todo
+std::string filter_url_create_path_web (const std::vector <std::string>& parts)
 {
   // Empty path.
   std::string path;

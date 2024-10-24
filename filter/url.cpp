@@ -364,7 +364,7 @@ void filter_url_rename (const std::string& oldfilename, const std::string& newfi
 
 
 // Creates a file path out of the components.
-std::string filter_url_create_path (const std::vector <std::string>& parts)
+std::string filter_url_create_path (const std::vector <std::string>& parts) // Todo
 #ifdef USE_STD_FILESYSTEM
 {
   // Empty path.
@@ -393,6 +393,26 @@ std::string filter_url_create_path (const std::vector <std::string>& parts)
   return path;
 }
 #endif
+
+
+// Creates a web path out of the components.
+std::string filter_url_create_path_web (const std::vector <std::string>& parts) // Todo
+{
+  // Empty path.
+  std::string path;
+  for (size_t i = 0; i < parts.size(); i++) {
+    // Initially append the first part without directory separator.
+    if (i == 0)
+      path.append(parts.at(i));
+    else {
+      // Other parts: Append the web directory separator and then the part.
+      path.append("/");
+      path.append(parts.at(i));
+    }
+  }
+  // Done.
+  return path;
+}
 
 
 // Creates a file path out of the variable list of components,

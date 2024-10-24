@@ -32,6 +32,7 @@ std::string filter_url_basename_web (std::string url);
 void filter_url_unlink (const std::string& filename);
 void filter_url_rename (const std::string& oldfilename, const std::string& newfilename);
 std::string filter_url_create_path (const std::vector<std::string>& parts);
+std::string filter_url_create_path_web (const std::vector<std::string>& parts);
 std::string filter_url_create_root_path (const std::vector<std::string>& parts);
 std::string filter_url_get_extension (const std::string& url);
 bool file_or_dir_exists (const std::string& url);

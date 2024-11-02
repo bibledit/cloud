@@ -456,7 +456,6 @@
 /nicedit/nicedit.min.js
 /nicedit/nicEditorIcons.gif
 /nicedit/readme.txt
-/nmt
 /notes
 /notes/actions.html
 /notes/assign-1.html

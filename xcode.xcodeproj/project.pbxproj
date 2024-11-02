@@ -1970,7 +1970,6 @@
 				CADE3CBC24F17470003165BB /* miniz */,
 				CADE3CF224F17470003165BB /* navigation */,
 				CADE3E7624F17472003165BB /* nicedit */,
-				CADE3CA024F1746F003165BB /* nmt */,
 				CADE3E8424F17472003165BB /* notes */,
 				CADE3D0F24F17470003165BB /* notifit */,
 				CADE3F2524F17473003165BB /* obfuscate */,
@@ -3446,13 +3445,6 @@
 			path = livetest;
 			sourceTree = "<group>";
 		};
-		CADE3CA024F1746F003165BB /* nmt */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = nmt;
-			sourceTree = "<group>";
-		};
 		CADE3CAD24F1746F003165BB /* man */ = {
 			isa = PBXGroup;
 			children = (
@@ -4924,14 +4916,14 @@
 		CAECA4F825EED7B500650B41 /* read */ = {
 			isa = PBXGroup;
 			children = (
-				CAECA50525EED7B500650B41 /* index.cpp */,
 				CAECA4F925EED7B500650B41 /* index.h */,
+				CAECA50525EED7B500650B41 /* index.cpp */,
 				CAECA4FA25EED7B500650B41 /* index.html */,
 				CAECA4FF25EED7B500650B41 /* index.js */,
-				CAECA50225EED7B500650B41 /* load.cpp */,
 				CAECA4FD25EED7B500650B41 /* load.h */,
-				CAECA50425EED7B500650B41 /* verse.cpp */,
+				CAECA50225EED7B500650B41 /* load.cpp */,
 				CAECA50325EED7B500650B41 /* verse.h */,
+				CAECA50425EED7B500650B41 /* verse.cpp */,
 			);
 			path = read;
 			sourceTree = "<group>";

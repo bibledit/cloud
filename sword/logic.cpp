@@ -434,15 +434,18 @@ std::string sword_logic_get_text (const std::string& source, const std::string& 
   // diatheke -b KJV -k Jn 3:16
   // To included, run this instead: $ diatheke -b KJV -o n -k Jn 3:16
   std::vector <std::string> parameters {"-b", module};
+  parameters.push_back("-o");
+  std::string module_options {};
   if (database::config::general::get_keep_osis_content_in_sword_resources ()) {
-    parameters.push_back("-o");
-    parameters.push_back("n");
+    module_options.append("n");
   }
+  module_options.append("cvapr"); // Hebrew cantillation / Hebrew vowels / Greek accents / Arabic vowels / Arabic shaping.
+  parameters.push_back(module_options);
   parameters.push_back("-k");
   parameters.push_back(osis);
   parameters.push_back(chapter_verse);
   std::string error {};
-  const int result = filter_shell_run (sword_path, "diatheke", { "-b", module, "-o", "n", "-k", osis, chapter_verse }, &module_text, &error);
+  const int result = filter_shell_run (sword_path, "diatheke", parameters, &module_text, &error);
   module_text.append (error);
   sword_logic_diatheke_run_mutex.unlock ();
   if (result != 0) return sword_logic_fetch_failure_text ();

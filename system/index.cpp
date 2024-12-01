@@ -345,7 +345,7 @@ std::string system_index (Webserver_Request& webserver_request)
 #endif
 
   
-  // Handle the setting whether to keep the resource caches for an extended period of time.
+  // Handle the setting whether to keep available OSIS content in the SWORD resources.
 #ifdef HAVE_CLOUD
   if (checkbox == "keeposis") {
     database::config::general::set_keep_osis_content_in_sword_resources (checked);

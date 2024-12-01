@@ -57,7 +57,7 @@ void setup_conditionally (const char * package)
   
   // When the package folder is the same as the document root folder,
   // it may mean that another program installs the data for us.
-  // This is the case on Android.
+  // This is the case on Android and on iOS.
   // In that case, wait till the most important data has been installed.
   if (p == config_globals_document_root) setup_wait_till_main_folders_present ();
   

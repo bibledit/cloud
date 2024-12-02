@@ -172,7 +172,7 @@ std::string get_base_url (Webserver_Request& webserver_request)
     scheme = "http";
     port = config::logic::http_network_port ();
   }
-  std::string url = scheme + "://" + webserver_request.host + ":" + port + "/";
+  std::string url = scheme + "://" + webserver_request.host + "/"; // remove port for #986 - reverse proxy
   return url;
 }
 

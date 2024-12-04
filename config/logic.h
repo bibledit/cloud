@@ -35,7 +35,7 @@ std::string admin_username ();
 std::string admin_password ();
 std::string admin_email ();
 bool basic_mode (Webserver_Request& webserver_request);
-std::string site_url (Webserver_Request& webserver_request);
+std::string site_url (const Webserver_Request& webserver_request);
 std::string manual_user_facing_url ();
 std::string server_key_path (const bool force);
 std::string server_certificate_path (const bool force);

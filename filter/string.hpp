@@ -22,7 +22,7 @@
 #include <config/libraries.h>
 
 
-// A C++ equivalent for PHP's function.
+// Return the intersection of two containers.
 template <typename T>
 std::vector <T> array_intersect (std::vector <T> a, std::vector <T> b)
 {
@@ -37,7 +37,7 @@ std::vector <T> array_intersect (std::vector <T> a, std::vector <T> b)
 }
 
 
-// A C++ equivalent for PHP's function.
+// Return whether the needle is found in the haystack.
 template <typename T>
 bool in_array (const T & needle, const std::vector <T> & haystack)
 {
@@ -50,4 +50,3 @@ template <typename T>
 T clip (const T& n, const T& lower, const T& upper) {
   return std::max<T> (lower, std::min<T> (n, upper));
 }
-

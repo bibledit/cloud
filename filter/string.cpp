@@ -136,6 +136,17 @@ std::string implode (const std::vector <std::string>& values, std::string delimi
 }
 
 
+// Get a container with n parts, and join the first parts to remain with maximum n last parts.
+// Example input {1, 2, 3, 4}, max three last bits, the output will be [12, 3, 4}.
+void implode_from_beginning_remain_with_max_n_bits (std::vector<std::string>& input, const int n, const std::string& joiner)
+{
+  while (input.size() > n) {
+    input[1].insert(0, input.at(0) + joiner);
+    input.erase(input.cbegin());
+  }
+}
+
+
 // Replaces string contents.
 std::string replace (const std::string& search, const std::string& replace, std::string subject, int * count)
 {

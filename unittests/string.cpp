@@ -535,6 +535,30 @@ TEST (filter, string)
     EXPECT_EQ ((std::vector <std::string>{"aa.bb", "cc"}), result);
   }
   
+  // Test limited implode function.
+  {
+    {
+      std::vector<std::string> container {"Dot", "Name", "1", "9"};
+      filter::strings::implode_from_beginning_remain_with_max_n_bits (container, 3, ".");
+      EXPECT_EQ ((std::vector <std::string>{"Dot.Name", "1", "9"}), container);
+    }
+    {
+      std::vector<std::string> container {"NoDotName", "1", "9"};
+      filter::strings::implode_from_beginning_remain_with_max_n_bits (container, 3, ".");
+      EXPECT_EQ ((std::vector <std::string>{"NoDotName", "1", "9"}), container);
+    }
+    {
+      std::vector<std::string> container {"", "Dot", "Name", "1", "9"};
+      filter::strings::implode_from_beginning_remain_with_max_n_bits (container, 3, ".");
+      EXPECT_EQ ((std::vector <std::string>{".Dot.Name", "1", "9"}), container);
+    }
+    {
+      std::vector<std::string> container {"Dot", "Name", "", "1", "9"};
+      filter::strings::implode_from_beginning_remain_with_max_n_bits (container, 3, ".");
+      EXPECT_EQ ((std::vector <std::string>{"Dot.Name.", "1", "9"}), container);
+    }
+  }
+  
   // Test the array mover function.
   {
     std::vector <std::string> container;

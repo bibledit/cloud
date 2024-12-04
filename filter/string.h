@@ -29,6 +29,7 @@ namespace filter::strings {
 std::vector <std::string> explode (const std::string& value, char delimiter);
 std::vector <std::string> explode (std::string value, const std::string& delimiters);
 std::string implode (const std::vector <std::string>& values, std::string delimiter);
+void implode_from_beginning_remain_with_max_n_bits (std::vector<std::string>& input, const int n, const std::string& joiner);
 std::string replace (const std::string& search, const std::string& replace, std::string subject, int * count = nullptr);
 bool replace_between (std::string& line, const std::string& start, const std::string& end, const std::string& replacement);
 std::string convert_to_string (const char * c);

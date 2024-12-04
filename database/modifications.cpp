@@ -290,6 +290,7 @@ std::vector <int> getTeamDiffChapters (const std::string& bible, int book)
   for (auto & file : files) {
     if (file.substr (0, length) != pattern) continue;
     std::vector <std::string> bits = filter::strings::explode (file, '.');
+    filter::strings::implode_from_beginning_remain_with_max_n_bits (bits, 3, ".");
     if (bits.size() != 3) continue;
     std::string path = filter_url_create_path ({teamFolder (), file});
     const int time = filter_url_file_modification_time (path);
@@ -330,12 +331,13 @@ int getTeamDiffCount (const std::string& bible)
 std::vector <int> getTeamDiffBooks (const std::string& bible)
 {
   std::vector <int> books;
-  std::string pattern = bible + ".";
-  size_t length = pattern.length ();
-  std::vector <std::string> files = filter_url_scandir (teamFolder ());
-  for (auto & file : files) {
+  const std::string pattern = bible + ".";
+  const size_t length = pattern.length ();
+  const std::vector <std::string> files = filter_url_scandir (teamFolder ());
+  for (const auto& file : files) {
     if (file.substr (0, length) != pattern) continue;
     std::vector <std::string> bits = filter::strings::explode (file, '.');
+    filter::strings::implode_from_beginning_remain_with_max_n_bits (bits, 3, ".");
     if (bits.size() != 3) continue;
     books.push_back (filter::strings::convert_to_int (bits [1]));
   }
@@ -347,12 +349,14 @@ std::vector <int> getTeamDiffBooks (const std::string& bible)
 
 
 // Returns an array with the available Bibles that have diff data.
+// Supports Bible names with one or more dots (.) in their name.
 std::vector <std::string> getTeamDiffBibles ()
 {
   std::vector <std::string> bibles;
   std::vector <std::string> files = filter_url_scandir (teamFolder ());
   for (auto & file : files) {
     std::vector <std::string> bits = filter::strings::explode (file, '.');
+    filter::strings::implode_from_beginning_remain_with_max_n_bits (bits, 3, ".");
     if (bits.size() != 3) continue;
     bibles.push_back (bits [0]);
   }

@@ -161,18 +161,12 @@ static std::vector <std::string> filter_url_scandir_internal (std::string folder
 
 
 // Gets the base URL of current Bibledit installation.
-std::string get_base_url (Webserver_Request& webserver_request)
+std::string get_base_url (const Webserver_Request& webserver_request)
 {
-  std::string scheme;
-  std::string port;
-  if (webserver_request.secure || config_globals_enforce_https_browser) {
-    scheme = "https";
-    port = config::logic::https_network_port ();
-  } else {
-    scheme = "http";
-    port = config::logic::http_network_port ();
-  }
-  std::string url = scheme + "://" + webserver_request.host + ":" + port + "/";
+  const bool secure = webserver_request.secure || config_globals_enforce_https_browser;
+  const std::string scheme {secure ? "https" : "http"};
+  const std::string port {secure ? config::logic::https_network_port () : config::logic::http_network_port ()};
+  const std::string url = scheme + "://" + webserver_request.host + ":" + port + "/";
   return url;
 }
 

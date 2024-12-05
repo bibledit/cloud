@@ -332,6 +332,9 @@ void bibledit_stop_library ()
   }
 #endif
 
+  // Another way of doing the above is to ::raise a signal to each of the listening threads.
+  // That signal will unblock the blocking BSD sockets, and so allow the shutdown process to proceed.
+  
 #ifndef HAVE_ANDROID
 #ifndef HAVE_IOS
   // Schedule a timer to exit(0) the program in case the network stack fails to exit the servers.

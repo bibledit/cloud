@@ -255,8 +255,11 @@ std::string convert_to_true_false (const bool b)
 
 std::u16string convert_to_u16string (const std::string& s)
 {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
   std::wstring_convert <std::codecvt_utf8_utf16 <char16_t>, char16_t> utf16conv;
   std::u16string utf16 = utf16conv.from_bytes (s);
+#pragma clang diagnostic pop
   // utf16.length()
   return utf16;
 }

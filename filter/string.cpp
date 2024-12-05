@@ -43,9 +43,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <utf8proc/utf8proc.h>
 #endif
 #include <config/globals.h>
-#ifdef HAVE_WINDOWS
-#include <codecvt>
-#endif
 #ifdef HAVE_ICU
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"

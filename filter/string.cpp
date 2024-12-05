@@ -1501,10 +1501,6 @@ std::string convert_xml_character_entities_to_characters (std::string data)
     ss << std::hex << entity;
     ss >> codepoint;
     
-    // The following is not available in GNU libstdc++.
-    // wstring_convert <codecvt_utf8 <char32_t>, char32_t> conv1;
-    // string u8str = conv1.to_bytes (codepoint);
-    
     int cp = codepoint;
     // Adapted from: http://www.zedwood.com/article/cpp-utf8-char-to-codepoint.
     char c[5]={ 0x00,0x00,0x00,0x00,0x00 };

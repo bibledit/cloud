@@ -1,0 +1,14 @@
+------WebKitFormBoundarye9wsWKTf5zcLAGUn
+Content-Disposition: form-data; name="data"; filename="00_test1.txt"
+Content-Type: text/plain
+
+Contents for test1.
+Line one 1.
+Line two 1.
+Line three 1.
+
+------WebKitFormBoundarye9wsWKTf5zcLAGUn
+Content-Disposition: form-data; name="upload"
+
+Upload
+------WebKitFormBoundarye9wsWKTf5zcLAGUn--

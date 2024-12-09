@@ -18,8 +18,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 #include <webserver/http.h>
-#include <vector>
-#include <sstream>
 #include <filter/url.h>
 #include <config/globals.h>
 #include <filter/string.h>
@@ -152,35 +150,47 @@ void http_parse_post (std::string content, Webserver_Request& webserver_request)
   try {
     if (!content.empty ()) {
       // Standard parse.
+      filter_url_file_put_contents("/Users/teus/Desktop/content-type.txt", webserver_request.content_type); // Todo
+      filter_url_file_put_contents("/Users/teus/Desktop/content.txt", content); // Todo
       const bool urlencoded = webserver_request.content_type.find ("urlencoded") != std::string::npos;
-      ParseWebData::WebDataMap dataMap;
-      ParseWebData::parse_post_data (content, webserver_request.content_type, dataMap);
-      for (ParseWebData::WebDataMap::const_iterator iter = dataMap.begin(); iter != dataMap.end(); ++iter) {
-        std::string value{};
+      ParseWebData::WebDataMap data_map;
+      ParseWebData::parse_post_data (content, webserver_request.content_type, data_map);
+      for (auto& element : data_map) {
+        const std::string key = std::move(element.first);
+        std::string value{std::move(element.second.value)};
         if (urlencoded)
-          value = filter_url_urldecode ((*iter).second.value);
-        else 
-          value = (*iter).second.value;
-        webserver_request.post [(*iter).first] = value;
+          value = filter_url_urldecode (value);
+        if (webserver_request.post.count(key))
+          webserver_request.post_multiple[key].push_back(std::move(value));
+        else
+          webserver_request.post [key] = std::move(value);
       }
       // Special case: Extract the filename in case of a file upload.
       if (content.length () > 1000) content.resize (1000);
-      if (content.find ("filename=") != std::string::npos) {
+      constexpr std::string_view filename_is {"filename="};
+      constexpr const char* filename {"filename"};
+      if (content.find (filename_is) != std::string::npos) {
         std::vector <std::string> lines = filter::strings::explode (content, '\n');
         for (auto& line : lines) {
           if (line.find ("Content-Disposition") == std::string::npos)
             continue;
-          size_t pos = line.find ("filename=");
-          if (pos == std::string::npos) continue;
-          line = line.substr (pos + 10);
+          size_t pos = line.find (filename_is);
+          if (pos == std::string::npos)
+            continue;
+          line = line.substr (pos + filename_is.size() + 1);
           line = filter::strings::trim (line);
           line.pop_back ();
-          webserver_request.post ["filename"] = line;
+          if (webserver_request.post.count(filename))
+            webserver_request.post_multiple[filename].push_back(line);
+          else
+            webserver_request.post [filename] = line;
         }
       }
     }
   } 
-  catch (...) { }
+  catch (const std::exception& exception) {
+    std::cout << exception.what() << std::endl; // Todo
+  }
 }
 
 

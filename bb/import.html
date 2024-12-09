@@ -18,7 +18,7 @@ translate("Or a compressed archive of such files.")
 </p>
 <!-- #BEGINZONE enable_upload -->
 <form enctype="multipart/form-data" action="?bible=##bible##" method="POST">
-  <input name="data" type="file" />
+  <input name="data" type="file" multiple />
   <input type="submit" name="upload" value="translate("Upload")" />
 </form>
 <p>translate("The upload may take some time.")</p>

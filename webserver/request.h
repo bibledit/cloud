@@ -60,6 +60,9 @@ public:
   int content_length {0};
    // The raw POST data from the browser, item by item.
   std::map <std::string, std::string> post {};
+  // If the POSTed data contains multiple identical keys, store the extra keys here.
+  // Ideally the above container, "post" should be redesigned to be able to contain multiple identical keys.
+  std::map <std::string, std::vector<std::string>> post_multiple{}; // Todo
    // Header as received from the browser.
   std::string if_none_match {};
    // Extra header to be sent back to the browser.

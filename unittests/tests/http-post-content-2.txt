@@ -1,0 +1,32 @@
+------WebKitFormBoundary26kA7Yv0nz0XWvAd
+Content-Disposition: form-data; name="data"; filename="00_test1.txt"
+Content-Type: text/plain
+
+Contents for test1.
+Line one 1.
+Line two 1.
+Line three 1.
+
+------WebKitFormBoundary26kA7Yv0nz0XWvAd
+Content-Disposition: form-data; name="data"; filename="00_test2.txt"
+Content-Type: text/plain
+
+Contents for test2.
+Line one 2.
+Line two 2.
+Line three 2.
+
+------WebKitFormBoundary26kA7Yv0nz0XWvAd
+Content-Disposition: form-data; name="data"; filename="00_test3.txt"
+Content-Type: text/plain
+
+Contents for test3.
+Line one 3.
+Line two 3.
+Line three 3.
+
+------WebKitFormBoundary26kA7Yv0nz0XWvAd
+Content-Disposition: form-data; name="upload"
+
+Upload
+------WebKitFormBoundary26kA7Yv0nz0XWvAd--

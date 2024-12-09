@@ -99,8 +99,7 @@ static ParserFunc get_parser(const std::string& contentType) {
 
 }
 
-bool parse_post_data(const std::string & postData,
-		const std::string & contentType, WebDataMap & postDataMap) {
+bool parse_post_data(const std::string & postData, const std::string & contentType, WebDataMap & postDataMap) {
 	// 1. parse contentType
 	string_map contentTypeMap = map_pairs(
 			std::string("content-type=") + contentType, "; ", "=");

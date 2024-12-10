@@ -44,9 +44,9 @@ static std::string filter_shell_escape_argument (std::string argument)
 // If they are nullptr, the output of the shell command goes to the Journal.
 int filter_shell_run ([[maybe_unused]] std::string directory,
                       std::string command,
-                      [[maybe_unused]] const std::vector <std::string> parameters,
-                      [[maybe_unused]] std::string * output,
-                      [[maybe_unused]] std::string * error)
+                      [[maybe_unused]] const std::vector<std::string> parameters,
+                      [[maybe_unused]] std::string* output,
+                      [[maybe_unused]] std::string* error)
 {
 #ifdef HAVE_CLIENT
   Database_Logs::log ("Did not run on client: " + command);
@@ -66,7 +66,7 @@ int filter_shell_run ([[maybe_unused]] std::string directory,
   std::string standarderr = pipe + ".err";
   command.append (" > " + standardout);
   command.append (" 2> " + standarderr);
-  int result = system (command.c_str());
+  const int result = system (command.c_str());
   std::string contents = filter_url_file_get_contents (standardout);
   if (output) {
     output->assign (contents);
@@ -89,19 +89,19 @@ int filter_shell_run ([[maybe_unused]] std::string directory,
 // Runs $command with $parameters.
 // It does not run $command through the shell, but executes it straight.
 int filter_shell_run (std::string command,
-                      [[maybe_unused]] const char * parameter,
-                      [[maybe_unused]] std::string & output)
+                      [[maybe_unused]] const char* parameter,
+                      [[maybe_unused]] std::string& output)
 {
 #ifdef HAVE_CLIENT
   Database_Logs::log ("Did not run on client: " + command);
   return 0;
 #else
   // File descriptor for file to write child's stdout to.
-  std::string path = filter_url_tempfile () + ".txt";
-  int fd = open (path.c_str (), O_WRONLY|O_CREAT, 0666);
+  const std::string path = filter_url_tempfile () + ".txt";
+  const int fd = open (path.c_str (), O_WRONLY|O_CREAT, 0666);
   
   // Create child process as a duplicate of this process.
-  pid_t pid = fork ();
+  const pid_t pid = fork ();
   
   if (pid == 0) {
     
@@ -133,14 +133,14 @@ int filter_shell_run (std::string command,
 // Does not escape anything in the $command.
 // Returns the exit code of the process.
 // The output of the process, both stdout and stderr, go into $out_err.
-int filter_shell_run (std::string command, std::string & out_err)
+int filter_shell_run (std::string command, std::string& out_err)
 {
 #ifdef HAVE_IOS
   return 0;
 #else
-  std::string pipe = filter_url_tempfile ();
+  const std::string pipe = filter_url_tempfile ();
   command.append (" > " + pipe + " 2>&1");
-  int result = system (command.c_str());
+  const int result = system (command.c_str());
   out_err = filter_url_file_get_contents (pipe);
   return result;
 #endif
@@ -154,17 +154,17 @@ bool filter_shell_is_present (std::string program)
 #ifdef HAVE_IOS
   return false;
 #else
-  std::string command = "which " + program + " > /dev/null 2>&1";
-  int exitcode = system (command.c_str ());
+  const std::string command = "which " + program + " > /dev/null 2>&1";
+  const int exitcode = system (command.c_str ());
   return (exitcode == 0);
 #endif
 }
 
 
 // Lists the running processes.
-std::vector <std::string> filter_shell_active_processes ()
+std::vector<std::string> filter_shell_active_processes ()
 {
-  std::vector <std::string> processes;
+  std::vector<std::string> processes;
 
 #ifdef HAVE_WINDOWS
 
@@ -197,22 +197,22 @@ std::vector <std::string> filter_shell_active_processes ()
 // If $directory is given, the process changes the working directory to that.
 // It does not run $command through the shell, but executes it through vfork,
 // which is the fastest possibble way to run a child process.
-int filter_shell_vfork ([[maybe_unused]] std::string & output,
+int filter_shell_vfork ([[maybe_unused]] std::string& output,
                         [[maybe_unused]] std::string directory,
                         [[maybe_unused]] std::string command,
-                        [[maybe_unused]] const char * p01,
-                        [[maybe_unused]] const char * p02,
-                        [[maybe_unused]] const char * p03,
-                        [[maybe_unused]] const char * p04,
-                        [[maybe_unused]] const char * p05,
-                        [[maybe_unused]] const char * p06,
-                        [[maybe_unused]] const char * p07,
-                        [[maybe_unused]] const char * p08,
-                        [[maybe_unused]] const char * p09,
-                        [[maybe_unused]] const char * p10,
-                        [[maybe_unused]] const char * p11,
-                        [[maybe_unused]] const char * p12,
-                        [[maybe_unused]] const char * p13)
+                        [[maybe_unused]] const char* p01,
+                        [[maybe_unused]] const char* p02,
+                        [[maybe_unused]] const char* p03,
+                        [[maybe_unused]] const char* p04,
+                        [[maybe_unused]] const char* p05,
+                        [[maybe_unused]] const char* p06,
+                        [[maybe_unused]] const char* p07,
+                        [[maybe_unused]] const char* p08,
+                        [[maybe_unused]] const char* p09,
+                        [[maybe_unused]] const char* p10,
+                        [[maybe_unused]] const char* p11,
+                        [[maybe_unused]] const char* p12,
+                        [[maybe_unused]] const char* p13)
 {
   int status = 0;
 #ifdef HAVE_CLIENT
@@ -220,15 +220,15 @@ int filter_shell_vfork ([[maybe_unused]] std::string & output,
 #else
 
   // File descriptors for files to write child's stdout and stderr to.
-  std::string path = filter_url_tempfile () + ".txt";
-  int fd = open (path.c_str (), O_WRONLY|O_CREAT, 0666);
+  const std::string path = filter_url_tempfile () + ".txt";
+  const int fd = open (path.c_str (), O_WRONLY|O_CREAT, 0666);
 
   // It seems that waiting very shortly before calling vfork ()
   // enables running threads to continue running.
   std::this_thread::sleep_for (std::chrono::milliseconds (1));
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-  pid_t pid = vfork();
+  const pid_t pid = vfork();
 #pragma clang diagnostic pop
   if (pid != 0) {
     if (pid < 0) {

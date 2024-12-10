@@ -98,15 +98,24 @@ std::string bible_import (Webserver_Request& webserver_request)
     webserver_request.database_config_user()->setBible (bible);
   }
 
-  // File upload.
+  // Handle (multiple) file upload.
   if (webserver_request.post.count ("upload")) {
-    const std::string datafile = filter_url_tempfile () + webserver_request.post ["filename"];
-    const std::string data = webserver_request.post ["data"];
-    if (!data.empty ()) {
-      filter_url_file_put_contents (datafile, data);
+    bool success {false};
+    const auto upload = [&success, &bible, &book, &chapter](const std::string data) {
+      if (!data.empty ()) {
+        const std::string datafile = filter_url_tempfile ();
+        filter_url_file_put_contents (datafile, data);
+        tasks_logic_queue (task::import_bible, { datafile, bible, std::to_string (book), std::to_string (chapter) });
+        success = true;
+      }
+    };
+    upload(std::move(webserver_request.post["data"]));
+    for (std::string data : webserver_request.post_multiple["data"]) {
+      upload(std::move(data));
+    }
+    if (success) {
       success_message = translate("Import has started.");
       view.set_variable ("journal", journal_logic_see_journal_for_progress ());
-      tasks_logic_queue (task::import_bible, { datafile, bible, std::to_string (book), std::to_string (chapter) });
     } else {
       error_message = translate ("Nothing was uploaded");
     }

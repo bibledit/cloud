@@ -144,52 +144,107 @@ bool http_parse_header (std::string header, Webserver_Request& webserver_request
 
 
 // Takes data POSTed from the browser, and parses it.
-void http_parse_post (std::string content, Webserver_Request& webserver_request)
+static void http_parse_post_standard (std::string content, Webserver_Request& webserver_request)
 {
   // Read and parse the POST data.
   try {
-    if (!content.empty ()) {
-      // Standard parse.
-      filter_url_file_put_contents("/Users/teus/Desktop/content-type.txt", webserver_request.content_type); // Todo
-      filter_url_file_put_contents("/Users/teus/Desktop/content.txt", content); // Todo
-      const bool urlencoded = webserver_request.content_type.find ("urlencoded") != std::string::npos;
-      ParseWebData::WebDataMap data_map;
-      ParseWebData::parse_post_data (content, webserver_request.content_type, data_map);
-      for (auto& element : data_map) {
-        const std::string key = std::move(element.first);
-        std::string value{std::move(element.second.value)};
-        if (urlencoded)
-          value = filter_url_urldecode (value);
-        if (webserver_request.post.count(key))
-          webserver_request.post_multiple[key].push_back(std::move(value));
+    // Standard parse.
+    const bool urlencoded = webserver_request.content_type.find ("urlencoded") != std::string::npos;
+    ParseWebData::WebDataMap data_map;
+    ParseWebData::parse_post_data (content, webserver_request.content_type, data_map);
+    for (auto& element : data_map) {
+      const std::string key = std::move(element.first);
+      std::string value{std::move(element.second.value)};
+      if (urlencoded)
+        value = filter_url_urldecode (value);
+      if (webserver_request.post.count(key))
+        webserver_request.post_multiple[key].push_back(std::move(value));
+      else
+        webserver_request.post[key] = std::move(value);
+    }
+    // Special case: Extract the filename in case of a file upload.
+    if (content.length () > 1000) content.resize (1000);
+    constexpr std::string_view filename_is {"filename="};
+    constexpr const char* filename {"filename"};
+    if (content.find (filename_is) != std::string::npos) {
+      std::vector <std::string> lines = filter::strings::explode (content, '\n');
+      for (auto& line : lines) {
+        if (line.find ("Content-Disposition") == std::string::npos)
+          continue;
+        const size_t pos = line.find (filename_is);
+        if (pos == std::string::npos)
+          continue;
+        line = line.substr (pos + filename_is.size() + 1);
+        line = filter::strings::trim (line);
+        line.pop_back ();
+        if (webserver_request.post.count(filename))
+          webserver_request.post_multiple[filename].push_back(line);
         else
-          webserver_request.post [key] = std::move(value);
-      }
-      // Special case: Extract the filename in case of a file upload.
-      if (content.length () > 1000) content.resize (1000);
-      constexpr std::string_view filename_is {"filename="};
-      constexpr const char* filename {"filename"};
-      if (content.find (filename_is) != std::string::npos) {
-        std::vector <std::string> lines = filter::strings::explode (content, '\n');
-        for (auto& line : lines) {
-          if (line.find ("Content-Disposition") == std::string::npos)
-            continue;
-          size_t pos = line.find (filename_is);
-          if (pos == std::string::npos)
-            continue;
-          line = line.substr (pos + filename_is.size() + 1);
-          line = filter::strings::trim (line);
-          line.pop_back ();
-          if (webserver_request.post.count(filename))
-            webserver_request.post_multiple[filename].push_back(line);
-          else
-            webserver_request.post [filename] = line;
-        }
+          webserver_request.post [filename] = line;
       }
     }
-  } 
+  }
   catch (const std::exception& exception) {
-    std::cout << exception.what() << std::endl; // Todo
+  }
+}
+
+
+// Parser for POSTed multipart data. It splits the multiple parts up, and then runs the standard parser.
+static void http_parse_post_multipart (std::string content, Webserver_Request& webserver_request)
+{
+  // Get the boundary string from the content type.
+  // Example content type:
+  // multipart/form-data; boundary=----WebKitFormBoundarye9wsWKTf5zcLAGUn
+  // The boundary, as used in the posted body, starts with two extra hyphen.
+  const std::string content_type {webserver_request.content_type};
+  constexpr std::string_view boundary_is {"boundary="};
+  size_t pos = content_type.find(boundary_is);
+  if (pos == std::string::npos)
+    return;
+  const std::string boundary = "--" + content_type.substr(pos + boundary_is.size());
+  // Iterate over the posted body as long as it's longer than two bytes.
+  while (content.size() > boundary.size()) {
+    // The first boundary is expected to be located at position 0.
+    // If it's not there, stop parsing right away.
+    pos = content.find(boundary);
+    if (pos != 0)
+      return;
+    // Remove the first boundary plus any following carriage return or new line after that boundary.
+    content.erase(0, boundary.size());
+    const auto remove_cr_or_nl = [&content]() {
+      if (content.empty())
+        return;
+      if (content.find_first_of("\r\n") == 0)
+        content.erase(0, 1);
+    };
+    remove_cr_or_nl();
+    remove_cr_or_nl();
+    // Find the boundary following the posted data fragment.
+    // The last boundary in the posted body ends with two extra hyphens appended.
+    // The code does not check on that.
+    pos = content.find(boundary);
+    if (pos == std::string::npos)
+      return;
+    // Parse this chunk of data and then remove it.
+    http_parse_post_standard (content.substr(0, pos), webserver_request);
+    content.erase(0, pos);
+  }
+}
+
+
+// Takes data POSTed from the browser, and parses it.
+void http_parse_post (std::string content, Webserver_Request& webserver_request)
+{
+  // If there's no content, there's nothing to parse: Done.
+  if (content.empty ())
+    return;
+
+  // Parse multipart data in a special way, and other data in the standard way.
+  const bool multipart = webserver_request.content_type.find ("multipart") != std::string::npos;
+  if (multipart) {
+    http_parse_post_multipart (std::move(content), webserver_request);
+  } else {
+    http_parse_post_standard (std::move(content), webserver_request);
   }
 }
 

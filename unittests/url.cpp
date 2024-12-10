@@ -208,13 +208,13 @@ TEST_F (filter_url, get_post)
   // Test http GET and POST
   std::string result, error;
   result = filter_url_http_get ("http://localhost/none", error, false);
-#ifndef HAVE_CLIENT
+#ifdef HAVE_CLOUD
   EXPECT_EQ ("Could not connect to server", error);
 #endif
   EXPECT_EQ (std::string(), result);
   const std::map <std::string, std::string> values = {std::pair ("a", "value1"), std::pair ("b", "value2")};
   result = filter_url_http_post ("http://localhost/none", std::string(), values, error, false, false, {});
-#ifndef HAVE_CLIENT
+#ifdef HAVE_CLOUD
   EXPECT_EQ ("Could not connect to server", error);
 #endif
   EXPECT_EQ (std::string(), result);
@@ -246,11 +246,10 @@ TEST_F (filter_url, client_result_fixed_ip)
   // Test low-level http(s) client result.
   std::string result, error;
   result = filter_url_http_request_mbed ("http://185.87.186.229", error, {}, "", false);
-  EXPECT_EQ (true, result.find ("Home") != std::string::npos);
-  EXPECT_EQ (true, result.find ("Ndebele Bible") != std::string::npos);
-  EXPECT_EQ (true, result.find ("Shona Bible") != std::string::npos);
-  EXPECT_EQ (true, result.find ("Downloads") != std::string::npos);
-  EXPECT_EQ ("", error);
+  EXPECT_EQ (true, result.find ("God") != std::string::npos);
+  EXPECT_EQ (true, result.find ("bless") != std::string::npos);
+  EXPECT_EQ (true, result.find ("you") != std::string::npos);
+  EXPECT_EQ (std::string(), error);
 }
 
 

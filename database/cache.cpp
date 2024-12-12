@@ -330,27 +330,27 @@ void remove (std::string schema)
 // Deletes expired cached items.
 void trim (bool clear)
 {
-  if (clear) Database_Logs::log ("Clearing cache");
-  
-  std::string output, error;
+  if (clear)
+    Database_Logs::log ("Clearing cache");
   
   // The directory that contains the file-based cache files.
   std::string path = database::cache::file::full_path ("");
   
   // Get the free space on the file system that contains the cache.
-  output.clear ();
-  error.clear ();
-  filter::shell::run (path, "df", {"."}, &output, &error);
-  if (!error.empty ()) Database_Logs::log (error);
-  int percentage_disk_in_use = 0;
+  std::string output, error;
+  filter::shell::run (path, filter::shell::get_executable(filter::shell::Executable::df), {"."}, &output, &error);
+  if (!error.empty ())
+    Database_Logs::log (error);
+  int percentage_disk_in_use {0};
   {
-    std::vector<std::string> bits = filter::strings::explode(output, ' ');
+    const std::vector<std::string> bits = filter::strings::explode(output, ' ');
     for (const auto& bit : bits) {
       if (bit.find ("%") != std::string::npos) {
         percentage_disk_in_use = filter::strings::convert_to_int(bit);
         // If a real percentage was found, other than 0, then skip the remainder.
         // On macOS the first percentage found is %iused, so will be skipped.
-        if (percentage_disk_in_use != 0) break;
+        if (percentage_disk_in_use != 0)
+          break;
       }
     }
   }
@@ -364,12 +364,15 @@ void trim (bool clear)
   // Two hours.
   std::string minutes = "+120";
   // One day.
-  if (percentage_disk_in_use < 70) minutes = "+1440";
+  if (percentage_disk_in_use < 70)
+    minutes = "+1440";
   // One week.
-  if (percentage_disk_in_use < 50) minutes = "+10080";
+  if (percentage_disk_in_use < 50)
+    minutes = "+10080";
   
   // Handle clearing the cache immediately.
-  if (clear) minutes = "+0";
+  if (clear)
+    minutes = "+0";
   
   // Remove files that have not been modified for x minutes.
   // It uses a Linux shell command.
@@ -404,14 +407,19 @@ void trim (bool clear)
   // By default keep the resources cache for 30 days.
   std::string days = "+30";
   // If keeping the resources cache for an extended period of time, keep it for a full year.
-  if (database::config::general::get_keep_resources_cache_for_long()) days = "+365";
+  if (database::config::general::get_keep_resources_cache_for_long())
+    days = "+365";
   // If free disk space is tighter, keep the caches for a shorter period.
-  if (percentage_disk_in_use > 80) days = "+14";
-  if (percentage_disk_in_use > 85) days = "+7";
-  if (percentage_disk_in_use > 90) days = "+1";
+  if (percentage_disk_in_use > 80)
+    days = "+14";
+  if (percentage_disk_in_use > 85)
+    days = "+7";
+  if (percentage_disk_in_use > 90)
+    days = "+1";
   
   // Handle clearing the cache immediately.
-  if (clear) days = "0";
+  if (clear)
+    days = "0";
   
   Database_Logs::log ("Will remove resource caches not accessed for " + days + " days");
   
@@ -422,7 +430,8 @@ void trim (bool clear)
   if (!output.empty ()) Database_Logs::log (output);
   if (!error.empty ()) Database_Logs::log (error);
   
-  if (clear) Database_Logs::log ("Ready clearing  cache");
+  if (clear)
+    Database_Logs::log ("Ready clearing  cache");
 }
 
 

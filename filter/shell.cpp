@@ -56,7 +56,7 @@ static const char* get_executable_internal(const Executable executable)
     case Executable::chmod:
       return "chmod";
     case Executable::df:
-      return "df"; // Todo
+      return "df";
     case Executable::find:
       return "find"; // Todo
     case Executable::gcloud:

@@ -68,7 +68,7 @@ static const char* get_executable_internal(const Executable executable)
     case Executable::ldapsearch:
       return "ldapsearch";
     case Executable::ls:
-      return "ls"; // Todo
+      return "ls";
     case Executable::ps:
       return "ps"; // Todo
     case Executable::tar:

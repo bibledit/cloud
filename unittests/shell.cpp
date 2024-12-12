@@ -34,7 +34,7 @@ TEST (filter, shell)
   
   {
     std::string output;
-    const int result = filter::shell::vfork (output, "", "ls", "-l");
+    const int result = filter::shell::vfork (output, "", filter::shell::get_executable(filter::shell::Executable::ls), "-l");
     EXPECT_EQ (0, result);
     if (output.find ("unittest") == std::string::npos) {
       EXPECT_EQ ("Supposed to list files", output);
@@ -43,7 +43,7 @@ TEST (filter, shell)
 
   {
     std::string output;
-    const int result = filter::shell::vfork (output, "/", "ls", "-l");
+    const int result = filter::shell::vfork (output, "/", filter::shell::get_executable(filter::shell::Executable::ls), "-l");
     EXPECT_EQ (0, result);
     if (output.find ("tmp") == std::string::npos) {
       EXPECT_EQ ("Supposed to list folder /", output);

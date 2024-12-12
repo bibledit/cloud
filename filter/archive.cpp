@@ -241,10 +241,10 @@ std::string filter_archive_unzip_miniz_internal (std::string zipfile)
 std::string filter_archive_tar_gzip_file (std::string filename)
 {
   std::string tarball = filter_url_tempfile () + ".tar.gz";
-  std::string dirname = filter_url_escape_shell_argument (filter_url_dirname (filename));
-  std::string basename = filter_url_escape_shell_argument (filter_url_basename (filename));
-  std::string logfile = filter_url_tempfile () + ".log";
-  std::string command = "cd " + dirname + " && tar -czf " + tarball + " " + basename + " > " + logfile + " 2>&1";
+  const std::string dirname = filter_url_escape_shell_argument (filter_url_dirname (filename));
+  const std::string basename = filter_url_escape_shell_argument (filter_url_basename (filename));
+  const std::string logfile = filter_url_tempfile () + ".log";
+  const std::string command = "cd " + dirname + " && " + std::string(filter::shell::get_executable(filter::shell::Executable::tar)) + " -czf " + tarball + " " + basename + " > " + logfile + " 2>&1";
   int return_var;
 #ifdef HAVE_IOS
   // Crashes on iOS.
@@ -270,7 +270,7 @@ std::string filter_archive_tar_gzip_folder (std::string folder)
   std::string tarball = filter_url_tempfile () + ".tar.gz";
   folder = filter_url_escape_shell_argument (folder);
   std::string logfile = filter_url_tempfile () + ".log";
-  std::string command = "cd " + folder + " && tar -czf " + tarball + " . > " + logfile + " 2>&1";
+  std::string command = "cd " + folder + " && " + std::string(filter::shell::get_executable(filter::shell::Executable::tar)) + " -czf " + tarball + " . > " + logfile + " 2>&1";
   int return_var;
 #ifdef HAVE_IOS
   // Crashes on iOS.
@@ -298,7 +298,7 @@ std::string filter_archive_untar_gzip (std::string file)
   filter_url_mkdir (folder);
   folder.append (DIRECTORY_SEPARATOR);
   std::string logfile = filter_url_tempfile () + ".log";
-  std::string command = "cd " + folder + " && tar zxf " + file + " > " + logfile + " 2>&1";
+  std::string command = "cd " + folder + " && " + std::string(filter::shell::get_executable(filter::shell::Executable::tar)) + " zxf " + file + " > " + logfile + " 2>&1";
   int return_var;
 #ifdef HAVE_IOS
   // Crashes on iOS.

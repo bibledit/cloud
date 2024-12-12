@@ -56,7 +56,8 @@ std::tuple <std::string, std::string> get_json_key_value_error ()
 std::tuple <bool, std::string> activate_service_account ()
 {
   std::stringstream command;
-  command << "gcloud auth activate-service-account --quiet --key-file=";
+  command << filter::shell::get_executable(filter::shell::Executable::gcloud);
+  command << " auth activate-service-account --quiet --key-file=";
   command << std::quoted(config::logic::google_translate_json_key_path ());
   std::string out_err;
   int result = filter::shell::run (command.str(), out_err);
@@ -76,9 +77,9 @@ std::tuple <bool, std::string> print_store_access_token ()
   setenv("GOOGLE_APPLICATION_CREDENTIALS", config::logic::google_translate_json_key_path ().c_str(), 1);
 #endif
   // Print the access token.
-  std::string command {"gcloud auth application-default print-access-token"};
+  const std::string command {std::string(filter::shell::get_executable(filter::shell::Executable::gcloud)) + " auth application-default print-access-token"};
   std::string out_err;
-  int result = filter::shell::run (command.c_str(), out_err);
+  const int result = filter::shell::run (command.c_str(), out_err);
   // Check on success.
   bool success = (result == 0);
   // Store the token if it was received, else clear it.

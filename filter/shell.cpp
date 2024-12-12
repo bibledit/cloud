@@ -70,13 +70,13 @@ static const char* get_executable_internal(const Executable executable)
     case Executable::ls:
       return "ls";
     case Executable::ps:
-      return "ps"; // Todo
+      return "ps";
     case Executable::tar:
       return "tar";
     case Executable::unzip:
       return "unzip";
     case Executable::which:
-      return "which"; // Todo
+      return "which";
     case Executable::zip:
       return "zip"; // Todo
     default:
@@ -239,7 +239,7 @@ bool is_present (const char* program)
 #ifdef HAVE_CLIENT
   return false;
 #else
-  const std::string command = "which " + std::string(program) + " > /dev/null 2>&1";
+  const std::string command = std::string(filter::shell::get_executable(filter::shell::Executable::which)) + " " + std::string(program) + " > /dev/null 2>&1";
   const int exitcode = system (command.c_str ());
   return (exitcode == 0);
 #endif
@@ -269,7 +269,7 @@ std::vector<std::string> active_processes ()
 #else
   
   std::string output;
-  filter::shell::run ("ps ax", output);
+  filter::shell::run (std::string(filter::shell::get_executable(filter::shell::Executable::ps)) + " ax", output);
   processes = filter::strings::explode (output, '\n');
   
 #endif

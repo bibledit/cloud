@@ -340,7 +340,7 @@ void trim (bool clear)
   // Get the free space on the file system that contains the cache.
   output.clear ();
   error.clear ();
-  filter_shell_run (path, "df", {"."}, &output, &error);
+  filter::shell::run (path, "df", {"."}, &output, &error);
   if (!error.empty ()) Database_Logs::log (error);
   int percentage_disk_in_use = 0;
   {
@@ -382,14 +382,14 @@ void trim (bool clear)
   // The fix is to do "cd /path/to/cache; find . ...".
   output.clear ();
   error.clear ();
-  filter_shell_run (path, "find", {".", "-amin", minutes, "-delete"}, &output, &error);
+  filter::shell::run (path, "find", {".", "-amin", minutes, "-delete"}, &output, &error);
   if (!output.empty ()) Database_Logs::log (output);
   if (!error.empty ()) Database_Logs::log (error);
   
   // Remove empty directories.
   output.clear ();
   error.clear ();
-  filter_shell_run (path, "find", {".", "-type", "d", "-empty", "-delete"}, &output, &error);
+  filter::shell::run (path, "find", {".", "-type", "d", "-empty", "-delete"}, &output, &error);
   if (!output.empty ()) Database_Logs::log (output);
   if (!error.empty ()) Database_Logs::log (error);
   
@@ -418,7 +418,7 @@ void trim (bool clear)
   // Remove database-based cached files that have not been modified for x days.
   output.clear ();
   error.clear ();
-  filter_shell_run (path, "find", {path, "-name", database::cache::sql::fragment () + "*", "-atime", days, "-delete"}, &output, &error);
+  filter::shell::run (path, "find", {path, "-name", database::cache::sql::fragment () + "*", "-atime", days, "-delete"}, &output, &error);
   if (!output.empty ()) Database_Logs::log (output);
   if (!error.empty ()) Database_Logs::log (error);
   

@@ -152,13 +152,13 @@ bool ldap_logic_fetch (const std::string& user, const std::string& password, boo
   
   // Query the LDAP server.
   std::string output {};
-  const int result = filter_shell_vfork (output, "", "ldapsearch",
-                                         "-H", ldap_logic_uri.c_str (),
-                                         "-D", binddn.c_str (),
-                                         "-w", password.c_str (),
-                                         "-b", ldap_logic_basedn.c_str (),
-                                         "-s", ldap_logic_scope.c_str(),
-                                         filter.c_str());
+  const int result = filter::shell::vfork (output, "", "ldapsearch",
+                                           "-H", ldap_logic_uri.c_str (),
+                                           "-D", binddn.c_str (),
+                                           "-w", password.c_str (),
+                                           "-b", ldap_logic_basedn.c_str (),
+                                           "-s", ldap_logic_scope.c_str(),
+                                           filter.c_str());
   
   // Logging.
   if (log) {

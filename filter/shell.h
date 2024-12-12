@@ -21,23 +21,49 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <config/libraries.h>
 
-int filter_shell_run (std::string directory, std::string command, const std::vector<std::string> parameters,
-                      std::string* output, std::string* error);
-int filter_shell_run (std::string command, const char* parameter, std::string& output);
-int filter_shell_run (std::string command, std::string& out_err);
-bool filter_shell_is_present (std::string program);
-std::vector <std::string> filter_shell_active_processes ();
-int filter_shell_vfork (std::string& output, std::string directory, std::string command,
-                        const char* p01 = nullptr,
-                        const char* p02 = nullptr,
-                        const char* p03 = nullptr,
-                        const char* p04 = nullptr,
-                        const char* p05 = nullptr,
-                        const char* p06 = nullptr,
-                        const char* p07 = nullptr,
-                        const char* p08 = nullptr,
-                        const char* p09 = nullptr,
-                        const char* p10 = nullptr,
-                        const char* p11 = nullptr,
-                        const char* p12 = nullptr,
-                        const char* p13 = nullptr);
+namespace filter::shell {
+
+enum class Executable {
+  __start__,
+  chmod,
+  df,
+  find,
+  gcloud,
+  git,
+  gunzip,
+  ldapsearch,
+  ls,
+  ps,
+  tar,
+  unzip,
+  which,
+  zip,
+  __end__,
+};
+
+#ifdef HAVE_CLOUD
+void check_existence_executables();
+const char* get_executable(const Executable executable);
+#endif
+int run (std::string directory, std::string command, const std::vector<std::string> parameters,
+         std::string* output, std::string* error);
+int run (std::string command, const char* parameter, std::string& output);
+int run (std::string command, std::string& out_err);
+bool is_present (const char* program);
+std::vector <std::string> active_processes ();
+int vfork (std::string& output, std::string directory, std::string command,
+           const char* p01 = nullptr,
+           const char* p02 = nullptr,
+           const char* p03 = nullptr,
+           const char* p04 = nullptr,
+           const char* p05 = nullptr,
+           const char* p06 = nullptr,
+           const char* p07 = nullptr,
+           const char* p08 = nullptr,
+           const char* p09 = nullptr,
+           const char* p10 = nullptr,
+           const char* p11 = nullptr,
+           const char* p12 = nullptr,
+           const char* p13 = nullptr);
+
+}

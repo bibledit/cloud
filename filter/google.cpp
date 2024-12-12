@@ -59,7 +59,7 @@ std::tuple <bool, std::string> activate_service_account ()
   command << "gcloud auth activate-service-account --quiet --key-file=";
   command << std::quoted(config::logic::google_translate_json_key_path ());
   std::string out_err;
-  int result = filter_shell_run (command.str(), out_err);
+  int result = filter::shell::run (command.str(), out_err);
   return { (result == 0), out_err };
 }
 
@@ -78,7 +78,7 @@ std::tuple <bool, std::string> print_store_access_token ()
   // Print the access token.
   std::string command {"gcloud auth application-default print-access-token"};
   std::string out_err;
-  int result = filter_shell_run (command.c_str(), out_err);
+  int result = filter::shell::run (command.c_str(), out_err);
   // Check on success.
   bool success = (result == 0);
   // Store the token if it was received, else clear it.

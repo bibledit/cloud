@@ -35,7 +35,7 @@ TEST (javascript, basic)
   // This unit test check on regressions in this area.
   {
     std::string out_err;
-    int exitcode = filter_shell_run ("grep '//# sourceMappingURL' `find . -name '*.js'`", out_err);
+    int exitcode = filter::shell::run ("grep '//# sourceMappingURL' `find . -name '*.js'`", out_err);
     EXPECT_EQ (0, exitcode);
     EXPECT_EQ (59, out_err.size());
   }

@@ -821,7 +821,7 @@ TEST (git, basic)
     
     // Check the elaborate log.
     // Disable color codes in the output for easier parsing.
-    filter_shell_run ("cd " + repository + " && git log -p --color=never", out_err);
+    filter::shell::run ("cd " + repository + " && git log -p --color=never", out_err);
     EXPECT_EQ (true, out_err.find ("+Praise Jesus forever.") != std::string::npos);
     EXPECT_EQ (true, out_err.find ("Author: user1 <bibledit@bibledit.org>") != std::string::npos);
     EXPECT_EQ (true, out_err.find ("User modification") != std::string::npos);
@@ -865,7 +865,7 @@ TEST (git, basic)
     newusfm1.append (" forever.\n");
     database::git::store_chapter (user1, bible, psalms, 11, oldusfm1, newusfm1);
     filter_git_sync_modifications_to_git (bible, repository);
-    filter_shell_run ("cd " + repository + " && git log -p --color=never", out_err);
+    filter::shell::run ("cd " + repository + " && git log -p --color=never", out_err);
     EXPECT_EQ (true, out_err.find ("+Praise Jesus forever.") != std::string::npos);
     EXPECT_EQ (true, out_err.find ("Author: user1 <bibledit@bibledit.org>") != std::string::npos);
     EXPECT_EQ (true, out_err.find ("Author: user2 <bibledit@bibledit.org>") != std::string::npos);

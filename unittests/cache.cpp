@@ -46,7 +46,7 @@ TEST (database, cache)
   std::string testdatapath = filter_url_create_root_path ({"unittests", "tests", "cache_resource_test.sqlite"});
   std::string databasepath = filter_url_create_root_path ({"databases",  "cache_resource_unittests.sqlite"});
   std::string out_err;
-  filter_shell_run ("cp " + testdatapath + " " + databasepath, out_err);
+  filter::shell::run ("cp " + testdatapath + " " + databasepath, out_err);
   int count = database::cache::sql::count ("unittests");
   EXPECT_EQ (1, count);
   exists = database::cache::sql::exists ("unittests", 8, 1, 16);

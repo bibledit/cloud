@@ -604,12 +604,12 @@ void resource_logic_import_images (std::string resource, std::string path)
       Database_Logs::log ("Processing PDF: " + basename);
       
       // Retrieve PDF information.
-      filter_shell_run ("", "pdfinfo", {path}, nullptr, nullptr);
+      filter::shell::run ("", "pdfinfo", {path}, nullptr, nullptr);
 
       // Convert the PDF file to separate images.
       std::string folder = filter_url_tempfile ();
       filter_url_mkdir (folder);
-      filter_shell_run (folder, "pdftocairo", {"-jpeg", path}, nullptr, nullptr);
+      filter::shell::run (folder, "pdftocairo", {"-jpeg", path}, nullptr, nullptr);
       // Add the images to the ones to be processed.
       filter_url_recursive_scandir (folder, paths);
       

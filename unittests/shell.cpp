@@ -29,12 +29,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 TEST (filter, shell)
 {
-  EXPECT_EQ (true, filter_shell_is_present ("zip"));
-  EXPECT_EQ (false, filter_shell_is_present ("xxxxx"));
+  EXPECT_EQ (true, filter::shell::is_present ("zip"));
+  EXPECT_EQ (false, filter::shell::is_present ("xxxxx"));
   
   {
     std::string output;
-    const int result = filter_shell_vfork (output, "", "ls", "-l");
+    const int result = filter::shell::vfork (output, "", "ls", "-l");
     EXPECT_EQ (0, result);
     if (output.find ("unittest") == std::string::npos) {
       EXPECT_EQ ("Supposed to list files", output);
@@ -43,7 +43,7 @@ TEST (filter, shell)
 
   {
     std::string output;
-    const int result = filter_shell_vfork (output, "/", "ls", "-l");
+    const int result = filter::shell::vfork (output, "/", "ls", "-l");
     EXPECT_EQ (0, result);
     if (output.find ("tmp") == std::string::npos) {
       EXPECT_EQ ("Supposed to list folder /", output);

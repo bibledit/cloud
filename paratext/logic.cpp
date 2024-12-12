@@ -295,7 +295,7 @@ void Paratext_Logic::synchronize (tasks::enums::paratext_sync method)
   // Thus Bibledit may overwrite changes made by others in the loaded chapter in Paratext.
   // Therefore only update the USFM files when Paratext does not run.
   bool paratext_running = false;
-  std::vector <std::string> processes = filter_shell_active_processes ();
+  std::vector <std::string> processes = filter::shell::active_processes ();
   for (auto p : processes) {
     if (p.find ("Paratext") != std::string::npos)
       paratext_running = true;

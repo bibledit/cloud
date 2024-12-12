@@ -112,7 +112,7 @@ TEST (filter, archive)
     std::string folder = filter_archive_unzip_miniz_internal (zipfile);
     EXPECT_EQ (false, folder.empty ());
     std::string out_err;
-    int result = filter_shell_run ("diff -r " + directory + " " + folder, out_err);
+    int result = filter::shell::run ("diff -r " + directory + " " + folder, out_err);
     EXPECT_EQ ("", out_err);
     EXPECT_EQ (0, result);
     // Test that unzipping a non-existing file returns nothing.
@@ -219,7 +219,7 @@ TEST (filter, archive)
 
     // Check the unpacked result.
     std::string out_err;
-    exitcode = filter_shell_run ("diff -r " + directory + " " + folder, out_err);
+    exitcode = filter::shell::run ("diff -r " + directory + " " + folder, out_err);
     EXPECT_EQ ("", out_err);
     EXPECT_EQ (0, exitcode);
   }

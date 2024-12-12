@@ -30,7 +30,92 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <developer/logic.h>
 
 
-static std::string filter_shell_escape_argument (std::string argument)
+namespace filter::shell {
+
+
+// Container that indicates whether a given executable is absent from the system.
+#ifdef HAVE_CLOUD
+static std::set<Executable> absent_executables{};
+#endif
+
+
+#ifdef HAVE_CLOUD
+static void log_absent_executable_internal(const char* executable)
+{
+  std::stringstream ss{};
+  ss << "Command line tool " << std::quoted(executable) << " was not found";
+  Database_Logs::log (ss.str());
+}
+#endif
+
+
+#ifdef HAVE_CLOUD
+static const char* get_executable_internal(const Executable executable)
+{
+  switch (executable) {
+    case Executable::chmod:
+      return "chmod"; // Todo
+    case Executable::df:
+      return "df"; // Todo
+    case Executable::find:
+      return "find"; // Todo
+    case Executable::gcloud:
+      return "gcloud"; // Todo
+    case Executable::git:
+      return "git"; // Todo
+    case Executable::gunzip:
+      return "gunzip"; // Todo
+    case Executable::ldapsearch:
+      return "ldapsearch"; // Todo
+    case Executable::ls:
+      return "ls"; // Todo
+    case Executable::ps:
+      return "ps"; // Todo
+    case Executable::tar:
+      return "ar"; // Todo
+    case Executable::unzip:
+      return "unzip"; // Todo
+    case Executable::which:
+      return "which"; // Todo
+    case Executable::zip:
+      return "zip"; // Todo
+    default:
+      return "false";
+  }
+}
+#endif
+
+
+#ifdef HAVE_CLOUD
+void check_existence_executables()
+{
+  const int start = static_cast<int>(Executable::__start__);
+  const int end = static_cast<int>(Executable::__end__);
+  for (int i {start + 1}; i < end; i++) {
+    const char* executable = get_executable_internal(static_cast<Executable>(i));
+    if (!is_present (executable)) {
+      absent_executables.insert(static_cast<Executable>(i));
+      log_absent_executable_internal(executable);
+    }
+  }
+}
+#endif
+
+
+#ifdef HAVE_CLOUD
+const char* get_executable(const Executable executable)
+{
+  if (const auto iter = std::find(absent_executables.cbegin(), absent_executables.cend(), executable);
+      iter == absent_executables.cend()) {
+    log_absent_executable_internal(get_executable_internal(executable));
+    return "false";
+  }
+  return get_executable_internal(executable);
+}
+#endif
+
+
+static std::string escape_argument (std::string argument)
 {
   argument = filter::strings::replace ("'", "\\'", argument);
   argument.insert (0, "'");
@@ -42,23 +127,23 @@ static std::string filter_shell_escape_argument (std::string argument)
 // Runs shell $command in folder $directory, with $parameters.
 // If $output and $error are non-nullptr, that is where the output of the shell command goes.
 // If they are nullptr, the output of the shell command goes to the Journal.
-int filter_shell_run ([[maybe_unused]] std::string directory,
-                      std::string command,
-                      [[maybe_unused]] const std::vector<std::string> parameters,
-                      [[maybe_unused]] std::string* output,
-                      [[maybe_unused]] std::string* error)
+int run ([[maybe_unused]] std::string directory,
+         std::string command,
+         [[maybe_unused]] const std::vector<std::string> parameters,
+         [[maybe_unused]] std::string* output,
+         [[maybe_unused]] std::string* error)
 {
 #ifdef HAVE_CLIENT
   Database_Logs::log ("Did not run on client: " + command);
   return 0;
 #else
-  command = filter_shell_escape_argument (command);
+  command = filter::shell::escape_argument (command);
   if (!directory.empty ()) {
-    directory = filter_shell_escape_argument (directory);
+    directory = filter::shell::escape_argument (directory);
     command.insert (0, "cd " + directory + "; ");
   }
   for (std::string parameter : parameters) {
-    parameter = filter_shell_escape_argument (parameter);
+    parameter = filter::shell::escape_argument (parameter);
     command.append (" " + parameter);
   }
   std::string pipe = filter_url_tempfile ();
@@ -88,9 +173,9 @@ int filter_shell_run ([[maybe_unused]] std::string directory,
 
 // Runs $command with $parameters.
 // It does not run $command through the shell, but executes it straight.
-int filter_shell_run (std::string command,
-                      [[maybe_unused]] const char* parameter,
-                      [[maybe_unused]] std::string& output)
+int run (std::string command,
+         [[maybe_unused]] const char* parameter,
+         [[maybe_unused]] std::string& output)
 {
 #ifdef HAVE_CLIENT
   Database_Logs::log ("Did not run on client: " + command);
@@ -133,7 +218,7 @@ int filter_shell_run (std::string command,
 // Does not escape anything in the $command.
 // Returns the exit code of the process.
 // The output of the process, both stdout and stderr, go into $out_err.
-int filter_shell_run (std::string command, std::string& out_err)
+int run (std::string command, std::string& out_err)
 {
 #ifdef HAVE_IOS
   return 0;
@@ -148,13 +233,13 @@ int filter_shell_run (std::string command, std::string& out_err)
 
 
 // Returns true if $program is present on the system.
-bool filter_shell_is_present (std::string program)
+bool is_present (const char* program)
 {
-  // This crashes on iOS, so skip it.
-#ifdef HAVE_IOS
+  // No executables in client mode.
+#ifdef HAVE_CLIENT
   return false;
 #else
-  const std::string command = "which " + program + " > /dev/null 2>&1";
+  const std::string command = "which " + std::string(program) + " > /dev/null 2>&1";
   const int exitcode = system (command.c_str ());
   return (exitcode == 0);
 #endif
@@ -162,12 +247,12 @@ bool filter_shell_is_present (std::string program)
 
 
 // Lists the running processes.
-std::vector<std::string> filter_shell_active_processes ()
+std::vector<std::string> active_processes ()
 {
   std::vector<std::string> processes;
-
+  
 #ifdef HAVE_WINDOWS
-
+  
   HANDLE hProcessSnap = CreateToolhelp32Snapshot (TH32CS_SNAPPROCESS, 0);
   if (hProcessSnap != INVALID_HANDLE_VALUE) {
     PROCESSENTRY32 pe32;
@@ -180,13 +265,13 @@ std::vector<std::string> filter_shell_active_processes ()
       CloseHandle (hProcessSnap);
     }
   }
-
+  
 #else
-
+  
   std::string output;
-  filter_shell_run ("ps ax", output);
+  filter::shell::run ("ps ax", output);
   processes = filter::strings::explode (output, '\n');
-
+  
 #endif
   
   return processes;
@@ -197,38 +282,38 @@ std::vector<std::string> filter_shell_active_processes ()
 // If $directory is given, the process changes the working directory to that.
 // It does not run $command through the shell, but executes it through vfork,
 // which is the fastest possibble way to run a child process.
-int filter_shell_vfork ([[maybe_unused]] std::string& output,
-                        [[maybe_unused]] std::string directory,
-                        [[maybe_unused]] std::string command,
-                        [[maybe_unused]] const char* p01,
-                        [[maybe_unused]] const char* p02,
-                        [[maybe_unused]] const char* p03,
-                        [[maybe_unused]] const char* p04,
-                        [[maybe_unused]] const char* p05,
-                        [[maybe_unused]] const char* p06,
-                        [[maybe_unused]] const char* p07,
-                        [[maybe_unused]] const char* p08,
-                        [[maybe_unused]] const char* p09,
-                        [[maybe_unused]] const char* p10,
-                        [[maybe_unused]] const char* p11,
-                        [[maybe_unused]] const char* p12,
-                        [[maybe_unused]] const char* p13)
+int vfork ([[maybe_unused]] std::string& output,
+           [[maybe_unused]] std::string directory,
+           [[maybe_unused]] std::string command,
+           [[maybe_unused]] const char* p01,
+           [[maybe_unused]] const char* p02,
+           [[maybe_unused]] const char* p03,
+           [[maybe_unused]] const char* p04,
+           [[maybe_unused]] const char* p05,
+           [[maybe_unused]] const char* p06,
+           [[maybe_unused]] const char* p07,
+           [[maybe_unused]] const char* p08,
+           [[maybe_unused]] const char* p09,
+           [[maybe_unused]] const char* p10,
+           [[maybe_unused]] const char* p11,
+           [[maybe_unused]] const char* p12,
+           [[maybe_unused]] const char* p13)
 {
   int status = 0;
 #ifdef HAVE_CLIENT
   Database_Logs::log ("Did not run on client: " + command);
 #else
-
+  
   // File descriptors for files to write child's stdout and stderr to.
   const std::string path = filter_url_tempfile () + ".txt";
   const int fd = open (path.c_str (), O_WRONLY|O_CREAT, 0666);
-
+  
   // It seems that waiting very shortly before calling vfork ()
   // enables running threads to continue running.
   std::this_thread::sleep_for (std::chrono::milliseconds (1));
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-  const pid_t pid = vfork();
+  const pid_t pid = ::vfork();
 #pragma clang diagnostic pop
   if (pid != 0) {
     if (pid < 0) {
@@ -237,7 +322,7 @@ int filter_shell_vfork ([[maybe_unused]] std::string& output,
       wait (&status);
     }
   } else {
-
+    
     // This runs in the child.
     dup2 (fd, 1);
     dup2 (fd, 2);
@@ -262,3 +347,6 @@ int filter_shell_vfork ([[maybe_unused]] std::string& output,
   
   return status;
 }
+
+
+} // namespace.

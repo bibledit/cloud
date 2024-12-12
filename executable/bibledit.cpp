@@ -21,6 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/libraries.h>
 #include <filter/url.h>
 #include <filter/string.h>
+#include <filter/shell.h>
 #ifdef HAVE_LIBPROC
 #include <libproc.h>
 #endif
@@ -91,7 +92,7 @@ void my_invalid_parameter_handler(const wchar_t* expression, const wchar_t* func
 #endif
 
 
-int main ([[maybe_unused]] int argc, [[maybe_unused]] char **argv)
+int main ()
 {
   // Ctrl-C initiates a clean shutdown sequence, so there's no memory leak.
   signal (SIGINT, sigint_handler);
@@ -203,6 +204,12 @@ int main ([[maybe_unused]] int argc, [[maybe_unused]] char **argv)
       if (line.find ("email_send") != std::string::npos) config_globals_has_crashed_while_mailing = true;
     }
   }
+
+
+  // In Cloud configuration, check the existence of all command line tools that may be needed.
+#ifdef HAVE_CLOUD
+  filter::shell::check_existence_executables();
+#endif
 
   
   // Keep running till Bibledit stops or gets interrupted.

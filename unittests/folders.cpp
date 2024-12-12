@@ -25,6 +25,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #pragma GCC diagnostic pop
 #include <unittests/utilities.h>
 #include <filter/url.h>
+#include <filter/shell.h>
 
 
 TEST (folders, basic)
@@ -33,7 +34,8 @@ TEST (folders, basic)
   // If there were such empty folders, they would not be included in the git.
   // Apart from any empty folders in the ./git folder itself,
   // and apart from the Xcode project.
-  const int result = system ("find . -type d -empty -not -path './.git/*' -not -path './xcode.xcodeproj/*' > /tmp/bibledittest.txt");
+  const std::string command = std::string(filter::shell::get_executable(filter::shell::Executable::find)) + " . -type d -empty -not -path './.git/*' -not -path './xcode.xcodeproj/*' > /tmp/bibledittest.txt";
+  const int result = system (command.c_str());
   EXPECT_EQ (0, result);
   const std::string contents = filter_url_file_get_contents ("/tmp/bibledittest.txt");
   EXPECT_EQ (std::string(), contents);

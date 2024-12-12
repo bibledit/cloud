@@ -23,6 +23,7 @@
 #include <filter/usfm.h>
 #include <filter/url.h>
 #include <filter/string.h>
+#include <filter/shell.h>
 #include <database/config/general.h>
 #include <database/config/bible.h>
 #include <database/logs.h>
@@ -321,9 +322,15 @@ void demo_prepare_sample_bible ()
   // Clean up the remaining artifacts that were created along the way.
 #ifdef HAVE_CLOUD
   [[maybe_unused]] int result;
-  result = system ("find . -path '*logbook/15*' -delete");
-  result = system ("find . -name state.sqlite -delete");
-  result = system ("find . -name 'Sample.*' -delete");
+  std::string command;
+  command = std::string(filter::shell::get_executable(filter::shell::Executable::find)) + " . -path '*logbook/1*' -delete";
+  result = system (command.c_str());
+  command = std::string(filter::shell::get_executable(filter::shell::Executable::find)) + " . -path '*logbook/2*' -delete";
+  result = system (command.c_str());
+  command = std::string(filter::shell::get_executable(filter::shell::Executable::find)) + " . -name state.sqlite -delete";
+  result = system (command.c_str());
+  command = std::string(filter::shell::get_executable(filter::shell::Executable::find)) + " . -name 'Sample.*' -delete";
+  result = system (command.c_str());
 #endif
 }
 

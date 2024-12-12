@@ -385,14 +385,14 @@ void trim (bool clear)
   // The fix is to do "cd /path/to/cache; find . ...".
   output.clear ();
   error.clear ();
-  filter::shell::run (path, "find", {".", "-amin", minutes, "-delete"}, &output, &error);
+  filter::shell::run (path, filter::shell::get_executable(filter::shell::Executable::find), {".", "-amin", minutes, "-delete"}, &output, &error);
   if (!output.empty ()) Database_Logs::log (output);
   if (!error.empty ()) Database_Logs::log (error);
   
   // Remove empty directories.
   output.clear ();
   error.clear ();
-  filter::shell::run (path, "find", {".", "-type", "d", "-empty", "-delete"}, &output, &error);
+  filter::shell::run (path, filter::shell::get_executable(filter::shell::Executable::find), {".", "-type", "d", "-empty", "-delete"}, &output, &error);
   if (!output.empty ()) Database_Logs::log (output);
   if (!error.empty ()) Database_Logs::log (error);
   
@@ -426,7 +426,7 @@ void trim (bool clear)
   // Remove database-based cached files that have not been modified for x days.
   output.clear ();
   error.clear ();
-  filter::shell::run (path, "find", {path, "-name", database::cache::sql::fragment () + "*", "-atime", days, "-delete"}, &output, &error);
+  filter::shell::run (path, filter::shell::get_executable(filter::shell::Executable::find), {path, "-name", database::cache::sql::fragment () + "*", "-atime", days, "-delete"}, &output, &error);
   if (!output.empty ()) Database_Logs::log (output);
   if (!error.empty ()) Database_Logs::log (error);
   

@@ -55,7 +55,7 @@ bool filter_git_init (std::string directory, bool bare)
   std::vector <std::string> parameters = {"init"};
   if (bare) parameters.push_back ("--bare");
   std::string output, error;
-  int result = filter::shell::run (directory, "git", parameters, &output, &error);
+  int result = filter::shell::run (directory, filter::shell::get_executable(filter::shell::Executable::git), parameters, &output, &error);
   filter_git_check_error (output);
   filter_git_check_error (error);
   return (result == 0);
@@ -334,7 +334,7 @@ void filter_git_sync_git_chapter_to_bible (std::string repository, std::string b
 bool filter_git_remote_read (std::string url, std::string & error)
 {
   std::string output;
-  int result = filter::shell::run ("", "git", {"ls-remote", url}, &output, &error);
+  int result = filter::shell::run ("", filter::shell::get_executable(filter::shell::Executable::git), {"ls-remote", url}, &output, &error);
   filter_git_check_error (output);
   filter_git_check_error (error);
   return (result == 0);
@@ -347,7 +347,7 @@ bool filter_git_remote_clone (std::string url, std::string path, [[maybe_unused]
   filter_url_rmdir (path);
 
   std::string output;
-  int result = filter::shell::run ("", "git", {"clone", url, path}, &output, &error);
+  int result = filter::shell::run ("", filter::shell::get_executable(filter::shell::Executable::git), {"clone", url, path}, &output, &error);
   filter_git_check_error (output);
   filter_git_check_error (error);
   error.clear ();
@@ -358,7 +358,7 @@ bool filter_git_remote_clone (std::string url, std::string path, [[maybe_unused]
 bool filter_git_add_remove_all (std::string repository, std::string & error)
 {
   std::string output;
-  int result = filter::shell::run (repository, "git", {"add", "--all", "."}, &output, &error);
+  int result = filter::shell::run (repository, filter::shell::get_executable(filter::shell::Executable::git), {"add", "--all", "."}, &output, &error);
   filter_git_check_error (output);
   filter_git_check_error (error);
   return (result == 0);
@@ -374,7 +374,7 @@ bool filter_git_commit (std::string repository, std::string user, std::string me
   std::stringstream author;
   author << "--author=" << std::quoted(user + " <" + email + ">");
   std::string out, err;
-  int result = filter::shell::run (repository, "git",
+  int result = filter::shell::run (repository, filter::shell::get_executable(filter::shell::Executable::git),
                                 {"commit",
                                  author.str(),
                                  "-a",
@@ -414,7 +414,7 @@ void filter_git_config_set_int (std::string repository, std::string name, int va
 void filter_git_config_set_string (std::string repository, std::string name, std::string value)
 {
   std::string output, error;
-  filter::shell::run (repository, "git", {"config", name, value}, &output, &error);
+  filter::shell::run (repository, filter::shell::get_executable(filter::shell::Executable::git), {"config", name, value}, &output, &error);
 }
 
 
@@ -477,7 +477,7 @@ std::vector <std::string> filter_git_status (std::string repository, bool porcel
   std::string output, error;
   std::vector <std::string> parameters = {"status"};
   if (porcelain) parameters.push_back("--porcelain");
-  filter::shell::run (repository, "git", parameters, &output, &error);
+  filter::shell::run (repository, filter::shell::get_executable(filter::shell::Executable::git), parameters, &output, &error);
   filter_git_check_error (error);
   paths = filter::strings::explode (output, '\n');
   return paths;
@@ -489,7 +489,7 @@ std::vector <std::string> filter_git_status (std::string repository, bool porcel
 bool filter_git_pull (std::string repository, std::vector <std::string> & messages)
 {
   std::string out, err;
-  int result = filter::shell::run (repository, "git", {"pull"}, &out, &err);
+  int result = filter::shell::run (repository, filter::shell::get_executable(filter::shell::Executable::git), {"pull"}, &out, &err);
   out = filter::strings::trim (out);
   err = filter::strings::trim (err);
   messages = filter::strings::explode (out, '\n');
@@ -506,7 +506,7 @@ bool filter_git_push (std::string repository, std::vector <std::string> & messag
   std::string out, err;
   std::vector <std::string> parameters = {"push"};
   if (all) parameters.push_back ("--all");
-  int result = filter::shell::run (repository, "git", parameters, &out, &err);
+  int result = filter::shell::run (repository, filter::shell::get_executable(filter::shell::Executable::git), parameters, &out, &err);
   out = filter::strings::trim (out);
   err = filter::strings::trim (err);
   messages = filter::strings::explode (out, '\n');
@@ -542,13 +542,13 @@ bool filter_git_resolve_conflicts (std::string repository, std::vector <std::str
   for (auto & unmerged_path : unmerged_paths) {
     
     std::string common_ancestor;
-    filter::shell::run (repository, "git", {"show", ":1:" + unmerged_path}, &common_ancestor, &error);
+    filter::shell::run (repository, filter::shell::get_executable(filter::shell::Executable::git), {"show", ":1:" + unmerged_path}, &common_ancestor, &error);
 
     std::string head_version;
-    filter::shell::run (repository, "git", {"show", ":2:" + unmerged_path}, &head_version, &error);
+    filter::shell::run (repository, filter::shell::get_executable(filter::shell::Executable::git), {"show", ":2:" + unmerged_path}, &head_version, &error);
 
     std::string merge_head_version;
-    filter::shell::run (repository, "git", {"show", ":3:" + unmerged_path}, &merge_head_version, &error);
+    filter::shell::run (repository, filter::shell::get_executable(filter::shell::Executable::git), {"show", ":3:" + unmerged_path}, &merge_head_version, &error);
 
     std::string mergeBase (common_ancestor);
     std::string userData (head_version);

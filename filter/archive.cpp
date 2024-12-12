@@ -137,7 +137,7 @@ std::string filter_archive_unzip_shell_internal ([[maybe_unused]] std::string fi
     Database_Logs::log (errors);
   } else {
     // Set free permissions after unzipping.
-    command = "chmod -R 0777 " + folder;
+    command = std::string(filter::shell::get_executable(filter::shell::Executable::chmod)) + " -R 0777 " + folder;
     [[maybe_unused]] int result = system (command.c_str ());
   }
 #endif

@@ -54,7 +54,7 @@ static const char* get_executable_internal(const Executable executable)
 {
   switch (executable) {
     case Executable::chmod:
-      return "chmod"; // Todo
+      return "chmod";
     case Executable::df:
       return "df"; // Todo
     case Executable::find:
@@ -106,7 +106,7 @@ void check_existence_executables()
 const char* get_executable(const Executable executable)
 {
   if (const auto iter = std::find(absent_executables.cbegin(), absent_executables.cend(), executable);
-      iter == absent_executables.cend()) {
+      iter != absent_executables.cend()) {
     log_absent_executable_internal(get_executable_internal(executable));
     return "false";
   }

@@ -78,7 +78,7 @@ static const char* get_executable_internal(const Executable executable)
     case Executable::which:
       return "which";
     case Executable::zip:
-      return "zip"; // Todo
+      return "zip";
     default:
       return "false";
   }

@@ -115,7 +115,7 @@ void export_usfm (std::string bible, bool log)
     }
     std::string password = database::config::bible::get_export_password (bible);
     std::string output, error;
-    filter::shell::run (usfmDirectoryFull, "zip", {"-P", password, "bible.zip", zipfile}, &output, &error);
+    filter::shell::run (usfmDirectoryFull, filter::shell::get_executable(filter::shell::Executable::zip), {"-P", password, "bible.zip", zipfile}, &output, &error);
     filter_url_unlink (zippath);
     filter_url_rename (filter_url_create_path ({usfmDirectoryFull, "bible.zip"}), zippath);
   }

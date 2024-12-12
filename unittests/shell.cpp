@@ -29,7 +29,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 TEST (filter, shell)
 {
-  EXPECT_EQ (true, filter::shell::is_present ("zip"));
+  EXPECT_EQ (true, filter::shell::is_present (filter::shell::get_executable(filter::shell::Executable::zip)));
   EXPECT_EQ (false, filter::shell::is_present ("xxxxx"));
   
   {

@@ -62,7 +62,7 @@ static const char* get_executable_internal(const Executable executable)
     case Executable::gcloud:
       return "gcloud";
     case Executable::git:
-      return "git"; // Todo
+      return "git";
     case Executable::gunzip:
       return "gunzip"; // Todo
     case Executable::ldapsearch:

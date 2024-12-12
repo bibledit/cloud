@@ -74,7 +74,7 @@ static const char* get_executable_internal(const Executable executable)
     case Executable::tar:
       return "ar"; // Todo
     case Executable::unzip:
-      return "unzip"; // Todo
+      return "unzip";
     case Executable::which:
       return "which"; // Todo
     case Executable::zip:

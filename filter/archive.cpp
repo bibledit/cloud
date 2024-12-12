@@ -125,9 +125,9 @@ std::string filter_archive_unzip_shell_internal ([[maybe_unused]] std::string fi
 #ifdef HAVE_CLOUD
   filter_url_mkdir (folder);
   folder.append (DIRECTORY_SEPARATOR);
-  std::string logfile = filter_url_tempfile () + ".log";
+  const std::string logfile = filter_url_tempfile () + ".log";
   file = filter_url_escape_shell_argument (file);
-  std::string command = "unzip -o -d " + folder + " " + file + " > " + logfile + " 2>&1";
+  std::string command = std::string(filter::shell::get_executable(filter::shell::Executable::unzip)) + " -o -d " + folder + " " + file + " > " + logfile + " 2>&1";
   // Run the command.
   int return_var = system (command.c_str());
   if (return_var != 0) {

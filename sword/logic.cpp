@@ -83,7 +83,7 @@ void sword_logic_refresh_module_list ()
 #ifdef HAVE_SWORD
   sword_logic_installmgr_initialize ();
 #else
-  filter::shell::run ("installmgr --allow-internet-access-and-risk-tracing-and-jail-or-martyrdom --allow-unverified-tls-peer -init", out_err);
+  filter::shell::run (std::string(filter::shell::get_executable(filter::shell::Executable::installmgr)) + " --allow-internet-access-and-risk-tracing-and-jail-or-martyrdom --allow-unverified-tls-peer -init", out_err);
   sword_logic_log (out_err);
 #endif
   
@@ -97,7 +97,7 @@ void sword_logic_refresh_module_list ()
     return;
   }
 #else
-  filter::shell::run ("installmgr --allow-internet-access-and-risk-tracing-and-jail-or-martyrdom --allow-unverified-tls-peer -sc", out_err);
+  filter::shell::run (std::string(filter::shell::get_executable(filter::shell::Executable::installmgr)) + " --allow-internet-access-and-risk-tracing-and-jail-or-martyrdom --allow-unverified-tls-peer -sc", out_err);
   filter::strings::replace_between (out_err, "WARNING", "enable? [no]", "");
   sword_logic_log (out_err);
 #endif
@@ -107,7 +107,7 @@ void sword_logic_refresh_module_list ()
 #ifdef HAVE_SWORD
   sword_logic_installmgr_list_remote_sources (remote_sources);
 #else
-  filter::shell::run ("installmgr -s", out_err);
+  filter::shell::run (std::string(filter::shell::get_executable(filter::shell::Executable::installmgr)) + " -s", out_err);
   sword_logic_log (out_err);
   std::vector <std::string> lines = filter::strings::explode (out_err, '\n');
   for (auto line : lines) {
@@ -132,7 +132,7 @@ void sword_logic_refresh_module_list ()
       Database_Logs::log ("Error refreshing remote source " + remote_source);
     }
 #else
-    filter::shell::run ("installmgr --allow-internet-access-and-risk-tracing-and-jail-or-martyrdom --allow-unverified-tls-peer -r \"" + remote_source + "\"", out_err);
+    filter::shell::run (std::string(filter::shell::get_executable(filter::shell::Executable::installmgr)) + " --allow-internet-access-and-risk-tracing-and-jail-or-martyrdom --allow-unverified-tls-peer -r \"" + remote_source + "\"", out_err);
     filter::strings::replace_between (out_err, "WARNING", "type yes at the prompt", "");
     sword_logic_log (out_err);
 #endif
@@ -144,7 +144,7 @@ void sword_logic_refresh_module_list ()
       sword_modules.push_back ("[" + remote_source + "]" + " " + module);
     }
 #else
-    filter::shell::run ("installmgr -rl \"" + remote_source + "\"", out_err);
+    filter::shell::run (std::string(filter::shell::get_executable(filter::shell::Executable::installmgr)) + " -rl \"" + remote_source + "\"", out_err);
     lines = filter::strings::explode (out_err, '\n');
     for (auto line : lines) {
       line = filter::strings::trim (line);
@@ -315,7 +315,7 @@ void sword_logic_install_module (const std::string& source_name, const std::stri
 #else
   
   std::string out_err {};
-  std::string command = "cd " + sword_path + "; installmgr --allow-internet-access-and-risk-tracing-and-jail-or-martyrdom --allow-unverified-tls-peer -ri \"" + source_name + "\" \"" + module_name + "\"";
+  std::string command = "cd " + sword_path + "; " + std::string(filter::shell::get_executable(filter::shell::Executable::installmgr))+ " --allow-internet-access-and-risk-tracing-and-jail-or-martyrdom --allow-unverified-tls-peer -ri \"" + source_name + "\" \"" + module_name + "\"";
   Database_Logs::log (command);
   filter::shell::run (command, out_err);
   sword_logic_log (out_err);
@@ -336,7 +336,7 @@ void sword_logic_uninstall_module (const std::string& module)
   Database_Logs::log ("Uninstall SWORD module " + module);
   std::string out_err;
   const std::string sword_path {sword_logic_get_path ()};
-  filter::shell::run ("cd " + sword_path + "; installmgr -u \"" + module + "\"", out_err);
+  filter::shell::run ("cd " + sword_path + "; " + std::string(filter::shell::get_executable(filter::shell::Executable::installmgr)) + " -u \"" + module + "\"", out_err);
   sword_logic_log (out_err);
 }
 
@@ -355,7 +355,7 @@ std::vector <std::string> sword_logic_get_installed ()
   std::vector <std::string> modules {};
   std::string out_err {};
   const std::string sword_path {sword_logic_get_path ()};
-  filter::shell::run ("cd " + sword_path + "; installmgr -l", out_err);
+  filter::shell::run ("cd " + sword_path + "; " + std::string(filter::shell::get_executable(filter::shell::Executable::installmgr)) + " -l", out_err);
   std::vector <std::string> lines = filter::strings::explode (out_err, '\n');
   for (auto line : lines) {
     line = filter::strings::trim (line);
@@ -445,7 +445,7 @@ std::string sword_logic_get_text (const std::string& source, const std::string& 
   parameters.push_back(osis);
   parameters.push_back(chapter_verse);
   std::string error {};
-  const int result = filter::shell::run (sword_path, "diatheke", parameters, &module_text, &error);
+  const int result = filter::shell::run (sword_path, std::string(filter::shell::get_executable(filter::shell::Executable::diatheke)), parameters, &module_text, &error);
   module_text.append (error);
   sword_logic_diatheke_run_mutex.unlock ();
   if (result != 0) return sword_logic_fetch_failure_text ();
@@ -519,7 +519,7 @@ std::map <int, std::string> sword_logic_get_bulk_text (const std::string& module
   // diatheke -b AB -k Ezra
   std::string error {};
   std::string bulk_text {};
-  const int result = filter::shell::run (sword_logic_get_path (), "diatheke", { "-b", module, "-k", osis, std::to_string (chapter) }, &bulk_text, &error);
+  const int result = filter::shell::run (sword_logic_get_path (), std::string(filter::shell::get_executable(filter::shell::Executable::diatheke)), { "-b", module, "-k", osis, std::to_string (chapter) }, &bulk_text, &error);
   bulk_text.append (error);
   if (result != 0) Database_Logs::log (error);
   // This is how the output would look.

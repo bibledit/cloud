@@ -57,6 +57,8 @@ static const char* get_executable_internal(const Executable executable)
       return "chmod";
     case Executable::df:
       return "df";
+    case Executable::diatheke:
+      return "diatheke";
     case Executable::find:
       return "find";
     case Executable::gcloud:
@@ -65,10 +67,16 @@ static const char* get_executable_internal(const Executable executable)
       return "git";
     case Executable::gunzip:
       return "gunzip";
+    case Executable::installmgr:
+      return "installmgr";
     case Executable::ldapsearch:
       return "ldapsearch";
     case Executable::ls:
       return "ls";
+    case Executable::pdfinfo:
+      return "pdfinfo";
+    case Executable::pdftocairo:
+      return "pdftocairo";
     case Executable::ps:
       return "ps";
     case Executable::tar:

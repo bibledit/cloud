@@ -56,25 +56,24 @@ std::string resource_image (Webserver_Request& webserver_request)
   Database_ImageResources database_imageresources;
 
   
-  std::string page;
   Assets_Header header = Assets_Header (translate("Image resources"), webserver_request);
   header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   header.add_bread_crumb (resource_images_url (), menu_logic_resource_images_text ());
-  page = header.run ();
+  std::string page = header.run ();
   Assets_View view;
   std::string error, success;
   
   
-  std::string name = webserver_request.query ["name"];
+  const std::string name = webserver_request.query ["name"];
   view.set_variable ("name", name);
   
 
   // File upload.
   if (webserver_request.post.count ("upload")) {
-    std::string folder = filter_url_tempfile ();
+    const std::string folder = filter_url_tempfile ();
     filter_url_mkdir (folder);
-    std::string file =  filter_url_create_path ({folder, webserver_request.post ["filename"]});
-    std::string data = webserver_request.post ["data"];
+    const std::string file =  filter_url_create_path ({folder, webserver_request.post ["filename"]});
+    const std::string data = webserver_request.post ["data"];
     if (!data.empty ()) {
       filter_url_file_put_contents (file, data);
       bool background_import = false;

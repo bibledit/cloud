@@ -53,7 +53,7 @@ std::string filter_archive_zip_folder_shell_internal (std::string folder)
 #ifdef HAVE_CLOUD
   std::string logfile = filter_url_tempfile () + ".log";
   folder = filter_url_escape_shell_argument (folder);
-  std::string command = "cd " + folder + " && zip -r " + zippedfile + " * > " + logfile + " 2>&1";
+  std::string command = "cd " + folder + " && " + filter::shell::get_executable(filter::shell::Executable::zip) + " -r " + zippedfile + " * > " + logfile + " 2>&1";\
   int return_var;
   // Run the command.
   return_var = system (command.c_str());

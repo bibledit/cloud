@@ -372,10 +372,9 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	sqlite/sqlite3.$(OBJEXT) ldap/logic.$(OBJEXT) \
 	quill/logic.$(OBJEXT) rss/logic.$(OBJEXT) rss/feed.$(OBJEXT) \
 	microtar/microtar.$(OBJEXT) miniz/miniz.$(OBJEXT) \
-	tbsx/text.$(OBJEXT) read/index.$(OBJEXT) read/load.$(OBJEXT) \
-	read/verse.$(OBJEXT) resource/divider.$(OBJEXT) \
-	session/confirm.$(OBJEXT) sources/abbott-smith.$(OBJEXT) \
-	database/abbottsmith.$(OBJEXT) \
+	read/index.$(OBJEXT) read/load.$(OBJEXT) read/verse.$(OBJEXT) \
+	resource/divider.$(OBJEXT) session/confirm.$(OBJEXT) \
+	sources/abbott-smith.$(OBJEXT) database/abbottsmith.$(OBJEXT) \
 	resource/comparative9edit.$(OBJEXT) \
 	resource/comparative1edit.$(OBJEXT) \
 	resource/translated9edit.$(OBJEXT) \
@@ -793,23 +792,22 @@ am__depfiles_remade = access/$(DEPDIR)/bible.Po \
 	sync/$(DEPDIR)/usfmresources.Po \
 	system/$(DEPDIR)/googletranslate.Po system/$(DEPDIR)/index.Po \
 	system/$(DEPDIR)/logic.Po tasks/$(DEPDIR)/logic.Po \
-	tasks/$(DEPDIR)/run.Po tbsx/$(DEPDIR)/text.Po \
-	text/$(DEPDIR)/text.Po tidy/$(DEPDIR)/access.Po \
-	tidy/$(DEPDIR)/alloc.Po tidy/$(DEPDIR)/attrdict.Po \
-	tidy/$(DEPDIR)/attrs.Po tidy/$(DEPDIR)/buffio.Po \
-	tidy/$(DEPDIR)/charsets.Po tidy/$(DEPDIR)/clean.Po \
-	tidy/$(DEPDIR)/config.Po tidy/$(DEPDIR)/entities.Po \
-	tidy/$(DEPDIR)/fileio.Po tidy/$(DEPDIR)/gdoc.Po \
-	tidy/$(DEPDIR)/istack.Po tidy/$(DEPDIR)/language.Po \
-	tidy/$(DEPDIR)/lexer.Po tidy/$(DEPDIR)/mappedio.Po \
-	tidy/$(DEPDIR)/message.Po tidy/$(DEPDIR)/messageobj.Po \
-	tidy/$(DEPDIR)/parser.Po tidy/$(DEPDIR)/pprint.Po \
-	tidy/$(DEPDIR)/sprtf.Po tidy/$(DEPDIR)/streamio.Po \
-	tidy/$(DEPDIR)/tagask.Po tidy/$(DEPDIR)/tags.Po \
-	tidy/$(DEPDIR)/tidylib.Po tidy/$(DEPDIR)/tmbstr.Po \
-	tidy/$(DEPDIR)/utf8.Po timer/$(DEPDIR)/index.Po \
-	tmp/$(DEPDIR)/tmp.Po trash/$(DEPDIR)/handler.Po \
-	unittests/$(DEPDIR)/archive.Po \
+	tasks/$(DEPDIR)/run.Po text/$(DEPDIR)/text.Po \
+	tidy/$(DEPDIR)/access.Po tidy/$(DEPDIR)/alloc.Po \
+	tidy/$(DEPDIR)/attrdict.Po tidy/$(DEPDIR)/attrs.Po \
+	tidy/$(DEPDIR)/buffio.Po tidy/$(DEPDIR)/charsets.Po \
+	tidy/$(DEPDIR)/clean.Po tidy/$(DEPDIR)/config.Po \
+	tidy/$(DEPDIR)/entities.Po tidy/$(DEPDIR)/fileio.Po \
+	tidy/$(DEPDIR)/gdoc.Po tidy/$(DEPDIR)/istack.Po \
+	tidy/$(DEPDIR)/language.Po tidy/$(DEPDIR)/lexer.Po \
+	tidy/$(DEPDIR)/mappedio.Po tidy/$(DEPDIR)/message.Po \
+	tidy/$(DEPDIR)/messageobj.Po tidy/$(DEPDIR)/parser.Po \
+	tidy/$(DEPDIR)/pprint.Po tidy/$(DEPDIR)/sprtf.Po \
+	tidy/$(DEPDIR)/streamio.Po tidy/$(DEPDIR)/tagask.Po \
+	tidy/$(DEPDIR)/tags.Po tidy/$(DEPDIR)/tidylib.Po \
+	tidy/$(DEPDIR)/tmbstr.Po tidy/$(DEPDIR)/utf8.Po \
+	timer/$(DEPDIR)/index.Po tmp/$(DEPDIR)/tmp.Po \
+	trash/$(DEPDIR)/handler.Po unittests/$(DEPDIR)/archive.Po \
 	unittests/$(DEPDIR)/bibleimages.Po \
 	unittests/$(DEPDIR)/bibles.Po unittests/$(DEPDIR)/books.Po \
 	unittests/$(DEPDIR)/cache.Po unittests/$(DEPDIR)/check.Po \
@@ -1578,7 +1576,6 @@ libbibledit_a_SOURCES = \
 	rss/feed.cpp \
 	microtar/microtar.c \
 	miniz/miniz.c \
-	tbsx/text.cpp \
   read/index.cpp \
   read/load.cpp \
   read/verse.cpp \
@@ -3292,14 +3289,6 @@ miniz/$(DEPDIR)/$(am__dirstamp):
 	@: >>miniz/$(DEPDIR)/$(am__dirstamp)
 miniz/miniz.$(OBJEXT): miniz/$(am__dirstamp) \
 	miniz/$(DEPDIR)/$(am__dirstamp)
-tbsx/$(am__dirstamp):
-	@$(MKDIR_P) tbsx
-	@: >>tbsx/$(am__dirstamp)
-tbsx/$(DEPDIR)/$(am__dirstamp):
-	@$(MKDIR_P) tbsx/$(DEPDIR)
-	@: >>tbsx/$(DEPDIR)/$(am__dirstamp)
-tbsx/text.$(OBJEXT): tbsx/$(am__dirstamp) \
-	tbsx/$(DEPDIR)/$(am__dirstamp)
 read/$(am__dirstamp):
 	@$(MKDIR_P) read
 	@: >>read/$(am__dirstamp)
@@ -3783,7 +3772,6 @@ mostlyclean-compile:
 	-rm -f sync/*.$(OBJEXT)
 	-rm -f system/*.$(OBJEXT)
 	-rm -f tasks/*.$(OBJEXT)
-	-rm -f tbsx/*.$(OBJEXT)
 	-rm -f text/*.$(OBJEXT)
 	-rm -f tidy/*.$(OBJEXT)
 	-rm -f timer/*.$(OBJEXT)
@@ -4305,7 +4293,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@system/$(DEPDIR)/logic.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@tasks/$(DEPDIR)/logic.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@tasks/$(DEPDIR)/run.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@tbsx/$(DEPDIR)/text.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@text/$(DEPDIR)/text.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@tidy/$(DEPDIR)/access.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@tidy/$(DEPDIR)/alloc.Po@am__quote@ # am--include-marker
@@ -4959,8 +4946,6 @@ distclean-generic:
 	-$(am__rm_f) system/$(am__dirstamp)
 	-$(am__rm_f) tasks/$(DEPDIR)/$(am__dirstamp)
 	-$(am__rm_f) tasks/$(am__dirstamp)
-	-$(am__rm_f) tbsx/$(DEPDIR)/$(am__dirstamp)
-	-$(am__rm_f) tbsx/$(am__dirstamp)
 	-$(am__rm_f) text/$(DEPDIR)/$(am__dirstamp)
 	-$(am__rm_f) text/$(am__dirstamp)
 	-$(am__rm_f) tidy/$(DEPDIR)/$(am__dirstamp)
@@ -5501,7 +5486,6 @@ distclean: distclean-am
 	-rm -f system/$(DEPDIR)/logic.Po
 	-rm -f tasks/$(DEPDIR)/logic.Po
 	-rm -f tasks/$(DEPDIR)/run.Po
-	-rm -f tbsx/$(DEPDIR)/text.Po
 	-rm -f text/$(DEPDIR)/text.Po
 	-rm -f tidy/$(DEPDIR)/access.Po
 	-rm -f tidy/$(DEPDIR)/alloc.Po
@@ -6183,7 +6167,6 @@ maintainer-clean: maintainer-clean-am
 	-rm -f system/$(DEPDIR)/logic.Po
 	-rm -f tasks/$(DEPDIR)/logic.Po
 	-rm -f tasks/$(DEPDIR)/run.Po
-	-rm -f tbsx/$(DEPDIR)/text.Po
 	-rm -f text/$(DEPDIR)/text.Po
 	-rm -f tidy/$(DEPDIR)/access.Po
 	-rm -f tidy/$(DEPDIR)/alloc.Po

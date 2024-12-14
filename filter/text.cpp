@@ -66,7 +66,6 @@ Filter_Text::~Filter_Text ()
   if (onlinebible_text) delete onlinebible_text;
   if (esword_text) delete esword_text;
   if (text_text) delete text_text;
-  if (tbsx_text) delete tbsx_text;
 }
 
 
@@ -415,8 +414,6 @@ void Filter_Text::process_usfm ()
                   if (odf_text_text_only) odf_text_text_only->new_heading1 (runningHeader, true);
                   if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->new_heading1 (runningHeader, true);
                   if (odf_text_notes) odf_text_notes->new_heading1 (runningHeader, false);
-                  // The TBSX book identifier is identical to the USFM book identifier.
-                  if (tbsx_text) tbsx_text->set_book_id(usfm_id);
                   // Done.
                   break;
                 }
@@ -437,7 +434,6 @@ void Filter_Text::process_usfm ()
                   // Ideally this information should be inserted in the headers of the standard text document.
                   // UserBool2RunningHeaderLeft:
                   // UserBool3RunningHeaderRight:
-                  if (tbsx_text) tbsx_text->set_book_name(runningHeader);
                   break;
                 }
                 case IdentifierSubtypeLongTOC:
@@ -673,7 +669,6 @@ void Filter_Text::process_usfm ()
 
               // Output chapter number for other formats.
               if (esword_text) esword_text->newChapter (m_current_chapter_number);
-              if (tbsx_text) tbsx_text->set_chapter(m_current_chapter_number);
 
               // Open a paragraph for the notes.
               // It takes the style of the footnote content marker, usually 'ft'.
@@ -866,10 +861,6 @@ void Filter_Text::process_usfm ()
               // Other export formats.
               if (onlinebible_text) onlinebible_text->newVerse (m_current_book_identifier, m_current_chapter_number, filter::strings::convert_to_int (m_current_verse_number));
               if (esword_text) esword_text->newVerse (filter::strings::convert_to_int (m_current_verse_number));
-              if (tbsx_text) {
-                tbsx_text->open_verse(filter::strings::convert_to_int (m_current_verse_number));
-                tbsx_text->add_text(" ");
-              }
               // Done.
               break;
             }
@@ -1094,7 +1085,6 @@ void Filter_Text::process_usfm ()
           if (onlinebible_text) onlinebible_text->add_text (current_item);
           if (esword_text) esword_text->add_text (current_item);
           if (text_text) text_text->addtext (current_item);
-          if (tbsx_text) tbsx_text->add_text(current_item);
           if (headings_text_per_verse_active && heading_started) {
             int iverse = filter::strings::convert_to_int (m_current_verse_number);
             verses_headings [iverse].append (current_item);

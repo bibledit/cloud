@@ -474,7 +474,6 @@ libbibledit_a_SOURCES = \
 	rss/feed.cpp \
 	microtar/microtar.c \
 	miniz/miniz.c \
-	tbsx/text.cpp \
   read/index.cpp \
   read/load.cpp \
   read/verse.cpp \

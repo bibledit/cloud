@@ -27,7 +27,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <html/text.h>
 #include <text/text.h>
 #include <esword/text.h>
-#include <tbsx/text.h>
 #include <filter/note.h>
 
 
@@ -176,10 +175,6 @@ public:
   // Object for exporting to plain text.
   Text_Text * text_text { nullptr };
 
-public:
-  // Object for exporting to TBS online bible format.
-  Tbsx_Text * tbsx_text { nullptr };
-  
 public:
   void initializeHeadingsAndTextPerVerse (bool start_text_now);
   std::map <int, std::string> getVersesText ();

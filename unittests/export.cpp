@@ -29,7 +29,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <olb/text.h>
 #include <html/text.h>
 #include <odf/text.h>
-#include <tbsx/text.h>
 #include <filter/url.h>
 
 
@@ -203,64 +202,6 @@ TEST (filter, export)
     std::string result = filter_url_file_get_contents (filename);
     EXPECT_EQ (standard, result);
     filter_url_unlink (filename);
-  }
-
-  // TBS export book ID and book name.
-  {
-    Tbsx_Text tbsx;
-    tbsx.set_book_id("MAT");
-    tbsx.set_book_name("Matthew");
-    std::string standard =
-R"(###MAT
-###! Matthew)";
-    EXPECT_EQ (standard, tbsx.get_document ());
-  }
-  
-  // Test TBS exporter chapter handling.
-  {
-    Tbsx_Text tbsx;
-    tbsx.set_chapter(2);
-    tbsx.set_header("Header");
-    std::string standard =
-R"(##2
-##! Header)";
-    EXPECT_EQ (standard, tbsx.get_document ());
-  }
-  
-  // Text the TBS exporter tool paragraph handling.
-  {
-    Tbsx_Text tbsx;
-    tbsx.open_paragraph();
-    tbsx.add_text("1 Text contents");
-    std::string standard =
-R"(#%
-#1 Text contents)";
-    EXPECT_EQ (standard, tbsx.get_document ());
-  }
-  
-  // Text the TBS exporter tool supplied text handling.
-  {
-    Tbsx_Text tbsx;
-    tbsx.open_paragraph();
-    tbsx.add_text("1 Text ");
-    tbsx.add_text("added", true);
-    tbsx.add_text(" content");
-    std::string standard =
-R"(#%
-#1 Text *added* content)";
-    EXPECT_EQ (standard, tbsx.get_document ());
-  }
-
-  // Test the TBS text export tool.
-  {
-    Tbsx_Text tbsx;
-    tbsx.add_text ("Text");
-    tbsx.open_note();
-    tbsx.add_text("note");
-    tbsx.close_note();
-    tbsx.add_text (" of verse.");
-    std::string standard = R"(#Text[note] of verse.)";
-    EXPECT_EQ (standard, tbsx.get_document ());
   }
 }
 

@@ -1207,28 +1207,6 @@ B Jesus is the son of God.
 }
 
 
-// Test basic export to TBSX.
-TEST (filter_text, tbsx)
-{
-  setup();
-  const std::string usfm = R"(
-\id GEN
-\h Genesis
-\c 1
-\p
-\v 1 I will sing to the LORD.
-\c 2
-\p
-\v 2 Jesus came to save the people.
-)";
-  Filter_Text filter_text = Filter_Text (bible);
-  filter_text.tbsx_text = new Tbsx_Text ();
-  filter_text.add_usfm_code (usfm);
-  filter_text.run (styles_logic_standard_sheet ());
-  std::string output = filter_text.tbsx_text->get_document ();
-}
-
-
 // Test invalid UTF8 input text.
 TEST (filter_text, invalid_utf8_input)
 {

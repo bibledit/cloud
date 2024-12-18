@@ -1776,7 +1776,6 @@
 		CADE441A24F174BE003165BB /* books.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = books.cpp; sourceTree = "<group>"; };
 		CADE441B24F174BE003165BB /* session.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = session.cpp; sourceTree = "<group>"; };
 		CADE441E24F174BE003165BB /* cache.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = cache.cpp; sourceTree = "<group>"; };
-		CADE442124F174BE003165BB /* html2usfm.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = html2usfm.cpp; sourceTree = "<group>"; };
 		CADE442224F174BE003165BB /* etcbc4.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = etcbc4.cpp; sourceTree = "<group>"; };
 		CADE442424F174BE003165BB /* sprint.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = sprint.cpp; sourceTree = "<group>"; };
 		CADE442A24F174BE003165BB /* config.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = config.cpp; sourceTree = "<group>"; };
@@ -4477,7 +4476,6 @@
 				CADE44D224F174BF003165BB /* git.cpp */,
 				CADE440C24F174BE003165BB /* html.cpp */,
 				CA10382A2527A4010021AF25 /* html2format.cpp */,
-				CADE442124F174BE003165BB /* html2usfm.cpp */,
 				CADE444624F174BE003165BB /* http.cpp */,
 				CADE443024F174BE003165BB /* hyphenate.cpp */,
 				CA6A12D026F7BBE400CDB5DB /* image.cpp */,

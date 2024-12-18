@@ -564,7 +564,6 @@ unittest_SOURCES = \
 	unittests/flate.cpp \
 	unittests/checksum.cpp \
 	unittests/bibles.cpp \
-	unittests/html2usfm.cpp \
 	unittests/usfm-html.cpp \
 	unittests/workspaces.cpp \
 	unittests/client.cpp \

@@ -432,9 +432,9 @@ am_unittest_OBJECTS = unittests/unittest.$(OBJEXT) \
 	unittests/utilities.$(OBJEXT) unittests/sqlite.$(OBJEXT) \
 	unittests/session.$(OBJEXT) unittests/folders.$(OBJEXT) \
 	unittests/flate.$(OBJEXT) unittests/checksum.$(OBJEXT) \
-	unittests/bibles.$(OBJEXT) unittests/html2usfm.$(OBJEXT) \
-	unittests/usfm-html.$(OBJEXT) unittests/workspaces.$(OBJEXT) \
-	unittests/client.$(OBJEXT) unittests/sentences.$(OBJEXT) \
+	unittests/bibles.$(OBJEXT) unittests/usfm-html.$(OBJEXT) \
+	unittests/workspaces.$(OBJEXT) unittests/client.$(OBJEXT) \
+	unittests/sentences.$(OBJEXT) \
 	unittests/versification.$(OBJEXT) unittests/usfm.$(OBJEXT) \
 	unittests/verses.$(OBJEXT) unittests/pairs.$(OBJEXT) \
 	unittests/paratext.$(OBJEXT) unittests/hyphenate.$(OBJEXT) \
@@ -817,12 +817,11 @@ am__depfiles_remade = access/$(DEPDIR)/bible.Po \
 	unittests/$(DEPDIR)/flate.Po unittests/$(DEPDIR)/folders.Po \
 	unittests/$(DEPDIR)/french.Po unittests/$(DEPDIR)/git.Po \
 	unittests/$(DEPDIR)/html.Po unittests/$(DEPDIR)/html2format.Po \
-	unittests/$(DEPDIR)/html2usfm.Po unittests/$(DEPDIR)/http.Po \
-	unittests/$(DEPDIR)/hyphenate.Po unittests/$(DEPDIR)/image.Po \
-	unittests/$(DEPDIR)/ipc.Po unittests/$(DEPDIR)/javascript.Po \
-	unittests/$(DEPDIR)/jobs.Po unittests/$(DEPDIR)/json.Po \
-	unittests/$(DEPDIR)/kjv.Po unittests/$(DEPDIR)/ldap.Po \
-	unittests/$(DEPDIR)/lexicon.Po \
+	unittests/$(DEPDIR)/http.Po unittests/$(DEPDIR)/hyphenate.Po \
+	unittests/$(DEPDIR)/image.Po unittests/$(DEPDIR)/ipc.Po \
+	unittests/$(DEPDIR)/javascript.Po unittests/$(DEPDIR)/jobs.Po \
+	unittests/$(DEPDIR)/json.Po unittests/$(DEPDIR)/kjv.Po \
+	unittests/$(DEPDIR)/ldap.Po unittests/$(DEPDIR)/lexicon.Po \
 	unittests/$(DEPDIR)/localization.Po unittests/$(DEPDIR)/log.Po \
 	unittests/$(DEPDIR)/login.Po unittests/$(DEPDIR)/mail.Po \
 	unittests/$(DEPDIR)/md5.Po unittests/$(DEPDIR)/memory.Po \
@@ -1659,7 +1658,6 @@ unittest_SOURCES = \
 	unittests/flate.cpp \
 	unittests/checksum.cpp \
 	unittests/bibles.cpp \
-	unittests/html2usfm.cpp \
 	unittests/usfm-html.cpp \
 	unittests/workspaces.cpp \
 	unittests/client.cpp \
@@ -3531,8 +3529,6 @@ unittests/checksum.$(OBJEXT): unittests/$(am__dirstamp) \
 	unittests/$(DEPDIR)/$(am__dirstamp)
 unittests/bibles.$(OBJEXT): unittests/$(am__dirstamp) \
 	unittests/$(DEPDIR)/$(am__dirstamp)
-unittests/html2usfm.$(OBJEXT): unittests/$(am__dirstamp) \
-	unittests/$(DEPDIR)/$(am__dirstamp)
 unittests/usfm-html.$(OBJEXT): unittests/$(am__dirstamp) \
 	unittests/$(DEPDIR)/$(am__dirstamp)
 unittests/workspaces.$(OBJEXT): unittests/$(am__dirstamp) \
@@ -4339,7 +4335,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/git.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/html.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/html2format.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/html2usfm.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/http.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/hyphenate.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/image.Po@am__quote@ # am--include-marker
@@ -5531,7 +5526,6 @@ distclean: distclean-am
 	-rm -f unittests/$(DEPDIR)/git.Po
 	-rm -f unittests/$(DEPDIR)/html.Po
 	-rm -f unittests/$(DEPDIR)/html2format.Po
-	-rm -f unittests/$(DEPDIR)/html2usfm.Po
 	-rm -f unittests/$(DEPDIR)/http.Po
 	-rm -f unittests/$(DEPDIR)/hyphenate.Po
 	-rm -f unittests/$(DEPDIR)/image.Po
@@ -6211,7 +6205,6 @@ maintainer-clean: maintainer-clean-am
 	-rm -f unittests/$(DEPDIR)/git.Po
 	-rm -f unittests/$(DEPDIR)/html.Po
 	-rm -f unittests/$(DEPDIR)/html2format.Po
-	-rm -f unittests/$(DEPDIR)/html2usfm.Po
 	-rm -f unittests/$(DEPDIR)/http.Po
 	-rm -f unittests/$(DEPDIR)/hyphenate.Po
 	-rm -f unittests/$(DEPDIR)/image.Po

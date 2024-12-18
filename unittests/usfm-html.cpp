@@ -29,13 +29,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <styles/logic.h>
 #include <filter/string.h>
 #include <filter/url.h>
+#include <database/state.h>
 
 
-class usfm2html2usfm : public ::testing::Test
+class usfm_html : public ::testing::Test
 {
 public:
-  usfm2html2usfm() = default;
-  virtual ~usfm2html2usfm() = default;
+  usfm_html() = default;
+  virtual ~usfm_html() = default;
   static void SetUpTestCase()
   {
     refresh_sandbox (false);
@@ -46,6 +47,7 @@ public:
   }
   virtual void SetUp()
   {
+    Database_State::create ();
   }
   virtual void TearDown()
   {
@@ -53,7 +55,7 @@ public:
 };
 
 
-TEST_F (usfm2html2usfm, one_unknown_opening_marker)
+TEST_F (usfm_html, one_unknown_opening_marker)
 {
   std::string standard_usfm = R"(\abc)";
   std::string standard_html = R"(<p class="b-mono"><span>\abc </span></p>)";
@@ -74,7 +76,7 @@ TEST_F (usfm2html2usfm, one_unknown_opening_marker)
 }
 
 
-TEST_F (usfm2html2usfm, two_unknown_opening_markers)
+TEST_F (usfm_html, two_unknown_opening_markers)
 {
   std::string standard_usfm =
   R"(\abc)" "\n"
@@ -98,7 +100,7 @@ TEST_F (usfm2html2usfm, two_unknown_opening_markers)
 }
 
 
-TEST_F (usfm2html2usfm, one_unknown_closing_marker)
+TEST_F (usfm_html, one_unknown_closing_marker)
 {
   std::string standard_usfm = R"(\abc text\abc*.)";
   std::string standard_html = R"(<p class="b-mono"><span>\abc </span><span>text</span><span>\abc*</span><span>.</span></p>)";
@@ -118,7 +120,7 @@ TEST_F (usfm2html2usfm, one_unknown_closing_marker)
 }
 
 
-TEST_F (usfm2html2usfm, two_unknown_closing_markers)
+TEST_F (usfm_html, two_unknown_closing_markers)
 {
   std::string standard_usfm =
   R"(\abc text\abc*.)" "\n"
@@ -143,7 +145,7 @@ TEST_F (usfm2html2usfm, two_unknown_closing_markers)
 }
 
 
-TEST_F (usfm2html2usfm, identifiers)
+TEST_F (usfm_html, identifiers)
 {
   std::string standard_usfm =
   R"(\id GEN)" "\n"
@@ -176,7 +178,7 @@ TEST_F (usfm2html2usfm, identifiers)
 }
 
 
-TEST_F (usfm2html2usfm, one_paragraph)
+TEST_F (usfm_html, one_paragraph)
 {
   std::string standard_usfm = R"(\p Paragraph text.)";
   std::string standard_html = R"(<p class="b-p"><span>Paragraph text.</span></p>)";
@@ -197,7 +199,7 @@ TEST_F (usfm2html2usfm, one_paragraph)
 }
 
 
-TEST_F (usfm2html2usfm, two_paragraphs)
+TEST_F (usfm_html, two_paragraphs)
 {
   std::string standard_usfm =
   R"(\p Paragraph text.)" "\n"
@@ -222,7 +224,7 @@ TEST_F (usfm2html2usfm, two_paragraphs)
 }
 
 
-TEST_F (usfm2html2usfm, inline_text)
+TEST_F (usfm_html, inline_text)
 {
   std::string standard_usfm = R"(\p Paragraph text plus \add added\add* text.)";
   std::string standard_html = R"(<p class="b-p"><span>Paragraph text plus </span><span class="i-add">added</span><span> text.</span></p>)";
@@ -243,7 +245,7 @@ TEST_F (usfm2html2usfm, inline_text)
 }
 
 
-TEST_F (usfm2html2usfm, inline_texts)
+TEST_F (usfm_html, inline_texts)
 {
   std::string standard_usfm = R"(\p Paragraph text plus \add added\add* text plus \add added\add* text.)";
   std::string standard_html = R"(<p class="b-p"><span>Paragraph text plus </span><span class="i-add">added</span><span> text plus </span><span class="i-add">added</span><span> text.</span></p>)";
@@ -264,7 +266,7 @@ TEST_F (usfm2html2usfm, inline_texts)
 }
 
 
-TEST_F (usfm2html2usfm, chapter)
+TEST_F (usfm_html, chapter)
 {
   std::string standard_usfm =
   R"(\c 1)" "\n"
@@ -290,7 +292,7 @@ TEST_F (usfm2html2usfm, chapter)
 }
 
 
-TEST_F (usfm2html2usfm, verses)
+TEST_F (usfm_html, verses)
 {
   std::string standard_usfm =
   R"(\p)" "\n"
@@ -315,7 +317,7 @@ TEST_F (usfm2html2usfm, verses)
 }
 
 
-TEST_F (usfm2html2usfm, published_verse_markers)
+TEST_F (usfm_html, published_verse_markers)
 {
   std::string standard_usfm = R"(
 \p
@@ -343,7 +345,7 @@ TEST_F (usfm2html2usfm, published_verse_markers)
 }
 
 
-TEST_F (usfm2html2usfm, peripherals)
+TEST_F (usfm_html, peripherals)
 {
   std::string standard_usfm =
   "\\periph Title Page\n"
@@ -368,7 +370,7 @@ TEST_F (usfm2html2usfm, peripherals)
 }
 
 
-TEST_F (usfm2html2usfm, picture)
+TEST_F (usfm_html, picture)
 {
   std::string standard_usfm =
   "\\p Text\n"
@@ -395,7 +397,7 @@ TEST_F (usfm2html2usfm, picture)
 }
 
 
-TEST_F (usfm2html2usfm, table)
+TEST_F (usfm_html, table)
 {
   std::string standard_usfm =
   "\\tr \\th1 Tribe \\th2 Leader \\thr3 Number\n"
@@ -427,7 +429,7 @@ TEST_F (usfm2html2usfm, table)
 }
 
 
-TEST_F (usfm2html2usfm, word_list_entry)
+TEST_F (usfm_html, word_list_entry)
 {
   std::string standard_usfm = R"(\p A \ndx index\ndx* b \wh Hebrew\wh* c.)";
   std::string standard_html =
@@ -449,7 +451,7 @@ TEST_F (usfm2html2usfm, word_list_entry)
 }
 
 
-TEST_F (usfm2html2usfm, crossreference)
+TEST_F (usfm_html, crossreference)
 {
   std::string standard_usfm = R"(\p The elder\x + 2 Joh. 1.1\x* to the beloved Gaius.)";
   std::string standard_html =
@@ -475,7 +477,7 @@ TEST_F (usfm2html2usfm, crossreference)
 }
 
 
-TEST_F (usfm2html2usfm, crossreferences)
+TEST_F (usfm_html, crossreferences)
 {
   std::string standard_usfm =
   R"(\p The elder\x + 2 Joh. 1.1\x* to the beloved Gaius.)" "\n"
@@ -504,7 +506,7 @@ TEST_F (usfm2html2usfm, crossreferences)
 }
 
 
-TEST_F (usfm2html2usfm, footnote)
+TEST_F (usfm_html, footnote)
 {
   std::string standard_usfm =
   R"(\p The earth brought forth\f + \fk brought: \fl Heb. \fq explanation.\f*.)";
@@ -531,7 +533,7 @@ TEST_F (usfm2html2usfm, footnote)
 }
 
 
-TEST_F (usfm2html2usfm, cycling_the_note_caller)
+TEST_F (usfm_html, cycling_the_note_caller)
 {
   std::string standard_usfm =
   "\\p Text\\f + note\\f*.\n"
@@ -573,7 +575,7 @@ TEST_F (usfm2html2usfm, cycling_the_note_caller)
 }
 
 
-TEST_F (usfm2html2usfm, endnote)
+TEST_F (usfm_html, endnote)
 {
   std::string standard_usfm =
   R"(\p The earth brought forth\fe + \fk brought: \fl Heb. \fq explanation.\fe*.)";
@@ -600,7 +602,7 @@ TEST_F (usfm2html2usfm, endnote)
 }
 
 
-TEST_F (usfm2html2usfm, round_trip_from_real_life_1)
+TEST_F (usfm_html, round_trip_from_real_life_1)
 {
   std::string standard_usfm =
   "\\c 1\n"
@@ -637,7 +639,7 @@ TEST_F (usfm2html2usfm, round_trip_from_real_life_1)
 }
 
 
-TEST_F (usfm2html2usfm, round_trip_from_real_life_2)
+TEST_F (usfm_html, round_trip_from_real_life_2)
 {
   std::string standard_usfm =
   "\\c 1\n"
@@ -697,7 +699,7 @@ TEST_F (usfm2html2usfm, round_trip_from_real_life_2)
 }
 
 
-TEST_F (usfm2html2usfm, nested_text_mark_1)
+TEST_F (usfm_html, nested_text_mark_1)
 {
   std::string input_usfm =
   R"(\p)" "\n"
@@ -724,7 +726,7 @@ TEST_F (usfm2html2usfm, nested_text_mark_1)
 }
 
 
-TEST_F (usfm2html2usfm, nested_text_mark_2)
+TEST_F (usfm_html, nested_text_mark_2)
 {
   std::string input_usfm =
   R"(\p)" "\n"
@@ -751,7 +753,7 @@ TEST_F (usfm2html2usfm, nested_text_mark_2)
 }
 
 
-TEST_F (usfm2html2usfm, nested_text_mark_3)
+TEST_F (usfm_html, nested_text_mark_3)
 {
   std::string input_usfm  = R"(\p The \add \+nd Lord God\+nd* is\add* calling you)";
   std::string output_usfm = R"(\p The \add \+nd Lord God\+nd*\add*\add  is\add* calling you)";
@@ -774,7 +776,7 @@ TEST_F (usfm2html2usfm, nested_text_mark_3)
 }
 
 
-TEST_F (usfm2html2usfm, nested_note_markup_1)
+TEST_F (usfm_html, nested_note_markup_1)
 {
   std::string standard_usfm =
   R"(\p)" "\n"
@@ -802,7 +804,7 @@ TEST_F (usfm2html2usfm, nested_note_markup_1)
 }
 
 
-TEST_F (usfm2html2usfm, nested_note_markup_2)
+TEST_F (usfm_html, nested_note_markup_2)
 {
   std::string input_usfm =
   R"(\p)"
@@ -833,7 +835,7 @@ TEST_F (usfm2html2usfm, nested_note_markup_2)
 }
 
 
-TEST_F (usfm2html2usfm, fox_for_change_marker_ft_to_fk)
+TEST_F (usfm_html, fox_for_change_marker_ft_to_fk)
 {
   // A bug was discovered in the Bible editor where "... \fk ... \ft ..." was changed to "... \fk ... \fk ...".
   // The bug was fixed.
@@ -864,7 +866,7 @@ TEST_F (usfm2html2usfm, fox_for_change_marker_ft_to_fk)
 }
 
 
-TEST_F (usfm2html2usfm, blank_line)
+TEST_F (usfm_html, blank_line)
 {
   std::string standard_usfm =
   "\\p paragraph\n"
@@ -887,7 +889,7 @@ TEST_F (usfm2html2usfm, blank_line)
 }
 
 
-TEST_F (usfm2html2usfm, test_the_marker_sd_and_sd2_semantic_divisions)
+TEST_F (usfm_html, test_the_marker_sd_and_sd2_semantic_divisions)
 {
   std::string standard_usfm =
   "\\p paragraph\n"
@@ -912,7 +914,7 @@ TEST_F (usfm2html2usfm, test_the_marker_sd_and_sd2_semantic_divisions)
 }
 
 
-TEST_F (usfm2html2usfm, test_marker_xo_and_xt)
+TEST_F (usfm_html, test_marker_xo_and_xt)
 {
   std::string standardusfm =
   "\\p\n\\v 1 The text\\x + \\xo 1 \\xt Passage\\x*.";
@@ -935,7 +937,7 @@ TEST_F (usfm2html2usfm, test_marker_xo_and_xt)
 }
 
 
-TEST_F (usfm2html2usfm, unmatched_note_opener_and_xref_opener)
+TEST_F (usfm_html, unmatched_note_opener_and_xref_opener)
 {
   std::string standard_usfm =
   R"(\c 117)" "\n"
@@ -961,7 +963,7 @@ TEST_F (usfm2html2usfm, unmatched_note_opener_and_xref_opener)
 }
 
 
-TEST_F (usfm2html2usfm, inline_opener_without_matching_inline_closer)
+TEST_F (usfm_html, inline_opener_without_matching_inline_closer)
 {
   std::string standard_usfm =
   R"(\p The \add Lord God is calling you)";
@@ -985,7 +987,7 @@ TEST_F (usfm2html2usfm, inline_opener_without_matching_inline_closer)
 
 
 // Inline opener without inline closer but with other inline markup.
-TEST_F (usfm2html2usfm, inline_opener_wo_closer_w_other_inline_markup)
+TEST_F (usfm_html, inline_opener_wo_closer_w_other_inline_markup)
 {
   std::string standard_usfm =
   R"(\p The \add Lord \nd God\nd* is calling you)" "\n"
@@ -1010,7 +1012,7 @@ TEST_F (usfm2html2usfm, inline_opener_wo_closer_w_other_inline_markup)
 
 
 // Inline opener without a matching inline closer and with a paragraph after that.
-TEST_F (usfm2html2usfm, inline_opener_wo_closer_w_paragraph_after)
+TEST_F (usfm_html, inline_opener_wo_closer_w_paragraph_after)
 {
   std::string standard_usfm =
   R"(\p The \add Lord God is calling you)" "\n"
@@ -1035,7 +1037,7 @@ TEST_F (usfm2html2usfm, inline_opener_wo_closer_w_paragraph_after)
 
 
 // Testing editing one verse, which does not have a starting paragraph.
-TEST_F (usfm2html2usfm, verse_wo_starting_paragraph)
+TEST_F (usfm_html, verse_wo_starting_paragraph)
 {
   std::string usfm = "\\v 1 God created";
   std::string html = R"(<p><span class="i-v">1</span><span> </span><span>God created</span></p>)";
@@ -1058,7 +1060,7 @@ TEST_F (usfm2html2usfm, verse_wo_starting_paragraph)
 
 
 // Testing verse editing one verse: The chapter number, or verse 0.
-TEST_F (usfm2html2usfm, verse_ch1_vs0)
+TEST_F (usfm_html, verse_ch1_vs0)
 {
   std::string usfm = "\\c 1\n"
   "\\p";
@@ -1077,7 +1079,7 @@ TEST_F (usfm2html2usfm, verse_ch1_vs0)
 
 
 // One-verse editor, testing chapter 0 verse 0.
-TEST_F (usfm2html2usfm, verse_editor_ch0_vs0)
+TEST_F (usfm_html, verse_editor_ch0_vs0)
 {
   std::string usfm =
   "\\id GEN Genesis\n"
@@ -1100,7 +1102,7 @@ TEST_F (usfm2html2usfm, verse_editor_ch0_vs0)
 
 
 // Testing one verse: a paragraph with content.
-TEST_F (usfm2html2usfm, verse_editor_paragraph_w_content)
+TEST_F (usfm_html, verse_editor_paragraph_w_content)
 {
   std::string usfm = R"(\p And God called the firmament Heaven)";
   std::string html = R"(<p class="b-p"><span>And God called the firmament Heaven</span></p>)";
@@ -1118,7 +1120,7 @@ TEST_F (usfm2html2usfm, verse_editor_paragraph_w_content)
 
 
 // Testing \add ..\add* markup in a footnote.
-TEST_F (usfm2html2usfm, add_in_footnote)
+TEST_F (usfm_html, add_in_footnote)
 {
   std::string standard_usfm = R"(\p Praise Yahweh\f \add I\add* am\f*, all you nations!)";
   std::string standard_html = R"(<p class="b-p"><span>Praise Yahweh</span><span class="i-notecall1">1</span><span>, all you nations!</span></p><p class="b-notes"> </p><p class="b-f"><span class="i-notebody1">1</span><span> </span><span class="i-add">I</span><span> am</span></p>)";
@@ -1140,7 +1142,7 @@ TEST_F (usfm2html2usfm, add_in_footnote)
 
 
 // Testing \xt in a footnote.
-TEST_F (usfm2html2usfm, xt_in_footnote)
+TEST_F (usfm_html, xt_in_footnote)
 {
   std::string standard_usfm = R"(\p Praise Yahweh\f I am, see \xt Exod.6.3.\f*, all you nations!)";
   std::string standard_html = R"(<p class="b-p"><span>Praise Yahweh</span><span class="i-notecall1">1</span><span>, all you nations!</span></p><p class="b-notes"> </p><p class="b-f"><span class="i-notebody1">1</span><span> </span><span>I am, see </span><span class="i-xt">Exod.6.3.</span></p>)";
@@ -1162,7 +1164,7 @@ TEST_F (usfm2html2usfm, xt_in_footnote)
 
 
 // Testing \xt and \add markup in a footnote, in Romans 2.15, received from a user.
-TEST_F (usfm2html2usfm, xt_add_in_footnote)
+TEST_F (usfm_html, xt_add_in_footnote)
 {
   std::string standard_usfm = R"(\p \f + \fr 2:15 \ft „tokie“ – t. „kurie“\f*tokie parodo savo širdyse įrašytą įstatymo \f + \fr 2:15 \ft „darbą“ – arba „poveikį“\f*darbą, jų sąžinei kartu \add tiems dalykams\add* paliudijant, ir \add jų\add* mintims \f + \fr 2:15 \ft „tuo tarpu \add juos\add* kaltinant arba net ginant“ – gr. „tarp savęs“; gal „tarpusavyje“, t. y. arba minčių tarpusavyje arba kitataučių tarpusavyje; gal „pakeičiant viena kitą \add juos\add* kaltindamos arba net gindamos“; žr. - \xt Mt 18:15, kur kalbama ne apie laiko tarpsnį, bet apie žodžių keitimąsi tarp du žmones\f*tuo tarpu \add juos\add* kaltinant arba net ginant) –)";
   std::string standard_html = R"(<p class="b-p"><span class="i-notecall1">1</span><span>tokie parodo savo širdyse įrašytą įstatymo </span><span class="i-notecall2">2</span><span>darbą, jų sąžinei kartu </span><span class="i-add">tiems dalykams</span><span> paliudijant, ir </span><span class="i-add">jų</span><span> mintims </span><span class="i-notecall3">3</span><span>tuo tarpu </span><span class="i-add">juos</span><span> kaltinant arba net ginant) –</span></p><p class="b-notes"> </p><p class="b-f"><span class="i-notebody1">1</span><span> </span><span>+ </span><span class="i-fr">2:15 </span><span class="i-ft">„tokie“ – t. „kurie“</span></p><p class="b-f"><span class="i-notebody2">2</span><span> </span><span>+ </span><span class="i-fr">2:15 </span><span class="i-ft">„darbą“ – arba „poveikį“</span></p><p class="b-f"><span class="i-notebody3">3</span><span> </span><span>+ </span><span class="i-fr">2:15 </span><span class="i-ft">„tuo tarpu </span><span class="i-add">juos</span><span> kaltinant arba net ginant“ – gr. „tarp savęs“; gal „tarpusavyje“, t. y. arba minčių tarpusavyje arba kitataučių tarpusavyje; gal „pakeičiant viena kitą </span><span class="i-add">juos</span><span> kaltindamos arba net gindamos“; žr. - </span><span class="i-xt">Mt 18:15, kur kalbama ne apie laiko tarpsnį, bet apie žodžių keitimąsi tarp du žmones</span></p>)";
@@ -1184,7 +1186,7 @@ TEST_F (usfm2html2usfm, xt_add_in_footnote)
 
 // Regression testing for a situation that a user pastes some text into a note.
 // https://github.com/bibledit/cloud/issues/353
-TEST_F (usfm2html2usfm, regression_paste_text_in_note)
+TEST_F (usfm_html, regression_paste_text_in_note)
 {
   std::string standard_usfm_long = R"(\p Verse text one\f + \fr 1:4 \ft Note text \ft one.\f* two.)";
   std::string standard_usfm_short = R"(\p Verse text one\f + \fr 1:4 \ft Note text one.\f* two.)";
@@ -1201,7 +1203,7 @@ TEST_F (usfm2html2usfm, regression_paste_text_in_note)
 // Regression testing for a fixed bug where after entering a new line in a footnote,
 // the part of the footnote text after the new line would disappear.
 // https://github.com/bibledit/cloud/issues/444
-TEST_F (usfm2html2usfm, regression_new_line_footnote)
+TEST_F (usfm_html, regression_new_line_footnote)
 {
   std::string standard_html = R"(<p class="b-p"><span class="i-v">1</span> One<span class="i-notecall1">1</span> two.</p><p class="b-notes">&nbsp;</p><p class="b-f"><span class="i-notebody1">1</span> + <span class="i-fr">117.3 </span><span class="i-fk">| key </span></p><p class="b-f"><span class="i-fk">word</span></p>)";
   Editor_Html2Usfm editor_html2usfm;
@@ -1209,6 +1211,152 @@ TEST_F (usfm2html2usfm, regression_new_line_footnote)
   editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
   editor_html2usfm.run ();
   std::string output_usfm = editor_html2usfm.get ();
+}
+
+
+// Test text length for one verse.
+TEST_F (usfm_html, text_length_one_verse)
+{
+  std::string usfm =
+  "\\c 2\n"
+  "\\p\n"
+  "\\v 1 Kwasekuqediswa amazulu lomhlaba lalo lonke ibutho lakho\\x + Dute. 4.19. Hlab. 33.6.\\x*.\n";
+  Editor_Usfm2Html editor_usfm2html;
+  editor_usfm2html.load (usfm);
+  editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
+  editor_usfm2html.run ();
+  EXPECT_EQ (61, static_cast<int>(editor_usfm2html.m_text_tength));
+  EXPECT_EQ ((std::map <int, int>{ std::pair (0, 0), std::pair (1, 2) }), editor_usfm2html.m_verse_start_offsets);
+  EXPECT_EQ ("1 Kwasekuqediswa amazulu lomhlaba lalo lonke ibutho lakho.", editor_usfm2html.m_current_paragraph_content);
+}
+
+
+// Test text length for several verses.
+TEST_F (usfm_html, text_length_verses)
+{
+  std::string usfm =
+  "\\c 2\n"
+  "\\p\n"
+  "\\v 1 Kwasekuqediswa amazulu lomhlaba lalo lonke ibutho lakho\\x + Dute. 4.19. Hlab. 33.6.\\x*.\n"
+  "\\v 2 UNkulunkulu wasewuqeda ngosuku lwesikhombisa umsebenzi wakhe abewenza. Waphumula ngosuku lwesikhombisa\\x + Eks. 20.11; 31.17. Dute. 5.14. Heb. 4.4.\\x* emsebenzini wakhe wonke abewenza.\n"
+  "\\v 3 UNkulunkulu wasebusisa usuku lwesikhombisa, walungcwelisa; ngoba ngalo waphumula emsebenzini wakhe wonke, uNkulunkulu awudalayo wawenza\\f + \\fk wawenza: \\fl Heb. \\fq ukuwenza.\\f*.\n"
+  "\\s Isivande seEdeni\n"
+  "\\p\n"
+  "\\v 4 Lezi yizizukulwana zamazulu lezomhlaba ekudalweni kwakho\\x + 1.1.\\x*, mhla iN\\nd kosi\\nd* uNkulunkulu isenza umhlaba lamazulu,\n"
+  "\\v 5 laso sonke isihlahlakazana sensimu, singakabi khona emhlabeni, layo yonke imibhida yeganga\\x + 1.12.\\x*, ingakamili; ngoba iN\\nd kosi\\nd* uNkulunkulu yayinganisanga izulu emhlabeni, njalo kwakungelamuntu wokulima umhlabathi.\n"
+  "\\v 6 Kodwa kwenyuka inkungu ivela emhlabathini, yasithelela ubuso bonke bomhlabathi.\n"
+  "\\v 7 IN\\nd kosi\\nd* uNkulunkulu yasibumba umuntu ngothuli oluvela emhlabathini\\x + 3.19,23. Hlab. 103.14. Tshu. 12.7. 1 Kor. 15.47.\\x*, yaphefumulela emakhaleni akhe umoya wempilo; umuntu wasesiba ngumphefumulo ophilayo\\x + 7.22. Jobe 33.4. Isa. 2.22. 1 Kor. 15.45.\\x*.\n";
+  Editor_Usfm2Html editor_usfm2html;
+  editor_usfm2html.load (usfm);
+  editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
+  editor_usfm2html.run ();
+  EXPECT_EQ (913, static_cast<int>(editor_usfm2html.m_text_tength));
+  EXPECT_EQ ((std::map <int, int>{
+    std::pair (0, 0),
+    std::pair (1, 2),
+    std::pair (2, 62),
+    std::pair (3, 202),
+    std::pair (4, 359),
+    std::pair (5, 469),
+    std::pair (6, 676),
+    std::pair (7, 758)
+  }),
+             editor_usfm2html.m_verse_start_offsets);
+  EXPECT_EQ (550, static_cast<int>(editor_usfm2html.m_current_paragraph_content.size ()));
+}
+
+
+// Space after starting marker.
+TEST_F (usfm_html, space_after_opener)
+{
+  const std::string usfm =
+  "\\c 1\n"
+  "\\p\n"
+  "\\v 2 Text \\add of the \\add*1st\\add  second verse\\add*.\n";
+  Editor_Usfm2Html editor_usfm2html;
+  editor_usfm2html.load (usfm);
+  editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
+  editor_usfm2html.run ();
+  const std::string html = editor_usfm2html.get ();
+  const std::string standard =
+  R"(<p class="b-c"><span>1</span></p><p class="b-p"><span class="i-v">2</span><span> </span><span>Text </span><span class="i-add">of the </span><span>1st</span><span class="i-add"> second verse</span><span>.</span></p>)";
+  EXPECT_EQ (standard, html);
+}
+
+
+// Apostrophy etc.
+TEST_F (usfm_html, apostrophy_etc)
+{
+  const std::string usfm =
+  "\\c 1\n"
+  "\\p\n"
+  "\\v 1 Judha muranda waJesu Kristu, uye munin'ina waJakobho ...\n";
+  Editor_Usfm2Html editor_usfm2html;
+  editor_usfm2html.load (usfm);
+  editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
+  editor_usfm2html.run ();
+  const std::string html = editor_usfm2html.get ();
+  const std::string standard =
+  R"(<p class="b-c"><span>1</span></p><p class="b-p"><span class="i-v">1</span><span> </span><span>Judha muranda waJesu Kristu, uye munin'ina waJakobho ...</span></p>)";
+  EXPECT_EQ (standard, html);
+}
+
+
+// Most recent paragraph style.
+TEST_F (usfm_html, most_recent_paragraph_style)
+{
+  const std::string usfm =
+  "\\c 2\n"
+  "\\p\n"
+  "\\v 1 One\n"
+  "\\q2\n"
+  "\\v 2 Two\n"
+  "\\v 3 Three\n";
+  Editor_Usfm2Html editor_usfm2html;
+  editor_usfm2html.load (usfm);
+  editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
+  editor_usfm2html.run ();
+  EXPECT_EQ ("q2", editor_usfm2html.m_current_paragraph_style);
+  EXPECT_EQ ("2 Two 3 Three", editor_usfm2html.m_current_paragraph_content);
+}
+
+
+// Most recent paragraph style and length 0.
+TEST_F (usfm_html, most_recent_p_style_length_0)
+{
+  const std::string usfm =
+  "\\c 2\n"
+  "\\p\n"
+  "\\v 1 One\n"
+  "\\q2\n"
+  "\\v 2 Two\n"
+  "\\v 3 Three\n"
+  "\\q3\n";
+  Editor_Usfm2Html editor_usfm2html;
+  editor_usfm2html.load (usfm);
+  editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
+  editor_usfm2html.run ();
+  EXPECT_EQ ("q3", editor_usfm2html.m_current_paragraph_style);
+  EXPECT_EQ ("", editor_usfm2html.m_current_paragraph_content);
+}
+
+
+// Convert styles for Quill-based editor.
+TEST_F (usfm_html, convert_styles_to_quill)
+{
+  const std::string usfm =
+  "\\c 1\n"
+  "\\p\n"
+  "\\v 2 Text \\add of the \\add*1st \\add second verse\\add*.\n";
+  Editor_Usfm2Html editor_usfm2html;
+  editor_usfm2html.load (usfm);
+  editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
+  editor_usfm2html.run ();
+  const std::string html = editor_usfm2html.get ();
+  const std::string standard =
+  R"(<p class="b-c"><span>1</span></p>)"
+  R"(<p class="b-p"><span class="i-v">2</span><span> </span><span>Text </span><span class="i-add">of the </span><span>1st </span><span class="i-add">second verse</span><span>.</span></p>)";
+  EXPECT_EQ (standard, html);
 }
 
 

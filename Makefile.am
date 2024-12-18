@@ -565,8 +565,7 @@ unittest_SOURCES = \
 	unittests/checksum.cpp \
 	unittests/bibles.cpp \
 	unittests/html2usfm.cpp \
-	unittests/usfm2html.cpp \
-	unittests/usfm2html2usfm.cpp \
+	unittests/usfm-html.cpp \
 	unittests/workspaces.cpp \
 	unittests/client.cpp \
 	unittests/sentences.cpp \

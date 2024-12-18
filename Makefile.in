@@ -433,10 +433,8 @@ am_unittest_OBJECTS = unittests/unittest.$(OBJEXT) \
 	unittests/session.$(OBJEXT) unittests/folders.$(OBJEXT) \
 	unittests/flate.$(OBJEXT) unittests/checksum.$(OBJEXT) \
 	unittests/bibles.$(OBJEXT) unittests/html2usfm.$(OBJEXT) \
-	unittests/usfm2html.$(OBJEXT) \
-	unittests/usfm2html2usfm.$(OBJEXT) \
-	unittests/workspaces.$(OBJEXT) unittests/client.$(OBJEXT) \
-	unittests/sentences.$(OBJEXT) \
+	unittests/usfm-html.$(OBJEXT) unittests/workspaces.$(OBJEXT) \
+	unittests/client.$(OBJEXT) unittests/sentences.$(OBJEXT) \
 	unittests/versification.$(OBJEXT) unittests/usfm.$(OBJEXT) \
 	unittests/verses.$(OBJEXT) unittests/pairs.$(OBJEXT) \
 	unittests/paratext.$(OBJEXT) unittests/hyphenate.$(OBJEXT) \
@@ -849,8 +847,7 @@ am__depfiles_remade = access/$(DEPDIR)/bible.Po \
 	unittests/$(DEPDIR)/styles.Po unittests/$(DEPDIR)/tasks.Po \
 	unittests/$(DEPDIR)/text.Po unittests/$(DEPDIR)/unittest.Po \
 	unittests/$(DEPDIR)/url.Po unittests/$(DEPDIR)/users.Po \
-	unittests/$(DEPDIR)/usfm.Po unittests/$(DEPDIR)/usfm2html.Po \
-	unittests/$(DEPDIR)/usfm2html2usfm.Po \
+	unittests/$(DEPDIR)/usfm-html.Po unittests/$(DEPDIR)/usfm.Po \
 	unittests/$(DEPDIR)/utilities.Po unittests/$(DEPDIR)/verses.Po \
 	unittests/$(DEPDIR)/versification.Po \
 	unittests/$(DEPDIR)/volatile.Po unittests/$(DEPDIR)/webview.Po \
@@ -1663,8 +1660,7 @@ unittest_SOURCES = \
 	unittests/checksum.cpp \
 	unittests/bibles.cpp \
 	unittests/html2usfm.cpp \
-	unittests/usfm2html.cpp \
-	unittests/usfm2html2usfm.cpp \
+	unittests/usfm-html.cpp \
 	unittests/workspaces.cpp \
 	unittests/client.cpp \
 	unittests/sentences.cpp \
@@ -3537,9 +3533,7 @@ unittests/bibles.$(OBJEXT): unittests/$(am__dirstamp) \
 	unittests/$(DEPDIR)/$(am__dirstamp)
 unittests/html2usfm.$(OBJEXT): unittests/$(am__dirstamp) \
 	unittests/$(DEPDIR)/$(am__dirstamp)
-unittests/usfm2html.$(OBJEXT): unittests/$(am__dirstamp) \
-	unittests/$(DEPDIR)/$(am__dirstamp)
-unittests/usfm2html2usfm.$(OBJEXT): unittests/$(am__dirstamp) \
+unittests/usfm-html.$(OBJEXT): unittests/$(am__dirstamp) \
 	unittests/$(DEPDIR)/$(am__dirstamp)
 unittests/workspaces.$(OBJEXT): unittests/$(am__dirstamp) \
 	unittests/$(DEPDIR)/$(am__dirstamp)
@@ -4397,9 +4391,8 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/unittest.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/url.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/users.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/usfm-html.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/usfm.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/usfm2html.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/usfm2html2usfm.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/utilities.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/verses.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@unittests/$(DEPDIR)/versification.Po@am__quote@ # am--include-marker
@@ -5590,9 +5583,8 @@ distclean: distclean-am
 	-rm -f unittests/$(DEPDIR)/unittest.Po
 	-rm -f unittests/$(DEPDIR)/url.Po
 	-rm -f unittests/$(DEPDIR)/users.Po
+	-rm -f unittests/$(DEPDIR)/usfm-html.Po
 	-rm -f unittests/$(DEPDIR)/usfm.Po
-	-rm -f unittests/$(DEPDIR)/usfm2html.Po
-	-rm -f unittests/$(DEPDIR)/usfm2html2usfm.Po
 	-rm -f unittests/$(DEPDIR)/utilities.Po
 	-rm -f unittests/$(DEPDIR)/verses.Po
 	-rm -f unittests/$(DEPDIR)/versification.Po
@@ -6271,9 +6263,8 @@ maintainer-clean: maintainer-clean-am
 	-rm -f unittests/$(DEPDIR)/unittest.Po
 	-rm -f unittests/$(DEPDIR)/url.Po
 	-rm -f unittests/$(DEPDIR)/users.Po
+	-rm -f unittests/$(DEPDIR)/usfm-html.Po
 	-rm -f unittests/$(DEPDIR)/usfm.Po
-	-rm -f unittests/$(DEPDIR)/usfm2html.Po
-	-rm -f unittests/$(DEPDIR)/usfm2html2usfm.Po
 	-rm -f unittests/$(DEPDIR)/utilities.Po
 	-rm -f unittests/$(DEPDIR)/verses.Po
 	-rm -f unittests/$(DEPDIR)/versification.Po

@@ -67,7 +67,6 @@ void Editor_Usfm2Html::run ()
 {
   preprocess ();
   process ();
-  postprocess ();
 }
 
 
@@ -143,22 +142,24 @@ void Editor_Usfm2Html::preprocess ()
 void Editor_Usfm2Html::process ()
 {
   m_markers_and_text_pointer = 0;
-  size_t markersAndTextCount = m_markers_and_text.size();
-  for (m_markers_and_text_pointer = 0; m_markers_and_text_pointer < markersAndTextCount; m_markers_and_text_pointer++) {
-    std::string currentItem = m_markers_and_text[m_markers_and_text_pointer];
-    if (filter::usfm::is_usfm_marker (currentItem))
+  const size_t markers_and_text_count = m_markers_and_text.size();
+  for (m_markers_and_text_pointer = 0; m_markers_and_text_pointer < markers_and_text_count; m_markers_and_text_pointer++) {
+    const std::string current_item = m_markers_and_text[m_markers_and_text_pointer];
+    if (filter::usfm::is_usfm_marker (current_item))
     {
       // Store indicator whether the marker is an opening marker.
-      bool is_opening_marker = filter::usfm::is_opening_marker (currentItem);
-      bool isEmbeddedMarker = filter::usfm::is_embedded_marker (currentItem);
+      const bool is_opening_marker = filter::usfm::is_opening_marker (current_item);
+      const bool is_embedded_marker = filter::usfm::is_embedded_marker (current_item);
       // Clean up the marker, so we remain with the basic version, e.g. 'id'.
-      std::string marker = filter::usfm::get_marker (currentItem);
+      const std::string marker = filter::usfm::get_marker (current_item);
       // Handle preview mode: Strip word-level attributes.
-      if (m_preview) if (is_opening_marker) filter::usfm::remove_word_level_attributes (marker, m_markers_and_text, m_markers_and_text_pointer);
+      if (m_preview)
+        if (is_opening_marker)
+          filter::usfm::remove_word_level_attributes (marker, m_markers_and_text, m_markers_and_text_pointer);
 
       if (m_styles.count (marker))
       {
-        Database_Styles_Item style = m_styles [marker];
+        const Database_Styles_Item& style = m_styles.at(marker);
         switch (style.type)
         {
           case StyleTypeIdentifier:
@@ -166,9 +167,9 @@ void Editor_Usfm2Html::process ()
             if (style.subtype == IdentifierSubtypePublishedVerseMarker) {
               // Treat the \vp ...\vp* marker as inline text.
               if (is_opening_marker) {
-                open_text_style (style, isEmbeddedMarker);
+                open_text_style (style, is_embedded_marker);
               } else {
-                close_text_style (isEmbeddedMarker);
+                close_text_style (is_embedded_marker);
               }
             } else {
               // Any other identifier: Plain text.
@@ -196,12 +197,12 @@ void Editor_Usfm2Html::process ()
             if (is_opening_marker) {
               // Be sure the road ahead is clear.
               if (road_is_clear ()) {
-                open_text_style (style, isEmbeddedMarker);
+                open_text_style (style, is_embedded_marker);
               } else {
                 add_text (filter::usfm::get_opening_usfm (marker));
               }
             } else {
-              close_text_style (isEmbeddedMarker);
+              close_text_style (is_embedded_marker);
             }
             break;
           }
@@ -222,21 +223,21 @@ void Editor_Usfm2Html::process ()
             }
             // Open verse style, record verse/length, add verse number, close style again, and add a space.
             open_text_style (style, false);
-            std::string textFollowingMarker = filter::usfm::get_text_following_marker (m_markers_and_text, m_markers_and_text_pointer);
-            std::string number = filter::usfm::peek_verse_number (textFollowingMarker);
+            std::string text_following_marker = filter::usfm::get_text_following_marker (m_markers_and_text, m_markers_and_text_pointer);
+            const std::string number = filter::usfm::peek_verse_number (text_following_marker);
             m_verse_start_offsets [filter::strings::convert_to_int (number)] = static_cast<int>(m_text_tength);
             add_text (number);
             close_text_style (false);
             add_text (" ");
             // If there was any text following the \v marker, remove the verse number,
             // put the remainder back into the object, and update the pointer.
-            if (textFollowingMarker != "") {
-              size_t pos = textFollowingMarker.find (number);
-              if (pos != std::string::npos) {
-                textFollowingMarker = textFollowingMarker.substr (pos + number.length());
+            if (!text_following_marker.empty()) {
+              if (const size_t pos = text_following_marker.find (number);
+                  pos != std::string::npos) {
+                text_following_marker = text_following_marker.substr (pos + number.length());
               }
-              textFollowingMarker = filter::strings::ltrim (textFollowingMarker);
-              m_markers_and_text [m_markers_and_text_pointer] = textFollowingMarker;
+              text_following_marker = filter::strings::ltrim (text_following_marker);
+              m_markers_and_text [m_markers_and_text_pointer] = text_following_marker;
               m_markers_and_text_pointer--;
             }
             break;
@@ -262,9 +263,9 @@ void Editor_Usfm2Html::process ()
               case FootEndNoteSubtypeContentWithEndmarker:
               {
                 if (is_opening_marker) {
-                  open_text_style (style, isEmbeddedMarker);
+                  open_text_style (style, is_embedded_marker);
                 } else {
-                  close_text_style (isEmbeddedMarker);
+                  close_text_style (is_embedded_marker);
                 }
                 break;
               }
@@ -297,9 +298,9 @@ void Editor_Usfm2Html::process ()
               case CrossreferenceSubtypeStandardContent:
               {
                 if (is_opening_marker) {
-                  open_text_style (style, isEmbeddedMarker);
+                  open_text_style (style, is_embedded_marker);
                 } else {
-                  close_text_style (isEmbeddedMarker);
+                  close_text_style (is_embedded_marker);
                 }
                 break;
               }
@@ -378,21 +379,16 @@ void Editor_Usfm2Html::process ()
     } else {
       // Here is no marker. Treat it as text.
       if (m_note_opened) {
-        add_note_text (currentItem);
+        add_note_text (current_item);
       } else {
-        add_text (currentItem);
+        add_text (current_item);
       }
     }
   }
 }
 
 
-void Editor_Usfm2Html::postprocess ()
-{
-}
-
-
-void Editor_Usfm2Html::output_as_is (std::string marker, bool is_opening_marker)
+void Editor_Usfm2Html::output_as_is (const std::string& marker, const bool is_opening_marker)
 {
   // Output the marker in monospace font.
   if (is_opening_marker) {
@@ -413,15 +409,16 @@ void Editor_Usfm2Html::new_paragraph (std::string style)
   m_current_p_node = m_body_node.append_child ("p");
   m_current_p_open = true;
   if (!style.empty()) {
-    std::string style2 (style);
-    style2.insert (0, quill_logic_class_prefix_block ());
-    m_current_p_node.append_attribute ("class") = style2.c_str();
+    std::string quill_style (style);
+    quill_style.insert (0, quill_logic_class_prefix_block ());
+    m_current_p_node.append_attribute ("class") = quill_style.c_str();
   }
   m_current_paragraph_style = style;
   m_current_paragraph_content.clear();
   // A Quill-based editor assigns a length of one to a new line.
   // Skip the first line.
-  if (m_first_line_done) m_text_tength++;
+  if (m_first_line_done)
+    m_text_tength++;
   m_first_line_done = true;
 }
 
@@ -431,7 +428,7 @@ void Editor_Usfm2Html::close_paragraph ()
   // Deal with a blank line.
   // If the paragraph is empty, add a <br> to it.
   // This is how the Quill editor naturally represents a new empty line.
-  // This causes that empty paragraph to be displayed properly in the Quill editor.
+  // This makes that empty paragraph to be displayed properly in the Quill editor.
   // This <br> is also needed for live editor updates.
   if (m_current_p_open) {
     if (m_current_paragraph_content.empty()) {
@@ -444,14 +441,16 @@ void Editor_Usfm2Html::close_paragraph ()
 // This opens a text style.
 // $style: the array containing the style variables.
 // $embed: boolean: Whether to open embedded / nested style.
-void Editor_Usfm2Html::open_text_style (Database_Styles_Item & style, bool embed)
+void Editor_Usfm2Html::open_text_style (const Database_Styles_Item& style, const bool embed)
 {
   const std::string marker = style.marker;
   if (m_note_opened) {
-    if (!embed) m_current_note_text_styles.clear();
+    if (!embed)
+      m_current_note_text_styles.clear();
     m_current_note_text_styles.push_back (marker);
   } else {
-    if (!embed) m_current_text_styles.clear();
+    if (!embed)
+      m_current_text_styles.clear();
     m_current_text_styles.push_back (marker);
   }
 }
@@ -459,28 +458,32 @@ void Editor_Usfm2Html::open_text_style (Database_Styles_Item & style, bool embed
 
 // This closes any open text style.
 // $embed: boolean: Whether to close embedded character style.
-void Editor_Usfm2Html::close_text_style (bool embed)
+void Editor_Usfm2Html::close_text_style (const bool embed)
 {
   if (m_note_opened) {
-    if (!m_current_note_text_styles.empty ()) m_current_note_text_styles.pop_back ();
-    if (!embed) m_current_note_text_styles.clear ();
+    if (!m_current_note_text_styles.empty ())
+      m_current_note_text_styles.pop_back ();
+    if (!embed)
+      m_current_note_text_styles.clear ();
   } else {
-    if (!m_current_text_styles.empty()) m_current_text_styles.pop_back();
-    if (!embed) m_current_text_styles.clear ();
+    if (!m_current_text_styles.empty())
+      m_current_text_styles.pop_back();
+    if (!embed)
+      m_current_text_styles.clear ();
   }
 }
 
 
 // This function adds text to the current paragraph.
 // $text: The text to add.
-void Editor_Usfm2Html::add_text (std::string text)
+void Editor_Usfm2Html::add_text (const std::string& text)
 {
-  if (text != "") {
+  if (!text.empty()) {
     if (!m_current_p_open) {
       new_paragraph ();
     }
-    pugi::xml_node spanDomElement = m_current_p_node.append_child ("span");
-    spanDomElement.text ().set (text.c_str());
+    pugi::xml_node span_dom_element = m_current_p_node.append_child ("span");
+    span_dom_element.text ().set (text.c_str());
     if (!m_current_text_styles.empty ()) {
       // Take character style(s) as specified in this object.
       std::string textstyle {};
@@ -497,7 +500,7 @@ void Editor_Usfm2Html::add_text (std::string text)
         textstyle.append (style);
       }
       textstyle.insert (0, quill_logic_class_prefix_inline ());
-      spanDomElement.append_attribute ("class") = textstyle.c_str();
+      span_dom_element.append_attribute ("class") = textstyle.c_str();
     }
     m_current_paragraph_content.append (text);
   }
@@ -509,7 +512,7 @@ void Editor_Usfm2Html::add_text (std::string text)
 // $citation: The text of the note citation.
 // $style: Style name for the paragraph in the note body.
 // $endnote: Whether this is a footnote and cross reference (false), or an endnote (true).
-void Editor_Usfm2Html::add_note (std::string citation, std::string style, [[maybe_unused]] bool endnote)
+void Editor_Usfm2Html::add_note (const std::string& citation, const std::string& style, [[maybe_unused]] const bool endnote)
 {
   // Be sure the road ahead is clear.
   if (!road_is_clear ()) {
@@ -531,9 +534,9 @@ void Editor_Usfm2Html::add_note (std::string citation, std::string style, [[mayb
   // Open a paragraph element for the note body.
   m_note_p_node = m_notes_node.append_child ("p");
   m_note_p_open = true;
-  std::string cls (style);
-  cls.insert (0, quill_logic_class_prefix_block ());
-  m_note_p_node.append_attribute ("class") = cls.c_str();
+  std::string class_value (style);
+  class_value.insert (0, quill_logic_class_prefix_block ());
+  m_note_p_node.append_attribute ("class") = class_value.c_str();
   
   close_text_style (false);
   
@@ -550,20 +553,21 @@ void Editor_Usfm2Html::add_note (std::string citation, std::string style, [[mayb
 
 // This function adds text to the current footnote.
 // $text: The text to add.
-void Editor_Usfm2Html::add_note_text (std::string text)
+void Editor_Usfm2Html::add_note_text (const std::string& text)
 {
-  if (text.empty ()) return;
+  if (text.empty ())
+    return;
   if (!m_note_p_open) {
-    add_note ("?", "");
+    add_note ("?", std::string());
   }
-  pugi::xml_node spanDomElement = m_note_p_node.append_child ("span");
-  spanDomElement.text ().set (text.c_str());
+  pugi::xml_node span_dom_element = m_note_p_node.append_child ("span");
+  span_dom_element.text ().set (text.c_str());
   if (!m_current_note_text_styles.empty()) {
     // Take character style(s) as specified in this object.
     std::string classs;
     classs = filter::strings::implode (m_current_note_text_styles, "0");
     classs.insert (0, quill_logic_class_prefix_inline ());
-    spanDomElement.append_attribute ("class") = classs.c_str();
+    span_dom_element.append_attribute ("class") = classs.c_str();
   }
 }
 
@@ -584,12 +588,12 @@ void Editor_Usfm2Html::close_current_note ()
 // $style: A style for the note citation, and one for the note body.
 // $text: The link's text.
 // It also deals with a Quill-based editor, in a slightly different way.
-void Editor_Usfm2Html::add_notel_link (pugi::xml_node domNode, int identifier, std::string style, std::string text)
+void Editor_Usfm2Html::add_notel_link (pugi::xml_node& dom_node, const int identifier, const std::string& style, const std::string& text)
 {
-  pugi::xml_node aDomElement = domNode.append_child ("span");
-  std::string cls = "i-note" + style + std::to_string (identifier);
-  aDomElement.append_attribute ("class") = cls.c_str();
-  aDomElement.text ().set (text.c_str());
+  pugi::xml_node a_dom_element = dom_node.append_child ("span");
+  const std::string class_value = "i-note" + style + std::to_string (identifier);
+  a_dom_element.append_attribute ("class") = class_value.c_str();
+  a_dom_element.text ().set (text.c_str());
 }
 
 
@@ -597,67 +601,70 @@ void Editor_Usfm2Html::add_notel_link (pugi::xml_node domNode, int identifier, s
 bool Editor_Usfm2Html::road_is_clear ()
 {
   // Determine the input.
-  std::string input_marker;
-  bool input_opener = false;
-  bool input_embedded = false;
-  int input_type = 0;
-  int input_subtype = 0;
+  std::string input_marker {};
+  bool input_opener {false};
+  bool input_embedded {false};
+  int input_type {0};
+  int input_subtype {0};
   {
-    std::string currentItem = m_markers_and_text[m_markers_and_text_pointer];
-    if (!filter::usfm::is_usfm_marker (currentItem)) return true;
-    input_opener = filter::usfm::is_opening_marker (currentItem);
-    input_embedded = filter::usfm::is_embedded_marker (currentItem);
-    std::string marker = filter::usfm::get_marker (currentItem);
+    const std::string current_item = m_markers_and_text[m_markers_and_text_pointer];
+    if (!filter::usfm::is_usfm_marker (current_item))
+      return true;
+    input_opener = filter::usfm::is_opening_marker (current_item);
+    input_embedded = filter::usfm::is_embedded_marker (current_item);
+    const std::string marker = filter::usfm::get_marker (current_item);
     input_marker = marker;
-    if (!m_styles.count (marker)) return true;
+    if (!m_styles.count (marker))
+      return true;
     Database_Styles_Item style = m_styles [marker];
     input_type = style.type;
     input_subtype = style.subtype;
   }
   
   // Determine the road ahead.
-  std::vector <std::string> markers;
-  std::vector <int> types;
-  std::vector <int> subtypes;
-  std::vector <bool> openers;
-  std::vector <bool> embeddeds;
+  std::vector <std::string> markers {};
+  std::vector <int> types {};
+  std::vector <int> subtypes {};
+  std::vector <bool> openers {};
+  std::vector <bool> embeddeds {};
 
-  bool end_chapter_reached = false;
+  bool end_chapter_reached {false};
   {
-    bool done = false;
-    size_t markersAndTextCount = m_markers_and_text.size();
-    for (size_t pointer = m_markers_and_text_pointer + 1; pointer < markersAndTextCount; pointer++) {
-      if (done) continue;
-      std::string currentItem = m_markers_and_text[pointer];
-      if (filter::usfm::is_usfm_marker (currentItem))
+    bool done {false};
+    const size_t markers_and_text_count = m_markers_and_text.size();
+    for (size_t pointer = m_markers_and_text_pointer + 1; pointer < markers_and_text_count; pointer++) {
+      if (done)
+        continue;
+      const std::string& current_item = m_markers_and_text.at(pointer);
+      if (filter::usfm::is_usfm_marker (current_item))
       {
-        std::string marker = filter::usfm::get_marker (currentItem);
+        const std::string marker = filter::usfm::get_marker (current_item);
         if (m_styles.count (marker))
         {
-          Database_Styles_Item style = m_styles [marker];
+          Database_Styles_Item& style = m_styles.at(marker);
           markers.push_back (marker);
           types.push_back (style.type);
           subtypes.push_back (style.subtype);
-          openers.push_back (filter::usfm::is_opening_marker (currentItem));
-          embeddeds.push_back (filter::usfm::is_embedded_marker (currentItem));
+          openers.push_back (filter::usfm::is_opening_marker (current_item));
+          embeddeds.push_back (filter::usfm::is_embedded_marker (current_item));
           // Don't go beyond the next verse marker.
-          if (style.type == StyleTypeVerseNumber) done = true;
+          if (style.type == StyleTypeVerseNumber)
+            done = true;
         }
       }
     }
-    if (!done) end_chapter_reached = true;
+    if (!done)
+      end_chapter_reached = true;
   }
   
   // Go through the road ahead, and assess it.
-  for (size_t i = 0; i < types.size (); i++) {
+  for (size_t i {0}; i < types.size (); i++) {
     
-    std::string marker = markers [i];
-    int type = types [i];
-    int subtype = subtypes [i];
-    int opener = openers [i];
-    int embedded = embeddeds [i];
-    
-    if (embedded) {}
+    const std::string& marker = markers.at(i);
+    const int type = types [i];
+    const int subtype = subtypes [i];
+    const bool opener = openers [i];
+    [[maybe_unused]] const bool embedded = embeddeds [i];
     
     // The input is a note opener.
     if (input_type == StyleTypeFootEndNote) {
@@ -667,12 +674,15 @@ bool Editor_Usfm2Html::road_is_clear ()
           // Encounters another note opener: blocker.
           if (type == StyleTypeFootEndNote) {
             if ((subtype == FootEndNoteSubtypeFootnote) || (subtype == FootEndNoteSubtypeEndnote)) {
-              if (opener) return false;
-              else return true;
+              if (opener)
+                return false;
+              else
+                return true;
             }
           }
           // Encounters a verse: blocker.
-          if (type == StyleTypeVerseNumber) return false;
+          if (type == StyleTypeVerseNumber)
+            return false;
           // Encounters cross reference opener: blocker.
           // Other \x.. markup is allowed.
           if (type == StyleTypeCrossreference) {
@@ -692,12 +702,15 @@ bool Editor_Usfm2Html::road_is_clear ()
           // Encounters another xref opener: blocker.
           if (type == StyleTypeCrossreference) {
             if (subtype == CrossreferenceSubtypeCrossreference) {
-              if (opener) return false;
-              else return true;
+              if (opener)
+                return false;
+              else
+                return true;
             }
           }
           // Encounters a verse: blocker.
-          if (type == StyleTypeVerseNumber) return false;
+          if (type == StyleTypeVerseNumber)
+            return false;
           // Encounters foot- or endnote opener: blocker.
           // Other \f.. markup is allowed.
           if (type == StyleTypeFootEndNote) {
@@ -712,7 +725,8 @@ bool Editor_Usfm2Html::road_is_clear ()
     // The input to check the road ahead for is an inline text opener, non-embedded, like "\add ".
     if (input_type == StyleTypeInlineText) {
       // If the input is embedded, declare the road ahead to be clear.
-      if (input_embedded) return true;
+      if (input_embedded)
+        return true;
       if (input_opener && !input_embedded) {
         if (type == StyleTypeInlineText) {
           if (embedded) {
@@ -720,24 +734,28 @@ bool Editor_Usfm2Html::road_is_clear ()
             return true;
           } else {
             // It it encounters another non-embedded inline opening marker, that's a blocker.
-            if (opener) return false;
+            if (opener)
+              return false;
             // If it finds a matching closing marker: OK.
             if (input_marker == marker) {
-              if (!opener) return true;
+              if (!opener)
+                return true;
             }
           }
         }
         // The inline text opener encounters a verse: blocker.
-        if (type == StyleTypeVerseNumber) return false;
+        if (type == StyleTypeVerseNumber)
+          return false;
         // The inline text opener encounters a paragraph: blocker.
-        if (type == StyleTypeStartsParagraph) return false;
+        if (type == StyleTypeStartsParagraph)
+          return false;
       }
     }
-    
   }
 
   // Nothing clearing the way was found, and if it reached the end of the chapter, that's a blocker.
-  if (end_chapter_reached) return false;
+  if (end_chapter_reached)
+    return false;
   
   // No blockers found: The road is clear.
   return true;

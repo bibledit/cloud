@@ -85,17 +85,16 @@ private:
   
   void preprocess ();
   void process ();
-  void postprocess ();
-  void output_as_is (std::string marker, bool is_opening_marker);
+  void output_as_is (const std::string& marker, const bool is_opening_marker);
   void new_paragraph (std::string style = std::string());
   void close_paragraph ();
-  void open_text_style (Database_Styles_Item & style, bool embed);
-  void close_text_style (bool embed);
-  void add_text (std::string text);
-  void add_note (std::string citation, std::string style, bool endnote = false);
-  void add_note_text (std::string text);
+  void open_text_style (const Database_Styles_Item& style, const bool embed);
+  void close_text_style (const bool embed);
+  void add_text (const std::string& text);
+  void add_note (const std::string& citation, const std::string& style, const bool endnote = false);
+  void add_note_text (const std::string& text);
   void close_current_note ();
-  void add_notel_link (pugi::xml_node domNode, int identifier, std::string style, std::string text);
+  void add_notel_link (pugi::xml_node& dom_node, const int identifier, const std::string& style, const std::string& text);
   
   bool road_is_clear ();
 };

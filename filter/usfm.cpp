@@ -934,23 +934,26 @@ const char * marker_vp ()
 // It will dispose of e.g. this: |strong="H3068"
 // It handles the default attribute: \w gracious|grace\w*
 void remove_word_level_attributes (const std::string& marker,
-                                   std::vector <std::string> & container, unsigned int & pointer)
+                                   std::vector <std::string> & container, const unsigned int pointer)
 {
   // USFM 3.0 has four markers providing attributes.
   // https://ubsicap.github.io/usfm/attributes/index.html.
   // Deal with those only, and don't deal with any others.
   // Note that the \fig markup is handled elsewhere in this class.
-  if ((marker != "w") && (marker != "rb") && (marker != "xt")) return;
+  if ((marker != "w") && (marker != "rb") && (marker != "xt"))
+    return;
   
   // Check the text following this markup whether it contains word-level attributes.
   std::string possible_markup = filter::usfm::peek_text_following_marker (container, pointer);
   
   // If the markup is too short to contain the required characters, then bail out.
-  if (possible_markup.length() < 4) return;
+  if (possible_markup.length() < 4)
+    return;
   
   // Look for the vertical bar. If it's not there, bail out.
-  size_t bar_position = possible_markup.find("|");
-  if (bar_position == std::string::npos) return;
+  const size_t bar_position = possible_markup.find("|");
+  if (bar_position == std::string::npos)
+    return;
   
   // Remove the fragment and store the remainder back into the object.
   possible_markup.erase(bar_position);

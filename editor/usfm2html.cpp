@@ -354,7 +354,7 @@ void Editor_Usfm2Html::process ()
             }
             break;
           }
-          case StyleTypeWordlistElement: // Todo
+          case StyleTypeWordlistElement:
           {
             if (is_opening_marker) {
               open_text_style (style, false);
@@ -477,7 +477,7 @@ void Editor_Usfm2Html::close_text_style (const bool embed)
 
 // This function adds text to the current paragraph.
 // $text: The text to add.
-void Editor_Usfm2Html::add_text (const std::string& text) // Todo apply gathered attributes here.
+void Editor_Usfm2Html::add_text (const std::string& text)
 {
   if (!text.empty()) {
     if (!m_current_p_open) {
@@ -512,7 +512,7 @@ void Editor_Usfm2Html::add_text (const std::string& text) // Todo apply gathered
     // in a separate container in the current object,
     // ready for further processing down the editing chain.
     if (m_pending_word_level_attributes) {
-      const std::string id = quill_word_level_attribute_id_prefix + std::to_string(word_level_attributes_id);
+      const std::string id = std::string(quill_word_level_attribute_id_prefix) + std::to_string(word_level_attributes_id);
       span_dom_element.append_attribute ("id") = id.c_str();
       m_word_level_attributes.insert({word_level_attributes_id, std::move(*m_pending_word_level_attributes)});
       word_level_attributes_id++;
@@ -783,7 +783,7 @@ void Editor_Usfm2Html::set_preview ()
 }
 
 
-void Editor_Usfm2Html::extract_word_level_attributes() // Todo
+void Editor_Usfm2Html::extract_word_level_attributes()
 {
   // The current function is expected to be called on an opening marker
   // that also may contain word-level attributes.
@@ -811,7 +811,7 @@ void Editor_Usfm2Html::extract_word_level_attributes() // Todo
 }
 
 
-const std::map<int,std::string>& Editor_Usfm2Html::get_word_level_attributes() // Todo
+const std::map<int,std::string>& Editor_Usfm2Html::get_word_level_attributes()
 {
   return m_word_level_attributes;
 }

@@ -37,7 +37,7 @@ void Editor_Html2Usfm::load (std::string html)
   // but the pugixml XML parser needs <hr/> and similar elements.
   html = filter::strings::html2xml (html);
 
-  const std::string xml = "<body>" + html + "</body>";
+  const std::string xml = "<body>" + std::move(html) + "</body>";
   // Parse document such that all whitespace is put in the DOM tree.
   // See http://pugixml.org/docs/manual.html for more information.
   // It is not enough to only parse with parse_ws_pcdata_single, it really needs parse_ws_pcdata.
@@ -212,11 +212,12 @@ void Editor_Html2Usfm::open_element_node (pugi::xml_node& node)
 }
 
 
-void Editor_Html2Usfm::close_element_node (const pugi::xml_node& node) // Todo
+void Editor_Html2Usfm::close_element_node (const pugi::xml_node& node)
 {
   // The tag and class names of this element node.
   const std::string tag_name = node.name ();
   std::string class_name = update_quill_class (node.attribute ("class").value ());
+  const std::string id = node.attribute("id").value();
   
   if (tag_name == "p")
   {
@@ -249,7 +250,19 @@ void Editor_Html2Usfm::close_element_node (const pugi::xml_node& node) // Todo
     if (class_name.substr (0, quill_note_caller_class.size()) == quill_note_caller_class)
       return;
     // Do nothing if no endmarkers are supposed to be produced.
-    if (suppress_end_markers.find (class_name) != suppress_end_markers.end()) return;
+    if (suppress_end_markers.find (class_name) != suppress_end_markers.end())
+      return;
+    // Check for and handle word-level attributes.
+    if (const size_t wla_pos = id.find(quill_word_level_attribute_id_prefix); wla_pos == 0) {
+      try {
+        const int wla_id = std::stoi(id.substr(quill_word_level_attribute_id_prefix.size()));
+        if (m_word_level_attributes.count(wla_id)) {
+          // The vertical bar separates the canonical word from the attribute(s) following it.
+          current_line.append("|");
+          current_line.append(m_word_level_attributes.at(wla_id));
+        }
+      } catch (...) { }
+    }
     // Add closing USFM, optionally closing embedded tags in reverse order.
     char separator = '0';
     std::vector <std::string> classes = filter::strings::explode (class_name, separator);
@@ -258,7 +271,7 @@ void Editor_Html2Usfm::close_element_node (const pugi::xml_node& node) // Todo
     for (unsigned int offset = 0; offset < classes.size(); offset++) {
       bool embedded = (classes.size () > 1) && (offset == 0);
       if (!character_styles.empty ()) embedded = true;
-      current_line += filter::usfm::get_closing_usfm (classes [offset], embedded);
+      current_line.append (filter::usfm::get_closing_usfm (classes [offset], embedded));
       last_note_style.clear();
     }
   }
@@ -306,7 +319,7 @@ void Editor_Html2Usfm::open_online (const std::string& class_name)
 }
 
 
-void Editor_Html2Usfm::process_note_citation (pugi::xml_node& node) // Todo
+void Editor_Html2Usfm::process_note_citation (pugi::xml_node& node)
 {
   // Remove the note citation from the main text body.
   // It means that this:
@@ -462,7 +475,7 @@ pugi::xml_node Editor_Html2Usfm::get_note_pointer (const pugi::xml_node& body, c
     }
     if (name == "span") {
       const std::string classs = span_notebody.attribute ("class").value ();
-      if (classs.substr (0, 10) == id.substr(0, 10)) { // Todo
+      if (classs.substr (0, 10) == id.substr(0, 10)) {
         if (classs == id) {
           within_matching_p_node = true;
         } else {
@@ -495,7 +508,7 @@ std::string Editor_Html2Usfm::update_quill_class (std::string classname)
 }
 
 
-void Editor_Html2Usfm::set_word_level_attributes (std::map<int,std::string> attributes) // Todo
+void Editor_Html2Usfm::set_word_level_attributes (std::map<int,std::string> attributes)
 {
   m_word_level_attributes = std::move(attributes);
 }

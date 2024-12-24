@@ -18,17 +18,3 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 #include <quill/logic.h>
-
-
-// The prefix configured in a Quill-based editor for block text.
-std::string quill_logic_class_prefix_block ()
-{
-  return "b-";
-}
-
-
-// The prefix configured in a Quill-based editor for inline text.
-std::string quill_logic_class_prefix_inline ()
-{
-  return "i-";
-}

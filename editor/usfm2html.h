@@ -46,6 +46,7 @@ public:
   std::string m_current_paragraph_style {};
   std::string m_current_paragraph_content {};
   void set_preview ();
+  const std::map<int,std::string>& get_word_level_attributes();
 private:
   std::vector <std::string> m_markers_and_text {}; // Strings alternating between USFM and text.
   unsigned int m_markers_and_text_pointer {0};
@@ -95,6 +96,11 @@ private:
   void add_note_text (const std::string& text);
   void close_current_note ();
   void add_notel_link (pugi::xml_node& dom_node, const int identifier, const std::string& style, const std::string& text);
-  
   bool road_is_clear ();
+  
+  // The word-level attributes.
+  int word_level_attributes_id {0};
+  std::optional<std::string> m_pending_word_level_attributes{};
+  std::map<int,std::string> m_word_level_attributes{};
+  void extract_word_level_attributes();
 };

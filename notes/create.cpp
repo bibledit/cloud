@@ -138,7 +138,6 @@ std::string notes_create (Webserver_Request& webserver_request)
   }
                                                                                                       
   
-  // page += view.render ("notes", "create");
   page += view.render ("notes", "create");
 
   page += assets_page::footer ();

@@ -21,5 +21,20 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <config/libraries.h>
 
-std::string quill_logic_class_prefix_block ();
-std::string quill_logic_class_prefix_inline ();
+// The prefix configured in a Quill-based editor for block text.
+constexpr const char* quill_class_prefix_block {"b-"};
+
+// The prefix configured in a Quill-based editor for inline text.
+constexpr const char* quill_class_prefix_inline {"i-"};
+
+// The prefix used in a Quill-based editor for referencing word level attributes stored elsewhere.
+constexpr const char* quill_word_level_attribute_id_prefix {"wla"};
+
+// The class of the notes container in a Quill-based editor.
+constexpr const char* quill_notes_class {"notes"};
+
+// The class that Quill uses to mark the caret.
+constexpr const char* quill_caret_class {"ql-cursor"};
+
+// The class in Quill-based editor for the note caller.
+constexpr std::string_view quill_note_caller_class {"notecall"};

@@ -1297,7 +1297,7 @@ TEST (filter_text, convert_image_to_format)
 
 // Test export word-level attributes.
 // https://ubsicap.github.io/usfm/attributes/index.html
-TEST (filter_text, export_word_level_attributes)
+TEST (filter_text, export_no_word_level_attributes)
 {
   setup();
 

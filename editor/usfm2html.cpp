@@ -131,10 +131,10 @@ void Editor_Usfm2Html::preprocess ()
   // Create notes xml node.
   // It comes at the start of the document.
   // (Later, it will either be deleted, or moved to the end).
-  std::string notes_value = "notes";
+  std::string notes_class = quill_notes_class;
   m_notes_node = m_document.append_child ("p");
-  notes_value.insert (0, quill_logic_class_prefix_block ());
-  m_notes_node.append_attribute ("class") = notes_value.c_str ();
+  notes_class.insert (0, quill_class_prefix_block);
+  m_notes_node.append_attribute ("class") = notes_class.c_str ();
   m_notes_node.text().set(filter::strings::non_breaking_space_u00A0().c_str());
 }
 
@@ -152,7 +152,7 @@ void Editor_Usfm2Html::process ()
       const bool is_embedded_marker = filter::usfm::is_embedded_marker (current_item);
       // Clean up the marker, so we remain with the basic version, e.g. 'id'.
       const std::string marker = filter::usfm::get_marker (current_item);
-      // Handle preview mode: Strip word-level attributes.
+      // Handle preview mode: Strip word-level attributes. Todo this can be removed from preview since it gets converted to atttributes on the span element.
       if (m_preview)
         if (is_opening_marker)
           filter::usfm::remove_word_level_attributes (marker, m_markers_and_text, m_markers_and_text_pointer);
@@ -192,7 +192,7 @@ void Editor_Usfm2Html::process ()
             new_paragraph (marker);
             break;
           }
-          case StyleTypeInlineText:
+          case StyleTypeInlineText: // Todo Check if this one should also deal with word-level attributes.
           {
             if (is_opening_marker) {
               // Be sure the road ahead is clear.
@@ -354,10 +354,11 @@ void Editor_Usfm2Html::process ()
             }
             break;
           }
-          case StyleTypeWordlistElement:
+          case StyleTypeWordlistElement: // Todo
           {
             if (is_opening_marker) {
               open_text_style (style, false);
+              extract_word_level_attributes();
             } else {
               close_text_style (false);
             }
@@ -410,7 +411,7 @@ void Editor_Usfm2Html::new_paragraph (std::string style)
   m_current_p_open = true;
   if (!style.empty()) {
     std::string quill_style (style);
-    quill_style.insert (0, quill_logic_class_prefix_block ());
+    quill_style.insert (0, quill_class_prefix_block);
     m_current_p_node.append_attribute ("class") = quill_style.c_str();
   }
   m_current_paragraph_style = style;
@@ -476,7 +477,7 @@ void Editor_Usfm2Html::close_text_style (const bool embed)
 
 // This function adds text to the current paragraph.
 // $text: The text to add.
-void Editor_Usfm2Html::add_text (const std::string& text)
+void Editor_Usfm2Html::add_text (const std::string& text) // Todo apply gathered attributes here.
 {
   if (!text.empty()) {
     if (!m_current_p_open) {
@@ -499,10 +500,24 @@ void Editor_Usfm2Html::add_text (const std::string& text)
         }
         textstyle.append (style);
       }
-      textstyle.insert (0, quill_logic_class_prefix_inline ());
+      textstyle.insert (0, quill_class_prefix_inline);
       span_dom_element.append_attribute ("class") = textstyle.c_str();
     }
     m_current_paragraph_content.append (text);
+    // If any word-level attributes were extracted, store them here, and empty the container again.
+    // Initially the idea was to have a "data-*" attribute and add this to the current <span> element.
+    // This work in html, but fails in the Quill editor.
+    // When the Quill editor loads html with "data-*" attributes, it strips and drops them.
+    // The word-level attributes are now stored as-is, i.e. in raw format,
+    // in a separate container in the current object,
+    // ready for further processing down the editing chain.
+    if (m_pending_word_level_attributes) {
+      const std::string id = quill_word_level_attribute_id_prefix + std::to_string(word_level_attributes_id);
+      span_dom_element.append_attribute ("id") = id.c_str();
+      m_word_level_attributes.insert({word_level_attributes_id, std::move(*m_pending_word_level_attributes)});
+      word_level_attributes_id++;
+      m_pending_word_level_attributes.reset();
+    }
   }
   m_text_tength += filter::strings::unicode_string_length (text);
 }
@@ -535,7 +550,7 @@ void Editor_Usfm2Html::add_note (const std::string& citation, const std::string&
   m_note_p_node = m_notes_node.append_child ("p");
   m_note_p_open = true;
   std::string class_value (style);
-  class_value.insert (0, quill_logic_class_prefix_block ());
+  class_value.insert (0, quill_class_prefix_block);
   m_note_p_node.append_attribute ("class") = class_value.c_str();
   
   close_text_style (false);
@@ -566,7 +581,7 @@ void Editor_Usfm2Html::add_note_text (const std::string& text)
     // Take character style(s) as specified in this object.
     std::string classs;
     classs = filter::strings::implode (m_current_note_text_styles, "0");
-    classs.insert (0, quill_logic_class_prefix_inline ());
+    classs.insert (0, quill_class_prefix_inline);
     span_dom_element.append_attribute ("class") = classs.c_str();
   }
 }
@@ -765,4 +780,38 @@ bool Editor_Usfm2Html::road_is_clear ()
 void Editor_Usfm2Html::set_preview ()
 {
   m_preview = true;
+}
+
+
+void Editor_Usfm2Html::extract_word_level_attributes() // Todo
+{
+  // The current function is expected to be called on an opening marker
+  // that also may contain word-level attributes.
+  // See USFM 3.x for details.
+
+  // Check the text following this markup whether it contains word-level attribut(s).
+  std::string possible_markup = filter::usfm::peek_text_following_marker (m_markers_and_text, m_markers_and_text_pointer);
+  
+  // If the markup is too short to contain the required characters, then bail out.
+  if (possible_markup.length() < 4)
+    return;
+  
+  // Look for the vertical bar. If it's not there, bail out.
+  const size_t bar_position = possible_markup.find("|");
+  if (bar_position == std::string::npos)
+    return;
+  
+  // Remove the fragment and store the remainder back into the object.
+  m_markers_and_text [m_markers_and_text_pointer + 1] = possible_markup.substr(0, bar_position);
+  
+  // Remain with the fragment with the word-level attributes.
+  // Store the word-level attributes as-is, as pending item, ready for processing.
+  std::string attribute_string = possible_markup.substr(bar_position + 1);
+  m_pending_word_level_attributes = std::move(attribute_string);
+}
+
+
+const std::map<int,std::string>& Editor_Usfm2Html::get_word_level_attributes() // Todo
+{
+  return m_word_level_attributes;
 }

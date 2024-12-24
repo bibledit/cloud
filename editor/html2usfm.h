@@ -37,14 +37,15 @@ class Editor_Html2Usfm
 {
 public:
   void load (std::string html);
-  void stylesheet (std::string stylesheet);
+  void stylesheet (const std::string& stylesheet);
   void run ();
   std::string get ();
+  void set_word_level_attributes (std::map<int,std::string> attributes);
 private:
   pugi::xml_document document {}; // DOMDocument holding the html.
   std::map <std::string, Database_Styles_Item> styles {}; // Style information.
   std::vector <std::string> output {}; // Output USFM.
-  std::string currentLine {}; // Growing current USFM line.
+  std::string current_line {}; // Growing current USFM line.
   bool mono {false}; // Monospace font.
   std::set <std::string> suppressEndMarkers {}; // Markers which should not have endmarkers, e.g. \v does not have \v*
   std::set <std::string> noteOpeners {};
@@ -52,17 +53,18 @@ private:
   bool processingNote {false}; // Note processing flag.
   std::string lastNoteStyle {}; // The most recent style opened inside a note.
   void preprocess ();
-  void flushLine ();
+  void flush_line ();
   void postprocess ();
   void process ();
-  void processNode (pugi::xml_node node);
-  void openElementNode (pugi::xml_node node);
-  void closeElementNode (pugi::xml_node node);
-  void openInline (std::string className);
-  void processNoteCitation (pugi::xml_node node);
-  std::string cleanUSFM (std::string usfm);
-  pugi::xml_node get_note_pointer (pugi::xml_node body, std::string id);
+  void process_node (pugi::xml_node& node);
+  void open_element_node (pugi::xml_node& node);
+  void close_element_node (const pugi::xml_node& node);
+  void open_online (const std::string& class_name);
+  void process_note_citation (pugi::xml_node& node);
+  std::string clean_usfm (std::string usfm);
+  pugi::xml_node get_note_pointer (const pugi::xml_node& body, const std::string& id);
   std::string update_quill_class (std::string classname);
+  std::map<int,std::string> m_word_level_attributes{};
 };
 
 std::string editor_export_verse_quill (std::string stylesheet, std::string html);

@@ -2871,22 +2871,22 @@
 		CADE3A0224F17423003165BB /* editor */ = {
 			isa = PBXGroup;
 			children = (
-				CA10382725279F940021AF25 /* html2format.cpp */,
 				CA10382825279F940021AF25 /* html2format.h */,
-				CADE3A0724F17423003165BB /* html2usfm.cpp */,
+				CA10382725279F940021AF25 /* html2format.cpp */,
 				CADE3A0C24F17423003165BB /* html2usfm.h */,
-				CAA001932569986E00BCA329 /* id.cpp */,
+				CADE3A0724F17423003165BB /* html2usfm.cpp */,
 				CAA001942569986E00BCA329 /* id.h */,
-				CADE3A0424F17423003165BB /* select.cpp */,
+				CAA001932569986E00BCA329 /* id.cpp */,
 				CADE3A1724F17423003165BB /* select.h */,
+				CADE3A0424F17423003165BB /* select.cpp */,
 				CADE3A0324F17423003165BB /* select.html */,
 				CADE3A0824F17423003165BB /* select.js */,
-				CAA0019625699DC400BCA329 /* style.cpp */,
 				CAA0019525699DC300BCA329 /* style.h */,
-				CADE3A0B24F17423003165BB /* styles.cpp */,
+				CAA0019625699DC400BCA329 /* style.cpp */,
 				CADE3A0524F17423003165BB /* styles.h */,
-				CADE3A1424F17423003165BB /* usfm2html.cpp */,
+				CADE3A0B24F17423003165BB /* styles.cpp */,
 				CADE3A0A24F17423003165BB /* usfm2html.h */,
+				CADE3A1424F17423003165BB /* usfm2html.cpp */,
 			);
 			path = editor;
 			sourceTree = "<group>";

@@ -51,8 +51,8 @@ void Editor_Html2Usfm::load (std::string html)
 void Editor_Html2Usfm::stylesheet (const std::string& stylesheet)
 {
   styles.clear ();
-  noteOpeners.clear ();
-  characterStyles.clear ();
+  note_openers.clear ();
+  character_styles.clear ();
   Database_Styles database_styles;
   const std::vector <std::string> markers = database_styles.getMarkers (stylesheet);
   // Load the style information into the object.
@@ -68,9 +68,9 @@ void Editor_Html2Usfm::stylesheet (const std::string& stylesheet)
     if (type == StyleTypeFootEndNote) {
       suppress = true;
       if (subtype == FootEndNoteSubtypeFootnote)
-        noteOpeners.insert (marker);
+        note_openers.insert (marker);
       if (subtype == FootEndNoteSubtypeEndnote)
-        noteOpeners.insert (marker);
+        note_openers.insert (marker);
       if (subtype == FootEndNoteSubtypeContentWithEndmarker)
         suppress = false;
       if (subtype == FootEndNoteSubtypeParagraph)
@@ -79,14 +79,14 @@ void Editor_Html2Usfm::stylesheet (const std::string& stylesheet)
     if (type == StyleTypeCrossreference) {
       suppress = true;
       if (subtype == CrossreferenceSubtypeCrossreference)
-        noteOpeners.insert (marker);
+        note_openers.insert (marker);
       if (subtype == CrossreferenceSubtypeContentWithEndmarker)
         suppress = false;
     }
     if (type == StyleTypeTableElement)
       suppress = true;
     if (suppress)
-      suppressEndMarkers.insert (marker);
+      suppress_end_markers.insert (marker);
   }
 }
 
@@ -225,7 +225,7 @@ void Editor_Html2Usfm::close_element_node (const pugi::xml_node& node) // Todo
     if (class_name.empty())
       class_name = "p";
     
-    if (noteOpeners.find (class_name) != noteOpeners.end()) {
+    if (note_openers.find (class_name) != note_openers.end()) {
       // Deal with note closers.
       current_line.append(filter::usfm::get_closing_usfm (class_name));
     } else {
@@ -233,7 +233,7 @@ void Editor_Html2Usfm::close_element_node (const pugi::xml_node& node) // Todo
       flush_line ();
       mono = false;
       // Clear active character styles.
-      characterStyles.clear();
+      character_styles.clear();
     }
   }
   
@@ -249,17 +249,17 @@ void Editor_Html2Usfm::close_element_node (const pugi::xml_node& node) // Todo
     if (class_name.substr (0, quill_note_caller_class.size()) == quill_note_caller_class)
       return;
     // Do nothing if no endmarkers are supposed to be produced.
-    if (suppressEndMarkers.find (class_name) != suppressEndMarkers.end()) return;
+    if (suppress_end_markers.find (class_name) != suppress_end_markers.end()) return;
     // Add closing USFM, optionally closing embedded tags in reverse order.
     char separator = '0';
     std::vector <std::string> classes = filter::strings::explode (class_name, separator);
-    characterStyles = filter::strings::array_diff (characterStyles, classes);
+    character_styles = filter::strings::array_diff (character_styles, classes);
     reverse (classes.begin(), classes.end());
     for (unsigned int offset = 0; offset < classes.size(); offset++) {
       bool embedded = (classes.size () > 1) && (offset == 0);
-      if (!characterStyles.empty ()) embedded = true;
+      if (!character_styles.empty ()) embedded = true;
       current_line += filter::usfm::get_closing_usfm (classes [offset], embedded);
-      lastNoteStyle.clear();
+      last_note_style.clear();
     }
   }
   
@@ -279,29 +279,29 @@ void Editor_Html2Usfm::open_online (const std::string& class_name)
   constexpr char separator = '0';
   const std::vector <std::string> classes = filter::strings::explode (class_name, separator);
   for (unsigned int offset = 0; offset < classes.size(); offset++) {
-    const bool embedded = (characterStyles.size () + offset) > 0;
+    const bool embedded = (character_styles.size () + offset) > 0;
     const std::string marker = classes[offset];
     bool add_opener = true;
-    if (processingNote) {
+    if (processing_note) {
       // If the style within the note has already been opened before,
       // do not open the same style again.
       // https://github.com/bibledit/cloud/issues/353
-      if (marker == lastNoteStyle) add_opener = false;
-      lastNoteStyle = marker;
+      if (marker == last_note_style) add_opener = false;
+      last_note_style = marker;
     } else {
-      lastNoteStyle.clear ();
+      last_note_style.clear ();
     }
     if (add_opener)
       current_line.append (filter::usfm::get_opening_usfm (marker, embedded));
   }
   // Store active character styles in some cases.
   bool store = true;
-  if (suppressEndMarkers.find (class_name) != suppressEndMarkers.end ())
+  if (suppress_end_markers.find (class_name) != suppress_end_markers.end ())
     store = false;
-  if (processingNote)
+  if (processing_note)
     store = false;
   if (store) {
-    characterStyles.insert (characterStyles.end(), classes.begin(), classes.end());
+    character_styles.insert (character_styles.end(), classes.begin(), classes.end());
   }
 }
 
@@ -351,16 +351,16 @@ void Editor_Html2Usfm::process_note_citation (pugi::xml_node& node) // Todo
     }
 
     // Preserve active character styles in the main text, and reset them for the note.
-    std::vector <std::string> preserved_character_styles = std::move(characterStyles);
-    characterStyles.clear();
+    std::vector <std::string> preserved_character_styles = std::move(character_styles);
+    character_styles.clear();
     
     // Process this 'p' element.
-    processingNote = true;
+    processing_note = true;
     process_node (note_p_element);
-    processingNote = false;
+    processing_note = false;
     
     // Restore the active character styles for the main text.
-    characterStyles = std::move(preserved_character_styles);
+    character_styles = std::move(preserved_character_styles);
     
     // Remove this element so it can't be processed again.
     pugi::xml_node parent = note_p_element.parent ();
@@ -375,7 +375,7 @@ void Editor_Html2Usfm::process_note_citation (pugi::xml_node& node) // Todo
 std::string Editor_Html2Usfm::clean_usfm (std::string usfm)
 {
   // Replace a double space after a note opener.
-  for (const std::string& noteOpener : noteOpeners) {
+  for (const std::string& noteOpener : note_openers) {
     const std::string opener = filter::usfm::get_opening_usfm (noteOpener);
     usfm = filter::strings::replace (opener + " ", opener, usfm);
   }

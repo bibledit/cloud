@@ -47,11 +47,11 @@ private:
   std::vector <std::string> output {}; // Output USFM.
   std::string current_line {}; // Growing current USFM line.
   bool mono {false}; // Monospace font.
-  std::set <std::string> suppressEndMarkers {}; // Markers which should not have endmarkers, e.g. \v does not have \v*
-  std::set <std::string> noteOpeners {};
-  std::vector <std::string> characterStyles {}; // Active character styles.
-  bool processingNote {false}; // Note processing flag.
-  std::string lastNoteStyle {}; // The most recent style opened inside a note.
+  std::set <std::string> suppress_end_markers {}; // Markers which should not have endmarkers, e.g. \v does not have \v*
+  std::set <std::string> note_openers {};
+  std::vector <std::string> character_styles {}; // Active character styles.
+  bool processing_note {false}; // Note processing flag.
+  std::string last_note_style {}; // The most recent style opened inside a note.
   void preprocess ();
   void flush_line ();
   void postprocess ();

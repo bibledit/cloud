@@ -1642,6 +1642,7 @@ TEST_F (usfm_html, strongs_basic) // Todo
     editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
     editor_html2usfm.set_word_level_attributes(attributes);
     editor_html2usfm.run ();
+    std::cout << editor_html2usfm.get () << std::endl; // Todo
     //EXPECT_EQ (usfm, editor_html2usfm.get ());
   }
   

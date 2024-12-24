@@ -495,6 +495,12 @@ std::string Editor_Html2Usfm::update_quill_class (std::string classname)
 }
 
 
+void Editor_Html2Usfm::set_word_level_attributes (std::map<int,std::string> attributes) // Todo
+{
+  m_word_level_attributes = std::move(attributes);
+}
+
+
 // This function takes the html from a Quill-based editor that edits one verse,
 // and converts it to USFM.
 // It properly deals with cases when a verse does not start a new paragraph.
@@ -502,10 +508,10 @@ std::string editor_export_verse_quill (std::string stylesheet, std::string html)
 {
   // When the $html starts with a paragraph without a style,
   // put a recognizable style there.
-  const std::string style = "oneversestyle";
+  const std::string one_verse_style = "oneversestyle";
   const size_t pos = html.find ("<p>");
   if (pos == 0) {
-    html.insert (2, R"( class=")" + std::string(quill_class_prefix_block) + style + R"(")");
+    html.insert (2, R"( class=")" + std::string(quill_class_prefix_block) + one_verse_style + R"(")");
   }
 
   // Convert html to USFM.
@@ -516,13 +522,8 @@ std::string editor_export_verse_quill (std::string stylesheet, std::string html)
   std::string usfm = editor_export.get ();
   
   // Remove that recognizable style converted to USFM.
-  usfm = filter::strings::replace (R"(\)" + style, std::string(), usfm);
+  usfm = filter::strings::replace (R"(\)" + one_verse_style, std::string(), usfm);
   usfm = filter::strings::trim (usfm);
 
   return usfm;
-}
-
-void Editor_Html2Usfm::set_word_level_attributes (std::map<int,std::string> attributes)
-{
-  m_word_level_attributes = std::move(attributes);
 }

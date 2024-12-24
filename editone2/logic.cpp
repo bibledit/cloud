@@ -107,7 +107,7 @@ std::string editone_logic_html_to_usfm (std::string stylesheet, std::string html
   html = filter::strings::any_space_to_standard_space (html);
 
   // Convert the html back to USFM in the special way for editing one verse.
-  std::string usfm = editor_export_verse_quill (stylesheet, html);
+  const std::string usfm = editor_export_verse_quill (stylesheet, html);
 
   // Done.
   return usfm;

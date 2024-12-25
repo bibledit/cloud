@@ -38,7 +38,7 @@ class Editor_Usfm2Html
 {
 public:
   void load (std::string usfm);
-  void stylesheet (std::string stylesheet);
+  void stylesheet (const std::string& stylesheet);
   void run ();
   std::string get ();
   size_t m_text_tength {0};
@@ -48,7 +48,8 @@ public:
   void set_preview ();
   const std::map<int,std::string>& get_word_level_attributes();
 private:
-  std::vector <std::string> m_markers_and_text {}; // Strings alternating between USFM and text.
+  // Strings alternating between USFM and text.
+  std::vector <std::string> m_markers_and_text {};
   unsigned int m_markers_and_text_pointer {0};
   
   // All the style information.
@@ -98,7 +99,7 @@ private:
   void add_notel_link (pugi::xml_node& dom_node, const int identifier, const std::string& style, const std::string& text);
   bool road_is_clear ();
   
-  // The word-level attributes.
+  // Word-level attributes.
   int word_level_attributes_id {0};
   std::optional<std::string> m_pending_word_level_attributes{};
   std::map<int,std::string> m_word_level_attributes{};

@@ -39,11 +39,11 @@ void Editor_Usfm2Html::load (std::string usfm)
 }
 
 
-void Editor_Usfm2Html::stylesheet (std::string stylesheet)
+void Editor_Usfm2Html::stylesheet (const std::string& stylesheet)
 {
   Database_Styles database_styles;
   m_styles.clear();
-  std::vector <std::string> markers = database_styles.getMarkers (stylesheet);
+  const std::vector <std::string> markers = database_styles.getMarkers (stylesheet);
   // Load the style information into the object.
   for (const auto& marker : markers) {
     Database_Styles_Item style = database_styles.getMarkerData (stylesheet, marker);
@@ -152,7 +152,8 @@ void Editor_Usfm2Html::process ()
       const bool is_embedded_marker = filter::usfm::is_embedded_marker (current_item);
       // Clean up the marker, so we remain with the basic version, e.g. 'id'.
       const std::string marker = filter::usfm::get_marker (current_item);
-      // Handle preview mode: Strip word-level attributes. Todo this can be removed from preview since it gets converted to atttributes on the span element.
+      // Handle preview mode: Strip word-level attributes.
+      // Likely this can be removed from preview since word-level ttributes get extracted.
       if (m_preview)
         if (is_opening_marker)
           filter::usfm::remove_word_level_attributes (marker, m_markers_and_text, m_markers_and_text_pointer);

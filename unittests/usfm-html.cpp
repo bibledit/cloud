@@ -1703,7 +1703,7 @@ TEST_F (usfm_html, word_level_attributes_default)
 
 TEST_F (usfm_html, word_level_attributes_multiple)
 {
-  // This tests multiple   attributes.
+  // This tests multiple attributes.
   // USFM 3 writes:
   // The unidentified attribute is acceptable because lemma is defined as the default attribute for \w ...\w*.
   const std::string usfm = R"(\p Text with multiple attributes: \w gracious|lemma="grace" x-myattr="metadata"\w*.)";

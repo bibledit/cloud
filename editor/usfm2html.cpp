@@ -192,12 +192,13 @@ void Editor_Usfm2Html::process ()
             new_paragraph (marker);
             break;
           }
-          case StyleTypeInlineText: // Todo Check if this one should also deal with word-level attributes.
+          case StyleTypeInlineText:
           {
             if (is_opening_marker) {
               // Be sure the road ahead is clear.
               if (road_is_clear ()) {
                 open_text_style (style, is_embedded_marker);
+                extract_word_level_attributes();
               } else {
                 add_text (filter::usfm::get_opening_usfm (marker));
               }
@@ -792,8 +793,8 @@ void Editor_Usfm2Html::extract_word_level_attributes()
   // Check the text following this markup whether it contains word-level attribut(s).
   std::string possible_markup = filter::usfm::peek_text_following_marker (m_markers_and_text, m_markers_and_text_pointer);
   
-  // If the markup is too short to contain the required characters, then bail out.
-  if (possible_markup.length() < 4)
+  // If the markup is too short to contain even a default attribute of 1 character long, then bail out.
+  if (possible_markup.empty())
     return;
   
   // Look for the vertical bar. If it's not there, bail out.

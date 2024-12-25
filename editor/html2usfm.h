@@ -59,12 +59,15 @@ private:
   void process_node (pugi::xml_node& node);
   void open_element_node (pugi::xml_node& node);
   void close_element_node (const pugi::xml_node& node);
-  void open_online (const std::string& class_name);
+  void open_inline (const std::string& class_name);
   void process_note_citation (pugi::xml_node& node);
   std::string clean_usfm (std::string usfm);
   pugi::xml_node get_note_pointer (const pugi::xml_node& body, const std::string& id);
   std::string update_quill_class (std::string classname);
+  // The word-level attributes that may have been set from outside.
   std::map<int,std::string> m_word_level_attributes{};
+  // The last added text fragment, for analysis.
+  std::string m_last_added_text_fragment{};
 };
 
 std::string editor_export_verse_quill (std::string stylesheet, std::string html);

@@ -145,7 +145,8 @@ void Editor_Html2Usfm::process_node (pugi::xml_node& node)
     case pugi::node_pcdata:
     {
       // Add the text to the current USFM line.
-      current_line.append(node.text ().get ());
+      m_last_added_text_fragment = node.text ().get ();
+      current_line.append(m_last_added_text_fragment);
       break;
     }
     case pugi::node_null:
@@ -190,7 +191,7 @@ void Editor_Html2Usfm::open_element_node (pugi::xml_node& node)
     if (class_name == "v")  {
       // Handle the verse.
       flush_line ();
-      open_online (class_name);
+      open_inline (class_name);
     }
     else if (class_name.empty ()) {
       // Normal text is wrapped in elements without a class attribute.
@@ -201,7 +202,7 @@ void Editor_Html2Usfm::open_element_node (pugi::xml_node& node)
     }
     else {
       // Handle remaining class attributes for inline text.
-      open_online (class_name);
+      open_inline (class_name);
     }
   }
   
@@ -249,20 +250,33 @@ void Editor_Html2Usfm::close_element_node (const pugi::xml_node& node)
     // Do nothing with a note caller.
     if (class_name.substr (0, quill_note_caller_class.size()) == quill_note_caller_class)
       return;
-    // Do nothing if no endmarkers are supposed to be produced.
-    if (suppress_end_markers.find (class_name) != suppress_end_markers.end())
-      return;
-    // Check for and handle word-level attributes.
-    if (const size_t wla_pos = id.find(quill_word_level_attribute_id_prefix); wla_pos == 0) {
-      try {
-        const int wla_id = std::stoi(id.substr(quill_word_level_attribute_id_prefix.size()));
-        if (m_word_level_attributes.count(wla_id)) {
-          // The vertical bar separates the canonical word from the attribute(s) following it.
-          current_line.append("|");
-          current_line.append(m_word_level_attributes.at(wla_id));
+    // Get the optional id for possible word-level attributes.
+    const auto get_wla_id = [&id]() -> std::optional<int> {
+      if (!id.empty()) {
+        if (const size_t wla_pos = id.find(quill_word_level_attribute_id_prefix); wla_pos == 0) {
+          try {
+            return std::stoi(id.substr(quill_word_level_attribute_id_prefix.size()));
+          } catch (...) { }
         }
-      } catch (...) { }
+      }
+      return std::nullopt;
+    };
+    const std::optional<int> wla_id = get_wla_id();
+    // Do nothing if no endmarkers are supposed to be produced.
+    // There's two exceptions:
+    // 1. If a word-level attributes ID was found: This needs an endmarker.
+    // 2. If the last added text fragment contains the vertical bar, as that indicates word-level attributes.
+    if (suppress_end_markers.find (class_name) != suppress_end_markers.end()) {
+      if ((!wla_id) && (m_last_added_text_fragment.find("|") == std::string::npos))
+        return;
     }
+    // Check for and handle word-level attributes.
+    if (wla_id)
+      if (m_word_level_attributes.count(wla_id.value())) {
+        // The vertical bar separates the canonical word from the attribute(s) following it.
+        current_line.append("|");
+        current_line.append(m_word_level_attributes.at(wla_id.value()));
+      }
     // Add closing USFM, optionally closing embedded tags in reverse order.
     char separator = '0';
     std::vector <std::string> classes = filter::strings::explode (class_name, separator);
@@ -283,7 +297,7 @@ void Editor_Html2Usfm::close_element_node (const pugi::xml_node& node)
 }
 
 
-void Editor_Html2Usfm::open_online (const std::string& class_name)
+void Editor_Html2Usfm::open_inline (const std::string& class_name)
 {
   // It has been observed that the <span> elements of the character styles may be embedded, like so:
   // The <span class="add">

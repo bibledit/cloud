@@ -1726,12 +1726,40 @@ TEST_F (usfm_html, word_level_attributes_multiple)
 }
 
 
-/*
-
-\v 6
-\v 7 Text with \x - \xt 1|GEN 2:1\xt*\x*link reference.
-
-*/
+TEST_F (usfm_html, word_level_attributes_linking)
+{
+  // This tests the linking attributes.
+  // USFM 3 writes:
+  //  The \xt ...\xt provides the linking attribute link-href as a default attribute.
+  const std::string usfm = R"(
+\c 2
+\cd \xt 1|GEN 2:1\xt* A \xt 8|GEN 2:8\xt* B \xt 18|GEN 2:18\xt* C \xt 21|GEN 2:21\xt* E
+\p
+\v 1 Verse one.
+\v 2 Verse two, cross reference\x - \xt 1|GEN 2:2\xt*\x* with a link reference.
+)";
+  const std::string html = R"(<p class="b-c"><span>2</span></p><p class="b-cd"><span class="i-xt" id="wla0">1</span><span> A </span><span class="i-xt" id="wla1">8</span><span> B </span><span class="i-xt" id="wla2">18</span><span> C </span><span class="i-xt" id="wla3">21</span><span> E</span></p><p class="b-p"><span class="i-v">1</span><span> </span><span>Verse one.</span><span> </span><span class="i-v">2</span><span> </span><span>Verse two, cross reference</span><span class="i-notecall1">a</span><span> with a link reference.</span></p><p class="b-notes"> </p><p class="b-x"><span class="i-notebody1">a</span><span> </span><span>- </span><span class="i-xt">1|GEN 2:2</span></p>)";
+  Editor_Usfm2Html editor_usfm2html;
+  editor_usfm2html.load (usfm);
+  editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
+  editor_usfm2html.run ();
+  EXPECT_EQ (html, editor_usfm2html.get());
+  const std::map<int,std::string> attributes {
+    {0, "GEN 2:1"},
+    {1, "GEN 2:8"},
+    {2, "GEN 2:18"},
+    {3, "GEN 2:21"}
+  };
+  // Note that the word-level attribute "GEN 2:2" was not extracted from the cross reference,
+  // as this was output as-is.
+  EXPECT_EQ (attributes, editor_usfm2html.get_word_level_attributes());
+  Editor_Html2Usfm editor_html2usfm;
+  editor_html2usfm.load (html);
+  editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
+  editor_html2usfm.set_word_level_attributes(attributes);
+  editor_html2usfm.run ();
+  EXPECT_EQ (filter::strings::trim(usfm), editor_html2usfm.get ());
+}
 
 
 #endif

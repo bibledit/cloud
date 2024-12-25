@@ -301,6 +301,17 @@ void Editor_Usfm2Html::process ()
               {
                 if (is_opening_marker) {
                   open_text_style (style, is_embedded_marker);
+                  // Deal in a special way with possible word-level attributes.
+                  // Note open | Extract word-level attributes
+                  //  yes      |  no
+                  //  no       |  yes
+                  //-----------------
+                  // In other words, if a note is open, which is the normal case,
+                  // then don't extract the word-level attributes, but output them as they are.
+                  // But if a note is not open, it is assumed to be a link reference in the main text body.
+                  // In such a case, extract the word-level attributes as usual.
+                  if (!m_note_opened)
+                      extract_word_level_attributes();
                 } else {
                   close_text_style (is_embedded_marker);
                 }

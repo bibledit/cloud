@@ -23,5 +23,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 class Webserver_Request;
 
-void storeLoadedUsfm2 (Webserver_Request& webserver_request, std::string bible, int book, int chapter, std::string editor, const char * message = "");
-std::string getLoadedUsfm2 (Webserver_Request& webserver_request, std::string bible, int book, int chapter, std::string editor);
+void store_loaded_usfm (Webserver_Request& webserver_request,
+                        const std::string& bible, const int book, const int chapter,
+                        const std::string& editor);
+std::string get_loaded_usfm (Webserver_Request& webserver_request,
+                             const std::string& bible, const int book, const int chapter,
+                             const std::string& editor);

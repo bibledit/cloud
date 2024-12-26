@@ -1730,7 +1730,7 @@ TEST_F (usfm_html, word_level_attributes_linking)
 {
   // This tests the linking attributes.
   // USFM 3 writes:
-  //  The \xt ...\xt provides the linking attribute link-href as a default attribute.
+  // The \xt ...\xt provides the linking attribute link-href as a default attribute.
   const std::string usfm = R"(
 \c 2
 \cd \xt 1|GEN 2:1\xt* A \xt 8|GEN 2:8\xt* B \xt 18|GEN 2:18\xt* C \xt 21|GEN 2:21\xt* E

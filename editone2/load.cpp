@@ -77,7 +77,7 @@ std::string editone2_load (Webserver_Request& webserver_request)
   // 2. It updates the chapter snapshot.
   // 3. It loads the other verse.
   // 4. It updates the chapter snapshot.
-  storeLoadedUsfm2 (webserver_request, bible, book, chapter, unique_id);
+  store_loaded_usfm (webserver_request, bible, book, chapter, unique_id);
   
   std::string prefix_html;
   std::string not_used;

@@ -24,7 +24,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <webserver/request.h>
 
 
-std::string edit2_logic_volatile_key (std::string bible, int book, int chapter, std::string editor)
+static std::string edit_logic_volatile_key (std::string bible, int book, int chapter, std::string editor)
 {
   std::string key;
   key.append (bible);
@@ -38,25 +38,23 @@ std::string edit2_logic_volatile_key (std::string bible, int book, int chapter, 
 }
 
 
-void storeLoadedUsfm2 (Webserver_Request& webserver_request, std::string bible, int book, int chapter, std::string editor, [[maybe_unused]] const char * message)
+void store_loaded_usfm (Webserver_Request& webserver_request,
+                        const std::string& bible, const int book, const int chapter,
+                        const std::string& editor)
 {
   const int userid = filter::strings::user_identifier (webserver_request);
-  
-  const std::string key = edit2_logic_volatile_key (bible, book, chapter, editor);
-  
+  const std::string key = edit_logic_volatile_key (bible, book, chapter, editor);
   const std::string usfm = database::bibles::get_chapter (bible, book, chapter);
-  
   database::temporal::set_value (userid, key, usfm);
 }
 
 
-std::string getLoadedUsfm2 (Webserver_Request& webserver_request, std::string bible, int book, int chapter, std::string editor)
+std::string get_loaded_usfm (Webserver_Request& webserver_request,
+                             const std::string& bible, const int book, const int chapter,
+                             const std::string& editor)
 {
   const int userid = filter::strings::user_identifier (webserver_request);
-  
-  const std::string key = edit2_logic_volatile_key (bible, book, chapter, editor);
-  
+  const std::string key = edit_logic_volatile_key (bible, book, chapter, editor);
   const std::string usfm = database::temporal::get_value (userid, key);
-  
   return usfm;
 }

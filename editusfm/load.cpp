@@ -49,7 +49,7 @@ std::string editusfm_load (Webserver_Request& webserver_request)
   std::string unique_id = webserver_request.query ["id"];
 
   // Store a copy of the USFM loaded in the editor for later reference.
-  storeLoadedUsfm2 (webserver_request, bible, book, chapter, unique_id);
+  store_loaded_usfm (webserver_request, bible, book, chapter, unique_id);
 
   std::string usfm = database::bibles::get_chapter (bible, book, chapter);
 

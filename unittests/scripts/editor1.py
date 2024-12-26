@@ -16,8 +16,8 @@ driver2.implicitly_wait(2)
 driver2.set_window_position(1100, 30)
 driver2.set_window_size(900,900)
 
-driver1.get("http://localhost:8080/editone2/index")
-driver2.get("http://localhost:8080/editone2/index")
+driver1.get("http://localhost:8080/editone/index")
+driver2.get("http://localhost:8080/editone/index")
 
 input("Navigate to the Sample Bible Genesis 1:1 and press Enter to continue")
 

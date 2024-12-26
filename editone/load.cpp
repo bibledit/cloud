@@ -17,7 +17,7 @@
  */
 
 
-#include <editone2/load.h>
+#include <editone/load.h>
 #include <filter/roles.h>
 #include <filter/string.h>
 #include <filter/usfm.h>
@@ -26,18 +26,18 @@
 #include <editor/usfm2html.h>
 #include <config/globals.h>
 #include <access/bible.h>
-#include <editone2/logic.h>
+#include <editone/logic.h>
 #include <edit/logic.h>
 #include <database/config/bible.h>
 
 
-std::string editone2_load_url ()
+std::string editone_load_url ()
 {
-  return "editone2/load";
+  return "editone/load";
 }
 
 
-bool editone2_load_acl (Webserver_Request& webserver_request)
+bool editone_load_acl (Webserver_Request& webserver_request)
 {
   if (Filter_Roles::access_control (webserver_request, Filter_Roles::translator ()))
     return true;
@@ -46,7 +46,7 @@ bool editone2_load_acl (Webserver_Request& webserver_request)
 }
 
 
-std::string editone2_load (Webserver_Request& webserver_request)
+std::string editone_load (Webserver_Request& webserver_request)
 {
   std::string bible = webserver_request.query ["bible"];
   int book = filter::strings::convert_to_int (webserver_request.query ["book"]);

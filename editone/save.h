@@ -23,6 +23,6 @@
 
 class Webserver_Request;
 
-std::string editone2_index_url ();
-bool editone2_index_acl (Webserver_Request& webserver_request);
-std::string editone2_index (Webserver_Request& webserver_request);
+std::string editone_save_url ();
+bool editone_save_acl (Webserver_Request& webserver_request);
+std::string editone_save (Webserver_Request& webserver_request);

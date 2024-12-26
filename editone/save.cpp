@@ -17,7 +17,7 @@
  */
 
 
-#include <editone2/save.h>
+#include <editone/save.h>
 #include <filter/roles.h>
 #include <filter/string.h>
 #include <filter/usfm.h>
@@ -34,20 +34,20 @@
 #include <editor/html2usfm.h>
 #include <access/bible.h>
 #include <bb/logic.h>
-#include <editone2/logic.h>
+#include <editone/logic.h>
 #include <edit/logic.h>
 #include <developer/logic.h>
 #include <rss/logic.h>
 #include <sendreceive/logic.h>
 
 
-std::string editone2_save_url ()
+std::string editone_save_url ()
 {
-  return "editone2/save";
+  return "editone/save";
 }
 
 
-bool editone2_save_acl (Webserver_Request& webserver_request)
+bool editone_save_acl (Webserver_Request& webserver_request)
 {
   if (Filter_Roles::access_control (webserver_request, Filter_Roles::translator ()))
     return true;
@@ -56,7 +56,7 @@ bool editone2_save_acl (Webserver_Request& webserver_request)
 }
 
 
-std::string editone2_save (Webserver_Request& webserver_request)
+std::string editone_save (Webserver_Request& webserver_request)
 {
   // Check on information about where to save the verse.
   bool save = (webserver_request.post.count ("bible") && webserver_request.post.count ("book") && webserver_request.post.count ("chapter") && webserver_request.post.count ("verse") && webserver_request.post.count ("html"));

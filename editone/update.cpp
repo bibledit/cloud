@@ -17,7 +17,7 @@
  */
 
 
-#include <editone2/update.h>
+#include <editone/update.h>
 #include <filter/roles.h>
 #include <filter/string.h>
 #include <filter/usfm.h>
@@ -36,19 +36,19 @@
 #include <editor/html2format.h>
 #include <access/bible.h>
 #include <bb/logic.h>
-#include <editone2/logic.h>
+#include <editone/logic.h>
 #include <edit/logic.h>
 #include <rss/logic.h>
 #include <sendreceive/logic.h>
 
 
-std::string editone2_update_url ()
+std::string editone_update_url ()
 {
-  return "editone2/update";
+  return "editone/update";
 }
 
 
-bool editone2_update_acl (Webserver_Request& webserver_request)
+bool editone_update_acl (Webserver_Request& webserver_request)
 {
   if (Filter_Roles::access_control (webserver_request, Filter_Roles::translator ()))
     return true;
@@ -57,7 +57,7 @@ bool editone2_update_acl (Webserver_Request& webserver_request)
 }
 
 
-std::string editone2_update (Webserver_Request& webserver_request)
+std::string editone_update (Webserver_Request& webserver_request)
 {
   // Whether the update is good to go.
   bool good2go = true;

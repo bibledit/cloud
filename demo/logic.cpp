@@ -37,7 +37,7 @@
 #include <locale/logic.h>
 #include <bb/logic.h>
 #include <editusfm/index.h>
-#include <editone2/index.h>
+#include <editone/index.h>
 #include <resource/index.h>
 #include <resource/external.h>
 #include <resource/logic.h>
@@ -383,7 +383,7 @@ void demo_create_sample_workspaces (Webserver_Request& webserver_request)
   workspace_set_widths (webserver_request, widths);
   workspace_set_heights (webserver_request, row_heights);
   
-  urls[0] = editone2_index_url ();
+  urls[0] = editone_index_url ();
   urls[1] = resource_index_url ();
   
   webserver_request.database_config_user()->setActiveWorkspace (demo_workspace ());

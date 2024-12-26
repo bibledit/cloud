@@ -17,30 +17,12 @@
  */
 
 
-#include <redirect/index.h>
-#include <filter/url.h>
-#include <webserver/request.h>
-#include <editone2/index.h>
+#pragma once
 
+#include <config/libraries.h>
 
-std::string editone_index_url ()
-{
-  return "editone/index";
-}
+class Webserver_Request;
 
-
-bool editone_index_acl ()
-{
-  return true;
-}
-
-
-std::string editone_index (Webserver_Request& webserver_request)
-{
-  std::string url = editone2_index_url ();
-  for (auto query : webserver_request.query) {
-    url = filter_url_build_http_query (url, query.first, query.second);
-  }
-  redirect_browser (webserver_request, url);
-  return std::string();
-}
+std::string editone_load_url ();
+bool editone_load_acl (Webserver_Request& webserver_request);
+std::string editone_load (Webserver_Request& webserver_request);

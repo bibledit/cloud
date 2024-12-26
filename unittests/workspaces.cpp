@@ -52,7 +52,7 @@ TEST (workspaces, basic)
     EXPECT_EQ ("unittest", workspace_get_active_name (webserver_request));
 
     std::map <int, std::string> standard = {
-      std::pair (0, "editone2/index"),
+      std::pair (0, "editone/index"),
       std::pair (5, "resource/index")
     };
     EXPECT_EQ (standard, workspace_get_default_urls (1));

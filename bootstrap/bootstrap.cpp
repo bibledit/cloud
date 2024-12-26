@@ -78,7 +78,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <edit/preview.h>
 #include <edit/position.h>
 #include <edit/navigate.h>
-#include <redirect/index.h>
 #include <search/all.h>
 #include <search/index.h>
 #include <search/replace.h>
@@ -195,11 +194,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <editor/id.h>
 #include <editor/style.h>
 #include <edit/update.h>
-#include <editone2/index.h>
-#include <editone2/load.h>
-#include <editone2/save.h>
-#include <editone2/verse.h>
-#include <editone2/update.h>
+#include <editone/index.h>
+#include <editone/load.h>
+#include <editone/save.h>
+#include <editone/verse.h>
+#include <editone/update.h>
 #include <read/index.h>
 #include <read/load.h>
 #include <read/verse.h>
@@ -388,11 +387,6 @@ void bootstrap_index (Webserver_Request& webserver_request)
   
   if ((url == bible_css_url ()) && browser_request_security_okay (webserver_request) && bible_css_acl (webserver_request)) {
     webserver_request.reply = bible_css (webserver_request);
-    return;
-  }
-  
-  if ((url == editone_index_url ()) && browser_request_security_okay (webserver_request) && editone_index_acl ()) {
-    webserver_request.reply = editone_index (webserver_request);
     return;
   }
   
@@ -1144,28 +1138,28 @@ void bootstrap_index (Webserver_Request& webserver_request)
     return;
   }
 
-  if ((url == editone2_index_url ()) && browser_request_security_okay (webserver_request) && editone2_index_acl (webserver_request)) {
-    webserver_request.reply = editone2_index (webserver_request);
+  if ((url == editone_index_url ()) && browser_request_security_okay (webserver_request) && editone_index_acl (webserver_request)) {
+    webserver_request.reply = editone_index (webserver_request);
     return;
   }
   
-  if ((url == editone2_load_url ()) && browser_request_security_okay (webserver_request) && editone2_load_acl (webserver_request)) {
-    webserver_request.reply = editone2_load (webserver_request);
+  if ((url == editone_load_url ()) && browser_request_security_okay (webserver_request) && editone_load_acl (webserver_request)) {
+    webserver_request.reply = editone_load (webserver_request);
     return;
   }
   
-  if ((url == editone2_save_url ()) && browser_request_security_okay (webserver_request) && editone2_save_acl (webserver_request)) {
-    webserver_request.reply = editone2_save (webserver_request);
+  if ((url == editone_save_url ()) && browser_request_security_okay (webserver_request) && editone_save_acl (webserver_request)) {
+    webserver_request.reply = editone_save (webserver_request);
     return;
   }
   
-  if ((url == editone2_verse_url ()) && browser_request_security_okay (webserver_request) && editone2_verse_acl (webserver_request)) {
-    webserver_request.reply = editone2_verse (webserver_request);
+  if ((url == editone_verse_url ()) && browser_request_security_okay (webserver_request) && editone_verse_acl (webserver_request)) {
+    webserver_request.reply = editone_verse (webserver_request);
     return;
   }
   
-  if ((url == editone2_update_url ()) && browser_request_security_okay (webserver_request) && editone2_update_acl (webserver_request)) {
-    webserver_request.reply = editone2_update (webserver_request);
+  if ((url == editone_update_url ()) && browser_request_security_okay (webserver_request) && editone_update_acl (webserver_request)) {
+    webserver_request.reply = editone_update (webserver_request);
     return;
   }
 

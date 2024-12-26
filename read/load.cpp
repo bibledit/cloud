@@ -26,7 +26,7 @@
 #include <editor/usfm2html.h>
 #include <config/globals.h>
 #include <access/bible.h>
-#include <editone2/logic.h>
+#include <editone/logic.h>
 #include <edit/logic.h>
 #include <database/config/bible.h>
 

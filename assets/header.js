@@ -122,7 +122,7 @@ $ (document).ready (function () {
 		// For advanced mode.
     if (/workspace\/index/.test(window.location.pathname) === true) {
       activeTopbarButton ("workspace", nodeListOfTopbarLinks);
-    } else if (/edit\/index/.test(window.location.pathname) || /editone2\/index/.test(window.location.pathname) ||
+    } else if (/edit\/index/.test(window.location.pathname) || /editone\/index/.test(window.location.pathname) ||
                /editusfm\/index/.test(window.location.pathname) || /notes\/index/.test(window.location.pathname) ||
                /resource\/index/.test(window.location.pathname) || /changes\/changes/.test(window.location.pathname) ||
                /public\/index/.test(window.location.pathname)) {
@@ -157,8 +157,8 @@ $ (document).ready (function () {
 			activeTopbarButton ("read", nodeListOfTopbarLinks);
     } else if (/resource\/index/.test(window.location.pathname)) {
 			activeTopbarButton ("resource", nodeListOfTopbarLinks);
-    } else if (/editone2\/index/.test(window.location.pathname)) {
-			activeTopbarButton ("editone2", nodeListOfTopbarLinks);
+    } else if (/editone\/index/.test(window.location.pathname)) {
+			activeTopbarButton ("editone", nodeListOfTopbarLinks);
     } else if (/notes\/index/.test(window.location.pathname)) {
 			activeTopbarButton ("notes", nodeListOfTopbarLinks);
     } else if (/personalize\/index/.test(window.location.pathname)) {

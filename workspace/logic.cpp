@@ -23,8 +23,7 @@
 #include <webserver/request.h>
 #include <edit/index.h>
 #include <edit/index.h>
-#include <redirect/index.h>
-#include <editone2/index.h>
+#include <editone/index.h>
 #include <editusfm/index.h>
 #include <search/index.h>
 #include <resource/index.h>
@@ -57,29 +56,29 @@ std::map <int, std::string> workspace_get_default_urls (int id)
   std::map <int, std::string> urls {};
   switch (id) {
     case 1:
-      urls [0] = editone2_index_url ();
+      urls [0] = editone_index_url ();
       urls [5] = resource_index_url ();
       break;
     case 2:
-      urls [0] = editone2_index_url ();
+      urls [0] = editone_index_url ();
       urls [1] = notes_index_url ();
       break;
     case 3:
       urls [0] = resource_index_url ();
-      urls [1] = editone2_index_url ();
+      urls [1] = editone_index_url ();
       urls [2] = notes_index_url ();
       break;
     case 4:
-      urls [0] = editone2_index_url ();
+      urls [0] = editone_index_url ();
       urls [1] = consistency_index_url ();
       break;
     case 5:
       urls [0] = resource_index_url ();
-      urls [1] = editone2_index_url ();
+      urls [1] = editone_index_url ();
       urls [5] = editusfm_index_url ();
       break;
     default:
-      urls [0] = editone2_index_url ();
+      urls [0] = editone_index_url ();
       urls [1] = resource_index_url ();
       urls [2] = notes_index_url ();
       urls [3] = search_index_url ();
@@ -566,7 +565,6 @@ std::map <int, int> workspace_add_bible_editor_number (std::map <int, std::strin
     if (url.empty()) continue;
     if (url.find (edit_index_url ()) != std::string::npos) is_bible_editor = true;
     if (url.find (editone_index_url ()) != std::string::npos) is_bible_editor = true;
-    if (url.find (editone2_index_url ()) != std::string::npos) is_bible_editor = true;
     if (url.find (editusfm_index_url ()) != std::string::npos) is_bible_editor = true;
     if (is_bible_editor) {
       bible_editor_count++;

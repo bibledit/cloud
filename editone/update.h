@@ -23,6 +23,6 @@
 
 class Webserver_Request;
 
-std::string editone2_save_url ();
-bool editone2_save_acl (Webserver_Request& webserver_request);
-std::string editone2_save (Webserver_Request& webserver_request);
+std::string editone_update_url ();
+bool editone_update_acl (Webserver_Request& webserver_request);
+std::string editone_update (Webserver_Request& webserver_request);

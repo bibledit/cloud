@@ -36,8 +36,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <developer/index.h>
 #include <edit/index.h>
 #include <edit/index.h>
-#include <editone2/index.h>
-#include <redirect/index.h>
+#include <editone/index.h>
 #include <editusfm/index.h>
 #include <email/index.h>
 #include <filter/string.h>
@@ -300,8 +299,8 @@ std::string menu_logic_basic_categories (Webserver_Request& webserver_request)
     html.push_back (menu_logic_create_item (resource_index_url (), menu_logic_resources_text (), true, "", color));
   }
 
-  if (editone2_index_acl (webserver_request)) {
-    html.push_back (menu_logic_create_item (editone2_index_url (), menu_logic_translate_text (), true, "", color));
+  if (editone_index_acl (webserver_request)) {
+    html.push_back (menu_logic_create_item (editone_index_url (), menu_logic_translate_text (), true, "", color));
   }
   
   if (changes_changes_acl (webserver_request)) {
@@ -399,9 +398,9 @@ std::string menu_logic_translate_category (Webserver_Request& webserver_request,
   }
 
   // Visual verse editor.
-  if (editone2_index_acl (webserver_request)) {
+  if (editone_index_acl (webserver_request)) {
     std::string label = menu_logic_editor_menu_text (true, false);
-    html.push_back (menu_logic_create_item (editone2_index_url (), label, true, "", ""));
+    html.push_back (menu_logic_create_item (editone_index_url (), label, true, "", ""));
     labels.push_back (label);
   }
 
@@ -1263,7 +1262,7 @@ void menu_logic_tabbed_mode_save_json (Webserver_Request& webserver_request)
       jsonxx::Array json_array;
       // Adding tabs in the order an average translator uses them most of the time:
       // Add the Bible editor tab.
-      json_array << menu_logic_tabbed_mode_add_tab (editone2_index_url (), menu_logic_translate_text ());
+      json_array << menu_logic_tabbed_mode_add_tab (editone_index_url (), menu_logic_translate_text ());
       // Add the resources tab.
       json_array << menu_logic_tabbed_mode_add_tab (resource_index_url (), menu_logic_resources_text ());
       // Add the consultation notes tab.

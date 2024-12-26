@@ -28,7 +28,7 @@
 #include <access/bible.h>
 #include <menu/logic.h>
 #include <edit/index.h>
-#include <editone2/index.h>
+#include <editone/index.h>
 #include <editusfm/index.h>
 #include <webserver/request.h>
 
@@ -65,10 +65,10 @@ std::string editor_select (Webserver_Request& webserver_request)
     }
   }
   
-  if (editone2_index_acl (webserver_request)) {
+  if (editone_index_acl (webserver_request)) {
     if (menu_logic_editor_enabled (webserver_request, true, false)) {
       const std::string label = menu_logic_editor_menu_text (true, false);
-      const std::string url = editone2_index_url ();
+      const std::string url = editone_index_url ();
       view.add_iteration ("editor", { std::pair ("url", url), std::pair ("label", label) } );
       urls.push_back (url);
     }

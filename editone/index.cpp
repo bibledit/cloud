@@ -17,7 +17,7 @@
  */
 
 
-#include <editone2/index.h>
+#include <editone/index.h>
 #include <assets/view.h>
 #include <assets/page.h>
 #include <assets/header.h>
@@ -43,13 +43,13 @@
 #include <demo/logic.h>
 
 
-std::string editone2_index_url ()
+std::string editone_index_url ()
 {
-  return "editone2/index";
+  return "editone/index";
 }
 
 
-bool editone2_index_acl (Webserver_Request& webserver_request)
+bool editone_index_acl (Webserver_Request& webserver_request)
 {
   // Default minimum role for getting access.
   const int minimum_role = Filter_Roles::translator ();
@@ -60,7 +60,7 @@ bool editone2_index_acl (Webserver_Request& webserver_request)
 }
 
 
-std::string editone2_index (Webserver_Request& webserver_request)
+std::string editone_index (Webserver_Request& webserver_request)
 {
   const bool touch = webserver_request.session_logic ()->get_touch_enabled ();
   
@@ -153,7 +153,7 @@ std::string editone2_index (Webserver_Request& webserver_request)
   
   view.set_variable ("spellcheck", filter::strings::convert_to_true_false(webserver_request.database_config_user ()->get_enable_spell_check()));
 
-  page.append (view.render ("editone2", "index"));
+  page.append (view.render ("editone", "index"));
   
   page.append (assets_page::footer ());
   

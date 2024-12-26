@@ -17,7 +17,7 @@
  */
 
 
-#include <editone2/verse.h>
+#include <editone/verse.h>
 #include <filter/roles.h>
 #include <filter/string.h>
 #include <webserver/request.h>
@@ -25,13 +25,13 @@
 #include <access/bible.h>
 
 
-std::string editone2_verse_url ()
+std::string editone_verse_url ()
 {
-  return "editone2/verse";
+  return "editone/verse";
 }
 
 
-bool editone2_verse_acl (Webserver_Request& webserver_request)
+bool editone_verse_acl (Webserver_Request& webserver_request)
 {
   if (Filter_Roles::access_control (webserver_request, Filter_Roles::translator ()))
     return true;
@@ -40,7 +40,7 @@ bool editone2_verse_acl (Webserver_Request& webserver_request)
 }
 
 
-std::string editone2_verse (Webserver_Request& webserver_request)
+std::string editone_verse (Webserver_Request& webserver_request)
 {
   // Only act if a verse was found
   std::string sverse = webserver_request.query ["verse"];

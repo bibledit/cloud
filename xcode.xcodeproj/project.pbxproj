@@ -234,22 +234,16 @@
 		CA9D18A52D1DCC8F00094422 /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = index.cpp; sourceTree = "<group>"; };
 		CA9D18A62D1DCC8F00094422 /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = index.html; sourceTree = "<group>"; };
 		CA9D18A72D1DCC8F00094422 /* index.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = index.js; sourceTree = "<group>"; };
-		CA9D18A82D1DCC8F00094422 /* index.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = index.o; sourceTree = "<group>"; };
 		CA9D18A92D1DCC8F00094422 /* load.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = load.h; sourceTree = "<group>"; };
 		CA9D18AA2D1DCC8F00094422 /* load.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = load.cpp; sourceTree = "<group>"; };
-		CA9D18AB2D1DCC8F00094422 /* load.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = load.o; sourceTree = "<group>"; };
 		CA9D18AC2D1DCC8F00094422 /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logic.h; sourceTree = "<group>"; };
 		CA9D18AD2D1DCC8F00094422 /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = logic.cpp; sourceTree = "<group>"; };
-		CA9D18AE2D1DCC8F00094422 /* logic.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = logic.o; sourceTree = "<group>"; };
 		CA9D18AF2D1DCC8F00094422 /* save.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = save.h; sourceTree = "<group>"; };
 		CA9D18B02D1DCC8F00094422 /* save.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = save.cpp; sourceTree = "<group>"; };
-		CA9D18B12D1DCC8F00094422 /* save.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = save.o; sourceTree = "<group>"; };
 		CA9D18B22D1DCC8F00094422 /* update.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = update.h; sourceTree = "<group>"; };
 		CA9D18B32D1DCC8F00094422 /* update.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = update.cpp; sourceTree = "<group>"; };
-		CA9D18B42D1DCC8F00094422 /* update.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = update.o; sourceTree = "<group>"; };
 		CA9D18B52D1DCC8F00094422 /* verse.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = verse.h; sourceTree = "<group>"; };
 		CA9D18B62D1DCC8F00094422 /* verse.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = verse.cpp; sourceTree = "<group>"; };
-		CA9D18B72D1DCC8F00094422 /* verse.o */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.objfile"; path = verse.o; sourceTree = "<group>"; };
 		CAA001932569986E00BCA329 /* id.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = id.cpp; sourceTree = "<group>"; };
 		CAA001942569986E00BCA329 /* id.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = id.h; sourceTree = "<group>"; };
 		CAA0019525699DC300BCA329 /* style.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = style.h; sourceTree = "<group>"; };
@@ -2245,22 +2239,16 @@
 				CA9D18A52D1DCC8F00094422 /* index.cpp */,
 				CA9D18A62D1DCC8F00094422 /* index.html */,
 				CA9D18A72D1DCC8F00094422 /* index.js */,
-				CA9D18A82D1DCC8F00094422 /* index.o */,
 				CA9D18A92D1DCC8F00094422 /* load.h */,
 				CA9D18AA2D1DCC8F00094422 /* load.cpp */,
-				CA9D18AB2D1DCC8F00094422 /* load.o */,
 				CA9D18AC2D1DCC8F00094422 /* logic.h */,
 				CA9D18AD2D1DCC8F00094422 /* logic.cpp */,
-				CA9D18AE2D1DCC8F00094422 /* logic.o */,
 				CA9D18AF2D1DCC8F00094422 /* save.h */,
 				CA9D18B02D1DCC8F00094422 /* save.cpp */,
-				CA9D18B12D1DCC8F00094422 /* save.o */,
 				CA9D18B22D1DCC8F00094422 /* update.h */,
 				CA9D18B32D1DCC8F00094422 /* update.cpp */,
-				CA9D18B42D1DCC8F00094422 /* update.o */,
 				CA9D18B52D1DCC8F00094422 /* verse.h */,
 				CA9D18B62D1DCC8F00094422 /* verse.cpp */,
-				CA9D18B72D1DCC8F00094422 /* verse.o */,
 			);
 			path = editone;
 			sourceTree = "<group>";

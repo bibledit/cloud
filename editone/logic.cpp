@@ -24,7 +24,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 
 
-void editone_logic_prefix_html (std::string usfm, std::string stylesheet, std::string& html, std::string& last_p_style)
+void editone_logic_prefix_html (const std::string& usfm, const std::string& stylesheet,
+                                std::string& html, std::string& last_p_style)
 {
   if (!usfm.empty ()) {
     Editor_Usfm2Html editor_usfm2html;
@@ -33,18 +34,20 @@ void editone_logic_prefix_html (std::string usfm, std::string stylesheet, std::s
     editor_usfm2html.run ();
     html = editor_usfm2html.get ();
     // No identical id's in the same DOM.
-    html = filter::strings::replace (R"( id="notes")", R"( id="prefixnotes")", html);
+    html = filter::strings::replace (R"( id="notes")", R"( id="prefixnotes")", std::move(html));
     // The last paragraph style in this USFM fragment, the prefix to the editable fragment.
     // If the last paragraph has any content in it,
     // for correct visual representation of the editable fragment, that follows this,
     // clear that style.
     last_p_style = editor_usfm2html.m_current_paragraph_style;
-    if (!editor_usfm2html.m_current_paragraph_content.empty ()) last_p_style.clear ();
+    if (!editor_usfm2html.m_current_paragraph_content.empty ())
+      last_p_style.clear ();
   }
 }
 
 
-void editone_logic_editable_html (std::string usfm, std::string stylesheet, std::string& html)
+void editone_logic_editable_html (const std::string& usfm, const std::string& stylesheet,
+                                  std::string& html) // Todo return attributes too.
 {
   if (!usfm.empty ()) {
     Editor_Usfm2Html editor_usfm2html;
@@ -56,7 +59,8 @@ void editone_logic_editable_html (std::string usfm, std::string stylesheet, std:
 }
 
 
-void editone_logic_suffix_html (std::string editable_last_p_style, std::string usfm, std::string stylesheet, std::string& html)
+void editone_logic_suffix_html (const std::string& editable_last_p_style, const std::string& usfm,
+                                const std::string& stylesheet, std::string& html)
 {
   if (!usfm.empty ()) {
     Editor_Usfm2Html editor_usfm2html;
@@ -65,7 +69,7 @@ void editone_logic_suffix_html (std::string editable_last_p_style, std::string u
     editor_usfm2html.run ();
     html = editor_usfm2html.get ();
     // No identical id in the same DOM.
-    html = filter::strings::replace (R"( id="notes")", R"( id="suffixnotes")", html);
+    html = filter::strings::replace (R"( id="notes")", R"( id="suffixnotes")", std::move(html));
   }
   
   // If the first paragraph of the suffix does not have a paragraph style applied,
@@ -77,10 +81,10 @@ void editone_logic_suffix_html (std::string editable_last_p_style, std::string u
   if (!html.empty ()) {
     if (!editable_last_p_style.empty ()) {
       pugi::xml_document document;
-      html = filter::strings::html2xml (html);
-      document.load_string (html.c_str(), pugi::parse_ws_pcdata_single);
+      html = filter::strings::html2xml (std::move(html));
+      document.load_string (std::move(html).c_str(), pugi::parse_ws_pcdata_single);
       pugi::xml_node p_node = document.first_child ();
-      std::string p_style = p_node.attribute ("class").value ();
+      const std::string p_style = p_node.attribute ("class").value ();
       if (p_style.empty ()) {
         p_node.append_attribute ("class") = editable_last_p_style.c_str ();
       }
@@ -92,7 +96,7 @@ void editone_logic_suffix_html (std::string editable_last_p_style, std::string u
 }
 
 
-std::string editone_logic_html_to_usfm (std::string stylesheet, std::string html)
+std::string editone_logic_html_to_usfm (const std::string& stylesheet, std::string html)
 {
   // It used to convert XML entities to normal characters.
   // For example, it used to convert "&lt;" to "<".
@@ -104,10 +108,10 @@ std::string editone_logic_html_to_usfm (std::string stylesheet, std::string html
   // It does it much later now, before saving the USFM that the converter produces.
   
   // Convert special spaces to normal ones.
-  html = filter::strings::any_space_to_standard_space (html);
+  html = filter::strings::any_space_to_standard_space (std::move(html));
 
   // Convert the html back to USFM in the special way for editing one verse.
-  const std::string usfm = editor_export_verse_quill (stylesheet, html);
+  const std::string usfm = editor_export_verse_quill (stylesheet, std::move(html));
 
   // Done.
   return usfm;
@@ -115,10 +119,11 @@ std::string editone_logic_html_to_usfm (std::string stylesheet, std::string html
 
 
 // Move the notes from the $prefix to the $suffix.
-void editone_logic_move_notes (std::string & prefix, std::string & suffix)
+void editone_logic_move_notes (std::string& prefix, std::string& suffix)
 {
   // No input: Ready.
-  if (prefix.empty ()) return;
+  if (prefix.empty ())
+    return;
   
   // Do a html to xml conversion to avoid a mismatched tag error.
   prefix = filter::strings::html2xml (prefix);
@@ -128,7 +133,7 @@ void editone_logic_move_notes (std::string & prefix, std::string & suffix)
   document.load_string (prefix.c_str(), pugi::parse_ws_pcdata_single);
 
   // The notes separator class.
-  const char * b_notes_class = "b-notes";
+  const char* b_notes_class = "b-notes";
   
   // Iterate over the document to find:
   // - the possible notes separator.
@@ -140,7 +145,7 @@ void editone_logic_move_notes (std::string & prefix, std::string & suffix)
     if (within_notes) {
       prefix_note_nodes.push_back (p_node);
     }
-    std::string cls = p_node.attribute ("class").value ();
+    const std::string cls = p_node.attribute ("class").value ();
     if (cls == b_notes_class) {
       within_notes = true;
       prefix_separator_node = p_node;
@@ -148,7 +153,8 @@ void editone_logic_move_notes (std::string & prefix, std::string & suffix)
   }
 
   // No notes: Ready.
-  if (prefix_note_nodes.empty()) return;
+  if (prefix_note_nodes.empty())
+    return;
 
   // Get the note(s) text from the note node(s).
   // Remove the note node(s) from the prefix.
@@ -171,10 +177,10 @@ void editone_logic_move_notes (std::string & prefix, std::string & suffix)
   }
 
   // Do a html to xml conversion in the suffix to avoid a mismatched tag error.
-  suffix = filter::strings::html2xml (suffix);
+  suffix = filter::strings::html2xml (std::move(suffix));
 
   // Load the suffix.
-  document.load_string (suffix.c_str(), pugi::parse_ws_pcdata_single);
+  document.load_string (std::move(suffix).c_str(), pugi::parse_ws_pcdata_single);
 
   // Iterate over the document to find the possible notes separator.
   pugi::xml_node suffix_separator_node;
@@ -199,7 +205,7 @@ void editone_logic_move_notes (std::string & prefix, std::string & suffix)
   {
     std::stringstream ss;
     document.print (ss, "", pugi::format_raw);
-    suffix = ss.str ();
+    suffix = std::move(ss).str ();
   }
 }
 

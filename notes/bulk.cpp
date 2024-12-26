@@ -27,7 +27,7 @@
 #include <webserver/request.h>
 #include <locale/translate.h>
 #include <database/notes.h>
-#include <database/volatile.h>
+#include <database/temporal.h>
 #include <database/logs.h>
 #include <database/noteassignment.h>
 #include <notes/logic.h>
@@ -128,7 +128,7 @@ std::string notes_bulk (Webserver_Request& webserver_request)
                                               -1);
     std::vector <std::string> sids;
     for (auto id : identifiers) sids.push_back (std::to_string (id));
-    database::volatile_::set_value (userid, "identifiers", filter::strings::implode (sids, " "));
+    database::temporal::set_value (userid, "identifiers", filter::strings::implode (sids, " "));
   }
 
 
@@ -136,7 +136,7 @@ std::string notes_bulk (Webserver_Request& webserver_request)
   // Get the stored note identifiers from the database.
   std::vector <int> identifiers;
   {
-    std::vector <std::string> sids = filter::strings::explode (database::volatile_::get_value (userid, "identifiers"), ' ');
+    std::vector <std::string> sids = filter::strings::explode (database::temporal::get_value (userid, "identifiers"), ' ');
     for (auto id : sids) identifiers.push_back (filter::strings::convert_to_int (id));
   }
   

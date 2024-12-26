@@ -161,7 +161,7 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	database/mappings.$(OBJEXT) database/noteactions.$(OBJEXT) \
 	database/versifications.$(OBJEXT) \
 	database/modifications.$(OBJEXT) database/notes.$(OBJEXT) \
-	database/volatile.$(OBJEXT) database/maintenance.$(OBJEXT) \
+	database/temporal.$(OBJEXT) database/maintenance.$(OBJEXT) \
 	database/imageresources.$(OBJEXT) database/state.$(OBJEXT) \
 	database/noteassignment.$(OBJEXT) database/strong.$(OBJEXT) \
 	database/morphgnt.$(OBJEXT) database/etcbc4.$(OBJEXT) \
@@ -541,12 +541,11 @@ am__depfiles_remade = access/$(DEPDIR)/bible.Po \
 	database/$(DEPDIR)/sblgnt.Po database/$(DEPDIR)/sprint.Po \
 	database/$(DEPDIR)/sqlite.Po database/$(DEPDIR)/state.Po \
 	database/$(DEPDIR)/statistics.Po database/$(DEPDIR)/strong.Po \
-	database/$(DEPDIR)/styles.Po \
+	database/$(DEPDIR)/styles.Po database/$(DEPDIR)/temporal.Po \
 	database/$(DEPDIR)/userresources.Po \
 	database/$(DEPDIR)/users.Po \
 	database/$(DEPDIR)/usfmresources.Po \
 	database/$(DEPDIR)/versifications.Po \
-	database/$(DEPDIR)/volatile.Po \
 	database/config/$(DEPDIR)/bible.Po \
 	database/config/$(DEPDIR)/general.Po \
 	database/config/$(DEPDIR)/user.Po demo/$(DEPDIR)/logic.Po \
@@ -1164,7 +1163,7 @@ libbibledit_a_SOURCES = \
 	database/versifications.cpp \
 	database/modifications.cpp \
 	database/notes.cpp \
-	database/volatile.cpp \
+	database/temporal.cpp \
 	database/maintenance.cpp \
 	database/imageresources.cpp \
 	database/state.cpp \
@@ -2056,7 +2055,7 @@ database/modifications.$(OBJEXT): database/$(am__dirstamp) \
 	database/$(DEPDIR)/$(am__dirstamp)
 database/notes.$(OBJEXT): database/$(am__dirstamp) \
 	database/$(DEPDIR)/$(am__dirstamp)
-database/volatile.$(OBJEXT): database/$(am__dirstamp) \
+database/temporal.$(OBJEXT): database/$(am__dirstamp) \
 	database/$(DEPDIR)/$(am__dirstamp)
 database/maintenance.$(OBJEXT): database/$(am__dirstamp) \
 	database/$(DEPDIR)/$(am__dirstamp)
@@ -3871,11 +3870,11 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/statistics.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/strong.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/styles.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/temporal.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/userresources.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/users.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/usfmresources.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/versifications.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@database/$(DEPDIR)/volatile.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@database/config/$(DEPDIR)/bible.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@database/config/$(DEPDIR)/general.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@database/config/$(DEPDIR)/user.Po@am__quote@ # am--include-marker
@@ -5062,11 +5061,11 @@ distclean: distclean-am
 	-rm -f database/$(DEPDIR)/statistics.Po
 	-rm -f database/$(DEPDIR)/strong.Po
 	-rm -f database/$(DEPDIR)/styles.Po
+	-rm -f database/$(DEPDIR)/temporal.Po
 	-rm -f database/$(DEPDIR)/userresources.Po
 	-rm -f database/$(DEPDIR)/users.Po
 	-rm -f database/$(DEPDIR)/usfmresources.Po
 	-rm -f database/$(DEPDIR)/versifications.Po
-	-rm -f database/$(DEPDIR)/volatile.Po
 	-rm -f database/config/$(DEPDIR)/bible.Po
 	-rm -f database/config/$(DEPDIR)/general.Po
 	-rm -f database/config/$(DEPDIR)/user.Po
@@ -5741,11 +5740,11 @@ maintainer-clean: maintainer-clean-am
 	-rm -f database/$(DEPDIR)/statistics.Po
 	-rm -f database/$(DEPDIR)/strong.Po
 	-rm -f database/$(DEPDIR)/styles.Po
+	-rm -f database/$(DEPDIR)/temporal.Po
 	-rm -f database/$(DEPDIR)/userresources.Po
 	-rm -f database/$(DEPDIR)/users.Po
 	-rm -f database/$(DEPDIR)/usfmresources.Po
 	-rm -f database/$(DEPDIR)/versifications.Po
-	-rm -f database/$(DEPDIR)/volatile.Po
 	-rm -f database/config/$(DEPDIR)/bible.Po
 	-rm -f database/config/$(DEPDIR)/general.Po
 	-rm -f database/config/$(DEPDIR)/user.Po

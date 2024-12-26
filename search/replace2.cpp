@@ -26,7 +26,7 @@
 #include <filter/passage.h>
 #include <webserver/request.h>
 #include <locale/translate.h>
-#include <database/volatile.h>
+#include <database/temporal.h>
 #include <database/config/general.h>
 #include <access/bible.h>
 #include <ipc/focus.h>

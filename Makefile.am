@@ -66,7 +66,7 @@ libbibledit_a_SOURCES = \
 	database/versifications.cpp \
 	database/modifications.cpp \
 	database/notes.cpp \
-	database/volatile.cpp \
+	database/temporal.cpp \
 	database/maintenance.cpp \
 	database/imageresources.cpp \
 	database/state.cpp \

@@ -21,7 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <config/libraries.h>
 
-namespace database::volatile_ {
+namespace database::temporal {
   
 std::string get_value (int id, const std::string& key);
 void set_value (int id, const std::string& key, const std::string& value);

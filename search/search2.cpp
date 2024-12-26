@@ -26,7 +26,7 @@
 #include <filter/passage.h>
 #include <webserver/request.h>
 #include <locale/translate.h>
-#include <database/volatile.h>
+#include <database/temporal.h>
 #include <database/config/general.h>
 #include <database/books.h>
 #include <access/bible.h>
@@ -72,9 +72,9 @@ std::string search_search2 (Webserver_Request& webserver_request)
     
     
     // Retrieve the search parameters from the volatile database.
-    std::string query2 = database::volatile_::get_value (identifier, "query");
-    //bool casesensitive = filter::strings::convert_to_bool (database::volatile_::get_value (identifier, "casesensitive"));
-    bool plaintext = filter::strings::convert_to_bool (database::volatile_::get_value (identifier, "plaintext"));
+    std::string query2 = database::temporal::get_value (identifier, "query");
+    //bool casesensitive = filter::strings::convert_to_bool (database::temporal::get_value (identifier, "casesensitive"));
+    bool plaintext = filter::strings::convert_to_bool (database::temporal::get_value (identifier, "plaintext"));
     
     
     // Get the Bible and passage for this identifier.
@@ -114,9 +114,9 @@ std::string search_search2 (Webserver_Request& webserver_request)
     bool plaintext = (webserver_request.query ["p"] == "true");
     std::string books = webserver_request.query ["b"];
     std::string sharing = webserver_request.query ["s"];
-    database::volatile_::set_value (identifier, "query", query);
-    database::volatile_::set_value (identifier, "casesensitive", filter::strings::convert_to_string (casesensitive));
-    database::volatile_::set_value (identifier, "plaintext", filter::strings::convert_to_string (plaintext));
+    database::temporal::set_value (identifier, "query", query);
+    database::temporal::set_value (identifier, "casesensitive", filter::strings::convert_to_string (casesensitive));
+    database::temporal::set_value (identifier, "plaintext", filter::strings::convert_to_string (plaintext));
     
     
     // Deal with case sensitivity.
@@ -172,7 +172,7 @@ std::string search_search2 (Webserver_Request& webserver_request)
       hits.push_back (passage.encode ());
     }
     if (sharing != "load") {
-      std::vector <std::string> loaded_hits = filter::strings::explode (database::volatile_::get_value (identifier, "hits"), '\n');
+      std::vector <std::string> loaded_hits = filter::strings::explode (database::temporal::get_value (identifier, "hits"), '\n');
       if (sharing == "add") {
         hits.insert (hits.end(), loaded_hits.begin(), loaded_hits.end());
       }
@@ -191,7 +191,7 @@ std::string search_search2 (Webserver_Request& webserver_request)
 
 
     // Store search hits in the volatile database.
-    database::volatile_::set_value (identifier, "hits", output);
+    database::temporal::set_value (identifier, "hits", output);
 
 
     // Output results.

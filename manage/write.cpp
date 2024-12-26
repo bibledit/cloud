@@ -26,7 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 #include <webserver/request.h>
 #include <database/books.h>
-#include <database/volatile.h>
+#include <database/temporal.h>
 #include <locale/translate.h>
 #include <menu/logic.h>
 #include <manage/users.h>
@@ -61,17 +61,17 @@ std::string manage_write (Webserver_Request& webserver_request)
   std::string user {};
   if (webserver_request.query.count ("user")) {
     user = webserver_request.query["user"];
-    database::volatile_::set_value (userid, "manage_write_user", user);
+    database::temporal::set_value (userid, "manage_write_user", user);
   }
-  user = database::volatile_::get_value (userid, "manage_write_user");
+  user = database::temporal::get_value (userid, "manage_write_user");
   view.set_variable ("user", user);
   
   std::string bible {};
   if (webserver_request.query.count ("bible")) {
     bible = webserver_request.query["bible"];
-    database::volatile_::set_value (userid, "manage_write_bible", bible);
+    database::temporal::set_value (userid, "manage_write_bible", bible);
   }
-  bible = database::volatile_::get_value (userid, "manage_write_bible");
+  bible = database::temporal::get_value (userid, "manage_write_bible");
   view.set_variable ("bible", bible);
 
   auto [ bible_read_access, bible_write_access ] = DatabasePrivileges::get_bible (user, bible);

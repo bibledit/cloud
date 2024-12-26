@@ -22,7 +22,7 @@
 #include <filter/string.h>
 #include <webserver/request.h>
 #include <consistency/logic.h>
-#include <database/volatile.h>
+#include <database/temporal.h>
 
 
 std::string consistency_input_url ()
@@ -42,10 +42,10 @@ std::string consistency_input (Webserver_Request& webserver_request)
   const int id = filter::strings::convert_to_int (webserver_request.post ["id"]);
   const std::string passages = webserver_request.post ["passages"];
   const std::string translations = webserver_request.post ["translations"];
-  database::volatile_::set_value (id, "passages", passages);
-  database::volatile_::set_value (id, "translations", translations);
+  database::temporal::set_value (id, "passages", passages);
+  database::temporal::set_value (id, "translations", translations);
   Consistency_Logic consistency_logic (webserver_request, id);
   const std::string response = consistency_logic.response ();
-  database::volatile_::set_value (id, "response", response);
+  database::temporal::set_value (id, "response", response);
   return response;
 }

@@ -24,25 +24,24 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include "gtest/gtest.h"
 #pragma GCC diagnostic pop
 #include <unittests/utilities.h>
-#include <database/volatile.h>
+#include <database/temporal.h>
 
 
-TEST (database, volatile)
+TEST (database, temporal)
 {
   // No value initially.
-  std::string value = database::volatile_::get_value (1, "key");
+  std::string value = database::temporal::get_value (1, "key");
   EXPECT_EQ (std::string(), value);
   
   // Store value and retrieve it.
-  database::volatile_::set_value (2, "key2", "value2");
-  value = database::volatile_::get_value (2, "key2");
+  database::temporal::set_value (2, "key2", "value2");
+  value = database::temporal::get_value (2, "key2");
   EXPECT_EQ ("value2", value);
   
   // Another key should retrieve nothing.
-  value = database::volatile_::get_value (2, "key1");
+  value = database::temporal::get_value (2, "key1");
   EXPECT_EQ (std::string(), value);
 }
 
 
 #endif
-

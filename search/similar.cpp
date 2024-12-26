@@ -26,7 +26,7 @@
 #include <filter/passage.h>
 #include <webserver/request.h>
 #include <locale/translate.h>
-#include <database/volatile.h>
+#include <database/temporal.h>
 #include <database/config/bible.h>
 #include <ipc/focus.h>
 #include <search/logic.h>
@@ -76,7 +76,7 @@ std::string search_similar (Webserver_Request& webserver_request)
       versetext = filter::strings::replace (sign, "", versetext);
     }
     versetext = filter::strings::trim (versetext);
-    database::volatile_::set_value (myIdentifier, "searchsimilar", versetext);
+    database::temporal::set_value (myIdentifier, "searchsimilar", versetext);
     return versetext;
   }
   
@@ -85,7 +85,7 @@ std::string search_similar (Webserver_Request& webserver_request)
     
     std::string words = webserver_request.query ["words"];
     words = filter::strings::trim (words);
-    database::volatile_::set_value (myIdentifier, "searchsimilar", words);
+    database::temporal::set_value (myIdentifier, "searchsimilar", words);
     std::vector <std::string> vwords = filter::strings::explode (words, ' ');
     
     // Include items if there are no more search hits than 30% of the total number of verses in the Bible.
@@ -150,7 +150,7 @@ std::string search_similar (Webserver_Request& webserver_request)
     std::string text = search_logic_get_bible_verse_text (bible2, book, chapter, filter::strings::convert_to_int (verse));
     
     // Get search words.
-    std::vector <std::string> words = filter::strings::explode (database::volatile_::get_value (myIdentifier, "searchsimilar"), ' ');
+    std::vector <std::string> words = filter::strings::explode (database::temporal::get_value (myIdentifier, "searchsimilar"), ' ');
     
     // Format it.
     std::string link = filter_passage_link_for_opening_editor_at (book, chapter, verse);

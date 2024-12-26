@@ -22,7 +22,7 @@
 #include <filter/string.h>
 #include <webserver/request.h>
 #include <consistency/logic.h>
-#include <database/volatile.h>
+#include <database/temporal.h>
 
 
 std::string consistency_poll_url ()
@@ -42,8 +42,8 @@ std::string consistency_poll (Webserver_Request& webserver_request)
   const int id = filter::strings::convert_to_int (webserver_request.query ["id"]);
   Consistency_Logic consistency_logic = Consistency_Logic (webserver_request, id);
   const std::string response = consistency_logic.response ();
-  if (response != database::volatile_::get_value (id, "response")) {
-    database::volatile_::set_value (id, "response", response);
+  if (response != database::temporal::get_value (id, "response")) {
+    database::temporal::set_value (id, "response", response);
     return response;
   }
   return std::string();

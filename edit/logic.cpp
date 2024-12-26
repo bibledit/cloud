@@ -20,7 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <edit/logic.h>
 #include <filter/string.h>
 #include <database/bibles.h>
-#include <database/volatile.h>
+#include <database/temporal.h>
 #include <webserver/request.h>
 
 
@@ -46,7 +46,7 @@ void storeLoadedUsfm2 (Webserver_Request& webserver_request, std::string bible, 
   
   const std::string usfm = database::bibles::get_chapter (bible, book, chapter);
   
-  database::volatile_::set_value (userid, key, usfm);
+  database::temporal::set_value (userid, key, usfm);
 }
 
 
@@ -56,7 +56,7 @@ std::string getLoadedUsfm2 (Webserver_Request& webserver_request, std::string bi
   
   const std::string key = edit2_logic_volatile_key (bible, book, chapter, editor);
   
-  const std::string usfm = database::volatile_::get_value (userid, key);
+  const std::string usfm = database::temporal::get_value (userid, key);
   
   return usfm;
 }

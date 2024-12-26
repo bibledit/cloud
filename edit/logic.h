@@ -29,3 +29,10 @@ void store_loaded_usfm (Webserver_Request& webserver_request,
 std::string get_loaded_usfm (Webserver_Request& webserver_request,
                              const std::string& bible, const int book, const int chapter,
                              const std::string& editor);
+void store_loaded_word_level_attributes (Webserver_Request& webserver_request,
+                                         const std::string& bible, const int book, const int chapter,
+                                         const std::string& editor,
+                                         const std::map<int,std::string>& word_level_attributes);
+std::map<int,std::string> get_loaded_word_level_attributes (Webserver_Request& webserver_request,
+                                                            const std::string& bible, const int book, const int chapter,
+                                                            const std::string& editor);

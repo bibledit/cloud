@@ -24,9 +24,27 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <webserver/request.h>
 
 
-static std::string edit_logic_volatile_key (std::string bible, int book, int chapter, std::string editor)
+static std::string usfm_key (const std::string& bible, const int book, const int chapter,
+                             const std::string& editor)
 {
-  std::string key;
+  std::string key {"usfm"};
+  key.append (" ");
+  key.append (bible);
+  key.append (" ");
+  key.append (filter::strings::fill (std::to_string (book), 2, '0'));
+  key.append (" ");
+  key.append (filter::strings::fill (std::to_string (chapter), 3, '0'));
+  key.append (" ");
+  key.append (editor);
+  return key;
+}
+
+
+static std::string word_level_attributes_key (const std::string& bible, const int book, const int chapter,
+                                              const std::string& editor)
+{
+  std::string key {"wla"};
+  key.append (" ");
   key.append (bible);
   key.append (" ");
   key.append (filter::strings::fill (std::to_string (book), 2, '0'));
@@ -43,7 +61,7 @@ void store_loaded_usfm (Webserver_Request& webserver_request,
                         const std::string& editor)
 {
   const int userid = filter::strings::user_identifier (webserver_request);
-  const std::string key = edit_logic_volatile_key (bible, book, chapter, editor);
+  const std::string key = usfm_key (bible, book, chapter, editor);
   const std::string usfm = database::bibles::get_chapter (bible, book, chapter);
   database::temporal::set_value (userid, key, usfm);
 }
@@ -54,7 +72,52 @@ std::string get_loaded_usfm (Webserver_Request& webserver_request,
                              const std::string& editor)
 {
   const int userid = filter::strings::user_identifier (webserver_request);
-  const std::string key = edit_logic_volatile_key (bible, book, chapter, editor);
+  const std::string key = usfm_key (bible, book, chapter, editor);
   const std::string usfm = database::temporal::get_value (userid, key);
   return usfm;
+}
+
+
+void store_loaded_word_level_attributes (Webserver_Request& webserver_request, // Todo use it.
+                                         const std::string& bible, const int book, const int chapter,
+                                         const std::string& editor,
+                                         const std::map<int,std::string>& word_level_attributes)
+{
+  const int userid = filter::strings::user_identifier (webserver_request);
+  const std::string key = word_level_attributes_key (bible, book, chapter, editor);
+  std::string value;
+  for (const auto& element : word_level_attributes) {
+    value.append(std::to_string(element.first));
+    value.append("\n");
+    value.append(element.second);
+    value.append("\n");
+  }
+  database::temporal::set_value (userid, key, value);
+}
+
+
+std::map<int,std::string> get_loaded_word_level_attributes (Webserver_Request& webserver_request, // Todo use it.
+                                                            const std::string& bible, const int book, const int chapter,
+                                                            const std::string& editor)
+{
+  const int userid = filter::strings::user_identifier (webserver_request);
+  const std::string key = word_level_attributes_key (bible, book, chapter, editor);
+  const std::string value = database::temporal::get_value (userid, key);
+  const std::vector<std::string> lines = filter::strings::explode(value, '\n');
+  std::map<int,std::string> attributes{};
+  try {
+    std::optional<int> key {};
+    for (const auto& line : lines) {
+      if (!key) {
+        // This is unlikely to throw but could if data is malformed.
+        key = std::stoi(line);
+      } else {
+        attributes.insert({key.value(), line});
+        key.reset();
+      }
+    }
+  } catch (...) {
+    return {};
+  }
+  return attributes;
 }

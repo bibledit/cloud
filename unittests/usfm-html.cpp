@@ -30,6 +30,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 #include <filter/url.h>
 #include <database/state.h>
+#include <webserver/request.h>
+#include <edit/logic.h>
 
 
 class usfm_html : public ::testing::Test
@@ -1759,6 +1761,34 @@ TEST_F (usfm_html, word_level_attributes_linking)
   editor_html2usfm.set_word_level_attributes(attributes);
   editor_html2usfm.run ();
   EXPECT_EQ (filter::strings::trim(usfm), editor_html2usfm.get ());
+}
+
+
+TEST_F (usfm_html, store_load_word_level_attributes)
+{
+  Webserver_Request webserver_request {};
+  constexpr const char* bible {"bible"};
+  constexpr int book {2};
+  constexpr int chapter {3};
+  constexpr const char* editor {"editor"};
+  const std::map<int,std::string> attributes {
+    {0, R"(default)"},
+    {2, R"(A::A)"},
+    {4, R"(BBBB)"},
+    {5, R"(key="value")"},
+    {6, R"(key1="value1" key2="value2")"},
+    {9, R"(hebrew="ישו המשיח")"},
+  };
+
+  // Store the attributes and test correct retrieval.
+  store_loaded_word_level_attributes (webserver_request, bible, book, chapter, editor, attributes);
+  EXPECT_EQ(attributes, get_loaded_word_level_attributes (webserver_request, bible, book, chapter, editor));
+  
+  // Check that changing any parameter will retrieve an empty container of attributes.
+  EXPECT_TRUE(get_loaded_word_level_attributes (webserver_request, std::string(bible)+"b", book, chapter, editor).empty());
+  EXPECT_TRUE(get_loaded_word_level_attributes (webserver_request, bible, book+1, chapter, editor).empty());
+  EXPECT_TRUE(get_loaded_word_level_attributes (webserver_request, bible, book, chapter+1, editor).empty());
+  EXPECT_TRUE(get_loaded_word_level_attributes (webserver_request, bible, book, chapter, std::string(editor)+"e").empty());
 }
 
 

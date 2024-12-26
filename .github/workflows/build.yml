@@ -14,7 +14,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: apt install
-      run: sudo apt install autotools-dev autoconf autoconf-archive git zip pkgconf libcurl4-openssl-dev libssl-dev poppler-utils libsword-utils diatheke ldap-utils libmimetic-dev certbot libxml2-dev libutf8proc-dev libgumbo-dev libtidy-dev
+      run: apt search libcurl ; sudo apt install autotools-dev autoconf autoconf-archive git zip pkgconf libcurl4-openssl-dev libssl-dev poppler-utils libsword-utils diatheke ldap-utils libmimetic-dev certbot libxml2-dev libutf8proc-dev libgumbo-dev libtidy-dev
     - name: configure
       run: ./configure
     - name: make

@@ -15,10 +15,10 @@ jobs:
     - uses: actions/checkout@v2
     - name: apt update
       run: sudo apt update
-    - name: apt search
-      run: apt search libcurl4
     - name: apt install
       run: sudo apt install autotools-dev autoconf autoconf-archive git zip pkgconf libcurl4-openssl-dev libssl-dev poppler-utils libsword-utils diatheke ldap-utils libmimetic-dev certbot libxml2-dev libutf8proc-dev libgumbo-dev libtidy-dev
+    - name: reconfigure
+      run: ./reconfigure
     - name: configure
       run: ./configure
     - name: make

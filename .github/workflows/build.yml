@@ -13,6 +13,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: apt update
+      run: sudo apt update
     - name: apt search
       run: apt search libcurl4
     - name: apt install

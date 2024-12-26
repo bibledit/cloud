@@ -41,33 +41,34 @@ bool editone_load_acl (Webserver_Request& webserver_request)
 {
   if (Filter_Roles::access_control (webserver_request, Filter_Roles::translator ()))
     return true;
-  auto [ read, write ] = access_bible::any (webserver_request);
+  const auto [ read, write ] = access_bible::any (webserver_request);
   return read;
 }
 
 
 std::string editone_load (Webserver_Request& webserver_request)
 {
-  std::string bible = webserver_request.query ["bible"];
-  int book = filter::strings::convert_to_int (webserver_request.query ["book"]);
-  int chapter = filter::strings::convert_to_int (webserver_request.query ["chapter"]);
-  int verse = filter::strings::convert_to_int (webserver_request.query ["verse"]);
-  std::string unique_id = webserver_request.query ["id"];
+  const std::string bible = webserver_request.query ["bible"];
+  const int book = filter::strings::convert_to_int (webserver_request.query ["book"]);
+  const int chapter = filter::strings::convert_to_int (webserver_request.query ["chapter"]);
+  const int verse = filter::strings::convert_to_int (webserver_request.query ["verse"]);
+  const std::string unique_id = webserver_request.query ["id"];
   
   const std::string stylesheet = database::config::bible::get_editor_stylesheet (bible);
 
-  std::string chapter_usfm = database::bibles::get_chapter (bible, book, chapter);
+  const std::string chapter_usfm = database::bibles::get_chapter (bible, book, chapter);
 
-  std::vector <int> verses = filter::usfm::get_verse_numbers (chapter_usfm);
+  const std::vector <int> verses = filter::usfm::get_verse_numbers (chapter_usfm);
   int highest_verse = 0;
-  if (!verses.empty ()) highest_verse = verses.back ();
+  if (!verses.empty ())
+    highest_verse = verses.back ();
   
   // The Quill-based editor removes empty paragraphs at the end.
   // Therefore do not include them.
-  std::string editable_usfm = filter::usfm::get_verse_text_quill (chapter_usfm, verse);
+  const std::string editable_usfm = filter::usfm::get_verse_text_quill (chapter_usfm, verse); // Todo
   
-  std::string prefix_usfm = filter::usfm::get_verse_range_text (chapter_usfm, 0, verse - 1, editable_usfm, true);
-  std::string suffix_usfm = filter::usfm::get_verse_range_text (chapter_usfm, verse + 1, highest_verse, editable_usfm, true);
+  const std::string prefix_usfm = filter::usfm::get_verse_range_text (chapter_usfm, 0, verse - 1, editable_usfm, true);
+  const std::string suffix_usfm = filter::usfm::get_verse_range_text (chapter_usfm, verse + 1, highest_verse, editable_usfm, true);
 
   // Store a copy of the USFM loaded in the editor for later reference.
   // Note that this verse editor has been tested that it uses the correct sequence
@@ -77,7 +78,7 @@ std::string editone_load (Webserver_Request& webserver_request)
   // 2. It updates the chapter snapshot.
   // 3. It loads the other verse.
   // 4. It updates the chapter snapshot.
-  store_loaded_usfm (webserver_request, bible, book, chapter, unique_id);
+  store_loaded_usfm (webserver_request, bible, book, chapter, unique_id); // Todo
   
   std::string prefix_html;
   std::string not_used;
@@ -96,16 +97,16 @@ std::string editone_load (Webserver_Request& webserver_request)
   // for easier text entry in the verse.
   std::string plain_text = filter::strings::html2text (focused_verse_html);
   plain_text = filter::strings::trim (plain_text);
-  std::string vs = std::to_string (verse);
-  bool editable_verse_is_empty = plain_text == vs;
+  const std::string vs = std::to_string (verse);
+  const bool editable_verse_is_empty = plain_text == vs;
   if (editable_verse_is_empty) {
-    std::string search = "<span> </span></p>";
-    std::string replace = "<span>" + filter::strings::unicode_non_breaking_space_entity () + "</span></p>";
+    const std::string search = "<span> </span></p>";
+    const std::string replace = "<span>" + filter::strings::unicode_non_breaking_space_entity () + "</span></p>";
     focused_verse_html = filter::strings::replace (search, replace, focused_verse_html);
   }
 
   // Moves any notes from the prefix to the suffix.
-  editone_logic_move_notes_v2 (prefix_html, suffix_html);
+  editone_logic_move_notes (prefix_html, suffix_html);
   
   std::string data;
   data.append (prefix_html);
@@ -115,7 +116,7 @@ std::string editone_load (Webserver_Request& webserver_request)
   data.append (suffix_html);
   
   const std::string& user = webserver_request.session_logic ()->get_username ();
-  bool write = access_bible::book_write (webserver_request, user, bible, book);
+  const bool write = access_bible::book_write (webserver_request, user, bible, book);
   data = checksum_logic::send (data, write);
 
   return data;

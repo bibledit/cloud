@@ -115,7 +115,7 @@ std::string editone_logic_html_to_usfm (std::string stylesheet, std::string html
 
 
 // Move the notes from the $prefix to the $suffix.
-void editone_logic_move_notes_v2 (std::string & prefix, std::string & suffix)
+void editone_logic_move_notes (std::string & prefix, std::string & suffix)
 {
   // No input: Ready.
   if (prefix.empty ()) return;

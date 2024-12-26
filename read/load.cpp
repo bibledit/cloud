@@ -105,7 +105,7 @@ std::string read_load (Webserver_Request& webserver_request)
   }
 
   // Moves any notes from the prefix to the suffix.
-  editone_logic_move_notes_v2 (prefix_html, suffix_html);
+  editone_logic_move_notes (prefix_html, suffix_html);
   
   std::string data;
   data.append (prefix_html);

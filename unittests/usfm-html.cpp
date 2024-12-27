@@ -1049,7 +1049,7 @@ TEST_F (usfm_html, verse_wo_starting_paragraph)
   editor_usfm2html.run ();
   std::string output = editor_usfm2html.get ();
   EXPECT_EQ (html, output);
-  output = editor_export_verse_quill (styles_logic_standard_sheet (), html);
+  output = editor_export_verse_quill (styles_logic_standard_sheet (), html, {});
   EXPECT_EQ (usfm, output);
   
   Editor_Html2Usfm editor_html2usfm;
@@ -1075,7 +1075,7 @@ TEST_F (usfm_html, verse_ch1_vs0)
   std::string html = R"(<p class="b-c"><span>1</span></p><p class="b-p"><br/></p>)";
   EXPECT_EQ (html, output);
   
-  output = editor_export_verse_quill (styles_logic_standard_sheet (), html);
+  output = editor_export_verse_quill (styles_logic_standard_sheet (), html, {});
   EXPECT_EQ (usfm, output);
 }
 
@@ -1098,7 +1098,7 @@ TEST_F (usfm_html, verse_editor_ch0_vs0)
   std::string html = R"(<p class="b-mono"><span>\id </span><span>GEN Genesis</span></p><p class="b-mono"><span>\h </span><span>Genesis</span></p><p class="b-mono"><span>\toc1 </span><span>The First Book of Moses, called Genesis</span></p><p class="b-mt1"><span>The First Book of Moses, called Genesis</span></p>)";
   EXPECT_EQ (html, output);
   
-  output = editor_export_verse_quill (styles_logic_standard_sheet (), html);
+  output = editor_export_verse_quill (styles_logic_standard_sheet (), html, {});
   EXPECT_EQ (usfm, output);
 }
 
@@ -1116,7 +1116,7 @@ TEST_F (usfm_html, verse_editor_paragraph_w_content)
   std::string output = editor_usfm2html.get ();
   EXPECT_EQ (html, output);
   
-  output = editor_export_verse_quill (styles_logic_standard_sheet (), html);
+  output = editor_export_verse_quill (styles_logic_standard_sheet (), html, {});
   EXPECT_EQ (usfm, output);
 }
 

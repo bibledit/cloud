@@ -70,4 +70,5 @@ private:
   std::string m_last_added_text_fragment{};
 };
 
-std::string editor_export_verse_quill (std::string stylesheet, std::string html);
+std::string editor_export_verse_quill (const std::string& stylesheet, std::string html,
+                                       const std::map<int,std::string>& word_level_attributes);

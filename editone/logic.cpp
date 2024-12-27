@@ -47,7 +47,8 @@ void editone_logic_prefix_html (const std::string& usfm, const std::string& styl
 
 
 void editone_logic_editable_html (const std::string& usfm, const std::string& stylesheet,
-                                  std::string& html) // Todo return attributes too.
+                                  std::string& html,
+                                  std::map<int,std::string>& word_level_attributes) // Todo return attributes too.
 {
   if (!usfm.empty ()) {
     Editor_Usfm2Html editor_usfm2html;
@@ -55,6 +56,7 @@ void editone_logic_editable_html (const std::string& usfm, const std::string& st
     editor_usfm2html.stylesheet (stylesheet);
     editor_usfm2html.run ();
     html = editor_usfm2html.get ();
+    word_level_attributes = editor_usfm2html.get_word_level_attributes();
   }
 }
 
@@ -96,13 +98,14 @@ void editone_logic_suffix_html (const std::string& editable_last_p_style, const 
 }
 
 
-std::string editone_logic_html_to_usfm (const std::string& stylesheet, std::string html)
+std::string editone_logic_html_to_usfm (const std::string& stylesheet, std::string html,
+                                        const std::map<int,std::string>& word_level_attributes) // Todo pass the attributes too.
 {
   // It used to convert XML entities to normal characters.
   // For example, it used to convert "&lt;" to "<".
   // But doing this too early in the conversion chain led to the following problem:
   // The XML parser was taking the "<" character as part of an XML element.
-  // It than didn't find the closing ">" marker, and then complained about parsing errors.
+  // It then didn't find the closing ">" marker, and then complained about parsing errors.
   // And it dropped whatever followed the "<" marker.
   // So it now no longer unescapes the XML special characters this early in the chain.
   // It does it much later now, before saving the USFM that the converter produces.
@@ -111,7 +114,7 @@ std::string editone_logic_html_to_usfm (const std::string& stylesheet, std::stri
   html = filter::strings::any_space_to_standard_space (std::move(html));
 
   // Convert the html back to USFM in the special way for editing one verse.
-  const std::string usfm = editor_export_verse_quill (stylesheet, std::move(html));
+  const std::string usfm = editor_export_verse_quill (stylesheet, std::move(html), word_level_attributes); // Todo
 
   // Done.
   return usfm;

@@ -87,7 +87,8 @@ std::string read_load (Webserver_Request& webserver_request)
   // It is convenient to have the footnote as near as possible to the verse text.
   // This is helpful for editing the verse and note.
   std::string focused_verse_html;
-  editone_logic_editable_html (editable_usfm, stylesheet, focused_verse_html);
+  std::map<int,std::string> word_level_attributes; // Todo handle.
+  editone_logic_editable_html (editable_usfm, stylesheet, focused_verse_html, word_level_attributes);
   
   std::string suffix_html;
   editone_logic_suffix_html ("", suffix_usfm, stylesheet, suffix_html);

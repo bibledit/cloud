@@ -185,7 +185,10 @@ TEST (editone, logic)
 
       // The rendered html of the editable verse.
       std::string editable_html;
-      editone_logic_editable_html (editable_usfm, stylesheet, editable_html);
+      {
+        std::map<int,std::string> word_level_attributes;
+        editone_logic_editable_html (editable_usfm, stylesheet, editable_html, word_level_attributes);
+      }
       reference = filter_url_file_get_contents (filter_url_create_path ({directory, "editone06verse" + number + "edit.html"}));
       EXPECT_EQ (reference, editable_html);
       if (reference != editable_html) test_editone_logic_verse_indicator (verse);

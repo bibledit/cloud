@@ -507,6 +507,7 @@ void Editor_Usfm2Html::add_text (const std::string& text)
           // It accepts class="i-add" but not class="i-add-nd". It fails on that second hyphen.
           // It also does not accept an underscore as part of the class name.
           // That causes the whole class to be removed.
+          // If a class is given as "i-add i-nd", then Quill removes the second class and remains with the first.
           // Right now the way to deal with a class with two styles is like this "i-add0nd".
           // It has one hyphen. And a "0" to separate the two styles.
           textstyle.append ("0");
@@ -805,8 +806,12 @@ void Editor_Usfm2Html::extract_word_level_attributes()
   // Check the text following this markup whether it contains word-level attribut(s).
   std::string possible_markup = filter::usfm::peek_text_following_marker (m_markers_and_text, m_markers_and_text_pointer);
   
-  // If the markup is too short to contain even a default attribute of 1 character long, then bail out.
-  if (possible_markup.empty())
+  // The minumum length of the markup is:
+  // 1. The canonical word: At least 1 character.
+  // 2. The vertical bar: One character.
+  // 3. The attribute: At least character for the default auttribute.
+  // If the markup is too short then bail out.
+  if (possible_markup.size() < 3)
     return;
   
   // Look for the vertical bar. If it's not there, bail out.

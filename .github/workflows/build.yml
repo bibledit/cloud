@@ -23,3 +23,5 @@ jobs:
       run: ./configure
     - name: make
       run: make
+    - name: test
+      run: ./unittest

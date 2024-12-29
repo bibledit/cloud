@@ -276,8 +276,8 @@ std::string editone_update (Webserver_Request& webserver_request)
     std::string server_html;
     {
       std::string verse_usfm = filter::usfm::get_verse_text_quill (new_chapter_usfm, verse);
-      std::map<int,std::string> word_level_attributes; // Todo handle.
-      editone_logic_editable_html (verse_usfm, stylesheet, server_html, word_level_attributes);
+      std::map<int,std::string> dummy_wla;
+      editone_logic_editable_html (verse_usfm, stylesheet, server_html, dummy_wla);
     }
     std::vector <int> positions;
     std::vector <int> sizes;

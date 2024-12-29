@@ -54,7 +54,7 @@ bool edit_update_acl (Webserver_Request& webserver_request)
 {
   if (Filter_Roles::access_control (webserver_request, Filter_Roles::translator ()))
     return true;
-  auto [ read, write ] = access_bible::any (webserver_request);
+  const auto [ read, write ] = access_bible::any (webserver_request);
   return read;
 }
 
@@ -86,8 +86,8 @@ std::string edit_update (Webserver_Request& webserver_request)
   
   // Get the relevant bits of information.
   std::string bible;
-  int book = 0;
-  int chapter = 0;
+  int book {0};
+  int chapter {0};
   std::string loaded_html;
   std::string edited_html;
   std::string checksum1;
@@ -153,9 +153,9 @@ std::string edit_update (Webserver_Request& webserver_request)
   // Collect some data about the changes for this user.
   const std::string& username = webserver_request.session_logic ()->get_username ();
 #ifdef HAVE_CLOUD
-  int oldID = 0;
+  int old_id = 0;
   if (good2go) {
-    oldID = database::bibles::get_chapter_id (bible, book, chapter);
+    old_id = database::bibles::get_chapter_id (bible, book, chapter);
   }
 #endif
   std::string old_chapter_usfm;
@@ -163,7 +163,11 @@ std::string edit_update (Webserver_Request& webserver_request)
     old_chapter_usfm = database::bibles::get_chapter (bible, book, chapter);
   }
 
-  
+
+  // Load the word-level attributes, if any, saved earlier on.
+  const std::map<int,std::string> word_level_attributes = get_loaded_word_level_attributes (webserver_request, bible, book, chapter, unique_id);
+
+
   // Determine what version of USFM to save to the chapter.
   // Later in the code, it will do a three-way merge, to obtain that USFM.
   // This needs the loaded USFM as the ancestor,
@@ -174,6 +178,7 @@ std::string edit_update (Webserver_Request& webserver_request)
     Editor_Html2Usfm editor_export;
     editor_export.load (loaded_html);
     editor_export.stylesheet (stylesheet);
+    editor_export.set_word_level_attributes(word_level_attributes);
     editor_export.run ();
     loaded_chapter_usfm = editor_export.get ();
   }
@@ -182,24 +187,25 @@ std::string edit_update (Webserver_Request& webserver_request)
     Editor_Html2Usfm editor_export;
     editor_export.load (edited_html);
     editor_export.stylesheet (stylesheet);
+    editor_export.set_word_level_attributes(word_level_attributes);
     editor_export.run ();
     edited_chapter_usfm = editor_export.get ();
   }
-  std::string existing_chapter_usfm = filter::strings::trim (old_chapter_usfm);
+  const std::string existing_chapter_usfm = filter::strings::trim (old_chapter_usfm);
 
 
   // Check that the edited USFM contains no more than, and exactly the same as,
   // the book and chapter that was loaded in the editor.
   if (good2go && bible_write_access) {
-    std::vector <filter::usfm::BookChapterData> book_chapter_text = filter::usfm::usfm_import (edited_chapter_usfm, stylesheet);
+    const std::vector <filter::usfm::BookChapterData> book_chapter_text = filter::usfm::usfm_import (edited_chapter_usfm, stylesheet);
     if (book_chapter_text.size () != 1) {
       Database_Logs::log (translate ("A user tried to save something different from exactly one chapter"));
       messages.push_back (translate("Incorrect chapter"));
     }
-    int book_number = book_chapter_text[0].m_book;
-    int chapter_number = book_chapter_text[0].m_chapter;
+    const int book_number = book_chapter_text[0].m_book;
+    const int chapter_number = book_chapter_text[0].m_chapter;
     edited_chapter_usfm = book_chapter_text[0].m_data;
-    bool chapter_ok = (((book_number == book) || (book_number == 0)) && (chapter_number == chapter));
+    const bool chapter_ok = (((book_number == book) || (book_number == 0)) && (chapter_number == chapter));
     if (!chapter_ok) {
       messages.push_back (translate("Incorrect chapter") + " " + std::to_string (chapter_number));
     }
@@ -271,7 +277,7 @@ std::string edit_update (Webserver_Request& webserver_request)
 
   
   // The new chapter identifier and new chapter USFM.
-  int newID = database::bibles::get_chapter_id (bible, book, chapter);
+  int new_id = database::bibles::get_chapter_id (bible, book, chapter);
   std::string new_chapter_usfm;
   if (good2go) {
     new_chapter_usfm = database::bibles::get_chapter (bible, book, chapter);
@@ -283,7 +289,7 @@ std::string edit_update (Webserver_Request& webserver_request)
     if (message.empty ()) {
 #ifdef HAVE_CLOUD
       // The Cloud stores details of the user's changes.
-      database::modifications::recordUserSave (username, bible, book, chapter, oldID, old_chapter_usfm, newID, new_chapter_usfm);
+      database::modifications::recordUserSave (username, bible, book, chapter, old_id, old_chapter_usfm, new_id, new_chapter_usfm);
       if (sendreceive_git_repository_linked (bible)) {
         database::git::store_chapter (username, bible, book, chapter, old_chapter_usfm, new_chapter_usfm);
       }
@@ -313,7 +319,7 @@ std::string edit_update (Webserver_Request& webserver_request)
   
   // Add separator and the new chapter identifier to the response.
   response.append (separator);
-  response.append (std::to_string (newID));
+  response.append (std::to_string (new_id));
 
   
   // The main purpose of the following block of code is this:

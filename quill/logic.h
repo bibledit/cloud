@@ -28,7 +28,7 @@ constexpr const char* quill_class_prefix_block {"b-"};
 constexpr const char* quill_class_prefix_inline {"i-"};
 
 // The prefix used in a Quill-based editor for referencing word level attributes stored elsewhere.
-constexpr std::string_view quill_word_level_attribute_id_prefix {"wla"};
+constexpr std::string_view quill_word_level_attribute_class_prefix {"wla"};
 
 // The class of the notes container in a Quill-based editor.
 constexpr const char* quill_notes_class {"notes"};

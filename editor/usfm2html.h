@@ -100,7 +100,8 @@ private:
   bool road_is_clear ();
   
   // Word-level attributes.
-  int word_level_attributes_id {0};
+  int m_word_level_attributes_id {0};
+  int get_word_level_attributes_id(const bool next);
   std::optional<std::string> m_pending_word_level_attributes{};
   std::map<int,std::string> m_word_level_attributes{};
   void extract_word_level_attributes();

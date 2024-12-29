@@ -28,6 +28,25 @@
 #include <quill/logic.h>
 
 
+// This function returns a pair of:
+// 1. Normal classes, like "add", "nd", and so on.
+// 2. A string with the word-level attributes class, like "wla2" for example
+static std::pair<std::vector<std::string>, std::string>const get_standard_classes_and_wla_class (const std::string& class_name)
+{
+  constexpr char separator = '0';
+  std::vector <std::string> classes = filter::strings::explode (class_name, separator);
+  std::string wla{};
+  for (auto iter = classes.cbegin(); iter != classes.cend(); iter++) {
+    if (iter->find(quill_word_level_attribute_class_prefix) == 0) {
+      wla = *iter;
+      classes.erase(iter);
+      break;
+    }
+  }
+  return {classes, wla};
+};
+
+
 void Editor_Html2Usfm::load (std::string html)
 {
   // The web editor may insert non-breaking spaces. Convert them to normal spaces.
@@ -215,10 +234,10 @@ void Editor_Html2Usfm::open_element_node (pugi::xml_node& node)
 
 void Editor_Html2Usfm::close_element_node (const pugi::xml_node& node)
 {
-  // The tag and class names of this element node.
+  // The tag and class names of this element node, and the word-level attributes ID.
   const std::string tag_name = node.name ();
   std::string class_name = update_quill_class (node.attribute ("class").value ());
-  const std::string id = node.attribute("id").value();
+  auto [classes, wla_class] = get_standard_classes_and_wla_class (class_name);
   
   if (tag_name == "p")
   {
@@ -251,17 +270,17 @@ void Editor_Html2Usfm::close_element_node (const pugi::xml_node& node)
     if (class_name.substr (0, quill_note_caller_class.size()) == quill_note_caller_class)
       return;
     // Get the optional id for possible word-level attributes.
-    const auto get_wla_id = [&id]() -> std::optional<int> {
+    const auto get_wla_id = [](const std::string& id) -> std::optional<int> {
       if (!id.empty()) {
-        if (const size_t wla_pos = id.find(quill_word_level_attribute_id_prefix); wla_pos == 0) {
+        if (const size_t wla_pos = id.find(quill_word_level_attribute_class_prefix); wla_pos == 0) {
           try {
-            return std::stoi(id.substr(quill_word_level_attribute_id_prefix.size()));
+            return std::stoi(id.substr(quill_word_level_attribute_class_prefix.size()));
           } catch (...) { }
         }
       }
       return std::nullopt;
     };
-    const std::optional<int> wla_id = get_wla_id();
+    const std::optional<int> wla_id = get_wla_id(wla_class);
     // Do nothing if no endmarkers are supposed to be produced.
     // There's two exceptions:
     // 1. If a word-level attributes ID was found: This needs an endmarker.
@@ -278,8 +297,6 @@ void Editor_Html2Usfm::close_element_node (const pugi::xml_node& node)
         current_line.append(m_word_level_attributes.at(wla_id.value()));
       }
     // Add closing USFM, optionally closing embedded tags in reverse order.
-    char separator = '0';
-    std::vector <std::string> classes = filter::strings::explode (class_name, separator);
     character_styles = filter::strings::array_diff (character_styles, classes);
     reverse (classes.begin(), classes.end());
     for (unsigned int offset = 0; offset < classes.size(); offset++) {
@@ -303,8 +320,7 @@ void Editor_Html2Usfm::open_inline (const std::string& class_name)
   // The <span class="add">
   //   <span class="nd">Lord God</span>
   // is calling</span> you</span><span>.</span>
-  constexpr char separator = '0';
-  const std::vector <std::string> classes = filter::strings::explode (class_name, separator);
+  const auto [classes, wla] = get_standard_classes_and_wla_class(class_name);
   for (unsigned int offset = 0; offset < classes.size(); offset++) {
     const bool embedded = (character_styles.size () + offset) > 0;
     const std::string marker = classes[offset];

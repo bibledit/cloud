@@ -1610,6 +1610,51 @@ TEST_F (usfm_html, limited_spaces_collapse)
 }
 
 
+TEST_F (usfm_html, get_word_level_attributes_id)
+{
+  // Test that the word-level attributes ID never contains any "0" as part of the ID.
+  constexpr const int id_count {1100};
+  std::string usfm{};
+  for (int i {0}; i < id_count; i++) {
+    usfm.append(R"(\w A|B\w*)");
+  }
+  Editor_Usfm2Html editor_usfm2html;
+  editor_usfm2html.load (usfm);
+  editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
+  editor_usfm2html.run ();
+  const std::map<int,std::string> attributes = editor_usfm2html.get_word_level_attributes();
+  for (const auto& [id, text] : attributes) {
+    EXPECT_TRUE(std::to_string(id).find("0") == std::string::npos);
+  }
+  EXPECT_EQ(id_count, attributes.size());
+}
+
+
+TEST_F (usfm_html, word_level_attributes_basic)
+{
+  // This tests one basic attribute.
+  const std::string usfm = R"(\p A\w B|C="D"\w*)";
+  const std::string html = R"(<p class="b-p"><span>A</span><span class="i-w0wla1">B</span></p>)";
+
+  Editor_Usfm2Html editor_usfm2html;
+  editor_usfm2html.load (usfm);
+  editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
+  editor_usfm2html.run ();
+  EXPECT_EQ (html, editor_usfm2html.get());
+  const std::map<int,std::string> attributes {
+    {1, R"(C="D")"}
+  };
+  EXPECT_EQ (attributes, editor_usfm2html.get_word_level_attributes());
+  
+  Editor_Html2Usfm editor_html2usfm;
+  editor_html2usfm.load (html);
+  editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
+  editor_html2usfm.set_word_level_attributes(attributes);
+  editor_html2usfm.run ();
+  EXPECT_EQ (usfm, editor_html2usfm.get ());
+}
+
+
 TEST_F (usfm_html, word_level_attributes_strong)
 {
   // This tests Strong attributes.
@@ -1620,19 +1665,21 @@ TEST_F (usfm_html, word_level_attributes_strong)
   // Implementation comment: The extra spaces are ignored by Bibledit,
   // because Bibledit loads and saves the whole attributes string after the vertical bar as-is.
   const std::string usfm = R"(\p A \w B|strong="H1234"\w* \w C|strong="H2345"\w* D \w E|strong="H3456"\w* \w F|strong="H4567,H5678"\w* G)";
-  const std::string html = R"(<p class="b-p"><span>A </span><span class="i-w" id="wla0">B</span><span> </span><span class="i-w" id="wla1">C</span><span> D </span><span class="i-w" id="wla2">E</span><span> </span><span class="i-w" id="wla3">F</span><span> G</span></p>)";
+  const std::string html = R"(<p class="b-p"><span>A </span><span class="i-w0wla1">B</span><span> </span><span class="i-w0wla2">C</span><span> D </span><span class="i-w0wla3">E</span><span> </span><span class="i-w0wla4">F</span><span> G</span></p>)";
+
   Editor_Usfm2Html editor_usfm2html;
   editor_usfm2html.load (usfm);
   editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
   editor_usfm2html.run ();
   EXPECT_EQ (html, editor_usfm2html.get());
   const std::map<int,std::string> attributes {
-    {0, R"(strong="H1234")"},
-    {1, R"(strong="H2345")"},
-    {2, R"(strong="H3456")"},
-    {3, R"(strong="H4567,H5678")"},
+    {1, R"(strong="H1234")"},
+    {2, R"(strong="H2345")"},
+    {3, R"(strong="H3456")"},
+    {4, R"(strong="H4567,H5678")"},
   };
   EXPECT_EQ (attributes, editor_usfm2html.get_word_level_attributes());
+  
   Editor_Html2Usfm editor_html2usfm;
   editor_html2usfm.load (html);
   editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
@@ -1651,21 +1698,21 @@ TEST_F (usfm_html, word_level_attributes_ruby_gloss)
   // Parts of a phrase gloss may be left empty.
   // In the USFM below, one ruby gloss, the second and fourth base characters are unglossed.
   const std::string usfm = R"(\p A \rb BB|gloss="gg:gg"\rb* C \rb DD|"gg:gg"\rb* E \rb FFFF|g1::g3:\rb* One Han character with a single ruby gloss:\rb 哀|あい\rb*. Two Han characters with a single ruby phrase gloss: \rb 話賄|はなはなし\rb*. Phrase gloss broken down into individual pieces by adding colons between ruby characters: \rb 話賄|はな:はなし\rb*. A character sequence which includes non-Han characters (hiragana), which are not glossed: \rb 定ま|さだ:\rb*. An un-glossed character occurring between glossed characters in the “phrase”: \rb 神の子|かみ::こ\rb*.)";
-  const std::string html = R"(<p class="b-p"><span>A </span><span class="i-rb" id="wla0">BB</span><span> C </span><span class="i-rb" id="wla1">DD</span><span> E </span><span class="i-rb" id="wla2">FFFF</span><span> One Han character with a single ruby gloss:</span><span class="i-rb" id="wla3">哀</span><span>. Two Han characters with a single ruby phrase gloss: </span><span class="i-rb" id="wla4">話賄</span><span>. Phrase gloss broken down into individual pieces by adding colons between ruby characters: </span><span class="i-rb" id="wla5">話賄</span><span>. A character sequence which includes non-Han characters (hiragana), which are not glossed: </span><span class="i-rb" id="wla6">定ま</span><span>. An un-glossed character occurring between glossed characters in the “phrase”: </span><span class="i-rb" id="wla7">神の子</span><span>.</span></p>)";
+  const std::string html = R"(<p class="b-p"><span>A </span><span class="i-rb0wla1">BB</span><span> C </span><span class="i-rb0wla2">DD</span><span> E </span><span class="i-rb0wla3">FFFF</span><span> One Han character with a single ruby gloss:</span><span class="i-rb0wla4">哀</span><span>. Two Han characters with a single ruby phrase gloss: </span><span class="i-rb0wla5">話賄</span><span>. Phrase gloss broken down into individual pieces by adding colons between ruby characters: </span><span class="i-rb0wla6">話賄</span><span>. A character sequence which includes non-Han characters (hiragana), which are not glossed: </span><span class="i-rb0wla7">定ま</span><span>. An un-glossed character occurring between glossed characters in the “phrase”: </span><span class="i-rb0wla8">神の子</span><span>.</span></p>)";
   Editor_Usfm2Html editor_usfm2html;
   editor_usfm2html.load (usfm);
   editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
   editor_usfm2html.run ();
   EXPECT_EQ (html, editor_usfm2html.get());
   const std::map<int,std::string> attributes {
-    {0, R"(gloss="gg:gg")"},
-    {1, R"("gg:gg")"},
-    {2, R"(g1::g3:)"},
-    {3, R"(あい)"},
-    {4, R"(はなはなし)"},
-    {5, R"(はな:はなし)"},
-    {6, R"(さだ:)"},
-    {7, R"(かみ::こ)"},
+    {1, R"(gloss="gg:gg")"},
+    {2, R"("gg:gg")"},
+    {3, R"(g1::g3:)"},
+    {4, R"(あい)"},
+    {5, R"(はなはなし)"},
+    {6, R"(はな:はなし)"},
+    {7, R"(さだ:)"},
+    {8, R"(かみ::こ)"},
   };
   EXPECT_EQ (attributes, editor_usfm2html.get_word_level_attributes());
   Editor_Html2Usfm editor_html2usfm;
@@ -1683,15 +1730,15 @@ TEST_F (usfm_html, word_level_attributes_default)
   // USFM 3 writes:
   // The unidentified attribute is acceptable because lemma is defined as the default attribute for \w ...\w*.
   const std::string usfm = R"(\p A \w B|lemma="C"\w* D\w B|C\w* E.)";
-  const std::string html = R"(<p class="b-p"><span>A </span><span class="i-w" id="wla0">B</span><span> D</span><span class="i-w" id="wla1">B</span><span> E.</span></p>)";
+  const std::string html = R"(<p class="b-p"><span>A </span><span class="i-w0wla1">B</span><span> D</span><span class="i-w0wla2">B</span><span> E.</span></p>)";
   Editor_Usfm2Html editor_usfm2html;
   editor_usfm2html.load (usfm);
   editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
   editor_usfm2html.run ();
   EXPECT_EQ (html, editor_usfm2html.get());
   const std::map<int,std::string> attributes {
-    {0, R"(lemma="C")"},
-    {1, R"(C)"},
+    {1, R"(lemma="C")"},
+    {2, R"(C)"},
   };
   EXPECT_EQ (attributes, editor_usfm2html.get_word_level_attributes());
   Editor_Html2Usfm editor_html2usfm;
@@ -1709,14 +1756,14 @@ TEST_F (usfm_html, word_level_attributes_multiple)
   // USFM 3 writes:
   // The unidentified attribute is acceptable because lemma is defined as the default attribute for \w ...\w*.
   const std::string usfm = R"(\p Text with multiple attributes: \w gracious|lemma="grace" x-myattr="metadata"\w*.)";
-  const std::string html = R"(<p class="b-p"><span>Text with multiple attributes: </span><span class="i-w" id="wla0">gracious</span><span>.</span></p>)";
+  const std::string html = R"(<p class="b-p"><span>Text with multiple attributes: </span><span class="i-w0wla1">gracious</span><span>.</span></p>)";
   Editor_Usfm2Html editor_usfm2html;
   editor_usfm2html.load (usfm);
   editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
   editor_usfm2html.run ();
   EXPECT_EQ (html, editor_usfm2html.get());
   const std::map<int,std::string> attributes {
-    {0, R"(lemma="grace" x-myattr="metadata")"},
+    {1, R"(lemma="grace" x-myattr="metadata")"},
   };
   EXPECT_EQ (attributes, editor_usfm2html.get_word_level_attributes());
   Editor_Html2Usfm editor_html2usfm;
@@ -1740,17 +1787,17 @@ TEST_F (usfm_html, word_level_attributes_linking)
 \v 1 Verse one.
 \v 2 Verse two, cross reference\x - \xt 1|GEN 2:2\xt*\x* with a link reference.
 )";
-  const std::string html = R"(<p class="b-c"><span>2</span></p><p class="b-cd"><span class="i-xt" id="wla0">1</span><span> A </span><span class="i-xt" id="wla1">8</span><span> B </span><span class="i-xt" id="wla2">18</span><span> C </span><span class="i-xt" id="wla3">21</span><span> E</span></p><p class="b-p"><span class="i-v">1</span><span> </span><span>Verse one.</span><span> </span><span class="i-v">2</span><span> </span><span>Verse two, cross reference</span><span class="i-notecall1">a</span><span> with a link reference.</span></p><p class="b-notes"> </p><p class="b-x"><span class="i-notebody1">a</span><span> </span><span>- </span><span class="i-xt">1|GEN 2:2</span></p>)";
+  const std::string html = R"(<p class="b-c"><span>2</span></p><p class="b-cd"><span class="i-xt0wla1">1</span><span> A </span><span class="i-xt0wla2">8</span><span> B </span><span class="i-xt0wla3">18</span><span> C </span><span class="i-xt0wla4">21</span><span> E</span></p><p class="b-p"><span class="i-v">1</span><span> </span><span>Verse one.</span><span> </span><span class="i-v">2</span><span> </span><span>Verse two, cross reference</span><span class="i-notecall1">a</span><span> with a link reference.</span></p><p class="b-notes"> </p><p class="b-x"><span class="i-notebody1">a</span><span> </span><span>- </span><span class="i-xt">1|GEN 2:2</span></p>)";
   Editor_Usfm2Html editor_usfm2html;
   editor_usfm2html.load (usfm);
   editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
   editor_usfm2html.run ();
   EXPECT_EQ (html, editor_usfm2html.get());
   const std::map<int,std::string> attributes {
-    {0, "GEN 2:1"},
-    {1, "GEN 2:8"},
-    {2, "GEN 2:18"},
-    {3, "GEN 2:21"}
+    {1, "GEN 2:1"},
+    {2, "GEN 2:8"},
+    {3, "GEN 2:18"},
+    {4, "GEN 2:21"}
   };
   // Note that the word-level attribute "GEN 2:2" was not extracted from the cross reference,
   // as this was output as-is.

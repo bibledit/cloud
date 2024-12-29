@@ -498,10 +498,10 @@ void Editor_Usfm2Html::add_text (const std::string& text)
     }
     pugi::xml_node span_dom_element = m_current_p_node.append_child ("span");
     span_dom_element.text ().set (text.c_str());
-    if (!m_current_text_styles.empty ()) {
-      // Take character style(s) as specified in this object.
+
+    const auto assemble_text_style = [this]() -> std::string {
       std::string textstyle {};
-      for (const auto& style : m_current_text_styles) {
+      const auto add_style = [&textstyle](const auto& fragment) {
         if (!textstyle.empty ()) {
           // The Quill library is fussy about class names.
           // It accepts class="i-add" but not class="i-add-nd". It fails on that second hyphen.
@@ -512,26 +512,35 @@ void Editor_Usfm2Html::add_text (const std::string& text)
           // It has one hyphen. And a "0" to separate the two styles.
           textstyle.append ("0");
         }
-        textstyle.append (style);
+        textstyle.append (fragment);
+      };
+      if (!m_current_text_styles.empty ()) {
+        // Take character style(s) as specified in this object.
+        for (const auto& style : m_current_text_styles) {
+          add_style(style);
+        }
       }
-      textstyle.insert (0, quill_class_prefix_inline);
+      if (!textstyle.empty())
+        textstyle.insert (0, quill_class_prefix_inline);
+      // If any word-level attributes were extracted, store them here, and empty the container again.
+      // Initially the idea was to have a "data-*" attribute and add this to the current <span> element.
+      // This works in html, but fails in the Quill editor.
+      // When the Quill editor loads html with "data-*" attributes, it strips and drops them.
+      // The word-level attributes are now stored as-is, i.e. in raw format,
+      // in a separate container in the current object,
+      // ready for further processing down the editing chain.
+      if (m_pending_word_level_attributes) {
+        const std::string id = std::string(quill_word_level_attribute_class_prefix) + std::to_string(get_word_level_attributes_id(true));
+        add_style(id);
+        m_word_level_attributes.insert({get_word_level_attributes_id(false), std::move(*m_pending_word_level_attributes)});
+        m_pending_word_level_attributes.reset();
+      }
+      return textstyle;
+    };
+    const std::string textstyle = assemble_text_style();
+    if (!textstyle.empty())
       span_dom_element.append_attribute ("class") = textstyle.c_str();
-    }
     m_current_paragraph_content.append (text);
-    // If any word-level attributes were extracted, store them here, and empty the container again.
-    // Initially the idea was to have a "data-*" attribute and add this to the current <span> element.
-    // This work in html, but fails in the Quill editor.
-    // When the Quill editor loads html with "data-*" attributes, it strips and drops them.
-    // The word-level attributes are now stored as-is, i.e. in raw format,
-    // in a separate container in the current object,
-    // ready for further processing down the editing chain.
-    if (m_pending_word_level_attributes) {
-      const std::string id = std::string(quill_word_level_attribute_id_prefix) + std::to_string(word_level_attributes_id);
-      span_dom_element.append_attribute ("id") = id.c_str();
-      m_word_level_attributes.insert({word_level_attributes_id, std::move(*m_pending_word_level_attributes)});
-      word_level_attributes_id++;
-      m_pending_word_level_attributes.reset();
-    }
   }
   m_text_tength += filter::strings::unicode_string_length (text);
 }
@@ -794,6 +803,20 @@ bool Editor_Usfm2Html::road_is_clear ()
 void Editor_Usfm2Html::set_preview ()
 {
   m_preview = true;
+}
+
+
+int Editor_Usfm2Html::get_word_level_attributes_id(const bool next)
+{
+  if (next) {
+    m_word_level_attributes_id++;
+    // The class name for the Quill editor has defined the "0" as class separator.
+    // So make sure that the word-level attribute ID never contains any "0".
+    while (std::to_string(m_word_level_attributes_id).find("0") != std::string::npos) {
+      m_word_level_attributes_id++;
+    }
+  }
+  return m_word_level_attributes_id;
 }
 
 

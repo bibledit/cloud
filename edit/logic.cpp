@@ -78,7 +78,7 @@ std::string get_loaded_usfm (Webserver_Request& webserver_request,
 }
 
 
-void store_loaded_word_level_attributes (Webserver_Request& webserver_request, // Todo use it.
+void store_loaded_word_level_attributes (Webserver_Request& webserver_request,
                                          const std::string& bible, const int book, const int chapter,
                                          const std::string& editor,
                                          const std::map<int,std::string>& word_level_attributes)
@@ -96,7 +96,7 @@ void store_loaded_word_level_attributes (Webserver_Request& webserver_request, /
 }
 
 
-std::map<int,std::string> get_loaded_word_level_attributes (Webserver_Request& webserver_request, // Todo use it.
+std::map<int,std::string> get_loaded_word_level_attributes (Webserver_Request& webserver_request,
                                                             const std::string& bible, const int book, const int chapter,
                                                             const std::string& editor)
 {

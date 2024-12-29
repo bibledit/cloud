@@ -65,7 +65,7 @@ std::string editone_load (Webserver_Request& webserver_request)
   
   // The Quill-based editor removes empty paragraphs at the end.
   // Therefore do not include them.
-  const std::string editable_usfm = filter::usfm::get_verse_text_quill (chapter_usfm, verse); // Todo
+  const std::string editable_usfm = filter::usfm::get_verse_text_quill (chapter_usfm, verse);
   
   const std::string prefix_usfm = filter::usfm::get_verse_range_text (chapter_usfm, 0, verse - 1, editable_usfm, true);
   const std::string suffix_usfm = filter::usfm::get_verse_range_text (chapter_usfm, verse + 1, highest_verse, editable_usfm, true);
@@ -78,7 +78,7 @@ std::string editone_load (Webserver_Request& webserver_request)
   // 2. It updates the chapter snapshot.
   // 3. It loads the other verse.
   // 4. It updates the chapter snapshot.
-  store_loaded_usfm (webserver_request, bible, book, chapter, unique_id); // Todo
+  store_loaded_usfm (webserver_request, bible, book, chapter, unique_id);
   
   std::string prefix_html;
   std::string not_used;
@@ -88,7 +88,7 @@ std::string editone_load (Webserver_Request& webserver_request)
   // It is convenient to have the footnote as near as possible to the verse text.
   // This is helpful for editing the verse and note.
   std::string focused_verse_html;
-  std::map<int,std::string> word_level_attributes; // Todo handle.
+  std::map<int,std::string> word_level_attributes;
   editone_logic_editable_html (editable_usfm, stylesheet, focused_verse_html, word_level_attributes);
   
   // Store the word-level attributes, if any, that were extracted from the editable USFM/html.

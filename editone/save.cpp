@@ -105,7 +105,7 @@ std::string editone_save (Webserver_Request& webserver_request)
   
   const std::string stylesheet = database::config::bible::get_editor_stylesheet (bible);
   const std::map<int,std::string> word_level_attributes = get_loaded_word_level_attributes (webserver_request, bible, book, chapter, unique_id);
-  std::string verse_usfm = editone_logic_html_to_usfm (stylesheet, html, word_level_attributes);
+  std::string verse_usfm = editone_logic_html_to_usfm (stylesheet, html,  word_level_attributes);
 
   
   // Collect some data about the changes for this user.
@@ -124,7 +124,7 @@ std::string editone_save (Webserver_Request& webserver_request)
   // it's worth to check on this.
   // Because the user's editor may not yet have loaded this updated Bible text.
   // https://github.com/bibledit/cloud/issues/340
-  std::string loaded_usfm = get_loaded_usfm (webserver_request, bible, book, chapter, unique_id); // Todo
+  std::string loaded_usfm = get_loaded_usfm (webserver_request, bible, book, chapter, unique_id);
   if (loaded_usfm != old_chapter_usfm) {
     bible_logic::recent_save_email (bible, book, chapter, username, loaded_usfm, old_chapter_usfm);
   }
@@ -159,7 +159,7 @@ std::string editone_save (Webserver_Request& webserver_request)
     
     
     // Store a copy of the USFM now saved as identical to what's loaded in the editor for later reference.
-    store_loaded_usfm (webserver_request, bible, book, chapter, unique_id); // Todo
+    store_loaded_usfm (webserver_request, bible, book, chapter, unique_id);
 
     return locale_logic_text_saved ();
   }

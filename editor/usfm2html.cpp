@@ -29,10 +29,10 @@
 
 void Editor_Usfm2Html::load (std::string usfm)
 {
-  // Clean up.
+  // Clean the USFM up.
   usfm = filter::strings::trim (usfm);
   usfm.append ("\n");
-  // Separate it into markers and text.
+  // Separate the USFM into markers and text fragments.
   // Load it into the object.
   m_markers_and_text = filter::usfm::get_markers_and_text (usfm);
   m_markers_and_text_pointer = 0;
@@ -73,18 +73,34 @@ void Editor_Usfm2Html::run ()
 std::string Editor_Usfm2Html::get ()
 {
   close_paragraph ();
-
-  // If there are notes, move the notes <div> or <p> after everything else.
+  
+  // If there are notes, move the notes <p> after everything else.
   // (It has the <hr> or <br> as a child).
-  const long int count = std::distance (m_notes_node.begin (), m_notes_node.end ());
-  if (count > 1) {
-    m_body_node.append_move (m_notes_node);
+  {
+    const long count = std::distance (m_notes_node.begin (), m_notes_node.end ());
+    if (count > 1) {
+      m_body_node.append_move (m_notes_node);
+    }
   }
 
   // A Quill-based editor does not work with embedded <p> elements.
   // Move the notes out of their parent and append them to the end of the main body.
   while (pugi::xml_node note = m_notes_node.first_child ().next_sibling ()) {
     m_body_node.append_move (note);
+  }
+
+  // If there are word-level attributes, move the word-level attributes <p> after everything else. Todo check this.
+  {
+    const long count = std::distance (m_word_level_attributes_node.begin (), m_word_level_attributes_node.end ());
+    if (count > 1) {
+      m_body_node.append_move (m_word_level_attributes_node);
+    }
+  }
+
+  // A Quill-based editor does not work with embedded <p> elements.
+  // Move the notes out of their parent and append them to the end of the main body. Todo check this.
+  while (pugi::xml_node word_level_attribute = m_word_level_attributes_node.first_child ().next_sibling ()) {
+    m_body_node.append_move (word_level_attribute);
   }
   
   // Get the html code, including body, without head.
@@ -98,7 +114,7 @@ std::string Editor_Usfm2Html::get ()
     html.erase (0, pos + 6);
     pos = html.find ("</body>");
     if (pos != std::string::npos) {
-      html.erase  (pos);
+      html.erase (pos);
     }
   }
   
@@ -128,7 +144,7 @@ void Editor_Usfm2Html::preprocess ()
 
   m_body_node = m_document.append_child ("body");
   
-  // Create notes xml node.
+  // Create xml node for the notes container.
   // It comes at the start of the document.
   // (Later, it will either be deleted, or moved to the end).
   std::string notes_class = quill_notes_class;
@@ -136,6 +152,15 @@ void Editor_Usfm2Html::preprocess ()
   notes_class.insert (0, quill_class_prefix_block);
   m_notes_node.append_attribute ("class") = notes_class.c_str ();
   m_notes_node.text().set(filter::strings::non_breaking_space_u00A0().c_str());
+
+  // Create xml node for the word-level attributes container. Todo
+  // It comes near the start of the document.
+  // (Later, it will either be deleted, or moved to the end).
+  std::string word_level_attributes_class = quill_word_level_attributes_class;
+  m_word_level_attributes_node = m_document.append_child ("p");
+  word_level_attributes_class.insert (0, quill_class_prefix_block);
+  m_word_level_attributes_node.append_attribute ("class") = word_level_attributes_class.c_str ();
+  m_word_level_attributes_node.text().set(filter::strings::non_breaking_space_u00A0().c_str());
 }
 
 

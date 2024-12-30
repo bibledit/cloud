@@ -59,6 +59,7 @@ private:
   pugi::xml_document m_document {};
   pugi::xml_node m_body_node {};
   pugi::xml_node m_notes_node {};
+  pugi::xml_node m_word_level_attributes_node {};
   
   // Standard content markers for notes.
   std::string m_standard_content_marker_foot_end_note {};

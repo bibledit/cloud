@@ -38,3 +38,6 @@ constexpr const char* quill_caret_class {"ql-cursor"};
 
 // The class in Quill-based editor for the note caller.
 constexpr std::string_view quill_note_caller_class {"notecall"};
+
+// The class of the word-level attributes container in a Quill-based editor.
+constexpr const char* quill_word_level_attributes_class {"wordlevelattributes"};

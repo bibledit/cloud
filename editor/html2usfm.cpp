@@ -121,13 +121,14 @@ void Editor_Html2Usfm::run ()
 void Editor_Html2Usfm::process ()
 {
   // Iterate over the children to retrieve the "p" elements, then process them.
-  pugi::xml_node body = document.first_child ();
+  const pugi::xml_node body = document.first_child ();
   for (pugi::xml_node& node : body.children()) {
-    // Do not process the notes <div> or <p> and beyond
+    // Do not process the notes <p> and beyond
     // because it is at the end of the text body,
     // and note-related data has already been extracted from it.
+    // The same applies to the word-level attributes <p> node.
     const std::string classs = update_quill_class (node.attribute ("class").value ());
-    if (classs == quill_notes_class)
+    if ((classs == quill_notes_class) || (classs == quill_word_level_attributes_class))
       break;
     // Process the node.
     process_node (node);
@@ -234,8 +235,10 @@ void Editor_Html2Usfm::open_element_node (pugi::xml_node& node)
 
 void Editor_Html2Usfm::close_element_node (const pugi::xml_node& node)
 {
-  // The tag and class names of this element node, and the word-level attributes ID.
+  // Get the tag name of this node.
   const std::string tag_name = node.name ();
+  // Get the class names of this node.
+  // Get the word-level attributes class name / identifier.
   std::string class_name = update_quill_class (node.attribute ("class").value ());
   auto [classes, wla_class] = get_standard_classes_and_wla_class (class_name);
   
@@ -269,33 +272,21 @@ void Editor_Html2Usfm::close_element_node (const pugi::xml_node& node)
     // Do nothing with a note caller.
     if (class_name.substr (0, quill_note_caller_class.size()) == quill_note_caller_class)
       return;
-    // Get the optional id for possible word-level attributes.
-    const auto get_wla_id = [](const std::string& id) -> std::optional<int> {
-      if (!id.empty()) {
-        if (const size_t wla_pos = id.find(quill_word_level_attribute_class_prefix); wla_pos == 0) {
-          try {
-            return std::stoi(id.substr(quill_word_level_attribute_class_prefix.size()));
-          } catch (...) { }
-        }
-      }
-      return std::nullopt;
-    };
-    const std::optional<int> wla_id = get_wla_id(wla_class);
     // Do nothing if no endmarkers are supposed to be produced.
     // There's two exceptions:
     // 1. If a word-level attributes ID was found: This needs an endmarker.
     // 2. If the last added text fragment contains the vertical bar, as that indicates word-level attributes.
     if (suppress_end_markers.find (class_name) != suppress_end_markers.end()) {
-      if ((!wla_id) && (m_last_added_text_fragment.find("|") == std::string::npos))
+      if ((wla_class.empty()) && (m_last_added_text_fragment.find("|") == std::string::npos))
         return;
     }
-    // Check for and handle word-level attributes.
-    if (wla_id)
-      if (m_word_level_attributes.count(wla_id.value())) {
-        // The vertical bar separates the canonical word from the attribute(s) following it.
-        current_line.append("|");
-        current_line.append(m_word_level_attributes.at(wla_id.value()));
-      }
+    // Check for and get and handle word-level attributes.
+    if (!wla_class.empty()) {
+      const std::string contents = get_word_level_attributes(wla_class);
+      // The vertical bar separates the canonical word from the attribute(s) following it.
+      current_line.append("|");
+      current_line.append(contents);
+    }
     // Add closing USFM, optionally closing embedded tags in reverse order.
     character_styles = filter::strings::array_diff (character_styles, classes);
     reverse (classes.begin(), classes.end());
@@ -541,6 +532,43 @@ std::string Editor_Html2Usfm::update_quill_class (std::string classname)
 void Editor_Html2Usfm::set_word_level_attributes (std::map<int,std::string> attributes)
 {
   m_word_level_attributes = std::move(attributes);
+}
+
+
+std::string Editor_Html2Usfm::get_word_level_attributes(std::string classs)
+{
+  // Sample footnote body.
+  // <p class="b-wordlevelattributes"> </p><p class="b-wla1">C="D"</p>
+  // Retrieve the relevant <p> element from it.
+
+  // Check that there's a node to start with.
+  if (!document.first_child ())
+    return std::string();
+
+  // Assert that the <body> node is given.
+  if (std::string(document.first_child ().name ()) != "body")
+    return std::string();
+
+  // Update the class name from, e.g. "wla1" to "b_wla1" as this is how Quill wants the class to be nmed.
+  classs.insert(0, quill_class_prefix_block);
+  
+  // Some of the children of the <body> node will be the word-level attribute wrappers.
+  // Consider this XML:
+  // <body>
+  //  <p class="b-p"><span>A</span><span class="i-w0wla1">B</span></p>
+  //  <p class="b-wordlevelattributes"> </p>
+  //  <p class="b-wla1">C="D"</p>
+  // </body>
+  // So iterate over the children, and look for the desired class,
+  // and if found, return the text of that node.
+  for (pugi::xml_node p_child : document.first_child().children()) {
+    if (p_child.attribute("class").value() == classs) {
+      return p_child.text().get();
+    }
+  }
+  
+  // Nothing found.
+  return std::string();
 }
 
 

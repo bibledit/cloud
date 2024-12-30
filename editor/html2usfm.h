@@ -64,8 +64,10 @@ private:
   std::string clean_usfm (std::string usfm);
   pugi::xml_node get_note_pointer (const pugi::xml_node& body, const std::string& id);
   std::string update_quill_class (std::string classname);
-  // The word-level attributes that may have been set from outside.
+  // The word-level attributes that may have been set from outside. Todo out.
   std::map<int,std::string> m_word_level_attributes{};
+  // Function to get the word-level attributes for a given class.
+  std::string get_word_level_attributes(std::string classs);
   // The last added text fragment, for analysis.
   std::string m_last_added_text_fragment{};
 };

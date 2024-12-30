@@ -98,10 +98,6 @@ std::string edit_save (Webserver_Request& webserver_request)
   Editor_Html2Usfm editor_export;
   editor_export.load (html);
   editor_export.stylesheet (stylesheet);
-  {
-    std::map<int,std::string> word_level_attributes = get_loaded_word_level_attributes (webserver_request, bible, book, chapter, unique_id);
-    editor_export.set_word_level_attributes(std::move(word_level_attributes));
-  }
   editor_export.run ();
   std::string user_usfm = editor_export.get ();
   

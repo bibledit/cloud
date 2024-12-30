@@ -529,12 +529,6 @@ std::string Editor_Html2Usfm::update_quill_class (std::string classname)
 }
 
 
-void Editor_Html2Usfm::set_word_level_attributes (std::map<int,std::string> attributes)
-{
-  m_word_level_attributes = std::move(attributes);
-}
-
-
 std::string Editor_Html2Usfm::get_word_level_attributes(std::string classs)
 {
   // Sample footnote body.
@@ -575,8 +569,7 @@ std::string Editor_Html2Usfm::get_word_level_attributes(std::string classs)
 // This function takes the html from a Quill-based editor that edits one verse,
 // and converts it to USFM.
 // It properly deals with cases when a verse does not start a new paragraph.
-std::string editor_export_verse_quill (const std::string& stylesheet, std::string html,
-                                       const std::map<int,std::string>& word_level_attributes)
+std::string editor_export_verse_quill (const std::string& stylesheet, std::string html)
 {
   // When the $html starts with a paragraph without a style,
   // put a recognizable style there.
@@ -590,7 +583,6 @@ std::string editor_export_verse_quill (const std::string& stylesheet, std::strin
   Editor_Html2Usfm editor_export;
   editor_export.load (html);
   editor_export.stylesheet (stylesheet);
-  editor_export.set_word_level_attributes(word_level_attributes);
   editor_export.run ();
   std::string usfm = editor_export.get ();
   

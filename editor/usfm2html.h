@@ -46,7 +46,6 @@ public:
   std::string m_current_paragraph_style {};
   std::string m_current_paragraph_content {};
   void set_preview ();
-  const std::map<int,std::string>& get_word_level_attributes();
 private:
   // Strings alternating between USFM and text.
   std::vector <std::string> m_markers_and_text {};
@@ -104,7 +103,6 @@ private:
   int m_word_level_attributes_id {0};
   int get_word_level_attributes_id(const bool next);
   std::optional<std::string> m_pending_word_level_attributes{};
-  std::map<int,std::string> m_word_level_attributes{};
   void extract_word_level_attributes();
   void add_word_level_attributes(const std::string id);
 };

@@ -104,8 +104,7 @@ std::string editone_save (Webserver_Request& webserver_request)
 
   
   const std::string stylesheet = database::config::bible::get_editor_stylesheet (bible);
-  const std::map<int,std::string> word_level_attributes = get_loaded_word_level_attributes (webserver_request, bible, book, chapter, unique_id);
-  std::string verse_usfm = editone_logic_html_to_usfm (stylesheet, html,  word_level_attributes);
+  std::string verse_usfm = editone_logic_html_to_usfm (stylesheet, html);
 
   
   // Collect some data about the changes for this user.

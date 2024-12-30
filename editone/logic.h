@@ -24,10 +24,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 void editone_logic_prefix_html (const std::string& usfm, const std::string& stylesheet,
                                 std::string& html, std::string& last_p_style);
 void editone_logic_editable_html (const std::string& usfm, const std::string& stylesheet,
-                                  std::string& html,
-                                  std::map<int,std::string>& word_level_attributes);
+                                  std::string& html);
 void editone_logic_suffix_html (const std::string& editable_last_p_style, const std::string& usfm,
                                 const std::string& stylesheet, std::string& html);
-std::string editone_logic_html_to_usfm (const std::string& stylesheet, std::string html,
-                                        const std::map<int,std::string>& word_level_attributes);
+std::string editone_logic_html_to_usfm (const std::string& stylesheet, std::string html);
 void editone_logic_move_notes (std::string& prefix, std::string& suffix);

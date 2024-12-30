@@ -552,13 +552,11 @@ void Editor_Usfm2Html::add_text (const std::string& text)
       // This works in html, but fails in the Quill editor.
       // When the Quill editor loads html with "data-*" attributes, it strips and drops them.
       // The word-level attributes are now stored as-is, i.e. in raw format,
-      // in a separate container in the current object,
-      // ready for further processing down the editing chain.
+      // at the bottom of the html document,
       if (m_pending_word_level_attributes) {
         const std::string id = std::string(quill_word_level_attribute_class_prefix) + std::to_string(get_word_level_attributes_id(true));
         add_style(id);
         add_word_level_attributes(id);
-        m_word_level_attributes.insert({get_word_level_attributes_id(false), std::move(*m_pending_word_level_attributes)});
         m_pending_word_level_attributes.reset();
       }
       return textstyle;
@@ -876,12 +874,6 @@ void Editor_Usfm2Html::extract_word_level_attributes()
   // Store the word-level attributes as-is, as pending item, ready for processing.
   std::string attribute_string = possible_markup.substr(bar_position + 1);
   m_pending_word_level_attributes = std::move(attribute_string);
-}
-
-
-const std::map<int,std::string>& Editor_Usfm2Html::get_word_level_attributes()
-{
-  return m_word_level_attributes;
 }
 
 

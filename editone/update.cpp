@@ -166,9 +166,8 @@ std::string editone_update (Webserver_Request& webserver_request)
   // This needs the loaded USFM as the ancestor,
   // the edited USFM as a change-set,
   // and the existing USFM as a prioritized change-set.
-  const std::map<int,std::string> word_level_attributes = get_loaded_word_level_attributes (webserver_request, bible, book, chapter, unique_id);
-  std::string loaded_verse_usfm = editone_logic_html_to_usfm (stylesheet, loaded_html, word_level_attributes);
-  std::string edited_verse_usfm = editone_logic_html_to_usfm (stylesheet, edited_html, word_level_attributes);
+  std::string loaded_verse_usfm = editone_logic_html_to_usfm (stylesheet, loaded_html);
+  std::string edited_verse_usfm = editone_logic_html_to_usfm (stylesheet, edited_html);
   std::string existing_verse_usfm = filter::usfm::get_verse_text_quill (old_chapter_usfm, verse);
   existing_verse_usfm = filter::strings::trim (existing_verse_usfm);
 
@@ -276,8 +275,7 @@ std::string editone_update (Webserver_Request& webserver_request)
     std::string server_html;
     {
       std::string verse_usfm = filter::usfm::get_verse_text_quill (new_chapter_usfm, verse);
-      std::map<int,std::string> dummy_wla;
-      editone_logic_editable_html (verse_usfm, stylesheet, server_html, dummy_wla);
+      editone_logic_editable_html (verse_usfm, stylesheet, server_html);
     }
     std::vector <int> positions;
     std::vector <int> sizes;

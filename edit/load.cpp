@@ -66,10 +66,6 @@ std::string edit_load (Webserver_Request& webserver_request)
   editor_usfm2html.stylesheet (stylesheet);
   editor_usfm2html.run ();
   
-  // Any word-level attributes extracted from the USFM, store them for later reference.
-  store_loaded_word_level_attributes (webserver_request, bible, book, chapter, unique_id,
-                                      editor_usfm2html.get_word_level_attributes());
-
   std::string html = editor_usfm2html.get ();
   
   // To make editing empty verses easier, convert spaces to non-breaking spaces, so they appear in the editor.

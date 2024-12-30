@@ -164,10 +164,6 @@ std::string edit_update (Webserver_Request& webserver_request)
   }
 
 
-  // Load the word-level attributes, if any, saved earlier on.
-  const std::map<int,std::string> word_level_attributes = get_loaded_word_level_attributes (webserver_request, bible, book, chapter, unique_id);
-
-
   // Determine what version of USFM to save to the chapter.
   // Later in the code, it will do a three-way merge, to obtain that USFM.
   // This needs the loaded USFM as the ancestor,
@@ -178,7 +174,6 @@ std::string edit_update (Webserver_Request& webserver_request)
     Editor_Html2Usfm editor_export;
     editor_export.load (loaded_html);
     editor_export.stylesheet (stylesheet);
-    editor_export.set_word_level_attributes(word_level_attributes);
     editor_export.run ();
     loaded_chapter_usfm = editor_export.get ();
   }
@@ -187,7 +182,6 @@ std::string edit_update (Webserver_Request& webserver_request)
     Editor_Html2Usfm editor_export;
     editor_export.load (edited_html);
     editor_export.stylesheet (stylesheet);
-    editor_export.set_word_level_attributes(word_level_attributes);
     editor_export.run ();
     edited_chapter_usfm = editor_export.get ();
   }

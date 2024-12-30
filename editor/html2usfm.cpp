@@ -126,12 +126,12 @@ void Editor_Html2Usfm::process ()
     // Do not process the notes <p> and beyond
     // because it is at the end of the text body,
     // and note-related data has already been extracted from it.
-    // The same applies to the word-level attributes <p> node.
     const std::string classs = update_quill_class (node.attribute ("class").value ());
-    if ((classs == quill_notes_class) || (classs == quill_word_level_attributes_class))
+    if (classs == quill_notes_class) {
       break;
+    }
     // Process the node.
-    process_node (node);
+    process_node(node);
   }
 }
 
@@ -144,20 +144,24 @@ std::string Editor_Html2Usfm::get ()
 }
 
 
-void Editor_Html2Usfm::process_node (pugi::xml_node& node)
+void Editor_Html2Usfm::process_node(pugi::xml_node& node)
 {
   switch (node.type ()) {
     case pugi::node_element:
     {
-      // Skip a note with class "ql-cursor" because that is an internal Quill node.
-      // The user didn't insert it.
       const std::string classs = node.attribute("class").value();
+      // Skip a node with class "ql-cursor" because that is an internal Quill node.
+      // The user didn't insert it.
       if (classs == quill_caret_class)
+        break;
+      // Skip a node that is for the word-level attributes since it is just there for visual appearance.
+      // The user didn't insert it.
+      if (classs.find(quill_word_level_attributes_class) != std::string::npos)
         break;
       // Process this node.
       open_element_node (node);
       for (pugi::xml_node& child : node.children()) {
-        process_node (child);
+        process_node(child);
       }
       close_element_node (node);
       break;
@@ -241,7 +245,7 @@ void Editor_Html2Usfm::close_element_node (const pugi::xml_node& node)
   // Get the word-level attributes class name / identifier.
   std::string class_name = update_quill_class (node.attribute ("class").value ());
   auto [classes, wla_class] = get_standard_classes_and_wla_class (class_name);
-  
+
   if (tag_name == "p")
   {
     // While editing it happens that the p element does not have a class.
@@ -325,8 +329,9 @@ void Editor_Html2Usfm::open_inline (const std::string& class_name)
     } else {
       last_note_style.clear ();
     }
-    if (add_opener)
+    if (add_opener) {
       current_line.append (filter::usfm::get_opening_usfm (marker, embedded));
+    }
   }
   // Store active character styles in some cases.
   bool store = true;
@@ -390,7 +395,7 @@ void Editor_Html2Usfm::process_note_citation (pugi::xml_node& node)
     
     // Process this 'p' element.
     processing_note = true;
-    process_node (note_p_element);
+    process_node(note_p_element);
     processing_note = false;
     
     // Restore the active character styles for the main text.
@@ -427,6 +432,15 @@ void Editor_Html2Usfm::preprocess ()
   output.clear ();
   current_line.clear ();
   mono = false;
+  
+  // Remove the node for word-level attributes that was there only for visual appearance in the editors.
+  pugi::xml_node body = document.first_child ();
+  for (pugi::xml_node& node : body.children()) {
+    const std::string classs = update_quill_class (node.attribute ("class").value ());
+    if (classs == quill_word_level_attributes_class) {
+      body.remove_child(node);
+    }
+  }
 }
 
 
@@ -434,12 +448,12 @@ void Editor_Html2Usfm::flush_line ()
 {
   if (!current_line.empty ()) {
     // Trim so that '\p ' becomes '\p', for example.
-    current_line = filter::strings::trim (current_line);
+    current_line = filter::strings::trim (std::move(current_line));
     // No longer doing the above
     // because it would remove a space intentionally added to the end of a line.
     // Instead it now only does a left trim instead of the full trim.
     // current_line = filter::strings::ltrim (current_line);
-    output.push_back (current_line);
+    output.push_back (std::move(current_line));
     current_line.clear ();
   }
 }
@@ -555,9 +569,12 @@ std::string Editor_Html2Usfm::get_word_level_attributes(std::string classs)
   // </body>
   // So iterate over the children, and look for the desired class,
   // and if found, return the text of that node.
+  // Also remove that node, so it can'be be procesed again accidentally.
   for (pugi::xml_node p_child : document.first_child().children()) {
     if (p_child.attribute("class").value() == classs) {
-      return p_child.text().get();
+      const std::string text = p_child.text().get();
+      p_child.parent().remove_child(p_child);
+      return text;
     }
   }
   

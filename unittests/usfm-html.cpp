@@ -1772,8 +1772,6 @@ TEST_F (usfm_html, word_level_attributes_linking)
   editor_html2usfm.load (html);
   editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
   editor_html2usfm.run ();
-  std::cout << editor_html2usfm.get () << std::endl; // Todo
-  return; // Todo
   EXPECT_EQ (filter::strings::trim(usfm), editor_html2usfm.get ());
 }
 

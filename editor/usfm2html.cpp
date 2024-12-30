@@ -89,7 +89,7 @@ std::string Editor_Usfm2Html::get ()
     m_body_node.append_move (note);
   }
 
-  // If there are word-level attributes, move the word-level attributes <p> after everything else. Todo check this.
+  // If there are word-level attributes, move the word-level attributes <p> after everything else.
   {
     const long count = std::distance (m_word_level_attributes_node.begin (), m_word_level_attributes_node.end ());
     if (count > 1) {
@@ -98,7 +98,7 @@ std::string Editor_Usfm2Html::get ()
   }
 
   // A Quill-based editor does not work with embedded <p> elements.
-  // Move the notes out of their parent and append them to the end of the main body. Todo check this.
+  // Move the notes out of their parent and append them to the end of the main body.
   while (pugi::xml_node word_level_attribute = m_word_level_attributes_node.first_child ().next_sibling ()) {
     m_body_node.append_move (word_level_attribute);
   }
@@ -144,7 +144,7 @@ void Editor_Usfm2Html::preprocess ()
 
   m_body_node = m_document.append_child ("body");
   
-  // Create xml node for the notes container.
+  // Create the xml node for the notes container.
   // It comes at the start of the document.
   // (Later, it will either be deleted, or moved to the end).
   std::string notes_class = quill_notes_class;
@@ -153,7 +153,7 @@ void Editor_Usfm2Html::preprocess ()
   m_notes_node.append_attribute ("class") = notes_class.c_str ();
   m_notes_node.text().set(filter::strings::non_breaking_space_u00A0().c_str());
 
-  // Create xml node for the word-level attributes container. Todo
+  // Create the xml node for the word-level attributes container.
   // It comes near the start of the document.
   // (Later, it will either be deleted, or moved to the end).
   std::string word_level_attributes_class = quill_word_level_attributes_class;
@@ -279,7 +279,7 @@ void Editor_Usfm2Html::process ()
                 close_text_style (false);
                 if (is_opening_marker) {
                   const std::string caller = m_note_citations.get (style.marker, "+");
-                  add_note (caller, marker, false);
+                  add_note (caller, marker);
                 } else {
                   close_current_note ();
                 }
@@ -314,7 +314,7 @@ void Editor_Usfm2Html::process ()
                 close_text_style (false);
                 if (is_opening_marker) {
                   const std::string caller = m_note_citations.get (style.marker, "+");
-                  add_note (caller, marker, false);
+                  add_note (caller, marker);
                 } else {
                   close_current_note ();
                 }
@@ -557,6 +557,7 @@ void Editor_Usfm2Html::add_text (const std::string& text)
       if (m_pending_word_level_attributes) {
         const std::string id = std::string(quill_word_level_attribute_class_prefix) + std::to_string(get_word_level_attributes_id(true));
         add_style(id);
+        add_word_level_attributes(id);
         m_word_level_attributes.insert({get_word_level_attributes_id(false), std::move(*m_pending_word_level_attributes)});
         m_pending_word_level_attributes.reset();
       }
@@ -575,9 +576,9 @@ void Editor_Usfm2Html::add_text (const std::string& text)
 // $citation: The text of the note citation.
 // $style: Style name for the paragraph in the note body.
 // $endnote: Whether this is a footnote and cross reference (false), or an endnote (true).
-void Editor_Usfm2Html::add_note (const std::string& citation, const std::string& style, [[maybe_unused]] const bool endnote)
+void Editor_Usfm2Html::add_note (const std::string& citation, const std::string& style)
 {
-  // Be sure the road ahead is clear.
+  // Be sure that the road ahead is clear.
   if (!road_is_clear ()) {
     add_text (filter::usfm::get_opening_usfm (style));
     return;
@@ -651,7 +652,8 @@ void Editor_Usfm2Html::close_current_note ()
 // $style: A style for the note citation, and one for the note body.
 // $text: The link's text.
 // It also deals with a Quill-based editor, in a slightly different way.
-void Editor_Usfm2Html::add_notel_link (pugi::xml_node& dom_node, const int identifier, const std::string& style, const std::string& text)
+void Editor_Usfm2Html::add_notel_link (pugi::xml_node& dom_node, const int identifier,
+                                       const std::string& style, const std::string& text)
 {
   pugi::xml_node a_dom_element = dom_node.append_child ("span");
   const std::string class_value = "i-note" + style + std::to_string (identifier);
@@ -880,4 +882,22 @@ void Editor_Usfm2Html::extract_word_level_attributes()
 const std::map<int,std::string>& Editor_Usfm2Html::get_word_level_attributes()
 {
   return m_word_level_attributes;
+}
+
+
+void Editor_Usfm2Html::add_word_level_attributes(const std::string id)
+{
+  // If there's no attributes, bail out.
+  if (!m_pending_word_level_attributes)
+    return;
+  
+  // Open a paragraph element for the word-level attributes body.
+  pugi::xml_node p_node = m_word_level_attributes_node.append_child ("p");
+
+  // Set the correct class in the paragraph. This links it to the correct text fragment in the text body.
+  const std::string class_value {quill_class_prefix_block + id};
+  p_node.append_attribute ("class") = class_value.c_str();
+
+  // Add the word-level attributes as text.
+  p_node.text ().set (m_pending_word_level_attributes.value().c_str());
 }

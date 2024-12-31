@@ -1797,4 +1797,31 @@ TEST_F (usfm_html, word_level_attributes_removed)
 }
 
 
+TEST_F (usfm_html, word_level_attributes_with_notes)
+{
+  // This tests the linking attributes.
+  // USFM 3 writes:
+  // The \xt ...\xt provides the linking attribute link-href as a default attribute.
+  // Note that the word-level attribute "GEN 2:2" will not be separated from the cross reference,
+  // as this was output as-is.
+  const std::string usfm = R"(
+\p
+\v 2 And the \w Lord|strong="Strong"\w* said to me\x + \xo 1:2 \xt note text.\x*:
+)";
+  const std::string html = R"(<p class="b-p"><span class="i-v">2</span><span> </span><span>And the </span><span class="i-w0wla1">Lord</span><span> said to me</span><span class="i-notecall1">a</span><span>:</span></p><p class="b-notes"> </p><p class="b-x"><span class="i-notebody1">a</span><span> </span><span>+ </span><span class="i-xo">1:2 </span><span class="i-xt">note text.</span></p><p class="b-wordlevelattributes"> </p><p class="b-wla1">strong="Strong"</p>)";
+  
+  Editor_Usfm2Html editor_usfm2html;
+  editor_usfm2html.load (usfm);
+  editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
+  editor_usfm2html.run ();
+  EXPECT_EQ (html, editor_usfm2html.get());
+  
+  Editor_Html2Usfm editor_html2usfm;
+  editor_html2usfm.load (html);
+  editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
+  editor_html2usfm.run ();
+  EXPECT_EQ (filter::strings::trim(usfm), editor_html2usfm.get ());
+}
+
+
 #endif

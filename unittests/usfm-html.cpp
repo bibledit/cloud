@@ -1622,12 +1622,19 @@ TEST_F (usfm_html, get_word_level_attributes_id)
   editor_usfm2html.load (usfm);
   editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
   editor_usfm2html.run ();
-  // Todo fix this.
-//  const std::map<int,std::string> attributes = editor_usfm2html.get_word_level_attributes();
-//  for (const auto& [id, text] : attributes) {
-//    EXPECT_TRUE(std::to_string(id).find("0") == std::string::npos);
-//  }
-//  EXPECT_EQ(id_count, attributes.size());
+  std::string html = editor_usfm2html.get();
+  int count {};
+  do {
+    constexpr const std::string_view b_wla{"b-wla"};
+    const size_t pos = html.find(b_wla);
+    if (pos == std::string::npos)
+      break;
+    html.erase(0, pos + b_wla.size());
+    count++;
+    EXPECT_TRUE(html.substr(0, 10).find("0") == std::string::npos);
+  }
+  while (true);
+  EXPECT_EQ(count, id_count);
 }
 
 

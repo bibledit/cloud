@@ -286,7 +286,8 @@ void Editor_Html2Usfm::close_element_node (const pugi::xml_node& node)
     }
     // Check for and get and handle word-level attributes.
     if (!wla_class.empty()) {
-      const std::string contents = get_word_level_attributes(wla_class);
+      const std::string contents = m_word_level_attributes[wla_class];
+      m_word_level_attributes.erase(wla_class);
       // The vertical bar separates the canonical word from the attribute(s) following it.
       current_line.append("|");
       current_line.append(contents);
@@ -432,14 +433,27 @@ void Editor_Html2Usfm::preprocess ()
   output.clear ();
   current_line.clear ();
   mono = false;
+  m_word_level_attributes.clear();
   
   // Remove the node for word-level attributes that was there only for visual appearance in the editors.
+  // Store the word-level attributes themsselves in a container ready for use.
+  // And remove those too from the XML tree.
+  std::vector<pugi::xml_node> delete_nodes{};
   pugi::xml_node body = document.first_child ();
   for (pugi::xml_node& node : body.children()) {
     const std::string classs = update_quill_class (node.attribute ("class").value ());
     if (classs == quill_word_level_attributes_class) {
-      body.remove_child(node);
+      delete_nodes.push_back(node);
     }
+    // The classs could be "wla1", and the prefix is "wla", so check on the match.
+    if (classs.find(quill_word_level_attribute_class_prefix) == 0) {
+      delete_nodes.push_back(node);
+      const std::string text = node.text().get();
+      m_word_level_attributes.insert({classs, text});
+    }
+  }
+  for (auto& node : delete_nodes) {
+    body.remove_child(node);
   }
 }
 
@@ -463,6 +477,11 @@ void Editor_Html2Usfm::postprocess ()
 {
   // Flush any last USFM line being built.
   flush_line ();
+  
+  // Log any word-level attributes that have not been integrated into the USFM.
+  for (const auto& element : m_word_level_attributes) {
+    Database_Logs::log ("Discarding unprocessed word-level attribute with key: " + element.first + " and value: " + element.second);
+  }
 }
 
 
@@ -540,46 +559,6 @@ std::string Editor_Html2Usfm::update_quill_class (std::string classname)
   classname = filter::strings::replace (quill_class_prefix_block, std::string(), classname);
   classname = filter::strings::replace (quill_class_prefix_inline, std::string(), classname);
   return classname;
-}
-
-
-std::string Editor_Html2Usfm::get_word_level_attributes(std::string classs)
-{
-  // Sample footnote body.
-  // <p class="b-wordlevelattributes"> </p><p class="b-wla1">C="D"</p>
-  // Retrieve the relevant <p> element from it.
-
-  // Check that there's a node to start with.
-  if (!document.first_child ())
-    return std::string();
-
-  // Assert that the <body> node is given.
-  if (std::string(document.first_child ().name ()) != "body")
-    return std::string();
-
-  // Update the class name from, e.g. "wla1" to "b_wla1" as this is how Quill wants the class to be nmed.
-  classs.insert(0, quill_class_prefix_block);
-  
-  // Some of the children of the <body> node will be the word-level attribute wrappers.
-  // Consider this XML:
-  // <body>
-  //  <p class="b-p"><span>A</span><span class="i-w0wla1">B</span></p>
-  //  <p class="b-wordlevelattributes"> </p>
-  //  <p class="b-wla1">C="D"</p>
-  // </body>
-  // So iterate over the children, and look for the desired class,
-  // and if found, return the text of that node.
-  // Also remove that node, so it can'be be procesed again accidentally.
-  for (pugi::xml_node p_child : document.first_child().children()) {
-    if (p_child.attribute("class").value() == classs) {
-      const std::string text = p_child.text().get();
-      p_child.parent().remove_child(p_child);
-      return text;
-    }
-  }
-  
-  // Nothing found.
-  return std::string();
 }
 
 

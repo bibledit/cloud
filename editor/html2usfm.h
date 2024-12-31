@@ -51,10 +51,10 @@ private:
   std::vector <std::string> character_styles {}; // Active character styles.
   bool processing_note {false}; // Note processing flag.
   std::string last_note_style {}; // The most recent style opened inside a note.
-  void preprocess ();
+  void pre_process ();
   void flush_line ();
-  void postprocess ();
-  void process ();
+  void post_process ();
+  void main_process ();
   void process_node (pugi::xml_node& node);
   void open_element_node (pugi::xml_node& node);
   void close_element_node (const pugi::xml_node& node);

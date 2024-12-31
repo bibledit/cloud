@@ -112,13 +112,13 @@ void Editor_Html2Usfm::stylesheet (const std::string& stylesheet)
 
 void Editor_Html2Usfm::run ()
 {
-  preprocess ();
-  process ();
-  postprocess ();
+  pre_process ();
+  main_process ();
+  post_process ();
 }
 
 
-void Editor_Html2Usfm::process ()
+void Editor_Html2Usfm::main_process ()
 {
   // Iterate over the children to retrieve the "p" elements, then process them.
   const pugi::xml_node body = document.first_child ();
@@ -428,7 +428,7 @@ std::string Editor_Html2Usfm::clean_usfm (std::string usfm)
 }
 
 
-void Editor_Html2Usfm::preprocess ()
+void Editor_Html2Usfm::pre_process ()
 {
   output.clear ();
   current_line.clear ();
@@ -473,7 +473,7 @@ void Editor_Html2Usfm::flush_line ()
 }
 
 
-void Editor_Html2Usfm::postprocess ()
+void Editor_Html2Usfm::post_process ()
 {
   // Flush any last USFM line being built.
   flush_line ();

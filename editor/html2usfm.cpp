@@ -437,7 +437,7 @@ void Editor_Html2Usfm::pre_process ()
   
   // Remove the node for word-level attributes that was there only for visual appearance in the editors.
   // Store the word-level attributes themsselves in a container ready for use.
-  // And remove those too from the XML tree.
+  // And remove those nodes too from the XML tree.
   std::vector<pugi::xml_node> delete_nodes{};
   pugi::xml_node body = document.first_child ();
   for (pugi::xml_node& node : body.children()) {

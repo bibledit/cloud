@@ -288,9 +288,11 @@ void Editor_Html2Usfm::close_element_node (const pugi::xml_node& node)
     if (!wla_class.empty()) {
       const std::string contents = m_word_level_attributes[wla_class];
       m_word_level_attributes.erase(wla_class);
-      // The vertical bar separates the canonical word from the attribute(s) following it.
-      current_line.append("|");
-      current_line.append(contents);
+      if (!contents.empty()) {
+        // The vertical bar separates the canonical word from the attribute(s) following it.
+        current_line.append("|");
+        current_line.append(contents);
+      }
     }
     // Add closing USFM, optionally closing embedded tags in reverse order.
     character_styles = filter::strings::array_diff (character_styles, classes);

@@ -1783,4 +1783,18 @@ TEST_F (usfm_html, word_level_attributes_linking)
 }
 
 
+TEST_F (usfm_html, word_level_attributes_removed)
+{
+  // This tests a situation where the \w ... is removed from the text body,
+  // but the word-level attributes themselves are still in the XML tree.
+  const std::string html = R"(<p class="b-p"><span>A</span><span class="i-w0wla2">B</span></p><p class="b-wordlevelattributes"> </p><p class="b-wla1">C="D"</p>)";
+  const std::string usfm = R"(\p A\w B\w*)";
+  Editor_Html2Usfm editor_html2usfm;
+  editor_html2usfm.load (html);
+  editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
+  editor_html2usfm.run ();
+  EXPECT_EQ (usfm, editor_html2usfm.get());
+}
+
+
 #endif

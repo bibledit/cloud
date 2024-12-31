@@ -176,7 +176,7 @@ Now the admin credentials will take effect, and you can login using those.
 <h3>Account creation</h3>
 <p>
 Normally anyone can create an account on Bibledit-Cloud.
-If this is not desired, tnen put a file called "create-no-accounts" in the "config" folder.
+If this is not desired, then put a file called "create-no-accounts" in the "config" folder.
 Now creation of accounts is no longer possible, and public feedback is no longer possible.
 </p>
 

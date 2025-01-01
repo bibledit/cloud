@@ -7,6 +7,7 @@
 <button id="centos">CentOS</button>
 <button id="redhat">RedHat</button>
 <button id="alma">Alma</button>
+<button id="opensuse">openSUSE</button>
 </p>
 <p>translate("Then follow the steps below to install Bibledit Cloud.")</p>
 
@@ -32,6 +33,10 @@
       hide_all();
       $(".alma").show();
     });
+    $("#opensuse").click(function(){
+      hide_all();
+      $(".opensuse").show();
+    });
     hide_all();
     $(".debian").show();
   });
@@ -41,6 +46,7 @@
     $(".centos").hide();
     $(".redhat").hide();
     $(".alma").hide();
+    $(".opensuse").hide();
   };
 </script>
 
@@ -53,6 +59,7 @@
 <p>➤ translate("Update the software sources.")</p>
 <p class="debian ubuntu"><code>sudo apt update</code></p>
 <p class="centos redhat alma"><code>sudo dnf update</code></p>
+<p class="opensuse"><code>sudo zypper update</code></p>
 
 <div class="centos redhat alma">
 <br>
@@ -65,6 +72,8 @@
 <p>➤ translate("Install the software Bibledit relies on:")</p>
 <p class="debian ubuntu"><code>sudo apt install build-essential autotools-dev autoconf autoconf-archive git zip unzip pkgconf libcurl4-openssl-dev libssl-dev poppler-utils libsword-utils diatheke ldap-utils libmimetic-dev certbot libxml2-dev libutf8proc-dev libgumbo-dev libtidy-dev libpugixml-dev gzip tar</code></p>
 <p class="centos redhat alma"><code>sudo dnf install autoconf automake gcc gcc-c++ libtool git zip unzip pkgconfig libcurl-devel openssl-devel curl make poppler-utils libxml2-devel utf8proc gumbo-parser-devel libtidy-devel pugixml-devel gzip tar</code></p>
+<p class="opensuse"><code>sudo zypper install autoconf automake autoconf-archive gcc-c++ git zip pkg-config libcurl-devel libopenssl-devel curl make utf8proc-devel pugixml-devel libxml2-devel libtidy-devel pugixml-devel gzip tar</code></p>
+<p class="opensuse"><a href="https://github.com/google/gumbo-parser">Install the gumbo-parser.</a></p>
 
 <br>
 

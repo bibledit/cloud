@@ -34,22 +34,17 @@ namespace filter::shell {
 
 
 // Container that indicates whether a given executable is absent from the system.
-#ifdef HAVE_CLOUD
 static std::set<Executable> absent_executables{};
-#endif
 
 
-#ifdef HAVE_CLOUD
 static void log_absent_executable_internal(const char* executable)
 {
   std::stringstream ss{};
   ss << "Command line tool " << std::quoted(executable) << " was not found";
   Database_Logs::log (ss.str());
 }
-#endif
 
 
-#ifdef HAVE_CLOUD
 static const char* get_executable_internal(const Executable executable)
 {
   switch (executable) {
@@ -91,7 +86,6 @@ static const char* get_executable_internal(const Executable executable)
       return "false";
   }
 }
-#endif
 
 
 #ifdef HAVE_CLOUD
@@ -110,7 +104,6 @@ void check_existence_executables()
 #endif
 
 
-#ifdef HAVE_CLOUD
 const char* get_executable(const Executable executable)
 {
   if (const auto iter = std::find(absent_executables.cbegin(), absent_executables.cend(), executable);
@@ -120,7 +113,6 @@ const char* get_executable(const Executable executable)
   }
   return get_executable_internal(executable);
 }
-#endif
 
 
 static std::string escape_argument (std::string argument)

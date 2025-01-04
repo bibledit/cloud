@@ -91,16 +91,15 @@ std::string styles_sheetm (Webserver_Request& webserver_request)
   }
   
   std::string del = webserver_request.query["delete"];
-  if (del != "") {
+  if (!del.empty()) {
     if (write) database_styles.deleteMarker (name, del);
   }
 
   std::stringstream markerblock;
   std::map <std::string, std::string> markers_names = database_styles.getMarkersAndNames (name);
   for (auto & item : markers_names) {
-    std::string marker = item.first;
-    std::string marker_name = item.second;
-    marker_name = translate (marker_name);
+    const std::string marker = item.first;
+    const std::string marker_name = translate(item.second);
     markerblock << "<tr>";
     markerblock << R"(<td><a href=")" << "view?sheet=" << name << "&style=" << marker << R"(">)"  << marker << "</a></td>";
     markerblock << "<td>" << marker_name << "</td>";

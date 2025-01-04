@@ -546,7 +546,8 @@ libbibledit_a_SOURCES = \
   tidy/tags.c \
   tidy/tidylib.c \
   tidy/tmbstr.c \
-  tidy/utf8.c
+  tidy/utf8.c \
+  stylesv2/logic.cpp
 
 bin_PROGRAMS = server unittest generate
 

@@ -746,6 +746,7 @@
 /styles
 /styles/indexm.html
 /styles/sheetm.html
+/stylesv2
 /styles/view.html
 /styles/view.js
 /sword

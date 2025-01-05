@@ -20,7 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <stylesv2/logic.h>
 
 
-namespace stylesv2 {
+namespace stylesv2 { // Todo styles version 2 logic.
 
 
 const std::list<Style> styles {
@@ -43,7 +43,7 @@ const std::list<Style> styles {
 } // Namespace.
 
 
-// Here below are the styles
+// Here below are the styles These are the old ones, to be moved to the new system.
 //typedef struct
 //{
 //  const char * marker;

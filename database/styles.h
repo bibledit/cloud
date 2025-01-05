@@ -20,6 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #pragma once
 
 #include <config/libraries.h>
+#include <stylesv2/logic.h>
 
 struct Database_Styles_Item
 {
@@ -102,10 +103,15 @@ public:
   void revokeWriteAccess (std::string user, std::string sheet);
   bool hasWriteAccess (std::string user, std::string sheet);
 private:
-  std::string databasefolder ();
-  std::string sheetfolder (std::string sheet);
   std::string stylefile (std::string sheet, std::string marker);
   Database_Styles_Item read_item (std::string sheet, std::string marker);
   void write_item (std::string sheet, Database_Styles_Item & item);
   void cache_defaults ();
 };
+
+
+namespace database::styles2 { // Todo database function for styles v2.
+
+const std::list<stylesv2::Style>& get_styles(const std::string& stylesheet);
+
+}

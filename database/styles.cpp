@@ -51,6 +51,19 @@ std::mutex database_styles_cache_mutex;
 constexpr const auto database_name {"styles"};
 
 
+static std::string databasefolder ()
+{
+  return filter_url_create_root_path ({database_logic_databases (), "styles"});
+}
+
+
+static std::string sheetfolder (std::string sheet)
+{
+  return filter_url_create_path ({databasefolder (), sheet});
+}
+
+
+
 void Database_Styles::create ()
 {
   // Create database.
@@ -444,18 +457,6 @@ bool Database_Styles::hasWriteAccess (std::string user, std::string sheet)
 }
 
 
-std::string Database_Styles::databasefolder ()
-{
-  return filter_url_create_root_path ({database_logic_databases (), "styles"});
-}
-
-
-std::string Database_Styles::sheetfolder (std::string sheet)
-{
-  return filter_url_create_path ({databasefolder (), sheet});
-}
-
-
 std::string Database_Styles::stylefile (std::string sheet, std::string marker)
 {
   return filter_url_create_path ({sheetfolder (sheet), marker});
@@ -659,3 +660,30 @@ void Database_Styles::cache_defaults ()
 }
 
 
+namespace database::styles2 { // Todo database functions for styles v2.
+
+std::map<std::string,std::list<stylesv2::Style>> sheet_cache;
+
+const std::list<stylesv2::Style>& get_styles(const std::string& stylesheet)
+{
+  // If the standard stylesheet is requested, return a reference to the standard hard-coded stylesheet.
+  if (stylesheet == styles_logic_standard_sheet())
+    return stylesv2::styles;
+  
+  // Look for the requested stylesheet whether it is already in the cache.
+  const auto iter = sheet_cache.find(stylesheet);
+  
+  // Not in cache: Copy hard-coded stylesheet to cache and return reference to that.
+  if (iter == sheet_cache.cend()) {
+    // Todo test this.
+    for (const auto& style : stylesv2::styles) {
+      sheet_cache[stylesheet].push_back(style);
+    }
+    return sheet_cache.at(stylesheet);
+  }
+  
+  // In cache: Return reference to that.
+  return (*iter).second;
+}
+
+}

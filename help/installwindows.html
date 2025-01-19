@@ -1,15 +1,9 @@
 <h1>translate("Install Bibledit on Windows")</h1>
 <p>
-  translate("Bibledit runs on Windows 7 and higher.")
+  translate("Bibledit runs on Windows 10 and 11.")
 </p>
 
 <ol>
-
-<li>
-  <p>
-  translate("Install .NET Framework 4.5.2 or higher on Windows 7.")
-  </p>
-</li>
 
 <li>
 <p>
@@ -32,5 +26,6 @@
 <p>translate("Connect to Bibledit Cloud via menu Settings / Cloud.")</p>
 <p>translate("Give it enough time to download all the data from Bibledit Cloud.")</p>
 <p>translate("Bibledit is now ready for online and offline use.")</p>
+<p>translate("There's a version for better performance and battery life on Windows on Arm.")</p>
 
 <script type="text/javascript" src="../assets/external.js"></script>

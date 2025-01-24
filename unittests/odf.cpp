@@ -114,7 +114,7 @@ TEST (filter, odf)
   // Test basic formatted text.
   {
     Database_Styles database_styles;
-    database_styles.create ();
+    database::styles::create_database ();
     Database_Styles_Item add = database_styles.getMarkerData (styles_logic_standard_sheet (), "add");
     odf_text odf_text (bible);
     odf_text.new_paragraph ();
@@ -137,7 +137,7 @@ TEST (filter, odf)
   // Test basic formatted note.
   {
     Database_Styles database_styles;
-    database_styles.create ();
+    database::styles::create_database ();
     Database_Styles_Item add = database_styles.getMarkerData (styles_logic_standard_sheet (), "add");
     odf_text odf_text (bible);
     odf_text.new_paragraph ();
@@ -164,7 +164,7 @@ TEST (filter, odf)
   // Test embedded formatted text.
   {
     Database_Styles database_styles;
-    database_styles.create ();
+    database::styles::create_database ();
     Database_Styles_Item add = database_styles.getMarkerData (styles_logic_standard_sheet (), "add");
     add.italic = ooitOn;
     add.bold = 0;
@@ -202,7 +202,7 @@ TEST (filter, odf)
   // Test embedded formatted note.
   {
     Database_Styles database_styles;
-    database_styles.create ();
+    database::styles::create_database ();
     Database_Styles_Item add = database_styles.getMarkerData (styles_logic_standard_sheet (), "add");
     add.italic = ooitOn;
     add.bold = 0;
@@ -244,7 +244,7 @@ TEST (filter, odf)
   // Test paragraph formatting.
   {
     Database_Styles database_styles;
-    database_styles.create ();
+    database::styles::create_database ();
     Database_Styles_Item d = database_styles.getMarkerData (styles_logic_standard_sheet (), "d");
     odf_text odf_text (bible);
     odf_text.create_paragraph_style (d.marker, fontname, d.fontsize, d.italic, d.bold, d.underline, d.smallcaps, d.justification, d.spacebefore, d.spaceafter, d.leftmargin, d.rightmargin, d.firstlineindent, true, false);

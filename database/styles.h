@@ -22,6 +22,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/libraries.h>
 #include <stylesv2/logic.h>
 
+namespace database::styles {
+
+void create_database ();
+
+}
+
 struct Database_Styles_Item
 {
   std::string marker {};
@@ -61,7 +67,6 @@ struct Database_Styles_Item
 class Database_Styles
 {
 public:
-  void create ();
   void createSheet (std::string sheet);
   std::vector <std::string> getSheets ();
   void deleteSheet (std::string sheet);

@@ -293,7 +293,7 @@ TEST (styles, css)
   {
     refresh_sandbox (true);
     Database_Styles database_styles {};
-    database_styles.create ();
+    database::styles::create_database ();
     database_styles.createSheet ("testsheet");
     
     // A user does not have write access to the stylesheet.
@@ -329,7 +329,7 @@ TEST (styles, css)
   {
     refresh_sandbox (true);
     Database_Styles database_styles {};
-    database_styles.create ();
+    database::styles::create_database ();
     database_styles.createSheet ("testsheet");
     
     // Get markers.
@@ -347,7 +347,7 @@ TEST (styles, css)
   {
     refresh_sandbox (true);
     Database_Styles database_styles {};
-    database_styles.create ();
+    database::styles::create_database ();
     std::vector <std::string> markers = database_styles.getMarkers ("");
     std::string marker {"zhq"};
     if (find (markers.begin (), markers.end (), marker) != markers.end ()) EXPECT_EQ (marker, "should not be there");
@@ -357,7 +357,7 @@ TEST (styles, css)
   {
     refresh_sandbox (true);
     Database_Styles database_styles {};
-    database_styles.create ();
+    database::styles::create_database ();
     Database_State database_state;
     database_state.create ();
     std::string action = Editor_Styles::getAction (webserver_request, "add");

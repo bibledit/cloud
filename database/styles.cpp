@@ -63,8 +63,9 @@ static std::string sheetfolder (std::string sheet)
 }
 
 
+namespace database::styles {
 
-void Database_Styles::create ()
+void create_database ()
 {
   // Create database.
   SqliteDatabase sql (database_name);
@@ -74,6 +75,11 @@ void Database_Styles::create ()
                ");");
   sql.execute ();
 }
+
+
+
+
+} // Namespace styles
 
 
 // Creates a stylesheet.

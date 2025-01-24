@@ -193,7 +193,7 @@ void setup_initialize_data ()
   webserver_request.database_users ()->create ();
   webserver_request.database_users ()->upgrade ();
   config_globals_setup_message = "styles";
-  webserver_request.database_styles ()->create ();
+  database::styles::create_database ();
   config_globals_setup_message = "bible actions";
   database::bible_actions::create ();
   config_globals_setup_message = "checks";

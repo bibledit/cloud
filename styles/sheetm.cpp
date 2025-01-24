@@ -37,6 +37,17 @@
 #include <menu/logic.h>
 #include <styles/indexm.h>
 #include <database/logic.h>
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Weffc++"
+#pragma GCC diagnostic ignored "-Wsuggest-override"
+#pragma GCC diagnostic ignored "-Wzero-as-null-pointer-constant"
+#ifndef HAVE_PUGIXML
+#include <pugixml/pugixml.hpp>
+#endif
+#ifdef HAVE_PUGIXML
+#include <pugixml.hpp>
+#endif
+#pragma GCC diagnostic pop
 
 
 std::string styles_sheetm_url ()
@@ -95,19 +106,39 @@ std::string styles_sheetm (Webserver_Request& webserver_request)
     if (write) database_styles.deleteMarker (name, del);
   }
 
-  std::stringstream markerblock;
-  std::map <std::string, std::string> markers_names = database_styles.getMarkersAndNames (name);
-  for (auto & item : markers_names) {
+  const std::map <std::string, std::string> markers_names = database_styles.getMarkersAndNames (name);
+  pugi::xml_document document {};
+  for (const auto& item : markers_names) {
     const std::string marker = item.first;
     const std::string marker_name = translate(item.second);
-    markerblock << "<tr>";
-    markerblock << R"(<td><a href=")" << "view?sheet=" << name << "&style=" << marker << R"(">)"  << marker << "</a></td>";
-    markerblock << "<td>" << marker_name << "</td>";
-    markerblock << R"(<td>[<a href=")" << "?name=" << name << "&delete=" << marker << R"(">)" << translate("delete") << "]</a></td>";
-    markerblock << "</tr>";
+    pugi::xml_node tr_node = document.append_child("tr");
+    {
+      pugi::xml_node td_node = tr_node.append_child("td");
+      pugi::xml_node a_node = td_node.append_child("a");
+      const std::string href = "view?sheet=" + name + "&style=" + marker;
+      a_node.append_attribute("href") = href.c_str();
+      a_node.text().set(marker.c_str());
+    }
+    {
+      pugi::xml_node td_node = tr_node.append_child("td");
+      td_node.text().set(marker_name.c_str());
+    }
+    {
+      pugi::xml_node td_node = tr_node.append_child("td");
+      td_node.append_child("span").text().set("[");
+      pugi::xml_node a_node = td_node.append_child("a");
+      const std::string href = "?name=" + name + "&delete=" + marker;
+      a_node.append_attribute("href") = href.c_str();
+      a_node.text().set(translate("delete").c_str());
+      td_node.append_child("span").text().set("]");
+    }
   }
-  view.set_variable ("markerblock", markerblock.str());
-  
+  {
+    std::stringstream ss {};
+    document.print (ss, "", pugi::format_raw);
+    view.set_variable ("markerblock", ss.str());
+  }
+
   std::string folder = filter_url_create_root_path ({database_logic_databases (), "styles", name});
   view.set_variable ("folder", folder);
 

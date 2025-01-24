@@ -26,7 +26,8 @@ namespace database::styles {
 
 void create_database ();
 
-}
+} // End namespace styles
+
 
 struct Database_Styles_Item
 {
@@ -111,7 +112,6 @@ private:
   std::string stylefile (std::string sheet, std::string marker);
   Database_Styles_Item read_item (std::string sheet, std::string marker);
   void write_item (std::string sheet, Database_Styles_Item & item);
-  void cache_defaults ();
 };
 
 

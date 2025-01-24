@@ -63,6 +63,58 @@ static std::string sheetfolder (std::string sheet)
 }
 
 
+namespace database::styles1 {
+static void cache_defaults ()
+{
+  // The amount of style values in the table.
+  unsigned int data_count = sizeof (styles_table) / sizeof (*styles_table);
+  
+  // Iterate over the entire table.
+  for (unsigned int i = 0; i < data_count; i++) {
+    
+    // Get the default values for one USFM marker.
+    Database_Styles_Item item;
+    item.marker = styles_table[i].marker;
+    item.name = styles_table[i].name;
+    item.info = styles_table[i].info;
+    item.category = styles_table[i].category;
+    item.type = styles_table[i].type;
+    item.subtype = styles_table[i].subtype;
+    item.fontsize = styles_table[i].fontsize;
+    item.italic = styles_table[i].italic;
+    item.bold = styles_table[i].bold;
+    item.underline = styles_table[i].underline;
+    item.smallcaps = styles_table[i].smallcaps;
+    item.superscript = styles_table[i].superscript;
+    item.justification = styles_table[i].justification;
+    item.spacebefore = styles_table[i].spacebefore;
+    item.spaceafter = styles_table[i].spaceafter;
+    item.leftmargin = styles_table[i].leftmargin;
+    item.rightmargin = styles_table[i].rightmargin;
+    item.firstlineindent = styles_table[i].firstlineindent;
+    item.spancolumns = styles_table[i].spancolumns;
+    item.color = styles_table[i].color;
+    item.print = styles_table[i].print;
+    item.userbool1 = styles_table[i].userbool1;
+    item.userbool2 = styles_table[i].userbool2;
+    item.userbool3 = styles_table[i].userbool3;
+    item.userint1 = styles_table[i].userint1;
+    item.userint2 = styles_table[i].userint2;
+    item.userint3 = styles_table[i].userint3;
+    item.userstring1 = styles_table[i].userstring1;
+    item.userstring2 = styles_table[i].userstring2;
+    item.userstring3 = styles_table[i].userstring3;
+    item.backgroundcolor = styles_table[i].backgroundcolor;
+    
+    // Store the default item in the global default cache.
+    database_styles_cache_mutex.lock ();
+    default_styles_cache [item.marker] = item;
+    database_styles_cache_mutex.unlock ();
+  }
+}
+}
+
+
 namespace database::styles {
 
 void create_database ()
@@ -77,8 +129,6 @@ void create_database ()
 }
 
 
-
-
 } // Namespace styles
 
 
@@ -88,7 +138,8 @@ void Database_Styles::createSheet (std::string sheet)
   // Folder for storing the stylesheet.
   filter_url_mkdir (sheetfolder (sheet));
   // Check and/or load defaults.
-  if (default_styles_cache.empty ()) cache_defaults ();
+  if (default_styles_cache.empty ())
+    database::styles1::cache_defaults ();
   // Write all style items to file.
   for (auto & mapping : default_styles_cache) {
     auto & item = mapping.second;
@@ -157,7 +208,8 @@ std::vector <std::string> Database_Styles::getMarkers (std::string sheet)
   std::vector <std::string> markers = filter_url_scandir (sheetfolder (sheet));
   if (markers.empty ()) {
     // Check and/or load defaults.
-    if (default_styles_cache.empty ()) cache_defaults ();
+    if (default_styles_cache.empty ())
+      database::styles1::cache_defaults ();
     // Load all default markers.
     for (auto & mapping : default_styles_cache) {
       // The markers are the keys in the std::map.
@@ -498,7 +550,8 @@ Database_Styles_Item Database_Styles::read_item (std::string sheet, std::string 
   }
   if (take_default) {
     // Check and/or load defaults.
-    if (default_styles_cache.empty ()) cache_defaults ();
+    if (default_styles_cache.empty ())
+      database::styles1::cache_defaults ();
     // Take the default style for the marker.
     if (default_styles_cache.count (marker)) {
       // Get it.
@@ -613,56 +666,6 @@ void Database_Styles::write_item (std::string sheet, Database_Styles_Item & item
   database_styles_cache_mutex.lock ();
   database_styles_cache.clear ();
   database_styles_cache_mutex.unlock ();
-}
-
-
-void Database_Styles::cache_defaults ()
-{
-  // The amount of style values in the table.
-  unsigned int data_count = sizeof (styles_table) / sizeof (*styles_table);
-
-  // Iterate over the entire table.
-  for (unsigned int i = 0; i < data_count; i++) {
-
-    // Get the default values for one USFM marker.
-    Database_Styles_Item item;
-    item.marker = styles_table[i].marker;
-    item.name = styles_table[i].name;
-    item.info = styles_table[i].info;
-    item.category = styles_table[i].category;
-    item.type = styles_table[i].type;
-    item.subtype = styles_table[i].subtype;
-    item.fontsize = styles_table[i].fontsize;
-    item.italic = styles_table[i].italic;
-    item.bold = styles_table[i].bold;
-    item.underline = styles_table[i].underline;
-    item.smallcaps = styles_table[i].smallcaps;
-    item.superscript = styles_table[i].superscript;
-    item.justification = styles_table[i].justification;
-    item.spacebefore = styles_table[i].spacebefore;
-    item.spaceafter = styles_table[i].spaceafter;
-    item.leftmargin = styles_table[i].leftmargin;
-    item.rightmargin = styles_table[i].rightmargin;
-    item.firstlineindent = styles_table[i].firstlineindent;
-    item.spancolumns = styles_table[i].spancolumns;
-    item.color = styles_table[i].color;
-    item.print = styles_table[i].print;
-    item.userbool1 = styles_table[i].userbool1;
-    item.userbool2 = styles_table[i].userbool2;
-    item.userbool3 = styles_table[i].userbool3;
-    item.userint1 = styles_table[i].userint1;
-    item.userint2 = styles_table[i].userint2;
-    item.userint3 = styles_table[i].userint3;
-    item.userstring1 = styles_table[i].userstring1;
-    item.userstring2 = styles_table[i].userstring2;
-    item.userstring3 = styles_table[i].userstring3;
-    item.backgroundcolor = styles_table[i].backgroundcolor;
-
-    // Store the default item in the global default cache.
-    database_styles_cache_mutex.lock ();
-    default_styles_cache [item.marker] = item;
-    database_styles_cache_mutex.unlock ();
-  }
 }
 
 

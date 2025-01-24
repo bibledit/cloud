@@ -70,19 +70,19 @@ std::string styles_sheetm (Webserver_Request& webserver_request)
   header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());
   header.add_bread_crumb (styles_indexm_url (), menu_logic_styles_indexm_text ());
   page = header.run ();
-
+  
   Assets_View view;
   
   std::string name = webserver_request.query["name"];
   view.set_variable ("name", filter::strings::escape_special_xml_characters (name));
-
+  
   Database_Styles database_styles;
   
   const std::string& username = webserver_request.session_logic ()->get_username ();
   int userlevel = webserver_request.session_logic ()->get_level ();
   bool write = database_styles.hasWriteAccess (username, name);
   if (userlevel >= Filter_Roles::admin ()) write = true;
-
+  
   if (webserver_request.post.count ("new")) {
     std::string newstyle = webserver_request.post["entry"];
     std::vector <std::string> existing_markers = database_styles.getMarkers (name);
@@ -101,11 +101,11 @@ std::string styles_sheetm (Webserver_Request& webserver_request)
     return page;
   }
   
-  std::string del = webserver_request.query["delete"];
-  if (!del.empty()) {
-    if (write) database_styles.deleteMarker (name, del);
-  }
-
+  const std::string del = webserver_request.query["delete"];
+  if (!del.empty())
+    if (write)
+      database_styles.deleteMarker (name, del);
+  
   const std::map <std::string, std::string> markers_names = database_styles.getMarkersAndNames (name);
   pugi::xml_document document {};
   for (const auto& item : markers_names) {
@@ -138,10 +138,10 @@ std::string styles_sheetm (Webserver_Request& webserver_request)
     document.print (ss, "", pugi::format_raw);
     view.set_variable ("markerblock", ss.str());
   }
-
+  
   std::string folder = filter_url_create_root_path ({database_logic_databases (), "styles", name});
   view.set_variable ("folder", folder);
-
+  
   page += view.render ("styles", "sheetm");
   
   page += assets_page::footer ();

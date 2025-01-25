@@ -81,7 +81,7 @@ std::string Editor_Styles::getAll (Webserver_Request& webserver_request)
   const std::string stylesheet = database::config::bible::get_editor_stylesheet (bible);
   
   // The styles.
-  const std::map <std::string, std::string> data = webserver_request.database_styles()->getMarkersAndNames (stylesheet);
+  const std::map <std::string, std::string> data = database::styles1::get_markers_and_names (stylesheet);
   
   std::vector <std::string> lines{};
   

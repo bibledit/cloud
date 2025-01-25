@@ -286,6 +286,20 @@ void delete_marker (const std::string& sheet, const std::string& marker)
 }
 
 
+// Returns a map with all the markers and the names of the styles in the stylesheet.
+std::map <std::string, std::string> get_markers_and_names (const std::string& sheet)
+{
+  std::map <std::string, std::string> markers_names;
+  Database_Styles database_stules;
+  std::vector <std::string> markers = database_stules.getMarkers (sheet);
+  for (const auto& marker : markers) {
+    Item item = read_item (sheet, marker);
+    markers_names [marker] = item.name;
+  }
+  return markers_names;
+}
+
+
 
 } // End namespace styles1
 
@@ -346,19 +360,6 @@ void delete_sheet (const std::string& sheet)
 
 
 } // Namespace styles
-
-
-// Returns a map with all the markers and the names of the styles in the stylesheet.
-std::map <std::string, std::string> Database_Styles::getMarkersAndNames (std::string sheet)
-{
-  std::map <std::string, std::string> markers_names;
-  std::vector <std::string> markers = getMarkers (sheet);
-  for (auto marker : markers) {
-    database::styles1::Item item = database::styles1::read_item (sheet, marker);
-    markers_names [marker] = item.name;
-  }
-  return markers_names;
-}
 
 
 // Returns an array with all the markers of the styles in the stylesheet.
@@ -722,6 +723,22 @@ void delete_marker (const std::string& sheet, const std::string& marker)
 //  database_styles_cache.clear ();
 //  database_styles_cache_mutex.unlock ();
 }
+
+
+// Returns a map with all the markers and the names of the styles in the stylesheet.
+std::map <std::string, std::string> get_markers_and_names (const std::string& sheet)
+{
+  throw std::runtime_error("Todo write it for v2");
+//  std::map <std::string, std::string> markers_names;
+//  Database_Styles database_stules;
+//  std::vector <std::string> markers = database_stules.getMarkers (sheet);
+//  for (const auto& marker : markers) {
+//    Item item = read_item (sheet, marker);
+//    markers_names [marker] = item.name;
+//  }
+//  return markers_names;
+}
+
 
 
 }

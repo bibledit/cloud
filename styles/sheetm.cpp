@@ -106,7 +106,7 @@ std::string styles_sheetm (Webserver_Request& webserver_request)
     if (write)
       database::styles1::delete_marker (name, del);
   
-  const std::map <std::string, std::string> markers_names = database_styles.getMarkersAndNames (name);
+  const std::map <std::string, std::string> markers_names = database::styles1::get_markers_and_names (name);
   pugi::xml_document document {};
   for (const auto& item : markers_names) {
     const std::string marker = item.first;

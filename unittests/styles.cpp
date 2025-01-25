@@ -248,7 +248,7 @@ TEST (styles, css)
     marker = "add";
     if (find (markers.begin (), markers.end (), marker) == markers.end ()) EXPECT_EQ (marker, "not found");
     
-    std::map <std::string, std::string> markers_names = database_styles.getMarkersAndNames ("testsheet");
+    std::map <std::string, std::string> markers_names = database::styles1::get_markers_and_names ("testsheet");
     EXPECT_EQ (205, static_cast<int>(markers_names.size()));
     EXPECT_EQ ("Blank line", markers_names ["b"]);
     EXPECT_EQ ("Normal paragraph", markers_names ["p"]);
@@ -261,7 +261,7 @@ TEST (styles, css)
     marker = "add";
     if (find (markers.begin (), markers.end (), marker) == markers.end ()) EXPECT_EQ (marker, "not found");
     
-    markers_names = database_styles.getMarkersAndNames ("testsheet");
+    markers_names = database::styles1::get_markers_and_names ("testsheet");
     EXPECT_EQ ("", markers_names ["p"]);
     EXPECT_EQ ("Translator’s addition", markers_names ["add"]);
   }

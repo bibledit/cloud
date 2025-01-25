@@ -289,7 +289,7 @@ void create_database ()
 
 // Creates a stylesheet.
 // It gets a filling for styles v1.
-// For styles v2 the idea is that it get no filling yet after the create action as everything is default still.
+// For styles v2 the idea is that it gets no filling yet after the create action as everything is default still.
 void create_sheet (const std::string& sheet)
 {
   // Folder for storing the stylesheet.

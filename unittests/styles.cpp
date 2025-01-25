@@ -254,7 +254,7 @@ TEST (styles, css)
     EXPECT_EQ ("Normal paragraph", markers_names ["p"]);
     EXPECT_EQ ("Translator’s addition", markers_names ["add"]);
     
-    database_styles.deleteMarker ("testsheet", "p");
+    database::styles1::delete_marker ("testsheet", "p");
     markers = database_styles.getMarkers ("testsheet");
     marker = "p";
     if (find (markers.begin (), markers.end (), marker) != markers.end ()) EXPECT_EQ (marker, "should not be there");
@@ -338,7 +338,7 @@ TEST (styles, css)
     if (find (markers.begin (), markers.end (), marker) != markers.end ()) EXPECT_EQ (marker, "should not be there");
     
     // Add marker.
-    database_styles.addMarker ("testsheet", marker);
+    database::styles1::add_marker ("testsheet", marker);
     markers = database_styles.getMarkers ("testsheet");
     if (find (markers.begin (), markers.end (), marker) == markers.end ()) EXPECT_EQ (marker, "should be there");
   }

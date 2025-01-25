@@ -89,7 +89,7 @@ std::string styles_sheetm (Webserver_Request& webserver_request)
     if (find (existing_markers.begin(), existing_markers.end(), newstyle) != existing_markers.end()) {
       page += assets_page::error (translate("This style already exists"));
     } else {
-      database_styles.addMarker (name, newstyle);
+      database::styles1::add_marker (name, newstyle);
       styles_sheets_create_all ();
       page += assets_page::success (translate("The style has been created"));
     }
@@ -104,7 +104,7 @@ std::string styles_sheetm (Webserver_Request& webserver_request)
   const std::string del = webserver_request.query["delete"];
   if (!del.empty())
     if (write)
-      database_styles.deleteMarker (name, del);
+      database::styles1::delete_marker (name, del);
   
   const std::map <std::string, std::string> markers_names = database_styles.getMarkersAndNames (name);
   pugi::xml_document document {};

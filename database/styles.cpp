@@ -269,6 +269,24 @@ static void write_item (const std::string& sheet, Item& item)
 }
 
 
+// Adds a marker to the stylesheet.
+void add_marker (const std::string& sheet, const std::string& marker)
+{
+  Item item = read_item (sheet, marker);
+  write_item (sheet, item);
+}
+
+
+// Deletes a marker from a stylesheet.
+void delete_marker (const std::string& sheet, const std::string& marker)
+{
+  filter_url_unlink (stylefile (sheet, marker));
+  std::scoped_lock lock (database_styles_cache_mutex);
+  database_styles_cache.clear ();
+}
+
+
+
 } // End namespace styles1
 
 
@@ -327,27 +345,7 @@ void delete_sheet (const std::string& sheet)
 }
 
 
-
-
 } // Namespace styles
-
-
-// Adds a marker to the stylesheet.
-void Database_Styles::addMarker (std::string sheet, std::string marker)
-{
-  database::styles1::Item item = database::styles1::read_item (sheet, marker);
-  write_item (sheet, item);
-}
-
-
-// Deletes a marker from a stylesheet.
-void Database_Styles::deleteMarker (std::string sheet, std::string marker)
-{
-  filter_url_unlink (database::styles1::stylefile (sheet, marker));
-  database_styles_cache_mutex.lock ();
-  database_styles_cache.clear ();
-  database_styles_cache_mutex.unlock ();
-}
 
 
 // Returns a map with all the markers and the names of the styles in the stylesheet.
@@ -679,7 +677,9 @@ bool Database_Styles::hasWriteAccess (std::string user, std::string sheet)
 
 namespace database::styles2 { // Todo database functions for styles v2.
 
+
 std::map<std::string,std::list<stylesv2::Style>> sheet_cache;
+
 
 const std::list<stylesv2::Style>& get_styles(const std::string& stylesheet)
 {
@@ -702,5 +702,26 @@ const std::list<stylesv2::Style>& get_styles(const std::string& stylesheet)
   // In cache: Return reference to that.
   return (*iter).second;
 }
+
+
+// Adds a marker to the stylesheet.
+void add_marker (const std::string& sheet, const std::string& marker)
+{
+  throw std::runtime_error("Todo write it for v2");
+//  Item item = read_item (sheet, marker);
+//  write_item (sheet, item);
+}
+
+
+// Deletes a marker from a stylesheet.
+void delete_marker (const std::string& sheet, const std::string& marker)
+{
+  throw std::runtime_error("Todo write it for v2");
+//  filter_url_unlink (database::styles1::stylefile (sheet, marker));
+//  database_styles_cache_mutex.lock ();
+//  database_styles_cache.clear ();
+//  database_styles_cache_mutex.unlock ();
+}
+
 
 }

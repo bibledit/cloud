@@ -29,7 +29,9 @@ void create_database ();
 } // End namespace styles
 
 
-struct Database_Styles_Item
+namespace database::styles1 {
+
+struct Item
 {
   std::string marker {};
   std::string name {};
@@ -65,6 +67,9 @@ struct Database_Styles_Item
 };
 
 
+} // End namespace styles1
+
+
 class Database_Styles
 {
 public:
@@ -75,7 +80,7 @@ public:
   void deleteMarker (std::string sheet, std::string marker);
   std::map <std::string, std::string> getMarkersAndNames (std::string sheet);
   std::vector <std::string> getMarkers (std::string sheet);
-  Database_Styles_Item getMarkerData (std::string sheet, std::string marker);
+  database::styles1::Item getMarkerData (std::string sheet, std::string marker);
   void updateName (std::string sheet, std::string marker, std::string name);
   void updateInfo (std::string sheet, std::string marker, std::string info);
   void updateCategory (std::string sheet, std::string marker, std::string category);
@@ -110,8 +115,8 @@ public:
   bool hasWriteAccess (std::string user, std::string sheet);
 private:
   std::string stylefile (std::string sheet, std::string marker);
-  Database_Styles_Item read_item (std::string sheet, std::string marker);
-  void write_item (std::string sheet, Database_Styles_Item & item);
+  database::styles1::Item read_item (std::string sheet, std::string marker);
+  void write_item (std::string sheet, database::styles1::Item & item);
 };
 
 
@@ -119,4 +124,4 @@ namespace database::styles2 { // Todo database function for styles v2.
 
 const std::list<stylesv2::Style>& get_styles(const std::string& stylesheet);
 
-}
+} // End namespace styles2

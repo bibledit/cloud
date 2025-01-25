@@ -107,7 +107,7 @@ TEST (filter_html, get_inner_html)
 
 TEST (filter_html, basic_formatted_note_1)
 {
-  Database_Styles_Item style;
+  database::styles1::Item style;
   HtmlText html_text ("");
   html_text.new_paragraph ();
   html_text.add_text ("Text");
@@ -126,7 +126,7 @@ TEST (filter_html, basic_formatted_note_1)
 
 TEST (filter_html, basic_formatted_note_2)
 {
-  Database_Styles_Item style;
+  database::styles1::Item style;
   HtmlText html_text ("");
   html_text.have_popup_notes();
   html_text.new_paragraph ();
@@ -146,7 +146,7 @@ TEST (filter_html, basic_formatted_note_2)
 
 TEST (filter_html, embedded_formatted_note_1)
 {
-  Database_Styles_Item style;
+  database::styles1::Item style;
   HtmlText html_text ("");
   html_text.new_paragraph ();
   html_text.add_text ("text");
@@ -168,7 +168,7 @@ TEST (filter_html, embedded_formatted_note_1)
 
 TEST (filter_html, embedded_formatted_note_2)
 {
-  Database_Styles_Item style;
+  database::styles1::Item style;
   HtmlText html_text ("");
   html_text.have_popup_notes();
   html_text.new_paragraph ();

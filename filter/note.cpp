@@ -92,7 +92,7 @@ void citation::run_restart (const std::string& moment)
   }
 }
 
-void citations::evaluate_style (const Database_Styles_Item & style)
+void citations::evaluate_style (const database::styles1::Item & style)
 {
   // Evaluate the style to find out whether to create a note citation for it.
   bool create = false;

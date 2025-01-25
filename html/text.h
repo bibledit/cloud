@@ -43,7 +43,7 @@ public:
   std::string get_inner_html ();
   void new_heading1 (const std::string& text);
   void new_page_break ();
-  void open_text_style (const Database_Styles_Item& style, const bool note, const bool embed);
+  void open_text_style (const database::styles1::Item& style, const bool note, const bool embed);
   void close_text_style (const bool note, const bool embed);
   void add_note (const std::string& citation, const std::string& style, const bool endnote = false);
   void add_note_text (const std::string& text);

@@ -77,7 +77,7 @@ public:
   void get_styles (std::string stylesheet);
 private:
   // A map of marker -> object with style information.
-  std::map <std::string, Database_Styles_Item> styles {};
+  std::map <std::string, database::styles1::Item> styles {};
   // Usually this is: c
   std::string chapterMarker {};
   // Array holding styles created in Odf_Text class.
@@ -98,12 +98,12 @@ private:
   void process_usfm ();
   void processNote ();
   // Opening a new paragraph.
-  void create_paragraph_style (const Database_Styles_Item & style, bool keepWithNext);
-  void new_paragraph (const Database_Styles_Item & style, bool keepWithNext);
+  void create_paragraph_style (const database::styles1::Item & style, bool keepWithNext);
+  void new_paragraph (const database::styles1::Item & style, bool keepWithNext);
   void applyDropCapsToCurrentParagraph (int dropCapsLength);
   void putChapterNumberInFrame (std::string chapterText);
-  std::string getNoteCitation (const Database_Styles_Item & style);
-  void ensureNoteParagraphStyle (std::string marker, const Database_Styles_Item & style);
+  std::string getNoteCitation (const database::styles1::Item & style);
+  void ensureNoteParagraphStyle (std::string marker, const database::styles1::Item & style);
 
 public:
   // Container with objects (book, chapter, verse, marker, header value).

@@ -174,7 +174,7 @@ void Filter_Text::get_styles (std::string stylesheet)
   Database_Styles database_styles;
   std::vector <std::string> markers = database_styles.getMarkers (stylesheet);
   for (const auto& marker : markers) {
-    Database_Styles_Item style = database_styles.getMarkerData (stylesheet, marker);
+    database::styles1::Item style = database_styles.getMarkerData (stylesheet, marker);
     styles [marker] = style;
     if (style.type == StyleTypeFootEndNote) {
       if (style.subtype == FootEndNoteSubtypeStandardContent) {
@@ -205,7 +205,7 @@ void Filter_Text::pre_process_usfm ()
         marker = marker.substr (1); // Remove the initial backslash, e.g. '\id' becomes 'id'.
         if (filter::usfm::is_opening_marker (marker)) {
           if (styles.find (marker) != styles.end()) {
-            Database_Styles_Item style = styles [marker];
+            database::styles1::Item style = styles [marker];
             note_citations.evaluate_style(style);
             switch (style.type) {
               case StyleTypeIdentifier:
@@ -359,7 +359,7 @@ void Filter_Text::process_usfm ()
         if (styles.find (marker) != styles.end())
         {
           // Deal with known style.
-          const Database_Styles_Item& style = styles.at(marker);
+          const database::styles1::Item& style = styles.at(marker);
           switch (style.type)
           {
             case StyleTypeIdentifier:
@@ -735,7 +735,7 @@ void Filter_Text::process_usfm ()
                 } else {
                   putChapterNumberInFrame (m_output_chapter_text_at_first_verse);
                 }
-                Database_Styles_Item styleItem = Database_Styles_Item ();
+                database::styles1::Item styleItem = database::styles1::Item ();
                 styleItem.marker = "dropcaps";
                 if (html_text_standard) html_text_standard->open_text_style (styleItem, false, false);
                 if (html_text_standard) html_text_standard->add_text (m_output_chapter_text_at_first_verse);
@@ -1129,7 +1129,7 @@ void Filter_Text::processNote ()
       std::string marker = filter::usfm::get_marker (currentItem);
       if (styles.find (marker) != styles.end())
       {
-        Database_Styles_Item style = styles[marker];
+        database::styles1::Item style = styles[marker];
         switch (style.type)
         {
           case StyleTypeVerseNumber:
@@ -1531,7 +1531,7 @@ void Filter_Text::produceFalloutDocument (std::string path)
 // This function ensures that a certain paragraph style is in the OpenDocument.
 // $style: The style to use.
 // $keepWithNext: Whether to keep this paragraph with the next one.
-void Filter_Text::create_paragraph_style (const Database_Styles_Item & style, bool keepWithNext)
+void Filter_Text::create_paragraph_style (const database::styles1::Item & style, bool keepWithNext)
 {
   std::string marker = style.marker;
   if (find (createdStyles.begin(), createdStyles.end(), marker) == createdStyles.end()) {
@@ -1563,7 +1563,7 @@ void Filter_Text::create_paragraph_style (const Database_Styles_Item & style, bo
 // and then opens a paragraph with that style.
 // $style: The style to use.
 // $keepWithNext: Whether to keep this paragraph with the next one.
-void Filter_Text::new_paragraph (const Database_Styles_Item & style, bool keepWithNext)
+void Filter_Text::new_paragraph (const database::styles1::Item & style, bool keepWithNext)
 {
   create_paragraph_style(style, keepWithNext);
   std::string marker = style.marker;
@@ -1587,7 +1587,7 @@ void Filter_Text::applyDropCapsToCurrentParagraph (int dropCapsLength)
   if (odf_text_standard) {
     std::string combined_style = odf_text_standard->m_current_paragraph_style + "_" + chapterMarker + std::to_string (dropCapsLength);
     if (find (createdStyles.begin(), createdStyles.end(), combined_style) == createdStyles.end()) {
-      Database_Styles_Item style = styles[odf_text_standard->m_current_paragraph_style];
+      database::styles1::Item style = styles[odf_text_standard->m_current_paragraph_style];
       std::string fontname = database::config::bible::get_export_font (m_bible);
       float fontsize = style.fontsize;
       int italic = style.italic;
@@ -1620,7 +1620,7 @@ void Filter_Text::applyDropCapsToCurrentParagraph (int dropCapsLength)
 // $chapterText: The text of the chapter indicator to put.
 void Filter_Text::putChapterNumberInFrame (std::string chapterText)
 {
-  Database_Styles_Item style = styles[chapterMarker];
+  database::styles1::Item style = styles[chapterMarker];
   if (odf_text_standard) odf_text_standard->place_text_in_frame (chapterText, this->chapterMarker, style.fontsize, style.italic, style.bold);
   if (odf_text_text_only) odf_text_text_only->place_text_in_frame (chapterText, this->chapterMarker, style.fontsize, style.italic, style.bold);
   if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->place_text_in_frame (chapterText, this->chapterMarker, style.fontsize, style.italic, style.bold);
@@ -1635,7 +1635,7 @@ void Filter_Text::putChapterNumberInFrame (std::string chapterText)
 // The note citation is the character that is put in superscript in the main body of Bible text.
 // $style: array with values for the note opening marker.
 // Returns: The character for the note citation.
-std::string Filter_Text::getNoteCitation (const Database_Styles_Item & style)
+std::string Filter_Text::getNoteCitation (const database::styles1::Item & style)
 {
   bool end_of_text_reached = (chapter_usfm_markers_and_text_pointer + 1) >= chapter_usfm_markers_and_text.size ();
   if (end_of_text_reached) return std::string();
@@ -1657,7 +1657,7 @@ std::string Filter_Text::getNoteCitation (const Database_Styles_Item & style)
 // This function ensures that a certain paragraph style for a note is present in the OpenDocument.
 // $marker: Which note, e.g. 'f' or 'x' or 'fe'.
 // $style: The style to use.
-void Filter_Text::ensureNoteParagraphStyle (std::string marker, const Database_Styles_Item & style)
+void Filter_Text::ensureNoteParagraphStyle (std::string marker, const database::styles1::Item & style)
 {
   if (find (createdStyles.begin(), createdStyles.end(), marker) == createdStyles.end()) {
     std::string fontname = database::config::bible::get_export_font (m_bible);

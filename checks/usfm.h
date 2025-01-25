@@ -48,7 +48,7 @@ private:
   
   // Stylesheet.
   std::vector <std::string> markers_stylesheet {};
-  std::map <std::string, Database_Styles_Item> style_items {};
+  std::map <std::string, database::styles1::Item> style_items {};
   
   // Matching markers.
   std::vector <std::string> markers_requiring_endmarkers {};

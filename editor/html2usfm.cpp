@@ -76,7 +76,7 @@ void Editor_Html2Usfm::stylesheet (const std::string& stylesheet)
   const std::vector <std::string> markers = database_styles.getMarkers (stylesheet);
   // Load the style information into the object.
   for (const std::string& marker : markers) {
-    Database_Styles_Item style = database_styles.getMarkerData (stylesheet, marker);
+    database::styles1::Item style = database_styles.getMarkerData (stylesheet, marker);
     styles [marker] = style;
     // Get markers that should not have endmarkers.
     bool suppress = false;

@@ -46,7 +46,7 @@ void Editor_Usfm2Html::stylesheet (const std::string& stylesheet)
   const std::vector <std::string> markers = database_styles.getMarkers (stylesheet);
   // Load the style information into the object.
   for (const auto& marker : markers) {
-    Database_Styles_Item style = database_styles.getMarkerData (stylesheet, marker);
+    database::styles1::Item style = database_styles.getMarkerData (stylesheet, marker);
     m_styles [marker] = style;
     if (style.type == StyleTypeFootEndNote) {
       if (style.subtype == FootEndNoteSubtypeStandardContent) {
@@ -185,7 +185,7 @@ void Editor_Usfm2Html::process ()
 
       if (m_styles.count (marker))
       {
-        const Database_Styles_Item& style = m_styles.at(marker);
+        const database::styles1::Item& style = m_styles.at(marker);
         switch (style.type)
         {
           case StyleTypeIdentifier:
@@ -480,7 +480,7 @@ void Editor_Usfm2Html::close_paragraph ()
 // This opens a text style.
 // $style: the array containing the style variables.
 // $embed: boolean: Whether to open embedded / nested style.
-void Editor_Usfm2Html::open_text_style (const Database_Styles_Item& style, const bool embed)
+void Editor_Usfm2Html::open_text_style (const database::styles1::Item& style, const bool embed)
 {
   const std::string marker = style.marker;
   if (m_note_opened) {
@@ -679,7 +679,7 @@ bool Editor_Usfm2Html::road_is_clear ()
     input_marker = marker;
     if (!m_styles.count (marker))
       return true;
-    Database_Styles_Item style = m_styles [marker];
+    database::styles1::Item style = m_styles [marker];
     input_type = style.type;
     input_subtype = style.subtype;
   }
@@ -704,7 +704,7 @@ bool Editor_Usfm2Html::road_is_clear ()
         const std::string marker = filter::usfm::get_marker (current_item);
         if (m_styles.count (marker))
         {
-          Database_Styles_Item& style = m_styles.at(marker);
+          database::styles1::Item& style = m_styles.at(marker);
           markers.push_back (marker);
           types.push_back (style.type);
           subtypes.push_back (style.subtype);

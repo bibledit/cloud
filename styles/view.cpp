@@ -73,7 +73,7 @@ std::string styles_view (Webserver_Request& webserver_request)
 
   
   Database_Styles database_styles {};
-  Database_Styles_Item marker_data = database_styles.getMarkerData (sheet, style);
+  database::styles1::Item marker_data = database_styles.getMarkerData (sheet, style);
   
   
   // Whether the logged-in user has write access to the stylesheet.
@@ -201,7 +201,7 @@ std::string styles_view (Webserver_Request& webserver_request)
       Dialog_List dialog_list = Dialog_List ("view", translate("Would you like to change the sub type of this style?"), std::string(), std::string());
       dialog_list.add_query ("sheet", sheet);
       dialog_list.add_query ("style", style);
-      Database_Styles_Item style_data = database_styles.getMarkerData (sheet, style);
+      database::styles1::Item style_data = database_styles.getMarkerData (sheet, style);
       int type2 = style_data.type;
       for (int i = 0; i < 99; i++) {
         std::string text = styles_logic_subtype_text (type2, i);
@@ -261,7 +261,7 @@ std::string styles_view (Webserver_Request& webserver_request)
       Dialog_List dialog_list = Dialog_List ("view", translate("Would you like to change whether this style is in italics?"), std::string(), std::string());
       dialog_list.add_query ("sheet", sheet);
       dialog_list.add_query ("style", style);
-      Database_Styles_Item style_item = database_styles.getMarkerData (sheet, style);
+      database::styles1::Item style_item = database_styles.getMarkerData (sheet, style);
       int last_value {ooitOn};
       if (styles_logic_italic_bold_underline_smallcaps_are_full (style_item.type, style_item.subtype))
         last_value = ooitToggle;
@@ -289,7 +289,7 @@ std::string styles_view (Webserver_Request& webserver_request)
       Dialog_List dialog_list = Dialog_List ("view", translate("Would you like to change whether this style is in bold?"), std::string(), std::string());
       dialog_list.add_query ("sheet", sheet);
       dialog_list.add_query ("style", style);
-      Database_Styles_Item style_data = database_styles.getMarkerData (sheet, style);
+      database::styles1::Item style_data = database_styles.getMarkerData (sheet, style);
       int last_value {ooitOn};
       if (styles_logic_italic_bold_underline_smallcaps_are_full (style_data.type, style_data.subtype))
         last_value = ooitToggle;
@@ -317,7 +317,7 @@ std::string styles_view (Webserver_Request& webserver_request)
       Dialog_List dialog_list = Dialog_List ("view", translate("Would you like to change whether this style is underlined?"), std::string(), std::string());
       dialog_list.add_query ("sheet", sheet);
       dialog_list.add_query ("style", style);
-      Database_Styles_Item style_data = database_styles.getMarkerData (sheet, style);
+      database::styles1::Item style_data = database_styles.getMarkerData (sheet, style);
       int last_value {ooitOn};
       if (styles_logic_italic_bold_underline_smallcaps_are_full (type, subtype))
         last_value = ooitToggle;
@@ -345,7 +345,7 @@ std::string styles_view (Webserver_Request& webserver_request)
       Dialog_List dialog_list = Dialog_List ("view", translate("Would you like to change whether this style is in small caps?"), std::string(), std::string());
       dialog_list.add_query ("sheet", sheet);
       dialog_list.add_query ("style", style);
-      Database_Styles_Item style_data = database_styles.getMarkerData (sheet, style);
+      database::styles1::Item style_data = database_styles.getMarkerData (sheet, style);
       int last_value {ooitOn};
       if (styles_logic_italic_bold_underline_smallcaps_are_full (style_data.type, style_data.subtype))
         last_value = ooitToggle;

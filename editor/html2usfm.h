@@ -42,7 +42,7 @@ public:
   std::string get ();
 private:
   pugi::xml_document document {}; // DOMDocument holding the html.
-  std::map <std::string, Database_Styles_Item> styles {}; // Style information.
+  std::map <std::string, database::styles1::Item> styles {}; // Style information.
   std::vector <std::string> output {}; // Output USFM.
   std::string current_line {}; // Growing current USFM line.
   bool mono {false}; // Monospace font.

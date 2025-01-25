@@ -35,7 +35,7 @@ Checks_Usfm::Checks_Usfm (const std::string& bible)
   const std::string stylesheet = database::config::bible::get_export_stylesheet (bible);
   markers_stylesheet = database_styles.getMarkers (stylesheet);
   for (const auto & marker : markers_stylesheet) {
-    Database_Styles_Item style = database_styles.getMarkerData (stylesheet, marker);
+    database::styles1::Item style = database_styles.getMarkerData (stylesheet, marker);
     style_items [marker] = style;
     int styleType = style.type;
     int styleSubtype = style.subtype;
@@ -507,7 +507,7 @@ void Checks_Usfm::note ()
   const std::string current_marker = filter::usfm::get_marker (usfm_item);
   
   // Get this style's properties.
-  Database_Styles_Item style = style_items [current_marker];
+  database::styles1::Item style = style_items [current_marker];
   
   // Set a flag if this USFM starts a footnote or an endnote or a crossreference.
   // Clear this flag if it ends the note or xref.

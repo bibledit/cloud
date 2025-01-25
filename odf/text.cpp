@@ -801,7 +801,7 @@ void odf_text::update_current_paragraph_style (std::string name)
 // $style: the object with the style variables.
 // $note: Whether this refers to notes.
 // $embed: boolean: Whether nest $style in an existing character style.
-void odf_text::open_text_style (Database_Styles_Item style, bool note, bool embed)
+void odf_text::open_text_style (database::styles1::Item style, bool note, bool embed)
 {
   std::string marker = style.marker;
   if (find (created_styles.begin(), created_styles.end(), marker) == created_styles.end()) {

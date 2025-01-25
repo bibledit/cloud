@@ -62,7 +62,7 @@ void Styles_Css::generate ()
   }
   std::vector <std::string> markers = m_webserver_request.database_styles ()->getMarkers (m_stylesheet);
   for (const auto& marker : markers) {
-    Database_Styles_Item style = m_webserver_request.database_styles ()->getMarkerData (m_stylesheet, marker);
+    database::styles1::Item style = m_webserver_request.database_styles ()->getMarkerData (m_stylesheet, marker);
     evaluate (&style);
   }
 }
@@ -71,7 +71,7 @@ void Styles_Css::generate ()
 // Evaluates the style so as to decide how it should look.
 void Styles_Css::evaluate (void * database_styles_item)
 {
-  Database_Styles_Item* style = static_cast<Database_Styles_Item*> (database_styles_item);
+  database::styles1::Item* style = static_cast<database::styles1::Item*> (database_styles_item);
   
   switch (style->type)
   {
@@ -171,7 +171,7 @@ void Styles_Css::evaluate (void * database_styles_item)
 // $keepwithnext: Keep text in this style together with the next paragraph.
 void Styles_Css::add (void * database_styles_item, bool paragraph, bool keepwithnext)
 {
-  Database_Styles_Item* style = static_cast<Database_Styles_Item*> (database_styles_item);
+  database::styles1::Item* style = static_cast<database::styles1::Item*> (database_styles_item);
 
   std::string class_name {style->marker};
 

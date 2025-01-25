@@ -57,13 +57,21 @@ static std::string databasefolder ()
 }
 
 
-static std::string sheetfolder (std::string sheet)
+static std::string sheetfolder (const std::string& sheet)
 {
   return filter_url_create_path ({databasefolder (), sheet});
 }
 
 
 namespace database::styles1 {
+
+
+static std::string stylefile (const std::string& sheet, const std::string& marker)
+{
+  return filter_url_create_path ({sheetfolder (sheet), marker});
+}
+
+
 static void cache_defaults ()
 {
   // The amount of style values in the table.
@@ -112,7 +120,102 @@ static void cache_defaults ()
     database_styles_cache_mutex.unlock ();
   }
 }
+
+
+// Reads a style from file.
+// If the file is not there, it takes the default value.
+static database::styles1::Item read_item (const std::string& sheet, const std::string& marker)
+{
+  database::styles1::Item item;
+  
+  // Check whether sheet is in cache.
+  {
+    std::scoped_lock lock (database_styles_cache_mutex);
+    if (database_styles_cache.count (sheet)) {
+      // Check whether marker is in cache.
+      if (database_styles_cache [sheet].count (marker)) {
+        // Cache hit: Return the item.
+        return database_styles_cache [sheet] [marker];
+      }
+    }
+  }
+  
+  // Read the item.
+  bool take_default = sheet.empty ();
+  std::string filename;
+  if (!take_default) {
+    filename = database::styles1::stylefile (sheet, marker);
+    if (!file_or_dir_exists (filename)) take_default = true;
+  }
+  if (take_default) {
+    // Check and/or load defaults.
+    if (default_styles_cache.empty ())
+      database::styles1::cache_defaults ();
+    // Take the default style for the marker.
+    if (default_styles_cache.count (marker)) {
+      // Get it.
+      item = default_styles_cache [marker];
+      // Cache it.
+      std::scoped_lock lock (database_styles_cache_mutex);
+      database_styles_cache [sheet] [marker] = item;
+      // Return it.
+      return item;
+    }
+    // Non-standard marker.
+    item.marker = marker;
+    item.name = translate ("Name");
+    item.info = translate ("Information");
+  } else {
+    // Read the style from file.
+    const std::string contents = filter_url_file_get_contents (filename);
+    const std::vector <std::string> lines = filter::strings::explode (contents, '\n');
+    for (unsigned int i = 0; i < lines.size(); i++) {
+      if (i == 0)  item.marker = lines [i];
+      if (i == 1)  item.name = lines [i];
+      if (i == 2)  item.info = lines [i];
+      if (i == 3)  item.category = lines [i];
+      if (i == 4)  item.type = filter::strings::convert_to_int (lines [i]);
+      if (i == 5)  item.subtype = filter::strings::convert_to_int (lines [i]);
+      if (i == 6)  item.fontsize = filter::strings::convert_to_float (lines [i]);
+      if (i == 7)  item.italic = filter::strings::convert_to_int (lines [i]);
+      if (i == 8)  item.bold = filter::strings::convert_to_int (lines [i]);
+      if (i == 9)  item.underline = filter::strings::convert_to_int (lines [i]);
+      if (i == 10) item.smallcaps = filter::strings::convert_to_int (lines [i]);
+      if (i == 11) item.superscript = filter::strings::convert_to_int (lines [i]);
+      if (i == 12) item.justification = filter::strings::convert_to_int (lines [i]);
+      if (i == 13) item.spacebefore = filter::strings::convert_to_float (lines [i]);
+      if (i == 14) item.spaceafter = filter::strings::convert_to_float (lines [i]);
+      if (i == 15) item.leftmargin = filter::strings::convert_to_float (lines [i]);
+      if (i == 16) item.rightmargin = filter::strings::convert_to_float (lines [i]);
+      if (i == 17) item.firstlineindent = filter::strings::convert_to_float (lines [i]);
+      if (i == 18) item.spancolumns = filter::strings::convert_to_bool (lines [i]);
+      if (i == 19) item.color = lines [i];
+      if (i == 20) item.print = filter::strings::convert_to_bool (lines [i]);
+      if (i == 21) item.userbool1 = filter::strings::convert_to_bool (lines [i]);
+      if (i == 22) item.userbool2 = filter::strings::convert_to_bool (lines [i]);
+      if (i == 23) item.userbool3 = filter::strings::convert_to_bool (lines [i]);
+      if (i == 24) item.userint1 = filter::strings::convert_to_int (lines [i]);
+      if (i == 25) item.userint2 = filter::strings::convert_to_int (lines [i]);
+      if (i == 26) item.userint3 = filter::strings::convert_to_int (lines [i]);
+      if (i == 27) item.userstring1 = lines [i];
+      if (i == 28) item.userstring2 = lines [i];
+      if (i == 29) item.userstring3 = lines [i];
+      if (i == 30) item.backgroundcolor = lines [i];
+    }
+  }
+  
+  // Cache the item.
+  {
+    std::scoped_lock lock (database_styles_cache_mutex);
+    database_styles_cache [sheet] [marker] = item;
+  }
+  
+  // Return the item.
+  return item;
 }
+
+
+} // End namespace styles1
 
 
 namespace database::styles {
@@ -173,7 +276,7 @@ void Database_Styles::deleteSheet (std::string sheet)
 // Adds a marker to the stylesheet.
 void Database_Styles::addMarker (std::string sheet, std::string marker)
 {
-  database::styles1::Item item = read_item (sheet, marker);
+  database::styles1::Item item = database::styles1::read_item (sheet, marker);
   write_item (sheet, item);
 }
 
@@ -181,7 +284,7 @@ void Database_Styles::addMarker (std::string sheet, std::string marker)
 // Deletes a marker from a stylesheet.
 void Database_Styles::deleteMarker (std::string sheet, std::string marker)
 {
-  filter_url_unlink (stylefile (sheet, marker));
+  filter_url_unlink (database::styles1::stylefile (sheet, marker));
   database_styles_cache_mutex.lock ();
   database_styles_cache.clear ();
   database_styles_cache_mutex.unlock ();
@@ -194,7 +297,7 @@ std::map <std::string, std::string> Database_Styles::getMarkersAndNames (std::st
   std::map <std::string, std::string> markers_names;
   std::vector <std::string> markers = getMarkers (sheet);
   for (auto marker : markers) {
-    database::styles1::Item item = read_item (sheet, marker);
+    database::styles1::Item item = database::styles1::read_item (sheet, marker);
     markers_names [marker] = item.name;
   }
   return markers_names;
@@ -224,14 +327,14 @@ std::vector <std::string> Database_Styles::getMarkers (std::string sheet)
 // Returns an object with all data belonging to a marker.
 database::styles1::Item Database_Styles::getMarkerData (std::string sheet, std::string marker)
 {
-  return read_item (sheet, marker);
+  return database::styles1::read_item (sheet, marker);
 }
 
 
 // Updates a style's name.
 void Database_Styles::updateName (std::string sheet, std::string marker, std::string name)
 {
-  database::styles1::Item item = read_item (sheet, marker);
+  database::styles1::Item item = database::styles1::read_item (sheet, marker);
   item.name = name;
   write_item (sheet, item);
 }
@@ -240,7 +343,7 @@ void Database_Styles::updateName (std::string sheet, std::string marker, std::st
 // Updates a style's info.
 void Database_Styles::updateInfo (std::string sheet, std::string marker, std::string info)
 {
-  database::styles1::Item item = read_item (sheet, marker);
+  database::styles1::Item item = database::styles1::read_item (sheet, marker);
   item.info = info;
   write_item (sheet, item);
 }
@@ -249,7 +352,7 @@ void Database_Styles::updateInfo (std::string sheet, std::string marker, std::st
 // Updates a style's category.
 void Database_Styles::updateCategory (std::string sheet, std::string marker, std::string category)
 {
-  database::styles1::Item item = read_item (sheet, marker);
+  database::styles1::Item item = database::styles1::read_item (sheet, marker);
   item.category = category;
   write_item (sheet, item);
 }
@@ -258,7 +361,7 @@ void Database_Styles::updateCategory (std::string sheet, std::string marker, std
 // Updates a style's type.
 void Database_Styles::updateType (std::string sheet, std::string marker, int type)
 {
-  database::styles1::Item item = read_item (sheet, marker);
+  database::styles1::Item item = database::styles1::read_item (sheet, marker);
   item.type = type;
   write_item (sheet, item);
 }
@@ -267,7 +370,7 @@ void Database_Styles::updateType (std::string sheet, std::string marker, int typ
 // Updates a style's subtype.
 void Database_Styles::updateSubType (std::string sheet, std::string marker, int subtype)
 {
-  database::styles1::Item item = read_item (sheet, marker);
+  database::styles1::Item item = database::styles1::read_item (sheet, marker);
   item.subtype = subtype;
   write_item (sheet, item);
 }
@@ -276,7 +379,7 @@ void Database_Styles::updateSubType (std::string sheet, std::string marker, int 
 // Updates a style's font size.
 void Database_Styles::updateFontsize (std::string sheet, std::string marker, float fontsize)
 {
-  database::styles1::Item item = read_item (sheet, marker);
+  database::styles1::Item item = database::styles1::read_item (sheet, marker);
   item.fontsize = fontsize;
   write_item (sheet, item);
 }
@@ -285,7 +388,7 @@ void Database_Styles::updateFontsize (std::string sheet, std::string marker, flo
 // Updates a style's italic setting.
 void Database_Styles::updateItalic (std::string sheet, std::string marker, int italic)
 {
-  database::styles1::Item item = read_item (sheet, marker);
+  database::styles1::Item item = database::styles1::read_item (sheet, marker);
   item.italic = italic;
   write_item (sheet, item);
 }
@@ -294,7 +397,7 @@ void Database_Styles::updateItalic (std::string sheet, std::string marker, int i
 // Updates a style's bold setting.
 void Database_Styles::updateBold (std::string sheet, std::string marker, int bold)
 {
-  database::styles1::Item item = read_item (sheet, marker);
+  database::styles1::Item item = database::styles1::read_item (sheet, marker);
   item.bold = bold;
   write_item (sheet, item);
 }
@@ -303,7 +406,7 @@ void Database_Styles::updateBold (std::string sheet, std::string marker, int bol
 // Updates a style's underline setting.
 void Database_Styles::updateUnderline (std::string sheet, std::string marker, int underline)
 {
-  database::styles1::Item item = read_item (sheet, marker);
+  database::styles1::Item item = database::styles1::read_item (sheet, marker);
   item.underline = underline;
   write_item (sheet, item);
 }
@@ -312,7 +415,7 @@ void Database_Styles::updateUnderline (std::string sheet, std::string marker, in
 // Updates a style's small caps setting.
 void Database_Styles::updateSmallcaps (std::string sheet, std::string marker, int smallcaps)
 {
-  database::styles1::Item item = read_item (sheet, marker);
+  database::styles1::Item item = database::styles1::read_item (sheet, marker);
   item.smallcaps = smallcaps;
   write_item (sheet, item);
 }
@@ -320,7 +423,7 @@ void Database_Styles::updateSmallcaps (std::string sheet, std::string marker, in
 
 void Database_Styles::updateSuperscript (std::string sheet, std::string marker, int superscript)
 {
-  database::styles1::Item item = read_item (sheet, marker);
+  database::styles1::Item item = database::styles1::read_item (sheet, marker);
   item.superscript = superscript;
   write_item (sheet, item);
 }
@@ -328,7 +431,7 @@ void Database_Styles::updateSuperscript (std::string sheet, std::string marker, 
 
 void Database_Styles::updateJustification (std::string sheet, std::string marker, int justification)
 {
-  database::styles1::Item item = read_item (sheet, marker);
+  database::styles1::Item item = database::styles1::read_item (sheet, marker);
   item.justification = justification;
   write_item (sheet, item);
 }
@@ -336,7 +439,7 @@ void Database_Styles::updateJustification (std::string sheet, std::string marker
 
 void Database_Styles::updateSpaceBefore (std::string sheet, std::string marker, float spacebefore)
 {
-  database::styles1::Item item = read_item (sheet, marker);
+  database::styles1::Item item = database::styles1::read_item (sheet, marker);
   item.spacebefore = spacebefore;
   write_item (sheet, item);
 }
@@ -344,7 +447,7 @@ void Database_Styles::updateSpaceBefore (std::string sheet, std::string marker, 
 
 void Database_Styles::updateSpaceAfter (std::string sheet, std::string marker, float spaceafter)
 {
-  database::styles1::Item item = read_item (sheet, marker);
+  database::styles1::Item item = database::styles1::read_item (sheet, marker);
   item.spaceafter = spaceafter;
   write_item (sheet, item);
 }
@@ -352,7 +455,7 @@ void Database_Styles::updateSpaceAfter (std::string sheet, std::string marker, f
 
 void Database_Styles::updateLeftMargin (std::string sheet, std::string marker, float leftmargin)
 {
-  database::styles1::Item item = read_item (sheet, marker);
+  database::styles1::Item item = database::styles1::read_item (sheet, marker);
   item.leftmargin = leftmargin;
   write_item (sheet, item);
 }
@@ -360,7 +463,7 @@ void Database_Styles::updateLeftMargin (std::string sheet, std::string marker, f
 
 void Database_Styles::updateRightMargin (std::string sheet, std::string marker, float rightmargin)
 {
-  database::styles1::Item item = read_item (sheet, marker);
+  database::styles1::Item item = database::styles1::read_item (sheet, marker);
   item.rightmargin = rightmargin;
   write_item (sheet, item);
 }
@@ -368,7 +471,7 @@ void Database_Styles::updateRightMargin (std::string sheet, std::string marker, 
 
 void Database_Styles::updateFirstLineIndent (std::string sheet, std::string marker, float firstlineindent)
 {
-  database::styles1::Item item = read_item (sheet, marker);
+  database::styles1::Item item = database::styles1::read_item (sheet, marker);
   item.firstlineindent = firstlineindent;
   write_item (sheet, item);
 }
@@ -376,7 +479,7 @@ void Database_Styles::updateFirstLineIndent (std::string sheet, std::string mark
 
 void Database_Styles::updateSpanColumns (std::string sheet, std::string marker, bool spancolumns)
 {
-  database::styles1::Item item = read_item (sheet, marker);
+  database::styles1::Item item = database::styles1::read_item (sheet, marker);
   item.spancolumns = spancolumns;
   write_item (sheet, item);
 }
@@ -384,7 +487,7 @@ void Database_Styles::updateSpanColumns (std::string sheet, std::string marker, 
 
 void Database_Styles::updateColor (std::string sheet, std::string marker, std::string color)
 {
-  database::styles1::Item item = read_item (sheet, marker);
+  database::styles1::Item item = database::styles1::read_item (sheet, marker);
   item.color = color;
   write_item (sheet, item);
 }
@@ -392,7 +495,7 @@ void Database_Styles::updateColor (std::string sheet, std::string marker, std::s
 
 void Database_Styles::updatePrint (std::string sheet, std::string marker, bool print)
 {
-  database::styles1::Item item = read_item (sheet, marker);
+  database::styles1::Item item = database::styles1::read_item (sheet, marker);
   item.print = print;
   write_item (sheet, item);
 }
@@ -400,7 +503,7 @@ void Database_Styles::updatePrint (std::string sheet, std::string marker, bool p
 
 void Database_Styles::updateUserbool1 (std::string sheet, std::string marker, bool userbool1)
 {
-  database::styles1::Item item = read_item (sheet, marker);
+  database::styles1::Item item = database::styles1::read_item (sheet, marker);
   item.userbool1 = userbool1;
   write_item (sheet, item);
 }
@@ -408,7 +511,7 @@ void Database_Styles::updateUserbool1 (std::string sheet, std::string marker, bo
 
 void Database_Styles::updateUserbool2 (std::string sheet, std::string marker, bool userbool2)
 {
-  database::styles1::Item item = read_item (sheet, marker);
+  database::styles1::Item item = database::styles1::read_item (sheet, marker);
   item.userbool2 = userbool2;
   write_item (sheet, item);
 }
@@ -416,7 +519,7 @@ void Database_Styles::updateUserbool2 (std::string sheet, std::string marker, bo
 
 void Database_Styles::updateUserbool3 (std::string sheet, std::string marker, bool userbool3)
 {
-  database::styles1::Item item = read_item (sheet, marker);
+  database::styles1::Item item = database::styles1::read_item (sheet, marker);
   item.userbool3 = userbool3;
   write_item (sheet, item);
 }
@@ -424,7 +527,7 @@ void Database_Styles::updateUserbool3 (std::string sheet, std::string marker, bo
 
 void Database_Styles::updateUserint1 (std::string sheet, std::string marker, int userint1)
 {
-  database::styles1::Item item = read_item (sheet, marker);
+  database::styles1::Item item = database::styles1::read_item (sheet, marker);
   item.userint1 = userint1;
   write_item (sheet, item);
 }
@@ -432,7 +535,7 @@ void Database_Styles::updateUserint1 (std::string sheet, std::string marker, int
 
 void Database_Styles::updateUserint2 (std::string sheet, std::string marker, int userint2)
 {
-  database::styles1::Item item = read_item (sheet, marker);
+  database::styles1::Item item = database::styles1::read_item (sheet, marker);
   item.userint2 = userint2;
   write_item (sheet, item);
 }
@@ -440,7 +543,7 @@ void Database_Styles::updateUserint2 (std::string sheet, std::string marker, int
 
 void Database_Styles::updateUserstring1 (std::string sheet, std::string marker, std::string userstring1)
 {
-  database::styles1::Item item = read_item (sheet, marker);
+  database::styles1::Item item = database::styles1::read_item (sheet, marker);
   item.userstring1 = userstring1;
   write_item (sheet, item);
 }
@@ -448,7 +551,7 @@ void Database_Styles::updateUserstring1 (std::string sheet, std::string marker, 
 
 void Database_Styles::updateUserstring2 (std::string sheet, std::string marker, std::string userstring2)
 {
-  database::styles1::Item item = read_item (sheet, marker);
+  database::styles1::Item item = database::styles1::read_item (sheet, marker);
   item.userstring2 = userstring2;
   write_item (sheet, item);
 }
@@ -456,7 +559,7 @@ void Database_Styles::updateUserstring2 (std::string sheet, std::string marker, 
 
 void Database_Styles::updateUserstring3 (std::string sheet, std::string marker, std::string userstring3)
 {
-  database::styles1::Item item = read_item (sheet, marker);
+  database::styles1::Item item = database::styles1::read_item (sheet, marker);
   item.userstring3 = userstring3;
   write_item (sheet, item);
 }
@@ -464,7 +567,7 @@ void Database_Styles::updateUserstring3 (std::string sheet, std::string marker, 
 
 void Database_Styles::updateBackgroundColor (std::string sheet, std::string marker, std::string color)
 {
-  database::styles1::Item item = read_item (sheet, marker);
+  database::styles1::Item item = database::styles1::read_item (sheet, marker);
   item.backgroundcolor = color;
   write_item (sheet, item);
 }
@@ -515,107 +618,6 @@ bool Database_Styles::hasWriteAccess (std::string user, std::string sheet)
 }
 
 
-std::string Database_Styles::stylefile (std::string sheet, std::string marker)
-{
-  return filter_url_create_path ({sheetfolder (sheet), marker});
-}
-
-
-// Reads a style from file.
-// If the file is not there, it takes the default value.
-database::styles1::Item Database_Styles::read_item (std::string sheet, std::string marker)
-{
-  database::styles1::Item item;
-  
-  // Check whether sheet is in cache.
-  bool cache_hit = false;
-  database_styles_cache_mutex.lock ();
-  if (database_styles_cache.count (sheet)) {
-    // Check whether marker is in cache.
-    if (database_styles_cache [sheet].count (marker)) {
-      // Cache hit: Return the item.
-      item = database_styles_cache [sheet] [marker];
-      cache_hit = true;
-    }
-  }
-  database_styles_cache_mutex.unlock ();
-  if (cache_hit) return item;
-  
-  // Read the item.
-  bool take_default = sheet.empty ();
-  std::string filename;
-  if (!take_default) {
-    filename = stylefile (sheet, marker);
-    if (!file_or_dir_exists (filename)) take_default = true;
-  }
-  if (take_default) {
-    // Check and/or load defaults.
-    if (default_styles_cache.empty ())
-      database::styles1::cache_defaults ();
-    // Take the default style for the marker.
-    if (default_styles_cache.count (marker)) {
-      // Get it.
-      item = default_styles_cache [marker];
-      // Cache it.
-      database_styles_cache_mutex.lock ();
-      database_styles_cache [sheet] [marker] = item;
-      database_styles_cache_mutex.unlock ();
-      // Return it.
-      return item;
-    }
-    // Non-standard marker.
-    item.marker = marker;
-    item.name = translate ("Name");
-    item.info = translate ("Information");
-  } else {
-    // Read the style from file.
-    std::string contents = filter_url_file_get_contents (filename);
-    std::vector <std::string> lines = filter::strings::explode (contents, '\n');
-    for (unsigned int i = 0; i < lines.size(); i++) {
-      if (i == 0)  item.marker = lines [i];
-      if (i == 1)  item.name = lines [i];
-      if (i == 2)  item.info = lines [i];
-      if (i == 3)  item.category = lines [i];
-      if (i == 4)  item.type = filter::strings::convert_to_int (lines [i]);
-      if (i == 5)  item.subtype = filter::strings::convert_to_int (lines [i]);
-      if (i == 6)  item.fontsize = filter::strings::convert_to_float (lines [i]);
-      if (i == 7)  item.italic = filter::strings::convert_to_int (lines [i]);
-      if (i == 8)  item.bold = filter::strings::convert_to_int (lines [i]);
-      if (i == 9)  item.underline = filter::strings::convert_to_int (lines [i]);
-      if (i == 10) item.smallcaps = filter::strings::convert_to_int (lines [i]);
-      if (i == 11) item.superscript = filter::strings::convert_to_int (lines [i]);
-      if (i == 12) item.justification = filter::strings::convert_to_int (lines [i]);
-      if (i == 13) item.spacebefore = filter::strings::convert_to_float (lines [i]);
-      if (i == 14) item.spaceafter = filter::strings::convert_to_float (lines [i]);
-      if (i == 15) item.leftmargin = filter::strings::convert_to_float (lines [i]);
-      if (i == 16) item.rightmargin = filter::strings::convert_to_float (lines [i]);
-      if (i == 17) item.firstlineindent = filter::strings::convert_to_float (lines [i]);
-      if (i == 18) item.spancolumns = filter::strings::convert_to_bool (lines [i]);
-      if (i == 19) item.color = lines [i];
-      if (i == 20) item.print = filter::strings::convert_to_bool (lines [i]);
-      if (i == 21) item.userbool1 = filter::strings::convert_to_bool (lines [i]);
-      if (i == 22) item.userbool2 = filter::strings::convert_to_bool (lines [i]);
-      if (i == 23) item.userbool3 = filter::strings::convert_to_bool (lines [i]);
-      if (i == 24) item.userint1 = filter::strings::convert_to_int (lines [i]);
-      if (i == 25) item.userint2 = filter::strings::convert_to_int (lines [i]);
-      if (i == 26) item.userint3 = filter::strings::convert_to_int (lines [i]);
-      if (i == 27) item.userstring1 = lines [i];
-      if (i == 28) item.userstring2 = lines [i];
-      if (i == 29) item.userstring3 = lines [i];
-      if (i == 30) item.backgroundcolor = lines [i];
-    }
-  }
-  
-  // Cache the item.
-  database_styles_cache_mutex.lock ();
-  database_styles_cache [sheet] [marker] = item;
-  database_styles_cache_mutex.unlock ();
-  
-  // Return the item.
-  return item;
-}
-
-
 void Database_Styles::write_item (std::string sheet, database::styles1::Item & item)
 {
   // The style is saved to file here.
@@ -661,7 +663,7 @@ void Database_Styles::write_item (std::string sheet, database::styles1::Item & i
   lines.push_back (item.backgroundcolor);
   // Save.
   std::string data = filter::strings::implode (lines, "\n");
-  filter_url_file_put_contents (stylefile (sheet, item.marker), data);
+  filter_url_file_put_contents (database::styles1::stylefile (sheet, item.marker), data);
   // Clear cache.
   database_styles_cache_mutex.lock ();
   database_styles_cache.clear ();

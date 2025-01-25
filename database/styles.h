@@ -114,8 +114,6 @@ public:
   void revokeWriteAccess (std::string user, std::string sheet);
   bool hasWriteAccess (std::string user, std::string sheet);
 private:
-  std::string stylefile (std::string sheet, std::string marker);
-  database::styles1::Item read_item (std::string sheet, std::string marker);
   void write_item (std::string sheet, database::styles1::Item & item);
 };
 

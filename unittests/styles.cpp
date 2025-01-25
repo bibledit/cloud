@@ -43,7 +43,7 @@ TEST (styles, css)
   {
     refresh_sandbox (true);
     Database_Styles database_styles {};
-    database_styles.createSheet ("testsheet");
+    database::styles::create_sheet ("testsheet");
     Styles_Css styles_css (webserver_request, "testsheet");
     styles_css.generate ();
     std::string css = styles_css.css ();
@@ -56,7 +56,7 @@ TEST (styles, css)
   {
     refresh_sandbox (true);
     Database_Styles database_styles {};
-    database_styles.createSheet ("testsheet");
+    database::styles::create_sheet ("testsheet");
     Styles_Css styles_css (webserver_request, "testsheet");
     styles_css.exports ();
     styles_css.generate ();
@@ -70,7 +70,7 @@ TEST (styles, css)
   {
     refresh_sandbox (true);
     Database_Styles database_styles {};
-    database_styles.createSheet ("testsheet");
+    database::styles::create_sheet ("testsheet");
     Styles_Css styles_css (webserver_request, "testsheet");
     styles_css.editor ();
     styles_css.generate ();
@@ -213,7 +213,7 @@ TEST (styles, css)
     standard = { styles_logic_standard_sheet () };
     EXPECT_EQ (standard, sheets);
     
-    database_styles.createSheet ("testsheet");
+    database::styles::create_sheet ("testsheet");
     sheets = database_styles.getSheets ();
     standard = { styles_logic_standard_sheet (), "testsheet" };
     EXPECT_EQ (standard, sheets);
@@ -233,7 +233,7 @@ TEST (styles, css)
   {
     refresh_sandbox (true);
     Database_Styles database_styles {};
-    database_styles.createSheet ("testsheet");
+    database::styles::create_sheet ("testsheet");
     
     std::vector <std::string> markers {};
     
@@ -270,7 +270,7 @@ TEST (styles, css)
   {
     refresh_sandbox (true);
     Database_Styles database_styles {};
-    database_styles.createSheet ("testsheet");
+    database::styles::create_sheet ("testsheet");
     database::styles1::Item data = database_styles.getMarkerData ("testsheet", "add");
     EXPECT_EQ ("add", data.marker);
     EXPECT_EQ ("st", data.category);
@@ -280,7 +280,7 @@ TEST (styles, css)
   {
     refresh_sandbox (true);
     Database_Styles database_styles {};
-    database_styles.createSheet ("testsheet");
+    database::styles::create_sheet ("testsheet");
     database_styles.updateName ("testsheet", "add", "Addition");
     database::styles1::Item data = database_styles.getMarkerData ("testsheet", "add");
     EXPECT_EQ ("Addition", data.name);
@@ -294,7 +294,7 @@ TEST (styles, css)
     refresh_sandbox (true);
     Database_Styles database_styles {};
     database::styles::create_database ();
-    database_styles.createSheet ("testsheet");
+    database::styles::create_sheet ("testsheet");
     
     // A user does not have write access to the stylesheet.
     bool write = database_styles.hasWriteAccess ("user", "testsheet");
@@ -330,7 +330,7 @@ TEST (styles, css)
     refresh_sandbox (true);
     Database_Styles database_styles {};
     database::styles::create_database ();
-    database_styles.createSheet ("testsheet");
+    database::styles::create_sheet ("testsheet");
     
     // Get markers.
     std::vector <std::string> markers = database_styles.getMarkers ("testsheet");

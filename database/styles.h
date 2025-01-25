@@ -25,6 +25,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 namespace database::styles {
 
 void create_database ();
+void create_sheet (const std::string& sheet);
 
 } // End namespace styles
 
@@ -73,7 +74,6 @@ struct Item
 class Database_Styles
 {
 public:
-  void createSheet (std::string sheet);
   std::vector <std::string> getSheets ();
   void deleteSheet (std::string sheet);
   void addMarker (std::string sheet, std::string marker);
@@ -113,8 +113,6 @@ public:
   void grantWriteAccess (std::string user, std::string sheet);
   void revokeWriteAccess (std::string user, std::string sheet);
   bool hasWriteAccess (std::string user, std::string sheet);
-private:
-  void write_item (std::string sheet, database::styles1::Item & item);
 };
 
 

@@ -124,9 +124,9 @@ static void cache_defaults ()
 
 // Reads a style from file.
 // If the file is not there, it takes the default value.
-static database::styles1::Item read_item (const std::string& sheet, const std::string& marker)
+static Item read_item (const std::string& sheet, const std::string& marker)
 {
-  database::styles1::Item item;
+  Item item;
   
   // Check whether sheet is in cache.
   {
@@ -215,10 +215,65 @@ static database::styles1::Item read_item (const std::string& sheet, const std::s
 }
 
 
+static void write_item (const std::string& sheet, Item& item)
+{
+  // The style is saved to file here.
+  // When the style is loaded again from file, the various parts of the style are loaded by line number.
+  // Therefore it cannot handle strings with new lines in them.
+  // Remove the new lines where appropriate.
+  item.name = filter::strings::replace ("\n", " ", item.name);
+  item.name = filter::strings::replace ("\r", " ", item.name);
+  item.info = filter::strings::replace ("\n", " ", item.info);
+  item.info = filter::strings::replace ("\r", " ", item.info);
+  // Load the lines.
+  std::vector <std::string> lines;
+  lines.push_back (item.marker);
+  lines.push_back (item.name);
+  lines.push_back (item.info);
+  lines.push_back (item.category);
+  lines.push_back (std::to_string (item.type));
+  lines.push_back (std::to_string (item.subtype));
+  lines.push_back (filter::strings::convert_to_string (item.fontsize));
+  lines.push_back (std::to_string (item.italic));
+  lines.push_back (std::to_string (item.bold));
+  lines.push_back (std::to_string (item.underline));
+  lines.push_back (std::to_string (item.smallcaps));
+  lines.push_back (std::to_string (item.superscript));
+  lines.push_back (std::to_string (item.justification));
+  lines.push_back (filter::strings::convert_to_string (item.spacebefore));
+  lines.push_back (filter::strings::convert_to_string (item.spaceafter));
+  lines.push_back (filter::strings::convert_to_string (item.leftmargin));
+  lines.push_back (filter::strings::convert_to_string (item.rightmargin));
+  lines.push_back (filter::strings::convert_to_string (item.firstlineindent));
+  lines.push_back (filter::strings::convert_to_string (item.spancolumns));
+  lines.push_back (item.color);
+  lines.push_back (filter::strings::convert_to_string (item.print));
+  lines.push_back (filter::strings::convert_to_string (item.userbool1));
+  lines.push_back (filter::strings::convert_to_string (item.userbool2));
+  lines.push_back (filter::strings::convert_to_string (item.userbool3));
+  lines.push_back (std::to_string (item.userint1));
+  lines.push_back (std::to_string (item.userint2));
+  lines.push_back (std::to_string (item.userint3));
+  lines.push_back (item.userstring1);
+  lines.push_back (item.userstring2);
+  lines.push_back (item.userstring3);
+  lines.push_back (item.backgroundcolor);
+  // Save.
+  std::string data = filter::strings::implode (lines, "\n");
+  filter_url_file_put_contents (database::styles1::stylefile (sheet, item.marker), data);
+  // Clear cache.
+  {
+    std::scoped_lock lock (database_styles_cache_mutex);
+    database_styles_cache.clear ();
+  }
+}
+
+
 } // End namespace styles1
 
 
 namespace database::styles {
+
 
 void create_database ()
 {
@@ -232,11 +287,10 @@ void create_database ()
 }
 
 
-} // Namespace styles
-
-
 // Creates a stylesheet.
-void Database_Styles::createSheet (std::string sheet)
+// It gets a filling for styles v1.
+// For styles v2 the idea is that it get no filling yet after the create action as everything is default still.
+void create_sheet (const std::string& sheet)
 {
   // Folder for storing the stylesheet.
   filter_url_mkdir (sheetfolder (sheet));
@@ -249,6 +303,11 @@ void Database_Styles::createSheet (std::string sheet)
     write_item (sheet, item);
   }
 }
+
+
+
+
+} // Namespace styles
 
 
 // Returns an array with the available stylesheets.
@@ -615,59 +674,6 @@ bool Database_Styles::hasWriteAccess (std::string user, std::string sheet)
   sql.add (";");
   std::map <std::string, std::vector <std::string> > result = sql.query ();
   return !result["rowid"].empty ();
-}
-
-
-void Database_Styles::write_item (std::string sheet, database::styles1::Item & item)
-{
-  // The style is saved to file here.
-  // When the style is loaded again from file, the various parts of the style are loaded by line number.
-  // Therefore it cannot handle strings with new lines in them.
-  // Remove the new lines where appropriate.
-  item.name = filter::strings::replace ("\n", " ", item.name);
-  item.name = filter::strings::replace ("\r", " ", item.name);
-  item.info = filter::strings::replace ("\n", " ", item.info);
-  item.info = filter::strings::replace ("\r", " ", item.info);
-  // Load the lines.
-  std::vector <std::string> lines;
-  lines.push_back (item.marker);
-  lines.push_back (item.name);
-  lines.push_back (item.info);
-  lines.push_back (item.category);
-  lines.push_back (std::to_string (item.type));
-  lines.push_back (std::to_string (item.subtype));
-  lines.push_back (filter::strings::convert_to_string (item.fontsize));
-  lines.push_back (std::to_string (item.italic));
-  lines.push_back (std::to_string (item.bold));
-  lines.push_back (std::to_string (item.underline));
-  lines.push_back (std::to_string (item.smallcaps));
-  lines.push_back (std::to_string (item.superscript));
-  lines.push_back (std::to_string (item.justification));
-  lines.push_back (filter::strings::convert_to_string (item.spacebefore));
-  lines.push_back (filter::strings::convert_to_string (item.spaceafter));
-  lines.push_back (filter::strings::convert_to_string (item.leftmargin));
-  lines.push_back (filter::strings::convert_to_string (item.rightmargin));
-  lines.push_back (filter::strings::convert_to_string (item.firstlineindent));
-  lines.push_back (filter::strings::convert_to_string (item.spancolumns));
-  lines.push_back (item.color);
-  lines.push_back (filter::strings::convert_to_string (item.print));
-  lines.push_back (filter::strings::convert_to_string (item.userbool1));
-  lines.push_back (filter::strings::convert_to_string (item.userbool2));
-  lines.push_back (filter::strings::convert_to_string (item.userbool3));
-  lines.push_back (std::to_string (item.userint1));
-  lines.push_back (std::to_string (item.userint2));
-  lines.push_back (std::to_string (item.userint3));
-  lines.push_back (item.userstring1);
-  lines.push_back (item.userstring2);
-  lines.push_back (item.userstring3);
-  lines.push_back (item.backgroundcolor);
-  // Save.
-  std::string data = filter::strings::implode (lines, "\n");
-  filter_url_file_put_contents (database::styles1::stylefile (sheet, item.marker), data);
-  // Clear cache.
-  database_styles_cache_mutex.lock ();
-  database_styles_cache.clear ();
-  database_styles_cache_mutex.unlock ();
 }
 
 

@@ -76,7 +76,7 @@ std::string styles_indexm (Webserver_Request& webserver_request)
     if (find (existing.begin(), existing.end (), name) != existing.end ()) {
       page += assets_page::error (translate("This stylesheet already exists"));
     } else {
-      database_styles.createSheet (name);
+      database::styles::create_sheet (name);
       database_styles.grantWriteAccess (username, name);
       styles_sheets_create_all ();
       page += assets_page::success (translate("The stylesheet has been created"));

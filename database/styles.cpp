@@ -305,31 +305,31 @@ void create_sheet (const std::string& sheet)
 }
 
 
-
-
-} // Namespace styles
-
-
-// Returns an array with the available stylesheets.
-std::vector <std::string> Database_Styles::getSheets ()
+// Returns a list with the available stylesheets.
+std::vector <std::string> get_sheets ()
 {
   std::vector <std::string> sheets = filter_url_scandir (databasefolder ());
   if (find (sheets.begin (), sheets.end (), styles_logic_standard_sheet ()) == sheets.end ()) {
     sheets.push_back (styles_logic_standard_sheet ());
   }
-  sort (sheets.begin(), sheets.end());
+  std::sort (sheets.begin(), sheets.end());
   return sheets;
 }
 
 
 // Deletes a stylesheet.
-void Database_Styles::deleteSheet (std::string sheet)
+void delete_sheet (const std::string& sheet)
 {
-  if (!sheet.empty ()) filter_url_rmdir (sheetfolder (sheet));
-  database_styles_cache_mutex.lock ();
+  if (!sheet.empty ())
+    filter_url_rmdir (sheetfolder (sheet));
+  std::scoped_lock lock (database_styles_cache_mutex);
   database_styles_cache.clear ();
-  database_styles_cache_mutex.unlock ();
 }
+
+
+
+
+} // Namespace styles
 
 
 // Adds a marker to the stylesheet.

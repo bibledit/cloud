@@ -26,6 +26,8 @@ namespace database::styles {
 
 void create_database ();
 void create_sheet (const std::string& sheet);
+std::vector <std::string> get_sheets ();
+void delete_sheet (const std::string& sheet);
 
 } // End namespace styles
 
@@ -74,8 +76,6 @@ struct Item
 class Database_Styles
 {
 public:
-  std::vector <std::string> getSheets ();
-  void deleteSheet (std::string sheet);
   void addMarker (std::string sheet, std::string marker);
   void deleteMarker (std::string sheet, std::string marker);
   std::map <std::string, std::string> getMarkersAndNames (std::string sheet);

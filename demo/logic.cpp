@@ -122,7 +122,7 @@ void demo_clean_data ()
   
   // Delete empty stylesheet that may have been there.
   webserver_request.database_styles()->revokeWriteAccess ("", styles_logic_standard_sheet ());
-  webserver_request.database_styles()->deleteSheet ("");
+  database::styles::delete_sheet ("");
   styles_sheets_create_all ();
   
   

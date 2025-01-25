@@ -209,22 +209,22 @@ TEST (styles, css)
     Database_Styles database_styles;
     std::vector <std::string> standard {};
     
-    std::vector <std::string> sheets = database_styles.getSheets ();
+    std::vector <std::string> sheets = database::styles::get_sheets ();
     standard = { styles_logic_standard_sheet () };
     EXPECT_EQ (standard, sheets);
     
     database::styles::create_sheet ("testsheet");
-    sheets = database_styles.getSheets ();
+    sheets = database::styles::get_sheets ();
     standard = { styles_logic_standard_sheet (), "testsheet" };
     EXPECT_EQ (standard, sheets);
     
-    database_styles.deleteSheet ("testsheet");
-    sheets = database_styles.getSheets ();
+    database::styles::delete_sheet ("testsheet");
+    sheets = database::styles::get_sheets ();
     standard = { styles_logic_standard_sheet () };
     EXPECT_EQ (standard, sheets);
     
-    database_styles.deleteSheet (styles_logic_standard_sheet ());
-    sheets = database_styles.getSheets ();
+    database::styles::delete_sheet (styles_logic_standard_sheet ());
+    sheets = database::styles::get_sheets ();
     standard = { styles_logic_standard_sheet () };
     EXPECT_EQ (standard, sheets);
   }

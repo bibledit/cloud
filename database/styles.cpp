@@ -290,13 +290,32 @@ void delete_marker (const std::string& sheet, const std::string& marker)
 std::map <std::string, std::string> get_markers_and_names (const std::string& sheet)
 {
   std::map <std::string, std::string> markers_names;
-  Database_Styles database_stules;
-  std::vector <std::string> markers = database_stules.getMarkers (sheet);
+  const std::vector <std::string> markers = get_markers (sheet);
   for (const auto& marker : markers) {
     Item item = read_item (sheet, marker);
     markers_names [marker] = item.name;
   }
   return markers_names;
+}
+
+
+// Returns an array with all the markers of the styles in the stylesheet.
+std::vector <std::string> get_markers (const std::string& sheet)
+{
+  // The markers for this stylesheet.
+  std::vector <std::string> markers = filter_url_scandir (sheetfolder (sheet));
+  if (markers.empty ()) {
+    // Check and/or load defaults.
+    if (default_styles_cache.empty ())
+      cache_defaults ();
+    // Load all default markers.
+    for (const auto& mapping : default_styles_cache) {
+      // The markers are the keys in the std::map.
+      markers.push_back (mapping.first);
+    }
+  }
+  // Done.
+  return markers;
 }
 
 
@@ -360,26 +379,6 @@ void delete_sheet (const std::string& sheet)
 
 
 } // Namespace styles
-
-
-// Returns an array with all the markers of the styles in the stylesheet.
-std::vector <std::string> Database_Styles::getMarkers (std::string sheet)
-{
-  // The markers for this stylesheet.
-  std::vector <std::string> markers = filter_url_scandir (sheetfolder (sheet));
-  if (markers.empty ()) {
-    // Check and/or load defaults.
-    if (default_styles_cache.empty ())
-      database::styles1::cache_defaults ();
-    // Load all default markers.
-    for (auto & mapping : default_styles_cache) {
-      // The markers are the keys in the std::map.
-      markers.push_back (mapping.first);
-    }
-  }
-  // Done.
-  return markers;
-}
 
 
 // Returns an object with all data belonging to a marker.
@@ -737,6 +736,27 @@ std::map <std::string, std::string> get_markers_and_names (const std::string& sh
 //    markers_names [marker] = item.name;
 //  }
 //  return markers_names;
+}
+
+
+// Returns an array with all the markers of the styles in the stylesheet.
+std::vector <std::string> get_markers (const std::string& sheet)
+{
+  throw std::runtime_error("Todo write it for v2");
+//  // The markers for this stylesheet.
+//  std::vector <std::string> markers = filter_url_scandir (sheetfolder (sheet));
+//  if (markers.empty ()) {
+//    // Check and/or load defaults.
+//    if (default_styles_cache.empty ())
+//      cache_defaults ();
+//    // Load all default markers.
+//    for (const auto& mapping : default_styles_cache) {
+//      // The markers are the keys in the std::map.
+//      markers.push_back (mapping.first);
+//    }
+//  }
+//  // Done.
+//  return markers;
 }
 
 

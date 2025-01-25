@@ -60,7 +60,7 @@ void Styles_Css::generate ()
   if (editor_enabled) {
     add_editor_styles ();
   }
-  std::vector <std::string> markers = m_webserver_request.database_styles ()->getMarkers (m_stylesheet);
+  const std::vector <std::string> markers = database::styles1::get_markers (m_stylesheet);
   for (const auto& marker : markers) {
     database::styles1::Item style = m_webserver_request.database_styles ()->getMarkerData (m_stylesheet, marker);
     evaluate (&style);

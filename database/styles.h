@@ -73,6 +73,7 @@ struct Item
 void add_marker (const std::string& sheet, const std::string& marker);
 void delete_marker (const std::string& sheet, const std::string& marker);
 std::map <std::string, std::string> get_markers_and_names (const std::string& sheet);
+std::vector <std::string> get_markers (const std::string& sheet);
 
 
 } // End namespace styles1
@@ -81,7 +82,6 @@ std::map <std::string, std::string> get_markers_and_names (const std::string& sh
 class Database_Styles
 {
 public:
-  std::vector <std::string> getMarkers (std::string sheet);
   database::styles1::Item getMarkerData (std::string sheet, std::string marker);
   void updateName (std::string sheet, std::string marker, std::string name);
   void updateInfo (std::string sheet, std::string marker, std::string info);
@@ -124,6 +124,7 @@ const std::list<stylesv2::Style>& get_styles(const std::string& stylesheet);
 void add_marker (const std::string& sheet, const std::string& marker);
 void delete_marker (const std::string& sheet, const std::string& marker);
 std::map <std::string, std::string> get_markers_and_names (const std::string& sheet);
+std::vector <std::string> get_markers (const std::string& sheet);
 
 
 } // End namespace styles2

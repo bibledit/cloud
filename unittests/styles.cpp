@@ -237,10 +237,10 @@ TEST (styles, css)
     
     std::vector <std::string> markers {};
     
-    markers = database_styles.getMarkers (styles_logic_standard_sheet ());
+    markers = database::styles1::get_markers (styles_logic_standard_sheet ());
     EXPECT_EQ (205, static_cast<int>(markers.size ()));
     
-    markers = database_styles.getMarkers ("testsheet");
+    markers = database::styles1::get_markers ("testsheet");
     EXPECT_EQ (205, static_cast<int>(markers.size ()));
     
     std::string marker {"p"};
@@ -255,7 +255,7 @@ TEST (styles, css)
     EXPECT_EQ ("Translator’s addition", markers_names ["add"]);
     
     database::styles1::delete_marker ("testsheet", "p");
-    markers = database_styles.getMarkers ("testsheet");
+    markers = database::styles1::get_markers ("testsheet");
     marker = "p";
     if (find (markers.begin (), markers.end (), marker) != markers.end ()) EXPECT_EQ (marker, "should not be there");
     marker = "add";
@@ -333,13 +333,13 @@ TEST (styles, css)
     database::styles::create_sheet ("testsheet");
     
     // Get markers.
-    std::vector <std::string> markers = database_styles.getMarkers ("testsheet");
+    std::vector <std::string> markers = database::styles1::get_markers ("testsheet");
     std::string marker {"zhq"};
     if (find (markers.begin (), markers.end (), marker) != markers.end ()) EXPECT_EQ (marker, "should not be there");
     
     // Add marker.
     database::styles1::add_marker ("testsheet", marker);
-    markers = database_styles.getMarkers ("testsheet");
+    markers = database::styles1::get_markers ("testsheet");
     if (find (markers.begin (), markers.end (), marker) == markers.end ()) EXPECT_EQ (marker, "should be there");
   }
 
@@ -348,7 +348,7 @@ TEST (styles, css)
     refresh_sandbox (true);
     Database_Styles database_styles {};
     database::styles::create_database ();
-    std::vector <std::string> markers = database_styles.getMarkers ("");
+    std::vector <std::string> markers = database::styles1::get_markers ("");
     std::string marker {"zhq"};
     if (find (markers.begin (), markers.end (), marker) != markers.end ()) EXPECT_EQ (marker, "should not be there");
   }

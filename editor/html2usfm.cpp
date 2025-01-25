@@ -73,7 +73,7 @@ void Editor_Html2Usfm::stylesheet (const std::string& stylesheet)
   note_openers.clear ();
   character_styles.clear ();
   Database_Styles database_styles;
-  const std::vector <std::string> markers = database_styles.getMarkers (stylesheet);
+  const std::vector <std::string> markers = database::styles1::get_markers (stylesheet);
   // Load the style information into the object.
   for (const std::string& marker : markers) {
     database::styles1::Item style = database_styles.getMarkerData (stylesheet, marker);

@@ -319,6 +319,15 @@ std::vector <std::string> get_markers (const std::string& sheet)
 }
 
 
+// Returns an object with all data belonging to a marker.
+Item get_marker_data (const std::string& sheet, const std::string& marker)
+{
+  return database::styles1::read_item (sheet, marker);
+}
+
+
+
+
 
 } // End namespace styles1
 
@@ -379,13 +388,6 @@ void delete_sheet (const std::string& sheet)
 
 
 } // Namespace styles
-
-
-// Returns an object with all data belonging to a marker.
-database::styles1::Item Database_Styles::getMarkerData (std::string sheet, std::string marker)
-{
-  return database::styles1::read_item (sheet, marker);
-}
 
 
 // Updates a style's name.
@@ -757,6 +759,14 @@ std::vector <std::string> get_markers (const std::string& sheet)
 //  }
 //  // Done.
 //  return markers;
+}
+
+
+// Returns an object with all data belonging to a marker.
+styles1::Item get_marker_data (const std::string& sheet, const std::string& marker)
+{
+  throw std::runtime_error("Todo write it for v2");
+  //return database::styles1::read_item (sheet, marker);
 }
 
 

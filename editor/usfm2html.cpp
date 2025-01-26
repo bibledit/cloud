@@ -46,7 +46,7 @@ void Editor_Usfm2Html::stylesheet (const std::string& stylesheet)
   const std::vector <std::string> markers = database::styles1::get_markers (stylesheet);
   // Load the style information into the object.
   for (const auto& marker : markers) {
-    database::styles1::Item style = database_styles.getMarkerData (stylesheet, marker);
+    database::styles1::Item style = database::styles1::get_marker_data (stylesheet, marker);
     m_styles [marker] = style;
     if (style.type == StyleTypeFootEndNote) {
       if (style.subtype == FootEndNoteSubtypeStandardContent) {

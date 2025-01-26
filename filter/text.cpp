@@ -174,7 +174,7 @@ void Filter_Text::get_styles (std::string stylesheet)
   Database_Styles database_styles;
   std::vector <std::string> markers = database::styles1::get_markers (stylesheet);
   for (const auto& marker : markers) {
-    database::styles1::Item style = database_styles.getMarkerData (stylesheet, marker);
+    database::styles1::Item style = database::styles1::get_marker_data (stylesheet, marker);
     styles [marker] = style;
     if (style.type == StyleTypeFootEndNote) {
       if (style.subtype == FootEndNoteSubtypeStandardContent) {

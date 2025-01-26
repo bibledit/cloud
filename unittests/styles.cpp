@@ -271,7 +271,7 @@ TEST (styles, css)
     refresh_sandbox (true);
     Database_Styles database_styles {};
     database::styles::create_sheet ("testsheet");
-    database::styles1::Item data = database_styles.getMarkerData ("testsheet", "add");
+    database::styles1::Item data = database::styles1::get_marker_data ("testsheet", "add");
     EXPECT_EQ ("add", data.marker);
     EXPECT_EQ ("st", data.category);
   }
@@ -282,10 +282,10 @@ TEST (styles, css)
     Database_Styles database_styles {};
     database::styles::create_sheet ("testsheet");
     database_styles.updateName ("testsheet", "add", "Addition");
-    database::styles1::Item data = database_styles.getMarkerData ("testsheet", "add");
+    database::styles1::Item data = database::styles1::get_marker_data ("testsheet", "add");
     EXPECT_EQ ("Addition", data.name);
     database_styles.updateInfo ("testsheet", "p", "Paragraph");
-    data = database_styles.getMarkerData ("testsheet", "p");
+    data = database::styles1::get_marker_data ("testsheet", "p");
     EXPECT_EQ ("Paragraph", data.info);
   }
   

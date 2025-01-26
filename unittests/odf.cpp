@@ -115,7 +115,7 @@ TEST (filter, odf)
   {
     Database_Styles database_styles;
     database::styles::create_database ();
-    database::styles1::Item add = database_styles.getMarkerData (styles_logic_standard_sheet (), "add");
+    database::styles1::Item add = database::styles1::get_marker_data (styles_logic_standard_sheet (), "add");
     odf_text odf_text (bible);
     odf_text.new_paragraph ();
     odf_text.add_text ("text");
@@ -138,7 +138,7 @@ TEST (filter, odf)
   {
     Database_Styles database_styles;
     database::styles::create_database ();
-    database::styles1::Item add = database_styles.getMarkerData (styles_logic_standard_sheet (), "add");
+    database::styles1::Item add = database::styles1::get_marker_data (styles_logic_standard_sheet (), "add");
     odf_text odf_text (bible);
     odf_text.new_paragraph ();
     odf_text.add_text ("Text");
@@ -165,14 +165,14 @@ TEST (filter, odf)
   {
     Database_Styles database_styles;
     database::styles::create_database ();
-    database::styles1::Item add = database_styles.getMarkerData (styles_logic_standard_sheet (), "add");
+    database::styles1::Item add = database::styles1::get_marker_data (styles_logic_standard_sheet (), "add");
     add.italic = ooitOn;
     add.bold = 0;
     add.underline = 0;
     add.smallcaps = 0;
     add.superscript = false;
     add.color = "#000000";
-    database::styles1::Item nd = database_styles.getMarkerData (styles_logic_standard_sheet (), "nd");
+    database::styles1::Item nd = database::styles1::get_marker_data (styles_logic_standard_sheet (), "nd");
     nd.italic = 0;
     nd.bold = 0;
     nd.underline = 0;
@@ -203,14 +203,14 @@ TEST (filter, odf)
   {
     Database_Styles database_styles;
     database::styles::create_database ();
-    database::styles1::Item add = database_styles.getMarkerData (styles_logic_standard_sheet (), "add");
+    database::styles1::Item add = database::styles1::get_marker_data (styles_logic_standard_sheet (), "add");
     add.italic = ooitOn;
     add.bold = 0;
     add.underline = 0;
     add.smallcaps = 0;
     add.superscript = false;
     add.color = "#000000";
-    database::styles1::Item nd = database_styles.getMarkerData (styles_logic_standard_sheet (), "nd");
+    database::styles1::Item nd = database::styles1::get_marker_data (styles_logic_standard_sheet (), "nd");
     nd.italic = 0;
     nd.bold = 0;
     nd.underline = 0;
@@ -245,7 +245,7 @@ TEST (filter, odf)
   {
     Database_Styles database_styles;
     database::styles::create_database ();
-    database::styles1::Item d = database_styles.getMarkerData (styles_logic_standard_sheet (), "d");
+    database::styles1::Item d = database::styles1::get_marker_data (styles_logic_standard_sheet (), "d");
     odf_text odf_text (bible);
     odf_text.create_paragraph_style (d.marker, fontname, d.fontsize, d.italic, d.bold, d.underline, d.smallcaps, d.justification, d.spacebefore, d.spaceafter, d.leftmargin, d.rightmargin, d.firstlineindent, true, false);
     odf_text.new_paragraph ("d");

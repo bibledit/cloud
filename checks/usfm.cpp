@@ -35,7 +35,7 @@ Checks_Usfm::Checks_Usfm (const std::string& bible)
   const std::string stylesheet = database::config::bible::get_export_stylesheet (bible);
   markers_stylesheet = database::styles1::get_markers (stylesheet);
   for (const auto & marker : markers_stylesheet) {
-    database::styles1::Item style = database_styles.getMarkerData (stylesheet, marker);
+    database::styles1::Item style = database::styles1::get_marker_data (stylesheet, marker);
     style_items [marker] = style;
     int styleType = style.type;
     int styleSubtype = style.subtype;

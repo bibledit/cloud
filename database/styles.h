@@ -74,7 +74,7 @@ void add_marker (const std::string& sheet, const std::string& marker);
 void delete_marker (const std::string& sheet, const std::string& marker);
 std::map <std::string, std::string> get_markers_and_names (const std::string& sheet);
 std::vector <std::string> get_markers (const std::string& sheet);
-
+Item get_marker_data (const std::string& sheet, const std::string& marker);
 
 } // End namespace styles1
 
@@ -82,7 +82,6 @@ std::vector <std::string> get_markers (const std::string& sheet);
 class Database_Styles
 {
 public:
-  database::styles1::Item getMarkerData (std::string sheet, std::string marker);
   void updateName (std::string sheet, std::string marker, std::string name);
   void updateInfo (std::string sheet, std::string marker, std::string info);
   void updateCategory (std::string sheet, std::string marker, std::string category);
@@ -125,6 +124,7 @@ void add_marker (const std::string& sheet, const std::string& marker);
 void delete_marker (const std::string& sheet, const std::string& marker);
 std::map <std::string, std::string> get_markers_and_names (const std::string& sheet);
 std::vector <std::string> get_markers (const std::string& sheet);
+styles1::Item get_marker_data (const std::string& sheet, const std::string& marker);
 
 
 } // End namespace styles2

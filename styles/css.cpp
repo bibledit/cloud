@@ -62,7 +62,7 @@ void Styles_Css::generate ()
   }
   const std::vector <std::string> markers = database::styles1::get_markers (m_stylesheet);
   for (const auto& marker : markers) {
-    database::styles1::Item style = m_webserver_request.database_styles ()->getMarkerData (m_stylesheet, marker);
+    database::styles1::Item style = database::styles1::get_marker_data (m_stylesheet, marker);
     evaluate (&style);
   }
 }

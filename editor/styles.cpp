@@ -48,7 +48,7 @@ std::string Editor_Styles::getRecentlyUsed (Webserver_Request& webserver_request
   std::string fragment = translate("Select style") + ": ";
   for (const auto& marker : styles) {
     if (!fragment.empty()) fragment.append (" | ");
-    database::styles1::Item data = webserver_request.database_styles()->getMarkerData (stylesheet, marker);
+    database::styles1::Item data = database::styles1::get_marker_data (stylesheet, marker);
     if (data.marker.empty ()) continue;
     const std::string name = translate(data.name) + " (" + marker + ")";
     const std::string info = translate(data.info);
@@ -94,7 +94,7 @@ std::string Editor_Styles::getAll (Webserver_Request& webserver_request)
     const std::string& marker = item.first;
     std::string name = item.second;
     name = translate (name);
-    database::styles1::Item marker_data = webserver_request.database_styles()->getMarkerData (stylesheet, marker);
+    database::styles1::Item marker_data = database::styles1::get_marker_data (stylesheet, marker);
     std::string category = marker_data.category;
     category = styles_logic_category_text (category);
     const std::string line2 = marker + " " + name + " (" + category + ")";
@@ -135,7 +135,7 @@ std::string Editor_Styles::getAction (Webserver_Request& webserver_request, cons
 {
   const std::string bible = webserver_request.database_config_user()->getBible ();
   const std::string stylesheet = database::config::bible::get_editor_stylesheet (bible);
-  database::styles1::Item data = webserver_request.database_styles()->getMarkerData (stylesheet, style);
+  database::styles1::Item data = database::styles1::get_marker_data (stylesheet, style);
   int type = data.type;
   int subtype = data.subtype;
   

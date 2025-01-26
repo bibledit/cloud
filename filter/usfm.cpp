@@ -214,7 +214,7 @@ std::vector <BookChapterData> usfm_import (std::string input, std::string styles
         store_chapter_data = false;
       }
       Database_Styles database_styles;
-      database::styles1::Item marker_data = database_styles.getMarkerData (stylesheet, marker);
+      database::styles1::Item marker_data = database::styles1::get_marker_data (stylesheet, marker);
       int type = marker_data.type;
       int subtype = marker_data.subtype;
       // Only opening markers can start on a new line.

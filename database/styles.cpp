@@ -33,6 +33,27 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // All default data is stored in the code in memory, not in a database on disk.
 
 
+namespace database::styles {
+
+
+static std::string databasefolder ()
+{
+  return filter_url_create_root_path ({database_logic_databases (), "styles"});
+}
+
+
+static std::string sheetfolder (const std::string& sheet)
+{
+  return filter_url_create_path ({databasefolder (), sheet});
+}
+
+
+} // End nmespace styles.
+
+
+namespace database::styles1 {
+
+
 // Cache for the default styles.
 // It used to store the default cache in code.
 // That architecture caused 400+ calls to the localization routines during app startup.
@@ -48,27 +69,9 @@ std::map <std::string, std::map <std::string, database::styles1::Item>> database
 std::mutex database_styles_cache_mutex;
 
 
-constexpr const auto database_name {"styles"};
-
-
-static std::string databasefolder ()
-{
-  return filter_url_create_root_path ({database_logic_databases (), "styles"});
-}
-
-
-static std::string sheetfolder (const std::string& sheet)
-{
-  return filter_url_create_path ({databasefolder (), sheet});
-}
-
-
-namespace database::styles1 {
-
-
 static std::string stylefile (const std::string& sheet, const std::string& marker)
 {
-  return filter_url_create_path ({sheetfolder (sheet), marker});
+  return filter_url_create_path ({styles::sheetfolder (sheet), marker});
 }
 
 
@@ -303,7 +306,7 @@ std::map <std::string, std::string> get_markers_and_names (const std::string& sh
 std::vector <std::string> get_markers (const std::string& sheet)
 {
   // The markers for this stylesheet.
-  std::vector <std::string> markers = filter_url_scandir (sheetfolder (sheet));
+  std::vector <std::string> markers = filter_url_scandir (styles::sheetfolder (sheet));
   if (markers.empty ()) {
     // Check and/or load defaults.
     if (default_styles_cache.empty ())
@@ -574,6 +577,9 @@ void update_background_color (const std::string& sheet, const std::string& marke
 namespace database::styles {
 
 
+constexpr const auto database_name {"styles"};
+
+
 void create_database ()
 {
   // Create database.
@@ -594,10 +600,10 @@ void create_sheet (const std::string& sheet)
   // Folder for storing the stylesheet.
   filter_url_mkdir (sheetfolder (sheet));
   // Check and/or load defaults.
-  if (default_styles_cache.empty ())
+  if (styles1::default_styles_cache.empty ())
     database::styles1::cache_defaults ();
   // Write all style items to file.
-  for (auto & mapping : default_styles_cache) {
+  for (auto & mapping : styles1::default_styles_cache) {
     auto & item = mapping.second;
     write_item (sheet, item);
   }
@@ -621,8 +627,8 @@ void delete_sheet (const std::string& sheet)
 {
   if (!sheet.empty ())
     filter_url_rmdir (sheetfolder (sheet));
-  std::scoped_lock lock (database_styles_cache_mutex);
-  database_styles_cache.clear ();
+  std::scoped_lock lock (styles1::database_styles_cache_mutex);
+  styles1::database_styles_cache.clear ();
 }
 
 

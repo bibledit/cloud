@@ -80,7 +80,7 @@ std::string styles_sheetm (Webserver_Request& webserver_request)
   
   const std::string& username = webserver_request.session_logic ()->get_username ();
   int userlevel = webserver_request.session_logic ()->get_level ();
-  bool write = database_styles.hasWriteAccess (username, name);
+  bool write = database::styles::has_write_access (username, name);
   if (userlevel >= Filter_Roles::admin ()) write = true;
   
   if (webserver_request.post.count ("new")) {

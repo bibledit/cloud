@@ -77,7 +77,7 @@ std::string styles_indexm (Webserver_Request& webserver_request)
       page += assets_page::error (translate("This stylesheet already exists"));
     } else {
       database::styles::create_sheet (name);
-      database_styles.grantWriteAccess (username, name);
+      database::styles::grant_write_access (username, name);
       styles_sheets_create_all ();
       page += assets_page::success (translate("The stylesheet has been created"));
     }
@@ -93,11 +93,11 @@ std::string styles_indexm (Webserver_Request& webserver_request)
     if (!del.empty()) {
       std::string confirm {webserver_request.query ["confirm"]};
       if (confirm == "yes") {
-        bool write = database_styles.hasWriteAccess (username, del);
+        bool write = database::styles::has_write_access (username, del);
         if (userlevel >= Filter_Roles::admin ()) write = true;
         if (write) {
           database::styles::delete_sheet (del);
-          database_styles.revokeWriteAccess (std::string(), del);
+          database::styles::revoke_write_access (std::string(), del);
           page += assets_page::success (translate("The stylesheet has been deleted"));
         }
       } if (confirm.empty()) {
@@ -117,7 +117,7 @@ std::string styles_indexm (Webserver_Request& webserver_request)
   for (auto & sheet : sheets) {
     sheetblock << "<p>";
     sheetblock << sheet;
-    bool editable = database_styles.hasWriteAccess (username, sheet);
+    bool editable = database::styles::has_write_access (username, sheet);
     if (userlevel >= Filter_Roles::admin ()) editable = true;
     // Cannot edit the Standard stylesheet.
     if (sheet == styles_logic_standard_sheet ()) editable = false;

@@ -568,11 +568,6 @@ void update_background_color (const std::string& sheet, const std::string& marke
 }
 
 
-
-
-
-
-
 } // End namespace styles1
 
 
@@ -631,11 +626,8 @@ void delete_sheet (const std::string& sheet)
 }
 
 
-} // Namespace styles
-
-
 // Grant $user write access to stylesheet $sheet.
-void Database_Styles::grantWriteAccess (std::string user, std::string sheet)
+void grant_write_access (const std::string& user, const std::string& sheet)
 {
   SqliteDatabase sql (database_name);
   sql.add ("INSERT INTO users VALUES (");
@@ -649,7 +641,7 @@ void Database_Styles::grantWriteAccess (std::string user, std::string sheet)
 
 // Revoke a $user's write access to stylesheet $sheet.
 // If the $user is empty, then revoke write access of anybody to that $sheet.
-void Database_Styles::revokeWriteAccess (std::string user, std::string sheet)
+void revoke_write_access (const std::string& user, const std::string& sheet)
 {
   SqliteDatabase sql (database_name);
   sql.add ("DELETE FROM users WHERE");
@@ -666,7 +658,7 @@ void Database_Styles::revokeWriteAccess (std::string user, std::string sheet)
 
 
 // Returns true or false depending on whether $user has write access to $sheet.
-bool Database_Styles::hasWriteAccess (std::string user, std::string sheet)
+bool has_write_access (const std::string& user, const std::string& sheet)
 {
   SqliteDatabase sql (database_name);
   sql.add ("SELECT rowid FROM users WHERE user =");
@@ -677,6 +669,11 @@ bool Database_Styles::hasWriteAccess (std::string user, std::string sheet)
   std::map <std::string, std::vector <std::string> > result = sql.query ();
   return !result["rowid"].empty ();
 }
+
+
+} // Namespace styles
+
+
 
 
 namespace database::styles2 { // Todo database functions for styles v2.

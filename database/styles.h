@@ -28,6 +28,9 @@ void create_database ();
 void create_sheet (const std::string& sheet);
 std::vector <std::string> get_sheets ();
 void delete_sheet (const std::string& sheet);
+void grant_write_access (const std::string& user, const std::string& sheet);
+void revoke_write_access (const std::string& user, const std::string& sheet);
+bool has_write_access (const std::string& user, const std::string& sheet);
 
 } // End namespace styles
 
@@ -111,9 +114,6 @@ void update_background_color (const std::string& sheet, const std::string& marke
 class Database_Styles
 {
 public:
-  void grantWriteAccess (std::string user, std::string sheet);
-  void revokeWriteAccess (std::string user, std::string sheet);
-  bool hasWriteAccess (std::string user, std::string sheet);
 };
 
 

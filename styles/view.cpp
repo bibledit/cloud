@@ -79,7 +79,7 @@ std::string styles_view (Webserver_Request& webserver_request)
   // Whether the logged-in user has write access to the stylesheet.
   const std::string& username = webserver_request.session_logic ()->get_username ();
   const int userlevel = webserver_request.session_logic ()->get_level ();
-  bool write = database_styles.hasWriteAccess (username, sheet);
+  bool write = database::styles::has_write_access (username, sheet);
   if (userlevel >= Filter_Roles::admin ()) write = true;
   
   

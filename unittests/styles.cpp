@@ -297,31 +297,31 @@ TEST (styles, css)
     database::styles::create_sheet ("testsheet");
     
     // A user does not have write access to the stylesheet.
-    bool write = database_styles.hasWriteAccess ("user", "testsheet");
+    bool write = database::styles::has_write_access ("user", "testsheet");
     EXPECT_EQ (false, write);
     
     // Grant write access, and test it for this user, and for another user.
-    database_styles.grantWriteAccess ("user", "testsheet");
-    write = database_styles.hasWriteAccess ("user", "testsheet");
+    database::styles::grant_write_access ("user", "testsheet");
+    write = database::styles::has_write_access ("user", "testsheet");
     EXPECT_EQ (true, write);
-    write = database_styles.hasWriteAccess ("user2", "testsheet");
+    write = database::styles::has_write_access ("user2", "testsheet");
     EXPECT_EQ (false, write);
-    write = database_styles.hasWriteAccess ("user", "phpunit2");
+    write = database::styles::has_write_access ("user", "phpunit2");
     EXPECT_EQ (false, write);
     
     // Revoke write access for a user, test it in various ways.
-    database_styles.revokeWriteAccess ("user2", "testsheet");
-    write = database_styles.hasWriteAccess ("user", "testsheet");
+    database::styles::revoke_write_access ("user2", "testsheet");
+    write = database::styles::has_write_access ("user", "testsheet");
     EXPECT_EQ (true, write);
-    database_styles.revokeWriteAccess ("user", "testsheet");
-    write = database_styles.hasWriteAccess ("user", "testsheet");
+    database::styles::revoke_write_access ("user", "testsheet");
+    write = database::styles::has_write_access ("user", "testsheet");
     EXPECT_EQ (false, write);
     
     // Revoking write access for all users.
-    database_styles.grantWriteAccess ("user1", "testsheet");
-    database_styles.grantWriteAccess ("user2", "testsheet");
-    database_styles.revokeWriteAccess ("", "testsheet");
-    write = database_styles.hasWriteAccess ("user1", "testsheet");
+    database::styles::grant_write_access ("user1", "testsheet");
+    database::styles::grant_write_access ("user2", "testsheet");
+    database::styles::revoke_write_access ("", "testsheet");
+    write = database::styles::has_write_access ("user1", "testsheet");
     EXPECT_EQ (false, write);
   }
   

@@ -61,8 +61,6 @@ std::string styles_indexm (Webserver_Request& webserver_request)
   
   Assets_View view {};
   
-  Database_Styles database_styles {};
-  
   const std::string& username {webserver_request.session_logic ()->get_username ()};
   int userlevel {webserver_request.session_logic ()->get_level ()};
   

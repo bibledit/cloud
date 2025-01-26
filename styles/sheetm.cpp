@@ -76,8 +76,6 @@ std::string styles_sheetm (Webserver_Request& webserver_request)
   std::string name = webserver_request.query["name"];
   view.set_variable ("name", filter::strings::escape_special_xml_characters (name));
   
-  Database_Styles database_styles;
-  
   const std::string& username = webserver_request.session_logic ()->get_username ();
   int userlevel = webserver_request.session_logic ()->get_level ();
   bool write = database::styles::has_write_access (username, name);

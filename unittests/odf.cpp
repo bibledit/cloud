@@ -113,7 +113,6 @@ TEST (filter, odf)
 
   // Test basic formatted text.
   {
-    Database_Styles database_styles;
     database::styles::create_database ();
     database::styles1::Item add = database::styles1::get_marker_data (styles_logic_standard_sheet (), "add");
     odf_text odf_text (bible);
@@ -136,7 +135,6 @@ TEST (filter, odf)
 
   // Test basic formatted note.
   {
-    Database_Styles database_styles;
     database::styles::create_database ();
     database::styles1::Item add = database::styles1::get_marker_data (styles_logic_standard_sheet (), "add");
     odf_text odf_text (bible);
@@ -163,7 +161,6 @@ TEST (filter, odf)
 
   // Test embedded formatted text.
   {
-    Database_Styles database_styles;
     database::styles::create_database ();
     database::styles1::Item add = database::styles1::get_marker_data (styles_logic_standard_sheet (), "add");
     add.italic = ooitOn;
@@ -201,7 +198,6 @@ TEST (filter, odf)
 
   // Test embedded formatted note.
   {
-    Database_Styles database_styles;
     database::styles::create_database ();
     database::styles1::Item add = database::styles1::get_marker_data (styles_logic_standard_sheet (), "add");
     add.italic = ooitOn;
@@ -243,7 +239,6 @@ TEST (filter, odf)
 
   // Test paragraph formatting.
   {
-    Database_Styles database_styles;
     database::styles::create_database ();
     database::styles1::Item d = database::styles1::get_marker_data (styles_logic_standard_sheet (), "d");
     odf_text odf_text (bible);

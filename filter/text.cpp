@@ -171,7 +171,6 @@ void Filter_Text::get_styles (std::string stylesheet)
   if (odf_text_text_only) odf_text_text_only->create_page_break_style ();
   if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->create_page_break_style ();
   if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->create_superscript_style ();
-  Database_Styles database_styles;
   std::vector <std::string> markers = database::styles1::get_markers (stylesheet);
   for (const auto& marker : markers) {
     database::styles1::Item style = database::styles1::get_marker_data (stylesheet, marker);

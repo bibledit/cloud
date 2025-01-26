@@ -111,12 +111,6 @@ void update_background_color (const std::string& sheet, const std::string& marke
 } // End namespace styles1
 
 
-class Database_Styles
-{
-public:
-};
-
-
 namespace database::styles2 { // Todo database function for styles v2.
 
 const std::list<stylesv2::Style>& get_styles(const std::string& stylesheet);

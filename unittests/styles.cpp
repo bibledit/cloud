@@ -42,7 +42,6 @@ TEST (styles, css)
   // Create basic stylesheet.
   {
     refresh_sandbox (true);
-    Database_Styles database_styles {};
     database::styles::create_sheet ("testsheet");
     Styles_Css styles_css (webserver_request, "testsheet");
     styles_css.generate ();
@@ -55,7 +54,6 @@ TEST (styles, css)
   // Create stylesheet for export.
   {
     refresh_sandbox (true);
-    Database_Styles database_styles {};
     database::styles::create_sheet ("testsheet");
     Styles_Css styles_css (webserver_request, "testsheet");
     styles_css.exports ();
@@ -69,7 +67,6 @@ TEST (styles, css)
   // Stylesheet for the Bible editor.
   {
     refresh_sandbox (true);
-    Database_Styles database_styles {};
     database::styles::create_sheet ("testsheet");
     Styles_Css styles_css (webserver_request, "testsheet");
     styles_css.editor ();
@@ -206,7 +203,6 @@ TEST (styles, css)
   // Creating and deleting stylesheets.
   {
     refresh_sandbox (true);
-    Database_Styles database_styles;
     std::vector <std::string> standard {};
     
     std::vector <std::string> sheets = database::styles::get_sheets ();
@@ -232,7 +228,6 @@ TEST (styles, css)
   // Do a spot check on the markers and their associated parameters.
   {
     refresh_sandbox (true);
-    Database_Styles database_styles {};
     database::styles::create_sheet ("testsheet");
     
     std::vector <std::string> markers {};
@@ -269,7 +264,6 @@ TEST (styles, css)
   // More specific check on a marker.
   {
     refresh_sandbox (true);
-    Database_Styles database_styles {};
     database::styles::create_sheet ("testsheet");
     database::styles1::Item data = database::styles1::get_marker_data ("testsheet", "add");
     EXPECT_EQ ("add", data.marker);
@@ -279,7 +273,6 @@ TEST (styles, css)
   // Updating a marker.
   {
     refresh_sandbox (true);
-    Database_Styles database_styles {};
     database::styles::create_sheet ("testsheet");
     database::styles1::update_name ("testsheet", "add", "Addition");
     database::styles1::Item data = database::styles1::get_marker_data ("testsheet", "add");
@@ -292,7 +285,6 @@ TEST (styles, css)
   // Read and write access to the styles database.
   {
     refresh_sandbox (true);
-    Database_Styles database_styles {};
     database::styles::create_database ();
     database::styles::create_sheet ("testsheet");
     
@@ -328,7 +320,6 @@ TEST (styles, css)
   // Adding a marker.
   {
     refresh_sandbox (true);
-    Database_Styles database_styles {};
     database::styles::create_database ();
     database::styles::create_sheet ("testsheet");
     
@@ -346,7 +337,6 @@ TEST (styles, css)
   // Testing empty stylesheet.
   {
     refresh_sandbox (true);
-    Database_Styles database_styles {};
     database::styles::create_database ();
     std::vector <std::string> markers = database::styles1::get_markers ("");
     std::string marker {"zhq"};
@@ -356,7 +346,6 @@ TEST (styles, css)
   // Testing the styles application in the editors.
   {
     refresh_sandbox (true);
-    Database_Styles database_styles {};
     database::styles::create_database ();
     Database_State database_state;
     database_state.create ();

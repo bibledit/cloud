@@ -83,7 +83,6 @@ void database_maintenance ()
   
   // No need to optimize the following because it is hardly ever written to.
   // Database_Books database_book = Database_Books ();
-  // Database_Styles database_styles;
   
   
   database::bibles::optimize ();

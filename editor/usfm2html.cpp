@@ -41,7 +41,6 @@ void Editor_Usfm2Html::load (std::string usfm)
 
 void Editor_Usfm2Html::stylesheet (const std::string& stylesheet)
 {
-  Database_Styles database_styles;
   m_styles.clear();
   const std::vector <std::string> markers = database::styles1::get_markers (stylesheet);
   // Load the style information into the object.

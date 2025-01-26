@@ -72,7 +72,6 @@ std::string styles_view (Webserver_Request& webserver_request)
   view.set_variable ("style", filter::strings::escape_special_xml_characters (style));
 
   
-  Database_Styles database_styles {};
   database::styles1::Item marker_data = database::styles1::get_marker_data (sheet, style);
   
   

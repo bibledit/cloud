@@ -81,12 +81,10 @@ public:
   Session_Logic * session_logic ();
   Database_Config_User * database_config_user ();
   Database_Users * database_users ();
-  Database_Styles * database_styles ();
   Database_Ipc * database_ipc ();
 private:
   Session_Logic * session_logic_instance { nullptr };
   Database_Config_User * database_config_user_instance { nullptr };
   Database_Users * database_users_instance { nullptr };
-  Database_Styles * database_styles_instance { nullptr };
   Database_Ipc * database_ipc_instance { nullptr };
 };

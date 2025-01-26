@@ -281,10 +281,10 @@ TEST (styles, css)
     refresh_sandbox (true);
     Database_Styles database_styles {};
     database::styles::create_sheet ("testsheet");
-    database_styles.updateName ("testsheet", "add", "Addition");
+    database::styles1::update_name ("testsheet", "add", "Addition");
     database::styles1::Item data = database::styles1::get_marker_data ("testsheet", "add");
     EXPECT_EQ ("Addition", data.name);
-    database_styles.updateInfo ("testsheet", "p", "Paragraph");
+    database::styles1::update_info ("testsheet", "p", "Paragraph");
     data = database::styles1::get_marker_data ("testsheet", "p");
     EXPECT_EQ ("Paragraph", data.info);
   }

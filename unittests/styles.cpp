@@ -409,5 +409,44 @@ TEST_F (styles, editors_application)
 }
 
 
-#endif
+// Getting the list of styles v2.
+TEST_F (styles, get_styles)
+{
+  using namespace database::styles2;
 
+  // As the styles are being built, this indicats the styles already available now.
+  constexpr const int available_styles {1};
+  
+  // Default stylesheet should have the hard-coded default styles.
+  const std::list<stylesv2::Style>& default_styles = get_styles(styles_logic_standard_sheet ());
+  EXPECT_EQ (default_styles.size(), available_styles);
+  
+  // Do a spot-check on markers.
+  {
+    constexpr const char * marker {"id"};
+    const auto iter = std::find(default_styles.cbegin(), default_styles.cend(), marker);
+    if (iter == default_styles.cend())
+      FAIL() << "Should contain style " << std::quoted(marker);
+    else {
+      const stylesv2::Style& style = *iter;
+      EXPECT_EQ (style.type, stylesv2::Type::book_id);
+      EXPECT_EQ (style.name, "Identification");
+      EXPECT_EQ (style.capabilities.at(0), stylesv2::Capability::starts_new_page);
+    }
+  }
+  
+  // A marker that is not in the stylesheet.
+  {
+    constexpr const char * marker {"abc"};
+    const auto iter = std::find(default_styles.cbegin(), default_styles.cend(), marker);
+    if (iter != default_styles.cend())
+      FAIL() << "Should not contain style " << std::quoted(marker);
+  }
+  
+  // A non-default stylesheet should be created on the fly if it does not exist, and return default styles.
+  const std::list<stylesv2::Style> user_styles = get_styles("sheet");
+  EXPECT_EQ (user_styles.size(), available_styles);
+}
+
+
+#endif

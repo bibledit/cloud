@@ -697,12 +697,16 @@ const std::list<stylesv2::Style>& get_styles(const std::string& stylesheet)
   // Look for the requested stylesheet whether it is already in the cache.
   const auto iter = sheet_cache.find(stylesheet);
   
-  // Not in cache: Copy hard-coded stylesheet to cache and return reference to that.
+  // Not in cache: Step 1: Copy hard-coded stylesheet to cache.
   if (iter == sheet_cache.cend()) {
-    // Todo test this.
+    sheet_cache[stylesheet].clear();
     for (const auto& style : stylesv2::styles) {
-      sheet_cache[stylesheet].push_back(style);
+      sheet_cache.at(stylesheet).push_back(style);
     }
+    
+    // Step 2: Update the cache with any updated or deleted markers or added ones. // Todo
+    
+    // Step 3: Return reference to tne now correct cache.
     return sheet_cache.at(stylesheet);
   }
   
@@ -728,6 +732,13 @@ void delete_marker (const std::string& sheet, const std::string& marker)
 //  database_styles_cache_mutex.lock ();
 //  database_styles_cache.clear ();
 //  database_styles_cache_mutex.unlock ();
+}
+
+
+// Remove all changes to a marker and reset it to default.
+void reset_marker (const std::string& sheet, const std::string& marker)
+{
+  
 }
 
 
@@ -768,7 +779,7 @@ std::map <std::string, std::string> get_markers_and_names (const std::string& sh
 
 
 // Returns an object with all data belonging to a marker.
-styles1::Item get_marker_data (const std::string& sheet, const std::string& marker)
+stylesv2::Style get_marker_data (const std::string& sheet, const std::string& marker)
 {
   throw std::runtime_error("Todo write it for v2");
   //return database::styles1::read_item (sheet, marker);

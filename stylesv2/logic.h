@@ -67,7 +67,7 @@ struct Style final {
 };
 
 
-inline bool operator==(const Style& s, const std::string& marker) noexcept { return s.marker == marker; }
+inline bool operator==(const Style& style, const std::string& marker) noexcept { return style.marker == marker; }
 
 
 extern const std::list<Style> styles;

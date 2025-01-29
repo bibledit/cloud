@@ -79,7 +79,10 @@ static void print_tag_stack(GumboParser* parser, const GumboParserError* error,
     if (i) {
       print_message(parser, output, ", ");
     }
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wvoid-pointer-to-enum-cast"
     GumboTag tag = (GumboTag) error->tag_stack.data[i];
+#pragma clang diagnostic pop
     print_message(parser, output, gumbo_normalized_tagname(tag));
   }
   gumbo_string_buffer_append_codepoint(parser, '.', output);

@@ -745,8 +745,11 @@ static GumboInsertionMode get_current_template_insertion_mode(
   if (template_insertion_modes->length == 0) {
     return GUMBO_INSERTION_MODE_INITIAL;
   }
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wvoid-pointer-to-enum-cast"
   return (GumboInsertionMode)
       template_insertion_modes->data[(template_insertion_modes->length - 1)];
+#pragma clang diagnostic pop
 }
 
 // http://www.whatwg.org/specs/web-apps/current-work/multipage/tree-construction.html#mathml-text-integration-point

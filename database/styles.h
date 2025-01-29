@@ -111,14 +111,13 @@ void update_background_color (const std::string& sheet, const std::string& marke
 } // End namespace styles1
 
 
-namespace database::styles2 { // Todo database function for styles v2.
+namespace database::styles2 { // Todo database functions for styles v2.
 
 const std::list<stylesv2::Style>& get_styles(const std::string& stylesheet);
 void add_marker (const std::string& sheet, const std::string& marker);
 void delete_marker (const std::string& sheet, const std::string& marker);
-std::map <std::string, std::string> get_markers_and_names (const std::string& sheet);
 std::vector <std::string> get_markers (const std::string& sheet);
+std::map <std::string, std::string> get_markers_and_names (const std::string& sheet);
 styles1::Item get_marker_data (const std::string& sheet, const std::string& marker);
-
 
 } // End namespace styles2

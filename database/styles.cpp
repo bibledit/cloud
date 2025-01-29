@@ -731,6 +731,27 @@ void delete_marker (const std::string& sheet, const std::string& marker)
 }
 
 
+// Returns a list with all the markers of the styles in the stylesheet.
+std::vector <std::string> get_markers (const std::string& sheet)
+{
+  throw std::runtime_error("Todo write it for v2");
+  //  // The markers for this stylesheet.
+  //  std::vector <std::string> markers = filter_url_scandir (sheetfolder (sheet));
+  //  if (markers.empty ()) {
+  //    // Check and/or load defaults.
+  //    if (default_styles_cache.empty ())
+  //      cache_defaults ();
+  //    // Load all default markers.
+  //    for (const auto& mapping : default_styles_cache) {
+  //      // The markers are the keys in the std::map.
+  //      markers.push_back (mapping.first);
+  //    }
+  //  }
+  //  // Done.
+  //  return markers;
+}
+
+
 // Returns a map with all the markers and the names of the styles in the stylesheet.
 std::map <std::string, std::string> get_markers_and_names (const std::string& sheet)
 {
@@ -743,27 +764,6 @@ std::map <std::string, std::string> get_markers_and_names (const std::string& sh
 //    markers_names [marker] = item.name;
 //  }
 //  return markers_names;
-}
-
-
-// Returns an array with all the markers of the styles in the stylesheet.
-std::vector <std::string> get_markers (const std::string& sheet)
-{
-  throw std::runtime_error("Todo write it for v2");
-//  // The markers for this stylesheet.
-//  std::vector <std::string> markers = filter_url_scandir (sheetfolder (sheet));
-//  if (markers.empty ()) {
-//    // Check and/or load defaults.
-//    if (default_styles_cache.empty ())
-//      cache_defaults ();
-//    // Load all default markers.
-//    for (const auto& mapping : default_styles_cache) {
-//      // The markers are the keys in the std::map.
-//      markers.push_back (mapping.first);
-//    }
-//  }
-//  // Done.
-//  return markers;
 }
 
 

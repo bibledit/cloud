@@ -547,7 +547,18 @@ libbibledit_a_SOURCES = \
   tidy/tidylib.c \
   tidy/tmbstr.c \
   tidy/utf8.c \
-  stylesv2/logic.cpp
+  stylesv2/logic.cpp \
+  gumbo/attribute.c \
+  gumbo/char_ref.c \
+  gumbo/error.c \
+  gumbo/parser.c \
+  gumbo/string_buffer.c \
+  gumbo/string_piece.c \
+  gumbo/tag.c \
+  gumbo/tokenizer.c \
+  gumbo/utf8.c \
+  gumbo/util.c \
+  gumbo/vector.c
 
 bin_PROGRAMS = server unittest generate
 
@@ -666,7 +677,6 @@ AM_CXXFLAGS += $(WEBKIT2GTK_CFLAGS)
 AM_CXXFLAGS += $(ICU_CFLAGS)
 AM_CXXFLAGS += $(XML2_CFLAGS)
 AM_CXXFLAGS += $(UTF8PROC_CFLAGS)
-AM_CXXFLAGS += $(GUMBO_CFLAGS)
 # AM_CXXFLAGS += $(TIDY_CFLAGS) -I/usr/include/tidy
 AM_CXXFLAGS += $(PUGIXML_CFLAGS)
 AM_CXXFLAGS += $(GTEST_CFLAGS)
@@ -688,7 +698,6 @@ LIBS += $(WEBKIT2GTK_LIBS)
 LIBS += $(ICU_LIBS)
 LIBS += $(XML2_LIBS)
 LIBS += $(UTF8PROC_LIBS)
-LIBS += $(GUMBO_LIBS)
 # LIBS += $(TIDY_LIBS)
 LIBS += $(PUGIXML_LIBS)
 LIBS += $(GTEST_LIBS)

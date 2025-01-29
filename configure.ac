@@ -125,11 +125,6 @@ PKG_CHECK_MODULES(UTF8PROC, libutf8proc >= 2.3.0, AC_DEFINE(HAVE_UTF8PROC, 1, De
 AC_SUBST(UTF8PROC_CFLAGS)
 AC_SUBST(UTF8PROC_LIBS)
 
-# Check the gumbo library  whether available.
-PKG_CHECK_MODULES(GUMBO, gumbo >= 0.10.0,,AC_MSG_ERROR(The gumbo library development version >= 0.10.0 is needed.))
-AC_SUBST(GUMBO_CFLAGS)
-AC_SUBST(GUMBO_LIBS)
-
 # Check the tidy library  whether available.
 # PKG_CHECK_MODULES(TIDY, tidy >= 5.4.0,,AC_MSG_ERROR(The tidy library development version >= 5.4.0 is needed.))
 # AC_SUBST(TIDY_CFLAGS)

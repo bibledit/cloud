@@ -64,7 +64,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #ifdef HAVE_CLOUD
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdocumentation"
-#include <gumbo.h>
+#include "gumbo/gumbo.h"
 #pragma clang diagnostic pop
 #endif
 #ifdef HAVE_CLOUD

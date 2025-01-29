@@ -419,7 +419,12 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	tidy/streamio.$(OBJEXT) tidy/tagask.$(OBJEXT) \
 	tidy/tags.$(OBJEXT) tidy/tidylib.$(OBJEXT) \
 	tidy/tmbstr.$(OBJEXT) tidy/utf8.$(OBJEXT) \
-	stylesv2/logic.$(OBJEXT)
+	stylesv2/logic.$(OBJEXT) gumbo/attribute.$(OBJEXT) \
+	gumbo/char_ref.$(OBJEXT) gumbo/error.$(OBJEXT) \
+	gumbo/parser.$(OBJEXT) gumbo/string_buffer.$(OBJEXT) \
+	gumbo/string_piece.$(OBJEXT) gumbo/tag.$(OBJEXT) \
+	gumbo/tokenizer.$(OBJEXT) gumbo/utf8.$(OBJEXT) \
+	gumbo/util.$(OBJEXT) gumbo/vector.$(OBJEXT)
 libbibledit_a_OBJECTS = $(am_libbibledit_a_OBJECTS)
 am_generate_OBJECTS = executable/generate.$(OBJEXT) \
 	sources/styles.$(OBJEXT)
@@ -588,6 +593,12 @@ am__depfiles_remade = access/$(DEPDIR)/bible.Po \
 	filter/$(DEPDIR)/text.Po filter/$(DEPDIR)/url.Po \
 	filter/$(DEPDIR)/usfm.Po filter/$(DEPDIR)/webview.Po \
 	flate/$(DEPDIR)/flate.Po fonts/$(DEPDIR)/logic.Po \
+	gumbo/$(DEPDIR)/attribute.Po gumbo/$(DEPDIR)/char_ref.Po \
+	gumbo/$(DEPDIR)/error.Po gumbo/$(DEPDIR)/parser.Po \
+	gumbo/$(DEPDIR)/string_buffer.Po \
+	gumbo/$(DEPDIR)/string_piece.Po gumbo/$(DEPDIR)/tag.Po \
+	gumbo/$(DEPDIR)/tokenizer.Po gumbo/$(DEPDIR)/utf8.Po \
+	gumbo/$(DEPDIR)/util.Po gumbo/$(DEPDIR)/vector.Po \
 	help/$(DEPDIR)/index.Po html/$(DEPDIR)/header.Po \
 	html/$(DEPDIR)/text.Po images/$(DEPDIR)/fetch.Po \
 	images/$(DEPDIR)/index.Po images/$(DEPDIR)/logic.Po \
@@ -995,8 +1006,6 @@ EXEEXT = @EXEEXT@
 FIND_TAR = @FIND_TAR@
 GTEST_CFLAGS = @GTEST_CFLAGS@
 GTEST_LIBS = @GTEST_LIBS@
-GUMBO_CFLAGS = @GUMBO_CFLAGS@
-GUMBO_LIBS = @GUMBO_LIBS@
 GUNZIP_PATH = @GUNZIP_PATH@
 GZIP_PATH = @GZIP_PATH@
 HAVE_CXX17 = @HAVE_CXX17@
@@ -1013,8 +1022,7 @@ LIBOBJS = @LIBOBJS@
 # LIBS += $(TIDY_LIBS)
 LIBS = -Wall -lpthread -L. -g -rdynamic -ldl $(CURL_LIBS) \
 	$(OPENSSL_LIBS) $(GTK_LIBS) $(WEBKIT2GTK_LIBS) $(ICU_LIBS) \
-	$(XML2_LIBS) $(UTF8PROC_LIBS) $(GUMBO_LIBS) $(PUGIXML_LIBS) \
-	$(GTEST_LIBS)
+	$(XML2_LIBS) $(UTF8PROC_LIBS) $(PUGIXML_LIBS) $(GTEST_LIBS)
 LTLIBOBJS = @LTLIBOBJS@
 MAKEINFO = @MAKEINFO@
 MKDIR_P = @MKDIR_P@
@@ -1643,7 +1651,18 @@ libbibledit_a_SOURCES = \
   tidy/tidylib.c \
   tidy/tmbstr.c \
   tidy/utf8.c \
-  stylesv2/logic.cpp
+  stylesv2/logic.cpp \
+  gumbo/attribute.c \
+  gumbo/char_ref.c \
+  gumbo/error.c \
+  gumbo/parser.c \
+  gumbo/string_buffer.c \
+  gumbo/string_piece.c \
+  gumbo/tag.c \
+  gumbo/tokenizer.c \
+  gumbo/utf8.c \
+  gumbo/util.c \
+  gumbo/vector.c
 
 server_SOURCES = executable/bibledit.cpp
 server_LDADD = libbibledit.a
@@ -1741,8 +1760,8 @@ AM_CFLAGS = -g $(OPENSSL_CFLAGS) $(am__append_1) $(am__append_5)
 AM_CXXFLAGS = -fno-var-tracking -g $(am__append_2) $(am__append_3) \
 	$(CURL_CFLAGS) $(OPENSSL_CFLAGS) $(GTK_CFLAGS) \
 	$(WEBKIT2GTK_CFLAGS) $(ICU_CFLAGS) $(XML2_CFLAGS) \
-	$(UTF8PROC_CFLAGS) $(GUMBO_CFLAGS) $(PUGIXML_CFLAGS) \
-	$(GTEST_CFLAGS) $(am__append_4)
+	$(UTF8PROC_CFLAGS) $(PUGIXML_CFLAGS) $(GTEST_CFLAGS) \
+	$(am__append_4)
 
 # The core library compiles and embeds the mbedtls library.
 # On Debian this gives a lintian error:
@@ -3480,6 +3499,34 @@ stylesv2/$(DEPDIR)/$(am__dirstamp):
 	@: >>stylesv2/$(DEPDIR)/$(am__dirstamp)
 stylesv2/logic.$(OBJEXT): stylesv2/$(am__dirstamp) \
 	stylesv2/$(DEPDIR)/$(am__dirstamp)
+gumbo/$(am__dirstamp):
+	@$(MKDIR_P) gumbo
+	@: >>gumbo/$(am__dirstamp)
+gumbo/$(DEPDIR)/$(am__dirstamp):
+	@$(MKDIR_P) gumbo/$(DEPDIR)
+	@: >>gumbo/$(DEPDIR)/$(am__dirstamp)
+gumbo/attribute.$(OBJEXT): gumbo/$(am__dirstamp) \
+	gumbo/$(DEPDIR)/$(am__dirstamp)
+gumbo/char_ref.$(OBJEXT): gumbo/$(am__dirstamp) \
+	gumbo/$(DEPDIR)/$(am__dirstamp)
+gumbo/error.$(OBJEXT): gumbo/$(am__dirstamp) \
+	gumbo/$(DEPDIR)/$(am__dirstamp)
+gumbo/parser.$(OBJEXT): gumbo/$(am__dirstamp) \
+	gumbo/$(DEPDIR)/$(am__dirstamp)
+gumbo/string_buffer.$(OBJEXT): gumbo/$(am__dirstamp) \
+	gumbo/$(DEPDIR)/$(am__dirstamp)
+gumbo/string_piece.$(OBJEXT): gumbo/$(am__dirstamp) \
+	gumbo/$(DEPDIR)/$(am__dirstamp)
+gumbo/tag.$(OBJEXT): gumbo/$(am__dirstamp) \
+	gumbo/$(DEPDIR)/$(am__dirstamp)
+gumbo/tokenizer.$(OBJEXT): gumbo/$(am__dirstamp) \
+	gumbo/$(DEPDIR)/$(am__dirstamp)
+gumbo/utf8.$(OBJEXT): gumbo/$(am__dirstamp) \
+	gumbo/$(DEPDIR)/$(am__dirstamp)
+gumbo/util.$(OBJEXT): gumbo/$(am__dirstamp) \
+	gumbo/$(DEPDIR)/$(am__dirstamp)
+gumbo/vector.$(OBJEXT): gumbo/$(am__dirstamp) \
+	gumbo/$(DEPDIR)/$(am__dirstamp)
 
 libbibledit.a: $(libbibledit_a_OBJECTS) $(libbibledit_a_DEPENDENCIES) $(EXTRA_libbibledit_a_DEPENDENCIES) 
 	$(AM_V_at)-rm -f libbibledit.a
@@ -3710,6 +3757,7 @@ mostlyclean-compile:
 	-rm -f filter/*.$(OBJEXT)
 	-rm -f flate/*.$(OBJEXT)
 	-rm -f fonts/*.$(OBJEXT)
+	-rm -f gumbo/*.$(OBJEXT)
 	-rm -f help/*.$(OBJEXT)
 	-rm -f html/*.$(OBJEXT)
 	-rm -f images/*.$(OBJEXT)
@@ -3956,6 +4004,17 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/webview.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@flate/$(DEPDIR)/flate.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@fonts/$(DEPDIR)/logic.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@gumbo/$(DEPDIR)/attribute.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@gumbo/$(DEPDIR)/char_ref.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@gumbo/$(DEPDIR)/error.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@gumbo/$(DEPDIR)/parser.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@gumbo/$(DEPDIR)/string_buffer.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@gumbo/$(DEPDIR)/string_piece.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@gumbo/$(DEPDIR)/tag.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@gumbo/$(DEPDIR)/tokenizer.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@gumbo/$(DEPDIR)/utf8.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@gumbo/$(DEPDIR)/util.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@gumbo/$(DEPDIR)/vector.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@help/$(DEPDIR)/index.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@html/$(DEPDIR)/header.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@html/$(DEPDIR)/text.Po@am__quote@ # am--include-marker
@@ -4832,6 +4891,8 @@ distclean-generic:
 	-$(am__rm_f) flate/$(am__dirstamp)
 	-$(am__rm_f) fonts/$(DEPDIR)/$(am__dirstamp)
 	-$(am__rm_f) fonts/$(am__dirstamp)
+	-$(am__rm_f) gumbo/$(DEPDIR)/$(am__dirstamp)
+	-$(am__rm_f) gumbo/$(am__dirstamp)
 	-$(am__rm_f) help/$(DEPDIR)/$(am__dirstamp)
 	-$(am__rm_f) help/$(am__dirstamp)
 	-$(am__rm_f) html/$(DEPDIR)/$(am__dirstamp)
@@ -5147,6 +5208,17 @@ distclean: distclean-am
 	-rm -f filter/$(DEPDIR)/webview.Po
 	-rm -f flate/$(DEPDIR)/flate.Po
 	-rm -f fonts/$(DEPDIR)/logic.Po
+	-rm -f gumbo/$(DEPDIR)/attribute.Po
+	-rm -f gumbo/$(DEPDIR)/char_ref.Po
+	-rm -f gumbo/$(DEPDIR)/error.Po
+	-rm -f gumbo/$(DEPDIR)/parser.Po
+	-rm -f gumbo/$(DEPDIR)/string_buffer.Po
+	-rm -f gumbo/$(DEPDIR)/string_piece.Po
+	-rm -f gumbo/$(DEPDIR)/tag.Po
+	-rm -f gumbo/$(DEPDIR)/tokenizer.Po
+	-rm -f gumbo/$(DEPDIR)/utf8.Po
+	-rm -f gumbo/$(DEPDIR)/util.Po
+	-rm -f gumbo/$(DEPDIR)/vector.Po
 	-rm -f help/$(DEPDIR)/index.Po
 	-rm -f html/$(DEPDIR)/header.Po
 	-rm -f html/$(DEPDIR)/text.Po
@@ -5826,6 +5898,17 @@ maintainer-clean: maintainer-clean-am
 	-rm -f filter/$(DEPDIR)/webview.Po
 	-rm -f flate/$(DEPDIR)/flate.Po
 	-rm -f fonts/$(DEPDIR)/logic.Po
+	-rm -f gumbo/$(DEPDIR)/attribute.Po
+	-rm -f gumbo/$(DEPDIR)/char_ref.Po
+	-rm -f gumbo/$(DEPDIR)/error.Po
+	-rm -f gumbo/$(DEPDIR)/parser.Po
+	-rm -f gumbo/$(DEPDIR)/string_buffer.Po
+	-rm -f gumbo/$(DEPDIR)/string_piece.Po
+	-rm -f gumbo/$(DEPDIR)/tag.Po
+	-rm -f gumbo/$(DEPDIR)/tokenizer.Po
+	-rm -f gumbo/$(DEPDIR)/utf8.Po
+	-rm -f gumbo/$(DEPDIR)/util.Po
+	-rm -f gumbo/$(DEPDIR)/vector.Po
 	-rm -f help/$(DEPDIR)/index.Po
 	-rm -f html/$(DEPDIR)/header.Po
 	-rm -f html/$(DEPDIR)/text.Po

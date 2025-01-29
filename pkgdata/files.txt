@@ -275,6 +275,10 @@
 /generate
 /git
 /git/gitflag
+/gumbo
+/gumbo/0readme.txt
+/gumbo/char_ref.rl
+/gumbo/tag.in
 /help
 /help/about.html
 /help/changelog.html

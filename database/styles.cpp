@@ -33,6 +33,54 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 // All default data is stored in the code in memory, not in a database on disk.
 
 
+// Internal functions, variables and constants.
+
+namespace database::styles {
+constexpr const auto database_name {"styles"};
+static std::string databasefolder ();
+static std::string sheetfolder (const std::string& sheet);
+}
+
+namespace database::styles1 {
+// Cache for the default styles.
+// It used to store the default cache in code.
+// That architecture caused 400+ calls to the localization routines during app startup.
+// This cache does not make those calls during app startup.
+std::map <std::string, database::styles1::Item> default_styles_cache;
+// The memory cache to speed up reading style values.
+// Access a style item like this: cache [stylesheet] [marker].
+// Timing a Bibledit setup phase gave this information:
+// * Before the cache was implemented, fetching styles took 30 seconds (38%) of the total setup time.
+// * After the cache was there, it took 17 seconds (25%) of the total setup time.
+std::map <std::string, std::map <std::string, database::styles1::Item>> database_styles_cache;
+// Cache read and write lock.
+std::mutex database_styles_cache_mutex;
+// Forward declared local functions.
+static std::string stylefile (const std::string& sheet, const std::string& marker);
+static void cache_defaults ();
+static Item read_item (const std::string& sheet, const std::string& marker);
+static void write_item (const std::string& sheet, Item& item);
+}
+
+namespace database::styles2 {
+// Styles cache and lock.
+std::map<std::string,std::list<stylesv2::Style>> sheet_cache;
+std::mutex cache_mutex;
+// Style file suffix.
+constexpr const char* style_file_suffix {"conf"};
+// Style file keys.
+constexpr const std::string_view delete_key {"delete "};
+constexpr const std::string_view type_key {"type "};
+constexpr const std::string_view name_key {"name "};
+constexpr const std::string_view info_key {"info "};
+// Forward declarations of local functions.
+static std::string style_file (const std::string& sheet, const std::string& marker);
+static void ensure_sheet_in_cache(const std::string& sheet);
+static std::string type_enum_to_type_value (const stylesv2::Type type);
+static stylesv2::Type type_value_to_type_enum (const std::string& value);
+}
+
+
 namespace database::styles {
 
 
@@ -48,25 +96,107 @@ static std::string sheetfolder (const std::string& sheet)
 }
 
 
+void create_database ()
+{
+  // Create database.
+  SqliteDatabase sql (database_name);
+  sql.set_sql ("CREATE TABLE IF NOT EXISTS users ("
+               "user text,"
+               "sheet text"
+               ");");
+  sql.execute ();
+}
+
+
+// Creates a stylesheet.
+// It gets a filling for styles v1.
+// For styles v2 the idea is that it gets no filling yet after the create action as everything is default still.
+void create_sheet (const std::string& sheet)
+{
+  // Folder for storing the stylesheet.
+  filter_url_mkdir (sheetfolder (sheet));
+  // Check and/or load defaults.
+  if (styles1::default_styles_cache.empty ())
+    database::styles1::cache_defaults ();
+  // Write all style items to file.
+  for (auto & mapping : styles1::default_styles_cache) {
+    auto & item = mapping.second;
+    write_item (sheet, item);
+  }
+}
+
+
+// Returns a list with the available stylesheets.
+std::vector <std::string> get_sheets ()
+{
+  std::vector <std::string> sheets = filter_url_scandir (databasefolder ());
+  if (find (sheets.begin (), sheets.end (), styles_logic_standard_sheet ()) == sheets.end ()) {
+    sheets.push_back (styles_logic_standard_sheet ());
+  }
+  std::sort (sheets.begin(), sheets.end());
+  return sheets;
+}
+
+
+// Deletes a stylesheet.
+void delete_sheet (const std::string& sheet)
+{
+  if (!sheet.empty ())
+    filter_url_rmdir (sheetfolder (sheet));
+  std::scoped_lock lock (styles1::database_styles_cache_mutex);
+  styles1::database_styles_cache.clear ();
+}
+
+
+// Grant $user write access to stylesheet $sheet.
+void grant_write_access (const std::string& user, const std::string& sheet)
+{
+  SqliteDatabase sql (database_name);
+  sql.add ("INSERT INTO users VALUES (");
+  sql.add (user);
+  sql.add (",");
+  sql.add (sheet);
+  sql.add (");");
+  sql.execute ();
+}
+
+
+// Revoke a $user's write access to stylesheet $sheet.
+// If the $user is empty, then revoke write access of anybody to that $sheet.
+void revoke_write_access (const std::string& user, const std::string& sheet)
+{
+  SqliteDatabase sql (database_name);
+  sql.add ("DELETE FROM users WHERE");
+  if (!user.empty ()) {
+    sql.add ("user =");
+    sql.add (user);
+    sql.add ("AND");
+  }
+  sql.add ("sheet =");
+  sql.add (sheet);
+  sql.add (";");
+  sql.execute ();
+}
+
+
+// Returns true or false depending on whether $user has write access to $sheet.
+bool has_write_access (const std::string& user, const std::string& sheet)
+{
+  SqliteDatabase sql (database_name);
+  sql.add ("SELECT rowid FROM users WHERE user =");
+  sql.add (user);
+  sql.add ("AND sheet =");
+  sql.add (sheet);
+  sql.add (";");
+  std::map <std::string, std::vector <std::string> > result = sql.query ();
+  return !result["rowid"].empty ();
+}
+
+
 } // End nmespace styles.
 
 
 namespace database::styles1 {
-
-
-// Cache for the default styles.
-// It used to store the default cache in code.
-// That architecture caused 400+ calls to the localization routines during app startup.
-// This cache does not make those calls during app startup.
-std::map <std::string, database::styles1::Item> default_styles_cache;
-// The memory cache to speed up reading style values.
-// Access a style item like this: cache [stylesheet] [marker].
-// Timing a Bibledit setup phase gave this information:
-// * Before the cache was implemented, fetching styles took 30 seconds (38%) of the total setup time.
-// * After the cache was there, it took 17 seconds (25%) of the total setup time.
-std::map <std::string, std::map <std::string, database::styles1::Item>> database_styles_cache;
-// Cache read and write lock.
-std::mutex database_styles_cache_mutex;
 
 
 static std::string stylefile (const std::string& sheet, const std::string& marker)
@@ -574,118 +704,37 @@ void update_background_color (const std::string& sheet, const std::string& marke
 } // End namespace styles1
 
 
-namespace database::styles {
-
-
-constexpr const auto database_name {"styles"};
-
-
-void create_database ()
-{
-  // Create database.
-  SqliteDatabase sql (database_name);
-  sql.set_sql ("CREATE TABLE IF NOT EXISTS users ("
-               "user text,"
-               "sheet text"
-               ");");
-  sql.execute ();
-}
-
-
-// Creates a stylesheet.
-// It gets a filling for styles v1.
-// For styles v2 the idea is that it gets no filling yet after the create action as everything is default still.
-void create_sheet (const std::string& sheet)
-{
-  // Folder for storing the stylesheet.
-  filter_url_mkdir (sheetfolder (sheet));
-  // Check and/or load defaults.
-  if (styles1::default_styles_cache.empty ())
-    database::styles1::cache_defaults ();
-  // Write all style items to file.
-  for (auto & mapping : styles1::default_styles_cache) {
-    auto & item = mapping.second;
-    write_item (sheet, item);
-  }
-}
-
-
-// Returns a list with the available stylesheets.
-std::vector <std::string> get_sheets ()
-{
-  std::vector <std::string> sheets = filter_url_scandir (databasefolder ());
-  if (find (sheets.begin (), sheets.end (), styles_logic_standard_sheet ()) == sheets.end ()) {
-    sheets.push_back (styles_logic_standard_sheet ());
-  }
-  std::sort (sheets.begin(), sheets.end());
-  return sheets;
-}
-
-
-// Deletes a stylesheet.
-void delete_sheet (const std::string& sheet)
-{
-  if (!sheet.empty ())
-    filter_url_rmdir (sheetfolder (sheet));
-  std::scoped_lock lock (styles1::database_styles_cache_mutex);
-  styles1::database_styles_cache.clear ();
-}
-
-
-// Grant $user write access to stylesheet $sheet.
-void grant_write_access (const std::string& user, const std::string& sheet)
-{
-  SqliteDatabase sql (database_name);
-  sql.add ("INSERT INTO users VALUES (");
-  sql.add (user);
-  sql.add (",");
-  sql.add (sheet);
-  sql.add (");");
-  sql.execute ();
-}
-
-
-// Revoke a $user's write access to stylesheet $sheet.
-// If the $user is empty, then revoke write access of anybody to that $sheet.
-void revoke_write_access (const std::string& user, const std::string& sheet)
-{
-  SqliteDatabase sql (database_name);
-  sql.add ("DELETE FROM users WHERE");
-  if (!user.empty ()) {
-    sql.add ("user =");
-    sql.add (user);
-    sql.add ("AND");
-  }
-  sql.add ("sheet =");
-  sql.add (sheet);
-  sql.add (";");
-  sql.execute ();
-}
-
-
-// Returns true or false depending on whether $user has write access to $sheet.
-bool has_write_access (const std::string& user, const std::string& sheet)
-{
-  SqliteDatabase sql (database_name);
-  sql.add ("SELECT rowid FROM users WHERE user =");
-  sql.add (user);
-  sql.add ("AND sheet =");
-  sql.add (sheet);
-  sql.add (";");
-  std::map <std::string, std::vector <std::string> > result = sql.query ();
-  return !result["rowid"].empty ();
-}
-
-
-} // Namespace styles
-
-
-
-
 namespace database::styles2 { // Todo database functions for styles v2.
 
 
-std::map<std::string,std::list<stylesv2::Style>> sheet_cache;
+static std::string style_file (const std::string& sheet, const std::string& marker) // Todo
+{
+  return filter_url_create_path ({styles::sheetfolder(sheet), marker + std::string(".") + style_file_suffix});
+}
+
+
+// Ensure sheet cache has been filled.
+static void ensure_sheet_in_cache(const std::string& sheet)
+{
+  // Check whether the requested stylesheet whether it is already in the cache.
+  // If so, ready.
+  const auto iter = sheet_cache.find(sheet);
+  if (iter != sheet_cache.cend())
+    return;
+
+  // The sheet is not in the cache at this point.
+  
+  // Create enmpty cache for the sheet.
+  sheet_cache[sheet].clear();
+
+  // Copy the hard-coded default stylesheet to the cache.
+  for (const auto& style : stylesv2::styles) {
+    sheet_cache.at(sheet).push_back(style);
+  }
+    
+  // Update the cache with any updated or deleted markers or added ones. Todo
+  
+}
 
 
 const std::list<stylesv2::Style>& get_styles(const std::string& stylesheet)
@@ -693,25 +742,12 @@ const std::list<stylesv2::Style>& get_styles(const std::string& stylesheet)
   // If the standard stylesheet is requested, return a reference to the standard hard-coded stylesheet.
   if (stylesheet == styles_logic_standard_sheet())
     return stylesv2::styles;
-  
-  // Look for the requested stylesheet whether it is already in the cache.
-  const auto iter = sheet_cache.find(stylesheet);
-  
-  // Not in cache: Step 1: Copy hard-coded stylesheet to cache.
-  if (iter == sheet_cache.cend()) {
-    sheet_cache[stylesheet].clear();
-    for (const auto& style : stylesv2::styles) {
-      sheet_cache.at(stylesheet).push_back(style);
-    }
-    
-    // Step 2: Update the cache with any updated or deleted markers or added ones. // Todo
-    
-    // Step 3: Return reference to tne now correct cache.
-    return sheet_cache.at(stylesheet);
-  }
-  
-  // In cache: Return reference to that.
-  return (*iter).second;
+
+  // Make sure the stylesheet has been cached.
+  ensure_sheet_in_cache (stylesheet);
+
+  // Return a reference to tne sheet from the cache.
+  return sheet_cache.at(stylesheet);
 }
 
 
@@ -725,20 +761,26 @@ void add_marker (const std::string& sheet, const std::string& marker)
 
 
 // Deletes a marker from a stylesheet.
-void delete_marker (const std::string& sheet, const std::string& marker)
+void delete_marker (const std::string& sheet, const std::string& marker) // Todo test.
 {
-  throw std::runtime_error("Todo write it for v2");
-//  filter_url_unlink (database::styles1::stylefile (sheet, marker));
-//  database_styles_cache_mutex.lock ();
-//  database_styles_cache.clear ();
-//  database_styles_cache_mutex.unlock ();
+  // Store the deleted marker to file.
+  const std::string filename = style_file (sheet, marker);
+  filter_url_file_put_contents (filename, std::string(delete_key));
+  // Cler the sheet cache.
+  std::unique_lock lock (cache_mutex);
+  sheet_cache.clear();
 }
 
 
 // Remove all changes to a marker and reset it to default.
-void reset_marker (const std::string& sheet, const std::string& marker)
+void reset_marker (const std::string& sheet, const std::string& marker) // Todo test.
 {
-  
+  // Remove the file for this marker: This means the marker does not have changes compared to the default style.
+  const std::string filename = style_file (sheet, marker);
+  filter_url_unlink(filename);
+  // Clear the sheet cache.
+  std::unique_lock lock (cache_mutex);
+  sheet_cache.clear();
 }
 
 
@@ -785,6 +827,126 @@ stylesv2::Style get_marker_data (const std::string& sheet, const std::string& ma
   //return database::styles1::read_item (sheet, marker);
 }
 
+
+// Gets the markers from a given stylesheet that have updates compared to the standard stylesheet.
+std::vector<std::string> get_updated_markers (const std::string& sheet) // Todo
+{
+  const std::vector <std::string> files {filter_url_scandir (styles::sheetfolder (sheet))};
+  std::vector <std::string> markers{};
+  for (const auto& file : files) {
+    if (filter_url_get_extension (file) == style_file_suffix) {
+      const std::string marker = file.substr(0, file.length() - strlen(style_file_suffix) - 1);
+      markers.push_back(marker);
+    }
+  }
+  return markers;
+}
+
+
+// Function to get the base style to use for comparison.
+static stylesv2::Style get_base_style (const std::string& marker) {
+  // Search the default styles for the marker.
+  // If the style is found among the default ones, return that as the base style.
+  const auto iter = std::find(stylesv2::styles.cbegin(), stylesv2::styles.cend(), marker);
+  if (iter != stylesv2::styles.cend())
+    return *iter;
+  // The marker is not among the default ones, return a default constructed style object.
+  return stylesv2::Style();
+};
+
+
+static std::string type_enum_to_type_value (const stylesv2::Type type) {
+  switch (type) {
+    case stylesv2::Type::book_id:
+      return "book_id";
+    case stylesv2::Type::starting_boundary:
+    case stylesv2::Type::none:
+    case stylesv2::Type::stopping_boundary:
+    default:
+      return "none";
+  }
+}
+
+
+static stylesv2::Type type_value_to_type_enum (const std::string& value)
+{
+  // Iterate over the enum values and if a match is found, return the matching enum value.
+  for (int i {static_cast<int>(stylesv2::Type::starting_boundary)};
+       i < static_cast<int>(stylesv2::Type::stopping_boundary); i++)
+    if (value == type_enum_to_type_value(static_cast<stylesv2::Type>(i)))
+      return static_cast<stylesv2::Type>(i);
+  // No match found.
+  return stylesv2::Type::none;
+}
+
+
+// Save a style to file for those parts that differ from the base style.
+void save_style(const std::string& sheet, const stylesv2::Style& style) // Todo write it.
+{
+  // The base style to use for finding differences of the style to save.
+  const auto base_style = get_base_style(style.marker);
+  
+  // The lines container with the differences to write to file.
+  std::vector<std::string> lines {};
+  if (style.type != base_style.type)
+    lines.push_back (std::string(type_key) + type_enum_to_type_value(style.type));
+  if (style.name != base_style.name)
+    lines.push_back (std::string(name_key) + style.name);
+  if (style.info != base_style.info)
+    lines.push_back (std::string(info_key) + style.info);
+
+  // If there's no differences between the style to save and the base style,
+  // then remove the style file.
+  // If there's differences, then save those to the style file.
+  const std::string filename = style_file (sheet, style.marker);
+  if (lines.empty())
+    filter_url_unlink(filename);
+  else
+    filter_url_file_put_contents (filename, filter::strings::implode (lines, "\n"));
+
+  // A style was saved: Clear the cache.
+  std::unique_lock lock (cache_mutex);
+  sheet_cache.clear();
+}
+
+
+// Load a style from file, combining the default style with the updated properties from file.
+// Loading the style may also result in no style to be returned.
+std::optional<stylesv2::Style> load_style(const std::string& sheet, const std::string& marker) // Todo write it.
+{
+  // The style struct to start off with.
+  stylesv2::Style style = get_base_style(marker);
+  
+  // Set the marker correct in the style.
+  style.marker = marker;
+
+  const std::string filename = style_file (sheet, marker);
+  const std::string contents = filter_url_file_get_contents (filename);
+  const std::vector<std::string> lines = filter::strings::explode (contents, "\n");
+  size_t pos{};
+
+  for (auto& line : lines) {
+    // If the style was deleted return a null optional.
+    pos = line.find(delete_key);
+    if (pos == 0)
+      return std::nullopt;
+    // Check on updated style type.
+    pos = line.find(type_key);
+    if (pos == 0)
+      style.type = type_value_to_type_enum(line.substr(type_key.length()));
+    // Check on updated style name.
+    pos = line.find(name_key);
+    if (pos == 0)
+      style.name = line.substr(name_key.length());
+    // Check on updated style info.
+    pos = line.find(info_key);
+    if (pos == 0)
+      style.info = line.substr(info_key.length());
+    
+  }
+
+  return style;
+}
 
 
 }

@@ -24,6 +24,7 @@ namespace stylesv2 { // Todo the stylesv2 logic here.
 
 
 enum class Type : int {
+  starting_boundary, // Should be the first always.
   none,
   book_id,
 //  encoding,
@@ -36,6 +37,7 @@ enum class Type : int {
 //  published_chapter_marker,
 //  comment_with_endmarker,
 //  published_verse_marker,
+  stopping_boundary, // Should be the last always.
 };
 
 enum class Capability : int {
@@ -54,16 +56,16 @@ using Parameter = std::pair<Capability,std::variant<std::monostate,bool,int,std:
 
 
 struct Style final {
-  const char* marker {""};
-  const Type type {Type::none};
-  const char* name {""};
-  const char* info {""};
-  // The capabilities indicate what this style is capable of.
-  const std::vector<Capability> capabilities{};
-  // The parameters indicate the enabled capabilities beyond the capabilities already implied in the marker type.
-  const std::vector<Parameter> parameters{};
+  std::string marker {};
+  Type type {Type::none};
+  std::string name {};
+  std::string info {};
+  // The capabilities indicate what this style is capable of beyond the capabilities implied in the style type.
+  std::vector<Capability> capabilities{};
+  // The parameters indicate the enabled capabilities beyond the capabilities implied in the style type.
+  std::vector<Parameter> parameters{};
   // Whether this style has been implemented throughout the code.
-  const bool implemented {false};
+  bool implemented {false};
 };
 
 

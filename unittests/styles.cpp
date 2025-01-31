@@ -410,11 +410,11 @@ TEST_F (styles, editors_application)
 
 
 // Getting the list of styles v2.
-TEST_F (styles, get_styles)
+TEST_F (styles, get_styles_v2)
 {
   using namespace database::styles2;
 
-  // As the styles are being built, this indicats the styles already available now.
+  // As the styles are being built, this indicates the number of styles already available now.
   constexpr const int available_styles {1};
   
   // Default stylesheet should have the hard-coded default styles.
@@ -446,6 +446,98 @@ TEST_F (styles, get_styles)
   // A non-default stylesheet should be created on the fly if it does not exist, and return default styles.
   const std::list<stylesv2::Style> user_styles = get_styles("sheet");
   EXPECT_EQ (user_styles.size(), available_styles);
+}
+
+
+// Test saving and loading style modification v2.
+TEST_F (styles, save_load_styles_v2)
+{
+  using namespace database::styles2;
+  
+  // Create a stylesheet for testing.
+  constexpr const char* sheet {"sheet"};
+  database::styles::create_sheet (sheet);
+
+  // Initially there should not be any updated markers.
+  EXPECT_EQ (std::vector<std::string>(), get_updated_markers (sheet));
+
+  // Save the first default style.
+  // Since there's no update made on the saved style,
+  // the save operation won't write anything to file.
+  {
+    stylesv2::Style style {stylesv2::styles.front()};
+    save_style(sheet, style);
+    EXPECT_EQ (std::vector<std::string>(), get_updated_markers (sheet));
+  }
+
+  // Make a couple of updates on the default style, and save it, and load it, and check on that.
+  {
+    stylesv2::Style style {stylesv2::styles.front()};
+
+    constexpr const char* marker {"marker"};
+    
+    const auto check_marker_count = [&style]() {
+      std::vector<std::string> markers = get_updated_markers (sheet);
+      constexpr const int marker_count_1 {1};
+      EXPECT_EQ (marker_count_1, markers.size());
+      if (markers.size() == marker_count_1) {
+        EXPECT_EQ(style.marker, markers.at(0));
+      }
+    };
+
+    const auto check_marker = [marker, &style]() {
+      const auto loaded_style = load_style(sheet, marker);
+      EXPECT_NE (loaded_style, std::nullopt);
+      EXPECT_EQ (loaded_style.value().marker, marker);
+    };
+
+    const auto check_type = [marker, &style]() {
+      const auto loaded_style = load_style(sheet, marker);
+      EXPECT_EQ (static_cast<int>(loaded_style.value().type), static_cast<int>(style.type));
+    };
+
+    const auto check_name = [marker, &style]() {
+      const auto loaded_style = load_style(sheet, marker);
+      EXPECT_EQ (loaded_style.value().name, style.name);
+    };
+
+    const auto check_info = [marker, &style]() {
+      const auto loaded_style = load_style(sheet, marker);
+      EXPECT_EQ (loaded_style.value().info, style.info);
+    };
+
+    style.marker = marker;
+    save_style(sheet, style);
+    check_marker_count();
+    check_marker();
+    check_type();
+
+    constexpr const char* name {"name"};
+    style.name = name;
+    save_style(sheet, style);
+    check_marker_count();
+    check_marker();
+    check_type();
+    check_name();
+
+    constexpr const char* info {"info"};
+    style.info = info;
+    save_style(sheet, style);
+    check_marker_count();
+    check_marker();
+    check_type();
+    check_name();
+    check_info();
+
+    
+  }
+  
+  // Test updating something.
+  
+  // Test saving default again, it should remove the file.
+  
+  
+  
 }
 
 

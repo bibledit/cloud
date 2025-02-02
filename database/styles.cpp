@@ -777,10 +777,20 @@ void add_marker (const std::string& sheet, const std::string& marker)
 // Deletes a marker from a stylesheet.
 void delete_marker (const std::string& sheet, const std::string& marker) // Todo test.
 {
-  // Store the deleted marker to file.
-  const std::string filename = style_file (sheet, marker);
-  filter_url_file_put_contents (filename, add_space(delete_key));
-  // Cler the sheet cache.
+  // Check if the marker to delete is among the hard-coded default styles.
+  const auto iter = std::find(stylesv2::styles.cbegin(), stylesv2::styles.cend(), marker);
+  // If the marker is among the hard-coded ones,
+  // deleting a marker means to write a style to file as deleted.
+  if (iter != stylesv2::styles.cend()) {
+    const std::string filename = style_file (sheet, marker);
+    filter_url_file_put_contents (filename, add_space(delete_key));
+  }
+  // If the marker is not among the hard-coded ones,
+  // deleting a marker is equal to resetting it.
+  if (iter == stylesv2::styles.cend()) {
+    reset_marker(sheet, marker);
+  }
+  // Clear the sheet cache.
   std::unique_lock lock (cache_mutex);
   sheet_cache.clear();
 }

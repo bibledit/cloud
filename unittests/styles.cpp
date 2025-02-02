@@ -429,7 +429,6 @@ TEST_F (styles, get_styles_v2)
       EXPECT_EQ (style.type, stylesv2::Type::book_id);
       EXPECT_EQ (style.name, "Identification");
       EXPECT_TRUE (style.parameters.count(stylesv2::Capability::starts_new_page));
-      // Todo EXPECT_EQ (style.parameters.at(stylesv2::Capability::starts_new_page), std::monostate());
     }
   }
   
@@ -533,13 +532,8 @@ TEST_F (styles, save_load_styles_v2)
   check_name();
   check_info();
   check_parameters();
-  
-  
-  
-  // Todo test deleting a marker.
-  
+ 
   // Todo Test saving default style again, it should remove the file.
-
 }
 
 
@@ -550,7 +544,7 @@ TEST_F (styles, get_styles_etc_v2)
   constexpr const char* sheet {"sheet"};
   database::styles::create_sheet (sheet);
   
-  // The default stylesheet has the default number of styles
+  // The default stylesheet has the default number of styles.
   {
     const std::list<stylesv2::Style>& styles = get_styles(styles_logic_standard_sheet());
     EXPECT_EQ (styles.size(), stylesv2::styles.size());
@@ -562,8 +556,7 @@ TEST_F (styles, get_styles_etc_v2)
     EXPECT_EQ (styles.size(), stylesv2::styles.size());
   }
 
-  // Create room for saving styles to disk, save a style and check the increased styles count.
-  database::styles::create_sheet (sheet);
+  // Save a style. Check the increased styles count.
   constexpr const char* marker {"marker"};
   {
     stylesv2::Style style {stylesv2::styles.front()};
@@ -575,10 +568,27 @@ TEST_F (styles, get_styles_etc_v2)
   
   // Check for the available markers.
   // It should have the default ones, plus the added one(s).
+  constexpr const char* id_marker {"id"};
   {
     const std::vector<std::string> standard {
-      "id", "marker"
+      id_marker, marker
     };
+    EXPECT_EQ (standard, get_markers(sheet));
+  }
+  
+  // Delete the added marker and check it's gone.
+  delete_marker(sheet, marker);
+  {
+    const std::vector<std::string> standard {
+      id_marker
+    };
+    EXPECT_EQ (standard, get_markers(sheet));
+  }
+  
+  // Delete a standard marker, and check it's gone.
+  delete_marker(sheet, id_marker);
+  {
+    const std::vector<std::string> standard { };
     EXPECT_EQ (standard, get_markers(sheet));
   }
 }

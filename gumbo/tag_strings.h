@@ -1,6 +1,4 @@
-// Generated via `gentags.py src/tag.in`.
-// Do not edit; edit src/tag.in instead.
-// clang-format off
+// Do not edit! Modify src/tag.in instead. Generated via gentags.sh
 "html",
 "head",
 "title",
@@ -73,6 +71,7 @@
 "del",
 "image",
 "img",
+"picture",
 "iframe",
 "embed",
 "object",
@@ -149,5 +148,7 @@
 "multicol",
 "nobr",
 "spacer",
+"dialog",
+"search",
 "tt",
 "rtc",

@@ -1,6 +1,4 @@
-// Generated via `gentags.py src/tag.in`.
-// Do not edit; edit src/tag.in instead.
-// clang-format off
+// Do not edit! Modify src/tag.in instead. Generated via gentags.sh
 GUMBO_TAG_HTML,
 GUMBO_TAG_HEAD,
 GUMBO_TAG_TITLE,
@@ -73,6 +71,7 @@ GUMBO_TAG_INS,
 GUMBO_TAG_DEL,
 GUMBO_TAG_IMAGE,
 GUMBO_TAG_IMG,
+GUMBO_TAG_PICTURE,
 GUMBO_TAG_IFRAME,
 GUMBO_TAG_EMBED,
 GUMBO_TAG_OBJECT,
@@ -149,5 +148,7 @@ GUMBO_TAG_MARQUEE,
 GUMBO_TAG_MULTICOL,
 GUMBO_TAG_NOBR,
 GUMBO_TAG_SPACER,
+GUMBO_TAG_DIALOG,
+GUMBO_TAG_SEARCH,
 GUMBO_TAG_TT,
 GUMBO_TAG_RTC,

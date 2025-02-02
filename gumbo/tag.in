@@ -70,6 +70,7 @@ ins
 del
 image
 img
+picture
 iframe
 embed
 object
@@ -146,5 +147,7 @@ marquee
 multicol
 nobr
 spacer
+dialog
+search
 tt
 rtc

@@ -431,7 +431,8 @@ TEST_F (styles, get_styles_v2)
       const stylesv2::Style& style = *iter;
       EXPECT_EQ (style.type, stylesv2::Type::book_id);
       EXPECT_EQ (style.name, "Identification");
-      EXPECT_EQ (style.capabilities.at(0), stylesv2::Capability::starts_new_page);
+      EXPECT_TRUE (style.parameters.count(stylesv2::Capability::starts_new_page));
+      // Todo EXPECT_EQ (style.parameters.at(stylesv2::Capability::starts_new_page), std::monostate());
     }
   }
   
@@ -464,80 +465,93 @@ TEST_F (styles, save_load_styles_v2)
   // Save the first default style.
   // Since there's no update made on the saved style,
   // the save operation won't write anything to file.
-  {
-    stylesv2::Style style {stylesv2::styles.front()};
-    save_style(sheet, style);
-    EXPECT_EQ (std::vector<std::string>(), get_updated_markers (sheet));
-  }
+  save_style(sheet, stylesv2::styles.front());
+  EXPECT_EQ (std::vector<std::string>(), get_updated_markers (sheet));
 
   // Make a couple of updates on the default style, and save it, and load it, and check on that.
-  {
-    stylesv2::Style style {stylesv2::styles.front()};
-
-    constexpr const char* marker {"marker"};
-    
-    const auto check_marker_count = [&style]() {
-      std::vector<std::string> markers = get_updated_markers (sheet);
-      constexpr const int marker_count_1 {1};
-      EXPECT_EQ (marker_count_1, markers.size());
-      if (markers.size() == marker_count_1) {
-        EXPECT_EQ(style.marker, markers.at(0));
-      }
-    };
-
-    const auto check_marker = [marker, &style]() {
-      const auto loaded_style = load_style(sheet, marker);
-      EXPECT_NE (loaded_style, std::nullopt);
-      EXPECT_EQ (loaded_style.value().marker, marker);
-    };
-
-    const auto check_type = [marker, &style]() {
-      const auto loaded_style = load_style(sheet, marker);
-      EXPECT_EQ (static_cast<int>(loaded_style.value().type), static_cast<int>(style.type));
-    };
-
-    const auto check_name = [marker, &style]() {
-      const auto loaded_style = load_style(sheet, marker);
-      EXPECT_EQ (loaded_style.value().name, style.name);
-    };
-
-    const auto check_info = [marker, &style]() {
-      const auto loaded_style = load_style(sheet, marker);
-      EXPECT_EQ (loaded_style.value().info, style.info);
-    };
-
-    style.marker = marker;
-    save_style(sheet, style);
-    check_marker_count();
-    check_marker();
-    check_type();
-
-    constexpr const char* name {"name"};
-    style.name = name;
-    save_style(sheet, style);
-    check_marker_count();
-    check_marker();
-    check_type();
-    check_name();
-
-    constexpr const char* info {"info"};
-    style.info = info;
-    save_style(sheet, style);
-    check_marker_count();
-    check_marker();
-    check_type();
-    check_name();
-    check_info();
-
-    
-  }
+  stylesv2::Style style {stylesv2::styles.front()};
   
-  // Test updating something.
+  constexpr const char* marker {"marker"};
   
-  // Test saving default again, it should remove the file.
+  const auto check_marker_count = [&style]() {
+    std::vector<std::string> markers = get_updated_markers (sheet);
+    constexpr const int marker_count_1 {1};
+    EXPECT_EQ (marker_count_1, markers.size());
+    if (markers.size() == marker_count_1) {
+      EXPECT_EQ(style.marker, markers.at(0));
+    }
+  };
+  
+  const auto check_marker = [marker, &style]() {
+    const auto loaded_style = load_style(sheet, marker);
+    EXPECT_NE (loaded_style, std::nullopt);
+    EXPECT_EQ (loaded_style.value().marker, marker);
+  };
+  
+  const auto check_type = [marker, &style]() {
+    const auto loaded_style = load_style(sheet, marker);
+    EXPECT_EQ (static_cast<int>(loaded_style.value().type), static_cast<int>(style.type));
+  };
+  
+  const auto check_name = [marker, &style]() {
+    const auto loaded_style = load_style(sheet, marker);
+    EXPECT_EQ (loaded_style.value().name, style.name);
+  };
+  
+  const auto check_info = [marker, &style]() {
+    const auto loaded_style = load_style(sheet, marker);
+    EXPECT_EQ (loaded_style.value().info, style.info);
+  };
+  
+  const auto check_parameters = [marker, &style]() {
+    const auto loaded_style = load_style(sheet, marker);
+    EXPECT_TRUE (loaded_style.value().parameters.count(stylesv2::Capability::none ));
+    EXPECT_TRUE (loaded_style.value().parameters.count(stylesv2::Capability::starts_new_page ));
+  };
+  
+  style.marker = marker;
+  save_style(sheet, style);
+  check_marker_count();
+  check_marker();
+  check_type();
+  
+  constexpr const char* name {"name"};
+  style.name = name;
+  save_style(sheet, style);
+  check_marker_count();
+  check_marker();
+  check_type();
+  check_name();
+  
+  constexpr const char* info {"info"};
+  style.info = info;
+  save_style(sheet, style);
+  check_marker_count();
+  check_marker();
+  check_type();
+  check_name();
+  check_info();
+  
+  style.parameters[stylesv2::Capability::none] = std::monostate();
+  save_style(sheet, style);
+  check_marker_count();
+  check_marker();
+  check_type();
+  check_name();
+  check_info();
+  check_parameters();
   
   
   
+  // Todo test deleting a marker.
+  
+  // Todo Test saving default style again, it should remove the file.
+
+}
+
+
+TEST_F (styles, dev)
+{
 }
 
 

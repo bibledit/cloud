@@ -69,15 +69,20 @@ std::mutex cache_mutex;
 // Style file suffix.
 constexpr const char* style_file_suffix {"conf"};
 // Style file keys.
-constexpr const std::string_view delete_key {"delete "};
-constexpr const std::string_view type_key {"type "};
-constexpr const std::string_view name_key {"name "};
-constexpr const std::string_view info_key {"info "};
+constexpr const std::string_view delete_key {"delete"};
+constexpr const std::string_view type_key {"type"};
+constexpr const std::string_view name_key {"name"};
+constexpr const std::string_view info_key {"info"};
+constexpr const std::string_view capability_on_key {"capability_on"};
+constexpr const std::string_view capability_off_key {"capability_off"};
 // Forward declarations of local functions.
 static std::string style_file (const std::string& sheet, const std::string& marker);
 static void ensure_sheet_in_cache(const std::string& sheet);
-static std::string type_enum_to_type_value (const stylesv2::Type type);
-static stylesv2::Type type_value_to_type_enum (const std::string& value);
+static std::string type_enum_to_value (const stylesv2::Type type);
+static stylesv2::Type type_value_to_enum (const std::string& value);
+static std::string capability_enum_to_value (const stylesv2::Capability capability);
+static stylesv2::Capability capability_value_to_enum (const std::string& value);
+static std::string add_space(const std::string_view key);
 }
 
 
@@ -721,7 +726,6 @@ static void ensure_sheet_in_cache(const std::string& sheet)
   const auto iter = sheet_cache.find(sheet);
   if (iter != sheet_cache.cend())
     return;
-
   // The sheet is not in the cache at this point.
   
   // Create enmpty cache for the sheet.
@@ -737,17 +741,17 @@ static void ensure_sheet_in_cache(const std::string& sheet)
 }
 
 
-const std::list<stylesv2::Style>& get_styles(const std::string& stylesheet)
+const std::list<stylesv2::Style>& get_styles(const std::string& sheet)
 {
   // If the standard stylesheet is requested, return a reference to the standard hard-coded stylesheet.
-  if (stylesheet == styles_logic_standard_sheet())
+  if (sheet == styles_logic_standard_sheet())
     return stylesv2::styles;
 
   // Make sure the stylesheet has been cached.
-  ensure_sheet_in_cache (stylesheet);
+  ensure_sheet_in_cache (sheet);
 
   // Return a reference to tne sheet from the cache.
-  return sheet_cache.at(stylesheet);
+  return sheet_cache.at(sheet);
 }
 
 
@@ -765,7 +769,7 @@ void delete_marker (const std::string& sheet, const std::string& marker) // Todo
 {
   // Store the deleted marker to file.
   const std::string filename = style_file (sheet, marker);
-  filter_url_file_put_contents (filename, std::string(delete_key));
+  filter_url_file_put_contents (filename, add_space(delete_key));
   // Cler the sheet cache.
   std::unique_lock lock (cache_mutex);
   sheet_cache.clear();
@@ -855,7 +859,8 @@ static stylesv2::Style get_base_style (const std::string& marker) {
 };
 
 
-static std::string type_enum_to_type_value (const stylesv2::Type type) {
+static std::string type_enum_to_value (const stylesv2::Type type)
+{
   switch (type) {
     case stylesv2::Type::book_id:
       return "book_id";
@@ -868,15 +873,53 @@ static std::string type_enum_to_type_value (const stylesv2::Type type) {
 }
 
 
-static stylesv2::Type type_value_to_type_enum (const std::string& value)
+static stylesv2::Type type_value_to_enum (const std::string& value)
 {
   // Iterate over the enum values and if a match is found, return the matching enum value.
   for (int i {static_cast<int>(stylesv2::Type::starting_boundary)};
        i < static_cast<int>(stylesv2::Type::stopping_boundary); i++)
-    if (value == type_enum_to_type_value(static_cast<stylesv2::Type>(i)))
+    if (value == type_enum_to_value(static_cast<stylesv2::Type>(i)))
       return static_cast<stylesv2::Type>(i);
   // No match found.
   return stylesv2::Type::none;
+}
+
+
+static std::string capability_enum_to_value (const stylesv2::Capability capability)
+{
+  switch (capability) {
+    case stylesv2::Capability::starting_boundary:
+      return "starting_boundary";
+    case stylesv2::Capability::starts_new_page:
+      return "starts_new_page";
+    case stylesv2::Capability::none:
+      return "none";
+    case stylesv2::Capability::stopping_boundary:
+      return "stopping_boundary";
+    default:
+      return "unknown";
+  }
+}
+
+
+static stylesv2::Capability capability_value_to_enum (const std::string& value)
+{
+  // Iterate over the enum values and if a match is found, return the matching enum value.
+  for (int i {static_cast<int>(stylesv2::Capability::starting_boundary)+1};
+       i < static_cast<int>(stylesv2::Capability::stopping_boundary); i++)
+    if (value == capability_enum_to_value(static_cast<stylesv2::Capability>(i)))
+      return static_cast<stylesv2::Capability>(i);
+  // No match found.
+  return stylesv2::Capability::none;
+}
+
+
+// Add a space to the key and return it.
+static std::string add_space(const std::string_view key)
+{
+  std::string result (key);
+  result.append(" ");
+  return result;
 }
 
 
@@ -888,13 +931,49 @@ void save_style(const std::string& sheet, const stylesv2::Style& style) // Todo 
   
   // The lines container with the differences to write to file.
   std::vector<std::string> lines {};
+  
+  // Handle style type.
   if (style.type != base_style.type)
-    lines.push_back (std::string(type_key) + type_enum_to_type_value(style.type));
+    lines.push_back (add_space(type_key) + type_enum_to_value(style.type));
+  
+  // Handle style name.
   if (style.name != base_style.name)
-    lines.push_back (std::string(name_key) + style.name);
+    lines.push_back (add_space(name_key) + style.name);
+  
+  // Handle style info.
   if (style.info != base_style.info)
-    lines.push_back (std::string(info_key) + style.info);
+    lines.push_back (add_space(info_key) + style.info);
+  
+  // Iterate over the parameters in the style.
+  // If the parameter in the style is not found in the base style,
+  // then set this parameter "on" in the data to save. Todo test this.
+  for (const auto& [key, value] : style.parameters) {
+    if (!base_style.parameters.count(key)) {
+      std::string line {add_space(capability_on_key)};
+      line.append(add_space(capability_enum_to_value(key)));
+      if (std::holds_alternative<int>(value))
+        line.append(std::to_string(std::get<int>(value)));
+      if (std::holds_alternative<std::string>(value))
+        line.append(std::get<std::string>(value));
+      lines.push_back(std::move(line));
+    }
+  }
 
+  // Iterate over the parameters in the base style.
+  // If the parameter in the base style is not found in the style to save,
+  // then set this parameter "off" in the data to save. Todo test this.
+  for (const auto& [key, value] : base_style.parameters)
+    if (!style.parameters.count(key))
+      lines.push_back(add_space(capability_off_key) + capability_enum_to_value(key));
+  
+//  std::cout << "Style:" << std::endl; // Todo
+//  for (const auto& [key, value] : style.parameters)
+//    std::cout << capability_enum_to_value(key) << std::endl;
+
+//  std::cout << "Base style:" << std::endl; // Todo
+//  for (const auto& [key, value] : base_style.parameters)
+//    std::cout << capability_enum_to_value(key) << std::endl;
+  
   // If there's no differences between the style to save and the base style,
   // then remove the style file.
   // If there's differences, then save those to the style file.
@@ -920,33 +999,57 @@ std::optional<stylesv2::Style> load_style(const std::string& sheet, const std::s
   // Set the marker correct in the style.
   style.marker = marker;
 
+  // Load the style data from file.
   const std::string filename = style_file (sheet, marker);
   const std::string contents = filter_url_file_get_contents (filename);
-  const std::vector<std::string> lines = filter::strings::explode (contents, "\n");
-  size_t pos{};
+  std::vector<std::string> lines = filter::strings::explode (contents, "\n");
 
+  // Iterate over the loaded lines and extract the changes from it as compared to the base style.
+  size_t pos{};
   for (auto& line : lines) {
-    // If the style was deleted return a null optional.
-    pos = line.find(delete_key);
+    // If the style was deleted return a null optional, and be done with it.
+    pos = line.find(add_space(delete_key));
     if (pos == 0)
       return std::nullopt;
-    // Check on updated style type.
-    pos = line.find(type_key);
+    // Check on or set an updated style type.
+    pos = line.find(add_space(type_key));
     if (pos == 0)
-      style.type = type_value_to_type_enum(line.substr(type_key.length()));
-    // Check on updated style name.
-    pos = line.find(name_key);
+      style.type = type_value_to_enum(line.substr(type_key.length()+1));
+    // Check on or set an updated style name.
+    pos = line.find(add_space(name_key));
     if (pos == 0)
-      style.name = line.substr(name_key.length());
-    // Check on updated style info.
-    pos = line.find(info_key);
+      style.name = line.substr(name_key.length()+1);
+    // Check on or set an updated style info.
+    pos = line.find(add_space(info_key));
     if (pos == 0)
-      style.info = line.substr(info_key.length());
-    
+      style.info = line.substr(info_key.length()+1);
+    // Check on or set an added capability as compared to the base style.
+    pos = line.find(add_space(capability_on_key));
+    if (pos == 0) {
+      line.erase(0, capability_on_key.length()+1);
+      pos = line.find(" ");
+      if (pos == std::string::npos)
+        continue;
+      const stylesv2::Capability capability = capability_value_to_enum(line.substr(0, pos));
+      line.erase(0, pos+1);
+      const stylesv2::Variant variant {stylesv2::capability_to_variant(capability)};
+      switch (variant) {
+        case stylesv2::Variant::number: // Todo implement still.
+          break;
+        case stylesv2::Variant::text: // Todo  implement still.
+          break;
+        case stylesv2::Variant::none:
+        default:
+          style.parameters[capability] = std::monostate();
+          break;
+      }
+    }
+    // Todo Check on or set a removed capability as compared to the base style.
   }
 
+  // Ready.
   return style;
 }
 
 
-}
+} // End namespace styles2.

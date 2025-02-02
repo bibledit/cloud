@@ -23,20 +23,31 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 namespace stylesv2 { // Todo styles version 2 logic.
 
 
+Variant capability_to_variant (const Capability capability)
+{
+  switch (capability) {
+    case Capability::starting_boundary:
+    case Capability::none:
+      return Variant::none;
+    case Capability::starts_new_page:
+      return Variant::none;
+    case Capability::stopping_boundary:
+    default:
+      return Variant::none;
+  }
+}
+
+
 const std::list<Style> styles {
   {
     .marker = "id",
     .type = Type::book_id,
     .name = "Identification",
     .info = "File identification information (name of file, book name, language, last edited, date, etc.)",
-    .capabilities = {Capability::starts_new_page},
-    .parameters = {},
+    .parameters = {{Capability::starts_new_page,std::monostate()}},
     .implemented = false,
   },
 };
-
-
-
 
 
 

@@ -37,22 +37,27 @@ enum class Type : int {
 //  published_chapter_marker,
 //  comment_with_endmarker,
 //  published_verse_marker,
-  stopping_boundary, // Should be the last always.
+  stopping_boundary // Should be the last always.
 };
 
 enum class Capability : int {
+  starting_boundary, // Should be the first always.
+  none,
   // Whether this marker starts a new page (with no matter an even or odd page number).
   starts_new_page,
   // Whether this marker starts a new page with an odd page number.
   // Not implemented due to limitations in OpenDocument.
   // starts_odd_page,
+  stopping_boundary // Should be the last always.
 };
 
+enum class Variant { none, number, text };
 
-// With monostate (empty variant) below, the capability is enabled if found as parameters.
-// With the bool, the capability can be enabled or disabled.
+Variant capability_to_variant (const Capability capability);
+
+// With monostate (empty variant) below, the capability is enabled.
 // With the int and the string, the capability has an extra paramter.
-using Parameter = std::pair<Capability,std::variant<std::monostate,bool,int,std::string>>;
+using Parameter = std::variant<std::monostate,int,std::string>;
 
 
 struct Style final {
@@ -60,10 +65,8 @@ struct Style final {
   Type type {Type::none};
   std::string name {};
   std::string info {};
-  // The capabilities indicate what this style is capable of beyond the capabilities implied in the style type.
-  std::vector<Capability> capabilities{};
   // The parameters indicate the enabled capabilities beyond the capabilities implied in the style type.
-  std::vector<Parameter> parameters{};
+  std::map<Capability,Parameter> parameters{};
   // Whether this style has been implemented throughout the code.
   bool implemented {false};
 };

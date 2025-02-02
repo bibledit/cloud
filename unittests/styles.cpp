@@ -414,12 +414,9 @@ TEST_F (styles, get_styles_v2)
 {
   using namespace database::styles2;
 
-  // As the styles are being built, this indicates the number of styles already available now.
-  constexpr const int available_styles {1};
-  
   // Default stylesheet should have the hard-coded default styles.
   const std::list<stylesv2::Style>& default_styles = get_styles(styles_logic_standard_sheet ());
-  EXPECT_EQ (default_styles.size(), available_styles);
+  EXPECT_EQ (default_styles.size(), stylesv2::styles.size());
   
   // Do a spot-check on markers.
   {
@@ -443,10 +440,6 @@ TEST_F (styles, get_styles_v2)
     if (iter != default_styles.cend())
       FAIL() << "Should not contain style " << std::quoted(marker);
   }
-  
-  // A non-default stylesheet should be created on the fly if it does not exist, and return default styles.
-  const std::list<stylesv2::Style> user_styles = get_styles("sheet");
-  EXPECT_EQ (user_styles.size(), available_styles);
 }
 
 
@@ -547,6 +540,47 @@ TEST_F (styles, save_load_styles_v2)
   
   // Todo Test saving default style again, it should remove the file.
 
+}
+
+
+TEST_F (styles, get_styles_etc_v2)
+{
+  using namespace database::styles2;
+
+  constexpr const char* sheet {"sheet"};
+  database::styles::create_sheet (sheet);
+  
+  // The default stylesheet has the default number of styles
+  {
+    const std::list<stylesv2::Style>& styles = get_styles(styles_logic_standard_sheet());
+    EXPECT_EQ (styles.size(), stylesv2::styles.size());
+  }
+
+  // A non-default stylesheet should be created on the fly if it does not exist, and return default styles.
+  {
+    const std::list<stylesv2::Style>& styles = get_styles(sheet);
+    EXPECT_EQ (styles.size(), stylesv2::styles.size());
+  }
+
+  // Create room for saving styles to disk, save a style and check the increased styles count.
+  database::styles::create_sheet (sheet);
+  constexpr const char* marker {"marker"};
+  {
+    stylesv2::Style style {stylesv2::styles.front()};
+    style.marker = marker;
+    save_style(sheet, style);
+    const std::list<stylesv2::Style>& styles = get_styles(sheet);
+    EXPECT_EQ (styles.size(), stylesv2::styles.size() + 1);
+  }
+  
+  // Check for the available markers.
+  // It should have the default ones, plus the added one(s).
+  {
+    const std::vector<std::string> standard {
+      "id", "marker"
+    };
+    EXPECT_EQ (standard, get_markers(sheet));
+  }
 }
 
 

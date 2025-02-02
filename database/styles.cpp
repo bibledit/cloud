@@ -719,10 +719,10 @@ static std::string style_file (const std::string& sheet, const std::string& mark
 
 
 // Ensure sheet cache has been filled.
-static void ensure_sheet_in_cache(const std::string& sheet)
+static void ensure_sheet_in_cache(const std::string& sheet) // Todo
 {
-  // Check whether the requested stylesheet whether it is already in the cache.
-  // If so, ready.
+  // Check whether the requested stylesheet is already in the cache.
+  // If so: Ready.
   const auto iter = sheet_cache.find(sheet);
   if (iter != sheet_cache.cend())
     return;
@@ -730,14 +730,24 @@ static void ensure_sheet_in_cache(const std::string& sheet)
   
   // Create enmpty cache for the sheet.
   sheet_cache[sheet].clear();
-
-  // Copy the hard-coded default stylesheet to the cache.
-  for (const auto& style : stylesv2::styles) {
-    sheet_cache.at(sheet).push_back(style);
-  }
-    
-  // Update the cache with any updated or deleted markers or added ones. Todo
+  std::list<stylesv2::Style>& cache {sheet_cache.at(sheet)};
   
+  // Copy the hard-coded default stylesheet to the cache.
+  for (const auto& style : stylesv2::styles)
+    cache.push_back(style);
+  
+  // Update the cache with any updated or deleted or added styles. Todo
+  const std::vector<std::string> updated_markers {get_updated_markers (sheet)};
+  for (const auto& marker : updated_markers) {
+    // Since there's an update, remove the existing style.
+    auto iter = std::find(cache.cbegin(), cache.cend(), marker);
+    if (iter != cache.cend())
+      cache.erase(iter);
+    // Get the updated style. If one is given, add it to the cache.
+    std::optional<stylesv2::Style> style = load_style(sheet, marker);
+    if (style)
+      cache.push_back(std::move(style.value()));
+  }
 }
 
 
@@ -791,21 +801,12 @@ void reset_marker (const std::string& sheet, const std::string& marker) // Todo 
 // Returns a list with all the markers of the styles in the stylesheet.
 std::vector <std::string> get_markers (const std::string& sheet)
 {
-  throw std::runtime_error("Todo write it for v2");
-  //  // The markers for this stylesheet.
-  //  std::vector <std::string> markers = filter_url_scandir (sheetfolder (sheet));
-  //  if (markers.empty ()) {
-  //    // Check and/or load defaults.
-  //    if (default_styles_cache.empty ())
-  //      cache_defaults ();
-  //    // Load all default markers.
-  //    for (const auto& mapping : default_styles_cache) {
-  //      // The markers are the keys in the std::map.
-  //      markers.push_back (mapping.first);
-  //    }
-  //  }
-  //  // Done.
-  //  return markers;
+  std::vector <std::string> markers;
+  const std::list<stylesv2::Style>& styles {get_styles(sheet)};
+  std::transform(styles.begin(), styles.end(), std::back_inserter(markers), [](const stylesv2::Style& style) {
+    return style.marker;
+  });
+  return markers;
 }
 
 

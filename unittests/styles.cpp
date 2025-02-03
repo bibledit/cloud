@@ -532,8 +532,6 @@ TEST_F (styles, save_load_styles_v2)
   check_name();
   check_info();
   check_parameters();
- 
-  // Todo Test saving default style again, it should remove the file.
 }
 
 
@@ -590,6 +588,38 @@ TEST_F (styles, get_styles_etc_v2)
   {
     const std::vector<std::string> standard { };
     EXPECT_EQ (standard, get_markers(sheet));
+  }
+}
+
+
+// Test that saving a default style removes the style file.
+TEST_F (styles, save_default_style_v2)
+{
+  using namespace database::styles2;
+  
+  // Create a stylesheet for testing.
+  constexpr const char* sheet {"sheet"};
+  database::styles::create_sheet (sheet);
+  
+  // Initially there should not be any updated markers.
+  EXPECT_EQ (std::vector<std::string>(), get_updated_markers(sheet));
+  
+  // Save the first default style with one modification.
+  // This results in one updated style.
+  {
+    stylesv2::Style style = stylesv2::styles.front();
+    style.name = "none";
+    save_style(sheet, style);
+    const std::vector<std::string> standard {stylesv2::styles.front().marker};
+    EXPECT_EQ (standard, get_updated_markers(sheet));
+  }
+  
+  // Save the first default style as-is.
+  // This results in the updated style to be removed again.
+  {
+    const stylesv2::Style style = stylesv2::styles.front();
+    save_style(sheet, style);
+    EXPECT_EQ (std::vector<std::string>(), get_updated_markers(sheet));
   }
 }
 

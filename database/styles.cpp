@@ -873,13 +873,16 @@ static stylesv2::Style get_base_style (const std::string& marker) {
 static std::string type_enum_to_value (const stylesv2::Type type)
 {
   switch (type) {
+    case stylesv2::Type::starting_boundary:
+      return "starting_boundary";
+    case stylesv2::Type::none:
+      return "none";
     case stylesv2::Type::book_id:
       return "book_id";
-    case stylesv2::Type::starting_boundary:
-    case stylesv2::Type::none:
     case stylesv2::Type::stopping_boundary:
+      return "stopping_boundary";
     default:
-      return "none";
+      return "unknown";
   }
 }
 
@@ -887,7 +890,7 @@ static std::string type_enum_to_value (const stylesv2::Type type)
 static stylesv2::Type type_value_to_enum (const std::string& value)
 {
   // Iterate over the enum values and if a match is found, return the matching enum value.
-  for (int i {static_cast<int>(stylesv2::Type::starting_boundary)};
+  for (int i {static_cast<int>(stylesv2::Type::starting_boundary)+1};
        i < static_cast<int>(stylesv2::Type::stopping_boundary); i++)
     if (value == type_enum_to_value(static_cast<stylesv2::Type>(i)))
       return static_cast<stylesv2::Type>(i);
@@ -901,10 +904,10 @@ static std::string capability_enum_to_value (const stylesv2::Capability capabili
   switch (capability) {
     case stylesv2::Capability::starting_boundary:
       return "starting_boundary";
-    case stylesv2::Capability::starts_new_page:
-      return "starts_new_page";
     case stylesv2::Capability::none:
       return "none";
+    case stylesv2::Capability::starts_new_page:
+      return "starts_new_page";
     case stylesv2::Capability::stopping_boundary:
       return "stopping_boundary";
     default:

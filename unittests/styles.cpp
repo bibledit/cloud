@@ -546,40 +546,48 @@ TEST_F (styles, get_styles_etc_v2)
   {
     const std::list<stylesv2::Style>& styles = get_styles(styles_logic_standard_sheet());
     EXPECT_EQ (styles.size(), stylesv2::styles.size());
+    const std::map <std::string, std::string> markers_names = get_markers_and_names (styles_logic_standard_sheet());
+    EXPECT_EQ (markers_names.size(), stylesv2::styles.size());
   }
 
   // A non-default stylesheet should be created on the fly if it does not exist, and return default styles.
   {
     const std::list<stylesv2::Style>& styles = get_styles(sheet);
     EXPECT_EQ (styles.size(), stylesv2::styles.size());
+    const std::map <std::string, std::string> markers_names = get_markers_and_names (sheet);
+    EXPECT_EQ (markers_names.size(), stylesv2::styles.size());
   }
 
-  // Save a style. Check the increased styles count.
+  // Add a style. Check the increased styles count.
   constexpr const char* marker {"marker"};
   {
-    stylesv2::Style style {stylesv2::styles.front()};
-    style.marker = marker;
-    save_style(sheet, style);
+    add_marker(sheet, marker);
     const std::list<stylesv2::Style>& styles = get_styles(sheet);
     EXPECT_EQ (styles.size(), stylesv2::styles.size() + 1);
+    const std::map <std::string, std::string> markers_names = get_markers_and_names (sheet);
+    EXPECT_EQ (markers_names.size(), stylesv2::styles.size() + 1);
+  }
+  
+  // Check getting the style data.
+  {
+    const stylesv2::Style style {get_marker_data(sheet, marker)};
+    EXPECT_EQ(marker, style.marker);
+    EXPECT_EQ("name", style.name);
+    EXPECT_EQ("info", style.info);
   }
   
   // Check for the available markers.
   // It should have the default ones, plus the added one(s).
   constexpr const char* id_marker {"id"};
   {
-    const std::vector<std::string> standard {
-      id_marker, marker
-    };
+    const std::vector<std::string> standard { id_marker, marker };
     EXPECT_EQ (standard, get_markers(sheet));
   }
   
   // Delete the added marker and check it's gone.
   delete_marker(sheet, marker);
   {
-    const std::vector<std::string> standard {
-      id_marker
-    };
+    const std::vector<std::string> standard { id_marker };
     EXPECT_EQ (standard, get_markers(sheet));
   }
   
@@ -588,6 +596,19 @@ TEST_F (styles, get_styles_etc_v2)
   {
     const std::vector<std::string> standard { };
     EXPECT_EQ (standard, get_markers(sheet));
+  }
+  
+  // Add a marker again, check it's there, reset it, check it's gone.
+  reset_marker(sheet, id_marker);
+  add_marker(sheet, marker);
+  {
+    const std::list<stylesv2::Style>& styles = get_styles(sheet);
+    EXPECT_EQ (styles.size(), stylesv2::styles.size() + 1);
+  }
+  reset_marker(sheet, marker);
+  {
+    const std::list<stylesv2::Style>& styles = get_styles(sheet);
+    EXPECT_EQ (styles.size(), stylesv2::styles.size());
   }
 }
 
@@ -624,8 +645,26 @@ TEST_F (styles, save_default_style_v2)
 }
 
 
+TEST_F (styles, remove_capability)
+{
+  using namespace database::styles2;
+  constexpr const char* sheet {"sheet"};
+  database::styles::create_sheet (sheet);
+  stylesv2::Style style = stylesv2::styles.front();
+  style.parameters.clear();
+  save_style(sheet, style);
+  style = get_marker_data (sheet, style.marker);
+  EXPECT_EQ(0, style.parameters.size());
+  const std::optional<stylesv2::Style> optional_style = load_style(sheet, "id");
+  EXPECT_EQ(0, optional_style.value().parameters.size());
+}
+
+
 TEST_F (styles, dev)
 {
+  using namespace database::styles2;
+  constexpr const char* sheet {"sheet"};
+  database::styles::create_sheet (sheet);
 }
 
 

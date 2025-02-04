@@ -709,17 +709,17 @@ void update_background_color (const std::string& sheet, const std::string& marke
 } // End namespace styles1
 
 
-namespace database::styles2 { // Todo database functions for styles v2.
+namespace database::styles2 {
 
 
-static std::string style_file (const std::string& sheet, const std::string& marker) // Todo
+static std::string style_file (const std::string& sheet, const std::string& marker)
 {
   return filter_url_create_path ({styles::sheetfolder(sheet), marker + std::string(".") + style_file_suffix});
 }
 
 
 // Ensure sheet cache has been filled.
-static void ensure_sheet_in_cache(const std::string& sheet) // Todo
+static void ensure_sheet_in_cache(const std::string& sheet)
 {
   // Check whether the requested stylesheet is already in the cache.
   // If so: Ready.
@@ -736,7 +736,7 @@ static void ensure_sheet_in_cache(const std::string& sheet) // Todo
   for (const auto& style : stylesv2::styles)
     cache.push_back(style);
   
-  // Update the cache with any updated or deleted or added styles. Todo
+  // Update the cache with any updated or deleted or added styles.
   const std::vector<std::string> updated_markers {get_updated_markers (sheet)};
   for (const auto& marker : updated_markers) {
     // Since there's an update, remove the existing style.
@@ -765,17 +765,37 @@ const std::list<stylesv2::Style>& get_styles(const std::string& sheet)
 }
 
 
+// Function to get the base style to use for comparison.
+static stylesv2::Style get_base_style (const std::string& marker) {
+  // Search the default styles for the marker.
+  // If the style is found among the default ones, return that as the base style.
+  const auto iter = std::find(stylesv2::styles.cbegin(), stylesv2::styles.cend(), marker);
+  if (iter != stylesv2::styles.cend())
+    return *iter;
+  // The marker is not among the default ones, return a default constructed style object.
+  return stylesv2::Style();
+};
+
+
 // Adds a marker to the stylesheet.
 void add_marker (const std::string& sheet, const std::string& marker)
 {
-  throw std::runtime_error("Todo write it for v2");
-//  Item item = read_item (sheet, marker);
-//  write_item (sheet, item);
+  // Get the base style and set the marker.
+  auto style {get_base_style(marker)};
+  style.marker = marker;
+  // If some properties are not given, then set some now.
+  // This is to ensure something will be written to file.
+  if (style.name.empty())
+    style.name = "name";
+  if (style.info.empty())
+    style.info = "info";
+  // Write it to file.
+  save_style(sheet, style);
 }
 
 
 // Deletes a marker from a stylesheet.
-void delete_marker (const std::string& sheet, const std::string& marker) // Todo test.
+void delete_marker (const std::string& sheet, const std::string& marker)
 {
   // Check if the marker to delete is among the hard-coded default styles.
   const auto iter = std::find(stylesv2::styles.cbegin(), stylesv2::styles.cend(), marker);
@@ -797,7 +817,7 @@ void delete_marker (const std::string& sheet, const std::string& marker) // Todo
 
 
 // Remove all changes to a marker and reset it to default.
-void reset_marker (const std::string& sheet, const std::string& marker) // Todo test.
+void reset_marker (const std::string& sheet, const std::string& marker)
 {
   // Remove the file for this marker: This means the marker does not have changes compared to the default style.
   const std::string filename = style_file (sheet, marker);
@@ -823,28 +843,32 @@ std::vector <std::string> get_markers (const std::string& sheet)
 // Returns a map with all the markers and the names of the styles in the stylesheet.
 std::map <std::string, std::string> get_markers_and_names (const std::string& sheet)
 {
-  throw std::runtime_error("Todo write it for v2");
-//  std::map <std::string, std::string> markers_names;
-//  Database_Styles database_stules;
-//  std::vector <std::string> markers = database_stules.getMarkers (sheet);
-//  for (const auto& marker : markers) {
-//    Item item = read_item (sheet, marker);
-//    markers_names [marker] = item.name;
-//  }
-//  return markers_names;
+  std::map <std::string, std::string> markers_names;
+  const std::list<stylesv2::Style>& styles {get_styles(sheet)};
+  std::transform(styles.begin(), styles.end(), std::inserter(markers_names, markers_names.end()), [](const stylesv2::Style& style) {
+    return std::make_pair(style.marker, style.name);
+  });
+  return markers_names;
 }
 
 
 // Returns an object with all data belonging to a marker.
 stylesv2::Style get_marker_data (const std::string& sheet, const std::string& marker)
 {
-  throw std::runtime_error("Todo write it for v2");
-  //return database::styles1::read_item (sheet, marker);
+  // If the requested marker is among the styles in the requested sheet, return that.
+  const std::list<stylesv2::Style>& styles {get_styles(sheet)};
+  const auto iter = std::find(styles.cbegin(), styles.cend(), marker);
+  if (iter != styles.cend())
+    return *iter;
+  // Style not found: Return a default style but with the marker set correctly.
+  stylesv2::Style style;
+  style.marker = marker;
+  return style;
 }
 
 
 // Gets the markers from a given stylesheet that have updates compared to the standard stylesheet.
-std::vector<std::string> get_updated_markers (const std::string& sheet) // Todo
+std::vector<std::string> get_updated_markers (const std::string& sheet)
 {
   const std::vector <std::string> files {filter_url_scandir (styles::sheetfolder (sheet))};
   std::vector <std::string> markers{};
@@ -856,18 +880,6 @@ std::vector<std::string> get_updated_markers (const std::string& sheet) // Todo
   }
   return markers;
 }
-
-
-// Function to get the base style to use for comparison.
-static stylesv2::Style get_base_style (const std::string& marker) {
-  // Search the default styles for the marker.
-  // If the style is found among the default ones, return that as the base style.
-  const auto iter = std::find(stylesv2::styles.cbegin(), stylesv2::styles.cend(), marker);
-  if (iter != stylesv2::styles.cend())
-    return *iter;
-  // The marker is not among the default ones, return a default constructed style object.
-  return stylesv2::Style();
-};
 
 
 static std::string type_enum_to_value (const stylesv2::Type type)
@@ -938,7 +950,7 @@ static std::string add_space(const std::string_view key)
 
 
 // Save a style to file for those parts that differ from the base style.
-void save_style(const std::string& sheet, const stylesv2::Style& style) // Todo write it.
+void save_style(const std::string& sheet, const stylesv2::Style& style)
 {
   // The base style to use for finding differences of the style to save.
   const auto base_style = get_base_style(style.marker);
@@ -960,7 +972,7 @@ void save_style(const std::string& sheet, const stylesv2::Style& style) // Todo 
   
   // Iterate over the parameters in the style.
   // If the parameter in the style is not found in the base style,
-  // then set this parameter "on" in the data to save. Todo test this.
+  // then set this parameter "on" in the data to save.
   for (const auto& [key, value] : style.parameters) {
     if (!base_style.parameters.count(key)) {
       std::string line {add_space(capability_on_key)};
@@ -975,19 +987,11 @@ void save_style(const std::string& sheet, const stylesv2::Style& style) // Todo 
 
   // Iterate over the parameters in the base style.
   // If the parameter in the base style is not found in the style to save,
-  // then set this parameter "off" in the data to save. Todo test this.
+  // then set this parameter "off" in the data to save.
   for (const auto& [key, value] : base_style.parameters)
     if (!style.parameters.count(key))
       lines.push_back(add_space(capability_off_key) + capability_enum_to_value(key));
-  
-//  std::cout << "Style:" << std::endl; // Todo
-//  for (const auto& [key, value] : style.parameters)
-//    std::cout << capability_enum_to_value(key) << std::endl;
 
-//  std::cout << "Base style:" << std::endl; // Todo
-//  for (const auto& [key, value] : base_style.parameters)
-//    std::cout << capability_enum_to_value(key) << std::endl;
-  
   // If there's no differences between the style to save and the base style,
   // then remove the style file.
   // If there's differences, then save those to the style file.
@@ -1005,12 +1009,12 @@ void save_style(const std::string& sheet, const stylesv2::Style& style) // Todo 
 
 // Load a style from file, combining the default style with the updated properties from file.
 // Loading the style may also result in no style to be returned.
-std::optional<stylesv2::Style> load_style(const std::string& sheet, const std::string& marker) // Todo write it.
+std::optional<stylesv2::Style> load_style(const std::string& sheet, const std::string& marker)
 {
   // The style struct to start off with.
   stylesv2::Style style = get_base_style(marker);
   
-  // Set the marker correct in the style.
+  // Set the marker correct in the style if not yet done.
   style.marker = marker;
 
   // Load the style data from file.
@@ -1033,7 +1037,7 @@ std::optional<stylesv2::Style> load_style(const std::string& sheet, const std::s
     pos = line.find(add_space(name_key));
     if (pos == 0)
       style.name = line.substr(name_key.length()+1);
-    // Check on or set an updated style info.
+    // Check on or set updated style info.
     pos = line.find(add_space(info_key));
     if (pos == 0)
       style.info = line.substr(info_key.length()+1);
@@ -1058,7 +1062,13 @@ std::optional<stylesv2::Style> load_style(const std::string& sheet, const std::s
           break;
       }
     }
-    // Todo Check on or set a removed capability as compared to the base style.
+    // Check on or remove a removed capability as compared to the base style.
+    pos = line.find(add_space(capability_off_key));
+    if (pos == 0) {
+      line.erase(0, capability_off_key.length()+1);
+      const stylesv2::Capability capability = capability_value_to_enum(line);
+      style.parameters.erase(capability);
+    }
   }
 
   // Ready.

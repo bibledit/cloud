@@ -35,11 +35,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 // Internal functions, variables and constants.
 
+
 namespace database::styles {
 constexpr const auto database_name {"styles"};
 static std::string databasefolder ();
 static std::string sheetfolder (const std::string& sheet);
 }
+
 
 namespace database::styles1 {
 // Cache for the default styles.
@@ -61,6 +63,7 @@ static void cache_defaults ();
 static Item read_item (const std::string& sheet, const std::string& marker);
 static void write_item (const std::string& sheet, Item& item);
 }
+
 
 namespace database::styles2 {
 // Styles cache and lock.
@@ -751,17 +754,70 @@ static void ensure_sheet_in_cache(const std::string& sheet)
 }
 
 
-const std::list<stylesv2::Style>& get_styles(const std::string& sheet)
+static std::string type_enum_to_value (const stylesv2::Type type)
 {
-  // If the standard stylesheet is requested, return a reference to the standard hard-coded stylesheet.
-  if (sheet == styles_logic_standard_sheet())
-    return stylesv2::styles;
+  switch (type) {
+    case stylesv2::Type::starting_boundary:
+      return "starting_boundary";
+    case stylesv2::Type::none:
+      return "none";
+    case stylesv2::Type::book_id:
+      return "book_id";
+    case stylesv2::Type::stopping_boundary:
+      return "stopping_boundary";
+    default:
+      return "unknown";
+  }
+}
 
-  // Make sure the stylesheet has been cached.
-  ensure_sheet_in_cache (sheet);
 
-  // Return a reference to tne sheet from the cache.
-  return sheet_cache.at(sheet);
+static stylesv2::Type type_value_to_enum (const std::string& value)
+{
+  // Iterate over the enum values and if a match is found, return the matching enum value.
+  for (int i {static_cast<int>(stylesv2::Type::starting_boundary)+1};
+       i < static_cast<int>(stylesv2::Type::stopping_boundary); i++)
+    if (value == type_enum_to_value(static_cast<stylesv2::Type>(i)))
+      return static_cast<stylesv2::Type>(i);
+  // No match found.
+  return stylesv2::Type::none;
+}
+
+
+static std::string capability_enum_to_value (const stylesv2::Capability capability)
+{
+  switch (capability) {
+    case stylesv2::Capability::starting_boundary:
+      return "starting_boundary";
+    case stylesv2::Capability::none:
+      return "none";
+    case stylesv2::Capability::starts_new_page:
+      return "starts_new_page";
+    case stylesv2::Capability::stopping_boundary:
+      return "stopping_boundary";
+    default:
+      return "unknown";
+  }
+}
+
+
+static stylesv2::Capability capability_value_to_enum (const std::string& value)
+{
+  // Iterate over the enum values and if a match is found, return the matching enum value.
+  for (int i {static_cast<int>(stylesv2::Capability::starting_boundary)+1};
+       i < static_cast<int>(stylesv2::Capability::stopping_boundary); i++)
+    if (value == capability_enum_to_value(static_cast<stylesv2::Capability>(i)))
+      return static_cast<stylesv2::Capability>(i);
+  // No match found.
+  return stylesv2::Capability::none;
+}
+
+
+// Add a space to the key and return it.
+static std::string add_space(const std::string_view key)
+{
+  std::string result (key);
+  result.append(" ");
+  return result;
 }
 
 
@@ -828,6 +884,20 @@ void reset_marker (const std::string& sheet, const std::string& marker)
 }
 
 
+const std::list<stylesv2::Style>& get_styles(const std::string& sheet)
+{
+  // If the standard stylesheet is requested, return a reference to the standard hard-coded stylesheet.
+  if (sheet == styles_logic_standard_sheet())
+    return stylesv2::styles;
+
+  // Make sure the stylesheet has been cached.
+  ensure_sheet_in_cache (sheet);
+
+  // Return a reference to tne sheet from the cache.
+  return sheet_cache.at(sheet);
+}
+
+
 // Returns a list with all the markers of the styles in the stylesheet.
 std::vector <std::string> get_markers (const std::string& sheet)
 {
@@ -879,73 +949,6 @@ std::vector<std::string> get_updated_markers (const std::string& sheet)
     }
   }
   return markers;
-}
-
-
-static std::string type_enum_to_value (const stylesv2::Type type)
-{
-  switch (type) {
-    case stylesv2::Type::starting_boundary:
-      return "starting_boundary";
-    case stylesv2::Type::none:
-      return "none";
-    case stylesv2::Type::book_id:
-      return "book_id";
-    case stylesv2::Type::stopping_boundary:
-      return "stopping_boundary";
-    default:
-      return "unknown";
-  }
-}
-
-
-static stylesv2::Type type_value_to_enum (const std::string& value)
-{
-  // Iterate over the enum values and if a match is found, return the matching enum value.
-  for (int i {static_cast<int>(stylesv2::Type::starting_boundary)+1};
-       i < static_cast<int>(stylesv2::Type::stopping_boundary); i++)
-    if (value == type_enum_to_value(static_cast<stylesv2::Type>(i)))
-      return static_cast<stylesv2::Type>(i);
-  // No match found.
-  return stylesv2::Type::none;
-}
-
-
-static std::string capability_enum_to_value (const stylesv2::Capability capability)
-{
-  switch (capability) {
-    case stylesv2::Capability::starting_boundary:
-      return "starting_boundary";
-    case stylesv2::Capability::none:
-      return "none";
-    case stylesv2::Capability::starts_new_page:
-      return "starts_new_page";
-    case stylesv2::Capability::stopping_boundary:
-      return "stopping_boundary";
-    default:
-      return "unknown";
-  }
-}
-
-
-static stylesv2::Capability capability_value_to_enum (const std::string& value)
-{
-  // Iterate over the enum values and if a match is found, return the matching enum value.
-  for (int i {static_cast<int>(stylesv2::Capability::starting_boundary)+1};
-       i < static_cast<int>(stylesv2::Capability::stopping_boundary); i++)
-    if (value == capability_enum_to_value(static_cast<stylesv2::Capability>(i)))
-      return static_cast<stylesv2::Capability>(i);
-  // No match found.
-  return stylesv2::Capability::none;
-}
-
-
-// Add a space to the key and return it.
-static std::string add_space(const std::string_view key)
-{
-  std::string result (key);
-  result.append(" ");
-  return result;
 }
 
 

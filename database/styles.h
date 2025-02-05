@@ -113,10 +113,10 @@ void update_background_color (const std::string& sheet, const std::string& marke
 
 namespace database::styles2 { // Todo database functions for styles v2.
 
-const std::list<stylesv2::Style>& get_styles(const std::string& sheet);
 void add_marker (const std::string& sheet, const std::string& marker);
 void delete_marker (const std::string& sheet, const std::string& marker);
 void reset_marker (const std::string& sheet, const std::string& marker);
+const std::list<stylesv2::Style>& get_styles(const std::string& sheet);
 std::vector <std::string> get_markers (const std::string& sheet);
 std::map <std::string, std::string> get_markers_and_names (const std::string& sheet);
 stylesv2::Style get_marker_data (const std::string& sheet, const std::string& marker);

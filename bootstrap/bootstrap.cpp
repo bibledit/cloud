@@ -50,6 +50,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <styles/indexm.h>
 #include <styles/sheetm.h>
 #include <styles/view.h>
+#include <styles/view2.h>
 #include <versification/index.h>
 #include <versification/system.h>
 #include <bb/manage.h>
@@ -716,6 +717,11 @@ void bootstrap_index (Webserver_Request& webserver_request)
   
   if ((url == styles_view_url ()) && browser_request_security_okay (webserver_request) && styles_view_acl (webserver_request)) {
     webserver_request.reply = styles_view (webserver_request);
+    return;
+  }
+  
+  if ((url == styles_view2_url ()) && browser_request_security_okay (webserver_request) && styles_view2_acl (webserver_request)) {
+    webserver_request.reply = styles_view2 (webserver_request);
     return;
   }
   

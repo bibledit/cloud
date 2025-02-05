@@ -259,6 +259,9 @@
 		CAAAB4B426EBE803000C8254 /* fetch.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = fetch.h; sourceTree = "<group>"; };
 		CAAAB4B526ECE062000C8254 /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logic.h; sourceTree = "<group>"; };
 		CAAAB4B626ECE062000C8254 /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = logic.cpp; sourceTree = "<group>"; };
+		CAAB221A2D53CAEA00B9A613 /* view2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = view2.h; sourceTree = "<group>"; };
+		CAAB221B2D53CAEA00B9A613 /* view2.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = view2.cpp; sourceTree = "<group>"; };
+		CAAB221C2D53CAEA00B9A613 /* view2.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = view2.html; sourceTree = "<group>"; };
 		CAB05E922D4AB725002D920A /* attribute.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = attribute.h; sourceTree = "<group>"; };
 		CAB05E932D4AB725002D920A /* attribute.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = attribute.c; sourceTree = "<group>"; };
 		CAB05E942D4AB725002D920A /* char_ref.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = char_ref.h; sourceTree = "<group>"; };
@@ -4274,22 +4277,25 @@
 		CADE41AA24F174B0003165BB /* styles */ = {
 			isa = PBXGroup;
 			children = (
-				CADE41AB24F174B0003165BB /* css.cpp */,
 				CADE41BC24F174B0003165BB /* css.h */,
-				CADE41BA24F174B0003165BB /* indexm.cpp */,
+				CADE41AB24F174B0003165BB /* css.cpp */,
 				CADE41B824F174B0003165BB /* indexm.h */,
+				CADE41BA24F174B0003165BB /* indexm.cpp */,
 				CADE41B724F174B0003165BB /* indexm.html */,
-				CADE41AD24F174B0003165BB /* logic.cpp */,
 				CADE41B424F174B0003165BB /* logic.h */,
-				CADE41AC24F174B0003165BB /* sheetm.cpp */,
+				CADE41AD24F174B0003165BB /* logic.cpp */,
 				CADE41AE24F174B0003165BB /* sheetm.h */,
+				CADE41AC24F174B0003165BB /* sheetm.cpp */,
 				CADE41B324F174B0003165BB /* sheetm.html */,
-				CADE41C724F174B0003165BB /* sheets.cpp */,
 				CADE41BD24F174B0003165BB /* sheets.h */,
-				CADE41B224F174B0003165BB /* view.cpp */,
+				CADE41C724F174B0003165BB /* sheets.cpp */,
 				CADE41B124F174B0003165BB /* view.h */,
+				CADE41B224F174B0003165BB /* view.cpp */,
 				CADE41B624F174B0003165BB /* view.html */,
 				CAFD9258280DC94900345F1D /* view.js */,
+				CAAB221A2D53CAEA00B9A613 /* view2.h */,
+				CAAB221B2D53CAEA00B9A613 /* view2.cpp */,
+				CAAB221C2D53CAEA00B9A613 /* view2.html */,
 			);
 			path = styles;
 			sourceTree = "<group>";

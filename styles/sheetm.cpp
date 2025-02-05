@@ -73,15 +73,17 @@ std::string styles_sheetm (Webserver_Request& webserver_request)
   
   Assets_View view;
   
-  std::string name = webserver_request.query["name"];
+  // The name of the stylesheet.
+  const std::string name = webserver_request.query["name"];
   view.set_variable ("name", filter::strings::escape_special_xml_characters (name));
   
+  // Whether this user has write access to the stylesheet.
   const std::string& username = webserver_request.session_logic ()->get_username ();
-  int userlevel = webserver_request.session_logic ()->get_level ();
+  const int userlevel = webserver_request.session_logic ()->get_level ();
   bool write = database::styles::has_write_access (username, name);
   if (userlevel >= Filter_Roles::admin ()) write = true;
   
-  if (webserver_request.post.count ("new")) {
+  if (webserver_request.post.count ("new")) { // Todo later handle creating new style v2.
     std::string newstyle = webserver_request.post["entry"];
     std::vector <std::string> existing_markers = database::styles1::get_markers (name);
     if (find (existing_markers.begin(), existing_markers.end(), newstyle) != existing_markers.end()) {
@@ -101,43 +103,56 @@ std::string styles_sheetm (Webserver_Request& webserver_request)
   
   const std::string del = webserver_request.query["delete"];
   if (!del.empty())
-    if (write)
+    if (write) {
       database::styles1::delete_marker (name, del);
-  
-  const std::map <std::string, std::string> markers_names = database::styles1::get_markers_and_names (name);
-  pugi::xml_document document {};
-  for (const auto& item : markers_names) {
-    const std::string marker = item.first;
-    const std::string marker_name = translate(item.second);
-    pugi::xml_node tr_node = document.append_child("tr");
-    {
-      pugi::xml_node td_node = tr_node.append_child("td");
-      pugi::xml_node a_node = td_node.append_child("a");
-      const std::string href = "view?sheet=" + name + "&style=" + marker;
-      a_node.append_attribute("href") = href.c_str();
-      a_node.text().set(marker.c_str());
+      database::styles2::delete_marker (name, del);
     }
-    {
-      pugi::xml_node td_node = tr_node.append_child("td");
-      td_node.text().set(marker_name.c_str());
+
+  pugi::xml_document html_block {};
+
+  const auto process_markers = [&html_block, &name](const std::map <std::string, std::string>& markers_names, const bool v2) {
+    for (const auto& item : markers_names) {
+      const std::string marker = item.first;
+      const std::string marker_name = translate(item.second);
+      pugi::xml_node tr_node = html_block.append_child("tr");
+      {
+        pugi::xml_node td_node = tr_node.append_child("td");
+        pugi::xml_node a_node = td_node.append_child("a");
+        const std::string view {v2 ? "view2" : "view"};
+        const std::string href = view + "?sheet=" + name + "&style=" + marker;
+        a_node.append_attribute("href") = href.c_str();
+        a_node.text().set(marker.c_str());
+      }
+      {
+        pugi::xml_node td_node = tr_node.append_child("td");
+        td_node.text().set(marker_name.c_str());
+      }
+      {
+        pugi::xml_node td_node = tr_node.append_child("td");
+        td_node.append_child("span").text().set("[");
+        pugi::xml_node a_node = td_node.append_child("a");
+        const std::string href = "?name=" + name + "&delete=" + marker;
+        a_node.append_attribute("href") = href.c_str();
+        a_node.text().set(translate("delete").c_str());
+        td_node.append_child("span").text().set("]");
+      }
     }
-    {
-      pugi::xml_node td_node = tr_node.append_child("td");
-      td_node.append_child("span").text().set("[");
-      pugi::xml_node a_node = td_node.append_child("a");
-      const std::string href = "?name=" + name + "&delete=" + marker;
-      a_node.append_attribute("href") = href.c_str();
-      a_node.text().set(translate("delete").c_str());
-      td_node.append_child("span").text().set("]");
-    }
-  }
+  };
+
+  process_markers (database::styles1::get_markers_and_names (name), false);
   {
-    std::stringstream ss {};
-    document.print (ss, "", pugi::format_raw);
-    view.set_variable ("markerblock", ss.str());
+    pugi::xml_node tr_node = html_block.append_child("tr");
+    for (int i{0}; i < 3; i++)
+      tr_node.append_child("td").text().set("--");
   }
+  process_markers (database::styles2::get_markers_and_names (name), true);
   
-  std::string folder = filter_url_create_root_path ({database_logic_databases (), "styles", name});
+  // Generate the html and set it on the page.
+  std::stringstream ss {};
+  html_block.print (ss, "", pugi::format_raw);
+  view.set_variable ("markerblock", ss.str());
+  
+  const std::string folder = filter_url_create_root_path ({database_logic_databases (), "styles", name});
   view.set_variable ("folder", folder);
   
   page += view.render ("styles", "sheetm");

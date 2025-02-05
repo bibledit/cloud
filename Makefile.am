@@ -98,6 +98,7 @@ libbibledit_a_SOURCES = \
 	styles/indexm.cpp \
 	styles/sheetm.cpp \
 	styles/view.cpp \
+	styles/view2.cpp \
 	styles/css.cpp \
 	styles/sheets.cpp \
 	text/text.cpp \

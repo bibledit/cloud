@@ -40,6 +40,11 @@ enum class Type : int {
   stopping_boundary // Should be the last always.
 };
 
+
+std::string type_enum_to_value (const Type type, const bool describe = false);
+Type type_value_to_enum (const std::string& value);
+
+
 enum class Capability : int {
   starting_boundary, // Should be the first always.
   none,
@@ -51,13 +56,18 @@ enum class Capability : int {
   stopping_boundary // Should be the last always.
 };
 
-enum class Variant { none, number, text };
+
+std::string capability_enum_to_value (const Capability capability);
+Capability capability_value_to_enum (const std::string& value);
+
+
+enum class Variant { none, boolean, number, text };
 
 Variant capability_to_variant (const Capability capability);
 
-// With monostate (empty variant) below, the capability is enabled.
-// With the int and the string, the capability has an extra paramter.
-using Parameter = std::variant<std::monostate,int,std::string>;
+using Parameter = std::variant<bool,int,std::string>;
+
+std::ostream& operator<<(std::ostream& os, const Parameter& parameter);
 
 
 struct Style final {
@@ -73,6 +83,7 @@ struct Style final {
 
 
 inline bool operator==(const Style& style, const std::string& marker) noexcept { return style.marker == marker; }
+std::ostream& operator<<(std::ostream& os, const Style& style);
 
 
 extern const std::list<Style> styles;

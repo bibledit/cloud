@@ -446,92 +446,99 @@ TEST_F (styles, get_styles_v2)
 TEST_F (styles, save_load_styles_v2)
 {
   using namespace database::styles2;
-  
+  using namespace stylesv2;
+
   // Create a stylesheet for testing.
   constexpr const char* sheet {"sheet"};
   database::styles::create_sheet (sheet);
 
-  // Initially there should not be any updated markers.
-  EXPECT_EQ (std::vector<std::string>(), get_updated_markers (sheet));
-
-  // Save the first default style.
-  // Since there's no update made on the saved style,
-  // the save operation won't write anything to file.
-  save_style(sheet, stylesv2::styles.front());
-  EXPECT_EQ (std::vector<std::string>(), get_updated_markers (sheet));
-
-  // Make a couple of updates on the default style, and save it, and load it, and check on that.
-  stylesv2::Style style {stylesv2::styles.front()};
+  stylesv2::Style style;
   
-  constexpr const char* marker {"marker"};
-  
-  const auto check_marker_count = [&style]() {
-    std::vector<std::string> markers = get_updated_markers (sheet);
-    constexpr const int marker_count_1 {1};
-    EXPECT_EQ (marker_count_1, markers.size());
-    if (markers.size() == marker_count_1) {
-      EXPECT_EQ(style.marker, markers.at(0));
-    }
-  };
-  
-  const auto check_marker = [marker, &style]() {
-    const auto loaded_style = load_style(sheet, marker);
-    EXPECT_NE (loaded_style, std::nullopt);
-    EXPECT_EQ (loaded_style.value().marker, marker);
-  };
-  
-  const auto check_type = [marker, &style]() {
-    const auto loaded_style = load_style(sheet, marker);
-    EXPECT_EQ (static_cast<int>(loaded_style.value().type), static_cast<int>(style.type));
-  };
-  
-  const auto check_name = [marker, &style]() {
-    const auto loaded_style = load_style(sheet, marker);
-    EXPECT_EQ (loaded_style.value().name, style.name);
-  };
-  
-  const auto check_info = [marker, &style]() {
-    const auto loaded_style = load_style(sheet, marker);
-    EXPECT_EQ (loaded_style.value().info, style.info);
-  };
-  
-  const auto check_parameters = [marker, &style]() {
-    const auto loaded_style = load_style(sheet, marker);
-    EXPECT_TRUE (loaded_style.value().parameters.count(stylesv2::Capability::none ));
-    EXPECT_TRUE (loaded_style.value().parameters.count(stylesv2::Capability::starts_new_page ));
-  };
-  
-  style.marker = marker;
+  // Save and load the first default style, and check that the loaded style is the same as the saved one.
+  style = stylesv2::styles.front();
   save_style(sheet, style);
-  check_marker_count();
-  check_marker();
-  check_type();
+  {
+    const auto loaded_style = load_style(sheet, style.marker);
+    EXPECT_TRUE(loaded_style);
+    std::stringstream ss1{};
+    ss1 << style;
+    std::stringstream ss2{};
+    ss2 << loaded_style.value();
+    EXPECT_EQ(ss1.str(), ss2.str());
+  }
   
+  // Set a parameter to false, save and load, and compare again
+  style.parameters.at(Capability::starts_new_page) = false;
+  save_style(sheet, style);
+  {
+    const auto loaded_style = load_style(sheet, style.marker);
+    EXPECT_TRUE(loaded_style);
+    std::stringstream ss1{};
+    ss1 << style;
+    std::stringstream ss2{};
+    ss2 << loaded_style.value();
+    EXPECT_EQ(ss1.str(), ss2.str());
+    EXPECT_FALSE(std::get<bool>(loaded_style.value().parameters.at(Capability::starts_new_page)));
+  }
+
+  // Set the same parameter back to true, save and load, and compare again
+  style.parameters.at(Capability::starts_new_page) = true;
+  save_style(sheet, style);
+  {
+    const auto loaded_style = load_style(sheet, style.marker);
+    EXPECT_TRUE(loaded_style);
+    std::stringstream ss1{};
+    ss1 << style;
+    std::stringstream ss2{};
+    ss2 << loaded_style.value();
+    EXPECT_EQ(ss1.str(), ss2.str());
+    EXPECT_TRUE(std::get<bool>(loaded_style.value().parameters.at(Capability::starts_new_page)));
+  }
+
+  // Change the name, save, load, compare.
   constexpr const char* name {"name"};
   style.name = name;
   save_style(sheet, style);
-  check_marker_count();
-  check_marker();
-  check_type();
-  check_name();
-  
+  {
+    const auto loaded_style = load_style(sheet, style.marker);
+    EXPECT_TRUE(loaded_style);
+    std::stringstream ss1{};
+    ss1 << style;
+    std::stringstream ss2{};
+    ss2 << loaded_style.value();
+    EXPECT_EQ(ss1.str(), ss2.str());
+    EXPECT_EQ(loaded_style.value().name, name);
+  }
+
+  // Change and check the info field.
   constexpr const char* info {"info"};
   style.info = info;
   save_style(sheet, style);
-  check_marker_count();
-  check_marker();
-  check_type();
-  check_name();
-  check_info();
+  {
+    const auto loaded_style = load_style(sheet, style.marker);
+    EXPECT_TRUE(loaded_style);
+    std::stringstream ss1{};
+    ss1 << style;
+    std::stringstream ss2{};
+    ss2 << loaded_style.value();
+    EXPECT_EQ(ss1.str(), ss2.str());
+    EXPECT_EQ(loaded_style.value().info, info);
+  }
   
-  style.parameters[stylesv2::Capability::none] = std::monostate();
+  // Update the style marker.
+  constexpr const char* marker {"marker"};
+  style.marker = marker;
   save_style(sheet, style);
-  check_marker_count();
-  check_marker();
-  check_type();
-  check_name();
-  check_info();
-  check_parameters();
+  {
+    const auto loaded_style = load_style(sheet, style.marker);
+    EXPECT_TRUE(loaded_style);
+    std::stringstream ss1{};
+    ss1 << style;
+    std::stringstream ss2{};
+    ss2 << loaded_style.value();
+    EXPECT_EQ(ss1.str(), ss2.str());
+    EXPECT_EQ(loaded_style.value().marker, marker);
+  }
 }
 
 
@@ -613,58 +620,8 @@ TEST_F (styles, get_styles_etc_v2)
 }
 
 
-// Test that saving a default style removes the style file.
-TEST_F (styles, save_default_style_v2)
-{
-  using namespace database::styles2;
-  
-  // Create a stylesheet for testing.
-  constexpr const char* sheet {"sheet"};
-  database::styles::create_sheet (sheet);
-  
-  // Initially there should not be any updated markers.
-  EXPECT_EQ (std::vector<std::string>(), get_updated_markers(sheet));
-  
-  // Save the first default style with one modification.
-  // This results in one updated style.
-  {
-    stylesv2::Style style = stylesv2::styles.front();
-    style.name = "none";
-    save_style(sheet, style);
-    const std::vector<std::string> standard {stylesv2::styles.front().marker};
-    EXPECT_EQ (standard, get_updated_markers(sheet));
-  }
-  
-  // Save the first default style as-is.
-  // This results in the updated style to be removed again.
-  {
-    const stylesv2::Style style = stylesv2::styles.front();
-    save_style(sheet, style);
-    EXPECT_EQ (std::vector<std::string>(), get_updated_markers(sheet));
-  }
-}
-
-
-TEST_F (styles, remove_capability)
-{
-  using namespace database::styles2;
-  constexpr const char* sheet {"sheet"};
-  database::styles::create_sheet (sheet);
-  stylesv2::Style style = stylesv2::styles.front();
-  style.parameters.clear();
-  save_style(sheet, style);
-  style = get_marker_data (sheet, style.marker);
-  EXPECT_EQ(0, style.parameters.size());
-  const std::optional<stylesv2::Style> optional_style = load_style(sheet, "id");
-  EXPECT_EQ(0, optional_style.value().parameters.size());
-}
-
-
 TEST_F (styles, dev)
 {
-  using namespace database::styles2;
-  constexpr const char* sheet {"sheet"};
-  database::styles::create_sheet (sheet);
 }
 
 

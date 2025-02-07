@@ -18,9 +18,70 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 #include <stylesv2/logic.h>
+#include <filter/string.h>
 
 
 namespace stylesv2 { // Todo styles version 2 logic.
+
+
+std::string type_enum_to_value (const Type type, const bool describe)
+{
+  switch (type) {
+    case Type::starting_boundary:
+      return "starting_boundary";
+    case Type::none:
+      return "none";
+    case Type::book_id:
+      if (describe)
+        return "book id";
+      return "book_id";
+    case Type::stopping_boundary:
+      return "stopping_boundary";
+    default:
+      return "unknown";
+  }
+}
+
+
+Type type_value_to_enum (const std::string& value)
+{
+  // Iterate over the enum values and if a match is found, return the matching enum value.
+  for (int i {static_cast<int>(Type::starting_boundary)+1};
+       i < static_cast<int>(Type::stopping_boundary); i++)
+    if (value == type_enum_to_value(static_cast<Type>(i)))
+      return static_cast<Type>(i);
+  // No match found.
+  return Type::none;
+}
+
+
+std::string capability_enum_to_value (const Capability capability)
+{
+  switch (capability) {
+    case Capability::starting_boundary:
+      return "starting_boundary";
+    case Capability::none:
+      return "none";
+    case Capability::starts_new_page:
+      return "starts_new_page";
+    case Capability::stopping_boundary:
+      return "stopping_boundary";
+    default:
+      return "unknown";
+  }
+}
+
+
+Capability capability_value_to_enum (const std::string& value)
+{
+  // Iterate over the enum values and if a match is found, return the matching enum value.
+  for (int i {static_cast<int>(Capability::starting_boundary)+1};
+       i < static_cast<int>(Capability::stopping_boundary); i++)
+    if (value == capability_enum_to_value(static_cast<Capability>(i)))
+      return static_cast<Capability>(i);
+  // No match found.
+  return Capability::none;
+}
 
 
 Variant capability_to_variant (const Capability capability)
@@ -30,11 +91,44 @@ Variant capability_to_variant (const Capability capability)
     case Capability::none:
       return Variant::none;
     case Capability::starts_new_page:
-      return Variant::none;
+      return Variant::boolean;
     case Capability::stopping_boundary:
     default:
       return Variant::none;
   }
+}
+
+
+std::ostream& operator<<(std::ostream& os, const Parameter& parameter)
+{
+  if (std::holds_alternative<bool>(parameter))
+    os << filter::strings::convert_to_string(std::get<bool>(parameter));
+  if (std::holds_alternative<int>(parameter))
+    os << std::get<int>(parameter);
+  if (std::holds_alternative<std::string>(parameter))
+    os << std::get<std::string>(parameter);
+  return os;
+}
+
+
+std::ostream& operator<<(std::ostream& os, const Style& style)
+{
+  os << "marker: " << style.marker << std::endl;
+  os << "type: " << type_enum_to_value(style.type) << std::endl;
+  os << "name: " << style.name << std::endl;
+  os << "info: " << style.info << std::endl;
+  for (const auto& [capability, parameter] : style.parameters) {
+    os << "capability: " << capability_enum_to_value(capability) << ": ";
+    if (std::holds_alternative<bool>(parameter))
+      os << std::get<bool>(parameter);
+    if (std::holds_alternative<int>(parameter))
+      os << std::get<int>(parameter);
+    if (std::holds_alternative<std::string>(parameter))
+      os << std::get<std::string>(parameter);
+    os << std::endl;
+  }
+  os << "implemented: " << style.implemented << std::endl;
+  return os;
 }
 
 
@@ -44,7 +138,7 @@ const std::list<Style> styles {
     .type = Type::book_id,
     .name = "Identification",
     .info = "File identification information (name of file, book name, language, last edited, date, etc.)",
-    .parameters = {{Capability::starts_new_page,std::monostate()}},
+    .parameters = {{Capability::starts_new_page,true}},
     .implemented = false,
   },
 };

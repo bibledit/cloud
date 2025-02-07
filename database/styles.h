@@ -120,7 +120,6 @@ const std::list<stylesv2::Style>& get_styles(const std::string& sheet);
 std::vector <std::string> get_markers (const std::string& sheet);
 std::map <std::string, std::string> get_markers_and_names (const std::string& sheet);
 stylesv2::Style get_marker_data (const std::string& sheet, const std::string& marker);
-std::vector<std::string> get_updated_markers (const std::string& sheet);
 void save_style(const std::string& sheet, const stylesv2::Style& style);
 std::optional<stylesv2::Style> load_style(const std::string& sheet, const std::string& marker);
 

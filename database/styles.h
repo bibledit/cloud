@@ -111,7 +111,7 @@ void update_background_color (const std::string& sheet, const std::string& marke
 } // End namespace styles1
 
 
-namespace database::styles2 { // Todo database functions for styles v2.
+namespace database::styles2 {
 
 void add_marker (const std::string& sheet, const std::string& marker);
 void delete_marker (const std::string& sheet, const std::string& marker);

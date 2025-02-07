@@ -20,7 +20,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <config/libraries.h>
 
-namespace stylesv2 { // Todo the stylesv2 logic here.
+namespace stylesv2 {
 
 
 enum class Type : int {

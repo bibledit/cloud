@@ -21,7 +21,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 
 
-namespace stylesv2 { // Todo styles version 2 logic.
+namespace stylesv2 {
 
 
 std::string type_enum_to_value (const Type type, const bool describe)

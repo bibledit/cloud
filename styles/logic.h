@@ -41,8 +41,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #define StyleTypeWordlistElement       13 
 
 
-#define IdentifierSubtypeBook                     0 
-#define IdentifierSubtypeEncoding                 1 
+#define IdentifierSubtypeBook                     0 // Todo goes out eventually.
+#define IdentifierSubtypeEncoding                 1
 #define IdentifierSubtypeComment                  2 
 #define IdentifierSubtypeRunningHeader            3 
 #define IdentifierSubtypeLongTOC                  4 
@@ -111,7 +111,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #define UserBool1None                      0 
 #define UserBool1PrintChapterAtFirstVerse  1 
-#define UserBool1IdStartsNewPage           2 
+#define UserBool1IdStartsNewPage           2 // Todo goes out.
 #define UserBool1NoteAppliesToApocrypha    3 
 #define UserBool1VerseRestartsParagraph    4 
 

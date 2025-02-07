@@ -209,7 +209,7 @@ void Filter_Text::pre_process_usfm ()
             switch (style.type) {
               case StyleTypeIdentifier:
                 switch (style.subtype) {
-                  case IdentifierSubtypeBook:
+                  case IdentifierSubtypeBook: // Todo move to v2
                   {
                     // Get book number.
                     std::string usfm_id = filter::usfm::get_book_identifier (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
@@ -371,7 +371,7 @@ void Filter_Text::process_usfm ()
               if (html_text_linked) html_text_linked->close_text_style (false, false);
               switch (style.subtype)
               {
-                case IdentifierSubtypeBook:
+                case IdentifierSubtypeBook: // Todo move to v2.
                 {
                   // Get book number.
                   std::string usfm_id = filter::usfm::get_book_identifier (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
@@ -1032,7 +1032,7 @@ void Filter_Text::process_usfm ()
               break;
             }
           }
-        } else {
+        } else { // Todo check on v2, then do the else as here.
           // Here is an unknown marker.
           // Add it to the fallout, plus any text that follows the marker.
           addToFallout (R"(Unknown marker \)" + marker + ", formatting error:", true);

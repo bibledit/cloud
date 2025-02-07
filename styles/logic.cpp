@@ -78,7 +78,7 @@ std::string styles_logic_type_text (int type)
 std::string styles_logic_subtype_text (int type, int subtype)
 {
   if (type == StyleTypeIdentifier) {
-    if (subtype == IdentifierSubtypeBook                  ) return translate ("identifies the book");
+    if (subtype == IdentifierSubtypeBook                  ) return translate ("identifies the book"); // Todo goes out.
     if (subtype == IdentifierSubtypeEncoding              ) return translate ("identifies the encoding");
     if (subtype == IdentifierSubtypeComment               ) return translate ("is a comment");
     if (subtype == IdentifierSubtypeRunningHeader         ) return translate ("is a running header");
@@ -420,7 +420,7 @@ int styles_logic_get_userbool1_function (int type, int subtype)
     return UserBool1PrintChapterAtFirstVerse;
   }
   if (type == StyleTypeIdentifier) {
-    if (subtype == IdentifierSubtypeBook)
+    if (subtype == IdentifierSubtypeBook) // Todo goes out.
       return UserBool1IdStartsNewPage;
   }
   if (type == StyleTypeFootEndNote) {
@@ -443,7 +443,7 @@ std::string styles_logic_get_userbool1_text (int function)
 {
   switch (function) {
     case UserBool1PrintChapterAtFirstVerse: return translate ("Print chapter number at first verse");
-    case UserBool1IdStartsNewPage: return translate ("Start on a new page");
+    case UserBool1IdStartsNewPage: return translate ("Start on a new page"); // Todo goes out.
     case UserBool1NoteAppliesToApocrypha: return translate ("Refers to the Apocrypha");
     case UserBool1VerseRestartsParagraph: return translate ("Restart paragraph");
     default: return "--";

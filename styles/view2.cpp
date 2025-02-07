@@ -73,10 +73,17 @@ std::string styles_view2 (Webserver_Request& webserver_request)
   view.set_variable ("style", filter::strings::escape_special_xml_characters (style));
 
   
-  stylesv2::Style marker_data = database::styles2::get_marker_data (sheet, style);
+  // Get the data for the marker.
+  // If no data was found, use a default style with the marker set to the requested marker.
+  // It means that the marker data is always set with something.
+  std::optional<stylesv2::Style> marker_data = database::styles2::get_marker_data (sheet, style);
+  if (!marker_data) {
+    marker_data = stylesv2::Style();
+    marker_data.value().marker = style;
+  }
 
   
-  view.set_variable ("type", stylesv2::type_enum_to_value(marker_data.type, true));
+  view.set_variable ("type", stylesv2::type_enum_to_value(marker_data.value().type, true));
   
   
   // Whether the logged-in user has write access to the stylesheet.
@@ -92,34 +99,32 @@ std::string styles_view2 (Webserver_Request& webserver_request)
   
   // The style's name.
   if (webserver_request.query.count ("name")) {
-    Dialog_Entry dialog_entry = Dialog_Entry ("view2", translate("Please enter the name for the style"), marker_data.name, "name", std::string());
+    Dialog_Entry dialog_entry = Dialog_Entry ("view2", translate("Please enter the name for the style"), marker_data.value().name, "name", std::string());
     dialog_entry.add_query ("sheet", sheet);
     dialog_entry.add_query ("style", style);
     page += dialog_entry.run ();
     return page;
   }
   if (webserver_request.post.count ("name")) {
-    marker_data.name = webserver_request.post["entry"];
-    database::styles2::save_style(sheet, marker_data);
+    marker_data.value().name = webserver_request.post["entry"];
     style_is_edited = true;
   }
-  view.set_variable ("name", filter::strings::escape_special_xml_characters (translate (marker_data.name)));
+  view.set_variable ("name", filter::strings::escape_special_xml_characters (translate (marker_data.value().name)));
 
   
   // The style's info.
   if (webserver_request.query.count ("info")) {
-    Dialog_Entry dialog_entry = Dialog_Entry ("view2", translate("Please enter the description for the style"), marker_data.info, "info", std::string());
+    Dialog_Entry dialog_entry = Dialog_Entry ("view2", translate("Please enter the description for the style"), marker_data.value().info, "info", std::string());
     dialog_entry.add_query ("sheet", sheet);
     dialog_entry.add_query ("style", style);
     page += dialog_entry.run ();
     return page;
   }
   if (webserver_request.post.count("info")) {
-    marker_data.info = webserver_request.post["entry"];
-    database::styles2::save_style (sheet, marker_data);
+    marker_data.value().info = webserver_request.post["entry"];
     style_is_edited = true;
   }
-  view.set_variable ("info", filter::strings::escape_special_xml_characters (translate (marker_data.info)));
+  view.set_variable ("info", filter::strings::escape_special_xml_characters (translate (marker_data.value().info)));
 
   
   // Handle toggle of checkbox.
@@ -130,14 +135,14 @@ std::string styles_view2 (Webserver_Request& webserver_request)
     style = webserver_request.post ["val2"];
     marker_data = database::styles2::get_marker_data (sheet, style);
     const stylesv2::Capability capability = stylesv2::capability_value_to_enum (checkbox);
-    marker_data.parameters[capability] = checked;
+    marker_data.value().parameters[capability] = checked;
     style_is_edited = true;
   }
 
   
   // Enable the section(s) in the editor for the capabilities.
   // Set the values correctly for in the html page.
-  for (const auto& [capability, parameter] : marker_data.parameters) {
+  for (const auto& [capability, parameter] : marker_data.value().parameters) {
     const std::string enum_value = capability_enum_to_value(capability);
     view.enable_zone(enum_value);
     if (std::holds_alternative<bool>(parameter))
@@ -152,8 +157,8 @@ std::string styles_view2 (Webserver_Request& webserver_request)
   // If a style is edited, save it, and recreate cascaded stylesheets.
   if (style_is_edited) {
     if (write) {
-      if (!marker_data.marker.empty())
-        database::styles2::save_style(sheet, marker_data);
+      if (!marker_data.value().marker.empty())
+        database::styles2::save_style(sheet, marker_data.value());
       styles_sheets_create_all ();
     }
   }

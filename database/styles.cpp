@@ -861,16 +861,16 @@ std::map <std::string, std::string> get_markers_and_names (const std::string& sh
 }
 
 
-// Returns an object with all data belonging to a marker.
-std::optional<stylesv2::Style> get_marker_data (const std::string& sheet, const std::string& marker)
+// Returns a pointer to a style object with all data belonging to a marker.
+const stylesv2::Style* get_marker_data (const std::string& sheet, const std::string& marker)
 {
   // If the requested marker is among the styles in the requested sheet, return that.
   const std::list<stylesv2::Style>& styles {get_styles(sheet)};
   const auto iter = std::find(styles.cbegin(), styles.cend(), marker);
   if (iter != styles.cend())
-    return *iter;
+    return std::addressof(*iter);
   // Style not found.
-  return std::nullopt;
+  return nullptr;
 }
 
 

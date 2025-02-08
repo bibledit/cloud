@@ -91,13 +91,13 @@ void Filter_Text::add_usfm_code (std::string usfm)
 
 // This function runs the filter.
 // $stylesheet - The stylesheet to use.
-void Filter_Text::run (std::string stylesheet)
+void Filter_Text::run (const std::string& stylesheet)
 {
   // Get the styles.
   get_styles (stylesheet);
 
   // Preprocess.
-  pre_process_usfm ();
+  pre_process_usfm (stylesheet);
 
   // Process data.
   process_usfm ();
@@ -163,7 +163,7 @@ void Filter_Text::get_usfm_next_chapter ()
 
 // This function gets the styles from the database,
 // and stores them in the object for quicker access.
-void Filter_Text::get_styles (std::string stylesheet)
+void Filter_Text::get_styles (const std::string& stylesheet)
 {
   styles.clear();
   // Get the relevant styles information included.
@@ -189,10 +189,19 @@ void Filter_Text::get_styles (std::string stylesheet)
 }
 
 
+static bool marker_moved_to_v2 (const std::string& marker)
+{
+  constexpr const std::array<const char*, 1> markers {
+    "id",
+  };
+  const auto iter = std::find(markers.cbegin(), markers.cend(), marker);
+  return iter != markers.cend();
+}
+
 
 // This function does the preprocessing of the USFM code
 // extracting a variety of information, creating note citations, etc.
-void Filter_Text::pre_process_usfm ()
+void Filter_Text::pre_process_usfm (const std::string& stylesheet)
 {
   usfm_markers_and_text_ptr = 0;
   while (unprocessed_usfm_code_available ()) {
@@ -203,26 +212,12 @@ void Filter_Text::pre_process_usfm ()
         std::string marker = filter::strings::trim (currentItem); // Change, e.g. '\id ' to '\id'.
         marker = marker.substr (1); // Remove the initial backslash, e.g. '\id' becomes 'id'.
         if (filter::usfm::is_opening_marker (marker)) {
-          if (styles.find (marker) != styles.end()) {
+          if ((styles.find (marker) != styles.end()) && (!marker_moved_to_v2(marker))) {
             database::styles1::Item style = styles [marker];
             note_citations.evaluate_style(style);
             switch (style.type) {
               case StyleTypeIdentifier:
                 switch (style.subtype) {
-                  case IdentifierSubtypeBook: // Todo move to v2
-                  {
-                    // Get book number.
-                    std::string usfm_id = filter::usfm::get_book_identifier (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
-                    usfm_id = filter::strings::replace (filter::strings::soft_hyphen_u00AD (), "", usfm_id); // Remove possible soft hyphen.
-                    // Get Bibledit book number.
-                    m_current_book_identifier = static_cast<int>(database::books::get_id_from_usfm (usfm_id));
-                    // Reset chapter and verse numbers.
-                    m_current_chapter_number = 0;
-                    m_number_of_chapters_per_book[m_current_book_identifier] = 0;
-                    set_to_zero(m_current_verse_number);
-                    // Done.
-                    break;
-                  }
                   case IdentifierSubtypeRunningHeader:
                   {
                     const std::string runningHeader = filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
@@ -327,6 +322,30 @@ void Filter_Text::pre_process_usfm ()
               }
             }
           }
+          else if (const stylesv2::Style* style {database::styles2::get_marker_data (stylesheet, marker)}; style) {
+            switch (style->type) {
+              case stylesv2::Type::book_id:
+              {
+                // Get book number.
+                std::string usfm_id = filter::usfm::get_book_identifier (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
+                // Remove possible soft hyphen.
+                usfm_id = filter::strings::replace (filter::strings::soft_hyphen_u00AD (), "", usfm_id);
+                // Get Bibledit book number.
+                m_current_book_identifier = static_cast<int>(database::books::get_id_from_usfm (usfm_id));
+                // Reset chapter and verse numbers.
+                m_current_chapter_number = 0;
+                m_number_of_chapters_per_book[m_current_book_identifier] = 0;
+                set_to_zero(m_current_verse_number);
+                // Done.
+                break;
+              }
+              case stylesv2::Type::starting_boundary:
+              case stylesv2::Type::none:
+              case stylesv2::Type::stopping_boundary:
+              default:
+                break;
+            }
+          }
         }
       }
     }
@@ -357,7 +376,7 @@ void Filter_Text::process_usfm ()
         if (is_opening_marker) filter::usfm::remove_word_level_attributes (marker, chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
         if (styles.find (marker) != styles.end())
         {
-          // Deal with known style.
+          // Deal with a known style.
           const database::styles1::Item& style = styles.at(marker);
           switch (style.type)
           {

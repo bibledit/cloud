@@ -575,17 +575,17 @@ TEST_F (styles, get_styles_etc_v2)
     EXPECT_EQ (markers_names.size(), stylesv2::styles.size() + 1);
   }
   
-  // Check getting the style data.
+  // Check getting the style data. Todo test this.
   {
-    const std::optional<stylesv2::Style> style {get_marker_data(sheet, marker)};
-    EXPECT_EQ(marker, style.value().marker);
-    EXPECT_EQ("name", style.value().name);
-    EXPECT_EQ("info", style.value().info);
+    const stylesv2::Style* style {get_marker_data(sheet, marker)};
+    EXPECT_EQ(marker, style->marker);
+    EXPECT_EQ("name", style->name);
+    EXPECT_EQ("info", style->info);
   }
-  
+
   // Check that getting marker data for a style not in the stylesheet returns a null optional.
   {
-    const std::optional<stylesv2::Style> style {get_marker_data(sheet, "unknown")};
+    const stylesv2::Style* style {get_marker_data(sheet, "unknown")};
     EXPECT_FALSE(style);
   }
   

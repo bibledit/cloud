@@ -160,7 +160,7 @@ std::string styles_view2 (Webserver_Request& webserver_request)
   }
 
   
-  // If a style is edited, save it, and recreate cascaded stylesheets. Todo test all changes.
+  // If a style is edited, save it, and recreate cascaded stylesheets.
   if (style_is_edited) {
     if (write) {
       if (!marker_data.marker.empty())

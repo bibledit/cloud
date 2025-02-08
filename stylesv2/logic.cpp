@@ -132,6 +132,19 @@ std::ostream& operator<<(std::ostream& os, const Style& style)
 }
 
 
+bool get_bool_parameter (const Style* style, const Capability capability)
+{
+  const auto iter = style->parameters.find(capability);
+  if (iter != style->parameters.cend()) {
+    const Parameter& parameter = iter->second;
+    if (std::holds_alternative<bool>(parameter)) {
+      return std::get<bool>(parameter);
+    }
+  }
+  return false;
+}
+
+
 const std::list<Style> styles {
   {
     .marker = "id",
@@ -142,6 +155,41 @@ const std::list<Style> styles {
     .implemented = false,
   },
 };
+
+
+// Temporal function that indicates whether a marker has moved to version 2.
+// The $marker is the one being considered.
+// The $extra is an extra marker in addition to the already implemented ones.
+bool marker_moved_to_v2 (const std::string& marker, const char* extra)
+{
+  const bool print = (marker == "id") && false;
+  if (print) std::cout << marker << " " << extra << std::endl; // Todo
+//  static std::map<std::string,bool> cache{};
+  if (print) std::cout << __LINE__ << std::endl; // Todo
+//  if (cache.count(marker + extra)) {
+//    if (print) std::cout << __LINE__ << std::endl; // Todo
+//    return cache.at(marker + extra);
+//  }
+  const auto iter = std::find(styles.cbegin(), styles.cend(), marker);
+  if (print) std::cout << __LINE__ << std::endl; // Todo
+  if (iter != styles.cend()) {
+    if (print) std::cout << __LINE__ << std::endl; // Todo
+    if (iter->implemented) {
+      if (print) std::cout << __LINE__ << std::endl; // Todo
+//      cache[marker + extra] = true;
+      return true;
+    }
+  }
+  if (print) std::cout << __LINE__ << std::endl; // Todo
+  if (marker == extra) {
+    if (print) std::cout << __LINE__ << std::endl; // Todo
+//    cache[marker + extra] = true;
+    return true;
+  }
+  if (print) std::cout << __LINE__ << std::endl; // Todo
+//  cache[marker + extra] = false;
+  return false;
+}
 
 
 

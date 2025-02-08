@@ -575,7 +575,7 @@ TEST_F (styles, get_styles_etc_v2)
     EXPECT_EQ (markers_names.size(), stylesv2::styles.size() + 1);
   }
   
-  // Check getting the style data. Todo test this.
+  // Check getting the style data.
   {
     const stylesv2::Style* style {get_marker_data(sheet, marker)};
     EXPECT_EQ(marker, style->marker);

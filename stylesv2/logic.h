@@ -84,9 +84,13 @@ struct Style final {
 
 inline bool operator==(const Style& style, const std::string& marker) noexcept { return style.marker == marker; }
 std::ostream& operator<<(std::ostream& os, const Style& style);
+bool get_bool_parameter (const Style* style, const Capability capability);
 
 
 extern const std::list<Style> styles;
+
+
+bool marker_moved_to_v2 (const std::string& marker, const char* extra);
 
 
 } // Namespace.

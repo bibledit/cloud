@@ -95,7 +95,7 @@ private:
   std::string getCurrentPassageText ();
   // Map of (book, chapter number).
   std::map <int, int> m_number_of_chapters_per_book {};
-  void process_usfm ();
+  void process_usfm (const std::string& stylesheet);
   void processNote ();
   // Opening a new paragraph.
   void create_paragraph_style (const database::styles1::Item & style, bool keepWithNext);
@@ -229,4 +229,5 @@ private:
 public:
 private:
   void set_to_zero (std::string& value);
+  void close_text_style_all();
 };

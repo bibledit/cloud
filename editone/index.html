@@ -18,10 +18,10 @@
         <span id="onestatus"></span>
         <!-- #BEGINZONE fastswitcheditor -->
         |
-        <a id="editorselect" href="../editor/select">translate ("editor")</a>
+        <a id="editorselect" href="../editor/select?bible=##bible##">translate ("editor")</a>
         <!-- #ENDZONE fastswitcheditor -->
         |
-        <a href="../edit/preview?timeout&caller=editone">translate ("preview")</a>
+        <a href="../edit/preview?timeout&caller=editone&bible=##bible##">translate ("preview")</a>
       </span>
       </div>
 </div>

@@ -92,8 +92,8 @@ std::string editone_index (Webserver_Request& webserver_request)
   Assets_View view;
   
   // Get active Bible, and check read access to it.
-  // Or if the user have used query to preset the active Bible, get the preset Bible.
-  // If needed, change Bible to one it has read access to.
+  // Or if the user haw used a query to preset the active Bible, get the preset Bible.
+  // If needed, change the Bible to one it has read access to.
   // Set the chosen Bible on the option HTML tag.
   std::string bible = access_bible::clamp (webserver_request, webserver_request.database_config_user()->getBible ());
   if (webserver_request.query.count ("bible")) 

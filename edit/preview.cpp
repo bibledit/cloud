@@ -48,16 +48,17 @@ bool edit_preview_acl (Webserver_Request& webserver_request)
 {
   if (Filter_Roles::access_control (webserver_request, Filter_Roles::translator ())) 
     return true;
-  auto [ read, write ] = access_bible::any (webserver_request);
+  const auto [ read, write ] = access_bible::any (webserver_request);
   return read;
 }
 
 
 std::string edit_preview (Webserver_Request& webserver_request)
 {
-  bool touch = webserver_request.session_logic ()->get_touch_enabled ();
-  bool timeout = webserver_request.query.count ("timeout");
-  std::string caller = webserver_request.query ["caller"];
+  const bool touch = webserver_request.session_logic ()->get_touch_enabled ();
+  const bool timeout = webserver_request.query.count ("timeout");
+  const std::string caller = webserver_request.query ["caller"];
+  std::string bible = webserver_request.query ["bible"];
 
   std::string page;
   
@@ -70,11 +71,17 @@ std::string edit_preview (Webserver_Request& webserver_request)
   page = header.run ();
   
   Assets_View view;
-  
+
+  // Check on whether the Bible was passed.
+  // If so, write that to the active Bible in the user configuration.
+  // More info: https://github.com/bibledit/cloud/issues/1003
+  if (!bible.empty())
+    webserver_request.database_config_user()->setBible(bible);
+
   // Get active Bible, and check read access to it.
   // If needed, change Bible to one it has read access to.
-  std::string bible = access_bible::clamp (webserver_request, webserver_request.database_config_user()->getBible ());
-  
+  bible = access_bible::clamp (webserver_request, webserver_request.database_config_user()->getBible ());
+
   std::string cls = Filter_Css::getClass (bible);
   std::string font = fonts::logic::get_text_font (bible);
   int direction = database::config::bible::get_text_direction (bible);
@@ -107,7 +114,7 @@ std::string edit_preview (Webserver_Request& webserver_request)
     view.enable_zone ("timeout");
     view.set_variable ("caller", caller);
   }
-  
+
   // Store the active Bible in the page's javascript.
   view.set_variable ("navigationCode", Navigation_Passage::code (bible));
   

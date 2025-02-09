@@ -10,7 +10,7 @@
   <span id="usfmstatus"></span>
   <!-- #BEGINZONE fastswitcheditor -->
   |
-  <a id="editorselect" href="../editor/select">translate ("editor")</a>
+  <a id="editorselect" href="../editor/select?bible=##bible##">translate ("editor")</a>
   <!-- #ENDZONE fastswitcheditor -->
 </div>
 <div class="editor" spellcheck="##spellcheck##">

@@ -23,7 +23,7 @@
       <span id="editorstatus"></span>
       <!-- #BEGINZONE fastswitcheditor -->
       |
-      <a id="editorselect" href="../editor/select">translate ("editor")</a>
+      <a id="editorselect" href="../editor/select?bible=##bible##">translate ("editor")</a>
       <!-- #ENDZONE fastswitcheditor -->
     </span>
   </div>

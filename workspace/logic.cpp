@@ -34,6 +34,10 @@
 #include <database/logs.h>
 #include <database/cache.h>
 #include <read/index.h>
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Weffc++"
+#include <parsewebdata/ParseWebData.h>
+#pragma GCC diagnostic pop
 
 
 std::vector <std::string> workspace_get_default_names ()
@@ -577,3 +581,21 @@ std::map <int, int> workspace_add_bible_editor_number (std::map <int, std::strin
   return editor_numbers;
 }
 
+
+std::optional<std::string> get_first_bible_from_urls (const std::map <int,std::string>& urls) // Todo
+{
+  for (const auto& [key, url] : urls) {
+    const std::vector <std::string> bits = filter::strings::explode (url, '?');
+    if (bits.size() != 2)
+      continue;
+    if (!bits.at(1).empty ()) {
+      ParseWebData::WebDataMap web_data_map;
+      ParseWebData::parse_get_data (bits.at(1), web_data_map);
+      for (auto iter = web_data_map.cbegin(); iter != web_data_map.cend(); ++iter) {
+        if ((*iter).first == "bible")
+          return filter_url_urldecode ((*iter).second.value);
+      }
+    }
+  }
+  return std::nullopt;
+}

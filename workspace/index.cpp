@@ -71,6 +71,12 @@ std::string workspace_index (Webserver_Request& webserver_request)
   }
   
   
+  // If the workspace has specified a Bible project, then set this as the active Bible. Todo
+  {
+    const std::string workspace = webserver_request.database_config_user ()->getActiveWorkspace ();
+  }
+  
+  
   // Create default set of workspaces if there are none.
   bool create = workspaces.empty ();
   if (!create) {
@@ -104,10 +110,11 @@ std::string workspace_index (Webserver_Request& webserver_request)
   
   std::map <int, std::string> urls = workspace_get_urls (webserver_request, true);
   std::map <int, std::string> widths = workspace_get_widths (webserver_request);
-  // The Bible editor number, starting from 1, going up.
+  // The Bible editor number, starting from 1, increasing.
   std::map <int, int> editor_numbers = workspace_add_bible_editor_number (urls);
   for (int key = 0; key < 15; key++) {
-    const std::string url = urls [key];
+    const std::string url = urls [key]; // Todo 
+    if (!url.empty()) std::cout << url << std::endl; // Todo
     const std::string width = widths [key];
     const int editor_number = editor_numbers [key];
     const int row = static_cast<int> (round (key / 5)) + 1;
@@ -140,6 +147,16 @@ std::string workspace_index (Webserver_Request& webserver_request)
     workspacewidth.append (";");
   }
   view.set_variable ("workspacewidth", workspacewidth);
+  
+  
+  // When the URLs loaded specify a Bible, then set this as the active Bible.
+  // Extract the first Bible, if any, to do that.
+  // See https://github.com/bibledit/cloud/issues/1004 for more info.
+  {
+    std::optional<std::string> bible = get_first_bible_from_urls (urls);
+    if (bible)
+      webserver_request.database_config_user()->setBible(bible.value());
+  }
   
   
   // The rendered template disables framekillers through the "sandbox" attribute on the iframe elements.

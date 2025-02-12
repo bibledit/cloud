@@ -582,7 +582,7 @@ std::map <int, int> workspace_add_bible_editor_number (std::map <int, std::strin
 }
 
 
-std::optional<std::string> get_first_bible_from_urls (const std::map <int,std::string>& urls) // Todo
+std::optional<std::string> get_first_bible_from_urls (const std::map <int,std::string>& urls)
 {
   for (const auto& [key, url] : urls) {
     const std::vector <std::string> bits = filter::strings::explode (url, '?');

@@ -202,7 +202,7 @@ void Filter_Text::pre_process_usfm (const std::string& stylesheet)
         std::string marker = filter::strings::trim (currentItem); // Change, e.g. '\id ' to '\id'.
         marker = marker.substr (1); // Remove the initial backslash, e.g. '\id' becomes 'id'.
         if (filter::usfm::is_opening_marker (marker)) {
-          if ((styles.find (marker) != styles.end()) && (!stylesv2::marker_moved_to_v2(marker, "id"))) {
+          if ((styles.find (marker) != styles.end()) && (!stylesv2::marker_moved_to_v2(marker, ""))) {
             database::styles1::Item style = styles [marker];
             note_citations.evaluate_style(style);
             switch (style.type) {
@@ -364,7 +364,7 @@ void Filter_Text::process_usfm (const std::string& stylesheet)
         const std::string marker = filter::usfm::get_marker (current_item);
         // Strip word-level attributes.
         if (is_opening_marker) filter::usfm::remove_word_level_attributes (marker, chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
-        if ((styles.find (marker) != styles.end()) && (!stylesv2::marker_moved_to_v2(marker, "id"))) // Todo
+        if ((styles.find (marker) != styles.end()) && (!stylesv2::marker_moved_to_v2(marker, ""))) // Todo
         {
           // Deal with a known style.
           const database::styles1::Item& style = styles.at(marker);

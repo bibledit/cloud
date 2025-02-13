@@ -78,7 +78,6 @@ std::string styles_logic_type_text (int type)
 std::string styles_logic_subtype_text (int type, int subtype)
 {
   if (type == StyleTypeIdentifier) {
-    if (subtype == IdentifierSubtypeEncoding              ) return translate ("identifies the encoding");
     if (subtype == IdentifierSubtypeComment               ) return translate ("is a comment");
     if (subtype == IdentifierSubtypeRunningHeader         ) return translate ("is a running header");
     if (subtype == IdentifierSubtypeLongTOC               ) return translate ("is long table of contents text");

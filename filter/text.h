@@ -142,7 +142,7 @@ public:
   std::vector <std::string> info {};
   std::vector <std::string> fallout {};
 private:
-  void addToInfo (std::string text, bool next = false);
+  void add_to_info (std::string text, bool next = false);
   void addToFallout (std::string text, bool next = false);
   void addToWordList (std::vector <std::string> & list);
   std::vector <std::string> wordListGlossaryDictionary {};

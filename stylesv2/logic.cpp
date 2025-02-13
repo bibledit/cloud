@@ -35,6 +35,10 @@ std::string type_enum_to_value (const Type type, const bool describe)
       if (describe)
         return "book id";
       return "book_id";
+    case Type::file_encoding:
+      if (describe)
+        return "file encoding";
+      return "file_encoding";
     case Type::stopping_boundary:
       return "stopping_boundary";
     default:
@@ -154,6 +158,14 @@ const std::list<Style> styles {
     .parameters = {{Capability::starts_new_page,true}},
     .implemented = true,
   },
+  {
+    .marker = "ide",
+    .type = Type::file_encoding,
+    .name = "Encoding",
+    .info = "File encoding information. Bibledit disregards this marker, as all text in Bibledit is in UTF-8 encoding.",
+    .parameters = {},
+    .implemented = true,
+  },
 };
 
 
@@ -193,7 +205,7 @@ bool marker_moved_to_v2 (const std::string& marker, const char* extra)
 } // Namespace.
 
 
-// Here below are the styles These are the old ones, to be moved to the new system.
+// Here below are the styles These are the old ones, to be moved to the new system. Todo
 //typedef struct
 //{
 //  const char * marker;
@@ -1488,39 +1500,6 @@ bool marker_moved_to_v2 (const std::string& marker, const char* extra)
 //    /* userstring2 */ "",
 //    /* userstring3 */ "",
 //    /* backgroundcolor */ "#FFFFFF",
-//  },
-//  {
-//    /* marker */ "ide",
-//    /* name */ "Encoding",
-//    /* info */ "File encoding information. Bibledit disregards this marker, as all text in Bibledit is in UTF-8 encoding.",
-//    /* category */ "id",
-//    /* type */ 0,
-//    /* subtype */ 1,
-//    /* fontsize */ 12,
-//    /* italic */ 0,
-//    /* bold */ 0,
-//    /* underline */ 0,
-//    /* smallcaps */ 0,
-//    /* superscript */ 0,
-//    /* justification */ 0,
-//    /* spacebefore */ 0,
-//    /* spaceafter */ 0,
-//    /* leftmargin */ 0,
-//    /* rightmargin */ 0,
-//    /* firstlineindent */ 0,
-//    /* spancolumns */ 0,
-//    /* color */ "#000000",
-//    /* print */ 1,
-//    /* userbool1 */ 0,
-//    /* userbool2 */ 0,
-//    /* userbool3 */ 0,
-//    /* userint1 */ 0,
-//    /* userint2 */ 0,
-//    /* userint3 */ 0,
-//    /* userstring1 */ "",
-//    /* userstring2 */ "",
-//    /* userstring3 */ "",
-//    /* backgroundcolor */ "",
 //  },
 //  {
 //    /* marker */ "ie",

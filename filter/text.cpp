@@ -374,16 +374,10 @@ void Filter_Text::process_usfm (const std::string& stylesheet)
             {
               switch (style.subtype)
               {
-                case IdentifierSubtypeEncoding:
-                {
-                  close_text_style_all();
-                  addToInfo (R"(Text encoding: \)" + marker, true);
-                  break;
-                }
                 case IdentifierSubtypeComment:
                 {
                   close_text_style_all();
-                  addToInfo (R"(Comment: \)" + marker, true);
+                  add_to_info (R"(Comment: \)" + marker, true);
                   break;
                 }
                 case IdentifierSubtypeRunningHeader:
@@ -436,7 +430,7 @@ void Filter_Text::process_usfm (const std::string& stylesheet)
                 {
                   close_text_style_all();
                   if (is_opening_marker) {
-                    addToInfo (R"(Comment: \)" + marker, true);
+                    add_to_info (R"(Comment: \)" + marker, true);
                   }
                   break;
                 }
@@ -868,7 +862,7 @@ void Filter_Text::process_usfm (const std::string& stylesheet)
                 }
                 case PeripheralSubtypeGeneral:
                 {
-                  addToInfo(R"(Pheripheral markup: \)" + marker, true);
+                  add_to_info(R"(Pheripheral markup: \)" + marker, true);
                   // To start peripheral material o a new page.
                   // https://ubsicap.github.io/usfm/peripherals/index.html
                   if (odf_text_standard) odf_text_standard->new_page_break ();
@@ -1048,6 +1042,12 @@ void Filter_Text::process_usfm (const std::string& stylesheet)
               if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->new_heading1 (runningHeader, true);
               if (odf_text_notes) odf_text_notes->new_heading1 (runningHeader, false);
               // Done.
+              break;
+            }
+            case stylesv2::Type::file_encoding:
+            {
+              close_text_style_all();
+              add_to_info (R"(Text encoding: \)" + marker, true);
               break;
             }
             case stylesv2::Type::starting_boundary:
@@ -1497,7 +1497,7 @@ std::string Filter_Text::getCurrentPassageText ()
 // $text: String to add to the Info array.
 // $next: If true, it also adds the text following the marker to the info,
 // and removes this text from the USFM input stream.
-void Filter_Text::addToInfo (std::string text, bool next)
+void Filter_Text::add_to_info (std::string text, bool next)
 {
   text = getCurrentPassageText() + " " + text;
   if (next) {

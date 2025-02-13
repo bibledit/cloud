@@ -593,22 +593,23 @@ TEST_F (styles, get_styles_etc_v2)
   // Check for the available markers.
   // It should have the default ones, plus the added one(s).
   constexpr const char* id_marker {"id"};
+  constexpr const char* ide_marker {"ide"};
   {
-    const std::vector<std::string> standard { id_marker, marker };
+    const std::vector<std::string> standard { id_marker, ide_marker, marker };
     EXPECT_EQ (standard, get_markers(sheet));
   }
   
   // Delete the added marker and check it's gone.
   delete_marker(sheet, marker);
   {
-    const std::vector<std::string> standard { id_marker };
+    const std::vector<std::string> standard { id_marker, ide_marker };
     EXPECT_EQ (standard, get_markers(sheet));
   }
   
   // Delete a standard marker, and check it's gone.
   delete_marker(sheet, id_marker);
   {
-    const std::vector<std::string> standard { };
+    const std::vector<std::string> standard { ide_marker };
     EXPECT_EQ (standard, get_markers(sheet));
   }
   

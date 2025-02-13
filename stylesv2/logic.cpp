@@ -61,16 +61,16 @@ Type type_value_to_enum (const std::string& value)
 }
 
 
-std::string capability_enum_to_value (const Capability capability)
+std::string property_enum_to_value (const Property property)
 {
-  switch (capability) {
-    case Capability::starting_boundary:
+  switch (property) {
+    case Property::starting_boundary:
       return "starting_boundary";
-    case Capability::none:
+    case Property::none:
       return "none";
-    case Capability::starts_new_page:
+    case Property::starts_new_page:
       return "starts_new_page";
-    case Capability::stopping_boundary:
+    case Property::stopping_boundary:
       return "stopping_boundary";
     default:
       return "unknown";
@@ -78,27 +78,27 @@ std::string capability_enum_to_value (const Capability capability)
 }
 
 
-Capability capability_value_to_enum (const std::string& value)
+Property property_value_to_enum (const std::string& value)
 {
   // Iterate over the enum values and if a match is found, return the matching enum value.
-  for (int i {static_cast<int>(Capability::starting_boundary)+1};
-       i < static_cast<int>(Capability::stopping_boundary); i++)
-    if (value == capability_enum_to_value(static_cast<Capability>(i)))
-      return static_cast<Capability>(i);
+  for (int i {static_cast<int>(Property::starting_boundary)+1};
+       i < static_cast<int>(Property::stopping_boundary); i++)
+    if (value == property_enum_to_value(static_cast<Property>(i)))
+      return static_cast<Property>(i);
   // No match found.
-  return Capability::none;
+  return Property::none;
 }
 
 
-Variant capability_to_variant (const Capability capability)
+Variant property_to_variant (const Property property)
 {
-  switch (capability) {
-    case Capability::starting_boundary:
-    case Capability::none:
+  switch (property) {
+    case Property::starting_boundary:
+    case Property::none:
       return Variant::none;
-    case Capability::starts_new_page:
+    case Property::starts_new_page:
       return Variant::boolean;
-    case Capability::stopping_boundary:
+    case Property::stopping_boundary:
     default:
       return Variant::none;
   }
@@ -123,8 +123,8 @@ std::ostream& operator<<(std::ostream& os, const Style& style)
   os << "type: " << type_enum_to_value(style.type) << std::endl;
   os << "name: " << style.name << std::endl;
   os << "info: " << style.info << std::endl;
-  for (const auto& [capability, parameter] : style.parameters) {
-    os << "capability: " << capability_enum_to_value(capability) << ": ";
+  for (const auto& [property, parameter] : style.properties) {
+    os << "capability: " << property_enum_to_value(property) << ": ";
     if (std::holds_alternative<bool>(parameter))
       os << std::get<bool>(parameter);
     if (std::holds_alternative<int>(parameter))
@@ -138,10 +138,10 @@ std::ostream& operator<<(std::ostream& os, const Style& style)
 }
 
 
-bool get_bool_parameter (const Style* style, const Capability capability)
+bool get_bool_parameter (const Style* style, const Property property)
 {
-  const auto iter = style->parameters.find(capability);
-  if (iter != style->parameters.cend()) {
+  const auto iter = style->properties.find(property);
+  if (iter != style->properties.cend()) {
     const Parameter& parameter = iter->second;
     if (std::holds_alternative<bool>(parameter)) {
       return std::get<bool>(parameter);
@@ -157,7 +157,7 @@ const std::list<Style> styles {
     .type = Type::book_id,
     .name = "Identification",
     .info = "File identification information (name of file, book name, language, last edited, date, etc.)",
-    .parameters = {{Capability::starts_new_page,true}},
+    .properties = {{Property::starts_new_page,true}},
     .implemented = true,
   },
   {
@@ -165,7 +165,7 @@ const std::list<Style> styles {
     .type = Type::file_encoding,
     .name = "Encoding",
     .info = "File encoding information. Bibledit disregards this marker, as all text in Bibledit is in UTF-8 encoding.",
-    .parameters = {},
+    .properties = {},
     .implemented = true,
   },
   {
@@ -173,7 +173,7 @@ const std::list<Style> styles {
     .type = Type::remark,
     .name = "Remark",
     .info = "Comments and remarks.",
-    .parameters = {},
+    .properties = {},
     .implemented = true,
   },
 };

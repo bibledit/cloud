@@ -140,16 +140,16 @@ std::string styles_view2 (Webserver_Request& webserver_request)
     sheet = webserver_request.post ["val1"];
     style = webserver_request.post ["val2"];
     marker_data = *(database::styles2::get_marker_data (sheet, style));
-    const stylesv2::Capability capability = stylesv2::capability_value_to_enum (checkbox);
-    marker_data.parameters[capability] = checked;
+    const stylesv2::Property property = stylesv2::property_value_to_enum (checkbox);
+    marker_data.properties[property] = checked;
     style_is_edited = true;
   }
 
   
   // Enable the section(s) in the editor for the capabilities.
   // Set the values correctly for in the html page.
-  for (const auto& [capability, parameter] : marker_data.parameters) {
-    const std::string enum_value = capability_enum_to_value(capability);
+  for (const auto& [property, parameter] : marker_data.properties) {
+    const std::string enum_value = property_enum_to_value(property);
     view.enable_zone(enum_value);
     if (std::holds_alternative<bool>(parameter))
       view.set_variable (enum_value, filter::strings::get_checkbox_status(std::get<bool>(parameter)));

@@ -921,7 +921,7 @@ void save_style(const std::string& sheet, const stylesv2::Style& style)
   // If the parameter in the style is not found in the base style,
   // or the value is different from the value in the base style,
   // then set this parameter in the data to save.
-  for (const auto& [capability, value] : style.parameters) {
+  for (const auto& [property, value] : style.properties) {
     std::string base_value{};
     std::string style_value{};
     const auto get_string_value = [] (const stylesv2::Parameter& parameter, std::string& output) {
@@ -933,16 +933,16 @@ void save_style(const std::string& sheet, const stylesv2::Style& style)
       }
     };
     bool write_parameter {false};
-    if (!base_style.parameters.count(capability)) {
+    if (!base_style.properties.count(property)) {
       write_parameter = true;
     } else {
-      get_string_value (base_style.parameters.at(capability), base_value);
+      get_string_value (base_style.properties.at(property), base_value);
       get_string_value (value, style_value);
       write_parameter = (style_value != base_value);
     }
     if (write_parameter) {
       std::string line {add_space(capability_key)};
-      line.append(add_space(capability_enum_to_value(capability)));
+      line.append(add_space(property_enum_to_value(property)));
       get_string_value (value, style_value);
       line.append(style_value);
       lines.push_back(std::move(line));
@@ -1009,18 +1009,18 @@ std::optional<stylesv2::Style> load_style(const std::string& sheet, const std::s
       pos = line.find(" ");
       if (pos == std::string::npos)
         continue;
-      const stylesv2::Capability capability = stylesv2::capability_value_to_enum(line.substr(0, pos));
+      const stylesv2::Property property = stylesv2::property_value_to_enum(line.substr(0, pos));
       line.erase(0, pos+1);
-      const stylesv2::Variant variant {stylesv2::capability_to_variant(capability)};
+      const stylesv2::Variant variant {stylesv2::property_to_variant(property)};
       switch (variant) {
         case stylesv2::Variant::boolean:
-          style.parameters[capability] = filter::strings::convert_to_bool(line);
+          style.properties[property] = filter::strings::convert_to_bool(line);
           break;
         case stylesv2::Variant::number:
-          style.parameters[capability] = filter::strings::convert_to_int(line);
+          style.properties[property] = filter::strings::convert_to_int(line);
           break;
         case stylesv2::Variant::text:
-          style.parameters[capability] = line;
+          style.properties[property] = line;
           break;
         case stylesv2::Variant::none:
         default:

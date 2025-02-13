@@ -1005,7 +1005,7 @@ void Filter_Text::process_usfm (const std::string& stylesheet)
               // Throw away whatever follows the \id, e.g. 'GEN xxx xxx'.
               filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
               // Whether to insert a new page before the book. But never before the first book.
-              if (stylesv2::get_bool_parameter(style, stylesv2::Capability::starts_new_page)) {
+              if (stylesv2::get_bool_parameter(style, stylesv2::Property::starts_new_page)) {
                 if (processed_books_count) {
                   if (odf_text_standard) odf_text_standard->new_page_break ();
                   if (odf_text_text_only) odf_text_text_only->new_page_break ();

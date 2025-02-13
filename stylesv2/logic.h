@@ -45,7 +45,7 @@ std::string type_enum_to_value (const Type type, const bool describe = false);
 Type type_value_to_enum (const std::string& value);
 
 
-enum class Capability : int {
+enum class Property : int {
   starting_boundary, // Should be the first always.
   none,
   // Whether this marker starts a new page (with no matter an even or odd page number).
@@ -57,13 +57,13 @@ enum class Capability : int {
 };
 
 
-std::string capability_enum_to_value (const Capability capability);
-Capability capability_value_to_enum (const std::string& value);
+std::string property_enum_to_value (const Property property);
+Property property_value_to_enum (const std::string& value);
 
 
 enum class Variant { none, boolean, number, text };
 
-Variant capability_to_variant (const Capability capability);
+Variant property_to_variant (const Property property);
 
 using Parameter = std::variant<bool,int,std::string>;
 
@@ -76,7 +76,7 @@ struct Style final {
   std::string name {};
   std::string info {};
   // The parameters indicate the enabled capabilities beyond the capabilities implied in the style type.
-  std::map<Capability,Parameter> parameters{};
+  std::map<Property,Parameter> properties{};
   // Whether this style has been implemented throughout the code.
   bool implemented {false};
 };
@@ -84,7 +84,7 @@ struct Style final {
 
 inline bool operator==(const Style& style, const std::string& marker) noexcept { return style.marker == marker; }
 std::ostream& operator<<(std::ostream& os, const Style& style);
-bool get_bool_parameter (const Style* style, const Capability capability);
+bool get_bool_parameter (const Style* style, const Property property);
 
 
 extern const std::list<Style> styles;

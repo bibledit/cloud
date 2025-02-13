@@ -428,7 +428,7 @@ TEST_F (styles, get_styles_v2)
       const stylesv2::Style& style = *iter;
       EXPECT_EQ (style.type, stylesv2::Type::book_id);
       EXPECT_EQ (style.name, "Identification");
-      EXPECT_TRUE (style.parameters.count(stylesv2::Capability::starts_new_page));
+      EXPECT_TRUE (style.properties.count(stylesv2::Property::starts_new_page));
     }
   }
   
@@ -468,7 +468,7 @@ TEST_F (styles, save_load_styles_v2)
   }
   
   // Set a parameter to false, save and load, and compare again
-  style.parameters.at(Capability::starts_new_page) = false;
+  style.properties.at(Property::starts_new_page) = false;
   save_style(sheet, style);
   {
     const auto loaded_style = load_style(sheet, style.marker);
@@ -478,11 +478,11 @@ TEST_F (styles, save_load_styles_v2)
     std::stringstream ss2{};
     ss2 << loaded_style.value();
     EXPECT_EQ(ss1.str(), ss2.str());
-    EXPECT_FALSE(std::get<bool>(loaded_style.value().parameters.at(Capability::starts_new_page)));
+    EXPECT_FALSE(std::get<bool>(loaded_style.value().properties.at(Property::starts_new_page)));
   }
 
   // Set the same parameter back to true, save and load, and compare again
-  style.parameters.at(Capability::starts_new_page) = true;
+  style.properties.at(Property::starts_new_page) = true;
   save_style(sheet, style);
   {
     const auto loaded_style = load_style(sheet, style.marker);
@@ -492,7 +492,7 @@ TEST_F (styles, save_load_styles_v2)
     std::stringstream ss2{};
     ss2 << loaded_style.value();
     EXPECT_EQ(ss1.str(), ss2.str());
-    EXPECT_TRUE(std::get<bool>(loaded_style.value().parameters.at(Capability::starts_new_page)));
+    EXPECT_TRUE(std::get<bool>(loaded_style.value().properties.at(Property::starts_new_page)));
   }
 
   // Change the name, save, load, compare.

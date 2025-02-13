@@ -208,7 +208,7 @@ void Filter_Text::pre_process_usfm (const std::string& stylesheet)
             switch (style.type) {
               case StyleTypeIdentifier:
                 switch (style.subtype) {
-                  case IdentifierSubtypeRunningHeader:
+                  case IdentifierSubtypeRunningHeader: // Todo move to v2
                   {
                     const std::string runningHeader = filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
                     runningHeaders.push_back (filter::text::passage_marker_value (m_current_book_identifier, m_current_chapter_number, m_current_verse_number, marker, runningHeader));
@@ -374,7 +374,7 @@ void Filter_Text::process_usfm (const std::string& stylesheet)
             {
               switch (style.subtype)
               {
-                case IdentifierSubtypeRunningHeader:
+                case IdentifierSubtypeRunningHeader: // Todo move to v2.
                 {
                   close_text_style_all();
                   // This information was processed during the preprocessing stage.

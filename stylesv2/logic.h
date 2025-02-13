@@ -29,8 +29,6 @@ enum class Type : int {
   book_id,
   file_encoding,
   remark,
-//  encoding,
-//  comment,
 //  running_header,
 //  long_toc,
 //  short_toc,

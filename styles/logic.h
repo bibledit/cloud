@@ -41,7 +41,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #define StyleTypeWordlistElement       13 
 
 
-#define IdentifierSubtypeRunningHeader            3
+#define IdentifierSubtypeRunningHeader            3 // Todo out.
 #define IdentifierSubtypeLongTOC                  4 
 #define IdentifierSubtypeShortTOC                 5 
 #define IdentifierSubtypeBookAbbrev               6 
@@ -115,12 +115,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #define UserBool2None                        0 
 #define UserBool2IdStartsOddPage             1  // \id: whether to start an odd page number. Not implemented due to limitations in OpenDocument.
 #define UserBool2ChapterInLeftRunningHeader  2  // Chapter number (\c): Whether to include it in the left running header.
-#define UserBool2RunningHeaderLeft           3  // Running header (\h(#): Whether to include it in the left running header.
+#define UserBool2RunningHeaderLeft           3  // Running header (\h(#): Whether to include it in the left running header. // Todo out
 
 
 #define UserBool3None                          0 
 #define UserBool3ChapterInRightRunningHeader   1  // Chapter number (\c): Whether to include it in the right running header.
-#define UserBool3RunningHeaderRight            2  // Running header (\h(#): Whether to include it in the right running header.
+#define UserBool3RunningHeaderRight            2  // Running header (\h(#): Whether to include it in the right running header. Todo out.
 
 
 #define UserInt1None               0 

@@ -78,7 +78,7 @@ std::string styles_logic_type_text (int type)
 std::string styles_logic_subtype_text (int type, int subtype)
 {
   if (type == StyleTypeIdentifier) {
-    if (subtype == IdentifierSubtypeRunningHeader         ) return translate ("is a running header");
+    if (subtype == IdentifierSubtypeRunningHeader         ) return translate ("is a running header"); // Todo out.
     if (subtype == IdentifierSubtypeLongTOC               ) return translate ("is long table of contents text");
     if (subtype == IdentifierSubtypeShortTOC              ) return translate ("is short table of contents text");
     if (subtype == IdentifierSubtypeBookAbbrev            ) return translate ("is the book abbreviation");
@@ -448,7 +448,7 @@ std::string styles_logic_get_userbool1_text (int function)
 int styles_logic_get_userbool2_function (int type, int subtype)
 {
   if (type == StyleTypeIdentifier) {
-    if (subtype == IdentifierSubtypeRunningHeader)
+    if (subtype == IdentifierSubtypeRunningHeader) // Todo out.
       return UserBool2RunningHeaderLeft;
   }
   if (type == StyleTypeChapterNumber) {
@@ -464,7 +464,7 @@ std::string styles_logic_get_userbool2_text (int function)
   switch (function) {
     case UserBool2IdStartsOddPage: return translate ("New page starts with an odd number (not implemented due to limitations in OpenDocument)");
     case UserBool2ChapterInLeftRunningHeader: return translate ("Print chapter number in the running header of the left page");
-    case UserBool2RunningHeaderLeft: return translate ("Print this in the running header of the left page");
+    case UserBool2RunningHeaderLeft: return translate ("Print this in the running header of the left page"); // Todo out.
     default: return std::string();
   }
   return std::string();
@@ -475,7 +475,7 @@ std::string styles_logic_get_userbool2_text (int function)
 int styles_logic_get_userbool3_function (int type, int subtype)
 {
   if (type == StyleTypeIdentifier) {
-    if (subtype == IdentifierSubtypeRunningHeader)
+    if (subtype == IdentifierSubtypeRunningHeader) // Todo out.
       return UserBool3RunningHeaderRight;
   }
   if (type == StyleTypeChapterNumber) {
@@ -490,7 +490,7 @@ std::string styles_logic_get_userbool3_text (int function)
 {
   switch (function) {
     case UserBool3ChapterInRightRunningHeader: return translate ("Print chapter number in the running header of the right page");
-    case UserBool3RunningHeaderRight: return translate ("Print this in the running header of the right page");
+    case UserBool3RunningHeaderRight: return translate ("Print this in the running header of the right page"); // Todo out.
     default: return std::string();
   }
   return std::string();

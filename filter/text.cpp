@@ -374,12 +374,6 @@ void Filter_Text::process_usfm (const std::string& stylesheet)
             {
               switch (style.subtype)
               {
-                case IdentifierSubtypeComment:
-                {
-                  close_text_style_all();
-                  add_to_info (R"(Comment: \)" + marker, true);
-                  break;
-                }
                 case IdentifierSubtypeRunningHeader:
                 {
                   close_text_style_all();
@@ -1048,6 +1042,12 @@ void Filter_Text::process_usfm (const std::string& stylesheet)
             {
               close_text_style_all();
               add_to_info (R"(Text encoding: \)" + marker, true);
+              break;
+            }
+            case stylesv2::Type::remark:
+            {
+              close_text_style_all();
+              add_to_info (R"(Comment: \)" + marker, true);
               break;
             }
             case stylesv2::Type::starting_boundary:

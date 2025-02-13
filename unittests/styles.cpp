@@ -592,25 +592,39 @@ TEST_F (styles, get_styles_etc_v2)
   
   // Check for the available markers.
   // It should have the default ones, plus the added one(s).
-  constexpr const char* id_marker {"id"};
-  constexpr const char* ide_marker {"ide"};
   {
-    const std::vector<std::string> standard { id_marker, ide_marker, marker };
-    EXPECT_EQ (standard, get_markers(sheet));
+    const std::vector<std::string> markers {get_markers(sheet)};
+    const auto test = [&markers](const std::string& markerv2) {
+      const auto iter = std::find(markers.cbegin(), markers.cend(), markerv2);
+      if (iter == markers.cend()) {
+        FAIL() << "The marker " << std::quoted(markerv2) << " should have been found but was not";
+      }
+    };
+    for (const stylesv2::Style& style : stylesv2::styles) {
+      test(style.marker);
+    }
+    test(marker);
   }
   
   // Delete the added marker and check it's gone.
   delete_marker(sheet, marker);
   {
-    const std::vector<std::string> standard { id_marker, ide_marker };
-    EXPECT_EQ (standard, get_markers(sheet));
+    const std::vector<std::string> markers = get_markers(sheet);
+    const auto iter = std::find(markers.cbegin(), markers.cend(), marker);
+    if (iter != markers.cend()) {
+      FAIL() << "The marker " << std::quoted(marker) << " should have been deleted but it is still in the list";
+    }
   }
   
   // Delete a standard marker, and check it's gone.
+  constexpr const char* id_marker {"id"};
   delete_marker(sheet, id_marker);
   {
-    const std::vector<std::string> standard { ide_marker };
-    EXPECT_EQ (standard, get_markers(sheet));
+    const std::vector<std::string> markers = get_markers(sheet);
+    const auto iter = std::find(markers.cbegin(), markers.cend(), id_marker);
+    if (iter != markers.cend()) {
+      FAIL() << "The marker " << std::quoted(id_marker) << " should have been deleted but it is still in the list";
+    }
   }
   
   // Add a marker again, check it's there, reset it, check it's gone.

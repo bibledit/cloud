@@ -28,6 +28,7 @@ enum class Type : int {
   none,
   book_id,
   file_encoding,
+  remark,
 //  encoding,
 //  comment,
 //  running_header,

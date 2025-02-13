@@ -39,6 +39,8 @@ std::string type_enum_to_value (const Type type, const bool describe)
       if (describe)
         return "file encoding";
       return "file_encoding";
+    case Type::remark:
+      return "remark";
     case Type::stopping_boundary:
       return "stopping_boundary";
     default:
@@ -163,6 +165,14 @@ const std::list<Style> styles {
     .type = Type::file_encoding,
     .name = "Encoding",
     .info = "File encoding information. Bibledit disregards this marker, as all text in Bibledit is in UTF-8 encoding.",
+    .parameters = {},
+    .implemented = true,
+  },
+  {
+    .marker = "rem",
+    .type = Type::remark,
+    .name = "Remark",
+    .info = "Comments and remarks.",
     .parameters = {},
     .implemented = true,
   },
@@ -4926,39 +4936,6 @@ bool marker_moved_to_v2 (const std::string& marker, const char* extra)
 //    /* userbool2 */ 0,
 //    /* userbool3 */ 0,
 //    /* userint1 */ 1,
-//    /* userint2 */ 0,
-//    /* userint3 */ 0,
-//    /* userstring1 */ "",
-//    /* userstring2 */ "",
-//    /* userstring3 */ "",
-//    /* backgroundcolor */ "#FFFFFF",
-//  },
-//  {
-//    /* marker */ "rem",
-//    /* name */ "Remark",
-//    /* info */ "Comments and remarks.",
-//    /* category */ "id",
-//    /* type */ 0,
-//    /* subtype */ 2,
-//    /* fontsize */ 12,
-//    /* italic */ 0,
-//    /* bold */ 0,
-//    /* underline */ 0,
-//    /* smallcaps */ 0,
-//    /* superscript */ 0,
-//    /* justification */ 0,
-//    /* spacebefore */ 0,
-//    /* spaceafter */ 0,
-//    /* leftmargin */ 0,
-//    /* rightmargin */ 0,
-//    /* firstlineindent */ 0,
-//    /* spancolumns */ 0,
-//    /* color */ "#000000",
-//    /* print */ 1,
-//    /* userbool1 */ 0,
-//    /* userbool2 */ 0,
-//    /* userbool3 */ 0,
-//    /* userint1 */ 0,
 //    /* userint2 */ 0,
 //    /* userint3 */ 0,
 //    /* userstring1 */ "",

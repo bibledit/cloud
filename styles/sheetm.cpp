@@ -83,7 +83,7 @@ std::string styles_sheetm (Webserver_Request& webserver_request)
   bool write = database::styles::has_write_access (username, name);
   if (userlevel >= Filter_Roles::admin ()) write = true;
   
-  if (webserver_request.post.count ("new")) { // Todo later handle creating new style v2.
+  if (webserver_request.post.count ("new")) {
     std::string newstyle = webserver_request.post["entry"];
     std::vector <std::string> existing_markers = database::styles1::get_markers (name);
     if (find (existing_markers.begin(), existing_markers.end(), newstyle) != existing_markers.end()) {
@@ -139,13 +139,23 @@ std::string styles_sheetm (Webserver_Request& webserver_request)
     }
   };
 
-  process_markers (database::styles1::get_markers_and_names (name), false);
+  // Get the markers and names for styles v2.
+  // Same for styles v1.
+  // Any markers v2 marked as implemented, remove those from the styles v1 in the list.
+  std::map<std::string,std::string> markers_names_v1 {database::styles1::get_markers_and_names (name)};
+  const std::map<std::string,std::string> markers_names_v2 {database::styles2::get_markers_and_names (name)};
+  for (const auto& [markerv2, name] : markers_names_v2) {
+    const stylesv2::Style* style {database::styles2::get_marker_data (name, markerv2)};
+    if (style->implemented)
+      markers_names_v1.erase(markerv2);
+  }
+  process_markers (markers_names_v1, false);
   {
     pugi::xml_node tr_node = html_block.append_child("tr");
     for (int i{0}; i < 3; i++)
       tr_node.append_child("td").text().set("--");
   }
-  process_markers (database::styles2::get_markers_and_names (name), true);
+  process_markers (markers_names_v2, true);
   
   // Generate the html and set it on the page.
   std::stringstream ss {};

@@ -152,7 +152,7 @@ const std::list<Style> styles {
     .name = "Identification",
     .info = "File identification information (name of file, book name, language, last edited, date, etc.)",
     .parameters = {{Capability::starts_new_page,true}},
-    .implemented = false,
+    .implemented = true,
   },
 };
 

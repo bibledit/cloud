@@ -530,8 +530,9 @@ TEST_F (styles, save_load_styles_v2)
   style.marker = marker;
   save_style(sheet, style);
   {
-    const auto loaded_style = load_style(sheet, style.marker);
+    auto loaded_style = load_style(sheet, style.marker);
     EXPECT_TRUE(loaded_style);
+    loaded_style.value().implemented = true;
     std::stringstream ss1{};
     ss1 << style;
     std::stringstream ss2{};

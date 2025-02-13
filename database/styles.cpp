@@ -442,6 +442,13 @@ std::vector <std::string> get_markers (const std::string& sheet)
 {
   // The markers for this stylesheet.
   std::vector <std::string> markers = filter_url_scandir (styles::sheetfolder (sheet));
+  // Remove the v2 files.
+  for (auto iter = markers.cbegin(); iter != markers.cend(); ) {
+    if (filter_url_get_extension (*iter) == "conf")
+      iter = markers.erase(iter);
+    else
+      ++iter;
+  }
   if (markers.empty ()) {
     // Check and/or load defaults.
     if (default_styles_cache.empty ())

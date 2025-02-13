@@ -162,32 +162,29 @@ const std::list<Style> styles {
 // The $extra is an extra marker in addition to the already implemented ones.
 bool marker_moved_to_v2 (const std::string& marker, const char* extra)
 {
-  const bool print = (marker == "id") && false;
-  if (print) std::cout << marker << " " << extra << std::endl; // Todo
-//  static std::map<std::string,bool> cache{};
-  if (print) std::cout << __LINE__ << std::endl; // Todo
-//  if (cache.count(marker + extra)) {
-//    if (print) std::cout << __LINE__ << std::endl; // Todo
-//    return cache.at(marker + extra);
-//  }
+  static std::map<std::string,bool> cache{};
+  const auto get_key = [&]() {
+    std::string key {marker};
+    key.append(" ");
+    key.append(extra);
+    return key;
+  };
+  const std::string key {get_key()};
+  if (cache.count(key)) {
+    return cache.at(key);
+  }
   const auto iter = std::find(styles.cbegin(), styles.cend(), marker);
-  if (print) std::cout << __LINE__ << std::endl; // Todo
   if (iter != styles.cend()) {
-    if (print) std::cout << __LINE__ << std::endl; // Todo
     if (iter->implemented) {
-      if (print) std::cout << __LINE__ << std::endl; // Todo
-//      cache[marker + extra] = true;
+      cache[key] = true;
       return true;
     }
   }
-  if (print) std::cout << __LINE__ << std::endl; // Todo
   if (marker == extra) {
-    if (print) std::cout << __LINE__ << std::endl; // Todo
-//    cache[marker + extra] = true;
+    cache[key] = true;
     return true;
   }
-  if (print) std::cout << __LINE__ << std::endl; // Todo
-//  cache[marker + extra] = false;
+  cache[key] = false;
   return false;
 }
 

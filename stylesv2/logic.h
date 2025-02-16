@@ -30,7 +30,7 @@ enum class Type : int {
   file_encoding,
   remark,
   running_header,
-//  long_toc,
+  long_toc_text,
 //  short_toc,
 //  book_abbrev,
 //  chapter_label,

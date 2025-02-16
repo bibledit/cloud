@@ -202,18 +202,13 @@ void Filter_Text::pre_process_usfm (const std::string& stylesheet)
         std::string marker = filter::strings::trim (currentItem); // Change, e.g. '\id ' to '\id'.
         marker = marker.substr (1); // Remove the initial backslash, e.g. '\id' becomes 'id'.
         if (filter::usfm::is_opening_marker (marker)) {
-          if ((styles.find (marker) != styles.end()) && (!stylesv2::marker_moved_to_v2(marker, {"h","h1","h2","h3"}))) {
+          if ((styles.find (marker) != styles.end()) && (!stylesv2::marker_moved_to_v2(marker, {"toc1"}))) // Todo
+          {
             database::styles1::Item style = styles [marker];
             note_citations.evaluate_style(style);
             switch (style.type) {
               case StyleTypeIdentifier:
                 switch (style.subtype) {
-                  case IdentifierSubtypeLongTOC:
-                  {
-                    const std::string longTOC = filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
-                    longTOCs.push_back (filter::text::passage_marker_value (m_current_book_identifier, m_current_chapter_number, m_current_verse_number, marker, longTOC));
-                    break;
-                  }
                   case IdentifierSubtypeShortTOC:
                   {
                     const std::string shortTOC = filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
@@ -335,6 +330,12 @@ void Filter_Text::pre_process_usfm (const std::string& stylesheet)
                 runningHeaders.push_back (filter::text::passage_marker_value (m_current_book_identifier, m_current_chapter_number, m_current_verse_number, marker, running_header));
                 break;
               }
+              case stylesv2::Type::long_toc_text:
+              {
+                const std::string long_toc = filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
+                longTOCs.push_back (filter::text::passage_marker_value (m_current_book_identifier, m_current_chapter_number, m_current_verse_number, marker, long_toc));
+                break;
+              }
               case stylesv2::Type::stopping_boundary:
               default:
                 break;
@@ -368,7 +369,7 @@ void Filter_Text::process_usfm (const std::string& stylesheet)
         const std::string marker = filter::usfm::get_marker (current_item);
         // Strip word-level attributes.
         if (is_opening_marker) filter::usfm::remove_word_level_attributes (marker, chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
-        if ((styles.find (marker) != styles.end()) && (!stylesv2::marker_moved_to_v2(marker, {}))) // Todo
+        if ((styles.find (marker) != styles.end()) && (!stylesv2::marker_moved_to_v2(marker, {"toc1"}))) // Todo
         {
           // Deal with a known style.
           const database::styles1::Item& style = styles.at(marker);
@@ -378,13 +379,6 @@ void Filter_Text::process_usfm (const std::string& stylesheet)
             {
               switch (style.subtype)
               {
-                case IdentifierSubtypeLongTOC:
-                {
-                  close_text_style_all();
-                  // This information already went into the Info document. Remove it from the USFM stream.
-                  filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
-                  break;
-                }
                 case IdentifierSubtypeShortTOC:
                 {
                   close_text_style_all();
@@ -1058,6 +1052,14 @@ void Filter_Text::process_usfm (const std::string& stylesheet)
               // It were better if this had been implemented.
               break;
             }
+            case stylesv2::Type::long_toc_text:
+            {
+              close_text_style_all();
+              // This information already went into the Info document. Remove it from the USFM stream.
+              filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
+              break;
+            }
+
             case stylesv2::Type::stopping_boundary:
             default:
               break;

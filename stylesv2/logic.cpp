@@ -45,6 +45,10 @@ std::string type_enum_to_value (const Type type, const bool describe)
       if (describe)
         return "running header";
       return "running_header";
+    case Type::long_toc_text:
+      if (describe)
+        return "long toc text";
+      return "long_toc_text";
     case Type::stopping_boundary:
       return "stopping_boundary";
     default:
@@ -233,6 +237,14 @@ const std::list<Style> styles {
       {Property::on_right_page,true},
       {Property::deprecated,std::monostate()}
     },
+      .implemented = true,
+  },
+  {
+    .marker = "toc1",
+    .type = Type::long_toc_text,
+    .name = "Long TOC text",
+    .info = "Long table of contents text.",
+    .properties = {},
     .implemented = true,
   },
 };
@@ -6037,39 +6049,6 @@ bool marker_moved_to_v2 (const std::string& marker, const std::vector<const char
 //    /* type */ 9,
 //    /* subtype */ 1,
 //    /* fontsize */ 10,
-//    /* italic */ 0,
-//    /* bold */ 0,
-//    /* underline */ 0,
-//    /* smallcaps */ 0,
-//    /* superscript */ 0,
-//    /* justification */ 0,
-//    /* spacebefore */ 0,
-//    /* spaceafter */ 0,
-//    /* leftmargin */ 0,
-//    /* rightmargin */ 0,
-//    /* firstlineindent */ 0,
-//    /* spancolumns */ 0,
-//    /* color */ "#000000",
-//    /* print */ 1,
-//    /* userbool1 */ 0,
-//    /* userbool2 */ 0,
-//    /* userbool3 */ 0,
-//    /* userint1 */ 0,
-//    /* userint2 */ 0,
-//    /* userint3 */ 0,
-//    /* userstring1 */ "",
-//    /* userstring2 */ "",
-//    /* userstring3 */ "",
-//    /* backgroundcolor */ "#FFFFFF",
-//  },
-//  {
-//    /* marker */ "toc1",
-//    /* name */ "Long table of contents text",
-//    /* info */ "Long table of contents text.",
-//    /* category */ "id",
-//    /* type */ 0,
-//    /* subtype */ 4,
-//    /* fontsize */ 12,
 //    /* italic */ 0,
 //    /* bold */ 0,
 //    /* underline */ 0,

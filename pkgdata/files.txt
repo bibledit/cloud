@@ -272,6 +272,7 @@
 /fonts/Montserrat-SemiBold.ttf
 /fonts/SILEOT.ttf
 /fonts/SIL-Licenses.txt
+/generate
 /git
 /git/gitflag
 /gumbo
@@ -568,7 +569,6 @@
 /read
 /read/index.html
 /read/index.js
-/redirect
 /related
 /related/ot-quotations-in-nt.xml
 /related/parallel-passages-nt.xml
@@ -624,6 +624,7 @@
 /sendreceive
 /sendreceive/index.html
 /sendreceive/index.js
+/server
 /session
 /session/login.html
 /session/login.js

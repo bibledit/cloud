@@ -41,6 +41,10 @@ std::string type_enum_to_value (const Type type, const bool describe)
       return "file_encoding";
     case Type::remark:
       return "remark";
+    case Type::running_header:
+      if (describe)
+        return "running header";
+      return "running_header";
     case Type::stopping_boundary:
       return "stopping_boundary";
     default:
@@ -70,6 +74,12 @@ std::string property_enum_to_value (const Property property)
       return "none";
     case Property::starts_new_page:
       return "starts_new_page";
+    case Property::deprecated:
+      return "deprecated";
+    case Property::on_left_page:
+      return "on_left_page";
+    case Property::on_right_page:
+      return "on_right_page";
     case Property::stopping_boundary:
       return "stopping_boundary";
     default:
@@ -97,6 +107,11 @@ Variant property_to_variant (const Property property)
     case Property::none:
       return Variant::none;
     case Property::starts_new_page:
+      return Variant::boolean;
+    case Property::deprecated:
+      return Variant::none;
+    case Property::on_left_page:
+    case Property::on_right_page:
       return Variant::boolean;
     case Property::stopping_boundary:
     default:
@@ -176,19 +191,65 @@ const std::list<Style> styles {
     .properties = {},
     .implemented = true,
   },
+  {
+    .marker = "h",
+    .type = Type::running_header,
+    .name = "Running header",
+    .info = "Running header text for a book.",
+    .properties = {{Property::on_left_page,true},{Property::on_right_page,true}},
+    .implemented = true,
+  },
+  {
+    .marker = "h1",
+    .type = Type::running_header,
+    .name = "Running header",
+    .info = "Running header text for a book.",
+    .properties = {
+      {Property::on_left_page,true},
+      {Property::on_right_page,true},
+      {Property::deprecated,std::monostate()}
+    },
+    .implemented = true,
+  },
+  {
+    .marker = "h2",
+    .type = Type::running_header,
+    .name = "Left running header",
+    .info = "Running header text for a book, left page.",
+    .properties = {
+      {Property::on_left_page,true},
+      {Property::on_right_page,false},
+      {Property::deprecated,std::monostate()}
+    },
+    .implemented = true,
+  },
+  {
+    .marker = "h3",
+    .type = Type::running_header,
+    .name = "Right running header",
+    .info = "Running header text for a book, right page.",
+    .properties = {
+      {Property::on_left_page,false},
+      {Property::on_right_page,true},
+      {Property::deprecated,std::monostate()}
+    },
+    .implemented = true,
+  },
 };
 
 
 // Temporal function that indicates whether a marker has moved to version 2.
 // The $marker is the one being considered.
 // The $extra is an extra marker in addition to the already implemented ones.
-bool marker_moved_to_v2 (const std::string& marker, const char* extra)
+bool marker_moved_to_v2 (const std::string& marker, const std::vector<const char*> extra)
 {
   static std::map<std::string,bool> cache{};
   const auto get_key = [&]() {
     std::string key {marker};
-    key.append(" ");
-    key.append(extra);
+    if (!extra.empty()) {
+      key.append(" ");
+      key.append(std::accumulate(extra.begin(), extra.end(), std::string{}));
+    }
     return key;
   };
   const std::string key {get_key()};
@@ -202,9 +263,11 @@ bool marker_moved_to_v2 (const std::string& marker, const char* extra)
       return true;
     }
   }
-  if (marker == extra) {
-    cache[key] = true;
-    return true;
+  for (const auto bit : extra) {
+    if (marker == bit) {
+      cache[key] = true;
+      return true;
+    }
   }
   cache[key] = false;
   return false;

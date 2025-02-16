@@ -29,7 +29,7 @@ enum class Type : int {
   book_id,
   file_encoding,
   remark,
-//  running_header,
+  running_header,
 //  long_toc,
 //  short_toc,
 //  book_abbrev,
@@ -46,14 +46,27 @@ Type type_value_to_enum (const std::string& value);
 
 
 enum class Property : int {
-  starting_boundary, // Should be the first always.
+  // Should be the first always.
+  starting_boundary,
+  
   none,
+  
   // Whether this marker starts a new page (with no matter an even or odd page number).
   starts_new_page,
+  
   // Whether this marker starts a new page with an odd page number.
   // Not implemented due to limitations in OpenDocument.
   // starts_odd_page,
-  stopping_boundary // Should be the last always.
+  
+  // Whether the marker has been deprecated in the newest USFM specs.
+  deprecated,
+  
+  // Whether to output the marker on the left and/or the right page.
+  on_left_page,
+  on_right_page,
+  
+  // Should be the last always.
+  stopping_boundary
 };
 
 
@@ -65,7 +78,7 @@ enum class Variant { none, boolean, number, text };
 
 Variant property_to_variant (const Property property);
 
-using Parameter = std::variant<bool,int,std::string>;
+using Parameter = std::variant<std::monostate,bool,int,std::string>;
 
 std::ostream& operator<<(std::ostream& os, const Parameter& parameter);
 
@@ -90,7 +103,7 @@ bool get_bool_parameter (const Style* style, const Property property);
 extern const std::list<Style> styles;
 
 
-bool marker_moved_to_v2 (const std::string& marker, const char* extra);
+bool marker_moved_to_v2 (const std::string& marker, const std::vector<const char*> extra);
 
 
 } // Namespace.

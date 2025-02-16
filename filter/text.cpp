@@ -202,18 +202,12 @@ void Filter_Text::pre_process_usfm (const std::string& stylesheet)
         std::string marker = filter::strings::trim (currentItem); // Change, e.g. '\id ' to '\id'.
         marker = marker.substr (1); // Remove the initial backslash, e.g. '\id' becomes 'id'.
         if (filter::usfm::is_opening_marker (marker)) {
-          if ((styles.find (marker) != styles.end()) && (!stylesv2::marker_moved_to_v2(marker, ""))) {
+          if ((styles.find (marker) != styles.end()) && (!stylesv2::marker_moved_to_v2(marker, {"h","h1","h2","h3"}))) {
             database::styles1::Item style = styles [marker];
             note_citations.evaluate_style(style);
             switch (style.type) {
               case StyleTypeIdentifier:
                 switch (style.subtype) {
-                  case IdentifierSubtypeRunningHeader: // Todo move to v2
-                  {
-                    const std::string runningHeader = filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
-                    runningHeaders.push_back (filter::text::passage_marker_value (m_current_book_identifier, m_current_chapter_number, m_current_verse_number, marker, runningHeader));
-                    break;
-                  }
                   case IdentifierSubtypeLongTOC:
                   {
                     const std::string longTOC = filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
@@ -314,6 +308,9 @@ void Filter_Text::pre_process_usfm (const std::string& stylesheet)
           }
           else if (const stylesv2::Style* style {database::styles2::get_marker_data (stylesheet, marker)}; style) {
             switch (style->type) {
+              case stylesv2::Type::starting_boundary:
+              case stylesv2::Type::none:
+                break;
               case stylesv2::Type::book_id:
               {
                 // Get book number.
@@ -329,8 +326,15 @@ void Filter_Text::pre_process_usfm (const std::string& stylesheet)
                 // Done.
                 break;
               }
-              case stylesv2::Type::starting_boundary:
-              case stylesv2::Type::none:
+              case stylesv2::Type::file_encoding:
+              case stylesv2::Type::remark:
+                break;
+              case stylesv2::Type::running_header:
+              {
+                const std::string running_header = filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
+                runningHeaders.push_back (filter::text::passage_marker_value (m_current_book_identifier, m_current_chapter_number, m_current_verse_number, marker, running_header));
+                break;
+              }
               case stylesv2::Type::stopping_boundary:
               default:
                 break;
@@ -364,7 +368,7 @@ void Filter_Text::process_usfm (const std::string& stylesheet)
         const std::string marker = filter::usfm::get_marker (current_item);
         // Strip word-level attributes.
         if (is_opening_marker) filter::usfm::remove_word_level_attributes (marker, chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
-        if ((styles.find (marker) != styles.end()) && (!stylesv2::marker_moved_to_v2(marker, ""))) // Todo
+        if ((styles.find (marker) != styles.end()) && (!stylesv2::marker_moved_to_v2(marker, {}))) // Todo
         {
           // Deal with a known style.
           const database::styles1::Item& style = styles.at(marker);
@@ -374,16 +378,6 @@ void Filter_Text::process_usfm (const std::string& stylesheet)
             {
               switch (style.subtype)
               {
-                case IdentifierSubtypeRunningHeader: // Todo move to v2.
-                {
-                  close_text_style_all();
-                  // This information was processed during the preprocessing stage.
-                  std::string runningHeader = filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
-                  // Ideally this information should be inserted in the headers of the standard text document.
-                  // UserBool2RunningHeaderLeft:
-                  // UserBool3RunningHeaderRight:
-                  break;
-                }
                 case IdentifierSubtypeLongTOC:
                 {
                   close_text_style_all();
@@ -992,6 +986,9 @@ void Filter_Text::process_usfm (const std::string& stylesheet)
         }
         else if (const stylesv2::Style* style {database::styles2::get_marker_data (stylesheet, marker)}; style) { // Todo v2
           switch (style->type) {
+            case stylesv2::Type::starting_boundary:
+            case stylesv2::Type::none:
+              break;
             case stylesv2::Type::book_id:
             {
               close_text_style_all();
@@ -1050,8 +1047,17 @@ void Filter_Text::process_usfm (const std::string& stylesheet)
               add_to_info (R"(Comment: \)" + marker, true);
               break;
             }
-            case stylesv2::Type::starting_boundary:
-            case stylesv2::Type::none:
+            case stylesv2::Type::running_header:
+            {
+              close_text_style_all();
+              // This information was processed during the preprocessing stage.
+              std::string runningHeader = filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
+              // The running header has properties about wheter to output the running header,
+              // on the left page, on the right page, or on both.
+              // This has not been implemented here.
+              // It were better if this had been implemented.
+              break;
+            }
             case stylesv2::Type::stopping_boundary:
             default:
               break;

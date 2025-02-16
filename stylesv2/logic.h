@@ -31,7 +31,7 @@ enum class Type : int {
   remark,
   running_header,
   long_toc_text,
-//  short_toc,
+  short_toc_text,
 //  book_abbrev,
 //  chapter_label,
 //  published_chapter_marker,

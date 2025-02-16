@@ -75,13 +75,15 @@ Checks_Usfm::Checks_Usfm (const std::string& bible)
     
     // Look for the \toc[1-3] markers.
     if (styleType == StyleTypeIdentifier) {
-      if (styleSubtype == IdentifierSubtypeShortTOC) short_toc2_marker = marker;
       if (styleSubtype == IdentifierSubtypeBookAbbrev) abbrev_toc3_marker = marker;
     }
   }
   for (const stylesv2::Style& style : stylesv2::styles) {
     if (style.type == stylesv2::Type::long_toc_text) {
       long_toc1_marker = style.marker;
+    }
+    if (style.type == stylesv2::Type::short_toc_text) {
+      short_toc2_marker = style.marker;
     }
   }
 }

@@ -202,19 +202,13 @@ void Filter_Text::pre_process_usfm (const std::string& stylesheet)
         std::string marker = filter::strings::trim (currentItem); // Change, e.g. '\id ' to '\id'.
         marker = marker.substr (1); // Remove the initial backslash, e.g. '\id' becomes 'id'.
         if (filter::usfm::is_opening_marker (marker)) {
-          if ((styles.find (marker) != styles.end()) && (!stylesv2::marker_moved_to_v2(marker, {"toc1"}))) // Todo
+          if ((styles.find (marker) != styles.end()) && (!stylesv2::marker_moved_to_v2(marker, {"toc2"}))) // Todo
           {
             database::styles1::Item style = styles [marker];
             note_citations.evaluate_style(style);
             switch (style.type) {
               case StyleTypeIdentifier:
                 switch (style.subtype) {
-                  case IdentifierSubtypeShortTOC:
-                  {
-                    const std::string shortTOC = filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
-                    shortTOCs.push_back (filter::text::passage_marker_value (m_current_book_identifier, m_current_chapter_number, m_current_verse_number, marker, shortTOC));
-                    break;
-                  }
                   case IdentifierSubtypeBookAbbrev:
                   {
                     const std::string bookAbbreviation = filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
@@ -336,7 +330,13 @@ void Filter_Text::pre_process_usfm (const std::string& stylesheet)
                 longTOCs.push_back (filter::text::passage_marker_value (m_current_book_identifier, m_current_chapter_number, m_current_verse_number, marker, long_toc));
                 break;
               }
-              case stylesv2::Type::stopping_boundary:
+              case stylesv2::Type::short_toc_text:
+              {
+                const std::string short_toc = filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
+                shortTOCs.push_back (filter::text::passage_marker_value (m_current_book_identifier, m_current_chapter_number, m_current_verse_number, marker, short_toc));
+                break;
+              }
+              case stylesv2::Type::stopping_boundary: // Todo
               default:
                 break;
             }
@@ -369,7 +369,7 @@ void Filter_Text::process_usfm (const std::string& stylesheet)
         const std::string marker = filter::usfm::get_marker (current_item);
         // Strip word-level attributes.
         if (is_opening_marker) filter::usfm::remove_word_level_attributes (marker, chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
-        if ((styles.find (marker) != styles.end()) && (!stylesv2::marker_moved_to_v2(marker, {"toc1"}))) // Todo
+        if ((styles.find (marker) != styles.end()) && (!stylesv2::marker_moved_to_v2(marker, {"toc2"}))) // Todo
         {
           // Deal with a known style.
           const database::styles1::Item& style = styles.at(marker);
@@ -379,13 +379,6 @@ void Filter_Text::process_usfm (const std::string& stylesheet)
             {
               switch (style.subtype)
               {
-                case IdentifierSubtypeShortTOC:
-                {
-                  close_text_style_all();
-                  // This information already went into the Info document. Remove it from the USFM stream.
-                  filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
-                  break;
-                }
                 case IdentifierSubtypeBookAbbrev:
                 {
                   close_text_style_all();
@@ -978,7 +971,7 @@ void Filter_Text::process_usfm (const std::string& stylesheet)
             }
           }
         }
-        else if (const stylesv2::Style* style {database::styles2::get_marker_data (stylesheet, marker)}; style) { // Todo v2
+        else if (const stylesv2::Style* style {database::styles2::get_marker_data (stylesheet, marker)}; style) {
           switch (style->type) {
             case stylesv2::Type::starting_boundary:
             case stylesv2::Type::none:
@@ -1059,8 +1052,14 @@ void Filter_Text::process_usfm (const std::string& stylesheet)
               filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
               break;
             }
-
-            case stylesv2::Type::stopping_boundary:
+            case stylesv2::Type::short_toc_text:
+            {
+              close_text_style_all();
+              // This information already went into the Info document. Remove it from the USFM stream.
+              filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
+              break;
+            }
+            case stylesv2::Type::stopping_boundary:  // Todo v2
             default:
               break;
           }

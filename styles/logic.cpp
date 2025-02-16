@@ -78,7 +78,6 @@ std::string styles_logic_type_text (int type)
 std::string styles_logic_subtype_text (int type, int subtype)
 {
   if (type == StyleTypeIdentifier) {
-    if (subtype == IdentifierSubtypeShortTOC              ) return translate ("is short table of contents text");
     if (subtype == IdentifierSubtypeBookAbbrev            ) return translate ("is the book abbreviation");
     if (subtype == IdentifierSubtypeChapterLabel          ) return translate ("is the chapter label");
     if (subtype == IdentifierSubtypePublishedChapterMarker) return translate ("is the published chapter marker");

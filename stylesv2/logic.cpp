@@ -241,7 +241,7 @@ const std::list<Style> styles {
       {Property::on_right_page,true},
       {Property::deprecated,std::monostate()}
     },
-      .implemented = true,
+    .implemented = true,
   },
   {
     .marker = "toc1",
@@ -257,7 +257,7 @@ const std::list<Style> styles {
     .name = "Short TOC text",
     .info = "Short table of contents text.",
     .properties = {},
-    .implemented = false,
+    .implemented = true,
   },
 };
 

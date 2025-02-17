@@ -72,11 +72,6 @@ Checks_Usfm::Checks_Usfm (const std::string& bible)
     if (embeddable_marker) {
       embeddable_markers.push_back (marker);
     }
-    
-    // Look for the \toc[1-3] markers.
-    if (styleType == StyleTypeIdentifier) {
-      if (styleSubtype == IdentifierSubtypeBookAbbrev) abbrev_toc3_marker = marker;
-    }
   }
   for (const stylesv2::Style& style : stylesv2::styles) {
     if (style.type == stylesv2::Type::long_toc_text) {
@@ -84,6 +79,9 @@ Checks_Usfm::Checks_Usfm (const std::string& bible)
     }
     if (style.type == stylesv2::Type::short_toc_text) {
       short_toc2_marker = style.marker;
+    }
+    if (style.type == stylesv2::Type::book_abbrev) {
+      abbrev_toc3_marker = style.marker;
     }
   }
 }

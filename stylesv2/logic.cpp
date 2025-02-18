@@ -61,6 +61,10 @@ std::string type_enum_to_value (const Type type, const bool describe)
       if (describe)
         return "chapter label";
       return "chapter_label";
+    case Type::published_chapter_marker:
+      if (describe)
+        return "published chapter marker";
+      return "published_chapter_marker";
     case Type::stopping_boundary:
       return "stopping_boundary";
     default:
@@ -280,6 +284,14 @@ const std::list<Style> styles {
     .type = Type::chapter_label,
     .name = "Chapter label",
     .info = "Chapter label used for translations that add a word such as 'Chapter' before chapter numbers, e.g. Psalms.",
+    .properties = {},
+    .implemented = true,
+  },
+  {
+    .marker = "cp",
+    .type = Type::published_chapter_marker,
+    .name = "Published chapter character",
+    .info = "Published chapter number. This is a chapter marking that would be used in the published text.",
     .properties = {},
     .implemented = true,
   },
@@ -714,39 +726,6 @@ bool marker_moved_to_v2 (const std::string& marker, const std::vector<const char
 //    /* justification */ 2,
 //    /* spacebefore */ 0,
 //    /* spaceafter */ 0,
-//    /* leftmargin */ 0,
-//    /* rightmargin */ 0,
-//    /* firstlineindent */ 0,
-//    /* spancolumns */ 0,
-//    /* color */ "#000000",
-//    /* print */ 1,
-//    /* userbool1 */ 0,
-//    /* userbool2 */ 0,
-//    /* userbool3 */ 0,
-//    /* userint1 */ 0,
-//    /* userint2 */ 0,
-//    /* userint3 */ 0,
-//    /* userstring1 */ "",
-//    /* userstring2 */ "",
-//    /* userstring3 */ "",
-//    /* backgroundcolor */ "#FFFFFF",
-//  },
-//  {
-//    /* marker */ "cp",
-//    /* name */ "Published chapter character",
-//    /* info */ "Published chapter number. This is a chapter marking that would be used in the published text.",
-//    /* category */ "cv",
-//    /* type */ 0,
-//    /* subtype */ 8,
-//    /* fontsize */ 18,
-//    /* italic */ 0,
-//    /* bold */ 1,
-//    /* underline */ 0,
-//    /* smallcaps */ 0,
-//    /* superscript */ 0,
-//    /* justification */ 0,
-//    /* spacebefore */ 8,
-//    /* spaceafter */ 4,
 //    /* leftmargin */ 0,
 //    /* rightmargin */ 0,
 //    /* firstlineindent */ 0,

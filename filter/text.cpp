@@ -202,19 +202,13 @@ void Filter_Text::pre_process_usfm (const std::string& stylesheet)
         std::string marker = filter::strings::trim (currentItem); // Change, e.g. '\id ' to '\id'.
         marker = marker.substr (1); // Remove the initial backslash, e.g. '\id' becomes 'id'.
         if (filter::usfm::is_opening_marker (marker)) {
-          if ((styles.find (marker) != styles.end()) && (!stylesv2::marker_moved_to_v2(marker, {"cl"}))) // Todo
+          if ((styles.find (marker) != styles.end()) && (!stylesv2::marker_moved_to_v2(marker, {"cp"}))) // Todo
           {
             database::styles1::Item style = styles [marker];
             note_citations.evaluate_style(style);
             switch (style.type) {
               case StyleTypeIdentifier:
                 switch (style.subtype) {
-                  case IdentifierSubtypePublishedChapterMarker:
-                  {
-                    const std::string publishedChapterMarker = filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
-                    publishedChapterMarkers.push_back (filter::text::passage_marker_value (m_current_book_identifier, m_current_chapter_number, m_current_verse_number, marker, publishedChapterMarker));
-                    break;
-                  }
                   case IdentifierSubtypePublishedVerseMarker:
                   {
                     // It gets the published verse markup.
@@ -336,6 +330,12 @@ void Filter_Text::pre_process_usfm (const std::string& stylesheet)
                 // Done.
                 break;
               }
+              case stylesv2::Type::published_chapter_marker:
+              {
+                const std::string published_chapter_marker = filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
+                publishedChapterMarkers.push_back (filter::text::passage_marker_value (m_current_book_identifier, m_current_chapter_number, m_current_verse_number, marker, published_chapter_marker));
+                break;
+              }
               case stylesv2::Type::stopping_boundary: // Todo
               default:
                 break;
@@ -369,7 +369,7 @@ void Filter_Text::process_usfm (const std::string& stylesheet)
         const std::string marker = filter::usfm::get_marker (current_item);
         // Strip word-level attributes.
         if (is_opening_marker) filter::usfm::remove_word_level_attributes (marker, chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
-        if ((styles.find (marker) != styles.end()) && (!stylesv2::marker_moved_to_v2(marker, {"cl"}))) // Todo
+        if ((styles.find (marker) != styles.end()) && (!stylesv2::marker_moved_to_v2(marker, {"cp"}))) // Todo
         {
           // Deal with a known style.
           const database::styles1::Item& style = styles.at(marker);
@@ -379,22 +379,6 @@ void Filter_Text::process_usfm (const std::string& stylesheet)
             {
               switch (style.subtype)
               {
-                case IdentifierSubtypePublishedChapterMarker:
-                {
-                  close_text_style_all();
-                  // This information is already in the object.
-                  // Remove it from the USFM stream.
-                  filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
-                  break;
-                }
-                case IdentifierSubtypeCommentWithEndmarker:
-                {
-                  close_text_style_all();
-                  if (is_opening_marker) {
-                    add_to_info (R"(Comment: \)" + marker, true);
-                  }
-                  break;
-                }
                 case IdentifierSubtypePublishedVerseMarker:
                 {
                   close_text_style_all();
@@ -1029,6 +1013,7 @@ void Filter_Text::process_usfm (const std::string& stylesheet)
             case stylesv2::Type::short_toc_text:
             case stylesv2::Type::book_abbrev:
             case stylesv2::Type::chapter_label:
+            case stylesv2::Type::published_chapter_marker:
             {
               close_text_style_all();
               // This information already went into the Info document. Remove it from the USFM stream.

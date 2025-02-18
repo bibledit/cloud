@@ -34,7 +34,7 @@ enum class Type : int {
   short_toc_text,
   book_abbrev,
   chapter_label,
-//  published_chapter_marker,
+  published_chapter_marker,
 //  comment_with_endmarker,
 //  published_verse_marker,
   stopping_boundary // Should be the last always.

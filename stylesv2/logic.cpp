@@ -65,6 +65,10 @@ std::string type_enum_to_value (const Type type, const bool describe)
       if (describe)
         return "published chapter marker";
       return "published_chapter_marker";
+    case Type::published_verse_marker:
+      if (describe)
+        return "published verse marker";
+      return "published_verse_marker";
     case Type::stopping_boundary:
       return "stopping_boundary";
     default:
@@ -229,7 +233,7 @@ const std::list<Style> styles {
       {Property::on_right_page,true},
       {Property::deprecated,std::monostate()}
     },
-    .implemented = true,
+      .implemented = true,
   },
   {
     .marker = "h2",
@@ -241,7 +245,7 @@ const std::list<Style> styles {
       {Property::on_right_page,false},
       {Property::deprecated,std::monostate()}
     },
-    .implemented = true,
+      .implemented = true,
   },
   {
     .marker = "h3",
@@ -253,7 +257,7 @@ const std::list<Style> styles {
       {Property::on_right_page,true},
       {Property::deprecated,std::monostate()}
     },
-    .implemented = true,
+      .implemented = true,
   },
   {
     .marker = "toc1",
@@ -295,47 +299,17 @@ const std::list<Style> styles {
     .properties = {},
     .implemented = true,
   },
+  {
+    .marker = "vp",
+    .type = Type::published_verse_marker,
+    .name = "Published verse marker",
+    .info = "Published verse marker. This is a verse marking that would be used in the published text.",
+    .properties = {},
+    .implemented = true,
+  },
+  
 };
 
-
-// Temporal function that indicates whether a marker has moved to version 2.
-// The $marker is the one being considered.
-// The $extra is an extra marker in addition to the already implemented ones.
-bool marker_moved_to_v2 (const std::string& marker, const std::vector<const char*> extra)
-{
-  static std::map<std::string,bool> cache{};
-  const auto get_key = [&]() {
-    std::string key {marker};
-    if (!extra.empty()) {
-      key.append(" ");
-      key.append(std::accumulate(extra.begin(), extra.end(), std::string{}));
-    }
-    return key;
-  };
-  const std::string key {get_key()};
-  if (cache.count(key)) {
-    return cache.at(key);
-  }
-  const auto iter = std::find(styles.cbegin(), styles.cend(), marker);
-  if (iter != styles.cend()) {
-    if (iter->implemented) {
-      cache[key] = true;
-      return true;
-    }
-  }
-  for (const auto bit : extra) {
-    if (marker == bit) {
-      cache[key] = true;
-      return true;
-    }
-  }
-  cache[key] = false;
-  return false;
-}
-
-
-
-} // Namespace.
 
 
 // Here below are the styles These are the old ones, to be moved to the new system. Todo
@@ -6156,39 +6130,6 @@ bool marker_moved_to_v2 (const std::string& marker, const std::vector<const char
 //    /* backgroundcolor */ "#FFFFFF",
 //  },
 //  {
-//    /* marker */ "vp",
-//    /* name */ "Published verse marker",
-//    /* info */ "Published verse marker. This is a verse marking that would be used in the published text.",
-//    /* category */ "cv",
-//    /* type */ 0,
-//    /* subtype */ 10,
-//    /* fontsize */ 12,
-//    /* italic */ 0,
-//    /* bold */ 0,
-//    /* underline */ 0,
-//    /* smallcaps */ 0,
-//    /* superscript */ 1,
-//    /* justification */ 0,
-//    /* spacebefore */ 0,
-//    /* spaceafter */ 0,
-//    /* leftmargin */ 0,
-//    /* rightmargin */ 0,
-//    /* firstlineindent */ 0,
-//    /* spancolumns */ 0,
-//    /* color */ "#000000",
-//    /* print */ 1,
-//    /* userbool1 */ 0,
-//    /* userbool2 */ 0,
-//    /* userbool3 */ 0,
-//    /* userint1 */ 0,
-//    /* userint2 */ 0,
-//    /* userint3 */ 0,
-//    /* userstring1 */ "",
-//    /* userstring2 */ "",
-//    /* userstring3 */ "",
-//    /* backgroundcolor */ "#FFFFFF",
-//  },
-//  {
 //    /* marker */ "w",
 //    /* name */ "Wordlist entry",
 //    /* info */ "Surround words with this markup to indicate that it appears or should appear in the word list.",
@@ -6753,3 +6694,67 @@ bool marker_moved_to_v2 (const std::string& marker, const std::vector<const char
 //  },
 //};
 //
+
+
+// Temporal function that indicates whether a marker has moved to version 2.
+// The $marker is the one being considered.
+// The $extra is an extra marker in addition to the already implemented ones.
+bool marker_moved_to_v2 (const std::string& marker, const std::vector<const char*> extra)
+{
+  static std::map<std::string,bool> cache{};
+  const auto get_key = [&]() {
+    std::string key {marker};
+    if (!extra.empty()) {
+      key.append(" ");
+      key.append(std::accumulate(extra.begin(), extra.end(), std::string{}));
+    }
+    return key;
+  };
+  const std::string key {get_key()};
+  if (cache.count(key)) {
+    return cache.at(key);
+  }
+  const auto iter = std::find(styles.cbegin(), styles.cend(), marker);
+  if (iter != styles.cend()) {
+    if (iter->implemented) {
+      cache[key] = true;
+      return true;
+    }
+  }
+  for (const auto bit : extra) {
+    if (marker == bit) {
+      cache[key] = true;
+      return true;
+    }
+  }
+  cache[key] = false;
+  return false;
+}
+
+
+// Whether this style starta a new line in USFM.
+bool starts_new_line_in_usfm (const Style* style)
+{
+  switch (style->type) {
+    case stylesv2::Type::starting_boundary:
+    case stylesv2::Type::none:
+    case stylesv2::Type::book_id:
+    case stylesv2::Type::file_encoding:
+    case stylesv2::Type::remark:
+    case stylesv2::Type::running_header:
+    case stylesv2::Type::long_toc_text:
+    case stylesv2::Type::short_toc_text:
+    case stylesv2::Type::book_abbrev:
+    case stylesv2::Type::chapter_label:
+    case stylesv2::Type::published_chapter_marker:
+      return true;
+    case stylesv2::Type::published_verse_marker:
+      return false;
+    case stylesv2::Type::stopping_boundary: // Todo
+    default:
+      return true;
+  }
+}
+
+
+} // Namespace.

@@ -35,8 +35,7 @@ enum class Type : int {
   book_abbrev,
   chapter_label,
   published_chapter_marker,
-//  comment_with_endmarker,
-//  published_verse_marker,
+  published_verse_marker,
   stopping_boundary // Should be the last always.
 };
 
@@ -104,6 +103,9 @@ extern const std::list<Style> styles;
 
 
 bool marker_moved_to_v2 (const std::string& marker, const std::vector<const char*> extra);
+
+
+bool starts_new_line_in_usfm (const Style* style);
 
 
 } // Namespace.

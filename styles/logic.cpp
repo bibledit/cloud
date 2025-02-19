@@ -78,7 +78,6 @@ std::string styles_logic_type_text (int type)
 std::string styles_logic_subtype_text (int type, int subtype)
 {
   if (type == StyleTypeIdentifier) {
-    if (subtype == IdentifierSubtypePublishedVerseMarker  ) return translate ("is the published verse marker");
   }
   if (type == StyleTypeStartsParagraph) {
     if (subtype == ParagraphSubtypeMainTitle)       return translate ("is a main title");
@@ -606,7 +605,6 @@ bool styles_logic_starts_new_line_in_usfm (int type, int subtype)
   switch (type) {
     case StyleTypeIdentifier :
     {
-      if (subtype == IdentifierSubtypePublishedVerseMarker) return false;
       return true;
     }
     case StyleTypeNotUsedComment :

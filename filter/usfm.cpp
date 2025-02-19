@@ -213,14 +213,19 @@ std::vector <BookChapterData> usfm_import (std::string input, std::string styles
         chapter_data = "";
         store_chapter_data = false;
       }
-      database::styles1::Item marker_data = database::styles1::get_marker_data (stylesheet, marker);
-      int type = marker_data.type;
-      int subtype = marker_data.subtype;
       // Only opening markers can start on a new line.
       // Closing markers never do.
       if (opener) {
-        if (styles_logic_starts_new_line_in_usfm (type, subtype)) {
-          chapter_data.append ("\n");
+        if (const stylesv2::Style* style {database::styles2::get_marker_data (stylesheet, marker)}; style) {
+          if (stylesv2::starts_new_line_in_usfm (style))
+            chapter_data.append ("\n");
+        } else {
+          database::styles1::Item marker_data = database::styles1::get_marker_data (stylesheet, marker);
+          int type = marker_data.type;
+          int subtype = marker_data.subtype;
+          if (styles_logic_starts_new_line_in_usfm (type, subtype)) {
+            chapter_data.append ("\n");
+          }
         }
       }
     }

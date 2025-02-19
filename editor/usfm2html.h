@@ -52,6 +52,7 @@ private:
   unsigned int m_markers_and_text_pointer {0};
   
   // All the style information.
+  std::string m_stylesheet{};
   std::map <std::string, database::styles1::Item> m_styles {};
   
   // XML nodes.
@@ -90,7 +91,7 @@ private:
   void output_as_is (const std::string& marker, const bool is_opening_marker);
   void new_paragraph (std::string style = std::string());
   void close_paragraph ();
-  void open_text_style (const database::styles1::Item& style, const bool embed);
+  void open_text_style (const std::string& marker, const bool embed);
   void close_text_style (const bool embed);
   void add_text (const std::string& text);
   void add_note (const std::string& citation, const std::string& style);

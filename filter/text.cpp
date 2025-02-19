@@ -202,22 +202,13 @@ void Filter_Text::pre_process_usfm (const std::string& stylesheet)
         std::string marker = filter::strings::trim (currentItem); // Change, e.g. '\id ' to '\id'.
         marker = marker.substr (1); // Remove the initial backslash, e.g. '\id' becomes 'id'.
         if (filter::usfm::is_opening_marker (marker)) {
-          if ((styles.find (marker) != styles.end()) && (!stylesv2::marker_moved_to_v2(marker, {"cp"}))) // Todo
+          if ((styles.find (marker) != styles.end()) && (!stylesv2::marker_moved_to_v2(marker, {"vp"}))) // Todo
           {
             database::styles1::Item style = styles [marker];
             note_citations.evaluate_style(style);
             switch (style.type) {
               case StyleTypeIdentifier:
                 switch (style.subtype) {
-                  case IdentifierSubtypePublishedVerseMarker:
-                  {
-                    // It gets the published verse markup.
-                    // The marker looks like: ... \vp ၁။\vp* ...
-                    // It stores this markup in the object for later reference.
-                    const std::string publishedVerseMarker = filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
-                    publishedVerseMarkers.push_back (filter::text::passage_marker_value (m_current_book_identifier, m_current_chapter_number, m_current_verse_number, marker, publishedVerseMarker));
-                    break;
-                  }
                   default: {
                     break;
                   }
@@ -336,6 +327,15 @@ void Filter_Text::pre_process_usfm (const std::string& stylesheet)
                 publishedChapterMarkers.push_back (filter::text::passage_marker_value (m_current_book_identifier, m_current_chapter_number, m_current_verse_number, marker, published_chapter_marker));
                 break;
               }
+              case stylesv2::Type::published_verse_marker:
+              {
+                // It gets the published verse markup.
+                // The marker looks like: ... \vp ၁။\vp* ...
+                // It stores this markup in the object for later reference.
+                const std::string published_verse_marker = filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
+                publishedVerseMarkers.push_back (filter::text::passage_marker_value (m_current_book_identifier, m_current_chapter_number, m_current_verse_number, marker, published_verse_marker));
+                break;
+              }
               case stylesv2::Type::stopping_boundary: // Todo
               default:
                 break;
@@ -369,7 +369,7 @@ void Filter_Text::process_usfm (const std::string& stylesheet)
         const std::string marker = filter::usfm::get_marker (current_item);
         // Strip word-level attributes.
         if (is_opening_marker) filter::usfm::remove_word_level_attributes (marker, chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
-        if ((styles.find (marker) != styles.end()) && (!stylesv2::marker_moved_to_v2(marker, {"cp"}))) // Todo
+        if ((styles.find (marker) != styles.end()) && (!stylesv2::marker_moved_to_v2(marker, {"vp"}))) // Todo
         {
           // Deal with a known style.
           const database::styles1::Item& style = styles.at(marker);
@@ -379,27 +379,7 @@ void Filter_Text::process_usfm (const std::string& stylesheet)
             {
               switch (style.subtype)
               {
-                case IdentifierSubtypePublishedVerseMarker:
-                {
-                  close_text_style_all();
-                  if (is_opening_marker) {
-                    // This information is already in the object.
-                    // Remove it from the USFM stream at the opening marker.
-                    filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
-                  } else {
-                    // USFM allows the closing marker \vp* to be followed by a space.
-                    // But this space should not be converted to text output.
-                    // https://github.com/bibledit/cloud/issues/311
-                    // It is going to be removed here.
-                    const size_t pointer = chapter_usfm_markers_and_text_pointer + 1;
-                    if (pointer < chapter_usfm_markers_and_text.size()) {
-                      std::string text = chapter_usfm_markers_and_text[pointer];
-                      text = filter::strings::ltrim (text);
-                      chapter_usfm_markers_and_text[pointer] = text;
-                    }
-                  }
-                  break;
-                }
+                
                 default:
                 {
                   close_text_style_all();
@@ -1018,6 +998,27 @@ void Filter_Text::process_usfm (const std::string& stylesheet)
               close_text_style_all();
               // This information already went into the Info document. Remove it from the USFM stream.
               filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
+              break;
+            }
+            case stylesv2::Type::published_verse_marker:
+            {
+              close_text_style_all();
+              if (is_opening_marker) {
+                // This information is already in the object.
+                // Remove it from the USFM stream at the opening marker.
+                filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
+              } else {
+                // USFM allows the closing marker \vp* to be followed by a space.
+                // But this space should not be converted to text output.
+                // https://github.com/bibledit/cloud/issues/311
+                // It is going to be removed here.
+                const size_t pointer = chapter_usfm_markers_and_text_pointer + 1;
+                if (pointer < chapter_usfm_markers_and_text.size()) {
+                  std::string text = chapter_usfm_markers_and_text[pointer];
+                  text = filter::strings::ltrim (text);
+                  chapter_usfm_markers_and_text[pointer] = text;
+                }
+              }
               break;
             }
             case stylesv2::Type::stopping_boundary:  // Todo v2

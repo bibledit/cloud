@@ -131,95 +131,109 @@ void Editor_Styles::recordUsage (Webserver_Request& webserver_request, const std
 }
 
 
-std::string Editor_Styles::getAction (Webserver_Request& webserver_request, const std::string& style)
+std::string Editor_Styles::getAction (Webserver_Request& webserver_request, const std::string& marker)
 {
   const std::string bible = webserver_request.database_config_user()->getBible ();
   const std::string stylesheet = database::config::bible::get_editor_stylesheet (bible);
-  database::styles1::Item data = database::styles1::get_marker_data (stylesheet, style);
-  int type = data.type;
-  int subtype = data.subtype;
   
-  switch (type)
+  if (const stylesv2::Style* style {database::styles2::get_marker_data (stylesheet, marker)}; style) // Todo
   {
-    case StyleTypeIdentifier:
-      switch (subtype)
-      {
-        case IdentifierSubtypePublishedVerseMarker:
-          return character ();
-        default:
-          return mono ();
-      }
-      break;
-    case StyleTypeNotUsedComment:
-      return mono ();
-    case StyleTypeNotUsedRunningHeader:
-      return mono ();
-    case StyleTypeStartsParagraph:
-      return paragraph ();
-    case StyleTypeInlineText:
-      return character ();
-    case StyleTypeChapterNumber:
-      return paragraph ();
-    case StyleTypeVerseNumber:
-      return character ();
-    case StyleTypeFootEndNote:
-    {
-      switch (subtype)
-      {
-        case FootEndNoteSubtypeFootnote:
-        case FootEndNoteSubtypeEndnote:
-          return note ();
-        case FootEndNoteSubtypeContent:
-        case FootEndNoteSubtypeContentWithEndmarker:
-          return character ();
-        case FootEndNoteSubtypeStandardContent:
-        case FootEndNoteSubtypeParagraph:
-          return character ();
-        default:
-          return unknown ();
-      }
-      break;
+    switch (style->type) {
+      case stylesv2::Type::book_id:
+      case stylesv2::Type::remark:
+      case stylesv2::Type::running_header:
+      case stylesv2::Type::long_toc_text:
+      case stylesv2::Type::short_toc_text:
+      case stylesv2::Type::book_abbrev:
+      case stylesv2::Type::chapter_label:
+      case stylesv2::Type::published_chapter_marker:
+        return mono ();
+      case stylesv2::Type::published_verse_marker:
+        return character ();
+      default:
+        return unknown ();
     }
-    case StyleTypeCrossreference:
+  }
+  else {
+    database::styles1::Item data = database::styles1::get_marker_data (stylesheet, marker);
+    const int type = data.type;
+    const int subtype = data.subtype;
+    
+    switch (type)
     {
-      switch (subtype)
+      case StyleTypeIdentifier:
+        return mono ();
+      case StyleTypeNotUsedComment:
+        return mono ();
+      case StyleTypeNotUsedRunningHeader:
+        return mono ();
+      case StyleTypeStartsParagraph:
+        return paragraph ();
+      case StyleTypeInlineText:
+        return character ();
+      case StyleTypeChapterNumber:
+        return paragraph ();
+      case StyleTypeVerseNumber:
+        return character ();
+      case StyleTypeFootEndNote:
       {
-        case CrossreferenceSubtypeCrossreference:
-          return note ();
-        case CrossreferenceSubtypeContent:
-        case CrossreferenceSubtypeContentWithEndmarker:
-          return character ();
-        case CrossreferenceSubtypeStandardContent:
-          return character ();
-        default:
-          return unknown ();
+        switch (subtype)
+        {
+          case FootEndNoteSubtypeFootnote:
+          case FootEndNoteSubtypeEndnote:
+            return note ();
+          case FootEndNoteSubtypeContent:
+          case FootEndNoteSubtypeContentWithEndmarker:
+            return character ();
+          case FootEndNoteSubtypeStandardContent:
+          case FootEndNoteSubtypeParagraph:
+            return character ();
+          default:
+            return unknown ();
+        }
+        break;
       }
-      break;
-    }
-    case StyleTypePeripheral:
-      return mono ();
-    case StyleTypePicture:
-      return mono ();
-    case StyleTypePageBreak:
-      return unknown ();
-    case StyleTypeTableElement:
-    {
-      switch (subtype)
+      case StyleTypeCrossreference:
       {
-        case TableElementSubtypeRow:
-        case TableElementSubtypeHeading:
-        case TableElementSubtypeCell:
-        default:
-          return mono ();
+        switch (subtype)
+        {
+          case CrossreferenceSubtypeCrossreference:
+            return note ();
+          case CrossreferenceSubtypeContent:
+          case CrossreferenceSubtypeContentWithEndmarker:
+            return character ();
+          case CrossreferenceSubtypeStandardContent:
+            return character ();
+          default:
+            return unknown ();
+        }
+        break;
       }
-      break;
+      case StyleTypePeripheral:
+        return mono ();
+      case StyleTypePicture:
+        return mono ();
+      case StyleTypePageBreak:
+        return unknown ();
+      case StyleTypeTableElement:
+      {
+        switch (subtype)
+        {
+          case TableElementSubtypeRow:
+          case TableElementSubtypeHeading:
+          case TableElementSubtypeCell:
+          default:
+            return mono ();
+        }
+        break;
+      }
+      case StyleTypeWordlistElement:
+      {
+        return character ();
+      }
+      default:
+        return unknown ();
     }
-    case StyleTypeWordlistElement:
-    {
-      return character ();
-    }
-    default:
-      return unknown ();
   }
 }
 

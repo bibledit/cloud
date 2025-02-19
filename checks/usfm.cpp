@@ -43,11 +43,6 @@ Checks_Usfm::Checks_Usfm (const std::string& bible)
     // And which markers are embeddable.
     bool required_endmarker {false};
     bool embeddable_marker {false};
-    if (styleType == StyleTypeIdentifier) {
-      if (styleSubtype == IdentifierSubtypePublishedVerseMarker) {
-        required_endmarker = true;
-      }
-    }
     if (styleType == StyleTypeFootEndNote) {
       if ((styleSubtype == FootEndNoteSubtypeFootnote) || (styleSubtype == FootEndNoteSubtypeEndnote)) {
         required_endmarker = true;
@@ -74,6 +69,10 @@ Checks_Usfm::Checks_Usfm (const std::string& bible)
     }
   }
   for (const stylesv2::Style& style : stylesv2::styles) {
+    // Find out which markers require an endmarker.
+    // And which markers are embeddable.
+    bool required_endmarker {false};
+    bool embeddable_marker {false};
     if (style.type == stylesv2::Type::long_toc_text) {
       long_toc1_marker = style.marker;
     }
@@ -82,6 +81,15 @@ Checks_Usfm::Checks_Usfm (const std::string& bible)
     }
     if (style.type == stylesv2::Type::book_abbrev) {
       abbrev_toc3_marker = style.marker;
+    }
+    if (style.type == stylesv2::Type::published_verse_marker) {
+      required_endmarker = true;
+    }
+    if (required_endmarker) {
+      markers_requiring_endmarkers.push_back (style.marker);
+    }
+    if (embeddable_marker) {
+      embeddable_markers.push_back (style.marker);
     }
   }
 }

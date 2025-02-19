@@ -41,6 +41,7 @@ void Editor_Usfm2Html::load (std::string usfm)
 
 void Editor_Usfm2Html::stylesheet (const std::string& stylesheet)
 {
+  m_stylesheet = stylesheet;
   m_styles.clear();
   const std::vector <std::string> markers = database::styles1::get_markers (stylesheet);
   // Load the style information into the object.
@@ -181,26 +182,13 @@ void Editor_Usfm2Html::process ()
       if (m_preview)
         if (is_opening_marker)
           filter::usfm::remove_word_level_attributes (marker, m_markers_and_text, m_markers_and_text_pointer);
-
-      if (m_styles.count (marker))
+      if (m_styles.count (marker) && (!stylesv2::marker_moved_to_v2(marker, {"vp"})))
       {
         const database::styles1::Item& style = m_styles.at(marker);
         switch (style.type)
         {
           case StyleTypeIdentifier:
           {
-            if (style.subtype == IdentifierSubtypePublishedVerseMarker) {
-              // Treat the \vp ...\vp* marker as inline text.
-              if (is_opening_marker) {
-                open_text_style (style, is_embedded_marker);
-              } else {
-                close_text_style (is_embedded_marker);
-              }
-            } else {
-              // Any other identifier: Plain text.
-              close_text_style (false);
-              output_as_is (marker, is_opening_marker);
-            }
             break;
           }
           case StyleTypeNotUsedComment:
@@ -222,7 +210,7 @@ void Editor_Usfm2Html::process ()
             if (is_opening_marker) {
               // Be sure the road ahead is clear.
               if (road_is_clear ()) {
-                open_text_style (style, is_embedded_marker);
+                open_text_style (style.marker, is_embedded_marker);
                 extract_word_level_attributes();
               } else {
                 add_text (filter::usfm::get_opening_usfm (marker));
@@ -248,7 +236,7 @@ void Editor_Usfm2Html::process ()
               add_text (" ");
             }
             // Open verse style, record verse/length, add verse number, close style again, and add a space.
-            open_text_style (style, false);
+            open_text_style (style.marker, false);
             std::string text_following_marker = filter::usfm::get_text_following_marker (m_markers_and_text, m_markers_and_text_pointer);
             const std::string number = filter::usfm::peek_verse_number (text_following_marker);
             m_verse_start_offsets [filter::strings::convert_to_int (number)] = static_cast<int>(m_text_tength);
@@ -289,7 +277,7 @@ void Editor_Usfm2Html::process ()
               case FootEndNoteSubtypeContentWithEndmarker:
               {
                 if (is_opening_marker) {
-                  open_text_style (style, is_embedded_marker);
+                  open_text_style (style.marker, is_embedded_marker);
                 } else {
                   close_text_style (is_embedded_marker);
                 }
@@ -324,7 +312,7 @@ void Editor_Usfm2Html::process ()
               case CrossreferenceSubtypeStandardContent:
               {
                 if (is_opening_marker) {
-                  open_text_style (style, is_embedded_marker);
+                  open_text_style (style.marker, is_embedded_marker);
                   // Deal in a special way with possible word-level attributes.
                   // Note open | Extract word-level attributes
                   //  yes      |  no
@@ -380,12 +368,12 @@ void Editor_Usfm2Html::process ()
               case TableElementSubtypeHeading:
               case TableElementSubtypeCell:
               {
-                open_text_style (style, false);
+                open_text_style (style.marker, false);
                 break;
               }
               default:
               {
-                open_text_style (style, false);
+                open_text_style (style.marker, false);
                 break;
               }
             }
@@ -394,7 +382,7 @@ void Editor_Usfm2Html::process ()
           case StyleTypeWordlistElement:
           {
             if (is_opening_marker) {
-              open_text_style (style, false);
+              open_text_style (style.marker, false);
               extract_word_level_attributes();
             } else {
               close_text_style (false);
@@ -409,7 +397,43 @@ void Editor_Usfm2Html::process ()
             break;
           }
         }
-      } else {
+      }
+      else if (const stylesv2::Style* style {database::styles2::get_marker_data (m_stylesheet, marker)}; style)
+      {
+        switch (style->type) {
+          case stylesv2::Type::starting_boundary:
+          case stylesv2::Type::none:
+          case stylesv2::Type::book_id:
+          case stylesv2::Type::file_encoding:
+          case stylesv2::Type::remark:
+          case stylesv2::Type::running_header:
+          case stylesv2::Type::long_toc_text:
+          case stylesv2::Type::short_toc_text:
+          case stylesv2::Type::book_abbrev:
+          case stylesv2::Type::chapter_label:
+          case stylesv2::Type::published_chapter_marker:
+          {
+            // The above identifiers: Output as plain text.
+            close_text_style (false);
+            output_as_is (marker, is_opening_marker);
+            break;
+          }
+          case stylesv2::Type::published_verse_marker:
+          {
+            // Treat the \vp ...\vp* marker as inline text.
+            if (is_opening_marker) {
+              open_text_style (style->marker, is_embedded_marker);
+            } else {
+              close_text_style (is_embedded_marker);
+            }
+            break;
+          }
+          case stylesv2::Type::stopping_boundary: // Todo
+          default:
+            break;
+        }
+      }
+      else {
         // This is a marker unknown in the stylesheet.
         close_text_style (false);
         output_as_is (marker, is_opening_marker);
@@ -479,9 +503,8 @@ void Editor_Usfm2Html::close_paragraph ()
 // This opens a text style.
 // $style: the array containing the style variables.
 // $embed: boolean: Whether to open embedded / nested style.
-void Editor_Usfm2Html::open_text_style (const database::styles1::Item& style, const bool embed)
+void Editor_Usfm2Html::open_text_style (const std::string& marker, const bool embed)
 {
-  const std::string marker = style.marker;
   if (m_note_opened) {
     if (!embed)
       m_current_note_text_styles.clear();

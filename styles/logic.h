@@ -25,8 +25,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 // Todo old styles logic, to be replaced one by one.
 
-#define StyleTypeIdentifier            0
-#define StyleTypeNotUsedComment        1 
+#define StyleTypeIdentifier            0 // Todo out eventually after all identifiers moved to v2.
+#define StyleTypeNotUsedComment        1
 #define StyleTypeNotUsedRunningHeader  2 
 #define StyleTypeStartsParagraph       3 
 #define StyleTypeInlineText            4 
@@ -39,6 +39,20 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #define StyleTypePageBreak             11 
 #define StyleTypeTableElement          12 
 #define StyleTypeWordlistElement       13 
+
+
+// The following lot goes out once all identifiers are in v2.
+#define IdentifierSubtypeBook                     0
+#define IdentifierSubtypeEncoding                 1
+#define IdentifierSubtypeComment                  2
+#define IdentifierSubtypeRunningHeader            3
+#define IdentifierSubtypeLongTOC                  4
+#define IdentifierSubtypeShortTOC                 5
+#define IdentifierSubtypeBookAbbrev               6
+#define IdentifierSubtypeChapterLabel             7
+#define IdentifierSubtypePublishedChapterMarker   8
+#define IdentifierSubtypeCommentWithEndmarker     9
+#define IdentifierSubtypePublishedVerseMarker    10
 
 
 #define FootEndNoteSubtypeFootnote                 0 

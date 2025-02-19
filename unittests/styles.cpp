@@ -608,7 +608,7 @@ TEST_F (styles, editors_application)
   for (const auto& pair : marker_action) {
     const std::string action = Editor_Styles::getAction (webserver_request, pair.first);
     if (action != pair.second)
-      FAIL() << "Marker " << pair.first << " got action " << action << " but the expected action is " << pair.second;
+      FAIL() << "Marker " << std::quoted(pair.first) << " got action " << std::quoted(action) << " but the expected action is " << std::quoted(pair.second);
   }
 }
 

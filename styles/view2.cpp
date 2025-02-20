@@ -39,6 +39,7 @@
 #include <assets/header.h>
 #include <menu/logic.h>
 #include <styles/indexm.h>
+#include <assets/external.h>
 
 
 std::string styles_view2_url ()
@@ -158,6 +159,16 @@ std::string styles_view2 (Webserver_Request& webserver_request)
     if (std::holds_alternative<std::string>(parameter))
       view.set_variable (enum_value, std::get<std::string>(parameter));
   }
+
+  
+  // Set the style's documentation.
+  std::string doc {"https://ubsicap.github.io/usfm"};
+  if (!marker_data.doc.empty())
+    doc = marker_data.doc;
+  view.set_variable ("doc", doc);
+
+  
+  view.set_variable ("external", assets_external_logic_link_addon ());
 
   
   // If a style is edited, save it, and recreate cascaded stylesheets.

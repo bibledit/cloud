@@ -35,6 +35,7 @@ enum class Type : int {
   book_abbrev,
   chapter_label,
   published_chapter_marker,
+  alternate_chapter_number,
   published_verse_marker,
   stopping_boundary // Should be the last always.
 };
@@ -91,6 +92,7 @@ struct Style final {
   std::map<Property,Parameter> properties{};
   // Whether this style has been implemented throughout the code.
   bool implemented {false};
+  std::string doc {};
 };
 
 

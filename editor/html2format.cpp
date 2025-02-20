@@ -62,12 +62,12 @@ void Editor_Html2Format::process ()
   pugi::xml_node body = document.first_child ();
   for (pugi::xml_node node : body.children()) {
     // Process the node.
-    processNode (node);
+    process_node (node);
   }
 }
 
 
-void Editor_Html2Format::processNode (pugi::xml_node node)
+void Editor_Html2Format::process_node (pugi::xml_node node)
 {
   switch (node.type ()) {
     case pugi::node_element:
@@ -77,11 +77,11 @@ void Editor_Html2Format::processNode (pugi::xml_node node)
       std::string classs = node.attribute("class").value();
       if (classs == quill_caret_class) break;
       // Process node normally.
-      openElementNode (node);
+      open_element_node (node);
       for (pugi::xml_node child : node.children()) {
-        processNode (child);
+        process_node (child);
       }
-      closeElementNode (node);
+      close_element_node (node);
       break;
     }
     case pugi::node_pcdata:
@@ -109,7 +109,7 @@ void Editor_Html2Format::processNode (pugi::xml_node node)
 }
 
 
-void Editor_Html2Format::openElementNode (pugi::xml_node node)
+void Editor_Html2Format::open_element_node (pugi::xml_node node)
 {
   // The tag and class names of this element node.
   std::string tagName = node.name ();
@@ -128,12 +128,12 @@ void Editor_Html2Format::openElementNode (pugi::xml_node node)
   
   if (tagName == "span")
   {
-    openInline (className);
+    open_inline (className);
   }
 }
 
 
-void Editor_Html2Format::closeElementNode (pugi::xml_node node)
+void Editor_Html2Format::close_element_node (pugi::xml_node node)
 {
   // The tag and class names of this element node.
   std::string tagName = node.name ();
@@ -156,7 +156,7 @@ void Editor_Html2Format::closeElementNode (pugi::xml_node node)
 }
 
 
-void Editor_Html2Format::openInline (std::string className)
+void Editor_Html2Format::open_inline (std::string className)
 {
   current_character_format = className;
 }

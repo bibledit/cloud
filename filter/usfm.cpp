@@ -210,7 +210,7 @@ std::vector <BookChapterData> usfm_import (std::string input, std::string styles
         chapter_data = filter::strings::trim (chapter_data);
         if (!chapter_data.empty()) result.push_back ( { static_cast<int>(bookid), chapter_number, chapter_data } );
         chapter_number = 0;
-        chapter_data = "";
+        chapter_data.clear();
         store_chapter_data = false;
       }
       // Only opening markers can start on a new line.
@@ -229,10 +229,11 @@ std::vector <BookChapterData> usfm_import (std::string input, std::string styles
         }
       }
     }
-    chapter_data += marker_or_text;
+    chapter_data.append(marker_or_text);
   }
   chapter_data = filter::strings::trim (chapter_data);
-  if (!chapter_data.empty()) result.push_back (BookChapterData (static_cast<int>(bookid), chapter_number, chapter_data));
+  if (!chapter_data.empty())
+    result.push_back (BookChapterData (static_cast<int>(bookid), chapter_number, chapter_data));
   return result;
 }
 

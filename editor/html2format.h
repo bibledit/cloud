@@ -45,10 +45,10 @@ private:
   void preprocess ();
   void postprocess ();
   void process ();
-  void processNode (pugi::xml_node node);
-  void openElementNode (pugi::xml_node node);
-  void closeElementNode (pugi::xml_node node);
-  void openInline (std::string className);
+  void process_node (pugi::xml_node node);
+  void open_element_node (pugi::xml_node node);
+  void close_element_node (pugi::xml_node node);
+  void open_inline (std::string className);
   std::string update_quill_class (std::string classname);
   std::string current_character_format {};
 };

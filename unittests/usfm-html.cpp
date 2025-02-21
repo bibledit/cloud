@@ -294,7 +294,7 @@ TEST_F (usfm_html, chapter)
 }
 
 
-TEST_F (usfm_html, alternative_chapter) // Todo
+TEST_F (usfm_html, alternative_chapter)
 {
   std::string standard_usfm =
   R"(\c 13)" "\n"

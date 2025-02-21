@@ -202,7 +202,7 @@ void Filter_Text::pre_process_usfm (const std::string& stylesheet)
         std::string marker = filter::strings::trim (currentItem); // Change, e.g. '\id ' to '\id'.
         marker = marker.substr (1); // Remove the initial backslash, e.g. '\id' becomes 'id'.
         if (filter::usfm::is_opening_marker (marker)) {
-          if ((styles.find (marker) != styles.end()) && (!stylesv2::marker_moved_to_v2(marker, {"vp"}))) // Todo
+          if ((styles.find (marker) != styles.end()) && (!stylesv2::marker_moved_to_v2(marker, {"ca"}))) // Todo
           {
             database::styles1::Item style = styles [marker];
             note_citations.evaluate_style(style);
@@ -315,7 +315,7 @@ void Filter_Text::pre_process_usfm (const std::string& stylesheet)
               {
                 // Store the chapter label for this book and chapter.
                 const std::string chapter_label = filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
-                chapterLabels.push_back (filter::text::passage_marker_value (m_current_book_identifier, m_current_chapter_number, m_current_verse_number, marker, chapter_label));
+                chapter_labels.push_back (filter::text::passage_marker_value (m_current_book_identifier, m_current_chapter_number, m_current_verse_number, marker, chapter_label));
                 // If a chapter label is in the book, there's no drop caps output of the chapter number.
                 book_has_chapter_label [m_current_book_identifier] = true;
                 // Done.
@@ -324,7 +324,13 @@ void Filter_Text::pre_process_usfm (const std::string& stylesheet)
               case stylesv2::Type::published_chapter_marker:
               {
                 const std::string published_chapter_marker = filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
-                publishedChapterMarkers.push_back (filter::text::passage_marker_value (m_current_book_identifier, m_current_chapter_number, m_current_verse_number, marker, published_chapter_marker));
+                published_chapter_markers.push_back (filter::text::passage_marker_value (m_current_book_identifier, m_current_chapter_number, m_current_verse_number, marker, published_chapter_marker));
+                break;
+              }
+              case stylesv2::Type::alternate_chapter_number:
+              {
+                const std::string alternate_chapter_number = filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
+                alternate_chapter_numbers.push_back (filter::text::passage_marker_value (m_current_book_identifier, m_current_chapter_number, m_current_verse_number, marker, alternate_chapter_number));
                 break;
               }
               case stylesv2::Type::published_verse_marker:
@@ -333,7 +339,7 @@ void Filter_Text::pre_process_usfm (const std::string& stylesheet)
                 // The marker looks like: ... \vp ၁။\vp* ...
                 // It stores this markup in the object for later reference.
                 const std::string published_verse_marker = filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
-                publishedVerseMarkers.push_back (filter::text::passage_marker_value (m_current_book_identifier, m_current_chapter_number, m_current_verse_number, marker, published_verse_marker));
+                published_verse_markers.push_back (filter::text::passage_marker_value (m_current_book_identifier, m_current_chapter_number, m_current_verse_number, marker, published_verse_marker));
                 break;
               }
               case stylesv2::Type::stopping_boundary: // Todo
@@ -461,33 +467,48 @@ void Filter_Text::process_usfm (const std::string& stylesheet)
             }
             case StyleTypeChapterNumber:
             {
-              if (odf_text_standard) odf_text_standard->close_text_style (false, false);
-              if (odf_text_text_only) odf_text_text_only->close_text_style (false, false);
-              if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->close_text_style (false, false);
-              if (odf_text_notes) odf_text_notes->close_text_style (false, false);
-              if (html_text_standard) html_text_standard->close_text_style (false, false);
-              if (html_text_linked) html_text_linked->close_text_style (false, false);
-
-              if (onlinebible_text) onlinebible_text->storeData ();
+              if (odf_text_standard)
+                odf_text_standard->close_text_style (false, false);
+              if (odf_text_text_only)
+                odf_text_text_only->close_text_style (false, false);
+              if (odf_text_text_and_note_citations)
+                odf_text_text_and_note_citations->close_text_style (false, false);
+              if (odf_text_notes)
+                odf_text_notes->close_text_style (false, false);
+              if (html_text_standard)
+                html_text_standard->close_text_style (false, false);
+              if (html_text_linked)
+                html_text_linked->close_text_style (false, false);
+              if (onlinebible_text)
+                onlinebible_text->storeData ();
 
               // Get the chapter number.
               std::string usfm_c_fragment = filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
-              int chapter_number = filter::strings::convert_to_int (usfm_c_fragment);
 
               // Update this object.
-              m_current_chapter_number = chapter_number;
+              m_current_chapter_number = filter::strings::convert_to_int (usfm_c_fragment);
               set_to_zero(m_current_verse_number);
 
               // If there is a published chapter character, the chapter number takes that value.
-              for (const auto& published_chapter_marker : publishedChapterMarkers) {
+              for (const auto& published_chapter_marker : published_chapter_markers) {
                 if (published_chapter_marker.m_book == m_current_book_identifier) {
                   if (published_chapter_marker.m_chapter == m_current_chapter_number) {
                     usfm_c_fragment = published_chapter_marker.m_value;
-                    chapter_number = filter::strings::convert_to_int (usfm_c_fragment);
                   }
                 }
               }
 
+              // If there's an alternate chapter number, append this to the chapter number fragment.
+              for (const auto& alternate_chapter_number : alternate_chapter_numbers) {
+                if (alternate_chapter_number.m_book == m_current_book_identifier) {
+                  if (alternate_chapter_number.m_chapter == m_current_chapter_number) {
+                    usfm_c_fragment.append(" (");
+                    usfm_c_fragment.append (alternate_chapter_number.m_value);
+                    usfm_c_fragment.append(")");
+                  }
+                }
+              }
+              
               // Enter text for the running headers.
               std::string running_header = database::books::get_english_from_id (static_cast<book_id>(m_current_book_identifier));
               for (const auto& item : runningHeaders) {
@@ -527,13 +548,13 @@ void Filter_Text::process_usfm (const std::string& stylesheet)
                   // (usually done if numbers are being presented as words, not numerals).
                   std::string labelEntireBook {};
                   std::string labelCurrentChapter {};
-                  for (const auto& pchapterLabel : chapterLabels) {
-                    if (pchapterLabel.m_book == m_current_book_identifier) {
-                      if (pchapterLabel.m_chapter == 0) {
-                        labelEntireBook = pchapterLabel.m_value;
+                  for (const auto& chapter_label : chapter_labels) {
+                    if (chapter_label.m_book == m_current_book_identifier) {
+                      if (chapter_label.m_chapter == 0) {
+                        labelEntireBook = chapter_label.m_value;
                       }
-                      if (pchapterLabel.m_chapter == m_current_chapter_number) {
-                        labelCurrentChapter = pchapterLabel.m_value;
+                      if (chapter_label.m_chapter == m_current_chapter_number) {
+                        labelCurrentChapter = chapter_label.m_value;
                       }
                     }
                   }
@@ -638,7 +659,7 @@ void Filter_Text::process_usfm (const std::string& stylesheet)
               m_current_verse_number = v_number;
               // In case there was a published verse marker, use that markup for publishing.
               std::string v_vp_number = v_number;
-              for (const auto& publishedVerseMarker : publishedVerseMarkers) {
+              for (const auto& publishedVerseMarker : published_verse_markers) {
                 if (publishedVerseMarker.m_book == m_current_book_identifier) {
                   if (publishedVerseMarker.m_chapter == m_current_chapter_number) {
                     if (publishedVerseMarker.m_verse == m_current_verse_number) {
@@ -996,9 +1017,18 @@ void Filter_Text::process_usfm (const std::string& stylesheet)
             case stylesv2::Type::published_chapter_marker:
             {
               close_text_style_all();
-              // This information already went into the Info document. Remove it from the USFM stream.
+              // This information already is preprocessed. Remove it from the USFM stream.
               filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
               break;
+            }
+            case stylesv2::Type::alternate_chapter_number:
+            {
+              close_text_style_all();
+              if (is_opening_marker) {
+                // This information is already in the object.
+                // Remove it from the USFM stream at the opening marker.
+                filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
+              }
             }
             case stylesv2::Type::published_verse_marker:
             {
@@ -1407,13 +1437,13 @@ void Filter_Text::produceInfoDocument (std::string path)
 
   // Chapter specials.
   information.new_heading1 (translate("Publishing chapter labels"));
-  for (const auto& item : chapterLabels) {
+  for (const auto& item : chapter_labels) {
     const std::string line = database::books::get_english_from_id (static_cast<book_id>(item.m_book)) + " (USFM " + item.m_marker + ") => " + item.m_value;
     information.new_paragraph ();
     information.add_text (line);
   }
-  information.new_heading1 (translate("Publishing alternate chapter numbers"));
-  for (const auto& item : publishedChapterMarkers) {
+  information.new_heading1 (translate("Publishing chapter markers"));
+  for (const auto& item : published_chapter_markers) {
     const std::string line = database::books::get_english_from_id (static_cast<book_id>(item.m_book)) + " (USFM " + item.m_marker + ") => " + item.m_value;
     information.new_paragraph ();
     information.add_text (line);

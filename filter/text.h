@@ -32,9 +32,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 namespace filter::text {
 
-class passage_marker_value
+struct passage_marker_value
 {
-public:
   passage_marker_value (int book, int chapter, std::string verse, std::string marker, std::string value);
   int m_book {0};
   int m_chapter {0};
@@ -116,12 +115,11 @@ public:
   std::vector <filter::text::passage_marker_value> bookAbbreviations {};
 
 public:
-  // Vector with objects (book, chapter, verse, marker, label value).
-  std::vector <filter::text::passage_marker_value> chapterLabels {};
-  // Vector with object (book, chapter, verse, marker, marker value).
-  std::vector <filter::text::passage_marker_value> publishedChapterMarkers {};
-  // Vector with object (book, chapter, verse, marker, marker value).
-  std::vector <filter::text::passage_marker_value> publishedVerseMarkers {};
+  // The following four containers are vectors of object (book, chapter, verse, marker, label value).
+  std::vector <filter::text::passage_marker_value> chapter_labels {};
+  std::vector <filter::text::passage_marker_value> published_chapter_markers {};
+  std::vector <filter::text::passage_marker_value> alternate_chapter_numbers {};
+  std::vector <filter::text::passage_marker_value> published_verse_markers {};
 private:
   // std::string holding the chapter number or text to output at the first verse.
   std::string m_output_chapter_text_at_first_verse {};

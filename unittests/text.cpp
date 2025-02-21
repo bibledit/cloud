@@ -36,21 +36,26 @@ constexpr const char* text_test_odt {"/tmp/text_test.odt"};
 //constexpr const char* text_test_html {"/tmp/text_test.html"};
 constexpr const char*  text_test_txt {"/tmp/text_test.txt"};
 
-static void setup ()
-{
-  refresh_sandbox (false);
-  // The unittests depend on known settings.
-  database::config::bible::set_export_chapter_drop_caps_frames (bible, true);
-  database::config::bible::set_odt_space_after_verse (bible, " ");
-}
+
+class filter_text : public testing::Test {
+protected:
+  static void SetUpTestSuite() { }
+  static void TearDownTestSuite() { }
+  void SetUp() override {
+    refresh_sandbox (false);
+    // The unittests depend on known settings.
+    database::config::bible::set_export_chapter_drop_caps_frames (bible, true);
+    database::config::bible::set_odt_space_after_verse (bible, " ");
+  }
+  void TearDown() override {
+  }
+};
 
 
 // Test extraction of all sorts of information from USFM code.
 // Test basic formatting into OpenDocument.
-TEST (filter_text, extract)
+TEST_F (filter_text, extract)
 {
-  setup();
-
   const std::string usfm = R"(
 \id GEN
 \h Header
@@ -141,20 +146,20 @@ TEST (filter_text, extract)
   }
   
   // Check published chapter markers.
-  const int desiredpublishedChapterMarkers = 2;
-  const size_t actualpublishedChapterMarkers = filter_text.publishedChapterMarkers.size();
-  EXPECT_EQ (desiredpublishedChapterMarkers, actualpublishedChapterMarkers);
-  if (desiredpublishedChapterMarkers == static_cast<int>(actualpublishedChapterMarkers)) {
-    EXPECT_EQ (1, filter_text.publishedChapterMarkers[0].m_book);
-    EXPECT_EQ (1, filter_text.publishedChapterMarkers[0].m_chapter);
-    EXPECT_EQ ("0", filter_text.publishedChapterMarkers[0].m_verse);
-    EXPECT_EQ ("cp", filter_text.publishedChapterMarkers[0].m_marker);
-    EXPECT_EQ ("Ⅰ", filter_text.publishedChapterMarkers[0].m_value);
-    EXPECT_EQ (1, filter_text.publishedChapterMarkers[1].m_book);
-    EXPECT_EQ (2, filter_text.publishedChapterMarkers[1].m_chapter);
-    EXPECT_EQ ("0", filter_text.publishedChapterMarkers[1].m_verse);
-    EXPECT_EQ ("cp", filter_text.publishedChapterMarkers[1].m_marker);
-    EXPECT_EQ ("②", filter_text.publishedChapterMarkers[1].m_value);
+  const int desiredpublished_chapter_markers = 2;
+  const size_t actualpublished_chapter_markers = filter_text.published_chapter_markers.size();
+  EXPECT_EQ (desiredpublished_chapter_markers, actualpublished_chapter_markers);
+  if (desiredpublished_chapter_markers == static_cast<int>(actualpublished_chapter_markers)) {
+    EXPECT_EQ (1, filter_text.published_chapter_markers[0].m_book);
+    EXPECT_EQ (1, filter_text.published_chapter_markers[0].m_chapter);
+    EXPECT_EQ ("0", filter_text.published_chapter_markers[0].m_verse);
+    EXPECT_EQ ("cp", filter_text.published_chapter_markers[0].m_marker);
+    EXPECT_EQ ("Ⅰ", filter_text.published_chapter_markers[0].m_value);
+    EXPECT_EQ (1, filter_text.published_chapter_markers[1].m_book);
+    EXPECT_EQ (2, filter_text.published_chapter_markers[1].m_chapter);
+    EXPECT_EQ ("0", filter_text.published_chapter_markers[1].m_verse);
+    EXPECT_EQ ("cp", filter_text.published_chapter_markers[1].m_marker);
+    EXPECT_EQ ("②", filter_text.published_chapter_markers[1].m_value);
   }
   
   // OpenDocument output.
@@ -185,9 +190,8 @@ This is the text of chapter 2, verse 2. This is the text of chapter 2, verse 2. 
 // There are two books here.
 // This normally gives one new page between these two books.
 // Test that basic USFM code gets transformed correctly.
-TEST (filter_text, new_page_between_books)
+TEST_F (filter_text, new_page_between_books)
 {
-  setup();
   std::string usfm =
   "\\id GEN\n"
   "\\ide XYZ\n"
@@ -242,9 +246,8 @@ TEST (filter_text, new_page_between_books)
 
 // Test multiple books in one OpenDocument file.
 // The headers of each new book should be correct.
-TEST (filter_text, books_odt_headers)
+TEST_F (filter_text, books_odt_headers)
 {
-  setup();
   std::string directory = filter_url_create_root_path ({"unittests", "tests"});
   std::string usfm_ruth = filter_url_file_get_contents (filter_url_create_path ({directory, "08-Ruth.usfm"}));
   std::string usfm_1_peter = filter_url_file_get_contents (filter_url_create_path ({directory, "60-1Peter.usfm"}));
@@ -288,9 +291,8 @@ TEST (filter_text, books_odt_headers)
 
 
 // Test transformation of verse numbers and text following.
-TEST (filter_text, transform_verse_numbers)
+TEST_F (filter_text, transform_verse_numbers)
 {
-  setup();
   const std::string usfm =
   "\\id GEN\n"
   "\\v 1 Verse One.\n"
@@ -322,9 +324,8 @@ TEST (filter_text, transform_verse_numbers)
 
 
 // Test footnotes and cross references.
-TEST (filter_text, footnotes_xrefs_1)
+TEST_F (filter_text, footnotes_xrefs_1)
 {
-  setup();
   const std::string usfm =
   "\\id GEN\n"
   "\\v 1 Text 1\\x + \\xt Isa. 1.1.\\x*\\x - \\xt Isa. 2.2.\\x*\\x + \\xt Isa. 3.3.\\x*, text 2\\f + \\fk Word1: \\fl Heb. \\fq Explanation1.\\f*\\f + \\fk Word2: \\fl Heb. \\fq Explanation2.\\f*, text3.\\f + \\fk Test: \\fl Heb. \\fq Note at the very end.\\f*\n";
@@ -357,9 +358,8 @@ TEST (filter_text, footnotes_xrefs_1)
 
 
 // Test footnotes and cross references and their behaviour in new chapters.
-TEST (filter_text, footnotes_xrefs_new_chapters)
+TEST_F (filter_text, footnotes_xrefs_new_chapters)
 {
-  setup();
   std::string usfm = R"(
 \id GEN
 \c 1
@@ -433,9 +433,8 @@ Xref 4aXref 4.
 
 
 // Test transformation of published verse numbers.
-TEST (filter_text, transform_published_verse_numbers)
+TEST_F (filter_text, transform_published_verse_numbers)
 {
-  setup();
   std::string usfm = R"(
 \id GEN
 \c 1
@@ -468,9 +467,8 @@ Genesis 1
 
 
 // Test that the \vp... markup does not introduce an extra space after the \v marker.
-TEST (filter_text, vp_no_space_after_v)
+TEST_F (filter_text, vp_no_space_after_v)
 {
-  setup();
   const std::string usfm = R"(
 \id MAT
 \c 1
@@ -491,9 +489,8 @@ A Verse text.
 
 
 // Test clear text export.
-TEST (filter_text, clear_text_export_1)
+TEST_F (filter_text, clear_text_export_1)
 {
-  setup();
   const std::string usfm =
   "\\id GEN\n"
   "\\h Genesis\n"
@@ -526,9 +523,8 @@ TEST (filter_text, clear_text_export_1)
 
 
 // Test clear text export.
-TEST (filter_text, clear_text_export_2)
+TEST_F (filter_text, clear_text_export_2)
 {
-  setup();
   const std::string usfm =
   "\\id GEN\n"
   "\\c 1\n"
@@ -556,9 +552,8 @@ TEST (filter_text, clear_text_export_2)
 
 
 // Test verses headings.
-TEST (filter_text, verse_headings_1)
+TEST_F (filter_text, verse_headings_1)
 {
-  setup();
   const std::string usfm =
   "\\id GEN\n"
   "\\c 1\n"
@@ -588,9 +583,8 @@ TEST (filter_text, verse_headings_1)
 
 
 // Test verses headings.
-TEST (filter_text, verse_headings_2)
+TEST_F (filter_text, verse_headings_2)
 {
-  setup();
   const std::string usfm =
   "\\id GEN\n"
   "\\c 1\n"
@@ -614,9 +608,8 @@ TEST (filter_text, verse_headings_2)
 
 
 // Test verses text.
-TEST (filter_text, verses_text_1)
+TEST_F (filter_text, verses_text_1)
 {
-  setup();
   const std::string usfm =
   "\\id GEN\n"
   "\\c 1\n"
@@ -653,9 +646,8 @@ TEST (filter_text, verses_text_1)
 
 
 // Test verses text.
-TEST (filter_text, verses_text_2)
+TEST_F (filter_text, verses_text_2)
 {
-  setup();
   const std::string usfm =
   "\\c 15\n"
   "\\s Heading\n"
@@ -677,9 +669,8 @@ TEST (filter_text, verses_text_2)
 
 
 // Test paragraph starting markers.
-TEST (filter_text, paragraph_starting_markers)
+TEST_F (filter_text, paragraph_starting_markers)
 {
-  setup();
   const std::string usfm =
   "\\c 1\n"
   "\\s Heading\n"
@@ -697,9 +688,8 @@ TEST (filter_text, paragraph_starting_markers)
 
 
 // Test improved paragraph detection.
-TEST (filter_text, improved_paragraph_detection)
+TEST_F (filter_text, improved_paragraph_detection)
 {
-  setup();
   const std::string path = filter_url_create_root_path ({"unittests", "tests", "ShonaNumbers23.usfm"});
   const std::string usfm = filter_url_file_get_contents (path);
   Filter_Text filter_text = Filter_Text (std::string());
@@ -762,9 +752,8 @@ TEST (filter_text, improved_paragraph_detection)
 
 
 // Test embedded character styles to text output.
-TEST (filter_text, embedded_character_styles_to_text)
+TEST_F (filter_text, embedded_character_styles_to_text)
 {
-  setup();
   const std::string usfm =
   "\\c 1\n"
   "\\p\n"
@@ -784,9 +773,8 @@ TEST (filter_text, embedded_character_styles_to_text)
 
 
 // Test embedded character styles to html output.
-TEST (filter_text, embedded_character_styles_to_html_1)
+TEST_F (filter_text, embedded_character_styles_to_html_1)
 {
-  setup();
   // Open character style, and embedded character style, and close both normally.
   const std::string usfm =
   "\\c 1\n"
@@ -810,9 +798,8 @@ TEST (filter_text, embedded_character_styles_to_html_1)
 
 
 // Test embedded character styles to html output.
-TEST (filter_text, embedded_character_styles_to_html_2)
+TEST_F (filter_text, embedded_character_styles_to_html_2)
 {
-  setup();
   // Open character style, open embedded character style, close embedded one, then close the outer one.
   const std::string usfm =
   "\\c 1\n"
@@ -829,9 +816,8 @@ TEST (filter_text, embedded_character_styles_to_html_2)
 
 
 // Test embedded character styles to html output.
-TEST (filter_text, embedded_character_styles_to_html_3)
+TEST_F (filter_text, embedded_character_styles_to_html_3)
 {
-  setup();
   // Open character style, open embedded character style,
   // then closing the outer one closes the embedded one also.
   const std::string usfm =
@@ -849,9 +835,8 @@ TEST (filter_text, embedded_character_styles_to_html_3)
 
 
 // Test embedded character styles to OpenDocument output.
-TEST (filter_text, embedded_character_styles_to_odt_1)
+TEST_F (filter_text, embedded_character_styles_to_odt_1)
 {
-  setup();
   // Open character style, and embedded character style, and close both normally.
   std::string usfm =
   "\\id GEN\n"
@@ -880,9 +865,8 @@ TEST (filter_text, embedded_character_styles_to_odt_1)
 
 
 // Exercise bits in document to generate text and note citations.
-TEST (filter_text, generate_text_note_citations)
+TEST_F (filter_text, generate_text_note_citations)
 {
-  setup();
   std::string usfm =
   "\\id GEN\n"
   "\\v 1 Text 1\\x + \\xt Isa. 1.1.\\x* text\\f + \\fk Word: \\fl Heb. \\fq Explanation1.\\f* text\\fe + \\fk Word: \\fl Heb. \\fq Explanation1.\\fe*.\n";
@@ -903,9 +887,8 @@ TEST (filter_text, generate_text_note_citations)
 
 
 // Test embedded character styles to OpenDocument output.
-TEST (filter_text, embedded_character_styles_to_odt_2)
+TEST_F (filter_text, embedded_character_styles_to_odt_2)
 {
-  setup();
   // Open character style, open embedded character style, close embedded one, then close the outer one.
   const std::string usfm =
   "\\id GEN\n"
@@ -934,9 +917,8 @@ TEST (filter_text, embedded_character_styles_to_odt_2)
 
 
 // Test embedded character styles to OpenDocument output.
-TEST (filter_text, embedded_character_styles_to_odt_3)
+TEST_F (filter_text, embedded_character_styles_to_odt_3)
 {
-  setup();
   // Open character style, open embedded character style, then closing the outer one closes the embedded one also.
   std::string usfm =
   "\\id GEN\n"
@@ -965,9 +947,8 @@ TEST (filter_text, embedded_character_styles_to_odt_3)
 
 
 // Test the behaviour of a chapter label put in chapter zero.
-TEST (filter_text, chapter_label_in_chapter_zero)
+TEST_F (filter_text, chapter_label_in_chapter_zero)
 {
-  setup();
   // The following USFM has the \cl - chapter label - before the first chapter.
   // It means that the \cl represents the text for "chapter" to be used throughout the book.
   // So it will output:
@@ -991,15 +972,15 @@ TEST (filter_text, chapter_label_in_chapter_zero)
   filter_text.run (styles_logic_standard_sheet ());
   
   // Check chapter labels.
-  const int desiredchapterLabels = 1;
-  const size_t actualchapterLabels = filter_text.chapterLabels.size();
-  EXPECT_EQ (desiredchapterLabels, actualchapterLabels);
-  if (desiredchapterLabels == static_cast<int>(actualchapterLabels)) {
-    EXPECT_EQ (1, filter_text.chapterLabels[0].m_book);
-    EXPECT_EQ (0, filter_text.chapterLabels[0].m_chapter);
-    EXPECT_EQ ("0", filter_text.chapterLabels[0].m_verse);
-    EXPECT_EQ ("cl", filter_text.chapterLabels[0].m_marker);
-    EXPECT_EQ ("Chapter", filter_text.chapterLabels[0].m_value);
+  const int desiredchapter_labels = 1;
+  const size_t actualchapter_labels = filter_text.chapter_labels.size();
+  EXPECT_EQ (desiredchapter_labels, actualchapter_labels);
+  if (desiredchapter_labels == static_cast<int>(actualchapter_labels)) {
+    EXPECT_EQ (1, filter_text.chapter_labels[0].m_book);
+    EXPECT_EQ (0, filter_text.chapter_labels[0].m_chapter);
+    EXPECT_EQ ("0", filter_text.chapter_labels[0].m_verse);
+    EXPECT_EQ ("cl", filter_text.chapter_labels[0].m_marker);
+    EXPECT_EQ ("Chapter", filter_text.chapter_labels[0].m_value);
   }
   
   // OpenDocument output.
@@ -1028,9 +1009,8 @@ Chapter 2
 
 
 // Test the behaviour of a chapter label put in each separate chapter.
-TEST (filter_text, chapter_label_in_chapters)
+TEST_F (filter_text, chapter_label_in_chapters)
 {
-  setup();
   // The following USFM has the \cl - chapter label - in each chapter.
   // It means that the \cl represents the particular text to be used
   // for the display of the current chapter heading.
@@ -1057,20 +1037,20 @@ TEST (filter_text, chapter_label_in_chapters)
   filter_text.run (styles_logic_standard_sheet ());
   
   // Check chapter labels.
-  const int desiredchapterLabels = 2;
-  const size_t actualchapterLabels = filter_text.chapterLabels.size();
-  EXPECT_EQ (desiredchapterLabels, actualchapterLabels);
-  if (desiredchapterLabels == static_cast<int>(actualchapterLabels)) {
-    EXPECT_EQ (1, filter_text.chapterLabels[0].m_book);
-    EXPECT_EQ (1, filter_text.chapterLabels[0].m_chapter);
-    EXPECT_EQ ("0", filter_text.chapterLabels[0].m_verse);
-    EXPECT_EQ ("cl", filter_text.chapterLabels[0].m_marker);
-    EXPECT_EQ ("Chapter One", filter_text.chapterLabels[0].m_value);
-    EXPECT_EQ (1, filter_text.chapterLabels[1].m_book);
-    EXPECT_EQ (2, filter_text.chapterLabels[1].m_chapter);
-    EXPECT_EQ ("0", filter_text.chapterLabels[1].m_verse);
-    EXPECT_EQ ("cl", filter_text.chapterLabels[1].m_marker);
-    EXPECT_EQ ("Chapter Two", filter_text.chapterLabels[1].m_value);
+  const int desiredchapter_labels = 2;
+  const size_t actualchapter_labels = filter_text.chapter_labels.size();
+  EXPECT_EQ (desiredchapter_labels, actualchapter_labels);
+  if (desiredchapter_labels == static_cast<int>(actualchapter_labels)) {
+    EXPECT_EQ (1, filter_text.chapter_labels[0].m_book);
+    EXPECT_EQ (1, filter_text.chapter_labels[0].m_chapter);
+    EXPECT_EQ ("0", filter_text.chapter_labels[0].m_verse);
+    EXPECT_EQ ("cl", filter_text.chapter_labels[0].m_marker);
+    EXPECT_EQ ("Chapter One", filter_text.chapter_labels[0].m_value);
+    EXPECT_EQ (1, filter_text.chapter_labels[1].m_book);
+    EXPECT_EQ (2, filter_text.chapter_labels[1].m_chapter);
+    EXPECT_EQ ("0", filter_text.chapter_labels[1].m_verse);
+    EXPECT_EQ ("cl", filter_text.chapter_labels[1].m_marker);
+    EXPECT_EQ ("Chapter Two", filter_text.chapter_labels[1].m_value);
   }
   
   // OpenDocument output.
@@ -1099,9 +1079,8 @@ Chapter Two
 
 
 // Test footnotes and cross references in plain text.
-TEST (filter_text, footnotes_xrefs_plain_text)
+TEST_F (filter_text, footnotes_xrefs_plain_text)
 {
-  setup();
   const std::string usfm = R"(
 \id GEN
 \c 1
@@ -1128,9 +1107,8 @@ TEST (filter_text, footnotes_xrefs_plain_text)
 
 
 // Test plain text and notes for export.
-TEST (filter_text, plain_text_notes_export)
+TEST_F (filter_text, plain_text_notes_export)
 {
-  setup();
   const std::string usfm = R"(
 \id GEN
 \c 1
@@ -1178,9 +1156,8 @@ TEST (filter_text, plain_text_notes_export)
 
 
 // Test incorrect \vp markup.
-TEST (filter_text, incorrect_vp_markup)
+TEST_F (filter_text, incorrect_vp_markup)
 {
-  setup();
   const std::string usfm = R"(
 \c 1
 \p
@@ -1208,9 +1185,8 @@ B Jesus is the son of God.
 
 
 // Test invalid UTF8 input text.
-TEST (filter_text, invalid_utf8_input)
+TEST_F (filter_text, invalid_utf8_input)
 {
-  setup();
   refresh_sandbox (false);
   std::string path = filter_url_create_root_path ({"unittests", "tests", "invalid-utf8-2.usfm"});
   std::string invalid_utf8_usfm = filter_url_file_get_contents (path);
@@ -1231,9 +1207,8 @@ TEST (filter_text, invalid_utf8_input)
 
 
 // Test converting USFM with an image to other formats.
-TEST (filter_text, convert_image_to_format)
+TEST_F (filter_text, convert_image_to_format)
 {
-  setup();
   // Store images in the database that keeps the Bible images.
   const std::string image_2_name = "bibleimage2.png";
   const std::string image_3_name = "bibleimage3.png";
@@ -1297,10 +1272,8 @@ TEST (filter_text, convert_image_to_format)
 
 // Test export word-level attributes.
 // https://ubsicap.github.io/usfm/attributes/index.html
-TEST (filter_text, export_no_word_level_attributes)
+TEST_F (filter_text, export_no_word_level_attributes)
 {
-  setup();
-
   const std::string usfm = R"(
 \p
 \v 1 This is verse one.
@@ -1327,6 +1300,34 @@ TEST (filter_text, export_no_word_level_attributes)
   };
   EXPECT_EQ (standard, verses_text);
 }
+
+
+TEST_F (filter_text, alternate_chapter_number)
+{
+  const std::string usfm = R"(
+\c 13
+\ca 14\ca*
+\p
+\v 1 Verse one.
+  )";
+  Filter_Text filter_text = Filter_Text (bible);
+  filter_text.odf_text_standard = new odf_text (bible);
+  filter_text.add_usfm_code (usfm);
+  filter_text.run (styles_logic_standard_sheet());
+  filter_text.odf_text_standard->save (text_test_odt);
+  const int ret = odf2txt (text_test_odt, text_test_txt);
+  EXPECT_EQ (0, ret);
+  const std::string odt = filter_url_file_get_contents (text_test_txt);
+  const std::string standard =
+  "Unknown 13 (14)\n"
+  "\n"
+  "13 (14)\n"
+  "\n"
+  "Verse one.\n"
+  "\n";
+  EXPECT_EQ (standard, odt);
+}
+
 
 #endif
 

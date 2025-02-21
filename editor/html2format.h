@@ -48,7 +48,7 @@ private:
   void process_node (pugi::xml_node node);
   void open_element_node (pugi::xml_node node);
   void close_element_node (pugi::xml_node node);
-  void open_inline (std::string className);
-  std::string update_quill_class (std::string classname);
+  void open_inline (std::string class_name);
+  std::string update_quill_class (std::string class_name);
   std::string current_character_format {};
 };

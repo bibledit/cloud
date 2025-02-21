@@ -182,7 +182,7 @@ void Editor_Usfm2Html::process ()
       if (m_preview)
         if (is_opening_marker)
           filter::usfm::remove_word_level_attributes (marker, m_markers_and_text, m_markers_and_text_pointer);
-      if (m_styles.count (marker) && (!stylesv2::marker_moved_to_v2(marker, {"vp"})))
+      if (m_styles.count (marker) && (!stylesv2::marker_moved_to_v2(marker, {"ca"})))
       {
         const database::styles1::Item& style = m_styles.at(marker);
         switch (style.type)
@@ -412,8 +412,9 @@ void Editor_Usfm2Html::process ()
           case stylesv2::Type::book_abbrev:
           case stylesv2::Type::chapter_label:
           case stylesv2::Type::published_chapter_marker:
+          case stylesv2::Type::alternate_chapter_number:
           {
-            // The above identifiers: Output as plain text.
+            // The above markup: Output as plain text.
             close_text_style (false);
             output_as_is (marker, is_opening_marker);
             break;

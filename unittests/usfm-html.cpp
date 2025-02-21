@@ -294,6 +294,32 @@ TEST_F (usfm_html, chapter)
 }
 
 
+TEST_F (usfm_html, alternative_chapter) // Todo
+{
+  std::string standard_usfm =
+  R"(\c 13)" "\n"
+  R"(\ca 14\ca*)" "\n"
+  R"(\p)" "\n"
+  R"(\v 1 Text)";
+  
+  const std::string standard_html = R"(<p class="b-c"><span>13</span></p><p class="b-mono"><span>\ca </span><span>14</span><span>\ca*</span></p><p class="b-p"><span class="i-v">1</span><span> </span><span>Text</span></p>)";
+  
+  Editor_Usfm2Html editor_usfm2html;
+  editor_usfm2html.load (standard_usfm);
+  editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
+  editor_usfm2html.run ();
+  const std::string html = editor_usfm2html.get ();
+  EXPECT_EQ (standard_html, html);
+  
+  Editor_Html2Usfm editor_html2usfm;
+  editor_html2usfm.load (html);
+  editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
+  editor_html2usfm.run ();
+  const std::string usfm = editor_html2usfm.get ();
+  EXPECT_EQ (standard_usfm, usfm);
+}
+
+
 TEST_F (usfm_html, verses)
 {
   std::string standard_usfm =

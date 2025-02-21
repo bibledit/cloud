@@ -48,7 +48,7 @@ public:
   void set_preview ();
 private:
   // Strings alternating between USFM and text.
-  std::vector <std::string> m_markers_and_text {};
+  std::vector<std::string> m_markers_and_text {};
   unsigned int m_markers_and_text_pointer {0};
   
   // All the style information.

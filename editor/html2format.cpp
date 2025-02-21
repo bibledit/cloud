@@ -74,8 +74,9 @@ void Editor_Html2Format::process_node (pugi::xml_node node)
     {
       // Skip a note with class "ql-cursor" because that is an internal Quill node.
       // The user didn't insert it.
-      std::string classs = node.attribute("class").value();
-      if (classs == quill_caret_class) break;
+      const std::string classs = node.attribute("class").value();
+      if (classs == quill_caret_class)
+        break;
       // Process node normally.
       open_element_node (node);
       for (pugi::xml_node child : node.children()) {
@@ -87,7 +88,7 @@ void Editor_Html2Format::process_node (pugi::xml_node node)
     case pugi::node_pcdata:
     {
       // Add the text with the current character format to the containers.
-      std::string text = node.text ().get ();
+      const std::string text = node.text ().get ();
       texts.push_back(text);
       formats.push_back(current_character_format);
       break;
@@ -101,7 +102,7 @@ void Editor_Html2Format::process_node (pugi::xml_node node)
     case pugi::node_doctype:
     default:
     {
-      std::string nodename = node.name ();
+      const std::string nodename = node.name ();
       Database_Logs::log ("XML node " + nodename + " not handled while saving editor text");
       break;
     }
@@ -112,23 +113,24 @@ void Editor_Html2Format::process_node (pugi::xml_node node)
 void Editor_Html2Format::open_element_node (pugi::xml_node node)
 {
   // The tag and class names of this element node.
-  std::string tagName = node.name ();
-  std::string className = update_quill_class (node.attribute ("class").value ());
+  const std::string tag_name = node.name ();
+  std::string class_name = update_quill_class (node.attribute ("class").value ());
   
-  if (tagName == "p")
+  if (tag_name == "p")
   {
     // In the editor, it may occur that the p element does not have a class.
     // Use the 'p' class in such a case.
-    if (className.empty ()) className = "p";
+    if (class_name.empty ())
+      class_name = "p";
     texts.push_back("\n");
-    formats.push_back(className);
+    formats.push_back(class_name);
     // A new line starts: Clear the character formatting.
     current_character_format.clear();
   }
   
-  if (tagName == "span")
+  if (tag_name == "span")
   {
-    open_inline (className);
+    open_inline (class_name);
   }
 }
 
@@ -136,19 +138,20 @@ void Editor_Html2Format::open_element_node (pugi::xml_node node)
 void Editor_Html2Format::close_element_node (pugi::xml_node node)
 {
   // The tag and class names of this element node.
-  std::string tagName = node.name ();
-  std::string className = update_quill_class (node.attribute ("class").value ());
+  const std::string tag_name = node.name ();
+  std::string class_name = update_quill_class (node.attribute ("class").value ());
 
-  if (tagName == "p")
+  if (tag_name == "p")
   {
     // While editing it happens that the p element does not have a class.
     // Use the 'p' class in such cases.
-    if (className.empty()) className = "p";
+    if (class_name.empty())
+      class_name = "p";
     // Clear active character styles.
     current_character_format.clear();
   }
   
-  if (tagName == "span")
+  if (tag_name == "span")
   {
     // End of span: Clear character formatting.
     current_character_format.clear();
@@ -156,9 +159,9 @@ void Editor_Html2Format::close_element_node (pugi::xml_node node)
 }
 
 
-void Editor_Html2Format::open_inline (std::string className)
+void Editor_Html2Format::open_inline (std::string class_name)
 {
-  current_character_format = className;
+  current_character_format = class_name;
 }
 
 
@@ -174,9 +177,9 @@ void Editor_Html2Format::postprocess ()
 }
 
 
-std::string Editor_Html2Format::update_quill_class (std::string classname)
+std::string Editor_Html2Format::update_quill_class (std::string class_name)
 {
-  classname = filter::strings::replace (quill_class_prefix_block, std::string(), classname);
-  classname = filter::strings::replace (quill_class_prefix_inline, std::string(), classname);
-  return classname;
+  class_name = filter::strings::replace (quill_class_prefix_block, std::string(), class_name);
+  class_name = filter::strings::replace (quill_class_prefix_inline, std::string(), class_name);
+  return class_name;
 }

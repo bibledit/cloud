@@ -320,15 +320,16 @@ const std::list<Style> styles {
     .implemented = true,
     .doc = "https://ubsicap.github.io/usfm/chapters_verses/index.html#vp-vp",
   },
-//  {
-//    .marker = "ca",
-//    .type = Type::alternate_chapter_number,
-//    .name = "Alternate chapter number",
-//    .info = "Second or alternate chapter number. For coding dual versification. Useful for places where different traditions of chapter breaks need to be supported in the same translation. Bibledit does nothing with this marker yet.",
-//    .properties = {},
-//    .implemented = false,
-//  },
-  
+  {
+    .marker = "ca",
+    .type = Type::alternate_chapter_number,
+    .name = "Alternate chapter number",
+    .info = "Second or alternate chapter number. For coding dual versification. Useful for places where different traditions of chapter breaks need to be supported in the same translation.",
+    .properties = {},
+    .implemented = false,
+    .doc = "https://ubsicap.github.io/usfm/chapters_verses/index.html#ca-ca",
+  },
+
   //    /* name */ "",
   //    /* info */ "",
   //    /* category */ "cv",
@@ -6767,6 +6768,7 @@ bool starts_new_line_in_usfm (const Style* style)
     case stylesv2::Type::book_abbrev:
     case stylesv2::Type::chapter_label:
     case stylesv2::Type::published_chapter_marker:
+    case stylesv2::Type::alternate_chapter_number:
       return true;
     case stylesv2::Type::published_verse_marker:
       return false;

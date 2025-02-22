@@ -268,6 +268,16 @@ const std::list<Style> styles {
     .category = Category::identification,
   },
   {
+    .marker = "sts",
+    .type = Type::remark,
+    .name = "Status",
+    .info = "Project text status tracking.",
+    .properties = {},
+    .implemented = true,
+    .doc = "https://ubsicap.github.io/usfm/identification/index.html#sts",
+    .category = Category::identification,
+  },
+  {
     .marker = "rem",
     .type = Type::remark,
     .name = "Remark",
@@ -409,6 +419,10 @@ const std::list<Style> styles {
     .doc = "https://ubsicap.github.io/usfm/chapters_verses/index.html#vp-vp",
     .category = Category::chapters_verses,
   },
+
+  
+
+
 };
 
 
@@ -5421,39 +5435,6 @@ const std::list<Style> styles {
 //    /* justification */ 1,
 //    /* spacebefore */ 0,
 //    /* spaceafter */ 4,
-//    /* leftmargin */ 0,
-//    /* rightmargin */ 0,
-//    /* firstlineindent */ 0,
-//    /* spancolumns */ 0,
-//    /* color */ "#000000",
-//    /* print */ 1,
-//    /* userbool1 */ 0,
-//    /* userbool2 */ 0,
-//    /* userbool3 */ 0,
-//    /* userint1 */ 0,
-//    /* userint2 */ 0,
-//    /* userint3 */ 0,
-//    /* userstring1 */ "",
-//    /* userstring2 */ "",
-//    /* userstring3 */ "",
-//    /* backgroundcolor */ "#FFFFFF",
-//  },
-//  {
-//    /* marker */ "sts",
-//    /* name */ "Status",
-//    /* info */ "Project text status tracking.",
-//    /* category */ "id",
-//    /* type */ 0,
-//    /* subtype */ 2,
-//    /* fontsize */ 12,
-//    /* italic */ 0,
-//    /* bold */ 0,
-//    /* underline */ 0,
-//    /* smallcaps */ 0,
-//    /* superscript */ 0,
-//    /* justification */ 0,
-//    /* spacebefore */ 0,
-//    /* spaceafter */ 0,
 //    /* leftmargin */ 0,
 //    /* rightmargin */ 0,
 //    /* firstlineindent */ 0,

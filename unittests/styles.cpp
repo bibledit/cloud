@@ -846,8 +846,18 @@ TEST_F (styles, get_styles_etc_v2)
 }
 
 
-TEST_F (styles, dev)
+// Test that the default styles are in the correct order of category.
+TEST_F (styles, styles_order) // Todo
 {
+  auto previous_category {stylesv2::Category::unknown};
+  for (const stylesv2::Style& style : stylesv2::styles) {
+    if (style.category < previous_category) {
+      std::stringstream cat{};
+      cat << style.category;
+      FAIL() << "Marker " << std::quoted(style.marker) << " in category " << std::quoted(cat.str()) << " is listed out of order";
+    }
+    previous_category = style.category;
+  }
 }
 
 

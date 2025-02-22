@@ -84,6 +84,25 @@ using Parameter = std::variant<std::monostate,bool,int,std::string>;
 std::ostream& operator<<(std::ostream& os, const Parameter& parameter);
 
 
+enum class Category {
+  unknown,
+  identification,
+  introductions,
+  titles_headings_labels,
+  chapters_verses,
+  paragraphs,
+  poetry,
+  lists,
+  tables,
+  footnotes,
+  cross_references,
+  words_characters,
+  peripherals,
+};
+
+std::ostream& operator<<(std::ostream& os, const Category category);
+
+
 struct Style final {
   std::string marker {};
   Type type {Type::none};
@@ -94,6 +113,7 @@ struct Style final {
   // Whether this style has been implemented throughout the code.
   bool implemented {false};
   std::string doc {};
+  Category category {};
 };
 
 

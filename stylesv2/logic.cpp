@@ -164,6 +164,54 @@ std::ostream& operator<<(std::ostream& os, const Parameter& parameter)
 }
 
 
+std::ostream& operator<<(std::ostream& os, const Category category)
+{
+  switch (category) {
+    case Category::identification:
+      os << "Identification";
+      break;
+    case Category::introductions:
+      os << "Introductions";
+      break;
+    case Category::titles_headings_labels:
+      os << "Titles, Headings, Labels";
+      break;
+    case Category::chapters_verses:
+      os << "Chapters, Verses";
+      break;
+    case Category::paragraphs:
+      os << "Paragraphs";
+      break;
+    case Category::poetry:
+      os << "Poetry";
+      break;
+    case Category::lists:
+      os << "Lists";
+      break;
+    case Category::tables:
+      os << "Tables";
+      break;
+    case Category::footnotes:
+      os << "Footnotes";
+      break;
+    case Category::cross_references:
+      os << "Cross References";
+      break;
+    case Category::words_characters:
+      os << "Words, Characters";
+      break;
+    case Category::peripherals:
+      os << "Peripherals";
+      break;
+    case Category::unknown:
+    default:
+      os << "Unknown";
+      break;
+  }
+  return os;
+}
+
+
 std::ostream& operator<<(std::ostream& os, const Style& style)
 {
   os << "marker: " << style.marker << std::endl;
@@ -207,6 +255,7 @@ const std::list<Style> styles {
     .properties = {{Property::starts_new_page,true}},
     .implemented = true,
     .doc = "https://ubsicap.github.io/usfm/identification/index.html#index-1",
+    .category = Category::identification,
   },
   {
     .marker = "ide",
@@ -216,6 +265,7 @@ const std::list<Style> styles {
     .properties = {},
     .implemented = true,
     .doc = "https://ubsicap.github.io/usfm/identification/index.html#index-3",
+    .category = Category::identification,
   },
   {
     .marker = "rem",
@@ -225,6 +275,7 @@ const std::list<Style> styles {
     .properties = {},
     .implemented = true,
     .doc = "https://ubsicap.github.io/usfm/identification/index.html#rem",
+    .category = Category::identification,
   },
   {
     .marker = "h",
@@ -234,6 +285,7 @@ const std::list<Style> styles {
     .properties = {{Property::on_left_page,true},{Property::on_right_page,true}},
     .implemented = true,
     .doc = "https://ubsicap.github.io/usfm/identification/index.html#h",
+    .category = Category::identification,
   },
   {
     .marker = "h1",
@@ -247,6 +299,7 @@ const std::list<Style> styles {
     },
       .implemented = true,
       .doc = "https://ubsicap.github.io/usfm/identification/index.html#h",
+      .category = Category::identification,
   },
   {
     .marker = "h2",
@@ -260,6 +313,7 @@ const std::list<Style> styles {
     },
       .implemented = true,
       .doc = "https://ubsicap.github.io/usfm/identification/index.html#h",
+      .category = Category::identification,
   },
   {
     .marker = "h3",
@@ -273,6 +327,7 @@ const std::list<Style> styles {
     },
       .implemented = true,
       .doc = "https://ubsicap.github.io/usfm/identification/index.html#h",
+      .category = Category::identification,
   },
   {
     .marker = "toc1",
@@ -282,6 +337,7 @@ const std::list<Style> styles {
     .properties = {},
     .implemented = true,
     .doc = "https://ubsicap.github.io/usfm/identification/index.html#toc",
+    .category = Category::identification,
   },
   {
     .marker = "toc2",
@@ -291,6 +347,7 @@ const std::list<Style> styles {
     .properties = {},
     .implemented = true,
     .doc = "https://ubsicap.github.io/usfm/identification/index.html#toc",
+    .category = Category::identification,
   },
   {
     .marker = "toc3",
@@ -300,42 +357,7 @@ const std::list<Style> styles {
     .properties = {},
     .implemented = true,
     .doc = "https://ubsicap.github.io/usfm/identification/index.html#toc",
-  },
-  {
-    .marker = "cl",
-    .type = Type::chapter_label,
-    .name = "Chapter label",
-    .info = "Chapter label used for translations that add a word such as 'Chapter' before chapter numbers, e.g. Psalms.",
-    .properties = {},
-    .implemented = true,
-    .doc = "https://ubsicap.github.io/usfm/chapters_verses/index.html#cl",
-  },
-  {
-    .marker = "cp",
-    .type = Type::published_chapter_marker,
-    .name = "Published chapter character",
-    .info = "Published chapter number. This is a chapter marking that would be used in the published text.",
-    .properties = {},
-    .implemented = true,
-    .doc = "https://ubsicap.github.io/usfm/chapters_verses/index.html#cp",
-  },
-  {
-    .marker = "ca",
-    .type = Type::alternate_chapter_number,
-    .name = "Alternate chapter number",
-    .info = "Second or alternate chapter number. For coding dual versification. Useful for places where different traditions of chapter breaks need to be supported in the same translation.",
-    .properties = {},
-    .implemented = true,
-    .doc = "https://ubsicap.github.io/usfm/chapters_verses/index.html#ca-ca",
-  },
-  {
-    .marker = "vp",
-    .type = Type::published_verse_marker,
-    .name = "Published verse marker",
-    .info = "Published verse marker. This is a verse marking that would be used in the published text.",
-    .properties = {},
-    .implemented = true,
-    .doc = "https://ubsicap.github.io/usfm/chapters_verses/index.html#vp-vp",
+    .category = Category::identification,
   },
   {
     .marker = "ie",
@@ -345,8 +367,48 @@ const std::list<Style> styles {
     .properties = {},
     .implemented = true,
     .doc = "https://ubsicap.github.io/usfm/introductions/index.html#ie",
+    .category = Category::introductions,
   },
-  
+  {
+    .marker = "cl",
+    .type = Type::chapter_label,
+    .name = "Chapter label",
+    .info = "Chapter label used for translations that add a word such as 'Chapter' before chapter numbers, e.g. Psalms.",
+    .properties = {},
+    .implemented = true,
+    .doc = "https://ubsicap.github.io/usfm/chapters_verses/index.html#cl",
+    .category = Category::chapters_verses,
+  },
+  {
+    .marker = "cp",
+    .type = Type::published_chapter_marker,
+    .name = "Published chapter character",
+    .info = "Published chapter number. This is a chapter marking that would be used in the published text.",
+    .properties = {},
+    .implemented = true,
+    .doc = "https://ubsicap.github.io/usfm/chapters_verses/index.html#cp",
+    .category = Category::chapters_verses,
+  },
+  {
+    .marker = "ca",
+    .type = Type::alternate_chapter_number,
+    .name = "Alternate chapter number",
+    .info = "Second or alternate chapter number. For coding dual versification. Useful for places where different traditions of chapter breaks need to be supported in the same translation.",
+    .properties = {},
+    .implemented = true,
+    .doc = "https://ubsicap.github.io/usfm/chapters_verses/index.html#ca-ca",
+    .category = Category::chapters_verses,
+  },
+  {
+    .marker = "vp",
+    .type = Type::published_verse_marker,
+    .name = "Published verse marker",
+    .info = "Published verse marker. This is a verse marking that would be used in the published text.",
+    .properties = {},
+    .implemented = true,
+    .doc = "https://ubsicap.github.io/usfm/chapters_verses/index.html#vp-vp",
+    .category = Category::chapters_verses,
+  },
 };
 
 

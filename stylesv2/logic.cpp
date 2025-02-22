@@ -65,10 +65,18 @@ std::string type_enum_to_value (const Type type, const bool describe)
       if (describe)
         return "published chapter marker";
       return "published_chapter_marker";
+    case Type::alternate_chapter_number:
+      if (describe)
+        return "alternate chapter number";
+      return "alternate_chapter_number";
     case Type::published_verse_marker:
       if (describe)
         return "published verse marker";
       return "published_verse_marker";
+    case Type::introduction_end:
+      if (describe)
+        return "introduction end";
+      return "introduction_end";
     case Type::stopping_boundary:
       return "stopping_boundary";
     default:
@@ -237,8 +245,8 @@ const std::list<Style> styles {
       {Property::on_right_page,true},
       {Property::deprecated,std::monostate()}
     },
-    .implemented = true,
-    .doc = "https://ubsicap.github.io/usfm/identification/index.html#h",
+      .implemented = true,
+      .doc = "https://ubsicap.github.io/usfm/identification/index.html#h",
   },
   {
     .marker = "h2",
@@ -250,8 +258,8 @@ const std::list<Style> styles {
       {Property::on_right_page,false},
       {Property::deprecated,std::monostate()}
     },
-    .implemented = true,
-    .doc = "https://ubsicap.github.io/usfm/identification/index.html#h",
+      .implemented = true,
+      .doc = "https://ubsicap.github.io/usfm/identification/index.html#h",
   },
   {
     .marker = "h3",
@@ -263,8 +271,8 @@ const std::list<Style> styles {
       {Property::on_right_page,true},
       {Property::deprecated,std::monostate()}
     },
-    .implemented = true,
-    .doc = "https://ubsicap.github.io/usfm/identification/index.html#h",
+      .implemented = true,
+      .doc = "https://ubsicap.github.io/usfm/identification/index.html#h",
   },
   {
     .marker = "toc1",
@@ -329,6 +337,16 @@ const std::list<Style> styles {
     .implemented = true,
     .doc = "https://ubsicap.github.io/usfm/chapters_verses/index.html#vp-vp",
   },
+  {
+    .marker = "ie",
+    .type = Type::introduction_end,
+    .name = "Introduction end",
+    .info = "Optionally included to explicitly indicate the end of the introduction material.",
+    .properties = {},
+    .implemented = true,
+    .doc = "https://ubsicap.github.io/usfm/introductions/index.html#ie",
+  },
+  
 };
 
 
@@ -1385,39 +1403,6 @@ const std::list<Style> styles {
 //    /* rightmargin */ 0,
 //    /* firstlineindent */ 0,
 //    /* spancolumns */ 1,
-//    /* color */ "#000000",
-//    /* print */ 1,
-//    /* userbool1 */ 0,
-//    /* userbool2 */ 0,
-//    /* userbool3 */ 0,
-//    /* userint1 */ 0,
-//    /* userint2 */ 0,
-//    /* userint3 */ 0,
-//    /* userstring1 */ "",
-//    /* userstring2 */ "",
-//    /* userstring3 */ "",
-//    /* backgroundcolor */ "#FFFFFF",
-//  },
-//  {
-//    /* marker */ "ie",
-//    /* name */ "Introduction end",
-//    /* info */ "Optionally included to explicitly indicate the end of the introduction material",
-//    /* category */ "ioe",
-//    /* type */ 0,
-//    /* subtype */ 0,
-//    /* fontsize */ 10,
-//    /* italic */ 0,
-//    /* bold */ 0,
-//    /* underline */ 0,
-//    /* smallcaps */ 0,
-//    /* superscript */ 0,
-//    /* justification */ 0,
-//    /* spacebefore */ 0,
-//    /* spaceafter */ 0,
-//    /* leftmargin */ 0,
-//    /* rightmargin */ 0,
-//    /* firstlineindent */ 0,
-//    /* spancolumns */ 0,
 //    /* color */ "#000000",
 //    /* print */ 1,
 //    /* userbool1 */ 0,

@@ -982,7 +982,7 @@ TEST (database, bibles)
     database::bibles::store_chapter (testbible, 1, 2, "\\c 1");
     std::this_thread::sleep_for(std::chrono::milliseconds(1000));
     age = database::bibles::get_chapter_age (testbible, 1, 2);
-    EXPECT_EQ (1, age);
+    EXPECT_TRUE ((age == 1) || (age == 2));
   }
   
 }

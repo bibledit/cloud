@@ -37,6 +37,7 @@ enum class Type : int {
   published_chapter_marker,
   alternate_chapter_number,
   published_verse_marker,
+  introduction_end,
   stopping_boundary // Should be the last always.
 };
 

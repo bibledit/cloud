@@ -847,7 +847,7 @@ TEST_F (styles, get_styles_etc_v2)
 
 
 // Test that the default styles are in the correct order of category.
-TEST_F (styles, styles_order) // Todo
+TEST_F (styles, styles_order)
 {
   auto previous_category {stylesv2::Category::unknown};
   for (const stylesv2::Style& style : stylesv2::styles) {

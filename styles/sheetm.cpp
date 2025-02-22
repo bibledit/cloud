@@ -110,15 +110,22 @@ std::string styles_sheetm (Webserver_Request& webserver_request)
 
   pugi::xml_document html_block {};
 
-  const auto process_markers = [&html_block, &name](const std::map <std::string, std::string>& markers_names, const bool v2) {
-    for (const auto& item : markers_names) {
+  // Get the markers and names for styles v1.
+  // Any markers v2 marked as implemented, do not display those.
+  {
+    std::map<std::string,std::string> markers_names_v1 {database::styles1::get_markers_and_names (name)};
+    for (const auto& item : markers_names_v1) {
       const std::string marker = item.first;
       const std::string marker_name = translate(item.second);
+      const stylesv2::Style* stylev2 {database::styles2::get_marker_data (name, marker)};
+      if (stylev2)
+        if (stylev2->implemented)
+          continue;
       pugi::xml_node tr_node = html_block.append_child("tr");
       {
         pugi::xml_node td_node = tr_node.append_child("td");
         pugi::xml_node a_node = td_node.append_child("a");
-        const std::string view {v2 ? "view2" : "view"};
+        const std::string view {"view"};
         const std::string href = view + "?sheet=" + name + "&style=" + marker;
         a_node.append_attribute("href") = href.c_str();
         a_node.text().set(marker.c_str());
@@ -137,25 +144,52 @@ std::string styles_sheetm (Webserver_Request& webserver_request)
         td_node.append_child("span").text().set("]");
       }
     }
-  };
-
-  // Get the markers and names for styles v2.
-  // Same for styles v1.
-  // Any markers v2 marked as implemented, remove those from the styles v1 in the list.
-  std::map<std::string,std::string> markers_names_v1 {database::styles1::get_markers_and_names (name)};
-  const std::map<std::string,std::string> markers_names_v2 {database::styles2::get_markers_and_names (name)};
-  for (const auto& [markerv2, name] : markers_names_v2) {
-    const stylesv2::Style* style {database::styles2::get_marker_data (name, markerv2)};
-    if (style->implemented)
-      markers_names_v1.erase(markerv2);
   }
-  process_markers (markers_names_v1, false);
   {
     pugi::xml_node tr_node = html_block.append_child("tr");
     for (int i{0}; i < 3; i++)
       tr_node.append_child("td").text().set("--");
   }
-  process_markers (markers_names_v2, true);
+
+  // List the styles v2 in the overview.
+  {
+    const std::vector<std::string> markers_v2 {database::styles2::get_markers (name)};
+    auto previous_category {stylesv2::Category::unknown};
+    for (const auto& marker : markers_v2) {
+      const stylesv2::Style* style {database::styles2::get_marker_data (name, marker)};
+      if (style->category != previous_category) {
+        pugi::xml_node tr_node = html_block.append_child("tr");
+        tr_node.append_child("td");
+        pugi::xml_node td_node = tr_node.append_child("td");
+        pugi::xml_node h_node = td_node.append_child("h3");
+        std::stringstream ss {};
+        ss << style->category;
+        h_node.text().set(ss.str().c_str());
+        previous_category = style->category;
+      }
+      pugi::xml_node tr_node = html_block.append_child("tr");
+      {
+        pugi::xml_node td_node = tr_node.append_child("td");
+        pugi::xml_node a_node = td_node.append_child("a");
+        const std::string href = "view2?sheet=" + name + "&style=" + marker;
+        a_node.append_attribute("href") = href.c_str();
+        a_node.text().set(marker.c_str());
+      }
+      {
+        pugi::xml_node td_node = tr_node.append_child("td");
+        td_node.text().set(style->name.c_str());
+      }
+      {
+        pugi::xml_node td_node = tr_node.append_child("td");
+        td_node.append_child("span").text().set("[");
+        pugi::xml_node a_node = td_node.append_child("a");
+        const std::string href = "?name=" + name + "&delete=" + marker;
+        a_node.append_attribute("href") = href.c_str();
+        a_node.text().set(translate("delete").c_str());
+        td_node.append_child("span").text().set("]");
+      }
+    }
+  }
   
   // Generate the html and set it on the page.
   std::stringstream ss {};

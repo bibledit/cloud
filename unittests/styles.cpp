@@ -851,6 +851,8 @@ TEST_F (styles, styles_order)
 {
   auto previous_category {stylesv2::Category::unknown};
   for (const stylesv2::Style& style : stylesv2::styles) {
+    if (style.category == stylesv2::Category::unknown)
+      FAIL() << "Marker " << std::quoted(style.marker) << " is not yet categorized properly";
     if (style.category < previous_category) {
       std::stringstream cat{};
       cat << style.category;

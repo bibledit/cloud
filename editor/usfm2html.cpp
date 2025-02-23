@@ -177,6 +177,7 @@ void Editor_Usfm2Html::process ()
       const bool is_embedded_marker = filter::usfm::is_embedded_marker (current_item);
       // Clean up the marker, so we remain with the basic version, e.g. 'id'.
       const std::string marker = filter::usfm::get_marker (current_item);
+      std::cout << "marker " << marker << std::endl; // Todo
       // Handle preview mode: Strip word-level attributes.
       // Likely this can be removed from preview since word-level ttributes get extracted.
       if (m_preview)
@@ -184,6 +185,7 @@ void Editor_Usfm2Html::process ()
           filter::usfm::remove_word_level_attributes (marker, m_markers_and_text, m_markers_and_text_pointer);
       if (m_styles.count (marker) && (!stylesv2::marker_moved_to_v2(marker, {""})))
       {
+        std::cout << "v1" << std::endl; // Todo
         const database::styles1::Item& style = m_styles.at(marker);
         switch (style.type)
         {
@@ -400,6 +402,7 @@ void Editor_Usfm2Html::process ()
       }
       else if (const stylesv2::Style* style {database::styles2::get_marker_data (m_stylesheet, marker)}; style)
       {
+        std::cout << "v2" << std::endl; // Todo
         switch (style->type) {
           case stylesv2::Type::starting_boundary:
           case stylesv2::Type::none:
@@ -434,6 +437,21 @@ void Editor_Usfm2Html::process ()
             // Output as plain text.
             close_text_style (false);
             output_as_is (marker, is_opening_marker);
+            break;
+          }
+          case stylesv2::Type::character_style:
+          {
+            if (is_opening_marker) {
+              // Be sure the road ahead is clear.
+              if (road_is_clear ()) {
+                open_text_style (style->marker, is_embedded_marker);
+                extract_word_level_attributes();
+              } else {
+                add_text (filter::usfm::get_opening_usfm (marker));
+              }
+            } else {
+              close_text_style (is_embedded_marker);
+            }
             break;
           }
           case stylesv2::Type::stopping_boundary: // Todo
@@ -691,7 +709,7 @@ void Editor_Usfm2Html::add_notel_link (pugi::xml_node& dom_node, const int ident
 
 
 // Returns true if the road ahead is clear for the current marker.
-bool Editor_Usfm2Html::road_is_clear ()
+bool Editor_Usfm2Html::road_is_clear () // Update this version for v2. Make unit test first on this.
 {
   // Determine the input.
   std::string input_marker {};

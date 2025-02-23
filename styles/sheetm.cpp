@@ -119,8 +119,7 @@ std::string styles_sheetm (Webserver_Request& webserver_request)
       const std::string marker_name = translate(item.second);
       const stylesv2::Style* stylev2 {database::styles2::get_marker_data (name, marker)};
       if (stylev2)
-        if (stylev2->implemented)
-          continue;
+        continue;
       pugi::xml_node tr_node = html_block.append_child("tr");
       {
         pugi::xml_node td_node = tr_node.append_child("td");

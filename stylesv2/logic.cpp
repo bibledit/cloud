@@ -77,6 +77,10 @@ std::string type_enum_to_value (const Type type, const bool describe)
       if (describe)
         return "introduction end";
       return "introduction_end";
+    case Type::character_style:
+      if (describe)
+        return "character style";
+      return "character_style";
     case Type::stopping_boundary:
       return "stopping_boundary";
     default:
@@ -228,7 +232,6 @@ std::ostream& operator<<(std::ostream& os, const Style& style)
       os << std::get<std::string>(parameter);
     os << std::endl;
   }
-  os << "implemented: " << style.implemented << std::endl;
   return os;
 }
 
@@ -253,7 +256,6 @@ const std::list<Style> styles {
     .name = "Identification",
     .info = "File identification information (name of file, book name, language, last edited, date, etc.)",
     .properties = {{Property::starts_new_page,true}},
-    .implemented = true,
     .doc = "https://ubsicap.github.io/usfm/identification/index.html#index-1",
     .category = Category::identification,
   },
@@ -263,7 +265,6 @@ const std::list<Style> styles {
     .name = "Encoding",
     .info = "File encoding information. Bibledit disregards this marker, as all text in Bibledit is in UTF-8 encoding.",
     .properties = {},
-    .implemented = true,
     .doc = "https://ubsicap.github.io/usfm/identification/index.html#index-3",
     .category = Category::identification,
   },
@@ -273,7 +274,6 @@ const std::list<Style> styles {
     .name = "Status",
     .info = "Project text status tracking.",
     .properties = {},
-    .implemented = true,
     .doc = "https://ubsicap.github.io/usfm/identification/index.html#sts",
     .category = Category::identification,
   },
@@ -283,7 +283,6 @@ const std::list<Style> styles {
     .name = "Remark",
     .info = "Comments and remarks.",
     .properties = {},
-    .implemented = true,
     .doc = "https://ubsicap.github.io/usfm/identification/index.html#rem",
     .category = Category::identification,
   },
@@ -293,7 +292,6 @@ const std::list<Style> styles {
     .name = "Running header",
     .info = "Running header text for a book.",
     .properties = {{Property::on_left_page,true},{Property::on_right_page,true}},
-    .implemented = true,
     .doc = "https://ubsicap.github.io/usfm/identification/index.html#h",
     .category = Category::identification,
   },
@@ -307,7 +305,6 @@ const std::list<Style> styles {
       {Property::on_right_page,true},
       {Property::deprecated,std::monostate()}
     },
-      .implemented = true,
       .doc = "https://ubsicap.github.io/usfm/identification/index.html#h",
       .category = Category::identification,
   },
@@ -321,7 +318,6 @@ const std::list<Style> styles {
       {Property::on_right_page,false},
       {Property::deprecated,std::monostate()}
     },
-      .implemented = true,
       .doc = "https://ubsicap.github.io/usfm/identification/index.html#h",
       .category = Category::identification,
   },
@@ -335,7 +331,6 @@ const std::list<Style> styles {
       {Property::on_right_page,true},
       {Property::deprecated,std::monostate()}
     },
-      .implemented = true,
       .doc = "https://ubsicap.github.io/usfm/identification/index.html#h",
       .category = Category::identification,
   },
@@ -345,7 +340,6 @@ const std::list<Style> styles {
     .name = "Long TOC text",
     .info = "Long table of contents text.",
     .properties = {},
-    .implemented = true,
     .doc = "https://ubsicap.github.io/usfm/identification/index.html#toc",
     .category = Category::identification,
   },
@@ -355,7 +349,6 @@ const std::list<Style> styles {
     .name = "Short TOC text",
     .info = "Short table of contents text.",
     .properties = {},
-    .implemented = true,
     .doc = "https://ubsicap.github.io/usfm/identification/index.html#toc",
     .category = Category::identification,
   },
@@ -365,7 +358,6 @@ const std::list<Style> styles {
     .name = "Book abbreviation",
     .info = "Book abbreviation for the table of contents.",
     .properties = {},
-    .implemented = true,
     .doc = "https://ubsicap.github.io/usfm/identification/index.html#toc",
     .category = Category::identification,
   },
@@ -375,7 +367,6 @@ const std::list<Style> styles {
     .name = "Introduction end",
     .info = "Optionally included to explicitly indicate the end of the introduction material.",
     .properties = {},
-    .implemented = true,
     .doc = "https://ubsicap.github.io/usfm/introductions/index.html#ie",
     .category = Category::introductions,
   },
@@ -385,7 +376,6 @@ const std::list<Style> styles {
     .name = "Chapter label",
     .info = "Chapter label used for translations that add a word such as 'Chapter' before chapter numbers, e.g. Psalms.",
     .properties = {},
-    .implemented = true,
     .doc = "https://ubsicap.github.io/usfm/chapters_verses/index.html#cl",
     .category = Category::chapters_verses,
   },
@@ -395,7 +385,6 @@ const std::list<Style> styles {
     .name = "Published chapter character",
     .info = "Published chapter number. This is a chapter marking that would be used in the published text.",
     .properties = {},
-    .implemented = true,
     .doc = "https://ubsicap.github.io/usfm/chapters_verses/index.html#cp",
     .category = Category::chapters_verses,
   },
@@ -405,7 +394,6 @@ const std::list<Style> styles {
     .name = "Alternate chapter number",
     .info = "Second or alternate chapter number. For coding dual versification. Useful for places where different traditions of chapter breaks need to be supported in the same translation.",
     .properties = {},
-    .implemented = true,
     .doc = "https://ubsicap.github.io/usfm/chapters_verses/index.html#ca-ca",
     .category = Category::chapters_verses,
   },
@@ -415,9 +403,17 @@ const std::list<Style> styles {
     .name = "Published verse marker",
     .info = "Published verse marker. This is a verse marking that would be used in the published text.",
     .properties = {},
-    .implemented = true,
     .doc = "https://ubsicap.github.io/usfm/chapters_verses/index.html#vp-vp",
     .category = Category::chapters_verses,
+  },
+  {
+    .marker = "pro",
+    .type = Type::character_style,
+    .name = "Pronunciation annotation",
+    .info = "For indicating pronunciation in CJK texts.",
+    .properties = {{Property::deprecated,std::monostate()}},
+    .doc = "https://ubsicap.github.io/usfm/characters/index.html?highlight=pronunciation#pro-pro",
+    .category = Category::words_characters,
   },
 
   
@@ -4298,39 +4294,6 @@ const std::list<Style> styles {
 //    /* backgroundcolor */ "#FFFFFF",
 //  },
 //  {
-//    /* marker */ "pro",
-//    /* name */ "Pronunciation annotation",
-//    /* info */ "For indicating pronunciation in CJK texts. Deprecated.",
-//    /* category */ "sf",
-//    /* type */ 0,
-//    /* subtype */ 9,
-//    /* fontsize */ 10,
-//    /* italic */ 0,
-//    /* bold */ 0,
-//    /* underline */ 0,
-//    /* smallcaps */ 0,
-//    /* superscript */ 0,
-//    /* justification */ 0,
-//    /* spacebefore */ 0,
-//    /* spaceafter */ 0,
-//    /* leftmargin */ 0,
-//    /* rightmargin */ 0,
-//    /* firstlineindent */ 0,
-//    /* spancolumns */ 0,
-//    /* color */ "#000000",
-//    /* print */ 1,
-//    /* userbool1 */ 0,
-//    /* userbool2 */ 0,
-//    /* userbool3 */ 0,
-//    /* userint1 */ 0,
-//    /* userint2 */ 0,
-//    /* userint3 */ 0,
-//    /* userstring1 */ "",
-//    /* userstring2 */ "",
-//    /* userstring3 */ "",
-//    /* backgroundcolor */ "#FFFFFF",
-//  },
-//  {
 //    /* marker */ "q",
 //    /* name */ "Poetic line",
 //    /* info */ "Poetry text, level 1 indent, if single level.",
@@ -6732,10 +6695,8 @@ bool marker_moved_to_v2 (const std::string& marker, const std::vector<const char
   }
   const auto iter = std::find(styles.cbegin(), styles.cend(), marker);
   if (iter != styles.cend()) {
-    if (iter->implemented) {
-      cache[key] = true;
-      return true;
-    }
+    cache[key] = true;
+    return true;
   }
   for (const auto bit : extra) {
     if (marker == bit) {
@@ -6749,7 +6710,7 @@ bool marker_moved_to_v2 (const std::string& marker, const std::vector<const char
 
 
 // Whether this style starta a new line in USFM.
-bool starts_new_line_in_usfm (const Style* style)
+bool starts_new_line_in_usfm (const Style* style) // Todo write unit test for this too.
 {
   switch (style->type) {
     case stylesv2::Type::starting_boundary:
@@ -6766,6 +6727,8 @@ bool starts_new_line_in_usfm (const Style* style)
     case stylesv2::Type::alternate_chapter_number:
       return true;
     case stylesv2::Type::published_verse_marker:
+      return false;
+    case stylesv2::Type::character_style:
       return false;
     case stylesv2::Type::stopping_boundary: // Todo
     default:

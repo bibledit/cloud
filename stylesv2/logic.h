@@ -38,6 +38,7 @@ enum class Type : int {
   alternate_chapter_number,
   published_verse_marker,
   introduction_end,
+  character_style,
   stopping_boundary // Should be the last always.
 };
 
@@ -110,8 +111,6 @@ struct Style final {
   std::string info {};
   // The parameters indicate the enabled capabilities beyond the capabilities implied in the style type.
   std::map<Property,Parameter> properties{};
-  // Whether this style has been implemented throughout the code.
-  bool implemented {false};
   std::string doc {};
   Category category {};
 };

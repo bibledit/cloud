@@ -202,7 +202,7 @@ void Filter_Text::pre_process_usfm (const std::string& stylesheet)
         std::string marker = filter::strings::trim (currentItem); // Change, e.g. '\id ' to '\id'.
         marker = marker.substr (1); // Remove the initial backslash, e.g. '\id' becomes 'id'.
         if (filter::usfm::is_opening_marker (marker)) {
-          if ((styles.find (marker) != styles.end()) && (!stylesv2::marker_moved_to_v2(marker, {"ca"}))) // Todo
+          if ((styles.find (marker) != styles.end()) && (!stylesv2::marker_moved_to_v2(marker, {""}))) // Todo
           {
             database::styles1::Item style = styles [marker];
             note_citations.evaluate_style(style);
@@ -343,6 +343,8 @@ void Filter_Text::pre_process_usfm (const std::string& stylesheet)
                 break;
               }
               case stylesv2::Type::introduction_end:
+                break;
+              case stylesv2::Type::character_style:
                 break;
               case stylesv2::Type::stopping_boundary: // Todo
               default:
@@ -1057,6 +1059,34 @@ void Filter_Text::process_usfm (const std::string& stylesheet)
             {
               close_text_style_all();
               add_to_info (R"(Introduction end: \)" + marker, false);
+              break;
+            }
+            case stylesv2::Type::character_style: // Todo fix one by one.
+            {
+              // Support for a normal and an embedded character style.
+              if (is_opening_marker) {
+//                if (odf_text_standard)
+//                  odf_text_standard->open_text_style (style, false, is_embedded_marker);
+//                if (odf_text_text_only)
+//                  odf_text_text_only->open_text_style (style, false, is_embedded_marker);
+//                if (odf_text_text_and_note_citations)
+//                  odf_text_text_and_note_citations->open_text_style (style, false, is_embedded_marker);
+//                if (html_text_standard)
+//                  html_text_standard->open_text_style (style, false, is_embedded_marker);
+//                if (html_text_linked)
+//                  html_text_linked->open_text_style (style, false, is_embedded_marker);
+              } else {
+//                if (odf_text_standard)
+//                  odf_text_standard->close_text_style (false, is_embedded_marker);
+//                if (odf_text_text_only)
+//                  odf_text_text_only->close_text_style (false, is_embedded_marker);
+//                if (odf_text_text_and_note_citations)
+//                  odf_text_text_and_note_citations->close_text_style (false, is_embedded_marker);
+//                if (html_text_standard)
+//                  html_text_standard->close_text_style (false, is_embedded_marker);
+//                if (html_text_linked)
+//                  html_text_linked->close_text_style (false, is_embedded_marker);
+              }
               break;
             }
             case stylesv2::Type::stopping_boundary:  // Todo v2

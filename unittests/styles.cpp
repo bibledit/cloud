@@ -525,7 +525,7 @@ TEST_F (styles, editors_application)
     { "pn", "c"},
     { "png", "c"},
     { "po", "p"},
-    { "pro", "m"},
+    { "pro", "c"},
     { "q", "p"},
     { "q1", "p"},
     { "q2", "p"},
@@ -736,7 +736,6 @@ TEST_F (styles, save_load_styles_v2)
   {
     auto loaded_style = load_style(sheet, style.marker);
     EXPECT_TRUE(loaded_style);
-    loaded_style.value().implemented = true;
     std::stringstream ss1{};
     ss1 << style;
     std::stringstream ss2{};

@@ -48,16 +48,6 @@ void Editor_Usfm2Html::stylesheet (const std::string& stylesheet)
   for (const auto& marker : markers) {
     database::styles1::Item style = database::styles1::get_marker_data (stylesheet, marker);
     m_styles [marker] = style;
-    if (style.type == StyleTypeFootEndNote) {
-      if (style.subtype == FootEndNoteSubtypeStandardContent) {
-        m_standard_content_marker_foot_end_note = style.marker;
-      }
-    }
-    if (style.type == StyleTypeCrossreference) {
-      if (style.subtype == CrossreferenceSubtypeStandardContent) {
-        m_standard_content_marker_cross_reference = style.marker;
-      }
-    }
     m_note_citations.evaluate_style(style);
   }
 }
@@ -177,7 +167,6 @@ void Editor_Usfm2Html::process ()
       const bool is_embedded_marker = filter::usfm::is_embedded_marker (current_item);
       // Clean up the marker, so we remain with the basic version, e.g. 'id'.
       const std::string marker = filter::usfm::get_marker (current_item);
-      std::cout << "marker " << marker << std::endl; // Todo
       // Handle preview mode: Strip word-level attributes.
       // Likely this can be removed from preview since word-level ttributes get extracted.
       if (m_preview)
@@ -185,7 +174,6 @@ void Editor_Usfm2Html::process ()
           filter::usfm::remove_word_level_attributes (marker, m_markers_and_text, m_markers_and_text_pointer);
       if (m_styles.count (marker) && (!stylesv2::marker_moved_to_v2(marker, {""})))
       {
-        std::cout << "v1" << std::endl; // Todo
         const database::styles1::Item& style = m_styles.at(marker);
         switch (style.type)
         {
@@ -402,7 +390,6 @@ void Editor_Usfm2Html::process ()
       }
       else if (const stylesv2::Style* style {database::styles2::get_marker_data (m_stylesheet, marker)}; style)
       {
-        std::cout << "v2" << std::endl; // Todo
         switch (style->type) {
           case stylesv2::Type::starting_boundary:
           case stylesv2::Type::none:
@@ -709,167 +696,10 @@ void Editor_Usfm2Html::add_notel_link (pugi::xml_node& dom_node, const int ident
 
 
 // Returns true if the road ahead is clear for the current marker.
-bool Editor_Usfm2Html::road_is_clear () // Update this version for v2. Make unit test first on this.
+bool Editor_Usfm2Html::road_is_clear ()
 {
-  // Determine the input.
-  std::string input_marker {};
-  bool input_opener {false};
-  bool input_embedded {false};
-  int input_type {0};
-  int input_subtype {0};
-  {
-    const std::string current_item = m_markers_and_text[m_markers_and_text_pointer];
-    if (!filter::usfm::is_usfm_marker (current_item))
-      return true;
-    input_opener = filter::usfm::is_opening_marker (current_item);
-    input_embedded = filter::usfm::is_embedded_marker (current_item);
-    const std::string marker = filter::usfm::get_marker (current_item);
-    input_marker = marker;
-    if (!m_styles.count (marker))
-      return true;
-    database::styles1::Item style = m_styles [marker];
-    input_type = style.type;
-    input_subtype = style.subtype;
-  }
-  
-  // Determine the road ahead.
-  std::vector <std::string> markers {};
-  std::vector <int> types {};
-  std::vector <int> subtypes {};
-  std::vector <bool> openers {};
-  std::vector <bool> embeddeds {};
-
-  bool end_chapter_reached {false};
-  {
-    bool done {false};
-    const size_t markers_and_text_count = m_markers_and_text.size();
-    for (size_t pointer = m_markers_and_text_pointer + 1; pointer < markers_and_text_count; pointer++) {
-      if (done)
-        continue;
-      const std::string& current_item = m_markers_and_text.at(pointer);
-      if (filter::usfm::is_usfm_marker (current_item))
-      {
-        const std::string marker = filter::usfm::get_marker (current_item);
-        if (m_styles.count (marker))
-        {
-          database::styles1::Item& style = m_styles.at(marker);
-          markers.push_back (marker);
-          types.push_back (style.type);
-          subtypes.push_back (style.subtype);
-          openers.push_back (filter::usfm::is_opening_marker (current_item));
-          embeddeds.push_back (filter::usfm::is_embedded_marker (current_item));
-          // Don't go beyond the next verse marker.
-          if (style.type == StyleTypeVerseNumber)
-            done = true;
-        }
-      }
-    }
-    if (!done)
-      end_chapter_reached = true;
-  }
-  
-  // Go through the road ahead, and assess it.
-  for (size_t i {0}; i < types.size (); i++) {
-    
-    const std::string& marker = markers.at(i);
-    const int type = types [i];
-    const int subtype = subtypes [i];
-    const bool opener = openers [i];
-    [[maybe_unused]] const bool embedded = embeddeds [i];
-    
-    // The input is a note opener.
-    if (input_type == StyleTypeFootEndNote) {
-      if (input_opener) {
-        if ((input_subtype == FootEndNoteSubtypeFootnote) || (input_subtype == FootEndNoteSubtypeEndnote)) {
-          // Encounters note closer: road is clear.
-          // Encounters another note opener: blocker.
-          if (type == StyleTypeFootEndNote) {
-            if ((subtype == FootEndNoteSubtypeFootnote) || (subtype == FootEndNoteSubtypeEndnote)) {
-              if (opener)
-                return false;
-              else
-                return true;
-            }
-          }
-          // Encounters a verse: blocker.
-          if (type == StyleTypeVerseNumber)
-            return false;
-          // Encounters cross reference opener: blocker.
-          // Other \x.. markup is allowed.
-          if (type == StyleTypeCrossreference) {
-            if (subtype == CrossreferenceSubtypeCrossreference) {
-              return false;
-            }
-          }
-        }
-      }
-    }
-    
-    // The input is a cross reference opener.
-    if (input_type == StyleTypeCrossreference) {
-      if (input_opener) {
-        if (input_subtype == CrossreferenceSubtypeCrossreference) {
-          // Encounters xref closer: road is clear.
-          // Encounters another xref opener: blocker.
-          if (type == StyleTypeCrossreference) {
-            if (subtype == CrossreferenceSubtypeCrossreference) {
-              if (opener)
-                return false;
-              else
-                return true;
-            }
-          }
-          // Encounters a verse: blocker.
-          if (type == StyleTypeVerseNumber)
-            return false;
-          // Encounters foot- or endnote opener: blocker.
-          // Other \f.. markup is allowed.
-          if (type == StyleTypeFootEndNote) {
-            if ((subtype == FootEndNoteSubtypeFootnote) || (subtype == FootEndNoteSubtypeEndnote)) {
-              return false;
-            }
-          }
-        }
-      }
-    }
-    
-    // The input to check the road ahead for is an inline text opener, non-embedded, like "\add ".
-    if (input_type == StyleTypeInlineText) {
-      // If the input is embedded, declare the road ahead to be clear.
-      if (input_embedded)
-        return true;
-      if (input_opener && !input_embedded) {
-        if (type == StyleTypeInlineText) {
-          if (embedded) {
-            // An embedded inline marker is OK: Road ahead is clear.
-            return true;
-          } else {
-            // It it encounters another non-embedded inline opening marker, that's a blocker.
-            if (opener)
-              return false;
-            // If it finds a matching closing marker: OK.
-            if (input_marker == marker) {
-              if (!opener)
-                return true;
-            }
-          }
-        }
-        // The inline text opener encounters a verse: blocker.
-        if (type == StyleTypeVerseNumber)
-          return false;
-        // The inline text opener encounters a paragraph: blocker.
-        if (type == StyleTypeStartsParagraph)
-          return false;
-      }
-    }
-  }
-
-  // Nothing clearing the way was found, and if it reached the end of the chapter, that's a blocker.
-  if (end_chapter_reached)
-    return false;
-  
-  // No blockers found: The road is clear.
-  return true;
+  // Call a unit testable function to do the work.
+  return ::road_is_clear (m_markers_and_text, m_markers_and_text_pointer, m_styles);
 }
 
 
@@ -940,4 +770,153 @@ void Editor_Usfm2Html::add_word_level_attributes(const std::string id)
 
   // Add the word-level attributes as text.
   p_node.text ().set (m_pending_word_level_attributes.value().c_str());
+}
+
+
+// Returns true if the road ahead is clear for the current marker.
+bool road_is_clear(const std::vector<std::string>& markers_and_text,
+                   const unsigned int markers_and_text_pointer,
+                   std::map<std::string, database::styles1::Item>& styles) // Todo update to v2.
+{
+  // If the input is not a marker, the road ahead is clear.
+  const std::string input_item = markers_and_text[markers_and_text_pointer];
+  if (!filter::usfm::is_usfm_marker (input_item))
+    return true;
+
+  // The marker. If not in stylesheet, the road is clear.
+  const std::string input_marker {filter::usfm::get_marker (input_item)};
+  if (!styles.count (input_marker))
+    return true;
+
+  // Determine the input markup properties.
+  const bool input_opener {filter::usfm::is_opening_marker (input_item)};
+  const bool input_embedded {filter::usfm::is_embedded_marker (input_item)};
+  const database::styles1::Item input_style = styles [input_marker];
+  int input_type {input_style.type};
+  int input_subtype {input_style.subtype};
+  
+  // If the imput markup is embedded inline text, the road ahead is clear.
+  if (input_type == StyleTypeInlineText) {
+    if (input_embedded)
+      return true;
+  }
+  
+  // Determine the road ahead that follows the input markup.
+  bool verse_boundary_reached {false};
+  for (size_t pointer {markers_and_text_pointer + 1}; pointer < markers_and_text.size(); pointer++) {
+    
+    // If ready, skip the rest of the markup.
+    if (verse_boundary_reached)
+      continue;
+    
+    // Gather data about the current marker.
+    const std::string& current_item = markers_and_text.at(pointer);
+    if (filter::usfm::is_usfm_marker (current_item))
+    {
+      const std::string marker = filter::usfm::get_marker (current_item);
+      if (styles.count (marker))
+      {
+        database::styles1::Item& style = styles.at(marker);
+        const int type = {style.type};
+        const int subtype {style.subtype};
+        const bool opener {filter::usfm::is_opening_marker (current_item)};
+        const bool embedded {filter::usfm::is_embedded_marker (current_item)};
+        
+        // Take the next verse marker in account but don't go beyond it.
+        if (style.type == StyleTypeVerseNumber)
+          verse_boundary_reached = true;
+        
+        // The input is a note opener.
+        if (input_type == StyleTypeFootEndNote) {
+          if (input_opener) {
+            if ((input_subtype == FootEndNoteSubtypeFootnote) || (input_subtype == FootEndNoteSubtypeEndnote)) {
+              // Encounters note closer: road is clear.
+              // Encounters another note opener: blocker.
+              if (type == StyleTypeFootEndNote) {
+                if ((subtype == FootEndNoteSubtypeFootnote) || (subtype == FootEndNoteSubtypeEndnote)) {
+                  if (opener)
+                    return false;
+                  else
+                    return true;
+                }
+              }
+              // Encounters a verse: blocker.
+              if (type == StyleTypeVerseNumber)
+                return false;
+              // Encounters cross reference opener or closer: blocker.
+              // Other \x.. markup is allowed.
+              if (type == StyleTypeCrossreference) {
+                if (subtype == CrossreferenceSubtypeCrossreference) {
+                  return false;
+                }
+              }
+            }
+          }
+        }
+        
+        // The input is a cross reference opener.
+        if (input_type == StyleTypeCrossreference) {
+          if (input_opener) {
+            if (input_subtype == CrossreferenceSubtypeCrossreference) {
+              // Encounters xref closer: road is clear.
+              // Encounters another xref opener: blocker.
+              if (type == StyleTypeCrossreference) {
+                if (subtype == CrossreferenceSubtypeCrossreference) {
+                  if (opener)
+                    return false;
+                  else
+                    return true;
+                }
+              }
+              // Encounters a verse: blocker.
+              if (type == StyleTypeVerseNumber)
+                return false;
+              // Encounters foot- or endnote opener: blocker.
+              // Other \f.. markup is allowed.
+              if (type == StyleTypeFootEndNote) {
+                if ((subtype == FootEndNoteSubtypeFootnote) || (subtype == FootEndNoteSubtypeEndnote)) {
+                  return false;
+                }
+              }
+            }
+          }
+        }
+        
+        // The input to check the road ahead for is an inline text opener, non-embedded, like "\add ".
+        if (input_type == StyleTypeInlineText) {
+          if (input_opener && !input_embedded) {
+            if (type == StyleTypeInlineText) {
+              if (embedded) {
+                // An embedded inline marker is OK: Road ahead is clear.
+                return true;
+              }
+              // If it encounters another non-embedded inline opening marker, that's a blocker.
+              if (opener)
+                return false;
+              // If it finds a matching closing marker: OK.
+              if (input_marker == marker) {
+                if (!opener)
+                  return true;
+              }
+            }
+            // The inline text opener encounters a verse: blocker.
+            if (type == StyleTypeVerseNumber)
+              return false;
+            // The inline text opener encounters a paragraph: blocker.
+            if (type == StyleTypeStartsParagraph)
+              return false;
+          }
+        }
+        
+      }
+    }
+  }
+  
+  // If it didn't find the verse markup, it follows that the end of the chapter was reached.
+  // That is a blocker.
+  if (!verse_boundary_reached)
+    return false;
+  
+  // No blockers found: The road is clear.
+  return true;
 }

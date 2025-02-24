@@ -1902,4 +1902,78 @@ TEST_F (usfm_html, pronunciation) // Todo
 }
 
 
+TEST_F (usfm_html, road_is_clear) // Todo write and test.
+{
+  const std::string stylesheet {styles_logic_standard_sheet ()};
+  std::map <std::string, database::styles1::Item> styles {};
+  {
+    const std::vector <std::string> markers = database::styles1::get_markers (stylesheet);
+    for (const auto& marker : markers) {
+      database::styles1::Item style = database::styles1::get_marker_data (stylesheet, marker);
+      styles [marker] = style;
+    }
+  }
+  
+  // The testing data.
+  // The first element of the pair contains the markup.
+  // The second element says whether the road ahead should be clear.
+  std::vector<std::pair<std::vector<std::string>,bool>> testing_usfm {
+    
+    // If the current item is text, not a marker, the road ahead is clear.
+    { { "text" }, true},
+    // If the current item is an unknown marker, the road ahead is clear.
+    { { R"(\unknown )" }, true},
+    // If the current item is a footnote or endnote opener, and ahead is a note closer, the road is clear.
+    { { R"(\f )", "+", "note", R"(\f*)" }, true},
+    { { R"(\fe )", "+", "note", R"(\fe*)" }, true},
+    // If the current item is a footnote or endnote opener, and ahead is another note opener, the road is blocked.
+    { { R"(\f )", "+", "note", R"(\f )" }, false},
+    { { R"(\fe )", "+", "note", R"(\fe )" }, false},
+    // If starting from footnote / endnote opener, and ahead is a verse number, the road is blocked.
+    { { R"(\f )", "+", "note", R"(\v 1)" }, false},
+    { { R"(\fe )", "+", "note", R"(\v 1)" }, false},
+    // If a footnote/endnote encounters a cross reference opener or closer: blocker.
+    { { R"(\f )", "+", "note", R"(\x )" }, false},
+    { { R"(\f )", "+", "note", R"(\x*)" }, false},
+    { { R"(\fe )", "+", "note", R"(\x )" }, false},
+    { { R"(\fe )", "+", "note", R"(\x*)" }, false},
+    // If xref encounters closer: road is clear.
+    { { R"(\x )", "note", R"(\x*)" }, true},
+    // If xref opener encounters another xref opener: blocker.
+    { { R"(\x )", "note", R"(\x )" }, false},
+    // If xref opener encounters verse, this is blocker.
+    { { R"(\x )", "note", R"(\v 1)" }, false},
+    // If xref opener encounters footnote, this is blocker.
+    { { R"(\x )", "note", R"(\f)" }, false},
+    { { R"(\x )", "note", R"(\fe)" }, false},
+    // Embedded character style opener: Road is clear.
+    { { R"(\+add )" }, true},
+    // Inline text opener, non-embedded, followed by embedded inline marker: Road ahead is clear.
+    { { R"(\add )", "text", R"(\+add )" }, true},
+    { { R"(\add )", "text", R"(\+add*)" }, true},
+    // Inline text opener, non-embedded, followed by non-embedded inline opening marker: Blocked.
+    { { R"(\add )", "text", R"(\add )" }, false},
+    // Inline text opener, non-embedded, followed by matching closer: OK.
+    { { R"(\add )", "text", R"(\add*)" }, true},
+    // Inline text opener, non-embedded, followed by verse: Block.
+    { { R"(\add )", "text", R"(\v 1)" }, false},
+    // Inline text opener, non-embedded, followed by paragraph: Block.
+    { { R"(\add )", "text", R"(\p)" }, false},
+    // Inline text opener, non-embedded, at end of chapter: Blocker.
+    { { R"(\add )", "text" }, false},
+  };
+  for (const auto& [usfm, clear] : testing_usfm) {
+    if (clear != road_is_clear(usfm, 0, styles)) {
+      std::stringstream ss {};
+      for (const auto& bit : usfm) {
+        if (!ss.str().empty())
+          ss << " ";
+        ss << bit;
+      }
+      FAIL() << "The sequence " << std::quoted(ss.str()) << " is expected to result in a " << (clear?"clear":"blocked") << " road ahead but it actually led to the opposite";
+    }
+  }
+}
+
+
 #endif

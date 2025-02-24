@@ -61,10 +61,6 @@ private:
   pugi::xml_node m_notes_node {};
   pugi::xml_node m_word_level_attributes_node {};
   
-  // Standard content markers for notes.
-  std::string m_standard_content_marker_foot_end_note {};
-  std::string m_standard_content_marker_cross_reference {};
-
   pugi::xml_node m_current_p_node {}; // The current p node.
   bool m_current_p_open {false};
   std::vector <std::string> m_current_text_styles {};
@@ -107,3 +103,7 @@ private:
   void extract_word_level_attributes();
   void add_word_level_attributes(const std::string id);
 };
+
+bool road_is_clear(const std::vector<std::string>& markers_and_text,
+                   const unsigned int markers_and_text_pointer,
+                   std::map<std::string, database::styles1::Item>& styles);

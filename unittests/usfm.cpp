@@ -1489,7 +1489,7 @@ TEST (checks, all_markers)
     const std::string opener = filter::usfm::get_opening_usfm (marker);
     const size_t pos = usfm.find(opener);
     if (pos == std::string::npos) {
-      FAIL() << "The standard stylesheet v2 contains " << std::quoted(marker) << " but the fragment of USFM with all markers does not contain " << opener;
+      ADD_FAILURE() << "The standard stylesheet v2 contains " << std::quoted(marker) << " but the fragment of USFM with all markers does not contain " << opener;
     }
   }
 }
@@ -1513,12 +1513,12 @@ TEST (checks, usfm_import)
       const int chapter = data.m_chapter;
       constexpr std::array<int,2> chapters {0, 1};
       if (std::find(chapters.cbegin(), chapters.cend(), chapter) == chapters.cend()) {
-        FAIL() << "Unexpected chapter number " << chapter;
+        ADD_FAILURE() << "Unexpected chapter number " << chapter;
       }
       const std::string usfm = data.m_data;
       const size_t pos = std::string(usfm_with_all_markers).find(usfm);
       if (pos == std::string::npos)
-        FAIL() << "The import routine created this different USFM fragment:\n" << usfm;
+        ADD_FAILURE() << "The import routine created this different USFM fragment:\n" << usfm;
     }
   }
 }

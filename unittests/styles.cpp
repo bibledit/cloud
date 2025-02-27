@@ -272,10 +272,10 @@ TEST_F (styles, spot_check_markers)
   
   std::string marker {"p"};
   if (find (markers.begin (), markers.end (), marker) == markers.end ())
-    FAIL() << marker << " not found";
+    ADD_FAILURE() << marker << " not found";
   marker = "add";
   if (find (markers.begin (), markers.end (), marker) == markers.end ())
-    FAIL() << marker << " not found";
+    ADD_FAILURE() << marker << " not found";
   
   std::map <std::string, std::string> markers_names = database::styles1::get_markers_and_names (test_sheet);
   EXPECT_EQ (205, markers_names.size());
@@ -287,10 +287,10 @@ TEST_F (styles, spot_check_markers)
   markers = database::styles1::get_markers (test_sheet);
   marker = "p";
   if (find (markers.begin (), markers.end (), marker) != markers.end ())
-    FAIL() << marker << " should not be there";
+    ADD_FAILURE() << marker << " should not be there";
   marker = "add";
   if (find (markers.begin (), markers.end (), marker) == markers.end ())
-    FAIL() << marker << " not found";
+    ADD_FAILURE() << marker << " not found";
   
   markers_names = database::styles1::get_markers_and_names (test_sheet);
   EXPECT_EQ (std::string(), markers_names ["p"]);
@@ -371,13 +371,13 @@ TEST_F (styles, add_marker)
   std::vector <std::string> markers = database::styles1::get_markers (test_sheet);
   std::string marker {"zhq"};
   if (find (markers.begin (), markers.end (), marker) != markers.end ())
-    FAIL() << marker << " should not be there";
+    ADD_FAILURE() << marker << " should not be there";
   
   // Add marker.
   database::styles1::add_marker (test_sheet, marker);
   markers = database::styles1::get_markers (test_sheet);
   if (find (markers.begin (), markers.end (), marker) == markers.end ())
-    FAIL() << marker << " should be there";
+    ADD_FAILURE() << marker << " should be there";
 }
 
 
@@ -388,7 +388,7 @@ TEST_F (styles, empty_stylesheet)
   std::vector <std::string> markers = database::styles1::get_markers ("");
   std::string marker {"zhq"};
   if (find (markers.begin (), markers.end (), marker) != markers.end ())
-    FAIL() << marker << " should not be there";
+    ADD_FAILURE() << marker << " should not be there";
 }
 
 
@@ -608,7 +608,7 @@ TEST_F (styles, editors_application)
   for (const auto& pair : marker_action) {
     const std::string action = Editor_Styles::getAction (webserver_request, pair.first);
     if (action != pair.second)
-      FAIL() << "Marker " << std::quoted(pair.first) << " got action " << std::quoted(action) << " but the expected action is " << std::quoted(pair.second);
+      ADD_FAILURE() << "Marker " << std::quoted(pair.first) << " got action " << std::quoted(action) << " but the expected action is " << std::quoted(pair.second);
   }
 }
 
@@ -627,7 +627,7 @@ TEST_F (styles, get_styles_v2)
     constexpr const char * marker {"id"};
     const auto iter = std::find(default_styles.cbegin(), default_styles.cend(), marker);
     if (iter == default_styles.cend())
-      FAIL() << "Should contain style " << std::quoted(marker);
+      ADD_FAILURE() << "Should contain style " << std::quoted(marker);
     else {
       const stylesv2::Style& style = *iter;
       EXPECT_EQ (style.type, stylesv2::Type::book_id);
@@ -641,7 +641,7 @@ TEST_F (styles, get_styles_v2)
     constexpr const char * marker {"abc"};
     const auto iter = std::find(default_styles.cbegin(), default_styles.cend(), marker);
     if (iter != default_styles.cend())
-      FAIL() << "Should not contain style " << std::quoted(marker);
+      ADD_FAILURE() << "Should not contain style " << std::quoted(marker);
   }
 }
 
@@ -800,7 +800,7 @@ TEST_F (styles, get_styles_etc_v2)
     const auto test = [&markers](const std::string& markerv2) {
       const auto iter = std::find(markers.cbegin(), markers.cend(), markerv2);
       if (iter == markers.cend()) {
-        FAIL() << "The marker " << std::quoted(markerv2) << " should have been found but was not";
+        ADD_FAILURE() << "The marker " << std::quoted(markerv2) << " should have been found but was not";
       }
     };
     for (const stylesv2::Style& style : stylesv2::styles) {
@@ -815,7 +815,7 @@ TEST_F (styles, get_styles_etc_v2)
     const std::vector<std::string> markers = get_markers(sheet);
     const auto iter = std::find(markers.cbegin(), markers.cend(), marker);
     if (iter != markers.cend()) {
-      FAIL() << "The marker " << std::quoted(marker) << " should have been deleted but it is still in the list";
+      ADD_FAILURE() << "The marker " << std::quoted(marker) << " should have been deleted but it is still in the list";
     }
   }
   
@@ -826,7 +826,7 @@ TEST_F (styles, get_styles_etc_v2)
     const std::vector<std::string> markers = get_markers(sheet);
     const auto iter = std::find(markers.cbegin(), markers.cend(), id_marker);
     if (iter != markers.cend()) {
-      FAIL() << "The marker " << std::quoted(id_marker) << " should have been deleted but it is still in the list";
+      ADD_FAILURE() << "The marker " << std::quoted(id_marker) << " should have been deleted but it is still in the list";
     }
   }
   
@@ -851,11 +851,11 @@ TEST_F (styles, styles_order)
   auto previous_category {stylesv2::Category::unknown};
   for (const stylesv2::Style& style : stylesv2::styles) {
     if (style.category == stylesv2::Category::unknown)
-      FAIL() << "Marker " << std::quoted(style.marker) << " is not yet categorized properly";
+      ADD_FAILURE() << "Marker " << std::quoted(style.marker) << " is not yet categorized properly";
     if (style.category < previous_category) {
       std::stringstream cat{};
       cat << style.category;
-      FAIL() << "Marker " << std::quoted(style.marker) << " in category " << std::quoted(cat.str()) << " is listed out of order";
+      ADD_FAILURE() << "Marker " << std::quoted(style.marker) << " in category " << std::quoted(cat.str()) << " is listed out of order";
     }
     previous_category = style.category;
   }
@@ -900,8 +900,9 @@ TEST_F (styles, marker_starts_new_line_in_usfm)
         break;
     }
     if (standard == std::nullopt)
-      FAIL() << "The unit test for Type::" << type_enum_to_value(style.type) << " has not yet been written";
-    EXPECT_EQ(standard.value(), starts_new_line_in_usfm(std::addressof(style)));
+      ADD_FAILURE() << "The unit test for Type::" << type_enum_to_value(style.type) << " has not yet been written";
+    else
+      EXPECT_EQ(standard.value(), starts_new_line_in_usfm(std::addressof(style)));
   }
 }
 

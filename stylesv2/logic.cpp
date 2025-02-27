@@ -6694,7 +6694,7 @@ bool marker_moved_to_v2 (const std::string& marker)
 
 
 // Whether this style starta a new line in USFM.
-bool starts_new_line_in_usfm (const Style* style) // Todo write unit test for this too.
+bool starts_new_line_in_usfm (const Style* style)
 {
   switch (style->type) {
     case stylesv2::Type::starting_boundary:

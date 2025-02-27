@@ -1902,7 +1902,7 @@ TEST_F (usfm_html, pronunciation) // Todo
 }
 
 
-TEST_F (usfm_html, road_is_clear) // Todo write and test.
+TEST_F (usfm_html, road_is_clear)
 {
   const std::string stylesheet {styles_logic_standard_sheet ()};
   std::map <std::string, database::styles1::Item> styles {};
@@ -1972,7 +1972,7 @@ TEST_F (usfm_html, road_is_clear) // Todo write and test.
           ss << " ";
         ss << bit;
       }
-      FAIL() << "The sequence " << std::quoted(ss.str()) << " is expected to result in a " << (clear?"clear":"blocked") << " road ahead but it actually led to the opposite";
+      ADD_FAILURE() << "The sequence " << std::quoted(ss.str()) << " is expected to result in a " << (clear?"clear":"blocked") << " road ahead but it actually led to the opposite";
     }
   }
 }

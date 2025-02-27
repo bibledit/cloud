@@ -1953,7 +1953,7 @@ TEST_F (usfm_html, road_is_clear) // Todo write and test.
     { { R"(\add )", "text", R"(\+add*)" }, true},
     // Inline text opener, non-embedded, followed by non-embedded inline opening marker: Blocked.
     { { R"(\add )", "text", R"(\add )" }, false},
-    // Todo { { R"(\pro )", "text", R"(\pro )" }, false},
+    { { R"(\pro )", "text", R"(\pro )" }, false},
     // Inline text opener, non-embedded, followed by matching closer: OK.
     { { R"(\add )", "text", R"(\add*)" }, true},
     { { R"(\pro )", "text", R"(\pro*)" }, true},

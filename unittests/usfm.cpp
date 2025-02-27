@@ -25,10 +25,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #pragma GCC diagnostic pop
 #include <unittests/utilities.h>
 #include <styles/logic.h>
+#include <stylesv2/logic.h>
 #include <checks/usfm.h>
 #include <filter/usfm.h>
 #include <filter/url.h>
 #include <filter/string.h>
+#include "usfm.h"
 
 
 TEST (checks, usfm)
@@ -1475,6 +1477,20 @@ TEST (checks, usfm)
     EXPECT_EQ (standard, results);
   }
   
+}
+
+
+TEST (checks, all_markers)
+{
+  // Check that the USFM fragment with all markers has all markers defined in the stylesheet v2.
+  const std::string usfm {filter::strings::replace ("\n", " ", usfm_with_all_markers)};
+  for (const std::string marker : database::styles2::get_markers (styles_logic_standard_sheet())) {
+    const std::string opener = filter::usfm::get_opening_usfm (marker);
+    const size_t pos = usfm.find(opener);
+    if (pos == std::string::npos) {
+      FAIL() << "The standard stylesheet v2 contains " << std::quoted(marker) << " but the fragment of USFM with all markers does not contain " << opener;
+    }
+  }
 }
 
 

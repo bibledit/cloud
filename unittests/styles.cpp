@@ -862,4 +862,48 @@ TEST_F (styles, styles_order)
 }
 
 
+TEST_F (styles, marker_starts_new_line_in_usfm)
+{
+  using namespace stylesv2;
+  for (int t {static_cast<int>(Type::starting_boundary) + 1};
+       t < static_cast<int>(Type::stopping_boundary); t++) {
+    std::optional<bool> standard{};
+    Style style{};
+    style.type = static_cast<stylesv2::Type>(t);
+    switch (style.type) {
+      case Type::starting_boundary:
+        break;
+      case Type::none:
+      case Type::book_id:
+      case Type::file_encoding:
+      case Type::remark:
+      case Type::running_header:
+      case Type::long_toc_text:
+      case Type::short_toc_text:
+      case Type::book_abbrev:
+      case Type::chapter_label:
+      case Type::published_chapter_marker:
+      case Type::alternate_chapter_number:
+        standard = true;
+        break;
+      case Type::published_verse_marker:
+        standard = false;
+        break;
+      case Type::introduction_end:
+        standard = true;
+        break;
+      case Type::character_style:
+        standard = false;
+        break;
+      case Type::stopping_boundary:
+      default:
+        break;
+    }
+    if (standard == std::nullopt)
+      FAIL() << "The unit test for Type::" << type_enum_to_value(style.type) << " has not yet been written";
+    EXPECT_EQ(standard.value(), starts_new_line_in_usfm(std::addressof(style)));
+  }
+}
+
+
 #endif

@@ -172,7 +172,7 @@ void Editor_Usfm2Html::process ()
       if (m_preview)
         if (is_opening_marker)
           filter::usfm::remove_word_level_attributes (marker, m_markers_and_text, m_markers_and_text_pointer);
-      if (m_styles.count (marker) && (!stylesv2::marker_moved_to_v2(marker, {""})))
+      if (m_styles.count (marker) && (!stylesv2::marker_moved_to_v2(marker)))
       {
         const database::styles1::Item& style = m_styles.at(marker);
         switch (style.type)
@@ -777,7 +777,7 @@ void Editor_Usfm2Html::add_word_level_attributes(const std::string id)
 bool road_is_clear(const std::vector<std::string>& markers_and_text,
                    const unsigned int markers_and_text_pointer,
                    std::map<std::string, database::styles1::Item>& styles,
-                   const std::string& stylesheet) // Todo update to v2.
+                   const std::string& stylesheet)
 {
   // Section 1: Functions to find marker properties.
   

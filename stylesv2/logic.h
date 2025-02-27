@@ -124,7 +124,7 @@ bool get_bool_parameter (const Style* style, const Property property);
 extern const std::list<Style> styles;
 
 
-bool marker_moved_to_v2 (const std::string& marker, const std::vector<const char*> extra);
+bool marker_moved_to_v2 (const std::string& marker);
 
 
 bool starts_new_line_in_usfm (const Style* style);

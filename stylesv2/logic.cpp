@@ -6677,35 +6677,19 @@ const std::list<Style> styles {
 
 // Temporal function that indicates whether a marker has moved to version 2.
 // The $marker is the one being considered.
-// The $extra is an extra marker in addition to the already implemented ones.
-bool marker_moved_to_v2 (const std::string& marker, const std::vector<const char*> extra)
+bool marker_moved_to_v2 (const std::string& marker)
 {
   static std::map<std::string,bool> cache{};
-  const auto get_key = [&]() {
-    std::string key {marker};
-    if (!extra.empty()) {
-      key.append(" ");
-      key.append(std::accumulate(extra.begin(), extra.end(), std::string{}));
-    }
-    return key;
-  };
-  const std::string key {get_key()};
+  const std::string key {marker};
   if (cache.count(key)) {
     return cache.at(key);
   }
   const auto iter = std::find(styles.cbegin(), styles.cend(), marker);
-  if (iter != styles.cend()) {
+  if (iter != styles.cend())
     cache[key] = true;
-    return true;
-  }
-  for (const auto bit : extra) {
-    if (marker == bit) {
-      cache[key] = true;
-      return true;
-    }
-  }
-  cache[key] = false;
-  return false;
+  else
+    cache[key] = false;
+  return cache.at(key);
 }
 
 

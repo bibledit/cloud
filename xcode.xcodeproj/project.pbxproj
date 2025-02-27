@@ -88,6 +88,7 @@
 		CA29E7B9292C07BE003AC875 /* forward.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = forward.h; sourceTree = "<group>"; };
 		CA29E7BA292C07BE003AC875 /* buffio.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = buffio.h; sourceTree = "<group>"; };
 		CA29E7BC292C07BE003AC875 /* language_en_gb.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = language_en_gb.h; sourceTree = "<group>"; };
+		CA2E6B9A2D70BC510086866B /* usfm.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = usfm.h; sourceTree = "<group>"; };
 		CA300E0629059C4800775963 /* libicudata.71.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicudata.71.1.dylib; path = ../../../../opt/local/lib/libicudata.71.1.dylib; sourceTree = "<group>"; };
 		CA300E0829059C9900775963 /* libicuuc.71.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicuuc.71.1.dylib; path = ../../../../opt/local/lib/libicuuc.71.1.dylib; sourceTree = "<group>"; };
 		CA300E0A29059CD200775963 /* libicui18n.71.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicui18n.71.1.dylib; path = ../../../../opt/local/lib/libicui18n.71.1.dylib; sourceTree = "<group>"; };
@@ -4608,6 +4609,7 @@
 				CADE44C324F174BF003165BB /* unittest.cpp */,
 				CADE430324F174BD003165BB /* url.cpp */,
 				CADE42FB24F174BD003165BB /* users.cpp */,
+				CA2E6B9A2D70BC510086866B /* usfm.h */,
 				CADE441224F174BE003165BB /* usfm.cpp */,
 				CAE406FD2D134B4E005A9142 /* usfm-html.cpp */,
 				CADE42FD24F174BD003165BB /* utilities.h */,

@@ -106,4 +106,5 @@ private:
 
 bool road_is_clear(const std::vector<std::string>& markers_and_text,
                    const unsigned int markers_and_text_pointer,
-                   std::map<std::string, database::styles1::Item>& styles);
+                   std::map<std::string, database::styles1::Item>& styles,
+                   const std::string& stylesheet);

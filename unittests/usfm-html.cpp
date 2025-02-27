@@ -1953,8 +1953,10 @@ TEST_F (usfm_html, road_is_clear) // Todo write and test.
     { { R"(\add )", "text", R"(\+add*)" }, true},
     // Inline text opener, non-embedded, followed by non-embedded inline opening marker: Blocked.
     { { R"(\add )", "text", R"(\add )" }, false},
+    // Todo { { R"(\pro )", "text", R"(\pro )" }, false},
     // Inline text opener, non-embedded, followed by matching closer: OK.
     { { R"(\add )", "text", R"(\add*)" }, true},
+    { { R"(\pro )", "text", R"(\pro*)" }, true},
     // Inline text opener, non-embedded, followed by verse: Block.
     { { R"(\add )", "text", R"(\v 1)" }, false},
     // Inline text opener, non-embedded, followed by paragraph: Block.
@@ -1963,7 +1965,7 @@ TEST_F (usfm_html, road_is_clear) // Todo write and test.
     { { R"(\add )", "text" }, false},
   };
   for (const auto& [usfm, clear] : testing_usfm) {
-    if (clear != road_is_clear(usfm, 0, styles)) {
+    if (clear != road_is_clear(usfm, 0, styles, stylesheet)) {
       std::stringstream ss {};
       for (const auto& bit : usfm) {
         if (!ss.str().empty())

@@ -30,6 +30,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/usfm.h>
 #include <filter/url.h>
 #include <filter/string.h>
+#include <database/books.h>
 #include "usfm.h"
 
 
@@ -1489,6 +1490,35 @@ TEST (checks, all_markers)
     const size_t pos = usfm.find(opener);
     if (pos == std::string::npos) {
       FAIL() << "The standard stylesheet v2 contains " << std::quoted(marker) << " but the fragment of USFM with all markers does not contain " << opener;
+    }
+  }
+}
+
+
+TEST (checks, usfm_import)
+{
+  using namespace filter::usfm;
+  const std::string stylesheet = styles_logic_standard_sheet ();
+
+//  const auto diagnostic_print = [&] (const auto chapter_data) {
+//    const auto lines = filter::strings::explode (chapter_data, '\n');
+//    for (const auto& line : lines)
+//      std::cout << line << "|" << std::endl;
+//  };
+
+  {
+    const std::vector<BookChapterData> book_chapter_data {usfm_import (usfm_with_all_markers, stylesheet)};
+    for (const auto& data : book_chapter_data) {
+      EXPECT_EQ (data.m_book, static_cast<int>(book_id::_genesis));
+      const int chapter = data.m_chapter;
+      constexpr std::array<int,2> chapters {0, 1};
+      if (std::find(chapters.cbegin(), chapters.cend(), chapter) == chapters.cend()) {
+        FAIL() << "Unexpected chapter number " << chapter;
+      }
+      const std::string usfm = data.m_data;
+      const size_t pos = std::string(usfm_with_all_markers).find(usfm);
+      if (pos == std::string::npos)
+        FAIL() << "The import routine created this different USFM fragment:\n" << usfm;
     }
   }
 }

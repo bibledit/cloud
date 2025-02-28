@@ -32,6 +32,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/state.h>
 #include <webserver/request.h>
 #include <edit/logic.h>
+#include "usfm.h"
 
 
 class usfm_html : public ::testing::Test
@@ -1876,15 +1877,14 @@ TEST_F (usfm_html, introduction_end)
 }
 
 
-TEST_F (usfm_html, pronunciation) // Todo
+TEST_F (usfm_html, pronunciation)
 {
-  return;
   std::string standard_usfm =
   R"(\c 1)" "\n"
   R"(\p)" "\n"
   R"(\v 1 Name \pro pronunciation\pro* and text)";
   
-  const std::string standard_html = R"(<p class="b-c"><span>13</span></p><p class="b-mono"><span>\ie </span></p><p class="b-p"><span class="i-v">1</span><span> </span><span>Text</span></p>)";
+  const std::string standard_html = R"(<p class="b-c"><span>1</span></p><p class="b-p"><span class="i-v">1</span><span> </span><span>Name </span><span class="i-pro">pronunciation</span><span> and text</span></p>)";
   
   Editor_Usfm2Html editor_usfm2html;
   editor_usfm2html.load (standard_usfm);
@@ -1892,7 +1892,7 @@ TEST_F (usfm_html, pronunciation) // Todo
   editor_usfm2html.run ();
   const std::string html = editor_usfm2html.get ();
   EXPECT_EQ (standard_html, html);
-  
+
   Editor_Html2Usfm editor_html2usfm;
   editor_html2usfm.load (html);
   editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
@@ -1975,6 +1975,47 @@ TEST_F (usfm_html, road_is_clear)
       ADD_FAILURE() << "The sequence " << std::quoted(ss.str()) << " is expected to result in a " << (clear?"clear":"blocked") << " road ahead but it actually led to the opposite";
     }
   }
+}
+
+
+TEST_F (usfm_html, usfm_with_all_markers)
+{
+  std::string standard_usfm {usfm_with_all_markers};
+  
+  const std::string standard_html =
+  R"(<p class="b-mono"><span>\id </span><span>GEN</span></p>)"
+  R"(<p class="b-mono"><span>\ide </span><span>UTF-8</span></p>)"
+  R"(<p class="b-mono"><span>\sts </span><span>Released</span></p>)"
+  R"(<p class="b-mono"><span>\rem </span><span>Remark</span></p>)"
+  R"(<p class="b-mono"><span>\h </span><span>Genesis</span></p>)"
+  R"(<p class="b-mono"><span>\h1 </span><span>Genesis</span></p>)"
+  R"(<p class="b-mono"><span>\h2 </span><span>Left</span></p>)"
+  R"(<p class="b-mono"><span>\h3 </span><span>Right</span></p>)"
+  R"(<p class="b-mono"><span>\toc1 </span><span>The book of Genesis</span></p>)"
+  R"(<p class="b-mono"><span>\toc2 </span><span>Genesis</span></p>)"
+  R"(<p class="b-mono"><span>\toc3 </span><span>Gen.</span></p>)"
+  R"(<p class="b-mono"><span>\ie </span></p>)"
+  R"(<p class="b-c"><span>1</span></p>)"
+  R"(<p class="b-mono"><span>\cl </span><span>Genesis</span></p>)"
+  R"(<p class="b-mono"><span>\cp </span><span>א</span></p>)"
+  R"(<p class="b-mono"><span>\ca </span><span>2</span><span>\ca*</span></p>)"
+  R"(<p class="b-p"><span class="i-v">1</span><span> </span><span class="i-vp">1b</span><span> Text name</span><span class="i-pro">pronunciation</span><span>.</span></p>)"
+  ;
+  //R"()"
+  
+  Editor_Usfm2Html editor_usfm2html;
+  editor_usfm2html.load (standard_usfm);
+  editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
+  editor_usfm2html.run ();
+  const std::string html = editor_usfm2html.get ();
+  EXPECT_EQ (standard_html, html);
+
+  Editor_Html2Usfm editor_html2usfm;
+  editor_html2usfm.load (html);
+  editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
+  editor_html2usfm.run ();
+  const std::string usfm = editor_html2usfm.get ();
+  EXPECT_EQ (filter::strings::trim(standard_usfm), usfm);
 }
 
 

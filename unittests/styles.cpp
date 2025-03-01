@@ -656,6 +656,13 @@ TEST_F (styles, save_load_styles_v2)
   constexpr const char* sheet {"sheet"};
   database::styles::create_sheet (sheet);
 
+  // Function to make styles comparison easier.
+  const auto to_string = [](const Style& style) {
+    std::stringstream ss{};
+    ss << style;
+    return ss.str();
+  };
+  
   stylesv2::Style style;
   
   // Save and load the first default style, and check that the loaded style is the same as the saved one.
@@ -664,11 +671,7 @@ TEST_F (styles, save_load_styles_v2)
   {
     const auto loaded_style = load_style(sheet, style.marker);
     EXPECT_TRUE(loaded_style);
-    std::stringstream ss1{};
-    ss1 << style;
-    std::stringstream ss2{};
-    ss2 << loaded_style.value();
-    EXPECT_EQ(ss1.str(), ss2.str());
+    EXPECT_EQ(to_string(style), to_string(loaded_style.value()));
   }
   
   // Set a parameter to false, save and load, and compare again
@@ -677,11 +680,7 @@ TEST_F (styles, save_load_styles_v2)
   {
     const auto loaded_style = load_style(sheet, style.marker);
     EXPECT_TRUE(loaded_style);
-    std::stringstream ss1{};
-    ss1 << style;
-    std::stringstream ss2{};
-    ss2 << loaded_style.value();
-    EXPECT_EQ(ss1.str(), ss2.str());
+    EXPECT_EQ(to_string(style), to_string(loaded_style.value()));
     EXPECT_FALSE(std::get<bool>(loaded_style.value().properties.at(Property::starts_new_page)));
   }
 
@@ -691,11 +690,7 @@ TEST_F (styles, save_load_styles_v2)
   {
     const auto loaded_style = load_style(sheet, style.marker);
     EXPECT_TRUE(loaded_style);
-    std::stringstream ss1{};
-    ss1 << style;
-    std::stringstream ss2{};
-    ss2 << loaded_style.value();
-    EXPECT_EQ(ss1.str(), ss2.str());
+    EXPECT_EQ(to_string(style), to_string(loaded_style.value()));
     EXPECT_TRUE(std::get<bool>(loaded_style.value().properties.at(Property::starts_new_page)));
   }
 
@@ -706,11 +701,7 @@ TEST_F (styles, save_load_styles_v2)
   {
     const auto loaded_style = load_style(sheet, style.marker);
     EXPECT_TRUE(loaded_style);
-    std::stringstream ss1{};
-    ss1 << style;
-    std::stringstream ss2{};
-    ss2 << loaded_style.value();
-    EXPECT_EQ(ss1.str(), ss2.str());
+    EXPECT_EQ(to_string(style), to_string(loaded_style.value()));
     EXPECT_EQ(loaded_style.value().name, name);
   }
 
@@ -721,11 +712,7 @@ TEST_F (styles, save_load_styles_v2)
   {
     const auto loaded_style = load_style(sheet, style.marker);
     EXPECT_TRUE(loaded_style);
-    std::stringstream ss1{};
-    ss1 << style;
-    std::stringstream ss2{};
-    ss2 << loaded_style.value();
-    EXPECT_EQ(ss1.str(), ss2.str());
+    EXPECT_EQ(to_string(style), to_string(loaded_style.value()));
     EXPECT_EQ(loaded_style.value().info, info);
   }
   
@@ -736,12 +723,89 @@ TEST_F (styles, save_load_styles_v2)
   {
     auto loaded_style = load_style(sheet, style.marker);
     EXPECT_TRUE(loaded_style);
-    std::stringstream ss1{};
-    ss1 << style;
-    std::stringstream ss2{};
-    ss2 << loaded_style.value();
-    EXPECT_EQ(ss1.str(), ss2.str());
+    EXPECT_EQ(to_string(style), to_string(loaded_style.value()));
     EXPECT_EQ(loaded_style.value().marker, marker);
+  }
+  
+  // Test character properties save and load.
+  {
+    constexpr const char* marker {"pro"};
+    const Style pro_style = *get_marker_data (sheet, marker);
+    for (const auto state : stylesv2::get_four_states()) {
+      style = pro_style;
+      style.character.value().italic = state;
+      save_style(sheet, style);
+      {
+        auto loaded_style = load_style(sheet, style.marker);
+        EXPECT_TRUE(loaded_style);
+        EXPECT_EQ(to_string(style), to_string(loaded_style.value()));
+        EXPECT_EQ(loaded_style.value().character.value().italic, style.character.value().italic);
+      }
+    }
+    for (const auto state : stylesv2::get_four_states()) {
+      style = pro_style;
+      style.character.value().bold = state;
+      save_style(sheet, style);
+      {
+        auto loaded_style = load_style(sheet, style.marker);
+        EXPECT_TRUE(loaded_style);
+        EXPECT_EQ(to_string(style), to_string(loaded_style.value()));
+        EXPECT_EQ(loaded_style.value().character.value().bold, style.character.value().bold);
+      }
+    }
+    for (const auto state : stylesv2::get_four_states()) {
+      style = pro_style;
+      style.character.value().underline = state;
+      save_style(sheet, style);
+      {
+        auto loaded_style = load_style(sheet, style.marker);
+        EXPECT_TRUE(loaded_style);
+        EXPECT_EQ(to_string(style), to_string(loaded_style.value()));
+        EXPECT_EQ(loaded_style.value().character.value().underline, style.character.value().underline);
+      }
+    }
+    for (const auto state : stylesv2::get_four_states()) {
+      style = pro_style;
+      style.character.value().smallcaps = state;
+      save_style(sheet, style);
+      {
+        auto loaded_style = load_style(sheet, style.marker);
+        EXPECT_TRUE(loaded_style);
+        EXPECT_EQ(to_string(style), to_string(loaded_style.value()));
+        EXPECT_EQ(loaded_style.value().character.value().smallcaps, style.character.value().smallcaps);
+      }
+    }
+    for (const auto state : stylesv2::get_two_states()) {
+      style = pro_style;
+      style.character.value().superscript = state;
+      save_style(sheet, style);
+      {
+        auto loaded_style = load_style(sheet, style.marker);
+        EXPECT_TRUE(loaded_style);
+        EXPECT_EQ(to_string(style), to_string(loaded_style.value()));
+        EXPECT_EQ(loaded_style.value().character.value().superscript, style.character.value().superscript);
+      }
+    }
+    for (const auto& color : {"00", "ABCDEF", "#FFFFFF"}) {
+      style = pro_style;
+      style.character.value().foreground_color = color;
+      save_style(sheet, style);
+      {
+        auto loaded_style = load_style(sheet, style.marker);
+        EXPECT_TRUE(loaded_style);
+        EXPECT_EQ(to_string(style), to_string(loaded_style.value()));
+        EXPECT_EQ(loaded_style.value().character.value().foreground_color, style.character.value().foreground_color);
+      }
+      style = pro_style;
+      style.character.value().background_color = color;
+      save_style(sheet, style);
+      {
+        auto loaded_style = load_style(sheet, style.marker);
+        EXPECT_TRUE(loaded_style);
+        EXPECT_EQ(to_string(style), to_string(loaded_style.value()));
+        EXPECT_EQ(loaded_style.value().character.value().background_color, style.character.value().background_color);
+      }
+    }
   }
 }
 

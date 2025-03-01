@@ -802,9 +802,6 @@ std::string styles_view (Webserver_Request& webserver_request)
   }
 
   
-  // Userstring3 not yet used.
-  
-  
   page += view.render ("styles", "view");
   
   page += assets_page::footer ();

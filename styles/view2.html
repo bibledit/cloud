@@ -10,6 +10,65 @@
 
 <tr><td>translate("Description")</td><td><a href="view2?sheet=##sheet##&style=##style##&info=">##info##</a></td></tr>
 
+<!-- #BEGINZONE character -->
+
+<tr>
+  <td>translate("Italic")</td>
+  <td>
+    <form action="" method="POST">
+      <select name="italic" onchange="this.form.submit()">##italic##</select>
+    </form>
+  </td>
+</tr>
+
+<tr>
+  <td>translate("Bold")</td>
+  <td>
+    <form action="" method="POST">
+      <select name="bold" onchange="this.form.submit()">##bold##</select>
+    </form>
+  </td>
+</tr>
+
+<tr>
+  <td>translate("Underline")</td>
+  <td>
+    <form action="" method="POST">
+      <select name="underline" onchange="this.form.submit()">##underline##</select>
+    </form>
+  </td>
+</tr>
+
+<tr>
+  <td>translate("Small caps")</td>
+  <td>
+    <form action="" method="POST">
+      <select name="smallcaps" onchange="this.form.submit()">##smallcaps##</select>
+    </form>
+  </td>
+</tr>
+
+<tr>
+  <td>translate("Superscript")</td>
+  <td>
+    <form action="" method="POST">
+      <select name="superscript" onchange="this.form.submit()">##superscript##</select>
+    </form>
+  </td>
+</tr>
+
+<tr>
+  <td>translate("Foreground color")</td>
+  <td><input id="fgcolor" type="text" class="coloris" value="##foregroundcolor##"></td>
+</tr>
+
+<tr>
+  <td>translate("Background color")</td>
+  <td><input id="bgcolor" type="text" class="coloris" value="##backgroundcolor##"></td>
+</tr>
+
+<!-- #ENDZONE character -->
+
 <!-- #BEGINZONE starts_new_page -->
 <tr>
   <td>translate("Capability")</td>

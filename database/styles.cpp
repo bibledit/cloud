@@ -78,6 +78,15 @@ constexpr const std::string_view type_key {"type"};
 constexpr const std::string_view name_key {"name"};
 constexpr const std::string_view info_key {"info"};
 constexpr const std::string_view capability_key {"capability"};
+constexpr const std::string_view character_italic_key {"characteritalic"};
+constexpr const std::string_view character_bold_key {"characterbold"};
+constexpr const std::string_view character_underline_key {"characterunderline"};
+constexpr const std::string_view character_smallcaps_key {"charactersmallcaps"};
+constexpr const std::string_view character_superscript_key {"charactersuperscript"};
+constexpr const std::string_view character_foreground_color_key {"characterforegroundcolor"};
+constexpr const std::string_view character_background_color_key {"characterbackgroundcolor"};
+
+
 // Forward declarations of local functions.
 static std::string style_file (const std::string& sheet, const std::string& marker);
 static void ensure_sheet_in_cache(const std::string& sheet);
@@ -917,6 +926,18 @@ void save_style(const std::string& sheet, const stylesv2::Style& style)
   if (style.info != base_style.info)
     lines.push_back (add_space(info_key) + style.info);
   
+  // Handle saving character properties.
+  if (style.character) {
+    const auto& character = style.character.value();
+    lines.push_back (add_space(character_italic_key) + fourstate_enum_to_value(character.italic));
+    lines.push_back (add_space(character_bold_key) + fourstate_enum_to_value(character.bold));
+    lines.push_back (add_space(character_underline_key) + fourstate_enum_to_value(character.underline));
+    lines.push_back (add_space(character_smallcaps_key) + fourstate_enum_to_value(character.smallcaps));
+    lines.push_back (add_space(character_superscript_key) + twostate_enum_to_value(character.superscript));
+    lines.push_back (add_space(character_foreground_color_key) + character.foreground_color);
+    lines.push_back (add_space(character_background_color_key) + character.background_color);
+  }
+  
   // Iterate over the parameters in the style.
   // If the parameter in the style is not found in the base style,
   // or the value is different from the value in the base style,
@@ -998,6 +1019,53 @@ std::optional<stylesv2::Style> load_style(const std::string& sheet, const std::s
     pos = line.find(add_space(info_key));
     if (pos == 0)
       style.info = line.substr(info_key.length()+1);
+    // Function to ensure that the character field is not a nullopt.
+    const auto ensure_character_is_set = [](stylesv2::Style& style) {
+      if (!style.character)
+        style.character = stylesv2::Character();
+    };
+    // Check / set character italic.
+    pos = line.find(add_space(character_italic_key));
+    if (pos == 0) {
+      ensure_character_is_set(style);
+      style.character.value().italic = stylesv2::fourstate_value_to_enum(line.substr(character_italic_key.length()+1));
+    }
+    // Check / set character bold.
+    pos = line.find(add_space(character_bold_key));
+    if (pos == 0) {
+      ensure_character_is_set(style);
+      style.character.value().bold = stylesv2::fourstate_value_to_enum(line.substr(character_bold_key.length()+1));
+    }
+    // Check / set character underline.
+    pos = line.find(add_space(character_underline_key));
+    if (pos == 0) {
+      ensure_character_is_set(style);
+      style.character.value().underline = stylesv2::fourstate_value_to_enum(line.substr(character_underline_key.length()+1));
+    }
+    // Check / set character smallcaps.
+    pos = line.find(add_space(character_smallcaps_key));
+    if (pos == 0) {
+      ensure_character_is_set(style);
+      style.character.value().smallcaps = stylesv2::fourstate_value_to_enum(line.substr(character_smallcaps_key.length()+1));
+    }
+    // Check / set character superscript.
+    pos = line.find(add_space(character_superscript_key));
+    if (pos == 0) {
+      ensure_character_is_set(style);
+      style.character.value().superscript = stylesv2::twostate_value_to_enum(line.substr(character_superscript_key.length()+1));
+    }
+    // Check / set character foreground color.
+    pos = line.find(add_space(character_foreground_color_key));
+    if (pos == 0) {
+      ensure_character_is_set(style);
+      style.character.value().foreground_color = line.substr(character_foreground_color_key.length()+1);
+    }
+    // Check / set character background color.
+    pos = line.find(add_space(character_background_color_key));
+    if (pos == 0) {
+      ensure_character_is_set(style);
+      style.character.value().background_color = line.substr(character_background_color_key.length()+1);
+    }
     // Check on or set a capability as compared to the base style.
     // Such a line looks like this:
     //   capability starts_new_page 0

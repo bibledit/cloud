@@ -104,11 +104,40 @@ enum class Category {
 std::ostream& operator<<(std::ostream& os, const Category category);
 
 
+enum class FourState { off, on, inherit, toggle };
+std::string fourstate_enum_to_value(const FourState state);
+FourState fourstate_value_to_enum(const std::string& value);
+std::list<FourState> get_four_states();
+
+enum class TwoState { off, on };
+std::string twostate_enum_to_value(const TwoState state);
+TwoState twostate_value_to_enum(const std::string& value);
+std::list<TwoState> get_two_states();
+
+
+constexpr const char* white {"#ffffff"};
+constexpr const char* black {"#000000"};
+
+
+struct Character {
+  FourState italic{};
+  FourState bold{};
+  FourState underline{};
+  FourState smallcaps{};
+  TwoState superscript{};
+  std::string foreground_color{};
+  std::string background_color{};
+};
+
+std::ostream& operator<<(std::ostream& os, const Character character);
+
+
 struct Style final {
   std::string marker {};
   Type type {Type::none};
   std::string name {};
   std::string info {};
+  std::optional<Character> character {};
   // The parameters indicate the enabled capabilities beyond the capabilities implied in the style type.
   std::map<Property,Parameter> properties{};
   std::string doc {};

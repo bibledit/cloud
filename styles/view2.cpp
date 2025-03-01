@@ -24,6 +24,7 @@
 #include <assets/page.h>
 #include <dialog/entry.h>
 #include <dialog/list.h>
+#include <dialog/list2.h>
 #include <dialog/color.h>
 #include <filter/roles.h>
 #include <filter/url.h>
@@ -133,7 +134,6 @@ std::string styles_view2 (Webserver_Request& webserver_request)
   }
   view.set_variable ("info", filter::strings::escape_special_xml_characters (translate (marker_data.info)));
 
-  
   // Handle toggle of checkbox.
   const std::string checkbox = webserver_request.post ["checkbox"];
   if (!checkbox.empty()) {
@@ -145,7 +145,100 @@ std::string styles_view2 (Webserver_Request& webserver_request)
     marker_data.properties[property] = checked;
     style_is_edited = true;
   }
+  
+  
+  // Enable the sections in the editor for the character style properties.
+  if (marker_data.character) {
+    view.enable_zone("character");
 
+    // Function to generate html for the FourState options, i.e. on / off / inherit / toggle.
+    const auto get_fourstate_html = [](const stylesv2::FourState state) {
+      std::string html{};
+      for (const auto state : stylesv2::get_four_states()) {
+        const auto value {fourstate_enum_to_value(state)};
+        html = Options_To_Select::add_selection (value, value, html);
+      }
+      return Options_To_Select::mark_selected(stylesv2::fourstate_enum_to_value(state), html);
+    };
+
+    // Function to generate html for the TwoState options, i.e. on / off /.
+    const auto get_twostate_html = [](const stylesv2::TwoState state) {
+      std::string html{};
+      for (const auto state : stylesv2::get_two_states()) {
+        const auto value {twostate_enum_to_value(state)};
+        html = Options_To_Select::add_selection (value, value, html);
+      }
+      return Options_To_Select::mark_selected(stylesv2::twostate_enum_to_value(state), html);
+    };
+
+    // Handle italics.
+    const std::string italic = webserver_request.post ["italic"];
+    if (!italic.empty()) {
+      marker_data.character.value().italic = stylesv2::fourstate_value_to_enum(italic);
+      style_is_edited = true;
+    }
+    view.set_variable("italic", get_fourstate_html(marker_data.character.value().italic));
+
+    // Handle bold.
+    const std::string bold = webserver_request.post ["bold"];
+    if (!bold.empty()) {
+      marker_data.character.value().bold = stylesv2::fourstate_value_to_enum(bold);
+      style_is_edited = true;
+    }
+    view.set_variable("bold", get_fourstate_html(marker_data.character.value().bold));
+
+    // Handle underline.
+    const std::string underline = webserver_request.post ["underline"];
+    if (!underline.empty()) {
+      marker_data.character.value().underline = stylesv2::fourstate_value_to_enum(underline);
+      style_is_edited = true;
+    }
+    view.set_variable("underline", get_fourstate_html(marker_data.character.value().underline));
+
+    // Handle small caps.
+    const std::string smallcaps = webserver_request.post ["smallcaps"];
+    if (!smallcaps.empty()) {
+      marker_data.character.value().smallcaps = stylesv2::fourstate_value_to_enum(smallcaps);
+      style_is_edited = true;
+    }
+    view.set_variable("smallcaps", get_fourstate_html(marker_data.character.value().smallcaps));
+
+    // Handle superscript.
+    const std::string superscript = webserver_request.post ["superscript"];
+    if (!superscript.empty()) {
+      marker_data.character.value().superscript = stylesv2::twostate_value_to_enum(superscript);
+      style_is_edited = true;
+    }
+    view.set_variable("superscript", get_twostate_html(marker_data.character.value().superscript));
+
+    // Function to fix color input.
+    const auto fix_color = [](std::string color, const char* value) {
+      if (color.find ("#") == std::string::npos)
+        color.insert (0, "#");
+      if (color.length () != 7)
+        color = value;
+      return color;
+    };
+
+    // Handle foreground color.
+    if (webserver_request.query.count ("fgcolor")) {
+      std::string color = webserver_request.query["fgcolor"];
+      color = fix_color(color, "#000000");
+      marker_data.character.value().foreground_color = color;
+      style_is_edited = true;
+    }
+    view.set_variable ("foregroundcolor", marker_data.character.value().foreground_color);
+    
+    // Handle background color..
+    if (webserver_request.query.count ("bgcolor")) {
+      std::string color = webserver_request.query["bgcolor"];
+      color = fix_color(color, "#FFFFFF");
+      marker_data.character.value().background_color = color;
+      style_is_edited = true;
+    }
+    view.set_variable ("backgroundcolor", marker_data.character.value().background_color);
+  }
+  
   
   // Enable the section(s) in the editor for the capabilities.
   // Set the values correctly for in the html page.

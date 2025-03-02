@@ -29,12 +29,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/text.h>
 #include <filter/url.h>
 #include <filter/string.h>
+#include "usfm.h"
 
 constexpr const char* bible {"unittest"};
 
-constexpr const char* text_test_odt {"/tmp/text_test.odt"};
-//constexpr const char* text_test_html {"/tmp/text_test.html"};
-constexpr const char*  text_test_txt {"/tmp/text_test.txt"};
+constexpr const char* text_odt {"/tmp/text_test.odt"};
+constexpr const char*  text_txt {"/tmp/text_test.txt"};
 
 
 class filter_text : public testing::Test {
@@ -163,10 +163,10 @@ TEST_F (filter_text, extract)
   }
   
   // OpenDocument output.
-  filter_text.odf_text_standard->save (text_test_odt);
-  const int ret = odf2txt (text_test_odt, text_test_txt);
+  filter_text.odf_text_standard->save (text_odt);
+  const int ret = odf2txt (text_odt, text_txt);
   EXPECT_EQ (0, ret);
-  std::string odt = filter_url_file_get_contents (text_test_txt);
+  std::string odt = filter_url_file_get_contents (text_txt);
   odt = filter::strings::replace ("  ", "", odt);
   const std::string standard = R"(
 Header4
@@ -210,10 +210,10 @@ TEST_F (filter_text, new_page_between_books)
   filter_text.odf_text_standard = new odf_text (bible);
   filter_text.add_usfm_code (usfm);
   filter_text.run (styles_logic_standard_sheet ());
-  filter_text.odf_text_standard->save (text_test_odt);
-  int ret = odf2txt (text_test_odt, text_test_txt);
+  filter_text.odf_text_standard->save (text_odt);
+  int ret = odf2txt (text_odt, text_txt);
   EXPECT_EQ (0, ret);
-  std::string odt = filter_url_file_get_contents (text_test_txt);
+  std::string odt = filter_url_file_get_contents (text_txt);
   odt = filter::strings::replace ("  ", "", odt);
   std::string standard = ""
   "Genesis\n"
@@ -256,10 +256,10 @@ TEST_F (filter_text, books_odt_headers)
   filter_text.add_usfm_code (usfm_ruth);
   filter_text.add_usfm_code (usfm_1_peter);
   filter_text.run (styles_logic_standard_sheet ());
-  filter_text.odf_text_standard->save (text_test_odt);
-  int ret = odf2txt (text_test_odt, text_test_txt);
+  filter_text.odf_text_standard->save (text_odt);
+  int ret = odf2txt (text_odt, text_txt);
   EXPECT_EQ (0, ret);
-  std::string odt = filter_url_file_get_contents (text_test_txt);
+  std::string odt = filter_url_file_get_contents (text_txt);
   odt = filter::strings::replace ("  ", "", odt);
   const std::string standard = ""
   "Ruth\n"
@@ -306,10 +306,10 @@ TEST_F (filter_text, transform_verse_numbers)
   filter_text.odf_text_standard = new odf_text (bible);
   filter_text.add_usfm_code (usfm);
   filter_text.run (styles_logic_standard_sheet ());
-  filter_text.odf_text_standard->save (text_test_odt);
-  int ret = odf2txt (text_test_odt, text_test_txt);
+  filter_text.odf_text_standard->save (text_odt);
+  int ret = odf2txt (text_odt, text_txt);
   EXPECT_EQ (0, ret);
-  std::string odt = filter_url_file_get_contents (text_test_txt);
+  std::string odt = filter_url_file_get_contents (text_txt);
   odt = filter::strings::replace ("  ", "", odt);
   std::string standard = ""
   "Genesis\n"
@@ -333,10 +333,10 @@ TEST_F (filter_text, footnotes_xrefs_1)
   filter_text.odf_text_standard = new odf_text (bible);
   filter_text.add_usfm_code (usfm);
   filter_text.run (styles_logic_standard_sheet ());
-  filter_text.odf_text_standard->save (text_test_odt);
-  const int ret = odf2txt (text_test_odt, text_test_txt);
+  filter_text.odf_text_standard->save (text_odt);
+  const int ret = odf2txt (text_odt, text_txt);
   EXPECT_EQ (0, ret);
-  std::string odt = filter_url_file_get_contents (text_test_txt);
+  std::string odt = filter_url_file_get_contents (text_txt);
   odt = filter::strings::replace ("  ", "", odt);
   const std::string standard = ""
   "Genesis\n"
@@ -384,10 +384,10 @@ TEST_F (filter_text, footnotes_xrefs_new_chapters)
   filter_text.odf_text_standard = new odf_text (bible);
   filter_text.add_usfm_code (usfm);
   filter_text.run (styles_logic_standard_sheet ());
-  filter_text.odf_text_standard->save (text_test_odt);
-  const int ret = odf2txt (text_test_odt, text_test_txt);
+  filter_text.odf_text_standard->save (text_odt);
+  const int ret = odf2txt (text_odt, text_txt);
   EXPECT_EQ (0, ret);
-  std::string odt = filter_url_file_get_contents (text_test_txt);
+  std::string odt = filter_url_file_get_contents (text_txt);
   odt = filter::strings::replace ("  ", "", odt);
   const std::string standard = R"(
 Genesis
@@ -449,10 +449,10 @@ TEST_F (filter_text, transform_published_verse_numbers)
   filter_text.odf_text_standard = new odf_text (bible);
   filter_text.add_usfm_code (usfm);
   filter_text.run (styles_logic_standard_sheet ());
-  filter_text.odf_text_standard->save (text_test_odt);
-  const int ret = odf2txt (text_test_odt, text_test_txt);
+  filter_text.odf_text_standard->save (text_odt);
+  const int ret = odf2txt (text_odt, text_txt);
   EXPECT_EQ (0, ret);
-  const std::string odt = filter_url_file_get_contents (text_test_txt);
+  const std::string odt = filter_url_file_get_contents (text_txt);
   const std::string standard = R"(
 Genesis
 
@@ -847,10 +847,10 @@ TEST_F (filter_text, embedded_character_styles_to_odt_1)
   filter_text.odf_text_standard = new odf_text (bible);
   filter_text.add_usfm_code (usfm);
   filter_text.run (styles_logic_standard_sheet ());
-  filter_text.odf_text_standard->save (text_test_odt);
-  int ret = odf2txt (text_test_odt, text_test_txt);
+  filter_text.odf_text_standard->save (text_odt);
+  int ret = odf2txt (text_odt, text_txt);
   EXPECT_EQ (0, ret);
-  std::string odt = filter_url_file_get_contents (text_test_txt);
+  std::string odt = filter_url_file_get_contents (text_txt);
   odt = filter::strings::replace ("  ", "", odt);
   std::string standard = ""
   "Genesis\n"
@@ -874,10 +874,10 @@ TEST_F (filter_text, generate_text_note_citations)
   filter_text.odf_text_text_and_note_citations = new odf_text (bible);
   filter_text.add_usfm_code (usfm);
   filter_text.run (styles_logic_standard_sheet ());
-  filter_text.odf_text_text_and_note_citations->save (text_test_odt);
-  int ret = odf2txt (text_test_odt, text_test_txt);
+  filter_text.odf_text_text_and_note_citations->save (text_odt);
+  int ret = odf2txt (text_odt, text_txt);
   EXPECT_EQ (0, ret);
-  std::string odt = filter_url_file_get_contents (text_test_txt);
+  std::string odt = filter_url_file_get_contents (text_txt);
   std::string standard = ""
   "Genesis\n"
   "\n"
@@ -899,10 +899,10 @@ TEST_F (filter_text, embedded_character_styles_to_odt_2)
   filter_text.odf_text_standard = new odf_text (bible);
   filter_text.add_usfm_code (usfm);
   filter_text.run (styles_logic_standard_sheet ());
-  filter_text.odf_text_standard->save (text_test_odt);
-  const int ret = odf2txt (text_test_odt, text_test_txt);
+  filter_text.odf_text_standard->save (text_odt);
+  const int ret = odf2txt (text_odt, text_txt);
   EXPECT_EQ (0, ret);
-  std::string odt = filter_url_file_get_contents (text_test_txt);
+  std::string odt = filter_url_file_get_contents (text_txt);
   odt = filter::strings::replace ("  ", "", odt);
   const std::string standard =
   "Genesis\n"
@@ -929,10 +929,10 @@ TEST_F (filter_text, embedded_character_styles_to_odt_3)
   filter_text.odf_text_standard = new odf_text (bible);
   filter_text.add_usfm_code (usfm);
   filter_text.run (styles_logic_standard_sheet ());
-  filter_text.odf_text_standard->save (text_test_odt);
-  int ret = odf2txt (text_test_odt, text_test_txt);
+  filter_text.odf_text_standard->save (text_odt);
+  int ret = odf2txt (text_odt, text_txt);
   EXPECT_EQ (0, ret);
-  std::string odt = filter_url_file_get_contents (text_test_txt);
+  std::string odt = filter_url_file_get_contents (text_txt);
   odt = filter::strings::replace ("  ", "", odt);
   std::string standard =
   "Genesis\n"
@@ -984,10 +984,10 @@ TEST_F (filter_text, chapter_label_in_chapter_zero)
   }
   
   // OpenDocument output.
-  filter_text.odf_text_standard->save (text_test_odt);
-  const int ret = odf2txt (text_test_odt, text_test_txt);
+  filter_text.odf_text_standard->save (text_odt);
+  const int ret = odf2txt (text_odt, text_txt);
   EXPECT_EQ (0, ret);
-  std::string odt = filter_url_file_get_contents (text_test_txt);
+  std::string odt = filter_url_file_get_contents (text_txt);
   odt = filter::strings::replace ("  ", "", odt);
   const std::string standard = R"(
 Genesis
@@ -1054,10 +1054,10 @@ TEST_F (filter_text, chapter_label_in_chapters)
   }
   
   // OpenDocument output.
-  filter_text.odf_text_standard->save (text_test_odt);
-  const int ret = odf2txt (text_test_odt, text_test_txt);
+  filter_text.odf_text_standard->save (text_odt);
+  const int ret = odf2txt (text_odt, text_txt);
   EXPECT_EQ (0, ret);
-  std::string odt = filter_url_file_get_contents (text_test_txt);
+  std::string odt = filter_url_file_get_contents (text_txt);
   odt = filter::strings::replace ("  ", std::string(), odt);
   const std::string standard = R"(
 Genesis
@@ -1168,10 +1168,10 @@ TEST_F (filter_text, incorrect_vp_markup)
   filter_text.odf_text_standard = new odf_text (bible);
   filter_text.add_usfm_code (filter::strings::trim(usfm));
   filter_text.run (styles_logic_standard_sheet ());
-  filter_text.odf_text_standard->save (text_test_odt);
-  const int ret = odf2txt (text_test_odt, text_test_txt);
+  filter_text.odf_text_standard->save (text_odt);
+  const int ret = odf2txt (text_odt, text_txt);
   EXPECT_EQ (0, ret);
-  const std::string odt = filter_url_file_get_contents (text_test_txt);
+  const std::string odt = filter_url_file_get_contents (text_txt);
   // What happens is that due to the incorrect markup, the entire first verse \vp is omitted from the output.
   const std::string standard = R"(
 Unknown 1
@@ -1194,10 +1194,10 @@ TEST_F (filter_text, invalid_utf8_input)
   filter_text.odf_text_standard = new odf_text (bible);
   filter_text.add_usfm_code (filter::strings::trim(invalid_utf8_usfm));
   filter_text.run (styles_logic_standard_sheet ());
-  filter_text.odf_text_standard->save (text_test_odt);
-  int ret = odf2txt (text_test_odt, text_test_txt);
+  filter_text.odf_text_standard->save (text_odt);
+  int ret = odf2txt (text_odt, text_txt);
   EXPECT_EQ (256, ret);
-  std::string odt = filter_url_file_get_contents (text_test_txt);
+  std::string odt = filter_url_file_get_contents (text_txt);
   bool invalid_token = odt.find ("not well-formed (invalid token)") != std::string::npos;
   EXPECT_EQ (true, invalid_token);
   // The above test produces logbook entries.
@@ -1244,10 +1244,10 @@ TEST_F (filter_text, convert_image_to_format)
     filter_text.odf_text_standard = new odf_text (bible);
     filter_text.add_usfm_code (usfm);
     filter_text.run (styles_logic_standard_sheet());
-    filter_text.odf_text_standard->save (text_test_odt);
-    const int ret = odf2txt (text_test_odt, text_test_txt);
+    filter_text.odf_text_standard->save (text_odt);
+    const int ret = odf2txt (text_odt, text_txt);
     EXPECT_EQ (0, ret);
-    std::string odt = filter_url_file_get_contents (text_test_txt);
+    std::string odt = filter_url_file_get_contents (text_txt);
     odt = filter::strings::replace ("  ", "", odt);
     const std::string standard = 
     "Unknown 1"
@@ -1314,10 +1314,10 @@ TEST_F (filter_text, alternate_chapter_number)
   filter_text.odf_text_standard = new odf_text (bible);
   filter_text.add_usfm_code (usfm);
   filter_text.run (styles_logic_standard_sheet());
-  filter_text.odf_text_standard->save (text_test_odt);
-  const int ret = odf2txt (text_test_odt, text_test_txt);
+  filter_text.odf_text_standard->save (text_odt);
+  const int ret = odf2txt (text_odt, text_txt);
   EXPECT_EQ (0, ret);
-  const std::string odt = filter_url_file_get_contents (text_test_txt);
+  const std::string odt = filter_url_file_get_contents (text_txt);
   const std::string standard =
   "Unknown 13 (14)\n"
   "\n"
@@ -1326,6 +1326,45 @@ TEST_F (filter_text, alternate_chapter_number)
   "Verse one.\n"
   "\n";
   EXPECT_EQ (standard, odt);
+}
+
+
+TEST_F (filter_text, usfm_with_all_markers)
+{
+  const std::string usfm = usfm_with_all_markers;
+  Filter_Text filter_text = Filter_Text (bible);
+  filter_text.odf_text_standard = new odf_text (bible);
+  filter_text.html_text_standard = new HtmlText (bible);
+  filter_text.text_text = new Text_Text ();
+  filter_text.add_usfm_code (usfm);
+  filter_text.run (styles_logic_standard_sheet());
+  filter_text.odf_text_standard->save (text_odt);
+  const int ret = odf2txt (text_odt, text_txt);
+  EXPECT_EQ (0, ret);
+  const std::string odt = filter_url_file_get_contents (text_txt);
+  const std::string text = filter_text.text_text->get ();
+  const std::string html = filter_text.html_text_standard->get_inner_html();
+  const std::string standard_odt =
+  "Right\n"
+  "\n"
+  "Right א (2)\n"
+  "\n"
+  "Genesis\n"
+  "\n"
+  "1b Text namepronunciation.\n"
+  ;
+  EXPECT_EQ (filter::strings::trim(standard_odt), filter::strings::trim(odt));
+  const std::string standard_text =
+  "א (2)\n"
+  "1b Text namepronunciation.\n"
+  ;
+  EXPECT_EQ (filter::strings::trim(standard_text), filter::strings::trim(text));
+  //filter_url_file_put_contents("/tmp/text.txt", text);
+  const std::string standard_html =
+  R"(<p class="c"><span>Genesis</span></p>)"
+  R"(<p class="p"><span class="v">1b</span><span> </span><span>Text name</span><span class="pro">pronunciation</span><span>.</span></p>)"
+  ;
+  EXPECT_EQ (standard_html, html);
 }
 
 

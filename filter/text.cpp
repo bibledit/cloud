@@ -1061,7 +1061,7 @@ void Filter_Text::process_usfm (const std::string& stylesheet)
               add_to_info (R"(Introduction end: \)" + marker, false);
               break;
             }
-            case stylesv2::Type::character_style: // Todo fix one by one.
+            case stylesv2::Type::character_style:
             {
               // Support for a normal and an embedded character style.
               if (is_opening_marker) {

@@ -72,7 +72,11 @@ TEST (filter_html, basic_note_1)
   html_text.add_note_text ("Note1.");
   html_text.add_text (".");
   std::string html = html_text.get_inner_html ();
-  std::string standard = R"(<p><span>Text1</span><a href="#note1" id="citation1" class="superscript">†</a><span>.</span></p><div><p class=""><a href="#citation1" id="note1">†</a><span> </span><span>Note1.</span></p></div>)";
+  std::string standard =
+  R"(<p><span>Text1</span><a href="#note1" id="citation1" class="superscript">†</a><span>.</span></p>)"
+  R"(<div>)"
+  R"(<p class=""><a href="#citation1" id="note1">†</a><span> </span><span>Note1.</span></p>)"
+  R"(</div>)";
   EXPECT_EQ (standard, html);
 }
 
@@ -87,7 +91,11 @@ TEST (filter_html, basic_note_2)
   html_text.add_note_text ("Note1.");
   html_text.add_text (".");
   std::string html = html_text.get_inner_html ();
-  std::string standard = R"(<p><span>Text1</span><a href="#note1" id="citation1" class="superscript">†<span class="popup"><span> </span><span>Note1.</span></span></a><span>.</span></p><div><p class=""><a href="#citation1" id="note1">†</a><span> </span><span>Note1.</span></p></div>)";
+  std::string standard =
+  R"(<p><span>Text1</span><a href="#note1" id="citation1" class="superscript">†<span class="popup"><span> </span><span>Note1.</span></span></a><span>.</span></p>)"
+  R"(<div>)"
+  R"(<p class=""><a href="#citation1" id="note1">†</a><span> </span><span>Note1.</span></p>)"
+  R"(</div>)";
   EXPECT_EQ (standard, html);
 }
 
@@ -100,12 +108,14 @@ TEST (filter_html, get_inner_html)
   html_text.new_paragraph ();
   html_text.add_text ("Paragraph Two");
   std::string html = html_text.get_inner_html ();
-  std::string standard = R"(<p><span>Paragraph One</span></p><p><span>Paragraph Two</span></p>)";
+  std::string standard =
+  R"(<p><span>Paragraph One</span></p>)"
+  R"(<p><span>Paragraph Two</span></p>)";
   EXPECT_EQ (standard, html);
 }
 
 
-TEST (filter_html, basic_formatted_note_1)
+TEST (filter_html, basic_formatted_note_one_v1)
 {
   database::styles1::Item style;
   HtmlText html_text ("");
@@ -113,78 +123,117 @@ TEST (filter_html, basic_formatted_note_1)
   html_text.add_text ("Text");
   html_text.add_note ("𐌰", "f");
   style.marker = "add";
-  html_text.open_text_style (style, true, false);
+  html_text.open_text_style (&style, nullptr, true, false);
   html_text.add_note_text ("Add");
   html_text.close_text_style (true, false);
   html_text.add_note_text ("normal");
   html_text.add_text (".");
   std::string html = html_text.get_inner_html ();
-  std::string standard = R"(<p><span>Text</span><a href="#note1" id="citation1" class="superscript">𐌰</a><span>.</span></p><div><p class="f"><a href="#citation1" id="note1">𐌰</a><span> </span><span class="add">Add</span><span>normal</span></p></div>)";
+  std::string standard =
+  R"(<p><span>Text</span><a href="#note1" id="citation1" class="superscript">𐌰</a><span>.</span></p>)"
+  R"(<div>)"
+  R"(<p class="f"><a href="#citation1" id="note1">𐌰</a><span> </span><span class="add">Add</span><span>normal</span></p>)"
+  R"(</div>)";
   EXPECT_EQ (standard, html);
 }
 
 
-TEST (filter_html, basic_formatted_note_2)
+TEST (filter_html, basic_formatted_note_v2)
 {
-  database::styles1::Item style;
+  stylesv2::Style style;
+  style.marker = "pro";
+  HtmlText html_text ("");
+  html_text.new_paragraph ();
+  html_text.add_text ("Text");
+  html_text.add_note ("𐌰", "f");
+  html_text.open_text_style (nullptr, &style, true, false);
+  html_text.add_note_text ("Pro");
+  html_text.close_text_style (true, false);
+  html_text.add_note_text ("Normal");
+  html_text.add_text (".");
+  std::string html = html_text.get_inner_html ();
+  std::string standard =
+  R"(<p><span>Text</span><a href="#note1" id="citation1" class="superscript">𐌰</a><span>.</span></p>)"
+  R"(<div>)"
+  R"(<p class="f"><a href="#citation1" id="note1">𐌰</a><span> </span><span class="pro">Pro</span><span>Normal</span></p>)"
+  R"(</div>)";
+  EXPECT_EQ (standard, html);
+}
+
+
+TEST (filter_html, basic_formatted_note_popup_v2)
+{
+  stylesv2::Style style;
+  style.marker = "add";
+  HtmlText html_text ("");
+  html_text.have_popup_notes();
+  html_text.new_paragraph ();
+  html_text.add_text ("text");
+  html_text.add_note ("𐌰", "f");
+  html_text.open_text_style (nullptr, &style, true, false);
+  html_text.add_note_text ("add");
+  html_text.close_text_style (true, false);
+  html_text.add_note_text ("normal");
+  html_text.add_text (".");
+  std::string html = html_text.get_inner_html ();
+  std::string standard =
+  R"(<p><span>text</span><a href="#note1" id="citation1" class="superscript">𐌰<span class="popup"><span> </span><span>add</span><span>normal</span></span></a><span>.</span></p>)"
+  R"(<div>)"
+  R"(<p class="f"><a href="#citation1" id="note1">𐌰</a><span> </span><span class="add">add</span><span>normal</span></p>)"
+  R"(</div>)";
+  EXPECT_EQ (standard, html);
+}
+
+
+TEST (filter_html, embedded_formatted_note)
+{
+  stylesv2::Style style;
+  HtmlText html_text ("");
+  html_text.new_paragraph ();
+  html_text.add_text ("text");
+  html_text.add_note ("𐌰", "f");
+  style.marker = "add";
+  html_text.open_text_style (nullptr, &style, true, false);
+  html_text.add_note_text ("add");
+  style.marker = "nd";
+  html_text.open_text_style (nullptr, &style, true, true);
+  html_text.add_note_text ("nd");
+  html_text.close_text_style (true, false);
+  html_text.add_note_text ("normal");
+  html_text.add_text (".");
+  const std::string html = html_text.get_inner_html ();
+  const std::string standard =
+  R"(<p><span>text</span><a href="#note1" id="citation1" class="superscript">𐌰</a><span>.</span></p>)"
+  R"(<div>)"
+  R"(<p class="f"><a href="#citation1" id="note1">𐌰</a><span> </span><span class="add">add</span><span class="add nd">nd</span><span>normal</span></p>)"
+  R"(</div>)";
+  EXPECT_EQ (standard, html);
+}
+
+
+TEST (filter_html, embedded_formatted_note_popup)
+{
+  stylesv2::Style style;
   HtmlText html_text ("");
   html_text.have_popup_notes();
   html_text.new_paragraph ();
   html_text.add_text ("text");
   html_text.add_note ("𐌰", "f");
   style.marker = "add";
-  html_text.open_text_style (style, true, false);
-  html_text.add_note_text ("add");
-  html_text.close_text_style (true, false);
-  html_text.add_note_text ("normal");
-  html_text.add_text (".");
-  std::string html = html_text.get_inner_html ();
-  std::string standard = R"(<p><span>text</span><a href="#note1" id="citation1" class="superscript">𐌰<span class="popup"><span> </span><span>add</span><span>normal</span></span></a><span>.</span></p><div><p class="f"><a href="#citation1" id="note1">𐌰</a><span> </span><span class="add">add</span><span>normal</span></p></div>)";
-  EXPECT_EQ (standard, html);
-}
-
-
-TEST (filter_html, embedded_formatted_note_1)
-{
-  database::styles1::Item style;
-  HtmlText html_text ("");
-  html_text.new_paragraph ();
-  html_text.add_text ("text");
-  html_text.add_note ("𐌰", "f");
-  style.marker = "add";
-  html_text.open_text_style (style, true, false);
+  html_text.open_text_style (nullptr, &style, true, false);
   html_text.add_note_text ("add");
   style.marker = "nd";
-  html_text.open_text_style (style, true, true);
+  html_text.open_text_style (nullptr, &style, true, true);
   html_text.add_note_text ("nd");
   html_text.close_text_style (true, false);
   html_text.add_note_text ("normal");
   html_text.add_text (".");
-  std::string html = html_text.get_inner_html ();
-  std::string standard = R"(<p><span>text</span><a href="#note1" id="citation1" class="superscript">𐌰</a><span>.</span></p><div><p class="f"><a href="#citation1" id="note1">𐌰</a><span> </span><span class="add">add</span><span class="add nd">nd</span><span>normal</span></p></div>)";
-  EXPECT_EQ (standard, html);
-}
-
-
-TEST (filter_html, embedded_formatted_note_2)
-{
-  database::styles1::Item style;
-  HtmlText html_text ("");
-  html_text.have_popup_notes();
-  html_text.new_paragraph ();
-  html_text.add_text ("text");
-  html_text.add_note ("𐌰", "f");
-  style.marker = "add";
-  html_text.open_text_style (style, true, false);
-  html_text.add_note_text ("add");
-  style.marker = "nd";
-  html_text.open_text_style (style, true, true);
-  html_text.add_note_text ("nd");
-  html_text.close_text_style (true, false);
-  html_text.add_note_text ("normal");
-  html_text.add_text (".");
-  std::string html = html_text.get_inner_html ();
-  std::string standard = R"(<p><span>text</span><a href="#note1" id="citation1" class="superscript">𐌰<span class="popup"><span> </span><span>add</span><span>nd</span><span>normal</span></span></a><span>.</span></p><div><p class="f"><a href="#citation1" id="note1">𐌰</a><span> </span><span class="add">add</span><span class="add nd">nd</span><span>normal</span></p></div>)";
+  const std::string html = html_text.get_inner_html ();
+  const std::string standard =
+  R"(<p><span>text</span><a href="#note1" id="citation1" class="superscript">𐌰<span class="popup"><span> </span><span>add</span><span>nd</span><span>normal</span></span></a><span>.</span></p>)"
+  R"(<div>)"
+  R"(<p class="f"><a href="#citation1" id="note1">𐌰</a><span> </span><span class="add">add</span><span class="add nd">nd</span><span>normal</span></p>)"
+  R"(</div>)";
   EXPECT_EQ (standard, html);
 }
 

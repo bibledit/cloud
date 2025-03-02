@@ -458,8 +458,8 @@ void Filter_Text::process_usfm (const std::string& stylesheet)
                 if (odf_text_standard) odf_text_standard->open_text_style (&style, nullptr, false, is_embedded_marker);
                 if (odf_text_text_only) odf_text_text_only->open_text_style (&style, nullptr, false, is_embedded_marker);
                 if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->open_text_style (&style, nullptr, false, is_embedded_marker);
-                if (html_text_standard) html_text_standard->open_text_style (style, false, is_embedded_marker);
-                if (html_text_linked) html_text_linked->open_text_style (style, false, is_embedded_marker);
+                if (html_text_standard) html_text_standard->open_text_style (&style, nullptr, false, is_embedded_marker);
+                if (html_text_linked) html_text_linked->open_text_style (&style, nullptr, false, is_embedded_marker);
               } else {
                 if (odf_text_standard) odf_text_standard->close_text_style (false, is_embedded_marker);
                 if (odf_text_text_only) odf_text_text_only->close_text_style (false, is_embedded_marker);
@@ -649,10 +649,10 @@ void Filter_Text::process_usfm (const std::string& stylesheet)
                 }
                 database::styles1::Item styleItem = database::styles1::Item ();
                 styleItem.marker = "dropcaps";
-                if (html_text_standard) html_text_standard->open_text_style (styleItem, false, false);
+                if (html_text_standard) html_text_standard->open_text_style (&styleItem, nullptr, false, false);
                 if (html_text_standard) html_text_standard->add_text (m_output_chapter_text_at_first_verse);
                 if (html_text_standard) html_text_standard->close_text_style (false, false);
-                if (html_text_linked) html_text_linked->open_text_style (styleItem, false, false);
+                if (html_text_linked) html_text_linked->open_text_style (&styleItem, nullptr, false, false);
                 if (html_text_linked) html_text_linked->add_text (m_output_chapter_text_at_first_verse);
                 if (html_text_linked) html_text_linked->close_text_style (false, false);
               }
@@ -703,8 +703,8 @@ void Filter_Text::process_usfm (const std::string& stylesheet)
                 if (odf_text_standard) odf_text_standard->open_text_style (&style, nullptr, false, false);
                 if (odf_text_text_only) odf_text_text_only->open_text_style (&style, nullptr, false, false);
                 if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->open_text_style (&style, nullptr, false, false);
-                if (html_text_standard) html_text_standard->open_text_style (style, false, false);
-                if (html_text_linked) html_text_linked->open_text_style (style, false, false);
+                if (html_text_standard) html_text_standard->open_text_style (&style, nullptr, false, false);
+                if (html_text_linked) html_text_linked->open_text_style (&style, nullptr, false, false);
                 if (odf_text_standard) odf_text_standard->add_text (v_vp_number);
                 if (odf_text_text_only) odf_text_text_only->add_text (v_vp_number);
                 if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->add_text (v_vp_number);
@@ -1065,27 +1065,27 @@ void Filter_Text::process_usfm (const std::string& stylesheet)
             {
               // Support for a normal and an embedded character style.
               if (is_opening_marker) {
-//                if (odf_text_standard)
-//                  odf_text_standard->open_text_style (style, false, is_embedded_marker);
-//                if (odf_text_text_only)
-//                  odf_text_text_only->open_text_style (style, false, is_embedded_marker);
-//                if (odf_text_text_and_note_citations)
-//                  odf_text_text_and_note_citations->open_text_style (style, false, is_embedded_marker);
-//                if (html_text_standard)
-//                  html_text_standard->open_text_style (style, false, is_embedded_marker);
-//                if (html_text_linked)
-//                  html_text_linked->open_text_style (style, false, is_embedded_marker);
+                if (odf_text_standard)
+                  odf_text_standard->open_text_style (nullptr, style, false, is_embedded_marker);
+                if (odf_text_text_only)
+                  odf_text_text_only->open_text_style (nullptr, style, false, is_embedded_marker);
+                if (odf_text_text_and_note_citations)
+                  odf_text_text_and_note_citations->open_text_style (nullptr, style, false, is_embedded_marker);
+                if (html_text_standard)
+                  html_text_standard->open_text_style (nullptr, style, false, is_embedded_marker);
+                if (html_text_linked)
+                  html_text_linked->open_text_style (nullptr, style, false, is_embedded_marker);
               } else {
-//                if (odf_text_standard)
-//                  odf_text_standard->close_text_style (false, is_embedded_marker);
-//                if (odf_text_text_only)
-//                  odf_text_text_only->close_text_style (false, is_embedded_marker);
-//                if (odf_text_text_and_note_citations)
-//                  odf_text_text_and_note_citations->close_text_style (false, is_embedded_marker);
-//                if (html_text_standard)
-//                  html_text_standard->close_text_style (false, is_embedded_marker);
-//                if (html_text_linked)
-//                  html_text_linked->close_text_style (false, is_embedded_marker);
+                if (odf_text_standard)
+                  odf_text_standard->close_text_style (false, is_embedded_marker);
+                if (odf_text_text_only)
+                  odf_text_text_only->close_text_style (false, is_embedded_marker);
+                if (odf_text_text_and_note_citations)
+                  odf_text_text_and_note_citations->close_text_style (false, is_embedded_marker);
+                if (html_text_standard)
+                  html_text_standard->close_text_style (false, is_embedded_marker);
+                if (html_text_linked)
+                  html_text_linked->close_text_style (false, is_embedded_marker);
               }
               break;
             }
@@ -1284,8 +1284,8 @@ void Filter_Text::processNote ()
                 if (is_opening_marker) {
                   if (odf_text_standard) odf_text_standard->open_text_style (&style, nullptr, true, isEmbeddedMarker);
                   if (odf_text_notes) odf_text_notes->open_text_style (&style, nullptr, false, isEmbeddedMarker);
-                  if (html_text_standard) html_text_standard->open_text_style (style, true, isEmbeddedMarker);
-                  if (html_text_linked) html_text_linked->open_text_style (style, true, isEmbeddedMarker);
+                  if (html_text_standard) html_text_standard->open_text_style (&style, nullptr, true, isEmbeddedMarker);
+                  if (html_text_linked) html_text_linked->open_text_style (&style, nullptr, true, isEmbeddedMarker);
                 } else {
                   if (odf_text_standard) odf_text_standard->close_text_style (true, isEmbeddedMarker);
                   if (odf_text_notes) odf_text_notes->close_text_style (false, isEmbeddedMarker);
@@ -1368,15 +1368,23 @@ void Filter_Text::processNote ()
               case CrossreferenceSubtypeContentWithEndmarker:
               {
                 if (is_opening_marker) {
-                  if (odf_text_standard) odf_text_standard->open_text_style (&style, nullptr, true, isEmbeddedMarker);
-                  if (odf_text_notes) odf_text_notes->open_text_style (&style, nullptr, false, isEmbeddedMarker);
-                  if (html_text_standard) html_text_standard->open_text_style (style, true, isEmbeddedMarker);
-                  if (html_text_linked) html_text_linked->open_text_style (style, true, isEmbeddedMarker);
+                  if (odf_text_standard)
+                    odf_text_standard->open_text_style (&style, nullptr, true, isEmbeddedMarker);
+                  if (odf_text_notes)
+                    odf_text_notes->open_text_style (&style, nullptr, false, isEmbeddedMarker);
+                  if (html_text_standard)
+                    html_text_standard->open_text_style (&style, nullptr, true, isEmbeddedMarker);
+                  if (html_text_linked)
+                    html_text_linked->open_text_style (&style, nullptr, true, isEmbeddedMarker);
                 } else {
-                  if (odf_text_standard) odf_text_standard->close_text_style (true, isEmbeddedMarker);
-                  if (odf_text_notes) odf_text_notes->close_text_style (false, isEmbeddedMarker);
-                  if (html_text_standard) html_text_standard->close_text_style (true, isEmbeddedMarker);
-                  if (html_text_linked) html_text_linked->close_text_style (true, isEmbeddedMarker);
+                  if (odf_text_standard)
+                    odf_text_standard->close_text_style (true, isEmbeddedMarker);
+                  if (odf_text_notes)
+                    odf_text_notes->close_text_style (false, isEmbeddedMarker);
+                  if (html_text_standard)
+                    html_text_standard->close_text_style (true, isEmbeddedMarker);
+                  if (html_text_linked)
+                    html_text_linked->close_text_style (true, isEmbeddedMarker);
                 }
                 break;
               }

@@ -455,9 +455,9 @@ void Filter_Text::process_usfm (const std::string& stylesheet)
             {
               // Support for a normal and an embedded character style.
               if (is_opening_marker) {
-                if (odf_text_standard) odf_text_standard->open_text_style (style, false, is_embedded_marker);
-                if (odf_text_text_only) odf_text_text_only->open_text_style (style, false, is_embedded_marker);
-                if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->open_text_style (style, false, is_embedded_marker);
+                if (odf_text_standard) odf_text_standard->open_text_style (&style, nullptr, false, is_embedded_marker);
+                if (odf_text_text_only) odf_text_text_only->open_text_style (&style, nullptr, false, is_embedded_marker);
+                if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->open_text_style (&style, nullptr, false, is_embedded_marker);
                 if (html_text_standard) html_text_standard->open_text_style (style, false, is_embedded_marker);
                 if (html_text_linked) html_text_linked->open_text_style (style, false, is_embedded_marker);
               } else {
@@ -700,9 +700,9 @@ void Filter_Text::process_usfm (const std::string& stylesheet)
                     html_text_linked->add_text (" ");
                   }
                 }
-                if (odf_text_standard) odf_text_standard->open_text_style (style, false, false);
-                if (odf_text_text_only) odf_text_text_only->open_text_style (style, false, false);
-                if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->open_text_style (style, false, false);
+                if (odf_text_standard) odf_text_standard->open_text_style (&style, nullptr, false, false);
+                if (odf_text_text_only) odf_text_text_only->open_text_style (&style, nullptr, false, false);
+                if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->open_text_style (&style, nullptr, false, false);
                 if (html_text_standard) html_text_standard->open_text_style (style, false, false);
                 if (html_text_linked) html_text_linked->open_text_style (style, false, false);
                 if (odf_text_standard) odf_text_standard->add_text (v_vp_number);
@@ -1282,8 +1282,8 @@ void Filter_Text::processNote ()
               case FootEndNoteSubtypeContentWithEndmarker:
               {
                 if (is_opening_marker) {
-                  if (odf_text_standard) odf_text_standard->open_text_style (style, true, isEmbeddedMarker);
-                  if (odf_text_notes) odf_text_notes->open_text_style (style, false, isEmbeddedMarker);
+                  if (odf_text_standard) odf_text_standard->open_text_style (&style, nullptr, true, isEmbeddedMarker);
+                  if (odf_text_notes) odf_text_notes->open_text_style (&style, nullptr, false, isEmbeddedMarker);
                   if (html_text_standard) html_text_standard->open_text_style (style, true, isEmbeddedMarker);
                   if (html_text_linked) html_text_linked->open_text_style (style, true, isEmbeddedMarker);
                 } else {
@@ -1368,8 +1368,8 @@ void Filter_Text::processNote ()
               case CrossreferenceSubtypeContentWithEndmarker:
               {
                 if (is_opening_marker) {
-                  if (odf_text_standard) odf_text_standard->open_text_style (style, true, isEmbeddedMarker);
-                  if (odf_text_notes) odf_text_notes->open_text_style (style, false, isEmbeddedMarker);
+                  if (odf_text_standard) odf_text_standard->open_text_style (&style, nullptr, true, isEmbeddedMarker);
+                  if (odf_text_notes) odf_text_notes->open_text_style (&style, nullptr, false, isEmbeddedMarker);
                   if (html_text_standard) html_text_standard->open_text_style (style, true, isEmbeddedMarker);
                   if (html_text_linked) html_text_linked->open_text_style (style, true, isEmbeddedMarker);
                 } else {

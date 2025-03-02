@@ -56,7 +56,8 @@ public:
                                bool keep_with_next,
                                int dropcaps);
   void update_current_paragraph_style (std::string name);
-  void open_text_style (database::styles1::Item style, bool note, bool embed);
+  void open_text_style (const database::styles1::Item* stylev1, const stylesv2::Style* stylev2,
+                        bool note, bool embed);
   void close_text_style (bool note, bool embed);
   void place_text_in_frame (std::string text, std::string style, float fontsize, int italic, int bold);
   void create_superscript_style ();

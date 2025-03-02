@@ -801,18 +801,27 @@ void odf_text::update_current_paragraph_style (std::string name)
 // $style: the object with the style variables.
 // $note: Whether this refers to notes.
 // $embed: boolean: Whether nest $style in an existing character style.
-void odf_text::open_text_style (database::styles1::Item style, bool note, bool embed)
+void odf_text::open_text_style (const database::styles1::Item* stylev1, const stylesv2::Style* stylev2,
+                                bool note, bool embed)
 {
-  std::string marker = style.marker;
+  const auto get_marker = [stylev1, stylev2]() {
+    if (stylev1)
+      return stylev1->marker;
+    if (stylev2)
+      return stylev2->marker;
+    return std::string();
+  };
+  const std::string marker = get_marker();
+
   if (find (created_styles.begin(), created_styles.end(), marker) == created_styles.end()) {
-    int italic = style.italic;
-    int bold = style.bold;
-    int underline = style.underline;
-    int smallcaps = style.smallcaps;
-    int superscript = style.superscript;
-    std::string color = style.color;
-    std::string backgroundcolor = style.backgroundcolor;
     created_styles.push_back (marker);
+
+    const auto get_on_v1 = [](const int value) {
+      return ((value == ooitOn) || (value == ooitToggle));
+    };
+    const auto get_on_v2 = [](const stylesv2::FourState state) {
+      return ((state == stylesv2::FourState::on) || (state == stylesv2::FourState::toggle));
+    };
 
     // The style entry looks like this in styles.xml, e.g., for italic:
     // <style:style style:name="T1" style:family="text">
@@ -827,50 +836,108 @@ void odf_text::open_text_style (database::styles1::Item style, bool note, bool e
 
     // Italics, bold, underline, small caps can be ooitOff or ooitOn or ooitInherit or ooitToggle.
     // Not all features are implemented.
-    if ((italic == ooitOn) || (italic == ooitToggle)) {
+    const auto get_italic = [stylev1, stylev2, &get_on_v1, &get_on_v2]() {
+      if (stylev1)
+        return get_on_v1 (stylev1->italic);
+      if (stylev2)
+        if (stylev2->character)
+          return get_on_v2 (stylev2->character.value().italic);
+      return false;
+    };
+    if (get_italic()) {
       style_text_properties_dom_element.append_attribute ("fo:font-style") = "italic";
       style_text_properties_dom_element.append_attribute ("style:font-style-asian") = "italic";
       style_text_properties_dom_element.append_attribute ("style:font-style-complex") = "italic";
     }
-    if ((bold == ooitOn) || (bold == ooitToggle)) {
+
+    const auto get_bold = [stylev1, stylev2, &get_on_v1, &get_on_v2]() {
+      if (stylev1)
+        return get_on_v1 (stylev1->bold);
+      if (stylev2)
+        if (stylev2->character)
+          return get_on_v2 (stylev2->character.value().bold);
+      return false;
+    };
+    if (get_bold()) {
       style_text_properties_dom_element.append_attribute ("fo:font-weight") = "bold";
       style_text_properties_dom_element.append_attribute ("style:font-weight-asian") = "bold";
       style_text_properties_dom_element.append_attribute ("style:font-weight-complex") = "bold";
     }
-    if ((underline == ooitOn) || (underline == ooitToggle)) {
+
+    const auto get_underline = [stylev1, stylev2, &get_on_v1, &get_on_v2]() {
+      if (stylev1)
+        return get_on_v1 (stylev1->underline);
+      if (stylev2)
+        if (stylev2->character)
+          return get_on_v2 (stylev2->character.value().underline);
+      return false;
+    };
+    if (get_underline()) {
       style_text_properties_dom_element.append_attribute ("style:text-underline-style") = "solid";
       style_text_properties_dom_element.append_attribute ("style:text-underline-width") = "auto";
       style_text_properties_dom_element.append_attribute ("style:text-underline-color") = "font-color";
     }
-    if ((smallcaps == ooitOn) || (smallcaps == ooitToggle)) {
+    
+    const auto get_smallcaps = [stylev1, stylev2, &get_on_v1, &get_on_v2]() {
+      if (stylev1)
+        return get_on_v1 (stylev1->smallcaps);
+      if (stylev2)
+        if (stylev2->character)
+          return get_on_v2 (stylev2->character.value().smallcaps);
+      return false;
+    };
+    if (get_smallcaps()) {
       style_text_properties_dom_element.append_attribute ("fo:font-variant") = "small-caps";
     }
 
-    if (superscript) {
-      //$styleTextPropertiesDomElement->setAttribute ("style:text-position", "super 58%");
+    const auto get_superscript = [stylev1, stylev2, &get_on_v1] () {
+      if (stylev1)
+        return get_on_v1 (stylev1->superscript);
+      if (stylev2)
+        if (stylev2->character)
+          return (stylev2->character.value().superscript == stylesv2::TwoState::on);
+      return false;
+    };
+    if (get_superscript()) {
       // If the percentage is not specified, an appropriate font height is used.
+      // Setting the superscript makes the font size smaller. No need to set it manually.
       style_text_properties_dom_element.append_attribute ("style:text-position") = "super";
-      // The mere setting of the superscript value makes the font smaller. No need to set it manually.
-      //$styleTextPropertiesDomElement->setAttribute ("fo:font-size", "87%";
-      //$styleTextPropertiesDomElement->setAttribute ("style:font-size-asian", "87%";
-      //$styleTextPropertiesDomElement->setAttribute ("style:font-size-complex", "87%";
     }
 
-    if (color != "#000000") {
-      style_text_properties_dom_element.append_attribute ("fo:color") = color.c_str();
+    const auto get_foreground_color = [stylev1, stylev2] () {
+      if (stylev1)
+        return stylev1->color;
+      if (stylev2)
+        if (stylev2->character)
+        return stylev2->character.value().foreground_color;
+      return std::string();
+    };
+    const std::string foreground_color {get_foreground_color()};
+    if (foreground_color != "#000000") {
+      style_text_properties_dom_element.append_attribute ("fo:color") = foreground_color.c_str();
     }
 
-    if (backgroundcolor != "#FFFFFF") {
-      style_text_properties_dom_element.append_attribute ("fo:background-color") = backgroundcolor.c_str();
+    const auto get_background_color = [stylev1, stylev2] () {
+      if (stylev1)
+        return stylev1->backgroundcolor;
+      if (stylev2)
+        if (stylev2->character)
+        return stylev2->character.value().background_color;
+      return std::string();
+    };
+    const std::string background_color {get_background_color()};
+    if (background_color != "#FFFFFF") {
+      style_text_properties_dom_element.append_attribute ("fo:background-color") = background_color.c_str();
     }
-
   }
 
   if (note) {
-    if (!embed) m_current_note_text_style.clear();
+    if (!embed)
+      m_current_note_text_style.clear();
     m_current_note_text_style.push_back (marker);
   } else {
-    if (!embed) m_current_text_style.clear ();
+    if (!embed)
+      m_current_text_style.clear ();
     m_current_text_style.push_back (marker);
   }
 }

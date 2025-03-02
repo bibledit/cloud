@@ -22,6 +22,7 @@
 #include <config/libraries.h>
 
 class Webserver_Request;
+namespace stylesv2 { struct Style; }
 
 class Styles_Css
 {
@@ -40,8 +41,10 @@ private:
   std::vector <std::string> m_code {};
   bool editor_enabled {false}; // Whether to generate CSS for the Bible text editor.
   bool exports_enabled {false}; // Whether to generate CSS for exported Bibles.
-  void evaluate (void * database_styles_item);
-  void add (void * database_styles_item, bool paragraph, bool keepwithnext);
+  void evaluate_v1 (void * database_styles_item);
+  void evaluate_v2 (const stylesv2::Style* style);
+  void add_v1 (void * database_styles_item, bool paragraph, bool keepwithnext);
+  void add_v2 (const stylesv2::Style* style, const bool paragraph, const bool keep_with_next);
   void add_exports_styles ();
   void add_editor_styles ();
 };

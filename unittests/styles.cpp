@@ -88,14 +88,14 @@ TEST_F (styles, create_css)
   constexpr const char* testsheet {"testsheet"};
   database::styles::create_sheet (testsheet);
 
-  // Create basic stylesheet.
+  // Create basic cascaded stylesheet.
   {
     Styles_Css styles_css (webserver_request, testsheet);
     styles_css.generate ();
     const std::string css = styles_css.css ();
-    //filter_url_file_put_contents ("/tmp/css.css", css);
+    //filter_url_file_put_contents ("/tmp/basic.css", css);
     const std::string standard = filter_url_file_get_contents (filter_url_create_path ({"unittests", "tests", "basic.css"}));
-    EXPECT_EQ (standard, css);
+    EXPECT_EQ (filter::strings::trim(standard), filter::strings::trim(css));
   }
   
   // Create stylesheet for export.
@@ -104,9 +104,9 @@ TEST_F (styles, create_css)
     styles_css.exports ();
     styles_css.generate ();
     const std::string css = styles_css.css ();
-    //filter_url_file_put_contents ("/tmp/css.css", css);
+    //filter_url_file_put_contents ("/tmp/exports.css", css);
     const std::string standard = filter::strings::trim (filter_url_file_get_contents (filter_url_create_path ({"unittests", "tests", "exports.css"})));
-    EXPECT_EQ (standard, css);
+    EXPECT_EQ (filter::strings::trim(standard), filter::strings::trim(css));
   }
   
   // Stylesheet for the Bible editor.
@@ -117,8 +117,8 @@ TEST_F (styles, create_css)
     const std::string css = styles_css.css ();
     //filter_url_file_put_contents ("/tmp/css.css", css);
     const std::string standard = filter::strings::trim (filter_url_file_get_contents (filter_url_create_path ({"unittests", "tests", "editor.css"})));
-    //filter_url_file_put_contents ("editor.css", css);
-    EXPECT_EQ (standard, css);
+    //filter_url_file_put_contents ("/tmp/editor.css", css);
+    EXPECT_EQ (filter::strings::trim(standard), filter::strings::trim(css));
   }
 }
 

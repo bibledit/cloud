@@ -115,7 +115,7 @@ TwoState twostate_value_to_enum(const std::string& value);
 std::list<TwoState> get_two_states();
 
 
-constexpr const char* white {"#ffffff"};
+constexpr const char* white {"#FFFFFF"};
 constexpr const char* black {"#000000"};
 
 

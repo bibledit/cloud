@@ -27,6 +27,7 @@
 #include <database/config/bible.h>
 #include <fonts/logic.h>
 #include <quill/logic.h>
+#include <stylesv2/logic.h>
 
 
 Styles_Css::Styles_Css (Webserver_Request& webserver_request, const std::string& stylesheet):
@@ -60,16 +61,27 @@ void Styles_Css::generate ()
   if (editor_enabled) {
     add_editor_styles ();
   }
-  const std::vector <std::string> markers = database::styles1::get_markers (m_stylesheet);
-  for (const auto& marker : markers) {
-    database::styles1::Item style = database::styles1::get_marker_data (m_stylesheet, marker);
-    evaluate (&style);
+  {
+    const std::vector <std::string> markers = database::styles1::get_markers (m_stylesheet);
+    for (const auto& marker : markers) {
+      if (!stylesv2::marker_moved_to_v2 (marker)) {
+        database::styles1::Item style = database::styles1::get_marker_data (m_stylesheet, marker);
+        evaluate_v1 (std::addressof(style));
+      }
+    }
+  }
+  {
+    const std::vector <std::string> markers = database::styles2::get_markers (m_stylesheet);
+    for (const auto& marker : markers) {
+      const stylesv2::Style* style = database::styles2::get_marker_data (m_stylesheet, marker);
+      evaluate_v2 (style);
+    }
   }
 }
 
 
 // Evaluates the style so as to decide how it should look.
-void Styles_Css::evaluate (void * database_styles_item)
+void Styles_Css::evaluate_v1 (void * database_styles_item)
 {
   database::styles1::Item* style = static_cast<database::styles1::Item*> (database_styles_item);
   
@@ -86,12 +98,12 @@ void Styles_Css::evaluate (void * database_styles_item)
         case ParagraphSubtypeSubTitle:
         case ParagraphSubtypeSectionHeading:
         {
-          add (style, true, true);
+          add_v1 (style, true, true);
           break;
         }
         case ParagraphSubtypeNormalParagraph:
         {
-          add (style, true, false);
+          add_v1 (style, true, false);
           break;
         }
         default: break;
@@ -100,17 +112,17 @@ void Styles_Css::evaluate (void * database_styles_item)
     }
     case StyleTypeInlineText:
     {
-      add (style, false, false);
+      add_v1 (style, false, false);
       break;
     }
     case StyleTypeChapterNumber:
     {
-      add (style, true, false);
+      add_v1 (style, true, false);
       break;
     }
     case StyleTypeVerseNumber:
     {
-      add (style, false, false);
+      add_v1 (style, false, false);
       break;
     }
     case StyleTypeFootEndNote:
@@ -120,7 +132,7 @@ void Styles_Css::evaluate (void * database_styles_item)
         case FootEndNoteSubtypeFootnote:
         case FootEndNoteSubtypeEndnote:
         {
-          add (style, true, false);
+          add_v1 (style, true, false);
           break;
         }
         case FootEndNoteSubtypeStandardContent:
@@ -128,7 +140,7 @@ void Styles_Css::evaluate (void * database_styles_item)
         case FootEndNoteSubtypeContentWithEndmarker:
         case FootEndNoteSubtypeParagraph:
         {
-          add (style, false, false);
+          add_v1 (style, false, false);
           break;
         }
         default: break;
@@ -141,14 +153,14 @@ void Styles_Css::evaluate (void * database_styles_item)
       {
         case CrossreferenceSubtypeCrossreference:
         {
-          add (style, true, false);
+          add_v1 (style, true, false);
           break;
         }
         case CrossreferenceSubtypeStandardContent:
         case CrossreferenceSubtypeContent:
         case CrossreferenceSubtypeContentWithEndmarker:
         {
-          add (style, false, false);
+          add_v1 (style, false, false);
           break;
         }
         default: break;
@@ -157,10 +169,122 @@ void Styles_Css::evaluate (void * database_styles_item)
     }
     case StyleTypePicture:
     {
-      add (style, true, false);
+      add_v1 (style, true, false);
       break;
     }
-    default: break;
+    default:
+      break;
+  }
+}
+
+
+// Evaluates the style so as to decide how it should look.
+void Styles_Css::evaluate_v2 (const stylesv2::Style* style)
+{
+  using namespace stylesv2;
+  switch (style->type)
+  {
+    case Type::starting_boundary:
+    case Type::none:
+    case Type::book_id:
+    case Type::remark:
+    case Type::running_header:
+    case Type::long_toc_text:
+    case Type::short_toc_text:
+    case Type::book_abbrev:
+    case Type::chapter_label:
+    case Type::published_chapter_marker:
+    case Type::alternate_chapter_number:
+    case Type::published_verse_marker:
+    case Type::introduction_end:
+      break;
+    case Type::character_style:
+    {
+      add_v2 (style, false, false);
+      break;
+    }
+      
+      // Todo still to implement the ones below.
+//    case StyleTypeStartsParagraph:
+//    {
+//      switch (style->subtype)
+//      {
+//        case ParagraphSubtypeMainTitle:
+//        case ParagraphSubtypeSubTitle:
+//        case ParagraphSubtypeSectionHeading:
+//        {
+//          add (style, true, true);
+//          break;
+//        }
+//        case ParagraphSubtypeNormalParagraph:
+//        {
+//          add (style, true, false);
+//          break;
+//        }
+//        default: break;
+//      }
+//      break;
+//    }
+//    case StyleTypeChapterNumber:
+//    {
+//      add (style, true, false);
+//      break;
+//    }
+//    case StyleTypeVerseNumber:
+//    {
+//      add (style, false, false);
+//      break;
+//    }
+//    case StyleTypeFootEndNote:
+//    {
+//      switch (style->subtype)
+//      {
+//        case FootEndNoteSubtypeFootnote:
+//        case FootEndNoteSubtypeEndnote:
+//        {
+//          add (style, true, false);
+//          break;
+//        }
+//        case FootEndNoteSubtypeStandardContent:
+//        case FootEndNoteSubtypeContent:
+//        case FootEndNoteSubtypeContentWithEndmarker:
+//        case FootEndNoteSubtypeParagraph:
+//        {
+//          add (style, false, false);
+//          break;
+//        }
+//        default: break;
+//      }
+//      break;
+//    }
+//    case StyleTypeCrossreference:
+//    {
+//      switch (style->subtype)
+//      {
+//        case CrossreferenceSubtypeCrossreference:
+//        {
+//          add (style, true, false);
+//          break;
+//        }
+//        case CrossreferenceSubtypeStandardContent:
+//        case CrossreferenceSubtypeContent:
+//        case CrossreferenceSubtypeContentWithEndmarker:
+//        {
+//          add (style, false, false);
+//          break;
+//        }
+//        default: break;
+//      }
+//      break;
+//    }
+//    case StyleTypePicture:
+//    {
+//      add (style, true, false);
+//      break;
+//    }
+    case Type::stopping_boundary:
+    default:
+      break;
   }
 }
 
@@ -169,7 +293,7 @@ void Styles_Css::evaluate (void * database_styles_item)
 // $style: Array with the Bibledit style information.
 // $paragraph: True: Is paragraph. False: Is inline text.
 // $keepwithnext: Keep text in this style together with the next paragraph.
-void Styles_Css::add (void * database_styles_item, bool paragraph, bool keepwithnext)
+void Styles_Css::add_v1 (void * database_styles_item, bool paragraph, bool keepwithnext)
 {
   database::styles1::Item* style = static_cast<database::styles1::Item*> (database_styles_item);
 
@@ -308,6 +432,157 @@ void Styles_Css::add (void * database_styles_item, bool paragraph, bool keepwith
       m_code.push_back ("background-color: " + backgroundcolor + ";");
     }
     
+  }
+  
+  // Close style.
+  m_code.push_back ("}");
+}
+
+
+// This adds a style to the internal CSS.
+// $style: Array with the Bibledit style information.
+// $paragraph: True: Is paragraph. False: Is inline text.
+// $keepwithnext: Keep text in this style together with the next paragraph.
+void Styles_Css::add_v2 (const stylesv2::Style* style, const bool paragraph, const bool keep_with_next)
+{
+  using namespace stylesv2;
+  
+  std::string class_name {style->marker};
+  
+  // The name of the class as used in a Quill-based editor.
+  std::string quill_class {", ."};
+  if (paragraph) {
+    quill_class.append (quill_class_prefix_block);
+  } else {
+    quill_class.append (quill_class_prefix_inline);
+  }
+  quill_class.append (class_name);
+  
+  // Start with the class. Notice the dot.
+  m_code.push_back ("." + class_name + quill_class + " {");
+  
+  // Font size. Todo add it when available.
+  // Since it is html and not pdf for paper, a font size of 12pt is considered to be equal to 100%.
+  if (paragraph) {
+//    float points {style->fontsize};
+//    float percents {points * 100 / 12};
+//    int fontsize = filter::strings::convert_to_int (percents);
+//    if (fontsize != 100) {
+//      m_code.push_back ("font-size: " + std::to_string (fontsize) + "%;");
+//    }
+  }
+  
+  // Italics, bold, underline, small caps can be either ooitOff or ooitOn for a paragraph.
+  if (paragraph) {
+//    int italic = style->italic;
+//    int bold = style->bold;
+//    int underline = style->underline;
+//    int smallcaps = style->smallcaps;
+//    if (italic != ooitOff) {
+//      m_code.push_back ("font-style: italic;");
+//    }
+//    if (bold != ooitOff) {
+//      m_code.push_back ("font-weight: bold;");
+//    }
+//    if (underline != ooitOff) {
+//      m_code.push_back ("text-decoration: underline;");
+//    }
+//    if (smallcaps != ooitOff) {
+//      m_code.push_back ("font-variant: small-caps;");
+//    }
+  }
+  
+  // For inline text.
+  // Italics, bold, underline, small caps can be ooitOff or ooitOn or ooitInherit or ooitToggle.
+  // Not all features have been implemented.
+  if (!paragraph) {
+    if (style->character) {
+      
+      if (const FourState state = style->character.value().italic;
+          (state == FourState::on) || (state == FourState::toggle)) {
+        m_code.push_back ("font-style: italic;");
+      }
+      if (const FourState state = style->character.value().bold;
+          (state == FourState::on) || (state == FourState::toggle)) {
+        m_code.push_back ("font-weight: bold;");
+      }
+      if (const FourState state = style->character.value().underline;
+          (state == FourState::on) || (state == FourState::toggle)) {
+        m_code.push_back ("text-decoration: underline;");
+      }
+      if (const FourState state = style->character.value().smallcaps;
+          (state == FourState::on) || (state == FourState::toggle)) {
+        m_code.push_back ("font-variant: small-caps;");
+      }
+    }
+  }
+  
+  // Paragraph layout properties. Todo write those.
+  if (paragraph) {
+    /*
+    std::string spacebefore = filter::strings::convert_to_string (style->spacebefore);
+    std::string spaceafter = filter::strings::convert_to_string (style->spaceafter);
+    std::string leftmargin = filter::strings::convert_to_string (style->leftmargin);
+    std::string rightmargin = filter::strings::convert_to_string (style->rightmargin);
+    std::string firstlineindent = filter::strings::convert_to_string (style->firstlineindent);
+    
+    // Text alignment options.
+    std::string alignment {};
+    switch (style->justification) {
+      case AlignmentLeft:    alignment = "";        break;
+      case AlignmentCenter:  alignment = "center";  break;
+      case AlignmentRight:   alignment = "right";   break;
+      case AlignmentJustify: alignment = "justify"; break;
+      default: break;
+    }
+    if (alignment != "") {
+      m_code.push_back ("text-align: " + alignment + ";");
+    }
+    
+    // Paragraph measurements; given in mm.
+    if (spacebefore != "0") {
+      m_code.push_back ("margin-top: " + spacebefore + "mm;");
+    }
+    if (spaceafter != "0") {
+      m_code.push_back ("margin-bottom: " + spaceafter + "mm;");
+    }
+    if (leftmargin != "0") {
+      m_code.push_back ("margin-left: " + leftmargin + "mm;");
+    }
+    if (rightmargin != "0") {
+      m_code.push_back ("margin-right: " + rightmargin + "mm;");
+    }
+    if (firstlineindent != "0") {
+      m_code.push_back ("text-indent: " + firstlineindent + "mm;");
+    }
+    
+    // Columns have not yet been implemented.
+    //bool spancolumns = style->spancolumns;
+    
+    // Drop caps have not yet been implemented.
+    //bool dropcaps = false;
+    
+    // Keeping text with the next paragraph.
+    if (keepwithnext) {
+      m_code.push_back ("page-break-inside: avoid;");
+    }
+     */
+  }
+  
+  // Superscript and colors for inline text.
+  if (!paragraph) {
+    if (style->character) {
+      if (style->character.value().superscript == TwoState::on) {
+        m_code.push_back ("font-size: x-small;");
+        m_code.push_back ("vertical-align: super;");
+      }
+      if (style->character.value().foreground_color != "#000000") {
+        m_code.push_back ("color: " + style->character.value().foreground_color + ";");
+      }
+      if (style->character.value().background_color != "#FFFFFF") {
+        m_code.push_back ("background-color: " + style->character.value().background_color + ";");
+      }
+    }
   }
   
   // Close style.

@@ -58,7 +58,6 @@ std::string styles_logic_category_text (std::string category)
 // Returns the $type as human readable text.
 std::string styles_logic_type_text (int type)
 {
-  if (type == StyleTypeIdentifier     ) return translate ("is an identifier");
   if (type == StyleTypeStartsParagraph) return translate ("starts a new paragraph");
   if (type == StyleTypeInlineText     ) return translate ("is inline text with endmarker");
   if (type == StyleTypeChapterNumber  ) return translate ("is a chapter number");
@@ -77,8 +76,6 @@ std::string styles_logic_type_text (int type)
 // This returns the $subtype as human readable text.
 std::string styles_logic_subtype_text (int type, int subtype)
 {
-  if (type == StyleTypeIdentifier) {
-  }
   if (type == StyleTypeStartsParagraph) {
     if (subtype == ParagraphSubtypeMainTitle)       return translate ("is a main title");
     if (subtype == ParagraphSubtypeSubTitle)        return translate ("is a subtitle");
@@ -603,10 +600,6 @@ int styles_logic_get_userstring3_function (int type, int subtype)
 bool styles_logic_starts_new_line_in_usfm (int type, int subtype)
 {
   switch (type) {
-    case StyleTypeIdentifier :
-    {
-      return true;
-    }
     case StyleTypeNotUsedComment :
     {
       return true;

@@ -166,8 +166,6 @@ std::string Editor_Styles::getAction (Webserver_Request& webserver_request, cons
     
     switch (type)
     {
-      case StyleTypeIdentifier:
-        return mono ();
       case StyleTypeNotUsedComment:
         return mono ();
       case StyleTypeNotUsedRunningHeader:

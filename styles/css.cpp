@@ -87,7 +87,6 @@ void Styles_Css::evaluate_v1 (void * database_styles_item)
   
   switch (style->type)
   {
-    case StyleTypeIdentifier: break;
     case StyleTypeNotUsedComment: break;
     case StyleTypeNotUsedRunningHeader: break;
     case StyleTypeStartsParagraph:

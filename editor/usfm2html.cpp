@@ -177,10 +177,6 @@ void Editor_Usfm2Html::process ()
         const database::styles1::Item& style = m_styles.at(marker);
         switch (style.type)
         {
-          case StyleTypeIdentifier:
-          {
-            break;
-          }
           case StyleTypeNotUsedComment:
           case StyleTypeNotUsedRunningHeader:
           {

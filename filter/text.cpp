@@ -207,13 +207,6 @@ void Filter_Text::pre_process_usfm (const std::string& stylesheet)
             database::styles1::Item style = styles [marker];
             note_citations.evaluate_style(style);
             switch (style.type) {
-              case StyleTypeIdentifier:
-                switch (style.subtype) {
-                  default: {
-                    break;
-                  }
-                }
-                break;
               case StyleTypeChapterNumber:
               {
                 const std::string number = filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
@@ -385,20 +378,6 @@ void Filter_Text::process_usfm (const std::string& stylesheet)
           const database::styles1::Item& style = styles.at(marker);
           switch (style.type)
           {
-            case StyleTypeIdentifier:
-            {
-              switch (style.subtype)
-              {
-                
-                default:
-                {
-                  close_text_style_all();
-                  addToFallout (R"(Unknown markup: \)" + marker, true);
-                  break;
-                }
-              }
-              break;
-            }
             case StyleTypeNotUsedComment:
             {
               addToFallout (R"(Unknown markup: \)" + marker, true);

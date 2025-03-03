@@ -1986,6 +1986,7 @@ TEST_F (usfm_html, usfm_with_all_markers)
   R"(<p class="b-mono"><span>\id </span><span>GEN</span></p>)"
   R"(<p class="b-mono"><span>\ide </span><span>UTF-8</span></p>)"
   R"(<p class="b-mono"><span>\sts </span><span>Released</span></p>)"
+  R"(<p class="b-mono"><span>\usfm </span><span>3.0</span></p>)"
   R"(<p class="b-mono"><span>\rem </span><span>Remark</span></p>)"
   R"(<p class="b-mono"><span>\h </span><span>Genesis</span></p>)"
   R"(<p class="b-mono"><span>\h1 </span><span>Genesis</span></p>)"

@@ -23,6 +23,7 @@ constexpr const char* usfm_with_all_markers =
 R"(\id GEN)" "\n"
 R"(\ide UTF-8)" "\n"
 R"(\sts Released)" "\n"
+R"(\usfm 3.0)" "\n"
 R"(\rem Remark)" "\n"
 R"(\h Genesis)" "\n"
 R"(\h1 Genesis)" "\n"

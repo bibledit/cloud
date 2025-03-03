@@ -939,6 +939,7 @@ TEST_F (styles, marker_starts_new_line_in_usfm)
         break;
       case Type::none:
       case Type::book_id:
+      case Type::usfm_version:
       case Type::file_encoding:
       case Type::remark:
       case Type::running_header:

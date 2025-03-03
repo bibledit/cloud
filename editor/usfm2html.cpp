@@ -390,6 +390,7 @@ void Editor_Usfm2Html::process ()
           case stylesv2::Type::starting_boundary:
           case stylesv2::Type::none:
           case stylesv2::Type::book_id:
+          case stylesv2::Type::usfm_version:
           case stylesv2::Type::file_encoding:
           case stylesv2::Type::remark:
           case stylesv2::Type::running_header:

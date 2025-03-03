@@ -35,6 +35,10 @@ std::string type_enum_to_value (const Type type, const bool describe)
       if (describe)
         return "book id";
       return "book_id";
+    case Type::usfm_version:
+      if (describe)
+        return "usfm version";
+      return "usfm_version";
     case Type::file_encoding:
       if (describe)
         return "file encoding";
@@ -328,6 +332,16 @@ const std::list<Style> styles {
     .character = std::nullopt,
     .properties = {{Property::starts_new_page,true}},
     .doc = "https://ubsicap.github.io/usfm/identification/index.html#index-1",
+    .category = Category::identification,
+  },
+  {
+    .marker = "usfm",
+    .type = Type::usfm_version,
+    .name = "USFM version",
+    .info = "USFM version specification for the file. Used to identify the USFM version which a USFM editor / processor will be required to support in order to manage all markup found within the file.",
+    .character = std::nullopt,
+    .properties = {},
+    .doc = "https://ubsicap.github.io/usfm/identification/index.html#usfm",
     .category = Category::identification,
   },
   {
@@ -6791,6 +6805,7 @@ bool starts_new_line_in_usfm (const Style* style)
     case stylesv2::Type::starting_boundary:
     case stylesv2::Type::none:
     case stylesv2::Type::book_id:
+    case stylesv2::Type::usfm_version:
     case stylesv2::Type::file_encoding:
     case stylesv2::Type::remark:
     case stylesv2::Type::running_header:

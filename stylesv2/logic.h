@@ -27,6 +27,7 @@ enum class Type : int {
   starting_boundary, // Should be the first always.
   none,
   book_id,
+  usfm_version,
   file_encoding,
   remark,
   running_header,

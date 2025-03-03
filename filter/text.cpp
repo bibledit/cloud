@@ -277,6 +277,7 @@ void Filter_Text::pre_process_usfm (const std::string& stylesheet)
                 // Done.
                 break;
               }
+              case stylesv2::Type::usfm_version:
               case stylesv2::Type::file_encoding:
               case stylesv2::Type::remark:
                 break;
@@ -974,6 +975,12 @@ void Filter_Text::process_usfm (const std::string& stylesheet)
               if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->new_heading1 (runningHeader, true);
               if (odf_text_notes) odf_text_notes->new_heading1 (runningHeader, false);
               // Done.
+              break;
+            }
+            case stylesv2::Type::usfm_version:
+            {
+              close_text_style_all();
+              add_to_info (R"(USFM version: \)" + marker, true);
               break;
             }
             case stylesv2::Type::file_encoding:

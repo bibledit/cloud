@@ -1356,7 +1356,7 @@ std::string resource_logic_study_light_get (std::string resource, int book, int 
   
   // Example URL: https://www.studylight.org/commentaries/eng/acc/revelation-1.html
   std::string url {};
-  url.append ("http://www.studylight.org/commentaries/");
+  url.append ("https://www.studylight.org/commentaries/");
   url.append (resource + "/");
   url.append (resource_external_convert_book_studylight (book));
   url.append ("-" + std::to_string (chapter) + ".html");

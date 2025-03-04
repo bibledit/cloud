@@ -11,9 +11,6 @@ a:hover { text-decoration: underline; }
 .navigationbar { font-size: normal; }
 .popup { position:absolute; display:none; background-color:lightyellow; border:.1em solid; width:15em; height:auto; padding:1em; font-size:1.5em; text-indent:0em; margin 0.5em 0.5em 0.5em 0.5em; }
 a:hover .popup { display:block; }
-.add, .i-add {
-font-style: italic;
-}
 .addpn, .i-addpn {
 font-style: italic;
 }
@@ -712,5 +709,8 @@ font-style: italic;
 .xta, .i-xta {
 }
 .pro, .i-pro {
+font-style: italic;
+}
+.add, .i-add {
 font-style: italic;
 }

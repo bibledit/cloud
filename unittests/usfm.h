@@ -39,5 +39,7 @@ R"(\cp א)" "\n"
 R"(\ca 2\ca*)" "\n"
 R"(\p)" "\n"
 R"(\v 1 \vp 1b\vp* Text name\pro pronunciation\pro*.)" "\n"
+R"(\p)" "\n"
+R"(\v 2 Normal \add added\add*)" "\n"
 ;
 //R"()" "\n"

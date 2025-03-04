@@ -1,7 +1,4 @@
 .superscript, [class^='i-note'] { font-size: x-small; vertical-align: super; }
-.add, .i-add {
-font-style: italic;
-}
 .addpn, .i-addpn {
 font-style: italic;
 }
@@ -700,5 +697,8 @@ font-style: italic;
 .xta, .i-xta {
 }
 .pro, .i-pro {
+font-style: italic;
+}
+.add, .i-add {
 font-style: italic;
 }

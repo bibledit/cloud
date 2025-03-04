@@ -1281,7 +1281,7 @@ std::string resource_logic_study_light_module_list_refresh ()
   Database_Logs::log ("Refresh StudyLight resources");
   std::string path {resource_logic_study_light_module_list_path ()};
   std::string error {};
-  std::string html = filter_url_http_get ("http://www.studylight.org/commentaries", error, false);
+  std::string html = filter_url_http_get ("https://www.studylight.org/commentaries", error, false);
   if (error.empty ()) {
     std::vector <std::string> resources;
     // Example commentary fragment:

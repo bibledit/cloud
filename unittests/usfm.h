@@ -43,5 +43,6 @@ R"(\p)" "\n"
 R"(\v 2 Normal \add added\add* and \addpn AddPn\addpn*)" "\n"
 R"(\p The \bk Book\bk* name)" "\n"
 R"(\p Proto \dc Deutero\dc* text.)" "\n"
+R"(\p This is a \k keyword\k*)" "\n"
 ;
 //R"()" "\n"

@@ -1358,6 +1358,8 @@ TEST_F (filter_text, usfm_with_all_markers)
   "The Book name\n"
   "\n"
   "Proto Deutero text.\n"
+  "\n"
+  "This is a keyword\n"
   ;
   EXPECT_EQ (filter::strings::trim(standard_odt), filter::strings::trim(odt));
   const std::string standard_text =
@@ -1366,6 +1368,7 @@ TEST_F (filter_text, usfm_with_all_markers)
   "2 Normal added and AddPn\n"
   "The Book name\n"
   "Proto Deutero text.\n"
+  "This is a keyword\n"
   ;
   EXPECT_EQ (filter::strings::trim(standard_text), filter::strings::trim(text));
   //filter_url_file_put_contents("/tmp/text.txt", text);
@@ -1375,6 +1378,7 @@ TEST_F (filter_text, usfm_with_all_markers)
   R"(<p class="p"><span class="v">2</span><span> </span><span>Normal </span><span class="add">added</span><span> and </span><span class="addpn">AddPn</span></p>)"
   R"(<p class="p"><span>The </span><span class="bk">Book</span><span> name</span></p>)"
   R"(<p class="p"><span>Proto </span><span class="dc">Deutero</span><span> text.</span></p>)"
+  R"(<p class="p"><span>This is a </span><span class="k">keyword</span></p>)"
   //R"()"
   ;
   EXPECT_EQ (standard_html, html);

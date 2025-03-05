@@ -33,9 +33,6 @@ margin-top: 4mm;
 margin-bottom: 4mm;
 page-break-inside: avoid;
 }
-.dc, .i-dc {
-font-style: italic;
-}
 .ef, .b-ef {
 }
 .em, .i-em {
@@ -700,5 +697,8 @@ font-style: italic;
 font-style: italic;
 }
 .bk, .i-bk {
+font-style: italic;
+}
+.dc, .i-dc {
 font-style: italic;
 }

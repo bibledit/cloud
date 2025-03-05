@@ -42,5 +42,6 @@ R"(\v 1 \vp 1b\vp* Text name\pro pronunciation\pro*.)" "\n"
 R"(\p)" "\n"
 R"(\v 2 Normal \add added\add* and \addpn AddPn\addpn*)" "\n"
 R"(\p The \bk Book\bk* name)" "\n"
+R"(\p Proto \dc Deutero\dc* text.)" "\n"
 ;
 //R"()" "\n"

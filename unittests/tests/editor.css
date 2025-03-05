@@ -279,10 +279,6 @@ font-style: italic;
 text-decoration: underline;
 color: #0000FF;
 }
-.k, .i-k {
-font-style: italic;
-font-weight: bold;
-}
 .lf, .b-lf {
 margin-left: 10mm;
 }
@@ -431,9 +427,6 @@ margin-bottom: 2mm;
 page-break-inside: avoid;
 }
 .nb, .b-nb {
-}
-.nd, .i-nd {
-font-variant: small-caps;
 }
 .no, .i-no {
 }
@@ -701,4 +694,11 @@ font-style: italic;
 }
 .dc, .i-dc {
 font-style: italic;
+}
+.k, .i-k {
+font-style: italic;
+font-weight: bold;
+}
+.nd, .i-nd {
+font-variant: small-caps;
 }

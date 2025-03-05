@@ -40,20 +40,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #define StyleTypeWordlistElement       13 
 
 
-// The following lot goes out once all identifiers are in v2.
-#define IdentifierSubtypeBook                     0
-#define IdentifierSubtypeEncoding                 1
-#define IdentifierSubtypeComment                  2
-#define IdentifierSubtypeRunningHeader            3
-#define IdentifierSubtypeLongTOC                  4
-#define IdentifierSubtypeShortTOC                 5
-#define IdentifierSubtypeBookAbbrev               6
-#define IdentifierSubtypeChapterLabel             7
-#define IdentifierSubtypePublishedChapterMarker   8
-#define IdentifierSubtypeCommentWithEndmarker     9
-#define IdentifierSubtypePublishedVerseMarker    10
-
-
 #define FootEndNoteSubtypeFootnote                 0 
 #define FootEndNoteSubtypeEndnote                  1 
 #define FootEndNoteSubtypeStandardContent          2 

@@ -21,9 +21,6 @@ font-weight: bold;
 font-style: italic;
 font-weight: bold;
 }
-.bk, .i-bk {
-font-style: italic;
-}
 .c, .b-c {
 font-size: 150%;
 font-weight: bold;
@@ -712,5 +709,8 @@ font-style: italic;
 font-style: italic;
 }
 .addpn, .i-addpn {
+font-style: italic;
+}
+.bk, .i-bk {
 font-style: italic;
 }

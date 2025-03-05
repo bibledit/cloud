@@ -1354,12 +1354,15 @@ TEST_F (filter_text, usfm_with_all_markers)
   "1b Text namepronunciation.\n"
   "\n"
   "2 Normal added and AddPn\n"
+  "\n"
+  "The Book name\n"
   ;
   EXPECT_EQ (filter::strings::trim(standard_odt), filter::strings::trim(odt));
   const std::string standard_text =
   "א (2)\n"
   "1b Text namepronunciation.\n"
   "2 Normal added and AddPn\n"
+  "The Book name\n"
   ;
   EXPECT_EQ (filter::strings::trim(standard_text), filter::strings::trim(text));
   //filter_url_file_put_contents("/tmp/text.txt", text);
@@ -1367,6 +1370,7 @@ TEST_F (filter_text, usfm_with_all_markers)
   R"(<p class="c"><span>Genesis</span></p>)"
   R"(<p class="p"><span class="v">1b</span><span> </span><span>Text name</span><span class="pro">pronunciation</span><span>.</span></p>)"
   R"(<p class="p"><span class="v">2</span><span> </span><span>Normal </span><span class="add">added</span><span> and </span><span class="addpn">AddPn</span></p>)"
+  R"(<p class="p"><span>The </span><span class="bk">Book</span><span> name</span></p>)"
   //R"()"
   ;
   EXPECT_EQ (standard_html, html);

@@ -2007,6 +2007,7 @@ TEST_F (usfm_html, usfm_with_all_markers)
   R"(<p class="b-p"><span>This is a </span><span class="i-k">keyword</span></p>)"
   R"(<p class="b-p"><span class="i-nd">Yahweh</span></p>)"
   R"(<p class="b-p"><span>The 1</span><span class="i-ord">st</span><span>.</span></p>)"
+  R"(<p class="b-p"><span>It is about </span><span class="i-pn">Jesus</span><span>.</span></p>)"
   ;
   //R"()"
   

@@ -442,10 +442,6 @@ page-break-inside: avoid;
 }
 .no, .i-no {
 }
-.ord, .i-ord {
-font-size: x-small;
-vertical-align: super;
-}
 .p, .b-p {
 text-indent: 3.2mm;
 }
@@ -713,4 +709,8 @@ font-weight: bold;
 }
 .nd, .i-nd {
 font-variant: small-caps;
+}
+.ord, .i-ord {
+font-size: x-small;
+vertical-align: super;
 }

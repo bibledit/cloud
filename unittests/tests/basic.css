@@ -35,9 +35,6 @@ page-break-inside: avoid;
 }
 .ef, .b-ef {
 }
-.em, .i-em {
-font-style: italic;
-}
 .esb, .b-esb {
 text-indent: 3.2mm;
 }
@@ -630,9 +627,6 @@ vertical-align: super;
 font-size: x-small;
 vertical-align: super;
 }
-.wj, .i-wj {
-color: #FF0000;
-}
 .x, .b-x {
 }
 .xdc, .i-xdc {
@@ -700,5 +694,11 @@ font-style: italic;
 font-style: italic;
 }
 .tl, .i-tl {
+font-style: italic;
+}
+.wj, .i-wj {
+color: #FF0000;
+}
+.em, .i-em {
 font-style: italic;
 }

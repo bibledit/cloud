@@ -53,5 +53,6 @@ R"(\p \sig Kind regards from Paul\sig*.)" "\n"
 R"(\p Hebrew and \sls Aramaic\sls* source.)" "\n"
 R"(\p Jesus: \tl Eli, Eli, lema sabachthani?\tl*)" "\n"
 R"(\p Jesus: \wj I am\wj*.)" "\n"
+R"(\p This is \em emphasized\em* text.)" "\n"
 ;
 //R"()" "\n"

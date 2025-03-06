@@ -1378,6 +1378,8 @@ TEST_F (filter_text, usfm_with_all_markers)
   "Jesus: Eli, Eli, lema sabachthani?\n"
   "\n"
   "Jesus: I am.\n"
+  "\n"
+  "This is emphasized text.\n"
   ;
   EXPECT_EQ (filter::strings::trim(standard_odt), filter::strings::trim(odt));
   const std::string standard_text =
@@ -1396,6 +1398,7 @@ TEST_F (filter_text, usfm_with_all_markers)
   "Hebrew and Aramaic source.\n"
   "Jesus: Eli, Eli, lema sabachthani?\n"
   "Jesus: I am.\n"
+  "This is emphasized text.\n"
   ;
   EXPECT_EQ (filter::strings::trim(standard_text), filter::strings::trim(text));
   //filter_url_file_put_contents("/tmp/text.txt", text);
@@ -1415,6 +1418,7 @@ TEST_F (filter_text, usfm_with_all_markers)
   R"(<p class="p"><span>Hebrew and </span><span class="sls">Aramaic</span><span> source.</span></p>)"
   R"(<p class="p"><span>Jesus: </span><span class="tl">Eli, Eli, lema sabachthani?</span></p>)"
   R"(<p class="p"><span>Jesus: </span><span class="wj">I am</span><span>.</span></p>)"
+  R"(<p class="p"><span>This is </span><span class="em">emphasized</span><span> text.</span></p>)"
   //R"()"
   ;
   EXPECT_EQ (standard_html, html);

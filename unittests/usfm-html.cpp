@@ -2014,6 +2014,7 @@ TEST_F (usfm_html, usfm_with_all_markers)
   R"(<p class="b-p"><span>Hebrew and </span><span class="i-sls">Aramaic</span><span> source.</span></p>)"
   R"(<p class="b-p"><span>Jesus: </span><span class="i-tl">Eli, Eli, lema sabachthani?</span></p>)"
   R"(<p class="b-p"><span>Jesus: </span><span class="i-wj">I am</span><span>.</span></p>)"
+  R"(<p class="b-p"><span>This is </span><span class="i-em">emphasized</span><span> text.</span></p>)"
   ;
   //R"()"
   

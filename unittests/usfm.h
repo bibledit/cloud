@@ -51,5 +51,7 @@ R"(\p The capital is \png Amsterdam\png*.)" "\n"
 R"(\p This is a \qt quotation\qt*.)" "\n"
 R"(\p \sig Kind regards from Paul\sig*.)" "\n"
 R"(\p Hebrew and \sls Aramaic\sls* source.)" "\n"
+R"(\p Jesus: \tl Eli, Eli, lema sabachthani?\tl*)" "\n"
+R"(\p Jesus: \wj I am\wj*.)" "\n"
 ;
 //R"()" "\n"

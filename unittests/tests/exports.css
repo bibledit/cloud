@@ -634,9 +634,6 @@ page-break-inside: avoid;
 font-size: x-small;
 vertical-align: super;
 }
-.tl, .i-tl {
-font-style: italic;
-}
 .v, .i-v {
 font-size: x-small;
 vertical-align: super;
@@ -712,5 +709,8 @@ font-style: italic;
 font-style: italic;
 }
 .sls, .i-sls {
+font-style: italic;
+}
+.tl, .i-tl {
 font-style: italic;
 }

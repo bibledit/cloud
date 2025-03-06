@@ -47,5 +47,6 @@ R"(\p This is a \k keyword\k*)" "\n"
 R"(\p \nd Yahweh\nd*)" "\n"
 R"(\p The 1\ord st\ord*.)" "\n"
 R"(\p It is about \pn Jesus\pn*.)" "\n"
+R"(\p The capital is \png Amsterdam\png*.)" "\n"
 ;
 //R"()" "\n"

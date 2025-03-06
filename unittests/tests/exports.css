@@ -486,10 +486,6 @@ text-align: right;
 margin-left: 6.4mm;
 margin-right: 6.4mm;
 }
-.png, .i-png {
-font-weight: bold;
-text-decoration: underline;
-}
 .po, .b-po {
 margin-top: 4mm;
 margin-bottom: 4mm;
@@ -711,6 +707,10 @@ font-size: x-small;
 vertical-align: super;
 }
 .pn, .i-pn {
+font-weight: bold;
+text-decoration: underline;
+}
+.png, .i-png {
 font-weight: bold;
 text-decoration: underline;
 }

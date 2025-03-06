@@ -50,5 +50,6 @@ R"(\p It is about \pn Jesus\pn*.)" "\n"
 R"(\p The capital is \png Amsterdam\png*.)" "\n"
 R"(\p This is a \qt quotation\qt*.)" "\n"
 R"(\p \sig Kind regards from Paul\sig*.)" "\n"
+R"(\p Hebrew and \sls Aramaic\sls* source.)" "\n"
 ;
 //R"()" "\n"

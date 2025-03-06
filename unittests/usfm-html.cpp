@@ -2011,6 +2011,7 @@ TEST_F (usfm_html, usfm_with_all_markers)
   R"(<p class="b-p"><span>The capital is </span><span class="i-png">Amsterdam</span><span>.</span></p>)"
   R"(<p class="b-p"><span>This is a </span><span class="i-qt">quotation</span><span>.</span></p>)"
   R"(<p class="b-p"><span class="i-sig">Kind regards from Paul</span><span>.</span></p>)"
+  R"(<p class="b-p"><span>Hebrew and </span><span class="i-sls">Aramaic</span><span> source.</span></p>)"
   ;
   //R"()"
   

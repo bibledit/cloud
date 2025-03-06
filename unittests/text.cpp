@@ -1368,6 +1368,10 @@ TEST_F (filter_text, usfm_with_all_markers)
   "It is about Jesus.\n"
   "\n"
   "The capital is Amsterdam.\n"
+  "\n"
+  "This is a quotation.\n"
+  "\n"
+  "Kind regards from Paul.\n"
   ;
   EXPECT_EQ (filter::strings::trim(standard_odt), filter::strings::trim(odt));
   const std::string standard_text =
@@ -1381,6 +1385,8 @@ TEST_F (filter_text, usfm_with_all_markers)
   "The 1st.\n"
   "It is about Jesus.\n"
   "The capital is Amsterdam.\n"
+  "This is a quotation.\n"
+  "Kind regards from Paul.\n"
   ;
   EXPECT_EQ (filter::strings::trim(standard_text), filter::strings::trim(text));
   //filter_url_file_put_contents("/tmp/text.txt", text);
@@ -1395,6 +1401,8 @@ TEST_F (filter_text, usfm_with_all_markers)
   R"(<p class="p"><span>The 1</span><span class="ord">st</span><span>.</span></p>)"
   R"(<p class="p"><span>It is about </span><span class="pn">Jesus</span><span>.</span></p>)"
   R"(<p class="p"><span>The capital is </span><span class="png">Amsterdam</span><span>.</span></p>)"
+  R"(<p class="p"><span>This is a </span><span class="qt">quotation</span><span>.</span></p>)"
+  R"(<p class="p"><span class="sig">Kind regards from Paul</span><span>.</span></p>)"
   //R"()"
   ;
   EXPECT_EQ (standard_html, html);

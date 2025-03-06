@@ -618,9 +618,6 @@ font-size: 133%;
 margin-top: 8mm;
 margin-bottom: 8mm;
 }
-.sig, .i-sig {
-font-style: italic;
-}
 .sls, .i-sls {
 font-style: italic;
 }
@@ -712,5 +709,8 @@ font-weight: bold;
 text-decoration: underline;
 }
 .qt, .i-qt {
+font-style: italic;
+}
+.sig, .i-sig {
 font-style: italic;
 }

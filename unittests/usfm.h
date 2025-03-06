@@ -48,5 +48,6 @@ R"(\p \nd Yahweh\nd*)" "\n"
 R"(\p The 1\ord st\ord*.)" "\n"
 R"(\p It is about \pn Jesus\pn*.)" "\n"
 R"(\p The capital is \png Amsterdam\png*.)" "\n"
+R"(\p This is a \qt quotation\qt*.)" "\n"
 ;
 //R"()" "\n"

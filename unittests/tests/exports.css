@@ -541,9 +541,6 @@ text-align: right;
 .qs, .i-qs {
 font-style: italic;
 }
-.qt, .i-qt {
-font-style: italic;
-}
 .r, .b-r {
 font-style: italic;
 text-align: center;
@@ -713,4 +710,7 @@ text-decoration: underline;
 .png, .i-png {
 font-weight: bold;
 text-decoration: underline;
+}
+.qt, .i-qt {
+font-style: italic;
 }

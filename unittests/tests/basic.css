@@ -2,9 +2,6 @@
 .b, .b-b {
 font-size: 83%;
 }
-.bd, .i-bd {
-font-weight: bold;
-}
 .bdit, .i-bdit {
 font-style: italic;
 font-weight: bold;
@@ -701,4 +698,7 @@ color: #FF0000;
 }
 .em, .i-em {
 font-style: italic;
+}
+.bd, .i-bd {
+font-weight: bold;
 }

@@ -780,53 +780,30 @@ const std::list<Style> styles {
       .doc = "https://ubsicap.github.io/usfm/characters/index.html#em-em",
       .category = Category::words_characters,
   },
+  {
+    .marker = "bd",
+    .type = Type::character_style,
+    .name = "Bold text",
+    .info = "For making a portion of text bold.",
+    .character = Character {
+      .italic = FourState::off,
+      .bold = FourState::on,
+      .underline = FourState::off,
+      .smallcaps = FourState::off,
+      .superscript = TwoState::off,
+      .foreground_color = black,
+      .background_color = white,
+    },
+      .doc = "https://ubsicap.github.io/usfm/characters/index.html#bd-bd",
+      .category = Category::words_characters,
+  },
 };
 
 
 
 
-// Here below are the styles These are the old ones, to be moved to the new system. Todo
-//typedef struct
-//{
-//  const char * marker;
-//  std::string name;
-//  std::string info;
-//  const char * category;
-//  int type;
-//  int subtype;
-//  float fontsize;
-//  int italic;
-//  int bold;
-//  int underline;
-//  int smallcaps;
-//  int superscript;
-//  int justification;
-//  float spacebefore;
-//  float spaceafter;
-//  float leftmargin;
-//  float rightmargin;
-//  float firstlineindent;
-//  int spancolumns;
-//  const char * color;
-//  bool print;
-//  bool userbool1;
-//  bool userbool2;
-//  bool userbool3;
-//  int userint1;
-//  int userint2;
-//  int userint3;
-//  const char * userstring1;
-//  const char * userstring2;
-//  const char * userstring3;
-//  const char * backgroundcolor;
-//}
-//style_record;
-//
-//
-//// Default stylesheet values.
-//// In English.
-//style_record styles_table [] =
-//{
+// Here below are the old styles to be moved to the new system. Todo
+
 //  {
 //    /* marker */ "b",
 //    /* name */ "Blank line",
@@ -837,39 +814,6 @@ const std::list<Style> styles {
 //    /* fontsize */ 10,
 //    /* italic */ 0,
 //    /* bold */ 0,
-//    /* underline */ 0,
-//    /* smallcaps */ 0,
-//    /* superscript */ 0,
-//    /* justification */ 0,
-//    /* spacebefore */ 0,
-//    /* spaceafter */ 0,
-//    /* leftmargin */ 0,
-//    /* rightmargin */ 0,
-//    /* firstlineindent */ 0,
-//    /* spancolumns */ 0,
-//    /* color */ "#000000",
-//    /* print */ 1,
-//    /* userbool1 */ 0,
-//    /* userbool2 */ 0,
-//    /* userbool3 */ 0,
-//    /* userint1 */ 0,
-//    /* userint2 */ 0,
-//    /* userint3 */ 0,
-//    /* userstring1 */ "",
-//    /* userstring2 */ "",
-//    /* userstring3 */ "",
-//    /* backgroundcolor */ "#FFFFFF",
-//  },
-//  {
-//    /* marker */ "bd",
-//    /* name */ "Bold text",
-//    /* info */ "Bold text",
-//    /* category */ "cs",
-//    /* type */ 4,
-//    /* subtype */ 0,
-//    /* fontsize */ 12,
-//    /* italic */ 0,
-//    /* bold */ 1,
 //    /* underline */ 0,
 //    /* smallcaps */ 0,
 //    /* superscript */ 0,

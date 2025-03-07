@@ -14,10 +14,6 @@ a:hover .popup { display:block; }
 .b, .b-b {
 font-size: 83%;
 }
-.bdit, .i-bdit {
-font-style: italic;
-font-weight: bold;
-}
 .c, .b-c {
 font-size: 150%;
 font-weight: bold;
@@ -278,9 +274,6 @@ margin-top: 8mm;
 margin-bottom: 4mm;
 page-break-inside: avoid;
 }
-.it, .i-it {
-font-style: italic;
-}
 .jmp, .i-jmp {
 text-decoration: underline;
 color: #0000FF;
@@ -433,8 +426,6 @@ margin-bottom: 2mm;
 page-break-inside: avoid;
 }
 .nb, .b-nb {
-}
-.no, .i-no {
 }
 .p, .b-p {
 text-indent: 3.2mm;
@@ -713,4 +704,13 @@ font-style: italic;
 }
 .bd, .i-bd {
 font-weight: bold;
+}
+.it, .i-it {
+font-style: italic;
+}
+.bdit, .i-bdit {
+font-style: italic;
+font-weight: bold;
+}
+.no, .i-no {
 }

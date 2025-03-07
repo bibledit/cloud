@@ -2016,6 +2016,9 @@ TEST_F (usfm_html, usfm_with_all_markers)
   R"(<p class="b-p"><span>Jesus: </span><span class="i-wj">I am</span><span>.</span></p>)"
   R"(<p class="b-p"><span>This is </span><span class="i-em">emphasized</span><span> text.</span></p>)"
   R"(<p class="b-p"><span>This is </span><span class="i-bd">bold</span><span> text.</span></p>)"
+  R"(<p class="b-p"><span>This is </span><span class="i-it">italic</span><span> text.</span></p>)"
+  R"(<p class="b-p"><span>This is </span><span class="i-bdit">bold/italic</span><span> text.</span></p>)"
+  R"(<p class="b-s"><span>Section heading with </span><span class="i-no">normal</span><span> text</span></p>)"
   ;
   //R"()"
   

@@ -55,5 +55,8 @@ R"(\p Jesus: \tl Eli, Eli, lema sabachthani?\tl*)" "\n"
 R"(\p Jesus: \wj I am\wj*.)" "\n"
 R"(\p This is \em emphasized\em* text.)" "\n"
 R"(\p This is \bd bold\bd* text.)" "\n"
+R"(\p This is \it italic\it* text.)" "\n"
+R"(\p This is \bdit bold/italic\bdit* text.)" "\n"
+R"(\s Section heading with \no normal\no* text)" "\n"
 ;
 //R"()" "\n"

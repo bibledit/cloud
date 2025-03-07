@@ -575,9 +575,6 @@ margin-top: 6mm;
 margin-bottom: 3mm;
 page-break-inside: avoid;
 }
-.sc, .i-sc {
-font-variant: small-caps;
-}
 .sd, .b-sd {
 font-size: 167%;
 margin-top: 24mm;
@@ -614,10 +611,6 @@ font-weight: bold;
 text-align: center;
 margin-bottom: 4mm;
 page-break-inside: avoid;
-}
-.sup, .i-sup {
-font-size: x-small;
-vertical-align: super;
 }
 .v, .i-v {
 font-size: x-small;
@@ -713,4 +706,11 @@ font-style: italic;
 font-weight: bold;
 }
 .no, .i-no {
+}
+.sc, .i-sc {
+font-variant: small-caps;
+}
+.sup, .i-sup {
+font-size: x-small;
+vertical-align: super;
 }

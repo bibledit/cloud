@@ -61,6 +61,12 @@ std::string type_enum_to_value (const Type type, const bool describe)
       if (describe)
         return "book abbrev";
       return "book_abbrev";
+    case Type::title:
+        return "title";
+    case Type::heading:
+      return "heading";
+    case Type::paragraph:
+      return "paragraph";
     case Type::chapter_label:
       if (describe)
         return "chapter label";
@@ -234,7 +240,7 @@ std::string fourstate_enum_to_value(const FourState state)
 
 FourState fourstate_value_to_enum(const std::string& value)
 {
-  for (const auto fourstate : {FourState::off, FourState::on, FourState::inherit, FourState::toggle}) {
+  for (const auto fourstate : get_four_states()) {
     if (value == fourstate_enum_to_value(fourstate))
       return fourstate;
   }
@@ -260,7 +266,7 @@ std::string twostate_enum_to_value(const TwoState state)
 
 TwoState twostate_value_to_enum(const std::string& value)
 {
-  for (const auto twostate : {TwoState::off, TwoState::on}) {
+  for (const auto twostate : get_two_states()) {
     if (value == twostate_enum_to_value(twostate))
       return twostate;
   }
@@ -271,6 +277,34 @@ TwoState twostate_value_to_enum(const std::string& value)
 std::list<TwoState> get_two_states()
 {
   return {TwoState::on, TwoState::off};
+}
+
+
+std::string textalignment_enum_to_value(const TextAlignment alignment) // Todo test.
+{
+  switch (alignment) {
+    case TextAlignment::left: return "left";
+    case TextAlignment::center: return "center";
+    case TextAlignment::right: return "right";
+    case TextAlignment::justify: return "justify";
+    default: return "unknown";
+  }
+}
+
+
+TextAlignment textalignment_value_to_enum(const std::string& value)//Todo test.
+{
+  for (const auto alignment : get_text_alignments()) {
+    if (value == textalignment_enum_to_value(alignment))
+      return alignment;
+  }
+  return TextAlignment::left;
+}
+
+
+std::list<TextAlignment> get_text_alignments() // Todo test.
+{
+  return {TextAlignment::left, TextAlignment::center, TextAlignment::right, TextAlignment::justify};
 }
 
 
@@ -288,12 +322,32 @@ std::ostream& operator<<(std::ostream& os, const Character character)
 }
 
 
-std::ostream& operator<<(std::ostream& os, const Style& style)
+std::ostream& operator<<(std::ostream& os, const Paragraph paragraph) // Todo write and test.
+{
+  os << "paragraph:" << std::endl;
+  os << "  font_size: " << paragraph.font_size << std::endl;
+  os << "  italic: " << twostate_enum_to_value(paragraph.italic) << std::endl;
+  os << "  bold: " << twostate_enum_to_value(paragraph.bold) << std::endl;
+  os << "  underline: " << twostate_enum_to_value(paragraph.underline) << std::endl;
+  os << "  smallcaps: " << twostate_enum_to_value(paragraph.smallcaps) << std::endl;
+  os << "  text_alignment: " << textalignment_enum_to_value(paragraph.text_alignment) << std::endl;
+  os << "  space_before: " << paragraph.space_before << std::endl;
+  os << "  space_after: " << paragraph.space_after << std::endl;
+  os << "  left_margin: " << paragraph.left_margin << std::endl;
+  os << "  right_margin: " << paragraph.right_margin << std::endl;
+  os << "  first_line_indent: " << paragraph.first_line_indent << std::endl;
+  return os;
+}
+
+
+std::ostream& operator<<(std::ostream& os, const Style& style) // Todo write and test.
 {
   os << "marker: " << style.marker << std::endl;
   os << "type: " << type_enum_to_value(style.type) << std::endl;
   os << "name: " << style.name << std::endl;
   os << "info: " << style.info << std::endl;
+  if (style.paragraph)
+    os << style.paragraph.value();
   if (style.character)
     os << style.character.value();
   for (const auto& [property, parameter] : style.properties) {
@@ -329,7 +383,6 @@ const std::list<Style> styles {
     .type = Type::book_id,
     .name = "Identification",
     .info = "File identification information (name of file, book name, language, last edited, date, etc.)",
-    .character = std::nullopt,
     .properties = {{Property::starts_new_page,true}},
     .doc = "https://ubsicap.github.io/usfm/identification/index.html#index-1",
     .category = Category::identification,
@@ -339,8 +392,6 @@ const std::list<Style> styles {
     .type = Type::usfm_version,
     .name = "USFM version",
     .info = "USFM version specification for the file. Used to identify the USFM version which a USFM editor / processor will be required to support in order to manage all markup found within the file.",
-    .character = std::nullopt,
-    .properties = {},
     .doc = "https://ubsicap.github.io/usfm/identification/index.html#usfm",
     .category = Category::identification,
   },
@@ -349,8 +400,6 @@ const std::list<Style> styles {
     .type = Type::file_encoding,
     .name = "Encoding",
     .info = "File encoding information. Bibledit disregards this marker, as all text in Bibledit is in UTF-8 encoding.",
-    .character = std::nullopt,
-    .properties = {},
     .doc = "https://ubsicap.github.io/usfm/identification/index.html#index-3",
     .category = Category::identification,
   },
@@ -359,8 +408,6 @@ const std::list<Style> styles {
     .type = Type::remark,
     .name = "Status",
     .info = "Project text status tracking.",
-    .character = std::nullopt,
-    .properties = {},
     .doc = "https://ubsicap.github.io/usfm/identification/index.html#sts",
     .category = Category::identification,
   },
@@ -369,8 +416,6 @@ const std::list<Style> styles {
     .type = Type::remark,
     .name = "Remark",
     .info = "Comments and remarks.",
-    .character = std::nullopt,
-    .properties = {},
     .doc = "https://ubsicap.github.io/usfm/identification/index.html#rem",
     .category = Category::identification,
   },
@@ -379,7 +424,6 @@ const std::list<Style> styles {
     .type = Type::running_header,
     .name = "Running header",
     .info = "Running header text for a book.",
-    .character = std::nullopt,
     .properties = {{Property::on_left_page,true},{Property::on_right_page,true}},
     .doc = "https://ubsicap.github.io/usfm/identification/index.html#h",
     .category = Category::identification,
@@ -389,7 +433,6 @@ const std::list<Style> styles {
     .type = Type::running_header,
     .name = "Running header",
     .info = "Running header text for a book.",
-    .character = std::nullopt,
     .properties = {
       {Property::on_left_page,true},
       {Property::on_right_page,true},
@@ -403,7 +446,6 @@ const std::list<Style> styles {
     .type = Type::running_header,
     .name = "Left running header",
     .info = "Running header text for a book, left page.",
-    .character = std::nullopt,
     .properties = {
       {Property::on_left_page,true},
       {Property::on_right_page,false},
@@ -417,7 +459,6 @@ const std::list<Style> styles {
     .type = Type::running_header,
     .name = "Right running header",
     .info = "Running header text for a book, right page.",
-    .character = std::nullopt,
     .properties = {
       {Property::on_left_page,false},
       {Property::on_right_page,true},
@@ -431,8 +472,6 @@ const std::list<Style> styles {
     .type = Type::long_toc_text,
     .name = "Long TOC text",
     .info = "Long table of contents text.",
-    .character = std::nullopt,
-    .properties = {},
     .doc = "https://ubsicap.github.io/usfm/identification/index.html#toc",
     .category = Category::identification,
   },
@@ -441,8 +480,6 @@ const std::list<Style> styles {
     .type = Type::short_toc_text,
     .name = "Short TOC text",
     .info = "Short table of contents text.",
-    .character = std::nullopt,
-    .properties = {},
     .doc = "https://ubsicap.github.io/usfm/identification/index.html#toc",
     .category = Category::identification,
   },
@@ -451,8 +488,6 @@ const std::list<Style> styles {
     .type = Type::book_abbrev,
     .name = "Book abbreviation",
     .info = "Book abbreviation for the table of contents.",
-    .character = std::nullopt,
-    .properties = {},
     .doc = "https://ubsicap.github.io/usfm/identification/index.html#toc",
     .category = Category::identification,
   },
@@ -461,8 +496,6 @@ const std::list<Style> styles {
     .type = Type::introduction_end,
     .name = "Introduction end",
     .info = "Optionally included to explicitly indicate the end of the introduction material.",
-    .character = std::nullopt,
-    .properties = {},
     .doc = "https://ubsicap.github.io/usfm/introductions/index.html#ie",
     .category = Category::introductions,
   },
@@ -471,8 +504,6 @@ const std::list<Style> styles {
     .type = Type::chapter_label,
     .name = "Chapter label",
     .info = "Chapter label used for translations that add a word such as 'Chapter' before chapter numbers, e.g. Psalms.",
-    .character = std::nullopt,
-    .properties = {},
     .doc = "https://ubsicap.github.io/usfm/chapters_verses/index.html#cl",
     .category = Category::chapters_verses,
   },
@@ -481,8 +512,6 @@ const std::list<Style> styles {
     .type = Type::published_chapter_marker,
     .name = "Published chapter character",
     .info = "Published chapter number. This is a chapter marking that would be used in the published text.",
-    .character = std::nullopt,
-    .properties = {},
     .doc = "https://ubsicap.github.io/usfm/chapters_verses/index.html#cp",
     .category = Category::chapters_verses,
   },
@@ -491,8 +520,6 @@ const std::list<Style> styles {
     .type = Type::alternate_chapter_number,
     .name = "Alternate chapter number",
     .info = "Second or alternate chapter number. For coding dual versification. Useful for places where different traditions of chapter breaks need to be supported in the same translation.",
-    .character = std::nullopt,
-    .properties = {},
     .doc = "https://ubsicap.github.io/usfm/chapters_verses/index.html#ca-ca",
     .category = Category::chapters_verses,
   },
@@ -501,11 +528,32 @@ const std::list<Style> styles {
     .type = Type::published_verse_marker,
     .name = "Published verse marker",
     .info = "Published verse marker. This is a verse marking that would be used in the published text.",
-    .character = std::nullopt,
-    .properties = {},
     .doc = "https://ubsicap.github.io/usfm/chapters_verses/index.html#vp-vp",
     .category = Category::chapters_verses,
   },
+  
+  {
+    .marker = "imt",
+    .type = Type::title,
+    .name = "Introduction major title level 1",
+    .info = "Introduction major title, level 1, if single level",
+    .paragraph = Paragraph {
+      .font_size = 14,
+      .italic = TwoState::off,
+      .bold = TwoState::on,
+      .underline = TwoState::off,
+      .smallcaps = TwoState::off,
+      .text_alignment = TextAlignment::center,
+      .space_before = 8,
+      .space_after = 4,
+      .left_margin = 0,
+      .right_margin = 0,
+      .first_line_indent = 0,
+    },
+      .doc = "https://ubsicap.github.io/usfm/introductions/index.html#imt",
+      .category = Category::introductions,
+  },
+  // Todo adding here.
   {
     .marker = "pro",
     .type = Type::character_style,
@@ -1898,39 +1946,6 @@ const std::list<Style> styles {
 //    /* spaceafter */ 0,
 //    /* leftmargin */ 6.4f,
 //    /* rightmargin */ 6.4f,
-//    /* firstlineindent */ 0,
-//    /* spancolumns */ 1,
-//    /* color */ "#000000",
-//    /* print */ 1,
-//    /* userbool1 */ 0,
-//    /* userbool2 */ 0,
-//    /* userbool3 */ 0,
-//    /* userint1 */ 0,
-//    /* userint2 */ 0,
-//    /* userint3 */ 0,
-//    /* userstring1 */ "",
-//    /* userstring2 */ "",
-//    /* userstring3 */ "",
-//    /* backgroundcolor */ "#FFFFFF",
-//  },
-//  {
-//    /* marker */ "imt",
-//    /* name */ "Introduction major title level 1",
-//    /* info */ "Introduction major title, level 1, if single level",
-//    /* category */ "ith",
-//    /* type */ 3,
-//    /* subtype */ 0,
-//    /* fontsize */ 14,
-//    /* italic */ 0,
-//    /* bold */ 1,
-//    /* underline */ 0,
-//    /* smallcaps */ 0,
-//    /* superscript */ 0,
-//    /* justification */ 1,
-//    /* spacebefore */ 8,
-//    /* spaceafter */ 4,
-//    /* leftmargin */ 0,
-//    /* rightmargin */ 0,
 //    /* firstlineindent */ 0,
 //    /* spancolumns */ 1,
 //    /* color */ "#000000",

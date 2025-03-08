@@ -807,6 +807,114 @@ TEST_F (styles, save_load_styles_v2)
       }
     }
   }
+  
+  // Test paragraph properties save and load.
+  {
+    constexpr const char* marker {"imt"};
+    const Style imt_style = *get_marker_data (sheet, marker);
+    const auto testing_integers = []() {
+      return std::list<int> { -22, -11, -5, 0, 5, 11, 22 };
+    };
+    for (const int size : testing_integers()) {
+      style = imt_style;
+      style.paragraph.value().font_size = size;
+      save_style(sheet, style);
+      auto loaded_style = load_style(sheet, style.marker);
+      EXPECT_TRUE(loaded_style);
+      EXPECT_EQ(to_string(style), to_string(loaded_style.value()));
+      EXPECT_EQ(loaded_style.value().paragraph.value().font_size, style.paragraph.value().font_size);
+    }
+    for (const auto state : stylesv2::get_two_states()) {
+      style = imt_style;
+      style.paragraph.value().italic = state;
+      save_style(sheet, style);
+      auto loaded_style = load_style(sheet, style.marker);
+      EXPECT_TRUE(loaded_style);
+      EXPECT_EQ(to_string(style), to_string(loaded_style.value()));
+      EXPECT_EQ(loaded_style.value().paragraph.value().italic, style.paragraph.value().italic);
+    }
+    for (const auto state : stylesv2::get_two_states()) {
+      style = imt_style;
+      style.paragraph.value().bold = state;
+      save_style(sheet, style);
+      auto loaded_style = load_style(sheet, style.marker);
+      EXPECT_TRUE(loaded_style);
+      EXPECT_EQ(to_string(style), to_string(loaded_style.value()));
+      EXPECT_EQ(loaded_style.value().paragraph.value().bold, style.paragraph.value().bold);
+    }
+    for (const auto state : stylesv2::get_two_states()) {
+      style = imt_style;
+      style.paragraph.value().underline = state;
+      save_style(sheet, style);
+      auto loaded_style = load_style(sheet, style.marker);
+      EXPECT_TRUE(loaded_style);
+      EXPECT_EQ(to_string(style), to_string(loaded_style.value()));
+      EXPECT_EQ(loaded_style.value().paragraph.value().underline, style.paragraph.value().underline);
+    }
+    for (const auto state : stylesv2::get_two_states()) {
+      style = imt_style;
+      style.paragraph.value().smallcaps = state;
+      save_style(sheet, style);
+      auto loaded_style = load_style(sheet, style.marker);
+      EXPECT_TRUE(loaded_style);
+      EXPECT_EQ(to_string(style), to_string(loaded_style.value()));
+      EXPECT_EQ(loaded_style.value().paragraph.value().smallcaps, style.paragraph.value().smallcaps);
+    }
+    for (const auto alignment : stylesv2::get_text_alignments()) {
+      style = imt_style;
+      style.paragraph.value().text_alignment = alignment;
+      save_style(sheet, style);
+      auto loaded_style = load_style(sheet, style.marker);
+      EXPECT_TRUE(loaded_style);
+      EXPECT_EQ(to_string(style), to_string(loaded_style.value()));
+      EXPECT_EQ(loaded_style.value().paragraph.value().text_alignment, style.paragraph.value().text_alignment);
+    }
+    for (const int value : testing_integers()) {
+      style = imt_style;
+      style.paragraph.value().space_before = value;
+      save_style(sheet, style);
+      auto loaded_style = load_style(sheet, style.marker);
+      EXPECT_TRUE(loaded_style);
+      EXPECT_EQ(to_string(style), to_string(loaded_style.value()));
+      EXPECT_EQ(loaded_style.value().paragraph.value().space_before, style.paragraph.value().space_before);
+    }
+    for (const int value : testing_integers()) {
+      style = imt_style;
+      style.paragraph.value().space_after = value;
+      save_style(sheet, style);
+      auto loaded_style = load_style(sheet, style.marker);
+      EXPECT_TRUE(loaded_style);
+      EXPECT_EQ(to_string(style), to_string(loaded_style.value()));
+      EXPECT_EQ(loaded_style.value().paragraph.value().space_after, style.paragraph.value().space_after);
+    }
+    for (const int value : testing_integers()) {
+      style = imt_style;
+      style.paragraph.value().left_margin = value;
+      save_style(sheet, style);
+      auto loaded_style = load_style(sheet, style.marker);
+      EXPECT_TRUE(loaded_style);
+      EXPECT_EQ(to_string(style), to_string(loaded_style.value()));
+      EXPECT_EQ(loaded_style.value().paragraph.value().left_margin, style.paragraph.value().left_margin);
+    }
+    for (const int value : testing_integers()) {
+      style = imt_style;
+      style.paragraph.value().right_margin = value;
+      save_style(sheet, style);
+      auto loaded_style = load_style(sheet, style.marker);
+      EXPECT_TRUE(loaded_style);
+      EXPECT_EQ(to_string(style), to_string(loaded_style.value()));
+      EXPECT_EQ(loaded_style.value().paragraph.value().right_margin, style.paragraph.value().right_margin);
+    }
+    for (const int value : testing_integers()) {
+      style = imt_style;
+      style.paragraph.value().first_line_indent = value;
+      save_style(sheet, style);
+      auto loaded_style = load_style(sheet, style.marker);
+      EXPECT_TRUE(loaded_style);
+      EXPECT_EQ(to_string(style), to_string(loaded_style.value()));
+      EXPECT_EQ(loaded_style.value().paragraph.value().first_line_indent, style.paragraph.value().first_line_indent);
+    }
+  }
 }
 
 

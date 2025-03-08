@@ -34,6 +34,9 @@ enum class Type : int {
   long_toc_text,
   short_toc_text,
   book_abbrev,
+  title,
+  heading,
+  paragraph,
   chapter_label,
   published_chapter_marker,
   alternate_chapter_number,
@@ -115,9 +118,31 @@ std::string twostate_enum_to_value(const TwoState state);
 TwoState twostate_value_to_enum(const std::string& value);
 std::list<TwoState> get_two_states();
 
+enum class TextAlignment { left, center, right, justify };
+std::string textalignment_enum_to_value(const TextAlignment alignment);
+TextAlignment textalignment_value_to_enum(const std::string& value);
+std::list<TextAlignment> get_text_alignments();
+
 
 constexpr const char* white {"#FFFFFF"};
 constexpr const char* black {"#000000"};
+
+
+struct Paragraph {
+  int font_size{12};
+  TwoState italic{};
+  TwoState bold{};
+  TwoState underline{};
+  TwoState smallcaps{};
+  TextAlignment text_alignment{};
+  int space_before{};
+  int space_after{};
+  int left_margin{};
+  int right_margin{};
+  int first_line_indent{};
+};
+
+std::ostream& operator<<(std::ostream& os, const Paragraph paragraph);
 
 
 struct Character {
@@ -138,6 +163,7 @@ struct Style final {
   Type type {Type::none};
   std::string name {};
   std::string info {};
+  std::optional<Paragraph> paragraph {};
   std::optional<Character> character {};
   // The parameters indicate the enabled capabilities beyond the capabilities implied in the style type.
   std::map<Property,Parameter> properties{};

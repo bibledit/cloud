@@ -78,6 +78,17 @@ constexpr const std::string_view type_key {"type"};
 constexpr const std::string_view name_key {"name"};
 constexpr const std::string_view info_key {"info"};
 constexpr const std::string_view capability_key {"capability"};
+constexpr const std::string_view paragraph_fontsize_key {"paragraphfontsize"};
+constexpr const std::string_view paragraph_italic_key {"paragraphitalic"};
+constexpr const std::string_view paragraph_bold_key {"paragraphbold"};
+constexpr const std::string_view paragraph_underline_key {"paragraphunderline"};
+constexpr const std::string_view paragraph_smallcaps_key {"paragraphsmallcaps"};
+constexpr const std::string_view paragraph_textalignment_key {"paragraphtextalignment"};
+constexpr const std::string_view paragraph_spacebefore_key {"paragraphspacebefore"};
+constexpr const std::string_view paragraph_spaceafter_key {"paragraphspaceafter"};
+constexpr const std::string_view paragraph_leftmargin_key {"paragraphleftmargin"};
+constexpr const std::string_view paragraph_rightmargin_key {"paragraphrightmargin"};
+constexpr const std::string_view paragraph_firstlineindent_key {"paragraphfirstlineindent"};
 constexpr const std::string_view character_italic_key {"characteritalic"};
 constexpr const std::string_view character_bold_key {"characterbold"};
 constexpr const std::string_view character_underline_key {"characterunderline"};
@@ -926,7 +937,23 @@ void save_style(const std::string& sheet, const stylesv2::Style& style)
   if (style.info != base_style.info)
     lines.push_back (add_space(info_key) + style.info);
   
-  // Handle saving character properties.
+  // Handle saving paragraph properties. Todo write / test / save only if diffrent.
+  if (style.paragraph) {
+    const auto& paragraph = style.paragraph.value();
+    lines.push_back (add_space(paragraph_fontsize_key) + std::to_string(paragraph.font_size));
+    lines.push_back (add_space(paragraph_italic_key) + twostate_enum_to_value(paragraph.italic));
+    lines.push_back (add_space(paragraph_bold_key) + twostate_enum_to_value(paragraph.bold));
+    lines.push_back (add_space(paragraph_underline_key) + twostate_enum_to_value(paragraph.underline));
+    lines.push_back (add_space(paragraph_smallcaps_key) + twostate_enum_to_value(paragraph.smallcaps));
+    lines.push_back (add_space(paragraph_textalignment_key) + textalignment_enum_to_value(paragraph.text_alignment));
+    lines.push_back (add_space(paragraph_spacebefore_key) + std::to_string(paragraph.space_before));
+    lines.push_back (add_space(paragraph_spaceafter_key) + std::to_string(paragraph.space_after));
+    lines.push_back (add_space(paragraph_leftmargin_key) + std::to_string(paragraph.left_margin));
+    lines.push_back (add_space(paragraph_rightmargin_key) + std::to_string(paragraph.right_margin));
+    lines.push_back (add_space(paragraph_firstlineindent_key) + std::to_string(paragraph.first_line_indent));
+  }
+  
+  // Handle saving character properties. Todo save only if different.
   if (style.character) {
     const auto& character = style.character.value();
     lines.push_back (add_space(character_italic_key) + fourstate_enum_to_value(character.italic));
@@ -987,7 +1014,7 @@ void save_style(const std::string& sheet, const stylesv2::Style& style)
 
 // Load a style from file, combining the default style with the updated properties from file.
 // Loading the style may also result in no style to be returned.
-std::optional<stylesv2::Style> load_style(const std::string& sheet, const std::string& marker)
+std::optional<stylesv2::Style> load_style(const std::string& sheet, const std::string& marker) // Todo expand and test.
 {
   // The style struct to start off with.
   stylesv2::Style style = get_base_style(marker);
@@ -1019,6 +1046,95 @@ std::optional<stylesv2::Style> load_style(const std::string& sheet, const std::s
     pos = line.find(add_space(info_key));
     if (pos == 0)
       style.info = line.substr(info_key.length()+1);
+    // Function to ensure that the paragraph field is not a nullopt.
+    const auto ensure_paragraph_is_set = [](stylesv2::Style& style) {
+      if (!style.paragraph)
+        style.paragraph = stylesv2::Paragraph();
+    };
+    // Check / set paragraph font size.
+    pos = line.find(add_space(paragraph_fontsize_key));
+    if (pos == 0) {
+      ensure_paragraph_is_set(style);
+      try {
+        style.paragraph.value().font_size = std::stoi(line.substr(paragraph_fontsize_key.length()+1));
+      } catch (...) {}
+    }
+    // Check / set paragraph italic.
+    pos = line.find(add_space(paragraph_italic_key));
+    if (pos == 0) {
+      ensure_paragraph_is_set(style);
+      style.paragraph.value().italic = stylesv2::twostate_value_to_enum(line.substr(paragraph_italic_key.length()+1));
+    }
+    // Check / set paragraph bold.
+    pos = line.find(add_space(paragraph_bold_key));
+    if (pos == 0) {
+      ensure_paragraph_is_set(style);
+      style.paragraph.value().bold = stylesv2::twostate_value_to_enum(line.substr(paragraph_bold_key.length()+1));
+    }
+    // Check / set paragraph underline.
+    pos = line.find(add_space(paragraph_underline_key));
+    if (pos == 0) {
+      ensure_paragraph_is_set(style);
+      style.paragraph.value().underline = stylesv2::twostate_value_to_enum(line.substr(paragraph_underline_key.length()+1));
+    }
+    // Check / set paragraph smallcaps.
+    pos = line.find(add_space(paragraph_smallcaps_key));
+    if (pos == 0) {
+      ensure_paragraph_is_set(style);
+      style.paragraph.value().smallcaps = stylesv2::twostate_value_to_enum(line.substr(paragraph_smallcaps_key.length()+1));
+    }
+    // Check / set paragraph text alignment.
+    pos = line.find(add_space(paragraph_textalignment_key));
+    if (pos == 0) {
+      ensure_paragraph_is_set(style);
+      style.paragraph.value().text_alignment = stylesv2::textalignment_value_to_enum(line.substr(paragraph_textalignment_key.length()+1));
+    }
+
+    // Check / set paragraph space before.
+    pos = line.find(add_space(paragraph_spacebefore_key));
+    if (pos == 0) {
+      ensure_paragraph_is_set(style);
+      try {
+        style.paragraph.value().space_before = std::stoi(line.substr(paragraph_spacebefore_key.length()+1));
+      } catch (...) {}
+    }
+
+    // Check / set paragraph space after.
+    pos = line.find(add_space(paragraph_spaceafter_key));
+    if (pos == 0) {
+      ensure_paragraph_is_set(style);
+      try {
+        style.paragraph.value().space_after = std::stoi(line.substr(paragraph_spaceafter_key.length()+1));
+      } catch (...) {}
+    }
+
+    // Check / set paragraph left margin.
+    pos = line.find(add_space(paragraph_leftmargin_key));
+    if (pos == 0) {
+      ensure_paragraph_is_set(style);
+      try {
+        style.paragraph.value().left_margin = std::stoi(line.substr(paragraph_leftmargin_key.length()+1));
+      } catch (...) {}
+    }
+
+    // Check / set paragraph right margin.
+    pos = line.find(add_space(paragraph_rightmargin_key));
+    if (pos == 0) {
+      ensure_paragraph_is_set(style);
+      try {
+        style.paragraph.value().right_margin = std::stoi(line.substr(paragraph_rightmargin_key.length()+1));
+      } catch (...) {}
+    }
+
+    // Check / set paragraph first line indent.
+    pos = line.find(add_space(paragraph_firstlineindent_key));
+    if (pos == 0) {
+      ensure_paragraph_is_set(style);
+      try {
+        style.paragraph.value().first_line_indent = std::stoi(line.substr(paragraph_firstlineindent_key.length()+1));
+      } catch (...) {}
+    }
+    
     // Function to ensure that the character field is not a nullopt.
     const auto ensure_character_is_set = [](stylesv2::Style& style) {
       if (!style.character)

@@ -145,31 +145,127 @@ std::string styles_view2 (Webserver_Request& webserver_request)
     marker_data.properties[property] = checked;
     style_is_edited = true;
   }
+
+  
+  // Function to generate html for the FourState options, i.e. on / off / inherit / toggle.
+  const auto get_fourstate_html = [](const stylesv2::FourState state) {
+    std::string html{};
+    for (const auto state : stylesv2::get_four_states()) {
+      const auto value {fourstate_enum_to_value(state)};
+      html = Options_To_Select::add_selection (value, value, html);
+    }
+    return Options_To_Select::mark_selected(stylesv2::fourstate_enum_to_value(state), html);
+  };
+  
+  // Function to generate html for the TwoState options, i.e. on / off /.
+  const auto get_twostate_html = [](const stylesv2::TwoState state) {
+    std::string html{};
+    for (const auto state : stylesv2::get_two_states()) {
+      const auto value {twostate_enum_to_value(state)};
+      html = Options_To_Select::add_selection (value, value, html);
+    }
+    return Options_To_Select::mark_selected(stylesv2::twostate_enum_to_value(state), html);
+  };
+
+  
+  // Enable the sections in the editor fot the paragraph style properties.
+  if (marker_data.paragraph) {
+    view.enable_zone("paragraph");
+    
+    // Handle font size in points.
+    if (const std::string fontsize = webserver_request.post ["fontsize"]; !fontsize.empty()) {
+      marker_data.paragraph.value().font_size = std::clamp(filter::strings::convert_to_int(fontsize), 5, 50);
+      style_is_edited = true;
+    }
+    view.set_variable("fontsize", std::to_string(marker_data.paragraph.value().font_size));
+
+    // Handle italics.
+    if (const std::string italic = webserver_request.post ["italic"]; !italic.empty()) {
+      marker_data.paragraph.value().italic = stylesv2::twostate_value_to_enum(italic);
+      style_is_edited = true;
+    }
+    view.set_variable("italic", get_twostate_html(marker_data.paragraph.value().italic));
+    
+    // Handle bold.
+    if (const std::string bold = webserver_request.post ["bold"]; !bold.empty()) {
+      marker_data.paragraph.value().bold = stylesv2::twostate_value_to_enum(bold);
+      style_is_edited = true;
+    }
+    view.set_variable("bold", get_twostate_html(marker_data.paragraph.value().bold));
+
+    // Handle underline.
+    if (const std::string underline = webserver_request.post ["underline"]; !underline.empty()) {
+      marker_data.paragraph.value().underline = stylesv2::twostate_value_to_enum(underline);
+      style_is_edited = true;
+    }
+    view.set_variable("underline", get_twostate_html(marker_data.paragraph.value().underline));
+    
+    // Handle small caps.
+    if (const std::string smallcaps = webserver_request.post ["smallcaps"]; !smallcaps.empty()) {
+      marker_data.paragraph.value().smallcaps = stylesv2::twostate_value_to_enum(smallcaps);
+      style_is_edited = true;
+    }
+    view.set_variable("smallcaps", get_twostate_html(marker_data.paragraph.value().smallcaps));
+
+    // Handle text alignment.
+    if (const std::string text_alignment = webserver_request.post ["textalignment"]; !text_alignment.empty()) {
+      marker_data.paragraph.value().text_alignment = stylesv2::textalignment_value_to_enum(text_alignment);
+      style_is_edited = true;
+    }
+    const auto get_textalignment_html = [](const stylesv2::TextAlignment alignment) {
+      std::string html{};
+      for (const auto alignment : stylesv2::get_text_alignments()) {
+        const auto value {textalignment_enum_to_value(alignment)};
+        html = Options_To_Select::add_selection (value, value, html);
+      }
+      return Options_To_Select::mark_selected(stylesv2::textalignment_enum_to_value(alignment), html);
+    };
+    view.set_variable("textalignment", get_textalignment_html(marker_data.paragraph.value().text_alignment));
+
+    // Handle space before in millimeters.
+    if (const std::string space_before = webserver_request.post ["spacebefore"]; !space_before.empty()) {
+      marker_data.paragraph.value().space_before = std::clamp(filter::strings::convert_to_int(space_before), 0, 100);
+      style_is_edited = true;
+    }
+    view.set_variable("spacebefore", std::to_string(marker_data.paragraph.value().space_before));
+
+    // Handle space after in millimeters.
+    if (const std::string space_after = webserver_request.post ["spaceafter"]; !space_after.empty()) {
+      marker_data.paragraph.value().space_after = std::clamp(filter::strings::convert_to_int(space_after), 0, 100);
+      style_is_edited = true;
+    }
+    view.set_variable("spaceafter", std::to_string(marker_data.paragraph.value().space_after));
+
+    // Handle left margin in millimeters.
+    if (const std::string left_margin = webserver_request.post ["leftmargin"]; !left_margin.empty()) {
+      marker_data.paragraph.value().left_margin = std::clamp(filter::strings::convert_to_int(left_margin), 0, 100);
+      style_is_edited = true;
+    }
+    view.set_variable("leftmargin", std::to_string(marker_data.paragraph.value().left_margin));
+
+    // Handle right margin in millimeters.
+    if (const std::string right_margin = webserver_request.post ["rightmargin"]; !right_margin.empty()) {
+      marker_data.paragraph.value().right_margin = std::clamp(filter::strings::convert_to_int(right_margin), -100, 100);
+      style_is_edited = true;
+    }
+    view.set_variable("rightmargin", std::to_string(marker_data.paragraph.value().right_margin));
+
+    // Handle first line indent in millimeters.
+    if (const std::string first_line_indent = webserver_request.post ["firstlineindent"]; !first_line_indent.empty()) {
+      marker_data.paragraph.value().first_line_indent = std::clamp(filter::strings::convert_to_int(first_line_indent), -100, 100);
+      style_is_edited = true;
+    }
+    view.set_variable("firstlineindent", std::to_string(marker_data.paragraph.value().first_line_indent));
+
+    
+    // Todo
+//    int first_line_indent{}; -100 ... 100
+  }
   
   
   // Enable the sections in the editor for the character style properties.
   if (marker_data.character) {
     view.enable_zone("character");
-
-    // Function to generate html for the FourState options, i.e. on / off / inherit / toggle.
-    const auto get_fourstate_html = [](const stylesv2::FourState state) {
-      std::string html{};
-      for (const auto state : stylesv2::get_four_states()) {
-        const auto value {fourstate_enum_to_value(state)};
-        html = Options_To_Select::add_selection (value, value, html);
-      }
-      return Options_To_Select::mark_selected(stylesv2::fourstate_enum_to_value(state), html);
-    };
-
-    // Function to generate html for the TwoState options, i.e. on / off /.
-    const auto get_twostate_html = [](const stylesv2::TwoState state) {
-      std::string html{};
-      for (const auto state : stylesv2::get_two_states()) {
-        const auto value {twostate_enum_to_value(state)};
-        html = Options_To_Select::add_selection (value, value, html);
-      }
-      return Options_To_Select::mark_selected(stylesv2::twostate_enum_to_value(state), html);
-    };
 
     // Handle italics.
     const std::string italic = webserver_request.post ["italic"];

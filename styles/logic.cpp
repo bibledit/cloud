@@ -600,14 +600,6 @@ int styles_logic_get_userstring3_function (int type, int subtype)
 bool styles_logic_starts_new_line_in_usfm (int type, int subtype)
 {
   switch (type) {
-    case StyleTypeNotUsedComment :
-    {
-      return true;
-    }
-    case StyleTypeNotUsedRunningHeader :
-    {
-      return true;
-    }
     case StyleTypeStartsParagraph :
     {
       return true;

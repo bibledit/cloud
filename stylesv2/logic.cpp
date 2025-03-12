@@ -531,7 +531,6 @@ const std::list<Style> styles {
     .doc = "https://ubsicap.github.io/usfm/chapters_verses/index.html#vp-vp",
     .category = Category::chapters_verses,
   },
-  
   {
     .marker = "imt",
     .type = Type::title,
@@ -553,6 +552,7 @@ const std::list<Style> styles {
       .doc = "https://ubsicap.github.io/usfm/introductions/index.html#imt",
       .category = Category::introductions,
   },
+
   // Todo adding here.
   {
     .marker = "pro",

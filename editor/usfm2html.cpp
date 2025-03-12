@@ -177,13 +177,6 @@ void Editor_Usfm2Html::process ()
         const database::styles1::Item& style = m_styles.at(marker);
         switch (style.type)
         {
-          case StyleTypeNotUsedComment:
-          case StyleTypeNotUsedRunningHeader:
-          {
-            close_text_style (false);
-            output_as_is (marker, is_opening_marker);
-            break;
-          }
           case StyleTypeStartsParagraph:
           {
             close_text_style (false);

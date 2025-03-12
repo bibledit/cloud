@@ -379,16 +379,6 @@ void Filter_Text::process_usfm (const std::string& stylesheet)
           const database::styles1::Item& style = styles.at(marker);
           switch (style.type)
           {
-            case StyleTypeNotUsedComment:
-            {
-              addToFallout (R"(Unknown markup: \)" + marker, true);
-              break;
-            }
-            case StyleTypeNotUsedRunningHeader:
-            {
-              addToFallout (R"(Unknown markup: \)" + marker, true);
-              break;
-            }
             case StyleTypeStartsParagraph:
             {
               if (odf_text_standard) odf_text_standard->close_text_style (false, false);

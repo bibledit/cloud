@@ -280,7 +280,7 @@ std::list<TwoState> get_two_states()
 }
 
 
-std::string textalignment_enum_to_value(const TextAlignment alignment) // Todo test.
+std::string textalignment_enum_to_value(const TextAlignment alignment)
 {
   switch (alignment) {
     case TextAlignment::left: return "left";
@@ -292,7 +292,7 @@ std::string textalignment_enum_to_value(const TextAlignment alignment) // Todo t
 }
 
 
-TextAlignment textalignment_value_to_enum(const std::string& value)//Todo test.
+TextAlignment textalignment_value_to_enum(const std::string& value)
 {
   for (const auto alignment : get_text_alignments()) {
     if (value == textalignment_enum_to_value(alignment))
@@ -302,7 +302,7 @@ TextAlignment textalignment_value_to_enum(const std::string& value)//Todo test.
 }
 
 
-std::list<TextAlignment> get_text_alignments() // Todo test.
+std::list<TextAlignment> get_text_alignments()
 {
   return {TextAlignment::left, TextAlignment::center, TextAlignment::right, TextAlignment::justify};
 }
@@ -322,7 +322,7 @@ std::ostream& operator<<(std::ostream& os, const Character character)
 }
 
 
-std::ostream& operator<<(std::ostream& os, const Paragraph paragraph) // Todo write and test.
+std::ostream& operator<<(std::ostream& os, const Paragraph paragraph)
 {
   os << "paragraph:" << std::endl;
   os << "  font_size: " << paragraph.font_size << std::endl;
@@ -340,7 +340,7 @@ std::ostream& operator<<(std::ostream& os, const Paragraph paragraph) // Todo wr
 }
 
 
-std::ostream& operator<<(std::ostream& os, const Style& style) // Todo write and test.
+std::ostream& operator<<(std::ostream& os, const Style& style)
 {
   os << "marker: " << style.marker << std::endl;
   os << "type: " << type_enum_to_value(style.type) << std::endl;

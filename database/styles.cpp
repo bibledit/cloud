@@ -972,7 +972,7 @@ void save_style(const std::string& sheet, const stylesv2::Style& style)
       lines.push_back (add_space(paragraph_firstlineindent_key) + std::to_string(paragraph.first_line_indent));
   }
   
-  // Handle saving character properties. Todo save only if different.
+  // Handle saving character properties.
   // Save only if properties differ.
   // Note: If the base styles does not have a character set, comparison of properties would lead to a crash.
   //       A special mechanism using a "logical or" works around this.
@@ -1048,7 +1048,7 @@ void save_style(const std::string& sheet, const stylesv2::Style& style)
 
 // Load a style from file, combining the default style with the updated properties from file.
 // Loading the style may also result in no style to be returned.
-std::optional<stylesv2::Style> load_style(const std::string& sheet, const std::string& marker) // Todo expand and test.
+std::optional<stylesv2::Style> load_style(const std::string& sheet, const std::string& marker)
 {
   // The style struct to start off with.
   stylesv2::Style style = get_base_style(marker);

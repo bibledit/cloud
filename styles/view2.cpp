@@ -256,10 +256,6 @@ std::string styles_view2 (Webserver_Request& webserver_request)
       style_is_edited = true;
     }
     view.set_variable("firstlineindent", std::to_string(marker_data.paragraph.value().first_line_indent));
-
-    
-    // Todo
-//    int first_line_indent{}; -100 ... 100
   }
   
   

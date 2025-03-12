@@ -937,32 +937,66 @@ void save_style(const std::string& sheet, const stylesv2::Style& style)
   if (style.info != base_style.info)
     lines.push_back (add_space(info_key) + style.info);
   
-  // Handle saving paragraph properties. Todo write / test / save only if diffrent.
+  // Handle saving paragraph properties.
+  // Save only if properties differ.
+  // Note: If the base styles does not have a paragraph set, comparison of properties would lead to a crash.
+  //       A special mechanism using a "logical or" works around this.
   if (style.paragraph) {
+    const auto save = [&style, &base_style]() {
+      if (!base_style.paragraph)
+        return true;
+      return false;
+    };
     const auto& paragraph = style.paragraph.value();
-    lines.push_back (add_space(paragraph_fontsize_key) + std::to_string(paragraph.font_size));
-    lines.push_back (add_space(paragraph_italic_key) + twostate_enum_to_value(paragraph.italic));
-    lines.push_back (add_space(paragraph_bold_key) + twostate_enum_to_value(paragraph.bold));
-    lines.push_back (add_space(paragraph_underline_key) + twostate_enum_to_value(paragraph.underline));
-    lines.push_back (add_space(paragraph_smallcaps_key) + twostate_enum_to_value(paragraph.smallcaps));
-    lines.push_back (add_space(paragraph_textalignment_key) + textalignment_enum_to_value(paragraph.text_alignment));
-    lines.push_back (add_space(paragraph_spacebefore_key) + std::to_string(paragraph.space_before));
-    lines.push_back (add_space(paragraph_spaceafter_key) + std::to_string(paragraph.space_after));
-    lines.push_back (add_space(paragraph_leftmargin_key) + std::to_string(paragraph.left_margin));
-    lines.push_back (add_space(paragraph_rightmargin_key) + std::to_string(paragraph.right_margin));
-    lines.push_back (add_space(paragraph_firstlineindent_key) + std::to_string(paragraph.first_line_indent));
+    if (save() || (paragraph.font_size) != base_style.paragraph.value().font_size)
+      lines.push_back (add_space(paragraph_fontsize_key) + std::to_string(paragraph.font_size));
+    if (save() || (paragraph.italic) != base_style.paragraph.value().italic)
+      lines.push_back (add_space(paragraph_italic_key) + twostate_enum_to_value(paragraph.italic));
+    if (save() || (paragraph.bold) != base_style.paragraph.value().bold)
+      lines.push_back (add_space(paragraph_bold_key) + twostate_enum_to_value(paragraph.bold));
+    if (save() || (paragraph.underline) != base_style.paragraph.value().underline)
+      lines.push_back (add_space(paragraph_underline_key) + twostate_enum_to_value(paragraph.underline));
+    if (save() || (paragraph.smallcaps) != base_style.paragraph.value().smallcaps)
+      lines.push_back (add_space(paragraph_smallcaps_key) + twostate_enum_to_value(paragraph.smallcaps));
+    if (save() || (paragraph.text_alignment) != base_style.paragraph.value().text_alignment)
+      lines.push_back (add_space(paragraph_textalignment_key) + textalignment_enum_to_value(paragraph.text_alignment));
+    if (save() || (paragraph.space_before) != base_style.paragraph.value().space_before)
+      lines.push_back (add_space(paragraph_spacebefore_key) + std::to_string(paragraph.space_before));
+    if (save() || (paragraph.space_after) != base_style.paragraph.value().space_after)
+      lines.push_back (add_space(paragraph_spaceafter_key) + std::to_string(paragraph.space_after));
+    if (save() || (paragraph.left_margin) != base_style.paragraph.value().left_margin)
+      lines.push_back (add_space(paragraph_leftmargin_key) + std::to_string(paragraph.left_margin));
+    if (save() || (paragraph.right_margin) != base_style.paragraph.value().right_margin)
+      lines.push_back (add_space(paragraph_rightmargin_key) + std::to_string(paragraph.right_margin));
+    if (save() || (paragraph.first_line_indent) != base_style.paragraph.value().first_line_indent)
+      lines.push_back (add_space(paragraph_firstlineindent_key) + std::to_string(paragraph.first_line_indent));
   }
   
   // Handle saving character properties. Todo save only if different.
+  // Save only if properties differ.
+  // Note: If the base styles does not have a character set, comparison of properties would lead to a crash.
+  //       A special mechanism using a "logical or" works around this.
   if (style.character) {
+    const auto save = [&style, &base_style]() {
+      if (!base_style.character)
+        return true;
+      return false;
+    };
     const auto& character = style.character.value();
-    lines.push_back (add_space(character_italic_key) + fourstate_enum_to_value(character.italic));
-    lines.push_back (add_space(character_bold_key) + fourstate_enum_to_value(character.bold));
-    lines.push_back (add_space(character_underline_key) + fourstate_enum_to_value(character.underline));
-    lines.push_back (add_space(character_smallcaps_key) + fourstate_enum_to_value(character.smallcaps));
-    lines.push_back (add_space(character_superscript_key) + twostate_enum_to_value(character.superscript));
-    lines.push_back (add_space(character_foreground_color_key) + character.foreground_color);
-    lines.push_back (add_space(character_background_color_key) + character.background_color);
+    if (save() || character.italic != base_style.character.value().italic)
+      lines.push_back (add_space(character_italic_key) + fourstate_enum_to_value(character.italic));
+    if (save() || character.bold != base_style.character.value().bold)
+      lines.push_back (add_space(character_bold_key) + fourstate_enum_to_value(character.bold));
+    if (save() || character.underline != base_style.character.value().underline)
+      lines.push_back (add_space(character_underline_key) + fourstate_enum_to_value(character.underline));
+    if (save() || character.smallcaps != base_style.character.value().smallcaps)
+      lines.push_back (add_space(character_smallcaps_key) + fourstate_enum_to_value(character.smallcaps));
+    if (save() || character.superscript != base_style.character.value().superscript)
+      lines.push_back (add_space(character_superscript_key) + twostate_enum_to_value(character.superscript));
+    if (save() || character.foreground_color != base_style.character.value().foreground_color)
+      lines.push_back (add_space(character_foreground_color_key) + character.foreground_color);
+    if (save() || character.background_color != base_style.character.value().background_color)
+      lines.push_back (add_space(character_background_color_key) + character.background_color);
   }
   
   // Iterate over the parameters in the style.

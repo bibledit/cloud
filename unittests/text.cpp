@@ -33,8 +33,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 constexpr const char* bible {"unittest"};
 
-constexpr const char* text_odt {"/tmp/text_test.odt"};
-constexpr const char*  text_txt {"/tmp/text_test.txt"};
+constexpr const char* text_odt {"/tmp/test.odt"};
+constexpr const char*  text_txt {"/tmp/test.txt"};
 
 
 class filter_text : public testing::Test {
@@ -1305,10 +1305,10 @@ TEST_F (filter_text, export_no_word_level_attributes)
 TEST_F (filter_text, alternate_chapter_number)
 {
   const std::string usfm = R"(
-\c 13
-\ca 14\ca*
-\p
-\v 1 Verse one.
+  \c 13
+  \ca 14\ca*
+  \p
+  \v 1 Verse one.
   )";
   Filter_Text filter_text = Filter_Text (bible);
   filter_text.odf_text_standard = new odf_text (bible);
@@ -1324,6 +1324,29 @@ TEST_F (filter_text, alternate_chapter_number)
   "13 (14)\n"
   "\n"
   "Verse one.\n"
+  "\n";
+  EXPECT_EQ (standard, odt);
+}
+
+
+TEST_F (filter_text, introduction_main_title)
+{
+  const std::string usfm = R"(
+  \c 1
+  \imt Title
+  )";
+  Filter_Text filter_text = Filter_Text (bible);
+  filter_text.odf_text_standard = new odf_text (bible);
+  filter_text.add_usfm_code (usfm);
+  filter_text.run (styles_logic_standard_sheet());
+  filter_text.odf_text_standard->save (text_odt);
+  const int ret = odf2txt (text_odt, text_txt);
+  EXPECT_EQ (0, ret);
+  const std::string odt = filter_url_file_get_contents (text_txt);
+  const std::string standard =
+  "Unknown 1   \n"
+  "\n"
+  "Title\n"
   "\n";
   EXPECT_EQ (standard, odt);
 }

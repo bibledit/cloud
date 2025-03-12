@@ -22,6 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/libraries.h>
 #include <database/styles.h>
 #include <styles/logic.h>
+#include <stylesv2/logic.h>
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Weffc++"
 #pragma GCC diagnostic ignored "-Wsuggest-override"
@@ -55,6 +56,19 @@ public:
                                float firstlineindent,
                                bool keep_with_next,
                                int dropcaps);
+  void create_paragraph_style (const std::string& name,
+                               std::string font_name,
+                               const float font_size,
+                               const stylesv2::TwoState italic,
+                               const stylesv2::TwoState bold,
+                               const stylesv2::TwoState underline,
+                               const stylesv2::TwoState smallcaps,
+                               const stylesv2::TextAlignment text_alignment,
+                               const float space_before, const float space_after,
+                               const float left_margin, const float right_margin,
+                               const float first_line_indent,
+                               const bool keep_with_next,
+                               const int dropcaps);
   void update_current_paragraph_style (std::string name);
   void open_text_style (const database::styles1::Item* stylev1, const stylesv2::Style* stylev2,
                         bool note, bool embed);

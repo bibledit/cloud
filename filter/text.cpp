@@ -993,6 +993,63 @@ void Filter_Text::process_usfm (const std::string& stylesheet)
             case stylesv2::Type::long_toc_text:
             case stylesv2::Type::short_toc_text:
             case stylesv2::Type::book_abbrev:
+            {
+              close_text_style_all();
+              // This information already is preprocessed. Remove it from the USFM stream.
+              filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
+              break;
+            }
+            case stylesv2::Type::title:
+            case stylesv2::Type::heading:
+            {
+              if (odf_text_standard)
+                odf_text_standard->close_text_style (false, false);
+              if (odf_text_text_only)
+                odf_text_text_only->close_text_style (false, false);
+              if (odf_text_text_and_note_citations)
+                odf_text_text_and_note_citations->close_text_style (false, false);
+              if (odf_text_notes)
+                odf_text_notes->close_text_style (false, false);
+              if (html_text_standard)
+                html_text_standard->close_text_style (false, false);
+              if (html_text_linked)
+                html_text_linked->close_text_style (false, false);
+              new_paragraph (style, true);
+              heading_started = true;
+              text_started = false;
+              break;
+            }
+            case stylesv2::Type::paragraph:
+            {
+              if (odf_text_standard)
+                odf_text_standard->close_text_style (false, false);
+              if (odf_text_text_only)
+                odf_text_text_only->close_text_style (false, false);
+              if (odf_text_text_and_note_citations)
+                odf_text_text_and_note_citations->close_text_style (false, false);
+              if (odf_text_notes)
+                odf_text_notes->close_text_style (false, false);
+              if (html_text_standard)
+                html_text_standard->close_text_style (false, false);
+              if (html_text_linked)
+                html_text_linked->close_text_style (false, false);
+              new_paragraph (style, false);
+              heading_started = false;
+              text_started = true;
+              if (headings_text_per_verse_active) {
+                // If a new paragraph starts within an existing verse,
+                // add a space to the text already in that verse.
+                int iverse = filter::strings::convert_to_int (m_current_verse_number);
+                if (m_verses_text.count (iverse) && !m_verses_text [iverse].empty ()) {
+                  m_verses_text [iverse].append (" ");
+                }
+                // Record the style that started this new paragraph.
+                paragraph_starting_markers.push_back (marker);
+                // Store previous paragraph, if any, and start recording the new one.
+                store_verses_paragraphs ();
+              }
+              break;
+            }
             case stylesv2::Type::chapter_label:
             case stylesv2::Type::published_chapter_marker:
             {
@@ -1604,6 +1661,43 @@ void Filter_Text::create_paragraph_style (const database::styles1::Item & style,
 }
 
 
+// This function ensures that a certain paragraph style is in the OpenDocument.
+// $style: The style to use.
+// $keepWithNext: Whether to keep this paragraph with the next one.
+void Filter_Text::create_paragraph_style (const stylesv2::Style* style, bool keep_with_next)
+{
+  const std::string marker = style->marker;
+  if (find (createdStyles.begin(), createdStyles.end(), marker) == createdStyles.end()) {
+    const std::string font_name = database::config::bible::get_export_font (m_bible);
+    if (style->paragraph) {
+      const auto& paragraph = style->paragraph.value();
+      const float font_size = paragraph.font_size;
+      const stylesv2::TwoState italic = paragraph.italic;
+      const stylesv2::TwoState bold = paragraph.bold;
+      const stylesv2::TwoState underline = paragraph.underline;
+      const stylesv2::TwoState smallcaps = paragraph.smallcaps;
+      const stylesv2::TextAlignment text_alignment = paragraph.text_alignment;
+      const float space_before = paragraph.space_before;
+      const float space_after = paragraph.space_after;
+      const float left_margin = paragraph.left_margin;
+      const float right_margin = paragraph.right_margin;
+      const float first_line_indent = paragraph.first_line_indent;
+      // Columns are not implemented at present. Reason:
+      // Copying and pasting sections with columns between documents in LibreOffice failed to work.
+      // int spancolumns = style.spancolumns;
+      constexpr const int drop_caps {0};
+      if (odf_text_standard)
+        odf_text_standard->create_paragraph_style (marker, font_name, font_size, italic, bold, underline, smallcaps, text_alignment, space_before, space_after, left_margin, right_margin, first_line_indent, keep_with_next, drop_caps);
+      if (odf_text_text_only)
+        odf_text_text_only->create_paragraph_style (marker, font_name, font_size, italic, bold, underline, smallcaps, text_alignment, space_before, space_after, left_margin, right_margin, first_line_indent, keep_with_next, drop_caps);
+      if (odf_text_text_and_note_citations)
+        odf_text_text_and_note_citations->create_paragraph_style (marker, font_name, font_size, italic, bold, underline, smallcaps, text_alignment, space_before, space_after, left_margin, right_margin, first_line_indent, keep_with_next, drop_caps);
+    }
+    createdStyles.push_back (marker);
+  }
+}
+
+
 // This function ensures that a certain paragraph style is in the OpenDocument,
 // and then opens a paragraph with that style.
 // $style: The style to use.
@@ -1618,6 +1712,29 @@ void Filter_Text::new_paragraph (const database::styles1::Item & style, bool kee
   if (html_text_standard) html_text_standard->new_paragraph (marker);
   if (html_text_linked) html_text_linked->new_paragraph (marker);
   if (text_text) text_text->paragraph (); 
+}
+
+
+
+// This function ensures that a certain paragraph style is in the OpenDocument,
+// and then opens a paragraph with that style.
+// $style: The style to use.
+// $keep_with_next: Whether to keep this paragraph with the next one.
+void Filter_Text::new_paragraph (const stylesv2::Style* style, bool keep_with_next)
+{
+  create_paragraph_style(style, keep_with_next);
+  if (odf_text_standard)
+    odf_text_standard->new_paragraph (style->marker);
+  if (odf_text_text_only)
+    odf_text_text_only->new_paragraph (style->marker);
+  if (odf_text_text_and_note_citations)
+    odf_text_text_and_note_citations->new_paragraph (style->marker);
+  if (html_text_standard)
+    html_text_standard->new_paragraph (style->marker);
+  if (html_text_linked)
+    html_text_linked->new_paragraph (style->marker);
+  if (text_text)
+    text_text->paragraph ();
 }
 
 

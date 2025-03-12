@@ -786,6 +786,151 @@ void odf_text::create_paragraph_style (std::string name,
 }
 
 
+// This creates a paragraph style.
+// $name: the name of the style, e.g. 'p'.
+// $dropcaps: If 0, there are no drop caps.
+//            If greater than 0, it the number of characters in drop caps style.
+void odf_text::create_paragraph_style (const std::string& name,
+                                       std::string font_name,
+                                       const float font_size,
+                                       const stylesv2::TwoState italic,
+                                       const stylesv2::TwoState bold,
+                                       const stylesv2::TwoState underline,
+                                       const stylesv2::TwoState smallcaps,
+                                       const stylesv2::TextAlignment text_alignment,
+                                       const float space_before, const float space_after,
+                                       const float left_margin, const float right_margin,
+                                       const float first_line_indent,
+                                       const bool keep_with_next,
+                                       const int dropcaps)
+{
+  // Whether to align verse numbers in poetry to the left of the margin,
+  // and if so, whether this is one of the defined poetry styles.
+  bool is_poetry_q_style {false};
+  if (database::config::bible::get_odt_poetry_verses_left (m_bible)) {
+    is_poetry_q_style = filter::usfm::is_standard_q_poetry (name);
+  }
+  
+  // It looks like this in styles.xml:
+  // <style:style style:display-name="p_c1" style:family="paragraph" style:name="p_c1">
+  //   <style:paragraph-properties fo:margin-bottom="0mm" fo:margin-left="0mm" fo:margin-right="0mm" fo:margin-top="0mm" fo:text-align="justify" fo:text-indent="0mm"/>
+  //     <style:drop-cap style:distance="0.15cm" style:length="1" style:lines="2"/>
+  //   <style:paragraph-properties>
+  //   <style:text-properties fo:font-size="12pt" style:font-size-asian="12pt" style:font-size-complex="12pt"/>
+  // </style:style>
+  pugi::xml_node style_style_node = office_styles_node.append_child ("style:style");
+  style_style_node.append_attribute ("style:name") = convert_style_name (name).c_str();
+  style_style_node.append_attribute ("style:display-name") = name.c_str();
+  style_style_node.append_attribute ("style:family") = "paragraph";
+  
+  pugi::xml_node style_paragraph_properties_node = style_style_node.append_child ("style:paragraph-properties");
+  
+  pugi::xml_node style_text_properties_node = style_style_node.append_child ("style:text-properties");
+  
+  style_paragraph_properties_node.append_attribute ("style:font-name") = font_name.c_str();
+  font_name.insert (0, "'");
+  font_name.append ("'");
+  style_text_properties_node.append_attribute ("fo:font-family") = font_name.c_str();
+  
+  const std::string sfontsize = filter::strings::convert_to_string (font_size) + "pt";
+  style_text_properties_node.append_attribute ("fo:font-size") = sfontsize.c_str();
+  style_text_properties_node.append_attribute ("style:font-size-asian") = sfontsize.c_str();
+  style_text_properties_node.append_attribute ("style:font-size-complex") = sfontsize.c_str();
+  
+  // Italics, bold, underline, small caps can be either off or on for a paragraph.
+  if (italic != stylesv2::TwoState::off) {
+    style_text_properties_node.append_attribute ("fo:font-style") = "italic";
+    style_text_properties_node.append_attribute ("style:font-style-asian") = "italic";
+    style_text_properties_node.append_attribute ("style:font-style-complex") = "italic";
+  }
+  if (bold != stylesv2::TwoState::off) {
+    style_text_properties_node.append_attribute ("fo:font-weight") = "bold";
+    style_text_properties_node.append_attribute ("style:font-weight-asian") = "bold";
+    style_text_properties_node.append_attribute ("style:font-weight-complex") = "bold";
+  }
+  if (underline != stylesv2::TwoState::off) {
+    style_text_properties_node.append_attribute ("style:text-underline-style") = "solid";
+    style_text_properties_node.append_attribute ("style:text-underline-width") = "auto";
+    style_text_properties_node.append_attribute ("style:text-underline-color") = "font-color";
+  }
+  if (smallcaps != stylesv2::TwoState::off) {
+    style_text_properties_node.append_attribute ("fo:font-variant") = "small-caps";
+  }
+  
+  // Text alignment can be left, center, right, or justify.
+  const auto get_alignment_text = [] (const auto ta) {
+    switch (ta) {
+      case stylesv2::TextAlignment::left:
+        return "start";
+      case stylesv2::TextAlignment::center:
+        return "center";
+      case stylesv2::TextAlignment::right:
+        return "end";
+      case stylesv2::TextAlignment::justify:
+      default:
+        return "justify";
+    }
+  };
+  style_paragraph_properties_node.append_attribute ("fo:text-align") = get_alignment_text(text_alignment);
+  style_paragraph_properties_node.append_attribute ("style:justify-single-word") = "false";
+  
+  // Deal with the paragraph dimensions.
+  // The values are given in millimeters.
+  // First the top and bottom margins.
+  const std::string space_before_mm = filter::strings::convert_to_string (space_before) + "mm";
+  style_paragraph_properties_node.append_attribute ("fo:margin-top") = space_before_mm.c_str();
+  const std::string space_after_mm = filter::strings::convert_to_string (space_after) + "mm";
+  style_paragraph_properties_node.append_attribute ("fo:margin-bottom") = space_after_mm.c_str();
+  const std::string left_margin_mm = filter::strings::convert_to_string (left_margin) + "mm";
+  style_paragraph_properties_node.append_attribute ("fo:margin-left") = left_margin_mm.c_str();
+  const std::string right_margin_mm = filter::strings::convert_to_string (right_margin) + "mm";
+  style_paragraph_properties_node.append_attribute ("fo:margin-right") = right_margin_mm.c_str();
+  // In a normal paragraph the first line indent is as given in the stylesheet.
+  // In a poetry paragraph the first line indent is the negative left margin.
+  // The goal is that the left is at a 0 left margin,
+  // and that the verse is aligned at the very left of the column.
+  // (And then a tab puts the text at the desired first line indent space.)
+  int millimeters = static_cast<int>(first_line_indent);
+  if (is_poetry_q_style)
+    millimeters = static_cast <int> (0 - left_margin);
+  const std::string first_lineindent_mm = std::to_string (millimeters) + "mm";
+  style_paragraph_properties_node.append_attribute ("fo:text-indent") = first_lineindent_mm.c_str();
+  
+  if (keep_with_next) {
+    style_paragraph_properties_node.append_attribute ("fo:keep-together") = "always";
+    style_paragraph_properties_node.append_attribute ("fo:keep-with-next") = "always";
+  }
+  
+  if (dropcaps > 0) {
+    // E.g.: <style:drop-cap style:lines="2" style:length="2" style:distance="0.15cm"/>
+    std::string length = std::to_string (dropcaps);
+    pugi::xml_node style_drop_cap_node = style_paragraph_properties_node.append_child ("style:drop-cap");
+    style_drop_cap_node.append_attribute ("style:lines") = "2";
+    style_drop_cap_node.append_attribute ("style:length") = length.c_str();
+    style_drop_cap_node.append_attribute ("style:distance") = "0.15cm";
+  }
+  
+  // For poetry styles like q, q1, and so on,
+  // there's an additional definition of the tab settings.
+  // Later there were more tab stops added,
+  // each tab stop slightly deeper than the previous one.
+  // The reason for adding more tab stops is this:
+  // The chapter number at times is wider than the first tab stop,
+  // pushing the indent of the first line too deep.
+  // See issue https://github.com/bibledit/cloud/issues/671
+  if (is_poetry_q_style) {
+    pugi::xml_node style_tab_stops = style_paragraph_properties_node.append_child("style:tab-stops");
+    int tab_indent = static_cast<int> (first_line_indent);
+    for (int i = 0; i < 10; i++) {
+      pugi::xml_node style_tab_stop = style_tab_stops.append_child("style:tab-stop");
+      const std::string tab_stop = std::to_string(tab_indent) + "mm";
+      style_tab_stop.append_attribute("style:position") = tab_stop.c_str();
+      tab_indent++;
+    }
+  }
+}
+
+
 // This updates the style name of the current paragraph.
 // $name: the name of the style, e.g. 'p'.
 void odf_text::update_current_paragraph_style (std::string name)

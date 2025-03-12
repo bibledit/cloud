@@ -98,7 +98,9 @@ private:
   void processNote ();
   // Opening a new paragraph.
   void create_paragraph_style (const database::styles1::Item & style, bool keepWithNext);
+  void create_paragraph_style (const stylesv2::Style* style, bool keep_with_next);
   void new_paragraph (const database::styles1::Item & style, bool keepWithNext);
+  void new_paragraph (const stylesv2::Style* style, bool keep_with_next);
   void applyDropCapsToCurrentParagraph (int dropCapsLength);
   void putChapterNumberInFrame (std::string chapterText);
   std::string getNoteCitation (const database::styles1::Item & style);

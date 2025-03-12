@@ -1054,6 +1054,9 @@ TEST_F (styles, marker_starts_new_line_in_usfm)
       case Type::long_toc_text:
       case Type::short_toc_text:
       case Type::book_abbrev:
+      case Type::title:
+      case Type::heading:
+      case Type::paragraph:
       case Type::chapter_label:
       case Type::published_chapter_marker:
       case Type::alternate_chapter_number:

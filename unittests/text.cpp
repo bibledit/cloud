@@ -1372,7 +1372,15 @@ TEST_F (filter_text, usfm_with_all_markers)
   const std::string standard_odt =
   "Right\n"
   "\n"
-  "Title\n"
+  "Main Title\n"
+  "\n"
+  "Main Title 1\n"
+  "\n"
+  "Main Title 2\n"
+  "\n"
+  "Main Title 3\n"
+  "\n"
+  "Main Title 4\n"
   "\n"
   "Right א (2)\n"
   "\n"
@@ -1422,7 +1430,11 @@ TEST_F (filter_text, usfm_with_all_markers)
   ;
   EXPECT_EQ (filter::strings::trim(standard_odt), filter::strings::trim(odt));
   const std::string standard_text =
-  "Title\n"
+  "Main Title\n"
+  "Main Title 1\n"
+  "Main Title 2\n"
+  "Main Title 3\n"
+  "Main Title 4\n"
   "א (2)\n"
   "1b Text namepronunciation.\n"
   "2 Normal added and AddPn\n"
@@ -1449,7 +1461,11 @@ TEST_F (filter_text, usfm_with_all_markers)
   EXPECT_EQ (filter::strings::trim(standard_text), filter::strings::trim(text));
   //filter_url_file_put_contents("/tmp/text.txt", text);
   const std::string standard_html =
-  R"(<p class="imt"><span>Title</span></p>)"
+  R"(<p class="imt"><span>Main Title</span></p>)"
+  R"(<p class="imt1"><span>Main Title 1</span></p>)"
+  R"(<p class="imt2"><span>Main Title 2</span></p>)"
+  R"(<p class="imt3"><span>Main Title 3</span></p>)"
+  R"(<p class="imt4"><span>Main Title 4</span></p>)"
   R"(<p class="c"><span>Genesis</span></p>)"
   R"(<p class="p"><span class="v">1b</span><span> </span><span>Text name</span><span class="pro">pronunciation</span><span>.</span></p>)"
   R"(<p class="p"><span class="v">2</span><span> </span><span>Normal </span><span class="add">added</span><span> and </span><span class="addpn">AddPn</span></p>)"

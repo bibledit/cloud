@@ -106,36 +106,6 @@ font-style: italic;
 margin-left: 6.4mm;
 margin-right: 6.4mm;
 }
-.imt1, .b-imt1 {
-font-size: 117%;
-font-weight: bold;
-text-align: center;
-margin-top: 8mm;
-margin-bottom: 4mm;
-page-break-inside: avoid;
-}
-.imt2, .b-imt2 {
-font-size: 108%;
-font-style: italic;
-text-align: center;
-margin-top: 6mm;
-margin-bottom: 3mm;
-page-break-inside: avoid;
-}
-.imt3, .b-imt3 {
-font-weight: bold;
-text-align: center;
-margin-top: 2mm;
-margin-bottom: 2mm;
-page-break-inside: avoid;
-}
-.imt4, .b-imt4 {
-font-style: italic;
-text-align: center;
-margin-top: 2mm;
-margin-bottom: 2mm;
-page-break-inside: avoid;
-}
 .imte, .b-imte {
 font-size: 167%;
 font-weight: bold;
@@ -629,6 +599,36 @@ font-weight: bold;
 text-align: center;
 margin-top: 8mm;
 margin-bottom: 4mm;
+page-break-inside: avoid;
+}
+.imt1, .b-imt1 {
+font-size: 117%;
+font-weight: bold;
+text-align: center;
+margin-top: 8mm;
+margin-bottom: 4mm;
+page-break-inside: avoid;
+}
+.imt2, .b-imt2 {
+font-size: 108%;
+font-style: italic;
+text-align: center;
+margin-top: 6mm;
+margin-bottom: 3mm;
+page-break-inside: avoid;
+}
+.imt3, .b-imt3 {
+font-weight: bold;
+text-align: center;
+margin-top: 2mm;
+margin-bottom: 2mm;
+page-break-inside: avoid;
+}
+.imt4, .b-imt4 {
+font-style: italic;
+text-align: center;
+margin-top: 2mm;
+margin-bottom: 2mm;
 page-break-inside: avoid;
 }
 .pro, .i-pro {

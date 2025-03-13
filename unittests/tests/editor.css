@@ -106,14 +106,6 @@ font-style: italic;
 margin-left: 6.4mm;
 margin-right: 6.4mm;
 }
-.imt, .b-imt {
-font-size: 117%;
-font-weight: bold;
-text-align: center;
-margin-top: 8mm;
-margin-bottom: 4mm;
-page-break-inside: avoid;
-}
 .imt1, .b-imt1 {
 font-size: 117%;
 font-weight: bold;
@@ -630,6 +622,14 @@ font-style: italic;
 .xt, .i-xt {
 }
 .xta, .i-xta {
+}
+.imt, .b-imt {
+font-size: 117%;
+font-weight: bold;
+text-align: center;
+margin-top: 8mm;
+margin-bottom: 4mm;
+page-break-inside: avoid;
 }
 .pro, .i-pro {
 font-style: italic;

@@ -1319,9 +1319,11 @@ TEST_F (filter_text, alternate_chapter_number)
   EXPECT_EQ (0, ret);
   const std::string odt = filter_url_file_get_contents (text_txt);
   const std::string standard =
-  "Unknown 13 (14)\n"
+  "Unknown 13    (14)\n"
   "\n"
-  "13 (14)\n"
+  "   \n"
+  "\n"
+  "  13    (14)\n"
   "\n"
   "Verse one.\n"
   "\n";
@@ -1369,6 +1371,8 @@ TEST_F (filter_text, usfm_with_all_markers)
   const std::string html = filter_text.html_text_standard->get_inner_html();
   const std::string standard_odt =
   "Right\n"
+  "\n"
+  "Title\n"
   "\n"
   "Right א (2)\n"
   "\n"
@@ -1418,6 +1422,7 @@ TEST_F (filter_text, usfm_with_all_markers)
   ;
   EXPECT_EQ (filter::strings::trim(standard_odt), filter::strings::trim(odt));
   const std::string standard_text =
+  "Title\n"
   "א (2)\n"
   "1b Text namepronunciation.\n"
   "2 Normal added and AddPn\n"
@@ -1444,6 +1449,7 @@ TEST_F (filter_text, usfm_with_all_markers)
   EXPECT_EQ (filter::strings::trim(standard_text), filter::strings::trim(text));
   //filter_url_file_put_contents("/tmp/text.txt", text);
   const std::string standard_html =
+  R"(<p class="imt"><span>Title</span></p>)"
   R"(<p class="c"><span>Genesis</span></p>)"
   R"(<p class="p"><span class="v">1b</span><span> </span><span>Text name</span><span class="pro">pronunciation</span><span>.</span></p>)"
   R"(<p class="p"><span class="v">2</span><span> </span><span>Normal </span><span class="add">added</span><span> and </span><span class="addpn">AddPn</span></p>)"

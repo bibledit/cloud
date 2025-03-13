@@ -390,6 +390,22 @@ void Editor_Usfm2Html::process ()
           case stylesv2::Type::long_toc_text:
           case stylesv2::Type::short_toc_text:
           case stylesv2::Type::book_abbrev:
+          {
+            // Output as plain text.
+            close_text_style (false);
+            output_as_is (marker, is_opening_marker);
+            break;
+          }
+          case stylesv2::Type::title:
+          case stylesv2::Type::heading:
+          case stylesv2::Type::paragraph:
+          {
+            // Output as a paragraph.
+            close_text_style (false);
+            close_paragraph ();
+            new_paragraph (marker);
+            break;
+          }
           case stylesv2::Type::chapter_label:
           case stylesv2::Type::published_chapter_marker:
           case stylesv2::Type::alternate_chapter_number:
@@ -774,7 +790,12 @@ bool road_is_clear(const std::vector<std::string>& markers_and_text,
   // Function to determine whether it is starting a paragraph.
   const auto starts_paragraph = [](const int type_v1, const stylesv2::Style* style_v2) {
     if (style_v2) {
-      // Todo: Once the paragraph starting is available, test on that here.
+      if (style_v2->type == stylesv2::Type::title)
+        return true;
+      if (style_v2->type == stylesv2::Type::heading)
+        return true;
+      if (style_v2->type == stylesv2::Type::paragraph)
+        return true;
     } else {
       if (type_v1 == StyleTypeStartsParagraph)
         return true;

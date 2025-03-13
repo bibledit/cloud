@@ -93,7 +93,7 @@ TEST_F (styles, create_css)
     Styles_Css styles_css (webserver_request, testsheet);
     styles_css.generate ();
     const std::string css = styles_css.css ();
-    //filter_url_file_put_contents ("/tmp/basic.css", css);
+    //filter_url_file_put_contents ("/tmp/basic.css", css); // Todo
     const std::string standard = filter_url_file_get_contents (filter_url_create_path ({"unittests", "tests", "basic.css"}));
     EXPECT_EQ (filter::strings::trim(standard), filter::strings::trim(css));
   }
@@ -104,20 +104,19 @@ TEST_F (styles, create_css)
     styles_css.exports ();
     styles_css.generate ();
     const std::string css = styles_css.css ();
-    //filter_url_file_put_contents ("/tmp/exports.css", css);
+    //filter_url_file_put_contents ("/tmp/exports.css", css); // Todo
     const std::string standard = filter::strings::trim (filter_url_file_get_contents (filter_url_create_path ({"unittests", "tests", "exports.css"})));
     EXPECT_EQ (filter::strings::trim(standard), filter::strings::trim(css));
   }
-  
+
   // Stylesheet for the Bible editor.
   {
     Styles_Css styles_css (webserver_request, testsheet);
     styles_css.editor ();
     styles_css.generate ();
     const std::string css = styles_css.css ();
-    //filter_url_file_put_contents ("/tmp/css.css", css);
     const std::string standard = filter::strings::trim (filter_url_file_get_contents (filter_url_create_path ({"unittests", "tests", "editor.css"})));
-    //filter_url_file_put_contents ("/tmp/editor.css", css);
+    //filter_url_file_put_contents ("/tmp/editor.css", css); // Todo
     EXPECT_EQ (filter::strings::trim(standard), filter::strings::trim(css));
   }
 }
@@ -437,7 +436,7 @@ TEST_F (styles, editors_application)
     { "h3", "m"},
     { "ib", "p"},
     { "id", "m"},
-    { "ide", "u"},
+    { "ide", "m"},
     { "ie", "m"},
     { "iex", "p"},
     { "ili", "p"},

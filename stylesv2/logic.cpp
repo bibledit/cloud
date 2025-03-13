@@ -500,6 +500,30 @@ const std::list<Style> styles {
     .category = Category::introductions,
   },
   {
+    .marker = "imt",
+    .type = Type::title,
+    .name = "Introduction major title level 1",
+    .info = "Introduction major title, level 1, if single level",
+    .paragraph = Paragraph {
+      .font_size = 14,
+      .italic = TwoState::off,
+      .bold = TwoState::on,
+      .underline = TwoState::off,
+      .smallcaps = TwoState::off,
+      .text_alignment = TextAlignment::center,
+      .space_before = 8,
+      .space_after = 4,
+      .left_margin = 0,
+      .right_margin = 0,
+      .first_line_indent = 0,
+    },
+      .doc = "https://ubsicap.github.io/usfm/introductions/index.html#imt",
+      .category = Category::introductions,
+  },
+  
+  // Todo adding here.
+
+  {
     .marker = "cl",
     .type = Type::chapter_label,
     .name = "Chapter label",
@@ -531,29 +555,6 @@ const std::list<Style> styles {
     .doc = "https://ubsicap.github.io/usfm/chapters_verses/index.html#vp-vp",
     .category = Category::chapters_verses,
   },
-  {
-    .marker = "imt",
-    .type = Type::title,
-    .name = "Introduction major title level 1",
-    .info = "Introduction major title, level 1, if single level",
-    .paragraph = Paragraph {
-      .font_size = 14,
-      .italic = TwoState::off,
-      .bold = TwoState::on,
-      .underline = TwoState::off,
-      .smallcaps = TwoState::off,
-      .text_alignment = TextAlignment::center,
-      .space_before = 8,
-      .space_after = 4,
-      .left_margin = 0,
-      .right_margin = 0,
-      .first_line_indent = 0,
-    },
-      .doc = "https://ubsicap.github.io/usfm/introductions/index.html#imt",
-      .category = Category::introductions,
-  },
-
-  // Todo adding here.
   {
     .marker = "pro",
     .type = Type::character_style,

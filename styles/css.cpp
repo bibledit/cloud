@@ -189,6 +189,14 @@ void Styles_Css::evaluate_v2 (const stylesv2::Style* style)
     case Type::long_toc_text:
     case Type::short_toc_text:
     case Type::book_abbrev:
+      break;
+    case Type::title:
+    case Type::heading:
+      add_v2 (style, true, true);
+      break;
+    case Type::paragraph:
+      add_v2 (style, true, false);
+      break;
     case Type::chapter_label:
     case Type::published_chapter_marker:
     case Type::alternate_chapter_number:
@@ -196,32 +204,10 @@ void Styles_Css::evaluate_v2 (const stylesv2::Style* style)
     case Type::introduction_end:
       break;
     case Type::character_style:
-    {
       add_v2 (style, false, false);
       break;
-    }
       
-      // Todo still to implement the ones below.
-//    case StyleTypeStartsParagraph:
-//    {
-//      switch (style->subtype)
-//      {
-//        case ParagraphSubtypeMainTitle:
-//        case ParagraphSubtypeSubTitle:
-//        case ParagraphSubtypeSectionHeading:
-//        {
-//          add (style, true, true);
-//          break;
-//        }
-//        case ParagraphSubtypeNormalParagraph:
-//        {
-//          add (style, true, false);
-//          break;
-//        }
-//        default: break;
-//      }
-//      break;
-//    }
+// Todo still to implement the ones below.
 //    case StyleTypeChapterNumber:
 //    {
 //      add (style, true, false);
@@ -458,35 +444,28 @@ void Styles_Css::add_v2 (const stylesv2::Style* style, const bool paragraph, con
   // Start with the class. Notice the dot.
   m_code.push_back ("." + class_name + quill_class + " {");
   
-  // Font size. Todo add it when available.
-  // Since it is html and not pdf for paper, a font size of 12pt is considered to be equal to 100%.
-  if (paragraph) {
-//    float points {style->fontsize};
-//    float percents {points * 100 / 12};
-//    int fontsize = filter::strings::convert_to_int (percents);
-//    if (fontsize != 100) {
-//      m_code.push_back ("font-size: " + std::to_string (fontsize) + "%;");
-//    }
+  // Font size.
+  // Since it is html and not pdf for output on paper, a font size of 12pt is considered to be equal to 100%.
+  if (paragraph && style->paragraph) {
+    const float points {static_cast<float>(style->paragraph.value().font_size)};
+    const float percents {points * 100 / 12};
+    const int fontsize = filter::strings::convert_to_int (percents);
+    if (fontsize != 100) {
+      m_code.push_back ("font-size: " + std::to_string (fontsize) + "%;");
+    }
   }
   
-  // Italics, bold, underline, small caps can be either ooitOff or ooitOn for a paragraph.
-  if (paragraph) {
-//    int italic = style->italic;
-//    int bold = style->bold;
-//    int underline = style->underline;
-//    int smallcaps = style->smallcaps;
-//    if (italic != ooitOff) {
-//      m_code.push_back ("font-style: italic;");
-//    }
-//    if (bold != ooitOff) {
-//      m_code.push_back ("font-weight: bold;");
-//    }
-//    if (underline != ooitOff) {
-//      m_code.push_back ("text-decoration: underline;");
-//    }
-//    if (smallcaps != ooitOff) {
-//      m_code.push_back ("font-variant: small-caps;");
-//    }
+  // Italics, bold, underline, small caps can be either off or on for a paragraph.
+  if (paragraph && style->paragraph) {
+    const auto& paragraph = style->paragraph.value();
+    if (paragraph.italic != stylesv2::TwoState::off)
+      m_code.push_back ("font-style: italic;");
+    if (paragraph.bold != stylesv2::TwoState::off)
+      m_code.push_back ("font-weight: bold;");
+    if (paragraph.underline != stylesv2::TwoState::off)
+      m_code.push_back ("text-decoration: underline;");
+    if (paragraph.smallcaps != stylesv2::TwoState::off)
+      m_code.push_back ("font-variant: small-caps;");
   }
   
   // For inline text.
@@ -494,7 +473,6 @@ void Styles_Css::add_v2 (const stylesv2::Style* style, const bool paragraph, con
   // Not all features have been implemented.
   if (!paragraph) {
     if (style->character) {
-      
       if (const FourState state = style->character.value().italic;
           (state == FourState::on) || (state == FourState::toggle)) {
         m_code.push_back ("font-style: italic;");
@@ -515,43 +493,38 @@ void Styles_Css::add_v2 (const stylesv2::Style* style, const bool paragraph, con
   }
   
   // Paragraph layout properties. Todo write those.
-  if (paragraph) {
-    /*
-    std::string spacebefore = filter::strings::convert_to_string (style->spacebefore);
-    std::string spaceafter = filter::strings::convert_to_string (style->spaceafter);
-    std::string leftmargin = filter::strings::convert_to_string (style->leftmargin);
-    std::string rightmargin = filter::strings::convert_to_string (style->rightmargin);
-    std::string firstlineindent = filter::strings::convert_to_string (style->firstlineindent);
+  if (paragraph && style->paragraph) {
+    const auto& paragraph = style->paragraph.value();
     
     // Text alignment options.
     std::string alignment {};
-    switch (style->justification) {
-      case AlignmentLeft:    alignment = "";        break;
-      case AlignmentCenter:  alignment = "center";  break;
-      case AlignmentRight:   alignment = "right";   break;
-      case AlignmentJustify: alignment = "justify"; break;
+    switch (paragraph.text_alignment) {
+      case stylesv2::TextAlignment::left: alignment.clear(); break;
+      case stylesv2::TextAlignment::center: alignment = "center"; break;
+      case stylesv2::TextAlignment::right: alignment = "right"; break;
+      case stylesv2::TextAlignment::justify: alignment = "justify"; break;
       default: break;
     }
-    if (alignment != "") {
+    if (!alignment.empty()) {
       m_code.push_back ("text-align: " + alignment + ";");
     }
     
     // Paragraph measurements; given in mm.
-    if (spacebefore != "0") {
+    const std::string spacebefore = std::to_string (paragraph.space_before);
+    if (spacebefore != "0")
       m_code.push_back ("margin-top: " + spacebefore + "mm;");
-    }
-    if (spaceafter != "0") {
+    const std::string spaceafter = std::to_string (paragraph.space_after);
+    if (spaceafter != "0")
       m_code.push_back ("margin-bottom: " + spaceafter + "mm;");
-    }
-    if (leftmargin != "0") {
+    const std::string leftmargin = std::to_string (paragraph.left_margin);
+    if (leftmargin != "0")
       m_code.push_back ("margin-left: " + leftmargin + "mm;");
-    }
-    if (rightmargin != "0") {
+    const std::string rightmargin = std::to_string (paragraph.right_margin);
+    if (rightmargin != "0")
       m_code.push_back ("margin-right: " + rightmargin + "mm;");
-    }
-    if (firstlineindent != "0") {
+    const std::string firstlineindent = std::to_string (paragraph.first_line_indent);
+    if (firstlineindent != "0")
       m_code.push_back ("text-indent: " + firstlineindent + "mm;");
-    }
     
     // Columns have not yet been implemented.
     //bool spancolumns = style->spancolumns;
@@ -560,10 +533,9 @@ void Styles_Css::add_v2 (const stylesv2::Style* style, const bool paragraph, con
     //bool dropcaps = false;
     
     // Keeping text with the next paragraph.
-    if (keepwithnext) {
+    if (keep_with_next) {
       m_code.push_back ("page-break-inside: avoid;");
     }
-     */
   }
   
   // Superscript and colors for inline text.

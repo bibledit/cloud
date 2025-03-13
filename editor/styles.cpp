@@ -140,21 +140,28 @@ std::string Editor_Styles::getAction (Webserver_Request& webserver_request, cons
   {
     switch (style->type) {
       case stylesv2::Type::book_id:
+      case stylesv2::Type::usfm_version:
+      case stylesv2::Type::file_encoding:
       case stylesv2::Type::remark:
       case stylesv2::Type::running_header:
       case stylesv2::Type::long_toc_text:
       case stylesv2::Type::short_toc_text:
       case stylesv2::Type::book_abbrev:
+        return mono ();
+      case stylesv2::Type::title:
+      case stylesv2::Type::heading:
+      case stylesv2::Type::paragraph:
+        return paragraph();
       case stylesv2::Type::chapter_label:
       case stylesv2::Type::published_chapter_marker:
       case stylesv2::Type::alternate_chapter_number:
         return mono ();
       case stylesv2::Type::published_verse_marker:
         return character ();
-      case stylesv2::Type::character_style:
-        return character ();
       case stylesv2::Type::introduction_end:
         return mono ();
+      case stylesv2::Type::character_style:
+        return character ();
       default:
         return unknown ();
     }

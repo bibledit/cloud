@@ -1995,6 +1995,7 @@ TEST_F (usfm_html, usfm_with_all_markers)
   R"(<p class="b-mono"><span>\toc1 </span><span>The book of Genesis</span></p>)"
   R"(<p class="b-mono"><span>\toc2 </span><span>Genesis</span></p>)"
   R"(<p class="b-mono"><span>\toc3 </span><span>Gen.</span></p>)"
+  R"(<p class="b-imt"><span>Title</span></p>)"
   R"(<p class="b-mono"><span>\ie </span></p>)"
   R"(<p class="b-c"><span>1</span></p>)"
   R"(<p class="b-mono"><span>\cl </span><span>Genesis</span></p>)"

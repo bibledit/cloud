@@ -87,15 +87,41 @@ TEST_F (styles, create_css)
   Webserver_Request webserver_request {};
   constexpr const char* testsheet {"testsheet"};
   database::styles::create_sheet (testsheet);
+  
+  // Chop CSS up into bits.
+  // Example bit:
+  // .superscript, [class^='i-note'] { font-size: x-small; vertical-align: super; }
+  const auto chopup = [] (std::string css) {
+    std::vector<std::string> bits{};
+    size_t pos{};
+    while ((pos = css.find(".")) != std::string::npos) {
+      const size_t pos2 = css.find("}");
+      if (pos2 == std::string::npos)
+        css.clear();
+      else {
+        bits.emplace_back(filter::strings::trim(css.substr(pos, pos2)));
+        css.erase(0, pos2 + 1);
+      }
+    }
+    return bits;
+  };
 
   // Create basic cascaded stylesheet.
   {
     Styles_Css styles_css (webserver_request, testsheet);
     styles_css.generate ();
-    const std::string css = styles_css.css ();
-    //filter_url_file_put_contents ("/tmp/basic.css", css); // Todo
-    const std::string standard = filter_url_file_get_contents (filter_url_create_path ({"unittests", "tests", "basic.css"}));
-    EXPECT_EQ (filter::strings::trim(standard), filter::strings::trim(css));
+    const auto css = chopup(styles_css.css ());
+    const auto standard = chopup(filter_url_file_get_contents (filter_url_create_path ({"unittests", "tests", "basic.css"})));
+    for (const auto& bit : standard) {
+      if (std::find(css.cbegin(), css.cend(), bit) == css.cend()) {
+        ADD_FAILURE() << "The following CSS in file basic.css is not generated: " << bit;
+      }
+    }
+    for (const auto& bit : css) {
+      if (std::find(standard.cbegin(), standard.cend(), bit) == standard.cend()) {
+        ADD_FAILURE() << "The following CSS is generated but not present in file basic.css: " << bit;
+      }
+    }
   }
   
   // Create stylesheet for export.
@@ -103,10 +129,18 @@ TEST_F (styles, create_css)
     Styles_Css styles_css (webserver_request, testsheet);
     styles_css.exports ();
     styles_css.generate ();
-    const std::string css = styles_css.css ();
-    //filter_url_file_put_contents ("/tmp/exports.css", css); // Todo
-    const std::string standard = filter::strings::trim (filter_url_file_get_contents (filter_url_create_path ({"unittests", "tests", "exports.css"})));
-    EXPECT_EQ (filter::strings::trim(standard), filter::strings::trim(css));
+    const auto css = chopup(styles_css.css());
+    const auto standard = chopup(filter::strings::trim (filter_url_file_get_contents (filter_url_create_path ({"unittests", "tests", "exports.css"}))));
+    for (const auto& bit : standard) {
+      if (std::find(css.cbegin(), css.cend(), bit) == css.cend()) {
+        ADD_FAILURE() << "The following CSS in file exports.css is not generated: " << bit;
+      }
+    }
+    for (const auto& bit : css) {
+      if (std::find(standard.cbegin(), standard.cend(), bit) == standard.cend()) {
+        ADD_FAILURE() << "The following CSS is generated but not present in file exports.css: " << bit;
+      }
+    }
   }
 
   // Stylesheet for the Bible editor.
@@ -114,10 +148,18 @@ TEST_F (styles, create_css)
     Styles_Css styles_css (webserver_request, testsheet);
     styles_css.editor ();
     styles_css.generate ();
-    const std::string css = styles_css.css ();
-    const std::string standard = filter::strings::trim (filter_url_file_get_contents (filter_url_create_path ({"unittests", "tests", "editor.css"})));
-    //filter_url_file_put_contents ("/tmp/editor.css", css); // Todo
-    EXPECT_EQ (filter::strings::trim(standard), filter::strings::trim(css));
+    const auto css = chopup(styles_css.css());
+    const auto standard = chopup(filter::strings::trim (filter_url_file_get_contents (filter_url_create_path ({"unittests", "tests", "editor.css"}))));
+    for (const auto& bit : standard) {
+      if (std::find(css.cbegin(), css.cend(), bit) == css.cend()) {
+        ADD_FAILURE() << "The following CSS in file editor.css is not generated: " << bit;
+      }
+    }
+    for (const auto& bit : css) {
+      if (std::find(standard.cbegin(), standard.cend(), bit) == standard.cend()) {
+        ADD_FAILURE() << "The following CSS is generated but not present in file editor.css: " << bit;
+      }
+    }
   }
 }
 

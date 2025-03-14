@@ -2004,6 +2004,13 @@ TEST_F (usfm_html, usfm_with_all_markers)
   R"(<p class="b-is1"><span>Section 1</span></p>)"
   R"(<p class="b-is2"><span>Section 2</span></p>)"
   R"(<p class="b-ip"><span>Introduction paragraph</span></p>)"
+  R"(<p class="b-ipi"><span>Introduction paragraph indented</span></p>)"
+  R"(<p class="b-im"><span>Introduction margin paragraph</span></p>)"
+  R"(<p class="b-imi"><span>Introduction margin paragraph indented</span></p>)"
+  R"(<p class="b-ipq"><span>Introduction paragraph quote</span></p>)"
+  
+  R"()"
+
   R"(<p class="b-mono"><span>\ie </span></p>)"
   R"(<p class="b-c"><span>1</span></p>)"
   R"(<p class="b-mono"><span>\cl </span><span>Genesis</span></p>)"
@@ -2030,8 +2037,8 @@ TEST_F (usfm_html, usfm_with_all_markers)
   R"(<p class="b-s"><span>Section heading with </span><span class="i-no">normal</span><span> text</span></p>)"
   R"(<p class="b-p"><span>This is </span><span class="i-sc">small cap</span><span> text.</span></p>)"
   R"(<p class="b-p"><span>This is </span><span class="i-sup">superscript</span><span> text.</span></p>)"
+  R"()"
   ;
-  //R"()"
   
   Editor_Usfm2Html editor_usfm2html;
   editor_usfm2html.load (standard_usfm);

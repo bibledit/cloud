@@ -1128,45 +1128,35 @@ std::optional<stylesv2::Style> load_style(const std::string& sheet, const std::s
     pos = line.find(add_space(paragraph_spacebefore_key));
     if (pos == 0) {
       ensure_paragraph_is_set(style);
-      try {
-        style.paragraph.value().space_before = std::stoi(line.substr(paragraph_spacebefore_key.length()+1));
-      } catch (...) {}
+      style.paragraph.value().space_before = filter::strings::convert_to_float(line.substr(paragraph_spacebefore_key.length()+1));
     }
 
     // Check / set paragraph space after.
     pos = line.find(add_space(paragraph_spaceafter_key));
     if (pos == 0) {
       ensure_paragraph_is_set(style);
-      try {
-        style.paragraph.value().space_after = std::stoi(line.substr(paragraph_spaceafter_key.length()+1));
-      } catch (...) {}
+      style.paragraph.value().space_after = filter::strings::convert_to_float(line.substr(paragraph_spaceafter_key.length()+1));
     }
 
     // Check / set paragraph left margin.
     pos = line.find(add_space(paragraph_leftmargin_key));
     if (pos == 0) {
       ensure_paragraph_is_set(style);
-      try {
-        style.paragraph.value().left_margin = std::stoi(line.substr(paragraph_leftmargin_key.length()+1));
-      } catch (...) {}
+      style.paragraph.value().left_margin = filter::strings::convert_to_float(line.substr(paragraph_leftmargin_key.length()+1));
     }
 
     // Check / set paragraph right margin.
     pos = line.find(add_space(paragraph_rightmargin_key));
     if (pos == 0) {
       ensure_paragraph_is_set(style);
-      try {
-        style.paragraph.value().right_margin = std::stoi(line.substr(paragraph_rightmargin_key.length()+1));
-      } catch (...) {}
+      style.paragraph.value().right_margin = filter::strings::convert_to_float(line.substr(paragraph_rightmargin_key.length()+1));
     }
 
     // Check / set paragraph first line indent.
     pos = line.find(add_space(paragraph_firstlineindent_key));
     if (pos == 0) {
       ensure_paragraph_is_set(style);
-      try {
-        style.paragraph.value().first_line_indent = std::stoi(line.substr(paragraph_firstlineindent_key.length()+1));
-      } catch (...) {}
+      style.paragraph.value().first_line_indent = filter::strings::convert_to_float(line.substr(paragraph_firstlineindent_key.length()+1));
     }
     
     // Function to ensure that the character field is not a nullopt.

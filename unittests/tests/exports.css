@@ -170,9 +170,6 @@ margin-top: 8mm;
 margin-bottom: 4mm;
 page-break-inside: avoid;
 }
-.ip, .b-ip {
-text-indent: 3.2mm;
-}
 .ipi, .b-ipi {
 margin-left: 6.4mm;
 margin-right: 6.4mm;
@@ -212,29 +209,6 @@ text-indent: -6.4mm;
 }
 .iqt, .i-iqt {
 font-style: italic;
-}
-.is, .b-is {
-font-size: 117%;
-font-weight: bold;
-text-align: center;
-margin-top: 8mm;
-margin-bottom: 4mm;
-page-break-inside: avoid;
-}
-.is1, .b-is1 {
-font-size: 117%;
-font-weight: bold;
-text-align: center;
-margin-top: 8mm;
-margin-bottom: 4mm;
-page-break-inside: avoid;
-}
-.is2, .b-is2 {
-font-weight: bold;
-text-align: center;
-margin-top: 8mm;
-margin-bottom: 4mm;
-page-break-inside: avoid;
 }
 .jmp, .i-jmp {
 text-decoration: underline;
@@ -642,6 +616,32 @@ text-align: center;
 margin-top: 2mm;
 margin-bottom: 2mm;
 page-break-inside: avoid;
+}
+.is, .b-is {
+font-size: 117%;
+font-weight: bold;
+text-align: center;
+margin-top: 8mm;
+margin-bottom: 4mm;
+page-break-inside: avoid;
+}
+.is1, .b-is1 {
+font-size: 117%;
+font-weight: bold;
+text-align: center;
+margin-top: 8mm;
+margin-bottom: 4mm;
+page-break-inside: avoid;
+}
+.is2, .b-is2 {
+font-weight: bold;
+text-align: center;
+margin-top: 8mm;
+margin-bottom: 4mm;
+page-break-inside: avoid;
+}
+.ip, .b-ip {
+text-indent: 3.2mm;
 }
 .pro, .i-pro {
 font-style: italic;

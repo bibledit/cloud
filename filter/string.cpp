@@ -194,9 +194,11 @@ std::string convert_to_string (const std::string& s)
 }
 
 
-std::string convert_to_string (const float f)
+std::string convert_to_string (const float f, const int precision)
 {
   std::ostringstream r;
+  if (precision)
+    r << std::fixed << std::setprecision(precision);
   r << f;
   return r.str();
 }

@@ -510,21 +510,25 @@ void Styles_Css::add_v2 (const stylesv2::Style* style, const bool paragraph, con
     }
     
     // Paragraph measurements; given in mm.
-    const std::string spacebefore = std::to_string (paragraph.space_before);
-    if (spacebefore != "0")
-      m_code.push_back ("margin-top: " + spacebefore + "mm;");
-    const std::string spaceafter = std::to_string (paragraph.space_after);
-    if (spaceafter != "0")
-      m_code.push_back ("margin-bottom: " + spaceafter + "mm;");
-    const std::string leftmargin = std::to_string (paragraph.left_margin);
-    if (leftmargin != "0")
-      m_code.push_back ("margin-left: " + leftmargin + "mm;");
-    const std::string rightmargin = std::to_string (paragraph.right_margin);
-    if (rightmargin != "0")
-      m_code.push_back ("margin-right: " + rightmargin + "mm;");
-    const std::string firstlineindent = std::to_string (paragraph.first_line_indent);
-    if (firstlineindent != "0")
-      m_code.push_back ("text-indent: " + firstlineindent + "mm;");
+    // If a value is like 1.2 then return "1.2".
+    // If the value is like 1.0, then return "1" leaving out the dot and what follows.
+    const auto to_float_precision_01 = [](const float value) {
+      std::string result = filter::strings::convert_to_string(value, 1);
+      const size_t pos = result.find(".0");
+      if (pos != std::string::npos)
+        result.erase(pos);
+      return result;
+    };
+    if (paragraph.space_before)
+      m_code.push_back ("margin-top: " + to_float_precision_01(paragraph.space_before) + "mm;");
+    if (paragraph.space_after)
+      m_code.push_back ("margin-bottom: " + to_float_precision_01(paragraph.space_after) + "mm;");
+    if (paragraph.left_margin)
+      m_code.push_back ("margin-left: " + to_float_precision_01(paragraph.left_margin) + "mm;");
+    if (paragraph.right_margin)
+      m_code.push_back ("margin-right: " + to_float_precision_01(paragraph.right_margin) + "mm;");
+    if (paragraph.first_line_indent)
+      m_code.push_back ("text-indent: " + to_float_precision_01(paragraph.first_line_indent) + "mm;");
     
     // Columns have not yet been implemented.
     //bool spancolumns = style->spancolumns;

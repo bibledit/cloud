@@ -811,10 +811,10 @@ TEST_F (styles, save_load_styles_v2)
   {
     constexpr const char* marker {"imt"};
     const Style imt_style = *get_marker_data (sheet, marker);
-    const auto testing_integers = []() {
-      return std::list<int> { -22, -11, -5, 0, 5, 11, 22 };
+    const auto testing_floats = []() {
+      return std::list<float> { -22.2, -11.1, -5.5, 0, 5, 11, 22 };
     };
-    for (const int size : testing_integers()) {
+    for (const int size : testing_floats()) {
       style = imt_style;
       style.paragraph.value().font_size = size;
       save_style(sheet, style);
@@ -868,50 +868,50 @@ TEST_F (styles, save_load_styles_v2)
       EXPECT_EQ(to_string(style), to_string(loaded_style.value()));
       EXPECT_EQ(loaded_style.value().paragraph.value().text_alignment, style.paragraph.value().text_alignment);
     }
-    for (const int value : testing_integers()) {
+    for (const float value : testing_floats()) {
       style = imt_style;
       style.paragraph.value().space_before = value;
       save_style(sheet, style);
       auto loaded_style = load_style(sheet, style.marker);
       EXPECT_TRUE(loaded_style);
       EXPECT_EQ(to_string(style), to_string(loaded_style.value()));
-      EXPECT_EQ(loaded_style.value().paragraph.value().space_before, style.paragraph.value().space_before);
+      EXPECT_FLOAT_EQ(loaded_style.value().paragraph.value().space_before, style.paragraph.value().space_before);
     }
-    for (const int value : testing_integers()) {
+    for (const float value : testing_floats()) {
       style = imt_style;
       style.paragraph.value().space_after = value;
       save_style(sheet, style);
       auto loaded_style = load_style(sheet, style.marker);
       EXPECT_TRUE(loaded_style);
       EXPECT_EQ(to_string(style), to_string(loaded_style.value()));
-      EXPECT_EQ(loaded_style.value().paragraph.value().space_after, style.paragraph.value().space_after);
+      EXPECT_FLOAT_EQ(loaded_style.value().paragraph.value().space_after, style.paragraph.value().space_after);
     }
-    for (const int value : testing_integers()) {
+    for (const float value : testing_floats()) {
       style = imt_style;
       style.paragraph.value().left_margin = value;
       save_style(sheet, style);
       auto loaded_style = load_style(sheet, style.marker);
       EXPECT_TRUE(loaded_style);
       EXPECT_EQ(to_string(style), to_string(loaded_style.value()));
-      EXPECT_EQ(loaded_style.value().paragraph.value().left_margin, style.paragraph.value().left_margin);
+      EXPECT_FLOAT_EQ(loaded_style.value().paragraph.value().left_margin, style.paragraph.value().left_margin);
     }
-    for (const int value : testing_integers()) {
+    for (const float value : testing_floats()) {
       style = imt_style;
       style.paragraph.value().right_margin = value;
       save_style(sheet, style);
       auto loaded_style = load_style(sheet, style.marker);
       EXPECT_TRUE(loaded_style);
       EXPECT_EQ(to_string(style), to_string(loaded_style.value()));
-      EXPECT_EQ(loaded_style.value().paragraph.value().right_margin, style.paragraph.value().right_margin);
+      EXPECT_FLOAT_EQ(loaded_style.value().paragraph.value().right_margin, style.paragraph.value().right_margin);
     }
-    for (const int value : testing_integers()) {
+    for (const float value : testing_floats()) {
       style = imt_style;
       style.paragraph.value().first_line_indent = value;
       save_style(sheet, style);
       auto loaded_style = load_style(sheet, style.marker);
       EXPECT_TRUE(loaded_style);
       EXPECT_EQ(to_string(style), to_string(loaded_style.value()));
-      EXPECT_EQ(loaded_style.value().paragraph.value().first_line_indent, style.paragraph.value().first_line_indent);
+      EXPECT_FLOAT_EQ(loaded_style.value().paragraph.value().first_line_indent, style.paragraph.value().first_line_indent);
     }
   }
 }

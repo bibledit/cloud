@@ -224,38 +224,43 @@ std::string styles_view2 (Webserver_Request& webserver_request)
 
     // Handle space before in millimeters.
     if (const std::string space_before = webserver_request.post ["spacebefore"]; !space_before.empty()) {
-      marker_data.paragraph.value().space_before = std::clamp(filter::strings::convert_to_int(space_before), 0, 100);
+      marker_data.paragraph.value().space_before = std::clamp(filter::strings::convert_to_float(space_before), 0.0f, 100.0f);
       style_is_edited = true;
     }
-    view.set_variable("spacebefore", std::to_string(marker_data.paragraph.value().space_before));
+    // Precision = 1, i.e. one number after the digit.
+    view.set_variable("spacebefore", filter::strings::convert_to_string(marker_data.paragraph.value().space_before, 1));
 
     // Handle space after in millimeters.
     if (const std::string space_after = webserver_request.post ["spaceafter"]; !space_after.empty()) {
-      marker_data.paragraph.value().space_after = std::clamp(filter::strings::convert_to_int(space_after), 0, 100);
+      marker_data.paragraph.value().space_after = std::clamp(filter::strings::convert_to_float(space_after), 0.0f, 100.0f);
       style_is_edited = true;
     }
-    view.set_variable("spaceafter", std::to_string(marker_data.paragraph.value().space_after));
+    // Precision = 1.
+    view.set_variable("spaceafter", filter::strings::convert_to_string(marker_data.paragraph.value().space_after, 1));
 
     // Handle left margin in millimeters.
     if (const std::string left_margin = webserver_request.post ["leftmargin"]; !left_margin.empty()) {
-      marker_data.paragraph.value().left_margin = std::clamp(filter::strings::convert_to_int(left_margin), 0, 100);
+      marker_data.paragraph.value().left_margin = std::clamp(filter::strings::convert_to_float(left_margin), 0.0f, 100.0f);
       style_is_edited = true;
     }
-    view.set_variable("leftmargin", std::to_string(marker_data.paragraph.value().left_margin));
+    // Precision = 1.
+    view.set_variable("leftmargin", filter::strings::convert_to_string(marker_data.paragraph.value().left_margin, 1));
 
     // Handle right margin in millimeters.
     if (const std::string right_margin = webserver_request.post ["rightmargin"]; !right_margin.empty()) {
-      marker_data.paragraph.value().right_margin = std::clamp(filter::strings::convert_to_int(right_margin), -100, 100);
+      marker_data.paragraph.value().right_margin = std::clamp(filter::strings::convert_to_float(right_margin), -100.0f, 100.0f);
       style_is_edited = true;
     }
-    view.set_variable("rightmargin", std::to_string(marker_data.paragraph.value().right_margin));
+    // Precision = 1.
+    view.set_variable("rightmargin", filter::strings::convert_to_string(marker_data.paragraph.value().right_margin, 1));
 
     // Handle first line indent in millimeters.
     if (const std::string first_line_indent = webserver_request.post ["firstlineindent"]; !first_line_indent.empty()) {
-      marker_data.paragraph.value().first_line_indent = std::clamp(filter::strings::convert_to_int(first_line_indent), -100, 100);
+      marker_data.paragraph.value().first_line_indent = std::clamp(filter::strings::convert_to_float(first_line_indent), -100.0f, 100.0f);
       style_is_edited = true;
     }
-    view.set_variable("firstlineindent", std::to_string(marker_data.paragraph.value().first_line_indent));
+    // Precision = 1.
+    view.set_variable("firstlineindent", filter::strings::convert_to_string(marker_data.paragraph.value().first_line_indent, 1));
   }
   
   

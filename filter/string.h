@@ -35,7 +35,7 @@ bool replace_between (std::string& line, const std::string& start, const std::st
 std::string convert_to_string (const char * c);
 std::string convert_to_string (const bool b);
 std::string convert_to_string (const std::string& s);
-std::string convert_to_string (const float f);
+std::string convert_to_string (const float f, const int precision = 0);
 int convert_to_int (const std::string& s);
 int convert_to_int (const float f);
 long long convert_to_long_long (const std::string& s);

@@ -135,11 +135,11 @@ struct Paragraph {
   TwoState underline{};
   TwoState smallcaps{};
   TextAlignment text_alignment{};
-  int space_before{};
-  int space_after{};
-  int left_margin{};
-  int right_margin{};
-  int first_line_indent{};
+  float space_before{};
+  float space_after{};
+  float left_margin{};
+  float right_margin{};
+  float first_line_indent{};
 };
 
 std::ostream& operator<<(std::ostream& os, const Paragraph paragraph);

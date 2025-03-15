@@ -2008,9 +2008,15 @@ TEST_F (usfm_html, usfm_with_all_markers)
   R"(<p class="b-im"><span>Introduction margin paragraph</span></p>)"
   R"(<p class="b-imi"><span>Introduction margin paragraph indented</span></p>)"
   R"(<p class="b-ipq"><span>Introduction paragraph quote</span></p>)"
-  
+  R"(<p class="b-imq"><span>Introduction margin paragraph quote</span></p>)"
+  R"(<p class="b-ipr"><span>Introduction paragraph right</span></p>)"
+  R"(<p class="b-iq"><span>Introduction poetry</span></p>)"
+  R"(<p class="b-iq1"><span>Introduction poetry 1</span></p>)"
+  R"(<p class="b-iq2"><span>Introduction poetry 2</span></p>)"
+  R"(<p class="b-iq3"><span>Introduction poetry 3</span></p>)"
   R"()"
 
+  
   R"(<p class="b-mono"><span>\ie </span></p>)"
   R"(<p class="b-c"><span>1</span></p>)"
   R"(<p class="b-mono"><span>\cl </span><span>Genesis</span></p>)"

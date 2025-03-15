@@ -2014,8 +2014,12 @@ TEST_F (usfm_html, usfm_with_all_markers)
   R"(<p class="b-iq1"><span>Introduction poetry 1</span></p>)"
   R"(<p class="b-iq2"><span>Introduction poetry 2</span></p>)"
   R"(<p class="b-iq3"><span>Introduction poetry 3</span></p>)"
-  R"()"
+  R"(<p class="b-ib"><br/></p>)"
+  R"(<p class="b-ili"><span>1 Introduction list item</span></p>)"
+  R"(<p class="b-ili1"><span>1 Introduction list item 1</span></p>)"
+  R"(<p class="b-ili2"><span>1 Introduction list item 2</span></p>)"
 
+  R"()"
   
   R"(<p class="b-mono"><span>\ie </span></p>)"
   R"(<p class="b-c"><span>1</span></p>)"

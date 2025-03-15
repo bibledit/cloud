@@ -1410,6 +1410,15 @@ TEST_F (filter_text, usfm_with_all_markers)
   "\n"
   "Introduction poetry 3\n"
   "\n"
+  "\n"
+  "\n"
+  "1 Introduction list item\n"
+  "\n"
+  "1 Introduction list item 1\n"
+  "\n"
+  "1 Introduction list item 2\n"
+  "\n"
+
   
   "Right א (2)\n"
   "\n"
@@ -1478,7 +1487,10 @@ TEST_F (filter_text, usfm_with_all_markers)
   "Introduction poetry 1\n"
   "Introduction poetry 2\n"
   "Introduction poetry 3\n"
-
+  "1 Introduction list item\n"
+  "1 Introduction list item 1\n"
+  "1 Introduction list item 2\n"
+  
   "א (2)\n"
   "1b Text namepronunciation.\n"
   "2 Normal added and AddPn\n"
@@ -1524,7 +1536,10 @@ TEST_F (filter_text, usfm_with_all_markers)
   R"(<p class="iq1"><span>Introduction poetry 1</span></p>)"
   R"(<p class="iq2"><span>Introduction poetry 2</span></p>)"
   R"(<p class="iq3"><span>Introduction poetry 3</span></p>)"
-
+  R"(<p class="ib"><br/></p>)"
+  R"(<p class="ili"><span>1 Introduction list item</span></p>)"
+  R"(<p class="ili1"><span>1 Introduction list item 1</span></p>)"
+  R"(<p class="ili2"><span>1 Introduction list item 2</span></p>)"
   
   R"(<p class="c"><span>Genesis</span></p>)"
   R"(<p class="p"><span class="v">1b</span><span> </span><span>Text name</span><span class="pro">pronunciation</span><span>.</span></p>)"

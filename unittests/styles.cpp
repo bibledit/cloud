@@ -114,12 +114,12 @@ TEST_F (styles, create_css)
     const auto standard = chopup(filter_url_file_get_contents (filter_url_create_path ({"unittests", "tests", "basic.css"})));
     for (const auto& bit : standard) {
       if (std::find(css.cbegin(), css.cend(), bit) == css.cend()) {
-        ADD_FAILURE() << "The following CSS in file basic.css is not generated: " << bit;
+        ADD_FAILURE() << "The following CSS in file basic.css is not generated:\n" << bit;
       }
     }
     for (const auto& bit : css) {
       if (std::find(standard.cbegin(), standard.cend(), bit) == standard.cend()) {
-        ADD_FAILURE() << "The following CSS is generated but not present in file basic.css: " << bit;
+        ADD_FAILURE() << "The following CSS is generated but not present in file basic.css:\n" << bit;
       }
     }
   }
@@ -133,12 +133,12 @@ TEST_F (styles, create_css)
     const auto standard = chopup(filter::strings::trim (filter_url_file_get_contents (filter_url_create_path ({"unittests", "tests", "exports.css"}))));
     for (const auto& bit : standard) {
       if (std::find(css.cbegin(), css.cend(), bit) == css.cend()) {
-        ADD_FAILURE() << "The following CSS in file exports.css is not generated: " << bit;
+        ADD_FAILURE() << "The following CSS in file exports.css is not generated:\n" << bit;
       }
     }
     for (const auto& bit : css) {
       if (std::find(standard.cbegin(), standard.cend(), bit) == standard.cend()) {
-        ADD_FAILURE() << "The following CSS is generated but not present in file exports.css: " << bit;
+        ADD_FAILURE() << "The following CSS is generated but not present in file exports.css:\n" << bit;
       }
     }
   }
@@ -152,12 +152,12 @@ TEST_F (styles, create_css)
     const auto standard = chopup(filter::strings::trim (filter_url_file_get_contents (filter_url_create_path ({"unittests", "tests", "editor.css"}))));
     for (const auto& bit : standard) {
       if (std::find(css.cbegin(), css.cend(), bit) == css.cend()) {
-        ADD_FAILURE() << "The following CSS in file editor.css is not generated: " << bit;
+        ADD_FAILURE() << "The following CSS in file editor.css is not generated:\n" << bit;
       }
     }
     for (const auto& bit : css) {
       if (std::find(standard.cbegin(), standard.cend(), bit) == standard.cend()) {
-        ADD_FAILURE() << "The following CSS is generated but not present in file editor.css: " << bit;
+        ADD_FAILURE() << "The following CSS is generated but not present in file editor.css:\n" << bit;
       }
     }
   }

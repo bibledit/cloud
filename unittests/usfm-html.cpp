@@ -2018,6 +2018,12 @@ TEST_F (usfm_html, usfm_with_all_markers)
   R"(<p class="b-ili"><span>1 Introduction list item</span></p>)"
   R"(<p class="b-ili1"><span>1 Introduction list item 1</span></p>)"
   R"(<p class="b-ili2"><span>1 Introduction list item 2</span></p>)"
+  R"(<p class="b-iot"><span>Introduction Outline Title</span></p>)"
+  R"(<p class="b-io"><span>Introduction outline</span></p>)"
+  R"(<p class="b-io1"><span>Introduction outline 1</span></p>)"
+  R"(<p class="b-io2"><span>Introduction outline 2</span></p>)"
+  R"(<p class="b-io3"><span>Introduction outline 3</span></p>)"
+  R"(<p class="b-io4"><span>Introduction outline 4</span></p>)"
 
   R"()"
   

@@ -1418,7 +1418,18 @@ TEST_F (filter_text, usfm_with_all_markers)
   "\n"
   "1 Introduction list item 2\n"
   "\n"
-
+  "Introduction Outline Title\n"
+  "\n"
+  "Introduction outline\n"
+  "\n"
+  "Introduction outline 1\n"
+  "\n"
+  "Introduction outline 2\n"
+  "\n"
+  "Introduction outline 3\n"
+  "\n"
+  "Introduction outline 4\n"
+  "\n"
   
   "Right א (2)\n"
   "\n"
@@ -1490,7 +1501,13 @@ TEST_F (filter_text, usfm_with_all_markers)
   "1 Introduction list item\n"
   "1 Introduction list item 1\n"
   "1 Introduction list item 2\n"
-  
+  "Introduction Outline Title\n"
+  "Introduction outline\n"
+  "Introduction outline 1\n"
+  "Introduction outline 2\n"
+  "Introduction outline 3\n"
+  "Introduction outline 4\n"
+
   "א (2)\n"
   "1b Text namepronunciation.\n"
   "2 Normal added and AddPn\n"
@@ -1540,6 +1557,13 @@ TEST_F (filter_text, usfm_with_all_markers)
   R"(<p class="ili"><span>1 Introduction list item</span></p>)"
   R"(<p class="ili1"><span>1 Introduction list item 1</span></p>)"
   R"(<p class="ili2"><span>1 Introduction list item 2</span></p>)"
+  R"(<p class="iot"><span>Introduction Outline Title</span></p>)"
+  R"(<p class="io"><span>Introduction outline</span></p>)"
+  R"(<p class="io1"><span>Introduction outline 1</span></p>)"
+  R"(<p class="io2"><span>Introduction outline 2</span></p>)"
+  R"(<p class="io3"><span>Introduction outline 3</span></p>)"
+  R"(<p class="io4"><span>Introduction outline 4</span></p>)"
+
   
   R"(<p class="c"><span>Genesis</span></p>)"
   R"(<p class="p"><span class="v">1b</span><span> </span><span>Text name</span><span class="pro">pronunciation</span><span>.</span></p>)"

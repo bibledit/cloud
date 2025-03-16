@@ -244,8 +244,8 @@ TEST_F (filter_url, error_closed_port)
 TEST_F (filter_url, client_result_fixed_ip)
 {
   // Test low-level http(s) client result.
-  std::string result, error;
-  result = filter_url_http_request_mbed ("http://185.87.186.229", error, {}, "", false);
+  std::string error;
+  const std::string result = filter_url_http_request_mbed ("http://212.132.105.87", error, {}, "", false);
   EXPECT_EQ (true, result.find ("God") != std::string::npos);
   EXPECT_EQ (true, result.find ("bless") != std::string::npos);
   EXPECT_EQ (true, result.find ("you") != std::string::npos);

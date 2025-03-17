@@ -2022,11 +2022,15 @@ TEST_F (usfm_html, usfm_with_all_markers)
   R"(<p class="b-io"><span>Introduction outline</span></p>)"
   R"(<p class="b-io1"><span>Introduction outline 1</span></p>)"
   R"(<p class="b-io2"><span>Introduction outline 2</span></p>)"
-  R"(<p class="b-io3"><span>Introduction outline 3</span></p>)"
-  R"(<p class="b-io4"><span>Introduction outline 4</span></p>)"
+  R"(<p class="b-io3"><span>Introduction outline 3 </span><span class="i-ior">references</span></p>)"
+  R"(<p class="b-io4"><span>Introduction outline 4 </span><span class="i-iqt">quotation</span></p>)"
+  R"(<p class="b-iex"><span>Introduction explanatory text</span></p>)"
+  R"(<p class="b-imte"><span>Introduction main title ending</span></p>)"
+  R"(<p class="b-imte1"><span>Introduction main title ending 1</span></p>)"
+  R"(<p class="b-imte2"><span>Introduction main title ending 2</span></p>)"
 
   R"()"
-  
+
   R"(<p class="b-mono"><span>\ie </span></p>)"
   R"(<p class="b-c"><span>1</span></p>)"
   R"(<p class="b-mono"><span>\cl </span><span>Genesis</span></p>)"

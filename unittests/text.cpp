@@ -29,6 +29,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/text.h>
 #include <filter/url.h>
 #include <filter/string.h>
+#include <filter/diff.h>
 #include "usfm.h"
 
 constexpr const char* bible {"unittest"};
@@ -1426,10 +1427,19 @@ TEST_F (filter_text, usfm_with_all_markers)
   "\n"
   "Introduction outline 2\n"
   "\n"
-  "Introduction outline 3\n"
+  "Introduction outline 3 references\n"
   "\n"
-  "Introduction outline 4\n"
+  "Introduction outline 4 quotation\n"
   "\n"
+  "Introduction explanatory text\n"
+  "\n"
+  "Introduction main title ending\n"
+  "\n"
+  "Introduction main title ending 1\n"
+  "\n"
+  "Introduction main title ending 2\n"
+  "\n"
+ 
   
   "Right א (2)\n"
   "\n"
@@ -1478,6 +1488,7 @@ TEST_F (filter_text, usfm_with_all_markers)
   "This is superscript text.\n"
   ;
   EXPECT_EQ (filter::strings::trim(standard_odt), filter::strings::trim(odt));
+  
   const std::string standard_text =
   "Main Title\n"
   "Main Title 1\n"
@@ -1505,8 +1516,12 @@ TEST_F (filter_text, usfm_with_all_markers)
   "Introduction outline\n"
   "Introduction outline 1\n"
   "Introduction outline 2\n"
-  "Introduction outline 3\n"
-  "Introduction outline 4\n"
+  "Introduction outline 3 references\n"
+  "Introduction outline 4 quotation\n"
+  "Introduction explanatory text\n"
+  "Introduction main title ending\n"
+  "Introduction main title ending 1\n"
+  "Introduction main title ending 2\n"
 
   "א (2)\n"
   "1b Text namepronunciation.\n"
@@ -1532,7 +1547,16 @@ TEST_F (filter_text, usfm_with_all_markers)
   "This is superscript text.\n"
   ;
   EXPECT_EQ (filter::strings::trim(standard_text), filter::strings::trim(text));
-  //filter_url_file_put_contents("/tmp/text.txt", text);
+  if (filter::strings::trim(text) != filter::strings::trim(standard_text)) {
+    std::vector<std::string> removals;
+    std::vector<std::string> additions;
+    filter_diff_diff (filter::strings::trim(standard_text), filter::strings::trim(text), &removals, &additions);
+    for (const auto& removal : removals)
+      ADD_FAILURE() << "Generated text removed: " << removal;
+    for (const auto& addition : additions)
+      ADD_FAILURE() << "Generated text added: " << addition;
+  }
+
   const std::string standard_html =
   R"(<p class="imt"><span>Main Title</span></p>)"
   R"(<p class="imt1"><span>Main Title 1</span></p>)"
@@ -1561,8 +1585,12 @@ TEST_F (filter_text, usfm_with_all_markers)
   R"(<p class="io"><span>Introduction outline</span></p>)"
   R"(<p class="io1"><span>Introduction outline 1</span></p>)"
   R"(<p class="io2"><span>Introduction outline 2</span></p>)"
-  R"(<p class="io3"><span>Introduction outline 3</span></p>)"
-  R"(<p class="io4"><span>Introduction outline 4</span></p>)"
+  R"(<p class="io3"><span>Introduction outline 3 </span><span class="ior">references</span></p>)"
+  R"(<p class="io4"><span>Introduction outline 4 </span><span class="iqt">quotation</span></p>)"
+  R"(<p class="iex"><span>Introduction explanatory text</span></p>)"
+  R"(<p class="imte"><span>Introduction main title ending</span></p>)"
+  R"(<p class="imte1"><span>Introduction main title ending 1</span></p>)"
+  R"(<p class="imte2"><span>Introduction main title ending 2</span></p>)"
 
   
   R"(<p class="c"><span>Genesis</span></p>)"
@@ -1590,6 +1618,15 @@ TEST_F (filter_text, usfm_with_all_markers)
   //R"()"
   ;
   EXPECT_EQ (standard_html, html);
+  if (html != standard_html) {
+    std::vector<std::string> removals;
+    std::vector<std::string> additions;
+    filter_diff_diff (standard_html, html, &removals, &additions);
+    for (const auto& removal : removals)
+      ADD_FAILURE() << "Generated html removed: " << removal;
+    for (const auto& addition : additions)
+      ADD_FAILURE() << "Generated html added: " << addition;
+  }
 }
 
 

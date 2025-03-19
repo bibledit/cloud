@@ -1483,13 +1483,23 @@ TEST (checks, usfm)
 
 TEST (checks, all_markers)
 {
-  // Check that the USFM fragment with all markers has all markers defined in the stylesheet v2.
+  // Check that the USFM fragment with all markers has all markers defined according to the stylesheet v2.
   const std::string usfm {filter::strings::replace ("\n", " ", usfm_with_all_markers)};
   for (const std::string marker : database::styles2::get_markers (styles_logic_standard_sheet())) {
     const std::string opener = filter::usfm::get_opening_usfm (marker);
     const size_t pos = usfm.find(opener);
     if (pos == std::string::npos) {
       ADD_FAILURE() << "The standard stylesheet v2 contains " << std::quoted(marker) << " but the fragment of USFM with all markers does not contain " << opener;
+    }
+  }
+  // Checkk that the default style definitions have no duplicates.
+  {
+    std::set<std::string> markers{};
+    for (const auto& style : stylesv2::styles) {
+      if (markers.count(style.marker)) {
+        ADD_FAILURE() << "Duplicate style definition for marker " << style.marker;
+      }
+      markers.insert(style.marker);
     }
   }
 }

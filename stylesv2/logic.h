@@ -129,30 +129,30 @@ constexpr const char* black {"#000000"};
 
 
 struct Paragraph {
-  int font_size{12};
-  TwoState italic{};
-  TwoState bold{};
-  TwoState underline{};
-  TwoState smallcaps{};
-  TextAlignment text_alignment{};
-  float space_before{};
-  float space_after{};
-  float left_margin{};
-  float right_margin{};
-  float first_line_indent{};
+  int font_size {12};
+  TwoState italic {TwoState::off};
+  TwoState bold {TwoState::off};
+  TwoState underline {TwoState::off};
+  TwoState smallcaps {TwoState::off};
+  TextAlignment text_alignment {TextAlignment::left};
+  float space_before {0};
+  float space_after {0};
+  float left_margin {0};
+  float right_margin {0};
+  float first_line_indent{0};
 };
 
 std::ostream& operator<<(std::ostream& os, const Paragraph paragraph);
 
 
 struct Character {
-  FourState italic{};
-  FourState bold{};
-  FourState underline{};
-  FourState smallcaps{};
-  TwoState superscript{};
-  std::string foreground_color{};
-  std::string background_color{};
+  FourState italic {FourState::off};
+  FourState bold {FourState::off};
+  FourState underline {FourState::off};
+  FourState smallcaps {FourState::off};
+  TwoState superscript {TwoState::off};
+  std::string foreground_color {white};
+  std::string background_color {black};
 };
 
 std::ostream& operator<<(std::ostream& os, const Character character);

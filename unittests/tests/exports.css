@@ -313,7 +313,7 @@ page-break-inside: avoid;
 font-size: 167%;
 font-weight: bold;
 text-align: center;
-margin-top: 2mm;
+margin-top: 8mm;
 margin-bottom: 4mm;
 page-break-inside: avoid;
 }
@@ -501,12 +501,14 @@ page-break-inside: avoid;
 }
 .s3, .b-s3 {
 font-style: italic;
+text-align: center;
 margin-top: 6mm;
 margin-bottom: 3mm;
 page-break-inside: avoid;
 }
 .s4, .b-s4 {
 font-style: italic;
+text-align: center;
 margin-top: 6mm;
 margin-bottom: 3mm;
 page-break-inside: avoid;

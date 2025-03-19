@@ -151,8 +151,8 @@ struct Character {
   FourState underline {FourState::off};
   FourState smallcaps {FourState::off};
   TwoState superscript {TwoState::off};
-  std::string foreground_color {white};
-  std::string background_color {black};
+  std::string foreground_color {black};
+  std::string background_color {white};
 };
 
 std::ostream& operator<<(std::ostream& os, const Character character);

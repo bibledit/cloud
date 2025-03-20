@@ -1002,51 +1002,55 @@ void Filter_Text::process_usfm (const std::string& stylesheet)
             case stylesv2::Type::title:
             case stylesv2::Type::heading:
             {
-              if (odf_text_standard)
-                odf_text_standard->close_text_style (false, false);
-              if (odf_text_text_only)
-                odf_text_text_only->close_text_style (false, false);
-              if (odf_text_text_and_note_citations)
-                odf_text_text_and_note_citations->close_text_style (false, false);
-              if (odf_text_notes)
-                odf_text_notes->close_text_style (false, false);
-              if (html_text_standard)
-                html_text_standard->close_text_style (false, false);
-              if (html_text_linked)
-                html_text_linked->close_text_style (false, false);
-              new_paragraph (style, true);
-              heading_started = true;
-              text_started = false;
+              if (is_opening_marker) {
+                if (odf_text_standard)
+                  odf_text_standard->close_text_style (false, false);
+                if (odf_text_text_only)
+                  odf_text_text_only->close_text_style (false, false);
+                if (odf_text_text_and_note_citations)
+                  odf_text_text_and_note_citations->close_text_style (false, false);
+                if (odf_text_notes)
+                  odf_text_notes->close_text_style (false, false);
+                if (html_text_standard)
+                  html_text_standard->close_text_style (false, false);
+                if (html_text_linked)
+                  html_text_linked->close_text_style (false, false);
+                new_paragraph (style, true);
+                heading_started = true;
+                text_started = false;
+              }
               break;
             }
             case stylesv2::Type::paragraph:
             {
-              if (odf_text_standard)
-                odf_text_standard->close_text_style (false, false);
-              if (odf_text_text_only)
-                odf_text_text_only->close_text_style (false, false);
-              if (odf_text_text_and_note_citations)
-                odf_text_text_and_note_citations->close_text_style (false, false);
-              if (odf_text_notes)
-                odf_text_notes->close_text_style (false, false);
-              if (html_text_standard)
-                html_text_standard->close_text_style (false, false);
-              if (html_text_linked)
-                html_text_linked->close_text_style (false, false);
-              new_paragraph (style, false);
-              heading_started = false;
-              text_started = true;
-              if (headings_text_per_verse_active) {
-                // If a new paragraph starts within an existing verse,
-                // add a space to the text already in that verse.
-                int iverse = filter::strings::convert_to_int (m_current_verse_number);
-                if (m_verses_text.count (iverse) && !m_verses_text [iverse].empty ()) {
-                  m_verses_text [iverse].append (" ");
+              if (is_opening_marker) {
+                if (odf_text_standard)
+                  odf_text_standard->close_text_style (false, false);
+                if (odf_text_text_only)
+                  odf_text_text_only->close_text_style (false, false);
+                if (odf_text_text_and_note_citations)
+                  odf_text_text_and_note_citations->close_text_style (false, false);
+                if (odf_text_notes)
+                  odf_text_notes->close_text_style (false, false);
+                if (html_text_standard)
+                  html_text_standard->close_text_style (false, false);
+                if (html_text_linked)
+                  html_text_linked->close_text_style (false, false);
+                new_paragraph (style, false);
+                heading_started = false;
+                text_started = true;
+                if (headings_text_per_verse_active) {
+                  // If a new paragraph starts within an existing verse,
+                  // add a space to the text already in that verse.
+                  int iverse = filter::strings::convert_to_int (m_current_verse_number);
+                  if (m_verses_text.count (iverse) && !m_verses_text [iverse].empty ()) {
+                    m_verses_text [iverse].append (" ");
+                  }
+                  // Record the style that started this new paragraph.
+                  paragraph_starting_markers.push_back (marker);
+                  // Store previous paragraph, if any, and start recording the new one.
+                  store_verses_paragraphs ();
                 }
-                // Record the style that started this new paragraph.
-                paragraph_starting_markers.push_back (marker);
-                // Store previous paragraph, if any, and start recording the new one.
-                store_verses_paragraphs ();
               }
               break;
             }

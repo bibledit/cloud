@@ -492,7 +492,7 @@ void Styles_Css::add_v2 (const stylesv2::Style* style, const bool paragraph, con
     }
   }
   
-  // Paragraph layout properties. Todo write those.
+  // Paragraph layout properties.
   if (paragraph && style->paragraph) {
     const auto& paragraph = style->paragraph.value();
     

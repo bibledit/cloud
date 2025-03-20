@@ -40,8 +40,6 @@ R"(\mt4 Major title 4)" "\n"
 R"(\mte Major title at ending)" "\n"
 R"(\mte1 Major title at ending 1)" "\n"
 R"(\mte2 Major title at ending 2)" "\n"
-
-
 R"(\ms Major section heading)" "\n"
 R"(\ms1 Major section heading 1)" "\n"
 R"(\ms2 Major section heading 2)" "\n"
@@ -61,8 +59,6 @@ R"(\sd1 Semantic division 1)" "\n"
 R"(\sd2 Semantic division 2)" "\n"
 R"(\sd3 Semantic division 3)" "\n"
 R"(\sd4 Semantic division 4)" "\n"
-
-
 R"(\imt Main Title)" "\n"
 R"(\imt1 Main Title 1)" "\n"
 R"(\imt2 Main Title 2)" "\n"

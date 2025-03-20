@@ -1389,9 +1389,6 @@ TEST_F (filter_text, usfm_with_all_markers)
   "\n"
   "Major title at ending 2\n"
   "\n"
-  
-  
-  
   "Major section heading\n"
   "\n"
   "Major section heading 1\n"
@@ -1430,8 +1427,6 @@ TEST_F (filter_text, usfm_with_all_markers)
   "\n"
   "Semantic division 4\n"
   "\n"
-
-  
   "Main Title\n"
   "\n"
   "Main Title 1\n"
@@ -1498,8 +1493,6 @@ TEST_F (filter_text, usfm_with_all_markers)
   "\n"
   "Introduction main title ending 2\n"
   "\n"
- 
-  
   "Right א (2)\n"
   "\n"
   "Genesis\n"
@@ -1557,8 +1550,6 @@ TEST_F (filter_text, usfm_with_all_markers)
   "Major title at ending\n"
   "Major title at ending 1\n"
   "Major title at ending 2\n"
-
-
   "Major section heading\n"
   "Major section heading 1\n"
   "Major section heading 2\n"
@@ -1578,8 +1569,6 @@ TEST_F (filter_text, usfm_with_all_markers)
   "Semantic division 2\n"
   "Semantic division 3\n"
   "Semantic division 4\n"
-
-
   "Main Title\n"
   "Main Title 1\n"
   "Main Title 2\n"
@@ -1612,7 +1601,6 @@ TEST_F (filter_text, usfm_with_all_markers)
   "Introduction main title ending\n"
   "Introduction main title ending 1\n"
   "Introduction main title ending 2\n"
-
   "א (2)\n"
   "1b Text namepronunciation.\n"
   "2 Normal added and AddPn\n"
@@ -1656,7 +1644,6 @@ TEST_F (filter_text, usfm_with_all_markers)
   R"(<p class="mte"><span>Major title at ending</span></p>)"
   R"(<p class="mte1"><span>Major title at ending 1</span></p>)"
   R"(<p class="mte2"><span>Major title at ending 2</span></p>)"
-
   R"(<p class="ms"><span>Major section heading</span></p>)"
   R"(<p class="ms1"><span>Major section heading 1</span></p>)"
   R"(<p class="ms2"><span>Major section heading 2</span></p>)"
@@ -1676,9 +1663,6 @@ TEST_F (filter_text, usfm_with_all_markers)
   R"(<p class="sd2"><span>Semantic division 2</span></p>)"
   R"(<p class="sd3"><span>Semantic division 3</span></p>)"
   R"(<p class="sd4"><span>Semantic division 4</span></p>)"
-
-
-
   R"(<p class="imt"><span>Main Title</span></p>)"
   R"(<p class="imt1"><span>Main Title 1</span></p>)"
   R"(<p class="imt2"><span>Main Title 2</span></p>)"
@@ -1712,10 +1696,6 @@ TEST_F (filter_text, usfm_with_all_markers)
   R"(<p class="imte"><span>Introduction main title ending</span></p>)"
   R"(<p class="imte1"><span>Introduction main title ending 1</span></p>)"
   R"(<p class="imte2"><span>Introduction main title ending 2</span></p>)"
-
-  
-
-  
   R"(<p class="c"><span>Genesis</span></p>)"
   R"(<p class="p"><span class="v">1b</span><span> </span><span>Text name</span><span class="pro">pronunciation</span><span>.</span></p>)"
   R"(<p class="p"><span class="v">2</span><span> </span><span>Normal </span><span class="add">added</span><span> and </span><span class="addpn">AddPn</span></p>)"

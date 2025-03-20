@@ -67,7 +67,7 @@ void Editor_Html2Usfm::load (std::string html)
 }
 
 
-void Editor_Html2Usfm::stylesheet (const std::string& stylesheet) // Todo load paragraph closers.
+void Editor_Html2Usfm::stylesheet (const std::string& stylesheet)
 {
   m_note_openers.clear();
   m_suppress_end_markers.clear();

@@ -61,50 +61,62 @@ void Editor_Html2Usfm::load (std::string html)
   // See http://pugixml.org/docs/manual.html for more information.
   // It is not enough to only parse with parse_ws_pcdata_single, it really needs parse_ws_pcdata.
   // This is significant for, for example, the space after verse numbers, among other cases.
-  pugi::xml_parse_result result = document.load_string (xml.c_str(), pugi::parse_ws_pcdata);
+  pugi::xml_parse_result result = m_document.load_string (xml.c_str(), pugi::parse_ws_pcdata);
   // Log parsing errors.
   pugixml_utils_error_logger (&result, xml);
 }
 
 
-void Editor_Html2Usfm::stylesheet (const std::string& stylesheet)
+void Editor_Html2Usfm::stylesheet (const std::string& stylesheet) // Todo load paragraph closers.
 {
-  styles.clear ();
-  note_openers.clear ();
-  character_styles.clear ();
-  const std::vector <std::string> markers = database::styles1::get_markers (stylesheet);
-  // Load the style information into the object.
-  for (const std::string& marker : markers) {
-    database::styles1::Item style = database::styles1::get_marker_data (stylesheet, marker);
-    styles [marker] = style;
-    // Get markers that should not have endmarkers.
-    bool suppress = false;
-    const int type = style.type;
-    const int subtype = style.subtype;
-    if (type == StyleTypeVerseNumber)
-      suppress = true;
-    if (type == StyleTypeFootEndNote) {
-      suppress = true;
-      if (subtype == FootEndNoteSubtypeFootnote)
-        note_openers.insert (marker);
-      if (subtype == FootEndNoteSubtypeEndnote)
-        note_openers.insert (marker);
-      if (subtype == FootEndNoteSubtypeContentWithEndmarker)
-        suppress = false;
-      if (subtype == FootEndNoteSubtypeParagraph)
-        suppress = false;
+  m_note_openers.clear();
+  m_suppress_end_markers.clear();
+  m_force_end_markers.clear();
+  m_character_styles.clear();
+  {
+    const std::vector <std::string> markers = database::styles1::get_markers (stylesheet);
+    // Load the style information into the object.
+    for (const std::string& marker : markers) {
+      database::styles1::Item style = database::styles1::get_marker_data (stylesheet, marker);
+      // Get markers that should not have endmarkers.
+      bool suppress = false;
+      const int type = style.type;
+      const int subtype = style.subtype;
+      if (type == StyleTypeVerseNumber)
+        suppress = true;
+      if (type == StyleTypeFootEndNote) {
+        suppress = true;
+        if (subtype == FootEndNoteSubtypeFootnote)
+          m_note_openers.insert (marker);
+        if (subtype == FootEndNoteSubtypeEndnote)
+          m_note_openers.insert (marker);
+        if (subtype == FootEndNoteSubtypeContentWithEndmarker)
+          suppress = false;
+        if (subtype == FootEndNoteSubtypeParagraph)
+          suppress = false;
+      }
+      if (type == StyleTypeCrossreference) {
+        suppress = true;
+        if (subtype == CrossreferenceSubtypeCrossreference)
+          m_note_openers.insert (marker);
+        if (subtype == CrossreferenceSubtypeContentWithEndmarker)
+          suppress = false;
+      }
+      if (type == StyleTypeTableElement)
+        suppress = true;
+      if (suppress)
+        m_suppress_end_markers.insert (marker);
     }
-    if (type == StyleTypeCrossreference) {
-      suppress = true;
-      if (subtype == CrossreferenceSubtypeCrossreference)
-        note_openers.insert (marker);
-      if (subtype == CrossreferenceSubtypeContentWithEndmarker)
-        suppress = false;
+  }
+  {
+    const std::list<stylesv2::Style> styles = database::styles2::get_styles (stylesheet);
+    // Paragraph styles normally don't have a closing USFM marker.
+    // But there's exceptions to this rule. Gather the markers that need a closing USFM marker.
+    for (const auto& style : styles) {
+      if (stylesv2::get_bool_parameter(&style, stylesv2::Property::has_endmarker)) {
+        m_force_end_markers.insert(style.marker);
+      }
     }
-    if (type == StyleTypeTableElement)
-      suppress = true;
-    if (suppress)
-      suppress_end_markers.insert (marker);
   }
 }
 
@@ -120,7 +132,7 @@ void Editor_Html2Usfm::run ()
 void Editor_Html2Usfm::main_process ()
 {
   // Iterate over the children to retrieve the "p" elements, then process them.
-  const pugi::xml_node body = document.first_child ();
+  const pugi::xml_node body = m_document.first_child ();
   for (pugi::xml_node& node : body.children()) {
     // Do not process the notes <p> and beyond
     // because it is at the end of the text body,
@@ -138,7 +150,7 @@ void Editor_Html2Usfm::main_process ()
 std::string Editor_Html2Usfm::get ()
 {
   // Generate the USFM as one string.
-  const std::string usfm = filter::strings::implode (output, "\n");
+  const std::string usfm = filter::strings::implode (m_output, "\n");
   return clean_usfm (usfm);
 }
 
@@ -169,7 +181,7 @@ void Editor_Html2Usfm::process_node(pugi::xml_node& node)
     {
       // Add the text to the current USFM line.
       m_last_added_text_fragment = node.text ().get ();
-      current_line.append(m_last_added_text_fragment);
+      m_current_line.append(m_last_added_text_fragment);
       break;
     }
     case pugi::node_null:
@@ -202,10 +214,10 @@ void Editor_Html2Usfm::open_element_node (pugi::xml_node& node)
       class_name = "p";
     if (class_name == "mono") {
       // Class 'mono': The editor has the full USFM in the text.
-      mono = true;
+      m_mono = true;
     } else {
       // Start the USFM line with a marker with the class name.
-      current_line.append(filter::usfm::get_opening_usfm (class_name));
+      m_current_line.append(filter::usfm::get_opening_usfm (class_name));
     }
   }
   
@@ -252,22 +264,26 @@ void Editor_Html2Usfm::close_element_node (const pugi::xml_node& node)
     if (class_name.empty())
       class_name = "p";
     
-    if (note_openers.find (class_name) != note_openers.end()) {
+    if (m_note_openers.find (class_name) != m_note_openers.cend()) {
       // Deal with note closers.
-      current_line.append(filter::usfm::get_closing_usfm (class_name));
+      m_current_line.append(filter::usfm::get_closing_usfm (class_name));
     } else {
+      // If this style should add an endmarker, handle that here.
+      if (m_force_end_markers.find(class_name) != m_force_end_markers.cend()) {
+        m_current_line.append(filter::usfm::get_closing_usfm (class_name));
+      }
       // Normally a p element closes the USFM line.
       flush_line ();
-      mono = false;
+      m_mono = false;
       // Clear active character styles.
-      character_styles.clear();
+      m_character_styles.clear();
     }
   }
   
   if (tag_name == "span")
   {
     // Do nothing for monospace elements, because the USFM would be the text nodes only.
-    if (mono)
+    if (m_mono)
       return;
     // Do nothing without a class.
     if (class_name.empty())
@@ -279,7 +295,7 @@ void Editor_Html2Usfm::close_element_node (const pugi::xml_node& node)
     // There's two exceptions:
     // 1. If a word-level attributes ID was found: This needs an endmarker.
     // 2. If the last added text fragment contains the vertical bar, as that indicates word-level attributes.
-    if (suppress_end_markers.find (class_name) != suppress_end_markers.end()) {
+    if (m_suppress_end_markers.find (class_name) != m_suppress_end_markers.end()) {
       if ((wla_class.empty()) && (m_last_added_text_fragment.find("|") == std::string::npos))
         return;
     }
@@ -289,18 +305,19 @@ void Editor_Html2Usfm::close_element_node (const pugi::xml_node& node)
       m_word_level_attributes.erase(wla_class);
       if (!contents.empty()) {
         // The vertical bar separates the canonical word from the attribute(s) following it.
-        current_line.append("|");
-        current_line.append(contents);
+        m_current_line.append("|");
+        m_current_line.append(contents);
       }
     }
     // Add closing USFM, optionally closing embedded tags in reverse order.
-    character_styles = filter::strings::array_diff (character_styles, classes);
+    m_character_styles = filter::strings::array_diff (m_character_styles, classes);
     reverse (classes.begin(), classes.end());
     for (unsigned int offset = 0; offset < classes.size(); offset++) {
       bool embedded = (classes.size () > 1) && (offset == 0);
-      if (!character_styles.empty ()) embedded = true;
-      current_line.append (filter::usfm::get_closing_usfm (classes [offset], embedded));
-      last_note_style.clear();
+      if (!m_character_styles.empty ())
+        embedded = true;
+      m_current_line.append (filter::usfm::get_closing_usfm (classes [offset], embedded));
+      m_last_note_style.clear();
     }
   }
   
@@ -319,30 +336,31 @@ void Editor_Html2Usfm::open_inline (const std::string& class_name)
   // is calling</span> you</span><span>.</span>
   const auto [classes, wla] = get_standard_classes_and_wla_class(class_name);
   for (unsigned int offset = 0; offset < classes.size(); offset++) {
-    const bool embedded = (character_styles.size () + offset) > 0;
+    const bool embedded = (m_character_styles.size () + offset) > 0;
     const std::string marker = classes[offset];
     bool add_opener = true;
-    if (processing_note) {
+    if (m_processing_note) {
       // If the style within the note has already been opened before,
       // do not open the same style again.
       // https://github.com/bibledit/cloud/issues/353
-      if (marker == last_note_style) add_opener = false;
-      last_note_style = marker;
+      if (marker == m_last_note_style)
+        add_opener = false;
+      m_last_note_style = marker;
     } else {
-      last_note_style.clear ();
+      m_last_note_style.clear ();
     }
     if (add_opener) {
-      current_line.append (filter::usfm::get_opening_usfm (marker, embedded));
+      m_current_line.append (filter::usfm::get_opening_usfm (marker, embedded));
     }
   }
   // Store active character styles in some cases.
   bool store = true;
-  if (suppress_end_markers.find (class_name) != suppress_end_markers.end ())
+  if (m_suppress_end_markers.find (class_name) != m_suppress_end_markers.end ())
     store = false;
-  if (processing_note)
+  if (m_processing_note)
     store = false;
   if (store) {
-    character_styles.insert (character_styles.end(), classes.begin(), classes.end());
+    m_character_styles.insert (m_character_styles.end(), classes.begin(), classes.end());
   }
 }
 
@@ -370,7 +388,7 @@ void Editor_Html2Usfm::process_note_citation (pugi::xml_node& node)
   // But XPath crashed on Android with libxml2.
   // Therefore now it iterates over all the nodes to find the required element.
   // After moving to pugixml, the XPath expression could have been used again, but this was not done.
-  pugi::xml_node note_p_element = get_note_pointer (document.first_child (), id);
+  pugi::xml_node note_p_element = get_note_pointer (m_document.first_child (), id);
   if (note_p_element) {
 
     // It now has the <p>.
@@ -392,16 +410,16 @@ void Editor_Html2Usfm::process_note_citation (pugi::xml_node& node)
     }
 
     // Preserve active character styles in the main text, and reset them for the note.
-    std::vector <std::string> preserved_character_styles = std::move(character_styles);
-    character_styles.clear();
+    std::vector <std::string> preserved_character_styles = std::move(m_character_styles);
+    m_character_styles.clear();
     
     // Process this 'p' element.
-    processing_note = true;
+    m_processing_note = true;
     process_node(note_p_element);
-    processing_note = false;
+    m_processing_note = false;
     
     // Restore the active character styles for the main text.
-    character_styles = std::move(preserved_character_styles);
+    m_character_styles = std::move(preserved_character_styles);
     
     // Remove this element so it can't be processed again.
     pugi::xml_node parent = note_p_element.parent ();
@@ -416,7 +434,7 @@ void Editor_Html2Usfm::process_note_citation (pugi::xml_node& node)
 std::string Editor_Html2Usfm::clean_usfm (std::string usfm)
 {
   // Replace a double space after a note opener.
-  for (const std::string& noteOpener : note_openers) {
+  for (const std::string& noteOpener : m_note_openers) {
     const std::string opener = filter::usfm::get_opening_usfm (noteOpener);
     usfm = filter::strings::replace (opener + " ", opener, usfm);
   }
@@ -431,16 +449,16 @@ std::string Editor_Html2Usfm::clean_usfm (std::string usfm)
 
 void Editor_Html2Usfm::pre_process ()
 {
-  output.clear ();
-  current_line.clear ();
-  mono = false;
+  m_output.clear ();
+  m_current_line.clear ();
+  m_mono = false;
   m_word_level_attributes.clear();
   
   // Remove the node for word-level attributes that was there only for visual appearance in the editors.
   // Store the word-level attributes themsselves in a container ready for use.
   // And remove those nodes too from the XML tree.
   std::vector<pugi::xml_node> delete_nodes{};
-  pugi::xml_node body = document.first_child ();
+  pugi::xml_node body = m_document.first_child ();
   for (pugi::xml_node& node : body.children()) {
     const std::string classs = update_quill_class (node.attribute ("class").value ());
     if (classs == quill_word_level_attributes_class) {
@@ -461,15 +479,15 @@ void Editor_Html2Usfm::pre_process ()
 
 void Editor_Html2Usfm::flush_line ()
 {
-  if (!current_line.empty ()) {
+  if (!m_current_line.empty ()) {
     // Trim so that '\p ' becomes '\p', for example.
-    current_line = filter::strings::trim (std::move(current_line));
+    m_current_line = filter::strings::trim (std::move(m_current_line));
     // No longer doing the above
     // because it would remove a space intentionally added to the end of a line.
     // Instead it now only does a left trim instead of the full trim.
     // current_line = filter::strings::ltrim (current_line);
-    output.push_back (std::move(current_line));
-    current_line.clear ();
+    m_output.push_back (std::move(m_current_line));
+    m_current_line.clear ();
   }
 }
 

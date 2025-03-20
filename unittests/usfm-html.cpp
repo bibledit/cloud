@@ -1892,6 +1892,37 @@ TEST_F (usfm_html, pronunciation)
   editor_usfm2html.run ();
   const std::string html = editor_usfm2html.get ();
   EXPECT_EQ (standard_html, html);
+  
+  Editor_Html2Usfm editor_html2usfm;
+  editor_html2usfm.load (html);
+  editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
+  editor_html2usfm.run ();
+  const std::string usfm = editor_html2usfm.get ();
+  EXPECT_EQ (standard_usfm, usfm);
+}
+
+
+TEST_F (usfm_html, inline_quotation_reference)
+{
+  std::string standard_usfm =
+  R"(\p)" "\n"
+  R"(\v 1 verse 1)" "\n"
+  R"(\rq reference\rq*)" "\n"
+  R"(\p)" "\n"
+  R"(\v 2 verse 2)";
+  
+  const std::string standard_html =
+  R"(<p class="b-p"><span class="i-v">1</span><span> </span><span>verse 1</span></p>)"
+  R"(<p class="b-rq"><span>reference</span></p>)"
+  R"(<p class="b-p"><span class="i-v">2</span><span> </span><span>verse 2</span></p>)"
+  ;
+  
+  Editor_Usfm2Html editor_usfm2html;
+  editor_usfm2html.load (standard_usfm);
+  editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
+  editor_usfm2html.run ();
+  const std::string html = editor_usfm2html.get ();
+  EXPECT_EQ (standard_html, html);
 
   Editor_Html2Usfm editor_html2usfm;
   editor_html2usfm.load (html);

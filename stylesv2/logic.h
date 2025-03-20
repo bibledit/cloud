@@ -70,6 +70,9 @@ enum class Property : int {
   // Whether to output the marker on the left and/or the right page.
   on_left_page,
   on_right_page,
+
+  // Whether this style, normally without an endmarker, should have the endmarker.
+  has_endmarker,
   
   // Should be the last always.
   stopping_boundary

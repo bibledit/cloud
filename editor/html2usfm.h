@@ -41,16 +41,26 @@ public:
   void run ();
   std::string get ();
 private:
-  pugi::xml_document document {}; // DOMDocument holding the html.
-  std::map <std::string, database::styles1::Item> styles {}; // Style information.
-  std::vector <std::string> output {}; // Output USFM.
-  std::string current_line {}; // Growing current USFM line.
-  bool mono {false}; // Monospace font.
-  std::set <std::string> suppress_end_markers {}; // Markers which should not have endmarkers, e.g. \v does not have \v*
-  std::set <std::string> note_openers {};
-  std::vector <std::string> character_styles {}; // Active character styles.
-  bool processing_note {false}; // Note processing flag.
-  std::string last_note_style {}; // The most recent style opened inside a note.
+  // DOMDocument holding the html.
+  pugi::xml_document m_document {};
+  // Output USFM.
+  std::vector <std::string> m_output {};
+  // Growing current USFM line.
+  std::string m_current_line {};
+  // Monospace font.
+  bool m_mono {false};
+  // Markers which should not have endmarkers, e.g. \v does not have \v*.
+  std::set <std::string> m_suppress_end_markers {};
+  // Markers which should have endmarkers, e.g. \rq is a paragraph but should still have \rq*.
+  std::set <std::string> m_force_end_markers {};
+  // Markers that open notes.
+  std::set <std::string> m_note_openers {};
+  // Active character styles.
+  std::vector <std::string> m_character_styles {};
+  // Note processing flag.
+  bool m_processing_note {false};
+  // The most recent style opened inside a note.
+  std::string m_last_note_style {};
   void pre_process ();
   void flush_line ();
   void post_process ();

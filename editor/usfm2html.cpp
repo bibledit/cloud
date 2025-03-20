@@ -129,9 +129,6 @@ void Editor_Usfm2Html::preprocess ()
   m_current_p_open = false;
   m_note_p_open = false;
 
-  // XPath crashes on Android with libxml2 2.9.2 compiled through the Android NDK.
-  // After the move to pugixml, this no longer applies.
-
   m_body_node = m_document.append_child ("body");
   
   // Create the xml node for the notes container.
@@ -157,8 +154,7 @@ void Editor_Usfm2Html::preprocess ()
 void Editor_Usfm2Html::process ()
 {
   m_markers_and_text_pointer = 0;
-  const size_t markers_and_text_count = m_markers_and_text.size();
-  for (m_markers_and_text_pointer = 0; m_markers_and_text_pointer < markers_and_text_count; m_markers_and_text_pointer++) {
+  for (m_markers_and_text_pointer = 0; m_markers_and_text_pointer < m_markers_and_text.size(); m_markers_and_text_pointer++) {
     const std::string current_item = m_markers_and_text[m_markers_and_text_pointer];
     if (filter::usfm::is_usfm_marker (current_item))
     {
@@ -403,7 +399,8 @@ void Editor_Usfm2Html::process ()
             // Output as a paragraph.
             close_text_style (false);
             close_paragraph ();
-            new_paragraph (marker);
+            if (is_opening_marker)
+              new_paragraph (marker);
             break;
           }
           case stylesv2::Type::chapter_label:

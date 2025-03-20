@@ -1257,6 +1257,7 @@ const std::list<Style> styles {
     .type = Type::paragraph,
     .name = "Inline quotation references",
     .info = "A cross-reference indicating the source text for the preceding quotation.",
+    .properties = {{Property::has_endmarker,true}},
     .paragraph = Paragraph {
       .font_size = 10,
       .italic = TwoState::on,

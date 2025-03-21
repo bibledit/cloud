@@ -37,6 +37,7 @@ enum class Type : int {
   title,
   heading,
   paragraph,
+  chapter,
   chapter_label,
   published_chapter_marker,
   alternate_chapter_number,
@@ -64,7 +65,7 @@ enum class Property : int {
   // Not implemented due to limitations in OpenDocument.
   // starts_odd_page,
   
-  // Whether the marker has been deprecated in the newest USFM specs.
+  // Whether the marker has been deprecated in the newest USFM specification.
   deprecated,
   
   // Whether to output the marker on the left and/or the right page.
@@ -73,6 +74,9 @@ enum class Property : int {
 
   // Whether this style, normally without an endmarker, should have the endmarker.
   has_endmarker,
+  
+  // Whether to ouotput this marker at the first verse.
+  at_first_verse,
   
   // Should be the last always.
   stopping_boundary

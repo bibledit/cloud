@@ -67,6 +67,8 @@ std::string type_enum_to_value (const Type type, const bool describe)
       return "heading";
     case Type::paragraph:
       return "paragraph";
+    case Type::chapter:
+      return "chapter";
     case Type::chapter_label:
       if (describe)
         return "chapter label";
@@ -126,6 +128,10 @@ std::string property_enum_to_value (const Property property)
       return "on_left_page";
     case Property::on_right_page:
       return "on_right_page";
+    case Property::has_endmarker:
+      return "has_endmarker";
+    case Property::at_first_verse:
+      return "at_first_verse";
     case Property::stopping_boundary:
       return "stopping_boundary";
     default:
@@ -158,6 +164,8 @@ Variant property_to_variant (const Property property)
       return Variant::none;
     case Property::on_left_page:
     case Property::on_right_page:
+    case Property::has_endmarker:
+    case Property::at_first_verse:
       return Variant::boolean;
     case Property::stopping_boundary:
     default:
@@ -1262,7 +1270,6 @@ const std::list<Style> styles {
       .font_size = 10,
       .italic = TwoState::on,
       .text_alignment = TextAlignment::right,
-      .space_before = 0,
       .space_after = 4,
     },
       .doc = "https://ubsicap.github.io/usfm/titles_headings/index.html#rq-rq",
@@ -1291,7 +1298,6 @@ const std::list<Style> styles {
     .paragraph = Paragraph {
       .font_size = 12,
       .italic = TwoState::on,
-      .text_alignment = TextAlignment::left,
       .space_before = 8,
       .space_after = 4,
     },
@@ -1305,7 +1311,6 @@ const std::list<Style> styles {
     .info = "Vertical space used to divide the text into sections, in a manner similar to the structure added through the use of a sequence of heading texts.",
     .paragraph = Paragraph {
       .font_size = 20,
-      .text_alignment = TextAlignment::left,
       .space_before = 24,
       .space_after = 24,
     },
@@ -1319,7 +1324,6 @@ const std::list<Style> styles {
     .info = "Vertical space used to divide the text into sections, in a manner similar to the structure added through the use of a sequence of heading texts.",
     .paragraph = Paragraph {
       .font_size = 20,
-      .text_alignment = TextAlignment::left,
       .space_before = 24,
       .space_after = 24,
     },
@@ -1333,7 +1337,6 @@ const std::list<Style> styles {
     .info = "Vertical space used to divide the text into sections, in a manner similar to the structure added through the use of a sequence of heading texts.",
     .paragraph = Paragraph {
       .font_size = 16,
-      .text_alignment = TextAlignment::left,
       .space_before = 18,
       .space_after = 18,
     },
@@ -1347,7 +1350,6 @@ const std::list<Style> styles {
     .info = "Vertical space used to divide the text into sections, in a manner similar to the structure added through the use of a sequence of heading texts.",
     .paragraph = Paragraph {
       .font_size = 16,
-      .text_alignment = TextAlignment::left,
       .space_before = 12,
       .space_after = 12,
     },
@@ -1361,13 +1363,38 @@ const std::list<Style> styles {
     .info = "Vertical space used to divide the text into sections, in a manner similar to the structure added through the use of a sequence of heading texts.",
     .paragraph = Paragraph {
       .font_size = 16,
-      .text_alignment = TextAlignment::left,
       .space_before = 8,
       .space_after = 8,
     },
       .doc = "https://ubsicap.github.io/usfm/titles_headings/index.html#sd",
       .category = Category::titles_headings_labels,
   },
+
+  
+  {
+    .marker = "c",
+    .type = Type::chapter,
+    .name = "Chapter number",
+    .info = "For the chapter number.",
+    .paragraph = Paragraph {
+      .font_size = 18,
+      .bold = TwoState::on,
+      .space_before = 8,
+      .space_after = 4,
+    },
+      .properties = {
+        {Property::at_first_verse,true},
+        {Property::on_left_page,true},
+        {Property::on_right_page,true}
+      },
+      .doc = "https://ubsicap.github.io/usfm/titles_headings/index.html#sd",
+      .category = Category::chapters_verses,
+  },
+
+  // Todo
+//  Print chapter number at first verse  On
+//  Print chapter number in the running header of the left page  On
+//  Print chapter number in the running header of the right page  On
 
   
   // Todo adding here.
@@ -1684,39 +1711,6 @@ const std::list<Style> styles {
 //    /* userbool2 */ 0,
 //    /* userbool3 */ 0,
 //    /* userint1 */ 0,
-//    /* userint2 */ 0,
-//    /* userint3 */ 0,
-//    /* userstring1 */ "",
-//    /* userstring2 */ "",
-//    /* userstring3 */ "",
-//    /* backgroundcolor */ "#FFFFFF",
-//  },
-//  {
-//    /* marker */ "c",
-//    /* name */ "Chapter number",
-//    /* info */ "Chapter number",
-//    /* category */ "cv",
-//    /* type */ 5,
-//    /* subtype */ 0,
-//    /* fontsize */ 18,
-//    /* italic */ 0,
-//    /* bold */ 1,
-//    /* underline */ 0,
-//    /* smallcaps */ 0,
-//    /* superscript */ 0,
-//    /* justification */ 0,
-//    /* spacebefore */ 8,
-//    /* spaceafter */ 4,
-//    /* leftmargin */ 0,
-//    /* rightmargin */ 0,
-//    /* firstlineindent */ 0,
-//    /* spancolumns */ 0,
-//    /* color */ "#000000",
-//    /* print */ 1,
-//    /* userbool1 */ 1,
-//    /* userbool2 */ 1,
-//    /* userbool3 */ 1,
-//    /* userint1 */ 90,
 //    /* userint2 */ 0,
 //    /* userint3 */ 0,
 //    /* userstring1 */ "",

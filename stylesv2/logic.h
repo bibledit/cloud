@@ -182,6 +182,7 @@ struct Style final {
 inline bool operator==(const Style& style, const std::string& marker) noexcept { return style.marker == marker; }
 std::ostream& operator<<(std::ostream& os, const Style& style);
 bool get_bool_parameter (const Style* style, const Property property);
+bool has_property (const Style* style, const Property property);
 
 
 extern const std::list<Style> styles;

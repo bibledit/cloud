@@ -372,7 +372,7 @@ std::ostream& operator<<(std::ostream& os, const Style& style)
 }
 
 
-bool get_bool_parameter (const Style* style, const Property property) // Todo use this for every property so far.
+bool get_bool_parameter (const Style* style, const Property property) // Todo use this for every relevant property.
 {
   const auto iter = style->properties.find(property);
   if (iter != style->properties.cend()) {
@@ -382,6 +382,12 @@ bool get_bool_parameter (const Style* style, const Property property) // Todo us
     }
   }
   return false;
+}
+
+
+bool has_property (const Style* style, const Property property) // Todo use this for every relevant property
+{
+  return (style->properties.find(property) != style->properties.cend());
 }
 
 

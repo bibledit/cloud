@@ -966,7 +966,7 @@ TEST_F (styles, get_styles_etc_v2)
   constexpr const char* sheet {"sheet"};
   database::styles::create_sheet (sheet);
   
-  // The default stylesheet has the default number of styles.
+  // The standard stylesheet has the default number of styles.
   {
     const std::list<stylesv2::Style>& styles = get_styles(styles_logic_standard_sheet());
     EXPECT_EQ (styles.size(), stylesv2::styles.size());
@@ -1055,6 +1055,22 @@ TEST_F (styles, get_styles_etc_v2)
     const std::list<stylesv2::Style>& styles = get_styles(sheet);
     EXPECT_EQ (styles.size(), stylesv2::styles.size());
   }
+}
+
+
+// Test style proerties operations.
+TEST_F (styles, properties)
+{
+  using namespace stylesv2;
+  Style style{};
+  EXPECT_FALSE(get_bool_parameter(&style, Property::has_endmarker));
+  EXPECT_FALSE(has_property(&style, Property::has_endmarker));
+  style = { .properties = {{Property::has_endmarker,false}} };
+  EXPECT_FALSE(get_bool_parameter(&style, Property::has_endmarker));
+  EXPECT_TRUE(has_property(&style, Property::has_endmarker));
+  style = { .properties = {{Property::has_endmarker,true}} };
+  EXPECT_TRUE(get_bool_parameter(&style, Property::has_endmarker));
+  EXPECT_TRUE(has_property(&style, Property::has_endmarker));
 }
 
 

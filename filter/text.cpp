@@ -46,6 +46,9 @@ passage_marker_value::passage_marker_value (int book, int chapter, std::string v
 // This class filters USFM text, converting it into other formats.
 
 
+const std::string chapter_marker {"c"};
+
+
 Filter_Text::Filter_Text (std::string bible)
 {
   m_bible = bible;
@@ -110,7 +113,6 @@ void Filter_Text::run (const std::string& stylesheet)
   chapter_usfm_markers_and_text.clear();
   chapter_usfm_markers_and_text_pointer = 0;
   styles.clear();
-  chapterMarker.clear();
   createdStyles.clear();
 }
 
@@ -133,23 +135,11 @@ void Filter_Text::get_usfm_next_chapter ()
   chapter_usfm_markers_and_text_pointer = 0;
   bool firstLine = true;
 
-  // Obtain the standard marker for the chapter number.
-  // Deal with the unlikely case that the chapter marker is non-standard.
-  if (chapterMarker.empty()) {
-    chapterMarker = "c";
-    for (const auto & style : styles) {
-      if (style.second.type == StyleTypeChapterNumber) {
-        chapterMarker = style.second.marker;
-        break;
-      }
-    }
-  }
-
   // Load the USFM code till the next chapter marker.
   while (unprocessed_usfm_code_available ()) {
     std::string item = m_usfm_markers_and_text [usfm_markers_and_text_ptr];
     if (!firstLine) {
-      if (filter::strings::trim (item) == (R"(\)" + chapterMarker)) {
+      if (filter::strings::trim (item) == (R"(\)" + chapter_marker)) {
         return;
       }
     }
@@ -207,14 +197,6 @@ void Filter_Text::pre_process_usfm (const std::string& stylesheet)
             database::styles1::Item style = styles [marker];
             note_citations.evaluate_style(style);
             switch (style.type) {
-              case StyleTypeChapterNumber:
-              {
-                const std::string number = filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
-                m_current_chapter_number = filter::strings::convert_to_int (number);
-                m_number_of_chapters_per_book[m_current_book_identifier] = m_current_chapter_number;
-                set_to_zero(m_current_verse_number);
-                break;
-              }
               case StyleTypeVerseNumber:
               {
                 const std::string fragment = filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
@@ -303,6 +285,14 @@ void Filter_Text::pre_process_usfm (const std::string& stylesheet)
               {
                 const std::string book_bbreviation = filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
                 bookAbbreviations.push_back (filter::text::passage_marker_value (m_current_book_identifier, m_current_chapter_number, m_current_verse_number, marker, book_bbreviation));
+                break;
+              }
+              case stylesv2::Type::chapter: // Todo test this.
+              {
+                const std::string number = filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
+                m_current_chapter_number = filter::strings::convert_to_int (number);
+                m_number_of_chapters_per_book[m_current_book_identifier] = m_current_chapter_number;
+                set_to_zero(m_current_verse_number);
                 break;
               }
               case stylesv2::Type::chapter_label:
@@ -437,133 +427,6 @@ void Filter_Text::process_usfm (const std::string& stylesheet)
                 if (html_text_standard) html_text_standard->close_text_style (false, is_embedded_marker);
                 if (html_text_linked) html_text_linked->close_text_style (false, is_embedded_marker);
               }
-              break;
-            }
-            case StyleTypeChapterNumber:
-            {
-              if (odf_text_standard)
-                odf_text_standard->close_text_style (false, false);
-              if (odf_text_text_only)
-                odf_text_text_only->close_text_style (false, false);
-              if (odf_text_text_and_note_citations)
-                odf_text_text_and_note_citations->close_text_style (false, false);
-              if (odf_text_notes)
-                odf_text_notes->close_text_style (false, false);
-              if (html_text_standard)
-                html_text_standard->close_text_style (false, false);
-              if (html_text_linked)
-                html_text_linked->close_text_style (false, false);
-              if (onlinebible_text)
-                onlinebible_text->storeData ();
-
-              // Get the chapter number.
-              std::string usfm_c_fragment = filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
-
-              // Update this object.
-              m_current_chapter_number = filter::strings::convert_to_int (usfm_c_fragment);
-              set_to_zero(m_current_verse_number);
-
-              // If there is a published chapter character, the chapter number takes that value.
-              for (const auto& published_chapter_marker : published_chapter_markers) {
-                if (published_chapter_marker.m_book == m_current_book_identifier) {
-                  if (published_chapter_marker.m_chapter == m_current_chapter_number) {
-                    usfm_c_fragment = published_chapter_marker.m_value;
-                  }
-                }
-              }
-
-              // If there's an alternate chapter number, append this to the chapter number fragment.
-              for (const auto& alternate_chapter_number : alternate_chapter_numbers) {
-                if (alternate_chapter_number.m_book == m_current_book_identifier) {
-                  if (alternate_chapter_number.m_chapter == m_current_chapter_number) {
-                    usfm_c_fragment.append(" (");
-                    usfm_c_fragment.append (alternate_chapter_number.m_value);
-                    usfm_c_fragment.append(")");
-                  }
-                }
-              }
-              
-              // Enter text for the running headers.
-              std::string running_header = database::books::get_english_from_id (static_cast<book_id>(m_current_book_identifier));
-              for (const auto& item : runningHeaders) {
-                if (item.m_book == m_current_book_identifier) {
-                  running_header = item.m_value;
-                }
-              }
-              running_header += (" " + usfm_c_fragment);
-              if (odf_text_standard) odf_text_standard->new_heading1 (running_header, true);
-              if (odf_text_text_only) odf_text_text_only->new_heading1 (running_header, true);
-              if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->new_heading1 (running_header, true);
-              if (odf_text_notes) odf_text_notes->new_heading1 (running_header, false);
-
-              // This is the phase of outputting the chapter number in the text body.
-              // It always outputs the chapter number to the clear text export.
-              if (text_text) { 
-                text_text->paragraph (usfm_c_fragment);
-              }
-              // The chapter number is only output when there is more than one chapter in a book.
-              // if (m_number_of_chapters_per_book [m_current_book_identifier] > 1)
-              // This was disabled because of a bug where exporting to web did not output the chapter number
-              // for the first chapter. See https://github.com/bibledit/cloud/issues/905 for more info.
-              {
-                // Putting the chapter number at the first verse is determined by the style of the \c marker.
-                // But if a chapter label (\cl) is found in the current book, that disables the above.
-                const bool cl_found = book_has_chapter_label[m_current_book_identifier];
-                if (style.userbool1 && !cl_found) {
-                  // Output the chapter number at the first verse, not here.
-                  // Store it for later processing.
-                  m_output_chapter_text_at_first_verse = usfm_c_fragment;
-                } else {
-                  // Output the chapter in a new paragraph.
-                  // If the chapter label \cl is entered once before chapter 1 (\c 1)
-                  // it represents the text for "chapter" to be used throughout the current book.
-                  // If \cl is used after each individual chapter marker, it represents the particular text
-                  // to be used for the display of the current chapter heading
-                  // (usually done if numbers are being presented as words, not numerals).
-                  std::string labelEntireBook {};
-                  std::string labelCurrentChapter {};
-                  for (const auto& chapter_label : chapter_labels) {
-                    if (chapter_label.m_book == m_current_book_identifier) {
-                      if (chapter_label.m_chapter == 0) {
-                        labelEntireBook = chapter_label.m_value;
-                      }
-                      if (chapter_label.m_chapter == m_current_chapter_number) {
-                        labelCurrentChapter = chapter_label.m_value;
-                      }
-                    }
-                  }
-                  if (!labelEntireBook.empty()) {
-                    usfm_c_fragment = labelEntireBook + " " + usfm_c_fragment;
-                  }
-                  if (!labelCurrentChapter.empty()) {
-                    usfm_c_fragment = labelCurrentChapter;
-                  }
-                  // The chapter number shows in a new paragraph.
-                  // Keep it together with the next paragraph.
-                  new_paragraph (style, true);
-                  if (odf_text_standard) odf_text_standard->add_text (usfm_c_fragment);
-                  if (odf_text_text_only) odf_text_text_only->add_text (usfm_c_fragment);
-                  if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->add_text (usfm_c_fragment);
-                  if (html_text_standard) html_text_standard->add_text (usfm_c_fragment);
-                  if (html_text_linked) html_text_linked->add_text (usfm_c_fragment);
-                }
-              }
-
-              // Output chapter number for other formats.
-              if (esword_text) esword_text->newChapter (m_current_chapter_number);
-
-              // Open a paragraph for the notes.
-              // It takes the style of the footnote content marker, usually 'ft'.
-              // This is done specifically for the version that has the notes only.
-              ensureNoteParagraphStyle (standard_content_marker_foot_end_note, styles[standard_content_marker_foot_end_note]);
-              if (odf_text_notes) odf_text_notes->new_paragraph (standard_content_marker_foot_end_note);
-              // UserBool2ChapterInLeftRunningHeader -> no headings implemented yet.
-              // UserBool3ChapterInRightRunningHeader -> no headings implemented yet.
-
-              // Reset.
-              note_citations.restart("chapter");
-
-              // Done.
               break;
             }
             case StyleTypeVerseNumber:
@@ -1054,6 +917,146 @@ void Filter_Text::process_usfm (const std::string& stylesheet)
               }
               break;
             }
+            case stylesv2::Type::chapter: // Todo test.
+            {
+              if (odf_text_standard)
+                odf_text_standard->close_text_style (false, false);
+              if (odf_text_text_only)
+                odf_text_text_only->close_text_style (false, false);
+              if (odf_text_text_and_note_citations)
+                odf_text_text_and_note_citations->close_text_style (false, false);
+              if (odf_text_notes)
+                odf_text_notes->close_text_style (false, false);
+              if (html_text_standard)
+                html_text_standard->close_text_style (false, false);
+              if (html_text_linked)
+                html_text_linked->close_text_style (false, false);
+              if (onlinebible_text)
+                onlinebible_text->storeData ();
+              
+              // Get the chapter number.
+              std::string usfm_c_fragment = filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
+              
+              // Update this object.
+              m_current_chapter_number = filter::strings::convert_to_int (usfm_c_fragment);
+              set_to_zero(m_current_verse_number);
+              
+              // If there is a published chapter character, the chapter number takes that value.
+              for (const auto& published_chapter_marker : published_chapter_markers) {
+                if (published_chapter_marker.m_book == m_current_book_identifier) {
+                  if (published_chapter_marker.m_chapter == m_current_chapter_number) {
+                    usfm_c_fragment = published_chapter_marker.m_value;
+                  }
+                }
+              }
+              
+              // If there's an alternate chapter number, append this to the chapter number fragment.
+              for (const auto& alternate_chapter_number : alternate_chapter_numbers) {
+                if (alternate_chapter_number.m_book == m_current_book_identifier) {
+                  if (alternate_chapter_number.m_chapter == m_current_chapter_number) {
+                    usfm_c_fragment.append(" (");
+                    usfm_c_fragment.append (alternate_chapter_number.m_value);
+                    usfm_c_fragment.append(")");
+                  }
+                }
+              }
+              
+              // Enter text for the running headers.
+              std::string running_header = database::books::get_english_from_id (static_cast<book_id>(m_current_book_identifier));
+              for (const auto& item : runningHeaders) {
+                if (item.m_book == m_current_book_identifier) {
+                  running_header = item.m_value;
+                }
+              }
+              running_header.append(" ");
+              running_header.append(usfm_c_fragment);
+              if (odf_text_standard)
+                odf_text_standard->new_heading1 (running_header, true);
+              if (odf_text_text_only)
+                odf_text_text_only->new_heading1 (running_header, true);
+              if (odf_text_text_and_note_citations)
+                odf_text_text_and_note_citations->new_heading1 (running_header, true);
+              if (odf_text_notes)
+                odf_text_notes->new_heading1 (running_header, false);
+              
+              // This is the phase of outputting the chapter number in the text body.
+              // It always outputs the chapter number to the clear text export.
+              if (text_text) {
+                text_text->paragraph (usfm_c_fragment);
+              }
+              // The chapter number is only output when there is more than one chapter in a book.
+              // if (m_number_of_chapters_per_book [m_current_book_identifier] > 1)
+              // This was disabled because of a bug where exporting to web did not output the chapter number
+              // for the first chapter. See https://github.com/bibledit/cloud/issues/905 for more info.
+              {
+                // Putting the chapter number at the first verse is determined by the style of the \c marker.
+                // But if a chapter label (\cl) is found in the current book, that disables the above.
+                const bool cl_found = book_has_chapter_label[m_current_book_identifier];
+                if (stylesv2::get_bool_parameter(style, stylesv2::Property::at_first_verse) && !cl_found) { // Todo test this.
+                  // Output the chapter number at the first verse, not here.
+                  // Store it for later processing.
+                  m_output_chapter_text_at_first_verse = usfm_c_fragment;
+                } else {
+                  // Output the chapter in a new paragraph.
+                  // If the chapter label \cl is entered once before chapter 1 (\c 1)
+                  // it represents the text for "chapter" to be used throughout the current book.
+                  // If \cl is used after each individual chapter marker, it represents the particular text
+                  // to be used for the display of the current chapter heading
+                  // (usually done if numbers are being presented as words, not numerals).
+                  std::string labelEntireBook {};
+                  std::string labelCurrentChapter {};
+                  for (const auto& chapter_label : chapter_labels) {
+                    if (chapter_label.m_book == m_current_book_identifier) {
+                      if (chapter_label.m_chapter == 0) {
+                        labelEntireBook = chapter_label.m_value;
+                      }
+                      if (chapter_label.m_chapter == m_current_chapter_number) {
+                        labelCurrentChapter = chapter_label.m_value;
+                      }
+                    }
+                  }
+                  if (!labelEntireBook.empty()) {
+                    usfm_c_fragment = labelEntireBook + " " + usfm_c_fragment;
+                  }
+                  if (!labelCurrentChapter.empty()) {
+                    usfm_c_fragment = labelCurrentChapter;
+                  }
+                  // The chapter number shows in a new paragraph.
+                  // Keep it together with the next paragraph.
+                  new_paragraph (style, true);
+                  if (odf_text_standard)
+                    odf_text_standard->add_text (usfm_c_fragment);
+                  if (odf_text_text_only)
+                    odf_text_text_only->add_text (usfm_c_fragment);
+                  if (odf_text_text_and_note_citations)
+                    odf_text_text_and_note_citations->add_text (usfm_c_fragment);
+                  if (html_text_standard)
+                    html_text_standard->add_text (usfm_c_fragment);
+                  if (html_text_linked)
+                    html_text_linked->add_text (usfm_c_fragment);
+                }
+              }
+              
+              // Output chapter number for other formats.
+              if (esword_text)
+                esword_text->newChapter (m_current_chapter_number);
+              
+              // Open a paragraph for the notes.
+              // It takes the style of the footnote content marker, usually 'ft'.
+              // This is done specifically for the version that has the notes only.
+              ensureNoteParagraphStyle (standard_content_marker_foot_end_note, styles[standard_content_marker_foot_end_note]);
+              if (odf_text_notes)
+                odf_text_notes->new_paragraph (standard_content_marker_foot_end_note);
+              // Property::on_left_page -> no headings implemented yet.
+              // Property::on_right_page -> no headings implemented yet.
+              
+              // Reset.
+              note_citations.restart("chapter");
+              
+              // Done.
+              break;
+            }
+
             case stylesv2::Type::chapter_label:
             case stylesv2::Type::published_chapter_marker:
             {
@@ -1751,7 +1754,7 @@ void Filter_Text::applyDropCapsToCurrentParagraph (int dropCapsLength)
   // To name a style according to the number of characters to put in drop caps,
   // e.g. a style name like p_c1 or p_c2 or p_c3.
   if (odf_text_standard) {
-    std::string combined_style = odf_text_standard->m_current_paragraph_style + "_" + chapterMarker + std::to_string (dropCapsLength);
+    std::string combined_style = odf_text_standard->m_current_paragraph_style + "_" + chapter_marker + std::to_string (dropCapsLength);
     if (find (createdStyles.begin(), createdStyles.end(), combined_style) == createdStyles.end()) {
       database::styles1::Item style = styles[odf_text_standard->m_current_paragraph_style];
       std::string fontname = database::config::bible::get_export_font (m_bible);
@@ -1786,10 +1789,10 @@ void Filter_Text::applyDropCapsToCurrentParagraph (int dropCapsLength)
 // $chapterText: The text of the chapter indicator to put.
 void Filter_Text::putChapterNumberInFrame (std::string chapterText)
 {
-  database::styles1::Item style = styles[chapterMarker];
-  if (odf_text_standard) odf_text_standard->place_text_in_frame (chapterText, this->chapterMarker, style.fontsize, style.italic, style.bold);
-  if (odf_text_text_only) odf_text_text_only->place_text_in_frame (chapterText, this->chapterMarker, style.fontsize, style.italic, style.bold);
-  if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->place_text_in_frame (chapterText, this->chapterMarker, style.fontsize, style.italic, style.bold);
+  database::styles1::Item style = styles[chapter_marker]; // Todo styles v2 now, write it, test it.
+  if (odf_text_standard) odf_text_standard->place_text_in_frame (chapterText, chapter_marker, style.fontsize, style.italic, style.bold);
+  if (odf_text_text_only) odf_text_text_only->place_text_in_frame (chapterText, chapter_marker, style.fontsize, style.italic, style.bold);
+  if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->place_text_in_frame (chapterText, chapter_marker, style.fontsize, style.italic, style.bold);
 }
 
 

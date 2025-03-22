@@ -77,8 +77,6 @@ public:
 private:
   // A map of marker -> object with style information.
   std::map <std::string, database::styles1::Item> styles {};
-  // Usually this is: c
-  std::string chapterMarker {};
   // Array holding styles created in Odf_Text class.
   std::vector <std::string> createdStyles {};
 

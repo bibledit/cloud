@@ -151,6 +151,7 @@ std::string Editor_Styles::getAction (Webserver_Request& webserver_request, cons
       case stylesv2::Type::title:
       case stylesv2::Type::heading:
       case stylesv2::Type::paragraph:
+      case stylesv2::Type::chapter:
         return paragraph();
       case stylesv2::Type::chapter_label:
       case stylesv2::Type::published_chapter_marker:
@@ -177,8 +178,6 @@ std::string Editor_Styles::getAction (Webserver_Request& webserver_request, cons
         return paragraph ();
       case StyleTypeInlineText:
         return character ();
-      case StyleTypeChapterNumber:
-        return paragraph ();
       case StyleTypeVerseNumber:
         return character ();
       case StyleTypeFootEndNote:

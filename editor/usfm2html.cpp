@@ -195,13 +195,6 @@ void Editor_Usfm2Html::process ()
             }
             break;
           }
-          case StyleTypeChapterNumber:
-          {
-            close_text_style (false);
-            close_paragraph ();
-            new_paragraph (marker);
-            break;
-          }
           case StyleTypeVerseNumber:
           {
             // Close any existing text style.
@@ -401,6 +394,13 @@ void Editor_Usfm2Html::process ()
             close_paragraph ();
             if (is_opening_marker)
               new_paragraph (marker);
+            break;
+          }
+          case stylesv2::Type::chapter:
+          {
+            close_text_style (false);
+            close_paragraph ();
+            new_paragraph (marker);
             break;
           }
           case stylesv2::Type::chapter_label:

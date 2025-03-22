@@ -372,7 +372,7 @@ std::ostream& operator<<(std::ostream& os, const Style& style)
 }
 
 
-bool get_bool_parameter (const Style* style, const Property property)
+bool get_bool_parameter (const Style* style, const Property property) // Todo use this for every property so far.
 {
   const auto iter = style->properties.find(property);
   if (iter != style->properties.cend()) {
@@ -5152,6 +5152,7 @@ bool starts_new_line_in_usfm (const Style* style)
     case stylesv2::Type::long_toc_text:
     case stylesv2::Type::short_toc_text:
     case stylesv2::Type::book_abbrev:
+    case stylesv2::Type::chapter:
     case stylesv2::Type::chapter_label:
     case stylesv2::Type::published_chapter_marker:
     case stylesv2::Type::alternate_chapter_number:

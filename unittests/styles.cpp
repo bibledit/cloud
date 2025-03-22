@@ -1098,6 +1098,7 @@ TEST_F (styles, marker_starts_new_line_in_usfm)
       case Type::title:
       case Type::heading:
       case Type::paragraph:
+      case Type::chapter:
       case Type::chapter_label:
       case Type::published_chapter_marker:
       case Type::alternate_chapter_number:

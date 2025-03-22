@@ -60,7 +60,6 @@ std::string styles_logic_type_text (int type)
 {
   if (type == StyleTypeStartsParagraph) return translate ("starts a new paragraph");
   if (type == StyleTypeInlineText     ) return translate ("is inline text with endmarker");
-  if (type == StyleTypeChapterNumber  ) return translate ("is a chapter number");
   if (type == StyleTypeVerseNumber    ) return translate ("is a verse number");
   if (type == StyleTypeFootEndNote    ) return translate ("is a footnote or endnote");
   if (type == StyleTypeCrossreference ) return translate ("is a crossreference");
@@ -83,8 +82,6 @@ std::string styles_logic_subtype_text (int type, int subtype)
     if (subtype == ParagraphSubtypeNormalParagraph) return translate ("is a normal paragraph");
   }
   if (type == StyleTypeInlineText) {
-  }
-  if (type == StyleTypeChapterNumber) {
   }
   if (type == StyleTypeVerseNumber) {
   }
@@ -139,7 +136,6 @@ bool styles_logic_fontsize_is_relevant (int type, int subtype)
 {
   switch (type) {
     case StyleTypeStartsParagraph : return true;
-    case StyleTypeChapterNumber   : return true;
     case StyleTypeFootEndNote :
     {
       switch (subtype) {
@@ -182,7 +178,6 @@ bool styles_logic_italic_bold_underline_smallcaps_are_relevant (int type, int su
   switch (type) {
     case StyleTypeStartsParagraph : return true;
     case StyleTypeInlineText      : return true;
-    case StyleTypeChapterNumber   : return true;
     case StyleTypeVerseNumber     : return true;
     case StyleTypeFootEndNote     : return true;
     case StyleTypeCrossreference  : return true;
@@ -283,7 +278,6 @@ bool styles_logic_paragraph_treats_are_relevant (int type, int subtype)
 {
   switch (type) {
     case StyleTypeStartsParagraph : return true;
-    case StyleTypeChapterNumber   : return true;
     case StyleTypeFootEndNote :
     {
       switch (subtype) {
@@ -334,7 +328,6 @@ bool styles_logic_columns_are_relevant (int type, int subtype)
   if (subtype) {};
   switch (type) {
     case StyleTypeStartsParagraph : return true;
-    case StyleTypeChapterNumber   : return true;
     default: return false;
   }
   return false;
@@ -402,9 +395,6 @@ bool styles_logic_print_is_relevant (int type, int subtype)
 // Returns the function of userbool1 for type and subtype
 int styles_logic_get_userbool1_function (int type, int subtype)
 {
-  if (type == StyleTypeChapterNumber) {
-    return UserBool1PrintChapterAtFirstVerse;
-  }
   if (type == StyleTypeFootEndNote) {
     if ((subtype != FootEndNoteSubtypeFootnote) && (subtype == FootEndNoteSubtypeEndnote))
       return UserBool1NoteAppliesToApocrypha;
@@ -436,9 +426,6 @@ std::string styles_logic_get_userbool1_text (int function)
 // Returns the function of userbool2 for type and subtype
 int styles_logic_get_userbool2_function (int type, int subtype)
 {
-  if (type == StyleTypeChapterNumber) {
-    return UserBool2ChapterInLeftRunningHeader;
-  }
   return UserBool2None;
 }
 
@@ -458,9 +445,6 @@ std::string styles_logic_get_userbool2_text (int function)
 // Returns the function of userbool3 for type and subtype
 int styles_logic_get_userbool3_function (int type, int subtype)
 {
-  if (type == StyleTypeChapterNumber) {
-    return UserBool3ChapterInRightRunningHeader;
-  }
   return UserBool3None;
 }
 
@@ -607,10 +591,6 @@ bool styles_logic_starts_new_line_in_usfm (int type, int subtype)
     case StyleTypeInlineText :
     {
       return false;
-    }
-    case StyleTypeChapterNumber :
-    {
-      return true;
     }
     case StyleTypeVerseNumber :
     {

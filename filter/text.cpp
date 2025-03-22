@@ -287,7 +287,7 @@ void Filter_Text::pre_process_usfm (const std::string& stylesheet)
                 bookAbbreviations.push_back (filter::text::passage_marker_value (m_current_book_identifier, m_current_chapter_number, m_current_verse_number, marker, book_bbreviation));
                 break;
               }
-              case stylesv2::Type::chapter: // Todo test this.
+              case stylesv2::Type::chapter:
               {
                 const std::string number = filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
                 m_current_chapter_number = filter::strings::convert_to_int (number);
@@ -917,7 +917,7 @@ void Filter_Text::process_usfm (const std::string& stylesheet)
               }
               break;
             }
-            case stylesv2::Type::chapter: // Todo test.
+            case stylesv2::Type::chapter:
             {
               if (odf_text_standard)
                 odf_text_standard->close_text_style (false, false);
@@ -992,7 +992,7 @@ void Filter_Text::process_usfm (const std::string& stylesheet)
                 // Putting the chapter number at the first verse is determined by the style of the \c marker.
                 // But if a chapter label (\cl) is found in the current book, that disables the above.
                 const bool cl_found = book_has_chapter_label[m_current_book_identifier];
-                if (stylesv2::get_bool_parameter(style, stylesv2::Property::at_first_verse) && !cl_found) { // Todo test this.
+                if (stylesv2::get_bool_parameter(style, stylesv2::Property::at_first_verse) && !cl_found) {
                   // Output the chapter number at the first verse, not here.
                   // Store it for later processing.
                   m_output_chapter_text_at_first_verse = usfm_c_fragment;
@@ -1789,7 +1789,7 @@ void Filter_Text::applyDropCapsToCurrentParagraph (int dropCapsLength)
 // $chapterText: The text of the chapter indicator to put.
 void Filter_Text::putChapterNumberInFrame (std::string chapterText)
 {
-  database::styles1::Item style = styles[chapter_marker]; // Todo styles v2 now, write it, test it.
+  database::styles1::Item style = styles[chapter_marker];
   if (odf_text_standard) odf_text_standard->place_text_in_frame (chapterText, chapter_marker, style.fontsize, style.italic, style.bold);
   if (odf_text_text_only) odf_text_text_only->place_text_in_frame (chapterText, chapter_marker, style.fontsize, style.italic, style.bold);
   if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->place_text_in_frame (chapterText, chapter_marker, style.fontsize, style.italic, style.bold);

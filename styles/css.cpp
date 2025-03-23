@@ -30,8 +30,7 @@
 #include <stylesv2/logic.h>
 
 
-Styles_Css::Styles_Css (Webserver_Request& webserver_request, const std::string& stylesheet):
-m_webserver_request (webserver_request)
+Styles_Css::Styles_Css (const std::string& stylesheet)
 {
   m_stylesheet = stylesheet;
 }
@@ -184,6 +183,8 @@ void Styles_Css::evaluate_v2 (const stylesv2::Style* style)
     case Type::long_toc_text:
     case Type::short_toc_text:
     case Type::book_abbrev:
+    case Type::usfm_version:
+    case Type::file_encoding:
       break;
     case Type::title:
     case Type::heading:
@@ -450,14 +451,14 @@ void Styles_Css::add_v2 (const stylesv2::Style* style, const bool paragraph, con
   
   // Italics, bold, underline, small caps can be either off or on for a paragraph.
   if (paragraph && style->paragraph) {
-    const auto& paragraph = style->paragraph.value();
-    if (paragraph.italic != stylesv2::TwoState::off)
+    const auto& sp = style->paragraph.value();
+    if (sp.italic != stylesv2::TwoState::off)
       m_code.push_back ("font-style: italic;");
-    if (paragraph.bold != stylesv2::TwoState::off)
+    if (sp.bold != stylesv2::TwoState::off)
       m_code.push_back ("font-weight: bold;");
-    if (paragraph.underline != stylesv2::TwoState::off)
+    if (sp.underline != stylesv2::TwoState::off)
       m_code.push_back ("text-decoration: underline;");
-    if (paragraph.smallcaps != stylesv2::TwoState::off)
+    if (sp.smallcaps != stylesv2::TwoState::off)
       m_code.push_back ("font-variant: small-caps;");
   }
   
@@ -487,11 +488,11 @@ void Styles_Css::add_v2 (const stylesv2::Style* style, const bool paragraph, con
   
   // Paragraph layout properties.
   if (paragraph && style->paragraph) {
-    const auto& paragraph = style->paragraph.value();
+    const auto& sp = style->paragraph.value();
     
     // Text alignment options.
     std::string alignment {};
-    switch (paragraph.text_alignment) {
+    switch (sp.text_alignment) {
       case stylesv2::TextAlignment::left: alignment.clear(); break;
       case stylesv2::TextAlignment::center: alignment = "center"; break;
       case stylesv2::TextAlignment::right: alignment = "right"; break;
@@ -512,16 +513,16 @@ void Styles_Css::add_v2 (const stylesv2::Style* style, const bool paragraph, con
         result.erase(pos);
       return result;
     };
-    if (paragraph.space_before)
-      m_code.push_back ("margin-top: " + to_float_precision_01(paragraph.space_before) + "mm;");
-    if (paragraph.space_after)
-      m_code.push_back ("margin-bottom: " + to_float_precision_01(paragraph.space_after) + "mm;");
-    if (paragraph.left_margin)
-      m_code.push_back ("margin-left: " + to_float_precision_01(paragraph.left_margin) + "mm;");
-    if (paragraph.right_margin)
-      m_code.push_back ("margin-right: " + to_float_precision_01(paragraph.right_margin) + "mm;");
-    if (paragraph.first_line_indent)
-      m_code.push_back ("text-indent: " + to_float_precision_01(paragraph.first_line_indent) + "mm;");
+    if (static_cast<bool>(sp.space_before))
+      m_code.push_back ("margin-top: " + to_float_precision_01(sp.space_before) + "mm;");
+    if (static_cast<bool>(sp.space_after))
+      m_code.push_back ("margin-bottom: " + to_float_precision_01(sp.space_after) + "mm;");
+    if (static_cast<bool>(sp.left_margin))
+      m_code.push_back ("margin-left: " + to_float_precision_01(sp.left_margin) + "mm;");
+    if (static_cast<bool>(sp.right_margin))
+      m_code.push_back ("margin-right: " + to_float_precision_01(sp.right_margin) + "mm;");
+    if (static_cast<bool>(sp.first_line_indent))
+      m_code.push_back ("text-indent: " + to_float_precision_01(sp.first_line_indent) + "mm;");
     
     // Columns have not yet been implemented.
     //bool spancolumns = style->spancolumns;

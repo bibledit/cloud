@@ -124,8 +124,7 @@ std::string styles_sheetm (Webserver_Request& webserver_request)
       {
         pugi::xml_node td_node = tr_node.append_child("td");
         pugi::xml_node a_node = td_node.append_child("a");
-        const std::string view {"view"};
-        const std::string href = view + "?sheet=" + name + "&style=" + marker;
+        const std::string href = "view" "?sheet=" + name + "&style=" + marker;
         a_node.append_attribute("href") = href.c_str();
         a_node.text().set(marker.c_str());
       }

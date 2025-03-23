@@ -59,8 +59,7 @@ void Styles_Sheets::recreate ()
 
 void Styles_Sheets::create (std::string stylesheet, std::string path, bool editor, std::string export_bible)
 {
-  Webserver_Request webserver_request {};
-  Styles_Css styles_css (webserver_request, stylesheet);
+  Styles_Css styles_css (stylesheet);
   if (editor) {
     styles_css.editor ();
   }

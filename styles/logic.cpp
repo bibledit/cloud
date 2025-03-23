@@ -426,6 +426,8 @@ std::string styles_logic_get_userbool1_text (int function)
 // Returns the function of userbool2 for type and subtype
 int styles_logic_get_userbool2_function (int type, int subtype)
 {
+  (void) type;
+  (void) subtype;
   return UserBool2None;
 }
 
@@ -445,6 +447,8 @@ std::string styles_logic_get_userbool2_text (int function)
 // Returns the function of userbool3 for type and subtype
 int styles_logic_get_userbool3_function (int type, int subtype)
 {
+  (void) type;
+  (void) subtype;
   return UserBool3None;
 }
 

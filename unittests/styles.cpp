@@ -84,7 +84,6 @@ TEST_F (styles, sheets)
 // Test creating CSS stylesheets.
 TEST_F (styles, create_css)
 {
-  Webserver_Request webserver_request {};
   constexpr const char* testsheet {"testsheet"};
   database::styles::create_sheet (testsheet);
   
@@ -108,7 +107,7 @@ TEST_F (styles, create_css)
 
   // Create basic cascaded stylesheet.
   {
-    Styles_Css styles_css (webserver_request, testsheet);
+    Styles_Css styles_css (testsheet);
     styles_css.generate ();
     const auto css = chopup(styles_css.css ());
     const auto standard = chopup(filter_url_file_get_contents (filter_url_create_path ({"unittests", "tests", "basic.css"})));
@@ -126,7 +125,7 @@ TEST_F (styles, create_css)
   
   // Create stylesheet for export.
   {
-    Styles_Css styles_css (webserver_request, testsheet);
+    Styles_Css styles_css (testsheet);
     styles_css.exports ();
     styles_css.generate ();
     const auto css = chopup(styles_css.css());
@@ -145,7 +144,7 @@ TEST_F (styles, create_css)
 
   // Stylesheet for the Bible editor.
   {
-    Styles_Css styles_css (webserver_request, testsheet);
+    Styles_Css styles_css (testsheet);
     styles_css.editor ();
     styles_css.generate ();
     const auto css = chopup(styles_css.css());
@@ -770,8 +769,8 @@ TEST_F (styles, save_load_styles_v2)
   
   // Test character properties save and load.
   {
-    constexpr const char* marker {"pro"};
-    const Style pro_style = *get_marker_data (sheet, marker);
+    constexpr const char* pro {"pro"};
+    const Style pro_style = *get_marker_data (sheet, pro);
     for (const auto state : stylesv2::get_four_states()) {
       style = pro_style;
       style.character.value().italic = state;
@@ -851,14 +850,14 @@ TEST_F (styles, save_load_styles_v2)
   
   // Test paragraph properties save and load.
   {
-    constexpr const char* marker {"imt"};
-    const Style imt_style = *get_marker_data (sheet, marker);
+    constexpr const char* imt {"imt"};
+    const Style imt_style = *get_marker_data (sheet, imt);
     const auto testing_floats = []() {
-      return std::list<float> { -22.2, -11.1, -5.5, 0, 5, 11, 22 };
+      return std::list<float> { -22.2f, -11.1f, -5.5f, 0.0f, 5.0f, 11.0f, 22.0f };
     };
-    for (const int size : testing_floats()) {
+    for (const auto size : testing_floats()) {
       style = imt_style;
-      style.paragraph.value().font_size = size;
+      style.paragraph.value().font_size = static_cast<int>(size);
       save_style(sheet, style);
       auto loaded_style = load_style(sheet, style.marker);
       EXPECT_TRUE(loaded_style);

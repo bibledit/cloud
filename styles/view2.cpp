@@ -150,8 +150,8 @@ std::string styles_view2 (Webserver_Request& webserver_request)
   // Function to generate html for the FourState options, i.e. on / off / inherit / toggle.
   const auto get_fourstate_html = [](const stylesv2::FourState state) {
     std::string html{};
-    for (const auto state : stylesv2::get_four_states()) {
-      const auto value {fourstate_enum_to_value(state)};
+    for (const auto state2 : stylesv2::get_four_states()) {
+      const auto value {fourstate_enum_to_value(state2)};
       html = Options_To_Select::add_selection (value, value, html);
     }
     return Options_To_Select::mark_selected(stylesv2::fourstate_enum_to_value(state), html);
@@ -160,8 +160,8 @@ std::string styles_view2 (Webserver_Request& webserver_request)
   // Function to generate html for the TwoState options, i.e. on / off /.
   const auto get_twostate_html = [](const stylesv2::TwoState state) {
     std::string html{};
-    for (const auto state : stylesv2::get_two_states()) {
-      const auto value {twostate_enum_to_value(state)};
+    for (const auto state2 : stylesv2::get_two_states()) {
+      const auto value {twostate_enum_to_value(state2)};
       html = Options_To_Select::add_selection (value, value, html);
     }
     return Options_To_Select::mark_selected(stylesv2::twostate_enum_to_value(state), html);
@@ -214,8 +214,8 @@ std::string styles_view2 (Webserver_Request& webserver_request)
     }
     const auto get_textalignment_html = [](const stylesv2::TextAlignment alignment) {
       std::string html{};
-      for (const auto alignment : stylesv2::get_text_alignments()) {
-        const auto value {textalignment_enum_to_value(alignment)};
+      for (const auto alignment2 : stylesv2::get_text_alignments()) {
+        const auto value {textalignment_enum_to_value(alignment2)};
         html = Options_To_Select::add_selection (value, value, html);
       }
       return Options_To_Select::mark_selected(stylesv2::textalignment_enum_to_value(alignment), html);

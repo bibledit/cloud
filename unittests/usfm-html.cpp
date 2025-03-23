@@ -48,11 +48,11 @@ public:
   {
     refresh_sandbox (false);
   }
-  virtual void SetUp()
+  virtual void SetUp() override
   {
     Database_State::create ();
   }
-  virtual void TearDown()
+  virtual void TearDown() override
   {
   }
 };

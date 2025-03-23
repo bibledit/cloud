@@ -5133,7 +5133,11 @@ bool starts_new_line_in_usfm (const Style* style)
     case stylesv2::Type::running_header:
     case stylesv2::Type::long_toc_text:
     case stylesv2::Type::short_toc_text:
+    case stylesv2::Type::introduction_end:
     case stylesv2::Type::book_abbrev:
+    case stylesv2::Type::title:
+    case stylesv2::Type::heading:
+    case stylesv2::Type::paragraph:
     case stylesv2::Type::chapter:
     case stylesv2::Type::chapter_label:
     case stylesv2::Type::published_chapter_marker:

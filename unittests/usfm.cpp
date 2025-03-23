@@ -1485,7 +1485,7 @@ TEST (checks, all_markers)
 {
   // Check that the USFM fragment with all markers has all markers defined according to the stylesheet v2.
   const std::string usfm {filter::strings::replace ("\n", " ", usfm_with_all_markers)};
-  for (const std::string marker : database::styles2::get_markers (styles_logic_standard_sheet())) {
+  for (const std::string& marker : database::styles2::get_markers (styles_logic_standard_sheet())) {
     const std::string opener = filter::usfm::get_opening_usfm (marker);
     const size_t pos = usfm.find(opener);
     if (pos == std::string::npos) {

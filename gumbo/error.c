@@ -79,7 +79,10 @@ static void print_tag_stack(GumboParser* parser, const GumboParserError* error,
     if (i) {
       print_message(parser, output, ", ");
     }
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wvoid-pointer-to-enum-cast"
     GumboTag tag = (GumboTag) error->tag_stack.data[i];
+#pragma GCC diagnostic pop
     print_message(parser, output, gumbo_normalized_tagname(tag));
   }
   gumbo_string_buffer_append_codepoint(parser, '.', output);
@@ -153,8 +156,8 @@ static const char* find_last_newline(
 // Finds the next newline in the original source buffer from a given byte
 // location.  Returns a character pointer to that newline, or a pointer to the
 // terminating null byte if this is the last line.
-static const char* find_next_newline(
-    const char* original_text, const char* error_location) {
+static const char* find_next_newline(const char* original_text, const char* error_location) {
+  (void) original_text;
   const char* c = error_location;
   for (; *c && *c != '\n'; ++c)
     ;

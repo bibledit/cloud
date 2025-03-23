@@ -99,8 +99,8 @@ char* gumbo_string_buffer_to_string(
   return buffer;
 }
 
-void gumbo_string_buffer_clear(
-    struct GumboInternalParser* parser, GumboStringBuffer* input) {
+void gumbo_string_buffer_clear(struct GumboInternalParser* parser, GumboStringBuffer* input) {
+  (void) parser;
   input->length = 0;
 }
 

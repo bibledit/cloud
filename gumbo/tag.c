@@ -26,11 +26,14 @@ const char* kGumboTagNames[] = {
     "",  // TAG_LAST
 };
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wnewline-eof"
 static const unsigned char kGumboTagSizes[] = {
 #include "tag_sizes.h"
     0,  // TAG_UNKNOWN
     0,  // TAG_LAST
 };
+#pragma GCC diagnostic pop
 
 const char* gumbo_normalized_tagname(GumboTag tag) {
   assert(tag <= GUMBO_TAG_LAST);

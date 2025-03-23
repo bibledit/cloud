@@ -673,7 +673,7 @@ TEST_F (styles, get_styles_v2)
       const stylesv2::Style& style = *iter;
       EXPECT_EQ (style.type, stylesv2::Type::book_id);
       EXPECT_EQ (style.name, "Identification");
-      EXPECT_TRUE (style.properties.count(stylesv2::Property::starts_new_page));
+      EXPECT_TRUE (stylesv2::has_property(&style, stylesv2::Property::starts_new_page));
     }
   }
   
@@ -732,7 +732,7 @@ TEST_F (styles, save_load_styles_v2)
     const auto loaded_style = load_style(sheet, style.marker);
     EXPECT_TRUE(loaded_style);
     EXPECT_EQ(to_string(style), to_string(loaded_style.value()));
-    EXPECT_TRUE(std::get<bool>(loaded_style.value().properties.at(Property::starts_new_page)));
+    EXPECT_TRUE(stylesv2::get_bool_parameter((&loaded_style.value()), Property::starts_new_page));
   }
 
   // Change the name, save, load, compare.

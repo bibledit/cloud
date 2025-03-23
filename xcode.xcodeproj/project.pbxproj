@@ -296,6 +296,8 @@
 		CAB05EAF2D4AB725002D920A /* vector.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = vector.h; sourceTree = "<group>"; };
 		CAB05EB02D4AB725002D920A /* vector.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = vector.c; sourceTree = "<group>"; };
 		CAB05EB22D4AB8D8002D920A /* 0readme.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = 0readme.txt; sourceTree = "<group>"; };
+		CAB648AC2D903F3700FE83EF /* number.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = number.h; sourceTree = "<group>"; };
+		CAB648AD2D903F3700FE83EF /* number.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = number.cpp; sourceTree = "<group>"; };
 		CAB6D33928B7E5BF00D11967 /* libutf8proc.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libutf8proc.2.dylib; path = ../../../../opt/local/lib/libutf8proc.2.dylib; sourceTree = "<group>"; };
 		CABD0EA52916F508007D21D0 /* libtidy.5.8.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libtidy.5.8.0.dylib; path = ../../../../opt/local/lib/libtidy.5.8.0.dylib; sourceTree = "<group>"; };
 		CABDBAD226E3E00200BE27F8 /* index.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = index.h; sourceTree = "<group>"; };
@@ -2808,6 +2810,8 @@
 				CADE395C24F17422003165BB /* merge.h */,
 				CA74778627F7376700192B66 /* note.cpp */,
 				CA74778727F7376700192B66 /* note.h */,
+				CAB648AC2D903F3700FE83EF /* number.h */,
+				CAB648AD2D903F3700FE83EF /* number.cpp */,
 				CADE394624F17422003165BB /* passage.cpp */,
 				CADE394F24F17422003165BB /* passage.h */,
 				CADE396124F17422003165BB /* passage.js */,

@@ -22,6 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <database/sqlite.h>
 #include <filter/url.h>
 #include <filter/string.h>
+#include <filter/number.h>
 #include <locale/translate.h>
 #include <styles/logic.h>
 #include <stylesv2/logic.h>
@@ -750,9 +751,11 @@ static void ensure_sheet_in_cache(const std::string& sheet)
 {
   // Check whether the requested stylesheet is already in the cache.
   // If so: Ready.
-  const auto iter = sheet_cache.find(sheet);
-  if (iter != sheet_cache.cend())
-    return;
+  {
+    const auto iter = sheet_cache.find(sheet);
+    if (iter != sheet_cache.cend())
+      return;
+  }
   // The sheet is not in the cache at this point.
   
   // Create enmpty cache for the sheet.
@@ -796,7 +799,7 @@ static stylesv2::Style get_base_style (const std::string& marker) {
     return *iter;
   // The marker is not among the default ones, return a default constructed style object.
   return stylesv2::Style();
-};
+}
 
 
 // Adds a marker to the stylesheet.
@@ -942,7 +945,7 @@ void save_style(const std::string& sheet, const stylesv2::Style& style)
   // Note: If the base styles does not have a paragraph set, comparison of properties would lead to a crash.
   //       A special mechanism using a "logical or" works around this.
   if (style.paragraph) {
-    const auto save = [&style, &base_style]() {
+    const auto save = [&base_style]() {
       if (!base_style.paragraph)
         return true;
       return false;
@@ -960,15 +963,15 @@ void save_style(const std::string& sheet, const stylesv2::Style& style)
       lines.push_back (add_space(paragraph_smallcaps_key) + twostate_enum_to_value(paragraph.smallcaps));
     if (save() || (paragraph.text_alignment) != base_style.paragraph.value().text_alignment)
       lines.push_back (add_space(paragraph_textalignment_key) + textalignment_enum_to_value(paragraph.text_alignment));
-    if (save() || (paragraph.space_before) != base_style.paragraph.value().space_before)
+    if (save() || !filter::number::float_equal(paragraph.space_before, base_style.paragraph.value().space_before))
       lines.push_back (add_space(paragraph_spacebefore_key) + std::to_string(paragraph.space_before));
-    if (save() || (paragraph.space_after) != base_style.paragraph.value().space_after)
+    if (save() || !filter::number::float_equal(paragraph.space_after, base_style.paragraph.value().space_after))
       lines.push_back (add_space(paragraph_spaceafter_key) + std::to_string(paragraph.space_after));
-    if (save() || (paragraph.left_margin) != base_style.paragraph.value().left_margin)
+    if (save() || !filter::number::float_equal(paragraph.left_margin, base_style.paragraph.value().left_margin))
       lines.push_back (add_space(paragraph_leftmargin_key) + std::to_string(paragraph.left_margin));
-    if (save() || (paragraph.right_margin) != base_style.paragraph.value().right_margin)
+    if (save() || !filter::number::float_equal(paragraph.right_margin, base_style.paragraph.value().right_margin))
       lines.push_back (add_space(paragraph_rightmargin_key) + std::to_string(paragraph.right_margin));
-    if (save() || (paragraph.first_line_indent) != base_style.paragraph.value().first_line_indent)
+    if (save() || !filter::number::float_equal(paragraph.first_line_indent, base_style.paragraph.value().first_line_indent))
       lines.push_back (add_space(paragraph_firstlineindent_key) + std::to_string(paragraph.first_line_indent));
   }
   
@@ -977,7 +980,7 @@ void save_style(const std::string& sheet, const stylesv2::Style& style)
   // Note: If the base styles does not have a character set, comparison of properties would lead to a crash.
   //       A special mechanism using a "logical or" works around this.
   if (style.character) {
-    const auto save = [&style, &base_style]() {
+    const auto save = [&base_style]() {
       if (!base_style.character)
         return true;
       return false;

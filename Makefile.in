@@ -140,13 +140,13 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	filter/merge.$(OBJEXT) filter/date.$(OBJEXT) \
 	filter/memory.$(OBJEXT) filter/webview.$(OBJEXT) \
 	filter/mail.$(OBJEXT) filter/note.$(OBJEXT) \
-	flate/flate.$(OBJEXT) assets/view.$(OBJEXT) \
-	assets/page.$(OBJEXT) assets/header.$(OBJEXT) \
-	assets/external.$(OBJEXT) index/index.$(OBJEXT) \
-	index/listing.$(OBJEXT) config/globals.$(OBJEXT) \
-	menu/logic.$(OBJEXT) menu/index.$(OBJEXT) \
-	locale/translate.$(OBJEXT) locale/logic.$(OBJEXT) \
-	database/config/general.$(OBJEXT) \
+	filter/number.$(OBJEXT) flate/flate.$(OBJEXT) \
+	assets/view.$(OBJEXT) assets/page.$(OBJEXT) \
+	assets/header.$(OBJEXT) assets/external.$(OBJEXT) \
+	index/index.$(OBJEXT) index/listing.$(OBJEXT) \
+	config/globals.$(OBJEXT) menu/logic.$(OBJEXT) \
+	menu/index.$(OBJEXT) locale/translate.$(OBJEXT) \
+	locale/logic.$(OBJEXT) database/config/general.$(OBJEXT) \
 	database/config/bible.$(OBJEXT) database/config/user.$(OBJEXT) \
 	database/users.$(OBJEXT) database/logs.$(OBJEXT) \
 	database/sqlite.$(OBJEXT) database/styles.$(OBJEXT) \
@@ -589,14 +589,14 @@ am__depfiles_remade = access/$(DEPDIR)/bible.Po \
 	filter/$(DEPDIR)/image.Po filter/$(DEPDIR)/mail.Po \
 	filter/$(DEPDIR)/md5.Po filter/$(DEPDIR)/memory.Po \
 	filter/$(DEPDIR)/merge.Po filter/$(DEPDIR)/note.Po \
-	filter/$(DEPDIR)/passage.Po filter/$(DEPDIR)/roles.Po \
-	filter/$(DEPDIR)/shell.Po filter/$(DEPDIR)/string.Po \
-	filter/$(DEPDIR)/text.Po filter/$(DEPDIR)/url.Po \
-	filter/$(DEPDIR)/usfm.Po filter/$(DEPDIR)/webview.Po \
-	flate/$(DEPDIR)/flate.Po fonts/$(DEPDIR)/logic.Po \
-	gumbo/$(DEPDIR)/attribute.Po gumbo/$(DEPDIR)/char_ref.Po \
-	gumbo/$(DEPDIR)/error.Po gumbo/$(DEPDIR)/parser.Po \
-	gumbo/$(DEPDIR)/string_buffer.Po \
+	filter/$(DEPDIR)/number.Po filter/$(DEPDIR)/passage.Po \
+	filter/$(DEPDIR)/roles.Po filter/$(DEPDIR)/shell.Po \
+	filter/$(DEPDIR)/string.Po filter/$(DEPDIR)/text.Po \
+	filter/$(DEPDIR)/url.Po filter/$(DEPDIR)/usfm.Po \
+	filter/$(DEPDIR)/webview.Po flate/$(DEPDIR)/flate.Po \
+	fonts/$(DEPDIR)/logic.Po gumbo/$(DEPDIR)/attribute.Po \
+	gumbo/$(DEPDIR)/char_ref.Po gumbo/$(DEPDIR)/error.Po \
+	gumbo/$(DEPDIR)/parser.Po gumbo/$(DEPDIR)/string_buffer.Po \
 	gumbo/$(DEPDIR)/string_piece.Po gumbo/$(DEPDIR)/tag.Po \
 	gumbo/$(DEPDIR)/tokenizer.Po gumbo/$(DEPDIR)/utf8.Po \
 	gumbo/$(DEPDIR)/util.Po gumbo/$(DEPDIR)/vector.Po \
@@ -1132,6 +1132,7 @@ libbibledit_a_SOURCES = \
 	filter/webview.cpp \
 	filter/mail.cpp \
   filter/note.cpp \
+  filter/number.cpp \
 	flate/flate.cpp \
 	assets/view.cpp \
 	assets/page.cpp \
@@ -1947,6 +1948,8 @@ filter/webview.$(OBJEXT): filter/$(am__dirstamp) \
 filter/mail.$(OBJEXT): filter/$(am__dirstamp) \
 	filter/$(DEPDIR)/$(am__dirstamp)
 filter/note.$(OBJEXT): filter/$(am__dirstamp) \
+	filter/$(DEPDIR)/$(am__dirstamp)
+filter/number.$(OBJEXT): filter/$(am__dirstamp) \
 	filter/$(DEPDIR)/$(am__dirstamp)
 flate/$(am__dirstamp):
 	@$(MKDIR_P) flate
@@ -3999,6 +4002,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/memory.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/merge.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/note.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/number.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/passage.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/roles.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/shell.Po@am__quote@ # am--include-marker
@@ -5204,6 +5208,7 @@ distclean: distclean-am
 	-rm -f filter/$(DEPDIR)/memory.Po
 	-rm -f filter/$(DEPDIR)/merge.Po
 	-rm -f filter/$(DEPDIR)/note.Po
+	-rm -f filter/$(DEPDIR)/number.Po
 	-rm -f filter/$(DEPDIR)/passage.Po
 	-rm -f filter/$(DEPDIR)/roles.Po
 	-rm -f filter/$(DEPDIR)/shell.Po
@@ -5895,6 +5900,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f filter/$(DEPDIR)/memory.Po
 	-rm -f filter/$(DEPDIR)/merge.Po
 	-rm -f filter/$(DEPDIR)/note.Po
+	-rm -f filter/$(DEPDIR)/number.Po
 	-rm -f filter/$(DEPDIR)/passage.Po
 	-rm -f filter/$(DEPDIR)/roles.Po
 	-rm -f filter/$(DEPDIR)/shell.Po

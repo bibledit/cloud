@@ -40,22 +40,6 @@ static std::string usfm_key (const std::string& bible, const int book, const int
 }
 
 
-static std::string word_level_attributes_key (const std::string& bible, const int book, const int chapter,
-                                              const std::string& editor)
-{
-  std::string key {"wla"};
-  key.append (" ");
-  key.append (bible);
-  key.append (" ");
-  key.append (filter::strings::fill (std::to_string (book), 2, '0'));
-  key.append (" ");
-  key.append (filter::strings::fill (std::to_string (chapter), 3, '0'));
-  key.append (" ");
-  key.append (editor);
-  return key;
-}
-
-
 void store_loaded_usfm (Webserver_Request& webserver_request,
                         const std::string& bible, const int book, const int chapter,
                         const std::string& editor)

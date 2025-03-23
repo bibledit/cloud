@@ -82,6 +82,8 @@ static const char* get_executable_internal(const Executable executable)
       return "which";
     case Executable::zip:
       return "zip";
+    case Executable::__start__:
+    case Executable::__end__:
     default:
       return "false";
   }

@@ -163,6 +163,9 @@ std::string Editor_Styles::getAction (Webserver_Request& webserver_request, cons
         return mono ();
       case stylesv2::Type::character_style:
         return character ();
+      case stylesv2::Type::starting_boundary:
+      case stylesv2::Type::stopping_boundary:
+      case stylesv2::Type::none:
       default:
         return unknown ();
     }

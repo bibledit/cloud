@@ -287,6 +287,12 @@ void Filter_Text::pre_process_usfm (const std::string& stylesheet)
                 bookAbbreviations.push_back (filter::text::passage_marker_value (m_current_book_identifier, m_current_chapter_number, m_current_verse_number, marker, book_bbreviation));
                 break;
               }
+              case stylesv2::Type::title:
+              case stylesv2::Type::heading:
+              case stylesv2::Type::paragraph:
+              {
+                break;
+              }
               case stylesv2::Type::chapter:
               {
                 const std::string number = filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);

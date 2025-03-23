@@ -44,7 +44,7 @@ static std::pair<std::vector<std::string>, std::string>const get_standard_classe
     }
   }
   return {classes, wla};
-};
+}
 
 
 void Editor_Html2Usfm::load (std::string html)

@@ -372,7 +372,7 @@ std::ostream& operator<<(std::ostream& os, const Style& style)
 }
 
 
-bool get_bool_parameter (const Style* style, const Property property) // Todo use this for every relevant property.
+bool get_bool_parameter (const Style* style, const Property property)
 {
   const auto iter = style->properties.find(property);
   if (iter != style->properties.cend()) {
@@ -385,7 +385,7 @@ bool get_bool_parameter (const Style* style, const Property property) // Todo us
 }
 
 
-bool has_property (const Style* style, const Property property) // Todo use this for every relevant property
+bool has_property (const Style* style, const Property property)
 {
   return (style->properties.find(property) != style->properties.cend());
 }
@@ -1375,8 +1375,6 @@ const std::list<Style> styles {
       .doc = "https://ubsicap.github.io/usfm/titles_headings/index.html#sd",
       .category = Category::titles_headings_labels,
   },
-
-  
   {
     .marker = "c",
     .type = Type::chapter,
@@ -1393,17 +1391,17 @@ const std::list<Style> styles {
         {Property::on_left_page,true},
         {Property::on_right_page,true}
       },
-      .doc = "https://ubsicap.github.io/usfm/titles_headings/index.html#sd",
+      .doc = "https://ubsicap.github.io/usfm/chapters_verses/index.html#c",
       .category = Category::chapters_verses,
   },
-
-  // Todo
-//  Print chapter number at first verse  On
-//  Print chapter number in the running header of the left page  On
-//  Print chapter number in the running header of the right page  On
-
-  
-  // Todo adding here.
+  {
+    .marker = "ca",
+    .type = Type::alternate_chapter_number,
+    .name = "Alternate chapter number",
+    .info = "Second or alternate chapter number. For coding dual versification. Useful for places where different traditions of chapter breaks need to be supported in the same translation.",
+    .doc = "https://ubsicap.github.io/usfm/chapters_verses/index.html#ca-ca",
+    .category = Category::chapters_verses,
+  },
   {
     .marker = "cl",
     .type = Type::chapter_label,
@@ -1420,14 +1418,25 @@ const std::list<Style> styles {
     .doc = "https://ubsicap.github.io/usfm/chapters_verses/index.html#cp",
     .category = Category::chapters_verses,
   },
+
+  
   {
-    .marker = "ca",
-    .type = Type::alternate_chapter_number,
-    .name = "Alternate chapter number",
-    .info = "Second or alternate chapter number. For coding dual versification. Useful for places where different traditions of chapter breaks need to be supported in the same translation.",
-    .doc = "https://ubsicap.github.io/usfm/chapters_verses/index.html#ca-ca",
-    .category = Category::chapters_verses,
+    .marker = "cd",
+    .type = Type::paragraph,
+    .name = "Chapter description",
+    .info = "For a brief description of the chapter content.",
+    .paragraph = Paragraph {
+      .font_size = 11,
+      .space_before = 8,
+      .space_after = 4,
+    },
+      .doc = "https://ubsicap.github.io/usfm/chapters_verses/index.html#cd",
+      .category = Category::chapters_verses,
   },
+
+  
+  
+  // Todo adding here.
   {
     .marker = "vp",
     .type = Type::published_verse_marker,
@@ -1740,39 +1749,6 @@ const std::list<Style> styles {
 //    /* justification */ 0,
 //    /* spacebefore */ 0,
 //    /* spaceafter */ 0,
-//    /* leftmargin */ 0,
-//    /* rightmargin */ 0,
-//    /* firstlineindent */ 0,
-//    /* spancolumns */ 0,
-//    /* color */ "#000000",
-//    /* print */ 1,
-//    /* userbool1 */ 0,
-//    /* userbool2 */ 0,
-//    /* userbool3 */ 0,
-//    /* userint1 */ 0,
-//    /* userint2 */ 0,
-//    /* userint3 */ 0,
-//    /* userstring1 */ "",
-//    /* userstring2 */ "",
-//    /* userstring3 */ "",
-//    /* backgroundcolor */ "#FFFFFF",
-//  },
-//  {
-//    /* marker */ "cd",
-//    /* name */ "Chapter description",
-//    /* info */ "Chapter description",
-//    /* category */ "cv",
-//    /* type */ 3,
-//    /* subtype */ 3,
-//    /* fontsize */ 11,
-//    /* italic */ 0,
-//    /* bold */ 0,
-//    /* underline */ 0,
-//    /* smallcaps */ 0,
-//    /* superscript */ 0,
-//    /* justification */ 0,
-//    /* spacebefore */ 8,
-//    /* spaceafter */ 4,
 //    /* leftmargin */ 0,
 //    /* rightmargin */ 0,
 //    /* firstlineindent */ 0,

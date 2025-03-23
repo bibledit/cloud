@@ -1497,6 +1497,8 @@ TEST_F (filter_text, usfm_with_all_markers)
   "\n"
   "Genesis\n"
   "\n"
+  "Chapter description\n"
+  "\n"
   "1b Text namepronunciation.\n"
   "\n"
   "2 Normal added and AddPn\n"
@@ -1602,6 +1604,7 @@ TEST_F (filter_text, usfm_with_all_markers)
   "Introduction main title ending 1\n"
   "Introduction main title ending 2\n"
   "א (2)\n"
+  "Chapter description\n"
   "1b Text namepronunciation.\n"
   "2 Normal added and AddPn\n"
   "The Book name\n"
@@ -1697,6 +1700,7 @@ TEST_F (filter_text, usfm_with_all_markers)
   R"(<p class="imte1"><span>Introduction main title ending 1</span></p>)"
   R"(<p class="imte2"><span>Introduction main title ending 2</span></p>)"
   R"(<p class="c"><span>Genesis</span></p>)"
+  R"(<p class="cd"><span>Chapter description</span></p>)"
   R"(<p class="p"><span class="v">1b</span><span> </span><span>Text name</span><span class="pro">pronunciation</span><span>.</span></p>)"
   R"(<p class="p"><span class="v">2</span><span> </span><span>Normal </span><span class="add">added</span><span> and </span><span class="addpn">AddPn</span></p>)"
   R"(<p class="p"><span>The </span><span class="bk">Book</span><span> name</span></p>)"
@@ -1718,7 +1722,6 @@ TEST_F (filter_text, usfm_with_all_markers)
   R"(<p class="s"><span>Section heading with </span><span class="no">normal</span><span> text</span></p>)"
   R"(<p class="p"><span>This is </span><span class="sc">small cap</span><span> text.</span></p>)"
   R"(<p class="p"><span>This is </span><span class="sup">superscript</span><span> text.</span></p>)"
-  //R"()"
   ;
   EXPECT_EQ (standard_html, html);
   if (html != standard_html) {

@@ -1098,9 +1098,11 @@
 /unittests/tests/odf2txt
 /unittests/tests/odf2txt/odf2txt.py
 /unittests/tests/odf2txt/out.txt
+/unittests/tests/odt2.txt
 /unittests/tests/onlinebible1.exp
 /unittests/tests/onlinebible2.exp
 /unittests/tests/ShonaNumbers23.usfm
+/unittests/tests/text2.txt
 /unittests/tests/usfm01.usfm
 /unittests/tests/verses_new.txt
 /unittests/tests/verses_new.usfm

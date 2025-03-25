@@ -1,0 +1,184 @@
+Right
+
+Major title
+
+Major title 1
+
+Major title 2
+
+Major title 3
+
+Major title 4
+
+Major title at ending
+
+Major title at ending 1
+
+Major title at ending 2
+
+Major section heading
+
+Major section heading 1
+
+Major section heading 2
+
+Major section references
+
+Section heading
+
+Section heading 1
+
+Section heading 2
+
+Section heading 3
+
+Section heading 4
+
+Section references
+
+Parallel passage references
+
+Inline quotation references
+
+Descriptive title
+
+Speaker
+
+Semantic division
+
+Semantic division 1
+
+Semantic division 2
+
+Semantic division 3
+
+Semantic division 4
+
+Main Title
+
+Main Title 1
+
+Main Title 2
+
+Main Title 3
+
+Main Title 4
+
+Section
+
+Section 1
+
+Section 2
+
+Introduction paragraph
+
+Introduction paragraph indented
+
+Introduction margin paragraph
+
+Introduction margin paragraph indented
+
+Introduction paragraph quote
+
+Introduction margin paragraph quote
+
+Introduction paragraph right
+
+Introduction poetry
+
+Introduction poetry 1
+
+Introduction poetry 2
+
+Introduction poetry 3
+
+
+
+1 Introduction list item
+
+1 Introduction list item 1
+
+1 Introduction list item 2
+
+Introduction Outline Title
+
+Introduction outline
+
+Introduction outline 1
+
+Introduction outline 2
+
+Introduction outline 3 references
+
+Introduction outline 4 quotation
+
+Introduction explanatory text
+
+Introduction main title ending
+
+Introduction main title ending 1
+
+Introduction main title ending 2
+
+Right 1 (2)
+
+1 (2)    
+
+1b Text namepronunciation.
+
+Right 2
+
+Psalm
+
+1 Normal added and AddPn
+
+Right א
+
+א
+
+1 Verse text
+
+Right 4
+
+4
+
+Chapter description
+
+The Book name
+
+Proto Deutero text.
+
+This is a keyword
+
+Yahweh
+
+The 1st.
+
+It is about Jesus.
+
+The capital is Amsterdam.
+
+This is a quotation.
+
+Kind regards from Paul.
+
+Hebrew and Aramaic source.
+
+Jesus: Eli, Eli, lema sabachthani?
+
+Jesus: I am.
+
+This is emphasized text.
+
+This is bold text.
+
+This is italic text.
+
+This is bold/italic text.
+
+Section heading with normal text
+
+This is small cap text.
+
+This is superscript text.
+

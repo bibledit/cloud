@@ -197,13 +197,6 @@ void Filter_Text::pre_process_usfm (const std::string& stylesheet)
             database::styles1::Item style = styles [marker];
             note_citations.evaluate_style(style);
             switch (style.type) {
-              case StyleTypeVerseNumber:
-              {
-                const std::string fragment = filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
-                const int number = filter::strings::convert_to_int (fragment);
-                m_current_verse_number = std::to_string (number);
-                break;
-              }
               case StyleTypeFootEndNote:
               {
                 switch (style.subtype)
@@ -323,6 +316,13 @@ void Filter_Text::pre_process_usfm (const std::string& stylesheet)
                 alternate_chapter_numbers.push_back (filter::text::passage_marker_value (m_current_book_identifier, m_current_chapter_number, m_current_verse_number, marker, alternate_chapter_number));
                 break;
               }
+              case stylesv2::Type::verse:
+              {
+                const std::string fragment = filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
+                const int number = filter::strings::convert_to_int (fragment);
+                m_current_verse_number = std::to_string (number);
+                break;
+              }
               case stylesv2::Type::published_verse_marker:
               {
                 // It gets the published verse markup.
@@ -433,186 +433,6 @@ void Filter_Text::process_usfm (const std::string& stylesheet)
                 if (html_text_standard) html_text_standard->close_text_style (false, is_embedded_marker);
                 if (html_text_linked) html_text_linked->close_text_style (false, is_embedded_marker);
               }
-              break;
-            }
-            case StyleTypeVerseNumber:
-            {
-              if (odf_text_standard) odf_text_standard->close_text_style (false, false);
-              if (odf_text_text_only) odf_text_text_only->close_text_style (false, false);
-              if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->close_text_style (false, false);
-              if (odf_text_notes) odf_text_notes->close_text_style (false, false);
-              if (html_text_standard) html_text_standard->close_text_style (false, false);
-              if (html_text_linked) html_text_linked->close_text_style (false, false);
-              if (onlinebible_text) onlinebible_text->storeData ();
-              // Handle a situation that a verse number starts a new paragraph.
-              if (style.userbool1) {
-                if (odf_text_standard) {
-                  if (!odf_text_standard->m_current_paragraph_content.empty()) {
-                    odf_text_standard->new_paragraph (odf_text_standard->m_current_paragraph_style);
-                  }
-                }
-                if (odf_text_text_only) {
-                  if (!odf_text_text_only->m_current_paragraph_content.empty()) {
-                    odf_text_text_only->new_paragraph (odf_text_text_only->m_current_paragraph_style);
-                  }
-                }
-                if (odf_text_text_and_note_citations) {
-                  if (!odf_text_text_and_note_citations->m_current_paragraph_content.empty()) {
-                    odf_text_text_and_note_citations->new_paragraph (odf_text_text_and_note_citations->m_current_paragraph_style);
-                  }
-                }
-                if (html_text_standard) {
-                  if (!html_text_standard->current_paragraph_content.empty()) {
-                    html_text_standard->new_paragraph (html_text_standard->current_paragraph_style);
-                  }
-                }
-                if (html_text_linked) {
-                  if (!html_text_linked->current_paragraph_content.empty()) {
-                    html_text_linked->new_paragraph (html_text_linked->current_paragraph_style);
-                  }
-                }
-                if (text_text) {
-                  text_text->paragraph (); 
-                }
-              }
-              // Deal with the case of a pending chapter number.
-              if (!m_output_chapter_text_at_first_verse.empty()) {
-                if (!database::config::bible::get_export_chapter_drop_caps_frames (m_bible)) {
-                  int dropCapsLength = static_cast<int>( filter::strings::unicode_string_length (m_output_chapter_text_at_first_verse));
-                  applyDropCapsToCurrentParagraph (dropCapsLength);
-                  if (odf_text_standard) odf_text_standard->add_text (m_output_chapter_text_at_first_verse);
-                  if (odf_text_text_only) odf_text_text_only->add_text (m_output_chapter_text_at_first_verse);
-                  if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->add_text (m_output_chapter_text_at_first_verse);
-                } else {
-                  putChapterNumberInFrame (m_output_chapter_text_at_first_verse);
-                }
-                database::styles1::Item styleItem = database::styles1::Item ();
-                styleItem.marker = "dropcaps";
-                if (html_text_standard) html_text_standard->open_text_style (&styleItem, nullptr, false, false);
-                if (html_text_standard) html_text_standard->add_text (m_output_chapter_text_at_first_verse);
-                if (html_text_standard) html_text_standard->close_text_style (false, false);
-                if (html_text_linked) html_text_linked->open_text_style (&styleItem, nullptr, false, false);
-                if (html_text_linked) html_text_linked->add_text (m_output_chapter_text_at_first_verse);
-                if (html_text_linked) html_text_linked->close_text_style (false, false);
-              }
-              // Temporarily retrieve the text that follows the \v verse marker.
-              std::string text_following_v_marker = filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
-              // Extract the verse number, and store it in the object.
-              std::string v_number = filter::usfm::peek_verse_number (text_following_v_marker);
-              m_current_verse_number = v_number;
-              // In case there was a published verse marker, use that markup for publishing.
-              std::string v_vp_number = v_number;
-              for (const auto& publishedVerseMarker : published_verse_markers) {
-                if (publishedVerseMarker.m_book == m_current_book_identifier) {
-                  if (publishedVerseMarker.m_chapter == m_current_chapter_number) {
-                    if (publishedVerseMarker.m_verse == m_current_verse_number) {
-                      v_vp_number = publishedVerseMarker.m_value;
-                    }
-                  }
-                }
-              }
-              // Output the verse number. But only if no chapter number was put here.
-              if (m_output_chapter_text_at_first_verse.empty ()) {
-                // If the current paragraph has text already, then insert a space.
-                if (odf_text_standard) {
-                  if (!odf_text_standard->m_current_paragraph_content.empty()) {
-                    odf_text_standard->add_text (" ");
-                  }
-                }
-                if (odf_text_text_only) {
-                  if (!odf_text_text_only->m_current_paragraph_content.empty()) {
-                    odf_text_text_only->add_text (" ");
-                  }
-                }
-                if (odf_text_text_and_note_citations) {
-                  if (!odf_text_text_and_note_citations->m_current_paragraph_content.empty()) {
-                    odf_text_text_and_note_citations->add_text (" ");
-                  }
-                }
-                if (html_text_standard) {
-                  if (!html_text_standard->current_paragraph_content.empty()) {
-                    html_text_standard->add_text (" ");
-                  }
-                }
-                if (html_text_linked) {
-                  if (!html_text_linked->current_paragraph_content.empty()) {
-                    html_text_linked->add_text (" ");
-                  }
-                }
-                if (odf_text_standard) odf_text_standard->open_text_style (&style, nullptr, false, false);
-                if (odf_text_text_only) odf_text_text_only->open_text_style (&style, nullptr, false, false);
-                if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->open_text_style (&style, nullptr, false, false);
-                if (html_text_standard) html_text_standard->open_text_style (&style, nullptr, false, false);
-                if (html_text_linked) html_text_linked->open_text_style (&style, nullptr, false, false);
-                if (odf_text_standard) odf_text_standard->add_text (v_vp_number);
-                if (odf_text_text_only) odf_text_text_only->add_text (v_vp_number);
-                if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->add_text (v_vp_number);
-                if (html_text_standard) html_text_standard->add_text (v_vp_number);
-                if (html_text_linked) html_text_linked->add_text (v_vp_number);
-                if (odf_text_standard) odf_text_standard->close_text_style (false, false);
-                if (odf_text_text_only) odf_text_text_only->close_text_style (false, false);
-                if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->close_text_style (false, false);
-                if (html_text_standard) html_text_standard->close_text_style (false, false);
-                if (html_text_linked) html_text_linked->close_text_style (false, false);
-              }
-              // Plain text output.
-              if (text_text) { 
-                if (!text_text->line ().empty()) {
-                  text_text->addtext (" ");
-                }
-                text_text->addtext (v_vp_number);
-                // Plain text output always has a space following the verse.
-                // Important for outputting the first verse.
-                text_text->addtext (" ");
-              }
-              // If there was any text following the \v marker, remove the verse number,
-              // put the remainder back into the object, and update the pointer.
-              if (!text_following_v_marker.empty()) {
-                size_t pos = text_following_v_marker.find (v_number);
-                if (pos != std::string::npos) {
-                  text_following_v_marker = text_following_v_marker.substr (pos + v_number.length ());
-                }
-                // If a verse number was put, do this:
-                // Remove any whitespace from the start of the following text.
-                text_following_v_marker = filter::strings::ltrim (text_following_v_marker);
-                chapter_usfm_markers_and_text [chapter_usfm_markers_and_text_pointer] = text_following_v_marker;
-                chapter_usfm_markers_and_text_pointer--;
-                // If a verse number was put, do this too:
-                // Output the type of space that the user has set.
-                // This could be a fixed-width space, or a non-breaking space,
-                // or a combination of the two.
-                // This space type improves the appearance of the verse plus text.
-                // In case the verse numbers in poetry are to be left aligned,
-                // then output a tab to OpenDocument instead of the space.
-                // Exception:
-                // If a chapter number was put, do not output any white space.
-                if (m_output_chapter_text_at_first_verse.empty()) {
-                  if (odf_text_standard) {
-                    bool tab = odt_left_align_verse_in_poetry_styles && filter::usfm::is_standard_q_poetry (odf_text_standard->m_current_paragraph_style);
-                    if (tab) odf_text_standard->add_tab();
-                    else odf_text_standard->add_text (space_type_after_verse);
-                  }
-                  if (odf_text_text_only) {
-                    bool tab = odt_left_align_verse_in_poetry_styles && filter::usfm::is_standard_q_poetry (odf_text_text_only->m_current_paragraph_style);
-                    if (tab) odf_text_text_only->add_tab();
-                    else odf_text_text_only->add_text (space_type_after_verse);
-                  }
-                  if (odf_text_text_and_note_citations) {
-                    bool tab = odt_left_align_verse_in_poetry_styles && filter::usfm::is_standard_q_poetry (odf_text_text_and_note_citations->m_current_paragraph_style);
-                    if (tab) odf_text_text_and_note_citations->add_tab();
-                    else odf_text_text_and_note_citations->add_text (space_type_after_verse);
-                  }
-                  if (html_text_standard) html_text_standard->add_text (space_type_after_verse);
-                  if (html_text_linked) html_text_linked->add_text (space_type_after_verse);
-                }
-              }
-              // Unset the chapter variable, whether it was used or not.
-              // This makes it ready for subsequent use.
-              m_output_chapter_text_at_first_verse.clear();
-              // Other export formats.
-              if (onlinebible_text) onlinebible_text->newVerse (m_current_book_identifier, m_current_chapter_number, filter::strings::convert_to_int (m_current_verse_number));
-              if (esword_text) esword_text->newVerse (filter::strings::convert_to_int (m_current_verse_number));
-              // Done.
               break;
             }
             case StyleTypeFootEndNote:
@@ -955,7 +775,7 @@ void Filter_Text::process_usfm (const std::string& stylesheet)
                   }
                 }
               }
-              
+
               // If there's an alternate chapter number, append this to the chapter number fragment.
               for (const auto& alternate_chapter_number : alternate_chapter_numbers) {
                 if (alternate_chapter_number.m_book == m_current_book_identifier) {
@@ -966,7 +786,7 @@ void Filter_Text::process_usfm (const std::string& stylesheet)
                   }
                 }
               }
-              
+
               // Enter text for the running headers.
               std::string running_header = database::books::get_english_from_id (static_cast<book_id>(m_current_book_identifier));
               for (const auto& item : runningHeaders) {
@@ -1071,7 +891,7 @@ void Filter_Text::process_usfm (const std::string& stylesheet)
               filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
               break;
             }
-            case stylesv2::Type::alternate_chapter_number:
+            case stylesv2::Type::alternate_chapter_number: // Todo
             {
               close_text_style_all();
               if (is_opening_marker) {
@@ -1079,7 +899,213 @@ void Filter_Text::process_usfm (const std::string& stylesheet)
                 // Remove it from the USFM stream at the opening marker.
                 filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
               }
+              // Do nothing with the closing marker.
             }
+            case stylesv2::Type::verse:
+            {
+              if (odf_text_standard)
+                odf_text_standard->close_text_style (false, false);
+              if (odf_text_text_only)
+                odf_text_text_only->close_text_style (false, false);
+              if (odf_text_text_and_note_citations)
+                odf_text_text_and_note_citations->close_text_style (false, false);
+              if (odf_text_notes)
+                odf_text_notes->close_text_style (false, false);
+              if (html_text_standard)
+                html_text_standard->close_text_style (false, false);
+              if (html_text_linked)
+                html_text_linked->close_text_style (false, false);
+              if (onlinebible_text)
+                onlinebible_text->storeData ();
+              // Handle a situation that a verse number starts a new paragraph.
+              if (stylesv2::get_bool_parameter (style, stylesv2::Property::restart_paragraph)) { // Todo test this.
+                if (odf_text_standard) {
+                  if (!odf_text_standard->m_current_paragraph_content.empty()) {
+                    odf_text_standard->new_paragraph (odf_text_standard->m_current_paragraph_style);
+                  }
+                }
+                if (odf_text_text_only) {
+                  if (!odf_text_text_only->m_current_paragraph_content.empty()) {
+                    odf_text_text_only->new_paragraph (odf_text_text_only->m_current_paragraph_style);
+                  }
+                }
+                if (odf_text_text_and_note_citations) {
+                  if (!odf_text_text_and_note_citations->m_current_paragraph_content.empty()) {
+                    odf_text_text_and_note_citations->new_paragraph (odf_text_text_and_note_citations->m_current_paragraph_style);
+                  }
+                }
+                if (html_text_standard) {
+                  if (!html_text_standard->current_paragraph_content.empty()) {
+                    html_text_standard->new_paragraph (html_text_standard->current_paragraph_style);
+                  }
+                }
+                if (html_text_linked) {
+                  if (!html_text_linked->current_paragraph_content.empty()) {
+                    html_text_linked->new_paragraph (html_text_linked->current_paragraph_style);
+                  }
+                }
+                if (text_text) {
+                  text_text->paragraph ();
+                }
+              }
+              // Deal with the case of a pending chapter number.
+              if (!m_output_chapter_text_at_first_verse.empty()) {
+                if (!database::config::bible::get_export_chapter_drop_caps_frames (m_bible)) {
+                  int dropCapsLength = static_cast<int>( filter::strings::unicode_string_length (m_output_chapter_text_at_first_verse));
+                  applyDropCapsToCurrentParagraph (dropCapsLength);
+                  if (odf_text_standard) odf_text_standard->add_text (m_output_chapter_text_at_first_verse);
+                  if (odf_text_text_only) odf_text_text_only->add_text (m_output_chapter_text_at_first_verse);
+                  if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->add_text (m_output_chapter_text_at_first_verse);
+                } else {
+                  putChapterNumberInFrame (m_output_chapter_text_at_first_verse);
+                }
+                database::styles1::Item styleItem = database::styles1::Item ();
+                styleItem.marker = "dropcaps";
+                if (html_text_standard) html_text_standard->open_text_style (&styleItem, nullptr, false, false);
+                if (html_text_standard) html_text_standard->add_text (m_output_chapter_text_at_first_verse);
+                if (html_text_standard) html_text_standard->close_text_style (false, false);
+                if (html_text_linked) html_text_linked->open_text_style (&styleItem, nullptr, false, false);
+                if (html_text_linked) html_text_linked->add_text (m_output_chapter_text_at_first_verse);
+                if (html_text_linked) html_text_linked->close_text_style (false, false);
+              }
+              // Temporarily retrieve the text that follows the \v verse marker.
+              std::string text_following_v_marker = filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
+              // Extract the verse number, and store it in the object.
+              std::string v_number = filter::usfm::peek_verse_number (text_following_v_marker);
+              m_current_verse_number = v_number;
+              // In case there was a published verse marker, use that markup for publishing.
+              std::string v_vp_number = v_number;
+              for (const auto& publishedVerseMarker : published_verse_markers) {
+                if (publishedVerseMarker.m_book == m_current_book_identifier) {
+                  if (publishedVerseMarker.m_chapter == m_current_chapter_number) {
+                    if (publishedVerseMarker.m_verse == m_current_verse_number) {
+                      v_vp_number = publishedVerseMarker.m_value;
+                    }
+                  }
+                }
+              }
+              // Output the verse number. But only if no chapter number was put here.
+              if (m_output_chapter_text_at_first_verse.empty ()) {
+                // If the current paragraph has text already, then insert a space.
+                if (odf_text_standard) {
+                  if (!odf_text_standard->m_current_paragraph_content.empty()) {
+                    odf_text_standard->add_text (" ");
+                  }
+                }
+                if (odf_text_text_only) {
+                  if (!odf_text_text_only->m_current_paragraph_content.empty()) {
+                    odf_text_text_only->add_text (" ");
+                  }
+                }
+                if (odf_text_text_and_note_citations) {
+                  if (!odf_text_text_and_note_citations->m_current_paragraph_content.empty()) {
+                    odf_text_text_and_note_citations->add_text (" ");
+                  }
+                }
+                if (html_text_standard) {
+                  if (!html_text_standard->current_paragraph_content.empty()) {
+                    html_text_standard->add_text (" ");
+                  }
+                }
+                if (html_text_linked) {
+                  if (!html_text_linked->current_paragraph_content.empty()) {
+                    html_text_linked->add_text (" ");
+                  }
+                }
+                if (odf_text_standard)
+                  odf_text_standard->open_text_style (nullptr, style, false, false);
+                if (odf_text_text_only)
+                  odf_text_text_only->open_text_style (nullptr, style, false, false);
+                if (odf_text_text_and_note_citations)
+                  odf_text_text_and_note_citations->open_text_style (nullptr, style, false, false);
+                if (html_text_standard)
+                  html_text_standard->open_text_style (nullptr, style, false, false);
+                if (html_text_linked)
+                  html_text_linked->open_text_style (nullptr, style, false, false);
+                if (odf_text_standard)
+                  odf_text_standard->add_text (v_vp_number);
+                if (odf_text_text_only)
+                  odf_text_text_only->add_text (v_vp_number);
+                if (odf_text_text_and_note_citations)
+                  odf_text_text_and_note_citations->add_text (v_vp_number);
+                if (html_text_standard)
+                  html_text_standard->add_text (v_vp_number);
+                if (html_text_linked)
+                  html_text_linked->add_text (v_vp_number);
+                if (odf_text_standard)
+                  odf_text_standard->close_text_style (false, false);
+                if (odf_text_text_only)
+                  odf_text_text_only->close_text_style (false, false);
+                if (odf_text_text_and_note_citations)
+                  odf_text_text_and_note_citations->close_text_style (false, false);
+                if (html_text_standard)
+                  html_text_standard->close_text_style (false, false);
+                if (html_text_linked)
+                  html_text_linked->close_text_style (false, false);
+              }
+              // Plain text output.
+              if (text_text) {
+                if (!text_text->line ().empty()) {
+                  text_text->addtext (" ");
+                }
+                text_text->addtext (v_vp_number);
+                // Plain text output always has a space following the verse.
+                // Important for outputting the first verse.
+                text_text->addtext (" ");
+              }
+              // If there was any text following the \v marker, remove the verse number,
+              // put the remainder back into the object, and update the pointer.
+              if (!text_following_v_marker.empty()) {
+                size_t pos = text_following_v_marker.find (v_number);
+                if (pos != std::string::npos) {
+                  text_following_v_marker = text_following_v_marker.substr (pos + v_number.length ());
+                }
+                // If a verse number was put, do this:
+                // Remove any whitespace from the start of the following text.
+                text_following_v_marker = filter::strings::ltrim (text_following_v_marker);
+                chapter_usfm_markers_and_text [chapter_usfm_markers_and_text_pointer] = text_following_v_marker;
+                chapter_usfm_markers_and_text_pointer--;
+                // If a verse number was put, do this too:
+                // Output the type of space that the user has set.
+                // This could be a fixed-width space, or a non-breaking space,
+                // or a combination of the two.
+                // This space type improves the appearance of the verse plus text.
+                // In case the verse numbers in poetry are to be left aligned,
+                // then output a tab to OpenDocument instead of the space.
+                // Exception:
+                // If a chapter number was put, do not output any white space.
+                if (m_output_chapter_text_at_first_verse.empty()) {
+                  if (odf_text_standard) {
+                    bool tab = odt_left_align_verse_in_poetry_styles && filter::usfm::is_standard_q_poetry (odf_text_standard->m_current_paragraph_style);
+                    if (tab) odf_text_standard->add_tab();
+                    else odf_text_standard->add_text (space_type_after_verse);
+                  }
+                  if (odf_text_text_only) {
+                    bool tab = odt_left_align_verse_in_poetry_styles && filter::usfm::is_standard_q_poetry (odf_text_text_only->m_current_paragraph_style);
+                    if (tab) odf_text_text_only->add_tab();
+                    else odf_text_text_only->add_text (space_type_after_verse);
+                  }
+                  if (odf_text_text_and_note_citations) {
+                    bool tab = odt_left_align_verse_in_poetry_styles && filter::usfm::is_standard_q_poetry (odf_text_text_and_note_citations->m_current_paragraph_style);
+                    if (tab) odf_text_text_and_note_citations->add_tab();
+                    else odf_text_text_and_note_citations->add_text (space_type_after_verse);
+                  }
+                  if (html_text_standard) html_text_standard->add_text (space_type_after_verse);
+                  if (html_text_linked) html_text_linked->add_text (space_type_after_verse);
+                }
+              }
+              // Unset the chapter variable, whether it was used or not.
+              // This makes it ready for subsequent use.
+              m_output_chapter_text_at_first_verse.clear();
+              // Other export formats.
+              if (onlinebible_text) onlinebible_text->newVerse (m_current_book_identifier, m_current_chapter_number, filter::strings::convert_to_int (m_current_verse_number));
+              if (esword_text) esword_text->newVerse (filter::strings::convert_to_int (m_current_verse_number));
+              // Done.
+              break;
+            }
+
+              
+              
             case stylesv2::Type::published_verse_marker:
             {
               close_text_style_all();

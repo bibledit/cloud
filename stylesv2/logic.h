@@ -41,6 +41,7 @@ enum class Type : int {
   chapter_label,
   published_chapter_marker,
   alternate_chapter_number,
+  verse,
   published_verse_marker,
   introduction_end,
   character_style,
@@ -77,6 +78,9 @@ enum class Property : int {
   
   // Whether to ouotput this marker at the first verse.
   at_first_verse,
+  
+  // Whether to restart a paragraph.
+  restart_paragraph,
   
   // Should be the last always.
   stopping_boundary

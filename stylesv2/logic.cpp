@@ -81,6 +81,8 @@ std::string type_enum_to_value (const Type type, const bool describe)
       if (describe)
         return "alternate chapter number";
       return "alternate_chapter_number";
+    case Type::verse:
+      return "verse";
     case Type::published_verse_marker:
       if (describe)
         return "published verse marker";
@@ -132,6 +134,8 @@ std::string property_enum_to_value (const Property property)
       return "has_endmarker";
     case Property::at_first_verse:
       return "at_first_verse";
+    case Property::restart_paragraph:
+      return "restart_paragraph";
     case Property::stopping_boundary:
       return "stopping_boundary";
     default:
@@ -166,6 +170,7 @@ Variant property_to_variant (const Property property)
     case Property::on_right_page:
     case Property::has_endmarker:
     case Property::at_first_verse:
+    case Property::restart_paragraph:
       return Variant::boolean;
     case Property::stopping_boundary:
     default:
@@ -1418,8 +1423,6 @@ const std::list<Style> styles {
     .doc = "https://ubsicap.github.io/usfm/chapters_verses/index.html#cp",
     .category = Category::chapters_verses,
   },
-
-  
   {
     .marker = "cd",
     .type = Type::paragraph,
@@ -1433,8 +1436,20 @@ const std::list<Style> styles {
       .doc = "https://ubsicap.github.io/usfm/chapters_verses/index.html#cd",
       .category = Category::chapters_verses,
   },
+  {
+    .marker = "v",
+    .type = Type::verse,
+    .name = "Verse number",
+    .info = "A verse number.",
+    .character = Character {
+      .superscript = TwoState::on,
+    },
+      .properties = {{Property::restart_paragraph,false}},
+      .doc = "https://ubsicap.github.io/usfm/chapters_verses/index.html#v",
+      .category = Category::chapters_verses,
+  },
 
-  
+
   
   // Todo adding here.
   {
@@ -4539,39 +4554,6 @@ const std::list<Style> styles {
 //    /* backgroundcolor */ "#FFFFFF",
 //  },
 //  {
-//    /* marker */ "v",
-//    /* name */ "Verse number",
-//    /* info */ "A verse number.",
-//    /* category */ "cv",
-//    /* type */ 6,
-//    /* subtype */ 0,
-//    /* fontsize */ 12,
-//    /* italic */ 0,
-//    /* bold */ 0,
-//    /* underline */ 0,
-//    /* smallcaps */ 0,
-//    /* superscript */ 1,
-//    /* justification */ 0,
-//    /* spacebefore */ 0,
-//    /* spaceafter */ 0,
-//    /* leftmargin */ 0,
-//    /* rightmargin */ 0,
-//    /* firstlineindent */ 0,
-//    /* spancolumns */ 0,
-//    /* color */ "#000000",
-//    /* print */ 1,
-//    /* userbool1 */ 0,
-//    /* userbool2 */ 0,
-//    /* userbool3 */ 0,
-//    /* userint1 */ 0,
-//    /* userint2 */ 0,
-//    /* userint3 */ 0,
-//    /* userstring1 */ "",
-//    /* userstring2 */ "",
-//    /* userstring3 */ "",
-//    /* backgroundcolor */ "#FFFFFF",
-//  },
-//  {
 //    /* marker */ "va",
 //    /* name */ "Alternate verse number",
 //    /* info */ "Second or alternate verse number. For coding dual numeration in Psalms.",
@@ -5142,6 +5124,8 @@ bool starts_new_line_in_usfm (const Style* style)
     case stylesv2::Type::chapter_label:
     case stylesv2::Type::published_chapter_marker:
     case stylesv2::Type::alternate_chapter_number:
+      return true;
+    case stylesv2::Type::verse:
       return true;
     case stylesv2::Type::published_verse_marker:
       return false;

@@ -199,6 +199,10 @@ void Styles_Css::evaluate_v2 (const stylesv2::Style* style)
     case Type::chapter_label:
     case Type::published_chapter_marker:
     case Type::alternate_chapter_number:
+      break;
+    case Type::verse:
+      add_v2 (style, false, false);
+      break;
     case Type::published_verse_marker:
     case Type::introduction_end:
       break;
@@ -207,11 +211,6 @@ void Styles_Css::evaluate_v2 (const stylesv2::Style* style)
       break;
       
 // Todo still to implement the ones below.
-//    case StyleTypeVerseNumber:
-//    {
-//      add (style, false, false);
-//      break;
-//    }
 //    case StyleTypeFootEndNote:
 //    {
 //      switch (style->subtype)

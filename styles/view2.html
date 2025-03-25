@@ -213,6 +213,13 @@
 </tr>
 <!-- #ENDZONE on_right_page -->
 
+<!-- #BEGINZONE has_endmarker -->
+<tr>
+  <td>translate("Capability")</td>
+  <td>translate("This style has an end marker")</td>
+</tr>
+<!-- #ENDZONE has_endmarker -->
+
 <!-- #BEGINZONE at_first_verse -->
 <tr>
   <td>translate("Capability")</td>
@@ -223,12 +230,15 @@
 </tr>
 <!-- #ENDZONE at_first_verse -->
 
-<!-- #BEGINZONE has_endmarker -->
+<!-- #BEGINZONE restart_paragraph -->
 <tr>
   <td>translate("Capability")</td>
-  <td>translate("This style has an end marker")</td>
+  <td>
+    <input type="checkbox" name="restart_paragraph" onchange="checkbox_v2(this, '##sheet##', '##style##')" ##restart_paragraph## />
+    translate("Restart paragraph")
+  </td>
 </tr>
-<!-- #ENDZONE has_endmarker -->
+<!-- #ENDZONE restart_paragraph -->
 
 <!-- #BEGINZONE deprecated -->
 <tr>

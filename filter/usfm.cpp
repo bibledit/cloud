@@ -564,14 +564,13 @@ std::string get_book_identifier (const std::vector <std::string>& usfm, unsigned
 // Returns the text that follows a USFM marker.
 // $usfm: array of strings alternating between USFM code and subsequent text.
 // $pointer: should point to the marker in $usfm. It gets increased by one.
-std::string get_text_following_marker (const std::vector <std::string>& usfm, unsigned int & pointer)
+std::string get_text_following_marker (const std::vector <std::string>& usfm, unsigned int& pointer)
 {
-  std::string text = ""; // Fallback value.
-  ++pointer;
+  pointer++;
   if (pointer < usfm.size()) {
-    text = usfm [pointer];
+    return usfm [pointer];
   }
-  return text;
+  return std::string();
 }
 
 

@@ -197,32 +197,6 @@ void Editor_Usfm2Html::process ()
           }
           case StyleTypeVerseNumber:
           {
-            // Close any existing text style.
-            close_text_style (false);
-            // Output the space before the verse number in case the paragraph already has some text.
-            if (!m_current_paragraph_content.empty()) {
-              add_text (" ");
-            }
-            // Open verse style, record verse/length, add verse number, close style again, and add a space.
-            open_text_style (style.marker, false);
-            std::string text_following_marker = filter::usfm::get_text_following_marker (m_markers_and_text, m_markers_and_text_pointer);
-            const std::string number = filter::usfm::peek_verse_number (text_following_marker);
-            m_verse_start_offsets [filter::strings::convert_to_int (number)] = static_cast<int>(m_text_tength);
-            add_text (number);
-            close_text_style (false);
-            add_text (" ");
-            // If there was any text following the \v marker, remove the verse number,
-            // put the remainder back into the object, and update the pointer.
-            if (!text_following_marker.empty()) {
-              if (const size_t pos = text_following_marker.find (number);
-                  pos != std::string::npos) {
-                text_following_marker = text_following_marker.substr (pos + number.length());
-              }
-              text_following_marker = filter::strings::ltrim (text_following_marker);
-              m_markers_and_text [m_markers_and_text_pointer] = text_following_marker;
-              m_markers_and_text_pointer--;
-            }
-            break;
           }
           case StyleTypeFootEndNote:
           {
@@ -410,6 +384,35 @@ void Editor_Usfm2Html::process ()
             // Output as plain text.
             close_text_style (false);
             output_as_is (marker, is_opening_marker);
+            break;
+          }
+          case stylesv2::Type::verse:
+          {
+            // Close any existing text style.
+            close_text_style (false);
+            // Output the space before the verse number in case the paragraph already has some text.
+            if (!m_current_paragraph_content.empty()) {
+              add_text (" ");
+            }
+            // Open verse style, record verse/length, add verse number, close style again, and add a space.
+            open_text_style (style->marker, false);
+            std::string text_following_marker = filter::usfm::get_text_following_marker (m_markers_and_text, m_markers_and_text_pointer);
+            const std::string number = filter::usfm::peek_verse_number (text_following_marker);
+            m_verse_start_offsets [filter::strings::convert_to_int (number)] = static_cast<int>(m_text_tength);
+            add_text (number);
+            close_text_style (false);
+            add_text (" ");
+            // If there was any text following the \v marker, remove the verse number,
+            // put the remainder back into the object, and update the pointer.
+            if (!text_following_marker.empty()) {
+              if (const size_t pos = text_following_marker.find (number);
+                  pos != std::string::npos) {
+                text_following_marker = text_following_marker.substr (pos + number.length());
+              }
+              text_following_marker = filter::strings::ltrim (text_following_marker);
+              m_markers_and_text [m_markers_and_text_pointer] = text_following_marker;
+              m_markers_and_text_pointer--;
+            }
             break;
           }
           case stylesv2::Type::published_verse_marker:
@@ -815,7 +818,8 @@ bool road_is_clear(const std::vector<std::string>& markers_and_text,
   // Function to determine whether it is a verse number markup.
   const auto is_verse_number = [](const int type_v1, const stylesv2::Style* style_v2) {
     if (style_v2) {
-      // Todo: Once the verse number is available, test on that here.
+      if (style_v2->type == stylesv2::Type::verse)
+        return true;
     } else {
       if (type_v1 == StyleTypeVerseNumber)
         return true;

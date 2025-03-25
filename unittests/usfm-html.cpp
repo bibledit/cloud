@@ -2034,7 +2034,6 @@ TEST_F (usfm_html, usfm_with_all_markers)
   R"(<p class="b-mte"><span>Major title at ending</span></p>)"
   R"(<p class="b-mte1"><span>Major title at ending 1</span></p>)"
   R"(<p class="b-mte2"><span>Major title at ending 2</span></p>)"
-
   R"(<p class="b-ms"><span>Major section heading</span></p>)"
   R"(<p class="b-ms1"><span>Major section heading 1</span></p>)"
   R"(<p class="b-ms2"><span>Major section heading 2</span></p>)"
@@ -2054,9 +2053,6 @@ TEST_F (usfm_html, usfm_with_all_markers)
   R"(<p class="b-sd2"><span>Semantic division 2</span></p>)"
   R"(<p class="b-sd3"><span>Semantic division 3</span></p>)"
   R"(<p class="b-sd4"><span>Semantic division 4</span></p>)"
-  R"()"
-
-  
   R"(<p class="b-imt"><span>Main Title</span></p>)"
   R"(<p class="b-imt1"><span>Main Title 1</span></p>)"
   R"(<p class="b-imt2"><span>Main Title 2</span></p>)"
@@ -2092,13 +2088,16 @@ TEST_F (usfm_html, usfm_with_all_markers)
   R"(<p class="b-imte2"><span>Introduction main title ending 2</span></p>)"
   R"(<p class="b-mono"><span>\ie </span></p>)"
   R"(<p class="b-c"><span>1</span></p>)"
-  R"(<p class="b-mono"><span>\cl </span><span>Genesis</span></p>)"
-  R"(<p class="b-mono"><span>\cp </span><span>א</span></p>)"
   R"(<p class="b-mono"><span>\ca </span><span>2</span><span>\ca*</span></p>)"
-  R"(<p class="b-cd"><span>Chapter description</span></p>)"
-  
   R"(<p class="b-p"><span class="i-v">1</span><span> </span><span class="i-vp">1b</span><span> Text name</span><span class="i-pro">pronunciation</span><span>.</span></p>)"
-  R"(<p class="b-p"><span class="i-v">2</span><span> </span><span>Normal </span><span class="i-add">added</span><span> and </span><span class="i-addpn">AddPn</span></p>)"
+  R"(<p class="b-c"><span>2</span></p>)"
+  R"(<p class="b-mono"><span>\cl </span><span>Psalm</span></p>)"
+  R"(<p class="b-p"><span class="i-v">1</span><span> </span><span>Normal </span><span class="i-add">added</span><span> and </span><span class="i-addpn">AddPn</span></p>)"
+  R"(<p class="b-c"><span>3</span></p>)"
+  R"(<p class="b-mono"><span>\cp </span><span>א</span></p>)"
+  R"(<p class="b-p"><span class="i-v">1</span><span> </span><span>Verse text</span></p>)"
+  R"(<p class="b-c"><span>4</span></p>)"
+  R"(<p class="b-cd"><span>Chapter description</span></p>)"
   R"(<p class="b-p"><span>The </span><span class="i-bk">Book</span><span> name</span></p>)"
   R"(<p class="b-p"><span>Proto </span><span class="i-dc">Deutero</span><span> text.</span></p>)"
   R"(<p class="b-p"><span>This is a </span><span class="i-k">keyword</span></p>)"
@@ -2120,13 +2119,21 @@ TEST_F (usfm_html, usfm_with_all_markers)
   R"(<p class="b-p"><span>This is </span><span class="i-sup">superscript</span><span> text.</span></p>)"
   R"()"
   ;
-  
+
+  const auto make_readable = [] (const auto& html) {
+    return filter::strings::replace ("</p>", "</p>\n", html);
+  };
+
   Editor_Usfm2Html editor_usfm2html;
   editor_usfm2html.load (standard_usfm);
   editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
   editor_usfm2html.run ();
   const std::string html = editor_usfm2html.get ();
-  EXPECT_EQ (standard_html, html);
+  if (html != standard_html) {
+    ADD_FAILURE() << "The produced html differs from the reference html";
+    std::cout << "Generated html:" << std::endl;
+    std::cout << make_readable(html) << std::endl;
+  }
 
   Editor_Html2Usfm editor_html2usfm;
   editor_html2usfm.load (html);

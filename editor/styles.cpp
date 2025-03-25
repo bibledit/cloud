@@ -157,6 +157,8 @@ std::string Editor_Styles::getAction (Webserver_Request& webserver_request, cons
       case stylesv2::Type::published_chapter_marker:
       case stylesv2::Type::alternate_chapter_number:
         return mono ();
+      case stylesv2::Type::verse:
+        return character();
       case stylesv2::Type::published_verse_marker:
         return character ();
       case stylesv2::Type::introduction_end:

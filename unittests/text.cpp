@@ -1370,272 +1370,30 @@ TEST_F (filter_text, usfm_with_all_markers)
   const std::string odt = filter_url_file_get_contents (text_txt);
   const std::string text = filter_text.text_text->get ();
   const std::string html = filter_text.html_text_standard->get_inner_html();
-  const std::string standard_odt =
-  "Right\n"
-  "\n"
-  "Major title\n"
-  "\n"
-  "Major title 1\n"
-  "\n"
-  "Major title 2\n"
-  "\n"
-  "Major title 3\n"
-  "\n"
-  "Major title 4\n"
-  "\n"
-  "Major title at ending\n"
-  "\n"
-  "Major title at ending 1\n"
-  "\n"
-  "Major title at ending 2\n"
-  "\n"
-  "Major section heading\n"
-  "\n"
-  "Major section heading 1\n"
-  "\n"
-  "Major section heading 2\n"
-  "\n"
-  "Major section references\n"
-  "\n"
-  "Section heading\n"
-  "\n"
-  "Section heading 1\n"
-  "\n"
-  "Section heading 2\n"
-  "\n"
-  "Section heading 3\n"
-  "\n"
-  "Section heading 4\n"
-  "\n"
-  "Section references\n"
-  "\n"
-  "Parallel passage references\n"
-  "\n"
-  "Inline quotation references\n"
-  "\n"
-  "Descriptive title\n"
-  "\n"
-  "Speaker\n"
-  "\n"
-  "Semantic division\n"
-  "\n"
-  "Semantic division 1\n"
-  "\n"
-  "Semantic division 2\n"
-  "\n"
-  "Semantic division 3\n"
-  "\n"
-  "Semantic division 4\n"
-  "\n"
-  "Main Title\n"
-  "\n"
-  "Main Title 1\n"
-  "\n"
-  "Main Title 2\n"
-  "\n"
-  "Main Title 3\n"
-  "\n"
-  "Main Title 4\n"
-  "\n"
-  "Section\n"
-  "\n"
-  "Section 1\n"
-  "\n"
-  "Section 2\n"
-  "\n"
-  "Introduction paragraph\n"
-  "\n"
-  "Introduction paragraph indented\n"
-  "\n"
-  "Introduction margin paragraph\n"
-  "\n"
-  "Introduction margin paragraph indented\n"
-  "\n"
-  "Introduction paragraph quote\n"
-  "\n"
-  "Introduction margin paragraph quote\n"
-  "\n"
-  "Introduction paragraph right\n"
-  "\n"
-  "Introduction poetry\n"
-  "\n"
-  "Introduction poetry 1\n"
-  "\n"
-  "Introduction poetry 2\n"
-  "\n"
-  "Introduction poetry 3\n"
-  "\n"
-  "\n"
-  "\n"
-  "1 Introduction list item\n"
-  "\n"
-  "1 Introduction list item 1\n"
-  "\n"
-  "1 Introduction list item 2\n"
-  "\n"
-  "Introduction Outline Title\n"
-  "\n"
-  "Introduction outline\n"
-  "\n"
-  "Introduction outline 1\n"
-  "\n"
-  "Introduction outline 2\n"
-  "\n"
-  "Introduction outline 3 references\n"
-  "\n"
-  "Introduction outline 4 quotation\n"
-  "\n"
-  "Introduction explanatory text\n"
-  "\n"
-  "Introduction main title ending\n"
-  "\n"
-  "Introduction main title ending 1\n"
-  "\n"
-  "Introduction main title ending 2\n"
-  "\n"
-  "Right א (2)\n"
-  "\n"
-  "Genesis\n"
-  "\n"
-  "Chapter description\n"
-  "\n"
-  "1b Text namepronunciation.\n"
-  "\n"
-  "2 Normal added and AddPn\n"
-  "\n"
-  "The Book name\n"
-  "\n"
-  "Proto Deutero text.\n"
-  "\n"
-  "This is a keyword\n"
-  "\n"
-  "Yahweh\n"
-  "\n"
-  "The 1st.\n"
-  "\n"
-  "It is about Jesus.\n"
-  "\n"
-  "The capital is Amsterdam.\n"
-  "\n"
-  "This is a quotation.\n"
-  "\n"
-  "Kind regards from Paul.\n"
-  "\n"
-  "Hebrew and Aramaic source.\n"
-  "\n"
-  "Jesus: Eli, Eli, lema sabachthani?\n"
-  "\n"
-  "Jesus: I am.\n"
-  "\n"
-  "This is emphasized text.\n"
-  "\n"
-  "This is bold text.\n"
-  "\n"
-  "This is italic text.\n"
-  "\n"
-  "This is bold/italic text.\n"
-  "\n"
-  "Section heading with normal text\n"
-  "\n"
-  "This is small cap text.\n"
-  "\n"
-  "This is superscript text.\n"
-  ;
-  EXPECT_EQ (filter::strings::trim(standard_odt), filter::strings::trim(odt));
+
+  const std::string odt2_txt = filter_url_create_root_path ({"unittests", "tests", "odt2.txt"});
+  const std::string standard_odt = filter_url_file_get_contents (odt2_txt);
+  if (odt != standard_odt) {
+    const std::string tmpfile = "/tmp/odt2.txt";
+    filter_url_file_put_contents (tmpfile, odt);
+    ADD_FAILURE() << "The produced odt differs from the reference odt in file " << odt2_txt << std::endl
+    << "The produced odt was written to " << tmpfile;
+  }
   
-  const std::string standard_text =
-  "Major title\n"
-  "Major title 1\n"
-  "Major title 2\n"
-  "Major title 3\n"
-  "Major title 4\n"
-  "Major title at ending\n"
-  "Major title at ending 1\n"
-  "Major title at ending 2\n"
-  "Major section heading\n"
-  "Major section heading 1\n"
-  "Major section heading 2\n"
-  "Major section references\n"
-  "Section heading\n"
-  "Section heading 1\n"
-  "Section heading 2\n"
-  "Section heading 3\n"
-  "Section heading 4\n"
-  "Section references\n"
-  "Parallel passage references\n"
-  "Inline quotation references\n"
-  "Descriptive title\n"
-  "Speaker\n"
-  "Semantic division\n"
-  "Semantic division 1\n"
-  "Semantic division 2\n"
-  "Semantic division 3\n"
-  "Semantic division 4\n"
-  "Main Title\n"
-  "Main Title 1\n"
-  "Main Title 2\n"
-  "Main Title 3\n"
-  "Main Title 4\n"
-  "Section\n"
-  "Section 1\n"
-  "Section 2\n"
-  "Introduction paragraph\n"
-  "Introduction paragraph indented\n"
-  "Introduction margin paragraph\n"
-  "Introduction margin paragraph indented\n"
-  "Introduction paragraph quote\n"
-  "Introduction margin paragraph quote\n"
-  "Introduction paragraph right\n"
-  "Introduction poetry\n"
-  "Introduction poetry 1\n"
-  "Introduction poetry 2\n"
-  "Introduction poetry 3\n"
-  "1 Introduction list item\n"
-  "1 Introduction list item 1\n"
-  "1 Introduction list item 2\n"
-  "Introduction Outline Title\n"
-  "Introduction outline\n"
-  "Introduction outline 1\n"
-  "Introduction outline 2\n"
-  "Introduction outline 3 references\n"
-  "Introduction outline 4 quotation\n"
-  "Introduction explanatory text\n"
-  "Introduction main title ending\n"
-  "Introduction main title ending 1\n"
-  "Introduction main title ending 2\n"
-  "א (2)\n"
-  "Chapter description\n"
-  "1b Text namepronunciation.\n"
-  "2 Normal added and AddPn\n"
-  "The Book name\n"
-  "Proto Deutero text.\n"
-  "This is a keyword\n"
-  "Yahweh\n"
-  "The 1st.\n"
-  "It is about Jesus.\n"
-  "The capital is Amsterdam.\n"
-  "This is a quotation.\n"
-  "Kind regards from Paul.\n"
-  "Hebrew and Aramaic source.\n"
-  "Jesus: Eli, Eli, lema sabachthani?\n"
-  "Jesus: I am.\n"
-  "This is emphasized text.\n"
-  "This is bold text.\n"
-  "This is italic text.\n"
-  "This is bold/italic text.\n"
-  "Section heading with normal text\n"
-  "This is small cap text.\n"
-  "This is superscript text.\n"
-  ;
-  EXPECT_EQ (filter::strings::trim(standard_text), filter::strings::trim(text));
-  if (filter::strings::trim(text) != filter::strings::trim(standard_text)) {
+  const std::string text2_txt = filter_url_create_root_path ({"unittests", "tests", "text2.txt"});
+  const std::string standard_text = filter_url_file_get_contents (text2_txt);
+  if (text != standard_text) {
+    const std::string tmpfile = "/tmp/text2.txt";
+    filter_url_file_put_contents (tmpfile, text);
+    ADD_FAILURE() << "The produced text differs from the reference text in file " << text2_txt << std::endl
+    << "The produced text was written to " << tmpfile;
     std::vector<std::string> removals;
     std::vector<std::string> additions;
     filter_diff_diff (filter::strings::trim(standard_text), filter::strings::trim(text), &removals, &additions);
-    for (const auto& removal : removals)
-      ADD_FAILURE() << "Generated text removed: " << removal;
-    for (const auto& addition : additions)
-      ADD_FAILURE() << "Generated text added: " << addition;
+    if (!removals.empty())
+      ADD_FAILURE() << "First item that the generated text does not have: " << removals.front();
+    if (!additions.empty())
+      ADD_FAILURE() << "First item that the generated text has which is not in the standard: " << additions.front();
   }
 
   const std::string standard_html =
@@ -1699,10 +1457,14 @@ TEST_F (filter_text, usfm_with_all_markers)
   R"(<p class="imte"><span>Introduction main title ending</span></p>)"
   R"(<p class="imte1"><span>Introduction main title ending 1</span></p>)"
   R"(<p class="imte2"><span>Introduction main title ending 2</span></p>)"
-  R"(<p class="c"><span>Genesis</span></p>)"
-  R"(<p class="cd"><span>Chapter description</span></p>)"
+  R"(<p class="c"><span>1 (2)</span><span> </span><span> </span><span> </span><span> </span></p>)"
   R"(<p class="p"><span class="v">1b</span><span> </span><span>Text name</span><span class="pro">pronunciation</span><span>.</span></p>)"
-  R"(<p class="p"><span class="v">2</span><span> </span><span>Normal </span><span class="add">added</span><span> and </span><span class="addpn">AddPn</span></p>)"
+  R"(<p class="c"><span>Psalm</span></p>)"
+  R"(<p class="p"><span class="v">1</span><span> </span><span>Normal </span><span class="add">added</span><span> and </span><span class="addpn">AddPn</span></p>)"
+  R"(<p class="c"><span>א</span></p>)"
+  R"(<p class="p"><span class="v">1</span><span> </span><span>Verse text</span></p>)"
+  R"(<p class="c"><span>4</span></p>)"
+  R"(<p class="cd"><span>Chapter description</span></p>)"
   R"(<p class="p"><span>The </span><span class="bk">Book</span><span> name</span></p>)"
   R"(<p class="p"><span>Proto </span><span class="dc">Deutero</span><span> text.</span></p>)"
   R"(<p class="p"><span>This is a </span><span class="k">keyword</span></p>)"
@@ -1723,15 +1485,22 @@ TEST_F (filter_text, usfm_with_all_markers)
   R"(<p class="p"><span>This is </span><span class="sc">small cap</span><span> text.</span></p>)"
   R"(<p class="p"><span>This is </span><span class="sup">superscript</span><span> text.</span></p>)"
   ;
-  EXPECT_EQ (standard_html, html);
+
+  const auto make_readable = [] (const auto& html) {
+    return filter::strings::replace ("</p>", "</p>\n", html);
+  };
+
   if (html != standard_html) {
+    ADD_FAILURE() << "The produced html differs from the reference html";
+    std::cout << "Generated html:" << std::endl;
+    std::cout << make_readable(html) << std::endl;
     std::vector<std::string> removals;
     std::vector<std::string> additions;
     filter_diff_diff (standard_html, html, &removals, &additions);
-    for (const auto& removal : removals)
-      ADD_FAILURE() << "Generated html removed: " << removal;
-    for (const auto& addition : additions)
-      ADD_FAILURE() << "Generated html added: " << addition;
+    if (!removals.empty())
+      ADD_FAILURE() << "The first item that the generated html lacks is this: " << removals.at(0);
+    if (!additions.empty())
+      ADD_FAILURE() << "The first item that the generated html has extra related to the standard html is this: " << additions.at(0);
   }
 }
 

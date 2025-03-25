@@ -1119,6 +1119,9 @@ TEST_F (styles, marker_starts_new_line_in_usfm)
       case Type::alternate_chapter_number:
         standard = true;
         break;
+      case Type::verse:
+        standard = true;
+        break;
       case Type::published_verse_marker:
         standard = false;
         break;

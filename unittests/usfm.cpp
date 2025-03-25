@@ -1521,7 +1521,7 @@ TEST (checks, usfm_import)
     for (const auto& data : book_chapter_data) {
       EXPECT_EQ (data.m_book, static_cast<int>(book_id::_genesis));
       const int chapter = data.m_chapter;
-      constexpr std::array<int,2> chapters {0, 1};
+      constexpr std::array<int,5> chapters {0, 1, 2, 3, 4};
       if (std::find(chapters.cbegin(), chapters.cend(), chapter) == chapters.cend()) {
         ADD_FAILURE() << "Unexpected chapter number " << chapter;
       }

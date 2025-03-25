@@ -1322,12 +1322,11 @@ TEST_F (filter_text, alternate_chapter_number)
   const std::string standard =
   "Unknown 13    (14)\n"
   "\n"
-  "   \n"
+  "13    (14)\n"
   "\n"
-  "  13    (14)\n"
-  "\n"
-  "Verse one.\n"
-  "\n";
+  " \n"
+  "\n   1 Verse one.\n\n"
+  ;
   EXPECT_EQ (standard, odt);
 }
 

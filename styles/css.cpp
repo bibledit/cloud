@@ -111,11 +111,6 @@ void Styles_Css::evaluate_v1 (void * database_styles_item)
       add_v1 (style, false, false);
       break;
     }
-    case StyleTypeVerseNumber:
-    {
-      add_v1 (style, false, false);
-      break;
-    }
     case StyleTypeFootEndNote:
     {
       switch (style->subtype)

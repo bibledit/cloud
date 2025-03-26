@@ -195,9 +195,6 @@ void Editor_Usfm2Html::process ()
             }
             break;
           }
-          case StyleTypeVerseNumber:
-          {
-          }
           case StyleTypeFootEndNote:
           {
             switch (style.subtype)
@@ -816,14 +813,10 @@ bool road_is_clear(const std::vector<std::string>& markers_and_text,
   };
   
   // Function to determine whether it is a verse number markup.
-  const auto is_verse_number = [](const int type_v1, const stylesv2::Style* style_v2) {
-    if (style_v2) {
-      if (style_v2->type == stylesv2::Type::verse)
+  const auto is_verse_number = [](const stylesv2::Style* style) {
+    if (style)
+      if (style->type == stylesv2::Type::verse)
         return true;
-    } else {
-      if (type_v1 == StyleTypeVerseNumber)
-        return true;
-    }
     return false;
   };
 
@@ -921,7 +914,7 @@ bool road_is_clear(const std::vector<std::string>& markers_and_text,
         const bool embedded {filter::usfm::is_embedded_marker (current_item)};
         
         // Take the next verse marker in account but don't go beyond it.
-        if (is_verse_number(type_v1, style_v2))
+        if (is_verse_number(style_v2))
             verse_boundary_reached = true;
         
         // The input is a note opener.
@@ -939,7 +932,7 @@ bool road_is_clear(const std::vector<std::string>& markers_and_text,
                 }
               }
               // Encounters a verse: blocker.
-              if (is_verse_number(type_v1, style_v2))
+              if (is_verse_number(style_v2))
                 return false;
               // Encounters cross reference opener or closer: blocker.
               // Other \x.. markup is allowed.
@@ -967,7 +960,7 @@ bool road_is_clear(const std::vector<std::string>& markers_and_text,
                 }
               }
               // Encounters a verse: blocker.
-              if (is_verse_number(type_v1, style_v2))
+              if (is_verse_number(style_v2))
                 return false;
               // Encounters foot- or endnote opener: blocker.
               // Other \f.. markup is allowed.
@@ -998,7 +991,7 @@ bool road_is_clear(const std::vector<std::string>& markers_and_text,
               }
             }
             // The inline text opener encounters a verse: blocker.
-            if (is_verse_number(type_v1, style_v2))
+            if (is_verse_number(style_v2))
               return false;
             // The inline text opener encounters a paragraph: blocker.
             if (starts_paragraph(type_v1, style_v2))

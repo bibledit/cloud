@@ -60,7 +60,6 @@ std::string styles_logic_type_text (int type)
 {
   if (type == StyleTypeStartsParagraph) return translate ("starts a new paragraph");
   if (type == StyleTypeInlineText     ) return translate ("is inline text with endmarker");
-  if (type == StyleTypeVerseNumber    ) return translate ("is a verse number");
   if (type == StyleTypeFootEndNote    ) return translate ("is a footnote or endnote");
   if (type == StyleTypeCrossreference ) return translate ("is a crossreference");
   if (type == StyleTypePeripheral     ) return translate ("is a peripheral element");
@@ -82,8 +81,6 @@ std::string styles_logic_subtype_text (int type, int subtype)
     if (subtype == ParagraphSubtypeNormalParagraph) return translate ("is a normal paragraph");
   }
   if (type == StyleTypeInlineText) {
-  }
-  if (type == StyleTypeVerseNumber) {
   }
   if (type == StyleTypeFootEndNote) {
     if (subtype == FootEndNoteSubtypeFootnote            ) return translate ("starts a footnote");
@@ -178,7 +175,6 @@ bool styles_logic_italic_bold_underline_smallcaps_are_relevant (int type, int su
   switch (type) {
     case StyleTypeStartsParagraph : return true;
     case StyleTypeInlineText      : return true;
-    case StyleTypeVerseNumber     : return true;
     case StyleTypeFootEndNote     : return true;
     case StyleTypeCrossreference  : return true;
     case StyleTypePicture         : return true;
@@ -202,7 +198,6 @@ bool styles_logic_italic_bold_underline_smallcaps_are_full (int type, int subtyp
 {
   switch (type) {
     case StyleTypeInlineText: return true;
-    case StyleTypeVerseNumber: return true;
     case StyleTypeFootEndNote:
     {
       switch (subtype) {
@@ -246,7 +241,6 @@ bool styles_logic_superscript_is_relevant (int type, int subtype)
 {
   switch (type) {
     case StyleTypeInlineText  : return true;
-    case StyleTypeVerseNumber : return true;
     case StyleTypeFootEndNote :
     {
       switch (subtype) {
@@ -339,7 +333,6 @@ bool styles_logic_color_is_relevant (int type, int subtype)
 {
   switch (type) {
     case StyleTypeInlineText  : return true;
-    case StyleTypeVerseNumber : return true;
     case StyleTypeFootEndNote :
     {
       switch (subtype) {
@@ -368,7 +361,6 @@ bool styles_logic_color_is_relevant (int type, int subtype)
 bool styles_logic_print_is_relevant (int type, int subtype)
 {
   switch (type) {
-    case StyleTypeVerseNumber : return true;
     case StyleTypeFootEndNote :
     {
       switch (subtype) {
@@ -402,9 +394,6 @@ int styles_logic_get_userbool1_function (int type, int subtype)
   if (type == StyleTypeCrossreference) {
     if (subtype != CrossreferenceSubtypeCrossreference)
       return UserBool1NoteAppliesToApocrypha;
-  }
-  if (type == StyleTypeVerseNumber) {
-    return UserBool1VerseRestartsParagraph;
   }
   return UserBool1None;
 }
@@ -595,10 +584,6 @@ bool styles_logic_starts_new_line_in_usfm (int type, int subtype)
     case StyleTypeInlineText :
     {
       return false;
-    }
-    case StyleTypeVerseNumber :
-    {
-      return true;
     }
     case StyleTypeFootEndNote :
     {

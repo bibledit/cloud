@@ -82,8 +82,6 @@ void Editor_Html2Usfm::stylesheet (const std::string& stylesheet)
       bool suppress = false;
       const int type = style.type;
       const int subtype = style.subtype;
-      if (type == StyleTypeVerseNumber)
-        suppress = true;
       if (type == StyleTypeFootEndNote) {
         suppress = true;
         if (subtype == FootEndNoteSubtypeFootnote)
@@ -110,12 +108,19 @@ void Editor_Html2Usfm::stylesheet (const std::string& stylesheet)
   }
   {
     const std::list<stylesv2::Style> styles = database::styles2::get_styles (stylesheet);
-    // Paragraph styles normally don't have a closing USFM marker.
-    // But there's exceptions to this rule. Gather the markers that need a closing USFM marker.
     for (const auto& style : styles) {
+      // Paragraph styles normally don't have a closing USFM marker.
+      // But there's exceptions to this rule.
+      // Gather the markers that need a closing USFM marker.
       if (stylesv2::get_bool_parameter(&style, stylesv2::Property::has_endmarker)) {
         m_force_end_markers.insert(style.marker);
       }
+      // Get markers that should not have endmarkers.
+      bool suppress_endmarker = false;
+      if (style.type == stylesv2::Type::verse)
+        suppress_endmarker = true;
+      if (suppress_endmarker)
+        m_suppress_end_markers.insert (style.marker);
     }
   }
 }

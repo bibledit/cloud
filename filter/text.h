@@ -68,12 +68,14 @@ private:
 public:
   void run (const std::string& stylesheet);
 private:
+  // The stylesheet.
+  std::string m_stylesheet{};
   // Container holding a chapter of USFM code, alternating between USFM and text.
   std::vector <std::string> chapter_usfm_markers_and_text {};
   unsigned int chapter_usfm_markers_and_text_pointer {0};
 
 public:
-  void get_styles (const std::string& stylesheet);
+  void get_styles ();
 private:
   // A map of marker -> object with style information.
   std::map <std::string, database::styles1::Item> styles {};
@@ -81,7 +83,7 @@ private:
   std::vector <std::string> createdStyles {};
 
 public:
-  void pre_process_usfm (const std::string& stylesheet);
+  void pre_process_usfm ();
 private:
   // Book identifier, e.g. 1, 2, 3, and so on.
   int m_current_book_identifier {0};
@@ -92,7 +94,7 @@ private:
   std::string getCurrentPassageText ();
   // Map of (book, chapter number).
   std::map <int, int> m_number_of_chapters_per_book {};
-  void process_usfm (const std::string& stylesheet);
+  void process_usfm ();
   void processNote ();
   // Opening a new paragraph.
   void create_paragraph_style (const database::styles1::Item & style, bool keepWithNext);

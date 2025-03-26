@@ -96,14 +96,17 @@ void Filter_Text::add_usfm_code (std::string usfm)
 // $stylesheet - The stylesheet to use.
 void Filter_Text::run (const std::string& stylesheet)
 {
+  // Save sthlesheet.
+  m_stylesheet = stylesheet;
+  
   // Get the styles.
-  get_styles (stylesheet);
+  get_styles();
 
   // Preprocess.
-  pre_process_usfm (stylesheet);
+  pre_process_usfm();
 
   // Process data.
-  process_usfm (stylesheet);
+  process_usfm ();
 
   store_verses_paragraphs ();
   
@@ -153,7 +156,7 @@ void Filter_Text::get_usfm_next_chapter ()
 
 // This function gets the styles from the database,
 // and stores them in the object for quicker access.
-void Filter_Text::get_styles (const std::string& stylesheet)
+void Filter_Text::get_styles ()
 {
   styles.clear();
   // Get the relevant styles information included.
@@ -161,9 +164,9 @@ void Filter_Text::get_styles (const std::string& stylesheet)
   if (odf_text_text_only) odf_text_text_only->create_page_break_style ();
   if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->create_page_break_style ();
   if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->create_superscript_style ();
-  std::vector <std::string> markers = database::styles1::get_markers (stylesheet);
+  std::vector <std::string> markers = database::styles1::get_markers (m_stylesheet);
   for (const auto& marker : markers) {
-    database::styles1::Item style = database::styles1::get_marker_data (stylesheet, marker);
+    database::styles1::Item style = database::styles1::get_marker_data (m_stylesheet, marker);
     styles [marker] = style;
     if (style.type == StyleTypeFootEndNote) {
       if (style.subtype == FootEndNoteSubtypeStandardContent) {
@@ -181,7 +184,7 @@ void Filter_Text::get_styles (const std::string& stylesheet)
 
 // This function does the preprocessing of the USFM code
 // extracting a variety of information, creating note citations, etc.
-void Filter_Text::pre_process_usfm (const std::string& stylesheet)
+void Filter_Text::pre_process_usfm ()
 {
   usfm_markers_and_text_ptr = 0;
   while (unprocessed_usfm_code_available ()) {
@@ -232,7 +235,7 @@ void Filter_Text::pre_process_usfm (const std::string& stylesheet)
               }
             }
           }
-          else if (const stylesv2::Style* style {database::styles2::get_marker_data (stylesheet, marker)}; style) {
+          else if (const stylesv2::Style* style {database::styles2::get_marker_data (m_stylesheet, marker)}; style) {
             switch (style->type) {
               case stylesv2::Type::starting_boundary:
               case stylesv2::Type::none:
@@ -351,7 +354,7 @@ void Filter_Text::pre_process_usfm (const std::string& stylesheet)
 
 // This function does the processing of the USFM code,
 // formatting the document and extracting other useful information.
-void Filter_Text::process_usfm (const std::string& stylesheet)
+void Filter_Text::process_usfm ()
 {
   // Go through the USFM code.
   int processed_books_count {0};
@@ -605,7 +608,7 @@ void Filter_Text::process_usfm (const std::string& stylesheet)
             }
           }
         }
-        else if (const stylesv2::Style* style {database::styles2::get_marker_data (stylesheet, marker)}; style) {
+        else if (const stylesv2::Style* style {database::styles2::get_marker_data (m_stylesheet, marker)}; style) {
           switch (style->type) {
             case stylesv2::Type::starting_boundary:
             case stylesv2::Type::none:
@@ -918,7 +921,7 @@ void Filter_Text::process_usfm (const std::string& stylesheet)
               if (onlinebible_text)
                 onlinebible_text->storeData ();
               // Handle a situation that a verse number starts a new paragraph.
-              if (stylesv2::get_bool_parameter (style, stylesv2::Property::restart_paragraph)) { // Todo test this.
+              if (stylesv2::get_bool_parameter (style, stylesv2::Property::restart_paragraph)) {
                 if (odf_text_standard) {
                   if (!odf_text_standard->m_current_paragraph_content.empty()) {
                     odf_text_standard->new_paragraph (odf_text_standard->m_current_paragraph_style);
@@ -1260,17 +1263,19 @@ void Filter_Text::processNote ()
       bool isEmbeddedMarker = filter::usfm::is_embedded_marker (currentItem);
       // Clean up the marker, so we remain with the basic version, e.g. 'f'.
       std::string marker = filter::usfm::get_marker (currentItem);
-      if (styles.find (marker) != styles.end())
+      if (const stylesv2::Style* style {database::styles2::get_marker_data (m_stylesheet, marker)}; style)
+      {
+        if (style->type == stylesv2::Type::verse) {
+          // Verse found. The note should have stopped here. Incorrect note markup.
+          addToFallout ("The note did not close at the end of the verse. The text is not correct.", false);
+          goto noteDone;
+        }
+      }
+      else if (styles.find (marker) != styles.end())
       {
         database::styles1::Item style = styles[marker];
         switch (style.type)
         {
-          case StyleTypeVerseNumber:
-          {
-            // Verse found. The note should have stopped here. Incorrect note markup.
-            addToFallout ("The note did not close at the end of the verse. The text is not correct.", false);
-            goto noteDone;
-          }
           case StyleTypeFootEndNote:
           {
             switch (style.subtype)

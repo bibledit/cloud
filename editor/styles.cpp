@@ -183,8 +183,6 @@ std::string Editor_Styles::getAction (Webserver_Request& webserver_request, cons
         return paragraph ();
       case StyleTypeInlineText:
         return character ();
-      case StyleTypeVerseNumber:
-        return character ();
       case StyleTypeFootEndNote:
       {
         switch (subtype)

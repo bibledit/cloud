@@ -151,7 +151,7 @@ std::string styles_sheetm (Webserver_Request& webserver_request)
 
   // List the styles v2 in the overview.
   {
-    const auto get_and_sort_markers_v2 = [] (const auto& name) { // Todo sort it.
+    const auto get_and_sort_markers_v2 = [] (const auto& name) {
       std::vector<std::string> markers {database::styles2::get_markers (name)};
       std::vector<std::string> sorted_markers{};
       for (const stylesv2::Style& style : stylesv2::styles) {

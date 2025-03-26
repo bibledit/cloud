@@ -894,7 +894,7 @@ void Filter_Text::process_usfm ()
               filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
               break;
             }
-            case stylesv2::Type::alternate_chapter_number: // Todo
+            case stylesv2::Type::alternate_chapter_number:
             {
               close_text_style_all();
               if (is_opening_marker) {

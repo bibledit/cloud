@@ -151,7 +151,20 @@ std::string styles_sheetm (Webserver_Request& webserver_request)
 
   // List the styles v2 in the overview.
   {
-    const std::vector<std::string> markers_v2 {database::styles2::get_markers (name)};
+    const auto get_and_sort_markers_v2 = [] (const auto& name) { // Todo sort it.
+      std::vector<std::string> markers {database::styles2::get_markers (name)};
+      std::vector<std::string> sorted_markers{};
+      for (const stylesv2::Style& style : stylesv2::styles) {
+        const std::string& marker = style.marker;
+        if (const auto iter = std::find(markers.cbegin(), markers.cend(), marker); iter != markers.cend()) {
+          sorted_markers.push_back(marker);
+          markers.erase(iter);
+        }
+      }
+      sorted_markers.insert(sorted_markers.cend(), markers.cbegin(), markers.cend());
+      return sorted_markers;
+    };
+    const std::vector<std::string> markers_v2 {get_and_sort_markers_v2 (name)};
     auto previous_category {stylesv2::Category::unknown};
     for (const auto& marker : markers_v2) {
       const stylesv2::Style* style {database::styles2::get_marker_data (name, marker)};

@@ -66,6 +66,8 @@ Introduction main title ending 2
 1 Verse text
 4
 Chapter description
+Continuation (margin) paragraph.
+Paragraph opening an epistle.
 The Book name
 Proto Deutero text.
 This is a keyword

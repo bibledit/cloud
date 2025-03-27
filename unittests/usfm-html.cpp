@@ -2110,6 +2110,8 @@ TEST_F (usfm_html, usfm_with_all_markers)
   R"(<p class="b-pi1"><span>Indented paragraph 1.</span></p>)"
   R"(<p class="b-pi2"><span>Indented paragraph 2.</span></p>)"
   R"(<p class="b-pi3"><span>Indented paragraph 3.</span></p>)"
+  R"(<p class="b-mi"><span>Margin indented.</span></p>)"
+  R"(<p class="b-nb"><span>No break.</span></p>)"
 
   R"(<p class="b-p"><span>The </span><span class="i-bk">Book</span><span> name</span></p>)"
   R"(<p class="b-p"><span>Proto </span><span class="i-dc">Deutero</span><span> text.</span></p>)"

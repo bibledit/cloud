@@ -119,6 +119,8 @@ R"(\pi Indented paragraph.)" "\n"
 R"(\pi1 Indented paragraph 1.)" "\n"
 R"(\pi2 Indented paragraph 2.)" "\n"
 R"(\pi3 Indented paragraph 3.)" "\n"
+R"(\mi Margin indented.)" "\n"
+R"(\nb No break.)" "\n"
 
 R"(\p The \bk Book\bk* name)" "\n"
 R"(\p Proto \dc Deutero\dc* text.)" "\n"

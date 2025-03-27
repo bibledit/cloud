@@ -78,6 +78,8 @@ Indented paragraph.
 Indented paragraph 1.
 Indented paragraph 2.
 Indented paragraph 3.
+Margin indented.
+No break.
 The Book name
 Proto Deutero text.
 This is a keyword

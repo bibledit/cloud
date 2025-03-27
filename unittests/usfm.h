@@ -109,6 +109,7 @@ R"(\c 4)" "\n"
 R"(\cd Chapter description)" "\n"
 R"(\m Continuation (margin) paragraph.)" "\n"
 R"(\po Paragraph opening an epistle.)" "\n"
+R"(\pr Right aligned paragraph.)" "\n"
 
 
 R"(\p The \bk Book\bk* name)" "\n"

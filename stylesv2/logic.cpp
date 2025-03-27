@@ -1487,13 +1487,25 @@ const std::list<Style> styles {
     .paragraph = Paragraph {
       .font_size = 12,
       .space_before = 4,
-      .space_after =4,
+      .space_after = 4,
       .first_line_indent = 3.2f,
     },
       .doc = "https://ubsicap.github.io/usfm/paragraphs/index.html#po",
       .category = Category::paragraphs,
   },
-  
+  {
+    .marker = "pr",
+    .type = Type::paragraph,
+    .name = "Right-aligned paragraph",
+    .info = "Right-aligned paragraph text, without first line indent.",
+    .paragraph = Paragraph {
+      .font_size = 12,
+      .text_alignment = TextAlignment::right,
+    },
+      .doc = "https://ubsicap.github.io/usfm/paragraphs/index.html#pr",
+      .category = Category::paragraphs,
+  },
+
 
 
   // Todo adding here.

@@ -2100,6 +2100,7 @@ TEST_F (usfm_html, usfm_with_all_markers)
   R"(<p class="b-cd"><span>Chapter description</span></p>)"
   R"(<p class="b-m"><span>Continuation (margin) paragraph.</span></p>)"
   R"(<p class="b-po"><span>Paragraph opening an epistle.</span></p>)"
+  R"(<p class="b-pr"><span>Right aligned paragraph.</span></p>)"
 
   R"(<p class="b-p"><span>The </span><span class="i-bk">Book</span><span> name</span></p>)"
   R"(<p class="b-p"><span>Proto </span><span class="i-dc">Deutero</span><span> text.</span></p>)"

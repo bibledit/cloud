@@ -704,3 +704,6 @@ font-variant: small-caps;
 font-size: x-small;
 vertical-align: super;
 }
+.pr, .b-pr {
+text-align: right;
+}

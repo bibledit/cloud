@@ -68,6 +68,7 @@ Introduction main title ending 2
 Chapter description
 Continuation (margin) paragraph.
 Paragraph opening an epistle.
+Right aligned paragraph.
 The Book name
 Proto Deutero text.
 This is a keyword

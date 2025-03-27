@@ -148,6 +148,8 @@ Continuation (margin) paragraph.
 
 Paragraph opening an epistle.
 
+Right aligned paragraph.
+
 The Book name
 
 Proto Deutero text.

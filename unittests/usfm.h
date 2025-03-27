@@ -121,7 +121,6 @@ R"(\pi2 Indented paragraph 2.)" "\n"
 R"(\pi3 Indented paragraph 3.)" "\n"
 R"(\mi Margin indented.)" "\n"
 R"(\nb No break.)" "\n"
-
 R"(\pc Centred paragraph.)" "\n"
 R"(\ph Hanging paragraph.)" "\n"
 R"(\ph1 Hanging paragraph 1.)" "\n"
@@ -129,9 +128,6 @@ R"(\ph2 Hanging paragraph 2.)" "\n"
 R"(\ph3 Hanging paragraph 3.)" "\n"
 R"(\ph4 Hanging paragraph 4.)" "\n"
 R"(\b)" "\n"
-
-
-
 
 R"(\p The \bk Book\bk* name)" "\n"
 R"(\p Proto \dc Deutero\dc* text.)" "\n"

@@ -2120,7 +2120,6 @@ TEST_F (usfm_html, usfm_with_all_markers)
   R"(<p class="b-ph4"><span>Hanging paragraph 4.</span></p>)"
   R"(<p class="b-b"><br/></p>)"
   
-  
   R"(<p class="b-p"><span>The </span><span class="i-bk">Book</span><span> name</span></p>)"
   R"(<p class="b-p"><span>Proto </span><span class="i-dc">Deutero</span><span> text.</span></p>)"
   R"(<p class="b-p"><span>This is a </span><span class="i-k">keyword</span></p>)"

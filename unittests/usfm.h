@@ -114,7 +114,11 @@ R"(\cls Closure of letter.)" "\n"
 R"(\pmo Embedded text opening.)" "\n"
 R"(\pm Embedded text paragraph.)" "\n"
 R"(\pmc Embedded text closing.)" "\n"
-
+R"(\pmr Embedded text refrain.)" "\n"
+R"(\pi Indented paragraph.)" "\n"
+R"(\pi1 Indented paragraph 1.)" "\n"
+R"(\pi2 Indented paragraph 2.)" "\n"
+R"(\pi3 Indented paragraph 3.)" "\n"
 
 R"(\p The \bk Book\bk* name)" "\n"
 R"(\p Proto \dc Deutero\dc* text.)" "\n"

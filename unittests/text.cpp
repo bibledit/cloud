@@ -1471,6 +1471,11 @@ TEST_F (filter_text, usfm_with_all_markers)
   R"(<p class="pmo"><span>Embedded text opening.</span></p>)"
   R"(<p class="pm"><span>Embedded text paragraph.</span></p>)"
   R"(<p class="pmc"><span>Embedded text closing.</span></p>)"
+  R"(<p class="pmr"><span>Embedded text refrain.</span></p>)"
+  R"(<p class="pi"><span>Indented paragraph.</span></p>)"
+  R"(<p class="pi1"><span>Indented paragraph 1.</span></p>)"
+  R"(<p class="pi2"><span>Indented paragraph 2.</span></p>)"
+  R"(<p class="pi3"><span>Indented paragraph 3.</span></p>)"
 
   R"(<p class="p"><span>The </span><span class="bk">Book</span><span> name</span></p>)"
   R"(<p class="p"><span>Proto </span><span class="dc">Deutero</span><span> text.</span></p>)"

@@ -158,6 +158,16 @@ Embedded text paragraph.
 
 Embedded text closing.
 
+Embedded text refrain.
+
+Indented paragraph.
+
+Indented paragraph 1.
+
+Indented paragraph 2.
+
+Indented paragraph 3.
+
 The Book name
 
 Proto Deutero text.

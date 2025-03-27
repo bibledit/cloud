@@ -1478,6 +1478,13 @@ TEST_F (filter_text, usfm_with_all_markers)
   R"(<p class="pi3"><span>Indented paragraph 3.</span></p>)"
   R"(<p class="mi"><span>Margin indented.</span></p>)"
   R"(<p class="nb"><span>No break.</span></p>)"
+  R"(<p class="pc"><span>Centred paragraph.</span></p>)"
+  R"(<p class="ph"><span>Hanging paragraph.</span></p>)"
+  R"(<p class="ph1"><span>Hanging paragraph 1.</span></p>)"
+  R"(<p class="ph2"><span>Hanging paragraph 2.</span></p>)"
+  R"(<p class="ph3"><span>Hanging paragraph 3.</span></p>)"
+  R"(<p class="ph4"><span>Hanging paragraph 4.</span></p>)"
+  R"(<p class="b"><br/></p>)"
 
   R"(<p class="p"><span>The </span><span class="bk">Book</span><span> name</span></p>)"
   R"(<p class="p"><span>Proto </span><span class="dc">Deutero</span><span> text.</span></p>)"

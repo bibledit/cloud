@@ -172,6 +172,20 @@ Margin indented.
 
 No break.
 
+Centred paragraph.
+
+Hanging paragraph.
+
+Hanging paragraph 1.
+
+Hanging paragraph 2.
+
+Hanging paragraph 3.
+
+Hanging paragraph 4.
+
+
+
 The Book name
 
 Proto Deutero text.

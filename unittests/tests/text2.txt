@@ -80,6 +80,12 @@ Indented paragraph 2.
 Indented paragraph 3.
 Margin indented.
 No break.
+Centred paragraph.
+Hanging paragraph.
+Hanging paragraph 1.
+Hanging paragraph 2.
+Hanging paragraph 3.
+Hanging paragraph 4.
 The Book name
 Proto Deutero text.
 This is a keyword

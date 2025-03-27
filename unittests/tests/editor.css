@@ -707,3 +707,23 @@ vertical-align: super;
 .pr, .b-pr {
 text-align: right;
 }
+.ph, .b-ph {
+margin-left: 12.7mm;
+text-indent: -9.5mm;
+}
+.ph1, .b-ph1 {
+margin-left: 12.7mm;
+text-indent: -9.5mm;
+}
+.ph2, .b-ph2 {
+margin-left: 19.1mm;
+text-indent: -9.5mm;
+}
+.ph3, .b-ph3 {
+margin-left: 25.4mm;
+text-indent: -9.5mm;
+}
+.ph4, .b-ph4 {
+margin-left: 31.8mm;
+text-indent: -9.5mm;
+}

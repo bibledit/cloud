@@ -129,6 +129,7 @@ TEST_F (styles, create_css)
     styles_css.exports ();
     styles_css.generate ();
     const auto css = chopup(styles_css.css());
+    //filter_url_file_put_contents("/tmp/exports.css", styles_css.css());
     const auto standard = chopup(filter::strings::trim (filter_url_file_get_contents (filter_url_create_path ({"unittests", "tests", "exports.css"}))));
     for (const auto& bit : standard) {
       if (std::find(css.cbegin(), css.cend(), bit) == css.cend()) {

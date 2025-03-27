@@ -11,32 +11,8 @@ a:hover { text-decoration: underline; }
 .navigationbar { font-size: normal; }
 .popup { position:absolute; display:none; background-color:lightyellow; border:.1em solid; width:15em; height:auto; padding:1em; font-size:1.5em; text-indent:0em; margin 0.5em 0.5em 0.5em 0.5em; }
 a:hover .popup { display:block; }
-.b, .b-b {
-font-size: 83%;
-}
-.c, .b-c {
-font-size: 150%;
-font-weight: bold;
-margin-top: 8mm;
-margin-bottom: 4mm;
-}
 .cat, .i-cat {
 font-style: italic;
-}
-.cd, .b-cd {
-font-size: 92%;
-margin-top: 8mm;
-margin-bottom: 4mm;
-}
-.cls, .b-cls {
-text-align: right;
-}
-.d, .b-d {
-font-style: italic;
-text-align: center;
-margin-top: 4mm;
-margin-bottom: 4mm;
-page-break-inside: avoid;
 }
 .ef, .b-ef {
 }
@@ -86,129 +62,6 @@ font-weight: bold;
 .fv, .i-fv {
 font-size: x-small;
 vertical-align: super;
-}
-.ib, .b-ib {
-font-size: 83%;
-}
-.iex, .b-iex {
-margin-top: 4mm;
-margin-bottom: 4mm;
-text-indent: 3.2mm;
-}
-.ili, .b-ili {
-margin-left: 12.7mm;
-text-indent: -9.5mm;
-}
-.ili1, .b-ili1 {
-margin-left: 12.7mm;
-text-indent: -9.5mm;
-}
-.ili2, .b-ili2 {
-margin-left: 19.1mm;
-text-indent: -9.5mm;
-}
-.im, .b-im {
-}
-.imi, .b-imi {
-margin-left: 6.4mm;
-margin-right: 6.4mm;
-}
-.imq, .b-imq {
-font-style: italic;
-margin-left: 6.4mm;
-margin-right: 6.4mm;
-}
-.imte, .b-imte {
-font-size: 167%;
-font-weight: bold;
-text-align: center;
-margin-top: 8mm;
-margin-bottom: 4mm;
-page-break-inside: avoid;
-}
-.imte1, .b-imte1 {
-font-size: 167%;
-font-weight: bold;
-text-align: center;
-margin-top: 8mm;
-margin-bottom: 4mm;
-page-break-inside: avoid;
-}
-.imte2, .b-imte2 {
-font-size: 133%;
-font-weight: bold;
-text-align: center;
-margin-bottom: 2mm;
-page-break-inside: avoid;
-}
-.io, .b-io {
-margin-left: 12.7mm;
-page-break-inside: avoid;
-}
-.io1, .b-io1 {
-margin-left: 12.7mm;
-page-break-inside: avoid;
-}
-.io2, .b-io2 {
-margin-left: 19.1mm;
-page-break-inside: avoid;
-}
-.io3, .b-io3 {
-margin-left: 25.4mm;
-page-break-inside: avoid;
-}
-.io4, .b-io4 {
-margin-left: 31.8mm;
-page-break-inside: avoid;
-}
-.ior, .i-ior {
-}
-.iot, .b-iot {
-font-weight: bold;
-text-align: center;
-margin-top: 8mm;
-margin-bottom: 4mm;
-page-break-inside: avoid;
-}
-.ipi, .b-ipi {
-margin-left: 6.4mm;
-margin-right: 6.4mm;
-text-indent: 3.2mm;
-}
-.ipq, .b-ipq {
-font-style: italic;
-margin-left: 6.4mm;
-margin-right: 6.4mm;
-text-indent: 3.2mm;
-}
-.ipr, .b-ipr {
-font-style: italic;
-text-align: right;
-margin-left: 6.4mm;
-margin-right: 6.4mm;
-}
-.iq, .b-iq {
-font-style: italic;
-margin-left: 25.4mm;
-text-indent: -19.1mm;
-}
-.iq1, .b-iq1 {
-font-style: italic;
-margin-left: 25.4mm;
-text-indent: -19.1mm;
-}
-.iq2, .b-iq2 {
-font-style: italic;
-margin-left: 25.4mm;
-text-indent: -12.7mm;
-}
-.iq3, .b-iq3 {
-font-style: italic;
-margin-left: 25.4mm;
-text-indent: -6.4mm;
-}
-.iqt, .i-iqt {
-font-style: italic;
 }
 .jmp, .i-jmp {
 text-decoration: underline;
@@ -265,153 +118,6 @@ font-weight: bold;
 }
 .liv1, .i-liv1 {
 }
-.m, .b-m {
-}
-.mi, .b-mi {
-margin-left: 6.4mm;
-margin-right: 6.4mm;
-}
-.mr, .b-mr {
-font-style: italic;
-text-align: center;
-margin-bottom: 4mm;
-page-break-inside: avoid;
-}
-.ms, .b-ms {
-font-size: 117%;
-font-weight: bold;
-text-align: center;
-margin-top: 16mm;
-margin-bottom: 4mm;
-page-break-inside: avoid;
-}
-.ms1, .b-ms1 {
-font-size: 117%;
-font-weight: bold;
-text-align: center;
-margin-top: 16mm;
-margin-bottom: 4mm;
-page-break-inside: avoid;
-}
-.ms2, .b-ms2 {
-font-size: 117%;
-font-weight: bold;
-text-align: center;
-margin-top: 16mm;
-margin-bottom: 4mm;
-page-break-inside: avoid;
-}
-.mt, .b-mt {
-font-size: 167%;
-font-weight: bold;
-text-align: center;
-margin-top: 8mm;
-margin-bottom: 4mm;
-page-break-inside: avoid;
-}
-.mt1, .b-mt1 {
-font-size: 167%;
-font-weight: bold;
-text-align: center;
-margin-top: 8mm;
-margin-bottom: 4mm;
-page-break-inside: avoid;
-}
-.mt2, .b-mt2 {
-font-size: 133%;
-font-style: italic;
-text-align: center;
-margin-bottom: 2mm;
-page-break-inside: avoid;
-}
-.mt3, .b-mt3 {
-font-size: 133%;
-font-weight: bold;
-text-align: center;
-margin-top: 2mm;
-margin-bottom: 2mm;
-page-break-inside: avoid;
-}
-.mt4, .b-mt4 {
-text-align: center;
-margin-top: 2mm;
-margin-bottom: 2mm;
-page-break-inside: avoid;
-}
-.mte, .b-mte {
-font-size: 167%;
-font-weight: bold;
-text-align: center;
-margin-top: 8mm;
-margin-bottom: 4mm;
-page-break-inside: avoid;
-}
-.mte1, .b-mte1 {
-font-size: 167%;
-font-weight: bold;
-text-align: center;
-margin-top: 8mm;
-margin-bottom: 4mm;
-page-break-inside: avoid;
-}
-.mte2, .b-mte2 {
-font-size: 133%;
-font-style: italic;
-text-align: center;
-margin-bottom: 2mm;
-page-break-inside: avoid;
-}
-.nb, .b-nb {
-}
-.p, .b-p {
-text-indent: 3.2mm;
-}
-.pc, .b-pc {
-text-align: center;
-}
-.pi, .b-pi {
-margin-left: 6.4mm;
-margin-right: 6.4mm;
-text-indent: 3.2mm;
-}
-.pi1, .b-pi1 {
-margin-left: 6.4mm;
-margin-right: 6.4mm;
-text-indent: 3.2mm;
-}
-.pi2, .b-pi2 {
-margin-left: 12.7mm;
-margin-right: 6.4mm;
-text-indent: 3.2mm;
-}
-.pi3, .b-pi3 {
-margin-left: 19.1mm;
-margin-right: 6.4mm;
-text-indent: 3.2mm;
-}
-.pm, .b-pm {
-margin-left: 6.4mm;
-margin-right: 6.4mm;
-text-indent: 3.2mm;
-}
-.pmc, .b-pmc {
-margin-left: 6.4mm;
-margin-right: 6.4mm;
-}
-.pmo, .b-pmo {
-margin-left: 6.4mm;
-margin-right: 6.4mm;
-}
-.pmr, .b-pmr {
-text-align: right;
-margin-left: 6.4mm;
-margin-right: 6.4mm;
-}
-.po, .b-po {
-margin-top: 4mm;
-margin-bottom: 4mm;
-text-indent: 3.2mm;
-}
 .q, .b-q {
 margin-left: 31.8mm;
 text-indent: -25.4mm;
@@ -462,97 +168,9 @@ text-align: right;
 .qs, .i-qs {
 font-style: italic;
 }
-.r, .b-r {
-font-style: italic;
-text-align: center;
-margin-bottom: 4mm;
-page-break-inside: avoid;
-}
 .rb, .i-rb {
 }
-.rq, .b-rq {
-font-size: 83%;
-font-style: italic;
-text-align: right;
-margin-bottom: 4mm;
-}
 .rt, .i-rt {
-}
-.s, .b-s {
-font-weight: bold;
-text-align: center;
-margin-top: 8mm;
-margin-bottom: 4mm;
-page-break-inside: avoid;
-}
-.s1, .b-s1 {
-font-weight: bold;
-text-align: center;
-margin-top: 8mm;
-margin-bottom: 4mm;
-page-break-inside: avoid;
-}
-.s2, .b-s2 {
-font-style: italic;
-text-align: center;
-margin-top: 8mm;
-margin-bottom: 4mm;
-page-break-inside: avoid;
-}
-.s3, .b-s3 {
-font-style: italic;
-text-align: center;
-margin-top: 6mm;
-margin-bottom: 3mm;
-page-break-inside: avoid;
-}
-.s4, .b-s4 {
-font-style: italic;
-text-align: center;
-margin-top: 6mm;
-margin-bottom: 3mm;
-page-break-inside: avoid;
-}
-.sd, .b-sd {
-font-size: 167%;
-margin-top: 24mm;
-margin-bottom: 24mm;
-}
-.sd1, .b-sd1 {
-font-size: 167%;
-margin-top: 24mm;
-margin-bottom: 24mm;
-}
-.sd2, .b-sd2 {
-font-size: 133%;
-margin-top: 18mm;
-margin-bottom: 18mm;
-}
-.sd3, .b-sd3 {
-font-size: 133%;
-margin-top: 12mm;
-margin-bottom: 12mm;
-}
-.sd4, .b-sd4 {
-font-size: 133%;
-margin-top: 8mm;
-margin-bottom: 8mm;
-}
-.sp, .b-sp {
-font-style: italic;
-margin-top: 8mm;
-margin-bottom: 4mm;
-page-break-inside: avoid;
-}
-.sr, .b-sr {
-font-weight: bold;
-text-align: center;
-margin-bottom: 4mm;
-page-break-inside: avoid;
-}
-.v, .i-v {
-font-size: x-small;
-vertical-align: super;
 }
 .va, .i-va {
 font-size: x-small;
@@ -645,6 +263,411 @@ page-break-inside: avoid;
 .ip, .b-ip {
 text-indent: 3.2mm;
 }
+.ipi, .b-ipi {
+margin-left: 6.4mm;
+margin-right: 6.4mm;
+text-indent: 3.2mm;
+}
+.im, .b-im {
+}
+.imi, .b-imi {
+margin-left: 6.4mm;
+margin-right: 6.4mm;
+}
+.ipq, .b-ipq {
+font-style: italic;
+margin-left: 6.4mm;
+margin-right: 6.4mm;
+text-indent: 3.2mm;
+}
+.imq, .b-imq {
+font-style: italic;
+margin-left: 6.4mm;
+margin-right: 6.4mm;
+}
+.ipr, .b-ipr {
+font-style: italic;
+text-align: right;
+margin-left: 6.4mm;
+margin-right: 6.4mm;
+}
+.iq, .b-iq {
+font-style: italic;
+margin-left: 25.4mm;
+text-indent: -19.1mm;
+}
+.iq1, .b-iq1 {
+font-style: italic;
+margin-left: 25.4mm;
+text-indent: -19.1mm;
+}
+.iq2, .b-iq2 {
+font-style: italic;
+margin-left: 25.4mm;
+text-indent: -12.7mm;
+}
+.iq3, .b-iq3 {
+font-style: italic;
+margin-left: 25.4mm;
+text-indent: -6.4mm;
+}
+.ib, .b-ib {
+font-size: 83%;
+}
+.ili, .b-ili {
+margin-left: 12.7mm;
+text-indent: -9.5mm;
+}
+.ili1, .b-ili1 {
+margin-left: 12.7mm;
+text-indent: -9.5mm;
+}
+.ili2, .b-ili2 {
+margin-left: 19.1mm;
+text-indent: -9.5mm;
+}
+.iot, .b-iot {
+font-weight: bold;
+text-align: center;
+margin-top: 8mm;
+margin-bottom: 4mm;
+page-break-inside: avoid;
+}
+.io, .b-io {
+margin-left: 12.7mm;
+page-break-inside: avoid;
+}
+.io1, .b-io1 {
+margin-left: 12.7mm;
+page-break-inside: avoid;
+}
+.io2, .b-io2 {
+margin-left: 19.1mm;
+page-break-inside: avoid;
+}
+.io3, .b-io3 {
+margin-left: 25.4mm;
+page-break-inside: avoid;
+}
+.io4, .b-io4 {
+margin-left: 31.8mm;
+page-break-inside: avoid;
+}
+.ior, .i-ior {
+}
+.iqt, .i-iqt {
+font-style: italic;
+}
+.iex, .b-iex {
+margin-top: 4mm;
+margin-bottom: 4mm;
+text-indent: 3.2mm;
+}
+.imte, .b-imte {
+font-size: 167%;
+font-weight: bold;
+text-align: center;
+margin-top: 8mm;
+margin-bottom: 4mm;
+page-break-inside: avoid;
+}
+.imte1, .b-imte1 {
+font-size: 167%;
+font-weight: bold;
+text-align: center;
+margin-top: 8mm;
+margin-bottom: 4mm;
+page-break-inside: avoid;
+}
+.imte2, .b-imte2 {
+font-size: 133%;
+font-weight: bold;
+text-align: center;
+margin-bottom: 2mm;
+page-break-inside: avoid;
+}
+.mt, .b-mt {
+font-size: 167%;
+font-weight: bold;
+text-align: center;
+margin-top: 8mm;
+margin-bottom: 4mm;
+page-break-inside: avoid;
+}
+.mt1, .b-mt1 {
+font-size: 167%;
+font-weight: bold;
+text-align: center;
+margin-top: 8mm;
+margin-bottom: 4mm;
+page-break-inside: avoid;
+}
+.mt2, .b-mt2 {
+font-size: 133%;
+font-style: italic;
+text-align: center;
+margin-bottom: 2mm;
+page-break-inside: avoid;
+}
+.mt3, .b-mt3 {
+font-size: 133%;
+font-weight: bold;
+text-align: center;
+margin-top: 2mm;
+margin-bottom: 2mm;
+page-break-inside: avoid;
+}
+.mt4, .b-mt4 {
+text-align: center;
+margin-top: 2mm;
+margin-bottom: 2mm;
+page-break-inside: avoid;
+}
+.mte, .b-mte {
+font-size: 167%;
+font-weight: bold;
+text-align: center;
+margin-top: 8mm;
+margin-bottom: 4mm;
+page-break-inside: avoid;
+}
+.mte1, .b-mte1 {
+font-size: 167%;
+font-weight: bold;
+text-align: center;
+margin-top: 8mm;
+margin-bottom: 4mm;
+page-break-inside: avoid;
+}
+.mte2, .b-mte2 {
+font-size: 133%;
+font-style: italic;
+text-align: center;
+margin-bottom: 2mm;
+page-break-inside: avoid;
+}
+.ms, .b-ms {
+font-size: 117%;
+font-weight: bold;
+text-align: center;
+margin-top: 16mm;
+margin-bottom: 4mm;
+page-break-inside: avoid;
+}
+.ms1, .b-ms1 {
+font-size: 117%;
+font-weight: bold;
+text-align: center;
+margin-top: 16mm;
+margin-bottom: 4mm;
+page-break-inside: avoid;
+}
+.ms2, .b-ms2 {
+font-size: 117%;
+font-weight: bold;
+text-align: center;
+margin-top: 16mm;
+margin-bottom: 4mm;
+page-break-inside: avoid;
+}
+.mr, .b-mr {
+font-style: italic;
+text-align: center;
+margin-bottom: 4mm;
+page-break-inside: avoid;
+}
+.s, .b-s {
+font-weight: bold;
+text-align: center;
+margin-top: 8mm;
+margin-bottom: 4mm;
+page-break-inside: avoid;
+}
+.s1, .b-s1 {
+font-weight: bold;
+text-align: center;
+margin-top: 8mm;
+margin-bottom: 4mm;
+page-break-inside: avoid;
+}
+.s2, .b-s2 {
+font-style: italic;
+text-align: center;
+margin-top: 8mm;
+margin-bottom: 4mm;
+page-break-inside: avoid;
+}
+.s3, .b-s3 {
+font-style: italic;
+text-align: center;
+margin-top: 6mm;
+margin-bottom: 3mm;
+page-break-inside: avoid;
+}
+.s4, .b-s4 {
+font-style: italic;
+text-align: center;
+margin-top: 6mm;
+margin-bottom: 3mm;
+page-break-inside: avoid;
+}
+.sr, .b-sr {
+font-weight: bold;
+text-align: center;
+margin-bottom: 4mm;
+page-break-inside: avoid;
+}
+.r, .b-r {
+font-style: italic;
+text-align: center;
+margin-bottom: 4mm;
+page-break-inside: avoid;
+}
+.rq, .b-rq {
+font-size: 83%;
+font-style: italic;
+text-align: right;
+margin-bottom: 4mm;
+}
+.d, .b-d {
+font-style: italic;
+text-align: center;
+margin-top: 4mm;
+margin-bottom: 4mm;
+page-break-inside: avoid;
+}
+.sp, .b-sp {
+font-style: italic;
+margin-top: 8mm;
+margin-bottom: 4mm;
+page-break-inside: avoid;
+}
+.sd, .b-sd {
+font-size: 167%;
+margin-top: 24mm;
+margin-bottom: 24mm;
+}
+.sd1, .b-sd1 {
+font-size: 167%;
+margin-top: 24mm;
+margin-bottom: 24mm;
+}
+.sd2, .b-sd2 {
+font-size: 133%;
+margin-top: 18mm;
+margin-bottom: 18mm;
+}
+.sd3, .b-sd3 {
+font-size: 133%;
+margin-top: 12mm;
+margin-bottom: 12mm;
+}
+.sd4, .b-sd4 {
+font-size: 133%;
+margin-top: 8mm;
+margin-bottom: 8mm;
+}
+.c, .b-c {
+font-size: 150%;
+font-weight: bold;
+margin-top: 8mm;
+margin-bottom: 4mm;
+}
+.cd, .b-cd {
+font-size: 92%;
+margin-top: 8mm;
+margin-bottom: 4mm;
+}
+.v, .i-v {
+font-size: x-small;
+vertical-align: super;
+}
+.p, .b-p {
+text-indent: 3.2mm;
+}
+.m, .b-m {
+}
+.po, .b-po {
+margin-top: 4mm;
+margin-bottom: 4mm;
+text-indent: 3.2mm;
+}
+.pr, .b-pr {
+text-align: right;
+}
+.cls, .b-cls {
+text-align: right;
+}
+.pmo, .b-pmo {
+margin-left: 6.4mm;
+margin-right: 6.4mm;
+}
+.pm, .b-pm {
+margin-left: 6.4mm;
+margin-right: 6.4mm;
+text-indent: 3.2mm;
+}
+.pmc, .b-pmc {
+margin-left: 6.4mm;
+margin-right: 6.4mm;
+}
+.pmr, .b-pmr {
+text-align: right;
+margin-left: 6.4mm;
+margin-right: 6.4mm;
+}
+.pi, .b-pi {
+margin-left: 6.4mm;
+margin-right: 6.4mm;
+text-indent: 3.2mm;
+}
+.pi1, .b-pi1 {
+margin-left: 6.4mm;
+margin-right: 6.4mm;
+text-indent: 3.2mm;
+}
+.pi2, .b-pi2 {
+margin-left: 12.7mm;
+margin-right: 6.4mm;
+text-indent: 3.2mm;
+}
+.pi3, .b-pi3 {
+margin-left: 19.1mm;
+margin-right: 6.4mm;
+text-indent: 3.2mm;
+}
+.mi, .b-mi {
+margin-left: 6.4mm;
+margin-right: 6.4mm;
+}
+.nb, .b-nb {
+}
+.pc, .b-pc {
+text-align: center;
+}
+.ph, .b-ph {
+margin-left: 12.7mm;
+text-indent: -9.5mm;
+}
+.ph1, .b-ph1 {
+margin-left: 12.7mm;
+text-indent: -9.5mm;
+}
+.ph2, .b-ph2 {
+margin-left: 19.1mm;
+text-indent: -9.5mm;
+}
+.ph3, .b-ph3 {
+margin-left: 25.4mm;
+text-indent: -9.5mm;
+}
+.ph4, .b-ph4 {
+margin-left: 31.8mm;
+text-indent: -9.5mm;
+}
+.b, .b-b {
+font-size: 83%;
+}
 .pro, .i-pro {
 font-style: italic;
 }
@@ -715,7 +738,4 @@ font-variant: small-caps;
 .sup, .i-sup {
 font-size: x-small;
 vertical-align: super;
-}
-.pr, .b-pr {
-text-align: right;
 }

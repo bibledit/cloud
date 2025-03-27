@@ -150,6 +150,14 @@ Paragraph opening an epistle.
 
 Right aligned paragraph.
 
+Closure of letter.
+
+Embedded text opening.
+
+Embedded text paragraph.
+
+Embedded text closing.
+
 The Book name
 
 Proto Deutero text.

@@ -110,6 +110,10 @@ R"(\cd Chapter description)" "\n"
 R"(\m Continuation (margin) paragraph.)" "\n"
 R"(\po Paragraph opening an epistle.)" "\n"
 R"(\pr Right aligned paragraph.)" "\n"
+R"(\cls Closure of letter.)" "\n"
+R"(\pmo Embedded text opening.)" "\n"
+R"(\pm Embedded text paragraph.)" "\n"
+R"(\pmc Embedded text closing.)" "\n"
 
 
 R"(\p The \bk Book\bk* name)" "\n"

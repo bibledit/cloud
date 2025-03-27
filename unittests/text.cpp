@@ -1467,6 +1467,10 @@ TEST_F (filter_text, usfm_with_all_markers)
   R"(<p class="m"><span>Continuation (margin) paragraph.</span></p>)"
   R"(<p class="po"><span>Paragraph opening an epistle.</span></p>)"
   R"(<p class="pr"><span>Right aligned paragraph.</span></p>)"
+  R"(<p class="cls"><span>Closure of letter.</span></p>)"
+  R"(<p class="pmo"><span>Embedded text opening.</span></p>)"
+  R"(<p class="pm"><span>Embedded text paragraph.</span></p>)"
+  R"(<p class="pmc"><span>Embedded text closing.</span></p>)"
 
   R"(<p class="p"><span>The </span><span class="bk">Book</span><span> name</span></p>)"
   R"(<p class="p"><span>Proto </span><span class="dc">Deutero</span><span> text.</span></p>)"

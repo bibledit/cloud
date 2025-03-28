@@ -1493,6 +1493,12 @@ TEST_F (filter_text, usfm_with_all_markers)
   R"(<p class="qc"><span>Centered poetic line</span></p>)"
   R"(<p class="q"><span>Poetry </span><span class="qs">Selah</span></p>)"
   R"(<p class="qa"><span>Aleph</span></p>)"
+  R"(<p class="p"><span class="qac">A</span><span>rostic</span></p>)"
+  R"(<p class="qm"><span>Embedded poetic line</span></p>)"
+  R"(<p class="qm1"><span>Embedded poetic line 1</span></p>)"
+  R"(<p class="qm2"><span>Embedded poetic line 2</span></p>)"
+  R"(<p class="qm3"><span>Embedded poetic line 3</span></p>)"
+  R"(<p class="qd"><span>Hebrew note</span></p>)"
 
   
   R"(<p class="p"><span>The </span><span class="bk">Book</span><span> name</span></p>)"

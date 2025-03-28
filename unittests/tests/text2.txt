@@ -94,6 +94,12 @@ Right-aligned poetic line
 Centered poetic line
 Poetry Selah
 Aleph
+Arostic
+Embedded poetic line
+Embedded poetic line 1
+Embedded poetic line 2
+Embedded poetic line 3
+Hebrew note
 The Book name
 Proto Deutero text.
 This is a keyword

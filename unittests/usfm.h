@@ -136,6 +136,12 @@ R"(\qr Right-aligned poetic line)" "\n"
 R"(\qc Centered poetic line)" "\n"
 R"(\q Poetry \qs Selah\qs*)" "\n"
 R"(\qa Aleph)" "\n"
+R"(\p \qac A\qac*rostic)" "\n"
+R"(\qm Embedded poetic line)" "\n"
+R"(\qm1 Embedded poetic line 1)" "\n"
+R"(\qm2 Embedded poetic line 2)" "\n"
+R"(\qm3 Embedded poetic line 3)" "\n"
+R"(\qd Hebrew note)" "\n"
 
 
 R"(\p The \bk Book\bk* name)" "\n"

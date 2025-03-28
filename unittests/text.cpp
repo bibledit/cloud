@@ -1485,7 +1485,16 @@ TEST_F (filter_text, usfm_with_all_markers)
   R"(<p class="ph3"><span>Hanging paragraph 3.</span></p>)"
   R"(<p class="ph4"><span>Hanging paragraph 4.</span></p>)"
   R"(<p class="b"><br/></p>)"
+  R"(<p class="q"><span>Poetic line.</span></p>)"
+  R"(<p class="q1"><span>Poetic line 1.</span></p>)"
+  R"(<p class="q2"><span>Poetic line 2.</span></p>)"
+  R"(<p class="q3"><span>Poetic line 3.</span></p>)"
+  R"(<p class="qr"><span>Right-aligned poetic line</span></p>)"
+  R"(<p class="qc"><span>Centered poetic line</span></p>)"
+  R"(<p class="q"><span>Poetry </span><span class="qs">Selah</span></p>)"
+  R"(<p class="qa"><span>Aleph</span></p>)"
 
+  
   R"(<p class="p"><span>The </span><span class="bk">Book</span><span> name</span></p>)"
   R"(<p class="p"><span>Proto </span><span class="dc">Deutero</span><span> text.</span></p>)"
   R"(<p class="p"><span>This is a </span><span class="k">keyword</span></p>)"

@@ -186,6 +186,22 @@ Hanging paragraph 4.
 
 
 
+Poetic line.
+
+Poetic line 1.
+
+Poetic line 2.
+
+Poetic line 3.
+
+Right-aligned poetic line
+
+Centered poetic line
+
+Poetry Selah
+
+Aleph
+
 The Book name
 
 Proto Deutero text.

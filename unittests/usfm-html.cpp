@@ -29,6 +29,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <styles/logic.h>
 #include <filter/string.h>
 #include <filter/url.h>
+#include <filter/diff.h>
 #include <database/state.h>
 #include <webserver/request.h>
 #include <edit/logic.h>
@@ -2119,6 +2120,15 @@ TEST_F (usfm_html, usfm_with_all_markers)
   R"(<p class="b-ph3"><span>Hanging paragraph 3.</span></p>)"
   R"(<p class="b-ph4"><span>Hanging paragraph 4.</span></p>)"
   R"(<p class="b-b"><br/></p>)"
+  R"(<p class="b-q"><span>Poetic line.</span></p>)"
+  R"(<p class="b-q1"><span>Poetic line 1.</span></p>)"
+  R"(<p class="b-q2"><span>Poetic line 2.</span></p>)"
+  R"(<p class="b-q3"><span>Poetic line 3.</span></p>)"
+  R"(<p class="b-qr"><span>Right-aligned poetic line</span></p>)"
+  R"(<p class="b-qc"><span>Centered poetic line</span></p>)"
+  R"(<p class="b-q"><span>Poetry </span><span class="i-qs">Selah</span></p>)"
+  R"(<p class="b-qa"><span>Aleph</span></p>)"
+
   
   R"(<p class="b-p"><span>The </span><span class="i-bk">Book</span><span> name</span></p>)"
   R"(<p class="b-p"><span>Proto </span><span class="i-dc">Deutero</span><span> text.</span></p>)"
@@ -2152,7 +2162,7 @@ TEST_F (usfm_html, usfm_with_all_markers)
   editor_usfm2html.run ();
   const std::string html = editor_usfm2html.get ();
   if (html != standard_html) {
-    ADD_FAILURE() << "The produced html differs from the reference html";
+    ADD_FAILURE() << "The generated html differs from the reference html";
     std::cout << "Generated html:" << std::endl;
     std::cout << make_readable(html) << std::endl;
   }
@@ -2162,7 +2172,18 @@ TEST_F (usfm_html, usfm_with_all_markers)
   editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
   editor_html2usfm.run ();
   const std::string usfm = editor_html2usfm.get ();
-  EXPECT_EQ (filter::strings::trim(standard_usfm), usfm);
+  if (filter::strings::trim(standard_usfm) != filter::strings::trim(usfm)) {
+    ADD_FAILURE() << "The generated USFM differs from the reference USFM";
+    std::cout << "Generated USFM:" << std::endl;
+    std::cout << usfm << std::endl;
+    std::vector<std::string> removals;
+    std::vector<std::string> additions;
+    filter_diff_diff (filter::strings::trim(standard_usfm), filter::strings::trim(usfm), &removals, &additions);
+    if (!removals.empty())
+      std::cout << "First item that the generated USFM does not have: " << removals.front() << std::endl;
+    if (!additions.empty())
+      std::cout <<"First item that the generated USFM has which is not in the standard: " << additions.front() << std::endl;
+  }
 }
 
 

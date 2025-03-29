@@ -2134,6 +2134,22 @@ TEST_F (usfm_html, usfm_with_all_markers)
   R"(<p class="b-qm2"><span>Embedded poetic line 2</span></p>)"
   R"(<p class="b-qm3"><span>Embedded poetic line 3</span></p>)"
   R"(<p class="b-qd"><span>Hebrew note</span></p>)"
+  R"(<p class="b-lh"><span>List header</span></p>)"
+  R"(<p class="b-li"><span>List item</span></p>)"
+  R"(<p class="b-li1"><span>List item 1</span></p>)"
+  R"(<p class="b-li2"><span>List item 2</span></p>)"
+  R"(<p class="b-li3"><span>List item 3</span></p>)"
+  R"(<p class="b-li4"><span>List item 4</span></p>)"
+  R"(<p class="b-lf"><span>List footer</span></p>)"
+  R"(<p class="b-lim"><span>Embedded list item</span></p>)"
+  R"(<p class="b-lim1"><span>Embedded list item 1</span></p>)"
+  R"(<p class="b-lim2"><span>Embedded list item 2</span></p>)"
+  R"(<p class="b-p"><span>List </span><span class="i-litl">total</span></p>)"
+  R"(<p class="b-li"><span class="i-lik">Key</span><span> </span><span class="i-liv">Value</span><span> </span><span class="i-liv1">Value 1</span><span> </span><span class="i-liv2">Value 2</span></p>)"
+  
+  
+  
+  
 
   
   R"(<p class="b-p"><span>The </span><span class="i-bk">Book</span><span> name</span></p>)"

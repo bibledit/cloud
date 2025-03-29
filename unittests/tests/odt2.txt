@@ -214,6 +214,30 @@ Embedded poetic line 3
 
 Hebrew note
 
+List header
+
+List item
+
+List item 1
+
+List item 2
+
+List item 3
+
+List item 4
+
+List footer
+
+Embedded list item
+
+Embedded list item 1
+
+Embedded list item 2
+
+List total
+
+Key Value Value 1 Value 2
+
 The Book name
 
 Proto Deutero text.

@@ -1499,7 +1499,19 @@ TEST_F (filter_text, usfm_with_all_markers)
   R"(<p class="qm2"><span>Embedded poetic line 2</span></p>)"
   R"(<p class="qm3"><span>Embedded poetic line 3</span></p>)"
   R"(<p class="qd"><span>Hebrew note</span></p>)"
-
+  R"(<p class="lh"><span>List header</span></p>)"
+  R"(<p class="li"><span>List item</span></p>)"
+  R"(<p class="li1"><span>List item 1</span></p>)"
+  R"(<p class="li2"><span>List item 2</span></p>)"
+  R"(<p class="li3"><span>List item 3</span></p>)"
+  R"(<p class="li4"><span>List item 4</span></p>)"
+  R"(<p class="lf"><span>List footer</span></p>)"
+  R"(<p class="lim"><span>Embedded list item</span></p>)"
+  R"(<p class="lim1"><span>Embedded list item 1</span></p>)"
+  R"(<p class="lim2"><span>Embedded list item 2</span></p>)"
+  R"(<p class="p"><span>List </span><span class="litl">total</span></p>)"
+  R"(<p class="li"><span class="lik">Key</span><span> </span><span class="liv">Value</span><span> </span><span class="liv1">Value 1</span><span> </span><span class="liv2">Value 2</span></p>)"
+  
   
   R"(<p class="p"><span>The </span><span class="bk">Book</span><span> name</span></p>)"
   R"(<p class="p"><span>Proto </span><span class="dc">Deutero</span><span> text.</span></p>)"

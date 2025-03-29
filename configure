@@ -7801,7 +7801,7 @@ fi
 
 
 # Whether to enable compiler warnings.
-ENABLEWARNINGS=yes
+ENABLEWARNINGS=no
 # Check whether --enable-warnings was given.
 if test ${enable_warnings+y}
 then :

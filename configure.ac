@@ -204,7 +204,7 @@ ENABLEIOS=yes
 )
 
 # Whether to enable compiler warnings.
-ENABLEWARNINGS=yes
+ENABLEWARNINGS=no
 AC_ARG_ENABLE(warnings,
 [  --enable-warnings Enable compiler warnings],[ENABLEWARNINGS=yes])
 AM_CONDITIONAL([COMPILERWARNINGS],[test $ENABLEWARNINGS = yes])

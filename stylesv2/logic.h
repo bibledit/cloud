@@ -44,6 +44,7 @@ enum class Type : int {
   alternate_chapter_number,
   verse,
   published_verse_marker,
+  table_row,
   character_style,
   stopping_boundary // Should be the last always.
 };

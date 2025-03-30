@@ -2093,8 +2093,17 @@ const std::list<Style> styles {
     .doc = "https://ubsicap.github.io/usfm/master/lists/index.html#liv-liv",
     .category = Category::lists,
   },
+  {
+    .marker = "tr",
+    .type = Type::table_row,
+    .name = "Table row start",
+    .info = "A new table row.",
+    .doc = "https://ubsicap.github.io/usfm/master/tables/index.html#tr",
+    .category = Category::tables,
+  },
 
   
+
 
   
   
@@ -3808,39 +3817,6 @@ const std::list<Style> styles {
 //    /* backgroundcolor */ "#FFFFFF",
 //  },
 //  {
-//    /* marker */ "tr",
-//    /* name */ "Table row start",
-//    /* info */ "A new table row.",
-//    /* category */ "te",
-//    /* type */ 12,
-//    /* subtype */ 0,
-//    /* fontsize */ 12,
-//    /* italic */ 0,
-//    /* bold */ 0,
-//    /* underline */ 0,
-//    /* smallcaps */ 0,
-//    /* superscript */ 0,
-//    /* justification */ 0,
-//    /* spacebefore */ 0,
-//    /* spaceafter */ 0,
-//    /* leftmargin */ 12.7f,
-//    /* rightmargin */ 0,
-//    /* firstlineindent */ -6.4f,
-//    /* spancolumns */ 0,
-//    /* color */ "#000000",
-//    /* print */ 1,
-//    /* userbool1 */ 0,
-//    /* userbool2 */ 0,
-//    /* userbool3 */ 0,
-//    /* userint1 */ 0,
-//    /* userint2 */ 0,
-//    /* userint3 */ 0,
-//    /* userstring1 */ "",
-//    /* userstring2 */ "",
-//    /* userstring3 */ "",
-//    /* backgroundcolor */ "#FFFFFF",
-//  },
-//  {
 //    /* marker */ "va",
 //    /* name */ "Alternate verse number",
 //    /* info */ "Second or alternate verse number. For coding dual numeration in Psalms.",
@@ -4416,6 +4392,8 @@ bool starts_new_line_in_usfm (const Style* style) // Todo add types here.
       return true;
     case stylesv2::Type::published_verse_marker:
       return false;
+    case stylesv2::Type::table_row:
+      return true;
     case stylesv2::Type::character_style:
       return false;
     case stylesv2::Type::stopping_boundary:

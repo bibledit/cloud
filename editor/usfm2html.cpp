@@ -390,6 +390,12 @@ void Editor_Usfm2Html::process ()
             output_as_is (marker, is_opening_marker);
             break;
           }
+          case stylesv2::Type::table_row:
+          {
+            close_text_style (false);
+            output_as_is (marker, is_opening_marker);
+            break;
+          }
           case stylesv2::Type::verse:
           {
             // Close any existing text style.

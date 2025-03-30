@@ -163,6 +163,8 @@ std::string Editor_Styles::getAction (Webserver_Request& webserver_request, cons
         return character();
       case stylesv2::Type::published_verse_marker:
         return character ();
+      case stylesv2::Type::table_row:
+        return mono ();
       case stylesv2::Type::character_style:
         return character ();
       case stylesv2::Type::starting_boundary:

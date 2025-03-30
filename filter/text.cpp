@@ -1112,9 +1112,6 @@ void Filter_Text::process_usfm ()
               // Done.
               break;
             }
-
-              
-              
             case stylesv2::Type::published_verse_marker:
             {
               close_text_style_all();
@@ -1136,6 +1133,24 @@ void Filter_Text::process_usfm ()
               }
               break;
             }
+            case stylesv2::Type::table_row:
+            {
+              if (odf_text_standard)
+                odf_text_standard->close_text_style (false, false);
+              if (odf_text_text_only)
+                odf_text_text_only->close_text_style (false, false);
+              if (odf_text_text_and_note_citations)
+                odf_text_text_and_note_citations->close_text_style (false, false);
+              if (odf_text_notes)
+                odf_text_notes->close_text_style (false, false);
+              if (html_text_standard)
+                html_text_standard->close_text_style (false, false);
+              if (html_text_linked)
+                html_text_linked->close_text_style (false, false);
+              addToFallout ("Table elements not implemented", false);
+              break;
+            }
+
             case stylesv2::Type::character_style:
             {
               // Support for a normal and an embedded character style.

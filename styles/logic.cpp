@@ -114,7 +114,6 @@ std::string styles_logic_subtype_text (int type, int subtype)
   if (type == StyleTypePageBreak) {
   }
   if (type == StyleTypeTableElement) {
-    if (subtype == TableElementSubtypeRow    ) return translate ("starts a new row");
     if (subtype == TableElementSubtypeHeading) return translate ("is a column heading");
     if (subtype == TableElementSubtypeCell   ) return translate ("is cell data");
   }

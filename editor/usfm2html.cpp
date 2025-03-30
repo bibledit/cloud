@@ -356,6 +356,13 @@ void Editor_Usfm2Html::process ()
             output_as_is (marker, is_opening_marker);
             break;
           }
+          case stylesv2::Type::introduction_end:
+          {
+            // Output as plain text.
+            close_text_style (false);
+            output_as_is (marker, is_opening_marker);
+            break;
+          }
           case stylesv2::Type::title:
           case stylesv2::Type::heading:
           case stylesv2::Type::paragraph:
@@ -420,13 +427,6 @@ void Editor_Usfm2Html::process ()
             } else {
               close_text_style (is_embedded_marker);
             }
-            break;
-          }
-          case stylesv2::Type::introduction_end:
-          {
-            // Output as plain text.
-            close_text_style (false);
-            output_as_is (marker, is_opening_marker);
             break;
           }
           case stylesv2::Type::character_style:

@@ -1111,6 +1111,7 @@ TEST_F (styles, marker_starts_new_line_in_usfm)
       case Type::long_toc_text:
       case Type::short_toc_text:
       case Type::book_abbrev:
+      case Type::introduction_end:
       case Type::title:
       case Type::heading:
       case Type::paragraph:
@@ -1125,9 +1126,6 @@ TEST_F (styles, marker_starts_new_line_in_usfm)
         break;
       case Type::published_verse_marker:
         standard = false;
-        break;
-      case Type::introduction_end:
-        standard = true;
         break;
       case Type::character_style:
         standard = false;

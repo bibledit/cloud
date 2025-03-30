@@ -148,6 +148,8 @@ std::string Editor_Styles::getAction (Webserver_Request& webserver_request, cons
       case stylesv2::Type::short_toc_text:
       case stylesv2::Type::book_abbrev:
         return mono ();
+      case stylesv2::Type::introduction_end:
+        return mono ();
       case stylesv2::Type::title:
       case stylesv2::Type::heading:
       case stylesv2::Type::paragraph:
@@ -161,8 +163,6 @@ std::string Editor_Styles::getAction (Webserver_Request& webserver_request, cons
         return character();
       case stylesv2::Type::published_verse_marker:
         return character ();
-      case stylesv2::Type::introduction_end:
-        return mono ();
       case stylesv2::Type::character_style:
         return character ();
       case stylesv2::Type::starting_boundary:

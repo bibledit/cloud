@@ -283,6 +283,8 @@ void Filter_Text::pre_process_usfm ()
                 bookAbbreviations.push_back (filter::text::passage_marker_value (m_current_book_identifier, m_current_chapter_number, m_current_verse_number, marker, book_bbreviation));
                 break;
               }
+              case stylesv2::Type::introduction_end:
+                break;
               case stylesv2::Type::title:
               case stylesv2::Type::heading:
               case stylesv2::Type::paragraph:
@@ -335,8 +337,6 @@ void Filter_Text::pre_process_usfm ()
                 published_verse_markers.push_back (filter::text::passage_marker_value (m_current_book_identifier, m_current_chapter_number, m_current_verse_number, marker, published_verse_marker));
                 break;
               }
-              case stylesv2::Type::introduction_end:
-                break;
               case stylesv2::Type::character_style:
                 break;
               case stylesv2::Type::stopping_boundary:
@@ -689,6 +689,12 @@ void Filter_Text::process_usfm ()
               close_text_style_all();
               // This information already is preprocessed. Remove it from the USFM stream.
               filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
+              break;
+            }
+            case stylesv2::Type::introduction_end:
+            {
+              close_text_style_all();
+              add_to_info (R"(Introduction end: \)" + marker, false);
               break;
             }
             case stylesv2::Type::title:
@@ -1128,12 +1134,6 @@ void Filter_Text::process_usfm ()
                   chapter_usfm_markers_and_text[pointer] = text;
                 }
               }
-              break;
-            }
-            case stylesv2::Type::introduction_end:
-            {
-              close_text_style_all();
-              add_to_info (R"(Introduction end: \)" + marker, false);
               break;
             }
             case stylesv2::Type::character_style:

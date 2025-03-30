@@ -34,6 +34,7 @@ enum class Type : int {
   long_toc_text,
   short_toc_text,
   book_abbrev,
+  introduction_end,
   title,
   heading,
   paragraph,
@@ -43,7 +44,6 @@ enum class Type : int {
   alternate_chapter_number,
   verse,
   published_verse_marker,
-  introduction_end,
   character_style,
   stopping_boundary // Should be the last always.
 };

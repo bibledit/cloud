@@ -61,6 +61,10 @@ std::string type_enum_to_value (const Type type, const bool describe)
       if (describe)
         return "book abbrev";
       return "book_abbrev";
+    case Type::introduction_end:
+      if (describe)
+        return "introduction end";
+      return "introduction_end";
     case Type::title:
         return "title";
     case Type::heading:
@@ -87,10 +91,6 @@ std::string type_enum_to_value (const Type type, const bool describe)
       if (describe)
         return "published verse marker";
       return "published_verse_marker";
-    case Type::introduction_end:
-      if (describe)
-        return "introduction end";
-      return "introduction_end";
     case Type::character_style:
       if (describe)
         return "character style";
@@ -4390,7 +4390,7 @@ bool marker_moved_to_v2 (const std::string& marker)
 
 
 // Whether this style starta a new line in USFM.
-bool starts_new_line_in_usfm (const Style* style)
+bool starts_new_line_in_usfm (const Style* style) // Todo add types here.
 {
   switch (style->type) {
     case stylesv2::Type::starting_boundary:
@@ -4402,8 +4402,8 @@ bool starts_new_line_in_usfm (const Style* style)
     case stylesv2::Type::running_header:
     case stylesv2::Type::long_toc_text:
     case stylesv2::Type::short_toc_text:
-    case stylesv2::Type::introduction_end:
     case stylesv2::Type::book_abbrev:
+    case stylesv2::Type::introduction_end:
     case stylesv2::Type::title:
     case stylesv2::Type::heading:
     case stylesv2::Type::paragraph:

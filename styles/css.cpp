@@ -173,13 +173,15 @@ void Styles_Css::evaluate_v2 (const stylesv2::Style* style)
     case Type::starting_boundary:
     case Type::none:
     case Type::book_id:
+    case Type::usfm_version:
+    case Type::file_encoding:
     case Type::remark:
     case Type::running_header:
     case Type::long_toc_text:
     case Type::short_toc_text:
     case Type::book_abbrev:
-    case Type::usfm_version:
-    case Type::file_encoding:
+      break;
+    case Type::introduction_end:
       break;
     case Type::title:
     case Type::heading:
@@ -199,8 +201,6 @@ void Styles_Css::evaluate_v2 (const stylesv2::Style* style)
       add_v2 (style, false, false);
       break;
     case Type::published_verse_marker:
-    case Type::introduction_end:
-      break;
     case Type::character_style:
       add_v2 (style, false, false);
       break;

@@ -4406,6 +4406,8 @@ bool starts_new_line_in_usfm (const Style* style) // Todo add types here.
       return false;
     case stylesv2::Type::table_row:
       return true;
+    case stylesv2::Type::table_heading:
+      return false;
     case stylesv2::Type::character_style:
       return false;
     case stylesv2::Type::stopping_boundary:

@@ -604,7 +604,7 @@ bool styles_logic_starts_new_line_in_usfm (int type, int subtype)
     {
       return true;
     }
-    case StyleTypeTableElement :
+    case StyleTypeTableElement:
     {
       if (subtype == TableElementSubtypeRow) return true;
       return false;

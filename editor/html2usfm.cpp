@@ -121,6 +121,8 @@ void Editor_Html2Usfm::stylesheet (const std::string& stylesheet)
         suppress_endmarker = true;
       if (style.type == stylesv2::Type::table_row)
         suppress_endmarker = true;
+      if (style.type == stylesv2::Type::table_heading)
+        suppress_endmarker = true;
       if (suppress_endmarker)
         m_suppress_end_markers.insert (style.marker);
     }

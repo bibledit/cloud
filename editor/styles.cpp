@@ -164,6 +164,7 @@ std::string Editor_Styles::getAction (Webserver_Request& webserver_request, cons
       case stylesv2::Type::published_verse_marker:
         return character ();
       case stylesv2::Type::table_row:
+      case stylesv2::Type::table_heading:
         return mono ();
       case stylesv2::Type::character_style:
         return character ();

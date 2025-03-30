@@ -91,6 +91,18 @@ std::string type_enum_to_value (const Type type, const bool describe)
       if (describe)
         return "published verse marker";
       return "published_verse_marker";
+    case Type::table_row:
+      if (describe)
+        return "table row";
+      return "table_row";
+    case Type::table_heading:
+      if (describe)
+        return "table heading";
+      return "table_heading";
+    case Type::table_cell:
+      if (describe)
+        return "table cell";
+      return "table_cell";
     case Type::character_style:
       if (describe)
         return "character style";

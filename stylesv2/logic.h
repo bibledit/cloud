@@ -45,6 +45,8 @@ enum class Type : int {
   verse,
   published_verse_marker,
   table_row,
+  table_heading,
+  table_cell,
   character_style,
   stopping_boundary // Should be the last always.
 };

@@ -4418,7 +4418,7 @@ bool starts_new_line_in_usfm (const Style* style)
       return false;
     case stylesv2::Type::character_style:
       return false;
-    case stylesv2::Type::stopping_boundary: // Todo
+    case stylesv2::Type::stopping_boundary:
     default:
       return true;
   }

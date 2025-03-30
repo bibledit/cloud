@@ -444,7 +444,7 @@ void Editor_Usfm2Html::process ()
             }
             break;
           }
-          case stylesv2::Type::stopping_boundary: // Todo
+          case stylesv2::Type::stopping_boundary:
           default:
             break;
         }

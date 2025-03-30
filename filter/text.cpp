@@ -339,7 +339,7 @@ void Filter_Text::pre_process_usfm ()
                 break;
               case stylesv2::Type::character_style:
                 break;
-              case stylesv2::Type::stopping_boundary: // Todo
+              case stylesv2::Type::stopping_boundary:
               default:
                 break;
             }
@@ -1164,7 +1164,7 @@ void Filter_Text::process_usfm ()
               }
               break;
             }
-            case stylesv2::Type::stopping_boundary:  // Todo v2
+            case stylesv2::Type::stopping_boundary:
             default:
               break;
           }

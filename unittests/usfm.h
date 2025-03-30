@@ -155,6 +155,18 @@ R"(\lim2 Embedded list item 2)" "\n"
 R"(\p List \litl total\litl*)" "\n"
 R"(\li \lik Key\lik* \liv Value\liv* \liv1 Value 1\liv1* \liv2 Value 2\liv2*)" "\n"
 
+
+R"(\c 5)" "\n"
+R"(\p)" "\n"
+R"(\v 1 The table:)" "\n"
+R"(\tr \th1 Column1 \th2 Column2 \th3 Column3)" "\n"
+R"(\tr \tcr1 1st \tc2 Name1 \tc3 Family1)" "\n"
+R"(\tr \tcr1 2nd \tc2 Name2 \tc3 Family2)" "\n"
+
+
+
+
+
 R"(\p The \bk Book\bk* name)" "\n"
 R"(\p Proto \dc Deutero\dc* text.)" "\n"
 R"(\p This is a \k keyword\k*)" "\n"

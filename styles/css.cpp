@@ -201,6 +201,7 @@ void Styles_Css::evaluate_v2 (const stylesv2::Style* style)
       add_v2 (style, false, false);
       break;
     case Type::published_verse_marker:
+      break;
     case Type::character_style:
       add_v2 (style, false, false);
       break;

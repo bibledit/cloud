@@ -244,11 +244,13 @@ Right 5
 
 1 The table:
 
-Column1 
+Column1
 
-Column2 
+Column2
 
 Column3
+
+Column4
 
 1st 
 

@@ -159,7 +159,7 @@ R"(\li \lik Key\lik* \liv Value\liv* \liv1 Value 1\liv1* \liv2 Value 2\liv2*)" "
 R"(\c 5)" "\n"
 R"(\p)" "\n"
 R"(\v 1 The table:)" "\n"
-R"(\tr \th1 Column1 \th2 Column2 \th3 Column3)" "\n"
+R"(\tr \th1 Column1\th2 Column2\th3 Column3\th4 Column4)" "\n"
 R"(\tr \tcr1 1st \tc2 Name1 \tc3 Family1)" "\n"
 R"(\tr \tcr1 2nd \tc2 Name2 \tc3 Family2)" "\n"
 

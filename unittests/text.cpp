@@ -1514,9 +1514,10 @@ TEST_F (filter_text, usfm_with_all_markers)
   
   R"(<p class="c"><span>5</span></p>)"
   R"(<p class="p"><span class="v">1</span><span> </span><span>The table:</span></p>)"
-  R"(<p class="th1"><span>Column1 </span></p>)"
-  R"(<p class="th2"><span>Column2 </span></p>)"
+  R"(<p class="th1"><span>Column1</span></p>)"
+  R"(<p class="th2"><span>Column2</span></p>)"
   R"(<p class="th3"><span>Column3</span></p>)"
+  R"(<p class="th4"><span>Column4</span></p>)"
   R"(<p class="tcr1"><span>1st </span></p>)"
   R"(<p class="tc2"><span>Name1 </span></p>)"
   R"(<p class="tc3"><span>Family1</span></p>)"

@@ -160,6 +160,7 @@ R"(\c 5)" "\n"
 R"(\p)" "\n"
 R"(\v 1 The table:)" "\n"
 R"(\tr \th1 Column1\th2 Column2\th3 Column3\th4 Column4)" "\n"
+R"(\tr \thr1 R-Column1\thr2 R-Column2\thr3 R-Column3\thr4 R-Column4)" "\n"
 R"(\tr \tcr1 1st \tc2 Name1 \tc3 Family1)" "\n"
 R"(\tr \tcr1 2nd \tc2 Name2 \tc3 Family2)" "\n"
 

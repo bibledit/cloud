@@ -2150,6 +2150,7 @@ TEST_F (usfm_html, usfm_with_all_markers)
   R"(<p class="b-c"><span>5</span></p>)"
   R"(<p class="b-p"><span class="i-v">1</span><span> </span><span>The table:</span></p>)"
   R"(<p class="b-mono"><span>\tr </span><span class="i-th1">Column1</span><span class="i-th2">Column2</span><span class="i-th3">Column3</span><span class="i-th4">Column4</span></p>)"
+  R"(<p class="b-mono"><span>\tr </span><span class="i-thr1">R-Column1</span><span class="i-thr2">R-Column2</span><span class="i-thr3">R-Column3</span><span class="i-thr4">R-Column4</span></p>)"
   R"(<p class="b-mono"><span>\tr </span><span class="i-tcr1">1st </span><span class="i-tc2">Name1 </span><span class="i-tc3">Family1</span></p>)"
   R"(<p class="b-mono"><span>\tr </span><span class="i-tcr1">2nd </span><span class="i-tc2">Name2 </span><span class="i-tc3">Family2</span></p>)"
 

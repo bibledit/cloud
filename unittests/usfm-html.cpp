@@ -2146,16 +2146,16 @@ TEST_F (usfm_html, usfm_with_all_markers)
   R"(<p class="b-lim2"><span>Embedded list item 2</span></p>)"
   R"(<p class="b-p"><span>List </span><span class="i-litl">total</span></p>)"
   R"(<p class="b-li"><span class="i-lik">Key</span><span> </span><span class="i-liv">Value</span><span> </span><span class="i-liv1">Value 1</span><span> </span><span class="i-liv2">Value 2</span></p>)"
-  
   R"(<p class="b-c"><span>5</span></p>)"
   R"(<p class="b-p"><span class="i-v">1</span><span> </span><span>The table:</span></p>)"
   R"(<p class="b-mono"><span>\tr </span><span class="i-th1">Column1</span><span class="i-th2">Column2</span><span class="i-th3">Column3</span><span class="i-th4">Column4</span></p>)"
   R"(<p class="b-mono"><span>\tr </span><span class="i-thr1">R-Column1</span><span class="i-thr2">R-Column2</span><span class="i-thr3">R-Column3</span><span class="i-thr4">R-Column4</span></p>)"
   R"(<p class="b-mono"><span>\tr </span><span class="i-tc1">Cell1</span><span class="i-tc2">Cell2</span><span class="i-tc3">Cell3</span><span class="i-tc4">Cell4</span></p>)"
   R"(<p class="b-mono"><span>\tr </span><span class="i-tcr1">R-Cell1</span><span class="i-tcr2">R-Cell2</span><span class="i-tcr3">R-Cell3</span><span class="i-tcr4">R-Cell4</span></p>)"
-
-
-   
+  R"(<p class="b-c"><span>6</span></p>)"
+  R"(<p class="b-p"><span>text</span><span class="i-notecall1">1</span></p>)"
+  R"(<p class="b-p"><span>text</span><span class="i-notecall2">1</span></p>)"
+  
   
   
 
@@ -2179,6 +2179,9 @@ TEST_F (usfm_html, usfm_with_all_markers)
   R"(<p class="b-s"><span>Section heading with </span><span class="i-no">normal</span><span> text</span></p>)"
   R"(<p class="b-p"><span>This is </span><span class="i-sc">small cap</span><span> text.</span></p>)"
   R"(<p class="b-p"><span>This is </span><span class="i-sup">superscript</span><span> text.</span></p>)"
+  R"(<p class="b-notes"> </p>)"
+  R"(<p class="b-f"><span class="i-notebody1">1</span><span> </span><span>+ </span><span class="i-fr">ref</span><span class="i-ft">note</span></p>)"
+  R"(<p class="b-fe"><span class="i-notebody2">1</span><span> </span><span>+ </span><span class="i-fr">ref</span><span class="i-ft">note</span></p>)"
   R"()"
   ;
 
@@ -2195,6 +2198,13 @@ TEST_F (usfm_html, usfm_with_all_markers)
     ADD_FAILURE() << "The generated html differs from the reference html";
     std::cout << "Generated html:" << std::endl;
     std::cout << make_readable(html) << std::endl;
+    std::vector<std::string> removals;
+    std::vector<std::string> additions;
+    filter_diff_diff (standard_html, html, &removals, &additions);
+    if (!removals.empty())
+      std::cout << "First item that the generated html does not have: " << removals.front() << std::endl;
+    if (!additions.empty())
+      std::cout <<"First item that the generated html has which is not in the standard: " << additions.front() << std::endl;
   }
   
   Editor_Html2Usfm editor_html2usfm;

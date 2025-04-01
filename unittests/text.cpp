@@ -1529,8 +1529,11 @@ TEST_F (filter_text, usfm_with_all_markers)
   R"(<p class="tcr2"><span>R-Cell2</span></p>)"
   R"(<p class="tcr3"><span>R-Cell3</span></p>)"
   R"(<p class="tcr4"><span>R-Cell4</span></p>)"
+  R"(<p class="c"><span>6</span></p>)"
+  R"(<p class="p"><span>text</span><a href="#note1" id="citation1" class="superscript">1</a></p>)"
+  R"(<p class="p"><span>text</span><a href="#note2" id="citation2" class="superscript">1</a></p>)"
 
-
+  
   
   
   
@@ -1554,6 +1557,14 @@ TEST_F (filter_text, usfm_with_all_markers)
   R"(<p class="s"><span>Section heading with </span><span class="no">normal</span><span> text</span></p>)"
   R"(<p class="p"><span>This is </span><span class="sc">small cap</span><span> text.</span></p>)"
   R"(<p class="p"><span>This is </span><span class="sup">superscript</span><span> text.</span></p>)"
+  R"(<div>)"
+  R"(<p class="ft"><a href="#citation1" id="note1">1</a><span> </span><span class="fr">ref</span><span>note</span></p>)"
+  R"(<p class="ft"><a href="#citation2" id="note2">1</a><span> </span><span class="fr">ref</span><span>note</span></p>)"
+  R"(</div>)"
+  
+  
+  
+  
   ;
 
   const auto make_readable = [] (const auto& html) {

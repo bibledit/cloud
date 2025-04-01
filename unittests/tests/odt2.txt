@@ -276,6 +276,18 @@ R-Cell3
 
 R-Cell4
 
+Right 6
+
+6
+
+text1refnote
+
+
+
+text1refnote
+
+
+
 The Book name
 
 Proto Deutero text.

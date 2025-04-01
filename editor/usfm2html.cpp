@@ -294,30 +294,6 @@ void Editor_Usfm2Html::process ()
             output_as_is (marker, is_opening_marker);
             break;
           }
-          case StyleTypeTableElement:
-          {
-            close_text_style (false);
-            switch (style.subtype)
-            {
-              case TableElementSubtypeRow:
-              {
-                output_as_is (marker, is_opening_marker);
-                break;
-              }
-              case TableElementSubtypeHeading:
-              case TableElementSubtypeCell:
-              {
-                open_text_style (style.marker, false);
-                break;
-              }
-              default:
-              {
-                open_text_style (style.marker, false);
-                break;
-              }
-            }
-            break;
-          }
           case StyleTypeWordlistElement:
           {
             if (is_opening_marker) {

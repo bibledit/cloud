@@ -32,7 +32,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #define StyleTypePeripheral            9 
 #define StyleTypePicture               10 
 #define StyleTypePageBreak             11 
-#define StyleTypeTableElement          12 // Todo move to v2
 #define StyleTypeWordlistElement       13 
 
 
@@ -68,13 +67,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #define PeripheralSubtypeSpine           9
 #define PeripheralSubtypeGeneral        10
 
-#define TableElementSubtypeRow             0 
-#define TableElementSubtypeHeading         1 
-#define TableElementSubtypeCell            2 
-
 
 #define WorListElementSubtypeWordlistGlossaryDictionary  0 
-#define WorListElementSubtypeHebrewWordlistEntry         1 
+#define WorListElementSubtypeHebrewWordlistEntry         1
 #define WorListElementSubtypeGreekWordlistEntry          2 
 #define WorListElementSubtypeSubjectIndexEntry           3 
 

@@ -65,7 +65,6 @@ std::string styles_logic_type_text (int type)
   if (type == StyleTypePeripheral     ) return translate ("is a peripheral element");
   if (type == StyleTypePicture        ) return translate ("is a picture");
   if (type == StyleTypePageBreak      ) return translate ("starts a new page");
-  if (type == StyleTypeTableElement   ) return translate ("is a table element"); // Todo move to v2
   if (type == StyleTypeWordlistElement) return translate ("is a word list element");
   return "--";
 }
@@ -113,10 +112,6 @@ std::string styles_logic_subtype_text (int type, int subtype)
   }
   if (type == StyleTypePageBreak) {
   }
-  if (type == StyleTypeTableElement) { // Todo move to v2
-    if (subtype == TableElementSubtypeHeading) return translate ("is a column heading");
-    if (subtype == TableElementSubtypeCell   ) return translate ("is cell data");
-  }
   if (type == StyleTypeWordlistElement) {
     if (subtype == WorListElementSubtypeWordlistGlossaryDictionary) return translate ("is a wordlist / glossary / dictionary entry");
     if (subtype == WorListElementSubtypeHebrewWordlistEntry       ) return translate ("is a Hebrew wordlist entry");
@@ -153,15 +148,6 @@ bool styles_logic_fontsize_is_relevant (int type, int subtype)
     {
       return true;
     }
-    case StyleTypeTableElement :
-    {
-      switch (subtype) {
-        case TableElementSubtypeHeading : return true;
-        case TableElementSubtypeCell    : return true;
-        default: return false;
-      }
-      break;
-    }
     default: return false;
   }
   return false;
@@ -177,15 +163,6 @@ bool styles_logic_italic_bold_underline_smallcaps_are_relevant (int type, int su
     case StyleTypeFootEndNote     : return true;
     case StyleTypeCrossreference  : return true;
     case StyleTypePicture         : return true;
-    case StyleTypeTableElement :
-    {
-      switch (subtype) {
-        case TableElementSubtypeHeading : return true;
-        case TableElementSubtypeCell    : return true;
-        default: return false;
-      }
-      break;
-    }
     default: return false;
   }
   return false;
@@ -289,15 +266,6 @@ bool styles_logic_paragraph_treats_are_relevant (int type, int subtype)
       break;
     }
     case StyleTypePicture : return true;
-    case StyleTypeTableElement :
-    {
-      switch (subtype) {
-        case TableElementSubtypeHeading : return true;
-        case TableElementSubtypeCell    : return true;
-        default: return false;
-      }
-      break;
-    }
     default: return false;
   }
   return false;
@@ -465,12 +433,6 @@ int styles_logic_get_userint1_function (int type, int subtype)
     if (subtype == CrossreferenceSubtypeCrossreference)
       return UserInt1NoteNumbering;
   }
-  if (type == StyleTypeTableElement) {
-    if (subtype == TableElementSubtypeHeading)
-      return UserInt1TableColumnNumber;
-    if (subtype == TableElementSubtypeCell)
-      return UserInt1TableColumnNumber;
-  }
   return UserInt1None;
 }
 
@@ -603,11 +565,6 @@ bool styles_logic_starts_new_line_in_usfm (int type, int subtype)
     case StyleTypePageBreak :
     {
       return true;
-    }
-    case StyleTypeTableElement:
-    {
-      if (subtype == TableElementSubtypeRow) return true;
-      return false;
     }
     case StyleTypeWordlistElement :
     {

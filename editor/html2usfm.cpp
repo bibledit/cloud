@@ -100,8 +100,6 @@ void Editor_Html2Usfm::stylesheet (const std::string& stylesheet)
         if (subtype == CrossreferenceSubtypeContentWithEndmarker)
           suppress = false;
       }
-      if (type == StyleTypeTableElement)
-        suppress = true;
       if (suppress)
         m_suppress_end_markers.insert (marker);
     }

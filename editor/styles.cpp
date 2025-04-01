@@ -227,18 +227,6 @@ std::string Editor_Styles::getAction (Webserver_Request& webserver_request, cons
         return mono ();
       case StyleTypePageBreak:
         return unknown ();
-      case StyleTypeTableElement:
-      {
-        switch (subtype)
-        {
-          case TableElementSubtypeRow:
-          case TableElementSubtypeHeading:
-          case TableElementSubtypeCell:
-          default:
-            return mono ();
-        }
-        break;
-      }
       case StyleTypeWordlistElement:
       {
         return character ();

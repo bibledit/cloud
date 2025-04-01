@@ -527,35 +527,6 @@ void Filter_Text::process_usfm ()
               if (text_text) text_text->paragraph (); 
               break;
             }
-            case StyleTypeTableElement:
-            {
-              if (odf_text_standard) odf_text_standard->close_text_style (false, false);
-              if (odf_text_text_only) odf_text_text_only->close_text_style (false, false);
-              if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->close_text_style (false, false);
-              if (odf_text_notes) odf_text_notes->close_text_style (false, false);
-              if (html_text_standard) html_text_standard->close_text_style (false, false);
-              if (html_text_linked) html_text_linked->close_text_style (false, false);
-              switch (style.subtype)
-              {
-                case TableElementSubtypeRow:
-                {
-                  addToFallout ("Table elements not implemented", false);
-                  break;
-                }
-                case TableElementSubtypeHeading:
-                case TableElementSubtypeCell:
-                {
-                  new_paragraph (style, false);
-                  break;
-                }
-                default:
-                {
-                  break;
-                }
-              }
-              // UserInt1TableColumnNumber:
-              break;
-            }
             case StyleTypeWordlistElement:
             {
               switch (style.subtype)

@@ -32,7 +32,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #define StyleTypePeripheral            9 
 #define StyleTypePicture               10 
 #define StyleTypePageBreak             11 
-#define StyleTypeTableElement          12 
+#define StyleTypeTableElement          12 // Todo move to v2
 #define StyleTypeWordlistElement       13 
 
 

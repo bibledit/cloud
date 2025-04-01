@@ -65,7 +65,7 @@ std::string styles_logic_type_text (int type)
   if (type == StyleTypePeripheral     ) return translate ("is a peripheral element");
   if (type == StyleTypePicture        ) return translate ("is a picture");
   if (type == StyleTypePageBreak      ) return translate ("starts a new page");
-  if (type == StyleTypeTableElement   ) return translate ("is a table element");
+  if (type == StyleTypeTableElement   ) return translate ("is a table element"); // Todo move to v2
   if (type == StyleTypeWordlistElement) return translate ("is a word list element");
   return "--";
 }
@@ -113,7 +113,7 @@ std::string styles_logic_subtype_text (int type, int subtype)
   }
   if (type == StyleTypePageBreak) {
   }
-  if (type == StyleTypeTableElement) {
+  if (type == StyleTypeTableElement) { // Todo move to v2
     if (subtype == TableElementSubtypeHeading) return translate ("is a column heading");
     if (subtype == TableElementSubtypeCell   ) return translate ("is cell data");
   }

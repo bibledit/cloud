@@ -397,6 +397,7 @@ void Editor_Usfm2Html::process ()
             break;
           }
           case stylesv2::Type::table_heading:
+          case stylesv2::Type::table_cell:
           {
             close_text_style (false);
             open_text_style (style->marker, false);

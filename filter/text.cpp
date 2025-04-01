@@ -1151,6 +1151,7 @@ void Filter_Text::process_usfm ()
               break;
             }
             case stylesv2::Type::table_heading:
+            case stylesv2::Type::table_cell:
             {
               if (odf_text_standard)
                 odf_text_standard->close_text_style (false, false);

@@ -1511,7 +1511,6 @@ TEST_F (filter_text, usfm_with_all_markers)
   R"(<p class="lim2"><span>Embedded list item 2</span></p>)"
   R"(<p class="p"><span>List </span><span class="litl">total</span></p>)"
   R"(<p class="li"><span class="lik">Key</span><span> </span><span class="liv">Value</span><span> </span><span class="liv1">Value 1</span><span> </span><span class="liv2">Value 2</span></p>)"
-  
   R"(<p class="c"><span>5</span></p>)"
   R"(<p class="p"><span class="v">1</span><span> </span><span>The table:</span></p>)"
   R"(<p class="th1"><span>Column1</span></p>)"
@@ -1522,14 +1521,14 @@ TEST_F (filter_text, usfm_with_all_markers)
   R"(<p class="thr2"><span>R-Column2</span></p>)"
   R"(<p class="thr3"><span>R-Column3</span></p>)"
   R"(<p class="thr4"><span>R-Column4</span></p>)"
-  R"(<p class="tcr1"><span>1st </span></p>)"
-  R"(<p class="tc2"><span>Name1 </span></p>)"
-  R"(<p class="tc3"><span>Family1</span></p>)"
-  R"(<p class="tcr1"><span>2nd </span></p>)"
-  R"(<p class="tc2"><span>Name2 </span></p>)"
-  R"(<p class="tc3"><span>Family2</span></p>)"
-  
-
+  R"(<p class="tc1"><span>Cell1</span></p>)"
+  R"(<p class="tc2"><span>Cell2</span></p>)"
+  R"(<p class="tc3"><span>Cell3</span></p>)"
+  R"(<p class="tc4"><span>Cell4</span></p>)"
+  R"(<p class="tcr1"><span>R-Cell1</span></p>)"
+  R"(<p class="tcr2"><span>R-Cell2</span></p>)"
+  R"(<p class="tcr3"><span>R-Cell3</span></p>)"
+  R"(<p class="tcr4"><span>R-Cell4</span></p>)"
 
 
   

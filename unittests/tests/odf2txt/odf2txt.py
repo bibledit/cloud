@@ -197,7 +197,7 @@ class parse_style_tab_stops(context_parser):
         text += ' ' + stop['style:type']
       defs += [text]
 
-    print '  tab-stops: %s;' % ', '.join(defs)
+    print ('  tab-stops: %s;' % ', '.join(defs))
 
 #------------------------------------------------------------------------------
 def extract_rule(attrs, key, display_name = None):
@@ -284,7 +284,7 @@ def extract_style_rules(name, attrs, rules = None):
     rules += extract_rule(attrs, 'fo:background-color')
     rules += extract_rule(attrs, 'fo:color')
     if 'style:use-window-font-color' in attrs:
-      print '  font-color: window;'
+      print ('  font-color: window;')
     rules += extract_lang_rules(attrs, 'style:font-name')
     rules += extract_lang_rules(attrs, 'fo:font-size')
     rules += extract_lang_rules(attrs, 'fo:font-style')
@@ -399,10 +399,9 @@ class parse_style_style(context_parser):
 
       # Print selector
       if 'style:class' in attrs:
-        print '%s:%s."%s" {' % (attrs['style:family'], attrs['style:class'],
-                                style_display_name)
+        print ('%s:%s."%s" {' % (attrs['style:family'], attrs['style:class'], style_display_name))
       else:
-        print '%s."%s" {' % (attrs['style:family'], style_display_name)
+        print ('%s."%s" {' % (attrs['style:family'], style_display_name))
 
       # Add to style names map
       defined_styles[style_name] = style_display_name
@@ -410,7 +409,7 @@ class parse_style_style(context_parser):
 
     # Handle default styles
     elif name == 'style:default-style':
-      print '%s {' % attrs['style:family']
+      print ('%s {' % attrs['style:family'])
       self.in_style = True;
 
     # If an unnamed non-default style, cancel the context
@@ -419,7 +418,7 @@ class parse_style_style(context_parser):
 
   #----------------------------------------------------------------------------
   def endContext(self):
-    print '}\n'
+    print ('}\n')
 
   #----------------------------------------------------------------------------
   def startElement(self, name, attrs):
@@ -428,7 +427,7 @@ class parse_style_style(context_parser):
 
     else:
       for rule in extract_style_rules(name, attrs):
-        print '  ' + rule
+        print ('  ' + rule)
 
 #------------------------------------------------------------------------------
 class style_parser(xml.sax.ContentHandler):
@@ -491,9 +490,9 @@ class simple_content_parser(xml.sax.ContentHandler):
   #----------------------------------------------------------------------------
   def endElement(self, name):
     if name == 'text:p' or name == 'text:h':
-      print '\n'
+      print ('\n')
     elif name == 'text:list':
-      print '\n'
+      print ('\n')
       self.indent_level -= 2
     elif name == 'text:s':
       sys.stdout.write(' ')
@@ -504,7 +503,7 @@ class simple_content_parser(xml.sax.ContentHandler):
 
   #----------------------------------------------------------------------------
   def characters(self, content):
-    sys.stdout.write(content.encode('utf-8'))
+    print(content, end='')
 
 #------------------------------------------------------------------------------
 def print_tag_start(name, attrs):
@@ -512,11 +511,11 @@ def print_tag_start(name, attrs):
   for attr in attrs.keys():
     text += ' %s=\"%s\"' % (attr, attrs[attr])
   text += '> -->'
-  print text
+  print (text)
 
 #------------------------------------------------------------------------------
 def print_tag_end(name):
-  print '<!-- unhandled: </%s> -->' % name
+  print ('<!-- unhandled: </%s> -->' % name)
 
 #------------------------------------------------------------------------------
 def make_styled_tag(name, attrs, name_key = 'text:style-name'):
@@ -581,8 +580,7 @@ class styled_content_parser(simple_content_parser):
         end_tag = '</%s>\n\n' % tag
 
       elif name == 'text:list':
-        print '\n%s%s' % ((' ' * self.indent_level),
-                          make_styled_tag('list', attrs))
+        print ('\n%s%s' % ((' ' * self.indent_level), make_styled_tag('list', attrs)))
         self.indent_level += 2
 
       elif name == 'text:list-item':
@@ -598,7 +596,7 @@ class styled_content_parser(simple_content_parser):
         end_tag = '</span>'
 
       elif name == 'table:table':
-        print make_styled_tag('table', attrs)
+        print (make_styled_tag('table', attrs))
         self.indent_level += 2
 
       elif name == 'table:table-column':
@@ -639,7 +637,7 @@ class styled_content_parser(simple_content_parser):
     elif name == 'text:p':
       self.flushText()
       if self.tags[-1] != 'table:table-cell':
-        print '\n'
+        print ('\n')
 
     elif name == 'text:s':
       self.flushText('&nbsp;')
@@ -659,12 +657,12 @@ class styled_content_parser(simple_content_parser):
     elif name == 'table:table':
       self.indent_level -= 2
       self.flushText()
-      print '\n</table>'
+      print ('\n</table>')
 
     elif name == 'table:table-row':
       self.indent_level -= 2
       self.flushText()
-      print '\n%s</tr>' % (' ' * self.indent_level)
+      print ('\n%s</tr>' % (' ' * self.indent_level))
 
     elif name == 'table:table-cell':
       self.flushText()
@@ -731,7 +729,7 @@ class styled_content_parser(simple_content_parser):
 
       # Split content and print part before split
       if first_part is not None:
-        print first_part.encode('utf-8')
+        print (first_part.encode('utf-8'))
         content = content[n + 2:]
         n = 0
 
@@ -744,7 +742,7 @@ class styled_content_parser(simple_content_parser):
 #------------------------------------------------------------------------------
 def print_raw(archive, filename):
   data = archive.read(filename)
-  print data
+  print (data)
 
 #------------------------------------------------------------------------------
 def parse_xml(archive, filename, parser):

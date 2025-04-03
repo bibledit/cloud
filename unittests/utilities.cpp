@@ -79,7 +79,7 @@ void refresh_sandbox (bool displayjournal, std::vector <std::string> allowed)
 // Then a version of odf2txt written in Python was used instead.
 // That version does catch invalid UTF-8.
 // https://github.com/mwoehlke/odf2txt
-int odf2txt (std::string odf, std::string txt) // Todo fix.
+int odf2txt (std::string odf, std::string txt)
 {
   const std::string script_path {filter_url_create_root_path ({"unittests", "tests", "odf2txt", "odf2txt.py"})};
   const std::string command = "python " + script_path + " " + std::move(odf) + " > " + std::move(txt) + " 2>&1";

@@ -73,17 +73,15 @@ void refresh_sandbox (bool displayjournal, std::vector <std::string> allowed)
 // Initially a version of odt2txt was used written in C.
 // https://github.com/dstosberg/odt2txt
 // That worked well for converting een OpenDocument to text format.
-// But then there was need for a unit test that would catch invalid UTF8.
+// Then there came up a need for a unit test that would catch invalid UTF8.
 // LibreOffice would give an error on invalid UTF8.
-// But the odt2txt written in C would not given an error,
-// but steamroll on.
-// So then a version of odf2txt written in Python was going to be used.
+// The odt2txt written in C would not given an error, it would steamroll on.
+// Then a version of odf2txt written in Python was used instead.
 // That version does catch invalid UTF-8.
 // https://github.com/mwoehlke/odf2txt
 int odf2txt (std::string odf, std::string txt) // Todo fix.
 {
-  std::string script_path = filter_url_create_root_path ({"unittests", "tests", "odf2txt", "odf2txt.py"});
-  std::string command = "python " + script_path + " " + odf + " > " + txt + " 2>&1";
-  int ret = system (command.c_str());
-  return ret;
+  const std::string script_path {filter_url_create_root_path ({"unittests", "tests", "odf2txt", "odf2txt.py"})};
+  const std::string command = "python " + script_path + " " + std::move(odf) + " > " + std::move(txt) + " 2>&1";
+  return system (command.c_str());
 }

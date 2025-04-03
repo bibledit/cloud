@@ -72,11 +72,11 @@ void refresh_sandbox (bool displayjournal, std::vector <std::string> allowed)
 
 // Initially a version of odt2txt was used written in C.
 // https://github.com/dstosberg/odt2txt
-// That worked well for converting een OpenDocument to text format.
-// Then there came up a need for a unit test that would catch invalid UTF8.
+// That worked well for converting an OpenDocument to text format.
+// Then was a need for a unit test that would catch invalid UTF8.
 // LibreOffice would give an error on invalid UTF8.
-// The odt2txt written in C would not given an error, it would steamroll on.
-// Then a version of odf2txt written in Python was used instead.
+// The odt2txt written in C would not give an error, it would steamroll on.
+// Therefore a version of odf2txt written in Python was used instead.
 // That version does catch invalid UTF-8.
 // https://github.com/mwoehlke/odf2txt
 int odf2txt (std::string odf, std::string txt)

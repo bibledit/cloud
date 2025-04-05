@@ -32,13 +32,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/date.h>
 #include <filter/url.h>
 #include <filter/string.h>
+#include <filter/note.h>
 #include <webserver/request.h>
 #include <database/login.h>
 #include <notes/logic.h>
 #include <sync/logic.h>
 
 
-TEST (database, noteactions)
+TEST (notes, database_noteactions)
 {
 
   // Basic tests: create / clear / optimize.
@@ -1806,13 +1807,14 @@ void test_database_notes ()
   }
 }
 
-TEST (database, notes)
+
+TEST (notes, database_notes)
 {
   test_database_notes ();
 }
 
 
-TEST (database, noteassignment)
+TEST (notes, database_noteassignment)
 {
   refresh_sandbox (false);
   Database_NoteAssignment database;
@@ -1892,9 +1894,99 @@ void test_indexing_fixes_damaged_note ()
     "This app deleted or marked for deletion consultation note"});
 }
 
-TEST (database, indexing_fixes_damaged_note)
+
+TEST (notes, indexing_fixes_damaged_note)
 {
   test_indexing_fixes_damaged_note ();
+}
+
+
+TEST (notes, citations) // Todo
+{
+  using namespace stylesv2;
+  
+  std::vector<std::string> numbers1to9 {"1", "2", "3", "4", "5", "6", "7", "8", "9"};
+  std::vector<std::string> alphanumeric {"1", "a", "x", "7"};
+  
+  const Style style_f {
+    .marker = "f",
+    .type = Type::foot_note_wrapper,
+    .name = "Footnote",
+    .info = "A footnote text item.",
+    .character = Character { },
+    .properties = {
+      {Property::note_numbering_sequence,"1 2 3 4 5 6 7 8 9"},
+      {Property::note_numbering_restart,"chapter"}
+    },
+      .doc = "https://ubsicap.github.io/usfm/notes_basic/fnotes.html#f-f",
+      .category = Category::footnotes,
+  };
+
+  const Style style_fe {
+    .marker = "fe",
+    .type = Type::end_note_wrapper,
+    .name = "Endnote",
+    .info = "An endnote text item.",
+    .character = Character { },
+    .properties = {
+      {Property::note_numbering_sequence,"1 2 3 4 5 6 7 8 9"},
+      {Property::notes_dump,"book"}
+    },
+      .doc = "https://ubsicap.github.io/usfm/notes_basic/fnotes.html#fe-fe",
+      .category = Category::footnotes,
+  };
+
+  // Test that an empty note citation sequence leads to a continually inceasing note citation. Todo
+  {
+    filter::note::citations citations;
+    citations.evaluate_style_v2(nullptr);
+    for (int i {1}; i <= 100; i++) {
+      EXPECT_EQ(std::to_string(i), citations.get("", "+"));
+    }
+  }
+  {
+    filter::note::citations citations;
+    Style style {style_f};
+    style.properties.clear();
+    citations.evaluate_style_v2(&style);
+    for (int i {1}; i <= 100; i++) {
+      EXPECT_EQ(std::to_string(i), citations.get("f", "+"));
+    }
+  }
+
+  // Test the note citation as 1..9 and restarting the cycle again.
+  {
+    filter::note::citations citations;
+    citations.evaluate_style_v2(&style_f);
+    int pointer{0};
+    for (int i {0}; i < 100; i++) {
+      const auto standard = numbers1to9.at(pointer);
+      pointer++;
+      if (pointer >= numbers1to9.size())
+        pointer = 0;
+      EXPECT_EQ(standard, citations.get("f", "+"));
+      EXPECT_EQ("a", citations.get("f", "a"));
+      EXPECT_EQ("", citations.get("f", "-"));
+    }
+  }
+  
+  // Test a user-set sequence of note callers, and restarting the cycle again.
+  {
+    filter::note::citations citations;
+    Style style {style_f};
+    style.properties[stylesv2::Property::note_numbering_sequence] = filter::strings::implode(alphanumeric, " ");
+    citations.evaluate_style_v2(&style);
+    int pointer{0};
+    for (int i {0}; i < 100; i++) {
+      const auto standard = alphanumeric.at(pointer);
+      pointer++;
+      if (pointer >= alphanumeric.size())
+        pointer = 0;
+      EXPECT_EQ(standard, citations.get("f", "+"));
+      EXPECT_EQ("a", citations.get("f", "a"));
+      EXPECT_EQ("", citations.get("f", "-"));
+    }
+  }
 }
 
 

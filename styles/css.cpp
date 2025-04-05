@@ -111,7 +111,7 @@ void Styles_Css::evaluate_v1 (void * database_styles_item)
       add_v1 (style, false, false);
       break;
     }
-    case StyleTypeFootEndNote:
+    case StyleTypeFootEndNote: // Todo move to v2
     {
       switch (style->subtype)
       {
@@ -207,7 +207,7 @@ void Styles_Css::evaluate_v2 (const stylesv2::Style* style)
       break;
       
 // Todo still to implement the ones below.
-//    case StyleTypeFootEndNote:
+//    case StyleTypeFootEndNote: // Todo move to v2
 //    {
 //      switch (style->subtype)
 //      {

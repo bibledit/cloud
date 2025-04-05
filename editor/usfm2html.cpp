@@ -48,7 +48,7 @@ void Editor_Usfm2Html::stylesheet (const std::string& stylesheet)
   for (const auto& marker : markers) {
     database::styles1::Item style = database::styles1::get_marker_data (stylesheet, marker);
     m_styles [marker] = style;
-    m_note_citations.evaluate_style(style);
+    m_note_citations.evaluate_style_v1(style); // Todo move to v2
   }
 }
 
@@ -199,8 +199,8 @@ void Editor_Usfm2Html::process ()
           {
             switch (style.subtype)
             {
-              case FootEndNoteSubtypeFootnote:
-              case FootEndNoteSubtypeEndnote:
+              case FootEndNoteSubtypeFootnote: // Moved to v2.
+              case FootEndNoteSubtypeEndnote: // Moved to v2.
               {
                 close_text_style (false);
                 if (is_opening_marker) {
@@ -415,6 +415,18 @@ void Editor_Usfm2Html::process ()
               open_text_style (style->marker, is_embedded_marker);
             } else {
               close_text_style (is_embedded_marker);
+            }
+            break;
+          }
+          case stylesv2::Type::foot_note_wrapper:
+          case stylesv2::Type::end_note_wrapper:
+          {
+            close_text_style (false);
+            if (is_opening_marker) {
+              const std::string caller = m_note_citations.get (style->marker, "+");
+              add_note (caller, marker);
+            } else {
+              close_current_note ();
             }
             break;
           }
@@ -812,22 +824,36 @@ bool road_is_clear(const std::vector<std::string>& markers_and_text,
   // Function to determine whether the type is a footnote / endnote.
   const auto is_note_type = [](const int type_v1, const stylesv2::Style* style_v2) {
     if (style_v2) {
-      // Todo: Once the note is available, test on that here.
+      if (style_v2->type == stylesv2::Type::foot_note_wrapper)
+        return true;
+      if (style_v2->type == stylesv2::Type::end_note_wrapper)
+        return true;
+      if (style_v2->type == stylesv2::Type::note_standard_content)
+        return true;
+      if (style_v2->type == stylesv2::Type::note_content)
+        return true;
+      if (style_v2->type == stylesv2::Type::note_content_with_endmarker)
+        return true;
+      if (style_v2->type == stylesv2::Type::note_paragraph)
+        return true;
     } else {
-      if (type_v1 == StyleTypeFootEndNote)
+      if (type_v1 == StyleTypeFootEndNote) // All moved to v2
         return true;
     }
     return false;
   };
   
-  // Function to determine whether the subtype is a footnote / endnote.
-  const auto is_footnote_endnote_subtype = [](const int subtype_v1, const stylesv2::Style* style_v2) {
+  // Function to determine whether the style is a footnote / endnote wrapper.
+  const auto is_footnote_endnote_wrapper = [](const int subtype_v1, const stylesv2::Style* style_v2) {
     if (style_v2) {
-      // Todo: Once the note is available, test on that here.
-    } else {
-      if (subtype_v1 == FootEndNoteSubtypeFootnote)
+      if (style_v2->type == stylesv2::Type::foot_note_wrapper)
         return true;
-      if (subtype_v1 == FootEndNoteSubtypeEndnote)
+      if (style_v2->type == stylesv2::Type::end_note_wrapper)
+        return true;
+    } else {
+      if (subtype_v1 == FootEndNoteSubtypeFootnote) // Already moved to v2.
+        return true;
+      if (subtype_v1 == FootEndNoteSubtypeEndnote) // Already moved to v2.
         return true;
     }
     return false;
@@ -909,11 +935,11 @@ bool road_is_clear(const std::vector<std::string>& markers_and_text,
         // The input is a note opener.
         if (is_note_type(input_type_v1, input_style_v2)) {
           if (input_opener) {
-            if (is_footnote_endnote_subtype(input_subtype_v1, input_style_v2)) {
+            if (is_footnote_endnote_wrapper(input_subtype_v1, input_style_v2)) {
               // Encounters note closer: road is clear.
               // Encounters another note opener: blocker.
               if (is_note_type(type_v1, style_v2)) {
-                if (is_footnote_endnote_subtype(subtype_v1, style_v2)) {
+                if (is_footnote_endnote_wrapper(subtype_v1, style_v2)) {
                   if (opener)
                     return false;
                   else
@@ -954,7 +980,7 @@ bool road_is_clear(const std::vector<std::string>& markers_and_text,
               // Encounters foot- or endnote opener: blocker.
               // Other \f.. markup is allowed.
               if (is_note_type(type_v1, style_v2)) {
-                if (is_footnote_endnote_subtype(subtype_v1, style_v2)) {
+                if (is_footnote_endnote_wrapper(subtype_v1, style_v2)) {
                   return false;
                 }
               }

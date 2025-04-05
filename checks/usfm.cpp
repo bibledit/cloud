@@ -31,10 +31,10 @@
 
 Checks_Usfm::Checks_Usfm (const std::string& bible)
 {
-  const std::string stylesheet = database::config::bible::get_export_stylesheet (bible);
-  markers_stylesheet = database::styles1::get_markers (stylesheet);
+  m_stylesheet = database::config::bible::get_export_stylesheet (bible);
+  markers_stylesheet = database::styles1::get_markers (m_stylesheet);
   for (const auto & marker : markers_stylesheet) {
-    database::styles1::Item style = database::styles1::get_marker_data (stylesheet, marker);
+    database::styles1::Item style = database::styles1::get_marker_data (m_stylesheet, marker);
     style_items [marker] = style;
     int styleType = style.type;
     int styleSubtype = style.subtype;
@@ -43,7 +43,7 @@ Checks_Usfm::Checks_Usfm (const std::string& bible)
     // And which markers are embeddable.
     bool required_endmarker {false};
     bool embeddable_marker {false};
-    if (styleType == StyleTypeFootEndNote) {
+    if (styleType == StyleTypeFootEndNote) { // Has already been moved to v2
       if ((styleSubtype == FootEndNoteSubtypeFootnote) || (styleSubtype == FootEndNoteSubtypeEndnote)) {
         required_endmarker = true;
       }
@@ -83,6 +83,12 @@ Checks_Usfm::Checks_Usfm (const std::string& bible)
       abbrev_toc3_marker = style.marker;
     }
     if (style.type == stylesv2::Type::published_verse_marker) {
+      required_endmarker = true;
+    }
+    if (style.type == stylesv2::Type::foot_note_wrapper) {
+      required_endmarker = true;
+    }
+    if (style.type == stylesv2::Type::end_note_wrapper) {
       required_endmarker = true;
     }
     if (required_endmarker) {
@@ -518,17 +524,24 @@ void Checks_Usfm::note ()
   const std::string current_marker = filter::usfm::get_marker (usfm_item);
   
   // Get this style's properties.
-  database::styles1::Item style = style_items [current_marker];
+  database::styles1::Item stylev1 = style_items [current_marker];
+  const stylesv2::Style* stylev2 = database::styles2::get_marker_data(m_stylesheet, current_marker);
   
   // Set a flag if this USFM starts a footnote or an endnote or a crossreference.
   // Clear this flag if it ends the note or xref.
   bool note_border_marker {false};
-  if (style.type == StyleTypeFootEndNote) {
-    if (style.subtype == FootEndNoteSubtypeFootnote) note_border_marker = true;
-    if (style.subtype == FootEndNoteSubtypeEndnote) note_border_marker = true;
+  if (stylev1.type == StyleTypeFootEndNote) { // Already moved to v2
+    if (stylev1.subtype == FootEndNoteSubtypeFootnote) note_border_marker = true;
+    if (stylev1.subtype == FootEndNoteSubtypeEndnote) note_border_marker = true;
   }
-  if (style.type == StyleTypeCrossreference) {
-    if (style.subtype == CrossreferenceSubtypeCrossreference) note_border_marker = true;
+  if (stylev2) {
+    if (stylev2->type == stylesv2::Type::foot_note_wrapper)
+      note_border_marker = true;
+    if (stylev2->type == stylesv2::Type::end_note_wrapper)
+      note_border_marker = true;
+  }
+  if (stylev1.type == StyleTypeCrossreference) {
+    if (stylev1.subtype == CrossreferenceSubtypeCrossreference) note_border_marker = true;
   }
   if (note_border_marker) {
     if (current_is_opener) within_note = true;

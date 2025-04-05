@@ -103,6 +103,30 @@ std::string type_enum_to_value (const Type type, const bool describe)
       if (describe)
         return "table cell";
       return "table_cell";
+    case Type::foot_note_wrapper:
+      if (describe)
+        return "foot note wrapper";
+      return "foot_note_wrapper";
+    case Type::end_note_wrapper:
+      if (describe)
+        return "end note wrapper";
+      return "end_note_wrapper";
+    case Type::note_standard_content:
+      if (describe)
+        return "note standard content";
+      return "note_standard_content";
+    case Type::note_content:
+      if (describe)
+        return "note content";
+      return "note_content";
+    case Type::note_content_with_endmarker:
+      if (describe)
+        return "note content with endmarker";
+      return "note_content_with_endmarker";
+    case Type::note_paragraph:
+      if (describe)
+        return "note paragraph";
+      return "note_paragraph";
     case Type::character_style:
       if (describe)
         return "character style";
@@ -184,6 +208,10 @@ Variant property_to_variant (const Property property)
     case Property::at_first_verse:
     case Property::restart_paragraph:
       return Variant::boolean;
+    case Property::note_numbering_sequence:
+    case Property::note_numbering_restart:
+    case Property::notes_dump:
+      return Variant::text;
     case Property::stopping_boundary:
     default:
       return Variant::none;
@@ -389,7 +417,7 @@ std::ostream& operator<<(std::ostream& os, const Style& style)
 }
 
 
-bool get_bool_parameter (const Style* style, const Property property)
+bool get_bool_parameter (const Style* style, const Property property) // Todo replace by the template.
 {
   const auto iter = style->properties.find(property);
   if (iter != style->properties.cend()) {
@@ -2724,39 +2752,6 @@ const std::list<Style> styles {
 //    /* backgroundcolor */ "#FFFFFF",
 //  },
 //  {
-//    /* marker */ "f",
-//    /* name */ "Footnote",
-//    /* info */ "A footnote text item.",
-//    /* category */ "f",
-//    /* type */ 7,
-//    /* subtype */ 0,
-//    /* fontsize */ 12,
-//    /* italic */ 0,
-//    /* bold */ 0,
-//    /* underline */ 0,
-//    /* smallcaps */ 0,
-//    /* superscript */ 0,
-//    /* justification */ 0,
-//    /* spacebefore */ 0,
-//    /* spaceafter */ 0,
-//    /* leftmargin */ 0,
-//    /* rightmargin */ 0,
-//    /* firstlineindent */ 0,
-//    /* spancolumns */ 0,
-//    /* color */ "#000000",
-//    /* print */ 1,
-//    /* userbool1 */ 0,
-//    /* userbool2 */ 0,
-//    /* userbool3 */ 0,
-//    /* userint1 */ 0,
-//    /* userint2 */ 2,
-//    /* userint3 */ 0,
-//    /* userstring1 */ "",
-//    /* userstring2 */ "",
-//    /* userstring3 */ "",
-//    /* backgroundcolor */ "#FFFFFF",
-//  },
-//  {
 //    /* marker */ "fdc",
 //    /* name */ "Footnote Deuterocanonical content",
 //    /* info */ "Text between these markers is material to be included only in published editions that contain the Deuterocanonical books. Deprecated.",
@@ -2786,39 +2781,6 @@ const std::list<Style> styles {
 //    /* userint3 */ 0,
 //    /* userstring1 */ "",
 //    /* userstring2 */ "",
-//    /* userstring3 */ "",
-//    /* backgroundcolor */ "#FFFFFF",
-//  },
-//  {
-//    /* marker */ "fe",
-//    /* name */ "Endnote",
-//    /* info */ "An endnote text item.",
-//    /* category */ "f",
-//    /* type */ 7,
-//    /* subtype */ 1,
-//    /* fontsize */ 12,
-//    /* italic */ 0,
-//    /* bold */ 0,
-//    /* underline */ 0,
-//    /* smallcaps */ 0,
-//    /* superscript */ 0,
-//    /* justification */ 0,
-//    /* spacebefore */ 0,
-//    /* spaceafter */ 0,
-//    /* leftmargin */ 0,
-//    /* rightmargin */ 0,
-//    /* firstlineindent */ 0,
-//    /* spancolumns */ 0,
-//    /* color */ "#000000",
-//    /* print */ 1,
-//    /* userbool1 */ 0,
-//    /* userbool2 */ 0,
-//    /* userbool3 */ 0,
-//    /* userint1 */ 0,
-//    /* userint2 */ 0,
-//    /* userint3 */ 0,
-//    /* userstring1 */ "",
-//    /* userstring2 */ "zendnotes",
 //    /* userstring3 */ "",
 //    /* backgroundcolor */ "#FFFFFF",
 //  },
@@ -4062,6 +4024,13 @@ bool starts_new_line_in_usfm (const Style* style) // Todo add types here.
       return true;
     case stylesv2::Type::table_heading:
     case stylesv2::Type::table_cell:
+      return false;
+    case stylesv2::Type::foot_note_wrapper:
+    case stylesv2::Type::end_note_wrapper:
+    case stylesv2::Type::note_standard_content:
+    case stylesv2::Type::note_content:
+    case stylesv2::Type::note_content_with_endmarker:
+    case stylesv2::Type::note_paragraph:
       return false;
     case stylesv2::Type::character_style:
       return false;

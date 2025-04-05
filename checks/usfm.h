@@ -47,6 +47,7 @@ private:
   static constexpr int display_full {3};
   
   // Stylesheet.
+  std::string m_stylesheet {};
   std::vector <std::string> markers_stylesheet {};
   std::map <std::string, database::styles1::Item> style_items {};
   

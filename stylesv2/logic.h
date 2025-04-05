@@ -47,6 +47,12 @@ enum class Type : int {
   table_row,
   table_heading,
   table_cell,
+  foot_note_wrapper,
+  end_note_wrapper,
+  note_standard_content,
+  note_content,
+  note_content_with_endmarker,
+  note_paragraph,
   character_style,
   stopping_boundary // Should be the last always.
 };
@@ -84,6 +90,15 @@ enum class Property : int {
   
   // Whether to restart a paragraph.
   restart_paragraph,
+  
+  // The note numbering sequence. Todo use this.
+  note_numbering_sequence,
+  
+  // The note numbering restart trigger. Todo use this.
+  note_numbering_restart,
+  
+  // The place where to dump the notes.
+  notes_dump,
   
   // Should be the last always.
   stopping_boundary
@@ -190,6 +205,24 @@ inline bool operator==(const Style& style, const std::string& marker) noexcept {
 std::ostream& operator<<(std::ostream& os, const Style& style);
 bool get_bool_parameter (const Style* style, const Property property);
 bool has_property (const Style* style, const Property property);
+
+template<typename T>
+const T get_parameter(const Style* style, const Property property)
+{
+  if (style) {
+    const auto iter = style->properties.find(property);
+    if (iter != style->properties.cend()) {
+      const Parameter& parameter = iter->second;
+      if (std::holds_alternative<T>(parameter)) {
+        return std::get<T>(parameter);
+      }
+    }
+  }
+  T not_found {};
+  return not_found;
+}
+
+
 
 
 extern const std::list<Style> styles;

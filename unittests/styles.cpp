@@ -1094,8 +1094,7 @@ TEST_F (styles, styles_order)
 TEST_F (styles, marker_starts_new_line_in_usfm)
 {
   using namespace stylesv2;
-  for (int t {static_cast<int>(Type::starting_boundary) + 1};
-       t < static_cast<int>(Type::stopping_boundary); t++) {
+  for (int t {static_cast<int>(Type::starting_boundary) + 1}; t < static_cast<int>(Type::stopping_boundary); t++) {
     const auto type = static_cast<stylesv2::Type>(t);
     const auto get_standard = [type]() -> std::optional<bool> {
       switch (type) {
@@ -1127,6 +1126,13 @@ TEST_F (styles, marker_starts_new_line_in_usfm)
           return true;
         case Type::table_heading:
         case Type::table_cell:
+          return false;
+        case Type::foot_note_wrapper:
+        case Type::end_note_wrapper:
+        case Type::note_standard_content:
+        case Type::note_content:
+        case Type::note_content_with_endmarker:
+        case Type::note_paragraph:
           return false;
         case Type::character_style:
           return false;

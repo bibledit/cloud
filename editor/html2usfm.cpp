@@ -84,9 +84,9 @@ void Editor_Html2Usfm::stylesheet (const std::string& stylesheet)
       const int subtype = style.subtype;
       if (type == StyleTypeFootEndNote) {
         suppress = true;
-        if (subtype == FootEndNoteSubtypeFootnote)
+        if (subtype == FootEndNoteSubtypeFootnote) // Moved to v2.
           m_note_openers.insert (marker);
-        if (subtype == FootEndNoteSubtypeEndnote)
+        if (subtype == FootEndNoteSubtypeEndnote) // Moved to v2.
           m_note_openers.insert (marker);
         if (subtype == FootEndNoteSubtypeContentWithEndmarker)
           suppress = false;
@@ -114,6 +114,7 @@ void Editor_Html2Usfm::stylesheet (const std::string& stylesheet)
         m_force_end_markers.insert(style.marker);
       }
       // Get markers that should not have endmarkers.
+      // Gather the note openers.
       bool suppress_endmarker = false;
       if (style.type == stylesv2::Type::verse)
         suppress_endmarker = true;
@@ -123,6 +124,14 @@ void Editor_Html2Usfm::stylesheet (const std::string& stylesheet)
         suppress_endmarker = true;
       if (style.type == stylesv2::Type::table_cell)
         suppress_endmarker = true;
+      if (style.type == stylesv2::Type::foot_note_wrapper) {
+        suppress_endmarker = true;
+        m_note_openers.insert (style.marker);
+      }
+      if (style.type == stylesv2::Type::end_note_wrapper) {
+        suppress_endmarker = true;
+        m_note_openers.insert (style.marker);
+      }
       if (suppress_endmarker)
         m_suppress_end_markers.insert (style.marker);
     }

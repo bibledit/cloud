@@ -160,15 +160,18 @@ void Filter_Text::get_styles ()
 {
   styles.clear();
   // Get the relevant styles information included.
-  if (odf_text_standard) odf_text_standard->create_page_break_style ();
-  if (odf_text_text_only) odf_text_text_only->create_page_break_style ();
-  if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->create_page_break_style ();
-  if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->create_superscript_style ();
-  std::vector <std::string> markers = database::styles1::get_markers (m_stylesheet);
-  for (const auto& marker : markers) {
+  if (odf_text_standard)
+    odf_text_standard->create_page_break_style ();
+  if (odf_text_text_only)
+    odf_text_text_only->create_page_break_style ();
+  if (odf_text_text_and_note_citations)
+    odf_text_text_and_note_citations->create_page_break_style ();
+  if (odf_text_text_and_note_citations)
+    odf_text_text_and_note_citations->create_superscript_style ();
+  for (const auto& marker : database::styles1::get_markers(m_stylesheet)) {
     database::styles1::Item style = database::styles1::get_marker_data (m_stylesheet, marker);
     styles [marker] = style;
-    if (style.type == StyleTypeFootEndNote) {
+    if (style.type == StyleTypeFootEndNote) { // Moved to v2 already
       if (style.subtype == FootEndNoteSubtypeStandardContent) {
         standard_content_marker_foot_end_note = style.marker;
       }
@@ -178,6 +181,10 @@ void Filter_Text::get_styles ()
         standard_content_marker_cross_reference = style.marker;
       }
     }
+  }
+  for (const stylesv2::Style& style : database::styles2::get_styles(m_stylesheet)) {
+    if (style.type == stylesv2::Type::note_standard_content)
+      standard_content_marker_foot_end_note = style.marker;
   }
 }
 
@@ -197,43 +204,7 @@ void Filter_Text::pre_process_usfm ()
         if (filter::usfm::is_opening_marker (marker)) {
           if ((styles.find (marker) != styles.end()) && (!stylesv2::marker_moved_to_v2(marker))) // Todo
           {
-            database::styles1::Item style = styles [marker];
-            note_citations.evaluate_style(style);
-            switch (style.type) {
-              case StyleTypeFootEndNote:
-              {
-                switch (style.subtype)
-                {
-                  case FootEndNoteSubtypeFootnote:
-                  case FootEndNoteSubtypeEndnote:
-                  case FootEndNoteSubtypeStandardContent:
-                  case FootEndNoteSubtypeContent:
-                  case FootEndNoteSubtypeContentWithEndmarker:
-                  case FootEndNoteSubtypeParagraph:
-                  default: {
-                    break;
-                  }
-                }
-                break;
-              }
-              case StyleTypeCrossreference:
-              {
-                switch (style.subtype)
-                {
-                  case CrossreferenceSubtypeCrossreference:
-                  case CrossreferenceSubtypeStandardContent:
-                  case CrossreferenceSubtypeContent:
-                  case CrossreferenceSubtypeContentWithEndmarker:
-                  default: {
-                    break;
-                  }
-                }
-                break;
-              }
-              default: {
-                break;
-              }
-            }
+            note_citations.evaluate_style_v1(styles.at(marker)); // Todo move to v2 at the end.
           }
           else if (const stylesv2::Style* style {database::styles2::get_marker_data (m_stylesheet, marker)}; style) {
             switch (style->type) {
@@ -337,6 +308,17 @@ void Filter_Text::pre_process_usfm ()
                 published_verse_markers.push_back (filter::text::passage_marker_value (m_current_book_identifier, m_current_chapter_number, m_current_verse_number, marker, published_verse_marker));
                 break;
               }
+              case stylesv2::Type::table_row:
+              case stylesv2::Type::table_heading:
+              case stylesv2::Type::table_cell:
+                break;
+              case stylesv2::Type::foot_note_wrapper:
+              case stylesv2::Type::end_note_wrapper:
+              case stylesv2::Type::note_standard_content:
+              case stylesv2::Type::note_content:
+              case stylesv2::Type::note_content_with_endmarker:
+              case stylesv2::Type::note_paragraph:
+                break;
               case stylesv2::Type::character_style:
                 break;
               case stylesv2::Type::stopping_boundary:
@@ -438,7 +420,7 @@ void Filter_Text::process_usfm ()
               }
               break;
             }
-            case StyleTypeFootEndNote:
+            case StyleTypeFootEndNote: // Has moved already to v2
             {
               processNote (); 
               break;
@@ -1140,6 +1122,17 @@ void Filter_Text::process_usfm ()
               break;
             }
               
+            case stylesv2::Type::foot_note_wrapper:
+            case stylesv2::Type::end_note_wrapper:
+            case stylesv2::Type::note_standard_content:
+            case stylesv2::Type::note_content:
+            case stylesv2::Type::note_content_with_endmarker:
+            case stylesv2::Type::note_paragraph:
+            {
+              processNote ();
+              break;
+            }
+
             case stylesv2::Type::character_style:
             {
               // Support for a normal and an embedded character style.
@@ -1259,17 +1252,17 @@ void Filter_Text::processNote ()
 {
   for ( ; chapter_usfm_markers_and_text_pointer < chapter_usfm_markers_and_text.size(); chapter_usfm_markers_and_text_pointer++)
   {
-    std::string currentItem = chapter_usfm_markers_and_text[chapter_usfm_markers_and_text_pointer];
+    const std::string currentItem = chapter_usfm_markers_and_text[chapter_usfm_markers_and_text_pointer];
     if (filter::usfm::is_usfm_marker (currentItem))
     {
       // Flags about the nature of the marker.
       bool is_opening_marker = filter::usfm::is_opening_marker (currentItem);
       bool isEmbeddedMarker = filter::usfm::is_embedded_marker (currentItem);
       // Clean up the marker, so we remain with the basic version, e.g. 'f'.
-      std::string marker = filter::usfm::get_marker (currentItem);
-      if (const stylesv2::Style* style {database::styles2::get_marker_data (m_stylesheet, marker)}; style)
+      const std::string marker = filter::usfm::get_marker (currentItem);
+      if (const stylesv2::Style* stylev2 {database::styles2::get_marker_data (m_stylesheet, marker)}; stylev2) // Todo note stuff.
       {
-        if (style->type == stylesv2::Type::verse) {
+        if (stylev2->type == stylesv2::Type::verse) {
           // Verse found. The note should have stopped here. Incorrect note markup.
           addToFallout ("The note did not close at the end of the verse. The text is not correct.", false);
           goto noteDone;
@@ -1277,18 +1270,18 @@ void Filter_Text::processNote ()
       }
       else if (styles.find (marker) != styles.end())
       {
-        database::styles1::Item style = styles[marker];
-        switch (style.type)
+        database::styles1::Item stylev1 = styles[marker];
+        switch (stylev1.type)
         {
-          case StyleTypeFootEndNote:
+          case StyleTypeFootEndNote: // Todo move to v2
           {
-            switch (style.subtype)
+            switch (stylev1.subtype)
             {
               case FootEndNoteSubtypeFootnote:
               {
                 if (is_opening_marker) {
                   ensureNoteParagraphStyle (marker, styles [standard_content_marker_foot_end_note]);
-                  std::string citation = getNoteCitation (style);
+                  std::string citation = get_note_citation (stylev1.marker);
                   if (odf_text_standard) odf_text_standard->add_note (citation, marker);
                   // Note citation in superscript in the document with text and note citations.
                   if (odf_text_text_and_note_citations) {
@@ -1324,7 +1317,7 @@ void Filter_Text::processNote ()
               {
                 if (is_opening_marker) {
                   ensureNoteParagraphStyle (marker, styles[standard_content_marker_foot_end_note]);
-                  std::string citation = getNoteCitation (style);
+                  std::string citation = get_note_citation (stylev1.marker);
                   if (odf_text_standard) odf_text_standard->add_note (citation, marker, true);
                   // Note citation in superscript in the document with text and note citations.
                   if (odf_text_text_and_note_citations) {
@@ -1363,10 +1356,10 @@ void Filter_Text::processNote ()
               case FootEndNoteSubtypeContentWithEndmarker:
               {
                 if (is_opening_marker) {
-                  if (odf_text_standard) odf_text_standard->open_text_style (&style, nullptr, true, isEmbeddedMarker);
-                  if (odf_text_notes) odf_text_notes->open_text_style (&style, nullptr, false, isEmbeddedMarker);
-                  if (html_text_standard) html_text_standard->open_text_style (&style, nullptr, true, isEmbeddedMarker);
-                  if (html_text_linked) html_text_linked->open_text_style (&style, nullptr, true, isEmbeddedMarker);
+                  if (odf_text_standard) odf_text_standard->open_text_style (&stylev1, nullptr, true, isEmbeddedMarker);
+                  if (odf_text_notes) odf_text_notes->open_text_style (&stylev1, nullptr, false, isEmbeddedMarker);
+                  if (html_text_standard) html_text_standard->open_text_style (&stylev1, nullptr, true, isEmbeddedMarker);
+                  if (html_text_linked) html_text_linked->open_text_style (&stylev1, nullptr, true, isEmbeddedMarker);
                 } else {
                   if (odf_text_standard) odf_text_standard->close_text_style (true, isEmbeddedMarker);
                   if (odf_text_notes) odf_text_notes->close_text_style (false, isEmbeddedMarker);
@@ -1395,13 +1388,13 @@ void Filter_Text::processNote ()
           }
           case StyleTypeCrossreference:
           {
-            switch (style.subtype)
+            switch (stylev1.subtype)
             {
               case CrossreferenceSubtypeCrossreference:
               {
                 if (is_opening_marker) {
                   ensureNoteParagraphStyle (marker, styles[standard_content_marker_cross_reference]);
-                  std::string citation = getNoteCitation (style);
+                  std::string citation = get_note_citation (stylev1.marker);
                   if (odf_text_standard) odf_text_standard->add_note (citation, marker);
                   // Note citation in superscript in the document with text and note citations.
                   if (odf_text_text_and_note_citations) {
@@ -1450,13 +1443,13 @@ void Filter_Text::processNote ()
               {
                 if (is_opening_marker) {
                   if (odf_text_standard)
-                    odf_text_standard->open_text_style (&style, nullptr, true, isEmbeddedMarker);
+                    odf_text_standard->open_text_style (&stylev1, nullptr, true, isEmbeddedMarker);
                   if (odf_text_notes)
-                    odf_text_notes->open_text_style (&style, nullptr, false, isEmbeddedMarker);
+                    odf_text_notes->open_text_style (&stylev1, nullptr, false, isEmbeddedMarker);
                   if (html_text_standard)
-                    html_text_standard->open_text_style (&style, nullptr, true, isEmbeddedMarker);
+                    html_text_standard->open_text_style (&stylev1, nullptr, true, isEmbeddedMarker);
                   if (html_text_linked)
-                    html_text_linked->open_text_style (&style, nullptr, true, isEmbeddedMarker);
+                    html_text_linked->open_text_style (&stylev1, nullptr, true, isEmbeddedMarker);
                 } else {
                   if (odf_text_standard)
                     odf_text_standard->close_text_style (true, isEmbeddedMarker);
@@ -1845,20 +1838,21 @@ void Filter_Text::putChapterNumberInFrame (std::string chapterText)
 // The note citation is the character that is put in superscript in the main body of Bible text.
 // $style: array with values for the note opening marker.
 // Returns: The character for the note citation.
-std::string Filter_Text::getNoteCitation (const database::styles1::Item & style)
+std::string Filter_Text::get_note_citation (const std::string& marker)
 {
-  bool end_of_text_reached = (chapter_usfm_markers_and_text_pointer + 1) >= chapter_usfm_markers_and_text.size ();
-  if (end_of_text_reached) return std::string();
+  const bool end_of_text_reached = (chapter_usfm_markers_and_text_pointer + 1) >= chapter_usfm_markers_and_text.size ();
+  if (end_of_text_reached)
+    return std::string();
 
   // Extract the raw note citation from the USFM. This could be, e.g. '+'.
-  std::string nextText = chapter_usfm_markers_and_text [chapter_usfm_markers_and_text_pointer + 1];
-  std::string citation = nextText.substr (0, 1);
-  nextText = filter::strings::ltrim (nextText.substr (1));
-  chapter_usfm_markers_and_text [chapter_usfm_markers_and_text_pointer + 1] = nextText;
+  std::string next_text = chapter_usfm_markers_and_text [chapter_usfm_markers_and_text_pointer + 1];
+  std::string citation = next_text.substr (0, 1);
+  next_text = filter::strings::ltrim (next_text.substr (1));
+  chapter_usfm_markers_and_text [chapter_usfm_markers_and_text_pointer + 1] = next_text;
   citation = filter::strings::trim (citation);
   
   // Get the rendered note citation.
-  citation = note_citations.get(style.marker, citation);
+  citation = note_citations.get(marker, citation);
   return citation;
 }
 

@@ -167,6 +167,9 @@ std::string Editor_Styles::getAction (Webserver_Request& webserver_request, cons
       case stylesv2::Type::table_heading:
       case stylesv2::Type::table_cell:
         return mono ();
+      case stylesv2::Type::foot_note_wrapper:
+      case stylesv2::Type::end_note_wrapper:
+        return note ();
       case stylesv2::Type::character_style:
         return character ();
       case stylesv2::Type::starting_boundary:
@@ -191,8 +194,8 @@ std::string Editor_Styles::getAction (Webserver_Request& webserver_request, cons
       {
         switch (subtype)
         {
-          case FootEndNoteSubtypeFootnote:
-          case FootEndNoteSubtypeEndnote:
+          case FootEndNoteSubtypeFootnote: // Moved to v2.
+          case FootEndNoteSubtypeEndnote: // Moved to v2.
             return note ();
           case FootEndNoteSubtypeContent:
           case FootEndNoteSubtypeContentWithEndmarker:

@@ -1516,20 +1516,18 @@ TEST (checks, usfm_import)
 //      std::cout << line << "|" << std::endl;
 //  };
 
-  {
-    const std::vector<BookChapterData> book_chapter_data {usfm_import (usfm_with_all_markers, stylesheet)};
-    for (const auto& data : book_chapter_data) {
-      EXPECT_EQ (data.m_book, static_cast<int>(book_id::_genesis));
-      const int chapter = data.m_chapter;
-      constexpr std::array<int,6> chapters {0, 1, 2, 3, 4, 5};
-      if (std::find(chapters.cbegin(), chapters.cend(), chapter) == chapters.cend()) {
-        ADD_FAILURE() << "Unexpected chapter number " << chapter;
-      }
-      const std::string usfm = data.m_data;
-      const size_t pos = std::string(usfm_with_all_markers).find(usfm);
-      if (pos == std::string::npos)
-        ADD_FAILURE() << "The import routine created this different USFM fragment:\n" << usfm;
+  const std::vector<BookChapterData> book_chapter_data {usfm_import (usfm_with_all_markers, stylesheet)};
+  for (const auto& data : book_chapter_data) {
+    EXPECT_EQ (data.m_book, static_cast<int>(book_id::_genesis));
+    const int chapter = data.m_chapter;
+    constexpr std::array<int,7> chapters {0, 1, 2, 3, 4, 5, 6};
+    if (std::find(chapters.cbegin(), chapters.cend(), chapter) == chapters.cend()) {
+      ADD_FAILURE() << "Unexpected chapter number " << chapter;
     }
+    const std::string usfm = data.m_data;
+    const size_t pos = std::string(usfm_with_all_markers).find(usfm);
+    if (pos == std::string::npos)
+      ADD_FAILURE() << "The import routine created this different USFM fragment:\n" << usfm;
   }
 }
 

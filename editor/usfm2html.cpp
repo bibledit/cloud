@@ -43,12 +43,18 @@ void Editor_Usfm2Html::stylesheet (const std::string& stylesheet)
 {
   m_stylesheet = stylesheet;
   m_styles.clear();
-  const std::vector <std::string> markers = database::styles1::get_markers (stylesheet);
-  // Load the style information into the object.
-  for (const auto& marker : markers) {
-    database::styles1::Item style = database::styles1::get_marker_data (stylesheet, marker);
-    m_styles [marker] = style;
-    m_note_citations.evaluate_style_v1(style); // Todo move to v2
+  // Load the style version 1 information into the object.
+  {
+    const std::vector <std::string> markers = database::styles1::get_markers (stylesheet);
+    for (const auto& marker : markers) {
+      database::styles1::Item style = database::styles1::get_marker_data (stylesheet, marker);
+      m_styles [marker] = style;
+      m_note_citations.evaluate_style_v1(style); // Already moved to v2
+    }
+  }
+  // Load style version 2 information into the object.
+  for (const stylesv2::Style& style : database::styles2::get_styles(stylesheet)) {
+    m_note_citations.evaluate_style_v2(style);
   }
 }
 

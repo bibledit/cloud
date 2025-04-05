@@ -1939,34 +1939,27 @@ TEST (notes, citations) // Todo
   // Test that an empty note citation sequence leads to a continually inceasing note citation. Todo
   {
     filter::note::citations citations;
-    citations.evaluate_style_v2(nullptr);
-    for (int i {1}; i <= 100; i++) {
-      EXPECT_EQ(std::to_string(i), citations.get("", "+"));
-    }
-  }
-  {
-    filter::note::citations citations;
     Style style {style_f};
     style.properties.clear();
-    citations.evaluate_style_v2(&style);
+    citations.evaluate_style_v2(style);
     for (int i {1}; i <= 100; i++) {
-      EXPECT_EQ(std::to_string(i), citations.get("f", "+"));
+      EXPECT_EQ(std::to_string(i), citations.get(style_f.marker, "+"));
     }
   }
 
   // Test the note citation as 1..9 and restarting the cycle again.
   {
     filter::note::citations citations;
-    citations.evaluate_style_v2(&style_f);
+    citations.evaluate_style_v2(style_f);
     int pointer{0};
     for (int i {0}; i < 100; i++) {
       const auto standard = numbers1to9.at(pointer);
       pointer++;
       if (pointer >= numbers1to9.size())
         pointer = 0;
-      EXPECT_EQ(standard, citations.get("f", "+"));
-      EXPECT_EQ("a", citations.get("f", "a"));
-      EXPECT_EQ("", citations.get("f", "-"));
+      EXPECT_EQ(standard, citations.get(style_f.marker, "+"));
+      EXPECT_EQ("a", citations.get(style_f.marker, "a"));
+      EXPECT_EQ("", citations.get(style_f.marker, "-"));
     }
   }
   
@@ -1975,16 +1968,16 @@ TEST (notes, citations) // Todo
     filter::note::citations citations;
     Style style {style_f};
     style.properties[stylesv2::Property::note_numbering_sequence] = filter::strings::implode(alphanumeric, " ");
-    citations.evaluate_style_v2(&style);
+    citations.evaluate_style_v2(style);
     int pointer{0};
     for (int i {0}; i < 100; i++) {
       const auto standard = alphanumeric.at(pointer);
       pointer++;
       if (pointer >= alphanumeric.size())
         pointer = 0;
-      EXPECT_EQ(standard, citations.get("f", "+"));
-      EXPECT_EQ("a", citations.get("f", "a"));
-      EXPECT_EQ("", citations.get("f", "-"));
+      EXPECT_EQ(standard, citations.get(style.marker, "+"));
+      EXPECT_EQ("a", citations.get(style.marker, "a"));
+      EXPECT_EQ("", citations.get(style.marker, "-"));
     }
   }
 }

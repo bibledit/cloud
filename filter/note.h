@@ -44,7 +44,7 @@ class citations
 {
 public:
   void evaluate_style_v1 (const database::styles1::Item& style);
-  void evaluate_style_v2 (const stylesv2::Style* style);
+  void evaluate_style_v2 (const stylesv2::Style& style);
   std::string get (const std::string& marker, const std::string& citation);
   void restart (const std::string& moment);
 private:

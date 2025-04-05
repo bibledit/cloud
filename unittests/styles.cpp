@@ -732,7 +732,7 @@ TEST_F (styles, save_load_styles_v2)
     const auto loaded_style = load_style(sheet, style.marker);
     EXPECT_TRUE(loaded_style);
     EXPECT_EQ(to_string(style), to_string(loaded_style.value()));
-    EXPECT_TRUE(stylesv2::get_bool_parameter((&loaded_style.value()), Property::starts_new_page));
+    EXPECT_TRUE(stylesv2::get_parameter<bool>((&loaded_style.value()), Property::starts_new_page));
   }
 
   // Change the name, save, load, compare.
@@ -1063,13 +1063,13 @@ TEST_F (styles, properties)
 {
   using namespace stylesv2;
   Style style{};
-  EXPECT_FALSE(get_bool_parameter(&style, Property::has_endmarker));
+  EXPECT_FALSE(get_parameter<bool>(&style, Property::has_endmarker));
   EXPECT_FALSE(has_property(&style, Property::has_endmarker));
   style = { .properties = {{Property::has_endmarker,false}} };
-  EXPECT_FALSE(get_bool_parameter(&style, Property::has_endmarker));
+  EXPECT_FALSE(get_parameter<bool>(&style, Property::has_endmarker));
   EXPECT_TRUE(has_property(&style, Property::has_endmarker));
   style = { .properties = {{Property::has_endmarker,true}} };
-  EXPECT_TRUE(get_bool_parameter(&style, Property::has_endmarker));
+  EXPECT_TRUE(get_parameter<bool>(&style, Property::has_endmarker));
   EXPECT_TRUE(has_property(&style, Property::has_endmarker));
 }
 

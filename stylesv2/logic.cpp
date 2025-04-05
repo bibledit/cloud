@@ -417,19 +417,6 @@ std::ostream& operator<<(std::ostream& os, const Style& style)
 }
 
 
-bool get_bool_parameter (const Style* style, const Property property) // Todo replace by the template.
-{
-  const auto iter = style->properties.find(property);
-  if (iter != style->properties.cend()) {
-    const Parameter& parameter = iter->second;
-    if (std::holds_alternative<bool>(parameter)) {
-      return std::get<bool>(parameter);
-    }
-  }
-  return false;
-}
-
-
 bool has_property (const Style* style, const Property property)
 {
   return (style->properties.find(property) != style->properties.cend());

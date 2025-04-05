@@ -579,7 +579,7 @@ void Filter_Text::process_usfm ()
               // Throw away whatever follows the \id, e.g. 'GEN xxx xxx'.
               filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
               // Whether to insert a new page before the book. But never before the first book.
-              if (stylesv2::get_bool_parameter(style, stylesv2::Property::starts_new_page)) {
+              if (stylesv2::get_parameter<bool>(style, stylesv2::Property::starts_new_page)) {
                 if (processed_books_count) {
                   if (odf_text_standard) odf_text_standard->new_page_break ();
                   if (odf_text_text_only) odf_text_text_only->new_page_break ();
@@ -780,7 +780,7 @@ void Filter_Text::process_usfm ()
                 // Putting the chapter number at the first verse is determined by the style of the \c marker.
                 // But if a chapter label (\cl) is found in the current book, that disables the above.
                 const bool cl_found = book_has_chapter_label[m_current_book_identifier];
-                if (stylesv2::get_bool_parameter(style, stylesv2::Property::at_first_verse) && !cl_found) {
+                if (stylesv2::get_parameter<bool>(style, stylesv2::Property::at_first_verse) && !cl_found) {
                   // Output the chapter number at the first verse, not here.
                   // Store it for later processing.
                   m_output_chapter_text_at_first_verse = usfm_c_fragment;
@@ -880,7 +880,7 @@ void Filter_Text::process_usfm ()
               if (onlinebible_text)
                 onlinebible_text->storeData ();
               // Handle a situation that a verse number starts a new paragraph.
-              if (stylesv2::get_bool_parameter (style, stylesv2::Property::restart_paragraph)) {
+              if (stylesv2::get_parameter<bool>(style, stylesv2::Property::restart_paragraph)) {
                 if (odf_text_standard) {
                   if (!odf_text_standard->m_current_paragraph_content.empty()) {
                     odf_text_standard->new_paragraph (odf_text_standard->m_current_paragraph_style);

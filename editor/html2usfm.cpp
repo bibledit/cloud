@@ -110,7 +110,7 @@ void Editor_Html2Usfm::stylesheet (const std::string& stylesheet)
       // Paragraph styles normally don't have a closing USFM marker.
       // But there's exceptions to this rule.
       // Gather the markers that need a closing USFM marker.
-      if (stylesv2::get_bool_parameter(&style, stylesv2::Property::has_endmarker)) {
+      if (stylesv2::get_parameter<bool>(&style, stylesv2::Property::has_endmarker)) {
         m_force_end_markers.insert(style.marker);
       }
       // Get markers that should not have endmarkers.

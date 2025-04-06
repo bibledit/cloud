@@ -1951,7 +1951,7 @@ TEST (notes, citations) // Todo
   {
     filter::note::citations citations;
     citations.evaluate_style_v2(style_f);
-    int pointer{0};
+    size_t pointer{0};
     for (int i {0}; i < 100; i++) {
       const auto standard = numbers1to9.at(pointer);
       pointer++;
@@ -1969,7 +1969,7 @@ TEST (notes, citations) // Todo
     Style style {style_f};
     style.properties[stylesv2::Property::note_numbering_sequence] = filter::strings::implode(alphanumeric, " ");
     citations.evaluate_style_v2(style);
-    int pointer{0};
+    size_t pointer{0};
     for (int i {0}; i < 100; i++) {
       const auto standard = alphanumeric.at(pointer);
       pointer++;

@@ -167,7 +167,7 @@ std::string citations::get (const std::string& marker, const std::string& citati
 // This resets the note citations data.
 // Resetting means that the note citations start to count afresh.
 // $moment: what type of reset to apply, e.g. 'chapter' or 'book'.
-void citations::restart (const std::string& moment) // Todo move to v2.
+void citations::restart (const std::string& moment) // Todo test or write unit test for this.
 {
   for (auto & notecitation : cache) {
     notecitation.second.run_restart (moment);

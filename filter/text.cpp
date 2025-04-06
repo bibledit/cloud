@@ -204,7 +204,7 @@ void Filter_Text::pre_process_usfm ()
         if (filter::usfm::is_opening_marker (marker)) {
           if ((styles.find (marker) != styles.end()) && (!stylesv2::marker_moved_to_v2(marker))) // Todo
           {
-            note_citations.evaluate_style_v1(styles.at(marker)); // Todo move to v2 at the end.
+            note_citations.evaluate_style_v1(styles.at(marker)); // Already moved to v2 at the end.
           }
           else if (const stylesv2::Style* style {database::styles2::get_marker_data (m_stylesheet, marker)}; style) {
             switch (style->type) {
@@ -314,6 +314,10 @@ void Filter_Text::pre_process_usfm ()
                 break;
               case stylesv2::Type::foot_note_wrapper:
               case stylesv2::Type::end_note_wrapper:
+              {
+                note_citations.evaluate_style_v2(*style);
+                break;
+              }
               case stylesv2::Type::note_standard_content:
               case stylesv2::Type::note_content:
               case stylesv2::Type::note_content_with_endmarker:
@@ -1262,22 +1266,132 @@ void Filter_Text::processNote ()
       const std::string marker = filter::usfm::get_marker (currentItem);
       if (const stylesv2::Style* stylev2 {database::styles2::get_marker_data (m_stylesheet, marker)}; stylev2) // Todo note stuff.
       {
-        if (stylev2->type == stylesv2::Type::verse) {
-          // Verse found. The note should have stopped here. Incorrect note markup.
-          addToFallout ("The note did not close at the end of the verse. The text is not correct.", false);
-          goto noteDone;
+        switch (stylev2->type) {
+          case stylesv2::Type::starting_boundary:
+          case stylesv2::Type::none:
+          case stylesv2::Type::book_id:
+          case stylesv2::Type::usfm_version:
+          case stylesv2::Type::file_encoding:
+          case stylesv2::Type::remark:
+          case stylesv2::Type::running_header:
+          case stylesv2::Type::long_toc_text:
+          case stylesv2::Type::short_toc_text:
+          case stylesv2::Type::book_abbrev:
+          case stylesv2::Type::introduction_end:
+          case stylesv2::Type::title:
+          case stylesv2::Type::heading:
+          case stylesv2::Type::paragraph:
+          case stylesv2::Type::chapter:
+          case stylesv2::Type::chapter_label:
+          case stylesv2::Type::published_chapter_marker:
+          case stylesv2::Type::alternate_chapter_number:
+            break;
+          case stylesv2::Type::verse:
+          {
+            // Verse found. The note should have stopped here. Incorrect note markup.
+            addToFallout ("The note did not close at the end of the verse. The text is not correct.", false);
+            goto noteDone;
+            break;
+          }
+          case stylesv2::Type::published_verse_marker:
+          case stylesv2::Type::table_row:
+          case stylesv2::Type::table_heading:
+          case stylesv2::Type::table_cell:
+            break;
+          case stylesv2::Type::foot_note_wrapper:
+          {
+            if (is_opening_marker) {
+              ensureNoteParagraphStyle (marker, styles [standard_content_marker_foot_end_note]);
+              const std::string citation = get_note_citation (marker);
+              if (odf_text_standard)
+                odf_text_standard->add_note (citation, marker);
+              // Note citation in superscript in the document with text and note citations.
+              if (odf_text_text_and_note_citations) {
+                std::vector <std::string> current_text_styles = odf_text_text_and_note_citations->m_current_text_style;
+                odf_text_text_and_note_citations->m_current_text_style = {"superscript"};
+                odf_text_text_and_note_citations->add_text (citation);
+                odf_text_text_and_note_citations->m_current_text_style = current_text_styles;
+              }
+              // Add space if the paragraph has text already.
+              if (odf_text_notes) {
+                if (odf_text_notes->m_current_paragraph_content != "") {
+                  odf_text_notes->add_text (" ");
+                }
+              }
+              // Add the note citation. And a no-break space after it.
+              if (odf_text_notes)
+                odf_text_notes->add_text (citation + filter::strings::non_breaking_space_u00A0());
+              // Open note in the web pages.
+              if (html_text_standard)
+                html_text_standard->add_note (citation, standard_content_marker_foot_end_note);
+              if (html_text_linked)
+                html_text_linked->add_note (citation, standard_content_marker_foot_end_note);
+              // Online Bible. Footnotes do not seem to behave as they ought in the Online Bible compiler. Just leave them out.
+              //if ($this->onlinebible_text) $this->onlinebible_text->addNote ();
+              if (text_text)
+                text_text->note ();
+              // Handle opening notes in plain text.
+              notes_plain_text_handler ();
+              // Set flag.
+              note_open_now = true;
+            } else {
+              goto noteDone;
+            }
+            break;
+          }
+          case stylesv2::Type::end_note_wrapper:
+          {
+            if (is_opening_marker) {
+              ensureNoteParagraphStyle (marker, styles[standard_content_marker_foot_end_note]);
+              const std::string citation = get_note_citation (marker);
+              if (odf_text_standard)
+                odf_text_standard->add_note (citation, marker, true);
+              // Note citation in superscript in the document with text and note citations.
+              if (odf_text_text_and_note_citations) {
+                std::vector <std::string> current_text_styles = odf_text_text_and_note_citations->m_current_text_style;
+                odf_text_text_and_note_citations->m_current_text_style = {"superscript"};
+                odf_text_text_and_note_citations->add_text (citation);
+                odf_text_text_and_note_citations->m_current_text_style = current_text_styles;
+              }
+              // Open note in the web page.
+              if (html_text_standard)
+                html_text_standard->add_note (citation, standard_content_marker_foot_end_note, true);
+              if (html_text_linked)
+                html_text_linked->add_note (citation, standard_content_marker_foot_end_note, true);
+              // Online Bible: Leave note out.
+              //if ($this->onlinebible_text) $this->onlinebible_text->addNote ();
+              if (text_text)
+                text_text->note ();
+              // Handle opening notes in plain text.
+              notes_plain_text_handler ();
+              // Set flag.
+              note_open_now = true;
+            } else {
+              goto noteDone;
+            }
+            break;
+          }
+          case stylesv2::Type::note_standard_content:
+          case stylesv2::Type::note_content:
+          case stylesv2::Type::note_content_with_endmarker:
+          case stylesv2::Type::note_paragraph:
+          case stylesv2::Type::character_style:
+          case stylesv2::Type::stopping_boundary:
+          default:
+            break;
         }
+        
       }
       else if (styles.find (marker) != styles.end())
       {
         database::styles1::Item stylev1 = styles[marker];
         switch (stylev1.type)
         {
-          case StyleTypeFootEndNote: // Todo move to v2
+          case StyleTypeFootEndNote: // Todo
           {
             switch (stylev1.subtype)
             {
-              case FootEndNoteSubtypeFootnote:
+              case FootEndNoteSubtypeFootnote: // Already moved to v2.
               {
                 if (is_opening_marker) {
                   ensureNoteParagraphStyle (marker, styles [standard_content_marker_foot_end_note]);
@@ -1313,7 +1427,7 @@ void Filter_Text::processNote ()
                 }
                 break;
               }
-              case FootEndNoteSubtypeEndnote:
+              case FootEndNoteSubtypeEndnote: // Already moved to v2.
               {
                 if (is_opening_marker) {
                   ensureNoteParagraphStyle (marker, styles[standard_content_marker_foot_end_note]);

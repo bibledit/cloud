@@ -1936,7 +1936,7 @@ TEST (notes, citations) // Todo
       .category = Category::footnotes,
   };
 
-  // Test that an empty note citation sequence leads to a continually inceasing note citation. Todo
+  // Test that an empty note citation sequence leads to a continually inceasing note citation.
   {
     filter::note::citations citations;
     Style style {style_f};

@@ -229,9 +229,8 @@ extern const std::list<Style> styles;
 
 
 bool marker_moved_to_v2 (const std::string& marker);
-
-
 bool starts_new_line_in_usfm (const Style* style);
+std::string validate_notes_dump (std::string input);
 
 
 } // Namespace.

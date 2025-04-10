@@ -362,36 +362,66 @@ std::string styles_view2 (Webserver_Request& webserver_request)
   };
 
   
-  // Handle note numbering sequence. Todo
-  constexpr const char* note_numbering_sequence {"note_numbering_sequence"};
-  if (webserver_request.post.count(note_numbering_sequence)) {
-    marker_data.properties[stylesv2::Property::note_numbering_sequence] = webserver_request.post[note_numbering_sequence];
-    style_is_edited = true;
+  // Handle note numbering sequence.
+  {
+    const std::string note_numbering_sequence {stylesv2::property_enum_to_value (stylesv2::Property::note_numbering_sequence)};
+    if (webserver_request.post.count(note_numbering_sequence)) {
+      marker_data.properties[stylesv2::Property::note_numbering_sequence] = webserver_request.post[note_numbering_sequence];
+      style_is_edited = true;
+    }
+    if (webserver_request.query.count("numerical")) {
+      marker_data.properties[stylesv2::Property::note_numbering_sequence] = "1 2 3 4 5 6 7 8 9";
+      style_is_edited = true;
+      redirect();
+    }
+    if (webserver_request.query.count("alphabetical")) {
+      marker_data.properties[stylesv2::Property::note_numbering_sequence] = "a b c d e f g h i j k l m n o p q r s t u v w x y z";
+      style_is_edited = true;
+      redirect();
+    }
+    view.set_variable (note_numbering_sequence, stylesv2::get_parameter<std::string>(&marker_data, stylesv2::Property::note_numbering_sequence));
   }
-  if (webserver_request.query.count("numerical")) {
-    marker_data.properties[stylesv2::Property::note_numbering_sequence] = "1 2 3 4 5 6 7 8 9";
-    style_is_edited = true;
-    redirect();
-  }
-  if (webserver_request.query.count("alphabetical")) {
-    marker_data.properties[stylesv2::Property::note_numbering_sequence] = "a b c d e f g h i j k l m n o p q r s t u v w x y z";
-    style_is_edited = true;
-    redirect();
-  }
-  view.set_variable (note_numbering_sequence, stylesv2::get_parameter<std::string>(&marker_data, stylesv2::Property::note_numbering_sequence));
 
   
-  // Handle footnote numbering restart. Todo
-  constexpr const char* note_numbering_restart {"note_numbering_restart"};
-  if (webserver_request.post.count (note_numbering_restart)) {
-    marker_data.properties[stylesv2::Property::note_numbering_restart] = webserver_request.post[note_numbering_restart];
-    style_is_edited = true;
-  }
+  // Handle footnote numbering restart.
   {
-    const std::vector<std::string> values { "never", "book", "chapter" };
-    view.set_variable("restart_options", dialog_list2_create_options(values, values, stylesv2::get_parameter<std::string>(&marker_data, stylesv2::Property::note_numbering_restart)));
+    const std::string note_numbering_restart {stylesv2::property_enum_to_value (stylesv2::Property::note_numbering_restart)};
+    if (webserver_request.post.count (note_numbering_restart)) {
+      marker_data.properties[stylesv2::Property::note_numbering_restart] = webserver_request.post[note_numbering_restart];
+      style_is_edited = true;
+    }
+    {
+      const std::vector<std::string> values { "never", "book", "chapter" };
+      view.set_variable("restart_options", dialog_list2_create_options(values, values, stylesv2::get_parameter<std::string>(&marker_data, stylesv2::Property::note_numbering_restart)));
+    }
   }
 
+  
+  // Handle endnotes dump location.
+  {
+    const std::string notes_dump {stylesv2::property_enum_to_value (stylesv2::Property::notes_dump)};
+    if (webserver_request.post.count(notes_dump)) {
+      marker_data.properties[stylesv2::Property::notes_dump] = stylesv2::validate_notes_dump(webserver_request.post[notes_dump]);
+      style_is_edited = true;
+    }
+    if (webserver_request.query.count("afterbook")) {
+      marker_data.properties[stylesv2::Property::notes_dump] = "book";
+      style_is_edited = true;
+      redirect();
+    }
+    if (webserver_request.query.count("veryend")) {
+      marker_data.properties[stylesv2::Property::notes_dump] = "end";
+      style_is_edited = true;
+      redirect();
+    }
+    if (webserver_request.query.count("zendnotes")) {
+      marker_data.properties[stylesv2::Property::notes_dump] = R"(\zendnotes)";
+      style_is_edited = true;
+      redirect();
+    }
+    view.set_variable (notes_dump, stylesv2::get_parameter<std::string>(&marker_data, stylesv2::Property::notes_dump));
+  }
+    
   
   // Enable the section(s) in the editor for the capabilities.
   // Set the values correctly for in the html page.

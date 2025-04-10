@@ -19,6 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <stylesv2/logic.h>
 #include <filter/string.h>
+#include <filter/usfm.h>
 
 
 namespace stylesv2 {
@@ -178,6 +179,8 @@ std::string property_enum_to_value (const Property property)
       return "note_numbering_restart";
     case Property::notes_dump:
       return "notes_dump";
+    case Property::numerical_test:
+      return "numerical_test";
     case Property::stopping_boundary:
       return "stopping_boundary";
     default:
@@ -4058,6 +4061,20 @@ bool starts_new_line_in_usfm (const Style* style) // Todo add types here.
     default:
       return true;
   }
+}
+
+
+std::string validate_notes_dump (std::string input)
+{
+  // Validate the input.
+  if (input == "book")
+    return input;
+  if (input == "end")
+    return input;
+  if (filter::usfm::is_usfm_marker(input))
+    return input;
+  // On validation failure, return default notes dump location.
+  return "book";
 }
 
 

@@ -266,6 +266,20 @@
 </tr>
 <!-- #ENDZONE note_numbering_restart -->
 
+<!-- #BEGINZONE notes_dump -->
+<tr>
+  <td>translate("Notes position")</td>
+  <td>
+    <form action="" method="POST">
+      <input type="text" name="notes_dump" onchange="this.form.submit()" value="##notes_dump##" />
+      <a href="?sheet=##sheet##&style=##style##&afterbook">[translate("after each book")]</a>
+      <a href="?sheet=##sheet##&style=##style##&veryend">[translate("at very end")]</a>
+      <a href="?sheet=##sheet##&style=##style##&zendnotes">[translate("at") \zendnotes]</a>
+    </form>
+  </td>
+</tr>
+<!-- #ENDZONE notes_dump -->
+
 <!-- #BEGINZONE deprecated -->
 <tr>
   <td>translate("Notice")</td>

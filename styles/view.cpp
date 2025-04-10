@@ -721,9 +721,6 @@ std::string styles_view (Webserver_Request& webserver_request)
   }
 
   
-  // Userint3 not yet used.
-  
-
   // Userstring1.
   std::string userstring1 {marker_data.userstring1};
   std::string userstring1_question {};

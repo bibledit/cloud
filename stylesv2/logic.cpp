@@ -172,6 +172,12 @@ std::string property_enum_to_value (const Property property)
       return "at_first_verse";
     case Property::restart_paragraph:
       return "restart_paragraph";
+    case Property::note_numbering_sequence:
+      return "note_numbering_sequence";
+    case Property::note_numbering_restart:
+      return "note_numbering_restart";
+    case Property::notes_dump:
+      return "notes_dump";
     case Property::stopping_boundary:
       return "stopping_boundary";
     default:
@@ -212,6 +218,8 @@ Variant property_to_variant (const Property property)
     case Property::note_numbering_restart:
     case Property::notes_dump:
       return Variant::text;
+    case Property::numerical_test:
+      return Variant::number;
     case Property::stopping_boundary:
     default:
       return Variant::none;
@@ -2312,8 +2320,33 @@ const std::list<Style> styles {
       .doc = "https://ubsicap.github.io/usfm/master/tables/index.html#tcr",
       .category = Category::tables,
   },
+  {
+    .marker = "f",
+    .type = Type::foot_note_wrapper,
+    .name = "Footnote",
+    .info = "A footnote text item.",
+    .character = Character { },
+    .properties = {
+      {Property::note_numbering_sequence,"1 2 3 4 5 6 7 8 9"},
+      {Property::note_numbering_restart,"chapter"}
+    },
+      .doc = "https://ubsicap.github.io/usfm/notes_basic/fnotes.html#f-f",
+      .category = Category::footnotes,
+  },
+  {
+    .marker = "fe",
+    .type = Type::end_note_wrapper,
+    .name = "Endnote",
+    .info = "An endnote text item.",
+    .character = Character { },
+    .properties = {
+      {Property::note_numbering_sequence,"1 2 3 4 5 6 7 8 9"},
+      {Property::notes_dump,"book"}
+    },
+      .doc = "https://ubsicap.github.io/usfm/notes_basic/fnotes.html#fe-fe",
+      .category = Category::footnotes,
+  },
 
-  
 
   
   // Todo adding here.

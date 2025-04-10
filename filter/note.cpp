@@ -53,12 +53,12 @@ void citation::set_sequence_v1 (int numbering, const std::string& usersequence)
   // If no sequence is given, then the note gets numerical citations.
 }
 
-void citation::set_sequence_v2 (std::string sequence)
+void citation::set_sequence_v2 (std::string sequence_in)
 {
-  this->sequence = filter::strings::explode (std::move(sequence), ' ');
+  sequence = filter::strings::explode (std::move(sequence_in), ' ');
   // The note will be numbered as follows:
   // If a sequence is given, then this sequence is followed for the citations.
-  // If an empty sequence is given, then the note gets numerical citations.
+  // If an empty sequence is given, then the note gets ever increasing numerical citations.
 }
 
 void citation::set_restart (int setting)

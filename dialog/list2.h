@@ -27,3 +27,7 @@ public:
   static std::string add_selection (std::string text, std::string value, std::string html);
   static std::string mark_selected (std::string value, std::string html);
 };
+
+std::string dialog_list2_create_options(const std::vector<std::string>& values,
+                                        const std::vector<std::string>& displayed,
+                                        const std::string& selected);

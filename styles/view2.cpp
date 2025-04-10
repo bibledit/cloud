@@ -105,6 +105,15 @@ std::string styles_view2 (Webserver_Request& webserver_request)
   bool style_is_edited { false };
   
   
+  // Function to replace an empty string with two hyphens.
+  // This is needed to remain editable.
+  const auto empty_to_dashes = [] (const auto value) -> std::string {
+    if (!value.empty())
+      return value;
+    return "--";
+  };
+  
+  
   // The style's name.
   if (webserver_request.query.count ("name")) {
     Dialog_Entry dialog_entry = Dialog_Entry ("view2", translate("Please enter the name for the style"), marker_data.name, "name", std::string());
@@ -117,7 +126,7 @@ std::string styles_view2 (Webserver_Request& webserver_request)
     marker_data.name = webserver_request.post["entry"];
     style_is_edited = true;
   }
-  view.set_variable ("name", filter::strings::escape_special_xml_characters (translate (marker_data.name)));
+  view.set_variable ("name", empty_to_dashes(filter::strings::escape_special_xml_characters (translate (marker_data.name))));
 
   
   // The style's info.
@@ -132,8 +141,9 @@ std::string styles_view2 (Webserver_Request& webserver_request)
     marker_data.info = webserver_request.post["entry"];
     style_is_edited = true;
   }
-  view.set_variable ("info", filter::strings::escape_special_xml_characters (translate (marker_data.info)));
+  view.set_variable ("info", empty_to_dashes(filter::strings::escape_special_xml_characters (translate (marker_data.info))));
 
+  
   // Handle toggle of checkbox.
   const std::string checkbox = webserver_request.post ["checkbox"];
   if (!checkbox.empty()) {
@@ -267,6 +277,13 @@ std::string styles_view2 (Webserver_Request& webserver_request)
   // Enable the sections in the editor for the character style properties.
   if (marker_data.character) {
     view.enable_zone("character");
+    bool enable_color = true;
+    if (marker_data.type == stylesv2::Type::foot_note_wrapper)
+      enable_color = false;
+    if (marker_data.type == stylesv2::Type::end_note_wrapper)
+      enable_color = false;
+    if (enable_color)
+      view.enable_zone("character_color");
 
     // Handle italics.
     const std::string italic = webserver_request.post ["italic"];
@@ -336,6 +353,45 @@ std::string styles_view2 (Webserver_Request& webserver_request)
     view.set_variable ("backgroundcolor", marker_data.character.value().background_color);
   }
   
+  
+  // Redirect the browser to a clean styles editor without any previous settings made via the URL.
+  const auto redirect = [&webserver_request, &sheet, &style] () {
+    std::string query = filter_url_build_http_query (styles_view2_url (), "sheet", sheet);
+    query = filter_url_build_http_query (query, "style", style);
+    redirect_browser (webserver_request, query);
+  };
+
+  
+  // Handle note numbering sequence. Todo
+  constexpr const char* note_numbering_sequence {"note_numbering_sequence"};
+  if (webserver_request.post.count(note_numbering_sequence)) {
+    marker_data.properties[stylesv2::Property::note_numbering_sequence] = webserver_request.post[note_numbering_sequence];
+    style_is_edited = true;
+  }
+  if (webserver_request.query.count("numerical")) {
+    marker_data.properties[stylesv2::Property::note_numbering_sequence] = "1 2 3 4 5 6 7 8 9";
+    style_is_edited = true;
+    redirect();
+  }
+  if (webserver_request.query.count("alphabetical")) {
+    marker_data.properties[stylesv2::Property::note_numbering_sequence] = "a b c d e f g h i j k l m n o p q r s t u v w x y z";
+    style_is_edited = true;
+    redirect();
+  }
+  view.set_variable (note_numbering_sequence, stylesv2::get_parameter<std::string>(&marker_data, stylesv2::Property::note_numbering_sequence));
+
+  
+  // Handle footnote numbering restart. Todo
+  constexpr const char* note_numbering_restart {"note_numbering_restart"};
+  if (webserver_request.post.count (note_numbering_restart)) {
+    marker_data.properties[stylesv2::Property::note_numbering_restart] = webserver_request.post[note_numbering_restart];
+    style_is_edited = true;
+  }
+  {
+    const std::vector<std::string> values { "never", "book", "chapter" };
+    view.set_variable("restart_options", dialog_list2_create_options(values, values, stylesv2::get_parameter<std::string>(&marker_data, stylesv2::Property::note_numbering_restart)));
+  }
+
   
   // Enable the section(s) in the editor for the capabilities.
   // Set the values correctly for in the html page.

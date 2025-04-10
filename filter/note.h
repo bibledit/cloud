@@ -30,7 +30,7 @@ class citation
 public:
   citation ();
   void set_sequence_v1 (int numbering, const std::string & usersequence);
-  void set_sequence_v2 (std::string sequence);
+  void set_sequence_v2 (std::string sequence_in);
   void set_restart (int setting);
   std::string get (std::string citation_in);
   void run_restart (const std::string & moment);

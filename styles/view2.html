@@ -171,6 +171,7 @@
   </td>
 </tr>
 
+<!-- #BEGINZONE character_color -->
 <tr>
   <td>translate("Foreground color")</td>
   <td><input id="fgcolor" type="text" class="coloris" value="##foregroundcolor##"></td>
@@ -180,6 +181,7 @@
   <td>translate("Background color")</td>
   <td><input id="bgcolor" type="text" class="coloris" value="##backgroundcolor##"></td>
 </tr>
+<!-- #ENDZONE character_color -->
 
 <!-- #ENDZONE character -->
 
@@ -239,6 +241,30 @@
   </td>
 </tr>
 <!-- #ENDZONE restart_paragraph -->
+
+<!-- #BEGINZONE note_numbering_sequence -->
+<tr>
+  <td>translate("Note numbering")</td>
+  <td>
+    <form action="" method="POST">
+      <input type="text" name="note_numbering_sequence" onchange="this.form.submit()" value="##note_numbering_sequence##" />
+      <a href="?sheet=##sheet##&style=##style##&numerical">[translate("numerical")]</a>
+      <a href="?sheet=##sheet##&style=##style##&alphabetical">[translate("alphabetical")]</a>
+    </form>
+  </td>
+</tr>
+<!-- #ENDZONE note_numbering_sequence -->
+
+<!-- #BEGINZONE note_numbering_restart -->
+<tr>
+  <td>translate("Restart")</td>
+  <td>
+    <form action="" method="POST">
+      <select name="note_numbering_restart" onchange="this.form.submit()">##restart_options##</select>
+    </form>
+  </td>
+</tr>
+<!-- #ENDZONE note_numbering_restart -->
 
 <!-- #BEGINZONE deprecated -->
 <tr>

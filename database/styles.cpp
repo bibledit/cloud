@@ -1234,6 +1234,8 @@ std::optional<stylesv2::Style> load_style(const std::string& sheet, const std::s
           style.properties[property] = line;
           break;
         case stylesv2::Variant::none:
+          style.properties[property] = std::monostate();
+          break;
         default:
           break;
       }

@@ -18,6 +18,17 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 #include <dialog/list2.h>
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Weffc++"
+#pragma GCC diagnostic ignored "-Wsuggest-override"
+#pragma GCC diagnostic ignored "-Wzero-as-null-pointer-constant"
+#ifndef HAVE_PUGIXML
+#include <pugixml/pugixml.hpp>
+#endif
+#ifdef HAVE_PUGIXML
+#include <pugixml.hpp>
+#endif
+#pragma GCC diagnostic pop
 
 
 // Generate the option tags based on the inserted key and its value.
@@ -47,4 +58,23 @@ std::string Options_To_Select::mark_selected (std::string value, std::string htm
     html.insert (new_pos, mark);
 
     return html;
+}
+
+
+std::string dialog_list2_create_options(const std::vector<std::string>& values,
+                                        const std::vector<std::string>& displayed,
+                                        const std::string& selected) // Todo
+{
+  pugi::xml_document document {};
+  for (size_t i {0}; i < values.size(); i++) {
+    pugi::xml_node option_node = document.append_child("option");
+    option_node.append_attribute("value") = values[i].c_str();
+    if (selected == values[i])
+      option_node.append_attribute("selected");
+    const std::string display = (i >= displayed.size()) ? values[i] : displayed[i];
+    option_node.text().set(display.c_str());
+  }
+  std::stringstream html_ss {};
+  document.print (html_ss, "", pugi::format_raw);
+  return html_ss.str();
 }

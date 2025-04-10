@@ -100,6 +100,9 @@ enum class Property : int {
   // The place where to dump the notes.
   notes_dump,
   
+  // Todo testing value, can go out once a numerical property is
+  numerical_test,
+  
   // Should be the last always.
   stopping_boundary
 };
@@ -220,8 +223,6 @@ const T get_parameter(const Style* style, const Property property)
   T not_found {};
   return not_found;
 }
-
-
 
 
 extern const std::list<Style> styles;

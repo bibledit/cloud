@@ -1907,34 +1907,9 @@ TEST (notes, citations) // Todo
   
   std::vector<std::string> numbers1to9 {"1", "2", "3", "4", "5", "6", "7", "8", "9"};
   std::vector<std::string> alphanumeric {"1", "a", "x", "7"};
-  
-  const Style style_f {
-    .marker = "f",
-    .type = Type::foot_note_wrapper,
-    .name = "Footnote",
-    .info = "A footnote text item.",
-    .character = Character { },
-    .properties = {
-      {Property::note_numbering_sequence,"1 2 3 4 5 6 7 8 9"},
-      {Property::note_numbering_restart,"chapter"}
-    },
-      .doc = "https://ubsicap.github.io/usfm/notes_basic/fnotes.html#f-f",
-      .category = Category::footnotes,
-  };
 
-  const Style style_fe {
-    .marker = "fe",
-    .type = Type::end_note_wrapper,
-    .name = "Endnote",
-    .info = "An endnote text item.",
-    .character = Character { },
-    .properties = {
-      {Property::note_numbering_sequence,"1 2 3 4 5 6 7 8 9"},
-      {Property::notes_dump,"book"}
-    },
-      .doc = "https://ubsicap.github.io/usfm/notes_basic/fnotes.html#fe-fe",
-      .category = Category::footnotes,
-  };
+  const Style style_f = *std::find(styles.cbegin(), styles.cend(), "f");
+  const Style style_fe = *std::find(styles.cbegin(), styles.cend(), "fe");
 
   // Test that an empty note citation sequence leads to a continually inceasing note citation.
   {
@@ -1944,6 +1919,8 @@ TEST (notes, citations) // Todo
     citations.evaluate_style_v2(style);
     for (int i {1}; i <= 100; i++) {
       EXPECT_EQ(std::to_string(i), citations.get(style_f.marker, "+"));
+      EXPECT_EQ("a", citations.get(style_f.marker, "a"));
+      EXPECT_EQ("", citations.get(style_f.marker, "-"));
     }
   }
 

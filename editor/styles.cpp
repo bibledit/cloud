@@ -170,6 +170,11 @@ std::string Editor_Styles::getAction (Webserver_Request& webserver_request, cons
       case stylesv2::Type::foot_note_wrapper:
       case stylesv2::Type::end_note_wrapper:
         return note ();
+      case stylesv2::Type::note_standard_content:
+      case stylesv2::Type::note_content:
+      case stylesv2::Type::note_content_with_endmarker:
+      case stylesv2::Type::note_paragraph:
+        return character ();
       case stylesv2::Type::character_style:
         return character ();
       case stylesv2::Type::starting_boundary:

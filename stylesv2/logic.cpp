@@ -278,6 +278,9 @@ std::ostream& operator<<(std::ostream& os, const Category category)
     case Category::words_characters:
       os << "Words, Characters";
       break;
+    case Category::extended_study_content:
+      os << "Extended Study Content";
+      break;
     case Category::peripherals:
       os << "Peripherals";
       break;
@@ -2600,6 +2603,19 @@ const std::list<Style> styles {
       .doc = "https://ubsicap.github.io/usfm/characters/index.html#sup-sup",
       .category = Category::words_characters,
   },
+  {
+    .marker = "ef",
+    .type = Type::foot_note_wrapper,
+    .name = "Extended footnote",
+    .info = "Extended footnote element.",
+    .character = Character { },
+    .properties = {
+      {Property::note_numbering_sequence,"1 2 3 4 5 6 7 8 9"},
+      {Property::note_numbering_restart,"chapter"}
+    },
+      .doc = "https://ubsicap.github.io/usfm/notes_study/efnotes.html#ef-ef",
+      .category = Category::extended_study_content,
+  },
 };
 
 
@@ -2636,39 +2652,6 @@ const std::list<Style> styles {
 //    /* userbool3 */ 0,
 //    /* userint1 */ 0,
 //    /* userint2 */ 0,
-//    /* userint3 */ 0,
-//    /* userstring1 */ "",
-//    /* userstring2 */ "",
-//    /* userstring3 */ "",
-//    /* backgroundcolor */ "#FFFFFF",
-//  },
-//  {
-//    /* marker */ "ef",
-//    /* name */ "Extended footnote",
-//    /* info */ "Extended footnote element.",
-//    /* category */ "f",
-//    /* type */ 7,
-//    /* subtype */ 0,
-//    /* fontsize */ 12,
-//    /* italic */ 0,
-//    /* bold */ 0,
-//    /* underline */ 0,
-//    /* smallcaps */ 0,
-//    /* superscript */ 0,
-//    /* justification */ 0,
-//    /* spacebefore */ 0,
-//    /* spaceafter */ 0,
-//    /* leftmargin */ 0,
-//    /* rightmargin */ 0,
-//    /* firstlineindent */ 0,
-//    /* spancolumns */ 0,
-//    /* color */ "#000000",
-//    /* print */ 1,
-//    /* userbool1 */ 0,
-//    /* userbool2 */ 0,
-//    /* userbool3 */ 0,
-//    /* userint1 */ 0,
-//    /* userint2 */ 2,
 //    /* userint3 */ 0,
 //    /* userstring1 */ "",
 //    /* userstring2 */ "",

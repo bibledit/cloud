@@ -91,10 +91,10 @@ enum class Property : int {
   // Whether to restart a paragraph.
   restart_paragraph,
   
-  // The note numbering sequence. Todo use this.
+  // The note numbering sequence.
   note_numbering_sequence,
   
-  // The note numbering restart trigger. Todo use this.
+  // The note numbering restart trigger.
   note_numbering_restart,
   
   // The place where to dump the notes.
@@ -134,6 +134,7 @@ enum class Category {
   footnotes,
   cross_references,
   words_characters,
+  extended_study_content,
   peripherals,
 };
 

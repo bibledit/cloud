@@ -424,6 +424,13 @@ void Editor_Usfm2Html::process ()
             }
             break;
           }
+          case stylesv2::Type::note_standard_content:
+          case stylesv2::Type::note_content:
+          case stylesv2::Type::note_content_with_endmarker:
+          case stylesv2::Type::note_paragraph:
+          {
+            break;
+          }
           case stylesv2::Type::character_style:
           {
             if (is_opening_marker) {

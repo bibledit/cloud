@@ -63,7 +63,7 @@ void citation::set_sequence_v2 (std::string sequence_in)
 
 void citation::set_restart_v1 (int setting)
 {
-  if (setting == NoteRestartNumberingNever) // Moved to v2. Todo remove this, test restarting again.
+  if (setting == NoteRestartNumberingNever)
     this->restart = "never";
   else if (setting == NoteRestartNumberingEveryBook)
     this->restart = "book";
@@ -71,7 +71,7 @@ void citation::set_restart_v1 (int setting)
     this->restart = "chapter";
 }
 
-void citation::set_restart_v2 (const std::string& setting) // Todo test this again.
+void citation::set_restart_v2 (const std::string& setting)
 {
   // Check if the input is valid, if so, store it, else store default restart moment.
   using namespace stylesv2;
@@ -174,7 +174,7 @@ std::string citations::get (const std::string& marker, const std::string& citati
 // This resets the note citations data.
 // Resetting means that the note citations start to count afresh.
 // $moment: what type of reset to apply, e.g. 'chapter' or 'book'.
-void citations::restart (const std::string& moment) // Todo test or write unit test for this.
+void citations::restart (const std::string& moment)
 {
   for (auto & notecitation : cache) {
     notecitation.second.run_restart (moment);

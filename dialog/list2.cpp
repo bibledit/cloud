@@ -63,7 +63,7 @@ std::string Options_To_Select::mark_selected (std::string value, std::string htm
 
 std::string dialog_list2_create_options(const std::vector<std::string>& values,
                                         const std::vector<std::string>& displayed,
-                                        const std::string& selected) // Todo
+                                        const std::string& selected)
 {
   pugi::xml_document document {};
   for (size_t i {0}; i < values.size(); i++) {

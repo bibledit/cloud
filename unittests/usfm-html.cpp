@@ -2155,9 +2155,7 @@ TEST_F (usfm_html, usfm_with_all_markers)
   R"(<p class="b-c"><span>6</span></p>)"
   R"(<p class="b-p"><span>text</span><span class="i-notecall1">1</span></p>)"
   R"(<p class="b-p"><span>text</span><span class="i-notecall2">1</span></p>)"
-  
-  
-  
+  R"(<p class="b-p"><span>text</span><span class="i-notecall3">1</span></p>)"
 
   
   R"(<p class="b-p"><span>The </span><span class="i-bk">Book</span><span> name</span></p>)"
@@ -2182,6 +2180,7 @@ TEST_F (usfm_html, usfm_with_all_markers)
   R"(<p class="b-notes"> </p>)"
   R"(<p class="b-f"><span class="i-notebody1">1</span><span> </span><span>+ </span><span class="i-fr">ref</span><span class="i-ft">note</span></p>)"
   R"(<p class="b-fe"><span class="i-notebody2">1</span><span> </span><span>+ </span><span class="i-fr">ref</span><span class="i-ft">note</span></p>)"
+  R"(<p class="b-ef"><span class="i-notebody3">1</span><span> </span><span>+ </span><span class="i-fr">ref</span><span class="i-ft">note</span></p>)"
   R"()"
   ;
 

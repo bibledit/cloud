@@ -1532,11 +1532,7 @@ TEST_F (filter_text, usfm_with_all_markers)
   R"(<p class="c"><span>6</span></p>)"
   R"(<p class="p"><span>text</span><a href="#note1" id="citation1" class="superscript">1</a></p>)"
   R"(<p class="p"><span>text</span><a href="#note2" id="citation2" class="superscript">1</a></p>)"
-
-  
-  
-  
-  
+  R"(<p class="p"><span>text</span><a href="#note3" id="citation3" class="superscript">1</a></p>)"
   
   R"(<p class="p"><span>The </span><span class="bk">Book</span><span> name</span></p>)"
   R"(<p class="p"><span>Proto </span><span class="dc">Deutero</span><span> text.</span></p>)"
@@ -1560,11 +1556,8 @@ TEST_F (filter_text, usfm_with_all_markers)
   R"(<div>)"
   R"(<p class="ft"><a href="#citation1" id="note1">1</a><span> </span><span class="fr">ref</span><span>note</span></p>)"
   R"(<p class="ft"><a href="#citation2" id="note2">1</a><span> </span><span class="fr">ref</span><span>note</span></p>)"
+  R"(<p class="ft"><a href="#citation3" id="note3">1</a><span> </span><span class="fr">ref</span><span>note</span></p>)"
   R"(</div>)"
-  
-  
-  
-  
   ;
 
   const auto make_readable = [] (const auto& html) {

@@ -165,6 +165,7 @@ R"(\tr \tcr1 R-Cell1\tcr2 R-Cell2\tcr3 R-Cell3\tcr4 R-Cell4)" "\n"
 R"(\c 6)" "\n"
 R"(\p text\f + \fr ref\ft note\f*)" "\n"
 R"(\p text\fe + \fr ref\ft note\fe*)" "\n"
+R"(\p text\ef + \fr ref\ft note\ef*)" "\n"
 
 
 

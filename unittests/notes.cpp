@@ -33,6 +33,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/url.h>
 #include <filter/string.h>
 #include <filter/note.h>
+#include <filter/text.h>
 #include <webserver/request.h>
 #include <database/login.h>
 #include <notes/logic.h>
@@ -1956,6 +1957,39 @@ TEST (notes, citations)
       EXPECT_EQ("a", citations.get(style.marker, "a"));
       EXPECT_EQ("", citations.get(style.marker, "-"));
     }
+  }
+}
+
+
+TEST (notes, restart_numbering_at_chapter)
+{
+  const std::string usfm =
+  R"(\id GEN)" "\n"
+  R"(\c 1)" "\n"
+  R"(\p text\f + \fr ref\ft note\f*)" "\n"
+  R"(\c 2)" "\n"
+  R"(\p text\f + \fr ref\ft note\f*)" "\n"
+  ;
+  Filter_Text filter_text = Filter_Text (std::string());
+  filter_text.html_text_standard = new HtmlText (std::string());
+  filter_text.add_usfm_code (usfm);
+  filter_text.run (styles_logic_standard_sheet());
+  const std::string html = filter_text.html_text_standard->get_inner_html();
+  const std::string standard_html =
+  R"(<p class="p"><span>text</span><a href="#note1" id="citation1" class="superscript">1</a></p>)"
+  R"(<p class="p"><span>text</span><a href="#note2" id="citation2" class="superscript">1</a></p>)"
+  R"(<div>)"
+  R"(<p class="ft"><a href="#citation1" id="note1">1</a><span> </span><span class="fr">ref</span><span>note</span></p>)"
+  R"(<p class="ft"><a href="#citation2" id="note2">1</a><span> </span><span class="fr">ref</span><span>note</span></p>)"
+  R"(</div>)"
+  ;
+  const auto make_readable = [] (const auto& html) {
+    return filter::strings::replace ("</p>", "</p>\n", html);
+  };
+  if (html != standard_html) {
+    ADD_FAILURE() << "The produced html differs from the reference html";
+    std::cout << "Generated html:" << std::endl;
+    std::cout << make_readable(html) << std::endl;
   }
 }
 

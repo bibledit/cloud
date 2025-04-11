@@ -49,7 +49,6 @@ void Editor_Usfm2Html::stylesheet (const std::string& stylesheet)
     for (const auto& marker : markers) {
       database::styles1::Item style = database::styles1::get_marker_data (stylesheet, marker);
       m_styles [marker] = style;
-      m_note_citations.evaluate_style_v1(style); // Already moved to v2
     }
   }
   // Load style version 2 information into the object.
@@ -205,9 +204,9 @@ void Editor_Usfm2Html::process ()
           {
             switch (style.subtype)
             {
-              case FootEndNoteSubtypeStandardContent:
-              case FootEndNoteSubtypeContent:
-              case FootEndNoteSubtypeContentWithEndmarker:
+              case FootEndNoteSubtypeStandardContent:// Moved to v2
+              case FootEndNoteSubtypeContent: // Moved to v2
+              case FootEndNoteSubtypeContentWithEndmarker:// Moved to v2
               {
                 if (is_opening_marker) {
                   open_text_style (style.marker, is_embedded_marker);
@@ -427,6 +426,14 @@ void Editor_Usfm2Html::process ()
           case stylesv2::Type::note_standard_content:
           case stylesv2::Type::note_content:
           case stylesv2::Type::note_content_with_endmarker:
+          {
+            if (is_opening_marker) {
+              open_text_style (style->marker, is_embedded_marker);
+            } else {
+              close_text_style (is_embedded_marker);
+            }
+            break;
+          }
           case stylesv2::Type::note_paragraph:
           {
             break;

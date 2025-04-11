@@ -115,10 +115,10 @@ void Styles_Css::evaluate_v1 (void * database_styles_item)
     {
       switch (style->subtype)
       {
-        case FootEndNoteSubtypeStandardContent:
-        case FootEndNoteSubtypeContent:
-        case FootEndNoteSubtypeContentWithEndmarker:
-        case FootEndNoteSubtypeParagraph:
+        case FootEndNoteSubtypeStandardContent: // Movee to v2.
+        case FootEndNoteSubtypeContent: // Movee to v2.
+        case FootEndNoteSubtypeContentWithEndmarker: // Movee to v2.
+        case FootEndNoteSubtypeParagraph: // Movee to v2.
         {
           add_v1 (style, false, false);
           break;

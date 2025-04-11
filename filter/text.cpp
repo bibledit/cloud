@@ -202,11 +202,7 @@ void Filter_Text::pre_process_usfm ()
         std::string marker = filter::strings::trim (currentItem); // Change, e.g. '\id ' to '\id'.
         marker = marker.substr (1); // Remove the initial backslash, e.g. '\id' becomes 'id'.
         if (filter::usfm::is_opening_marker (marker)) {
-          if ((styles.find (marker) != styles.end()) && (!stylesv2::marker_moved_to_v2(marker))) // Todo
-          {
-            note_citations.evaluate_style_v1(styles.at(marker)); // Already moved to v2 at the end.
-          }
-          else if (const stylesv2::Style* style {database::styles2::get_marker_data (m_stylesheet, marker)}; style) {
+          if (const stylesv2::Style* style {database::styles2::get_marker_data (m_stylesheet, marker)}; style) {
             switch (style->type) {
               case stylesv2::Type::starting_boundary:
               case stylesv2::Type::none:
@@ -1372,9 +1368,35 @@ void Filter_Text::processNote ()
             break;
           }
           case stylesv2::Type::note_standard_content:
+            break;
           case stylesv2::Type::note_content:
           case stylesv2::Type::note_content_with_endmarker:
+          {
+            if (is_opening_marker) {
+              if (odf_text_standard)
+                odf_text_standard->open_text_style (nullptr, stylev2, true, isEmbeddedMarker);
+              if (odf_text_notes)
+                odf_text_notes->open_text_style (nullptr, stylev2, false, isEmbeddedMarker);
+              if (html_text_standard)
+                html_text_standard->open_text_style (nullptr, stylev2, true, isEmbeddedMarker);
+              if (html_text_linked)
+                html_text_linked->open_text_style (nullptr, stylev2, true, isEmbeddedMarker);
+            } else {
+              if (odf_text_standard)
+                odf_text_standard->close_text_style (true, isEmbeddedMarker);
+              if (odf_text_notes)
+                odf_text_notes->close_text_style (false, isEmbeddedMarker);
+              if (html_text_standard)
+                html_text_standard->close_text_style (true, isEmbeddedMarker);
+              if (html_text_linked)
+                html_text_linked->close_text_style (true, isEmbeddedMarker);
+            }
+            break;
+          }
           case stylesv2::Type::note_paragraph:
+          {
+            break;
+          }
           case stylesv2::Type::character_style:
           case stylesv2::Type::stopping_boundary:
           default:
@@ -1402,8 +1424,8 @@ void Filter_Text::processNote ()
                 if (html_text_linked) html_text_linked->close_text_style (true, false);
                 break;
               }
-              case FootEndNoteSubtypeContent:
-              case FootEndNoteSubtypeContentWithEndmarker:
+              case FootEndNoteSubtypeContent: // Moved to v2.
+              case FootEndNoteSubtypeContentWithEndmarker: // Moved to v2.
               {
                 if (is_opening_marker) {
                   if (odf_text_standard) odf_text_standard->open_text_style (&stylev1, nullptr, true, isEmbeddedMarker);

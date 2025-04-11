@@ -119,26 +119,6 @@ void citation::run_restart (const std::string& moment)
   }
 }
 
-void citations::evaluate_style_v1 (const database::styles1::Item & style)
-{
-  // Evaluate the style to find out whether to create a note citation for it.
-  bool create = false;
-  if (style.type == StyleTypeCrossreference) {
-    if (style.subtype == CrossreferenceSubtypeCrossreference) create = true;
-  }
-  if (!create)
-    return;
-
-  // Create a new note citation at this point.
-  citation citation;
-  // Handle caller sequence.
-  citation.set_sequence_v1(style.userint1, style.userstring1);
-  // Handle note caller restart moment.
-  citation.set_restart_v1(style.userint2);
-  // Store the citation for later use.
-  cache [style.marker] = citation;
-}
-
 
 void citations::evaluate_style_v2 (const stylesv2::Style& style)
 {

@@ -82,8 +82,6 @@ std::string styles_logic_subtype_text (int type, int subtype)
   if (type == StyleTypeInlineText) {
   }
   if (type == StyleTypeFootEndNote) {
-    if (subtype == FootEndNoteSubtypeFootnote            ) return translate ("starts a footnote");
-    if (subtype == FootEndNoteSubtypeEndnote             ) return translate ("starts an endnote");
     if (subtype == FootEndNoteSubtypeStandardContent     ) return translate ("is standard content");
     if (subtype == FootEndNoteSubtypeContent             ) return translate ("is content");
     if (subtype == FootEndNoteSubtypeContentWithEndmarker) return translate ("is content with endmarker");
@@ -177,8 +175,6 @@ bool styles_logic_italic_bold_underline_smallcaps_are_full (int type, int subtyp
     case StyleTypeFootEndNote:
     {
       switch (subtype) {
-        case FootEndNoteSubtypeFootnote: return true;
-        case FootEndNoteSubtypeEndnote: return true;
         case FootEndNoteSubtypeContent: return true;
         case FootEndNoteSubtypeContentWithEndmarker: return true;
         default: return false;
@@ -220,8 +216,6 @@ bool styles_logic_superscript_is_relevant (int type, int subtype)
     case StyleTypeFootEndNote :
     {
       switch (subtype) {
-        case FootEndNoteSubtypeFootnote        : return true;
-        case FootEndNoteSubtypeEndnote         : return true;
         case FootEndNoteSubtypeStandardContent : return true;
         case FootEndNoteSubtypeParagraph       : return true;
         default: return false;
@@ -331,8 +325,6 @@ bool styles_logic_print_is_relevant (int type, int subtype)
     case StyleTypeFootEndNote :
     {
       switch (subtype) {
-        case FootEndNoteSubtypeFootnote : return true;
-        case FootEndNoteSubtypeEndnote  : return true;
         default: return false;
       }
       break;
@@ -354,10 +346,6 @@ bool styles_logic_print_is_relevant (int type, int subtype)
 // Returns the function of userbool1 for type and subtype
 int styles_logic_get_userbool1_function (int type, int subtype)
 {
-  if (type == StyleTypeFootEndNote) {
-    if ((subtype != FootEndNoteSubtypeFootnote) && (subtype == FootEndNoteSubtypeEndnote))
-      return UserBool1NoteAppliesToApocrypha;
-  }
   if (type == StyleTypeCrossreference) {
     if (subtype != CrossreferenceSubtypeCrossreference)
       return UserBool1NoteAppliesToApocrypha;
@@ -423,12 +411,6 @@ std::string styles_logic_get_userbool3_text (int function)
 // Returns the function of userint1 for type and subtype
 int styles_logic_get_userint1_function (int type, int subtype)
 {
-  if (type == StyleTypeFootEndNote) {
-    if (subtype == FootEndNoteSubtypeFootnote)
-      return UserInt1NoteNumbering;
-    if (subtype == FootEndNoteSubtypeEndnote)
-      return UserInt1NoteNumbering;
-  }
   if (type == StyleTypeCrossreference) {
     if (subtype == CrossreferenceSubtypeCrossreference)
       return UserInt1NoteNumbering;
@@ -450,12 +432,6 @@ std::string styles_logic_note_numbering_text (int value)
 // Returns the function of userint2 for type and subtype
 int styles_logic_get_userint2_function (int type, int subtype)
 {
-  if (type == StyleTypeFootEndNote) {
-    if (subtype == FootEndNoteSubtypeFootnote)
-      return UserInt2NoteNumberingRestart;
-    if (subtype == FootEndNoteSubtypeEndnote)
-      return UserInt2EndnotePosition;
-  }
   if (type == StyleTypeCrossreference) {
     if (subtype == CrossreferenceSubtypeCrossreference)
       return UserInt2NoteNumberingRestart;
@@ -496,12 +472,6 @@ int styles_logic_get_userint3_function (int type, int subtype)
 // Returns the function of userstring1 for type and subtype
 int styles_logic_get_userstring1_function (int type, int subtype)
 {
-  if (type == StyleTypeFootEndNote) {
-    if (subtype == FootEndNoteSubtypeFootnote)
-      return UserString1NoteNumberingSequence;
-    if (subtype == FootEndNoteSubtypeEndnote)
-      return UserString1NoteNumberingSequence;
-  }
   if (type == StyleTypeCrossreference) {
     if (subtype == CrossreferenceSubtypeCrossreference)
       return UserString1NoteNumberingSequence;
@@ -514,12 +484,8 @@ int styles_logic_get_userstring1_function (int type, int subtype)
 
 
 // Returns the function of userstring2 for type and subtype
-int styles_logic_get_userstring2_function (int type, int subtype)
+int styles_logic_get_userstring2_function ([[maybe_unused]]int type, [[maybe_unused]]int subtype)
 {
-  if (type == StyleTypeFootEndNote) {
-    if (subtype == FootEndNoteSubtypeEndnote)
-      return UserString2DumpEndnotesHere;
-  }
   return UserString2None;
 }
 

@@ -43,11 +43,6 @@ Checks_Usfm::Checks_Usfm (const std::string& bible)
     // And which markers are embeddable.
     bool required_endmarker {false};
     bool embeddable_marker {false};
-    if (styleType == StyleTypeFootEndNote) { // Has already been moved to v2
-      if ((styleSubtype == FootEndNoteSubtypeFootnote) || (styleSubtype == FootEndNoteSubtypeEndnote)) {
-        required_endmarker = true;
-      }
-    }
     if (styleType == StyleTypeCrossreference) {
       if (styleSubtype == CrossreferenceSubtypeCrossreference) {
         required_endmarker = true;
@@ -530,10 +525,6 @@ void Checks_Usfm::note ()
   // Set a flag if this USFM starts a footnote or an endnote or a crossreference.
   // Clear this flag if it ends the note or xref.
   bool note_border_marker {false};
-  if (stylev1.type == StyleTypeFootEndNote) { // Already moved to v2
-    if (stylev1.subtype == FootEndNoteSubtypeFootnote) note_border_marker = true;
-    if (stylev1.subtype == FootEndNoteSubtypeEndnote) note_border_marker = true;
-  }
   if (stylev2) {
     if (stylev2->type == stylesv2::Type::foot_note_wrapper)
       note_border_marker = true;

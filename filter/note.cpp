@@ -61,14 +61,26 @@ void citation::set_sequence_v2 (std::string sequence_in)
   // If an empty sequence is given, then the note gets ever increasing numerical citations.
 }
 
-void citation::set_restart (int setting)
+void citation::set_restart_v1 (int setting)
 {
-  if (setting == NoteRestartNumberingNever) // Todo move to v2.
+  if (setting == NoteRestartNumberingNever) // Moved to v2. Todo remove this, test restarting again.
     this->restart = "never";
   else if (setting == NoteRestartNumberingEveryBook)
     this->restart = "book";
   else
     this->restart = "chapter";
+}
+
+void citation::set_restart_v2 (const std::string& setting) // Todo test this again.
+{
+  // Check if the input is valid, if so, store it, else store default restart moment.
+  using namespace stylesv2;
+  if (setting == notes_numbering_restart_never)
+    restart = notes_numbering_restart_never;
+  else if (setting == notes_numbering_restart_book)
+    restart = notes_numbering_restart_book;
+  else
+    restart = notes_numbering_restart_chapter;
 }
 
 std::string citation::get (std::string citation_in)
@@ -111,10 +123,6 @@ void citations::evaluate_style_v1 (const database::styles1::Item & style)
 {
   // Evaluate the style to find out whether to create a note citation for it.
   bool create = false;
-  if (style.type == StyleTypeFootEndNote) { // Already moved to v2.
-    if (style.subtype == FootEndNoteSubtypeFootnote) create = true;
-    if (style.subtype == FootEndNoteSubtypeEndnote) create = true;
-  }
   if (style.type == StyleTypeCrossreference) {
     if (style.subtype == CrossreferenceSubtypeCrossreference) create = true;
   }
@@ -126,7 +134,7 @@ void citations::evaluate_style_v1 (const database::styles1::Item & style)
   // Handle caller sequence.
   citation.set_sequence_v1(style.userint1, style.userstring1);
   // Handle note caller restart moment.
-  citation.set_restart(style.userint2);
+  citation.set_restart_v1(style.userint2);
   // Store the citation for later use.
   cache [style.marker] = citation;
 }
@@ -135,15 +143,14 @@ void citations::evaluate_style_v1 (const database::styles1::Item & style)
 void citations::evaluate_style_v2 (const stylesv2::Style& style)
 {
   // Evaluate the style to find out whether to create a note citation for it.
-  bool create = false;
-  if (style.type == stylesv2::Type::foot_note_wrapper)
-    create = true;
-  if (style.type == stylesv2::Type::end_note_wrapper)
-    create = true;
-//  if (style.type == StyleTypeCrossreference) { // Todo
-//    if (style.subtype == CrossreferenceSubtypeCrossreference) create = true;
-//  }
-  if (!create)
+  const auto create = [&style] () {
+    if (style.type == stylesv2::Type::foot_note_wrapper)
+      return true;
+    if (style.type == stylesv2::Type::end_note_wrapper)
+      return true;
+    return false;
+  };
+  if (!create())
     return;
   
   // Create a new note citation at this point.
@@ -152,7 +159,7 @@ void citations::evaluate_style_v2 (const stylesv2::Style& style)
   std::string sequence = stylesv2::get_parameter<std::string>(&style, stylesv2::Property::note_numbering_sequence);
   citation.set_sequence_v2(std::move(sequence));
   // Handle note caller restart moment.
-//  citation.set_restart(style.userint2); // Todo
+  citation.set_restart_v2(stylesv2::get_parameter<std::string>(&style, stylesv2::Property::note_numbering_restart));
   // Store the citation for later use.
   cache [style.marker] = citation;
 }

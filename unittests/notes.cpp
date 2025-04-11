@@ -1901,7 +1901,7 @@ TEST (notes, indexing_fixes_damaged_note)
 }
 
 
-TEST (notes, citations) // Todo
+TEST (notes, citations)
 {
   using namespace stylesv2;
   

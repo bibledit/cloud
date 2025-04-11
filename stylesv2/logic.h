@@ -228,9 +228,15 @@ const T get_parameter(const Style* style, const Property property)
 extern const std::list<Style> styles;
 
 
+constexpr const char* notes_numbering_restart_never {"never"}; // Never restart the notes numbering.
+constexpr const char* notes_numbering_restart_book {"book"}; // Restart notes numbering every book.
+constexpr const char* notes_numbering_restart_chapter {"chapter"}; // Restart notes numbering every chapter.
+constexpr const char* notes_dump_book {"book"}; // Dump the endnotes at the end of each book.
+constexpr const char* notes_dump_end {"end"}; // Dump the endnotes at the very end of everything.
+
 bool marker_moved_to_v2 (const std::string& marker);
 bool starts_new_line_in_usfm (const Style* style);
-std::string validate_notes_dump (std::string input);
+std::string validate_notes_dump (const std::string& input);
 
 
 } // Namespace.

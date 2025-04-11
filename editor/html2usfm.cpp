@@ -84,10 +84,6 @@ void Editor_Html2Usfm::stylesheet (const std::string& stylesheet)
       const int subtype = style.subtype;
       if (type == StyleTypeFootEndNote) {
         suppress = true;
-        if (subtype == FootEndNoteSubtypeFootnote) // Moved to v2.
-          m_note_openers.insert (marker);
-        if (subtype == FootEndNoteSubtypeEndnote) // Moved to v2.
-          m_note_openers.insert (marker);
         if (subtype == FootEndNoteSubtypeContentWithEndmarker)
           suppress = false;
         if (subtype == FootEndNoteSubtypeParagraph)

@@ -4064,7 +4064,7 @@ bool starts_new_line_in_usfm (const Style* style) // Todo add types here.
 }
 
 
-std::string validate_notes_dump (std::string input)
+std::string validate_notes_dump (const std::string& input)
 {
   // Validate the input.
   if (input == "book")

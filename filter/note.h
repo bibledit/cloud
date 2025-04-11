@@ -31,7 +31,8 @@ public:
   citation ();
   void set_sequence_v1 (int numbering, const std::string & usersequence);
   void set_sequence_v2 (std::string sequence_in);
-  void set_restart (int setting);
+  void set_restart_v1 (int setting);
+  void set_restart_v2 (const std::string& setting);
   std::string get (std::string citation_in);
   void run_restart (const std::string & moment);
 private:

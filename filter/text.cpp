@@ -590,7 +590,7 @@ void Filter_Text::process_usfm ()
               }
               processed_books_count++;
               // Reset notes.
-              note_citations.restart("book");
+              note_citations.restart(stylesv2::notes_numbering_restart_book);
               // Online Bible.
               if (onlinebible_text) onlinebible_text->storeData ();
               // eSword.
@@ -839,7 +839,7 @@ void Filter_Text::process_usfm ()
               // Property::on_right_page -> no headings implemented yet.
               
               // Reset.
-              note_citations.restart("chapter");
+              note_citations.restart(stylesv2::notes_numbering_restart_chapter);
               
               // Done.
               break;

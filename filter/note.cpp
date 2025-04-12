@@ -61,16 +61,6 @@ void citation::set_sequence_v2 (std::string sequence_in)
   // If an empty sequence is given, then the note gets ever increasing numerical citations.
 }
 
-void citation::set_restart_v1 (int setting)
-{
-  if (setting == NoteRestartNumberingNever)
-    this->restart = "never";
-  else if (setting == NoteRestartNumberingEveryBook)
-    this->restart = "book";
-  else
-    this->restart = "chapter";
-}
-
 void citation::set_restart_v2 (const std::string& setting)
 {
   // Check if the input is valid, if so, store it, else store default restart moment.
@@ -112,7 +102,7 @@ std::string citation::get (std::string citation_in)
   return citation_in;
 }
 
-void citation::run_restart (const std::string& moment)
+void citation::run_restart(const std::string& moment)
 {
   if (restart == moment) {
     pointer = 0;
@@ -154,10 +144,10 @@ std::string citations::get (const std::string& marker, const std::string& citati
 // This resets the note citations data.
 // Resetting means that the note citations start to count afresh.
 // $moment: what type of reset to apply, e.g. 'chapter' or 'book'.
-void citations::restart (const std::string& moment)
+void citations::restart(const std::string& moment)
 {
   for (auto & notecitation : cache) {
-    notecitation.second.run_restart (moment);
+    notecitation.second.run_restart(moment);
   }
 }
 

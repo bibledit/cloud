@@ -391,7 +391,11 @@ std::string styles_view2 (Webserver_Request& webserver_request)
       style_is_edited = true;
     }
     {
-      const std::vector<std::string> values { "never", "book", "chapter" };
+      const std::vector<std::string> values {
+        stylesv2::notes_numbering_restart_never,
+        stylesv2::notes_numbering_restart_book,
+        stylesv2::notes_numbering_restart_chapter
+      };
       view.set_variable("restart_options", dialog_list2_create_options(values, values, stylesv2::get_parameter<std::string>(&marker_data, stylesv2::Property::note_numbering_restart)));
     }
   }

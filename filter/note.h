@@ -31,10 +31,9 @@ public:
   citation ();
   void set_sequence_v1 (int numbering, const std::string & usersequence);
   void set_sequence_v2 (std::string sequence_in);
-  void set_restart_v1 (int setting);
   void set_restart_v2 (const std::string& setting);
   std::string get (std::string citation_in);
-  void run_restart (const std::string & moment);
+  void run_restart(const std::string & moment);
 private:
   std::string restart {};
   unsigned int pointer {0};
@@ -46,7 +45,7 @@ class citations
 public:
   void evaluate_style_v2 (const stylesv2::Style& style);
   std::string get (const std::string& marker, const std::string& citation);
-  void restart (const std::string& moment);
+  void restart(const std::string& moment);
 private:
   // Container [marker] = citation.
   std::map <std::string, citation> cache {};

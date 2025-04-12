@@ -1260,7 +1260,7 @@ void Filter_Text::processNote ()
       bool isEmbeddedMarker = filter::usfm::is_embedded_marker (currentItem);
       // Clean up the marker, so we remain with the basic version, e.g. 'f'.
       const std::string marker = filter::usfm::get_marker (currentItem);
-      if (const stylesv2::Style* stylev2 {database::styles2::get_marker_data (m_stylesheet, marker)}; stylev2) // Todo note stuff.
+      if (const stylesv2::Style* stylev2 {database::styles2::get_marker_data (m_stylesheet, marker)}; stylev2) // Todo
       {
         switch (stylev2->type) {
           case stylesv2::Type::starting_boundary:

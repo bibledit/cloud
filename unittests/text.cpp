@@ -1554,7 +1554,7 @@ TEST_F (filter_text, usfm_with_all_markers)
   R"(<p class="p"><span>This is </span><span class="sc">small cap</span><span> text.</span></p>)"
   R"(<p class="p"><span>This is </span><span class="sup">superscript</span><span> text.</span></p>)"
   R"(<div>)"
-  R"(<p class="ft"><a href="#citation1" id="note1">1</a><span> </span><span class="fr">ref</span><span>note</span><span class="fq">quote</span></p>)"
+  R"(<p class="ft"><a href="#citation1" id="note1">1</a><span> </span><span class="fr">ref </span><span>note </span><span class="fq">quote </span><span class="fqa">alternate quote </span><span class="fk">keyword</span></p>)"
   R"(<p class="ft"><a href="#citation2" id="note2">1</a><span> </span><span class="fr">ref</span><span>note</span></p>)"
   R"(<p class="ft"><a href="#citation3" id="note3">1</a><span> </span><span class="fr">ref</span><span>note</span></p>)"
   R"(</div>)"

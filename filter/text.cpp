@@ -1368,7 +1368,20 @@ void Filter_Text::processNote ()
             break;
           }
           case stylesv2::Type::note_standard_content:
+          {
+            // The style of the standard content is already used in the note's body.
+            // If means that the text style should be cleared
+            // in order to return to the correct style for the paragraph.
+            if (odf_text_standard)
+              odf_text_standard->close_text_style (true, false);
+            if (odf_text_notes)
+              odf_text_notes->close_text_style (false, false);
+            if (html_text_standard)
+              html_text_standard->close_text_style (true, false);
+            if (html_text_linked)
+              html_text_linked->close_text_style (true, false);
             break;
+          }
           case stylesv2::Type::note_content:
           case stylesv2::Type::note_content_with_endmarker:
           {
@@ -1395,6 +1408,28 @@ void Filter_Text::processNote ()
           }
           case stylesv2::Type::note_paragraph:
           {
+            // The style of this is not yet implemented properly: It does not yet open a new paragraph.
+            if (is_opening_marker) {
+              if (odf_text_standard)
+                odf_text_standard->open_text_style (nullptr, stylev2, true, isEmbeddedMarker);
+              if (odf_text_notes)
+                odf_text_notes->open_text_style (nullptr, stylev2, false, isEmbeddedMarker);
+              if (html_text_standard)
+                html_text_standard->open_text_style (nullptr, stylev2, true, isEmbeddedMarker);
+              if (html_text_linked)
+                html_text_linked->open_text_style (nullptr, stylev2, true, isEmbeddedMarker);
+            } else {
+              if (odf_text_standard)
+                odf_text_standard->close_text_style (true, false);
+              if (odf_text_notes)
+                odf_text_notes->close_text_style (false, false);
+              if (html_text_standard)
+                html_text_standard->close_text_style (true, false);
+              if (html_text_linked)
+                html_text_linked->close_text_style (true, false);
+//              if (text_text)
+//                text_text->note ();
+            }
             break;
           }
           case stylesv2::Type::character_style:
@@ -1413,7 +1448,7 @@ void Filter_Text::processNote ()
           {
             switch (stylev1.subtype)
             {
-              case FootEndNoteSubtypeStandardContent:
+              case FootEndNoteSubtypeStandardContent: // Moved to v2.
               {
                 // The style of the standard content is already used in the note's body.
                 // If means that the text style should be cleared
@@ -1440,7 +1475,7 @@ void Filter_Text::processNote ()
                 }
                 break;
               }
-              case FootEndNoteSubtypeParagraph:
+              case FootEndNoteSubtypeParagraph: // Moved to v2.
               {
                 // The style of this is not yet implemented.
                 if (odf_text_standard) odf_text_standard->close_text_style (true, false);

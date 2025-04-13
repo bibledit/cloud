@@ -207,6 +207,7 @@ void Editor_Usfm2Html::process ()
               case FootEndNoteSubtypeStandardContent:// Moved to v2
               case FootEndNoteSubtypeContent: // Moved to v2
               case FootEndNoteSubtypeContentWithEndmarker:// Moved to v2
+              case FootEndNoteSubtypeParagraph: // Moved to v2.
               {
                 if (is_opening_marker) {
                   open_text_style (style.marker, is_embedded_marker);
@@ -215,7 +216,6 @@ void Editor_Usfm2Html::process ()
                 }
                 break;
               }
-              case FootEndNoteSubtypeParagraph:
               default:
               {
                 close_text_style (false);
@@ -426,16 +426,13 @@ void Editor_Usfm2Html::process ()
           case stylesv2::Type::note_standard_content:
           case stylesv2::Type::note_content:
           case stylesv2::Type::note_content_with_endmarker:
+          case stylesv2::Type::note_paragraph:
           {
             if (is_opening_marker) {
               open_text_style (style->marker, is_embedded_marker);
             } else {
               close_text_style (is_embedded_marker);
             }
-            break;
-          }
-          case stylesv2::Type::note_paragraph:
-          {
             break;
           }
           case stylesv2::Type::character_style:

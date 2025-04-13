@@ -67,7 +67,7 @@ void Editor_Html2Usfm::load (std::string html)
 }
 
 
-void Editor_Html2Usfm::stylesheet (const std::string& stylesheet)
+void Editor_Html2Usfm::stylesheet (const std::string& stylesheet) // Todo
 {
   m_note_openers.clear();
   m_suppress_end_markers.clear();
@@ -128,6 +128,12 @@ void Editor_Html2Usfm::stylesheet (const std::string& stylesheet)
         suppress_endmarker = true;
         m_note_openers.insert (style.marker);
       }
+      if (style.type == stylesv2::Type::note_standard_content)
+        suppress_endmarker = true;
+      if (style.type == stylesv2::Type::note_content)
+        suppress_endmarker = true;
+      if (style.type == stylesv2::Type::note_paragraph)
+        suppress_endmarker = true;
       if (suppress_endmarker)
         m_suppress_end_markers.insert (style.marker);
     }

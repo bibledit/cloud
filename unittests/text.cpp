@@ -1533,6 +1533,8 @@ TEST_F (filter_text, usfm_with_all_markers)
   R"(<p class="p"><span>text</span><a href="#note1" id="citation1" class="superscript">1</a></p>)"
   R"(<p class="p"><span>text</span><a href="#note2" id="citation2" class="superscript">1</a></p>)"
   R"(<p class="p"><span>text</span><a href="#note3" id="citation3" class="superscript">1</a></p>)"
+  R"(<p class="p"><span>text</span><a href="#note4" id="citation4" class="superscript">2</a></p>)"
+
   
   R"(<p class="p"><span>The </span><span class="bk">Book</span><span> name</span></p>)"
   R"(<p class="p"><span>Proto </span><span class="dc">Deutero</span><span> text.</span></p>)"
@@ -1554,9 +1556,10 @@ TEST_F (filter_text, usfm_with_all_markers)
   R"(<p class="p"><span>This is </span><span class="sc">small cap</span><span> text.</span></p>)"
   R"(<p class="p"><span>This is </span><span class="sup">superscript</span><span> text.</span></p>)"
   R"(<div>)"
-  R"(<p class="ft"><a href="#citation1" id="note1">1</a><span> </span><span class="fr">ref </span><span>note </span><span class="fq">quote </span><span class="fqa">alternate quote </span><span class="fk">keyword</span></p>)"
+  R"(<p class="ft"><a href="#citation1" id="note1">1</a><span> </span><span class="fr">ref </span><span>note </span><span class="fq">quote </span><span class="fqa">alternate quote </span><span class="fk">keyword </span><span class="fl">label </span><span class="fw">witness</span></p>)"
   R"(<p class="ft"><a href="#citation2" id="note2">1</a><span> </span><span class="fr">ref</span><span>note</span></p>)"
   R"(<p class="ft"><a href="#citation3" id="note3">1</a><span> </span><span class="fr">ref</span><span>note</span></p>)"
+  R"(<p class="ft"><a href="#citation4" id="note4">2</a><span> </span><span class="fp">paragraph</span></p>)"
   R"(</div>)"
   ;
 

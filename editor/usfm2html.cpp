@@ -200,30 +200,6 @@ void Editor_Usfm2Html::process ()
             }
             break;
           }
-          case StyleTypeFootEndNote:
-          {
-            switch (style.subtype)
-            {
-              case FootEndNoteSubtypeStandardContent:// Moved to v2
-              case FootEndNoteSubtypeContent: // Moved to v2
-              case FootEndNoteSubtypeContentWithEndmarker:// Moved to v2
-              case FootEndNoteSubtypeParagraph: // Moved to v2.
-              {
-                if (is_opening_marker) {
-                  open_text_style (style.marker, is_embedded_marker);
-                } else {
-                  close_text_style (is_embedded_marker);
-                }
-                break;
-              }
-              default:
-              {
-                close_text_style (false);
-                break;
-              }
-            }
-            break;
-          }
           case StyleTypeCrossreference:
           {
             switch (style.subtype)
@@ -827,7 +803,7 @@ bool road_is_clear(const std::vector<std::string>& markers_and_text,
   };
 
   // Function to determine whether the type is a footnote / endnote.
-  const auto is_note_type = [](const int type_v1, const stylesv2::Style* style_v2) {
+  const auto is_note_type = [](const stylesv2::Style* style_v2) {
     if (style_v2) {
       if (style_v2->type == stylesv2::Type::foot_note_wrapper)
         return true;
@@ -840,9 +816,6 @@ bool road_is_clear(const std::vector<std::string>& markers_and_text,
       if (style_v2->type == stylesv2::Type::note_content_with_endmarker)
         return true;
       if (style_v2->type == stylesv2::Type::note_paragraph)
-        return true;
-    } else {
-      if (type_v1 == StyleTypeFootEndNote) // All moved to v2
         return true;
     }
     return false;
@@ -933,12 +906,12 @@ bool road_is_clear(const std::vector<std::string>& markers_and_text,
             verse_boundary_reached = true;
         
         // The input is a note opener.
-        if (is_note_type(input_type_v1, input_style_v2)) {
+        if (is_note_type(input_style_v2)) {
           if (input_opener) {
             if (is_footnote_endnote_wrapper(input_style_v2)) {
               // Encounters note closer: road is clear.
               // Encounters another note opener: blocker.
-              if (is_note_type(type_v1, style_v2)) {
+              if (is_note_type(style_v2)) {
                 if (is_footnote_endnote_wrapper(style_v2)) {
                   if (opener)
                     return false;
@@ -979,7 +952,7 @@ bool road_is_clear(const std::vector<std::string>& markers_and_text,
                 return false;
               // Encounters foot- or endnote opener: blocker.
               // Other \f.. markup is allowed.
-              if (is_note_type(type_v1, style_v2)) {
+              if (is_note_type(style_v2)) {
                 if (is_footnote_endnote_wrapper(style_v2)) {
                   return false;
                 }

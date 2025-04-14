@@ -247,7 +247,7 @@ std::string styles_view (Webserver_Request& webserver_request)
 
 
   // Italics, bold, underline, small caps relevance.
-  if (styles_logic_italic_bold_underline_smallcaps_are_relevant (type, subtype)) {
+  if (styles_logic_italic_bold_underline_smallcaps_are_relevant (type)) {
     view.enable_zone ("ibus_relevant");
   }
 

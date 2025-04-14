@@ -111,22 +111,6 @@ void Styles_Css::evaluate_v1 (void * database_styles_item)
       add_v1 (style, false, false);
       break;
     }
-    case StyleTypeFootEndNote: // Already moved to v2
-    {
-      switch (style->subtype)
-      {
-        case FootEndNoteSubtypeStandardContent: // Movee to v2.
-        case FootEndNoteSubtypeContent: // Movee to v2.
-        case FootEndNoteSubtypeContentWithEndmarker: // Movee to v2.
-        case FootEndNoteSubtypeParagraph: // Movee to v2.
-        {
-          add_v1 (style, false, false);
-          break;
-        }
-        default: break;
-      }
-      break;
-    }
     case StyleTypeCrossreference:
     {
       switch (style->subtype)

@@ -27,18 +27,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #define StyleTypeStartsParagraph       3 
 #define StyleTypeInlineText            4 
-#define StyleTypeFootEndNote           7 
 #define StyleTypeCrossreference        8 
 #define StyleTypePeripheral            9 
 #define StyleTypePicture               10 
 #define StyleTypePageBreak             11 
 #define StyleTypeWordlistElement       13 
-
-
-#define FootEndNoteSubtypeStandardContent          2 
-#define FootEndNoteSubtypeContent                  3 
-#define FootEndNoteSubtypeContentWithEndmarker     4 
-#define FootEndNoteSubtypeParagraph                5 
 
 
 #define CrossreferenceSubtypeCrossreference        0 
@@ -144,7 +137,7 @@ std::string styles_logic_category_text (std::string category);
 std::string styles_logic_type_text (int type);
 std::string styles_logic_subtype_text (int type, int subtype);
 bool styles_logic_fontsize_is_relevant (int type, int subtype);
-bool styles_logic_italic_bold_underline_smallcaps_are_relevant (int type, int subtype);
+bool styles_logic_italic_bold_underline_smallcaps_are_relevant (int type);
 bool styles_logic_italic_bold_underline_smallcaps_are_full (int type, int subtype);
 std::string styles_logic_off_on_inherit_toggle_text (int value);
 bool styles_logic_superscript_is_relevant (int type, int subtype);

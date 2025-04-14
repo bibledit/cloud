@@ -195,21 +195,6 @@ std::string Editor_Styles::getAction (Webserver_Request& webserver_request, cons
         return paragraph ();
       case StyleTypeInlineText:
         return character ();
-      case StyleTypeFootEndNote:
-      {
-        switch (subtype)
-        {
-          case FootEndNoteSubtypeContent: // Already moved to v2
-          case FootEndNoteSubtypeContentWithEndmarker: // Moved to v2.
-            return character ();
-          case FootEndNoteSubtypeStandardContent:
-          case FootEndNoteSubtypeParagraph:
-            return character ();
-          default:
-            return unknown ();
-        }
-        break;
-      }
       case StyleTypeCrossreference:
       {
         switch (subtype)

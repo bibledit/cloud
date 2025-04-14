@@ -60,7 +60,6 @@ std::string styles_logic_type_text (int type)
 {
   if (type == StyleTypeStartsParagraph) return translate ("starts a new paragraph");
   if (type == StyleTypeInlineText     ) return translate ("is inline text with endmarker");
-  if (type == StyleTypeFootEndNote    ) return translate ("is a footnote or endnote");
   if (type == StyleTypeCrossreference ) return translate ("is a crossreference");
   if (type == StyleTypePeripheral     ) return translate ("is a peripheral element");
   if (type == StyleTypePicture        ) return translate ("is a picture");
@@ -80,12 +79,6 @@ std::string styles_logic_subtype_text (int type, int subtype)
     if (subtype == ParagraphSubtypeNormalParagraph) return translate ("is a normal paragraph");
   }
   if (type == StyleTypeInlineText) {
-  }
-  if (type == StyleTypeFootEndNote) {
-    if (subtype == FootEndNoteSubtypeStandardContent     ) return translate ("is standard content");
-    if (subtype == FootEndNoteSubtypeContent             ) return translate ("is content");
-    if (subtype == FootEndNoteSubtypeContentWithEndmarker) return translate ("is content with endmarker");
-    if (subtype == FootEndNoteSubtypeParagraph           ) return translate ("starts another paragraph");
   }
   if (type == StyleTypeCrossreference) {
     if (subtype == ParagraphSubtypeMainTitle      ) return translate ("starts a crossreference");
@@ -125,15 +118,6 @@ bool styles_logic_fontsize_is_relevant (int type, int subtype)
 {
   switch (type) {
     case StyleTypeStartsParagraph : return true;
-    case StyleTypeFootEndNote :
-    {
-      switch (subtype) {
-        case FootEndNoteSubtypeStandardContent : return true;
-        case FootEndNoteSubtypeParagraph : return true;
-        default: return false;
-      }
-      break;
-    }
     case StyleTypeCrossreference :
     {
       switch (subtype) {
@@ -153,12 +137,11 @@ bool styles_logic_fontsize_is_relevant (int type, int subtype)
 
 
 // Returns true if the italic, bold, etc. settings are relevant for $type and $subtype.
-bool styles_logic_italic_bold_underline_smallcaps_are_relevant (int type, int subtype)
+bool styles_logic_italic_bold_underline_smallcaps_are_relevant (int type)
 {
   switch (type) {
     case StyleTypeStartsParagraph : return true;
     case StyleTypeInlineText      : return true;
-    case StyleTypeFootEndNote     : return true;
     case StyleTypeCrossreference  : return true;
     case StyleTypePicture         : return true;
     default: return false;
@@ -172,15 +155,6 @@ bool styles_logic_italic_bold_underline_smallcaps_are_full (int type, int subtyp
 {
   switch (type) {
     case StyleTypeInlineText: return true;
-    case StyleTypeFootEndNote:
-    {
-      switch (subtype) {
-        case FootEndNoteSubtypeContent: return true;
-        case FootEndNoteSubtypeContentWithEndmarker: return true;
-        default: return false;
-      }
-      break;
-    }
     case StyleTypeCrossreference:
     {
       switch (subtype) {
@@ -213,15 +187,6 @@ bool styles_logic_superscript_is_relevant (int type, int subtype)
 {
   switch (type) {
     case StyleTypeInlineText  : return true;
-    case StyleTypeFootEndNote :
-    {
-      switch (subtype) {
-        case FootEndNoteSubtypeStandardContent : return true;
-        case FootEndNoteSubtypeParagraph       : return true;
-        default: return false;
-      }
-      break;
-    }
     case StyleTypeCrossreference :
     {
       switch (subtype) {
@@ -242,15 +207,6 @@ bool styles_logic_paragraph_treats_are_relevant (int type, int subtype)
 {
   switch (type) {
     case StyleTypeStartsParagraph : return true;
-    case StyleTypeFootEndNote :
-    {
-      switch (subtype) {
-        case FootEndNoteSubtypeStandardContent : return true;
-        case FootEndNoteSubtypeParagraph       : return true;
-        default: return false;
-      }
-      break;
-    }
     case StyleTypeCrossreference :
     {
       switch (subtype) {
@@ -294,15 +250,6 @@ bool styles_logic_color_is_relevant (int type, int subtype)
 {
   switch (type) {
     case StyleTypeInlineText  : return true;
-    case StyleTypeFootEndNote :
-    {
-      switch (subtype) {
-        case FootEndNoteSubtypeContent              : return true;
-        case FootEndNoteSubtypeContentWithEndmarker : return true;
-        default: return false;
-      }
-      break;
-    }
     case StyleTypeCrossreference :
     {
       switch (subtype) {
@@ -322,13 +269,6 @@ bool styles_logic_color_is_relevant (int type, int subtype)
 bool styles_logic_print_is_relevant (int type, int subtype)
 {
   switch (type) {
-    case StyleTypeFootEndNote :
-    {
-      switch (subtype) {
-        default: return false;
-      }
-      break;
-    }
     case StyleTypeCrossreference :
     {
       switch (subtype) {
@@ -509,10 +449,6 @@ bool styles_logic_starts_new_line_in_usfm (int type, [[maybe_unused]]int subtype
       return true;
     }
     case StyleTypeInlineText :
-    {
-      return false;
-    }
-    case StyleTypeFootEndNote :
     {
       return false;
     }

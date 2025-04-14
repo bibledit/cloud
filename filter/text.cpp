@@ -171,11 +171,6 @@ void Filter_Text::get_styles ()
   for (const auto& marker : database::styles1::get_markers(m_stylesheet)) {
     database::styles1::Item style = database::styles1::get_marker_data (m_stylesheet, marker);
     styles [marker] = style;
-    if (style.type == StyleTypeFootEndNote) { // Moved to v2 already
-      if (style.subtype == FootEndNoteSubtypeStandardContent) {
-        standard_content_marker_foot_end_note = style.marker;
-      }
-    }
     if (style.type == StyleTypeCrossreference) {
       if (style.subtype == CrossreferenceSubtypeStandardContent) {
         standard_content_marker_cross_reference = style.marker;
@@ -418,11 +413,6 @@ void Filter_Text::process_usfm ()
                 if (html_text_standard) html_text_standard->close_text_style (false, is_embedded_marker);
                 if (html_text_linked) html_text_linked->close_text_style (false, is_embedded_marker);
               }
-              break;
-            }
-            case StyleTypeFootEndNote: // Has moved already to v2
-            {
-              processNote (); 
               break;
             }
             case StyleTypeCrossreference:
@@ -1444,55 +1434,6 @@ void Filter_Text::processNote ()
         database::styles1::Item stylev1 = styles[marker];
         switch (stylev1.type)
         {
-          case StyleTypeFootEndNote: // Todo
-          {
-            switch (stylev1.subtype)
-            {
-              case FootEndNoteSubtypeStandardContent: // Moved to v2.
-              {
-                // The style of the standard content is already used in the note's body.
-                // If means that the text style should be cleared
-                // in order to return to the correct style for the paragraph.
-                if (odf_text_standard) odf_text_standard->close_text_style (true, false);
-                if (odf_text_notes) odf_text_notes->close_text_style (false, false);
-                if (html_text_standard) html_text_standard->close_text_style (true, false);
-                if (html_text_linked) html_text_linked->close_text_style (true, false);
-                break;
-              }
-              case FootEndNoteSubtypeContent: // Moved to v2.
-              case FootEndNoteSubtypeContentWithEndmarker: // Moved to v2.
-              {
-                if (is_opening_marker) {
-                  if (odf_text_standard) odf_text_standard->open_text_style (&stylev1, nullptr, true, isEmbeddedMarker);
-                  if (odf_text_notes) odf_text_notes->open_text_style (&stylev1, nullptr, false, isEmbeddedMarker);
-                  if (html_text_standard) html_text_standard->open_text_style (&stylev1, nullptr, true, isEmbeddedMarker);
-                  if (html_text_linked) html_text_linked->open_text_style (&stylev1, nullptr, true, isEmbeddedMarker);
-                } else {
-                  if (odf_text_standard) odf_text_standard->close_text_style (true, isEmbeddedMarker);
-                  if (odf_text_notes) odf_text_notes->close_text_style (false, isEmbeddedMarker);
-                  if (html_text_standard) html_text_standard->close_text_style (true, isEmbeddedMarker);
-                  if (html_text_linked) html_text_linked->close_text_style (true, isEmbeddedMarker);
-                }
-                break;
-              }
-              case FootEndNoteSubtypeParagraph: // Moved to v2.
-              {
-                // The style of this is not yet implemented.
-                if (odf_text_standard) odf_text_standard->close_text_style (true, false);
-                if (odf_text_notes) odf_text_notes->close_text_style (false, false);
-                if (html_text_standard) html_text_standard->close_text_style (true, false);
-                if (html_text_linked) html_text_linked->close_text_style (true, false);
-                if (text_text) text_text->note ();
-                break;
-              }
-              default:
-              {
-                break;
-              }
-            }
-            // UserBool1NoteAppliesToApocrypha: For xref too?
-            break;
-          }
           case StyleTypeCrossreference:
           {
             switch (stylev1.subtype)

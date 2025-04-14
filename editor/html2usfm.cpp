@@ -82,13 +82,6 @@ void Editor_Html2Usfm::stylesheet (const std::string& stylesheet) // Todo
       bool suppress = false;
       const int type = style.type;
       const int subtype = style.subtype;
-      if (type == StyleTypeFootEndNote) {
-        suppress = true;
-        if (subtype == FootEndNoteSubtypeContentWithEndmarker)
-          suppress = false;
-        if (subtype == FootEndNoteSubtypeParagraph)
-          suppress = false;
-      }
       if (type == StyleTypeCrossreference) {
         suppress = true;
         if (subtype == CrossreferenceSubtypeCrossreference)

@@ -280,7 +280,7 @@ Right 6
 
 6
 
-text1ref note quote 3 alternate quote keyword label witness deuterocanonical
+text1ref note quote 3 alternate quote keyword label witness deuterocanonical mark
 
 
 

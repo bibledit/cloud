@@ -1986,6 +1986,32 @@ TEST_F (usfm_html, footnote_verse)
 }
 
 
+TEST_F (usfm_html, footnote_deuterocanonical)
+{
+  std::string standard_usfm = R"(\p \f + \ft text \fdc dc\fdc*\f*)";
+  
+  const std::string standard_html =
+  R"(<p class="b-p"><span class="i-notecall1">1</span><br/></p>)"
+  R"(<p class="b-notes"> </p>)"
+  R"(<p class="b-f"><span class="i-notebody1">1</span><span> </span><span>+ </span><span class="i-ft">text </span><span class="i-fdc">dc</span></p>)"
+  ;
+  
+  Editor_Usfm2Html editor_usfm2html;
+  editor_usfm2html.load (standard_usfm);
+  editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
+  editor_usfm2html.run ();
+  const std::string html = editor_usfm2html.get ();
+  EXPECT_EQ (standard_html, html);
+  
+  Editor_Html2Usfm editor_html2usfm;
+  editor_html2usfm.load (html);
+  editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
+  editor_html2usfm.run ();
+  const std::string usfm = editor_html2usfm.get ();
+  EXPECT_EQ (standard_usfm, usfm);
+}
+
+
 TEST_F (usfm_html, road_is_clear)
 {
   const std::string stylesheet {styles_logic_standard_sheet ()};

@@ -2442,7 +2442,7 @@ const std::list<Style> styles {
   },
   {
     .marker = "ft",
-    .type = Type::note_content,
+    .type = Type::note_standard_content,
     .name = "Footnote text",
     .info = "The essential or explanatory text of the footnote.",
     .character = Character { },

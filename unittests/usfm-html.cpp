@@ -1960,7 +1960,7 @@ TEST_F (usfm_html, footnote_paragraph)
 }
 
 
-TEST_F (usfm_html, footnote_verse) // Todo
+TEST_F (usfm_html, footnote_verse)
 {
   std::string standard_usfm = R"(\p \f + \ft text \fv 3\fv*\f*)";
   
@@ -2231,7 +2231,7 @@ TEST_F (usfm_html, usfm_with_all_markers)
   R"(<p class="b-p"><span>This is </span><span class="i-sc">small cap</span><span> text.</span></p>)"
   R"(<p class="b-p"><span>This is </span><span class="i-sup">superscript</span><span> text.</span></p>)"
   R"(<p class="b-notes"> </p>)"
-  R"(<p class="b-f"><span class="i-notebody1">1</span><span> </span><span>+ </span><span class="i-fr">ref </span><span class="i-ft">note </span><span class="i-fq">quote </span><span class="i-fv">3</span><span> </span><span class="i-fqa">alternate quote </span><span class="i-fk">keyword </span><span class="i-fl">label </span><span class="i-fw">witness</span></p>)"
+  R"(<p class="b-f"><span class="i-notebody1">1</span><span> </span><span>+ </span><span class="i-fr">ref </span><span class="i-ft">note </span><span class="i-fq">quote </span><span class="i-fv">3</span><span> </span><span class="i-fqa">alternate quote </span><span class="i-fk">keyword </span><span class="i-fl">label </span><span class="i-fw">witness </span><span class="i-fdc">deuterocanonical</span><span> </span><span class="i-fm">mark</span></p>)"
   R"(<p class="b-fe"><span class="i-notebody2">1</span><span> </span><span>+ </span><span class="i-fr">ref</span><span class="i-ft">note</span></p>)"
   R"(<p class="b-ef"><span class="i-notebody3">1</span><span> </span><span>+ </span><span class="i-fr">ref</span><span class="i-ft">note</span></p>)"
   R"(<p class="b-f"><span class="i-notebody4">2</span><span> </span><span>+ </span><span class="i-fp">paragraph</span></p>)"

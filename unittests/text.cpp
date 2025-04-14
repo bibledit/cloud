@@ -1556,9 +1556,9 @@ TEST_F (filter_text, usfm_with_all_markers)
   R"(<p class="p"><span>This is </span><span class="sc">small cap</span><span> text.</span></p>)"
   R"(<p class="p"><span>This is </span><span class="sup">superscript</span><span> text.</span></p>)"
   R"(<div>)"
-  R"(<p class="ft"><a href="#citation1" id="note1">1</a><span> </span><span class="fr">ref </span><span>note </span><span class="fq">quote </span><span class="fqa">alternate quote </span><span class="fk">keyword </span><span class="fl">label </span><span class="fw">witness</span></p>)"
-  R"(<p class="ft"><a href="#citation2" id="note2">1</a><span> </span><span class="fr">ref</span><span>note</span></p>)"
-  R"(<p class="ft"><a href="#citation3" id="note3">1</a><span> </span><span class="fr">ref</span><span>note</span></p>)"
+  R"(<p class="ft"><a href="#citation1" id="note1">1</a><span> </span><span class="fr">ref </span><span class="ft">note </span><span class="fq">quote </span><span class="fv">3</span><span> </span><span class="fqa">alternate quote </span><span class="fk">keyword </span><span class="fl">label </span><span class="fw">witness</span></p>)"
+  R"(<p class="ft"><a href="#citation2" id="note2">1</a><span> </span><span class="fr">ref</span><span class="ft">note</span></p>)"
+  R"(<p class="ft"><a href="#citation3" id="note3">1</a><span> </span><span class="fr">ref</span><span class="ft">note</span></p>)"
   R"(<p class="ft"><a href="#citation4" id="note4">2</a><span> </span><span class="fp">paragraph</span></p>)"
   R"(</div>)"
   ;

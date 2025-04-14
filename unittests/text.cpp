@@ -1575,9 +1575,9 @@ TEST_F (filter_text, usfm_with_all_markers)
     std::vector<std::string> additions;
     filter_diff_diff (standard_html, html, &removals, &additions);
     if (!removals.empty())
-      ADD_FAILURE() << "The first item that the generated html lacks is this: " << removals.at(0);
+      ADD_FAILURE() << "The first item that the generated html lacks is this: " << removals.front();
     if (!additions.empty())
-      ADD_FAILURE() << "The first item that the generated html has extra related to the standard html is this: " << additions.at(0);
+      ADD_FAILURE() << "The first item that the generated html has extra related to the standard html is this: " << additions.front();
   }
 }
 

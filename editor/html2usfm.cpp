@@ -106,9 +106,11 @@ void Editor_Html2Usfm::stylesheet (const std::string& stylesheet) // Todo
       // Paragraph styles normally don't have a closing USFM marker.
       // But there's exceptions to this rule.
       // Gather the markers that need a closing USFM marker.
-      if (stylesv2::get_parameter<bool>(&style, stylesv2::Property::has_endmarker)) {
+      // Same for footnote markers with endmarker.
+      if (stylesv2::get_parameter<bool>(&style, stylesv2::Property::has_endmarker))
         m_force_end_markers.insert(style.marker);
-      }
+      if (style.type == stylesv2::Type::note_content_with_endmarker)
+        m_force_end_markers.insert(style.marker);
       // Get markers that should not have endmarkers.
       // Gather the note openers.
       bool suppress_endmarker = false;
@@ -311,6 +313,10 @@ void Editor_Html2Usfm::close_element_node (const pugi::xml_node& node)
     // Do nothing with a note caller.
     if (class_name.substr (0, quill_note_caller_class.size()) == quill_note_caller_class)
       return;
+    // If this style should add an endmarker, handle that here.
+    if (m_force_end_markers.find(class_name) != m_force_end_markers.cend()) {
+      m_current_line.append(filter::usfm::get_closing_usfm (class_name));
+    }
     // Do nothing if no endmarkers are supposed to be produced.
     // There's two exceptions:
     // 1. If a word-level attributes ID was found: This needs an endmarker.

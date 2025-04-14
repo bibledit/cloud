@@ -200,7 +200,7 @@ std::string Editor_Styles::getAction (Webserver_Request& webserver_request, cons
         switch (subtype)
         {
           case FootEndNoteSubtypeContent: // Already moved to v2
-          case FootEndNoteSubtypeContentWithEndmarker:
+          case FootEndNoteSubtypeContentWithEndmarker: // Moved to v2.
             return character ();
           case FootEndNoteSubtypeStandardContent:
           case FootEndNoteSubtypeParagraph:

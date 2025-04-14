@@ -1960,6 +1960,32 @@ TEST_F (usfm_html, footnote_paragraph)
 }
 
 
+TEST_F (usfm_html, footnote_verse) // Todo
+{
+  std::string standard_usfm = R"(\p \f + \ft text \fv 3\fv*\f*)";
+  
+  const std::string standard_html =
+  R"(<p class="b-p"><span class="i-notecall1">1</span><br/></p>)"
+  R"(<p class="b-notes"> </p>)"
+  R"(<p class="b-f"><span class="i-notebody1">1</span><span> </span><span>+ </span><span class="i-ft">text </span><span class="i-fv">3</span></p>)"
+  ;
+  
+  Editor_Usfm2Html editor_usfm2html;
+  editor_usfm2html.load (standard_usfm);
+  editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
+  editor_usfm2html.run ();
+  const std::string html = editor_usfm2html.get ();
+  EXPECT_EQ (standard_html, html);
+  
+  Editor_Html2Usfm editor_html2usfm;
+  editor_html2usfm.load (html);
+  editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
+  editor_html2usfm.run ();
+  const std::string usfm = editor_html2usfm.get ();
+  EXPECT_EQ (standard_usfm, usfm);
+}
+
+
 TEST_F (usfm_html, road_is_clear)
 {
   const std::string stylesheet {styles_logic_standard_sheet ()};
@@ -2205,7 +2231,7 @@ TEST_F (usfm_html, usfm_with_all_markers)
   R"(<p class="b-p"><span>This is </span><span class="i-sc">small cap</span><span> text.</span></p>)"
   R"(<p class="b-p"><span>This is </span><span class="i-sup">superscript</span><span> text.</span></p>)"
   R"(<p class="b-notes"> </p>)"
-  R"(<p class="b-f"><span class="i-notebody1">1</span><span> </span><span>+ </span><span class="i-fr">ref </span><span class="i-ft">note </span><span class="i-fq">quote </span><span class="i-fqa">alternate quote </span><span class="i-fk">keyword </span><span class="i-fl">label </span><span class="i-fw">witness</span></p>)"
+  R"(<p class="b-f"><span class="i-notebody1">1</span><span> </span><span>+ </span><span class="i-fr">ref </span><span class="i-ft">note </span><span class="i-fq">quote </span><span class="i-fv">3</span><span> </span><span class="i-fqa">alternate quote </span><span class="i-fk">keyword </span><span class="i-fl">label </span><span class="i-fw">witness</span></p>)"
   R"(<p class="b-fe"><span class="i-notebody2">1</span><span> </span><span>+ </span><span class="i-fr">ref</span><span class="i-ft">note</span></p>)"
   R"(<p class="b-ef"><span class="i-notebody3">1</span><span> </span><span>+ </span><span class="i-fr">ref</span><span class="i-ft">note</span></p>)"
   R"(<p class="b-f"><span class="i-notebody4">2</span><span> </span><span>+ </span><span class="i-fp">paragraph</span></p>)"

@@ -296,6 +296,10 @@ text2paragraph
 
 
 
+text1origin keyword quotation targets added published old testament new testament deuterocanonical
+
+
+
 The Book name
 
 Proto Deutero text.

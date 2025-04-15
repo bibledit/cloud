@@ -2235,6 +2235,7 @@ TEST_F (usfm_html, usfm_with_all_markers)
   R"(<p class="b-p"><span>text</span><span class="i-notecall2">1</span></p>)"
   R"(<p class="b-p"><span>text</span><span class="i-notecall3">1</span></p>)"
   R"(<p class="b-p"><span>text</span><span class="i-notecall4">2</span></p>)"
+  R"(<p class="b-p"><span>text</span><span class="i-notecall5">1</span></p>)"
 
   
   R"(<p class="b-p"><span>The </span><span class="i-bk">Book</span><span> name</span></p>)"
@@ -2261,7 +2262,7 @@ TEST_F (usfm_html, usfm_with_all_markers)
   R"(<p class="b-fe"><span class="i-notebody2">1</span><span> </span><span>+ </span><span class="i-fr">ref</span><span class="i-ft">note</span></p>)"
   R"(<p class="b-ef"><span class="i-notebody3">1</span><span> </span><span>+ </span><span class="i-fr">ref</span><span class="i-ft">note</span></p>)"
   R"(<p class="b-f"><span class="i-notebody4">2</span><span> </span><span>+ </span><span class="i-fp">paragraph</span></p>)"
-  R"()"
+  R"(<p class="b-x"><span class="i-notebody5">1</span><span> </span><span>+ </span><span class="i-xo">origin </span><span class="i-xk">keyword </span><span class="i-xq">quotation </span><span class="i-xt">targets </span><span class="i-xta">added </span><span class="i-xop">published</span><span> </span><span class="i-xot">old testament</span><span> </span><span class="i-xnt">new testament</span><span> </span><span class="i-xdc">deuterocanonical</span></p>)"
   ;
 
   const auto make_readable = [] (const auto& html) {

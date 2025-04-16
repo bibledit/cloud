@@ -47,12 +47,16 @@ enum class Type : int {
   table_row,
   table_heading,
   table_cell,
-  foot_note_wrapper,
-  end_note_wrapper,
+  footnote_wrapper,
+  endnote_wrapper,
   note_standard_content,
   note_content,
   note_content_with_endmarker,
   note_paragraph,
+  crossreference_wrapper,
+  crossreference_standard_content,
+  crossreference_content,
+  crossreference_content_with_endmarker,
   character_style,
   stopping_boundary // Should be the last always.
 };

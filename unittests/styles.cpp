@@ -1144,12 +1144,17 @@ TEST_F (styles, marker_starts_new_line_in_usfm)
         case Type::table_heading:
         case Type::table_cell:
           return false;
-        case Type::foot_note_wrapper:
-        case Type::end_note_wrapper:
+        case Type::footnote_wrapper:
+        case Type::endnote_wrapper:
         case Type::note_standard_content:
         case Type::note_content:
         case Type::note_content_with_endmarker:
         case Type::note_paragraph:
+          return false;
+        case Type::crossreference_wrapper:
+        case Type::crossreference_standard_content:
+        case Type::crossreference_content:
+        case Type::crossreference_content_with_endmarker:
           return false;
         case Type::character_style:
           return false;

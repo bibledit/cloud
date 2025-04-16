@@ -200,7 +200,7 @@ void Editor_Usfm2Html::process ()
             }
             break;
           }
-          case StyleTypeCrossreference:
+          case StyleTypeCrossreference: // moved to v2
           {
             switch (style.subtype)
             {
@@ -387,8 +387,8 @@ void Editor_Usfm2Html::process ()
             }
             break;
           }
-          case stylesv2::Type::foot_note_wrapper:
-          case stylesv2::Type::end_note_wrapper:
+          case stylesv2::Type::footnote_wrapper:
+          case stylesv2::Type::endnote_wrapper:
           {
             close_text_style (false);
             if (is_opening_marker) {
@@ -406,6 +406,39 @@ void Editor_Usfm2Html::process ()
           {
             if (is_opening_marker) {
               open_text_style (style->marker, is_embedded_marker);
+            } else {
+              close_text_style (is_embedded_marker);
+            }
+            break;
+          }
+          case stylesv2::Type::crossreference_wrapper:
+          {
+            close_text_style (false);
+            if (is_opening_marker) {
+              const std::string caller = m_note_citations.get (style->marker, "+");
+              add_note (caller, marker);
+            } else {
+              close_current_note ();
+            }
+            break;
+          }
+          case stylesv2::Type::crossreference_standard_content:
+          case stylesv2::Type::crossreference_content:
+          case stylesv2::Type::crossreference_content_with_endmarker:
+          {
+            if (is_opening_marker) {
+              open_text_style (style->marker, is_embedded_marker);
+              // Deal in a special way with possible word-level attributes.
+              // Note open | Extract word-level attributes
+              //  yes      |  no
+              //  no       |  yes
+              //-----------------
+              // In other words, if a note is open, which is the normal case,
+              // then don't extract the word-level attributes, but output them as they are.
+              // But if a note is not open, it is assumed to be a link reference in the main text body.
+              // In such a case, extract the word-level attributes as usual.
+              if (!m_note_opened)
+                extract_word_level_attributes();
             } else {
               close_text_style (is_embedded_marker);
             }
@@ -805,9 +838,9 @@ bool road_is_clear(const std::vector<std::string>& markers_and_text,
   // Function to determine whether the type is a footnote / endnote.
   const auto is_note_type = [](const stylesv2::Style* style_v2) {
     if (style_v2) {
-      if (style_v2->type == stylesv2::Type::foot_note_wrapper)
+      if (style_v2->type == stylesv2::Type::footnote_wrapper)
         return true;
-      if (style_v2->type == stylesv2::Type::end_note_wrapper)
+      if (style_v2->type == stylesv2::Type::endnote_wrapper)
         return true;
       if (style_v2->type == stylesv2::Type::note_standard_content)
         return true;
@@ -824,9 +857,9 @@ bool road_is_clear(const std::vector<std::string>& markers_and_text,
   // Function to determine whether the style is a footnote / endnote wrapper.
   const auto is_footnote_endnote_wrapper = [](const stylesv2::Style* style_v2) {
     if (style_v2) {
-      if (style_v2->type == stylesv2::Type::foot_note_wrapper)
+      if (style_v2->type == stylesv2::Type::footnote_wrapper)
         return true;
-      if (style_v2->type == stylesv2::Type::end_note_wrapper)
+      if (style_v2->type == stylesv2::Type::endnote_wrapper)
         return true;
     }
     return false;
@@ -835,9 +868,16 @@ bool road_is_clear(const std::vector<std::string>& markers_and_text,
   // Function to determine whether the type is a footnote / endnote.
   const auto is_xref_type = [](const int type_v1, const stylesv2::Style* style_v2) {
     if (style_v2) {
-      // Todo: Once the xref is available, test on that here.
+      if (style_v2->type == stylesv2::Type::crossreference_wrapper)
+        return true;
+      if (style_v2->type == stylesv2::Type::crossreference_standard_content)
+        return true;
+      if (style_v2->type == stylesv2::Type::crossreference_content)
+        return true;
+      if (style_v2->type == stylesv2::Type::crossreference_content_with_endmarker)
+        return true;
     } else {
-      if (type_v1 == StyleTypeCrossreference)
+      if (type_v1 == StyleTypeCrossreference) // moved to v2
         return true;
     }
     return false;
@@ -846,9 +886,10 @@ bool road_is_clear(const std::vector<std::string>& markers_and_text,
   // Function to determine whether the subtype is a footnote / endnote.
   const auto is_xref_subtype = [](const int subtype_v1, const stylesv2::Style* style_v2) {
     if (style_v2) {
-      // Todo: Once the xref is available, test on that here.
+      if (style_v2->type == stylesv2::Type::crossreference_wrapper)
+        return true;
     } else {
-      if (subtype_v1 == CrossreferenceSubtypeCrossreference)
+      if (subtype_v1 == CrossreferenceSubtypeCrossreference) // Moved to v2.
         return true;
     }
     return false;

@@ -167,13 +167,19 @@ std::string Editor_Styles::getAction (Webserver_Request& webserver_request, cons
       case stylesv2::Type::table_heading:
       case stylesv2::Type::table_cell:
         return mono ();
-      case stylesv2::Type::foot_note_wrapper:
-      case stylesv2::Type::end_note_wrapper:
+      case stylesv2::Type::footnote_wrapper:
+      case stylesv2::Type::endnote_wrapper:
         return note ();
       case stylesv2::Type::note_standard_content:
       case stylesv2::Type::note_content:
       case stylesv2::Type::note_content_with_endmarker:
       case stylesv2::Type::note_paragraph:
+        return character ();
+      case stylesv2::Type::crossreference_wrapper:
+        return note ();
+      case stylesv2::Type::crossreference_standard_content:
+      case stylesv2::Type::crossreference_content:
+      case stylesv2::Type::crossreference_content_with_endmarker:
         return character ();
       case stylesv2::Type::character_style:
         return character ();
@@ -195,7 +201,7 @@ std::string Editor_Styles::getAction (Webserver_Request& webserver_request, cons
         return paragraph ();
       case StyleTypeInlineText:
         return character ();
-      case StyleTypeCrossreference:
+      case StyleTypeCrossreference: // moved to v2
       {
         switch (subtype)
         {

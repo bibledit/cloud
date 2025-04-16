@@ -82,7 +82,7 @@ void Editor_Html2Usfm::stylesheet (const std::string& stylesheet) // Todo
       bool suppress = false;
       const int type = style.type;
       const int subtype = style.subtype;
-      if (type == StyleTypeCrossreference) {
+      if (type == StyleTypeCrossreference) { // moved to v2
         suppress = true;
         if (subtype == CrossreferenceSubtypeCrossreference)
           m_note_openers.insert (marker);
@@ -112,11 +112,11 @@ void Editor_Html2Usfm::stylesheet (const std::string& stylesheet) // Todo
         suppress_endmarker = true;
       if (style.type == stylesv2::Type::table_cell)
         suppress_endmarker = true;
-      if (style.type == stylesv2::Type::foot_note_wrapper) {
+      if (style.type == stylesv2::Type::footnote_wrapper) {
         suppress_endmarker = true;
         m_note_openers.insert (style.marker);
       }
-      if (style.type == stylesv2::Type::end_note_wrapper) {
+      if (style.type == stylesv2::Type::endnote_wrapper) {
         suppress_endmarker = true;
         m_note_openers.insert (style.marker);
       }
@@ -125,6 +125,14 @@ void Editor_Html2Usfm::stylesheet (const std::string& stylesheet) // Todo
       if (style.type == stylesv2::Type::note_content)
         suppress_endmarker = true;
       if (style.type == stylesv2::Type::note_paragraph)
+        suppress_endmarker = true;
+      if (style.type == stylesv2::Type::crossreference_wrapper) {
+        suppress_endmarker = true;
+        m_note_openers.insert (style.marker);
+      }
+      if (style.type == stylesv2::Type::crossreference_standard_content)
+        suppress_endmarker = true;
+      if (style.type == stylesv2::Type::crossreference_content)
         suppress_endmarker = true;
       if (suppress_endmarker)
         m_suppress_end_markers.insert (style.marker);

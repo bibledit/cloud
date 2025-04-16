@@ -111,7 +111,7 @@ void Styles_Css::evaluate_v1 (void * database_styles_item)
       add_v1 (style, false, false);
       break;
     }
-    case StyleTypeCrossreference:
+    case StyleTypeCrossreference: // moved to v2
     {
       switch (style->subtype)
       {
@@ -184,8 +184,8 @@ void Styles_Css::evaluate_v2 (const stylesv2::Style* style)
     case Type::table_heading:
     case Type::table_cell:
       break;
-    case Type::foot_note_wrapper:
-    case Type::end_note_wrapper:
+    case Type::footnote_wrapper:
+    case Type::endnote_wrapper:
       add_v2 (style, true, false);
       break;
     case Type::note_standard_content:
@@ -197,27 +197,19 @@ void Styles_Css::evaluate_v2 (const stylesv2::Style* style)
     case Type::character_style:
       add_v2 (style, false, false);
       break;
-// Todo still to implement the ones below.
-//    case StyleTypeCrossreference:
-//    {
-//      switch (style->subtype)
-//      {
-//        case CrossreferenceSubtypeCrossreference:
-//        {
-//          add (style, true, false);
-//          break;
-//        }
-//        case CrossreferenceSubtypeStandardContent:
-//        case CrossreferenceSubtypeContent:
-//        case CrossreferenceSubtypeContentWithEndmarker:
-//        {
-//          add (style, false, false);
-//          break;
-//        }
-//        default: break;
-//      }
-//      break;
-//    }
+    case Type::crossreference_wrapper:
+    {
+      add_v2 (style, true, false);
+      break;
+    }
+    case Type::crossreference_standard_content:
+    case Type::crossreference_content:
+    case Type::crossreference_content_with_endmarker:
+    {
+      add_v2 (style, false, false);
+      break;
+    }
+// Todo still to implement the one below.
 //    case StyleTypePicture:
 //    {
 //      add (style, true, false);

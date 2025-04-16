@@ -43,7 +43,7 @@ Checks_Usfm::Checks_Usfm (const std::string& bible)
     // And which markers are embeddable.
     bool required_endmarker {false};
     bool embeddable_marker {false};
-    if (styleType == StyleTypeCrossreference) {
+    if (styleType == StyleTypeCrossreference) { // moved to v2
       if (styleSubtype == CrossreferenceSubtypeCrossreference) {
         required_endmarker = true;
       }
@@ -80,10 +80,13 @@ Checks_Usfm::Checks_Usfm (const std::string& bible)
     if (style.type == stylesv2::Type::published_verse_marker) {
       required_endmarker = true;
     }
-    if (style.type == stylesv2::Type::foot_note_wrapper) {
+    if (style.type == stylesv2::Type::footnote_wrapper) {
       required_endmarker = true;
     }
-    if (style.type == stylesv2::Type::end_note_wrapper) {
+    if (style.type == stylesv2::Type::endnote_wrapper) {
+      required_endmarker = true;
+    }
+    if (style.type == stylesv2::Type::crossreference_wrapper) {
       required_endmarker = true;
     }
     if (required_endmarker) {
@@ -526,12 +529,14 @@ void Checks_Usfm::note ()
   // Clear this flag if it ends the note or xref.
   bool note_border_marker {false};
   if (stylev2) {
-    if (stylev2->type == stylesv2::Type::foot_note_wrapper)
+    if (stylev2->type == stylesv2::Type::footnote_wrapper)
       note_border_marker = true;
-    if (stylev2->type == stylesv2::Type::end_note_wrapper)
+    if (stylev2->type == stylesv2::Type::endnote_wrapper)
+      note_border_marker = true;
+    if (stylev2->type == stylesv2::Type::crossreference_wrapper)
       note_border_marker = true;
   }
-  if (stylev1.type == StyleTypeCrossreference) {
+  if (stylev1.type == StyleTypeCrossreference) { // Moved to v2
     if (stylev1.subtype == CrossreferenceSubtypeCrossreference) note_border_marker = true;
   }
   if (note_border_marker) {

@@ -278,9 +278,9 @@ std::string styles_view2 (Webserver_Request& webserver_request)
   if (marker_data.character) {
     view.enable_zone("character");
     bool enable_color = true;
-    if (marker_data.type == stylesv2::Type::foot_note_wrapper)
+    if (marker_data.type == stylesv2::Type::footnote_wrapper)
       enable_color = false;
-    if (marker_data.type == stylesv2::Type::end_note_wrapper)
+    if (marker_data.type == stylesv2::Type::endnote_wrapper)
       enable_color = false;
     if (enable_color)
       view.enable_zone("character_color");

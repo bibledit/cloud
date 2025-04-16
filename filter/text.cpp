@@ -171,7 +171,7 @@ void Filter_Text::get_styles ()
   for (const auto& marker : database::styles1::get_markers(m_stylesheet)) {
     database::styles1::Item style = database::styles1::get_marker_data (m_stylesheet, marker);
     styles [marker] = style;
-    if (style.type == StyleTypeCrossreference) {
+    if (style.type == StyleTypeCrossreference) { // moved to v2
       if (style.subtype == CrossreferenceSubtypeStandardContent) {
         standard_content_marker_cross_reference = style.marker;
       }
@@ -180,6 +180,8 @@ void Filter_Text::get_styles ()
   for (const stylesv2::Style& style : database::styles2::get_styles(m_stylesheet)) {
     if (style.type == stylesv2::Type::note_standard_content)
       standard_content_marker_foot_end_note = style.marker;
+    if (style.type == stylesv2::Type::crossreference_standard_content)
+      standard_content_marker_cross_reference = style.marker;
   }
 }
 
@@ -303,8 +305,8 @@ void Filter_Text::pre_process_usfm ()
               case stylesv2::Type::table_heading:
               case stylesv2::Type::table_cell:
                 break;
-              case stylesv2::Type::foot_note_wrapper:
-              case stylesv2::Type::end_note_wrapper:
+              case stylesv2::Type::footnote_wrapper:
+              case stylesv2::Type::endnote_wrapper:
               {
                 note_citations.evaluate_style_v2(*style);
                 break;
@@ -313,6 +315,11 @@ void Filter_Text::pre_process_usfm ()
               case stylesv2::Type::note_content:
               case stylesv2::Type::note_content_with_endmarker:
               case stylesv2::Type::note_paragraph:
+                break;
+              case stylesv2::Type::crossreference_wrapper:
+              case stylesv2::Type::crossreference_standard_content:
+              case stylesv2::Type::crossreference_content:
+              case stylesv2::Type::crossreference_content_with_endmarker:
                 break;
               case stylesv2::Type::character_style:
                 break;
@@ -415,7 +422,7 @@ void Filter_Text::process_usfm ()
               }
               break;
             }
-            case StyleTypeCrossreference:
+            case StyleTypeCrossreference: // moved to v2
             {
               processNote ();
               break;
@@ -1112,8 +1119,8 @@ void Filter_Text::process_usfm ()
               break;
             }
               
-            case stylesv2::Type::foot_note_wrapper:
-            case stylesv2::Type::end_note_wrapper:
+            case stylesv2::Type::footnote_wrapper:
+            case stylesv2::Type::endnote_wrapper:
             case stylesv2::Type::note_standard_content:
             case stylesv2::Type::note_content:
             case stylesv2::Type::note_content_with_endmarker:
@@ -1123,6 +1130,15 @@ void Filter_Text::process_usfm ()
               break;
             }
 
+            case stylesv2::Type::crossreference_wrapper:
+            case stylesv2::Type::crossreference_standard_content:
+            case stylesv2::Type::crossreference_content:
+            case stylesv2::Type::crossreference_content_with_endmarker:
+            {
+              processNote ();
+              break;
+            }
+              
             case stylesv2::Type::character_style:
             {
               // Support for a normal and an embedded character style.
@@ -1284,7 +1300,7 @@ void Filter_Text::processNote ()
           case stylesv2::Type::table_heading:
           case stylesv2::Type::table_cell:
             break;
-          case stylesv2::Type::foot_note_wrapper:
+          case stylesv2::Type::footnote_wrapper:
           {
             if (is_opening_marker) {
               ensureNoteParagraphStyle (marker, styles [standard_content_marker_foot_end_note]);
@@ -1325,7 +1341,7 @@ void Filter_Text::processNote ()
             }
             break;
           }
-          case stylesv2::Type::end_note_wrapper:
+          case stylesv2::Type::endnote_wrapper:
           {
             if (is_opening_marker) {
               ensureNoteParagraphStyle (marker, styles[standard_content_marker_foot_end_note]);
@@ -1422,6 +1438,80 @@ void Filter_Text::processNote ()
             }
             break;
           }
+            
+          case stylesv2::Type::crossreference_wrapper:
+          {
+            if (is_opening_marker) {
+              ensureNoteParagraphStyle (marker, styles[standard_content_marker_cross_reference]);
+              std::string citation = get_note_citation (stylev2->marker);
+              if (odf_text_standard) odf_text_standard->add_note (citation, marker);
+              // Note citation in superscript in the document with text and note citations.
+              if (odf_text_text_and_note_citations) {
+                std::vector <std::string> current_text_styles = odf_text_text_and_note_citations->m_current_text_style;
+                odf_text_text_and_note_citations->m_current_text_style = {"superscript"};
+                odf_text_text_and_note_citations->add_text (citation);
+                odf_text_text_and_note_citations->m_current_text_style = current_text_styles;
+              }
+              // Add a space if the paragraph has text already.
+              if (odf_text_notes) {
+                if (odf_text_notes->m_current_paragraph_content != "") {
+                  odf_text_notes->add_text (" ");
+                }
+              }
+              // Add the note citation. And a no-break space (NBSP) after it.
+              if (odf_text_notes) odf_text_notes->add_text (citation + filter::strings::non_breaking_space_u00A0());
+              // Open note in the web page.
+              ensureNoteParagraphStyle (standard_content_marker_cross_reference, styles[standard_content_marker_cross_reference]);
+              if (html_text_standard) html_text_standard->add_note (citation, standard_content_marker_cross_reference);
+              if (html_text_linked) html_text_linked->add_note (citation, standard_content_marker_cross_reference);
+              // Online Bible: Skip notes.
+              //if ($this->onlinebible_text) $this->onlinebible_text->addNote ();
+              if (text_text) text_text->note ();
+              // Handle opening notes in plain text.
+              notes_plain_text_handler ();
+              // Set flag.
+              note_open_now = true;
+            } else {
+              goto noteDone;
+            }
+            break;
+          }
+          case stylesv2::Type::crossreference_standard_content:
+          {
+            // The style of the standard content is already used in the note's body.
+            // If means that the text style should be cleared
+            // in order to return to the correct style for the paragraph.
+            if (odf_text_standard) odf_text_standard->close_text_style (true, false);
+            if (odf_text_notes) odf_text_notes->close_text_style (false, false);
+            if (html_text_standard) html_text_standard->close_text_style (true, false);
+            if (html_text_linked) html_text_linked->close_text_style (true, false);
+            break;
+          }
+          case stylesv2::Type::crossreference_content:
+          case stylesv2::Type::crossreference_content_with_endmarker:
+          {
+            if (is_opening_marker) {
+              if (odf_text_standard)
+                odf_text_standard->open_text_style (nullptr, stylev2, true, isEmbeddedMarker);
+              if (odf_text_notes)
+                odf_text_notes->open_text_style (nullptr, stylev2, false, isEmbeddedMarker);
+              if (html_text_standard)
+                html_text_standard->open_text_style (nullptr, stylev2, true, isEmbeddedMarker);
+              if (html_text_linked)
+                html_text_linked->open_text_style (nullptr, stylev2, true, isEmbeddedMarker);
+            } else {
+              if (odf_text_standard)
+                odf_text_standard->close_text_style (true, isEmbeddedMarker);
+              if (odf_text_notes)
+                odf_text_notes->close_text_style (false, isEmbeddedMarker);
+              if (html_text_standard)
+                html_text_standard->close_text_style (true, isEmbeddedMarker);
+              if (html_text_linked)
+                html_text_linked->close_text_style (true, isEmbeddedMarker);
+            }
+            break;
+          }
+            
           case stylesv2::Type::character_style:
           case stylesv2::Type::stopping_boundary:
           default:
@@ -1434,7 +1524,7 @@ void Filter_Text::processNote ()
         database::styles1::Item stylev1 = styles[marker];
         switch (stylev1.type)
         {
-          case StyleTypeCrossreference:
+          case StyleTypeCrossreference: // moved to v2
           {
             switch (stylev1.subtype)
             {

@@ -114,9 +114,9 @@ void citations::evaluate_style_v2 (const stylesv2::Style& style)
 {
   // Evaluate the style to find out whether to create a note citation for it.
   const auto create = [&style] () {
-    if (style.type == stylesv2::Type::foot_note_wrapper)
+    if (style.type == stylesv2::Type::footnote_wrapper)
       return true;
-    if (style.type == stylesv2::Type::end_note_wrapper)
+    if (style.type == stylesv2::Type::endnote_wrapper)
       return true;
     return false;
   };

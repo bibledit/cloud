@@ -452,7 +452,7 @@ bool styles_logic_starts_new_line_in_usfm (int type, [[maybe_unused]]int subtype
     {
       return false;
     }
-    case StyleTypeCrossreference :
+    case StyleTypeCrossreference : // moved to v2
     {
       return false;
     }

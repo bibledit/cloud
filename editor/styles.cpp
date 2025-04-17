@@ -192,31 +192,12 @@ std::string Editor_Styles::getAction (Webserver_Request& webserver_request, cons
   }
   else {
     database::styles1::Item data = database::styles1::get_marker_data (stylesheet, marker);
-    const int type = data.type;
-    const int subtype = data.subtype;
-    
-    switch (type)
+    switch (data.type)
     {
       case StyleTypeStartsParagraph:
         return paragraph ();
       case StyleTypeInlineText:
         return character ();
-      case StyleTypeCrossreference: // moved to v2
-      {
-        switch (subtype)
-        {
-          case CrossreferenceSubtypeCrossreference:
-            return note ();
-          case CrossreferenceSubtypeContent:
-          case CrossreferenceSubtypeContentWithEndmarker:
-            return character ();
-          case CrossreferenceSubtypeStandardContent:
-            return character ();
-          default:
-            return unknown ();
-        }
-        break;
-      }
       case StyleTypePeripheral:
         return mono ();
       case StyleTypePicture:
@@ -224,9 +205,7 @@ std::string Editor_Styles::getAction (Webserver_Request& webserver_request, cons
       case StyleTypePageBreak:
         return unknown ();
       case StyleTypeWordlistElement:
-      {
         return character ();
-      }
       default:
         return unknown ();
     }

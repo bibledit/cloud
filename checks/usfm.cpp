@@ -36,23 +36,16 @@ Checks_Usfm::Checks_Usfm (const std::string& bible)
   for (const auto & marker : markers_stylesheet) {
     database::styles1::Item style = database::styles1::get_marker_data (m_stylesheet, marker);
     style_items [marker] = style;
-    int styleType = style.type;
-    int styleSubtype = style.subtype;
 
     // Find out which markers require an endmarker.
     // And which markers are embeddable.
     bool required_endmarker {false};
     bool embeddable_marker {false};
-    if (styleType == StyleTypeCrossreference) { // moved to v2
-      if (styleSubtype == CrossreferenceSubtypeCrossreference) {
-        required_endmarker = true;
-      }
-    }
-    if (styleType == StyleTypeInlineText) {
+    if (style.type == StyleTypeInlineText) {
       required_endmarker = true;
       embeddable_marker = true;
     }
-    if (styleType == StyleTypeWordlistElement) {
+    if (style.type == StyleTypeWordlistElement) {
       required_endmarker = true;
       embeddable_marker = true;
     }
@@ -515,7 +508,8 @@ void Checks_Usfm::note ()
   }
 
   // If the current item is text, then do no further checks on that.
-  if (current_is_text) return;
+  if (current_is_text)
+    return;
   // From here on it is assumed that the current item is USFM, not text.
 
   // Get the plain marker, e.g. '\f ' becomes "f".
@@ -536,9 +530,6 @@ void Checks_Usfm::note ()
     if (stylev2->type == stylesv2::Type::crossreference_wrapper)
       note_border_marker = true;
   }
-  if (stylev1.type == StyleTypeCrossreference) { // Moved to v2
-    if (stylev1.subtype == CrossreferenceSubtypeCrossreference) note_border_marker = true;
-  }
   if (note_border_marker) {
     if (current_is_opener) within_note = true;
     if (current_is_closer) within_note = false;
@@ -546,7 +537,8 @@ void Checks_Usfm::note ()
 
   // If the current location is not within a footnote / endnote / cross reference,
   // then there is nothing to check for.
-  if (!within_note) return;
+  if (!within_note)
+    return;
 
   // Get the next item, that is the item following the current item.
   const std::string next_item = filter::usfm::peek_text_following_marker (usfm_markers_and_text, usfm_markers_and_text_pointer);

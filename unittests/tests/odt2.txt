@@ -300,6 +300,10 @@ text1origin keyword quotation targets added published old testament new testamen
 
 
 
+text1targets
+
+
+
 The Book name
 
 Proto Deutero text.

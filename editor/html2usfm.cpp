@@ -67,76 +67,54 @@ void Editor_Html2Usfm::load (std::string html)
 }
 
 
-void Editor_Html2Usfm::stylesheet (const std::string& stylesheet) // Todo
+void Editor_Html2Usfm::stylesheet (const std::string& stylesheet)
 {
   m_note_openers.clear();
   m_suppress_end_markers.clear();
   m_force_end_markers.clear();
   m_character_styles.clear();
-  {
-    const std::vector <std::string> markers = database::styles1::get_markers (stylesheet);
-    // Load the style information into the object.
-    for (const std::string& marker : markers) {
-      database::styles1::Item style = database::styles1::get_marker_data (stylesheet, marker);
-      // Get markers that should not have endmarkers.
-      bool suppress = false;
-      const int type = style.type;
-      const int subtype = style.subtype;
-      if (type == StyleTypeCrossreference) { // moved to v2
-        suppress = true;
-        if (subtype == CrossreferenceSubtypeCrossreference)
-          m_note_openers.insert (marker);
-        if (subtype == CrossreferenceSubtypeContentWithEndmarker)
-          suppress = false;
-      }
-      if (suppress)
-        m_suppress_end_markers.insert (marker);
+  const std::list<stylesv2::Style> styles = database::styles2::get_styles (stylesheet);
+  for (const auto& style : styles) {
+    // Paragraph styles normally don't have a closing USFM marker.
+    // But there's exceptions to this rule.
+    // Gather the markers that need a closing USFM marker.
+    if (stylesv2::get_parameter<bool>(&style, stylesv2::Property::has_endmarker))
+      m_force_end_markers.insert(style.marker);
+    // Get markers that should not have endmarkers.
+    // Gather the note openers.
+    bool suppress_endmarker = false;
+    if (style.type == stylesv2::Type::verse)
+      suppress_endmarker = true;
+    if (style.type == stylesv2::Type::table_row)
+      suppress_endmarker = true;
+    if (style.type == stylesv2::Type::table_heading)
+      suppress_endmarker = true;
+    if (style.type == stylesv2::Type::table_cell)
+      suppress_endmarker = true;
+    if (style.type == stylesv2::Type::footnote_wrapper) {
+      suppress_endmarker = true;
+      m_note_openers.insert (style.marker);
     }
-  }
-  {
-    const std::list<stylesv2::Style> styles = database::styles2::get_styles (stylesheet);
-    for (const auto& style : styles) {
-      // Paragraph styles normally don't have a closing USFM marker.
-      // But there's exceptions to this rule.
-      // Gather the markers that need a closing USFM marker.
-      if (stylesv2::get_parameter<bool>(&style, stylesv2::Property::has_endmarker))
-        m_force_end_markers.insert(style.marker);
-      // Get markers that should not have endmarkers.
-      // Gather the note openers.
-      bool suppress_endmarker = false;
-      if (style.type == stylesv2::Type::verse)
-        suppress_endmarker = true;
-      if (style.type == stylesv2::Type::table_row)
-        suppress_endmarker = true;
-      if (style.type == stylesv2::Type::table_heading)
-        suppress_endmarker = true;
-      if (style.type == stylesv2::Type::table_cell)
-        suppress_endmarker = true;
-      if (style.type == stylesv2::Type::footnote_wrapper) {
-        suppress_endmarker = true;
-        m_note_openers.insert (style.marker);
-      }
-      if (style.type == stylesv2::Type::endnote_wrapper) {
-        suppress_endmarker = true;
-        m_note_openers.insert (style.marker);
-      }
-      if (style.type == stylesv2::Type::note_standard_content)
-        suppress_endmarker = true;
-      if (style.type == stylesv2::Type::note_content)
-        suppress_endmarker = true;
-      if (style.type == stylesv2::Type::note_paragraph)
-        suppress_endmarker = true;
-      if (style.type == stylesv2::Type::crossreference_wrapper) {
-        suppress_endmarker = true;
-        m_note_openers.insert (style.marker);
-      }
-      if (style.type == stylesv2::Type::crossreference_standard_content)
-        suppress_endmarker = true;
-      if (style.type == stylesv2::Type::crossreference_content)
-        suppress_endmarker = true;
-      if (suppress_endmarker)
-        m_suppress_end_markers.insert (style.marker);
+    if (style.type == stylesv2::Type::endnote_wrapper) {
+      suppress_endmarker = true;
+      m_note_openers.insert (style.marker);
     }
+    if (style.type == stylesv2::Type::note_standard_content)
+      suppress_endmarker = true;
+    if (style.type == stylesv2::Type::note_content)
+      suppress_endmarker = true;
+    if (style.type == stylesv2::Type::note_paragraph)
+      suppress_endmarker = true;
+    if (style.type == stylesv2::Type::crossreference_wrapper) {
+      suppress_endmarker = true;
+      m_note_openers.insert (style.marker);
+    }
+    if (style.type == stylesv2::Type::crossreference_standard_content)
+      suppress_endmarker = true;
+    if (style.type == stylesv2::Type::crossreference_content)
+      suppress_endmarker = true;
+    if (suppress_endmarker)
+      m_suppress_end_markers.insert (style.marker);
   }
 }
 

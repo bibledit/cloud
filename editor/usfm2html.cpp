@@ -200,51 +200,6 @@ void Editor_Usfm2Html::process ()
             }
             break;
           }
-          case StyleTypeCrossreference: // moved to v2
-          {
-            switch (style.subtype)
-            {
-              case CrossreferenceSubtypeCrossreference:
-              {
-                close_text_style (false);
-                if (is_opening_marker) {
-                  const std::string caller = m_note_citations.get (style.marker, "+");
-                  add_note (caller, marker);
-                } else {
-                  close_current_note ();
-                }
-                break;
-              }
-              case CrossreferenceSubtypeContent:
-              case CrossreferenceSubtypeContentWithEndmarker:
-              case CrossreferenceSubtypeStandardContent:
-              {
-                if (is_opening_marker) {
-                  open_text_style (style.marker, is_embedded_marker);
-                  // Deal in a special way with possible word-level attributes.
-                  // Note open | Extract word-level attributes
-                  //  yes      |  no
-                  //  no       |  yes
-                  //-----------------
-                  // In other words, if a note is open, which is the normal case,
-                  // then don't extract the word-level attributes, but output them as they are.
-                  // But if a note is not open, it is assumed to be a link reference in the main text body.
-                  // In such a case, extract the word-level attributes as usual.
-                  if (!m_note_opened)
-                      extract_word_level_attributes();
-                } else {
-                  close_text_style (is_embedded_marker);
-                }
-                break;
-              }
-              default:
-              {
-                close_text_style (false);
-                break;
-              }
-            }
-            break;
-          }
           case StyleTypePeripheral:
           {
             close_text_style (false);
@@ -866,7 +821,7 @@ bool road_is_clear(const std::vector<std::string>& markers_and_text,
   };
 
   // Function to determine whether the type is a footnote / endnote.
-  const auto is_xref_type = [](const int type_v1, const stylesv2::Style* style_v2) {
+  const auto is_xref_type = [](const stylesv2::Style* style_v2) {
     if (style_v2) {
       if (style_v2->type == stylesv2::Type::crossreference_wrapper)
         return true;
@@ -876,20 +831,14 @@ bool road_is_clear(const std::vector<std::string>& markers_and_text,
         return true;
       if (style_v2->type == stylesv2::Type::crossreference_content_with_endmarker)
         return true;
-    } else {
-      if (type_v1 == StyleTypeCrossreference) // moved to v2
-        return true;
     }
     return false;
   };
   
   // Function to determine whether the subtype is a footnote / endnote.
-  const auto is_xref_subtype = [](const int subtype_v1, const stylesv2::Style* style_v2) {
+  const auto is_xref_subtype = [](const stylesv2::Style* style_v2) {
     if (style_v2) {
       if (style_v2->type == stylesv2::Type::crossreference_wrapper)
-        return true;
-    } else {
-      if (subtype_v1 == CrossreferenceSubtypeCrossreference) // Moved to v2.
         return true;
     }
     return false;
@@ -965,8 +914,8 @@ bool road_is_clear(const std::vector<std::string>& markers_and_text,
                 return false;
               // Encounters cross reference opener or closer: blocker.
               // Other \x.. markup is allowed.
-              if (is_xref_type(type_v1, style_v2)) {
-                if (is_xref_subtype(subtype_v1, style_v2)) {
+              if (is_xref_type(style_v2)) {
+                if (is_xref_subtype(style_v2)) {
                   return false;
                 }
               }
@@ -975,13 +924,13 @@ bool road_is_clear(const std::vector<std::string>& markers_and_text,
         }
 
         // The input is a cross reference opener.
-        if (is_xref_type(input_type_v1, input_style_v2)) {
+        if (is_xref_type(input_style_v2)) {
           if (input_opener) {
-            if (is_xref_subtype(input_subtype_v1, input_style_v2)) {
+            if (is_xref_subtype(input_style_v2)) {
               // Encounters xref closer: road is clear.
               // Encounters another xref opener: blocker.
-              if (is_xref_type(type_v1, style_v2)) {
-                if (is_xref_subtype(subtype_v1, style_v2)) {
+              if (is_xref_type(style_v2)) {
+                if (is_xref_subtype(style_v2)) {
                   if (opener)
                     return false;
                   else

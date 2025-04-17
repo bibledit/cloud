@@ -224,7 +224,7 @@ std::string styles_view (Webserver_Request& webserver_request)
   
   
   // The fontsize.
-  if (styles_logic_fontsize_is_relevant (type, subtype)) view.enable_zone ("fontsize_relevant");
+  if (styles_logic_fontsize_is_relevant (type)) view.enable_zone ("fontsize_relevant");
   float fontsize = marker_data.fontsize;
   if (webserver_request.query.count ("fontsize")) {
     Dialog_Entry dialog_entry = Dialog_Entry ("view", translate("Please enter a fontsize between 5 and 60 points"), filter::strings::convert_to_string (fontsize), "fontsize", translate ("The value to enter is just a number, e.g. 12."));
@@ -262,7 +262,7 @@ std::string styles_view (Webserver_Request& webserver_request)
       dialog_list.add_query ("style", style);
       database::styles1::Item style_item = database::styles1::get_marker_data (sheet, style);
       int last_value {ooitOn};
-      if (styles_logic_italic_bold_underline_smallcaps_are_full (style_item.type, style_item.subtype))
+      if (styles_logic_italic_bold_underline_smallcaps_are_full (style_item.type))
         last_value = ooitToggle;
       for (int i = 0; i <= last_value; i++) {
         dialog_list.add_row (styles_logic_off_on_inherit_toggle_text (i), "italic", std::to_string (i));
@@ -290,7 +290,7 @@ std::string styles_view (Webserver_Request& webserver_request)
       dialog_list.add_query ("style", style);
       database::styles1::Item style_data = database::styles1::get_marker_data (sheet, style);
       int last_value {ooitOn};
-      if (styles_logic_italic_bold_underline_smallcaps_are_full (style_data.type, style_data.subtype))
+      if (styles_logic_italic_bold_underline_smallcaps_are_full (style_data.type))
         last_value = ooitToggle;
       for (int i = 0; i <= last_value; i++) {
         dialog_list.add_row (styles_logic_off_on_inherit_toggle_text (i), "bold", std::to_string (i));
@@ -318,7 +318,7 @@ std::string styles_view (Webserver_Request& webserver_request)
       dialog_list.add_query ("style", style);
       database::styles1::Item style_data = database::styles1::get_marker_data (sheet, style);
       int last_value {ooitOn};
-      if (styles_logic_italic_bold_underline_smallcaps_are_full (type, subtype))
+      if (styles_logic_italic_bold_underline_smallcaps_are_full (type))
         last_value = ooitToggle;
       for (int i = 0; i <= last_value; i++) {
         dialog_list.add_row (styles_logic_off_on_inherit_toggle_text (i), "underline", std::to_string (i));
@@ -346,7 +346,7 @@ std::string styles_view (Webserver_Request& webserver_request)
       dialog_list.add_query ("style", style);
       database::styles1::Item style_data = database::styles1::get_marker_data (sheet, style);
       int last_value {ooitOn};
-      if (styles_logic_italic_bold_underline_smallcaps_are_full (style_data.type, style_data.subtype))
+      if (styles_logic_italic_bold_underline_smallcaps_are_full (style_data.type))
         last_value = ooitToggle;
       for (int i = 0; i <= last_value; i++) {
         dialog_list.add_row (styles_logic_off_on_inherit_toggle_text (i), "smallcaps", std::to_string (i));
@@ -365,7 +365,7 @@ std::string styles_view (Webserver_Request& webserver_request)
   
   
   // Superscript.
-  if (styles_logic_superscript_is_relevant (type, subtype)) view.enable_zone ("superscript_relevant");
+  if (styles_logic_superscript_is_relevant (type)) view.enable_zone ("superscript_relevant");
   int superscript = marker_data.superscript;
   if (webserver_request.query.count ("superscript")) {
     superscript = filter::strings::convert_to_int (webserver_request.query["superscript"]);
@@ -379,7 +379,7 @@ std::string styles_view (Webserver_Request& webserver_request)
   
 
   // Whether a list of the following paragraph treats are relevant.
-  if (styles_logic_paragraph_treats_are_relevant (type, subtype)) view.enable_zone ("paragraph_treats_relevant");
+  if (styles_logic_paragraph_treats_are_relevant (type)) view.enable_zone ("paragraph_treats_relevant");
 
   
   // Text alignment.
@@ -526,7 +526,7 @@ std::string styles_view (Webserver_Request& webserver_request)
 
   
   // Color.
-  if (styles_logic_color_is_relevant (type, subtype)) view.enable_zone ("color_relevant");
+  if (styles_logic_color_is_relevant (type)) view.enable_zone ("color_relevant");
   
   std::string color = marker_data.color;
   if (webserver_request.query.count ("fgcolor")) {
@@ -558,7 +558,7 @@ std::string styles_view (Webserver_Request& webserver_request)
 
 
   // Whether to print this style.
-  if (styles_logic_print_is_relevant (type, subtype)) view.enable_zone ("print_relevant");
+  if (styles_logic_print_is_relevant ()) view.enable_zone ("print_relevant");
   bool print {marker_data.print};
   if (webserver_request.query.count ("print")) {
     print = filter::strings::convert_to_bool (webserver_request.query["print"]);
@@ -572,7 +572,7 @@ std::string styles_view (Webserver_Request& webserver_request)
   
 
   // Userbool1.
-  std::string userbool1_function = styles_logic_get_userbool1_text (styles_logic_get_userbool1_function (type, subtype));
+  std::string userbool1_function = styles_logic_get_userbool1_text (styles_logic_get_userbool1_function ());
   if (userbool1_function.length () > 2) view.enable_zone ("userbool1_relevant");
   view.set_variable ("userbool1_function", userbool1_function);
   bool userbool1 {marker_data.userbool1};
@@ -621,7 +621,7 @@ std::string styles_view (Webserver_Request& webserver_request)
   
   // Userint1.
   int userint1 = marker_data.userint1;
-  switch (styles_logic_get_userint1_function (type, subtype)) {
+  switch (styles_logic_get_userint1_function ()) {
     case UserInt1None :
       break;
     case UserInt1NoteNumbering :
@@ -672,7 +672,7 @@ std::string styles_view (Webserver_Request& webserver_request)
   
   // Userint2.
   int userint2 = marker_data.userint2;
-  switch (styles_logic_get_userint2_function (type, subtype)) {
+  switch (styles_logic_get_userint2_function ()) {
     case UserInt2None :
       break;
     case UserInt2NoteNumberingRestart :
@@ -725,7 +725,7 @@ std::string styles_view (Webserver_Request& webserver_request)
   std::string userstring1 {marker_data.userstring1};
   std::string userstring1_question {};
   std::string userstring1_help {};
-  switch (styles_logic_get_userstring1_function (type, subtype)) {
+  switch (styles_logic_get_userstring1_function (type)) {
     case UserString1None :
       break;
     case UserString1NoteNumberingSequence :

@@ -171,11 +171,6 @@ void Filter_Text::get_styles ()
   for (const auto& marker : database::styles1::get_markers(m_stylesheet)) {
     database::styles1::Item style = database::styles1::get_marker_data (m_stylesheet, marker);
     styles [marker] = style;
-    if (style.type == StyleTypeCrossreference) { // moved to v2
-      if (style.subtype == CrossreferenceSubtypeStandardContent) {
-        standard_content_marker_cross_reference = style.marker;
-      }
-    }
   }
   for (const stylesv2::Style& style : database::styles2::get_styles(m_stylesheet)) {
     if (style.type == stylesv2::Type::note_standard_content)
@@ -420,11 +415,6 @@ void Filter_Text::process_usfm ()
                 if (html_text_standard) html_text_standard->close_text_style (false, is_embedded_marker);
                 if (html_text_linked) html_text_linked->close_text_style (false, is_embedded_marker);
               }
-              break;
-            }
-            case StyleTypeCrossreference: // moved to v2
-            {
-              processNote ();
               break;
             }
             case StyleTypePeripheral:
@@ -1519,101 +1509,7 @@ void Filter_Text::processNote ()
         }
         
       }
-      else if (styles.find (marker) != styles.end())
-      {
-        database::styles1::Item stylev1 = styles[marker];
-        switch (stylev1.type)
-        {
-          case StyleTypeCrossreference: // moved to v2
-          {
-            switch (stylev1.subtype)
-            {
-              case CrossreferenceSubtypeCrossreference:
-              {
-                if (is_opening_marker) {
-                  ensureNoteParagraphStyle (marker, styles[standard_content_marker_cross_reference]);
-                  std::string citation = get_note_citation (stylev1.marker);
-                  if (odf_text_standard) odf_text_standard->add_note (citation, marker);
-                  // Note citation in superscript in the document with text and note citations.
-                  if (odf_text_text_and_note_citations) {
-                    std::vector <std::string> current_text_styles = odf_text_text_and_note_citations->m_current_text_style;
-                    odf_text_text_and_note_citations->m_current_text_style = {"superscript"};
-                    odf_text_text_and_note_citations->add_text (citation);
-                    odf_text_text_and_note_citations->m_current_text_style = current_text_styles;
-                  }
-                  // Add a space if the paragraph has text already.
-                  if (odf_text_notes) {
-                    if (odf_text_notes->m_current_paragraph_content != "") {
-                      odf_text_notes->add_text (" ");
-                    }
-                  }
-                  // Add the note citation. And a no-break space (NBSP) after it.
-                  if (odf_text_notes) odf_text_notes->add_text (citation + filter::strings::non_breaking_space_u00A0());
-                  // Open note in the web page.
-                  ensureNoteParagraphStyle (standard_content_marker_cross_reference, styles[standard_content_marker_cross_reference]);
-                  if (html_text_standard) html_text_standard->add_note (citation, standard_content_marker_cross_reference);
-                  if (html_text_linked) html_text_linked->add_note (citation, standard_content_marker_cross_reference);
-                  // Online Bible: Skip notes.
-                  //if ($this->onlinebible_text) $this->onlinebible_text->addNote ();
-                  if (text_text) text_text->note (); 
-                  // Handle opening notes in plain text.
-                  notes_plain_text_handler ();
-                  // Set flag.
-                  note_open_now = true;
-                } else {
-                  goto noteDone;
-                }
-                break;
-              }
-              case CrossreferenceSubtypeStandardContent:
-              {
-                // The style of the standard content is already used in the note's body.
-                // If means that the text style should be cleared
-                // in order to return to the correct style for the paragraph.
-                if (odf_text_standard) odf_text_standard->close_text_style (true, false);
-                if (odf_text_notes) odf_text_notes->close_text_style (false, false);
-                if (html_text_standard) html_text_standard->close_text_style (true, false);
-                if (html_text_linked) html_text_linked->close_text_style (true, false);
-                break;
-              }
-              case CrossreferenceSubtypeContent:
-              case CrossreferenceSubtypeContentWithEndmarker:
-              {
-                if (is_opening_marker) {
-                  if (odf_text_standard)
-                    odf_text_standard->open_text_style (&stylev1, nullptr, true, isEmbeddedMarker);
-                  if (odf_text_notes)
-                    odf_text_notes->open_text_style (&stylev1, nullptr, false, isEmbeddedMarker);
-                  if (html_text_standard)
-                    html_text_standard->open_text_style (&stylev1, nullptr, true, isEmbeddedMarker);
-                  if (html_text_linked)
-                    html_text_linked->open_text_style (&stylev1, nullptr, true, isEmbeddedMarker);
-                } else {
-                  if (odf_text_standard)
-                    odf_text_standard->close_text_style (true, isEmbeddedMarker);
-                  if (odf_text_notes)
-                    odf_text_notes->close_text_style (false, isEmbeddedMarker);
-                  if (html_text_standard)
-                    html_text_standard->close_text_style (true, isEmbeddedMarker);
-                  if (html_text_linked)
-                    html_text_linked->close_text_style (true, isEmbeddedMarker);
-                }
-                break;
-              }
-              default:
-              {
-                break;
-              }
-            }
-            break;
-          }
-          default:
-          {
-            addToFallout (R"(Marker not suitable in note context \)" + marker, false);
-            break;
-          }
-        }
-      } else {
+      else {
         // Here is an unknown marker. Add the marker to fallout, plus any text that follows.
         addToFallout (R"(Unknown marker \)" + marker, true);
       }

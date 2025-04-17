@@ -111,26 +111,6 @@ void Styles_Css::evaluate_v1 (void * database_styles_item)
       add_v1 (style, false, false);
       break;
     }
-    case StyleTypeCrossreference: // moved to v2
-    {
-      switch (style->subtype)
-      {
-        case CrossreferenceSubtypeCrossreference:
-        {
-          add_v1 (style, true, false);
-          break;
-        }
-        case CrossreferenceSubtypeStandardContent:
-        case CrossreferenceSubtypeContent:
-        case CrossreferenceSubtypeContentWithEndmarker:
-        {
-          add_v1 (style, false, false);
-          break;
-        }
-        default: break;
-      }
-      break;
-    }
     case StyleTypePicture:
     {
       add_v1 (style, true, false);

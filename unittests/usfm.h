@@ -168,6 +168,7 @@ R"(\p text\fe + \fr ref\ft note\fe*)" "\n"
 R"(\p text\ef + \fr ref\ft note\ef*)" "\n"
 R"(\p text\f + \fp paragraph\f*)" "\n"
 R"(\p text\x + \xo origin \xk keyword \xq quotation \xt targets \xta added \xop published\xop* \xot old testament\xot* \xnt new testament\xnt* \xdc deuterocanonical\xdc*\x*)" "\n"
+R"(\p text\ex + \xt targets\ex*)" "\n"
 
 
 

@@ -60,7 +60,6 @@ std::string styles_logic_type_text (int type)
 {
   if (type == StyleTypeStartsParagraph) return translate ("starts a new paragraph");
   if (type == StyleTypeInlineText     ) return translate ("is inline text with endmarker");
-  if (type == StyleTypeCrossreference ) return translate ("is a crossreference");
   if (type == StyleTypePeripheral     ) return translate ("is a peripheral element");
   if (type == StyleTypePicture        ) return translate ("is a picture");
   if (type == StyleTypePageBreak      ) return translate ("starts a new page");
@@ -79,12 +78,6 @@ std::string styles_logic_subtype_text (int type, int subtype)
     if (subtype == ParagraphSubtypeNormalParagraph) return translate ("is a normal paragraph");
   }
   if (type == StyleTypeInlineText) {
-  }
-  if (type == StyleTypeCrossreference) {
-    if (subtype == ParagraphSubtypeMainTitle      ) return translate ("starts a crossreference");
-    if (subtype == ParagraphSubtypeSubTitle       ) return translate ("is standard content");
-    if (subtype == ParagraphSubtypeSectionHeading ) return translate ("is content");
-    if (subtype == ParagraphSubtypeNormalParagraph) return translate ("is content with endmarker");
   }
   if (type == StyleTypePeripheral) {
     if (subtype == PeripheralSubtypePublication    ) return translate ("starts publication data");
@@ -113,23 +106,12 @@ std::string styles_logic_subtype_text (int type, int subtype)
 }
 
 
-// Returns true if the fontsize is relevant for $type and $subtype.
-bool styles_logic_fontsize_is_relevant (int type, int subtype)
+// Returns true if the fontsize is relevant for $type.
+bool styles_logic_fontsize_is_relevant (int type)
 {
   switch (type) {
     case StyleTypeStartsParagraph : return true;
-    case StyleTypeCrossreference :
-    {
-      switch (subtype) {
-        case CrossreferenceSubtypeStandardContent : return true;
-        default: return false;
-      }
-      break;
-    }
-    case StyleTypePicture :
-    {
-      return true;
-    }
+    case StyleTypePicture : return true;
     default: return false;
   }
   return false;
@@ -142,7 +124,6 @@ bool styles_logic_italic_bold_underline_smallcaps_are_relevant (int type)
   switch (type) {
     case StyleTypeStartsParagraph : return true;
     case StyleTypeInlineText      : return true;
-    case StyleTypeCrossreference  : return true;
     case StyleTypePicture         : return true;
     default: return false;
   }
@@ -151,20 +132,10 @@ bool styles_logic_italic_bold_underline_smallcaps_are_relevant (int type)
 
 
 // Returns true if the italic, bold, etc. settings are fully applicable for $type and $subtype. Full means it also has inherit and toggle values.
-bool styles_logic_italic_bold_underline_smallcaps_are_full (int type, int subtype)
+bool styles_logic_italic_bold_underline_smallcaps_are_full (int type)
 {
   switch (type) {
     case StyleTypeInlineText: return true;
-    case StyleTypeCrossreference:
-    {
-      switch (subtype) {
-        case CrossreferenceSubtypeCrossreference: return true;
-        case CrossreferenceSubtypeContent: return true;
-        case CrossreferenceSubtypeContentWithEndmarker: return true;
-        default: return false;
-      }
-      break;
-    }
     default: return false;
   }
   return false;
@@ -182,39 +153,22 @@ std::string styles_logic_off_on_inherit_toggle_text (int value)
 }
 
 
-// Returns true if the superscript setting is relevant for $type and $subtype
-bool styles_logic_superscript_is_relevant (int type, int subtype)
+// Returns true if the superscript setting is relevant for $type.
+bool styles_logic_superscript_is_relevant (int type)
 {
   switch (type) {
     case StyleTypeInlineText  : return true;
-    case StyleTypeCrossreference :
-    {
-      switch (subtype) {
-        case CrossreferenceSubtypeCrossreference        : return true;
-        case CrossreferenceSubtypeStandardContent       : return true;
-        default: return false;
-      }
-      break;
-    }
     default: return false;
   }
   return false;
 }
 
 
-// Returns true if the paragraph treats are relevant for $type and $subtype
-bool styles_logic_paragraph_treats_are_relevant (int type, int subtype)
+// Returns true if the paragraph treats are relevant for $type.
+bool styles_logic_paragraph_treats_are_relevant (int type)
 {
   switch (type) {
     case StyleTypeStartsParagraph : return true;
-    case StyleTypeCrossreference :
-    {
-      switch (subtype) {
-        case CrossreferenceSubtypeStandardContent : return true;
-        default: return false;
-      }
-      break;
-    }
     case StyleTypePicture : return true;
     default: return false;
   }
@@ -245,51 +199,27 @@ bool styles_logic_columns_are_relevant (int type, int subtype)
 }
 
 
-// Returns true if the color is relevant for $type and $subtype
-bool styles_logic_color_is_relevant (int type, int subtype)
+// Returns true if the color is relevant for $type.
+bool styles_logic_color_is_relevant (int type)
 {
   switch (type) {
     case StyleTypeInlineText  : return true;
-    case StyleTypeCrossreference :
-    {
-      switch (subtype) {
-        case CrossreferenceSubtypeContent              : return true;
-        case CrossreferenceSubtypeContentWithEndmarker : return true;
-        default: return false;
-      }
-      break;
-    }
     default: return false;
   }
   return false;
 }
 
 
-// Returns true if the print setting is relevant for $type and $subtype
-bool styles_logic_print_is_relevant (int type, int subtype)
+// Returns true if the print setting is relevant (just now: never).
+bool styles_logic_print_is_relevant ()
 {
-  switch (type) {
-    case StyleTypeCrossreference :
-    {
-      switch (subtype) {
-        case CrossreferenceSubtypeCrossreference  : return true;
-        default: return false;
-      }
-      break;
-    }
-    default: return false;
-  }
   return false;
 }
 
 
-// Returns the function of userbool1 for type and subtype
-int styles_logic_get_userbool1_function (int type, int subtype)
+// Returns the function of userbool1.
+int styles_logic_get_userbool1_function ()
 {
-  if (type == StyleTypeCrossreference) {
-    if (subtype != CrossreferenceSubtypeCrossreference)
-      return UserBool1NoteAppliesToApocrypha;
-  }
   return UserBool1None;
 }
 
@@ -348,13 +278,9 @@ std::string styles_logic_get_userbool3_text (int function)
 }
 
 
-// Returns the function of userint1 for type and subtype
-int styles_logic_get_userint1_function (int type, int subtype)
+// Returns the function of userint1.
+int styles_logic_get_userint1_function ()
 {
-  if (type == StyleTypeCrossreference) {
-    if (subtype == CrossreferenceSubtypeCrossreference)
-      return UserInt1NoteNumbering;
-  }
   return UserInt1None;
 }
 
@@ -369,13 +295,9 @@ std::string styles_logic_note_numbering_text (int value)
 }
 
 
-// Returns the function of userint2 for type and subtype
-int styles_logic_get_userint2_function (int type, int subtype)
+// Returns the function of userint2.
+int styles_logic_get_userint2_function ()
 {
-  if (type == StyleTypeCrossreference) {
-    if (subtype == CrossreferenceSubtypeCrossreference)
-      return UserInt2NoteNumberingRestart;
-  }
   return UserInt2None;
 }
 
@@ -409,13 +331,9 @@ int styles_logic_get_userint3_function (int type, int subtype)
 }
 
 
-// Returns the function of userstring1 for type and subtype
-int styles_logic_get_userstring1_function (int type, int subtype)
+// Returns the function of userstring1 for type.
+int styles_logic_get_userstring1_function (int type)
 {
-  if (type == StyleTypeCrossreference) {
-    if (subtype == CrossreferenceSubtypeCrossreference)
-      return UserString1NoteNumberingSequence;
-  }
   if (type == StyleTypeWordlistElement) {
     return UserString1WordListEntryAddition;
   }
@@ -449,10 +367,6 @@ bool styles_logic_starts_new_line_in_usfm (int type, [[maybe_unused]]int subtype
       return true;
     }
     case StyleTypeInlineText :
-    {
-      return false;
-    }
-    case StyleTypeCrossreference : // moved to v2
     {
       return false;
     }

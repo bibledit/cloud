@@ -1535,6 +1535,7 @@ TEST_F (filter_text, usfm_with_all_markers)
   R"(<p class="p"><span>text</span><a href="#note3" id="citation3" class="superscript">1</a></p>)"
   R"(<p class="p"><span>text</span><a href="#note4" id="citation4" class="superscript">2</a></p>)"
   R"(<p class="p"><span>text</span><a href="#note5" id="citation5" class="superscript">1</a></p>)"
+  R"(<p class="p"><span>text</span><a href="#note6" id="citation6" class="superscript">1</a></p>)"
   
   
   R"(<p class="p"><span>The </span><span class="bk">Book</span><span> name</span></p>)"
@@ -1562,6 +1563,7 @@ TEST_F (filter_text, usfm_with_all_markers)
   R"(<p class="ft"><a href="#citation3" id="note3">1</a><span> </span><span class="fr">ref</span><span>note</span></p>)"
   R"(<p class="ft"><a href="#citation4" id="note4">2</a><span> </span><span class="fp">paragraph</span></p>)"
   R"(<p class="xt"><a href="#citation5" id="note5">1</a><span> </span><span class="xo">origin </span><span class="xk">keyword </span><span class="xq">quotation </span><span>targets </span><span class="xta">added </span><span class="xop">published</span><span> </span><span class="xot">old testament</span><span> </span><span class="xnt">new testament</span><span> </span><span class="xdc">deuterocanonical</span></p>)"
+  R"(<p class="xt"><a href="#citation6" id="note6">1</a><span> </span><span>targets</span></p>)"
   R"(</div>)"
   ;
 

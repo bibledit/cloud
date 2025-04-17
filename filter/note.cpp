@@ -32,27 +32,6 @@ citation::citation ()
   pointer = 0;
 }
 
-void citation::set_sequence_v1 (int numbering, const std::string& usersequence)
-{
-  if (numbering == NoteNumbering123) { // Already moved to v2.
-    this->sequence.clear();
-  }
-  else if (numbering == NoteNumberingAbc) {
-    this->sequence = { "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"};
-  }
-  else if (numbering == NoteNumberingUser) {
-    if (!usersequence.empty())
-      this->sequence = filter::strings::explode (usersequence, ' ');
-  }
-  else {
-    this->sequence = {"1", "2", "3", "4", "5", "6", "7", "8", "9"}; // Fallback sequence.
-  }
-  // How the above works:
-  // The note will be numbered as follows:
-  // If a sequence is given, then this sequence is followed for the citations.
-  // If no sequence is given, then the note gets numerical citations.
-}
-
 void citation::set_sequence_v2 (std::string sequence_in)
 {
   sequence = filter::strings::explode (std::move(sequence_in), ' ');
@@ -117,6 +96,8 @@ void citations::evaluate_style_v2 (const stylesv2::Style& style)
     if (style.type == stylesv2::Type::footnote_wrapper)
       return true;
     if (style.type == stylesv2::Type::endnote_wrapper)
+      return true;
+    if (style.type == stylesv2::Type::crossreference_wrapper)
       return true;
     return false;
   };

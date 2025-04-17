@@ -53,7 +53,7 @@ void Editor_Usfm2Html::stylesheet (const std::string& stylesheet)
   }
   // Load style version 2 information into the object.
   for (const stylesv2::Style& style : database::styles2::get_styles(stylesheet)) {
-    m_note_citations.evaluate_style_v2(style);
+    m_note_citations.evaluate_style(style);
   }
 }
 

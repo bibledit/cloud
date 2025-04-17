@@ -29,8 +29,8 @@ class citation
 {
 public:
   citation ();
-  void set_sequence_v2 (std::string sequence_in);
-  void set_restart_v2 (const std::string& setting);
+  void set_sequence (std::string sequence_in);
+  void set_restart (const std::string& setting);
   std::string get (std::string citation_in);
   void run_restart(const std::string & moment);
 private:
@@ -42,7 +42,7 @@ private:
 class citations
 {
 public:
-  void evaluate_style_v2 (const stylesv2::Style& style);
+  void evaluate_style (const stylesv2::Style& style);
   std::string get (const std::string& marker, const std::string& citation);
   void restart(const std::string& moment);
 private:

@@ -303,7 +303,7 @@ void Filter_Text::pre_process_usfm ()
               case stylesv2::Type::footnote_wrapper:
               case stylesv2::Type::endnote_wrapper:
               {
-                note_citations.evaluate_style_v2(*style);
+                note_citations.evaluate_style(*style);
                 break;
               }
               case stylesv2::Type::note_standard_content:

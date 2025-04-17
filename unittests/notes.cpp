@@ -1917,7 +1917,7 @@ TEST (notes, citations)
     filter::note::citations citations;
     Style style {style_f};
     style.properties.clear();
-    citations.evaluate_style_v2(style);
+    citations.evaluate_style(style);
     for (int i {1}; i <= 100; i++) {
       EXPECT_EQ(std::to_string(i), citations.get(style_f.marker, "+"));
       EXPECT_EQ("a", citations.get(style_f.marker, "a"));
@@ -1928,7 +1928,7 @@ TEST (notes, citations)
   // Test the note citation as 1..9 and restarting the cycle again.
   {
     filter::note::citations citations;
-    citations.evaluate_style_v2(style_f);
+    citations.evaluate_style(style_f);
     size_t pointer{0};
     for (int i {0}; i < 100; i++) {
       const auto standard = numbers1to9.at(pointer);
@@ -1946,7 +1946,7 @@ TEST (notes, citations)
     filter::note::citations citations;
     Style style {style_f};
     style.properties[stylesv2::Property::note_numbering_sequence] = filter::strings::implode(alphanumeric, " ");
-    citations.evaluate_style_v2(style);
+    citations.evaluate_style(style);
     size_t pointer{0};
     for (int i {0}; i < 100; i++) {
       const auto standard = alphanumeric.at(pointer);

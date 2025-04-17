@@ -32,7 +32,7 @@ citation::citation ()
   pointer = 0;
 }
 
-void citation::set_sequence_v2 (std::string sequence_in)
+void citation::set_sequence (std::string sequence_in)
 {
   sequence = filter::strings::explode (std::move(sequence_in), ' ');
   // The note will be numbered as follows:
@@ -40,7 +40,7 @@ void citation::set_sequence_v2 (std::string sequence_in)
   // If an empty sequence is given, then the note gets ever increasing numerical citations.
 }
 
-void citation::set_restart_v2 (const std::string& setting)
+void citation::set_restart (const std::string& setting)
 {
   // Check if the input is valid, if so, store it, else store default restart moment.
   using namespace stylesv2;
@@ -89,7 +89,7 @@ void citation::run_restart(const std::string& moment)
 }
 
 
-void citations::evaluate_style_v2 (const stylesv2::Style& style)
+void citations::evaluate_style (const stylesv2::Style& style)
 {
   // Evaluate the style to find out whether to create a note citation for it.
   const auto create = [&style] () {
@@ -108,9 +108,9 @@ void citations::evaluate_style_v2 (const stylesv2::Style& style)
   citation citation;
   // Handle caller sequence.
   std::string sequence = stylesv2::get_parameter<std::string>(&style, stylesv2::Property::note_numbering_sequence);
-  citation.set_sequence_v2(std::move(sequence));
+  citation.set_sequence(std::move(sequence));
   // Handle note caller restart moment.
-  citation.set_restart_v2(stylesv2::get_parameter<std::string>(&style, stylesv2::Property::note_numbering_restart));
+  citation.set_restart(stylesv2::get_parameter<std::string>(&style, stylesv2::Property::note_numbering_restart));
   // Store the citation for later use.
   cache [style.marker] = citation;
 }

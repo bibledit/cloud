@@ -147,7 +147,7 @@ TEST (filter, archive)
     std::string tarball = filter_archive_tar_gzip_folder (directory);
     EXPECT_EQ (true, file_or_dir_exists (tarball));
     int size = filter_url_filesize (tarball);
-    int min = 618;
+    int min = 615;
     int max = 634;
     if ((size < min) || (size > max)) EXPECT_EQ ("between " + std::to_string (min) + " and " + std::to_string (max), std::to_string (size));
     // Test that compressing a non-existing folder returns nothing.

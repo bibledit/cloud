@@ -296,11 +296,11 @@ text2paragraph
 
 
 
-text1origin keyword quotation targets added published old testament new testament deuterocanonical
+textaorigin keyword quotation targets added published old testament new testament deuterocanonical
 
 
 
-text1targets
+textatargets
 
 
 

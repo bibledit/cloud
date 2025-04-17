@@ -328,8 +328,9 @@ TEST_F (filter_text, transform_verse_numbers)
 TEST_F (filter_text, footnotes_xrefs_1)
 {
   const std::string usfm =
-  "\\id GEN\n"
-  "\\v 1 Text 1\\x + \\xt Isa. 1.1.\\x*\\x - \\xt Isa. 2.2.\\x*\\x + \\xt Isa. 3.3.\\x*, text 2\\f + \\fk Word1: \\fl Heb. \\fq Explanation1.\\f*\\f + \\fk Word2: \\fl Heb. \\fq Explanation2.\\f*, text3.\\f + \\fk Test: \\fl Heb. \\fq Note at the very end.\\f*\n";
+  R"(\id GEN)" "\n"
+  R"(\v 1 Text 1\x + \xt Isa. 1.1.\x*\x - \xt Isa. 2.2.\x*\x + \xt Isa. 3.3.\x*, text 2\f + \fk Word1: \fl Heb. \fq Explanation1.\f*\f + \fk Word2: \fl Heb. \fq Explanation2.\f*, text3.\f + \fk Test: \fl Heb. \fq Note at the very end.\f*)" "\n"
+  ;
   Filter_Text filter_text = Filter_Text (bible);
   filter_text.odf_text_standard = new odf_text (bible);
   filter_text.add_usfm_code (usfm);
@@ -1534,8 +1535,8 @@ TEST_F (filter_text, usfm_with_all_markers)
   R"(<p class="p"><span>text</span><a href="#note2" id="citation2" class="superscript">1</a></p>)"
   R"(<p class="p"><span>text</span><a href="#note3" id="citation3" class="superscript">1</a></p>)"
   R"(<p class="p"><span>text</span><a href="#note4" id="citation4" class="superscript">2</a></p>)"
-  R"(<p class="p"><span>text</span><a href="#note5" id="citation5" class="superscript">1</a></p>)"
-  R"(<p class="p"><span>text</span><a href="#note6" id="citation6" class="superscript">1</a></p>)"
+  R"(<p class="p"><span>text</span><a href="#note5" id="citation5" class="superscript">a</a></p>)"
+  R"(<p class="p"><span>text</span><a href="#note6" id="citation6" class="superscript">a</a></p>)"
   
   
   R"(<p class="p"><span>The </span><span class="bk">Book</span><span> name</span></p>)"
@@ -1562,8 +1563,8 @@ TEST_F (filter_text, usfm_with_all_markers)
   R"(<p class="ft"><a href="#citation2" id="note2">1</a><span> </span><span class="fr">ref</span><span>note</span></p>)"
   R"(<p class="ft"><a href="#citation3" id="note3">1</a><span> </span><span class="fr">ref</span><span>note</span></p>)"
   R"(<p class="ft"><a href="#citation4" id="note4">2</a><span> </span><span class="fp">paragraph</span></p>)"
-  R"(<p class="xt"><a href="#citation5" id="note5">1</a><span> </span><span class="xo">origin </span><span class="xk">keyword </span><span class="xq">quotation </span><span>targets </span><span class="xta">added </span><span class="xop">published</span><span> </span><span class="xot">old testament</span><span> </span><span class="xnt">new testament</span><span> </span><span class="xdc">deuterocanonical</span></p>)"
-  R"(<p class="xt"><a href="#citation6" id="note6">1</a><span> </span><span>targets</span></p>)"
+  R"(<p class="xt"><a href="#citation5" id="note5">a</a><span> </span><span class="xo">origin </span><span class="xk">keyword </span><span class="xq">quotation </span><span>targets </span><span class="xta">added </span><span class="xop">published</span><span> </span><span class="xot">old testament</span><span> </span><span class="xnt">new testament</span><span> </span><span class="xdc">deuterocanonical</span></p>)"
+  R"(<p class="xt"><a href="#citation6" id="note6">a</a><span> </span><span>targets</span></p>)"
   R"(</div>)"
   ;
 

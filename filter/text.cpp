@@ -302,16 +302,16 @@ void Filter_Text::pre_process_usfm ()
                 break;
               case stylesv2::Type::footnote_wrapper:
               case stylesv2::Type::endnote_wrapper:
-              {
                 note_citations.evaluate_style(*style);
                 break;
-              }
               case stylesv2::Type::note_standard_content:
               case stylesv2::Type::note_content:
               case stylesv2::Type::note_content_with_endmarker:
               case stylesv2::Type::note_paragraph:
                 break;
               case stylesv2::Type::crossreference_wrapper:
+                note_citations.evaluate_style(*style);
+                break;
               case stylesv2::Type::crossreference_standard_content:
               case stylesv2::Type::crossreference_content:
               case stylesv2::Type::crossreference_content_with_endmarker:

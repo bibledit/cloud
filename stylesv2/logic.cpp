@@ -2856,7 +2856,7 @@ const std::list<Style> styles {
       {Property::note_numbering_restart,"chapter"}
     },
       .doc = "https://ubsicap.github.io/usfm/notes_study/exrefs.html#ex-ex",
-      .category = Category::cross_references,
+      .category = Category::extended_study_content,
   },
 };
 

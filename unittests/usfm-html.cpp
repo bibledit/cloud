@@ -2258,6 +2258,11 @@ TEST_F (usfm_html, usfm_with_all_markers)
   R"(<p class="b-p"><span>This is </span><span class="i-sc">small cap</span><span> text.</span></p>)"
   R"(<p class="b-p"><span>This is </span><span class="i-sup">superscript</span><span> text.</span></p>)"
   R"(<p class="b-lit"><span>Liturgical note</span></p>)"
+  R"(<p class="b-mono"><span>\pb </span></p>)"
+  R"(<p class="b-c"><span>7</span></p>)"
+  R"(<p class="b-p"><span>This chapter is on a new page</span></p>)"
+
+
   
   R"(<p class="b-notes"> </p>)"
   R"(<p class="b-f"><span class="i-notebody1">1</span><span> </span><span>+ </span><span class="i-fr">ref </span><span class="i-ft">note </span><span class="i-fq">quote </span><span class="i-fv">3</span><span> </span><span class="i-fqa">alternate quote </span><span class="i-fk">keyword </span><span class="i-fl">label </span><span class="i-fw">witness </span><span class="i-fdc">deuterocanonical</span><span> </span><span class="i-fm">mark</span></p>)"
@@ -2305,7 +2310,10 @@ TEST_F (usfm_html, usfm_with_all_markers)
     if (!removals.empty())
       std::cout << "First item that the generated USFM does not have: " << removals.front() << std::endl;
     if (!additions.empty())
-      std::cout <<"First item that the generated USFM has which is not in the standard: " << additions.front() << std::endl;
+      std::cout << "First item that the generated USFM has which is not in the standard: " << additions.front() << std::endl;
+    const std::string tmpfile = "/tmp/usfm.txt";
+    filter_url_file_put_contents (tmpfile, usfm);
+    std::cout << "The produced USFM was written to " << tmpfile << std::endl;
   }
 }
 

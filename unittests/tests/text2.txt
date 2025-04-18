@@ -156,3 +156,4 @@ This is bold/italic text.
 Section heading with normal text
 This is small cap text.
 This is superscript text.
+Liturgical note

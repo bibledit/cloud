@@ -2238,7 +2238,6 @@ TEST_F (usfm_html, usfm_with_all_markers)
   R"(<p class="b-p"><span>text</span><span class="i-notecall5">a</span></p>)"
   R"(<p class="b-p"><span>text</span><span class="i-notecall6">a</span></p>)"
 
-  
   R"(<p class="b-p"><span>The </span><span class="i-bk">Book</span><span> name</span></p>)"
   R"(<p class="b-p"><span>Proto </span><span class="i-dc">Deutero</span><span> text.</span></p>)"
   R"(<p class="b-p"><span>This is a </span><span class="i-k">keyword</span></p>)"
@@ -2258,6 +2257,8 @@ TEST_F (usfm_html, usfm_with_all_markers)
   R"(<p class="b-s"><span>Section heading with </span><span class="i-no">normal</span><span> text</span></p>)"
   R"(<p class="b-p"><span>This is </span><span class="i-sc">small cap</span><span> text.</span></p>)"
   R"(<p class="b-p"><span>This is </span><span class="i-sup">superscript</span><span> text.</span></p>)"
+  R"(<p class="b-lit"><span>Liturgical note</span></p>)"
+  
   R"(<p class="b-notes"> </p>)"
   R"(<p class="b-f"><span class="i-notebody1">1</span><span> </span><span>+ </span><span class="i-fr">ref </span><span class="i-ft">note </span><span class="i-fq">quote </span><span class="i-fv">3</span><span> </span><span class="i-fqa">alternate quote </span><span class="i-fk">keyword </span><span class="i-fl">label </span><span class="i-fw">witness </span><span class="i-fdc">deuterocanonical</span><span> </span><span class="i-fm">mark</span></p>)"
   R"(<p class="b-fe"><span class="i-notebody2">1</span><span> </span><span>+ </span><span class="i-fr">ref</span><span class="i-ft">note</span></p>)"

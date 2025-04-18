@@ -105,6 +105,7 @@ R"(\c 3)" "\n"
 R"(\cp א)" "\n"
 R"(\p)" "\n"
 R"(\v 1 Verse text)" "\n"
+
 R"(\c 4)" "\n"
 R"(\cd Chapter description)" "\n"
 R"(\m Continuation (margin) paragraph.)" "\n"
@@ -154,6 +155,7 @@ R"(\lim1 Embedded list item 1)" "\n"
 R"(\lim2 Embedded list item 2)" "\n"
 R"(\p List \litl total\litl*)" "\n"
 R"(\li \lik Key\lik* \liv Value\liv* \liv1 Value 1\liv1* \liv2 Value 2\liv2*)" "\n"
+
 R"(\c 5)" "\n"
 R"(\p)" "\n"
 R"(\v 1 The table:)" "\n"
@@ -169,9 +171,6 @@ R"(\p text\ef + \fr ref\ft note\ef*)" "\n"
 R"(\p text\f + \fp paragraph\f*)" "\n"
 R"(\p text\x + \xo origin \xk keyword \xq quotation \xt targets \xta added \xop published\xop* \xot old testament\xot* \xnt new testament\xnt* \xdc deuterocanonical\xdc*\x*)" "\n"
 R"(\p text\ex + \xt targets\ex*)" "\n"
-
-
-
 
 R"(\p The \bk Book\bk* name)" "\n"
 R"(\p Proto \dc Deutero\dc* text.)" "\n"
@@ -192,5 +191,6 @@ R"(\p This is \bdit bold/italic\bdit* text.)" "\n"
 R"(\s Section heading with \no normal\no* text)" "\n"
 R"(\p This is \sc small cap\sc* text.)" "\n"
 R"(\p This is \sup superscript\sup* text.)" "\n"
+R"(\lit Liturgical note)"
 ;
 //R"()" "\n"

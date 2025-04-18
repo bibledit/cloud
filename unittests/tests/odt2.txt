@@ -342,3 +342,5 @@ This is small cap text.
 
 This is superscript text.
 
+Liturgical note
+

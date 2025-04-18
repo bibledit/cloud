@@ -1883,7 +1883,7 @@ const std::list<Style> styles {
     .name = "Selah",
     .info = "Poetry text, Selah.",
     .character = Character {
-      .italic = stylesv2::FourState::on,
+      .italic = FourState::on,
     },
       .doc = "https://ubsicap.github.io/usfm/poetry/index.html#qs-qs",
       .category = Category::poetry,
@@ -1895,7 +1895,7 @@ const std::list<Style> styles {
     .info = "Poetry text, acrostic marker or heading.",
     .paragraph = Paragraph {
       .font_size = 12,
-      .italic = stylesv2::TwoState::on,
+      .italic = TwoState::on,
     },
       .doc = "https://ubsicap.github.io/usfm/poetry/index.html#qa",
       .category = Category::poetry,
@@ -1906,7 +1906,7 @@ const std::list<Style> styles {
     .name = "Acrostic letter",
     .info = "Poetry text, acrostic markup of the first character of a line of acrostic poetry.",
     .character = Character {
-      .italic = stylesv2::FourState::on,
+      .italic = FourState::on,
     },
       .doc = "https://ubsicap.github.io/usfm/poetry/index.html#qac-qac",
       .category = Category::poetry,
@@ -2452,7 +2452,7 @@ const std::list<Style> styles {
     .type = Type::note_content_with_endmarker,
     .name = "Footnote verse number",
     .info = "A verse number within the footnote text.",
-    .character = Character { .superscript = stylesv2::TwoState::on, },
+    .character = Character { .superscript = TwoState::on, },
     .doc = "https://ubsicap.github.io/usfm/notes_basic/fnotes.html#fv-fv",
     .category = Category::footnotes,
   },
@@ -2579,24 +2579,6 @@ const std::list<Style> styles {
     .doc = "https://ubsicap.github.io/usfm/notes_basic/xrefs.html#xdc-xdc",
     .category = Category::cross_references,
   },
-  
-
-
-
-  
-  // Todo adding here.
-  {
-    .marker = "pro",
-    .type = Type::character_style,
-    .name = "Pronunciation annotation",
-    .info = "For indicating pronunciation in CJK texts.",
-    .character = Character {
-      .italic = FourState::on,
-    },
-      .properties = {{Property::deprecated,std::monostate()}},
-      .doc = "https://ubsicap.github.io/usfm/characters/index.html?highlight=pronunciation#pro-pro",
-      .category = Category::words_characters,
-  },
   {
     .marker = "add",
     .type = Type::character_style,
@@ -2606,18 +2588,6 @@ const std::list<Style> styles {
       .italic = FourState::on,
     },
       .doc = "https://ubsicap.github.io/usfm/characters/index.html#add-add",
-      .category = Category::words_characters,
-  },
-  {
-    .marker = "addpn",
-    .type = Type::character_style,
-    .name = "Combined add and pn style",
-    .info = "Support for overlapping pn ...pn* and add ...add* occurrences.",
-    .character = Character {
-      .italic = FourState::on,
-    },
-      .properties = {{Property::deprecated,std::monostate()}},
-      .doc = "https://ubsicap.github.io/usfm/characters/index.html#addpn-addpn",
       .category = Category::words_characters,
   },
   {
@@ -2652,6 +2622,46 @@ const std::list<Style> styles {
       .bold = FourState::on,
     },
       .doc = "https://ubsicap.github.io/usfm/characters/index.html#k-k",
+      .category = Category::words_characters,
+  },
+  {
+    .marker = "lit",
+    .type = Type::paragraph,
+    .name = "Liturgical note",
+    .info = "A guide which tells the reader or worshipper that he should recite a prayer or recitation etc.",
+    .paragraph = Paragraph {
+      .font_size = 12,
+      .bold = TwoState::on,
+    },
+      .properties = {{Property::deprecated,std::monostate()}},
+      .doc = "https://ubsicap.github.io/usfm/paragraphs/index.html#ph",
+      .category = Category::paragraphs,
+  },
+
+  
+  // Todo adding here.
+  {
+    .marker = "pro",
+    .type = Type::character_style,
+    .name = "Pronunciation annotation",
+    .info = "For indicating pronunciation in CJK texts.",
+    .character = Character {
+      .italic = FourState::on,
+    },
+      .properties = {{Property::deprecated,std::monostate()}},
+      .doc = "https://ubsicap.github.io/usfm/characters/index.html?highlight=pronunciation#pro-pro",
+      .category = Category::words_characters,
+  },
+  {
+    .marker = "addpn",
+    .type = Type::character_style,
+    .name = "Combined add and pn style",
+    .info = "Support for overlapping pn ...pn* and add ...add* occurrences.",
+    .character = Character {
+      .italic = FourState::on,
+    },
+      .properties = {{Property::deprecated,std::monostate()}},
+      .doc = "https://ubsicap.github.io/usfm/characters/index.html#addpn-addpn",
       .category = Category::words_characters,
   },
   {
@@ -3042,39 +3052,6 @@ const std::list<Style> styles {
 //    /* fontsize */ 12,
 //    /* italic */ 0,
 //    /* bold */ 0,
-//    /* underline */ 0,
-//    /* smallcaps */ 0,
-//    /* superscript */ 0,
-//    /* justification */ 0,
-//    /* spacebefore */ 0,
-//    /* spaceafter */ 0,
-//    /* leftmargin */ 0,
-//    /* rightmargin */ 0,
-//    /* firstlineindent */ 0,
-//    /* spancolumns */ 0,
-//    /* color */ "#000000",
-//    /* print */ 1,
-//    /* userbool1 */ 0,
-//    /* userbool2 */ 0,
-//    /* userbool3 */ 0,
-//    /* userint1 */ 0,
-//    /* userint2 */ 0,
-//    /* userint3 */ 0,
-//    /* userstring1 */ "",
-//    /* userstring2 */ "",
-//    /* userstring3 */ "",
-//    /* backgroundcolor */ "#FFFFFF",
-//  },
-//  {
-//    /* marker */ "lit",
-//    /* name */ "Liturgical note",
-//    /* info */ "A guide which tells the reader or worshipper that he should recite a prayer or recitation etc.",
-//    /* category */ "p",
-//    /* type */ 3,
-//    /* subtype */ 3,
-//    /* fontsize */ 12,
-//    /* italic */ 0,
-//    /* bold */ 1,
 //    /* underline */ 0,
 //    /* smallcaps */ 0,
 //    /* superscript */ 0,
@@ -3553,49 +3530,49 @@ bool marker_moved_to_v2 (const std::string& marker)
 bool starts_new_line_in_usfm (const Style* style) // Todo add types here.
 {
   switch (style->type) {
-    case stylesv2::Type::starting_boundary:
-    case stylesv2::Type::none:
-    case stylesv2::Type::book_id:
-    case stylesv2::Type::usfm_version:
-    case stylesv2::Type::file_encoding:
-    case stylesv2::Type::remark:
-    case stylesv2::Type::running_header:
-    case stylesv2::Type::long_toc_text:
-    case stylesv2::Type::short_toc_text:
-    case stylesv2::Type::book_abbrev:
-    case stylesv2::Type::introduction_end:
-    case stylesv2::Type::title:
-    case stylesv2::Type::heading:
-    case stylesv2::Type::paragraph:
-    case stylesv2::Type::chapter:
-    case stylesv2::Type::chapter_label:
-    case stylesv2::Type::published_chapter_marker:
-    case stylesv2::Type::alternate_chapter_number:
+    case Type::starting_boundary:
+    case Type::none:
+    case Type::book_id:
+    case Type::usfm_version:
+    case Type::file_encoding:
+    case Type::remark:
+    case Type::running_header:
+    case Type::long_toc_text:
+    case Type::short_toc_text:
+    case Type::book_abbrev:
+    case Type::introduction_end:
+    case Type::title:
+    case Type::heading:
+    case Type::paragraph:
+    case Type::chapter:
+    case Type::chapter_label:
+    case Type::published_chapter_marker:
+    case Type::alternate_chapter_number:
       return true;
-    case stylesv2::Type::verse:
+    case Type::verse:
       return true;
-    case stylesv2::Type::published_verse_marker:
+    case Type::published_verse_marker:
       return false;
-    case stylesv2::Type::table_row:
+    case Type::table_row:
       return true;
-    case stylesv2::Type::table_heading:
-    case stylesv2::Type::table_cell:
+    case Type::table_heading:
+    case Type::table_cell:
       return false;
-    case stylesv2::Type::footnote_wrapper:
-    case stylesv2::Type::endnote_wrapper:
-    case stylesv2::Type::note_standard_content:
-    case stylesv2::Type::note_content:
-    case stylesv2::Type::note_content_with_endmarker:
-    case stylesv2::Type::note_paragraph:
+    case Type::footnote_wrapper:
+    case Type::endnote_wrapper:
+    case Type::note_standard_content:
+    case Type::note_content:
+    case Type::note_content_with_endmarker:
+    case Type::note_paragraph:
       return false;
-    case stylesv2::Type::crossreference_wrapper:
-    case stylesv2::Type::crossreference_standard_content:
-    case stylesv2::Type::crossreference_content:
-    case stylesv2::Type::crossreference_content_with_endmarker:
+    case Type::crossreference_wrapper:
+    case Type::crossreference_standard_content:
+    case Type::crossreference_content:
+    case Type::crossreference_content_with_endmarker:
       return false;
-    case stylesv2::Type::character_style:
+    case Type::character_style:
       return false;
-    case stylesv2::Type::stopping_boundary:
+    case Type::stopping_boundary:
     default:
       return true;
   }

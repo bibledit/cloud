@@ -2633,35 +2633,7 @@ const std::list<Style> styles {
       .font_size = 12,
       .bold = TwoState::on,
     },
-      .properties = {{Property::deprecated,std::monostate()}},
-      .doc = "https://ubsicap.github.io/usfm/paragraphs/index.html#ph",
-      .category = Category::paragraphs,
-  },
-
-  
-  // Todo adding here.
-  {
-    .marker = "pro",
-    .type = Type::character_style,
-    .name = "Pronunciation annotation",
-    .info = "For indicating pronunciation in CJK texts.",
-    .character = Character {
-      .italic = FourState::on,
-    },
-      .properties = {{Property::deprecated,std::monostate()}},
-      .doc = "https://ubsicap.github.io/usfm/characters/index.html?highlight=pronunciation#pro-pro",
-      .category = Category::words_characters,
-  },
-  {
-    .marker = "addpn",
-    .type = Type::character_style,
-    .name = "Combined add and pn style",
-    .info = "Support for overlapping pn ...pn* and add ...add* occurrences.",
-    .character = Character {
-      .italic = FourState::on,
-    },
-      .properties = {{Property::deprecated,std::monostate()}},
-      .doc = "https://ubsicap.github.io/usfm/characters/index.html#addpn-addpn",
+      .doc = "https://ubsicap.github.io/usfm/characters/index.html#lit",
       .category = Category::words_characters,
   },
   {
@@ -2708,6 +2680,18 @@ const std::list<Style> styles {
       .underline = FourState::on,
     },
       .doc = "https://ubsicap.github.io/usfm/characters/index.html#png-png",
+      .category = Category::words_characters,
+  },
+  {
+    .marker = "addpn",
+    .type = Type::character_style,
+    .name = "Combined add and pn style",
+    .info = "Support for overlapping pn ...pn* and add ...add* occurrences.",
+    .character = Character {
+      .italic = FourState::on,
+    },
+      .properties = {{Property::deprecated,std::monostate()}},
+      .doc = "https://ubsicap.github.io/usfm/characters/index.html#addpn-addpn",
       .category = Category::words_characters,
   },
   {
@@ -2815,10 +2799,9 @@ const std::list<Style> styles {
     .type = Type::character_style,
     .name = "Normal text",
     .info = "May be used when a larger paragraph element is set in an alternate font style, e.g. italic, and a selected section of text should be displayed in normal text.",
-    .character = Character {
-    },
-      .doc = "https://ubsicap.github.io/usfm/characters/index.html#no-no",
-      .category = Category::words_characters,
+    .character = Character {  },
+    .doc = "https://ubsicap.github.io/usfm/characters/index.html#no-no",
+    .category = Category::words_characters,
   },
   {
     .marker = "sc",
@@ -2840,6 +2823,23 @@ const std::list<Style> styles {
       .superscript = TwoState::on,
     },
       .doc = "https://ubsicap.github.io/usfm/characters/index.html#sup-sup",
+      .category = Category::words_characters,
+  },
+
+  
+
+  
+  // Todo adding here.
+  {
+    .marker = "pro",
+    .type = Type::character_style,
+    .name = "Pronunciation annotation",
+    .info = "For indicating pronunciation in CJK texts.",
+    .character = Character {
+      .italic = FourState::on,
+    },
+      .properties = {{Property::deprecated,std::monostate()}},
+      .doc = "https://ubsicap.github.io/usfm/characters/index.html?highlight=pronunciation#pro-pro",
       .category = Category::words_characters,
   },
   {

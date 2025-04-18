@@ -58,6 +58,7 @@ enum class Type : int {
   crossreference_content,
   crossreference_content_with_endmarker,
   character_style,
+  page_break,
   stopping_boundary // Should be the last always.
 };
 

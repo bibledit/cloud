@@ -147,7 +147,10 @@ std::string type_enum_to_value (const Type type, const bool describe)
     case Type::character_style:
       if (describe)
         return "character style";
-      return "character_style";
+    case Type::page_break:
+      if (describe)
+        return "page break";
+      return "page_break";
     case Type::stopping_boundary:
       return "stopping_boundary";
     default:
@@ -2825,44 +2828,17 @@ const std::list<Style> styles {
       .doc = "https://ubsicap.github.io/usfm/characters/index.html#sup-sup",
       .category = Category::words_characters,
   },
+  {
+    .marker = "pb",
+    .type = Type::page_break,
+    .name = "Page break",
+    .info = "Explicit page break.",
+    .doc = "https://ubsicap.github.io/usfm/characters/index.html#pb",
+    .category = Category::words_characters,
+  },
 
   
-
   
-  //  {
-  //    /* marker */ "pb",
-  //    /* name */ "Page break",
-  //    /* info */ "Page break used for new reader portions and children's bibles where content is controlled by the page.",
-  //    /* category */ "sb",
-  //    /* type */ 11,
-  //    /* subtype */ 0,
-  //    /* fontsize */ 12,
-  //    /* italic */ 0,
-  //    /* bold */ 0,
-  //    /* underline */ 0,
-  //    /* smallcaps */ 0,
-  //    /* superscript */ 0,
-  //    /* justification */ 0,
-  //    /* spacebefore */ 0,
-  //    /* spaceafter */ 0,
-  //    /* leftmargin */ 0,
-  //    /* rightmargin */ 0,
-  //    /* firstlineindent */ 0,
-  //    /* spancolumns */ 0,
-  //    /* color */ "#000000",
-  //    /* print */ 1,
-  //    /* userbool1 */ 0,
-  //    /* userbool2 */ 0,
-  //    /* userbool3 */ 0,
-  //    /* userint1 */ 0,
-  //    /* userint2 */ 0,
-  //    /* userint3 */ 0,
-  //    /* userstring1 */ "",
-  //    /* userstring2 */ "",
-  //    /* userstring3 */ "",
-  //    /* backgroundcolor */ "#FFFFFF",
-  //  },
-
   
   // Todo adding here.
   {
@@ -3574,6 +3550,8 @@ bool starts_new_line_in_usfm (const Style* style) // Todo add types here.
       return false;
     case Type::character_style:
       return false;
+    case Type::page_break:
+      return true;
     case Type::stopping_boundary:
     default:
       return true;

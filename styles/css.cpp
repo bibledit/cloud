@@ -174,9 +174,6 @@ void Styles_Css::evaluate_v2 (const stylesv2::Style* style)
     case Type::note_paragraph:
       add_v2 (style, false, false);
       break;
-    case Type::character_style:
-      add_v2 (style, false, false);
-      break;
     case Type::crossreference_wrapper:
     {
       add_v2 (style, true, false);
@@ -189,6 +186,11 @@ void Styles_Css::evaluate_v2 (const stylesv2::Style* style)
       add_v2 (style, false, false);
       break;
     }
+    case Type::character_style:
+      add_v2 (style, false, false);
+      break;
+    case Type::page_break:
+      break;
 // Todo still to implement the one below.
 //    case StyleTypePicture:
 //    {

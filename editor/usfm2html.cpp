@@ -212,12 +212,6 @@ void Editor_Usfm2Html::process ()
             output_as_is (marker, is_opening_marker);
             break;
           }
-          case StyleTypePageBreak:
-          {
-            close_text_style (false);
-            output_as_is (marker, is_opening_marker);
-            break;
-          }
           case StyleTypeWordlistElement:
           {
             if (is_opening_marker) {
@@ -412,6 +406,12 @@ void Editor_Usfm2Html::process ()
             } else {
               close_text_style (is_embedded_marker);
             }
+            break;
+          }
+          case stylesv2::Type::page_break:
+          {
+            close_text_style (false);
+            output_as_is (marker, is_opening_marker);
             break;
           }
           case stylesv2::Type::stopping_boundary:
@@ -862,7 +862,6 @@ bool road_is_clear(const std::vector<std::string>& markers_and_text,
   const bool input_embedded {filter::usfm::is_embedded_marker (input_item)};
   const database::styles1::Item& input_style_v1 = styles [input_marker];
   const int input_type_v1 {input_style_v1.type};
-  const int input_subtype_v1 {input_style_v1.subtype};
 
   // If the imput markup is embedded inline text, the road ahead is clear.
   if (is_inline_text(input_type_v1, input_style_v2))
@@ -887,7 +886,6 @@ bool road_is_clear(const std::vector<std::string>& markers_and_text,
       {
         database::styles1::Item& style_v1 = styles[marker];
         const int type_v1 = {style_v1.type};
-        const int subtype_v1 {style_v1.subtype};
         const bool opener {filter::usfm::is_opening_marker (current_item)};
         const bool embedded {filter::usfm::is_embedded_marker (current_item)};
         

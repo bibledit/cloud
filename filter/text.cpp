@@ -318,6 +318,8 @@ void Filter_Text::pre_process_usfm ()
                 break;
               case stylesv2::Type::character_style:
                 break;
+              case stylesv2::Type::page_break:
+                break;
               case stylesv2::Type::stopping_boundary:
               default:
                 break;
@@ -478,22 +480,6 @@ void Filter_Text::process_usfm ()
                 // Clear the flag since the parser is no longer within figure markup.
                 is_within_figure_markup = false;
               }
-              break;
-            }
-            case StyleTypePageBreak:
-            {
-              if (odf_text_standard) odf_text_standard->close_text_style (false, false);
-              if (odf_text_text_only) odf_text_text_only->close_text_style (false, false);
-              if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->close_text_style (false, false);
-              if (odf_text_notes) odf_text_notes->close_text_style (false, false);
-              if (html_text_standard) html_text_standard->close_text_style (false, false);
-              if (html_text_linked) html_text_linked->close_text_style (false, false);
-              if (odf_text_standard) odf_text_standard->new_page_break ();
-              if (odf_text_text_only) odf_text_text_only->new_page_break ();
-              if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->new_page_break ();
-              if (html_text_standard) html_text_standard->new_page_break ();
-              if (html_text_linked) html_text_linked->new_page_break ();
-              if (text_text) text_text->paragraph (); 
               break;
             }
             case StyleTypeWordlistElement:
@@ -1157,6 +1143,34 @@ void Filter_Text::process_usfm ()
               }
               break;
             }
+            case stylesv2::Type::page_break:
+            {
+              if (odf_text_standard)
+                odf_text_standard->close_text_style (false, false);
+              if (odf_text_text_only)
+                odf_text_text_only->close_text_style (false, false);
+              if (odf_text_text_and_note_citations)
+                odf_text_text_and_note_citations->close_text_style (false, false);
+              if (odf_text_notes)
+                odf_text_notes->close_text_style (false, false);
+              if (html_text_standard)
+                html_text_standard->close_text_style (false, false);
+              if (html_text_linked)
+                html_text_linked->close_text_style (false, false);
+              if (odf_text_standard)
+                odf_text_standard->new_page_break ();
+              if (odf_text_text_only)
+                odf_text_text_only->new_page_break ();
+              if (odf_text_text_and_note_citations)
+                odf_text_text_and_note_citations->new_page_break ();
+              if (html_text_standard)
+                html_text_standard->new_page_break ();
+              if (html_text_linked)
+                html_text_linked->new_page_break ();
+              if (text_text)
+                text_text->paragraph ();
+              break;
+            }
             case stylesv2::Type::stopping_boundary:
             default:
               break;
@@ -1503,6 +1517,7 @@ void Filter_Text::processNote ()
           }
             
           case stylesv2::Type::character_style:
+          case stylesv2::Type::page_break:
           case stylesv2::Type::stopping_boundary:
           default:
             break;

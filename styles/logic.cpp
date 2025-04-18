@@ -62,7 +62,6 @@ std::string styles_logic_type_text (int type)
   if (type == StyleTypeInlineText     ) return translate ("is inline text with endmarker");
   if (type == StyleTypePeripheral     ) return translate ("is a peripheral element");
   if (type == StyleTypePicture        ) return translate ("is a picture");
-  if (type == StyleTypePageBreak      ) return translate ("starts a new page");
   if (type == StyleTypeWordlistElement) return translate ("is a word list element");
   return "--";
 }
@@ -93,8 +92,6 @@ std::string styles_logic_subtype_text (int type, int subtype)
     if (subtype == PeripheralSubtypeGeneral        ) return translate ("starts general peripheral content");
   }
   if (type == StyleTypePicture) {
-  }
-  if (type == StyleTypePageBreak) {
   }
   if (type == StyleTypeWordlistElement) {
     if (subtype == WorListElementSubtypeWordlistGlossaryDictionary) return translate ("is a wordlist / glossary / dictionary entry");
@@ -375,10 +372,6 @@ bool styles_logic_starts_new_line_in_usfm (int type, [[maybe_unused]]int subtype
       return true;
     }
     case StyleTypePicture :
-    {
-      return true;
-    }
-    case StyleTypePageBreak :
     {
       return true;
     }

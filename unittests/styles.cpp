@@ -1160,6 +1160,8 @@ TEST_F (styles, marker_starts_new_line_in_usfm)
           return false;
         case Type::page_break:
           return true;
+        case Type::figure:
+          return true;
         case Type::stopping_boundary:
         default:
           return std::nullopt;

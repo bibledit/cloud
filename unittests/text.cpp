@@ -1209,7 +1209,7 @@ TEST_F (filter_text, invalid_utf8_input)
 
 
 // Test converting USFM with an image to other formats.
-TEST_F (filter_text, convert_image_to_format)
+TEST_F (filter_text, convert_image_to_format) 
 {
   // Store images in the database that keeps the Bible images.
   const std::string image_2_name = "bibleimage2.png";

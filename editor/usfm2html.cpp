@@ -206,12 +206,6 @@ void Editor_Usfm2Html::process ()
             output_as_is (marker, is_opening_marker);
             break;
           }
-          case StyleTypePicture:
-          {
-            close_text_style (false);
-            output_as_is (marker, is_opening_marker);
-            break;
-          }
           case StyleTypeWordlistElement:
           {
             if (is_opening_marker) {
@@ -409,6 +403,12 @@ void Editor_Usfm2Html::process ()
             break;
           }
           case stylesv2::Type::page_break:
+          {
+            close_text_style (false);
+            output_as_is (marker, is_opening_marker);
+            break;
+          }
+          case stylesv2::Type::figure:
           {
             close_text_style (false);
             output_as_is (marker, is_opening_marker);

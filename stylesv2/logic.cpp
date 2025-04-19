@@ -151,6 +151,8 @@ std::string type_enum_to_value (const Type type, const bool describe)
       if (describe)
         return "page break";
       return "page_break";
+    case Type::figure:
+      return "figure";
     case Type::stopping_boundary:
       return "stopping_boundary";
     default:
@@ -2836,9 +2838,20 @@ const std::list<Style> styles {
     .doc = "https://ubsicap.github.io/usfm/characters/index.html#pb",
     .category = Category::words_characters,
   },
+  {
+    .marker = "fig",
+    .type = Type::figure,
+    .name = "Figure / illustration / map",
+    .info = "Illustration [columns to span, height, filename, caption text].",
+    .paragraph = Paragraph {
+      .font_size = 12,
+      .italic = TwoState::on,
+      .text_alignment = TextAlignment::center,
+    },
+      .doc = "https://ubsicap.github.io/usfm/characters/index.html#fig-fig",
+      .category = Category::words_characters,
+  },
 
-  
-  
   
   // Todo adding here.
   
@@ -2927,39 +2940,6 @@ const std::list<Style> styles {
   //    /* leftmargin */ 0,
   //    /* rightmargin */ 0,
   //    /* firstlineindent */ 3.2f,
-  //    /* spancolumns */ 0,
-  //    /* color */ "#000000",
-  //    /* print */ 1,
-  //    /* userbool1 */ 0,
-  //    /* userbool2 */ 0,
-  //    /* userbool3 */ 0,
-  //    /* userint1 */ 0,
-  //    /* userint2 */ 0,
-  //    /* userint3 */ 0,
-  //    /* userstring1 */ "",
-  //    /* userstring2 */ "",
-  //    /* userstring3 */ "",
-  //    /* backgroundcolor */ "#FFFFFF",
-  //  },
-  //  {
-  //    /* marker */ "fig",
-  //    /* name */ "Figure / illustration / map",
-  //    /* info */ "Illustration [columns to span, height, filename, caption text]",
-  //    /* category */ "sf",
-  //    /* type */ 10,
-  //    /* subtype */ 0,
-  //    /* fontsize */ 12,
-  //    /* italic */ 1,
-  //    /* bold */ 0,
-  //    /* underline */ 0,
-  //    /* smallcaps */ 0,
-  //    /* superscript */ 0,
-  //    /* justification */ 1,
-  //    /* spacebefore */ 0,
-  //    /* spaceafter */ 0,
-  //    /* leftmargin */ 0,
-  //    /* rightmargin */ 0,
-  //    /* firstlineindent */ 0,
   //    /* spancolumns */ 0,
   //    /* color */ "#000000",
   //    /* print */ 1,
@@ -3548,6 +3528,8 @@ bool starts_new_line_in_usfm (const Style* style)
     case Type::character_style:
       return false;
     case Type::page_break:
+      return true;
+    case Type::figure:
       return true;
     case Type::stopping_boundary:
     default:

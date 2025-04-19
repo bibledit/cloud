@@ -185,6 +185,8 @@ std::string Editor_Styles::getAction (Webserver_Request& webserver_request, cons
         return character ();
       case stylesv2::Type::page_break:
         return unknown ();
+      case stylesv2::Type::figure:
+        return mono ();
       case stylesv2::Type::starting_boundary:
       case stylesv2::Type::stopping_boundary:
       case stylesv2::Type::none:
@@ -201,8 +203,6 @@ std::string Editor_Styles::getAction (Webserver_Request& webserver_request, cons
       case StyleTypeInlineText:
         return character ();
       case StyleTypePeripheral:
-        return mono ();
-      case StyleTypePicture:
         return mono ();
       case StyleTypeWordlistElement:
         return character ();

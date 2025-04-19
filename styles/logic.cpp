@@ -61,7 +61,6 @@ std::string styles_logic_type_text (int type)
   if (type == StyleTypeStartsParagraph) return translate ("starts a new paragraph");
   if (type == StyleTypeInlineText     ) return translate ("is inline text with endmarker");
   if (type == StyleTypePeripheral     ) return translate ("is a peripheral element");
-  if (type == StyleTypePicture        ) return translate ("is a picture");
   if (type == StyleTypeWordlistElement) return translate ("is a word list element");
   return "--";
 }
@@ -91,8 +90,6 @@ std::string styles_logic_subtype_text (int type, int subtype)
     if (subtype == PeripheralSubtypeSpine          ) return translate ("starts spine");
     if (subtype == PeripheralSubtypeGeneral        ) return translate ("starts general peripheral content");
   }
-  if (type == StyleTypePicture) {
-  }
   if (type == StyleTypeWordlistElement) {
     if (subtype == WorListElementSubtypeWordlistGlossaryDictionary) return translate ("is a wordlist / glossary / dictionary entry");
     if (subtype == WorListElementSubtypeHebrewWordlistEntry       ) return translate ("is a Hebrew wordlist entry");
@@ -108,7 +105,6 @@ bool styles_logic_fontsize_is_relevant (int type)
 {
   switch (type) {
     case StyleTypeStartsParagraph : return true;
-    case StyleTypePicture : return true;
     default: return false;
   }
   return false;
@@ -121,7 +117,6 @@ bool styles_logic_italic_bold_underline_smallcaps_are_relevant (int type)
   switch (type) {
     case StyleTypeStartsParagraph : return true;
     case StyleTypeInlineText      : return true;
-    case StyleTypePicture         : return true;
     default: return false;
   }
   return false;
@@ -166,7 +161,6 @@ bool styles_logic_paragraph_treats_are_relevant (int type)
 {
   switch (type) {
     case StyleTypeStartsParagraph : return true;
-    case StyleTypePicture : return true;
     default: return false;
   }
   return false;
@@ -368,10 +362,6 @@ bool styles_logic_starts_new_line_in_usfm (int type, [[maybe_unused]]int subtype
       return false;
     }
     case StyleTypePeripheral :
-    {
-      return true;
-    }
-    case StyleTypePicture :
     {
       return true;
     }

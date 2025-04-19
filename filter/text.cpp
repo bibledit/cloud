@@ -320,6 +320,8 @@ void Filter_Text::pre_process_usfm ()
                 break;
               case stylesv2::Type::page_break:
                 break;
+              case stylesv2::Type::figure:
+                break;
               case stylesv2::Type::stopping_boundary:
               default:
                 break;
@@ -457,28 +459,6 @@ void Filter_Text::process_usfm ()
                   break;
                 }
                 default: break;
-              }
-              break;
-            }
-            case StyleTypePicture:
-            {
-              if (is_opening_marker) {
-                // Set a flag that the parser is going to be within figure markup and save the style.
-                is_within_figure_markup = true;
-                figure_marker = marker;
-                // Create the style for the figure because it is used within the ODT generator.
-                create_paragraph_style (style, false);
-                // At the start of the \fig marker, close all text styles that might be open.
-                if (odf_text_standard) odf_text_standard->close_text_style (false, false);
-                if (odf_text_text_only) odf_text_text_only->close_text_style (false, false);
-                if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->close_text_style (false, false);
-                if (odf_text_notes) odf_text_notes->close_text_style (false, false);
-                if (html_text_standard) html_text_standard->close_text_style (false, false);
-                if (html_text_linked) html_text_linked->close_text_style (false, false);
-              } else {
-                // Closing the \fig* markup.
-                // Clear the flag since the parser is no longer within figure markup.
-                is_within_figure_markup = false;
               }
               break;
             }
@@ -1171,6 +1151,34 @@ void Filter_Text::process_usfm ()
                 text_text->paragraph ();
               break;
             }
+            case stylesv2::Type::figure:
+            {
+              if (is_opening_marker) {
+                // Set a flag that the parser is going to be within figure markup and save the style.
+                is_within_figure_markup = true;
+                figure_marker = marker;
+                // Create the style for the figure because it is used within the ODT generator.
+                create_paragraph_style (style, false);
+                // At the start of the \fig marker, close all text styles that might be open.
+                if (odf_text_standard)
+                  odf_text_standard->close_text_style (false, false);
+                if (odf_text_text_only)
+                  odf_text_text_only->close_text_style (false, false);
+                if (odf_text_text_and_note_citations)
+                  odf_text_text_and_note_citations->close_text_style (false, false);
+                if (odf_text_notes)
+                  odf_text_notes->close_text_style (false, false);
+                if (html_text_standard)
+                  html_text_standard->close_text_style (false, false);
+                if (html_text_linked)
+                  html_text_linked->close_text_style (false, false);
+              } else {
+                // Closing the \fig* markup.
+                // Clear the flag since the parser is no longer within figure markup.
+                is_within_figure_markup = false;
+              }
+              break;
+            }
             case stylesv2::Type::stopping_boundary:
             default:
               break;
@@ -1518,6 +1526,7 @@ void Filter_Text::processNote ()
             
           case stylesv2::Type::character_style:
           case stylesv2::Type::page_break:
+          case stylesv2::Type::figure:
           case stylesv2::Type::stopping_boundary:
           default:
             break;

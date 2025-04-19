@@ -23,7 +23,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/libraries.h>
 
 
-// Todo old styles logic, to be replaced one by one.
+// Old styles logic, to be replaced one by one.
 
 #define StyleTypeStartsParagraph       3 
 #define StyleTypeInlineText            4 

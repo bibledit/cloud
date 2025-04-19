@@ -353,7 +353,7 @@ void Filter_Text::process_usfm ()
         const std::string marker = filter::usfm::get_marker (current_item);
         // Strip word-level attributes.
         if (is_opening_marker) filter::usfm::remove_word_level_attributes (marker, chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
-        if ((styles.find (marker) != styles.end()) && (!stylesv2::marker_moved_to_v2(marker))) // Todo
+        if ((styles.find (marker) != styles.end()) && (!stylesv2::marker_moved_to_v2(marker)))
         {
           // Deal with a known style.
           const database::styles1::Item& style = styles.at(marker);
@@ -1270,7 +1270,7 @@ void Filter_Text::processNote ()
       bool isEmbeddedMarker = filter::usfm::is_embedded_marker (currentItem);
       // Clean up the marker, so we remain with the basic version, e.g. 'f'.
       const std::string marker = filter::usfm::get_marker (currentItem);
-      if (const stylesv2::Style* stylev2 {database::styles2::get_marker_data (m_stylesheet, marker)}; stylev2) // Todo
+      if (const stylesv2::Style* stylev2 {database::styles2::get_marker_data (m_stylesheet, marker)}; stylev2)
       {
         switch (stylev2->type) {
           case stylesv2::Type::starting_boundary:

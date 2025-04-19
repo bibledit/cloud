@@ -136,7 +136,7 @@ std::string Editor_Styles::getAction (Webserver_Request& webserver_request, cons
   const std::string bible = webserver_request.database_config_user()->getBible ();
   const std::string stylesheet = database::config::bible::get_editor_stylesheet (bible);
   
-  if (const stylesv2::Style* style {database::styles2::get_marker_data (stylesheet, marker)}; style) // Todo
+  if (const stylesv2::Style* style {database::styles2::get_marker_data (stylesheet, marker)}; style)
   {
     switch (style->type) {
       case stylesv2::Type::book_id:

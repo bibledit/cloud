@@ -105,7 +105,7 @@ enum class Property : int {
   // The place where to dump the notes.
   notes_dump,
   
-  // Todo testing value, can go out once a numerical property is
+  // Testing value, can go out once a numerical property is in use.
   numerical_test,
   
   // Should be the last always.

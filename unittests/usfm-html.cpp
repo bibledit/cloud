@@ -2266,6 +2266,7 @@ TEST_F (usfm_html, usfm_with_all_markers)
   R"(<p class="b-mono"><span>\fig </span><span>caption|src="image.png" size="size" ref="reference"</span><span>\fig*</span></p>)"
   R"(<p class="b-p"><span>Text</span></p>)"
   R"(<p class="b-mono"><span>\fig </span><span>DESC|FILE|SIZE|LOC|COPY|CAP|REF</span><span>\fig*</span></p>)"
+  R"(<p class="b-p"><span class="i-ndx">index</span><span> </span><span class="i-w">word</span><span> </span><span class="i-wg">greek</span><span> </span><span class="i-wh">hebrew</span><span> </span><span class="i-wa">aramaic</span></p>)"
 
   
   R"(<p class="b-notes"> </p>)"

@@ -138,7 +138,7 @@ std::string Editor_Styles::getAction (Webserver_Request& webserver_request, cons
   
   if (const stylesv2::Style* style {database::styles2::get_marker_data (stylesheet, marker)}; style)
   {
-    switch (style->type) {
+    switch (style->type) { // Todo handle word_list
       case stylesv2::Type::book_id:
       case stylesv2::Type::usfm_version:
       case stylesv2::Type::file_encoding:

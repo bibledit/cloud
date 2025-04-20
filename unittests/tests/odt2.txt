@@ -368,3 +368,5 @@ Text
 
 CAP
 
+index word greek hebrew aramaic
+

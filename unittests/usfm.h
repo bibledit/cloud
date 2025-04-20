@@ -200,4 +200,5 @@ R"(\p Text)" "\n"
 R"(\fig caption|src="image.png" size="size" ref="reference"\fig*)" "\n"
 R"(\p Text)" "\n"
 R"(\fig DESC|FILE|SIZE|LOC|COPY|CAP|REF\fig*)" "\n"
+R"(\p \ndx index\ndx* \w word\w* \wg greek\wg* \wh hebrew\wh* \wa aramaic\wa*)" "\n"
 ;

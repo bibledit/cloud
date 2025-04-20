@@ -60,6 +60,7 @@ enum class Type : int {
   character_style,
   page_break,
   figure,
+  word_list,
   stopping_boundary // Should be the last always.
 };
 

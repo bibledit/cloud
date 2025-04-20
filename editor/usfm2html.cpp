@@ -227,7 +227,7 @@ void Editor_Usfm2Html::process ()
       }
       else if (const stylesv2::Style* style {database::styles2::get_marker_data (m_stylesheet, marker)}; style)
       {
-        switch (style->type) {
+        switch (style->type) { // Todo handle word_list
           case stylesv2::Type::starting_boundary:
           case stylesv2::Type::none:
           case stylesv2::Type::book_id:

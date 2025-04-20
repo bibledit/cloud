@@ -27,7 +27,7 @@ namespace stylesv2 {
 
 std::string type_enum_to_value (const Type type, const bool describe)
 {
-  switch (type) {
+  switch (type) { // Todo handle word_list
     case Type::starting_boundary:
       return "starting_boundary";
     case Type::none:
@@ -2853,6 +2853,41 @@ const std::list<Style> styles {
   },
 
   
+  //  {
+  //    /* marker */ "ndx",
+  //    /* name */ "Subject index entry",
+  //    /* info */ "Surround a word or words with this markup to indicate that it appears or should appear in the subject index.",
+  //    /* category */ "sf",
+  //    /* type */ 13,
+  //    /* subtype */ 3,
+  //    /* fontsize */ 12,
+  //    /* italic */ 0,
+  //    /* bold */ 0,
+  //    /* underline */ 0,
+  //    /* smallcaps */ 0,
+  //    /* superscript */ 0,
+  //    /* justification */ 0,
+  //    /* spacebefore */ 0,
+  //    /* spaceafter */ 0,
+  //    /* leftmargin */ 0,
+  //    /* rightmargin */ 0,
+  //    /* firstlineindent */ 0,
+  //    /* spancolumns */ 0,
+  //    /* color */ "#000000",
+  //    /* print */ 1,
+  //    /* userbool1 */ 0,
+  //    /* userbool2 */ 0,
+  //    /* userbool3 */ 0,
+  //    /* userint1 */ 1,
+  //    /* userint2 */ 0,
+  //    /* userint3 */ 0,
+  //    /* userstring1 */ "",
+  //    /* userstring2 */ "",
+  //    /* userstring3 */ "",
+  //    /* backgroundcolor */ "#FFFFFF",
+  //  },
+
+  
   // Todo adding here.
   
   //  {
@@ -3079,39 +3114,6 @@ const std::list<Style> styles {
   //    /* userbool2 */ 0,
   //    /* userbool3 */ 0,
   //    /* userint1 */ 0,
-  //    /* userint2 */ 0,
-  //    /* userint3 */ 0,
-  //    /* userstring1 */ "",
-  //    /* userstring2 */ "",
-  //    /* userstring3 */ "",
-  //    /* backgroundcolor */ "#FFFFFF",
-  //  },
-  //  {
-  //    /* marker */ "ndx",
-  //    /* name */ "Subject index entry",
-  //    /* info */ "Surround a word or words with this markup to indicate that it appears or should appear in the subject index.",
-  //    /* category */ "sf",
-  //    /* type */ 13,
-  //    /* subtype */ 3,
-  //    /* fontsize */ 12,
-  //    /* italic */ 0,
-  //    /* bold */ 0,
-  //    /* underline */ 0,
-  //    /* smallcaps */ 0,
-  //    /* superscript */ 0,
-  //    /* justification */ 0,
-  //    /* spacebefore */ 0,
-  //    /* spaceafter */ 0,
-  //    /* leftmargin */ 0,
-  //    /* rightmargin */ 0,
-  //    /* firstlineindent */ 0,
-  //    /* spancolumns */ 0,
-  //    /* color */ "#000000",
-  //    /* print */ 1,
-  //    /* userbool1 */ 0,
-  //    /* userbool2 */ 0,
-  //    /* userbool3 */ 0,
-  //    /* userint1 */ 1,
   //    /* userint2 */ 0,
   //    /* userint3 */ 0,
   //    /* userstring1 */ "",
@@ -3484,7 +3486,7 @@ bool marker_moved_to_v2 (const std::string& marker)
 // Whether this style starta a new line in USFM.
 bool starts_new_line_in_usfm (const Style* style)
 {
-  switch (style->type) {
+  switch (style->type) { // Todo handle word_list
     case Type::starting_boundary:
     case Type::none:
     case Type::book_id:

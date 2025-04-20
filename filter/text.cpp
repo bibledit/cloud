@@ -195,7 +195,7 @@ void Filter_Text::pre_process_usfm ()
         marker = marker.substr (1); // Remove the initial backslash, e.g. '\id' becomes 'id'.
         if (filter::usfm::is_opening_marker (marker)) {
           if (const stylesv2::Style* style {database::styles2::get_marker_data (m_stylesheet, marker)}; style) {
-            switch (style->type) {
+            switch (style->type) { // Todo handle word_list
               case stylesv2::Type::starting_boundary:
               case stylesv2::Type::none:
                 break;
@@ -515,7 +515,7 @@ void Filter_Text::process_usfm ()
           }
         }
         else if (const stylesv2::Style* style {database::styles2::get_marker_data (m_stylesheet, marker)}; style) {
-          switch (style->type) {
+          switch (style->type) { // Todo handle word_list
             case stylesv2::Type::starting_boundary:
             case stylesv2::Type::none:
               break;
@@ -1280,7 +1280,7 @@ void Filter_Text::processNote ()
       const std::string marker = filter::usfm::get_marker (currentItem);
       if (const stylesv2::Style* stylev2 {database::styles2::get_marker_data (m_stylesheet, marker)}; stylev2)
       {
-        switch (stylev2->type) {
+        switch (stylev2->type) { // Todo handle word_list
           case stylesv2::Type::starting_boundary:
           case stylesv2::Type::none:
           case stylesv2::Type::book_id:

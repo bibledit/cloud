@@ -2261,7 +2261,11 @@ TEST_F (usfm_html, usfm_with_all_markers)
   R"(<p class="b-mono"><span>\pb </span></p>)"
   R"(<p class="b-c"><span>7</span></p>)"
   R"(<p class="b-p"><span>This chapter is on a new page</span></p>)"
-
+  R"(<p class="b-c"><span>8</span></p>)"
+  R"(<p class="b-p"><span>Text</span></p>)"
+  R"(<p class="b-mono"><span>\fig </span><span>caption|src="image.png" size="size" ref="reference"</span><span>\fig*</span></p>)"
+  R"(<p class="b-p"><span>Text</span></p>)"
+  R"(<p class="b-mono"><span>\fig </span><span>DESC|FILE|SIZE|LOC|COPY|CAP|REF</span><span>\fig*</span></p>)"
 
   
   R"(<p class="b-notes"> </p>)"

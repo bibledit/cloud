@@ -352,3 +352,19 @@ Right 7
 
 This chapter is on a new page
 
+Right 8
+
+8
+
+Text
+
+
+
+caption
+
+Text
+
+
+
+CAP
+

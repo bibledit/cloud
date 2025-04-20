@@ -1562,6 +1562,13 @@ TEST_F (filter_text, usfm_with_all_markers)
   R"(<p class="break"/>)"
   R"(<p class="c"><span>7</span></p>)"
   R"(<p class="p"><span>This chapter is on a new page</span></p>)"
+  R"(<p class="c"><span>8</span></p>)"
+  R"(<p class="p"><span>Text</span></p>)"
+  R"(<img alt="" src="image.png" width="100%"/>)"
+  R"(<p class="fig"><span>caption</span></p>)"
+  R"(<p class="p"><span>Text</span></p>)"
+  R"(<img alt="DESC" src="FILE" width="100%"/>)"
+  R"(<p class="fig"><span>CAP</span></p>)"
   
   
   

@@ -1619,7 +1619,7 @@ void Filter_Text::produce_info_document (std::string path)
 
 // This function produces the text of the current passage, e.g.: Genesis 1:1.
 // Returns: The passage text
-std::string Filter_Text::getCurrentPassageText ()
+std::string Filter_Text::get_current_passage_text ()
 {
   return filter_passage_display (m_current_book_identifier, m_current_chapter_number, m_current_verse_number);
 }
@@ -1632,7 +1632,7 @@ std::string Filter_Text::getCurrentPassageText ()
 // and removes this text from the USFM input stream.
 void Filter_Text::add_to_info (std::string text, bool next)
 {
-  text = getCurrentPassageText() + " " + text;
+  text = get_current_passage_text() + " " + text;
   if (next) {
     text.append (" " + filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer));
   }
@@ -1647,7 +1647,7 @@ void Filter_Text::add_to_info (std::string text, bool next)
 // and removes this text from the USFM input stream.
 void Filter_Text::add_to_fallout (std::string text, bool next)
 {
-  text = getCurrentPassageText () + " " + text;
+  text = get_current_passage_text () + " " + text;
   if (next) {
     text.append (" " + filter::usfm::get_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer));
   }
@@ -1664,7 +1664,7 @@ void Filter_Text::add_to_word_list (const std::string& marker)
 {
   std::string text = filter::usfm::peek_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
   text.append (" (");
-  text.append (getCurrentPassageText ());
+  text.append (get_current_passage_text ());
   text.append (")");
   word_lists[marker].push_back (std::move(text));
 }

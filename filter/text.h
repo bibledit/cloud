@@ -91,7 +91,7 @@ private:
   int m_current_chapter_number {0};
   // Verse number, e.g. "0", "1", "2", and so on.
   std::string m_current_verse_number {};
-  std::string getCurrentPassageText ();
+  std::string get_current_passage_text ();
   // Map of (book, chapter number).
   std::map <int, int> m_number_of_chapters_per_book {};
   void process_usfm ();

@@ -137,18 +137,15 @@ public:
   odf_text * odf_text_notes {nullptr};
 
 public:
-  void produceInfoDocument (std::string path);
+  void produce_info_document (std::string path);
   void produceFalloutDocument (std::string path);
   std::vector <std::string> info {};
   std::vector <std::string> fallout {};
 private:
   void add_to_info (std::string text, bool next = false);
-  void addToFallout (std::string text, bool next = false);
-  void addToWordList (std::vector <std::string> & list);
-  std::vector <std::string> wordListGlossaryDictionary {};
-  std::vector <std::string> hebrewWordList {};
-  std::vector <std::string> greekWordList {};
-  std::vector <std::string> subjectIndex {};
+  void add_to_fallout (std::string text, bool next = false);
+  void add_to_word_list (const std::string& marker);
+  std::map<std::string,std::vector<std::string>> word_lists{};
 
 private:
   // Information for the citations for the notes.

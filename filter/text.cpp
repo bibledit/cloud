@@ -444,7 +444,7 @@ void Filter_Text::process_usfm ()
                 case PeripheralSubtypeCover:
                 case PeripheralSubtypeSpine:
                 {
-                  addToFallout (R"(Unknown pheripheral marker \)" + marker, false);
+                  add_to_fallout (R"(Unknown pheripheral marker \)" + marker, false);
                   break;
                 }
                 case PeripheralSubtypeGeneral:
@@ -468,7 +468,7 @@ void Filter_Text::process_usfm ()
             {
               // This marker is not yet implemented.
               // Add it to the fallout, plus any text that follows the marker.
-              addToFallout (R"(Marker not yet implemented \)" + marker + ", possible formatting error:", true);
+              add_to_fallout (R"(Marker not yet implemented \)" + marker + ", possible formatting error:", true);
               break;
             }
           }
@@ -1012,7 +1012,7 @@ void Filter_Text::process_usfm ()
                 html_text_standard->close_text_style (false, false);
               if (html_text_linked)
                 html_text_linked->close_text_style (false, false);
-              addToFallout ("Table elements not implemented", false);
+              add_to_fallout ("Table elements not implemented", false);
               break;
             }
             case stylesv2::Type::table_heading:
@@ -1141,10 +1141,7 @@ void Filter_Text::process_usfm ()
             case stylesv2::Type::word_list:
             {
               if (is_opening_marker) {
-                addToWordList (wordListGlossaryDictionary); // Todo fix all of this, use marker as list key.
-                addToWordList (hebrewWordList);
-                addToWordList (greekWordList);
-                addToWordList (subjectIndex);
+                add_to_word_list (marker);
               }
               break;
             }
@@ -1156,7 +1153,7 @@ void Filter_Text::process_usfm ()
         else {
           // Here is an unknown marker.
           // Add it to the fallout, plus any text that follows the marker.
-          addToFallout (R"(Unknown marker \)" + marker + ", formatting error:", true);
+          add_to_fallout (R"(Unknown marker \)" + marker + ", formatting error:", true);
         }
       } else {
         // Here is no marker, just text.
@@ -1272,7 +1269,7 @@ void Filter_Text::processNote ()
           case stylesv2::Type::verse:
           {
             // Verse found. The note should have stopped here. Incorrect note markup.
-            addToFallout ("The note did not close at the end of the verse. The text is not correct.", false);
+            add_to_fallout ("The note did not close at the end of the verse. The text is not correct.", false);
             goto noteDone;
             break;
           }
@@ -1505,7 +1502,7 @@ void Filter_Text::processNote ()
       }
       else {
         // Here is an unknown marker. Add the marker to fallout, plus any text that follows.
-        addToFallout (R"(Unknown marker \)" + marker, true);
+        add_to_fallout (R"(Unknown marker \)" + marker, true);
       }
     } else {
       // Here is no marker. Treat it as text.
@@ -1541,7 +1538,7 @@ void Filter_Text::processNote ()
 // This creates and saves the information document.
 // It contains formatting information, collected from the USFM code.
 // $path: Path to the document.
-void Filter_Text::produceInfoDocument (std::string path)
+void Filter_Text::produce_info_document (std::string path)
 {
   HtmlText information (translate("Information"));
 
@@ -1597,26 +1594,15 @@ void Filter_Text::produceInfoDocument (std::string path)
     information.add_text (line);
   }
 
-  // Word lists.
-  information.new_heading1 (translate("Word list, glossary, dictionary entries"));
-  for (const auto& item : wordListGlossaryDictionary) {
-    information.new_paragraph ();
-    information.add_text (item);
-  }
-  information.new_heading1 (translate("Hebrew word list entries"));
-  for (const auto& item : hebrewWordList) {
-    information.new_paragraph ();
-    information.add_text (item);
-  }
-  information.new_heading1 (translate("Greek word list entries"));
-  for (const auto& item : greekWordList) {
-    information.new_paragraph ();
-    information.add_text (item);
-  }
-  information.new_heading1 (translate("Subject index entries"));
-  for (const auto& item : subjectIndex) {
-    information.new_paragraph ();
-    information.add_text (item);
+  // Output the word lists.
+  for (const auto& word_list : word_lists) {
+    const std::string& marker = word_list.first;
+    information.new_heading1 (translate("Word list for marker") + " " + marker);
+    const std::vector<std::string>& words = word_list.second;
+    for (const auto& item : words) {
+      information.new_paragraph ();
+      information.add_text (item);
+    }
   }
 
   // Other info.
@@ -1659,7 +1645,7 @@ void Filter_Text::add_to_info (std::string text, bool next)
 // $text: String to add to the Fallout array.
 // $next: If true, it also adds the text following the marker to the fallout,
 // and removes this text from the USFM input stream.
-void Filter_Text::addToFallout (std::string text, bool next)
+void Filter_Text::add_to_fallout (std::string text, bool next)
 {
   text = getCurrentPassageText () + " " + text;
   if (next) {
@@ -1670,17 +1656,17 @@ void Filter_Text::addToFallout (std::string text, bool next)
 
 
 
-// This function adds something to a word list array, prefixed by the current passage.
-// $list: which list to add the text to.
-// The word is extracted from the input USFM. The Usfm pointer points to the current marker,
+// This function adds something to a word list array, followed by the current passage.
+// $marker: Which list to add the text to.
+// The word is extracted from the input USFM. The USFM input pointer points to the current marker,
 // and the text following that marker is added to the word list array.
-void Filter_Text::addToWordList (std::vector <std::string>  & list)
+void Filter_Text::add_to_word_list (const std::string& marker)
 {
   std::string text = filter::usfm::peek_text_following_marker (chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
   text.append (" (");
   text.append (getCurrentPassageText ());
   text.append (")");
-  list.push_back (text);
+  word_lists[marker].push_back (std::move(text));
 }
 
 

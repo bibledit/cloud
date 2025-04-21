@@ -70,7 +70,7 @@ void export_info (std::string bible, bool log)
   
   
   // Save files.
-  filter_text.produceInfoDocument (informationdFilename);
+  filter_text.produce_info_document (informationdFilename);
   filter_text.produceFalloutDocument (falloutFilename);
   
   

@@ -1570,7 +1570,7 @@ TEST_F (filter_text, usfm_with_all_markers)
   R"(<img alt="DESC" src="FILE" width="100%"/>)"
   R"(<p class="fig"><span>CAP</span></p>)"
   R"(<p class="p"><span>index</span><span> </span><span>word</span><span> </span><span>greek</span><span> </span><span>hebrew</span><span> </span><span>aramaic</span></p>)"
-  
+  R"(<p class="p"><span>Text</span><span class="rb">wd</span></p>)"
   
   
   R"(<div>)"

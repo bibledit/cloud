@@ -2267,6 +2267,7 @@ TEST_F (usfm_html, usfm_with_all_markers)
   R"(<p class="b-p"><span>Text</span></p>)"
   R"(<p class="b-mono"><span>\fig </span><span>DESC|FILE|SIZE|LOC|COPY|CAP|REF</span><span>\fig*</span></p>)"
   R"(<p class="b-p"><span class="i-ndx">index</span><span> </span><span class="i-w">word</span><span> </span><span class="i-wg">greek</span><span> </span><span class="i-wh">hebrew</span><span> </span><span class="i-wa">aramaic</span></p>)"
+  R"(<p class="b-p"><span>Text</span><span class="i-rb0wla1">wd</span></p>)"
 
   
   R"(<p class="b-notes"> </p>)"
@@ -2276,6 +2277,8 @@ TEST_F (usfm_html, usfm_with_all_markers)
   R"(<p class="b-f"><span class="i-notebody4">2</span><span> </span><span>+ </span><span class="i-fp">paragraph</span></p>)"
   R"(<p class="b-x"><span class="i-notebody5">a</span><span> </span><span>+ </span><span class="i-xo">origin </span><span class="i-xk">keyword </span><span class="i-xq">quotation </span><span class="i-xt">targets </span><span class="i-xta">added </span><span class="i-xop">published</span><span> </span><span class="i-xot">old testament</span><span> </span><span class="i-xnt">new testament</span><span> </span><span class="i-xdc">deuterocanonical</span></p>)"
   R"(<p class="b-ex"><span class="i-notebody6">a</span><span> </span><span>+ </span><span class="i-xt">targets</span></p>)"
+  R"(<p class="b-wordlevelattributes"> </p>)"
+  R"(<p class="b-wla1">"gloss:gloss"</p>)"
   ;
 
   const auto make_readable = [] (const auto& html) {

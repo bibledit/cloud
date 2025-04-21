@@ -1164,6 +1164,9 @@ TEST_F (styles, marker_starts_new_line_in_usfm)
           return true;
         case Type::word_list:
           return false;
+        case Type::sidebar_begin:
+        case Type::sidebar_end:
+          return true;
         case Type::stopping_boundary:
         default:
           return std::nullopt;

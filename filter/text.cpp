@@ -324,6 +324,9 @@ void Filter_Text::pre_process_usfm ()
                 break;
               case stylesv2::Type::word_list:
                 break;
+              case stylesv2::Type::sidebar_begin:
+              case stylesv2::Type::sidebar_end:
+                break;
               case stylesv2::Type::stopping_boundary:
               default:
                 break;
@@ -1145,6 +1148,13 @@ void Filter_Text::process_usfm ()
               }
               break;
             }
+            case stylesv2::Type::sidebar_begin:
+            case stylesv2::Type::sidebar_end:
+            {
+              close_text_style_all();
+              add_to_info (R"(Sidebar marker: \)" + marker, false);
+              break;
+            }
             case stylesv2::Type::stopping_boundary:
             default:
               break;
@@ -1494,6 +1504,8 @@ void Filter_Text::processNote ()
           case stylesv2::Type::page_break:
           case stylesv2::Type::figure:
           case stylesv2::Type::word_list:
+          case stylesv2::Type::sidebar_begin:
+          case stylesv2::Type::sidebar_end:
           case stylesv2::Type::stopping_boundary:
           default:
             break;

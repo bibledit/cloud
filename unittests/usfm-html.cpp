@@ -2268,7 +2268,10 @@ TEST_F (usfm_html, usfm_with_all_markers)
   R"(<p class="b-mono"><span>\fig </span><span>DESC|FILE|SIZE|LOC|COPY|CAP|REF</span><span>\fig*</span></p>)"
   R"(<p class="b-p"><span class="i-ndx">index</span><span> </span><span class="i-w">word</span><span> </span><span class="i-wg">greek</span><span> </span><span class="i-wh">hebrew</span><span> </span><span class="i-wa">aramaic</span></p>)"
   R"(<p class="b-p"><span>Text</span><span class="i-rb0wla1">wd</span></p>)"
-
+  R"(<p class="b-mono"><span>\esb </span></p>)"
+  R"(<p class="b-p"><span>Sidebar</span></p>)"
+  R"(<p class="b-mono"><span>\esbe </span></p>)"
+  
   
   R"(<p class="b-notes"> </p>)"
   R"(<p class="b-f"><span class="i-notebody1">1</span><span> </span><span>+ </span><span class="i-fr">ref </span><span class="i-ft">note </span><span class="i-fq">quote </span><span class="i-fv">3</span><span> </span><span class="i-fqa">alternate quote </span><span class="i-fk">keyword </span><span class="i-fl">label </span><span class="i-fw">witness </span><span class="i-fdc">deuterocanonical</span><span> </span><span class="i-fm">mark</span></p>)"

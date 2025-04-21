@@ -1355,6 +1355,35 @@ TEST_F (filter_text, introduction_main_title)
 }
 
 
+TEST_F (filter_text, sidebar)
+{
+  const std::string usfm =
+  R"(\p before)" "\n"
+  R"(\esb)" "\n"
+  R"(\p sidebar)" "\n"
+  R"(\esbe)" "\n"
+  R"(\p after)" "\n"
+  ;
+  Filter_Text filter_text = Filter_Text (bible);
+  filter_text.odf_text_standard = new odf_text (bible);
+  filter_text.add_usfm_code (usfm);
+  filter_text.run (styles_logic_standard_sheet());
+  filter_text.odf_text_standard->save (text_odt);
+  const int ret = odf2txt (text_odt, text_txt);
+  EXPECT_EQ (0, ret);
+  const std::string odt = filter_url_file_get_contents (text_txt);
+  const std::string standard =
+  "before\n"
+  "\n"
+  "sidebar\n"
+  "\n"
+  "after\n"
+  "\n"
+  ;
+  EXPECT_EQ (standard, odt);
+}
+
+
 TEST_F (filter_text, usfm_with_all_markers)
 {
   const std::string usfm = usfm_with_all_markers;
@@ -1571,6 +1600,7 @@ TEST_F (filter_text, usfm_with_all_markers)
   R"(<p class="fig"><span>CAP</span></p>)"
   R"(<p class="p"><span>index</span><span> </span><span>word</span><span> </span><span>greek</span><span> </span><span>hebrew</span><span> </span><span>aramaic</span></p>)"
   R"(<p class="p"><span>Text</span><span class="rb">wd</span></p>)"
+  R"(<p class="p"><span>Sidebar</span></p>)"
   
   
   R"(<div>)"

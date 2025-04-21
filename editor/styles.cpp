@@ -147,9 +147,9 @@ std::string Editor_Styles::getAction (Webserver_Request& webserver_request, cons
       case stylesv2::Type::long_toc_text:
       case stylesv2::Type::short_toc_text:
       case stylesv2::Type::book_abbrev:
-        return mono ();
+        return mono();
       case stylesv2::Type::introduction_end:
-        return mono ();
+        return mono();
       case stylesv2::Type::title:
       case stylesv2::Type::heading:
       case stylesv2::Type::paragraph:
@@ -158,42 +158,45 @@ std::string Editor_Styles::getAction (Webserver_Request& webserver_request, cons
       case stylesv2::Type::chapter_label:
       case stylesv2::Type::published_chapter_marker:
       case stylesv2::Type::alternate_chapter_number:
-        return mono ();
+        return mono();
       case stylesv2::Type::verse:
         return character();
       case stylesv2::Type::published_verse_marker:
-        return character ();
+        return character();
       case stylesv2::Type::table_row:
       case stylesv2::Type::table_heading:
       case stylesv2::Type::table_cell:
-        return mono ();
+        return mono();
       case stylesv2::Type::footnote_wrapper:
       case stylesv2::Type::endnote_wrapper:
-        return note ();
+        return note();
       case stylesv2::Type::note_standard_content:
       case stylesv2::Type::note_content:
       case stylesv2::Type::note_content_with_endmarker:
       case stylesv2::Type::note_paragraph:
-        return character ();
+        return character();
       case stylesv2::Type::crossreference_wrapper:
-        return note ();
+        return note();
       case stylesv2::Type::crossreference_standard_content:
       case stylesv2::Type::crossreference_content:
       case stylesv2::Type::crossreference_content_with_endmarker:
-        return character ();
+        return character();
       case stylesv2::Type::character_style:
         return character ();
       case stylesv2::Type::page_break:
-        return unknown ();
+        return unknown();
       case stylesv2::Type::figure:
-        return mono ();
+        return mono();
       case stylesv2::Type::word_list:
-        return character ();
+        return character();
+      case stylesv2::Type::sidebar_begin:
+      case stylesv2::Type::sidebar_end:
+        return mono();
       case stylesv2::Type::starting_boundary:
       case stylesv2::Type::stopping_boundary:
       case stylesv2::Type::none:
       default:
-        return unknown ();
+        return unknown();
     }
   }
   else {

@@ -414,6 +414,14 @@ void Editor_Usfm2Html::process ()
             }
             break;
           }
+          case stylesv2::Type::sidebar_begin:
+          case stylesv2::Type::sidebar_end:
+          {
+            // Output as plain text.
+            close_text_style (false);
+            output_as_is (marker, is_opening_marker);
+            break;
+          }
           case stylesv2::Type::stopping_boundary:
           default:
             break;

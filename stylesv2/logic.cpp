@@ -157,6 +157,14 @@ std::string type_enum_to_value (const Type type, const bool describe)
       if (describe)
         return "word list";
       return "word_list";
+    case Type::sidebar_begin:
+      if (describe)
+        return "sidebar begin";
+      return "sidebar_begin";
+    case Type::sidebar_end:
+      if (describe)
+        return "sidebar end";
+      return "sidebar_end";
     case Type::stopping_boundary:
       return "stopping_boundary";
     default:
@@ -2916,6 +2924,48 @@ const std::list<Style> styles {
     .doc = "https://ubsicap.github.io/usfm/characters/index.html#wa-wa",
     .category = Category::words_characters,
   },
+  {
+    .marker = "ef",
+    .type = Type::footnote_wrapper,
+    .name = "Extended footnote",
+    .info = "Extended footnote element.",
+    .character = Character { },
+    .properties = {
+      {Property::note_numbering_sequence,"1 2 3 4 5 6 7 8 9"},
+      {Property::note_numbering_restart,"chapter"}
+    },
+      .doc = "https://ubsicap.github.io/usfm/notes_study/efnotes.html#ef-ef",
+      .category = Category::extended_study_content,
+  },
+  {
+    .marker = "ex",
+    .type = Type::crossreference_wrapper,
+    .name = "Extended cross reference",
+    .info = "Extended list of cross references.",
+    .character = Character { },
+    .properties = {
+      {Property::note_numbering_sequence,"a b c d e f g h i j k l m n o p q r s t u v w x y z"},
+      {Property::note_numbering_restart,"chapter"}
+    },
+      .doc = "https://ubsicap.github.io/usfm/notes_study/exrefs.html#ex-ex",
+      .category = Category::extended_study_content,
+  },
+  {
+    .marker = "esb",
+    .type = Type::sidebar_begin,
+    .name = "Sidebar start",
+    .info = "Beginning or opening of the sidebar content section.",
+    .doc = "https://ubsicap.github.io/usfm/notes_study/sidebars.html#esb",
+    .category = Category::extended_study_content,
+  },
+  {
+    .marker = "esbe",
+    .type = Type::sidebar_end,
+    .name = "Sidebar end",
+    .info = "End or closing of the sidebar content section.",
+    .doc = "https://ubsicap.github.io/usfm/notes_study/sidebars.html#esbe",
+    .category = Category::extended_study_content,
+  },
 
   
   // Todo adding here.
@@ -2939,72 +2989,6 @@ const std::list<Style> styles {
   //    /* leftmargin */ 0,
   //    /* rightmargin */ 0,
   //    /* firstlineindent */ 0,
-  //    /* spancolumns */ 0,
-  //    /* color */ "#000000",
-  //    /* print */ 1,
-  //    /* userbool1 */ 0,
-  //    /* userbool2 */ 0,
-  //    /* userbool3 */ 0,
-  //    /* userint1 */ 0,
-  //    /* userint2 */ 0,
-  //    /* userint3 */ 0,
-  //    /* userstring1 */ "",
-  //    /* userstring2 */ "",
-  //    /* userstring3 */ "",
-  //    /* backgroundcolor */ "#FFFFFF",
-  //  },
-  //  {
-  //    /* marker */ "esb",
-  //    /* name */ "Sidebar start",
-  //    /* info */ "Beginning or opening of the sidebar content section",
-  //    /* category */ "p",
-  //    /* type */ 3,
-  //    /* subtype */ 3,
-  //    /* fontsize */ 12,
-  //    /* italic */ 0,
-  //    /* bold */ 0,
-  //    /* underline */ 0,
-  //    /* smallcaps */ 0,
-  //    /* superscript */ 0,
-  //    /* justification */ 0,
-  //    /* spacebefore */ 0,
-  //    /* spaceafter */ 0,
-  //    /* leftmargin */ 0,
-  //    /* rightmargin */ 0,
-  //    /* firstlineindent */ 3.2f,
-  //    /* spancolumns */ 0,
-  //    /* color */ "#000000",
-  //    /* print */ 1,
-  //    /* userbool1 */ 0,
-  //    /* userbool2 */ 0,
-  //    /* userbool3 */ 0,
-  //    /* userint1 */ 0,
-  //    /* userint2 */ 0,
-  //    /* userint3 */ 0,
-  //    /* userstring1 */ "",
-  //    /* userstring2 */ "",
-  //    /* userstring3 */ "",
-  //    /* backgroundcolor */ "#FFFFFF",
-  //  },
-  //  {
-  //    /* marker */ "esbe",
-  //    /* name */ "Sidebar end",
-  //    /* info */ "End or closing of the sidebar content section",
-  //    /* category */ "p",
-  //    /* type */ 3,
-  //    /* subtype */ 3,
-  //    /* fontsize */ 12,
-  //    /* italic */ 0,
-  //    /* bold */ 0,
-  //    /* underline */ 0,
-  //    /* smallcaps */ 0,
-  //    /* superscript */ 0,
-  //    /* justification */ 0,
-  //    /* spacebefore */ 0,
-  //    /* spaceafter */ 0,
-  //    /* leftmargin */ 0,
-  //    /* rightmargin */ 0,
-  //    /* firstlineindent */ 3.2f,
   //    /* spancolumns */ 0,
   //    /* color */ "#000000",
   //    /* print */ 1,
@@ -3286,35 +3270,6 @@ const std::list<Style> styles {
   //    /* backgroundcolor */ "#FFFFFF",
   //  },
 
-  
-  
-  
-  {
-    .marker = "ef",
-    .type = Type::footnote_wrapper,
-    .name = "Extended footnote",
-    .info = "Extended footnote element.",
-    .character = Character { },
-    .properties = {
-      {Property::note_numbering_sequence,"1 2 3 4 5 6 7 8 9"},
-      {Property::note_numbering_restart,"chapter"}
-    },
-      .doc = "https://ubsicap.github.io/usfm/notes_study/efnotes.html#ef-ef",
-      .category = Category::extended_study_content,
-  },
-  {
-    .marker = "ex",
-    .type = Type::crossreference_wrapper,
-    .name = "Extended cross reference",
-    .info = "Extended list of cross references.",
-    .character = Character { },
-    .properties = {
-      {Property::note_numbering_sequence,"a b c d e f g h i j k l m n o p q r s t u v w x y z"},
-      {Property::note_numbering_restart,"chapter"}
-    },
-      .doc = "https://ubsicap.github.io/usfm/notes_study/exrefs.html#ex-ex",
-      .category = Category::extended_study_content,
-  },
 };
 
 
@@ -3388,6 +3343,9 @@ bool starts_new_line_in_usfm (const Style* style)
       return true;
     case Type::word_list:
       return false;
+    case Type::sidebar_begin:
+    case Type::sidebar_end:
+      return true;
     case Type::stopping_boundary:
     default:
       return true;

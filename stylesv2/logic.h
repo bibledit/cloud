@@ -61,6 +61,8 @@ enum class Type : int {
   page_break,
   figure,
   word_list,
+  sidebar_begin,
+  sidebar_end,
   stopping_boundary // Should be the last always.
 };
 

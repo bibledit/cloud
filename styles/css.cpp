@@ -169,17 +169,13 @@ void Styles_Css::evaluate_v2 (const stylesv2::Style* style)
       add_v2 (style, false, false);
       break;
     case Type::crossreference_wrapper:
-    {
       add_v2 (style, true, false);
       break;
-    }
     case Type::crossreference_standard_content:
     case Type::crossreference_content:
     case Type::crossreference_content_with_endmarker:
-    {
       add_v2 (style, false, false);
       break;
-    }
     case Type::character_style:
       add_v2 (style, false, false);
       break;
@@ -189,6 +185,9 @@ void Styles_Css::evaluate_v2 (const stylesv2::Style* style)
       add_v2 (style, true, false);
       break;
     case Type::word_list:
+      break;
+    case Type::sidebar_begin:
+    case Type::sidebar_end:
       break;
     case Type::stopping_boundary:
     default:

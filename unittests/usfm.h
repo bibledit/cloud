@@ -205,4 +205,9 @@ R"(\p Text\rb wd|"gloss:gloss"\rb*)" "\n"
 R"(\esb)" "\n"
 R"(\p Sidebar)" "\n"
 R"(\esbe)" "\n"
+//R"(\esb \cat category\cat*)" "\n"
+R"(\esb)" "\n"
+R"(\p text\ef - \cat category\cat* \ft note\ef*)" "\n"
+R"(\esbe)" "\n"
+
 ;

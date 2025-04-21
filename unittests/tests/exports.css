@@ -11,187 +11,15 @@ a:hover { text-decoration: underline; }
 .navigationbar { font-size: normal; }
 .popup { position:absolute; display:none; background-color:lightyellow; border:.1em solid; width:15em; height:auto; padding:1em; font-size:1.5em; text-indent:0em; margin 0.5em 0.5em 0.5em 0.5em; }
 a:hover .popup { display:block; }
-.cat, .i-cat {
-font-style: italic;
-}
-.ef, .b-ef {
-}
-.ex, .b-ex {
-}
-.f, .b-f {
-}
-.fdc, .i-fdc {
-}
-.fe, .b-fe {
-}
-.fig, .b-fig {
-font-style: italic;
-text-align: center;
-}
-.fk, .i-fk {
-font-style: italic;
-font-weight: bold;
-}
-.fl, .i-fl {
-font-style: italic;
-font-weight: bold;
-}
-.fm, .i-fm {
-font-size: x-small;
-vertical-align: super;
-}
-.fp, .i-fp {
-}
-.fq, .i-fq {
-font-style: italic;
-}
-.fqa, .i-fqa {
-font-style: italic;
-}
-.fr, .i-fr {
-font-weight: bold;
-}
-.ft, .i-ft {
-}
-.fv, .i-fv {
-font-size: x-small;
-vertical-align: super;
-}
 .jmp, .i-jmp {
 text-decoration: underline;
 color: #0000FF;
-}
-.lf, .b-lf {
-margin-left: 10mm;
-}
-.lh, .b-lh {
-text-indent: 3.2mm;
-}
-.li, .b-li {
-margin-left: 12.7mm;
-text-indent: -9.5mm;
-}
-.li1, .b-li1 {
-margin-left: 12.7mm;
-text-indent: -9.5mm;
-}
-.li2, .b-li2 {
-margin-left: 19.1mm;
-text-indent: -9.5mm;
-}
-.li3, .b-li3 {
-margin-left: 25.4mm;
-text-indent: -9.5mm;
-}
-.li4, .b-li4 {
-margin-left: 31.8mm;
-text-indent: -9.5mm;
-}
-.lik, .i-lik {
-}
-.lim, .b-lim {
-margin-left: 19.1mm;
-margin-right: 6.4mm;
-text-indent: -9.5mm;
-}
-.lim1, .b-lim1 {
-margin-left: 19.1mm;
-margin-right: 6.4mm;
-text-indent: -9.5mm;
-}
-.lim2, .b-lim2 {
-margin-left: 25.4mm;
-text-indent: -9.5mm;
-}
-.lit, .b-lit {
-font-weight: bold;
-}
-.litl, .i-litl {
-}
-.liv, .i-liv {
-}
-.liv1, .i-liv1 {
-}
-.q, .b-q {
-margin-left: 31.8mm;
-text-indent: -25.4mm;
-}
-.q1, .b-q1 {
-margin-left: 31.8mm;
-text-indent: -25.4mm;
-}
-.q2, .b-q2 {
-margin-left: 31.8mm;
-text-indent: -19.1mm;
-}
-.q3, .b-q3 {
-margin-left: 31.8mm;
-text-indent: -12.7mm;
-}
-.qa, .b-qa {
-font-style: italic;
-}
-.qac, .i-qac {
-font-style: italic;
-}
-.qc, .b-qc {
-text-align: center;
-}
-.qd, .b-qd {
-margin-left: 6.4mm;
-}
-.qm, .b-qm {
-margin-left: 25.4mm;
-text-indent: -19.1mm;
-}
-.qm1, .b-qm1 {
-margin-left: 25.4mm;
-text-indent: -19.1mm;
-}
-.qm2, .b-qm2 {
-margin-left: 25.4mm;
-text-indent: -12.7mm;
-}
-.qm3, .b-qm3 {
-margin-left: 25.4mm;
-text-indent: -6.4mm;
-}
-.qr, .b-qr {
-text-align: right;
-}
-.qs, .i-qs {
-font-style: italic;
-}
-.rb, .i-rb {
 }
 .rt, .i-rt {
 }
 .va, .i-va {
 font-size: x-small;
 vertical-align: super;
-}
-.x, .b-x {
-}
-.xdc, .i-xdc {
-}
-.xk, .i-xk {
-font-style: italic;
-}
-.xnt, .i-xnt {
-}
-.xo, .i-xo {
-font-weight: bold;
-}
-.xop, .i-xop {
-}
-.xot, .i-xot {
-}
-.xq, .i-xq {
-font-style: italic;
-}
-.xt, .i-xt {
-}
-.xta, .i-xta {
 }
 .imt, .b-imt {
 font-size: 117%;
@@ -662,13 +490,167 @@ text-indent: -9.5mm;
 .b, .b-b {
 font-size: 83%;
 }
-.pro, .i-pro {
+.q, .b-q {
+margin-left: 31.8mm;
+text-indent: -25.4mm;
+}
+.q1, .b-q1 {
+margin-left: 31.8mm;
+text-indent: -25.4mm;
+}
+.q2, .b-q2 {
+margin-left: 31.8mm;
+text-indent: -19.1mm;
+}
+.q3, .b-q3 {
+margin-left: 31.8mm;
+text-indent: -12.7mm;
+}
+.qr, .b-qr {
+text-align: right;
+}
+.qc, .b-qc {
+text-align: center;
+}
+.qs, .i-qs {
 font-style: italic;
+}
+.qa, .b-qa {
+font-style: italic;
+}
+.qac, .i-qac {
+font-style: italic;
+}
+.qm, .b-qm {
+margin-left: 25.4mm;
+text-indent: -19.1mm;
+}
+.qm1, .b-qm1 {
+margin-left: 25.4mm;
+text-indent: -19.1mm;
+}
+.qm2, .b-qm2 {
+margin-left: 25.4mm;
+text-indent: -12.7mm;
+}
+.qm3, .b-qm3 {
+margin-left: 25.4mm;
+text-indent: -6.4mm;
+}
+.qd, .b-qd {
+margin-left: 6.4mm;
+}
+.lh, .b-lh {
+text-indent: 3.2mm;
+}
+.li, .b-li {
+margin-left: 12.7mm;
+text-indent: -9.5mm;
+}
+.li1, .b-li1 {
+margin-left: 12.7mm;
+text-indent: -9.5mm;
+}
+.li2, .b-li2 {
+margin-left: 19.1mm;
+text-indent: -9.5mm;
+}
+.li3, .b-li3 {
+margin-left: 25.4mm;
+text-indent: -9.5mm;
+}
+.li4, .b-li4 {
+margin-left: 31.8mm;
+text-indent: -9.5mm;
+}
+.lf, .b-lf {
+margin-left: 10mm;
+}
+.lim, .b-lim {
+margin-left: 19.1mm;
+margin-right: 6.4mm;
+text-indent: -9.5mm;
+}
+.lim1, .b-lim1 {
+margin-left: 19.1mm;
+margin-right: 6.4mm;
+text-indent: -9.5mm;
+}
+.lim2, .b-lim2 {
+margin-left: 25.4mm;
+text-indent: -9.5mm;
+}
+.litl, .i-litl {
+}
+.lik, .i-lik {
+}
+.liv, .i-liv {
+}
+.liv1, .i-liv1 {
+}
+.liv2, .i-liv2 {
+}
+.f, .b-f {
+}
+.fe, .b-fe {
+}
+.fr, .i-fr {
+font-weight: bold;
+}
+.fq, .i-fq {
+font-style: italic;
+}
+.fqa, .i-fqa {
+font-style: italic;
+}
+.fk, .i-fk {
+font-style: italic;
+font-weight: bold;
+}
+.fl, .i-fl {
+font-style: italic;
+font-weight: bold;
+}
+.fw, .i-fw {
+}
+.fp, .i-fp {
+}
+.fv, .i-fv {
+font-size: x-small;
+vertical-align: super;
+}
+.ft, .i-ft {
+}
+.fdc, .i-fdc {
+}
+.fm, .i-fm {
+font-size: x-small;
+vertical-align: super;
+}
+.x, .b-x {
+}
+.xo, .i-xo {
+font-weight: bold;
+}
+.xk, .i-xk {
+font-style: italic;
+}
+.xq, .i-xq {
+font-style: italic;
+}
+.xt, .i-xt {
+}
+.xta, .i-xta {
+}
+.xop, .i-xop {
+}
+.xot, .i-xot {
+}
+.xnt, .i-xnt {
+}
+.xdc, .i-xdc {
 }
 .add, .i-add {
-font-style: italic;
-}
-.addpn, .i-addpn {
 font-style: italic;
 }
 .bk, .i-bk {
@@ -679,6 +661,9 @@ font-style: italic;
 }
 .k, .i-k {
 font-style: italic;
+font-weight: bold;
+}
+.lit, .b-lit {
 font-weight: bold;
 }
 .nd, .i-nd {
@@ -695,6 +680,9 @@ text-decoration: underline;
 .png, .i-png {
 font-weight: bold;
 text-decoration: underline;
+}
+.addpn, .i-addpn {
+font-style: italic;
 }
 .qt, .i-qt {
 font-style: italic;
@@ -733,13 +721,19 @@ font-variant: small-caps;
 font-size: x-small;
 vertical-align: super;
 }
-.lik, .i-lik {
+.fig, .b-fig {
+font-style: italic;
+text-align: center;
 }
-.liv, .i-liv {
+.rb, .i-rb {
 }
-.liv1, .i-liv1 {
+.pro, .i-pro {
+font-style: italic;
 }
-.liv2, .i-liv2 {
+.ef, .b-ef {
 }
-.fw, .i-fw {
+.ex, .b-ex {
+}
+.cat, .i-cat {
+font-style: italic;
 }

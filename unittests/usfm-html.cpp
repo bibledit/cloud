@@ -2088,6 +2088,39 @@ TEST_F (usfm_html, road_is_clear)
 }
 
 
+TEST_F (usfm_html, category)
+{
+  constexpr auto standard_usfm =
+  //R"(\esb \cat category\cat*)" "\n"
+  R"(\esb)" "\n"
+  R"(\p text\ef - \cat category\cat* \ft note\ef*)" "\n"
+  R"(\esbe)"
+  ;
+  
+  constexpr auto standard_html =
+  R"(<p class="b-mono"><span>\esb </span></p>)"
+  R"(<p class="b-p"><span>text</span><span class="i-notecall1">1</span></p>)"
+  R"(<p class="b-mono"><span>\esbe </span></p>)"
+  R"(<p class="b-notes"> </p>)"
+  R"(<p class="b-ef"><span class="i-notebody1">1</span><span> </span><span>- </span><span class="i-cat">category</span><span> </span><span class="i-ft">note</span></p>)"
+  ;
+  
+  Editor_Usfm2Html editor_usfm2html;
+  editor_usfm2html.load (standard_usfm);
+  editor_usfm2html.stylesheet (styles_logic_standard_sheet ());
+  editor_usfm2html.run ();
+  const std::string html = editor_usfm2html.get ();
+  EXPECT_EQ (standard_html, html);
+
+  Editor_Html2Usfm editor_html2usfm;
+  editor_html2usfm.load (html);
+  editor_html2usfm.stylesheet (styles_logic_standard_sheet ());
+  editor_html2usfm.run ();
+  const std::string usfm = editor_html2usfm.get ();
+  EXPECT_EQ (standard_usfm, usfm);
+}
+
+
 TEST_F (usfm_html, usfm_with_all_markers)
 {
   std::string standard_usfm {usfm_with_all_markers};
@@ -2271,7 +2304,10 @@ TEST_F (usfm_html, usfm_with_all_markers)
   R"(<p class="b-mono"><span>\esb </span></p>)"
   R"(<p class="b-p"><span>Sidebar</span></p>)"
   R"(<p class="b-mono"><span>\esbe </span></p>)"
-  
+  R"(<p class="b-mono"><span>\esb </span></p>)"
+  R"(<p class="b-p"><span>text</span><span class="i-notecall7">2</span></p>)"
+  R"(<p class="b-mono"><span>\esbe </span></p>)"
+
   
   R"(<p class="b-notes"> </p>)"
   R"(<p class="b-f"><span class="i-notebody1">1</span><span> </span><span>+ </span><span class="i-fr">ref </span><span class="i-ft">note </span><span class="i-fq">quote </span><span class="i-fv">3</span><span> </span><span class="i-fqa">alternate quote </span><span class="i-fk">keyword </span><span class="i-fl">label </span><span class="i-fw">witness </span><span class="i-fdc">deuterocanonical</span><span> </span><span class="i-fm">mark</span></p>)"
@@ -2280,6 +2316,7 @@ TEST_F (usfm_html, usfm_with_all_markers)
   R"(<p class="b-f"><span class="i-notebody4">2</span><span> </span><span>+ </span><span class="i-fp">paragraph</span></p>)"
   R"(<p class="b-x"><span class="i-notebody5">a</span><span> </span><span>+ </span><span class="i-xo">origin </span><span class="i-xk">keyword </span><span class="i-xq">quotation </span><span class="i-xt">targets </span><span class="i-xta">added </span><span class="i-xop">published</span><span> </span><span class="i-xot">old testament</span><span> </span><span class="i-xnt">new testament</span><span> </span><span class="i-xdc">deuterocanonical</span></p>)"
   R"(<p class="b-ex"><span class="i-notebody6">a</span><span> </span><span>+ </span><span class="i-xt">targets</span></p>)"
+  R"(<p class="b-ef"><span class="i-notebody7">2</span><span> </span><span>- </span><span class="i-cat">category</span><span> </span><span class="i-ft">note</span></p>)"
   R"(<p class="b-wordlevelattributes"> </p>)"
   R"(<p class="b-wla1">"gloss:gloss"</p>)"
   ;

@@ -105,20 +105,29 @@ TEST_F (styles, create_css)
     return bits;
   };
 
+  // Save CSS to file in /tmp.
+  const auto save = [] (std::string css, const char* filename) {
+    const std::string path = filter_url_create_path({"/tmp", filename});
+    filter_url_file_put_contents (path, std::move(css));
+  };
+  
   // Create basic cascaded stylesheet.
   {
     Styles_Css styles_css (testsheet);
     styles_css.generate ();
+    constexpr const char* basic_css{"basic.css"};
     const auto css = chopup(styles_css.css ());
-    const auto standard = chopup(filter_url_file_get_contents (filter_url_create_path ({"unittests", "tests", "basic.css"})));
+    const auto standard = chopup(filter_url_file_get_contents (filter_url_create_path ({"unittests", "tests", basic_css})));
     for (const auto& bit : standard) {
       if (std::find(css.cbegin(), css.cend(), bit) == css.cend()) {
-        ADD_FAILURE() << "The following CSS in file basic.css is not generated:\n" << bit;
+        save(styles_css.css(), basic_css);
+        ADD_FAILURE() << "The following CSS in file " << basic_css << " is not generated:\n" << bit;
       }
     }
     for (const auto& bit : css) {
       if (std::find(standard.cbegin(), standard.cend(), bit) == standard.cend()) {
-        ADD_FAILURE() << "The following CSS is generated but not present in file basic.css:\n" << bit;
+        save(styles_css.css(), basic_css);
+        ADD_FAILURE() << "The following CSS is generated but not present in file " << basic_css<< ":\n" << bit;
       }
     }
   }
@@ -128,17 +137,19 @@ TEST_F (styles, create_css)
     Styles_Css styles_css (testsheet);
     styles_css.exports ();
     styles_css.generate ();
+    constexpr const char* exports_css{"exports.css"};
     const auto css = chopup(styles_css.css());
-    //filter_url_file_put_contents("/tmp/exports.css", styles_css.css());
     const auto standard = chopup(filter::strings::trim (filter_url_file_get_contents (filter_url_create_path ({"unittests", "tests", "exports.css"}))));
     for (const auto& bit : standard) {
       if (std::find(css.cbegin(), css.cend(), bit) == css.cend()) {
-        ADD_FAILURE() << "The following CSS in file exports.css is not generated:\n" << bit;
+        save(styles_css.css(), exports_css);
+        ADD_FAILURE() << "The following CSS in file " << exports_css << " is not generated:\n" << bit;
       }
     }
     for (const auto& bit : css) {
       if (std::find(standard.cbegin(), standard.cend(), bit) == standard.cend()) {
-        ADD_FAILURE() << "The following CSS is generated but not present in file exports.css:\n" << bit;
+        save(styles_css.css(), exports_css);
+        ADD_FAILURE() << "The following CSS is generated but not present in file " << exports_css << ":\n" << bit;
       }
     }
   }
@@ -148,16 +159,19 @@ TEST_F (styles, create_css)
     Styles_Css styles_css (testsheet);
     styles_css.editor ();
     styles_css.generate ();
+    constexpr const char* editor_css{"editor.css"};
     const auto css = chopup(styles_css.css());
     const auto standard = chopup(filter::strings::trim (filter_url_file_get_contents (filter_url_create_path ({"unittests", "tests", "editor.css"}))));
     for (const auto& bit : standard) {
       if (std::find(css.cbegin(), css.cend(), bit) == css.cend()) {
-        ADD_FAILURE() << "The following CSS in file editor.css is not generated:\n" << bit;
+        save(styles_css.css(), editor_css);
+        ADD_FAILURE() << "The following CSS in file " << editor_css << " is not generated:\n" << bit;
       }
     }
     for (const auto& bit : css) {
       if (std::find(standard.cbegin(), standard.cend(), bit) == standard.cend()) {
-        ADD_FAILURE() << "The following CSS is generated but not present in file editor.css:\n" << bit;
+        save(styles_css.css(), editor_css);
+        ADD_FAILURE() << "The following CSS is generated but not present in file " << editor_css << ":\n" << bit;
       }
     }
   }

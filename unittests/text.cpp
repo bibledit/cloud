@@ -1601,6 +1601,7 @@ TEST_F (filter_text, usfm_with_all_markers)
   R"(<p class="p"><span>index</span><span> </span><span>word</span><span> </span><span>greek</span><span> </span><span>hebrew</span><span> </span><span>aramaic</span></p>)"
   R"(<p class="p"><span>Text</span><span class="rb">wd</span></p>)"
   R"(<p class="p"><span>Sidebar</span></p>)"
+  R"(<p class="p"><span>text</span><a href="#note7" id="citation7" class="superscript"></a></p>)"
   
   
   R"(<div>)"
@@ -1610,6 +1611,7 @@ TEST_F (filter_text, usfm_with_all_markers)
   R"(<p class="ft"><a href="#citation4" id="note4">2</a><span> </span><span class="fp">paragraph</span></p>)"
   R"(<p class="xt"><a href="#citation5" id="note5">a</a><span> </span><span class="xo">origin </span><span class="xk">keyword </span><span class="xq">quotation </span><span>targets </span><span class="xta">added </span><span class="xop">published</span><span> </span><span class="xot">old testament</span><span> </span><span class="xnt">new testament</span><span> </span><span class="xdc">deuterocanonical</span></p>)"
   R"(<p class="xt"><a href="#citation6" id="note6">a</a><span> </span><span>targets</span></p>)"
+  R"(<p class="ft"><a href="#citation7" id="note7"></a><span> </span><span>category</span><span> </span><span>note</span></p>)"
   R"(</div>)"
   ;
 

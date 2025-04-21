@@ -61,7 +61,6 @@ std::string styles_logic_type_text (int type)
   if (type == StyleTypeStartsParagraph) return translate ("starts a new paragraph");
   if (type == StyleTypeInlineText     ) return translate ("is inline text with endmarker");
   if (type == StyleTypePeripheral     ) return translate ("is a peripheral element");
-  if (type == StyleTypeWordlistElement) return translate ("is a word list element");
   return "--";
 }
 
@@ -89,12 +88,6 @@ std::string styles_logic_subtype_text (int type, int subtype)
     if (subtype == PeripheralSubtypeCover          ) return translate ("starts cover");
     if (subtype == PeripheralSubtypeSpine          ) return translate ("starts spine");
     if (subtype == PeripheralSubtypeGeneral        ) return translate ("starts general peripheral content");
-  }
-  if (type == StyleTypeWordlistElement) {
-    if (subtype == WorListElementSubtypeWordlistGlossaryDictionary) return translate ("is a wordlist / glossary / dictionary entry");
-    if (subtype == WorListElementSubtypeHebrewWordlistEntry       ) return translate ("is a Hebrew wordlist entry");
-    if (subtype == WorListElementSubtypeGreekWordlistEntry        ) return translate ("is a Greek wordlist entry");
-    if (subtype == WorListElementSubtypeSubjectIndexEntry         ) return translate ("is a subject index entry");
   }
   return "--";
 }
@@ -325,9 +318,6 @@ int styles_logic_get_userint3_function (int type, int subtype)
 // Returns the function of userstring1 for type.
 int styles_logic_get_userstring1_function (int type)
 {
-  if (type == StyleTypeWordlistElement) {
-    return UserString1WordListEntryAddition;
-  }
   return UserString1None;
 }
 
@@ -364,10 +354,6 @@ bool styles_logic_starts_new_line_in_usfm (int type, [[maybe_unused]]int subtype
     case StyleTypePeripheral :
     {
       return true;
-    }
-    case StyleTypeWordlistElement :
-    {
-      return false;
     }
     default:
       return false;

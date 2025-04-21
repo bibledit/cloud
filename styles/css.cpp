@@ -121,7 +121,7 @@ void Styles_Css::evaluate_v1 (void * database_styles_item)
 void Styles_Css::evaluate_v2 (const stylesv2::Style* style)
 {
   using namespace stylesv2;
-  switch (style->type) {  // Todo handle word_list
+  switch (style->type) {
     case Type::starting_boundary:
     case Type::none:
     case Type::book_id:
@@ -187,6 +187,8 @@ void Styles_Css::evaluate_v2 (const stylesv2::Style* style)
       break;
     case Type::figure:
       add_v2 (style, true, false);
+      break;
+    case Type::word_list:
       break;
     case Type::stopping_boundary:
     default:

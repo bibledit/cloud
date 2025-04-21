@@ -195,7 +195,7 @@ void Filter_Text::pre_process_usfm ()
         marker = marker.substr (1); // Remove the initial backslash, e.g. '\id' becomes 'id'.
         if (filter::usfm::is_opening_marker (marker)) {
           if (const stylesv2::Style* style {database::styles2::get_marker_data (m_stylesheet, marker)}; style) {
-            switch (style->type) { // Todo handle word_list
+            switch (style->type) {
               case stylesv2::Type::starting_boundary:
               case stylesv2::Type::none:
                 break;
@@ -321,6 +321,8 @@ void Filter_Text::pre_process_usfm ()
               case stylesv2::Type::page_break:
                 break;
               case stylesv2::Type::figure:
+                break;
+              case stylesv2::Type::word_list:
                 break;
               case stylesv2::Type::stopping_boundary:
               default:
@@ -462,49 +464,6 @@ void Filter_Text::process_usfm ()
               }
               break;
             }
-            case StyleTypeWordlistElement:
-            {
-              switch (style.subtype)
-              {
-                case WorListElementSubtypeWordlistGlossaryDictionary:
-                {
-                  if (is_opening_marker) {
-                    addToWordList (wordListGlossaryDictionary);
-                  }
-                  break;
-                }
-                case WorListElementSubtypeHebrewWordlistEntry:
-                {
-                  if (is_opening_marker) {
-                    addToWordList (hebrewWordList);
-                  }
-                  break;
-                }
-                case WorListElementSubtypeGreekWordlistEntry:
-                {
-                  if (is_opening_marker) {
-                    addToWordList (greekWordList);
-                  }
-                  break;
-                }
-                case WorListElementSubtypeSubjectIndexEntry:
-                {
-                  if (is_opening_marker) {
-                    addToWordList (subjectIndex);
-                  }
-                  break;
-                }
-                default:
-                {
-                  if (is_opening_marker) {
-                    addToFallout (R"(Unknown word list marker \)" + marker, false);
-                  }
-                  break;
-                }
-              }
-              // UserString1WordListEntryAddition:
-              break;
-            }
             default:
             {
               // This marker is not yet implemented.
@@ -515,7 +474,7 @@ void Filter_Text::process_usfm ()
           }
         }
         else if (const stylesv2::Style* style {database::styles2::get_marker_data (m_stylesheet, marker)}; style) {
-          switch (style->type) { // Todo handle word_list
+          switch (style->type) {
             case stylesv2::Type::starting_boundary:
             case stylesv2::Type::none:
               break;
@@ -1179,6 +1138,16 @@ void Filter_Text::process_usfm ()
               }
               break;
             }
+            case stylesv2::Type::word_list:
+            {
+              if (is_opening_marker) {
+                addToWordList (wordListGlossaryDictionary); // Todo fix all of this, use marker as list key.
+                addToWordList (hebrewWordList);
+                addToWordList (greekWordList);
+                addToWordList (subjectIndex);
+              }
+              break;
+            }
             case stylesv2::Type::stopping_boundary:
             default:
               break;
@@ -1280,7 +1249,7 @@ void Filter_Text::processNote ()
       const std::string marker = filter::usfm::get_marker (currentItem);
       if (const stylesv2::Style* stylev2 {database::styles2::get_marker_data (m_stylesheet, marker)}; stylev2)
       {
-        switch (stylev2->type) { // Todo handle word_list
+        switch (stylev2->type) {
           case stylesv2::Type::starting_boundary:
           case stylesv2::Type::none:
           case stylesv2::Type::book_id:
@@ -1527,6 +1496,7 @@ void Filter_Text::processNote ()
           case stylesv2::Type::character_style:
           case stylesv2::Type::page_break:
           case stylesv2::Type::figure:
+          case stylesv2::Type::word_list:
           case stylesv2::Type::stopping_boundary:
           default:
             break;

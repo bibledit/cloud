@@ -206,16 +206,6 @@ void Editor_Usfm2Html::process ()
             output_as_is (marker, is_opening_marker);
             break;
           }
-          case StyleTypeWordlistElement:
-          {
-            if (is_opening_marker) {
-              open_text_style (style.marker, false);
-              extract_word_level_attributes();
-            } else {
-              close_text_style (false);
-            }
-            break;
-          }
           default:
           {
             // This marker is known in the stylesheet, but not yet implemented here.
@@ -227,7 +217,7 @@ void Editor_Usfm2Html::process ()
       }
       else if (const stylesv2::Style* style {database::styles2::get_marker_data (m_stylesheet, marker)}; style)
       {
-        switch (style->type) { // Todo handle word_list
+        switch (style->type) {
           case stylesv2::Type::starting_boundary:
           case stylesv2::Type::none:
           case stylesv2::Type::book_id:
@@ -412,6 +402,16 @@ void Editor_Usfm2Html::process ()
           {
             close_text_style (false);
             output_as_is (marker, is_opening_marker);
+            break;
+          }
+          case stylesv2::Type::word_list:
+          {
+            if (is_opening_marker) {
+              open_text_style (marker, false);
+              extract_word_level_attributes();
+            } else {
+              close_text_style (false);
+            }
             break;
           }
           case stylesv2::Type::stopping_boundary:

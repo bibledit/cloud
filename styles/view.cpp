@@ -728,18 +728,6 @@ std::string styles_view (Webserver_Request& webserver_request)
   switch (styles_logic_get_userstring1_function (type)) {
     case UserString1None :
       break;
-    case UserString1NoteNumberingSequence :
-      if (userint1 == NoteNumberingUser) {
-        view.enable_zone ("userstring1_numberingsequence");
-        userstring1_question = translate("Please enter a new note numbering sequence");
-        userstring1_help = translate("This gives a sequence for numbering the notes. When for example § † * is entered, the numbering goes like §, †, *, §, †, *, and so forth. Any sequence of characters can be used. Spaces should separate the characters.");
-      }
-      break;
-    case UserString1WordListEntryAddition :
-      view.enable_zone ("userstring1_wordlistaddition");
-      userstring1_question = translate("Please enter a new addition to the word list entry");
-      userstring1_help = translate("This given an optional string to be added after each definition in the body of text. In some Bibles the unusual words are marked with an asterisk and then explained in a glossary. If you would enter the asterisk here, or indeed any string, Bibledit would include this in the exported documents.");
-      break;
     default: break;
   }
   if (webserver_request.query.count ("userstring1")) {

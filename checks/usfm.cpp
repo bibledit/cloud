@@ -45,10 +45,6 @@ Checks_Usfm::Checks_Usfm (const std::string& bible)
       required_endmarker = true;
       embeddable_marker = true;
     }
-    if (style.type == StyleTypeWordlistElement) {
-      required_endmarker = true;
-      embeddable_marker = true;
-    }
     if (required_endmarker) {
       markers_requiring_endmarkers.push_back (marker);
     }
@@ -81,6 +77,10 @@ Checks_Usfm::Checks_Usfm (const std::string& bible)
     }
     if (style.type == stylesv2::Type::crossreference_wrapper) {
       required_endmarker = true;
+    }
+    if (style.type == stylesv2::Type::word_list) {
+      required_endmarker = true;
+      embeddable_marker = true;
     }
     if (required_endmarker) {
       markers_requiring_endmarkers.push_back (style.marker);

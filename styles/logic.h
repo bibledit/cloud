@@ -28,7 +28,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #define StyleTypeStartsParagraph       3 
 #define StyleTypeInlineText            4 
 #define StyleTypePeripheral            9 
-#define StyleTypeWordlistElement       13 
 
 
 #define ParagraphSubtypeMainTitle                  0 
@@ -48,12 +47,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #define PeripheralSubtypeCover           8
 #define PeripheralSubtypeSpine           9
 #define PeripheralSubtypeGeneral        10
-
-
-#define WorListElementSubtypeWordlistGlossaryDictionary  0 
-#define WorListElementSubtypeHebrewWordlistEntry         1
-#define WorListElementSubtypeGreekWordlistEntry          2 
-#define WorListElementSubtypeSubjectIndexEntry           3 
 
 
 #define ooitOff      0 
@@ -97,8 +90,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 #define UserString1None                    0 
-#define UserString1NoteNumberingSequence   1 
-#define UserString1WordListEntryAddition   2  // Word list entries: text to add after entry.
 
 
 #define UserString2None              0 

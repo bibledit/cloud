@@ -138,7 +138,7 @@ std::string Editor_Styles::getAction (Webserver_Request& webserver_request, cons
   
   if (const stylesv2::Style* style {database::styles2::get_marker_data (stylesheet, marker)}; style)
   {
-    switch (style->type) { // Todo handle word_list
+    switch (style->type) {
       case stylesv2::Type::book_id:
       case stylesv2::Type::usfm_version:
       case stylesv2::Type::file_encoding:
@@ -187,6 +187,8 @@ std::string Editor_Styles::getAction (Webserver_Request& webserver_request, cons
         return unknown ();
       case stylesv2::Type::figure:
         return mono ();
+      case stylesv2::Type::word_list:
+        return character ();
       case stylesv2::Type::starting_boundary:
       case stylesv2::Type::stopping_boundary:
       case stylesv2::Type::none:
@@ -204,8 +206,6 @@ std::string Editor_Styles::getAction (Webserver_Request& webserver_request, cons
         return character ();
       case StyleTypePeripheral:
         return mono ();
-      case StyleTypeWordlistElement:
-        return character ();
       default:
         return unknown ();
     }

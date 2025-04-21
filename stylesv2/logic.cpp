@@ -27,7 +27,7 @@ namespace stylesv2 {
 
 std::string type_enum_to_value (const Type type, const bool describe)
 {
-  switch (type) { // Todo handle word_list
+  switch (type) {
     case Type::starting_boundary:
       return "starting_boundary";
     case Type::none:
@@ -153,6 +153,10 @@ std::string type_enum_to_value (const Type type, const bool describe)
       return "page_break";
     case Type::figure:
       return "figure";
+    case Type::word_list:
+      if (describe)
+        return "word list";
+      return "word_list";
     case Type::stopping_boundary:
       return "stopping_boundary";
     default:
@@ -2851,41 +2855,47 @@ const std::list<Style> styles {
       .doc = "https://ubsicap.github.io/usfm/characters/index.html#fig-fig",
       .category = Category::words_characters,
   },
-
-  
-  //  {
-  //    /* marker */ "ndx",
-  //    /* name */ "Subject index entry",
-  //    /* info */ "Surround a word or words with this markup to indicate that it appears or should appear in the subject index.",
-  //    /* category */ "sf",
-  //    /* type */ 13,
-  //    /* subtype */ 3,
-  //    /* fontsize */ 12,
-  //    /* italic */ 0,
-  //    /* bold */ 0,
-  //    /* underline */ 0,
-  //    /* smallcaps */ 0,
-  //    /* superscript */ 0,
-  //    /* justification */ 0,
-  //    /* spacebefore */ 0,
-  //    /* spaceafter */ 0,
-  //    /* leftmargin */ 0,
-  //    /* rightmargin */ 0,
-  //    /* firstlineindent */ 0,
-  //    /* spancolumns */ 0,
-  //    /* color */ "#000000",
-  //    /* print */ 1,
-  //    /* userbool1 */ 0,
-  //    /* userbool2 */ 0,
-  //    /* userbool3 */ 0,
-  //    /* userint1 */ 1,
-  //    /* userint2 */ 0,
-  //    /* userint3 */ 0,
-  //    /* userstring1 */ "",
-  //    /* userstring2 */ "",
-  //    /* userstring3 */ "",
-  //    /* backgroundcolor */ "#FFFFFF",
-  //  },
+  {
+    .marker = "ndx",
+    .type = Type::word_list,
+    .name = "Subject index entry",
+    .info = "Surround a word or words with this markup to indicate that it appears or should appear in the subject index.",
+    .doc = "https://ubsicap.github.io/usfm/characters/index.html#ndx-ndx",
+    .category = Category::words_characters,
+  },
+  // Todo add missing ones here.
+  {
+    .marker = "w",
+    .type = Type::word_list,
+    .name = "Wordlist entry",
+    .info = "Surround words with this markup to indicate that it appears or should appear in the word list.",
+    .doc = "https://ubsicap.github.io/usfm/characters/index.html#w-w",
+    .category = Category::words_characters,
+  },
+  {
+    .marker = "wg",
+    .type = Type::word_list,
+    .name = "Greek word list entry",
+    .info = "A Greek word list text item.",
+    .doc = "https://ubsicap.github.io/usfm/characters/index.html#wg-wg",
+    .category = Category::words_characters,
+  },
+  {
+    .marker = "wh",
+    .type = Type::word_list,
+    .name = "Hebrew word list entry",
+    .info = "A Hebrew word list text item.",
+    .doc = "https://ubsicap.github.io/usfm/characters/index.html#wh-wh",
+    .category = Category::words_characters,
+  },
+  {
+    .marker = "wa",
+    .type = Type::word_list,
+    .name = "Aramaic word list entry",
+    .info = "Surround words with this markup to indicate that it appears or should appear in the Aramaic word list.",
+    .doc = "https://ubsicap.github.io/usfm/characters/index.html#wa-wa",
+    .category = Category::words_characters,
+  },
 
   
   // Todo adding here.
@@ -3254,138 +3264,6 @@ const std::list<Style> styles {
   //    /* backgroundcolor */ "#FFFFFF",
   //  },
   //  {
-  //    /* marker */ "w",
-  //    /* name */ "Wordlist entry",
-  //    /* info */ "Surround words with this markup to indicate that it appears or should appear in the word list.",
-  //    /* category */ "sf",
-  //    /* type */ 13,
-  //    /* subtype */ 0,
-  //    /* fontsize */ 12,
-  //    /* italic */ 2,
-  //    /* bold */ 2,
-  //    /* underline */ 2,
-  //    /* smallcaps */ 2,
-  //    /* superscript */ 0,
-  //    /* justification */ 0,
-  //    /* spacebefore */ 0,
-  //    /* spaceafter */ 0,
-  //    /* leftmargin */ 0,
-  //    /* rightmargin */ 0,
-  //    /* firstlineindent */ 0,
-  //    /* spancolumns */ 0,
-  //    /* color */ "#000000",
-  //    /* print */ 1,
-  //    /* userbool1 */ 0,
-  //    /* userbool2 */ 0,
-  //    /* userbool3 */ 0,
-  //    /* userint1 */ 0,
-  //    /* userint2 */ 0,
-  //    /* userint3 */ 0,
-  //    /* userstring1 */ "",
-  //    /* userstring2 */ "",
-  //    /* userstring3 */ "",
-  //    /* backgroundcolor */ "#FFFFFF",
-  //  },
-  //  {
-  //    /* marker */ "wa",
-  //    /* name */ "Aramaic word list entry",
-  //    /* info */ "Surround words with this markup to indicate that it appears or should appear in the Aramaic word list.",
-  //    /* category */ "sf",
-  //    /* type */ 13,
-  //    /* subtype */ 0,
-  //    /* fontsize */ 12,
-  //    /* italic */ 2,
-  //    /* bold */ 2,
-  //    /* underline */ 2,
-  //    /* smallcaps */ 2,
-  //    /* superscript */ 0,
-  //    /* justification */ 0,
-  //    /* spacebefore */ 0,
-  //    /* spaceafter */ 0,
-  //    /* leftmargin */ 0,
-  //    /* rightmargin */ 0,
-  //    /* firstlineindent */ 0,
-  //    /* spancolumns */ 0,
-  //    /* color */ "#000000",
-  //    /* print */ 1,
-  //    /* userbool1 */ 0,
-  //    /* userbool2 */ 0,
-  //    /* userbool3 */ 0,
-  //    /* userint1 */ 0,
-  //    /* userint2 */ 0,
-  //    /* userint3 */ 0,
-  //    /* userstring1 */ "",
-  //    /* userstring2 */ "",
-  //    /* userstring3 */ "",
-  //    /* backgroundcolor */ "#FFFFFF",
-  //  },
-  //  {
-  //    /* marker */ "wg",
-  //    /* name */ "Greek word list entry",
-  //    /* info */ "A Greek word list text item.",
-  //    /* category */ "sf",
-  //    /* type */ 13,
-  //    /* subtype */ 2,
-  //    /* fontsize */ 12,
-  //    /* italic */ 0,
-  //    /* bold */ 0,
-  //    /* underline */ 0,
-  //    /* smallcaps */ 0,
-  //    /* superscript */ 0,
-  //    /* justification */ 0,
-  //    /* spacebefore */ 0,
-  //    /* spaceafter */ 0,
-  //    /* leftmargin */ 0,
-  //    /* rightmargin */ 0,
-  //    /* firstlineindent */ 0,
-  //    /* spancolumns */ 0,
-  //    /* color */ "#000000",
-  //    /* print */ 1,
-  //    /* userbool1 */ 0,
-  //    /* userbool2 */ 0,
-  //    /* userbool3 */ 0,
-  //    /* userint1 */ 1,
-  //    /* userint2 */ 0,
-  //    /* userint3 */ 0,
-  //    /* userstring1 */ "",
-  //    /* userstring2 */ "",
-  //    /* userstring3 */ "",
-  //    /* backgroundcolor */ "#FFFFFF",
-  //  },
-  //  {
-  //    /* marker */ "wh",
-  //    /* name */ "Hebrew word list entry",
-  //    /* info */ "A Hebrew word list text item.",
-  //    /* category */ "sf",
-  //    /* type */ 13,
-  //    /* subtype */ 1,
-  //    /* fontsize */ 12,
-  //    /* italic */ 0,
-  //    /* bold */ 0,
-  //    /* underline */ 0,
-  //    /* smallcaps */ 0,
-  //    /* superscript */ 0,
-  //    /* justification */ 0,
-  //    /* spacebefore */ 0,
-  //    /* spaceafter */ 0,
-  //    /* leftmargin */ 0,
-  //    /* rightmargin */ 0,
-  //    /* firstlineindent */ 0,
-  //    /* spancolumns */ 0,
-  //    /* color */ "#000000",
-  //    /* print */ 1,
-  //    /* userbool1 */ 0,
-  //    /* userbool2 */ 0,
-  //    /* userbool3 */ 0,
-  //    /* userint1 */ 1,
-  //    /* userint2 */ 0,
-  //    /* userint3 */ 0,
-  //    /* userstring1 */ "",
-  //    /* userstring2 */ "",
-  //    /* userstring3 */ "",
-  //    /* backgroundcolor */ "#FFFFFF",
-  //  },
-  //  {
   //  // https://ubsicap.github.io/usfm/peripherals/index.html
   //  {
   //    /* marker */ "periph",
@@ -3486,7 +3364,7 @@ bool marker_moved_to_v2 (const std::string& marker)
 // Whether this style starta a new line in USFM.
 bool starts_new_line_in_usfm (const Style* style)
 {
-  switch (style->type) { // Todo handle word_list
+  switch (style->type) {
     case Type::starting_boundary:
     case Type::none:
     case Type::book_id:
@@ -3533,6 +3411,8 @@ bool starts_new_line_in_usfm (const Style* style)
       return true;
     case Type::figure:
       return true;
+    case Type::word_list:
+      return false;
     case Type::stopping_boundary:
     default:
       return true;

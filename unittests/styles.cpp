@@ -1114,7 +1114,7 @@ TEST_F (styles, marker_starts_new_line_in_usfm)
   for (int t {static_cast<int>(Type::starting_boundary) + 1}; t < static_cast<int>(Type::stopping_boundary); t++) {
     const auto type = static_cast<stylesv2::Type>(t);
     const auto get_standard = [type]() -> std::optional<bool> {
-      switch (type) { // Todo handle word_list
+      switch (type) {
         case Type::starting_boundary:
           return std::nullopt;
         case Type::none:
@@ -1162,6 +1162,8 @@ TEST_F (styles, marker_starts_new_line_in_usfm)
           return true;
         case Type::figure:
           return true;
+        case Type::word_list:
+          return false;
         case Type::stopping_boundary:
         default:
           return std::nullopt;

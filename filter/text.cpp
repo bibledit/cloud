@@ -316,7 +316,7 @@ void Filter_Text::pre_process_usfm ()
               case stylesv2::Type::crossreference_content:
               case stylesv2::Type::crossreference_content_with_endmarker:
                 break;
-              case stylesv2::Type::character_style:
+              case stylesv2::Type::character:
                 break;
               case stylesv2::Type::page_break:
                 break;
@@ -1057,7 +1057,7 @@ void Filter_Text::process_usfm ()
               break;
             }
               
-            case stylesv2::Type::character_style:
+            case stylesv2::Type::character:
             {
               // Support for a normal and an embedded character style.
               if (is_opening_marker) {
@@ -1500,7 +1500,7 @@ void Filter_Text::processNote ()
             break;
           }
             
-          case stylesv2::Type::character_style:
+          case stylesv2::Type::character:
           case stylesv2::Type::page_break:
           case stylesv2::Type::figure:
           case stylesv2::Type::word_list:

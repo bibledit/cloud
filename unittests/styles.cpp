@@ -1170,7 +1170,7 @@ TEST_F (styles, marker_starts_new_line_in_usfm)
         case Type::crossreference_content:
         case Type::crossreference_content_with_endmarker:
           return false;
-        case Type::character_style:
+        case Type::character:
           return false;
         case Type::page_break:
           return true;

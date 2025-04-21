@@ -176,7 +176,7 @@ void Styles_Css::evaluate_v2 (const stylesv2::Style* style)
     case Type::crossreference_content_with_endmarker:
       add_v2 (style, false, false);
       break;
-    case Type::character_style:
+    case Type::character:
       add_v2 (style, false, false);
       break;
     case Type::page_break:

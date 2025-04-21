@@ -181,7 +181,7 @@ std::string Editor_Styles::getAction (Webserver_Request& webserver_request, cons
       case stylesv2::Type::crossreference_content:
       case stylesv2::Type::crossreference_content_with_endmarker:
         return character();
-      case stylesv2::Type::character_style:
+      case stylesv2::Type::character:
         return character ();
       case stylesv2::Type::page_break:
         return unknown();

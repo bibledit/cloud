@@ -57,7 +57,7 @@ enum class Type : int {
   crossreference_standard_content,
   crossreference_content,
   crossreference_content_with_endmarker,
-  character_style,
+  character,
   page_break,
   figure,
   word_list,

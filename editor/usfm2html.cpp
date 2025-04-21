@@ -377,7 +377,7 @@ void Editor_Usfm2Html::process ()
             }
             break;
           }
-          case stylesv2::Type::character_style:
+          case stylesv2::Type::character:
           {
             if (is_opening_marker) {
               // Be sure the road ahead is clear.
@@ -781,7 +781,7 @@ bool road_is_clear(const std::vector<std::string>& markers_and_text,
   // Function to determine whether it is inline text.
   const auto is_inline_text = [](const int type_v1, const stylesv2::Style* style_v2) {
     if (style_v2) {
-      if (style_v2->type == stylesv2::Type::character_style)
+      if (style_v2->type == stylesv2::Type::character)
         return true;
     } else {
       if (type_v1 == StyleTypeInlineText)

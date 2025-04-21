@@ -144,9 +144,8 @@ std::string type_enum_to_value (const Type type, const bool describe)
       if (describe)
         return "crossreference content with endmarker";
       return "crossreference_content_with_endmarker";
-    case Type::character_style:
-      if (describe)
-        return "character style";
+    case Type::character:
+      return "character";
     case Type::page_break:
       if (describe)
         return "page break";
@@ -981,7 +980,7 @@ const std::list<Style> styles {
   },
   {
     .marker = "ior",
-    .type = Type::character_style,
+    .type = Type::character,
     .name = "Introduction outline reference range",
     .info = "Introduction references range for outline entry; for marking references separately.",
     .character = Character {
@@ -991,7 +990,7 @@ const std::list<Style> styles {
   },
   {
     .marker = "iqt",
-    .type = Type::character_style,
+    .type = Type::character,
     .name = "Introduction quoted text",
     .info = "Scripture quotations, or other quoted text, appearing in the introduction.",
     .character = Character {
@@ -1896,7 +1895,7 @@ const std::list<Style> styles {
   },
   {
     .marker = "qs",
-    .type = Type::character_style,
+    .type = Type::character,
     .name = "Selah",
     .info = "Poetry text, Selah.",
     .character = Character {
@@ -1919,7 +1918,7 @@ const std::list<Style> styles {
   },
   {
     .marker = "qac",
-    .type = Type::character_style,
+    .type = Type::character,
     .name = "Acrostic letter",
     .info = "Poetry text, acrostic markup of the first character of a line of acrostic poetry.",
     .character = Character {
@@ -2124,7 +2123,7 @@ const std::list<Style> styles {
   },
   {
     .marker = "litl",
-    .type = Type::character_style,
+    .type = Type::character,
     .name = "List entry total",
     .info = "Use in accounting lists for denoting the total component of the text within a list item.",
     .character = Character { },
@@ -2133,7 +2132,7 @@ const std::list<Style> styles {
   },
   {
     .marker = "lik",
-    .type = Type::character_style,
+    .type = Type::character,
     .name = "List entry key",
     .info = "For list entry key content.",
     .character = Character { },
@@ -2142,7 +2141,7 @@ const std::list<Style> styles {
   },
   {
     .marker = "liv",
-    .type = Type::character_style,
+    .type = Type::character,
     .name = "List entry value",
     .info = "For list entry value content.",
     .character = Character { },
@@ -2151,7 +2150,7 @@ const std::list<Style> styles {
   },
   {
     .marker = "liv1",
-    .type = Type::character_style,
+    .type = Type::character,
     .name = "List entry value level 1",
     .info = "For list entry value content level 1.",
     .character = Character { },
@@ -2160,7 +2159,7 @@ const std::list<Style> styles {
   },
   {
     .marker = "liv2",
-    .type = Type::character_style,
+    .type = Type::character,
     .name = "List entry value level 2",
     .info = "For list entry value content level 2.",
     .character = Character { },
@@ -2598,7 +2597,7 @@ const std::list<Style> styles {
   },
   {
     .marker = "add",
-    .type = Type::character_style,
+    .type = Type::character,
     .name = "Translator’s addition",
     .info = "A translator’s explanation - words added by the translator for clarity – text which is not literally a part of the original language, but which was supplied to make the meaning of the original clear.",
     .character = Character {
@@ -2609,7 +2608,7 @@ const std::list<Style> styles {
   },
   {
     .marker = "bk",
-    .type = Type::character_style,
+    .type = Type::character,
     .name = "Quoted book title",
     .info = "For the quoted name of a book.",
     .character = Character {
@@ -2620,7 +2619,7 @@ const std::list<Style> styles {
   },
   {
     .marker = "dc",
-    .type = Type::character_style,
+    .type = Type::character,
     .name = "Deuterocanonical",
     .info = "Deuterocanonical / LXX additions or insertions in the Protocanonical text.",
     .character = Character {
@@ -2631,7 +2630,7 @@ const std::list<Style> styles {
   },
   {
     .marker = "k",
-    .type = Type::character_style,
+    .type = Type::character,
     .name = "Keyword",
     .info = "Keyword / keyterm.",
     .character = Character {
@@ -2655,7 +2654,7 @@ const std::list<Style> styles {
   },
   {
     .marker = "nd",
-    .type = Type::character_style,
+    .type = Type::character,
     .name = "Name of God",
     .info = "For name of God (name of Deity).",
     .character = Character {
@@ -2666,7 +2665,7 @@ const std::list<Style> styles {
   },
   {
     .marker = "ord",
-    .type = Type::character_style,
+    .type = Type::character,
     .name = "Ordinal number ending",
     .info = "For the text portion of an ordinal number.",
     .character = Character {
@@ -2677,7 +2676,7 @@ const std::list<Style> styles {
   },
   {
     .marker = "pn",
-    .type = Type::character_style,
+    .type = Type::character,
     .name = "Proper name",
     .info = "For a proper name.",
     .character = Character {
@@ -2689,7 +2688,7 @@ const std::list<Style> styles {
   },
   {
     .marker = "png",
-    .type = Type::character_style,
+    .type = Type::character,
     .name = "Geographic proper name",
     .info = "For a geographic proper name.",
     .character = Character {
@@ -2701,7 +2700,7 @@ const std::list<Style> styles {
   },
   {
     .marker = "addpn",
-    .type = Type::character_style,
+    .type = Type::character,
     .name = "Combined add and pn style",
     .info = "Support for overlapping pn ...pn* and add ...add* occurrences.",
     .character = Character {
@@ -2713,7 +2712,7 @@ const std::list<Style> styles {
   },
   {
     .marker = "qt",
-    .type = Type::character_style,
+    .type = Type::character,
     .name = "Quoted text",
     .info = "Old Testament quotations in the New Testament, or other quotations.",
     .character = Character {
@@ -2724,7 +2723,7 @@ const std::list<Style> styles {
   },
   {
     .marker = "sig",
-    .type = Type::character_style,
+    .type = Type::character,
     .name = "Signature of the author",
     .info = "Signature of the author of a letter or epistle.",
     .character = Character {
@@ -2735,7 +2734,7 @@ const std::list<Style> styles {
   },
   {
     .marker = "sls",
-    .type = Type::character_style,
+    .type = Type::character,
     .name = "Secondary language source",
     .info = "Passage of text based on a secondary language or alternate text source.",
     .character = Character {
@@ -2746,7 +2745,7 @@ const std::list<Style> styles {
   },
   {
     .marker = "tl",
-    .type = Type::character_style,
+    .type = Type::character,
     .name = "Transliterated text",
     .info = "Transliterated or foreign word or text.",
     .character = Character {
@@ -2757,7 +2756,7 @@ const std::list<Style> styles {
   },
   {
     .marker = "wj",
-    .type = Type::character_style,
+    .type = Type::character,
     .name = "Words of Jesus",
     .info = "For marking the words of Jesus.",
     .character = Character {
@@ -2768,7 +2767,7 @@ const std::list<Style> styles {
   },
   {
     .marker = "em",
-    .type = Type::character_style,
+    .type = Type::character,
     .name = "Emphasized text",
     .info = "For emphasizing a portion of text.",
     .character = Character {
@@ -2779,7 +2778,7 @@ const std::list<Style> styles {
   },
   {
     .marker = "bd",
-    .type = Type::character_style,
+    .type = Type::character,
     .name = "Bold text",
     .info = "For making a portion of text bold.",
     .character = Character {
@@ -2790,7 +2789,7 @@ const std::list<Style> styles {
   },
   {
     .marker = "it",
-    .type = Type::character_style,
+    .type = Type::character,
     .name = "Italic text",
     .info = "For putting some text in italics.",
     .character = Character {
@@ -2801,7 +2800,7 @@ const std::list<Style> styles {
   },
   {
     .marker = "bdit",
-    .type = Type::character_style,
+    .type = Type::character,
     .name = "Bold-italic text",
     .info = "For putting some text in bold and italics.",
     .character = Character {
@@ -2813,7 +2812,7 @@ const std::list<Style> styles {
   },
   {
     .marker = "no",
-    .type = Type::character_style,
+    .type = Type::character,
     .name = "Normal text",
     .info = "May be used when a larger paragraph element is set in an alternate font style, e.g. italic, and a selected section of text should be displayed in normal text.",
     .character = Character {  },
@@ -2822,7 +2821,7 @@ const std::list<Style> styles {
   },
   {
     .marker = "sc",
-    .type = Type::character_style,
+    .type = Type::character,
     .name = "Small-cap text",
     .info = "For putting some text in small capitals.",
     .character = Character {
@@ -2833,7 +2832,7 @@ const std::list<Style> styles {
   },
   {
     .marker = "sup",
-    .type = Type::character_style,
+    .type = Type::character,
     .name = "Superscript text",
     .info = "Superscript text typically for use in critical edition footnotes.",
     .character = Character {
@@ -2873,7 +2872,7 @@ const std::list<Style> styles {
   },
   {
     .marker = "rb",
-    .type = Type::character_style,
+    .type = Type::character,
     .name = "Annotated base text",
     .info = "Used to mark the base text being annotated with ruby characters.",
     .character = Character { },
@@ -2882,7 +2881,7 @@ const std::list<Style> styles {
   },
   {
     .marker = "pro",
-    .type = Type::character_style,
+    .type = Type::character,
     .name = "Pronunciation annotation",
     .info = "For indicating pronunciation in CJK texts.",
     .character = Character {
@@ -2968,7 +2967,7 @@ const std::list<Style> styles {
   },
   {
     .marker = "cat",
-    .type = Type::character_style,
+    .type = Type::character,
     .name = "Category tag",
     .info = "Extended note or sidebar category tag.",
     .character = Character { .italic = FourState::on, },
@@ -3309,7 +3308,7 @@ bool starts_new_line_in_usfm (const Style* style)
     case Type::crossreference_content:
     case Type::crossreference_content_with_endmarker:
       return false;
-    case Type::character_style:
+    case Type::character:
       return false;
     case Type::page_break:
       return true;

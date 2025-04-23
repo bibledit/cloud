@@ -164,6 +164,8 @@ std::string type_enum_to_value (const Type type, const bool describe)
       if (describe)
         return "sidebar end";
       return "sidebar_end";
+    case Type::peripheral:
+      return "peripheral";
     case Type::stopping_boundary:
       return "stopping_boundary";
     default:
@@ -2974,6 +2976,14 @@ const std::list<Style> styles {
     .doc = "https://ubsicap.github.io/usfm/notes_study/categories.html#cat-cat",
     .category = Category::extended_study_content,
   },
+  {
+    .marker = "periph",
+    .type = Type::peripheral,
+    .name = "Peripheral",
+    .info = "Division for peripheral content.",
+    .doc = "https://ubsicap.github.io/usfm/peripherals/index.html#peripheral-identifiers",
+    .category = Category::extended_study_content,
+  },
 
   // Todo adding here.
 
@@ -3208,40 +3218,6 @@ const std::list<Style> styles {
   //    /* backgroundcolor */ "#FFFFFF",
   //  },
   //  {
-  //  // https://ubsicap.github.io/usfm/peripherals/index.html
-  //  {
-  //    /* marker */ "periph",
-  //    /* name */ "Peripheral",
-  //    /* info */ "Divisions for peripheral content.",
-  //    /* category */ "pm",
-  //    /* type */ 9,
-  //    /* subtype */ 10,
-  //    /* fontsize */ 10,
-  //    /* italic */ 0,
-  //    /* bold */ 0,
-  //    /* underline */ 0,
-  //    /* smallcaps */ 0,
-  //    /* superscript */ 0,
-  //    /* justification */ 0,
-  //    /* spacebefore */ 0,
-  //    /* spaceafter */ 0,
-  //    /* leftmargin */ 0,
-  //    /* rightmargin */ 0,
-  //    /* firstlineindent */ 0,
-  //    /* spancolumns */ 0,
-  //    /* color */ "#000000",
-  //    /* print */ 1,
-  //    /* userbool1 */ 0,
-  //    /* userbool2 */ 0,
-  //    /* userbool3 */ 0,
-  //    /* userint1 */ 0,
-  //    /* userint2 */ 0,
-  //    /* userint3 */ 0,
-  //    /* userstring1 */ "",
-  //    /* userstring2 */ "",
-  //    /* userstring3 */ "",
-  //    /* backgroundcolor */ "#FFFFFF",
-  //  },
 
 };
 
@@ -3264,7 +3240,7 @@ bool marker_moved_to_v2 (const std::string& marker)
 }
 
 
-// Whether this style starta a new line in USFM.
+// Whether this style starts a new line in USFM.
 bool starts_new_line_in_usfm (const Style* style)
 {
   switch (style->type) {
@@ -3318,6 +3294,8 @@ bool starts_new_line_in_usfm (const Style* style)
       return false;
     case Type::sidebar_begin:
     case Type::sidebar_end:
+      return true;
+    case Type::peripheral:
       return true;
     case Type::stopping_boundary:
     default:

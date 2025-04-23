@@ -1602,6 +1602,7 @@ TEST_F (filter_text, usfm_with_all_markers)
   R"(<p class="p"><span>Text</span><span class="rb">wd</span></p>)"
   R"(<p class="p"><span>Sidebar</span></p>)"
   R"(<p class="p"><span>text</span><a href="#note7" id="citation7" class="superscript"></a></p>)"
+  R"(<p class="break"/>)"
   
   
   R"(<div>)"

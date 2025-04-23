@@ -188,6 +188,7 @@ void Styles_Css::evaluate_v2 (const stylesv2::Style* style)
       break;
     case Type::sidebar_begin:
     case Type::sidebar_end:
+    case Type::peripheral:
       break;
     case Type::stopping_boundary:
     default:

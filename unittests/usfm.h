@@ -209,5 +209,6 @@ R"(\esbe)" "\n"
 R"(\esb)" "\n"
 R"(\p text\ef - \cat category\cat* \ft note\ef*)" "\n"
 R"(\esbe)" "\n"
+R"(\periph Title Page|id="title")" "\n"
 
 ;

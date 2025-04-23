@@ -63,6 +63,7 @@ enum class Type : int {
   word_list,
   sidebar_begin,
   sidebar_end,
+  peripheral,
   stopping_boundary // Should be the last always.
 };
 

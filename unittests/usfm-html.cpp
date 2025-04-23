@@ -2307,6 +2307,7 @@ TEST_F (usfm_html, usfm_with_all_markers)
   R"(<p class="b-mono"><span>\esb </span></p>)"
   R"(<p class="b-p"><span>text</span><span class="i-notecall7">2</span></p>)"
   R"(<p class="b-mono"><span>\esbe </span></p>)"
+  R"(<p class="b-mono"><span>\periph </span><span>Title Page|id="title"</span></p>)"
 
   
   R"(<p class="b-notes"> </p>)"

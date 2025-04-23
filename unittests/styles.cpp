@@ -661,7 +661,7 @@ TEST_F (styles, editors_application)
     { "xta", "c"},
   };
   for (const auto& pair : marker_action) {
-    const std::string action = Editor_Styles::getAction (webserver_request, pair.first);
+    const std::string action = Editor_Styles::get_action (webserver_request, pair.first);
     if (action != pair.second)
       ADD_FAILURE() << "Marker " << std::quoted(pair.first) << " got action " << std::quoted(action) << " but the expected action is " << std::quoted(pair.second);
   }
@@ -1180,6 +1180,8 @@ TEST_F (styles, marker_starts_new_line_in_usfm)
           return false;
         case Type::sidebar_begin:
         case Type::sidebar_end:
+          return true;
+        case Type::peripheral:
           return true;
         case Type::stopping_boundary:
         default:

@@ -37,7 +37,7 @@
 #pragma GCC diagnostic pop
 
 
-std::string Editor_Styles::getRecentlyUsed (Webserver_Request& webserver_request)
+std::string Editor_Styles::get_recently_used (Webserver_Request& webserver_request)
 {
   const std::string bible = webserver_request.database_config_user()->getBible ();
   const std::string stylesheet = database::config::bible::get_editor_stylesheet (bible);
@@ -75,7 +75,7 @@ std::string Editor_Styles::getRecentlyUsed (Webserver_Request& webserver_request
 }
 
 
-std::string Editor_Styles::getAll (Webserver_Request& webserver_request)
+std::string Editor_Styles::get_all (Webserver_Request& webserver_request)
 {
   const std::string bible = webserver_request.database_config_user()->getBible ();
   const std::string stylesheet = database::config::bible::get_editor_stylesheet (bible);
@@ -113,7 +113,7 @@ std::string Editor_Styles::getAll (Webserver_Request& webserver_request)
 }
 
 
-void Editor_Styles::recordUsage (Webserver_Request& webserver_request, const std::string& style)
+void Editor_Styles::record_usage (Webserver_Request& webserver_request, const std::string& style)
 {
   if (style.empty()) return;
   std::string s_styles = webserver_request.database_config_user()->getRecentlyAppliedStyles ();
@@ -131,7 +131,7 @@ void Editor_Styles::recordUsage (Webserver_Request& webserver_request, const std
 }
 
 
-std::string Editor_Styles::getAction (Webserver_Request& webserver_request, const std::string& marker)
+std::string Editor_Styles::get_action (Webserver_Request& webserver_request, const std::string& marker)
 {
   const std::string bible = webserver_request.database_config_user()->getBible ();
   const std::string stylesheet = database::config::bible::get_editor_stylesheet (bible);
@@ -191,6 +191,8 @@ std::string Editor_Styles::getAction (Webserver_Request& webserver_request, cons
         return character();
       case stylesv2::Type::sidebar_begin:
       case stylesv2::Type::sidebar_end:
+        return mono();
+      case stylesv2::Type::peripheral:
         return mono();
       case stylesv2::Type::starting_boundary:
       case stylesv2::Type::stopping_boundary:

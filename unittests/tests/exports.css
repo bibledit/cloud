@@ -11,10 +11,6 @@ a:hover { text-decoration: underline; }
 .navigationbar { font-size: normal; }
 .popup { position:absolute; display:none; background-color:lightyellow; border:.1em solid; width:15em; height:auto; padding:1em; font-size:1.5em; text-indent:0em; margin 0.5em 0.5em 0.5em 0.5em; }
 a:hover .popup { display:block; }
-.jmp, .i-jmp {
-text-decoration: underline;
-color: #0000FF;
-}
 .rt, .i-rt {
 }
 .va, .i-va {
@@ -736,4 +732,8 @@ font-style: italic;
 }
 .cat, .i-cat {
 font-style: italic;
+}
+.jmp, .i-jmp {
+text-decoration: underline;
+color: #0000FF;
 }

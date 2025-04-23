@@ -2308,6 +2308,7 @@ TEST_F (usfm_html, usfm_with_all_markers)
   R"(<p class="b-p"><span>text</span><span class="i-notecall7">2</span></p>)"
   R"(<p class="b-mono"><span>\esbe </span></p>)"
   R"(<p class="b-mono"><span>\periph </span><span>Title Page|id="title"</span></p>)"
+  R"(<p class="b-p"><span>paragraph </span><span class="i-jmp0wla2">text</span></p>)"
 
   
   R"(<p class="b-notes"> </p>)"
@@ -2320,6 +2321,7 @@ TEST_F (usfm_html, usfm_with_all_markers)
   R"(<p class="b-ef"><span class="i-notebody7">2</span><span> </span><span>- </span><span class="i-cat">category</span><span> </span><span class="i-ft">note</span></p>)"
   R"(<p class="b-wordlevelattributes"> </p>)"
   R"(<p class="b-wla1">"gloss:gloss"</p>)"
+  R"(<p class="b-wla2">link-href="href"</p>)"
   ;
 
   const auto make_readable = [] (const auto& html) {

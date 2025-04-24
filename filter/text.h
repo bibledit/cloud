@@ -102,7 +102,7 @@ private:
   void new_paragraph (const database::styles1::Item & style, bool keepWithNext);
   void new_paragraph (const stylesv2::Style* style, bool keep_with_next);
   void applyDropCapsToCurrentParagraph (int dropCapsLength);
-  void putChapterNumberInFrame (std::string chapterText);
+  void put_chapter_number_in_frame (std::string chapter_text);
   std::string get_note_citation (const std::string& marker);
   void ensureNoteParagraphStyle (std::string marker, const database::styles1::Item & style);
 

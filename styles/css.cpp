@@ -80,7 +80,7 @@ void Styles_Css::generate ()
 
 
 // Evaluates the style so as to decide how it should look.
-void Styles_Css::evaluate_v1 (void * database_styles_item) // Todo out.
+void Styles_Css::evaluate_v1 (void * database_styles_item)
 {
 }
 

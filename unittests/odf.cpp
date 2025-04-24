@@ -212,15 +212,16 @@ TEST_F (opendocument, basic_formatted_note_v2)
 }
 
 
-TEST_F (opendocument, embedded_formatted_text) // Todo move to v2?
+TEST_F (opendocument, embedded_formatted_text)
 {
-  database::styles1::Item add = database::styles1::get_marker_data (styles_logic_standard_sheet (), "add");
-  //add.italic = ooitOn;
-  add.bold = 0;
-  add.underline = 0;
-  add.smallcaps = 0;
-  add.superscript = false;
-  add.color = "#000000";
+  const stylesv2::Style* add = database::styles2::get_marker_data (styles_logic_standard_sheet (), "add");
+  stylesv2::Style add2 = *add;
+  add2.character.value().italic = stylesv2::FourState::on;
+  add2.character.value().bold = stylesv2::FourState::off;
+  add2.character.value().underline = stylesv2::FourState::off;
+  add2.character.value().smallcaps = stylesv2::FourState::off;
+  add2.character.value().superscript = stylesv2::TwoState::off;
+  add2.character.value().foreground_color = "#000000";
   const stylesv2::Style* pro = database::styles2::get_marker_data (styles_logic_standard_sheet (), "pro");
   stylesv2::Style pro2 = *pro;
   pro2.character.value().italic = stylesv2::FourState::off;
@@ -228,7 +229,7 @@ TEST_F (opendocument, embedded_formatted_text) // Todo move to v2?
   odf_text odf_text (bible);
   odf_text.new_paragraph ();
   odf_text.add_text ("text");
-  odf_text.open_text_style (&add, nullptr, false, false);
+  odf_text.open_text_style (nullptr, &add2, false, false);
   odf_text.add_text ("add");
   odf_text.open_text_style (nullptr, &pro2, false, true);
   odf_text.add_text ("pro");
@@ -244,15 +245,16 @@ TEST_F (opendocument, embedded_formatted_text) // Todo move to v2?
 }
 
 
-TEST_F (opendocument, embedded_formatted_note) // Todo fix.
+TEST_F (opendocument, embedded_formatted_note)
 {
-  database::styles1::Item add = database::styles1::get_marker_data (styles_logic_standard_sheet (), "add");
-//  add.italic = ooitOn;
-  add.bold = 0;
-  add.underline = 0;
-  add.smallcaps = 0;
-  add.superscript = false;
-  add.color = "#000000";
+  const stylesv2::Style* add = database::styles2::get_marker_data (styles_logic_standard_sheet (), "add");
+  stylesv2::Style add2 = *add;
+  add2.character.value().italic = stylesv2::FourState::on;
+  add2.character.value().bold = stylesv2::FourState::off;
+  add2.character.value().underline = stylesv2::FourState::off;
+  add2.character.value().smallcaps = stylesv2::FourState::off;
+  add2.character.value().superscript = stylesv2::TwoState::off;
+  add2.character.value().foreground_color = "#000000";
   const stylesv2::Style* pro = database::styles2::get_marker_data (styles_logic_standard_sheet (), "pro");
   stylesv2::Style pro2 = *pro;
   pro2.character.value().italic = stylesv2::FourState::off;
@@ -261,7 +263,7 @@ TEST_F (opendocument, embedded_formatted_note) // Todo fix.
   odf_text.new_paragraph ();
   odf_text.add_text ("text");
   odf_text.add_note ("𐌰", "f");
-  odf_text.open_text_style (&add, nullptr, true, false);
+  odf_text.open_text_style (nullptr, &add2, true, false);
   odf_text.add_note_text ("add");
   odf_text.open_text_style (nullptr, &pro2, true, true);
   odf_text.add_note_text ("pro");

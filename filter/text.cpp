@@ -737,7 +737,7 @@ void Filter_Text::process_usfm ()
                   if (odf_text_text_only) odf_text_text_only->add_text (m_output_chapter_text_at_first_verse);
                   if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->add_text (m_output_chapter_text_at_first_verse);
                 } else {
-                  putChapterNumberInFrame (m_output_chapter_text_at_first_verse);
+                  put_chapter_number_in_frame (m_output_chapter_text_at_first_verse);
                 }
                 database::styles1::Item styleItem = database::styles1::Item ();
                 styleItem.marker = "dropcaps";
@@ -1788,12 +1788,20 @@ void Filter_Text::applyDropCapsToCurrentParagraph (int dropCapsLength)
 // This puts the chapter number in a frame in the current paragraph.
 // This is to put the chapter number in a frame so it looks like drop caps in the OpenDocument.
 // $chapterText: The text of the chapter indicator to put.
-void Filter_Text::putChapterNumberInFrame (std::string chapterText)
+void Filter_Text::put_chapter_number_in_frame (std::string chapter_text)
 {
-  database::styles1::Item style = styles[chapter_marker];
-  if (odf_text_standard) odf_text_standard->place_text_in_frame (chapterText, chapter_marker, style.fontsize, style.italic, style.bold);
-  if (odf_text_text_only) odf_text_text_only->place_text_in_frame (chapterText, chapter_marker, style.fontsize, style.italic, style.bold);
-  if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->place_text_in_frame (chapterText, chapter_marker, style.fontsize, style.italic, style.bold);
+  // Get the chapter marker, that is \c.
+  const stylesv2::Style* style {database::styles2::get_marker_data (m_stylesheet, chapter_marker)};
+  // In the unlikely case the chapter style is not valid, take defaults as fallback options.
+  const float font_size = style->paragraph ? style->paragraph.value().font_size : 12;
+  const auto italic = style->paragraph ? style->paragraph.value().italic : stylesv2::TwoState::off;
+  const auto bold = style->paragraph ? style->paragraph.value().bold : stylesv2::TwoState::off;
+  if (odf_text_standard)
+    odf_text_standard->place_text_in_frame (chapter_text, chapter_marker, font_size, italic, bold);
+  if (odf_text_text_only)
+    odf_text_text_only->place_text_in_frame (chapter_text, chapter_marker, font_size, italic, bold);
+  if (odf_text_text_and_note_citations)
+    odf_text_text_and_note_citations->place_text_in_frame (chapter_text, chapter_marker, font_size, italic, bold);
 }
 
 

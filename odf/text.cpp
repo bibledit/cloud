@@ -991,7 +991,8 @@ void odf_text::close_text_style (bool note, bool embed)
 // $style - the name of the style of the $text.
 // $fontsize - given in points.
 // $italic, $bold - integer values.
-void odf_text::place_text_in_frame (std::string text, std::string style, float fontsize, int italic, int bold)
+void odf_text::place_text_in_frame (const std::string& text, const std::string& style,
+                                    const float fontsize, const stylesv2::TwoState italic, const stylesv2::TwoState bold)
 {
   // Empty text is discarded.
   if (text.empty ()) return;
@@ -1046,16 +1047,16 @@ void odf_text::place_text_in_frame (std::string text, std::string style, float f
       style_text_properties_dom_element.append_attribute ("fo:font-size") = sfontsize.c_str();
       style_text_properties_dom_element.append_attribute ("style:font-size-asian") = sfontsize.c_str();
       style_text_properties_dom_element.append_attribute ("style:font-size-complex") = sfontsize.c_str();
-//      if (italic != ooitOff) { // Todo move to v2.
-//        style_text_properties_dom_element.append_attribute ("fo:font-style") = "italic";
-//        style_text_properties_dom_element.append_attribute ("style:font-style-asian") = "italic";
-//        style_text_properties_dom_element.append_attribute ("style:font-style-complex") = "italic";
-//      }
-//      if (bold != ooitOff) {
-//        style_text_properties_dom_element.append_attribute ("fo:font-weight") = "bold";
-//        style_text_properties_dom_element.append_attribute ("style:font-weight-asian") = "bold";
-//        style_text_properties_dom_element.append_attribute ("style:font-weight-complex") = "bold";
-//      }
+      if (italic != stylesv2::TwoState::off) {
+        style_text_properties_dom_element.append_attribute ("fo:font-style") = "italic";
+        style_text_properties_dom_element.append_attribute ("style:font-style-asian") = "italic";
+        style_text_properties_dom_element.append_attribute ("style:font-style-complex") = "italic";
+      }
+      if (bold != stylesv2::TwoState::off) {
+        style_text_properties_dom_element.append_attribute ("fo:font-weight") = "bold";
+        style_text_properties_dom_element.append_attribute ("style:font-weight-asian") = "bold";
+        style_text_properties_dom_element.append_attribute ("style:font-weight-complex") = "bold";
+      }
     }
     {
       // The style for the draw:frame element looks like this:

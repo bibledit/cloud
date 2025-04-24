@@ -73,7 +73,8 @@ public:
   void open_text_style (const database::styles1::Item* stylev1, const stylesv2::Style* stylev2,
                         bool note, bool embed);
   void close_text_style (bool note, bool embed);
-  void place_text_in_frame (std::string text, std::string style, float fontsize, int italic, int bold);
+  void place_text_in_frame (const std::string& text, const std::string& style,
+                            const float fontsize, const stylesv2::TwoState italic, const stylesv2::TwoState bold);
   void create_superscript_style ();
   void add_note (std::string caller, std::string style, bool endnote = false);
   void add_note_text (std::string text);

@@ -23,12 +23,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/libraries.h>
 
 
-// Old styles logic, to be replaced one by one.
-
-#define StyleTypeStartsParagraph       3 
-#define StyleTypeInlineText            4 
-#define StyleTypePeripheral            9 
-
+// Old styles logic, to be replaced one by one. Todo
 
 #define ParagraphSubtypeMainTitle                  0 
 #define ParagraphSubtypeSubTitle                   1 
@@ -36,20 +31,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #define ParagraphSubtypeNormalParagraph            3 
 
 
-#define PeripheralSubtypePublication     0
-#define PeripheralSubtypeTableOfContents 1
-#define PeripheralSubtypePreface         2
-#define PeripheralSubtypeIntroduction    3
-#define PeripheralSubtypeGlossary        4
-#define PeripheralSubtypeConcordance     5
-#define PeripheralSubtypeIndex           6
-#define PeripheralSubtypeMapIndex        7
-#define PeripheralSubtypeCover           8
-#define PeripheralSubtypeSpine           9
-#define PeripheralSubtypeGeneral        10
-
-
-#define ooitOff      0 
+#define ooitOff      0
 #define ooitOn       1 
 #define ooitInherit  2 
 #define ooitToggle   3 

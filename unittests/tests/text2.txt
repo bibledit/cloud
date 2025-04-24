@@ -60,6 +60,7 @@ Introduction main title ending 2
 1 (2)
  
 1b Text namepronunciation.
+2 text
 2
 1 Normal added and AddPn
 א

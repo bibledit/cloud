@@ -33,25 +33,6 @@ Checks_Usfm::Checks_Usfm (const std::string& bible)
 {
   m_stylesheet = database::config::bible::get_export_stylesheet (bible);
   markers_stylesheet = database::styles1::get_markers (m_stylesheet);
-  for (const auto & marker : markers_stylesheet) {
-    database::styles1::Item style = database::styles1::get_marker_data (m_stylesheet, marker);
-    style_items [marker] = style;
-
-    // Find out which markers require an endmarker.
-    // And which markers are embeddable.
-    bool required_endmarker {false};
-    bool embeddable_marker {false};
-    if (style.type == StyleTypeInlineText) {
-      required_endmarker = true;
-      embeddable_marker = true;
-    }
-    if (required_endmarker) {
-      markers_requiring_endmarkers.push_back (marker);
-    }
-    if (embeddable_marker) {
-      embeddable_markers.push_back (marker);
-    }
-  }
   for (const stylesv2::Style& style : stylesv2::styles) {
     // Find out which markers require an endmarker.
     // And which markers are embeddable.

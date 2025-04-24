@@ -173,49 +173,7 @@ void Editor_Usfm2Html::process ()
       if (m_preview)
         if (is_opening_marker)
           filter::usfm::remove_word_level_attributes (marker, m_markers_and_text, m_markers_and_text_pointer);
-      if (m_styles.count (marker) && (!stylesv2::marker_moved_to_v2(marker)))
-      {
-        const database::styles1::Item& style = m_styles.at(marker);
-        switch (style.type)
-        {
-          case StyleTypeStartsParagraph:
-          {
-            close_text_style (false);
-            close_paragraph ();
-            new_paragraph (marker);
-            break;
-          }
-          case StyleTypeInlineText:
-          {
-            if (is_opening_marker) {
-              // Be sure the road ahead is clear.
-              if (road_is_clear ()) {
-                open_text_style (style.marker, is_embedded_marker);
-                extract_word_level_attributes();
-              } else {
-                add_text (filter::usfm::get_opening_usfm (marker));
-              }
-            } else {
-              close_text_style (is_embedded_marker);
-            }
-            break;
-          }
-          case StyleTypePeripheral: // Moved to v2.
-          {
-            close_text_style (false);
-            output_as_is (marker, is_opening_marker);
-            break;
-          }
-          default:
-          {
-            // This marker is known in the stylesheet, but not yet implemented here.
-            close_text_style (false);
-            output_as_is (marker, is_opening_marker);
-            break;
-          }
-        }
-      }
-      else if (const stylesv2::Style* style {database::styles2::get_marker_data (m_stylesheet, marker)}; style)
+      if (const stylesv2::Style* style {database::styles2::get_marker_data (m_stylesheet, marker)}; style)
       {
         switch (style->type) {
           case stylesv2::Type::starting_boundary:
@@ -779,9 +737,6 @@ bool road_is_clear(const std::vector<std::string>& markers_and_text,
         return true;
       if (style_v2->type == stylesv2::Type::paragraph)
         return true;
-    } else {
-      if (type_v1 == StyleTypeStartsParagraph)
-        return true;
     }
     return false;
   };
@@ -790,9 +745,6 @@ bool road_is_clear(const std::vector<std::string>& markers_and_text,
   const auto is_inline_text = [](const int type_v1, const stylesv2::Style* style_v2) {
     if (style_v2) {
       if (style_v2->type == stylesv2::Type::character)
-        return true;
-    } else {
-      if (type_v1 == StyleTypeInlineText)
         return true;
     }
     return false;

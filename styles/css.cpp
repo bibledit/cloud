@@ -80,40 +80,8 @@ void Styles_Css::generate ()
 
 
 // Evaluates the style so as to decide how it should look.
-void Styles_Css::evaluate_v1 (void * database_styles_item)
+void Styles_Css::evaluate_v1 (void * database_styles_item) // Todo out.
 {
-  database::styles1::Item* style = static_cast<database::styles1::Item*> (database_styles_item);
-  
-  switch (style->type)
-  {
-    case StyleTypeStartsParagraph:
-    {
-      switch (style->subtype)
-      {
-        case ParagraphSubtypeMainTitle:
-        case ParagraphSubtypeSubTitle:
-        case ParagraphSubtypeSectionHeading:
-        {
-          add_v1 (style, true, true);
-          break;
-        }
-        case ParagraphSubtypeNormalParagraph:
-        {
-          add_v1 (style, true, false);
-          break;
-        }
-        default: break;
-      }
-      break;
-    }
-    case StyleTypeInlineText:
-    {
-      add_v1 (style, false, false);
-      break;
-    }
-    default:
-      break;
-  }
 }
 
 

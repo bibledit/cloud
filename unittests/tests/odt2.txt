@@ -126,6 +126,8 @@ Right 1 (2)
 
 1b Text namepronunciation.
 
+2  text
+
 Right 2
 
 Psalm

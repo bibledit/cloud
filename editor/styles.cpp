@@ -202,20 +202,7 @@ std::string Editor_Styles::get_action (Webserver_Request& webserver_request, con
         return unknown();
     }
   }
-  else {
-    database::styles1::Item data = database::styles1::get_marker_data (stylesheet, marker);
-    switch (data.type)
-    {
-      case StyleTypeStartsParagraph:
-        return paragraph ();
-      case StyleTypeInlineText:
-        return character ();
-      case StyleTypePeripheral:
-        return mono ();
-      default:
-        return unknown ();
-    }
-  }
+  return unknown();
 }
 
 

@@ -58,9 +58,6 @@ std::string styles_logic_category_text (std::string category)
 // Returns the $type as human readable text.
 std::string styles_logic_type_text (int type)
 {
-  if (type == StyleTypeStartsParagraph) return translate ("starts a new paragraph");
-  if (type == StyleTypeInlineText     ) return translate ("is inline text with endmarker");
-  if (type == StyleTypePeripheral     ) return translate ("is a peripheral element");
   return "--";
 }
 
@@ -68,27 +65,6 @@ std::string styles_logic_type_text (int type)
 // This returns the $subtype as human readable text.
 std::string styles_logic_subtype_text (int type, int subtype)
 {
-  if (type == StyleTypeStartsParagraph) {
-    if (subtype == ParagraphSubtypeMainTitle)       return translate ("is a main title");
-    if (subtype == ParagraphSubtypeSubTitle)        return translate ("is a subtitle");
-    if (subtype == ParagraphSubtypeSectionHeading)  return translate ("is a section heading");
-    if (subtype == ParagraphSubtypeNormalParagraph) return translate ("is a normal paragraph");
-  }
-  if (type == StyleTypeInlineText) {
-  }
-  if (type == StyleTypePeripheral) {
-    if (subtype == PeripheralSubtypePublication    ) return translate ("starts publication data");
-    if (subtype == PeripheralSubtypeTableOfContents) return translate ("starts table of contents");
-    if (subtype == PeripheralSubtypePreface        ) return translate ("starts preface");
-    if (subtype == PeripheralSubtypeIntroduction   ) return translate ("starts introduction");
-    if (subtype == PeripheralSubtypeGlossary       ) return translate ("starts concordance");
-    if (subtype == PeripheralSubtypeConcordance    ) return translate ("starts glossary");
-    if (subtype == PeripheralSubtypeIndex          ) return translate ("starts index");
-    if (subtype == PeripheralSubtypeMapIndex       ) return translate ("starts map index");
-    if (subtype == PeripheralSubtypeCover          ) return translate ("starts cover");
-    if (subtype == PeripheralSubtypeSpine          ) return translate ("starts spine");
-    if (subtype == PeripheralSubtypeGeneral        ) return translate ("starts general peripheral content");
-  }
   return "--";
 }
 
@@ -96,10 +72,6 @@ std::string styles_logic_subtype_text (int type, int subtype)
 // Returns true if the fontsize is relevant for $type.
 bool styles_logic_fontsize_is_relevant (int type)
 {
-  switch (type) {
-    case StyleTypeStartsParagraph : return true;
-    default: return false;
-  }
   return false;
 }
 
@@ -107,11 +79,6 @@ bool styles_logic_fontsize_is_relevant (int type)
 // Returns true if the italic, bold, etc. settings are relevant for $type and $subtype.
 bool styles_logic_italic_bold_underline_smallcaps_are_relevant (int type)
 {
-  switch (type) {
-    case StyleTypeStartsParagraph : return true;
-    case StyleTypeInlineText      : return true;
-    default: return false;
-  }
   return false;
 }
 
@@ -119,10 +86,6 @@ bool styles_logic_italic_bold_underline_smallcaps_are_relevant (int type)
 // Returns true if the italic, bold, etc. settings are fully applicable for $type and $subtype. Full means it also has inherit and toggle values.
 bool styles_logic_italic_bold_underline_smallcaps_are_full (int type)
 {
-  switch (type) {
-    case StyleTypeInlineText: return true;
-    default: return false;
-  }
   return false;
 }
 
@@ -141,10 +104,6 @@ std::string styles_logic_off_on_inherit_toggle_text (int value)
 // Returns true if the superscript setting is relevant for $type.
 bool styles_logic_superscript_is_relevant (int type)
 {
-  switch (type) {
-    case StyleTypeInlineText  : return true;
-    default: return false;
-  }
   return false;
 }
 
@@ -152,10 +111,6 @@ bool styles_logic_superscript_is_relevant (int type)
 // Returns true if the paragraph treats are relevant for $type.
 bool styles_logic_paragraph_treats_are_relevant (int type)
 {
-  switch (type) {
-    case StyleTypeStartsParagraph : return true;
-    default: return false;
-  }
   return false;
 }
 
@@ -174,11 +129,6 @@ std::string styles_logic_alignment_text (int value)
 // Returns true if the columns are relevant for $type and $subtype
 bool styles_logic_columns_are_relevant (int type, int subtype)
 {
-  if (subtype) {};
-  switch (type) {
-    case StyleTypeStartsParagraph : return true;
-    default: return false;
-  }
   return false;
 }
 
@@ -186,10 +136,6 @@ bool styles_logic_columns_are_relevant (int type, int subtype)
 // Returns true if the color is relevant for $type.
 bool styles_logic_color_is_relevant (int type)
 {
-  switch (type) {
-    case StyleTypeInlineText  : return true;
-    default: return false;
-  }
   return false;
 }
 
@@ -340,23 +286,8 @@ int styles_logic_get_userstring3_function (int type, int subtype)
 
 // It returns true if the combination of type and subtype start a new line in well-formed USFM.
 // Otherwise it returns false.
-bool styles_logic_starts_new_line_in_usfm (int type, [[maybe_unused]]int subtype)
+bool styles_logic_starts_new_line_in_usfm (int type, [[maybe_unused]]int subtype) // Todo out.
 {
-  switch (type) {
-    case StyleTypeStartsParagraph :
-    {
-      return true;
-    }
-    case StyleTypeInlineText :
-    {
-      return false;
-    }
-    case StyleTypePeripheral :
-    {
-      return true;
-    }
-    default:
-      return false;
-  }
+  return false;
 }
 

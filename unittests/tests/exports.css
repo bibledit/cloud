@@ -11,8 +11,6 @@ a:hover { text-decoration: underline; }
 .navigationbar { font-size: normal; }
 .popup { position:absolute; display:none; background-color:lightyellow; border:.1em solid; width:15em; height:auto; padding:1em; font-size:1.5em; text-indent:0em; margin 0.5em 0.5em 0.5em 0.5em; }
 a:hover .popup { display:block; }
-.rt, .i-rt {
-}
 .imt, .b-imt {
 font-size: 117%;
 font-weight: bold;

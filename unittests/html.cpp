@@ -115,29 +115,6 @@ TEST (filter_html, get_inner_html)
 }
 
 
-TEST (filter_html, basic_formatted_note_one_v1)
-{
-  database::styles1::Item style;
-  HtmlText html_text ("");
-  html_text.new_paragraph ();
-  html_text.add_text ("Text");
-  html_text.add_note ("𐌰", "f");
-  style.marker = "add";
-  html_text.open_text_style (&style, nullptr, true, false);
-  html_text.add_note_text ("Add");
-  html_text.close_text_style (true, false);
-  html_text.add_note_text ("normal");
-  html_text.add_text (".");
-  std::string html = html_text.get_inner_html ();
-  std::string standard =
-  R"(<p><span>Text</span><a href="#note1" id="citation1" class="superscript">𐌰</a><span>.</span></p>)"
-  R"(<div>)"
-  R"(<p class="f"><a href="#citation1" id="note1">𐌰</a><span> </span><span class="add">Add</span><span>normal</span></p>)"
-  R"(</div>)";
-  EXPECT_EQ (standard, html);
-}
-
-
 TEST (filter_html, basic_formatted_note_v2)
 {
   stylesv2::Style style;
@@ -146,7 +123,7 @@ TEST (filter_html, basic_formatted_note_v2)
   html_text.new_paragraph ();
   html_text.add_text ("Text");
   html_text.add_note ("𐌰", "f");
-  html_text.open_text_style (nullptr, &style, true, false);
+  html_text.open_text_style (&style, true, false);
   html_text.add_note_text ("Pro");
   html_text.close_text_style (true, false);
   html_text.add_note_text ("Normal");
@@ -170,7 +147,7 @@ TEST (filter_html, basic_formatted_note_popup_v2)
   html_text.new_paragraph ();
   html_text.add_text ("text");
   html_text.add_note ("𐌰", "f");
-  html_text.open_text_style (nullptr, &style, true, false);
+  html_text.open_text_style (&style, true, false);
   html_text.add_note_text ("add");
   html_text.close_text_style (true, false);
   html_text.add_note_text ("normal");
@@ -193,10 +170,10 @@ TEST (filter_html, embedded_formatted_note)
   html_text.add_text ("text");
   html_text.add_note ("𐌰", "f");
   style.marker = "add";
-  html_text.open_text_style (nullptr, &style, true, false);
+  html_text.open_text_style (&style, true, false);
   html_text.add_note_text ("add");
   style.marker = "nd";
-  html_text.open_text_style (nullptr, &style, true, true);
+  html_text.open_text_style (&style, true, true);
   html_text.add_note_text ("nd");
   html_text.close_text_style (true, false);
   html_text.add_note_text ("normal");
@@ -220,10 +197,10 @@ TEST (filter_html, embedded_formatted_note_popup)
   html_text.add_text ("text");
   html_text.add_note ("𐌰", "f");
   style.marker = "add";
-  html_text.open_text_style (nullptr, &style, true, false);
+  html_text.open_text_style (&style, true, false);
   html_text.add_note_text ("add");
   style.marker = "nd";
-  html_text.open_text_style (nullptr, &style, true, true);
+  html_text.open_text_style (&style, true, true);
   html_text.add_note_text ("nd");
   html_text.close_text_style (true, false);
   html_text.add_note_text ("normal");

@@ -319,11 +319,11 @@ TEST_F (styles, spot_check_markers)
   
   std::vector <std::string> markers {};
   
-  markers = database::styles1::get_markers (styles_logic_standard_sheet ());
-  EXPECT_EQ (205, static_cast<int>(markers.size ()));
+  markers = database::styles2::get_markers (styles_logic_standard_sheet ());
+  EXPECT_EQ (212, static_cast<int>(markers.size ()));
   
-  markers = database::styles1::get_markers (test_sheet);
-  EXPECT_EQ (205, static_cast<int>(markers.size ()));
+  markers = database::styles2::get_markers (test_sheet);
+  EXPECT_EQ (212, static_cast<int>(markers.size ()));
   
   std::string marker {"p"};
   if (find (markers.begin (), markers.end (), marker) == markers.end ())
@@ -332,14 +332,14 @@ TEST_F (styles, spot_check_markers)
   if (find (markers.begin (), markers.end (), marker) == markers.end ())
     ADD_FAILURE() << marker << " not found";
   
-  std::map <std::string, std::string> markers_names = database::styles1::get_markers_and_names (test_sheet);
-  EXPECT_EQ (205, markers_names.size());
+  std::map <std::string, std::string> markers_names = database::styles2::get_markers_and_names (test_sheet);
+  EXPECT_EQ (212, markers_names.size());
   EXPECT_EQ ("Blank line", markers_names ["b"]);
   EXPECT_EQ ("Normal paragraph", markers_names ["p"]);
   EXPECT_EQ ("Translator’s addition", markers_names ["add"]);
   
-  database::styles1::delete_marker (test_sheet, "p");
-  markers = database::styles1::get_markers (test_sheet);
+  database::styles2::delete_marker (test_sheet, "p");
+  markers = database::styles2::get_markers (test_sheet);
   marker = "p";
   if (find (markers.begin (), markers.end (), marker) != markers.end ())
     ADD_FAILURE() << marker << " should not be there";
@@ -347,7 +347,7 @@ TEST_F (styles, spot_check_markers)
   if (find (markers.begin (), markers.end (), marker) == markers.end ())
     ADD_FAILURE() << marker << " not found";
   
-  markers_names = database::styles1::get_markers_and_names (test_sheet);
+  markers_names = database::styles2::get_markers_and_names (test_sheet);
   EXPECT_EQ (std::string(), markers_names ["p"]);
   EXPECT_EQ ("Translator’s addition", markers_names ["add"]);
 }
@@ -358,23 +358,9 @@ TEST_F (styles, detail_check_markers)
 {
   constexpr const char* test_sheet {"testsheet"};
   database::styles::create_sheet (test_sheet);
-  database::styles1::Item data = database::styles1::get_marker_data (test_sheet, "add");
-  EXPECT_EQ ("add", data.marker);
-  EXPECT_EQ ("st", data.category);
-}
-
-
-// Updating a marker.
-TEST_F (styles, update_marker)
-{
-  constexpr const char* test_sheet {"testsheet"};
-  database::styles::create_sheet (test_sheet);
-  database::styles1::update_name (test_sheet, "add", "Addition");
-  database::styles1::Item data = database::styles1::get_marker_data (test_sheet, "add");
-  EXPECT_EQ ("Addition", data.name);
-  database::styles1::update_info (test_sheet, "p", "Paragraph");
-  data = database::styles1::get_marker_data (test_sheet, "p");
-  EXPECT_EQ ("Paragraph", data.info);
+  auto* style = database::styles2::get_marker_data (test_sheet, "add");
+  EXPECT_EQ ("add", style->marker);
+  EXPECT_EQ (stylesv2::Category::words_characters, style->category);
 }
 
 
@@ -423,14 +409,14 @@ TEST_F (styles, add_marker)
   database::styles::create_sheet ("testsheet");
   
   // Get markers.
-  std::vector <std::string> markers = database::styles1::get_markers (test_sheet);
+  std::vector <std::string> markers = database::styles2::get_markers (test_sheet);
   std::string marker {"zhq"};
   if (find (markers.begin (), markers.end (), marker) != markers.end ())
     ADD_FAILURE() << marker << " should not be there";
   
   // Add marker.
-  database::styles1::add_marker (test_sheet, marker);
-  markers = database::styles1::get_markers (test_sheet);
+  database::styles2::add_marker (test_sheet, marker);
+  markers = database::styles2::get_markers (test_sheet);
   if (find (markers.begin (), markers.end (), marker) == markers.end ())
     ADD_FAILURE() << marker << " should be there";
 }
@@ -440,7 +426,7 @@ TEST_F (styles, add_marker)
 TEST_F (styles, empty_stylesheet)
 {
   database::styles::create_database ();
-  std::vector <std::string> markers = database::styles1::get_markers ("");
+  std::vector <std::string> markers = database::styles2::get_markers ("");
   std::string marker {"zhq"};
   if (find (markers.begin (), markers.end (), marker) != markers.end ())
     ADD_FAILURE() << marker << " should not be there";

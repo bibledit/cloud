@@ -2015,14 +2015,6 @@ TEST_F (usfm_html, footnote_deuterocanonical)
 TEST_F (usfm_html, road_is_clear)
 {
   const std::string stylesheet {styles_logic_standard_sheet ()};
-  std::map <std::string, database::styles1::Item> styles {};
-  {
-    const std::vector <std::string> markers = database::styles1::get_markers (stylesheet);
-    for (const auto& marker : markers) {
-      database::styles1::Item style = database::styles1::get_marker_data (stylesheet, marker);
-      styles [marker] = style;
-    }
-  }
   
   // The testing data.
   // The first element of the pair contains the markup.
@@ -2075,7 +2067,7 @@ TEST_F (usfm_html, road_is_clear)
     { { R"(\add )", "text" }, false},
   };
   for (const auto& [usfm, clear] : testing_usfm) {
-    if (clear != road_is_clear(usfm, 0, styles, stylesheet)) {
+    if (clear != road_is_clear(usfm, 0, stylesheet)) {
       std::stringstream ss {};
       for (const auto& bit : usfm) {
         if (!ss.str().empty())

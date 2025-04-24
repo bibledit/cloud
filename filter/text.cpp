@@ -719,12 +719,12 @@ void Filter_Text::process_usfm ()
                 } else {
                   put_chapter_number_in_frame (m_output_chapter_text_at_first_verse);
                 }
-                database::styles1::Item styleItem = database::styles1::Item ();
-                styleItem.marker = "dropcaps";
-                if (html_text_standard) html_text_standard->open_text_style (&styleItem, nullptr, false, false);
+                stylesv2::Style dropcaps_style{};
+                dropcaps_style.marker = "dropcaps";
+                if (html_text_standard) html_text_standard->open_text_style (&dropcaps_style, false, false);
                 if (html_text_standard) html_text_standard->add_text (m_output_chapter_text_at_first_verse);
                 if (html_text_standard) html_text_standard->close_text_style (false, false);
-                if (html_text_linked) html_text_linked->open_text_style (&styleItem, nullptr, false, false);
+                if (html_text_linked) html_text_linked->open_text_style (&dropcaps_style, false, false);
                 if (html_text_linked) html_text_linked->add_text (m_output_chapter_text_at_first_verse);
                 if (html_text_linked) html_text_linked->close_text_style (false, false);
               }
@@ -779,9 +779,9 @@ void Filter_Text::process_usfm ()
                 if (odf_text_text_and_note_citations)
                   odf_text_text_and_note_citations->open_text_style (style, false, false);
                 if (html_text_standard)
-                  html_text_standard->open_text_style (nullptr, style, false, false);
+                  html_text_standard->open_text_style (style, false, false);
                 if (html_text_linked)
-                  html_text_linked->open_text_style (nullptr, style, false, false);
+                  html_text_linked->open_text_style (style, false, false);
                 if (odf_text_standard)
                   odf_text_standard->add_text (v_vp_number);
                 if (odf_text_text_only)
@@ -958,9 +958,9 @@ void Filter_Text::process_usfm ()
                 if (odf_text_text_and_note_citations)
                   odf_text_text_and_note_citations->open_text_style (style, false, is_embedded_marker);
                 if (html_text_standard)
-                  html_text_standard->open_text_style (nullptr, style, false, is_embedded_marker);
+                  html_text_standard->open_text_style (style, false, is_embedded_marker);
                 if (html_text_linked)
-                  html_text_linked->open_text_style (nullptr, style, false, is_embedded_marker);
+                  html_text_linked->open_text_style (style, false, is_embedded_marker);
               } else {
                 if (odf_text_standard)
                   odf_text_standard->close_text_style (false, is_embedded_marker);
@@ -1307,9 +1307,9 @@ void Filter_Text::processNote ()
               if (odf_text_notes)
                 odf_text_notes->open_text_style (stylev2, false, isEmbeddedMarker);
               if (html_text_standard)
-                html_text_standard->open_text_style (nullptr, stylev2, true, isEmbeddedMarker);
+                html_text_standard->open_text_style (stylev2, true, isEmbeddedMarker);
               if (html_text_linked)
-                html_text_linked->open_text_style (nullptr, stylev2, true, isEmbeddedMarker);
+                html_text_linked->open_text_style (stylev2, true, isEmbeddedMarker);
             } else {
               if (odf_text_standard)
                 odf_text_standard->close_text_style (true, isEmbeddedMarker);
@@ -1331,9 +1331,9 @@ void Filter_Text::processNote ()
               if (odf_text_notes)
                 odf_text_notes->open_text_style (stylev2, false, isEmbeddedMarker);
               if (html_text_standard)
-                html_text_standard->open_text_style (nullptr, stylev2, true, isEmbeddedMarker);
+                html_text_standard->open_text_style (stylev2, true, isEmbeddedMarker);
               if (html_text_linked)
-                html_text_linked->open_text_style (nullptr, stylev2, true, isEmbeddedMarker);
+                html_text_linked->open_text_style (stylev2, true, isEmbeddedMarker);
             } else {
               if (odf_text_standard)
                 odf_text_standard->close_text_style (true, false);
@@ -1412,9 +1412,9 @@ void Filter_Text::processNote ()
               if (odf_text_notes)
                 odf_text_notes->open_text_style (stylev2, false, isEmbeddedMarker);
               if (html_text_standard)
-                html_text_standard->open_text_style (nullptr, stylev2, true, isEmbeddedMarker);
+                html_text_standard->open_text_style (stylev2, true, isEmbeddedMarker);
               if (html_text_linked)
-                html_text_linked->open_text_style (nullptr, stylev2, true, isEmbeddedMarker);
+                html_text_linked->open_text_style (stylev2, true, isEmbeddedMarker);
             } else {
               if (odf_text_standard)
                 odf_text_standard->close_text_style (true, isEmbeddedMarker);

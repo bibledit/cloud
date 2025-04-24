@@ -85,11 +85,11 @@ std::string styles_sheetm (Webserver_Request& webserver_request)
   
   if (webserver_request.post.count ("new")) {
     std::string newstyle = webserver_request.post["entry"];
-    std::vector <std::string> existing_markers = database::styles1::get_markers (name);
+    std::vector <std::string> existing_markers = database::styles2::get_markers (name);
     if (find (existing_markers.begin(), existing_markers.end(), newstyle) != existing_markers.end()) {
       page += assets_page::error (translate("This style already exists"));
     } else {
-      database::styles1::add_marker (name, newstyle);
+      database::styles2::add_marker (name, newstyle);
       styles_sheets_create_all ();
       page += assets_page::success (translate("The style has been created"));
     }
@@ -104,7 +104,6 @@ std::string styles_sheetm (Webserver_Request& webserver_request)
   const std::string del = webserver_request.query["delete"];
   if (!del.empty())
     if (write) {
-      database::styles1::delete_marker (name, del);
       database::styles2::delete_marker (name, del);
     }
 

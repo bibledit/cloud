@@ -42,15 +42,6 @@ void Editor_Usfm2Html::load (std::string usfm)
 void Editor_Usfm2Html::stylesheet (const std::string& stylesheet)
 {
   m_stylesheet = stylesheet;
-  m_styles.clear();
-  // Load the style version 1 information into the object.
-  {
-    const std::vector <std::string> markers = database::styles1::get_markers (stylesheet);
-    for (const auto& marker : markers) {
-      database::styles1::Item style = database::styles1::get_marker_data (stylesheet, marker);
-      m_styles [marker] = style;
-    }
-  }
   // Load style version 2 information into the object.
   for (const stylesv2::Style& style : database::styles2::get_styles(stylesheet)) {
     m_note_citations.evaluate_style(style);
@@ -646,7 +637,7 @@ void Editor_Usfm2Html::add_notel_link (pugi::xml_node& dom_node, const int ident
 bool Editor_Usfm2Html::road_is_clear ()
 {
   // Call a unit testable function to do the work.
-  return ::road_is_clear (m_markers_and_text, m_markers_and_text_pointer, m_styles, m_stylesheet);
+  return ::road_is_clear (m_markers_and_text, m_markers_and_text_pointer, m_stylesheet);
 }
 
 
@@ -723,7 +714,6 @@ void Editor_Usfm2Html::add_word_level_attributes(const std::string id)
 // Returns true if the road ahead is clear for the current marker.
 bool road_is_clear(const std::vector<std::string>& markers_and_text,
                    const unsigned int markers_and_text_pointer,
-                   std::map<std::string, database::styles1::Item>& styles,
                    const std::string& stylesheet)
 {
   // Section 1: Functions to find marker properties.
@@ -819,10 +809,10 @@ bool road_is_clear(const std::vector<std::string>& markers_and_text,
   if (!filter::usfm::is_usfm_marker (input_item))
     return true;
 
-  // The marker. If not in stylesheet v1 and v2, the road is clear.
+  // The marker. If not in stylesheet v2, the road is clear.
   const std::string input_marker {filter::usfm::get_marker (input_item)};
   const stylesv2::Style* input_style_v2 {database::styles2::get_marker_data (stylesheet, input_marker)};
-  if (!styles.count (input_marker) && !input_style_v2)
+  if (!input_style_v2)
     return true;
 
   // Determine the input markup properties.
@@ -848,7 +838,7 @@ bool road_is_clear(const std::vector<std::string>& markers_and_text,
     {
       const std::string marker = filter::usfm::get_marker (current_item);
       const stylesv2::Style* style_v2 {database::styles2::get_marker_data (stylesheet, marker)};
-      if (styles.count (marker) || style_v2)
+      if (style_v2)
       {
         const bool opener {filter::usfm::is_opening_marker (current_item)};
         const bool embedded {filter::usfm::is_embedded_marker (current_item)};

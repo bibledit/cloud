@@ -240,9 +240,9 @@ TEST_F (opendocument, embedded_formatted_note)
 
 TEST_F (opendocument, paragraph_formatting)
 {
-  database::styles1::Item d = database::styles1::get_marker_data (styles_logic_standard_sheet (), "d");
+  const stylesv2::Style* d_style = database::styles2::get_marker_data (styles_logic_standard_sheet (), "d");
   odf_text odf_text (bible);
-  // Todo odf_text.create_paragraph_style (d.marker, fontname, d.fontsize, d.italic, d.bold, d.underline, d.smallcaps, d.justification, d.spacebefore, d.spaceafter, d.leftmargin, d.rightmargin, d.firstlineindent, true, false);
+  odf_text.create_paragraph_style (d_style->marker, fontname, d_style->paragraph.value().font_size, d_style->paragraph.value().italic, d_style->paragraph.value().bold, d_style->paragraph.value().underline, d_style->paragraph.value().smallcaps, d_style->paragraph.value().text_alignment, d_style->paragraph.value().space_before, d_style->paragraph.value().space_after, d_style->paragraph.value().left_margin, d_style->paragraph.value().right_margin, d_style->paragraph.value().first_line_indent, true, false);
   odf_text.new_paragraph ("d");
   odf_text.add_text ("Paragraph with d style");
   odf_text.new_paragraph ("d");

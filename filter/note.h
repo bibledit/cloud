@@ -20,7 +20,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #pragma once
 
 #include <config/libraries.h>
-namespace database::styles1 { struct Item; }
 namespace stylesv2 { struct Style; }
 
 namespace filter::note {

@@ -45,17 +45,6 @@ public:
   void new_heading1 (std::string text, bool hide = false);
   void create_page_break_style ();
   void new_page_break ();
-  void create_paragraph_style (std::string name,
-                               std::string fontname,
-                               float fontsize,
-                               int italic, int bold, int underline,
-                               int smallcaps,
-                               int alignment,
-                               float spacebefore, float spaceafter,
-                               float leftmargin, float rightmargin,
-                               float firstlineindent,
-                               bool keep_with_next,
-                               int dropcaps);
   void create_paragraph_style (const std::string& name,
                                std::string font_name,
                                const float font_size,

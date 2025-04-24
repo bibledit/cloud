@@ -729,7 +729,7 @@ bool road_is_clear(const std::vector<std::string>& markers_and_text,
   // Section 1: Functions to find marker properties.
   
   // Function to determine whether it is starting a paragraph.
-  const auto starts_paragraph = [](const int type_v1, const stylesv2::Style* style_v2) {
+  const auto starts_paragraph = [](const stylesv2::Style* style_v2) {
     if (style_v2) {
       if (style_v2->type == stylesv2::Type::title)
         return true;
@@ -742,7 +742,7 @@ bool road_is_clear(const std::vector<std::string>& markers_and_text,
   };
   
   // Function to determine whether it is inline text.
-  const auto is_inline_text = [](const int type_v1, const stylesv2::Style* style_v2) {
+  const auto is_inline_text = [](const stylesv2::Style* style_v2) {
     if (style_v2) {
       if (style_v2->type == stylesv2::Type::character)
         return true;
@@ -828,11 +828,9 @@ bool road_is_clear(const std::vector<std::string>& markers_and_text,
   // Determine the input markup properties.
   const bool input_opener {filter::usfm::is_opening_marker (input_item)};
   const bool input_embedded {filter::usfm::is_embedded_marker (input_item)};
-  const database::styles1::Item& input_style_v1 = styles [input_marker];
-  const int input_type_v1 {input_style_v1.type};
 
   // If the imput markup is embedded inline text, the road ahead is clear.
-  if (is_inline_text(input_type_v1, input_style_v2))
+  if (is_inline_text(input_style_v2))
     if (input_embedded)
       return true;
   
@@ -852,8 +850,6 @@ bool road_is_clear(const std::vector<std::string>& markers_and_text,
       const stylesv2::Style* style_v2 {database::styles2::get_marker_data (stylesheet, marker)};
       if (styles.count (marker) || style_v2)
       {
-        database::styles1::Item& style_v1 = styles[marker];
-        const int type_v1 = {style_v1.type};
         const bool opener {filter::usfm::is_opening_marker (current_item)};
         const bool embedded {filter::usfm::is_embedded_marker (current_item)};
         
@@ -918,9 +914,9 @@ bool road_is_clear(const std::vector<std::string>& markers_and_text,
         }
 
         // The input to check the road ahead for is an inline text opener, non-embedded, like "\add ".
-        if (is_inline_text(input_type_v1, input_style_v2)) {
+        if (is_inline_text(input_style_v2)) {
           if (input_opener && !input_embedded) {
-            if (is_inline_text(type_v1, style_v2)) {
+            if (is_inline_text(style_v2)) {
               if (embedded) {
                 // An embedded inline marker is OK: Road ahead is clear.
                 return true;
@@ -938,7 +934,7 @@ bool road_is_clear(const std::vector<std::string>& markers_and_text,
             if (is_verse_number(style_v2))
               return false;
             // The inline text opener encounters a paragraph: blocker.
-            if (starts_paragraph(type_v1, style_v2))
+            if (starts_paragraph(style_v2))
               return false;
           }
         }

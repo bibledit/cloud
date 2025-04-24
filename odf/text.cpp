@@ -654,24 +654,6 @@ void odf_text::new_page_break ()
 // $name: the name of the style, e.g. 'p'.
 // $dropcaps: If 0, there are no drop caps.
 //            If greater than 0, it the number of characters in drop caps style.
-void odf_text::create_paragraph_style (std::string name,
-                                       std::string fontname,
-                                       float fontsize,
-                                       int italic, int bold, int underline, int smallcaps,
-                                       int alignment,
-                                       float spacebefore, float spaceafter,
-                                       float leftmargin, float rightmargin,
-                                       float firstlineindent,
-                                       bool keep_with_next,
-                                       int dropcaps)
-{
-}
-
-
-// This creates a paragraph style.
-// $name: the name of the style, e.g. 'p'.
-// $dropcaps: If 0, there are no drop caps.
-//            If greater than 0, it the number of characters in drop caps style.
 void odf_text::create_paragraph_style (const std::string& name,
                                        std::string font_name,
                                        const float font_size,

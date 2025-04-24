@@ -115,8 +115,7 @@ void Filter_Text::run (const std::string& stylesheet)
   usfm_markers_and_text_ptr = 0;
   chapter_usfm_markers_and_text.clear();
   chapter_usfm_markers_and_text_pointer = 0;
-  styles.clear();
-  createdStyles.clear();
+  created_styles.clear();
 }
 
 
@@ -158,7 +157,6 @@ void Filter_Text::get_usfm_next_chapter ()
 // and stores them in the object for quicker access.
 void Filter_Text::get_styles ()
 {
-  styles.clear();
   // Get the relevant styles information included.
   if (odf_text_standard)
     odf_text_standard->create_page_break_style ();
@@ -168,10 +166,6 @@ void Filter_Text::get_styles ()
     odf_text_text_and_note_citations->create_page_break_style ();
   if (odf_text_text_and_note_citations)
     odf_text_text_and_note_citations->create_superscript_style ();
-  for (const auto& marker : database::styles1::get_markers(m_stylesheet)) {
-    database::styles1::Item style = database::styles1::get_marker_data (m_stylesheet, marker);
-    styles [marker] = style;
-  }
   for (const stylesv2::Style& style : database::styles2::get_styles(m_stylesheet)) {
     if (style.type == stylesv2::Type::note_standard_content)
       standard_content_marker_foot_end_note = style.marker;
@@ -364,22 +358,7 @@ void Filter_Text::process_usfm ()
         const std::string marker = filter::usfm::get_marker (current_item);
         // Strip word-level attributes.
         if (is_opening_marker) filter::usfm::remove_word_level_attributes (marker, chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
-        if ((styles.find (marker) != styles.end()) && (!stylesv2::marker_moved_to_v2(marker)))
-        {
-          // Deal with a known style.
-          const database::styles1::Item& style = styles.at(marker);
-          switch (style.type)
-          {
-            default:
-            {
-              // This marker is not yet implemented.
-              // Add it to the fallout, plus any text that follows the marker.
-              add_to_fallout (R"(Marker not yet implemented \)" + marker + ", possible formatting error:", true);
-              break;
-            }
-          }
-        }
-        else if (const stylesv2::Style* style {database::styles2::get_marker_data (m_stylesheet, marker)}; style) {
+        if (const stylesv2::Style* style {database::styles2::get_marker_data (m_stylesheet, marker)}; style) {
           switch (style->type) {
             case stylesv2::Type::starting_boundary:
             case stylesv2::Type::none:
@@ -650,7 +629,8 @@ void Filter_Text::process_usfm ()
               // Open a paragraph for the notes.
               // It takes the style of the footnote content marker, usually 'ft'.
               // This is done specifically for the version that has the notes only.
-              ensureNoteParagraphStyle (standard_content_marker_foot_end_note, styles[standard_content_marker_foot_end_note]);
+              const stylesv2::Style* ft_style = database::styles2::get_marker_data(m_stylesheet, standard_content_marker_foot_end_note);
+              ensure_note_paragraph_style (standard_content_marker_foot_end_note, ft_style);
               if (odf_text_notes)
                 odf_text_notes->new_paragraph (standard_content_marker_foot_end_note);
               // Property::on_left_page -> no headings implemented yet.
@@ -731,8 +711,8 @@ void Filter_Text::process_usfm ()
               // Deal with the case of a pending chapter number.
               if (!m_output_chapter_text_at_first_verse.empty()) {
                 if (!database::config::bible::get_export_chapter_drop_caps_frames (m_bible)) {
-                  int dropCapsLength = static_cast<int>( filter::strings::unicode_string_length (m_output_chapter_text_at_first_verse));
-                  applyDropCapsToCurrentParagraph (dropCapsLength);
+                  const int drop_caps_length = static_cast<int>( filter::strings::unicode_string_length (m_output_chapter_text_at_first_verse));
+                  apply_drop_caps_to_current_paragraph (drop_caps_length);
                   if (odf_text_standard) odf_text_standard->add_text (m_output_chapter_text_at_first_verse);
                   if (odf_text_text_only) odf_text_text_only->add_text (m_output_chapter_text_at_first_verse);
                   if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->add_text (m_output_chapter_text_at_first_verse);
@@ -1231,7 +1211,8 @@ void Filter_Text::processNote ()
           case stylesv2::Type::footnote_wrapper:
           {
             if (is_opening_marker) {
-              ensureNoteParagraphStyle (marker, styles [standard_content_marker_foot_end_note]);
+              const stylesv2::Style* ft_style = database::styles2::get_marker_data(m_stylesheet, standard_content_marker_foot_end_note);
+              ensure_note_paragraph_style (marker, ft_style);
               const std::string citation = get_note_citation (marker);
               if (odf_text_standard)
                 odf_text_standard->add_note (citation, marker);
@@ -1272,7 +1253,8 @@ void Filter_Text::processNote ()
           case stylesv2::Type::endnote_wrapper:
           {
             if (is_opening_marker) {
-              ensureNoteParagraphStyle (marker, styles[standard_content_marker_foot_end_note]);
+              const stylesv2::Style* ft_style = database::styles2::get_marker_data(m_stylesheet, standard_content_marker_foot_end_note);
+              ensure_note_paragraph_style (marker, ft_style);
               const std::string citation = get_note_citation (marker);
               if (odf_text_standard)
                 odf_text_standard->add_note (citation, marker, true);
@@ -1370,9 +1352,11 @@ void Filter_Text::processNote ()
           case stylesv2::Type::crossreference_wrapper:
           {
             if (is_opening_marker) {
-              ensureNoteParagraphStyle (marker, styles[standard_content_marker_cross_reference]);
+              const stylesv2::Style* xt_style = database::styles2::get_marker_data(m_stylesheet, standard_content_marker_cross_reference);
+              ensure_note_paragraph_style (marker, xt_style);
               std::string citation = get_note_citation (stylev2->marker);
-              if (odf_text_standard) odf_text_standard->add_note (citation, marker);
+              if (odf_text_standard)
+                odf_text_standard->add_note (citation, marker);
               // Note citation in superscript in the document with text and note citations.
               if (odf_text_text_and_note_citations) {
                 std::vector <std::string> current_text_styles = odf_text_text_and_note_citations->m_current_text_style;
@@ -1382,19 +1366,23 @@ void Filter_Text::processNote ()
               }
               // Add a space if the paragraph has text already.
               if (odf_text_notes) {
-                if (odf_text_notes->m_current_paragraph_content != "") {
+                if (!odf_text_notes->m_current_paragraph_content.empty()) {
                   odf_text_notes->add_text (" ");
                 }
               }
               // Add the note citation. And a no-break space (NBSP) after it.
-              if (odf_text_notes) odf_text_notes->add_text (citation + filter::strings::non_breaking_space_u00A0());
+              if (odf_text_notes)
+                odf_text_notes->add_text (citation + filter::strings::non_breaking_space_u00A0());
               // Open note in the web page.
-              ensureNoteParagraphStyle (standard_content_marker_cross_reference, styles[standard_content_marker_cross_reference]);
-              if (html_text_standard) html_text_standard->add_note (citation, standard_content_marker_cross_reference);
-              if (html_text_linked) html_text_linked->add_note (citation, standard_content_marker_cross_reference);
+              ensure_note_paragraph_style (standard_content_marker_cross_reference, xt_style);
+              if (html_text_standard)
+                html_text_standard->add_note (citation, standard_content_marker_cross_reference);
+              if (html_text_linked)
+                html_text_linked->add_note (citation, standard_content_marker_cross_reference);
               // Online Bible: Skip notes.
               //if ($this->onlinebible_text) $this->onlinebible_text->addNote ();
-              if (text_text) text_text->note ();
+              if (text_text)
+                text_text->note ();
               // Handle opening notes in plain text.
               notes_plain_text_handler ();
               // Set flag.
@@ -1641,41 +1629,10 @@ void Filter_Text::produceFalloutDocument (std::string path)
 // This function ensures that a certain paragraph style is in the OpenDocument.
 // $style: The style to use.
 // $keepWithNext: Whether to keep this paragraph with the next one.
-void Filter_Text::create_paragraph_style (const database::styles1::Item & style, bool keepWithNext)
-{
-  std::string marker = style.marker;
-  if (find (createdStyles.begin(), createdStyles.end(), marker) == createdStyles.end()) {
-    std::string fontname = database::config::bible::get_export_font (m_bible);
-    float fontsize = style.fontsize;
-    int italic = style.italic;
-    int bold = style.bold;
-    int underline = style.underline;
-    int smallcaps = style.smallcaps;
-    int alignment = style.justification;
-    float spacebefore = style.spacebefore;
-    float spaceafter = style.spaceafter;
-    float leftmargin = style.leftmargin;
-    float rightmargin = style.rightmargin;
-    float firstlineindent = style.firstlineindent;
-    // Columns are not implemented at present. Reason:
-    // Copying and pasting sections with columns between documents in LibreOffice failed to work.
-    // int spancolumns = style.spancolumns;
-    int dropcaps = 0;
-    if (odf_text_standard) odf_text_standard->create_paragraph_style (marker, fontname, fontsize, italic, bold, underline, smallcaps, alignment, spacebefore, spaceafter, leftmargin, rightmargin, firstlineindent, keepWithNext, dropcaps);
-    if (odf_text_text_only) odf_text_text_only->create_paragraph_style (marker, fontname, fontsize, italic, bold, underline, smallcaps, alignment, spacebefore, spaceafter, leftmargin, rightmargin, firstlineindent, keepWithNext, dropcaps);
-    if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->create_paragraph_style (marker, fontname, fontsize, italic, bold, underline, smallcaps, alignment, spacebefore, spaceafter, leftmargin, rightmargin, firstlineindent, keepWithNext, dropcaps);
-    createdStyles.push_back (marker);
-  }
-}
-
-
-// This function ensures that a certain paragraph style is in the OpenDocument.
-// $style: The style to use.
-// $keepWithNext: Whether to keep this paragraph with the next one.
 void Filter_Text::create_paragraph_style (const stylesv2::Style* style, bool keep_with_next)
 {
   const std::string marker = style->marker;
-  if (find (createdStyles.begin(), createdStyles.end(), marker) == createdStyles.end()) {
+  if (find (created_styles.begin(), created_styles.end(), marker) == created_styles.end()) {
     const std::string font_name = database::config::bible::get_export_font (m_bible);
     if (style->paragraph) {
       const auto& paragraph = style->paragraph.value();
@@ -1701,27 +1658,9 @@ void Filter_Text::create_paragraph_style (const stylesv2::Style* style, bool kee
       if (odf_text_text_and_note_citations)
         odf_text_text_and_note_citations->create_paragraph_style (marker, font_name, font_size, italic, bold, underline, smallcaps, text_alignment, space_before, space_after, left_margin, right_margin, first_line_indent, keep_with_next, drop_caps);
     }
-    createdStyles.push_back (marker);
+    created_styles.push_back (marker);
   }
 }
-
-
-// This function ensures that a certain paragraph style is in the OpenDocument,
-// and then opens a paragraph with that style.
-// $style: The style to use.
-// $keepWithNext: Whether to keep this paragraph with the next one.
-void Filter_Text::new_paragraph (const database::styles1::Item & style, bool keepWithNext)
-{
-  create_paragraph_style(style, keepWithNext);
-  std::string marker = style.marker;
-  if (odf_text_standard) odf_text_standard->new_paragraph (marker);
-  if (odf_text_text_only) odf_text_text_only->new_paragraph (marker);
-  if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->new_paragraph (marker);
-  if (html_text_standard) html_text_standard->new_paragraph (marker);
-  if (html_text_linked) html_text_linked->new_paragraph (marker);
-  if (text_text) text_text->paragraph (); 
-}
-
 
 
 // This function ensures that a certain paragraph style is in the OpenDocument,
@@ -1750,36 +1689,47 @@ void Filter_Text::new_paragraph (const stylesv2::Style* style, bool keep_with_ne
 // This applies the drop caps setting to the current paragraph style.
 // This is for the chapter number to appear in drop caps in the OpenDocument.
 // $dropCapsLength: Number of characters to put in drop caps.
-void Filter_Text::applyDropCapsToCurrentParagraph (int dropCapsLength)
+void Filter_Text::apply_drop_caps_to_current_paragraph (int drop_caps_length)
 {
   // To name a style according to the number of characters to put in drop caps,
   // e.g. a style name like p_c1 or p_c2 or p_c3.
   if (odf_text_standard) {
-    std::string combined_style = odf_text_standard->m_current_paragraph_style + "_" + chapter_marker + std::to_string (dropCapsLength);
-    if (find (createdStyles.begin(), createdStyles.end(), combined_style) == createdStyles.end()) {
-      database::styles1::Item style = styles[odf_text_standard->m_current_paragraph_style];
-      std::string fontname = database::config::bible::get_export_font (m_bible);
-      float fontsize = style.fontsize;
-      int italic = style.italic;
-      int bold = style.bold;
-      int underline = style.underline;
-      int smallcaps = style.smallcaps;
-      int alignment = style.justification;
-      float spacebefore = style.spacebefore;
-      float spaceafter = style.spaceafter;
-      float leftmargin = style.leftmargin;
-      float rightmargin = style.rightmargin;
-      float firstlineindent = 0; // First line that contains the chapter number in drop caps is not indented.
+    std::string combined_style = odf_text_standard->m_current_paragraph_style + "_" + chapter_marker + std::to_string (drop_caps_length);
+    if (find (created_styles.begin(), created_styles.end(), combined_style) == created_styles.end()) {
+      const stylesv2::Style* style = database::styles2::get_marker_data(m_stylesheet, odf_text_standard->m_current_paragraph_style);
+      if (!style)
+        return;
+      if (!style->paragraph)
+        return;
+      const std::string font_name = database::config::bible::get_export_font (m_bible);
+      const float font_size = style->paragraph.value().font_size;
+      const auto italic = style->paragraph.value().italic;
+      const auto bold = style->paragraph.value().bold;
+      const auto underline = style->paragraph.value().underline;
+      const auto smallcaps = style->paragraph.value().smallcaps;
+      const auto text_alignment = style->paragraph.value().text_alignment;
+      const float space_before = style->paragraph.value().space_before;
+      const float space_after = style->paragraph.value().space_after;
+      const float left_margin = style->paragraph.value().left_margin;
+      const float right_margin = style->paragraph.value().right_margin;
+      // First line that contains the chapter number in drop caps is not indented.
+      constexpr float first_line_indent {0};
       //int spancolumns = style.spancolumns;
-      bool keepWithNext = false;
-      if (odf_text_standard) odf_text_standard->create_paragraph_style (combined_style, fontname, fontsize, italic, bold, underline, smallcaps, alignment, spacebefore, spaceafter, leftmargin, rightmargin, firstlineindent, keepWithNext, dropCapsLength);
-      if (odf_text_text_only) odf_text_text_only->create_paragraph_style (combined_style, fontname, fontsize, italic, bold, underline, smallcaps, alignment, spacebefore, spaceafter, leftmargin, rightmargin, firstlineindent, keepWithNext, dropCapsLength);
-      if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->create_paragraph_style (combined_style, fontname, fontsize, italic, bold, underline, smallcaps, alignment, spacebefore, spaceafter, leftmargin, rightmargin, firstlineindent, keepWithNext, dropCapsLength);
-      createdStyles.push_back (combined_style);
+      constexpr bool keep_with_next {false};
+      if (odf_text_standard)
+        odf_text_standard->create_paragraph_style (combined_style, font_name, font_size, italic, bold, underline, smallcaps, text_alignment, space_before, space_after, left_margin, right_margin, first_line_indent, keep_with_next, drop_caps_length);
+      if (odf_text_text_only)
+        odf_text_text_only->create_paragraph_style (combined_style, font_name, font_size, italic, bold, underline, smallcaps, text_alignment, space_before, space_after, left_margin, right_margin, first_line_indent, keep_with_next, drop_caps_length);
+      if (odf_text_text_and_note_citations)
+        odf_text_text_and_note_citations->create_paragraph_style (combined_style, font_name, font_size, italic, bold, underline, smallcaps, text_alignment, space_before, space_after, left_margin, right_margin, first_line_indent, keep_with_next, drop_caps_length);
+      created_styles.push_back (combined_style);
     }
-    if (odf_text_standard) odf_text_standard->update_current_paragraph_style (combined_style);
-    if (odf_text_text_only) odf_text_text_only->update_current_paragraph_style (combined_style);
-    if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->update_current_paragraph_style (combined_style);
+    if (odf_text_standard)
+      odf_text_standard->update_current_paragraph_style (combined_style);
+    if (odf_text_text_only)
+      odf_text_text_only->update_current_paragraph_style (combined_style);
+    if (odf_text_text_and_note_citations)
+      odf_text_text_and_note_citations->update_current_paragraph_style (combined_style);
   }
 }
 
@@ -1836,29 +1786,37 @@ std::string Filter_Text::get_note_citation (const std::string& marker)
 // This function ensures that a certain paragraph style for a note is present in the OpenDocument.
 // $marker: Which note, e.g. 'f' or 'x' or 'fe'.
 // $style: The style to use.
-void Filter_Text::ensureNoteParagraphStyle (std::string marker, const database::styles1::Item & style)
+void Filter_Text::ensure_note_paragraph_style (std::string marker, const stylesv2::Style* style)
 {
-  if (find (createdStyles.begin(), createdStyles.end(), marker) == createdStyles.end()) {
-    std::string fontname = database::config::bible::get_export_font (m_bible);
-    float fontsize = style.fontsize;
-    int italic = style.italic;
-    int bold = style.bold;
-    int underline = style.underline;
-    int smallcaps = style.smallcaps;
-    int alignment = style.justification;
-    float spacebefore = style.spacebefore;
-    float spaceafter = style.spaceafter;
-    float leftmargin = style.leftmargin;
-    float rightmargin = style.rightmargin;
-    float firstlineindent = style.firstlineindent;
+  if (find (created_styles.begin(), created_styles.end(), marker) == created_styles.end()) {
+    if (!style)
+      return;
+    if (!style->paragraph)
+      return;
+    const std::string font_name = database::config::bible::get_export_font (m_bible);
+    const float font_size = style->paragraph.value().font_size;
+    const auto italic = style->paragraph.value().italic;
+    const auto bold = style->paragraph.value().bold;
+    const auto underline = style->paragraph.value().underline;
+    const auto smallcaps = style->paragraph.value().smallcaps;
+    const auto text_alignment = style->paragraph.value().text_alignment;
+    const float space_before = style->paragraph.value().space_before;
+    const float space_after = style->paragraph.value().space_after;
+    const float left_margin = style->paragraph.value().left_margin;
+    const float right_margin = style->paragraph.value().right_margin;
+    const float first_line_indent = style->paragraph.value().first_line_indent;
     //bool spancolumns = false;
-    bool keepWithNext = false;
-    int dropcaps = 0;
-    if (odf_text_standard) odf_text_standard->create_paragraph_style (marker, fontname, fontsize, italic, bold, underline, smallcaps, alignment, spacebefore, spaceafter, leftmargin, rightmargin, firstlineindent, keepWithNext, dropcaps);
-    if (odf_text_text_only) odf_text_text_only->create_paragraph_style (marker, fontname, fontsize, italic, bold, underline, smallcaps, alignment, spacebefore, spaceafter, leftmargin, rightmargin, firstlineindent, keepWithNext, dropcaps);
-    if (odf_text_text_and_note_citations) odf_text_text_and_note_citations->create_paragraph_style (marker, fontname, fontsize, italic, bold, underline, smallcaps, alignment, spacebefore, spaceafter, leftmargin, rightmargin, firstlineindent, keepWithNext, dropcaps);
-    if (odf_text_notes) odf_text_notes->create_paragraph_style (marker, fontname, fontsize, italic, bold, underline, smallcaps, alignment, 0, 0, 0, 0, 0, keepWithNext, dropcaps);
-    createdStyles.push_back (marker);
+    constexpr const bool keep_with_next = false;
+    constexpr const int dropcaps = 0;
+    if (odf_text_standard)
+      odf_text_standard->create_paragraph_style (marker, font_name, font_size, italic, bold, underline, smallcaps, text_alignment, space_before, space_after, left_margin, right_margin, first_line_indent, keep_with_next, dropcaps);
+    if (odf_text_text_only)
+      odf_text_text_only->create_paragraph_style (marker, font_name, font_size, italic, bold, underline, smallcaps, text_alignment, space_before, space_after, left_margin, right_margin, first_line_indent, keep_with_next, dropcaps);
+    if (odf_text_text_and_note_citations)
+      odf_text_text_and_note_citations->create_paragraph_style (marker, font_name, font_size, italic, bold, underline, smallcaps, text_alignment, space_before, space_after, left_margin, right_margin, first_line_indent, keep_with_next, dropcaps);
+    if (odf_text_notes)
+      odf_text_notes->create_paragraph_style (marker, font_name, font_size, italic, bold, underline, smallcaps, text_alignment, 0, 0, 0, 0, 0, keep_with_next, dropcaps);
+    created_styles.push_back (marker);
   }
 }
 

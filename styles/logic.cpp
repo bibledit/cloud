@@ -114,10 +114,6 @@ bool styles_logic_paragraph_treats_are_relevant (int type)
 // Returns the $value as human readable text.
 std::string styles_logic_alignment_text (int value)
 {
-  if (value == AlignmentLeft   ) return translate ("Left align");
-  if (value == AlignmentCenter ) return translate ("Center");
-  if (value == AlignmentRight  ) return translate ("Right align");
-  if (value == AlignmentJustify) return translate ("Justify");
   return "--";
 }
 

@@ -23,13 +23,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/libraries.h>
 
 
-// Old styles logic, to be replaced one by one. Todo
-
-#define AlignmentLeft      0 
-#define AlignmentCenter    1 
-#define AlignmentRight     2 
-#define AlignmentJustify   3 
-
+// Old styles logic, to be removed. Todo
 
 #define UserBool1None                      0 
 #define UserBool1PrintChapterAtFirstVerse  1 

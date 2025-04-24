@@ -380,9 +380,6 @@ std::string styles_view (Webserver_Request& webserver_request)
     Dialog_List dialog_list = Dialog_List ("view", translate("Would you like to change the text alignment of this style?"), std::string(), std::string());
     dialog_list.add_query ("sheet", sheet);
     dialog_list.add_query ("style", style);
-    for (int i = AlignmentLeft; i <= AlignmentJustify; i++) {
-      dialog_list.add_row (styles_logic_alignment_text (i), "justification", std::to_string (i));
-    }
     page += dialog_list.run ();
     return page;
   }

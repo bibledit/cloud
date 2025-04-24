@@ -23,61 +23,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <config/libraries.h>
 
 
-// Old styles logic, to be removed. Todo
-
-#define UserBool1None                      0 
-#define UserBool1PrintChapterAtFirstVerse  1 
-#define UserBool1NoteAppliesToApocrypha    3 
-#define UserBool1VerseRestartsParagraph    4 
-
-
-#define UserBool2None                        0 
-#define UserBool2IdStartsOddPage             1  // \id: whether to start an odd page number. Not implemented due to limitations in OpenDocument.
-#define UserBool2ChapterInLeftRunningHeader  2  // Chapter number (\c): Whether to include it in the left running header.
-
-
-#define UserBool3None                          0 
-#define UserBool3ChapterInRightRunningHeader   1  // Chapter number (\c): Whether to include it in the right running header.
-
-
-#define UserInt1None               0 
-#define UserInt1NoteNumbering      1  // Applies to footnote, endnote, crossreference.
-#define UserInt1TableColumnNumber  2 
-
-
-#define UserInt2None                   0 
-#define UserInt2NoteNumberingRestart   1  // Applies to footnote, crossreference.
-#define UserInt2EndnotePosition        2 
-
-
-#define UserInt3None                   0 
-
-
-#define UserString1None                    0 
-
-
-#define UserString2None              0 
-#define UserString2DumpEndnotesHere  1  // Endnotes: dump notes upon encountering this marker.
-
-
-#define UserString3None  0 
-
-
-#define NoteNumbering123   0 
-#define NoteNumberingAbc   1 
-#define NoteNumberingUser  2 
-
-
-#define NoteRestartNumberingNever         0 
-#define NoteRestartNumberingEveryBook     1 
-#define NoteRestartNumberingEveryChapter  2 
-
-
-#define EndNotePositionAfterBook  0 
-#define EndNotePositionVeryEnd    1 
-#define EndNotePositionAtMarker   2 
-
-
 std::string styles_logic_standard_sheet ();
 std::string styles_logic_category_text (std::string category);
 std::string styles_logic_type_text (int type);

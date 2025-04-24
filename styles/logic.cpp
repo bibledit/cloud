@@ -142,19 +142,13 @@ bool styles_logic_print_is_relevant ()
 // Returns the function of userbool1.
 int styles_logic_get_userbool1_function ()
 {
-  return UserBool1None;
+  return 0;
 }
 
 
 // Returns the text of userbool1's function.
 std::string styles_logic_get_userbool1_text (int function)
 {
-  switch (function) {
-    case UserBool1PrintChapterAtFirstVerse: return translate ("Print chapter number at first verse");
-    case UserBool1NoteAppliesToApocrypha: return translate ("Refers to the Apocrypha");
-    case UserBool1VerseRestartsParagraph: return translate ("Restart paragraph");
-    default: return "--";
-  }
   return std::string();
 }
 
@@ -164,18 +158,13 @@ int styles_logic_get_userbool2_function (int type, int subtype)
 {
   (void) type;
   (void) subtype;
-  return UserBool2None;
+  return 0;
 }
 
 
 // Returns the text of userbool2's function.
 std::string styles_logic_get_userbool2_text (int function)
 {
-  switch (function) {
-    case UserBool2IdStartsOddPage: return translate ("New page starts with an odd number (not implemented due to limitations in OpenDocument)");
-    case UserBool2ChapterInLeftRunningHeader: return translate ("Print chapter number in the running header of the left page");
-    default: return std::string();
-  }
   return std::string();
 }
 
@@ -185,17 +174,13 @@ int styles_logic_get_userbool3_function (int type, int subtype)
 {
   (void) type;
   (void) subtype;
-  return UserBool3None;
+  return 0;
 }
 
 
 // Returns the text of userbool3's function.
 std::string styles_logic_get_userbool3_text (int function)
 {
-  switch (function) {
-    case UserBool3ChapterInRightRunningHeader: return translate ("Print chapter number in the running header of the right page");
-    default: return std::string();
-  }
   return std::string();
 }
 
@@ -203,16 +188,13 @@ std::string styles_logic_get_userbool3_text (int function)
 // Returns the function of userint1.
 int styles_logic_get_userint1_function ()
 {
-  return UserInt1None;
+  return 0;
 }
 
 
 // Returns the value as human readable text for note numbering.
 std::string styles_logic_note_numbering_text (int value)
 {
-  if (value == NoteNumbering123 ) return "1, 2, 3 ...";
-  if (value == NoteNumberingAbc ) return "a, b, c ...";
-  if (value == NoteNumberingUser) return translate ("User defined sequence");
   return std::to_string (value);
 }
 
@@ -220,16 +202,13 @@ std::string styles_logic_note_numbering_text (int value)
 // Returns the function of userint2.
 int styles_logic_get_userint2_function ()
 {
-  return UserInt2None;
+  return 0;
 }
 
 
 // Returns the value as human readable text for when to restart the note numbering.
 std::string styles_logic_note_restart_numbering_text (int value)
 {
-  if (value == NoteRestartNumberingNever       ) return translate ("Never");
-  if (value == NoteRestartNumberingEveryBook   ) return translate ("Every book");
-  if (value == NoteRestartNumberingEveryChapter) return translate ("Every chapter");
   return std::to_string (value);
 }
 
@@ -237,9 +216,6 @@ std::string styles_logic_note_restart_numbering_text (int value)
 // Returns the value as human readable text for the position of the endnotes.
 std::string styles_logic_end_note_position_text (int value)
 {
-  if (value == EndNotePositionAfterBook) return translate ("After each book");
-  if (value == EndNotePositionVeryEnd  ) return translate ("After everything else");
-  if (value == EndNotePositionAtMarker ) return translate ("Upon encountering a certain marker");
   return std::to_string (value);
 }
 
@@ -249,21 +225,21 @@ int styles_logic_get_userint3_function (int type, int subtype)
 {
   if (type) {};
   if (subtype) {};
-  return UserInt3None;
+  return 0;
 }
 
 
 // Returns the function of userstring1 for type.
 int styles_logic_get_userstring1_function (int type)
 {
-  return UserString1None;
+  return 0;
 }
 
 
 // Returns the function of userstring2 for type and subtype
 int styles_logic_get_userstring2_function ([[maybe_unused]]int type, [[maybe_unused]]int subtype)
 {
-  return UserString2None;
+  return 0;
 }
 
 
@@ -272,7 +248,7 @@ int styles_logic_get_userstring3_function (int type, int subtype)
 {
   if (type) {};
   if (subtype) {};
-  return UserString3None;
+  return 0;
 }
 
 

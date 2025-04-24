@@ -752,8 +752,6 @@
 /stylesv2
 /styles/view2.html
 /styles/view2.js
-/styles/view.html
-/styles/view.js
 /sword
 /sword/dev.txt
 /sword/locales.d

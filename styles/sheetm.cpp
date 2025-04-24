@@ -110,45 +110,6 @@ std::string styles_sheetm (Webserver_Request& webserver_request)
 
   pugi::xml_document html_block {};
 
-  // Get the markers and names for styles v1.
-  // Any markers v2 marked as implemented, do not display those.
-  {
-    std::map<std::string,std::string> markers_names_v1 {database::styles1::get_markers_and_names (name)};
-    for (const auto& item : markers_names_v1) {
-      const std::string marker = item.first;
-      const std::string marker_name = translate(item.second);
-      const stylesv2::Style* stylev2 {database::styles2::get_marker_data (name, marker)};
-      if (stylev2)
-        continue;
-      pugi::xml_node tr_node = html_block.append_child("tr");
-      {
-        pugi::xml_node td_node = tr_node.append_child("td");
-        pugi::xml_node a_node = td_node.append_child("a");
-        const std::string href = "view" "?sheet=" + name + "&style=" + marker;
-        a_node.append_attribute("href") = href.c_str();
-        a_node.text().set(marker.c_str());
-      }
-      {
-        pugi::xml_node td_node = tr_node.append_child("td");
-        td_node.text().set(marker_name.c_str());
-      }
-      {
-        pugi::xml_node td_node = tr_node.append_child("td");
-        td_node.append_child("span").text().set("[");
-        pugi::xml_node a_node = td_node.append_child("a");
-        const std::string href = "?name=" + name + "&delete=" + marker;
-        a_node.append_attribute("href") = href.c_str();
-        a_node.text().set(translate("delete").c_str());
-        td_node.append_child("span").text().set("]");
-      }
-    }
-  }
-  {
-    pugi::xml_node tr_node = html_block.append_child("tr");
-    for (int i{0}; i < 3; i++)
-      tr_node.append_child("td").text().set("--");
-  }
-
   // List the styles v2 in the overview.
   {
     const auto get_and_sort_markers_v2 = [] (const auto& name) {

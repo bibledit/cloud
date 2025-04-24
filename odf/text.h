@@ -59,8 +59,7 @@ public:
                                const bool keep_with_next,
                                const int dropcaps);
   void update_current_paragraph_style (std::string name);
-  void open_text_style (const database::styles1::Item* stylev1, const stylesv2::Style* stylev2,
-                        bool note, bool embed);
+  void open_text_style (const stylesv2::Style* stylev2, bool note, bool embed);
   void close_text_style (bool note, bool embed);
   void place_text_in_frame (const std::string& text, const std::string& style,
                             const float fontsize, const stylesv2::TwoState italic, const stylesv2::TwoState bold);

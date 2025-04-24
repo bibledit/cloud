@@ -124,33 +124,13 @@ TEST_F (opendocument, basic_note)
 }
 
 
-TEST_F (opendocument, basic_formatted_test_v1)
-{
-  const database::styles1::Item add = database::styles1::get_marker_data (styles_logic_standard_sheet (), "add");
-  odf_text odf_text (bible);
-  odf_text.new_paragraph ();
-  odf_text.add_text ("text");
-  odf_text.open_text_style (&add, nullptr, false, false);
-  odf_text.add_text ("add");
-  odf_text.close_text_style (false, false);
-  odf_text.add_text ("normal");
-  odf_text.add_text (".");
-  odf_text.save (tmp_test_odt);
-  int ret = odf2txt (tmp_test_odt, tmp_test_txt);
-  EXPECT_EQ (0, ret);
-  std::string odt = filter_url_file_get_contents (tmp_test_txt);
-  std::string standard = "textaddnormal.";
-  EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (odt));
-}
-
-
 TEST_F (opendocument, basic_formatted_test_v2)
 {
   const stylesv2::Style* pro = database::styles2::get_marker_data (styles_logic_standard_sheet (), "pro");
   odf_text odf_text (bible);
   odf_text.new_paragraph ();
   odf_text.add_text ("text");
-  odf_text.open_text_style (nullptr, pro, false, false);
+  odf_text.open_text_style (pro, false, false);
   odf_text.add_text ("pronunciation");
   odf_text.close_text_style (false, false);
   odf_text.add_text ("normal");
@@ -164,30 +144,6 @@ TEST_F (opendocument, basic_formatted_test_v2)
 }
 
 
-TEST_F (opendocument, basic_formatted_note_v1)
-{
-  const database::styles1::Item add = database::styles1::get_marker_data (styles_logic_standard_sheet (), "add");
-  odf_text odf_text (bible);
-  odf_text.new_paragraph ();
-  odf_text.add_text ("Text");
-  odf_text.add_note ("𐌰", "f");
-  odf_text.open_text_style (&add, nullptr, true, false);
-  odf_text.add_note_text ("Add");
-  odf_text.close_text_style (true, false);
-  odf_text.add_note_text ("normal");
-  odf_text.add_text (".");
-  odf_text.save (tmp_test_odt);
-  int ret = odf2txt (tmp_test_odt, tmp_test_txt);
-  EXPECT_EQ (0, ret);
-  std::string odt = filter_url_file_get_contents (tmp_test_txt);
-  std::string standard = ""
-  "Text𐌰Addnormal\n"
-  "\n"
-  ".\n";
-  EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (odt));
-}
-
-
 TEST_F (opendocument, basic_formatted_note_v2)
 {
   const stylesv2::Style* pro = database::styles2::get_marker_data (styles_logic_standard_sheet (), "pro");
@@ -195,7 +151,7 @@ TEST_F (opendocument, basic_formatted_note_v2)
   odf_text.new_paragraph ();
   odf_text.add_text ("Text");
   odf_text.add_note ("𐌰", "f");
-  odf_text.open_text_style (nullptr, pro, true, false);
+  odf_text.open_text_style (pro, true, false);
   odf_text.add_note_text ("Pronunciation");
   odf_text.close_text_style (true, false);
   odf_text.add_note_text ("Normal");
@@ -229,9 +185,9 @@ TEST_F (opendocument, embedded_formatted_text)
   odf_text odf_text (bible);
   odf_text.new_paragraph ();
   odf_text.add_text ("text");
-  odf_text.open_text_style (nullptr, &add2, false, false);
+  odf_text.open_text_style (&add2, false, false);
   odf_text.add_text ("add");
-  odf_text.open_text_style (nullptr, &pro2, false, true);
+  odf_text.open_text_style (&pro2, false, true);
   odf_text.add_text ("pro");
   odf_text.close_text_style (false, false);
   odf_text.add_text ("normal");
@@ -263,9 +219,9 @@ TEST_F (opendocument, embedded_formatted_note)
   odf_text.new_paragraph ();
   odf_text.add_text ("text");
   odf_text.add_note ("𐌰", "f");
-  odf_text.open_text_style (nullptr, &add2, true, false);
+  odf_text.open_text_style (&add2, true, false);
   odf_text.add_note_text ("add");
-  odf_text.open_text_style (nullptr, &pro2, true, true);
+  odf_text.open_text_style (&pro2, true, true);
   odf_text.add_note_text ("pro");
   odf_text.close_text_style (true, false);
   odf_text.add_note_text ("normal");

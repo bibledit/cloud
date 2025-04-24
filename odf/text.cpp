@@ -810,12 +810,9 @@ void odf_text::update_current_paragraph_style (std::string name)
 // $style: the object with the style variables.
 // $note: Whether this refers to notes.
 // $embed: boolean: Whether nest $style in an existing character style.
-void odf_text::open_text_style (const database::styles1::Item* stylev1, const stylesv2::Style* stylev2,
-                                bool note, bool embed)
+void odf_text::open_text_style (const stylesv2::Style* stylev2, bool note, bool embed)
 {
-  const auto get_marker = [stylev1, stylev2]() {
-    if (stylev1)
-      return stylev1->marker;
+  const auto get_marker = [stylev2]() {
     if (stylev2)
       return stylev2->marker;
     return std::string();
@@ -825,9 +822,6 @@ void odf_text::open_text_style (const database::styles1::Item* stylev1, const st
   if (find (created_styles.begin(), created_styles.end(), marker) == created_styles.end()) {
     created_styles.push_back (marker);
 
-    const auto get_on_v1 = [](const int value) {
-      return false;
-    };
     const auto get_on_v2 = [](const stylesv2::FourState state) {
       return ((state == stylesv2::FourState::on) || (state == stylesv2::FourState::toggle));
     };
@@ -845,9 +839,7 @@ void odf_text::open_text_style (const database::styles1::Item* stylev1, const st
 
     // Italics, bold, underline, small caps can be ooitOff or ooitOn or ooitInherit or ooitToggle.
     // Not all features are implemented.
-    const auto get_italic = [stylev1, stylev2, &get_on_v1, &get_on_v2]() {
-      if (stylev1)
-        return get_on_v1 (stylev1->italic);
+    const auto get_italic = [stylev2, &get_on_v2]() {
       if (stylev2)
         if (stylev2->character)
           return get_on_v2 (stylev2->character.value().italic);
@@ -859,9 +851,7 @@ void odf_text::open_text_style (const database::styles1::Item* stylev1, const st
       style_text_properties_dom_element.append_attribute ("style:font-style-complex") = "italic";
     }
 
-    const auto get_bold = [stylev1, stylev2, &get_on_v1, &get_on_v2]() {
-      if (stylev1)
-        return get_on_v1 (stylev1->bold);
+    const auto get_bold = [stylev2, &get_on_v2]() {
       if (stylev2)
         if (stylev2->character)
           return get_on_v2 (stylev2->character.value().bold);
@@ -873,9 +863,7 @@ void odf_text::open_text_style (const database::styles1::Item* stylev1, const st
       style_text_properties_dom_element.append_attribute ("style:font-weight-complex") = "bold";
     }
 
-    const auto get_underline = [stylev1, stylev2, &get_on_v1, &get_on_v2]() {
-      if (stylev1)
-        return get_on_v1 (stylev1->underline);
+    const auto get_underline = [stylev2, &get_on_v2]() {
       if (stylev2)
         if (stylev2->character)
           return get_on_v2 (stylev2->character.value().underline);
@@ -887,9 +875,7 @@ void odf_text::open_text_style (const database::styles1::Item* stylev1, const st
       style_text_properties_dom_element.append_attribute ("style:text-underline-color") = "font-color";
     }
     
-    const auto get_smallcaps = [stylev1, stylev2, &get_on_v1, &get_on_v2]() {
-      if (stylev1)
-        return get_on_v1 (stylev1->smallcaps);
+    const auto get_smallcaps = [stylev2, &get_on_v2]() {
       if (stylev2)
         if (stylev2->character)
           return get_on_v2 (stylev2->character.value().smallcaps);
@@ -899,9 +885,7 @@ void odf_text::open_text_style (const database::styles1::Item* stylev1, const st
       style_text_properties_dom_element.append_attribute ("fo:font-variant") = "small-caps";
     }
 
-    const auto get_superscript = [stylev1, stylev2, &get_on_v1] () {
-      if (stylev1)
-        return get_on_v1 (stylev1->superscript);
+    const auto get_superscript = [stylev2] () {
       if (stylev2)
         if (stylev2->character)
           return (stylev2->character.value().superscript == stylesv2::TwoState::on);
@@ -913,9 +897,7 @@ void odf_text::open_text_style (const database::styles1::Item* stylev1, const st
       style_text_properties_dom_element.append_attribute ("style:text-position") = "super";
     }
 
-    const auto get_foreground_color = [stylev1, stylev2] () {
-      if (stylev1)
-        return stylev1->color;
+    const auto get_foreground_color = [stylev2] () {
       if (stylev2)
         if (stylev2->character)
         return stylev2->character.value().foreground_color;
@@ -926,9 +908,7 @@ void odf_text::open_text_style (const database::styles1::Item* stylev1, const st
       style_text_properties_dom_element.append_attribute ("fo:color") = foreground_color.c_str();
     }
 
-    const auto get_background_color = [stylev1, stylev2] () {
-      if (stylev1)
-        return stylev1->backgroundcolor;
+    const auto get_background_color = [stylev2] () {
       if (stylev2)
         if (stylev2->character)
         return stylev2->character.value().background_color;

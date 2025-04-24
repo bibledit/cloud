@@ -773,11 +773,11 @@ void Filter_Text::process_usfm ()
                   }
                 }
                 if (odf_text_standard)
-                  odf_text_standard->open_text_style (nullptr, style, false, false);
+                  odf_text_standard->open_text_style (style, false, false);
                 if (odf_text_text_only)
-                  odf_text_text_only->open_text_style (nullptr, style, false, false);
+                  odf_text_text_only->open_text_style (style, false, false);
                 if (odf_text_text_and_note_citations)
-                  odf_text_text_and_note_citations->open_text_style (nullptr, style, false, false);
+                  odf_text_text_and_note_citations->open_text_style (style, false, false);
                 if (html_text_standard)
                   html_text_standard->open_text_style (nullptr, style, false, false);
                 if (html_text_linked)
@@ -952,11 +952,11 @@ void Filter_Text::process_usfm ()
               // Support for a normal and an embedded character style.
               if (is_opening_marker) {
                 if (odf_text_standard)
-                  odf_text_standard->open_text_style (nullptr, style, false, is_embedded_marker);
+                  odf_text_standard->open_text_style (style, false, is_embedded_marker);
                 if (odf_text_text_only)
-                  odf_text_text_only->open_text_style (nullptr, style, false, is_embedded_marker);
+                  odf_text_text_only->open_text_style (style, false, is_embedded_marker);
                 if (odf_text_text_and_note_citations)
-                  odf_text_text_and_note_citations->open_text_style (nullptr, style, false, is_embedded_marker);
+                  odf_text_text_and_note_citations->open_text_style (style, false, is_embedded_marker);
                 if (html_text_standard)
                   html_text_standard->open_text_style (nullptr, style, false, is_embedded_marker);
                 if (html_text_linked)
@@ -1303,9 +1303,9 @@ void Filter_Text::processNote ()
           {
             if (is_opening_marker) {
               if (odf_text_standard)
-                odf_text_standard->open_text_style (nullptr, stylev2, true, isEmbeddedMarker);
+                odf_text_standard->open_text_style (stylev2, true, isEmbeddedMarker);
               if (odf_text_notes)
-                odf_text_notes->open_text_style (nullptr, stylev2, false, isEmbeddedMarker);
+                odf_text_notes->open_text_style (stylev2, false, isEmbeddedMarker);
               if (html_text_standard)
                 html_text_standard->open_text_style (nullptr, stylev2, true, isEmbeddedMarker);
               if (html_text_linked)
@@ -1327,9 +1327,9 @@ void Filter_Text::processNote ()
             // The style of this is not yet implemented properly: It does not yet open a new paragraph.
             if (is_opening_marker) {
               if (odf_text_standard)
-                odf_text_standard->open_text_style (nullptr, stylev2, true, isEmbeddedMarker);
+                odf_text_standard->open_text_style (stylev2, true, isEmbeddedMarker);
               if (odf_text_notes)
-                odf_text_notes->open_text_style (nullptr, stylev2, false, isEmbeddedMarker);
+                odf_text_notes->open_text_style (stylev2, false, isEmbeddedMarker);
               if (html_text_standard)
                 html_text_standard->open_text_style (nullptr, stylev2, true, isEmbeddedMarker);
               if (html_text_linked)
@@ -1408,9 +1408,9 @@ void Filter_Text::processNote ()
           {
             if (is_opening_marker) {
               if (odf_text_standard)
-                odf_text_standard->open_text_style (nullptr, stylev2, true, isEmbeddedMarker);
+                odf_text_standard->open_text_style (stylev2, true, isEmbeddedMarker);
               if (odf_text_notes)
-                odf_text_notes->open_text_style (nullptr, stylev2, false, isEmbeddedMarker);
+                odf_text_notes->open_text_style (stylev2, false, isEmbeddedMarker);
               if (html_text_standard)
                 html_text_standard->open_text_style (nullptr, stylev2, true, isEmbeddedMarker);
               if (html_text_linked)

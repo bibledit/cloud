@@ -60,28 +60,11 @@ void Styles_Css::generate ()
   if (editor_enabled) {
     add_editor_styles ();
   }
-  {
-    const std::vector <std::string> markers = database::styles1::get_markers (m_stylesheet);
-    for (const auto& marker : markers) {
-      if (!stylesv2::marker_moved_to_v2 (marker)) {
-        database::styles1::Item style = database::styles1::get_marker_data (m_stylesheet, marker);
-        evaluate_v1 (std::addressof(style));
-      }
-    }
+  const std::vector <std::string> markers = database::styles2::get_markers (m_stylesheet);
+  for (const auto& marker : markers) {
+    const stylesv2::Style* style = database::styles2::get_marker_data (m_stylesheet, marker);
+    evaluate_v2 (style);
   }
-  {
-    const std::vector <std::string> markers = database::styles2::get_markers (m_stylesheet);
-    for (const auto& marker : markers) {
-      const stylesv2::Style* style = database::styles2::get_marker_data (m_stylesheet, marker);
-      evaluate_v2 (style);
-    }
-  }
-}
-
-
-// Evaluates the style so as to decide how it should look.
-void Styles_Css::evaluate_v1 (void * database_styles_item)
-{
 }
 
 
@@ -163,15 +146,6 @@ void Styles_Css::evaluate_v2 (const stylesv2::Style* style)
     default:
       break;
   }
-}
-
-
-// This function adds a style to the internal CSS.
-// $style: Array with the Bibledit style information.
-// $paragraph: True: Is paragraph. False: Is inline text.
-// $keepwithnext: Keep text in this style together with the next paragraph.
-void Styles_Css::add_v1 (void * database_styles_item, bool paragraph, bool keepwithnext)
-{
 }
 
 

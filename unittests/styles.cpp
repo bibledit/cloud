@@ -1152,6 +1152,7 @@ TEST_F (styles, marker_starts_new_line_in_usfm)
         case Type::verse:
           return true;
         case Type::published_verse_marker:
+        case Type::alternate_verse_marker:
           return false;
         case Type::table_row:
           return true;

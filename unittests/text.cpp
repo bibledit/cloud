@@ -1488,6 +1488,7 @@ TEST_F (filter_text, usfm_with_all_markers)
   R"(<p class="imte2"><span>Introduction main title ending 2</span></p>)"
   R"(<p class="c"><span>1 (2)</span><span> </span><span> </span><span> </span><span> </span></p>)"
   R"(<p class="p"><span class="v">1b</span><span> </span><span>Text name</span><span class="pro">pronunciation</span><span>.</span></p>)"
+  R"(<p class="p"><span class="v">2</span><span> </span><span> text</span></p>)"
   R"(<p class="c"><span>Psalm</span></p>)"
   R"(<p class="p"><span class="v">1</span><span> </span><span>Normal </span><span class="add">added</span><span> and </span><span class="addpn">AddPn</span></p>)"
   R"(<p class="c"><span>א</span></p>)"

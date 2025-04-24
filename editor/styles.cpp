@@ -162,6 +162,7 @@ std::string Editor_Styles::get_action (Webserver_Request& webserver_request, con
       case stylesv2::Type::verse:
         return character();
       case stylesv2::Type::published_verse_marker:
+      case stylesv2::Type::alternate_verse_marker:
         return character();
       case stylesv2::Type::table_row:
       case stylesv2::Type::table_heading:

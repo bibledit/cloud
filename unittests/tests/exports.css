@@ -13,10 +13,6 @@ a:hover { text-decoration: underline; }
 a:hover .popup { display:block; }
 .rt, .i-rt {
 }
-.va, .i-va {
-font-size: x-small;
-vertical-align: super;
-}
 .imt, .b-imt {
 font-size: 117%;
 font-weight: bold;

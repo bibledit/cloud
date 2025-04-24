@@ -296,6 +296,8 @@ void Filter_Text::pre_process_usfm ()
                 published_verse_markers.push_back (filter::text::passage_marker_value (m_current_book_identifier, m_current_chapter_number, m_current_verse_number, marker, published_verse_marker));
                 break;
               }
+              case stylesv2::Type::alternate_verse_marker:
+                break;
               case stylesv2::Type::table_row:
               case stylesv2::Type::table_heading:
               case stylesv2::Type::table_cell:
@@ -1003,6 +1005,13 @@ void Filter_Text::process_usfm ()
               }
               break;
             }
+            case stylesv2::Type::alternate_verse_marker:
+            {
+              if (is_opening_marker) {
+                add_to_info("Alternate verse marker:", true);
+              }
+              break;
+            }
             case stylesv2::Type::table_row:
             {
               if (odf_text_standard)
@@ -1315,6 +1324,7 @@ void Filter_Text::processNote ()
             break;
           }
           case stylesv2::Type::published_verse_marker:
+          case stylesv2::Type::alternate_verse_marker:
           case stylesv2::Type::table_row:
           case stylesv2::Type::table_heading:
           case stylesv2::Type::table_cell:

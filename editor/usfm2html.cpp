@@ -311,8 +311,10 @@ void Editor_Usfm2Html::process ()
             break;
           }
           case stylesv2::Type::published_verse_marker:
+          case stylesv2::Type::alternate_verse_marker:
           {
             // Treat the \vp ...\vp* marker as inline text.
+            // Same for \va ...\va*.
             if (is_opening_marker) {
               open_text_style (style->marker, is_embedded_marker);
             } else {

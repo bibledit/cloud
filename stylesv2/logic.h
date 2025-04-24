@@ -44,6 +44,7 @@ enum class Type : int {
   alternate_chapter_number,
   verse,
   published_verse_marker,
+  alternate_verse_marker,
   table_row,
   table_heading,
   table_cell,

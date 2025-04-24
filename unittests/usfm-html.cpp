@@ -2202,6 +2202,7 @@ TEST_F (usfm_html, usfm_with_all_markers)
   R"(<p class="b-c"><span>1</span></p>)"
   R"(<p class="b-mono"><span>\ca </span><span>2</span><span>\ca*</span></p>)"
   R"(<p class="b-p"><span class="i-v">1</span><span> </span><span class="i-vp">1b</span><span> Text name</span><span class="i-pro">pronunciation</span><span>.</span></p>)"
+  R"(<p class="b-p"><span class="i-v">2</span><span> </span><span class="i-va">3</span><span> text</span></p>)"
   R"(<p class="b-c"><span>2</span></p>)"
   R"(<p class="b-mono"><span>\cl </span><span>Psalm</span></p>)"
   R"(<p class="b-p"><span class="i-v">1</span><span> </span><span>Normal </span><span class="i-add">added</span><span> and </span><span class="i-addpn">AddPn</span></p>)"

@@ -93,10 +93,6 @@ bool styles_logic_italic_bold_underline_smallcaps_are_full (int type)
 // Returns the $value as human readable text.
 std::string styles_logic_off_on_inherit_toggle_text (int value)
 {
-  if (value == ooitOff    ) return translate ("Off");
-  if (value == ooitOn     ) return translate ("On");
-  if (value == ooitInherit) return translate ("Inherit");
-  if (value == ooitToggle ) return translate ("Toggle");
   return "--";
 }
 

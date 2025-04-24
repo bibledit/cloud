@@ -261,9 +261,7 @@ std::string styles_view (Webserver_Request& webserver_request)
       dialog_list.add_query ("sheet", sheet);
       dialog_list.add_query ("style", style);
       database::styles1::Item style_item = database::styles1::get_marker_data (sheet, style);
-      int last_value {ooitOn};
-      if (styles_logic_italic_bold_underline_smallcaps_are_full (style_item.type))
-        last_value = ooitToggle;
+      int last_value {0};
       for (int i = 0; i <= last_value; i++) {
         dialog_list.add_row (styles_logic_off_on_inherit_toggle_text (i), "italic", std::to_string (i));
       }
@@ -289,9 +287,7 @@ std::string styles_view (Webserver_Request& webserver_request)
       dialog_list.add_query ("sheet", sheet);
       dialog_list.add_query ("style", style);
       database::styles1::Item style_data = database::styles1::get_marker_data (sheet, style);
-      int last_value {ooitOn};
-      if (styles_logic_italic_bold_underline_smallcaps_are_full (style_data.type))
-        last_value = ooitToggle;
+      int last_value {0};
       for (int i = 0; i <= last_value; i++) {
         dialog_list.add_row (styles_logic_off_on_inherit_toggle_text (i), "bold", std::to_string (i));
       }
@@ -317,9 +313,7 @@ std::string styles_view (Webserver_Request& webserver_request)
       dialog_list.add_query ("sheet", sheet);
       dialog_list.add_query ("style", style);
       database::styles1::Item style_data = database::styles1::get_marker_data (sheet, style);
-      int last_value {ooitOn};
-      if (styles_logic_italic_bold_underline_smallcaps_are_full (type))
-        last_value = ooitToggle;
+      int last_value {0};
       for (int i = 0; i <= last_value; i++) {
         dialog_list.add_row (styles_logic_off_on_inherit_toggle_text (i), "underline", std::to_string (i));
       }
@@ -345,9 +339,7 @@ std::string styles_view (Webserver_Request& webserver_request)
       dialog_list.add_query ("sheet", sheet);
       dialog_list.add_query ("style", style);
       database::styles1::Item style_data = database::styles1::get_marker_data (sheet, style);
-      int last_value {ooitOn};
-      if (styles_logic_italic_bold_underline_smallcaps_are_full (style_data.type))
-        last_value = ooitToggle;
+      int last_value {0};
       for (int i = 0; i <= last_value; i++) {
         dialog_list.add_row (styles_logic_off_on_inherit_toggle_text (i), "smallcaps", std::to_string (i));
       }

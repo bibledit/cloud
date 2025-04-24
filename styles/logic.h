@@ -25,18 +25,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 // Old styles logic, to be replaced one by one. Todo
 
-#define ParagraphSubtypeMainTitle                  0 
-#define ParagraphSubtypeSubTitle                   1 
-#define ParagraphSubtypeSectionHeading             2 
-#define ParagraphSubtypeNormalParagraph            3 
-
-
-#define ooitOff      0
-#define ooitOn       1 
-#define ooitInherit  2 
-#define ooitToggle   3 
-
-
 #define AlignmentLeft      0 
 #define AlignmentCenter    1 
 #define AlignmentRight     2 

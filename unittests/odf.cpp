@@ -212,10 +212,10 @@ TEST_F (opendocument, basic_formatted_note_v2)
 }
 
 
-TEST_F (opendocument, embedded_formatted_text)
+TEST_F (opendocument, embedded_formatted_text) // Todo move to v2?
 {
   database::styles1::Item add = database::styles1::get_marker_data (styles_logic_standard_sheet (), "add");
-  add.italic = ooitOn;
+  //add.italic = ooitOn;
   add.bold = 0;
   add.underline = 0;
   add.smallcaps = 0;
@@ -244,10 +244,10 @@ TEST_F (opendocument, embedded_formatted_text)
 }
 
 
-TEST_F (opendocument, embedded_formatted_note)
+TEST_F (opendocument, embedded_formatted_note) // Todo fix.
 {
   database::styles1::Item add = database::styles1::get_marker_data (styles_logic_standard_sheet (), "add");
-  add.italic = ooitOn;
+//  add.italic = ooitOn;
   add.bold = 0;
   add.underline = 0;
   add.smallcaps = 0;

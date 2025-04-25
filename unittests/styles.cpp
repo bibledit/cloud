@@ -586,7 +586,7 @@ TEST_F (styles, editors_application)
     { "rb", "c"},
     { "rem", "m"},
     { "rq", "p"},
-    { "rt", "c"},
+    { "rt", "u"}, // Not a supported style anymore, hence "unknown".
     { "s", "p"},
     { "s1", "p"},
     { "s2", "p"},
@@ -621,7 +621,7 @@ TEST_F (styles, editors_application)
     { "thr3", "m"},
     { "thr4", "m"},
     { "tl", "c"},
-    { "toc", "m"},
+    { "toc", "u"}, // Not supported: "unknown".
     { "toc1", "m"},
     { "toc2", "m"},
     { "toc3", "m"},

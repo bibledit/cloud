@@ -73,40 +73,9 @@ struct Item
 };
 
 
-void add_marker (const std::string& sheet, const std::string& marker);
-void delete_marker (const std::string& sheet, const std::string& marker);
 std::map <std::string, std::string> get_markers_and_names (const std::string& sheet);
 std::vector <std::string> get_markers (const std::string& sheet);
 Item get_marker_data (const std::string& sheet, const std::string& marker);
-void update_name (const std::string& sheet, const std::string& marker, const std::string& name);
-void update_info (const std::string& sheet, const std::string& marker, const std::string& info);
-void update_category (const std::string& sheet, const std::string& marker, const std::string& category);
-void update_type (const std::string& sheet, const std::string& marker, int type);
-void update_sub_type (const std::string& sheet, const std::string& marker, int subtype);
-void update_fontsize (const std::string& sheet, const std::string& marker, float fontsize);
-void update_italic (const std::string& sheet, const std::string& marker, int italic);
-void update_bold (const std::string& sheet, const std::string& marker, int bold);
-void update_underline (const std::string& sheet, const std::string& marker, int underline);
-void update_smallcaps (const std::string& sheet, const std::string& marker, int smallcaps);
-void update_superscript (const std::string& sheet, const std::string& marker, int superscript);
-void update_justification (const std::string& sheet, const std::string& marker, int justification);
-void update_space_before (const std::string& sheet, const std::string& marker, float spacebefore);
-void update_space_after (const std::string& sheet, const std::string& marker, float spaceafter);
-void update_left_margin (const std::string& sheet, const std::string& marker, float leftmargin);
-void update_right_margin (const std::string& sheet, const std::string& marker, float rightmargin);
-void update_first_line_indent (const std::string& sheet, const std::string& marker, float firstlineindent);
-void update_span_columns (const std::string& sheet, const std::string& marker, bool spancolumns);
-void update_color (const std::string& sheet, const std::string& marker, const std::string& color);
-void update_print (const std::string& sheet, const std::string& marker, bool print);
-void update_userbool1 (const std::string& sheet, const std::string& marker, bool userbool1);
-void update_userbool2 (const std::string& sheet, const std::string& marker, bool userbool2);
-void update_userbool3 (const std::string& sheet, const std::string& marker, bool userbool3);
-void update_userint1 (const std::string& sheet, const std::string& marker, int userint1);
-void update_userint2 (const std::string& sheet, const std::string& marker, int userint2);
-void update_userstring1 (const std::string& sheet, const std::string& marker, const std::string& userstring1);
-void update_userstring2 (const std::string& sheet, const std::string& marker, const std::string& userstring2);
-void update_userstring3 (const std::string& sheet, const std::string& marker, const std::string& userstring3);
-void update_background_color (const std::string& sheet, const std::string& marker, const std::string& color);
 
 } // End namespace styles1
 

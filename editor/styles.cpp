@@ -47,11 +47,13 @@ std::string Editor_Styles::get_recently_used (Webserver_Request& webserver_reque
   const std::vector <std::string> styles = filter::strings::explode (s_styles, ' ');
   std::string fragment = translate("Select style") + ": ";
   for (const auto& marker : styles) {
-    if (!fragment.empty()) fragment.append (" | ");
-    database::styles1::Item data = database::styles1::get_marker_data (stylesheet, marker);
-    if (data.marker.empty ()) continue;
-    const std::string name = translate(data.name) + " (" + marker + ")";
-    const std::string info = translate(data.info);
+    if (!fragment.empty())
+      fragment.append (" | ");
+    const stylesv2::Style* style = database::styles2::get_marker_data (stylesheet, marker);
+    if (!style)
+      continue;
+    const std::string name = translate(style->name) + " (" + marker + ")";
+    const std::string info = translate(style->info);
     pugi::xml_document document;
     pugi::xml_node a_node = document.append_child("a");
     a_node.append_attribute("href") = marker.c_str();
@@ -81,7 +83,7 @@ std::string Editor_Styles::get_all (Webserver_Request& webserver_request)
   const std::string stylesheet = database::config::bible::get_editor_stylesheet (bible);
   
   // The styles.
-  const std::map <std::string, std::string> data = database::styles1::get_markers_and_names (stylesheet);
+  const std::map <std::string, std::string> data = database::styles2::get_markers_and_names (stylesheet);
   
   std::vector <std::string> lines{};
   
@@ -94,10 +96,12 @@ std::string Editor_Styles::get_all (Webserver_Request& webserver_request)
     const std::string& marker = item.first;
     std::string name = item.second;
     name = translate (name);
-    database::styles1::Item marker_data = database::styles1::get_marker_data (stylesheet, marker);
-    std::string category = marker_data.category;
-    category = styles_logic_category_text (category);
-    const std::string line2 = marker + " " + name + " (" + category + ")";
+    const stylesv2::Style* style = database::styles2::get_marker_data (stylesheet, marker);
+    if (!style)
+      continue;
+    std::stringstream category{};
+    category << style->category;
+    const std::string line2 = marker + " " + name + " (" + category.str() + ")";
     lines.push_back ("<option>" + line2 + "</option>");
   }
   

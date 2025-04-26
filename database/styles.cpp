@@ -225,13 +225,13 @@ bool has_write_access (const std::string& user, const std::string& sheet)
 namespace database::styles1 {
 
 
-static std::string stylefile (const std::string& sheet, const std::string& marker)
+std::string stylefile (const std::string& sheet, const std::string& marker)
 {
   return filter_url_create_path ({styles::sheetfolder (sheet), marker});
 }
 
 
-static void cache_defaults ()
+void cache_defaults ()
 {
   // The amount of style values in the table.
   unsigned int data_count = sizeof (styles_table) / sizeof (*styles_table);
@@ -283,7 +283,7 @@ static void cache_defaults ()
 
 // Reads a style from file.
 // If the file is not there, it takes the default value.
-static Item read_item (const std::string& sheet, const std::string& marker)
+Item read_item (const std::string& sheet, const std::string& marker)
 {
   Item item;
   
@@ -374,7 +374,7 @@ static Item read_item (const std::string& sheet, const std::string& marker)
 }
 
 
-static void write_item (const std::string& sheet, Item& item)
+void write_item (const std::string& sheet, Item& item)
 {
   // The style is saved to file here.
   // When the style is loaded again from file, the various parts of the style are loaded by line number.
@@ -428,23 +428,6 @@ static void write_item (const std::string& sheet, Item& item)
 }
 
 
-// Adds a marker to the stylesheet.
-void add_marker (const std::string& sheet, const std::string& marker)
-{
-  Item item = read_item (sheet, marker);
-  write_item (sheet, item);
-}
-
-
-// Deletes a marker from a stylesheet.
-void delete_marker (const std::string& sheet, const std::string& marker)
-{
-  filter_url_unlink (stylefile (sheet, marker));
-  std::scoped_lock lock (database_styles_cache_mutex);
-  database_styles_cache.clear ();
-}
-
-
 // Returns a map with all the markers and the names of the styles in the stylesheet.
 std::map <std::string, std::string> get_markers_and_names (const std::string& sheet)
 {
@@ -489,248 +472,6 @@ std::vector <std::string> get_markers (const std::string& sheet)
 Item get_marker_data (const std::string& sheet, const std::string& marker)
 {
   return database::styles1::read_item (sheet, marker);
-}
-
-
-// Updates a style's name.
-void update_name (const std::string& sheet, const std::string& marker, const std::string& name)
-{
-  database::styles1::Item item = database::styles1::read_item (sheet, marker);
-  item.name = name;
-  write_item (sheet, item);
-}
-
-
-// Updates a style's info.
-void update_info (const std::string& sheet, const std::string& marker, const std::string& info)
-{
-  database::styles1::Item item = database::styles1::read_item (sheet, marker);
-  item.info = info;
-  write_item (sheet, item);
-}
-
-
-// Updates a style's category.
-void update_category (const std::string& sheet, const std::string& marker, const std::string& category)
-{
-  database::styles1::Item item = database::styles1::read_item (sheet, marker);
-  item.category = category;
-  write_item (sheet, item);
-}
-
-
-// Updates a style's type.
-void update_type (const std::string& sheet, const std::string& marker, int type)
-{
-  database::styles1::Item item = database::styles1::read_item (sheet, marker);
-  item.type = type;
-  write_item (sheet, item);
-}
-
-
-// Updates a style's subtype.
-void update_sub_type (const std::string& sheet, const std::string& marker, int subtype)
-{
-  database::styles1::Item item = database::styles1::read_item (sheet, marker);
-  item.subtype = subtype;
-  write_item (sheet, item);
-}
-
-
-// Updates a style's font size.
-void update_fontsize (const std::string& sheet, const std::string& marker, float fontsize)
-{
-  database::styles1::Item item = database::styles1::read_item (sheet, marker);
-  item.fontsize = fontsize;
-  write_item (sheet, item);
-}
-
-
-// Updates a style's italic setting.
-void update_italic (const std::string& sheet, const std::string& marker, int italic)
-{
-  database::styles1::Item item = database::styles1::read_item (sheet, marker);
-  item.italic = italic;
-  write_item (sheet, item);
-}
-
-
-// Updates a style's bold setting.
-void update_bold (const std::string& sheet, const std::string& marker, int bold)
-{
-  database::styles1::Item item = database::styles1::read_item (sheet, marker);
-  item.bold = bold;
-  write_item (sheet, item);
-}
-
-
-// Updates a style's underline setting.
-void update_underline (const std::string& sheet, const std::string& marker, int underline)
-{
-  database::styles1::Item item = database::styles1::read_item (sheet, marker);
-  item.underline = underline;
-  write_item (sheet, item);
-}
-
-
-// Updates a style's small caps setting.
-void update_smallcaps (const std::string& sheet, const std::string& marker, int smallcaps)
-{
-  database::styles1::Item item = database::styles1::read_item (sheet, marker);
-  item.smallcaps = smallcaps;
-  write_item (sheet, item);
-}
-
-
-void update_superscript (const std::string& sheet, const std::string& marker, int superscript)
-{
-  database::styles1::Item item = database::styles1::read_item (sheet, marker);
-  item.superscript = superscript;
-  write_item (sheet, item);
-}
-
-
-void update_justification (const std::string& sheet, const std::string& marker, int justification)
-{
-  database::styles1::Item item = database::styles1::read_item (sheet, marker);
-  item.justification = justification;
-  write_item (sheet, item);
-}
-
-
-void update_space_before (const std::string& sheet, const std::string& marker, float spacebefore)
-{
-  database::styles1::Item item = database::styles1::read_item (sheet, marker);
-  item.spacebefore = spacebefore;
-  write_item (sheet, item);
-}
-
-
-void update_space_after (const std::string& sheet, const std::string& marker, float spaceafter)
-{
-  database::styles1::Item item = database::styles1::read_item (sheet, marker);
-  item.spaceafter = spaceafter;
-  write_item (sheet, item);
-}
-
-
-void update_left_margin (const std::string& sheet, const std::string& marker, float leftmargin)
-{
-  database::styles1::Item item = database::styles1::read_item (sheet, marker);
-  item.leftmargin = leftmargin;
-  write_item (sheet, item);
-}
-
-
-void update_right_margin (const std::string& sheet, const std::string& marker, float rightmargin)
-{
-  database::styles1::Item item = database::styles1::read_item (sheet, marker);
-  item.rightmargin = rightmargin;
-  write_item (sheet, item);
-}
-
-
-void update_first_line_indent (const std::string& sheet, const std::string& marker, float firstlineindent)
-{
-  database::styles1::Item item = database::styles1::read_item (sheet, marker);
-  item.firstlineindent = firstlineindent;
-  write_item (sheet, item);
-}
-
-
-void update_span_columns (const std::string& sheet, const std::string& marker, bool spancolumns)
-{
-  database::styles1::Item item = database::styles1::read_item (sheet, marker);
-  item.spancolumns = spancolumns;
-  write_item (sheet, item);
-}
-
-
-void update_color (const std::string& sheet, const std::string& marker, const std::string& color)
-{
-  database::styles1::Item item = database::styles1::read_item (sheet, marker);
-  item.color = color;
-  write_item (sheet, item);
-}
-
-
-void update_print (const std::string& sheet, const std::string& marker, bool print)
-{
-  database::styles1::Item item = database::styles1::read_item (sheet, marker);
-  item.print = print;
-  write_item (sheet, item);
-}
-
-
-void update_userbool1 (const std::string& sheet, const std::string& marker, bool userbool1)
-{
-  database::styles1::Item item = database::styles1::read_item (sheet, marker);
-  item.userbool1 = userbool1;
-  write_item (sheet, item);
-}
-
-
-void update_userbool2 (const std::string& sheet, const std::string& marker, bool userbool2)
-{
-  database::styles1::Item item = database::styles1::read_item (sheet, marker);
-  item.userbool2 = userbool2;
-  write_item (sheet, item);
-}
-
-
-void update_userbool3 (const std::string& sheet, const std::string& marker, bool userbool3)
-{
-  database::styles1::Item item = database::styles1::read_item (sheet, marker);
-  item.userbool3 = userbool3;
-  write_item (sheet, item);
-}
-
-
-void update_userint1 (const std::string& sheet, const std::string& marker, int userint1)
-{
-  database::styles1::Item item = database::styles1::read_item (sheet, marker);
-  item.userint1 = userint1;
-  write_item (sheet, item);
-}
-
-
-void update_userint2 (const std::string& sheet, const std::string& marker, int userint2)
-{
-  database::styles1::Item item = database::styles1::read_item (sheet, marker);
-  item.userint2 = userint2;
-  write_item (sheet, item);
-}
-
-
-void update_userstring1 (const std::string& sheet, const std::string& marker, const std::string& userstring1)
-{
-  database::styles1::Item item = database::styles1::read_item (sheet, marker);
-  item.userstring1 = userstring1;
-  write_item (sheet, item);
-}
-
-
-void update_userstring2 (const std::string& sheet, const std::string& marker, const std::string& userstring2)
-{
-  database::styles1::Item item = database::styles1::read_item (sheet, marker);
-  item.userstring2 = userstring2;
-  write_item (sheet, item);
-}
-
-
-void update_userstring3 (const std::string& sheet, const std::string& marker, const std::string& userstring3)
-{
-  database::styles1::Item item = database::styles1::read_item (sheet, marker);
-  item.userstring3 = userstring3;
-  write_item (sheet, item);
-}
-
-
-void update_background_color (const std::string& sheet, const std::string& marker, const std::string& color)
-{
-  database::styles1::Item item = database::styles1::read_item (sheet, marker);
-  item.backgroundcolor = color;
-  write_item (sheet, item);
 }
 
 

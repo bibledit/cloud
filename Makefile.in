@@ -419,12 +419,12 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	tidy/streamio.$(OBJEXT) tidy/tagask.$(OBJEXT) \
 	tidy/tags.$(OBJEXT) tidy/tidylib.$(OBJEXT) \
 	tidy/tmbstr.$(OBJEXT) tidy/utf8.$(OBJEXT) \
-	stylesv2/logic.$(OBJEXT) gumbo/attribute.$(OBJEXT) \
-	gumbo/char_ref.$(OBJEXT) gumbo/error.$(OBJEXT) \
-	gumbo/parser.$(OBJEXT) gumbo/string_buffer.$(OBJEXT) \
-	gumbo/string_piece.$(OBJEXT) gumbo/tag.$(OBJEXT) \
-	gumbo/tokenizer.$(OBJEXT) gumbo/utf8.$(OBJEXT) \
-	gumbo/util.$(OBJEXT) gumbo/vector.$(OBJEXT)
+	gumbo/attribute.$(OBJEXT) gumbo/char_ref.$(OBJEXT) \
+	gumbo/error.$(OBJEXT) gumbo/parser.$(OBJEXT) \
+	gumbo/string_buffer.$(OBJEXT) gumbo/string_piece.$(OBJEXT) \
+	gumbo/tag.$(OBJEXT) gumbo/tokenizer.$(OBJEXT) \
+	gumbo/utf8.$(OBJEXT) gumbo/util.$(OBJEXT) \
+	gumbo/vector.$(OBJEXT)
 libbibledit_a_OBJECTS = $(am_libbibledit_a_OBJECTS)
 am_generate_OBJECTS = executable/generate.$(OBJEXT) \
 	sources/styles.$(OBJEXT)
@@ -791,12 +791,12 @@ am__depfiles_remade = access/$(DEPDIR)/bible.Po \
 	styles/$(DEPDIR)/css.Po styles/$(DEPDIR)/indexm.Po \
 	styles/$(DEPDIR)/logic.Po styles/$(DEPDIR)/sheetm.Po \
 	styles/$(DEPDIR)/sheets.Po styles/$(DEPDIR)/view2.Po \
-	stylesv2/$(DEPDIR)/logic.Po sword/$(DEPDIR)/logic.Po \
-	sync/$(DEPDIR)/bibles.Po sync/$(DEPDIR)/changes.Po \
-	sync/$(DEPDIR)/files.Po sync/$(DEPDIR)/logic.Po \
-	sync/$(DEPDIR)/mail.Po sync/$(DEPDIR)/notes.Po \
-	sync/$(DEPDIR)/resources.Po sync/$(DEPDIR)/settings.Po \
-	sync/$(DEPDIR)/setup.Po sync/$(DEPDIR)/usfmresources.Po \
+	sword/$(DEPDIR)/logic.Po sync/$(DEPDIR)/bibles.Po \
+	sync/$(DEPDIR)/changes.Po sync/$(DEPDIR)/files.Po \
+	sync/$(DEPDIR)/logic.Po sync/$(DEPDIR)/mail.Po \
+	sync/$(DEPDIR)/notes.Po sync/$(DEPDIR)/resources.Po \
+	sync/$(DEPDIR)/settings.Po sync/$(DEPDIR)/setup.Po \
+	sync/$(DEPDIR)/usfmresources.Po \
 	system/$(DEPDIR)/googletranslate.Po system/$(DEPDIR)/index.Po \
 	system/$(DEPDIR)/logic.Po tasks/$(DEPDIR)/logic.Po \
 	tasks/$(DEPDIR)/run.Po text/$(DEPDIR)/text.Po \
@@ -1653,7 +1653,6 @@ libbibledit_a_SOURCES = \
   tidy/tidylib.c \
   tidy/tmbstr.c \
   tidy/utf8.c \
-  stylesv2/logic.cpp \
   gumbo/attribute.c \
   gumbo/char_ref.c \
   gumbo/error.c \
@@ -3495,14 +3494,6 @@ tidy/tmbstr.$(OBJEXT): tidy/$(am__dirstamp) \
 	tidy/$(DEPDIR)/$(am__dirstamp)
 tidy/utf8.$(OBJEXT): tidy/$(am__dirstamp) \
 	tidy/$(DEPDIR)/$(am__dirstamp)
-stylesv2/$(am__dirstamp):
-	@$(MKDIR_P) stylesv2
-	@: >>stylesv2/$(am__dirstamp)
-stylesv2/$(DEPDIR)/$(am__dirstamp):
-	@$(MKDIR_P) stylesv2/$(DEPDIR)
-	@: >>stylesv2/$(DEPDIR)/$(am__dirstamp)
-stylesv2/logic.$(OBJEXT): stylesv2/$(am__dirstamp) \
-	stylesv2/$(DEPDIR)/$(am__dirstamp)
 gumbo/$(am__dirstamp):
 	@$(MKDIR_P) gumbo
 	@: >>gumbo/$(am__dirstamp)
@@ -3807,7 +3798,6 @@ mostlyclean-compile:
 	-rm -f sqlite/*.$(OBJEXT)
 	-rm -f statistics/*.$(OBJEXT)
 	-rm -f styles/*.$(OBJEXT)
-	-rm -f stylesv2/*.$(OBJEXT)
 	-rm -f sword/*.$(OBJEXT)
 	-rm -f sync/*.$(OBJEXT)
 	-rm -f system/*.$(OBJEXT)
@@ -4328,7 +4318,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@styles/$(DEPDIR)/sheetm.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@styles/$(DEPDIR)/sheets.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@styles/$(DEPDIR)/view2.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@stylesv2/$(DEPDIR)/logic.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@sword/$(DEPDIR)/logic.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@sync/$(DEPDIR)/bibles.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@sync/$(DEPDIR)/changes.Po@am__quote@ # am--include-marker
@@ -4988,8 +4977,6 @@ distclean-generic:
 	-$(am__rm_f) statistics/$(am__dirstamp)
 	-$(am__rm_f) styles/$(DEPDIR)/$(am__dirstamp)
 	-$(am__rm_f) styles/$(am__dirstamp)
-	-$(am__rm_f) stylesv2/$(DEPDIR)/$(am__dirstamp)
-	-$(am__rm_f) stylesv2/$(am__dirstamp)
 	-$(am__rm_f) sword/$(DEPDIR)/$(am__dirstamp)
 	-$(am__rm_f) sword/$(am__dirstamp)
 	-$(am__rm_f) sync/$(DEPDIR)/$(am__dirstamp)
@@ -5533,7 +5520,6 @@ distclean: distclean-am
 	-rm -f styles/$(DEPDIR)/sheetm.Po
 	-rm -f styles/$(DEPDIR)/sheets.Po
 	-rm -f styles/$(DEPDIR)/view2.Po
-	-rm -f stylesv2/$(DEPDIR)/logic.Po
 	-rm -f sword/$(DEPDIR)/logic.Po
 	-rm -f sync/$(DEPDIR)/bibles.Po
 	-rm -f sync/$(DEPDIR)/changes.Po
@@ -6224,7 +6210,6 @@ maintainer-clean: maintainer-clean-am
 	-rm -f styles/$(DEPDIR)/sheetm.Po
 	-rm -f styles/$(DEPDIR)/sheets.Po
 	-rm -f styles/$(DEPDIR)/view2.Po
-	-rm -f stylesv2/$(DEPDIR)/logic.Po
 	-rm -f sword/$(DEPDIR)/logic.Po
 	-rm -f sync/$(DEPDIR)/bibles.Po
 	-rm -f sync/$(DEPDIR)/changes.Po

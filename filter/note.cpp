@@ -21,7 +21,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <styles/logic.h>
 #include <filter/string.h>
 #include <database/styles.h>
-#include <stylesv2/logic.h>
 
 
 namespace filter::note {

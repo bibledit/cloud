@@ -19,7 +19,6 @@
 
 #include <styles/view2.h>
 #include <styles/logic.h>
-#include <stylesv2/logic.h>
 #include <assets/view.h>
 #include <assets/page.h>
 #include <dialog/entry.h>

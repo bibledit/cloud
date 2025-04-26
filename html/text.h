@@ -32,7 +32,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <pugixml.hpp>
 #endif
 #pragma GCC diagnostic pop
-#include <stylesv2/logic.h>
+#include <styles/logic.h>
 
 class HtmlText
 {

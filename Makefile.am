@@ -548,7 +548,6 @@ libbibledit_a_SOURCES = \
   tidy/tidylib.c \
   tidy/tmbstr.c \
   tidy/utf8.c \
-  stylesv2/logic.cpp \
   gumbo/attribute.c \
   gumbo/char_ref.c \
   gumbo/error.c \

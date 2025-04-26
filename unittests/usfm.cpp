@@ -25,7 +25,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #pragma GCC diagnostic pop
 #include <unittests/utilities.h>
 #include <styles/logic.h>
-#include <stylesv2/logic.h>
 #include <checks/usfm.h>
 #include <filter/usfm.h>
 #include <filter/url.h>

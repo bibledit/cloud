@@ -27,7 +27,6 @@
 #include <database/config/bible.h>
 #include <fonts/logic.h>
 #include <quill/logic.h>
-#include <stylesv2/logic.h>
 
 
 Styles_Css::Styles_Css (const std::string& stylesheet)

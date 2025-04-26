@@ -24,4 +24,3 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 std::string styles_logic_standard_sheet ();
-std::string styles_logic_category_text (std::string category);

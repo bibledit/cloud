@@ -102,7 +102,7 @@ TEST (checks, french)
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.initializeHeadingsAndTextPerVerse (false);
     filter_text.add_usfm_code (usfm);
-    filter_text.run (styles_logic_standard_sheet ());
+    filter_text.run (stylesv2::standard_sheet ());
     std::vector <std::map <int, std::string>> verses_paragraphs = filter_text.verses_paragraphs;
     checks_french::citation_style (bible, 2, 3, verses_paragraphs);
     std::vector <database::check::Hit> hits = database::check::get_hits ();
@@ -138,7 +138,7 @@ TEST (checks, french)
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.initializeHeadingsAndTextPerVerse (false);
     filter_text.add_usfm_code (usfm);
-    filter_text.run (styles_logic_standard_sheet ());
+    filter_text.run (stylesv2::standard_sheet ());
     std::vector <std::map <int, std::string>> verses_paragraphs = filter_text.verses_paragraphs;
     checks_french::citation_style (bible, 2, 3, verses_paragraphs);
     std::vector <database::check::Hit> hits = database::check::get_hits ();

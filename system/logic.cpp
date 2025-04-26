@@ -154,7 +154,7 @@ void system_logic_import_bibles_file (std::string tarball)
     if (pos != std::string::npos) bible.erase (pos);
     
     // Get details about the USFM to import.
-    const std::string stylesheet = styles_logic_standard_sheet ();
+    const std::string stylesheet = stylesv2::standard_sheet ();
     std::vector <filter::usfm::BookChapterData> book_chapter_text = filter::usfm::usfm_import (data, stylesheet);
     for (auto & book_chapter_data : book_chapter_text) {
       if (book_chapter_data.m_book > 0) {

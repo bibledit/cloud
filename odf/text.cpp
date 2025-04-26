@@ -324,7 +324,7 @@ void odf_text::initialize_styles_xml ()
   }
   {
     pugi::xml_node style_style = office_styles_node.append_child ("style:style");
-    style_style.append_attribute ("style:name") = styles_logic_standard_sheet ().c_str();
+    style_style.append_attribute ("style:name") = stylesv2::standard_sheet ().c_str();
     style_style.append_attribute ("style:family") = "paragraph";
     style_style.append_attribute ("style:class") = "text";
   }
@@ -332,7 +332,7 @@ void odf_text::initialize_styles_xml ()
     pugi::xml_node style_style = office_styles_node.append_child ("style:style");
     style_style.append_attribute ("style:name") = "Heading";
     style_style.append_attribute ("style:family") = "paragraph";
-    style_style.append_attribute ("style:parent-style-name") = styles_logic_standard_sheet ().c_str();
+    style_style.append_attribute ("style:parent-style-name") = stylesv2::standard_sheet ().c_str();
     style_style.append_attribute ("style:next-style-name") = "Text_20_body";
     style_style.append_attribute ("style:class") = "text";
     {
@@ -347,7 +347,7 @@ void odf_text::initialize_styles_xml ()
     style_style.append_attribute ("style:name") = "Text_20_body";
     style_style.append_attribute ("style:display-name") = "Text body";
     style_style.append_attribute ("style:family") = "paragraph";
-    style_style.append_attribute ("style:parent-style-name") = styles_logic_standard_sheet ().c_str();
+    style_style.append_attribute ("style:parent-style-name") = stylesv2::standard_sheet ().c_str();
     style_style.append_attribute ("style:class") = "text";
     {
       pugi::xml_node style_paragraph_properties = style_style.append_child ("style:paragraph-properties");
@@ -359,7 +359,7 @@ void odf_text::initialize_styles_xml ()
     pugi::xml_node style_style = office_styles_node.append_child ("style:style");
     style_style.append_attribute ("style:name") = "Header";
     style_style.append_attribute ("style:family") = "paragraph";
-    style_style.append_attribute ("style:parent-style-name") = styles_logic_standard_sheet ().c_str();
+    style_style.append_attribute ("style:parent-style-name") = stylesv2::standard_sheet ().c_str();
     style_style.append_attribute ("style:class") = "extra";
   }
   {
@@ -367,7 +367,7 @@ void odf_text::initialize_styles_xml ()
     style_style.append_attribute ("style:name") = "Header_20_left";
     style_style.append_attribute ("style:display-name") = "Header left";
     style_style.append_attribute ("style:family") = "paragraph";
-    style_style.append_attribute ("style:parent-style-name") = styles_logic_standard_sheet ().c_str();
+    style_style.append_attribute ("style:parent-style-name") = stylesv2::standard_sheet ().c_str();
     style_style.append_attribute ("style:class") = "extra";
   }
 
@@ -494,7 +494,7 @@ void odf_text::initialize_styles_xml ()
   pugi::xml_node office_master_styles = rootnode.append_child ("office:master-styles");
   {
     pugi::xml_node style_master_page = office_master_styles.append_child ("style:master-page");
-    style_master_page.append_attribute ("style:name") = styles_logic_standard_sheet ().c_str();
+    style_master_page.append_attribute ("style:name") = stylesv2::standard_sheet ().c_str();
     style_master_page.append_attribute ("style:page-layout-name") = "Mpm1";
     {
       pugi::xml_node style_header = style_master_page.append_child ("style:header");

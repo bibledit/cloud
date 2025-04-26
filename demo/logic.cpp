@@ -121,7 +121,7 @@ void demo_clean_data ()
   
   
   // Delete empty stylesheet that may have been there.
-  database::styles::revoke_write_access ("", styles_logic_standard_sheet ());
+  database::styles::revoke_write_access ("", stylesv2::standard_sheet ());
   database::styles::delete_sheet ("");
   styles_sheets_create_all ();
   
@@ -129,8 +129,8 @@ void demo_clean_data ()
   // Set both stylesheets to "Standard" for all Bibles.
   std::vector <std::string> bibles = database::bibles::get_bibles ();
   for (const auto & bible : bibles) {
-    database::config::bible::set_export_stylesheet (bible, styles_logic_standard_sheet ());
-    database::config::bible::set_editor_stylesheet (bible, styles_logic_standard_sheet ());
+    database::config::bible::set_export_stylesheet (bible, stylesv2::standard_sheet ());
+    database::config::bible::set_editor_stylesheet (bible, stylesv2::standard_sheet ());
   }
   
   
@@ -281,7 +281,7 @@ void demo_prepare_sample_bible ()
       std::string usfm = filter_url_file_get_contents (file);
       usfm = filter::strings::collapse_whitespace (usfm);
       // Import the USFM into the sample Bible.
-      std::vector <filter::usfm::BookChapterData> book_chapter_data = filter::usfm::usfm_import (usfm, styles_logic_standard_sheet ());
+      std::vector <filter::usfm::BookChapterData> book_chapter_data = filter::usfm::usfm_import (usfm, stylesv2::standard_sheet ());
       for (const auto & data : book_chapter_data) {
         int book = data.m_book;
         if (book) {

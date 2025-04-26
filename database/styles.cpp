@@ -126,8 +126,8 @@ void create_sheet (const std::string& sheet)
 std::vector <std::string> get_sheets ()
 {
   std::vector <std::string> sheets = filter_url_scandir (databasefolder ());
-  if (find (sheets.begin (), sheets.end (), styles_logic_standard_sheet ()) == sheets.end ()) {
-    sheets.push_back (styles_logic_standard_sheet ());
+  if (find (sheets.begin (), sheets.end (), stylesv2::standard_sheet ()) == sheets.end ()) {
+    sheets.push_back (stylesv2::standard_sheet ());
   }
   std::sort (sheets.begin(), sheets.end());
   return sheets;
@@ -318,7 +318,7 @@ void reset_marker (const std::string& sheet, const std::string& marker)
 const std::list<stylesv2::Style>& get_styles(const std::string& sheet)
 {
   // If the standard stylesheet is requested, return a reference to the standard hard-coded stylesheet.
-  if (sheet == styles_logic_standard_sheet())
+  if (sheet == stylesv2::standard_sheet())
     return stylesv2::styles;
 
   // Make sure the stylesheet has been cached.

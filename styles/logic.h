@@ -19,8 +19,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #pragma once
 
-
 #include <config/libraries.h>
 
+namespace stylesv2 {
 
-std::string styles_logic_standard_sheet ();
+std::string standard_sheet ();
+
+}

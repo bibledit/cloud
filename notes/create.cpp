@@ -128,7 +128,7 @@ std::string notes_create (Webserver_Request& webserver_request)
     std::string versetext;
     std::string chapter_usfm = database::bibles::get_chapter (bible, book, chapter);
     std::string verse_usfm = filter::usfm::get_verse_text (chapter_usfm, verse);
-    const std::string stylesheet = styles_logic_standard_sheet ();
+    const std::string stylesheet = stylesv2::standard_sheet ();
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.text_text = new Text_Text ();
     filter_text.add_usfm_code (verse_usfm);

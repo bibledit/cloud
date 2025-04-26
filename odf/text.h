@@ -40,7 +40,7 @@ class odf_text
 public:
   odf_text (std::string bible);
   ~odf_text ();
-  void new_paragraph (std::string style = styles_logic_standard_sheet ());
+  void new_paragraph (std::string style = stylesv2::standard_sheet ());
   void add_text (std::string text);
   void new_heading1 (std::string text, bool hide = false);
   void create_page_break_style ();

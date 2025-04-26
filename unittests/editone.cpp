@@ -40,7 +40,7 @@ void test_editone_logic_verse_indicator (int verse)
 // Test the logic used in the visual verse editor.
 TEST (editone, logic)
 {
-  const std::string stylesheet = styles_logic_standard_sheet ();
+  const std::string stylesheet = stylesv2::standard_sheet ();
   const std::string directory = filter_url_create_root_path ({"unittests", "tests"});
   
   // Prefix.

@@ -55,28 +55,28 @@ TEST_F (styles, sheets)
 {
   using namespace database::styles;
   
-  const std::vector<std::string> standard {styles_logic_standard_sheet ()};
+  const std::vector<std::string> standard {stylesv2::standard_sheet ()};
   EXPECT_EQ (standard, get_sheets ());
 
   const std::string sheet1 {"sheet1"};
   const std::string sheet2 {"sheet2"};
 
   create_sheet (sheet1);
-  const std::vector<std::string> standard_sheet1 {styles_logic_standard_sheet (), sheet1};
+  const std::vector<std::string> standard_sheet1 {stylesv2::standard_sheet (), sheet1};
   EXPECT_EQ (standard_sheet1, get_sheets ());
 
   create_sheet (sheet2);
-  const std::vector<std::string> standard_sheet1_sheet2 {styles_logic_standard_sheet (), sheet1, sheet2};
+  const std::vector<std::string> standard_sheet1_sheet2 {stylesv2::standard_sheet (), sheet1, sheet2};
   EXPECT_EQ (standard_sheet1_sheet2, get_sheets ());
   
   delete_sheet (sheet1);
-  const std::vector<std::string> standard_sheet2 {styles_logic_standard_sheet (), sheet2};
+  const std::vector<std::string> standard_sheet2 {stylesv2::standard_sheet (), sheet2};
   EXPECT_EQ (standard_sheet2, get_sheets ());
 
   delete_sheet (sheet2);
   EXPECT_EQ (standard, get_sheets ());
   
-  delete_sheet (styles_logic_standard_sheet ());
+  delete_sheet (stylesv2::standard_sheet ());
   EXPECT_EQ (standard, get_sheets ());
 }
 
@@ -319,7 +319,7 @@ TEST_F (styles, spot_check_markers)
   
   std::vector <std::string> markers {};
   
-  markers = database::styles2::get_markers (styles_logic_standard_sheet ());
+  markers = database::styles2::get_markers (stylesv2::standard_sheet ());
   EXPECT_EQ (212, static_cast<int>(markers.size ()));
   
   markers = database::styles2::get_markers (test_sheet);
@@ -660,7 +660,7 @@ TEST_F (styles, get_styles_v2)
   using namespace database::styles2;
 
   // Default stylesheet should have the hard-coded default styles.
-  const std::list<stylesv2::Style>& default_styles = get_styles(styles_logic_standard_sheet ());
+  const std::list<stylesv2::Style>& default_styles = get_styles(stylesv2::standard_sheet ());
   EXPECT_EQ (default_styles.size(), stylesv2::styles.size());
   
   // Do a spot-check on markers.
@@ -985,9 +985,9 @@ TEST_F (styles, get_styles_etc_v2)
   
   // The standard stylesheet has the default number of styles.
   {
-    const std::list<stylesv2::Style>& styles = get_styles(styles_logic_standard_sheet());
+    const std::list<stylesv2::Style>& styles = get_styles(stylesv2::standard_sheet());
     EXPECT_EQ (styles.size(), stylesv2::styles.size());
-    const std::map <std::string, std::string> markers_names = get_markers_and_names (styles_logic_standard_sheet());
+    const std::map <std::string, std::string> markers_names = get_markers_and_names (stylesv2::standard_sheet());
     EXPECT_EQ (markers_names.size(), stylesv2::styles.size());
   }
 

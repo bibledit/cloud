@@ -519,7 +519,7 @@ std::string search_logic_plain_replace_verse_text (std::string usfm)
   filter_text.text_text = new Text_Text ();
   filter_text.initializeHeadingsAndTextPerVerse (true);
   filter_text.add_usfm_code (usfm);
-  filter_text.run (styles_logic_standard_sheet ());
+  filter_text.run (stylesv2::standard_sheet ());
   
   // The resulting plain text.
   std::string plain_text;

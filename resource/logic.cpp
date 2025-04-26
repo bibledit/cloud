@@ -295,7 +295,7 @@ std::string resource_logic_get_verse (Webserver_Request& webserver_request, std:
       chapter_usfm = database::bibles::get_chapter (resource, book, chapter);
     if (isLocalUsfm) chapter_usfm = database_usfmresources.getUsfm (resource, book, chapter);
     std::string verse_usfm = filter::usfm::get_verse_text (chapter_usfm, verse);
-    std::string stylesheet = styles_logic_standard_sheet ();
+    std::string stylesheet = stylesv2::standard_sheet ();
     Filter_Text filter_text = Filter_Text (resource);
     filter_text.html_text_standard = new HtmlText ("");
     filter_text.add_usfm_code (verse_usfm);
@@ -480,7 +480,7 @@ std::string resource_logic_get_contents_for_client (std::string resource, int bo
     Database_UsfmResources database_usfmresources;
     std::string chapter_usfm = database_usfmresources.getUsfm (resource, book, chapter);
     std::string verse_usfm = filter::usfm::get_verse_text (chapter_usfm, verse);
-    std::string stylesheet = styles_logic_standard_sheet ();
+    std::string stylesheet = stylesv2::standard_sheet ();
     Filter_Text filter_text = Filter_Text (resource);
     filter_text.html_text_standard = new HtmlText ("");
     filter_text.add_usfm_code (verse_usfm);

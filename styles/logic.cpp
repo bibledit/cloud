@@ -22,10 +22,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 
 
+namespace stylesv2 {
+
+
 // The name of the "Standard" stylesheet.
-std::string styles_logic_standard_sheet ()
+std::string standard_sheet ()
 {
   return "Standard";
 }
 
 
+} // Namepace.

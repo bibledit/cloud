@@ -1973,7 +1973,7 @@ TEST (notes, restart_numbering_at_chapter)
   Filter_Text filter_text = Filter_Text (std::string());
   filter_text.html_text_standard = new HtmlText (std::string());
   filter_text.add_usfm_code (usfm);
-  filter_text.run (styles_logic_standard_sheet());
+  filter_text.run (stylesv2::standard_sheet());
   const std::string html = filter_text.html_text_standard->get_inner_html();
   const std::string standard_html =
   R"(<p class="p"><span>text</span><a href="#note1" id="citation1" class="superscript">1</a></p>)"

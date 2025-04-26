@@ -79,7 +79,7 @@ TEST_F (filter_text, extract)
   Filter_Text filter_text = Filter_Text (bible);
   filter_text.odf_text_standard = new odf_text (bible);
   filter_text.add_usfm_code (usfm);
-  filter_text.run (styles_logic_standard_sheet ());
+  filter_text.run (stylesv2::standard_sheet ());
   // Check that it finds the running headers.
   const int desiredRunningHeaders = 5;
   const int actualRunningHeaders = static_cast<int>(filter_text.runningHeaders.size());
@@ -210,7 +210,7 @@ TEST_F (filter_text, new_page_between_books)
   Filter_Text filter_text = Filter_Text (bible);
   filter_text.odf_text_standard = new odf_text (bible);
   filter_text.add_usfm_code (usfm);
-  filter_text.run (styles_logic_standard_sheet ());
+  filter_text.run (stylesv2::standard_sheet ());
   filter_text.odf_text_standard->save (text_odt);
   int ret = odf2txt (text_odt, text_txt);
   EXPECT_EQ (0, ret);
@@ -256,7 +256,7 @@ TEST_F (filter_text, books_odt_headers)
   filter_text.odf_text_standard = new odf_text (bible);
   filter_text.add_usfm_code (usfm_ruth);
   filter_text.add_usfm_code (usfm_1_peter);
-  filter_text.run (styles_logic_standard_sheet ());
+  filter_text.run (stylesv2::standard_sheet ());
   filter_text.odf_text_standard->save (text_odt);
   int ret = odf2txt (text_odt, text_txt);
   EXPECT_EQ (0, ret);
@@ -306,7 +306,7 @@ TEST_F (filter_text, transform_verse_numbers)
   Filter_Text filter_text = Filter_Text (bible);
   filter_text.odf_text_standard = new odf_text (bible);
   filter_text.add_usfm_code (usfm);
-  filter_text.run (styles_logic_standard_sheet ());
+  filter_text.run (stylesv2::standard_sheet ());
   filter_text.odf_text_standard->save (text_odt);
   int ret = odf2txt (text_odt, text_txt);
   EXPECT_EQ (0, ret);
@@ -334,7 +334,7 @@ TEST_F (filter_text, footnotes_xrefs_1)
   Filter_Text filter_text = Filter_Text (bible);
   filter_text.odf_text_standard = new odf_text (bible);
   filter_text.add_usfm_code (usfm);
-  filter_text.run (styles_logic_standard_sheet ());
+  filter_text.run (stylesv2::standard_sheet ());
   filter_text.odf_text_standard->save (text_odt);
   const int ret = odf2txt (text_odt, text_txt);
   EXPECT_EQ (0, ret);
@@ -385,7 +385,7 @@ TEST_F (filter_text, footnotes_xrefs_new_chapters)
   Filter_Text filter_text = Filter_Text (bible);
   filter_text.odf_text_standard = new odf_text (bible);
   filter_text.add_usfm_code (usfm);
-  filter_text.run (styles_logic_standard_sheet ());
+  filter_text.run (stylesv2::standard_sheet ());
   filter_text.odf_text_standard->save (text_odt);
   const int ret = odf2txt (text_odt, text_txt);
   EXPECT_EQ (0, ret);
@@ -450,7 +450,7 @@ TEST_F (filter_text, transform_published_verse_numbers)
   Filter_Text filter_text = Filter_Text (bible);
   filter_text.odf_text_standard = new odf_text (bible);
   filter_text.add_usfm_code (usfm);
-  filter_text.run (styles_logic_standard_sheet ());
+  filter_text.run (stylesv2::standard_sheet ());
   filter_text.odf_text_standard->save (text_odt);
   const int ret = odf2txt (text_odt, text_txt);
   EXPECT_EQ (0, ret);
@@ -480,7 +480,7 @@ TEST_F (filter_text, vp_no_space_after_v)
   Filter_Text filter_text = Filter_Text (bible);
   filter_text.text_text = new Text_Text ();
   filter_text.add_usfm_code (usfm);
-  filter_text.run (styles_logic_standard_sheet ());
+  filter_text.run (stylesv2::standard_sheet ());
   const std::string output = filter_text.text_text->get ();
   const std::string standard = R"(
 1
@@ -505,7 +505,7 @@ TEST_F (filter_text, clear_text_export_1)
   Filter_Text filter_text = Filter_Text (bible);
   filter_text.text_text = new Text_Text ();
   filter_text.add_usfm_code (usfm);
-  filter_text.run (styles_logic_standard_sheet ());
+  filter_text.run (stylesv2::standard_sheet ());
   const std::string output = filter_text.text_text->get ();
   const std::string notes = filter_text.text_text->getnote ();
   const std::string standard =
@@ -540,7 +540,7 @@ TEST_F (filter_text, clear_text_export_2)
   Filter_Text filter_text = Filter_Text (bible);
   filter_text.text_text = new Text_Text ();
   filter_text.add_usfm_code (usfm);
-  filter_text.run (styles_logic_standard_sheet ());
+  filter_text.run (stylesv2::standard_sheet ());
   const std::string output = filter_text.text_text->get ();
   const std::string notes = filter_text.text_text->getnote ();
   const std::string standard =
@@ -577,7 +577,7 @@ TEST_F (filter_text, verse_headings_1)
   Filter_Text filter_text = Filter_Text (bible);
   filter_text.initializeHeadingsAndTextPerVerse (false);
   filter_text.add_usfm_code (usfm);
-  filter_text.run (styles_logic_standard_sheet ());
+  filter_text.run (stylesv2::standard_sheet ());
   const std::map <int, std::string> output = filter_text.verses_headings;
   const std::map <int, std::string> standard = { {0, "Heading three"}, {2, "Heading one"}, {3, "Heading two"} };
   EXPECT_EQ (standard, output);
@@ -602,7 +602,7 @@ TEST_F (filter_text, verse_headings_2)
   Filter_Text filter_text = Filter_Text (bible);
   filter_text.initializeHeadingsAndTextPerVerse (false);
   filter_text.add_usfm_code (usfm);
-  filter_text.run (styles_logic_standard_sheet ());
+  filter_text.run (stylesv2::standard_sheet ());
   const std::map <int, std::string> output = filter_text.verses_headings;
   const std::map <int, std::string> standard = { {1, "Usuku lweNkosi luyeza masinyane"}, {2, "Heading two"} };
   EXPECT_EQ (standard, output);
@@ -633,7 +633,7 @@ TEST_F (filter_text, verses_text_1)
   Filter_Text filter_text = Filter_Text (bible);
   filter_text.initializeHeadingsAndTextPerVerse (false);
   filter_text.add_usfm_code (usfm);
-  filter_text.run (styles_logic_standard_sheet ());
+  filter_text.run (stylesv2::standard_sheet ());
   const std::map <int, std::string> output = filter_text.getVersesText ();
   const std::map <int, std::string> standard = {
     {1, "Verse one."},
@@ -660,7 +660,7 @@ TEST_F (filter_text, verses_text_2)
   Filter_Text filter_text = Filter_Text (bible);
   filter_text.initializeHeadingsAndTextPerVerse (false);
   filter_text.add_usfm_code (usfm);
-  filter_text.run (styles_logic_standard_sheet ());
+  filter_text.run (stylesv2::standard_sheet ());
   const std::map <int, std::string> output = filter_text.getVersesText ();
   const std::map <int, std::string> standard = {
     {1, "He said: I will sing to the Lord."},
@@ -684,7 +684,7 @@ TEST_F (filter_text, paragraph_starting_markers)
   Filter_Text filter_text = Filter_Text (bible);
   filter_text.initializeHeadingsAndTextPerVerse (false);
   filter_text.add_usfm_code (usfm);
-  filter_text.run (styles_logic_standard_sheet ());
+  filter_text.run (stylesv2::standard_sheet ());
   EXPECT_EQ ((std::vector<std::string>{"p", "q1", "q2"}), filter_text.paragraph_starting_markers);
 }
 
@@ -697,7 +697,7 @@ TEST_F (filter_text, improved_paragraph_detection)
   Filter_Text filter_text = Filter_Text (std::string());
   filter_text.initializeHeadingsAndTextPerVerse (false);
   filter_text.add_usfm_code (usfm);
-  filter_text.run (styles_logic_standard_sheet ());
+  filter_text.run (stylesv2::standard_sheet ());
   for (size_t i = 0; i < filter_text.verses_paragraphs.size (); i++) {
     const std::map <int, std::string> verses_paragraph = filter_text.verses_paragraphs [i];
     std::map <int, std::string> standard;
@@ -764,7 +764,7 @@ TEST_F (filter_text, embedded_character_styles_to_text)
   Filter_Text filter_text = Filter_Text (bible);
   filter_text.initializeHeadingsAndTextPerVerse (false);
   filter_text.add_usfm_code (usfm);
-  filter_text.run (styles_logic_standard_sheet ());
+  filter_text.run (stylesv2::standard_sheet ());
   const std::map <int, std::string> output = filter_text.getVersesText ();
   const std::map <int, std::string> standard = {
     {1, "He said: I will sing to the Lord."},
@@ -785,7 +785,7 @@ TEST_F (filter_text, embedded_character_styles_to_html_1)
   Filter_Text filter_text = Filter_Text (bible);
   filter_text.html_text_standard = new HtmlText (bible);
   filter_text.add_usfm_code (usfm);
-  filter_text.run (styles_logic_standard_sheet ());
+  filter_text.run (stylesv2::standard_sheet ());
   std::string html = filter_text.html_text_standard->get_inner_html ();
   const std::string standard =
   R"(<p class="p">)"
@@ -810,7 +810,7 @@ TEST_F (filter_text, embedded_character_styles_to_html_2)
   Filter_Text filter_text = Filter_Text (bible);
   filter_text.html_text_standard = new HtmlText (bible);
   filter_text.add_usfm_code (usfm);
-  filter_text.run (styles_logic_standard_sheet ());
+  filter_text.run (stylesv2::standard_sheet ());
   const std::string html = filter_text.html_text_standard->get_inner_html ();
   const std::string standard = R"(<p class="p"><span class="dropcaps">1</span><span>I will sing </span><span class="add">to the </span><span class="add nd">Lord</span><span class="add"> God</span><span>.</span></p>)";
   EXPECT_EQ (filter::strings::trim (standard), filter::strings::trim (html));
@@ -829,7 +829,7 @@ TEST_F (filter_text, embedded_character_styles_to_html_3)
   Filter_Text filter_text = Filter_Text (bible);
   filter_text.html_text_standard = new HtmlText (bible);
   filter_text.add_usfm_code (usfm);
-  filter_text.run (styles_logic_standard_sheet ());
+  filter_text.run (stylesv2::standard_sheet ());
   std::string html = filter_text.html_text_standard->get_inner_html ();
   std::string standard = R"(<p class="p"><span class="dropcaps">1</span><span>I will sing </span><span class="add">to the </span><span class="add nd">Lord</span><span>.</span></p>)";
   EXPECT_EQ (standard, html);
@@ -848,7 +848,7 @@ TEST_F (filter_text, embedded_character_styles_to_odt_1)
   Filter_Text filter_text = Filter_Text (bible);
   filter_text.odf_text_standard = new odf_text (bible);
   filter_text.add_usfm_code (usfm);
-  filter_text.run (styles_logic_standard_sheet ());
+  filter_text.run (stylesv2::standard_sheet ());
   filter_text.odf_text_standard->save (text_odt);
   int ret = odf2txt (text_odt, text_txt);
   EXPECT_EQ (0, ret);
@@ -875,7 +875,7 @@ TEST_F (filter_text, generate_text_note_citations)
   Filter_Text filter_text = Filter_Text (bible);
   filter_text.odf_text_text_and_note_citations = new odf_text (bible);
   filter_text.add_usfm_code (usfm);
-  filter_text.run (styles_logic_standard_sheet ());
+  filter_text.run (stylesv2::standard_sheet ());
   filter_text.odf_text_text_and_note_citations->save (text_odt);
   int ret = odf2txt (text_odt, text_txt);
   EXPECT_EQ (0, ret);
@@ -900,7 +900,7 @@ TEST_F (filter_text, embedded_character_styles_to_odt_2)
   Filter_Text filter_text = Filter_Text (bible);
   filter_text.odf_text_standard = new odf_text (bible);
   filter_text.add_usfm_code (usfm);
-  filter_text.run (styles_logic_standard_sheet ());
+  filter_text.run (stylesv2::standard_sheet ());
   filter_text.odf_text_standard->save (text_odt);
   const int ret = odf2txt (text_odt, text_txt);
   EXPECT_EQ (0, ret);
@@ -930,7 +930,7 @@ TEST_F (filter_text, embedded_character_styles_to_odt_3)
   Filter_Text filter_text = Filter_Text (bible);
   filter_text.odf_text_standard = new odf_text (bible);
   filter_text.add_usfm_code (usfm);
-  filter_text.run (styles_logic_standard_sheet ());
+  filter_text.run (stylesv2::standard_sheet ());
   filter_text.odf_text_standard->save (text_odt);
   int ret = odf2txt (text_odt, text_txt);
   EXPECT_EQ (0, ret);
@@ -971,7 +971,7 @@ TEST_F (filter_text, chapter_label_in_chapter_zero)
   Filter_Text filter_text = Filter_Text (bible);
   filter_text.odf_text_standard = new odf_text (bible);
   filter_text.add_usfm_code (usfm);
-  filter_text.run (styles_logic_standard_sheet ());
+  filter_text.run (stylesv2::standard_sheet ());
   
   // Check chapter labels.
   const int desiredchapter_labels = 1;
@@ -1036,7 +1036,7 @@ TEST_F (filter_text, chapter_label_in_chapters)
   Filter_Text filter_text = Filter_Text (bible);
   filter_text.odf_text_standard = new odf_text (bible);
   filter_text.add_usfm_code (usfm);
-  filter_text.run (styles_logic_standard_sheet ());
+  filter_text.run (stylesv2::standard_sheet ());
   
   // Check chapter labels.
   const int desiredchapter_labels = 2;
@@ -1093,7 +1093,7 @@ TEST_F (filter_text, footnotes_xrefs_plain_text)
 )";
   Filter_Text filter_text = Filter_Text (bible);
   filter_text.add_usfm_code (usfm);
-  filter_text.run (styles_logic_standard_sheet ());
+  filter_text.run (stylesv2::standard_sheet ());
   constexpr size_t n {3};
   const size_t size = filter_text.notes_plain_text.size();
   EXPECT_EQ (n, size);
@@ -1122,7 +1122,7 @@ TEST_F (filter_text, plain_text_notes_export)
   Filter_Text filter_text = Filter_Text (bible);
   filter_text.initializeHeadingsAndTextPerVerse (false);
   filter_text.add_usfm_code (usfm);
-  filter_text.run (styles_logic_standard_sheet ());
+  filter_text.run (stylesv2::standard_sheet ());
   
   const std::map <int, std::string> output = filter_text.getVersesText ();
   const std::map <int, std::string> standard = {
@@ -1169,7 +1169,7 @@ TEST_F (filter_text, incorrect_vp_markup)
   Filter_Text filter_text = Filter_Text (bible);
   filter_text.odf_text_standard = new odf_text (bible);
   filter_text.add_usfm_code (filter::strings::trim(usfm));
-  filter_text.run (styles_logic_standard_sheet ());
+  filter_text.run (stylesv2::standard_sheet ());
   filter_text.odf_text_standard->save (text_odt);
   const int ret = odf2txt (text_odt, text_txt);
   EXPECT_EQ (0, ret);
@@ -1195,7 +1195,7 @@ TEST_F (filter_text, invalid_utf8_input)
   Filter_Text filter_text = Filter_Text (bible);
   filter_text.odf_text_standard = new odf_text (bible);
   filter_text.add_usfm_code (filter::strings::trim(invalid_utf8_usfm));
-  filter_text.run (styles_logic_standard_sheet ());
+  filter_text.run (stylesv2::standard_sheet ());
   filter_text.odf_text_standard->save (text_odt);
   int ret = odf2txt (text_odt, text_txt);
   EXPECT_EQ (256, ret);
@@ -1230,7 +1230,7 @@ TEST_F (filter_text, convert_image_to_format)
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.html_text_standard = new HtmlText (bible);
     filter_text.add_usfm_code (usfm);
-    filter_text.run (styles_logic_standard_sheet());
+    filter_text.run (stylesv2::standard_sheet());
     const std::string html = filter_text.html_text_standard->get_inner_html();
     EXPECT_EQ (standard_html, html);
     EXPECT_EQ (std::vector<std::string>{image_2_name}, filter_text.image_sources);
@@ -1245,7 +1245,7 @@ TEST_F (filter_text, convert_image_to_format)
     Filter_Text filter_text = Filter_Text (bible);
     filter_text.odf_text_standard = new odf_text (bible);
     filter_text.add_usfm_code (usfm);
-    filter_text.run (styles_logic_standard_sheet());
+    filter_text.run (stylesv2::standard_sheet());
     filter_text.odf_text_standard->save (text_odt);
     const int ret = odf2txt (text_odt, text_txt);
     EXPECT_EQ (0, ret);
@@ -1289,7 +1289,7 @@ TEST_F (filter_text, export_no_word_level_attributes)
   Filter_Text filter_text = Filter_Text (bible);
   filter_text.initializeHeadingsAndTextPerVerse (false);
   filter_text.add_usfm_code (usfm);
-  filter_text.run (styles_logic_standard_sheet ());
+  filter_text.run (stylesv2::standard_sheet ());
   const std::map <int, std::string> verses_text = filter_text.getVersesText ();
   const std::map <int, std::string> standard = {
     {1, "This is verse one."},
@@ -1315,7 +1315,7 @@ TEST_F (filter_text, alternate_chapter_number)
   Filter_Text filter_text = Filter_Text (bible);
   filter_text.odf_text_standard = new odf_text (bible);
   filter_text.add_usfm_code (usfm);
-  filter_text.run (styles_logic_standard_sheet());
+  filter_text.run (stylesv2::standard_sheet());
   filter_text.odf_text_standard->save (text_odt);
   const int ret = odf2txt (text_odt, text_txt);
   EXPECT_EQ (0, ret);
@@ -1341,7 +1341,7 @@ TEST_F (filter_text, introduction_main_title)
   Filter_Text filter_text = Filter_Text (bible);
   filter_text.odf_text_standard = new odf_text (bible);
   filter_text.add_usfm_code (usfm);
-  filter_text.run (styles_logic_standard_sheet());
+  filter_text.run (stylesv2::standard_sheet());
   filter_text.odf_text_standard->save (text_odt);
   const int ret = odf2txt (text_odt, text_txt);
   EXPECT_EQ (0, ret);
@@ -1367,7 +1367,7 @@ TEST_F (filter_text, sidebar)
   Filter_Text filter_text = Filter_Text (bible);
   filter_text.odf_text_standard = new odf_text (bible);
   filter_text.add_usfm_code (usfm);
-  filter_text.run (styles_logic_standard_sheet());
+  filter_text.run (stylesv2::standard_sheet());
   filter_text.odf_text_standard->save (text_odt);
   const int ret = odf2txt (text_odt, text_txt);
   EXPECT_EQ (0, ret);
@@ -1392,7 +1392,7 @@ TEST_F (filter_text, usfm_with_all_markers)
   filter_text.html_text_standard = new HtmlText (bible);
   filter_text.text_text = new Text_Text ();
   filter_text.add_usfm_code (usfm);
-  filter_text.run (styles_logic_standard_sheet());
+  filter_text.run (stylesv2::standard_sheet());
   filter_text.odf_text_standard->save (text_odt);
   const int ret = odf2txt (text_odt, text_txt);
   EXPECT_EQ (0, ret);

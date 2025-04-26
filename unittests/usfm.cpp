@@ -1046,9 +1046,9 @@ TEST (checks, usfm)
 
   // Test importing common USFM.
   {
-    EXPECT_EQ (0, static_cast<int>(filter::usfm::usfm_import ("", styles_logic_standard_sheet ()).size()));
+    EXPECT_EQ (0, static_cast<int>(filter::usfm::usfm_import ("", stylesv2::standard_sheet ()).size()));
     
-    std::vector <filter::usfm::BookChapterData> import = filter::usfm::usfm_import ("\\id MIC\n\\c 1\n\\s Heading\n\\p\n\\v 1 Verse one.", styles_logic_standard_sheet ());
+    std::vector <filter::usfm::BookChapterData> import = filter::usfm::usfm_import ("\\id MIC\n\\c 1\n\\s Heading\n\\p\n\\v 1 Verse one.", stylesv2::standard_sheet ());
     EXPECT_EQ (2, static_cast<int> (import.size ()));
     if (import.size () == 2) {
       EXPECT_EQ (33, import [0].m_book);
@@ -1082,7 +1082,7 @@ TEST (checks, usfm)
 \v 2 \vp B\vp* Verse two.
     )";
     standard_chapter = filter::strings::trim (standard_chapter);
-    std::vector <filter::usfm::BookChapterData> import = filter::usfm::usfm_import (usfm, styles_logic_standard_sheet ());
+    std::vector <filter::usfm::BookChapterData> import = filter::usfm::usfm_import (usfm, stylesv2::standard_sheet ());
     EXPECT_EQ (2, static_cast<int> (import.size ()));
     if (import.size () == 2) {
       EXPECT_EQ (33, import [0].m_book);
@@ -1099,7 +1099,7 @@ TEST (checks, usfm)
   // Test importing USFM demo chapter.
   {
     std::string usfm = filter_url_file_get_contents (filter_url_create_root_path ({"demo", "92-1JNeng-web.usfm"}));
-    std::vector <filter::usfm::BookChapterData> import = filter::usfm::usfm_import (usfm, styles_logic_standard_sheet ());
+    std::vector <filter::usfm::BookChapterData> import = filter::usfm::usfm_import (usfm, stylesv2::standard_sheet ());
     // It imports book 0 due to the copyright notices at the top of the USFM file.
     EXPECT_EQ (7, static_cast<int> (import.size ()));
   }
@@ -1485,7 +1485,7 @@ TEST (checks, all_markers)
 {
   // Check that the USFM fragment with all markers has all markers defined according to the stylesheet v2.
   const std::string usfm {filter::strings::replace ("\n", " ", usfm_with_all_markers)};
-  for (const std::string& marker : database::styles2::get_markers (styles_logic_standard_sheet())) {
+  for (const std::string& marker : database::styles2::get_markers (stylesv2::standard_sheet())) {
     const std::string opener = filter::usfm::get_opening_usfm (marker);
     const size_t pos = usfm.find(opener);
     if (pos == std::string::npos) {
@@ -1508,7 +1508,7 @@ TEST (checks, all_markers)
 TEST (checks, usfm_import)
 {
   using namespace filter::usfm;
-  const std::string stylesheet = styles_logic_standard_sheet ();
+  const std::string stylesheet = stylesv2::standard_sheet ();
 
 //  const auto diagnostic_print = [&] (const auto chapter_data) {
 //    const auto lines = filter::strings::explode (chapter_data, '\n');

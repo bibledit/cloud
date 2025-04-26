@@ -838,8 +838,8 @@ void bible_logic::recent_save_email (const std::string& bible,
     filter_text_new.text_text = new Text_Text ();
     filter_text_old.add_usfm_code (old_verses[i]);
     filter_text_new.add_usfm_code (new_verses[i]);
-    filter_text_old.run (styles_logic_standard_sheet());
-    filter_text_new.run (styles_logic_standard_sheet());
+    filter_text_old.run (stylesv2::standard_sheet());
+    filter_text_new.run (stylesv2::standard_sheet());
     const std::string old_text = filter_text_old.text_text->get ();
     const std::string new_text = filter_text_new.text_text->get ();
     if (old_text != new_text) {
@@ -941,9 +941,9 @@ void bible_logic::optional_merge_irregularity_email (const std::string& bible, i
     filter_text_ancestor.add_usfm_code (ancestor_verse_usfm);
     filter_text_edited.add_usfm_code (edited_verse_usfm);
     filter_text_merged.add_usfm_code (merged_verse_usfm);
-    filter_text_ancestor.run (styles_logic_standard_sheet());
-    filter_text_edited.run (styles_logic_standard_sheet());
-    filter_text_merged.run (styles_logic_standard_sheet());
+    filter_text_ancestor.run (stylesv2::standard_sheet());
+    filter_text_edited.run (stylesv2::standard_sheet());
+    filter_text_merged.run (stylesv2::standard_sheet());
     const std::string ancestor_text = filter_text_ancestor.text_text->get ();
     const std::string edited_text = filter_text_edited.text_text->get ();
     const std::string merged_text = filter_text_merged.text_text->get ();

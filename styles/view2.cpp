@@ -79,7 +79,7 @@ std::string styles_view2 (Webserver_Request& webserver_request)
   // It means that the marker data is always set with something.
   stylesv2::Style marker_data;
   {
-    const stylesv2::Style* marker_data_ptr = database::styles2::get_marker_data (sheet, style);
+    const stylesv2::Style* marker_data_ptr = database::styles::get_marker_data (sheet, style);
     if (marker_data_ptr) {
       marker_data = *marker_data_ptr;
     } else {
@@ -149,7 +149,7 @@ std::string styles_view2 (Webserver_Request& webserver_request)
     const bool checked = filter::strings::convert_to_bool (webserver_request.post ["checked"]);
     sheet = webserver_request.post ["val1"];
     style = webserver_request.post ["val2"];
-    marker_data = *(database::styles2::get_marker_data (sheet, style));
+    marker_data = *(database::styles::get_marker_data (sheet, style));
     const stylesv2::Property property = stylesv2::property_value_to_enum (checkbox);
     marker_data.properties[property] = checked;
     style_is_edited = true;
@@ -454,7 +454,7 @@ std::string styles_view2 (Webserver_Request& webserver_request)
   if (style_is_edited) {
     if (write) {
       if (!marker_data.marker.empty())
-        database::styles2::save_style(sheet, marker_data);
+        database::styles::save_style(sheet, marker_data);
       styles_sheets_create_all ();
     }
   }

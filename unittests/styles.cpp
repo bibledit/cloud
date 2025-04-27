@@ -319,10 +319,10 @@ TEST_F (styles, spot_check_markers)
   
   std::vector <std::string> markers {};
   
-  markers = database::styles2::get_markers (stylesv2::standard_sheet ());
+  markers = database::styles::get_markers (stylesv2::standard_sheet ());
   EXPECT_EQ (212, static_cast<int>(markers.size ()));
   
-  markers = database::styles2::get_markers (test_sheet);
+  markers = database::styles::get_markers (test_sheet);
   EXPECT_EQ (212, static_cast<int>(markers.size ()));
   
   std::string marker {"p"};
@@ -332,14 +332,14 @@ TEST_F (styles, spot_check_markers)
   if (find (markers.begin (), markers.end (), marker) == markers.end ())
     ADD_FAILURE() << marker << " not found";
   
-  std::map <std::string, std::string> markers_names = database::styles2::get_markers_and_names (test_sheet);
+  std::map <std::string, std::string> markers_names = database::styles::get_markers_and_names (test_sheet);
   EXPECT_EQ (212, markers_names.size());
   EXPECT_EQ ("Blank line", markers_names ["b"]);
   EXPECT_EQ ("Normal paragraph", markers_names ["p"]);
   EXPECT_EQ ("Translator’s addition", markers_names ["add"]);
   
-  database::styles2::delete_marker (test_sheet, "p");
-  markers = database::styles2::get_markers (test_sheet);
+  database::styles::delete_marker (test_sheet, "p");
+  markers = database::styles::get_markers (test_sheet);
   marker = "p";
   if (find (markers.begin (), markers.end (), marker) != markers.end ())
     ADD_FAILURE() << marker << " should not be there";
@@ -347,7 +347,7 @@ TEST_F (styles, spot_check_markers)
   if (find (markers.begin (), markers.end (), marker) == markers.end ())
     ADD_FAILURE() << marker << " not found";
   
-  markers_names = database::styles2::get_markers_and_names (test_sheet);
+  markers_names = database::styles::get_markers_and_names (test_sheet);
   EXPECT_EQ (std::string(), markers_names ["p"]);
   EXPECT_EQ ("Translator’s addition", markers_names ["add"]);
 }
@@ -358,7 +358,7 @@ TEST_F (styles, detail_check_markers)
 {
   constexpr const char* test_sheet {"testsheet"};
   database::styles::create_sheet (test_sheet);
-  auto* style = database::styles2::get_marker_data (test_sheet, "add");
+  auto* style = database::styles::get_marker_data (test_sheet, "add");
   EXPECT_EQ ("add", style->marker);
   EXPECT_EQ (stylesv2::Category::words_characters, style->category);
 }
@@ -409,14 +409,14 @@ TEST_F (styles, add_marker)
   database::styles::create_sheet ("testsheet");
   
   // Get markers.
-  std::vector <std::string> markers = database::styles2::get_markers (test_sheet);
+  std::vector <std::string> markers = database::styles::get_markers (test_sheet);
   std::string marker {"zhq"};
   if (find (markers.begin (), markers.end (), marker) != markers.end ())
     ADD_FAILURE() << marker << " should not be there";
   
   // Add marker.
-  database::styles2::add_marker (test_sheet, marker);
-  markers = database::styles2::get_markers (test_sheet);
+  database::styles::add_marker (test_sheet, marker);
+  markers = database::styles::get_markers (test_sheet);
   if (find (markers.begin (), markers.end (), marker) == markers.end ())
     ADD_FAILURE() << marker << " should be there";
 }
@@ -426,7 +426,7 @@ TEST_F (styles, add_marker)
 TEST_F (styles, empty_stylesheet)
 {
   database::styles::create_database ();
-  std::vector <std::string> markers = database::styles2::get_markers ("");
+  std::vector <std::string> markers = database::styles::get_markers ("");
   std::string marker {"zhq"};
   if (find (markers.begin (), markers.end (), marker) != markers.end ())
     ADD_FAILURE() << marker << " should not be there";
@@ -657,7 +657,7 @@ TEST_F (styles, editors_application)
 // Getting the list of styles v2.
 TEST_F (styles, get_styles_v2)
 {
-  using namespace database::styles2;
+  using namespace database::styles;
 
   // Default stylesheet should have the hard-coded default styles.
   const std::list<stylesv2::Style>& default_styles = get_styles(stylesv2::standard_sheet ());
@@ -690,7 +690,7 @@ TEST_F (styles, get_styles_v2)
 // Test saving and loading style modification v2.
 TEST_F (styles, save_load_styles_v2)
 {
-  using namespace database::styles2;
+  using namespace database::styles;
   using namespace stylesv2;
 
   // Create a stylesheet for testing.
@@ -978,7 +978,7 @@ TEST_F (styles, save_load_styles_v2)
 
 TEST_F (styles, get_styles_etc_v2)
 {
-  using namespace database::styles2;
+  using namespace database::styles;
 
   constexpr const char* sheet {"sheet"};
   database::styles::create_sheet (sheet);

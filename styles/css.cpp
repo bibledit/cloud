@@ -59,9 +59,9 @@ void Styles_Css::generate ()
   if (editor_enabled) {
     add_editor_styles ();
   }
-  const std::vector <std::string> markers = database::styles2::get_markers (m_stylesheet);
+  const std::vector <std::string> markers = database::styles::get_markers (m_stylesheet);
   for (const auto& marker : markers) {
-    const stylesv2::Style* style = database::styles2::get_marker_data (m_stylesheet, marker);
+    const stylesv2::Style* style = database::styles::get_marker_data (m_stylesheet, marker);
     evaluate_v2 (style);
   }
 }

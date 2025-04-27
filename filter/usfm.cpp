@@ -216,7 +216,7 @@ std::vector <BookChapterData> usfm_import (std::string input, std::string styles
       // Only opening markers can start on a new line.
       // Closing markers never do.
       if (opener) {
-        if (const stylesv2::Style* style {database::styles2::get_marker_data (stylesheet, marker)}; style) {
+        if (const stylesv2::Style* style {database::styles::get_marker_data (stylesheet, marker)}; style) {
           if (stylesv2::starts_new_line_in_usfm (style))
             chapter_data.append ("\n");
         }

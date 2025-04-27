@@ -85,11 +85,11 @@ std::string styles_sheetm (Webserver_Request& webserver_request)
   
   if (webserver_request.post.count ("new")) {
     std::string newstyle = webserver_request.post["entry"];
-    std::vector <std::string> existing_markers = database::styles2::get_markers (name);
+    std::vector <std::string> existing_markers = database::styles::get_markers (name);
     if (find (existing_markers.begin(), existing_markers.end(), newstyle) != existing_markers.end()) {
       page += assets_page::error (translate("This style already exists"));
     } else {
-      database::styles2::add_marker (name, newstyle);
+      database::styles::add_marker (name, newstyle);
       styles_sheets_create_all ();
       page += assets_page::success (translate("The style has been created"));
     }
@@ -104,7 +104,7 @@ std::string styles_sheetm (Webserver_Request& webserver_request)
   const std::string del = webserver_request.query["delete"];
   if (!del.empty())
     if (write) {
-      database::styles2::delete_marker (name, del);
+      database::styles::delete_marker (name, del);
     }
 
   pugi::xml_document html_block {};
@@ -112,7 +112,7 @@ std::string styles_sheetm (Webserver_Request& webserver_request)
   // List the styles v2 in the overview.
   {
     const auto get_and_sort_markers_v2 = [] (const auto& name) {
-      std::vector<std::string> markers {database::styles2::get_markers (name)};
+      std::vector<std::string> markers {database::styles::get_markers (name)};
       std::vector<std::string> sorted_markers{};
       for (const stylesv2::Style& style : stylesv2::styles) {
         const std::string& marker = style.marker;
@@ -127,7 +127,7 @@ std::string styles_sheetm (Webserver_Request& webserver_request)
     const std::vector<std::string> markers_v2 {get_and_sort_markers_v2 (name)};
     auto previous_category {stylesv2::Category::unknown};
     for (const auto& marker : markers_v2) {
-      const stylesv2::Style* style {database::styles2::get_marker_data (name, marker)};
+      const stylesv2::Style* style {database::styles::get_marker_data (name, marker)};
       if (style->category != previous_category) {
         pugi::xml_node tr_node = html_block.append_child("tr");
         tr_node.append_child("td");

@@ -30,7 +30,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 // This is the database for the styles.
 // Resilience: It is hardly written to. 
-// Chances of corruption are low.
+// Chances of corruption are very low.
 // All default data is stored in the code in memory, not in a database on disk.
 
 
@@ -38,13 +38,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 namespace database::styles {
+
+
 constexpr const auto database_name {"styles"};
 static std::string databasefolder ();
 static std::string sheetfolder (const std::string& sheet);
-}
 
-
-namespace database::styles2 {
 // Styles cache and lock.
 std::map<std::string,std::list<stylesv2::Style>> sheet_cache;
 std::mutex cache_mutex;
@@ -81,10 +80,6 @@ static std::string style_file (const std::string& sheet, const std::string& mark
 static void ensure_sheet_in_cache(const std::string& sheet);
 static std::string add_space(const std::string_view key);
 static std::vector<std::string> get_updated_markers (const std::string& sheet);
-}
-
-
-namespace database::styles {
 
 
 static std::string databasefolder ()
@@ -184,21 +179,6 @@ bool has_write_access (const std::string& user, const std::string& sheet)
   std::map <std::string, std::vector <std::string> > result = sql.query ();
   return !result["rowid"].empty ();
 }
-
-
-} // End nmespace styles.
-
-
-namespace database::styles1 {
-
-
-
-
-
-} // End namespace styles1
-
-
-namespace database::styles2 {
 
 
 static std::string style_file (const std::string& sheet, const std::string& marker)
@@ -708,4 +688,4 @@ std::optional<stylesv2::Style> load_style(const std::string& sheet, const std::s
 }
 
 
-} // End namespace styles2.
+} // Namespace

@@ -43,7 +43,7 @@ void Editor_Usfm2Html::stylesheet (const std::string& stylesheet)
 {
   m_stylesheet = stylesheet;
   // Load style version 2 information into the object.
-  for (const stylesv2::Style& style : database::styles2::get_styles(stylesheet)) {
+  for (const stylesv2::Style& style : database::styles::get_styles(stylesheet)) {
     m_note_citations.evaluate_style(style);
   }
 }
@@ -164,7 +164,7 @@ void Editor_Usfm2Html::process ()
       if (m_preview)
         if (is_opening_marker)
           filter::usfm::remove_word_level_attributes (marker, m_markers_and_text, m_markers_and_text_pointer);
-      if (const stylesv2::Style* style {database::styles2::get_marker_data (m_stylesheet, marker)}; style)
+      if (const stylesv2::Style* style {database::styles::get_marker_data (m_stylesheet, marker)}; style)
       {
         switch (style->type) {
           case stylesv2::Type::starting_boundary:
@@ -811,7 +811,7 @@ bool road_is_clear(const std::vector<std::string>& markers_and_text,
 
   // The marker. If not in stylesheet v2, the road is clear.
   const std::string input_marker {filter::usfm::get_marker (input_item)};
-  const stylesv2::Style* input_style_v2 {database::styles2::get_marker_data (stylesheet, input_marker)};
+  const stylesv2::Style* input_style_v2 {database::styles::get_marker_data (stylesheet, input_marker)};
   if (!input_style_v2)
     return true;
 
@@ -837,7 +837,7 @@ bool road_is_clear(const std::vector<std::string>& markers_and_text,
     if (filter::usfm::is_usfm_marker (current_item))
     {
       const std::string marker = filter::usfm::get_marker (current_item);
-      const stylesv2::Style* style_v2 {database::styles2::get_marker_data (stylesheet, marker)};
+      const stylesv2::Style* style_v2 {database::styles::get_marker_data (stylesheet, marker)};
       if (style_v2)
       {
         const bool opener {filter::usfm::is_opening_marker (current_item)};

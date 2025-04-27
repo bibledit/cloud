@@ -126,7 +126,7 @@ TEST_F (opendocument, basic_note)
 
 TEST_F (opendocument, basic_formatted_test_v2)
 {
-  const stylesv2::Style* pro = database::styles2::get_marker_data (stylesv2::standard_sheet (), "pro");
+  const stylesv2::Style* pro = database::styles::get_marker_data (stylesv2::standard_sheet (), "pro");
   odf_text odf_text (bible);
   odf_text.new_paragraph ();
   odf_text.add_text ("text");
@@ -146,7 +146,7 @@ TEST_F (opendocument, basic_formatted_test_v2)
 
 TEST_F (opendocument, basic_formatted_note_v2)
 {
-  const stylesv2::Style* pro = database::styles2::get_marker_data (stylesv2::standard_sheet (), "pro");
+  const stylesv2::Style* pro = database::styles::get_marker_data (stylesv2::standard_sheet (), "pro");
   odf_text odf_text (bible);
   odf_text.new_paragraph ();
   odf_text.add_text ("Text");
@@ -170,7 +170,7 @@ TEST_F (opendocument, basic_formatted_note_v2)
 
 TEST_F (opendocument, embedded_formatted_text)
 {
-  const stylesv2::Style* add = database::styles2::get_marker_data (stylesv2::standard_sheet (), "add");
+  const stylesv2::Style* add = database::styles::get_marker_data (stylesv2::standard_sheet (), "add");
   stylesv2::Style add2 = *add;
   add2.character.value().italic = stylesv2::FourState::on;
   add2.character.value().bold = stylesv2::FourState::off;
@@ -178,7 +178,7 @@ TEST_F (opendocument, embedded_formatted_text)
   add2.character.value().smallcaps = stylesv2::FourState::off;
   add2.character.value().superscript = stylesv2::TwoState::off;
   add2.character.value().foreground_color = "#000000";
-  const stylesv2::Style* pro = database::styles2::get_marker_data (stylesv2::standard_sheet (), "pro");
+  const stylesv2::Style* pro = database::styles::get_marker_data (stylesv2::standard_sheet (), "pro");
   stylesv2::Style pro2 = *pro;
   pro2.character.value().italic = stylesv2::FourState::off;
   pro2.character.value().smallcaps = stylesv2::FourState::on;
@@ -203,7 +203,7 @@ TEST_F (opendocument, embedded_formatted_text)
 
 TEST_F (opendocument, embedded_formatted_note)
 {
-  const stylesv2::Style* add = database::styles2::get_marker_data (stylesv2::standard_sheet (), "add");
+  const stylesv2::Style* add = database::styles::get_marker_data (stylesv2::standard_sheet (), "add");
   stylesv2::Style add2 = *add;
   add2.character.value().italic = stylesv2::FourState::on;
   add2.character.value().bold = stylesv2::FourState::off;
@@ -211,7 +211,7 @@ TEST_F (opendocument, embedded_formatted_note)
   add2.character.value().smallcaps = stylesv2::FourState::off;
   add2.character.value().superscript = stylesv2::TwoState::off;
   add2.character.value().foreground_color = "#000000";
-  const stylesv2::Style* pro = database::styles2::get_marker_data (stylesv2::standard_sheet (), "pro");
+  const stylesv2::Style* pro = database::styles::get_marker_data (stylesv2::standard_sheet (), "pro");
   stylesv2::Style pro2 = *pro;
   pro2.character.value().italic = stylesv2::FourState::off;
   pro2.character.value().smallcaps = stylesv2::FourState::on;
@@ -240,7 +240,7 @@ TEST_F (opendocument, embedded_formatted_note)
 
 TEST_F (opendocument, paragraph_formatting)
 {
-  const stylesv2::Style* d_style = database::styles2::get_marker_data (stylesv2::standard_sheet (), "d");
+  const stylesv2::Style* d_style = database::styles::get_marker_data (stylesv2::standard_sheet (), "d");
   odf_text odf_text (bible);
   odf_text.create_paragraph_style (d_style->marker, fontname, d_style->paragraph.value().font_size, d_style->paragraph.value().italic, d_style->paragraph.value().bold, d_style->paragraph.value().underline, d_style->paragraph.value().smallcaps, d_style->paragraph.value().text_alignment, d_style->paragraph.value().space_before, d_style->paragraph.value().space_after, d_style->paragraph.value().left_margin, d_style->paragraph.value().right_margin, d_style->paragraph.value().first_line_indent, true, false);
   odf_text.new_paragraph ("d");

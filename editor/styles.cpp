@@ -49,7 +49,7 @@ std::string Editor_Styles::get_recently_used (Webserver_Request& webserver_reque
   for (const auto& marker : styles) {
     if (!fragment.empty())
       fragment.append (" | ");
-    const stylesv2::Style* style = database::styles2::get_marker_data (stylesheet, marker);
+    const stylesv2::Style* style = database::styles::get_marker_data (stylesheet, marker);
     if (!style)
       continue;
     const std::string name = translate(style->name) + " (" + marker + ")";
@@ -83,7 +83,7 @@ std::string Editor_Styles::get_all (Webserver_Request& webserver_request)
   const std::string stylesheet = database::config::bible::get_editor_stylesheet (bible);
   
   // The styles.
-  const std::map <std::string, std::string> data = database::styles2::get_markers_and_names (stylesheet);
+  const std::map <std::string, std::string> data = database::styles::get_markers_and_names (stylesheet);
   
   std::vector <std::string> lines{};
   
@@ -96,7 +96,7 @@ std::string Editor_Styles::get_all (Webserver_Request& webserver_request)
     const std::string& marker = item.first;
     std::string name = item.second;
     name = translate (name);
-    const stylesv2::Style* style = database::styles2::get_marker_data (stylesheet, marker);
+    const stylesv2::Style* style = database::styles::get_marker_data (stylesheet, marker);
     if (!style)
       continue;
     std::stringstream category{};
@@ -140,7 +140,7 @@ std::string Editor_Styles::get_action (Webserver_Request& webserver_request, con
   const std::string bible = webserver_request.database_config_user()->getBible ();
   const std::string stylesheet = database::config::bible::get_editor_stylesheet (bible);
   
-  if (const stylesv2::Style* style {database::styles2::get_marker_data (stylesheet, marker)}; style)
+  if (const stylesv2::Style* style {database::styles::get_marker_data (stylesheet, marker)}; style)
   {
     switch (style->type) {
       case stylesv2::Type::book_id:

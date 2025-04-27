@@ -32,7 +32,7 @@
 Checks_Usfm::Checks_Usfm (const std::string& bible)
 {
   m_stylesheet = database::config::bible::get_export_stylesheet (bible);
-  markers_stylesheet = database::styles2::get_markers (m_stylesheet);
+  markers_stylesheet = database::styles::get_markers (m_stylesheet);
   for (const stylesv2::Style& style : stylesv2::styles) {
     // Find out which markers require an endmarker.
     // And which markers are embeddable.
@@ -554,7 +554,7 @@ void Checks_Usfm::note ()
   const std::string current_marker = filter::usfm::get_marker (usfm_item);
   
   // Get this style's properties.
-  const stylesv2::Style* stylev2 = database::styles2::get_marker_data(m_stylesheet, current_marker);
+  const stylesv2::Style* stylev2 = database::styles::get_marker_data(m_stylesheet, current_marker);
   
   // Set a flag if this USFM starts a footnote or an endnote or a crossreference.
   // Clear this flag if it ends the note or xref.

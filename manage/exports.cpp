@@ -342,7 +342,7 @@ std::string manage_exports (Webserver_Request& webserver_request)
   }
   view.set_variable ("odtqleft", filter::strings::get_checkbox_status (database::config::bible::get_odt_poetry_verses_left (bible)));
   {
-    const std::vector <std::string> markers = database::styles2::get_markers (stylesv2::standard_sheet ());
+    const std::vector <std::string> markers = database::styles::get_markers (stylesv2::standard_sheet ());
     std::vector <std::string> poetry_markers;
     for (const auto& marker : markers) {
       if (filter::usfm::is_standard_q_poetry (marker))

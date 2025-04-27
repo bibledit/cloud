@@ -73,7 +73,7 @@ void Editor_Html2Usfm::stylesheet (const std::string& stylesheet)
   m_suppress_end_markers.clear();
   m_force_end_markers.clear();
   m_character_styles.clear();
-  const std::list<stylesv2::Style> styles = database::styles2::get_styles (stylesheet);
+  const std::list<stylesv2::Style> styles = database::styles::get_styles (stylesheet);
   for (const auto& style : styles) {
     // Paragraph styles normally don't have a closing USFM marker.
     // But there's exceptions to this rule.

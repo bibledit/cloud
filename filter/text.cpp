@@ -166,7 +166,7 @@ void Filter_Text::get_styles ()
     odf_text_text_and_note_citations->create_page_break_style ();
   if (odf_text_text_and_note_citations)
     odf_text_text_and_note_citations->create_superscript_style ();
-  for (const stylesv2::Style& style : database::styles2::get_styles(m_stylesheet)) {
+  for (const stylesv2::Style& style : database::styles::get_styles(m_stylesheet)) {
     if (style.type == stylesv2::Type::note_standard_content)
       standard_content_marker_foot_end_note = style.marker;
     if (style.type == stylesv2::Type::crossreference_standard_content)
@@ -188,7 +188,7 @@ void Filter_Text::pre_process_usfm ()
         std::string marker = filter::strings::trim (currentItem); // Change, e.g. '\id ' to '\id'.
         marker = marker.substr (1); // Remove the initial backslash, e.g. '\id' becomes 'id'.
         if (filter::usfm::is_opening_marker (marker)) {
-          if (const stylesv2::Style* style {database::styles2::get_marker_data (m_stylesheet, marker)}; style) {
+          if (const stylesv2::Style* style {database::styles::get_marker_data (m_stylesheet, marker)}; style) {
             switch (style->type) {
               case stylesv2::Type::starting_boundary:
               case stylesv2::Type::none:
@@ -358,7 +358,7 @@ void Filter_Text::process_usfm ()
         const std::string marker = filter::usfm::get_marker (current_item);
         // Strip word-level attributes.
         if (is_opening_marker) filter::usfm::remove_word_level_attributes (marker, chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
-        if (const stylesv2::Style* style {database::styles2::get_marker_data (m_stylesheet, marker)}; style) {
+        if (const stylesv2::Style* style {database::styles::get_marker_data (m_stylesheet, marker)}; style) {
           switch (style->type) {
             case stylesv2::Type::starting_boundary:
             case stylesv2::Type::none:
@@ -629,7 +629,7 @@ void Filter_Text::process_usfm ()
               // Open a paragraph for the notes.
               // It takes the style of the footnote content marker, usually 'ft'.
               // This is done specifically for the version that has the notes only.
-              const stylesv2::Style* ft_style = database::styles2::get_marker_data(m_stylesheet, standard_content_marker_foot_end_note);
+              const stylesv2::Style* ft_style = database::styles::get_marker_data(m_stylesheet, standard_content_marker_foot_end_note);
               ensure_note_paragraph_style (standard_content_marker_foot_end_note, ft_style);
               if (odf_text_notes)
                 odf_text_notes->new_paragraph (standard_content_marker_foot_end_note);
@@ -1173,7 +1173,7 @@ void Filter_Text::processNote ()
       bool isEmbeddedMarker = filter::usfm::is_embedded_marker (currentItem);
       // Clean up the marker, so we remain with the basic version, e.g. 'f'.
       const std::string marker = filter::usfm::get_marker (currentItem);
-      if (const stylesv2::Style* stylev2 {database::styles2::get_marker_data (m_stylesheet, marker)}; stylev2)
+      if (const stylesv2::Style* stylev2 {database::styles::get_marker_data (m_stylesheet, marker)}; stylev2)
       {
         switch (stylev2->type) {
           case stylesv2::Type::starting_boundary:
@@ -1211,7 +1211,7 @@ void Filter_Text::processNote ()
           case stylesv2::Type::footnote_wrapper:
           {
             if (is_opening_marker) {
-              const stylesv2::Style* ft_style = database::styles2::get_marker_data(m_stylesheet, standard_content_marker_foot_end_note);
+              const stylesv2::Style* ft_style = database::styles::get_marker_data(m_stylesheet, standard_content_marker_foot_end_note);
               ensure_note_paragraph_style (marker, ft_style);
               const std::string citation = get_note_citation (marker);
               if (odf_text_standard)
@@ -1253,7 +1253,7 @@ void Filter_Text::processNote ()
           case stylesv2::Type::endnote_wrapper:
           {
             if (is_opening_marker) {
-              const stylesv2::Style* ft_style = database::styles2::get_marker_data(m_stylesheet, standard_content_marker_foot_end_note);
+              const stylesv2::Style* ft_style = database::styles::get_marker_data(m_stylesheet, standard_content_marker_foot_end_note);
               ensure_note_paragraph_style (marker, ft_style);
               const std::string citation = get_note_citation (marker);
               if (odf_text_standard)
@@ -1352,7 +1352,7 @@ void Filter_Text::processNote ()
           case stylesv2::Type::crossreference_wrapper:
           {
             if (is_opening_marker) {
-              const stylesv2::Style* xt_style = database::styles2::get_marker_data(m_stylesheet, standard_content_marker_cross_reference);
+              const stylesv2::Style* xt_style = database::styles::get_marker_data(m_stylesheet, standard_content_marker_cross_reference);
               ensure_note_paragraph_style (marker, xt_style);
               std::string citation = get_note_citation (stylev2->marker);
               if (odf_text_standard)
@@ -1696,7 +1696,7 @@ void Filter_Text::apply_drop_caps_to_current_paragraph (int drop_caps_length)
   if (odf_text_standard) {
     std::string combined_style = odf_text_standard->m_current_paragraph_style + "_" + chapter_marker + std::to_string (drop_caps_length);
     if (find (created_styles.begin(), created_styles.end(), combined_style) == created_styles.end()) {
-      const stylesv2::Style* style = database::styles2::get_marker_data(m_stylesheet, odf_text_standard->m_current_paragraph_style);
+      const stylesv2::Style* style = database::styles::get_marker_data(m_stylesheet, odf_text_standard->m_current_paragraph_style);
       if (!style)
         return;
       if (!style->paragraph)
@@ -1741,7 +1741,7 @@ void Filter_Text::apply_drop_caps_to_current_paragraph (int drop_caps_length)
 void Filter_Text::put_chapter_number_in_frame (std::string chapter_text)
 {
   // Get the chapter marker, that is \c.
-  const stylesv2::Style* style {database::styles2::get_marker_data (m_stylesheet, chapter_marker)};
+  const stylesv2::Style* style {database::styles::get_marker_data (m_stylesheet, chapter_marker)};
   // In the unlikely case the chapter style is not valid, take defaults as fallback options.
   const float font_size = style->paragraph ? style->paragraph.value().font_size : 12;
   const auto italic = style->paragraph ? style->paragraph.value().italic : stylesv2::TwoState::off;

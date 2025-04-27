@@ -31,12 +31,6 @@ void delete_sheet (const std::string& sheet);
 void grant_write_access (const std::string& user, const std::string& sheet);
 void revoke_write_access (const std::string& user, const std::string& sheet);
 bool has_write_access (const std::string& user, const std::string& sheet);
-
-} // End namespace styles
-
-
-namespace database::styles2 {
-
 void add_marker (const std::string& sheet, const std::string& marker);
 void delete_marker (const std::string& sheet, const std::string& marker);
 void reset_marker (const std::string& sheet, const std::string& marker);
@@ -47,5 +41,4 @@ const stylesv2::Style* get_marker_data (const std::string& sheet, const std::str
 void save_style(const std::string& sheet, const stylesv2::Style& style);
 std::optional<stylesv2::Style> load_style(const std::string& sheet, const std::string& marker);
 
-
-} // End namespace styles2
+} // Namespace

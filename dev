@@ -2,12 +2,15 @@
 
 export MACOSX_DEPLOYMENT_TARGET=$(sw_vers -productVersion)
 
+# Remote development
+# rsync -av --exclude="*.a" --exclude="*.o" --exclude="*.Po" --exclude="*.gz" . 10.211.55.95:bibledit
+
 echo Build everything
 make --jobs=10
 if [ $? -ne 0 ]; then exit; fi
 
 echo Copy everything to working location
-rsync -av --exclude=libbibledit.a . ~/work/bibledit/dev
+rsync -av --exclude="*.a" --exclude="*.gz" . ~/work/bibledit/dev
 if [ $? -ne 0 ]; then exit; fi
 
 echo Start bibledit

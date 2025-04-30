@@ -329,6 +329,9 @@ void Filter_Text::pre_process_usfm ()
               default:
                 break;
             }
+            if (stylesv2::has_property(style,stylesv2::Property::deprecated)) {
+              add_to_info (R"(Deprecated marker: \)" + marker, false);
+            }
           }
         }
       }

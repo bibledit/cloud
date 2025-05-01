@@ -1,5 +1,6 @@
 /0readme.txt
 /access
+/a.out
 /assets
 /assets/browserconfig.xml
 /assets/checkbox.js

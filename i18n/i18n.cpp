@@ -37,9 +37,12 @@
 #include <limits>
 
 
-#include "database/stylesdata.h"
 #include "database/books.h"
 #include "database/booksdata.h"
+#include "styles/logic.h"
+namespace stylesv2 {
+#include "styles/definitions.hpp"
+}
 
 
 std::string file_get_contents (const std::string& filename)
@@ -159,20 +162,16 @@ int main ()
   }
 
   // Go over all USFM styles to internationalize them.
-  unsigned int styles_data_count = sizeof (styles_table) / sizeof (*styles_table);
-  for (unsigned int i = 0; i < styles_data_count; i++) {
-    std::string english = styles_table[i].name;
-    if (!english.empty()) {
-      english.insert (0, "translate(\"");
-      english.append ("\")");
-      translatables.push_back (english);
-    }
-    english = styles_table[i].info;
-    if (!english.empty()) {
-      english.insert (0, "translate(\"");
-      english.append ("\")");
-      translatables.push_back (english);
-    }
+  for (const auto& style : stylesv2::styles) {
+    const auto translate = [&translatables] (std::string english) {
+      if (!english.empty()) {
+        english.insert (0, "translate(\"");
+        english.append ("\")");
+        translatables.push_back (english);
+      }
+    };
+    translate (style.name);
+    translate (style.info);
   }
 
   // Go over all Bible books to internationalize them.

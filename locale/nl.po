@@ -13,7 +13,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Launchpad (build bd6cfd0cfc024dbe1dcd7d5d91165fb4f6a6c596)\n"
+"X-Generator: Launchpad (build 2e4955e3d556e61e2eb54acf7a827d17e9e46822)\n"
 
 msgid "Has been sending and receiving during the past hour"
 msgstr "Bezig geweest met zenden en ontvangen gedurende het afgelopen uur"
@@ -7142,7 +7142,7 @@ msgstr ""
 msgid "Bibledit software"
 msgstr ""
 
-msgid "Copyright (©) 2003-2023 Teus Benschop."
+msgid "Copyright (©) 2003-2024 Teus Benschop."
 msgstr ""
 
 msgid ""
@@ -11069,6 +11069,12 @@ msgid "Peripheral"
 msgstr ""
 
 msgid "Divisions for peripheral content."
+msgstr ""
+
+msgid "Superscript text"
+msgstr ""
+
+msgid "Typically for use in critical edition footnotes."
 msgstr ""
 
 msgid "Genesis"

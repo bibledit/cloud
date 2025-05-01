@@ -17,6 +17,7 @@
 		CA10382825279F940021AF25 /* html2format.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = html2format.h; path = editor/html2format.h; sourceTree = SOURCE_ROOT; };
 		CA10382A2527A4010021AF25 /* html2format.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = html2format.cpp; sourceTree = "<group>"; };
 		CA104BB6277B96B300BD2E7C /* libmimetic.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libmimetic.0.dylib; path = ../../../../usr/local/lib/libmimetic.0.dylib; sourceTree = "<group>"; };
+		CA11A9BF2DC2A80200F144C7 /* definitions.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = definitions.hpp; sourceTree = "<group>"; };
 		CA1B741925F54DC90030846D /* confirm.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = confirm.h; sourceTree = "<group>"; };
 		CA1B741A25F54DC90030846D /* confirm.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = confirm.cpp; sourceTree = "<group>"; };
 		CA1E933D2C845FE90063C62E /* entropy_poll.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = entropy_poll.c; sourceTree = "<group>"; };
@@ -4269,6 +4270,7 @@
 			children = (
 				CADE41BC24F174B0003165BB /* css.h */,
 				CADE41AB24F174B0003165BB /* css.cpp */,
+				CA11A9BF2DC2A80200F144C7 /* definitions.hpp */,
 				CADE41B824F174B0003165BB /* indexm.h */,
 				CADE41BA24F174B0003165BB /* indexm.cpp */,
 				CADE41B724F174B0003165BB /* indexm.html */,

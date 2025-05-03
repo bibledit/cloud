@@ -18,7 +18,33 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 #include <filter/number.h>
+#include <config/libraries.h>
+
 
 namespace filter::number {
+
+
+bool float_equal(const float x, const float y)
+{
+  // The `epsilon()` is the gap size (ULP, unit in the last place)
+  // of floating-point numbers in interval [1, 2).
+  // Therefore we can scale it to the gap size in interval [2^e, 2^{e+1}),
+  // where `e` is the exponent of `x` and `y`.
+  
+  // If `x` and `y` have different gap sizes
+  // (which means they have different exponents),
+  // we take the smaller one.
+  // Taking the bigger one is also reasonable, I guess.
+  const float m = std::min(std::fabs(x), std::fabs(y));
+  
+  // Subnormal numbers have fixed exponent, which is `min_exponent - 1`.
+  const int exp = m < std::numeric_limits<float>::min()
+  ? std::numeric_limits<float>::min_exponent - 1
+  : std::ilogb(m);
+  
+  // We consider `x` and `y` equal if the difference between them is within one ULP.
+  return std::fabs(x - y) <= std::ldexp(std::numeric_limits<float>::epsilon(), exp);
+}
+
 
 }

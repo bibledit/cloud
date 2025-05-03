@@ -23,6 +23,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 namespace filter::number {
 
+#undef min
 
 bool float_equal(const float x, const float y)
 {

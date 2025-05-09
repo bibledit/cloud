@@ -443,7 +443,7 @@ function oneverseActiveStylesFeedback ()
   if (format.character) character = format.character;
   if (character.search ("note") >= 0) character = "";
   var pos = character.indexOf ("wla");
-  character = character.substring(0, pos);
+  if (pos >= 0) character = character.substring(0, pos);
   character = character.split ("0").join (" ");
   var styles = paragraph + " " + character;
   var element = $ ("#oneverseactivestyles");

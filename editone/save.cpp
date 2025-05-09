@@ -51,7 +51,7 @@ bool editone_save_acl (Webserver_Request& webserver_request)
 {
   if (Filter_Roles::access_control (webserver_request, Filter_Roles::translator ()))
     return true;
-  auto [ read, write ] = access_bible::any (webserver_request);
+  const auto [ read, write ] = access_bible::any (webserver_request);
   return read;
 }
 
@@ -59,19 +59,19 @@ bool editone_save_acl (Webserver_Request& webserver_request)
 std::string editone_save (Webserver_Request& webserver_request)
 {
   // Check on information about where to save the verse.
-  bool save = (webserver_request.post.count ("bible") && webserver_request.post.count ("book") && webserver_request.post.count ("chapter") && webserver_request.post.count ("verse") && webserver_request.post.count ("html"));
+  const bool save = (webserver_request.post.count ("bible") && webserver_request.post.count ("book") && webserver_request.post.count ("chapter") && webserver_request.post.count ("verse") && webserver_request.post.count ("html"));
   if (!save) {
     return translate("Don't know where to save");
   }
 
   
-  std::string bible = webserver_request.post["bible"];
-  int book = filter::strings::convert_to_int (webserver_request.post["book"]);
-  int chapter = filter::strings::convert_to_int (webserver_request.post["chapter"]);
-  int verse = filter::strings::convert_to_int (webserver_request.post["verse"]);
+  const std::string bible = webserver_request.post["bible"];
+  const int book = filter::strings::convert_to_int (webserver_request.post["book"]);
+  const int chapter = filter::strings::convert_to_int (webserver_request.post["chapter"]);
+  const int verse = filter::strings::convert_to_int (webserver_request.post["verse"]);
   std::string html = webserver_request.post["html"];
-  std::string checksum = webserver_request.post["checksum"];
-  std::string unique_id = webserver_request.post ["id"];
+  const std::string checksum = webserver_request.post["checksum"];
+  const std::string unique_id = webserver_request.post ["id"];
 
   
   // Checksum.
@@ -82,11 +82,11 @@ std::string editone_save (Webserver_Request& webserver_request)
 
   
   // Decode html encoded in javascript.
-  html = filter_url_tag_to_plus (html);
+  html = filter_url_tag_to_plus (std::move(html));
 
   
   // Check there's anything to save at all.
-  html = filter::strings::trim (html);
+  html = filter::strings::trim (std::move(html));
   if (html.empty ()) {
     return translate ("Nothing to save");
   }
@@ -110,20 +110,20 @@ std::string editone_save (Webserver_Request& webserver_request)
   // Collect some data about the changes for this user.
   const std::string& username = webserver_request.session_logic ()->get_username ();
 #ifdef HAVE_CLOUD
-  int oldID = database::bibles::get_chapter_id (bible, book, chapter);
+  const int old_id = database::bibles::get_chapter_id (bible, book, chapter);
 #endif
   std::string old_chapter_usfm = database::bibles::get_chapter (bible, book, chapter);
 
   
   // If the most recent save operation on this chapter
   // caused the chapter to be different, email the user,
-  // suggesting to check if the user's edit came through.
+  // suggesting to check whether the user's edit came through.
   // The rationale is that if Bible text was saved through Send/receive,
   // or if another user saved Bible text,
   // it's worth to check on this.
   // Because the user's editor may not yet have loaded this updated Bible text.
   // https://github.com/bibledit/cloud/issues/340
-  std::string loaded_usfm = get_loaded_usfm (webserver_request, bible, book, chapter, unique_id);
+  const std::string loaded_usfm = get_loaded_usfm (webserver_request, bible, book, chapter, unique_id);
   if (loaded_usfm != old_chapter_usfm) {
     bible_logic::recent_save_email (bible, book, chapter, username, loaded_usfm, old_chapter_usfm);
   }
@@ -148,8 +148,8 @@ std::string editone_save (Webserver_Request& webserver_request)
     }
 #ifdef HAVE_CLOUD
     // The Cloud stores details of the user's changes.
-    int newID = database::bibles::get_chapter_id (bible, book, chapter);
-    database::modifications::recordUserSave (username, bible, book, chapter, oldID, old_chapter_usfm, newID, new_chapter_usfm);
+    const int new_id = database::bibles::get_chapter_id (bible, book, chapter);
+    database::modifications::recordUserSave (username, bible, book, chapter, old_id, old_chapter_usfm, new_id, new_chapter_usfm);
     if (sendreceive_git_repository_linked (bible)) {
       database::git::store_chapter (username, bible, book, chapter, old_chapter_usfm, new_chapter_usfm);
     }

@@ -52,7 +52,7 @@ bool editone_update_acl (Webserver_Request& webserver_request)
 {
   if (Filter_Roles::access_control (webserver_request, Filter_Roles::translator ()))
     return true;
-  auto [ read, write ] = access_bible::any (webserver_request);
+  const auto [ read, write ] = access_bible::any (webserver_request);
   return read;
 }
 
@@ -196,7 +196,7 @@ std::string editone_update (Webserver_Request& webserver_request)
       edited_verse_usfm = merged_verse_usfm;
     }
   }
-  
+
   
   // Collapse any double spaces in the USFM to save.
   // https://github.com/bibledit/cloud/issues/711

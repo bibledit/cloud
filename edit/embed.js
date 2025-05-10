@@ -86,9 +86,17 @@ function editor_determine_character_style (actual, desired)
   // Deal with undefined actual style.
   if (!actual) actual = "";
   
-  // There may be embedded styles, put those in a list.
-  var list = actual.split("0");
+  // In most cases there's no embedded styles, so deal with that here.
+  // If the style was already applied, remove it.
+  // If the style was not applied, apply it.
+  if (actual == "")
+    return desired;
+  if (actual == desired)
+    return "";
   
+  // From now on there are embedded styles, put those in a list.
+  var list = actual.split("0");
+
   // If the desired style is already applied, remove it.
   // If the desired style is not yet there, add it.
   if (list.includes(desired)) {
@@ -98,7 +106,7 @@ function editor_determine_character_style (actual, desired)
   }
 
   // The new, possibly combined, style.
-  var style  = list.join("0");
+  var style = list.join("0");
   return style;
 }
 

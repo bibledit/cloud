@@ -46,11 +46,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 namespace filter::usfm {
 
 
-BookChapterData::BookChapterData (int book, int chapter, std::string data)
+BookChapterData::BookChapterData (const int book, const int chapter, std::string data)
 {
   m_book = book;
   m_chapter = chapter;
-  m_data = data;
+  m_data = std::move(data);
 }
 
 
@@ -58,20 +58,21 @@ BookChapterData::BookChapterData (int book, int chapter, std::string data)
 // $usfm may contain new lines, but the resulting long string won't.
 std::string one_string (std::string usfm)
 {
-  std::string long_string = "";
+  std::string long_string{};
   std::vector <std::string> usfm_lines = filter::strings::explode (usfm, '\n');
-  for (std::string & line : usfm_lines) {
+  for (std::string& line : usfm_lines) {
     line = filter::strings::trim (line);
     // Skip empty line.
-    if (line != "") {
-      // The line will be appended to the output line.
-      // If it does not start with a backslash (\), a space is inserted first.
-      size_t pos = line.find ("\\");
-      if (pos != 0) {
-        if (long_string != "") long_string += " ";
-      }
-      long_string += line;
+    if (line.empty())
+      continue;
+    // The line will be appended to the output line.
+    // If it does not start with a backslash (\), a space is inserted first.
+    size_t pos = line.find (R"(\)");
+    if (pos != 0) {
+      if (!long_string.empty())
+        long_string.append(" ");
     }
+    long_string.append(line);
   }
   return long_string;
 }
@@ -167,8 +168,8 @@ std::string get_marker (std::string usfm)
 }
 
 
-// This imports USFM $input.
-// It takes raw $input,
+// This imports USFM.
+// It takes raw input,
 // and returns a vector with objects with book_number, chapter_number, chapter_data.
 std::vector <BookChapterData> usfm_import (std::string input, std::string stylesheet)
 {
@@ -183,7 +184,7 @@ std::vector <BookChapterData> usfm_import (std::string input, std::string styles
   bool retrieve_book_number_on_next_iteration = false;
   bool retrieve_chapter_number_on_next_iteration = false;
 
-  for (std::string marker_or_text : markers_and_text) {
+  for (std::string& marker_or_text : markers_and_text) {
     if (retrieve_book_number_on_next_iteration) {
       bookid = database::books::get_id_from_usfm (marker_or_text.substr (0, 3));
       chapter_number = 0;
@@ -193,7 +194,7 @@ std::vector <BookChapterData> usfm_import (std::string input, std::string styles
       retrieve_chapter_number_on_next_iteration = false;
       chapter_number = filter::strings::convert_to_int (marker_or_text);
     }
-    std::string marker = get_marker (marker_or_text);
+    const std::string marker = get_marker (marker_or_text);
     if (!marker.empty()) {
       // USFM marker found.
       bool opener = is_opening_marker (marker_or_text);
@@ -207,8 +208,9 @@ std::vector <BookChapterData> usfm_import (std::string input, std::string styles
         store_chapter_data = true;
       }
       if (store_chapter_data) {
-        chapter_data = filter::strings::trim (chapter_data);
-        if (!chapter_data.empty()) result.push_back ( { static_cast<int>(bookid), chapter_number, chapter_data } );
+        chapter_data = filter::strings::trim (std::move(chapter_data));
+        if (!chapter_data.empty())
+          result.push_back ( { static_cast<int>(bookid), chapter_number, std::move(chapter_data) } );
         chapter_number = 0;
         chapter_data.clear();
         store_chapter_data = false;
@@ -224,9 +226,9 @@ std::vector <BookChapterData> usfm_import (std::string input, std::string styles
     }
     chapter_data.append(marker_or_text);
   }
-  chapter_data = filter::strings::trim (chapter_data);
+  chapter_data = filter::strings::trim (std::move(chapter_data));
   if (!chapter_data.empty())
-    result.push_back (BookChapterData (static_cast<int>(bookid), chapter_number, chapter_data));
+    result.push_back (BookChapterData (static_cast<int>(bookid), chapter_number, std::move(chapter_data)));
   return result;
 }
 

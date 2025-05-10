@@ -25,10 +25,9 @@ class Webserver_Request;
 
 namespace filter::usfm {
 
-class BookChapterData
+struct BookChapterData
 {
-public:
-  BookChapterData (int book, int chapter, std::string data);
+  BookChapterData (const int book, const int chapter, std::string data);
   int m_book { 0 };
   int m_chapter { 0 };
   std::string m_data {};

@@ -38,8 +38,7 @@ Checks_Usfm::Checks_Usfm (const std::string& bible)
     // And which markers are embeddable.
     bool required_endmarker {false};
     bool embeddable_marker {false};
-    switch (style.type) { // Todo enumeration value 'milestone' not explicitly handled in switch [-Wswitch-enum]
-
+    switch (style.type) {
       case stylesv2::Type::book_id:
       case stylesv2::Type::usfm_version:
       case stylesv2::Type::file_encoding:
@@ -113,6 +112,7 @@ Checks_Usfm::Checks_Usfm (const std::string& bible)
       case stylesv2::Type::sidebar_begin:
       case stylesv2::Type::sidebar_end:
       case stylesv2::Type::peripheral:
+      case stylesv2::Type::milestone:
       case stylesv2::Type::starting_boundary:
       case stylesv2::Type::stopping_boundary:
       case stylesv2::Type::none:

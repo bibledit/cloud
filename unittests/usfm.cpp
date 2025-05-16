@@ -1016,7 +1016,7 @@ TEST (usfm, nehemiah_12)
 
 
 // Test getting the markers and the text from USFM.
-TEST (usfm, get_markers_and_text) // Todo expand
+TEST (usfm, get_markers_and_text)
 {
   std::vector <std::string> standard;
   standard = { R"(\id )", "GEN", R"(\c )", "10" };
@@ -1046,7 +1046,24 @@ TEST (usfm, get_marker)
 }
 
 
-TEST (usfm, importing) // Todo expand on this.
+constexpr const auto usfm1 =
+R"(\c 1)" "\n"
+R"(\s The)" "\n"
+R"(Creation)" "\n"
+R"(\p)" "\n"
+R"(\v 1 In)" "\n"
+R"(the)" "\n"
+R"(beginning,)" "\n"
+R"(\bd God\bd*)" "\n"
+R"(created)" "\n"
+R"(...)" "\n"
+R"(\p)" "\n"
+R"(\v 2)" "\n"
+;
+
+
+
+TEST (usfm, importing)
 {
   // Test importing common USFM.
   {
@@ -1102,6 +1119,27 @@ TEST (usfm, importing) // Todo expand on this.
     const std::vector <filter::usfm::BookChapterData> imported = filter::usfm::usfm_import (usfm, stylesv2::standard_sheet ());
     // It imports book 0 due to the copyright notices at the top of the USFM file.
     EXPECT_EQ (7, imported.size ());
+  }
+  
+  // Test weirdly formed USFM that it properly inserts spaces on import.
+  // https://github.com/bibledit/cloud/issues/993
+  {
+    const std::vector <filter::usfm::BookChapterData> imported = filter::usfm::usfm_import (usfm1, stylesv2::standard_sheet ());
+    constexpr const auto chapters {1};
+    EXPECT_EQ (chapters, imported.size ());
+    if (imported.size () == chapters) {
+      EXPECT_EQ (0, imported.at(0).m_book);
+      EXPECT_EQ (1, imported.at(0).m_chapter);
+      constexpr const auto standard =
+      R"(\c 1)" "\n"
+      R"(\s The Creation)" "\n"
+      R"(\p)" "\n"
+      R"(\v 1 In the beginning, \bd God\bd* created ...)" "\n"
+      R"(\p)" "\n"
+      R"(\v 2)"
+      ;
+      EXPECT_EQ (standard, imported.at(0).m_data);
+    }
   }
 }
 
@@ -1536,7 +1574,7 @@ TEST (usfm, check_all_markers)
 }
 
 
-TEST (usfm, usfm_import_all_markers) // Todo
+TEST (usfm, usfm_import_all_markers)
 {
   using namespace filter::usfm;
   const std::string stylesheet = stylesv2::standard_sheet ();
@@ -1558,7 +1596,7 @@ TEST (usfm, usfm_import_all_markers) // Todo
 
 
 // Test making one string out of the USFM.
-TEST (usfm, one_string) // Todo expand
+TEST (usfm, one_string)
 {
   EXPECT_EQ ("", filter::usfm::one_string (""));
   
@@ -1577,6 +1615,11 @@ TEST (usfm, one_string) // Todo expand
     const std::string outputusfm = filter::usfm::one_string (inputusfm);
     const std::string standard = R"(\v 9  If we confess our sins, he is faithful and just to forgive us \add our\add* sins, and to cleanse us from all unrighteousness.)";
     EXPECT_EQ (standard, outputusfm);
+  }
+
+  {
+    const std::string one_string = filter::usfm::one_string (usfm1);
+    EXPECT_EQ (R"(\c 1\s The Creation\p\v 1 In the beginning, \bd God\bd* created ...\p\v 2)", one_string);
   }
 }
 

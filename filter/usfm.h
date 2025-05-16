@@ -33,7 +33,7 @@ struct BookChapterData
   std::string m_data {};
 };
 
-std::string one_string (std::string usfm);
+std::string one_string (const std::string& usfm);
 std::vector <std::string> get_markers_and_text (std::string code);
 std::string get_marker (std::string usfm);
 std::vector <BookChapterData> usfm_import (std::string input, std::string stylesheet);

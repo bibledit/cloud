@@ -54,27 +54,41 @@ BookChapterData::BookChapterData (const int book, const int chapter, std::string
 }
 
 
-// Returns the string $usfm as one long string.
-// $usfm may contain new lines, but the resulting long string won't.
-std::string one_string (std::string usfm)
+// Returns the input USFM as one long string.
+// The input USFM may contain new lines, but the resulting long string won't.
+// According to spec, newlines will be normalized to a single space character.
+// https://ubsicap.github.io/usfm/about/syntax.html#syntax-whitespace-normalization
+std::string one_string (const std::string& usfm)
 {
-  std::string long_string{};
+  std::string output{};
   std::vector <std::string> usfm_lines = filter::strings::explode (usfm, '\n');
   for (std::string& line : usfm_lines) {
     line = filter::strings::trim (line);
     // Skip empty line.
     if (line.empty())
       continue;
-    // The line will be appended to the output line.
-    // If it does not start with a backslash (\), a space is inserted first.
-    size_t pos = line.find (R"(\)");
-    if (pos != 0) {
-      if (!long_string.empty())
-        long_string.append(" ");
+
+    // Check whether the line starts with a marker.
+    const std::string marker = get_marker(line);
+    if (!marker.empty()) {
+      // Check whether this marker can be found in the standard styles.
+      const auto iter = std::find(stylesv2::styles.cbegin(), stylesv2::styles.cend(), marker);
+      if (iter != stylesv2::styles.cend()) {
+        // Check whether this marker should start a new line in USFM.
+        // If it does not, insert a space.
+        if (!stylesv2::starts_new_line_in_usfm (&(*iter)))
+          if (!output.empty())
+            output.append(" ");
+      }
+    } else {
+      if (!output.empty())
+        output.append(" ");
     }
-    long_string.append(line);
+
+    // Append the line will to the output.
+    output.append(line);
   }
-  return long_string;
+  return output;
 }
 
 
@@ -87,9 +101,12 @@ std::string one_string (std::string usfm)
 std::vector <std::string> get_markers_and_text (std::string code)
 {
   std::vector <std::string> markers_and_text;
-  code = filter::strings::replace ("\n\\", "\\", code); // New line followed by backslash: leave new line out.
-  code = filter::strings::replace ("\n", " ", code); // New line only: change to space, according to the USFM specification.
-  // No removal of double spaces, because it would remove an opening marker (which already has its own space), followed by a space.
+  // New line followed by backslash: leave new line out.
+  code = filter::strings::replace ("\n\\", "\\", code);
+  // New line only: change to space, according to the USFM specification.
+  code = filter::strings::replace ("\n", " ", code);
+  // No removal of double spaces, because it would remove an opening marker
+  // (which already has its own space), followed by a space.
   code = filter::strings::trim (code);
   while (!code.empty ()) {
     size_t pos = code.find ("\\");
@@ -103,21 +120,25 @@ std::vector <std::string> get_markers_and_text (std::string code)
       // whichever comes first.
       std::vector <size_t> positions;
       pos = code.find (" ");
-      if (pos != std::string::npos) positions.push_back (pos + 1);
+      if (pos != std::string::npos)
+        positions.push_back (pos + 1);
       pos = code.find ("*");
-      if (pos != std::string::npos) positions.push_back (pos + 1);
-      pos = code.find ("\\", 1);
-      if (pos != std::string::npos) positions.push_back (pos);
+      if (pos != std::string::npos)
+        positions.push_back (pos + 1);
+      pos = code.find (R"(\)", 1);
+      if (pos != std::string::npos)
+        positions.push_back (pos);
       positions.push_back (code.length());
       sort (positions.begin (), positions.end());
-      pos = positions[0];
-      std::string marker = code.substr (0, pos);
+      pos = positions.at(0);
+      const std::string marker = code.substr (0, pos);
       markers_and_text.push_back (marker);
       code = code.substr (pos);
     } else {
       // Text found. It ends at the next backslash or at the end of the string.
-      pos = code.find ("\\");
-      if (pos == std::string::npos) pos = code.length();
+      pos = code.find (R"(\)");
+      if (pos == std::string::npos)
+        pos = code.length();
       std::string text = code.substr (0, pos);
       markers_and_text.push_back (text);
       code = code.substr (pos);
@@ -135,7 +156,8 @@ std::vector <std::string> get_markers_and_text (std::string code)
 // "\+add*" -> "add"
 std::string get_marker (std::string usfm)
 {
-  if (usfm.empty ()) return usfm;
+  if (usfm.empty ())
+    return usfm;
   size_t pos = usfm.find ("\\");
   if (pos == 0) {
     // Marker found.

@@ -1170,6 +1170,8 @@ TEST_F (styles, marker_starts_new_line_in_usfm)
           return true;
         case Type::peripheral:
           return true;
+        case Type::milestone:
+          return false;
         case Type::stopping_boundary:
         default:
           return std::nullopt;

@@ -488,7 +488,7 @@ bool has_property (const Style* style, const Property property)
 // Whether this style starts a new line in USFM.
 bool starts_new_line_in_usfm (const Style* style)
 {
-  switch (style->type) { // Todo enumeration value 'milestone' not explicitly handled in switch [-Wswitch-enum]
+  switch (style->type) {
     case Type::starting_boundary:
     case Type::none:
     case Type::book_id:
@@ -543,6 +543,8 @@ bool starts_new_line_in_usfm (const Style* style)
       return true;
     case Type::peripheral:
       return true;
+    case Type::milestone:
+      return false;
     case Type::stopping_boundary:
     default:
       return true;

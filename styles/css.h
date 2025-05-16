@@ -40,8 +40,8 @@ private:
   std::vector <std::string> m_code {};
   bool editor_enabled {false}; // Whether to generate CSS for the Bible text editor.
   bool exports_enabled {false}; // Whether to generate CSS for exported Bibles.
-  void evaluate_v2 (const stylesv2::Style* style);
-  void add_v2 (const stylesv2::Style* style, const bool paragraph, const bool keep_with_next);
+  void evaluate (const stylesv2::Style* style);
+  void add (const stylesv2::Style* style, const bool paragraph, const bool keep_with_next);
   void add_exports_styles ();
   void add_editor_styles ();
 };

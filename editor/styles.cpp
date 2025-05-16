@@ -142,7 +142,7 @@ std::string Editor_Styles::get_action (Webserver_Request& webserver_request, con
   
   if (const stylesv2::Style* style {database::styles::get_marker_data (stylesheet, marker)}; style)
   {
-    switch (style->type) { // Todo enumeration value 'milestone' not explicitly handled in switch [-Wswitch-enum]
+    switch (style->type) {
       case stylesv2::Type::book_id:
       case stylesv2::Type::usfm_version:
       case stylesv2::Type::file_encoding:
@@ -199,6 +199,8 @@ std::string Editor_Styles::get_action (Webserver_Request& webserver_request, con
         return mono();
       case stylesv2::Type::peripheral:
         return mono();
+      case stylesv2::Type::milestone:
+        return character ();
       case stylesv2::Type::starting_boundary:
       case stylesv2::Type::stopping_boundary:
       case stylesv2::Type::none:

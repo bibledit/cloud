@@ -62,16 +62,16 @@ void Styles_Css::generate ()
   const std::vector <std::string> markers = database::styles::get_markers (m_stylesheet);
   for (const auto& marker : markers) {
     const stylesv2::Style* style = database::styles::get_marker_data (m_stylesheet, marker);
-    evaluate_v2 (style);
+    evaluate (style);
   }
 }
 
 
 // Evaluates the style so as to decide how it should look.
-void Styles_Css::evaluate_v2 (const stylesv2::Style* style)
+void Styles_Css::evaluate (const stylesv2::Style* style)
 {
   using namespace stylesv2;
-  switch (style->type) { // Todo enumeration value 'milestone' not explicitly handled in switch [-Wswitch-enum]
+  switch (style->type) {
     case Type::starting_boundary:
     case Type::none:
     case Type::book_id:
@@ -87,20 +87,20 @@ void Styles_Css::evaluate_v2 (const stylesv2::Style* style)
       break;
     case Type::title:
     case Type::heading:
-      add_v2 (style, true, true);
+      add (style, true, true);
       break;
     case Type::paragraph:
-      add_v2 (style, true, false);
+      add (style, true, false);
       break;
     case Type::chapter:
-      add_v2 (style, true, false);
+      add (style, true, false);
       break;
     case Type::chapter_label:
     case Type::published_chapter_marker:
     case Type::alternate_chapter_number:
       break;
     case Type::verse:
-      add_v2 (style, false, false);
+      add (style, false, false);
       break;
     case Type::published_verse_marker:
     case Type::alternate_verse_marker:
@@ -111,35 +111,36 @@ void Styles_Css::evaluate_v2 (const stylesv2::Style* style)
       break;
     case Type::footnote_wrapper:
     case Type::endnote_wrapper:
-      add_v2 (style, true, false);
+      add (style, true, false);
       break;
     case Type::note_standard_content:
     case Type::note_content:
     case Type::note_content_with_endmarker:
     case Type::note_paragraph:
-      add_v2 (style, false, false);
+      add (style, false, false);
       break;
     case Type::crossreference_wrapper:
-      add_v2 (style, true, false);
+      add (style, true, false);
       break;
     case Type::crossreference_standard_content:
     case Type::crossreference_content:
     case Type::crossreference_content_with_endmarker:
-      add_v2 (style, false, false);
+      add (style, false, false);
       break;
     case Type::character:
-      add_v2 (style, false, false);
+      add (style, false, false);
       break;
     case Type::page_break:
       break;
     case Type::figure:
-      add_v2 (style, true, false);
+      add (style, true, false);
       break;
     case Type::word_list:
       break;
     case Type::sidebar_begin:
     case Type::sidebar_end:
     case Type::peripheral:
+    case Type::milestone:
       break;
     case Type::stopping_boundary:
     default:
@@ -152,7 +153,7 @@ void Styles_Css::evaluate_v2 (const stylesv2::Style* style)
 // $style: Array with the Bibledit style information.
 // $paragraph: True: Is paragraph. False: Is inline text.
 // $keepwithnext: Keep text in this style together with the next paragraph.
-void Styles_Css::add_v2 (const stylesv2::Style* style, const bool paragraph, const bool keep_with_next)
+void Styles_Css::add (const stylesv2::Style* style, const bool paragraph, const bool keep_with_next)
 {
   using namespace stylesv2;
   

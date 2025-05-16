@@ -171,6 +171,8 @@ std::string type_enum_to_value (const Type type, const bool describe)
       return "sidebar_end";
     case Type::peripheral:
       return "peripheral";
+    case Type::milestone:
+      return "milestone";
     case Type::stopping_boundary:
       return "stopping_boundary";
     default:
@@ -316,6 +318,9 @@ std::ostream& operator<<(std::ostream& os, const Category category)
       break;
     case Category::words_characters:
       os << "Words, Characters";
+      break;
+    case Category::milestones:
+      os << "Milestones";
       break;
     case Category::extended_study_content:
       os << "Extended Study Content";
@@ -483,7 +488,7 @@ bool has_property (const Style* style, const Property property)
 // Whether this style starts a new line in USFM.
 bool starts_new_line_in_usfm (const Style* style)
 {
-  switch (style->type) {
+  switch (style->type) { // Todo enumeration value 'milestone' not explicitly handled in switch [-Wswitch-enum]
     case Type::starting_boundary:
     case Type::none:
     case Type::book_id:

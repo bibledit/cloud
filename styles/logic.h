@@ -67,6 +67,7 @@ enum class Type : int {
   sidebar_begin,
   sidebar_end,
   peripheral,
+  milestone,
   stopping_boundary // Should be the last always.
 };
 
@@ -147,6 +148,7 @@ enum class Category {
   footnotes,
   cross_references,
   words_characters,
+  milestones,
   extended_study_content,
   peripherals,
 };

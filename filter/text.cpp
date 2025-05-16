@@ -189,7 +189,7 @@ void Filter_Text::pre_process_usfm ()
         marker = marker.substr (1); // Remove the initial backslash, e.g. '\id' becomes 'id'.
         if (filter::usfm::is_opening_marker (marker)) {
           if (const stylesv2::Style* style {database::styles::get_marker_data (m_stylesheet, marker)}; style) {
-            switch (style->type) {
+            switch (style->type) { // Todo enumeration value 'milestone' not explicitly handled in switch [-Wswitch-enum]
               case stylesv2::Type::starting_boundary:
               case stylesv2::Type::none:
                 break;
@@ -362,7 +362,7 @@ void Filter_Text::process_usfm ()
         // Strip word-level attributes.
         if (is_opening_marker) filter::usfm::remove_word_level_attributes (marker, chapter_usfm_markers_and_text, chapter_usfm_markers_and_text_pointer);
         if (const stylesv2::Style* style {database::styles::get_marker_data (m_stylesheet, marker)}; style) {
-          switch (style->type) {
+          switch (style->type) { // Todo enumeration value 'milestone' not explicitly handled in switch [-Wswitch-enum]
             case stylesv2::Type::starting_boundary:
             case stylesv2::Type::none:
               break;
@@ -1178,7 +1178,7 @@ void Filter_Text::processNote ()
       const std::string marker = filter::usfm::get_marker (currentItem);
       if (const stylesv2::Style* stylev2 {database::styles::get_marker_data (m_stylesheet, marker)}; stylev2)
       {
-        switch (stylev2->type) {
+        switch (stylev2->type) { // Todo enumeration value 'milestone' not explicitly handled in switch [-Wswitch-enum]
           case stylesv2::Type::starting_boundary:
           case stylesv2::Type::none:
           case stylesv2::Type::book_id:

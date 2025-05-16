@@ -166,7 +166,7 @@ void Editor_Usfm2Html::process ()
           filter::usfm::remove_word_level_attributes (marker, m_markers_and_text, m_markers_and_text_pointer);
       if (const stylesv2::Style* style {database::styles::get_marker_data (m_stylesheet, marker)}; style)
       {
-        switch (style->type) {
+        switch (style->type) { // Todo enumeration value 'milestone' not explicitly handled in switch [-Wswitch-enum]
           case stylesv2::Type::starting_boundary:
           case stylesv2::Type::none:
           case stylesv2::Type::book_id:

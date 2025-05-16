@@ -71,7 +71,7 @@ void Styles_Css::generate ()
 void Styles_Css::evaluate_v2 (const stylesv2::Style* style)
 {
   using namespace stylesv2;
-  switch (style->type) {
+  switch (style->type) { // Todo enumeration value 'milestone' not explicitly handled in switch [-Wswitch-enum]
     case Type::starting_boundary:
     case Type::none:
     case Type::book_id:

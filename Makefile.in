@@ -134,19 +134,20 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	filter/string.$(OBJEXT) filter/roles.$(OBJEXT) \
 	filter/md5.$(OBJEXT) filter/usfm.$(OBJEXT) \
 	filter/archive.$(OBJEXT) filter/text.$(OBJEXT) \
-	filter/passage.$(OBJEXT) filter/css.$(OBJEXT) \
-	filter/git.$(OBJEXT) filter/html.$(OBJEXT) \
-	filter/diff.$(OBJEXT) filter/shell.$(OBJEXT) \
-	filter/merge.$(OBJEXT) filter/date.$(OBJEXT) \
-	filter/memory.$(OBJEXT) filter/webview.$(OBJEXT) \
-	filter/mail.$(OBJEXT) filter/note.$(OBJEXT) \
-	filter/number.$(OBJEXT) flate/flate.$(OBJEXT) \
-	assets/view.$(OBJEXT) assets/page.$(OBJEXT) \
-	assets/header.$(OBJEXT) assets/external.$(OBJEXT) \
-	index/index.$(OBJEXT) index/listing.$(OBJEXT) \
-	config/globals.$(OBJEXT) menu/logic.$(OBJEXT) \
-	menu/index.$(OBJEXT) locale/translate.$(OBJEXT) \
-	locale/logic.$(OBJEXT) database/config/general.$(OBJEXT) \
+	filter/passage.$(OBJEXT) filter/quill.$(OBJEXT) \
+	filter/css.$(OBJEXT) filter/git.$(OBJEXT) \
+	filter/html.$(OBJEXT) filter/diff.$(OBJEXT) \
+	filter/shell.$(OBJEXT) filter/merge.$(OBJEXT) \
+	filter/date.$(OBJEXT) filter/memory.$(OBJEXT) \
+	filter/webview.$(OBJEXT) filter/mail.$(OBJEXT) \
+	filter/note.$(OBJEXT) filter/number.$(OBJEXT) \
+	flate/flate.$(OBJEXT) assets/view.$(OBJEXT) \
+	assets/page.$(OBJEXT) assets/header.$(OBJEXT) \
+	assets/external.$(OBJEXT) index/index.$(OBJEXT) \
+	index/listing.$(OBJEXT) config/globals.$(OBJEXT) \
+	menu/logic.$(OBJEXT) menu/index.$(OBJEXT) \
+	locale/translate.$(OBJEXT) locale/logic.$(OBJEXT) \
+	database/config/general.$(OBJEXT) \
 	database/config/bible.$(OBJEXT) database/config/user.$(OBJEXT) \
 	database/users.$(OBJEXT) database/logs.$(OBJEXT) \
 	database/sqlite.$(OBJEXT) database/styles.$(OBJEXT) \
@@ -369,7 +370,7 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	mbedtls/x509write.$(OBJEXT) mbedtls/x509write_crt.$(OBJEXT) \
 	mbedtls/x509write_csr.$(OBJEXT) related/logic.$(OBJEXT) \
 	sqlite/sqlite3.$(OBJEXT) ldap/logic.$(OBJEXT) \
-	quill/logic.$(OBJEXT) rss/logic.$(OBJEXT) rss/feed.$(OBJEXT) \
+	rss/logic.$(OBJEXT) rss/feed.$(OBJEXT) \
 	microtar/microtar.$(OBJEXT) miniz/miniz.$(OBJEXT) \
 	read/index.$(OBJEXT) read/load.$(OBJEXT) read/verse.$(OBJEXT) \
 	resource/divider.$(OBJEXT) session/confirm.$(OBJEXT) \
@@ -589,13 +590,14 @@ am__depfiles_remade = access/$(DEPDIR)/bible.Po \
 	filter/$(DEPDIR)/md5.Po filter/$(DEPDIR)/memory.Po \
 	filter/$(DEPDIR)/merge.Po filter/$(DEPDIR)/note.Po \
 	filter/$(DEPDIR)/number.Po filter/$(DEPDIR)/passage.Po \
-	filter/$(DEPDIR)/roles.Po filter/$(DEPDIR)/shell.Po \
-	filter/$(DEPDIR)/string.Po filter/$(DEPDIR)/text.Po \
-	filter/$(DEPDIR)/url.Po filter/$(DEPDIR)/usfm.Po \
-	filter/$(DEPDIR)/webview.Po flate/$(DEPDIR)/flate.Po \
-	fonts/$(DEPDIR)/logic.Po gumbo/$(DEPDIR)/attribute.Po \
-	gumbo/$(DEPDIR)/char_ref.Po gumbo/$(DEPDIR)/error.Po \
-	gumbo/$(DEPDIR)/parser.Po gumbo/$(DEPDIR)/string_buffer.Po \
+	filter/$(DEPDIR)/quill.Po filter/$(DEPDIR)/roles.Po \
+	filter/$(DEPDIR)/shell.Po filter/$(DEPDIR)/string.Po \
+	filter/$(DEPDIR)/text.Po filter/$(DEPDIR)/url.Po \
+	filter/$(DEPDIR)/usfm.Po filter/$(DEPDIR)/webview.Po \
+	flate/$(DEPDIR)/flate.Po fonts/$(DEPDIR)/logic.Po \
+	gumbo/$(DEPDIR)/attribute.Po gumbo/$(DEPDIR)/char_ref.Po \
+	gumbo/$(DEPDIR)/error.Po gumbo/$(DEPDIR)/parser.Po \
+	gumbo/$(DEPDIR)/string_buffer.Po \
 	gumbo/$(DEPDIR)/string_piece.Po gumbo/$(DEPDIR)/tag.Po \
 	gumbo/$(DEPDIR)/tokenizer.Po gumbo/$(DEPDIR)/utf8.Po \
 	gumbo/$(DEPDIR)/util.Po gumbo/$(DEPDIR)/vector.Po \
@@ -740,9 +742,9 @@ am__depfiles_remade = access/$(DEPDIR)/bible.Po \
 	public/$(DEPDIR)/login.Po public/$(DEPDIR)/new.Po \
 	public/$(DEPDIR)/note.Po public/$(DEPDIR)/notes.Po \
 	pugixml/$(DEPDIR)/pugixml.Po pugixml/$(DEPDIR)/utils.Po \
-	quill/$(DEPDIR)/logic.Po read/$(DEPDIR)/index.Po \
-	read/$(DEPDIR)/load.Po read/$(DEPDIR)/verse.Po \
-	related/$(DEPDIR)/logic.Po resource/$(DEPDIR)/bb2resource.Po \
+	read/$(DEPDIR)/index.Po read/$(DEPDIR)/load.Po \
+	read/$(DEPDIR)/verse.Po related/$(DEPDIR)/logic.Po \
+	resource/$(DEPDIR)/bb2resource.Po \
 	resource/$(DEPDIR)/bbgateway.Po resource/$(DEPDIR)/cache.Po \
 	resource/$(DEPDIR)/comparative1edit.Po \
 	resource/$(DEPDIR)/comparative9edit.Po \
@@ -1120,6 +1122,7 @@ libbibledit_a_SOURCES = \
 	filter/archive.cpp \
 	filter/text.cpp \
 	filter/passage.cpp \
+	filter/quill.cpp \
 	filter/css.cpp \
 	filter/git.cpp \
 	filter/html.cpp \
@@ -1574,7 +1577,6 @@ libbibledit_a_SOURCES = \
 	related/logic.cpp \
 	sqlite/sqlite3.c \
 	ldap/logic.cpp \
-	quill/logic.cpp \
 	rss/logic.cpp \
 	rss/feed.cpp \
 	microtar/microtar.c \
@@ -1923,6 +1925,8 @@ filter/archive.$(OBJEXT): filter/$(am__dirstamp) \
 filter/text.$(OBJEXT): filter/$(am__dirstamp) \
 	filter/$(DEPDIR)/$(am__dirstamp)
 filter/passage.$(OBJEXT): filter/$(am__dirstamp) \
+	filter/$(DEPDIR)/$(am__dirstamp)
+filter/quill.$(OBJEXT): filter/$(am__dirstamp) \
 	filter/$(DEPDIR)/$(am__dirstamp)
 filter/css.$(OBJEXT): filter/$(am__dirstamp) \
 	filter/$(DEPDIR)/$(am__dirstamp)
@@ -3263,14 +3267,6 @@ ldap/$(DEPDIR)/$(am__dirstamp):
 	@: >>ldap/$(DEPDIR)/$(am__dirstamp)
 ldap/logic.$(OBJEXT): ldap/$(am__dirstamp) \
 	ldap/$(DEPDIR)/$(am__dirstamp)
-quill/$(am__dirstamp):
-	@$(MKDIR_P) quill
-	@: >>quill/$(am__dirstamp)
-quill/$(DEPDIR)/$(am__dirstamp):
-	@$(MKDIR_P) quill/$(DEPDIR)
-	@: >>quill/$(DEPDIR)/$(am__dirstamp)
-quill/logic.$(OBJEXT): quill/$(am__dirstamp) \
-	quill/$(DEPDIR)/$(am__dirstamp)
 rss/$(am__dirstamp):
 	@$(MKDIR_P) rss
 	@: >>rss/$(am__dirstamp)
@@ -3784,7 +3780,6 @@ mostlyclean-compile:
 	-rm -f personalize/*.$(OBJEXT)
 	-rm -f public/*.$(OBJEXT)
 	-rm -f pugixml/*.$(OBJEXT)
-	-rm -f quill/*.$(OBJEXT)
 	-rm -f read/*.$(OBJEXT)
 	-rm -f related/*.$(OBJEXT)
 	-rm -f resource/*.$(OBJEXT)
@@ -3990,6 +3985,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/note.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/number.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/passage.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/quill.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/roles.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/shell.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@filter/$(DEPDIR)/string.Po@am__quote@ # am--include-marker
@@ -4227,7 +4223,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@public/$(DEPDIR)/notes.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@pugixml/$(DEPDIR)/pugixml.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@pugixml/$(DEPDIR)/utils.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@quill/$(DEPDIR)/logic.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@read/$(DEPDIR)/index.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@read/$(DEPDIR)/load.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@read/$(DEPDIR)/verse.Po@am__quote@ # am--include-marker
@@ -4949,8 +4944,6 @@ distclean-generic:
 	-$(am__rm_f) public/$(am__dirstamp)
 	-$(am__rm_f) pugixml/$(DEPDIR)/$(am__dirstamp)
 	-$(am__rm_f) pugixml/$(am__dirstamp)
-	-$(am__rm_f) quill/$(DEPDIR)/$(am__dirstamp)
-	-$(am__rm_f) quill/$(am__dirstamp)
 	-$(am__rm_f) read/$(DEPDIR)/$(am__dirstamp)
 	-$(am__rm_f) read/$(am__dirstamp)
 	-$(am__rm_f) related/$(DEPDIR)/$(am__dirstamp)
@@ -5192,6 +5185,7 @@ distclean: distclean-am
 	-rm -f filter/$(DEPDIR)/note.Po
 	-rm -f filter/$(DEPDIR)/number.Po
 	-rm -f filter/$(DEPDIR)/passage.Po
+	-rm -f filter/$(DEPDIR)/quill.Po
 	-rm -f filter/$(DEPDIR)/roles.Po
 	-rm -f filter/$(DEPDIR)/shell.Po
 	-rm -f filter/$(DEPDIR)/string.Po
@@ -5429,7 +5423,6 @@ distclean: distclean-am
 	-rm -f public/$(DEPDIR)/notes.Po
 	-rm -f pugixml/$(DEPDIR)/pugixml.Po
 	-rm -f pugixml/$(DEPDIR)/utils.Po
-	-rm -f quill/$(DEPDIR)/logic.Po
 	-rm -f read/$(DEPDIR)/index.Po
 	-rm -f read/$(DEPDIR)/load.Po
 	-rm -f read/$(DEPDIR)/verse.Po
@@ -5882,6 +5875,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f filter/$(DEPDIR)/note.Po
 	-rm -f filter/$(DEPDIR)/number.Po
 	-rm -f filter/$(DEPDIR)/passage.Po
+	-rm -f filter/$(DEPDIR)/quill.Po
 	-rm -f filter/$(DEPDIR)/roles.Po
 	-rm -f filter/$(DEPDIR)/shell.Po
 	-rm -f filter/$(DEPDIR)/string.Po
@@ -6119,7 +6113,6 @@ maintainer-clean: maintainer-clean-am
 	-rm -f public/$(DEPDIR)/notes.Po
 	-rm -f pugixml/$(DEPDIR)/pugixml.Po
 	-rm -f pugixml/$(DEPDIR)/utils.Po
-	-rm -f quill/$(DEPDIR)/logic.Po
 	-rm -f read/$(DEPDIR)/index.Po
 	-rm -f read/$(DEPDIR)/load.Po
 	-rm -f read/$(DEPDIR)/verse.Po

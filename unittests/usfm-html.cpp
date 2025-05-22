@@ -30,6 +30,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <filter/string.h>
 #include <filter/url.h>
 #include <filter/diff.h>
+#include <filter/quill.h>
 #include <database/state.h>
 #include <webserver/request.h>
 #include <edit/logic.h>
@@ -2359,6 +2360,41 @@ TEST_F (usfm_html, usfm_with_all_markers)
     filter_url_file_put_contents (tmpfile, usfm);
     std::cout << "The produced USFM was written to " << tmpfile << std::endl;
   }
+}
+
+
+TEST_F (usfm_html, quill_hyphen_underscore)
+{
+  EXPECT_EQ ("",       quill::hyphen_to_underscore(""));
+  EXPECT_EQ ("",       quill::underscore_to_hyphen(""));
+  EXPECT_EQ ("i-qt_s", quill::hyphen_to_underscore("i-qt-s"));
+  EXPECT_EQ ("i-qt-s", quill::underscore_to_hyphen("i-qt_s"));
+}
+
+
+TEST_F (usfm_html, milestones)
+{
+  constexpr auto standard_usfm = R"(\p text\qt-s |sid="sid" who="who"\*)";
+  
+  constexpr auto standard_html =
+  R"(<p class="b-p"><span>text</span><span class="i-qt_s0mls1">🏁</span></p>)"
+  R"(<p class="b-milestoneattributes"> </p>)"
+  R"(<p class="b-mls1">sid="sid" who="who"</p>)"
+  ;
+  
+  Editor_Usfm2Html editor_usfm2html;
+  editor_usfm2html.load (standard_usfm);
+  editor_usfm2html.stylesheet (stylesv2::standard_sheet ());
+  editor_usfm2html.run ();
+  const std::string html = editor_usfm2html.get ();
+  EXPECT_EQ (standard_html, html);
+
+  Editor_Html2Usfm editor_html2usfm;
+  editor_html2usfm.load (html);
+  editor_html2usfm.stylesheet (stylesv2::standard_sheet ());
+  editor_html2usfm.run ();
+  const std::string usfm = editor_html2usfm.get ();
+  EXPECT_EQ (standard_usfm, usfm);
 }
 
 

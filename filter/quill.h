@@ -21,23 +21,40 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <config/libraries.h>
 
+namespace quill {
+
 // The prefix configured in a Quill-based editor for block text.
-constexpr const char* quill_class_prefix_block {"b-"};
+constexpr const char* class_prefix_block {"b-"};
 
 // The prefix configured in a Quill-based editor for inline text.
-constexpr const char* quill_class_prefix_inline {"i-"};
+constexpr const char* class_prefix_inline {"i-"};
 
-// The prefix used in a Quill-based editor for referencing word level attributes stored elsewhere.
-constexpr std::string_view quill_word_level_attribute_class_prefix {"wla"};
+// The prefix used in a Quill-based editor for referencing word-level attributes stored elsewhere.
+constexpr const std::string_view word_level_attribute_class_prefix {"wla"};
 
+// The prefix used in a Quill-based editor for referencing milestone attributes stored elsewhere.
+constexpr const std::string_view milestone_attribute_class_prefix {"mls"};
+ 
 // The class of the notes container in a Quill-based editor.
-constexpr const char* quill_notes_class {"notes"};
+constexpr const char* notes_class {"notes"};
 
 // The class that Quill uses to mark the caret.
-constexpr const char* quill_caret_class {"ql-cursor"};
+constexpr const char* caret_class {"ql-cursor"};
 
 // The class in Quill-based editor for the note caller.
-constexpr std::string_view quill_note_caller_class {"notecall"};
+constexpr const std::string_view note_caller_class {"notecall"};
 
 // The class of the word-level attributes container in a Quill-based editor.
-constexpr const char* quill_word_level_attributes_class {"wordlevelattributes"};
+constexpr const char* word_level_attributes_class {"wordlevelattributes"};
+
+// The emoji for a milestone to show in the editor.
+constexpr const char* milestone_emoji {"🏁"};
+
+// The class of the milestone attributes container in a Quill-based editor.
+constexpr const char* milestone_attributes_class {"milestoneattributes"};
+
+// Converters for milestone styles to/from Quill styles.
+std::string hyphen_to_underscore (std::string style);
+std::string underscore_to_hyphen (std::string style);
+
+} // Namespace.

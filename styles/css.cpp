@@ -26,7 +26,7 @@
 #include <styles/logic.h>
 #include <database/config/bible.h>
 #include <fonts/logic.h>
-#include <quill/logic.h>
+#include <filter/quill.h>
 
 
 Styles_Css::Styles_Css (const std::string& stylesheet)
@@ -162,9 +162,9 @@ void Styles_Css::add (const stylesv2::Style* style, const bool paragraph, const 
   // The name of the class as used in a Quill-based editor.
   std::string quill_class {", ."};
   if (paragraph) {
-    quill_class.append (quill_class_prefix_block);
+    quill_class.append (quill::class_prefix_block);
   } else {
-    quill_class.append (quill_class_prefix_inline);
+    quill_class.append (quill::class_prefix_inline);
   }
   quill_class.append (class_name);
   

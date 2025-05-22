@@ -28,7 +28,7 @@
 #include <access/bible.h>
 #include <locale/translate.h>
 #include <database/logs.h>
-#include <quill/logic.h>
+#include <filter/quill.h>
 #include <database/config/bible.h>
 
 

@@ -15,6 +15,7 @@ libbibledit_a_SOURCES = \
 	filter/archive.cpp \
 	filter/text.cpp \
 	filter/passage.cpp \
+	filter/quill.cpp \
 	filter/css.cpp \
 	filter/git.cpp \
 	filter/html.cpp \
@@ -469,7 +470,6 @@ libbibledit_a_SOURCES = \
 	related/logic.cpp \
 	sqlite/sqlite3.c \
 	ldap/logic.cpp \
-	quill/logic.cpp \
 	rss/logic.cpp \
 	rss/feed.cpp \
 	microtar/microtar.c \

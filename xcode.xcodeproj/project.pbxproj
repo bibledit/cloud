@@ -18,6 +18,8 @@
 		CA10382A2527A4010021AF25 /* html2format.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = html2format.cpp; sourceTree = "<group>"; };
 		CA104BB6277B96B300BD2E7C /* libmimetic.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libmimetic.0.dylib; path = ../../../../usr/local/lib/libmimetic.0.dylib; sourceTree = "<group>"; };
 		CA11A9BF2DC2A80200F144C7 /* definitions.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = definitions.hpp; sourceTree = "<group>"; };
+		CA11C1D82DD8EAEA00EFA0BE /* quill.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = quill.cpp; sourceTree = "<group>"; };
+		CA11C1D92DD8EAEA00EFA0BE /* quill.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = quill.h; sourceTree = "<group>"; };
 		CA1B741925F54DC90030846D /* confirm.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = confirm.h; sourceTree = "<group>"; };
 		CA1B741A25F54DC90030846D /* confirm.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = confirm.cpp; sourceTree = "<group>"; };
 		CA1E933D2C845FE90063C62E /* entropy_poll.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = entropy_poll.c; sourceTree = "<group>"; };
@@ -1162,10 +1164,8 @@
 		CADE3F8B24F17488003165BB /* quill.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = quill.js; sourceTree = "<group>"; };
 		CADE3F8C24F17488003165BB /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		CADE3F8D24F17488003165BB /* quill.snow.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = quill.snow.css; sourceTree = "<group>"; };
-		CADE3F8E24F17488003165BB /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = logic.cpp; sourceTree = "<group>"; };
 		CADE3F8F24F17488003165BB /* quill.bubble.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = quill.bubble.css; sourceTree = "<group>"; };
 		CADE3F9024F17488003165BB /* quill.min.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = quill.min.js; sourceTree = "<group>"; };
-		CADE3F9524F17488003165BB /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logic.h; sourceTree = "<group>"; };
 		CADE3F9724F17488003165BB /* quill.min.js.map */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = quill.min.js.map; sourceTree = "<group>"; };
 		CADE3F9824F17488003165BB /* quill.core.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = quill.core.css; sourceTree = "<group>"; };
 		CADE3F9924F17488003165BB /* readme.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = readme.txt; sourceTree = "<group>"; };
@@ -2767,57 +2767,59 @@
 		CADE393F24F17422003165BB /* filter */ = {
 			isa = PBXGroup;
 			children = (
-				CADE398B24F17422003165BB /* archive.cpp */,
 				CADE394524F17422003165BB /* archive.h */,
+				CADE398B24F17422003165BB /* archive.cpp */,
 				CADE394224F17422003165BB /* cas.crt */,
-				CADE394024F17422003165BB /* css.cpp */,
 				CADE397124F17422003165BB /* css.h */,
-				CADE395524F17422003165BB /* date.cpp */,
+				CADE394024F17422003165BB /* css.cpp */,
 				CADE395B24F17422003165BB /* date.h */,
-				CADE398A24F17422003165BB /* diff.cpp */,
+				CADE395524F17422003165BB /* date.cpp */,
 				CADE396624F17422003165BB /* diff.h */,
+				CADE398A24F17422003165BB /* diff.cpp */,
 				CA6A2765260B966200EE8844 /* focus.js */,
-				CADE398E24F17422003165BB /* git.cpp */,
 				CADE396024F17422003165BB /* git.h */,
-				CA84204328A03C39006EEA23 /* google.cpp */,
+				CADE398E24F17422003165BB /* git.cpp */,
 				CA84204428A03C39006EEA23 /* google.h */,
-				CADE396224F17422003165BB /* html.cpp */,
+				CA84204328A03C39006EEA23 /* google.cpp */,
 				CADE394924F17422003165BB /* html.h */,
-				CA6A12CD26F782C600CDB5DB /* image.cpp */,
+				CADE396224F17422003165BB /* html.cpp */,
 				CA6A12CE26F782C700CDB5DB /* image.h */,
-				CADE398C24F17422003165BB /* mail.cpp */,
+				CA6A12CD26F782C600CDB5DB /* image.cpp */,
 				CADE396424F17422003165BB /* mail.h */,
-				CADE394324F17422003165BB /* md5.cpp */,
+				CADE398C24F17422003165BB /* mail.cpp */,
 				CADE395824F17422003165BB /* md5.h */,
-				CADE394124F17422003165BB /* memory.cpp */,
+				CADE394324F17422003165BB /* md5.cpp */,
 				CADE397024F17422003165BB /* memory.h */,
-				CADE395624F17422003165BB /* merge.cpp */,
+				CADE394124F17422003165BB /* memory.cpp */,
 				CADE395C24F17422003165BB /* merge.h */,
-				CA74778627F7376700192B66 /* note.cpp */,
+				CADE395624F17422003165BB /* merge.cpp */,
 				CA74778727F7376700192B66 /* note.h */,
+				CA74778627F7376700192B66 /* note.cpp */,
 				CAB648AC2D903F3700FE83EF /* number.h */,
 				CAB648AD2D903F3700FE83EF /* number.cpp */,
-				CADE394624F17422003165BB /* passage.cpp */,
 				CADE394F24F17422003165BB /* passage.h */,
+				CADE394624F17422003165BB /* passage.cpp */,
 				CADE396124F17422003165BB /* passage.js */,
-				CADE398D24F17422003165BB /* roles.cpp */,
+				CA11C1D82DD8EAEA00EFA0BE /* quill.cpp */,
+				CA11C1D92DD8EAEA00EFA0BE /* quill.h */,
 				CADE395124F17422003165BB /* roles.h */,
-				CADE398824F17422003165BB /* shell.cpp */,
+				CADE398D24F17422003165BB /* roles.cpp */,
 				CADE394724F17422003165BB /* shell.h */,
-				CADE395E24F17422003165BB /* string.cpp */,
+				CADE398824F17422003165BB /* shell.cpp */,
 				CADE398F24F17422003165BB /* string.h */,
 				CADE396E24F17422003165BB /* string.hpp */,
-				CADE394D24F17422003165BB /* text.cpp */,
+				CADE395E24F17422003165BB /* string.cpp */,
 				CADE394E24F17422003165BB /* text.h */,
+				CADE394D24F17422003165BB /* text.cpp */,
 				CADE394B24F17422003165BB /* UriCodec.hpp */,
-				CADE395924F17422003165BB /* url.cpp */,
 				CADE396B24F17422003165BB /* url.h */,
+				CADE395924F17422003165BB /* url.cpp */,
 				CADE397324F17422003165BB /* url.js */,
-				CADE396324F17422003165BB /* usfm.cpp */,
 				CADE395424F17422003165BB /* usfm.h */,
+				CADE396324F17422003165BB /* usfm.cpp */,
 				CADE396D24F17422003165BB /* usfm.js */,
-				CADE396C24F17422003165BB /* webview.cpp */,
 				CADE396824F17422003165BB /* webview.h */,
+				CADE396C24F17422003165BB /* webview.cpp */,
 			);
 			path = filter;
 			sourceTree = "<group>";
@@ -3885,8 +3887,6 @@
 			isa = PBXGroup;
 			children = (
 				CADE3F8C24F17488003165BB /* LICENSE */,
-				CADE3F8E24F17488003165BB /* logic.cpp */,
-				CADE3F9524F17488003165BB /* logic.h */,
 				CADE3F8F24F17488003165BB /* quill.bubble.css */,
 				CADE3F9824F17488003165BB /* quill.core.css */,
 				CADE3F9A24F17488003165BB /* quill.core.js */,

@@ -59,7 +59,8 @@ private:
   pugi::xml_node m_body_node {};
   pugi::xml_node m_notes_node {};
   pugi::xml_node m_word_level_attributes_node {};
-  
+  pugi::xml_node m_milestone_attributes_node {}; // Todo
+
   pugi::xml_node m_current_p_node {}; // The current p node.
   bool m_current_p_open {false};
   std::vector <std::string> m_current_text_styles {};
@@ -101,6 +102,13 @@ private:
   std::optional<std::string> m_pending_word_level_attributes{};
   void extract_word_level_attributes();
   void add_word_level_attributes(const std::string id);
+  
+  // Milestones. Todo
+  int m_milestone_attributes_id {0};
+  int get_milestone_attributes_id(const bool next);
+  std::optional<std::string> m_pending_milestone_attributes{};
+  bool extract_milestone_attributes();
+  void add_milestone_attributes(const std::string id);
 };
 
 bool road_is_clear(const std::vector<std::string>& markers_and_text,

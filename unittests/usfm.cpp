@@ -1583,7 +1583,7 @@ TEST (usfm, usfm_import_all_markers)
   for (const auto& data : book_chapter_data) {
     EXPECT_EQ (data.m_book, static_cast<int>(book_id::_genesis));
     const int chapter = data.m_chapter;
-    constexpr std::array<int,9> chapters {0, 1, 2, 3, 4, 5, 6, 7, 8};
+    constexpr std::array<int,10> chapters {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
     if (std::find(chapters.cbegin(), chapters.cend(), chapter) == chapters.cend()) {
       ADD_FAILURE() << "Unexpected chapter number " << chapter;
     }

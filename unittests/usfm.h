@@ -214,4 +214,14 @@ R"(\esbe)" "\n"
 R"(\periph Title Page|id="title")" "\n"
 R"(\p paragraph \jmp text|link-href="href"\jmp*)" "\n"
 
+R"(\c 9)" "\n"
+R"(\p text\qt-s |attribute-qt-s="value-qt-s"\*)" "\n"
+R"(\p text\qt1-s |attribute-qt1-s="value-qt1-s"\*)" "\n"
+R"(\p text\qt2-s |attribute-qt2-s="value-qt2-s"\*)" "\n"
+R"(\p text\qt-e |attribute-qt-e="value-qt-e"\*)" "\n"
+R"(\p text\qt1-e |attribute-qt1-e="value-qt1-e"\*)" "\n"
+R"(\p text\qt2-e |attribute-qt2-e="value-qt2-e"\*)" "\n"
+R"(\p text\ts-s |attribute-ts-s="value-ts-s"\*)" "\n"
+R"(\p text\ts-e |attribute-ts-e="value-ts-e"\*)" "\n"
+
 ;

@@ -314,16 +314,18 @@ TEST_F (styles, get_custom_class)
 TEST_F (styles, spot_check_markers)
 {
   constexpr const char* test_sheet {"testsheet"};
-  
+    
   database::styles::create_sheet (test_sheet);
   
   std::vector <std::string> markers {};
   
+  constexpr const int marker_count {220};
+  
   markers = database::styles::get_markers (stylesv2::standard_sheet ());
-  EXPECT_EQ (212, static_cast<int>(markers.size ()));
+  EXPECT_EQ (marker_count, static_cast<int>(markers.size ()));
   
   markers = database::styles::get_markers (test_sheet);
-  EXPECT_EQ (212, static_cast<int>(markers.size ()));
+  EXPECT_EQ (marker_count, static_cast<int>(markers.size ()));
   
   std::string marker {"p"};
   if (find (markers.begin (), markers.end (), marker) == markers.end ())
@@ -333,7 +335,7 @@ TEST_F (styles, spot_check_markers)
     ADD_FAILURE() << marker << " not found";
   
   std::map <std::string, std::string> markers_names = database::styles::get_markers_and_names (test_sheet);
-  EXPECT_EQ (212, markers_names.size());
+  EXPECT_EQ (marker_count, markers_names.size());
   EXPECT_EQ ("Blank line", markers_names ["b"]);
   EXPECT_EQ ("Normal paragraph", markers_names ["p"]);
   EXPECT_EQ ("Translator’s addition", markers_names ["add"]);

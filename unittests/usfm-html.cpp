@@ -2303,7 +2303,15 @@ TEST_F (usfm_html, usfm_with_all_markers)
   R"(<p class="b-mono"><span>\esbe </span></p>)"
   R"(<p class="b-mono"><span>\periph </span><span>Title Page|id="title"</span></p>)"
   R"(<p class="b-p"><span>paragraph </span><span class="i-jmp0wla2">text</span></p>)"
-
+  R"(<p class="b-c"><span>9</span></p>)"
+  R"(<p class="b-p"><span>text</span><span class="i-qt_s0mls1">🏁</span></p>)"
+  R"(<p class="b-p"><span>text</span><span class="i-qt1_s0mls2">🏁</span></p>)"
+  R"(<p class="b-p"><span>text</span><span class="i-qt2_s0mls3">🏁</span></p>)"
+  R"(<p class="b-p"><span>text</span><span class="i-qt_e0mls4">🏁</span></p>)"
+  R"(<p class="b-p"><span>text</span><span class="i-qt1_e0mls5">🏁</span></p>)"
+  R"(<p class="b-p"><span>text</span><span class="i-qt2_e0mls6">🏁</span></p>)"
+  R"(<p class="b-p"><span>text</span><span class="i-ts_s0mls7">🏁</span></p>)"
+  R"(<p class="b-p"><span>text</span><span class="i-ts_e0mls8">🏁</span></p>)"
   
   R"(<p class="b-notes"> </p>)"
   R"(<p class="b-f"><span class="i-notebody1">1</span><span> </span><span>+ </span><span class="i-fr">ref </span><span class="i-ft">note </span><span class="i-fq">quote </span><span class="i-fv">3</span><span> </span><span class="i-fqa">alternate quote </span><span class="i-fk">keyword </span><span class="i-fl">label </span><span class="i-fw">witness </span><span class="i-fdc">deuterocanonical</span><span> </span><span class="i-fm">mark</span></p>)"
@@ -2313,9 +2321,21 @@ TEST_F (usfm_html, usfm_with_all_markers)
   R"(<p class="b-x"><span class="i-notebody5">a</span><span> </span><span>+ </span><span class="i-xo">origin </span><span class="i-xk">keyword </span><span class="i-xq">quotation </span><span class="i-xt">targets </span><span class="i-xta">added </span><span class="i-xop">published</span><span> </span><span class="i-xot">old testament</span><span> </span><span class="i-xnt">new testament</span><span> </span><span class="i-xdc">deuterocanonical</span></p>)"
   R"(<p class="b-ex"><span class="i-notebody6">a</span><span> </span><span>+ </span><span class="i-xt">targets</span></p>)"
   R"(<p class="b-ef"><span class="i-notebody7">2</span><span> </span><span>- </span><span class="i-cat">category</span><span> </span><span class="i-ft">note</span></p>)"
+
   R"(<p class="b-wordlevelattributes"> </p>)"
   R"(<p class="b-wla1">"gloss:gloss"</p>)"
   R"(<p class="b-wla2">link-href="href"</p>)"
+
+  R"(<p class="b-milestoneattributes"> </p>)"
+  R"(<p class="b-mls1">attribute-qt-s="value-qt-s"</p>)"
+  R"(<p class="b-mls2">attribute-qt1-s="value-qt1-s"</p>)"
+  R"(<p class="b-mls3">attribute-qt2-s="value-qt2-s"</p>)"
+  R"(<p class="b-mls4">attribute-qt-e="value-qt-e"</p>)"
+  R"(<p class="b-mls5">attribute-qt1-e="value-qt1-e"</p>)"
+  R"(<p class="b-mls6">attribute-qt2-e="value-qt2-e"</p>)"
+  R"(<p class="b-mls7">attribute-ts-s="value-ts-s"</p>)"
+  R"(<p class="b-mls8">attribute-ts-e="value-ts-e"</p>)"
+  
   ;
 
   const auto make_readable = [] (const auto& html) {

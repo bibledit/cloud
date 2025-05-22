@@ -26,8 +26,8 @@ libbibledit_a_SOURCES = \
 	filter/memory.cpp \
 	filter/webview.cpp \
 	filter/mail.cpp \
-  filter/note.cpp \
-  filter/number.cpp \
+	filter/note.cpp \
+	filter/number.cpp \
 	flate/flate.cpp \
 	assets/view.cpp \
 	assets/page.cpp \
@@ -155,7 +155,7 @@ libbibledit_a_SOURCES = \
 	user/logic.cpp \
 	manage/index.cpp \
 	manage/users.cpp \
-  manage/accounts.cpp \
+	manage/accounts.cpp \
 	manage/exports.cpp \
 	manage/hyphenation.cpp \
 	manage/hyphenate.cpp \
@@ -186,16 +186,16 @@ libbibledit_a_SOURCES = \
 	compare/index.cpp \
 	compare/compare.cpp \
 	jobs/index.cpp \
-  editone/index.cpp \
-  editone/load.cpp \
-  editone/save.cpp \
-  editone/verse.cpp \
-  editone/logic.cpp \
-  editone/update.cpp \
+	editone/index.cpp \
+	editone/load.cpp \
+	editone/save.cpp \
+	editone/verse.cpp \
+	editone/logic.cpp \
+	editone/update.cpp \
 	navigation/passage.cpp \
 	navigation/update.cpp \
 	navigation/poll.cpp \
-  navigation/paratext.cpp \
+	navigation/paratext.cpp \
 	ipc/focus.cpp \
 	ipc/notes.cpp \
 	checksum/logic.cpp \
@@ -208,9 +208,9 @@ libbibledit_a_SOURCES = \
 	editor/html2usfm.cpp \
 	editor/usfm2html.cpp \
 	editor/select.cpp \
-  editor/html2format.cpp \
-  editor/id.cpp \
-  editor/style.cpp \
+	editor/html2format.cpp \
+	editor/id.cpp \
+	editor/style.cpp \
 	edit/edit.cpp \
 	edit/id.cpp \
 	edit/index.cpp \
@@ -221,7 +221,7 @@ libbibledit_a_SOURCES = \
 	edit/preview.cpp \
 	edit/position.cpp \
 	edit/navigate.cpp \
-  edit/update.cpp \
+	edit/update.cpp \
 	search/all.cpp \
 	search/index.cpp \
 	search/replace.cpp \
@@ -359,114 +359,114 @@ libbibledit_a_SOURCES = \
 	public/comment.cpp \
 	utf8proc/utf8proc.c \
 	search/logic.cpp \
-  mbedtls/aes.c \
-  mbedtls/aesce.c \
-  mbedtls/aesni.c \
-  mbedtls/aria.c \
-  mbedtls/asn1parse.c \
-  mbedtls/asn1write.c \
-  mbedtls/base64.c \
-  mbedtls/bignum.c \
-  mbedtls/bignum_core.c \
-  mbedtls/bignum_mod.c \
-  mbedtls/bignum_mod_raw.c \
-  mbedtls/block_cipher.c \
-  mbedtls/camellia.c \
-  mbedtls/ccm.c \
-  mbedtls/chacha20.c \
-  mbedtls/chachapoly.c \
-  mbedtls/cipher.c \
-  mbedtls/cipher_wrap.c \
-  mbedtls/cmac.c \
-  mbedtls/constant_time.c \
-  mbedtls/ctr_drbg.c \
-  mbedtls/debug.c \
-  mbedtls/des.c \
-  mbedtls/dhm.c \
-  mbedtls/ecdh.c \
-  mbedtls/ecdsa.c \
-  mbedtls/ecjpake.c \
-  mbedtls/ecp.c \
-  mbedtls/ecp_curves.c \
-  mbedtls/ecp_curves_new.c \
-  mbedtls/entropy.c \
-  mbedtls/entropy_poll.c \
-  mbedtls/error.c \
-  mbedtls/gcm.c \
-  mbedtls/hkdf.c \
-  mbedtls/hmac_drbg.c \
-  mbedtls/lmots.c \
-  mbedtls/lms.c \
-  mbedtls/md.c \
-  mbedtls/md5.c \
-  mbedtls/memory_buffer_alloc.c \
-  mbedtls/mps_reader.c \
-  mbedtls/mps_trace.c \
-  mbedtls/net_sockets.c \
-  mbedtls/nist_kw.c \
-  mbedtls/oid.c \
-  mbedtls/padlock.c \
-  mbedtls/pem.c \
-  mbedtls/pk.c \
-  mbedtls/pk_ecc.c \
-  mbedtls/pk_wrap.c \
-  mbedtls/pkcs12.c \
-  mbedtls/pkcs5.c \
-  mbedtls/pkcs7.c \
-  mbedtls/pkparse.c \
-  mbedtls/pkwrite.c \
-  mbedtls/platform.c \
-  mbedtls/platform_util.c \
-  mbedtls/poly1305.c \
-  mbedtls/psa_crypto.c \
-  mbedtls/psa_crypto_aead.c \
-  mbedtls/psa_crypto_cipher.c \
-  mbedtls/psa_crypto_client.c \
-  mbedtls/psa_crypto_driver_wrappers_no_static.c \
-  mbedtls/psa_crypto_ecp.c \
-  mbedtls/psa_crypto_ffdh.c \
-  mbedtls/psa_crypto_hash.c \
-  mbedtls/psa_crypto_mac.c \
-  mbedtls/psa_crypto_pake.c \
-  mbedtls/psa_crypto_rsa.c \
-  mbedtls/psa_crypto_se.c \
-  mbedtls/psa_crypto_slot_management.c \
-  mbedtls/psa_crypto_storage.c \
-  mbedtls/psa_its_file.c \
-  mbedtls/psa_util.c \
-  mbedtls/ripemd160.c \
-  mbedtls/rsa.c \
-  mbedtls/rsa_alt_helpers.c \
-  mbedtls/sha1.c \
-  mbedtls/sha256.c \
-  mbedtls/sha3.c \
-  mbedtls/sha512.c \
-  mbedtls/ssl_cache.c \
-  mbedtls/ssl_ciphersuites.c \
-  mbedtls/ssl_client.c \
-  mbedtls/ssl_cookie.c \
-  mbedtls/ssl_debug_helpers_generated.c \
-  mbedtls/ssl_msg.c \
-  mbedtls/ssl_ticket.c \
-  mbedtls/ssl_tls.c \
-  mbedtls/ssl_tls12_client.c \
-  mbedtls/ssl_tls12_server.c \
-  mbedtls/ssl_tls13_client.c \
-  mbedtls/ssl_tls13_generic.c \
-  mbedtls/ssl_tls13_keys.c \
-  mbedtls/ssl_tls13_server.c \
-  mbedtls/threading.c \
-  mbedtls/timing.c \
-  mbedtls/version.c \
-  mbedtls/version_features.c \
-  mbedtls/x509.c \
-  mbedtls/x509_create.c \
-  mbedtls/x509_crl.c \
-  mbedtls/x509_crt.c \
-  mbedtls/x509_csr.c \
-  mbedtls/x509write.c \
-  mbedtls/x509write_crt.c \
-  mbedtls/x509write_csr.c \
+	mbedtls/aes.c \
+	mbedtls/aesce.c \
+	mbedtls/aesni.c \
+	mbedtls/aria.c \
+	mbedtls/asn1parse.c \
+	mbedtls/asn1write.c \
+	mbedtls/base64.c \
+	mbedtls/bignum.c \
+	mbedtls/bignum_core.c \
+	mbedtls/bignum_mod.c \
+	mbedtls/bignum_mod_raw.c \
+	mbedtls/block_cipher.c \
+	mbedtls/camellia.c \
+	mbedtls/ccm.c \
+	mbedtls/chacha20.c \
+	mbedtls/chachapoly.c \
+	mbedtls/cipher.c \
+	mbedtls/cipher_wrap.c \
+	mbedtls/cmac.c \
+	mbedtls/constant_time.c \
+	mbedtls/ctr_drbg.c \
+	mbedtls/debug.c \
+	mbedtls/des.c \
+	mbedtls/dhm.c \
+	mbedtls/ecdh.c \
+	mbedtls/ecdsa.c \
+	mbedtls/ecjpake.c \
+	mbedtls/ecp.c \
+	mbedtls/ecp_curves.c \
+	mbedtls/ecp_curves_new.c \
+	mbedtls/entropy.c \
+	mbedtls/entropy_poll.c \
+	mbedtls/error.c \
+	mbedtls/gcm.c \
+	mbedtls/hkdf.c \
+	mbedtls/hmac_drbg.c \
+	mbedtls/lmots.c \
+	mbedtls/lms.c \
+	mbedtls/md.c \
+	mbedtls/md5.c \
+	mbedtls/memory_buffer_alloc.c \
+	mbedtls/mps_reader.c \
+	mbedtls/mps_trace.c \
+	mbedtls/net_sockets.c \
+	mbedtls/nist_kw.c \
+	mbedtls/oid.c \
+	mbedtls/padlock.c \
+	mbedtls/pem.c \
+	mbedtls/pk.c \
+	mbedtls/pk_ecc.c \
+	mbedtls/pk_wrap.c \
+	mbedtls/pkcs12.c \
+	mbedtls/pkcs5.c \
+	mbedtls/pkcs7.c \
+	mbedtls/pkparse.c \
+	mbedtls/pkwrite.c \
+	mbedtls/platform.c \
+	mbedtls/platform_util.c \
+	mbedtls/poly1305.c \
+	mbedtls/psa_crypto.c \
+	mbedtls/psa_crypto_aead.c \
+	mbedtls/psa_crypto_cipher.c \
+	mbedtls/psa_crypto_client.c \
+	mbedtls/psa_crypto_driver_wrappers_no_static.c \
+	mbedtls/psa_crypto_ecp.c \
+	mbedtls/psa_crypto_ffdh.c \
+	mbedtls/psa_crypto_hash.c \
+	mbedtls/psa_crypto_mac.c \
+	mbedtls/psa_crypto_pake.c \
+	mbedtls/psa_crypto_rsa.c \
+	mbedtls/psa_crypto_se.c \
+	mbedtls/psa_crypto_slot_management.c \
+	mbedtls/psa_crypto_storage.c \
+	mbedtls/psa_its_file.c \
+	mbedtls/psa_util.c \
+	mbedtls/ripemd160.c \
+	mbedtls/rsa.c \
+	mbedtls/rsa_alt_helpers.c \
+	mbedtls/sha1.c \
+	mbedtls/sha256.c \
+	mbedtls/sha3.c \
+	mbedtls/sha512.c \
+	mbedtls/ssl_cache.c \
+	mbedtls/ssl_ciphersuites.c \
+	mbedtls/ssl_client.c \
+	mbedtls/ssl_cookie.c \
+	mbedtls/ssl_debug_helpers_generated.c \
+	mbedtls/ssl_msg.c \
+	mbedtls/ssl_ticket.c \
+	mbedtls/ssl_tls.c \
+	mbedtls/ssl_tls12_client.c \
+	mbedtls/ssl_tls12_server.c \
+	mbedtls/ssl_tls13_client.c \
+	mbedtls/ssl_tls13_generic.c \
+	mbedtls/ssl_tls13_keys.c \
+	mbedtls/ssl_tls13_server.c \
+	mbedtls/threading.c \
+	mbedtls/timing.c \
+	mbedtls/version.c \
+	mbedtls/version_features.c \
+	mbedtls/x509.c \
+	mbedtls/x509_create.c \
+	mbedtls/x509_crl.c \
+	mbedtls/x509_crt.c \
+	mbedtls/x509_csr.c \
+	mbedtls/x509write.c \
+	mbedtls/x509write_crt.c \
+	mbedtls/x509write_csr.c \
 	related/logic.cpp \
 	sqlite/sqlite3.c \
 	ldap/logic.cpp \
@@ -474,91 +474,91 @@ libbibledit_a_SOURCES = \
 	rss/feed.cpp \
 	microtar/microtar.c \
 	miniz/miniz.c \
-  read/index.cpp \
-  read/load.cpp \
-  read/verse.cpp \
-  resource/divider.cpp \
-  session/confirm.cpp \
-  sources/abbott-smith.cpp \
-  database/abbottsmith.cpp \
-  resource/comparative9edit.cpp \
-  resource/comparative1edit.cpp \
-  resource/translated9edit.cpp \
-  resource/translated1edit.cpp \
-  developer/delay.cpp \
-  images/index.cpp \
-  images/view.cpp \
-  images/fetch.cpp \
-  images/logic.cpp \
-  database/bibleimages.cpp \
-  filter/image.cpp \
-  mimetic098/header.cxx \
-  mimetic098/contentid.cxx \
-  mimetic098/contenttransferencoding.cxx \
-  mimetic098/contentdisposition.cxx \
-  mimetic098/contentdescription.cxx \
-  mimetic098/mimeversion.cxx \
-  mimetic098/contenttype.cxx \
-  mimetic098/version.cxx \
-  mimetic098/fieldparam.cxx \
-  mimetic098/mimeentity.cxx \
-  mimetic098/strutils.cxx \
-  mimetic098/body.cxx \
-  mimetic098/utils.cxx \
-  mimetic098/rfc822/field.cxx \
-  mimetic098/rfc822/header.cxx \
-  mimetic098/rfc822/message.cxx \
-  mimetic098/rfc822/addresslist.cxx \
-  mimetic098/rfc822/fieldvalue.cxx \
-  mimetic098/rfc822/mailbox.cxx \
-  mimetic098/rfc822/messageid.cxx \
-  mimetic098/rfc822/datetime.cxx \
-  mimetic098/rfc822/group.cxx \
-  mimetic098/rfc822/mailboxlist.cxx \
-  mimetic098/rfc822/address.cxx \
-  mimetic098/os/utils.cxx \
-  mimetic098/os/file_iterator.cxx \
-  mimetic098/os/mmfile.cxx \
-  mimetic098/codec/base64.cxx \
-  system/googletranslate.cpp \
-  filter/google.cpp \
-  tidy/access.c \
-  tidy/alloc.c \
-  tidy/attrdict.c \
-  tidy/attrs.c \
-  tidy/buffio.c \
-  tidy/charsets.c \
-  tidy/clean.c \
-  tidy/config.c \
-  tidy/entities.c \
-  tidy/fileio.c \
-  tidy/gdoc.c \
-  tidy/istack.c \
-  tidy/language.c \
-  tidy/lexer.c \
-  tidy/mappedio.c \
-  tidy/message.c \
-  tidy/messageobj.c \
-  tidy/parser.c \
-  tidy/pprint.c \
-  tidy/sprtf.c \
-  tidy/streamio.c \
-  tidy/tagask.c \
-  tidy/tags.c \
-  tidy/tidylib.c \
-  tidy/tmbstr.c \
-  tidy/utf8.c \
-  gumbo/attribute.c \
-  gumbo/char_ref.c \
-  gumbo/error.c \
-  gumbo/parser.c \
-  gumbo/string_buffer.c \
-  gumbo/string_piece.c \
-  gumbo/tag.c \
-  gumbo/tokenizer.c \
-  gumbo/utf8.c \
-  gumbo/util.c \
-  gumbo/vector.c
+	read/index.cpp \
+	read/load.cpp \
+	read/verse.cpp \
+	resource/divider.cpp \
+	session/confirm.cpp \
+	sources/abbott-smith.cpp \
+	database/abbottsmith.cpp \
+	resource/comparative9edit.cpp \
+	resource/comparative1edit.cpp \
+	resource/translated9edit.cpp \
+	resource/translated1edit.cpp \
+	developer/delay.cpp \
+	images/index.cpp \
+	images/view.cpp \
+	images/fetch.cpp \
+	images/logic.cpp \
+	database/bibleimages.cpp \
+	filter/image.cpp \
+	mimetic098/header.cxx \
+	mimetic098/contentid.cxx \
+	mimetic098/contenttransferencoding.cxx \
+	mimetic098/contentdisposition.cxx \
+	mimetic098/contentdescription.cxx \
+	mimetic098/mimeversion.cxx \
+	mimetic098/contenttype.cxx \
+	mimetic098/version.cxx \
+	mimetic098/fieldparam.cxx \
+	mimetic098/mimeentity.cxx \
+	mimetic098/strutils.cxx \
+	mimetic098/body.cxx \
+	mimetic098/utils.cxx \
+	mimetic098/rfc822/field.cxx \
+	mimetic098/rfc822/header.cxx \
+	mimetic098/rfc822/message.cxx \
+	mimetic098/rfc822/addresslist.cxx \
+	mimetic098/rfc822/fieldvalue.cxx \
+	mimetic098/rfc822/mailbox.cxx \
+	mimetic098/rfc822/messageid.cxx \
+	mimetic098/rfc822/datetime.cxx \
+	mimetic098/rfc822/group.cxx \
+	mimetic098/rfc822/mailboxlist.cxx \
+	mimetic098/rfc822/address.cxx \
+	mimetic098/os/utils.cxx \
+	mimetic098/os/file_iterator.cxx \
+	mimetic098/os/mmfile.cxx \
+	mimetic098/codec/base64.cxx \
+	system/googletranslate.cpp \
+	filter/google.cpp \
+	tidy/access.c \
+	tidy/alloc.c \
+	tidy/attrdict.c \
+	tidy/attrs.c \
+	tidy/buffio.c \
+	tidy/charsets.c \
+	tidy/clean.c \
+	tidy/config.c \
+	tidy/entities.c \
+	tidy/fileio.c \
+	tidy/gdoc.c \
+	tidy/istack.c \
+	tidy/language.c \
+	tidy/lexer.c \
+	tidy/mappedio.c \
+	tidy/message.c \
+	tidy/messageobj.c \
+	tidy/parser.c \
+	tidy/pprint.c \
+	tidy/sprtf.c \
+	tidy/streamio.c \
+	tidy/tagask.c \
+	tidy/tags.c \
+	tidy/tidylib.c \
+	tidy/tmbstr.c \
+	tidy/utf8.c \
+	gumbo/attribute.c \
+	gumbo/char_ref.c \
+	gumbo/error.c \
+	gumbo/parser.c \
+	gumbo/string_buffer.c \
+	gumbo/string_piece.c \
+	gumbo/tag.c \
+	gumbo/tokenizer.c \
+	gumbo/utf8.c \
+	gumbo/util.c \
+	gumbo/vector.c
 
 bin_PROGRAMS = server unittest generate
 
@@ -643,11 +643,11 @@ unittest_SOURCES = \
 	unittests/webview.cpp \
 	unittests/javascript.cpp \
 	unittests/french.cpp \
-  unittests/merge.cpp \
-  unittests/html2format.cpp \
-  unittests/bibleimages.cpp \
-  unittests/image.cpp \
-  unittests/scraper.cpp
+	unittests/merge.cpp \
+	unittests/html2format.cpp \
+	unittests/bibleimages.cpp \
+	unittests/image.cpp \
+	unittests/scraper.cpp
 
 unittest_LDADD = libbibledit.a
 
@@ -663,7 +663,7 @@ AM_CFLAGS += $(OPENSSL_CFLAGS)
 AM_CXXFLAGS = -fno-var-tracking -g
 if COMPILERWARNINGS
 AM_CFLAGS += -Wall -Wno-unknown-pragmas -Wextra -pedantic -Wno-pragmas
-AM_CXXFLAGS += -Wall -Wno-unknown-pragmas -Wextra -pedantic -Wshadow -Warray-bounds -Wcast-align -Wcast-qual -Wconversion -Wctor-dtor-privacy -Wdelete-non-virtual-dtor -Weffc++ -Wextra-semi -Wfloat-equal -Wformat=2 -Wmissing-include-dirs -Wmissing-noreturn -Wnull-dereference -Wold-style-cast -Woverloaded-virtual  -Wredundant-decls -Wsign-promo -Wsuggest-override -Wswitch-default -Wswitch-enum -Wundef -Wuninitialized -Wunused-but-set-parameter -Wunused-macros -Wunused-parameter -Wvla -Wzero-as-null-pointer-constant -Wmismatched-tags
+AM_CXXFLAGS += -Wall -Wno-unknown-pragmas -Wextra -pedantic -Wshadow -Warray-bounds -Wcast-align -Wcast-qual -Wconversion -Wctor-dtor-privacy -Wdelete-non-virtual-dtor -Weffc++ -Wextra-semi -Wfloat-equal -Wformat=2 -Wmissing-include-dirs -Wmissing-noreturn -Wnull-dereference -Wold-style-cast -Woverloaded-virtual -Wredundant-decls -Wsign-promo -Wsuggest-override -Wswitch-default -Wswitch-enum -Wundef -Wuninitialized -Wunused-but-set-parameter -Wunused-macros -Wunused-parameter -Wvla -Wzero-as-null-pointer-constant -Wmismatched-tags
 if COMPILERGCC
 AM_CXXFLAGS += -Wcatch-value=2 -Wconditionally-supported -Wduplicated-branches -Wduplicated-cond -Wformat-overflow=2 -Wlogical-op -Wnoexcept -Wno-non-template-friend -Wrestrict -Wstrict-null-sentinel -Wuseless-cast -Wcomma-subscript -Wredundant-tags -Wvolatile
 endif

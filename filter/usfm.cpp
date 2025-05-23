@@ -1065,11 +1065,60 @@ std::string extract_fig (std::string usfm, std::string & caption, std::string & 
 // Returns true if the marker is a standard "q." marker.
 bool is_standard_q_poetry (const std::string& marker)
 {
-  if (marker == "q") return true;
-  if (marker == "q1") return true;
-  if (marker == "q2") return true;
-  if (marker == "q3") return true;
+  if (marker == "q")
+    return true;
+  if (marker == "q1")
+    return true;
+  if (marker == "q2")
+    return true;
+  if (marker == "q3")
+    return true;
   return false;
+}
+
+
+// Removes milestone data, and returns the removed USFM.
+std::string remove_milestone (std::vector <std::string>& container, unsigned int& pointer) // Todo
+{
+  // This function assumes that it is called only at the opening marker of a milestone.
+
+  // Example milestone: \qt-s |attribute1="value1"\*
+
+  std::string removed_data;
+  
+  // This function is called with the pointer pointing at the opening marker.
+  // In the above example this is \qt-s
+  // So add that bit to the removed data to be returned.
+  removed_data.append(container.at(pointer));
+
+  // Next there's maximal two bits
+  // 1. The attributes.
+  // 2. The closing marker.
+  // But the attributes may have been removed, so handle that situation too.
+  for (int i {1}; i <= 2; i++) {
+    // Check whether it's safe to peek at the next item in the container of markers and text fragments.
+    if (pointer >= container.size())
+      break;
+    // Check whether the next fragment starts with a vertical bar.
+    // If so, it's the attributes.
+    // Handle those.
+    if (!container.at(pointer+1).empty()) {
+      if (container.at(pointer+1).front() == '|') {
+        pointer++;
+        removed_data.append(container.at(pointer));
+      }
+    }
+    // If the next fragment is the empty closing marker,
+    // that closes the milestone.
+    // Handle it, and stop processing more fragments.
+    if (container.at(pointer+1) == R"(\*)") {
+      pointer++;
+      removed_data.append(container.at(pointer));
+      break;
+    }
+  }
+  // The data removed above.
+  return removed_data;
 }
 
 

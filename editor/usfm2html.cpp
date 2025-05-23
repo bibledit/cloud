@@ -191,8 +191,9 @@ void Editor_Usfm2Html::process ()
       // Handle preview mode: Strip word-level attributes.
       // Likely this can be removed from preview since word-level ttributes get extracted.
       if (m_preview)
-        if (is_opening_marker)
+        if (is_opening_marker) { // Todo also remove milestones.
           filter::usfm::remove_word_level_attributes (marker, m_markers_and_text, m_markers_and_text_pointer);
+        }
       if (const stylesv2::Style* style {database::styles::get_marker_data (m_stylesheet, marker)}; style)
       {
         switch (style->type) {

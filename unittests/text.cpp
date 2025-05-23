@@ -1606,7 +1606,16 @@ TEST_F (filter_text, usfm_with_all_markers)
   R"(<p class="break"/>)"
   R"(<p class="p"><span>paragraph </span><span class="jmp">text|link-href="href"</span></p>)"
   
-  
+  R"(<p class="c"><span>9</span></p>)"
+  R"(<p class="p"><span>text</span></p>)"
+  R"(<p class="p"><span>text</span></p>)"
+  R"(<p class="p"><span>text</span></p>)"
+  R"(<p class="p"><span>text</span></p>)"
+  R"(<p class="p"><span>text</span></p>)"
+  R"(<p class="p"><span>text</span></p>)"
+  R"(<p class="p"><span>text</span></p>)"
+  R"(<p class="p"><span>text</span></p>)"
+
   R"(<div>)"
   R"(<p class="ft"><a href="#citation1" id="note1">1</a><span> </span><span class="fr">ref </span><span>note </span><span class="fq">quote </span><span class="fv">3</span><span> </span><span class="fqa">alternate quote </span><span class="fk">keyword </span><span class="fl">label </span><span class="fw">witness </span><span class="fdc">deuterocanonical</span><span> </span><span class="fm">mark</span></p>)"
   R"(<p class="ft"><a href="#citation2" id="note2">1</a><span> </span><span class="fr">ref</span><span>note</span></p>)"
@@ -1634,6 +1643,31 @@ TEST_F (filter_text, usfm_with_all_markers)
     if (!additions.empty())
       ADD_FAILURE() << "The first item that the generated html has extra related to the standard html is this: " << additions.front();
   }
+}
+
+
+TEST_F (filter_text, milestones) // Todo
+{
+  const std::string usfm =
+  R"(\p text1\qt-s |attribute1="value1"\*)" "\n"
+  R"(\p text2\qt-e |attribute2="value2"\*)" "\n"
+  ;
+  
+  Filter_Text filter_text = Filter_Text (bible);
+  filter_text.odf_text_standard = new odf_text (bible);
+  filter_text.add_usfm_code (usfm);
+  filter_text.run (stylesv2::standard_sheet());
+  filter_text.odf_text_standard->save (text_odt);
+  const int ret = odf2txt (text_odt, text_txt);
+  EXPECT_EQ (0, ret);
+  const std::string odt = filter_url_file_get_contents (text_txt);
+  const std::string standard =
+  "text1\n"
+  "\n"
+  "text2\n"
+  "\n"
+  ;
+  EXPECT_EQ (standard, odt);
 }
 
 

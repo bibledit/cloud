@@ -22,7 +22,7 @@ $(document).ready (function () {
   $("#fgcolor").change(function(){
     var fgcolor = $("#fgcolor").val();
     $.ajax ({
-      url: "view2",
+      url: "view",
       type: "GET",
       data: { sheet: sheet, style: style, fgcolor: fgcolor }
     });
@@ -31,7 +31,7 @@ $(document).ready (function () {
   $("#bgcolor").change(function(){
     var bgcolor = $("#bgcolor").val();
     $.ajax ({
-      url: "view2",
+      url: "view",
       type: "GET",
       data: { sheet: sheet, style: style, bgcolor: bgcolor }
     });

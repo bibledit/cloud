@@ -177,16 +177,17 @@ am_libbibledit_a_OBJECTS = library/bibledit.$(OBJEXT) \
 	parsewebdata/ParseWebData.$(OBJEXT) setup/index.$(OBJEXT) \
 	setup/logic.$(OBJEXT) journal/index.$(OBJEXT) \
 	journal/logic.$(OBJEXT) styles/logic.$(OBJEXT) \
-	styles/indexm.$(OBJEXT) styles/sheetm.$(OBJEXT) \
-	styles/view2.$(OBJEXT) styles/css.$(OBJEXT) \
-	styles/sheets.$(OBJEXT) text/text.$(OBJEXT) \
-	esword/text.$(OBJEXT) olb/text.$(OBJEXT) html/text.$(OBJEXT) \
-	html/header.$(OBJEXT) odf/text.$(OBJEXT) timer/index.$(OBJEXT) \
-	tasks/logic.$(OBJEXT) tasks/run.$(OBJEXT) \
-	config/logic.$(OBJEXT) bb/logic.$(OBJEXT) bb/manage.$(OBJEXT) \
-	bb/settings.$(OBJEXT) bb/book.$(OBJEXT) bb/chapter.$(OBJEXT) \
-	bb/import_run.$(OBJEXT) bb/import.$(OBJEXT) bb/order.$(OBJEXT) \
-	bb/css.$(OBJEXT) notes/logic.$(OBJEXT) notes/actions.$(OBJEXT) \
+	styles/indexm.$(OBJEXT) styles/new.$(OBJEXT) \
+	styles/sheetm.$(OBJEXT) styles/view.$(OBJEXT) \
+	styles/css.$(OBJEXT) styles/sheets.$(OBJEXT) \
+	text/text.$(OBJEXT) esword/text.$(OBJEXT) olb/text.$(OBJEXT) \
+	html/text.$(OBJEXT) html/header.$(OBJEXT) odf/text.$(OBJEXT) \
+	timer/index.$(OBJEXT) tasks/logic.$(OBJEXT) \
+	tasks/run.$(OBJEXT) config/logic.$(OBJEXT) bb/logic.$(OBJEXT) \
+	bb/manage.$(OBJEXT) bb/settings.$(OBJEXT) bb/book.$(OBJEXT) \
+	bb/chapter.$(OBJEXT) bb/import_run.$(OBJEXT) \
+	bb/import.$(OBJEXT) bb/order.$(OBJEXT) bb/css.$(OBJEXT) \
+	notes/logic.$(OBJEXT) notes/actions.$(OBJEXT) \
 	notes/note.$(OBJEXT) notes/status-1.$(OBJEXT) \
 	notes/assign-1.$(OBJEXT) notes/notes.$(OBJEXT) \
 	notes/status-n.$(OBJEXT) notes/assign-n.$(OBJEXT) \
@@ -791,14 +792,14 @@ am__depfiles_remade = access/$(DEPDIR)/bible.Po \
 	sprint/$(DEPDIR)/burndown.Po sprint/$(DEPDIR)/index.Po \
 	sqlite/$(DEPDIR)/sqlite3.Po statistics/$(DEPDIR)/statistics.Po \
 	styles/$(DEPDIR)/css.Po styles/$(DEPDIR)/indexm.Po \
-	styles/$(DEPDIR)/logic.Po styles/$(DEPDIR)/sheetm.Po \
-	styles/$(DEPDIR)/sheets.Po styles/$(DEPDIR)/view2.Po \
-	sword/$(DEPDIR)/logic.Po sync/$(DEPDIR)/bibles.Po \
-	sync/$(DEPDIR)/changes.Po sync/$(DEPDIR)/files.Po \
-	sync/$(DEPDIR)/logic.Po sync/$(DEPDIR)/mail.Po \
-	sync/$(DEPDIR)/notes.Po sync/$(DEPDIR)/resources.Po \
-	sync/$(DEPDIR)/settings.Po sync/$(DEPDIR)/setup.Po \
-	sync/$(DEPDIR)/usfmresources.Po \
+	styles/$(DEPDIR)/logic.Po styles/$(DEPDIR)/new.Po \
+	styles/$(DEPDIR)/sheetm.Po styles/$(DEPDIR)/sheets.Po \
+	styles/$(DEPDIR)/view.Po sword/$(DEPDIR)/logic.Po \
+	sync/$(DEPDIR)/bibles.Po sync/$(DEPDIR)/changes.Po \
+	sync/$(DEPDIR)/files.Po sync/$(DEPDIR)/logic.Po \
+	sync/$(DEPDIR)/mail.Po sync/$(DEPDIR)/notes.Po \
+	sync/$(DEPDIR)/resources.Po sync/$(DEPDIR)/settings.Po \
+	sync/$(DEPDIR)/setup.Po sync/$(DEPDIR)/usfmresources.Po \
 	system/$(DEPDIR)/googletranslate.Po system/$(DEPDIR)/index.Po \
 	system/$(DEPDIR)/logic.Po tasks/$(DEPDIR)/logic.Po \
 	tasks/$(DEPDIR)/run.Po text/$(DEPDIR)/text.Po \
@@ -1205,8 +1206,9 @@ libbibledit_a_SOURCES = \
 	journal/logic.cpp \
 	styles/logic.cpp \
 	styles/indexm.cpp \
+	styles/new.cpp \
 	styles/sheetm.cpp \
-	styles/view2.cpp \
+	styles/view.cpp \
 	styles/css.cpp \
 	styles/sheets.cpp \
 	text/text.cpp \
@@ -2171,9 +2173,11 @@ styles/logic.$(OBJEXT): styles/$(am__dirstamp) \
 	styles/$(DEPDIR)/$(am__dirstamp)
 styles/indexm.$(OBJEXT): styles/$(am__dirstamp) \
 	styles/$(DEPDIR)/$(am__dirstamp)
+styles/new.$(OBJEXT): styles/$(am__dirstamp) \
+	styles/$(DEPDIR)/$(am__dirstamp)
 styles/sheetm.$(OBJEXT): styles/$(am__dirstamp) \
 	styles/$(DEPDIR)/$(am__dirstamp)
-styles/view2.$(OBJEXT): styles/$(am__dirstamp) \
+styles/view.$(OBJEXT): styles/$(am__dirstamp) \
 	styles/$(DEPDIR)/$(am__dirstamp)
 styles/css.$(OBJEXT): styles/$(am__dirstamp) \
 	styles/$(DEPDIR)/$(am__dirstamp)
@@ -4310,9 +4314,10 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@styles/$(DEPDIR)/css.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@styles/$(DEPDIR)/indexm.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@styles/$(DEPDIR)/logic.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@styles/$(DEPDIR)/new.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@styles/$(DEPDIR)/sheetm.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@styles/$(DEPDIR)/sheets.Po@am__quote@ # am--include-marker
-@AMDEP_TRUE@@am__include@ @am__quote@styles/$(DEPDIR)/view2.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@styles/$(DEPDIR)/view.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@sword/$(DEPDIR)/logic.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@sync/$(DEPDIR)/bibles.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@sync/$(DEPDIR)/changes.Po@am__quote@ # am--include-marker
@@ -5510,9 +5515,10 @@ distclean: distclean-am
 	-rm -f styles/$(DEPDIR)/css.Po
 	-rm -f styles/$(DEPDIR)/indexm.Po
 	-rm -f styles/$(DEPDIR)/logic.Po
+	-rm -f styles/$(DEPDIR)/new.Po
 	-rm -f styles/$(DEPDIR)/sheetm.Po
 	-rm -f styles/$(DEPDIR)/sheets.Po
-	-rm -f styles/$(DEPDIR)/view2.Po
+	-rm -f styles/$(DEPDIR)/view.Po
 	-rm -f sword/$(DEPDIR)/logic.Po
 	-rm -f sync/$(DEPDIR)/bibles.Po
 	-rm -f sync/$(DEPDIR)/changes.Po
@@ -6200,9 +6206,10 @@ maintainer-clean: maintainer-clean-am
 	-rm -f styles/$(DEPDIR)/css.Po
 	-rm -f styles/$(DEPDIR)/indexm.Po
 	-rm -f styles/$(DEPDIR)/logic.Po
+	-rm -f styles/$(DEPDIR)/new.Po
 	-rm -f styles/$(DEPDIR)/sheetm.Po
 	-rm -f styles/$(DEPDIR)/sheets.Po
-	-rm -f styles/$(DEPDIR)/view2.Po
+	-rm -f styles/$(DEPDIR)/view.Po
 	-rm -f sword/$(DEPDIR)/logic.Po
 	-rm -f sync/$(DEPDIR)/bibles.Po
 	-rm -f sync/$(DEPDIR)/changes.Po

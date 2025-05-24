@@ -12,7 +12,7 @@
   </tbody>
 </table>
 <br>
-<p><a href="?name=##name##&new=">translate("Add a style to the stylesheet.")</a></p>
+<p><a href="new?name=##name##">translate("Add a style to the stylesheet.")</a></p>
 <p><a href="indexm?delete=##name##">translate("Delete the entire stylesheet.")</a></p>
 <p>
 translate("You can copy or backup this stylesheet.")

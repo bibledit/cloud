@@ -89,7 +89,7 @@ std::string styles_sheetm (Webserver_Request& webserver_request)
     if (find (existing_markers.begin(), existing_markers.end(), newstyle) != existing_markers.end()) {
       page += assets_page::error (translate("This style already exists"));
     } else {
-      database::styles::add_marker (name, newstyle);
+      database::styles::add_marker (name, newstyle, newstyle); // Todo this entire block goes out.
       styles_sheets_create_all ();
       page += assets_page::success (translate("The style has been created"));
     }
@@ -142,7 +142,7 @@ std::string styles_sheetm (Webserver_Request& webserver_request)
       {
         pugi::xml_node td_node = tr_node.append_child("td");
         pugi::xml_node a_node = td_node.append_child("a");
-        const std::string href = "view2?sheet=" + name + "&style=" + marker;
+        const std::string href = "view?sheet=" + name + "&style=" + marker;
         a_node.append_attribute("href") = href.c_str();
         a_node.text().set(marker.c_str());
       }

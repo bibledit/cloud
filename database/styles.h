@@ -31,7 +31,7 @@ void delete_sheet (const std::string& sheet);
 void grant_write_access (const std::string& user, const std::string& sheet);
 void revoke_write_access (const std::string& user, const std::string& sheet);
 bool has_write_access (const std::string& user, const std::string& sheet);
-void add_marker (const std::string& sheet, const std::string& marker);
+void add_marker (const std::string& sheet, const std::string& marker, const std::string& base);
 void delete_marker (const std::string& sheet, const std::string& marker);
 void reset_marker (const std::string& sheet, const std::string& marker);
 const std::list<stylesv2::Style>& get_styles(const std::string& sheet);

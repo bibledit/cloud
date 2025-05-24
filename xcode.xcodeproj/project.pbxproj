@@ -92,7 +92,7 @@
 		CA29E7BA292C07BE003AC875 /* buffio.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = buffio.h; sourceTree = "<group>"; };
 		CA29E7BC292C07BE003AC875 /* language_en_gb.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = language_en_gb.h; sourceTree = "<group>"; };
 		CA2E6B9A2D70BC510086866B /* usfm.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = usfm.h; sourceTree = "<group>"; };
-		CA2E6B9B2D73758B0086866B /* view2.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = view2.js; sourceTree = "<group>"; };
+		CA2E6B9B2D73758B0086866B /* view.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = view.js; sourceTree = "<group>"; };
 		CA300E0629059C4800775963 /* libicudata.71.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicudata.71.1.dylib; path = ../../../../opt/local/lib/libicudata.71.1.dylib; sourceTree = "<group>"; };
 		CA300E0829059C9900775963 /* libicuuc.71.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicuuc.71.1.dylib; path = ../../../../opt/local/lib/libicuuc.71.1.dylib; sourceTree = "<group>"; };
 		CA300E0A29059CD200775963 /* libicui18n.71.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicui18n.71.1.dylib; path = ../../../../opt/local/lib/libicui18n.71.1.dylib; sourceTree = "<group>"; };
@@ -264,9 +264,9 @@
 		CAAAB4B426EBE803000C8254 /* fetch.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = fetch.h; sourceTree = "<group>"; };
 		CAAAB4B526ECE062000C8254 /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logic.h; sourceTree = "<group>"; };
 		CAAAB4B626ECE062000C8254 /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = logic.cpp; sourceTree = "<group>"; };
-		CAAB221A2D53CAEA00B9A613 /* view2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = view2.h; sourceTree = "<group>"; };
-		CAAB221B2D53CAEA00B9A613 /* view2.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = view2.cpp; sourceTree = "<group>"; };
-		CAAB221C2D53CAEA00B9A613 /* view2.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = view2.html; sourceTree = "<group>"; };
+		CAAB221A2D53CAEA00B9A613 /* view.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = view.h; sourceTree = "<group>"; };
+		CAAB221B2D53CAEA00B9A613 /* view.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = view.cpp; sourceTree = "<group>"; };
+		CAAB221C2D53CAEA00B9A613 /* view.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = view.html; sourceTree = "<group>"; };
 		CAB05E922D4AB725002D920A /* attribute.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = attribute.h; sourceTree = "<group>"; };
 		CAB05E932D4AB725002D920A /* attribute.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = attribute.c; sourceTree = "<group>"; };
 		CAB05E942D4AB725002D920A /* char_ref.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = char_ref.h; sourceTree = "<group>"; };
@@ -328,6 +328,9 @@
 		CAD8ED0B2C3978BA006DF2D6 /* net_sockets.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = net_sockets.c; sourceTree = "<group>"; };
 		CAD8ED0C2C397957006DF2D6 /* net_sockets.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = net_sockets.h; sourceTree = "<group>"; };
 		CAD8ED0D2C397CED006DF2D6 /* ssl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ssl.h; sourceTree = "<group>"; };
+		CADA28EB2DE0EE9D00A53E26 /* new.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = new.h; sourceTree = "<group>"; };
+		CADA28EC2DE0EE9D00A53E26 /* new.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = new.cpp; sourceTree = "<group>"; };
+		CADA28ED2DE0EE9D00A53E26 /* new.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = new.html; sourceTree = "<group>"; };
 		CADD5A382630A3F5003AAB27 /* update.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = update.h; sourceTree = "<group>"; };
 		CADD5A392630A3F5003AAB27 /* update.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = update.cpp; sourceTree = "<group>"; };
 		CADE36FC24F1737A003165BB /* aclocal.m4 */ = {isa = PBXFileReference; lastKnownFileType = text; path = aclocal.m4; sourceTree = "<group>"; };
@@ -480,7 +483,6 @@
 		CADE382524F173EB003165BB /* compare.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = compare.h; sourceTree = "<group>"; };
 		CADE382B24F173EB003165BB /* index.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = index.cpp; sourceTree = "<group>"; };
 		CADE382D24F17422003165BB /* jobs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = jobs.h; sourceTree = "<group>"; };
-		CADE383024F17422003165BB /* stylesdata.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = stylesdata.h; sourceTree = "<group>"; };
 		CADE383124F17422003165BB /* localization.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = localization.h; sourceTree = "<group>"; };
 		CADE383224F17422003165BB /* bibleactions.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = bibleactions.cpp; sourceTree = "<group>"; };
 		CADE383324F17422003165BB /* ipc.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ipc.cpp; sourceTree = "<group>"; };
@@ -2678,7 +2680,6 @@
 				CADE386124F17422003165BB /* strong.cpp */,
 				CADE388324F17422003165BB /* styles.h */,
 				CADE389F24F17422003165BB /* styles.cpp */,
-				CADE383024F17422003165BB /* stylesdata.h */,
 				CA9D18992D1CE61900094422 /* temporal.h */,
 				CA9D189A2D1CE61900094422 /* temporal.cpp */,
 				CADE388D24F17422003165BB /* userresources.h */,
@@ -4276,15 +4277,18 @@
 				CADE41B724F174B0003165BB /* indexm.html */,
 				CADE41B424F174B0003165BB /* logic.h */,
 				CADE41AD24F174B0003165BB /* logic.cpp */,
+				CADA28EB2DE0EE9D00A53E26 /* new.h */,
+				CADA28EC2DE0EE9D00A53E26 /* new.cpp */,
+				CADA28ED2DE0EE9D00A53E26 /* new.html */,
 				CADE41AE24F174B0003165BB /* sheetm.h */,
 				CADE41AC24F174B0003165BB /* sheetm.cpp */,
 				CADE41B324F174B0003165BB /* sheetm.html */,
 				CADE41BD24F174B0003165BB /* sheets.h */,
 				CADE41C724F174B0003165BB /* sheets.cpp */,
-				CAAB221A2D53CAEA00B9A613 /* view2.h */,
-				CAAB221B2D53CAEA00B9A613 /* view2.cpp */,
-				CAAB221C2D53CAEA00B9A613 /* view2.html */,
-				CA2E6B9B2D73758B0086866B /* view2.js */,
+				CAAB221A2D53CAEA00B9A613 /* view.h */,
+				CAAB221B2D53CAEA00B9A613 /* view.cpp */,
+				CAAB221C2D53CAEA00B9A613 /* view.html */,
+				CA2E6B9B2D73758B0086866B /* view.js */,
 			);
 			path = styles;
 			sourceTree = "<group>";

@@ -17,7 +17,7 @@
  */
 
 
-#include <styles/view2.h>
+#include <styles/view.h>
 #include <styles/logic.h>
 #include <assets/view.h>
 #include <assets/page.h>
@@ -42,19 +42,19 @@
 #include <assets/external.h>
 
 
-std::string styles_view2_url ()
+std::string styles_view_url ()
 {
-  return "styles/view2";
+  return "styles/view";
 }
 
 
-bool styles_view2_acl (Webserver_Request& webserver_request)
+bool styles_view_acl (Webserver_Request& webserver_request)
 {
   return Filter_Roles::access_control (webserver_request, Filter_Roles::translator ());
 }
 
 
-std::string styles_view2 (Webserver_Request& webserver_request)
+std::string styles_view (Webserver_Request& webserver_request)
 {
   std::string page {};
   
@@ -115,7 +115,7 @@ std::string styles_view2 (Webserver_Request& webserver_request)
   
   // The style's name.
   if (webserver_request.query.count ("name")) {
-    Dialog_Entry dialog_entry = Dialog_Entry ("view2", translate("Please enter the name for the style"), marker_data.name, "name", std::string());
+    Dialog_Entry dialog_entry = Dialog_Entry ("view", translate("Please enter the name for the style"), marker_data.name, "name", std::string());
     dialog_entry.add_query ("sheet", sheet);
     dialog_entry.add_query ("style", style);
     page += dialog_entry.run ();
@@ -130,7 +130,7 @@ std::string styles_view2 (Webserver_Request& webserver_request)
   
   // The style's info.
   if (webserver_request.query.count ("info")) {
-    Dialog_Entry dialog_entry = Dialog_Entry ("view2", translate("Please enter the description for the style"), marker_data.info, "info", std::string());
+    Dialog_Entry dialog_entry = Dialog_Entry ("view", translate("Please enter the description for the style"), marker_data.info, "info", std::string());
     dialog_entry.add_query ("sheet", sheet);
     dialog_entry.add_query ("style", style);
     page += dialog_entry.run ();
@@ -355,7 +355,7 @@ std::string styles_view2 (Webserver_Request& webserver_request)
   
   // Redirect the browser to a clean styles editor without any previous settings made via the URL.
   const auto redirect = [&webserver_request, &sheet, &style] () {
-    std::string query = filter_url_build_http_query (styles_view2_url (), "sheet", sheet);
+    std::string query = filter_url_build_http_query (styles_view_url (), "sheet", sheet);
     query = filter_url_build_http_query (query, "style", style);
     redirect_browser (webserver_request, query);
   };
@@ -460,7 +460,7 @@ std::string styles_view2 (Webserver_Request& webserver_request)
   }
 
 
-  page += view.render ("styles", "view2");
+  page += view.render ("styles", "view");
   page += assets_page::footer ();
   return page;
 }

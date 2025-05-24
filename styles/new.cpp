@@ -1,0 +1,132 @@
+/*
+ Copyright (©) 2003-2025 Teus Benschop.
+ 
+ This program is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 3 of the License, or
+ (at your option) any later version.
+ 
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ 
+ You should have received a copy of the GNU General Public License
+ along with this program; if not, write to the Free Software
+ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ */
+
+
+#include <styles/new.h>
+#include <styles/view.h>
+#include <assets/view.h>
+#include <assets/page.h>
+#include <dialog/entry.h>
+#include <dialog/list.h>
+#include <dialog/list2.h>
+#include <filter/roles.h>
+#include <filter/url.h>
+#include <filter/string.h>
+#include <tasks/logic.h>
+#include <webserver/request.h>
+#include <journal/index.h>
+#include <database/config/user.h>
+#include <database/logs.h>
+#include <access/user.h>
+#include <locale/translate.h>
+#include <styles/sheets.h>
+#include <assets/header.h>
+#include <menu/logic.h>
+#include <styles/indexm.h>
+#include <database/logic.h>
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Weffc++"
+#pragma GCC diagnostic ignored "-Wsuggest-override"
+#pragma GCC diagnostic ignored "-Wzero-as-null-pointer-constant"
+#ifndef HAVE_PUGIXML
+#include <pugixml/pugixml.hpp>
+#endif
+#ifdef HAVE_PUGIXML
+#include <pugixml.hpp>
+#endif
+#pragma GCC diagnostic pop
+// /Todo cleanup the includes.
+
+
+std::string styles_new_url ()
+{
+  return "styles/new";
+}
+
+
+bool styles_new_acl (Webserver_Request& webserver_request)
+{
+  return Filter_Roles::access_control (webserver_request, Filter_Roles::translator ());
+}
+
+
+std::string styles_new (Webserver_Request& webserver_request)
+{
+  std::string page;
+  
+  Assets_Header header = Assets_Header (translate("Stylesheet"), webserver_request);
+  header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());
+  header.add_bread_crumb (styles_indexm_url (), menu_logic_styles_indexm_text ()); // Todo test this, fix it.
+  page = header.run ();
+  
+  Assets_View view;
+  
+  // The name of the stylesheet.
+  const std::string name = webserver_request.query["name"];
+  view.set_variable ("name", filter::strings::escape_special_xml_characters (name));
+  
+  // Whether this user has write access to the stylesheet.
+  const std::string& username = webserver_request.session_logic ()->get_username ();
+  const int userlevel = webserver_request.session_logic ()->get_level ();
+  bool write = database::styles::has_write_access (username, name);
+  if (userlevel >= Filter_Roles::admin ()) write = true;  // Todo handle this.
+  
+  // Handle new style submission.
+  if (webserver_request.post.count ("style")) {
+    const std::string new_style = webserver_request.post["style"];
+    const std::string base_style = webserver_request.post["base"];
+    const std::vector<std::string> markers = database::styles::get_markers(name);
+    if (new_style.empty()) {
+      page.append(assets_page::error (translate("Enter a name for the new style")));
+    }
+    else if (base_style.empty()) {
+      page.append(assets_page::error (translate("Select an existing style to base the new style on")));
+    }
+    else if (in_array(new_style, markers)) {
+      page.append(assets_page::error (translate("The style already exists in the stylesheet")));
+    }
+    else if (!write) {
+      page.append(assets_page::error (translate("You don't have sufficient privileges to add a style to the stylesheet")));
+    }
+    else {
+      // Create the marker. // Todo expand with base.
+      database::styles::add_marker (name, new_style, base_style);
+      // Recreate all stylesheets.
+      styles_sheets_create_all ();
+      // Redirect to the page editing this style.
+      std::string location = filter_url_build_http_query (styles_view_url(), "sheet", name);
+      location = filter_url_build_http_query (std::move(location), "style", new_style);
+      redirect_browser (webserver_request, std::move(location));
+    }
+  }
+  
+  // Generate the option html for all possible base styles and set it on the page.
+  {
+    std::vector<std::string> markers{database::styles::get_markers(stylesv2::standard_sheet())};
+    markers.push_back(std::string());
+    std::sort(markers.begin(), markers.end());
+    std::string base = dialog_list2_create_options(markers, markers, std::string());
+    view.set_variable ("base", std::move(base));
+  }
+  
+  page += view.render ("styles", "new");
+  
+  page += assets_page::footer ();
+  
+  return page;
+}

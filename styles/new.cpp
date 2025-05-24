@@ -21,17 +21,12 @@
 #include <styles/view.h>
 #include <assets/view.h>
 #include <assets/page.h>
-#include <dialog/entry.h>
-#include <dialog/list.h>
 #include <dialog/list2.h>
 #include <filter/roles.h>
 #include <filter/url.h>
 #include <filter/string.h>
-#include <tasks/logic.h>
 #include <webserver/request.h>
-#include <journal/index.h>
 #include <database/config/user.h>
-#include <database/logs.h>
 #include <access/user.h>
 #include <locale/translate.h>
 #include <styles/sheets.h>
@@ -39,18 +34,6 @@
 #include <menu/logic.h>
 #include <styles/indexm.h>
 #include <database/logic.h>
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Weffc++"
-#pragma GCC diagnostic ignored "-Wsuggest-override"
-#pragma GCC diagnostic ignored "-Wzero-as-null-pointer-constant"
-#ifndef HAVE_PUGIXML
-#include <pugixml/pugixml.hpp>
-#endif
-#ifdef HAVE_PUGIXML
-#include <pugixml.hpp>
-#endif
-#pragma GCC diagnostic pop
-// /Todo cleanup the includes.
 
 
 std::string styles_new_url ()
@@ -71,7 +54,7 @@ std::string styles_new (Webserver_Request& webserver_request)
   
   Assets_Header header = Assets_Header (translate("Stylesheet"), webserver_request);
   header.add_bread_crumb (menu_logic_settings_menu (), menu_logic_settings_text ());
-  header.add_bread_crumb (styles_indexm_url (), menu_logic_styles_indexm_text ()); // Todo test this, fix it.
+  header.add_bread_crumb (styles_indexm_url (), menu_logic_styles_indexm_text ());
   page = header.run ();
   
   Assets_View view;
@@ -84,7 +67,7 @@ std::string styles_new (Webserver_Request& webserver_request)
   const std::string& username = webserver_request.session_logic ()->get_username ();
   const int userlevel = webserver_request.session_logic ()->get_level ();
   bool write = database::styles::has_write_access (username, name);
-  if (userlevel >= Filter_Roles::admin ()) write = true;  // Todo handle this.
+  if (userlevel >= Filter_Roles::admin ()) write = true;
   
   // Handle new style submission.
   if (webserver_request.post.count ("style")) {
@@ -104,7 +87,7 @@ std::string styles_new (Webserver_Request& webserver_request)
       page.append(assets_page::error (translate("You don't have sufficient privileges to add a style to the stylesheet")));
     }
     else {
-      // Create the marker. // Todo expand with base.
+      // Create the marker.
       database::styles::add_marker (name, new_style, base_style);
       // Recreate all stylesheets.
       styles_sheets_create_all ();

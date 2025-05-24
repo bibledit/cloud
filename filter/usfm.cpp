@@ -1078,7 +1078,7 @@ bool is_standard_q_poetry (const std::string& marker)
 
 
 // Removes milestone data, and returns the removed USFM.
-std::string remove_milestone (std::vector <std::string>& container, unsigned int& pointer) // Todo
+std::string remove_milestone (std::vector <std::string>& container, unsigned int& pointer)
 {
   // This function assumes that it is called only at the opening marker of a milestone.
 

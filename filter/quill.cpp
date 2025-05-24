@@ -42,7 +42,7 @@ std::string extract_class_prefix (std::string& style)
 }
 
 
-std::string hyphen_to_underscore (std::string style) // Todo test
+std::string hyphen_to_underscore (std::string style)
 {
   const std::string prefix = extract_class_prefix(style);
   style = filter::strings::replace ("-", "_", std::move(style));
@@ -51,7 +51,7 @@ std::string hyphen_to_underscore (std::string style) // Todo test
 }
 
 
-std::string underscore_to_hyphen (std::string style) // Todo test
+std::string underscore_to_hyphen (std::string style)
 {
   const std::string prefix = extract_class_prefix(style);
   style = filter::strings::replace ("_", "-", std::move(style));

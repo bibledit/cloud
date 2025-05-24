@@ -408,16 +408,16 @@ TEST_F (styles, add_marker)
 {
   constexpr const char* test_sheet {"testsheet"};
   database::styles::create_database ();
-  database::styles::create_sheet ("testsheet");
+  database::styles::create_sheet (test_sheet);
   
   // Get markers.
   std::vector <std::string> markers = database::styles::get_markers (test_sheet);
-  std::string marker {"zhq"};
+  constexpr const char* marker {"zhq"};
   if (find (markers.begin (), markers.end (), marker) != markers.end ())
     ADD_FAILURE() << marker << " should not be there";
   
   // Add marker.
-  database::styles::add_marker (test_sheet, marker, marker); // Todo
+  database::styles::add_marker (test_sheet, marker, "id");
   markers = database::styles::get_markers (test_sheet);
   if (find (markers.begin (), markers.end (), marker) == markers.end ())
     ADD_FAILURE() << marker << " should be there";
@@ -1004,7 +1004,7 @@ TEST_F (styles, get_styles_etc_v2)
   // Add a style. Check the increased styles count.
   constexpr const char* marker {"marker"};
   {
-    add_marker(sheet, marker, marker); // Todo
+    add_marker(sheet, marker, "id");
     const std::list<stylesv2::Style>& styles = get_styles(sheet);
     EXPECT_EQ (styles.size(), stylesv2::styles.size() + 1);
     const std::map <std::string, std::string> markers_names = get_markers_and_names (sheet);
@@ -1064,7 +1064,7 @@ TEST_F (styles, get_styles_etc_v2)
   
   // Add a marker again, check it's there, reset it, check it's gone.
   reset_marker(sheet, id_marker);
-  add_marker(sheet, marker, marker); // Todo
+  add_marker(sheet, marker, "id");
   {
     const std::list<stylesv2::Style>& styles = get_styles(sheet);
     EXPECT_EQ (styles.size(), stylesv2::styles.size() + 1);

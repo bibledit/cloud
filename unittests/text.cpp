@@ -1646,7 +1646,7 @@ TEST_F (filter_text, usfm_with_all_markers)
 }
 
 
-TEST_F (filter_text, milestones) // Todo
+TEST_F (filter_text, milestones)
 {
   const std::string usfm =
   R"(\p text1\qt-s |attribute1="value1"\*)" "\n"

@@ -312,7 +312,7 @@ void Editor_Html2Usfm::close_element_node (const pugi::xml_node& node)
       if ((std_wla_mls.word_level_attributes_class.empty()) && (std_wla_mls.milestone_attributes_class.empty()) && (m_last_added_text_fragment.find("|") == std::string::npos))
         return;
     }
-    // Check for and get and handle word-level attributes. // Todo
+    // Check for and get and handle word-level attributes.
     if (!std_wla_mls.word_level_attributes_class.empty()) {
       const std::string contents = m_word_level_attributes[std_wla_mls.word_level_attributes_class];
       m_word_level_attributes.erase(std_wla_mls.word_level_attributes_class);
@@ -322,7 +322,7 @@ void Editor_Html2Usfm::close_element_node (const pugi::xml_node& node)
         m_current_line.append(contents);
       }
     }
-    // Check for and get and handle milestone attributes. // Todo
+    // Check for and get and handle milestone attributes.
     if (!std_wla_mls.milestone_attributes_class.empty()) {
       const std::string contents = m_milestone_attributes[std_wla_mls.milestone_attributes_class];
       m_milestone_attributes.erase(std_wla_mls.milestone_attributes_class);

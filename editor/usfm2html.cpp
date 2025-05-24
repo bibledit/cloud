@@ -89,7 +89,7 @@ std::string Editor_Usfm2Html::get ()
     m_body_node.append_move (word_level_attribute);
   }
 
-  // If there are milestone attributes, move the milestone attributes <p> after everything else. Todo
+  // If there are milestone attributes, move the milestone attributes <p> after everything else.
   {
     const long count = std::distance (m_milestone_attributes_node.begin (), m_milestone_attributes_node.end ());
     if (count > 1) {
@@ -191,7 +191,7 @@ void Editor_Usfm2Html::process ()
       // Handle preview mode: Strip word-level attributes.
       // Likely this can be removed from preview since word-level ttributes get extracted.
       if (m_preview)
-        if (is_opening_marker) { // Todo also remove milestones.
+        if (is_opening_marker) {
           filter::usfm::remove_word_level_attributes (marker, m_markers_and_text, m_markers_and_text_pointer);
         }
       if (const stylesv2::Style* style {database::styles::get_marker_data (m_stylesheet, marker)}; style)
@@ -409,7 +409,7 @@ void Editor_Usfm2Html::process ()
             output_as_is (marker, is_opening_marker);
             break;
           }
-          case stylesv2::Type::milestone: // Todo
+          case stylesv2::Type::milestone:
           {
             if (is_opening_marker) {
               // Check that the road ahead is clear.
@@ -419,7 +419,8 @@ void Editor_Usfm2Html::process ()
                 const std::string quill_style = quill::hyphen_to_underscore (style->marker);
                 constexpr const bool embedded {false};
                 open_text_style (quill_style, embedded);
-                add_text(quill::milestone_emoji);
+                if (!m_preview)
+                  add_text(quill::milestone_emoji);
                 close_text_style(embedded);
               } else {
                 add_text (filter::usfm::get_opening_usfm (marker));
@@ -767,7 +768,7 @@ void Editor_Usfm2Html::add_word_level_attributes(const std::string id)
 }
 
 
-int Editor_Usfm2Html::get_milestone_attributes_id(const bool next) // Todo
+int Editor_Usfm2Html::get_milestone_attributes_id(const bool next)
 {
   if (next) {
     m_milestone_attributes_id++;
@@ -781,7 +782,7 @@ int Editor_Usfm2Html::get_milestone_attributes_id(const bool next) // Todo
 }
 
 
-bool Editor_Usfm2Html::extract_milestone_attributes() // Todo
+bool Editor_Usfm2Html::extract_milestone_attributes()
 {
   // The current function is expected to be called on an opening marker of a milestone.
   // See USFM 3 and later for details.
@@ -815,14 +816,16 @@ bool Editor_Usfm2Html::extract_milestone_attributes() // Todo
 
   // Remain with the fragment with the milestone attributes.
   // Store the milestone attributes as-is, as pending item, ready for processing.
-  m_pending_milestone_attributes = std::move(attributes);
+  // Don't store this in preview mode.
+  if (!m_preview)
+    m_pending_milestone_attributes = std::move(attributes);
   
   // Everything is OK:
   return true;
 }
 
 
-void Editor_Usfm2Html::add_milestone_attributes(const std::string id) // Todo
+void Editor_Usfm2Html::add_milestone_attributes(const std::string id)
 {
   // If there's no attributes, bail out.
   if (!m_pending_milestone_attributes)

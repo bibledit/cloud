@@ -243,7 +243,7 @@ static stylesv2::Style get_base_style (const std::string& marker) {
 
 
 // Adds a marker to the stylesheet.
-void add_marker (const std::string& sheet, const std::string& marker, const std::string& base) // Todo
+void add_marker (const std::string& sheet, const std::string& marker, const std::string& base)
 {
   // Get the base style and set the marker.
   auto style {get_base_style(base)};

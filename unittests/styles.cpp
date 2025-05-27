@@ -689,8 +689,8 @@ TEST_F (styles, get_styles_v2)
 }
 
 
-// Test saving and loading style modification v2.
-TEST_F (styles, save_load_styles_v2)
+// Test saving and loading style modification.
+TEST_F (styles, save_load_styles) // Todo
 {
   using namespace database::styles;
   using namespace stylesv2;
@@ -708,7 +708,7 @@ TEST_F (styles, save_load_styles_v2)
   
   // Save and load the first default style, and check that the loaded style is the same as the saved one.
   {
-    stylesv2::Style style = stylesv2::styles.front();
+    const stylesv2::Style style = stylesv2::styles.front();
     save_style(sheet, style);
     const auto loaded_style = load_style(sheet, style.marker);
     EXPECT_TRUE(loaded_style);
@@ -718,10 +718,12 @@ TEST_F (styles, save_load_styles_v2)
   // Update the style marker.
   {
     stylesv2::Style style = stylesv2::styles.front();
+    const std::string before_modification {to_string(style)};
     style.marker = "marker";
     save_style(sheet, style);
     auto loaded_style = load_style(sheet, style.marker);
     EXPECT_TRUE(loaded_style);
+    EXPECT_NE(before_modification, to_string(loaded_style.value()));
     EXPECT_EQ(to_string(style), to_string(loaded_style.value()));
     EXPECT_EQ(loaded_style.value().marker, style.marker);
   }
@@ -729,11 +731,13 @@ TEST_F (styles, save_load_styles_v2)
   // Change the name, save, load, compare.
   {
     stylesv2::Style style = stylesv2::styles.front();
+    const std::string before_modification {to_string(style)};
     style.name = "name";
     save_style(sheet, style);
     const auto loaded_style = load_style(sheet, style.marker);
     EXPECT_TRUE(loaded_style);
     EXPECT_EQ(to_string(style), to_string(loaded_style.value()));
+    EXPECT_NE(before_modification, to_string(loaded_style.value())); // Todo do this and below.
     EXPECT_EQ(loaded_style.value().name, style.name);
   }
   

@@ -70,12 +70,18 @@ std::string editone_update (Webserver_Request& webserver_request)
   // Check the relevant bits of information.
   if (good2go) {
     bool parameters_ok = true;
-    if (!webserver_request.post.count ("bible")) parameters_ok = false;
-    if (!webserver_request.post.count ("book")) parameters_ok = false;
-    if (!webserver_request.post.count ("chapter")) parameters_ok = false;
-    if (!webserver_request.post.count ("verse")) parameters_ok = false;
-    if (!webserver_request.post.count ("loaded")) parameters_ok = false;
-    if (!webserver_request.post.count ("edited")) parameters_ok = false;
+    if (!webserver_request.post.count ("bible"))
+      parameters_ok = false;
+    if (!webserver_request.post.count ("book"))
+      parameters_ok = false;
+    if (!webserver_request.post.count ("chapter"))
+      parameters_ok = false;
+    if (!webserver_request.post.count ("verse"))
+      parameters_ok = false;
+    if (!webserver_request.post.count ("loaded"))
+      parameters_ok = false;
+    if (!webserver_request.post.count ("edited"))
+      parameters_ok = false;
     if (!parameters_ok) {
       messages.push_back (translate("Don't know what to update"));
       good2go = false;
@@ -105,7 +111,6 @@ std::string editone_update (Webserver_Request& webserver_request)
     unique_id = webserver_request.post ["id"];
   }
 
-  
   // Checksums of the loaded and edited html.
   if (good2go) {
     if (checksum_logic::get (loaded_html) != checksum1) {

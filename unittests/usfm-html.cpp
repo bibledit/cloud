@@ -2418,4 +2418,34 @@ TEST_F (usfm_html, milestones)
 }
 
 
+// The Bible editor enter the vertical bar | when entering a note to the text through the styles menu.
+// There has been a regression that this vertical bar was seen as an indicator for linking attributes.
+// Hence it would produce endmarkers for \fr and for \ft, among others.
+// This is now fixed.
+// This test keeps an eye on any regression in this area.
+TEST_F (usfm_html, note_entered_via_bible_editor)
+{
+  std::string standard_usfm = R"(\p Text\f + \fr 2:0 \fk |keyword \ft |text.\f*.)";
+  std::string standard_html =
+  R"(<p class="b-p"><span>Text</span><span class="i-notecall1">1</span><span>.</span></p>)"
+  R"(<p class="b-notes"> </p>)"
+  R"(<p class="b-f"><span class="i-notebody1">1</span><span> </span><span>+ </span><span class="i-fr">2:0 </span><span class="i-fk">|keyword </span><span class="i-ft">|text.</span></p>)"
+  ;
+  
+  Editor_Usfm2Html editor_usfm2html;
+  editor_usfm2html.load (standard_usfm);
+  editor_usfm2html.stylesheet (stylesv2::standard_sheet ());
+  editor_usfm2html.run ();
+  std::string html = editor_usfm2html.get ();
+  EXPECT_EQ (standard_html, html);
+  
+  Editor_Html2Usfm editor_html2usfm;
+  editor_html2usfm.load (html);
+  editor_html2usfm.stylesheet (stylesv2::standard_sheet ());
+  editor_html2usfm.run ();
+  std::string usfm = editor_html2usfm.get ();
+  EXPECT_EQ (standard_usfm, usfm);
+}
+
+
 #endif

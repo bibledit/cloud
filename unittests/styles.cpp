@@ -1005,10 +1005,12 @@ TEST_F (styles, get_styles_etc_v2)
     EXPECT_EQ (markers_names.size(), stylesv2::styles.size());
   }
 
-  // Add a style. Check the increased styles count.
   constexpr const char* marker {"marker"};
+  constexpr const char* base {"id"};
+
+  // Add a style based on another. Check the increased styles count.
   {
-    add_marker(sheet, marker, "id");
+    add_marker(sheet, marker, base);
     const std::list<stylesv2::Style>& styles = get_styles(sheet);
     EXPECT_EQ (styles.size(), stylesv2::styles.size() + 1);
     const std::map <std::string, std::string> markers_names = get_markers_and_names (sheet);
@@ -1019,11 +1021,11 @@ TEST_F (styles, get_styles_etc_v2)
   {
     const stylesv2::Style* style {get_marker_data(sheet, marker)};
     EXPECT_EQ(marker, style->marker);
-    EXPECT_EQ("name", style->name);
-    EXPECT_EQ("info", style->info);
+    EXPECT_EQ("Identification", style->name);
+    EXPECT_EQ("File identification information (name of file, book name, language, last edited, date, etc.)", style->info);
   }
 
-  // Check that getting marker data for a style not in the stylesheet returns a null optional.
+  // Check that getting marker data for a style not in the stylesheet returns a null pointer.
   {
     const stylesv2::Style* style {get_marker_data(sheet, "unknown")};
     EXPECT_FALSE(style);

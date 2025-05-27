@@ -23,7 +23,7 @@ function assetsEditorAddNote (quill, style, caller, noteId, chapter, separator, 
   // Footnote uses \fr \fk \ft.
   // Cross reference uses \xo \xt.
   // As for spacing, see issue https://github.com/bibledit/cloud/issues/672
-  // A vertical bar | now gets inserted before the keyword and the text for easy of editing.
+  // A vertical bar | now gets inserted before the keyword and the text for ease of editing.
   // It is about which style gets applied when typing.
   // The vertical bar makes it easier to see which style will get applied.
   var length = quill.getLength ();

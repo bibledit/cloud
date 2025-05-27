@@ -303,39 +303,53 @@ void Editor_Html2Usfm::close_element_node (const pugi::xml_node& node)
     // Do nothing with a note caller.
     if (class_name.substr (0, quill::note_caller_class.size()) == quill::note_caller_class)
       return;
-    // Do nothing more if no endmarkers are supposed to be produced.
-    // There's some exceptions:
-    // * If a word-level attributes ID was found: This needs an endmarker.
-    // * If a milestone attributes ID was found: This needs an endmarker.
-    // * If the last added text fragment contains the vertical bar, as that indicates word-level attributes.
-    if (m_suppress_end_markers.find (class_name) != m_suppress_end_markers.end()) {
-      if ((std_wla_mls.word_level_attributes_class.empty()) && (std_wla_mls.milestone_attributes_class.empty()) && (m_last_added_text_fragment.find("|") == std::string::npos))
-        return;
-    }
+
     // Check for and get and handle word-level attributes.
     if (!std_wla_mls.word_level_attributes_class.empty()) {
-      const std::string contents = m_word_level_attributes[std_wla_mls.word_level_attributes_class];
-      m_word_level_attributes.erase(std_wla_mls.word_level_attributes_class);
-      if (!contents.empty()) {
+      if (!m_word_level_attributes[std_wla_mls.word_level_attributes_class].empty()) {
         // The vertical bar separates the canonical word from the attribute(s) following it.
         m_current_line.append("|");
-        m_current_line.append(contents);
+        m_current_line.append(std::move(m_word_level_attributes[std_wla_mls.word_level_attributes_class]));
       }
+      // Clean up.
+      m_word_level_attributes.erase(std_wla_mls.word_level_attributes_class);
     }
+
     // Check for and get and handle milestone attributes.
     if (!std_wla_mls.milestone_attributes_class.empty()) {
-      const std::string contents = m_milestone_attributes[std_wla_mls.milestone_attributes_class];
-      m_milestone_attributes.erase(std_wla_mls.milestone_attributes_class);
-      if (!contents.empty()) {
+      if (!m_milestone_attributes[std_wla_mls.milestone_attributes_class].empty()) {
         // If a milestone is handled, it means that the current line contains the milestone emoji.
         // This emoji is put in the editor for visual appearance only, but should not be part of the USFM generated.
         // Remove it here.
         m_current_line = filter::strings::replace (quill::milestone_emoji, std::string(), std::move(m_current_line));
         // The vertical bar separates the opening marker from the attribute(s) following it.
         m_current_line.append("|");
-        m_current_line.append(contents);
+        m_current_line.append(m_milestone_attributes[std_wla_mls.milestone_attributes_class]);
       }
+      // Clean up.
+      m_milestone_attributes.erase(std_wla_mls.milestone_attributes_class);
     }
+
+    // Do nothing more if no endmarkers are supposed to be produced.
+    // There's an exception in the case of linking attributes.
+    if (m_suppress_end_markers.find (class_name) != m_suppress_end_markers.end()) {
+      // Linking attributes are used in this: \xt 1|GEN 2:1\xt*
+      // It means the signature is that the last added text fragment contains the vertical bar,
+      // but not right at the first position.
+      // This distinguishes it from the vertical bar that is used when inserting a note in the Bible editor.
+      // See https://github.com/bibledit/cloud/issues/1030
+      const auto linking_attribute = [this] () {
+        const std::size_t pos = m_last_added_text_fragment.find("|");
+        if (pos == std::string::npos)
+          return false;
+        if (pos != 0)
+          return true;
+        return false;
+      };
+      if (!linking_attribute())
+        return;
+    }
+    
     // Add closing USFM, optionally closing embedded tags in reverse order.
     m_character_styles = filter::strings::array_diff (m_character_styles, std_wla_mls.standard_classes);
     reverse (std_wla_mls.standard_classes.begin(), std_wla_mls.standard_classes.end());

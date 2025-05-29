@@ -350,11 +350,6 @@
 /ldap
 /lexicon
 /library
-/livetest
-/livetest/initialize.sh
-/livetest/livetest.js
-/livetest/livetest.sh
-/livetest/paths.sh
 /locale
 /locale/af.po
 /locale/bibledit.pot

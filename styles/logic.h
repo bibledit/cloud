@@ -136,6 +136,7 @@ std::ostream& operator<<(std::ostream& os, const Parameter& parameter);
 
 
 enum class Category {
+  starting_boundary, // Must always be the first one.
   unknown,
   identification,
   introductions,
@@ -151,9 +152,11 @@ enum class Category {
   milestones,
   extended_study_content,
   peripherals,
+  stopping_boundary // Must always be the last one.
 };
 
 std::ostream& operator<<(std::ostream& os, const Category category);
+Category category_value_to_enum (const std::string& value);
 
 
 enum class FourState { off, on, inherit, toggle };

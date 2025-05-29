@@ -72,6 +72,8 @@ constexpr const std::string_view character_smallcaps_key {"charactersmallcaps"};
 constexpr const std::string_view character_superscript_key {"charactersuperscript"};
 constexpr const std::string_view character_foreground_color_key {"characterforegroundcolor"};
 constexpr const std::string_view character_background_color_key {"characterbackgroundcolor"};
+constexpr const std::string_view doc_key {"doc"};
+constexpr const std::string_view category_key {"category"};
 
 
 // Forward declarations of local functions.
@@ -362,7 +364,7 @@ std::vector<std::string> get_updated_markers (const std::string& sheet)
 // Save a style to file for those parts that differ from the base style.
 void save_style(const std::string& sheet, const stylesv2::Style& style)
 {
-  // The base style to use for finding differences of the style to save.
+  // The base style to use for finding differences between the style to save and the base style.
   const auto base_style = get_base_style(style.marker);
   
   // The lines container with the differences to write to file.
@@ -474,6 +476,18 @@ void save_style(const std::string& sheet, const stylesv2::Style& style)
     }
   }
 
+  // Handle documentation string.
+  if (style.doc != base_style.doc)
+    lines.push_back (add_space(doc_key) + style.doc);
+  
+  // Handle category string.
+  if (style.category != base_style.category) {
+    std::stringstream ss {};
+    ss << add_space(category_key);
+    ss << style.category;
+    lines.push_back (std::move(ss).str());
+  }
+  
   // If there's no differences between the style to save and the base style,
   // then remove the style file.
   // If there's differences, then save the data to the style file.
@@ -680,6 +694,16 @@ std::optional<stylesv2::Style> load_style(const std::string& sheet, const std::s
           break;
       }
     }
+    
+    // Check on or set an updated style documentation.
+    pos = line.find(add_space(doc_key));
+    if (pos == 0)
+      style.doc = line.substr(doc_key.length() + 1);
+    
+    // Check on or set an updated style category.
+    pos = line.find(add_space(category_key));
+    if (pos == 0)
+      style.category = stylesv2::category_value_to_enum (line.substr(category_key.length() + 1));
   }
 
   // Ready.

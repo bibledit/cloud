@@ -949,10 +949,6 @@
 		CADE3B9D24F1742E003165BB /* logic.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = logic.cpp; sourceTree = "<group>"; };
 		CADE3B9E24F1742E003165BB /* logic.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = logic.h; sourceTree = "<group>"; };
 		CADE3BA024F1742E003165BB /* definition.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = definition.cpp; sourceTree = "<group>"; };
-		CADE3C9C24F1746F003165BB /* livetest.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = livetest.sh; sourceTree = "<group>"; };
-		CADE3C9D24F1746F003165BB /* paths.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = paths.sh; sourceTree = "<group>"; };
-		CADE3C9E24F1746F003165BB /* initialize.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = initialize.sh; sourceTree = "<group>"; };
-		CADE3C9F24F1746F003165BB /* livetest.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = livetest.js; sourceTree = "<group>"; };
 		CADE3CAE24F1746F003165BB /* bibledit.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = bibledit.1; sourceTree = "<group>"; };
 		CADE3CAF24F1746F003165BB /* bibledit-cloud.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = "bibledit-cloud.1"; sourceTree = "<group>"; };
 		CADE3CB124F1746F003165BB /* locks.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = locks.c; sourceTree = "<group>"; };
@@ -1989,7 +1985,6 @@
 				CADE3B5824F1742D003165BB /* ldap */,
 				CADE3B9A24F1742E003165BB /* lexicon */,
 				CADE3CB024F1746F003165BB /* library */,
-				CADE3C9B24F1746F003165BB /* livetest */,
 				CADE3CD124F17470003165BB /* locale */,
 				CADE3F2324F17473003165BB /* logbook */,
 				CADE3EFB24F17472003165BB /* Makefile.am */,
@@ -3487,17 +3482,6 @@
 				CADE3B9E24F1742E003165BB /* logic.h */,
 			);
 			path = lexicon;
-			sourceTree = "<group>";
-		};
-		CADE3C9B24F1746F003165BB /* livetest */ = {
-			isa = PBXGroup;
-			children = (
-				CADE3C9C24F1746F003165BB /* livetest.sh */,
-				CADE3C9D24F1746F003165BB /* paths.sh */,
-				CADE3C9E24F1746F003165BB /* initialize.sh */,
-				CADE3C9F24F1746F003165BB /* livetest.js */,
-			);
-			path = livetest;
 			sourceTree = "<group>";
 		};
 		CADE3CAD24F1746F003165BB /* man */ = {

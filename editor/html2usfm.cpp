@@ -37,7 +37,7 @@ struct std_wla_mls {
   std::string word_level_attributes_class;
   std::string milestone_attributes_class;
 };
-static std_wla_mls get_standard_classes_and_wla_class (const std::string& class_name)
+static std_wla_mls get_standard_classes_and_wla_or_mls_class (const std::string& class_name)
 {
   std_wla_mls std_wla_mls;
   constexpr char separator = '0';
@@ -128,6 +128,8 @@ void Editor_Html2Usfm::stylesheet (const std::string& stylesheet)
       suppress_endmarker = true;
     if (suppress_endmarker)
       m_suppress_end_markers.insert (style.marker);
+    if (style.type == stylesv2::Type::milestone)
+      m_milestone_markers.insert (style.marker);
   }
 }
 
@@ -267,7 +269,7 @@ void Editor_Html2Usfm::close_element_node (const pugi::xml_node& node)
   // Get the word-level attributes class name / identifier.
   // Get the milestone attributes class name / identifier.
   std::string class_name = update_quill_class (node.attribute ("class").value ());
-  auto std_wla_mls = get_standard_classes_and_wla_class (class_name);
+  auto std_wla_mls = get_standard_classes_and_wla_or_mls_class (class_name);
 
   if (tag_name == "p")
   {
@@ -315,13 +317,24 @@ void Editor_Html2Usfm::close_element_node (const pugi::xml_node& node)
       m_word_level_attributes.erase(std_wla_mls.word_level_attributes_class);
     }
 
-    // Check for and get and handle milestone attributes.
+    // Function for detecting whether closing a milestone class.
+    const auto is_milestone = [this, &std_wla_mls, &class_name]() {
+      if (!std_wla_mls.milestone_attributes_class.empty())
+        return true;
+      if (m_milestone_markers.find (class_name) != m_milestone_markers.end())
+        return true;
+      return false;
+    };
+    
+    // If this is a milestone, then it means that the current line contains the milestone emoji.
+    // This emoji is put in the editor for visual appearance only, but should not be part of the USFM generated.
+    // Remove it here.
+    if (is_milestone())
+      m_current_line = filter::strings::replace (quill::milestone_emoji, std::string(), std::move(m_current_line));
+
+    // Check for and get and handle milestone attributes. // Todo use above function? Test it.
     if (!std_wla_mls.milestone_attributes_class.empty()) {
       if (!m_milestone_attributes[std_wla_mls.milestone_attributes_class].empty()) {
-        // If a milestone is handled, it means that the current line contains the milestone emoji.
-        // This emoji is put in the editor for visual appearance only, but should not be part of the USFM generated.
-        // Remove it here.
-        m_current_line = filter::strings::replace (quill::milestone_emoji, std::string(), std::move(m_current_line));
         // The vertical bar separates the opening marker from the attribute(s) following it.
         m_current_line.append("|");
         m_current_line.append(m_milestone_attributes[std_wla_mls.milestone_attributes_class]);
@@ -357,9 +370,18 @@ void Editor_Html2Usfm::close_element_node (const pugi::xml_node& node)
       bool embedded = (std_wla_mls.standard_classes.size () > 1) && (offset == 0);
       if (!m_character_styles.empty ())
         embedded = true;
-      if (!std_wla_mls.milestone_attributes_class.empty())
-        // Milestone endmarker: \*
-        m_current_line.append (filter::usfm::get_closing_usfm ("", false));
+      if (is_milestone()) { // Todo remove last character if space, and add comment why.
+        // Adding a milestone endmarker: \*
+        // If the last character of the current line is a space,
+        // it is assumed that this is the space from the milestone opening marker.
+        // If the opener is followed by the closer, without attributes between them,
+        // then in USFM it is customary to remove that last space.
+        // The resulting fragment then looks like e.g. this: \qt-e\*
+        if (!m_current_line.empty())
+          if (m_current_line.back() == ' ')
+            m_current_line.pop_back();
+        m_current_line.append (filter::usfm::get_closing_usfm (std::string(), false));
+      }
       else
         // Normal endmarker: \marker*
         m_current_line.append (filter::usfm::get_closing_usfm (std_wla_mls.standard_classes [offset], embedded));
@@ -380,7 +402,7 @@ void Editor_Html2Usfm::open_inline (const std::string& class_name)
   // The <span class="add">
   //   <span class="nd">Lord God</span>
   // is calling</span> you</span><span>.</span>
-  const auto std_wla_mls = get_standard_classes_and_wla_class(class_name);
+  const auto std_wla_mls = get_standard_classes_and_wla_or_mls_class(class_name);
   for (unsigned int offset = 0; offset < std_wla_mls.standard_classes.size(); offset++) {
     const bool embedded = (m_character_styles.size () + offset) > 0;
     std::string marker = std_wla_mls.standard_classes.at(offset);
@@ -653,8 +675,9 @@ pugi::xml_node Editor_Html2Usfm::get_note_pointer (const pugi::xml_node& body, c
 
 std::string Editor_Html2Usfm::update_quill_class (std::string classname)
 {
-  classname = filter::strings::replace (quill::class_prefix_block, std::string(), classname);
-  classname = filter::strings::replace (quill::class_prefix_inline, std::string(), classname);
+  classname = filter::strings::replace (quill::class_prefix_block, std::string(), std::move(classname));
+  classname = filter::strings::replace (quill::class_prefix_inline, std::string(), std::move(classname));
+  classname = quill::underscore_to_hyphen (std::move(classname)); // Todo
   return classname;
 }
 

@@ -57,6 +57,8 @@ private:
   std::set <std::string> m_note_openers {};
   // Active character styles.
   std::vector <std::string> m_character_styles {};
+  // Milestone markers.
+  std::set <std::string> m_milestone_markers {};
   // Note processing flag.
   bool m_processing_note {false};
   // The most recent style opened inside a note.

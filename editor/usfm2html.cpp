@@ -782,44 +782,51 @@ int Editor_Usfm2Html::get_milestone_attributes_id(const bool next)
 }
 
 
-bool Editor_Usfm2Html::extract_milestone_attributes()
+bool Editor_Usfm2Html::extract_milestone_attributes() // Todo	
 {
   // The current function is expected to be called on an opening marker of a milestone.
   // See USFM 3 and later for details.
 
-  // This is the structure of a milestone: \qt-s |sid="sid" who="who"\*
+  // Example milestones:
+  //   \qt-s |sid="sid" who="who"\*
+  //   \qt-e\*
 
-  // Do a check on whether there's data.
-  // The minimum length of the data is:
-  // * The vertical bar: One character.
-  // * The attribute: At least one character for the attribute.
-  // * The "=" sign: One character.
-  // * Two quotes: Two characters.
-  // If the milestone data is too short then this is an error.
-  std::string attributes = filter::strings::trim(filter::usfm::peek_text_following_marker (m_markers_and_text, m_markers_and_text_pointer));
-  if (attributes.size() < 5)
-    return false;
+  // Variable indicating how much to increase the pointer to markers and text.
+  unsigned pointer_increase {0};
   
-  // Check that the first character in the milestone data is the vertical bar "|".
-  // If so, remove it.
-  if (attributes.at(0) != '|')
-    return false;
-  attributes.erase(attributes.cbegin());
+  // Check on the location of the milestone end marker.
+  // The correct end marker is "\*".
+  // It may be on the first or the second position after the current positiion.
+  // Store that location in the pointer increase factor.
+  for (const auto increase : {static_cast<unsigned>(1), static_cast<unsigned>(2)}) {
+    const std::string endmarker = filter::usfm::peek_text_following_marker (m_markers_and_text, m_markers_and_text_pointer + increase - 1);
+    if (endmarker == filter::usfm::get_closing_usfm (std::string()))
+      pointer_increase = increase;
+  }
   
-  // Do a check on whether there's the correct end-marker, which is "\*".
-  const std::string endmarker = filter::usfm::peek_text_following_marker (m_markers_and_text, m_markers_and_text_pointer + 1);
-  if (endmarker != filter::usfm::get_closing_usfm (std::string()))
+  // If the pointer increase is still 0, it means no correctly formatted milestone was found.
+  if (!pointer_increase)
     return false;
+
+  // If the pointer increase is 1, it means there's the endmarker only, without attributes.
+  
+  // If the pointer increase is 2, it means there's attributes. Handle those.
+  if (pointer_increase == 2) {
+    std::string attributes = filter::strings::trim(filter::usfm::peek_text_following_marker (m_markers_and_text, m_markers_and_text_pointer));
+    // Check whether the first character in the milestone data is the vertical bar "|".
+    // If so, remove it.
+    if (attributes.at(0) == '|')
+      attributes.erase(attributes.cbegin());
+    // Remain with the fragment with the milestone attributes.
+    // Store the milestone attributes as-is, as pending item, ready for processing.
+    // Don't store this in preview mode.
+    if (!m_preview)
+      m_pending_milestone_attributes = std::move(attributes);
+  }
 
   // Everything has passed: Increase the pointer to the USFM input data.
-  m_markers_and_text_pointer += 2;
+  m_markers_and_text_pointer += pointer_increase;
 
-  // Remain with the fragment with the milestone attributes.
-  // Store the milestone attributes as-is, as pending item, ready for processing.
-  // Don't store this in preview mode.
-  if (!m_preview)
-    m_pending_milestone_attributes = std::move(attributes);
-  
   // Everything is OK:
   return true;
 }

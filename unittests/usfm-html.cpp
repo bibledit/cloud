@@ -2392,7 +2392,7 @@ TEST_F (usfm_html, quill_hyphen_underscore)
 }
 
 
-TEST_F (usfm_html, milestones)
+TEST_F (usfm_html, milestone_with_content)
 {
   constexpr auto standard_usfm = R"(\p text\qt-s |sid="sid" who="who"\*)";
   
@@ -2415,6 +2415,35 @@ TEST_F (usfm_html, milestones)
   editor_html2usfm.run ();
   const std::string usfm = editor_html2usfm.get ();
   EXPECT_EQ (standard_usfm, usfm);
+}
+
+
+TEST_F (usfm_html, milestone_empty) // Todo (also test incorrect milestone.
+{
+  constexpr auto standard_usfm = R"(\p text1\qt-e\* text2\qt-e \*)";
+  const auto replaced_usfm = filter::strings::replace (R"( \*)", R"(\*)", standard_usfm);
+
+  constexpr auto standard_html =
+  R"(<p class="b-p">)"
+  R"(<span>text1</span><span class="i-qt_e">🏁</span>)"
+  R"(<span> text2</span><span class="i-qt_e">🏁</span>)"
+  R"(</p>)"
+  ;
+  
+  
+  Editor_Usfm2Html editor_usfm2html;
+  editor_usfm2html.load (standard_usfm);
+  editor_usfm2html.stylesheet (stylesv2::standard_sheet ());
+  editor_usfm2html.run ();
+  const std::string html = editor_usfm2html.get ();
+  EXPECT_EQ (standard_html, html);
+  
+  Editor_Html2Usfm editor_html2usfm;
+  editor_html2usfm.load (html);
+  editor_html2usfm.stylesheet (stylesv2::standard_sheet ());
+  editor_html2usfm.run ();
+  const std::string usfm = editor_html2usfm.get ();
+  EXPECT_EQ (replaced_usfm, usfm);
 }
 
 

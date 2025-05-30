@@ -782,7 +782,7 @@ int Editor_Usfm2Html::get_milestone_attributes_id(const bool next)
 }
 
 
-bool Editor_Usfm2Html::extract_milestone_attributes() // Todo	
+bool Editor_Usfm2Html::extract_milestone_attributes()	
 {
   // The current function is expected to be called on an opening marker of a milestone.
   // See USFM 3 and later for details.

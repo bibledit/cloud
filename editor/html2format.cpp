@@ -177,9 +177,10 @@ void Editor_Html2Format::postprocess ()
 }
 
 
-std::string Editor_Html2Format::update_quill_class (std::string class_name) // Todo add underscore to hyphen.
+std::string Editor_Html2Format::update_quill_class (std::string class_name)
 {
-  class_name = filter::strings::replace (quill::class_prefix_block, std::string(), class_name);
-  class_name = filter::strings::replace (quill::class_prefix_inline, std::string(), class_name);
+  class_name = filter::strings::replace (quill::class_prefix_block, std::string(), std::move(class_name));
+  class_name = filter::strings::replace (quill::class_prefix_inline, std::string(), std::move(class_name));
+  class_name = quill::underscore_to_hyphen (std::move(class_name));
   return class_name;
 }

@@ -332,8 +332,8 @@ void Editor_Html2Usfm::close_element_node (const pugi::xml_node& node)
     if (is_milestone())
       m_current_line = filter::strings::replace (quill::milestone_emoji, std::string(), std::move(m_current_line));
 
-    // Check for and get and handle milestone attributes. // Todo use above function? Test it.
-    if (!std_wla_mls.milestone_attributes_class.empty()) {
+    // Check for and get and handle milestone attributes.
+    if (is_milestone()) {
       if (!m_milestone_attributes[std_wla_mls.milestone_attributes_class].empty()) {
         // The vertical bar separates the opening marker from the attribute(s) following it.
         m_current_line.append("|");
@@ -370,7 +370,7 @@ void Editor_Html2Usfm::close_element_node (const pugi::xml_node& node)
       bool embedded = (std_wla_mls.standard_classes.size () > 1) && (offset == 0);
       if (!m_character_styles.empty ())
         embedded = true;
-      if (is_milestone()) { // Todo remove last character if space, and add comment why.
+      if (is_milestone()) {
         // Adding a milestone endmarker: \*
         // If the last character of the current line is a space,
         // it is assumed that this is the space from the milestone opening marker.
@@ -677,7 +677,7 @@ std::string Editor_Html2Usfm::update_quill_class (std::string classname)
 {
   classname = filter::strings::replace (quill::class_prefix_block, std::string(), std::move(classname));
   classname = filter::strings::replace (quill::class_prefix_inline, std::string(), std::move(classname));
-  classname = quill::underscore_to_hyphen (std::move(classname)); // Todo
+  classname = quill::underscore_to_hyphen (std::move(classname));
   return classname;
 }
 

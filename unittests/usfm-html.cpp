@@ -2392,58 +2392,109 @@ TEST_F (usfm_html, quill_hyphen_underscore)
 }
 
 
-TEST_F (usfm_html, milestone_with_content)
+TEST_F (usfm_html, milestones)
 {
-  constexpr auto standard_usfm = R"(\p text\qt-s |sid="sid" who="who"\*)";
-  
-  constexpr auto standard_html =
-  R"(<p class="b-p"><span>text</span><span class="i-qt_s0mls1">🏁</span></p>)"
-  R"(<p class="b-milestoneattributes"> </p>)"
-  R"(<p class="b-mls1">sid="sid" who="who"</p>)"
-  ;
-  
-  Editor_Usfm2Html editor_usfm2html;
-  editor_usfm2html.load (standard_usfm);
-  editor_usfm2html.stylesheet (stylesv2::standard_sheet ());
-  editor_usfm2html.run ();
-  const std::string html = editor_usfm2html.get ();
-  EXPECT_EQ (standard_html, html);
+  // Test the standard milestone, meaning, one with attributes.
+  {
+    constexpr auto standard_usfm = R"(\p text\qt-s |sid="sid" who="who"\*)";
+    
+    constexpr auto standard_html =
+    R"(<p class="b-p"><span>text</span><span class="i-qt_s0mls1">🏁</span></p>)"
+    R"(<p class="b-milestoneattributes"> </p>)"
+    R"(<p class="b-mls1">sid="sid" who="who"</p>)"
+    ;
+    
+    Editor_Usfm2Html editor_usfm2html;
+    editor_usfm2html.load (standard_usfm);
+    editor_usfm2html.stylesheet (stylesv2::standard_sheet ());
+    editor_usfm2html.run ();
+    const std::string html = editor_usfm2html.get ();
+    EXPECT_EQ (standard_html, html);
+    
+    Editor_Html2Usfm editor_html2usfm;
+    editor_html2usfm.load (html);
+    editor_html2usfm.stylesheet (stylesv2::standard_sheet ());
+    editor_html2usfm.run ();
+    const std::string usfm = editor_html2usfm.get ();
+    EXPECT_EQ (standard_usfm, usfm);
+  }
 
-  Editor_Html2Usfm editor_html2usfm;
-  editor_html2usfm.load (html);
-  editor_html2usfm.stylesheet (stylesv2::standard_sheet ());
-  editor_html2usfm.run ();
-  const std::string usfm = editor_html2usfm.get ();
-  EXPECT_EQ (standard_usfm, usfm);
-}
+  // Test milestones without content, which means that the ending marker ( \*) follows straight on the opening marker.
+  {
+    constexpr auto standard_usfm = R"(\p text1\qt-e\* text2\qt-e \*)";
+    const auto replaced_usfm = filter::strings::replace (R"( \*)", R"(\*)", standard_usfm);
+    
+    constexpr auto standard_html =
+    R"(<p class="b-p">)"
+    R"(<span>text1</span><span class="i-qt_e">🏁</span>)"
+    R"(<span> text2</span><span class="i-qt_e">🏁</span>)"
+    R"(</p>)"
+    ;
+    
+    Editor_Usfm2Html editor_usfm2html;
+    editor_usfm2html.load (standard_usfm);
+    editor_usfm2html.stylesheet (stylesv2::standard_sheet ());
+    editor_usfm2html.run ();
+    const std::string html = editor_usfm2html.get ();
+    EXPECT_EQ (standard_html, html);
+    
+    Editor_Html2Usfm editor_html2usfm;
+    editor_html2usfm.load (html);
+    editor_html2usfm.stylesheet (stylesv2::standard_sheet ());
+    editor_html2usfm.run ();
+    const std::string usfm = editor_html2usfm.get ();
+    EXPECT_EQ (replaced_usfm, usfm);
+  }
 
-
-TEST_F (usfm_html, milestone_empty) // Todo (also test incorrect milestone.
-{
-  constexpr auto standard_usfm = R"(\p text1\qt-e\* text2\qt-e \*)";
-  const auto replaced_usfm = filter::strings::replace (R"( \*)", R"(\*)", standard_usfm);
-
-  constexpr auto standard_html =
-  R"(<p class="b-p">)"
-  R"(<span>text1</span><span class="i-qt_e">🏁</span>)"
-  R"(<span> text2</span><span class="i-qt_e">🏁</span>)"
-  R"(</p>)"
-  ;
+  // Test milestone that is malformed, it lacks a closing marker.
+  {
+    constexpr auto standard_usfm = R"(\p text1\qt-e text2)";
+    
+    constexpr auto standard_html =
+    R"(<p class="b-p">)"
+    R"(<span>text1</span><span>\qt-e </span><span>text2</span>)"
+    R"(</p>)"
+    ;
+    
+    Editor_Usfm2Html editor_usfm2html;
+    editor_usfm2html.load (standard_usfm);
+    editor_usfm2html.stylesheet (stylesv2::standard_sheet ());
+    editor_usfm2html.run ();
+    const std::string html = editor_usfm2html.get ();
+    EXPECT_EQ (standard_html, html);
+    
+    Editor_Html2Usfm editor_html2usfm;
+    editor_html2usfm.load (html);
+    editor_html2usfm.stylesheet (stylesv2::standard_sheet ());
+    editor_html2usfm.run ();
+    const std::string usfm = editor_html2usfm.get ();
+    EXPECT_EQ (standard_usfm, usfm);
+  }
   
-  
-  Editor_Usfm2Html editor_usfm2html;
-  editor_usfm2html.load (standard_usfm);
-  editor_usfm2html.stylesheet (stylesv2::standard_sheet ());
-  editor_usfm2html.run ();
-  const std::string html = editor_usfm2html.get ();
-  EXPECT_EQ (standard_html, html);
-  
-  Editor_Html2Usfm editor_html2usfm;
-  editor_html2usfm.load (html);
-  editor_html2usfm.stylesheet (stylesv2::standard_sheet ());
-  editor_html2usfm.run ();
-  const std::string usfm = editor_html2usfm.get ();
-  EXPECT_EQ (replaced_usfm, usfm);
+  // Test single milestone closing marker, without a milestone opener.
+  {
+    constexpr auto standard_usfm = R"(\p text1\*text2)";
+    
+    constexpr auto standard_html =
+    R"(<p class="b-p">)"
+    R"(<span>text1</span><span>\*</span><span>text2</span>)"
+    R"(</p>)"
+    ;
+    
+    Editor_Usfm2Html editor_usfm2html;
+    editor_usfm2html.load (standard_usfm);
+    editor_usfm2html.stylesheet (stylesv2::standard_sheet ());
+    editor_usfm2html.run ();
+    const std::string html = editor_usfm2html.get ();
+    EXPECT_EQ (standard_html, html);
+    
+    Editor_Html2Usfm editor_html2usfm;
+    editor_html2usfm.load (html);
+    editor_html2usfm.stylesheet (stylesv2::standard_sheet ());
+    editor_html2usfm.run ();
+    const std::string usfm = editor_html2usfm.get ();
+    EXPECT_EQ (standard_usfm, usfm);
+  }
 }
 
 

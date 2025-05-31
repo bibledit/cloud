@@ -69,6 +69,9 @@ std::string styles_new (Webserver_Request& webserver_request)
   bool write = database::styles::has_write_access (username, name);
   if (userlevel >= Filter_Roles::admin ()) write = true;
   
+  // Allowed characters in the style.
+  constexpr const std::string_view allowed {"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-"};
+  
   // Handle new style submission.
   if (webserver_request.post.count ("style")) {
     const std::string new_style = webserver_request.post["style"];
@@ -77,6 +80,10 @@ std::string styles_new (Webserver_Request& webserver_request)
     if (new_style.empty()) {
       page.append(assets_page::error (translate("Enter a name for the new style")));
     }
+    else if (std::any_of(new_style.cbegin(), new_style.cend(), [&allowed](char c) {
+      return allowed.find(c) == std::string::npos;
+    }))
+      page.append(assets_page::error (translate("Allowed characters for the style are:") + " " + std::string(allowed)));
     else if (base_style.empty()) {
       page.append(assets_page::error (translate("Select an existing style to base the new style on")));
     }

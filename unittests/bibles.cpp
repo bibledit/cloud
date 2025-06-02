@@ -36,9 +36,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 constexpr const auto bible {"bible"};
 
 
-static Webserver_Request webserver_request;
-
-
 static void test_store_bible_data_safely_setup (const std::string& usfm)
 {
   refresh_sandbox (false);
@@ -76,6 +73,7 @@ R"(\v 6 Verse 6.)";
 // Safely store a chapter.
 TEST (bibles, safely_store_a_chapter_1)
 {
+  Webserver_Request webserver_request;
   test_store_bible_data_safely_setup (usfm_separate);
   const std::string data =
   "\\c 1\n"
@@ -97,6 +95,7 @@ TEST (bibles, safely_store_a_chapter_1)
 // Safely store a chapter.
 TEST (bibles, safely_store_a_chapter_2)
 {
+  Webserver_Request webserver_request;
   test_store_bible_data_safely_setup (usfm_separate);
   const std::string data =
   "\\c 1\n"
@@ -118,6 +117,7 @@ TEST (bibles, safely_store_a_chapter_2)
 // Safely store chapter with length error
 TEST (bibles, safely_store_chapter_with_length_error)
 {
+  Webserver_Request webserver_request;
   test_store_bible_data_safely_setup (usfm_separate);
   const std::string data =
   "\\c 1\n"
@@ -137,6 +137,7 @@ TEST (bibles, safely_store_chapter_with_length_error)
 // Safely store chapter with text similarity error.
 TEST (bibles, safely_store_chapter_with_text_similarity_error)
 {
+  Webserver_Request webserver_request;
   test_store_bible_data_safely_setup (usfm_separate);
   const std::string data =
   "\\c 1\n"
@@ -157,6 +158,7 @@ TEST (bibles, safely_store_chapter_with_text_similarity_error)
 // Safely store a chapter with no change in the text.
 TEST (bibles, safely_store_chapter_without_text_change)
 {
+  Webserver_Request webserver_request;
   test_store_bible_data_safely_setup (usfm_separate);
   std::string explanation;
   const int currentId = database::bibles::get_chapter_id (bible, 1, 1);
@@ -173,6 +175,7 @@ TEST (bibles, safely_store_chapter_without_text_change)
 // Safely store verse 0 without a change.
 TEST (bibles, safely_store_verse_0_without_change)
 {
+  Webserver_Request webserver_request;
   {
     test_store_bible_data_safely_setup (usfm_separate);
     const std::string data =
@@ -204,6 +207,7 @@ TEST (bibles, safely_store_verse_0_without_change)
 // Safely store verse 0 with a change.
 TEST (bibles, safely_store_verse_0_with_a_change)
 {
+  Webserver_Request webserver_request;
   {
     test_store_bible_data_safely_setup (usfm_separate);
     const std::string data =
@@ -237,6 +241,7 @@ TEST (bibles, safely_store_verse_0_with_a_change)
 // Safely store verse 2 with a change.
 TEST (bibles, safely_store_verse_2_with_a_change)
 {
+  Webserver_Request webserver_request;
   {
     test_store_bible_data_safely_setup (usfm_separate);
     const std::string data = "\\v 2 Verse two two two two.\n\\p\n";
@@ -267,6 +272,7 @@ TEST (bibles, safely_store_verse_2_with_a_change)
 // Safely store verse 3 with a change.
 TEST (bibles, safely_store_verse_3_with_a_change)
 {
+  Webserver_Request webserver_request;
   {
     test_store_bible_data_safely_setup (usfm_separate);
     const std::string data = "\\v 3 Verse three.\n";
@@ -297,6 +303,7 @@ TEST (bibles, safely_store_verse_3_with_a_change)
 // Safely store the USFM for verse two to verse one: Fails.
 TEST (bibles, safely_store_verse_2_to_verse_1_fails)
 {
+  Webserver_Request webserver_request;
   {
     test_store_bible_data_safely_setup (usfm_separate);
     const std::string data = "\\v 2 Verse 2.\n";
@@ -327,6 +334,7 @@ TEST (bibles, safely_store_verse_2_to_verse_1_fails)
 // If the new test is shorter, it should fail.
 TEST (bibles, safely_store_verse_with_too_large_length_difference)
 {
+  Webserver_Request webserver_request;
   bool quill;
   {
     quill = false;
@@ -380,6 +388,7 @@ TEST (bibles, safely_store_verse_with_too_large_length_difference)
 // Safely store a verse with too much of content difference: Fails.
 TEST (bibles, safely_store_verse_with_too_large_content_difference)
 {
+  Webserver_Request webserver_request;
   {
     test_store_bible_data_safely_setup (usfm_separate);
     webserver_request.database_config_user ()->setEditingAllowedDifferenceVerse (40);
@@ -408,6 +417,7 @@ TEST (bibles, safely_store_verse_with_too_large_content_difference)
 // Safely store USFM without any verse to verse 2: Fails.
 TEST (bibles, safely_store_usfm_without_verse_to_verse_2_fails)
 {
+  Webserver_Request webserver_request;
   {
     test_store_bible_data_safely_setup (usfm_separate);
     webserver_request.database_config_user ()->setEditingAllowedDifferenceVerse (40);
@@ -438,6 +448,7 @@ TEST (bibles, safely_store_usfm_without_verse_to_verse_2_fails)
 // Safely store USFM with two verses: Fails.
 TEST (bibles, safely_store_usfm_with_two_verses_fails)
 {
+  Webserver_Request webserver_request;
   {
     test_store_bible_data_safely_setup (usfm_separate);
     webserver_request.database_config_user ()->setEditingAllowedDifferenceVerse (40);
@@ -465,9 +476,90 @@ TEST (bibles, safely_store_usfm_with_two_verses_fails)
 }
 
 
+// Safely store USFM with incorrect chapter: Fails.
+TEST (bibles, safely_store_usfm_with_invalid_chapter_fails)
+{
+  Webserver_Request webserver_request;
+  constexpr int book{1};
+  constexpr int chapter{1};
+  constexpr int verse0{0};
+  constexpr int verse1{1};
+  
+  {
+    test_store_bible_data_safely_setup (usfm_separate);
+    webserver_request.database_config_user ()->setEditingAllowedDifferenceVerse (100);
+    constexpr const auto data =
+    R"(\c 1)" "\n"
+    R"(\p)" "\n"
+    R"(\c)"
+    ;
+    std::string explanation;
+    constexpr const auto quill {true};
+    std::string stored = filter::usfm::safely_store_verse (webserver_request, bible, book, chapter, verse0, data, explanation, quill);
+    EXPECT_EQ ("Incorrect chapter", stored);
+    EXPECT_EQ ("Cannot save 2 chapters", explanation);
+    const std::string result = database::bibles::get_chapter (bible, book, chapter);
+    EXPECT_EQ (usfm_separate, result);
+  }
+
+  {
+    test_store_bible_data_safely_setup (usfm_separate);
+    webserver_request.database_config_user ()->setEditingAllowedDifferenceVerse (100);
+    constexpr const auto data =
+    R"(\c 2)" "\n"
+    R"(\p)"
+    ;
+    std::string explanation;
+    constexpr const auto quill {true};
+    std::string stored = filter::usfm::safely_store_verse (webserver_request, bible, book, chapter, verse0, data, explanation, quill);
+    EXPECT_EQ ("Incorrect chapter", stored);
+    EXPECT_EQ ("Incorrect chapter 2", explanation);
+    const std::string result = database::bibles::get_chapter (bible, book, chapter);
+    EXPECT_EQ (usfm_separate, result);
+  }
+
+  {
+    test_store_bible_data_safely_setup (usfm_separate);
+    webserver_request.database_config_user ()->setEditingAllowedDifferenceVerse (100);
+    constexpr const auto data =
+    R"(\c 1)" "\n"
+    R"(\p)" "\n"
+    R"(\v 1 Verse 1.)" "\n"
+    R"(\c 1)"
+    ;
+    std::string explanation;
+    constexpr const auto quill {true};
+    std::string stored = filter::usfm::safely_store_verse (webserver_request, bible, book, chapter, verse1, data, explanation, quill);
+    EXPECT_EQ ("Incorrect chapter", stored);
+    EXPECT_EQ ("Cannot save 3 chapters", explanation);
+    const std::string result = database::bibles::get_chapter (bible, book, chapter);
+    EXPECT_EQ (usfm_separate, result);
+  }
+
+  {
+    test_store_bible_data_safely_setup (usfm_separate);
+    webserver_request.database_config_user ()->setEditingAllowedDifferenceVerse (100);
+    constexpr const auto data =
+    R"(\c 1)" "\n"
+    R"(\p)" "\n"
+    R"(\v 1 Verse 1.)" "\n"
+    R"(\c 2)"
+    ;
+    std::string explanation;
+    constexpr const auto quill {true};
+    std::string stored = filter::usfm::safely_store_verse (webserver_request, bible, book, chapter, verse1, data, explanation, quill);
+    EXPECT_EQ ("Incorrect chapter", stored);
+    EXPECT_EQ ("Cannot save 3 chapters", explanation);
+    const std::string result = database::bibles::get_chapter (bible, book, chapter);
+    EXPECT_EQ (usfm_separate, result);
+  }
+}
+
+
 // Safely store combined verse without any change.
 TEST (bibles, safely_store_combined_verse_without_any_change)
 {
+  Webserver_Request webserver_request;
   {
     test_store_bible_data_safely_setup (usfm_combined);
     const std::string data = "\\v 2-3 Verse 2 and 3.\n\\p\n";
@@ -496,6 +588,7 @@ TEST (bibles, safely_store_combined_verse_without_any_change)
 // Safely store combined verse before the \p with a change.
 TEST (bibles, safely_store_combined_verse_before_the_p_with_a_change)
 {
+  Webserver_Request webserver_request;
   {
     test_store_bible_data_safely_setup (usfm_combined);
     const std::string data = "\\v 2-3 Verse 2 andx 3.\n\\p\n";
@@ -526,6 +619,7 @@ TEST (bibles, safely_store_combined_verse_before_the_p_with_a_change)
 // Safely store combined verse after the \p with a change.
 TEST (bibles, safely_store_combined_verse_after_the_p_with_a_change)
 {
+  Webserver_Request webserver_request;
   {
     test_store_bible_data_safely_setup (usfm_combined);
     const std::string data = "\\v 4-5 Verse 4 andx 5.\n";
@@ -556,6 +650,7 @@ TEST (bibles, safely_store_combined_verse_after_the_p_with_a_change)
 // Safely store combined verse with a change and wrong verses: Fails.
 TEST (bibles, safely_store_combined_verse_with_a_change_and_wrong_verses_fails)
 {
+  Webserver_Request webserver_request;
   {
     test_store_bible_data_safely_setup (usfm_combined);
     const std::string data = "\\v 2-4 Verse 2 andx 3.\n";

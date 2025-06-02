@@ -786,7 +786,8 @@ std::string safely_store_verse (Webserver_Request& webserver_request,
   }
   if (!in_array (verse, save_verses)) {
     std::vector <std::string> vss;
-    for (auto vs : save_verses) vss.push_back (std::to_string(vs));
+    for (auto vs : save_verses)
+      vss.push_back (std::to_string(vs));
     explanation = "The USFM contains verse(s) " + filter::strings::implode (vss, " ") + " while it wants to save to verse " + std::to_string (verse);
     Database_Logs::log (explanation + ": " + usfm);
     return translate ("Verse mismatch");
@@ -796,10 +797,15 @@ std::string safely_store_verse (Webserver_Request& webserver_request,
   std::string chapter_usfm = database::bibles::get_chapter (bible, book, chapter);
   
   // Get the existing USFM fragment for the verse to save.
-  std::string existing_verse_usfm;
-  if (quill) existing_verse_usfm = get_verse_text_quill (chapter_usfm, verse);
-  else existing_verse_usfm = get_verse_text (chapter_usfm, verse);
-  existing_verse_usfm = filter::strings::trim (existing_verse_usfm);
+  const auto get_existing_verse_usfm = [quill, &chapter_usfm, verse] () {
+    std::string usfm;
+    if (quill)
+      usfm = get_verse_text_quill (chapter_usfm, verse);
+    else
+      usfm = get_verse_text (chapter_usfm, verse);
+    return filter::strings::trim (usfm);
+  };
+  const std::string existing_verse_usfm {get_existing_verse_usfm()};
 
   // Check that there is a match between the existing verse numbers and the verse numbers to save.
   std::vector <int> existing_verses = get_verse_numbers (existing_verse_usfm);
@@ -828,12 +834,12 @@ std::string safely_store_verse (Webserver_Request& webserver_request,
   }
 
   // Check maximum difference between new and existing USFM.
-  std::string message = save_is_safe (webserver_request, existing_verse_usfm, usfm, false, explanation);
+  const std::string message = save_is_safe (webserver_request, existing_verse_usfm, usfm, false, explanation);
   if (!message.empty ()) return message;
   
   // Store the new verse USFM in the existing chapter USFM.
-  size_t pos = chapter_usfm.find (existing_verse_usfm);
-  size_t length = existing_verse_usfm.length ();
+  const size_t pos = chapter_usfm.find (existing_verse_usfm);
+  const size_t length = existing_verse_usfm.length ();
   if (pos == std::string::npos) {
     explanation = "Cannot find the exact location in the chapter where to save this USFM fragment";
     Database_Logs::log (explanation + ": " + usfm);
@@ -841,6 +847,23 @@ std::string safely_store_verse (Webserver_Request& webserver_request,
   }
   chapter_usfm.erase (pos, length);
   chapter_usfm.insert (pos, usfm);
+  
+  // Check whether the now assembled USFM for the entire chapter contains the expected \c markup,
+  // that is, the same chapter number, and no more than one chapter.
+  {
+    const std::vector <filter::usfm::BookChapterData> book_chapter_text = filter::usfm::usfm_import (chapter_usfm, stylesv2::standard_sheet());
+    if (book_chapter_text.size () != 1) {
+      explanation = "Cannot save " + std::to_string(book_chapter_text.size ()) + " chapters";
+      Database_Logs::log (explanation + ": " + usfm);
+      return translate ("Incorrect chapter");
+    }
+    const int chapter_number = book_chapter_text.at(0).m_chapter;
+    if (chapter_number != chapter) {
+      explanation = "Incorrect chapter " + std::to_string (chapter_number);
+      Database_Logs::log (explanation + ": " + usfm);
+      return translate ("Incorrect chapter");
+    }
+  }
 
   // Record the change in the journal.
   const std::string& user = webserver_request.session_logic ()->get_username ();

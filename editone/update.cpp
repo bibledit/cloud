@@ -60,7 +60,7 @@ bool editone_update_acl (Webserver_Request& webserver_request)
 std::string editone_update (Webserver_Request& webserver_request)
 {
   // Whether the update is good to go.
-  bool good2go = true;
+  bool good2go {true};
   
   
   // The message(s) to return.
@@ -160,10 +160,12 @@ std::string editone_update (Webserver_Request& webserver_request)
   const std::string& username = webserver_request.session_logic ()->get_username ();
 #ifdef HAVE_CLOUD
   int oldID = 0;
-  if (good2go) oldID = database::bibles::get_chapter_id (bible, book, chapter);
+  if (good2go)
+    oldID = database::bibles::get_chapter_id (bible, book, chapter);
 #endif
   std::string old_chapter_usfm;
-  if (good2go) old_chapter_usfm = database::bibles::get_chapter (bible, book, chapter);
+  if (good2go)
+    old_chapter_usfm = database::bibles::get_chapter (bible, book, chapter);
 
   
   // Determine what (composed) version of USFM to save to the chapter.

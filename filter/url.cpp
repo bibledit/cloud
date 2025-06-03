@@ -103,7 +103,7 @@ static mbedtls_ctr_drbg_context ctr_drbg_context;
 static mbedtls_entropy_context entropy_context;
 
 
-static std::vector <std::string> filter_url_scandir_internal (std::string folder)
+static std::vector <std::string> filter_url_scandir_internal (std::string folder, bool include_hidden = false)
 {
   std::vector <std::string> files;
   
@@ -135,15 +135,17 @@ static std::vector <std::string> filter_url_scandir_internal (std::string folder
   if (dir) {
     dirent * direntry;
     while ((direntry = readdir (dir)) != nullptr) {
-      std::string name = direntry->d_name;
+      const std::string name = direntry->d_name;
       // Exclude short-hand directory names.
       if (name == ".") continue;
       if (name == "..") continue;
-      // Exclude developer temporal files.
-      if (name == ".deps") continue;
-      if (name == ".dirstamp") continue;
-      // Exclude macOS files.
-      if (name == ".DS_Store") continue;
+      if (!include_hidden) {
+        // Exclude developer temporal files.
+        if (name == ".deps") continue;
+        if (name == ".dirstamp") continue;
+        // Exclude macOS files.
+        if (name == ".DS_Store") continue;
+      }
       // Store the name.
       files.push_back (name);
     }
@@ -543,8 +545,10 @@ void filter_url_rmdir (const std::string& directory)
 }
 #else
 {
-  std::vector <std::string> files = filter_url_scandir_internal (directory);
-  for (auto path : files) {
+  // List the files in this directory, include the hidden files.
+  // Reason for including hidden files: https://github.com/bibledit/cloud/issues/1002
+  std::vector <std::string> files = filter_url_scandir_internal (directory, true);
+  for (auto& path : files) {
     path = filter_url_create_path ({directory, path});
     if (filter_url_is_dir(path)) {
       filter_url_rmdir(path);

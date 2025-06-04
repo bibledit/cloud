@@ -39,8 +39,6 @@ constexpr const auto bible {"bible"};
 static void test_store_bible_data_safely_setup (const std::string& usfm)
 {
   refresh_sandbox (false);
-  Database_State::create ();
-  Database_Login::create ();
   database::bibles::create_bible (bible);
   database::bibles::store_chapter (bible, 1, 1, usfm);
 }

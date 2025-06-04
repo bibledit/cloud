@@ -252,12 +252,13 @@ std::string editone_update (Webserver_Request& webserver_request)
 
   
   // If there's no message at all, return at least something to the editor.
-  if (messages.empty ()) messages.push_back (locale_logic_text_updated());
+  if (messages.empty ())
+    messages.push_back (locale_logic_text_updated());
 
 
   // The response to send to back to the editor.
   std::string response;
-  std::string separator = "#_be_#";
+  constexpr const char* separator = "#_be_#";
   // The response starts with the save message(s) if any.
   // The message(s) contain information about save success or failure.
   // Send it to the browser for display to the user.
@@ -291,37 +292,37 @@ std::string editone_update (Webserver_Request& webserver_request)
     bible_logic::html_to_editor_updates (editor_html, server_html, positions, sizes, operators, content);
     // Encode the condensed differences for the response to the Javascript editor.
     for (size_t i = 0; i < positions.size(); i++) {
-      response.append ("#_be_#");
+      response.append (separator);
       response.append (std::to_string (positions[i]));
-      response.append ("#_be_#");
+      response.append (separator);
       std::string operation = operators[i];
       response.append (operation);
       if (operation == bible_logic::insert_operator ()) {
         std::string text = content[i];
         std::string character = filter::strings::unicode_string_substr (text, 0, 1);
-        response.append ("#_be_#");
+        response.append (separator);
         response.append (character);
         size_t length = filter::strings::unicode_string_length (text);
         std::string format = filter::strings::unicode_string_substr (text, 1, length - 1);
-        response.append ("#_be_#");
+        response.append (separator);
         response.append (format);
         // Also add the size of the character in UTF-16 format, 2-bytes or 4 bytes, as size 1 or 2.
-        response.append ("#_be_#");
+        response.append (separator);
         response.append (std::to_string (sizes[i]));
       }
       else if (operation == bible_logic::delete_operator ()) {
         // When deleting a UTF-16 character encoded in 4 bytes,
         // then the size in Quilljs is 2 instead of 1.
         // So always give the size when deleting a character.
-        response.append ("#_be_#");
+        response.append (separator);
         response.append (std::to_string (sizes[i]));
       }
       else if (operation == bible_logic::format_paragraph_operator ()) {
-        response.append ("#_be_#");
+        response.append (separator);
         response.append (content[i]);
       }
       else if (operation == bible_logic::format_character_operator ()) {
-        response.append ("#_be_#");
+        response.append (separator);
         response.append (content[i]);
       }
     }

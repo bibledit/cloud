@@ -2516,14 +2516,45 @@ TEST_F (usfm_html, note_entered_via_bible_editor)
   editor_usfm2html.load (standard_usfm);
   editor_usfm2html.stylesheet (stylesv2::standard_sheet ());
   editor_usfm2html.run ();
-  std::string html = editor_usfm2html.get ();
+  const std::string html = editor_usfm2html.get ();
   EXPECT_EQ (standard_html, html);
   
   Editor_Html2Usfm editor_html2usfm;
   editor_html2usfm.load (html);
   editor_html2usfm.stylesheet (stylesv2::standard_sheet ());
   editor_html2usfm.run ();
-  std::string usfm = editor_html2usfm.get ();
+  const std::string usfm = editor_html2usfm.get ();
+  EXPECT_EQ (standard_usfm, usfm);
+}
+
+
+TEST_F (usfm_html, empty_paragraph) // Todo
+{
+  std::string standard_usfm =
+  R"(\id GEN)" "\n"
+  R"(\p)"
+  ;
+  
+  const std::string standard_html =
+  R"(<p class="b-p"><span class="i-v">1</span><span> </span><span>verse 1</span></p>)"
+  R"(<p class="b-rq"><span>reference</span></p>)"
+  R"(<p class="b-p"><span class="i-v">2</span><span> </span><span>verse 2</span></p>)"
+  ;
+  
+  Editor_Usfm2Html editor_usfm2html;
+  editor_usfm2html.load (standard_usfm);
+  editor_usfm2html.stylesheet (stylesv2::standard_sheet ());
+  editor_usfm2html.run ();
+  const std::string html = editor_usfm2html.get ();
+  std::cout << html << std::endl; // Todo
+  return; // Todo
+  EXPECT_EQ (standard_html, html);
+  
+  Editor_Html2Usfm editor_html2usfm;
+  editor_html2usfm.load (html);
+  editor_html2usfm.stylesheet (stylesv2::standard_sheet ());
+  editor_html2usfm.run ();
+  const std::string usfm = editor_html2usfm.get ();
   EXPECT_EQ (standard_usfm, usfm);
 }
 

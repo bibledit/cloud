@@ -158,7 +158,8 @@ TEST (editone, logic)
       std::string number = std::to_string (verse);
       
       // Test the editable USFM fragment.
-      std::string editable_usfm = filter::usfm::get_verse_text_quill (chapter_usfm, verse);
+      constexpr const int chapter {1};
+      std::string editable_usfm = filter::usfm::get_verse_text_quill (chapter, verse, chapter_usfm);
       reference = filter_url_file_get_contents (filter_url_create_path ({directory, "editone06verse" + number + "edit.usfm"}));
       EXPECT_EQ (reference, editable_usfm);
       if (reference != editable_usfm) test_editone_logic_verse_indicator (verse);

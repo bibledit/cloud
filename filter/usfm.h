@@ -43,7 +43,7 @@ std::vector <int> linenumber_to_versenumber (std::string usfm, unsigned int line
 std::vector <int> offset_to_versenumber (std::string usfm, unsigned int offset);
 int versenumber_to_offset (std::string usfm, int verse);
 std::string get_verse_text (std::string usfm, int verse);
-std::string get_verse_text_quill (std::string usfm, int verse_number);
+std::string get_verse_text_quill (const std::optional<int> chapter, const int verse, std::string usfm);
 std::string get_chapter_text (std::string usfm, int chapter_number);
 std::string get_verse_range_text (std::string usfm, int verse_from, int verse_to, const std::string& exclude_usfm, bool quill);
 bool is_usfm_marker (std::string code);

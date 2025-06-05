@@ -401,7 +401,8 @@ std::string get_verse_text (std::string usfm, int verse_number)
 // Gets the USFM for the $verse number for a Quill-based verse editor.
 // This means that preceding empty paragraphs will be included also.
 // And that empty paragraphs at the end will be omitted.
-std::string get_verse_text_quill (std::string usfm, int verse)
+// But not in chapter 0.
+std::string get_verse_text_quill (const std::optional<int> chapter, const int verse, std::string usfm)
 {
   // Get the raw USFM for the verse, that is, the bit between the \v... markers.
   std::string raw_verse_usfm = get_verse_text (usfm, verse);
@@ -413,23 +414,36 @@ std::string get_verse_text_quill (std::string usfm, int verse)
 
   // Omit new paragraphs at the end.
   // In this context it is taken as opening USFM markers without content.
+  // Don't do this for chapter 0 to enable typing raw USFM in chapter 0.
+  // See https://github.com/bibledit/cloud/issues/1007
   std::string verse_usfm (raw_verse_usfm);
-  std::vector <std::string> markers_and_text = get_markers_and_text (verse_usfm);
-  while (true) {
-    if (markers_and_text.empty ()) break;
-    std::string code = markers_and_text.back ();
-    markers_and_text.pop_back ();
-    if (!is_usfm_marker (code)) break;
-    if (!is_opening_marker (code)) break;
-    verse_usfm.erase (verse_usfm.size () - code.size ());
-    verse_usfm = filter::strings::trim (verse_usfm);
-    if (verse_usfm.empty ()) break;
+  const auto is_chapter_0 = [&chapter] () {
+    if (chapter)
+      if (chapter.value() == 0)
+        return true;
+    return false;
+  };
+  if (!is_chapter_0()) {
+    std::vector <std::string> markers_and_text = get_markers_and_text (verse_usfm);
+    while (true) {
+      if (markers_and_text.empty ())
+        break;
+      const std::string code = markers_and_text.back ();
+      markers_and_text.pop_back ();
+      if (!is_usfm_marker (code))
+        break;
+      if (!is_opening_marker (code))
+        break;
+      verse_usfm.erase (verse_usfm.size () - code.size ());
+      verse_usfm = filter::strings::trim (verse_usfm);
+      if (verse_usfm.empty ())
+        break;
+    }
   }
 
   // Bail out if empty USFM for the verse.
-  if (verse_usfm.empty ()) {
+  if (verse_usfm.empty ())
     return verse_usfm;
-  }
   
   // Get the raw USFM for the previous verse for verses greater than 0, in the same way.
   // Any empty paragraphs at the end of the previous verse USFM,
@@ -439,7 +453,7 @@ std::string get_verse_text_quill (std::string usfm, int verse)
     // For combined verses: The raw USFM fragments should differ to make sense.
     if (previous_verse_usfm != raw_verse_usfm) {
       if (!previous_verse_usfm.empty ()) {
-        markers_and_text = get_markers_and_text (previous_verse_usfm);
+        std::vector <std::string> markers_and_text = get_markers_and_text (previous_verse_usfm);
         while (true) {
           if (markers_and_text.empty ()) break;
           std::string code = markers_and_text.back ();
@@ -518,7 +532,7 @@ std::string get_verse_range_text (std::string usfm, int verse_from, int verse_to
   std::string previous_usfm;
   for (int vs = verse_from; vs <= verse_to; vs++) {
     std::string verse_usfm;
-    if (quill) verse_usfm = get_verse_text_quill (usfm, vs);
+    if (quill) verse_usfm = get_verse_text_quill (std::nullopt, vs, usfm);
     else verse_usfm = get_verse_text (usfm, vs);
     // Do not include repeating USFM in the case of combined verse numbers in the input USFM code.
     if (verse_usfm == previous_usfm) continue;
@@ -797,10 +811,10 @@ std::string safely_store_verse (Webserver_Request& webserver_request,
   std::string chapter_usfm = database::bibles::get_chapter (bible, book, chapter);
   
   // Get the existing USFM fragment for the verse to save.
-  const auto get_existing_verse_usfm = [quill, &chapter_usfm, verse] () {
+  const auto get_existing_verse_usfm = [quill, &chapter_usfm, chapter, verse] () {
     std::string usfm;
     if (quill)
-      usfm = get_verse_text_quill (chapter_usfm, verse);
+      usfm = get_verse_text_quill (chapter, verse, chapter_usfm);
     else
       usfm = get_verse_text (chapter_usfm, verse);
     return filter::strings::trim (usfm);

@@ -564,11 +564,11 @@ TEST (usfm, get_verse_usfm)
     "\\p\n"
     "\\v 1 One";
     EXPECT_EQ (R"(\p)", filter::usfm::get_verse_text (usfm, 0));
-    EXPECT_EQ ("", filter::usfm::get_verse_text_quill (usfm, 0));
+    EXPECT_EQ ("", filter::usfm::get_verse_text_quill (1, 0, usfm)); // Todo check these all whether chapter 0/1 difference.
     EXPECT_EQ (R"(\v 1 One)", filter::usfm::get_verse_text (usfm, 1));
-    EXPECT_EQ (usfm, filter::usfm::get_verse_text_quill (usfm, 1));
+    EXPECT_EQ (usfm, filter::usfm::get_verse_text_quill (1, 1, usfm));
     EXPECT_EQ ("", filter::usfm::get_verse_text (usfm, 2));
-    EXPECT_EQ ("", filter::usfm::get_verse_text_quill (usfm, 2));
+    EXPECT_EQ ("", filter::usfm::get_verse_text_quill (1, 2, usfm));
   }
   
   // Testing getting USFM for verse, basic and Quill.
@@ -609,7 +609,7 @@ TEST (usfm, get_verse_usfm)
     result =
     "\\c 1\n"
     "\\s Isibingelelo";
-    EXPECT_EQ (result, filter::usfm::get_verse_text_quill (usfm, 0));
+    EXPECT_EQ (result, filter::usfm::get_verse_text_quill (1, 0, usfm));
     
     result =
     "\\v 1 Umdala\n"
@@ -618,7 +618,7 @@ TEST (usfm, get_verse_usfm)
     result =
     "\\p\n"
     "\\v 1 Umdala";
-    EXPECT_EQ (result, filter::usfm::get_verse_text_quill (usfm, 1));
+    EXPECT_EQ (result, filter::usfm::get_verse_text_quill (1, 1, usfm));
     
     result =
     "\\v 2 Sithandwa";
@@ -626,12 +626,12 @@ TEST (usfm, get_verse_usfm)
     result =
     "\\p\n"
     "\\v 2 Sithandwa";
-    EXPECT_EQ (result, filter::usfm::get_verse_text_quill (usfm, 2));
+    EXPECT_EQ (result, filter::usfm::get_verse_text_quill (1, 2, usfm));
     
     result = "\\v 3 Ngoba";
     EXPECT_EQ (result, filter::usfm::get_verse_text (usfm, 3));
     result = "\\v 3 Ngoba";
-    EXPECT_EQ (result, filter::usfm::get_verse_text_quill (usfm, 3));
+    EXPECT_EQ (result, filter::usfm::get_verse_text_quill (1, 3, usfm));
     
     result =
     "\\v 4 Kangilantokozo\n"
@@ -641,7 +641,7 @@ TEST (usfm, get_verse_usfm)
     result =
     "\\v 4 Kangilantokozo\n"
     "\\s Inkathazo";
-    EXPECT_EQ (result, filter::usfm::get_verse_text_quill (usfm, 4));
+    EXPECT_EQ (result, filter::usfm::get_verse_text_quill (1, 4, usfm));
     
     result =
     "\\v 5 Sithandwa";
@@ -649,7 +649,7 @@ TEST (usfm, get_verse_usfm)
     result =
     "\\p\n"
     "\\v 5 Sithandwa";
-    EXPECT_EQ (result, filter::usfm::get_verse_text_quill (usfm, 5));
+    EXPECT_EQ (result, filter::usfm::get_verse_text_quill (1, 5, usfm));
     
     result =
     "\\v 12 NgoDemetriyu\n"
@@ -659,17 +659,17 @@ TEST (usfm, get_verse_usfm)
     result =
     "\\v 12 NgoDemetriyu\n"
     "\\s Isicino";
-    EXPECT_EQ (result, filter::usfm::get_verse_text_quill (usfm, 12));
+    EXPECT_EQ (result, filter::usfm::get_verse_text_quill (1, 12, usfm));
     
     result =
     "\\v 14 kodwa\n"
     "\\p Ukuthula";
     EXPECT_EQ (result, filter::usfm::get_verse_text (usfm, 14));
-    EXPECT_EQ (result, filter::usfm::get_verse_text_quill (usfm, 14));
+    EXPECT_EQ (result, filter::usfm::get_verse_text_quill (1, 14, usfm));
     
-    result = "";
+    result = std::string();
     EXPECT_EQ (result, filter::usfm::get_verse_text (usfm, 15));
-    EXPECT_EQ (result, filter::usfm::get_verse_text_quill (usfm, 15));
+    EXPECT_EQ (result, filter::usfm::get_verse_text_quill (1, 15, usfm));
   }
 
   // Test getting the verse text from USFM.
@@ -683,17 +683,17 @@ TEST (usfm, get_verse_usfm)
     
     result = filter::usfm::get_verse_text (usfm, 2);
     EXPECT_EQ ("\\v 2-4 Verse 2, 3, and 4.", result);
-    result = filter::usfm::get_verse_text_quill (usfm, 2);
+    result = filter::usfm::get_verse_text_quill (1, 2, usfm);
     EXPECT_EQ ("\\v 2-4 Verse 2, 3, and 4.", result);
     
     result = filter::usfm::get_verse_text (usfm, 3);
     EXPECT_EQ ("\\v 2-4 Verse 2, 3, and 4.", result);
-    result = filter::usfm::get_verse_text_quill (usfm, 3);
+    result = filter::usfm::get_verse_text_quill (1, 3, usfm);
     EXPECT_EQ ("\\v 2-4 Verse 2, 3, and 4.", result);
     
     result = filter::usfm::get_verse_text (usfm, 4);
     EXPECT_EQ ("\\v 2-4 Verse 2, 3, and 4.", result);
-    result = filter::usfm::get_verse_text_quill (usfm, 4);
+    result = filter::usfm::get_verse_text_quill (1, 4, usfm);
     EXPECT_EQ ("\\v 2-4 Verse 2, 3, and 4.", result);
   }
 
@@ -721,7 +721,7 @@ TEST (usfm, get_verse_usfm)
     result =
     "\\c 1"
     "";
-    EXPECT_EQ (result, filter::usfm::get_verse_text_quill (usfm, 0));
+    EXPECT_EQ (result, filter::usfm::get_verse_text_quill (1, 0, usfm));
     
     result =
     "\\v 1 One"
@@ -732,7 +732,7 @@ TEST (usfm, get_verse_usfm)
     "\\p\n"
     "\\v 1 One"
     "";
-    EXPECT_EQ (result, filter::usfm::get_verse_text_quill (usfm, 1));
+    EXPECT_EQ (result, filter::usfm::get_verse_text_quill (1, 1, usfm));
     
     result =
     "\\v 2 Two\n"
@@ -743,7 +743,7 @@ TEST (usfm, get_verse_usfm)
     result =
     "\\v 2 Two"
     "";
-    EXPECT_EQ (result, filter::usfm::get_verse_text_quill (usfm, 2));
+    EXPECT_EQ (result, filter::usfm::get_verse_text_quill (1, 2, usfm));
     
     result =
     "\\v 3 Three"
@@ -754,7 +754,7 @@ TEST (usfm, get_verse_usfm)
     "\\p\n"
     "\\v 3 Three"
     "";
-    EXPECT_EQ (result, filter::usfm::get_verse_text_quill (usfm, 3));
+    EXPECT_EQ (result, filter::usfm::get_verse_text_quill (1, 3, usfm));
     
     result =
     "\\v 4 Four"
@@ -763,11 +763,11 @@ TEST (usfm, get_verse_usfm)
     result =
     "\\v 4 Four"
     "";
-    EXPECT_EQ (result, filter::usfm::get_verse_text_quill (usfm, 4));
+    EXPECT_EQ (result, filter::usfm::get_verse_text_quill (1, 4, usfm));
     
     result = "";
     EXPECT_EQ (result, filter::usfm::get_verse_text (usfm, 5));
-    EXPECT_EQ (result, filter::usfm::get_verse_text_quill (usfm, 5));
+    EXPECT_EQ (result, filter::usfm::get_verse_text_quill (1, 5, usfm));
   }
   
   // Testing USFM extraction for Quill-based visual verse editor with empty verses.
@@ -789,7 +789,7 @@ TEST (usfm, get_verse_usfm)
     ;
     EXPECT_EQ (result, filter::usfm::get_verse_text (usfm, 0));
     result = "\\c 1";
-    EXPECT_EQ (result, filter::usfm::get_verse_text_quill (usfm, 0));
+    EXPECT_EQ (result, filter::usfm::get_verse_text_quill (1, 0, usfm));
     
     result =
     "\\v 1"
@@ -799,7 +799,7 @@ TEST (usfm, get_verse_usfm)
     "\\p\n"
     "\\v 1"
     ;
-    EXPECT_EQ (result, filter::usfm::get_verse_text_quill (usfm, 1));
+    EXPECT_EQ (result, filter::usfm::get_verse_text_quill (1, 1, usfm));
     
     result =
     "\\v 2\n"
@@ -809,7 +809,7 @@ TEST (usfm, get_verse_usfm)
     result =
     "\\v 2"
     ;
-    EXPECT_EQ (result, filter::usfm::get_verse_text_quill (usfm, 2));
+    EXPECT_EQ (result, filter::usfm::get_verse_text_quill (1, 2, usfm));
     
     result =
     "\\v 3"
@@ -819,7 +819,7 @@ TEST (usfm, get_verse_usfm)
     "\\p\n"
     "\\v 3"
     ;
-    EXPECT_EQ (result, filter::usfm::get_verse_text_quill (usfm, 3));
+    EXPECT_EQ (result, filter::usfm::get_verse_text_quill (1, 3, usfm));
     
     result =
     "\\v 4"
@@ -828,11 +828,11 @@ TEST (usfm, get_verse_usfm)
     result =
     "\\v 4"
     ;
-    EXPECT_EQ (result, filter::usfm::get_verse_text_quill (usfm, 4));
+    EXPECT_EQ (result, filter::usfm::get_verse_text_quill (1, 4, usfm));
     
     result = "";
     EXPECT_EQ (result, filter::usfm::get_verse_text (usfm, 5));
-    EXPECT_EQ (result, filter::usfm::get_verse_text_quill (usfm, 5));
+    EXPECT_EQ (result, filter::usfm::get_verse_text_quill (1, 5, usfm));
   }
   
   // Test getting the USFM for a verse where there's alternate verse number or published verse numbers.

@@ -2528,17 +2528,16 @@ TEST_F (usfm_html, note_entered_via_bible_editor)
 }
 
 
-TEST_F (usfm_html, empty_paragraph) // Todo
+TEST_F (usfm_html, empty_paragraph)
 {
-  std::string standard_usfm =
+  constexpr const auto standard_usfm =
   R"(\id GEN)" "\n"
   R"(\p)"
   ;
   
-  const std::string standard_html =
-  R"(<p class="b-p"><span class="i-v">1</span><span> </span><span>verse 1</span></p>)"
-  R"(<p class="b-rq"><span>reference</span></p>)"
-  R"(<p class="b-p"><span class="i-v">2</span><span> </span><span>verse 2</span></p>)"
+  constexpr const auto standard_html =
+  R"(<p class="b-mono"><span>\id </span><span>GEN</span></p>)"
+  R"(<p class="b-p"><br/></p>)"
   ;
   
   Editor_Usfm2Html editor_usfm2html;
@@ -2546,8 +2545,6 @@ TEST_F (usfm_html, empty_paragraph) // Todo
   editor_usfm2html.stylesheet (stylesv2::standard_sheet ());
   editor_usfm2html.run ();
   const std::string html = editor_usfm2html.get ();
-  std::cout << html << std::endl; // Todo
-  return; // Todo
   EXPECT_EQ (standard_html, html);
   
   Editor_Html2Usfm editor_html2usfm;

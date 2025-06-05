@@ -564,41 +564,41 @@ TEST (usfm, get_verse_usfm)
     "\\p\n"
     "\\v 1 One";
     EXPECT_EQ (R"(\p)", filter::usfm::get_verse_text (usfm, 0));
-    EXPECT_EQ ("", filter::usfm::get_verse_text_quill (1, 0, usfm)); // Todo check these all whether chapter 0/1 difference.
+    EXPECT_EQ (std::string(), filter::usfm::get_verse_text_quill (1, 0, usfm));
     EXPECT_EQ (R"(\v 1 One)", filter::usfm::get_verse_text (usfm, 1));
     EXPECT_EQ (usfm, filter::usfm::get_verse_text_quill (1, 1, usfm));
-    EXPECT_EQ ("", filter::usfm::get_verse_text (usfm, 2));
-    EXPECT_EQ ("", filter::usfm::get_verse_text_quill (1, 2, usfm));
+    EXPECT_EQ (std::string(), filter::usfm::get_verse_text (usfm, 2));
+    EXPECT_EQ (std::string(), filter::usfm::get_verse_text_quill (1, 2, usfm));
   }
   
   // Testing getting USFM for verse, basic and Quill.
   {
-    const std::string usfm =
-    "\\c 1\n"
-    "\\s Isibingelelo\n"
-    "\\p\n"
-    "\\v 1 Umdala\n"
-    "\\p\n"
-    "\\v 2 Sithandwa\n"
-    "\\v 3 Ngoba\n"
-    "\\v 4 Kangilantokozo\n"
-    "\\s Inkathazo\n"
-    "\\p\n"
-    "\\v 5 Sithandwa\n"
-    "\\v 6 abafakazele\n"
-    "\\v 7 Ngoba\n"
-    "\\v 8 Ngakho\n"
-    "\\p\n"
-    "\\v 9 Ngabhalela\n"
-    "\\v 10 Ngakho\n"
-    "\\p\n"
-    "\\v 11 Sithandwa\n"
-    "\\v 12 NgoDemetriyu\n"
-    "\\s Isicino\n"
-    "\\p\n"
-    "\\v 13 Bengilezinto\n"
-    "\\v 14 kodwa\n"
-    "\\p Ukuthula";
+    constexpr const char* usfm =
+    R"(\c 1)" "\n"
+    R"(\s Isibingelelo)" "\n"
+    R"(\p)" "\n"
+    R"(\v 1 Umdala)" "\n"
+    R"(\p)" "\n"
+    R"(\v 2 Sithandwa)" "\n"
+    R"(\v 3 Ngoba)" "\n"
+    R"(\v 4 Kangilantokozo)" "\n"
+    R"(\s Inkathazo)" "\n"
+    R"(\p)" "\n"
+    R"(\v 5 Sithandwa)" "\n"
+    R"(\v 6 abafakazele)" "\n"
+    R"(\v 7 Ngoba)" "\n"
+    R"(\v 8 Ngakho)" "\n"
+    R"(\p)" "\n"
+    R"(\v 9 Ngabhalela)" "\n"
+    R"(\v 10 Ngakho)" "\n"
+    R"(\p)" "\n"
+    R"(\v 11 Sithandwa)" "\n"
+    R"(\v 12 NgoDemetriyu)" "\n"
+    R"(\s Isicino)" "\n"
+    R"(\p)" "\n"
+    R"(\v 13 Bengilezinto)" "\n"
+    R"(\v 14 kodwa)" "\n"
+    R"(\p Ukuthula)" "";
     std::string result;
 
     result =
@@ -606,6 +606,7 @@ TEST (usfm, get_verse_usfm)
     "\\s Isibingelelo\n"
     "\\p";
     EXPECT_EQ (result, filter::usfm::get_verse_text (usfm, 0));
+    EXPECT_EQ (result, filter::usfm::get_verse_text_quill (0, 0, usfm));
     result =
     "\\c 1\n"
     "\\s Isibingelelo";
@@ -718,6 +719,7 @@ TEST (usfm, get_verse_usfm)
     "\\p"
     "";
     EXPECT_EQ (result, filter::usfm::get_verse_text (usfm, 0));
+    EXPECT_EQ (result, filter::usfm::get_verse_text_quill (0, 0, usfm));
     result =
     "\\c 1"
     "";
@@ -788,6 +790,7 @@ TEST (usfm, get_verse_usfm)
     "\\p"
     ;
     EXPECT_EQ (result, filter::usfm::get_verse_text (usfm, 0));
+    EXPECT_EQ (result, filter::usfm::get_verse_text_quill (0, 0, usfm));
     result = "\\c 1";
     EXPECT_EQ (result, filter::usfm::get_verse_text_quill (1, 0, usfm));
     

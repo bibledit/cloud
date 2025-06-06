@@ -438,7 +438,15 @@ void Editor_Usfm2Html::process ()
         close_text_style (false);
         output_as_is (marker, is_opening_marker);
       }
-    } else {
+    }
+    else if (current_item == R"(\)") {
+      // Just a backslash.
+      // In the editor, output this in mono font.
+      // See https://github.com/bibledit/cloud/issues/1007
+      close_text_style (false);
+      output_as_is (std::string(), true);
+    }
+    else {
       // Here is no marker. Treat it as text.
       if (m_note_opened) {
         add_note_text (current_item);

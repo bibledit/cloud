@@ -62,8 +62,8 @@ public:
 
 TEST_F (usfm_html, one_unknown_opening_marker)
 {
-  std::string standard_usfm = R"(\abc)";
-  std::string standard_html = R"(<p class="b-mono"><span>\abc </span></p>)";
+  constexpr const auto standard_usfm = R"(\abc)";
+  constexpr const auto standard_html = R"(<p class="b-mono"><span>\abc </span></p>)";
   
   Editor_Usfm2Html editor_usfm2html;
   editor_usfm2html.load (standard_usfm);
@@ -83,10 +83,10 @@ TEST_F (usfm_html, one_unknown_opening_marker)
 
 TEST_F (usfm_html, two_unknown_opening_markers)
 {
-  std::string standard_usfm =
+  constexpr const auto standard_usfm =
   R"(\abc)" "\n"
   R"(\abc)";
-  std::string standard_html =
+  constexpr const auto standard_html =
   R"(<p class="b-mono"><span>\abc </span></p>)"
   R"(<p class="b-mono"><span>\abc </span></p>)";
   Editor_Usfm2Html editor_usfm2html;
@@ -107,8 +107,8 @@ TEST_F (usfm_html, two_unknown_opening_markers)
 
 TEST_F (usfm_html, one_unknown_closing_marker)
 {
-  std::string standard_usfm = R"(\abc text\abc*.)";
-  std::string standard_html = R"(<p class="b-mono"><span>\abc </span><span>text</span><span>\abc*</span><span>.</span></p>)";
+  constexpr const auto standard_usfm = R"(\abc text\abc*.)";
+  constexpr const auto standard_html = R"(<p class="b-mono"><span>\abc </span><span>text</span><span>\abc*</span><span>.</span></p>)";
   Editor_Usfm2Html editor_usfm2html;
   editor_usfm2html.load (standard_usfm);
   editor_usfm2html.stylesheet (stylesv2::standard_sheet ());
@@ -127,10 +127,10 @@ TEST_F (usfm_html, one_unknown_closing_marker)
 
 TEST_F (usfm_html, two_unknown_closing_markers)
 {
-  std::string standard_usfm =
+  constexpr const auto standard_usfm =
   R"(\abc text\abc*.)" "\n"
   R"(\abc text\abc*.)";
-  std::string standard_html =
+  constexpr const auto standard_html =
   R"(<p class="b-mono"><span>\abc </span><span>text</span><span>\abc*</span><span>.</span></p>)"
   R"(<p class="b-mono"><span>\abc </span><span>text</span><span>\abc*</span><span>.</span></p>)";
   
@@ -152,14 +152,14 @@ TEST_F (usfm_html, two_unknown_closing_markers)
 
 TEST_F (usfm_html, identifiers)
 {
-  std::string standard_usfm =
+  constexpr const auto standard_usfm =
   R"(\id GEN)" "\n"
   R"(\h Header)" "\n"
   R"(\toc1 The Book of Genesis)" "\n"
   R"(\cl Chapter)" "\n"
   R"(\cp ②)" "\n"
   R"(\cp Ⅰ)";
-  std::string standard_html =
+  constexpr const auto standard_html =
   R"(<p class="b-mono"><span>\id </span><span>GEN</span></p>)"
   R"(<p class="b-mono"><span>\h </span><span>Header</span></p>)"
   R"(<p class="b-mono"><span>\toc1 </span><span>The Book of Genesis</span></p>)"
@@ -185,8 +185,8 @@ TEST_F (usfm_html, identifiers)
 
 TEST_F (usfm_html, one_paragraph)
 {
-  std::string standard_usfm = R"(\p Paragraph text.)";
-  std::string standard_html = R"(<p class="b-p"><span>Paragraph text.</span></p>)";
+  constexpr const auto standard_usfm = R"(\p Paragraph text.)";
+  constexpr const auto standard_html = R"(<p class="b-p"><span>Paragraph text.</span></p>)";
   
   Editor_Usfm2Html editor_usfm2html;
   editor_usfm2html.load (standard_usfm);
@@ -206,10 +206,10 @@ TEST_F (usfm_html, one_paragraph)
 
 TEST_F (usfm_html, two_paragraphs)
 {
-  std::string standard_usfm =
+  constexpr const auto standard_usfm =
   R"(\p Paragraph text.)" "\n"
   R"(\p Paragraph txt.)";
-  std::string standard_html =
+  constexpr const auto standard_html =
   R"(<p class="b-p"><span>Paragraph text.</span></p>)"
   R"(<p class="b-p"><span>Paragraph txt.</span></p>)";
   
@@ -231,8 +231,8 @@ TEST_F (usfm_html, two_paragraphs)
 
 TEST_F (usfm_html, inline_text)
 {
-  std::string standard_usfm = R"(\p Paragraph text plus \add added\add* text.)";
-  std::string standard_html = R"(<p class="b-p"><span>Paragraph text plus </span><span class="i-add">added</span><span> text.</span></p>)";
+  constexpr const auto standard_usfm = R"(\p Paragraph text plus \add added\add* text.)";
+  constexpr const auto standard_html = R"(<p class="b-p"><span>Paragraph text plus </span><span class="i-add">added</span><span> text.</span></p>)";
   
   Editor_Usfm2Html editor_usfm2html;
   editor_usfm2html.load (standard_usfm);
@@ -252,8 +252,8 @@ TEST_F (usfm_html, inline_text)
 
 TEST_F (usfm_html, inline_texts)
 {
-  std::string standard_usfm = R"(\p Paragraph text plus \add added\add* text plus \add added\add* text.)";
-  std::string standard_html = R"(<p class="b-p"><span>Paragraph text plus </span><span class="i-add">added</span><span> text plus </span><span class="i-add">added</span><span> text.</span></p>)";
+  constexpr const auto standard_usfm = R"(\p Paragraph text plus \add added\add* text plus \add added\add* text.)";
+  constexpr const auto standard_html = R"(<p class="b-p"><span>Paragraph text plus </span><span class="i-add">added</span><span> text plus </span><span class="i-add">added</span><span> text.</span></p>)";
   
   Editor_Usfm2Html editor_usfm2html;
   editor_usfm2html.load (standard_usfm);
@@ -273,11 +273,11 @@ TEST_F (usfm_html, inline_texts)
 
 TEST_F (usfm_html, chapter)
 {
-  std::string standard_usfm =
+  constexpr const auto standard_usfm =
   R"(\c 1)" "\n"
   R"(\p Paragraph.)";
   
-  std::string standard_html =
+  constexpr const auto standard_html =
   R"(<p class="b-c"><span>1</span></p>)"
   R"(<p class="b-p"><span>Paragraph.</span></p>)";
   
@@ -299,13 +299,13 @@ TEST_F (usfm_html, chapter)
 
 TEST_F (usfm_html, alternative_chapter)
 {
-  std::string standard_usfm =
+  constexpr const auto standard_usfm =
   R"(\c 13)" "\n"
   R"(\ca 14\ca*)" "\n"
   R"(\p)" "\n"
   R"(\v 1 Text)";
   
-  const std::string standard_html = R"(<p class="b-c"><span>13</span></p><p class="b-mono"><span>\ca </span><span>14</span><span>\ca*</span></p><p class="b-p"><span class="i-v">1</span><span> </span><span>Text</span></p>)";
+  constexpr const auto standard_html = R"(<p class="b-c"><span>13</span></p><p class="b-mono"><span>\ca </span><span>14</span><span>\ca*</span></p><p class="b-p"><span class="i-v">1</span><span> </span><span>Text</span></p>)";
   
   Editor_Usfm2Html editor_usfm2html;
   editor_usfm2html.load (standard_usfm);
@@ -325,11 +325,11 @@ TEST_F (usfm_html, alternative_chapter)
 
 TEST_F (usfm_html, verses)
 {
-  std::string standard_usfm =
+  constexpr const auto standard_usfm =
   R"(\p)" "\n"
   R"(\v 1 One.)" "\n"
   R"(\v 2 Two.)";
-  std::string standard_html =
+  constexpr const auto standard_html =
   R"(<p class="b-p"><span class="i-v">1</span><span> </span><span>One.</span><span> </span><span class="i-v">2</span><span> </span><span>Two.</span></p>)";
   
   Editor_Usfm2Html editor_usfm2html;
@@ -356,7 +356,7 @@ TEST_F (usfm_html, published_verse_markers)
 \v 2 \vp B\vp* Two.
 )";
   standard_usfm = filter::strings::trim (standard_usfm);
-  std::string standard_html = R"(
+  constexpr const auto standard_html = R"(
 <p class="b-p"><span class="i-v">1</span><span> </span><span class="i-vp">A</span><span> One.</span><span> </span><span class="i-v">2</span><span> </span><span class="i-vp">B</span><span> Two.</span></p>
 )";
   
@@ -378,10 +378,10 @@ TEST_F (usfm_html, published_verse_markers)
 
 TEST_F (usfm_html, peripherals)
 {
-  std::string standard_usfm =
+  constexpr const auto standard_usfm =
   "\\periph Title Page\n"
   "\\periph Publication Data";
-  std::string standard_html =
+  constexpr const auto standard_html =
   R"(<p class="b-mono"><span>\periph </span><span>Title Page</span></p>)"
   R"(<p class="b-mono"><span>\periph </span><span>Publication Data</span></p>)";
   
@@ -403,11 +403,11 @@ TEST_F (usfm_html, peripherals)
 
 TEST_F (usfm_html, picture)
 {
-  std::string standard_usfm =
+  constexpr const auto standard_usfm =
   "\\p Text\n"
   "\\fig DESC|FILE|SIZE|LOC|COPY|CAP|REF\\fig*\n"
   "\\p Text";
-  std::string standard_html =
+  constexpr const auto standard_html =
   R"(<p class="b-p"><span>Text</span></p>)"
   R"(<p class="b-mono"><span>\fig </span><span>DESC|FILE|SIZE|LOC|COPY|CAP|REF</span><span>\fig*</span></p>)"
   R"(<p class="b-p"><span>Text</span></p>)";
@@ -430,13 +430,13 @@ TEST_F (usfm_html, picture)
 
 TEST_F (usfm_html, table)
 {
-  std::string standard_usfm =
+  constexpr const auto standard_usfm =
   "\\tr \\th1 Tribe \\th2 Leader \\thr3 Number\n"
   "\\tr \\tc1 Reuben \\tc2 Elizur son of Shedeur \\tcr3 46500\n"
   "\\tr \\tc1 Simeon \\tc2 Shelumiel son of Zurishaddai \\tcr3 59300\n"
   "\\tr \\tc1 Gad \\tc2 Eliasaph son of Reuel \\tcr3 45650\n"
   "\\tr \\tc1 \\tcr2 Total: \\tcr3 151450";
-  std::string standard_html =
+  constexpr const auto standard_html =
   R"(<p class="b-mono"><span>\tr </span><span class="i-th1">Tribe </span><span class="i-th2">Leader </span><span class="i-thr3">Number</span></p>)"
   R"(<p class="b-mono"><span>\tr </span><span class="i-tc1">Reuben </span><span class="i-tc2">Elizur son of Shedeur </span><span class="i-tcr3">46500</span></p>)"
   R"(<p class="b-mono"><span>\tr </span><span class="i-tc1">Simeon </span><span class="i-tc2">Shelumiel son of Zurishaddai </span><span class="i-tcr3">59300</span></p>)"
@@ -455,15 +455,15 @@ TEST_F (usfm_html, table)
   editor_html2usfm.stylesheet (stylesv2::standard_sheet ());
   editor_html2usfm.run ();
   std::string usfm = editor_html2usfm.get ();
-  std::string standard_usfm2 = filter::strings::replace ("\\tc1 \\", "\\", standard_usfm);
+  const auto standard_usfm2 = filter::strings::replace ("\\tc1 \\", "\\", standard_usfm);
   EXPECT_EQ (standard_usfm2, usfm);
 }
 
 
 TEST_F (usfm_html, word_list_entry)
 {
-  std::string standard_usfm = R"(\p A \ndx index\ndx* b \wh Hebrew\wh* c.)";
-  std::string standard_html =
+  constexpr const auto standard_usfm = R"(\p A \ndx index\ndx* b \wh Hebrew\wh* c.)";
+  constexpr const auto standard_html =
   R"(<p class="b-p"><span>A </span><span class="i-ndx">index</span><span> b </span><span class="i-wh">Hebrew</span><span> c.</span></p>)";
   
   Editor_Usfm2Html editor_usfm2html;
@@ -484,8 +484,8 @@ TEST_F (usfm_html, word_list_entry)
 
 TEST_F (usfm_html, crossreference)
 {
-  std::string standard_usfm = R"(\p The elder\x + 2 Joh. 1.1\x* to the beloved Gaius.)";
-  std::string standard_html =
+  constexpr const auto standard_usfm = R"(\p The elder\x + 2 Joh. 1.1\x* to the beloved Gaius.)";
+  constexpr const auto standard_html =
   R"(<p class="b-p"><span>The elder</span><span class="i-notecall1">a</span><span> to the beloved Gaius.</span></p>)"
   R"(<p class="b-notes">)"
   " "
@@ -510,10 +510,10 @@ TEST_F (usfm_html, crossreference)
 
 TEST_F (usfm_html, crossreferences)
 {
-  std::string standard_usfm =
+  constexpr const auto standard_usfm =
   R"(\p The elder\x + 2 Joh. 1.1\x* to the beloved Gaius.)" "\n"
   R"(\v 1 The elders\x + 2 Joh. 2.2\x* to the beloved.)";
-  std::string standard_html =
+  constexpr const auto standard_html =
   R"(<p class="b-p"><span>The elder</span><span class="i-notecall1">a</span><span> to the beloved Gaius.</span><span> </span><span class="i-v">1</span><span> </span><span>The elders</span><span class="i-notecall2">b</span><span> to the beloved.</span></p>)"
   R"(<p class="b-notes">)"
   " "
@@ -539,9 +539,9 @@ TEST_F (usfm_html, crossreferences)
 
 TEST_F (usfm_html, footnote)
 {
-  std::string standard_usfm =
+  constexpr const auto standard_usfm =
   R"(\p The earth brought forth\f + \fk brought: \fl Heb. \fq explanation.\f*.)";
-  std::string standard_html =
+  constexpr const auto standard_html =
   R"(<p class="b-p"><span>The earth brought forth</span><span class="i-notecall1">1</span><span>.</span></p>)"
   R"(<p class="b-notes">)"
   " "
@@ -566,7 +566,7 @@ TEST_F (usfm_html, footnote)
 
 TEST_F (usfm_html, cycling_the_note_caller)
 {
-  std::string standard_usfm =
+  constexpr const auto standard_usfm =
   "\\p Text\\f + note\\f*.\n"
   "\\p Text\\fe + note\\fe*.\n"
   "\\p Text\\x + note\\x*.\n"
@@ -588,7 +588,7 @@ TEST_F (usfm_html, cycling_the_note_caller)
   "\\p Text\\f + note\\f*.\n"
   "\\p Text\\fe + note\\fe*.\n"
   "\\p Text\\x + note\\x*.";
-  std::string standard_html = filter_url_file_get_contents (filter_url_create_root_path ({"unittests", "tests", "editor_roundtrip_1.txt"}));
+  const auto standard_html = filter_url_file_get_contents (filter_url_create_root_path ({"unittests", "tests", "editor_roundtrip_1.txt"}));
   
   Editor_Usfm2Html editor_usfm2html;
   editor_usfm2html.load (standard_usfm);
@@ -608,9 +608,9 @@ TEST_F (usfm_html, cycling_the_note_caller)
 
 TEST_F (usfm_html, endnote)
 {
-  std::string standard_usfm =
+  constexpr const auto standard_usfm =
   R"(\p The earth brought forth\fe + \fk brought: \fl Heb. \fq explanation.\fe*.)";
-  std::string standard_html =
+  constexpr const auto standard_html =
   R"(<p class="b-p"><span>The earth brought forth</span><span class="i-notecall1">1</span><span>.</span></p>)"
   R"(<p class="b-notes">)"
   " "
@@ -635,7 +635,7 @@ TEST_F (usfm_html, endnote)
 
 TEST_F (usfm_html, round_trip_from_real_life_1)
 {
-  std::string standard_usfm =
+  constexpr const auto standard_usfm =
   "\\c 1\n"
   "\\s Ukufika kukaJesu Kristu kuyamenyezelwa nguJohane uMbhabhathizi\n"
   "\\p\n"
@@ -672,7 +672,7 @@ TEST_F (usfm_html, round_trip_from_real_life_1)
 
 TEST_F (usfm_html, round_trip_from_real_life_2)
 {
-  std::string standard_usfm =
+  constexpr const auto standard_usfm =
   "\\c 1\n"
   "\\s Ukudalwa komhlaba laye umuntu\n"
   "\\p\n"
@@ -809,7 +809,7 @@ TEST_F (usfm_html, nested_text_mark_3)
 
 TEST_F (usfm_html, nested_note_markup_1)
 {
-  std::string standard_usfm =
+  constexpr const auto standard_usfm =
   R"(\p)" "\n"
   R"(\v 2 text\f + \fk fk \+fdc key-fdc\+fdc*\fk* normal\f*.)";
   std::string html =
@@ -899,7 +899,7 @@ TEST_F (usfm_html, fox_for_change_marker_ft_to_fk)
 
 TEST_F (usfm_html, blank_line)
 {
-  std::string standard_usfm =
+  constexpr const auto standard_usfm =
   "\\p paragraph\n"
   "\\b\n"
   "\\p paragraph";
@@ -908,7 +908,7 @@ TEST_F (usfm_html, blank_line)
   editor_usfm2html.stylesheet (stylesv2::standard_sheet ());
   editor_usfm2html.run ();
   std::string html = editor_usfm2html.get ();
-  std::string standard_html = R"(<p class="b-p"><span>paragraph</span></p><p class="b-b"><br/></p><p class="b-p"><span>paragraph</span></p>)";
+  constexpr const auto standard_html = R"(<p class="b-p"><span>paragraph</span></p><p class="b-b"><br/></p><p class="b-p"><span>paragraph</span></p>)";
   EXPECT_EQ (standard_html, html);
   
   Editor_Html2Usfm editor_html2usfm;
@@ -922,7 +922,7 @@ TEST_F (usfm_html, blank_line)
 
 TEST_F (usfm_html, test_the_marker_sd_and_sd2_semantic_divisions)
 {
-  std::string standard_usfm =
+  constexpr const auto standard_usfm =
   "\\p paragraph\n"
   "\\sd\n"
   "\\p paragraph\n"
@@ -933,7 +933,7 @@ TEST_F (usfm_html, test_the_marker_sd_and_sd2_semantic_divisions)
   editor_usfm2html.stylesheet (stylesv2::standard_sheet ());
   editor_usfm2html.run ();
   std::string html = editor_usfm2html.get ();
-  std::string standard_html = R"(<p class="b-p"><span>paragraph</span></p><p class="b-sd"><br/></p><p class="b-p"><span>paragraph</span></p><p class="b-sd2"><br/></p>)";
+  constexpr const auto standard_html = R"(<p class="b-p"><span>paragraph</span></p><p class="b-sd"><br/></p><p class="b-p"><span>paragraph</span></p><p class="b-sd2"><br/></p>)";
   EXPECT_EQ (standard_html, html);
   
   Editor_Html2Usfm editor_html2usfm;
@@ -970,12 +970,12 @@ TEST_F (usfm_html, test_marker_xo_and_xt)
 
 TEST_F (usfm_html, unmatched_note_opener_and_xref_opener)
 {
-  std::string standard_usfm =
+  constexpr const auto standard_usfm =
   R"(\c 117)" "\n"
   R"(\p)" "\n"
   R"(\v 1 Praise Yahweh\f all you nations!)" "\n"
   R"(\v 2 For his loving kindness\x is great toward us.)" "\n";
-  std::string standard_html =
+  constexpr const auto standard_html =
   R"(<p class="b-c"><span>117</span></p><p class="b-p"><span class="i-v">1</span><span> </span><span>Praise Yahweh</span><span>\f </span><span>all you nations!</span><span> </span><span class="i-v">2</span><span> </span><span>For his loving kindness</span><span>\x </span><span>is great toward us.</span></p>)";
   
   Editor_Usfm2Html editor_usfm2html;
@@ -996,9 +996,9 @@ TEST_F (usfm_html, unmatched_note_opener_and_xref_opener)
 
 TEST_F (usfm_html, inline_opener_without_matching_inline_closer)
 {
-  std::string standard_usfm =
+  constexpr const auto standard_usfm =
   R"(\p The \add Lord God is calling you)";
-  std::string standard_html =
+  constexpr const auto standard_html =
   R"(<p class="b-p"><span>The </span><span>\add </span><span>Lord God is calling you</span></p>)";
   
   Editor_Usfm2Html editor_usfm2html;
@@ -1020,10 +1020,10 @@ TEST_F (usfm_html, inline_opener_without_matching_inline_closer)
 // Inline opener without inline closer but with other inline markup.
 TEST_F (usfm_html, inline_opener_wo_closer_w_other_inline_markup)
 {
-  std::string standard_usfm =
+  constexpr const auto standard_usfm =
   R"(\p The \add Lord \nd God\nd* is calling you)" "\n"
   R"(\v 2 Verse text)";
-  std::string standard_html =
+  constexpr const auto standard_html =
   R"(<p class="b-p"><span>The </span><span>\add </span><span>Lord </span><span class="i-nd">God</span><span> is calling you</span><span> </span><span class="i-v">2</span><span> </span><span>Verse text</span></p>)";
   
   Editor_Usfm2Html editor_usfm2html;
@@ -1045,10 +1045,10 @@ TEST_F (usfm_html, inline_opener_wo_closer_w_other_inline_markup)
 // Inline opener without a matching inline closer and with a paragraph after that.
 TEST_F (usfm_html, inline_opener_wo_closer_w_paragraph_after)
 {
-  std::string standard_usfm =
+  constexpr const auto standard_usfm =
   R"(\p The \add Lord God is calling you)" "\n"
   R"(\p Paragraph)";
-  std::string standard_html =
+  constexpr const auto standard_html =
   R"(<p class="b-p"><span>The </span><span>\add </span><span>Lord God is calling you</span></p><p class="b-p"><span>Paragraph</span></p>)";
   
   Editor_Usfm2Html editor_usfm2html;
@@ -1153,8 +1153,8 @@ TEST_F (usfm_html, verse_editor_paragraph_w_content)
 // Testing \add ..\add* markup in a footnote.
 TEST_F (usfm_html, add_in_footnote)
 {
-  std::string standard_usfm = R"(\p Praise Yahweh\f \add I\add* am\f*, all you nations!)";
-  std::string standard_html = R"(<p class="b-p"><span>Praise Yahweh</span><span class="i-notecall1">1</span><span>, all you nations!</span></p><p class="b-notes"> </p><p class="b-f"><span class="i-notebody1">1</span><span> </span><span class="i-add">I</span><span> am</span></p>)";
+  constexpr const auto standard_usfm = R"(\p Praise Yahweh\f \add I\add* am\f*, all you nations!)";
+  constexpr const auto standard_html = R"(<p class="b-p"><span>Praise Yahweh</span><span class="i-notecall1">1</span><span>, all you nations!</span></p><p class="b-notes"> </p><p class="b-f"><span class="i-notebody1">1</span><span> </span><span class="i-add">I</span><span> am</span></p>)";
   
   Editor_Usfm2Html editor_usfm2html;
   editor_usfm2html.load (standard_usfm);
@@ -1175,8 +1175,8 @@ TEST_F (usfm_html, add_in_footnote)
 // Testing \xt in a footnote.
 TEST_F (usfm_html, xt_in_footnote)
 {
-  std::string standard_usfm = R"(\p Praise Yahweh\f I am, see \xt Exod.6.3.\f*, all you nations!)";
-  std::string standard_html = R"(<p class="b-p"><span>Praise Yahweh</span><span class="i-notecall1">1</span><span>, all you nations!</span></p><p class="b-notes"> </p><p class="b-f"><span class="i-notebody1">1</span><span> </span><span>I am, see </span><span class="i-xt">Exod.6.3.</span></p>)";
+  constexpr const auto standard_usfm = R"(\p Praise Yahweh\f I am, see \xt Exod.6.3.\f*, all you nations!)";
+  constexpr const auto standard_html = R"(<p class="b-p"><span>Praise Yahweh</span><span class="i-notecall1">1</span><span>, all you nations!</span></p><p class="b-notes"> </p><p class="b-f"><span class="i-notebody1">1</span><span> </span><span>I am, see </span><span class="i-xt">Exod.6.3.</span></p>)";
   
   Editor_Usfm2Html editor_usfm2html;
   editor_usfm2html.load (standard_usfm);
@@ -1197,8 +1197,8 @@ TEST_F (usfm_html, xt_in_footnote)
 // Testing \xt and \add markup in a footnote, in Romans 2.15, received from a user.
 TEST_F (usfm_html, xt_add_in_footnote)
 {
-  std::string standard_usfm = R"(\p \f + \fr 2:15 \ft „tokie“ – t. „kurie“\f*tokie parodo savo širdyse įrašytą įstatymo \f + \fr 2:15 \ft „darbą“ – arba „poveikį“\f*darbą, jų sąžinei kartu \add tiems dalykams\add* paliudijant, ir \add jų\add* mintims \f + \fr 2:15 \ft „tuo tarpu \add juos\add* kaltinant arba net ginant“ – gr. „tarp savęs“; gal „tarpusavyje“, t. y. arba minčių tarpusavyje arba kitataučių tarpusavyje; gal „pakeičiant viena kitą \add juos\add* kaltindamos arba net gindamos“; žr. - \xt Mt 18:15, kur kalbama ne apie laiko tarpsnį, bet apie žodžių keitimąsi tarp du žmones\f*tuo tarpu \add juos\add* kaltinant arba net ginant) –)";
-  std::string standard_html = R"(<p class="b-p"><span class="i-notecall1">1</span><span>tokie parodo savo širdyse įrašytą įstatymo </span><span class="i-notecall2">2</span><span>darbą, jų sąžinei kartu </span><span class="i-add">tiems dalykams</span><span> paliudijant, ir </span><span class="i-add">jų</span><span> mintims </span><span class="i-notecall3">3</span><span>tuo tarpu </span><span class="i-add">juos</span><span> kaltinant arba net ginant) –</span></p><p class="b-notes"> </p><p class="b-f"><span class="i-notebody1">1</span><span> </span><span>+ </span><span class="i-fr">2:15 </span><span class="i-ft">„tokie“ – t. „kurie“</span></p><p class="b-f"><span class="i-notebody2">2</span><span> </span><span>+ </span><span class="i-fr">2:15 </span><span class="i-ft">„darbą“ – arba „poveikį“</span></p><p class="b-f"><span class="i-notebody3">3</span><span> </span><span>+ </span><span class="i-fr">2:15 </span><span class="i-ft">„tuo tarpu </span><span class="i-add">juos</span><span> kaltinant arba net ginant“ – gr. „tarp savęs“; gal „tarpusavyje“, t. y. arba minčių tarpusavyje arba kitataučių tarpusavyje; gal „pakeičiant viena kitą </span><span class="i-add">juos</span><span> kaltindamos arba net gindamos“; žr. - </span><span class="i-xt">Mt 18:15, kur kalbama ne apie laiko tarpsnį, bet apie žodžių keitimąsi tarp du žmones</span></p>)";
+  constexpr const auto standard_usfm = R"(\p \f + \fr 2:15 \ft „tokie“ – t. „kurie“\f*tokie parodo savo širdyse įrašytą įstatymo \f + \fr 2:15 \ft „darbą“ – arba „poveikį“\f*darbą, jų sąžinei kartu \add tiems dalykams\add* paliudijant, ir \add jų\add* mintims \f + \fr 2:15 \ft „tuo tarpu \add juos\add* kaltinant arba net ginant“ – gr. „tarp savęs“; gal „tarpusavyje“, t. y. arba minčių tarpusavyje arba kitataučių tarpusavyje; gal „pakeičiant viena kitą \add juos\add* kaltindamos arba net gindamos“; žr. - \xt Mt 18:15, kur kalbama ne apie laiko tarpsnį, bet apie žodžių keitimąsi tarp du žmones\f*tuo tarpu \add juos\add* kaltinant arba net ginant) –)";
+  constexpr const auto standard_html = R"(<p class="b-p"><span class="i-notecall1">1</span><span>tokie parodo savo širdyse įrašytą įstatymo </span><span class="i-notecall2">2</span><span>darbą, jų sąžinei kartu </span><span class="i-add">tiems dalykams</span><span> paliudijant, ir </span><span class="i-add">jų</span><span> mintims </span><span class="i-notecall3">3</span><span>tuo tarpu </span><span class="i-add">juos</span><span> kaltinant arba net ginant) –</span></p><p class="b-notes"> </p><p class="b-f"><span class="i-notebody1">1</span><span> </span><span>+ </span><span class="i-fr">2:15 </span><span class="i-ft">„tokie“ – t. „kurie“</span></p><p class="b-f"><span class="i-notebody2">2</span><span> </span><span>+ </span><span class="i-fr">2:15 </span><span class="i-ft">„darbą“ – arba „poveikį“</span></p><p class="b-f"><span class="i-notebody3">3</span><span> </span><span>+ </span><span class="i-fr">2:15 </span><span class="i-ft">„tuo tarpu </span><span class="i-add">juos</span><span> kaltinant arba net ginant“ – gr. „tarp savęs“; gal „tarpusavyje“, t. y. arba minčių tarpusavyje arba kitataučių tarpusavyje; gal „pakeičiant viena kitą </span><span class="i-add">juos</span><span> kaltindamos arba net gindamos“; žr. - </span><span class="i-xt">Mt 18:15, kur kalbama ne apie laiko tarpsnį, bet apie žodžių keitimąsi tarp du žmones</span></p>)";
   Editor_Usfm2Html editor_usfm2html;
   editor_usfm2html.load (standard_usfm);
   editor_usfm2html.stylesheet (stylesv2::standard_sheet ());
@@ -1219,9 +1219,9 @@ TEST_F (usfm_html, xt_add_in_footnote)
 // https://github.com/bibledit/cloud/issues/353
 TEST_F (usfm_html, regression_paste_text_in_note)
 {
-  std::string standard_usfm_long = R"(\p Verse text one\f + \fr 1:4 \ft Note text \ft one.\f* two.)";
-  std::string standard_usfm_short = R"(\p Verse text one\f + \fr 1:4 \ft Note text one.\f* two.)";
-  std::string standard_html = R"(<p class="b-p">Verse text one<span class="i-notecall1">1</span> two.</p><p class="b-notes"> </p><p class="b-f"><span class="i-notebody1">1</span> + <span class="i-fr">1:4 </span><span class="i-ft">Note </span>text&nbsp;<span class="i-ft">one.</span></p>)";
+  [[maybe_unused]] constexpr const auto standard_usfm_long = R"(\p Verse text one\f + \fr 1:4 \ft Note text \ft one.\f* two.)";
+  constexpr const auto standard_usfm_short = R"(\p Verse text one\f + \fr 1:4 \ft Note text one.\f* two.)";
+  constexpr const auto standard_html = R"(<p class="b-p">Verse text one<span class="i-notecall1">1</span> two.</p><p class="b-notes"> </p><p class="b-f"><span class="i-notebody1">1</span> + <span class="i-fr">1:4 </span><span class="i-ft">Note </span>text&nbsp;<span class="i-ft">one.</span></p>)";
   Editor_Html2Usfm editor_html2usfm;
   editor_html2usfm.load (standard_html);
   editor_html2usfm.stylesheet (stylesv2::standard_sheet ());
@@ -1236,7 +1236,7 @@ TEST_F (usfm_html, regression_paste_text_in_note)
 // https://github.com/bibledit/cloud/issues/444
 TEST_F (usfm_html, regression_new_line_footnote)
 {
-  std::string standard_html = R"(<p class="b-p"><span class="i-v">1</span> One<span class="i-notecall1">1</span> two.</p><p class="b-notes">&nbsp;</p><p class="b-f"><span class="i-notebody1">1</span> + <span class="i-fr">117.3 </span><span class="i-fk">| key </span></p><p class="b-f"><span class="i-fk">word</span></p>)";
+  constexpr const auto standard_html = R"(<p class="b-p"><span class="i-v">1</span> One<span class="i-notecall1">1</span> two.</p><p class="b-notes">&nbsp;</p><p class="b-f"><span class="i-notebody1">1</span> + <span class="i-fr">117.3 </span><span class="i-fk">| key </span></p><p class="b-f"><span class="i-fk">word</span></p>)";
   Editor_Html2Usfm editor_html2usfm;
   editor_html2usfm.load (standard_html);
   editor_html2usfm.stylesheet (stylesv2::standard_sheet ());
@@ -1533,8 +1533,8 @@ TEST_F (usfm_html, word_sequence_with_character_markup)
 TEST_F (usfm_html, new_line_in_footnote)
 {
   {
-    const std::string standard_usfm = R"(\p text\f + \ft footnote\f*)";
-    const std::string standard_html = R"(<p class="b-p">text<span class="i-notecall1">1</span></p><p class="b-notes"></p><p class="b-f"><span class="i-notebody1">1</span> + <span class="i-ft">foot</span></p><p class="b-f"><span class="i-ft">note</span></p>)";
+    constexpr const auto standard_usfm = R"(\p text\f + \ft footnote\f*)";
+    constexpr const auto standard_html = R"(<p class="b-p">text<span class="i-notecall1">1</span></p><p class="b-notes"></p><p class="b-f"><span class="i-notebody1">1</span> + <span class="i-ft">foot</span></p><p class="b-f"><span class="i-ft">note</span></p>)";
     Editor_Html2Usfm editor_html2usfm;
     editor_html2usfm.load (standard_html);
     editor_html2usfm.stylesheet (stylesv2::standard_sheet ());
@@ -1543,8 +1543,8 @@ TEST_F (usfm_html, new_line_in_footnote)
     EXPECT_EQ (standard_usfm, output_usfm);
   }
   {
-    const std::string standard_usfm = R"(\p text1\f + \ft note1\f* text2\f + \fk keyword2\ft text2\f* text3\f + note3\f*)";
-    const std::string standard_html = R"(<p class="b-p">text1<span class="i-notecall1">1</span> text2<span class="i-notecall2">2</span> text3<span class="i-notecall3">3</span></p><p class="b-notes"></p><p class="b-f"><span class="i-notebody1">1</span> + <span class="i-ft">note1</span></p><p class="b-f"><span class="i-notebody2">2</span> + <span class="i-fk">key</span></p><p class="b-f"><span class="i-fk">word2</span><span class="i-ft">text2</span></p><p class="b-f"><span class="i-notebody3">3</span> + <span class="i-ft">note3</span></p>)";
+    constexpr const auto standard_usfm = R"(\p text1\f + \ft note1\f* text2\f + \fk keyword2\ft text2\f* text3\f + note3\f*)";
+    constexpr const auto standard_html = R"(<p class="b-p">text1<span class="i-notecall1">1</span> text2<span class="i-notecall2">2</span> text3<span class="i-notecall3">3</span></p><p class="b-notes"></p><p class="b-f"><span class="i-notebody1">1</span> + <span class="i-ft">note1</span></p><p class="b-f"><span class="i-notebody2">2</span> + <span class="i-fk">key</span></p><p class="b-f"><span class="i-fk">word2</span><span class="i-ft">text2</span></p><p class="b-f"><span class="i-notebody3">3</span> + <span class="i-ft">note3</span></p>)";
     Editor_Html2Usfm editor_html2usfm;
     editor_html2usfm.load (standard_html);
     editor_html2usfm.stylesheet (stylesv2::standard_sheet ());
@@ -1558,8 +1558,8 @@ TEST_F (usfm_html, new_line_in_footnote)
 // Test that the converter to USFM removes the Quill caret class.
 TEST_F (usfm_html, remove_quill_caret_class)
 {
-  std::string standard_html = R"(<p class="b-p">Text<span class="i-notecall1">1</span>.</p><p class="b-notes"></p><p class="b-f"><span class="i-notebody1">1</span> + <span class="i-ft">Text of </span><span class="i-ft"><span class="ql-cursor">﻿</span>the note</span></p>)";
-  std::string standard_usfm = R"(\p Text\f + \ft Text of the note\f*.)";
+  constexpr const auto standard_html = R"(<p class="b-p">Text<span class="i-notecall1">1</span>.</p><p class="b-notes"></p><p class="b-f"><span class="i-notebody1">1</span> + <span class="i-ft">Text of </span><span class="i-ft"><span class="ql-cursor">﻿</span>the note</span></p>)";
+  constexpr const auto standard_usfm = R"(\p Text\f + \ft Text of the note\f*.)";
   Editor_Html2Usfm editor_html2usfm;
   editor_html2usfm.load (standard_html);
   editor_html2usfm.stylesheet (stylesv2::standard_sheet ());
@@ -1855,13 +1855,13 @@ TEST_F (usfm_html, word_level_attributes_with_notes)
 
 TEST_F (usfm_html, introduction_end)
 {
-  std::string standard_usfm =
+  constexpr const auto standard_usfm =
   R"(\c 13)" "\n"
   R"(\ie)" "\n"
   R"(\p)" "\n"
   R"(\v 1 Text)";
   
-  const std::string standard_html = R"(<p class="b-c"><span>13</span></p><p class="b-mono"><span>\ie </span></p><p class="b-p"><span class="i-v">1</span><span> </span><span>Text</span></p>)";
+  constexpr const auto standard_html = R"(<p class="b-c"><span>13</span></p><p class="b-mono"><span>\ie </span></p><p class="b-p"><span class="i-v">1</span><span> </span><span>Text</span></p>)";
   
   Editor_Usfm2Html editor_usfm2html;
   editor_usfm2html.load (standard_usfm);
@@ -1881,12 +1881,12 @@ TEST_F (usfm_html, introduction_end)
 
 TEST_F (usfm_html, pronunciation)
 {
-  std::string standard_usfm =
+  constexpr const auto standard_usfm =
   R"(\c 1)" "\n"
   R"(\p)" "\n"
   R"(\v 1 Name \pro pronunciation\pro* and text)";
   
-  const std::string standard_html = R"(<p class="b-c"><span>1</span></p><p class="b-p"><span class="i-v">1</span><span> </span><span>Name </span><span class="i-pro">pronunciation</span><span> and text</span></p>)";
+  constexpr const auto standard_html = R"(<p class="b-c"><span>1</span></p><p class="b-p"><span class="i-v">1</span><span> </span><span>Name </span><span class="i-pro">pronunciation</span><span> and text</span></p>)";
   
   Editor_Usfm2Html editor_usfm2html;
   editor_usfm2html.load (standard_usfm);
@@ -1906,14 +1906,14 @@ TEST_F (usfm_html, pronunciation)
 
 TEST_F (usfm_html, inline_quotation_reference)
 {
-  std::string standard_usfm =
+  constexpr const auto standard_usfm =
   R"(\p)" "\n"
   R"(\v 1 verse 1)" "\n"
   R"(\rq reference\rq*)" "\n"
   R"(\p)" "\n"
   R"(\v 2 verse 2)";
   
-  const std::string standard_html =
+  constexpr const auto standard_html =
   R"(<p class="b-p"><span class="i-v">1</span><span> </span><span>verse 1</span></p>)"
   R"(<p class="b-rq"><span>reference</span></p>)"
   R"(<p class="b-p"><span class="i-v">2</span><span> </span><span>verse 2</span></p>)"
@@ -1937,9 +1937,9 @@ TEST_F (usfm_html, inline_quotation_reference)
 
 TEST_F (usfm_html, footnote_paragraph)
 {
-  std::string standard_usfm = R"(\p \f + \ft text \fp paragraph\f*)";
+  constexpr const auto standard_usfm = R"(\p \f + \ft text \fp paragraph\f*)";
   
-  const std::string standard_html =
+  constexpr const auto standard_html =
   R"(<p class="b-p"><span class="i-notecall1">1</span><br/></p>)"
   R"(<p class="b-notes"> </p>)"
   R"(<p class="b-f"><span class="i-notebody1">1</span><span> </span><span>+ </span><span class="i-ft">text </span><span class="i-fp">paragraph</span></p>)"
@@ -1963,9 +1963,9 @@ TEST_F (usfm_html, footnote_paragraph)
 
 TEST_F (usfm_html, footnote_verse)
 {
-  std::string standard_usfm = R"(\p \f + \ft text \fv 3\fv*\f*)";
+  constexpr const auto standard_usfm = R"(\p \f + \ft text \fv 3\fv*\f*)";
   
-  const std::string standard_html =
+  constexpr const auto standard_html =
   R"(<p class="b-p"><span class="i-notecall1">1</span><br/></p>)"
   R"(<p class="b-notes"> </p>)"
   R"(<p class="b-f"><span class="i-notebody1">1</span><span> </span><span>+ </span><span class="i-ft">text </span><span class="i-fv">3</span></p>)"
@@ -1989,9 +1989,9 @@ TEST_F (usfm_html, footnote_verse)
 
 TEST_F (usfm_html, footnote_deuterocanonical)
 {
-  std::string standard_usfm = R"(\p \f + \ft text \fdc dc\fdc*\f*)";
+  constexpr const auto standard_usfm = R"(\p \f + \ft text \fdc dc\fdc*\f*)";
   
-  const std::string standard_html =
+  constexpr const auto standard_html =
   R"(<p class="b-p"><span class="i-notecall1">1</span><br/></p>)"
   R"(<p class="b-notes"> </p>)"
   R"(<p class="b-f"><span class="i-notebody1">1</span><span> </span><span>+ </span><span class="i-ft">text </span><span class="i-fdc">dc</span></p>)"
@@ -2116,9 +2116,9 @@ TEST_F (usfm_html, category)
 
 TEST_F (usfm_html, usfm_with_all_markers)
 {
-  std::string standard_usfm {usfm_with_all_markers};
+  constexpr const auto standard_usfm {usfm_with_all_markers};
   
-  const std::string standard_html =
+  constexpr const auto standard_html =
   R"(<p class="b-mono"><span>\id </span><span>GEN</span></p>)"
   R"(<p class="b-mono"><span>\ide </span><span>UTF-8</span></p>)"
   R"(<p class="b-mono"><span>\sts </span><span>Released</span></p>)"
@@ -2505,8 +2505,8 @@ TEST_F (usfm_html, milestones)
 // This test keeps an eye on any regression in this area.
 TEST_F (usfm_html, note_entered_via_bible_editor)
 {
-  std::string standard_usfm = R"(\p Text\f + \fr 2:0 \fk |keyword \ft |text.\f*.)";
-  std::string standard_html =
+  constexpr const auto standard_usfm = R"(\p Text\f + \fr 2:0 \fk |keyword \ft |text.\f*.)";
+  constexpr const auto standard_html =
   R"(<p class="b-p"><span>Text</span><span class="i-notecall1">1</span><span>.</span></p>)"
   R"(<p class="b-notes"> </p>)"
   R"(<p class="b-f"><span class="i-notebody1">1</span><span> </span><span>+ </span><span class="i-fr">2:0 </span><span class="i-fk">|keyword </span><span class="i-ft">|text.</span></p>)"
@@ -2538,6 +2538,34 @@ TEST_F (usfm_html, empty_paragraph)
   constexpr const auto standard_html =
   R"(<p class="b-mono"><span>\id </span><span>GEN</span></p>)"
   R"(<p class="b-p"><br/></p>)"
+  ;
+  
+  Editor_Usfm2Html editor_usfm2html;
+  editor_usfm2html.load (standard_usfm);
+  editor_usfm2html.stylesheet (stylesv2::standard_sheet ());
+  editor_usfm2html.run ();
+  const std::string html = editor_usfm2html.get ();
+  EXPECT_EQ (standard_html, html);
+  
+  Editor_Html2Usfm editor_html2usfm;
+  editor_html2usfm.load (html);
+  editor_html2usfm.stylesheet (stylesv2::standard_sheet ());
+  editor_html2usfm.run ();
+  const std::string usfm = editor_html2usfm.get ();
+  EXPECT_EQ (standard_usfm, usfm);
+}
+
+
+TEST_F (usfm_html, backslash_only)
+{
+  constexpr const auto standard_usfm =
+  R"(\id GEN)" "\n"
+  R"(\)"
+  ;
+  
+  constexpr const auto standard_html =
+  R"(<p class="b-mono"><span>\id </span><span>GEN</span></p>)"
+  R"(<p class="b-mono"><span>\ </span></p>)"
   ;
   
   Editor_Usfm2Html editor_usfm2html;

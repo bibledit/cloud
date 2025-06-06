@@ -557,8 +557,10 @@ std::string get_verse_range_text (std::string usfm, int verse_from, int verse_to
 // Returns true if the $code contains a USFM marker.
 bool is_usfm_marker (std::string code)
 {
-  if (code.length () < 2) return false;
-  if (code.substr (0, 1) == "\\") return true;
+  if (code.length () < 2)
+    return false;
+  if (code.substr (0, 1) == R"(\)")
+    return true;
   return false;
 }
 

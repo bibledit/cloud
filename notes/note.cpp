@@ -115,7 +115,7 @@ std::string notes_note (Webserver_Request& webserver_request)
   }
   
   
-  if (webserver_request.session_logic ()->get_level () >= Filter_Roles::translator ()) {
+  if (webserver_request.session_logic ()->get_level () >= roles::translator ()) {
     view.enable_zone ("editlevel");
   }
   
@@ -136,7 +136,7 @@ std::string notes_note (Webserver_Request& webserver_request)
   }
     
   
-  if (Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ())) {
+  if (roles::access_control (webserver_request, roles::consultant ())) {
     view.enable_zone ("consultant");
   }
   if (access_logic::privilege_create_comment_notes (webserver_request)) {

@@ -133,17 +133,17 @@ std::string resource_organize (Webserver_Request& webserver_request)
 
   // If the user has an administrator role,
   // that useer can set default resources for the users with lower access levels.
-  if (level == Filter_Roles::admin())
+  if (level == roles::admin())
     view.enable_zone ("defaultresourceorganizer");
 
   // If the user has a role less than an administrator,
   // and an administrator has compiled a default selection of resources,
   // the user can apply that compiled selection of resources.
-  if (level < Filter_Roles::admin() && !default_active_resources.empty ())
+  if (level < roles::admin() && !default_active_resources.empty ())
     view.enable_zone ("defaultresources");
 
   // Default active resources.
-  if (level == Filter_Roles::admin()) {
+  if (level == roles::admin()) {
     std::string defactivesblock;
     for (size_t i = 0; i < default_active_resources.size (); i++) {
       defactivesblock.append ("<p>&#183; ");

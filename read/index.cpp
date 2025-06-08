@@ -53,8 +53,8 @@ std::string read_index_url ()
 
 bool read_index_acl (Webserver_Request& webserver_request)
 {
-  int role = Filter_Roles::translator ();
-  if (Filter_Roles::access_control (webserver_request, role))
+  int role = roles::translator ();
+  if (roles::access_control (webserver_request, role))
     return true;
   auto [ read, write ] = access_bible::any (webserver_request);
   return read;

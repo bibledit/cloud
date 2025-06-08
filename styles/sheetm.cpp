@@ -58,7 +58,7 @@ std::string styles_sheetm_url ()
 
 bool styles_sheetm_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::translator ());
+  return roles::access_control (webserver_request, roles::translator ());
 }
 
 
@@ -81,7 +81,7 @@ std::string styles_sheetm (Webserver_Request& webserver_request)
   const std::string& username = webserver_request.session_logic ()->get_username ();
   const int userlevel = webserver_request.session_logic ()->get_level ();
   bool write = database::styles::has_write_access (username, name);
-  if (userlevel >= Filter_Roles::admin ()) write = true;
+  if (userlevel >= roles::admin ()) write = true;
   
   const std::string del = webserver_request.query["delete"];
   if (!del.empty())

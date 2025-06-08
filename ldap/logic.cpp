@@ -144,7 +144,7 @@ bool ldap_logic_fetch (const std::string& user, const std::string& password, boo
   // Initialize result values for the caller.
   access = false;
   email.clear ();
-  role = Filter_Roles::guest ();
+  role = roles::guest ();
   
   // Insert the user name where appropriate.
   const std::string binddn = filter::strings::replace ("[user]", user, ldap_logic_binddn);
@@ -164,7 +164,7 @@ bool ldap_logic_fetch (const std::string& user, const std::string& password, boo
   // Logging.
   if (log) {
     const std::string command = std::string(filter::shell::get_executable(filter::shell::Executable::ldapsearch)) + " -H " + ldap_logic_uri + " -D " + binddn + " -w " + password + " -b " + ldap_logic_basedn + " -s " + ldap_logic_scope + " " + filter;
-    Database_Logs::log ("LDAP query\n" + command + "\n" + output, Filter_Roles::admin ());
+    Database_Logs::log ("LDAP query\n" + command + "\n" + output, roles::admin ());
   }
   
   // Check on invalid credentials.
@@ -182,8 +182,8 @@ bool ldap_logic_fetch (const std::string& user, const std::string& password, boo
       }
       if (line.find (ldap_logic_role + ":") == 0) {
         const std::string fragment = filter::strings::unicode_string_casefold (filter::strings::trim (line.substr (3)));
-        for (int r = Filter_Roles::lowest (); r <= Filter_Roles::highest (); r++) {
-          if (fragment.find (filter::strings::unicode_string_casefold (Filter_Roles::english (r))) != std::string::npos) {
+        for (int r = roles::lowest (); r <= roles::highest (); r++) {
+          if (fragment.find (filter::strings::unicode_string_casefold (roles::english (r))) != std::string::npos) {
             role = r;
           }
         }

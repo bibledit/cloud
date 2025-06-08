@@ -57,7 +57,7 @@ std::string changes_changes_url ()
 
 bool changes_changes_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ());
+  return roles::access_control (webserver_request, roles::consultant ());
 }
 
 

@@ -42,7 +42,7 @@ const char * public_login_url ()
 bool public_login_acl (Webserver_Request& webserver_request)
 {
   if (config::logic::create_no_accounts()) return false;
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::guest ());
+  return roles::access_control (webserver_request, roles::guest ());
 }
 
 
@@ -83,7 +83,7 @@ std::string public_login (Webserver_Request& webserver_request)
     // If the username exists with a level higher than guest, that would not be right.
     if (form_is_valid) {
       const int level = webserver_request.database_users ()->get_level (name);
-      if (level > Filter_Roles::guest ()) {
+      if (level > roles::guest ()) {
         form_is_valid = false;
         view.set_variable ("error", other_login);
       }
@@ -94,7 +94,7 @@ std::string public_login (Webserver_Request& webserver_request)
       if (webserver_request.database_users ()->emailExists (email)) {
         const std::string username = webserver_request.database_users ()->getEmailToUser (email);
         const  int level = webserver_request.database_users ()->get_level (username);
-        if (level > Filter_Roles::guest ()) {
+        if (level > roles::guest ()) {
           form_is_valid = false;
           view.set_variable ("error", other_login);
         }
@@ -107,7 +107,7 @@ std::string public_login (Webserver_Request& webserver_request)
       if (webserver_request.database_users ()->emailExists (email)) {
         const std::string username = webserver_request.database_users ()->getEmailToUser (email);
         const int level = webserver_request.database_users ()->get_level (username);
-        if (level == Filter_Roles::guest ()) {
+        if (level == roles::guest ()) {
           name = username;
         }
       }
@@ -120,7 +120,7 @@ std::string public_login (Webserver_Request& webserver_request)
         Database_Logs::log ("User " + webserver_request.session_logic ()->get_username () + " logged in");
       } else {
         // Add a new user and login.
-        webserver_request.database_users ()->add_user(name, name, Filter_Roles::guest (), email);
+        webserver_request.database_users ()->add_user(name, name, roles::guest (), email);
         webserver_request.session_logic()->attempt_login (name, name, touch_enabled);
         Database_Logs::log ("Public account created for user " + webserver_request.session_logic ()->get_username () + " with email " + email);
       }

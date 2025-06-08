@@ -42,7 +42,7 @@ std::string changes_statistics_url ()
 
 bool changes_statistics_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ());
+  return roles::access_control (webserver_request, roles::consultant ());
 }
 
 

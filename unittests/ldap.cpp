@@ -52,7 +52,7 @@ TEST (ldap, logic)
   EXPECT_EQ (true, okay);
   EXPECT_EQ (true, access);
   EXPECT_EQ ("boyle@ldap.forumsys.com", email);
-  EXPECT_EQ (Filter_Roles::guest (), role);
+  EXPECT_EQ (roles::guest (), role);
   
   // Check there is one journal entry as a result of authenticating a user.
   std::string last = "0";

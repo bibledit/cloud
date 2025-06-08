@@ -610,7 +610,7 @@ void set_keep_resources_cache_for_long (bool value)
 constexpr const auto default_new_user_access_level_key {"default-new-user-access-level"};
 int get_default_new_user_access_level ()
 {
-  return get_integer_value (default_new_user_access_level_key, Filter_Roles::member ());
+  return get_integer_value (default_new_user_access_level_key, roles::member ());
 }
 void set_default_new_user_access_level (int value)
 {

@@ -90,7 +90,7 @@ TEST (database, users1)
   EXPECT_FALSE (database_users.emailExists ("invalid email"));
   
   EXPECT_EQ (level, database_users.get_level (username));
-  EXPECT_EQ (Filter_Roles::guest (), database_users.get_level ("invalid username"));
+  EXPECT_EQ (roles::guest (), database_users.get_level ("invalid username"));
   
   level = 7;
   database_users.set_level (username, level);
@@ -114,7 +114,7 @@ TEST (database, users2)
   std::string username1 = "unit test1";
   std::string username2 = "unit test2";
   std::string password = "pazz";
-  int level = Filter_Roles::admin();
+  int level = roles::admin();
   std::string email = "email@site";
   
   database_users.add_user (username1, password, level, email);
@@ -157,7 +157,7 @@ TEST (database, users3)
   // LDAP should be off initially.
   std::string user = "unittest";
   EXPECT_FALSE (database_users.get_ldap (user));
-  database_users.add_user (user, "password", Filter_Roles::consultant(), "email@site");
+  database_users.add_user (user, "password", roles::consultant(), "email@site");
   EXPECT_FALSE ( database_users.get_ldap (user));
   
   // Test LDAP on.
@@ -184,7 +184,7 @@ TEST (database, users4)
   EXPECT_FALSE (database_users.get_enabled (user));
   
   // Account should be enabled initially.
-  database_users.add_user (user, "password", Filter_Roles::consultant(), "email@site");
+  database_users.add_user (user, "password", roles::consultant(), "email@site");
   EXPECT_TRUE (database_users.get_enabled (user));
   
   // Test disable account of other user.

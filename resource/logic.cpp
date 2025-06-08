@@ -846,7 +846,7 @@ void resource_logic_create_cache ()
   std::vector <int> chapters = database_versifications.getMaximumChapters (book);
   for (const auto& chapter : chapters) {
 
-    Database_Logs::log ("Caching " + resource + " " + bookname + " " + std::to_string (chapter), Filter_Roles::consultant ());
+    Database_Logs::log ("Caching " + resource + " " + bookname + " " + std::to_string (chapter), roles::consultant ());
 
     // The verse numbers in the chapter.
     std::vector <int> verses = database_versifications.getMaximumVerses (book, chapter);
@@ -900,7 +900,7 @@ void resource_logic_create_cache ()
 
   // Done.
   database::cache::sql::ready (resource, book, true);
-  Database_Logs::log ("Completed caching " + resource + " " + bookname, Filter_Roles::consultant ());
+  Database_Logs::log ("Completed caching " + resource + " " + bookname, roles::consultant ());
   resource_logic_create_cache_running = false;
   
   // If there's another resource database waiting to be cached, schedule it for caching.

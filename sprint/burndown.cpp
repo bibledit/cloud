@@ -74,7 +74,7 @@ void sprint_burndown ([[maybe_unused]] std::string bible,
   }
   
 
-  Database_Logs::log ("Updating Sprint information", Filter_Roles::manager ());
+  Database_Logs::log ("Updating Sprint information", roles::manager ());
 
   Webserver_Request request;
   Database_Sprint database_sprint = Database_Sprint ();

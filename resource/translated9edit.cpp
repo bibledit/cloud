@@ -54,7 +54,7 @@ std::string resource_translated9edit_url ()
 
 bool resource_translated9edit_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::manager ());
+  return roles::access_control (webserver_request, roles::manager ());
 }
 
 

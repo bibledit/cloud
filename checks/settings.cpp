@@ -50,7 +50,7 @@ bool checks_settings_acl ([[maybe_unused]] Webserver_Request& webserver_request)
 #ifdef HAVE_CLIENT
   return true;
 #else
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::manager ());
+  return roles::access_control (webserver_request, roles::manager ());
 #endif
 }
 

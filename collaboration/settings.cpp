@@ -44,7 +44,7 @@ std::string collaboration_settings_url ()
 
 bool collaboration_settings_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::admin ());
+  return roles::access_control (webserver_request, roles::admin ());
 }
 
 
@@ -69,7 +69,7 @@ std::string collaboration_settings (Webserver_Request& webserver_request)
       database::config::bible::set_read_from_git (object, readwrite == "sendreceive");
       Database_Jobs database_jobs = Database_Jobs ();
       int jobId = database_jobs.get_new_id ();
-      database_jobs.set_level (jobId, Filter_Roles::admin ());
+      database_jobs.set_level (jobId, roles::admin ());
       database_jobs.set_start (jobId, collaboration_link_header ());
       tasks_logic_queue (task::link_git_repository, {object, std::to_string (jobId), source});
       redirect_browser (webserver_request, jobs_index_url () + "?id=" + std::to_string (jobId));

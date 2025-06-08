@@ -141,6 +141,6 @@ void export_odt_book (std::string bible, int book, bool log)
     std::string bookname;
     if (book) bookname = database::books::get_english_from_id (static_cast<book_id>(book));
     else bookname = translate ("whole Bible");
-    Database_Logs::log (translate("Exported to OpenDocument files") + " " + bible + " " + bookname, Filter_Roles::translator ());
+    Database_Logs::log (translate("Exported to OpenDocument files") + " " + bible + " " + bookname, roles::translator ());
   }
 }

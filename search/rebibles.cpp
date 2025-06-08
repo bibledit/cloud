@@ -39,7 +39,7 @@ void search_reindex_bibles (bool force)
   
   // One simultaneous instance.
   if (search_reindex_bibles_running) {
-    Database_Logs::log (translate ("Still indexing Bibles"), Filter_Roles::manager ());
+    Database_Logs::log (translate ("Still indexing Bibles"), roles::manager ());
     return;
   }
   search_reindex_bibles_running = true;
@@ -52,7 +52,7 @@ void search_reindex_bibles (bool force)
   // If it does not exist for a certain chapter, the index will be created.
   std::vector <std::string> bibles = database::bibles::get_bibles ();
   for (auto & bible : bibles) {
-    Database_Logs::log (indexing_bible + " " + translate ("Checking") + " " + bible, Filter_Roles::manager ());
+    Database_Logs::log (indexing_bible + " " + translate ("Checking") + " " + bible, roles::manager ());
     std::vector <int> books = database::bibles::get_books (bible);
     for (auto book : books) {
       std::vector <int> chapters = database::bibles::get_chapters (bible, book);
@@ -60,7 +60,7 @@ void search_reindex_bibles (bool force)
         std::string index = search_logic_chapter_file (bible, book, chapter);
         if (!file_or_dir_exists (index) || force) {
           std::string msg = indexing_bible + " " + bible + " " + filter_passage_display (book, chapter, "");
-          Database_Logs::log (msg, Filter_Roles::manager ());
+          Database_Logs::log (msg, roles::manager ());
           search_logic_index_chapter (bible, book, chapter);
         }
       }
@@ -68,7 +68,7 @@ void search_reindex_bibles (bool force)
   }
   
   
-  Database_Logs::log (indexing_bible + " " + translate ("Ready"), Filter_Roles::manager ());
+  Database_Logs::log (indexing_bible + " " + translate ("Ready"), roles::manager ());
   database::config::general::set_index_bibles (false);
   search_reindex_bibles_running = false;
 }

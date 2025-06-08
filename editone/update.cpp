@@ -50,7 +50,7 @@ std::string editone_update_url ()
 
 bool editone_update_acl (Webserver_Request& webserver_request)
 {
-  if (Filter_Roles::access_control (webserver_request, Filter_Roles::translator ()))
+  if (roles::access_control (webserver_request, roles::translator ()))
     return true;
   const auto [ read, write ] = access_bible::any (webserver_request);
   return read;

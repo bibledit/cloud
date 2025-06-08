@@ -45,7 +45,7 @@ std::string client_index_url ()
 
 bool client_index_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::member ());
+  return roles::access_control (webserver_request, roles::member ());
 }
 
 
@@ -171,7 +171,7 @@ std::string client_index (Webserver_Request& webserver_request)
     if (proceed) {
       const std::string response = client_logic_connection_setup (user, md5 (pass));
       const int iresponse = filter::strings::convert_to_int (response);
-      if ((iresponse >= Filter_Roles::guest ()) && (iresponse <= Filter_Roles::admin ())) {
+      if ((iresponse >= roles::guest ()) && (iresponse <= roles::admin ())) {
         // Enable client mode upon a successful connection.
         client_index_enable_client (webserver_request, user, pass, iresponse);
         // Feedback.
@@ -196,7 +196,7 @@ std::string client_index (Webserver_Request& webserver_request)
   const std::vector <std::string> users {webserver_request.database_users ()->get_users ()};
   for (const auto& user : users) {
     const int level = webserver_request.database_users()->get_level (user);
-    view.set_variable ("role", Filter_Roles::text (level));
+    view.set_variable ("role", roles::text (level));
   }
   
   view.set_variable ("demo", demo_client_warning ());

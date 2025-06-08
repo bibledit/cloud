@@ -44,7 +44,7 @@ bool notes_status_1_acl (Webserver_Request& webserver_request)
 {
   // Translator should be able to set the status of a note.
   // https://github.com/bibledit/cloud/issues/243
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::translator ());
+  return roles::access_control (webserver_request, roles::translator ());
 }
 
 

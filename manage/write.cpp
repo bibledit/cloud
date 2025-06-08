@@ -41,7 +41,7 @@ std::string manage_write_url ()
 
 bool manage_write_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::manager ());
+  return roles::access_control (webserver_request, roles::manager ());
 }
 
 

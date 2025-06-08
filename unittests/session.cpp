@@ -51,11 +51,11 @@ TEST (session, logic1)
   Webserver_Request request;
   EXPECT_EQ (true, request.session_logic ()->get_logged_in ());
   EXPECT_EQ (session_admin_credentials (), request.session_logic ()->get_username ());
-  EXPECT_EQ (Filter_Roles::admin (), request.session_logic ()->get_level ());
+  EXPECT_EQ (roles::admin (), request.session_logic ()->get_level ());
   request.session_logic ()->logout ();
   EXPECT_EQ (true, request.session_logic ()->get_logged_in ());
   EXPECT_EQ (session_admin_credentials (), request.session_logic ()->get_username ());
-  EXPECT_EQ (Filter_Roles::admin (), request.session_logic ()->get_level ());
+  EXPECT_EQ (roles::admin (), request.session_logic ()->get_level ());
   
   // Test function to set the username.
   std::string username = "ঃইঝম";
@@ -78,7 +78,7 @@ TEST (session, logic2)
   Webserver_Request request;
   EXPECT_TRUE (request.session_logic ()->get_logged_in ());
   EXPECT_EQ (session_admin_credentials (), request.session_logic ()->get_username ());
-  EXPECT_EQ (Filter_Roles::admin (), request.session_logic ()->get_level ());
+  EXPECT_EQ (roles::admin (), request.session_logic ()->get_level ());
   config_globals_client_prepared = false;
 }
 
@@ -143,7 +143,7 @@ TEST (session, logic4)
   request4.session_identifier = session;
   EXPECT_FALSE (request4.session_logic ()->get_logged_in ());
   EXPECT_EQ (std::string(), request4.session_logic ()->get_username ());
-  EXPECT_EQ (Filter_Roles::guest(), request4.session_logic ()->get_level ());
+  EXPECT_EQ (roles::guest(), request4.session_logic ()->get_level ());
   
   // Login. Then vary the browser's signature for subsequent sessions.
   Webserver_Request request5;

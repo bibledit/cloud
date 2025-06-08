@@ -107,13 +107,13 @@ void email_send ()
 #ifdef HAVE_CLIENT
       result.append ("queued for sending through the Cloud");
 #endif
-      Database_Logs::log (result, Filter_Roles::manager ());
+      Database_Logs::log (result, roles::manager ());
     } else {
       // Special handling of cases that the smart host denied login.
       bool login_denied = result == "Login denied";
       // Write result to logbook.
       result.insert (0, "Email to " + email + " could not be sent - reason: ");
-      Database_Logs::log (result, Filter_Roles::manager ());
+      Database_Logs::log (result, roles::manager ());
       // If the login was denied, then postpone all emails queued for sending,
       // rather than trying to send them all, and have them all cause a 'login denied' error.
       if (login_denied) {
@@ -121,7 +121,7 @@ void email_send ()
         for (auto id2 : ids) {
           database_mail.postpone (id2);
         }
-        Database_Logs::log ("Postponing sending " + std::to_string (ids.size()) + " emails", Filter_Roles::manager ());
+        Database_Logs::log ("Postponing sending " + std::to_string (ids.size()) + " emails", roles::manager ());
         break;
       } else {
         database_mail.postpone (id);
@@ -207,7 +207,7 @@ std::string email_send ([[maybe_unused]] std::string to_mail,
   std::string response = sync_logic.post (post, url, error);
 
   if (!error.empty ()) {
-    Database_Logs::log ("Failure sending email: " + error, Filter_Roles::guest ());
+    Database_Logs::log ("Failure sending email: " + error, roles::guest ());
   }
 
   return error;

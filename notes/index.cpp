@@ -90,7 +90,7 @@ std::string notes_index (Webserver_Request& webserver_request)
 
   int level = webserver_request.session_logic ()->get_level ();
   // Manager roles and higher can do mass updates on the notes.
-  if (level >= Filter_Roles::manager ()) {
+  if (level >= roles::manager ()) {
     // No mass updates in basic mode.
     if (!config::logic::basic_mode (webserver_request)) {
       view.enable_zone ("update");

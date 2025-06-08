@@ -36,7 +36,7 @@ const char * session_switch_url ()
 
 bool session_switch_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::guest ());
+  return roles::access_control (webserver_request, roles::guest ());
 }
 
 

@@ -72,7 +72,7 @@ std::string sync_changes (Webserver_Request& webserver_request)
     {
       // The server deletes the change notification.
       database::modifications::deleteNotification (id);
-      Database_Logs::log ("Client deletes change notification from server: " + std::to_string (id), Filter_Roles::translator ());
+      Database_Logs::log ("Client deletes change notification from server: " + std::to_string (id), roles::translator ());
       webserver_request.database_config_user ()->setChangeNotificationsChecksum ("");
       return std::string();
     }

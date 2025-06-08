@@ -46,7 +46,7 @@ std::string notes_actions_url ()
 
 bool notes_actions_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ());
+  return roles::access_control (webserver_request, roles::consultant ());
 }
 
 
@@ -137,13 +137,13 @@ std::string notes_actions (Webserver_Request& webserver_request)
   std::stringstream assigneeblock;
   for (auto & assignee : assignees) {
     assigneeblock << assignee;
-    if (level >= Filter_Roles::manager ()) {
+    if (level >= roles::manager ()) {
       assigneeblock << "<a href=" << std::quoted ("?id=" + std::to_string (id) + "&unassign=" + assignee) << "> [" << translate("unassign") << "]</a>";
       assigneeblock << " | ";
     }
   }
   view.set_variable ("assigneeblock", assigneeblock.str());
-  if (level >= Filter_Roles::manager ()) view.enable_zone ("assign");
+  if (level >= roles::manager ()) view.enable_zone ("assign");
 
   
   bool assigned = database_notes.is_assigned (id, user);
@@ -152,7 +152,7 @@ std::string notes_actions (Webserver_Request& webserver_request)
   
   std::string status = database_notes.get_status (id);
   view.set_variable ("status", status);
-  if (Filter_Roles::translator ()) view.enable_zone ("editstatus");
+  if (roles::translator ()) view.enable_zone ("editstatus");
   else view.enable_zone ("viewstatus");
 
   
@@ -169,7 +169,7 @@ std::string notes_actions (Webserver_Request& webserver_request)
   if (bible.empty ()) view.enable_zone ("nobible");
 
   
-  if (level >= Filter_Roles::manager ()) view.enable_zone ("rawedit");
+  if (level >= roles::manager ()) view.enable_zone ("rawedit");
   
 
   if (access_logic::privilege_delete_consultation_notes (webserver_request))
@@ -184,7 +184,7 @@ std::string notes_actions (Webserver_Request& webserver_request)
   view.set_variable ("public", filter::strings::get_checkbox_status (database_notes.get_public (id)));
 #endif
   // Roles of translator or higher can edit the public visibility of a note.
-  if (level < Filter_Roles::translator ()) view.set_variable(filter::strings::get_disabled(), filter::strings::get_disabled());
+  if (level < roles::translator ()) view.set_variable(filter::strings::get_disabled(), filter::strings::get_disabled());
 
   
   view.set_variable ("success", success);

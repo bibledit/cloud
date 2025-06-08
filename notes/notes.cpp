@@ -76,7 +76,7 @@ std::string notes_notes (Webserver_Request& webserver_request)
   
   // The admin disables notes selection on Bibles,
   // so the admin sees all notes, including notes referring to non-existing Bibles.
-  if (webserver_request.session_logic ()->get_level () == Filter_Roles::admin ()) bibles.clear ();
+  if (webserver_request.session_logic ()->get_level () == roles::admin ()) bibles.clear ();
   
   
   std::vector <int> identifiers = database_notes.select_notes (bibles, book, chapter, verse, passage_selector, edit_selector, non_edit_selector, status_selector, bible_selector, assignment_selector, subscription_selector, severity_selector, text_selector, search_text, -1);

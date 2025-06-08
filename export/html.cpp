@@ -113,5 +113,5 @@ void export_html_book (const std::string& bible, const int book, const bool log)
 
   
   if (log) 
-    Database_Logs::log (translate("Exported to html") + ": " + bible + " " + database::books::get_english_from_id (static_cast<book_id>(book)), Filter_Roles::translator ());
+    Database_Logs::log (translate("Exported to html") + ": " + bible + " " + database::books::get_english_from_id (static_cast<book_id>(book)), roles::translator ());
 }

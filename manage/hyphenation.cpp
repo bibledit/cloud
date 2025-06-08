@@ -42,7 +42,7 @@ const char * manage_hyphenation_url ()
 
 bool manage_hyphenation_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::manager ());
+  return roles::access_control (webserver_request, roles::manager ());
 }
 
 

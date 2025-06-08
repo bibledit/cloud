@@ -53,7 +53,7 @@ static void inform_managers (const std::string& email, const std::string& body)
   const std::vector <std::string>& users = database_users.get_users ();
   for (const auto& user : users) {
     const int level = database_users.get_level (user);
-    if (level >= Filter_Roles::manager ()) {
+    if (level >= roles::manager ()) {
       const std::string mailto = database_users.get_email (user);
       const std::string subject = translate ("User account change");
       std::string newbody = translate ("A user account was changed.");

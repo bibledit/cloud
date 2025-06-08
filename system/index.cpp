@@ -62,7 +62,7 @@ bool system_index_acl ([[maybe_unused]] Webserver_Request& webserver_request)
   return true;
 #else
   // Cloud: Manager can make system settings.
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::manager ());
+  return roles::access_control (webserver_request, roles::manager ());
 #endif
 }
 
@@ -168,7 +168,7 @@ std::string system_index (Webserver_Request& webserver_request)
   if (producebibles || producenotes || produceresources) {
     Database_Jobs database_jobs;
     const int jobId = database_jobs.get_new_id ();
-    database_jobs.set_level (jobId, Filter_Roles::member ());
+    database_jobs.set_level (jobId, roles::member ());
     std::string task {};
     if (producebibles) task = task::produce_bibles_transferfile;
     if (producenotes) task = task::produce_notes_transferfile;

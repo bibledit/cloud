@@ -22,55 +22,58 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <webserver/request.h>
 
 
-int Filter_Roles::guest ()
+namespace roles {
+
+
+int guest ()
 {
   return 1;
 }
 
 
-int Filter_Roles::member ()
+int member ()
 {
   return 2;
 }
 
 
-int Filter_Roles::consultant ()
+int consultant ()
 {
   return 3;
 }
 
 
-int Filter_Roles::translator ()
+int translator ()
 {
   return 4;
 }
 
 
-int Filter_Roles::manager ()
+int manager ()
 {
   return 5;
 }
 
 
-int Filter_Roles::admin ()
+int admin ()
 {
   return 6;
 }
 
 
-int Filter_Roles::lowest ()
+int lowest ()
 {
   return guest ();
 }
 
 
-int Filter_Roles::highest ()
+int highest ()
 {
   return admin ();
 }
 
 
-std::string Filter_Roles::english (int role)
+std::string english (int role)
 {
   if (role == admin ()) return "Administrator";
   if (role == manager ()) return "Manager";
@@ -81,17 +84,17 @@ std::string Filter_Roles::english (int role)
 }
 
 
-std::string Filter_Roles::text (int role)
+std::string text (int role)
 {
-  if (role == admin ()) 
+  if (role == admin ())
     return translate ("Administrator");
-  if (role == manager ()) 
+  if (role == manager ())
     return translate ("Manager");
-  if (role == translator ()) 
+  if (role == translator ())
     return translate ("Translator");
   if (role == consultant ())
     return translate ("Consultant");
-  if (role == member ()) 
+  if (role == member ())
     return translate ("Member");
   return translate ("Guest");
 }
@@ -99,8 +102,10 @@ std::string Filter_Roles::text (int role)
 
 // This is for access control.
 // The "role" is the role required for the user to have access.
-bool Filter_Roles::access_control (Webserver_Request& webserver_request, int role)
+bool access_control (Webserver_Request& webserver_request, int role)
 {
   int level = webserver_request.session_logic ()->get_level ();
   return level >= role;
+}
+
 }

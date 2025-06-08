@@ -54,7 +54,7 @@ std::string compare_index_url ()
 
 bool compare_index_acl (Webserver_Request& webserver_request)
 {
-  return Filter_Roles::access_control (webserver_request, Filter_Roles::consultant ());
+  return roles::access_control (webserver_request, roles::consultant ());
 }
 
 
@@ -76,7 +76,7 @@ std::string compare_index (Webserver_Request& webserver_request)
     const std::string compare = webserver_request.query ["compare"];
     Database_Jobs database_jobs = Database_Jobs ();
     const int job_id = database_jobs.get_new_id ();
-    database_jobs.set_level (job_id, Filter_Roles::consultant ());
+    database_jobs.set_level (job_id, roles::consultant ());
     tasks_logic_queue (task::compare_usfm, {bible, compare, std::to_string (job_id)});
     redirect_browser (webserver_request, jobs_index_url () + "?id=" + std::to_string (job_id));
     return std::string();

@@ -53,6 +53,10 @@
 */
 
 
+constexpr const auto left_arrow {"ᐊ"};
+constexpr const auto right_arrow {"ᐅ"};
+
+
 std::string Navigation_Passage::get_mouse_navigator (Webserver_Request& webserver_request, std::string bible)
 {
   Database_Navigation database_navigation;
@@ -173,7 +177,7 @@ std::string Navigation_Passage::get_mouse_navigator (Webserver_Request& webserve
       a_node.append_attribute("href") = "previousverse";
       a_node.append_attribute("title") = translate("Go to previous verse").c_str();
     }
-    a_node.text() = " ᐊ ";
+    a_node.text() = left_arrow;
   }
 
   {
@@ -185,7 +189,7 @@ std::string Navigation_Passage::get_mouse_navigator (Webserver_Request& webserve
     a_node.append_attribute("id") = "selectverse";
     a_node.append_attribute("href") = "selectverse";
     a_node.append_attribute("title") = translate("Select verse").c_str();
-    a_node.text() = (" " + std::to_string (verse) + " ").c_str();
+    a_node.text() = std::to_string(verse).c_str();
   }
 
   if (next_verse_is_available) {
@@ -197,7 +201,7 @@ std::string Navigation_Passage::get_mouse_navigator (Webserver_Request& webserve
     a_node.append_attribute("id") = "nextverse";
     a_node.append_attribute("href") = "nextverse";
     a_node.append_attribute("title") = translate("Go to next verse").c_str();
-    a_node.text() = " ᐅ ";
+    a_node.text() = right_arrow;
   }
 
   // Store book / chapter / verse if they were clipped.
@@ -283,6 +287,8 @@ std::string Navigation_Passage::get_verses_fragment (std::string bible, int book
   html.insert (0, R"(<span id="applyverse">)" + translate ("Select verse"));
   html.append ("</span>");
 
+  std::cout << html << std::endl; // Todo
+  
   return html;
 }
 

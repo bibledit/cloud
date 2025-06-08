@@ -102,9 +102,12 @@ std::string editusfm_save (Webserver_Request& webserver_request)
     return translate("No chapter data");
   
   if (book_chapter_text.size() > 1) {
-    const std::string chapters = std::accumulate(book_chapter_text.cbegin(), book_chapter_text.cend(),
-                                                 std::string(), [](auto& a, auto& b)
-                                                 { return a + ' ' + std::to_string(b.m_chapter); });
+    std::string chapters;
+    for (const auto& bct : book_chapter_text) {
+      if (!chapters.empty())
+        chapters.append(" ");
+      chapters.append(std::to_string(bct.m_chapter));
+    }
     Database_Logs::log ("Could not save the chapter because it contains more than one chapter:" + chapters);
     return translate("Multiple chapters") + " " + chapters;
   }

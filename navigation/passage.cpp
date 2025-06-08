@@ -286,8 +286,6 @@ std::string Navigation_Passage::get_verses_fragment (std::string bible, int book
 
   html.insert (0, R"(<span id="applyverse">)" + translate ("Select verse"));
   html.append ("</span>");
-
-  std::cout << html << std::endl; // Todo
   
   return html;
 }

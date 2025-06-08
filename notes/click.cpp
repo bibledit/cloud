@@ -45,7 +45,7 @@ std::string notes_click_url ()
 
 bool notes_click_acl (Webserver_Request& webserver_request)
 {
-  return roles::access_control (webserver_request, roles::consultant ());
+  return roles::access_control (webserver_request, roles::consultant);
 }
 
 

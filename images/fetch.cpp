@@ -33,7 +33,7 @@ std::string images_fetch_url ()
 
 bool images_fetch_acl (Webserver_Request& webserver_request)
 {
-  return roles::access_control (webserver_request, roles::consultant ());
+  return roles::access_control (webserver_request, roles::consultant);
 }
 
 

@@ -78,5 +78,5 @@ void export_info (std::string bible, bool log)
   Database_State::clearExport (bible, 0, export_logic::export_info);
 
   
-  if (log) Database_Logs::log (translate("Documents with information and fallout were created") + " " + bible, roles::translator ());
+  if (log) Database_Logs::log (translate("Documents with information and fallout were created") + " " + bible, roles::translator);
 }

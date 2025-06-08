@@ -50,7 +50,7 @@ std::string styles_view_url ()
 
 bool styles_view_acl (Webserver_Request& webserver_request)
 {
-  return roles::access_control (webserver_request, roles::translator ());
+  return roles::access_control (webserver_request, roles::translator);
 }
 
 
@@ -97,7 +97,7 @@ std::string styles_view (Webserver_Request& webserver_request)
   const std::string& username = webserver_request.session_logic ()->get_username ();
   const int userlevel = webserver_request.session_logic ()->get_level ();
   bool write = database::styles::has_write_access (username, sheet);
-  if (userlevel >= roles::admin ()) write = true;
+  if (userlevel >= roles::admin) write = true;
 
   
   // Whether a style was edited.

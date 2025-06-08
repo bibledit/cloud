@@ -150,7 +150,7 @@ void export_web_book (std::string bible, int book, bool log)
   
   
   if (log) {
-    Database_Logs::log (translate("Exported to web") + ": " + bible + " " + database::books::get_english_from_id (static_cast<book_id>(book)), roles::translator ());
+    Database_Logs::log (translate("Exported to web") + ": " + bible + " " + database::books::get_english_from_id (static_cast<book_id>(book)), roles::translator);
   }
 }
 
@@ -217,5 +217,5 @@ void export_web_index (std::string bible, bool log)
   Database_State::clearExport (bible, 0, export_logic::export_web_index);
 
   
-  if (log) Database_Logs::log (translate("Exported to web") + ": " + bible + " Index", roles::translator ());
+  if (log) Database_Logs::log (translate("Exported to web") + ": " + bible + " Index", roles::translator);
 }

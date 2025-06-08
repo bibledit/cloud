@@ -38,7 +38,7 @@ std::string versification_index_url ()
 
 bool versification_index_acl (Webserver_Request& webserver_request)
 {
-  return roles::access_control (webserver_request, roles::manager ());
+  return roles::access_control (webserver_request, roles::manager);
 }
 
 

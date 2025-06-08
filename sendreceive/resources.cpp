@@ -80,7 +80,7 @@ void sendreceive_resources ()
     if (time < (sendreceive_resources_watchdog + 900)) {
       return;
     }
-    Database_Logs::log ("Resources: " + translate("Watchdog timeout"), roles::translator ());
+    Database_Logs::log ("Resources: " + translate("Watchdog timeout"), roles::translator);
     sendreceive_resources_done ();
   }
 
@@ -114,7 +114,7 @@ void sendreceive_resources ()
     database_usfmresources.deleteResource (resource);
   }
 
-  Database_Logs::log ("Starting to install resource:" " " + resource, roles::consultant ());
+  Database_Logs::log ("Starting to install resource:" " " + resource, roles::consultant);
 
   // Server address and port.
   std::string address = database::config::general::get_server_address ();
@@ -164,21 +164,21 @@ void sendreceive_resources ()
             filter_url_download_file (url2, client_path, error, false);
             if (error.empty ()) {
               std::string bookname = database::books::get_english_from_id (static_cast<book_id>(book));
-              Database_Logs::log ("Downloaded " + resource + " " + bookname, roles::consultant ());
+              Database_Logs::log ("Downloaded " + resource + " " + bookname, roles::consultant);
             } else {
-              Database_Logs::log ("Failed to download resource " + response2 + " :" + error, roles::consultant ());
+              Database_Logs::log ("Failed to download resource " + response2 + " :" + error, roles::consultant);
               error_count++;
             }
           }
         } else {
-          Database_Logs::log (error, roles::consultant ());
+          Database_Logs::log (error, roles::consultant);
           error_count++;
         }
       } else {
         wait_count++;
       }
     } else {
-      Database_Logs::log (error, roles::consultant ());
+      Database_Logs::log (error, roles::consultant);
       error_count++;
     }
 
@@ -189,12 +189,12 @@ void sendreceive_resources ()
   // Done.
   if (error_count) {
     std::string msg = "Error count while downloading resource: " + std::to_string (error_count);
-    Database_Logs::log (msg, roles::consultant ());
+    Database_Logs::log (msg, roles::consultant);
   } else if (wait_count) {
     std::string msg = "Waiting for Cloud to prepare resource for download. Remaining books: " + std::to_string (wait_count);
-    Database_Logs::log (msg, roles::consultant ());
+    Database_Logs::log (msg, roles::consultant);
   } else {
-    Database_Logs::log ("Completed installing resource:" " " + resource, roles::consultant ());
+    Database_Logs::log ("Completed installing resource:" " " + resource, roles::consultant);
   }
   // In case of errors, of when waiting for the Cloud, schedule the resource download again.
   bool re_schedule_download = false;
@@ -205,7 +205,7 @@ void sendreceive_resources ()
       std::this_thread::sleep_for (std::chrono::minutes (1));
       if (!sendreceive_resources_interrupt) {
         re_schedule_download = true;
-        Database_Logs::log ("Re-scheduling resource installation", roles::consultant ());
+        Database_Logs::log ("Re-scheduling resource installation", roles::consultant);
       }
     }
   }
@@ -230,7 +230,7 @@ void sendreceive_resources ()
 void sendreceive_resources_clear_all ()
 {
   sendreceive_resources_interrupt = true;
-  Database_Logs::log ("Interrupting resource installation", roles::consultant ());
+  Database_Logs::log ("Interrupting resource installation", roles::consultant);
   database::config::general::set_resources_to_cache ({});
 }
 

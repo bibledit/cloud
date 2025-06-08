@@ -39,7 +39,7 @@ std::string jobs_index_url ()
 
 bool jobs_index_acl (Webserver_Request& webserver_request)
 {
-  return roles::access_control (webserver_request, roles::consultant ());
+  return roles::access_control (webserver_request, roles::consultant);
 }
 
 

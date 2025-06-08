@@ -178,7 +178,7 @@ std::string notes_select (Webserver_Request& webserver_request)
   std::stringstream bibleblock;
   std::vector <std::string> bibles = access_bible::bibles (webserver_request);
   // The administrator can select from all Bibles in the notes, even Bibles that do not exist.
-  if (webserver_request.session_logic ()->get_level () == roles::admin ()) {
+  if (webserver_request.session_logic ()->get_level () == roles::admin) {
     std::vector <std::string> notesbibles = database_notes.get_all_bibles ();
     bibles.insert (bibles.end (), notesbibles.begin (), notesbibles.end ());
     bibles = filter::strings::array_unique (bibles);
@@ -244,7 +244,7 @@ std::string notes_select (Webserver_Request& webserver_request)
                                         
 
   // The admin disables notes selection on Bibles, so the admin sees all notes, even notes referring to non-existing Bibles.
-  if (webserver_request.session_logic ()->get_level () == roles::admin ()) bibles.clear ();
+  if (webserver_request.session_logic ()->get_level () == roles::admin) bibles.clear ();
   
   
   const int book = Ipc_Focus::getBook (webserver_request);

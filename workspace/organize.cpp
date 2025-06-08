@@ -40,7 +40,7 @@ std::string workspace_organize_url ()
 
 bool workspace_organize_acl (Webserver_Request& webserver_request)
 {
-  return roles::access_control (webserver_request, roles::consultant ());
+  return roles::access_control (webserver_request, roles::consultant);
 }
 
 

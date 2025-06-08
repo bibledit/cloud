@@ -45,7 +45,7 @@ std::string client_index_url ()
 
 bool client_index_acl (Webserver_Request& webserver_request)
 {
-  return roles::access_control (webserver_request, roles::member ());
+  return roles::access_control (webserver_request, roles::member);
 }
 
 
@@ -171,7 +171,7 @@ std::string client_index (Webserver_Request& webserver_request)
     if (proceed) {
       const std::string response = client_logic_connection_setup (user, md5 (pass));
       const int iresponse = filter::strings::convert_to_int (response);
-      if ((iresponse >= roles::guest ()) && (iresponse <= roles::admin ())) {
+      if ((iresponse >= roles::guest) && (iresponse <= roles::admin)) {
         // Enable client mode upon a successful connection.
         client_index_enable_client (webserver_request, user, pass, iresponse);
         // Feedback.

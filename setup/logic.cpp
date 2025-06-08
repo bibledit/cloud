@@ -280,7 +280,7 @@ void setup_set_admin_details (const std::string& username, const std::string& pa
 {
   Database_Users database_users{};
   database_users.removeUser (username);
-  database_users.add_user (username, password, roles::admin (), email);
+  database_users.add_user (username, password, roles::admin, email);
 }
 
 

@@ -55,7 +55,7 @@ bool session_confirm_acl (Webserver_Request& webserver_request)
   // This confirmation page only allows access if the user is not yet logged in.
   // Such a situation produces level 1, that is the guest level.
   int level = webserver_request.session_logic ()->get_level ();
-  return (level == roles::guest());
+  return (level == roles::guest);
 }
 
 

@@ -35,7 +35,7 @@ std::string webbible_search_url ()
 
 bool webbible_search_acl (Webserver_Request& webserver_request)
 {
-  return roles::access_control (webserver_request, roles::guest ());
+  return roles::access_control (webserver_request, roles::guest);
 }
 
 

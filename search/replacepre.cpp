@@ -37,7 +37,7 @@ std::string search_replacepre_url ()
 
 bool search_replacepre_acl (Webserver_Request& webserver_request)
 {
-  if (roles::access_control (webserver_request, roles::translator ()))
+  if (roles::access_control (webserver_request, roles::translator))
     return true;
   auto [ read, write ] = access_bible::any (webserver_request);
   return write;

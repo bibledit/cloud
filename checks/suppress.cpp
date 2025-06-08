@@ -42,7 +42,7 @@ std::string checks_suppress_url ()
 
 bool checks_suppress_acl (Webserver_Request& webserver_request)
 {
-  return roles::access_control (webserver_request, roles::translator ());
+  return roles::access_control (webserver_request, roles::translator);
 }
 
 

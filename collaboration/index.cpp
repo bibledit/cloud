@@ -42,7 +42,7 @@ std::string collaboration_index_url ()
 
 bool collaboration_index_acl (Webserver_Request& webserver_request)
 {
-  return roles::access_control (webserver_request, roles::admin ());
+  return roles::access_control (webserver_request, roles::admin);
 }
 
 

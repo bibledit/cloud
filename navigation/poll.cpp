@@ -32,7 +32,7 @@ std::string navigation_poll_url ()
 
 bool navigation_poll_acl (Webserver_Request& webserver_request)
 {
-  return roles::access_control (webserver_request, roles::guest ());
+  return roles::access_control (webserver_request, roles::guest);
 }
 
 

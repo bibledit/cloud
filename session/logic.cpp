@@ -120,7 +120,7 @@ bool Session_Logic::open_access ()
   // Open access if it is flagged as such.
   if (config_globals_open_installation) {
     set_username (session_admin_credentials ());
-    m_level = roles::admin ();
+    m_level = roles::admin;
     m_logged_in = true;
     return true;
   }
@@ -226,7 +226,7 @@ int Session_Logic::get_level (bool force)
       Database_Users database = Database_Users();
       m_level = database.get_level (m_username);
     } else {
-      m_level = roles::guest ();
+      m_level = roles::guest;
     }
   }
   return m_level;
@@ -238,7 +238,7 @@ void Session_Logic::logout ()
   const std::string cookie = m_webserver_request.session_identifier;
   Database_Login::removeTokens (m_username, cookie);
   set_username (std::string());
-  m_level = roles::guest();
+  m_level = roles::guest;
 }
 
 
@@ -253,7 +253,7 @@ bool Session_Logic::client_access ()
     std::string user;
     if (users.empty ()) {
       user = session_admin_credentials ();
-      m_level = roles::admin ();
+      m_level = roles::admin;
     } else {
       user = users.at(0);
       m_level = database_users.get_level (user);

@@ -30,7 +30,7 @@ namespace access_logic {
 
 int view_resources_role ()
 {
-  return roles::consultant ();
+  return roles::consultant;
 }
 
 
@@ -45,7 +45,7 @@ bool privilege_view_resources (Webserver_Request& webserver_request, std::string
 
 int view_notes_role ()
 {
-  return roles::consultant ();
+  return roles::consultant;
 }
 
 
@@ -60,7 +60,7 @@ bool privilege_view_notes (Webserver_Request& webserver_request, std::string use
 
 int create_comment_notes_role ()
 {
-  return roles::consultant ();
+  return roles::consultant;
 }
 
 
@@ -75,7 +75,7 @@ bool privilege_create_comment_notes (Webserver_Request& webserver_request, std::
 
 int delete_consultation_notes_role ()
 {
-  return roles::manager ();
+  return roles::manager;
 }
 
 
@@ -90,7 +90,7 @@ bool privilege_delete_consultation_notes (Webserver_Request& webserver_request, 
 
 int use_advanced_mode_role ()
 {
-  return roles::manager ();
+  return roles::manager;
 }
 
 
@@ -105,7 +105,7 @@ bool privilege_use_advanced_mode (Webserver_Request& webserver_request, std::str
 
 int set_stylesheets_role ()
 {
-  return roles::manager ();
+  return roles::manager;
 }
 
 

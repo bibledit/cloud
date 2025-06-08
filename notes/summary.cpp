@@ -41,7 +41,7 @@ std::string notes_summary_url ()
 
 bool notes_summary_acl (Webserver_Request& webserver_request)
 {
-  return roles::access_control (webserver_request, roles::translator ());
+  return roles::access_control (webserver_request, roles::translator);
 }
 
 

@@ -51,7 +51,7 @@ std::string manage_accounts_url ()
 
 bool manage_accounts_acl (Webserver_Request& webserver_request)
 {
-  return roles::access_control (webserver_request, roles::manager ());
+  return roles::access_control (webserver_request, roles::manager);
 }
 
 
@@ -79,7 +79,7 @@ std::string manage_accounts (Webserver_Request& webserver_request)
     std::vector <std::string> administrators = webserver_request.database_users ()->getAdministrators ();
     if (users.size () == 1) {
       page += assets_page::error (translate("Cannot remove the last user"));
-    } else if ((user_level >= roles::admin ()) && (administrators.size () == 1)) {
+    } else if ((user_level >= roles::admin) && (administrators.size () == 1)) {
       page += assets_page::error (translate("Cannot remove the last administrator"));
     } else {
       std::string message;

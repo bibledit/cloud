@@ -147,12 +147,12 @@ void changes_modifications ()
   // even if multiple order to generate then were given by the user.
   std::unique_lock<std::timed_mutex> lock (mutex, std::defer_lock);
   if (!lock.try_lock_for(std::chrono::milliseconds(200))) {
-    Database_Logs::log ("Change notifications: Skipping just now because another process is already generating them", roles::translator ());
+    Database_Logs::log ("Change notifications: Skipping just now because another process is already generating them", roles::translator);
     return;
   }
   
 
-  Database_Logs::log ("Change notifications: Generating", roles::translator ());
+  Database_Logs::log ("Change notifications: Generating", roles::translator);
 
   
   // Notifications are not available to clients to download while processing them.
@@ -226,7 +226,7 @@ void changes_modifications ()
         const std::vector <int> chapters = database::modifications::getUserChapters (user, bible, book);
         for (auto chapter : chapters) {
 
-          Database_Logs::log ("Change notifications: User " + user + " - Bible " + bible + " " + filter_passage_display (book, chapter, ""), roles::translator ());
+          Database_Logs::log ("Change notifications: User " + user + " - Bible " + bible + " " + filter_passage_display (book, chapter, ""), roles::translator);
 
           // Get the sets of identifiers for that chapter, and set some variables.
           const std::vector <database::modifications::id_bundle> IdSets = database::modifications::getUserIdentifiers (user, bible, book, chapter);
@@ -356,7 +356,7 @@ void changes_modifications ()
     for (auto book : books) {
       const std::vector <int> chapters = database::modifications::getTeamDiffChapters (bible, book);
       for (auto chapter : chapters) {
-        Database_Logs::log ("Change notifications: " + bible + " " + filter_passage_display (book, chapter, ""), roles::translator ());
+        Database_Logs::log ("Change notifications: " + bible + " " + filter_passage_display (book, chapter, ""), roles::translator);
         const std::string old_chapter_usfm = database::modifications::getTeamDiff (bible, book, chapter);
         const std::string new_chapter_usfm = database::bibles::get_chapter (bible, book, chapter);
         const std::vector <int> old_verse_numbers = filter::usfm::get_verse_numbers (old_chapter_usfm);
@@ -456,7 +456,7 @@ void changes_modifications ()
 
   
   // Index the data and remove expired notifications.
-  Database_Logs::log ("Change notifications: Indexing", roles::translator ());
+  Database_Logs::log ("Change notifications: Indexing", roles::translator);
   database::modifications::indexTrimAllNotifications ();
 
   
@@ -478,7 +478,7 @@ void changes_modifications ()
         const int days2 = (now - time2) / 86400;
         if (days2 > 31) {
           filter_url_rmdir (path);
-          Database_Logs::log ("Removing expired downloadable revision notification: " + bible + " " + revision, roles::translator ());
+          Database_Logs::log ("Removing expired downloadable revision notification: " + bible + " " + revision, roles::translator);
         }
       }
     }
@@ -515,5 +515,5 @@ void changes_modifications ()
 #endif
   
 
-  Database_Logs::log ("Change notifications: Ready", roles::translator ());
+  Database_Logs::log ("Change notifications: Ready", roles::translator);
 }

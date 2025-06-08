@@ -40,7 +40,7 @@ std::string email_index_url ()
 
 bool email_index_acl (Webserver_Request& webserver_request)
 {
-  return roles::access_control (webserver_request, roles::admin ());
+  return roles::access_control (webserver_request, roles::admin);
 }
 
 

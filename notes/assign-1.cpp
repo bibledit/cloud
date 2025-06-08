@@ -43,7 +43,7 @@ std::string notes_assign_1_url ()
 
 bool notes_assign_1_acl (Webserver_Request& webserver_request)
 {
-  return roles::access_control (webserver_request, roles::manager ());
+  return roles::access_control (webserver_request, roles::manager);
 }
 
 

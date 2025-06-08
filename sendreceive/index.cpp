@@ -54,7 +54,7 @@ bool sendreceive_index_acl (Webserver_Request& webserver_request)
     return true;
   }
   // The role of Translator or higher enables send/receive.
-  if (roles::access_control (webserver_request, roles::translator ())) {
+  if (roles::access_control (webserver_request, roles::translator)) {
     return true;
   }
   // No access.

@@ -32,7 +32,7 @@ std::string navigation_update_url ()
 
 bool navigation_update_acl (Webserver_Request& webserver_request)
 {
-  return roles::access_control (webserver_request, roles::guest ());
+  return roles::access_control (webserver_request, roles::guest);
 }
 
 

@@ -48,7 +48,7 @@ std::string resource_cache_url ()
 
 bool resource_cache_acl (Webserver_Request& webserver_request)
 {
-  return roles::access_control (webserver_request, roles::member ());
+  return roles::access_control (webserver_request, roles::member);
 }
 
 

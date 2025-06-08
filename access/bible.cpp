@@ -54,7 +54,7 @@ bool read (Webserver_Request& webserver_request, const std::string& bible, std::
   }
 
   // Managers and higher have read access.
-  if (role_level >= roles::manager ()) {
+  if (role_level >= roles::manager) {
     return true;
   }
 
@@ -65,7 +65,7 @@ bool read (Webserver_Request& webserver_request, const std::string& bible, std::
   }
 
   // No Bibles assigned: Consultant can view any Bible.
-  if (role_level >= roles::consultant ()) {
+  if (role_level >= roles::consultant) {
     if (const int privileges_count = DatabasePrivileges::get_bible_book_count (); privileges_count == 0) {
       return true;
     }
@@ -100,7 +100,7 @@ bool write (Webserver_Request& webserver_request, const std::string& bible, std:
   }
   
   // Managers and higher always have write access.
-  if (level >= roles::manager ()) {
+  if (level >= roles::manager) {
     return true;
   }
   
@@ -111,7 +111,7 @@ bool write (Webserver_Request& webserver_request, const std::string& bible, std:
   }
   
   // No Bibles assigned: Translator can write to any bible.
-  if (level >= roles::translator ()) {
+  if (level >= roles::translator) {
     if (const int privileges_count = DatabasePrivileges::get_bible_book_count (); privileges_count == 0) {
       return true;
     }
@@ -149,7 +149,7 @@ bool book_write (Webserver_Request& webserver_request, std::string user, const s
   }
 
   // Managers and higher always have write access.
-  if (level >= roles::manager ()) {
+  if (level >= roles::manager) {
     return true;
   }
 
@@ -162,7 +162,7 @@ bool book_write (Webserver_Request& webserver_request, std::string user, const s
   }
 
   // No Bibles assigned: Translator can write to any bible.
-  if (level >= roles::translator ()) {
+  if (level >= roles::translator) {
     if (const int privileges_count = DatabasePrivileges::get_bible_book_count (); privileges_count == 0) {
       return true;
     }

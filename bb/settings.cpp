@@ -68,7 +68,7 @@ std::string bible_settings_url ()
 
 bool bible_settings_acl (Webserver_Request& webserver_request)
 {
-  return roles::access_control (webserver_request, roles::translator ());
+  return roles::access_control (webserver_request, roles::translator);
 }
 
 
@@ -198,7 +198,7 @@ std::string bible_settings (Webserver_Request& webserver_request)
 
   
   const int level = webserver_request.session_logic ()->get_level ();
-  const bool manager_level = (level >= roles::manager ());
+  const bool manager_level = (level >= roles::manager);
   if (manager_level) view.enable_zone ("manager");
 
   

@@ -25,16 +25,16 @@ class Webserver_Request;
 
 namespace roles {
 
-int guest ();
-int member ();
-int consultant ();
-int translator ();
-int manager ();
-int admin ();
-int lowest ();
-int highest ();
-std::string english (int role);
-std::string text (int role);
-bool access_control (Webserver_Request& webserver_request, int role);
+constexpr const int guest {1};
+constexpr const int member {2};
+constexpr const int consultant {3};
+constexpr const int translator {4};
+constexpr const int manager {5};
+constexpr const int admin {6};
+constexpr const int lowest {guest};
+constexpr const int highest {admin};
+std::string english (const int role);
+std::string text (const int role);
+bool access_control (Webserver_Request& webserver_request, const int role);
 
 }

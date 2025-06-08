@@ -46,7 +46,7 @@ std::string resource_print_url ()
 
 bool resource_print_acl (Webserver_Request& webserver_request)
 {
-  return roles::access_control (webserver_request, roles::consultant ());
+  return roles::access_control (webserver_request, roles::consultant);
 }
 
 
@@ -76,7 +76,7 @@ std::string resource_print (Webserver_Request& webserver_request)
   
   if (webserver_request.query.count ("generate")) {
     int jobId = database_jobs.get_new_id ();
-    database_jobs.set_level (jobId, roles::consultant ());
+    database_jobs.set_level (jobId, roles::consultant);
     const std::string& username = webserver_request.session_logic ()->get_username ();
     tasks_logic_queue (task::print_resources, {std::to_string (jobId), username, bible});
     redirect_browser (webserver_request, jobs_index_url () + "?id=" + std::to_string (jobId));

@@ -50,7 +50,7 @@ const char * manage_exports_url ()
 
 bool manage_exports_acl (Webserver_Request& webserver_request)
 {
-  return roles::access_control (webserver_request, roles::translator ());
+  return roles::access_control (webserver_request, roles::translator);
 }
 
 

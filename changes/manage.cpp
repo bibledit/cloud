@@ -49,7 +49,7 @@ std::string changes_manage_url ()
 
 bool changes_manage_acl (Webserver_Request& webserver_request)
 {
-  return roles::access_control (webserver_request, roles::manager ());
+  return roles::access_control (webserver_request, roles::manager);
 }
 
 
@@ -70,7 +70,7 @@ std::string changes_manage (Webserver_Request& webserver_request)
     // The app will remain responsive to the user.
     Database_Jobs database_jobs {};
     const int jobId = database_jobs.get_new_id ();
-    database_jobs.set_level (jobId, roles::manager ());
+    database_jobs.set_level (jobId, roles::manager);
     database_jobs.set_start (jobId, translate ("Clearing change notifications."));
     tasks_logic_queue (task::delete_changes, {std::to_string (jobId), username});
     redirect_browser (webserver_request, jobs_index_url () + "?id=" + std::to_string (jobId));

@@ -77,11 +77,11 @@ bool Sync_Logic::credentials_okay ()
   
   // Check all credentials.
   bool user_ok = m_webserver_request.database_users ()->usernameExists (username);
-  if (!user_ok) Database_Logs::log ("Non existing user: " + username, roles::manager ());
+  if (!user_ok) Database_Logs::log ("Non existing user: " + username, roles::manager);
   bool pass_ok = (password == m_webserver_request.database_users ()->get_md5 (username));
-  if (!pass_ok) Database_Logs::log ("Incorrect password: " + password, roles::manager ());
+  if (!pass_ok) Database_Logs::log ("Incorrect password: " + password, roles::manager);
   bool level_ok = (level == m_webserver_request.database_users ()->get_level (username));
-  if (!level_ok) Database_Logs::log ("Incorrect role: " + roles::text (level), roles::manager ());
+  if (!level_ok) Database_Logs::log ("Incorrect role: " + roles::text (level), roles::manager);
   if (!user_ok || !pass_ok || !level_ok) {
     // Register possible brute force attack.
     user_logic_login_failure_register ();

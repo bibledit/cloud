@@ -247,7 +247,7 @@ std::string menu_logic_main_categories (Webserver_Request& webserver_request, st
 
   // When a user is logged in, and is a guest, put the Logout into the main menu, rather than in a sub menu.
   if (webserver_request.session_logic ()->get_logged_in ()) {
-    if (webserver_request.session_logic ()->get_level () == roles::guest ()) {
+    if (webserver_request.session_logic ()->get_level () == roles::guest) {
       if (session_logout_acl (webserver_request)) {
         html.push_back (menu_logic_create_item (session_logout_url (), menu_logic_logout_text (), true, "", ""));
         tooltipbits.push_back (menu_logic_logout_text ());
@@ -343,7 +343,7 @@ std::string menu_logic_basic_categories (Webserver_Request& webserver_request)
   // rather than in a sub menu.
 #ifdef HAVE_CLOUD
   if (webserver_request.session_logic ()->get_logged_in ()) {
-    if (webserver_request.session_logic ()->get_level () == roles::guest ()) {
+    if (webserver_request.session_logic ()->get_level () == roles::guest) {
       if (session_logout_acl (webserver_request)) {
         html.push_back (menu_logic_create_item (session_logout_url (), menu_logic_logout_text (), true, "", ""));
       }
@@ -842,7 +842,7 @@ std::string menu_logic_settings_category (Webserver_Request& webserver_request, 
       if (!demo) {
         // If logged in, but not as guest, put the Logout menu here.
         if (webserver_request.session_logic ()->get_logged_in ()) {
-          if (webserver_request.session_logic ()->get_level () != roles::guest ()) {
+          if (webserver_request.session_logic ()->get_level () != roles::guest) {
             if (session_logout_acl (webserver_request)) {
               html.push_back (menu_logic_create_item (session_logout_url (), menu_logic_logout_text (), true, "", ""));
               tiplabels.push_back (menu_logic_logout_text ());
@@ -874,7 +874,7 @@ std::string menu_logic_settings_category (Webserver_Request& webserver_request, 
 #endif
     
     if (label == basic_mode) {
-      if (webserver_request.session_logic ()->get_level () > roles::guest ()) {
+      if (webserver_request.session_logic ()->get_level () > roles::guest) {
         html.push_back (menu_logic_create_item (index_index_url () + filter::strings::convert_to_string ("?mode=basic"), label, true, "", ""));
         tiplabels.push_back (label);
       }
@@ -993,7 +993,7 @@ std::string menu_logic_help_category (Webserver_Request& webserver_request)
 bool menu_logic_public_or_guest (Webserver_Request& webserver_request)
 {
   if (webserver_request.session_logic ()->get_username ().empty ()) return true;
-  if (webserver_request.session_logic ()->get_level () == roles::guest ()) return true;
+  if (webserver_request.session_logic ()->get_level () == roles::guest) return true;
   return false;
 }
 

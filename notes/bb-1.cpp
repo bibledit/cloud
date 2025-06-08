@@ -42,7 +42,7 @@ std::string notes_bible_1_url ()
 
 bool notes_bible_1_acl (Webserver_Request& webserver_request)
 {
-  return roles::access_control (webserver_request, roles::consultant ());
+  return roles::access_control (webserver_request, roles::consultant);
 }
 
 

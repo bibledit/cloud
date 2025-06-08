@@ -34,7 +34,7 @@ std::string manage_index_url ()
 
 bool manage_index_acl (Webserver_Request& webserver_request)
 {
-  return roles::access_control (webserver_request, roles::manager ());
+  return roles::access_control (webserver_request, roles::manager);
 }
 
 

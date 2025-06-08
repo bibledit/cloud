@@ -37,7 +37,7 @@ std::string lexicon_definition_url ()
 
 bool lexicon_definition_acl (Webserver_Request& webserver_request)
 {
-  return roles::access_control (webserver_request, roles::consultant ());
+  return roles::access_control (webserver_request, roles::consultant);
 }
 
 

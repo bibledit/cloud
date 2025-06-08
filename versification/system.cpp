@@ -41,7 +41,7 @@ std::string versification_system_url ()
 
 bool versification_system_acl (Webserver_Request& webserver_request)
 {
-  return roles::access_control (webserver_request, roles::manager ());
+  return roles::access_control (webserver_request, roles::manager);
 }
 
 

@@ -42,7 +42,7 @@ std::string bible_css_url ()
 
 bool bible_css_acl (Webserver_Request& webserver_request)
 {
-  return roles::access_control (webserver_request, roles::translator ());
+  return roles::access_control (webserver_request, roles::translator);
 }
 
 

@@ -50,7 +50,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 void database_maintenance ()
 {
-  Database_Logs::log ("Maintaining databases", roles::manager ());
+  Database_Logs::log ("Maintaining databases", roles::manager);
   
   
   // Whether running in client mode.

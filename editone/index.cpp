@@ -52,7 +52,7 @@ std::string editone_index_url ()
 bool editone_index_acl (Webserver_Request& webserver_request)
 {
   // Default minimum role for getting access.
-  const int minimum_role = roles::translator ();
+  const int minimum_role = roles::translator;
   if (roles::access_control (webserver_request, minimum_role))
     return true;
   const auto [ read, write ] = access_bible::any (webserver_request);

@@ -44,7 +44,7 @@ std::string styles_new_url ()
 
 bool styles_new_acl (Webserver_Request& webserver_request)
 {
-  return roles::access_control (webserver_request, roles::translator ());
+  return roles::access_control (webserver_request, roles::translator);
 }
 
 
@@ -67,7 +67,7 @@ std::string styles_new (Webserver_Request& webserver_request)
   const std::string& username = webserver_request.session_logic ()->get_username ();
   const int userlevel = webserver_request.session_logic ()->get_level ();
   bool write = database::styles::has_write_access (username, name);
-  if (userlevel >= roles::admin ()) write = true;
+  if (userlevel >= roles::admin) write = true;
   
   // Allowed characters in the style.
   constexpr const std::string_view allowed {"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-"};

@@ -41,7 +41,7 @@
 // Compare the $bible with another Bible, passed through $compare.
 void compare_compare (const std::string& bible, const std::string& compare, const int job_id)
 {
-  Database_Logs::log (translate("Comparing Bibles") + " " + bible + " " + translate ("and") + " " + compare, roles::consultant ());
+  Database_Logs::log (translate("Comparing Bibles") + " " + bible + " " + translate ("and") + " " + compare, roles::consultant);
 
   
   Database_Jobs database_jobs = Database_Jobs ();
@@ -246,5 +246,5 @@ void compare_compare (const std::string& bible, const std::string& compare, cons
   database_jobs.set_result (job_id, filter::strings::implode (result, "\n"));
   
   
-  Database_Logs::log (translate("Comparison is ready"), roles::consultant ());
+  Database_Logs::log (translate("Comparison is ready"), roles::consultant);
 }

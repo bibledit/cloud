@@ -47,7 +47,7 @@ std::string notes_bulk_url ()
 
 bool notes_bulk_acl (Webserver_Request& webserver_request)
 {
-  return roles::access_control (webserver_request, roles::translator ());
+  return roles::access_control (webserver_request, roles::translator);
 }
 
 
@@ -89,7 +89,7 @@ std::string notes_bulk (Webserver_Request& webserver_request)
   
   
   // The admin disables notes selection on Bibles, so the admin sees all notes, even notes referring to non-existing Bibles.
-  if (webserver_request.session_logic ()->get_level () == roles::admin ()) bibles.clear ();
+  if (webserver_request.session_logic ()->get_level () == roles::admin) bibles.clear ();
 
   
   
@@ -261,7 +261,7 @@ std::string notes_bulk (Webserver_Request& webserver_request)
   view.set_variable ("notescount", std::to_string (identifiers.size()));
 
   
-  bool manager = roles::access_control (webserver_request, roles::manager ());
+  bool manager = roles::access_control (webserver_request, roles::manager);
   if (manager) {
     view.enable_zone ("manager");
   }

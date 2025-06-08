@@ -568,7 +568,7 @@ bool Database_Config_User::default_bible_checks_notification () const
   return false;
 #else
   const int level = m_webserver_request.session_logic ()->get_level ();
-  return (level >= roles::translator () && level <= roles::manager ());
+  return (level >= roles::translator && level <= roles::manager);
 #endif
 }
 constexpr const auto bible_checks_notification_key {"bible-checks-notification"};
@@ -1195,7 +1195,7 @@ bool Database_Config_User::getBasicInterfaceModeDefault () const
 #endif
   // The app running on a workspace or laptop have default to basic mode for a lower role.
   const int level = m_webserver_request.session_logic ()->get_level ();
-  if (level <= roles::manager ())
+  if (level <= roles::manager)
     return true;
   // Higher role: default to advanced mode.
   return false;

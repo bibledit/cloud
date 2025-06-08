@@ -56,7 +56,7 @@ void checks_run (std::string bible)
   if (bible.empty()) return;
   
   
-  Database_Logs::log ("Check " + bible + ": Start", roles::translator ());
+  Database_Logs::log ("Check " + bible + ": Start", roles::translator);
   
   
   database::check::truncate_output (bible);
@@ -285,5 +285,5 @@ void checks_run (std::string bible)
   }
   
   
-  Database_Logs::log ("Check " + bible + ": Complete", roles::translator ());
+  Database_Logs::log ("Check " + bible + ": Complete", roles::translator);
 }

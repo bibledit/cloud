@@ -197,7 +197,7 @@ void bible_logic::import_resource (std::string bible, std::string resource)
     for (const auto chapter : chapters) {
 
       const std::string message = "Importing " + resource + " " + bookName + " chapter " + std::to_string (chapter);
-      Database_Logs::log (message, roles::translator ());
+      Database_Logs::log (message, roles::translator);
       
       std::vector <std::string> usfm {};
       

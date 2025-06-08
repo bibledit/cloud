@@ -38,7 +38,7 @@ std::string user_account_url ()
 
 bool user_account_acl (Webserver_Request& webserver_request)
 {
-  return roles::access_control (webserver_request, roles::member ());
+  return roles::access_control (webserver_request, roles::member);
 }
 
 

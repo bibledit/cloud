@@ -144,12 +144,12 @@ void demo_clean_data ()
 
   // Ensure the default users are there.
   std::map <std::string, int> users = {
-    std::pair ("guest", roles::guest ()),
-    std::pair ("member", roles::member ()),
-    std::pair ("consultant", roles::consultant ()),
-    std::pair ("translator", roles::translator ()),
-    std::pair ("manager", roles::manager ()),
-    std::pair (session_admin_credentials (), roles::admin ())
+    std::pair ("guest", roles::guest),
+    std::pair ("member", roles::member),
+    std::pair ("consultant", roles::consultant),
+    std::pair ("translator", roles::translator),
+    std::pair ("manager", roles::manager),
+    std::pair (session_admin_credentials (), roles::admin)
   };
   for (const auto & element : users) {
     if (!webserver_request.database_users ()->usernameExists (element.first)) {

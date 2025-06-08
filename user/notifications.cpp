@@ -45,7 +45,7 @@ std::string user_notifications_url ()
 bool user_notifications_acl (Webserver_Request& webserver_request)
 {
   // Consultant has access.
-  if (roles::access_control (webserver_request, roles::consultant ()))
+  if (roles::access_control (webserver_request, roles::consultant))
     return true;
   // Whoever can view notes has access.
   if (access_logic::privilege_view_notes (webserver_request))
@@ -248,7 +248,7 @@ std::string user_notifications (Webserver_Request& webserver_request)
     view.enable_zone ("readbible");
   if (write_bible) 
     view.enable_zone ("writebible");
-  if (roles::access_control (webserver_request, roles::consultant ()))
+  if (roles::access_control (webserver_request, roles::consultant))
     view.enable_zone ("consultant");
   
   view.set_variable ("error", email_setup_information (true, false));

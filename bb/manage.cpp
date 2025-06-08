@@ -59,7 +59,7 @@ std::string bible_manage_url ()
 
 bool bible_manage_acl (Webserver_Request& webserver_request)
 {
-  return roles::access_control (webserver_request, roles::translator ());
+  return roles::access_control (webserver_request, roles::translator);
 }
 
 

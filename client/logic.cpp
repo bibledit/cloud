@@ -87,7 +87,7 @@ std::string client_logic_connection_setup (std::string user, std::string hash)
   std::string response = filter_url_http_get (url, error, true);
   int iresponse = filter::strings::convert_to_int (response);
   
-  if ((iresponse >= roles::guest ()) && (iresponse <= roles::admin ())) {
+  if ((iresponse >= roles::guest) && (iresponse <= roles::admin)) {
     // Set user's role on the client to be the same as on the server.
     // Do this only when it differs, to prevent excessive database writes on the client.
     int level = database_users.get_level (user);
@@ -95,7 +95,7 @@ std::string client_logic_connection_setup (std::string user, std::string hash)
       database_users.set_level (user, iresponse);
     }
   } else {
-    Database_Logs::log (error, roles::translator ());
+    Database_Logs::log (error, roles::translator);
     // In case Bibledit Cloud requires the client to connect through https,
     // and the client connects through http,
     // it will give a response code 426 plus text.
@@ -108,7 +108,7 @@ std::string client_logic_connection_setup (std::string user, std::string hash)
       error.append (". ");
       // Add a good explanation to the error code so the user knows what to do if this error occurs.
       error.append ("Bibledit Cloud requires the client to connect via the secure https protocol. The client now tried to connect through the insecure http protocol. If connected, please disconnect from Bibledit Cloud and connect again via https. Use the secure port number instead of the insecure port number. Usually the secure port number is the insecure port number plus one.");
-      Database_Logs::log (error, roles::translator ());
+      Database_Logs::log (error, roles::translator);
     }
   }
   

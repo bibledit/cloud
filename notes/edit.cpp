@@ -43,7 +43,7 @@ std::string notes_edit_url ()
 
 bool notes_edit_acl (Webserver_Request& webserver_request)
 {
-  return roles::access_control (webserver_request, roles::consultant ());
+  return roles::access_control (webserver_request, roles::consultant);
 }
 
 

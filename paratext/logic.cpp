@@ -284,7 +284,7 @@ void Paratext_Logic::synchronize (tasks::enums::paratext_sync method)
   if (bibles.empty ()) return;
 
   
-  Database_Logs::log (synchronizeStartText (), roles::translator ());
+  Database_Logs::log (synchronizeStartText (), roles::translator);
   
   
   const std::string username = client_logic_get_username ();
@@ -301,7 +301,7 @@ void Paratext_Logic::synchronize (tasks::enums::paratext_sync method)
       paratext_running = true;
   }
   if (paratext_running) {
-    Database_Logs::log ("Cannot synchronize while Paratext is running", roles::translator ());
+    Database_Logs::log ("Cannot synchronize while Paratext is running", roles::translator);
     return;
   }
   
@@ -313,7 +313,7 @@ void Paratext_Logic::synchronize (tasks::enums::paratext_sync method)
     // The Paratext project folder for the current Bible.
     std::string project_folder = projectFolder (bible);
     if (!file_or_dir_exists (project_folder)) {
-      Database_Logs::log ("Cannot find Paratext project folder:" " " + project_folder, roles::translator ());
+      Database_Logs::log ("Cannot find Paratext project folder:" " " + project_folder, roles::translator);
       continue;
     }
 
@@ -328,8 +328,8 @@ void Paratext_Logic::synchronize (tasks::enums::paratext_sync method)
       // Check whether the book exists in the Paratext project, if not, skip it.
       std::string paratext_book = paratext_books [book];
       if (paratext_book.empty ()) {
-        Database_Logs::log (journalTag (bible, book, -1) + "The Paratext project does not have this book", roles::translator ());
-        Database_Logs::log (journalTag (bible, book, -1) + "Looked for a file with " + filter::usfm::get_opening_usfm("id") + database::books::get_usfm_from_id (static_cast<book_id>(book)) + " on the first line", roles::translator ());
+        Database_Logs::log (journalTag (bible, book, -1) + "The Paratext project does not have this book", roles::translator);
+        Database_Logs::log (journalTag (bible, book, -1) + "Looked for a file with " + filter::usfm::get_opening_usfm("id") + database::books::get_usfm_from_id (static_cast<book_id>(book)) + " on the first line", roles::translator);
         continue;
       }
       
@@ -431,7 +431,7 @@ void Paratext_Logic::synchronize (tasks::enums::paratext_sync method)
         
         // Messages for the logbook.
         for (auto message : messages) {
-          Database_Logs::log (journalTag (bible, book, chapter) + message, roles::translator ());
+          Database_Logs::log (journalTag (bible, book, chapter) + message, roles::translator);
         }
 
         // Log the change due to a merge or copy.
@@ -487,7 +487,7 @@ void Paratext_Logic::synchronize (tasks::enums::paratext_sync method)
     }
   }
   
-  Database_Logs::log (synchronizeReadyText (), roles::translator ());
+  Database_Logs::log (synchronizeReadyText (), roles::translator);
 }
 
 

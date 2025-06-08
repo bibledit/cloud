@@ -39,7 +39,7 @@ std::string mapping_map_url ()
 
 bool mapping_map_acl (Webserver_Request& webserver_request)
 {
-  return roles::access_control (webserver_request, roles::manager ());
+  return roles::access_control (webserver_request, roles::manager);
 }
 
 

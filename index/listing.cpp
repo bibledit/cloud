@@ -69,10 +69,10 @@ bool index_listing_acl (Webserver_Request& webserver_request, std::string url)
 {
   // Bible exports are public.
   if (url.find (exports) == 0) {
-    return roles::access_control (webserver_request, roles::guest ());
+    return roles::access_control (webserver_request, roles::guest);
   }
   // Any other files are for people with at least a member role.
-  return roles::access_control (webserver_request, roles::member ());
+  return roles::access_control (webserver_request, roles::member);
 }
 
 

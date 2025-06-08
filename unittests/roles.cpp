@@ -30,8 +30,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 TEST (filter, roles)
 {
   // Filter_Roles.
-  EXPECT_EQ (3, roles::consultant ());
-  EXPECT_EQ (1, roles::lowest ());
+  EXPECT_EQ (3, roles::consultant);
+  EXPECT_EQ (1, roles::lowest);
 }
 
 #endif

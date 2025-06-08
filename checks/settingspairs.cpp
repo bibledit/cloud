@@ -48,7 +48,7 @@ bool checks_settingspairs_acl ([[maybe_unused]] Webserver_Request& webserver_req
 #ifdef HAVE_CLIENT
   return true;
 #else
-  return roles::access_control (webserver_request, roles::manager ());
+  return roles::access_control (webserver_request, roles::manager);
 #endif
 }
 

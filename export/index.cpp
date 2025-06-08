@@ -41,7 +41,7 @@ void export_index ()
   for (auto & file : files) {
     if (in_array (file, bibles)) continue;
     filter_url_rmdir (filter_url_create_path ({directory, file}));
-    Database_Logs::log ("Removing exported Bible " + file, roles::translator ());
+    Database_Logs::log ("Removing exported Bible " + file, roles::translator);
   }
   
   
@@ -60,7 +60,7 @@ void export_index ()
         }
       }
 
-      Database_Logs::log ("Exporting Bible " + bible, roles::translator ());
+      Database_Logs::log ("Exporting Bible " + bible, roles::translator);
 
       if (database::config::bible::get_export_web_during_night (bible)) {
         export_logic::schedule_web (bible, false);

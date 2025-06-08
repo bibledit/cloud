@@ -37,7 +37,7 @@ const char * session_password_url ()
 
 bool session_password_acl (Webserver_Request& webserver_request)
 {
-  return roles::access_control (webserver_request, roles::guest ());
+  return roles::access_control (webserver_request, roles::guest);
 }
 
 

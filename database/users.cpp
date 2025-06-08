@@ -207,7 +207,7 @@ int Database_Users::get_level (std::string user)
   sql.add (";");
   std::vector <std::string> result = sql.query () ["level"];
   if (!result.empty()) return filter::strings::convert_to_int (result [0]);
-  return roles::guest ();
+  return roles::guest;
 }
 
 
@@ -240,7 +240,7 @@ std::vector <std::string> Database_Users::getAdministrators ()
 {
   SqliteDatabase sql (filename ());
   sql.add ("SELECT username FROM users WHERE level =");
-  sql.add (roles::admin ());
+  sql.add (roles::admin);
   sql.add ("AND (disabled IS NULL OR disabled = 0);");
   std::vector <std::string> result = sql.query () ["username"];
   return result;

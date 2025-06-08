@@ -43,7 +43,7 @@ std::string public_new_url ()
 bool public_new_acl (Webserver_Request& webserver_request)
 {
   if (config::logic::create_no_accounts()) return false;
-  return roles::access_control (webserver_request, roles::guest ());
+  return roles::access_control (webserver_request, roles::guest);
 }
 
 

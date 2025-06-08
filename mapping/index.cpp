@@ -38,7 +38,7 @@ std::string mapping_index_url ()
 
 bool mapping_index_acl (Webserver_Request& webserver_request)
 {
-  return roles::access_control (webserver_request, roles::manager ());
+  return roles::access_control (webserver_request, roles::manager);
 }
 
 

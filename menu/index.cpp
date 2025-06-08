@@ -32,7 +32,7 @@ std::string menu_index_url ()
 
 bool menu_index_acl (Webserver_Request& webserver_request)
 {
-  return roles::access_control (webserver_request, roles::guest ());
+  return roles::access_control (webserver_request, roles::guest);
 }
 
 

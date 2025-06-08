@@ -39,7 +39,7 @@ void search_reindex_notes ()
   
   // One simultaneous instance.
   if (search_reindex_notes_running) {
-    Database_Logs::log ("Still indexing Consultation Notes", roles::manager ());
+    Database_Logs::log ("Still indexing Consultation Notes", roles::manager);
     return;
   }
   search_reindex_notes_running = true;
@@ -65,11 +65,11 @@ void search_reindex_notes ()
   // Check on health of the databases, and optionally recreate them.
   bool recreate = database_notes.checkup ();
   if (recreate) {
-    Database_Logs::log ("The Consultation Notes main index was damaged and is being recreated", roles::manager ());
+    Database_Logs::log ("The Consultation Notes main index was damaged and is being recreated", roles::manager);
   }
   recreate = database_notes.checkup_checksums ();
   if (recreate) {
-    Database_Logs::log ("The Consultation Notes checksums database was damaged and is being recreated", roles::manager ());
+    Database_Logs::log ("The Consultation Notes checksums database was damaged and is being recreated", roles::manager);
   }
   
   
@@ -78,7 +78,7 @@ void search_reindex_notes ()
   // could not be written to the database because of errors. 
   // Then the notes index would not match the notes data.
   // Syncing ensures the index matches the notes data in the filesystem.
-  Database_Logs::log ("Updating Consultation Notes databases", roles::manager ());
+  Database_Logs::log ("Updating Consultation Notes databases", roles::manager);
   database_notes.sync ();
   
   
@@ -86,7 +86,7 @@ void search_reindex_notes ()
   database_notes.set_availability (true);
   
   
-  Database_Logs::log ("Updating Consultation Notes databases ready", roles::manager ());
+  Database_Logs::log ("Updating Consultation Notes databases ready", roles::manager);
   database::config::general::setIndexNotes (false);
   search_reindex_notes_running = false;
 }

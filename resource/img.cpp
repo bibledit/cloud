@@ -44,7 +44,7 @@ std::string resource_img_url ()
 
 bool resource_img_acl (Webserver_Request& webserver_request)
 {
-  return roles::access_control (webserver_request, roles::manager ());
+  return roles::access_control (webserver_request, roles::manager);
 }
 
 

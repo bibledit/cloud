@@ -56,7 +56,7 @@ std::string changes_change_url ()
 
 bool changes_change_acl (Webserver_Request& webserver_request)
 {
-  return roles::access_control (webserver_request, roles::consultant ());
+  return roles::access_control (webserver_request, roles::consultant);
 }
 
 
@@ -197,7 +197,7 @@ std::string changes_change (Webserver_Request& webserver_request)
       a_node2.text().set(("[" + translate("I have done my part on it") + "]").c_str());
     }
     td_node = tr_node.append_child("td");
-    if (level >= roles::manager ()) {
+    if (level >= roles::manager) {
       pugi::xml_node a_node2 = td_node.append_child("a");
       a_node2.append_attribute("href") = ("delete" + std::to_string (note)).c_str();
       a_node2.text().set(("[" + translate("mark for deletion") + "]").c_str());

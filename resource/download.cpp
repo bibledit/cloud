@@ -46,7 +46,7 @@ std::string resource_download_url ()
 
 bool resource_download_acl (Webserver_Request& webserver_request)
 {
-  return roles::access_control (webserver_request, roles::member ());
+  return roles::access_control (webserver_request, roles::member);
 }
 
 

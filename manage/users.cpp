@@ -54,7 +54,7 @@ std::string manage_users_url ()
 
 bool manage_users_acl (Webserver_Request& webserver_request)
 {
-  return roles::access_control (webserver_request, roles::manager ());
+  return roles::access_control (webserver_request, roles::manager);
 }
 
 
@@ -87,8 +87,8 @@ std::string manage_users (Webserver_Request& webserver_request)
   // Set the chosen default new user role on the option HTML tag.
   std::string default_acl = std::to_string (database::config::general::get_default_new_user_access_level ());
   std::string default_acl_html;
-  default_acl_html = Options_To_Select::add_selection ("Guest", std::to_string(roles::guest()), default_acl_html);
-  default_acl_html = Options_To_Select::add_selection ("Member", std::to_string(roles::member()), default_acl_html);
+  default_acl_html = Options_To_Select::add_selection ("Guest", std::to_string(roles::guest), default_acl_html);
+  default_acl_html = Options_To_Select::add_selection ("Member", std::to_string(roles::member), default_acl_html);
   view.set_variable ("defaultacloptags", Options_To_Select::mark_selected (default_acl, default_acl_html));
   view.set_variable ("defaultacl", default_acl);
   
@@ -149,7 +149,7 @@ std::string manage_users (Webserver_Request& webserver_request)
     std::vector <std::string> administrators = webserver_request.database_users ()->getAdministrators ();
     if (users.size () == 1) {
       page += assets_page::error (translate("Cannot remove the last user"));
-    } else if ((objectUserLevel >= roles::admin ()) && (administrators.size () == 1)) {
+    } else if ((objectUserLevel >= roles::admin) && (administrators.size () == 1)) {
       page += assets_page::error (translate("Cannot remove the last administrator"));
     } else if (config::logic::demo_enabled () && (objectUsername ==  session_admin_credentials ())) {
       page += assets_page::error (translate("Cannot remove the demo admin"));
@@ -168,7 +168,7 @@ std::string manage_users (Webserver_Request& webserver_request)
     if (level == "") {
       Dialog_List dialog_list = Dialog_List ("users", translate("Select a role for") + " " + objectUsername, "", "");
       dialog_list.add_query ("user", objectUsername);
-      for (int i = roles::lowest (); i <= roles::highest (); i++) {
+      for (int i = roles::lowest; i <= roles::highest; i++) {
         if (i <= myLevel) {
           dialog_list.add_row (roles::text (i), "level", std::to_string (i));
         }
@@ -224,7 +224,7 @@ std::string manage_users (Webserver_Request& webserver_request)
     } else {
       assets_page::success (translate("The user has been granted access to this Bible"));
       // Write access depends on whether it's a translator role or higher.
-      bool write = (objectUserLevel >= roles::translator ());
+      bool write = (objectUserLevel >= roles::translator);
       DatabasePrivileges::set_bible (objectUsername, addbible, write);
       user_updated = true;
       privileges_updated = true;
@@ -320,12 +320,12 @@ std::string manage_users (Webserver_Request& webserver_request)
     // Assigned Bibles.
     tbody << "<td>";
     if (enabled) {
-      if (objectUserLevel < roles::manager ()) {
+      if (objectUserLevel < roles::manager) {
         for (auto & bible : allbibles) {
           bool exists = DatabasePrivileges::get_bible_book_exists (username, bible, 0);
           if (exists) {
             auto [ read, write ] = DatabasePrivileges::get_bible (username, bible);
-            if  (objectUserLevel >= roles::translator ()) write = true;
+            if  (objectUserLevel >= roles::translator) write = true;
             tbody << "<a href=" << std::quoted ("?user=" + username + "&removebible=" + bible) << ">" << filter::strings::emoji_wastebasket () << "</a>";
             tbody << "<a href=" << std::quoted("/bible/settings?bible=" + bible) << ">" << bible << "</a>";
             tbody << "<a href=" << std::quoted("write?user=" + username + "&bible=" + bible) << ">";
@@ -341,7 +341,7 @@ std::string manage_users (Webserver_Request& webserver_request)
           }
         }
       }
-      if (objectUserLevel >= roles::manager ()) {
+      if (objectUserLevel >= roles::manager) {
         // Managers and higher roles have access to all Bibles.
         tbody << "(" << translate ("all") << ")";
       } else {
@@ -356,7 +356,7 @@ std::string manage_users (Webserver_Request& webserver_request)
     // Assigned privileges to the user.
     tbody << "<td>";
     if (enabled) {
-      if (objectUserLevel >= roles::manager ()) {
+      if (objectUserLevel >= roles::manager) {
         // Managers and higher roles have all privileges.
         tbody << "(" << translate ("all") << ")";
       } else {
@@ -366,7 +366,7 @@ std::string manage_users (Webserver_Request& webserver_request)
     tbody << "</td>";
     
     // Disable or enable the account.
-    if (myLevel >= roles::manager ()) {
+    if (myLevel >= roles::manager) {
       if (myLevel > objectUserLevel) {
         tbody << "<td>│</td>";
         tbody << "<td>";
@@ -400,7 +400,7 @@ std::string manage_users (Webserver_Request& webserver_request)
     view.enable_zone ("local");
   }
 
-  if (webserver_request.session_logic()->get_level () == roles::highest ()) view.enable_zone ("admin_settings");
+  if (webserver_request.session_logic()->get_level () == roles::highest) view.enable_zone ("admin_settings");
 
   page += view.render ("manage", "users");
 

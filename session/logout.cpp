@@ -31,7 +31,7 @@ const char * session_logout_url ()
 
 bool session_logout_acl (Webserver_Request& webserver_request)
 {
-  return roles::access_control (webserver_request, roles::guest ());
+  return roles::access_control (webserver_request, roles::guest);
 }
 
 

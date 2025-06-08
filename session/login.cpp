@@ -41,7 +41,7 @@ const char * session_login_url ()
 
 bool session_login_acl (Webserver_Request& webserver_request)
 {
-  return roles::access_control (webserver_request, roles::guest ());
+  return roles::access_control (webserver_request, roles::guest);
 }
 
 
@@ -102,7 +102,7 @@ std::string session_login (Webserver_Request& webserver_request)
         // Log the login failure for the Administrator(s) only.
         // Others with lower roles should not be able to reverse engineer a user's password
         // based on the failure information.
-        Database_Logs::log ("Failed login attempt for user " + user + " with password " + pass, roles::admin ());
+        Database_Logs::log ("Failed login attempt for user " + user + " with password " + pass, roles::admin);
       }
     }
   }

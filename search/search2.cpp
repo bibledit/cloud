@@ -44,7 +44,7 @@ std::string search_search2_url ()
 
 bool search_search2_acl (Webserver_Request& webserver_request)
 {
-  if (roles::access_control (webserver_request, roles::consultant ()))
+  if (roles::access_control (webserver_request, roles::consultant))
     return true;
   auto [ read, write ] = access_bible::any (webserver_request);
   return read;

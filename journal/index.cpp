@@ -47,7 +47,7 @@ bool journal_index_acl ([[maybe_unused]]Webserver_Request& webserver_request)
 #endif
   // In the Cloud, the role of Consultant or higher can view the journal.
 #ifdef HAVE_CLOUD
-  if (roles::access_control (webserver_request, roles::consultant ())) {
+  if (roles::access_control (webserver_request, roles::consultant)) {
     return true;
   }
 #endif

@@ -52,7 +52,7 @@ std::string resource_biblegateway_url ()
 
 bool resource_biblegateway_acl (Webserver_Request& webserver_request)
 {
-  return roles::access_control (webserver_request, roles::consultant ());
+  return roles::access_control (webserver_request, roles::consultant);
 }
 
 

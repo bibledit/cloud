@@ -879,6 +879,8 @@ std::string safely_store_verse (Webserver_Request& webserver_request,
       Database_Logs::log (explanation + ": " + usfm);
       return translate ("Incorrect chapter");
     }
+    // The import process above has put the new lines correct, take that correct USFM for saving below.
+    chapter_usfm = book_chapter_text.at(0).m_data;
   }
 
   // Record the change in the journal.

@@ -200,7 +200,7 @@ std::string editone_update (Webserver_Request& webserver_request)
       filter_merge_add_book_chapter (conflicts, book, chapter);
       bible_logic::optional_merge_irregularity_email (bible, book, chapter, username, loaded_verse_usfm, edited_verse_usfm, merged_verse_usfm);
       // Let the merged data now become the edited data (so it gets saved properly).
-      edited_verse_usfm = merged_verse_usfm;
+      edited_verse_usfm = std::move(merged_verse_usfm);
     }
   }
 
@@ -213,7 +213,7 @@ std::string editone_update (Webserver_Request& webserver_request)
     edited_verse_usfm = filter::strings::collapse_whitespace(edited_verse_usfm);
   }
 
-  
+
   // Safely store the verse.
   std::string explanation;
   std::string message;
